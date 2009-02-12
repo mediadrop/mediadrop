@@ -1,0 +1,10 @@
+2009-Feb-11
+
+Until Mediaplex reaches a stable state, all work is being done in 
+the "devel" branch. To get your local copy up to date with development:
+
+  1. Create and switch to a new local branch for your work:
+      $ git checkout -b devel
+
+  2. Bring it up to date with all the changes in the remote devel branch:
+      $ git merge origin/devel
