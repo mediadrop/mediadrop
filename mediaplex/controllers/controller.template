@@ -1,0 +1,22 @@
+"""Main Controller"""
+# standard library imports
+
+# turbogears imports
+from tg import expose
+#from tg import redirect, validate, flash
+
+# third party imports
+#from pylons.i18n import ugettext as _
+#from repoze.what import predicates
+
+# project specific imports
+from mediaplex.lib.base import BaseController
+#from mediaplex.model import DBSession, metadata
+
+class SampleController(BaseController):
+    #Uncomment this line if your controller requires an authenticated user
+    #allow_only = authorize.not_anonymous()
+
+    @expose('mediaplex.templates.index')
+    def index(self):
+        return dict(page='index')
