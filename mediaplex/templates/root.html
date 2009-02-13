@@ -1,0 +1,20 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      xmlns:xi="http://www.w3.org/2001/XInclude"
+      py:strip="">
+<head py:match="head">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title py:replace="''">TMC Youth</title>
+	<script src="/scripts/third-party/mootools-1.2.1-core-nc.js" type="text/javascript"></script>
+	<script src="/scripts/third-party/mootools-1.2.1-more-nc.js" type="text/javascript"></script>
+	<link href="/styles/base.css" media="screen" rel="stylesheet" type="text/css" />
+	<meta py:replace="select('*')"/>
+</head>
+<body py:match="body">
+	<div id="header"></div>
+	<div class="content" py:content="select('*|text()')" />
+	<div id="footer"></div>
+</body>
+</html>
