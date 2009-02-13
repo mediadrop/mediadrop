@@ -1,0 +1,142 @@
+/* Blueprint CSS Resets Excerpt */
+html,body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,
+a,abbr,acronym,address,cite,code,del,dfn,em,img,q,dl,dt,dd,ol,ul,li,fieldset,
+form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td {
+	border: 0;
+	font-weight: inherit;
+	font-style: inherit;
+	font-size: 100%;
+	font-family: inherit;
+	vertical-align: baseline;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+/* YUI Fonts Excerpt */
+body {
+	font: 13px/1.231 sans-serif;
+	*font-size: small; /* for IE */
+	*font: x-small; /* for IE in quirks mode */
+}
+select, input, button, textarea {
+	font: 99% sans-serif;
+}
+table {
+	font-size: inherit;
+	font: 100%;
+}
+pre, code, kbd, samp, tt {
+	font-family: monospace;
+	*font-size: 108%;
+	line-height: 100%;
+}
+
+/* Base generic styles */
+body, select, input, button, textarea {
+	font-family: 'Helvetica Neue', Helvetica, Arial, clean, sans-serif;
+}
+body {
+	background: #fff;
+	color: #767778;
+}
+a:link,
+a:visited {
+	color: #3396db;
+}
+a:hover {
+	text-decoration: none;
+}
+
+.f-lft { float: left }
+.f-rgt { float: right }
+.clear { clear: both }
+.clear:after {
+	content: ".";
+	display: block;
+	height: 0;
+	clear: both;
+	visibility: hidden;
+}
+* html .clear { height: 1% }
+
+.clickable {
+	cursor: pointer;
+}
+
+#header {
+	background: url('../images/layout/header.png') no-repeat center;
+	height: 104px;
+	width: 100%;
+	margin-bottom: 40px;
+}
+#footer {
+	background: url('../images/layout/footer.jpg') no-repeat center;
+	height: 255px;
+	width: 100%;
+	margin-top: 40px;
+}
+
+.content {
+	width: 940px;
+	overflow: hidden;
+	margin: 0 auto;
+}
+
+/* Black boxes */
+.box {
+	background: #000 url('../images/layout/box-bg.png') repeat-x bottom;
+	font-family: 14px/165% Tahoma, sans-serif;
+	color: #838080;
+	width: 100%;
+	overflow: hidden;
+}
+.box-top,
+.box-bottom {
+	height: 15px;
+	background: url('../images/layout/box-top-trans.png') no-repeat top;
+}
+.box-bottom {
+	background-image: url('../images/layout/box-bottom-trans.png');
+	clear: both;
+}
+.box-bottom-grey {
+	background: #c4c2c2 url('../images/layout/box-bottom-grey.jpg') no-repeat bottom;
+	clear: both;
+	color: #3f3f3f;
+	font: 12px 'Candara', Verdana, 'Lucida Grande', Tahoma, sans-serif;
+	padding: 8px 0;
+	text-align: center;
+}
+.box-body {
+	margin: 15px 30px;
+	width: 880px;
+	overflow: hidden;
+}
+.box-pagination {
+	margin: 0 15px;
+	font: 18px 'Trebuchet MS', sans-serif;
+	color: #a2a2a2;
+}
+.box-pagination-top {
+	float: left;
+	margin: 5px 20px;
+}
+.box-pagination-bottom {
+	text-align: right;
+}
+.box-pagination a:link,
+.box-pagination a:visited {
+	color: #fff;
+	text-decoration: none;
+}
+.box-pagination a:hover,
+.box-pagination a:visited,
+.box-pagination a.current {
+	text-decoration: underline;
+}
+
+.box h1 {
+	font: normal 18px 'Trebuchet MS', sans-serif;
+	color: #e8e5e5;
+}

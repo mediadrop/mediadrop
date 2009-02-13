@@ -1,0 +1,115 @@
+/* View Controls */
+#mediaplex-ctrls {
+	float: right;
+	margin: 5px 75px 18px 0;
+}
+#mediaplex-ctrls a span {
+	display: none;
+}
+#mediaplex-ctrls a {
+	display: block;
+	float: left;
+	height: 29px;
+	background: url('../images/mediaflow/controls-trans.png') no-repeat;
+}
+a#mediaplex-ctrls-flow {
+	width: 60px;
+	background-position: 0 0;
+}
+a#mediaplex-ctrls-flow:hover,
+a#mediaplex-ctrls-flow.active {
+	background-position: 0 -29px;
+}
+a#mediaplex-ctrls-grid {
+	width: 50px;
+	background-position: -60px 0;
+}
+a#mediaplex-ctrls-grid:hover,
+a#mediaplex-ctrls-grid.active {
+	background-position: -60px -29px;
+}
+a#mediaplex-ctrls-tags {
+	width: 161px;
+	background-position: -110px 0;
+	margin-left: 10px;
+}
+a#mediaplex-ctrls-tags:hover,
+a#mediaplex-ctrls-tags.active {
+	background-position: -110px -29px;
+}
+
+#mediaflow {
+	position: relative;
+	clear: both;
+}
+
+/* Mediaflow arrows for next / previous */
+#mediaflow-prev,
+#mediaflow-next {
+	width: 84px;
+	height: 192px;
+	position: absolute;
+	top: 0;
+	z-index: 99;
+	background: url('../images/mediaflow/gradients-trans.png') repeat-y;
+}
+#mediaflow-prev {
+	left: 0;
+	background-position: left;
+}
+#mediaflow-next {
+	right: 0;
+	background-position: right;
+}
+#mediaflow-prev span,
+#mediaflow-next span {
+	display: block;
+	width: 52px;
+	height: 53px;
+	margin-top: 63px;
+	margin-left: 19px;
+	text-indent: -5000px;
+}
+#mediaflow-prev span {
+	background: url('../images/mediaflow/arrows-trans.png') no-repeat 0 0;
+}
+#mediaflow-next span {
+	background: url('../images/mediaflow/arrows-trans.png') no-repeat -52px 0;
+}
+#mediaflow-prev:hover span {
+	background-position: 0 -53px;
+}
+#mediaflow-next:hover span {
+	background-position: -52px -53px;
+}
+
+/* Sliding bits */
+#mediaflow-body {
+	position: relative;
+	width: 100%;
+	height: 192px;
+	margin: 20px 0 0 0;
+	clear: both;
+}
+.mediaflow-page ul {
+	margin-left: 84px;
+}
+.mediaflow-page li {
+	float: left;
+	margin-right: 17px;
+}
+.mediaflow-page li a:link,
+.mediaflow-page li a:visited {
+	border: 2px solid transparent;
+	float: left;
+}
+.mediaflow-page li a.active:link,
+.mediaflow-page li a.active:visited {
+	border-color: #dbdbdb;
+}
+.mediaflow-page img {
+	display: block;
+	border: 1px solid #dbdbdb;
+	width: 240px;
+	height: 168px;
+}

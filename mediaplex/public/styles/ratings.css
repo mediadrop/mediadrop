@@ -1,0 +1,31 @@
+.rating {
+	background: url('../images/ratings/stars-trans.png') no-repeat;
+	margin: 0 4px;
+	display: block;
+	width: 68px;
+	height: 11px;
+}
+.rating-inline {
+	/* TODO: Test in various browsers, may have to float a block instead */
+	display: inline !important;
+	width: 0 !important;
+	height: 0 !important;
+	padding-left: 68px; /* width */
+	padding-top: 11px; /* height */
+	font-size: 0;
+	line-height: 0;
+}
+.rating span {
+	display: none;
+}
+.rating-00 { background-position: 0 0 }
+.rating-05 { background-position: 0 -11px }
+.rating-10 { background-position: 0 -22px }
+.rating-15 { background-position: 0 -33px }
+.rating-20 { background-position: 0 -44px }
+.rating-25 { background-position: 0 -55px }
+.rating-30 { background-position: 0 -66px }
+.rating-35 { background-position: 0 -77px }
+.rating-40 { background-position: 0 -88px }
+.rating-45 { background-position: 0 -99px }
+.rating-50 { background-position: 0 -110px }

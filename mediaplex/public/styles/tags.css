@@ -1,0 +1,23 @@
+.tag-cloud li {
+	display: inline;
+}
+.tag-cloud li a:link,
+.tag-cloud li a:visited {
+	text-decoration: none;
+}
+.tag-cloud li a:hover {
+	text-decoration: underline;
+}
+.tag-cloud li span {
+	display: none;
+}
+.tag-cloud .size1  { font-size: 10px }
+.tag-cloud .size2  { font-size: 12px }
+.tag-cloud .size3  { font-size: 14px }
+.tag-cloud .size4  { font-size: 16px }
+.tag-cloud .size5  { font-size: 18px }
+.tag-cloud .size6  { font-size: 20px }
+.tag-cloud .size7  { font-size: 22px }
+.tag-cloud .size8  { font-size: 24px }
+.tag-cloud .size9  { font-size: 26px }
+.tag-cloud .size10 { font-size: 28px }

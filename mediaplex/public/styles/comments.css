@@ -1,0 +1,61 @@
+.comments {
+	width: 514px;
+}
+.comments h2 {
+	font: 30px 'Times New Roman', serif;
+	color: #6c6c6c;
+	margin-bottom: 10px;
+}
+.comments h2 span {
+	color: #000;
+}
+.comments h3 {
+	color: #b0ae2a;
+	font: 20px 'Times New Roman', serif;
+	margin: 10px 0 5px 10px;
+}
+.comments .comments-none-yet {
+	margin-left: 10px;
+}
+
+.comments-list li {
+	border-top: 1px solid #e4e4e4;
+	background: #f9f9f9;
+	padding: 10px;
+}
+.comments-list li.alt {
+	background: #fff;
+}
+.comments-list li img.avatar {
+	float: left;
+	margin-right: 10px;
+}
+.comments-list li .date {
+	font-size: 11px;
+}
+.comments-list li .edit {
+	font-size: 11px;
+}
+.comments-list li h4 {
+	font-family: 'Candara', Verdana, 'Lucida Grande', Tahoma, sans-serif;
+	color: #3b3c3d;
+}
+.comments-list li blockquote {
+	clear: left;
+	font-family: 'Candara', Verdana, 'Lucida Grande', Tahoma, sans-serif;
+	margin: -5px 0 -10px 0;
+}
+.comments-list li blockquote p {
+	margin: 10px 0;
+}
+#post-comment-form li .form-label {
+	width: 15%;
+}
+#post-comment-form li .form-field {
+	width: 80%;
+}
+#post-comment-form li .comment-submit {
+	background: url('../images/buttons/comment-submit-trans.png') no-repeat;
+	width: 178px;
+	height: 48px;
+}

@@ -1,0 +1,36 @@
+.form {
+	font-family: Verdana, sans-serif;
+}
+.form li {
+	width: 100%;
+	overflow: hidden;
+}
+.form li .form-label {
+	float: left;
+	width: 20%;
+	margin: 5px 0 5px 10px;
+	padding: 3px 0;
+	text-align: right;
+}
+.form li .form-field {
+	float: right;
+	width: 75%;
+	margin: 5px 10px 5px 0;
+}
+.form li .form-field input,
+.form li .form-field textarea,
+.form li .form-field select {
+	width: 100%;
+	border: 1px solid #a9a9a9;
+	background: #f9f9f9;
+	font: 12px Verdana, sans-serif;
+	padding: 3px;
+}
+.form li.submit {
+	text-align: right;
+}
+.form .submit-image {
+	text-indent: -5000px;
+	cursor: pointer;
+	border: 0;
+}
