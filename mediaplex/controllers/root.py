@@ -1,11 +1,15 @@
 """Main Controller"""
 from mediaplex.lib.base import BaseController
+from mediaplex.controllers.error import ErrorController
+from mediaplex.controllers.video import VideoController
+
 from tg import expose, flash, require, url, request, redirect
 from pylons.i18n import ugettext as _
 #from tg import redirect, validate
-from mediaplex.model import DBSession, metadata
-from mediaplex.controllers.error import ErrorController
+
 from mediaplex import model
+from mediaplex.model import DBSession, metadata
+
 from catwalk.tg2 import Catwalk
 from repoze.what import predicates
 from mediaplex.controllers.secure import SecureController
@@ -13,6 +17,7 @@ from mediaplex.controllers.secure import SecureController
 class RootController(BaseController):
     admin = Catwalk(model, DBSession)
     error = ErrorController()
+    video = VideoController()
 
     @expose('mediaplex.templates.index')
     def index(self):
