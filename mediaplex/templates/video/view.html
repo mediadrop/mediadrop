@@ -29,7 +29,7 @@
 					<li py:choose="tag_count" class="video-tags">
 						<strong>Tags:</strong>
 						<py:when test="0">None</py:when>
-						<py:otherwise test="" py:for="i, tag in enumerate(video.tags)">
+						<py:otherwise py:for="i, tag in enumerate(video.tags)">
 							<a href="/video/tags/${tag.slug}" rel="tag">${tag.name}</a><py:if test="i+1 != tag_count">,</py:if>
 						</py:otherwise>
 					</li>
@@ -41,13 +41,14 @@
 						<span id="video-rating" class="rating rating-inline rating-35 clickable"><span>3.5</span></span>
 					</li>
 					<li class="video-length">
-						<strong>Length:</strong> ${video.length}
+						<strong>Length:</strong> ${h.duration_from_seconds(video.length)}
 					</li>
 				</ul>
 
 				<img src="/images/buttons/share.png" />
 				<img src="/images/buttons/embed-video.png" />
 			</div>
+			${XML(h.video_player(video.url))}
 		</div>
 		<div class="box-bottom"></div>
 	</div>
