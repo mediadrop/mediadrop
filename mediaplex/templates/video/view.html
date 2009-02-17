@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      xmlns:xi="http://www.w3.org/2001/XInclude">
+<xi:include href="../root.html" />
+<head>
+	<title>${video.title}</title>
+	<link href="/styles/videos.css" media="screen" rel="stylesheet" type="text/css" />
+	<link href="/styles/ratings.css" media="screen" rel="stylesheet" type="text/css" />
+	<link href="/styles/forms.css" media="screen" rel="stylesheet" type="text/css" />
+	<link href="/styles/comments.css" media="screen" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="/scripts/rater.js"></script>
+	<script type="text/javascript">
+		window.addEvent('domready', function(){
+			var raterness = new FiveStarRater('video-rating');
+		});
+	</script>
+</head>
+<body>
+	<div id="video-details" class="box">
+		<div class="box-top"></div>
+		<div class="box-body">
+			<div class="video-info">
+				<h1>${video.title}</h1>
+				${XML(h.format_paragraphs(video.description))}
+
+				<ul py:with="tag_count = len(video.tags)" class="video-meta">
+					<li py:choose="tag_count" class="video-tags">
+						<strong>Tags:</strong>
+						<py:when test="0">None</py:when>
+						<py:otherwise test="" py:for="i, tag in enumerate(video.tags)">
+							<a href="/video/tags/${tag.slug}" rel="tag">${tag.name}</a><py:if test="i+1 != tag_count">,</py:if>
+						</py:otherwise>
+					</li>
+					<li class="video-views">
+						<strong>Views:</strong> ${video.views}
+					</li>
+					<li class="video-rating">
+						<strong>Rating:</strong>
+						<span id="video-rating" class="rating rating-inline rating-35 clickable"><span>3.5</span></span>
+					</li>
+					<li class="video-length">
+						<strong>Length:</strong> ${video.length}
+					</li>
+				</ul>
+
+				<img src="/images/buttons/share.png" />
+				<img src="/images/buttons/embed-video.png" />
+			</div>
+		</div>
+		<div class="box-bottom"></div>
+	</div>
+
+	<div class="comments">
+		<h2>Comments <span>&#123;${len(video.comments)}&#125;</span></h2>
+		<!--	<p class="comments-none-yet">No comments have been posted yet.</p>-->
+		<ul class="comments-list">
+			<li py:for="i, comment in enumerate(video.comments)" py:attrs="{'class': 'alt'} if (i%2) else None">
+				<img src="/images/avatars/_default.gif" width="32" height="32" class="avatar" />
+				<a name="comment-${comment.id}" href="#comment-${comment.id}" class="date" title="Permalink">${comment.date_added}</a>
+				<h4><cite>${comment.name} says:</cite></h4>
+				<blockquote>${XML(h.format_paragraphs(comment.body))}</blockquote>
+			</li>
+		</ul>
+
+		<h3>Leave a Reply</h3>
+	</div>
+</body>
+</html>

@@ -8,8 +8,9 @@ from mediaplex.model import DBSession, metadata, Video
 
 class VideoController(BaseController):
     @expose('mediaplex.templates.video.index')
-    def index(self):
+    def index(self, **kwargs):
         """List Action"""
+        videos = DBSession.query(Video)
         return dict()
 
     @expose()
@@ -22,7 +23,7 @@ class VideoRowController(object):
     def __init__(self, slug):
         self.video = DBSession.query(Video).filter_by(slug=slug).one()
 
-    @expose()
+    @expose('mediaplex.templates.video.view')
     def view(self):
         return dict(video=self.video)
     default = view
