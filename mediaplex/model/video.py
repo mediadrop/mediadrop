@@ -5,6 +5,8 @@ from sqlalchemy.types import String, Unicode, UnicodeText, Integer, DateTime, Bo
 from sqlalchemy.orm import mapper, relation, backref, synonym
 
 from mediaplex.model import DeclarativeBase, metadata, DBSession
+from mediaplex.model.comments import Comment
+from mediaplex.model.tags import Tag
 
 
 videos = Table('videos', metadata,
@@ -21,6 +23,21 @@ videos = Table('videos', metadata,
     mysql_charset='utf8'
 )
 
+videos_comments = Table('videos_comments', metadata,
+    Column('video_id', Integer, ForeignKey('videos.id', onupdate='CASCADE', ondelete='CASCADE'),
+        primary_key=True),
+    Column('comment_id', Integer, ForeignKey('comments.id', onupdate='CASCADE', ondelete='CASCADE'),
+        primary_key=True, unique=True)
+)
+
+videos_tags = Table('videos_tags', metadata,
+    Column('video_id', Integer, ForeignKey('videos.id', onupdate='CASCADE', ondelete='CASCADE'),
+        primary_key=True),
+    Column('tag_id', Integer, ForeignKey('tags.id', onupdate='CASCADE', ondelete='CASCADE'),
+        primary_key=True)
+)
+
+
 class Video(object):
     """Video definition"""
 
@@ -30,4 +47,8 @@ class Video(object):
     def __unicode__(self):
         return self.title
 
-mapper(Video, videos)
+
+mapper(Video, videos, properties={
+    'comments': relation(Comment, secondary=videos_comments, backref='parent'),
+    'tags': relation(Tag, secondary=videos_tags, backref='videos')
+})

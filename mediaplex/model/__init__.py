@@ -55,3 +55,5 @@ def init_model(engine):
 # Import your model modules here.
 from mediaplex.model.auth import User, Group, Permission
 from mediaplex.model.video import Video
+from mediaplex.model.comments import Comment
+from mediaplex.model.tags import Tag
