@@ -29,7 +29,7 @@
 .form li.submit {
 	text-align: right;
 }
-.form .submit-image {
+.form li .form-field .submit-image {
 	text-indent: -5000px;
 	cursor: pointer;
 	border: 0;

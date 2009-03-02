@@ -1,136 +1,178 @@
-var MediaflowPage = new Class({
-	manager: null,
-	element: null,
-	covers: [],
-	activeCover: 0,
-
-	initialize: function(element, manager){
-		this.element = $(element);
-		this.manager = manager;
-		this.covers = this.element.getElements('li').map(this._setupCover, this);
-	},
-	
-	_setupCover: function(li){
-		var titleEl = li.getFirst('.media-title');
-		var descEl = li.getFirst('.media-desc');
-		var cover = {
-			'element': li,
-			'title': titleEl.get('text'),
-			'desc': descEl.get('text')
-		};
-		titleEl.destroy();
-		descEl.destroy();
-		li.addEvent('mouseover', this._activateCover.pass(cover, this));
-		return cover;
-	},
-
-	_activateCover: function(cover){
-		if (this.activeCover) { this.activeCover.element.removeClass('active'); }
-		this.activeCover = cover;
-		cover.element.addClass('active');
-
-		this.manager.display.run([cover.title, cover.desc], this.manager);
-	}
-});
-
 var Mediaflow = new Class({
 	Extends: Options,
 
 	options: {
-		'fx': {
-			'duration': 550,
-			'transition': Fx.Transitions.Quad.easeInOut,
-			'wheelStops': false
-		},
-		'pageContainer': 'mediaflow',
-		'pageSelector': 'div.mediaflow-page',
-		'pageMargin': 30,
-		'labelContainer': 'mediaflow-label',
-		'nextButton': null,
-		'prevButton': null,
-		'ctrlsContainer': null
+		totalPageCount: 0,
+		container: 'mediaflow',
+		pageElement: 'div',
+		pageClass: 'mediaflow-page',
+		pageLoadingClass: 'mediaflow-page-loading',
+		itemSelector: 'a',
+		itemHighlightClass: 'active',
+		labelContainer: 'mediaflow-label',
+		ctrlsContainer: null,
+		pageWidth: 0,
+		pageHeight: 0,
+		pageMargin: 30,
+		fetchPageUrl: '/video/ajax',
+		numPagesPerFetch: 2,
+		fx: {
+			duration: 550,
+			transition: Fx.Transitions.Quad.easeInOut,
+			wheelStops: false
+		}
 	},
 
-	pageContainer: null,
-	currentPage: 0,
 	pages: [],
+	pageIndex: 0,
+	highlightedItem: null,
+
 	fxScroll: null,
 	label: null,
 
-	_pageClass: MediaflowPage,
+	initialize: function(opts){
+		this.setOptions(opts);
 
-	initialize: function(options){
-		this.setOptions(options);
+		var container = $(this.options.container);
+		var pageSelector = this.options.pageElement + '.' + this.options.pageClass;
 
-		this.pageContainer = $(this.options.pageContainer);
-		this.pages = this._setupPages(this.pageContainer.getElements(this.options.pageSelector));
+		if (!this.options.pageWidth)  { this.options.pageWidth  = container.getStyle('width').toInt(); }
+		if (!this.options.pageHeight) { this.options.pageHeight = container.getStyle('height').toInt(); }
 
-		this.fxScroll = new Fx.Scroll(this.pageContainer, this.options.fx);
+		this.pages = container.getElements(pageSelector).map(this._setupPageStyles, this);
+		this.pages.map(this._setupPageItems, this);
 
-		this.label = $(this.options.labelContainer)
-			.addClass('box-bottom-grey').removeClass('box-bottom');
+		this.fxScroll = new Fx.Scroll(container, this.options.fx);
 
-		this._setupBtnEle(this.options.nextButton, 'Next').addEvent('click', this.next.bind(this));
-		this._setupBtnEle(this.options.prevButton, 'Back').addEvent('click', this.prev.bind(this));
+		this._setupButtons();
+		this._setupHighlight();
 	},
 
-	next: function(e){
-		new Event(e).stop();
-		this.slideTo(this.currentPage + 1);
+	slideToNext: function(){
+		this.slideToPage(this.pageIndex + 1);
 		return this;
 	},
 
-	prev: function(e){
-		new Event(e).stop();
-		this.slideTo(this.currentPage - 1);
+	slideToPrev: function(){
+		this.slideToPage(this.pageIndex - 1);
 		return this;
 	},
 
-	slideTo: function(page){
-		this.currentPage = page % this.pages.length;
-		if (this.currentPage < 0) { this.currentPage += this.pages.length; }
-		this.fxScroll.toElement(this.pages[this.currentPage].element);
-		return this;
-	},
+	slideToPage: function(i){
+		if (i >= this.options.totalPageCount) { i = this.options.totalPageCount - 1; }
+		else if (i < 0) { i = 0; }
 
-	display: function(title, desc){
-		this.label.empty().grab(
-			new Element('p').grab(
-				new Element('strong', {'text': title})).appendText(' — ' + desc));
-		return this;
-		
-	},
-
-	_setupContainer: function(container){
-		return $(container).setStyles({'position': 'relative', 'overflow': 'hidden'});
-	},
-
-	_setupPages: function(pageEls){
-		var width  = this.pageContainer.getStyle('width').toInt();
-		var height = this.pageContainer.getStyle('height');
-		var pages  = pageEls.map(function(page, i){
-			page.setStyles({
-				'overflow': 'hidden',
-				'position': 'absolute',
-				'height': height + 'px',
-				'width': width + 'px',
-				'marginRight': this.options.pageMargin + 'px',
-				'top': 0,
-				'left': i * (width + this.options.pageMargin) + 'px'
-			});
-			return new this._pageClass(page, this);
-		}, this);
-
-		return pages;
-	},
-
-	_setupBtnEle: function(button, defaultText){
-		var el = $(button);
-		if (!el && $type(button) == 'string') {
-			el = new Element('span', {'id': button, 'class': 'clickable'})
-				.grab(new Element('span', {'text': defaultText}))
-				.inject($(this.options.ctrlsContainer), 'top');
+		if (this.pages[i] == undefined) {
+			this.injectPage(i, this.createPagePlaceholder());
+			// request the next page in a separate thread
+			this.fetchPages.delay(0, this, [i]);
+		} else if (this.pages[i].hasClass('loading')) {
+			// do nothing if the request has already been made and they've clicked again
+			return this;
 		}
-		return el;
+
+		this.pageIndex = i;
+		this.fxScroll.toElement(this.pages[this.pageIndex]);
+		this.highlightItem(null, null, '', '');
+		return this;
+	},
+
+	fetchPages: function(i){
+//		var spr = new Spinner({request: req}).el.inject(page);
+		var req = new Request.HTML({url: this.options.fetchPageUrl});
+		req.addEvent('success', this.injectPages.bind(this));
+		req.get({page: i + 1, pages_at_once: this.options.numPagesPerFetch});
+		return this;
+	},
+
+	injectPages: function(tree, els, xhtml){
+		var loadingPageIndex = this.pages.length - 1;
+		els.filter(this.options.pageElement + '.' + this.options.pageClass)
+		   .each(function(page, i){
+			var pageIndex = loadingPageIndex + (i*1);
+			this._setupPageStyles(page, pageIndex);
+			this._setupPageItems(page);
+			if (this.pages[pageIndex] != undefined) {
+				this.pages[pageIndex].destroy();
+			}
+			this.pages[pageIndex] = page.inject(this.pages[pageIndex - 1], 'after');
+		}, this);
+	},
+
+	createPagePlaceholder: function(){
+		return new Element(this.options.pageElement, {
+			'class': [this.options.pageClass, this.options.pageLoadingClass].join(' '), 
+			'text': 'Loading...'
+		});
+	},
+
+	injectPage: function(i, page){
+		this.pages[i] = this._setupPageStyles(page, i).inject(this.pages[i - 1], 'after');
+		return this;
+	},
+
+	_setupPageStyles: function(page, i){
+		return page.setStyles({
+			overflow: 'hidden',
+			position: 'absolute',
+			height: this.options.pageHeight + 'px',
+			width: this.options.pageWidth + 'px',
+			marginRight: this.options.pageMargin + 'px',
+			top: 0,
+			left: i * (this.options.pageWidth + this.options.pageMargin) + 'px'
+		});
+	},
+
+	_setupPageItems: function(page){
+		var items = page.getElements(this.options.itemSelector);
+		items.each(this._setupItem, this);
+		return this;
+	},
+
+	_setupItem: function(el){
+		var info = el.get('title');
+		var pos = info.indexOf(':');
+		var title = info.substring(0, pos);
+		var desc = info.substring(pos + 2);
+		el.addEvent('mouseover', this.highlightItem.bindWithEvent(this, [el, title, desc]));
+	},
+
+	_setupButtons: function(){
+		var container = $(this.options.ctrlsContainer);
+		var next = new Element('span', {'id': 'mediaflow-next', 'class': 'clickable'})
+			.grab(new Element('span', {'text': 'Next'})).inject(container, 'top');
+		var prev = new Element('span', {'id': 'mediaflow-prev', 'class': 'clickable'})
+			.grab(new Element('span', {'text': 'Previous'})).inject(container, 'top');
+		next.addEvent('click', this.slideToNext.bind(this));
+		prev.addEvent('click', this.slideToPrev.bind(this));
+	},
+
+	_setupHighlight: function(){
+		var container = $(this.options.labelContainer);
+		container.addClass('box-bottom-grey').removeClass('box-bottom');
+		this.label = container.set('html', '&#160;');
+	},
+
+	highlightItem: function(e, el, title, desc){
+		if (this.highlightedItem == el) { 
+			return; // dont reupdate when rolling over the inner <img>
+		}
+		if (this.highlightedItem) { 
+			this.highlightedItem.removeClass(this.options.itemHighlightClass); 
+		}
+		if (el == null) {
+			this.label.set('html', '&#160;');
+		} else {
+			this.highlightedItem = el.addClass(this.options.itemHighlightClass);
+			this.label.set('text', title + ' - ' + desc);
+		}
+	}
+});
+
+var Videoflow = new Class({
+	Extends: Mediaflow,
+
+	_setupButtons: function(){
+		this.parent();
 	}
 });

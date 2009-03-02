@@ -18,6 +18,8 @@ videos = Table('videos', metadata,
     Column('date_added', DateTime, default=datetime.now, nullable=False),
     Column('date_modified', DateTime, default=datetime.now, onupdate=datetime.now, nullable=False),
     Column('views', Integer, default=0, nullable=False),
+    Column('rating_sum', Integer, default=0, nullable=False),
+    Column('rating_votes', Integer, default=0, nullable=False),
     Column('description', UnicodeText),
     mysql_engine='InnoDB',
     mysql_charset='utf8'
@@ -46,6 +48,11 @@ class Video(object):
 
     def __unicode__(self):
         return self.title
+
+    def add_rating(self, rating):
+        self.rating_sum += rating
+        self.rating_votes += 1
+        return self
 
 
 mapper(Video, videos, properties={

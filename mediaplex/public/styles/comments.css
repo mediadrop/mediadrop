@@ -48,13 +48,13 @@
 .comments-list li blockquote p {
 	margin: 10px 0;
 }
-#post-comment-form li .form-label {
+#post-comment-form li .field-label {
 	width: 15%;
 }
-#post-comment-form li .form-field {
+#post-comment-form li .field-field {
 	width: 80%;
 }
-#post-comment-form li .comment-submit {
+#post-comment-form li .submit-image {
 	background: url('../images/buttons/comment-submit-trans.png') no-repeat;
 	width: 178px;
 	height: 48px;

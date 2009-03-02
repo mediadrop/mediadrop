@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      xmlns:xi="http://www.w3.org/2001/XInclude">
+<xi:include href="../root.html" />
+<head>
+	<title>Videos</title>
+	<link href="/styles/ratings.css" media="screen" rel="stylesheet" type="text/css" />
+	<link href="/styles/mediaflow.css" media="screen" rel="stylesheet" type="text/css" />
+	<link href="/styles/videos.css" media="screen" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="/scripts/mediaflow.js"></script>
+	<script type="text/javascript">
+		window.addEvent('domready', function(){
+			vs = new Videoflow({
+				container: 'mediaflow-body',
+				pageSelector: 'div.mediaflow-page', 
+				nextButton: 'mediaflow-next', 
+				prevButton: 'mediaflow-prev', 
+				ctrlsContainer: 'mediaflow-ctrls',
+				labelContainer: 'mediaflow-label',
+				totalPageCount: ${page.item_count/3}
+			});
+		});
+	</script>
+</head>
+<body>
+	<div id="mediaplex" class="box">
+		<div class="box-top"></div>
+		<div id="mediaplex-ctrls">
+			<a id="mediaplex-ctrls-flow" class="active" href="/video" title="View a few videos at a time"><span>Mediaflow View</span></a>
+			<a id="mediaplex-ctrls-grid" href="/video/grid" title="View many videos at a time"><span>Grid View</span></a>
+			<a id="mediaplex-ctrls-tags" href="/video/tags"><span>Browse by Tags</span></a>
+		</div>
+		<div id="mediaflow">
+			<div id="mediaflow-ctrls"></div>
+			<div id="mediaflow-body" class="box-body">
+				<xi:include href="_mediaflow-pager.html" />
+				${mediaflow_slider_pager(page.items)}
+			</div>
+		</div>
+		<div id="mediaflow-label" class="box-bottom"></div>
+	</div>
+</body>
+</html>

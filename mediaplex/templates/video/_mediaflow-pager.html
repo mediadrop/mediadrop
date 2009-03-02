@@ -1,0 +1,11 @@
+<div xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:py="http://genshi.edgewall.org/"
+     py:def="mediaflow_slider_pager(videos)"
+     py:for="videos_slice in h.MediaflowSlidePager(videos)"
+     class="mediaflow-page">
+	<ul>
+		<li py:for="video in videos_slice">
+			<a href="/video/${video.slug}" title="${video.title}: ${h.text.truncate(video.description, 120, whole_word=True)}"><img src="/asdf" alt="${video.title}" /></a>
+		</li>
+	</ul>
+</div>

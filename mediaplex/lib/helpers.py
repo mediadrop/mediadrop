@@ -1,4 +1,4 @@
-from webhelpers import date, feedgenerator, html, number, misc, text
+from webhelpers import date, feedgenerator, html, number, misc, text, paginate
 from webhelpers.html.converters import format_paragraphs
 
 def duration_from_seconds(total_sec):
@@ -26,5 +26,35 @@ def video_player(url):
             % {'viewkey': url.split('?')[1]}
     else:
         xhtml = 'FLOW PLAYER NOT YET IMPLEMENTED'
-
     return xhtml
+
+class MediaflowSlidePager(object):
+    """Mediaflow Slide Paginator
+
+    Slices rowsets into smaller groups for rendering over several slides.
+
+    Usage:
+        <div py:for="videos_slice in h.MediaflowSlidePager(page.items)" class="mediaflow-page">
+            <ul>
+                <li py:for="video in videos_slice">${video.title}</li>
+            </ul>
+        </div>
+    """
+
+    def __init__(self, items, items_per_slide=3, offset=0):
+        self.items = items
+        self.items_len = len(items)
+        self.items_per_slide = items_per_slide
+        self.offset = offset
+
+    def __iter__(self):
+        return self
+
+    def next(self):
+        if self.offset >= self.items_len:
+            raise StopIteration
+
+        next_offset = min(self.offset + self.items_per_slide, self.items_len)
+        slice = self.items[self.offset:next_offset]
+        self.offset = next_offset
+        return slice

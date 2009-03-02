@@ -6,13 +6,16 @@ from mediaplex import model
 from mediaplex.lib import app_globals, helpers
 
 class MediaplexConfig(AppConfig):
-    def setup_routes(self):
+    def asdfsetup_routes(self):
         """Setup our custom named routes"""
         map = Mapper(directory=config['pylons.paths']['controllers'],
                     always_scan=config['debug'])
 
+        map.connect('video_grid', 'video-grid', controller='video', action='index')
+#, requirements=dict(view='flow|grid|ajax')
+
         # Setup a default route for the root of object dispatch
-        map.connect('*url', controller='root', action='routes_placeholder')
+#        map.connect('*url', controller='root', action='routes_placeholder')
 
         config['routes.map'] = map
 
