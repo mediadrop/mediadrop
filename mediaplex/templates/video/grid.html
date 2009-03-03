@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:py="http://genshi.edgewall.org/"
       xmlns:xi="http://www.w3.org/2001/XInclude">
-<xi:include href="../root.html" />
+<xi:include href="../master.html" />
 <head>
 	<title>Videos</title>
 	<link href="/styles/ratings.css" media="screen" rel="stylesheet" type="text/css" />
@@ -23,7 +23,7 @@
 			<ul>
 				<li py:for="video in page.items">
 					<a href="/video/${video.slug}" title="${h.text.truncate(video.description, whole_word=True)}">
-						<img src="/asdf" width="149" height="92" />
+						<img src="/images/videos/${video.id}.jpg" width="149" height="92" />
 						<span class="media-title">${video.title}</span>
 						<span class="media-info">${h.duration_from_seconds(video.length)}<br />${h.text.plural(video.views, 'view', 'views')}</span>
 						<span class="rating rating-35"><span>3.5 stars</span></span>

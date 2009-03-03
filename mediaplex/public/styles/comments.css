@@ -48,10 +48,10 @@
 .comments-list li blockquote p {
 	margin: 10px 0;
 }
-#post-comment-form li .field-label {
+#post-comment-form li .form-label {
 	width: 15%;
 }
-#post-comment-form li .field-field {
+#post-comment-form li .form-field {
 	width: 80%;
 }
 #post-comment-form li .submit-image {

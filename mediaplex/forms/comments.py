@@ -9,5 +9,5 @@ class PostCommentForm(ListForm):
 
     class fields(WidgetsList):
          name = TextField(validator=NotEmpty)
-         body = TextArea(attrs=dict(rows=5, cols=25))
+         body = TextArea(label_text='Comment', attrs=dict(rows=5, cols=25))
          submit = SubmitButton(css_class='submit-image')

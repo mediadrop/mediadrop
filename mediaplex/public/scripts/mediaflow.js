@@ -154,17 +154,17 @@ var Mediaflow = new Class({
 	},
 
 	highlightItem: function(e, el, title, desc){
-		if (this.highlightedItem == el) { 
+		if (this.highlightedItem == el) {
 			return; // dont reupdate when rolling over the inner <img>
 		}
-		if (this.highlightedItem) { 
+		if (this.highlightedItem) {
 			this.highlightedItem.removeClass(this.options.itemHighlightClass); 
 		}
 		if (el == null) {
 			this.label.set('html', '&#160;');
 		} else {
 			this.highlightedItem = el.addClass(this.options.itemHighlightClass);
-			this.label.set('text', title + ' - ' + desc);
+			this.label.set('html', '<strong>' + title + '</strong>: ' + desc);
 		}
 	}
 });

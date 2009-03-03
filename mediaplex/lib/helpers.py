@@ -7,9 +7,9 @@ def duration_from_seconds(total_sec):
     mins = floor(total_sec / 60)
     hours = floor(total_sec / 360)
     if hours > 0:
-        return '%d:%d:%d' % (hours, mins, secs)
+        return '%d:%02d:%02d' % (hours, mins, secs)
     else:
-        return '%d:%d' % (mins, secs)
+        return '%d:%02d' % (mins, secs)
 
 def video_player(url):
     import re
