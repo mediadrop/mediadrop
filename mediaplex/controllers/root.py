@@ -10,26 +10,18 @@ from pylons.i18n import ugettext as _
 from mediaplex import model
 from mediaplex.model import DBSession, metadata
 
-from catwalk.tg2 import Catwalk
+#from catwalk.tg2 import Catwalk
 from repoze.what import predicates
 from mediaplex.controllers.secure import SecureController
 
 class RootController(BaseController):
-    admin = Catwalk(model, DBSession)
+#    admin = Catwalk(model, DBSession)
     error = ErrorController()
     video = VideoController()
 
     @expose('mediaplex.templates.index')
     def index(self):
-        return dict(page='index')
-
-    @expose('mediaplex.templates.about')
-    def about(self):
-        return dict(page='about')
-
-    @expose('mediaplex.templates.authentication')
-    def auth(self):
-        return dict(page='auth')
+        redirect('/video')
 
     @expose('mediaplex.templates.index')
     @require(predicates.has_permission('manage', msg=_('Only for managers')))
