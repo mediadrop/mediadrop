@@ -24,7 +24,7 @@
 		             help_text = field.help_text;
 		             is_submit = getattr(field, 'type', None) == 'submit';"
 		    id="${field.id}-container"
-		    class="${i%2 and 'odd' or 'even'}${' submit' if is_submit else None}"
+		    class="${i%2 and 'odd' or 'even'}${is_submit and ' submit' or None}"
 		    py:attrs="args_for(field).get('container_attrs') or field.container_attrs">
 			<div py:if="show_labels and label_text and not field.suppress_label"
 			     id="${field.id}-label" class="form-label">
