@@ -1,0 +1,56 @@
+#video-form .form-label {
+	font-size: 108%;
+	font-weight: bold;
+	color: #3c4d5a;
+	margin: 10px;
+}
+#video-form .form-field {
+	margin: 10px;
+	/* bump the size down 12px so that when firefox adds 12px
+	 * to the 100% input width it still fits visually */
+	padding-right: 12px;
+}
+#video-form li {
+	clear: both;
+	width: 100%;
+	overflow: hidden;
+}
+#video-form input, #video-form textarea {
+	width: 100%;
+	padding: 5px;
+	border: 1px solid #b0bcc5;
+}
+#video-form input:focus, #video-form textarea:focus {
+	background: #d9e7ec;
+}
+#video-form #slug-container { display: none; }
+#video-form #author_name-container,
+#video-form #author_email-container {
+	width: 50%;
+	float: left;
+	clear: none;
+}
+#video-form #details_length_label,
+#video-form #details_url_label {
+	margin-right: 10px;
+	padding: 5px 0;
+	float: left;
+	font-weight: normal;
+}
+#video-form #details input,
+#video-form #details li {
+	float: left;
+	width: auto;
+	clear: none;
+}
+#details-container .form-field { padding-right: 0; }
+#video-form #details-container legend {
+	font-size: 108%;
+	font-weight: bold;
+	color: #3c4d5a;
+	margin: 10px 10px 0 10px;
+}
+#details ul.field_list { position: relative; }
+#details_url_container { position: absolute; top: 0; right: 0; }
+#video-form #details input#details_length { width: 60px; }
+#video-form #details input#details_url { width: 390px; }

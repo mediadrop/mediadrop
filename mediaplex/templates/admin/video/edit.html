@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      xmlns:xi="http://www.w3.org/2001/XInclude">
+<xi:include href="../../admin-master.html" />
+<head>
+	<title>Mediaplex</title>
+	<link href="/admin/styles/videos.css" media="screen" rel="stylesheet" type="text/css" />
+</head>
+<body>
+	<div class="column66">
+		<table cellpadding="0" cellspacing="0">
+			<thead>
+				<tr>
+					<td>
+						<span class="italic float-right">Uploaded: ${video.date_added}</span>
+						<h1>${video.title}</h1>
+					</td>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>
+						${XML(form(video))}
+					</td>
+				</tr>
+			</tbody>
+			<tfoot>
+				<tr>
+					<td><input type="submit" /></td>
+				</tr>
+			</tfoot>
+		</table>
+	</div>
+	<div class="column33">
+		<table cellpadding="0" cellspacing="0">
+			<thead>
+				<tr>
+					<td><h1>Comments</h1></td>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>
+						<p><a class="review" href="/comments.html">24 comments</a> require review.</p>
+						<p>There has been a total of <a class="total" href="/comments.html">24,049</a> comments on media.</p>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<br /><br />
+		<table cellpadding="0" cellspacing="0">
+			<thead>
+				<tr><td colspan="2"><h1>Published</h1></td></tr>
+			</thead>
+			<tbody>
+				<tr id="last">
+					<td></td>
+					<td></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+</html>

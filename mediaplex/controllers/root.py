@@ -23,6 +23,10 @@ class RootController(BaseController):
     def index(self):
         redirect('/video')
 
+    @expose('mediaplex.templates.admin.index')
+    def admin(self):
+        return dict()
+
     @expose('mediaplex.templates.index')
     @require(predicates.has_permission('manage', msg=_('Only for managers')))
     def manage_permission_only(self, **kw):

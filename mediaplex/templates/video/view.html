@@ -59,7 +59,7 @@
 			<p py:when="0" class="comments-none-yet">No comments have been posted yet.</p>
 			<ul py:otherwise="" class="comments-list">
 				<li py:for="i, comment in enumerate(video.comments)"
-					py:attrs="{'class': 'alt'} if (i%2) else None">
+					py:attrs="{'class': [None, 'alt'][i%2]}">
 					<img src="/images/avatars/_default.gif" width="32" height="32" class="avatar" />
 					<a name="comment-${comment.id}" href="#comment-${comment.id}" class="date" title="Permalink">${comment.date_added}</a>
 					<h4><cite>${comment.name} says:</cite></h4>

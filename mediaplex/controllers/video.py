@@ -3,6 +3,7 @@ from tg import expose, validate, flash, require, url, request, redirect
 from pylons.i18n import ugettext as _
 
 from mediaplex.model import DBSession, metadata, Video, Comment
+from mediaplex.forms.video import VideoForm
 from mediaplex.forms.comments import PostCommentForm
 from formencode import validators
 
@@ -56,10 +57,6 @@ class VideoRowController(object):
         redirect('/video/%s' % self.video.slug)
 
     @expose()
-    def download(self):
-        return 'download video'
-
-    @expose()
     @validate(PostCommentForm(), error_handler=view)
     def comment(self, **values):
         c = Comment()
@@ -69,3 +66,17 @@ class VideoRowController(object):
         self.video.comments.append(c)
         DBSession.add(c)
         redirect('/video/%s' % self.video.slug)
+
+    @expose('mediaplex.templates.admin.video.edit')
+    def edit(self, **values):
+        form = VideoForm(action='/video/%s/edit_save' % self.video.slug)
+        return dict(video=self.video, form=form)
+
+    @expose()
+    @validate(VideoForm(), error_handler=edit)
+    def edit_save(self, **values):
+        print values
+
+    @expose()
+    def download(self):
+        return 'download video'
