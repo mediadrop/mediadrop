@@ -132,10 +132,18 @@ thead td, tfoot td {
 	background: #e6e2d3 url('../images/layout/thead.png') repeat-x top;
 	color: #3c4d5a;
 	padding: 12px 15px 10px 10px;
+}
+thead td {
 	-moz-border-radius-topright: 0.8em;
 	-moz-border-radius-topleft: 0.8em;
 	-webkit-border-top-right-radius: 0.8em;
 	 -webkit-border-top-left-radius: 0.8em;
+}
+tfoot td {
+	-moz-border-radius-bottomright: 0.8em;
+	-moz-border-radius-bottomleft: 0.8em;
+	-webkit-border-bottom-right-radius: 0.8em;
+	 -webkit-border-bottom-left-radius: 0.8em;
 }
 tr:last-child td {
 	border-bottom: 0;
@@ -176,6 +184,34 @@ thead th {
 	 padding: 9px 6px 5px 0;
 	 width: 199px;
 	 border: 0;
+}
+
+#album-art {
+	width: 133px;
+	margin: 10px auto;
+	border: 5px solid #989790;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+}
+#album-art img {
+	display: block;
+	border: 1px solid #fff;
+}
+
+#status-list {
+	margin: 3px 5px;
+}
+#status-list li {
+	padding-left: 20px;
+	margin: 3px 0;
+	font-size: 108%;
+}
+.status-pending {
+	background: url('../images/icons/arrow-green-right.png') no-repeat 0 2px;
+	color: #196d29;
+}
+.status-future {
+	color: #9b9b9b;
 }
 
 
