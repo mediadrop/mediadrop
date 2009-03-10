@@ -6,7 +6,7 @@
       py:strip="">
 <head py:match="head">
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<title py:with="title = str(select('title/text()'))">
+	<title py:match="title" py:with="title = str(select('text()'))">
 		<py:if test="title">${title} |</py:if>
 		TMC Youth
 	</title>
