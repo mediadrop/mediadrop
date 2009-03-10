@@ -21,18 +21,14 @@ pre,code,kbd,samp,tt{font-family:monospace;*font-size:108%;line-height:100%}
 
 
 /*Generic Styles*/
-.float-right {
-	float: right;
-}
-.float-left {
-	float: left;
-}
+.float-left { float: left; }
+.float-right { float: right; }
 .italic {
 	font-style: italic;
 	color: #adaba3;
 }
 p {
-	padding: 0 0 1em 0;
+	margin: 0 0 1em 0;
 }
 a {
 	color: #3372a0;
@@ -69,30 +65,30 @@ body {
 
 /*Menu*/
 #menu {
-	list-style-type: none;
 	float: right;
 	margin-top: 11px;
 }
 #menu li {
 	float: left;
-	padding-left: 20px;
+	margin-left: 20px;
+}
+#menu li:hover {
+	background: url('../images/menu/hover.png') no-repeat bottom;
 }
 #menu li a {
 	display: block;
 	height: 57px;
 	background-repeat: no-repeat;
 }
-#menu li a span {
-	display: none;
-}
-#menu-dashboard        a { background-image: url('../images/menu/dashboard.png'); width: 120px; }
-#menu-dashboard.active a { background-image: url('../images/menu/dashboard-active.png');        }
-#menu-videos           a { background-image: url('../images/menu/videos.png');    width:  89px; }
-#menu-videos.active    a { background-image: url('../images/menu/videos-active.png');           }
-#menu-podcasts         a { background-image: url('../images/menu/podcasts.png');  width: 106px; }
-#menu-podcasts.active  a { background-image: url('../images/menu/podcasts-active.png');         }
-#menu-comments         a { background-image: url('../images/menu/comments.png');  width: 113px; }
-#menu-comments.active  a { background-image: url('../images/menu/comments-active.png');         }
+#menu li a span { display: none; }
+#menu-dashboard a { background-image: url('../images/menu/dashboard.png'); width: 120px; }
+#menu-videos    a { background-image: url('../images/menu/videos.png');    width:  89px; }
+#menu-podcasts  a { background-image: url('../images/menu/podcasts.png');  width: 106px; }
+#menu-comments  a { background-image: url('../images/menu/comments.png');  width: 113px; }
+.menu-dashboard-on #menu-dashboard a { background-image: url('../images/menu/dashboard-active.png'); }
+.menu-videos-on    #menu-videos    a { background-image: url('../images/menu/videos-active.png'); }
+.menu-podcasts-on  #menu-podcasts  a { background-image: url('../images/menu/podcasts-active.png'); }
+.menu-comments-on  #menu-comments  a { background-image: url('../images/menu/comments-active.png'); }
 
 /*Content*/
 #body {
@@ -118,50 +114,54 @@ table {
 	-moz-border-radius: 1em;
 	-webkit-border-radius: 1em;
 }
-td {
-	border-bottom: 1px solid #cfccc2;
+tr td {
 	padding: 10px;
+	border-top: 1px solid #cfccc2;
 	font-family: Tahoma, arial, sans-serif;
 }
-tr:last-child td {
-	border-bottom: 0px;
+/* omit the top border for the first td in the table
+ * allows for a missing thead and no tbody */
+table > tr:first-child > td,
+table > thead:first-child > tr:first-child td {
+	border-top: 0;
 }
-/* thead/td is used for beige table headings while
- * thead/th is reserved for blue column headings */
-thead td, tfoot td {
+/* thead/td is for beige headings */
+thead tr td,
+tfoot tr td {
 	background: #e6e2d3 url('../images/layout/thead.png') repeat-x top;
 	color: #3c4d5a;
 	padding: 12px 15px 10px 10px;
 }
-thead td {
+thead tr td {
 	-moz-border-radius-topright: 0.8em;
 	-moz-border-radius-topleft: 0.8em;
 	-webkit-border-top-right-radius: 0.8em;
-	 -webkit-border-top-left-radius: 0.8em;
+	-webkit-border-top-left-radius: 0.8em;
 }
-tfoot td {
+tfoot tr td {
 	-moz-border-radius-bottomright: 0.8em;
 	-moz-border-radius-bottomleft: 0.8em;
 	-webkit-border-bottom-right-radius: 0.8em;
-	 -webkit-border-bottom-left-radius: 0.8em;
+	-webkit-border-bottom-left-radius: 0.8em;
 }
-tr:last-child td {
-	border-bottom: 0;
-}
-tfoot tr:first-child td {
-	border-top: 1px solid #cfccc2;
-}
-thead td h1 {
+thead tr td h1 {
 	font-size: 138.5%;
 	float: left;
 	padding: 2px 0;
 }
-thead th {
+thead tr td .thead-info {
+	float: right;
+	padding: 5px 0;
+	color: #878685;
+	font-size: 93%;
+}
+/* thead/th is used for blue column labels */
+thead tr th {
 	background: #d1e4f2;
 	color: #627789;
 	width: 100%;
-	border-bottom: 1px solid #cfccc2;
-	padding: 10px;
+	border-top: 1px solid #cfccc2;
+	padding: 10px 10px 5px 10px;
 	font-size: 108.5%;
 	font-weight: bold;
 	text-shadow: 0em 0.1em #fff;
