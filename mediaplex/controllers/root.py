@@ -28,7 +28,9 @@ class RootController(BaseController):
         videos_to_review = DBSession.query(Video).filter_by(reviewed=False)
         videos_to_encode = DBSession.query(Video).filter_by(reviewed=True,encoded=False)
         comments_to_review = DBSession.query(Comment).filter_by(reviewed=False)
-        return dict(videos_to_review=videos_to_review, videos_to_encode=videos_to_encode)
+        return dict(videos_to_review=videos_to_review,
+                    videos_to_encode=videos_to_encode,
+                    comments_to_review=comments_to_review)
 
     @expose('mediaplex.templates.index')
     @require(predicates.has_permission('manage', msg=_('Only for managers')))

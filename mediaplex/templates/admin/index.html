@@ -30,7 +30,7 @@
 			</thead>
 <!--! We should really just make the Author name a mailto: link -->
 			<tbody>
-				<tr py:for="video in to_review">
+				<tr py:for="video in videos_to_review">
 					<td class="italic">unpublished</td>
 					<td><img src="/admin/images/statuses/review.png" /></td>
 					<td><a href="/video/${video.slug}/edit">${video.title}</a></td>
@@ -55,7 +55,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr py:for="video in to_encode" py:with="tag_count = len(video.tags)">
+				<tr py:for="video in videos_to_encode" py:with="tag_count = len(video.tags)">
 					<td class="italic">unpublished</td>
 					<td><img src="/admin/images/statuses/encode.png" /></td>
 					<td><a href="/video/${video.slug}/edit">${video.title}</a></td>
