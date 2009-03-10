@@ -23,6 +23,9 @@ videos = Table('videos', metadata,
     Column('rating_sum', Integer, default=0, nullable=False),
     Column('rating_votes', Integer, default=0, nullable=False),
     Column('description', UnicodeText),
+    Column('notes', UnicodeText),
+    Column('reviewed', Boolean, default=False, nullable=False),
+    Column('encoded', Boolean, default=False, nullable=False),
     mysql_engine='InnoDB',
     mysql_charset='utf8'
 )

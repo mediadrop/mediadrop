@@ -29,6 +29,7 @@ CREATE TABLE `comments` (
   `date_added` datetime NOT NULL,
   `date_modified` datetime NOT NULL,
   `body` text NOT NULL,
+  `reviewed` boolean default false NOT NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
@@ -39,7 +40,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `comments` WRITE;
 /*!40000 ALTER TABLE `comments` DISABLE KEYS */;
-INSERT INTO `comments` VALUES (1,'Nathan Wright','Something else','2009-02-16 15:33:11','2009-02-16 15:33:11','LOUD NOISES!'),(2,'Nathan Wright','And another thing...','2009-02-16 16:12:17','2009-02-16 16:12:17','I love lamp.'),(3,'Nathan Wright','And another thing...','2009-02-16 16:19:35','2009-02-16 16:19:35','I love lamp.');
+INSERT INTO `comments` (id,name,subject,date_added,date_modified,body) VALUES (1,'Nathan Wright','Something else','2009-02-16 15:33:11','2009-02-16 15:33:11','LOUD NOISES!'),(2,'Nathan Wright','And another thing...','2009-02-16 16:12:17','2009-02-16 16:12:17','I love lamp.'),(3,'Nathan Wright','And another thing...','2009-02-16 16:19:35','2009-02-16 16:19:35','I love lamp.');
 /*!40000 ALTER TABLE `comments` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -217,8 +218,15 @@ CREATE TABLE `videos` (
   `length` int(11) NOT NULL,
   `date_added` datetime NOT NULL,
   `date_modified` datetime NOT NULL,
+  `author_name` varchar(50) character set latin1 NOT NULL,
+  `author_email` varchar(255) character set latin1 NOT NULL,
   `views` int(11) NOT NULL,
+  `rating_sum` int(11) NOT NULL,
+  `rating_votes` int(11) NOT NULL,
   `description` text character set latin1,
+  `notes` text character set latin1,
+  `reviewed` boolean default 0 NOT NULL,
+  `encoded` boolean default 0 NOT NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `slug` (`slug`)
 ) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
@@ -230,7 +238,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `videos` WRITE;
 /*!40000 ALTER TABLE `videos` DISABLE KEYS */;
-INSERT INTO `videos` VALUES (1,'black-knight','The Black Knight','http://youtube.com/v/2eMkth8FWno',266,'2009-01-12 16:29:57','2009-01-12 16:29:57',0,'More silliness.'),(2,'french-taunting','French Taunting','http://youtube.com/v/9V7zbWNznbs',640,'2009-01-12 16:37:15','2009-01-12 16:37:15',0,'Insults from Monty Python, handy for all occasions!'),(3,'monty-pythons','Monty Python\'s','http://youtube.com/v/Xe1a1wHxTyo',194,'2009-01-09 15:52:56','2009-01-09 15:52:56',0,'Some silly nonsensical comedy for you, from Monty Python\'s Flying Circus.'),(4,'killer-bunny','Killer Bunny','http://youtube.com/v/XcxKIJTb3Hg',126,'2009-01-12 16:41:05','2009-01-12 16:41:05',0,'A bunny that can kill a man.'),(5,'systems-government','Systems of Government','http://youtube.com/v/5Xd_zkMEgkI',191,'2009-01-12 16:48:34','2009-01-12 16:48:34',0,'Political satire.'),(6,'are-you-suggesting-coconuts-migrate','Are you suggesting coconuts migrate?','http://youtube.com/v/rzcLQRXW6B0',181,'2009-01-12 16:53:53','2009-01-12 16:53:53',0,'King of the Britons, Defeater of the Saxons banging two empty halves of tropical coconuts together in a temporate climate.'),(7,'sir-lancelot','Sir Lancelot','http://youtube.com/v/-jO1EOhGkY0',478,'2009-01-12 16:57:03','2009-01-12 16:57:03',0,'Sirrrrlancelot is brave and noble.'),(8,'bring-out-your-dead','Bring Out Your Dead','http://youtube.com/v/grbSQ6O6kbs',118,'2009-01-12 17:06:47','2009-01-12 17:06:47',0,'But I\'m not dead yet!'),(9,'three-questions','Three Questions','http://youtube.com/v/IMxWLuOFyZM',244,'2009-01-12 17:09:55','2009-01-12 17:09:55',0,'Sir Lancelot faces skill testing questions.'),(10,'tale-sir-robin','The Tale of Sir Robin','http://youtube.com/v/c4SJ0xR2_bQ',173,'2009-01-12 18:17:07','2009-01-12 18:17:07',0,'Sing this song!'),(11,'guarding-room','Guarding the Room','http://youtube.com/v/ekO3Z3XWa0Q',123,'2009-01-12 18:18:22','2009-01-12 18:18:22',0,'Something goes here, something like a description.'),(12,'knights-who-say-ni','Knights Who Say Ni','http://youtube.com/v/QTQfGd3G6dg',521,'2009-01-12 18:19:51','2009-01-12 18:19:51',0,'These knights say ni.'),(13,'tim-enchanter','Tim the Enchanter','http://youtube.com/v/JTbrIo1p-So',52,'2009-01-12 18:20:41','2009-01-12 18:20:41',0,'Enchanting tim'),(14,'grenade-antioch','Grenade of Antioch','http://youtube.com/v/apDGPl2SfpA',242,'2009-01-12 18:21:50','2009-01-12 18:21:50',0,'Holy hand grenade!'),(15,'intermission-music','Intermission Music','http://youtube.com/v/9hmDZz5pDOQ',546,'2009-01-12 18:36:06','2009-01-12 18:36:06',0,'From the movie');
+INSERT INTO `videos` (id,slug,title,url,length,date_added,date_modified,author_name,author_email,views,description,reviewed,encoded) VALUES (1,'black-knight','The Black Knight','http://youtube.com/v/2eMkth8FWno',266,'2009-01-12 16:29:57','2009-01-12 16:29:57','John','john@bowisle.ca',0,'More silliness.',1,0),(2,'french-taunting','French Taunting','http://youtube.com/v/9V7zbWNznbs',640,'2009-01-12 16:37:15','2009-01-12 16:37:15','Verity','verity@norman.com',0,'Insults from Monty Python, handy for all occasions!',1,0),(3,'monty-pythons','Monty Python\'s','http://youtube.com/v/Xe1a1wHxTyo',194,'2009-01-09 15:52:56','2009-01-09 15:52:56','George','george@clements.com',0,'Some silly nonsensical comedy for you, from Monty Python\'s Flying Circus.',1,0),(4,'killer-bunny','Killer Bunny','http://youtube.com/v/XcxKIJTb3Hg',126,'2009-01-12 16:41:05','2009-01-12 16:41:05','Tom','tom@hulu.com',0,'A bunny that can kill a man.',0,0),(5,'systems-government','Systems of Government','http://youtube.com/v/5Xd_zkMEgkI',191,'2009-01-12 16:48:34','2009-01-12 16:48:34','George','george@dragon.com',0,'Political satire.',0,0),(6,'are-you-suggesting-coconuts-migrate','Are you suggesting coconuts migrate?','http://youtube.com/v/rzcLQRXW6B0',181,'2009-01-12 16:53:53','2009-01-12 16:53:53','Morgan','morgan@csps.com',0,'King of the Britons, Defeater of the Saxons banging two empty halves of tropical coconuts together in a temporate climate.',0,0),(7,'sir-lancelot','Sir Lancelot','http://youtube.com/v/-jO1EOhGkY0',478,'2009-01-12 16:57:03','2009-01-12 16:57:03','John Doe','jdoe@simplestation.com',0,'Sirrrrlancelot is brave and noble.',1,0),(8,'bring-out-your-dead','Bring Out Your Dead','http://youtube.com/v/grbSQ6O6kbs',118,'2009-01-12 17:06:47','2009-01-12 17:06:47','John Doe','jdoe@simplestation.com',0,'But I\'m not dead yet!',0,0),(9,'three-questions','Three Questions','http://youtube.com/v/IMxWLuOFyZM',244,'2009-01-12 17:09:55','2009-01-12 17:09:55','John Doe','jdoe@simplestation.com',0,'Sir Lancelot faces skill testing questions.',1,1),(10,'tale-sir-robin','The Tale of Sir Robin','http://youtube.com/v/c4SJ0xR2_bQ',173,'2009-01-12 18:17:07','2009-01-12 18:17:07','John Doe','jdoe@simplestation.com',0,'Sing this song!',0,0),(11,'guarding-room','Guarding the Room','http://youtube.com/v/ekO3Z3XWa0Q',123,'2009-01-12 18:18:22','2009-01-12 18:18:22','John Doe','jdoe@simplestation.com',0,'Something goes here, something like a description.',0,0),(12,'knights-who-say-ni','Knights Who Say Ni','http://youtube.com/v/QTQfGd3G6dg',521,'2009-01-12 18:19:51','2009-01-12 18:19:51','John Doe','jdoe@simplestation.com',0,'These knights say ni.',0,0),(13,'tim-enchanter','Tim the Enchanter','http://youtube.com/v/JTbrIo1p-So',52,'2009-01-12 18:20:41','2009-01-12 18:20:41','John Doe','jdoe@simplestation.com',0,'Enchanting tim',0,0),(14,'grenade-antioch','Grenade of Antioch','http://youtube.com/v/apDGPl2SfpA',242,'2009-01-12 18:21:50','2009-01-12 18:21:50','John Doe','jdoe@simplestation.com',0,'Holy hand grenade!',0,0),(15,'intermission-music','Intermission Music','http://youtube.com/v/9hmDZz5pDOQ',546,'2009-01-12 18:36:06','2009-01-12 18:36:06','John Doe','jdoe@simplestation.com',0,'From the movie',0,0);
 /*!40000 ALTER TABLE `videos` ENABLE KEYS */;
 UNLOCK TABLES;
 

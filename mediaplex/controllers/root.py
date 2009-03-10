@@ -8,7 +8,7 @@ from pylons.i18n import ugettext as _
 #from tg import redirect, validate
 
 from mediaplex import model
-from mediaplex.model import DBSession, metadata
+from mediaplex.model import DBSession, metadata, Video, Comment
 
 #from catwalk.tg2 import Catwalk
 from repoze.what import predicates
@@ -25,7 +25,10 @@ class RootController(BaseController):
 
     @expose('mediaplex.templates.admin.index')
     def admin(self):
-        return dict()
+        videos_to_review = DBSession.query(Video).filter_by(reviewed=False)
+        videos_to_encode = DBSession.query(Video).filter_by(reviewed=True,encoded=False)
+        comments_to_review = DBSession.query(Comment).filter_by(reviewed=False)
+        return dict(videos_to_review=videos_to_review, videos_to_encode=videos_to_encode)
 
     @expose('mediaplex.templates.index')
     @require(predicates.has_permission('manage', msg=_('Only for managers')))

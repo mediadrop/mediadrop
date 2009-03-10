@@ -14,6 +14,7 @@ comments = Table('comments', metadata,
     Column('date_added', DateTime, default=datetime.now, nullable=False),
     Column('date_modified', DateTime, default=datetime.now, onupdate=datetime.now, nullable=False),
     Column('body', UnicodeText, nullable=False),
+    Column('reviewed', Boolean, default=False, nullable=False),
     mysql_engine='InnoDB',
     mysql_charset='utf8'
 )
