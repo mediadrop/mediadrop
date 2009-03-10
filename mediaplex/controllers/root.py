@@ -27,10 +27,12 @@ class RootController(BaseController):
     def admin(self):
         videos_to_review = DBSession.query(Video).filter_by(reviewed=False)
         videos_to_encode = DBSession.query(Video).filter_by(reviewed=True,encoded=False)
-        comments_to_review = DBSession.query(Comment).filter_by(reviewed=False)
+        num_comments_to_review = DBSession.query(Comment).filter_by(reviewed=False).count()
+        num_comments_total = DBSession.query(Comment).count()
         return dict(videos_to_review=videos_to_review,
                     videos_to_encode=videos_to_encode,
-                    comments_to_review=comments_to_review)
+                    num_comments_to_review=num_comments_to_review,
+                    num_comments_total=num_comments_total)
 
     @expose('mediaplex.templates.index')
     @require(predicates.has_permission('manage', msg=_('Only for managers')))
