@@ -2,6 +2,7 @@ from mediaplex.lib.base import BaseController
 from tg import expose, validate, flash, require, url, request, redirect
 from pylons.i18n import ugettext as _
 from sqlalchemy import and_, or_
+from sqlalchemy.orm import eagerload
 from formencode import validators
 
 from mediaplex.model import DBSession, metadata, Video, Comment
@@ -86,7 +87,8 @@ class VideoAdminController(BaseController):
                               Video.author_name.like(like_search),
                               Video.notes.like(like_search)))
 
-        videos = videos.order_by(Video.reviewed, Video.encoded)[:15]
+        videos = videos.options(eagerload('tags'), eagerload('comments')) \
+                    .order_by(Video.reviewed, Video.encoded)[:15]
         return dict(videos=videos,
                     searchString=searchString)
 
