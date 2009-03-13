@@ -1,11 +1,12 @@
 from mediaplex.lib.base import BaseController
 from tg import expose, validate, flash, require, url, request, redirect
 from pylons.i18n import ugettext as _
+from sqlalchemy import and_, or_
+from formencode import validators
 
 from mediaplex.model import DBSession, metadata, Video, Comment
 from mediaplex.forms.video import VideoForm
 from mediaplex.forms.comments import PostCommentForm
-from formencode import validators
 
 class VideoController(BaseController):
     @expose('mediaplex.templates.video.grid')
@@ -67,6 +68,38 @@ class VideoRowController(object):
         DBSession.add(c)
         redirect('/video/%s' % self.video.slug)
 
+    @expose()
+    def download(self):
+        return 'download video'
+
+
+class VideoAdminController(BaseController):
+    "Handle Admin views for Videos"
+
+    @expose('mediaplex.templates.admin.video.index')
+    def index(self, searchString=None):
+        videos = DBSession.query(Video)
+        if searchString is not None:
+            like_search = '%%%s%%' % (searchString,)
+            videos = videos.filter(or_(Video.title.like(like_search),
+                              Video.description.like(like_search),
+                              Video.author_name.like(like_search),
+                              Video.notes.like(like_search)))
+
+        videos = videos.order_by(Video.reviewed, Video.encoded)[:15]
+        return dict(videos=videos,
+                    searchString=searchString)
+
+    @expose()
+    def lookup(self, slug, *remainder):
+        video = VideoRowAdminController(slug)
+        return video, remainder
+
+class VideoRowAdminController(object):
+
+    def __init__(self, slug):
+        self.video = DBSession.query(Video).filter_by(slug=slug).one()
+
     @expose('mediaplex.templates.admin.video.edit')
     def edit(self, **values):
         form = VideoForm(action='/video/%s/edit_save' % self.video.slug)
@@ -76,7 +109,3 @@ class VideoRowController(object):
     @validate(VideoForm(), error_handler=edit)
     def edit_save(self, **values):
         print values
-
-    @expose()
-    def download(self):
-        return 'download video'

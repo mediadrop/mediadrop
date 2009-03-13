@@ -1,13 +1,13 @@
 from mediaplex.lib.base import BaseController
 from tg import expose, validate, flash, require, url, request, redirect
 from sqlalchemy import and_, or_
-import logging
 
 from mediaplex.model import DBSession, Video, Comment
-from mediaplex.forms.video import VideoForm
-from mediaplex.controllers.video import VideoRowController
+from mediaplex.controllers.video import VideoAdminController
 
 class AdminController(BaseController):
+
+    video = VideoAdminController()
 
     @expose()
     def default(self, searchString='', *args):
