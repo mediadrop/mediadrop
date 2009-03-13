@@ -5,7 +5,7 @@
       xmlns:xi="http://www.w3.org/2001/XInclude">
 <xi:include href="admin/master.html" />
 <head>
-	<title>Mediaplex</title>
+	<title>Dashboard | Mediaplex Admin</title>
 </head>
 <body class="menu-dashboard-on">
 	<div class="column66">
@@ -31,12 +31,13 @@
 				</tr>
 			</thead>
 			<tbody>
+				<tr py:if="len(media_to_review) == 0" colspan="5"><td>No Videos Found</td></tr>
 				<tr py:for="media_item in media_to_review">
 					<td class="italic">unpublished</td>
-					<td><img src="/admin/images/statuses/review.png" /></td>
-					<td><a href="/video/${media_item.slug}/edit">${media_item.title}</a></td>
-					<td><a href="mailto:${media_item.author_email}">${media_item.author_name}</a></td>
-					<td>${media_item.date_added.strftime('%b %d %Y')}</td>
+					<td><a href="/admin/video/${media_item.slug}/edit"><img src="/admin/images/statuses/review.png" /></a></td>
+					<td><a href="/admin/video/${media_item.slug}/edit" py:content="media_item.title">Title</a></td>
+					<td><a href="mailto:${media_item.author_email}" py:content="media_item.author_name">Author</a></td>
+					<td py:content="media_item.date_added.strftime('%b %d %Y')">Date Uploaded</td>
 				</tr>
 			</tbody>
 		</table>
@@ -59,15 +60,15 @@
 			<tbody>
 				<tr py:for="media_item in media_to_encode" py:with="tag_count = len(media_item.tags)">
 					<td class="italic">unpublished</td>
-					<td><img src="/admin/images/statuses/encode.png" /></td>
-					<td><a href="/video/${media_item.slug}/edit">${media_item.title}</a></td>
+					<td><a href="/admin/video/${media_item.slug}/edit"><img src="/admin/images/statuses/encode.png" /></a></td>
+					<td><a href="/admin/video/${media_item.slug}/edit" py:content="media_item.title">Title</a></td>
 					<td py:choose="tag_count">
 						<py:when test="0">None</py:when>
 						<py:otherwise py:for="i, tag in enumerate(media_item.tags)">
-							<a href="/video/tags/${tag.slug}" rel="tag">${tag.name}</a><py:if test="i+1 != tag_count">,</py:if>
+							<a href="/video/tags/${tag.slug}" rel="tag" py:content="tag.name">Tag</a><py:if test="i+1 != tag_count">,</py:if>
 						</py:otherwise>
 					</td>
-					<td>${media_item.date_added.strftime('%b %d %Y')}</td>
+					<td py:content="media_item.date_added.strftime('%b %d %Y')">Date Uploaded</td>
 				</tr>
 			</tbody>
 		</table>
@@ -84,8 +85,8 @@
 			<tbody>
 				<tr>
 					<td>
-						<p><a class="review" href="/comments.html">${num_comments_to_review} comments</a> require review.</p>
-						<p>There has been a total of <a class="total" href="/comments.html">${num_comments_total}</a> comments on media.</p>
+						<p><a class="review" href="/comments.html" py:content="num_comments_to_review">&#35; comments</a> require review.</p>
+						<p>There has been a total of <a class="total" href="/comments.html" py:content="num_comments_total">&#35;</a> comments on media.</p>
 					</td>
 				</tr>
 			</tbody>
