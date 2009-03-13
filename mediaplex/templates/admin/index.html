@@ -15,7 +15,9 @@
 				<tr>
 					<td colspan="5" class="with-search">
 						<div id="search" class="float-right">
-							<input type="text" value="SEARCH..." onclick="this.value=''" />
+							<form action="/admin/dashboard" method="post">
+								<input name="searchString" type="text" value="${searchString or 'SEARCH...'}" onclick="this.value=''" />
+							</form>
 						</div>
 						<h1>Awaiting Review</h1>
 					</td>
@@ -25,17 +27,16 @@
 					<th style="width:90px">Status</th>
 					<th style="width:auto">Title</th>
 					<th style="width:100px">Author</th>
-					<th style="width:130px">Email</th>
+					<th style="width:100px">Date Uploaded</th>
 				</tr>
 			</thead>
-<!--! We should really just make the Author name a mailto: link -->
 			<tbody>
-				<tr py:for="video in videos_to_review">
+				<tr py:for="media_item in media_to_review">
 					<td class="italic">unpublished</td>
 					<td><img src="/admin/images/statuses/review.png" /></td>
-					<td><a href="/video/${video.slug}/edit">${video.title}</a></td>
-					<td>${video.author_name}</td>
-					<td><a href="mailto:${video.author_email}">${video.author_email}</a></td>
+					<td><a href="/video/${media_item.slug}/edit">${media_item.title}</a></td>
+					<td><a href="mailto:${media_item.author_email}">${media_item.author_name}</a></td>
+					<td>${media_item.date_added.strftime('%b %d %Y')}</td>
 				</tr>
 			</tbody>
 		</table>
@@ -52,19 +53,21 @@
 					<th style="width:90px">Status</th>
 					<th style="width:auto">Title</th>
 					<th style="width:200px">Tags</th>
+					<th style="width:100px">Date Uploaded</th>
 				</tr>
 			</thead>
 			<tbody>
-				<tr py:for="video in videos_to_encode" py:with="tag_count = len(video.tags)">
+				<tr py:for="media_item in media_to_encode" py:with="tag_count = len(media_item.tags)">
 					<td class="italic">unpublished</td>
 					<td><img src="/admin/images/statuses/encode.png" /></td>
-					<td><a href="/video/${video.slug}/edit">${video.title}</a></td>
+					<td><a href="/video/${media_item.slug}/edit">${media_item.title}</a></td>
 					<td py:choose="tag_count">
 						<py:when test="0">None</py:when>
-						<py:otherwise py:for="i, tag in enumerate(video.tags)">
+						<py:otherwise py:for="i, tag in enumerate(media_item.tags)">
 							<a href="/video/tags/${tag.slug}" rel="tag">${tag.name}</a><py:if test="i+1 != tag_count">,</py:if>
 						</py:otherwise>
 					</td>
+					<td>${media_item.date_added.strftime('%b %d %Y')}</td>
 				</tr>
 			</tbody>
 		</table>
