@@ -62,7 +62,13 @@ body {
 	margin-top: 16px;
 }
 #logo h2 { display: none; }
-
+#footer p {
+	text-align: right;
+	padding-bottom: 15px;
+	margin: 0 15px;
+	color: #8e8e8e;
+	font-size: 93%;
+}
 /*Menu*/
 #menu {
 	float: right;
