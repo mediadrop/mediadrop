@@ -3,7 +3,7 @@ from tg import expose, validate, flash, require, url, request, redirect
 from sqlalchemy import and_, or_
 from sqlalchemy.orm import eagerload
 
-from mediaplex.model import DBSession, Video, Comment
+from mediaplex.model import DBSession, Video, Comment, Tag
 from mediaplex.controllers.video import VideoAdminController
 
 class AdminController(BaseController):
@@ -20,16 +20,18 @@ class AdminController(BaseController):
 
         if searchString is not None:
             like_search = '%%%s%%' % (searchString,)
-            media_to_review = media_to_review.filter(or_(Video.title.like(like_search),
-                                                         Video.description.like(like_search),
-                                                         Video.author_name.like(like_search),
-                                                         Video.notes.like(like_search)))
+            media_to_review = media_to_review.outerjoin(Video.tags).\
+                filter(or_(Video.title.like(like_search),
+                           Video.description.like(like_search),
+                           Video.author_name.like(like_search),
+                           Video.notes.like(like_search),
+                           Video.tags.any(Tag.name.like(like_search))))
 
         media_to_review = media_to_review.order_by(Video.date_added)[:6]
 
-        media_to_encode = DBSession.query(Video).options(eagerload('tags')) \
-                            .filter_by(reviewed=True, encoded=False) \
-                            .order_by(Video.date_added)[:6]
+        media_to_encode = DBSession.query(Video).options(eagerload('tags')).\
+                            filter_by(reviewed=True, encoded=False).\
+                            order_by(Video.date_added)[:6]
 
         comments_to_review = DBSession.query(Comment).filter_by(reviewed=False).count()
         comments_total = DBSession.query(Comment).count()

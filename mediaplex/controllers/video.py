@@ -5,7 +5,7 @@ from sqlalchemy import and_, or_
 from sqlalchemy.orm import eagerload
 from formencode import validators
 
-from mediaplex.model import DBSession, metadata, Video, Comment
+from mediaplex.model import DBSession, metadata, Video, Comment, Tag
 from mediaplex.forms.video import VideoForm
 from mediaplex.forms.comments import PostCommentForm
 
@@ -82,13 +82,15 @@ class VideoAdminController(BaseController):
         videos = DBSession.query(Video)
         if searchString is not None:
             like_search = '%%%s%%' % (searchString,)
-            videos = videos.filter(or_(Video.title.like(like_search),
-                              Video.description.like(like_search),
-                              Video.author_name.like(like_search),
-                              Video.notes.like(like_search)))
+            videos = videos.outerjoin(Video.tags).\
+                filter(or_(Video.title.like(like_search),
+                           Video.description.like(like_search),
+                           Video.author_name.like(like_search),
+                           Video.notes.like(like_search),
+                           Video.tags.any(Tag.name.like(like_search))))
 
-        videos = videos.options(eagerload('tags'), eagerload('comments')) \
-                    .order_by(Video.reviewed, Video.encoded)[:15]
+        videos = videos.options(eagerload('tags'), eagerload('comments')).\
+                    order_by(Video.reviewed, Video.encoded)[:15]
         return dict(videos=videos,
                     searchString=searchString)
 
