@@ -96,14 +96,15 @@
 			<thead>
 				<tr>
 					<td colspan="2">
-						<h1>Published</h1>
+						<h1>Recently Published</h1>
 					</td>
 				</tr>
 			</thead>
 			<tbody>
-				<tr>
-					<td></td>
-					<td></td>
+				<tr py:if="len(recent) == 0"><td colspan="2">No Media Published</td></tr>
+				<tr py:for="media_item in recent">
+					<td><a href="/admin/video/${media_item.slug}/edit"><img alt="" src="/admin/images/icons/video.png" /></a></td>
+					<td><a href="/admin/video/${media_item.slug}/edit" py:content="media_item.title">Title</a></td>
 				</tr>
 			</tbody>
 		</table>
