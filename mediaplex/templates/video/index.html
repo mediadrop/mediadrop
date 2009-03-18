@@ -39,7 +39,7 @@
 					<a href="/video/${video.slug}" title="${h.text.truncate(video.description, whole_word=True)}">
 						<img src="/asdf" width="149" height="92" />
 						<span class="media-title">${video.title}</span>
-						<span class="media-info">${h.duration_from_seconds(video.length)}<br />${h.text.plural(video.views, 'view', 'views')}</span>
+						<span class="media-info">${h.duration_from_seconds(video.duration)}<br />${h.text.plural(video.views, 'view', 'views')}</span>
 						<span class="rating rating-35"><span>3.5 stars</span></span>
 					</a>
 				</li>

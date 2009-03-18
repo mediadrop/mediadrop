@@ -1,15 +1,17 @@
-from mediaplex.lib.base import BaseController
 from tg import expose, validate, flash, require, url, request, redirect
+from formencode import validators
 from pylons.i18n import ugettext as _
 from sqlalchemy import and_, or_
 from sqlalchemy.orm import eagerload
-from formencode import validators
 
-from mediaplex.model import DBSession, metadata, Video, Comment, Tag
+from mediaplex.model import DBSession, metadata, Video, Comment, Tag, Author
+from mediaplex.lib.base import BaseController
 from mediaplex.forms.video import VideoForm
 from mediaplex.forms.comments import PostCommentForm
 
 class VideoController(BaseController):
+    """Video list actions"""
+
     @expose('mediaplex.templates.video.grid')
     def grid(self, page=1, **kwargs):
         """Grid-style List Action"""
@@ -34,12 +36,14 @@ class VideoController(BaseController):
 
     @expose()
     def lookup(self, slug, *remainder):
-        video = VideoRowController(slug)
-        return video, remainder
+        return VideoRowController(slug), remainder
 
 
 class VideoRowController(object):
+    """Actions specific to a single video"""
+
     def __init__(self, slug):
+        """Pull the video from the database for all actions"""
         self.video = DBSession.query(Video).filter_by(slug=slug).one()
 
     @expose('mediaplex.templates.video.view')
@@ -62,7 +66,7 @@ class VideoRowController(object):
     @validate(PostCommentForm(), error_handler=view)
     def comment(self, **values):
         c = Comment()
-        c.name = values['name']
+        c.author = Author(values['name'])
         c.subject = 'Re: %s' % self.video.title
         c.body = values['body']
         self.video.comments.append(c)
@@ -75,7 +79,7 @@ class VideoRowController(object):
 
 
 class VideoAdminController(BaseController):
-    "Handle Admin views for Videos"
+    """Admin video actions which deal with groups of videos"""
 
     @expose('mediaplex.templates.admin.video.index')
     def index(self, searchString=None):
@@ -100,8 +104,10 @@ class VideoAdminController(BaseController):
         return video, remainder
 
 class VideoRowAdminController(object):
+    """Admin video actions which deal with a single video"""
 
     def __init__(self, slug):
+        """Pull the video from the database for all actions"""
         self.video = DBSession.query(Video).filter_by(slug=slug).one()
 
     @expose('mediaplex.templates.admin.video.edit')

@@ -30,7 +30,7 @@
 	float: left;
 	clear: none;
 }
-#video-form #details_length_label,
+#video-form #details_duration_label,
 #video-form #details_url_label {
 	margin-right: 10px;
 	padding: 5px 0;
@@ -52,5 +52,5 @@
 }
 #details ul.field_list { position: relative; }
 #details_url_container { position: absolute; top: 0; right: 0; }
-#video-form #details input#details_length { width: 60px; }
+#video-form #details input#details_duration { width: 60px; }
 #video-form #details input#details_url { width: 390px; }

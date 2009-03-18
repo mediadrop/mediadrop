@@ -18,7 +18,7 @@ class VideoForm(ListForm):
         TextArea('notes', label_text='Additional Notes', attrs=dict(rows=5, cols=25)),
         TextField('tags'),
         ListFieldSet('details', suppress_label=True, legend='Video Details:', children=[
-            TextField('length'),
+            TextField('duration'),
             TextField('url', label_text='Video URL')
         ]),
     ]
@@ -38,7 +38,7 @@ S&H Quotes Pages Referenced: 587, 296
 Current Reviewer: Susan Rynerson
                 """,
                 'details': {
-                    'length': helpers.duration_from_seconds(value.length),
+                    'duration': helpers.duration_from_seconds(value.duration),
                     'url': value.url
                 }
             }

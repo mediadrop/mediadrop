@@ -1,3 +1,27 @@
+"""
+Media Models for Audio and Video
+
+Things to be aware of:
+
+  - Polymorphism is used to return Audio or Video objects while dealing with
+    a single database table. Both these classes inherit the Media base class.
+
+  - Media.author and Media.rating are composite columns and provide an interface
+    similar to relations. In other words, author_name & author_email are shuffled
+    into a single Author object.
+
+    Example Author usage (ratings are the same):
+       m = Video()
+       m.author = Author()
+       m.author.email = u'a@b.com'
+       print m.author.email
+       DBSession.add(m) # everything is saved
+
+    This gives us the flexibility to properly normalize our author data without
+    modifying all the places in the app where we access our author information.
+
+"""
+
 from datetime import datetime
 from sqlalchemy import Table, ForeignKey, Column
 from sqlalchemy.types import String, Unicode, UnicodeText, Integer, DateTime, Boolean, Float
@@ -47,6 +71,7 @@ media_comments = Table('media_comments', metadata,
 
 
 class Media(object):
+    """Base class for Audio and Video"""
     def __init__(self, slug=None, author=None):
         self.slug = slug
         self.title = slug
@@ -77,11 +102,3 @@ media_mapper = mapper(Media, media, polymorphic_on=media.c.type, properties={
 })
 mapper(Audio, inherits=media_mapper, polymorphic_identity='audio')
 mapper(Video, inherits=media_mapper, polymorphic_identity='video')
-
-
-#        """ Loops over all mappers setting the comment type to the deepest match. """
-#        media_instance = state.obj()
-#        for mapper in media_mapper.polymorphic_iterator():
-#            if isinstance(media_instance, mapper.class_):
-#                value.type = mapper.polymorphic_identity
-#        assert value.type

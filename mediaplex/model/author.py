@@ -1,5 +1,5 @@
 class Author(object):
-    def __init__(self, name, email):
+    def __init__(self, name=None, email=None):
         self.name = name
         self.email = email
 
