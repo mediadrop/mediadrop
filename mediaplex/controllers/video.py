@@ -9,6 +9,7 @@ from mediaplex.lib.base import BaseController
 from mediaplex.forms.video import VideoForm
 from mediaplex.forms.comments import PostCommentForm
 
+
 class VideoController(BaseController):
     """Video list actions"""
 
@@ -65,13 +66,14 @@ class VideoRowController(object):
     @expose()
     @validate(PostCommentForm(), error_handler=view)
     def comment(self, **values):
+        from tg.exceptions import HTTPSeeOther
         c = Comment()
         c.author = Author(values['name'])
         c.subject = 'Re: %s' % self.video.title
         c.body = values['body']
         self.video.comments.append(c)
         DBSession.add(c)
-        redirect('/video/%s' % self.video.slug)
+        raise HTTPSeeOther('/video/%s' % self.video.slug)
 
     @expose()
     def download(self):
@@ -102,6 +104,7 @@ class VideoAdminController(BaseController):
     def lookup(self, slug, *remainder):
         video = VideoRowAdminController(slug)
         return video, remainder
+
 
 class VideoRowAdminController(object):
     """Admin video actions which deal with a single video"""
