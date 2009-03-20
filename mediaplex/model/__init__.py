@@ -60,3 +60,4 @@ from mediaplex.model.rating import Rating
 from mediaplex.model.comments import Comment
 from mediaplex.model.media import Media, Video, Audio
 from mediaplex.model.tags import Tag
+from mediaplex.model.test import Test

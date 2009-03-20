@@ -96,7 +96,7 @@ media_mapper = mapper(Media, media, polymorphic_on=media.c.type, properties={
     'author': composite(Author, media.c.author_name, media.c.author_email),
     'rating': composite(Rating, media.c.rating_sum, media.c.rating_votes),
     'tags': relation(Tag, secondary=media_tags, backref='media'),
-    'comments': relation(Comment, secondary=media_comments, backref='parent',
+    'comments': relation(Comment, secondary=media_comments, backref='media', single_parent=True,
         extension=CommentTypeExtension('media')),
 #    'comment_count': column_property(select().label('comment_count'))
 })
