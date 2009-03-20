@@ -13,17 +13,11 @@
 <!--! NOTE: thead/td is used for beige table headings while thead/th is reserved for blue column headings -->
 			<thead>
 				<tr>
-					<td colspan="5" class="with-search">
-						<div id="search" class="float-right">
-							<form action="/admin/dashboard" method="post">
-								<input name="searchString" type="text" value="${searchString or 'SEARCH...'}" onclick="this.value=''" />
-							</form>
-						</div>
+					<td colspan="5">
 						<h1>Awaiting Review</h1>
 					</td>
 				</tr>
 				<tr>
-					<th style="width:100px">Publish Date</th>
 					<th style="width:90px">Status</th>
 					<th style="width:auto">Title</th>
 					<th style="width:100px">Author</th>
@@ -31,9 +25,8 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr py:if="len(media_to_review) == 0" colspan="5"><td>No Videos Found</td></tr>
+				<tr py:if="len(media_to_review) == 0"><td colspan="4">No Videos Found</td></tr>
 				<tr py:for="media_item in media_to_review">
-					<td class="italic">unpublished</td>
 					<td><a href="/admin/video/${media_item.slug}/edit"><img src="/admin/images/statuses/review.png" /></a></td>
 					<td><a href="/admin/video/${media_item.slug}/edit" py:content="media_item.title">Title</a></td>
 					<td><a href="mailto:${media_item.author_email}" py:content="media_item.author_name">Author</a></td>
@@ -50,16 +43,15 @@
 					</td>
 				</tr>
 				<tr>
-					<th style="width:100px">Publish Date</th>
 					<th style="width:90px">Status</th>
 					<th style="width:auto">Title</th>
-					<th style="width:200px">Tags</th>
+					<th style="width:150px">Tags</th>
 					<th style="width:100px">Date Uploaded</th>
 				</tr>
 			</thead>
 			<tbody>
+				<tr py:if="len(media_to_encode) == 0"><td colspan="4">No Videos Found</td></tr>
 				<tr py:for="media_item in media_to_encode" py:with="tag_count = len(media_item.tags)">
-					<td class="italic">unpublished</td>
 					<td><a href="/admin/video/${media_item.slug}/edit"><img src="/admin/images/statuses/encode.png" /></a></td>
 					<td><a href="/admin/video/${media_item.slug}/edit" py:content="media_item.title">Title</a></td>
 					<td py:choose="tag_count">
