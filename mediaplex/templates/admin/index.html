@@ -29,8 +29,8 @@
 				<tr py:for="media_item in media_to_review">
 					<td><a href="/admin/video/${media_item.slug}/edit"><img src="/admin/images/statuses/review.png" /></a></td>
 					<td><a href="/admin/video/${media_item.slug}/edit" py:content="media_item.title">Title</a></td>
-					<td><a href="mailto:${media_item.author_email}" py:content="media_item.author_name">Author</a></td>
-					<td py:content="media_item.date_added.strftime('%b %d %Y')">Date Uploaded</td>
+					<td><a href="mailto:${media_item.author.email}" py:content="media_item.author.name">Author</a></td>
+					<td py:content="media_item.created_on.strftime('%b %d %Y')">Date Uploaded</td>
 				</tr>
 			</tbody>
 		</table>
@@ -60,7 +60,7 @@
 							<a href="/video/tags/${tag.slug}" rel="tag" py:content="tag.name">Tag</a><py:if test="i+1 != tag_count">,</py:if>
 						</py:otherwise>
 					</td>
-					<td py:content="media_item.date_added.strftime('%b %d %Y')">Date Uploaded</td>
+					<td py:content="media_item.created_on.strftime('%b %d %Y')">Date Uploaded</td>
 				</tr>
 			</tbody>
 		</table>
