@@ -94,9 +94,9 @@
 			</thead>
 			<tbody>
 				<tr py:if="len(recent) == 0"><td colspan="2">No Media Published</td></tr>
-				<tr py:for="media_item in recent">
-					<td><a href="/admin/video/${media_item.slug}/edit"><img alt="" src="/admin/images/icons/video.png" /></a></td>
-					<td><a href="/admin/video/${media_item.slug}/edit" py:content="media_item.title">Title</a></td>
+				<tr py:for="media_item in recent" py:with="type = media_item.type == 'video' and 'video' or 'podcast'">
+					<td><a href="/admin/${type}/${media_item.slug}/edit"><img alt="" src="/admin/images/icons/${type}-trans.png" /></a></td>
+					<td><a href="/admin/${type}/${media_item.slug}/edit" py:content="media_item.title">Title</a></td>
 				</tr>
 			</tbody>
 		</table>
