@@ -21,11 +21,12 @@ class AdminController(BaseController):
         video_to_review = DBSession.query(Video).filter(Video.status == 'unreviewed').\
             order_by(Video.created_on)[:6]
 
-        # Any publishable video that doesn't have a publish_on date is
-        # 'Awaiting Encoding', whether or not the url is None.
+        # Any 'publishable' video that doesn't have a publish_on date or does
+        # not have a url is 'Awaiting Encoding'. This allows the setting of a
+        # future publish_on date before encoding is complete.
         video_to_encode = DBSession.query(Video).options(eagerload('tags')).\
             filter(Video.status == 'publishable').\
-            filter(Video.publish_on == None).order_by(Video.created_on)[:6]
+            filter(or_(Video.publish_on == None, Video.url == None)).order_by(Video.created_on)[:6]
 
         # Any publishable video that does have a publish_on date that is in the
         # past and is publishable is 'Recently Published'
