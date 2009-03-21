@@ -117,10 +117,9 @@ table {
 	width: 100%;
 	border: 1px solid #cfccc2;
 	color: #3c4d5a;
-	-moz-border-radius: 1em;
-	-webkit-border-radius: 1em;
 }
 tr td {
+	vertical-align: middle;
 	padding: 10px;
 	border-top: 1px solid #cfccc2;
 	font-family: Tahoma, arial, sans-serif;
@@ -137,19 +136,77 @@ tfoot tr td {
 	background: #e6e2d3 url('../images/layout/thead.png') repeat-x top;
 	color: #3c4d5a;
 	padding: 12px 15px 10px 10px;
+	text-align: center;
 }
-thead tr td {
-	-moz-border-radius-topright: 0.8em;
-	-moz-border-radius-topleft: 0.8em;
-	-webkit-border-top-right-radius: 0.8em;
-	-webkit-border-top-left-radius: 0.8em;
+table.rounded-table {
+	border-top: none;
+	border-bottom: none;
 }
-tfoot tr td {
-	-moz-border-radius-bottomright: 0.8em;
-	-moz-border-radius-bottomleft: 0.8em;
-	-webkit-border-bottom-right-radius: 0.8em;
-	-webkit-border-bottom-left-radius: 0.8em;
+table.rounded-table thead tr td {
+	padding: 2px 15px 10px 10px;
 }
+table.rounded-table tfoot tr td {
+	padding: 12px 15px 0 10px;
+}
+div.rounded div.rounded-top-beige,
+div.rounded div.rounded-bottom-beige,
+div.rounded div.rounded-bottom-white {
+	height: 10px;
+	padding: 0;
+	margin: 0;
+	background-color: #efebde;
+	background-repeat: repeat-x;
+	background-position: top;
+}
+div.rounded div.rounded-bottom-white {
+	margin-top: -8px;
+}
+div.rounded div.rounded-top-beige {
+	background-image: url('../images/layout/round-t-c-b-trans.png');
+}
+div.rounded div.rounded-bottom-beige {
+	background-image: url('../images/layout/round-b-c-b-trans.png');
+}
+div.rounded div.rounded-bottom-white {
+	background-image: url('../images/layout/round-b-c-w-trans.png');
+}
+
+div.rounded div.rounded-top-left,
+div.rounded div.rounded-top-right,
+div.rounded div.rounded-bottom-left,
+div.rounded div.rounded-bottom-right {
+	width: 10px;
+	height: 10px;
+	background: #efebde;
+	background-repeat: no-repeat;
+}
+div.rounded-top-left,
+div.rounded-bottom-left {
+	float: left;
+}
+div.rounded-top-right,
+div.rounded-bottom-right {
+	float: right;
+}
+div.rounded div.rounded-top-beige div.rounded-top-left {
+	background-image: url('../images/layout/round-t-l-b-trans.png');
+}
+div.rounded div.rounded-top-beige div.rounded-top-right {
+	background-image: url('../images/layout/round-t-r-b-trans.png');
+}
+div.rounded div.rounded-bottom-beige div.rounded-bottom-left {
+	background-image: url('../images/layout/round-b-l-b-trans.png');
+}
+div.rounded div.rounded-bottom-beige div.rounded-bottom-right {
+	background-image: url('../images/layout/round-b-r-b-trans.png');
+}
+div.rounded div.rounded-bottom-white div.rounded-bottom-left {
+	background-image: url('../images/layout/round-b-l-w-trans.png');
+}
+div.rounded div.rounded-bottom-white div.rounded-bottom-right {
+	background-image: url('../images/layout/round-b-r-w-trans.png');
+}
+
 thead tr td h1 {
 	font-size: 138.5%;
 	float: left;
