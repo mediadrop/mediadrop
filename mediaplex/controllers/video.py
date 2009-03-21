@@ -84,21 +84,22 @@ class VideoAdminController(BaseController):
     """Admin video actions which deal with groups of videos"""
 
     @expose('mediaplex.templates.admin.video.index')
-    def index(self, searchString=None):
+    def index(self, search_string=None):
         videos = DBSession.query(Video)
-        if searchString is not None:
+        if search_string is not None:
             like_search = '%%%s%%' % (searchString,)
             videos = videos.outerjoin(Video.tags).\
                 filter(or_(Video.title.like(like_search),
                            Video.description.like(like_search),
-                           Video.author_name.like(like_search),
+                           Video.author.name.like(like_search),
                            Video.notes.like(like_search),
                            Video.tags.any(Tag.name.like(like_search))))
 
+        # TODO - order by status
         videos = videos.options(eagerload('tags'), eagerload('comments')).\
-                    order_by(Video.reviewed, Video.encoded)[:15]
+                    order_by(Video.status.desc(), Video.created_on)[:15]
         return dict(videos=videos,
-                    searchString=searchString)
+                    search_string=search_string)
 
     @expose()
     def lookup(self, slug, *remainder):
