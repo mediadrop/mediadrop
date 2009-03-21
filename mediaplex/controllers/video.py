@@ -1,3 +1,4 @@
+from datetime import datetime
 from tg import expose, validate, flash, require, url, request, redirect
 from formencode import validators
 from pylons.i18n import ugettext as _
@@ -87,11 +88,10 @@ class VideoAdminController(BaseController):
     def index(self, search_string=None):
         videos = DBSession.query(Video)
         if search_string is not None:
-            like_search = '%%%s%%' % (searchString,)
+            like_search = '%%%s%%' % (search_string,)
             videos = videos.outerjoin(Video.tags).\
                 filter(or_(Video.title.like(like_search),
                            Video.description.like(like_search),
-                           Video.author.name.like(like_search),
                            Video.notes.like(like_search),
                            Video.tags.any(Tag.name.like(like_search))))
 
@@ -99,7 +99,8 @@ class VideoAdminController(BaseController):
         videos = videos.options(eagerload('tags'), eagerload('comments')).\
                     order_by(Video.status.desc(), Video.created_on)[:15]
         return dict(videos=videos,
-                    search_string=search_string)
+                    search_string=search_string,
+                    datetime_now=datetime.now())
 
     @expose()
     def lookup(self, slug, *remainder):

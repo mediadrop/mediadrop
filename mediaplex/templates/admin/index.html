@@ -27,7 +27,7 @@
 			<tbody>
 				<tr py:if="len(media_to_review) == 0"><td colspan="4">No Videos Found</td></tr>
 				<tr py:for="media_item in media_to_review">
-					<td class="italic" py:content="media_item.created_on.strftime('%b %d %Y')">Date Uploaded</td>
+					<td py:content="media_item.created_on.strftime('%b %d %Y')">Date Uploaded</td>
 					<td><a href="/admin/video/${media_item.slug}/edit"><img src="/admin/images/statuses/review.png" /></a></td>
 					<td><a href="/admin/video/${media_item.slug}/edit" py:content="media_item.title">Title</a></td>
 					<td><a href="mailto:${media_item.author.email}" py:content="media_item.author.name">Author</a></td>
@@ -52,7 +52,7 @@
 			<tbody>
 				<tr py:if="len(media_to_encode) == 0"><td colspan="4">No Videos Found</td></tr>
 				<tr py:for="media_item in media_to_encode" py:with="tag_count = len(media_item.tags)">
-					<td class="italic" py:content="media_item.created_on.strftime('%b %d %Y')">Date Uploaded</td>
+					<td py:content="media_item.created_on.strftime('%b %d %Y')">Date Uploaded</td>
 					<td><a href="/admin/video/${media_item.slug}/edit"><img src="/admin/images/statuses/encode.png" /></a></td>
 					<td><a href="/admin/video/${media_item.slug}/edit" py:content="media_item.title">Title</a></td>
 					<td py:choose="tag_count">

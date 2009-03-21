@@ -32,12 +32,12 @@
 		</thead>
 		<tbody>
 			<tr py:if="len(videos) == 0" colspan="6"><td>No Videos Found</td></tr>
-			<tr py:for="video in videos" py:with="tag_count = len(video.tags)">
-				<td class="italic" py:content="video.publish_on == None and 'unpublished' or video.publish_on.strftime('%b %d %Y')">Publish Date</td>
+			<tr py:for="video in videos" py:with="tag_count = len(video.tags); date_style=(video.publish_on is None or video.publish_on > datetime_now) and 'italic' or ''">
+				<td class="${date_style}" py:content="video.publish_on is None and 'unpublished' or video.publish_on.strftime('%b %d %Y')">Publish Date</td>
 				<td>
 					<a href="/admin/video/${video.slug}/edit" py:choose="">
 						<img py:when="video.status == 'unreviewed'" src="/admin/images/statuses/review.png" />
-						<img py:when="video.status == 'publishable' and (video.publish_on == None or video.url == None)" src="/admin/images/statuses/encode.png" />
+						<img py:when="video.status == 'publishable' and (video.publish_on is None or video.url is None)" src="/admin/images/statuses/encode.png" />
 						<img py:otherwise="" src="/admin/images/statuses/published.png" />
 					</a>
 				</td>
