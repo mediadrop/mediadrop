@@ -28,7 +28,7 @@
 				<tr py:if="len(media_to_review) == 0"><td colspan="4">No Videos Found</td></tr>
 				<tr py:for="media_item in media_to_review">
 					<td py:content="media_item.created_on.strftime('%b %d %Y')">Date Uploaded</td>
-					<td><a href="/admin/video/${media_item.slug}/edit"><img src="/admin/images/statuses/review.png" /></a></td>
+					<td><a href="/admin/video/${media_item.slug}/edit"><img src="/admin/images/statuses/review-trans.png" /></a></td>
 					<td><a href="/admin/video/${media_item.slug}/edit" py:content="media_item.title">Title</a></td>
 					<td><a href="mailto:${media_item.author.email}" py:content="media_item.author.name">Author</a></td>
 				</tr>
@@ -56,7 +56,10 @@
 				<tr py:if="len(media_to_encode) == 0"><td colspan="4">No Videos Found</td></tr>
 				<tr py:for="media_item in media_to_encode" py:with="tag_count = len(media_item.tags)">
 					<td py:content="media_item.created_on.strftime('%b %d %Y')">Date Uploaded</td>
-					<td><a href="/admin/video/${media_item.slug}/edit"><img src="/admin/images/statuses/encode.png" /></a></td>
+					<td py:choose="">
+						<a py:when="media_item.upload_url is None" href="/admin/video/${media_item.slug}/edit"><img src="/admin/images/statuses/encode-trans.png" /></a>
+						<a py:otherwise="" href="${media_item.upload_url}"><img src="/admin/images/statuses/encode-trans.png" /></a>
+					</td>
 					<td><a href="/admin/video/${media_item.slug}/edit" py:content="media_item.title">Title</a></td>
 					<td py:choose="tag_count">
 						<py:when test="0">None</py:when>
