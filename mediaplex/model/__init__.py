@@ -56,7 +56,7 @@ def init_model(engine):
 from mediaplex.model.auth import User, Group, Permission
 from mediaplex.model.author import Author
 from mediaplex.model.rating import Rating
-#from mediaplex.model.video import Video
 from mediaplex.model.comments import Comment
-from mediaplex.model.media import Media, Video, Audio
 from mediaplex.model.tags import Tag
+from mediaplex.model.media import Media, Video, Audio
+from mediaplex.model.podcasts import Podcast, PodcastEpisode

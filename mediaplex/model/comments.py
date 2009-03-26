@@ -91,16 +91,5 @@ class CommentTypeExtension(AttributeExtension):
 
 
 mapper(Comment, comments, properties={
-    'author': composite(Author, comments.c.author_name, comments.c.author_email)
+    'author': composite(Author, comments.c.author_name, comments.c.author_email),
 })
-#, polymorphic_on=comments.c.type,
-#mapper(MediaComment, inherits=comments_mapper, polymorphic_identity='media')
-#mapper(TestComment, inherits=comments_mapper, polymorphic_identity='test')
-
-
-
-#from mediaplex.model.video import MediaCommentExtension, Media
-#media_comment_mapper = mapper(Comment, inherits=comment_mapper, polymorphic_identity='media', properties={
-#    'parent': relation(Media, secondary=media_comments, backref='comments',
-#        extension=MediaCommentExtension())
-#})

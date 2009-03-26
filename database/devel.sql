@@ -139,6 +139,81 @@ LOCK TABLES `media_tags` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `podcast_episodes`
+--
+
+DROP TABLE IF EXISTS `podcast_episodes`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `podcast_episodes` (
+  `id` int(11) NOT NULL auto_increment,
+  `slug` varchar(50) character set latin1 NOT NULL,
+  `podcast_id` int(11) NOT NULL,
+  `media_id` int(11) NOT NULL,
+  `created_on` datetime NOT NULL,
+  `modified_on` datetime NOT NULL,
+  `publish_on` datetime default NULL,
+  `invalid_on` datetime default NULL,
+  `title` varchar(50) character set latin1 NOT NULL,
+  `subtitle` varchar(255) character set latin1 default NULL,
+  `description` text character set latin1,
+  `category` varchar(50) character set latin1 default NULL,
+  `author_name` varchar(50) character set latin1 default NULL,
+  `author_email` varchar(50) character set latin1 default NULL,
+  `copyright` varchar(50) character set latin1 default NULL,
+  PRIMARY KEY  (`id`),
+  KEY `podcast_id` (`podcast_id`),
+  KEY `media_id` (`media_id`),
+  CONSTRAINT `podcast_episodes_ibfk_1` FOREIGN KEY (`podcast_id`) REFERENCES `podcasts` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `podcast_episodes_ibfk_2` FOREIGN KEY (`media_id`) REFERENCES `media` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Dumping data for table `podcast_episodes`
+--
+
+LOCK TABLES `podcast_episodes` WRITE;
+/*!40000 ALTER TABLE `podcast_episodes` DISABLE KEYS */;
+/*!40000 ALTER TABLE `podcast_episodes` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `podcasts`
+--
+
+DROP TABLE IF EXISTS `podcasts`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `podcasts` (
+  `id` int(11) NOT NULL auto_increment,
+  `slug` varchar(50) character set latin1 NOT NULL,
+  `created_on` datetime NOT NULL,
+  `modified_on` datetime NOT NULL,
+  `title` varchar(50) character set latin1 NOT NULL,
+  `subtitle` varchar(255) character set latin1 default NULL,
+  `description` text character set latin1,
+  `category` varchar(50) character set latin1 default NULL,
+  `author_name` varchar(50) character set latin1 default NULL,
+  `author_email` varchar(50) character set latin1 default NULL,
+  `copyright` varchar(50) character set latin1 default NULL,
+  `explicit` tinyint(1) NOT NULL,
+  `block_itunes` tinyint(1) NOT NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `slug` (`slug`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Dumping data for table `podcasts`
+--
+
+LOCK TABLES `podcasts` WRITE;
+/*!40000 ALTER TABLE `podcasts` DISABLE KEYS */;
+/*!40000 ALTER TABLE `podcasts` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `tags`
 --
 
