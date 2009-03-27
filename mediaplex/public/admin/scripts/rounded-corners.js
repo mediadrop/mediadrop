@@ -16,28 +16,15 @@
 */
 var RoundedCorners = new Class({
 	initialize: function() {
-		var tables = $$('table');
-		tables.each(function(t) {
+		$$('table').each(function(t) {
 			t.addClass('rounded-table');
-			var topDiv = new Element('div', {
-				'class': 'rounded-top-beige'
-			});
-			var topLDiv = new Element('div', {
-				'class': 'rounded-top-left'
-			});
-			var topRDiv = new Element('div', {
-				'class': 'rounded-top-right'
-			});
+			var topDiv = new Element('div',{'class':'rounded-top-beige'});
+			var topLDiv = new Element('div',{ 'class':'rounded-top-left'});
+			var topRDiv = new Element('div',{'class':'rounded-top-right'});
 			var bottomClass = t.getChildren('tfoot').length > 0? 'rounded-bottom-beige' : 'rounded-bottom-white';
-			var bottomDiv = new Element('div', {
-				'class': bottomClass
-			});
-			var bottomLDiv = new Element('div', {
-				'class': 'rounded-bottom-left'
-			});
-			var bottomRDiv = new Element('div', {
-				'class': 'rounded-bottom-right'
-			});
+			var bottomDiv = new Element('div',{'class':bottomClass});
+			var bottomLDiv = new Element('div',{'class':'rounded-bottom-left'});
+			var bottomRDiv = new Element('div',{'class':'rounded-bottom-right'});
 
 			topDiv.inject(t, 'before');
 			bottomDiv.inject(t, 'after');
@@ -48,6 +35,4 @@ var RoundedCorners = new Class({
 		});
 	}
 });
-window.addEvent('domready', function(){
-	var rc = new RoundedCorners();
-});
+window.addEvent('domready', function(){var rc = new RoundedCorners();});
