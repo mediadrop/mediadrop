@@ -249,6 +249,35 @@ thead tr th {
 	 border: 0;
 }
 
+/* Status buttons in tables */
+a.review-me span, a.encode-me span,
+a.published span {
+	display: none;
+}
+
+a.review-me,
+a.encode-me,
+a.published {
+	display: block;
+	width: 79px;
+	height: 19px;
+	background-repeat: no-repeat;
+	background-position: top;
+}
+a.review-me { background-image: url('../images/statuses/review-both-trans.png'); }
+a.encode-me { background-image: url('../images/statuses/encode-both-trans.png'); }
+a.published { background-image: url('../images/statuses/published-both-trans.png'); }
+
+a.review-me:hover,
+a.encode-me:hover,
+a.published:hover {
+	display: block;
+	width: 79px;
+	height: 19px;
+	background-repeat: no-repeat;
+	background-position: bottom;
+}
+
 #album-art {
 	width: 133px;
 	margin: 10px auto;
