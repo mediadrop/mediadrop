@@ -19,9 +19,6 @@ var RoundedCorners = new Class({
 		var tables = $$('table');
 		tables.each(function(t) {
 			t.addClass('rounded-table');
-			var wrappingDiv = new Element('div', {
-				'class': 'rounded'
-			});
 			var topDiv = new Element('div', {
 				'class': 'rounded-top-beige'
 			});
@@ -42,9 +39,8 @@ var RoundedCorners = new Class({
 				'class': 'rounded-bottom-right'
 			});
 
-			wrappingDiv.wraps(t);
-			topDiv.inject(wrappingDiv, 'top');
-			bottomDiv.inject(wrappingDiv, 'bottom');
+			topDiv.inject(t, 'before');
+			bottomDiv.inject(t, 'after');
 			topLDiv.inject(topDiv);
 			topRDiv.inject(topDiv);
 			bottomLDiv.inject(bottomDiv);

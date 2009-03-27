@@ -148,9 +148,9 @@ table.rounded-table thead tr td {
 table.rounded-table tfoot tr td {
 	padding: 12px 15px 0 10px;
 }
-div.rounded div.rounded-top-beige,
-div.rounded div.rounded-bottom-beige,
-div.rounded div.rounded-bottom-white {
+div.rounded-top-beige,
+div.rounded-bottom-beige,
+div.rounded-bottom-white {
 	height: 10px;
 	padding: 0;
 	margin: 0;
@@ -158,23 +158,23 @@ div.rounded div.rounded-bottom-white {
 	background-repeat: repeat-x;
 	background-position: top;
 }
-div.rounded div.rounded-bottom-white {
+div.rounded-bottom-white {
 	margin-top: -8px;
 }
-div.rounded div.rounded-top-beige {
+div.rounded-top-beige {
 	background-image: url('../images/layout/round-t-c-b-trans.png');
 }
-div.rounded div.rounded-bottom-beige {
+div.rounded-bottom-beige {
 	background-image: url('../images/layout/round-b-c-b-trans.png');
 }
-div.rounded div.rounded-bottom-white {
+div.rounded-bottom-white {
 	background-image: url('../images/layout/round-b-c-w-trans.png');
 }
 
-div.rounded div.rounded-top-left,
-div.rounded div.rounded-top-right,
-div.rounded div.rounded-bottom-left,
-div.rounded div.rounded-bottom-right {
+div.rounded-top-left,
+div.rounded-top-right,
+div.rounded-bottom-left,
+div.rounded-bottom-right {
 	width: 10px;
 	height: 10px;
 	background: #efebde;
@@ -188,22 +188,22 @@ div.rounded-top-right,
 div.rounded-bottom-right {
 	float: right;
 }
-div.rounded div.rounded-top-beige div.rounded-top-left {
+div.rounded-top-beige div.rounded-top-left {
 	background-image: url('../images/layout/round-t-l-b-trans.png');
 }
-div.rounded div.rounded-top-beige div.rounded-top-right {
+div.rounded-top-beige div.rounded-top-right {
 	background-image: url('../images/layout/round-t-r-b-trans.png');
 }
-div.rounded div.rounded-bottom-beige div.rounded-bottom-left {
+div.rounded-bottom-beige div.rounded-bottom-left {
 	background-image: url('../images/layout/round-b-l-b-trans.png');
 }
-div.rounded div.rounded-bottom-beige div.rounded-bottom-right {
+div.rounded-bottom-beige div.rounded-bottom-right {
 	background-image: url('../images/layout/round-b-r-b-trans.png');
 }
-div.rounded div.rounded-bottom-white div.rounded-bottom-left {
+div.rounded-bottom-white div.rounded-bottom-left {
 	background-image: url('../images/layout/round-b-l-w-trans.png');
 }
-div.rounded div.rounded-bottom-white div.rounded-bottom-right {
+div.rounded-bottom-white div.rounded-bottom-right {
 	background-image: url('../images/layout/round-b-r-w-trans.png');
 }
 
