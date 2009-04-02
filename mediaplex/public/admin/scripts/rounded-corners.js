@@ -1,7 +1,6 @@
 /**
  * Insert class="rounded" for each table and wrap tables in:
  *
- *<div class="rounded">
  *	<div class="rounded-top-beige">
  *		<div class="rounded-top-left"></div>
  *		<div class="rounded-top-right"></div>
@@ -12,7 +11,6 @@
  *		<div class="rounded-bottom-left"></div>
  *		<div class="rounded-bottom-right"></div>
  *	</div>
- *</div>
 */
 var RoundedCorners = new Class({
 	initialize: function() {
