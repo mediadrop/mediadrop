@@ -231,6 +231,13 @@ thead tr th {
 	vertical-align: middle;
 }
 
+span.show-more {
+	font: bold 14px Helvetica,Arial,Verdana,sans-serif;
+	color: #0e436f;
+	background: transparent url('../images/icons/show-more-trans.png') no-repeat top right;
+	padding-right: 16px;
+}
+
 #search {
 	 background: url('../images/layout/search-left.png') no-repeat left;
 	 display: block;

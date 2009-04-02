@@ -10,7 +10,6 @@ from mediaplex.lib.base import BaseController
 from mediaplex.forms.video import VideoForm
 from mediaplex.forms.comments import PostCommentForm
 
-
 class VideoController(BaseController):
     """Video list actions"""
 
@@ -95,12 +94,28 @@ class VideoAdminController(BaseController):
                            Video.notes.like(like_search),
                            Video.tags.any(Tag.name.like(like_search))))
 
-        # TODO - order by status
         videos = videos.options(eagerload('tags'), eagerload('comments')).\
-                    order_by(Video.status.desc(), Video.created_on)[:15]
-        return dict(videos=videos,
+                    order_by(Video.status.desc(), Video.created_on)
+
+        return dict(page=self._fetch_page(1, 10, videos),
+                    search_string=search_string,
+                    query=videos,
+                    datetime_now=datetime.now())
+
+    @expose('mediaplex.templates.admin.video.video-table-ajax')
+    def ajax(self, page, search_string=None, query=None):
+        """ShowMore Ajax Fetch Action"""
+        videos_page = self._fetch_page(page, 10, query)
+        return dict(page=videos_page,
                     search_string=search_string,
                     datetime_now=datetime.now())
+
+    def _fetch_page(self, page_num=1, items_per_page=5, query=None):
+        """Helper method for paginating video results"""
+        from webhelpers import paginate
+        query = query or DBSession.query(Video).options(eagerload('tags'),\
+            eagerload('comments')).order_by(Video.status, Video.created_on)
+        return paginate.Page(query, page_num, items_per_page)
 
     @expose()
     def lookup(self, slug, *remainder):
