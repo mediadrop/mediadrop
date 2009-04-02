@@ -20,12 +20,15 @@ Things to be aware of:
     This gives us the flexibility to properly normalize our author data without
     modifying all the places in the app where we access our author information.
 
+  - Statuses can be combined with bit-wise operators:
+      m.status = DRAFT | PENDING_ENCODING | PENDING_REVIEW
+
 """
 
 from datetime import datetime
 from sqlalchemy import Table, ForeignKey, Column
 from sqlalchemy.types import String, Unicode, UnicodeText, Integer, DateTime, Boolean, Float
-from sqlalchemy.orm import mapper, relation, backref, synonym, composite
+from sqlalchemy.orm import mapper, relation, backref, synonym, composite, column_property, validates
 
 from mediaplex.model import DeclarativeBase, metadata, DBSession
 from mediaplex.model.author import Author
@@ -34,6 +37,12 @@ from mediaplex.model.comments import Comment, CommentTypeExtension
 from mediaplex.model.tags import Tag
 
 
+TRASH, PUBLISH, DRAFT, PENDING_ENCODING, PENDING_REVIEW = 1, 2, 4, 8, 16
+"""Status codes"""
+
+statuses = (TRASH, PUBLISH, DRAFT, PENDING_ENCODING, PENDING_REVIEW)
+"""A list of all allowed statuses"""
+
 media = Table('media', metadata,
     Column('id', Integer, autoincrement=True, primary_key=True),
     Column('type', Unicode(10), nullable=False),
@@ -41,7 +50,7 @@ media = Table('media', metadata,
     Column('created_on', DateTime, default=datetime.now, nullable=False),
     Column('modified_on', DateTime, default=datetime.now, onupdate=datetime.now, nullable=False),
     Column('publish_on', DateTime),
-    Column('status', Unicode(15), default='unreviewed', nullable=False),
+    Column('status', Unicode(15), default=PUBLISH, nullable=False),
     Column('title', Unicode(50), nullable=False),
     Column('description', UnicodeText),
     Column('notes', UnicodeText),
@@ -80,6 +89,13 @@ class Media(object):
     def __repr__(self):
         return '<Media: %s>' % self.slug
 
+    @validates('status')
+    def validate_status(self, key, status):
+        """Check that the status is within the acceptable bit range."""
+        assert status <= (statuses[-1] << 1) - 1
+        return status
+
+
 
 class Video(Media):
     def __repr__(self):
@@ -93,6 +109,7 @@ class Audio(Media):
 
 
 media_mapper = mapper(Media, media, polymorphic_on=media.c.type, properties={
+    'status': column_property((media.c.status + '+0').label('status')),
     'author': composite(Author, media.c.author_name, media.c.author_email),
     'rating': composite(Rating, media.c.rating_sum, media.c.rating_votes),
     'tags': relation(Tag, secondary=media_tags, backref='media'),

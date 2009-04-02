@@ -18,11 +18,18 @@ Finally the argument single_parent=True should also be included.
 from datetime import datetime
 from sqlalchemy import Table, ForeignKey, Column
 from sqlalchemy.types import String, Unicode, UnicodeText, Integer, DateTime, Boolean, Float
-from sqlalchemy.orm import mapper, relation, backref, synonym, composite
+from sqlalchemy.orm import mapper, relation, backref, synonym, composite, column_property, validates
 from sqlalchemy.orm.interfaces import AttributeExtension
 
 from mediaplex.model import DeclarativeBase, metadata, DBSession
 from mediaplex.model.author import Author
+
+
+TRASH, PUBLISH, PENDING_REVIEW = 1, 2, 3
+"""Status codes"""
+
+statuses = (TRASH, PUBLISH, PENDING_REVIEW)
+"""A list of all allowed statuses"""
 
 
 comments = Table('comments', metadata,
@@ -61,11 +68,16 @@ class Comment(object):
         return self.subject
 
     def _get_parent(self):
-        parent = getattr(self, self.type, None)
-        if parent:
-            return parent[0]
-        return None
-    parent = property(_get_parent)
+        return getattr(self, self.type, None)
+    def _set_parent(self, parent):
+        return setattr(self, self.type, parent)
+    parent = property(_get_parent, _set_parent)
+
+    @validates('status')
+    def validate_status(self, key, status):
+        """Check that the status is within the acceptable range."""
+        assert status <= sum(statuses)
+        return status
 
 
 class CommentTypeExtension(AttributeExtension):
@@ -91,5 +103,6 @@ class CommentTypeExtension(AttributeExtension):
 
 
 mapper(Comment, comments, properties={
+    'status': column_property((comments.c.status + '+0').label('status')),
     'author': composite(Author, comments.c.author_name, comments.c.author_email),
 })
