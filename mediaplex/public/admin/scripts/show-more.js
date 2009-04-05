@@ -2,9 +2,9 @@ var ShowMore = new Class({
 	Extends: Options,
 
 	options: {
-		fetchPageUrl: '/admin/video/ajax',
 		pageNum: 1,
-		lastPage: 1
+		lastPage: 1,
+		searchString: null
 	},
 
 	lastLoadedPage: 1,
@@ -44,13 +44,13 @@ var ShowMore = new Class({
 	fetchRows: function(i){
 		var req = new Request.HTML({url: this.options.fetchPageUrl});
 		req.addEvent('success', this.injectRows.bind(this));
-		req.get({page: i});
+		req.get({page_num: i, search_string: this.options.searchString});
 		return this;
 	},
 
 	injectRows: function(tree, els, xhtml){
-
-		var tbody = $(this.options.tableId).getChildren('tbody')[0];
+		var table = $(this.options.tableId);
+		var tbody = table.getChildren('tbody')[0];
 
 		var trs = els.filter('tr');
 		trs.each(function(row){
@@ -62,11 +62,11 @@ var ShowMore = new Class({
 		tbody.tween('height', heightSum);
 
 		if(this.lastLoadedPage >= this.options.lastPage){
-			$(this.options.tableId).getChildren('tfoot')[0].dispose();
+			table.getChildren('tfoot')[0].dispose();
 			var next = table.getNext();
 
 			if(next.get('tag') == 'div' && next.hasClass('rounded-bottom-beige')) {
-				next.removeClass('rounded-bottom-white').addClass('rounded-bottom-white');
+				next.removeClass('rounded-bottom-beige').addClass('rounded-bottom-white');
 			}
 		}
 		return this;

@@ -12,6 +12,8 @@
 		window.addEvent('domready', function(){
 			vs = new ShowMore({
 				tableId: 'video-table',
+				fetchPageUrl: '/admin/video/ajax',
+				searchString: ${search_string and ("'%s'" % search_string) or 'null'},
 				pageNum: ${page.page},
 				lastPage: ${page.last_page}
 			});

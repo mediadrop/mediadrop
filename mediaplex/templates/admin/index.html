@@ -4,75 +4,33 @@
       xmlns:py="http://genshi.edgewall.org/"
       xmlns:xi="http://www.w3.org/2001/XInclude">
 <xi:include href="admin/master.html" />
+<xi:include href="video/_video-review-table.html" />
+<xi:include href="video/_video-encode-table.html" />
 <head>
 	<title>Dashboard</title>
+	<script type="text/javascript" src="/admin/scripts/show-more.js"></script>
+	<script type="text/javascript">
+		window.addEvent('domready', function(){
+			reviewMore = new ShowMore({
+				tableId: 'review-table',
+				fetchPageUrl: '/admin/ajax_review',
+				pageNum: ${review_page.page},
+				lastPage: ${review_page.last_page}
+			});
+			encodeMore = new ShowMore({
+				tableId: 'encode-table',
+				fetchPageUrl: '/admin/ajax_encode',
+				pageNum: ${encode_page.page},
+				lastPage: ${encode_page.last_page}
+			});
+		});
+	</script>
 </head>
 <body class="menu-dashboard-on">
 	<div class="column66">
-		<table cellpadding="0" cellspacing="0">
-<!--! NOTE: thead/td is used for beige table headings while thead/th is reserved for blue column headings -->
-			<thead>
-				<tr>
-					<td colspan="5">
-						<h1>Awaiting Review</h1>
-					</td>
-				</tr>
-				<tr>
-					<th style="width:100px">Uploaded Date</th>
-					<th style="width:90px">Status</th>
-					<th style="width:auto">Title</th>
-					<th style="width:100px">Author</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr py:if="len(media_to_review) == 0"><td colspan="4">No Videos Found</td></tr>
-				<tr py:for="media_item in media_to_review">
-					<td py:content="media_item.created_on.strftime('%b %d %Y')">Date Uploaded</td>
-					<td><a class="review-me" href="/admin/video/${media_item.slug}/edit"><span>review me</span></a></td>
-					<td><a href="/admin/video/${media_item.slug}/edit" py:content="media_item.title">Title</a></td>
-					<td><a href="mailto:${media_item.author.email}" py:content="media_item.author.name">Author</a></td>
-				</tr>
-			</tbody>
-			<tfoot>
-				<tr><td colspan="5">show more</td></tr>
-			</tfoot>
-		</table>
+		${review_table(review_page)}
 		<br /><br />
-		<table cellpadding="0" cellspacing="0">
-			<thead>
-				<tr>
-					<td colspan="5">
-						<h1>Awaiting Encoding</h1>
-					</td>
-				</tr>
-				<tr>
-					<th style="width:100px">Uploaded Date</th>
-					<th style="width:90px">Status</th>
-					<th style="width:auto">Title</th>
-					<th style="width:150px">Tags</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr py:if="len(media_to_encode) == 0"><td colspan="4">No Videos Found</td></tr>
-				<tr py:for="media_item in media_to_encode" py:with="tag_count = len(media_item.tags)">
-					<td py:content="media_item.created_on.strftime('%b %d %Y')">Date Uploaded</td>
-					<td py:choose="">
-						<a class="encode-me" py:when="media_item.upload_url is None" href="/admin/video/${media_item.slug}/edit"><span>encode me</span></a>
-						<a class="encode-me" py:otherwise="" href="${media_item.upload_url}"><span>encode me</span></a>
-					</td>
-					<td><a href="/admin/video/${media_item.slug}/edit" py:content="media_item.title">Title</a></td>
-					<td py:choose="tag_count">
-						<py:when test="0">None</py:when>
-						<py:otherwise py:for="i, tag in enumerate(media_item.tags)">
-							<a href="/video/tags/${tag.slug}" rel="tag" py:content="tag.name">Tag</a><py:if test="i+1 != tag_count">,</py:if>
-						</py:otherwise>
-					</td>
-				</tr>
-			</tbody>
-			<tfoot>
-				<tr><td colspan="5">show more</td></tr>
-			</tfoot>
-		</table>
+		${encode_table(encode_page)}
 	</div>
 	<div class="column33">
 		<table cellpadding="0" cellspacing="0">

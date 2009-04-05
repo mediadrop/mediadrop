@@ -83,8 +83,29 @@ class VideoRowController(object):
 class VideoAdminController(BaseController):
     """Admin video actions which deal with groups of videos"""
 
+    @expose()
+    def default(self, *args, **kwargs):
+        redirect('/admin/video/list', *args, **kwargs)
+
     @expose('mediaplex.templates.admin.video.index')
-    def index(self, search_string=None):
+    def list(self, search_string=None, **kwargs):
+
+        return dict(page=self._fetch_page(search_string),
+                    search_string=search_string,
+                    datetime_now=datetime.now())
+
+    @expose('mediaplex.templates.admin.video.video-table-ajax')
+    def ajax(self, page_num, search_string=None):
+        """ShowMore Ajax Fetch Action"""
+        videos_page = self._fetch_page(search_string, page_num)
+        return dict(page=videos_page,
+                    search_string=search_string,
+                    datetime_now=datetime.now())
+
+    def _fetch_page(self, search_string=None, page_num=1, items_per_page=10):
+        """Helper method for paginating video results"""
+        from webhelpers import paginate
+
         videos = DBSession.query(Video)
         if search_string is not None:
             like_search = '%%%s%%' % (search_string,)
@@ -97,31 +118,12 @@ class VideoAdminController(BaseController):
         videos = videos.options(eagerload('tags'), eagerload('comments')).\
                     order_by(Video.status.desc(), Video.created_on)
 
-        return dict(page=self._fetch_page(1, 10, videos),
-                    search_string=search_string,
-                    query=videos,
-                    datetime_now=datetime.now())
-
-    @expose('mediaplex.templates.admin.video.video-table-ajax')
-    def ajax(self, page, search_string=None, query=None):
-        """ShowMore Ajax Fetch Action"""
-        videos_page = self._fetch_page(page, 10, query)
-        return dict(page=videos_page,
-                    search_string=search_string,
-                    datetime_now=datetime.now())
-
-    def _fetch_page(self, page_num=1, items_per_page=5, query=None):
-        """Helper method for paginating video results"""
-        from webhelpers import paginate
-        query = query or DBSession.query(Video).options(eagerload('tags'),\
-            eagerload('comments')).order_by(Video.status, Video.created_on)
-        return paginate.Page(query, page_num, items_per_page)
+        return paginate.Page(videos, page_num, items_per_page)
 
     @expose()
-    def lookup(self, slug, *remainder):
+    def lookup(self, slug, *remainder, **kwargs):
         video = VideoRowAdminController(slug)
         return video, remainder
-
 
 class VideoRowAdminController(object):
     """Admin video actions which deal with a single video"""
