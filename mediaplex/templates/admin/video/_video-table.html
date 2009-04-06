@@ -19,7 +19,7 @@
 			<th style="width:auto">Title</th>
 			<th style="width:200px">Tags</th>
 			<th style="width:100px">Date Uploaded</th>
-			<th style="width:30px"><img src="/admin/images/icons/comments.png" alt="" /></th>
+			<th style="width:30px;text-align:center"><img src="/admin/images/icons/comments.png" alt="" /></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -40,7 +40,7 @@
 				</py:otherwise>
 			</td>
 			<td py:content="video.created_on.strftime('%b %d %Y')">Date Uploaded</td>
-			<td py:content="len(video.comments)">&#35;</td>
+			<td style="text-align:center" py:content="len(video.comments)">&#35;</td>
 		</tr>
 	</tbody>
 </table>
