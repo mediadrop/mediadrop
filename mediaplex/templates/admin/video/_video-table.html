@@ -27,10 +27,10 @@
 		<tr py:for="video in page.items" py:with="tag_count = len(video.tags); date_style=(video.publish_on is None or video.publish_on > datetime_now) and 'italic' or ''">
 			<td class="${date_style}" py:content="video.publish_on is None and 'unpublished' or video.publish_on.strftime('%b %d %Y')">Publish Date</td>
 			<td py:choose="">
-				<a class="review-me" py:when="video.status == 'unreviewed'" href="/admin/video/${video.slug}/edit"><span>review me</span></a>
-				<a class="encode-me" py:when="video.status == 'publishable' and video.upload_url is not None and (video.publish_on is None or video.url is None)" href="${video.upload_url}"><span>encode me</span></a>
-				<a class="encode-me" py:when="video.status == 'publishable' and (video.publish_on is None or video.url is None)" href="/admin/video/${video.slug}/edit"><span>encode me</span></a>
-				<a class="published" py:otherwise="" href="/admin/video/${video.slug}/edit"><span>published</span></a>
+				<a class="review-me" py:when="video.status == awaiting_review_status" href="/admin/video/${video.slug}/edit"><span>review me</span></a>
+				<a class="encode-me" py:when="video.status == awaiting_encoding_status and video.upload_url is not None and (video.publish_on is None or video.url is None)" href="${video.upload_url}"><span>encode me</span></a>
+				<a class="encode-me" py:when="video.status == published_status and (video.publish_on is None or video.url is None)" href="/admin/video/${video.slug}/edit"><span>encode me</span></a>
+				<a class="published" py:otherwise="" href="/admin/video/${video.slug}/edit"><span>${video.status}</span></a>
 			</td>
 			<td><a href="/admin/video/${video.slug}/edit" py:content="video.title">Title</a></td>
 			<td py:choose="tag_count">

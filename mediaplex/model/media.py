@@ -36,9 +36,11 @@ from mediaplex.model.rating import Rating
 from mediaplex.model.comments import Comment, CommentTypeExtension
 from mediaplex.model.tags import Tag
 
-
 TRASH, PUBLISH, DRAFT, PENDING_ENCODING, PENDING_REVIEW = 1, 2, 4, 8, 16
 """Status codes"""
+
+PUBLISHED, AWAITING_ENCODING, AWAITING_REVIEW = 2, 12, 28
+"""Combination of Status codes used for business logic"""
 
 statuses = (TRASH, PUBLISH, DRAFT, PENDING_ENCODING, PENDING_REVIEW)
 """A list of all allowed statuses"""
@@ -109,7 +111,6 @@ class Audio(Media):
 
 
 media_mapper = mapper(Media, media, polymorphic_on=media.c.type, properties={
-    'status': column_property((media.c.status + '+0').label('status')),
     'author': composite(Author, media.c.author_name, media.c.author_email),
     'rating': composite(Rating, media.c.rating_sum, media.c.rating_votes),
     'tags': relation(Tag, secondary=media_tags, backref='media'),

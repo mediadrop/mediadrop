@@ -6,6 +6,7 @@ from sqlalchemy import and_, or_
 from sqlalchemy.orm import eagerload
 
 from mediaplex.model import DBSession, metadata, Video, Comment, Tag, Author
+from mediaplex.model.media import PUBLISHED, AWAITING_ENCODING, AWAITING_REVIEW
 from mediaplex.lib.base import BaseController
 from mediaplex.forms.video import VideoForm
 from mediaplex.forms.comments import PostCommentForm
@@ -92,7 +93,10 @@ class VideoAdminController(BaseController):
 
         return dict(page=self._fetch_page(search_string),
                     search_string=search_string,
-                    datetime_now=datetime.now())
+                    datetime_now=datetime.now(),
+                    published_status='publish',
+                    awaiting_encoding_status='draft,pending_encoding',
+                    awaiting_review_status='draft,pending_encoding,pending_review')
 
     @expose('mediaplex.templates.admin.video.video-table-ajax')
     def ajax(self, page_num, search_string=None):
@@ -100,13 +104,17 @@ class VideoAdminController(BaseController):
         videos_page = self._fetch_page(search_string, page_num)
         return dict(page=videos_page,
                     search_string=search_string,
-                    datetime_now=datetime.now())
+                    datetime_now=datetime.now(),
+                    published_status='publish',
+                    awaiting_encoding_status='draft,pending_encoding',
+                    awaiting_review_status='draft,pending_encoding,pending_review')
 
     def _fetch_page(self, search_string=None, page_num=1, items_per_page=10):
         """Helper method for paginating video results"""
         from webhelpers import paginate
 
-        videos = DBSession.query(Video)
+        videos = DBSession.query(Video).\
+            filter(Video.status.in_([PUBLISHED, AWAITING_ENCODING, AWAITING_REVIEW]))
         if search_string is not None:
             like_search = '%%%s%%' % (search_string,)
             videos = videos.outerjoin(Video.tags).\

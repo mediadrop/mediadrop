@@ -5,6 +5,7 @@ from sqlalchemy.orm import eagerload
 
 from mediaplex.lib.base import BaseController
 from mediaplex.model import DBSession, Media, Video, Comment, Tag
+from mediaplex.model.media import PUBLISHED, AWAITING_ENCODING, AWAITING_REVIEW
 from mediaplex.controllers.video import VideoAdminController
 
 class AdminController(BaseController):
@@ -19,8 +20,10 @@ class AdminController(BaseController):
     def dashboard(self, **kwargs):
         # Any publishable video that does have a publish_on date that is in the
         # past and is publishable is 'Recently Published'
-        recent = DBSession.query(Media).filter(Media.status == 'publishable').\
-            filter(Media.url != None).filter(Media.publish_on < datetime.now).\
+        recent = DBSession.query(Media).\
+            filter(Media.status == PUBLISHED).\
+            filter(Media.url != None).\
+            filter(Media.publish_on < datetime.now).\
             order_by(Media.publish_on)[:5]
 
         comments_to_review = DBSession.query(Comment).filter_by(status='unreviewed').count()
@@ -42,7 +45,7 @@ class AdminController(BaseController):
         from webhelpers import paginate
 
         # Videos that are unreviewed are 'Awaiting Review'
-        query = DBSession.query(Video).filter(Video.status == 'unreviewed').\
+        query = DBSession.query(Video).filter(Video.status == AWAITING_REVIEW).\
             order_by(Video.created_on)
 
         return paginate.Page(query, page_num, items_per_page)
@@ -60,7 +63,7 @@ class AdminController(BaseController):
         # not have a url is 'Awaiting Encoding'. This allows the setting of a
         # future publish_on date before encoding is complete.
         query = DBSession.query(Video).options(eagerload('tags')).\
-            filter(Video.status == 'publishable').\
+            filter(Video.status == AWAITING_ENCODING).\
             filter(or_(Video.publish_on == None, Video.url == None)).order_by(Video.created_on)
 
         return paginate.Page(query, page_num, items_per_page)
