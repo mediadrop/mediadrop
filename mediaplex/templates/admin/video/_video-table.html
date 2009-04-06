@@ -30,7 +30,7 @@
 				<a class="review-me" py:when="video.status == awaiting_review_status" href="/admin/video/${video.slug}/edit"><span>review me</span></a>
 				<a class="encode-me" py:when="video.status == awaiting_encoding_status and video.upload_url is not None and (video.publish_on is None or video.url is None)" href="${video.upload_url}"><span>encode me</span></a>
 				<a class="encode-me" py:when="video.status == published_status and (video.publish_on is None or video.url is None)" href="/admin/video/${video.slug}/edit"><span>encode me</span></a>
-				<a class="published" py:otherwise="" href="/admin/video/${video.slug}/edit"><span>${video.status}</span></a>
+				<a class="published" py:otherwise="" href="/video/${video.slug}"><span>${video.status}</span></a>
 			</td>
 			<td><a href="/admin/video/${video.slug}/edit" py:content="video.title">Title</a></td>
 			<td py:choose="tag_count">
