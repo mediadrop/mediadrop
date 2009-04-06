@@ -256,34 +256,41 @@ span.show-more {
 	 border: 0;
 }
 
-/* Status buttons in tables */
-a.review-me span, a.encode-me span,
-a.published span {
+a.mo span {
 	display: none;
 }
 
-a.review-me,
-a.encode-me,
-a.published {
+a.mo, a.mo:hover {
 	display: block;
-	width: 79px;
-	height: 19px;
 	background-repeat: no-repeat;
 	background-position: top;
+}
+
+a.mo:hover {
+	background-position: bottom;
+}
+
+/* Add buttons */
+a.add-video, a.add-video:hover {
+	width: 120px;
+	height: 28px;
+	margin-left: 10px;
+}
+a.add-video { background-image: url('../images/buttons/add-video.png'); }
+
+/* Status buttons in tables */
+a.review-me,
+a.encode-me,
+a.published,
+a.review-me:hover,
+a.encode-me:hover,
+a.published:hover {
+	width: 79px;
+	height: 19px;
 }
 a.review-me { background-image: url('../images/statuses/review-both-trans.png'); }
 a.encode-me { background-image: url('../images/statuses/encode-both-trans.png'); }
 a.published { background-image: url('../images/statuses/published-both-trans.png'); }
-
-a.review-me:hover,
-a.encode-me:hover,
-a.published:hover {
-	display: block;
-	width: 79px;
-	height: 19px;
-	background-repeat: no-repeat;
-	background-position: bottom;
-}
 
 #album-art {
 	width: 133px;

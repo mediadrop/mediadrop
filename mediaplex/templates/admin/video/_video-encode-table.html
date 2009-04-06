@@ -19,8 +19,8 @@
 		<tr py:for="media_item in page" py:with="tag_count = len(media_item.tags)">
 			<td py:content="media_item.created_on.strftime('%b %d %Y')">Date Uploaded</td>
 			<td py:choose="">
-				<a class="encode-me" py:when="media_item.upload_url is None" href="/admin/video/${media_item.slug}/edit"><span>encode me</span></a>
-				<a class="encode-me" py:otherwise="" href="${media_item.upload_url}"><span>encode me</span></a>
+				<a class="mo encode-me" py:when="media_item.upload_url is None" href="/admin/video/${media_item.slug}/edit"><span>encode me</span></a>
+				<a class="mo encode-me" py:otherwise="" href="${media_item.upload_url}"><span>encode me</span></a>
 			</td>
 			<td><a href="/admin/video/${media_item.slug}/edit" py:content="media_item.title">Title</a></td>
 			<td py:choose="tag_count">

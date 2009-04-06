@@ -18,7 +18,7 @@
 		<tr py:if="len(page.items) == 0"><td colspan="4">No Videos Found</td></tr>
 		<tr py:for="media_item in page.items">
 			<td py:content="media_item.created_on.strftime('%b %d %Y')">Date Uploaded</td>
-			<td><a class="review-me" href="/admin/video/${media_item.slug}/edit"><span>review me</span></a></td>
+			<td><a class="mo review-me" href="/admin/video/${media_item.slug}/edit"><span>review me</span></a></td>
 			<td><a href="/admin/video/${media_item.slug}/edit" py:content="media_item.title">Title</a></td>
 			<td><a href="mailto:${media_item.author.email}" py:content="media_item.author.name">Author</a></td>
 		</tr>
