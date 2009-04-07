@@ -150,6 +150,7 @@ table.rounded-table tfoot tr td {
 }
 div.rounded-top-beige,
 div.rounded-bottom-beige,
+div.rounded-bottom-gray,
 div.rounded-bottom-white {
 	height: 10px;
 	padding: 0;
@@ -166,6 +167,9 @@ div.rounded-top-beige {
 }
 div.rounded-bottom-beige {
 	background-image: url('../images/layout/round-b-c-b-trans.png');
+}
+div.rounded-bottom-gray {
+	background-image: url('../images/layout/round-b-c-g-trans.png');
 }
 div.rounded-bottom-white {
 	background-image: url('../images/layout/round-b-c-w-trans.png');
@@ -199,6 +203,12 @@ div.rounded-bottom-beige div.rounded-bottom-left {
 }
 div.rounded-bottom-beige div.rounded-bottom-right {
 	background-image: url('../images/layout/round-b-r-b-trans.png');
+}
+div.rounded-bottom-gray div.rounded-bottom-left {
+	background-image: url('../images/layout/round-b-l-g-trans.png');
+}
+div.rounded-bottom-gray div.rounded-bottom-right {
+	background-image: url('../images/layout/round-b-r-g-trans.png');
 }
 div.rounded-bottom-white div.rounded-bottom-left {
 	background-image: url('../images/layout/round-b-l-w-trans.png');
@@ -292,6 +302,25 @@ a.review-me { background-image: url('../images/statuses/review-both-trans.png');
 a.encode-me { background-image: url('../images/statuses/encode-both-trans.png'); }
 a.published { background-image: url('../images/statuses/published-both-trans.png'); }
 
+/* Comment buttons in tables*/
+
+a.review-comment,
+a.published-comment {
+	width: 29px;
+	height: 19px;
+	float: left;
+}
+
+a.trash-comment {
+	width: 26px;
+	height: 19px;
+	float: left;
+}
+
+a.review-comment { background-image: url('../images/buttons/comment-approve.png'); }
+a.published-comment { background-image: url('../images/buttons/comment-published.png'); }
+a.trash-comment { background-image: url('../images/buttons/comment-delete.png'); }
+
 #album-art {
 	width: 133px;
 	margin: 10px auto;
@@ -330,4 +359,17 @@ a.total {
 	color: #064981;
 	text-decoration: none;
 	font-weight: bold;
+}
+
+td.author strong {
+	font-weight: bold;
+}
+table#comment-table tr td {
+	vertical-align: top;
+}
+span.comment-submitted {
+	color: #8695a3;
+}
+tr.tr-gray td {
+	background-color: #f1efe9;
 }

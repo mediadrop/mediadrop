@@ -19,7 +19,12 @@ var RoundedCorners = new Class({
 			var topDiv = new Element('div',{'class':'rounded-top-beige'});
 			var topLDiv = new Element('div',{ 'class':'rounded-top-left'});
 			var topRDiv = new Element('div',{'class':'rounded-top-right'});
-			var bottomClass = t.getChildren('tfoot').length > 0? 'rounded-bottom-beige' : 'rounded-bottom-white';
+			var bottomClass = 'rounded-bottom-beige';
+			if(t.getChildren('tfoot').length == 0) {
+				var trs = t.getChildren('tbody')[0].getChildren('tr');
+				var lastTr = trs[trs.length - 1];
+				bottomClass = lastTr.hasClass('tr-gray') ? 'rounded-bottom-gray' : 'rounded-bottom-white';
+			}
 			var bottomDiv = new Element('div',{'class':bottomClass});
 			var bottomLDiv = new Element('div',{'class':'rounded-bottom-left'});
 			var bottomRDiv = new Element('div',{'class':'rounded-bottom-right'});

@@ -7,10 +7,12 @@ from mediaplex.lib.base import BaseController
 from mediaplex.model import DBSession, Media, Video, Comment, Tag
 from mediaplex.model.media import PUBLISHED, AWAITING_ENCODING, AWAITING_REVIEW
 from mediaplex.controllers.video import VideoAdminController
+from mediaplex.controllers.comments import CommentAdminController
 
 class AdminController(BaseController):
 
     video = VideoAdminController()
+    comments = CommentAdminController()
 
     @expose()
     def default(self, *args):

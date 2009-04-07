@@ -66,7 +66,9 @@ var ShowMore = new Class({
 			var next = table.getNext();
 
 			if(next.get('tag') == 'div' && next.hasClass('rounded-bottom-beige')) {
-				next.removeClass('rounded-bottom-beige').addClass('rounded-bottom-white');
+				var lastTr = trs[trs.length - 1];
+				var classToAdd = lastTr.hasClass('tr-gray') ? 'rounded-bottom-gray' : 'rounded-bottom-white';
+				next.removeClass('rounded-bottom-beige').addClass(classToAdd);
 			}
 		}
 		return this;

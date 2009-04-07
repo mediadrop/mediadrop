@@ -1,0 +1,42 @@
+<table xmlns="http://www.w3.org/1999/xhtml"
+       xmlns:py="http://genshi.edgewall.org/"
+       py:def="comment_table(include_thead=True)" id="comment-table" cellpadding="0" cellspacing="0">
+<!--! NOTE: thead/td is used for beige table headings while thead/th is reserved for blue column headings -->
+	<thead py:if="include_thead">
+		<tr id="table-heading">
+			<td colspan="4" class="with-search">
+				<div id="search" class="float-right">
+					<form action="/admin/comments" method="post">
+						<input name="search_string" type="text" value="${search_string or 'SEARCH...'}" onclick="this.value=''" />
+					</form>
+				</div>
+				<h1>All Comments</h1>
+			</td>
+		</tr>
+		<tr>
+			<th style="width:58px">Status</th>
+			<th style="width:100px">Author</th>
+			<th style="width:auto">Comment</th>
+			<th style="width:200px">In Response to</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr py:if="len(page.items) == 0"><td colspan="4">No Comments Found</td></tr>
+		<tr py:for="comment in page.items" class="${(comment.status == awaiting_review_status) and 'tr-white' or 'tr-gray'}">
+			<td py:choose="">
+				<a class="mo review-comment" py:when="comment.status == awaiting_review_status" href="/admin/comments/${comment.id}/approve"><span>approve</span></a>
+				<a class="mo published-comment" py:otherwise="" href=""><span>published</span></a>
+				<a class="mo trash-comment" href="/admin/comments/${comment.id}/trash"><span>trash</span></a>
+			</td>
+			<td class="author">
+				<strong py:content="comment.author.name">Author</strong><br />
+				<a href="mailto:${comment.author.email}" py:content="comment.author.email">Email</a><br />
+			</td>
+			<td>
+				<span class="comment-submitted">Submitted on ${comment.created_on.strftime('%b %d %Y')} | </span><a class="edit-text" href="">Edit Text</a><br />
+				<p class="comment-body" py:content="comment.body">Body</p>
+			</td>
+			<td>Media Item</td>
+		</tr>
+	</tbody>
+</table>

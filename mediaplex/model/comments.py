@@ -103,6 +103,5 @@ class CommentTypeExtension(AttributeExtension):
 
 
 mapper(Comment, comments, properties={
-    'status': column_property((comments.c.status + '+0').label('status')),
     'author': composite(Author, comments.c.author_name, comments.c.author_email),
 })
