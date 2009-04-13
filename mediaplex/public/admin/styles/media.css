@@ -1,3 +1,75 @@
+#album-art {
+	width: 133px;
+	margin: 10px auto;
+	border: 5px solid #989790;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+}
+#album-art img {
+	display: block;
+	border: 1px solid #fff;
+}
+
+/* Statuses */
+#status-list {
+	margin: 3px 5px;
+}
+#status-list li {
+	padding-left: 20px;
+	margin: 3px 0;
+	font-size: 108%;
+}
+.status-pending {
+	background: url('../images/icons/arrow-green-right.png') no-repeat 0 2px;
+	color: #196d29;
+}
+.status-future {
+	color: #9b9b9b;
+}
+
+/* Statuses */
+a.review-me span,
+a.encode-me span,
+a.published span {
+	display: none;
+}
+
+a.review-me,
+a.encode-me,
+a.published {
+	display: block;
+	width: 79px;
+	height: 19px;
+	background-repeat: no-repeat;
+	background-position: top;
+}
+a.review-me { background-image: url('../images/statuses/review-both-trans.png'); }
+a.encode-me { background-image: url('../images/statuses/encode-both-trans.png'); }
+a.published { background-image: url('../images/statuses/published-both-trans.png'); }
+
+a.review-me:hover,
+a.encode-me:hover,
+a.published:hover {
+	display: block;
+	width: 79px;
+	height: 19px;
+	background-repeat: no-repeat;
+	background-position: bottom;
+}
+a.review {
+	color: #862254;
+	text-decoration: none;
+	font-weight: bold;
+}
+a.total {
+	color: #064981;
+	text-decoration: none;
+	font-weight: bold;
+}
+
+
+
+
 #video-form .form-label {
 	font-size: 108%;
 	font-weight: bold;

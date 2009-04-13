@@ -8,15 +8,10 @@ from mediaplex.model import DBSession, Media, Video, Comment, Tag
 from mediaplex.controllers.video import VideoAdminController
 
 class AdminController(BaseController):
-
     video = VideoAdminController()
 
-    @expose()
-    def default(self, *args):
-        redirect('/admin/dashboard')
-
     @expose('mediaplex.templates.admin.index')
-    def dashboard(self):
+    def index(self):
         # Videos that are unreviewed are 'Awaiting Review'
         video_to_review = DBSession.query(Video).filter(Video.status == 'unreviewed').\
             order_by(Video.created_on)[:6]

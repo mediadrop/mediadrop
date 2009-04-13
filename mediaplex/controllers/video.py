@@ -1,38 +1,43 @@
+"""
+Video Media Controllers
+
+"""
 from datetime import datetime
 from tg import expose, validate, flash, require, url, request, redirect
 from formencode import validators
 from pylons.i18n import ugettext as _
 from sqlalchemy import and_, or_
 from sqlalchemy.orm import eagerload
+from webhelpers import paginate
 
-from mediaplex.model import DBSession, metadata, Video, Comment, Tag, Author
-from mediaplex.lib.base import BaseController
+from mediaplex.model import DBSession, metadata, Video, Tag, authors, comments
+from mediaplex.lib import helpers
+from mediaplex.lib.base import Controller, BaseController
 from mediaplex.forms.video import VideoForm
 from mediaplex.forms.comments import PostCommentForm
 
 
 class VideoController(BaseController):
-    """Video list actions"""
+    """Public video list actions"""
 
     @expose('mediaplex.templates.video.grid')
     def grid(self, page=1, **kwargs):
         """Grid-style List Action"""
         return dict(page=self._fetch_page(page, 25))
+    default = grid
 
     @expose('mediaplex.templates.video.mediaflow')
     def flow(self, page=1, **kwargs):
-        """Mediaflow List Action"""
+        """Mediaflow Action"""
         return dict(page=self._fetch_page(page, 9))
-    default = flow
 
     @expose('mediaplex.templates.video.mediaflow-ajax')
-    def ajax(self, page=1, **kwargs):
+    def flow_ajax(self, page=1, **kwargs):
         """Mediaflow Ajax Fetch Action"""
-        return dict(page=self._fetch_page(page, 3))
+        return dict(page=self._fetch_page(page, 6))
 
     def _fetch_page(self, page_num=1, items_per_page=25, query=None):
         """Helper method for paginating video results"""
-        from webhelpers import paginate
         query = query or DBSession.query(Video)
         return paginate.Page(query, page_num, items_per_page)
 
@@ -44,37 +49,40 @@ class VideoController(BaseController):
 class VideoRowController(object):
     """Actions specific to a single video"""
 
-    def __init__(self, slug):
+    def __init__(self, slug=None, video=None):
         """Pull the video from the database for all actions"""
-        self.video = DBSession.query(Video).filter_by(slug=slug).one()
+        self.video = video or DBSession.query(Video).filter_by(slug=slug).one()
 
     @expose('mediaplex.templates.video.view')
-    def view(self, form=None, **values):
-        if form is None:
-            form = PostCommentForm(action='/video/%s/comment' % self.video.slug)
+    def view(self, **values):
         self.video.views += 1
         DBSession.add(self.video)
-        return dict(video=self.video, post_comment_form=form)
+        form = PostCommentForm(action='/video/%s/comment' % self.video.slug)
+        return {
+            'video': self.video,
+            'comment_form': form,
+            'form_values': values,
+        }
     default = view
 
     @expose()
     @validate(validators=dict(rating=validators.Int()))
     def rate(self, rating):
-        self.video.add_rating(rating)
+        self.video.rating(rating)
         DBSession.add(self.video)
         redirect('/video/%s' % self.video.slug)
 
     @expose()
     @validate(PostCommentForm(), error_handler=view)
     def comment(self, **values):
-        from tg.exceptions import HTTPSeeOther
-        c = Comment()
-        c.author = Author(values['name'])
+        c = comments.Comment()
+        c.status = comments.PENDING_REVIEW
+        c.author = authors.AuthorWithIP(values['name'], None, request.environ['REMOTE_ADDR'])
         c.subject = 'Re: %s' % self.video.title
         c.body = values['body']
         self.video.comments.append(c)
-        DBSession.add(c)
-        raise HTTPSeeOther('/video/%s' % self.video.slug)
+        DBSession.merge(self.video)
+        redirect('/video/%s' % self.video.slug)
 
     @expose()
     def download(self):
@@ -103,24 +111,49 @@ class VideoAdminController(BaseController):
                     datetime_now=datetime.now())
 
     @expose()
-    def lookup(self, slug, *remainder):
-        video = VideoRowAdminController(slug)
+    def lookup(self, id, *remainder):
+        video = VideoRowAdminController(id)
         return video, remainder
 
 
 class VideoRowAdminController(object):
     """Admin video actions which deal with a single video"""
 
-    def __init__(self, slug):
+    def __init__(self, id=None, video=None):
         """Pull the video from the database for all actions"""
-        self.video = DBSession.query(Video).filter_by(slug=slug).one()
+        self.video = video or DBSession.query(Video).get(id)
 
     @expose('mediaplex.templates.admin.video.edit')
     def edit(self, **values):
-        form = VideoForm(action='/video/%s/edit_save' % self.video.slug)
-        return dict(video=self.video, form=form)
+        form = VideoForm(action='/admin/video/%d/save' % self.video.id)
+        form_values = {
+            'slug': self.video.slug,
+            'title': self.video.title,
+            'author_name': self.video.author.name,
+            'author_email': self.video.author.email,
+            'description': self.video.description,
+            'tags': ', '.join([tag.name for tag in self.video.tags]),
+            'notes': self.video.notes,
+            'details': {
+                'duration': helpers.duration_from_seconds(self.video.duration),
+                'url': self.video.url
+            }
+        }
+        print form_values
+        form_values.update(values)
+        print form_values
+        return dict(video=self.video, form=form, form_values=form_values)
 
     @expose()
     @validate(VideoForm(), error_handler=edit)
-    def edit_save(self, **values):
-        print values
+    def save(self, **values):
+        self.video.slug = values['slug']
+        self.video.title = values['title']
+        self.video.author = authors.Author(values['author_name'], values['author_email'])
+        self.video.description = values['description']
+        self.video.notes = values['notes']
+        self.video.duration = values['details']['duration']
+        self.video.url = values['details']['url'] or None
+        #set tag
+        DBSession.add(self.video)
+        redirect('/admin/video/%d/edit' % self.video.id)

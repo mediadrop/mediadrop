@@ -54,6 +54,13 @@
 #post-comment-form li .form-field {
 	width: 80%;
 }
+#post-comment-form li .field-error {
+	width: 80%;
+	float: right;
+	padding: 3px;
+	margin: -3px 5px 5px 0;
+	color: red;
+}
 #post-comment-form li .submit-image {
 	background: url('../images/buttons/comment-submit-trans.png') no-repeat;
 	width: 178px;

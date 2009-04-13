@@ -1,7 +1,6 @@
 from tw.forms import ListForm, ListFieldSet, TextField, CalendarDatePicker, SingleSelectField, TextArea, SubmitButton
 from formencode.validators import Int, NotEmpty, DateConverter, DateValidator
 from tw.api import WidgetsList
-from mediaplex.lib import helpers
 
 class VideoForm(ListForm):
     template = 'mediaplex.templates.admin.video.form'
@@ -21,26 +20,10 @@ class VideoForm(ListForm):
             TextField('duration'),
             TextField('url', label_text='Video URL')
         ]),
+        SubmitButton('save', label_text='Save', css_classes=['btn-save', 'f-rgt']),
     ]
 
-    def display(self, value=None, **kw):
-        if value is not None:
-            newval = {
-                'slug': value.slug,
-                'title': value.title,
-                'author_name': 'John Doe',
-                'author_email': 'john@doe.com',
-                'description': value.description,
-                'tags': ', '.join([tag.name for tag in value.tags]),
-                'notes': """
-Bible Quotes Referenced: Daniel 1:1
-S&H Quotes Pages Referenced: 587, 296
-Current Reviewer: Susan Rynerson
-                """,
-                'details': {
-                    'duration': helpers.duration_from_seconds(value.duration),
-                    'url': value.url
-                }
-            }
-            value = newval
-        return super(VideoForm, self).display(value, **kw)
+#    def display(self, value=None, **kw):
+#        if value is not None:
+#            value = newval
+#        return super(VideoForm, self).display(value, **kw)

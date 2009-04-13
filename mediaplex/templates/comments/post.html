@@ -33,8 +33,8 @@
 			<div class="form-field">
 				${field.display(value_for(field), **args_for(field))}
 			</div>
-			<span py:if="help_text" class="field-help" py:content="help_text" />
-			<span py:if="show_children_errors and error and not field.show_error"
+			<div py:if="help_text" class="field-help" py:content="help_text" />
+			<div py:if="show_children_errors and error and not field.show_error"
 			      class="field-error" py:content="error" />
 		</li>
 	</ul>
