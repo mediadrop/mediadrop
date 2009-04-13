@@ -10,7 +10,7 @@ from sqlalchemy.types import String, Unicode, UnicodeText, Integer, DateTime, Bo
 from sqlalchemy.orm import mapper, relation, backref, synonym, composite
 
 from mediaplex.model import DeclarativeBase, metadata, DBSession
-from mediaplex.model.author import Author
+from mediaplex.model.authors import Author
 from mediaplex.model.tags import Tag
 from mediaplex.model.media import Media
 

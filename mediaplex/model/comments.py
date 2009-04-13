@@ -16,20 +16,22 @@ Finally the argument single_parent=True should also be included.
 
 """
 from datetime import datetime
-from sqlalchemy import Table, ForeignKey, Column
+from sqlalchemy import Table, ForeignKey, Column, sql
 from sqlalchemy.types import String, Unicode, UnicodeText, Integer, DateTime, Boolean, Float
 from sqlalchemy.orm import mapper, relation, backref, synonym, composite, column_property, validates
 from sqlalchemy.orm.interfaces import AttributeExtension
 
-from mediaplex.model import DeclarativeBase, metadata, DBSession
-from mediaplex.model.author import Author
+from mediaplex.model import DeclarativeBase, metadata, DBSession, authors
 
 
 TRASH, PUBLISH, PENDING_REVIEW = 1, 2, 3
 """Status codes"""
 
-statuses = (TRASH, PUBLISH, PENDING_REVIEW)
-"""A list of all allowed statuses"""
+STATUSES = {
+    TRASH: 'Trash',
+    PUBLISH: 'Publish',
+    PENDING_REVIEW: 'Pending Review'
+}
 
 
 comments = Table('comments', metadata,
@@ -38,7 +40,7 @@ comments = Table('comments', metadata,
     Column('subject', Unicode(100)),
     Column('created_on', DateTime, default=datetime.now, nullable=False),
     Column('modified_on', DateTime, default=datetime.now, onupdate=datetime.now, nullable=False),
-    Column('status', Unicode(15), default='unreviewed', nullable=False),
+    Column('status', Integer, default=PUBLISH, nullable=False),
     Column('author_name', Unicode(50), nullable=False),
     Column('author_email', Unicode(255)),
     Column('author_ip', Integer),
@@ -76,7 +78,7 @@ class Comment(object):
     @validates('status')
     def validate_status(self, key, status):
         """Check that the status is within the acceptable range."""
-        assert status <= sum(statuses)
+        assert status <= sum(STATUSES.keys())
         return status
 
 
@@ -103,6 +105,9 @@ class CommentTypeExtension(AttributeExtension):
 
 
 mapper(Comment, comments, properties={
-    'status': column_property((comments.c.status + '+0').label('status')),
-    'author': composite(Author, comments.c.author_name, comments.c.author_email),
+    'status': column_property(sql.cast(comments.c.status + 0, Integer).label('status')),
+    'author': composite(authors.AuthorWithIP,
+        comments.c.author_name,
+        comments.c.author_email,
+        comments.c.author_ip),
 })
