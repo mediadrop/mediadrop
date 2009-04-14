@@ -15,14 +15,6 @@
 	width: 100%;
 	overflow: hidden;
 }
-#video-form input, #video-form textarea {
-	width: 100%;
-	padding: 5px;
-	border: 1px solid #b0bcc5;
-}
-#video-form input:focus, #video-form textarea:focus {
-	background: #d9e7ec;
-}
 #video-form #author_name-container,
 #video-form #author_email-container {
 	width: 50%;

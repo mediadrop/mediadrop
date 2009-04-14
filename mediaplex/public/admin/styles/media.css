@@ -1,6 +1,6 @@
 #album-art {
 	width: 133px;
-	margin: 10px auto;
+	margin: 0 auto 10px auto;
 	border: 5px solid #989790;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
@@ -86,14 +86,6 @@ a.total {
 	clear: both;
 	width: 100%;
 	overflow: hidden;
-}
-#video-form input, #video-form textarea {
-	width: 100%;
-	padding: 5px;
-	border: 1px solid #b0bcc5;
-}
-#video-form input:focus, #video-form textarea:focus {
-	background: #d9e7ec;
 }
 #video-form #author_name-container,
 #video-form #author_email-container {

@@ -6,8 +6,8 @@ var SlugManager = new Class({
 		slugField: 'slug',
 		slugWrapper: 'slug-container',
 		masterField: 'title',
-		stub: 'stub',
-		stubWrapper: 'stub-wrapper',
+		stub: 'slug-stub',
+		stubWrapper: 'slug-stub-wrapper',
 		stubParent: 'title-label',
 		editSlugBtn: 'slug-edit'
 	},

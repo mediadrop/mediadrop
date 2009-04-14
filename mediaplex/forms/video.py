@@ -20,7 +20,8 @@ class VideoForm(ListForm):
             TextField('duration'),
             TextField('url', label_text='Video URL')
         ]),
-        SubmitButton('save', label_text='Save', css_classes=['btn-save', 'f-rgt']),
+        SubmitButton('save', default='Save', css_classes=['btn-save', 'f-rgt']),
+        SubmitButton('delete', default='Delete', css_classes=['btn-delete']),
     ]
 
 #    def display(self, value=None, **kw):

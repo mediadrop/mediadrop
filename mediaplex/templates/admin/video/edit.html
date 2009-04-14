@@ -12,26 +12,15 @@
 </head>
 <body class="menu-videos-on">
 	<div class="column66">
-<!--!		<div class="box">
-			<div class="box-top">
-				<div class="box-top-lft"></div>
-				<div class="box-top-rgt"></div>
-			</div>
+		<div class="box">
 			<div class="box-head">
-				<span class="thead-info">Uploaded: ${video.created_on.strftime('%b %d %Y')}</span>
+				<small class="box-head-sec">Uploaded: ${video.created_on.strftime('%b %d %Y')}</small>
 				<h1>${video.title}</h1>
 			</div>
 			${XML(form(form_values))}
-			<div class="box-foot"></div>
-			<div class="box-bot">
-				<div class="box-bot-lft"></div>
-				<div class="box-bot-rgt"></div>
-			</div>
 		</div>
 
-<br /><br /><br />-->
-
-		<table cellpadding="0" cellspacing="0">
+<!--!		<table cellpadding="0" cellspacing="0">
 			<thead>
 				<tr>
 					<td>
@@ -41,40 +30,24 @@
 				</tr>
 			</thead>
 			${XML(form(form_values))}
-		</table>
+		</table>-->
 	</div>
 	<div class="column33">
-		<table cellpadding="0" cellspacing="0">
-			<thead>
-				<tr>
-					<td><h1>Album Art</h1></td>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td style="text-align:center;padding-bottom:20px">
-						<div id="album-art"><img src="/images/videos/${video.id}.jpg" width="131" height="79" alt="Album Art" /></div>
-						<a href="#"><img src="/admin/images/buttons/edit-image.png" /></a>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-		<br /><br />
-		<table cellpadding="0" cellspacing="0">
-			<thead>
-				<tr><td><h1>Publish Status</h1></td></tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td>
-						<ol id="status-list">
-							<li py:for="s in video.statuses" id="status-${s.shorthand}" class="status-${s.flag}">${s}</li>
-						</ol>
-						<a href="#"><img style="margin:15px auto 10px auto;display:block" src="/admin/images/buttons/ready-to-encode.png" width="144" height="34" alt="" /></a>
-					</td>
-				</tr>
-			</tbody>
-		</table>
+		<div class="box">
+			<h1 class="box-head">Album Art</h1>
+			<div class="box-content center">
+				<div id="album-art"><img src="/images/videos/${video.id}.jpg" width="131" height="79" alt="Album Art" /></div>
+				<a href="#"><img src="/admin/images/buttons/edit-image.png" /></a>
+			</div>
+		</div>
+		<br />
+		<div class="box">
+			<h1 class="box-head">Publish Status</h1>
+			<ol id="status-list" class="box-content">
+				<li py:for="s in video.statuses" id="status-${s.shorthand}" class="status-${s.flag}">${s}</li>
+			</ol>
+			<a href="#"><img style="margin:15px auto 10px auto;display:block" src="/admin/images/buttons/ready-to-encode.png" width="144" height="34" alt="" /></a>
+		</div>
 	</div>
 </body>
 </html>
