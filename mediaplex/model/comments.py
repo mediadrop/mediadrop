@@ -18,8 +18,7 @@ Finally the argument single_parent=True should also be included.
 from datetime import datetime
 from sqlalchemy import Table, ForeignKey, Column, sql
 from sqlalchemy.types import String, Unicode, UnicodeText, Integer, DateTime, Boolean, Float
-from sqlalchemy.orm import mapper, relation, backref, synonym, composite, column_property, validates
-from sqlalchemy.orm.interfaces import AttributeExtension
+from sqlalchemy.orm import mapper, relation, backref, synonym, composite, column_property, validates, interfaces
 
 from mediaplex.model import DeclarativeBase, metadata, DBSession, authors
 
@@ -82,7 +81,7 @@ class Comment(object):
         return status
 
 
-class CommentTypeExtension(AttributeExtension):
+class CommentTypeExtension(interfaces.AttributeExtension):
     """Comment Type Attribute Handler
 
     Use this attribute extension when defining a relation() to Comment.

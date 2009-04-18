@@ -34,7 +34,7 @@ from mediaplex.model import DeclarativeBase, metadata, DBSession
 from mediaplex.model.authors import Author
 from mediaplex.model.rating import Rating
 from mediaplex.model.comments import Comment, CommentTypeExtension
-from mediaplex.model.tags import Tag
+from mediaplex.model.tags import Tag, TagCollection, extract_tags, fetch_and_create_tags
 from mediaplex.model.status import Status
 
 
@@ -105,7 +105,8 @@ class Media(object):
 
     def set_tags(self, tags):
         if isinstance(tags, basestring):
-            tags = [t.strip() in tags.split(',')]
+            tags = extract_tags(tags)
+            tags = fetch_and_create_tags(tags)
         self.tags = tags
 
 
@@ -124,10 +125,10 @@ media_mapper = mapper(Media, media, polymorphic_on=media.c.type, properties={
     'status': column_property(sql.cast(media.c.status + 0, Integer).label('status')),
     'author': composite(Author, media.c.author_name, media.c.author_email),
     'rating': composite(Rating, media.c.rating_sum, media.c.rating_votes),
-    'tags': relation(Tag, secondary=media_tags, backref='media'),
+    'tags': relation(Tag, secondary=media_tags, backref='media',
+        collection_class=TagCollection),
     'comments': relation(Comment, secondary=media_comments, backref=backref('media', uselist=False),
         extension=CommentTypeExtension('media'), single_parent=True),
-#    'comment_count': column_property(select().label('comment_count'))
 })
 mapper(Audio, inherits=media_mapper, polymorphic_identity='audio')
 mapper(Video, inherits=media_mapper, polymorphic_identity='video')
