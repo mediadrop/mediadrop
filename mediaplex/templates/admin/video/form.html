@@ -19,7 +19,7 @@
 		</div>
 		<ul class="field-list" py:attrs="list_attrs">
 			<li py:for="i, field in enumerate(fields)"
-				py:if="getattr(field, 'type', None) != 'submit'"
+				py:if="getattr(field, 'type', None) not in ['submit', 'file']"
 				py:with="required=[None,' required'][int(field.is_required)];
 						 error=error_for(field);
 						 label_text = field.label_text;
@@ -41,6 +41,17 @@
 			</li>
 		</ul>
 		<span py:if="error and not error.error_dict" class="field-error" py:content="error" />
+	</div>
+	<div class="hidden">
+		<div id="album-art-wrapper">
+			<div class="box">
+				<h1 class="box-head">Album Art</h1>
+				<p>Select an image to upload:</p>
+				${XML(children['album_art'])}
+				${XML(children['save'])}
+				<div class="box-foot"></div>
+			</div>
+		</div>
 	</div>
 	<div class="box-foot">
 		${XML(children['save'])}

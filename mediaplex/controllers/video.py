@@ -2,6 +2,8 @@
 Video Media Controllers
 
 """
+import shutil
+import os.path
 from datetime import datetime
 from tg import expose, validate, flash, require, url, request, redirect
 from formencode import validators
@@ -139,9 +141,7 @@ class VideoRowAdminController(object):
                 'url': self.video.url
             }
         }
-        print form_values
         form_values.update(values)
-        print form_values
         return dict(video=self.video, form=form, form_values=form_values)
 
     @expose()
@@ -152,8 +152,16 @@ class VideoRowAdminController(object):
         self.video.author = authors.Author(values['author_name'], values['author_email'])
         self.video.description = values['description']
         self.video.notes = values['notes']
-        self.video.duration = values['details']['duration']
+        self.video.duration = helpers.duration_to_seconds(values['details']['duration'])
         self.video.url = values['details']['url'] or None
-        #set tag
+        self.video.set_tags(values['tags'])
         DBSession.add(self.video)
+        DBSession.flush()
+        if values['album_art'] is not None:
+            temp_file = values['album_art'].file
+            perm_path = '%s/../public/images/videos/%d.jpg' % (os.path.dirname(__file__), self.video.id)
+            perm_file = open(perm_path, 'w')
+            shutil.copyfileobj(temp_file, perm_file)
+            temp_file.close()
+            perm_file.close()
         redirect('/admin/video/%d/edit' % self.video.id)

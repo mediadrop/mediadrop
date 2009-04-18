@@ -27,6 +27,7 @@ var SlugManager = new Class({
 		this.masterField = $(this.options.masterField);
 
 		this._hide(this.slugWrapper, true);
+		this.slugField.set('disabled', true);
 
 		var slug = this.slugField.get('value');
 		this.stub = new Element('span', {text: slug, id: this.options.stub});
@@ -52,7 +53,8 @@ var SlugManager = new Class({
 	showSlugField: function(){
 		this._hide(this.stubWrapper, true);
 		this._hide(this.slugWrapper, false);
-		this.stubField.destroy();
+		this.stubField.set('disabled', true);
+		this.slugField.set('disabled', false);
 	},
 
 	updateSlug: function(){

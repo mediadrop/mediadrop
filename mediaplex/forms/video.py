@@ -1,4 +1,4 @@
-from tw.forms import ListForm, ListFieldSet, TextField, CalendarDatePicker, SingleSelectField, TextArea, SubmitButton
+from tw.forms import ListForm, ListFieldSet, TextField, FileField, CalendarDatePicker, SingleSelectField, TextArea, SubmitButton
 from formencode.validators import Int, NotEmpty, DateConverter, DateValidator
 from tw.api import WidgetsList
 
@@ -20,6 +20,7 @@ class VideoForm(ListForm):
             TextField('duration'),
             TextField('url', label_text='Video URL')
         ]),
+        FileField('album_art'),
         SubmitButton('save', default='Save', css_classes=['btn-save', 'f-rgt']),
         SubmitButton('delete', default='Delete', css_classes=['btn-delete']),
     ]
