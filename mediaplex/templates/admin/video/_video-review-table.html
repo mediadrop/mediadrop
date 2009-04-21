@@ -1,0 +1,22 @@
+<table xmlns="http://www.w3.org/1999/xhtml"
+       xmlns:py="http://genshi.edgewall.org/"
+       py:def="review_table(page, include_thead=True)"
+       id="review-table" cellpadding="0" cellspacing="0">
+	<thead py:if="include_thead">
+		<tr>
+			<th style="width:100px">Uploaded Date</th>
+			<th style="width:90px">Status</th>
+			<th style="width:auto">Title</th>
+			<th style="width:100px">Author</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr py:if="len(page.items) == 0"><td colspan="4">No Videos Found</td></tr>
+		<tr py:for="media_item in page.items">
+			<td py:content="media_item.created_on.strftime('%b %d %Y')">Date Uploaded</td>
+			<td><a class="mo review-me" href="/admin/video/${media_item.id}/edit"><span>review me</span></a></td>
+			<td><a href="/admin/video/${media_item.id}/edit" py:content="media_item.title">Title</a></td>
+			<td><a href="mailto:${media_item.author.email}" py:content="media_item.author.name">Author</a></td>
+		</tr>
+	</tbody>
+</table>

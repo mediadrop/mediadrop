@@ -1,3 +1,9 @@
+a.add-video, a.add-video:hover {
+	width: 120px;
+	height: 28px;
+	margin: -3px 0 0 10px;
+}
+a.add-video { background-image: url('../images/buttons/add-video.png'); }
 #video-form .form-label {
 	font-size: 108%;
 	font-weight: bold;

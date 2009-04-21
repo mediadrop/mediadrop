@@ -12,12 +12,12 @@ from sqlalchemy import and_, or_
 from sqlalchemy.orm import eagerload
 from webhelpers import paginate
 
-from mediaplex.model import DBSession, metadata, Video, Tag, authors, comments
 from mediaplex.lib import helpers
 from mediaplex.lib.base import Controller, BaseController
+from mediaplex.model import DBSession, metadata, Video, Comment, Tag, Author
+from mediaplex.model.media import PUBLISHED, AWAITING_ENCODING, AWAITING_REVIEW
 from mediaplex.forms.video import VideoForm
 from mediaplex.forms.comments import PostCommentForm
-
 
 class VideoController(BaseController):
     """Public video list actions"""
@@ -95,8 +95,32 @@ class VideoAdminController(BaseController):
     """Admin video actions which deal with groups of videos"""
 
     @expose('mediaplex.templates.admin.video.index')
-    def index(self, search_string=None):
-        videos = DBSession.query(Video)
+    def index(self, **kwargs):
+        search_query = kwargs.get('quicksearch', None)
+        return dict(page=self._fetch_page(search_query),
+                    search_string=search_query,
+                    datetime_now=datetime.now(),
+                    published_status='publish',
+                    awaiting_encoding_status='draft,pending_encoding',
+                    awaiting_review_status='draft,pending_encoding,pending_review')
+
+    @expose('mediaplex.templates.admin.video.video-table-ajax')
+    def ajax(self, page_num, search_string=None):
+        """ShowMore Ajax Fetch Action"""
+        videos_page = self._fetch_page(search_string, page_num)
+        return dict(page=videos_page,
+                    search_string=search_string,
+                    datetime_now=datetime.now(),
+                    published_status='publish',
+                    awaiting_encoding_status='draft,pending_encoding',
+                    awaiting_review_status='draft,pending_encoding,pending_review')
+
+    def _fetch_page(self, search_string=None, page_num=1, items_per_page=10):
+        """Helper method for paginating video results"""
+        from webhelpers import paginate
+
+        videos = DBSession.query(Video).\
+            filter(Video.status.in_([PUBLISHED, AWAITING_ENCODING, AWAITING_REVIEW]))
         if search_string is not None:
             like_search = '%%%s%%' % (search_string,)
             videos = videos.outerjoin(Video.tags).\
@@ -105,18 +129,15 @@ class VideoAdminController(BaseController):
                            Video.notes.like(like_search),
                            Video.tags.any(Tag.name.like(like_search))))
 
-        # TODO - order by status
         videos = videos.options(eagerload('tags'), eagerload('comments')).\
-                    order_by(Video.status.desc(), Video.created_on)[:15]
-        return dict(videos=videos,
-                    search_string=search_string,
-                    datetime_now=datetime.now())
+                    order_by(Video.status.desc(), Video.created_on)
+
+        return paginate.Page(videos, page_num, items_per_page)
 
     @expose()
     def lookup(self, id, *remainder):
         video = VideoRowAdminController(id)
         return video, remainder
-
 
 class VideoRowAdminController(object):
     """Admin video actions which deal with a single video"""

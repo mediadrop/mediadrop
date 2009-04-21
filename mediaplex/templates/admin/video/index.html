@@ -8,50 +8,33 @@
 	<title>Videos</title>
 	<link href="/admin/styles/media.css" media="screen" rel="stylesheet" type="text/css" />
 	<link href="/admin/styles/videos.css" media="screen" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="/admin/scripts/show-more.js"></script>
+	<script type="text/javascript">
+		window.addEvent('domready', function(){
+			vs = new ShowMore({
+				table: 'video-table',
+				fetchPageUrl: '/admin/video/ajax',
+				searchString: ${search_string and ("'%s'" % search_string) or 'null'},
+				pageNum: ${page.page},
+				lastPage: ${page.last_page or 1}
+			});
+		});
+	</script>
 </head>
 <body class="menu-videos-on">
 	<div class="box">
 		<div class="box-head">
+			<a class="mo add-video f-rgt" href="/admin/video/new"><span>Add new video</span></a>
 			<div id="quicksearch" class="f-rgt">
-				<form action="/admin/video" method="post">
-					<input id="quicksearch-query" name="quicksearch-query" type="text" value="${search_string or 'SEARCH...'}" />
+				<form action="/admin/video" method="get">
+					<input id="quicksearch-query" name="quicksearch" type="text" value="${search_string or 'SEARCH...'}" />
 				</form>
 			</div>
-			<h1>All Videos</h1>
+			<h1 py:if="search_string is None">All Videos</h1>
+			<h1 py:if="search_string is not None">Videos that match '${search_string}'</h1>
 		</div>
-		<table cellpadding="0" cellspacing="0">
-			<thead>
-				<tr>
-					<th style="width:100px">Publish Date</th>
-					<th style="width:90px">Status</th>
-					<th style="width:auto">Title</th>
-					<th style="width:200px">Tags</th>
-					<th style="width:100px">Date Uploaded</th>
-					<th style="width:30px" class="center"><img src="/admin/images/icons/comments.png" alt="" /></th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr py:if="len(videos) == 0" colspan="6"><td>No Videos Found</td></tr>
-				<tr py:for="video in videos" py:with="tag_count = len(video.tags); date_style=(video.publish_on is None or video.publish_on > datetime_now) and 'italic' or ''">
-					<td class="${date_style}" py:content="video.publish_on is None and 'unpublished' or video.publish_on.strftime('%b %d %Y')">Publish Date</td>
-					<td py:choose="">
-						<a class="review-me" py:when="video.status == 'unreviewed'" href="/admin/video/${video.id}/edit"><span>review me</span></a>
-						<a class="encode-me" py:when="video.status == 'publishable' and video.upload_url is not None and (video.publish_on is None or video.url is None)" href="${video.upload_url}"><span>encode me</span></a>
-						<a class="encode-me" py:when="video.status == 'publishable' and (video.publish_on is None or video.url is None)" href="/admin/video/${video.id}/edit"><span>encode me</span></a>
-						<a class="published" py:otherwise="" href="/video/${video.slug}"><span>published</span></a>
-					</td>
-					<td><a href="/admin/video/${video.id}/edit" py:content="video.title">Title</a></td>
-					<td py:choose="tag_count">
-						<py:when test="0">None</py:when>
-						<py:otherwise py:for="i, tag in enumerate(video.tags)">
-							<a href="/video/tags/${tag.slug}" rel="tag" py:content="tag.name">Tag</a><py:if test="i+1 != tag_count">,</py:if>
-						</py:otherwise>
-					</td>
-					<td py:content="video.created_on.strftime('%b %d %Y')">Date Uploaded</td>
-					<td class="center" py:content="len(video.comments)">&#35;</td>
-				</tr>
-			</tbody>
-		</table>
+		<xi:include href="_video-table.html" />
+		${video_table()}
 	</div>
 </body>
 </html>

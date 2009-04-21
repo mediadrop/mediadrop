@@ -1,0 +1,38 @@
+<table xmlns="http://www.w3.org/1999/xhtml"
+       xmlns:py="http://genshi.edgewall.org/"
+       py:def="video_table(include_thead=True)"
+       id="video-table"
+       cellpadding="0"
+       cellspacing="0">
+	<thead py:if="include_thead">
+		<tr>
+			<th style="width:100px">Publish Date</th>
+			<th style="width:90px">Status</th>
+			<th style="width:auto">Title</th>
+			<th style="width:200px">Tags</th>
+			<th style="width:100px">Date Uploaded</th>
+			<th style="width:30px" class="center"><img src="/admin/images/icons/comments.png" alt="Comments" title="Number of Comments" /></th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr py:if="len(page.items) == 0"><td colspan="6">No Videos Found</td></tr>
+		<tr py:for="video in page.items" py:with="tag_count = len(video.tags); date_style=(video.publish_on is None or video.publish_on > datetime_now) and 'italic' or ''">
+			<td class="${date_style}" py:content="video.publish_on is None and 'unpublished' or video.publish_on.strftime('%b %d %Y')">Publish Date</td>
+			<td py:choose="">
+				<a class="mo review-me" py:when="video.status == awaiting_review_status" href="/admin/video/${video.id}/edit"><span>review me</span></a>
+				<a class="mo encode-me" py:when="video.status == awaiting_encoding_status and video.upload_url is not None and (video.publish_on is None or video.url is None)" href="${video.upload_url}"><span>encode me</span></a>
+				<a class="mo encode-me" py:when="video.status == awaiting_encoding_status and (video.publish_on is None or video.url is None)" href="/admin/video/${video.id}/edit"><span>encode me</span></a>
+				<a class="mo published" py:otherwise="" href="/video/${video.slug}"><span>published</span></a>
+			</td>
+			<td><a href="/admin/video/${video.id}/edit" py:content="video.title">Title</a></td>
+			<td py:choose="tag_count">
+				<py:when test="0">None</py:when>
+				<py:otherwise py:for="i, tag in enumerate(video.tags)">
+					<a href="/video/tags/${tag.slug}" rel="tag" py:content="tag.name">Tag</a><py:if test="i+1 != tag_count">,</py:if>
+				</py:otherwise>
+			</td>
+			<td py:content="video.created_on.strftime('%b %d %Y')">Date Uploaded</td>
+			<td style="text-align:center" py:content="len(video.comments)">&#35;</td>
+		</tr>
+	</tbody>
+</table>

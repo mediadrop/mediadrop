@@ -168,8 +168,6 @@ body {
 .box-round-bot-rgt { bottom: 0; right: 0; background-image: url('../images/layout/box-bot-rgt.png'); }
 
 
-
-
 table {
 	background: #fff;
 	width: 100%;
@@ -206,8 +204,6 @@ thead tr th {
 }
 
 
-
-
 /* Forms */
 .btn-save, .btn-delete {
 	text-indent: -1000px;
@@ -218,6 +214,14 @@ thead tr th {
 }
 .btn-save { background-image: url('../images/buttons/save.png'); width: 87px; }
 .btn-delete { background-image: url('../images/buttons/delete.png'); width: 93px; }
+
+
+span.show-more {
+	font: bold 14px Helvetica,Arial,Verdana,sans-serif;
+	color: #0e436f;
+	background: transparent url('../images/icons/show-more-trans.png') no-repeat top right;
+	padding-right: 16px;
+}
 
 #slug-stub {
 	font-weight: normal;

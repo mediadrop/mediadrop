@@ -1,0 +1,30 @@
+<table xmlns="http://www.w3.org/1999/xhtml"
+       xmlns:py="http://genshi.edgewall.org/"
+       py:def="encode_table(page, include_thead=True)"
+       id="encode-table" cellpadding="0" cellspacing="0">
+	<thead py:if="include_thead">
+		<tr>
+			<th style="width:100px">Uploaded Date</th>
+			<th style="width:90px">Status</th>
+			<th style="width:auto">Title</th>
+			<th style="width:150px">Tags</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr py:if="len(page) == 0"><td colspan="4">No Videos Found</td></tr>
+		<tr py:for="media_item in page" py:with="tag_count = len(media_item.tags)">
+			<td py:content="media_item.created_on.strftime('%b %d %Y')">Date Uploaded</td>
+			<td py:choose="">
+				<a class="mo encode-me" py:when="media_item.upload_url is None" href="/admin/video/${media_item.id}/edit"><span>encode me</span></a>
+				<a class="mo encode-me" py:otherwise="" href="${media_item.upload_url}"><span>encode me</span></a>
+			</td>
+			<td><a href="/admin/video/${media_item.id}/edit" py:content="media_item.title">Title</a></td>
+			<td py:choose="tag_count">
+				<py:when test="0">None</py:when>
+				<py:otherwise py:for="i, tag in enumerate(media_item.tags)">
+					<a href="/video/tags/${tag.slug}" rel="tag" py:content="tag.name">Tag</a><py:if test="i+1 != tag_count">,</py:if>
+				</py:otherwise>
+			</td>
+		</tr>
+	</tbody>
+</table>

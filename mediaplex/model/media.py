@@ -41,6 +41,9 @@ from mediaplex.model.status import Status
 TRASH, PUBLISH, DRAFT, PENDING_ENCODING, PENDING_REVIEW = 1, 2, 4, 8, 16
 """Status codes"""
 
+PUBLISHED, AWAITING_ENCODING, AWAITING_REVIEW = 2, 12, 28
+"""Combined Status codes used for business logic"""
+
 STATUSES = {
     TRASH: Status(TRASH, 'Trash', 'trash'),
     PUBLISH: Status(PUBLISH, 'Publish', 'publish'),
@@ -48,6 +51,7 @@ STATUSES = {
     PENDING_ENCODING: Status(PENDING_ENCODING, 'Pending Encoding', 'encode'),
     PENDING_REVIEW: Status(PENDING_REVIEW, 'Pending Review', 'review')
 }
+
 
 media = Table('media', metadata,
     Column('id', Integer, autoincrement=True, primary_key=True),
