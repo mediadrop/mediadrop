@@ -13,13 +13,13 @@ from sqlalchemy.orm import eagerload
 from webhelpers import paginate
 
 from mediaplex.lib import helpers
-from mediaplex.lib.base import Controller, BaseController
+from mediaplex.lib.base import Controller, BaseController, RoutingController
 from mediaplex.model import DBSession, metadata, Video, Comment, Tag, Author
 from mediaplex.model.media import PUBLISHED, AWAITING_ENCODING, AWAITING_REVIEW
 from mediaplex.forms.video import VideoForm
 from mediaplex.forms.comments import PostCommentForm
 
-class VideoController(BaseController):
+class VideoController(RoutingController):
     """Public video list actions"""
 
     @expose('mediaplex.templates.video.grid')
