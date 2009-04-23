@@ -15,8 +15,9 @@ setup(
     install_requires=[
         "TurboGears2",
         "ToscaWidgets >= 0.9.1",
+        "tw.dynforms",
         "zope.sqlalchemy",
-        
+        "sqlalchemy >= 0.5.2",
         "repoze.what-quickstart",
                 ],
     setup_requires=["PasteScript>=1.6.3"],
