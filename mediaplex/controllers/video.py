@@ -100,9 +100,9 @@ class VideoAdminController(BaseController):
         return dict(page=self._fetch_page(search_query),
                     search_string=search_query,
                     datetime_now=datetime.now(),
-                    published_status='publish',
-                    awaiting_encoding_status='draft,pending_encoding',
-                    awaiting_review_status='draft,pending_encoding,pending_review')
+                    published_status=PUBLISHED,
+                    awaiting_encoding_status=AWAITING_ENCODING,
+                    awaiting_review_status=AWAITING_REVIEW)
 
     @expose('mediaplex.templates.admin.video.video-table-ajax')
     def ajax(self, page_num, search_string=None):
@@ -111,9 +111,9 @@ class VideoAdminController(BaseController):
         return dict(page=videos_page,
                     search_string=search_string,
                     datetime_now=datetime.now(),
-                    published_status='publish',
-                    awaiting_encoding_status='draft,pending_encoding',
-                    awaiting_review_status='draft,pending_encoding,pending_review')
+                    published_status=PUBLISHED,
+                    awaiting_encoding_status=AWAITING_ENCODING,
+                    awaiting_review_status=AWAITING_REVIEW)
 
     def _fetch_page(self, search_string=None, page_num=1, items_per_page=10):
         """Helper method for paginating video results"""
