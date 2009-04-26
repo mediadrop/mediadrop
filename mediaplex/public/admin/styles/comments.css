@@ -1,19 +1,20 @@
-a.review-comment,
-a.published-comment {
+.review-comment,
+.published-comment {
 	width: 29px;
 	height: 19px;
 	float: left;
+	text-indent: -1000px;
 }
 
-a.trash-comment {
+.trash-comment {
 	width: 26px;
 	height: 19px;
 	float: left;
 }
 
-a.review-comment { background-image: url('../images/buttons/comment-approve.png'); }
-a.published-comment { background-image: url('../images/buttons/comment-published.png'); }
-a.trash-comment { background-image: url('../images/buttons/comment-delete.png'); }
+.review-comment { background-image: url('../images/buttons/comment-approve.png'); }
+.published-comment { background-image: url('../images/buttons/comment-published.png'); }
+.trash-comment { background-image: url('../images/buttons/comment-delete.png'); }
 
 td.author strong {
 	font-weight: bold;

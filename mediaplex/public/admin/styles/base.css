@@ -271,7 +271,7 @@ a.mo span {
 	display: none;
 }
 
-a.mo, a.mo:hover {
+a.mo {
 	display: block;
 	background-repeat: no-repeat;
 	background-position: top;
