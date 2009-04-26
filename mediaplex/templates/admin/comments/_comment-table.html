@@ -3,16 +3,6 @@
        py:def="comment_table(include_thead=True)" id="comment-table" cellpadding="0" cellspacing="0">
 <!--! NOTE: thead/td is used for beige table headings while thead/th is reserved for blue column headings -->
 	<thead py:if="include_thead">
-		<tr id="table-heading">
-			<td colspan="4" class="with-search">
-				<div id="search" class="float-right">
-					<form action="/admin/comments" method="post">
-						<input name="search_string" type="text" value="${search_string or 'SEARCH...'}" onclick="this.value=''" />
-					</form>
-				</div>
-				<h1>All Comments</h1>
-			</td>
-		</tr>
 		<tr>
 			<th style="width:58px">Status</th>
 			<th style="width:100px">Author</th>

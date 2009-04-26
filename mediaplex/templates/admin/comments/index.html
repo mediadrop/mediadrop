@@ -8,12 +8,11 @@
 <head>
 	<title>Comments</title>
 	<link href="/admin/styles/comments.css" media="screen" rel="stylesheet" type="text/css" />
-	<script type="text/javascript" src="/admin/scripts/comment-list.js"></script>
 	<script type="text/javascript" src="/admin/scripts/show-more.js"></script>
 	<script type="text/javascript">
 		window.addEvent('domready', function(){
 			vs = new ShowMore({
-				tableId: 'comment-table',
+				table: 'comment-table',
 				fetchPageUrl: '/admin/comments/ajax',
 				searchString: ${search_string and ("'%s'" % search_string) or 'null'},
 				pageNum: ${page.page},
@@ -23,7 +22,16 @@
 	</script>
 </head>
 <body class="menu-comments-on">
-	<xi:include href="_comment-table.html" />
-	${comment_table()}
+	<div class="box">
+		<div class="box-head">
+			<div id="quicksearch" class="f-rgt">
+				${XML(search_form(search_form_values))}
+			</div>
+			<h1 py:if="not search_string">All Comments</h1>
+			<h1 py:if="search_string">Comments that match '${search_string}'</h1>
+		</div>
+		<xi:include href="_comment-table.html" />
+		${comment_table()}
+	</div>
 </body>
 </html>
