@@ -8,7 +8,6 @@ from tg import request
 import pylons
 
 from tg.controllers import DecoratedController
-from tg.i18n import setup_i18n
 from tg.exceptions import (HTTPFound, HTTPNotFound, HTTPException,
     HTTPClientError)
 
