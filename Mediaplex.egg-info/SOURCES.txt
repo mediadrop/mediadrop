@@ -23,6 +23,7 @@ mediaplex/controllers/secure.py
 mediaplex/controllers/template.py
 mediaplex/controllers/video.py
 mediaplex/forms/__init__.py
+mediaplex/forms/admin.py
 mediaplex/forms/comments.py
 mediaplex/forms/video.py
 mediaplex/i18n/ru/LC_MESSAGES/mediaplex.po
