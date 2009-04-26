@@ -27,7 +27,7 @@ class CommentAdminController(BaseController):
                     published_status='publish',
                     awaiting_review_status='pending_review')
 
-    def _fetch_page(self, search_string=None, page_num=1, items_per_page=20):
+    def _fetch_page(self, search_string=None, page_num=1, items_per_page=10):
         """Helper method for paginating comments results"""
         from webhelpers import paginate
 

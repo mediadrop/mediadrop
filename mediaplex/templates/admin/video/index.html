@@ -26,12 +26,10 @@
 		<div class="box-head">
 			<a class="mo add-video f-rgt" href="/admin/video/new"><span>Add new video</span></a>
 			<div id="quicksearch" class="f-rgt">
-				<form action="/admin/video" method="get">
-					<input id="quicksearch-query" name="quicksearch" type="text" value="${search_string or 'SEARCH...'}" />
-				</form>
+				${XML(search_form(search_form_values))}
 			</div>
-			<h1 py:if="search_string is None">All Videos</h1>
-			<h1 py:if="search_string is not None">Videos that match '${search_string}'</h1>
+			<h1 py:if="not search_string">All Videos</h1>
+			<h1 py:if="search_string">Videos that match '${search_string}'</h1>
 		</div>
 		<xi:include href="_video-table.html" />
 		${video_table()}

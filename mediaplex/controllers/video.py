@@ -16,6 +16,7 @@ from mediaplex.lib import helpers
 from mediaplex.lib.base import Controller, BaseController, RoutingController
 from mediaplex.model import DBSession, metadata, Video, Comment, Tag, Author
 from mediaplex.model.media import PUBLISHED, AWAITING_ENCODING, AWAITING_REVIEW
+from mediaplex.forms.admin import SearchForm
 from mediaplex.forms.video import VideoForm
 from mediaplex.forms.comments import PostCommentForm
 
@@ -96,8 +97,15 @@ class VideoAdminController(BaseController):
 
     @expose('mediaplex.templates.admin.video.index')
     def index(self, **kwargs):
-        search_query = kwargs.get('quicksearch', None)
+        search_query = kwargs.get('searchquery', None)
+        search_form = SearchForm(action='/admin/video/')
+        search_form_values = {
+            'searchquery': not search_query and 'SEARCH...' or search_query
+        }
+
         return dict(page=self._fetch_page(search_query),
+                    search_form=search_form,
+                    search_form_values=search_form_values,
                     search_string=search_query,
                     datetime_now=datetime.now(),
                     published_status=PUBLISHED,
@@ -109,13 +117,12 @@ class VideoAdminController(BaseController):
         """ShowMore Ajax Fetch Action"""
         videos_page = self._fetch_page(search_string, page_num)
         return dict(page=videos_page,
-                    search_string=search_string,
                     datetime_now=datetime.now(),
                     published_status=PUBLISHED,
                     awaiting_encoding_status=AWAITING_ENCODING,
                     awaiting_review_status=AWAITING_REVIEW)
 
-    def _fetch_page(self, search_string=None, page_num=1, items_per_page=10):
+    def _fetch_page(self, search_string=None, page_num=1, items_per_page=3):
         """Helper method for paginating video results"""
         from webhelpers import paginate
 
