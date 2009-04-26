@@ -68,20 +68,6 @@ a.total {
 }
 
 
-a.mo span {
-	display: none;
-}
-
-a.mo, a.mo:hover {
-	display: block;
-	background-repeat: no-repeat;
-	background-position: top;
-}
-
-a.mo:hover {
-	background-position: bottom;
-}
-
 
 #video-form .form-label {
 	font-size: 108%;
