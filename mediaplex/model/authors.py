@@ -11,6 +11,9 @@ class Author(object):
     handle that from the get go.
 
     """
+    name = u''
+    email = u''
+
     def __init__(self, name=None, email=None):
         self.name = name
         self.email = email
@@ -30,6 +33,9 @@ class Author(object):
 
 class AuthorWithIP(Author):
     """Author Info Wrapper with an extra column for an IP"""
+    ip = None
+    _ip = None
+
     def __init__(self, name=None, email=None, ip=None):
         super(AuthorWithIP, self).__init__(name, email)
         self.ip = ip

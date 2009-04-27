@@ -20,12 +20,20 @@ class VideoForm(ListForm):
             TextField('duration'),
             TextField('url', label_text='Video URL')
         ]),
-        FileField('album_art'),
         SubmitButton('save', default='Save', css_classes=['btn-save', 'f-rgt']),
         SubmitButton('delete', default='Delete', css_classes=['btn-delete']),
     ]
 
-#    def display(self, value=None, **kw):
-#        if value is not None:
-#            value = newval
-#        return super(VideoForm, self).display(value, **kw)
+
+class AlbumArtForm(ListForm):
+    template = 'mediaplex.templates.admin.video.album-art-form'
+    id = 'album-art-form'
+    css_class = 'form'
+    submit_text = None
+
+    fields = [
+        FileField('album_art'),
+        SubmitButton('save', default='Save', css_classes=['btn-save', 'f-rgt']),
+#        ResetButton('cancel', default='Cancel', css_classes=['btn-save', 'f-rgt']),
+#        SubmitButton('delete', default='Delete', css_classes=['btn-delete']),
+    ]

@@ -4,6 +4,9 @@ Video Media Controllers
 """
 import shutil
 import os.path
+from urlparse import urlparse, urlunparse
+from cgi import parse_qs
+from PIL import Image
 from datetime import datetime
 from tg import expose, validate, flash, require, url, request, redirect
 from formencode import validators
@@ -14,20 +17,20 @@ from webhelpers import paginate
 
 from mediaplex.lib import helpers
 from mediaplex.lib.base import Controller, BaseController, RoutingController
-from mediaplex.model import DBSession, metadata, Video, Comment, Tag, Author
+from mediaplex.model import DBSession, metadata, Video, Comment, Tag, Author, AuthorWithIP
 from mediaplex.model.media import PUBLISHED, AWAITING_ENCODING, AWAITING_REVIEW
 from mediaplex.forms.admin import SearchForm
 from mediaplex.forms.video import VideoForm
+from mediaplex.forms.video import VideoForm, AlbumArtForm
 from mediaplex.forms.comments import PostCommentForm
 
 class VideoController(RoutingController):
     """Public video list actions"""
 
-    @expose('mediaplex.templates.video.grid')
-    def grid(self, page=1, **kwargs):
+    @expose('mediaplex.templates.video.index')
+    def index(self, page=1, **kwargs):
         """Grid-style List Action"""
         return dict(page=self._fetch_page(page, 25))
-    default = grid
 
     @expose('mediaplex.templates.video.mediaflow')
     def flow(self, page=1, **kwargs):
@@ -80,7 +83,7 @@ class VideoRowController(object):
     def comment(self, **values):
         c = comments.Comment()
         c.status = comments.PENDING_REVIEW
-        c.author = authors.AuthorWithIP(values['name'], None, request.environ['REMOTE_ADDR'])
+        c.author = AuthorWithIP(values['name'], None, request.environ['REMOTE_ADDR'])
         c.subject = 'Re: %s' % self.video.title
         c.body = values['body']
         self.video.comments.append(c)
@@ -122,7 +125,7 @@ class VideoAdminController(BaseController):
                     awaiting_encoding_status=AWAITING_ENCODING,
                     awaiting_review_status=AWAITING_REVIEW)
 
-    def _fetch_page(self, search_string=None, page_num=1, items_per_page=3):
+    def _fetch_page(self, search_string=None, page_num=1, items_per_page=30):
         """Helper method for paginating video results"""
         from webhelpers import paginate
 
@@ -143,7 +146,12 @@ class VideoAdminController(BaseController):
 
     @expose()
     def lookup(self, id, *remainder):
-        video = VideoRowAdminController(id)
+        if id == 'new':
+            newvideo = Video()
+            newvideo.id = 'new'
+            video = VideoRowAdminController(video=newvideo)
+        else:
+            video = VideoRowAdminController(id)
         return video, remainder
 
 class VideoRowAdminController(object):
@@ -155,7 +163,7 @@ class VideoRowAdminController(object):
 
     @expose('mediaplex.templates.admin.video.edit')
     def edit(self, **values):
-        form = VideoForm(action='/admin/video/%d/save' % self.video.id)
+        form = VideoForm(action='/admin/video/%s/save' % self.video.id)
         form_values = {
             'slug': self.video.slug,
             'title': self.video.title,
@@ -169,27 +177,57 @@ class VideoRowAdminController(object):
                 'url': self.video.url
             }
         }
+        if self.video.id == 'new' and not self.video.notes:
+            form_values['notes'] = """Bible References: None
+S&H References: None
+Reviewer: None
+License: General Upload"""
         form_values.update(values)
-        return dict(video=self.video, form=form, form_values=form_values)
+        return {
+            'video': self.video,
+            'form': form,
+            'form_values': form_values,
+            'album_art_form': AlbumArtForm(action='/admin/video/%s/save_album_art' % self.video.id),
+        }
+    default = edit
 
     @expose()
     @validate(VideoForm(), error_handler=edit)
     def save(self, **values):
+        if self.video.id == 'new':
+            self.video.id = None
+
         self.video.slug = values['slug']
         self.video.title = values['title']
-        self.video.author = authors.Author(values['author_name'], values['author_email'])
+        self.video.author = Author(values['author_name'], values['author_email'])
         self.video.description = values['description']
         self.video.notes = values['notes']
         self.video.duration = helpers.duration_to_seconds(values['details']['duration'])
-        self.video.url = values['details']['url'] or None
         self.video.set_tags(values['tags'])
+
+        url = urlparse(values['details']['url'], 'http')
+        if 'youtube.com' in url[1]:
+            if 'youtube.com/watch' in url[1]:
+                youtube_id = parse_qs(url[4])['v']
+                self.video.url = urlunparse(('http', 'youtube.com', '/v/%s' % youtube_id, '', None, None))
+            else:
+                self.video.url = values['details']['url']
+        else:
+            self.video.encode_url = values['details']['url']
+
+        if self.video.id == 'new':
+            self.video.id = None
+
         DBSession.add(self.video)
         DBSession.flush()
-        if values['album_art'] is not None:
-            temp_file = values['album_art'].file
-            perm_path = '%s/../public/images/videos/%d.jpg' % (os.path.dirname(__file__), self.video.id)
-            perm_file = open(perm_path, 'w')
-            shutil.copyfileobj(temp_file, perm_file)
-            temp_file.close()
-            perm_file.close()
+        redirect('/admin/video/%d/edit' % self.video.id)
+
+    @expose()
+    @validate(AlbumArtForm(), error_handler=edit)
+    def save_album_art(self, **values):
+        temp_file = values['album_art'].file
+        im_path = '%s/../public/images/videos/%d%%s.jpg' % (os.path.dirname(__file__), self.video.id)
+        im = Image.open(temp_file)
+        im.resize((149,  92), 1).save(im_path % 's')
+        im.resize((240, 168), 1).save(im_path % 'm')
         redirect('/admin/video/%d/edit' % self.video.id)

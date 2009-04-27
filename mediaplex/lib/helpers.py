@@ -5,13 +5,15 @@ from webhelpers.html.converters import format_paragraphs
 
 
 def duration_from_seconds(total_sec):
+    if not total_sec:
+        return u''
     secs = total_sec % 60
     mins = math.floor(total_sec / 60)
     hours = math.floor(total_sec / 60 / 60)
     if hours > 0:
-        return '%d:%02d:%02d' % (hours, mins, secs)
+        return u'%d:%02d:%02d' % (hours, mins, secs)
     else:
-        return '%d:%02d' % (mins, secs)
+        return u'%d:%02d' % (mins, secs)
 
 
 def duration_to_seconds(duration):

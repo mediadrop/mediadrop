@@ -335,6 +335,8 @@ SqueezeBox.parsers.extend({
 	}
 });
 
+SqueezeBox.parsers.fittedClone = SqueezeBox.parsers.clone;
+
 SqueezeBox.handlers.extend({
 
 	image: function(url) {

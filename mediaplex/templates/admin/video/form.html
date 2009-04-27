@@ -42,17 +42,16 @@
 		</ul>
 		<span py:if="error and not error.error_dict" class="field-error" py:content="error" />
 	</div>
-	<div class="hidden">
-		<div id="album-art-wrapper">
-			<div class="box">
-				<h1 class="box-head">Album Art</h1>
-				<p>Select an image to upload:</p>
-				${XML(children['album_art'])}
-				${XML(children['save'])}
-				<div class="box-foot"></div>
-			</div>
+<!--!	<div id="album-art-wrapper" class="box fitted-sbox">
+		<h1 class="box-head">Album Art</h1>
+		<div class="box-content">
+			<p>Select an image to upload:</p>
+			${XML(children['album_art'])}
 		</div>
-	</div>
+		<div class="box-foot">
+			${XML(children['save'])}
+		</div>
+	</div>-->
 	<div class="box-foot">
 		${XML(children['save'])}
 		${XML(children['delete'])}

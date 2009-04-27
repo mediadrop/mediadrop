@@ -1,3 +1,5 @@
+.for-sbox, .fitted-sbox { display: none; }
+
 #sbox-overlay {
 	position: absolute;
 	background-color: #000;
@@ -10,10 +12,9 @@
 	background-color: #fff;
 	text-align: left;
 	overflow: visible;
-	padding: 10px;
 	/* invalid values, but looks smoother! */
-	-moz-border-radius: 3px;
-	-webkit-border-radius: 3px;
+/*	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;*/
 }
 #sbox-btn-close {
 	position: absolute;
@@ -21,11 +22,11 @@
 	height: 30px;
 	right: -15px;
 	top: -15px;
-	background: url('../images/layout/box-close.png') no-repeat center;
+	background: url('../images/layout/sbox-close.png') no-repeat center;
 	border: none;
 }
 .sbox-window-ie6 #sbox-btn-close {
-	background-image: url('../images/layout/box-close.gif');
+	background-image: url('../images/layout/sbox-close.gif');
 }
 .sbox-loading #sbox-content {
 	background-image: url('../images/icons/spinner.gif');
@@ -76,43 +77,43 @@
 	left: 0;
 	top: -40px;
 	width: 100%;
-	background: url('../images/layout/bg_n.png') repeat-x;
+	background: url('../images/layout/sbox-n.png') repeat-x;
 }
 .sbox-bg-ne {
 	right: -33px;
 	top: -40px;
-	background: url('../images/layout/bg_ne.png') no-repeat;
+	background: url('../images/layout/sbox-ne.png') no-repeat;
 }
 .sbox-bg-e {
 	right: -33px;
 	top: 0;
 	height: 100%;
-	background: url('../images/layout/bg_e.png') repeat-y;
+	background: url('../images/layout/sbox-e.png') repeat-y;
 }
 .sbox-bg-se {
 	right: -33px;
 	bottom: -40px;
-	background: url('../images/layout/bg_se.png') no-repeat;
+	background: url('../images/layout/sbox-se.png') no-repeat;
 }
 .sbox-bg-s {
 	left: 0;
 	bottom: -40px;
 	width: 100%;
-	background: url('../images/layout/bg_s.png') repeat-x;
+	background: url('../images/layout/sbox-s.png') repeat-x;
 }
 .sbox-bg-sw {
 	left: -33px;
 	bottom: -40px;
-	background: url('../images/layout/bg_sw.png') no-repeat;
+	background: url('../images/layout/sbox-sw.png') no-repeat;
 }
 .sbox-bg-w {
 	left: -33px;
 	top: 0;
 	height: 100%;
-	background: url('../images/layout/bg_w.png') repeat-y;
+	background: url('../images/layout/sbox-w.png') repeat-y;
 }
 .sbox-bg-nw {
 	left: -33px;
 	top: -40px;
-	background: url('../images/layout/bg_nw.png') no-repeat;
+	background: url('../images/layout/sbox-nw.png') no-repeat;
 }

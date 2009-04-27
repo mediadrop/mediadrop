@@ -91,6 +91,10 @@ media_comments = Table('media_comments', metadata,
 
 class Media(object):
     """Base class for Audio and Video"""
+    def __init__(self):
+        if self.author is None:
+            self.author = Author()
+
     def __repr__(self):
         return '<Media: %s>' % self.slug
 

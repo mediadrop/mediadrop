@@ -17,8 +17,8 @@
 	<div class="column66">
 		<div class="box">
 			<div class="box-head">
-				<small class="box-head-sec">Uploaded: ${video.created_on.strftime('%b %d %Y')}</small>
-				<h1>${video.title}</h1>
+				<small py:if="video.created_on" class="box-head-sec">Uploaded: ${video.created_on.strftime('%b %d %Y')}</small>
+				<h1>${video.title or 'New Video'}</h1>
 			</div>
 			${XML(form(form_values))}
 		</div>
@@ -31,13 +31,19 @@
 				<img id="edit-album-art" class="clickable" src="/admin/images/buttons/edit-image.png" />
 			</div>
 		</div>
+		${XML(album_art_form)}
 		<br />
 		<div class="box">
 			<h1 class="box-head">Publish Status</h1>
 			<ol id="status-list" class="box-content">
-				<li py:for="s in video.statuses" id="status-${s.shorthand}" class="status-${s.flag}">${s}</li>
+				<li>pending review</li>
+				<li>pending encoding</li>
+<!--!	<li py:for="s in video.statuses" id="status-${s.shorthand}" class="status-${s.flag}">${s}</li>-->
 			</ol>
-			<a href="#"><img style="margin:15px auto 10px auto;display:block" src="/admin/images/buttons/ready-to-encode.png" width="144" height="34" alt="" /></a>
+			<div class="center">
+			<button>Approve</button>
+			</div>
+<!--!			<a href="#"><img style="margin:15px auto 10px auto;display:block" src="/admin/images/buttons/ready-to-encode.png" width="144" height="34" alt="" /></a>-->
 		</div>
 	</div>
 </body>
