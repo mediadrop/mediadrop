@@ -19,11 +19,15 @@
 	margin: 3px 0;
 	font-size: 108%;
 }
-.status-pending {
+.status-list-complete {
+	background: url('../images/icons/tick.png') no-repeat 0 2px;
+	color: #9b9b9b;
+}
+.status-list-inprogress {
 	background: url('../images/icons/arrow-green-right.png') no-repeat 0 2px;
 	color: #196d29;
 }
-.status-future {
+.status-list-pending {
 	color: #9b9b9b;
 }
 
@@ -66,6 +70,7 @@ a.total {
 	text-decoration: none;
 	font-weight: bold;
 }
+
 
 
 

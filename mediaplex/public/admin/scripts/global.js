@@ -1,9 +1,9 @@
+// Round the corners of all boxes by wrapping it in another div
 var roundBoxes = function(){
-	$$('div.box').each(function(el){
+	$$('.box').each(function(el){
 		var skippable = ['for-sbox', 'fitted-sbox'];
-		for (var i in skippable) { if (el.hasClass(skippable[i])) {return;} }
+		for (var i in skippable) if (el.hasClass(skippable[i])) return;
 
-		if (el.hasClass('for-sbox')) { return; }
 		var round = new Element('div', {'class': 'box-round'})
 			.wraps(el)
 			.grab(new Element('div', {'class': 'box-round-top-lft'}))
@@ -15,6 +15,7 @@ var roundBoxes = function(){
 window.addEvent('domready', roundBoxes);
 
 
+// Search box label handler
 var QuickSearch = new Class({
 	Extends: Options,
 

@@ -12,6 +12,7 @@
 	<script src="/scripts/third-party/squeezebox-1.1-rc3.js" type="text/javascript"></script>
 	<link href="/admin/styles/squeezebox.css" media="screen" rel="stylesheet" type="text/css" />
 	<script src="/admin/scripts/album-art.js" type="text/javascript"></script>
+	<script src="/admin/scripts/statuses.js" type="text/javascript"></script>
 </head>
 <body class="menu-videos-on">
 	<div class="column66">
@@ -33,18 +34,42 @@
 		</div>
 		${XML(album_art_form)}
 		<br />
-		<div class="box">
+		<form method="post" action="/admin/video/${video.id}/update_status"
+		      id="update_status_form" class="box"
+		      py:choose="video.status">
 			<h1 class="box-head">Publish Status</h1>
-			<ol id="status-list" class="box-content">
-				<li>pending review</li>
-				<li>pending encoding</li>
-<!--!	<li py:for="s in video.statuses" id="status-${s.shorthand}" class="status-${s.flag}">${s}</li>-->
-			</ol>
-			<div class="center">
-			<button>Approve</button>
+			<div py:when="28" class="box-content">
+				<ol id="status-list">
+					<li class="status-list-inprogress">review in progress</li>
+					<li class="status-list-pending">encoding pending</li>
+					<li class="status-list-pending">publishing pending</li>
+				</ol>
+				<div py:content="h.tags.submit('update_status', 'Review Complete', id='update-status', class_='submitbutton btn-review-complete')" class="center" />
 			</div>
-<!--!			<a href="#"><img style="margin:15px auto 10px auto;display:block" src="/admin/images/buttons/ready-to-encode.png" width="144" height="34" alt="" /></a>-->
-		</div>
+			<div py:when="12" class="box-content">
+				<ol id="status-list">
+					<li class="status-list-complete">review complete</li>
+					<li class="status-list-inprogress">encoding in progress</li>
+					<li class="status-list-pending">publishing pending</li>
+				</ol>
+				<div py:content="h.tags.submit('update_status', 'Encoding Complete', id='update-status', class_='submitbutton btn-encode-complete')" class="center" />
+			</div>
+			<div py:when="3" class="box-content">
+				<ol id="status-list">
+					<li class="status-list-complete">review complete</li>
+					<li class="status-list-complete">encoding complete</li>
+					<li class="status-list-inprogress">publishing pending</li>
+				</ol>
+				<div py:content="h.tags.submit('update_status', 'Publish Now', id='update-status', class_='submitbutton btn-publish-now')" class="center" />
+			</div>
+			<div py:when="2" class="box-content">
+				<ol id="status-list">
+					<li class="status-list-complete">review complete</li>
+					<li class="status-list-complete">encoding complete</li>
+					<li class="status-list-complete">published ${video.publish_on.strftime('%b %d %Y')}</li>
+				</ol>
+			</div>
+		</form>
 	</div>
 </body>
 </html>

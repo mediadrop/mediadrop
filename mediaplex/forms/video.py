@@ -7,8 +7,11 @@ class VideoForm(ListForm):
     id = 'video-form'
     css_class = 'form'
     submit_text = None
+    params = ['video']
+    video = None
 
     fields = [
+        # main box fields
         TextField('slug', validator=NotEmpty),
         TextField('title', validator=NotEmpty),
         TextField('author_name', validator=NotEmpty),

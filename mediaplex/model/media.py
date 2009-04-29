@@ -45,12 +45,17 @@ PUBLISHED, AWAITING_ENCODING, AWAITING_REVIEW = 2, 12, 28
 """Combined Status codes used for business logic"""
 
 STATUSES = {
-    TRASH: Status(TRASH, 'Trash', 'trash'),
-    PUBLISH: Status(PUBLISH, 'Publish', 'publish'),
-    DRAFT: Status(DRAFT, 'Draft', 'draft'),
-    PENDING_ENCODING: Status(PENDING_ENCODING, 'Pending Encoding', 'encode'),
-    PENDING_REVIEW: Status(PENDING_REVIEW, 'Pending Review', 'review')
+    TRASH: 'Trash',
+    PUBLISH: 'Publish',
+    DRAFT: 'Draft',
+    PENDING_ENCODING: 'Pending Encoding',
+    PENDING_REVIEW: 'Pending Review'
 }
+
+class StatusSet(set):
+    def has_key(self, key):
+        print key
+        super(StatusSet, self).has_key(key)
 
 
 media = Table('media', metadata,

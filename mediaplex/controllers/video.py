@@ -18,11 +18,12 @@ from webhelpers import paginate
 from mediaplex.lib import helpers
 from mediaplex.lib.base import Controller, BaseController, RoutingController
 from mediaplex.model import DBSession, metadata, Video, Comment, Tag, Author, AuthorWithIP
-from mediaplex.model.media import PUBLISHED, AWAITING_ENCODING, AWAITING_REVIEW
+from mediaplex.model.media import PUBLISHED, AWAITING_ENCODING, AWAITING_REVIEW, TRASH, PUBLISH, DRAFT, PENDING_ENCODING, PENDING_REVIEW
 from mediaplex.forms.admin import SearchForm
 from mediaplex.forms.video import VideoForm
 from mediaplex.forms.video import VideoForm, AlbumArtForm
 from mediaplex.forms.comments import PostCommentForm
+
 
 class VideoController(RoutingController):
     """Public video list actions"""
@@ -89,10 +90,6 @@ class VideoRowController(object):
         self.video.comments.append(c)
         DBSession.merge(self.video)
         redirect('/video/%s' % self.video.slug)
-
-    @expose()
-    def download(self):
-        return 'download video'
 
 
 class VideoAdminController(BaseController):
@@ -163,7 +160,7 @@ class VideoRowAdminController(object):
 
     @expose('mediaplex.templates.admin.video.edit')
     def edit(self, **values):
-        form = VideoForm(action='/admin/video/%s/save' % self.video.id)
+        form = VideoForm(action='/admin/video/%s/save' % self.video.id, video=self.video)
         form_values = {
             'slug': self.video.slug,
             'title': self.video.title,
@@ -175,7 +172,7 @@ class VideoRowAdminController(object):
             'details': {
                 'duration': helpers.duration_from_seconds(self.video.duration),
                 'url': self.video.url
-            }
+            },
         }
         if self.video.id == 'new' and not self.video.notes:
             form_values['notes'] = """Bible References: None
@@ -231,3 +228,20 @@ License: General Upload"""
         im.resize((149,  92), 1).save(im_path % 's')
         im.resize((240, 168), 1).save(im_path % 'm')
         redirect('/admin/video/%d/edit' % self.video.id)
+
+    @expose('json')
+    def update_status(self, **values):
+        submitted = values.get('update_status', None)
+        if submitted == 'Review Complete':
+            self.video.status &= ~PENDING_REVIEW
+            text = 'Encoding Complete'
+        elif submitted == 'Encoding Complete':
+            self.video.status &= ~PENDING_ENCODING
+            text = 'Publish Now'
+        elif submitted == 'Publish Now':
+            self.video.status &= ~DRAFT
+            self.video.status |= PUBLISH
+            text = None
+        else:
+            raise Exception
+        return dict(update_button_text=text)
