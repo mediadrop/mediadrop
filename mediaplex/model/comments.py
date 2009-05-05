@@ -21,16 +21,19 @@ from sqlalchemy.types import String, Unicode, UnicodeText, Integer, DateTime, Bo
 from sqlalchemy.orm import mapper, relation, backref, synonym, composite, column_property, validates, interfaces
 
 from mediaplex.model import DeclarativeBase, metadata, DBSession, authors
+from mediaplex.model.status import Status, StatusSet, StatusComparator, StatusType, StatusTypeExtension
 
 
-TRASH, PUBLISH, PENDING_REVIEW = 1, 2, 3
-"""Status codes"""
+TRASH = Status('trash', 1)
+PUBLISH = Status('publish', 2)
+PENDING_REVIEW = Status('pending_review', 4)
+USER_FLAGGED = Status('user_flagged', 8)
 
-STATUSES = {
-    TRASH: 'Trash',
-    PUBLISH: 'Publish',
-    PENDING_REVIEW: 'Pending Review'
-}
+STATUSES = dict((int(s), s) for s in (TRASH, PUBLISH, PENDING_REVIEW, USER_FLAGGED))
+"""Dictionary of allowed statuses, bitmask value(int) => Status(unicode) instance"""
+
+class CommentStatusSet(StatusSet):
+    _valid_els = STATUSES
 
 
 comments = Table('comments', metadata,
@@ -39,7 +42,7 @@ comments = Table('comments', metadata,
     Column('subject', Unicode(100)),
     Column('created_on', DateTime, default=datetime.now, nullable=False),
     Column('modified_on', DateTime, default=datetime.now, onupdate=datetime.now, nullable=False),
-    Column('status', Integer, default=PUBLISH, nullable=False),
+    Column('status', StatusType(CommentStatusSet), default=PUBLISH, nullable=False),
     Column('author_name', Unicode(50), nullable=False),
     Column('author_email', Unicode(255)),
     Column('author_ip', Integer),
@@ -74,12 +77,6 @@ class Comment(object):
         return setattr(self, self.type, parent)
     parent = property(_get_parent, _set_parent)
 
-    @validates('status')
-    def validate_status(self, key, status):
-        """Check that the status is within the acceptable range."""
-        assert status <= sum(STATUSES.keys())
-        return status
-
 
 class CommentTypeExtension(interfaces.AttributeExtension):
     """Comment Type Attribute Handler
@@ -104,7 +101,7 @@ class CommentTypeExtension(interfaces.AttributeExtension):
 
 
 mapper(Comment, comments, properties={
-    'status': column_property(sql.cast(comments.c.status + 0, Integer).label('status')),
+    'status': column_property(comments.c.status, extension=StatusTypeExtension(), comparator_factory=StatusComparator),
     'author': composite(authors.AuthorWithIP,
         comments.c.author_name,
         comments.c.author_email,

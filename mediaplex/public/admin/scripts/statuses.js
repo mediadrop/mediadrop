@@ -19,8 +19,8 @@ var StatusForm = new Class({
 	},
 
 	saveStatus: function(e){
+		new Event(e).stop();
 		this.form.get('send').addEvent('success', this.updateForm.bind(this)).send();
-		return false;
 	},
 
 	updateForm: function(text){

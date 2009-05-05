@@ -10,13 +10,13 @@
 	<script type="text/javascript" src="/admin/scripts/show-more.js"></script>
 	<script type="text/javascript">
 		window.addEvent('domready', function(){
-			reviewMore = new ShowMore({
+			var reviewMore = new ShowMore({
 				table: 'review-table',
 				fetchPageUrl: '/admin/ajax_review',
 				pageNum: ${review_page.page},
 				lastPage: ${review_page.last_page or 1}
 			});
-			encodeMore = new ShowMore({
+			var encodeMore = new ShowMore({
 				table: 'encode-table',
 				fetchPageUrl: '/admin/ajax_encode',
 				pageNum: ${encode_page.page},
@@ -42,18 +42,18 @@
 	<div class="column33">
 		<div class="box">
 			<h1 class="box-head">Comments</h1>
-			<div class="box-content">
-				<p><a class="review" href="/comments.html" py:content="num_comments_to_review">&#35; comments</a> require review.</p>
-				<p>There has been a total of <a class="total" href="/comments.html" py:content="num_comments_total">&#35;</a> comments on media.</p>
-			</div>
+			<p class="box-content">
+				<a class="review" href="/comments.html">${num_comments_to_review}</a> require review.<br />
+				There has been a total of <a class="total" href="/comments.html">${num_comments_total}</a> comments on media.
+			</p>
 		</div>
 		<br /><br />
 		<div class="box">
 			<h1 class="box-head">Recently Published</h1>
 			<table cellpadding="0" cellspacing="0">
 				<tbody>
-					<tr py:if="len(recent) == 0"><td colspan="2">No Media Published</td></tr>
-					<tr py:for="media_item in recent" py:with="type = media_item.type == 'video' and 'video' or 'podcast'">
+					<tr py:if="len(recent_media) == 0"><td colspan="2">No Media Published</td></tr>
+					<tr py:for="media_item in recent_media" py:with="type = media_item.type == 'video' and 'video' or 'podcast'">
 						<td><a href="/admin/${type}/${media_item.id}/edit"><img alt="" src="/admin/images/icons/${type}-trans.png" /></a></td>
 						<td><a href="/admin/${type}/${media_item.id}/edit" py:content="media_item.title">Title</a></td>
 					</tr>

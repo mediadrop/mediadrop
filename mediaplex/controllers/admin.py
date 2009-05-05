@@ -2,10 +2,10 @@ from datetime import datetime
 from tg import expose, validate, flash, require, url, request, redirect
 from sqlalchemy import and_, or_
 from sqlalchemy.orm import eagerload
+from webhelpers import paginate
 
 from mediaplex.lib.base import BaseController
 from mediaplex.model import DBSession, Media, Video, Comment, Tag
-from mediaplex.model.media import PUBLISHED, AWAITING_ENCODING, AWAITING_REVIEW
 from mediaplex.controllers.video import VideoAdminController
 from mediaplex.controllers.comments import CommentAdminController
 
@@ -17,20 +17,18 @@ class AdminController(BaseController):
     def index(self):
         # Any publishable video that does have a publish_on date that is in the
         # past and is publishable is 'Recently Published'
-        recent = DBSession.query(Media).\
-            filter(Media.status == PUBLISHED).\
-            filter(Media.url != None).\
+        recent_media = DBSession.query(Media).\
+            filter(Media.status.contains_all('publish')).\
             filter(Media.publish_on < datetime.now).\
             order_by(Media.publish_on)[:5]
-
-        comments_to_review = DBSession.query(Comment).filter_by(status='unreviewed').count()
+        comments_pending_review = DBSession.query(Comment).filter(Comment.status.contains_all('pending_review')).count()
         comments_total = DBSession.query(Comment).count()
 
         return dict(review_page=self._fetch_review_page(),
                     encode_page=self._fetch_encode_page(),
-                    num_comments_to_review=comments_to_review,
+                    num_comments_to_review=comments_pending_review,
                     num_comments_total=comments_total,
-                    recent=recent)
+                    recent_media=recent_media)
 
     @expose('mediaplex.templates.admin.video.video-review-table-ajax')
     def ajax_review(self, page_num):
@@ -39,12 +37,8 @@ class AdminController(BaseController):
 
     def _fetch_review_page(self, page_num=1, items_per_page=6):
         """Helper method for paginating video results"""
-        from webhelpers import paginate
-
-        # Videos that are unreviewed are 'Awaiting Review'
-        query = DBSession.query(Video).filter(Video.status == AWAITING_REVIEW).\
+        query = DBSession.query(Video).filter(Video.status.contains_all('pending_review')).\
             order_by(Video.created_on)
-
         return paginate.Page(query, page_num, items_per_page)
 
     @expose('mediaplex.templates.admin.video.video-encode-table-ajax')
@@ -54,13 +48,7 @@ class AdminController(BaseController):
 
     def _fetch_encode_page(self, page_num=1, items_per_page=6):
         """Helper method for paginating video results"""
-        from webhelpers import paginate
-
-        # Any 'publishable' video that doesn't have a publish_on date or does
-        # not have a url is 'Awaiting Encoding'. This allows the setting of a
-        # future publish_on date before encoding is complete.
         query = DBSession.query(Video).options(eagerload('tags')).\
-            filter(Video.status == AWAITING_ENCODING).\
-            filter(or_(Video.publish_on == None, Video.url == None)).order_by(Video.created_on)
-
+            filter(Video.status.contains_all('pending_encoding')).\
+            order_by(Video.created_on)
         return paginate.Page(query, page_num, items_per_page)

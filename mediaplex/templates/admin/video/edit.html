@@ -36,9 +36,9 @@
 		<br />
 		<form method="post" action="/admin/video/${video.id}/update_status"
 		      id="update_status_form" class="box"
-		      py:choose="video.status">
+		      py:choose="">
 			<h1 class="box-head">Publish Status</h1>
-			<div py:when="28" class="box-content">
+			<div py:when="'pending_review' in video.status" class="box-content">
 				<ol id="status-list">
 					<li class="status-list-inprogress">review in progress</li>
 					<li class="status-list-pending">encoding pending</li>
@@ -46,7 +46,7 @@
 				</ol>
 				<div py:content="h.tags.submit('update_status', 'Review Complete', id='update-status', class_='submitbutton btn-review-complete')" class="center" />
 			</div>
-			<div py:when="12" class="box-content">
+			<div py:when="'pending_encoding' in video.status" class="box-content">
 				<ol id="status-list">
 					<li class="status-list-complete">review complete</li>
 					<li class="status-list-inprogress">encoding in progress</li>
@@ -54,7 +54,7 @@
 				</ol>
 				<div py:content="h.tags.submit('update_status', 'Encoding Complete', id='update-status', class_='submitbutton btn-encode-complete')" class="center" />
 			</div>
-			<div py:when="3" class="box-content">
+			<div py:when="'draft' in video.status" class="box-content">
 				<ol id="status-list">
 					<li class="status-list-complete">review complete</li>
 					<li class="status-list-complete">encoding complete</li>
@@ -62,13 +62,14 @@
 				</ol>
 				<div py:content="h.tags.submit('update_status', 'Publish Now', id='update-status', class_='submitbutton btn-publish-now')" class="center" />
 			</div>
-			<div py:when="2" class="box-content">
+			<div py:when="'publish' in video.status" class="box-content">
 				<ol id="status-list">
 					<li class="status-list-complete">review complete</li>
 					<li class="status-list-complete">encoding complete</li>
 					<li class="status-list-complete">published ${video.publish_on.strftime('%b %d %Y')}</li>
 				</ol>
 			</div>
+			<div py:otherwise="" class="box-content">${video.status}</div>
 		</form>
 	</div>
 </body>

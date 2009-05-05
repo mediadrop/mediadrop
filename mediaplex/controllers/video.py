@@ -18,9 +18,7 @@ from webhelpers import paginate
 from mediaplex.lib import helpers
 from mediaplex.lib.base import Controller, BaseController, RoutingController
 from mediaplex.model import DBSession, metadata, Video, Comment, Tag, Author, AuthorWithIP
-from mediaplex.model.media import PUBLISHED, AWAITING_ENCODING, AWAITING_REVIEW, TRASH, PUBLISH, DRAFT, PENDING_ENCODING, PENDING_REVIEW
 from mediaplex.forms.admin import SearchForm
-from mediaplex.forms.video import VideoForm
 from mediaplex.forms.video import VideoForm, AlbumArtForm
 from mediaplex.forms.comments import PostCommentForm
 
@@ -107,27 +105,20 @@ class VideoAdminController(BaseController):
                     search_form=search_form,
                     search_form_values=search_form_values,
                     search_string=search_query,
-                    datetime_now=datetime.now(),
-                    published_status=PUBLISHED,
-                    awaiting_encoding_status=AWAITING_ENCODING,
-                    awaiting_review_status=AWAITING_REVIEW)
+                    datetime_now=datetime.now())
 
     @expose('mediaplex.templates.admin.video.video-table-ajax')
     def ajax(self, page_num, search_string=None):
         """ShowMore Ajax Fetch Action"""
         videos_page = self._fetch_page(search_string, page_num)
         return dict(page=videos_page,
-                    datetime_now=datetime.now(),
-                    published_status=PUBLISHED,
-                    awaiting_encoding_status=AWAITING_ENCODING,
-                    awaiting_review_status=AWAITING_REVIEW)
+                    datetime_now=datetime.now())
 
     def _fetch_page(self, search_string=None, page_num=1, items_per_page=30):
         """Helper method for paginating video results"""
         from webhelpers import paginate
 
-        videos = DBSession.query(Video).\
-            filter(Video.status.in_([PUBLISHED, AWAITING_ENCODING, AWAITING_REVIEW]))
+        videos = DBSession.query(Video).filter(Video.status.contains_none('trash'))
         if search_string is not None:
             like_search = '%%%s%%' % (search_string,)
             videos = videos.outerjoin(Video.tags).\
@@ -150,6 +141,7 @@ class VideoAdminController(BaseController):
         else:
             video = VideoRowAdminController(id)
         return video, remainder
+
 
 class VideoRowAdminController(object):
     """Admin video actions which deal with a single video"""
@@ -193,7 +185,6 @@ License: General Upload"""
     def save(self, **values):
         if self.video.id == 'new':
             self.video.id = None
-
         self.video.slug = values['slug']
         self.video.title = values['title']
         self.video.author = Author(values['author_name'], values['author_email'])
@@ -202,6 +193,7 @@ License: General Upload"""
         self.video.duration = helpers.duration_to_seconds(values['details']['duration'])
         self.video.set_tags(values['tags'])
 
+        # parse url
         url = urlparse(values['details']['url'], 'http')
         if 'youtube.com' in url[1]:
             if 'youtube.com/watch' in url[1]:
@@ -211,9 +203,6 @@ License: General Upload"""
                 self.video.url = values['details']['url']
         else:
             self.video.encode_url = values['details']['url']
-
-        if self.video.id == 'new':
-            self.video.id = None
 
         DBSession.add(self.video)
         DBSession.flush()
@@ -233,14 +222,15 @@ License: General Upload"""
     def update_status(self, **values):
         submitted = values.get('update_status', None)
         if submitted == 'Review Complete':
-            self.video.status &= ~PENDING_REVIEW
+            self.video.status.discard('pending_review')
             text = 'Encoding Complete'
         elif submitted == 'Encoding Complete':
-            self.video.status &= ~PENDING_ENCODING
+            self.video.status.discard('pending_encoding')
             text = 'Publish Now'
         elif submitted == 'Publish Now':
-            self.video.status &= ~DRAFT
-            self.video.status |= PUBLISH
+            self.video.status.discard('draft')
+            self.video.status.add('publish')
+            self.video.publish_on = datetime.now()
             text = None
         else:
             raise Exception
