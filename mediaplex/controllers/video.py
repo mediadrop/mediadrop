@@ -234,4 +234,4 @@ License: General Upload"""
             text = None
         else:
             raise Exception
-        return dict(update_button_text=text)
+        return {'buttonText': text}

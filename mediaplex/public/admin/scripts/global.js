@@ -21,7 +21,7 @@ var QuickSearch = new Class({
 
 	options: {
 		label: 'SEARCH...',
-		field: 'quicksearch-query'
+		field: 'searchquery'
 	},
 
 	field: null,
@@ -47,6 +47,6 @@ var QuickSearch = new Class({
 		}
 	}
 });
-window.addEvent('domready', function(){ 
+window.addEvent('domready', function(){
 	if ($(QuickSearch.prototype.options.field)) { new QuickSearch(); }
 });
