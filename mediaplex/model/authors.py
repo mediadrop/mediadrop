@@ -11,9 +11,6 @@ class Author(object):
     handle that from the get go.
 
     """
-    name = u''
-    email = u''
-
     def __init__(self, name=None, email=None):
         self.name = name
         self.email = email
@@ -30,42 +27,41 @@ class Author(object):
     def __repr__(self):
         return '<Author: "%s">' % self.name
 
+    def __set_composite_values__(self, name, email):
+        self.name = name
+        self.email = email
+
+
+def _pack_ip(ip_dot_str):
+    """Convert an IP address string in dot notation to an 32-bit integer"""
+    if not ip_dot_str:
+        return None
+    return struct.unpack('!L', socket.inet_aton(str(ip_dot_str)))[0]
+
+def _unpack_ip(ip_int):
+    """Convert an 32-bit integer IP to a dot-notated string"""
+    if not ip_int:
+        return None
+    return socket.inet_ntoa(struct.pack('!L', ip_int))
+
 
 class AuthorWithIP(Author):
     """Author Info Wrapper with an extra column for an IP"""
-    ip = None
-    _ip = None
-
     def __init__(self, name=None, email=None, ip=None):
         super(AuthorWithIP, self).__init__(name, email)
         self.ip = ip
 
     def __composite_values__(self):
         values = super(AuthorWithIP, self).__composite_values__()
-        values.append(self._ip)
+        values.append(_pack_ip(self.ip))
         return values
 
     def __eq__(self, other):
-        return super(AuthorWithIP, self).__eq__(other) and self._ip == other._ip
+        return self.ip == other.ip and super(AuthorWithIP, self).__eq__(other)
 
-    def _set_ip(self, ip):
-        if ip is None or isinstance(ip, (int, long)):
-            self._ip = None
-        else:
-            self._ip = struct.unpack('!L', socket.inet_aton(ip))[0]
+    def __repr__(self):
+        return '<Author: "%s" %s>' % (self.name, self.ip)
 
-    def _get_ip(self):
-        if self._ip is None:
-            return None
-        return socket.inet_ntoa(struct.pack('!L', self._ip))
-
-    ip = property(_get_ip, _set_ip)
-
-
-if __name__ == '__main__':
-    inip = '255.255.255.255'
-    a = AuthorWithIP('Name', 'Email', inip)
-    print 'In ', inip
-    a.ip = inip
-    print a.ip
-    print a._ip
+    def __set_composite_values__(self, name, email, ip_int):
+        super(AuthorWithIP, self).__set_composite_values__(name, email)
+        self.ip = _unpack_ip(ip_int)

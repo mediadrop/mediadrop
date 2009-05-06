@@ -45,7 +45,7 @@ comments = Table('comments', metadata,
     Column('status', StatusType(CommentStatusSet), default=PUBLISH, nullable=False),
     Column('author_name', Unicode(50), nullable=False),
     Column('author_email', Unicode(255)),
-    Column('author_ip', Integer),
+    Column('author_ip', Integer, nullable=False),
     Column('body', UnicodeText, nullable=False),
     mysql_engine='InnoDB',
     mysql_charset='utf8'

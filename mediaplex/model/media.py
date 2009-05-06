@@ -120,7 +120,7 @@ media_mapper = mapper(Media, media, polymorphic_on=media.c.type, properties={
     'tags': relation(Tag, secondary=media_tags, backref='media',
         collection_class=TagCollection),
     'comments': relation(Comment, secondary=media_comments, backref=backref('media', uselist=False),
-        extension=CommentTypeExtension('media'), single_parent=True),
+        extension=CommentTypeExtension(u'media'), single_parent=True),
 })
 mapper(Audio, inherits=media_mapper, polymorphic_identity=u'audio')
 mapper(Video, inherits=media_mapper, polymorphic_identity=u'video')

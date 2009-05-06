@@ -80,13 +80,13 @@ class VideoRowController(object):
     @expose()
     @validate(PostCommentForm(), error_handler=view)
     def comment(self, **values):
-        c = comments.Comment()
-        c.status = comments.PENDING_REVIEW
+        c = Comment()
+        c.status = 'pending_review'
         c.author = AuthorWithIP(values['name'], None, request.environ['REMOTE_ADDR'])
         c.subject = 'Re: %s' % self.video.title
         c.body = values['body']
         self.video.comments.append(c)
-        DBSession.merge(self.video)
+        DBSession.add(self.video)
         redirect('/video/%s' % self.video.slug)
 
 
