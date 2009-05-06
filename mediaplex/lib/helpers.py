@@ -30,19 +30,27 @@ if __name__ == '__main__':
     print duration_from_seconds(390)
 
 def video_player(url):
-    urlparts = re.match(r'https?://(www\.)?([^/]+)/(.*)', str(url))
-    domain = urlparts.group(2)
-
-    if domain in ('youtube.com', 'video.google.com'):
-        # Google Video's embed code uses 400 x 326
-        xhtml = u'<object type="application/x-shockwave-flash" width="%(width)d" height="%(height)d" data="%(url)s" id="video-player"><param name="movie" value="%(url)s" /></object>'\
-            % {'url': url, 'width': 479, 'height': 383}
-    elif domain == 'godtube.com':
-        # http://godtube.com/view_video.php?viewkey=4ce7f62c8fa7541273d6
-        xhtml = u'<embed src="http://godtube.com/flvplayer.swf" FlashVars="%(viewkey)s" wmode="transparent" quality="high" width="479" height="383" name="godtube" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" /></embed>' \
-            % {'viewkey': url.split('?')[1]}
+    if url[0] == '/':
+        xhtml = u'''<div><script src="/scripts/third-party/flowplayer-3.1.0.min.js" type="text/javascript"></script>
+<a href="%(flash_url)s" style="display:block;width:479px;height:383px" id="flowplayer"></a>
+<script type="text/javascript">
+flowplayer("flowplayer", "/scripts/third-party/flowplayer-3.1.0.swf");
+</script></div>
+''' % {'flash_url': url}
     else:
-        xhtml = 'FLOW PLAYER NOT YET IMPLEMENTED'
+        urlparts = re.match(r'https?://(www\.)?([^/]+)/(.*)', str(url))
+        domain = urlparts.group(2)
+
+        if domain in ('youtube.com', 'video.google.com'):
+            # Google Video's embed code uses 400 x 326
+            xhtml = u'<object type="application/x-shockwave-flash" width="%(width)d" height="%(height)d" data="%(url)s" id="video-player"><param name="movie" value="%(url)s" /></object>'\
+                % {'url': url, 'width': 479, 'height': 383}
+        elif domain == 'godtube.com':
+            # http://godtube.com/view_video.php?viewkey=4ce7f62c8fa7541273d6
+            xhtml = u'<embed src="http://godtube.com/flvplayer.swf" FlashVars="%(viewkey)s" wmode="transparent" quality="high" width="479" height="383" name="godtube" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" /></embed>' \
+                % {'viewkey': url.split('?')[1]}
+
+    print xhtml
     return xhtml
 
 
