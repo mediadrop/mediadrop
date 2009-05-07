@@ -86,7 +86,6 @@ media_comments = Table('media_comments', metadata,
 )
 
 
-
 class Media(object):
     """Base class for Audio and Video"""
     def __init__(self):
@@ -117,10 +116,11 @@ media_mapper = mapper(Media, media, polymorphic_on=media.c.type, properties={
     'status': column_property(media.c.status, extension=StatusTypeExtension(), comparator_factory=StatusComparator),
     'author': composite(Author, media.c.author_name, media.c.author_email),
     'rating': composite(Rating, media.c.rating_sum, media.c.rating_votes),
-    'tags': relation(Tag, secondary=media_tags, backref='media',
-        collection_class=TagCollection),
+    'tags': relation(Tag, secondary=media_tags, backref='media', collection_class=TagCollection),
+#TODO: Reimplement as a dynamic_loader instead of a relation. Better performance for larger datasets.
+#      Just need to rethink the CommentTypeMapper because dyamic_loaders don't support extensions.
     'comments': relation(Comment, secondary=media_comments, backref=backref('media', uselist=False),
-        extension=CommentTypeExtension(u'media'), single_parent=True),
+        extension=CommentTypeExtension(u'media'), single_parent=True, passive_deletes=True),
 })
 mapper(Audio, inherits=media_mapper, polymorphic_identity=u'audio')
 mapper(Video, inherits=media_mapper, polymorphic_identity=u'video')

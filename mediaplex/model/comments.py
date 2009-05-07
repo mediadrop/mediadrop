@@ -66,7 +66,7 @@ class Comment(object):
 
     """
     def __repr__(self):
-        return '<Comment: %d subject="%s">' % (self.id, self.subject)
+        return '<Comment: %s subject="%s">' % (self.id, self.subject)
 
     def __unicode__(self):
         return self.subject
@@ -79,7 +79,7 @@ class Comment(object):
 
 
 class CommentTypeExtension(interfaces.AttributeExtension):
-    """Comment Type Attribute Handler
+    """Comment Type Mapping Handler
 
     Use this attribute extension when defining a relation() to Comment.
     It tells us which relation to use when looking for a Comment's parent object.
@@ -96,8 +96,8 @@ class CommentTypeExtension(interfaces.AttributeExtension):
         return value
 
     def set(self, value, oldvalue, initiator):
-        value.type = self.type
-        return value
+        # Pretty certain this should never be called on a relation property.
+        raise NotImplemented
 
 
 mapper(Comment, comments, properties={
