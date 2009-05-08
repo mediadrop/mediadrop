@@ -35,7 +35,8 @@ var StatusForm = new Class({
 		var nextStatus = currStatus.getNext();
 		if (nextStatus) {
 			nextStatus.addClass(this.options.inProgressClass).removeClass(this.options.pendingClass);
-			nextStatus.set('text', nextStatus.get('text').replace('pending', 'in progress'));
+			var nextText = nextStatus.get('text').replace('pending', 'in progress');
+			nextStatus.set('text', nextText);
 			this.updateButton.set('value', resp.buttonText);
 		} else {
 			currStatus.set('text', 'published');

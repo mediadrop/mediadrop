@@ -47,7 +47,7 @@
 				<ol id="status-list">
 					<li class="status-list-inprogress">review in progress</li>
 					<li class="status-list-pending">encoding pending</li>
-					<li class="status-list-pending">publishing pending</li>
+					<li class="status-list-pending">draft</li>
 				</ol>
 				<div py:content="h.tags.submit('update_status', 'Review Complete', id='update-status', class_='submitbutton btn-review-complete')" class="center" />
 			</div>
@@ -55,7 +55,7 @@
 				<ol id="status-list">
 					<li class="status-list-complete">review complete</li>
 					<li class="status-list-inprogress">encoding in progress</li>
-					<li class="status-list-pending">publishing pending</li>
+					<li class="status-list-pending">draft</li>
 				</ol>
 				<div py:content="h.tags.submit('update_status', 'Encoding Complete', id='update-status', class_='submitbutton btn-encode-complete')" class="center" />
 			</div>
@@ -63,7 +63,7 @@
 				<ol id="status-list">
 					<li class="status-list-complete">review complete</li>
 					<li class="status-list-complete">encoding complete</li>
-					<li class="status-list-inprogress">publishing pending</li>
+					<li class="status-list-inprogress">draft</li>
 				</ol>
 				<div py:content="h.tags.submit('update_status', 'Publish Now', id='update-status', class_='submitbutton btn-publish-now')" class="center" />
 			</div>
