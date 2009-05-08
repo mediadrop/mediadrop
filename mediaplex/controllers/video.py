@@ -35,7 +35,8 @@ class VideoController(RoutingController):
     @expose('mediaplex.templates.video.mediaflow')
     def flow(self, page=1, **kwargs):
         """Mediaflow Action"""
-        return dict(page=self._fetch_page(page, 9))
+        tags = DBSession.query(Tag).order_by(Tag.name).all()
+        return dict(page=self._fetch_page(page, 9), tags=tags, auto_hide_tags=True)
 
     @expose('mediaplex.templates.video.mediaflow-ajax')
     def flow_ajax(self, page=1, **kwargs):
