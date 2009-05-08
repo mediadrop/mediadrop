@@ -17,8 +17,8 @@ tags = Table('tags', metadata,
 
 
 class Tag(object):
-    """Tag definition"""
-
+    """Tag definition
+    """
     def __init__(self, name=None, slug=None):
         self.name = name or None
         self.slug = slug or name or None
@@ -38,16 +38,16 @@ def extract_tags(string):
     return [tag.strip() for tag in string.split(',')]
 
 def fetch_and_create_tags(tag_names):
-    new_tags = []
+    tag_names = set(tag_names) # get unique elements only
+    new_tags = set()
     existing_tags = DBSession.query(Tag).filter(Tag.name.in_(tag_names)).all()
     existing_names = [tag.name for tag in existing_tags]
-    tag_names = [tn for tn in tag_names if tn not in existing_names]
-    conn = DBSession.connection()
-    for tag_name in tag_names:
+    new_names = [tn for tn in tag_names if tag_name not in existing_names]
+    for tag_name in new_names:
         new_tags.append({'name': tag_name, 'slug': slugify(tag_name)})
     if new_tags:
-        conn.execute(tags.insert(), new_tags)
-        existing_tags += DBSession.query(Tag).filter(Tag.name.in_(tag_names)).all()
+        DBSession.connection().execute(tags.insert(), new_tags)
+        existing_tags += DBSession.query(Tag).filter(Tag.name.in_(new_names)).all()
     return existing_tags
 
 

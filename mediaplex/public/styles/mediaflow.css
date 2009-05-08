@@ -1,7 +1,7 @@
 /* View Controls */
 #mediaplex-ctrls {
 	float: right;
-	margin: 5px 75px 18px 0;
+	margin: 5px 20px 18px 0;
 }
 #mediaplex-ctrls a span {
 	display: none;
@@ -36,6 +36,55 @@ a#mediaplex-ctrls-tags {
 a#mediaplex-ctrls-tags:hover,
 a#mediaplex-ctrls-tags.active {
 	background-position: -110px -29px;
+}
+
+#mediaplex-tags {
+	width: 900px;
+	margin: 0 20px;
+	overflow: hidden;
+	clear: both;
+	background: #424242;
+	-moz-border-radius: 10px;
+	position: relative;
+}
+#mediaplex-tags-caption {
+	position: absolute;
+	bottom: 20px;
+	right: 3px;
+	width: 205px;
+}
+#mediaplex-tags-dontsee {
+	background: url('../images/topics/dont-see-question.png') no-repeat;
+	width: 174px;
+	height: 43px;
+	display: block;
+	margin-bottom: 10px;
+}
+#mediaplex-tags-suggest {
+	background: url('../images/topics/suggest-new.png') no-repeat;
+	width: 159px;
+	height: 39px;
+	display: block;
+}
+#mediaplex-tags-caption span { display: none; }
+#mediaplex-tags ul {
+	width: 25%;
+	overflow: hidden;
+	float: left;
+	margin: 17px 0;
+}
+#mediaplex-tags li {
+	margin: 3px 20px;
+}
+#mediaplex-tags a:link,
+#mediaplex-tags a:visited {
+	color: #B1D1EF;
+	text-decoration: none;
+	text-shadow: black 1px;
+}
+#mediaplex-tags a:hover {
+	color: #fff;
+	text-decoration: underline;
 }
 
 #mediaflow {

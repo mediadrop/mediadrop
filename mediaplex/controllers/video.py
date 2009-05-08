@@ -29,7 +29,8 @@ class VideoController(RoutingController):
     @expose('mediaplex.templates.video.index')
     def index(self, page=1, **kwargs):
         """Grid-style List Action"""
-        return dict(page=self._fetch_page(page, 25))
+        tags = DBSession.query(Tag).order_by(Tag.name).all()
+        return dict(page=self._fetch_page(page, 25), tags=tags)
 
     @expose('mediaplex.templates.video.mediaflow')
     def flow(self, page=1, **kwargs):
@@ -45,6 +46,13 @@ class VideoController(RoutingController):
         """Helper method for paginating video results"""
         query = query or DBSession.query(Video)
         return paginate.Page(query, page_num, items_per_page)
+
+    @expose('mediaplex.templates.video.index')
+    def tags(self, tag=None, page=1, **kwargs):
+        tag = DBSession.query(Tag).filter(Tag.slug == tag).one()
+        query = DBSession.query(Video).filter(Video.tags.contains(tag))
+        tags = DBSession.query(Tag).order_by(Tag.name).all()
+        return dict(page=self._fetch_page(page, 6, query=query), tags=tags)
 
     @expose()
     def lookup(self, slug, *remainder):
