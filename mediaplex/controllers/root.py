@@ -24,17 +24,7 @@ class RootController(BaseController):
 
     @expose('mediaplex.templates.index')
     def index(self):
-        redirect('/video')
-
-    @expose('mediaplex.templates.index')
-    @require(predicates.has_permission('manage', msg=_('Only for managers')))
-    def manage_permission_only(self, **kw):
-        return dict(page='managers stuff')
-
-    @expose('mediaplex.templates.index')
-    @require(predicates.is_user('editor', msg=_('Only for the editor')))
-    def editor_user_only(self, **kw):
-        return dict(page='editor stuff')
+        redirect('/video/flow')
 
     @expose('mediaplex.templates.login')
     def login(self, came_from=url('/')):

@@ -23,7 +23,8 @@ from mediaplex.forms.video import VideoForm, AlbumArtForm
 from mediaplex.forms.comments import PostCommentForm
 
 
-class VideoController(RoutingController):
+#class VideoController(RoutingController):
+class VideoController(BaseController):
     """Public video list actions"""
 
     @expose('mediaplex.templates.video.index')
