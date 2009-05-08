@@ -44,7 +44,7 @@ class VideoController(RoutingController):
 
     def _fetch_page(self, page_num=1, items_per_page=25, query=None):
         """Helper method for paginating video results"""
-        query = query or DBSession.query(Video)
+        query = query or DBSession.query(Video).filter(Video.status.contains_all('publish'))
         return paginate.Page(query, page_num, items_per_page)
 
     @expose('mediaplex.templates.video.index')
@@ -52,7 +52,7 @@ class VideoController(RoutingController):
         tag = DBSession.query(Tag).filter(Tag.slug == tag).one()
         query = DBSession.query(Video).filter(Video.tags.contains(tag))
         tags = DBSession.query(Tag).order_by(Tag.name).all()
-        return dict(page=self._fetch_page(page, 6, query=query), tags=tags)
+        return dict(page=self._fetch_page(page, 25, query=query), tags=tags)
 
     @expose()
     def lookup(self, slug, *remainder):

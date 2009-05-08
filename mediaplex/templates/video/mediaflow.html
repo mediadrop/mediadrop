@@ -10,9 +10,10 @@
 	<link href="/styles/mediaflow.css" media="screen" rel="stylesheet" type="text/css" />
 	<link href="/styles/videos.css" media="screen" rel="stylesheet" type="text/css" />
 	<script type="text/javascript" src="/scripts/mediaflow.js"></script>
+	<script type="text/javascript" src="/scripts/tags.js"></script>
 	<script type="text/javascript">
 		window.addEvent('domready', function(){
-			vs = new Videoflow({
+			var vs = new Videoflow({
 				container: 'mediaflow-body',
 				pageSelector: 'div.mediaflow-page', 
 				nextButton: 'mediaflow-next', 
@@ -21,6 +22,7 @@
 				labelContainer: 'mediaflow-label',
 				totalPageCount: ${page.item_count/3}
 			});
+			var ts = new TagSlider();
 		});
 	</script>
 </head>
@@ -30,7 +32,7 @@
 		<div id="mediaplex-ctrls">
 			<a id="mediaplex-ctrls-flow" class="active" href="/video/flow" title="View a few videos at a time"><span>Mediaflow View</span></a>
 			<a id="mediaplex-ctrls-grid" href="/video" title="View many videos at a time"><span>Grid View</span></a>
-			<a id="mediaplex-ctrls-tags" href="/video/tags"><span>Browse by Tags</span></a>
+			<a id="mediaplex-ctrls-tags" href="#"><span>Browse by Tags</span></a>
 		</div>
 		<div id="mediaflow">
 			<div id="mediaflow-ctrls"></div>

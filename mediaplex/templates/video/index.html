@@ -9,17 +9,10 @@
 	<link href="/styles/ratings.css" media="screen" rel="stylesheet" type="text/css" />
 	<link href="/styles/mediaflow.css" media="screen" rel="stylesheet" type="text/css" />
 	<link href="/styles/videos.css" media="screen" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="/scripts/tags.js"></script>
 	<script type="text/javascript">
 		window.addEvent('domready', function(){
-			var tagContainer = $('mediaplex-tags');
-			tagContainer.set('slide', {transition: 'quad:in:out'})
-			            .slide('hide')
-			            .get('slide').wrapper.setStyles({clear: 'both'});
-			$('mediaplex-ctrls-tags').addEvent('click', function(e){
-				$(e.target).toggleClass('active');
-				this.slide('toggle');
-				return false;
-			}.bind(tagContainer));
+			var ts = new TagSlider();
 		});
 	</script>
 </head>
@@ -30,7 +23,7 @@
 		<div id="mediaplex-ctrls">
 <!--!			<a id="mediaplex-ctrls-flow" href="/video/flow" title="View a few videos at a time"><span>Mediaflow View</span></a>
 			<a id="mediaplex-ctrls-grid" class="active" href="/video" title="View many videos at a time"><span>Grid View</span></a>-->
-			<a id="mediaplex-ctrls-tags" href="/video/tags"><span>Browse by Tags</span></a>
+			<a id="mediaplex-ctrls-tags" href="#"><span>Browse by Tags</span></a>
 		</div>
 		<div id="mediaplex-tags">
 			<div id="mediaplex-tags-caption">
