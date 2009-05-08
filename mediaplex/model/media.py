@@ -99,7 +99,7 @@ class Media(object):
         if isinstance(tags, basestring):
             tags = extract_tags(tags)
             tags = fetch_and_create_tags(tags)
-        self.tags = tags
+        self.tags = tags or []
 
 
 class Video(Media):
