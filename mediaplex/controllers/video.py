@@ -30,7 +30,7 @@ class VideoController(RoutingController):
     def index(self, page=1, **kwargs):
         """Grid-style List Action"""
         tags = DBSession.query(Tag).order_by(Tag.name).all()
-        return dict(page=self._fetch_page(page, 25), tags=tags)
+        return dict(page=self._fetch_page(page, 25), tags=tags, auto_hide_tags=True)
 
     @expose('mediaplex.templates.video.mediaflow')
     def flow(self, page=1, **kwargs):
@@ -52,7 +52,7 @@ class VideoController(RoutingController):
         tag = DBSession.query(Tag).filter(Tag.slug == tag).one()
         query = DBSession.query(Video).filter(Video.tags.contains(tag))
         tags = DBSession.query(Tag).order_by(Tag.name).all()
-        return dict(page=self._fetch_page(page, 25, query=query), tags=tags)
+        return dict(page=self._fetch_page(page, 25, query=query), tags=tags, auto_hide_tags=False)
 
     @expose()
     def lookup(self, slug, *remainder):
@@ -135,7 +135,7 @@ class VideoAdminController(BaseController):
                            Video.notes.like(like_search),
                            Video.tags.any(Tag.name.like(like_search))))
 
-        videos = videos.options(eagerload('tags'), eagerload('comments')).\
+        videos = videos.options(eagerload('comments')).\
                     order_by(Video.status.desc(), Video.created_on)
 
         return paginate.Page(videos, page_num, items_per_page)

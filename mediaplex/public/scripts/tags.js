@@ -4,7 +4,8 @@ var TagSlider = new Class({
 		container: 'mediaplex-tags',
 		fxOptions: {transition: 'quad:in:out'},
 		button: 'mediaplex-ctrls-tags',
-		slideWrapperStyles: {clear: 'both'}
+		slideWrapperStyles: {clear: 'both'},
+		startHidden: true
 	},
 
 	container: null,
@@ -13,7 +14,9 @@ var TagSlider = new Class({
 	initialize: function(opts){
 		this.setOptions(opts);
 		this.container = $(this.options.container).set('slide', this.fxOptions);
-		this.container.slide('hide');
+		if (this.options.startHidden) {
+			this.container.slide('hide');
+		}
 		if (this.options.slideWrapperStyles) {
 			this.container.get('slide').wrapper.setStyles(this.options.slideWrapperStyles);
 		}

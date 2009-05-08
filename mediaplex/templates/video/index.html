@@ -12,7 +12,7 @@
 	<script type="text/javascript" src="/scripts/tags.js"></script>
 	<script type="text/javascript">
 		window.addEvent('domready', function(){
-			var ts = new TagSlider();
+			var ts = new TagSlider({startHidden: ${auto_hide_tags and 'true' or 'false'}});
 		});
 	</script>
 </head>
@@ -31,7 +31,9 @@
 				<a id="mediaplex-tags-suggest" href="#"><span>Suggest a new topic</span></a>
 			</div>
 			<ul py:for="col in xrange(1, 5)" py:with="per_col = (len(tags) + 8) / 4">
-				<li py:for="tag in tags[(col-1)*per_col:col*per_col]"><a href="/video/tags/${tag.slug}">${tag.name}</a></li>
+				<li py:for="tag in tags[(col-1)*per_col:col*per_col]">
+					<a href="/video/tags/${tag.slug}">${tag.name}</a>
+				</li>
 			</ul>
 		</div>
 		<div class="box-body mediagrid">
