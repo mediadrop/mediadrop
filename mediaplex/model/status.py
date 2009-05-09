@@ -94,12 +94,17 @@ from sqlalchemy import sql, types
 from sqlalchemy.orm import interfaces, properties
 
 
-class Status(unicode):
+class Status(object):
     """Status string which can be converted to int and mashed into a bitmask"""
-    def __new__(cls, unival, intval):
-        inst = unicode.__new__(cls, unival)
-        inst._intval = intval
-        return inst
+    def __init__(self, unival, intval, *args, **kwargs):
+        self._unival = unicode(unival)
+        self._intval = int(intval)
+
+    def __str__(self):
+        return self._unival.encode('utf8')
+
+    def __unicode__(self):
+        return self._unival
 
     def __int__(self):
         return int(self._intval)
@@ -107,7 +112,8 @@ class Status(unicode):
     def __eq__(self, other):
         if isinstance(other, (Status, int, long)):
             return int(self) == int(other)
-        return super(Status, self).__eq__(other)
+        else:
+            return unicode(self) == unicode(other)
 
 
 class StatusSet(set):
