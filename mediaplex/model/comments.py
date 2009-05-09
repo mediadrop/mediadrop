@@ -20,7 +20,7 @@ from sqlalchemy import Table, ForeignKey, Column, sql
 from sqlalchemy.types import String, Unicode, UnicodeText, Integer, DateTime, Boolean, Float
 from sqlalchemy.orm import mapper, relation, backref, synonym, composite, column_property, validates, interfaces
 
-from mediaplex.model import DeclarativeBase, metadata, DBSession, authors
+from mediaplex.model import DeclarativeBase, metadata, DBSession, AuthorWithIP
 from mediaplex.model.status import Status, StatusSet, StatusComparator, StatusType, StatusTypeExtension
 
 
@@ -102,7 +102,7 @@ class CommentTypeExtension(interfaces.AttributeExtension):
 
 mapper(Comment, comments, properties={
     'status': column_property(comments.c.status, extension=StatusTypeExtension(), comparator_factory=StatusComparator),
-    'author': composite(authors.AuthorWithIP,
+    'author': composite(AuthorWithIP,
         comments.c.author_name,
         comments.c.author_email,
         comments.c.author_ip),
