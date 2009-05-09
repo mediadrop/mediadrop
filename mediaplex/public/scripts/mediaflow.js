@@ -14,7 +14,7 @@ var Mediaflow = new Class({
 		pageWidth: 0,
 		pageHeight: 0,
 		pageMargin: 30,
-		fetchPageUrl: '/video/ajax',
+		fetchPageUrl: '/video/flow_ajax',
 		numPagesPerFetch: 2,
 		fx: {
 			duration: 550,
