@@ -50,7 +50,6 @@ flowplayer("flowplayer", "/scripts/third-party/flowplayer-3.1.0.swf");
             xhtml = u'<embed src="http://godtube.com/flvplayer.swf" FlashVars="%(viewkey)s" wmode="transparent" quality="high" width="479" height="383" name="godtube" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" /></embed>' \
                 % {'viewkey': url.split('?')[1]}
 
-    print xhtml
     return xhtml
 
 
