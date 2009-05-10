@@ -208,7 +208,7 @@ thead tr th {
 
 
 /* Forms */
-.btn-save, .btn-delete {
+.btn-save, .btn-delete, .btn-yes, .btn-no {
 	text-indent: -1000px;
 	cursor: pointer;
 	border: 0;
@@ -217,6 +217,8 @@ thead tr th {
 }
 .btn-save { background-image: url('../images/buttons/save.png'); width: 87px; }
 .btn-delete { background-image: url('../images/buttons/delete.png'); width: 93px; }
+.btn-yes { background-image: url('../images/buttons/yes.png'); width: 46px; height: 28px; }
+.btn-no { background-image: url('../images/buttons/no.png'); width: 46px; height: 28px;}
 
 
 span.show-more {

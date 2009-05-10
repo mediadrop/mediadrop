@@ -20,13 +20,13 @@
 	position: absolute;
 	width: 30px;
 	height: 30px;
-	right: -15px;
-	top: -15px;
+	right: -20px;
+	top: -20px;
 	background: url('../images/layout/sbox-close.png') no-repeat center;
 	border: none;
 }
 .sbox-window-ie6 #sbox-btn-close {
-	background-image: url('../images/layout/sbox-close.gif');
+	background-image: url('../images/squeezebox/box-close.gif');
 }
 .sbox-loading #sbox-content {
 	background-image: url('../images/icons/spinner.gif');
@@ -70,50 +70,89 @@
 /* Shadows */
 .sbox-bg {
 	position: absolute;
-	width: 33px;
-	height: 40px;
+	width: 43px;
+	height: 43px;
 }
 .sbox-bg-n {
 	left: 0;
-	top: -40px;
+	top: -50px;
+	height: 50px;
 	width: 100%;
-	background: url('../images/layout/sbox-n.png') repeat-x;
+	background: url('../images/layout/sbox-n.png') repeat-x top;
 }
 .sbox-bg-ne {
-	right: -33px;
-	top: -40px;
-	background: url('../images/layout/sbox-ne.png') no-repeat;
+	right: -43px;
+	top: -50px;
+	height: 50px;
+	background: url('../images/layout/sbox-ne.png') no-repeat top right;
 }
 .sbox-bg-e {
-	right: -33px;
+	right: -43px;
 	top: 0;
 	height: 100%;
-	background: url('../images/layout/sbox-e.png') repeat-y;
+	background: url('../images/layout/sbox-e.png') repeat-y top right;
 }
 .sbox-bg-se {
-	right: -33px;
-	bottom: -40px;
-	background: url('../images/layout/sbox-se.png') no-repeat;
+	right: -43px;
+	bottom: -43px;
+	height: 78px;
+	z-index: 1;
+	background: url('../images/layout/sbox-se.png') no-repeat bottom right;
 }
 .sbox-bg-s {
 	left: 0;
-	bottom: -40px;
+	bottom: -43px;
 	width: 100%;
-	background: url('../images/layout/sbox-s.png') repeat-x;
+	background: url('../images/layout/sbox-s.png') repeat-x bottom;
 }
 .sbox-bg-sw {
-	left: -33px;
-	bottom: -40px;
-	background: url('../images/layout/sbox-sw.png') no-repeat;
+	left: -43px;
+	bottom: -43px;
+	height: 78px;
+	z-index: 1;
+	background: url('../images/layout/sbox-sw.png') no-repeat bottom left;
 }
 .sbox-bg-w {
-	left: -33px;
+	left: -43px;
 	top: 0;
 	height: 100%;
-	background: url('../images/layout/sbox-w.png') repeat-y;
+	background: url('../images/layout/sbox-w.png') repeat-y top left;
 }
 .sbox-bg-nw {
-	left: -33px;
-	top: -40px;
-	background: url('../images/layout/sbox-nw.png') no-repeat;
+	left: -43px;
+	top: -50px;
+	height: 50px;
+	background: url('../images/layout/sbox-nw.png') no-repeat top left;
 }
+/* header */
+#sbox-window #sbox-content h1.box-head {
+	background: #e6e2d3 url('../images/layout/sbox-thead.png') repeat-x top;
+	color: #3c4d5a;
+	padding: 0 0 10px 0;
+	border-top: none;
+	border-bottom: 1px solid #cfccc2;
+	clear: both;
+}
+#sbox-window #sbox-content div.box {
+	border: 0;
+}
+
+#sbox-window #sbox-content p {
+	padding-top: 20px;
+}
+#sbox-window #sbox-content p strong {
+	font-weight: bold;
+}
+#sbox-window #sbox-content div.buttons {
+	position: absolute;
+	right: 30px;
+	bottom: 10px;
+}
+#sbox-window #sbox-content div.buttons button {
+	margin-left: 10px;
+}
+#sbox-window #sbox-content .box-foot {
+	background: #e6e2d3 url('../images/layout/sbox-tfoot.png') repeat-x top;
+	padding: 0;
+}
+
