@@ -152,7 +152,7 @@
 	margin-left: 10px;
 }
 #sbox-window #sbox-content .box-foot {
-	background: #e6e2d3 url('../images/layout/sbox-tfoot.png') repeat-x top;
 	padding: 0;
+	height: 34px;
 }
 
