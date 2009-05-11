@@ -6,7 +6,6 @@ from sqlalchemy.orm import eagerload
 
 from mediaplex.lib.base import BaseController
 from mediaplex.model import DBSession, metadata, Video, Comment, Tag, Author
-from mediaplex.model.comments import PUBLISH, PENDING_REVIEW, TRASH
 from mediaplex.forms.admin import SearchForm
 
 class CommentAdminController(BaseController):
@@ -22,18 +21,14 @@ class CommentAdminController(BaseController):
         return dict(page=self._fetch_page(search_query),
                     search_form=search_form,
                     search_form_values=search_form_values,
-                    search_string=search_query,
-                    published_status=PUBLISH,
-                    awaiting_review_status=PENDING_REVIEW)
+                    search_string=search_query)
 
     @expose('mediaplex.templates.admin.comments.comment-table-ajax')
     def ajax(self, page_num, search_string=None):
         """ShowMore Ajax Fetch Action"""
         comments_page = self._fetch_page(search_string, page_num)
         return dict(page=comments_page,
-                    search_string=search_string,
-                    published_status=PUBLISH,
-                    awaiting_review_status=PENDING_REVIEW)
+                    search_string=search_string)
 
     def _fetch_page(self, search_string=None, page_num=1, items_per_page=10):
         """Helper method for paginating comments results"""
@@ -45,7 +40,8 @@ class CommentAdminController(BaseController):
             comments = comments.filter(or_(Comment.subject.like(like_search),
                        Comment.body.like(like_search)))
 
-        comments = comments.order_by(Comment.status.desc(), Comment.created_on)
+        comments = comments.filter(Comment.status.contains_none('trash')).\
+            order_by(Comment.status.desc(), Comment.created_on)
 
         return paginate.Page(comments, page_num, items_per_page)
 
@@ -59,14 +55,15 @@ class CommentRowAdminController(object):
 
     def __init__(self, comment_id):
         """Pull the comment from the database for all actions"""
-        self.comment = DBSession.query(Comment).filter_by(id=comment_id).one()
+        self.comment = DBSession.query(Comment).get(comment_id)
 
     @expose()
     def approve(self):
-        self.comment.status = PUBLISH
+        self.comment.status.discard('pending_review')
+        self.comment.status.add('publish')
         DBSession.add(self.comment)
 
     @expose()
     def trash(self):
-        self.comment.status = TRASH
+        self.comment.status.add('trash')
         DBSession.add(self.comment)

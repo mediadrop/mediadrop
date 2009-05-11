@@ -12,9 +12,9 @@
 	</thead>
 	<tbody>
 		<tr py:if="len(page.items) == 0"><td colspan="4">No Comments Found</td></tr>
-		<tr py:for="comment in page.items" class="${(comment.status == awaiting_review_status) and 'tr-white' or 'tr-gray'}">
+		<tr py:for="comment in page.items" class="${('pending_review' in comment.status) and 'tr-white' or 'tr-gray'}">
 			<td py:choose="">
-				<a class="mo review-comment" py:when="comment.status == awaiting_review_status" href="/admin/comments/${comment.id}/approve"><span>approve</span></a>
+				<a class="mo review-comment" py:when="'pending_review' in comment.status" href="/admin/comments/${comment.id}/approve"><span>approve</span></a>
 				<span class="published-comment" py:otherwise="" href="">published</span>
 				<a class="mo trash-comment" href="/admin/comments/${comment.id}/trash"><span>trash</span></a>
 			</td>
