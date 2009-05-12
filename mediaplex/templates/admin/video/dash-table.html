@@ -1,0 +1,9 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      xmlns:xi="http://www.w3.org/2001/XInclude"
+      py:strip=""
+      py:with="id = defined('id') and id or 'video-table';
+               include_thead = not (defined('is_ajax') and is_ajax);">
+<xi:include href="_video-table.html" />
+${video_table(collection, fields=['publish_on', 'status', 'title', 'author'], id=id, include_thead=include_thead)}
+</html>

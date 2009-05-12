@@ -1,37 +1,55 @@
-<table xmlns="http://www.w3.org/1999/xhtml"
-       xmlns:py="http://genshi.edgewall.org/"
-       py:def="video_table(include_thead=True)"
-       id="video-table"
-       cellpadding="0"
-       cellspacing="0">
-	<thead py:if="include_thead">
-		<tr>
-			<th style="width:100px">Publish Date</th>
-			<th style="width:90px">Status</th>
-			<th style="width:auto">Title</th>
-			<th style="width:200px">Tags</th>
-			<th style="width:100px">Date Uploaded</th>
-			<th style="width:30px" class="center"><img src="/admin/images/icons/comments.png" alt="Comments" title="Number of Comments" /></th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr py:if="len(page.items) == 0"><td colspan="6">No Videos Found</td></tr>
-		<tr py:for="video in page.items" py:with="tag_count = len(video.tags); date_style=(video.publish_on is None or video.publish_on > datetime_now) and 'italic' or ''">
-			<td class="${date_style}" py:content="video.publish_on is None and 'unpublished' or video.publish_on.strftime('%b %d %Y')">Publish Date</td>
-			<td py:choose="">
-				<a class="mo review-me" py:when="'pending_review' in video.status" href="/admin/video/${video.id}/edit"><span>review me</span></a>
-				<a class="mo encode-me" py:when="'pending_encoding' in video.status" href="${video.upload_url}"><span>encode me</span></a>
-				<a class="mo published" py:otherwise="" href="/video/${video.slug}"><span>published</span></a>
-			</td>
-			<td><a href="/admin/video/${video.id}/edit" py:content="video.title">Title</a></td>
-			<td py:choose="tag_count">
-				<py:when test="0">None</py:when>
-				<py:otherwise py:for="i, tag in enumerate(video.tags)">
-					<a href="/video/tags/${tag.slug}" rel="tag" py:content="tag.name">Tag</a><py:if test="i+1 != tag_count">,</py:if>
-				</py:otherwise>
-			</td>
-			<td py:content="video.created_on.strftime('%b %d %Y')">Date Uploaded</td>
-			<td style="text-align:center" py:content="len(video.comments)">&#35;</td>
-		</tr>
-	</tbody>
-</table>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      py:strip="">
+	<table py:def="video_table(collection, fields, include_thead=True, id='video-table')"
+	       cellpadding="0" cellspacing="0" id="${id}"
+	       py:with="item_count = len(collection);
+	                include_thead = include_thead and (item_count > 0);">
+		<thead py:if="include_thead">
+			<tr>
+				<py:for each="f in fields" py:choose="f">
+					<th py:when="'publish_on'" style="width:100px">Publish Date</th>
+					<th py:when="'created_on'" style="width:100px">Upload Date</th>
+					<th py:when="'status'" style="width:90px">Status</th>
+					<th py:when="'title'" style="width:auto">Title</th>
+					<th py:when="'comment_count'" style="width:30px" class="center"><img src="/admin/images/icons/comments.png" alt="Comments" title="Number of Comments" /></th>
+					<th py:when="'tags'" style="width:120px">Tags</th>
+					<th py:when="'author'" style="width:120px">Author</th>
+					<th py:when="'type'" style="width:30px">&nbsp;</th>
+				</py:for>
+			</tr>
+		</thead>
+		<tbody>
+			<tr py:if="item_count == 0">
+				<td>None Found</td>
+			</tr>
+			<tr py:if="item_count >= 1" py:for="video in collection">
+				<py:for each="f in fields" py:choose="f">
+					<td py:when="'publish_on'"
+					    class="${video.publish_on and video.publish_on >= h.dt.datetime.now() and 'italic' or None}"
+					    py:content="video.publish_on is None and 'unpublished' or video.publish_on.strftime('%b %d %Y')">
+						Publish Date
+					</td>
+					<td py:when="'created_on'">${video.created_on.strftime('%b %d %Y')}</td>
+					<td py:when="'status'" py:choose="">
+						<a class="mo review-me" py:when="'pending_review' in video.status" href="/admin/video/${video.id}/edit"><span>review me</span></a>
+						<a class="mo encode-me" py:when="'pending_encoding' in video.status" href="${video.upload_url}"><span>encode me</span></a>
+						<a class="mo published" py:otherwise="" href="/video/${video.slug}"><span>published</span></a>
+					</td>
+					<td py:when="'title'"><a href="/admin/video/${video.id}/edit">${video.title}</a></td>
+					<td py:when="'comment_count'" class="center">${len(video.comments)}</td>
+					<td py:when="'tags'" py:with="tag_count=len(video.tags)">
+						<py:if test="tag_count == 0">None</py:if>
+						<py:if test="tag_count >= 1" py:for="i, tag in enumerate(video.tags)">
+							<a href="/video/tags/${tag.slug}">${tag.name}</a><py:if test="i+1 != tag_count">,</py:if>
+						</py:if>
+					</td>
+					<td py:when="'author'">
+						<a href="mailto:${video.author.email}" py:strip="not video.author.email">${video.author.name}</a>
+					</td>
+					<td py:when="'type'" class="center"><img alt="" src="/admin/images/icons/${video.type}-trans.png" /></td>
+				</py:for>
+			</tr>
+		</tbody>
+	</table>
+</html>

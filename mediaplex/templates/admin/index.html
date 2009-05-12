@@ -4,6 +4,7 @@
       xmlns:py="http://genshi.edgewall.org/"
       xmlns:xi="http://www.w3.org/2001/XInclude">
 <xi:include href="admin/master.html" />
+<xi:include href="video/_video-table.html" />
 <head>
 	<title>Dashboard</title>
 	<link href="/admin/styles/media.css" media="screen" rel="stylesheet" type="text/css" />
@@ -29,14 +30,12 @@
 	<div class="column66">
 		<div class="box">
 			<h1 class="box-head">Awaiting Review</h1>
-			<xi:include href="video/_video-review-table.html" />
-			${review_table(review_page)}
+			<xi:include href="video/dash-table.html" py:with="collection=review_page.items; id='review-table';" />
 		</div>
 		<br /><br />
 		<div class="box">
 			<h1 class="box-head">Awaiting Encoding</h1>
-			<xi:include href="video/_video-encode-table.html" />
-			${encode_table(encode_page)}
+			<xi:include href="video/dash-table.html" py:with="collection=encode_page.items; id='encode-table';" />
 		</div>
 	</div>
 	<div class="column33">
@@ -50,15 +49,8 @@
 		<br /><br />
 		<div class="box">
 			<h1 class="box-head">Recently Published</h1>
-			<table cellpadding="0" cellspacing="0">
-				<tbody>
-					<tr py:if="len(recent_media) == 0"><td colspan="2">No Media Published</td></tr>
-					<tr py:for="media_item in recent_media" py:with="type = media_item.type == 'video' and 'video' or 'podcast'">
-						<td><a href="/admin/${type}/${media_item.id}/edit"><img alt="" src="/admin/images/icons/${type}-trans.png" /></a></td>
-						<td><a href="/admin/${type}/${media_item.id}/edit" py:content="media_item.title">Title</a></td>
-					</tr>
-				</tbody>
-			</table>
+			<xi:include href="video/_video-table.html" />
+			${video_table(recent_media, fields=['type', 'title'], include_thead=False, id='recently-published-table')}
 		</div>
 	</div>
 </body>

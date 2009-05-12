@@ -31,8 +31,7 @@
 			<h1 py:if="not search_string">All Videos</h1>
 			<h1 py:if="search_string">Videos that match '${search_string}'</h1>
 		</div>
-		<xi:include href="_video-table.html" />
-		${video_table()}
+		<xi:include href="index-table.html" py:with="collection=page.items" />
 	</div>
 </body>
 </html>

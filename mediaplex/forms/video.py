@@ -1,6 +1,6 @@
 from tw.forms import ListForm, ListFieldSet, TextField, FileField, CalendarDatePicker, SingleSelectField, TextArea, SubmitButton
-from formencode.validators import Int, NotEmpty, DateConverter, DateValidator
 from tw.api import WidgetsList
+from tw.forms.validators import Schema, Int, NotEmpty, DateConverter, DateValidator
 
 class VideoForm(ListForm):
     template = 'mediaplex.templates.admin.video.form'
@@ -10,8 +10,11 @@ class VideoForm(ListForm):
     params = ['video']
     video = None
 
+    # support multiple named buttons to differentiate between Save & Delete
+    validator = Schema(ignore_key_missing=True)
+    _name = 'vf'
+
     fields = [
-        # main box fields
         TextField('slug', validator=NotEmpty),
         TextField('title', validator=NotEmpty),
         TextField('author_name', validator=NotEmpty),
@@ -23,8 +26,8 @@ class VideoForm(ListForm):
             TextField('duration'),
             TextField('url', label_text='Video URL')
         ]),
-        SubmitButton('save', default='Save', css_classes=['btn-save', 'f-rgt']),
-        SubmitButton('delete', default='Delete', css_classes=['btn-delete']),
+        SubmitButton('save', default='Save', named_button=True, css_classes=['btn-save', 'f-rgt']),
+        SubmitButton('delete', default='Delete', named_button=True, css_classes=['btn-delete']),
     ]
 
 

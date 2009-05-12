@@ -12,7 +12,7 @@
 	<script type="text/javascript" src="/scripts/tags.js"></script>
 	<script type="text/javascript">
 		window.addEvent('domready', function(){
-			var ts = new TagSlider({startHidden: ${auto_hide_tags and 'true' or 'false'}});
+			var ts = new TagSlider({startHidden: ${defined('show_tags') and show_tags and 'false' or 'true'}});
 		});
 	</script>
 </head>

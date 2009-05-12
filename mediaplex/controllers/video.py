@@ -8,7 +8,7 @@ from urlparse import urlparse, urlunparse
 from cgi import parse_qs
 from PIL import Image
 from datetime import datetime
-from tg import expose, validate, flash, require, url, request, redirect
+from tg import expose, validate, decorators, flash, require, url, request, redirect
 from formencode import validators
 from pylons.i18n import ugettext as _
 from sqlalchemy import and_, or_
@@ -29,14 +29,12 @@ class VideoController(RoutingController):
     @expose('mediaplex.templates.video.index')
     def index(self, page=1, **kwargs):
         """Grid-style List Action"""
-        tags = DBSession.query(Tag).order_by(Tag.name).all()
-        return dict(page=self._fetch_page(page, 25), tags=tags, auto_hide_tags=True)
+        return dict(page=self._fetch_page(page, 25), tags=self._fetch_tags())
 
     @expose('mediaplex.templates.video.mediaflow')
     def flow(self, page=1, **kwargs):
         """Mediaflow Action"""
-        tags = DBSession.query(Tag).order_by(Tag.name).all()
-        return dict(page=self._fetch_page(page, 9), tags=tags, auto_hide_tags=True)
+        return dict(page=self._fetch_page(page, 9), tags=self._fetch_tags())
 
     @expose('mediaplex.templates.video.mediaflow-ajax')
     def flow_ajax(self, page=1, **kwargs):
@@ -45,15 +43,17 @@ class VideoController(RoutingController):
 
     def _fetch_page(self, page_num=1, items_per_page=25, query=None):
         """Helper method for paginating video results"""
-        query = query or DBSession.query(Video).filter(Video.status.contains_all('publish'))
+        query = query or DBSession.query(Video).filter(Video.status >= 'publish').filter(Video.publish_on <= datetime.now())
         return paginate.Page(query, page_num, items_per_page)
 
     @expose('mediaplex.templates.video.index')
     def tags(self, tag=None, page=1, **kwargs):
         tag = DBSession.query(Tag).filter(Tag.slug == tag).one()
         query = DBSession.query(Video).filter(Video.tags.contains(tag))
-        tags = DBSession.query(Tag).order_by(Tag.name).all()
-        return dict(page=self._fetch_page(page, 25, query=query), tags=tags, auto_hide_tags=False)
+        return dict(page=self._fetch_page(page, 25, query=query), tags=self._fetch_tags(), show_tags=True)
+
+    def _fetch_tags(self):
+        return DBSession.query(Tag).order_by(Tag.name).all()
 
     @expose()
     def lookup(self, slug, *remainder):
@@ -113,21 +113,16 @@ class VideoAdminController(BaseController):
         return dict(page=self._fetch_page(search_query),
                     search_form=search_form,
                     search_form_values=search_form_values,
-                    search_string=search_query,
-                    datetime_now=datetime.now())
+                    search_string=search_query)
 
-    @expose('mediaplex.templates.admin.video.video-table-ajax')
+    @expose('mediaplex.templates.admin.video.index-table')
     def ajax(self, page_num, search_string=None):
         """ShowMore Ajax Fetch Action"""
-        videos_page = self._fetch_page(search_string, page_num)
-        return dict(page=videos_page,
-                    datetime_now=datetime.now())
+        return dict(page=self._fetch_page(search_string, page_num), is_ajax=True)
 
     def _fetch_page(self, search_string=None, page_num=1, items_per_page=30):
         """Helper method for paginating video results"""
-        from webhelpers import paginate
-
-        videos = DBSession.query(Video).filter(Video.status.contains_none('trash'))
+        videos = DBSession.query(Video).filter(Video.status.excludes('trash'))
         if search_string is not None:
             like_search = '%%%s%%' % (search_string,)
             videos = videos.outerjoin(Video.tags).\
@@ -192,8 +187,15 @@ License: General Upload"""
     @expose()
     @validate(VideoForm(), error_handler=edit)
     def save(self, **values):
+        if values.has_key('delete'):
+            self.video.status.add('trash')
+            DBSession.add(self.video)
+            DBSession.flush()
+            redirect('/admin/video')
+
         if self.video.id == 'new':
             self.video.id = None
+
         self.video.slug = values['slug']
         self.video.title = values['title']
         self.video.author = Author(values['author_name'], values['author_email'])

@@ -22,7 +22,7 @@ var ShowMore = new Class({
 	},
 
 	_setupButtons: function(){
-		table = $(this.options.table);
+		var table = $(this.options.table);
 		var tbody = table.getChildren('tbody')[0];
 		tbody.setStyles({'height': tbody.getHeight(), overflow: 'hidden'});
 
