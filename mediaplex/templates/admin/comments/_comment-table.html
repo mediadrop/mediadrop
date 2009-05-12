@@ -19,8 +19,7 @@
 				<a class="mo trash-comment" href="/admin/comments/${comment.id}/trash"><span>trash</span></a>
 			</td>
 			<td class="author">
-				<strong py:content="comment.author.name">Author</strong><br />
-				<a href="mailto:${comment.author.email}" py:content="comment.author.email">Email</a><br />
+				<a href="mailto:${comment.author.email}"><strong py:content="comment.author.name">Author</strong></a><br />
 			</td>
 			<td>
 				<span class="comment-submitted">Submitted on ${comment.created_on.strftime('%b %d %Y')} | </span><a class="edit-text" href="">Edit Text</a><br />
