@@ -446,6 +446,21 @@ SqueezeBox.handlers.extend({
 		});
 		return el;
 	},
+
+	// Extend Squeezebox with a fit-to-size handler
+	fittedAdopt: function(el) {
+		el = this.handlers.adopt(el);
+		var origY = this.options.size.y;
+		this.setOptions({
+			size: {y: el.getSize().h}, // set this contents height to be the new default
+			onClose: function(e, origY){
+				// reset the default height to the original setting & unset this event
+				this.setOptions({size: {y: origY}, onClose: $empty});
+			}.bindWithEvent(this, [origY])
+		});
+		return el;
+	},
 });
 
 SqueezeBox.parsers.fittedClone = SqueezeBox.parsers.clone;
+SqueezeBox.parsers.fittedAdopt = SqueezeBox.parsers.adopt;

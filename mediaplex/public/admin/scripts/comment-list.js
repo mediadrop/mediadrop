@@ -15,7 +15,6 @@ var ConfirmManager = new Class({
 	Implements: [Options, Events],
 
 	options:{
-		height: '117px',
 		cancelButtonText: 'no',
 		confirmButtonText: 'yes',
 		confirmButtonClass: 'submitbutton btn-yes f-rgt',
@@ -53,7 +52,7 @@ var ConfirmManager = new Class({
 		cancelButton.addEvent('click', this.cancel.pass(target, this));
 		confirmButton.addEvent('click', this.confirm.pass(target, this));
 
-		SqueezeBox.fromElement(box, {handler: 'adopt', size: {y: this.options.height}});
+		SqueezeBox.fromElement(box, {handler: 'fittedAdopt'});
 
 		confirmButton.focus();
 	},

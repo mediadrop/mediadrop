@@ -148,11 +148,12 @@
 	right: 30px;
 	bottom: 10px;
 }
-#sbox-window #sbox-content div.buttons button {
-	margin-left: 10px;
-}
 #sbox-window #sbox-content .box-foot {
 	padding: 0;
-	height: 34px;
 }
+#sbox-window #sbox-content .box-foot button {
+	padding-top: 10px;
+	margin-left: 10px;
+}
+
 
