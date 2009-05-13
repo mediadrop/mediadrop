@@ -11,93 +11,106 @@
 
 
 var ConfirmManager = new Class({
+
 	Implements: [Options, Events],
 
-	options: {
-		height: '117px'
-		//onNo: $empty, (e.target)
-		//onYes: $empty (e.target)
+	options:{
+		height: '117px',
+		cancelButtonText: 'no',
+		confirmButtonText: 'yes',
+		confirmButtonClass: 'submitbutton btn-yes f-rgt',
+		cancelButtonClass: 'submitbutton btn-no f-rgt',
+		header: 'Confirm',
+		msg: 'Are you sure?'
+		//onConfirm: $empty (e.target)
 	},
 
-	initialize: function(linkSelector, opts) {
+
+	initialize: function(linkSelector, opts){
 		this.setOptions(opts);
 
 		var links = $$(linkSelector);
 		links.each(function(el) {
-			el.addEvent('click', this.onClick.bind(this));
+			el.addEvent('click', this.openConfirmDialog.bind(this));
 		}.bind(this));
-		return this;
 	},
 
-	onClick: function(e) {
+	openConfirmDialog: function(e){
 		e = new Event(e).stop();
-		var a = $(e.target);
+		var target = $(e.target);
 
 		// Set up the dialog box
-		var box = new Element('div', {class: 'box'});
-		var head = new Element('h1', {html: this.getHeaderText(a),class: 'box-head'}).inject(box);
-		var text = new Element('p', {html: this.getPText(a)}).inject(box);
-		var buttons = new Element('div', {class: 'box-foot'}).inject(box);
-		var no = new Element('button', {class:'btn-no',html:'No',events:{click:function(){this.fireEvent('onNo',[a]);SqueezeBox.close();}.bind(this)}}).inject(buttons);
-		var yes = new Element('button', {class:'btn-yes',html:'Yes',events:{click:function(){this.fireEvent('onYes',[a]);SqueezeBox.close();}.bind(this)}}).inject(buttons);
+		var header = $type(this.options.header) == 'function' ? this.options.header(target) :this.options.header;
+		var msg = $type(this.options.msg) == 'function' ? this.options.msg(target) : this.options.msg;
+
+		var box = new Element('div', {'class': 'box'});
+		var head = new Element('h1', {'class': 'box-head', html: header}).inject(box);
+		var text = new Element('p', {html: msg}).inject(box);
+		var buttons = new Element('div', {'class': 'box-foot'}).inject(box);
+		var confirmButton = new Element('button', {'class':this.options.confirmButtonClass, html: this.options.confirmButtonText}).inject(buttons);
+		var cancelButton = new Element('button', {'class': this.options.cancelButtonClass, html: this.options.cancelButtonText}).inject(buttons);
+
+		cancelButton.addEvent('click', this.cancel.pass(target, this));
+		confirmButton.addEvent('click', this.confirm.pass(target, this));
 
 		SqueezeBox.fromElement(box, {handler: 'adopt', size: {y: this.options.height}});
 
-		return false;
+		confirmButton.focus();
 	},
 
-	getHeaderText: function(a) {
-		return 'Confirm';
+	cancel: function(target){
+		SqueezeBox.close();
 	},
 
-	getPText: function(a) {
-		return 'Are you sure?';
-	}
+	confirm: function(target){
+		SqueezeBox.close();
+		this.fireEvent('onConfirm', [target]);
+	},
+
 });
 
 var DeleteManager = new Class({
+
 	Extends: ConfirmManager,
 
-	initialize: function(opts) {
-		if(!$chk(opts)){opts = {};}
-		opts.onYes = function(a){
-			new RowManager(a).deleteRow();
-		};
-		this.parent('a.trash-comment', opts);
-		return this;
-	},
-
-	getHeaderText: function(a) {
-		return 'Confirm Delete';
-	},
-
-	getPText: function(a) {
-		return 'Are you sure you want to delete <strong>' + new RowManager(a).getAuthor() + '</strong>&#8217;s comment?';
+	initialize: function(linkSelector, opts) {
+		this.addEvent('confirm', function(target){
+			new Comment(target).deleteComment();
+		});
+		if(!$chk(opts.header)){
+			opts.header = 'Confirm Delete';
+		}
+		if(!$chk(opts.msg)){
+			opts.msg = function(target){
+				return 'Are you sure you want to delete <strong>' + new Comment(target).getAuthor() + '</strong>&#8217;s comment?';
+			};
+		}
+		this.parent(linkSelector, opts);
 	},
 });
 
 var PublishManager = new Class({
 	Extends: ConfirmManager,
 
-	initialize: function(opts) {
-		if(!$chk(opts)){opts = {};}
-		opts.onYes = function(a){
-			new RowManager(a).publishRow();
-		};
-		this.parent('a.review-comment', opts);
-		return this;
-	},
+	initialize: function(linkSelector, opts) {
+		this.addEvent('confirm', function(target){
+			new Comment(target).publishComment();
+		});
+		if(!$chk(opts.header)){
+			opts.header = 'Confirm Publish';
+		}
+		if(!$chk(opts.msg)){
+			opts.msg = function(target){
+				return 'Are you sure you want to publish <strong>' + new Comment(target).getAuthor() + '</strong>&#8217;s comment?';
+			};
+		}
+		this.parent(linkSelector, opts);
+	}
 
-	getHeaderText: function(a) {
-		return 'Confirm Publish';
-	},
-
-	getPText: function(a) {
-		return 'Are you sure you want to publish <strong>' + new RowManager(a).getAuthor() + '</strong>&#8217;s comment?';
-	},
 });
 
-var RowManager = new Class({
+var Comment = new Class({
+
 	row: null,
 	actionUrl: null,
 
@@ -106,34 +119,38 @@ var RowManager = new Class({
 		this.actionUrl = a.href;
 	},
 
-	deleteRow: function() {
+	deleteComment: function(){
 		var req = new Request.HTML({url: this.actionUrl});
-		req.addEvent('success', this.removeRow.bind(this));
+		req.addEvent('success', this.updateDeleted.bind(this));
 		req.get();
 		return this;
 	},
 
-	publishRow: function() {
+	publishComment: function(){
 		var req = new Request.HTML({url: this.actionUrl});
-		req.addEvent('success', this.grayRow.bind(this));
+		req.addEvent('success', this.updatePublished.bind(this));
 		req.get();
 		return this;
 	},
 
-	grayRow: function() {
-		this.row.addClass('tr-gray');
-		return this;
-	},
-
-	removeRow: function() {
+	updateDeleted: function(){
 		this.row.destroy();
 		return this;
 	},
 
-	getAuthor: function() {
-		var author = this.row.getChildren('td.author').get('text');
-		return author;
+	updatePublished: function(){
+		this.row.removeClass('tr-white').addClass('tr-gray');
+		var unpublished = this.row.getElement('a.review-comment');
+		var published = new Element('span', {class: 'published-comment', html: 'published'});
+		published.replaces(unpublished);
+		return this;
+	},
+
+	getAuthor: function(){
+		var author = this.row.getChildren('.author').get('text');
+		return new String(author).trim();
 	}
+
 });
 
 //var EditText = new Class({

@@ -15,7 +15,7 @@
 		<tr py:for="comment in page.items" class="${('pending_review' in comment.status) and 'tr-white' or 'tr-gray'}">
 			<td py:choose="">
 				<a class="mo review-comment" py:when="'pending_review' in comment.status" href="/admin/comments/${comment.id}/approve"><span>approve</span></a>
-				<span class="published-comment" py:otherwise="" href="">published</span>
+				<span class="published-comment" py:otherwise="">published</span>
 				<a class="mo trash-comment" href="/admin/comments/${comment.id}/trash"><span>trash</span></a>
 			</td>
 			<td class="author">
