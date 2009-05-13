@@ -103,6 +103,9 @@ class Status(object):
     def __str__(self):
         return self._unival.encode('utf8')
 
+    def __repr__(self):
+        return self._unival
+
     def __unicode__(self):
         return self._unival
 
@@ -160,7 +163,7 @@ class StatusSet(set):
             if isinstance(status, (Status, int, long)):
                 return self._valid_els[int(status)]
             for i, s in self._valid_els.items():
-                if s == status:
+                if s == unicode(status):
                     return self._valid_els[i]
         except (KeyError, ValueError):
             pass
@@ -185,7 +188,7 @@ class StatusSet(set):
         elif isinstance(seq, StatusSet):
             pass
         elif isinstance(seq, (list, tuple)):
-            pass
+            seq = [self._validate_el(s) for s in seq]
         else:
             raise ValueError, 'Invalid status sequence "%s"' % seq
         return seq
@@ -264,40 +267,37 @@ class StatusTypeExtension(interfaces.AttributeExtension):
 
 
 class StatusComparator(properties.ColumnProperty.Comparator):
-    """Status Column Comparator for Querying the DB
+    """Status Column Comparator for Querying the DB"""
+    def __eq__(self, other):
+        other = self._status_set_class(other)
+        return self._column.op('=')(int(other))
 
-    TODO: Support conjunctions in the criterion: sqlalchemy.sql.and_, or_, not_
-    """
+    def intersects(self, criterion=None):
+        """Match statuses that have at least one of the elements in the given set"""
+        criterion = int(self._status_set_class(criterion))
+        return self._column.op('&')(criterion)
+
+    def excludes(self, criterion=None):
+        """Match statuses that don't have any of the elements in the given set"""
+        return sql.not_(self.intersects(criterion))
+
+    def issuperset(self, criterion=None):
+        """Match statuses that contain all elements of the given set while allowing others"""
+        criterion = int(self._status_set_class(criterion))
+        return self._column.op('&')(criterion) == criterion
+    __ge__ = issuperset
+
+    def issubset(self, criterion=None):
+        """Match statuses that contain some elements of the given set while disallowing all others"""
+        criterion = int(self._status_set_class(criterion))
+        return sql.and_(self._column.op('&')(criterion),
+                        self._column.op('& ~')(criterion) == 0)
+    __le__ = issubset
+
     @property
-    def column(self):
+    def _column(self):
         return self.__clause_element__()
 
     @property
-    def status_set_class(self):
-        return self.column.type.status_set_class
-
-    def __eq__(self, other):
-        other = self.status_set_class(other)
-        return self.column.op('=')(int(other))
-
-    def contains_some(self, criterion=None):
-        criterion = self.status_set_class(criterion)
-        intval = int(criterion)
-        return self.column.op('&')(criterion)
-
-    def contains_all(self, criterion=None):
-        criterion = self.status_set_class(criterion)
-        intval = int(criterion)
-        return self.column.op('&')(criterion) == criterion
-
-    def contains_none(self, criterion=None):
-        criterion = self.status_set_class(criterion)
-        intval = int(criterion)
-        return self.column.op('|')(criterion) != criterion
-
-    def contains(self, *args, **kwargs):
-        raise NotImplementedError, 'Use contains_all() or contains_some() instead'
-    def any(self, *args, **kwargs):
-        raise NotImplementedError, 'Use contains_all() or contains_some() instead'
-    def has(self, *args, **kwargs):
-        raise NotImplementedError, 'Use contains_all() or contains_some() instead'
+    def _status_set_class(self):
+        return self._column.type.status_set_class
