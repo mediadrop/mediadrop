@@ -11,10 +11,16 @@ class MediaplexConfig(AppConfig):
         map = Mapper(directory=config['pylons.paths']['controllers'],
                     always_scan=config['debug'])
 
-        # Set up our custom routes
-        map.connect('videos_layout', 'video-{action}', controller='video', action='grid', requirements=dict(action='grid|flow|flow_ajax'))
 
-        # Setup a default route for the root of object dispatch
+        # route for viewing videos
+        map.connect('/video/{slug}', controller='video', action='view')
+        # route for all non-view, non-index, video actions
+        map.connect('/video-{action}/{slug}/{rating}', rating=None, slug=None, controller='video', requirements=dict(action='tags|flow|flow_ajax|rate'))
+
+        # Set up the default route
+        map.connect('/{controller}/{action}/{slug}')
+
+        # Set up a fallback route for object dispatch
         map.connect('*url', controller='root', action='routes_placeholder')
 
         config['routes.map'] = map

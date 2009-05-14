@@ -47,57 +47,57 @@ class VideoController(RoutingController):
         return paginate.Page(query, page_num, items_per_page)
 
     @expose('mediaplex.templates.video.index')
-    def tags(self, tag=None, page=1, **kwargs):
-        tag = DBSession.query(Tag).filter(Tag.slug == tag).one()
+    def tags(self, slug=None, page=1, **kwargs):
+        tag = DBSession.query(Tag).filter(Tag.slug == slug).one()
         query = DBSession.query(Video).filter(Video.tags.contains(tag))
         return dict(page=self._fetch_page(page, 25, query=query), tags=self._fetch_tags(), show_tags=True)
 
     def _fetch_tags(self):
         return DBSession.query(Tag).order_by(Tag.name).all()
 
-    @expose()
-    def lookup(self, slug, *remainder):
-        return VideoRowController(slug), remainder
-
-
-class VideoRowController(object):
-    """Actions specific to a single video"""
-
-    def __init__(self, slug=None, video=None):
-        """Pull the video from the database for all actions"""
-        self.video = video or DBSession.query(Video).filter_by(slug=slug).one()
-
     @expose('mediaplex.templates.video.view')
-    def view(self, **values):
-        self.video.views += 1
-        DBSession.add(self.video)
-        form = PostCommentForm(action='/video/%s/comment' % self.video.slug)
+    def view(self, slug, **values):
+        video = DBSession.query(Video).filter_by(slug=slug).one()
+        video.views += 1
+        DBSession.add(video)
+        form = PostCommentForm(action='/video/%s/comment' % video.slug)
         return {
-            'video': self.video,
+            'video': video,
             'comment_form': form,
             'form_values': values,
         }
-    default = view
 
-    @expose()
+    @expose('json')
     @validate(validators=dict(rating=validators.Int()))
-    def rate(self, rating):
-        self.video.rating(rating)
-        DBSession.add(self.video)
-        redirect('/video/%s' % self.video.slug)
+    def rate(self, slug, rating, **kwargs):
+        video = DBSession.query(Video).filter_by(slug=slug).one()
+
+        if rating > 0:
+            video.rating.add_vote(1)
+        else:
+            video.rating.add_vote(0)
+
+        DBSession.add(video)
+        if request.is_xhr:
+            return dict(
+                rating='%d/%d' % (video.rating.sum, video.rating.votes),
+                success=True
+            )
+        else:
+            redirect(helpers.url_for(action='view', slug=video.slug))
 
     @expose()
     @validate(PostCommentForm(), error_handler=view)
-    def comment(self, **values):
+    def comment(self, slug, **values):
+        video = DBSession.query(Video).filter_by(slug=slug).one()
         c = Comment()
         c.status = 'pending_review'
         c.author = AuthorWithIP(values['name'], None, request.environ['REMOTE_ADDR'])
-        c.subject = 'Re: %s' % self.video.title
+        c.subject = 'Re: %s' % video.title
         c.body = values['body']
-        self.video.comments.append(c)
-        DBSession.add(self.video)
-        redirect('/video/%s' % self.video.slug)
-
+        video.comments.append(c)
+        DBSession.add(video)
+        redirect(helpers.url_for(action='view', slug=video.slug))
 
 class VideoAdminController(BaseController):
     """Admin video actions which deal with groups of videos"""

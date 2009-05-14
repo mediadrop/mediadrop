@@ -32,14 +32,14 @@
 			</div>
 			<ul py:for="col in xrange(1, 5)" py:with="per_col = (len(tags) + 8) / 4">
 				<li py:for="tag in tags[(col-1)*per_col:col*per_col]">
-					<a href="/video/tags/${tag.slug}">${tag.name}</a>
+					<a href="${h.url_for(action='tags', slug=tag.slug)}">${tag.name}</a>
 				</li>
 			</ul>
 		</div>
 		<div class="box-body mediagrid">
 			<ul>
 				<li py:for="video in page.items">
-					<a href="/video/${video.slug}" title="${h.text.truncate(video.description, whole_word=True)}">
+					<a href="${h.url_for(action='view', slug=video.slug)}" title="${h.text.truncate(video.description, whole_word=True)}">
 						<img src="/images/videos/${video.id}s.jpg" width="149" height="92" />
 						<span class="media-title">${video.title}</span>
 						<span class="media-info">${h.duration_from_seconds(video.duration)}<br />${h.text.plural(video.views, 'view', 'views')}</span>

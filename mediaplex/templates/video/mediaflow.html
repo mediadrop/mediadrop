@@ -30,8 +30,8 @@
 	<div id="mediaplex" class="box">
 		<div class="box-top"></div>
 		<div id="mediaplex-ctrls">
-			<a id="mediaplex-ctrls-flow" class="active" href="/video/flow" title="View a few videos at a time"><span>Mediaflow View</span></a>
-			<a id="mediaplex-ctrls-grid" href="/video" title="View many videos at a time"><span>Grid View</span></a>
+			<a id="mediaplex-ctrls-flow" class="active" href="${h.url_for(action='flow')}" title="View a few videos at a time"><span>Mediaflow View</span></a>
+			<a id="mediaplex-ctrls-grid" href="${h.url_for(action='index')}" title="View many videos at a time"><span>Grid View</span></a>
 			<a id="mediaplex-ctrls-tags" href="#"><span>Browse by Tags</span></a>
 		</div>
 		<div id="mediaplex-tags">
@@ -41,7 +41,7 @@
 			</div>
 			<ul py:for="col in xrange(1, 5)" py:with="per_col = (len(tags) + 8) / 4">
 				<li py:for="tag in tags[(col-1)*per_col:col*per_col]">
-					<a href="/video/tags/${tag.slug}">${tag.name}</a>
+					<a href="${h.url_for(action='tags', slug=tag.slug)}">${tag.name}</a>
 				</li>
 			</ul>
 		</div>

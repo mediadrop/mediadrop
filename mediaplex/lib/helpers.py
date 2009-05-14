@@ -4,6 +4,7 @@ import datetime as dt
 from webhelpers import date, feedgenerator, html, number, misc, text, paginate
 from webhelpers.html.converters import format_paragraphs
 from webhelpers.html import tags
+from routes.util import url_for
 
 def duration_from_seconds(total_sec):
     if not total_sec:
