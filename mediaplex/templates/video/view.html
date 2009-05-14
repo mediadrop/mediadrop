@@ -13,7 +13,7 @@
 	<script type="text/javascript" src="/scripts/rater.js"></script>
 	<script type="text/javascript">
 		window.addEvent('domready', function(){
-			var raterness = new FiveStarRater('video-rating');
+			var raterness = new ThumbRater('video-rating', ${video.id});
 		});
 	</script>
 </head>
@@ -38,7 +38,7 @@
 					</li>
 					<li class="video-rating">
 						<strong>Rating:</strong>
-						<span id="video-rating" class="rating rating-inline rating-35 clickable"><span>3.5</span></span>
+						<span id="video-rating" class="rating rating-inline rating-35 clickable"><span>${video.rating.sum}/${video.rating.votes}</span> <a class="up" title="vote up" href="${h.url_for(action='rate', rating=1)}">[u]</a> <a class="down" title="vote down" href="${h.url_for(action='rate', rating=0)}">[d]</a></span>
 					</li>
 					<li class="video-duration">
 						<strong>Length:</strong> ${h.duration_from_seconds(video.duration)}

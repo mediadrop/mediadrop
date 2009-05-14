@@ -1,82 +1,52 @@
-var FiveStarRater = new Class({
+var ThumbRater = new Class({
 	element: null,
-	elementCoords: null,
-
 	rating: null,
-	displayedRating: null,
+	up: null,
+	down: null,
 
-	_boundUpdateHoverFunc: null,
-
-	initialize: function(element) {
+	initialize: function(element, id) {
 		this.element = $(element);
 
-		this.rating = this.displayedRating = this._getRating();
+		this.rating = this._getRating();
+		this.up = this.element.getElement('a.up');
+		this.down = this.element.getElement('a.down');
+		console.log(this.rating, this.up, this.down)
 
-		this._boundUpdateHoverFunc = this.updateHover.bind(this);
-
-		this.element.addEvent('click', this.rate.bind(this))
-		            .addEvent('mouseenter', this.startHover.bind(this))
-		            .addEvent('mouseleave', this.resetHover.bind(this));
+		this.up.addEvent('click', this.rateUp.bind(this));
+		this.down.addEvent('click', this.rateDown.bind(this));
+		console.log('wat');
 	},
 
-	startHover: function(e) {
-		if (!this.elementCoords) { this.elementCoords = this.element.getCoordinates(); }
-		this.updateHover(e);
-		this.element.addEvent('mousemove', this._boundUpdateHoverFunc);
+	rateUp: function(e) {
+		if (e != undefined) new Event(e).stop();
+		this._rate(this.up.get('href'));
 	},
 
-	updateHover: function(e) {
-		e = new Event(e);
-
-		var offset = e.page.x - this.elementCoords.left;
-		var percent = offset / this.elementCoords.width;
-		var rating = Math.ceil(percent * 5);
-
-		if (rating != this.displayedRating) {
-			this.element.addClass(this._getRatingClass(rating))
-			            .removeClass(this._getRatingClass(this.displayedRating));
-			this.displayedRating = rating;
-		}
+	rateDown: function(e) {
+		if (e != undefined) new Event(e).stop();
+		this._rate(this.down.get('href'));
 	},
 
-	resetHover: function(e) {
-		this.element.removeEvent(this._boundUpdateHoverFunc);
+	_rate: function(url) {
+		/* TODO: Remove click event so they can't re-vote */
 
-		if (this.rating != this.displayedRating) {
-			this.element.addClass(this._getRatingClass(this.rating))
-			            .removeClass(this._getRatingClass(this.displayedRating));
-			this.displayedRating = this.rating;
-		}
-	},
-
-	rate: function(e) {
-		new Event(e).stop();
-		console.log('Saving users rating of ' + this.displayedRating);
-
-		var postData = new Hash({
-			rating: this.displayedRating,
-			/* TODO: Copy django.contrib.comments comment-post-form techniques */
-			app: null,
-			model: null,
-			object_id: null,
-			security_hash: null
-		});
+		console.log('Saving users rating of ' + (url[url.length-1]=='1' ? 'thumbs up' : 'thumbs down'));
+		console.log(url);
 
 		var r = new Request.JSON({
-			url: '/ratings/rate/',
+			url: url,
 			onComplete: this.rated.bind(this)
-		}).send(postData.toQueryString());
-		/* TODO: Remove click event so they can't re-vote */
+		}).send();
 	},
 
 	rated: function(responseJSON) {
+		if (responseJSON.success) {
+			this.element.getFirst().set('text', responseJSON.rating);
+		}
 		console.log(responseJSON);
 	},
 
 	_getRating: function() {
 		return this.element.getFirst().get('text');
 	},
-	_getRatingClass: function(rating) {
-		return 'rating-' + rating * 10;
-	}
 });
