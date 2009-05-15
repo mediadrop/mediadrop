@@ -40,7 +40,7 @@ class CommentAdminController(BaseController):
             comments = comments.filter(or_(Comment.subject.like(like_search),
                        Comment.body.like(like_search)))
 
-        comments = comments.filter(Comment.status.contains_none('trash')).\
+        comments = comments.filter(Comment.status.excludes('trash')).\
             order_by(Comment.status.desc(), Comment.created_on)
 
         return paginate.Page(comments, page_num, items_per_page)
