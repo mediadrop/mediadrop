@@ -15,11 +15,12 @@
 		<tr py:for="comment in page.items" class="${('pending_review' in comment.status) and 'tr-white' or 'tr-gray'}">
 			<td py:choose="">
 				<a class="mo review-comment" py:when="'pending_review' in comment.status" href="/admin/comments/${comment.id}/approve"><span>approve</span></a>
-				<span class="published-comment" py:otherwise="">published</span>
+				<span class="published-comment" py:otherwise="" href="">published</span>
 				<a class="mo trash-comment" href="/admin/comments/${comment.id}/trash"><span>trash</span></a>
 			</td>
 			<td class="author">
-				<a href="mailto:${comment.author.email}"><strong py:content="comment.author.name">Author</strong></a><br />
+				<strong py:content="comment.author.name">Author</strong><br />
+				<a href="mailto:${comment.author.email}" py:content="comment.author.email">Email</a><br />
 			</td>
 			<td>
 				<span class="comment-submitted">Submitted on ${comment.created_on.strftime('%b %d %Y')} | </span><a class="edit-text" href="">Edit Text</a><br />

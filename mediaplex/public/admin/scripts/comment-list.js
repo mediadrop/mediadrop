@@ -20,7 +20,8 @@ var ConfirmManager = new Class({
 		confirmButtonClass: 'submitbutton btn-yes f-rgt',
 		cancelButtonClass: 'submitbutton btn-no f-rgt',
 		header: 'Confirm',
-		msg: 'Are you sure?'
+		msg: 'Are you sure?',
+		overlayOpacity: 0.4
 		//onConfirm: $empty (e.target)
 	},
 
@@ -52,7 +53,7 @@ var ConfirmManager = new Class({
 		cancelButton.addEvent('click', this.cancel.pass(target, this));
 		confirmButton.addEvent('click', this.confirm.pass(target, this));
 
-		SqueezeBox.fromElement(box, {handler: 'fittedAdopt'});
+		SqueezeBox.fromElement(box, {handler: 'fittedAdopt', overlayOpacity: this.options.overlayOpacity});
 
 		confirmButton.focus();
 	},
@@ -146,7 +147,7 @@ var Comment = new Class({
 	},
 
 	getAuthor: function(){
-		var author = this.row.getChildren('.author').get('text');
+		var author = this.row.getElement('.author').getChildren('strong').get('text');
 		return new String(author).trim();
 	}
 
