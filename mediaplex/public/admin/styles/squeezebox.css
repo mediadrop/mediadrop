@@ -24,6 +24,7 @@
 	top: -20px;
 	background: url('../images/layout/sbox-close.png') no-repeat center;
 	border: none;
+	z-index: 99;
 }
 .sbox-window-ie6 #sbox-btn-close {
 	background-image: url('../images/squeezebox/box-close.gif');
@@ -70,8 +71,8 @@
 /* Shadows */
 .sbox-bg {
 	position: absolute;
-	width: 43px;
-	height: 43px;
+	width: 44px;
+	height: 44px;
 }
 .sbox-bg-n {
 	left: 0;
@@ -81,21 +82,22 @@
 	background: url('../images/layout/sbox-n.png') repeat-x top;
 }
 .sbox-bg-ne {
-	right: -43px;
+	right: -44px;
 	top: -50px;
-	height: 50px;
+	height: 84px;
+	z-index: 1;
 	background: url('../images/layout/sbox-ne.png') no-repeat top right;
 }
 .sbox-bg-e {
-	right: -43px;
+	right: -44px;
 	top: 0;
 	height: 100%;
 	background: url('../images/layout/sbox-e.png') repeat-y top right;
 }
 .sbox-bg-se {
-	right: -43px;
+	right: -44px;
 	bottom: -43px;
-	height: 78px;
+	height: 88px;
 	z-index: 1;
 	background: url('../images/layout/sbox-se.png') no-repeat bottom right;
 }
@@ -106,31 +108,33 @@
 	background: url('../images/layout/sbox-s.png') repeat-x bottom;
 }
 .sbox-bg-sw {
-	left: -43px;
+	left: -44px;
 	bottom: -43px;
-	height: 78px;
+	height: 88px;
 	z-index: 1;
 	background: url('../images/layout/sbox-sw.png') no-repeat bottom left;
 }
 .sbox-bg-w {
-	left: -43px;
+	left: -44px;
 	top: 0;
 	height: 100%;
 	background: url('../images/layout/sbox-w.png') repeat-y top left;
 }
 .sbox-bg-nw {
-	left: -43px;
+	left: -44px;
 	top: -50px;
-	height: 50px;
+	height: 84px;
+	z-index: 1;
 	background: url('../images/layout/sbox-nw.png') no-repeat top left;
 }
 /* header */
 #sbox-window #sbox-content h1.box-head {
 	background: #e6e2d3 url('../images/layout/sbox-thead.png') repeat-x top;
+	height: 34px;
 	color: #3c4d5a;
-	padding: 0 0 10px 0;
+	padding: 0;
 	border-top: none;
-	border-bottom: 1px solid #cfccc2;
+	border-bottom: none;
 	clear: both;
 }
 #sbox-window #sbox-content div.box {
@@ -149,10 +153,14 @@
 	bottom: 10px;
 }
 #sbox-window #sbox-content .box-foot {
-	padding: 0;
+	background: #e6e2d3 url('../images/layout/sbox-tfoot.png') repeat-x top;
+	height: 34px;
+	padding: 10px 10px 0 10px;
+	border-top: none;
 }
-#sbox-window #sbox-content .box-foot button {
-	padding-top: 10px;
+
+#sbox-window #sbox-content .box-foot button,
+#sbox-window #sbox-content .box-foot input {
 	margin-left: 10px;
 }
 
