@@ -10,9 +10,9 @@ from tg import expose, request
 class expose_xhr(expose):
     def __init__(self, template_norm='', template_xhr='json', **kwargs):
         if request.is_xhr:
-            return expose.__init__(self, template=template_norm, **kwargs)
-        else:
             return expose.__init__(self, template=template_xhr, **kwargs)
+        else:
+            return expose.__init__(self, template=template_norm, **kwargs)
 
 
 def duration_from_seconds(total_sec):
@@ -37,8 +37,6 @@ def duration_to_seconds(duration):
         i += 1
     return total_secs
 
-if __name__ == '__main__':
-    print duration_from_seconds(390)
 
 def video_player(url):
     if url[0] == '/':
