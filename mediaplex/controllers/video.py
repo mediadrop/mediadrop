@@ -16,6 +16,7 @@ from sqlalchemy.orm import eagerload
 from webhelpers import paginate
 
 from mediaplex.lib import helpers
+from mediaplex.lib.helpers import expose_xhr
 from mediaplex.lib.base import Controller, BaseController, RoutingController
 from mediaplex.model import DBSession, metadata, Video, Comment, Tag, Author, AuthorWithIP
 from mediaplex.forms.admin import SearchForm
@@ -67,7 +68,7 @@ class VideoController(RoutingController):
             'form_values': values,
         }
 
-    @expose('json')
+    @expose_xhr()
     @validate(validators=dict(rating=validators.Int()))
     def rate(self, slug, rating, **kwargs):
         video = DBSession.query(Video).filter_by(slug=slug).one()
@@ -102,23 +103,22 @@ class VideoController(RoutingController):
 class VideoAdminController(BaseController):
     """Admin video actions which deal with groups of videos"""
 
-    @expose('mediaplex.templates.admin.video.index')
-    def index(self, **kwargs):
-        search_query = kwargs.get('searchquery', None)
-        search_form = SearchForm(action='/admin/video/')
-        search_form_values = {
-            'searchquery': not search_query and 'SEARCH...' or search_query
-        }
+    @expose_xhr('mediaplex.templates.admin.video.index', 'mediaplex.templates.admin.video.index-table')
+    def index(self, page_num=1, search_string=None, **kwargs):
+        if request.is_xhr:
+            """ShowMore Ajax Fetch Action"""
+            return dict(page=self._fetch_page(search_string, page_num), is_ajax=True)
+        else:
+            search_query = kwargs.get('searchquery', None)
+            search_form = SearchForm(action='/admin/video/')
+            search_form_values = {
+                'searchquery': not search_query and 'SEARCH...' or search_query
+            }
 
-        return dict(page=self._fetch_page(search_query),
-                    search_form=search_form,
-                    search_form_values=search_form_values,
-                    search_string=search_query)
-
-    @expose('mediaplex.templates.admin.video.index-table')
-    def ajax(self, page_num, search_string=None):
-        """ShowMore Ajax Fetch Action"""
-        return dict(page=self._fetch_page(search_string, page_num), is_ajax=True)
+            return dict(page=self._fetch_page(search_query),
+                        search_form=search_form,
+                        search_form_values=search_form_values,
+                        search_string=search_query)
 
     def _fetch_page(self, search_string=None, page_num=1, items_per_page=30):
         """Helper method for paginating video results"""

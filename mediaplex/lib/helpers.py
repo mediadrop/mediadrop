@@ -5,6 +5,15 @@ from webhelpers import date, feedgenerator, html, number, misc, text, paginate
 from webhelpers.html.converters import format_paragraphs
 from webhelpers.html import tags
 from routes.util import url_for
+from tg import expose, request
+
+class expose_xhr(expose):
+    def __init__(self, template_norm='', template_xhr='json', **kwargs):
+        if request.is_xhr:
+            return expose.__init__(self, template=template_norm, **kwargs)
+        else:
+            return expose.__init__(self, template=template_xhr, **kwargs)
+
 
 def duration_from_seconds(total_sec):
     if not total_sec:
