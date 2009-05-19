@@ -124,7 +124,7 @@ class VideoAdminController(BaseController):
         videos = DBSession.query(Video).filter(Video.status.excludes('trash'))
         if search is not None:
             like_search = '%%%s%%' % (search,)
-            videos = videos.outerjoin(Video.tags).\
+            videos = videos.\
                 filter(or_(Video.title.like(like_search),
                            Video.description.like(like_search),
                            Video.notes.like(like_search),
