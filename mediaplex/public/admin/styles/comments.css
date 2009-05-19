@@ -22,7 +22,8 @@ td.author strong {
 table#comment-table tr td {
 	vertical-align: top;
 }
-span.comment-submitted {
+span.comment-submitted,
+span.comment-ip {
 	color: #8695a3;
 }
 tr.tr-gray td {

@@ -13,8 +13,8 @@
 		window.addEvent('domready', function(){
 			vs = new ShowMore({
 				table: 'video-table',
-				fetchPageUrl: '/admin/video/ajax',
-				searchString: ${search_string and ("'%s'" % search_string) or 'null'},
+				fetchPageUrl: '/admin/video',
+				searchString: ${searchquery and ("'%s'" % searchquery) or 'null'},
 				pageNum: ${page.page},
 				lastPage: ${page.last_page or 1}
 			});
@@ -28,8 +28,8 @@
 			<div id="quicksearch" class="f-rgt">
 				${XML(search_form(search_form_values))}
 			</div>
-			<h1 py:if="not search_string">All Videos</h1>
-			<h1 py:if="search_string">Videos that match '${search_string}'</h1>
+			<h1 py:if="not searchquery">All Videos</h1>
+			<h1 py:if="searchquery">Videos that match '${searchquery}'</h1>
 		</div>
 		<xi:include href="index-table.html" py:with="collection=page.items" />
 	</div>

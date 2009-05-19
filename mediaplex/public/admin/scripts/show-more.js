@@ -45,7 +45,7 @@ var ShowMore = new Class({
 	fetchRows: function(i){
 		var req = new Request.HTML({url: this.options.fetchPageUrl});
 		req.addEvent('success', this.injectRows.bind(this));
-		req.get({page_num: i, search_string: this.options.searchString});
+		req.get({page_num: i, searchquery: this.options.searchString});
 		return this;
 	},
 

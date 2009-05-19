@@ -104,23 +104,22 @@ class VideoAdminController(BaseController):
     """Admin video actions which deal with groups of videos"""
 
     @expose_xhr('mediaplex.templates.admin.video.index', 'mediaplex.templates.admin.video.index-table')
-    def index(self, page_num=1, search_string=None, **kwargs):
+    def index(self, page_num=1, searchquery=None, **kwargs):
         if request.is_xhr:
             """ShowMore Ajax Fetch Action"""
-            return dict(page=self._fetch_page(search_string, page_num), is_ajax=True)
+            return dict(collection=self._fetch_page(searchquery, page_num).items)
         else:
-            search_query = kwargs.get('searchquery', None)
             search_form = SearchForm(action='/admin/video/')
             search_form_values = {
-                'searchquery': not search_query and 'SEARCH...' or search_query
+                'searchquery': not searchquery and 'SEARCH...' or searchquery
             }
 
-            return dict(page=self._fetch_page(search_query),
+            return dict(page=self._fetch_page(searchquery),
                         search_form=search_form,
                         search_form_values=search_form_values,
-                        search_string=search_query)
+                        searchquery=searchquery)
 
-    def _fetch_page(self, search_string=None, page_num=1, items_per_page=30):
+    def _fetch_page(self, search_string=None, page_num=1, items_per_page=10):
         """Helper method for paginating video results"""
         videos = DBSession.query(Video).filter(Video.status.excludes('trash'))
         if search_string is not None:
