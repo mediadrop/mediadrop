@@ -6,7 +6,7 @@ var ShowMore = new Class({
 		table: null,
 		pageNum: 1,
 		lastPage: 1,
-		searchString: null,
+		search: null,
 		fetchPageUrl: ''
 	},
 
@@ -45,7 +45,7 @@ var ShowMore = new Class({
 	fetchRows: function(i){
 		var req = new Request.HTML({url: this.options.fetchPageUrl});
 		req.addEvent('success', this.injectRows.bind(this));
-		req.get({page_num: i, searchquery: this.options.searchString});
+		req.get({page_num: i, search: this.options.search});
 		return this;
 	},
 

@@ -21,7 +21,7 @@ var QuickSearch = new Class({
 
 	options: {
 		label: 'SEARCH...',
-		field: 'searchquery'
+		field: 'search'
 	},
 
 	field: null,

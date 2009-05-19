@@ -17,7 +17,7 @@
 			vs = new ShowMore({
 				table: 'comment-table',
 				fetchPageUrl: '/admin/comments/ajax',
-				searchString: ${search_string and ("'%s'" % search_string) or 'null'},
+				search: ${search and ("'%s'" % search) or 'null'},
 				pageNum: ${page.page},
 				lastPage: ${page.last_page}
 			});
@@ -34,8 +34,8 @@
 			<div id="quicksearch" class="f-rgt">
 				${XML(search_form(search_form_values))}
 			</div>
-			<h1 py:if="not search_string">All Comments</h1>
-			<h1 py:if="search_string">Comments that match '${search_string}'</h1>
+			<h1 py:if="not search">All Comments</h1>
+			<h1 py:if="search">Comments that match '${search}'</h1>
 		</div>
 		<xi:include href="_comment-table.html" />
 		${comment_table()}

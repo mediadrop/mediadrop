@@ -260,7 +260,7 @@ input.submitbutton {
 	 margin-top: -3px;
 	 background: url('../images/layout/search-left.png') no-repeat left;
 }
-#quicksearch input#searchquery {
+#quicksearch input#search {
 	 background: url('../images/layout/search-right.png') no-repeat right;
 	 color: #374347;
 	 font: bold 13px Helvetica,Arial,Verdana,sans-serif;
