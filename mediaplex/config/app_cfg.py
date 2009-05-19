@@ -14,8 +14,9 @@ class MediaplexConfig(AppConfig):
 
         # route for viewing videos
         map.connect('/video/{slug}', controller='video', action='view')
+        map.connect('/video/{slug}/comment', controller='video', action='comment')
         # route for all non-view, non-index, video actions
-        map.connect('/video-{action}/{slug}/{rating}', rating=None, slug=None, controller='video', requirements=dict(action='tags|flow|flow_ajax|rate'))
+        map.connect('/video-{action}/{slug}/{rating}', rating='', slug=None, controller='video', requirements=dict(action='tags|flow|flow_ajax|rate'))
 
         # Set up the default route
         map.connect('/{controller}/{action}/{slug}')

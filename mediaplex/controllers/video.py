@@ -61,7 +61,7 @@ class VideoController(RoutingController):
         video = DBSession.query(Video).filter_by(slug=slug).one()
         video.views += 1
         DBSession.add(video)
-        form = PostCommentForm(action='/video/%s/comment' % video.slug)
+        form = PostCommentForm(action=helpers.url_for(action='comment', slug=video.slug))
         return {
             'video': video,
             'comment_form': form,

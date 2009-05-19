@@ -1,6 +1,7 @@
 """Main Controller"""
 
 from mediaplex.lib.base import BaseController
+from mediaplex.lib import helpers
 from mediaplex.controllers.error import ErrorController
 from mediaplex.controllers.video import VideoController
 from mediaplex.controllers.admin import AdminController
@@ -24,7 +25,7 @@ class RootController(BaseController):
 
     @expose('mediaplex.templates.index')
     def index(self):
-        redirect('/video/flow')
+        redirect(helpers.url_for(controller='video', action='flow'))
 
     @expose('mediaplex.templates.login')
     def login(self, came_from=url('/')):
