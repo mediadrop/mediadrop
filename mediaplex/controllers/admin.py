@@ -6,13 +6,8 @@ from webhelpers import paginate
 
 from mediaplex.lib.base import BaseController
 from mediaplex.model import DBSession, Media, Video, Comment, Tag
-from mediaplex.controllers.video import VideoAdminController
-from mediaplex.controllers.comments import CommentAdminController
 
 class AdminController(BaseController):
-    video = VideoAdminController()
-    comments = CommentAdminController()
-
     @expose('mediaplex.templates.admin.index')
     def index(self):
         # Any publishable video that does have a publish_on date that is in the
@@ -52,3 +47,4 @@ class AdminController(BaseController):
             filter(Video.status >= 'pending_encoding').\
             order_by(Video.created_on)
         return paginate.Page(query, page_num, items_per_page)
+
