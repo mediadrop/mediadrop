@@ -5,8 +5,6 @@ import tg
 from pylons.controllers.util import forward
 from pylons.middleware import error_document_template, media_path
 
-from mediaplex.lib.base import BaseController
-
 class ErrorController(object):
     """Generates error documents as and when they are required.
 

@@ -4,11 +4,11 @@ from sqlalchemy import and_, or_
 from sqlalchemy.orm import eagerload
 from webhelpers import paginate
 
-from mediaplex.lib.base import BaseController
+from mediaplex.lib.base import RoutingController
 from mediaplex.lib.helpers import expose_xhr
 from mediaplex.model import DBSession, Media, Video, Comment, Tag
 
-class AdminController(BaseController):
+class AdminController(RoutingController):
     """Admin dashboard actions"""
 
     @expose_xhr('mediaplex.templates.admin.index','mediaplex.templates.admin.video.dash-table')

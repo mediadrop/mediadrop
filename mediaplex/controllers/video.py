@@ -17,7 +17,7 @@ from webhelpers import paginate
 
 from mediaplex.lib import helpers
 from mediaplex.lib.helpers import expose_xhr
-from mediaplex.lib.base import Controller, BaseController, RoutingController
+from mediaplex.lib.base import Controller, RoutingController
 from mediaplex.model import DBSession, metadata, Video, Comment, Tag, Author, AuthorWithIP
 from mediaplex.forms.admin import SearchForm
 from mediaplex.forms.video import VideoForm, AlbumArtForm

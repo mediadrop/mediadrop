@@ -11,17 +11,23 @@ class MediaplexConfig(AppConfig):
         map = Mapper(directory=config['pylons.paths']['controllers'],
                     always_scan=config['debug'])
 
+        # home page redirect
+        map.redirect('/', '/video-flow')
 
-        # route for viewing videos
-        map.connect('/video/{slug}', controller='video', action='view')
-        map.connect('/video/{slug}/comment', controller='video', action='comment')
-        # route for all non-view, non-index, video actions
-        map.connect('/video-{action}/{slug}/{rating}', rating='', slug=None, controller='video', requirements=dict(action='tags|flow|flow_ajax|rate'))
+        # routes for all non-view, non-index, video actions
+        map.connect('/video-{action}/{slug}', slug=None, controller='video', requirements=dict(action='tags|flow|flow_ajax'))
+        map.connect('/video-rate/{slug}/{rating}', controller='video', action='rate')
+        # route for viewing videos and other video related actions
+        map.connect('/video/{slug}/{action}', controller='video', action='view')
         # admin routes
-        map.connect('/admin/video/{action}/{slug}', controller='videoadmin', action='index', slug=None)
+        map.connect('/admin/video', controller='videoadmin', action='index')
+        map.connect('/admin/video/{id}/{action}', controller='videoadmin', action='edit')
+
+        map.connect('/admin/comments', controller='commentadmin', action='index')
+        map.connect('/admin/comments/{id}/{action}', controller='commentadmin', action='edit')
 
         # Set up the default route
-        map.connect('/{controller}/{action}/{slug}')
+        map.connect('/{controller}/{action}', action='index')
 
         # Set up a fallback route for object dispatch
         map.connect('*url', controller='root', action='routes_placeholder')

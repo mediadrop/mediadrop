@@ -18,19 +18,6 @@ from repoze.what import predicates
 from mediaplex.controllers.secure import SecureController
 
 class RootController(BaseController):
-#    admin = Catwalk(model, DBSession)
-    error = ErrorController()
-    video = VideoController()
-    admin = AdminController()
-
-    @expose('mediaplex.templates.index')
-    def index(self):
-        url = helpers.url_for(controller='video', action='flow')
-        # it seems to me that this line should be unnecessary, but url_for keeps
-        # giving extra get vars (specifically ?url=) and I can't figure out how to stop it.
-        url = url.rsplit('?')[0]
-        redirect(url)
-
     @expose('mediaplex.templates.login')
     def login(self, came_from=url('/')):
         login_counter = request.environ['repoze.who.logins']
