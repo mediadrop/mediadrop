@@ -19,7 +19,7 @@
 				fetchPageUrl: '/admin/comments/ajax',
 				search: ${search and ("'%s'" % search) or 'null'},
 				pageNum: ${page.page},
-				lastPage: ${page.last_page}
+				lastPage: ${page.last_page or 1}
 			});
 
 			var DeleteMGR = new DeleteManager('a.trash-comment', {});
