@@ -15,7 +15,7 @@
 	<script src="/admin/scripts/statuses.js" type="text/javascript"></script>
 	<script type="text/javascript">
 		window.addEvent('domready', function(){
-			publishStatus = new StatusForm();
+			var publishStatus = new StatusForm();
 		});
 	</script>
 </head>
@@ -39,43 +39,7 @@
 		</div>
 		${XML(album_art_form)}
 		<br />
-		<form method="post" action="/admin/video/${video.id}/update_status"
-		      id="update-status-form" class="box"
-		      py:choose="">
-			<h1 class="box-head">Publish Status</h1>
-			<div py:when="'pending_review' in video.status" class="box-content">
-				<ol id="status-list">
-					<li class="status-list-inprogress">review in progress</li>
-					<li class="status-list-pending">encoding pending</li>
-					<li class="status-list-pending">draft</li>
-				</ol>
-				<div py:content="h.tags.submit('update_status', 'Review Complete', id='update-status', class_='submitbutton btn-review-complete')" class="center" />
-			</div>
-			<div py:when="'pending_encoding' in video.status" class="box-content">
-				<ol id="status-list">
-					<li class="status-list-complete">review complete</li>
-					<li class="status-list-inprogress">encoding in progress</li>
-					<li class="status-list-pending">draft</li>
-				</ol>
-				<div py:content="h.tags.submit('update_status', 'Encoding Complete', id='update-status', class_='submitbutton btn-encode-complete')" class="center" />
-			</div>
-			<div py:when="'draft' in video.status" class="box-content">
-				<ol id="status-list">
-					<li class="status-list-complete">review complete</li>
-					<li class="status-list-complete">encoding complete</li>
-					<li class="status-list-inprogress">draft</li>
-				</ol>
-				<div py:content="h.tags.submit('update_status', 'Publish Now', id='update-status', class_='submitbutton btn-publish-now')" class="center" />
-			</div>
-			<div py:when="'publish' in video.status" class="box-content">
-				<ol id="status-list">
-					<li class="status-list-complete">review complete</li>
-					<li class="status-list-complete">encoding complete</li>
-					<li class="status-list-complete">published ${video.publish_on.strftime('%b %d %Y')}</li>
-				</ol>
-			</div>
-			<div py:otherwise="" class="box-content">${video.status}</div>
-		</form>
+		<xi:include href="update-status-form.html" py:with="video=video" />
 	</div>
 </body>
 </html>

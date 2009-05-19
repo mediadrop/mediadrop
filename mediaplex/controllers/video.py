@@ -44,7 +44,10 @@ class VideoController(RoutingController):
 
     def _fetch_page(self, page_num=1, items_per_page=25, query=None):
         """Helper method for paginating video results"""
-        query = query or DBSession.query(Video).filter(Video.status >= 'publish').filter(Video.publish_on <= datetime.now())
+        query = query or DBSession.query(Video).\
+            filter(Video.status >= 'publish').\
+            filter(Video.publish_on <= datetime.now()).\
+            filter(Video.status.excludes('trash'))
         return paginate.Page(query, page_num, items_per_page)
 
     @expose('mediaplex.templates.video.index')
@@ -62,11 +65,11 @@ class VideoController(RoutingController):
         video.views += 1
         DBSession.add(video)
         form = PostCommentForm(action=helpers.url_for(action='comment', slug=video.slug))
-        return {
-            'video': video,
-            'comment_form': form,
-            'form_values': values,
-        }
+        return dict(
+            video=video,
+            comment_form=form,
+            form_values=values
+        )
 
     @expose_xhr()
     @validate(validators=dict(rating=validators.Int()))
@@ -99,4 +102,3 @@ class VideoController(RoutingController):
         video.comments.append(c)
         DBSession.add(video)
         redirect(helpers.url_for(action='view', slug=video.slug))
-

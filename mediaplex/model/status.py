@@ -41,13 +41,18 @@ Querying for rows based on their status:
     DBSession.query(Media).filter(Media.status == 28)
 
     # Grab rows with *at least* all of these statuses:
-    DBSession.query(Media).filter(Media.status.contains_all('draft,pending_encoding')
+    DBSession.query(Media).filter(Media.status.issuperset('draft,pending_encoding'))
+    DBSession.query(Media).filter(Media.status >= 'draft,pending_encoding')
 
-    # Grab rows with *at least* either of these statuses:
-    DBSession.query(Media).filter(Media.status.contains_some('pending_review,pending_encoding')
+    # Grab rows with *at least* any one of these statuses:
+    DBSession.query(Media).filter(Media.status.intersects('pending_review,pending_encoding'))
+
+    # Grab rows with one or more of these statuses but no others:
+    DBSession.query(Media).filter(Media.status.issuperset('draft,pending_encoding'))
+    DBSession.query(Media).filter(Media.status >= 'draft,pending_encoding')
 
     # Grab rows which don't contain any of the given statuses:
-    DBSession.query(Media).filter(Media.status.contains_none('trash')
+    DBSession.query(Media).filter(Media.status.excludes('trash'))
 
 Working with statuses once you've got a row:
 
@@ -61,8 +66,8 @@ Working with statuses once you've got a row:
 If at any time you try to do something with an invalid status, a ValueError is thrown:
 
     fail = 'randomchance' in media_inst.status
-    DBSession.query(Media).filter(Media.status.contains_none('randomchance'))
-    some_status = VideoStatusSet
+    DBSession.query(Media).filter(Media.status.excludes('randomchance'))
+    some_status = VideoStatusSet()
     some_status.add('randomchance')
 
 

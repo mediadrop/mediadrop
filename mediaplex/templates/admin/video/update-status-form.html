@@ -1,0 +1,45 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      py:strip="">
+	<form method="post" action="/admin/video/${video.id}/update_status" id="update-status-form" class="box"
+	      py:choose="">
+		<h1 class="box-head">Publish Status</h1>
+		<div class="box-content">
+			<div py:when="'pending_review' in video.status" py:strip="">
+				<ol id="status-list">
+					<li class="status-list-inprogress">review in progress</li>
+					<!--! just in case the video doesn't ever need encoding (eg. youtube) -->
+					<li py:with="status = 'pending_encoding' in video.status and 'pending' or 'complete'"
+						class="status-list-${status}">encoding ${status}</li>
+					<li class="status-list-pending">drafting</li>
+				</ol>
+				<div py:content="h.tags.submit('update_status', 'Review Complete', id='update-status', class_='submitbutton btn-review-complete')" class="box-content center" />
+			</div>
+			<div py:when="'pending_encoding' in video.status" py:strip="">
+				<ol id="status-list">
+					<li class="status-list-complete">review complete</li>
+					<li class="status-list-inprogress">encoding in progress</li>
+					<li class="status-list-pending">drafting</li>
+				</ol>
+				<div py:content="h.tags.submit('update_status', 'Encoding Complete', id='update-status', class_='submitbutton btn-encode-complete')" class="box-content center" />
+			</div>
+			<div py:when="'draft' in video.status" py:strip="">
+				<ol id="status-list">
+					<li class="status-list-complete">review complete</li>
+					<li class="status-list-complete">encoding complete</li>
+					<li class="status-list-inprogress">drafting</li>
+				</ol>
+				<div py:content="h.tags.submit('update_status', 'Publish Now', id='update-status', class_='submitbutton btn-publish-now')" class="box-content center" />
+			</div>
+			<div py:when="'publish' in video.status" py:strip="">
+				<ol id="status-list">
+					<li class="status-list-complete">review complete</li>
+					<li class="status-list-complete">encoding complete</li>
+					<li class="status-list-complete">published ${video.publish_on.strftime('%b %d %Y')}</li>
+				</ol>
+			</div>
+			<div py:otherwise="">${video.status}</div>
+			<div py:if="defined('error') and error" class="center">${error}</div>
+		</div>
+	</form>
+</html>
