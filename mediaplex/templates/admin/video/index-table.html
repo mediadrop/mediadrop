@@ -5,5 +5,5 @@
       py:with="id = defined('id') and id or 'video-table';
                include_thead = not h.request.is_xhr;">
 <xi:include href="_video-table.html" />
-${video_table(collection, fields=['publish_on', 'status', 'title', 'author', 'created_on', 'comment_count'], id=id, include_thead=include_thead)}
+${video_table(collection, fields=fields or ['publish_on', 'status', 'title', 'author', 'created_on', 'comment_count'], id=id, include_thead=include_thead)}
 </html>

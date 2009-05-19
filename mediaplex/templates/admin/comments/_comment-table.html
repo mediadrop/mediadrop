@@ -27,7 +27,7 @@
 				<span class="comment-submitted">Submitted on ${comment.created_on.strftime('%b %d %Y')} | </span><a class="edit-text" href="">Edit Text</a><br />
 				<p class="comment-body">${XML(h.format_paragraphs(comment.body))}</p>
 			</td>
-			<td py:content="comment.type">Media Item</td>
+			<td py:content="comment.parent">Media Item</td>
 		</tr>
 	</tbody>
 </table>
