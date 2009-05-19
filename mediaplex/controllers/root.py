@@ -25,7 +25,11 @@ class RootController(BaseController):
 
     @expose('mediaplex.templates.index')
     def index(self):
-        redirect(helpers.url_for(controller='video', action='flow'))
+        url = helpers.url_for(controller='video', action='flow')
+        # it seems to me that this line should be unnecessary, but url_for keeps
+        # giving extra get vars (specifically ?url=) and I can't figure out how to stop it.
+        url = url.rsplit('?')[0]
+        redirect(url)
 
     @expose('mediaplex.templates.login')
     def login(self, came_from=url('/')):
