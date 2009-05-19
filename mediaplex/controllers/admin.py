@@ -4,12 +4,12 @@ from sqlalchemy import and_, or_
 from sqlalchemy.orm import eagerload
 from webhelpers import paginate
 
-from mediaplex.lib.base import BaseController
+from mediaplex.lib.base import RoutingController
 from mediaplex.model import DBSession, Media, Video, Comment, Tag
 
-class AdminController(BaseController):
+class AdminController(RoutingController):
     @expose('mediaplex.templates.admin.index')
-    def index(self):
+    def index(self, **kwargs):
         # Any publishable video that does have a publish_on date that is in the
         # past and is publishable is 'Recently Published'
         recent_media = DBSession.query(Media).\

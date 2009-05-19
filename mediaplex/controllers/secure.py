@@ -1,5 +1,5 @@
 """Test Secure Controller"""
-from mediaplex.lib.base import BaseController
+from mediaplex.lib.base import RoutingController
 from tg import expose, flash
 from pylons.i18n import ugettext as _
 #from tg import redirect, validate
@@ -9,7 +9,7 @@ from pylons.i18n import ugettext as _
 from repoze.what.predicates import has_permission
 
 
-class SecureController(BaseController):
+class SecureController(RoutingController):
     """Sample controller-wide authorization"""
 
     # The predicate that must be met for all the actions in this controller:

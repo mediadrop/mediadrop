@@ -4,11 +4,11 @@ from pylons.i18n import ugettext as _
 from sqlalchemy import and_, or_
 from sqlalchemy.orm import eagerload
 
-from mediaplex.lib.base import BaseController
+from mediaplex.lib.base import RoutingController
 from mediaplex.model import DBSession, metadata, Video, Comment, Tag, Author
 from mediaplex.forms.admin import SearchForm
 
-class CommentAdminController(BaseController):
+class CommentadminController(RoutingController):
     """Admin comment actions which deal with groups of comments"""
 
     @expose('mediaplex.templates.admin.comments.index')
@@ -45,25 +45,19 @@ class CommentAdminController(BaseController):
 
         return paginate.Page(comments, page_num, items_per_page)
 
-    @expose()
-    def lookup(self, comment_id, *remainder, **kwargs):
-        comment = CommentRowAdminController(comment_id)
-        return comment, remainder
-
-class CommentRowAdminController(object):
-    """Admin comment actions which deal with a single comment"""
-
-    def __init__(self, comment_id):
-        """Pull the comment from the database for all actions"""
-        self.comment = DBSession.query(Comment).get(comment_id)
+    def _fetch_comment(self, id):
+        comment = DBSession.query(Comment).get(id)
+        return comment
 
     @expose()
-    def approve(self):
-        self.comment.status.discard('pending_review')
-        self.comment.status.add('publish')
-        DBSession.add(self.comment)
+    def approve(self, id):
+        comment = self._fetch_comment(id)
+        comment.status.discard('pending_review')
+        comment.status.add('publish')
+        DBSession.add(comment)
 
     @expose()
-    def trash(self):
-        self.comment.status.add('trash')
-        DBSession.add(self.comment)
+    def trash(self, id):
+        comment = self._fetch_comment(id)
+        comment.status.add('trash')
+        DBSession.add(comment)

@@ -16,7 +16,7 @@ from webhelpers import paginate
 
 from mediaplex.lib import helpers
 from mediaplex.lib.helpers import expose_xhr
-from mediaplex.lib.base import Controller, BaseController, RoutingController
+from mediaplex.lib.base import Controller, RoutingController
 from mediaplex.model import DBSession, metadata, Video, Comment, Tag, Author, AuthorWithIP
 from mediaplex.forms.admin import SearchForm
 from mediaplex.forms.video import VideoForm, AlbumArtForm
@@ -57,112 +57,106 @@ class VideoadminController(RoutingController):
 
         return paginate.Page(videos, page_num, items_per_page)
 
-    @expose()
-    def lookup(self, id, *remainder):
+    def _fetch_video(self, id):
         if id == 'new':
-            newvideo = Video()
-            newvideo.id = 'new'
-            video = VideoRowAdminController(video=newvideo)
+            video = Video()
+            video.id = 'new'
         else:
-            video = VideoRowAdminController(id)
-        return video, remainder
-
-
-class VideoRowAdminController(object):
-    """Admin video actions which deal with a single video"""
-
-    def __init__(self, id=None, video=None):
-        """Pull the video from the database for all actions"""
-        self.video = video or DBSession.query(Video).get(id)
+            video = DBSession.query(Video).get(id)
+        return video
 
     @expose('mediaplex.templates.admin.video.edit')
-    def edit(self, **values):
-        form = VideoForm(action='/admin/video/%s/save' % self.video.id, video=self.video)
+    def edit(self, id, **values):
+        video = self._fetch_video(id)
+        form = VideoForm(action='/admin/video/%s/save' % video.id, video=video)
         form_values = {
-            'slug': self.video.slug,
-            'title': self.video.title,
-            'author_name': self.video.author.name,
-            'author_email': self.video.author.email,
-            'description': self.video.description,
-            'tags': ', '.join([tag.name for tag in self.video.tags]),
-            'notes': self.video.notes,
+            'slug': video.slug,
+            'title': video.title,
+            'author_name': video.author.name,
+            'author_email': video.author.email,
+            'description': video.description,
+            'tags': ', '.join([tag.name for tag in video.tags]),
+            'notes': video.notes,
             'details': {
-                'duration': helpers.duration_from_seconds(self.video.duration),
-                'url': self.video.url
+                'duration': helpers.duration_from_seconds(video.duration),
+                'url': video.url
             },
         }
-        if self.video.id == 'new' and not self.video.notes:
+        if video.id == 'new' and not video.notes:
             form_values['notes'] = """Bible References: None
 S&H References: None
 Reviewer: None
 License: General Upload"""
         form_values.update(values)
         return {
-            'video': self.video,
+            'video': video,
             'form': form,
             'form_values': form_values,
-            'album_art_form': AlbumArtForm(action='/admin/video/%s/save_album_art' % self.video.id),
+            'album_art_form': AlbumArtForm(action='/admin/video/%s/save_album_art' % video.id),
         }
     default = edit
 
     @expose()
     @validate(VideoForm(), error_handler=edit)
-    def save(self, **values):
+    def save(self, id, **values):
+        video = self._fetch_video(id)
         if values.has_key('delete'):
-            self.video.status.add('trash')
-            DBSession.add(self.video)
+            video.status.add('trash')
+            DBSession.add(video)
             DBSession.flush()
             redirect('/admin/video')
 
-        if self.video.id == 'new':
-            self.video.id = None
+        if video.id == 'new':
+            video.id = None
 
-        self.video.slug = values['slug']
-        self.video.title = values['title']
-        self.video.author = Author(values['author_name'], values['author_email'])
-        self.video.description = values['description']
-        self.video.notes = values['notes']
-        self.video.duration = helpers.duration_to_seconds(values['details']['duration'])
-        self.video.set_tags(values['tags'])
+        video.slug = values['slug']
+        video.title = values['title']
+        video.author = Author(values['author_name'], values['author_email'])
+        video.description = values['description']
+        video.notes = values['notes']
+        video.duration = helpers.duration_to_seconds(values['details']['duration'])
+        video.set_tags(values['tags'])
 
         # parse url
         url = urlparse(values['details']['url'], 'http')
         if 'youtube.com' in url[1]:
             if 'youtube.com/watch' in url[1]:
                 youtube_id = parse_qs(url[4])['v']
-                self.video.url = urlunparse(('http', 'youtube.com', '/v/%s' % youtube_id, '', None, None))
+                video.url = urlunparse(('http', 'youtube.com', '/v/%s' % youtube_id, '', None, None))
             else:
-                self.video.url = values['details']['url']
+                video.url = values['details']['url']
         else:
-            self.video.encode_url = values['details']['url']
+            video.encode_url = values['details']['url']
 
-        DBSession.add(self.video)
+        DBSession.add(video)
         DBSession.flush()
-        redirect('/admin/video/%d/edit' % self.video.id)
+        redirect('/admin/video/%d/edit' % video.id)
 
     @expose()
     @validate(AlbumArtForm(), error_handler=edit)
-    def save_album_art(self, **values):
+    def save_album_art(self, id, **values):
+        video = self._fetch_video(id)
         temp_file = values['album_art'].file
-        im_path = '%s/../public/images/videos/%d%%s.jpg' % (os.path.dirname(__file__), self.video.id)
+        im_path = '%s/../public/images/videos/%d%%s.jpg' % (os.path.dirname(__file__), video.id)
         im = Image.open(temp_file)
         im.resize((149,  92), 1).save(im_path % 's')
         im.resize((240, 168), 1).save(im_path % 'm')
-        redirect('/admin/video/%d/edit' % self.video.id)
+        redirect('/admin/video/%d/edit' % video.id)
 
     @expose('json')
-    def update_status(self, **values):
+    def update_status(self, id, **values):
+        video = self._fetch_video(id)
         submitted = values.get('update_status', None)
         if submitted == 'Review Complete':
-            self.video.status.discard('pending_review')
+            video.status.discard('pending_review')
             text = 'Encoding Complete'
         elif submitted == 'Encoding Complete':
-            self.video.status.discard('pending_encoding')
+            video.status.discard('pending_encoding')
             text = 'Publish Now'
         elif submitted == 'Publish Now':
-            self.video.status.discard('draft')
-            self.video.status.add('publish')
-            self.video.publish_on = datetime.now()
+            video.status.discard('draft')
+            video.status.add('publish')
+            video.publish_on = datetime.now()
             text = None
         else:
             raise Exception
