@@ -34,6 +34,7 @@
 					<td py:when="'status'" py:choose="">
 						<a class="mo review-me" py:when="'pending_review' in video.status" href="/admin/video/${video.id}/edit"><span>review me</span></a>
 						<a class="mo encode-me" py:when="'pending_encoding' in video.status" href="${video.upload_url}"><span>encode me</span></a>
+						<a class="mo publish-me" py:when="'draft' in video.status" href="${video.upload_url}"><span>encode me</span></a>
 						<a class="mo published" py:otherwise="" href="/video/${video.slug}"><span>published</span></a>
 					</td>
 					<td py:when="'title'"><a href="/admin/video/${video.id}/edit">${video.title}</a></td>
