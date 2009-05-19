@@ -7,12 +7,30 @@ from webhelpers.html import tags
 from routes.util import url_for
 from tg import expose, request
 
-class expose_xhr(expose):
+class expose_xhr(object):
+    def __call__(self, func):
+        # create a wrapper function to override the template,
+        # in the case that this is an xhr request
+        def f(*args, **kwargs):
+            if request.is_xhr:
+               return self.xhr_decorator.__call__(func)(*args, **kwargs)
+            else:
+               return self.normal_decorator.__call__(func)(*args, **kwargs)
+
+        # set up the normal decorator so that we have the correct
+        # __dict__ properties to copy over. namely 'decoration'
+        func = self.normal_decorator.__call__(func)
+
+        # copy over all the special properties added to func
+        for i in func.__dict__:
+            f.__dict__[i] = func.__dict__[i]
+
+        return f
+
+
     def __init__(self, template_norm='', template_xhr='json', **kwargs):
-        if request.is_xhr:
-            return expose.__init__(self, template=template_xhr, **kwargs)
-        else:
-            return expose.__init__(self, template=template_norm, **kwargs)
+        self.normal_decorator = expose(template=template_norm, **kwargs)
+        self.xhr_decorator = expose(template=template_xhr, **kwargs)
 
 
 def duration_from_seconds(total_sec):
