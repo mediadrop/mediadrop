@@ -5,30 +5,27 @@ from sqlalchemy import and_, or_
 from sqlalchemy.orm import eagerload
 
 from mediaplex.lib.base import RoutingController
+from mediaplex.lib.helpers import expose_xhr
 from mediaplex.model import DBSession, metadata, Video, Comment, Tag, Author
 from mediaplex.forms.admin import SearchForm
 
 class CommentadminController(RoutingController):
     """Admin comment actions which deal with groups of comments"""
 
-    @expose('mediaplex.templates.admin.comments.index')
-    def index(self, **kwargs):
-        search_query = kwargs.get('search', None)
-        search_form = SearchForm(action='/admin/comments/')
-        search_form_values = {
-            'search': not search_query and 'SEARCH...' or search_query
-        }
-        return dict(page=self._fetch_page(search_query),
-                    search_form=search_form,
-                    search_form_values=search_form_values,
-                    search=search_query)
-
-    @expose('mediaplex.templates.admin.comments.comment-table-ajax')
-    def ajax(self, page_num, search=None):
-        """ShowMore Ajax Fetch Action"""
-        comments_page = self._fetch_page(search, page_num)
-        return dict(page=comments_page,
-                    search=search)
+    @expose_xhr('mediaplex.templates.admin.comments.index', 'mediaplex.templates.admin.comments.comment-table')
+    def index(self, page_num=1, search=None, **kwargs):
+        if request.is_xhr:
+            """ShowMore Ajax Fetch Action"""
+            return dict(collection=self._fetch_page(search, page_num).items)
+        else:
+            search_form = SearchForm(action='/admin/comments/')
+            search_form_values = {
+                'search': not search and 'SEARCH...' or search
+            }
+            return dict(page=self._fetch_page(search),
+                        search_form=search_form,
+                        search_form_values=search_form_values,
+                        search=search)
 
     def _fetch_page(self, search=None, page_num=1, items_per_page=10):
         """Helper method for paginating comments results"""

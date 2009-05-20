@@ -16,7 +16,7 @@
 		window.addEvent('domready', function(){
 			vs = new ShowMore({
 				table: 'comment-table',
-				fetchPageUrl: '/admin/comments/ajax',
+				fetchPageUrl: '/admin/comments',
 				search: ${search and ("'%s'" % search) or 'null'},
 				pageNum: ${page.page},
 				lastPage: ${page.last_page or 1}
@@ -38,7 +38,7 @@
 			<h1 py:if="search">Comments that match '${search}'</h1>
 		</div>
 		<xi:include href="_comment-table.html" />
-		${comment_table()}
+		${comment_table(page.items)}
 	</div>
 </body>
 </html>
