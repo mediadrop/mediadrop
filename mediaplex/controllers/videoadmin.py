@@ -11,7 +11,7 @@ from tg import config, expose, validate, decorators, flash, require, url, reques
 from formencode import validators
 from pylons.i18n import ugettext as _
 from sqlalchemy import and_, or_
-from sqlalchemy.orm import eagerload
+from sqlalchemy.orm import eagerload, undefer
 from webhelpers import paginate
 
 from mediaplex.lib import helpers
@@ -52,7 +52,7 @@ class VideoadminController(RoutingController):
                            Video.notes.like(like_search),
                            Video.tags.any(Tag.name.like(like_search))))
 
-        videos = videos.options(eagerload('comments')).\
+        videos = videos.options(undefer('comment_count')).\
                     order_by(Video.status.desc(), Video.created_on)
 
         return paginate.Page(videos, page_num, items_per_page)

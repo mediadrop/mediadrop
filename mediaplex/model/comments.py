@@ -16,8 +16,22 @@ Finally the argument single_parent=True should also be included.
     mapper(Media, medias, properties={
         'comments': relation(Comment, secondary=medias_comments,
             backref=backref('media', uselist=False), single_parent=True,
-            extension=CommentTypeExtension('media'))
-    }
+            extension=CommentTypeExtension('media')),
+    })
+
+Also include this property if you want to grab the comment count quickly:
+
+    mapper(Media, medias, properties={
+        'comment_count': column_property(
+            sql.select([sql.func.count(media_comments.c.comment_id)],
+                       media.c.id == media_comments.c.media_id).label('comment_count'),
+            deferred=True),
+    })
+
+    NOTE: This uses a correlated subquery and can be executed when you first call
+              media_item.comment_count
+          Or during the initial query by including the following option:
+              DBSession.query(Media).options(undefer('comment_count')).all()
 
 """
 from datetime import datetime

@@ -38,7 +38,7 @@
 						<a class="mo published" py:otherwise="" href="/video/${video.slug}"><span>published</span></a>
 					</td>
 					<td py:when="'title'"><a href="/admin/video/${video.id}/edit">${video.title}</a></td>
-					<td py:when="'comment_count'" class="center">${len(video.comments)}</td>
+					<td py:when="'comment_count'" class="center">${video.comment_count}</td>
 					<td py:when="'tags'" py:with="tag_count=len(video.tags)">
 						<py:if test="tag_count == 0">None</py:if>
 						<py:if test="tag_count >= 1" py:for="i, tag in enumerate(video.tags)">
