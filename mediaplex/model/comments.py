@@ -2,8 +2,9 @@
 Comment Model
 
 Other modules should create a join table with a UNIQUE constraint on the comment ID:
-    blahs_comments = Table('blahs_comments', metadata,
-        Column('blah_id', Integer, ForeignKey('blahs.id', onupdate='CASCADE', ondelete='CASCADE'),
+
+    medias_comments = Table('medias_comments', metadata,
+        Column('media_id', Integer, ForeignKey('medias.id', onupdate='CASCADE', ondelete='CASCADE'),
             primary_key=True),
         Column('comment_id', Integer, ForeignKey('comments.id', onupdate='CASCADE', ondelete='CASCADE'),
             primary_key=True, unique=True))
@@ -11,8 +12,12 @@ Other modules should create a join table with a UNIQUE constraint on the comment
 A relation property should be defined to include the CommentTypeExtension.
 Be sure to pass it the same value as the backref argument to enable reverse lookup.
 Finally the argument single_parent=True should also be included.
-    'comments': relation(Comment, secondary=media_comments, backref='media', single_parent=True,
-        extension=CommentTypeExtension('media')),
+
+    mapper(Media, medias, properties={
+        'comments': relation(Comment, secondary=medias_comments,
+            backref=backref('media', uselist=False), single_parent=True,
+            extension=CommentTypeExtension('media'))
+    }
 
 """
 from datetime import datetime
@@ -59,7 +64,9 @@ class Comment(object):
       The object this Comment belongs to, provided for convenience mostly.
 
     :param type:
-      The relation to use when looking up the parent object of this Comment.
+      The relation name to use when looking up the parent object of this Comment.
+      This is the name of the backref property which can be used to find the
+      object that this Comment belongs to.
 
     :param author:
       An instance of mediaplex.model.author.Author.
@@ -75,7 +82,10 @@ class Comment(object):
         return getattr(self, self.type, None)
     def _set_parent(self, parent):
         return setattr(self, self.type, parent)
-    parent = property(_get_parent, _set_parent)
+    parent = property(_get_parent, _set_parent, None, """
+        The object this Comment belongs to, provided for convenience mostly.
+        If the parent has not been eagerloaded, a query is executed automatically.
+    """)
 
 
 class CommentTypeExtension(interfaces.AttributeExtension):

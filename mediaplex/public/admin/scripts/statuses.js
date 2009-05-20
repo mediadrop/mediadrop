@@ -3,44 +3,29 @@ var StatusForm = new Class({
 
 	options: {
 		form: 'update-status-form',
-		statusList: 'status-list',
-		updateButton: 'update-status',
-		inProgressClass: 'status-list-inprogress',
-		completeClass: 'status-list-complete',
-		pendingClass: 'status-list-pending'
+		submitReq: {noCache: true}
 	},
 
 	form: null,
-	statusList: null,
-	updateButton: null,
+	submitReq: null,
 
 	initialize: function(opts){
 		this.setOptions(opts);
 		this.form = $(this.options.form).addEvent('submit', this.saveStatus.bind(this));
-		this.form.get('send').addEvent('success', this.updateForm.bind(this));
-		this.statusList = $(this.options.statusList);
-		this.updateButton = $(this.options.updateButton);
 	},
 
 	saveStatus: function(){
-		this.form.send();
+		if (!this.submitReq) {
+			var submitOpts = $extend({url: this.form.action}, this.options.submitReq);
+			this.submitReq = new Request.HTML(submitOpts)
+				.addEvent('success', this.updateForm.bind(this));
+		}
+		this.submitReq.send(this.form);
 		return false;
 	},
 
-	updateForm: function(resp){
-		resp = JSON.decode(resp);
-		var currStatus = this.statusList.getChildren('.' + this.options.inProgressClass)[0];
-		currStatus.addClass(this.options.completeClass).removeClass(this.options.inProgressClass);
-		currStatus.set('text', currStatus.get('text').replace('in progress', 'complete'));
-		var nextStatus = currStatus.getNext();
-		if (nextStatus) {
-			nextStatus.addClass(this.options.inProgressClass).removeClass(this.options.pendingClass);
-			var nextText = nextStatus.get('text').replace('pending', 'in progress');
-			nextStatus.set('text', nextText);
-			this.updateButton.set('value', resp.buttonText);
-		} else {
-			currStatus.set('text', 'published');
-			this.updateButton.destroy();
-		}
+	updateForm: function(tree){
+		var formContents = $$(tree).getChildren();
+		this.form.empty().adopt(formContents);
 	}
 });
