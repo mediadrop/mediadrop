@@ -30,7 +30,9 @@
 					<span class="comment-submitted">Submitted on ${comment.created_on.strftime('%b %d %Y')} | </span><a class="edit-text" href="">Edit Text</a><br />
 					<p class="comment-body">${XML(h.format_paragraphs(comment.body))}</p>
 				</td>
-				<td py:content="comment.parent">Media Item</td>
+				<td>
+					<a py:content="comment.parent.title" href="${h.url_for(controller='/%s' % comment.parent.type.encode('utf-8'), action='view', slug=comment.parent.slug).encode('utf-8')}">Parent Item</a>
+				</td>
 			</tr>
 		</tbody>
 	</table>
