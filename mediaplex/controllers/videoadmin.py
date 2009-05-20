@@ -7,11 +7,11 @@ from urlparse import urlparse, urlunparse
 from cgi import parse_qs
 from PIL import Image
 from datetime import datetime
-from tg import expose, validate, decorators, flash, require, url, request, redirect
+from tg import config, expose, validate, decorators, flash, require, url, request, redirect
 from formencode import validators
 from pylons.i18n import ugettext as _
 from sqlalchemy import and_, or_
-from sqlalchemy.orm import eagerload
+from sqlalchemy.orm import eagerload, undefer
 from webhelpers import paginate
 
 from mediaplex.lib import helpers
@@ -52,18 +52,10 @@ class VideoadminController(RoutingController):
                            Video.notes.like(like_search),
                            Video.tags.any(Tag.name.like(like_search))))
 
-        videos = videos.options(eagerload('comments')).\
+        videos = videos.options(undefer('comment_count')).\
                     order_by(Video.status.desc(), Video.created_on)
 
         return paginate.Page(videos, page_num, items_per_page)
-
-    def _fetch_video(self, id):
-        if id == 'new':
-            video = Video()
-            video.id = 'new'
-        else:
-            video = DBSession.query(Video).get(id)
-        return video
 
     @expose('mediaplex.templates.admin.video.edit')
     def edit(self, id, **values):
@@ -143,22 +135,46 @@ License: General Upload"""
         im.resize((240, 168), 1).save(im_path % 'm')
         redirect('/admin/video/%d/edit' % video.id)
 
-    @expose('json')
-    def update_status(self, id, **values):
+    @expose('mediaplex.templates.admin.video.update-status-form')
+    def update_status(self, id, update_button, **values):
         video = self._fetch_video(id)
-        submitted = values.get('update_status', None)
-        if submitted == 'Review Complete':
+        error = None
+
+        if update_button == 'Review Complete':
             video.status.discard('pending_review')
-            text = 'Encoding Complete'
-        elif submitted == 'Encoding Complete':
-            video.status.discard('pending_encoding')
-            text = 'Publish Now'
-        elif submitted == 'Publish Now':
+
+        elif update_button == 'Encoding Complete':
+            if video.upload_url and not video.url:
+                orig_name, orig_ext = os.path.splitext(video.upload_url)
+                flv_file = '%s.%s' % (orig_name, 'flv')
+                flv_path = os.path.join(config.media_dir, flv_file)
+                if os.path.exists(flv_path):
+                    video.url = flv_file
+                    video.status.discard('pending_encoding')
+                else:
+                    error = u'Encoded video not found, please upload and name it: %s' % flv_file
+            elif video.url and video.url.endswith('.flv'):
+                video.status.discard('pending_encoding')
+            elif video.url and not video.upload_url:
+                video.status.discard('pending_encoding')
+                error = u'Encoding unnecessary.'
+            else:
+                error = u'Video record does not match the status.'
+
+        elif update_button == 'Publish Now':
             video.status.discard('draft')
             video.status.add('publish')
             video.publish_on = datetime.now()
-            text = None
-        else:
-            raise Exception
-        return {'buttonText': text}
 
+        else:
+            error = u'No action to perform'
+
+        return dict(video=video, status_error=error)
+
+    def _fetch_video(self, id):
+        if id == 'new':
+            video = Video()
+            video.id = 'new'
+        else:
+            video = DBSession.query(Video).get(id)
+        return video

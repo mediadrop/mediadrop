@@ -87,7 +87,16 @@ media_comments = Table('media_comments', metadata,
 
 
 class Media(object):
-    """Base class for Audio and Video"""
+    """Base class for Audio and Video
+
+    :param comment_count:
+      The number of comments on this Media, duh. Uses an optimized SQL query
+      instead of loading the entire list of comments into memory and calling len().
+      This field is not loaded by default, a separate query grabs it on first use.
+      To populate it on the initial load include the following option:
+          DBSession.query(Media).options(undefer('comment_count')).all()
+
+    """
     def __init__(self):
         if self.author is None:
             self.author = Author()
@@ -121,6 +130,9 @@ media_mapper = mapper(Media, media, polymorphic_on=media.c.type, properties={
 #      Just need to rethink the CommentTypeMapper because dyamic_loaders don't support extensions.
     'comments': relation(Comment, secondary=media_comments, backref=backref('media', uselist=False),
         extension=CommentTypeExtension(u'media'), single_parent=True, passive_deletes=True),
+    'comment_count': column_property(
+        sql.select([sql.func.count(media_comments.c.comment_id)], media.c.id == media_comments.c.media_id).label('comment_count'),
+        deferred=True)
 })
 mapper(Audio, inherits=media_mapper, polymorphic_identity=u'audio')
 mapper(Video, inherits=media_mapper, polymorphic_identity=u'video')
