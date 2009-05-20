@@ -3,48 +3,27 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:py="http://genshi.edgewall.org/"
       xmlns:xi="http://www.w3.org/2001/XInclude">
+<xi:include href="../box.html" />
 <xi:include href="../master.html" />
 <head>
 	<title>Videos</title>
-	<link href="/styles/ratings.css" media="screen" rel="stylesheet" type="text/css" />
-	<link href="/styles/mediaflow.css" media="screen" rel="stylesheet" type="text/css" />
-	<link href="/styles/videos.css" media="screen" rel="stylesheet" type="text/css" />
 	<script type="text/javascript" src="/scripts/mediaflow.js"></script>
-	<script type="text/javascript" src="/scripts/tags.js"></script>
 	<script type="text/javascript">
 		window.addEvent('domready', function(){
 			var vs = new Videoflow({
 				container: 'mediaflow-body',
-				pageSelector: 'div.mediaflow-page', 
-				nextButton: 'mediaflow-next', 
-				prevButton: 'mediaflow-prev', 
+				pageSelector: 'div.mediaflow-page',
+				nextButton: 'mediaflow-next',
+				prevButton: 'mediaflow-prev',
 				ctrlsContainer: 'mediaflow-ctrls',
 				labelContainer: 'mediaflow-label',
 				totalPageCount: ${page.item_count/3}
 			});
-			var ts = new TagSlider();
 		});
 	</script>
 </head>
 <body>
-	<div id="mediaplex" class="box">
-		<div class="box-top"></div>
-		<div id="mediaplex-ctrls">
-			<a id="mediaplex-ctrls-flow" class="active" href="${h.url_for(action='flow')}" title="View a few videos at a time"><span>Mediaflow View</span></a>
-			<a id="mediaplex-ctrls-grid" href="${h.url_for(action='index')}" title="View many videos at a time"><span>Grid View</span></a>
-			<a id="mediaplex-ctrls-tags" href="#"><span>Browse by Tags</span></a>
-		</div>
-		<div id="mediaplex-tags">
-			<div id="mediaplex-tags-caption">
-				<div id="mediaplex-tags-dontsee"><span>Don't see the topic you are looking for?</span></div>
-				<a id="mediaplex-tags-suggest" href="#"><span>Suggest a new topic</span></a>
-			</div>
-			<ul py:for="col in xrange(1, 5)" py:with="per_col = (len(tags) + 8) / 4">
-				<li py:for="tag in tags[(col-1)*per_col:col*per_col]">
-					<a href="${h.url_for(action='tags', slug=tag.slug)}">${tag.name}</a>
-				</li>
-			</ul>
-		</div>
+	<box id="mediaplex">
 		<div id="mediaflow">
 			<div id="mediaflow-ctrls"></div>
 			<div id="mediaflow-body" class="box-body">
@@ -52,7 +31,6 @@
 				${mediaflow_slider_pager(page.items)}
 			</div>
 		</div>
-		<div id="mediaflow-label" class="box-bottom"></div>
-	</div>
+	</box>
 </body>
 </html>

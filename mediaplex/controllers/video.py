@@ -70,7 +70,8 @@ class VideoController(RoutingController):
         return dict(
             video=video,
             comment_form=form,
-            form_values=values
+            form_values=values,
+            tags=self._fetch_tags()
         )
 
     @expose_xhr()

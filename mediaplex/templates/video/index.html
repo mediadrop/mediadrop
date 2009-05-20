@@ -3,44 +3,18 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:py="http://genshi.edgewall.org/"
       xmlns:xi="http://www.w3.org/2001/XInclude">
+<xi:include href="../box.html" />
 <xi:include href="../master.html" />
 <head>
 	<title>Videos</title>
-	<link href="/styles/ratings.css" media="screen" rel="stylesheet" type="text/css" />
-	<link href="/styles/mediaflow.css" media="screen" rel="stylesheet" type="text/css" />
-	<link href="/styles/videos.css" media="screen" rel="stylesheet" type="text/css" />
-	<script type="text/javascript" src="/scripts/tags.js"></script>
-	<script type="text/javascript">
-		window.addEvent('domready', function(){
-			var ts = new TagSlider({startHidden: ${defined('show_tags') and show_tags and 'false' or 'true'}});
-		});
-	</script>
 </head>
-<body>
-	<div py:with="pagination = page.pager(show_if_single_page=True, curpage_attr={'class': 'current'})" id="mediaplex" class="box">
-		<div class="box-top"></div>
-		<div class="box-pagination box-pagination-top">Page: ${pagination}</div>
-		<div id="mediaplex-ctrls">
-<!--!			<a id="mediaplex-ctrls-flow" href="/video/flow" title="View a few videos at a time"><span>Mediaflow View</span></a>
-			<a id="mediaplex-ctrls-grid" class="active" href="/video" title="View many videos at a time"><span>Grid View</span></a>-->
-			<a id="mediaplex-ctrls-tags" href="#"><span>Browse by Tags</span></a>
-		</div>
-		<div id="mediaplex-tags">
-			<div id="mediaplex-tags-caption">
-				<div id="mediaplex-tags-dontsee"><span>Don't see the topic you are looking for?</span></div>
-				<a id="mediaplex-tags-suggest" href="#"><span>Suggest a new topic</span></a>
-			</div>
-			<ul py:for="col in xrange(1, 5)" py:with="per_col = (len(tags) + 8) / 4">
-				<li py:for="tag in tags[(col-1)*per_col:col*per_col]">
-					<a href="${h.url_for(action='tags', slug=tag.slug)}">${tag.name}</a>
-				</li>
-			</ul>
-		</div>
+<body py:with="pagination = page.pager(show_if_single_page=True, curpage_attr={'class': 'current'})">
+	<box id="mediaplex">
 		<div class="box-body mediagrid">
 			<ul>
 				<li py:for="video in page.items">
 					<a href="${h.url_for(action='view', slug=video.slug)}" title="${h.text.truncate(video.description, whole_word=True)}">
-						<img src="/images/videos/${video.id}s.jpg" width="149" height="92" />
+						<img src="/images/videos/${video.id}s.jpg" width="149" height="92" alt="${video.title}" />
 						<span class="media-title">${video.title}</span>
 						<span class="media-info">${h.duration_from_seconds(video.duration)}<br />${h.text.plural(video.views, 'view', 'views')}</span>
 						<span class="rating rating-35"><span>3.5 stars</span></span>
@@ -48,8 +22,6 @@
 				</li>
 			</ul>
 		</div>
-		<div class="box-pagination box-pagination-bottom">Page: ${pagination}</div>
-		<div class="box-bottom"></div>
-	</div>
+	</box>
 </body>
 </html>
