@@ -155,6 +155,14 @@ body {
 .box-content {
 	padding: 10px;
 }
+.box-content input,
+.box-content select,
+.box-content textarea,
+.box-content button {
+	-moz-border-radius: 15px;
+	-webkit-border-radius: 15px;
+	padding: 8px;
+}
 
 /* Box wrapper to add rounded corners */
 .box-round {
