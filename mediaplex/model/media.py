@@ -53,7 +53,7 @@ class VideoStatusSet(StatusSet):
 media = Table('media', metadata,
     Column('id', Integer, autoincrement=True, primary_key=True),
     Column('type', Unicode(10), nullable=False),
-    Column('slug', Unicode(50), unique=True, nullable=False),
+    Column('slug', String(50), unique=True, nullable=False),
     Column('created_on', DateTime, default=datetime.now, nullable=False),
     Column('modified_on', DateTime, default=datetime.now, onupdate=datetime.now, nullable=False),
     Column('publish_on', DateTime),

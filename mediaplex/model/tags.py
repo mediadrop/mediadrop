@@ -10,7 +10,7 @@ from mediaplex.lib.helpers import slugify
 tags = Table('tags', metadata,
     Column('id', Integer, autoincrement=True, primary_key=True),
     Column('name', Unicode(50), unique=True, nullable=False),
-    Column('slug', Unicode(50), unique=True, nullable=False),
+    Column('slug', String(50), unique=True, nullable=False),
     mysql_engine='InnoDB',
     mysql_charset='utf8'
 )

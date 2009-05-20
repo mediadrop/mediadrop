@@ -17,7 +17,7 @@ from mediaplex.model.media import Media
 
 podcasts = Table('podcasts', metadata,
     Column('id', Integer, autoincrement=True, primary_key=True),
-    Column('slug', Unicode(50), unique=True, nullable=False),
+    Column('slug', String(50), unique=True, nullable=False),
     Column('created_on', DateTime, default=datetime.now, nullable=False),
     Column('modified_on', DateTime, default=datetime.now, onupdate=datetime.now, nullable=False),
     Column('title', Unicode(50), nullable=False),
@@ -33,7 +33,7 @@ podcasts = Table('podcasts', metadata,
 
 podcast_episodes = Table('podcast_episodes', metadata,
     Column('id', Integer, autoincrement=True, primary_key=True),
-    Column('slug', Unicode(50), nullable=False),
+    Column('slug', String(50), nullable=False),
     Column('podcast_id', Integer, ForeignKey('podcasts.id', onupdate='CASCADE', ondelete='CASCADE'), nullable=False),
     Column('media_id', Integer, ForeignKey('media.id', onupdate='CASCADE', ondelete='CASCADE'), nullable=False),
     Column('created_on', DateTime, default=datetime.now, nullable=False),

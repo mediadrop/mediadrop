@@ -112,7 +112,7 @@ class MediaflowSlidePager(object):
 
 
 def slugify(string):
-    string = unicode(string).lower()
+    string = str(string).lower()
     string = re.sub(r'\s+', u'-', string)
     string = re.sub(r'[^a-z0-9_-]', u'', string)
-    return string
+    return string.encode('ascii')
