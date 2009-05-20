@@ -38,7 +38,7 @@
 			<h1 py:if="search">Comments that match '${search}'</h1>
 		</div>
 		<xi:include href="_comment-table.html" />
-		${comment_table(page.items)}
+		${comment_table(page.items, edit_forms, classes='rounded-inputs')}
 	</div>
 </body>
 </html>

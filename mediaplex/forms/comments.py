@@ -1,4 +1,4 @@
-from tw.forms import TextField, CalendarDatePicker, SingleSelectField, TextArea, SubmitButton
+from tw.forms import TextField, CalendarDatePicker, SingleSelectField, TextArea, SubmitButton, ResetButton
 from tw.forms.validators import Int, NotEmpty, DateConverter, DateValidator
 from tw.api import WidgetsList
 
@@ -10,6 +10,16 @@ class PostCommentForm(ListForm):
     css_class = 'form'
 
     class fields(WidgetsList):
-         name = TextField(validator=NotEmpty)
-         body = TextArea(validator=NotEmpty, label_text='Comment', attrs=dict(rows=5, cols=25))
-         submit = SubmitButton(css_class='submit-image')
+        name = TextField(validator=NotEmpty)
+        body = TextArea(validator=NotEmpty, label_text='Comment', attrs=dict(rows=5, cols=25))
+        submit = SubmitButton(css_class='submit-image')
+
+class EditCommentForm(ListForm):
+    template = 'mediaplex.templates.admin.comments.edit'
+    id = 'edit-comment-form'
+    css_class = 'form'
+
+    class fields(WidgetsList):
+        cbody = TextArea(validator=NotEmpty, label_text='Comment', attrs=dict(rows=5, cols=25))
+        submit = SubmitButton('save', default='Save', css_classes=['btn-save', 'f-rgt'])
+        reset = ResetButton('cancel', default='Cancel', css_classes=['btn-cancel'])

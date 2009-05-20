@@ -4,28 +4,33 @@ from pylons.i18n import ugettext as _
 from sqlalchemy import and_, or_
 from sqlalchemy.orm import eagerload
 
+from mediaplex.lib import helpers
 from mediaplex.lib.base import RoutingController
 from mediaplex.lib.helpers import expose_xhr
 from mediaplex.model import DBSession, metadata, Video, Comment, Tag, Author
 from mediaplex.forms.admin import SearchForm
+from mediaplex.forms.comments import EditCommentForm
 
 class CommentadminController(RoutingController):
     """Admin comment actions which deal with groups of comments"""
 
     @expose_xhr('mediaplex.templates.admin.comments.index', 'mediaplex.templates.admin.comments.comment-table')
     def index(self, page_num=1, search=None, **kwargs):
+        page = self._fetch_page(search, page_num)
+        edit_forms = [EditCommentForm(action=helpers.url_for(action='save', id=x.id)) for x in page.items]
         if request.is_xhr:
             """ShowMore Ajax Fetch Action"""
-            return dict(collection=self._fetch_page(search, page_num).items)
+            return dict(collection=page.items, edit_forms=edit_forms)
         else:
             search_form = SearchForm(action='/admin/comments/')
             search_form_values = {
                 'search': not search and 'SEARCH...' or search
             }
-            return dict(page=self._fetch_page(search),
+            return dict(page=page,
                         search_form=search_form,
                         search_form_values=search_form_values,
-                        search=search)
+                        search=search,
+                        edit_forms=edit_forms)
 
     def _fetch_page(self, search=None, page_num=1, items_per_page=10):
         """Helper method for paginating comments results"""
@@ -58,3 +63,10 @@ class CommentadminController(RoutingController):
         comment = self._fetch_comment(id)
         comment.status.add('trash')
         DBSession.add(comment)
+
+    @expose()
+    def save(self, id, **values):
+        comment = self._fetch_comment(id)
+        comment.body = values['cbody']
+        DBSession.add(comment)
+        redirect(helpers.url_for(action='index', id=None))

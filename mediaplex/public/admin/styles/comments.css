@@ -29,3 +29,8 @@ span.comment-ip {
 tr.tr-gray td {
 	background-color: #f1efe9;
 }
+#edit-comment-form .form-field-textarea {
+	margin: 10px 0;
+	padding-right: 18px;
+}
+

@@ -158,7 +158,11 @@ body {
 .box-content input,
 .box-content select,
 .box-content textarea,
-.box-content button {
+.box-content button,
+.rounded-inputs input,
+.rounded-inputs select,
+.rounded-inputs textarea,
+.rounded-inputs button {
 	-moz-border-radius: 15px;
 	-webkit-border-radius: 15px;
 	padding: 8px;
@@ -216,7 +220,7 @@ thead tr th {
 
 
 /* Forms */
-.btn-save, .btn-delete, .btn-yes, .btn-no {
+.btn-save, .btn-delete, .btn-yes, .btn-no, .btn-cancel {
 	text-indent: -1000px;
 	cursor: pointer;
 	border: 0;
@@ -227,6 +231,7 @@ thead tr th {
 .btn-delete { background-image: url('../images/buttons/delete.png'); width: 93px; }
 .btn-yes { background-image: url('../images/buttons/yes.png'); width: 46px; height: 28px; }
 .btn-no { background-image: url('../images/buttons/no.png'); width: 46px; height: 28px;}
+.btn-cancel { background-image: url('../images/buttons/cancel.png'); width: 87px; }
 
 
 span.show-more {
@@ -256,7 +261,7 @@ input, textarea {
 }
 input.filefield { width: auto; }
 input:focus, textarea:focus {
-	background-color: #d9e7ec;
+	background-color: #e8f3fa;
 }
 input.submitbutton {
 	background-color: transparent !important;
