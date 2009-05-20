@@ -53,7 +53,9 @@ class VideoController(RoutingController):
     @expose('mediaplex.templates.video.index')
     def tags(self, slug=None, page=1, **kwargs):
         tag = DBSession.query(Tag).filter(Tag.slug == slug).one()
-        query = DBSession.query(Video).filter(Video.tags.contains(tag))
+        query = DBSession.query(Video)\
+            .filter(Video.tags.contains(tag))\
+            .filter(Video.status.excludes('trash'))
         return dict(page=self._fetch_page(page, 25, query=query), tags=self._fetch_tags(), show_tags=True)
 
     def _fetch_tags(self):
@@ -61,7 +63,7 @@ class VideoController(RoutingController):
 
     @expose('mediaplex.templates.video.view')
     def view(self, slug, **values):
-        video = DBSession.query(Video).filter_by(slug=slug).one()
+        video = self._fetch_video(slug)
         video.views += 1
         DBSession.add(video)
         form = PostCommentForm(action=helpers.url_for(action='comment', slug=video.slug))
@@ -74,7 +76,7 @@ class VideoController(RoutingController):
     @expose_xhr()
     @validate(validators=dict(rating=validators.Int()))
     def rate(self, slug, rating, **kwargs):
-        video = DBSession.query(Video).filter_by(slug=slug).one()
+        video = self._fetch_video(slug)
 
         if rating > 0:
             video.rating.add_vote(1)
@@ -93,7 +95,7 @@ class VideoController(RoutingController):
     @expose()
     @validate(PostCommentForm(), error_handler=view)
     def comment(self, slug, **values):
-        video = DBSession.query(Video).filter_by(slug=slug).one()
+        video = self._fetch_video(slug)
         c = Comment()
         c.status = 'pending_review'
         c.author = AuthorWithIP(values['name'], None, request.environ['REMOTE_ADDR'])
@@ -102,3 +104,9 @@ class VideoController(RoutingController):
         video.comments.append(c)
         DBSession.add(video)
         redirect(helpers.url_for(action='view', slug=video.slug))
+
+    def _fetch_video(self, slug):
+        return DBSession.query(Video)\
+            .filter(Video.slug == slug)\
+            .filter(Video.status.excludes('trash'))\
+            .one()
