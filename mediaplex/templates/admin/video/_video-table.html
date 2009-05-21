@@ -23,7 +23,7 @@
 			<tr py:if="item_count == 0">
 				<td>None Found</td>
 			</tr>
-			<tr py:if="item_count >= 1" py:for="video in collection">
+			<tr py:for="video in collection">
 				<py:for each="f in fields" py:choose="f">
 					<td py:when="'publish_on'"
 					    class="${video.publish_on and video.publish_on >= h.dt.datetime.now() and 'italic' or None}"
