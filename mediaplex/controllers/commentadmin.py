@@ -52,21 +52,21 @@ class CommentadminController(RoutingController):
         return comment
 
     @expose()
-    def approve(self, id):
+    def approve(self, id, **kwargs):
         comment = self._fetch_comment(id)
         comment.status.discard('pending_review')
         comment.status.add('publish')
         DBSession.add(comment)
 
     @expose()
-    def trash(self, id):
+    def trash(self, id, **kwargs):
         comment = self._fetch_comment(id)
         comment.status.add('trash')
         DBSession.add(comment)
 
     @expose()
-    def save(self, id, **values):
+    def save(self, id, **kwargs):
         comment = self._fetch_comment(id)
-        comment.body = values['cbody']
+        comment.body = kwargs['cbody']
         DBSession.add(comment)
         redirect(helpers.url_for(action='index', id=None))
