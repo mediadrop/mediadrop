@@ -2,7 +2,8 @@
      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:py="http://genshi.edgewall.org/"
-      xmlns:xi="http://www.w3.org/2001/XInclude">
+      xmlns:xi="http://www.w3.org/2001/XInclude"
+      py:with="paginator=c.paginators.collection">
 <xi:include href="admin/master.html" />
 <head>
 	<title>Videos</title>
@@ -13,10 +14,8 @@
 		window.addEvent('domready', function(){
 			vs = new ShowMore({
 				table: 'video-table',
-				fetchPageUrl: '/admin/video',
-				search: ${search and ("'%s'" % search) or 'null'},
-				pageNum: ${page.page},
-				lastPage: ${page.last_page or 1}
+				page: ${paginator.page},
+				lastPage: ${paginator.last_page or 1}
 			});
 		});
 	</script>
@@ -26,12 +25,12 @@
 		<div class="box-head">
 			<a class="mo add-video f-rgt" href="/admin/video/new"><span>Add new video</span></a>
 			<div id="quicksearch" class="f-rgt">
-				${XML(search_form(search_form_values))}
+				${XML(search_form(search))}
 			</div>
 			<h1 py:if="not search">All Videos</h1>
 			<h1 py:if="search">Videos that match '${search}'</h1>
 		</div>
-		<xi:include href="index-table.html" py:with="collection=page.items" />
+		<xi:include href="index-table.html" py:with="collection=collection" />
 	</div>
 </body>
 </html>

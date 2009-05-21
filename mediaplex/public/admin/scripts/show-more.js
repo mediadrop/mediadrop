@@ -1,70 +1,81 @@
 var ShowMore = new Class({
-
-	Extends: Options,
+	Implements: [Options, Events],
 
 	options: {
+	//	onMore: $empty,
 		table: null,
-		pageNum: 1,
+		fetchUrl: '', // If no URL is passed the current URL is used
+		page: 1,
 		lastPage: 1,
-		search: null,
-		fetchPageUrl: ''
+		request: {method: 'get'}
 	},
 
+	table: null,
+	tbody: null,
+	button: null,
+	buttonWrapper: null,
+
+	fetchReq: null,
+	fetchUrl: null,
 	lastLoadedPage: 1,
+	fxTween: null,
 
 	initialize: function(opts){
 		this.setOptions(opts);
-
-		if (this.options.pageNum != this.options.lastPage) {
-			this._setupButtons();
+		if (this.options.page != this.options.lastPage) {
+			this.table = $(this.options.table);
+			this.tbody = this.table.getElement('tbody').setStyle('overflow', 'hidden');
+			this.lastLoadedPage = this.options.page;
+			this._setupButton();
 		}
-		this.lastLoadedPage = this.options.pageNum;
 	},
 
-	_setupButtons: function(){
-		var table = $(this.options.table);
-		var tbody = table.getChildren('tbody')[0];
-		tbody.setStyles({'height': tbody.getHeight(), overflow: 'hidden'});
-
-		var showMore = new Element('span', {text: 'show more', 'class': 'show-more clickable'});
-		showMore.addEvent('click', this.loadMore.bind(this));
-		var numCols = table.getChildren('thead')[0].getChildren('tr')[0].getChildren('th').length;
-		var tfoot = new Element('tfoot').grab(
-			new Element('tr').grab(
-				new Element('td', {colspan: numCols, 'class': 'box-foot center'}).grab(showMore)
-			)
-		).inject(table);
-	},
-
-	loadMore: function(){
+	fetchMore: function(){
+		if (!this.fetchReq) {
+			this.fetchUrl = new URI(this.options.fetchUrl ? this.options.fetchUrl : window.location);
+			this.fetchReq = new Request.HTML(this.options.request).addEvent('success', this.injectMore.bind(this));
+		}
 		this.lastLoadedPage += 1;
-		this.fetchRows.delay(0, this, [this.lastLoadedPage]);
+		this.fetchReq.send({url: this.fetchUrl.setData({page: this.lastLoadedPage}, true).toString()});
+		if (!this.fxTween) {
+			var unlockHeight = function(){ this.tbody.setStyle('height', 'auto'); }.bind(this);
+			this.fxTween = this.tbody.get('tween').addEvent('complete', unlockHeight, true);
+		}
 		return this;
 	},
 
-	fetchRows: function(i){
-		var req = new Request.HTML({url: this.options.fetchPageUrl});
-		req.addEvent('success', this.injectRows.bind(this));
-		req.get({page_num: i, search: this.options.search});
-		return this;
-	},
+	injectMore: function(tableTree){
+		// temporarily lock the height of the table while we inject the new rows
+		var newHeight = origHeight = this.tbody.getHeight();
+		this.tbody.setStyle('height', origHeight);
 
-	injectRows: function(tree, els, xhtml){
-		var table = $(this.options.table);
-		var tbody = table.getChildren('tbody')[0];
+		// inject the tables rows, adding up their heights as they're rendered outside the overflow
+		var newRows = $$(tableTree)[0].getElements('tbody > tr');
+		for (var i = 0, l = newRows.length; i < l; i++) {
+			newHeight += newRows[i].inject(this.tbody).getHeight();
+		}
+		this.fireEvent('more', [newRows]);
 
-		var trs = els.filter('tr');
-		trs.each(function(row){
-			row.inject(tbody);
-		});
-		var tbodyHeight = tbody.getHeight().toInt();
-		var trsHeight = trs.length.toInt()*40;
-		var heightSum = tbodyHeight + trsHeight;
-		tbody.tween('height', heightSum);
+		// animate the increase in height then remove the height lock after
+		this.fxTween.start('height', origHeight, newHeight);
 
 		if (this.lastLoadedPage >= this.options.lastPage) {
-			table.getChildren('tfoot')[0].dispose();
+			this._removeButton();
 		}
-		return this;
+	},
+
+	_setupButton: function(){
+		this.button = new Element('span', {text: 'show more', 'class': 'show-more clickable'})
+			.addEvent('click', this.fetchMore.bind(this));
+		var numCols = this.table.getChildren('thead')[0].getChildren('tr')[0].getChildren('th').length;
+		this.buttonWrapper = new Element('tfoot').grab(
+			new Element('tr').grab(
+				new Element('td', {colspan: numCols, 'class': 'box-foot center'}).grab(this.button)
+			)
+		).inject(this.table);
+	},
+
+	_removeButton: function(){
+		this.buttonWrapper.dispose();
 	}
 });

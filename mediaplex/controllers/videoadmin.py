@@ -1,23 +1,20 @@
 """
 Video/Media Admin Controller
 """
-import shutil
 import os.path
 from urlparse import urlparse, urlunparse
 from cgi import parse_qs
 from PIL import Image
 from datetime import datetime
-from tg import config, expose, validate, decorators, flash, require, url, request, redirect
-from formencode import validators
-from pylons.i18n import ugettext as _
+from tg import config, flash, url, request, redirect
+from tg.decorators import paginate, expose, validate, require
 from sqlalchemy import and_, or_
 from sqlalchemy.orm import eagerload, undefer
-from webhelpers import paginate
 
 from mediaplex.lib import helpers
 from mediaplex.lib.helpers import expose_xhr
-from mediaplex.lib.base import Controller, RoutingController
-from mediaplex.model import DBSession, metadata, Video, Comment, Tag, Author, AuthorWithIP
+from mediaplex.lib.base import RoutingController
+from mediaplex.model import DBSession, Video, Comment, Tag, Author, AuthorWithIP
 from mediaplex.forms.admin import SearchForm
 from mediaplex.forms.video import VideoForm, AlbumArtForm
 from mediaplex.forms.comments import PostCommentForm
@@ -26,36 +23,25 @@ class VideoadminController(RoutingController):
     """Admin video actions which deal with groups of videos"""
 
     @expose_xhr('mediaplex.templates.admin.video.index', 'mediaplex.templates.admin.video.index-table')
-    def index(self, page_num=1, search=None, **kwargs):
-        if request.is_xhr:
-            """ShowMore Ajax Fetch Action"""
-            return dict(collection=self._fetch_page(search, page_num).items)
-        else:
-            search_form = SearchForm(action='/admin/video/')
-            search_form_values = {
-                'search': not search and 'SEARCH...' or search
-            }
-
-            return dict(page=self._fetch_page(search),
-                        search_form=search_form,
-                        search_form_values=search_form_values,
-                        search=search)
-
-    def _fetch_page(self, search=None, page_num=1, items_per_page=10):
-        """Helper method for paginating video results"""
-        videos = DBSession.query(Video).filter(Video.status.excludes('trash'))
+    @paginate('collection', items_per_page=5)
+    def index(self, page=1, search=None, **kw):
+        videos = DBSession.query(Video)\
+            .filter(Video.status.excludes('trash'))\
+            .options(undefer('comment_count'))\
+            .order_by(Video.status.desc(), Video.created_on)
         if search is not None:
-            like_search = '%%%s%%' % (search,)
-            videos = videos.\
-                filter(or_(Video.title.like(like_search),
-                           Video.description.like(like_search),
-                           Video.notes.like(like_search),
-                           Video.tags.any(Tag.name.like(like_search))))
-
-        videos = videos.options(undefer('comment_count')).\
-                    order_by(Video.status.desc(), Video.created_on)
-
-        return paginate.Page(videos, page_num, items_per_page)
+            like_search = '%%%s%%' % search
+            videos = videos.filter(or_(
+                Video.title.like(like_search),
+                Video.description.like(like_search),
+                Video.notes.like(like_search),
+                Video.tags.any(Tag.name.like(like_search)),
+            ))
+        return dict(
+            collection=videos,
+            search=search,
+            search_form=SearchForm(action=helpers.url_for()),
+        )
 
     @expose('mediaplex.templates.admin.video.edit')
     def edit(self, id, **values):
