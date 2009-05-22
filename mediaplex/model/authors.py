@@ -27,10 +27,6 @@ class Author(object):
     def __repr__(self):
         return '<Author: "%s">' % self.name
 
-    def __set_composite_values__(self, name, email):
-        self.name = name
-        self.email = email
-
 
 def _pack_ip(ip_dot_str):
     """Convert an IP address string in dot notation to an 32-bit integer"""
@@ -42,7 +38,7 @@ def _unpack_ip(ip_int):
     """Convert an 32-bit integer IP to a dot-notated string"""
     if not ip_int:
         return None
-    return socket.inet_ntoa(struct.pack('!L', ip_int))
+    return socket.inet_ntoa(struct.pack('!L', long(ip_int)))
 
 
 class AuthorWithIP(Author):
@@ -62,6 +58,13 @@ class AuthorWithIP(Author):
     def __repr__(self):
         return '<Author: "%s" %s>' % (self.name, self.ip)
 
-    def __set_composite_values__(self, name, email, ip_int):
-        super(AuthorWithIP, self).__set_composite_values__(name, email)
-        self.ip = _unpack_ip(ip_int)
+    def _get_ip(self):
+        return getattr(self, '_ip', None)
+
+    def _set_ip(self, value):
+        try:
+            self._ip = _unpack_ip(value)
+        except:
+            self._ip = value
+
+    ip = property(_get_ip, _set_ip)
