@@ -10,6 +10,7 @@ from tg import config, flash, url, request, redirect
 from tg.decorators import paginate, expose, validate, require
 from sqlalchemy import and_, or_
 from sqlalchemy.orm import eagerload, undefer
+from repoze.what.predicates import has_permission
 
 from mediaplex.lib import helpers
 from mediaplex.lib.helpers import expose_xhr
@@ -21,6 +22,7 @@ from mediaplex.forms.comments import PostCommentForm
 
 class VideoadminController(RoutingController):
     """Admin video actions which deal with groups of videos"""
+    allow_only = has_permission('admin')
 
     @expose_xhr('mediaplex.templates.admin.video.index', 'mediaplex.templates.admin.video.index-table')
     @paginate('collection', items_per_page=5)

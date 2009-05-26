@@ -1,0 +1,47 @@
+body {
+	background: #efebde;
+	text-align: center;
+}
+#loginform {
+	background: url('../images/login/login.png') no-repeat;
+	width: 680px;
+	height: 339px;
+	margin: 100px auto 10px auto;
+	text-align: left;
+	position: relative;
+}
+#loginform h2 { display: none; }
+#loginform label {
+	text-indent: -5000px;
+	width: 181px;
+	height: 50px;
+	position: absolute;
+	left: 8px;
+}
+#loginform input.text {
+	position: absolute;
+	left: 189px;
+	background: transparent;
+	width: 410px;
+	height: 1.5em;
+	vertical-align: top;
+	padding: 8px 10px;
+	font-size: 24px;
+	line-height: 24px;
+	border: 0;
+}
+#loginform input.text:focus {
+	outline-style: none;
+}
+#login, #login-label { top: 99px; }
+#password, #password-label { top: 169px; }
+#submit-button {
+	position: absolute;
+	left: 506px;
+	top: 257px;
+	width: 113px;
+	height: 42px;
+	background: transparent;
+	text-indent: -5000px;
+	border: 0;
+}

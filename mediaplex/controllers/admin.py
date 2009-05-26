@@ -3,6 +3,7 @@ from tg import expose, validate, decorators, flash, require, url, request, redir
 from sqlalchemy import and_, or_
 from sqlalchemy.orm import eagerload
 import webhelpers.paginate
+from repoze.what.predicates import has_permission
 
 from mediaplex.lib.base import RoutingController
 from mediaplex.lib.helpers import expose_xhr
@@ -10,6 +11,7 @@ from mediaplex.model import DBSession, Media, Video, Comment, Tag
 
 class AdminController(RoutingController):
     """Admin dashboard actions"""
+    allow_only = has_permission('admin')
 
     @expose_xhr('mediaplex.templates.admin.index','mediaplex.templates.admin.video.dash-table')
     def index(self, **kwargs):

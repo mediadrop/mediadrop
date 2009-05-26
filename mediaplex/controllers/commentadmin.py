@@ -4,6 +4,7 @@ from formencode import validators
 from pylons.i18n import ugettext as _
 from sqlalchemy import and_, or_
 from sqlalchemy.orm import eagerload
+from repoze.what.predicates import has_permission
 
 from mediaplex.lib import helpers
 from mediaplex.lib.base import RoutingController
@@ -14,6 +15,7 @@ from mediaplex.forms.comments import EditCommentForm
 
 class CommentadminController(RoutingController):
     """Admin comment actions which deal with groups of comments"""
+    allow_only = has_permission('admin')
 
     @expose_xhr('mediaplex.templates.admin.comments.index', 'mediaplex.templates.admin.comments.comment-table')
     @paginate('collection', items_per_page=5)
