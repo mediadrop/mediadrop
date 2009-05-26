@@ -12,7 +12,9 @@
 	<script type="text/javascript" src="/scripts/uploader.js"></script>
 	<script type="text/javascript">
 		var UploadMGR = null;
+		var SwiffUploadMGR = null;
 		window.addEvent('domready', function() { UploadMGR = new UploadManager('${upload_form.id}', '${upload_form.async_action}');});
+		window.addEvent('domready', function() { SwiffUploadMGR = new SwiffUploadManager('${upload_form.id}', '${upload_form.async_action}', 'browse-button', 'upload-button', 'upload-status');})
 	</script>
 </head>
 <body>

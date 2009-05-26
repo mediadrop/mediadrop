@@ -152,8 +152,21 @@ class VideoController(RoutingController):
                 err = err
             )
         else:
-            # TODO: implement actual submission, not just validation.
-            return "REALLY SUBMITTING?"
+            # We're actually supposed to save the fields. Let's do it.
+            if len(tmpl_context.form_errors) != 0:
+                # if the form wasn't valid, return failure
+                return dict(
+                    success = False
+                )
+
+            # else actually save it!
+            if 'name' not in kwargs:
+                kwargs['name'] = None
+            self._save_video(kwargs['name'], kwargs['email'], kwargs['title'], kwargs['description'], kwargs['tags'], kwargs['file'])
+
+            return dict(
+                success = True
+            )
 
     @expose()
     @validate(upload_form, error_handler=upload)
