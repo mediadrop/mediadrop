@@ -101,6 +101,9 @@ class Media(object):
         if self.author is None:
             self.author = Author()
 
+        if self.status is None:
+            self.status = VideoStatusSet()
+
     def __repr__(self):
         return '<Media: %s>' % self.slug
 
