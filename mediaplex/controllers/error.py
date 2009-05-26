@@ -2,10 +2,12 @@ import os.path
 
 import paste.fileapp
 import tg
+from tg import expose, TGController
 from pylons.controllers.util import forward
 from pylons.middleware import error_document_template, media_path
+from mediaplex.lib.base import Controller, RoutingController
 
-class ErrorController(object):
+class ErrorController(TGController):
     """Generates error documents as and when they are required.
 
     The ErrorDocuments middleware forwards to ErrorController when error
@@ -15,7 +17,7 @@ class ErrorController(object):
     ErrorDocuments middleware in your config/middleware.py file.
     """
 
-    @tg.expose('mediaplex.templates.error')
+    @expose('mediaplex.templates.error')
     def document(self, *args, **kwargs):
         """Render the error document"""
         resp = tg.request.environ.get('pylons.original_response')
