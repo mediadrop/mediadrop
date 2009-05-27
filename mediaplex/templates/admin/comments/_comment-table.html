@@ -28,7 +28,7 @@
 				</td>
 				<td>
 					<span class="comment-submitted">Submitted on ${comment.created_on.strftime('%b %d %Y')} </span><br />
-					${XML(edit_form(dict(cbody=comment.body),id=('edit-comment-form-%s' % comment.id), css_class='edit-comment-form'))}
+					${XML(edit_form(dict(cbody=comment.body),id=('edit-comment-form-%s' % comment.id), css_class='hidden-form edit-comment-form'))}
 				</td>
 				<td>
 					<a py:content="comment.parent.title" href="${h.url_for(controller='/%s' % comment.parent.type.encode('utf-8'), action='view', slug=comment.parent.slug).encode('utf-8')}">Parent Item</a>

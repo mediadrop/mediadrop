@@ -41,4 +41,7 @@ tr.tr-gray td {
 	margin: 10px 0;
 	padding-right: 18px;
 }
+.hidden-form {
+	display: none;
+}
 

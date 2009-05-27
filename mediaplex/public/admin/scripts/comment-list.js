@@ -170,6 +170,7 @@ var Comment = new Class({
 
 	toggleForm: function(){
 		if(this.formVisible){
+			this.form.removeClass('hidden-form');
 			this.body.setStyle('display', 'block');
 			this.form.setStyle('display', 'none');
 			this.editLink.set('html', 'Edit Text');
