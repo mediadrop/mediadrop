@@ -23,8 +23,6 @@ var UploadManager = new Class({
 			return new UploadField(this, value);
 		}, this);
 
-		console.log('fields:', this.fields)
-
 		this.submit = this.form.getElement('input[type=submit]');
 		this.form.addEvent('submit', this.onSubmit.bind(this));
 
@@ -57,7 +55,6 @@ var UploadManager = new Class({
 		if (o) {
 			opts = $extend(o, opts);
 		}
-		console.log(opts);
 		this.req.send(opts);
 	},
 
@@ -131,7 +128,7 @@ var SwiffUploadManager = new Class({
 	progressBar: null,
 	enabled: null,
 	
-	initialize: function(form, action, browseButton, uploadButton, statusSpan) {
+	initialize: function(form, action, browseButton, uploadButton, fileInfoDiv, statusDiv) {
 		if (Browser.Platform.linux) {
 			// There's a bug in the flash player for linux that freezes the browser with swiff.uploader
 			// don't bother setting it up.
@@ -142,12 +139,14 @@ var SwiffUploadManager = new Class({
 		this.action = action;
 		this.browseButton = $(browseButton);
 		this.uploadButton = $(uploadButton);
-		this.statusSpan = $(statusSpan)
+		this.fileInfoDiv = $(fileInfoDiv);
+		this.statusDiv = $(statusDiv)
 
 		this.enabled = false;
 
 		var submit = this.form.getElement('input[type=submit]');
 		var finput = this.form.getElement('input[type=file]');
+
 		// Uploader instance
 		this.uploader = new Swiff.Uploader({
 			path: '/scripts/third-party/Swiff.Uploader.swf',
@@ -155,30 +154,35 @@ var SwiffUploadManager = new Class({
 			verbose: false,
 			queued: false,
 			multiple: false,
-			target: this.browseButton,
-			fieldName: finput.get('name'),
+			target: this.browseButton, // the element to cover with the flash object
+			fieldName: finput.get('name'), // set the fieldname to the default form's file input name
 			instantStart: false,
 			fileSizeMax: 500 * 1024 * 1024, // 500 mb upload limit
+			appendCookieData: true,
 			onSelectSuccess: this.onSelectSuccess.bind(this),
 			onSelectFail: this.onSelectFail.bind(this),
-			appendCookieData: true,
 			onQueue: this.onQueue.bind(this),
 			onFileComplete: this.onFileComplete.bind(this),
 			onComplete: this.onComplete.bind(this)
 		});
 
-		// Button state
+		// Set up the focus/blur and reposition events for the uploader Flash object
 		this.browseButton.addEvents({
 			mouseenter: function() {
 				this.uploader.reposition();
+			}.bind(this),
+			mouseleave: function() {
+//				this.uploader.blur();
+			}.bind(this),
+			mousedown: function() {
+//				this.uploader.focus();
 			}.bind(this)
 		});
 
-		this.uploadButton.addEvents({
-			click: function() {
-				this.startUpload();
-			}.bind(this)
-		});
+		// Set the default onclick event for the upload button
+		this.uploadButton.addEvent('click', function() {
+			this.startUpload();
+		}.bind(this));
 
 		// Overwrite the onSuccess event for the UploadManager's validation check.
 		// It won't ever be called by UploadMGR because we just removed the button that triggers it
@@ -189,11 +193,19 @@ var SwiffUploadManager = new Class({
 			return f.field.get('type') != 'file';
 		});
 
+		// Erase the default file and submit inputs
+		/* NB: this path relies heavily on the current table layout,
+		 * and should be updated along with the template */
 		finput.parentNode.parentNode.getPrevious().destroy();
 		finput.parentNode.parentNode.destroy();
-		submit.parentNode.parentNode.destroy()
+		submit.parentNode.parentNode.destroy();
+
+
+		// Set some default values for the 
 	},
-	
+
+	// returns a dict with all the form fields/values,
+	// in the format of the data object for Request objects
 	getFormValues: function() {
 		var values = {};
 		$$(this.form.elements).each(function(el) {
@@ -202,10 +214,10 @@ var SwiffUploadManager = new Class({
 		return values;
 	},
 
+	// callback for validation AJAX request, which is fired when the submit button is pressed
 	validated: function(responseJSON) {
 		if (responseJSON['valid']) {
 			opts = {data: this.getFormValues()};
-			console.log(opts);
 			this.uploader.setOptions(opts);
 			this.uploader.start();
 		} else {
@@ -213,46 +225,63 @@ var SwiffUploadManager = new Class({
 		}
 	},
 
+	// Default onclick event for the upload button.
+	// should only actually do anything if enabled
 	startUpload: function() {
 		if (this.enabled) {
 			UploadMGR.validate();
 		}
 	},
 
+	// called by the uploader when uploading, every few hundred milliseconds
 	onQueue: function() {
 		if (!this.uploader.uploading) return;
 		var size = Swiff.Uploader.formatUnit(this.uploader.size, 'b');
-		this.statusSpan.set('html', 'Uploading... ' + this.uploader.percentLoaded + '% of ' + size);
+		this.statusDiv.set('html', this.uploader.percentLoaded + '%');
 	},
 
+	// called by the uploader when selecting a file fails. eg. if it's too big.
 	onSelectFail: function(files) {
 		console.log(files[0].name, files[0].validationError);
 	},
 
-	onFileComplete: function(file) {
-		console.log(file.response);
-		if (file.response.error) {
-			this.statusSpan.set('html',
-				'Failed Upload' + " " + this.uploader.fileList[0].name + " " + this.uploader.fileList[0].response.code + " " + this.uploader.fileList[0].response.error
-			);
-		} else {
-			var json = JSON.decode(file.response.text, true)
-			console.log('Successful Upload', this.uploader.fileList[0].name, json, file);
-		}
-
-		file.remove();
-		this.uploader.setEnabled(true);
-	},
-
+	// called by the uploader when selecting a file from the browse box succeeds
 	onSelectSuccess: function(files) {
 		this.uploader.setEnabled(false);
 		this.enabled = true;
 		this.uploadButton.addClass('enabled');
-		this.statusSpan.set('html', 'You have selected '+files[0].name+' - '+Swiff.Uploader.formatUnit(files[0].size, 'b'));
+		this.fileInfoDiv.set('html', 'You have selected '+files[0].name+' - '+Swiff.Uploader.formatUnit(files[0].size, 'b'));
 	},
 
+	// called by the uploader when a file upload is completed
+	onFileComplete: function(file) {
+		if (file.response.error) {
+			this.statusDiv.set('html',
+				'Failed Upload: ' + this.uploader.fileList[0].name + " " + this.uploader.fileList[0].response.code + " " + this.uploader.fileList[0].response.error
+			);
+			this.uploader.setEnabled(true);
+		} else {
+			var json = JSON.decode(file.response.text, true)
+			if (json.success) {
+				this.statusDiv.set('html',
+					'Success! You will be redirected shortly.'
+				);
+				this.statusDiv.addClass('finished');
+				var redirect = function(){window.location = json.redirect;};
+				redirect.create({delay: 1000})();
+			} else {
+				this.statusDiv.set('html',
+					'Failed Upload: No reason given'
+				);
+			}
+		}
+
+		file.remove();
+	},
+
+	// called by the uploader when all uploads are completed.
+	// this doesn't really apply to us, because we only allow one upload at a time.
 	onComplete: function() {
-		console.log('oncomplete called');
 	},
 
 });

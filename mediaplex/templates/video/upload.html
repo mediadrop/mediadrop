@@ -14,7 +14,7 @@
 		var UploadMGR = null;
 		var SwiffUploadMGR = null;
 		window.addEvent('domready', function() { UploadMGR = new UploadManager('${upload_form.id}', '${upload_form.async_action}');});
-		window.addEvent('domready', function() { SwiffUploadMGR = new SwiffUploadManager('${upload_form.id}', '${upload_form.async_action}', 'browse-button', 'upload-button', 'upload-status');})
+		window.addEvent('domready', function() { SwiffUploadMGR = new SwiffUploadManager('${upload_form.id}', '${upload_form.async_action}', 'browse-button', 'upload-button', 'file-info', 'upload-status');})
 	</script>
 </head>
 <body>
@@ -32,6 +32,19 @@
 				</ol>
 			</div>
 			${XML(upload_form(form_values))}
+			<!-- The following 4 elements are used only by the SwiffUploadManager javascript -->
+			<div id="bottombar">
+				<div id="browse-button"></div>
+				<div id="upload-button"></div>
+				<div id="file-info"></div>
+			</div>
+			<div id="rightbar">
+				<em>Acceptable File Formats</em>
+				<p>avi, divx, dv, dvx, flv, m4v, mov, mp4, mpeg, mpg, qt, vob, 3gp, and wmv.</p>
+				<em>Problems?</em>
+				<p>If you have problems uploading or have some questions, please email us at <a href="mailto:help@tmcyouth.com">help@tmcyouth.com</a></p>
+				<div id="upload-status"></div>
+			</div>
 		</div>
 	</box>
 </body>

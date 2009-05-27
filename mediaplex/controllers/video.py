@@ -165,7 +165,8 @@ class VideoController(RoutingController):
             self._save_video(kwargs['name'], kwargs['email'], kwargs['title'], kwargs['description'], kwargs['tags'], kwargs['file'])
 
             return dict(
-                success = True
+                success = True,
+                redirect = helpers.url_for(action='upload_success')
             )
 
     @expose()

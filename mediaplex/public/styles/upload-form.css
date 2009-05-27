@@ -18,7 +18,7 @@ table.field-list .textarea {
 	font-size: 1.5em;
 }
 
-table.field-list input:focus {
+table.field-list input:focus, table.field-list textarea:focus {
 	/* disable glowing text border in safari */
 	outline: none;
 }
@@ -56,5 +56,30 @@ table.field-list .err {
 
 table.field-list .noerr {
 	background: url('/images/uploader/progress-green.gif') no-repeat top right;
+}
+
+div#browse-button {
+	width: 100px;
+	height: 50px;
+	background-color: red;
+}
+
+div#upload-button {
+	width: 100px;
+	height: 50px;
+	background-color: blue;
+}
+
+div#upload-button.enabled {
+	background-color: green;
+}
+
+div#file-info {
+
+}
+
+div#upload-status {
+	width: 100px;
+	background-color: purple;
 }
 
