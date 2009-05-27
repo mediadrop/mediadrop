@@ -30,7 +30,7 @@ class CommentadminController(RoutingController):
                 Comment.body.like(like_search)
             ))
 
-        edit_forms = [EditCommentForm(action=helpers.url_for(action='save', id=x.id)) for x in comments]
+        edit_forms = [EditCommentForm(action=helpers.url_for(action='save', id=c.id)) for c in comments]
         if request.is_xhr:
             return dict(collection=comments, edit_forms=edit_forms)
         else:
