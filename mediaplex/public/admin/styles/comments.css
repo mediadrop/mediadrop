@@ -22,14 +22,22 @@ td.author strong {
 table#comment-table tr td {
 	vertical-align: top;
 }
-span.comment-submitted,
-span.comment-ip {
+.comment-submitted,
+.comment-ip {
 	color: #8695a3;
+}
+.comment-submitted a.edit-text {
+	color: #3372a0;
+	text-decoration: none;
+}
+a.edit-text:hover, a.edit-text:active, .link:hover {
+	color: #1380cf;
+	text-decoration: underline;
 }
 tr.tr-gray td {
 	background-color: #f1efe9;
 }
-#edit-comment-form .form-field-textarea {
+.edit-comment-form .form-field-textarea {
 	margin: 10px 0;
 	padding-right: 18px;
 }

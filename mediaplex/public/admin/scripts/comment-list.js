@@ -10,7 +10,7 @@
  */
 
 
-var ConfirmManager = new Class({
+var ConfirmMgr = new Class({
 
 	Implements: [Options, Events],
 
@@ -25,14 +25,8 @@ var ConfirmManager = new Class({
 		//onConfirm: $empty (e.target)
 	},
 
-
-	initialize: function(linkSelector, opts){
+	initialize: function(opts){
 		this.setOptions(opts);
-
-		var links = $$(linkSelector);
-		links.each(function(el) {
-			el.addEvent('click', this.openConfirmDialog.bind(this));
-		}.bind(this));
 	},
 
 	openConfirmDialog: function(e){
@@ -69,72 +63,90 @@ var ConfirmManager = new Class({
 
 });
 
-var DeleteManager = new Class({
+var CommentMgr = new Class({
+	Implements: Options,
 
-	Extends: ConfirmManager,
-
-	initialize: function(linkSelector, opts) {
-		this.addEvent('confirm', function(target){
-			new Comment(target).deleteComment();
-		});
-		if(!$chk(opts.header)){
-			opts.header = 'Confirm Delete';
-		}
-		if(!$chk(opts.msg)){
-			opts.msg = function(target){
-				return 'Are you sure you want to delete <strong>' + new Comment(target).getAuthor() + '</strong>&#8217;s comment?';
-			};
-		}
-		this.parent(linkSelector, opts);
+	options:{
+		table: 'comment-table',
+		formSelector: 'form.edit-comment-form',
+		deleteLink: 'a.trash-comment',
+		publishLink: 'a.review-comment'
 	},
-});
 
-var PublishManager = new Class({
-	Extends: ConfirmManager,
+	initialize: function(opts) {
+		this.setOptions(opts);
+		this.processRows($(this.options.table).getElements('tbody > tr'));
+	},
 
-	initialize: function(linkSelector, opts) {
-		this.addEvent('confirm', function(target){
-			new Comment(target).publishComment();
-		});
-		if(!$chk(opts.header)){
-			opts.header = 'Confirm Publish';
-		}
-		if(!$chk(opts.msg)){
-			opts.msg = function(target){
-				return 'Are you sure you want to publish <strong>' + new Comment(target).getAuthor() + '</strong>&#8217;s comment?';
-			};
-		}
-		this.parent(linkSelector, opts);
+	processRows: function(rows) {
+		$$(rows).each(function(row){
+			var comment = new Comment(row, this.options);
+		}.bind(this));
 	}
-
 });
 
 var Comment = new Class({
+	Implements: Options,
+
+	options: null,
 
 	row: null,
-	actionUrl: null,
+	publishLink: null,
+	deleteLink: null,
 
-	initialize: function(a){
-		this.row = a.parentNode.parentNode;
-		this.actionUrl = a.href;
+	form: null,
+	body: null,
+	editLink: null,
+	formVisible: true,
+
+	initialize: function(row, options){
+		this.setOptions(options);
+		this.row = row;
+		this.publishLink = row.getElement(this.options.publishLink);
+		this.deleteLink = row.getElement(this.options.deleteLink);
+		this.form = this.row.getElement(this.options.formSelector);
+
+		if(this.publishLink != null) this.requestConfirmPublish();
+		if(this.deleteLink != null) this.requestConfirmDelete();
+
+		var td = this.form.getParent();
+		var text = this.form.getElement('textarea').get('value');
+		this.body = new Element('blockquote').grab(new Element('p', {html: text}));
+		td.grab(this.body);
+		this.editLink = new Element('a', {'class': 'edit-text', html: 'Edit Text'})
+			.addEvent('click', this.toggleForm.bind(this));
+		var span = td.getElement('span.comment-submitted').appendText(' | ').grab(this.editLink);
+		var cancelButton = this.form.getElement('input.btn-cancel');
+		cancelButton.addEvent('click', this.toggleForm.bind(this));
+
+		var saveButton = this.form.getElement('input.btn-save');
+		saveButton.addEvent('click', this.saveEditForm.bind(this));
+		this.toggleForm();
 	},
 
-	deleteComment: function(){
-		var req = new Request.HTML({url: this.actionUrl});
-		req.addEvent('success', this.updateDeleted.bind(this));
-		req.get();
+	requestConfirmPublish: function(){
+		var confirmMgr = new ConfirmMgr({
+			onConfirm: this.doConfirm.pass([this.publishLink.href, this.updatePublished.bind(this)], this),
+			header: 'Confirm Publish',
+			msg: 'Are you sure you want to publish <strong>' + this.getAuthor() + '</strong>&#8217;s comment?'
+		});
+		this.publishLink.addEvent('click', confirmMgr.openConfirmDialog.bind(confirmMgr));
 		return this;
 	},
 
-	publishComment: function(){
-		var req = new Request.HTML({url: this.actionUrl});
-		req.addEvent('success', this.updatePublished.bind(this));
-		req.get();
+	requestConfirmDelete: function(){
+		var confirmMgr = new ConfirmMgr({
+			onConfirm: this.doConfirm.pass([this.deleteLink.href, this.updateDeleted.bind(this)], this),
+			header: 'Confirm Delete',
+			msg: 'Are you sure you want to delete <strong>' + this.getAuthor() + '</strong>&#8217;s comment?'
+		});
+		this.deleteLink.addEvent('click', confirmMgr.openConfirmDialog.bind(confirmMgr));
 		return this;
 	},
 
-	updateDeleted: function(){
-		this.row.destroy();
+	doConfirm: function(href, successAction){
+		var opts = {url: href, onSuccess: successAction}
+		new Request.HTML(opts).get();
 		return this;
 	},
 
@@ -146,25 +158,34 @@ var Comment = new Class({
 		return this;
 	},
 
+	updateDeleted: function(){
+		this.row.destroy();
+		return this;
+	},
+
 	getAuthor: function(){
 		var author = this.row.getElement('.author').getChildren('strong').get('text');
 		return new String(author).trim();
+	},
+
+	toggleForm: function(){
+		if(this.formVisible){
+			this.body.setStyle('display', 'block');
+			this.form.setStyle('display', 'none');
+			this.editLink.set('html', 'Edit Text');
+		} else {
+			this.form.setStyle('display', 'block');
+			this.body.setStyle('display', 'none');
+			this.editLink.set('html', 'Cancel Edit');
+		}
+		this.formVisible = !this.formVisible;
+		return this;
+	},
+
+	saveEditForm: function(){
+		this.toggleForm();
+		this.body.set('html', this.form.getElement('textarea').get('value'));
+		this.form.send();
+		return false;
 	}
-
 });
-
-//var EditText = new Class({
-//	initialize: function() {
-//		var editLinks = $$('a.edit-text');
-//		editLinks.each(function(link) {
-//			link.addEvent('click', this.onClick.bind(this));
-//		}.bind(this));
-//		return this;
-//	},
-//
-//	onClick: function(e){
-//		e = new Event(e).stop();
-//		return false;
-//	}
-//});
-//

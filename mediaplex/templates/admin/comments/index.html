@@ -15,15 +15,15 @@
 	<script type="text/javascript" src="/admin/scripts/show-more.js"></script>
 	<script type="text/javascript">
 		window.addEvent('domready', function(){
+			var cm = new CommentMgr();
 			vs = new ShowMore({
 				table: 'comment-table',
 				pageNum: ${paginator.page},
-				lastPage: ${paginator.last_page or 1}
+				lastPage: ${paginator.last_page or 1},
+				onMore: function(newRows){
+					cm.processRows(newRows);
+				}
 			});
-
-			var DeleteMGR = new DeleteManager('a.trash-comment', {});
-			var PublishMGR = new PublishManager('a.review-comment', {});
-			//var et = new EditText();
 		});
 	</script>
 </head>
