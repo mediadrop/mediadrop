@@ -19,16 +19,11 @@
 }
 
 .comments-list li {
-	border-top: 1px solid #e4e4e4;
-	background: #f9f9f9;
-	padding: 10px;
+	padding: 10px 12px 10px 0;
 }
 .comments-list li.alt {
-	background: #fff;
-}
-.comments-list li img.avatar {
-	float: left;
-	margin-right: 10px;
+	padding: 10px 0 10px 12px;
+
 }
 .comments-list li .date {
 	font-size: 11px;
@@ -36,14 +31,55 @@
 .comments-list li .edit {
 	font-size: 11px;
 }
-.comments-list li h4 {
-	font-family: 'Candara', Verdana, 'Lucida Grande', Tahoma, sans-serif;
+
+.comments-list li .top {
 	color: #3b3c3d;
+	display: block;
+	height: 51px;
+	padding: 40px 20px 0 75px;
+	font-family: 'Georgia';
+	background: url('/images/layout/comment-top-norm.png') no-repeat top left;
+	margin-bottom: -20px;
+	font-size: 18px;
+	font-weight: bold;
+	font-style: italic;
 }
+
+.comments-list li.alt .top {
+	background: url('/images/layout/comment-top-alt.png') no-repeat top left;
+	padding: 40px 75px 0 32px;
+}
+
+.comments-list li .top a {
+	color: inherit;
+	text-decoration: inherit;
+}
+
+.comments-list li .bottom {
+	display: block;
+	background: url('/images/layout/comment-bottom.png') no-repeat 12px bottom;
+	padding: 0 28px 5px 0;
+	text-align: right;
+}
+
+.comments-list li.alt .bottom {
+	background: url('/images/layout/comment-bottom.png') no-repeat 0px bottom;
+	padding: 0 40px 5px 0;
+}
+
 .comments-list li blockquote {
-	clear: left;
 	font-family: 'Candara', Verdana, 'Lucida Grande', Tahoma, sans-serif;
-	margin: -5px 0 -10px 0;
+	background-color: #d4e7f9;
+	color: #10375c;
+	width: 420px;
+	border-left: 1px solid #b7d3ed;
+	border-right: 1px solid #b7d3ed;
+	margin: 0 0 0 12px;
+	padding: 0 27px 10px 32px;
+}
+
+.comments-list li.alt blockquote {
+	margin: 0 12px 0 0;
 }
 .comments-list li blockquote p {
 	margin: 10px 0;
