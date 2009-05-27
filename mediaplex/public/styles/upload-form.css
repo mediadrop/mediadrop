@@ -1,0 +1,60 @@
+table.field-list {
+	width: 670px;
+	border-spacing: 0px;
+	border-collapse: collapse;
+}
+
+table.field-list .textfield, table.field-list .textarea {
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	border: 0;
+	font-size: 2em;
+	padding: 1px 8px 2px 8px;
+	width: 584px; /* 670px - 2 * 10px */
+	margin-left: -2px;
+}
+
+table.field-list .textarea {
+	font-size: 1.5em;
+}
+
+table.field-list input:focus {
+	/* disable glowing text border in safari */
+	outline: none;
+}
+
+table.field-list label.form-label {
+	font-weight: bold;
+}
+
+table.field-list tr.title td {
+	padding: 10px 0 5px 0;
+	color: blue;
+}
+
+table.field-list td.error-icon {
+	width: 86px;
+	text-align: center;
+	vertical-align: middle;
+}
+
+table.field-list a.field-help {
+
+}
+
+table.field-list span.field-help {
+	font-style: italic;
+}
+
+table.field-list .field-error {
+	color: red;
+}
+
+table.field-list .err {
+	background: url('/images/uploader/attach.png') no-repeat top right;
+}
+
+table.field-list .noerr {
+	background: url('/images/uploader/progress-green.gif') no-repeat top right;
+}
+

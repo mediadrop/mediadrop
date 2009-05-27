@@ -1,6 +1,6 @@
 from tw.forms import ListFieldSet, TextField, FileField, CalendarDatePicker, SingleSelectField, TextArea, SubmitButton
-from tw.api import WidgetsList
-from tw.forms.validators import Schema, Int, NotEmpty, DateConverter, DateValidator
+from tw.api import WidgetsList, CSSLink
+from tw.forms.validators import Schema, Int, NotEmpty, DateConverter, DateValidator, Email, FieldStorageUploadConverter
 
 from mediaplex.forms import ListForm
 
@@ -44,3 +44,22 @@ class AlbumArtForm(ListForm):
 #        ResetButton('cancel', default='Cancel', css_classes=['btn-save', 'f-rgt']),
 #        SubmitButton('delete', default='Delete', css_classes=['btn-delete']),
     ]
+
+class UploadForm(ListForm):
+    template = 'mediaplex.templates.video.upload-form'
+    id = 'upload-form'
+    css_class = 'form'
+    css = [CSSLink(link='/styles/forms.css'), CSSLink(link='/styles/upload-form.css')]
+    show_children_errors = False
+
+    class fields(WidgetsList):
+        name = TextField(label_text='First Name:', help_text='(leave blank for anonymous)', show_error=True)
+        email = TextField(validator=Email(not_empty=True), label_text='Your email:', help_text='(will not be published)', show_error=True)
+        title = TextField(validator=NotEmpty(messages={'empty':'You\'ve gotta have a title!'}), label_text='Title:', show_error=True)
+        description = TextArea(validator=NotEmpty(messages={'empty':'At least give it a short description...'}), label_text='Description:', attrs=dict(rows=5, cols=25), show_error=True)
+        tags = TextField(label_text='Tags:', help_text='(What are these?)', help_url='/FIXME', show_error=True)
+        file = FileField(validator=FieldStorageUploadConverter(not_empty=True, messages={'empty':'Oops! You forgot to enter a file.'}), label_text='Video File', show_error=True)
+        submit = SubmitButton(css_class='submit-image', show_error=False)
+
+
+

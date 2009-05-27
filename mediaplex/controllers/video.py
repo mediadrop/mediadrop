@@ -4,13 +4,17 @@ Video/Media Controller
 """
 import shutil
 import os.path
+import simplejson as json
+import time
+
 from urlparse import urlparse, urlunparse
 from cgi import parse_qs
 from PIL import Image
 from datetime import datetime
-from tg import expose, validate, decorators, flash, require, url, request, redirect
+from tg import expose, validate, decorators, flash, require, url, request, redirect, config
 from formencode import validators
 from pylons.i18n import ugettext as _
+from pylons import tmpl_context
 from sqlalchemy import and_, or_
 from sqlalchemy.orm import eagerload
 from webhelpers import paginate
@@ -20,8 +24,12 @@ from mediaplex.lib.helpers import expose_xhr
 from mediaplex.lib.base import Controller, RoutingController
 from mediaplex.model import DBSession, metadata, Video, Comment, Tag, Author, AuthorWithIP
 from mediaplex.forms.admin import SearchForm
-from mediaplex.forms.video import VideoForm, AlbumArtForm
+from mediaplex.forms.video import VideoForm, AlbumArtForm, UploadForm
 from mediaplex.forms.comments import PostCommentForm
+
+upload_form = UploadForm(
+    action = helpers.url_for(action='upload_submit')
+)
 
 
 class VideoController(RoutingController):
@@ -111,3 +119,64 @@ class VideoController(RoutingController):
             .filter(Video.slug == slug)\
             .filter(Video.status.excludes('trash'))\
             .one()
+
+    @expose('mediaplex.templates.video.upload')
+    @validate(upload_form)
+    def upload(self, **kwargs):
+        form_values = dict(
+            tags = 'video'
+        )
+        form_values.update(kwargs)
+
+        return dict(
+            tags = self._fetch_tags(),
+            upload_form = upload_form,
+            form_values = form_values
+        )
+
+    @expose()
+    @validate(upload_form, error_handler=upload)
+    def upload_submit(self, **kwargs):
+        if 'name' not in kwargs:
+            kwargs['name'] = None
+
+        # Save the video!
+        self._save_video(kwargs['name'], kwargs['email'], kwargs['title'], kwargs['description'], kwargs['tags'], kwargs['file'])
+
+        # Redirect to success page!
+        redirect(helpers.url_for(action='upload_success'))
+
+    @expose()
+    def upload_success(self, **kwargs):
+        return dict()
+
+    def _save_video(self, name, email, title, description, tags, file):
+        # cope with anonymous posters
+        if name is None:
+            name = 'Anonymous'
+
+        # set up the permanent filename for this upload
+        file_name = str(int(time.time())) + '_' + email + '_' + file.filename
+        file_name = file_name.lstrip(os.sep)
+
+        # create our video object
+        video = Video()
+        video.author = Author(name, email)
+        video.encode_url = file_name
+        video.slug = file_name
+        video.title = title
+        video.description = description
+        video.set_tags(tags)
+        video.status.add('pending_review')
+
+        # Copy the file to its permanent location
+        file_path = os.sep.join([config.media_dir, file_name])
+        permanent_file = open(file_path, 'w')
+        shutil.copyfileobj(file.file, permanent_file)
+        file.file.close()
+        permanent_file.close()
+
+        # Save the object to our database
+        DBSession.add(video)
+        DBSession.flush()
+

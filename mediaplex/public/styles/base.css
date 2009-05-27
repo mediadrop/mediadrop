@@ -109,7 +109,9 @@ a:hover {
 	text-align: center;
 }
 .box-body {
-	margin: 15px 30px;
+	margin: 15px 28px;
+	/* 2px padding to allow for overflow of rounded elements, for more natural look */
+	padding: 0px 2px;
 	width: 880px;
 	overflow: hidden;
 }
