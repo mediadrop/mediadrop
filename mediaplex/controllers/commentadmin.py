@@ -59,6 +59,6 @@ class CommentadminController(RoutingController):
     @expose()
     def save(self, id, **kwargs):
         comment = self._fetch_comment(id)
-        comment.body = kwargs['cbody']
+        comment.body = kwargs['body']
         DBSession.add(comment)
         redirect(helpers.url_for(action='index', id=None))

@@ -16,10 +16,11 @@ class PostCommentForm(ListForm):
 
 class EditCommentForm(ListForm):
     template = 'mediaplex.templates.admin.comments.edit'
-    id = 'edit-comment-form'
-    css_class = 'form'
+    id = None
+    css_class = 'edit-comment-form'
 
-    class fields(WidgetsList):
-        cbody = TextArea(validator=NotEmpty, label_text='Comment', attrs=dict(rows=5, cols=25))
-        submit = SubmitButton('save', default='Save', css_classes=['btn-save', 'f-rgt'])
-        reset = ResetButton('cancel', default='Cancel', css_classes=['btn-cancel'])
+    fields = [
+        TextArea('body', validator=NotEmpty, label_text='Comment', attrs=dict(rows=5, cols=25)),
+        SubmitButton('submit', default='Save', css_classes=['btn-save', 'f-rgt']),
+        ResetButton(default='Cancel', css_classes=['btn-cancel'])
+    ]
