@@ -31,7 +31,7 @@
 					${XML(edit_form(dict(cbody=comment.body),id=('edit-comment-form-%s' % comment.id), css_class='hidden-form edit-comment-form'))}
 				</td>
 				<td>
-					<a py:content="comment.parent.title" href="${h.url_for(controller='/%s' % comment.parent.type.encode('utf-8'), action='view', slug=comment.parent.slug).encode('utf-8')}">Parent Item</a>
+					<a py:content="comment.parent.title" target="_blank" href="${h.url_for(controller='/%s' % comment.parent.type.encode('utf-8'), action='view', slug=comment.parent.slug).encode('utf-8')}">Parent Item</a>
 				</td>
 			</tr>
 		</tbody>
