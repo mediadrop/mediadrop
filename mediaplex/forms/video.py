@@ -51,6 +51,7 @@ class UploadForm(ListForm):
     css_class = 'form'
     css = [CSSLink(link='/styles/forms.css'), CSSLink(link='/styles/upload-form.css')]
     show_children_errors = False
+    params = ['async_action']
 
     class fields(WidgetsList):
         name = TextField(label_text='First Name:', help_text='(leave blank for anonymous)', show_error=True)

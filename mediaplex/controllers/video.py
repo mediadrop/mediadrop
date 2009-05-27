@@ -28,7 +28,8 @@ from mediaplex.forms.video import VideoForm, AlbumArtForm, UploadForm
 from mediaplex.forms.comments import PostCommentForm
 
 upload_form = UploadForm(
-    action = helpers.url_for(action='upload_submit')
+    action = helpers.url_for(action='upload_submit'),
+    async_action = helpers.url_for(action='upload_submit_async')
 )
 
 
@@ -133,6 +134,26 @@ class VideoController(RoutingController):
             upload_form = upload_form,
             form_values = form_values
         )
+
+    @expose('json')
+    @validate(upload_form)
+    def upload_submit_async(self, **kwargs):
+        if 'validate' in kwargs:
+            # we're just validating the fields. no need to worry.
+            fields = json.loads(kwargs['validate'])
+            err = {}
+            for field in fields:
+                print "Validating:", field
+                if field in tmpl_context.form_errors:
+                    err[field] = tmpl_context.form_errors[field]
+
+            return dict(
+                valid = len(err) == 0,
+                err = err
+            )
+        else:
+            # TODO: implement actual submission, not just validation.
+            return "REALLY SUBMITTING?"
 
     @expose()
     @validate(upload_form, error_handler=upload)
