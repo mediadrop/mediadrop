@@ -8,20 +8,21 @@
 <head>
 	<title>Videos</title>
 </head>
-<body py:with="pagination = page.pager(show_if_single_page=True, curpage_attr={'class': 'current'})">
-	<box id="mediaplex">
-		<div class="box-body mediagrid">
-			<ul>
-				<li py:for="video in page.items">
-					<a href="${h.url_for(action='view', slug=video.slug)}" title="${h.text.truncate(video.description, whole_word=True)}">
-						<img src="/images/videos/${video.id}s.jpg" width="149" height="92" alt="${video.title}" />
-						<span class="media-title">${video.title}</span>
-						<span class="media-info">${h.duration_from_seconds(video.duration)}<br />${h.text.plural(video.views, 'view', 'views')}</span>
-						<span class="rating rating-35"><span>3.5 stars</span></span>
-					</a>
-				</li>
-			</ul>
-		</div>
+<body class="nav-browse-on">
+	<box id="grid-box" py:with="paginator=c.paginators.videos">
+		<nav />
+		<ul id="mediagrid" class="grid">
+			<li py:for="video in videos">
+				<a href="${h.url_for(action='view', slug=video.slug)}" title="${h.text.truncate(video.description, whole_word=True)}">
+					<img src="/images/videos/${video.id}s.jpg" width="162" height="113" alt="${video.title}" />
+					<span class="grid-title">${video.title}</span>
+					<span class="grid-likes">${video.rating.sum} <span>Like<py:if test="video.rating.sum != 1">s</py:if></span></span>
+					<span class="grid-comments">${video.comment_count} <span>Comment<py:if test="video.comment_count != 1">s</py:if></span></span>
+					<span class="grid-views">${video.views} <span>View<py:if test="video.views != 1">s</py:if></span></span>
+				</a>
+			</li>
+		</ul>
+		${pagination(paginator)}
 	</box>
 </body>
 </html>

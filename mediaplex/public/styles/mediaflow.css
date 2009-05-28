@@ -118,11 +118,11 @@
 }
 .mediaflow-page li a.active:link,
 .mediaflow-page li a.active:visited {
-	border-color: #dbdbdb;
+	border-color: #b0b0b0;
 }
 .mediaflow-page img {
 	display: block;
-	border: 1px solid #dbdbdb;
+	border: 1px solid #b0b0b0;
 	width: 240px;
 	height: 168px;
 }

@@ -15,7 +15,7 @@ var Mediaflow = new Class({
 		pageWidth: 0,
 		pageHeight: 0,
 		pageMargin: 30,
-		fetchPageUrl: '/video/flow_ajax',
+		fetchUrl: '',
 		numPagesPerFetch: 2,
 		fx: {
 			duration: 550,
@@ -79,7 +79,7 @@ var Mediaflow = new Class({
 	},
 
 	fetchPages: function(i){
-		var req = new Request.HTML({url: this.options.fetchPageUrl})
+		var req = new Request.HTML({url: this.options.fetchUrl})
 			.addEvent('success', this.injectPages.bind(this))
 			.get({page: i + 1, pages_at_once: this.options.numPagesPerFetch});
 		return this;

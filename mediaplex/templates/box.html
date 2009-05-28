@@ -29,14 +29,25 @@
 
 	<py:match path="nav" recursive="false">
 		<div class="box-nav">
-			<ul id="nav-main" class="box-nav-left">
-				<li id="nav-latest"><a href="${h.url_for(controller='/video')}">Latest</a></li>
-				<li id="nav-video"><a href="${h.url_for(controller='/video')}">Video</a></li>
-				<li id="nav-podcasts"><a href="${h.url_for(controller='/podcasts')}">Podcasts</a></li>
+			<ul id="nav" class="box-nav-left">
+				<li id="nav-latest"><a href="${h.url_for(controller='/video', action='flow')}">Latest</a></li>
+				<li id="nav-browse"><a href="${h.url_for(controller='/video')}">Browse All</a></li>
 			</ul>
-			<a id="nav-topics" href="/video-tags">Topic Index</a>
+<!--!		<a id="nav-topics" class="box-nav-right" href="/video-tags">Topic Index</a>-->
+			<a id="nav-upload-video" class="box-nav-right" href="${h.url_for(controller='/video', action='upload')}">Upload a Video</a>
 			<div py:replace="select('*|text()')" />
 		</div>
 	</py:match>
+
+	<py:def function="pagination(paginator)">
+		<div class="pager">
+			<span class="pager-left" />
+			<span class="pager-body">
+				<span class="pager-label">Page:</span>
+				<span py:replace="paginator.pager(show_if_single_page=True, curpage_attr={'class': 'current'})" />
+			</span>
+			<span class="pager-right" />
+		</div>
+	</py:def>
 
 </html>

@@ -1,50 +1,60 @@
 /* video.grid */
-.mediagrid {
-	margin-left: 29px;
-	margin-right: 0;
+#grid-box .box-body {
+	padding-left: 0;
+	padding-right: 0;
+	padding-top: 30px;
+	width: 100%;
 }
-.mediagrid ul {
-	width: 910px;
+#grid-box .pager { margin-right: 20px; }
+.grid {
+	width: 920px;
 	overflow: hidden;
+	margin-left: 20px;
 }
-.mediagrid li {
+.grid li {
 	float: left;
-	width: 154px;
-	margin: 0 28px 18px 0;
+	width: 164px;
+	margin: 0 20px 20px 0;
+	font: 12px Tahoma, Helvetica, sans-serif;
+	color: #c4c4c4;
+	text-align: center;
 }
-.mediagrid li a:link,
-.mediagrid li a:visited {
+.grid li a:link,
+.grid li a:visited {
 	display: block;
-	width: 154px;
 	overflow: hidden;
 	text-decoration: none;
 }
-.mediagrid li img {
-	border: 1px solid #fff;
+.grid li img {
+	border: 1px solid #b0b0b0;
 	display: block;
 }
-.mediagrid li .media-title {
-	font-size: 12px;
+.grid li span {
+	color: #c4c4c4;
+}
+.grid li span span {
+	color: #777777;
+}
+.grid li .grid-title {
 	color: #b1d1ef;
-	padding: 5px 0 3px 0;
-	margin: 0 4px;
 	display: block;
-	height: 1em;
 	overflow: hidden;
+	text-align: left;
+	padding: 10px 0 2px 0;
 	white-space: nowrap;
 }
-.mediagrid li a:hover .media-title {
-	text-decoration: underline;
+.grid li a:hover .grid-title {
 	color: #e1effc;
+	text-decoration: underline;
 }
-.mediagrid li .media-info {
-	color: #8e8e8e;
+.grid li .grid-comments {
+	padding-left: 16px;
+	background: url('../images/icons/comments.png') no-repeat left;
 	float: left;
-	margin-left: 4px;
 }
-.mediagrid li .rating {
+.grid li .grid-comments span { display: none; }
+.grid li .grid-likes {
 	float: right;
-	margin: 2px 6px 0 0;
 }
 
 
@@ -87,7 +97,7 @@
 	text-align: center;
 	width: 50%;
 }
-.video-meta .video-duration {
+.video-meta .video-length {
 	text-align: right;
 	width: 27%;
 }

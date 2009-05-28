@@ -88,33 +88,51 @@ a:hover {
 	clear: both;
 }
 .box-body {
-	padding: 15px 30px;
+	padding: 15px 30px 5px 30px;
 	width: 880px;
 	overflow: hidden;
 	background: #2b2a2a url('../images/layout/box-body-bg.png') no-repeat top;
 }
-.box-pagination {
-	margin: 0 15px;
-	font: 18px 'Trebuchet MS', sans-serif;
+
+.pager {
+	float: right;
+	font: 14px "Trebuchet MS", sans-serif;
+}
+.pager-left, .pager-right {
+	display: block;
+	float: left;
+	width: 15px;
+	height: 35px;
+	background: url('../images/layout/pagination-left-trans.png') no-repeat;
+}
+.pager-right { background-image: url('../images/layout/pagination-right-trans.png'); }
+.pager-body {
+	display: block;
+	float: left;
+	background: #010101;
+	height: 27px;
+	padding: 4px 5px;
+}
+.pager-body * {
+	padding: 5px 4px;
+	float: left;
+	display: block;
+}
+.pager-label {
+	color: #a2a2a2;
+	padding-left: 0;
+}
+.pager-body .current {
 	color: #a2a2a2;
 }
-.box-pagination-top {
-	float: left;
-	margin: 5px 20px;
-}
-.box-pagination-bottom {
-	text-align: right;
-}
-.box-pagination a:link,
-.box-pagination a:visited {
+.pager-body a:link, .pager-body a:visited {
 	color: #fff;
 	text-decoration: none;
 }
-.box-pagination a:hover,
-.box-pagination a:visited,
-.box-pagination a.current {
+.pager-body a:hover {
 	text-decoration: underline;
 }
+
 .box-nav {
 	background: #000 url('../images/layout/box-nav-bg.png') repeat-x top;
 	width: 900px;
@@ -122,17 +140,6 @@ a:hover {
 	overflow: hidden;
 	position: relative;
 }
-#nav-main {
-	background: url('../images/buttons/sections.png') no-repeat 0 0;
-	width: 248px;
-	height: 39px;
-	position: absolute;
-	top: 14px;
-	left: 20px;
-}
-.nav-latest-on #nav-main { background-position: 0 -39px; }
-.nav-video-on #nav-main { background-position: 0 -78px; }
-.nav-podcasts-on #nav-main { background-position: 0 -117px; }
 .box-nav li a {
 	text-indent: -5000px;
 	display: block;
@@ -140,21 +147,34 @@ a:hover {
 	height: 39px;
 }
 .box-nav a:focus { outline-style: none; } /* fix text-indent screws up */
-#nav-latest a { width: 86px; }
-#nav-video a { width: 70px; }
-#nav-podcasts a { width: 92px; }
-a#nav-topics,
-a#nav-upload-video {
+.box-nav-left {
+	position: absolute;
+	top: 14px;
+	left: 20px;
+	height: 39px;
+}
+.box-nav-right {
 	float: right;
 	height: 39px;
 	display: block;
 	text-indent: -5000px;
 	margin-left: 10px;
 }
+
+#nav {
+	width: 248px;
+	background: url('../images/buttons/latest-browseall-ie.png') no-repeat 0 0;
+}
+.box-nav > #nav { background-image: url('../images/buttons/latest-browseall.png');/*use alpha trans*/ }
+.nav-latest-on #nav { background-position: 0 -39px; }
+.nav-browse-on #nav { background-position: 0 -78px; }
+#nav-latest a { width: 86px; }
+#nav-browse a { width: 99px; }
+#nav-latest > a:hover { background: url('../images/buttons/latest-browseall.png') no-repeat 0     -117px; }
+#nav-browse > a:hover { background: url('../images/buttons/latest-browseall.png') no-repeat -86px -117px; }
 a#nav-topics { width: 122px; background: url('../images/buttons/topic-index.png') no-repeat; }
 a#nav-upload-video { width: 122px; background: url('../images/buttons/upload-video.png') no-repeat; }
-a#nav-topics:hover,
-a#nav-upload-video:hover { background-position: 0 -39px; }
+a#nav-topics:hover, a#nav-upload-video:hover { background-position: 0 -39px; }
 
 .box h1 {
 	font: normal 18px 'Trebuchet MS', sans-serif;

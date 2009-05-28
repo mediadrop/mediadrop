@@ -11,13 +11,13 @@ from urlparse import urlparse, urlunparse
 from cgi import parse_qs
 from PIL import Image
 from datetime import datetime
-from tg import expose, validate, decorators, flash, require, url, request, redirect, config
+from tg import expose, validate, flash, require, url, request, redirect, config
+from tg.decorators import paginate
 from formencode import validators
 from pylons.i18n import ugettext as _
 from pylons import tmpl_context
 from sqlalchemy import and_, or_
-from sqlalchemy.orm import eagerload
-from webhelpers import paginate
+from sqlalchemy.orm import eagerload, undefer
 
 from mediaplex.lib import helpers
 from mediaplex.lib.helpers import expose_xhr
@@ -37,35 +37,43 @@ class VideoController(RoutingController):
     """Public video list actions"""
 
     @expose('mediaplex.templates.video.index')
+    @paginate('videos', items_per_page=25)
     def index(self, page=1, **kwargs):
         """Grid-style List Action"""
-        return dict(page=self._fetch_page(page, 25), tags=self._fetch_tags())
+        return dict(
+            videos = self._list_query.options(undefer('comment_count')),
+            tags = self._fetch_tags()
+        )
 
     @expose('mediaplex.templates.video.mediaflow')
+    @paginate('videos', items_per_page=9)
     def flow(self, page=1, **kwargs):
         """Mediaflow Action"""
-        return dict(page=self._fetch_page(page, 9), tags=self._fetch_tags())
+        return dict(
+            videos = self._list_query,
+            tags = self._fetch_tags()
+        )
 
-    @expose('mediaplex.templates.video.mediaflow-ajax')
-    def flow_ajax(self, page=1, **kwargs):
-        """Mediaflow Ajax Fetch Action"""
-        return dict(page=self._fetch_page(page, 6))
-
-    def _fetch_page(self, page_num=1, items_per_page=25, query=None):
+    @property
+    def _list_query(self):
         """Helper method for paginating video results"""
-        query = query or DBSession.query(Video).\
-            filter(Video.status >= 'publish').\
-            filter(Video.publish_on <= datetime.now()).\
-            filter(Video.status.excludes('trash'))
-        return paginate.Page(query, page_num, items_per_page)
+        return DBSession.query(Video)\
+            .filter(Video.status >= 'publish')\
+            .filter(Video.publish_on <= datetime.now())\
+            .filter(Video.status.excludes('trash'))
 
     @expose('mediaplex.templates.video.index')
+    @paginate('videos', items_per_page=25)
     def tags(self, slug=None, page=1, **kwargs):
         tag = DBSession.query(Tag).filter(Tag.slug == slug).one()
-        query = DBSession.query(Video)\
+        video_query = self._list_query\
             .filter(Video.tags.contains(tag))\
-            .filter(Video.status.excludes('trash'))
-        return dict(page=self._fetch_page(page, 25, query=query), tags=self._fetch_tags(), show_tags=True)
+            .options(undefer('comment_count'))
+        return dict(
+            videos = video_query,
+            tags = self._fetch_tags(),
+            show_tags = True
+        )
 
     def _fetch_tags(self):
         return DBSession.query(Tag).order_by(Tag.name).all()
@@ -77,15 +85,15 @@ class VideoController(RoutingController):
         DBSession.add(video)
         form = PostCommentForm(action=helpers.url_for(action='comment', slug=video.slug))
         return dict(
-            video=video,
-            comment_form=form,
-            form_values=values,
-            tags=self._fetch_tags()
+            video = video,
+            comment_form = form,
+            form_values = values,
+            tags = self._fetch_tags()
         )
 
     @expose_xhr()
     @validate(validators=dict(rating=validators.Int()))
-    def rate(self, slug, rating, **kwargs):
+    def rate(self, slug, rating=1, **kwargs):
         video = self._fetch_video(slug)
 
         if rating > 0:
@@ -214,4 +222,3 @@ class VideoController(RoutingController):
         # Save the object to our database
         DBSession.add(video)
         DBSession.flush()
-
