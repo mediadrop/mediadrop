@@ -10,13 +10,13 @@
 		<py:if test="title">${title} |</py:if>
 		TMC Youth
 	</title>
-	<script src="/scripts/third-party/mootools-1.2.1-core-nc.js" type="text/javascript"></script>
-	<script src="/scripts/third-party/mootools-1.2.1-more-nc.js" type="text/javascript"></script>
+	<script src="/scripts/third-party/mootools-1.2.2-core-nc.js" type="text/javascript"></script>
+	<script src="/scripts/third-party/mootools-1.2.2.2-more-nc.js" type="text/javascript"></script>
 	<link href="/styles/base.css" media="screen" rel="stylesheet" type="text/css" />
 	<meta py:replace="select('*')"/>
 </head>
-<body py:match="body">
-	<h1 style="width:940px;font-size:18px;font-weight:bold;margin:20px auto"><a href="/video" style="text-decoration:none;color:black">Mediaplex</a></h1>
+<body py:match="body" py:attrs="select('@*')">
+	<h1 style="width:940px;font-size:18px;font-weight:bold;margin:20px auto"><a href="/" style="text-decoration:none;color:black">Mediaplex</a></h1>
 	<div class="content" py:content="select('*|text()')" />
 </body>
 </html>

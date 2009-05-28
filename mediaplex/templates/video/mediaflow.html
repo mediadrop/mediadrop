@@ -10,26 +10,22 @@
 	<script type="text/javascript" src="/scripts/mediaflow.js"></script>
 	<script type="text/javascript">
 		window.addEvent('domready', function(){
-			var vs = new Videoflow({
-				container: 'mediaflow-body',
-				pageSelector: 'div.mediaflow-page',
-				nextButton: 'mediaflow-next',
-				prevButton: 'mediaflow-prev',
-				ctrlsContainer: 'mediaflow-ctrls',
-				labelContainer: 'mediaflow-label',
-				totalPageCount: ${page.item_count/3}
+			var videoflow = new Mediaflow({
+				labelContainer: $('mediaflow-box').getElement('div.box-bottom'),
+				totalPageCount: ${int(h.math.ceil(float(page.item_count)/3))}
 			});
 		});
 	</script>
 </head>
-<body>
-	<box id="mediaplex">
-		<div id="mediaflow">
-			<div id="mediaflow-ctrls"></div>
-			<div id="mediaflow-body" class="box-body">
-				<xi:include href="_mediaflow-pager.html" />
-				${mediaflow_slider_pager(page.items)}
-			</div>
+<body class="nav-latest-on">
+	<box id="mediaflow-box">
+		<nav>
+			<a id="nav-upload-video" href="/video-upload">Upload a Video</a>
+		</nav>
+		<div id="mediaflow-ctrls"></div>
+		<div id="mediaflow-body">
+			<xi:include href="_mediaflow-pager.html" />
+			${mediaflow_slider_pager(page.items)}
 		</div>
 	</box>
 </body>

@@ -1,45 +1,42 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:py="http://genshi.edgewall.org/"
       xmlns:xi="http://www.w3.org/2001/XInclude"
-      py:strip="True">
-<head py:match="head">
-	<title py:match="title" py:content="select('text()')"/>
-	<link href="/styles/mediaflow.css" media="screen" rel="stylesheet" type="text/css" />
-	<link href="/styles/ratings.css" media="screen" rel="stylesheet" type="text/css" />
-	<link href="/styles/videos.css" media="screen" rel="stylesheet" type="text/css" />
-	<script type="text/javascript" src="/scripts/tags.js"></script>
-	<script type="text/javascript">
-		window.addEvent('domready', function() {
-			var ts = new TagSlider();
-		});
-	</script>
-	<meta py:replace="select('*')"/>
-</head>
-<body py:strip="True">
-	<div py:match="//body/box" class="box" py:attrs="select('@*')">
-		<div class="box-top"></div>
-		<div id="mediaplex-ctrls">
-			<a id="mediaplex-ctrls-tags" href="#"><span>Browse by Tags</span></a>
-		</div>
-		<div id="mediaplex-tags">
-			<div id="mediaplex-tags-caption">
-				<div id="mediaplex-tags-dontsee"><span>Don't see the topic you are looking for?</span></div>
-				<a id="mediaplex-tags-suggest" href="#"><span>Suggest a new topic</span></a>
-			</div>
-			<ul py:for="col in xrange(1, 4)" py:with="per_col = (len(tags) + 8) / 4">
-				<li py:for="tag in tags[(col-1)*per_col:col*per_col]">
-					<a href="${h.url_for(action='tags', slug=tag.slug)}">${tag.name}</a>
-				</li>
-			</ul>
-		</div>
-		<!-- begin box content -->
-		<div py:replace="select('*|text()')"/>
-		<!-- end box content -->
-		<div id="mediaflow-label" class="box-bottom"></div>
-	</div>
-	<div py:match="//body/notbox" py:replace="select('*|text()')"/>
-</body>
-</html>
+      py:strip="">
 
+	<py:match path="head" once="true">
+		<head>
+			<link href="/styles/mediaflow.css" media="screen" rel="stylesheet" type="text/css" />
+			<link href="/styles/ratings.css" media="screen" rel="stylesheet" type="text/css" />
+			<link href="/styles/videos.css" media="screen" rel="stylesheet" type="text/css" />
+			<script type="text/javascript" src="/scripts/tags.js"></script>
+			<script type="text/javascript">
+				window.addEvent('domready', function() {
+//					var ts = new TagSlider({container: 'mediaplex-topics'});
+				});
+			</script>
+			<meta py:replace="select('*')"/>
+		</head>
+	</py:match>
+
+	<py:match path="box" recursive="false">
+		<div class="box" py:attrs="select('@*')">
+			<div class="box-top"></div>
+			<div py:replace="select('nav')" />
+			<div class="box-body" py:content="select('*[not(nav)]|text()')">Content is inserted here</div>
+			<div class="box-bottom"></div>
+		</div>
+	</py:match>
+
+	<py:match path="nav" recursive="false">
+		<div class="box-nav">
+			<ul id="nav-main" class="box-nav-left">
+				<li id="nav-latest"><a href="${h.url_for(controller='/video')}">Latest</a></li>
+				<li id="nav-video"><a href="${h.url_for(controller='/video')}">Video</a></li>
+				<li id="nav-podcasts"><a href="${h.url_for(controller='/podcasts')}">Podcasts</a></li>
+			</ul>
+			<a id="nav-topics" href="/video-tags">Topic Index</a>
+			<div py:replace="select('*|text()')" />
+		</div>
+	</py:match>
+
+</html>

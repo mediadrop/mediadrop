@@ -1,44 +1,4 @@
-/* View Controls */
-#mediaplex-ctrls {
-	float: right;
-	margin: 5px 20px 18px 0;
-}
-#mediaplex-ctrls a span {
-	display: none;
-}
-#mediaplex-ctrls a {
-	display: block;
-	float: left;
-	height: 29px;
-	background: url('../images/mediaflow/controls-trans.png') no-repeat;
-}
-a#mediaplex-ctrls-flow {
-	width: 60px;
-	background-position: 0 0;
-}
-a#mediaplex-ctrls-flow:hover,
-a#mediaplex-ctrls-flow.active {
-	background-position: 0 -29px;
-}
-a#mediaplex-ctrls-grid {
-	width: 50px;
-	background-position: -60px 0;
-}
-a#mediaplex-ctrls-grid:hover,
-a#mediaplex-ctrls-grid.active {
-	background-position: -60px -29px;
-}
-a#mediaplex-ctrls-tags {
-	width: 161px;
-	background-position: -110px 0;
-	margin-left: 10px;
-}
-a#mediaplex-ctrls-tags:hover,
-a#mediaplex-ctrls-tags.active {
-	background-position: -110px -29px;
-}
-
-#mediaplex-tags {
+#mediaplex-topics {
 	width: 900px;
 	margin: 0 20px;
 	overflow: hidden;
@@ -47,42 +7,42 @@ a#mediaplex-ctrls-tags.active {
 	-moz-border-radius: 10px;
 	position: relative;
 }
-#mediaplex-tags-caption {
+#mediaplex-topics-caption {
 	position: absolute;
 	bottom: 20px;
 	right: 3px;
 	width: 205px;
 }
-#mediaplex-tags-dontsee {
+#mediaplex-topics-dontsee {
 	background: url('../images/topics/dont-see-question.png') no-repeat;
 	width: 174px;
 	height: 43px;
 	display: block;
 	margin-bottom: 10px;
 }
-#mediaplex-tags-suggest {
+#mediaplex-topics-suggest {
 	background: url('../images/topics/suggest-new.png') no-repeat;
 	width: 159px;
 	height: 39px;
 	display: block;
 }
-#mediaplex-tags-caption span { display: none; }
-#mediaplex-tags ul {
+#mediaplex-topics-caption span { display: none; }
+#mediaplex-topics ul {
 	width: 25%;
 	overflow: hidden;
 	float: left;
 	margin: 17px 0;
 }
-#mediaplex-tags li {
+#mediaplex-topics li {
 	margin: 3px 20px;
 }
-#mediaplex-tags a:link,
-#mediaplex-tags a:visited {
+#mediaplex-topics a:link,
+#mediaplex-topics a:visited {
 	color: #B1D1EF;
 	text-decoration: none;
 	text-shadow: black 1px;
 }
-#mediaplex-tags a:hover {
+#mediaplex-topics a:hover {
 	color: #fff;
 	text-decoration: underline;
 }
@@ -133,12 +93,16 @@ a#mediaplex-ctrls-tags.active {
 }
 
 /* Sliding bits */
-#mediaflow-body {
-	position: relative;
+#mediaflow-box .box-body {
+	padding: 0;
 	width: 100%;
+	background: #000;
+	position: relative;
+}
+#mediaflow-body {
 	height: 192px;
-	margin: 20px 0 0 0;
-	clear: both;
+	position: relative;
+	overflow: hidden;
 }
 .mediaflow-page ul {
 	margin-left: 84px;
@@ -161,4 +125,12 @@ a#mediaplex-ctrls-tags.active {
 	border: 1px solid #dbdbdb;
 	width: 240px;
 	height: 168px;
+}
+.mediaflow-label {
+	background: url('../images/layout/box-bottom-grey-trans.png') no-repeat bottom;
+	clear: both;
+	color: #3f3f3f;
+	font: 12px 'Candara', Verdana, 'Lucida Grande', Tahoma, sans-serif;
+	padding: 8px 0;
+	text-align: center;
 }
