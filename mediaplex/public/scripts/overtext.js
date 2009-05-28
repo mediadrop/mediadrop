@@ -26,15 +26,12 @@ var CustomOverText = new Class({
 	},
 
 	modifyForm: function() {
-		console.log(this.text, this.text.parentNode);
 		var oldParent = this.text.parentNode;
 		oldParent.removeChild(this.text);
 		this.text.inject(this.element, 'after');
 		oldParent.destroy();
-		console.log(this.element.getStyle('margin'), this.element.getStyle('padding'));
 		this.element.parentNode.removeClass('form-field');
 		this.element.parentNode.addClass('form-field-wide');
-		console.log(this.text, this.text.parentNode);
 	},
 
 	attach: function() {

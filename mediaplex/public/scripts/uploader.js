@@ -242,7 +242,7 @@ var SwiffUploadManager = new Class({
 
 	// called by the uploader when selecting a file fails. eg. if it's too big.
 	onSelectFail: function(files) {
-		console.log(files[0].name, files[0].validationError);
+		// console.log(files[0].name, files[0].validationError);
 	},
 
 	// called by the uploader when selecting a file from the browse box succeeds
