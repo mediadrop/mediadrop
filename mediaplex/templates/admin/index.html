@@ -53,8 +53,8 @@
 		<div class="box">
 			<h1 class="box-head">Comments</h1>
 			<p class="box-content">
-				<a class="review" href="/comments.html">${num_comments_to_review}</a> require review.<br />
-				There has been a total of <a class="total" href="/comments.html">${num_comments_total}</a> comments on media.
+				<a class="review" href="${h.url_for(controller='/commentadmin')}">${num_comments_to_review}</a> require review.<br />
+				There has been a total of <a class="total" href="${h.url_for(controller='/commentadmin')}">${num_comments_total}</a> comments on media.
 			</p>
 		</div>
 		<br /><br />
