@@ -22,6 +22,9 @@ body {
 select, input, button, textarea {
 	font: 99% sans-serif;
 }
+select:focus, input:focus, button:focus, textarea:focus {
+	outline: none; /* disable glowing text border in safari */
+}
 table {
 	font-size: inherit;
 	font: 100%;

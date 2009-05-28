@@ -18,11 +18,6 @@ table.field-list .textarea {
 	font-size: 1.5em;
 }
 
-table.field-list input:focus, table.field-list textarea:focus {
-	/* disable glowing text border in safari */
-	outline: none;
-}
-
 table.field-list label.form-label {
 	font-weight: bold;
 }
