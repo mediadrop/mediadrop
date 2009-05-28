@@ -155,14 +155,10 @@ body {
 .box-content {
 	padding: 10px;
 }
-.box-content input,
-.box-content select,
-.box-content textarea,
-.box-content button,
-.rounded-inputs input,
-.rounded-inputs select,
-.rounded-inputs textarea,
-.rounded-inputs button {
+.box-content .textfield,
+.box-content .textarea,
+.rounded-inputs .textfield,
+.rounded-inputs .textarea {
 	-moz-border-radius: 15px;
 	-webkit-border-radius: 15px;
 	padding: 8px;
@@ -229,8 +225,8 @@ thead tr th {
 }
 .btn-save { background-image: url('../images/buttons/save.png'); width: 87px; }
 .btn-delete { background-image: url('../images/buttons/delete.png'); width: 93px; }
-.btn-yes { background-image: url('../images/buttons/yes.png'); width: 46px; height: 28px; }
-.btn-no { background-image: url('../images/buttons/no.png'); width: 46px; height: 28px;}
+.btn-yes { background-image: url('../images/buttons/yes.png'); width: 64px;}
+.btn-no { background-image: url('../images/buttons/no.png'); width: 64px;}
 .btn-cancel { background-image: url('../images/buttons/cancel.png'); width: 87px; }
 
 
@@ -286,17 +282,17 @@ input.submitbutton {
 }
 
 /* Mouse-over image replacement for buttons */
-a.mo span {
+
+.mo span {
 	display: none;
 }
 
-a.mo {
+.mo {
 	display: block;
 	background-repeat: no-repeat;
 	background-position: top;
 }
 
-a.mo:hover {
+.mo:hover {
 	background-position: bottom;
 }
-

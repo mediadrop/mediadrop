@@ -21,6 +21,6 @@ class EditCommentForm(ListForm):
 
     fields = [
         TextArea('body', validator=NotEmpty, label_text='Comment', attrs=dict(rows=5, cols=25)),
-        SubmitButton('submit', default='Save', css_classes=['btn-save', 'f-rgt']),
-        ResetButton(default='Cancel', css_classes=['btn-cancel'])
+        SubmitButton('submit', default='Save', css_classes=['mo', 'btn-save', 'f-rgt']),
+        ResetButton(default='Cancel', css_classes=['mo', 'btn-cancel'])
     ]

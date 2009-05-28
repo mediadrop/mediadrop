@@ -10,6 +10,21 @@ a.add-video { background-image: url('../images/buttons/add-video.png'); }
 	color: #3c4d5a;
 	margin: 10px;
 }
+
+.box-content .btn-review-complete, .box-content .btn-encoding-complete, .box-content .btn-publish-now {
+	text-indent: -1000px;
+	cursor: pointer;
+	border: 0;
+	height: 34px;
+	width: 171px;
+	background-repeat: no-repeat;
+	margin: 0 auto;
+}
+.btn-review-complete { background-image: url('../images/buttons/video-review-complete.png'); }
+.btn-encoding-complete { background-image: url('../images/buttons/video-encoding-complete.png'); }
+.btn-publish-now { background-image: url('../images/buttons/video-publish-now.png'); }
+
+
 #video-form .form-field {
 	margin: 10px;
 	/* bump the size down 12px so that when firefox adds 12px

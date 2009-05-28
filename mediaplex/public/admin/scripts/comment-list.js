@@ -17,8 +17,8 @@ var ConfirmMgr = new Class({
 	options:{
 		cancelButtonText: 'no',
 		confirmButtonText: 'yes',
-		confirmButtonClass: 'submitbutton btn-yes f-rgt',
-		cancelButtonClass: 'submitbutton btn-no f-rgt',
+		confirmButtonClass: 'mo submitbutton btn-yes f-rgt',
+		cancelButtonClass: 'mo submitbutton btn-no f-rgt',
 		header: 'Confirm',
 		msg: 'Are you sure?',
 		overlayOpacity: 0.4

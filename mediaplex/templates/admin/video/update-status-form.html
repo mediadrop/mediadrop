@@ -7,29 +7,29 @@
 		<div class="box-content">
 			<div py:when="'pending_review' in video.status" py:strip="">
 				<ol id="status-list">
-					<li class="status-list-inprogress">review in progress</li>
+					<li class="status-list-inprogress">review pending</li>
 					<!--! just in case the video doesn't ever need encoding (eg. youtube) -->
 					<li py:with="status = 'pending_encoding' in video.status and 'pending' or 'complete'"
 						class="status-list-${status}">encoding ${status}</li>
-					<li class="status-list-pending">drafting</li>
+					<li class="status-list-pending">publishing pending</li>
 				</ol>
-				<div py:content="h.tags.submit('update_button', 'Review Complete', id='update-status', class_='submitbutton btn-review-complete')" class="box-content center" />
+				<div py:content="h.tags.submit('update_button', 'Review Complete', id='update-status', class_='mo submitbutton btn-review-complete')" class="box-content center" />
 			</div>
 			<div py:when="'pending_encoding' in video.status" py:strip="">
 				<ol id="status-list">
 					<li class="status-list-complete">review complete</li>
-					<li class="status-list-inprogress">encoding in progress</li>
-					<li class="status-list-pending">drafting</li>
+					<li class="status-list-inprogress">encoding pending</li>
+					<li class="status-list-pending">publishing pending</li>
 				</ol>
-				<div py:content="h.tags.submit('update_button', 'Encoding Complete', id='update-status', class_='submitbutton btn-encode-complete')" class="box-content center" />
+				<div py:content="h.tags.submit('update_button', 'Encoding Complete', id='update-status', class_='mo submitbutton btn-encoding-complete')" class="box-content center" />
 			</div>
 			<div py:when="'draft' in video.status" py:strip="">
 				<ol id="status-list">
 					<li class="status-list-complete">review complete</li>
 					<li class="status-list-complete">encoding complete</li>
-					<li class="status-list-inprogress">drafting</li>
+					<li class="status-list-inprogress">publishing pending</li>
 				</ol>
-				<div py:content="h.tags.submit('update_button', 'Publish Now', id='update-status', class_='submitbutton btn-publish-now')" class="box-content center" />
+				<div py:content="h.tags.submit('update_button', 'Publish Now', id='update-status', class_='mo submitbutton btn-publish-now')" class="box-content center" />
 			</div>
 			<div py:when="'publish' in video.status" py:strip="">
 				<ol id="status-list">
