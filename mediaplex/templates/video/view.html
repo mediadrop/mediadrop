@@ -64,7 +64,7 @@
 							</a>
 						</h4>
 						<blockquote>${XML(h.format_paragraphs(comment.body))}</blockquote>
-						<span class="bottom date" title="Permalink">${comment.created_on}</span>
+						<span class="bottom date" title="Permalink">Posted on ${comment.created_on.strftime("%d/%m/%y @ %H:%M")}</span>
 					</li>
 				</ul>
 			</py:choose>

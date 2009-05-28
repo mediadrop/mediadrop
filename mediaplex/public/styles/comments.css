@@ -18,7 +18,7 @@
 	font-style: italic;
 }
 .comments h3 {
-	margin: 30px 0 5px 10px;
+	margin: 30px 0 12px 0;
 }
 .comments .comments-none-yet {
 	margin-left: 10px;
@@ -88,16 +88,18 @@
 
 #post-comment-form textarea, #post-comment-form input[type='text'] {
 	-moz-border-radius: 15px;
+	-webkit-border-radius: 15px;
 	border: 5px solid #ebe4dc;
-	padding: 1px 8px 2px 8px;
+	padding: 5px 8px 6px 8px;
 	width: 355px;
 }
 #post-comment-form .form-field-wide textarea, #post-comment-form .form-field-wide input[type='text'] {
 	width: 455px;
+	margin-bottom: 12px;
 }
 #post-comment-form .form-field-wide label {
 	/* style for rearranged OverText labels */
-	padding: 3px 9px;
+	padding: 6px 9px;
 	cursor: text;
 	position: absolute;
 	display: none;
