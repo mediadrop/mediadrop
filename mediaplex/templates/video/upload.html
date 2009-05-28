@@ -7,6 +7,7 @@
 <xi:include href="../master.html" />
 <head>
 	<title>Upload Videos</title>
+	<link href="/styles/upload-form.css" media="screen" rel="stylesheet" type="text/css" />
 	<script type="text/javascript" src="/scripts/third-party/Fx.ProgressBar.js"></script>
 	<script type="text/javascript" src="/scripts/third-party/Swiff.Uploader.js"></script>
 	<script type="text/javascript" src="/scripts/uploader.js"></script>
@@ -17,34 +18,39 @@
 		window.addEvent('domready', function() { SwiffUploadMGR = new SwiffUploadManager('${upload_form.id}', '${upload_form.async_action}', 'browse-button', 'upload-button', 'file-info', 'upload-status');})
 	</script>
 </head>
-<body>
+<body class="bob jim" id="jerk">
 	<box id="mediaplex">
-		<div class="box-body">
-			<div id="rules">
-				<span class="italic">Rules. We welcome video submissions</span> for a broad range of topics.
-				Please upload a video if you have met the following guidelines:
-				<ol>
-					<li>You created it, or have been given permission to distribute it by the copyright holder.</li>
-					<li>It dows not infringe someone else's copyright by, for example, including someone else's pictures, music, etc.</li>
-					<li>You agree that by submitting this video, you are granting rights to The First Church of Christ, Scientist to post
-					the video and use it as described in the <a href="#">Terms and Conditions</a>.</li>
-					<li>All people pictured in your video (or the parent/legal gaurdian of any person under the age of 18) have given you permission to distribute it.</li>
-				</ol>
-			</div>
-			${XML(upload_form(form_values))}
-			<!-- The following 4 elements are used only by the SwiffUploadManager javascript -->
-			<div id="bottombar">
-				<div id="browse-button"></div>
-				<div id="upload-button"></div>
-				<div id="file-info"></div>
-			</div>
-			<div id="rightbar">
+		<nav>
+			<a id="nav-upload-video" href="${h.url_for(controller='video', action='upload')}">Upload a Video</a>
+		</nav>
+		<div id="rules">
+			<span class="italic">Rules. We welcome video submissions</span> for a broad range of topics.
+			Please upload a video if you have met the following guidelines:
+			<ol>
+				<li>You created it, or have been given permission to distribute it by the copyright holder.</li>
+				<li>It dows not infringe someone else's copyright by, for example, including someone else's pictures, music, etc.</li>
+				<li>You agree that by submitting this video, you are granting rights to The First Church of Christ, Scientist to post
+				the video and use it as described in the <a href="#">Terms and Conditions</a>.</li>
+				<li>All people pictured in your video (or the parent/legal gaurdian of any person under the age of 18) have given you permission to distribute it.</li>
+			</ol>
+		</div>
+		<div id="rightbar">
+			<div>
 				<em>Acceptable File Formats</em>
 				<p>avi, divx, dv, dvx, flv, m4v, mov, mp4, mpeg, mpg, qt, vob, 3gp, and wmv.</p>
+			</div>
+			<div>
 				<em>Problems?</em>
 				<p>If you have problems uploading or have some questions, please email us at <a href="mailto:help@tmcyouth.com">help@tmcyouth.com</a></p>
-				<div id="upload-status"></div>
 			</div>
+			<div id="upload-status"><span class="text" /><span class="percent" /></div>
+		</div>
+		${XML(upload_form(form_values))}
+		<!-- The following 4 elements are used only by the SwiffUploadManager javascript -->
+		<div id="bottombar">
+			<div id="browse-button"></div>
+			<div id="upload-button"></div>
+			<div id="file-info"></div>
 		</div>
 	</box>
 </body>

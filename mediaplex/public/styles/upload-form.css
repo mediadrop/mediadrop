@@ -1,7 +1,12 @@
-table.field-list {
+form#upload-form, div#bottombar {
 	width: 670px;
+	float: left;
+}
+
+table.field-list {
 	border-spacing: 0px;
 	border-collapse: collapse;
+	width: 100%;
 }
 
 table.field-list .textfield, table.field-list .textarea {
@@ -24,7 +29,8 @@ table.field-list label.form-label {
 
 table.field-list tr.title td {
 	padding: 10px 0 5px 0;
-	color: blue;
+	color: cdcdcd;
+	font-family: helvetica;
 }
 
 table.field-list td.error-icon {
@@ -42,39 +48,112 @@ table.field-list span.field-help {
 }
 
 table.field-list .field-error {
-	color: red;
+	color: #eb4c4c;
 }
 
 table.field-list .err {
-	background: url('/images/uploader/attach.png') no-repeat top right;
+	background: transparent url(/images/uploader/ex.png) no-repeat scroll 620px center
 }
 
 table.field-list .noerr {
-	background: url('/images/uploader/progress-green.gif') no-repeat top right;
+	background: transparent url(/images/uploader/check.png) no-repeat scroll 620px center
 }
 
-div#browse-button {
-	width: 100px;
-	height: 50px;
-	background-color: red;
+div#bottombar {
+	margin-top: 27px;
+	background: url('/images/uploader/arrow.png') no-repeat 250px 0px;
 }
 
-div#upload-button {
-	width: 100px;
-	height: 50px;
-	background-color: blue;
+div#browse-button.active {
+	float: left;
+	background: url('/images/uploader/choose-file.png') no-repeat;
+	margin-left: -4px;
+	width: 203px;
+	height: 34px;
+}
+
+div#upload-button.active {
+	float: left;
+	background: url('/images/uploader/upload-grey.png') no-repeat;
+	width: 148px;
+	height: 34px;
+	margin-left: 150px;
 }
 
 div#upload-button.enabled {
-	background-color: green;
+	background: url('/images/uploader/upload.png') no-repeat;
+	cursor: pointer;
 }
 
-div#file-info {
+div#file-info.active {
+	clear: both;
+	padding-top: 10px;
+}
 
+div#file-info span.filename {
+	color: #84c198;
+}
+
+div.box-body {
+	color: cdcdcd;
+	font-family: helvetica;
+	font-weight: light;
+}
+
+div#rightbar {
+	float: right;
+	width: 210px;
+	margin-top: 27px;
+	color: #B0B0B0;
+}
+
+div#rightbar div {
+	height: 132px;
+}
+
+div#upload-status.active {
+	margin-top: 14px;
+	width: 100%;
+}
+
+div#upload-status.active span.percent {
+	display: block;
+	font-size: 75px;
+	height: 66px;
+}
+
+div#upload-status.active span.text {
+	display: block;
+	font-size: 20px;
+	height: 66px;
+}
+
+div#rules .italic, div#rightbar em {
+	font-family: georgia;
+	font-style: italic;
+	font-weight: bold;
+	color: #bcdfe3;
+}
+
+#rules {
+	font-size: 16px;
+	color: #b0b0b0;
+	background-color: #4d4d4d;
+	-moz-border-radius: 20px;
+	padding: 20px 40px;
+	margin-bottom: 40px;
+}
+
+#rules ol {
+	list-style-type: decimal;
+	list-style-position: outside;
+}
+
+#rules ol li {
+	margin: 15px 40px 0px 50px;
+	text-align: justify;
 }
 
 div#upload-status {
-	width: 100px;
-	background-color: purple;
+	color: #84c198;
 }
-

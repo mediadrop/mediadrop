@@ -49,7 +49,7 @@ class UploadForm(ListForm):
     template = 'mediaplex.templates.video.upload-form'
     id = 'upload-form'
     css_class = 'form'
-    css = [CSSLink(link='/styles/forms.css'), CSSLink(link='/styles/upload-form.css')]
+    css = [CSSLink(link='/styles/forms.css')]
     show_children_errors = False
     params = ['async_action']
 

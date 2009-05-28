@@ -11,7 +11,6 @@ var UploadManager = new Class({
 	uploadButton: null,
 	browseButton: null,
 
-
 	initialize: function(form, action) {
 		this.form = $(form);
 		this.action = action;
@@ -126,7 +125,7 @@ var SwiffUploadManager = new Class({
 	browseButton: null,
 	uploadButton: null,
 	progressBar: null,
-	enabled: null,
+	enabled: false,
 	
 	initialize: function(form, action, browseButton, uploadButton, fileInfoDiv, statusDiv) {
 		if (Browser.Platform.linux) {
@@ -142,7 +141,10 @@ var SwiffUploadManager = new Class({
 		this.fileInfoDiv = $(fileInfoDiv);
 		this.statusDiv = $(statusDiv)
 
-		this.enabled = false;
+		this.browseButton.addClass('active');
+		this.uploadButton.addClass('active');
+		this.fileInfoDiv.addClass('active');
+		this.statusDiv.addClass('active');
 
 		var submit = this.form.getElement('input[type=submit]');
 		var finput = this.form.getElement('input[type=file]');
@@ -198,10 +200,8 @@ var SwiffUploadManager = new Class({
 		 * and should be updated along with the template */
 		finput.parentNode.parentNode.getPrevious().destroy();
 		finput.parentNode.parentNode.destroy();
+		submit.parentNode.parentNode.getPrevious().destroy();
 		submit.parentNode.parentNode.destroy();
-
-
-		// Set some default values for the 
 	},
 
 	// returns a dict with all the form fields/values,
@@ -220,6 +220,7 @@ var SwiffUploadManager = new Class({
 			opts = {data: this.getFormValues()};
 			this.uploader.setOptions(opts);
 			this.uploader.start();
+			this.setEnabled(false);
 		} else {
 			UploadMGR.displayErrors(responseJSON);
 		}
@@ -236,8 +237,8 @@ var SwiffUploadManager = new Class({
 	// called by the uploader when uploading, every few hundred milliseconds
 	onQueue: function() {
 		if (!this.uploader.uploading) return;
-		var size = Swiff.Uploader.formatUnit(this.uploader.size, 'b');
-		this.statusDiv.set('html', this.uploader.percentLoaded + '%');
+		var p = this.uploader.percentLoaded;
+		this.statusDiv.getChildren()[1].set('html', (p>=1?p-1:p) + '%');
 	},
 
 	// called by the uploader when selecting a file fails. eg. if it's too big.
@@ -247,10 +248,8 @@ var SwiffUploadManager = new Class({
 
 	// called by the uploader when selecting a file from the browse box succeeds
 	onSelectSuccess: function(files) {
-		this.uploader.setEnabled(false);
-		this.enabled = true;
-		this.uploadButton.addClass('enabled');
-		this.fileInfoDiv.set('html', 'You have selected '+files[0].name+' - '+Swiff.Uploader.formatUnit(files[0].size, 'b'));
+		this.setEnabled(true);
+		this.fileInfoDiv.set('html', 'You chose: <span class="filename">'+files[0].name+' ('+Swiff.Uploader.formatUnit(files[0].size, 'b')+')</span>');
 	},
 
 	// called by the uploader when a file upload is completed
@@ -259,13 +258,12 @@ var SwiffUploadManager = new Class({
 			this.statusDiv.set('html',
 				'Failed Upload: ' + this.uploader.fileList[0].name + " " + this.uploader.fileList[0].response.code + " " + this.uploader.fileList[0].response.error
 			);
-			this.uploader.setEnabled(true);
+			this.setEnabled(true);
 		} else {
 			var json = JSON.decode(file.response.text, true)
 			if (json.success) {
-				this.statusDiv.set('html',
-					'Success! You will be redirected shortly.'
-				);
+				this.statusDiv.getChildren()[0].set('html', 'Success! You will be redirected shortly.');
+				this.statusDiv.getChildren()[1].set('html', '100%');
 				this.statusDiv.addClass('finished');
 				var redirect = function(){window.location = json.redirect;};
 				redirect.create({delay: 1000})();
@@ -273,6 +271,7 @@ var SwiffUploadManager = new Class({
 				this.statusDiv.set('html',
 					'Failed Upload: No reason given'
 				);
+				this.setEnabled(true);
 			}
 		}
 
@@ -283,6 +282,19 @@ var SwiffUploadManager = new Class({
 	// this doesn't really apply to us, because we only allow one upload at a time.
 	onComplete: function() {
 	},
+
+	setEnabled: function(en) {
+		if (en) {
+			this.uploader.setEnabled(false);
+			this.enabled = true;
+			this.uploadButton.addClass('enabled');
+		} else {
+			this.uploader.setEnabled(true);
+			this.enabled = false;
+			this.uploadButton.removeClass('enabled');
+		}
+
+	}
 
 });
 
