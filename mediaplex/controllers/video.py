@@ -96,7 +96,7 @@ class VideoController(RoutingController):
         DBSession.add(video)
         if request.is_xhr:
             return dict(
-                rating='%d/%d' % (video.rating.sum, video.rating.votes),
+                rating=video.rating.sum,
                 success=True
             )
         else:

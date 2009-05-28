@@ -39,7 +39,7 @@
 					</li>
 					<li class="video-rating">
 						<strong>Rating:</strong>
-						<span id="video-rating" class="rating rating-inline rating-35 clickable"><span>${video.rating.sum}/${video.rating.votes}</span> <a class="up" title="vote up" href="${h.url_for(action='rate', rating=1)}">[u]</a> <a class="down" title="vote down" href="${h.url_for(action='rate', rating=0)}">[d]</a></span>
+						<span id="video-rating" class="rating rating-inline rating-35 clickable"><span>${video.rating.sum}</span> <a class="up" title="vote up" href="${h.url_for(action='rate', rating=1)}"><img src="/images/buttons/i-like-this.png" alt="I like this!" /></a><!--! <a class="down" title="vote down" href="${h.url_for(action='rate', rating=0)}">[d]</a>--></span>
 					</li>
 					<li class="video-duration">
 						<strong>Length:</strong> ${h.duration_from_seconds(video.duration)}

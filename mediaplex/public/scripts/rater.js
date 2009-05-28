@@ -12,9 +12,12 @@ var ThumbRater = new Class({
 		this.down = this.element.getElement('a.down');
 		// console.log(this.rating, this.up, this.down)
 
-		this.up.addEvent('click', this.rateUp.bind(this));
-		this.down.addEvent('click', this.rateDown.bind(this));
-		// console.log('wat');
+		if ($defined(this.up)) {
+			this.up.addEvent('click', this.rateUp.bind(this));
+		}
+		if ($defined(this.down)) {
+			this.down.addEvent('click', this.rateDown.bind(this));
+		}
 	},
 
 	rateUp: function(e) {
