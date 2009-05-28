@@ -199,27 +199,38 @@ class VideoController(RoutingController):
         if name is None:
             name = 'Anonymous'
 
-        # set up the permanent filename for this upload
-        file_name = str(int(time.time())) + '_' + email + '_' + file.filename
-        file_name = file_name.lstrip(os.sep)
-
-        # create our video object
+        # create our video object as a status-less placeholder initially
         video = Video()
         video.author = Author(name, email)
-        video.encode_url = file_name
-        video.slug = file_name
         video.title = title
+        video.slug = title
         video.description = description
-        video.set_tags(tags)
-        video.status.add('pending_review')
 
-        # Copy the file to its permanent location
-        file_path = os.sep.join([config.media_dir, file_name])
+        # save the object to our database to get an ID
+        DBSession.add(video)
+        DBSession.flush([video])
+
+        # set the rest of our video data
+        video.status = 'draft,pending_encoding,pending_review'
+        video.set_tags(tags)
+
+        # set up the permanent filename for this upload
+        file_name = str(video.id) + '-' + email + '-' + file.filename
+        file_name = file_name.lstrip(os.path.sep)
+        file_type = os.path.splitext(file_name)[1].lower()
+
+        # set the file paths depending on the file type
+        video.upload_url = file_name
+        if file_type == '.flv':
+            video.url = video.upload_url
+            video.status.discard('pending_encoding')
+
+        # copy the file to its permanent location
+        file_path = os.path.join(config.media_dir, file_name)
         permanent_file = open(file_path, 'w')
         shutil.copyfileobj(file.file, permanent_file)
         file.file.close()
         permanent_file.close()
 
-        # Save the object to our database
         DBSession.add(video)
         DBSession.flush()
