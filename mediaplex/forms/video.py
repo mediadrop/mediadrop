@@ -27,8 +27,8 @@ class VideoForm(ListForm):
             TextField('duration'),
             TextField('url', label_text='Video URL', attrs=dict(readonly=True))
         ]),
-        SubmitButton('save', default='Save', named_button=True, css_classes=['btn-save', 'f-rgt']),
-        SubmitButton('delete', default='Delete', named_button=True, css_classes=['btn-delete']),
+        SubmitButton('save', default='Save', named_button=True, css_classes=['mo', 'btn-save', 'f-rgt']),
+        SubmitButton('delete', default='Delete', named_button=True, css_classes=['mo', 'btn-delete']),
     ]
 
 

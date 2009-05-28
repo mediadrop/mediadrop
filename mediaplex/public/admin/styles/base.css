@@ -224,7 +224,7 @@ thead tr th {
 	background-repeat: no-repeat;
 }
 .btn-save { background-image: url('../images/buttons/save.png'); width: 87px; }
-.btn-delete { background-image: url('../images/buttons/delete.png'); width: 93px; }
+.btn-delete { background-image: url('../images/buttons/delete.png'); width: 97px; }
 .btn-yes { background-image: url('../images/buttons/yes.png'); width: 64px;}
 .btn-no { background-image: url('../images/buttons/no.png'); width: 64px;}
 .btn-cancel { background-image: url('../images/buttons/cancel.png'); width: 87px; }
