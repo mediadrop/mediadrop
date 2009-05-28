@@ -46,6 +46,11 @@ var CustomOverText = new Class({
 				change: this.assert
 			}).store('OverTextDiv', this.text);
 			window.addEvent('resize', this.reposition.bind(this));
+			/* Sometimes there's a race condition that prevents the
+			 * elements from getting displayed correctly (they're positioned
+			 * too far up the page). This should reset them after 1 second. */
+			this.assert.delay(1000, this);
+			this.reposition.delay(1300, this);
 		} else {
 			// label element doesn't exist. fall back to
 			// regular OverText behaviour and create one.
