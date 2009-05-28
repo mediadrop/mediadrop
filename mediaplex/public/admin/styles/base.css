@@ -45,6 +45,7 @@ a:hover, a:active, .link:hover {
 }
 h1 {
 	font-size: 18px;
+	text-shadow: 0em 0.1em #fff;
 }
 
 body {
