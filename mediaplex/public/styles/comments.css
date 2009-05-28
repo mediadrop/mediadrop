@@ -85,6 +85,23 @@
 .comments-list li blockquote p {
 	margin: 10px 0;
 }
+
+#post-comment-form textarea, #post-comment-form input[type='text'] {
+	-moz-border-radius: 15px;
+	border: 5px solid #ebe4dc;
+	padding: 1px 8px 2px 8px;
+	width: 355px;
+}
+#post-comment-form .form-field-wide textarea, #post-comment-form .form-field-wide input[type='text'] {
+	width: 455px;
+}
+#post-comment-form .form-field-wide label {
+	/* style for rearranged OverText labels */
+	padding: 3px 9px;
+	cursor: text;
+	position: absolute;
+	display: none;
+}
 #post-comment-form li .form-label {
 	width: 77px;
 	margin: 5px 0;
@@ -100,7 +117,7 @@
 	color: red;
 }
 #post-comment-form li .submit-image {
-	background: url('../images/buttons/comment-submit-trans.png') no-repeat;
-	width: 178px;
-	height: 48px;
+	background: url('../images/buttons/comment.png') no-repeat;
+	width: 168px;
+	height: 34px;
 }

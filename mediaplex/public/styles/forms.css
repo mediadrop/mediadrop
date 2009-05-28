@@ -17,6 +17,9 @@
 	width: 75%;
 	margin: 5px 10px 5px 0;
 }
+.form li .form-field-wide {
+	width: 100%;
+}
 .form li .form-field input,
 .form li .form-field textarea,
 .form li .form-field select {
