@@ -40,7 +40,7 @@ class AlbumArtForm(ListForm):
 
     fields = [
         FileField('album_art'),
-        SubmitButton('save', default='Save', css_classes=['btn-save', 'f-rgt']),
+        SubmitButton('save', default='Save', css_classes=['mo', 'btn-save', 'f-rgt']),
 #        ResetButton('cancel', default='Cancel', css_classes=['btn-save', 'f-rgt']),
 #        SubmitButton('delete', default='Delete', css_classes=['btn-delete']),
     ]

@@ -11,7 +11,7 @@ a.add-video { background-image: url('../images/buttons/add-video.png'); }
 	margin: 10px;
 }
 
-.box-content .btn-review-complete, .box-content .btn-encoding-complete, .box-content .btn-publish-now {
+.btn-review-complete, .btn-encoding-complete, .btn-publish-now, .btn-edit-art {
 	text-indent: -1000px;
 	cursor: pointer;
 	border: 0;
@@ -23,6 +23,7 @@ a.add-video { background-image: url('../images/buttons/add-video.png'); }
 .btn-review-complete { background-image: url('../images/buttons/video-review-complete.png'); }
 .btn-encoding-complete { background-image: url('../images/buttons/video-encoding-complete.png'); }
 .btn-publish-now { background-image: url('../images/buttons/video-publish-now.png'); }
+.btn-edit-art { background-image: url('../images/buttons/edit-image.png'); }
 
 
 #video-form .form-field {
