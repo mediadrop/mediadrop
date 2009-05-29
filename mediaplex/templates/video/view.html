@@ -14,37 +14,27 @@
 	<script type="text/javascript">
 		var OverTextMGR = null;
 		window.addEvent('domready', function(){
-			var raterness = new ThumbRater('video-rating', ${video.id});
+//			var raterness = new ThumbRater('video-rating', ${video.id});
 			OverTextMGR = new OverTextManager('${comment_form.id}');
 		});
 	</script>
 </head>
 <body>
-	<box id="video-details">
-		<div class="box-body">
-			<div class="video-info">
+	<box id="media-box">
+		<nav />
+		<div class="media-body">
+			<div class="media-info">
 				<h1>${video.title}</h1>
-				${XML(h.format_paragraphs(video.description))}
-
-				<ul py:with="tag_count = len(video.tags)" class="video-meta">
-					<li py:choose="tag_count" class="video-tags">
-						<strong>Tags:</strong>
-						<py:when test="0">None</py:when>
-						<py:otherwise py:for="i, tag in enumerate(video.tags)">
-							<a href="${h.url_for(action='tags', slug=tag.slug)}" rel="tag">${tag.name}</a><py:if test="i+1 != tag_count">,</py:if>
-						</py:otherwise>
-					</li>
-					<li class="video-views">
-						<strong>Views:</strong> ${video.views}
-					</li>
-					<li class="video-rating">
-						<strong>Rating:</strong>
-						<span id="video-rating" class="rating rating-inline rating-35 clickable"><span>${video.rating.sum}</span> <a class="up" title="vote up" href="${h.url_for(action='rate', rating=1)}"><img src="/images/buttons/i-like-this.png" alt="I like this!" /></a><!--! <a class="down" title="vote down" href="${h.url_for(action='rate', rating=0)}">[d]</a>--></span>
-					</li>
-					<li class="video-duration">
-						<strong>Length:</strong> ${h.duration_from_seconds(video.duration)}
-					</li>
-				</ul>
+				<div py:replace="Markup(h.format_paragraphs(video.description))" />
+			</div>
+			<div class="media-meta">
+				<div class="media-meta-likethis" id="video-rating"><a class="up" title="vote up" href="${h.url_for(action='rate', rating=1)}"><img src="/images/buttons/i-like-this.png" alt="I like this!" /></a></div>
+				<div class="media-meta-views"><strong>Views:</strong> ${video.views}</div>
+				<div class="media-meta-time"><strong>Time:</strong> ${video.duration}</div>
+				<div class="media-meta-etc">
+					<strong>${h.text.plural(video.rating.sum, 'person', 'people')}</strong> liked this video and
+					<strong>${h.text.plural(len(video.comments), 'person', 'people')}</strong> commented!
+				</div>
 			</div>
 			${XML(h.video_player(video.url))}
 		</div>

@@ -88,8 +88,8 @@ a:hover {
 	clear: both;
 }
 .box-body {
-	padding: 15px 30px 5px 30px;
-	width: 880px;
+	padding: 15px 20px 5px 20px;
+	width: 900px;
 	overflow: hidden;
 	background: #2b2a2a url('../images/layout/box-body-bg.png') no-repeat top;
 }

@@ -60,44 +60,45 @@
 
 
 /* video.details */
-#video-details {
+#media-box {
 	margin-bottom: 20px;
+}
+#media-box h1 {
+	font: italic bold 18px Georgia, serif;
+	color: #fff;
+}
+.media-body {
+	padding-top: 23px;
+	position: relative;
+	overflow: hidden;
 }
 #video-player {
 	display: block;
 	margin: 0;
 }
-.video-info {
+.media-info {
 	float: right;
-	width: 350px;
-	margin: 0 15px 0 35px;
+	width: 385px;
+	margin-bottom: 58px;
 }
-.video-info p {
-	margin-bottom: 10px;
+.media-info p {
+	color: #999595;
+	margin: 10px 0;
+	font: 13px Verdana, sans-serif;
 }
-.video-meta {
-	font: 14px Tahoma, sans-serif;
+.media-meta {
+	font: 13px/15px Tahoma, sans-serif;
+	color: #c4c4c4;
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	height: 58px;
+	width: 385px;
 }
-.video-meta strong {
-	color: #ababab;
+.media-meta-etc {
+	margin-top: 1em;
 }
-.video-meta li {
-	float: left;
-	width: 33%;
-}
-.video-meta .video-tags {
-	width: 100%;
-	margin-bottom: 10px;
-}
-.video-meta .video-views {
-	clear: left;
-	width: 23%;
-}
-.video-meta .video-rating {
-	text-align: center;
-	width: 50%;
-}
-.video-meta .video-length {
-	text-align: right;
-	width: 27%;
+.media-meta-likethis {
+	float: right;
+	margin-right: 140px;
 }
