@@ -1,3 +1,12 @@
+/**
+ * Mediaflow Horizontal Slider
+ *
+ * Ajax could use some improvement so that multiple pages can be fetched at once.
+ * We're not currently using any pagination (all slides are loaded at once) so
+ * this has been left for a later date.
+ *
+ * @author Nathan Wright <nathan@simplestation.com>
+ */
 var Mediaflow = new Class({
 
 	Extends: Options,
@@ -16,7 +25,7 @@ var Mediaflow = new Class({
 		pageHeight: 0,
 		pageMargin: 30,
 		fetchUrl: '',
-		numPagesPerFetch: 2,
+		numPagesPerFetch: 1,
 		fx: {
 			duration: 550,
 			transition: Fx.Transitions.Quad.easeInOut,
@@ -62,8 +71,13 @@ var Mediaflow = new Class({
 	},
 
 	slideToPage: function(i){
-		if (i >= this.options.totalPageCount) { i = 0; }
-		else if (i < 0) { i = 0; }
+		if (i >= this.options.totalPageCount) {
+			i = 0;
+		} else if (i < 0) {
+			// jump to the end if all the pages are already loaded
+			i = (this.options.totalPageCount == this.pages.length)
+			  ?  this.options.totalPageCount - 1 : 0;
+		}
 
 		if (this.pages[i] == undefined) {
 			this.injectPage(i, this.createPagePlaceholder());

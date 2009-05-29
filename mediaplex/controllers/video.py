@@ -27,6 +27,7 @@ from mediaplex.forms.admin import SearchForm
 from mediaplex.forms.video import VideoForm, AlbumArtForm, UploadForm
 from mediaplex.forms.comments import PostCommentForm
 
+
 upload_form = UploadForm(
     action = helpers.url_for(action='upload_submit'),
     async_action = helpers.url_for(action='upload_submit_async')
@@ -46,11 +47,11 @@ class VideoController(RoutingController):
         )
 
     @expose('mediaplex.templates.video.mediaflow')
-    @paginate('videos', items_per_page=9)
+#    @paginate('videos', items_per_page=9)
     def flow(self, page=1, **kwargs):
         """Mediaflow Action"""
         return dict(
-            videos = self._list_query,
+            videos = self._list_query.order_by(Video.publish_on.desc())[:15],
             tags = self._fetch_tags()
         )
 
