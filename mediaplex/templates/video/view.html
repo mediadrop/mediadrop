@@ -50,28 +50,26 @@
 		</div>
 	</box>
 
-	<notbox>
-		<div class="comments">
-			<h2>Comments <span>&#123;${len(video.comments)}&#125;</span></h2>
-			<py:choose test="len(video.comments)">
-				<p py:when="0" class="comments-none-yet">No comments have been posted yet.</p>
-				<ul py:otherwise="" class="comments-list">
-					<li py:for="i, comment in enumerate(video.comments)"
-						py:attrs="{'class': [None, 'alt'][i%2]}">
-						<h4 class="top">
-							<a name="comment-${comment.id}" href="#comment-${comment.id}" title="permalink">
-								<cite>${comment.author.name} says:</cite>
-							</a>
-						</h4>
-						<blockquote>${XML(h.format_paragraphs(comment.body))}</blockquote>
-						<span class="bottom date" title="Permalink">Posted on ${comment.created_on.strftime("%d/%m/%y @ %H:%M")}</span>
-					</li>
-				</ul>
-			</py:choose>
+	<div class="comments">
+		<h2>Comments <span>&#123;${len(video.comments)}&#125;</span></h2>
+		<py:choose test="len(video.comments)">
+			<p py:when="0" class="comments-none-yet">No comments have been posted yet.</p>
+			<ul py:otherwise="" class="comments-list">
+				<li py:for="i, comment in enumerate(video.comments)"
+					py:attrs="{'class': [None, 'alt'][i%2]}">
+					<h4 class="top">
+						<a name="comment-${comment.id}" href="#comment-${comment.id}" title="permalink">
+							<cite>${comment.author.name} says:</cite>
+						</a>
+					</h4>
+					<blockquote>${XML(h.format_paragraphs(comment.body))}</blockquote>
+					<span class="bottom date" title="Permalink">Posted on ${comment.created_on.strftime("%d/%m/%y @ %H:%M")}</span>
+				</li>
+			</ul>
+		</py:choose>
 
-			<h3>Write a comment</h3>
-			${XML(comment_form(form_values))}
-		</div>
-	</notbox>
+		<h3>Write a comment</h3>
+		${XML(comment_form(form_values))}
+	</div>
 </body>
 </html>

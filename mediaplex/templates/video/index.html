@@ -8,7 +8,7 @@
 <head>
 	<title>Videos</title>
 </head>
-<body class="nav-browse-on">
+<body class="${not defined('show_tags') and 'nav-browseall-on' or None}">
 	<box id="grid-box" py:with="paginator=c.paginators.videos">
 		<nav />
 		<ul id="mediagrid" class="grid">
