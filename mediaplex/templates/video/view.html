@@ -50,12 +50,12 @@
 		</div>
 	</box>
 
-	<div class="comments">
-		<h2>Comments <span>&#123;${len(video.comments)}&#125;</span></h2>
-		<py:choose test="len(video.comments)">
+	<div py:with="comments = [c for c in video.comments if 'publish' in c.status]" class="comments">
+		<h2>Comments <span>&#123;${len(comments)}&#125;</span></h2>
+		<py:choose test="len(comments)">
 			<p py:when="0" class="comments-none-yet">No comments have been posted yet.</p>
 			<ul py:otherwise="" class="comments-list">
-				<li py:for="i, comment in enumerate(video.comments)"
+				<li py:for="i, comment in enumerate(comments)"
 					py:attrs="{'class': [None, 'alt'][i%2]}">
 					<h4 class="top">
 						<a name="comment-${comment.id}" href="#comment-${comment.id}" title="permalink">
@@ -67,7 +67,6 @@
 				</li>
 			</ul>
 		</py:choose>
-
 		<h3>Write a comment</h3>
 		${XML(comment_form(form_values))}
 	</div>
