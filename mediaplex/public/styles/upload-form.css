@@ -144,14 +144,10 @@ div#rules .italic, div#rightbar em {
 	margin-bottom: 40px;
 }
 
-#rules ol {
-	list-style-type: decimal;
-	list-style-position: outside;
-}
-
 #rules ol li {
 	margin: 15px 40px 0px 50px;
 	text-align: justify;
+	list-style-type: decimal;
 }
 
 div#upload-status {
