@@ -13,19 +13,19 @@
 		window.addEvent('domready', function(){
 			var reviewMore = new ShowMore({
 				table: 'review-table',
-				fetchUrl: '/admin/?status=pending_review',
+				fetchUrl: '/admin/?type=review',
 				pageNum: ${review_page.page},
 				lastPage: ${review_page.last_page or 1}
 			});
 			var encodeMore = new ShowMore({
 				table: 'encode-table',
-				fetchUrl: '/admin/?status=pending_encoding',
+				fetchUrl: '/admin/?type=encode',
 				pageNum: ${encode_page.page},
 				lastPage: ${encode_page.last_page or 1}
 			});
 			var publishMore = new ShowMore({
 				table: 'publish-table',
-				fetchUrl: '/admin/?status=draft',
+				fetchUrl: '/admin/?type=draft',
 				pageNum: ${publish_page.page},
 				lastPage: ${publish_page.last_page or 1}
 			});
