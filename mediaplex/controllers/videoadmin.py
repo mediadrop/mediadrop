@@ -25,7 +25,7 @@ class VideoadminController(RoutingController):
     allow_only = has_permission('admin')
 
     @expose_xhr('mediaplex.templates.admin.video.index', 'mediaplex.templates.admin.video.index-table')
-    @paginate('collection', items_per_page=5)
+    @paginate('videos', items_per_page=25)
     def index(self, page=1, search=None, **kw):
         videos = DBSession.query(Video)\
             .filter(Video.status.excludes('trash'))\
@@ -40,7 +40,7 @@ class VideoadminController(RoutingController):
                 Video.tags.any(Tag.name.like(like_search)),
             ))
         return dict(
-            collection=videos,
+            videos=videos,
             search=search,
             search_form=SearchForm(action=helpers.url_for()),
         )
@@ -119,7 +119,7 @@ License: General Upload"""
         temp_file = values['album_art'].file
         im_path = '%s/../public/images/videos/%d%%s.jpg' % (os.path.dirname(__file__), video.id)
         im = Image.open(temp_file)
-        im.resize((149,  92), 1).save(im_path % 's')
+        im.resize((162, 113), 1).save(im_path % 's')
         im.resize((240, 168), 1).save(im_path % 'm')
         redirect('/admin/video/%d/edit' % video.id)
 

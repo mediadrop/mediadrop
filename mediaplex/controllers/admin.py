@@ -19,7 +19,7 @@ class AdminController(RoutingController):
             """ShowMore Ajax Fetch Action"""
             type = kwargs.get('type', 'awaiting_review')
             page = kwargs.get('page', 1)
-            return dict(collection=self._fetch_page(status, page).items)
+            return dict(videos=self._fetch_page(status, page).items)
         else:
             # Any publishable video that does have a publish_on date that is in the
             # past and is publishable is 'Recently Published'

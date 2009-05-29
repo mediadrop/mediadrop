@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:py="http://genshi.edgewall.org/"
       xmlns:xi="http://www.w3.org/2001/XInclude"
-      py:with="paginator=c.paginators.collection">
+      py:with="paginator=c.paginators.videos">
 <xi:include href="admin/master.html" />
 <head>
 	<title>Videos</title>
@@ -30,7 +30,7 @@
 			<h1 py:if="not search">All Videos</h1>
 			<h1 py:if="search">Videos that match '${search}'</h1>
 		</div>
-		<xi:include href="index-table.html" py:with="collection=collection" />
+		<xi:include href="index-table.html" py:with="videos=videos" />
 	</div>
 </body>
 </html>
