@@ -20,9 +20,7 @@
 </head>
 <body class="bob jim" id="jerk">
 	<box id="mediaplex">
-		<nav>
-			<a id="nav-upload-video" href="${h.url_for(controller='video', action='upload')}">Upload a Video</a>
-		</nav>
+		<nav />
 		<div id="rules">
 			<span class="italic">Rules. We welcome video submissions</span> for a broad range of topics.
 			Please upload a video if you have met the following guidelines:
@@ -48,9 +46,9 @@
 		${XML(upload_form(form_values))}
 		<!-- The following 4 elements are used only by the SwiffUploadManager javascript -->
 		<div id="bottombar">
-			<div id="browse-button"></div>
-			<div id="upload-button"></div>
-			<div id="file-info"></div>
+			<div id="browse-button" />
+			<div id="upload-button" />
+			<div id="file-info" />
 		</div>
 	</box>
 </body>
