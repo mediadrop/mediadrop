@@ -115,7 +115,7 @@ var Comment = new Class({
 		td.grab(this.body);
 		this.editLink = new Element('a', {'class': 'edit-text', html: 'Edit Text'})
 			.addEvent('click', this.toggleForm.bind(this));
-		var span = td.getElement('span.comment-submitted').appendText(' | ').grab(this.editLink);
+		var span = td.getElement('div.comment-submitted').appendText(' | ').grab(this.editLink);
 		var cancelButton = this.form.getElement('input.btn-cancel');
 		cancelButton.addEvent('click', this.toggleForm.bind(this));
 
