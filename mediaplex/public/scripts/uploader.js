@@ -141,7 +141,7 @@ var SwiffUploadManager = new Class({
 		this.fileInfoDiv = $(fileInfoDiv);
 		this.statusDiv = $(statusDiv)
 
-		this.browseButton.addClass('active');
+		this.browseButton.addClass('active').addClass('enabled');
 		this.uploadButton.addClass('active');
 		this.fileInfoDiv.addClass('active');
 		this.statusDiv.addClass('active');
@@ -171,9 +171,13 @@ var SwiffUploadManager = new Class({
 		// Set up the focus/blur and reposition events for the uploader Flash object
 		this.browseButton.addEvents({
 			mouseenter: function() {
+				this.browseButton.removeClass('active');
+				this.browseButton.addClass('browse-button-hover');
 				this.uploader.reposition();
 			}.bind(this),
 			mouseleave: function() {
+				this.browseButton.removeClass('browse-button-hover');
+				this.browseButton.addClass('active');
 //				this.uploader.blur();
 			}.bind(this),
 			mousedown: function() {
@@ -248,6 +252,8 @@ var SwiffUploadManager = new Class({
 
 	// called by the uploader when selecting a file from the browse box succeeds
 	onSelectSuccess: function(files) {
+		this.browseButton.removeClass('enabled');
+		this.browseButton.removeEvents();
 		this.setEnabled(true);
 		this.fileInfoDiv.set('html', 'You chose: <span class="filename">'+files[0].name+' ('+Swiff.Uploader.formatUnit(files[0].size, 'b')+')</span>');
 	},
