@@ -180,3 +180,19 @@ a#nav-topics:hover, a#nav-upload-video:hover { background-position: 0 -39px; }
 	font: normal 18px 'Trebuchet MS', sans-serif;
 	color: #e8e5e5;
 }
+
+/* Mouse-over image replacement for buttons */
+
+.mo span {
+	display: none;
+}
+
+.mo {
+	display: block;
+	background-repeat: no-repeat;
+	background-position: top;
+}
+
+.mo:hover {
+	background-position: bottom;
+}

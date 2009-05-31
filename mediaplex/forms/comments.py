@@ -12,7 +12,7 @@ class PostCommentForm(ListForm):
     class fields(WidgetsList):
         name = TextField(validator=NotEmpty)
         body = TextArea(validator=NotEmpty, label_text='Comment', attrs=dict(rows=5, cols=25))
-        submit = SubmitButton(css_class='submit-image')
+        submit = SubmitButton(css_class='mo submit-image')
 
 class EditCommentForm(ListForm):
     template = 'mediaplex.templates.admin.comments.edit'

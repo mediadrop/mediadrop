@@ -28,7 +28,7 @@
 				<div py:replace="Markup(h.format_paragraphs(video.description))" />
 			</div>
 			<div class="media-meta">
-				<div class="media-meta-likethis" id="video-rating"><a class="up" title="vote up" href="${h.url_for(action='rate', rating=1)}"><img src="/images/buttons/i-like-this.png" alt="I like this!" /></a></div>
+				<div class="media-meta-likethis" id="video-rating"><a id="likethis" class="mo up" title="vote up" href="${h.url_for(action='rate', rating=1)}"><span>I like this!</span></a></div>
 				<div class="media-meta-views"><strong>Views:</strong> ${video.views}</div>
 				<div class="media-meta-time"><strong>Time:</strong> ${video.duration}</div>
 				<div class="media-meta-etc">

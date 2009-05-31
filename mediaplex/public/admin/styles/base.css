@@ -223,6 +223,7 @@ thead tr th {
 	border: 0;
 	height: 34px;
 	background-repeat: no-repeat;
+	background-color: transparent;
 }
 .btn-save { background-image: url('../images/buttons/save.png'); width: 87px; }
 .btn-delete { background-image: url('../images/buttons/delete.png'); width: 97px; }

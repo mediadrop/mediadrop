@@ -119,7 +119,12 @@
 	color: red;
 }
 #post-comment-form li .submit-image {
-	background: url('../images/buttons/comment.png') no-repeat;
+	background: transparent url('../images/buttons/comment.png') no-repeat scroll top;
+	background-color: transparent;
 	width: 168px;
 	height: 34px;
+	float: right;
+}
+#post-comment-form li .submit-image:hover {
+	background-position: bottom;
 }

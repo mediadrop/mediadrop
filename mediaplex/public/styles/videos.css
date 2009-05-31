@@ -102,3 +102,13 @@
 	float: right;
 	margin-right: 140px;
 }
+a#likethis {
+	text-indent: -1000px;
+	cursor: pointer;
+	border: 0;
+	height: 34px;
+	width: 113px;
+	background-repeat: no-repeat;
+	background-color: transparent;
+	background-image: url('../images/buttons/i-like-this.png');
+}
