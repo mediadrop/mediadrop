@@ -74,19 +74,18 @@ a:hover {
 
 #logo {
 	background: url('../images/layout/mediaplex.png') no-repeat 8px top;
-	height: 79px;
+	height: 57px;
 	width: 940px;
 	margin: 0 auto;
 }
 
 #logo a {
 	height: 0px;
-	padding-top: 79px;
+	padding-top: 57px;
 	padding-left: 8px;
-	width: 242px;
+	width: 180px;
 	overflow: hidden;
 	display: block;
-
 }
 
 /* Black boxes */
