@@ -106,6 +106,8 @@
 }
 .mediaflow-page ul {
 	margin-left: 84px;
+	/* I feel like this shouldn't be necessary, but it's required to fix a display bug in safari */
+	position: absolute;
 }
 .mediaflow-page li {
 	float: left;
