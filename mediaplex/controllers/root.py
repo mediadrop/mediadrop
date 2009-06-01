@@ -32,7 +32,7 @@ class RootController(BaseController):
     def post_login(self, came_from=helpers.url_for(controller='/admin')):
         if not request.identity:
             login_counter = request.environ['repoze.who.logins'] + 1
-            redirect(helpers.url_for(came_from=came_from, __logins=login_counter))
+            redirect(came_from)
         userid = request.identity['repoze.who.userid']
         flash(_('Welcome back, %s!') % userid)
         redirect(came_from)
