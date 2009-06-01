@@ -15,7 +15,7 @@ class MediaplexConfig(AppConfig):
         map.redirect('/', '/video-flow')
 
         # routes for all non-view, non-index, video actions
-        map.connect('/video-{action}', controller='video', requirements=dict(action='flow|upload|upload_submit|upload_submit_async|upload_success'))
+        map.connect('/video-{action}', controller='video', requirements=dict(action='flow|upload|upload_submit|upload_submit_async|upload_success|upload_failure'))
         map.connect('/video-{action}/{slug}', slug=None, controller='video', requirements=dict(action='tags|rate|serve'))
         # route for viewing videos and other video related actions
         map.connect('/video/{slug}/{action}', controller='video', action='view')

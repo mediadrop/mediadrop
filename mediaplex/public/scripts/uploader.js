@@ -127,7 +127,7 @@ var SwiffUploadManager = new Class({
 	progressBar: null,
 	enabled: false,
 	
-	initialize: function(form, action, browseButton, uploadButton, fileInfoDiv, statusDiv) {
+	initialize: function(form, action, failurePage, browseButton, uploadButton, fileInfoDiv, statusDiv) {
 		if (Browser.Platform.linux) {
 			// There's a bug in the flash player for linux that freezes the browser with swiff.uploader
 			// don't bother setting it up.
@@ -136,6 +136,7 @@ var SwiffUploadManager = new Class({
 
 		this.form = $(form);
 		this.action = action;
+		this.failurePage = failurePage;
 		this.browseButton = $(browseButton);
 		this.uploadButton = $(uploadButton);
 		this.fileInfoDiv = $(fileInfoDiv);
@@ -156,6 +157,7 @@ var SwiffUploadManager = new Class({
 			verbose: false,
 			queued: false,
 			multiple: false,
+			typeFilter: "*.avi; *.divx; *.dv; *.dvx; *.flv; *.m4v; *.mov; *.mp4; *.mpeg; *.mpg; *.qt; *.vob; *.3gp; *.wmv",
 			target: this.browseButton, // the element to cover with the flash object
 			fieldName: finput.get('name'), // set the fieldname to the default form's file input name
 			instantStart: false,
@@ -261,10 +263,7 @@ var SwiffUploadManager = new Class({
 	// called by the uploader when a file upload is completed
 	onFileComplete: function(file) {
 		if (file.response.error) {
-			this.statusDiv.set('html',
-				'Failed Upload: ' + this.uploader.fileList[0].name + " " + this.uploader.fileList[0].response.code + " " + this.uploader.fileList[0].response.error
-			);
-			this.setEnabled(true);
+			this.redirectFailure(this.uploader.fileList[0].response.code);
 		} else {
 			var json = JSON.decode(file.response.text, true)
 			if (json.success) {
@@ -274,10 +273,7 @@ var SwiffUploadManager = new Class({
 				var redirect = function(){window.location = json.redirect;};
 				redirect.create({delay: 1000})();
 			} else {
-				this.statusDiv.set('html',
-					'Failed Upload: No reason given'
-				);
-				this.setEnabled(true);
+				this.redirectFailure();
 			}
 		}
 
@@ -300,6 +296,16 @@ var SwiffUploadManager = new Class({
 			this.uploadButton.removeClass('enabled');
 		}
 
+	},
+
+	redirectFailure: function(incl) {
+		var text = "Failed Upload";
+		if ($defined(incl)) {
+			text += ": " + incl;
+		}
+		this.statusDiv.set('html', text);
+		var redirect = function(){window.location = this.failurePage;};
+		redirect.create({delay: 1000, bind:this})();
 	}
 
 });

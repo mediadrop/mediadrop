@@ -46,6 +46,7 @@ body {
 a:link,
 a:visited {
 	color: #3396db;
+	color: #00bee2; /* FIXME: This is the colour in the comps, no? */
 }
 a:hover {
 	text-decoration: none;

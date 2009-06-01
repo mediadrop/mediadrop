@@ -145,28 +145,72 @@ div#upload-status.active span.text {
 	height: 66px;
 }
 
-div#rules .italic, div#rightbar em {
+.italic, div#rightbar em {
 	font-family: georgia;
 	font-style: italic;
 	font-weight: bold;
 	color: #bcdfe3;
 }
 
-#rules {
+.greybox {
 	font-size: 16px;
 	color: #b0b0b0;
 	background-color: #4d4d4d;
 	-moz-border-radius: 20px;
+	-webkit-border-radius: 20px;
 	padding: 20px 40px;
 	margin-bottom: 40px;
 }
 
-#rules ol li {
+.greybox p, ol, ul {
+	margin-bottom: 1.5em;
+}
+
+.greybox h4, .greybox li {
+	margin-bottom: 0.5em;
+}
+
+.greybox ol li {
 	margin: 15px 40px 0px 50px;
 	text-align: justify;
 	list-style-type: decimal;
 }
 
+.greybox ul li {
+	margin-left: 35px;
+	list-style: none url('/images/uploader/list-item.png');
+	text-align: top;
+	line-height: 18px;
+}
+
 div#upload-status {
 	color: #84c198;
+}
+
+div.success {
+	background-image: url('/images/uploader/success.png');
+	background-position: center 170px;
+	background-repeat: no-repeat;
+	padding-bottom: 140px;
+}
+
+#try-again {
+	display: block;
+	width: 203px;
+	height: 34px;
+	margin: 0 auto;
+}
+
+#try-again:focus {
+	outline: none;
+}
+
+div#failure {
+	background: transparent url('/images/uploader/background-gears.png') no-repeat center 26px;
+	padding-bottom: 100px;
+}
+
+#formats {
+	display: block;
+	font-size: 0.75em;
 }
