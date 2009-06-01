@@ -40,7 +40,7 @@ body, select, input, button, textarea {
 	font-family: 'Helvetica Neue', Helvetica, Arial, clean, sans-serif;
 }
 body {
-	background: #f7f0e5;
+	background: #f7f0e5 url('../images/layout/body-background.jpg');
 	color: #767778;
 }
 a:link,
