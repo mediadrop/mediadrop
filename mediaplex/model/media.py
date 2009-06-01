@@ -35,7 +35,7 @@ from mediaplex.model.rating import Rating
 from mediaplex.model.comments import Comment, CommentTypeExtension
 from mediaplex.model.tags import Tag, TagCollection, extract_tags, fetch_and_create_tags
 from mediaplex.model.status import Status, StatusSet, StatusComparator, StatusType, StatusTypeExtension
-
+from mediaplex.lib.helpers import slugify
 
 TRASH = Status('trash', 1)
 PUBLISH = Status('publish', 2)
@@ -112,6 +112,10 @@ class Media(object):
             tags = extract_tags(tags)
             tags = fetch_and_create_tags(tags)
         self.tags = tags or []
+
+    @validates('slug')
+    def validate_slug(self, key, slug):
+        return slugify(slug)
 
 
 class Video(Media):

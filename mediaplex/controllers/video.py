@@ -2,6 +2,7 @@
 Video/Media Controller
 
 """
+import math
 import shutil
 import os.path
 import simplejson as json
@@ -205,6 +206,19 @@ class VideoController(RoutingController):
         video.title = title
         video.slug = title
         video.description = description
+        video.notes = """Bible References: None
+S&H References: None
+Reviewer: None
+License: General Upload"""
+
+        # ensure the slug is unique by appending an int in sequence
+        slug_appendix = 2
+        while DBSession.query(Video.id).filter(Video.slug == video.slug).first():
+            if slug_appendix > 2:
+                # remove the attempt from the last iteration
+                video.slug = video.slug[:-1-int(math.ceil(slug_appendix/float(10)))]
+            video.slug += '-' + str(slug_appendix)
+            slug_appendix += 1
 
         # save the object to our database to get an ID
         DBSession.add(video)
