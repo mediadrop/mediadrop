@@ -72,6 +72,23 @@ a:hover {
 	margin: 0 auto;
 }
 
+#logo {
+	background: url('../images/layout/mediaplex.png') no-repeat 8px top;
+	height: 79px;
+	width: 940px;
+	margin: 0 auto;
+}
+
+#logo a {
+	height: 0px;
+	padding-top: 79px;
+	padding-left: 8px;
+	width: 242px;
+	overflow: hidden;
+	display: block;
+
+}
+
 /* Black boxes */
 .box {
 	font-family: 14px/165% Tahoma, sans-serif;

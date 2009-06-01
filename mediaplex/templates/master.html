@@ -16,7 +16,7 @@
 	<meta py:replace="select('*')"/>
 </head>
 <body py:match="body" py:attrs="select('@*')">
-	<h1 style="width:940px;font-size:18px;font-weight:bold;margin:20px auto"><a href="/" style="text-decoration:none;color:black">Mediaplex</a></h1>
+	<h1 id="logo"><a href="/">Mediaplex</a></h1>
 	<div class="content" py:content="select('*|text()')" />
 </body>
 </html>
