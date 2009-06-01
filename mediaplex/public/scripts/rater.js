@@ -1,41 +1,41 @@
 var ThumbRater = new Class({
-	element: null,
-	rating: null,
-	up: null,
-	down: null,
+	Extends: Options,
 
-	initialize: function(element, id) {
-		this.element = $(element);
+	options: {
+		upButton: null,
+		upCounter: null,
+		downButton: null,
+		downCounter: null,
+	},
 
-		this.rating = this._getRating();
-		this.up = this.element.getElement('a.up');
-		this.down = this.element.getElement('a.down');
-		// console.log(this.rating, this.up, this.down)
+	upButton: null,
+	upCounter: null,
 
-		if ($defined(this.up)) {
-			this.up.addEvent('click', this.rateUp.bind(this));
-		}
-		if ($defined(this.down)) {
-			this.down.addEvent('click', this.rateDown.bind(this));
-		}
+	initialize: function(options) {
+		this.setOptions(options);
+
+		this.upButton = $(this.options.upButton);
+		this.upCounter = $(this.options.upCounter);
+		this.downButton = $(this.options.downButton);
+		this.downCounter = $(this.options.downCounter);
+
+		if (this.upButton) this.upButton.addEvent('click', this.rateUp.bind(this));
+		if (this.downButton) this.downButton.addEvent('click', this.rateDown.bind(this));
 	},
 
 	rateUp: function(e) {
 		if (e != undefined) new Event(e).stop();
-		this._rate(this.up.get('href'));
+		this._rate(this.upButton.get('href'));
+		this.upButton.set('href', '#').removeEvents('click');
 	},
 
 	rateDown: function(e) {
 		if (e != undefined) new Event(e).stop();
-		this._rate(this.down.get('href'));
+		this._rate(this.downButton.get('href'));
+		this.downButton.set('href', '#').removeEvents('click');
 	},
 
 	_rate: function(url) {
-		/* TODO: Remove click event so they can't re-vote */
-
-		// console.log('Saving users rating of ' + (url[url.length-1]=='1' ? 'thumbs up' : 'thumbs down'));
-		// console.log(url);
-
 		var r = new Request.JSON({
 			url: url,
 			onComplete: this.rated.bind(this)
@@ -43,13 +43,10 @@ var ThumbRater = new Class({
 	},
 
 	rated: function(responseJSON) {
-		if (responseJSON.success) {
-			this.element.getFirst().set('text', responseJSON.rating);
+		if (!responseJSON.success) return;
+		this.upCounter.set('text', responseJSON.upRating);
+		if (responseJSON.downRating != undefined) {
+			this.downCounter.set('text', responseJSON.downRating);
 		}
-		// console.log(responseJSON);
-	},
-
-	_getRating: function() {
-		return this.element.getFirst().get('text');
-	},
+	}
 });

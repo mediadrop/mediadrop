@@ -69,6 +69,7 @@
 }
 .media-body {
 	padding-top: 23px;
+	margin-bottom: 20px;
 	position: relative;
 	overflow: hidden;
 }

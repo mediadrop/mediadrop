@@ -105,8 +105,9 @@ class VideoController(RoutingController):
         DBSession.add(video)
         if request.is_xhr:
             return dict(
-                rating=video.rating.sum,
-                success=True
+                success=True,
+                upRating=helpers.text.plural(video.rating.sum, 'person', 'people'),
+                downRating=None,
             )
         else:
             redirect(helpers.url_for(action='view', slug=video.slug))

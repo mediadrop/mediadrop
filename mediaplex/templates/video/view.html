@@ -14,8 +14,8 @@
 	<script type="text/javascript">
 		var OverTextMGR = null;
 		window.addEvent('domready', function(){
-//			var raterness = new ThumbRater('video-rating', ${video.id});
 			OverTextMGR = new OverTextManager('${comment_form.id}');
+			raterness = new ThumbRater({upButton: 'likethis', upCounter: 'num-likedthis'});
 		});
 	</script>
 </head>
@@ -32,7 +32,7 @@
 				<div class="media-meta-views"><strong>Views:</strong> ${video.views}</div>
 				<div class="media-meta-time"><strong>Time:</strong> ${video.duration}</div>
 				<div class="media-meta-etc">
-					<strong>${h.text.plural(video.rating.sum, 'person', 'people')}</strong> liked this video and
+					<strong id="num-likedthis">${h.text.plural(video.rating.sum, 'person', 'people')}</strong> liked this video and
 					<strong>${h.text.plural(len(video.comments), 'person', 'people')}</strong> commented!
 				</div>
 			</div>
@@ -52,7 +52,7 @@
 							<cite>${comment.author.name} says:</cite>
 						</a>
 					</h4>
-					<blockquote>${XML(h.format_paragraphs(comment.body))}</blockquote>
+					<blockquote>${Markup(h.format_paragraphs(comment.body))}</blockquote>
 					<span class="bottom date" title="Permalink">Posted on ${comment.created_on.strftime("%d/%m/%y @ %H:%M")}</span>
 				</li>
 			</ul>
