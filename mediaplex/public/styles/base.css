@@ -173,8 +173,10 @@ a:hover {
 #nav-latest > a:hover { background: url('../images/buttons/latest-browseall.png') no-repeat 0     -117px; }
 #nav-browse > a:hover { background: url('../images/buttons/latest-browseall.png') no-repeat -86px -117px; }
 a#nav-topics { width: 122px; background: url('../images/buttons/topic-index.png') no-repeat; }
-a#nav-upload-video { width: 122px; background: url('../images/buttons/upload-video.png') no-repeat; }
+a#nav-upload-video { width: 122px; background: url('../images/buttons/upload-video-ie.gif') no-repeat; }
+.box-nav > a#nav-upload-video { background-image: url('../images/buttons/upload-video.png'); }
 a#nav-topics:hover, a#nav-upload-video:hover { background-position: 0 -39px; }
+.nav-topics-on #nav-topics, .nav-upload-video-on #nav-upload-video { background-position: 0 -78px; }
 
 .box h1 {
 	font: normal 18px 'Trebuchet MS', sans-serif;

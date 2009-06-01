@@ -133,15 +133,10 @@ class VideoController(RoutingController):
     @expose('mediaplex.templates.video.upload')
     @validate(upload_form)
     def upload(self, **kwargs):
-        form_values = dict(
-            tags = 'video'
-        )
-        form_values.update(kwargs)
-
         return dict(
             tags = self._fetch_tags(),
             upload_form = upload_form,
-            form_values = form_values
+            form_values = kwargs
         )
 
     @expose('json')
@@ -171,6 +166,8 @@ class VideoController(RoutingController):
             # else actually save it!
             if 'name' not in kwargs:
                 kwargs['name'] = None
+            if 'tags' not in kwargs:
+                kwargs['tags'] = None
             self._save_video(kwargs['name'], kwargs['email'], kwargs['title'], kwargs['description'], kwargs['tags'], kwargs['file'])
 
             return dict(
@@ -183,6 +180,8 @@ class VideoController(RoutingController):
     def upload_submit(self, **kwargs):
         if 'name' not in kwargs:
             kwargs['name'] = None
+        if 'tags' not in kwargs:
+            kwargs['tags'] = None
 
         # Save the video!
         self._save_video(kwargs['name'], kwargs['email'], kwargs['title'], kwargs['description'], kwargs['tags'], kwargs['file'])
