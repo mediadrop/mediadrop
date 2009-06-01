@@ -12,8 +12,9 @@ from urlparse import urlparse, urlunparse
 from cgi import parse_qs
 from PIL import Image
 from datetime import datetime
-from tg import expose, validate, flash, require, url, request, redirect, config
+from tg import expose, validate, flash, require, url, request, response, redirect, config
 from tg.decorators import paginate
+from tg.controllers import CUSTOM_CONTENT_TYPE
 from formencode import validators
 from pylons.i18n import ugettext as _
 from pylons import tmpl_context
@@ -125,6 +126,14 @@ class VideoController(RoutingController):
         video.comments.append(c)
         DBSession.add(video)
         redirect(helpers.url_for(action='view', slug=video.slug))
+
+    @expose(content_type=CUSTOM_CONTENT_TYPE)
+    def serve(self, slug, **kwargs):
+        video = self._fetch_video(slug)
+        file_path = os.path.join(config.media_dir, video.url)
+        file = open(file_path, 'rb')
+        response.content_type = 'video/x-flv'
+        return file.read()
 
     def _fetch_video(self, slug):
         return DBSession.query(Video)\
