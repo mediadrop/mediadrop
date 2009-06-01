@@ -19,7 +19,7 @@
 		});
 	</script>
 </head>
-<body>
+<body py:with="comments = [c for c in video.comments if 'publish' in c.status]">
 	<box id="media-box">
 		<nav />
 		<div class="media-body">
@@ -33,14 +33,14 @@
 				<div class="media-meta-time"><strong>Time:</strong> ${video.duration}</div>
 				<div class="media-meta-etc">
 					<strong id="num-likedthis">${h.text.plural(video.rating.sum, 'person', 'people')}</strong> liked this video and
-					<strong>${h.text.plural(len(video.comments), 'person', 'people')}</strong> commented!
+					<strong>${h.text.plural(len(comments), 'person', 'people')}</strong> commented!
 				</div>
 			</div>
 			${XML(h.video_player(video))}
 		</div>
 	</box>
 
-	<div py:with="comments = [c for c in video.comments if 'publish' in c.status]" class="comments">
+	<div class="comments">
 		<h2>Comments <span>&#123;${len(comments)}&#125;</span></h2>
 		<py:choose test="len(comments)">
 			<p py:when="0" class="comments-none-yet">No comments have been posted yet.</p>
