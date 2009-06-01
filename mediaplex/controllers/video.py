@@ -158,7 +158,6 @@ class VideoController(RoutingController):
             fields = json.loads(kwargs['validate'])
             err = {}
             for field in fields:
-                print "Validating:", field
                 if field in tmpl_context.form_errors:
                     err[field] = tmpl_context.form_errors[field]
 
