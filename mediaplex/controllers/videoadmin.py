@@ -59,7 +59,7 @@ class VideoadminController(RoutingController):
             'notes': video.notes,
             'details': {
                 'duration': helpers.duration_from_seconds(video.duration),
-                'url': video.url
+                'url': video.url or video.upload_url
             },
         }
         if video.id == 'new' and not video.notes:

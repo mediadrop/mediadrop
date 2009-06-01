@@ -46,6 +46,8 @@ def duration_from_seconds(total_sec):
 
 
 def duration_to_seconds(duration):
+    if not duration:
+        return 0
     parts = str(duration).split(':')
     parts.reverse()
     i = 0

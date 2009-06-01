@@ -30,8 +30,8 @@ from mediaplex.forms.comments import PostCommentForm
 
 
 upload_form = UploadForm(
-    action = helpers.url_for(action='upload_submit'),
-    async_action = helpers.url_for(action='upload_submit_async')
+    action = helpers.url_for(controller='/video', action='upload_submit'),
+    async_action = helpers.url_for(controller='/video', action='upload_submit_async')
 )
 
 

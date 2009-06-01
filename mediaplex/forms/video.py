@@ -25,7 +25,7 @@ class VideoForm(ListForm):
         TextField('tags'),
         ListFieldSet('details', suppress_label=True, legend='Video Details:', children=[
             TextField('duration'),
-            TextField('url', label_text='Video URL', attrs=dict(readonly=True))
+            TextField('url', label_text='Video URL')
         ]),
         SubmitButton('save', default='Save', named_button=True, css_classes=['mo', 'btn-save', 'f-rgt']),
         SubmitButton('delete', default='Delete', named_button=True, css_classes=['mo', 'btn-delete']),
