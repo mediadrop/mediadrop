@@ -55,7 +55,10 @@ class UploadForm(ListForm):
 
     class fields(WidgetsList):
         name = TextField(label_text='First Name:', help_text='(leave blank for anonymous)', show_error=True)
-        email = TextField(validator=Email(not_empty=True), label_text='Your email:', help_text='(will not be published)', show_error=True)
+        email = TextField(validator=Email(not_empty=True, messages={
+            'badUsername': 'The portion of the email address before the @ is invalid',
+            'badDomain': 'The portion of this email address after the @ is invalid'
+        }), label_text='Your email:', help_text='(will not be published)', show_error=True)
         title = TextField(validator=NotEmpty(messages={'empty':'You\'ve gotta have a title!'}), label_text='Title:', show_error=True)
         description = TextArea(validator=NotEmpty(messages={'empty':'At least give it a short description...'}), label_text='Description:', attrs=dict(rows=5, cols=25), show_error=True)
         tags = TextField(label_text='Tags:', help_text='(optional)', show_error=True)
