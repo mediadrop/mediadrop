@@ -254,8 +254,6 @@ var SwiffUploadManager = new Class({
 
 	// called by the uploader when selecting a file from the browse box succeeds
 	onSelectSuccess: function(files) {
-		this.browseButton.removeClass('enabled');
-		this.browseButton.removeEvents();
 		this.setEnabled(true);
 		this.fileInfoDiv.set('html', 'You chose: <span class="filename">'+files[0].name+' ('+Swiff.Uploader.formatUnit(files[0].size, 'b')+')</span>');
 	},
@@ -287,7 +285,7 @@ var SwiffUploadManager = new Class({
 
 	setEnabled: function(en) {
 		if (en) {
-			this.uploader.setEnabled(false);
+//			this.uploader.setEnabled(false);
 			this.enabled = true;
 			this.uploadButton.addClass('enabled');
 		} else {
