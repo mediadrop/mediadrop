@@ -168,7 +168,7 @@ a:hover {
 }
 .box-nav > #nav { background-image: url('../images/buttons/latest-browseall.png');/*use alpha trans*/ }
 .nav-latest-on #nav { background-position: 0 -39px; }
-.nav-browse-on #nav { background-position: 0 -78px; }
+.nav-browseall-on #nav { background-position: 0 -78px; }
 #nav-latest a { width: 86px; }
 #nav-browse a { width: 99px; }
 #nav-latest > a:hover { background: url('../images/buttons/latest-browseall.png') no-repeat 0     -117px; }
