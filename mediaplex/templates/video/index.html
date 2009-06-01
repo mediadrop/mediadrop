@@ -17,7 +17,7 @@
 					<img src="/images/videos/${video.id}s.jpg" width="162" height="113" alt="${video.title}" />
 					<span class="grid-title">${video.title}</span>
 					<span class="grid-likes">${video.rating.sum} <span>Like<py:if test="video.rating.sum != 1">s</py:if></span></span>
-					<span class="grid-comments">${video.comment_count} <span>Comment<py:if test="video.comment_count != 1">s</py:if></span></span>
+					<span class="grid-comments">${len([c for c in video.comments if 'publish' in c.status])}<!--!${video.comment_count}--><span> Comment<py:if test="video.comment_count != 1">s</py:if></span></span>
 					<span class="grid-views">${video.views} <span>View<py:if test="video.views != 1">s</py:if></span></span>
 				</a>
 			</li>
