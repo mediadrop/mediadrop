@@ -20,33 +20,55 @@ var QuickSearch = new Class({
 	Extends: Options,
 
 	options: {
-		label: 'SEARCH...',
 		field: 'search'
 	},
 
-	field: null,
-
 	initialize: function(opts){
 		this.setOptions(opts);
-		this.field = $(this.options.field);
-		this.field.addEvent('change', this.refreshLabel.bind(this));
-		this.field.addEvent('blur', this.refreshLabel.bind(this));
-		this.field.addEvent('focus', this.removeLabel.bind(this));
-		this.refreshLabel();
+		new QSOverText($(this.options.field), {
+			poll: true,
+			pollInterval: 400
+		});
 	},
+});
 
-	removeLabel: function(){
-		if (this.field.get('value') == this.options.label) {
-			this.field.set('value', '');
+var QSOverText = new Class({
+	Extends: OverText,
+	
+	getLabelElement: function() {
+		var els = $$('label[for='+this.element.id+']');
+		if (els.length > 0) {
+			return els[0];
+		} else {
+			return undefined;
 		}
 	},
 
-	refreshLabel: function(){
-		if (!this.field.get('value')) {
-			this.field.set('value', this.options.label);
+	attach: function() {
+		this.text = this.getLabelElement();
+		if ($defined(this.text)) {
+			// Element exists!
+			this.text.addEvent('click', this.hide.pass(true, this))
+			this.element.addEvents({
+				focus: this.focus,
+				blur: this.assert,
+				change: this.assert
+			}).store('OverTextDiv', this.text);
+			window.addEvent('resize', this.reposition.bind(this));
+			/* Sometimes there's a race condition that prevents the
+			 * elements from getting displayed correctly (they're positioned
+			 * too far up the page). This should reset them after 1 second. */
+			this.assert.delay(1000, this);
+			this.reposition.delay(1300, this);
+		} else {
+			// label element doesn't exist. fall back to
+			// regular OverText behaviour and create one.
+			parent();
 		}
 	}
+
 });
+
 window.addEvent('domready', function(){
 	if ($(QuickSearch.prototype.options.field)) { new QuickSearch(); }
 });

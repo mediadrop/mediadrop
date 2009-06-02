@@ -266,21 +266,30 @@ input.submitbutton {
 }
 
 #quicksearch {
-	 width: 205px;
-	 padding-left: 25px;
-	 margin-top: -3px;
-	 background: url('../images/layout/search-left.png') no-repeat left;
+	width: 205px;
+	padding-left: 25px;
+	margin-top: -3px;
+	background: url('../images/layout/search-left.png') no-repeat left;
+}
+#quicksearch label#search_label {
+	font-size: 108%;
+	display: none;
 }
 #quicksearch input#search {
-	 background: url('../images/layout/search-right.png') no-repeat right;
-	 color: #374347;
-	 font: bold 13px Helvetica,Arial,Verdana,sans-serif;
-	 outline-color: -moz-use-text-color;
-	 outline-style: none;
-	 outline-width: medium;
-	 padding: 9px 6px 5px 0;
-	 width: 199px;
-	 border: 0;
+	background: url('../images/layout/search-right.png') no-repeat right;
+	color: #374347;
+	font: bold 13px Helvetica,Arial,Verdana,sans-serif;
+	outline-color: -moz-use-text-color;
+	outline-style: none;
+	outline-width: medium;
+	padding: 9px 6px 5px 0;
+	width: 199px;
+	border: 0;
+}
+#quicksearch label#search_label {
+	font: bold 13px Helvetica,Arial,Verdana,sans-serif;
+	padding: 7px 6px 5px 0;
+	display: none;
 }
 
 /* Mouse-over image replacement for buttons */
