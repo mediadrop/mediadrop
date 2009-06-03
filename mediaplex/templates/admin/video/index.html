@@ -25,12 +25,12 @@
 		<div class="box-head">
 <!--!			<a class="mo add-video f-rgt" href="/admin/video/new"><span>Add new video</span></a>-->
 			<div id="quicksearch" class="f-rgt">
-				${XML(search_form(search))}
+				${XML(search_form(search=search))}
 			</div>
 			<h1 py:if="not search">All Videos</h1>
 			<h1 py:if="search">Videos that match '${search}'</h1>
 		</div>
-		<xi:include href="index-table.html" py:with="videos=videos" />
+		<xi:include href="../video/index-table.html" py:with="videos=videos" />
 	</div>
 </body>
 </html>
