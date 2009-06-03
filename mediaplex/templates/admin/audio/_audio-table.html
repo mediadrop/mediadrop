@@ -1,0 +1,57 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      py:strip="">
+	<table py:def="audio_table(collection, fields, include_thead=True, id='audio-table')"
+	       cellpadding="0" cellspacing="0" id="${id}"
+	       py:with="item_count = len(collection);
+	                include_thead = include_thead and (item_count > 0);">
+		<thead py:if="include_thead">
+			<tr>
+				<py:for each="f in fields" py:choose="f">
+					<th py:when="'publish_on'" style="width:100px">Publish Date</th>
+					<th py:when="'created_on'" style="width:100px">Upload Date</th>
+					<th py:when="'status'" style="width:90px">Status</th>
+					<th py:when="'title'" style="width:auto">Title</th>
+					<th py:when="'comment_count'" style="width:30px" class="center"><img src="/admin/images/icons/comments.png" alt="Comments" title="Number of Comments" /></th>
+					<th py:when="'tags'" style="width:120px">Tags</th>
+					<th py:when="'author'" style="width:120px">Author</th>
+					<th py:when="'type'" style="width:30px">&nbsp;</th>
+				</py:for>
+			</tr>
+		</thead>
+		<tbody>
+			<tr py:if="item_count == 0">
+				<td>None Found</td>
+			</tr>
+			<tr py:for="audio in collection">
+				<py:for each="f in fields" py:choose="f">
+					<td py:when="'publish_on'"
+					    class="${audio.publish_on and audio.publish_on >= h.dt.datetime.now() and 'italic' or None}"
+					    py:content="audio.publish_on is None and 'unpublished' or audio.publish_on.strftime('%b %d %Y')">
+						Publish Date
+					</td>
+					<td py:when="'created_on'">${audio.created_on.strftime('%b %d %Y')}</td>
+					<td py:when="'status'" py:choose="">
+						<a class="mo review-me" py:when="'pending_review' in audio.status" href="/admin/audio/${audio.id}/edit"><span>review me</span></a>
+						<a class="mo encode-me" py:when="'pending_encoding' in audio.status" href="${audio.upload_url}"><span>encode me</span></a>
+						<a class="mo publish-me" py:when="'draft' in audio.status" href="${audio.upload_url}"><span>encode me</span></a>
+						<a class="mo published" py:otherwise="" href="/audio/${audio.slug}"><span>published</span></a>
+					</td>
+					<td py:when="'title'"><a href="/admin/audio/${audio.id}/edit">${audio.title}</a></td>
+					<td py:when="'comment_count'" class="center">${audio.comment_count}</td>
+					<td py:when="'tags'" py:with="tag_count=len(audio.tags)">
+						<py:if test="tag_count == 0">None</py:if>
+						<py:if test="tag_count >= 1" py:for="i, tag in enumerate(audio.tags)">
+							<a href="/audio/tags/${tag.slug}">${tag.name}</a><py:if test="i+1 != tag_count">,</py:if>
+						</py:if>
+					</td>
+					<td py:when="'author'">
+						<a href="mailto:${audio.author.email}" py:strip="not audio.author.email">${audio.author.name}</a>
+					</td>
+					<td py:when="'type'" class="center"><img alt="" src="/admin/images/icons/${audio.type}-trans.png" /></td>
+				</py:for>
+			</tr>
+		</tbody>
+	</table>
+</html>
+

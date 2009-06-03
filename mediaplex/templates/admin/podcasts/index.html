@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      xmlns:xi="http://www.w3.org/2001/XInclude"
+      py:with="paginator=c.paginators.audio">
+<xi:include href="admin/master.html" />
+<head>
+	<title>Podcasts</title>
+	<link href="/admin/styles/media.css" media="screen" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="/admin/scripts/show-more.js"></script>
+	<script type="text/javascript">
+		window.addEvent('domready', function(){
+			vs = new ShowMore({
+				table: 'audio-table',
+				page: ${paginator.page},
+				lastPage: ${paginator.last_page or 1}
+			});
+		});
+	</script>
+</head>
+<body class="menu-podcasts-on">
+	<div class="box">
+		<div class="box-head">
+			<div id="quicksearch" class="f-rgt">
+				${XML(search_form(search))}
+			</div>
+			<h1 py:if="not search">All Audio</h1>
+			<h1 py:if="search">Audio that matches '${search}'</h1>
+		</div>
+		<xi:include href="index-table.html" py:with="audio=audio" />
+	</div>
+</body>
+</html>
+
