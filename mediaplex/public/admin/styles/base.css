@@ -160,9 +160,9 @@ body {
 .box-content .textarea,
 .rounded-inputs .textfield,
 .rounded-inputs .textarea {
-	-moz-border-radius: 15px;
-	-webkit-border-radius: 15px;
-	padding: 8px;
+	-moz-border-radius: 9px;
+	-webkit-border-radius: 9px;
+	padding: 6px 6px 5px 6px;
 }
 
 /* Box wrapper to add rounded corners */
