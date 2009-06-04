@@ -32,17 +32,17 @@
 					</td>
 					<td py:when="'created_on'">${audio.created_on.strftime('%b %d %Y')}</td>
 					<td py:when="'status'" py:choose="">
-						<a class="mo review-me" py:when="'pending_review' in audio.status" href="/admin/audio/${audio.id}/edit"><span>review me</span></a>
+						<a class="mo review-me" py:when="'pending_review' in audio.status" href="${h.url_for(controller='audioadmin', action='edit', id=audio.id)}"><span>review me</span></a>
 						<a class="mo encode-me" py:when="'pending_encoding' in audio.status" href="${audio.upload_url}"><span>encode me</span></a>
-						<a class="mo publish-me" py:when="'draft' in audio.status" href="${audio.upload_url}"><span>encode me</span></a>
-						<a class="mo published" py:otherwise="" href="/audio/${audio.slug}"><span>published</span></a>
+						<a class="mo publish-me" py:when="'draft' in audio.status" href="${h.url_for(controller='audioadmin', action='edit', id=audio.id)}"><span>publish me</span></a>
+						<a class="mo published" py:otherwise="" href="${h.url_for(controller='video', action='view', slug=audio.slug)}"><span>published</span></a>
 					</td>
-					<td py:when="'title'"><a href="/admin/audio/${audio.id}/edit">${audio.title}</a></td>
+					<td py:when="'title'"><a href="${h.url_for(controller='audioadmin', action='edit', id=audio.id)}">${audio.title}</a></td>
 					<td py:when="'comment_count'" class="center">${audio.comment_count}</td>
 					<td py:when="'tags'" py:with="tag_count=len(audio.tags)">
 						<py:if test="tag_count == 0">None</py:if>
 						<py:if test="tag_count >= 1" py:for="i, tag in enumerate(audio.tags)">
-							<a href="/audio/tags/${tag.slug}">${tag.name}</a><py:if test="i+1 != tag_count">,</py:if>
+							<a href="${h.url_for(controller='video', action='tags', slug=tag.slug)}">${tag.name}</a><py:if test="i+1 != tag_count">,</py:if>
 						</py:if>
 					</td>
 					<td py:when="'author'">

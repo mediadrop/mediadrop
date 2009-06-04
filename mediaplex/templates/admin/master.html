@@ -23,12 +23,12 @@
 <body py:match="body" py:attrs="select('@*')">
 	<div id="container">
 		<div id="header">
-			<a id="logo" href="/admin"><h2>Mediaplex</h2></a>
+			<a id="logo" href="${h.url_for(controller='admin', action='index')}"><h2>Mediaplex</h2></a>
 			<ul id="menu">
-				<li id="menu-dashboard"><a href="/admin"><span>Dashboard</span></a></li>
-				<li id="menu-videos"><a href="/admin/video"><span>Videos</span></a></li>
-				<li id="menu-podcasts"><a href="/admin/podcasts"><span>Podcasts</span></a></li>
-				<li id="menu-comments"><a href="/admin/comments"><span>Comments</span></a></li>
+				<li id="menu-dashboard"><a href="${h.url_for(controller='admin', action='index')}"><span>Dashboard</span></a></li>
+				<li id="menu-videos"><a href="${h.url_for(controller='videoadmin', action='index')}"><span>Videos</span></a></li>
+				<li id="menu-podcasts"><a href="${h.url_for(controller='podcastadmin', action='index')}"><span>Podcasts</span></a></li>
+				<li id="menu-comments"><a href="${h.url_for(controller='commentadmin', action='index')}"><span>Comments</span></a></li>
 			</ul>
 		</div>
 		<div id="body" py:content="select('*|text()')" />

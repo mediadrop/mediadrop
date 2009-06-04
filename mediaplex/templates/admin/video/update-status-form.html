@@ -1,7 +1,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:py="http://genshi.edgewall.org/"
       py:strip="">
-	<form method="post" action="/admin/video/${video.id}/update_status" id="update-status-form" class="box"
+	<form method="post" action="${h.url_for(controller='videoadmin', action='update_status', id=video.id)}" id="update-status-form" class="box"
 	      py:choose="">
 		<h1 class="box-head">Publish Status</h1>
 		<div class="box-content">

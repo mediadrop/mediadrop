@@ -48,7 +48,7 @@ class VideoadminController(RoutingController):
     @expose('mediaplex.templates.admin.video.edit')
     def edit(self, id, **values):
         video = self._fetch_video(id)
-        form = VideoForm(action='/admin/video/%s/save' % video.id, video=video)
+        form = VideoForm(action=helpers.url_for(action='save', id=video.id), video=video)
         form_values = {
             'slug': video.slug,
             'title': video.title,
@@ -72,7 +72,7 @@ License: General Upload"""
             'video': video,
             'form': form,
             'form_values': form_values,
-            'album_art_form': AlbumArtForm(action='/admin/video/%s/save_album_art' % video.id),
+            'album_art_form': AlbumArtForm(action=helpers.url_for(action='save_album_art', id=video.id)),
         }
     default = edit
 
@@ -84,7 +84,7 @@ License: General Upload"""
             video.status.add('trash')
             DBSession.add(video)
             DBSession.flush()
-            redirect('/admin/video')
+            redirect(helpers.url_for(action='index'))
 
         if video.id == 'new':
             video.id = None
@@ -110,7 +110,7 @@ License: General Upload"""
 
         DBSession.add(video)
         DBSession.flush()
-        redirect('/admin/video/%d/edit' % video.id)
+        redirect(helpers.url_for(action='edit', id=video.id))
 
     @expose()
     @validate(AlbumArtForm(), error_handler=edit)
@@ -121,7 +121,7 @@ License: General Upload"""
         im = Image.open(temp_file)
         im.resize((162, 113), 1).save(im_path % 's')
         im.resize((240, 168), 1).save(im_path % 'm')
-        redirect('/admin/video/%d/edit' % video.id)
+        redirect(helpers.url_for(action='edit', id=video.id))
 
     @expose('mediaplex.templates.admin.video.update-status-form')
     def update_status(self, id, update_button, **values):
