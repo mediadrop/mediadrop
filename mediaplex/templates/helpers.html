@@ -11,10 +11,23 @@
 			<script type="text/javascript" src="/scripts/tags.js"></script>
 			<script type="text/javascript">
 				window.addEvent('domready', function() {
-//					var ts = new TagSlider({container: 'mediaplex-topics'});
+					ts = new SeriesSlider({
+						elements: $('mediaplex-topics').getChildren(),
+						button: 'nav-topics',
+						buttonActiveClass: 'topics-shown',
+						startHidden: ${defined('show_tags') and show_tags and 'false' or 'true'},
+						openFx: [
+							{duration:  50, transition: 'linear'},
+							{duration: 450, transition: 'cubic:out'}
+						],
+						closeFx: [
+							{duration:  50, transition: 'linear'},
+							{duration: 450, transition: 'cubic:in'}
+						]
+					});
 				});
 			</script>
-			<meta py:replace="select('*')"/>
+			<meta py:replace="select('*')" />
 		</head>
 	</py:match>
 
@@ -33,8 +46,25 @@
 				<li id="nav-latest"><a href="${h.url_for(controller='/video', action='flow')}">Latest</a></li>
 				<li id="nav-browse"><a href="${h.url_for(controller='/video')}">Browse All</a></li>
 			</ul>
-<!--!		<a id="nav-topics" class="box-nav-right" href="/video-tags">Topic Index</a>-->
+			<a id="nav-topics" class="box-nav-right topics-shown" href="/video-tags">Topic Index</a>
 			<a id="nav-upload-video" class="box-nav-right" href="${h.url_for(controller='/video', action='upload')}">Upload a Video</a>
+			<div id="mediaplex-topics" class="topic-box">
+				<div class="topic-box-top" />
+				<div><!--! this extra div is here to group elements for the SeriesSlider js -->
+					<div class="topic-box-body">
+						<div id="topics-caption">
+							<div id="topics-dontsee">Don't see the topic you are looking for?</div>
+							<a id="topics-suggest" href="#">Suggest a new topic</a>
+						</div>
+						<ul py:for="col in xrange(1, 5)" py:with="per_col = (len(tags) + 8) / 4">
+							<li py:for="tag in tags[(col-1)*per_col:col*per_col]">
+								<a href="${h.url_for(action='tags', slug=tag.slug)}">${tag}</a>
+							</li>
+						</ul>
+					</div>
+					<div class="topic-box-bottom" />
+				</div>
+			</div>
 			<div py:replace="select('*|text()')" />
 		</div>
 	</py:match>
