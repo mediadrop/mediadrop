@@ -11,6 +11,7 @@ from tg.decorators import paginate, expose, validate, require
 from sqlalchemy import and_, or_
 from sqlalchemy.orm import eagerload, undefer
 from repoze.what.predicates import has_permission
+from pylons import tmpl_context
 
 from mediaplex.lib import helpers
 from mediaplex.lib.helpers import expose_xhr
@@ -62,6 +63,11 @@ class VideoadminController(RoutingController):
                 'url': video.url or video.upload_url
             },
         }
+
+        album_art_form_errors = {}
+        if tmpl_context.action == 'save_album_art':
+            album_art_form_errors = tmpl_context.form_errors
+
         if video.id == 'new' and not video.notes:
             form_values['notes'] = """Bible References: None
 S&H References: None
@@ -72,6 +78,7 @@ License: General Upload"""
             'video': video,
             'form': form,
             'form_values': form_values,
+            'album_art_form_errors': album_art_form_errors,
             'album_art_form': AlbumArtForm(action=helpers.url_for(action='save_album_art', id=video.id)),
         }
     default = edit

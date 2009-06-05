@@ -5,19 +5,8 @@
 	<h1 class="box-head">Album Art</h1>
 	<form id="${id}" name="${name}" action="${action}" method="${method}" class="${css_class}" py:attrs="attrs">
 		<div class="box-content right">
-			<div class="field-error" py:if="error and show_error" py:content="error" />
-			<div py:if="hidden_fields">
-				<div py:for="field in hidden_fields"
-					 py:with="error=error_for(field)"
-					 py:strip="True">
-					<span py:replace="field.display(value_for(field), **args_for(field))" />
-					<span py:if="show_children_errors and error and not field.show_error"
-						  class="field-error" py:content="error" />
-				</div>
-			</div>
 			<span class="f-lft">Please select another image for upload:</span>
 			${XML(children['album_art'])}
-			<span py:if="error and not error.error_dict" class="field-error" py:content="error" />
 		</div>
 		<div class="box-foot">
 			${XML(children['save'])}

@@ -39,7 +39,14 @@ class AlbumArtForm(ListForm):
     submit_text = None
 
     fields = [
-        FileField('album_art', validator=NotEmpty),
+        FileField(
+            'album_art',
+            validator = NotEmpty(
+                messages = {
+                    'empty': 'You forgot to select an image!'
+                }
+            )
+        ),
         SubmitButton('save', default='Save', css_classes=['mo', 'btn-save', 'f-rgt']),
 #        ResetButton('cancel', default='Cancel', css_classes=['btn-save', 'f-rgt']),
 #        SubmitButton('delete', default='Delete', css_classes=['btn-delete']),
