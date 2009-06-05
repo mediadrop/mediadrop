@@ -39,7 +39,7 @@ class AlbumArtForm(ListForm):
     submit_text = None
 
     fields = [
-        FileField('album_art'),
+        FileField('album_art', validator=NotEmpty),
         SubmitButton('save', default='Save', css_classes=['mo', 'btn-save', 'f-rgt']),
 #        ResetButton('cancel', default='Cancel', css_classes=['btn-save', 'f-rgt']),
 #        SubmitButton('delete', default='Delete', css_classes=['btn-delete']),
