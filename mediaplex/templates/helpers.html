@@ -11,17 +11,19 @@
 			<script type="text/javascript" src="/scripts/tags.js"></script>
 			<script type="text/javascript">
 				window.addEvent('domready', function() {
-					ts = new SeriesSlider({
-						elements: $('mediaplex-topics').getChildren(),
+					var topicIndexFlyout = new ButtonFlyout({
 						button: 'nav-topics',
 						buttonActiveClass: 'topics-shown',
+						elements: $('mediaplex-topics').getChildren(),
 						startHidden: ${defined('show_tags') and show_tags and 'false' or 'true'},
 						openFx: [
-							{duration:  50, transition: 'linear'},
+							{duration:  30, transition: 'linear'},
+							{duration:  20, transition: 'linear'},
 							{duration: 450, transition: 'cubic:out'}
 						],
 						closeFx: [
-							{duration:  50, transition: 'linear'},
+							{duration:  30, transition: 'linear'},
+							{duration:  20, transition: 'linear'},
 							{duration: 450, transition: 'cubic:in'}
 						]
 					});
@@ -49,8 +51,9 @@
 			<a id="nav-topics" class="box-nav-right topics-shown" href="/video-tags">Topic Index</a>
 			<a id="nav-upload-video" class="box-nav-right" href="${h.url_for(controller='/video', action='upload')}">Upload a Video</a>
 			<div id="mediaplex-topics" class="topic-box">
-				<div class="topic-box-top" />
-				<div><!--! this extra div is here to group elements for the SeriesSlider js -->
+				<div class="topic-box-top1" />
+				<div class="topic-box-top2" />
+				<div><!--! this extra div is here to group elements for the ButtonFlyout js -->
 					<div class="topic-box-body">
 						<div id="topics-caption">
 							<div id="topics-dontsee">Don't see the topic you are looking for?</div>

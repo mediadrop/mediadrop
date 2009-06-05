@@ -7,24 +7,24 @@
  *
  * @author Nathan Wright
  */
-var SeriesSlider = new Class({
+var ButtonFlyout = new Class({
 
 	Implements: [Options, Chain],
 
 	options: {
-		elements: '',
 		button: '',
 		buttonActiveClass: '',
+		elements: '', // elements that slide out
 		startHidden: true,
 		fx: {}, // defaults overridden by openFx & closeFx
 		openFx: [], // on open fx options per element
-		closeFx: [] // on open fx options per element
+		closeFx: [] // on close fx options per element
 	},
 
-	elements: null,
 	button: null,
-	open: true,
+	elements: null,
 	fx: [],
+	open: true,
 
 	initialize: function(opts){
 		this.setOptions(opts);
@@ -47,8 +47,9 @@ var SeriesSlider = new Class({
 			for (var i = this.fx.length; i--; i) this.chain(this._startFx.bind(this, [i, how]));
 			this.chain(this._setOpen.bind(this, [false, true]));
 		}
-		this.chain(this._swapFxOptions.bind(this));
-		return this.callChain();
+		this.chain(this._swapFxOptions.bind(this))
+		    .callChain();
+		return this;
 	},
 
 	toggle: function(e){
@@ -74,14 +75,14 @@ var SeriesSlider = new Class({
 		           ._swapFxOptions();
 	},
 
-	_setOpen: function(flag, callChainAfter){
+	_setOpen: function(flag, callChain){
 		this.open = !!flag;
 		if (this.open) {
 			this.button.addClass(this.options.buttonActiveClass);
 		} else {
 			this.button.removeClass(this.options.buttonActiveClass);
 		}
-		if (callChainAfter) this.callChain();
+		if (callChain) this.callChain();
 		return this;
 	},
 

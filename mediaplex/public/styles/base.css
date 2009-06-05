@@ -202,10 +202,8 @@ a#nav-topics:hover, a#nav-upload-video:hover { background-position: 0 -39px; }
 	width: 898px;
 	overflow: hidden;
 }
-.topic-box-top {
-	height: 24px;
-	background: url('../images/layout/topic-box-top.png') no-repeat;
-}
+.topic-box-top1 { height: 16px; background: url('../images/layout/topic-box-top1.png') no-repeat top right; }
+.topic-box-top2 { height: 10px; background: url('../images/layout/topic-box-top2.png') no-repeat top right; }
 .topic-box-bottom {
 	height: 10px;
 	background: url('../images/layout/topic-box-bottom.png') no-repeat;
