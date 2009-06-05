@@ -46,7 +46,7 @@ PENDING_REVIEW = Status('pending_review', 16)
 STATUSES = dict((int(s), s) for s in (TRASH, PUBLISH, DRAFT, PENDING_ENCODING, PENDING_REVIEW))
 """Dictionary of allowed statuses, bitmask value(int) => Status(unicode) instance"""
 
-class VideoStatusSet(StatusSet):
+class MediaStatusSet(StatusSet):
     _valid_els = STATUSES
 
 
@@ -57,7 +57,7 @@ media = Table('media', metadata,
     Column('created_on', DateTime, default=datetime.now, nullable=False),
     Column('modified_on', DateTime, default=datetime.now, onupdate=datetime.now, nullable=False),
     Column('publish_on', DateTime),
-    Column('status', StatusType(VideoStatusSet), default=PUBLISH, nullable=False),
+    Column('status', StatusType(MediaStatusSet), default=PUBLISH, nullable=False),
     Column('title', Unicode(50), nullable=False),
     Column('description', UnicodeText),
     Column('notes', UnicodeText),
@@ -102,7 +102,7 @@ class Media(object):
             self.author = Author()
 
         if self.status is None:
-            self.status = VideoStatusSet()
+            self.status = MediaStatusSet()
 
     def __repr__(self):
         return '<Media: %s>' % self.slug
