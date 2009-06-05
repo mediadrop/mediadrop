@@ -38,12 +38,10 @@
 			<h1 class="box-head">Awaiting Review</h1>
 			<xi:include href="video/dash-table.html" py:with="videos=review_page.items; id='review-table';" />
 		</div>
-		<br /><br />
 		<div class="box">
 			<h1 class="box-head">Awaiting Encoding</h1>
 			<xi:include href="video/dash-table.html" py:with="videos=encode_page.items; id='encode-table';" />
 		</div>
-		<br /><br />
 		<div class="box">
 			<h1 class="box-head">Awaiting Publishing</h1>
 			<xi:include href="video/dash-table.html" py:with="videos=publish_page.items; id='publish-table';" />
@@ -57,7 +55,6 @@
 				There has been a total of <a class="total" href="${h.url_for(controller='/commentadmin')}">${num_comments_total}</a> comments on media.
 			</p>
 		</div>
-		<br /><br />
 		<div class="box">
 			<h1 class="box-head">Recently Published</h1>
 			<xi:include href="video/_video-table.html" />
