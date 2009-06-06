@@ -8,6 +8,7 @@
 <head>
 	<title>Podcasts</title>
 	<link href="/admin/styles/media.css" media="screen" rel="stylesheet" type="text/css" />
+	<link href="/admin/styles/podcasts.css" media="screen" rel="stylesheet" type="text/css" />
 	<script type="text/javascript" src="/admin/scripts/show-more.js"></script>
 	<script type="text/javascript">
 		window.addEvent('domready', function(){
@@ -22,13 +23,30 @@
 <body class="menu-podcasts-on">
 	<div class="box">
 		<div class="box-head">
+			<h1>Podcasts</h1>
+		</div>
+		<div class="box-content">
+			<ul class="podcast-list">
+				<li py:if="len(podcasts.all()) > 1" class="${podcast_filter is None and 'selected' or None}"><a href="${h.url_for()}">All</a></li>
+				<li py:for="podcast in podcasts" class="hover-container ${podcast_filter == str(podcast.id) and 'selected' or None}"><a href="${h.url_for(podcast_filter=podcast.id)}">${podcast.title}</a><span class="hover-target"> | <a class="edit-podcast" ref="">Edit</a></span></li>
+				<li py:if="show_unfiled" class="${podcast_filter == 'Unfiled' and 'selected' or None}"><a href="${h.url_for(podcast_filter='Unfiled')}">Unfiled</a></li>
+			</ul>
+			<hr class="clear" />
+		</div>
+	</div>
+	<div class="box">
+		<div class="box-head">
 			<div id="quicksearch" class="f-rgt">
 				${XML(search_form(search))}
 			</div>
-			<h1 py:if="not search">All Audio</h1>
-			<h1 py:if="search">Audio that matches '${search}'</h1>
+			<div py:choose="" py:strip="True">
+				<h1 py:when="search">Audio that matches '${search}'</h1>
+				<h1 py:when="podcast_filter == 'Unfiled'">Unfiled Audio</h1>
+				<h1 py:when="podcast_filter is None">All Audio</h1>
+				<h1 py:otherwise="">Audio for ${podcast_filter_title}</h1>
+			</div>
 		</div>
-		<xi:include href="../podcasts/index-table.html" py:with="audio=audio" />
+		<xi:include href="../audio/index-table.html" py:with="audio=audio" />
 	</div>
 </body>
 </html>

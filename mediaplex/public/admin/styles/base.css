@@ -53,20 +53,6 @@ body {
 	text-align: center;
 }
 
-hr {
-	background: #d9d9d9;
-	color: #d9d9d9;
-	clear: both;
-	width: 100%;
-	height: .1em;
-	margin: 0 0 1.45em;
-	border: 0;
-}
-
-.clear {
-	clear: both;
-}
-
 #container {
 	width: 950px;
 	margin: 0 auto;
