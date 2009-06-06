@@ -37,6 +37,7 @@ from mediaplex.model.tags import Tag, TagCollection, tags, extract_tags, fetch_a
 from mediaplex.model.status import Status, StatusSet, StatusComparator, StatusType, StatusTypeExtension
 from mediaplex.lib.helpers import slugify
 
+
 TRASH = Status('trash', 1)
 PUBLISH = Status('publish', 2)
 DRAFT = Status('draft', 4)
@@ -54,21 +55,36 @@ media = Table('media', metadata,
     Column('id', Integer, autoincrement=True, primary_key=True),
     Column('type', Unicode(10), nullable=False),
     Column('slug', String(50), unique=True, nullable=False),
+    Column('status', StatusType(MediaStatusSet), default=PUBLISH, nullable=False),
+    Column('podcast_id', Integer, ForeignKey('podcasts.id', onupdate='CASCADE', ondelete='CASCADE')),
+
     Column('created_on', DateTime, default=datetime.now, nullable=False),
     Column('modified_on', DateTime, default=datetime.now, onupdate=datetime.now, nullable=False),
     Column('publish_on', DateTime),
-    Column('status', StatusType(MediaStatusSet), default=PUBLISH, nullable=False),
+    Column('publish_until', DateTime),
+
     Column('title', Unicode(50), nullable=False),
+    Column('subtitle', Unicode(255)),
     Column('description', UnicodeText),
     Column('notes', UnicodeText),
+
     Column('duration', Integer, default=0, nullable=False),
     Column('views', Integer, default=0, nullable=False),
-    Column('upload_url', Unicode(255)),
-    Column('url', Unicode(255)),
-    Column('author_name', Unicode(50), nullable=False),
-    Column('author_email', Unicode(255), nullable=False),
     Column('rating_sum', Integer, default=0, nullable=False),
     Column('rating_votes', Integer, default=0, nullable=False),
+
+    Column('author_name', Unicode(50), nullable=False),
+    Column('author_email', Unicode(255), nullable=False),
+)
+
+media_files = Table('media_files', metadata,
+    Column('id', Integer, autoincrement=True, primary_key=True),
+    Column('media_id', Integer, ForeignKey('media.id', onupdate='CASCADE', ondelete='CASCADE'), nullable=False),
+    Column('type', String(4), nullable=False),
+    Column('size', Integer),
+    Column('bitrate', Integer),
+    Column('url', String(255), nullable=False),
+    Column('is_original', Boolean, default=False, nullable=False),
 )
 
 media_tags = Table('media_tags', metadata,
@@ -128,13 +144,21 @@ class Audio(Media):
         return '<Audio: %s>' % self.slug
 
 
+class MediaFile(object):
+    """Metadata of files which belong to a certain media item"""
+    pass
+
+
+mapper(MediaFile, media_files)
+
 media_mapper = mapper(Media, media, polymorphic_on=media.c.type, properties={
     'status': column_property(media.c.status, extension=StatusTypeExtension(), comparator_factory=StatusComparator),
     'author': composite(Author, media.c.author_name, media.c.author_email),
     'rating': composite(Rating, media.c.rating_sum, media.c.rating_votes),
+
+    'files': relation(MediaFile, backref='media', passive_deletes=True),
     'tags': relation(Tag, secondary=media_tags, backref='media', collection_class=TagCollection),
-#TODO: Reimplement as a dynamic_loader instead of a relation. Better performance for larger datasets.
-#      Just need to rethink the CommentTypeMapper because dyamic_loaders don't support extensions.
+
     'comments': relation(Comment, secondary=media_comments, backref=backref('media', uselist=False),
         extension=CommentTypeExtension(u'media'), single_parent=True, passive_deletes=True),
     'comment_count':
@@ -150,6 +174,8 @@ media_mapper = mapper(Media, media, polymorphic_on=media.c.type, properties={
             deferred=True
         )
 })
+mapper(Audio, inherits=media_mapper, polymorphic_identity='audio')
+mapper(Video, inherits=media_mapper, polymorphic_identity='video')
 
 tags_mapper = mapper(Tag, tags, properties={
     'media_count':
@@ -165,6 +191,3 @@ tags_mapper = mapper(Tag, tags, properties={
             deferred=True
         )
 })
-
-mapper(Audio, inherits=media_mapper, polymorphic_identity=u'audio')
-mapper(Video, inherits=media_mapper, polymorphic_identity=u'video')
