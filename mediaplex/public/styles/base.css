@@ -219,15 +219,19 @@ a#nav-topics:hover, a#nav-upload-video:hover { background-position: 0 -39px; }
 	width: 25%;
 	float: left;
 }
+.topic-box li {
+	display: block;
+	margin: 3px 0;
+	height: auto;
+	text-indent: 0;
+}
 .topic-box a:link,
 .topic-box a:visited {
 	color: #B1D1EF;
 	text-decoration: none;
 	text-shadow: black 1px;
-	text-indent: 0;
+	display: inline;
 	float: none;
-	height: auto;
-	margin: 3px 0;
 }
 .topic-box a:hover {
 	color: #fff;
