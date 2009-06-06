@@ -54,4 +54,7 @@ class TagCollection(list):
         return ', '.join([tag.name for tag in self.values()])
 
 
-mapper(Tag, tags)
+"""
+  NB: Mapper object for tags is defined in ./media.py, to prevent circular imports.
+"""
+

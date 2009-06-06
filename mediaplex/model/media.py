@@ -25,15 +25,15 @@ Things to be aware of:
 """
 
 from datetime import datetime
-from sqlalchemy import Table, ForeignKey, Column, sql
+from sqlalchemy import Table, ForeignKey, Column, sql, and_, or_, func
 from sqlalchemy.types import String, Unicode, UnicodeText, Integer, DateTime, Boolean, Float
 from sqlalchemy.orm import mapper, relation, backref, synonym, composite, column_property, comparable_property, validates
 
 from mediaplex.model import DeclarativeBase, metadata, DBSession
 from mediaplex.model.authors import Author
 from mediaplex.model.rating import Rating
-from mediaplex.model.comments import Comment, CommentTypeExtension
-from mediaplex.model.tags import Tag, TagCollection, extract_tags, fetch_and_create_tags
+from mediaplex.model.comments import Comment, CommentTypeExtension, comments
+from mediaplex.model.tags import Tag, TagCollection, tags, extract_tags, fetch_and_create_tags
 from mediaplex.model.status import Status, StatusSet, StatusComparator, StatusType, StatusTypeExtension
 from mediaplex.lib.helpers import slugify
 
@@ -137,9 +137,34 @@ media_mapper = mapper(Media, media, polymorphic_on=media.c.type, properties={
 #      Just need to rethink the CommentTypeMapper because dyamic_loaders don't support extensions.
     'comments': relation(Comment, secondary=media_comments, backref=backref('media', uselist=False),
         extension=CommentTypeExtension(u'media'), single_parent=True, passive_deletes=True),
-    'comment_count': column_property(
-        sql.select([sql.func.count(media_comments.c.comment_id)], media.c.id == media_comments.c.media_id).label('comment_count'),
-        deferred=True)
+    'comment_count':
+        column_property(
+            sql.select(
+                [sql.func.count(media_comments.c.comment_id)],
+                and_(
+                    media.c.id == media_comments.c.media_id,
+                    comments.c.id == media_comments.c.comment_id,
+                    comments.c.status.op('&')(2) == 2# note that 2 is the ID of the comments 'publish' STATUS
+                )
+            ).label('comment_count'),
+            deferred=True
+        )
 })
+
+tags_mapper = mapper(Tag, tags, properties={
+    'media_count':
+        column_property(
+            sql.select(
+                [sql.func.count(media_tags.c.tag_id)],
+                and_(
+                    media.c.id == media_tags.c.media_id,
+                    tags.c.id == media_tags.c.tag_id,
+                    media.c.status.op('&')(2) == 2 # note that 2 is the ID of the media 'publish' STATUS
+                )
+            ).label('media_count'),
+            deferred=True
+        )
+})
+
 mapper(Audio, inherits=media_mapper, polymorphic_identity=u'audio')
 mapper(Video, inherits=media_mapper, polymorphic_identity=u'video')

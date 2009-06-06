@@ -79,7 +79,11 @@ class VideoController(RoutingController):
         )
 
     def _fetch_tags(self):
-        return DBSession.query(Tag).order_by(Tag.name).all()
+        return DBSession.query(Tag)\
+                        .options(undefer('media_count'))\
+                        .filter(Tag.media_count >= 1)\
+                        .order_by(Tag.name)\
+                        .all()
 
     @expose('mediaplex.templates.video.view')
     def view(self, slug, **values):
