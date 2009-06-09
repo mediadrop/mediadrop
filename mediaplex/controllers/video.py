@@ -12,12 +12,11 @@ from urlparse import urlparse, urlunparse
 from cgi import parse_qs
 from PIL import Image
 from datetime import datetime
-from tg import expose, validate, flash, require, url, request, response, redirect, config
+from tg import expose, validate, flash, require, url, request, response, redirect, config, tmpl_context
 from tg.decorators import paginate
 from tg.controllers import CUSTOM_CONTENT_TYPE
 from formencode import validators
 from pylons.i18n import ugettext as _
-from pylons import tmpl_context
 from sqlalchemy import and_, or_
 from sqlalchemy.orm import eagerload, undefer
 
@@ -38,6 +37,9 @@ upload_form = UploadForm(
 
 class VideoController(RoutingController):
     """Public video list actions"""
+    def __init__(self, *args, **kwargs):
+        super(VideoController, self).__init__(*args, **kwargs)
+        tmpl_context.tags = self._fetch_tags()
 
     @expose('mediaplex.templates.video.index')
     @paginate('videos', items_per_page=25)
@@ -45,7 +47,6 @@ class VideoController(RoutingController):
         """Grid-style List Action"""
         return dict(
             videos = self._list_query.options(undefer('comment_count')),
-            tags = self._fetch_tags()
         )
 
     @expose('mediaplex.templates.video.mediaflow')
@@ -54,7 +55,6 @@ class VideoController(RoutingController):
         """Mediaflow Action"""
         return dict(
             videos = self._list_query.order_by(Video.publish_on.desc())[:15],
-            tags = self._fetch_tags()
         )
 
     @property
@@ -72,10 +72,9 @@ class VideoController(RoutingController):
         video_query = self._list_query\
             .filter(Video.tags.contains(tag))\
             .options(undefer('comment_count'))
+        tmpl_context.show_tags = True
         return dict(
             videos = video_query,
-            tags = self._fetch_tags(),
-            show_tags = True
         )
 
     def _fetch_tags(self):
@@ -95,7 +94,6 @@ class VideoController(RoutingController):
             video = video,
             comment_form = form,
             form_values = values,
-            tags = self._fetch_tags()
         )
 
     @expose_xhr()
@@ -155,7 +153,6 @@ class VideoController(RoutingController):
     @validate(upload_form)
     def upload(self, **kwargs):
         return dict(
-            tags = self._fetch_tags(),
             upload_form = upload_form,
             form_values = kwargs
         )
@@ -228,6 +225,7 @@ class VideoController(RoutingController):
         video.title = title
         video.slug = title
         video.description = description
+        video.status = 'draft,pending_encoding,pending_review'
         video.notes = """Bible References: None
 S&H References: None
 Reviewer: None
@@ -237,36 +235,39 @@ License: General Upload"""
         slug_appendix = 2
         while DBSession.query(Video.id).filter(Video.slug == video.slug).first():
             if slug_appendix > 2:
-                # remove the attempt from the last iteration
                 video.slug = video.slug[:-1-int(math.ceil(slug_appendix/float(10)))]
             video.slug += '-' + str(slug_appendix)
             slug_appendix += 1
 
         # save the object to our database to get an ID
         DBSession.add(video)
-        DBSession.flush([video])
-
-        # set the rest of our video data
-        video.status = 'draft,pending_encoding,pending_review'
-        video.set_tags(tags)
+        DBSession.flush()
 
         # set up the permanent filename for this upload
         file_name = str(video.id) + '-' + email + '-' + file.filename
         file_name = file_name.lstrip(os.path.sep)
-        file_type = os.path.splitext(file_name)[1].lower()
+        file_type = os.path.splitext(file_name)[1].lower()[1:]
 
         # set the file paths depending on the file type
-        video.upload_url = file_name
-        if file_type == '.flv':
-            video.url = video.upload_url
-            video.status.discard('pending_encoding')
+        media_file = MediaFile()
+        media_file.type = file_type
+        media_file.url = file_name
+        media_file.is_original = True
 
         # copy the file to its permanent location
         file_path = os.path.join(config.media_dir, file_name)
         permanent_file = open(file_path, 'w')
         shutil.copyfileobj(file.file, permanent_file)
         file.file.close()
+        media_file.size = os.fstat(permanent_file.fileno())[6]
         permanent_file.close()
+
+        # update video relations
+        video.files.append(media_file)
+        if file_type == 'flv':
+            video.status.discard('pending_encoding')
+
+        video.set_tags(tags)
 
         DBSession.add(video)
         DBSession.flush()
