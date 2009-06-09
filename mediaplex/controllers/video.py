@@ -24,7 +24,7 @@ from sqlalchemy.orm import eagerload, undefer
 from mediaplex.lib import helpers
 from mediaplex.lib.helpers import expose_xhr
 from mediaplex.lib.base import Controller, RoutingController
-from mediaplex.model import DBSession, metadata, Video, Comment, Tag, Author, AuthorWithIP
+from mediaplex.model import DBSession, metadata, Video, Media, MediaFile, Comment, Tag, Author, AuthorWithIP
 from mediaplex.forms.admin import SearchForm
 from mediaplex.forms.video import VideoForm, AlbumArtForm, UploadForm
 from mediaplex.forms.comments import PostCommentForm
@@ -133,11 +133,17 @@ class VideoController(RoutingController):
 
     @expose(content_type=CUSTOM_CONTENT_TYPE)
     def serve(self, slug, **kwargs):
-        video = self._fetch_video(slug)
-        file_path = os.path.join(config.media_dir, video.url)
-        file = open(file_path, 'rb')
-        response.content_type = 'video/x-flv'
-        return file.read()
+        """ FIXME: Works but needs to support types properly -- as does media_player view helper """
+        type = 'flv'
+        query = DBSession.query(MediaFile).filter(Media.slug == slug)
+        if type is not None:
+            query.filter_by(type=type)
+        file = query.first()
+        file_path = os.path.join(config.media_dir, file.url)
+        file_handle = open(file_path, 'rb')
+        types = dict(flv='video/x-flv')
+        response.content_type = types[file.type]
+        return file_handle.read()
 
     def _fetch_video(self, slug):
         return DBSession.query(Video)\

@@ -27,7 +27,7 @@ Things to be aware of:
 from datetime import datetime
 from sqlalchemy import Table, ForeignKey, Column, sql, and_, or_, func
 from sqlalchemy.types import String, Unicode, UnicodeText, Integer, DateTime, Boolean, Float
-from sqlalchemy.orm import mapper, relation, backref, synonym, composite, column_property, comparable_property, validates
+from sqlalchemy.orm import mapper, relation, backref, synonym, composite, column_property, comparable_property, validates, collections
 
 from mediaplex.model import DeclarativeBase, metadata, DBSession
 from mediaplex.model.authors import Author
@@ -80,10 +80,12 @@ media = Table('media', metadata,
 media_files = Table('media_files', metadata,
     Column('id', Integer, autoincrement=True, primary_key=True),
     Column('media_id', Integer, ForeignKey('media.id', onupdate='CASCADE', ondelete='CASCADE'), nullable=False),
-    Column('type', String(4), nullable=False),
-    Column('size', Integer),
-    Column('bitrate', Integer),
+    Column('type', String(10), nullable=False),
     Column('url', String(255), nullable=False),
+    Column('size', Integer),
+    Column('width', Integer),
+    Column('height', Integer),
+    Column('bitrate', Integer),
     Column('is_original', Boolean, default=False, nullable=False),
 )
 
@@ -146,7 +148,8 @@ class Audio(Media):
 
 class MediaFile(object):
     """Metadata of files which belong to a certain media item"""
-    pass
+    def __repr__(self):
+        return '<MediaFile: type=%s url=%s>' % (self.type, self.url)
 
 
 mapper(MediaFile, media_files)
@@ -155,12 +158,10 @@ media_mapper = mapper(Media, media, polymorphic_on=media.c.type, properties={
     'status': column_property(media.c.status, extension=StatusTypeExtension(), comparator_factory=StatusComparator),
     'author': composite(Author, media.c.author_name, media.c.author_email),
     'rating': composite(Rating, media.c.rating_sum, media.c.rating_votes),
-
     'files': relation(MediaFile, backref='media', passive_deletes=True),
     'tags': relation(Tag, secondary=media_tags, backref='media', collection_class=TagCollection),
-
     'comments': relation(Comment, secondary=media_comments, backref=backref('media', uselist=False),
-        extension=CommentTypeExtension(u'media'), single_parent=True, passive_deletes=True),
+        extension=CommentTypeExtension('media'), single_parent=True, passive_deletes=True),
     'comment_count':
         column_property(
             sql.select(
