@@ -27,12 +27,14 @@ var ThumbRater = new Class({
 		if (e != undefined) new Event(e).stop();
 		this._rate(this.upButton.get('href'));
 		this.upButton.set('href', '#').removeEvents('click');
+		return this;
 	},
 
 	rateDown: function(e) {
 		if (e != undefined) new Event(e).stop();
 		this._rate(this.downButton.get('href'));
 		this.downButton.set('href', '#').removeEvents('click');
+		return this;
 	},
 
 	_rate: function(url) {
@@ -45,7 +47,7 @@ var ThumbRater = new Class({
 	rated: function(responseJSON) {
 		if (!responseJSON.success) return;
 		this.upCounter.set('text', responseJSON.upRating);
-		if (responseJSON.downRating != undefined) {
+		if (this.downCounter && responseJSON.downRating != undefined) {
 			this.downCounter.set('text', responseJSON.downRating);
 		}
 	}
