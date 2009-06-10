@@ -87,6 +87,8 @@ media_files = Table('media_files', metadata,
     Column('height', Integer),
     Column('bitrate', Integer),
     Column('is_original', Boolean, default=False, nullable=False),
+    Column('created_on', DateTime, default=datetime.now, nullable=False),
+    Column('modified_on', DateTime, default=datetime.now, onupdate=datetime.now, nullable=False),
 )
 
 media_tags = Table('media_tags', metadata,

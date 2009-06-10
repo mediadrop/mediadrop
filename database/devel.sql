@@ -135,6 +135,8 @@ CREATE TABLE `media_files` (
   `height` smallint(5) unsigned default NULL,
   `bitrate` smallint(5) unsigned default NULL,
   `is_original` tinyint(1) NOT NULL default '0',
+  `created_on` datetime NOT NULL,
+  `modified_on` datetime NOT NULL,
   PRIMARY KEY  (`id`),
   KEY `media_files_ibfk_1` (`media_id`),
   CONSTRAINT `media_files_ibfk_1` FOREIGN KEY (`media_id`) REFERENCES `media` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -147,7 +149,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `media_files` WRITE;
 /*!40000 ALTER TABLE `media_files` DISABLE KEYS */;
-INSERT INTO `media_files` VALUES (2,1,'flv','1-black-knight.flv',8322240,NULL,NULL,NULL,1),(3,2,'youtube','9V7zbWNznbs',NULL,NULL,NULL,NULL,1),(4,3,'youtube','Xe1a1wHxTyo',NULL,NULL,NULL,NULL,1),(5,4,'youtube','XcxKIJTb3Hg',NULL,NULL,NULL,NULL,1),(6,5,'youtube','5Xd_zkMEgkI',NULL,NULL,NULL,NULL,1),(7,6,'youtube','rzcLQRXW6B0',NULL,NULL,NULL,NULL,1),(8,7,'youtube','-jO1EOhGkY0',NULL,NULL,NULL,NULL,1),(9,8,'youtube','grbSQ6O6kbs',NULL,NULL,NULL,NULL,1),(10,9,'youtube','IMxWLuOFyZM',NULL,NULL,NULL,NULL,1),(11,10,'youtube','c4SJ0xR2_bQ',NULL,NULL,NULL,NULL,1),(12,11,'youtube','ekO3Z3XWa0Q',NULL,NULL,NULL,NULL,1),(13,12,'youtube','QTQfGd3G6dg',NULL,NULL,NULL,NULL,1),(14,13,'youtube','JTbrIo1p-So',NULL,NULL,NULL,NULL,1),(15,14,'youtube','apDGPl2SfpA',NULL,NULL,NULL,NULL,1),(16,15,'youtube','9hmDZz5pDOQ',NULL,NULL,NULL,NULL,1),(17,16,'flv','21-email@email.com-burglary.flv',5173248,NULL,NULL,NULL,1);
+INSERT INTO `media_files` VALUES (2,1,'flv','1-black-knight.flv',8322240,NULL,NULL,NULL,1,'2009-06-09 20:39:57','2009-06-09 20:39:57'),(3,2,'youtube','9V7zbWNznbs',NULL,NULL,NULL,NULL,1,'2009-06-09 20:39:57','2009-06-09 20:39:57'),(4,3,'youtube','Xe1a1wHxTyo',NULL,NULL,NULL,NULL,1,'2009-06-09 20:39:57','2009-06-09 20:39:57'),(5,4,'youtube','XcxKIJTb3Hg',NULL,NULL,NULL,NULL,1,'2009-06-09 20:39:57','2009-06-09 20:39:57'),(6,5,'youtube','5Xd_zkMEgkI',NULL,NULL,NULL,NULL,1,'2009-06-09 20:39:57','2009-06-09 20:39:57'),(7,6,'youtube','rzcLQRXW6B0',NULL,NULL,NULL,NULL,1,'2009-06-09 20:39:57','2009-06-09 20:39:57'),(8,7,'youtube','-jO1EOhGkY0',NULL,NULL,NULL,NULL,1,'2009-06-09 20:39:57','2009-06-09 20:39:57'),(9,8,'youtube','grbSQ6O6kbs',NULL,NULL,NULL,NULL,1,'2009-06-09 20:39:57','2009-06-09 20:39:57'),(10,9,'youtube','IMxWLuOFyZM',NULL,NULL,NULL,NULL,1,'2009-06-09 20:39:57','2009-06-09 20:39:57'),(11,10,'youtube','c4SJ0xR2_bQ',NULL,NULL,NULL,NULL,1,'2009-06-09 20:39:57','2009-06-09 20:39:57'),(12,11,'youtube','ekO3Z3XWa0Q',NULL,NULL,NULL,NULL,1,'2009-06-09 20:39:57','2009-06-09 20:39:57'),(13,12,'youtube','QTQfGd3G6dg',NULL,NULL,NULL,NULL,1,'2009-06-09 20:39:57','2009-06-09 20:39:57'),(14,13,'youtube','JTbrIo1p-So',NULL,NULL,NULL,NULL,1,'2009-06-09 20:39:57','2009-06-09 20:39:57'),(15,14,'youtube','apDGPl2SfpA',NULL,NULL,NULL,NULL,1,'2009-06-09 20:39:57','2009-06-09 20:39:57'),(16,15,'youtube','9hmDZz5pDOQ',NULL,NULL,NULL,NULL,1,'2009-06-09 20:39:57','2009-06-09 20:39:57'),(17,16,'flv','21-email@email.com-burglary.flv',5173248,NULL,NULL,NULL,1,'2009-06-09 20:39:57','2009-06-09 20:39:57');
 /*!40000 ALTER TABLE `media_files` ENABLE KEYS */;
 UNLOCK TABLES;
 
