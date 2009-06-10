@@ -24,8 +24,7 @@ from mediaplex.lib import helpers
 from mediaplex.lib.helpers import expose_xhr
 from mediaplex.lib.base import Controller, RoutingController
 from mediaplex.model import DBSession, metadata, Video, Media, MediaFile, Comment, Tag, Author, AuthorWithIP
-from mediaplex.forms.admin import SearchForm
-from mediaplex.forms.video import VideoForm, AlbumArtForm, UploadForm
+from mediaplex.forms.media import UploadForm
 from mediaplex.forms.comments import PostCommentForm
 
 
