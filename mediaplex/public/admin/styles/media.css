@@ -39,10 +39,10 @@ a.published {
 	width: 79px;
 	height: 19px;
 }
-a.review-me { background-image: url('../images/statuses/review-both-trans.png'); }
-a.encode-me { background-image: url('../images/statuses/encode-both-trans.png'); }
+a.review-me { background-image: url('../images/statuses/review-both.png'); }
+a.encode-me { background-image: url('../images/statuses/encode-both.png'); }
 a.publish-me { background-image: url('../images/statuses/publish-me.png'); }
-a.published { background-image: url('../images/statuses/published-both-trans.png'); }
+a.published { background-image: url('../images/statuses/published-both.png'); }
 
 a.review {
 	color: #862254;

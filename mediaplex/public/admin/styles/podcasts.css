@@ -1,7 +1,7 @@
 ul.podcast-list li {
 	float: left;
 	margin-right: 20px;
-	background: transparent url('../images/icons/podcast-trans.png') no-repeat left center;
+	background: transparent url('../images/icons/podcast.png') no-repeat left center;
 	padding: 5px 0 5px 20px;
 	font-size: 14px;
 }
