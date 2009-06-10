@@ -99,11 +99,11 @@ body {
 }
 #menu li a span { display: none; }
 #menu-dashboard a { background-image: url('../images/menu/dashboard.png'); width: 120px; }
-#menu-videos    a { background-image: url('../images/menu/videos.png');    width:  89px; }
+#menu-media     a { background-image: url('../images/menu/media.png');    width:  89px; }
 #menu-podcasts  a { background-image: url('../images/menu/podcasts.png');  width: 106px; }
 #menu-comments  a { background-image: url('../images/menu/comments.png');  width: 113px; }
 .menu-dashboard-on #menu-dashboard a { background-image: url('../images/menu/dashboard-active.png'); }
-.menu-videos-on    #menu-videos    a { background-image: url('../images/menu/videos-active.png'); }
+.menu-media-on     #menu-media     a { background-image: url('../images/menu/media-active.png'); }
 .menu-podcasts-on  #menu-podcasts  a { background-image: url('../images/menu/podcasts-active.png'); }
 .menu-comments-on  #menu-comments  a { background-image: url('../images/menu/comments-active.png'); }
 
