@@ -24,17 +24,17 @@ SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `comments` (
   `id` int(10) unsigned NOT NULL auto_increment,
-  `type` varchar(15) NOT NULL,
+  `type` varchar(15) character set ascii NOT NULL,
   `subject` varchar(100) NOT NULL,
   `created_on` datetime NOT NULL,
   `modified_on` datetime NOT NULL,
-  `status` set('trash','publish','pending_review','user_flagged') NOT NULL default 'publish',
+  `status` set('trash','publish','unreviewed','user_flagged') default NULL,
   `author_name` varchar(50) NOT NULL,
   `author_email` varchar(255) default NULL,
   `author_ip` int(10) unsigned NOT NULL,
   `body` text NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -43,7 +43,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `comments` WRITE;
 /*!40000 ALTER TABLE `comments` DISABLE KEYS */;
-INSERT INTO `comments` VALUES (1,'media','Re: The Black Knight','2009-05-11 10:54:58','2009-05-11 11:09:32','publish','Some comment',NULL,2130706433,'asdfsadf'),(2,'media','Re: Four Yorkshiremen','2009-05-19 17:33:11','2009-05-19 17:33:11','pending_review','testest',NULL,2130706433,'test'),(3,'media','Re: Four Yorkshiremen','2009-05-19 17:33:40','2009-05-19 17:33:40','pending_review','testsetsttest',NULL,2130706433,'teste'),(4,'media','Re: Four Yorkshiremen','2009-05-19 17:49:57','2009-05-19 17:49:57','pending_review','testagain',NULL,2130706433,'testmixin');
+INSERT INTO `comments` VALUES (1,'media','Re: The Black Knight','2009-05-11 10:54:58','2009-05-11 11:09:32','publish','Some comment',NULL,2130706433,'asdfsadf'),(2,'media','Re: Four Yorkshiremen','2009-05-19 17:33:11','2009-05-28 17:24:28','publish','testest',NULL,2130706433,'test'),(3,'media','Re: Four Yorkshiremen','2009-05-19 17:33:40','2009-05-19 17:33:40','','testsetsttest',NULL,2130706433,'teste'),(4,'media','Re: Four Yorkshiremen','2009-05-19 17:49:57','2009-05-19 17:49:57','','testagain',NULL,2130706433,'testmixin'),(5,'media','Re: Three Questions','2009-05-31 17:22:58','2009-05-31 17:22:58','','Nate',NULL,2130706433,'Here\'s a question for you.\r\n\r\nDoes this work?');
 /*!40000 ALTER TABLE `comments` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -56,26 +56,29 @@ SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `media` (
   `id` int(10) unsigned NOT NULL auto_increment,
-  `type` varchar(10) NOT NULL,
+  `type` varchar(10) character set ascii NOT NULL,
   `slug` varchar(50) character set ascii default NULL,
+  `status` set('trash','publish','draft','unencoded','unreviewed') default NULL,
+  `podcast_id` int(10) unsigned default NULL,
   `created_on` datetime NOT NULL,
   `modified_on` datetime NOT NULL,
   `publish_on` datetime default NULL,
-  `status` set('trash','publish','draft','pending_encoding','pending_review') NOT NULL,
+  `publish_until` datetime default NULL,
   `title` varchar(50) NOT NULL,
+  `subtitle` varchar(255) default NULL,
   `description` text,
   `notes` text,
   `duration` int(10) unsigned NOT NULL,
   `views` int(10) unsigned NOT NULL default '0',
-  `upload_url` varchar(255) default NULL,
-  `url` varchar(255) default NULL,
-  `author_name` varchar(50) NOT NULL,
-  `author_email` varchar(255) NOT NULL,
   `rating_sum` int(10) unsigned NOT NULL default '0',
   `rating_votes` int(10) unsigned NOT NULL default '0',
+  `author_name` varchar(50) NOT NULL,
+  `author_email` varchar(255) NOT NULL,
   PRIMARY KEY  (`id`),
-  UNIQUE KEY `slug` (`slug`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+  UNIQUE KEY `slug` (`slug`),
+  KEY `media_ibfk_1` (`podcast_id`),
+  CONSTRAINT `media_ibfk_1` FOREIGN KEY (`podcast_id`) REFERENCES `podcasts` (`id`) ON DELETE SET NULL ON UPDATE SET NULL
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -84,7 +87,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `media` WRITE;
 /*!40000 ALTER TABLE `media` DISABLE KEYS */;
-INSERT INTO `media` VALUES (1,'video','black-knight','2009-01-12 16:29:57','2009-05-11 20:27:00','0000-00-00 00:00:00','draft,pending_encoding,pending_review','The Black Knight','A classic moment from Monty Python and the Holy Grail.','Bible References: None\r\nS&H References: None\r\nReviewer: None\r\nLicense: General Upload',4,21,NULL,'/video/flv/1-black-knight.flv','Nathan','nathan@simplestation.com',0,0),(2,'video','french-taunting','2009-01-12 16:37:15','2009-05-19 17:06:41','2009-03-12 19:35:26','publish','French Taunting','A memorable scene from Monty Python & the Holy Grail.','Bible References: None\r\nS&H References: None\r\nReviewer: None\r\nLicense: General Upload',640,6,NULL,'http://youtube.com/v/9V7zbWNznbs','Verity','verity@norman.com',0,0),(3,'video','four-yorkshiremen','2009-01-09 15:52:56','2009-05-19 17:51:58','2009-01-09 15:52:56','publish','Four Yorkshiremen','Some silly nonsensical comedy for you, from Monty Python\'s Flying Circus.','Bible References: None\r\nS&H References: None\r\nReviewer: None\r\nLicense: General Upload',186,30,NULL,'http://youtube.com/v/Xe1a1wHxTyo','George Clements','george@clements.com',0,0),(4,'video','killer-bunny','2009-01-12 16:41:05','2009-05-08 13:50:03','2009-01-12 16:41:05','publish','Killer Bunny','A bunny that can kill a man.','Bible References: None\r\nS&H References: None\r\nReviewer: None\r\nLicense: General Upload',126,1,NULL,'http://youtube.com/v/XcxKIJTb3Hg','Tom','tom@hulu.com',0,0),(5,'video','systems-government','2009-01-12 16:48:34','2009-05-08 13:55:53','2009-01-12 16:48:34','publish','Systems of Government','Political satire.','Bible References: None\r\nS&H References: None\r\nReviewer: None\r\nLicense: General Upload',191,1,NULL,'http://youtube.com/v/5Xd_zkMEgkI','George','george@dragon.com',0,0),(6,'video','are-you-suggesting-coconuts-migrate','2009-01-12 16:53:53','2009-05-13 14:15:40','2009-01-12 16:53:53','publish','Are you suggesting coconuts migrate?','King of the Britons, Defeater of the Saxons banging two empty halves of tropical coconuts together in a temporate climate.','Bible References: None\r\nS&H References: None\r\nReviewer: None\r\nLicense: General Upload',181,1,NULL,'http://youtube.com/v/rzcLQRXW6B0','Morgan','morgan@csps.com',0,0),(7,'video','sir-lancelot','2009-01-12 16:57:03','2009-05-19 12:45:03','2009-05-19 12:45:03','publish','Sir Lancelot','Sirrrrlancelot is brave and noble.','Bible References: None\r\nS&H References: None\r\nReviewer: None\r\nLicense: General Upload',478,1,NULL,'http://youtube.com/v/-jO1EOhGkY0','John Doe','jdoe@simplestation.com',0,0),(8,'video','bring-out-your-dead','2009-01-12 17:06:47','2009-05-08 13:52:13','0000-00-00 00:00:00','draft,pending_review','Bring Out Your Dead','But I\'m not dead yet!','Bible References: None\r\nS&H References: None\r\nReviewer: None\r\nLicense: General Upload',118,0,NULL,'http://youtube.com/v/grbSQ6O6kbs','John Doe','jdoe@simplestation.com',0,0),(9,'video','three-questions','2009-01-12 17:09:55','2009-05-14 14:31:38','0000-00-00 00:00:00','draft,pending_review','Three Questions','Sir Lancelot faces skill testing questions.','Bible References: None\r\nS&H References: None\r\nReviewer: None\r\nLicense: General Upload',244,2,NULL,'http://youtube.com/v/IMxWLuOFyZM','John Doe','jdoe@simplestation.com',0,0),(10,'video','tale-sir-robin','2009-01-12 18:17:07','2009-05-19 11:49:36','2009-05-19 11:49:36','publish','The Tale of Sir Robin','Sing this song!','Bible References: None\r\nS&H References: None\r\nReviewer: None\r\nLicense: General Upload',173,0,NULL,'http://youtube.com/v/c4SJ0xR2_bQ','John Doe','jdoe@simplestation.com',0,0),(11,'video','guarding-room','2009-01-12 18:18:22','2009-05-19 12:15:53','2009-05-19 12:15:53','publish','Guarding the Room','The trials and tribulations of being a dictator in a self-perpetuating autocracy.','Bible References: None\r\nS&H References: None\r\nReviewer: None\r\nLicense: General Upload',123,1,NULL,'http://youtube.com/v/ekO3Z3XWa0Q','John Doe','jdoe@simplestation.com',0,0),(12,'video','knights-who-say-ni','2009-01-12 18:19:51','2009-05-19 13:08:58','2009-05-19 13:08:58','publish','Knights Who Say Ni','These knights say ni.','Bible References: None\r\nS&H References: None\r\nReviewer: None\r\nLicense: General Upload',521,0,NULL,'http://youtube.com/v/QTQfGd3G6dg','John Doe','jdoe@simplestation.com',0,0),(13,'video','tim-enchanter','2009-01-12 18:20:41','2009-05-08 14:01:49','2009-05-19 12:16:17','publish','Tim the Enchanter','Tim enchants fire.','Bible References: None\r\nS&H References: None\r\nReviewer: None\r\nLicense: General Upload',52,1,NULL,'http://youtube.com/v/JTbrIo1p-So','John Doe','jdoe@simplestation.com',0,0),(14,'video','grenade-antioch','2009-01-12 18:21:50','2009-05-08 14:04:15','0000-00-00 00:00:00','draft,pending_review','Grenade of Antioch','Holy hand grenade!','Bible References: None\r\nS&H References: None\r\nReviewer: None\r\nLicense: General Upload',242,0,NULL,'http://youtube.com/v/apDGPl2SfpA','John Doe','jdoe@simplestation.com',0,0),(15,'video','intermission-music','2009-01-12 18:36:06','2009-05-19 12:16:17','2009-05-19 12:16:17','publish','Intermission Music','My personal favorite part of the movie.','Bible References: None\r\nS&H References: None\r\nReviewer: None\r\nLicense: General Upload',546,2,NULL,'http://youtube.com/v/9hmDZz5pDOQ','John Doe','jdoe@simplestation.com',0,0);
+INSERT INTO `media` VALUES (1,'video','black-knight','draft',4,'2009-01-12 16:29:57','2009-06-09 12:19:31',NULL,NULL,'The Black Knight',NULL,'A classic moment from Monty Python and the Holy Grail.','Bible References: None\r\nS&H References: None\r\nReviewer: None\r\nLicense: General Upload',4,28,2,2,'Nathan','nathan@simplestation.com'),(2,'video','french-taunting','publish',4,'2009-01-12 16:37:15','2009-06-09 14:29:46','2009-03-12 19:35:26',NULL,'French Taunting',NULL,'A memorable scene from Monty Python & the Holy Grail.','Bible References: None\r\nS&H References: None\r\nReviewer: None\r\nLicense: General Upload',640,14,0,0,'Verity','verity@norman.com'),(3,'video','four-yorkshiremen','publish',NULL,'2009-01-09 15:52:56','2009-06-05 18:33:57','2009-01-09 15:52:56',NULL,'Four Yorkshiremen',NULL,'Some silly nonsensical comedy for you, from Monty Python\'s Flying Circus.','Bible References: None\r\nS&H References: None\r\nReviewer: None\r\nLicense: General Upload',186,30,0,0,'George Clements','george@clements.com'),(4,'video','killer-bunny','publish',1,'2009-01-12 16:41:05','2009-06-09 11:58:59','2009-01-12 16:41:05',NULL,'Killer Bunny',NULL,'A bunny that can kill a man.','Bible References: None\r\nS&H References: None\r\nReviewer: None\r\nLicense: General Upload',126,7,4,4,'Tom','tom@hulu.com'),(5,'video','systems-government','publish',1,'2009-01-12 16:48:34','2009-06-05 18:33:57','2009-01-12 16:48:34',NULL,'Systems of Government',NULL,'Political satire.','Bible References: None\r\nS&H References: None\r\nReviewer: None\r\nLicense: General Upload',191,1,0,0,'George','george@dragon.com'),(6,'video','are-you-suggesting-coconuts-migrate','publish',4,'2009-01-12 16:53:53','2009-06-09 18:25:36','2009-01-12 16:53:53',NULL,'Are you suggesting coconuts migrate?',NULL,'King of the Britons, Defeater of the Saxons banging two empty halves of tropical coconuts together in a temporate climate.','Bible References: None\r\nS&H References: None\r\nReviewer: None\r\nLicense: General Upload',181,7,1,1,'Morgan','morgan@csps.com'),(7,'video','sir-lancelot','publish',NULL,'2009-01-12 16:57:03','2009-06-05 19:09:08','2009-05-19 12:45:03',NULL,'Sir Lancelot',NULL,'Sirrrrlancelot is brave and noble.','Bible References: None\r\nS&H References: None\r\nReviewer: None\r\nLicense: General Upload',478,1,0,0,'John Doe','jdoe@simplestation.com'),(8,'video','bring-out-your-dead','draft',2,'2009-01-12 17:06:47','2009-06-05 18:33:57',NULL,NULL,'Bring Out Your Dead',NULL,'But I\'m not dead yet!','Bible References: None\r\nS&H References: None\r\nReviewer: None\r\nLicense: General Upload',118,0,0,0,'John Doe','jdoe@simplestation.com'),(9,'video','three-questions','draft',4,'2009-01-12 17:09:55','2009-06-05 18:33:57',NULL,NULL,'Three Questions',NULL,'Sir Lancelot faces skill testing questions.','Bible References: None\r\nS&H References: None\r\nReviewer: None\r\nLicense: General Upload',244,2,0,0,'John Doe','jdoe@simplestation.com'),(10,'video','tale-sir-robin','publish',3,'2009-01-12 18:17:07','2009-06-09 14:31:58','2009-05-19 11:49:36',NULL,'The Tale of Sir Robin',NULL,'Sing this song!','Bible References: None\r\nS&H References: None\r\nReviewer: None\r\nLicense: General Upload',173,1,0,0,'John Doe','jdoe@simplestation.com'),(11,'video','guarding-room','publish',NULL,'2009-01-12 18:18:22','2009-06-09 12:21:30','2009-05-19 12:15:53',NULL,'Guarding the Room',NULL,'The trials and tribulations of being a dictator in a self-perpetuating autocracy.','Bible References: None\r\nS&H References: None\r\nReviewer: None\r\nLicense: General Upload',123,4,3,3,'John Doe','jdoe@simplestation.com'),(12,'video','knights-who-say-ni','publish',4,'2009-01-12 18:19:51','2009-06-05 18:33:57','2009-05-19 13:08:58',NULL,'Knights Who Say Ni',NULL,'These knights say ni.','Bible References: None\r\nS&H References: None\r\nReviewer: None\r\nLicense: General Upload',521,0,0,0,'John Doe','jdoe@simplestation.com'),(13,'video','tim-enchanter','publish',NULL,'2009-01-12 18:20:41','2009-06-05 18:33:57','2009-05-19 12:16:17',NULL,'Tim the Enchanter',NULL,'Tim enchants fire.','Bible References: None\r\nS&H References: None\r\nReviewer: None\r\nLicense: General Upload',52,1,0,0,'John Doe','jdoe@simplestation.com'),(14,'video','grenade-antioch','draft',4,'2009-01-12 18:21:50','2009-06-05 18:33:57',NULL,NULL,'Grenade of Antioch',NULL,'Holy hand grenade!','Bible References: None\r\nS&H References: None\r\nReviewer: None\r\nLicense: General Upload',242,0,0,0,'John Doe','jdoe@simplestation.com'),(15,'video','intermission-music','publish',4,'2009-01-12 18:36:06','2009-06-05 19:09:08','2009-05-19 12:16:17',NULL,'Intermission Music',NULL,'My personal favorite part of the movie.','Bible References: None\r\nS&H References: None\r\nReviewer: None\r\nLicense: General Upload',546,2,0,0,'John Doe','jdoe@simplestation.com'),(16,'video','burglarizor','draft,unreviewed',NULL,'2009-06-09 12:56:52','2009-06-09 12:56:52',NULL,NULL,'Burglarizor',NULL,'Its the hamburglerizor','Bible References: None\nS&H References: None\nReviewer: None\nLicense: General Upload',135,0,0,0,'FirstName','email@email.com');
 /*!40000 ALTER TABLE `media` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -111,8 +114,41 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `media_comments` WRITE;
 /*!40000 ALTER TABLE `media_comments` DISABLE KEYS */;
-INSERT INTO `media_comments` VALUES (1,1),(3,2),(3,3),(3,4);
+INSERT INTO `media_comments` VALUES (1,1),(2,2),(2,3),(2,4),(9,5);
 /*!40000 ALTER TABLE `media_comments` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `media_files`
+--
+
+DROP TABLE IF EXISTS `media_files`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `media_files` (
+  `id` int(10) unsigned NOT NULL auto_increment,
+  `media_id` int(10) unsigned NOT NULL,
+  `type` varchar(10) character set ascii NOT NULL,
+  `url` varchar(255) character set ascii NOT NULL,
+  `size` int(10) unsigned default NULL,
+  `width` smallint(5) unsigned default NULL,
+  `height` smallint(5) unsigned default NULL,
+  `bitrate` smallint(5) unsigned default NULL,
+  `is_original` tinyint(1) NOT NULL default '0',
+  PRIMARY KEY  (`id`),
+  KEY `media_files_ibfk_1` (`media_id`),
+  CONSTRAINT `media_files_ibfk_1` FOREIGN KEY (`media_id`) REFERENCES `media` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Dumping data for table `media_files`
+--
+
+LOCK TABLES `media_files` WRITE;
+/*!40000 ALTER TABLE `media_files` DISABLE KEYS */;
+INSERT INTO `media_files` VALUES (2,1,'flv','1-black-knight.flv',8322240,NULL,NULL,NULL,1),(3,2,'youtube','9V7zbWNznbs',NULL,NULL,NULL,NULL,1),(4,3,'youtube','Xe1a1wHxTyo',NULL,NULL,NULL,NULL,1),(5,4,'youtube','XcxKIJTb3Hg',NULL,NULL,NULL,NULL,1),(6,5,'youtube','5Xd_zkMEgkI',NULL,NULL,NULL,NULL,1),(7,6,'youtube','rzcLQRXW6B0',NULL,NULL,NULL,NULL,1),(8,7,'youtube','-jO1EOhGkY0',NULL,NULL,NULL,NULL,1),(9,8,'youtube','grbSQ6O6kbs',NULL,NULL,NULL,NULL,1),(10,9,'youtube','IMxWLuOFyZM',NULL,NULL,NULL,NULL,1),(11,10,'youtube','c4SJ0xR2_bQ',NULL,NULL,NULL,NULL,1),(12,11,'youtube','ekO3Z3XWa0Q',NULL,NULL,NULL,NULL,1),(13,12,'youtube','QTQfGd3G6dg',NULL,NULL,NULL,NULL,1),(14,13,'youtube','JTbrIo1p-So',NULL,NULL,NULL,NULL,1),(15,14,'youtube','apDGPl2SfpA',NULL,NULL,NULL,NULL,1),(16,15,'youtube','9hmDZz5pDOQ',NULL,NULL,NULL,NULL,1),(17,16,'flv','21-email@email.com-burglary.flv',5173248,NULL,NULL,NULL,1);
+/*!40000 ALTER TABLE `media_files` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -143,46 +179,6 @@ INSERT INTO `media_tags` VALUES (1,1),(2,1),(3,1),(4,1),(5,1),(6,1),(7,1),(8,1),
 UNLOCK TABLES;
 
 --
--- Table structure for table `podcast_episodes`
---
-
-DROP TABLE IF EXISTS `podcast_episodes`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
-CREATE TABLE `podcast_episodes` (
-  `id` int(10) unsigned NOT NULL auto_increment,
-  `slug` varchar(50) character set ascii NOT NULL,
-  `podcast_id` int(10) unsigned NOT NULL,
-  `media_id` int(10) unsigned NOT NULL,
-  `created_on` datetime NOT NULL,
-  `modified_on` datetime NOT NULL,
-  `publish_on` datetime default NULL,
-  `publish_until` datetime default NULL,
-  `title` varchar(50) NOT NULL,
-  `subtitle` varchar(255) default NULL,
-  `description` text,
-  `category` varchar(50) default NULL,
-  `author_name` varchar(50) default NULL,
-  `author_email` varchar(50) default NULL,
-  `copyright` varchar(50) default NULL,
-  PRIMARY KEY  (`id`),
-  KEY `podcast_id` (`podcast_id`),
-  KEY `media_id` (`media_id`),
-  CONSTRAINT `podcast_episodes_ibfk_1` FOREIGN KEY (`podcast_id`) REFERENCES `podcasts` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `podcast_episodes_ibfk_2` FOREIGN KEY (`media_id`) REFERENCES `media` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-SET character_set_client = @saved_cs_client;
-
---
--- Dumping data for table `podcast_episodes`
---
-
-LOCK TABLES `podcast_episodes` WRITE;
-/*!40000 ALTER TABLE `podcast_episodes` DISABLE KEYS */;
-/*!40000 ALTER TABLE `podcast_episodes` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `podcasts`
 --
 
@@ -200,12 +196,10 @@ CREATE TABLE `podcasts` (
   `category` varchar(50) default NULL,
   `author_name` varchar(50) default NULL,
   `author_email` varchar(50) default NULL,
-  `copyright` varchar(50) default NULL,
   `explicit` tinyint(1) NOT NULL,
-  `block_itunes` tinyint(1) NOT NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `slug` (`slug`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -214,6 +208,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `podcasts` WRITE;
 /*!40000 ALTER TABLE `podcasts` DISABLE KEYS */;
+INSERT INTO `podcasts` VALUES (1,'alpha-beta','2009-06-09 17:39:09','2009-06-09 17:39:09','Alpha Beta','A podcast about alphas and betas and such.','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\n\nLorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.','Religion & Spirituality > Spirituality','TMC Youth','tmcyouth@christianscience.com',0),(2,'gamma-theta','2009-06-09 17:40:15','2009-06-09 17:40:15','Gamma Theta','The gamma and the theta or something','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\n\nLorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.','Health > Self-Help','TMC Youth','tmcyouth@christianscience.com',0),(3,'something-somethings','2009-06-09 17:44:01','2009-06-09 17:44:01','Something Somethings','Something, something or something','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\n\nLorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.','Comedy','Someone','some@somethings.com',1),(4,'monty-python-and-the-holy-grail','2009-06-09 18:16:16','2009-06-09 18:16:16','Monty Python and the Holy Grail','A running series of clips from Monty Python\'s Holy Grail','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\n\nLorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.','Comedy','British People','thepeople@britian.co.uk',0);
 /*!40000 ALTER TABLE `podcasts` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -258,7 +253,7 @@ CREATE TABLE `tg_group` (
   `created` datetime default NULL,
   PRIMARY KEY  (`group_id`),
   UNIQUE KEY `group_name` (`group_name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -267,6 +262,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `tg_group` WRITE;
 /*!40000 ALTER TABLE `tg_group` DISABLE KEYS */;
+INSERT INTO `tg_group` VALUES (1,'Admins','Administrators','2009-05-21 18:41:28');
 /*!40000 ALTER TABLE `tg_group` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -293,6 +289,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `tg_group_permission` WRITE;
 /*!40000 ALTER TABLE `tg_group_permission` DISABLE KEYS */;
+INSERT INTO `tg_group_permission` VALUES (1,1);
 /*!40000 ALTER TABLE `tg_group_permission` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -309,7 +306,7 @@ CREATE TABLE `tg_permission` (
   `description` varchar(255) default NULL,
   PRIMARY KEY  (`permission_id`),
   UNIQUE KEY `permission_name` (`permission_name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -318,6 +315,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `tg_permission` WRITE;
 /*!40000 ALTER TABLE `tg_permission` DISABLE KEYS */;
+INSERT INTO `tg_permission` VALUES (1,'admin','Grants access to the admin panel');
 /*!40000 ALTER TABLE `tg_permission` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -338,7 +336,7 @@ CREATE TABLE `tg_user` (
   PRIMARY KEY  (`user_id`),
   UNIQUE KEY `user_name` (`user_name`),
   UNIQUE KEY `email_address` (`email_address`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -347,6 +345,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `tg_user` WRITE;
 /*!40000 ALTER TABLE `tg_user` DISABLE KEYS */;
+INSERT INTO `tg_user` VALUES (1,'tmcy','tmcyouth@christianscience.com','TMCYouth','5c97c9bc5a0e00d49781c7d0b65ba545ce22d3ab310c9d0afc7230d9a79b0d1d55a17b03e5be89ed','2009-05-21 18:41:28'),(2,'simplestation','info@simplestation.com','Simple Station Inc.','63bd796fccc9fe83f4fd0ab7976e43e0edc26e3a3e9e447721caefd3d731ebb96ef4fec8d5f24774','2009-05-26 14:45:31');
 /*!40000 ALTER TABLE `tg_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -373,6 +372,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `tg_user_group` WRITE;
 /*!40000 ALTER TABLE `tg_user_group` DISABLE KEYS */;
+INSERT INTO `tg_user_group` VALUES (1,1),(2,1);
 /*!40000 ALTER TABLE `tg_user_group` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -385,4 +385,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2009-05-20  2:10:49
+-- Dump completed on 2009-06-10  1:26:56
