@@ -26,7 +26,7 @@
 	border: none;
 	z-index: 99;
 }
-.sbox-window-ie6 #sbox-btn-close {
+.ssbox-btn-close {
 	background-image: url('../images/squeezebox/box-close.gif');
 }
 .sbox-loading #sbox-content {
@@ -139,6 +139,7 @@
 }
 #sbox-window #sbox-content div.box {
 	border: 0;
+	margin-bottom: 0;
 }
 
 #sbox-window #sbox-content p {
