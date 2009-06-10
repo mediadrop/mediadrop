@@ -4,13 +4,13 @@ from tw.forms.validators import Schema, Int, NotEmpty, DateConverter, DateValida
 
 from mediaplex.forms import ListForm
 
-class VideoForm(ListForm):
-    template = 'mediaplex.templates.admin.video.form'
-    id = 'video-form'
+class MediaForm(ListForm):
+    template = 'mediaplex.templates.admin.media.form'
+    id = 'media-form'
     css_class = 'form'
     submit_text = None
-    params = ['video']
-    video = None
+    params = ['media']
+    media = None
 
     # required to support multiple named buttons to differentiate between Save & Delete?
     _name = 'vf'
@@ -23,9 +23,9 @@ class VideoForm(ListForm):
         TextArea('description', attrs=dict(rows=5, cols=25)),
         TextArea('notes', label_text='Additional Notes', attrs=dict(rows=5, cols=25)),
         TextField('tags'),
-        ListFieldSet('details', suppress_label=True, legend='Video Details:', children=[
+        ListFieldSet('details', suppress_label=True, legend='Media Details:', children=[
             TextField('duration'),
-            TextField('url', label_text='Video URL')
+            TextField('url', label_text='Media URL')
         ]),
         SubmitButton('save', default='Save', named_button=True, css_classes=['mo', 'btn-save', 'f-rgt']),
         SubmitButton('delete', default='Delete', named_button=True, css_classes=['mo', 'btn-delete']),
@@ -33,7 +33,7 @@ class VideoForm(ListForm):
 
 
 class AlbumArtForm(ListForm):
-    template = 'mediaplex.templates.admin.video.album-art-form'
+    template = 'mediaplex.templates.admin.media.album-art-form'
     id = 'album-art-form'
     css_class = 'form'
     submit_text = None
@@ -41,10 +41,11 @@ class AlbumArtForm(ListForm):
     fields = [
         FileField(
             'album_art',
-            validator = NotEmpty(
+            validator = FieldStorageUploadConverter(
+                not_empty = True,
                 messages = {
                     'empty': 'You forgot to select an image!'
-                }
+                },
             )
         ),
         SubmitButton('save', default='Save', css_classes=['mo', 'btn-save', 'f-rgt']),
@@ -53,7 +54,7 @@ class AlbumArtForm(ListForm):
     ]
 
 class UploadForm(ListForm):
-    template = 'mediaplex.templates.video.upload-form'
+    template = 'mediaplex.templates.media.upload-form'
     id = 'upload-form'
     css_class = 'form'
     css = [CSSLink(link='/styles/forms.css')]
@@ -69,7 +70,7 @@ class UploadForm(ListForm):
         title = TextField(validator=NotEmpty(messages={'empty':'You\'ve gotta have a title!'}), label_text='Title:', show_error=True)
         description = TextArea(validator=NotEmpty(messages={'empty':'At least give it a short description...'}), label_text='Description:', attrs=dict(rows=5, cols=25), show_error=True)
         tags = TextField(label_text='Tags:', help_text='(optional) e.g.: puppies, great dane, adorable', show_error=True)
-        file = FileField(validator=FieldStorageUploadConverter(not_empty=True, messages={'empty':'Oops! You forgot to enter a file.'}), label_text='Video File', show_error=True)
+        file = FileField(validator=FieldStorageUploadConverter(not_empty=True, messages={'empty':'Oops! You forgot to enter a file.'}), label_text='Media File', show_error=True)
         submit = SubmitButton(css_class='submit-image', show_error=False)
 
 

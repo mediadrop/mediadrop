@@ -4,7 +4,7 @@
       xmlns:py="http://genshi.edgewall.org/"
       xmlns:xi="http://www.w3.org/2001/XInclude">
 <xi:include href="admin/master.html" />
-<xi:include href="video/_video-table.html" />
+<xi:include href="media/_media-table.html" />
 <head>
 	<title>Dashboard</title>
 	<link href="/admin/styles/media.css" media="screen" rel="stylesheet" type="text/css" />
@@ -36,15 +36,15 @@
 	<div class="column66">
 		<div class="box">
 			<h1 class="box-head">Awaiting Review</h1>
-			<xi:include href="video/dash-table.html" py:with="videos=review_page.items; id='review-table';" />
+			<xi:include href="media/dash-table.html" py:with="media=review_page.items; id='review-table';" />
 		</div>
 		<div class="box">
 			<h1 class="box-head">Awaiting Encoding</h1>
-			<xi:include href="video/dash-table.html" py:with="videos=encode_page.items; id='encode-table';" />
+			<xi:include href="media/dash-table.html" py:with="media=encode_page.items; id='encode-table';" />
 		</div>
 		<div class="box">
 			<h1 class="box-head">Awaiting Publishing</h1>
-			<xi:include href="video/dash-table.html" py:with="videos=publish_page.items; id='publish-table';" />
+			<xi:include href="media/dash-table.html" py:with="media=publish_page.items; id='publish-table';" />
 		</div>
 	</div>
 	<div class="column33">
@@ -57,8 +57,8 @@
 		</div>
 		<div class="box">
 			<h1 class="box-head">Recently Published</h1>
-			<xi:include href="video/_video-table.html" />
-			${video_table(recent_media, fields=['type', 'title'], include_thead=False, id='recently-published-table')}
+			<xi:include href="media/_media-table.html" />
+			${media_table(recent_media, fields=['type', 'title'], include_thead=False, id='recently-published-table')}
 		</div>
 	</div>
 </body>

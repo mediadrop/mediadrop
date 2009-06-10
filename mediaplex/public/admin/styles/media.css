@@ -58,44 +58,44 @@ a.total {
 
 
 
-#video-form .form-label {
+#media-form .form-label {
 	font-size: 108%;
 	font-weight: bold;
 	color: #3c4d5a;
 	margin: 10px;
 }
-#video-form .form-field {
+#media-form .form-field {
 	margin: 10px;
 	/* bump the size down 12px so that when firefox adds 12px
 	 * to the 100% input width it still fits visually */
 	padding-right: 12px;
 }
-#video-form li {
+#media-form li {
 	clear: both;
 	width: 100%;
 	overflow: hidden;
 }
-#video-form #author_name-container,
-#video-form #author_email-container {
+#media-form #author_name-container,
+#media-form #author_email-container {
 	width: 50%;
 	float: left;
 	clear: none;
 }
-#video-form #details_duration_label,
-#video-form #details_url_label {
+#media-form #details_duration_label,
+#media-form #details_url_label {
 	margin-right: 10px;
 	padding: 5px 0;
 	float: left;
 	font-weight: normal;
 }
-#video-form #details input,
-#video-form #details li {
+#media-form #details input,
+#media-form #details li {
 	float: left;
 	width: auto;
 	clear: none;
 }
 #details-container .form-field { padding-right: 0; }
-#video-form #details-container legend {
+#media-form #details-container legend {
 	font-size: 108%;
 	font-weight: bold;
 	color: #3c4d5a;
@@ -103,5 +103,33 @@ a.total {
 }
 #details ul.field_list { position: relative; }
 #details_url_container { position: absolute; top: 0; right: 0; }
-#video-form #details input#details_duration { width: 60px; }
-#video-form #details input#details_url { width: 390px; }
+#media-form #details input#details_duration { width: 60px; }
+#media-form #details input#details_url { width: 390px; }
+
+
+a.add-video, a.add-video:hover {
+	width: 120px;
+	height: 28px;
+	margin: -3px 0 0 10px;
+}
+a.add-video { background-image: url('../images/buttons/add-video.png'); }
+#media-form .form-label {
+	font-size: 108%;
+	font-weight: bold;
+	color: #3c4d5a;
+	margin: 10px;
+}
+
+.btn-review-complete, .btn-encoding-complete, .btn-publish-now, .btn-edit-art {
+	text-indent: -1000px;
+	cursor: pointer;
+	border: 0;
+	height: 34px;
+	width: 171px;
+	background-repeat: no-repeat;
+	margin: 0 auto;
+}
+.btn-review-complete { background-image: url('../images/buttons/video-review-complete.png'); }
+.btn-encoding-complete { background-image: url('../images/buttons/video-encoding-complete.png'); }
+.btn-publish-now { background-image: url('../images/buttons/video-publish-now.png'); }
+.btn-edit-art { background-image: url('../images/buttons/edit-image.png'); }

@@ -3,34 +3,34 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:py="http://genshi.edgewall.org/"
       xmlns:xi="http://www.w3.org/2001/XInclude"
-      py:with="paginator=c.paginators.videos">
+      py:with="paginator=c.paginators.media">
 <xi:include href="admin/master.html" />
 <head>
-	<title>Videos</title>
+	<title>Media</title>
 	<link href="/admin/styles/media.css" media="screen" rel="stylesheet" type="text/css" />
 	<link href="/admin/styles/videos.css" media="screen" rel="stylesheet" type="text/css" />
 	<script type="text/javascript" src="/admin/scripts/show-more.js"></script>
 	<script type="text/javascript">
 		window.addEvent('domready', function(){
 			vs = new ShowMore({
-				table: 'video-table',
+				table: 'media-table',
 				page: ${paginator.page},
 				lastPage: ${paginator.last_page or 1}
 			});
 		});
 	</script>
 </head>
-<body class="menu-videos-on">
+<body class="menu-media-on">
 	<div class="box">
 		<div class="box-head">
-<!--!			<a class="mo add-video f-rgt" href="${h.url_for(controller='videoadmin', action='new')}"><span>Add new video</span></a>-->
+<!--!			<a class="mo add-media f-rgt" href="${h.url_for(action='new')}"><span>Add New Media</span></a>-->
 			<div id="quicksearch" class="f-rgt">
 				${XML(search_form(search=search))}
 			</div>
-			<h1 py:if="not search">All Videos</h1>
-			<h1 py:if="search">Videos that match '${search}'</h1>
+			<h1 py:if="not search">All Media</h1>
+			<h1 py:if="search">Media that matches '${search}'</h1>
 		</div>
-		<xi:include href="../video/index-table.html" py:with="videos=videos" />
+		<xi:include href="index-table.html" py:with="media=media" />
 	</div>
 </body>
 </html>

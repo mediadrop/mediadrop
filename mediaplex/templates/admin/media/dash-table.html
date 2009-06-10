@@ -2,8 +2,8 @@
       xmlns:py="http://genshi.edgewall.org/"
       xmlns:xi="http://www.w3.org/2001/XInclude"
       py:strip=""
-      py:with="id = defined('id') and id or 'video-table';
+      py:with="id = defined('id') and id or 'media-table';
                include_thead = not h.request.is_xhr;">
-<xi:include href="_video-table.html" />
-${video_table(videos, fields=['publish_on', 'status', 'title', 'author', 'type'], id=id, include_thead=include_thead)}
+<xi:include href="_media-table.html" />
+${media_table(media, fields=['publish_on', 'status', 'title', 'author', 'type'], id=id, include_thead=include_thead)}
 </html>

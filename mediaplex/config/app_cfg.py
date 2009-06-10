@@ -20,8 +20,8 @@ class MediaplexConfig(AppConfig):
         # route for viewing videos and other video related actions
         map.connect('/video/{slug}/{action}', controller='video', action='view')
         # admin routes
-        map.connect('/admin/video', controller='videoadmin', action='index')
-        map.connect('/admin/video/{id}/{action}', controller='videoadmin', action='edit')
+        map.connect('/admin/media', controller='mediaadmin', action='index')
+        map.connect('/admin/media/{id}/{action}', controller='mediaadmin', action='edit')
 
         map.connect('/admin/podcasts', controller='podcastadmin', action='index')
 

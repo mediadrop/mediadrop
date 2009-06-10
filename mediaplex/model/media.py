@@ -139,11 +139,15 @@ class Media(object):
 
 
 class Video(Media):
+    ENCODED_TYPE = 'flv'
+
     def __repr__(self):
         return '<Video: %s>' % self.slug
 
 
 class Audio(Media):
+    ENCODED_TYPE = 'mp3'
+
     def __repr__(self):
         return '<Audio: %s>' % self.slug
 

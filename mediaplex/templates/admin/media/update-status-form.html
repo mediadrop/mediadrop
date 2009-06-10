@@ -1,21 +1,21 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:py="http://genshi.edgewall.org/"
       py:strip="">
-	<form method="post" action="${h.url_for(controller='videoadmin', action='update_status', id=video.id)}" id="update-status-form" class="box"
+	<form method="post" action="${h.url_for(action='update_status', id=media.id)}" id="update-status-form" class="box"
 	      py:choose="">
 		<h1 class="box-head">Publish Status</h1>
 		<div class="box-content">
-			<div py:when="'unreviewed' in video.status" py:strip="">
-				<ol id="status-list" py:with="status = 'unencoded' in video.status and 'pending' or 'complete'">
+			<div py:when="'unreviewed' in media.status" py:strip="">
+				<ol id="status-list" py:with="encoding = 'unencoded' in media.status and 'pending' or 'complete'">
 					<li class="status-list-inprogress">review pending</li>
-					<!--! just in case the video doesn't ever need encoding (eg. youtube) -->
-					<li class="status-list-pending" py:if="status == 'pending'">encoding pending</li>
-					<li class="status-list-complete" py:if="status == 'complete'">encoding complete (<a href="${h.url_for(controller='/video', action='view', slug=video.slug)}">preview</a>)</li>
+					<!--! just in case the media doesn't ever need encoding (eg. youtube) -->
+					<li class="status-list-pending" py:if="encoding == 'pending'">encoding pending</li>
+					<li class="status-list-complete" py:if="encoding == 'complete'">encoding complete (<a href="${h.url_for(controller='/video', action='view', slug=media.slug)}">preview</a>)</li>
 					<li class="status-list-pending">publishing pending</li>
 				</ol>
 				<div py:content="h.tags.submit('update_button', 'Review Complete', id='update-status', class_='mo submitbutton btn-review-complete')" class="box-content center" />
 			</div>
-			<div py:when="'unencoded' in video.status" py:strip="">
+			<div py:when="'unencoded' in media.status" py:strip="">
 				<ol id="status-list">
 					<li class="status-list-complete">review complete</li>
 					<li class="status-list-inprogress">encoding pending</li>
@@ -23,22 +23,22 @@
 				</ol>
 				<div py:content="h.tags.submit('update_button', 'Encoding Complete', id='update-status', class_='mo submitbutton btn-encoding-complete')" class="box-content center" />
 			</div>
-			<div py:when="'draft' in video.status" py:strip="">
+			<div py:when="'draft' in media.status" py:strip="">
 				<ol id="status-list">
 					<li class="status-list-complete">review complete</li>
 					<li class="status-list-complete">encoding complete</li>
-					<li class="status-list-inprogress">publishing pending (<a href="${h.url_for(controller='/video', action='view', slug=video.slug)}">preview</a>)</li>
+					<li class="status-list-inprogress">publishing pending (<a href="${h.url_for(controller='/video', action='view', slug=media.slug)}">preview</a>)</li>
 				</ol>
 				<div py:content="h.tags.submit('update_button', 'Publish Now', id='update-status', class_='mo submitbutton btn-publish-now')" class="box-content center" />
 			</div>
-			<div py:when="'publish' in video.status" py:strip="">
+			<div py:when="'publish' in media.status" py:strip="">
 				<ol id="status-list">
 					<li class="status-list-complete">review complete</li>
 					<li class="status-list-complete">encoding complete</li>
-					<li class="status-list-complete">published ${video.publish_on.strftime('%b %d %Y')} (<a href="${h.url_for(controller='/video', action='view', slug=video.slug)}">view</a>)</li>
+					<li class="status-list-complete">published ${media.publish_on.strftime('%b %d %Y')} (<a href="${h.url_for(controller='/video', action='view', slug=media.slug)}">view</a>)</li>
 				</ol>
 			</div>
-			<div py:otherwise="">${video.status}</div>
+			<div py:otherwise="">${media.status}</div>
 			<div py:if="defined('status_error') and status_error" class="center">${status_error}</div>
 		</div>
 	</form>
