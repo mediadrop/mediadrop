@@ -5,8 +5,8 @@
 	      py:choose="">
 		<h1 class="box-head">Publish Status</h1>
 		<div class="box-content">
-			<div py:when="'pending_review' in video.status" py:strip="">
-				<ol id="status-list" py:with="status = 'pending_encoding' in video.status and 'pending' or 'complete'">
+			<div py:when="'unreviewed' in video.status" py:strip="">
+				<ol id="status-list" py:with="status = 'unencoded' in video.status and 'pending' or 'complete'">
 					<li class="status-list-inprogress">review pending</li>
 					<!--! just in case the video doesn't ever need encoding (eg. youtube) -->
 					<li class="status-list-pending" py:if="status == 'pending'">encoding pending</li>
@@ -15,7 +15,7 @@
 				</ol>
 				<div py:content="h.tags.submit('update_button', 'Review Complete', id='update-status', class_='mo submitbutton btn-review-complete')" class="box-content center" />
 			</div>
-			<div py:when="'pending_encoding' in video.status" py:strip="">
+			<div py:when="'unencoded' in video.status" py:strip="">
 				<ol id="status-list">
 					<li class="status-list-complete">review complete</li>
 					<li class="status-list-inprogress">encoding pending</li>

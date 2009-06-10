@@ -15,9 +15,9 @@
 		</thead>
 		<tbody>
 			<tr py:if="item_count == 0"><td colspan="4">No Comments Found</td></tr>
-			<tr py:for="comment, edit_form in zip(collection, edit_forms)" class="${('pending_review' in comment.status) and 'tr-white' or 'tr-gray'}">
+			<tr py:for="comment, edit_form in zip(collection, edit_forms)" class="${('unreviewed' in comment.status) and 'tr-white' or 'tr-gray'}">
 				<td py:choose="">
-					<a class="mo review-comment" py:when="'pending_review' in comment.status" href="${h.url_for(controller='commentcontroller', action='approve', id=comment.id)}"><span>approve</span></a>
+					<a class="mo review-comment" py:when="'unreviewed' in comment.status" href="${h.url_for(controller='commentcontroller', action='approve', id=comment.id)}"><span>approve</span></a>
 					<span class="published-comment" py:otherwise="">published</span>
 					<a class="mo trash-comment" href="${h.url_for(controller='commentcontroller', action='trash', id=comment.id)}"><span>trash</span></a>
 				</td>

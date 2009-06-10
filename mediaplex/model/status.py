@@ -35,21 +35,21 @@ Querying for rows based on their status:
 
     # These are all equivalent inputs:
     # Grabs rows with exactly this status:
-    DBSession.query(Media).filter(Media.status == 'draft,pending_encoding,pending_review')
-    DBSession.query(Media).filter(Media.status == ['draft','pending_encoding','pending_review'])
-    DBSession.query(Media).filter(Media.status == VideoStatusSet(['draft','pending_encoding','pending_review'])
+    DBSession.query(Media).filter(Media.status == 'draft,unencoded,unreviewed')
+    DBSession.query(Media).filter(Media.status == ['draft','unencoded','unreviewed'])
+    DBSession.query(Media).filter(Media.status == VideoStatusSet(['draft','unencoded','unreviewed'])
     DBSession.query(Media).filter(Media.status == 28)
 
     # Grab rows with *at least* all of these statuses:
-    DBSession.query(Media).filter(Media.status.issuperset('draft,pending_encoding'))
-    DBSession.query(Media).filter(Media.status >= 'draft,pending_encoding')
+    DBSession.query(Media).filter(Media.status.issuperset('draft,unencoded'))
+    DBSession.query(Media).filter(Media.status >= 'draft,unencoded')
 
     # Grab rows with *at least* any one of these statuses:
-    DBSession.query(Media).filter(Media.status.intersects('pending_review,pending_encoding'))
+    DBSession.query(Media).filter(Media.status.intersects('unreviewed,unencoded'))
 
     # Grab rows with one or more of these statuses but no others:
-    DBSession.query(Media).filter(Media.status.issuperset('draft,pending_encoding'))
-    DBSession.query(Media).filter(Media.status >= 'draft,pending_encoding')
+    DBSession.query(Media).filter(Media.status.issuperset('draft,unencoded'))
+    DBSession.query(Media).filter(Media.status >= 'draft,unencoded')
 
     # Grab rows which don't contain any of the given statuses:
     DBSession.query(Media).filter(Media.status.excludes('trash'))
@@ -59,9 +59,9 @@ Working with statuses once you've got a row:
     media_inst.status = 'trash'
     media_inst.status.discard('trash')
     media_inst.status.add('publish')
-    media_inst.status = [DRAFT, PENDING_REVIEW]
+    media_inst.status = [DRAFT, UNREVIEWED]
     media_inst.status = 8
-    is_pending_review = 'pending_review' in media_inst.status
+    is_unreviewed = 'unreviewed' in media_inst.status
 
 If at any time you try to do something with an invalid status, a ValueError is thrown:
 
@@ -138,8 +138,8 @@ class StatusSet(set):
     elements) as well as any valid bitmask or string with comma separated elements.
 
     Examples of acceptable sequence input:
-        s = StatusSet(['draft', 'pending_review'])
-        s = StatusSet('draft,pending_review')
+        s = StatusSet(['draft', 'unreviewed'])
+        s = StatusSet('draft,unreviewed')
         s = StatusSet(11)       # the equivalent of a 1101 bitmask
         print int(s) # prints 11, the equivalent of a 1101 bitmask
 

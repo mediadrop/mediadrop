@@ -136,7 +136,7 @@ License: General Upload"""
         error = None
 
         if update_button == 'Review Complete':
-            video.status.discard('pending_review')
+            video.status.discard('unreviewed')
 
         elif update_button == 'Encoding Complete':
             if video.upload_url and not video.url:
@@ -145,13 +145,13 @@ License: General Upload"""
                 flv_path = os.path.join(config.media_dir, flv_file)
                 if os.path.exists(flv_path):
                     video.url = flv_file
-                    video.status.discard('pending_encoding')
+                    video.status.discard('unencoded')
                 else:
                     error = u'Encoded video not found, please upload and name it: %s' % flv_file
             elif video.url and video.url.endswith('.flv'):
-                video.status.discard('pending_encoding')
+                video.status.discard('unencoded')
             elif video.url and not video.upload_url:
-                video.status.discard('pending_encoding')
+                video.status.discard('unencoded')
                 error = u'Encoding unnecessary.'
             else:
                 error = u'Video record does not match the status.'

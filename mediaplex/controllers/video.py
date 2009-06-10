@@ -121,7 +121,7 @@ class VideoController(RoutingController):
     def comment(self, slug, **values):
         video = self._fetch_video(slug)
         c = Comment()
-        c.status = 'pending_review'
+        c.status = 'unreviewed'
         c.author = AuthorWithIP(values['name'], None, request.environ['REMOTE_ADDR'])
         c.subject = 'Re: %s' % video.title
         c.body = values['body']
@@ -225,7 +225,7 @@ class VideoController(RoutingController):
         video.title = title
         video.slug = title
         video.description = description
-        video.status = 'draft,pending_encoding,pending_review'
+        video.status = 'draft,unencoded,unreviewed'
         video.notes = """Bible References: None
 S&H References: None
 Reviewer: None
@@ -265,7 +265,7 @@ License: General Upload"""
         # update video relations
         video.files.append(media_file)
         if file_type == 'flv':
-            video.status.discard('pending_encoding')
+            video.status.discard('unencoded')
 
         video.set_tags(tags)
 

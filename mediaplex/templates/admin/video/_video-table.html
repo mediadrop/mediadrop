@@ -32,8 +32,8 @@
 					</td>
 					<td py:when="'created_on'">${video.created_on.strftime('%b %d %Y')}</td>
 					<td py:when="'status'" py:choose="">
-						<a class="mo review-me" py:when="'pending_review' in video.status" href="${h.url_for(controller='videoadmin', action='edit', id=video.id)}"><span>review me</span></a>
-						<a class="mo encode-me" py:when="'pending_encoding' in video.status" href="${video.upload_url}"><span>encode me</span></a>
+						<a class="mo review-me" py:when="'unreviewed' in video.status" href="${h.url_for(controller='videoadmin', action='edit', id=video.id)}"><span>review me</span></a>
+						<a class="mo encode-me" py:when="'unencoded' in video.status" href="${video.upload_url}"><span>encode me</span></a>
 						<a class="mo publish-me" py:when="'draft' in video.status" href="${h.url_for(controller='videoadmin', action='edit', id=video.id)}"><span>publish me</span></a>
 						<a class="mo published" py:otherwise="" href="${h.url_for(controller='video', action='view', slug=video.slug)}"><span>published</span></a>
 					</td>

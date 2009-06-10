@@ -46,7 +46,7 @@ class CommentadminController(RoutingController):
     @expose()
     def approve(self, id, **kwargs):
         comment = self._fetch_comment(id)
-        comment.status.discard('pending_review')
+        comment.status.discard('unreviewed')
         comment.status.add('publish')
         DBSession.add(comment)
 

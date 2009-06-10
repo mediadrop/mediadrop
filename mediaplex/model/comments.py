@@ -45,10 +45,10 @@ from mediaplex.model.status import Status, StatusSet, StatusComparator, StatusTy
 
 TRASH = Status('trash', 1)
 PUBLISH = Status('publish', 2)
-PENDING_REVIEW = Status('pending_review', 4)
+UNREVIEWED = Status('unreviewed', 4)
 USER_FLAGGED = Status('user_flagged', 8)
 
-STATUSES = dict((int(s), s) for s in (TRASH, PUBLISH, PENDING_REVIEW, USER_FLAGGED))
+STATUSES = dict((int(s), s) for s in (TRASH, PUBLISH, UNREVIEWED, USER_FLAGGED))
 """Dictionary of allowed statuses, bitmask value(int) => Status(unicode) instance"""
 
 class CommentStatusSet(StatusSet):

@@ -41,10 +41,10 @@ from mediaplex.lib.helpers import slugify
 TRASH = Status('trash', 1)
 PUBLISH = Status('publish', 2)
 DRAFT = Status('draft', 4)
-PENDING_ENCODING = Status('pending_encoding', 8)
-PENDING_REVIEW = Status('pending_review', 16)
+UNENCODED = Status('unencoded', 8)
+UNREVIEWED = Status('unreviewed', 16)
 
-STATUSES = dict((int(s), s) for s in (TRASH, PUBLISH, DRAFT, PENDING_ENCODING, PENDING_REVIEW))
+STATUSES = dict((int(s), s) for s in (TRASH, PUBLISH, DRAFT, UNENCODED, UNREVIEWED))
 """Dictionary of allowed statuses, bitmask value(int) => Status(unicode) instance"""
 
 class MediaStatusSet(StatusSet):

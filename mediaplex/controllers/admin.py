@@ -27,14 +27,14 @@ class AdminController(RoutingController):
                 .filter(Media.status >= 'publish')\
                 .filter(Media.publish_on < datetime.now)\
                 .order_by(Media.publish_on)[:5]
-            comments_pending_review = DBSession.query(Comment).filter(Comment.status >= 'pending_review').count()
+            comments_unreviewed = DBSession.query(Comment).filter(Comment.status >= 'unreviewed').count()
             comments_total = DBSession.query(Comment).count()
 
             return dict(
                 review_page=self._fetch_page('awaiting_review'),
                 encode_page=self._fetch_page('awaiting_encoding'),
                 publish_page=self._fetch_page('awaiting_publishing'),
-                num_comments_to_review=comments_pending_review,
+                num_comments_to_review=comments_unreviewed,
                 num_comments_total=comments_total,
                 recent_media=recent_media
             )
@@ -45,11 +45,11 @@ class AdminController(RoutingController):
         query = DBSession.query(Media).order_by(Video.created_on)
 
         if type == 'awaiting_review':
-            query = query.filter(Video.status.intersects('pending_review')).\
+            query = query.filter(Video.status.intersects('unreviewed')).\
                          filter(Video.status.excludes('trash'))
         elif type == 'awaiting_encoding':
-            query = query.filter(Video.status.intersects('pending_encoding')).\
-                         filter(Video.status.excludes('trash,pending_review'))
+            query = query.filter(Video.status.intersects('unencoded')).\
+                         filter(Video.status.excludes('trash,unreviewed'))
         elif type == 'awaiting_publishing':
             query = query.filter(Video.status.issubset('draft'))
 
