@@ -199,6 +199,7 @@ CREATE TABLE `podcasts` (
   `author_name` varchar(50) default NULL,
   `author_email` varchar(50) default NULL,
   `explicit` tinyint(1) NOT NULL,
+  `copyright` varchar(50) default NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `slug` (`slug`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;

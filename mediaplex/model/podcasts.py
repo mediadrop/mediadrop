@@ -25,6 +25,7 @@ podcasts = Table('podcasts', metadata,
     Column('author_name', Unicode(50)),
     Column('author_email', Unicode(50)),
     Column('explicit', Boolean, default=False),
+    Column('copyright', Unicode(50)),
 )
 
 
