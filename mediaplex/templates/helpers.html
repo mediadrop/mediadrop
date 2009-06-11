@@ -54,16 +54,16 @@
 				<div class="topic-box-top1" />
 				<div class="topic-box-top2" />
 				<div><!--! this extra div is here to group elements for the ButtonFlyout js -->
-					<div class="topic-box-body">
-						<div id="topics-caption">
-							<div id="topics-dontsee">Don't see the topic you are looking for?</div>
-							<a id="topics-suggest" href="#">Suggest a new topic</a>
-						</div>
-						<ul py:if="c.tags" py:for="col in xrange(1, 5)" py:with="per_col = (len(c.tags) + 8) / 4">
+					<div class="topic-box-body" py:with="per_col = max(5, int(h.math.ceil((len(c.tags) + 6) / 4.0)))">
+						<ul py:if="c.tags" py:for="col in xrange(1, 5)">
 							<li py:for="tag in c.tags[(col-1)*per_col:col*per_col]">
-								<a href="${h.url_for(action='tags', slug=tag.slug)}">${tag}</a> (${tag.media_count})
+								<a href="${h.url_for(action='tags', slug=tag.slug)}">${tag}</a> <span>(${tag.media_count})</span>
 							</li>
 						</ul>
+						<div id="topics-caption">
+							<div id="topics-dontsee">Don't see the topic you are looking for?</div>
+							<a id="topics-suggest" href="mailto:help@tmcyouth.com?subject=Suggest%20a%20topic!">Suggest a new topic</a>
+						</div>
 					</div>
 					<div class="topic-box-bottom" />
 				</div>

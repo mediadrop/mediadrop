@@ -31,10 +31,7 @@
 				<div class="media-meta-likethis" id="video-rating"><a id="likethis" class="mo up" title="vote up" href="${h.url_for(action='rate', rating=1)}"><span>I like this!</span></a></div>
 				<div class="media-meta-views"><strong>Views:</strong> ${video.views}</div>
 				<div class="media-meta-time"><strong>Time:</strong> ${h.duration_from_seconds(video.duration)}</div>
-				<div class="media-meta-etc">
-					<strong id="num-likedthis">${h.text.plural(video.rating.sum, 'person', 'people')}</strong> liked this video and
-					<strong>${h.text.plural(len(comments), 'person', 'people')}</strong> commented!
-				</div>
+				<div class="media-meta-etc"><strong id="num-likedthis">${h.text.plural(video.rating.sum, 'person', 'people')}</strong> liked this video!</div>
 			</div>
 			${media_player(video)}
 		</div>
