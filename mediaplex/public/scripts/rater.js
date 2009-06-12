@@ -6,10 +6,14 @@ var ThumbRater = new Class({
 		upCounter: null,
 		downButton: null,
 		downCounter: null,
+		ensureVisible: null // perhaps some parent object you want hidden until a rating occurs
 	},
 
 	upButton: null,
 	upCounter: null,
+	downButton: null,
+	downCounter: null,
+	ensureVisible: null,
 
 	initialize: function(options) {
 		this.setOptions(options);
@@ -18,6 +22,7 @@ var ThumbRater = new Class({
 		this.upCounter = $(this.options.upCounter);
 		this.downButton = $(this.options.downButton);
 		this.downCounter = $(this.options.downCounter);
+		this.ensureVisible = $(this.options.ensureVisible);
 
 		if (this.upButton) this.upButton.addEvent('click', this.rateUp.bind(this));
 		if (this.downButton) this.downButton.addEvent('click', this.rateDown.bind(this));
@@ -50,5 +55,6 @@ var ThumbRater = new Class({
 		if (this.downCounter && responseJSON.downRating != undefined) {
 			this.downCounter.set('text', responseJSON.downRating);
 		}
+		if (this.ensureVisible) this.ensureVisible.setStyle('visibility', 'visible');
 	}
 });

@@ -11,10 +11,14 @@
 	<script type="text/javascript" src="/scripts/rater.js"></script>
 	<script type="text/javascript" src="/scripts/overtext.js"></script>
 	<script type="text/javascript">
-		var OverTextMGR = null;
 		window.addEvent('domready', function(){
-			OverTextMGR = new OverTextManager('${comment_form.id}');
-			raterness = new ThumbRater({upButton: 'likethis', upCounter: 'num-likedthis'});
+			var overTextMGR = new OverTextManager('${comment_form.id}');
+			var likesCounter = $('num-likedthis');
+			var likesRater = new ThumbRater({
+				upButton: 'likethis',
+				upCounter: likesCounter,
+				ensureVisible: likesCounter.getParent()
+			});
 		});
 	</script>
 </head>
@@ -30,7 +34,9 @@
 				<div class="media-meta-likethis" id="video-rating"><a id="likethis" class="mo up" title="vote up" href="${h.url_for(action='rate', rating=1)}"><span>I like this!</span></a></div>
 				<div class="media-meta-views"><strong>Views:</strong> ${video.views}</div>
 				<div class="media-meta-time"><strong>Time:</strong> ${h.duration_from_seconds(video.duration)}</div>
-				<div class="media-meta-etc"><strong id="num-likedthis">${h.text.plural(video.rating.sum, 'person', 'people')}</strong> liked this video!</div>
+				<div class="media-meta-etc" style="${(video.rating.sum &gt; 0) or 'visibility:hidden'}">
+					<strong id="num-likedthis">${h.text.plural(video.rating.sum, 'person', 'people')}</strong> liked this video!
+				</div>
 			</div>
 			${media_player(video)}
 		</div>
