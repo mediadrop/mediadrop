@@ -10,7 +10,8 @@
 .comments h2 span {
 	color: #000;
 }
-.comments h3, .comments-list li .top {
+.comments h3,
+.comments-list li .top {
 	color: #3b3c3d;
 	font-family: 'Georgia';
 	font-size: 18px;
@@ -31,29 +32,38 @@
 	margin-left: 0;
 	margin-right: -12px
 }
-.comments-list li .date {
-	font-size: 11px;
-}
+.comments-list li .date,
 .comments-list li .edit {
 	font-size: 11px;
+}
+.comments-list li .date a:link,
+.comments-list li .date a:visited {
+	color: #767778;
+	text-decoration: none;
+}
+.comments-list li .date a:hover {
+	color: #00BEE2;
+	text-decoration: underline;
 }
 
 .comments-list li .top {
 	display: block;
-	height: 51px;
-	padding: 40px 20px 0 75px;
+	height: 91px;
+	padding: 0 20px 0 75px;
 	background: url('/images/layout/comment-top-norm.png') no-repeat top left;
 	margin-bottom: -20px;
 }
 
 .comments-list li.alt .top {
 	background: url('/images/layout/comment-top-alt.png') no-repeat top left;
-	padding: 40px 75px 0 32px;
+	padding: 0 75px 0 32px;
 }
 
 .comments-list li .top a {
 	color: inherit;
 	text-decoration: inherit;
+	padding-top: 40px;
+	display: block;
 }
 
 .comments-list li .bottom {
@@ -86,14 +96,16 @@
 	margin: 10px 0;
 }
 
-#post-comment-form textarea, #post-comment-form input[type='text'] {
+#post-comment-form textarea,
+#post-comment-form input[type='text'] {
 	-moz-border-radius: 15px;
 	-webkit-border-radius: 15px;
 	border: 5px solid #ebe4dc;
 	padding: 5px 8px 6px 8px;
 	width: 355px;
 }
-#post-comment-form .form-field-wide textarea, #post-comment-form .form-field-wide input[type='text'] {
+#post-comment-form .form-field-wide textarea,
+#post-comment-form .form-field-wide input[type='text'] {
 	width: 455px;
 	margin-bottom: 12px;
 }
