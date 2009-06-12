@@ -162,7 +162,7 @@ div#upload-status.active span.text {
 	margin-bottom: 40px;
 }
 
-.greybox p, ol, ul {
+.greybox p, .greybox ol, .greybox ul {
 	margin-bottom: 1.5em;
 }
 

@@ -54,7 +54,7 @@ class AlbumArtForm(ListForm):
     ]
 
 class UploadForm(ListForm):
-    template = 'mediaplex.templates.media.upload-form'
+    template = 'mediaplex.templates.video.upload-form'
     id = 'upload-form'
     css_class = 'form'
     css = [CSSLink(link='/styles/forms.css')]
