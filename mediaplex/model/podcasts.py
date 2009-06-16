@@ -5,11 +5,12 @@ Dependent on the Media module.
 
 """
 from datetime import datetime
-from sqlalchemy import Table, ForeignKey, Column
+from sqlalchemy import Table, ForeignKey, Column, sql
 from sqlalchemy.types import String, Unicode, UnicodeText, Integer, DateTime, Boolean, Float
-from sqlalchemy.orm import mapper, relation, backref, synonym, composite, validates, dynamic_loader
+from sqlalchemy.orm import mapper, relation, backref, synonym, composite, validates, dynamic_loader, column_property
 
-from mediaplex.model import DeclarativeBase, metadata, DBSession, Author, Media
+from mediaplex.model import DeclarativeBase, metadata, DBSession, Author
+from mediaplex.model.media import Media, media
 from mediaplex.lib.helpers import slugify
 
 
@@ -43,4 +44,15 @@ mapper(Podcast, podcasts, properties={
         podcasts.c.author_name,
         podcasts.c.author_email),
     'media': dynamic_loader(Media, backref='podcast'),
+    'media_count':
+        column_property(
+            sql.select(
+                [sql.func.count(media.c.id)],
+                sql.and_(
+                    media.c.podcast_id == podcasts.c.id,
+                    media.c.status.op('&')(2) == 2# note that 2 is the ID of the comments 'publish' STATUS
+                )
+            ).label('media_count'),
+            deferred=True
+        )
 })
