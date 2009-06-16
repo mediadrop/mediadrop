@@ -1,0 +1,39 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      xmlns:xi="http://www.w3.org/2001/XInclude"
+      py:strip="">
+
+	<py:match path="head" once="true">
+		<head>
+			<link href="/styles/forms.css" media="screen" rel="stylesheet" type="text/css" />
+			<link href="/styles/comments.css" media="screen" rel="stylesheet" type="text/css" />
+			<meta py:replace="select('*')" />
+		</head>
+	</py:match>
+
+	<py:def function="comment_list(comments, form=None, values=None)">
+		<div class="comments">
+			<h2>Comments <span>&#123;${len(comments)}&#125;</span></h2>
+			<py:choose test="len(comments)">
+				<p py:when="0" class="comments-none-yet">No comments have been posted yet.</p>
+				<ul py:otherwise="" class="comments-list">
+					<li py:for="i, comment in enumerate(comments)"
+						py:attrs="{'class': [None, 'alt'][i%2]}">
+						<h4 class="top">
+							<a name="comment-${comment.id}">
+								<cite>${comment.author.name} says:</cite>
+							</a>
+						</h4>
+						<blockquote py:content="Markup(h.format_paragraphs(comment.body))" />
+						<div class="bottom date"><a href="#comment-${comment.id}" title="Permalink">Posted on ${comment.created_on.strftime("%d/%m/%y @ %H:%M")}</a></div>
+					</li>
+				</ul>
+			</py:choose>
+			<py:if test="form">
+				<h3>Write a comment</h3>
+				${XML(form(values))}
+			</py:if>
+		</div>
+	</py:def>
+
+</html>
