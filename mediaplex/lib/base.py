@@ -48,6 +48,17 @@ class RoutingController(DecoratedController):
                 params = args
                 remainder = ''
 
+                # Remove all extraneous Routing related params
+                undesirables = [
+                    'pylons',
+                    'start_response',
+                    'environ',
+                    'action',
+                    'controller'
+                ]
+                for x in undesirables:
+                    params.pop(x, None)
+
                 result = DecoratedController._perform_call(
                     self, controller, params, remainder=remainder)
 
