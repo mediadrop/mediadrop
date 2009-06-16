@@ -5,8 +5,8 @@
 
 	<py:match path="head" once="true">
 		<head>
-			<link href="/styles/forms.css" media="screen" rel="stylesheet" type="text/css" />
-			<link href="/styles/comments.css" media="screen" rel="stylesheet" type="text/css" />
+			<link href="${h.url_for('/styles/forms.css')}" media="screen" rel="stylesheet" type="text/css" />
+			<link href="${h.url_for('/styles/comments.css')}" media="screen" rel="stylesheet" type="text/css" />
 			<meta py:replace="select('*')" />
 		</head>
 	</py:match>

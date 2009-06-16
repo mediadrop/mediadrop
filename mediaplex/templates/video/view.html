@@ -8,8 +8,8 @@
 <xi:include href="../master.html" />
 <head>
 	<title>${video.title}</title>
-	<script type="text/javascript" src="/scripts/rater.js"></script>
-	<script type="text/javascript" src="/scripts/overtext.js"></script>
+	<script type="text/javascript" src="${h.url_for('/scripts/rater.js')}"></script>
+	<script type="text/javascript" src="${h.url_for('/scripts/overtext.js')}"></script>
 	<script type="text/javascript">
 		window.addEvent('domready', function(){
 			var overTextMGR = new OverTextManager('${comment_form.id}');

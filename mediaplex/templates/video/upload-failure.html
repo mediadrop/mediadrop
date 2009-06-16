@@ -7,7 +7,7 @@
 <xi:include href="../master.html" />
 <head>
 	<title>Upload Videos</title>
-	<link href="/styles/upload-form.css" media="screen" rel="stylesheet" type="text/css" />
+	<link href="${h.url_for('/styles/upload-form.css')}" media="screen" rel="stylesheet" type="text/css" />
 </head>
 <body class="nav-upload-video-on">
 	<box id="mediaplex">
@@ -21,7 +21,7 @@
 				<li>Is the file under 500 Megabytes in size?</li>
 				<li>Is it encoded in one of our supported formats? <span id="formats">avi, divx, dv, dvx, flv, m4v, mov, mp4, mpeg, mpg, qt, vob, 3gp, and wmv.</span></li>
 			</ul>
-			<a id="try-again" href="${h.url_for(action='upload')}"><img alt="Try Uploading Again" src="/images/uploader/try-again.png" /></a>
+			<a id="try-again" href="${h.url_for(action='upload')}"><img alt="Try Uploading Again" src="${h.url_for('/images/uploader/try-again.png')}" /></a>
 		</div>
 		</div>
 	</box>

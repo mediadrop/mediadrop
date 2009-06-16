@@ -12,7 +12,7 @@
 					<th py:when="'created_on'" style="width:100px">Upload Date</th>
 					<th py:when="'status'" style="width:90px">Status</th>
 					<th py:when="'title'" style="width:auto">Title</th>
-					<th py:when="'comment_count'" style="width:30px" class="center"><img src="/admin/images/icons/comments.png" alt="Comments" title="Number of Comments" /></th>
+					<th py:when="'comment_count'" style="width:30px" class="center"><img src="${h.url_for('/admin/images/icons/comments.png')}" alt="Comments" title="Number of Comments" /></th>
 					<th py:when="'tags'" style="width:120px">Tags</th>
 					<th py:when="'author'" style="width:120px">Author</th>
 					<th py:when="'type'" style="width:30px">&nbsp;</th>
@@ -48,7 +48,7 @@
 					<td py:when="'author'">
 						<a href="mailto:${media.author.email}" py:strip="not media.author.email">${media.author.name}</a>
 					</td>
-					<td py:when="'type'" class="center"><img src="/admin/images/icons/${media.type}.png" py:with="pretty_type=media.type.capitalize()" alt="${pretty_type}" title="${pretty_type}" /></td>
+					<td py:when="'type'" class="center"><img src="${h.url_for('/admin/images/icons/${media.type}.png')}" py:with="pretty_type=media.type.capitalize()" alt="${pretty_type}" title="${pretty_type}" /></td>
 				</py:for>
 			</tr>
 		</tbody>

@@ -7,10 +7,10 @@
 <xi:include href="../master.html" />
 <head>
 	<title>Upload Videos</title>
-	<link href="/styles/upload-form.css" media="screen" rel="stylesheet" type="text/css" />
-	<script type="text/javascript" src="/scripts/third-party/Fx.ProgressBar.js"></script>
-	<script type="text/javascript" src="/scripts/third-party/Swiff.Uploader.js"></script>
-	<script type="text/javascript" src="/scripts/uploader.js"></script>
+	<link href="${h.url_for('/styles/upload-form.css')}" media="screen" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="${h.url_for('/scripts/third-party/Fx.ProgressBar.js')}"></script>
+	<script type="text/javascript" src="${h.url_for('/scripts/third-party/Swiff.Uploader.js')}"></script>
+	<script type="text/javascript" src="${h.url_for('/scripts/uploader.js')}"></script>
 	<script type="text/javascript">
 		var UploadMGR = null;
 		var SwiffUploadMGR = null;
