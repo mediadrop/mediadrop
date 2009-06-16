@@ -9,10 +9,10 @@
 	<div py:if="hidden_fields">
 		<div py:for="field in hidden_fields"
 		     py:strip="True">
-			<span py:replace="XML(field.display(value_for(field), **args_for(field)))" />
+			<span py:replace="field.display(value_for(field), **args_for(field))" />
 		</div>
 	</div>
 	<div py:for="field in fields" py:with="div_class='form-field-%s' % field.__class__.__name__.lower()" class="form-field ${div_class}">
-		${XML(field.display(value_for(field), id=None, **args_for(field)))}
+		${field.display(value_for(field), id=None, **args_for(field))}
 	</div>
 </form>

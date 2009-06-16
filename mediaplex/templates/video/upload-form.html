@@ -31,7 +31,7 @@
 			</tr>
 			<tr>
 				<td class="${render_error and (error_for(field) is not None and 'err' or 'noerr') or ''}">
-				${XML(field.display(value_for(field), **args_for(field)))}
+				${field.display(value_for(field), **args_for(field))}
 				</td>
 			</tr>
 		</span>
