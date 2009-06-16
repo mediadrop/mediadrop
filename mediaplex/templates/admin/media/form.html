@@ -12,7 +12,7 @@
 			<div py:for="field in hidden_fields"
 				 py:with="error=error_for(field)"
 				 py:strip="True">
-				<span py:replace="field.display(value_for(field), **args_for(field))" />
+				<span py:replace="XML(field.display(value_for(field), **args_for(field)))" />
 				<span py:if="show_children_errors and error and not field.show_error"
 					  class="field-error" py:content="error" />
 			</div>
@@ -33,7 +33,7 @@
 					<label for="${field.id}">${label_text}:</label>
 				</div>
 				<div class="form-field">
-					${field.display(value_for(field), **args_for(field))}
+					${XML(field.display(value_for(field), **args_for(field)))}
 				</div>
 				<span py:if="help_text" class="field-help" py:content="help_text" />
 				<span py:if="show_children_errors and error and not field.show_error"
