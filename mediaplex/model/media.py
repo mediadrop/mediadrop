@@ -53,7 +53,7 @@ class MediaStatusSet(StatusSet):
 
 media = Table('media', metadata,
     Column('id', Integer, autoincrement=True, primary_key=True),
-    Column('type', Unicode(10), nullable=False),
+    Column('type', String(10), nullable=False),
     Column('slug', String(50), unique=True, nullable=False),
     Column('status', StatusType(MediaStatusSet), default=PUBLISH, nullable=False),
     Column('podcast_id', Integer, ForeignKey('podcasts.id', onupdate='CASCADE', ondelete='CASCADE')),
