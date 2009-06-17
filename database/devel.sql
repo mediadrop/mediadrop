@@ -198,7 +198,7 @@ CREATE TABLE `podcasts` (
   `category` varchar(50) default NULL,
   `author_name` varchar(50) NOT NULL,
   `author_email` varchar(50) NOT NULL,
-  `explicit` tinyint(1) NOT NULL,
+  `explicit` tinyint(1) default NULL,
   `copyright` varchar(50) default NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `slug` (`slug`)
