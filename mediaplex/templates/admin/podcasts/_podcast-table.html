@@ -1,0 +1,53 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      py:strip="">
+	<table py:def="podcast_table(collection, include_thead=True, id='media-table')"
+	       cellpadding="0" cellspacing="0" id="${id}"
+	       py:with="item_count = len(collection)">
+		<tbody>
+			<tr py:if="item_count == 0">
+				<td>None Found</td>
+			</tr>
+			<py:for each="podcast in collection">
+				<tr class="thead-row">
+					<td colspan="2">
+						<a href="${h.url_for(action='edit', id=podcast.id)}" class="mo edit-btn f-rgt"><span>Edit</span></a>
+						<h3>${podcast.title}</h3>
+					</td>
+				</tr>
+				<tr>
+					<td style="width:180px"><div class="podcast-art"><img src="${h.url_for('/images/podcasts/'+str(podcast.id)+'m.jpg')}" width="160" height="150" alt="Album Art" /></div></td>
+					<td class="podcast-info" style="width:auto">
+						<div class="info-content">
+							<p>${podcast.description}</p>
+							<div class="podcast-meta">
+								<span class="podcast-category"><strong>Category:</strong> ${podcast.category and podcast.category or 'None'}</span>
+								<span class="podcast-author">
+									<strong>Author:</strong>
+									<div py:choose="" py:strip="True">
+										<a py:when="podcast.author.email is not None" href="mailto:${podcast.author.email}">${podcast.author.name and podcast.author.name or podcast.author.email}</a>
+										<span py:otherwise="" py:replace="podcast.author.name and podcast.author.name or 'None'"></span>
+									</div>
+								</span>
+								<div py:if="podcast.explicit is not None" py:choose="podcast.explicit" py:strip="True">
+									<span py:when="True" class="explicit"><strong>Explicit</strong></span>
+									<span py:when="False" class="clean"><strong>Clean</strong></span>
+								</div>
+								<span py:if="podcast.copyright is not None" class="copyright">&copy; ${podcast.copyright}</span>
+							</div>
+							<div class="podcast-episodes">
+								<a href="${h.url_for(controller='mediaadmin', action='new', podcast=podcast.id)}" class="mo add-episode"><span>Add episode</span></a>
+								<div py:choose="podcast.media_count" py:strip="True">
+									<a py:when="1" href="${h.url_for(controller='mediaadmin', action='edit', id=podcast.media.first().id)}" class="view-episodes"><strong>View First Episode</strong></a>
+									<span py:when="0" class="view-episodes">No Episodes</span>
+									<a py:otherwise="" href="${h.url_for(controller='mediaadmin', podcast=podcast.id)}" class="view-episodes"><strong>View All ${podcast.media_count} Episodes</strong></a>
+								</div>
+							</div>
+						</div>
+					</td>
+				</tr>
+			</py:for>
+		</tbody>
+	</table>
+</html>
+

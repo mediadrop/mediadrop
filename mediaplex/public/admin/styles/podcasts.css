@@ -1,42 +1,83 @@
-ul.podcast-list li {
-	float: left;
-	margin-right: 20px;
-	background: transparent url('../images/icons/podcast.png') no-repeat left center;
-	padding: 5px 0 5px 20px;
+.explicit strong,
+.clean strong {
+	display: none;
+}
+.explicit, .clean {
+	display: block;
+	height: 11px;
+	width: 37px;
+	padding-top: 3px;
+	background-position: bottom;
+	background-repeat: no-repeat;
+}
+
+.explicit {
+	background-image: url('../images/icons/explicit.png');
+}
+.clean {
+	background-image: url('../images/icons/clean.png');
+}
+
+a.add-podcast, a.add-podcast:hover,
+a.add-episode, a.add-episode:hover {
+	width: 120px;
+	height: 28px;
+}
+a.add-episode, a.add-episode:hover {
+	margin-top: -6px;
+}
+a.add-podcast { background-image: url('../images/buttons/add-podcast.png'); }
+a.add-episode { background-image: url('../images/buttons/add-episode.png'); }
+a.edit-btn { background-image: url('../images/buttons/edit.png'); }
+a.edit-btn, a.edit-btn:hover {
+	width: 66px;
+	height: 28px;
+}
+
+#podcast-table tbody tr td {
+	vertical-align: top;
+}
+#podcast-table .podcast-art {
+	text-align: center;
+	vertical-align: middle;
+	width: 170px;
+	height: 160px;
+	background: transparent url('../images/layout/podcast-art-frame.png') no-repeat top left;
+}
+#podcast-table .podcast-art img {
+	padding: 3px 7px 7px 3px;
+}
+#podcast-table .info-content {
+	position: relative;
+	min-height: 158px;
+}
+#podcast-table .info-content p {
+	padding-bottom: 80px;
+	line-height: 1.5em;
 	font-size: 14px;
 }
-
-ul.podcast-list li a {
-	color: #3c4d5a
+#podcast-table .podcast-meta {
+	font-size: 12px;
+	position: absolute;
+	bottom: 40px;
+	left: 0;
 }
-
-ul.podcast-list li.selected {
-	background-image: url('../images/icons/podcast-selected.png');
+#podcast-table .podcast-meta strong {
+	font-weight: bold;
 }
-
-ul.podcast-list li.selected a {
-	color: #116aaa;
+#podcast-table .podcast-meta span,
+#podcast-table .podcast-episodes a {
+	float: left;
+	margin-right: 20px;
 }
-
-ul.podcast-list li span {
-	font-size: 10px;
+#podcast-table .copyright {
+	font-weight: bold;
 }
-
-.hover-container .hover-target {
-	visibility: hidden;
+.podcast-meta, .podcast-episodes {
+	position: absolute;
+	bottom: 0;
+	left: 0;
 }
-
-.hover-container:hover .hover-target {
-	visibility: visible;
-}
-
-hr.clear {
-	background: #d9d9d9;
-	color: #d9d9d9;
-	clear: both;
-	width: 100%;
-	height: 0;
-	margin: 0;
-	border: 0;
-	clear: both;
+.view-episodes strong {
+	font-weight: bold;
 }

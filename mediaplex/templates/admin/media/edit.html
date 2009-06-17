@@ -43,7 +43,7 @@
 		<div class="box">
 			<h1 class="box-head">Album Art</h1>
 			<div class="box-content center">
-				<div id="album-art"><img src="${h.url_for('/images/media/'+str(media.id)+'s.jpg?'+str(int(h.time.time())))}" width="131" height="79" alt="Album Art" /></div>
+				<div class="album-art"><img src="${h.url_for('/images/media/'+str(media.id)+'s.jpg?'+str(int(h.time.time())))}" width="131" height="79" alt="Album Art" /></div>
 				<div id="edit-album-art" class="mo btn-edit-art clickable"><span>Edit Image</span></div>
 				<div py:if="'album_art' in album_art_form_errors" class="field-error" py:content="album_art_form_errors['album_art']" />
 			</div>

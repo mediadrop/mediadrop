@@ -203,7 +203,8 @@ table > thead:first-child > tr:first-child td {
 	border-top: 0;
 }
 /* thead/th is used for blue column labels */
-thead tr th {
+thead tr th,
+tr.thead-row td {
 	background: #d1e4f2;
 	color: #627789;
 	width: 100%;
@@ -215,6 +216,11 @@ thead tr th {
 	vertical-align: middle;
 	padding: 10px;
 	white-space: nowrap;
+}
+tr.thead-row td h3 {
+	padding-top: 3px;
+	font-size: 18px;
+	font-weight: bold;
 }
 
 

@@ -1,11 +1,11 @@
-#album-art {
+.album-art {
 	width: 133px;
 	margin: 0 auto 10px auto;
 	border: 5px solid #989790;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
 }
-#album-art img {
+.album-art img {
 	display: block;
 	border: 1px solid #fff;
 }

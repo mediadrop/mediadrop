@@ -1,0 +1,10 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      xmlns:xi="http://www.w3.org/2001/XInclude"
+      py:strip=""
+      py:with="id = defined('id') and id or 'podcast-table';
+               include_thead = not h.request.is_xhr;">
+<xi:include href="_podcast-table.html" />
+${podcast_table(podcasts, id=id, include_thead=include_thead)}
+</html>
+
