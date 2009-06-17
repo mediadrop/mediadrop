@@ -7,6 +7,7 @@ var ShowMore = new Class({
 		fetchUrl: '', // If no URL is passed the current URL is used
 		page: 1,
 		lastPage: 1,
+		numColumns: null,
 		request: {method: 'get'}
 	},
 
@@ -67,7 +68,10 @@ var ShowMore = new Class({
 	_setupButton: function(){
 		this.button = new Element('span', {text: 'show more', 'class': 'show-more clickable'})
 			.addEvent('click', this.fetchMore.bind(this));
-		var numCols = this.table.getChildren('thead')[0].getChildren('tr')[0].getChildren('th').length;
+		var numCols = this.options.numColumns;
+		if (numCols == null) {
+			numCols = this.table.getChildren('thead')[0].getChildren('tr')[0].getChildren('th').length;
+		}
 		this.buttonWrapper = new Element('tfoot').grab(
 			new Element('tr').grab(
 				new Element('td', {colspan: numCols, 'class': 'box-foot center'}).grab(this.button)

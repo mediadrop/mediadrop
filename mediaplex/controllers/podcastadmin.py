@@ -17,7 +17,7 @@ class PodcastadminController(RoutingController):
     """Admin podcast actions which deal with groups of podcasts"""
     allow_only = has_permission('admin')
 
-    @expose_xhr('mediaplex.templates.admin.podcasts.index', 'mediaplex.templates.podcasts.index-table')
+    @expose_xhr('mediaplex.templates.admin.podcasts.index', 'mediaplex.templates.admin.podcasts.index-table')
     @paginate('podcasts', items_per_page=10)
     def index(self, page=1, search=None, podcast=None, **kw):
         podcasts = DBSession.query(Podcast).\
