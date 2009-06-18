@@ -52,16 +52,16 @@ table.field-list .field-error {
 }
 
 table.field-list .err {
-	background: transparent url(/images/uploader/ex.png) no-repeat scroll 620px center
+	background: transparent url('../images/uploader/ex.png') no-repeat scroll 620px center
 }
 
 table.field-list .noerr {
-	background: transparent url(/images/uploader/check.png) no-repeat scroll 620px center
+	background: transparent url('../images/uploader/check.png') no-repeat scroll 620px center
 }
 
 div#bottombar {
 	margin-top: 27px;
-	background: url('/images/uploader/arrow.png') no-repeat 250px 0px;
+	background: url('../images/uploader/arrow.png') no-repeat 250px 0px;
 }
 
 
@@ -75,11 +75,11 @@ div#browse-button.browse-button-hover {
 }
 
 div#browse-button.active {
-	background: url('/images/uploader/choose-file-grey.png') no-repeat bottom;
+	background: url('../images/uploader/choose-file-grey.png') no-repeat bottom;
 }
 
 div#browse-button.enabled {
-	background: url('/images/uploader/choose-file.png') no-repeat;
+	background: url('../images/uploader/choose-file.png') no-repeat;
 }
 
 div#browse-button.browse-button-hover {
@@ -88,14 +88,14 @@ div#browse-button.browse-button-hover {
 
 div#upload-button.active {
 	float: left;
-	background: url('/images/uploader/upload-grey.png') no-repeat bottom;
+	background: url('../images/uploader/upload-grey.png') no-repeat bottom;
 	width: 148px;
 	height: 34px;
 	margin-left: 150px;
 }
 
 div#upload-button.enabled {
-	background: url('/images/uploader/upload.png') no-repeat;
+	background: url('../images/uploader/upload.png') no-repeat;
 	cursor: pointer;
 }
 div#upload-button.enabled:hover {
@@ -178,7 +178,7 @@ div#upload-status.active span.text {
 
 .greybox ul li {
 	margin-left: 35px;
-	list-style: none url('/images/uploader/list-item.png');
+	list-style: none url('../images/uploader/list-item.png');
 	text-align: top;
 	line-height: 18px;
 }
@@ -188,7 +188,7 @@ div#upload-status {
 }
 
 div.success {
-	background-image: url('/images/uploader/success.png');
+	background-image: url('../images/uploader/success.png');
 	background-position: center 170px;
 	background-repeat: no-repeat;
 	padding-bottom: 140px;
@@ -206,7 +206,7 @@ div.success {
 }
 
 div#failure {
-	background: transparent url('/images/uploader/background-gears.png') no-repeat center 26px;
+	background: transparent url('../images/uploader/background-gears.png') no-repeat center 26px;
 	padding-bottom: 100px;
 }
 

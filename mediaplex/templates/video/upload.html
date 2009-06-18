@@ -15,7 +15,7 @@
 		var UploadMGR = null;
 		var SwiffUploadMGR = null;
 		window.addEvent('domready', function() { UploadMGR = new UploadManager('${upload_form.id}', '${upload_form.async_action}');});
-		window.addEvent('domready', function() { SwiffUploadMGR = new SwiffUploadManager('${upload_form.id}', '${upload_form.async_action}', '${h.url_for(action='upload_failure')}', 'browse-button', 'upload-button', 'file-info', 'upload-status');})
+		window.addEvent('domready', function() { SwiffUploadMGR = new SwiffUploadManager('${upload_form.id}', '${upload_form.async_action}', '${h.url_for(action='upload_failure')}', '${h.url_for('/')}', 'browse-button', 'upload-button', 'file-info', 'upload-status');})
 	</script>
 </head>
 <body class="nav-upload-video-on">

@@ -50,12 +50,12 @@
 	display: block;
 	height: 91px;
 	padding: 0 20px 0 75px;
-	background: url('/images/layout/comment-top-norm.png') no-repeat top left;
+	background: url('../images/layout/comment-top-norm.png') no-repeat top left;
 	margin-bottom: -20px;
 }
 
 .comments-list li.alt .top {
-	background: url('/images/layout/comment-top-alt.png') no-repeat top left;
+	background: url('../images/layout/comment-top-alt.png') no-repeat top left;
 	padding: 0 75px 0 32px;
 }
 
@@ -68,13 +68,13 @@
 
 .comments-list li .bottom {
 	display: block;
-	background: url('/images/layout/comment-bottom.png') no-repeat 12px bottom;
+	background: url('../images/layout/comment-bottom.png') no-repeat 12px bottom;
 	padding: 0 20px 5px 0;
 	text-align: right;
 }
 
 .comments-list li.alt .bottom {
-	background: url('/images/layout/comment-bottom.png') no-repeat 0px bottom;
+	background: url('../images/layout/comment-bottom.png') no-repeat 0px bottom;
 	padding: 0 32px 5px 0;
 }
 

@@ -2,6 +2,7 @@ from tw.forms import ListFieldSet, TextField, FileField, CalendarDatePicker, Sin
 from tw.api import WidgetsList, CSSLink
 from tw.forms.validators import Schema, Int, NotEmpty, DateConverter, DateValidator, Email, FieldStorageUploadConverter
 
+from mediaplex.lib import helpers
 from mediaplex.forms import ListForm
 
 class MediaForm(ListForm):
@@ -57,7 +58,7 @@ class UploadForm(ListForm):
     template = 'mediaplex.templates.video.upload-form'
     id = 'upload-form'
     css_class = 'form'
-    css = [CSSLink(link='/styles/forms.css')]
+    css = [CSSLink(link=helpers.url_for('/styles/forms.css'))]
     show_children_errors = False
     params = ['async_action']
 

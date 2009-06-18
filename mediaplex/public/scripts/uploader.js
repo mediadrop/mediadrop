@@ -127,7 +127,7 @@ var SwiffUploadManager = new Class({
 	progressBar: null,
 	enabled: false,
 	
-	initialize: function(form, action, failurePage, browseButton, uploadButton, fileInfoDiv, statusDiv) {
+	initialize: function(form, action, failurePage, baseUrl, browseButton, uploadButton, fileInfoDiv, statusDiv) {
 		if (Browser.Platform.linux) {
 			// There's a bug in the flash player for linux that freezes the browser with swiff.uploader
 			// don't bother setting it up.
@@ -137,6 +137,7 @@ var SwiffUploadManager = new Class({
 		this.form = $(form);
 		this.action = action;
 		this.failurePage = failurePage;
+		this.baseUrl = baseUrl;
 		this.browseButton = $(browseButton);
 		this.uploadButton = $(uploadButton);
 		this.fileInfoDiv = $(fileInfoDiv);
@@ -152,7 +153,7 @@ var SwiffUploadManager = new Class({
 
 		// Uploader instance
 		this.uploader = new Swiff.Uploader({
-			path: '/scripts/third-party/Swiff.Uploader.swf',
+			path: this.baseUrl + '/scripts/third-party/Swiff.Uploader.swf',
 			url: this.action,
 			verbose: false,
 			queued: false,
