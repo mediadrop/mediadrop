@@ -21,7 +21,7 @@
 						{duration:  20, transition: 'linear'},
 						{duration: 450, transition: 'cubic:in'}
 					];
-					topicIndexFlyout = new ButtonFlyout({
+					var topicIndexFlyout = new ButtonFlyout({
 						button: 'nav-topics',
 						buttonActiveClass: 'topics-shown',
 						elements: $('mediaplex-topics').getChildren(),
@@ -30,7 +30,7 @@
 						closeFx: flyoutCloseFx
 					});
 					<py:if test="c.podcast_help">
-						podcastHelpFlyout = new ButtonFlyout({
+						var podcastHelpFlyout = new ButtonFlyout({
 							button: 'nav-podcast-help',
 							buttonActiveClass: 'podcast-help-shown',
 							elements: $('podcast-help-box').getChildren(),
@@ -60,7 +60,8 @@
 		<div class="box-nav">
 			<ul id="nav" class="box-nav-left">
 				<li id="nav-latest"><a href="${h.url_for(controller='/video', action='flow')}">Latest</a></li>
-				<li id="nav-browse"><a href="${h.url_for(controller='/video')}">Browse All</a></li>
+				<li id="nav-videos"><a href="${h.url_for(controller='/video')}">Video</a></li>
+				<li id="nav-podcasts"><a href="${h.url_for(controller='/podcasts')}">Podcasts</a></li>
 			</ul>
 			<a id="nav-topics" class="box-nav-right topics-shown" href="/video-tags">Topic Index</a>
 			<a py:if="not c.podcast_help" id="nav-upload-video" class="box-nav-right" href="${h.url_for(controller='/video', action='upload')}">Upload a Video</a>
@@ -70,7 +71,7 @@
 				<div class="nav-box-top" />
 				<div>
 					<div class="nav-box-body">
-						<p style="line-height:1.6em">A podcast is a series of digital media files, usually either digital audio or video, that is made available for download via web syndication. The syndication aspect of the delivery is what differentiates podcasts from other ways of accessing files, such as simple download or streaming: it means that special client software applications known as podcatchers (such as Apple Inc.'s iTunes or Nullsoft's Winamp) can automatically identify and retrieve new files in a series when they are made available, by accessing a centrally-maintained web feed that lists all files currently associated with that particular podcast. The files thus automatically downloaded are then stored locally on the user's computer or other device, for offline use.</p>
+						<p style="line-height:1.6em">A <em>podcast</em> is a series of digital media files, usually either digital audio or video, that is made available for download via web syndication. The syndication aspect of the delivery is what differentiates podcasts from other ways of accessing files, such as simple download or streaming: it means that special client software applications known as podcatchers (such as Apple Inc.'s iTunes or Nullsoft's Winamp) can automatically identify and retrieve new files in a series when they are made available, by accessing a centrally-maintained web feed that lists all files currently associated with that particular podcast. The files thus automatically downloaded are then stored locally on the user's computer or other device, for offline use.</p>
 						<div style="margin-top:.5em;text-align:right">from <a href="http://en.wikipedia.org/wiki/Podcast">Wikipedia</a></div>
 					</div>
 					<div class="nav-box-bottom" />

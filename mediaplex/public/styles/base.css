@@ -223,15 +223,20 @@ a:hover {
 
 #nav {
 	width: 248px;
-	background: url('../images/buttons/latest-browseall-ie.png') no-repeat 0 0;
+	background: url('../images/buttons/sections.png') no-repeat 0 0;
 }
-.box-nav > #nav { background-image: url('../images/buttons/latest-browseall.png');/*use alpha trans*/ }
 .nav-latest-on #nav { background-position: 0 -39px; }
-.nav-browseall-on #nav { background-position: 0 -78px; }
-#nav-latest a { width: 86px; }
-#nav-browse a { width: 99px; }
-#nav-latest > a:hover { background: url('../images/buttons/latest-browseall.png') no-repeat 0     -117px; }
-#nav-browse > a:hover { background: url('../images/buttons/latest-browseall.png') no-repeat -86px -117px; }
+.nav-videos-on #nav { background-position: 0 -78px; }
+.nav-podcasts-on #nav { background-position: 0 -117px; }
+#nav li a {
+	background: url('../images/buttons/sections.png') no-repeat 1000px 1000px;
+}
+#nav-latest a { width: 87px; }
+#nav-videos a { width: 68px; }
+#nav-podcasts a { width: 93px; }
+#nav-latest a:hover { background-position: 0 -156px; }
+#nav-videos a:hover { background-position: -87px -156px; }
+#nav-podcasts a:hover { background-position: -155px -156px; }
 
 a#nav-upload-video {
 	width: 122px;

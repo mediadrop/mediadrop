@@ -9,7 +9,7 @@
 	<title>Podcasts</title>
 	<link href="${h.url_for('/styles/podcasts.css')}" media="screen" rel="stylesheet" type="text/css" />
 </head>
-<body>
+<body class="nav-podcasts-on">
 	<box id="podcasts-box" py:with="episodes_paginator=c.paginators.episodes">
 		<nav />
 
@@ -30,9 +30,8 @@
 				<span class="grid-views">${media.views} <span>View<py:if test="media.views != 1">s</py:if></span></span>
 			</div>
 		</div>
-		<br />
 		
-		<h3>Recent Episodes</h3>
+		<h3 class="recent-eps">Recent Episodes</h3>
 		<ul id="podcastgrid" class="grid2" py:with="episodes = episodes_paginator.page == 1 and episodes[1:] or episodes">
 			<li py:for="media in episodes">
 				<a href="${h.url_for(controller='/media', action='view', slug=media.slug, podcast_slug=media.podcast.slug)}" class="grid2-link">
@@ -61,7 +60,7 @@
 						<p py:replace="Markup(h.format_paragraphs(podcast.description))" />
 					</div>
 					<div class="options">
-						<a href="${h.url_for(action='feed', slug=podcast.slug)}">Add to iTunes</a> |
+						<a href="#">Add to iTunes</a> |
 						<a href="${h.url_for(action='view', slug=podcast.slug)}">View All Episodes</a> |
 						Number of Episodes: ${podcast.media_count}
 					</div>

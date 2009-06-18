@@ -134,3 +134,12 @@
 .btn-podcast-next { background: url('../images/buttons/podcast-next-episode.png') no-repeat; }
 .btn-podcast-view { background: url('../images/buttons/podcast-browse-episodes.png') no-repeat; }
 .btn-podcast-add { background: url('../images/buttons/podcast-add-itunes.png') no-repeat; }
+
+.recent-eps {
+	margin: 2em 0 .5em 0;
+}
+.recent-eps span {
+	font-family: Georgia, serif;
+	font-style: italic;
+	color: #fff;
+}
