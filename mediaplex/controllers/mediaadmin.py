@@ -32,7 +32,7 @@ class MediaadminController(RoutingController):
         media = DBSession.query(Media)\
             .filter(Media.status.excludes('trash'))\
             .options(undefer('comment_count'))\
-            .order_by(Media.status.desc(), Media.created_on)
+            .order_by(Media.status.desc(), Media.publish_on, Media.created_on)
         if search is not None:
             like_search = '%%%s%%' % search
             media = media.filter(or_(
