@@ -2,7 +2,7 @@
 Podcast/Media Admin Controller
 """
 from repoze.what.predicates import has_permission
-from tg import request
+from tg import config, flash, url, request, redirect
 from tg.decorators import paginate, expose, validate, require
 from sqlalchemy import or_
 from sqlalchemy.orm import undefer
@@ -62,6 +62,44 @@ class PodcastadminController(RoutingController):
             'album_art_form_errors': album_art_form_errors,
             'album_art_form': AlbumArtForm(action=helpers.url_for(action='save_album_art', id=podcast.id)),
         }
+
+    @expose()
+    @validate(PodcastForm(), error_handler=edit)
+    def save(self, id, **values):
+        podcast = self._fetch_podcast(id)
+        if values.has_key('delete'):
+            podcast.delete()
+            DBSession.add(podcast)
+            DBSession.flush()
+            redirect(helpers.url_for(action='/index'))
+
+        if podcast.id == 'new':
+            podcast.id = None
+
+        podcast.slug = values['slug']
+        podcast.title = values['title']
+        podcast.subtitle = values['subtitle']
+        podcast.author = Author(values['author_name'], values['author_email'])
+        podcast.description = values['description']
+        podcast.copyright = values['details']['copyright']
+        podcast.category = values['details']['category']
+        if values['details']['explicit'] != 'Not specified':
+            podcast.explicit = values['details']['explicit'] == 'Explicit'
+
+        DBSession.add(podcast)
+        DBSession.flush()
+        redirect(helpers.url_for(action='/edit', id=podcast.id))
+
+    @expose()
+    @validate(AlbumArtForm(), error_handler=edit)
+    def save_album_art(self, id, **values):
+        podcast = self._fetch_podcast(id)
+        temp_file = values['album_art'].file
+        im_path = '%s/../public/images/podcasts/%d%%s.jpg' % (os.path.dirname(__file__), podcast.id)
+        im = Image.open(temp_file)
+        im.resize((160, 150), 1).save(im_path % 'm')
+        redirect(helpers.url_for(action='/edit', id=podcast.id))
+
 
     def _fetch_podcast(self, id):
         if id == 'new':

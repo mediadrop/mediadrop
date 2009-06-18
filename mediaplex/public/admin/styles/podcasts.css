@@ -50,6 +50,7 @@ a.edit-btn, a.edit-btn:hover {
 #podcast-table .info-content {
 	position: relative;
 	min-height: 158px;
+	min-width: 700px;
 }
 #podcast-table .info-content p {
 	padding-bottom: 80px;
