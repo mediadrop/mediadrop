@@ -43,7 +43,7 @@
 		</div>
 	</box>
 
-	<div id="podcast-context" class="contextbox" py:with="podcast = media.podcast">
+	<div py:if="media.podcast" id="podcast-context" class="contextbox" py:with="podcast = media.podcast">
 		<div class="contextbox-top" />
 		<div class="contextbox-body">
 			<a href="${h.url_for(controller='/podcasts', action='view', slug=podcast.slug)}" class="podcast-art" title="${podcast.title}"><img src="${h.url_for('/images/podcasts/%s.jpg' % podcast.id)}" width="154" height="151" class="f-lft" alt="${podcast.title}" /></a>
