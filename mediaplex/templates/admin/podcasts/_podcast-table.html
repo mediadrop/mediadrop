@@ -36,7 +36,7 @@
 								<span py:if="podcast.copyright is not None" class="copyright">&copy; ${podcast.copyright}</span>
 							</div>
 							<div class="podcast-episodes">
-								<a href="${h.url_for(controller='mediaadmin', action='new', podcast=podcast.id)}" class="mo add-episode"><span>Add episode</span></a>
+								<a href="${h.url_for(controller='/mediaadmin', action='edit', id='new', podcast=podcast.id)}" class="mo add-episode"><span>Add episode</span></a>
 								<div py:choose="podcast.media_count" py:strip="True">
 									<a py:when="1" href="${h.url_for(controller='mediaadmin', action='edit', id=podcast.media.first().id)}" class="view-episodes"><strong>View First Episode</strong></a>
 									<span py:when="0" class="view-episodes">No Episodes</span>
