@@ -41,7 +41,7 @@ class VideoController(RoutingController):
         tmpl_context.tags = self._fetch_tags()
 
     @expose('mediaplex.templates.video.index')
-    @paginate('videos', items_per_page=25)
+    @paginate('videos', items_per_page=20)
     def index(self, page=1, **kwargs):
         """Grid-style List Action"""
         return dict(
@@ -65,7 +65,7 @@ class VideoController(RoutingController):
             .filter(Video.status.excludes('trash'))
 
     @expose('mediaplex.templates.video.index')
-    @paginate('videos', items_per_page=25)
+    @paginate('videos', items_per_page=20)
     def tags(self, slug=None, page=1, **kwargs):
         tag = DBSession.query(Tag).filter(Tag.slug == slug).one()
         video_query = self._list_query\
