@@ -10,10 +10,10 @@
 	<link href="${h.url_for('/styles/podcasts.css')}" media="screen" rel="stylesheet" type="text/css" />
 </head>
 <body class="nav-podcasts-on">
-	<box id="podcasts-box" py:with="episodes_paginator=c.paginators.episodes">
+	<box id="podcasts-box" py:with="episodes_paginator = c.paginators.episodes; episode_count = len(episodes)">
 		<nav />
 
-		<div id="featured-ep" py:if="episodes_paginator.page == 1" py:with="media = episodes[0]">
+		<div id="featured-ep" py:if="episodes_paginator.page == 1 and episode_count" py:with="media = episodes[0]">
 			<a href="${h.url_for(controller='/media', action='view', slug=media.slug, podcast_slug=media.podcast.slug)}" class="grid2-link">
 				<img src="${h.url_for('/images/media/%sl.jpg' % media.id)}" width="410" height="273" alt="Featured: ${media.title}" class="grid-thumb" />
 				<span class="featured-ep-top">
@@ -32,7 +32,8 @@
 		</div>
 		
 		<h3 class="recent-eps">Recent Episodes</h3>
-		<ul id="podcastgrid" class="grid2" py:with="episodes = episodes_paginator.page == 1 and episodes[1:] or episodes">
+		<div py:if="episode_count &lt; 2">No recent episodes found.</div>
+		<ul py:if="episode_count &gt; 1" id="podcastgrid" class="grid2" py:with="episodes = episodes_paginator.page == 1 and episodes[1:] or episodes">
 			<li py:for="media in episodes">
 				<a href="${h.url_for(controller='/media', action='view', slug=media.slug, podcast_slug=media.podcast.slug)}" class="grid2-link">
 					<img src="${h.url_for('/images/media/%ss.jpg' % media.id)}" width="128" height="78" alt="${media.title}" class="grid-thumb" />
