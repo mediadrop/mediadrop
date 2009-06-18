@@ -10,7 +10,7 @@
 					<li class="status-list-inprogress">review pending</li>
 					<!--! just in case the media doesn't ever need encoding (eg. youtube) -->
 					<li class="status-list-pending" py:if="encoding == 'pending'">encoding pending</li>
-					<li class="status-list-complete" py:if="encoding == 'complete'">encoding complete (<a href="${h.url_for(controller='/video', action='view', slug=media.slug)}">preview</a>)</li>
+					<li class="status-list-complete" py:if="encoding == 'complete'">encoding complete (<a href="${h.url_for(controller='/media', action='view', slug=media.slug)}">preview</a>)</li>
 					<li class="status-list-pending">publishing pending</li>
 				</ol>
 				<div py:content="h.tags.submit('update_button', 'Review Complete', id='update-status', class_='mo submitbutton btn-review-complete')" class="box-content center" />
@@ -27,7 +27,7 @@
 				<ol id="status-list">
 					<li class="status-list-complete">review complete</li>
 					<li class="status-list-complete">encoding complete</li>
-					<li class="status-list-inprogress">publishing pending (<a href="${h.url_for(controller='/video', action='view', slug=media.slug)}">preview</a>)</li>
+					<li class="status-list-inprogress">publishing pending (<a href="${h.url_for(controller='/media', action='view', slug=media.slug)}">preview</a>)</li>
 				</ol>
 				<div py:content="h.tags.submit('update_button', 'Publish Now', id='update-status', class_='mo submitbutton btn-publish-now')" class="box-content center" />
 			</div>
@@ -35,7 +35,7 @@
 				<ol id="status-list">
 					<li class="status-list-complete">review complete</li>
 					<li class="status-list-complete">encoding complete</li>
-					<li class="status-list-complete">published ${media.publish_on.strftime('%b %d %Y')} (<a href="${h.url_for(controller='/video', action='view', slug=media.slug)}">view</a>)</li>
+					<li class="status-list-complete">published ${media.publish_on.strftime('%b %d %Y')} (<a href="${h.url_for(controller='/media', action='view', slug=media.slug)}">view</a>)</li>
 				</ol>
 			</div>
 			<div py:otherwise="">${media.status}</div>
