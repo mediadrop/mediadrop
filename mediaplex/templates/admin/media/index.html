@@ -6,7 +6,7 @@
       py:with="paginator=c.paginators.media">
 <xi:include href="admin/master.html" />
 <head>
-	<title>Media</title>
+	<title>Media<py:if test="podcast_filter_title is not None"> for $podcast_filter_title</py:if></title>
 	<link href="${h.url_for('/admin/styles/media.css')}" media="screen" rel="stylesheet" type="text/css" />
 	<link href="${h.url_for('/admin/styles/videos.css')}" media="screen" rel="stylesheet" type="text/css" />
 	<script type="text/javascript" src="${h.url_for('/admin/scripts/show-more.js')}"></script>
@@ -27,8 +27,12 @@
 			<div id="quicksearch" class="f-rgt">
 				${XML(search_form(search=search))}
 			</div>
-			<h1 py:if="not search">All Media</h1>
-			<h1 py:if="search">Media that matches '${search}'</h1>
+			<div py:choose="" py:strip="True">
+				<h1 py:when="search">Media that matches '${search}'</h1>
+				<h1 py:when="podcast_filter == 'Unfiled'">Unfiled Media</h1>
+				<h1 py:when="podcast_filter is None">All Media</h1>
+				<h1 py:otherwise="">Media for ${podcast_filter_title}</h1>
+			</div>
 		</div>
 		<xi:include href="index-table.html" py:with="media=media" />
 	</div>

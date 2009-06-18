@@ -17,17 +17,18 @@ from pylons import tmpl_context
 from mediaplex.lib import helpers
 from mediaplex.lib.helpers import expose_xhr
 from mediaplex.lib.base import RoutingController
-from mediaplex.model import DBSession, Media, MediaFile, Comment, Tag, Author, AuthorWithIP
+from mediaplex.model import DBSession, Media, MediaFile, Podcast, Comment, Tag, Author, AuthorWithIP
 from mediaplex.forms.admin import SearchForm
 from mediaplex.forms.media import MediaForm, AlbumArtForm
 from mediaplex.forms.comments import PostCommentForm
+
 
 class MediaadminController(RoutingController):
     allow_only = has_permission('admin')
 
     @expose_xhr('mediaplex.templates.admin.media.index', 'mediaplex.templates.admin.media.index-table')
     @paginate('media', items_per_page=25)
-    def index(self, page=1, search=None, **kw):
+    def index(self, page=1, search=None, podcast_filter=None, **kw):
         media = DBSession.query(Media)\
             .filter(Media.status.excludes('trash'))\
             .options(undefer('comment_count'))\
@@ -40,8 +41,19 @@ class MediaadminController(RoutingController):
                 Media.notes.like(like_search),
                 Media.tags.any(Tag.name.like(like_search)),
             ))
+
+        podcast_filter_title = None
+
+        if podcast_filter == 'Unfiled':
+            media = media.filter(~Media.podcast.has())
+        elif podcast_filter is not None:
+            media = media.filter(Media.podcast.has(Podcast.id == podcast_filter))
+            podcast_filter_title = DBSession.query(Podcast.title).get(podcast_filter)
+
         return dict(
             media=media,
+            podcast_filter=podcast_filter,
+            podcast_filter_title=podcast_filter_title,
             search=search,
             search_form=SearchForm(action=helpers.url_for()),
         )

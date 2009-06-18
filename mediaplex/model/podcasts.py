@@ -50,6 +50,17 @@ mapper(Podcast, podcasts, properties={
                 [sql.func.count(media.c.id)],
                 sql.and_(
                     media.c.podcast_id == podcasts.c.id,
+                    media.c.status.op('&')(1) == 0# note that 2 is the ID of the comments 'publish' STATUS
+                )
+            ).label('media_count'),
+            deferred=True
+        ),
+    'published_media_count':
+        column_property(
+            sql.select(
+                [sql.func.count(media.c.id)],
+                sql.and_(
+                    media.c.podcast_id == podcasts.c.id,
                     media.c.status.op('&')(2) == 2# note that 2 is the ID of the comments 'publish' STATUS
                 )
             ).label('media_count'),
