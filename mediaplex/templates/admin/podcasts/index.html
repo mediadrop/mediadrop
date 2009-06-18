@@ -24,7 +24,7 @@
 <body class="menu-podcasts-on">
 	<div class="box">
 		<div class="box-head">
-			<a href="${h.url_for(action='new')}" class="mo add-podcast f-rgt"><span>Add podcast</span></a>
+			<a href="${h.url_for(action='edit', id='new')}" class="mo add-podcast f-rgt"><span>Add podcast</span></a>
 			<h1>Podcasts</h1>
 		</div>
 		<xi:include href="../podcasts/index-table.html" py:with="podcasts=podcasts" />

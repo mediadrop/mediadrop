@@ -40,8 +40,8 @@ class PodcastadminController(RoutingController):
             'slug': podcast.slug,
             'title': podcast.title,
             'subtitle': podcast.subtitle,
-            'author_name': podcast.author.name,
-            'author_email': podcast.author.email,
+            'author_name': podcast.author and podcast.author.name or None,
+            'author_email': podcast.author and podcast.author.email or None,
             'description': podcast.description,
             'details': {
                 'category': podcast.category,
