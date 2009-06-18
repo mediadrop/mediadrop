@@ -1,5 +1,5 @@
 """
-Video/Media Controller
+Video Controller
 
 """
 import math
@@ -92,55 +92,8 @@ class VideoController(RoutingController):
         return dict(
             video = video,
             comment_form = form,
-            form_values = values,
+            comment_form_values = values,
         )
-
-    @expose_xhr()
-    @validate(validators=dict(rating=validators.Int()))
-    def rate(self, slug, rating=1, **kwargs):
-        video = self._fetch_video(slug)
-
-        if rating > 0:
-            video.rating.add_vote(1)
-        else:
-            video.rating.add_vote(0)
-
-        DBSession.add(video)
-        if request.is_xhr:
-            return dict(
-                success=True,
-                upRating=helpers.text.plural(video.rating.sum, 'person', 'people'),
-                downRating=None,
-            )
-        else:
-            redirect(helpers.url_for(action='view', slug=video.slug))
-
-    @expose()
-    @validate(PostCommentForm(), error_handler=view)
-    def comment(self, slug, **values):
-        video = self._fetch_video(slug)
-        c = Comment()
-        c.status = 'unreviewed'
-        c.author = AuthorWithIP(values['name'], None, request.environ['REMOTE_ADDR'])
-        c.subject = 'Re: %s' % video.title
-        c.body = values['body']
-        video.comments.append(c)
-        DBSession.add(video)
-        redirect(helpers.url_for(action='view', slug=video.slug))
-
-    @expose(content_type=CUSTOM_CONTENT_TYPE)
-    def serve(self, slug, **kwargs):
-        """ FIXME: Works but needs to support types properly -- as does media_player view helper """
-        type = 'flv'
-        query = DBSession.query(MediaFile).filter(Media.slug == slug)
-        if type is not None:
-            query.filter_by(type=type)
-        file = query.first()
-        file_path = os.path.join(config.media_dir, file.url)
-        file_handle = open(file_path, 'rb')
-        types = dict(flv='video/x-flv')
-        response.content_type = types[file.type]
-        return file_handle.read()
 
     def _fetch_video(self, slug):
         return DBSession.query(Video)\

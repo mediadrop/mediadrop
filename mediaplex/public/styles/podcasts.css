@@ -1,0 +1,135 @@
+
+.podcast-art {
+	float: left;
+	display: block;
+	background: url('../images/layout/podcast-art-border.png') no-repeat top left;
+	width: 165px;
+	height: 162px;
+	margin-top: 1px;
+}
+.podcast-art img {
+	margin: 4px 0 0 4px;
+	display: block;
+}
+
+#featured-ep {
+	width: 900px;
+	overflow: hidden;
+	margin: 20px 0;
+}
+#featured-ep .grid-thumb {
+	float: left;
+}
+#featured-ep h3, #featured-ep h2 {
+	float: left;
+	margin-right: 8px;
+}
+#featured-ep .grid2-link {
+	width: 900px;
+	height: 1.25em;
+	display: block;
+	text-decoration: none;
+}
+#featured-ep .grid-desc {
+}
+#featured-ep .grid-desc p {
+	line-height: 1.8em;
+}
+#featured-ep p {
+	margin-bottom: 10px;
+	font: 13px Tahoma, sans-serif;
+	color: #8b8f93;
+}
+#featured-ep .featured-ep-top,
+#featured-ep .grid-desc,
+#featured-ep .grid-meta {
+	width: 440px;
+	float: right;
+	padding-top: 5px;
+}
+#featured-ep .grid-meta {
+	padding-top: 0;
+}
+#featured-ep .featured-ep-top {
+	font: 18px "Trebuchet MS", sans-serif;
+	text-transform: uppercase;
+	padding-top: 0;
+}
+#featured-ep .featured-ep-caption {
+	color: #fff;
+	padding-right: 4px;
+}
+#featured-ep .grid2-link .grid-title {
+	float: none;
+	width: auto;
+}
+
+
+.innerbox-list li {
+	clear: both;
+	color: #b7b9bc;
+	font: 13px/18px Tahoma, sans-serif;
+	margin: 20px 0 30px 0;
+	position: relative;
+}
+.innerbox-list li .title {
+	color: #b1d1ef;
+	margin-right: 5px;
+	font: bold 14px/18px Tahoma, sans-serif;
+	float: left;
+}
+.innerbox-list li a.title:link,
+.innerbox-list li a.title:visited {
+	color: #b1d1ef;
+	text-decoration: none;
+}
+.innerbox-list li a.title:hover {
+	text-decoration: underline;
+}
+.innerbox-list .podcast-art {
+	margin-top: 3px;
+}
+.innerbox-list .description {
+	margin-left: 195px;
+	padding-bottom: 2em;
+	display: block;
+}
+.innerbox-list .options {
+	position: absolute;
+	bottom: 0;
+	left: 195px;
+	color #e4e7ea;
+	font-weight: bold;
+}
+
+
+#podcast-context .contextbox-body {
+	height: 157px;
+	padding: 5px 20px;
+}
+#podcast-context .podcast-art {
+	position: absolute;
+	top: 4px;
+	left: 20px;
+}
+#podcast-buttons a {
+	width: 137px;
+	height: 39px;
+	display: block;
+	text-indent: -5000px;
+	float: right;
+	clear: right;
+	margin: 6px 0;
+}
+#podcast-buttons a:hover {
+	background-position: 0 -39px;
+}
+#podcast-buttons a:focus {
+	outline: 0;
+}
+#podcast-buttons .btn-podcast-next {
+	margin-top:10px;
+}
+.btn-podcast-next { background: url('../images/buttons/podcast-next-episode.png') no-repeat; }
+.btn-podcast-view { background: url('../images/buttons/podcast-browse-episodes.png') no-repeat; }
+.btn-podcast-add { background: url('../images/buttons/podcast-add-itunes.png') no-repeat; }

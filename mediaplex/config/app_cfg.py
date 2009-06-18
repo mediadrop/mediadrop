@@ -18,7 +18,13 @@ class MediaplexConfig(AppConfig):
         map.connect('/video-{action}', controller='video', requirements=dict(action='flow|upload|upload_submit|upload_submit_async|upload_success|upload_failure'))
         map.connect('/video-{action}/{slug}', slug=None, controller='video', requirements=dict(action='tags|rate|serve'))
         # route for viewing videos and other video related actions
-        map.connect('/video/{slug}/{action}', controller='video', action='view')
+        map.connect('/video/{slug}/{action}', controller='video', action='view', requirements=dict(action='rate|serve'))
+
+        map.connect('/media/{slug}.{type}', controller='media', action='serve')
+        map.connect('/media/{slug}/{action}', controller='media', action='view', requirements=dict(action='view|rate|comment'))
+        # podcasts
+        map.connect('/podcasts/{slug}', controller='podcasts', action='view')
+        map.connect('/podcasts/{podcast_slug}/{slug}/{action}', controller='media', action='view', requirements=dict(action='view|rate|comment|feed'))
         # admin routes
         map.connect('/admin/media', controller='mediaadmin', action='index')
         map.connect('/admin/media/{id}/{action}', controller='mediaadmin', action='edit')
@@ -76,3 +82,9 @@ base_config.sa_auth.post_login_url = '/post_login'
 # You may optionally define a page where you want users to be redirected to
 # on logout:
 base_config.sa_auth.post_logout_url = '/post_logout'
+
+# Mimetypes
+base_config.mimetype_lookup = {
+    '.flv': 'video/x-flv',
+    '.mp3': 'audio/mpeg',
+}

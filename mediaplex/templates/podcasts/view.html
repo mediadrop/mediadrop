@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      xmlns:xi="http://www.w3.org/2001/XInclude">
+<xi:include href="../helpers.html" />
+<xi:include href="../master.html" />
+<head>
+	<title>Podcasts</title>
+	<link href="${h.url_for('/styles/podcasts.css')}" media="screen" rel="stylesheet" type="text/css" />
+</head>
+<body>
+	<box id="podcasts-box" py:with="episodes_paginator=c.paginators.episodes">
+		<nav />
+		<br />
+		<br />
+		<h3>Recent Episodes in the <span>${podcast.title}</span> series</h3>
+		<ul id="podcastgrid" class="grid2" py:with="episodes = episodes_paginator.page == 1 and episodes[1:] or episodes">
+			<li py:for="media in episodes">
+				<a href="${h.url_for(action='episode', slug=media.podcast.slug, episode_slug=media.slug)}" class="grid2-link">
+					<img src="${h.url_for('/images/media/%ss.jpg' % media.id)}" width="128" height="78" alt="${media.title}" class="grid-thumb" />
+					<span class="grid-title">${media.title}</span>
+				</a>
+				<div class="grid-desc" py:content="h.text.truncate(media.description, 160, whole_word=True)">Description here</div>
+				<div class="grid-meta">
+					<span class="grid-comments">${media.comment_count}<span> Comment<py:if test="media.comment_count != 1">s</py:if></span></span>
+					<span class="grid-likes">${media.rating.sum} <span>Like<py:if test="media.rating.sum != 1">s</py:if></span></span>
+					<span class="grid-views">${media.views} <span>View<py:if test="media.views != 1">s</py:if></span></span>
+				</div>
+			</li>
+		</ul>
+		<div py:content="pagination(episodes_paginator)" class="clear" />
+
+		<hr style="clear:both;margin-bottom:26px;height:0;border:0;" />
+
+		<innerbox>
+			<innerboxtitle>Podcast Series</innerboxtitle>
+			<ul id="podcasts" class="innerbox-list">
+				<li>
+					<span class="podcast-art"><img src="${h.url_for('/images/podcasts/%s.jpg' % podcast.id)}" width="154" height="151" class="f-lft" /></span>
+					<div class="description">
+						<div class="title">${podcast.title}</div>
+						<p py:replace="Markup(h.format_paragraphs(podcast.description))" />
+					</div>
+					<div class="options">
+						<a href="${h.url_for(action='feed', slug=podcast.slug)}">Add to iTunes</a> |
+						Number of Episodes: ${podcast.media_count}
+					</div>
+				</li>
+			</ul>
+		</innerbox>
+	</box>
+</body>
+</html>

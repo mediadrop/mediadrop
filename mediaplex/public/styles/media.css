@@ -6,6 +6,39 @@
 	width: 100%;
 }
 #grid-box .pager { margin-right: 20px; }
+
+
+.grid-title, a:link .grid-title, a:visited .grid-title, a.grid-title:link, a.grid-title:visited {
+	color: #b1d1ef;
+	text-decoration: none;
+	color: #b1d1ef;
+}
+a:hover .grid-title, a.grid-title:hover {
+	color: #e1effc;
+	text-decoration: underline;
+}
+.grid-thumb img, img.grid-thumb {
+	display: block;
+	border: 1px solid #b0b0b0;
+}
+.grid-meta {
+	display: block;
+}
+.grid-meta span {
+	color: #c4c4c4;
+}
+.grid-meta span span {
+	color: #777;
+}
+.grid-comments {
+	padding-left: 16px;
+	background: url('../images/icons/comments.png') no-repeat left;
+}
+.grid-comments span {
+	display: none !important;
+}
+
+
 .grid {
 	width: 920px;
 	overflow: hidden;
@@ -17,7 +50,6 @@
 	margin: 0 20px 50px 0;
 	font: 12px Tahoma, Helvetica, sans-serif;
 	color: #c4c4c4;
-	text-align: center;
 }
 .grid li a:link,
 .grid li a:visited {
@@ -29,33 +61,26 @@
 	border: 1px solid #b0b0b0;
 	display: block;
 }
-.grid li span {
-	color: #c4c4c4;
-}
-.grid li span span {
-	color: #777777;
-}
-.grid li .grid-title {
-	color: #b1d1ef;
+.grid .grid-title {
 	display: block;
 	overflow: hidden;
-	text-align: left;
 	padding: 10px 0 2px 0;
 	white-space: nowrap;
 }
-.grid li a:hover .grid-title {
+.grid a:hover .grid-title {
 	color: #e1effc;
 	text-decoration: underline;
 }
-.grid li .grid-comments {
-	padding-left: 16px;
-	background: url('../images/icons/comments.png') no-repeat left;
+.grid .grid-meta {
+	text-align: center;
+}
+.grid .grid-comments {
 	float: left;
 }
-.grid li .grid-comments span { display: none; }
-.grid li .grid-likes {
+.grid .grid-likes {
 	float: right;
 }
+
 
 
 .grid2 {
@@ -63,56 +88,41 @@
 }
 .grid2 li {
 	width: 440px;
+	height: 115px;
 	overflow: hidden;
 	float: left;
-	margin-right: 20px;
-}
-
-.innerbox-list li {
-	clear: both;
-	color: #b7b9bc;
-	font: 13px/18px Tahoma, sans-serif;
-	margin: 20px 0 30px 0;
+	margin: 12px 20px 0 0;
+	font: 12px Tahoma;
 	position: relative;
 }
-.innerbox-list li .img {
-	float: left;
-	display: block;
-	background: url('../images/layout/innerbox-img-border.png') no-repeat top left;
-	width: 165px;
-	height: 162px;
-	margin-top: 3px;
+.grid2 .grid2-link {
+	width: 440px;
+	height: 1.25em;
 }
-.innerbox-list li .img img {
-	margin: 4px 0 0 4px;
-	display: block;
-}
-.innerbox-list li .title {
-	color: #b1d1ef;
-	margin-right: 5px;
-	font: bold 14px/18px Tahoma, sans-serif;
+.grid2-link .grid-thumb {
 	float: left;
 }
-.innerbox-list li a.title:link,
-.innerbox-list li a.title:visited {
-	color: #b1d1ef;
-	text-decoration: none;
+.grid2-link .grid-title,
+.grid2 .grid-desc,
+.grid2 .grid-meta {
+	float: right;
+	width: 297px;
+	overflow: hidden;
 }
-.innerbox-list li a.title:hover {
-	text-decoration: underline;
+.grid2 .grid-desc {
+	margin: 5px 0;
 }
-.innerbox-list .description {
-	margin-left: 195px;
-	padding-bottom: 2em;
+.grid2 .grid-likes,
+.grid2 .grid-views,
+.grid2 .grid-comments {
+	float: left;
 	display: block;
+	width: 55px;
 }
-.innerbox-list .options {
-	position: absolute;
-	bottom: 0;
-	left: 195px;
-	color #e4e7ea;
-	font-weight: bold;
-}
+.grid2 .grid-likes { width: 75px; }
+.grid2 .grid-views { width: 75px; }
+
+
 
 
 /* media play/details view */
