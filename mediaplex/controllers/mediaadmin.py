@@ -18,8 +18,8 @@ from mediaplex.lib import helpers
 from mediaplex.lib.helpers import expose_xhr
 from mediaplex.lib.base import RoutingController
 from mediaplex.model import DBSession, Media, MediaFile, Podcast, Comment, Tag, Author, AuthorWithIP
-from mediaplex.forms.admin import SearchForm
-from mediaplex.forms.media import MediaForm, AlbumArtForm
+from mediaplex.forms.admin import SearchForm, AlbumArtForm
+from mediaplex.forms.media import MediaForm
 from mediaplex.forms.comments import PostCommentForm
 
 

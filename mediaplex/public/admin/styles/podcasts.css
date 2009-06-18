@@ -81,3 +81,33 @@ a.edit-btn, a.edit-btn:hover {
 .view-episodes strong {
 	font-weight: bold;
 }
+#podcast-form #details_copyright_label,
+#podcast-form #details_category_label,
+#podcast-form #details_explicit_label {
+	margin-right: 10px;
+	padding: 5px 0;
+	float: left;
+	font-weight: normal;
+}
+#podcast-form #details_category_label {
+	margin-left: 10px;
+}
+#podcast-form #details_explicit_label {
+	padding: 20px 0 0 0;
+}
+#podcast-form #details input#details_copyright { width: 60px; }
+#podcast-form #details input#details_category { width: 390px; }
+
+#podcast-form #details #details_explicit_container { width: 100%; }
+#podcast-form #details #details_explicit {
+	padding-top: 20px;
+}
+#podcast-form #details #details_explicit li {
+	margin-right: 10px;
+}
+#podcast-form #details #details_explicit li label {
+	margin-left: 5px;
+}
+body.menu-podcasts-on .album-art {
+	width: 160px;
+}

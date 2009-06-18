@@ -32,28 +32,6 @@ class MediaForm(ListForm):
         SubmitButton('delete', default='Delete', named_button=True, css_classes=['mo', 'btn-delete']),
     ]
 
-
-class AlbumArtForm(ListForm):
-    template = 'mediaplex.templates.admin.media.album-art-form'
-    id = 'album-art-form'
-    css_class = 'form'
-    submit_text = None
-
-    fields = [
-        FileField(
-            'album_art',
-            validator = FieldStorageUploadConverter(
-                not_empty = True,
-                messages = {
-                    'empty': 'You forgot to select an image!'
-                },
-            )
-        ),
-        SubmitButton('save', default='Save', css_classes=['mo', 'btn-save', 'f-rgt']),
-#        ResetButton('cancel', default='Cancel', css_classes=['btn-save', 'f-rgt']),
-#        SubmitButton('delete', default='Delete', css_classes=['btn-delete']),
-    ]
-
 class UploadForm(ListForm):
     template = 'mediaplex.templates.video.upload-form'
     id = 'upload-form'

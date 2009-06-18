@@ -1,15 +1,3 @@
-.album-art {
-	width: 133px;
-	margin: 0 auto 10px auto;
-	border: 5px solid #989790;
-	-moz-border-radius: 5px;
-	-webkit-border-radius: 5px;
-}
-.album-art img {
-	display: block;
-	border: 1px solid #fff;
-}
-
 /* Statuses */
 #status-list {
 	margin: 3px 5px;
@@ -57,30 +45,6 @@ a.total {
 
 
 
-
-#media-form .form-label {
-	font-size: 108%;
-	font-weight: bold;
-	color: #3c4d5a;
-	margin: 10px;
-}
-#media-form .form-field {
-	margin: 10px;
-	/* bump the size down 12px so that when firefox adds 12px
-	 * to the 100% input width it still fits visually */
-	padding-right: 12px;
-}
-#media-form li {
-	clear: both;
-	width: 100%;
-	overflow: hidden;
-}
-#media-form #author_name-container,
-#media-form #author_email-container {
-	width: 50%;
-	float: left;
-	clear: none;
-}
 #media-form #details_duration_label,
 #media-form #details_url_label {
 	margin-right: 10px;
@@ -88,24 +52,8 @@ a.total {
 	float: left;
 	font-weight: normal;
 }
-#media-form #details input,
-#media-form #details li {
-	float: left;
-	width: auto;
-	clear: none;
-}
-#details-container .form-field { padding-right: 0; }
-#media-form #details-container legend {
-	font-size: 108%;
-	font-weight: bold;
-	color: #3c4d5a;
-	margin: 10px 10px 0 10px;
-}
-#details ul.field_list { position: relative; }
-#details_url_container { position: absolute; top: 0; right: 0; }
-#media-form #details input#details_duration { width: 60px; }
-#media-form #details input#details_url { width: 390px; }
-
+.form #details input#details_duration { width: 60px; }
+.form #details input#details_url { width: 390px; }
 
 a.add-video, a.add-video:hover {
 	width: 120px;
@@ -113,14 +61,8 @@ a.add-video, a.add-video:hover {
 	margin: -3px 0 0 10px;
 }
 a.add-video { background-image: url('../images/buttons/add-video.png'); }
-#media-form .form-label {
-	font-size: 108%;
-	font-weight: bold;
-	color: #3c4d5a;
-	margin: 10px;
-}
 
-.btn-review-complete, .btn-encoding-complete, .btn-publish-now, .btn-edit-art {
+.btn-review-complete, .btn-encoding-complete, .btn-publish-now {
 	text-indent: -1000px;
 	cursor: pointer;
 	border: 0;
@@ -131,5 +73,3 @@ a.add-video { background-image: url('../images/buttons/add-video.png'); }
 }
 .btn-review-complete { background-image: url('../images/buttons/video-review-complete.png'); }
 .btn-encoding-complete { background-image: url('../images/buttons/video-encoding-complete.png'); }
-.btn-publish-now { background-image: url('../images/buttons/video-publish-now.png'); }
-.btn-edit-art { background-image: url('../images/buttons/edit-image.png'); }

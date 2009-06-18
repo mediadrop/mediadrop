@@ -30,6 +30,7 @@ class MediaplexConfig(AppConfig):
         map.connect('/admin/media/{id}/{action}', controller='mediaadmin', action='edit')
 
         map.connect('/admin/podcasts', controller='podcastadmin', action='index')
+        map.connect('/admin/podcasts/{id}/{action}', controller='podcastadmin', action='edit')
 
         map.connect('/admin/comments', controller='commentadmin', action='index')
         map.connect('/admin/comments/{id}/{action}', controller='commentadmin', action='edit')

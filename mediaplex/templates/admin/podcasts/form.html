@@ -1,0 +1,60 @@
+<form xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      id="${id}"
+      name="${name}"
+      action="${action}"
+      method="${method}"
+      class="${css_class}"
+      py:attrs="attrs">
+	<div class="box-content">
+		<div class="field-error" py:if="error and show_error" py:content="error" />
+		<div py:if="hidden_fields">
+			<div py:for="field in hidden_fields"
+				 py:with="error=error_for(field)"
+				 py:strip="True">
+				<span py:replace="field.display(value_for(field), **args_for(field))" />
+				<span py:if="show_children_errors and error and not field.show_error"
+					  class="field-error" py:content="error" />
+			</div>
+		</div>
+		<ul class="field-list" py:attrs="list_attrs">
+			<li py:for="i, field in enumerate(fields)"
+				py:if="getattr(field, 'type', None) not in ['submit', 'file']"
+				py:with="required=[None,' required'][int(field.is_required)];
+						 error=error_for(field);
+						 label_text = field.label_text;
+						 help_text = field.help_text;
+						 is_submit = getattr(field, 'type', None) == 'submit';"
+				id="${field.id}-container"
+				class="${i%2 and 'odd' or 'even'}${is_submit and ' submit' or None}"
+				py:attrs="args_for(field).get('container_attrs') or field.container_attrs">
+				<div py:if="show_labels and label_text and not field.suppress_label"
+					 id="${field.id}-label" class="form-label">
+					<label for="${field.id}">${label_text}:</label>
+				</div>
+				<div class="form-field">
+					${field.display(value_for(field), **args_for(field))}
+				</div>
+				<span py:if="help_text" class="field-help" py:content="help_text" />
+				<span py:if="show_children_errors and error and not field.show_error"
+					  class="field-error" py:content="error" />
+			</li>
+		</ul>
+		<span py:if="error and not error.error_dict" class="field-error" py:content="error" />
+	</div>
+<!--!	<div id="album-art-wrapper" class="box fitted-sbox">
+		<h1 class="box-head">Album Art</h1>
+		<div class="box-content">
+			<p>Select an image to upload:</p>
+			${XML(children['album_art'])}
+		</div>
+		<div class="box-foot">
+			${XML(children['save'])}
+		</div>
+	</div>-->
+	<div class="box-foot">
+		${XML(children['save'])}
+		${XML(children['delete'])}
+	</div>
+</form>
+
