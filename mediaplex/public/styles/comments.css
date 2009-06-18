@@ -48,9 +48,7 @@
 }
 
 .comments-list li .top {
-	display: block;
 	height: 91px;
-	padding: 0 20px 0 75px;
 	background: url('../images/layout/comment-top-norm.png') no-repeat top left;
 	margin-bottom: -20px;
 }
@@ -67,19 +65,36 @@
 	display: block;
 }
 
-.comments-list li .bottom {
+.comments .bottom {
 	display: block;
 	background: url('../images/layout/comment-bottom.png') no-repeat 12px bottom;
 	padding: 0 20px 5px 0;
 	text-align: right;
 }
 
-.comments-list li.alt .bottom {
+.comments .alt .bottom {
 	background: url('../images/layout/comment-bottom.png') no-repeat 0px bottom;
 	padding: 0 32px 5px 0;
 }
 
-.comments-list li blockquote {
+.no-comments {
+	width: 493px;
+	margin-left: -12px;
+	padding-top: 10px;
+}
+.no-comments .bottom {
+	height: 14px;
+}
+.comments .top {
+	height: 34px;
+	display: block;
+	padding: 0 20px 0 75px;
+	background: url('../images/layout/comment-top.png') no-repeat top left;
+}
+.no-comments .top {
+	margin: 0 0 0 12px;
+}
+.comments .body {
 	font-family: 'Candara', Verdana, 'Lucida Grande', Tahoma, sans-serif;
 	background-color: #d4e7f9;
 	color: #10375c;
@@ -88,6 +103,10 @@
 	border-right: 1px solid #b7d3ed;
 	margin: 0 0 0 12px;
 	padding: 0 25px 10px 32px;
+}
+.no-comments .body {
+	padding-top: 3px;
+	padding-bottom: 0;
 }
 
 .comments-list li.alt blockquote {

@@ -14,10 +14,11 @@
 	<py:def function="comment_list(comments, form=None, values=None)">
 		<div class="comments">
 			<py:choose test="len(comments)">
-				<p py:when="0" class="comments-none-yet">
-					No comments have been posted yet.
-					<!--! TODO: Put this in a nice blue box to match the right side on the podcast episode view -->
-				</p>
+				<div py:when="0" class="no-comments">
+					<div class="top" />
+					<div class="body">No comments have been posted yet.</div>
+					<div class="bottom" />
+				</div>
 				<ul py:otherwise="" class="comments-list">
 					<li py:for="i, comment in enumerate(comments)"
 						py:attrs="{'class': [None, 'alt'][i%2]}">
@@ -26,7 +27,7 @@
 								<cite>${comment.author.name} says:</cite>
 							</a>
 						</h4>
-						<blockquote py:content="Markup(h.format_paragraphs(comment.body))" />
+						<blockquote class="body" py:content="Markup(h.format_paragraphs(comment.body))" />
 						<div class="bottom date"><a href="#comment-${comment.id}" title="Permalink">Posted on ${comment.created_on.strftime("%d/%m/%y @ %H:%M")}</a></div>
 					</li>
 				</ul>
