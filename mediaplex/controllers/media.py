@@ -44,9 +44,8 @@ class MediaController(RoutingController):
 
         if media.podcast_id is not None:
             # Always view podcast media from a URL that shows the context of the podcast
-            podcast_route = helpers.url_for(podcast_slug=media.podcast.slug)
-            if helpers.url_for() != podcast_route:
-                redirect(podcast_route)
+            if helpers.url_for() != helpers.url_for(podcast_slug=media.podcast.slug):
+               redirect('', podcast_slug=media.podcast.slug)
 
             next_episode = DBSession.query(Media)\
                 .filter(Media.podcast_id == media.podcast.id)\
@@ -85,7 +84,7 @@ class MediaController(RoutingController):
                 downRating = None,
             )
         else:
-            redirect(helpers.url_for(action='view'))
+            redirect('', action='view')
 
 
     @expose()
@@ -99,7 +98,7 @@ class MediaController(RoutingController):
         c.body = values['body']
         media.comments.append(c)
         DBSession.add(media)
-        redirect(helpers.url_for(action='view'))
+        redirect('', action='view')
 
 
     @expose()

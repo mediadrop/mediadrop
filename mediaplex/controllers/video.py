@@ -156,7 +156,7 @@ class VideoController(RoutingController):
         self._save_video(kwargs['name'], kwargs['email'], kwargs['title'], kwargs['description'], kwargs['tags'], kwargs['file'])
 
         # Redirect to success page!
-        redirect(helpers.url_for(action='upload_success'))
+        redirect('', action='upload_success')
 
     @expose('mediaplex.templates.video.upload-success')
     def upload_success(self, **kwargs):

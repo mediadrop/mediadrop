@@ -102,7 +102,7 @@ License: General Upload"""
             media.status.add('trash')
             DBSession.add(media)
             DBSession.flush()
-            redirect(helpers.url_for(action='index'))
+            redirect('', action='index')
 
         if media.id == 'new':
             media.id = None
@@ -128,7 +128,7 @@ License: General Upload"""
 
         DBSession.add(media)
         DBSession.flush()
-        redirect(helpers.url_for(action='edit', id=media.id))
+        redirect('', action='edit', id=media.id)
 
     @expose()
     @validate(AlbumArtForm(), error_handler=edit)
@@ -140,7 +140,7 @@ License: General Upload"""
         im.resize((162, 113), 1).save(im_path % 's')
         im.resize((240, 168), 1).save(im_path % 'm')
         im.resize((410, 273), 1).save(im_path % 'l')
-        redirect(helpers.url_for(action='edit', id=media.id))
+        redirect('', action='edit', id=media.id)
 
     @expose('mediaplex.templates.admin.media.update-status-form')
     def update_status(self, id, update_button, **values):

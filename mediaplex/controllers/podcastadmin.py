@@ -71,7 +71,7 @@ class PodcastadminController(RoutingController):
             podcast.delete()
             DBSession.add(podcast)
             DBSession.flush()
-            redirect(helpers.url_for(action='/index'))
+            redirect('', action='index')
 
         if podcast.id == 'new':
             podcast.id = None
@@ -88,7 +88,7 @@ class PodcastadminController(RoutingController):
 
         DBSession.add(podcast)
         DBSession.flush()
-        redirect(helpers.url_for(action='/edit', id=podcast.id))
+        redirect('', action='edit', id=podcast.id)
 
     @expose()
     @validate(AlbumArtForm(), error_handler=edit)
@@ -98,7 +98,7 @@ class PodcastadminController(RoutingController):
         im_path = '%s/../public/images/podcasts/%d%%s.jpg' % (os.path.dirname(__file__), podcast.id)
         im = Image.open(temp_file)
         im.resize((160, 150), 1).save(im_path % 'm')
-        redirect(helpers.url_for(action='/edit', id=podcast.id))
+        redirect('', action='edit', id=podcast.id)
 
 
     def _fetch_podcast(self, id):

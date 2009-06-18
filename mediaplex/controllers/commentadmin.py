@@ -61,4 +61,4 @@ class CommentadminController(RoutingController):
         comment = self._fetch_comment(id)
         comment.body = kwargs['body']
         DBSession.add(comment)
-        redirect(helpers.url_for(action='index', id=None))
+        redirect('', action='index', id=None)
