@@ -127,6 +127,7 @@ License: General Upload"""
         im = Image.open(temp_file)
         im.resize((162, 113), 1).save(im_path % 's')
         im.resize((240, 168), 1).save(im_path % 'm')
+        im.resize((410, 273), 1).save(im_path % 'l')
         redirect(helpers.url_for(action='edit', id=media.id))
 
     @expose('mediaplex.templates.admin.media.update-status-form')
