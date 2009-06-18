@@ -55,7 +55,7 @@
 			<innerboxtitle>Podcast Series</innerboxtitle>
 			<ul id="podcasts" class="innerbox-list">
 				<li py:for="podcast in podcasts">
-					<a href="${h.url_for(action='view', slug=podcast.slug)}" class="podcast-art"><img src="${h.url_for('/images/podcasts/%s.jpg' % podcast.id)}" width="154" height="151" class="f-lft" /></a>
+					<a href="${h.url_for(action='view', slug=podcast.slug)}" class="podcast-art"><img src="${h.url_for('/images/podcasts/%sm.jpg' % podcast.id)}" width="154" height="151" class="f-lft" /></a>
 					<div class="description">
 						<a href="${h.url_for(action='view', slug=podcast.slug)}" class="title">${podcast.title}</a>
 						<p py:replace="Markup(h.format_paragraphs(podcast.description))" />

@@ -30,10 +30,8 @@
 	display: block;
 	text-decoration: none;
 }
-#featured-ep .grid-desc {
-}
 #featured-ep .grid-desc p {
-	line-height: 1.8em;
+	line-height: 1.6em;
 }
 #featured-ep p {
 	margin-bottom: 10px;
@@ -71,6 +69,7 @@
 	font: 13px/18px Tahoma, sans-serif;
 	margin: 20px 0 30px 0;
 	position: relative;
+	height: 160px;
 }
 .innerbox-list li .title {
 	color: #b1d1ef;
