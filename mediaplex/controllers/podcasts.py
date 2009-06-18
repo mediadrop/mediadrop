@@ -31,6 +31,9 @@ class PodcastsController(RoutingController):
     def index(self, page=1, **kwargs):
         episodes_query = DBSession.query(Media)\
             .filter(Media.podcast_id != None)\
+            .filter(Media.status >= 'publish')\
+            .filter(Media.status.excludes('trash'))\
+            .order_by(Media.publish_on)\
             .options(undefer('comment_count'))
 
         # Paginate manually using our custom paginator to show fewer results on the first page
