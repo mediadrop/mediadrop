@@ -5,7 +5,8 @@
       xmlns:xi="http://www.w3.org/2001/XInclude">
 <xi:include href="admin/master.html" />
 <head>
-	<title>Edit: ${media.title}</title>
+	<title py:if="media.id != 'new'">Edit: ${media.title}</title>
+	<title py:if="media.id == 'new'">New Media</title>
 	<link href="${h.url_for('/admin/styles/media.css')}" media="screen" rel="stylesheet" type="text/css" />
 	<link href="${h.url_for('/admin/styles/forms.css')}" media="screen" rel="stylesheet" type="text/css" />
 	<script src="${h.url_for('/admin/scripts/slug.js')}" type="text/javascript"></script>

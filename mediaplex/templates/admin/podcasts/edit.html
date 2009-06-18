@@ -5,7 +5,8 @@
       xmlns:xi="http://www.w3.org/2001/XInclude">
 <xi:include href="admin/master.html" />
 <head>
-	<title>Edit: ${podcast.title}</title>
+	<title py:if="podcast.id != 'new'">Edit: ${podcast.title}</title>
+	<title py:if="podcast.id == 'new'">New Podcast</title>
 	<link href="${h.url_for('/admin/styles/podcasts.css')}" media="screen" rel="stylesheet" type="text/css" />
 	<link href="${h.url_for('/admin/styles/forms.css')}" media="screen" rel="stylesheet" type="text/css" />
 	<script src="${h.url_for('/admin/scripts/slug.js')}" type="text/javascript"></script>
