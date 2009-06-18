@@ -36,6 +36,7 @@ class MediaController(RoutingController):
             .order_by(Tag.name)\
             .all()
 
+
     @expose('mediaplex.templates.media.view')
     def view(self, slug, podcast_slug=None, **kwargs):
         """Display the media player and comments"""

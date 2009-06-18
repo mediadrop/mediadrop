@@ -232,51 +232,91 @@ a:hover {
 #nav-browse a { width: 99px; }
 #nav-latest > a:hover { background: url('../images/buttons/latest-browseall.png') no-repeat 0     -117px; }
 #nav-browse > a:hover { background: url('../images/buttons/latest-browseall.png') no-repeat -86px -117px; }
-a#nav-upload-video { width: 122px; background: url('../images/buttons/upload-video-ie.gif') no-repeat; }
-a#nav-topics { width: 122px; background: url('../images/buttons/topic-index-ie.gif') no-repeat; }
+
+a#nav-upload-video {
+	width: 122px;
+	background: url('../images/buttons/upload-video-ie.gif') no-repeat;
+}
+a#nav-topics {
+	width: 122px;
+	background: url('../images/buttons/topic-index-ie.gif') no-repeat;
+}
+a#nav-podcast-help {
+	width: 160px;
+	background: url('../images/buttons/podcast-help-ie.gif') no-repeat;
+	position: absolute;
+	top: 14px;
+	right: 152px;
+	float: none;
+}
 .box-nav > a#nav-upload-video { background-image: url('../images/buttons/upload-video.png'); }
 .box-nav > a#nav-topics { background-image: url('../images/buttons/topic-index.png'); }
-a#nav-topics:hover, a#nav-upload-video:hover { background-position: 0 -39px; }
-.nav-topics-on #nav-topics, a#nav-topics.topics-shown, .nav-upload-video-on #nav-upload-video { background-position: 0 -78px; }
+.box-nav > a#nav-podcast-help { background-image: url('../images/buttons/podcast-help.png'); }
+a#nav-topics:hover,
+a#nav-podcast-help:hover,
+a#nav-upload-video:hover {
+	background-position: 0 -39px;
+}
+.nav-topics-on #nav-topics,
+a#nav-topics.topics-shown,
+.nav-podcast-help-on #nav-podcast-help,
+a#nav-podcast-help.podcast-help-shown,
+.nav-upload-video-on #nav-upload-video {
+	background-position: 0 -78px;
+}
 
-.topic-box {
+.nav-box {
 	clear: both;
 	margin: 0 1px;
 	width: 898px;
 	overflow: hidden;
 }
-.topic-box-top1 { height: 16px; background: url('../images/layout/topic-box-top1.png') no-repeat top right; }
-.topic-box-top2 { height: 10px; background: url('../images/layout/topic-box-top2.png') no-repeat top right; }
-.topic-box-bottom {
-	height: 10px;
-	background: url('../images/layout/topic-box-bottom.png') no-repeat;
+#topic-box-top {
+	height: 16px;
+	background: url('../images/layout/nav-box-top-topics.png') no-repeat top right;
 }
-.topic-box-body {
+#podcast-help-top {
+	height: 16px;
+	background: url('../images/layout/nav-box-top-podcast-help.png') no-repeat top right;
+}
+.nav-box-top {
+	height: 10px;
+	background: url('../images/layout/nav-box-top.png') no-repeat top right;
+}
+.nav-box-topright {
+	height: 10px;
+	background: url('../images/layout/nav-box-topright.png') no-repeat top right;
+}
+.nav-box-bottom {
+	height: 10px;
+	background: url('../images/layout/nav-box-bottom.png') no-repeat;
+}
+.nav-box-body {
 	background: #333;
 	padding: 10px 20px;
 	width: 860px;
 	overflow: hidden;
 	position: relative;
 }
-.topic-box ul {
+.nav-box ul {
 	width: 25%;
 	float: left;
 }
-.topic-box li {
+.nav-box li {
 	display: block;
 	margin: 3px 0;
 	height: auto;
 	text-indent: 0;
 }
-.topic-box a:link,
-.topic-box a:visited {
+.nav-box a:link,
+.nav-box a:visited {
 	color: #B1D1EF;
 	text-decoration: none;
 	text-shadow: black 1px;
 	display: inline;
 	float: none;
 }
-.topic-box a:hover {
+.nav-box a:hover {
 	color: #fff;
 	text-decoration: underline;
 }

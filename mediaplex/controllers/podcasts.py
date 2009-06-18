@@ -19,11 +19,13 @@ class PodcastsController(RoutingController):
 
     def __init__(self, *args, **kwargs):
         super(PodcastsController, self).__init__(*args, **kwargs)
+        tmpl_context.podcast_help = True
         tmpl_context.tags = DBSession.query(Tag)\
             .options(undefer('media_count'))\
             .filter(Tag.media_count >= 1)\
             .order_by(Tag.name)\
             .all()
+
 
     @expose('mediaplex.templates.podcasts.index')
     def index(self, page=1, **kwargs):
@@ -44,6 +46,7 @@ class PodcastsController(RoutingController):
             episodes = episodes_page.items
         )
 
+
     @expose('mediaplex.templates.podcasts.view')
     @paginate('episodes', items_per_page=10)
     def view(self, slug, page=1, **kwargs):
@@ -53,12 +56,15 @@ class PodcastsController(RoutingController):
             episodes = podcast.media,
         )
 
+
     @expose('mediaplex.templates.podcasts.feed', content_type=CUSTOM_CONTENT_TYPE)
     def feed(self, slug, **kwargs):
+        podcast = self._fetch_podcast(slug)
         response.content_type = 'application/rss+xml'
         return dict(
-            podcast = Podcast(),
+            podcast = podcast,
         )
+
 
     def _fetch_podcast(self, slug):
         return DBSession.query(Podcast).filter(Podcast.slug == slug).one()

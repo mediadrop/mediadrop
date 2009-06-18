@@ -9,7 +9,7 @@
  */
 var ButtonFlyout = new Class({
 
-	Implements: [Options, Chain],
+	Implements: [Options, Chain, Events],
 
 	options: {
 		button: '',
@@ -18,7 +18,11 @@ var ButtonFlyout = new Class({
 		startHidden: true,
 		fx: {}, // defaults overridden by openFx & closeFx
 		openFx: [], // on open fx options per element
-		closeFx: [] // on close fx options per element
+		closeFx: [] // on close fx options per element,
+	/*	onStart: $empty,
+		onComplete: $empty ,
+		onOpen: $empty,
+		onClose: $empty*/
 	},
 
 	button: null,
@@ -39,7 +43,8 @@ var ButtonFlyout = new Class({
 
 	/** Slide 'in' or 'out' of view */
 	slide: function(how){
-		this.clearChain();
+		this.clearChain()
+		    .fireEvent('start', [how, this]);
 		if (how == 'in') {
 			for (var i = 0; i < this.fx.length; i++) this.chain(this._startFx.bind(this, [i, how]));
 			this._setOpen(true);
@@ -47,7 +52,8 @@ var ButtonFlyout = new Class({
 			for (var i = this.fx.length; i--; i) this.chain(this._startFx.bind(this, [i, how]));
 			this.chain(this._setOpen.bind(this, [false, true]));
 		}
-		this.chain(this._swapFxOptions.bind(this))
+		this.chain(this._swapFxOptions.bind(this, [true]))
+		    .chain(this.fireEvent.bind(this, ['complete', how, this]))
 		    .callChain();
 		return this;
 	},
@@ -79,8 +85,10 @@ var ButtonFlyout = new Class({
 		this.open = !!flag;
 		if (this.open) {
 			this.button.addClass(this.options.buttonActiveClass);
+			this.fireEvent('open', [this]);
 		} else {
 			this.button.removeClass(this.options.buttonActiveClass);
+			this.fireEvent('close', [this]);
 		}
 		if (callChain) this.callChain();
 		return this;
@@ -91,9 +99,10 @@ var ButtonFlyout = new Class({
 		thisFx.start.run(mode, thisFx);
 	},
 
-	_swapFxOptions: function(){
+	_swapFxOptions: function(callChain){
 		var opts = this.open ? this.options.closeFx : this.options.openFx;
 		for (var i = this.fx.length; i--; i) this.fx[i].setOptions(opts[i] || this.options.fx);
+		if (callChain) this.callChain();
 		return this;
 	}
 });

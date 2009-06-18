@@ -11,22 +11,36 @@
 			<script type="text/javascript" src="${h.url_for('/scripts/tags.js')}" />
 			<script type="text/javascript">
 				window.addEvent('domready', function() {
-					var topicIndexFlyout = new ButtonFlyout({
+					var flyoutOpenFx = [
+						{duration:  30, transition: 'linear'},
+						{duration:  20, transition: 'linear'},
+						{duration: 450, transition: 'cubic:out'}
+					];
+					var flyoutCloseFx = [
+						{duration:  30, transition: 'linear'},
+						{duration:  20, transition: 'linear'},
+						{duration: 450, transition: 'cubic:in'}
+					];
+					topicIndexFlyout = new ButtonFlyout({
 						button: 'nav-topics',
 						buttonActiveClass: 'topics-shown',
 						elements: $('mediaplex-topics').getChildren(),
 						startHidden: ${c.show_tags and 'false' or 'true'},
-						openFx: [
-							{duration:  30, transition: 'linear'},
-							{duration:  20, transition: 'linear'},
-							{duration: 450, transition: 'cubic:out'}
-						],
-						closeFx: [
-							{duration:  30, transition: 'linear'},
-							{duration:  20, transition: 'linear'},
-							{duration: 450, transition: 'cubic:in'}
-						]
+						openFx: flyoutOpenFx,
+						closeFx: flyoutCloseFx
 					});
+					<py:if test="c.podcast_help">
+						podcastHelpFlyout = new ButtonFlyout({
+							button: 'nav-podcast-help',
+							buttonActiveClass: 'podcast-help-shown',
+							elements: $('podcast-help-box').getChildren(),
+							openFx: flyoutOpenFx,
+							closeFx: flyoutCloseFx
+						});
+						var hider = function(how) { if (how == 'in') if (this.open) this.hide(); };
+						topicIndexFlyout.addEvent('start', hider.bind(podcastHelpFlyout));
+						podcastHelpFlyout.addEvent('start', hider.bind(topicIndexFlyout));
+					</py:if>
 				});
 			</script>
 			<meta py:replace="select('*')" />
@@ -49,12 +63,24 @@
 				<li id="nav-browse"><a href="${h.url_for(controller='/video')}">Browse All</a></li>
 			</ul>
 			<a id="nav-topics" class="box-nav-right topics-shown" href="/video-tags">Topic Index</a>
-			<a id="nav-upload-video" class="box-nav-right" href="${h.url_for(controller='/video', action='upload')}">Upload a Video</a>
-			<div id="mediaplex-topics" class="topic-box">
-				<div class="topic-box-top1" />
-				<div class="topic-box-top2" />
+			<a py:if="not c.podcast_help" id="nav-upload-video" class="box-nav-right" href="${h.url_for(controller='/video', action='upload')}">Upload a Video</a>
+			<a py:if="c.podcast_help" id="nav-podcast-help" class="box-nav-right podcast-help-shown" href="#">What are podcasts?</a>
+			<div py:if="c.podcast_help" id="podcast-help-box" class="nav-box">
+				<div id="podcast-help-top" />
+				<div class="nav-box-top" />
+				<div>
+					<div class="nav-box-body">
+						<p style="line-height:1.6em">A podcast is a series of digital media files, usually either digital audio or video, that is made available for download via web syndication. The syndication aspect of the delivery is what differentiates podcasts from other ways of accessing files, such as simple download or streaming: it means that special client software applications known as podcatchers (such as Apple Inc.'s iTunes or Nullsoft's Winamp) can automatically identify and retrieve new files in a series when they are made available, by accessing a centrally-maintained web feed that lists all files currently associated with that particular podcast. The files thus automatically downloaded are then stored locally on the user's computer or other device, for offline use.</p>
+						<div style="margin-top:.5em;text-align:right">from <a href="http://en.wikipedia.org/wiki/Podcast">Wikipedia</a></div>
+					</div>
+					<div class="nav-box-bottom" />
+				</div>
+			</div>
+			<div id="mediaplex-topics" class="nav-box">
+				<div id="topic-box-top" />
+				<div class="nav-box-topright" />
 				<div><!--! this extra div is here to group elements for the ButtonFlyout js -->
-					<div class="topic-box-body" py:with="per_col = max(5, int(h.math.ceil((len(c.tags) + 6) / 4.0)))">
+					<div class="nav-box-body" py:with="per_col = max(5, int(h.math.ceil((len(c.tags) + 6) / 4.0)))">
 						<ul py:if="c.tags" py:for="col in xrange(1, 5)">
 							<li py:for="tag in c.tags[(col-1)*per_col:col*per_col]">
 								<a href="${h.url_for(controller='/video', action='tags', slug=tag.slug)}">${tag}</a> <span>(${tag.media_count})</span>
@@ -65,7 +91,7 @@
 							<a id="topics-suggest" href="mailto:help@tmcyouth.com?subject=Suggest%20a%20topic!">Suggest a new topic</a>
 						</div>
 					</div>
-					<div class="topic-box-bottom" />
+					<div class="nav-box-bottom" />
 				</div>
 			</div>
 			<div py:replace="select('*|text()')" />
