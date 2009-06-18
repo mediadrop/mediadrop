@@ -47,6 +47,7 @@ class MediaController(RoutingController):
             if helpers.url_for() != helpers.url_for(podcast_slug=media.podcast.slug):
                redirect(podcast_slug=media.podcast.slug)
 
+            tmpl_context.podcast_help = True
             next_episode = DBSession.query(Media)\
                 .filter(Media.podcast_id == media.podcast.id)\
                 .filter(Media.publish_on > media.publish_on)\
