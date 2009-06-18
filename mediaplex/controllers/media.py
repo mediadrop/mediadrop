@@ -8,7 +8,7 @@ from urlparse import urlparse, urlunparse
 from cgi import parse_qs
 from PIL import Image
 from datetime import datetime
-from tg import expose, validate, flash, require, url, request, response, redirect, config, tmpl_context
+from tg import expose, validate, flash, require, url, request, response, config, tmpl_context
 from tg.exceptions import HTTPNotFound
 from tg.decorators import paginate
 from tg.controllers import CUSTOM_CONTENT_TYPE
@@ -18,7 +18,7 @@ from sqlalchemy import and_, or_
 from sqlalchemy.orm import eagerload, undefer
 
 from mediaplex.lib import helpers
-from mediaplex.lib.helpers import expose_xhr
+from mediaplex.lib.helpers import expose_xhr, redirect
 from mediaplex.lib.base import Controller, RoutingController
 from mediaplex.model import DBSession, metadata, Video, Media, MediaFile, Comment, Tag, Author, AuthorWithIP
 from mediaplex.forms.media import UploadForm
@@ -45,7 +45,7 @@ class MediaController(RoutingController):
         if media.podcast_id is not None:
             # Always view podcast media from a URL that shows the context of the podcast
             if helpers.url_for() != helpers.url_for(podcast_slug=media.podcast.slug):
-               redirect('', podcast_slug=media.podcast.slug)
+               redirect(podcast_slug=media.podcast.slug)
 
             next_episode = DBSession.query(Media)\
                 .filter(Media.podcast_id == media.podcast.id)\
@@ -84,7 +84,7 @@ class MediaController(RoutingController):
                 downRating = None,
             )
         else:
-            redirect('', action='view')
+            redirect(action='view')
 
 
     @expose()
@@ -98,7 +98,7 @@ class MediaController(RoutingController):
         c.body = values['body']
         media.comments.append(c)
         DBSession.add(media)
-        redirect('', action='view')
+        redirect(action='view')
 
 
     @expose()

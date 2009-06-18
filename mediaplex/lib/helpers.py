@@ -8,6 +8,7 @@ from webhelpers.html.converters import format_paragraphs
 from webhelpers.html import tags
 from routes.util import url_for
 from tg import expose, request
+from tg.exceptions import HTTPFound
 
 class expose_xhr(object):
     def __call__(self, func):
@@ -121,3 +122,8 @@ def slugify(string):
     string = re.sub(r'\s+', u'-', string)
     string = re.sub(r'[^a-z0-9_-]', u'', string)
     return string.encode('ascii')
+
+def redirect(*args, **kwargs):
+    found = HTTPFound(location=url_for(*args, **kwargs)).exception
+    raise found
+

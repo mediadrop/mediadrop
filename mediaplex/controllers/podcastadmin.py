@@ -2,14 +2,14 @@
 Podcast/Media Admin Controller
 """
 from repoze.what.predicates import has_permission
-from tg import config, flash, url, request, redirect
+from tg import config, flash, url, request
 from tg.decorators import paginate, expose, validate, require
 from sqlalchemy import or_
 from sqlalchemy.orm import undefer
 from pylons import tmpl_context
 
 from mediaplex.lib import helpers
-from mediaplex.lib.helpers import expose_xhr
+from mediaplex.lib.helpers import expose_xhr, redirect
 from mediaplex.lib.base import RoutingController
 from mediaplex.model import DBSession, Podcast, Author, AuthorWithIP
 from mediaplex.forms.admin import SearchForm, AlbumArtForm
@@ -71,7 +71,7 @@ class PodcastadminController(RoutingController):
             podcast.delete()
             DBSession.add(podcast)
             DBSession.flush()
-            redirect('', action='index')
+            redirect(action='index')
 
         if podcast.id == 'new':
             podcast.id = None
@@ -88,7 +88,7 @@ class PodcastadminController(RoutingController):
 
         DBSession.add(podcast)
         DBSession.flush()
-        redirect('', action='edit', id=podcast.id)
+        redirect(action='edit', id=podcast.id)
 
     @expose()
     @validate(AlbumArtForm(), error_handler=edit)
@@ -98,7 +98,7 @@ class PodcastadminController(RoutingController):
         im_path = '%s/../public/images/podcasts/%d%%s.jpg' % (os.path.dirname(__file__), podcast.id)
         im = Image.open(temp_file)
         im.resize((160, 150), 1).save(im_path % 'm')
-        redirect('', action='edit', id=podcast.id)
+        redirect(action='edit', id=podcast.id)
 
 
     def _fetch_podcast(self, id):

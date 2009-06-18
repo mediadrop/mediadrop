@@ -1,4 +1,4 @@
-from tg import expose, validate, flash, require, url, request, redirect
+from tg import expose, validate, flash, require, url, request
 from tg.decorators import paginate
 from formencode import validators
 from pylons.i18n import ugettext as _
@@ -8,7 +8,7 @@ from repoze.what.predicates import has_permission
 
 from mediaplex.lib import helpers
 from mediaplex.lib.base import RoutingController
-from mediaplex.lib.helpers import expose_xhr
+from mediaplex.lib.helpers import expose_xhr, redirect
 from mediaplex.model import DBSession, metadata, Video, Comment, Tag, Author
 from mediaplex.forms.admin import SearchForm
 from mediaplex.forms.comments import EditCommentForm
@@ -61,4 +61,4 @@ class CommentadminController(RoutingController):
         comment = self._fetch_comment(id)
         comment.body = kwargs['body']
         DBSession.add(comment)
-        redirect('', action='index', id=None)
+        redirect(action='index', id=None)

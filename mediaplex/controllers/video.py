@@ -12,7 +12,7 @@ from urlparse import urlparse, urlunparse
 from cgi import parse_qs
 from PIL import Image
 from datetime import datetime
-from tg import expose, validate, flash, require, url, request, response, redirect, config, tmpl_context
+from tg import expose, validate, flash, require, url, request, response, config, tmpl_context
 from tg.decorators import paginate
 from tg.controllers import CUSTOM_CONTENT_TYPE
 from formencode import validators
@@ -21,7 +21,7 @@ from sqlalchemy import and_, or_
 from sqlalchemy.orm import eagerload, undefer
 
 from mediaplex.lib import helpers
-from mediaplex.lib.helpers import expose_xhr
+from mediaplex.lib.helpers import expose_xhr, redirect
 from mediaplex.lib.base import Controller, RoutingController
 from mediaplex.model import DBSession, metadata, Video, Media, MediaFile, Comment, Tag, Author, AuthorWithIP
 from mediaplex.forms.media import UploadForm
@@ -156,7 +156,7 @@ class VideoController(RoutingController):
         self._save_video(kwargs['name'], kwargs['email'], kwargs['title'], kwargs['description'], kwargs['tags'], kwargs['file'])
 
         # Redirect to success page!
-        redirect('', action='upload_success')
+        redirect(action='upload_success')
 
     @expose('mediaplex.templates.video.upload-success')
     def upload_success(self, **kwargs):

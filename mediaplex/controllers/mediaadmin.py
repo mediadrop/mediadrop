@@ -7,7 +7,7 @@ from cgi import parse_qs
 from PIL import Image
 from datetime import datetime
 from copy import copy
-from tg import config, flash, url, request, redirect
+from tg import config, flash, url, request
 from tg.decorators import paginate, expose, validate, require
 from sqlalchemy import and_, or_
 from sqlalchemy.orm import eagerload, undefer
@@ -15,7 +15,7 @@ from repoze.what.predicates import has_permission
 from pylons import tmpl_context
 
 from mediaplex.lib import helpers
-from mediaplex.lib.helpers import expose_xhr
+from mediaplex.lib.helpers import expose_xhr, redirect
 from mediaplex.lib.base import RoutingController
 from mediaplex.model import DBSession, Media, MediaFile, Podcast, Comment, Tag, Author, AuthorWithIP
 from mediaplex.forms.admin import SearchForm, AlbumArtForm
@@ -102,7 +102,7 @@ License: General Upload"""
             media.status.add('trash')
             DBSession.add(media)
             DBSession.flush()
-            redirect('', action='index')
+            redirect(action='index')
 
         if media.id == 'new':
             media.id = None
@@ -128,7 +128,7 @@ License: General Upload"""
 
         DBSession.add(media)
         DBSession.flush()
-        redirect('', action='edit', id=media.id)
+        redirect(action='edit', id=media.id)
 
     @expose()
     @validate(AlbumArtForm(), error_handler=edit)
@@ -140,7 +140,7 @@ License: General Upload"""
         im.resize((162, 113), 1).save(im_path % 's')
         im.resize((240, 168), 1).save(im_path % 'm')
         im.resize((410, 273), 1).save(im_path % 'l')
-        redirect('', action='edit', id=media.id)
+        redirect(action='edit', id=media.id)
 
     @expose('mediaplex.templates.admin.media.update-status-form')
     def update_status(self, id, update_button, **values):
