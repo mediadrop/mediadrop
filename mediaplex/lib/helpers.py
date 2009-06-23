@@ -61,31 +61,6 @@ def duration_to_seconds(duration):
     return total_secs
 
 
-def video_player(video):
-    urlparts = urlparse(video.url)
-    if not urlparts[1]:
-        xhtml = u'''<div><script src="/scripts/third-party/flowplayer-3.1.0.min.js" type="text/javascript"></script>
-<a href="%(flash_url)s" style="display:block;width:479px;height:383px" id="flowplayer"></a>
-<script type="text/javascript">
-flowplayer("flowplayer", "/scripts/third-party/flowplayer-3.1.0.swf");
-</script></div>
-''' % {'flash_url': url_for(controller='/video', action='serve', slug=video.slug)}
-    else:
-        urlparts = re.match(r'https?://(www\.)?([^/]+)/(.*)', str(video.url))
-        domain = urlparts.group(2)
-
-        if domain in ('youtube.com', 'video.google.com'):
-            # Google Video's embed code uses 400 x 326
-            xhtml = u'<object type="application/x-shockwave-flash" width="%(width)d" height="%(height)d" data="%(url)s" id="video-player"><param name="movie" value="%(url)s" /></object>'\
-                % {'url': video.url, 'width': 479, 'height': 383}
-        elif domain == 'godtube.com':
-            # http://godtube.com/view_video.php?viewkey=4ce7f62c8fa7541273d6
-            xhtml = u'<embed src="http://godtube.com/flvplayer.swf" FlashVars="%(viewkey)s" wmode="transparent" quality="high" width="479" height="383" name="godtube" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" /></embed>' \
-                % {'viewkey': video.url.split('?')[1]}
-
-    return xhtml
-
-
 class MediaflowSlidePager(object):
     """Mediaflow Slide Paginator
 
