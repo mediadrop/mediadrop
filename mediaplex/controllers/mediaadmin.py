@@ -15,7 +15,7 @@ from repoze.what.predicates import has_permission
 from pylons import tmpl_context
 
 from mediaplex.lib import helpers
-from mediaplex.lib.helpers import expose_xhr, redirect
+from mediaplex.lib.helpers import expose_xhr, redirect, url_for, fetch_row
 from mediaplex.lib.base import RoutingController
 from mediaplex.model import DBSession, Media, MediaFile, Podcast, Comment, Tag, Author, AuthorWithIP
 from mediaplex.forms.admin import SearchForm, AlbumArtForm
@@ -26,15 +26,17 @@ from mediaplex.forms.comments import PostCommentForm
 class MediaadminController(RoutingController):
     allow_only = has_permission('admin')
 
-    @expose_xhr('mediaplex.templates.admin.media.index', 'mediaplex.templates.admin.media.index-table')
+    @expose_xhr('mediaplex.templates.admin.media.index',
+                'mediaplex.templates.admin.media.index-table')
     @paginate('media', items_per_page=25)
     def index(self, page=1, search=None, podcast_filter=None, **kw):
         media = DBSession.query(Media)\
             .filter(Media.status.excludes('trash'))\
             .options(undefer('comment_count'))\
             .order_by(Media.status.desc(), Media.publish_on, Media.created_on)
+
         if search is not None:
-            like_search = '%%%s%%' % search
+            like_search = '%' + search + '%'
             media = media.filter(or_(
                 Media.title.like(like_search),
                 Media.description.like(like_search),
@@ -43,7 +45,6 @@ class MediaadminController(RoutingController):
             ))
 
         podcast_filter_title = None
-
         if podcast_filter == 'Unfiled':
             media = media.filter(~Media.podcast.has())
         elif podcast_filter is not None:
@@ -51,17 +52,18 @@ class MediaadminController(RoutingController):
             podcast_filter_title = DBSession.query(Podcast.title).get(podcast_filter)
 
         return dict(
-            media=media,
-            podcast_filter=podcast_filter,
-            podcast_filter_title=podcast_filter_title,
-            search=search,
-            search_form=SearchForm(action=helpers.url_for()),
+            media = media,
+            podcast_filter = podcast_filter,
+            podcast_filter_title = podcast_filter_title,
+            search = search,
+            search_form = SearchForm(action=url_for()),
         )
+
 
     @expose('mediaplex.templates.admin.media.edit')
     def edit(self, id, **values):
-        media = self._fetch_media(id)
-        form = MediaForm(action=helpers.url_for(action='save', id=media.id), media=media)
+        media = fetch_row(Media, id)
+        form = MediaForm(action=url_for(action='save'), media=media)
         form_values = {
             'slug': media.slug,
             'title': media.title,
@@ -76,36 +78,38 @@ class MediaadminController(RoutingController):
             },
         }
 
-        album_art_form_errors = {}
-        if tmpl_context.action == 'save_album_art':
-            album_art_form_errors = tmpl_context.form_errors
-
         if media.id == 'new' and not media.notes:
             form_values['notes'] = """Bible References: None
 S&H References: None
 Reviewer: None
 License: General Upload"""
         form_values.update(values)
-        return {
-            'media': media,
-            'form': form,
-            'form_values': form_values,
-            'album_art_form_errors': album_art_form_errors,
-            'album_art_form': AlbumArtForm(action=helpers.url_for(action='save_album_art', id=media.id)),
-        }
+
+        album_art_form_errors = {}
+        if tmpl_context.action == 'save_album_art':
+            album_art_form_errors = tmpl_context.form_errors
+
+        return dict(
+            media = media,
+            form = form,
+            form_values = form_values,
+            album_art_form_errors = album_art_form_errors,
+            album_art_form = AlbumArtForm(action=url_for(action='save_album_art')),
+        )
+
 
     @expose()
     @validate(MediaForm(), error_handler=edit)
     def save(self, id, **values):
-        media = self._fetch_media(id)
-        if values.has_key('delete'):
+        media = fetch_row(Media, id)
+
+        if media.id == 'new':
+            media.id = None
+        elif values.has_key('delete'):
             media.status.add('trash')
             DBSession.add(media)
             DBSession.flush()
             redirect(action='index')
-
-        if media.id == 'new':
-            media.id = None
 
         media.slug = values['slug']
         media.title = values['title']
@@ -133,18 +137,18 @@ License: General Upload"""
     @expose()
     @validate(AlbumArtForm(), error_handler=edit)
     def save_album_art(self, id, **values):
-        media = self._fetch_media(id)
+        media = fetch_row(Media, id)
         temp_file = values['album_art'].file
         im_path = '%s/../public/images/media/%d%%s.jpg' % (os.path.dirname(__file__), media.id)
         im = Image.open(temp_file)
         im.resize((162, 113), 1).save(im_path % 's')
         im.resize((240, 168), 1).save(im_path % 'm')
         im.resize((410, 273), 1).save(im_path % 'l')
-        redirect(action='edit', id=media.id)
+        redirect(action='edit')
 
     @expose('mediaplex.templates.admin.media.update-status-form')
     def update_status(self, id, update_button, **values):
-        media = self._fetch_media(id)
+        media = fetch_row(Media, id)
         error = None
 
         if update_button == 'Review Complete':
@@ -177,12 +181,7 @@ License: General Upload"""
         else:
             error = u'No action to perform'
 
-        return dict(media=media, status_error=error)
-
-    def _fetch_media(self, id):
-        if id == 'new':
-            media = Media()
-            media.id = 'new'
-        else:
-            media = DBSession.query(Media).get(id)
-        return media
+        return dict(
+            media = media,
+            status_error = error,
+        )

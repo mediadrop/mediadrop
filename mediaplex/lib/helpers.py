@@ -9,6 +9,7 @@ from webhelpers.html import tags
 from routes.util import url_for
 from tg import expose, request
 from tg.exceptions import HTTPFound
+from mediaplex.model import DBSession as _DBSession
 
 class expose_xhr(object):
     def __call__(self, func):
@@ -98,7 +99,25 @@ def slugify(string):
     string = re.sub(r'[^a-z0-9_-]', u'', string)
     return string.encode('ascii')
 
+
 def redirect(*args, **kwargs):
     found = HTTPFound(location=url_for(*args, **kwargs)).exception
     raise found
 
+
+def fetch_row(class_, id=None, slug=None, incl_trash=False, extra_filter=None):
+    if id == 'new':
+        inst = class_()
+        inst.id == 'new'
+        return inst
+
+    query =  _DBSession.query(class_)
+    if id is not None:
+        query = query.filter_by(id=id)
+    if slug is not None:
+        query = query.filter_by(slug=slug)
+    if extra_filter is not None:
+        query = query.filter(extra_filter)
+    if not incl_trash and hasattr(class_, 'status'):
+        query = query.filter(class_.status.excludes('trash'))
+    return query.one()

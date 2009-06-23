@@ -21,7 +21,7 @@ from sqlalchemy import and_, or_
 from sqlalchemy.orm import eagerload, undefer
 
 from mediaplex.lib import helpers
-from mediaplex.lib.helpers import expose_xhr, redirect
+from mediaplex.lib.helpers import expose_xhr, redirect, url_for, fetch_row
 from mediaplex.lib.base import Controller, RoutingController
 from mediaplex.model import DBSession, metadata, Video, Media, MediaFile, Comment, Tag, Author, AuthorWithIP
 from mediaplex.forms.media import UploadForm
@@ -29,16 +29,22 @@ from mediaplex.forms.comments import PostCommentForm
 
 
 upload_form = UploadForm(
-    action = helpers.url_for(controller='/video', action='upload_submit'),
-    async_action = helpers.url_for(controller='/video', action='upload_submit_async')
+    action = url_for(controller='/video', action='upload_submit'),
+    async_action = url_for(controller='/video', action='upload_submit_async')
 )
 
 
 class VideoController(RoutingController):
     """Public video list actions"""
+
     def __init__(self, *args, **kwargs):
         super(VideoController, self).__init__(*args, **kwargs)
-        tmpl_context.tags = self._fetch_tags()
+        tmpl_context.tags = DBSession.query(Tag)\
+            .options(undefer('media_count'))\
+            .filter(Tag.media_count >= 1)\
+            .order_by(Tag.name)\
+            .all()
+
 
     @expose('mediaplex.templates.video.index')
     @paginate('videos', items_per_page=20)
@@ -48,13 +54,14 @@ class VideoController(RoutingController):
             videos = self._list_query.options(undefer('comment_count')),
         )
 
+
     @expose('mediaplex.templates.video.mediaflow')
-#    @paginate('videos', items_per_page=9)
     def flow(self, page=1, **kwargs):
         """Mediaflow Action"""
         return dict(
             videos = self._list_query.order_by(Video.publish_on.desc())[:15],
         )
+
 
     @property
     def _list_query(self):
@@ -63,6 +70,7 @@ class VideoController(RoutingController):
             .filter(Video.status >= 'publish')\
             .filter(Video.publish_on <= datetime.now())\
             .filter(Video.status.excludes('trash'))
+
 
     @expose('mediaplex.templates.video.index')
     @paginate('videos', items_per_page=20)
@@ -76,37 +84,13 @@ class VideoController(RoutingController):
             videos = video_query,
         )
 
-    def _fetch_tags(self):
-        return DBSession.query(Tag)\
-                        .options(undefer('media_count'))\
-                        .filter(Tag.media_count >= 1)\
-                        .order_by(Tag.name)\
-                        .all()
-
-    @expose('mediaplex.templates.video.view')
-    def view(self, slug, **values):
-        video = self._fetch_video(slug)
-        video.views += 1
-        DBSession.add(video)
-        form = PostCommentForm(action=helpers.url_for(action='comment', slug=video.slug))
-        return dict(
-            video = video,
-            comment_form = form,
-            comment_form_values = values,
-        )
-
-    def _fetch_video(self, slug):
-        return DBSession.query(Video)\
-            .filter(Video.slug == slug)\
-            .filter(Video.status.excludes('trash'))\
-            .one()
 
     @expose('mediaplex.templates.video.upload')
     @validate(upload_form)
     def upload(self, **kwargs):
         return dict(
             upload_form = upload_form,
-            form_values = kwargs
+            form_values = kwargs,
         )
 
     @expose('json')
@@ -141,8 +125,9 @@ class VideoController(RoutingController):
 
             return dict(
                 success = True,
-                redirect = helpers.url_for(action='upload_success')
+                redirect = url_for(action='upload_success')
             )
+
 
     @expose()
     @validate(upload_form, error_handler=upload)
@@ -158,13 +143,16 @@ class VideoController(RoutingController):
         # Redirect to success page!
         redirect(action='upload_success')
 
+
     @expose('mediaplex.templates.video.upload-success')
     def upload_success(self, **kwargs):
         return dict()
 
+
     @expose('mediaplex.templates.video.upload-failure')
     def upload_failure(self, **kwargs):
         return dict()
+
 
     def _save_video(self, name, email, title, description, tags, file):
         # cope with anonymous posters

@@ -10,7 +10,7 @@ from sqlalchemy import and_, or_
 from sqlalchemy.orm import eagerload, undefer
 
 from mediaplex.lib import helpers, custompaginate
-from mediaplex.lib.helpers import expose_xhr
+from mediaplex.lib.helpers import expose_xhr, redirect, url_for, fetch_row
 from mediaplex.lib.base import Controller, RoutingController
 from mediaplex.model import DBSession, Podcast, Media, Tag
 
@@ -53,7 +53,7 @@ class PodcastsController(RoutingController):
     @expose('mediaplex.templates.podcasts.view')
     @paginate('episodes', items_per_page=10)
     def view(self, slug, page=1, **kwargs):
-        podcast = self._fetch_podcast(slug)
+        podcast = fetch_row(Podcast, slug=slug)
         return dict(
             podcast = podcast,
             episodes = podcast.media,
@@ -62,12 +62,8 @@ class PodcastsController(RoutingController):
 
     @expose('mediaplex.templates.podcasts.feed', content_type=CUSTOM_CONTENT_TYPE)
     def feed(self, slug, **kwargs):
-        podcast = self._fetch_podcast(slug)
+        podcast = fetch_row(Podcast, slug=slug)
         response.content_type = 'application/rss+xml'
         return dict(
             podcast = podcast,
         )
-
-
-    def _fetch_podcast(self, slug):
-        return DBSession.query(Podcast).filter(Podcast.slug == slug).one()
