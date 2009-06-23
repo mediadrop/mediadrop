@@ -16,25 +16,25 @@
 .published-comment { background-image: url('../images/buttons/comment-published.png'); }
 .trash-comment { background-image: url('../images/buttons/comment-delete.png'); }
 
-td.author strong {
+.author strong {
 	font-weight: bold;
 }
-table#comment-table tr td {
+#comment-table tr td {
 	vertical-align: top;
 }
 .comment-submitted,
 .comment-ip {
 	color: #8695a3;
 }
-.comment-submitted a.edit-text {
+.comment-submitted .edit-text {
 	color: #3372a0;
 	text-decoration: none;
 }
-a.edit-text:hover, a.edit-text:active, .link:hover {
+.edit-text:hover, .edit-text:active, .link:hover {
 	color: #1380cf;
 	text-decoration: underline;
 }
-tr.tr-gray td {
+.tr-gray td {
 	background-color: #f1efe9;
 }
 .edit-comment-form .form-field-textarea {

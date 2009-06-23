@@ -80,7 +80,9 @@ class Comment(object):
     :param type:
       The relation name to use when looking up the parent object of this Comment.
       This is the name of the backref property which can be used to find the
-      object that this Comment belongs to.
+      object that this Comment belongs to. Our convention is to have a controller
+      by this name, with a 'view' action which accepts a slug, so we can
+      auto-generate links to any comment's parent.
 
     :param author:
       An instance of mediaplex.model.author.Author.
@@ -110,6 +112,8 @@ class CommentTypeExtension(interfaces.AttributeExtension):
 
     :param type:
       The value to assign to Comment.type, should match the relation()'s backref.
+      There should also be a controller for this type, with an exposed action 'view'
+      so that we can automatically generate links to the comments parent.
 
     """
     def __init__(self, type):

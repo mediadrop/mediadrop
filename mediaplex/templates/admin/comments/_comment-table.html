@@ -4,7 +4,7 @@
 	<table py:def="comment_table(collection, edit_forms, include_thead=True, id='comment-table', classes=None)"
 	    cellpadding="0" cellspacing="0" id="${id}" class="${classes}"
 	    py:with="item_count = len(collection);
-	             include_thead = include_thead and (item_count > 0);">
+	             include_thead = include_thead and item_count > 0;">
 		<thead py:if="include_thead">
 			<tr>
 				<th style="width:58px">Status</th>
@@ -14,12 +14,14 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr py:if="item_count == 0"><td colspan="4">No Comments Found</td></tr>
+			<tr py:if="item_count == 0">
+				<td>None Found</td>
+			</tr>
 			<tr py:for="comment, edit_form in zip(collection, edit_forms)" class="${('unreviewed' in comment.status) and 'tr-white' or 'tr-gray'}">
 				<td py:choose="">
-					<a class="mo review-comment" py:when="'unreviewed' in comment.status" href="${h.url_for(controller='commentadmin', action='approve', id=comment.id)}"><span>approve</span></a>
-					<span class="published-comment" py:otherwise="">published</span>
-					<a class="mo trash-comment" href="${h.url_for(controller='commentadmin', action='trash', id=comment.id)}"><span>trash</span></a>
+					<a class="mo review-comment" py:when="'unreviewed' in comment.status" href="${h.url_for(action='approve', id=comment.id)}" title="Approve this comment for publishing"><span>approve</span></a>
+					<span class="published-comment" py:otherwise="" title="This comment has already been approved for publishing">published</span>
+					<a class="mo trash-comment" href="${h.url_for(action='trash', id=comment.id)}" title="Delete this comment"><span>trash</span></a>
 				</td>
 				<td class="author">
 					<div><strong py:content="comment.author.name">Author</strong></div>
@@ -31,7 +33,8 @@
 					${XML(edit_form(comment))}
 				</td>
 				<td>
-					<a py:content="comment.parent.title" target="_blank" href="${h.url_for(controller='/%s' % comment.parent.type.encode('utf-8'), action='view', slug=comment.parent.slug).encode('utf-8')}">Parent Item</a>
+					<a py:content="comment.parent.title" target="_blank"
+					   href="${h.url_for(controller='/%s' % comment.type.encode('utf-8'), action='view', slug=comment.parent.slug)}" title="${comment.type.capitalize()}">Parent Item</a>
 				</td>
 			</tr>
 		</tbody>

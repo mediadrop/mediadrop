@@ -3,9 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:py="http://genshi.edgewall.org/"
       xmlns:xi="http://www.w3.org/2001/XInclude"
-      py:with="paginator=c.paginators.collection">
+      py:with="paginator=c.paginators.comments">
 <xi:include href="admin/master.html" />
-
 <head>
 	<title>Comments</title>
 	<script src="${h.url_for('/scripts/third-party/squeezebox-1.1-rc3.js')}" type="text/javascript"></script>
@@ -17,7 +16,7 @@
 	<script type="text/javascript">
 		window.addEvent('domready', function(){
 			var cm = new CommentMgr();
-			vs = new ShowMore({
+			var sm = new ShowMore({
 				table: 'comment-table',
 				pageNum: ${paginator.page},
 				lastPage: ${paginator.last_page or 1},
@@ -37,8 +36,7 @@
 			<h1 py:if="not search">All Comments</h1>
 			<h1 py:if="search">Comments that match '${search}'</h1>
 		</div>
-		<xi:include href="_comment-table.html" />
-		${comment_table(collection, edit_forms, classes='rounded-inputs')}
+		<xi:include href="index-table.html" py:with="comments=comments; edit_forms=edit_forms;" />
 	</div>
 </body>
 </html>
