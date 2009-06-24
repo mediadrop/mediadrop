@@ -15,7 +15,8 @@
 #featured-ep {
 	width: 900px;
 	overflow: hidden;
-	margin: 20px 0;
+	border-bottom: 2px solid #323232;
+	padding: 0 0 42px 0;
 }
 #featured-ep .grid-thumb {
 	float: left;

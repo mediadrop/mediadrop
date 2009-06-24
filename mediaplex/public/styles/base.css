@@ -40,7 +40,7 @@ body, select, input, button, textarea {
 	font-family: 'Helvetica Neue', Helvetica, Arial, clean, sans-serif;
 }
 body {
-	background: #f7f0e5 url('../images/layout/body-background.jpg');
+	background: #f7f0e5; /*url('../images/layout/body-background.jpg');*/
 	color: #767778;
 }
 a:link,
@@ -73,10 +73,10 @@ a:hover {
 }
 
 #logo {
-	background: url('../images/layout/mediaplex.png') no-repeat 8px top;
+	background: url('../images/layout/mediaplex.png') no-repeat 11px top;
 	height: 57px;
 	width: 940px;
-	margin: 0 auto;
+	margin: 10px auto 0 auto;
 }
 
 #logo a {

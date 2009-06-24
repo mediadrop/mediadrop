@@ -47,15 +47,17 @@ a:hover .grid-title, a.grid-title:hover {
 .grid li {
 	float: left;
 	width: 164px;
-	margin: 0 20px 50px 0;
 	font: 12px Tahoma, Helvetica, sans-serif;
 	color: #c4c4c4;
+	margin: 0 20px 35px 0;
 }
 .grid li a:link,
 .grid li a:visited {
 	display: block;
 	overflow: hidden;
 	text-decoration: none;
+	border-bottom: 2px solid #323232;
+	padding-bottom: 5px;
 }
 .grid li img {
 	border: 1px solid #b0b0b0;

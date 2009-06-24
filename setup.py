@@ -21,7 +21,7 @@ setup(
         "repoze.what-quickstart",
                 ],
     setup_requires=["PasteScript>=1.6.3"],
-    paster_plugins=['PasteScript', 'Pylons', 'TurboGears2', 'tg.devtools'],
+    paster_plugins=['PasteScript', 'Pylons', 'TurboGears2'],
     packages=find_packages(exclude=['ez_setup']),
     include_package_data=True,
     test_suite='nose.collector',

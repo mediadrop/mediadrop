@@ -16,12 +16,14 @@ mediaplex/config/environment.py
 mediaplex/config/middleware.py
 mediaplex/controllers/__init__.py
 mediaplex/controllers/admin.py
-mediaplex/controllers/comments.py
+mediaplex/controllers/commentadmin.py
 mediaplex/controllers/error.py
+mediaplex/controllers/podcastadmin.py
 mediaplex/controllers/root.py
 mediaplex/controllers/secure.py
 mediaplex/controllers/template.py
 mediaplex/controllers/video.py
+mediaplex/controllers/videoadmin.py
 mediaplex/forms/__init__.py
 mediaplex/forms/admin.py
 mediaplex/forms/comments.py
@@ -47,7 +49,9 @@ mediaplex/templates/error.html
 mediaplex/templates/login.html
 mediaplex/templates/master.html
 mediaplex/templates/admin/__init__.py
+mediaplex/templates/admin/audio/__init__.py
 mediaplex/templates/admin/comments/__init__.py
+mediaplex/templates/admin/podcasts/__init__.py
 mediaplex/templates/admin/video/__init__.py
 mediaplex/templates/comments/__init__.py
 mediaplex/templates/video/__init__.py
