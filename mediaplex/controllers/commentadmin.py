@@ -8,8 +8,8 @@ from repoze.what.predicates import has_permission
 
 from mediaplex.lib import helpers
 from mediaplex.lib.base import RoutingController
-from mediaplex.lib.helpers import expose_xhr, redirect, url_for, fetch_row
-from mediaplex.model import DBSession, metadata, Video, Comment, Tag, Author
+from mediaplex.lib.helpers import expose_xhr, redirect, url_for
+from mediaplex.model import DBSession, metadata, fetch_row, Video, Comment, Tag, Author
 from mediaplex.forms.admin import SearchForm
 from mediaplex.forms.comments import EditCommentForm
 

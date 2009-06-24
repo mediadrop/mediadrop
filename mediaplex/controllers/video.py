@@ -21,9 +21,9 @@ from sqlalchemy import and_, or_
 from sqlalchemy.orm import eagerload, undefer
 
 from mediaplex.lib import helpers
-from mediaplex.lib.helpers import expose_xhr, redirect, url_for, fetch_row
+from mediaplex.lib.helpers import expose_xhr, redirect, url_for
 from mediaplex.lib.base import Controller, RoutingController
-from mediaplex.model import DBSession, metadata, Video, Media, MediaFile, Comment, Tag, Author, AuthorWithIP
+from mediaplex.model import DBSession, metadata, fetch_row, Video, Media, MediaFile, Comment, Tag, Author, AuthorWithIP
 from mediaplex.forms.media import UploadForm
 from mediaplex.forms.comments import PostCommentForm
 

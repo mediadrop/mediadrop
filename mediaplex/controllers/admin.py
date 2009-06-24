@@ -7,7 +7,7 @@ from repoze.what.predicates import has_permission
 
 from mediaplex.lib.base import RoutingController
 from mediaplex.lib.helpers import expose_xhr
-from mediaplex.model import DBSession, Media, Video, Comment, Tag
+from mediaplex.model import DBSession, fetch_row, Media, Video, Comment, Tag
 
 class AdminController(RoutingController):
     """Admin dashboard actions"""

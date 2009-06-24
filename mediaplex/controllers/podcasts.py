@@ -10,9 +10,9 @@ from sqlalchemy import and_, or_
 from sqlalchemy.orm import eagerload, undefer
 
 from mediaplex.lib import helpers, custompaginate
-from mediaplex.lib.helpers import expose_xhr, redirect, url_for, fetch_row
+from mediaplex.lib.helpers import expose_xhr, redirect, url_for
 from mediaplex.lib.base import Controller, RoutingController
-from mediaplex.model import DBSession, Podcast, Media, Tag
+from mediaplex.model import DBSession, fetch_row, Podcast, Media, Tag
 
 class PodcastsController(RoutingController):
     """Podcast actions -- episodes are handled in the MediaController"""

@@ -2,7 +2,6 @@
 
 from zope.sqlalchemy import ZopeTransactionExtension
 from sqlalchemy.orm import scoped_session, sessionmaker
-#from sqlalchemy import MetaData
 from sqlalchemy.ext.declarative import declarative_base
 
 # Global session manager.  DBSession() returns the session object
@@ -12,47 +11,44 @@ maker = sessionmaker(autoflush=True, autocommit=False,
 DBSession = scoped_session(maker)
 
 # By default, the data model is defined with SQLAlchemy's declarative
-# extension, but if you need more control, you can switch to the traditional
-# method.
-
+# extension, but if you need more control, you can switch to the traditional method.
 DeclarativeBase = declarative_base()
-
-# Global metadata.
-# The default metadata is the one from the declarative base.
+# Global metadata. The default metadata is the one from the declarative base.
 metadata = DeclarativeBase.metadata
-
-# If you have multiple databases with overlapping table names, you'll need a
-# metadata for each database. Feel free to rename 'metadata2'.
-#metadata2 = MetaData()
 
 #####
 # Generally you will not want to define your table's mappers, and data objects
 # here in __init__ but will want to create modules them in the model directory
 # and import them at the bottom of this file.
-#
 ######
 
 def init_model(engine):
     """Call me before using any of the tables or classes in the model."""
-
     DBSession.configure(bind=engine)
-    # If you are using reflection to introspect your database and create
-    # table objects for you, your tables must be defined and mapped inside
-    # the init_model function, so that the engine is available if you
-    # use the model outside tg2, you need to make sure this is called before
-    # you use the model.
 
-    #
-    # See the following example:
 
-    #global t_reflected
+def fetch_row(mapped_class, id=None, slug=None, incl_trash=False, extra_filter=None):
+    """Fetch a row from the database which matches the ID, slug, and other filters.
 
-    #t_reflected = Table("Reflected", metadata,
-    #    autoload=True, autoload_with=engine)
+    If the 2nd arg is 'new', an empty instance is created with an ID of 'new'.
+    Remember to clear that ID before trying to save the row.
+    """
+    if id == 'new':
+        inst = mapped_class()
+        inst.id == 'new'
+        return inst
+    query = DBSession.query(mapped_class)
+    if id is not None:
+        query = query.filter_by(id=id)
+    if slug is not None:
+        query = query.filter_by(slug=slug)
+    if extra_filter is not None:
+        query = query.filter(extra_filter)
+    if not incl_trash and hasattr(mapped_class, 'status'):
+        query = query.filter(mapped_class.status.excludes('trash'))
+    return query.one()
 
-    #mapper(Reflected, t_reflected)
 
-# Import your model modules here.
 from mediaplex.model.auth import User, Group, Permission
 from mediaplex.model.authors import Author, AuthorWithIP
 from mediaplex.model.rating import Rating

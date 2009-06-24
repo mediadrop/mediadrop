@@ -15,9 +15,9 @@ from repoze.what.predicates import has_permission
 from pylons import tmpl_context
 
 from mediaplex.lib import helpers
-from mediaplex.lib.helpers import expose_xhr, redirect, url_for, fetch_row
+from mediaplex.lib.helpers import expose_xhr, redirect, url_for
 from mediaplex.lib.base import RoutingController
-from mediaplex.model import DBSession, Media, MediaFile, Podcast, Comment, Tag, Author, AuthorWithIP
+from mediaplex.model import DBSession, fetch_row, Media, MediaFile, Podcast, Comment, Tag, Author, AuthorWithIP
 from mediaplex.forms.admin import SearchForm, AlbumArtForm
 from mediaplex.forms.media import MediaForm
 from mediaplex.forms.comments import PostCommentForm
@@ -56,7 +56,7 @@ class MediaadminController(RoutingController):
             podcast_filter = podcast_filter,
             podcast_filter_title = podcast_filter_title,
             search = search,
-            search_form = SearchForm(action=url_for()),
+            search_form = not request.is_xhr and SearchForm(action=url_for()),
         )
 
 
@@ -134,6 +134,7 @@ License: General Upload"""
         DBSession.flush()
         redirect(action='edit', id=media.id)
 
+
     @expose()
     @validate(AlbumArtForm(), error_handler=edit)
     def save_album_art(self, id, **values):
@@ -145,6 +146,7 @@ License: General Upload"""
         im.resize((240, 168), 1).save(im_path % 'm')
         im.resize((410, 273), 1).save(im_path % 'l')
         redirect(action='edit')
+
 
     @expose('mediaplex.templates.admin.media.update-status-form')
     def update_status(self, id, update_button, **values):
