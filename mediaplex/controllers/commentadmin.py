@@ -33,19 +33,17 @@ class CommentadminController(RoutingController):
                 Comment.body.like(like_search),
             ))
 
-        # FIXME: This iterates over comments BEFORE pagination takes place, which is equiv to calling comments.all()
-        edit_forms = [EditCommentForm(action=url_for(action='save', id=c.id)) for c in comments]
+        # Uses a generator expression to delay creation of the forms until
+        # after our paginate decorator works its magic on 'comments'.
+        # This also makes things slightly more memory efficient.
+        edit_forms = (EditCommentForm(action=url_for(action='save', id=c.id)) for c in comments)
 
-        values = dict(
+        return dict(
             comments = comments,
             edit_forms = edit_forms,
+            search = search,
+            search_form = not request.is_xhr and SearchForm(action=url_for()),
         )
-        if not request.is_xhr:
-            values.update(dict(
-                search = search,
-                search_form = SearchForm(action=url_for()),
-            ))
-        return values
 
 
     @expose('json')
