@@ -1,6 +1,8 @@
 """
 Podcast/Media Admin Controller
 """
+import os
+from PIL import Image
 from repoze.what.predicates import has_permission
 from tg import config, flash, url, request
 from tg.decorators import paginate, expose, validate, require
