@@ -184,7 +184,7 @@ License: General Upload"""
         DBSession.flush()
 
         # set up the permanent filename for this upload
-        file_name = str(video.id) + '-' + email + '-' + file.filename
+        file_name = '-'.join((str(video.id), email, file.filename))
         file_name = file_name.lstrip(os.path.sep)
         file_type = os.path.splitext(file_name)[1].lower()[1:]
 

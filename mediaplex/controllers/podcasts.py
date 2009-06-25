@@ -5,7 +5,7 @@ from tg.controllers import CUSTOM_CONTENT_TYPE
 from tg.configuration import Bunch
 from formencode import validators
 from pylons.i18n import ugettext as _
-from pylons import tmpl_context
+from pylons import tmpl_context, templating
 from sqlalchemy import and_, or_
 from sqlalchemy.orm import eagerload, undefer
 
@@ -46,7 +46,7 @@ class PodcastsController(RoutingController):
 
         return dict(
             podcasts = DBSession.query(Podcast).options(undefer('media_count')).all(),
-            episodes = episodes_page.items
+            episodes = episodes_page.items,
         )
 
 
@@ -60,10 +60,15 @@ class PodcastsController(RoutingController):
         )
 
 
-    @expose('mediaplex.templates.podcasts.feed', content_type=CUSTOM_CONTENT_TYPE)
+    @expose()
     def feed(self, slug, **kwargs):
         podcast = fetch_row(Podcast, slug=slug)
-        response.content_type = 'application/rss+xml'
-        return dict(
+        template_vars = dict(
             podcast = podcast,
         )
+
+        # Manually render XML from genshi since tg.render.render_genshi is too stupid to support it.
+        response.content_type = 'application/rss+xml'
+        template_name = config['pylons.app_globals'].dotted_filename_finder.get_dotted_filename(
+            'mediaplex.templates.podcasts.feed', template_extension='.xml')
+        return templating.render_genshi(template_name, extra_vars=template_vars, method='xml')

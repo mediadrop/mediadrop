@@ -28,6 +28,7 @@ from datetime import datetime
 from sqlalchemy import Table, ForeignKey, Column, sql, and_, or_, func
 from sqlalchemy.types import String, Unicode, UnicodeText, Integer, DateTime, Boolean, Float
 from sqlalchemy.orm import mapper, relation, backref, synonym, composite, column_property, comparable_property, validates, collections
+from tg import config
 
 from mediaplex.model import DeclarativeBase, metadata, DBSession
 from mediaplex.model.authors import Author
@@ -156,6 +157,10 @@ class MediaFile(object):
     """Metadata of files which belong to a certain media item"""
     def __repr__(self):
         return '<MediaFile: type=%s url=%s>' % (self.type, self.url)
+
+    @property
+    def mimetype(self):
+        return config.mimetype_lookup.get('.' + self.type, 'application/octet-stream')
 
 
 mapper(MediaFile, media_files)

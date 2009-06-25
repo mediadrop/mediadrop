@@ -110,7 +110,7 @@ class MediaController(RoutingController):
         for file in (file for file in media.files if file.type == type):
             file_path = os.path.join(config.media_dir, file.url)
             file_handle = open(file_path, 'rb')
-            response.content_type = config.mimetype_lookup.get('.' + file.type, 'application/octet-stream')
+            response.content_type = file.mimetype
             return file_handle.read()
         else:
             raise HTTPNotFound()

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss xmlns:py="http://genshi.edgewall.org/"
+     xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd"
+     xmlns:media="http://search.yahoo.com/mrss/"
+     xmlns:atom="http://www.w3.org/2005/Atom"
+     version="2.0">
+	<channel>
+		<title py:content="podcast.title" />
+		<link py:content="h.url_for(action='view', qualified=True)" />
+		<language>en-us</language>
+		<docs>http://www.rssboard.org/rss-specification</docs>
+		<atom:link href="${h.url_for(qualified=True)}" rel="self" type="application/rss+xml" />
+
+		<description py:content="podcast.subtitle" />
+		<itunes:subtitle py:content="podcast.subtitle" />
+		<itunes:summary py:content="podcast.description" />
+
+		<itunes:category py:with="category = podcast.category.split(' &gt; ')" text="${category[0]}">
+			<itunes:category py:if="len(category) > 1" text="${category[1]}" />
+		</itunes:category>
+
+		<managingEditor>${podcast.author.email}<py:if test="podcast.author.name"> (${podcast.author.name})</py:if></managingEditor>
+		<itunes:author py:content="podcast.author.name" />
+		<itunes:owner>
+			<itunes:email py:content="podcast.author.email" />
+			<itunes:name py:content="podcast.author.name" />
+		</itunes:owner>
+
+		<itunes:explicit py:content="'no' if podcast.explicit is None else 'yes' if podcast.explicit else 'clean'" />
+
+		<image>
+			<url py:content="h.url_for('/images/podcasts/%sm.jpg' % podcast.id, qualified=True)" />
+			<title py:content="podcast.title" />
+			<link py:content="h.url_for(action='view', qualified=True)" />
+		</image>
+		<itunes:image href="${h.url_for('/images/podcasts/%situnes.jpg' % podcast.id, qualified=True)}" />
+		<!--! iTunes image should be square and 600x600 or larger -->
+
+		<copyright py:content="podcast.copyright" />
+
+<!--!	<pubDate />
+		<lastBuildDate />
+		<ttl />
+		<category />
+		<rating /> -->
+
+		<item py:for="media in podcast.media"
+		      py:with="permalink = h.url_for(controller='/media', action='view', slug=media.slug, podcast_slug=podcast.slug, qualified=True);
+		               file = media.files[0];">
+			<title py:content="media.title" />
+			<guid py:content="permalink" />
+			<comments py:content="permalink + '#comments'" />
+			<itunes:subtitle py:content="media.subtitle" />
+			<description py:content="media.description" />
+			<author>${media.author.email}<py:if test="media.author.name"> (${media.author.name})</py:if></author>
+			<itunes:author py:if="media.author.name" py:content="media.author.name" />
+			<pubDate py:content="media.publish_on.strftime('%a, %d %b %Y %H:%M:%S') + ' GMT'" />
+			<itunes:duration py:content="h.duration_from_seconds(media.duration)" />
+			<itunes:keywords py:content="', '.join(tag.name for tag in media.tags)" />
+			<enclosure url="${h.url_for(controller='/media', action='serve', type=file.type, slug=media.slug, qualified=True)}"
+			           length="${file.size}"
+			           type="${file.mimetype}" />
+			<media:content url="${h.url_for(controller='/media', action='serve', type=file.type, slug=media.slug, qualified=True)}"
+			               medium="${media.type}"
+			               fileSize="${file.size}"
+			               type="${file.mimetype}"
+			               isDefault="true"
+			               expression="full"
+			               bitrate="${file.bitrate}"
+			               duration="${media.duration}"
+			               width="${file.width}"
+			               height="${file.height}"
+			               lang="en" />
+			<media:thumbnail url="${h.url_for('/images/media/%sm.jpg' % media.id, qualified=True)}" width="240" height="168" />
+		</item>
+
+	</channel>
+</rss>

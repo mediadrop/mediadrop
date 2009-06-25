@@ -8,6 +8,7 @@
 <head>
 	<title>Podcasts</title>
 	<link href="${h.url_for('/styles/podcasts.css')}" media="screen" rel="stylesheet" type="text/css" />
+	<link href="${h.url_for(action='feed')}" type="application/rss+xml" rel="alternate" title="Podcast RSS Feed" />
 </head>
 <body class="nav-podcasts-on">
 	<box id="podcasts-box" py:with="episodes_paginator=c.paginators.episodes">
