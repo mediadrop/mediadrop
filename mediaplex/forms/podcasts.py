@@ -14,7 +14,7 @@ class PodcastForm(ListForm):
     # required to support multiple named buttons to differentiate between Save & Delete?
     _name = 'vf'
 
-    explicit_options = ['Not specified', 'Explicit', 'Clean']
+    explicit_options = ['Yes', 'No', 'Clean']
 
     fields = [
         TextField('slug', validator=NotEmpty),
@@ -26,7 +26,7 @@ class PodcastForm(ListForm):
         ListFieldSet('details', suppress_label=True, legend='Podcast Details:', children=[
             TextField('copyright'),
             TextField('category'),
-            RadioButtonList('explicit', options=explicit_options),
+            RadioButtonList('explicit', label_text='Explicit?', options=explicit_options),
         ]),
         SubmitButton('save', default='Save', named_button=True, css_classes=['mo', 'btn-save', 'f-rgt']),
         SubmitButton('delete', default='Delete', named_button=True, css_classes=['mo', 'btn-delete']),

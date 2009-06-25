@@ -37,9 +37,9 @@ class PodcastadminController(RoutingController):
         podcast = fetch_row(Podcast, id)
         form = PodcastForm(action=url_for(action='save'), podcast=podcast)
 
-        explicit = 'Not specified'
+        explicit = 'No'
         if podcast.explicit is not None:
-            explicit = podcast.explicit and 'Explicit' or 'Clean'
+            explicit = podcast.explicit and 'Yes' or 'Clean'
 
         form_values = {
             'slug': podcast.slug,
@@ -88,10 +88,10 @@ class PodcastadminController(RoutingController):
         podcast.description = values['description']
         podcast.copyright = values['details']['copyright']
         podcast.category = values['details']['category']
-        if values['details']['explicit'] == 'Not specified':
+        if values['details']['explicit'] == 'No':
             podcast.explicit = None
         else:
-            podcast.explicit = values['details']['explicit'] == 'Explicit'
+            podcast.explicit = values['details']['explicit'] == 'Yes'
 
         DBSession.add(podcast)
         DBSession.flush()
