@@ -25,30 +25,28 @@
 			</tr>
 			<tr py:for="media in collection">
 				<py:for each="f in fields" py:choose="f">
-					<td py:when="'publish_on'"
-					    class="${media.publish_on and media.publish_on >= h.dt.datetime.now() and 'italic' or None}"
-					    py:content="media.publish_on is None and 'unpublished' or media.publish_on.strftime('%b %d %Y')">
+					<td py:when="'publish_on'" py:with="is_published = media.is_published"
+					    class="${'italic' if not is_published else None}"
+					    py:content="media.publish_on.strftime('%b %d %Y') if is_published else 'unpublished'">
 						Publish Date
 					</td>
 					<td py:when="'created_on'">${media.created_on.strftime('%b %d %Y')}</td>
 					<td py:when="'status'" py:choose="">
-						<a class="mo review-me" py:when="'unreviewed' in media.status" href="${h.url_for(controller='/mediaadmin', action='edit', id=media.id)}"><span>review me</span></a>
-						<a class="mo encode-me" py:when="'unencoded' in media.status" href="FIXME"><span>encode me</span></a>
-						<a class="mo publish-me" py:when="'draft' in media.status" href="${h.url_for(controller='/mediaadmin', action='edit', id=media.id)}"><span>publish me</span></a>
-						<a class="mo published" py:otherwise="" href="${h.url_for(controller='/video', action='view', slug=media.slug)}#FIXME"><span>published</span></a>
+						<a class="mo review-me" py:when="media.is_unreviewed" href="${h.url_for(controller='/mediaadmin', action='edit', id=media.id)}"><span>review me</span></a>
+						<a class="mo encode-me" py:when="media.is_unencoded" href="FIXME"><span>encode me</span></a>
+						<a class="mo publish-me" py:when="media.is_draft" href="${h.url_for(controller='/mediaadmin', action='edit', id=media.id)}"><span>publish me</span></a>
+						<a class="mo published" py:otherwise="" href="${h.url_for(controller='/media', action='view', slug=media.slug)}#FIXME"><span>published</span></a>
 					</td>
 					<td py:when="'title'"><a href="${h.url_for(controller='/mediaadmin', action='edit', id=media.id)}">${media.title}</a></td>
 					<td py:when="'comment_count'" class="center">${media.comment_count}</td>
-					<td py:when="'tags'" py:with="tag_count=len(media.tags)">
-						<py:if test="tag_count == 0">None</py:if>
-						<py:if test="tag_count >= 1" py:for="i, tag in enumerate(media.tags)">
-							<a href="${h.url_for(controller='media', action='tags', slug=tag.slug)}">${tag.name}</a><py:if test="i+1 != tag_count">,</py:if>
-						</py:if>
-					</td>
+					<td py:when="'tags'" py:content="', '.join((tag.name for tag in media.tags)) if len(media.tags) else 'None'" />
 					<td py:when="'author'">
 						<a href="mailto:${media.author.email}" py:strip="not media.author.email">${media.author.name}</a>
 					</td>
-					<td py:when="'type'" class="center"><img src="${h.url_for('/admin/images/icons/%s.png' % media.type.encode('utf-8'))}" py:with="pretty_type=media.type.capitalize()" alt="${pretty_type}" title="${pretty_type}" /></td>
+					<td py:when="'type'" class="center">
+						<img src="${h.url_for('/admin/images/icons/%s.png' % media.type.encode('utf-8'))}"
+						     py:with="pretty_type=media.type.capitalize()" alt="${pretty_type}" title="${pretty_type}" />
+					</td>
 				</py:for>
 			</tr>
 		</tbody>

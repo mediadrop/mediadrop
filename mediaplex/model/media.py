@@ -138,6 +138,29 @@ class Media(object):
     def validate_slug(self, key, slug):
         return slugify(slug)
 
+    @property
+    def is_published(self):
+        return PUBLISH in self.status\
+           and TRASH not in self.status\
+           and (self.publish_on is not None and self.publish_on <= datetime.now())\
+           and (self.publish_until is None or self.publish_until >= datetime.now())
+
+    @property
+    def is_unencoded(self):
+        return UNENCODED in self.status
+
+    @property
+    def is_unreviewed(self):
+        return UNREVIEWED in self.status
+
+    @property
+    def is_draft(self):
+        return DRAFT in self.status
+
+    @property
+    def is_trash(self):
+        return TRASH in self.status
+
 
 class Video(Media):
     ENCODED_TYPE = 'flv'

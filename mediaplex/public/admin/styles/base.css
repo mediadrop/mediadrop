@@ -149,7 +149,8 @@ body {
 .box-head small {
 	font-size: 12px;
 }
-.box-head small.box-head-sec {
+.box-head .box-head-sec {
+	font-size: 13px;
 	line-height: 18px;
 	float: right;
 	margin: 3px 0;
@@ -298,6 +299,12 @@ input.submitbutton {
 	font: bold 13px Helvetica,Arial,Verdana,sans-serif;
 	padding: 7px 6px 5px 0;
 	display: none;
+}
+
+#go-view-content {
+	background: url('../images/icons/arrow-green-right.png') no-repeat 100% 75%;
+	padding-right: 18px;
+	color: #196d29;
 }
 
 /* Mouse-over image replacement for buttons */
