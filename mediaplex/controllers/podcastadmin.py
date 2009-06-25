@@ -77,8 +77,7 @@ class PodcastadminController(RoutingController):
         if podcast.id == 'new':
             podcast.id = None
         elif values.has_key('delete'):
-            podcast.delete()
-            DBSession.add(podcast)
+            DBSession.delete(podcast)
             DBSession.flush()
             redirect(action='index')
 
