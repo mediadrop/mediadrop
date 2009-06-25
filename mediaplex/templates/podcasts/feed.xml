@@ -44,7 +44,7 @@
 		<category />
 		<rating /> -->
 
-		<item py:for="media in podcast.media"
+		<item py:for="media in episodes"
 		      py:with="permalink = h.url_for(controller='/media', action='view', slug=media.slug, podcast_slug=podcast.slug, qualified=True);
 		               file = media.files[0];">
 			<title py:content="media.title" />

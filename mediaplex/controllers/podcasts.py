@@ -56,7 +56,7 @@ class PodcastsController(RoutingController):
         podcast = fetch_row(Podcast, slug=slug)
         return dict(
             podcast = podcast,
-            episodes = podcast.media,
+            episodes = podcast.media.order_by(Media.publish_on.desc()),
         )
 
 
@@ -65,6 +65,7 @@ class PodcastsController(RoutingController):
         podcast = fetch_row(Podcast, slug=slug)
         template_vars = dict(
             podcast = podcast,
+            episodes = podcast.media.order_by(Media.publish_on.desc())[:10],
         )
 
         # Manually render XML from genshi since tg.render.render_genshi is too stupid to support it.
