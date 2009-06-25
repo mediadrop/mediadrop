@@ -16,7 +16,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td style="width:180px"><div class="podcast-art"><img src="${h.url_for('/images/podcasts/'+str(podcast.id)+'m.jpg')}" width="160" height="150" alt="Album Art" /></div></td>
+					<td style="width:180px"><div class="podcast-art"><a href="${h.url_for(action='edit', id=podcast.id)}"><img src="${h.url_for('/images/podcasts/'+str(podcast.id)+'m.jpg')}" width="160" height="150" alt="Album Art" /></a></div></td>
 					<td class="podcast-info" style="width:auto">
 						<div class="info-content">
 							<p>${podcast.description}</p>
