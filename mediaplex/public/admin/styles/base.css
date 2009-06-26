@@ -168,6 +168,11 @@ body {
 	padding: 6px 6px 5px 6px;
 }
 
+.box-content .singleselectfield,
+.rounded-inputs .singleselectfield  {
+	padding: 4px 2px 3px 2px;
+}
+
 /* Box wrapper to add rounded corners */
 .box-round {
 	position: relative;
