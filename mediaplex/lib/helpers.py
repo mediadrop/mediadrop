@@ -97,7 +97,9 @@ def slugify(string):
     string = str(string).lower()
     string = re.sub(r'\s+', u'-', string)
     string = re.sub(r'[^a-z0-9_-]', u'', string)
-    return string.encode('ascii')
+    string = re.sub(r'-+', u'-', string).strip('-')
+    string = string.encode('ascii', 'ignore')
+    return string[:50] # slugs are at most 50 chars in our database.
 
 
 def redirect(*args, **kwargs):
