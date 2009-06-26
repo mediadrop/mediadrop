@@ -7,7 +7,7 @@
 <xi:include href="../helpers.html" />
 <xi:include href="../master.html" />
 <head>
-	<title>${media.title}</title>
+	<title>${Markup(media.title)}</title>
 	<link py:if="media.podcast" href="${h.url_for('/styles/podcasts.css')}" media="screen" rel="stylesheet" type="text/css" />
 	<script type="text/javascript" src="${h.url_for('/scripts/rater.js')}"></script>
 	<script type="text/javascript" src="${h.url_for('/scripts/overtext.js')}"></script>
@@ -28,8 +28,8 @@
 		<nav />
 		<div class="media-body">
 			<div class="media-info">
-				<h1>${media.title}</h1>
-				<p py:replace="Markup(h.format_paragraphs(media.description))" />
+				<h1>${Markup(media.title)}</h1>
+				<p py:replace="Markup(media.description)" />
 			</div>
 			<div class="media-meta">
 				<div class="media-meta-likethis" id="media-rating"><a id="likethis" class="mo up" title="vote up" href="${h.url_for(action='rate', rating=1)}"><span>I like this!</span></a></div>
