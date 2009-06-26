@@ -27,13 +27,13 @@ Things to be aware of:
 from datetime import datetime
 from sqlalchemy import Table, ForeignKey, Column, sql, and_, or_, func
 from sqlalchemy.types import String, Unicode, UnicodeText, Integer, DateTime, Boolean, Float
-from sqlalchemy.orm import mapper, relation, backref, synonym, composite, column_property, comparable_property, validates, collections
+from sqlalchemy.orm import mapper, class_mapper, relation, backref, synonym, composite, column_property, comparable_property, validates, collections
 from tg import config
 
 from mediaplex.model import DeclarativeBase, metadata, DBSession
 from mediaplex.model.authors import Author
 from mediaplex.model.rating import Rating
-from mediaplex.model.comments import Comment, CommentTypeExtension, comments
+from mediaplex.model.comments import Comment, CommentTypeExtension, comments, PUBLISH as COMMENT_PUBLISH
 from mediaplex.model.tags import Tag, TagCollection, tags, extract_tags, fetch_and_create_tags
 from mediaplex.model.status import Status, StatusSet, StatusComparator, StatusType, StatusTypeExtension
 from mediaplex.lib.helpers import slugify
@@ -203,7 +203,7 @@ media_mapper = mapper(Media, media, polymorphic_on=media.c.type, properties={
                 and_(
                     media.c.id == media_comments.c.media_id,
                     comments.c.id == media_comments.c.comment_id,
-                    comments.c.status.op('&')(2) == 2# note that 2 is the ID of the comments 'publish' STATUS
+                    comments.c.status.op('&')(int(COMMENT_PUBLISH)) == int(COMMENT_PUBLISH) # status includes 'publish'
                 )
             ).label('comment_count'),
             deferred=True
@@ -212,17 +212,19 @@ media_mapper = mapper(Media, media, polymorphic_on=media.c.type, properties={
 mapper(Audio, inherits=media_mapper, polymorphic_identity='audio')
 mapper(Video, inherits=media_mapper, polymorphic_identity='video')
 
-tags_mapper = mapper(Tag, tags, properties={
-    'media_count':
-        column_property(
-            sql.select(
-                [sql.func.count(media_tags.c.tag_id)],
-                and_(
-                    media.c.id == media_tags.c.media_id,
-                    tags.c.id == media_tags.c.tag_id,
-                    media.c.status.op('&')(2) == 2 # note that 2 is the ID of the media 'publish' STATUS
-                )
-            ).label('media_count'),
-            deferred=True
-        )
-})
+
+tags_mapper = class_mapper(Tag, compile=False)
+tags_mapper.add_property(
+    'media_count',
+    column_property(
+        sql.select(
+           [sql.func.count(media_tags.c.tag_id)],
+            and_(
+                media.c.id == media_tags.c.media_id,
+               tags.c.id == media_tags.c.tag_id,
+                media.c.status.op('&')(int(PUBLISH)) == int(PUBLISH) # status includes 'publish'
+            )
+        ).label('media_count'),
+       deferred=True
+    )
+)

@@ -53,8 +53,4 @@ class TagCollection(list):
     def __unicode__(self):
         return ', '.join([tag.name for tag in self.values()])
 
-
-"""
-  NB: Mapper object for tags is defined in ./media.py, to prevent circular imports.
-"""
-
+mapper(Tag, tags)
