@@ -38,14 +38,19 @@ def extract_tags(string):
     return [tag.strip() for tag in string.split(',')]
 
 def fetch_and_create_tags(tag_names):
-    tag_names = set(tag_names) # get unique elements only
-    existing_tags = DBSession.query(Tag).filter(Tag.name.in_(tag_names)).all()
-    existing_names = [tag.name for tag in existing_tags]
-    new_names = [tag_name for tag_name in tag_names if tag_name not in existing_names]
-    new_tags = [{'name': tag_name, 'slug': slugify(tag_name)} for tag_name in new_names]
+    tag_dict = dict()
+    for t in tag_names:
+        tag_dict[slugify(t)] = t
+
+    existing_tags = DBSession.query(Tag).filter(Tag.slug.in_(tag_dict.keys())).all()
+    existing_slugs = [t.slug for t in existing_tags]
+    new_slugs = [s for s in tag_dict.keys() if s not in existing_slugs]
+    new_tags = [{'name':tag_dict[s], 'slug':s} for s in new_slugs]
+
     if new_tags:
         DBSession.connection().execute(tags.insert(), new_tags)
-        existing_tags += DBSession.query(Tag).filter(Tag.name.in_(new_names)).all()
+        DBSession.flush()
+        existing_tags += DBSession.query(Tag).filter(Tag.slug.in_(new_slugs)).all()
     return existing_tags
 
 
