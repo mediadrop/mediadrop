@@ -172,10 +172,11 @@ Reviewer: None
 License: General Upload"""
 
         # ensure the slug is unique by appending an int in sequence
-        slug_appendix = 2
+        slug_appendix = 1
         while DBSession.query(Video.id).filter(Video.slug == video.slug).first():
-            if slug_appendix > 2:
-                video.slug = video.slug[:-1-int(math.ceil(slug_appendix/float(10)))]
+            if slug_appendix > 1:
+                # remove the already affixed appendix
+                video.slug = video.slug[:-1-int(math.ceil(math.log10(slug_appendix)))]
             video.slug += '-' + str(slug_appendix)
             slug_appendix += 1
 
