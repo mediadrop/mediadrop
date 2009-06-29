@@ -17,6 +17,7 @@
 				page: ${paginator.page},
 				lastPage: ${paginator.last_page or 1}
 			});
+			$('podcast_filter').addEvent('change', function(){$('podcastfilterform').submit();});
 		});
 	</script>
 </head>
@@ -26,6 +27,9 @@
 <!--!			<a class="mo add-media f-rgt" href="${h.url_for(action='new')}"><span>Add New Media</span></a>-->
 			<div id="quicksearch" class="f-rgt">
 				${XML(search_form(search=search))}
+			</div>
+			<div id="podcast-filter" class="f-rgt">
+				${XML(podcast_filter_form(form_values,child_args=dict(podcast_filter=dict(options=podcast_options))))}
 			</div>
 			<div py:choose="" py:strip="True">
 				<h1 py:when="search">Media that matches '${search}'</h1>

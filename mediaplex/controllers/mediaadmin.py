@@ -19,7 +19,7 @@ from mediaplex.lib.helpers import expose_xhr, redirect, url_for
 from mediaplex.lib.base import RoutingController
 from mediaplex.model import DBSession, fetch_row, Media, MediaFile, Podcast, Comment, Tag, Author, AuthorWithIP
 from mediaplex.forms.admin import SearchForm, AlbumArtForm
-from mediaplex.forms.media import MediaForm
+from mediaplex.forms.media import MediaForm, PodcastFilterForm
 from mediaplex.forms.comments import PostCommentForm
 
 
@@ -44,12 +44,17 @@ class MediaadminController(RoutingController):
                 Media.tags.any(Tag.name.like(like_search)),
             ))
 
-        podcast_filter_title = None
+        podcast_filter_title = podcast_filter
         if podcast_filter == 'Unfiled':
             media = media.filter(~Media.podcast.has())
-        elif podcast_filter is not None:
+        elif podcast_filter is not None and podcast_filter != 'Any Podcast':
             media = media.filter(Media.podcast.has(Podcast.id == podcast_filter))
             podcast_filter_title = DBSession.query(Podcast.title).get(podcast_filter)
+
+        podcast_options=['Any Podcast']
+        podcast_options.extend(DBSession.query(Podcast.id, Podcast.title).order_by(Podcast.title))
+        podcast_options.append('Unfiled')
+        form_values = {'podcast_filter': podcast_filter}
 
         return dict(
             media = media,
@@ -57,6 +62,9 @@ class MediaadminController(RoutingController):
             podcast_filter_title = podcast_filter_title,
             search = search,
             search_form = not request.is_xhr and SearchForm(action=url_for()),
+            podcast_filter_form = not request.is_xhr and PodcastFilterForm(action=url_for()),
+            podcast_options=podcast_options,
+            form_values=form_values,
         )
 
 

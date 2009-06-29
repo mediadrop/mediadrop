@@ -170,7 +170,11 @@ body {
 
 .box-content .singleselectfield,
 .rounded-inputs .singleselectfield  {
-	padding: 4px 2px 3px 2px;
+	padding: 4px 2px 2px 2px;
+}
+.box-content .singleselectfield option,
+.rounded-inputs .singleselectfield option {
+	padding-bottom: 1px;
 }
 
 /* Box wrapper to add rounded corners */

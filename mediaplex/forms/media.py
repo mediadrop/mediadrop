@@ -52,5 +52,11 @@ class UploadForm(ListForm):
         file = FileField(validator=FieldStorageUploadConverter(not_empty=True, messages={'empty':'Oops! You forgot to enter a file.'}), label_text='Media File', show_error=True)
         submit = SubmitButton(css_class='submit-image', show_error=False)
 
+class PodcastFilterForm(ListForm):
+    id = 'podcastfilterform'
+    method = 'get'
 
+    podcast_options = enumerate(('Any Podcast','Unfiled'))
+
+    fields = [SingleSelectField('podcast_filter', suppress_label=True, options=podcast_options)]
 

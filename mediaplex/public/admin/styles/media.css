@@ -1,3 +1,22 @@
+#podcast-filter {
+	height: 23px;
+	padding-right: 10px;
+	vertical-align: middle;
+}
+#podcast-filter .submitbutton {
+	display: none;
+}
+#podcast-filter .singleselectfield {
+	padding: 5px 2px 0 2px;
+	margin-top: -2px;
+	color: #374347;
+	font: bold 13px Helvetica,Arial,Verdana,sans-serif;
+}
+
+#podcast-filter .singleselectfield option {
+	padding: 1px 0;
+	font: bold 13px Helvetica,Arial,Verdana,sans-serif;
+}
 /* Statuses */
 #status-list {
 	margin: 3px 5px;
