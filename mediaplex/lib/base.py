@@ -6,6 +6,9 @@ from tg import TGController, tmpl_context
 from tg.render import render
 from tg import request
 import pylons
+from datetime import datetime as dt, timedelta as td
+import os
+import urllib2
 
 from tg.controllers import DecoratedController
 from tg.exceptions import (HTTPFound, HTTPNotFound, HTTPException,
@@ -24,6 +27,39 @@ class Controller(object):
     """
 
 class RoutingController(DecoratedController):
+    def __init__(self, *args, **kwargs):
+        """Init method for RoutingController
+
+        In this init function, we fetch a new copy of the php template
+        every 5 minutes.
+        """
+
+        g = pylons.app_globals
+        acceptable_delta = td(minutes=5)
+        now = dt.now()
+        tmpl_timeout = getattr(g, 'tmpl_timeout', now)
+        if tmpl_timeout <= now:
+            # FIXME: This may be vulnerable to race conditions where two instances of the application attempt to
+            # write to the file at the same time.
+            try:
+                tmpl_contents = urllib2.urlopen('http://tmcyouth.com/anthonys_genshi_template_2009.html')
+                s = tmpl_contents.read()
+                s = s.replace("\r\n", "\n")
+                tmpl_contents.close()
+
+                tmpl_path = '%s/../templates/php.html' % os.path.dirname(__file__)
+
+                tmpl_file = open(tmpl_path, 'w')
+                tmpl_file.write(s)
+                tmpl_file.close()
+            except Exception, e:
+                # FIXME: Should add logging here.
+                # FIXME: Should catch the appropriate exceptions, perhaps
+                raise e
+            finally:
+                g.tmpl_timeout = now + acceptable_delta
+        DecoratedController.__init__(self, *args, **kwargs)
+
     def _perform_call(self, func, args):
         if not args:
             args = {}
