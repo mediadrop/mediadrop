@@ -56,10 +56,9 @@ class MediaadminController(RoutingController):
             media = media,
             podcast_filter = podcast_filter,
             podcast_filter_title = podcast_filter_title,
+            podcast_filter_form = not request.is_xhr and PodcastFilterForm(action=url_for()),
             search = search,
             search_form = not request.is_xhr and SearchForm(action=url_for()),
-            podcast_filter_form = not request.is_xhr and PodcastFilterForm(action=url_for()),
-            form_values = {'podcast_filter': podcast_filter}
         )
 
 
