@@ -29,7 +29,7 @@
 				${XML(search_form(search=search))}
 			</div>
 			<div id="podcast-filter" class="f-rgt">
-				${XML(podcast_filter_form(form_values,child_args=dict(podcast_filter=dict(options=podcast_options))))}
+				${XML(podcast_filter_form(form_values))}
 			</div>
 			<div py:choose="" py:strip="True">
 				<h1 py:when="search">Media that matches '${search}'</h1>

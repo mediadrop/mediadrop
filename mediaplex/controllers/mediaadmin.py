@@ -47,14 +47,10 @@ class MediaadminController(RoutingController):
         podcast_filter_title = podcast_filter
         if podcast_filter == 'Unfiled':
             media = media.filter(~Media.podcast.has())
-        elif podcast_filter is not None and podcast_filter != 'Any Podcast':
+        elif podcast_filter is not None and podcast_filter != 'All Media':
             media = media.filter(Media.podcast.has(Podcast.id == podcast_filter))
             podcast_filter_title = DBSession.query(Podcast.title).get(podcast_filter)
-
-        podcast_options=['Any Podcast']
-        podcast_options.extend(DBSession.query(Podcast.id, Podcast.title).order_by(Podcast.title))
-        podcast_options.append('Unfiled')
-        form_values = {'podcast_filter': podcast_filter}
+            podcast_filter = int(podcast_filter)
 
         return dict(
             media = media,
@@ -63,8 +59,7 @@ class MediaadminController(RoutingController):
             search = search,
             search_form = not request.is_xhr and SearchForm(action=url_for()),
             podcast_filter_form = not request.is_xhr and PodcastFilterForm(action=url_for()),
-            podcast_options=podcast_options,
-            form_values=form_values,
+            form_values = {'podcast_filter': podcast_filter}
         )
 
 

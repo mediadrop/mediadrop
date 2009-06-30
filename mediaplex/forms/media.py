@@ -4,6 +4,7 @@ from tw.forms.validators import Schema, Int, NotEmpty, DateConverter, DateValida
 
 from mediaplex.lib import helpers
 from mediaplex.forms import ListForm
+from mediaplex.model import DBSession, Podcast
 
 class MediaForm(ListForm):
     template = 'mediaplex.templates.admin.media.form'
@@ -55,8 +56,7 @@ class UploadForm(ListForm):
 class PodcastFilterForm(ListForm):
     id = 'podcastfilterform'
     method = 'get'
+    template = 'mediaplex.templates.admin.media.podcast-filter-form'
 
-    podcast_options = enumerate(('Any Podcast','Unfiled'))
-
-    fields = [SingleSelectField('podcast_filter', suppress_label=True, options=podcast_options)]
+    fields = [SingleSelectField('podcast_filter', suppress_label=True, options=lambda: [('All Media', 'All Media')] + DBSession.query(Podcast.id, Podcast.title).all() + [('Unfiled', 'Unfiled')])]
 
