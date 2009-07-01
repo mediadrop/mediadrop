@@ -526,11 +526,11 @@ class Htmlator(object) :
         self.string = string
 
     def _set_string(self, string):
-        self.string = string
+        self._string = unicode(string)
         if self.settings['auto_convert'] : self.convert()
 
     def _get_string(self):
-        return unicode(self._soup)
+        return self._string
 
     string = property(_get_string, _set_string)
 
@@ -546,12 +546,12 @@ class Htmlator(object) :
     def convert(self):
         for method in ["encode_xml_specials", "convert_newlines",
           "make_links"] :
-            if self.settings(method) :
+            if method in self.settings:
                 getattr(self, method)()
 
     def encode_xml_specials(self) :
         for char in XML_ENTITIES.keys() :
-            self.string.replace(char, XML_ENTITIES[char])
+            self._string = self._string.replace(char, XML_ENTITIES[char])
 
     def make_links(self):
         raise NotImplementedError
