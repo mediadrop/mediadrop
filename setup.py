@@ -19,6 +19,7 @@ setup(
         "zope.sqlalchemy",
         "sqlalchemy >= 0.5.2",
         "repoze.what-quickstart",
+        "BeautifulSoup"
                 ],
     setup_requires=["PasteScript>=1.6.3"],
     paster_plugins=['PasteScript', 'Pylons', 'TurboGears2'],
