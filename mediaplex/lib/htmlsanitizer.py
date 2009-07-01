@@ -87,6 +87,28 @@ default_settings = {
 #"encode_xml_specials", "ensure complete xhtml doc", "ensure_xhtml_fragment_only"
 # and some handling of permitted namespaces for tags. for RDF, say. maybe.
 
+# TLDs from:
+# http://data.iana.org/TLD/tlds-alpha-by-domain.txt (july 2009)
+tlds = "AC|AD|AE|AERO|AF|AG|AI|AL|AM|AN|AO|AQ|AR|ARPA|AS|ASIA|AT|AU|AW|AX|AZ|BA|BB|BD|BE|BF|BG|BH|BI|BIZ|BJ|BM|BN|BO|BR|BS|BT|BV|BW|BY|BZ|CA|CAT|CC|CD|CF|CG|CH|CI|CK|CL|CM|CN|CO|COM|COOP|CR|CU|CV|CX|CY|CZ|DE|DJ|DK|DM|DO|DZ|EC|EDU|EE|EG|ER|ES|ET|EU|FI|FJ|FK|FM|FO|FR|GA|GB|GD|GE|GF|GG|GH|GI|GL|GM|GN|GOV|GP|GQ|GR|GS|GT|GU|GW|GY|HK|HM|HN|HR|HT|HU|ID|IE|IL|IM|IN|INFO|INT|IO|IQ|IR|IS|IT|JE|JM|JO|JOBS|JP|KE|KG|KH|KI|KM|KN|KP|KR|KW|KY|KZ|LA|LB|LC|LI|LK|LR|LS|LT|LU|LV|LY|MA|MC|MD|ME|MG|MH|MIL|MK|ML|MM|MN|MO|MOBI|MP|MQ|MR|MS|MT|MU|MUSEUM|MV|MW|MX|MY|MZ|NA|NAME|NC|NE|NET|NF|NG|NI|NL|NO|NP|NR|NU|NZ|OM|ORG|PA|PE|PF|PG|PH|PK|PL|PM|PN|PR|PRO|PS|PT|PW|PY|QA|RE|RO|RS|RU|RW|SA|SB|SC|SD|SE|SG|SH|SI|SJ|SK|SL|SM|SN|SO|SR|ST|SU|SV|SY|SZ|TC|TD|TEL|TF|TG|TH|TJ|TK|TL|TM|TN|TO|TP|TR|TRAVEL|TT|TV|TW|TZ|UA|UG|UK|US|UY|UZ|VA|VC|VE|VG|VI|VN|VU|WF|WS|YE|YT|YU|ZA|ZM|ZW"
+# Sort the list of TLDs so that the longest TLDs come first.
+# This forces the regex to match the longest possible TLD.
+tlds = "|".join(sorted(tlds.split("|"), lambda a,b: cmp(len(b), len(a))))
+
+# This might not be the full regex. It is modified from the discussion at:
+# http://geekswithblogs.net/casualjim/archive/2005/12/01/61722.aspx
+url_regex = r"(?#Protocol)(?:([a-z\d]+)\:\/\/|~/|/)?" \
+          + r"(?#Username:Password)(?:\w+:\w+@)?" \
+          + r"(?#Host)(" \
+              + r"((?#Subdomains)(?:(?:[-\w]+\.)+)" \
+              + r"(?#TopLevel Domains)(?:%s))" % tlds \
+              + r"|" \
+              + r"(?#IPAddr)(([\d]{1,3}\.){3}[\d]{1,3})" \
+          + r")" \
+          + r"(?#Port)(?::[\d]{1,5})?" \
+          + r"(?#Directories)(?:(?:(?:/(?:[-\w~!$+|.,=]|%[a-f\d]{2})+)+|/)+|\?|#)?" \
+          + r"(?#Query)(?:(?:\?(?:[-\w~!$+|.,*:]|%[a-f\d{2}])+=(?:[-\w~!$+|.,*:=]|%[a-f\d]{2})*)(?:&(?:[-\w~!$+|.,*:]|%[a-f\d{2}])+=(?:[-\w~!$+|.,*:=]|%[a-f\d]{2})*)*)*" \
+          + r"(?#Anchor)(?:#(?:[-\w~!$+|.,*:=]|%[a-f\d]{2})*)?"
+
 XML_ENTITIES = { u"'" : u"&apos;",
                  u'"' : u"&quot;",
                  u"&" : u"&amp;",
@@ -95,6 +117,8 @@ XML_ENTITIES = { u"'" : u"&apos;",
                }
 LINE_EXTRACTION_RE = re.compile(".+", re.MULTILINE)
 BR_EXTRACTION_RE = re.compile("</?br ?/?>", re.MULTILINE)
+URL_RE = re.compile(url_regex, re.IGNORECASE)
+
 
 class Stop:
     """
@@ -554,11 +578,26 @@ class Htmlator(object) :
             self._string = self._string.replace(char, XML_ENTITIES[char])
 
     def make_links(self):
-        raise NotImplementedError
+        matches = URL_RE.finditer(self._string)
+        o = 0
+        for m in matches:
+            link = "<a href=\"%s\">%s</a>" % (m.group(), m.group())
+            s, e = m.span()
+            # take into account the added length of previous links
+            s, e = s+o, e+o
+            o += len(link) - len(m.group())
+            self._string = self._string[:s] + link + self._string[e:]
 
     def convert_newlines(self) :
-        self.string = ''.join([
-            '<p>' + line + '</p>' for line in LINE_EXTRACTION_RE.findall(self.string)
+        # remove whitespace
+        self._string = "\n".join([l.strip() for l in self.string.split("\n")])
+        # remove carriage return chars; FIXME: is this necessary?
+        self._string = self._string.replace("\r", "")
+        # remove duplicate line breaks
+        self._string = re.sub("\n+", "\n", self._string).strip("\n")
+        # wrap each line in <p> tags.
+        self.string = '\n'.join([
+            '<p>' + line.strip() + '</p>' for line in self.string.split('\n')
         ])
 
 def _test():
