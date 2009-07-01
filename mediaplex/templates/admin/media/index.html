@@ -26,7 +26,7 @@
 		<div class="box-head">
 <!--!			<a class="mo add-media f-rgt" href="${h.url_for(action='new')}"><span>Add New Media</span></a>-->
 			<div id="quicksearch" class="f-rgt">
-				${XML(search_form(search=search))}
+				${XML(search_form(dict(search=search)))}
 			</div>
 			<div id="podcast-filter" class="f-rgt">
 				${XML(podcast_filter_form(dict(podcast_filter=podcast_filter)))}
