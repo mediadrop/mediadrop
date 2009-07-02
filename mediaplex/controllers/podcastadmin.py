@@ -105,5 +105,7 @@ class PodcastadminController(RoutingController):
         temp_file = values['album_art'].file
         im_path = '%s/../public/images/podcasts/%d%%s.jpg' % (os.path.dirname(__file__), podcast.id)
         im = Image.open(temp_file)
+        im.resize((162, 113), 1).save(im_path % 's')
         im.resize((154, 151), 1).save(im_path % 'm')
+        im.resize((410, 273), 1).save(im_path % 'l')
         redirect(action='edit')
