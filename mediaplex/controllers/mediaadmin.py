@@ -15,7 +15,7 @@ from repoze.what.predicates import has_permission
 from pylons import tmpl_context
 
 from mediaplex.lib import helpers
-from mediaplex.lib.helpers import expose_xhr, redirect, url_for
+from mediaplex.lib.helpers import expose_xhr, redirect, url_for, clean_xhtml
 from mediaplex.lib.base import RoutingController
 from mediaplex.model import DBSession, fetch_row, Media, MediaFile, Podcast, Comment, Tag, Author, AuthorWithIP
 from mediaplex.forms.admin import SearchForm, AlbumArtForm
@@ -116,7 +116,8 @@ License: General Upload"""
         media.slug = values['slug']
         media.title = values['title']
         media.author = Author(values['author_name'], values['author_email'])
-        media.description = values['description']
+        media.description = clean_xhtml(values['description'])
+
         media.notes = values['notes']
         media.duration = helpers.duration_to_seconds(values['details']['duration'])
         media.set_tags(values['tags'])

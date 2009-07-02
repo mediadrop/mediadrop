@@ -8,8 +8,7 @@ from repoze.what.predicates import has_permission
 
 from mediaplex.lib import helpers
 from mediaplex.lib.base import RoutingController
-from mediaplex.lib.helpers import expose_xhr, redirect, url_for
-from mediaplex.lib.htmlsanitizer import Cleaner, Htmlator
+from mediaplex.lib.helpers import expose_xhr, redirect, url_for, clean_xhtml
 from mediaplex.model import DBSession, metadata, fetch_row, Video, Comment, Tag, Author
 from mediaplex.forms.admin import SearchForm
 from mediaplex.forms.comments import EditCommentForm
@@ -73,16 +72,7 @@ class CommentadminController(RoutingController):
     @expose()
     def save(self, id, **kwargs):
         comment = fetch_row(Comment, id)
-
-        tag_re = re.compile('<\s+>')
-        if not tag_re.search(kwargs['body']):
-            # there is no tag in the text, treat this post as plain text
-            # and convert it to XHTML
-            htmlator = Htmlator()
-            kwargs['body'] = htmlator(kwargs['body'])
-
-        cleaner = Cleaner()
-        c.body = cleaner(kwargs['body'])
+        c.body = clean_xhtml(kwargs['body'])
 
         DBSession.add(comment)
         redirect(action='index', id=None)

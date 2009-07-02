@@ -21,7 +21,7 @@ from sqlalchemy import and_, or_
 from sqlalchemy.orm import eagerload, undefer
 
 from mediaplex.lib import helpers
-from mediaplex.lib.helpers import expose_xhr, redirect, url_for
+from mediaplex.lib.helpers import expose_xhr, redirect, url_for, clean_xhtml
 from mediaplex.lib.base import Controller, RoutingController
 from mediaplex.model import DBSession, metadata, fetch_row, Video, Media, MediaFile, Comment, Tag, Author, AuthorWithIP
 from mediaplex.forms.media import UploadForm
@@ -164,7 +164,7 @@ class VideoController(RoutingController):
         video.author = Author(name, email)
         video.title = title
         video.slug = title
-        video.description = description
+        video.description = clean_xhtml(description)
         video.status = 'draft,unencoded,unreviewed'
         video.notes = """Bible References: None
 S&H References: None

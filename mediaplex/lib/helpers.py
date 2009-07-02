@@ -10,6 +10,8 @@ from routes.util import url_for
 from tg import expose, request
 from tg.exceptions import HTTPFound
 
+from htmlsanitizer import Cleaner, Htmlator
+
 
 class expose_xhr(object):
     def __call__(self, func):
@@ -105,3 +107,21 @@ def slugify(string):
 def redirect(*args, **kwargs):
     found = HTTPFound(location=url_for(*args, **kwargs)).exception
     raise found
+
+tag_re = re.compile('<\s+>')
+def clean_xhtml(string):
+    """Markup cleaner
+
+    Takes a string. If there is no markup in the string, applies
+    paragraph formatting.
+
+    Finally, runs the string through our XHTML cleaner.
+    """
+    if not tag_re.search(string):
+        # there is no tag in the text, treat this post as plain text
+        # and convert it to XHTML
+        htmlator = Htmlator()
+        string = htmlator(string)
+    cleaner = Cleaner()
+    return cleaner(string)
+
