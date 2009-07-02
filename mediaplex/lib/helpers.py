@@ -2,6 +2,7 @@ import re
 import math
 import datetime as dt
 import time
+from BeautifulSoup import BeautifulSoup
 from urlparse import urlparse
 from webhelpers import date, feedgenerator, html, number, misc, text, paginate
 from webhelpers.html.converters import format_paragraphs
@@ -124,4 +125,7 @@ def clean_xhtml(string):
         string = htmlator(string)
     cleaner = Cleaner()
     return cleaner(string)
+
+def strip_xhtml(string):
+    return ''.join(BeautifulSoup(string).findAll(text=True))
 

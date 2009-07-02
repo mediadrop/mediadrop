@@ -11,7 +11,7 @@ from sqlalchemy.orm import undefer
 from pylons import tmpl_context
 
 from mediaplex.lib import helpers
-from mediaplex.lib.helpers import expose_xhr, redirect, url_for
+from mediaplex.lib.helpers import expose_xhr, redirect, url_for, clean_xhtml
 from mediaplex.lib.base import RoutingController
 from mediaplex.model import DBSession, fetch_row, Podcast, Author, AuthorWithIP
 from mediaplex.forms.admin import SearchForm, AlbumArtForm
@@ -85,7 +85,7 @@ class PodcastadminController(RoutingController):
         podcast.title = values['title']
         podcast.subtitle = values['subtitle']
         podcast.author = Author(values['author_name'], values['author_email'])
-        podcast.description = values['description']
+        podcast.description = clean_xhtml(values['description'])
         podcast.copyright = values['details']['copyright']
         podcast.category = values['details']['category']
         if values['details']['explicit'] == 'No':

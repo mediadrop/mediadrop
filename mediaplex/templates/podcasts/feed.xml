@@ -13,7 +13,7 @@
 
 		<description py:content="podcast.subtitle" />
 		<itunes:subtitle py:content="podcast.subtitle" />
-		<itunes:summary py:content="podcast.description" />
+		<itunes:summary py:content="h.strip_xhtml(podcast.description)" />
 
 		<itunes:category py:with="category = podcast.category.split(' &gt; ')" text="${category[0]}">
 			<itunes:category py:if="len(category) > 1" text="${category[1]}" />
@@ -51,7 +51,7 @@
 			<guid py:content="permalink" />
 			<comments py:content="permalink + '#comments'" />
 			<itunes:subtitle py:content="media.subtitle" />
-			<description py:content="media.description" />
+			<description py:content="h.strip_xhtml(media.description)" />
 			<author>${media.author.email}<py:if test="media.author.name"> (${media.author.name})</py:if></author>
 			<itunes:author py:if="media.author.name" py:content="media.author.name" />
 			<pubDate py:content="media.publish_on.strftime('%a, %d %b %Y %H:%M:%S') + ' GMT'" />
