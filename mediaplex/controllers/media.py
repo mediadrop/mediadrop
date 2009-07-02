@@ -3,6 +3,7 @@ import shutil
 import os.path
 import simplejson as json
 import time
+import re
 
 from urlparse import urlparse, urlunparse
 from cgi import parse_qs
@@ -20,6 +21,7 @@ from sqlalchemy.orm import eagerload, undefer
 from mediaplex.lib import helpers
 from mediaplex.lib.helpers import expose_xhr, redirect, url_for
 from mediaplex.lib.base import Controller, RoutingController
+from mediaplex.lib.htmlsanitizer import Cleaner, Htmlator
 from mediaplex.model import DBSession, metadata, fetch_row, Video, Media, MediaFile, Comment, Tag, Author, AuthorWithIP
 from mediaplex.forms.media import UploadForm
 from mediaplex.forms.comments import PostCommentForm
@@ -96,7 +98,17 @@ class MediaController(RoutingController):
         c.status = 'unreviewed'
         c.author = AuthorWithIP(values['name'], None, request.environ['REMOTE_ADDR'])
         c.subject = 'Re: %s' % media.title
-        c.body = values['body']
+
+        tag_re = re.compile('<\s+>')
+        if not tag_re.search(values['body']):
+            # there is no tag in the text, treat this post as plain text
+            # and convert it to XHTML
+            htmlator = Htmlator()
+            values['body'] = htmlator(values['body'])
+
+        cleaner = Cleaner()
+        c.body = cleaner(values['body'])
+
         media.comments.append(c)
         DBSession.add(media)
         redirect(action='view')
