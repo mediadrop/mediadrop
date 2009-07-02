@@ -132,9 +132,15 @@
 			        width="479" height="383" data="http://youtube.com/v/${file.url}">
 				<param name="movie" value="http://youtube.com/v/${file.url}" />
 			</object>
-			<div py:when="'mp3'" py:with="file = files[0]">
-				Download this episode: <!-- FIXME: we should integrate an inline mp3 player here -->
-				<a href="${h.url_for(controller='/media', action='serve', slug=media.slug, type=file.type)}" />
+			<div py:when="'mp3'" py:with="file = files[0]; link = h.url_for(controller='/media', action='serve', slug=media.slug, type=media.ENCODED_TYPE)">
+				<script src="${h.url_for('/scripts/third-party/flowplayer-3.1.0.min.js')}" type="text/javascript" />
+				<a href="link" id="flowplayer" style="display:block;width:479px;height:383px" />
+				<script type="text/javascript">
+					flowplayer('flowplayer', "${h.url_for('/scripts/third-party/flowplayer-3.1.0.swf')}", {
+						// first entry in the playlist works as splash and second entry is the audio file
+						'playlist': ['${h.url_for('/images/media/%sl.jpg' % media.id)}', '${link}']
+					});
+				</script>
 			</div>
 			<div py:otherwise="">
 				<script src="${h.url_for('/scripts/third-party/flowplayer-3.1.0.min.js')}" type="text/javascript" />
