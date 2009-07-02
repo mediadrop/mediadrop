@@ -56,7 +56,7 @@ class PodcastsController(RoutingController):
         podcast = fetch_row(Podcast, slug=slug)
         return dict(
             podcast = podcast,
-            episodes = podcast.media.order_by(Media.publish_on.desc()),
+            episodes = podcast.media.filter(Media.status >= 'publish').order_by(Media.publish_on.desc()),
         )
 
 

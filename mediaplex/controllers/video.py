@@ -69,7 +69,8 @@ class VideoController(RoutingController):
         return DBSession.query(Video)\
             .filter(Video.status >= 'publish')\
             .filter(Video.publish_on <= datetime.now())\
-            .filter(Video.status.excludes('trash'))
+            .filter(Video.status.excludes('trash'))\
+            .filter(Video.podcast_id == None)
 
 
     @expose('mediaplex.templates.video.index')
