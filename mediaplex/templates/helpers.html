@@ -152,4 +152,13 @@
 		</py:choose>
 	</py:def>
 
+	<py:def function="xhtml_description(fieldName)">
+		<p>The ${fieldName} field accepts some HTML formatting:</p>
+		<ul class="xhtml_description">
+			<li>Tags: ${h.list_acceptable_xhtml()['tags']}.</li>
+			<li>Attributes: ${h.list_acceptable_xhtml()['attrs']}</li>
+			<li>Some tag conversions will be made automatically: ${h.list_acceptable_xhtml()['map']}</li>
+		</ul>
+	</py:def>
+
 </html>

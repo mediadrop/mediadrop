@@ -1,11 +1,13 @@
 <form xmlns="http://www.w3.org/1999/xhtml"
       xmlns:py="http://genshi.edgewall.org/"
+      xmlns:xi="http://www.w3.org/2001/XInclude"
       id="${id}"
       name="${name}"
       action="${action}"
       method="${method}"
       class="${css_class}"
       py:attrs="attrs">
+	<xi:include href="../helpers.html" />
 	<div class="field-error" py:if="error and show_error" py:content="error" />
 	<div py:if="hidden_fields">
 		<div py:for="field in hidden_fields"
@@ -38,5 +40,6 @@
 			      class="field-error" py:content="error" />
 		</li>
 	</ul>
+	${xhtml_description('comments')}
 	<span py:if="error and not error.error_dict" class="field-error" py:content="error" />
 </form>

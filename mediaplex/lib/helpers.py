@@ -11,7 +11,7 @@ from routes.util import url_for
 from tg import expose, request
 from tg.exceptions import HTTPFound
 
-from htmlsanitizer import Cleaner, Htmlator
+from htmlsanitizer import Cleaner, Htmlator, valid_tags, valid_attrs, elem_map
 
 
 class expose_xhr(object):
@@ -121,11 +121,18 @@ def clean_xhtml(string):
     if not tag_re.search(string):
         # there is no tag in the text, treat this post as plain text
         # and convert it to XHTML
-        htmlator = Htmlator()
+        htmlator = Htmlator(encode_xml_specials=False)
         string = htmlator(string)
     cleaner = Cleaner()
     return cleaner(string)
 
 def strip_xhtml(string):
     return ''.join(BeautifulSoup(string).findAll(text=True))
+
+def list_acceptable_xhtml():
+    return dict(
+        tags = ", ".join(sorted(valid_tags)),
+        attrs = ", ".join(sorted(valid_attrs)),
+        map = ", ".join(["%s -> %s" % (t, elem_map[t]) for t in elem_map])
+    )
 
