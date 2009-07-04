@@ -5,7 +5,7 @@
      class="mediaflow-page">
 	<ul>
 		<li py:for="video in videos_slice">
-			<a href="${h.url_for(controller='/media', action='view', slug=video.slug)}" title="${video.title}: ${h.text.truncate(video.description, 120, whole_word=True)}"><img src="${h.url_for('/images/media/%sm.jpg' % video.id)}" width="240" height="168" alt="${video.title}" /></a>
+			<a href="${h.url_for(controller='/media', action='view', slug=video.slug)}" title="${video.title}: ${h.text.truncate(h.strip_xhtml(video.description), 100, whole_word=True)}"><img src="${h.url_for('/images/media/%sm.jpg' % video.id)}" width="240" height="168" alt="${video.title}" /></a>
 		</li>
 	</ul>
 </div>
