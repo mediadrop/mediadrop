@@ -119,36 +119,38 @@
 	</py:def>
 
 	<py:def function="media_player(media)" py:with="files = [f for f in media.files if f.type in ('flv', 'youtube', 'mp3')]">
-		<py:choose test="len(files) and files[0].type">
-			<div py:when="'flv'" py:with="file = files[0]">
-				<script src="${h.url_for('/scripts/third-party/flowplayer-3.1.0.min.js')}" type="text/javascript" />
-				<a href="${h.url_for(controller='/media', action='serve', slug=media.slug, type=media.ENCODED_TYPE)}"
-				   id="flowplayer" style="display:block;width:479px;height:383px" />
+		<py:choose
+		test="len(files) and files[0].type"
+		py:with="file = files[0];
+		         link = file.url.startswith('http://') and file.url or h.url_for(controller='/media', action='serve', slug=media.slug, type=media.ENCODED_TYPE);
+		         flow_js = h.url_for('/scripts/third-party/flowplayer-3.1.0.min.js');
+		         flow_swf = h.url_for('/scripts/third-party/flowplayer-3.1.0.swf');"
+		>
+			<div py:when="'flv'">
+				<script src="${flow_js}" type="text/javascript" />
+				<a href="${link}" id="flowplayer" style="display:block;width:479px;height:383px" />
 				<script type="text/javascript">
-					flowplayer('flowplayer', "${h.url_for('/scripts/third-party/flowplayer-3.1.0.swf')}");
+					flowplayer('flowplayer', "${flow_swf}");
 				</script>
 			</div>
-			<object py:when="'youtube'" py:with="file = files[0]" type="application/x-shockwave-flash"
-			        width="479" height="383" data="http://youtube.com/v/${file.url}">
-				<param name="movie" value="http://youtube.com/v/${file.url}" />
-			</object>
-			<div py:when="'mp3'" py:with="file = files[0]; link = h.url_for(controller='/media', action='serve', slug=media.slug, type=media.ENCODED_TYPE)">
-				<script src="${h.url_for('/scripts/third-party/flowplayer-3.1.0.min.js')}" type="text/javascript" />
-				<a href="link" id="flowplayer" style="display:block;width:479px;height:383px" />
+
+			<div py:when="'mp3'">
+				<script src="${flow_js}" type="text/javascript" />
+				<a href="${link}" id="flowplayer" style="display:block;width:479px;height:383px" />
 				<script type="text/javascript">
-					flowplayer('flowplayer', "${h.url_for('/scripts/third-party/flowplayer-3.1.0.swf')}", {
+					flowplayer('flowplayer', "${flow_swf}", {
 						// first entry in the playlist works as splash and second entry is the audio file
 						'playlist': ['${h.url_for('/images/media/%sl.jpg' % media.id)}', '${link}']
 					});
 				</script>
 			</div>
-			<div py:otherwise="">
-				<script src="${h.url_for('/scripts/third-party/flowplayer-3.1.0.min.js')}" type="text/javascript" />
-				<a href="" id="flowplayer" style="display:block;width:479px;height:383px" />
-				<script type="text/javascript">
-					flowplayer('flowplayer', "${h.url_for('/scripts/third-party/flowplayer-3.1.0.swf')}");
-				</script>
-			</div>
+
+			<object py:when="'youtube'" type="application/x-shockwave-flash"
+			        width="479" height="383" data="http://youtube.com/v/${file.url}">
+				<param name="movie" value="http://youtube.com/v/${file.url}" />
+			</object>
+
+			<div py:otherwise="" />
 		</py:choose>
 	</py:def>
 
