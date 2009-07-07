@@ -33,7 +33,7 @@ from tg import config
 from mediaplex.model import DeclarativeBase, metadata, DBSession
 from mediaplex.model.authors import Author
 from mediaplex.model.rating import Rating
-from mediaplex.model.comments import Comment, CommentTypeExtension, comments, PUBLISH as COMMENT_PUBLISH
+from mediaplex.model.comments import Comment, CommentTypeExtension, comments, PUBLISH as COMMENT_PUBLISH, TRASH as COMMENT_TRASH
 from mediaplex.model.tags import Tag, TagCollection, tags, extract_tags, fetch_and_create_tags
 from mediaplex.model.status import Status, StatusSet, StatusComparator, StatusType, StatusTypeExtension
 from mediaplex.lib.helpers import slugify
@@ -203,7 +203,8 @@ media_mapper = mapper(Media, media, polymorphic_on=media.c.type, properties={
                 and_(
                     media.c.id == media_comments.c.media_id,
                     comments.c.id == media_comments.c.comment_id,
-                    comments.c.status.op('&')(int(COMMENT_PUBLISH)) == int(COMMENT_PUBLISH) # status includes 'publish'
+                    comments.c.status.op('&')(int(COMMENT_PUBLISH)) == int(COMMENT_PUBLISH), # status includes 'publish'
+                    comments.c.status.op('&')(int(COMMENT_TRASH)) == 0, # status excludes 'trash'
                 )
             ).label('comment_count'),
             deferred=True
