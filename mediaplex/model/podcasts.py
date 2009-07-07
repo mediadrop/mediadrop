@@ -61,7 +61,8 @@ mapper(Podcast, podcasts, properties={
                 [sql.func.count(media.c.id)],
                 sql.and_(
                     media.c.podcast_id == podcasts.c.id,
-                    media.c.status.op('&')(int(MEDIA_PUBLISH)) == int(MEDIA_PUBLISH) # status includes 'publish'
+                    media.c.status.op('&')(int(MEDIA_PUBLISH)) == int(MEDIA_PUBLISH), # status includes 'publish'
+                    media.c.status.op('&')(int(MEDIA_TRASH)) == 0, # status excludes 'trash'
                 )
             ).label('published_media_count'),
             deferred=True
