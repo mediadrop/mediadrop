@@ -10,7 +10,7 @@ from sqlalchemy.types import String, Unicode, UnicodeText, Integer, DateTime, Bo
 from sqlalchemy.orm import mapper, relation, backref, synonym, composite, validates, dynamic_loader, column_property
 
 from mediaplex.model import DeclarativeBase, metadata, DBSession, Author
-from mediaplex.model.media import Media, media
+from mediaplex.model.media import Media, media, TRASH as MEDIA_TRASH, PUBLISH as MEDIA_PUBLISH
 from mediaplex.lib.helpers import slugify
 
 
@@ -50,7 +50,7 @@ mapper(Podcast, podcasts, properties={
                 [sql.func.count(media.c.id)],
                 sql.and_(
                     media.c.podcast_id == podcasts.c.id,
-                    media.c.status.op('&')(1) == 0# note that 2 is the ID of the comments 'publish' STATUS
+                    media.c.status.op('&')(int(MEDIA_TRASH)) == 0 # status excludes 'trash'
                 )
             ).label('media_count'),
             deferred=True
@@ -61,7 +61,7 @@ mapper(Podcast, podcasts, properties={
                 [sql.func.count(media.c.id)],
                 sql.and_(
                     media.c.podcast_id == podcasts.c.id,
-                    media.c.status.op('&')(2) == 2# note that 2 is the ID of the comments 'publish' STATUS
+                    media.c.status.op('&')(int(MEDIA_PUBLISH)) == int(MEDIA_PUBLISH) # status includes 'publish'
                 )
             ).label('media_count'),
             deferred=True
