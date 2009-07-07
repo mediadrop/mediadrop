@@ -121,9 +121,9 @@ def clean_xhtml(string):
     if not tag_re.search(string):
         # there is no tag in the text, treat this post as plain text
         # and convert it to XHTML
-        htmlator = Htmlator(encode_xml_specials=False)
+        htmlator = Htmlator(encode_xml_specials=False, convert_newlines=True, make_links=True)
         string = htmlator(string)
-    cleaner = Cleaner()
+    cleaner = Cleaner("strip_cdata", "encode_xml_specials")
     return cleaner(string)
 
 def strip_xhtml(string):

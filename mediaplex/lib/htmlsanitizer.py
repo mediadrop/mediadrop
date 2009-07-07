@@ -573,7 +573,7 @@ class Htmlator(object) :
     def convert(self):
         for method in ["encode_xml_specials", "convert_newlines",
           "make_links"] :
-            if method in self.settings:
+            if self.settings.get(method, False):
                 getattr(self, method)()
 
     def encode_xml_specials(self) :
