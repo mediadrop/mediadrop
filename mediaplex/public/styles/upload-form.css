@@ -3,6 +3,17 @@ form#upload-form, div#bottombar {
 	float: left;
 }
 
+.xhtml-description-helper {
+	margin: 1em;
+	font-size: 0.75em;
+	width: 580px;
+}
+
+.xhtml-description-helper p, .xhtml-description-helper li, .xhtml-description-helper em {
+	margin-top: 0.5em;
+	font-weight: normal;
+}
+
 table.field-list {
 	border-spacing: 0px;
 	border-collapse: collapse;

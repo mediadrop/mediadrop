@@ -1,11 +1,13 @@
 <form xmlns="http://www.w3.org/1999/xhtml"
       xmlns:py="http://genshi.edgewall.org/"
+      xmlns:xi="http://www.w3.org/2001/XInclude"
       id="${id}"
       name="${name}"
       action="${action}"
       method="${method}"
       class="${css_class}"
       py:attrs="attrs">
+	<xi:include href="../helpers.html" />
 	<span py:if="error and not error.error_dict" class="field-error" py:content="error" />
 	<table class="field-list" py:attrs="list_attrs">
 		<tbody>
@@ -33,6 +35,9 @@
 				<td class="${render_error and (error_for(field) is not None and 'err' or 'noerr') or ''}">
 				${field.display(value_for(field), **args_for(field))}
 				</td>
+			</tr>
+			<tr py:if="field.name == 'description'">
+				<td py:content="xhtml_description('description')" />
 			</tr>
 		</span>
 		</tbody>

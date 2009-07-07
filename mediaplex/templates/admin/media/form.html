@@ -1,11 +1,13 @@
 <form xmlns="http://www.w3.org/1999/xhtml"
       xmlns:py="http://genshi.edgewall.org/"
+      xmlns:xi="http://www.w3.org/2001/XInclude"
       id="${id}"
       name="${name}"
       action="${action}"
       method="${method}"
       class="${css_class}"
       py:attrs="attrs">
+	<xi:include href="../../helpers.html" />
 	<div class="box-content">
 		<div class="field-error" py:if="error and show_error" py:content="error" />
 		<div py:if="hidden_fields">
@@ -35,6 +37,7 @@
 				<div class="form-field">
 					${field.display(value_for(field), **args_for(field))}
 				</div>
+				<div py:if="field.name == 'description'" py:replace="xhtml_description('description')" />
 				<span py:if="help_text" class="field-help" py:content="help_text" />
 				<span py:if="show_children_errors and error and not field.show_error"
 					  class="field-error" py:content="error" />

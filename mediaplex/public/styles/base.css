@@ -366,3 +366,11 @@ a#nav-podcast-help.podcast-help-shown,
 .mo:hover {
 	background-position: bottom;
 }
+
+.xhtml-description-helper p, .xhtml-description-helper li {
+	margin: 1em 0;
+}
+.xhtml-description-helper em {
+	font-weight: bold;
+}
+

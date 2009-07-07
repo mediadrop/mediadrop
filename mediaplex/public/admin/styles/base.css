@@ -331,3 +331,11 @@ input.submitbutton {
 .mo:hover {
 	background-position: bottom;
 }
+
+.xhtml-description-helper p, .xhtml-description-helper li {
+	margin-bottom: 0em;
+}
+.xhtml-description-helper em {
+	font-weight: bold;
+}
+
