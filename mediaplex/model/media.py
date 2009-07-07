@@ -215,16 +215,17 @@ mapper(Video, inherits=media_mapper, polymorphic_identity='video')
 
 tags_mapper = class_mapper(Tag, compile=False)
 tags_mapper.add_property(
-    'media_count',
+    'published_media_count',
     column_property(
         sql.select(
-           [sql.func.count(media_tags.c.tag_id)],
+            [sql.func.count(media_tags.c.tag_id)],
             and_(
                 media.c.id == media_tags.c.media_id,
-               tags.c.id == media_tags.c.tag_id,
-                media.c.status.op('&')(int(PUBLISH)) == int(PUBLISH) # status includes 'publish'
+                tags.c.id == media_tags.c.tag_id,
+                media.c.status.op('&')(int(PUBLISH)) == int(PUBLISH), # status includes 'publish'
+                media.c.status.op('&')(int(TRASH)) == 0, # status excludes 'trash'
             )
-        ).label('media_count'),
+        ).label('published_media_count'),
        deferred=True
     )
 )

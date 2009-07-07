@@ -21,8 +21,8 @@ class PodcastsController(RoutingController):
         super(PodcastsController, self).__init__(*args, **kwargs)
         tmpl_context.podcast_help = True
         tmpl_context.tags = DBSession.query(Tag)\
-            .options(undefer('media_count'))\
-            .filter(Tag.media_count >= 1)\
+            .options(undefer('published_media_count'))\
+            .filter(Tag.published_media_count >= 1)\
             .order_by(Tag.name)\
             .all()
 
