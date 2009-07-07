@@ -232,7 +232,7 @@ class Cleaner(object):
         if len(string) and self.settings['auto_clean'] : self.clean()
 
     def get_string(self):
-        return unicode(self.root.renderContents())
+        return self.root.renderContents().decode('utf-8')
 
     string = property(get_string, set_string)
 
