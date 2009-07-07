@@ -19,7 +19,7 @@
 					<td style="width:180px"><div class="podcast-art"><a href="${h.url_for(action='edit', id=podcast.id)}"><img src="${h.url_for('/images/podcasts/'+str(podcast.id)+'m.jpg')}" width="160" height="150" alt="Album Art" /></a></div></td>
 					<td class="podcast-info" style="width:auto">
 						<div class="info-content">
-							<p>${podcast.description}</p>
+							<p>${Markup(podcast.description)}</p>
 							<div class="podcast-meta">
 								<span class="podcast-category"><strong>Category:</strong> ${podcast.category and podcast.category or 'None'}</span>
 								<span class="podcast-author">
