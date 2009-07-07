@@ -15,7 +15,7 @@
 		<nav />
 
 		<h3 class="recent-eps">Recent Episodes in the <span>${podcast.title}</span> series</h3>
-		<ul id="podcastgrid" class="grid2" py:with="episodes = episodes_paginator.page == 1 and episodes[1:] or episodes">
+		<ul id="podcastgrid" class="grid2">
 			<li py:for="media in episodes">
 				<a href="${h.url_for(controller='/media', action='view', podcast_slug=media.podcast.slug, slug=media.slug)}" class="grid2-link">
 					<img src="${h.url_for('/images/media/%ss.jpg' % media.id)}" width="128" height="78" alt="${media.title}" class="grid-thumb" />
