@@ -13,7 +13,7 @@
 		<nav />
 		<ul id="mediagrid" class="grid">
 			<li py:for="video in videos">
-				<a href="${h.url_for(controller='/media', action='view', slug=video.slug)}" title="${h.text.truncate(video.description, whole_word=True)}">
+				<a href="${h.url_for(controller='/media', action='view', slug=video.slug)}" title="${h.text.truncate(h.strip_xhtml(video.description), whole_word=True)}">
 					<img src="${h.url_for('/images/media/' + str(video.id) + 's.jpg')}" width="162" height="113" alt="${video.title}" class="grid-thumb" />
 					<span class="grid-title">${video.title}</span>
 					<span class="grid-meta">
