@@ -62,9 +62,9 @@ attrs_considered_links = dict.fromkeys("src href".split()) #should include
 block_elements = dict.fromkeys(["p", "h1","h2", "h3", "h4", "h5", "h6", "ol", "ul", "pre", "address", "blockquote", "dl", "div", "fieldset", "form", "hr", "noscript", "table"])
 
 #convenient default filter lists.
-paranoid_filters = ["strip_comments", "strip_tags", "strip_attrs",
+paranoid_filters = ["strip_comments", "strip_tags", "strip_attrs", "encode_xml_specials",
   "strip_schemes", "rename_tags", "wrap_string", "strip_empty_tags", "strip_empty_tags", ]
-complete_filters = ["strip_comments", "rename_tags", "strip_tags", "strip_attrs",
+complete_filters = ["strip_comments", "rename_tags", "strip_tags", "strip_attrs", "encode_xml_specials",
     "strip_cdata", "strip_schemes",  "wrap_string", "strip_empty_tags", "rebase_links", "reparse"]
 
 #set some conservative default string processings
@@ -109,16 +109,29 @@ url_regex = r"(?#Protocol)(?:([a-z\d]+)\:\/\/|~/|/)?" \
           + r"(?#Query)(?:(?:\?(?:[-\w~!$+|.,*:]|%[a-f\d{2}])+=(?:[-\w~!$+|.,*:=]|%[a-f\d]{2})*)(?:&(?:[-\w~!$+|.,*:]|%[a-f\d{2}])+=(?:[-\w~!$+|.,*:=]|%[a-f\d]{2})*)*)*" \
           + r"(?#Anchor)(?:#(?:[-\w~!$+|.,*:=]|%[a-f\d]{2})*)?"
 
-XML_ENTITIES = { u"'" : u"&apos;",
-                 u'"' : u"&quot;",
-                 u"&" : u"&amp;",
-                 u"<" : u"&lt;",
-                 u">" : u"&gt;"
-               }
+# NB: The order of these entities is very important
+#     when performing search and replace!
+XML_ENTITIES = [
+    (u"&", u"&amp;"),
+    (u"'", u"&apos;"),
+    (u'"', u"&quot;"),
+    (u"<", u"&lt;"),
+    (u">", u"&gt;")
+]
 LINE_EXTRACTION_RE = re.compile(".+", re.MULTILINE)
 BR_EXTRACTION_RE = re.compile("</?br ?/?>", re.MULTILINE)
 URL_RE = re.compile(url_regex, re.IGNORECASE)
 
+def entities_to_unicode(text):
+    """Converts HTML entities to unicode.  For example '&amp;' becomes '&'."""
+    text = unicode(BeautifulSoup.BeautifulStoneSoup(text, convertEntities=BeautifulSoup.BeautifulStoneSoup.ALL_ENTITIES))
+    return text
+
+def encode_xhtml_entities(text):
+    """Escapes only those entities that are required for XHTML compliance"""
+    for e in XML_ENTITIES:
+        text = text.replace(e[0], e[1])
+    return text
 
 class Stop:
     """
@@ -450,29 +463,19 @@ class Cleaner(object):
         if not new_url : new_url = self.settings.get('new_url', '')
         raise NotImplementedError
 
-    # Because of its internal character set handling,
-    # the following will not work in Beautiful soup and is hopefully redundant.
-    # def encode_xml_specials(self, original_url="", new_url ="") :
-    #     """
-    #     BeautifulSoup will let some dangerous xml entities hang around
-    #     in the navigable strings. destroy all monsters.
-    #     >>> c = Cleaner(auto_clean=True, encode_xml_specials=True)
-    #     >>> c('<<<<<')
-    #     u'&lt;&lt;&lt;&lt;'
-    #     """
-    #     for string in self.root.findAll(text=True) :
-    #         sys.stderr.write("root" +"\n")
-    #         sys.stderr.write(str(self.root) +"\n")
-    #         sys.stderr.write("parent" +"\n")
-    #         sys.stderr.write(str(string.parent) +"\n")
-    #         new_string = unicode(string)
-    #         sys.stderr.write(string +"\n")
-    #         for special_char in XML_ENTITIES.keys() :
-    #             sys.stderr.write(special_char +"\n")
-    #         string.replaceWith(
-    #           new_string.replace(special_char, XML_ENTITIES[special_char])
-    #         )
-
+    def encode_xml_specials(self) :
+        """
+        BeautifulSoup will let some dangerous xml entities hang around
+        in the navigable strings. destroy all monsters.
+        >>> c = Cleaner(auto_clean=True, encode_xml_specials=True)
+        >>> c('<<<<<')
+        u'&lt;&lt;&lt;&lt;'
+        """
+        for string in self.root.findAll(text=True) :
+            s = unicode(string)
+            s = entities_to_unicode(s)
+            s = encode_xhtml_entities(s)
+            string.replaceWith(s)
 
     def disgorge_elem(self, elem):
         """
@@ -574,8 +577,9 @@ class Htmlator(object) :
                 getattr(self, method)()
 
     def encode_xml_specials(self) :
-        for char in XML_ENTITIES.keys() :
-            self._string = self._string.replace(char, XML_ENTITIES[char])
+        self._string = entities_to_unicode(self._string)
+        self._string = encode_xhtml_entities(self._string)
+
 
     def make_links(self):
         matches = URL_RE.finditer(self._string)
