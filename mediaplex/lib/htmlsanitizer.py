@@ -599,7 +599,7 @@ class Htmlator(object) :
         # remove duplicate line breaks
         self._string = re.sub("\n+", "\n", self._string).strip("\n")
         # wrap each line in <p> tags.
-        self.string = '\n'.join([
+        self.string = ''.join([
             '<p>' + line.strip() + '</p>' for line in self.string.split('\n')
         ])
 
