@@ -26,15 +26,23 @@ class PodcastsController(RoutingController):
             .order_by(Tag.name)\
             .all()
 
+    def _filter(self, query):
+        """Return the query with the following filters added:
+
+        Media are published
+        Media are not trashed
+        """
+        return query\
+            .filter(Media.status >= 'publish')\
+            .filter(Media.status.excludes('trash'))
 
     @expose('mediaplex.templates.podcasts.index')
     def index(self, page=1, **kwargs):
         episodes_query = DBSession.query(Media)\
             .filter(Media.podcast_id != None)\
-            .filter(Media.status >= 'publish')\
-            .filter(Media.status.excludes('trash'))\
             .order_by(Media.publish_on)\
             .options(undefer('comment_count'))
+        episodes_query = self._filter(episodes_query)
 
         # Paginate manually using our custom paginator to show fewer results on the first page
         episodes_page = custompaginate.Page(episodes_query, page, items_per_page=12, items_first_page=7)
@@ -45,7 +53,7 @@ class PodcastsController(RoutingController):
         tmpl_context.paginators.episodes = episodes_page
 
         return dict(
-            podcasts = DBSession.query(Podcast).options(undefer('media_count')).all(),
+            podcasts = DBSession.query(Podcast).options(undefer('published_media_count')).all(),
             episodes = episodes_page.items,
         )
 
@@ -54,18 +62,24 @@ class PodcastsController(RoutingController):
     @paginate('episodes', items_per_page=10)
     def view(self, slug, page=1, **kwargs):
         podcast = fetch_row(Podcast, slug=slug)
+        episodes = self._filter(podcast.media)\
+            .order_by(Media.publish_on.desc())
+
         return dict(
             podcast = podcast,
-            episodes = podcast.media.filter(Media.status >= 'publish').order_by(Media.publish_on.desc()),
+            episodes = episodes,
         )
 
 
     @expose()
     def feed(self, slug, **kwargs):
         podcast = fetch_row(Podcast, slug=slug)
+        episodes = self._filter(podcast.media)\
+            .order_by(Media.publish_on.desc())[:10]
+
         template_vars = dict(
             podcast = podcast,
-            episodes = podcast.media.order_by(Media.publish_on.desc())[:10],
+            episodes = episodes,
         )
 
         # Manually render XML from genshi since tg.render.render_genshi is too stupid to support it.
