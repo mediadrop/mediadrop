@@ -596,8 +596,6 @@ class Htmlator(object) :
     def convert_newlines(self) :
         # remove whitespace
         self._string = "\n".join([l.strip() for l in self.string.split("\n")])
-        # remove carriage return chars; FIXME: is this necessary?
-        self._string = self._string.replace("\r", "")
         # remove duplicate line breaks
         self._string = re.sub("\n+", "\n", self._string).strip("\n")
         # wrap each line in <p> tags.

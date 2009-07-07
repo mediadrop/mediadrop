@@ -127,6 +127,8 @@ def clean_xhtml(string):
     return cleaner(string)
 
 def strip_xhtml(string):
+    # remove carriage return chars; FIXME: is this necessary?
+    string = string.replace("\r", "")
     return ''.join(BeautifulSoup(string).findAll(text=True))
 
 def list_acceptable_xhtml():
