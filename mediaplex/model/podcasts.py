@@ -63,7 +63,7 @@ mapper(Podcast, podcasts, properties={
                     media.c.podcast_id == podcasts.c.id,
                     media.c.status.op('&')(int(MEDIA_PUBLISH)) == int(MEDIA_PUBLISH) # status includes 'publish'
                 )
-            ).label('media_count'),
+            ).label('published_media_count'),
             deferred=True
         )
 })
