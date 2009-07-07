@@ -579,14 +579,19 @@ class Htmlator(object) :
 
     def make_links(self):
         matches = URL_RE.finditer(self._string)
+        end_re = re.compile('\W')
         o = 0
         for m in matches:
-            link = "<a href=\"%s\">%s</a>" % (m.group(), m.group())
             s, e = m.span()
-            # take into account the added length of previous links
-            s, e = s+o, e+o
-            o += len(link) - len(m.group())
-            self._string = self._string[:s] + link + self._string[e:]
+
+            # if there are no more characters after the link
+            # or if the character after the link is not a 'word character'
+            if e > len(self._string) or end_re.match(self._string[e]):
+                # take into account the added length of previous links
+                s, e = s+o, e+o
+                link = "<a href=\"%s\">%s</a>" % (m.group(), m.group())
+                o += len(link) - len(m.group())
+                self._string = self._string[:s] + link + self._string[e:]
 
     def convert_newlines(self) :
         # remove whitespace
