@@ -49,7 +49,7 @@ var Comment = new Class({
 
 		var td = this.form.getParent();
 		var text = this.form.getElement('textarea').get('value');
-		this.body = new Element('blockquote').grab(new Element('p', {text: text}));
+		this.body = new Element('blockquote', {html: text});
 		td.grab(this.body);
 		this.editLink = new Element('span', {'class': 'edit-text clickable', text: 'Edit Text'})
 			.addEvent('click', this.toggleForm.bind(this));
