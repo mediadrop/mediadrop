@@ -122,11 +122,12 @@
 
 	<py:def function="media_player(media)" py:with="files = [f for f in media.files if f.type in ('flv', 'youtube', 'mp3')]">
 		<py:choose
-		test="len(files) and files[0].type"
+		py:if="len(files) > 0"
 		py:with="file = files[0];
 		         link = file.url.startswith('http://') and file.url or h.url_for(controller='/media', action='serve', slug=media.slug, type=media.ENCODED_TYPE);
 		         flow_js = h.url_for('/scripts/third-party/flowplayer-3.1.0.min.js');
 		         flow_swf = h.url_for('/scripts/third-party/flowplayer-3.1.0.swf');"
+		test="file.type"
 		>
 			<div py:when="'flv'">
 				<script src="${flow_js}" type="text/javascript" />
@@ -151,9 +152,10 @@
 			        width="479" height="383" data="http://youtube.com/v/${file.url}">
 				<param name="movie" value="http://youtube.com/v/${file.url}" />
 			</object>
-
-			<div py:otherwise="" />
 		</py:choose>
+		<div py:if="len(files) == 0">
+			<p>The selected media object has no associated files, or the associated files are not supported by this media player.</p>
+		</div>
 	</py:def>
 
 	<py:def function="xhtml_description(fieldName)">
