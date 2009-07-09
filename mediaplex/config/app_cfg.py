@@ -14,6 +14,9 @@ class MediaplexConfig(AppConfig):
         # home page redirect
         map.redirect('/', '/video-flow')
 
+        # route for the concept sunday school action
+        map.connect('/concept', controller='video', action='concept_preview')
+
         # routes for all non-view, non-index, video actions
         map.connect('/video-{action}', controller='video', requirements=dict(action='flow|upload|upload_submit|upload_submit_async|upload_success|upload_failure'))
         map.connect('/video-{action}/{slug}', slug=None, controller='video', requirements=dict(action='tags|rate|serve'))

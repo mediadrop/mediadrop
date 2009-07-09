@@ -19,6 +19,7 @@ from formencode import validators
 from pylons.i18n import ugettext as _
 from sqlalchemy import and_, or_
 from sqlalchemy.orm import eagerload, undefer
+from sqlalchemy.orm.exc import NoResultFound
 
 from mediaplex.lib import helpers
 from mediaplex.lib.helpers import expose_xhr, redirect, url_for, clean_xhtml
@@ -62,6 +63,21 @@ class VideoController(RoutingController):
             videos = self._list_query.order_by(Video.publish_on.desc())[:15],
         )
 
+    @expose('mediaplex.templates.video.concept_preview')
+    def concept_preview(self, page=1, **kwargs):
+        """Mediaflow Action"""
+        tmpl_context.disable_topics = True
+        tmpl_context.disable_sections = True
+        videos = []
+        try:
+            tag = DBSession.query(Tag).filter(Tag.slug == 'conceptsundayschool').one()
+            videos = self._list_query.filter(Video.tags.contains(tag)).order_by(Video.publish_on.desc())[:15],
+        except NoResultFound, e:
+            pass
+
+        return dict(
+            videos = videos
+        )
 
     @property
     def _list_query(self):

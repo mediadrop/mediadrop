@@ -5,30 +5,33 @@
 
 	<py:match path="head" once="true">
 		<head>
+			<meta py:replace="select('*')" />
 			<link href="${h.url_for('/styles/mediaflow.css')}" media="screen" rel="stylesheet" type="text/css" />
 			<link href="${h.url_for('/styles/ratings.css')}" media="screen" rel="stylesheet" type="text/css" />
 			<link href="${h.url_for('/styles/media.css')}" media="screen" rel="stylesheet" type="text/css" />
 			<script type="text/javascript" src="${h.url_for('/scripts/tags.js')}" />
 			<script type="text/javascript">
 				window.addEvent('domready', function() {
-					var flyoutOpenFx = [
-						{duration:  30, transition: 'linear'},
-						{duration:  20, transition: 'linear'},
-						{duration: 450, transition: 'cubic:out'}
-					];
-					var flyoutCloseFx = [
-						{duration:  30, transition: 'linear'},
-						{duration:  20, transition: 'linear'},
-						{duration: 450, transition: 'cubic:in'}
-					];
-					var topicIndexFlyout = new ButtonFlyout({
-						button: 'nav-topics',
-						buttonActiveClass: 'topics-shown',
-						elements: $('mediaplex-topics').getChildren(),
-						startHidden: ${c.show_tags and 'false' or 'true'},
-						openFx: flyoutOpenFx,
-						closeFx: flyoutCloseFx
-					});
+					<py:if test="not c.disable_topics">
+						var flyoutOpenFx = [
+							{duration:  30, transition: 'linear'},
+							{duration:  20, transition: 'linear'},
+							{duration: 450, transition: 'cubic:out'}
+						];
+						var flyoutCloseFx = [
+							{duration:  30, transition: 'linear'},
+							{duration:  20, transition: 'linear'},
+							{duration: 450, transition: 'cubic:in'}
+						];
+						var topicIndexFlyout = new ButtonFlyout({
+							button: 'nav-topics',
+							buttonActiveClass: 'topics-shown',
+							elements: $('mediaplex-topics').getChildren(),
+							startHidden: ${c.show_tags and 'false' or 'true'},
+							openFx: flyoutOpenFx,
+							closeFx: flyoutCloseFx
+						});
+					</py:if>
 					<py:if test="c.podcast_help">
 						var podcastHelpFlyout = new ButtonFlyout({
 							button: 'nav-podcast-help',
@@ -43,7 +46,6 @@
 					</py:if>
 				});
 			</script>
-			<meta py:replace="select('*')" />
 		</head>
 	</py:match>
 
@@ -58,12 +60,12 @@
 
 	<py:match path="nav" recursive="false">
 		<div class="box-nav">
-			<ul id="nav" class="box-nav-left">
+			<ul py:if="not c.disable_sections" id="nav" class="box-nav-left">
 				<li id="nav-latest"><a href="${h.url_for(controller='/video', action='flow')}">Latest</a></li>
 				<li id="nav-videos"><a href="${h.url_for(controller='/video')}">Video</a></li>
 				<li id="nav-podcasts"><a href="${h.url_for(controller='/podcasts')}">Podcasts</a></li>
 			</ul>
-			<a id="nav-topics" class="box-nav-right topics-shown" href="/video-tags">Topic Index</a>
+			<a py:if="not c.disable_topics" id="nav-topics" class="box-nav-right topics-shown" href="/video-tags">Topic Index</a>
 			<a py:if="not c.podcast_help" id="nav-upload-video" class="box-nav-right" href="${h.url_for(controller='/video', action='upload')}">Upload a Video</a>
 			<a py:if="c.podcast_help" id="nav-podcast-help" class="box-nav-right podcast-help-shown" href="#">What are podcasts?</a>
 			<div py:if="c.podcast_help" id="podcast-help-box" class="nav-box">
@@ -77,7 +79,7 @@
 					<div class="nav-box-bottom" />
 				</div>
 			</div>
-			<div id="mediaplex-topics" class="nav-box">
+			<div py:if="not c.disable_topics" id="mediaplex-topics" class="nav-box">
 				<div id="topic-box-top" />
 				<div class="nav-box-topright" />
 				<div><!--! this extra div is here to group elements for the ButtonFlyout js -->
