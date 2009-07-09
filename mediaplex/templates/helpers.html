@@ -127,7 +127,7 @@
 		         link = file.url.startswith('http://') and file.url or h.url_for(controller='/media', action='serve', slug=media.slug, type=media.ENCODED_TYPE);
 		         flow_js = h.url_for('/scripts/third-party/flowplayer-3.1.0.min.js');
 		         flow_swf = h.url_for('/scripts/third-party/flowplayer-3.1.0.swf');"
-		test="file.type"
+		test="files[0].type"
 		>
 			<div py:when="'flv'">
 				<script src="${flow_js}" type="text/javascript" />
