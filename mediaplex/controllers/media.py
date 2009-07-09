@@ -66,6 +66,33 @@ class MediaController(RoutingController):
             next_episode = next_episode,
         )
 
+    @expose('mediaplex.templates.media.concept_view')
+    def concept_view(self, slug, podcast_slug=None, **kwargs):
+        """Display the media player and comments"""
+        media = fetch_row(Media, slug=slug)
+        tmpl_context.disable_topics = True
+        tmpl_context.disable_sections = True
+
+        return dict(
+            media = media,
+            comment_form = PostCommentForm(action=url_for(action='concept_comment')),
+            comment_form_values = kwargs,
+        )
+
+    @expose()
+    @validate(PostCommentForm(), error_handler=concept_view)
+    def concept_comment(self, slug, **values):
+        media = fetch_row(Media, slug=slug)
+        c = Comment()
+        c.status = 'unreviewed'
+        c.author = AuthorWithIP(values['name'], None, request.environ['REMOTE_ADDR'])
+        c.subject = 'Re: %s' % media.title
+        c.body = clean_xhtml(values['body'])
+
+        media.comments.append(c)
+        DBSession.add(media)
+        redirect(action='concept_view')
+
 
     @expose_xhr()
     @validate(validators=dict(rating=validators.Int()))

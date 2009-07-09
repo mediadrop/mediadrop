@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      xmlns:xi="http://www.w3.org/2001/XInclude">
+<xi:include href="../comments/_list.html" />
+<xi:include href="../helpers.html" />
+<xi:include href="../concept.html" />
+<head>
+	<title>${Markup(media.title)}</title>
+	<script type="text/javascript" src="${h.url_for('/scripts/rater.js')}"></script>
+	<script type="text/javascript" src="${h.url_for('/scripts/overtext.js')}"></script>
+	<script type="text/javascript">
+		window.addEvent('domready', function(){
+			var overTextMGR = new OverTextManager('${comment_form.id}');
+			var likesCounter = $('num-likedthis');
+			var likesRater = new ThumbRater({
+				upButton: 'likethis',
+				upCounter: likesCounter,
+				ensureVisible: likesCounter.getParent()
+			});
+		});
+	</script>
+</head>
+<body class="preview" py:with="comments = [c for c in media.comments if 'publish' in c.status]">
+	<box id="media-box">
+		<nav />
+		<div class="media-body">
+			<div class="media-info">
+				<h1>${Markup(media.title)}</h1>
+				<p py:replace="Markup(media.description)" />
+			</div>
+			<div class="media-meta">
+				<div class="media-meta-likethis" id="media-rating"><a id="likethis" class="mo up" title="vote up" href="${h.url_for(action='rate', rating=1)}"><span>I like this!</span></a></div>
+				<div class="media-meta-views"><strong>Views:</strong> ${media.views}</div>
+				<div class="media-meta-time"><strong>Time:</strong> ${h.duration_from_seconds(media.duration)}</div>
+				<div class="media-meta-etc" style="${(media.rating.sum &gt; 0) or 'visibility:hidden'}">
+					<strong id="num-likedthis">${h.text.plural(media.rating.sum, 'person', 'people')}</strong> liked this ${media.type}!
+				</div>
+			</div>
+			${media_player(media)}
+		</div>
+	</box>
+
+	${comment_list(comments, comment_form, comment_form_values)}
+</body>
+</html>

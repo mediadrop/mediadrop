@@ -16,6 +16,9 @@ class MediaplexConfig(AppConfig):
 
         # route for the concept sunday school action
         map.connect('/concept', controller='video', action='concept_preview')
+        map.connect('/concept/{slug}/comment', controller='media', action='concept_comment')
+        map.connect('/concept/{slug}', controller='media', action='concept_view')
+
 
         # routes for all non-view, non-index, video actions
         map.connect('/video-{action}', controller='video', requirements=dict(action='flow|upload|upload_submit|upload_submit_async|upload_success|upload_failure'))

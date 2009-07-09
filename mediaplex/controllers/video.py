@@ -71,7 +71,7 @@ class VideoController(RoutingController):
         videos = []
         try:
             tag = DBSession.query(Tag).filter(Tag.slug == 'conceptsundayschool').one()
-            videos = self._list_query.filter(Video.tags.contains(tag)).order_by(Video.publish_on.desc())[:15],
+            videos = self._list_query.filter(Video.tags.contains(tag)).order_by(Video.publish_on.desc())[:15]
         except NoResultFound, e:
             pass
 

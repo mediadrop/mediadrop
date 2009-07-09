@@ -4,11 +4,9 @@
       xmlns:py="http://genshi.edgewall.org/"
       xmlns:xi="http://www.w3.org/2001/XInclude">
 <xi:include href="../helpers.html" />
+<xi:include href="../concept.html" />
 <head>
 	<title>Videos</title>
-	<script src="${h.url_for('/scripts/third-party/mootools-1.2.2-core-nc.js')}" type="text/javascript"></script>
-	<script src="${h.url_for('/scripts/third-party/mootools-1.2.2.2-more-nc.js')}" type="text/javascript"></script>
-	<link href="${h.url_for('/styles/base.css')}" media="screen" rel="stylesheet" type="text/css" />
 	<script type="text/javascript" src="${h.url_for('/scripts/mediaflow.js')}"></script>
 	<script type="text/javascript">
 		window.addEvent('domready', function(){
@@ -18,70 +16,15 @@
 			});
 		});
 	</script>
-<!--!	Use this when you want to use Ajax pagination.
-		<script type="text/javascript" py:with="paginator=c.paginators.videos">
-		window.addEvent('domready', function(){
-			var videoflow = new Mediaflow({
-				labelContainer: $('mediaflow-box').getElement('div.box-bottom'),
-				totalPageCount: ${int(h.math.ceil(float(paginator.item_count)/3))},
-				fetchUrl: '${h.url_for()}'
-			});
-		});
-	</script>-->
-	<link rel="stylesheet" type="text/css" media="all" href="http://tmcyouth.com/conceptsundayschool/reset.css" />
-	<link rel="stylesheet" type="text/css" media="all" href="http://tmcyouth.com/conceptsundayschool/base.css" />
-	<link rel="stylesheet" type="text/css" media="all" href="http://tmcyouth.com/conceptsundayschool/960.css" />
 </head>
-<body class="preview nav-latest-on">
-	<div class="container_12">
-		<div id="global-nav">
-			<ul>
-				<li><a href="http://tmcyouth.com/conceptsundayschool/index.html">Home</a></li>
-				<li><a href="http://tmcyouth.com/conceptsundayschool/concept.html">The Concept</a></li>
-				<li class="selected"><a href="http://tmcyouth.com/conceptsundayschool/preview.html">Preview</a></li>
-				<li><a href="http://tmcyouth.com/conceptsundayschool/your-ideas.html">Your Ideas</a></li>
-			</ul>
+<body class="preview">
+	<box id="mediaflow-box">
+		<nav />
+		<div id="mediaflow-ctrls" />
+		<div id="mediaflow-body">
+			<xi:include href="_mediaflow-pager.html" />
+			${mediaflow_slider_pager(videos, 'concept_view')}
 		</div>
-
-		<div class="grid_10">&nbsp;</div>
-
-		<div class="grid_2">
-			<img src="http://tmcyouth.com/conceptsundayschool/images/concept-sunday-school-logo.png" alt="Concept Sunday School" width="140" />
-		</div>
-
-		<div class="clear">&nbsp;</div>
-
-		<div class="grid_12">
-			<img src="http://tmcyouth.com/conceptsundayschool/images/preview.png" alt="Preview" width="350" />
-		</div>
-
-		<div class="clear">&nbsp;</div>
-
-		<box id="mediaflow-box">
-			<nav />
-			<div id="mediaflow-ctrls" />
-			<div id="mediaflow-body">
-				<xi:include href="_mediaflow-pager.html" />
-				${mediaflow_slider_pager(videos)}
-			</div>
-		</box>
-
-		<div class="clear">&nbsp;</div>
-
-		<div class="grid_12">
-			<img src="http://tmcyouth.com/conceptsundayschool/images/mediaplex.jpg" alt="The Mediaplex" />
-		</div>
-	</div>
-
-	<div id="footer">
-		<p>
-			&copy; 2009 tmcyouth.com.
-			All rights reserved.
-			<a href="http://tmcyouth.com/contact-us.html">Contact Us</a> |
-			<a href="http://tmcyouth.com/sitemap.html">Sitemap</a> |
-			<a href="http://tmcyouth.com/terms-of-service.html">Terms of Service</a> |
-			<a href="http://tmcyouth.com/terms-of-service.html#privacy">Privacy</a>
-		</p>
-	</div>
+	</box>
 </body>
 </html>
