@@ -121,7 +121,9 @@ var Comment = new Class({
 
 	saveEditForm: function(){
 		this.toggleForm();
-		this.body.set('text', this.form.getElement('textarea').get('value'));
+		this.form.set('send', {onComplete: function(response) {
+			this.body.set('html', JSON.decode(response).body);
+		}.bind(this)});
 		this.form.send();
 		return false;
 	}
