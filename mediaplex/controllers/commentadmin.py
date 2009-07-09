@@ -33,14 +33,9 @@ class CommentadminController(RoutingController):
                 Comment.body.like(like_search),
             ))
 
-        # Uses a generator expression to delay creation of the forms until
-        # after our paginate decorator works its magic on 'comments'.
-        # This also makes things slightly more memory efficient.
-        edit_forms = (EditCommentForm(action=url_for(action='save', id=c.id)) for c in comments)
-
         return dict(
             comments = comments,
-            edit_forms = edit_forms,
+            edit_form = EditCommentForm(),
             search = search,
             search_form = not request.is_xhr and SearchForm(action=url_for()),
         )
@@ -69,10 +64,10 @@ class CommentadminController(RoutingController):
         return dict(success=True)
 
 
-    @expose()
+    @expose('json')
     def save(self, id, **kwargs):
         comment = fetch_row(Comment, id)
-        c.body = clean_xhtml(kwargs['body'])
+        comment.body = clean_xhtml(kwargs['body'])
 
         DBSession.add(comment)
-        redirect(action='index', id=None)
+        return dict(success=True,body=comment.body)
