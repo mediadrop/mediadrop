@@ -6,8 +6,8 @@
       py:strip="">
 <head py:match="head">
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<title py:match="title" py:with="title = str(select('text()'))">
-		<py:if test="title">${Markup(title)} |</py:if>
+	<title py:match="title" py:with="title = select('text()')">
+		<py:if test="title">${title} |</py:if>
 		TMC Youth
 	</title>
 	<script src="${h.url_for('/scripts/third-party/mootools-1.2.2-core-nc.js')}" type="text/javascript"></script>

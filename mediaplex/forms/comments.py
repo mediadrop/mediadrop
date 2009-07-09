@@ -24,3 +24,4 @@ class EditCommentForm(ListForm):
         SubmitButton('submit', default='Save', css_classes=['mo', 'btn-save', 'f-rgt']),
         ResetButton(default='Cancel', css_classes=['mo', 'btn-cancel'])
     ]
+

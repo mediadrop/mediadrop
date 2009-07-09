@@ -1,7 +1,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:py="http://genshi.edgewall.org/"
       py:strip="">
-	<table py:def="comment_table(collection, edit_forms, include_thead=True, id='comment-table', classes=None)"
+	<table py:def="comment_table(collection, edit_form, include_thead=True, id='comment-table', classes=None)"
 	    cellpadding="0" cellspacing="0" id="${id}" class="${classes}"
 	    py:with="item_count = len(collection);
 	             include_thead = include_thead and item_count > 0;">
@@ -17,7 +17,7 @@
 			<tr py:if="item_count == 0">
 				<td>None Found</td>
 			</tr>
-			<tr py:for="comment, edit_form in zip(collection, edit_forms)" class="${('unreviewed' in comment.status) and 'tr-white' or 'tr-gray'}">
+			<tr py:for="comment in collection" class="${('unreviewed' in comment.status) and 'tr-white' or 'tr-gray'}">
 				<td py:choose="">
 					<a class="mo review-comment" py:when="'unreviewed' in comment.status" href="${h.url_for(action='approve', id=comment.id)}" title="Approve this comment for publishing"><span>approve</span></a>
 					<span class="published-comment" py:otherwise="" title="This comment has already been approved for publishing">published</span>
@@ -30,7 +30,7 @@
 				</td>
 				<td>
 					<div class="comment-submitted">Submitted on ${comment.created_on.strftime('%b %d %Y')}</div>
-					${XML(edit_form(comment))}
+					${XML(edit_form(comment, action=h.url_for(action='save', id=comment.id)))}
 				</td>
 				<td>
 					<a py:content="comment.parent.title" target="_blank"

@@ -36,7 +36,7 @@
 			<h1 py:if="not search">All Comments</h1>
 			<h1 py:if="search">Comments that match '${search}'</h1>
 		</div>
-		<xi:include href="index-table.html" py:with="comments=comments; edit_forms=edit_forms;" />
+		<xi:include href="index-table.html" py:with="comments=comments; edit_form=edit_form;" />
 	</div>
 </body>
 </html>
