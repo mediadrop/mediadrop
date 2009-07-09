@@ -18,31 +18,27 @@
 <body py:match="body" py:attrs="select('@*')">
 	<!--! <h1 id="logo"><a href="${h.url_for('/')}">Mediaplex</a></h1>-->
 
-	<div class="container-12">
-		<div id="global-nav">
-			<ul>
-				<li><a href="${h.url_for('/../index')}">Home</a></li>
-				<li><a href="${h.url_for('/../concept')}">The Concept</a></li>
-				<li class="selected"><a href="${h.url_for('/../preview')}">Preview</a></li>
-				<li><a href="${h.url_for('/../your-ideas')}">Your Ideas</a></li>
-			</ul>
+	<div id="global-nav">
+		<ul>
+			<li><a href="${h.url_for('/../index')}">Home</a></li>
+			<li><a href="${h.url_for('/../concept')}">The Concept</a></li>
+			<li class="selected"><a href="${h.url_for('/../preview')}">Preview</a></li>
+			<li><a href="${h.url_for('/../your-ideas')}">Your Ideas</a></li>
+		</ul>
+	</div>
+
+	<div class="container">
+		<div class="content">
+			<img src="images/concept-sunday-school-logo.png" alt="Concept Sunday School" width="140" class="fR"/>
+
+			<div class="container-12">
+				<div class="grid-12">
+					<img src="${h.url_for('/../images/preview.png')}" alt="Preview" width="350" />
+				</div>
+
+				<div py:replace="select('*|text()')" />
+			</div>
 		</div>
-
-		<div class="grid-10">&nbsp;</div>
-
-		<div class="grid-2">
-			<img src="${h.url_for('/../images/concept-sunday-school-logo.png')}" alt="Concept Sunday School" width="140" />
-		</div>
-
-		<div class="clear">&nbsp;</div>
-
-		<div class="grid-12">
-			<img src="${h.url_for('/../images/preview.png')}" alt="Preview" width="350" />
-		</div>
-
-		<div class="clear">&nbsp;</div>
-
-		<div py:replace="select('*|text()')" />
 	</div>
 
 	<div id="footer">
