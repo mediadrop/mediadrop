@@ -1,0 +1,18 @@
+<form xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      action="${action}" method="${method}" name="${name}"
+      id="${id}" class="${css_class}" py:attrs="attrs">
+	<div class="box-content">
+		<py:with vars="field = children['file']">
+			<input py:replace="field.display(value_for(field), **args_for(field))" />
+		</py:with>
+		<span class="file-or-url">or</span>
+		<py:with vars="field = children['url']">
+			<input py:replace="field.display(value_for(field), **args_for(field))" />
+		</py:with>
+
+		<py:for each="field in fields" py:with="error = error_for(field)">
+			<div py:if="error and field.show_error" class="field_error" py:content="error" />
+		</py:for>
+	</div>
+</form>

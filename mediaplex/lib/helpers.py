@@ -109,6 +109,7 @@ def redirect(*args, **kwargs):
     found = HTTPFound(location=url_for(*args, **kwargs)).exception
     raise found
 
+
 tag_re = re.compile('<.+>')
 def clean_xhtml(string):
     """Markup cleaner
@@ -137,4 +138,3 @@ def list_acceptable_xhtml():
         attrs = ", ".join(sorted(valid_attrs)),
         map = ", ".join(["%s -> %s" % (t, elem_map[t]) for t in elem_map])
     )
-

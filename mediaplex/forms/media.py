@@ -1,21 +1,47 @@
-from tw.forms import ListFieldSet, TextField, FileField, CalendarDatePicker, SingleSelectField, TextArea, SubmitButton, Button
 from tw.api import WidgetsList, CSSLink
-from tw.forms.validators import Schema, Int, NotEmpty, DateConverter, DateValidator, Email, FieldStorageUploadConverter
+from tw.forms.validators import Schema, Int, StringBool, NotEmpty, DateConverter, DateValidator, Email, FieldStorageUploadConverter
 
-from mediaplex.model import DBSession, Podcast
+from mediaplex.model import DBSession, Podcast, MediaFile
 from mediaplex.lib import helpers
-from mediaplex.forms import ListForm
+from mediaplex.forms import ListForm, ListFieldSet, TextField, FileField, CalendarDatePicker, SingleSelectField, TextArea, SubmitButton, Button, HiddenField
 from mediaplex.model import DBSession, Podcast
 
 
-class MediaFileForm(ListForm):
-    template = 'mediaplex.templates.admin.media.file-form'
+class AddFileForm(ListForm):
+    template = 'mediaplex.templates.admin.media.file-add-form'
     id = 'media-file-form'
     submit_text = None
     fields = [
         FileField('file', suppress_label=True, validator=FieldStorageUploadConverter(not_empty=False, label_text='Upload', show_error=True)),
         TextField('url', label_text='URL', default='URL', suppress_label=True),
     ]
+
+class EditFileForm(ListForm):
+    template = 'mediaplex.templates.admin.media.file-edit-form'
+    submit_text = None
+    _name = 'fileeditform'
+    params = ['file']
+
+    class fields(WidgetsList):
+        file_id = HiddenField(validator=Int)
+        player_enabled = HiddenField(validator=StringBool)
+        feed_enabled = HiddenField(validator=StringBool)
+        toggle_player = SubmitButton(default='Playable on site', named_button=True, css_classes=['file-play'])
+        toggle_feed = SubmitButton(default='Include in feeds', named_button=True, css_classes=['file-feed'])
+        delete = SubmitButton(default='Delete file', named_button=True, css_class='file-delete')
+
+    def display(self, value=None, file=None, **kwargs):
+        """Autopopulate the values when passed a file kwarg.
+        Since 'file' is passed as a kwarg and is a defined param of the form,
+        its accessible in the template.
+        """
+        if value is None and isinstance(file, MediaFile):
+            value = dict(
+                file_id = file.id,
+                player_enabled = int(file.enable_player),
+                feed_enabled = int(file.enable_feed),
+            )
+        return super(EditFileForm, self).display(value, file=file, **kwargs)
 
 
 class MediaForm(ListForm):

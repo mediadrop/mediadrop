@@ -341,3 +341,6 @@ input.submitbutton {
 	font-weight: bold;
 }
 
+.spinner {
+	background: url('../images/icons/spinner.gif') no-repeat;
+}

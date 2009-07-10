@@ -25,6 +25,7 @@ Things to be aware of:
 """
 
 from datetime import datetime
+from urlparse import urlparse
 from sqlalchemy import Table, ForeignKey, Column, sql, and_, or_, func
 from sqlalchemy.types import String, Unicode, UnicodeText, Integer, DateTime, Boolean, Float
 from sqlalchemy.orm import mapper, class_mapper, relation, backref, synonym, composite, column_property, comparable_property, validates, collections
@@ -36,7 +37,7 @@ from mediaplex.model.rating import Rating
 from mediaplex.model.comments import Comment, CommentTypeExtension, comments, PUBLISH as COMMENT_PUBLISH, TRASH as COMMENT_TRASH
 from mediaplex.model.tags import Tag, TagCollection, tags, extract_tags, fetch_and_create_tags
 from mediaplex.model.status import Status, StatusSet, StatusComparator, StatusType, StatusTypeExtension
-from mediaplex.lib.helpers import slugify
+from mediaplex.lib import helpers
 
 
 TRASH = Status('trash', 1)
@@ -87,7 +88,9 @@ media_files = Table('media_files', metadata,
     Column('width', Integer),
     Column('height', Integer),
     Column('bitrate', Integer),
-    Column('is_original', Boolean, default=False, nullable=False),
+    Column('order', Integer, default=0, nullable=False),
+    Column('enable_player', Boolean, default=True, nullable=False),
+    Column('enable_feed', Boolean, default=True, nullable=False),
     Column('created_on', DateTime, default=datetime.now, nullable=False),
     Column('modified_on', DateTime, default=datetime.now, onupdate=datetime.now, nullable=False),
 )
@@ -121,7 +124,6 @@ class Media(object):
     def __init__(self):
         if self.author is None:
             self.author = Author()
-
         if self.status is None:
             self.status = MediaStatusSet()
 
@@ -136,7 +138,7 @@ class Media(object):
 
     @validates('slug')
     def validate_slug(self, key, slug):
-        return slugify(slug)
+        return helpers.slugify(slug)
 
     @property
     def is_published(self):
@@ -230,7 +232,7 @@ media_mapper = mapper(Media, media, polymorphic_on=media.c.type, properties={
     'status': column_property(media.c.status, extension=StatusTypeExtension(), comparator_factory=StatusComparator),
     'author': composite(Author, media.c.author_name, media.c.author_email),
     'rating': composite(Rating, media.c.rating_sum, media.c.rating_votes),
-    'files': relation(MediaFile, backref='media', passive_deletes=True),
+    'files': relation(MediaFile, backref='media', order_by=media_files.c.order.desc(), passive_deletes=True, collection_class=MediaFileList),
     'tags': relation(Tag, secondary=media_tags, backref='media', collection_class=TagCollection),
     'comments': relation(Comment, secondary=media_comments, backref=backref('media', uselist=False),
         extension=CommentTypeExtension('media'), single_parent=True, passive_deletes=True),

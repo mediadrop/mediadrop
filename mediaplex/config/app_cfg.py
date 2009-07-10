@@ -90,3 +90,21 @@ base_config.mimetype_lookup = {
     '.flv': 'video/x-flv',
     '.mp3': 'audio/mpeg',
 }
+
+base_config.embeddable_filetypes = {
+    'youtube': {
+        'play': 'http://youtube.com/v/%s',
+        'link': 'http://youtube.com/watch?v=%s',
+        'pattern': '^(http(s?)://)?(www.)?youtube.com/watch\?(.*&)?v=(?P<id>[^&#]+)'
+    },
+    'google': {
+        'play': 'http://video.google.com/googleplayer.swf?docid=%s&hl=en&fs=true',
+        'link': 'http://video.google.com/videoplay?docid=%s',
+        'pattern': '^(http(s?)://)?video.google.com/videoplay\?(.*&)?docid=(?P<id>-\d+)'
+    },
+    'vimeo': {
+        'play': 'http://vimeo.com/moogaloop.swf?clip_id=%d&server=vimeo.com&show_title=1&show_byline=1&show_portrait=0&color=&fullscreen=1',
+        'link': 'http://vimeo.com/%s',
+        'pattern': '^(http(s?)://)?(www.)?vimeo.com/(?P<id>\d+)'
+    },
+}
