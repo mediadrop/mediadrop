@@ -4,12 +4,12 @@ var SlugManager = new Class({
 
 	options: {
 		slugField: 'slug',
-		slugWrapper: 'slug-container',
+		slugWrapper: 'slug_container',
 		masterField: 'title',
-		stub: 'slug-stub',
-		stubWrapper: 'slug-stub-wrapper',
-		stubParent: 'title-label',
-		editSlugBtn: 'slug-edit'
+		stub: 'slug_stub',
+		stubWrapper: 'slug_stub_wrapper',
+		stubParent: 'title_label',
+		editSlugBtn: 'slug_edit'
 	},
 
 	slugField: null,
