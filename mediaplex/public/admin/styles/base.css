@@ -235,7 +235,7 @@ tr.thead-row td h3 {
 
 
 /* Forms */
-.btn-save, .btn-delete, .btn-yes, .btn-no, .btn-cancel {
+.btn-save, .btn-delete, .btn-yes, .btn-no, .btn-cancel, .btn-upload {
 	text-indent: -1000px;
 	cursor: pointer;
 	border: 0;
@@ -248,6 +248,8 @@ tr.thead-row td h3 {
 .btn-yes { background-image: url('../images/buttons/yes.png'); width: 64px;}
 .btn-no { background-image: url('../images/buttons/no.png'); width: 64px;}
 .btn-cancel { background-image: url('../images/buttons/cancel.png'); width: 87px; }
+.btn-uploadfile { background-image: url('../images/buttons/upload-file.png'); width: 129px; }
+.btn-upload { background-image: url('../images/buttons/upload.png'); width: 83px; }
 
 
 span.show-more {
@@ -257,15 +259,15 @@ span.show-more {
 	padding-right: 16px;
 }
 
-#slug-stub {
+#slug_stub {
 	font-weight: normal;
 	background: #ffffdd;
 }
-#slug-stub-wrapper {
+#slug_stub_wrapper {
 	float: right;
 	font-size: 93%;
 }
-#slug-edit {
+#slug_edit {
 	font-weight: normal;
 }
 
@@ -328,7 +330,7 @@ input.submitbutton {
 	background-position: top;
 }
 
-.mo:hover {
+.mo:hover, .mo-hover {
 	background-position: bottom;
 }
 

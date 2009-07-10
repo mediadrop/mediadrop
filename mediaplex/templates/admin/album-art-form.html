@@ -6,10 +6,8 @@
 	<form id="${id}" name="${name}" action="${action}" method="${method}" class="${css_class}" py:attrs="attrs">
 		<div class="box-content right">
 			<span class="f-lft">Please select another image for upload:</span>
-			${XML(children['album_art'])}
+			<input py:replace="XML(children['album_art'])" />
 		</div>
-		<div class="box-foot">
-			${XML(children['save'])}
-		</div>
+		<div class="box-foot" py:content="XML(children['save'])" />
 	</form>
 </div>

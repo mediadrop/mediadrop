@@ -65,22 +65,12 @@ a.total {
 
 
 
-#media-form #details_duration_label,
-#media-form #details_url_label {
-	margin-right: 10px;
-	padding: 5px 0;
-	float: left;
-	font-weight: normal;
-}
-.form #details input#details_duration { width: 60px; }
-.form #details input#details_url { width: 390px; }
-
-a.add-video, a.add-video:hover {
+a.add-media, a.add-media:hover {
 	width: 120px;
 	height: 28px;
 	margin: -3px 0 0 10px;
 }
-a.add-video { background-image: url('../images/buttons/add-video.png'); }
+a.add-media { background-image: url('../images/buttons/add-media.png'); }
 
 .btn-review-complete, .btn-encoding-complete, .btn-publish-now {
 	text-indent: -1000px;
@@ -94,3 +84,51 @@ a.add-video { background-image: url('../images/buttons/add-video.png'); }
 .btn-review-complete { background-image: url('../images/buttons/video-review-complete.png'); }
 .btn-encoding-complete { background-image: url('../images/buttons/video-encoding-complete.png'); }
 .btn-publish-now { background-image: url('../images/buttons/video-publish-now.png'); }
+
+#add-media-file {
+	background: url('../images/icons/add.png') no-repeat 100% 75%;
+	padding-right: 18px;
+	color: #196d29;
+}
+
+.file-delete, .file-play, .file-feed {
+	width: 16px;
+	height: 16px;
+	display: block;
+	text-indent: -5000px;
+	border: 0;
+}
+.file-delete { background: url('../images/icons/delete.png'); }
+.file-play { background: url('../images/icons/star.png'); }
+.file-feed { background: url('../images/icons/feed.png'); }
+.file-list li button {
+	opacity: 0;
+}
+.file-list li.file-drag button,
+.file-list li:hover button {
+	opacity: .5;
+}
+.file-list li:hover button:hover {
+	opacity: 1;
+	cursor: pointer;
+}
+
+.file-list li {
+	width: 238px;
+	overflow: hidden;
+	padding: 10px;
+	border-top: 1px solid #CFCCC2;
+}
+.file-list li:hover {
+	cursor: move;
+}
+.file-list li.file-drag-clone {
+	border-top: 0;
+}
+.file-list .file-play { float: left; }
+.file-list .file-feed { float: left; }
+.file-list .file-delete { float: right; }
+.file-list .file-link {
+	float: left;
+	margin-left: 6px;
+}
