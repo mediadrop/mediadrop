@@ -11,7 +11,7 @@ from routes.util import url_for
 from tg import expose, request
 from tg.exceptions import HTTPFound
 
-from htmlsanitizer import Cleaner, Htmlator, valid_tags, valid_attrs, elem_map
+from htmlsanitizer import Cleaner, Htmlator, elem_map
 
 
 class expose_xhr(object):
@@ -109,8 +109,27 @@ def redirect(*args, **kwargs):
     found = HTTPFound(location=url_for(*args, **kwargs)).exception
     raise found
 
-tag_re = re.compile('<\s+>')
+tag_re = re.compile('<.+>')
+
 def clean_xhtml(string):
+    valid_tags = dict.fromkeys('p i em strong b u a br pre abbr ol ul li sub sup ins del blockquote cite'.split())
+    valid_attrs = dict.fromkeys('href title'.split())
+    filters = [
+        "strip_comments", "strip_tags", "strip_attrs",
+        "strip_schemes", "rename_tags", "wrap_string",
+        "strip_cdata", "br_to_p",
+        "add_nofollow", "encode_xml_specials",
+    ]
+    cleaner_settings = dict(
+        convert_entities = BeautifulSoup.ALL_ENTITIES,
+        valid_tags = valid_tags,
+        valid_attrs = valid_attrs,
+    )
+    htmlator_settings = dict(
+         encode_xml_specials = False,
+         convert_newlines = True,
+         make_links = True,
+    )
     """Markup cleaner
 
     Takes a string. If there is no markup in the string, applies
@@ -118,17 +137,21 @@ def clean_xhtml(string):
 
     Finally, runs the string through our XHTML cleaner.
     """
+    if string == u"":
+        return string
+
+    # remove carriage return chars; FIXME: is this necessary?
+    string = string.replace("\r", "")
+
     if not tag_re.search(string):
         # there is no tag in the text, treat this post as plain text
         # and convert it to XHTML
-        htmlator = Htmlator(encode_xml_specials=False, convert_newlines=True, make_links=True)
-        string = htmlator(string)
-    cleaner = Cleaner("strip_cdata", "encode_xml_specials")
-    return cleaner(string)
+        string = Htmlator(**htmlator_settings)(string)
+
+    string = Cleaner(*filters, **cleaner_settings)(string)
+    return string
 
 def strip_xhtml(string):
-    # remove carriage return chars; FIXME: is this necessary?
-    string = string.replace("\r", "")
     return ''.join(BeautifulSoup(string).findAll(text=True))
 
 def list_acceptable_xhtml():

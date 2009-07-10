@@ -56,7 +56,7 @@ ANTI_JS_RE=re.compile('j\s*a\s*v\s*a\s*s\s*c\s*r\s*i\s*p\s*t\s*:', re.IGNORECASE
 #it ruthlessly culls all the rdf, dublin core metadata and so on.
 valid_tags = dict.fromkeys('p i em strong b u a h1 h2 h3 pre abbr br img dd dt ol ul li span sub sup ins del blockquote table tr td th address cite'.split()) #div?
 valid_attrs = dict.fromkeys('href src rel title'.split())
-valid_schemes = dict.fromkeys('http https'.split())
+valid_schemes = dict.fromkeys('http https ssh sftp ftp'.split())
 elem_map = {'b' : 'strong', 'i': 'em'}
 attrs_considered_links = dict.fromkeys("src href".split()) #should include
 #courtesy http://developer.mozilla.org/en/docs/HTML:Block-level_elements
@@ -64,7 +64,7 @@ block_elements = dict.fromkeys(["p", "h1","h2", "h3", "h4", "h5", "h6", "ol", "u
 
 #convenient default filter lists.
 paranoid_filters = ["strip_comments", "strip_tags", "strip_attrs", "encode_xml_specials",
-  "strip_schemes", "rename_tags", "wrap_string", "strip_empty_tags", "strip_empty_tags", ]
+  "strip_schemes", "rename_tags", "wrap_string", "strip_empty_tags", ]
 complete_filters = ["strip_comments", "rename_tags", "strip_tags", "strip_attrs", "encode_xml_specials",
     "strip_cdata", "strip_schemes",  "wrap_string", "strip_empty_tags", "rebase_links", "reparse"]
 
@@ -341,6 +341,21 @@ class Cleaner(object):
             else :
                 break
 
+    def _all_elems(self, **kwargs):
+        """
+        replacement for self.root.findAll(**kwargs)
+        finds all elements with the specified strainer properties
+        safe against modification of said attributes in-place.
+        """
+        start = self.root
+        while True:
+            tag = start.findNext(**kwargs)
+            if tag:
+                start = tag
+                yield tag
+            else :
+                break
+
     def strip_schemes(self):
         """
         >>> c = Cleaner("", "strip_schemes")
@@ -366,7 +381,7 @@ class Cleaner(object):
         >>> c('A<br />B')
         u'<p>A</p><p>B</p>'
         """
-        block_elems = self.settings['block_elements']
+        block_elems = self.settings['block_elements'].copy()
         block_elems['br'] = None
         block_elems['p'] = None
 
@@ -381,6 +396,18 @@ class Cleaner(object):
                 useless_br.extract()
             if parent.name == 'p':
                 self.disgorge_elem(parent)
+
+    def add_nofollow(self):
+        for a in self.root.findAll(name='a'):
+            rel = a.get('rel', u"")
+            sep = u" "
+            nofollow = u"nofollow"
+
+            r = rel.split(sep)
+            if not nofollow in r:
+                r.append(nofollow)
+            rel = sep.join(r).strip()
+            a['rel'] = rel
 
     def rename_tags(self):
         """
@@ -453,11 +480,17 @@ class Cleaner(object):
         tag = self.root
         while True:
             next_tag = tag.findNext(True)
-            if not next_tag: break
-            if next_tag.contents or next_tag.attrs:
+
+            if not next_tag or next_tag is tag:
+                # it seems like next_tag should never == tag.
+                # not sure what's causing this.
+                break
+
+            elif next_tag.contents or next_tag.attrs:
                 tag = next_tag
                 continue
-            next_tag.extract()
+            else:
+                next_tag.extract()
 
     def rebase_links(self, original_url="", new_url ="") :
         if not original_url : original_url = self.settings.get('original_url', '')
@@ -472,9 +505,8 @@ class Cleaner(object):
         >>> c('<<<<<')
         u'&lt;&lt;&lt;&lt;'
         """
-        for string in self.root.findAll(text=True) :
+        for string in self.root.findAll(text=True):
             s = unicode(string)
-            s = entities_to_unicode(s)
             s = encode_xhtml_entities(s)
             string.replaceWith(s)
 
