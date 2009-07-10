@@ -20,6 +20,7 @@ Håkan W - https://launchpad.net/~hwaara-gmail
 import BeautifulSoup
 import re
 import sys
+import copy
 
 # Python 2.4 compatibility
 try: any
@@ -162,7 +163,7 @@ class Cleaner(object):
     """
 
     def __init__(self, string_or_soup="", *args,  **kwargs):
-        self.settings=default_settings.copy()
+        self.settings = copy.deepcopy(default_settings)
         self.settings.update(kwargs)
         if args :
             self.settings['filters'] = args
