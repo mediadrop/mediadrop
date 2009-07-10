@@ -24,19 +24,19 @@
 <body class="menu-media-on">
 	<div class="box">
 		<div class="box-head">
-<!--!			<a class="mo add-media f-rgt" href="${h.url_for(action='new')}"><span>Add New Media</span></a>-->
 			<div id="quicksearch" class="f-rgt">
 				${XML(search_form(dict(search=search)))}
 			</div>
 			<div id="podcast-filter" class="f-rgt">
 				${XML(podcast_filter_form(dict(podcast_filter=podcast_filter)))}
 			</div>
-			<div py:choose="" py:strip="True">
+			<div py:choose="" class="f-lft">
 				<h1 py:when="search">Media that matches '${search}'</h1>
 				<h1 py:when="podcast_filter == 'Unfiled'">Unfiled Media</h1>
 				<h1 py:when="podcast_filter is None">All Media</h1>
 				<h1 py:otherwise="">Media for ${podcast_filter_title}</h1>
 			</div>
+			<a class="mo add-media f-lft" href="${h.url_for(action='edit', id='new')}"><span>Add New Media</span></a>
 		</div>
 		<xi:include href="admin/media/index-table.html" py:with="media=media" />
 	</div>
