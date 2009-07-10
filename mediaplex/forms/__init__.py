@@ -20,7 +20,10 @@ class GlobalMixin(object):
         kw.update(pylons_globals())
         return forms.Widget.__call__(self, *args, **kw)
 
-class ListForm(LeniantValidationMixin, GlobalMixin, forms.ListForm):
+class Form(LeniantValidationMixin, forms.Form):
+    pass
+
+class ListForm(LeniantValidationMixin, forms.ListForm):
     pass
 
 class TableForm(LeniantValidationMixin, GlobalMixin, forms.TableForm):

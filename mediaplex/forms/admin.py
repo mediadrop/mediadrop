@@ -1,12 +1,14 @@
 from tw.forms import TextField, FileField, SubmitButton
 from tw.forms.validators import FieldStorageUploadConverter
 
-from mediaplex.forms import ListForm
+from mediaplex.forms import Form, ListForm
+
 
 class SearchForm(ListForm):
     method = 'get'
     fields = [TextField('search', label_text='SEARCH...')]
     submit_text = None
+
 
 class AlbumArtForm(ListForm):
     template = 'mediaplex.templates.admin.album-art-form'
@@ -25,6 +27,4 @@ class AlbumArtForm(ListForm):
             )
         ),
         SubmitButton('save', default='Save', css_classes=['mo', 'btn-save', 'f-rgt']),
-#        ResetButton('cancel', default='Cancel', css_classes=['btn-save', 'f-rgt']),
-#        SubmitButton('delete', default='Delete', css_classes=['btn-delete']),
     ]
