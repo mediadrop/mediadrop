@@ -185,6 +185,44 @@ class MediaFile(object):
     def mimetype(self):
         return config.mimetype_lookup.get('.' + self.type, 'application/octet-stream')
 
+    @property
+    def is_embeddable(self):
+        return self.type in config.embeddable_filetypes
+
+    @property
+    def play_url(self):
+        if self.is_embeddable:
+            return config.embeddable_filetypes[self.type]['play'] % self.url
+        elif urlparse(self.url)[1]:
+            return self.url.encode('utf-8') # full URL specified
+        else:
+            return helpers.url_for(controller='/media', action='serve', slug=self.media.slug, type=self.type) # local file
+
+    @property
+    def link_url(self):
+        if self.is_embeddable:
+            return config.embeddable_filetypes[self.type]['link'] % self.url
+        elif urlparse(self.url)[1]:
+            return self.url.encode('utf-8') # full URL specified
+        else:
+            return helpers.url_for(controller='/media', action='serve', slug=self.media.slug, type=self.type) # local file
+
+
+class MediaFileList(list):
+    def for_player(self):
+        picks = self.pick_types(['flv', 'mp3', 'mp4'])
+        if picks:
+            return picks[0]
+        for file in self:
+            if file.is_embeddable:
+                return file
+        return None
+
+    def pick_types(self, types):
+        """Return a list of files that match the given types in the order they are given"""
+        picks = (file for file in self if file.type in types)
+        return sorted(picks, key=lambda file: types.index(file.type))
+
 
 mapper(MediaFile, media_files)
 
