@@ -375,6 +375,95 @@ class Cleaner(object):
                     if not scheme_bits[0] in self.settings['valid_schemes']:
                         del(tag[key])
 
+    def strip_whitespace(self):
+        """
+        >>> c = Cleaner("", "strip_whitespace")
+        >>> c('<p>\n\t\tfoo</p>"
+        u'<p> foo</p>'
+        >>> c('<p>\t  <span> bar</span></p>')
+        u'<p> <span>bar</span></p>')
+        """
+        def is_text(node):
+            return isinstance(node, BeautifulSoup.NavigableString)
+
+        def is_tag(node):
+            return isinstance(node, BeautifulSoup.Tag)
+
+        def dfs(node, func):
+            if isinstance(node, BeautifulSoup.Tag):
+                for x in node.contents:
+                    dfs(x, func)
+            func(node)
+
+        any_space = re.compile("\s+", re.M)
+        start_space = re.compile("^\s+")
+
+        def condense_whitespace():
+            # Go over every string, replacing all whitespace with a single space
+            for string in self.root.findAll(text=True):
+                s = unicode(string)
+                s = any_space.sub(" ", s)
+                string.replaceWith(s)
+
+        def separate_strings(current, next):
+            if is_text(current):
+                if is_text(next):
+                    # Two strings are beside eachother, merge them!
+                    next.extract()
+                    s = unicode(current) + unicode(next)
+                    s = BeautifulSoup.NavigableString(s)
+                    current.replaceWith(s)
+                    return s
+                else:
+                    # The current string is as big as its going to get.
+                    # Check if you can split off some whitespace from
+                    # the beginning.
+                    p = unicode(current)
+                    split = start_space.split(p)
+
+                    if len(split) > 1:
+                        w = " "
+                        s = split[1]
+                        par = current.parent
+
+                        par.insert(par.contents.index(current), w)
+                        current.replaceWith(s)
+                        return s
+            return next
+
+        def separate_all_strings(node):
+            if is_tag(node):
+                current = None
+                for x in node.contents:
+                    current = separate_strings(current, x)
+                separate_strings(current, None)
+
+        def reassign_whitespace():
+            strings = self.root.findAll(text=True)
+            i = len(strings) - 1
+
+            after = None
+            while i >= 0:
+                current = strings[i]
+                if is_text(after) and not after.strip():
+                    # if 'after' holds only whitespace,
+                    # remove it, and append it to 'current'
+                    s = unicode(current) + unicode(after)
+                    s = BeautifulSoup.NavigableString(s)
+                    current.replaceWith(s)
+                    after.extract()
+
+                    current = s
+
+                after = current
+                i -= 1
+
+        condense_whitespace()
+        dfs(self.root, separate_all_strings)
+        reassign_whitespace()
+        condense_whitespace()
+
+
     def br_to_p(self):
         """
         >>> c = Cleaner("", "br_to_p")
