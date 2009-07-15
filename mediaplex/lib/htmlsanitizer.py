@@ -269,12 +269,14 @@ class Cleaner(object):
         u'<p>text More text</p>'
         """
         for comment in self.root.findAll(
-            text = lambda text: isinstance(text, BeautifulSoup.Comment)):
+            text = lambda text: isinstance(text, BeautifulSoup.Comment)
+        ):
             comment.extract()
 
     def strip_cdata(self):
         for cdata in self.root.findAll(
-          text = lambda text: isinstance(text, BeautifulSoup.CData)):
+            text = lambda text: isinstance(text, BeautifulSoup.CData)
+        ):
             cdata.extract()
 
     def strip_tags(self):
