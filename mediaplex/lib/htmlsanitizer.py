@@ -561,27 +561,41 @@ class Cleaner(object):
     def strip_empty_tags(self):
         """
         strip out all empty tags
-        TODO: depth-first search
         >>> c = Cleaner("", "strip_empty_tags")
         >>> c('<p>A</p><p></p><p>B</p><p></p>')
         u'<p>A</p><p>B</p>'
         >>> c('<p><a></a></p>')
         u'<p></p>'
         """
-        tag = self.root
-        while True:
-            next_tag = tag.findNext(True)
+        def is_text(node):
+            return isinstance(node, BeautifulSoup.NavigableString)
 
-            if not next_tag or next_tag is tag:
-                # it seems like next_tag should never == tag.
-                # not sure what's causing this.
-                break
+        def is_tag(node):
+            return isinstance(node, BeautifulSoup.Tag)
 
-            elif next_tag.contents or next_tag.attrs:
-                tag = next_tag
-                continue
-            else:
-                next_tag.extract()
+        def is_empty(node):
+            if is_text(node):
+                a = not unicode(node)
+
+            if is_tag(node):
+                a = not node.contents
+
+            return bool(a)
+
+        def dfs(node, func, i=1):
+            if is_tag(node):
+                contents = [x for x in node.contents]
+                for x in contents:
+                    dfs(x, func, i+1)
+            func(node, i)
+            if is_tag(node):
+                pass
+
+        def strip_empty(node, i):
+            if is_empty(node):
+                node.extract()
+
+        dfs(self.root, strip_empty)
 
     def rebase_links(self, original_url="", new_url ="") :
         if not original_url : original_url = self.settings.get('original_url', '')
