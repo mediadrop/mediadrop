@@ -343,7 +343,7 @@ class Cleaner(object):
             else :
                 break
 
-    def _all_elems(self, **kwargs):
+    def _all_elems(self, *args, **kwargs):
         """
         replacement for self.root.findAll(**kwargs)
         finds all elements with the specified strainer properties
@@ -351,7 +351,7 @@ class Cleaner(object):
         """
         start = self.root
         while True:
-            tag = start.findNext(**kwargs)
+            tag = start.findNext(*args, **kwargs)
             if tag:
                 start = tag
                 yield tag
