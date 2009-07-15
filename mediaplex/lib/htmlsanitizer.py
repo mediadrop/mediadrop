@@ -375,7 +375,7 @@ class Cleaner(object):
                     if not scheme_bits[0] in self.settings['valid_schemes']:
                         del(tag[key])
 
-    def strip_whitespace(self):
+    def clean_whitespace(self):
         """
         >>> c = Cleaner("", "strip_whitespace")
         >>> c('<p>\n\t\tfoo</p>"

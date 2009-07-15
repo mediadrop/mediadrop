@@ -11,7 +11,7 @@ from routes.util import url_for
 from tg import expose, request
 from tg.exceptions import HTTPFound
 
-from htmlsanitizer import Cleaner, Htmlator, elem_map
+from htmlsanitizer import Cleaner, elem_map
 
 
 class expose_xhr(object):
@@ -109,27 +109,24 @@ def redirect(*args, **kwargs):
     found = HTTPFound(location=url_for(*args, **kwargs)).exception
     raise found
 
-tag_re = re.compile('<.+>')
+blank_line = re.compile("\n[\s]*\n", re.M)
+block_tags = 'p br pre blockquote div h1 h2 h3 h4 h5 h6 hr ul ol li form table tr td tbody thead'.split()
+block_spaces = re.compile("\s*(</{0,1}(" + "|".join(block_tags) + ")>)\s*", re.M)
+valid_tags = dict.fromkeys('p i em strong b u a br pre abbr ol ul li sub sup ins del blockquote cite'.split())
+valid_attrs = dict.fromkeys('href title'.split())
+filters = [
+    "strip_comments", "strip_tags", "strip_attrs",
+    "strip_schemes", "strip_cdata", "rename_tags",
+    "br_to_p", "add_nofollow", "encode_xml_specials",
+    "clean_whitespace", "strip_empty_tags",
+]
+cleaner_settings = dict(
+    convert_entities = BeautifulSoup.ALL_ENTITIES,
+    valid_tags = valid_tags,
+    valid_attrs = valid_attrs,
+)
 
 def clean_xhtml(string):
-    valid_tags = dict.fromkeys('p i em strong b u a br pre abbr ol ul li sub sup ins del blockquote cite'.split())
-    valid_attrs = dict.fromkeys('href title'.split())
-    filters = [
-        "strip_comments", "strip_tags", "strip_attrs",
-        "strip_schemes", "rename_tags", "wrap_string",
-        "strip_cdata", "br_to_p",
-        "add_nofollow", "encode_xml_specials",
-    ]
-    cleaner_settings = dict(
-        convert_entities = BeautifulSoup.ALL_ENTITIES,
-        valid_tags = valid_tags,
-        valid_attrs = valid_attrs,
-    )
-    htmlator_settings = dict(
-         encode_xml_specials = False,
-         convert_newlines = True,
-         make_links = True,
-    )
     """Markup cleaner
 
     Takes a string. If there is no markup in the string, applies
@@ -142,13 +139,13 @@ def clean_xhtml(string):
 
     # remove carriage return chars; FIXME: is this necessary?
     string = string.replace("\r", "")
+    # replace all blank lines with <br> tags
+    string = blank_line.sub("<br/>", string)
+    # initialize and run the cleaner
+    string = Cleaner(string, *filters, **cleaner_settings)()
+    # strip all whitespace from immediately before/after block-level elements
+    string = block_spaces.sub("\\1", string)
 
-    if not tag_re.search(string):
-        # there is no tag in the text, treat this post as plain text
-        # and convert it to XHTML
-        string = Htmlator(**htmlator_settings)(string)
-
-    string = Cleaner(*filters, **cleaner_settings)(string)
     return string
 
 def strip_xhtml(string):
