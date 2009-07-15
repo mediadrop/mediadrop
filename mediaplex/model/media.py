@@ -164,6 +164,13 @@ class Media(object):
         return TRASH in self.status
 
 
+class PlaceholderMedia(Media):
+    ENCODED_TYPE = None
+
+    def __repr__(self):
+        return '<PlaceholderMedia: %s>' % self.slug
+
+
 class Video(Media):
     ENCODED_TYPE = 'flv'
 
@@ -250,6 +257,7 @@ media_mapper = mapper(Media, media, polymorphic_on=media.c.type, properties={
             deferred=True
         )
 })
+mapper(PlaceholderMedia, inherits=media_mapper, polymorphic_identity='placeholder')
 mapper(Audio, inherits=media_mapper, polymorphic_identity='audio')
 mapper(Video, inherits=media_mapper, polymorphic_identity='video')
 
