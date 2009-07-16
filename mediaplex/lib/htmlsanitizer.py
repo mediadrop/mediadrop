@@ -604,11 +604,16 @@ class Cleaner(object):
         e = (wrapping_element or self.settings['wrapping_element'])
         paragraph_list = []
         children = [elem for elem in start_at.contents]
+
+        # Remove all the children
+        for elem in children:
+            elem.extract()
         children.append(Stop())
 
         last_state = 'block'
         paragraph = BeautifulSoup.Tag(self._soup, e)
 
+        # Wrap each inline element a tag specified by 'e'
         for node in children :
             if isinstance(node, Stop) :
                 state = 'end'
@@ -632,7 +637,7 @@ class Cleaner(object):
 
             last_state = state
 
-        #can't use append since it doesn't work on empty elements...
+        # Add all of the newly wrapped children back
         paragraph_list.reverse()
         for paragraph in paragraph_list:
             start_at.insert(0, paragraph)
