@@ -22,7 +22,7 @@
 		});
 	</script>
 </head>
-<body class="preview" py:with="comments = [c for c in media.comments if 'publish' in c.status]">
+<body id="preview" py:with="comments = [c for c in media.comments if 'publish' in c.status]">
 	<box id="media-box">
 		<nav />
 		<div class="media-body">
