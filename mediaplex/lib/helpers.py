@@ -117,7 +117,7 @@ valid_attrs = dict.fromkeys('href title'.split())
 filters = [
     "strip_comments", "strip_tags", "strip_attrs",
     "strip_schemes", "strip_cdata", "rename_tags",
-    "br_to_p", "add_nofollow", "encode_xml_specials",
+    "br_to_p", "make_links", "add_nofollow", "encode_xml_specials",
     "clean_whitespace", "strip_empty_tags",
 ]
 cleaner_settings = dict(

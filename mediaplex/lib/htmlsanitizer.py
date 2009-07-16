@@ -505,6 +505,57 @@ class Cleaner(object):
             rel = sep.join(r).strip()
             a['rel'] = rel
 
+    def make_links(self):
+        """
+        Search through all text nodes, creating <a>
+        tags for text that looks like a URL.
+        >>> c = Cleaner("", "make_links")
+        >>> c('check out my website at mysite.com')
+        u'check out my website at <a href="mysite.com">mysite.com</a>'
+        """
+        def linkify_text_node(node):
+            index = node.parent.contents.index(node)
+            parent = node.parent
+            string = unicode(node)
+
+            matches = URL_RE.finditer(string)
+            end_re = re.compile('\W')
+            new_content = []
+            o = 0
+            print "len(string):", len(string)
+            for m in matches:
+                s, e = m.span()
+
+                # if there are no more characters after the link
+                # or if the character after the link is not a 'word character'
+                print "e:", e
+                if e >= len(string) or end_re.match(string[e]):
+                    tag = BeautifulSoup.Tag(self._soup, 'a', attrs=[('href',m.group())])
+                    tag.insert(0, m.group())
+
+                    new_content.append(string[o:s])
+                    new_content.append(tag)
+                    o = e
+
+            # Only do actual replacement if necessary
+            if o > 0:
+                if o < len(string):
+                    new_content.append(string[o:])
+
+                # replace the text node with the new text
+                node.extract()
+                for x in new_content:
+                    parent.insert(index, x)
+                    index += 1
+
+        # run the algorithm
+        for node in self.root.findAll(text=True):
+            # Only linkify if this node is not a decendant of a link already
+            if not node.findParents(name='a'):
+                linkify_text_node(node)
+
+
+
     def rename_tags(self):
         """
         >>> c = Cleaner("", "rename_tags", elem_map={'i': 'em'})
