@@ -109,7 +109,7 @@ def redirect(*args, **kwargs):
     found = HTTPFound(location=url_for(*args, **kwargs)).exception
     raise found
 
-blank_line = re.compile("\n[\s]*\n", re.M)
+blank_line = re.compile("\s*\n\s*\n\s*", re.M)
 block_tags = 'p br pre blockquote div h1 h2 h3 h4 h5 h6 hr ul ol li form table tr td tbody thead'.split()
 block_spaces = re.compile("\s*(</{0,1}(" + "|".join(block_tags) + ")>)\s*", re.M)
 valid_tags = dict.fromkeys('p i em strong b u a br pre abbr ol ul li sub sup ins del blockquote cite'.split())
@@ -137,14 +137,23 @@ def clean_xhtml(string):
     if string == u"":
         return string
 
+    # wrap string in paragraph tag, just in case
+    string = u"<p>%s</p>" % string
+
     # remove carriage return chars; FIXME: is this necessary?
-    string = string.replace("\r", "")
+    string = string.replace(u"\r", u"")
+
+    # remove non-breaking-space characters. FIXME: is this necessary?
+    string = string.replace(u"\xa0", u" ")
+
     # replace all blank lines with <br> tags
-    string = blank_line.sub("<br/>", string)
+    string = blank_line.sub(u"<br/>", string)
+
     # initialize and run the cleaner
     string = Cleaner(string, *filters, **cleaner_settings)()
+
     # strip all whitespace from immediately before/after block-level elements
-    string = block_spaces.sub("\\1", string)
+    string = block_spaces.sub(u"\\1", string)
 
     return string
 
