@@ -120,7 +120,7 @@
 		</div>
 	</py:def>
 
-	<py:def function="media_player(media)" py:with="files = [f for f in media.files if f.type in ('flv', 'youtube', 'mp3')]">
+<!--!	<py:def function="media_player(media)" py:with="files = [f for f in media.files if f.type in ('flv', 'youtube', 'mp3')]">
 		<py:choose
 		py:if="len(files) > 0"
 		py:with="file = files[0];
@@ -156,6 +156,27 @@
 		<div py:if="len(files) == 0">
 			<p>The selected media object has no associated files, or the associated files are not supported by this media player.</p>
 		</div>
+	</py:def>-->
+
+	<py:def function="media_player(media)" py:with="file = media.files.for_player()" py:choose="">
+		<py:when test="file is None" />
+		<py:when test="file.is_embeddable">
+			<object type="application/x-shockwave-flash"
+			        data="${file.play_url}"
+			        width="479" height="383">
+				<param name="allowfullscreen" value="true" />
+				<param name="allowscriptaccess" value="always" />
+				<param name="movie" value="${file.play_url}" />
+			</object>
+		</py:when>
+		<py:otherwise>
+			<script src="${h.url_for('/scripts/third-party/flowplayer-3.1.0.min.js')}" type="text/javascript" />
+			<a href="${file.play_url}"
+			   id="flowplayer" style="display:block;width:479px;height:383px" />
+			<script type="text/javascript">
+				flowplayer('flowplayer', "${h.url_for('/scripts/third-party/flowplayer-3.1.0.swf')}");
+			</script>
+		</py:otherwise>
 	</py:def>
 
 	<py:def function="xhtml_description(fieldName)">

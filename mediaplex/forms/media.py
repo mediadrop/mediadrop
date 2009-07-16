@@ -1,13 +1,51 @@
-from tw.forms import ListFieldSet, TextField, FileField, CalendarDatePicker, SingleSelectField, TextArea, SubmitButton
 from tw.api import WidgetsList, CSSLink
-from tw.forms.validators import Schema, Int, NotEmpty, DateConverter, DateValidator, Email, FieldStorageUploadConverter
+from tw.forms.validators import Schema, Int, StringBool, NotEmpty, DateConverter, DateValidator, Email, FieldStorageUploadConverter
 
+from mediaplex.model import DBSession, Podcast, MediaFile
 from mediaplex.lib import helpers
-from mediaplex.forms import ListForm
+from mediaplex.forms import ListForm, ListFieldSet, TextField, FileField, CalendarDatePicker, SingleSelectField, TextArea, SubmitButton, Button, HiddenField
 from mediaplex.model import DBSession, Podcast
 
+
+class AddFileForm(ListForm):
+    template = 'mediaplex.templates.admin.media.file-add-form'
+    id = 'media-file-form'
+    submit_text = None
+    fields = [
+        FileField('file', suppress_label=True, validator=FieldStorageUploadConverter(not_empty=False, label_text='Upload', show_error=True)),
+        TextField('url', label_text='URL', default='URL', suppress_label=True),
+    ]
+
+class EditFileForm(ListForm):
+    template = 'mediaplex.templates.admin.media.file-edit-form'
+    submit_text = None
+    _name = 'fileeditform'
+    params = ['file']
+
+    class fields(WidgetsList):
+        file_id = HiddenField(validator=Int)
+        player_enabled = HiddenField(validator=StringBool)
+        feed_enabled = HiddenField(validator=StringBool)
+        toggle_player = SubmitButton(default='Playable on site', named_button=True, css_classes=['file-play'])
+        toggle_feed = SubmitButton(default='Include in feeds', named_button=True, css_classes=['file-feed'])
+        delete = SubmitButton(default='Delete file', named_button=True, css_class='file-delete')
+
+    def display(self, value=None, file=None, **kwargs):
+        """Autopopulate the values when passed a file kwarg.
+        Since 'file' is passed as a kwarg and is a defined param of the form,
+        its accessible in the template.
+        """
+        if value is None and isinstance(file, MediaFile):
+            value = dict(
+                file_id = file.id,
+                player_enabled = int(file.enable_player),
+                feed_enabled = int(file.enable_feed),
+            )
+        return super(EditFileForm, self).display(value, file=file, **kwargs)
+
+
 class MediaForm(ListForm):
-    template = 'mediaplex.templates.admin.media.form'
+    template = 'mediaplex.templates.admin.box-form'
     id = 'media-form'
     css_class = 'form'
     submit_text = None
@@ -18,20 +56,24 @@ class MediaForm(ListForm):
     _name = 'vf'
 
     fields = [
+        SingleSelectField('podcast', label_text='Include in the Podcast', help_text='Optional', options=lambda: [(None, None)] + DBSession.query(Podcast.id, Podcast.title).all()),
         TextField('slug', validator=NotEmpty),
         TextField('title', validator=NotEmpty),
         TextField('author_name', validator=NotEmpty),
         TextField('author_email', validator=NotEmpty),
         TextArea('description', attrs=dict(rows=5, cols=25)),
-        TextArea('notes', label_text='Additional Notes', attrs=dict(rows=5, cols=25)),
+        TextArea('notes', label_text='Additional Notes', attrs=dict(rows=3, cols=25), default="""Bible References: None
+S&H References: None
+Reviewer: None
+License: General Upload"""),
         TextField('tags'),
         ListFieldSet('details', suppress_label=True, legend='Media Details:', children=[
             TextField('duration'),
-            TextField('url', label_text='Media URL')
         ]),
         SubmitButton('save', default='Save', named_button=True, css_classes=['mo', 'btn-save', 'f-rgt']),
         SubmitButton('delete', default='Delete', named_button=True, css_classes=['mo', 'btn-delete']),
     ]
+
 
 class UploadForm(ListForm):
     template = 'mediaplex.templates.video.upload-form'
@@ -53,10 +95,10 @@ class UploadForm(ListForm):
         file = FileField(validator=FieldStorageUploadConverter(not_empty=True, messages={'empty':'Oops! You forgot to enter a file.'}), label_text='Media File', show_error=True)
         submit = SubmitButton(css_class='submit-image', show_error=False)
 
+
 class PodcastFilterForm(ListForm):
     id = 'podcastfilterform'
     method = 'get'
     template = 'mediaplex.templates.admin.media.podcast-filter-form'
 
     fields = [SingleSelectField('podcast_filter', suppress_label=True, options=lambda: [('All Media', 'All Media')] + DBSession.query(Podcast.id, Podcast.title).all() + [('Unfiled', 'Unfiled')])]
-

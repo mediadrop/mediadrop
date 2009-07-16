@@ -1,12 +1,14 @@
-.form .form-field, .form .form-label, .form .field-list div {
+.form .form_field,
+/*.form .field_list div,*/
+.form .form_label {
 	margin: 10px;
 }
-.form .form-label {
+.form .form_label {
 	font-size: 108%;
 	font-weight: bold;
 	color: #3c4d5a;
 }
-.form .form-field {
+.form .form_field {
 	/* bump the size down 12px so that when firefox adds 12px
 	 * to the 100% input width it still fits visually */
 	padding-right: 12px;
@@ -16,29 +18,94 @@
 	width: 100%;
 	overflow: hidden;
 }
-.form #author_name-container,
-.form #author_email-container {
+.form #author_name_container,
+.form #author_email_container {
 	width: 50%;
 	float: left;
 	clear: none;
 }
 .form #details input,
-.form #details select,
-.form #details li {
+.form #details select {
 	float: left;
 	width: auto;
 	clear: none;
 }
+label .field_help {
+	font-weight: normal;
+	font-size: 12px;
+	color: #5d7485;
+	margin-left: 5px;
+}
 
-#details-container .form-field { padding-right: 0; }
-.form #details-container legend {
+#media-form #media_upload_container {
+	float: left;
+	width: 144px;
+}
+#media-form #media-upload-status.active {
+	height: 34px;
+	line-height: 34px;
+	padding-left: 35px;
+}
+#media-form #media-upload-status.inprogress {
+	background: url('../images/icons/spinner.gif') no-repeat 5px 50%;
+}
+#media-form #media-upload-status.success {
+	background: url('../../images/uploader/check.png') no-repeat 0 50%;
+}
+#media-form #media-upload-status.error {
+	background: url('../../images/uploader/ex.png') no-repeat 0 50%;
+}
+#media-form #media_url_container {
+	clear: none;
+	float: left;
+	width: 462px;
+	overflow: visible;
+	margin: 4px 0 0 0;
+	padding: 0;
+	position: relative;
+}
+#media-form #media_url {
+	float: left;
+	width: 362px;
+	margin-right: 0;
+	position: absolute;
+	top: 0px;
+	left: 100px;
+}
+#media-form #media_container .form_field,
+#media-form #details_container .form_field {
+	padding-right: 0;
+}
+#media-form #media_container legend,
+#media-form #details_container legend {
 	font-size: 108%;
 	font-weight: bold;
 	color: #3c4d5a;
 	margin: 10px 10px 0 10px;
 }
-#details ul.field_list { position: relative; }
-#details_url_container { position: absolute; top: 0; right: 0; }
+#media-form #details ul.field_list {
+	position: relative;
+}
+#media-form #podcast_container {
+	background: #D1E4F2;
+	margin: -10px -10px 5px -10px;
+	padding: 5px 10px;
+	width: 660px;
+}
+#media-form #media_url_label,
+#media-form #details_duration_label {
+	margin-right: 10px;
+	padding: 5px 0;
+	float: left;
+	font-weight: normal;
+	width: 50px;
+}
+#media-form #details_duration {
+	width: 60px;
+}
+#media-form #media_url {
+	margin-right: 20px;
+}
 
 .btn-edit-art {
 	text-indent: -1000px;
@@ -49,7 +116,9 @@
 	background-repeat: no-repeat;
 	margin: 0 auto;
 }
-.btn-edit-art { background-image: url('../images/buttons/edit-image.png'); }
+.btn-edit-art {
+	background-image: url('../images/buttons/edit-image.png');
+}
 
 .album-art {
 	width: 133px;
@@ -63,3 +132,30 @@
 	border: 1px solid #fff;
 }
 
+
+#media-file-form .box-content {
+	background: #d1e4f2;
+	width: 238px;
+	overflow: hidden;
+	position: relative;
+}
+#media-file-form .btn-upload {
+	float: left;
+}
+.file-or-url {
+	width: 30px;
+	height: 34px;
+	line-height: 34px;
+	text-align: center;
+	float: left;
+	display: block;
+}
+#media-file-form #url {
+	width: 112px;
+	top: 10px;
+	right: 10px;
+	position: absolute;
+	padding-top: 9px;
+	padding-bottom: 9px;
+	-moz-border-radius: 10px;
+}

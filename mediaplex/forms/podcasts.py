@@ -4,7 +4,7 @@ from mediaplex.lib import helpers
 from mediaplex.forms import ListForm
 
 class PodcastForm(ListForm):
-    template = 'mediaplex.templates.admin.podcasts.form'
+    template = 'mediaplex.templates.admin.box-form'
     id = 'podcast-form'
     css_class = 'form'
     submit_text = None

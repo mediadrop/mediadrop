@@ -1,4 +1,5 @@
 from tw import forms
+from tw.forms import ListFieldSet, TextField, FileField, CalendarDatePicker, SingleSelectField, TextArea, SubmitButton, Button, HiddenField
 from tg.render import _get_tg_vars
 from pylons.templating import pylons_globals
 
@@ -19,6 +20,9 @@ class GlobalMixin(object):
         kw.update(_get_tg_vars())
         kw.update(pylons_globals())
         return forms.Widget.__call__(self, *args, **kw)
+
+class Form(LeniantValidationMixin, GlobalMixin, forms.Form):
+    pass
 
 class ListForm(LeniantValidationMixin, GlobalMixin, forms.ListForm):
     pass

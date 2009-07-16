@@ -25,6 +25,7 @@ Things to be aware of:
 """
 
 from datetime import datetime
+from urlparse import urlparse
 from sqlalchemy import Table, ForeignKey, Column, sql, and_, or_, func
 from sqlalchemy.types import String, Unicode, UnicodeText, Integer, DateTime, Boolean, Float
 from sqlalchemy.orm import mapper, class_mapper, relation, backref, synonym, composite, column_property, comparable_property, validates, collections
@@ -36,7 +37,7 @@ from mediaplex.model.rating import Rating
 from mediaplex.model.comments import Comment, CommentTypeExtension, comments, PUBLISH as COMMENT_PUBLISH, TRASH as COMMENT_TRASH
 from mediaplex.model.tags import Tag, TagCollection, tags, extract_tags, fetch_and_create_tags
 from mediaplex.model.status import Status, StatusSet, StatusComparator, StatusType, StatusTypeExtension
-from mediaplex.lib.helpers import slugify
+from mediaplex.lib import helpers
 
 
 TRASH = Status('trash', 1)
@@ -87,7 +88,9 @@ media_files = Table('media_files', metadata,
     Column('width', Integer),
     Column('height', Integer),
     Column('bitrate', Integer),
-    Column('is_original', Boolean, default=False, nullable=False),
+    Column('order', Integer, default=0, nullable=False),
+    Column('enable_player', Boolean, default=True, nullable=False),
+    Column('enable_feed', Boolean, default=True, nullable=False),
     Column('created_on', DateTime, default=datetime.now, nullable=False),
     Column('modified_on', DateTime, default=datetime.now, onupdate=datetime.now, nullable=False),
 )
@@ -121,7 +124,6 @@ class Media(object):
     def __init__(self):
         if self.author is None:
             self.author = Author()
-
         if self.status is None:
             self.status = MediaStatusSet()
 
@@ -136,7 +138,7 @@ class Media(object):
 
     @validates('slug')
     def validate_slug(self, key, slug):
-        return slugify(slug)
+        return helpers.slugify(slug)
 
     @property
     def is_published(self):
@@ -185,6 +187,44 @@ class MediaFile(object):
     def mimetype(self):
         return config.mimetype_lookup.get('.' + self.type, 'application/octet-stream')
 
+    @property
+    def is_embeddable(self):
+        return self.type in config.embeddable_filetypes
+
+    @property
+    def play_url(self):
+        if self.is_embeddable:
+            return config.embeddable_filetypes[self.type]['play'] % self.url
+        elif urlparse(self.url)[1]:
+            return self.url.encode('utf-8') # full URL specified
+        else:
+            return helpers.url_for(controller='/media', action='serve', slug=self.media.slug, type=self.type) # local file
+
+    @property
+    def link_url(self):
+        if self.is_embeddable:
+            return config.embeddable_filetypes[self.type]['link'] % self.url
+        elif urlparse(self.url)[1]:
+            return self.url.encode('utf-8') # full URL specified
+        else:
+            return helpers.url_for(controller='/media', action='serve', slug=self.media.slug, type=self.type) # local file
+
+
+class MediaFileList(list):
+    def for_player(self):
+        picks = self.pick_types(['flv', 'mp3', 'mp4'])
+        if picks:
+            return picks[0]
+        for file in self:
+            if file.is_embeddable:
+                return file
+        return None
+
+    def pick_types(self, types):
+        """Return a list of files that match the given types in the order they are given"""
+        picks = (file for file in self if file.type in types)
+        return sorted(picks, key=lambda file: types.index(file.type))
+
 
 mapper(MediaFile, media_files)
 
@@ -192,7 +232,7 @@ media_mapper = mapper(Media, media, polymorphic_on=media.c.type, properties={
     'status': column_property(media.c.status, extension=StatusTypeExtension(), comparator_factory=StatusComparator),
     'author': composite(Author, media.c.author_name, media.c.author_email),
     'rating': composite(Rating, media.c.rating_sum, media.c.rating_votes),
-    'files': relation(MediaFile, backref='media', passive_deletes=True),
+    'files': relation(MediaFile, backref='media', order_by=media_files.c.order.desc(), passive_deletes=True, collection_class=MediaFileList),
     'tags': relation(Tag, secondary=media_tags, backref='media', collection_class=TagCollection),
     'comments': relation(Comment, secondary=media_comments, backref=backref('media', uselist=False),
         extension=CommentTypeExtension('media'), single_parent=True, passive_deletes=True),

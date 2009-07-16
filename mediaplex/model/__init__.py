@@ -29,13 +29,10 @@ def init_model(engine):
 
 def fetch_row(mapped_class, id=None, slug=None, incl_trash=False, extra_filter=None):
     """Fetch a row from the database which matches the ID, slug, and other filters.
-
-    If the 2nd arg is 'new', an empty instance is created with an ID of 'new'.
-    Remember to clear that ID before trying to save the row.
+    If the id arg is 'new', an new, empty instance is created.
     """
     if id == 'new':
         inst = mapped_class()
-        inst.id == 'new'
         return inst
     query = DBSession.query(mapped_class)
     if id is not None:

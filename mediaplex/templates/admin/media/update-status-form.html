@@ -1,33 +1,33 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:py="http://genshi.edgewall.org/"
       py:strip="">
-	<form method="post" action="${h.url_for(action='update_status')}" id="update-status-form" class="box"
-	      py:choose="">
-		<h1 class="box-head">
+	<form method="post" action="${h.url_for(action='update_status')}" id="update-status-form" class="box">
+		<div class="box-head">
 			<a py:if="media.slug" href="${h.url_for(controller='/media', action='view', slug=media.slug)}"
 			   id="go-view-content" class="box-head-sec" target="_blank"
 			   title="View this media where it ${'is' if media.is_published else 'will be'} published"
 			   py:content="'View' if media.is_published else 'Preview'" />
-			Publish Status
-		</h1>
-		<div class="box-content">
-			<py:when test="'unreviewed' in media.status">
+			<h1>Publish Status</h1>
+		</div>
+		<div class="box-content" py:choose="">
+			<py:when test="media.is_unreviewed">
 				<ol id="status-list">
 					<li class="status-list-inprogress">review pending</li>
 					<li class="status-list-${status}" py:with="status = 'pending' if 'unencoded' in media.status else 'complete'">encoding ${status}</li>
 					<li class="status-list-pending">publishing pending</li>
 				</ol>
-				<div py:content="h.tags.submit('update_button', 'Review Complete', id='update-status', class_='mo submitbutton btn-review-complete')" class="box-content center" />
+				<div class="box-content center"
+				     py:content="h.tags.submit('update_button', 'Review Complete', id='update-status', class_='mo submitbutton btn-review-complete') if media.files else 'Review can only be completed after a file is added.'" />
 			</py:when>
-			<py:when test="'unencoded' in media.status">
+			<py:when test="media.is_unencoded">
 				<ol id="status-list">
 					<li class="status-list-complete">review complete</li>
 					<li class="status-list-inprogress">encoding pending</li>
 					<li class="status-list-pending">publishing pending</li>
 				</ol>
-				<div py:content="h.tags.submit('update_button', 'Encoding Complete', id='update-status', class_='mo submitbutton btn-encoding-complete')" class="box-content center" />
+				<div class="box-content center">Encoding will be complete when a ${media.ENCODED_TYPE.upper()} file is added.</div>
 			</py:when>
-			<py:when test="'draft' in media.status">
+			<py:when test="media.is_draft">
 				<ol id="status-list">
 					<li class="status-list-complete">review complete</li>
 					<li class="status-list-complete">encoding complete</li>
@@ -35,7 +35,7 @@
 				</ol>
 				<div py:content="h.tags.submit('update_button', 'Publish Now', id='update-status', class_='mo submitbutton btn-publish-now')" class="box-content center" />
 			</py:when>
-			<py:when test="'publish' in media.status">
+			<py:when test="media.is_published">
 				<ol id="status-list">
 					<li class="status-list-complete">review complete</li>
 					<li class="status-list-complete">encoding complete</li>

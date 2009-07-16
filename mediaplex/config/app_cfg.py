@@ -34,7 +34,7 @@ class MediaplexConfig(AppConfig):
         map.connect('/podcasts/{podcast_slug}/{slug}/{action}', controller='media', action='view', requirements=dict(action='view|rate|comment|feed'))
         # admin routes
         map.connect('/admin/media', controller='mediaadmin', action='index')
-        map.connect('/admin/media/{id}/{action}', controller='mediaadmin', action='edit')
+        map.connect('/admin/media/{id}/{action}', controller='mediaadmin', action='edit', requirements=dict(action='edit|add_file|edit_file|reorder_file|save_album_art|update_status'))
 
         map.connect('/admin/podcasts', controller='podcastadmin', action='index')
         map.connect('/admin/podcasts/{id}/{action}', controller='podcastadmin', action='edit')
@@ -95,4 +95,22 @@ base_config.sa_auth.post_logout_url = '/post_logout'
 base_config.mimetype_lookup = {
     '.flv': 'video/x-flv',
     '.mp3': 'audio/mpeg',
+}
+
+base_config.embeddable_filetypes = {
+    'youtube': {
+        'play': 'http://youtube.com/v/%s',
+        'link': 'http://youtube.com/watch?v=%s',
+        'pattern': '^(http(s?)://)?(www.)?youtube.com/watch\?(.*&)?v=(?P<id>[^&#]+)'
+    },
+    'google': {
+        'play': 'http://video.google.com/googleplayer.swf?docid=%s&hl=en&fs=true',
+        'link': 'http://video.google.com/videoplay?docid=%s',
+        'pattern': '^(http(s?)://)?video.google.com/videoplay\?(.*&)?docid=(?P<id>-\d+)'
+    },
+    'vimeo': {
+        'play': 'http://vimeo.com/moogaloop.swf?clip_id=%d&server=vimeo.com&show_title=1&show_byline=1&show_portrait=0&color=&fullscreen=1',
+        'link': 'http://vimeo.com/%s',
+        'pattern': '^(http(s?)://)?(www.)?vimeo.com/(?P<id>\d+)'
+    },
 }

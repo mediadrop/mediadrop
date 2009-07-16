@@ -1,0 +1,45 @@
+<form xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      action="${action}" method="${method}" name="${name}"
+      id="${id}" class="${css_class}" py:attrs="attrs"
+      py:with="visible_fields = [f for f in fields if getattr(f, 'type', None) not in ('button', 'submit', 'reset', 'image')];
+               buttons = [f for f in fields if getattr(f, 'type', None) in ('button', 'submit', 'reset', 'image')];">
+	<div class="box-content">
+	<!--! Display all the hidden fields -->
+		<py:for each="field in hidden_fields"
+		        py:with="error = error_for(field)">
+			<input py:replace="field.display(value_for(field), **args_for(field))" />
+			<div py:if="show_children_errors and error and not field.show_error"
+			     class="field_error" py:content="error" />
+		</py:for>
+
+	<!--! Display visible inputs/textareas/selects -->
+		<ul class="field_list" py:attrs="list_attrs">
+			<li py:for="i, field in enumerate(visible_fields)"
+			    py:with="required = 'required' if field.is_required else None;
+			             error = error_for(field);
+			             label_text = field.label_text;
+			             help_text = field.help_text;"
+			    id="${field.id}_container"
+			    py:attrs="args_for(field).get('container_attrs') or field.container_attrs">
+				<div py:if="show_labels and label_text and not field.suppress_label"
+				     id="${field.id}_label" class="form_label">
+					<label for="${field.id}">${label_text}: <span py:if="help_text" class="field_help">(${help_text})</span></label>
+				</div>
+				<div class="form_field" py:content="field.display(value_for(field), **args_for(field))">
+					Field goes here
+				</div>
+				<div class="field_error" py:if="show_children_errors and error and not field.show_error" py:content="error">
+					Error goes here
+				</div>
+			</li>
+		</ul>
+	</div>
+
+	<!--! Display all our buttons in the box footer -->
+	<div py:if="buttons" class="box-foot">
+		<py:for each="field in buttons">
+			<button py:replace="field.display(value_for(field), **args_for(field))" />
+		</py:for>
+	</div>
+</form>

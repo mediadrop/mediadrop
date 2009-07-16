@@ -5,22 +5,25 @@
       xmlns:xi="http://www.w3.org/2001/XInclude">
 <xi:include href="admin/master.html" />
 <head>
-	<title py:if="media.id != 'new'">Edit: ${media.title}</title>
-	<title py:if="media.id == 'new'">New Media</title>
+	<title>${'Edit: ' + media.title if media.title else 'New Media'}</title>
 	<link href="${h.url_for('/admin/styles/media.css')}" media="screen" rel="stylesheet" type="text/css" />
 	<link href="${h.url_for('/admin/styles/forms.css')}" media="screen" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="${h.url_for('/scripts/third-party/Fx.ProgressBar.js')}"></script>
+	<script type="text/javascript" src="${h.url_for('/scripts/third-party/Swiff.Uploader.js')}"></script>
 	<script src="${h.url_for('/admin/scripts/slug.js')}" type="text/javascript"></script>
 	<script src="${h.url_for('/scripts/third-party/squeezebox-1.1-rc3.js')}" type="text/javascript"></script>
 	<link href="${h.url_for('/admin/styles/squeezebox.css')}" media="screen" rel="stylesheet" type="text/css" />
 	<script src="${h.url_for('/admin/scripts/album-art.js')}" type="text/javascript"></script>
 	<script src="${h.url_for('/admin/scripts/statuses.js')}" type="text/javascript"></script>
+	<script type="text/javascript" src="${h.url_for('/admin/scripts/uploader.js')}"></script>
 	<script type="text/javascript" src="${h.url_for('/admin/scripts/confirm.js')}"></script>
+	<script type="text/javascript" src="${h.url_for('/admin/scripts/files.js')}"></script>
 	<script type="text/javascript">
 		window.addEvent('domready', function(){
 			var publishStatus = new StatusForm();
-
 			var confirmMgr = new ConfirmMgr({
 				onConfirm: function(){
+					//FIXME: This shouldn't use ajax
 					$('media-form').send();
 					window.location = "${h.url_for(controller='/mediaadmin')}";
 				},
@@ -28,30 +31,80 @@
 				msg: 'Are you sure you want to delete this media?'
 			});
 			$('delete').addEvent('click', confirmMgr.openConfirmDialog.bind(confirmMgr));
+
+			// Auto select url field contents
+			var fileUrl = $('url');
+			fileUrl.addEvent('focus', fileUrl.select);
+
+			// Setup the flash uploader
+			filemgr = new FileManager('media-files-box', 'media-file-form', {
+				saveOrderUrl: '${h.url_for(action='reorder_file')}'
+			});
+
+			mediaUploader = new Uploader({
+				target: 'file',
+				statusBar: 'media-upload-status',
+				statusFile: 'media-upload-file',
+				progressBar: 'media-upload-progressbar',
+				progressBarOptions: {url: '${h.url_for('/admin/images/progressbar/progress.png')}'},
+				uploader: {
+					path: '${h.url_for('/scripts/third-party/Swiff.Uploader.swf')}',
+					fileSizeMax: 100 * 1024 * 1024,
+					verbose: true, // debug
+					onFileComplete: function(file){
+						var response = JSON.decode(file.response.text, true);
+						filemgr.fileAdded(response);
+					}
+				}
+			});
 		});
 	</script>
 </head>
 <body class="menu-media-on">
 	<div class="column66">
+
 		<div class="box">
 			<div class="box-head">
 				<small py:if="media.created_on" class="box-head-sec">Uploaded: ${media.created_on.strftime('%b %d %Y')}</small>
 				<h1>${media.title or 'New Media'}</h1>
 			</div>
-			${XML(form(form_values))}
+			<form py:replace="XML(form(form_values))" />
 		</div>
+
 	</div>
 	<div class="column33">
+
+		<xi:include href="update-status-form.html" py:with="media=media" />
+
+		<div id="media-files-box" class="box">
+			<div class="box-head"><h1>Files</h1></div>
+			<form py:replace="file_form(file_form_values)" />
+			<div id="media-upload-status" class="upload-status">
+				<div id="media-upload-file" class="upload-file" />
+				<img id="media-upload-progressbar" class="progressbar"
+				     src="${h.url_for('/admin/images/progressbar/bar.png')}"
+				     width="238" height="12" />
+			</div>
+			<ol id="media-file-list" class="file-list">
+				<li py:for="file in media.files" id="file-${file.id}">
+					<form py:replace="file_edit_form(file=file)" />
+				</li>
+			</ol>
+		</div>
+
 		<div class="box">
 			<h1 class="box-head">Album Art</h1>
-			<div class="box-content center">
-				<div class="album-art"><img src="${h.url_for('/images/media/'+str(media.id)+'s.jpg?'+str(int(h.time.time())))}" width="131" height="79" alt="Album Art" /></div>
+			<div class="box-content">
+				<div class="album-art">
+					<img src="${h.url_for('/images/media/%ss.jpg?%d' % (media.id, h.time.time()))}"
+					     width="131" height="79" alt="Album Art" />
+					</div>
 				<div id="edit-album-art" class="mo btn-edit-art clickable"><span>Edit Image</span></div>
-				<div py:if="'album_art' in album_art_form_errors" class="field-error" py:content="album_art_form_errors['album_art']" />
+				<div py:for="error in album_art_form_errors.itervalues()" class="field-error" py:content="error" />
 			</div>
 		</div>
-		${XML(album_art_form)}
-		<xi:include href="update-status-form.html" py:with="media=media" />
+		<form py:replace="XML(album_art_form)" />
+
 	</div>
 </body>
 </html>

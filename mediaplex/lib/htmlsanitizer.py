@@ -20,6 +20,7 @@ Håkan W - https://launchpad.net/~hwaara-gmail
 import BeautifulSoup
 import re
 import sys
+import copy
 
 # Python 2.4 compatibility
 try: any
@@ -55,7 +56,7 @@ ANTI_JS_RE=re.compile('j\s*a\s*v\s*a\s*s\s*c\s*r\s*i\s*p\s*t\s*:', re.IGNORECASE
 #it ruthlessly culls all the rdf, dublin core metadata and so on.
 valid_tags = dict.fromkeys('p i em strong b u a h1 h2 h3 pre abbr br img dd dt ol ul li span sub sup ins del blockquote table tr td th address cite'.split()) #div?
 valid_attrs = dict.fromkeys('href src rel title'.split())
-valid_schemes = dict.fromkeys('http https'.split())
+valid_schemes = dict.fromkeys('http https ssh sftp ftp'.split())
 elem_map = {'b' : 'strong', 'i': 'em'}
 attrs_considered_links = dict.fromkeys("src href".split()) #should include
 #courtesy http://developer.mozilla.org/en/docs/HTML:Block-level_elements
@@ -63,7 +64,7 @@ block_elements = dict.fromkeys(["p", "h1","h2", "h3", "h4", "h5", "h6", "ol", "u
 
 #convenient default filter lists.
 paranoid_filters = ["strip_comments", "strip_tags", "strip_attrs", "encode_xml_specials",
-  "strip_schemes", "rename_tags", "wrap_string", "strip_empty_tags", "strip_empty_tags", ]
+  "strip_schemes", "rename_tags", "wrap_string", "strip_empty_tags", ]
 complete_filters = ["strip_comments", "rename_tags", "strip_tags", "strip_attrs", "encode_xml_specials",
     "strip_cdata", "strip_schemes",  "wrap_string", "strip_empty_tags", "rebase_links", "reparse"]
 
@@ -162,7 +163,7 @@ class Cleaner(object):
     """
 
     def __init__(self, string_or_soup="", *args,  **kwargs):
-        self.settings=default_settings.copy()
+        self.settings = copy.deepcopy(default_settings)
         self.settings.update(kwargs)
         if args :
             self.settings['filters'] = args
@@ -268,12 +269,14 @@ class Cleaner(object):
         u'<p>text More text</p>'
         """
         for comment in self.root.findAll(
-            text = lambda text: isinstance(text, BeautifulSoup.Comment)):
+            text = lambda text: isinstance(text, BeautifulSoup.Comment)
+        ):
             comment.extract()
 
     def strip_cdata(self):
         for cdata in self.root.findAll(
-          text = lambda text: isinstance(text, BeautifulSoup.CData)):
+            text = lambda text: isinstance(text, BeautifulSoup.CData)
+        ):
             cdata.extract()
 
     def strip_tags(self):
@@ -340,6 +343,21 @@ class Cleaner(object):
             else :
                 break
 
+    def _all_elems(self, *args, **kwargs):
+        """
+        replacement for self.root.findAll(**kwargs)
+        finds all elements with the specified strainer properties
+        safe against modification of said attributes in-place.
+        """
+        start = self.root
+        while True:
+            tag = start.findNext(*args, **kwargs)
+            if tag:
+                start = tag
+                yield tag
+            else :
+                break
+
     def strip_schemes(self):
         """
         >>> c = Cleaner("", "strip_schemes")
@@ -357,6 +375,95 @@ class Cleaner(object):
                     if not scheme_bits[0] in self.settings['valid_schemes']:
                         del(tag[key])
 
+    def clean_whitespace(self):
+        """
+        >>> c = Cleaner("", "strip_whitespace")
+        >>> c('<p>\n\t\tfoo</p>"
+        u'<p> foo</p>'
+        >>> c('<p>\t  <span> bar</span></p>')
+        u'<p> <span>bar</span></p>')
+        """
+        def is_text(node):
+            return isinstance(node, BeautifulSoup.NavigableString)
+
+        def is_tag(node):
+            return isinstance(node, BeautifulSoup.Tag)
+
+        def dfs(node, func):
+            if isinstance(node, BeautifulSoup.Tag):
+                for x in node.contents:
+                    dfs(x, func)
+            func(node)
+
+        any_space = re.compile("\s+", re.M)
+        start_space = re.compile("^\s+")
+
+        def condense_whitespace():
+            # Go over every string, replacing all whitespace with a single space
+            for string in self.root.findAll(text=True):
+                s = unicode(string)
+                s = any_space.sub(" ", s)
+                string.replaceWith(s)
+
+        def separate_strings(current, next):
+            if is_text(current):
+                if is_text(next):
+                    # Two strings are beside eachother, merge them!
+                    next.extract()
+                    s = unicode(current) + unicode(next)
+                    s = BeautifulSoup.NavigableString(s)
+                    current.replaceWith(s)
+                    return s
+                else:
+                    # The current string is as big as its going to get.
+                    # Check if you can split off some whitespace from
+                    # the beginning.
+                    p = unicode(current)
+                    split = start_space.split(p)
+
+                    if len(split) > 1:
+                        w = " "
+                        s = split[1]
+                        par = current.parent
+
+                        par.insert(par.contents.index(current), w)
+                        current.replaceWith(s)
+                        return s
+            return next
+
+        def separate_all_strings(node):
+            if is_tag(node):
+                current = None
+                for x in node.contents:
+                    current = separate_strings(current, x)
+                separate_strings(current, None)
+
+        def reassign_whitespace():
+            strings = self.root.findAll(text=True)
+            i = len(strings) - 1
+
+            after = None
+            while i >= 0:
+                current = strings[i]
+                if is_text(after) and not after.strip():
+                    # if 'after' holds only whitespace,
+                    # remove it, and append it to 'current'
+                    s = unicode(current) + unicode(after)
+                    s = BeautifulSoup.NavigableString(s)
+                    current.replaceWith(s)
+                    after.extract()
+
+                    current = s
+
+                after = current
+                i -= 1
+
+        condense_whitespace()
+        dfs(self.root, separate_all_strings)
+        reassign_whitespace()
+        condense_whitespace()
+
+
     def br_to_p(self):
         """
         >>> c = Cleaner("", "br_to_p")
@@ -365,7 +472,7 @@ class Cleaner(object):
         >>> c('A<br />B')
         u'<p>A</p><p>B</p>'
         """
-        block_elems = self.settings['block_elements']
+        block_elems = self.settings['block_elements'].copy()
         block_elems['br'] = None
         block_elems['p'] = None
 
@@ -380,6 +487,74 @@ class Cleaner(object):
                 useless_br.extract()
             if parent.name == 'p':
                 self.disgorge_elem(parent)
+
+    def add_nofollow(self):
+        """
+        >>> c = Cleaner("", "add_nofollow")
+        >>> c('<p><a href="mysite.com">site</a></p>')
+        u'<p><a href="mysite.com" rel="nofollow">site</a></p>'
+        """
+        for a in self.root.findAll(name='a'):
+            rel = a.get('rel', u"")
+            sep = u" "
+            nofollow = u"nofollow"
+
+            r = rel.split(sep)
+            if not nofollow in r:
+                r.append(nofollow)
+            rel = sep.join(r).strip()
+            a['rel'] = rel
+
+    def make_links(self):
+        """
+        Search through all text nodes, creating <a>
+        tags for text that looks like a URL.
+        >>> c = Cleaner("", "make_links")
+        >>> c('check out my website at mysite.com')
+        u'check out my website at <a href="mysite.com">mysite.com</a>'
+        """
+        def linkify_text_node(node):
+            index = node.parent.contents.index(node)
+            parent = node.parent
+            string = unicode(node)
+
+            matches = URL_RE.finditer(string)
+            end_re = re.compile('\W')
+            new_content = []
+            o = 0
+            print "len(string):", len(string)
+            for m in matches:
+                s, e = m.span()
+
+                # if there are no more characters after the link
+                # or if the character after the link is not a 'word character'
+                print "e:", e
+                if e >= len(string) or end_re.match(string[e]):
+                    tag = BeautifulSoup.Tag(self._soup, 'a', attrs=[('href',m.group())])
+                    tag.insert(0, m.group())
+
+                    new_content.append(string[o:s])
+                    new_content.append(tag)
+                    o = e
+
+            # Only do actual replacement if necessary
+            if o > 0:
+                if o < len(string):
+                    new_content.append(string[o:])
+
+                # replace the text node with the new text
+                node.extract()
+                for x in new_content:
+                    parent.insert(index, x)
+                    index += 1
+
+        # run the algorithm
+        for node in self.root.findAll(text=True):
+            # Only linkify if this node is not a decendant of a link already
+            if not node.findParents(name='a'):
+                linkify_text_node(node)
+
+
 
     def rename_tags(self):
         """
@@ -442,21 +617,41 @@ class Cleaner(object):
     def strip_empty_tags(self):
         """
         strip out all empty tags
-        TODO: depth-first search
         >>> c = Cleaner("", "strip_empty_tags")
         >>> c('<p>A</p><p></p><p>B</p><p></p>')
         u'<p>A</p><p>B</p>'
         >>> c('<p><a></a></p>')
         u'<p></p>'
         """
-        tag = self.root
-        while True:
-            next_tag = tag.findNext(True)
-            if not next_tag: break
-            if next_tag.contents or next_tag.attrs:
-                tag = next_tag
-                continue
-            next_tag.extract()
+        def is_text(node):
+            return isinstance(node, BeautifulSoup.NavigableString)
+
+        def is_tag(node):
+            return isinstance(node, BeautifulSoup.Tag)
+
+        def is_empty(node):
+            if is_text(node):
+                a = not unicode(node)
+
+            if is_tag(node):
+                a = not node.contents
+
+            return bool(a)
+
+        def dfs(node, func, i=1):
+            if is_tag(node):
+                contents = [x for x in node.contents]
+                for x in contents:
+                    dfs(x, func, i+1)
+            func(node, i)
+            if is_tag(node):
+                pass
+
+        def strip_empty(node, i):
+            if is_empty(node):
+                node.extract()
+
+        dfs(self.root, strip_empty)
 
     def rebase_links(self, original_url="", new_url ="") :
         if not original_url : original_url = self.settings.get('original_url', '')
@@ -471,9 +666,8 @@ class Cleaner(object):
         >>> c('<<<<<')
         u'&lt;&lt;&lt;&lt;'
         """
-        for string in self.root.findAll(text=True) :
+        for string in self.root.findAll(text=True):
             s = unicode(string)
-            s = entities_to_unicode(s)
             s = encode_xhtml_entities(s)
             string.replaceWith(s)
 
