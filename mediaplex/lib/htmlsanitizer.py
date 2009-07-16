@@ -489,6 +489,11 @@ class Cleaner(object):
                 self.disgorge_elem(parent)
 
     def add_nofollow(self):
+        """
+        >>> c = Cleaner("", "add_nofollow")
+        >>> c('<p><a href="mysite.com">site</a></p>')
+        u'<p><a href="mysite.com" rel="nofollow">site</a></p>'
+        """
         for a in self.root.findAll(name='a'):
             rel = a.get('rel', u"")
             sep = u" "
