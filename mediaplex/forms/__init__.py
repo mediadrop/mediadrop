@@ -11,7 +11,7 @@ class LeniantValidationMixin(object):
     )
 
 class GlobalMixin(object):
-    def __call__(self, *args, **kw):
+    def display(self, *args, **kw):
         # Update the kwargs with the same values that are included in main templates
         # this allows us to access the following objects in widget templates:
         # ['tmpl_context', 'translator', 'session', 'ungettext', 'response', '_',
@@ -19,7 +19,7 @@ class GlobalMixin(object):
         #  'config']
         kw.update(_get_tg_vars())
         kw.update(pylons_globals())
-        return forms.Widget.__call__(self, *args, **kw)
+        return forms.Widget.display(self, *args, **kw)
 
 class Form(LeniantValidationMixin, GlobalMixin, forms.Form):
     pass
