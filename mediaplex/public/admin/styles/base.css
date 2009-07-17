@@ -71,7 +71,12 @@ body {
 	height: 38px;
 	margin-top: 16px;
 }
-#logo h2 { display: none; }
+#logo a {
+	display: block;
+	height: 100%;
+	width: 100%;
+	color: transparent; /* FIXME: this won't work for IE6, it's CSS3 */
+}
 #footer p {
 	text-align: right;
 	padding-bottom: 15px;
