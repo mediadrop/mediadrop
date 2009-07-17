@@ -144,13 +144,14 @@ def clean_xhtml(string):
         return string
 
     # wrap string in paragraph tag, just in case
-    string = u"<p>%s</p>" % string
+    string = u"<p>%s</p>" % string.strip()
 
     # remove carriage return chars; FIXME: is this necessary?
     string = string.replace(u"\r", u"")
 
     # remove non-breaking-space characters. FIXME: is this necessary?
     string = string.replace(u"\xa0", u" ")
+    string = string.replace(u"&nbsp;", u" ")
 
     # replace all blank lines with <br> tags
     string = blank_line.sub(u"<br/>", string)
