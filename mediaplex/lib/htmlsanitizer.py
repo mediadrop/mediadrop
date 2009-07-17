@@ -424,6 +424,7 @@ class Cleaner(object):
             for string in self.root.findAll(text=True):
                 s = unicode(string)
                 s = any_space.sub(" ", s)
+                s = BeautifulSoup.NavigableString(s)
                 string.replaceWith(s)
 
         def separate_strings(current, next):
@@ -559,7 +560,8 @@ class Cleaner(object):
             # Only do actual replacement if necessary
             if o > 0:
                 if o < len(string):
-                    new_content.append(string[o:])
+                    final_text = BeautifulSoup.NavigableString(string[o:])
+                    new_content.append(final_text)
 
                 # replace the text node with the new text
                 node.extract()
@@ -688,6 +690,7 @@ class Cleaner(object):
         for string in self.root.findAll(text=True):
             s = unicode(string)
             s = encode_xhtml_entities(s)
+            s = BeautifulSoup.NavigableString(s)
             string.replaceWith(s)
 
     def disgorge_elem(self, elem):
