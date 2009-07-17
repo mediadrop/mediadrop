@@ -443,14 +443,19 @@ class Cleaner(object):
                     p = unicode(current)
                     split = start_space.split(p)
 
-                    if len(split) > 1:
-                        w = " "
-                        s = split[1]
-                        par = current.parent
+                    if len(split) > 1 and split[1]:
+                        # BeautifulSoup can't cope when we insert
+                        # an empty text node.
 
-                        par.insert(par.contents.index(current), w)
-                        current.replaceWith(s)
-                        return s
+                        par = current.parent
+                        index = par.contents.index(current)
+                        current.extract()
+
+                        w = BeautifulSoup.NavigableString(" ")
+                        s = BeautifulSoup.NavigableString(split[1])
+
+                        par.insert(index, s)
+                        par.insert(index, w)
             return next
 
         def separate_all_strings(node):
@@ -552,11 +557,13 @@ class Cleaner(object):
                 # if there are no more characters after the link
                 # or if the character after the link is not a 'word character'
                 if e >= len(string) or end_re.match(string[e]):
-                    tag = BeautifulSoup.Tag(self._soup, 'a', attrs=[('href',m.group())])
-                    tag.insert(0, m.group())
-
-                    new_content.append(string[o:s])
-                    new_content.append(tag)
+                    link = BeautifulSoup.Tag(self._soup, 'a', attrs=[('href',m.group())])
+                    link_text = BeautifulSoup.NavigableString(m.group())
+                    link.insert(0, link_text)
+                    if o < s: # BeautifulSoup can't cope when we insert an empty text node
+                        previous_text = BeautifulSoup.NavigableString(string[o:s])
+                        new_content.append(previous_text)
+                    new_content.append(link)
                     o = e
 
             # Only do actual replacement if necessary
