@@ -161,7 +161,7 @@ def clean_xhtml(string):
     # strip all whitespace from immediately before/after block-level elements
     string = block_spaces.sub(u"\\1", string)
 
-    return string
+    return string.strip()
 
 def strip_xhtml(string):
     return ''.join(BeautifulSoup(string).findAll(text=True))
