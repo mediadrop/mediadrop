@@ -687,8 +687,6 @@ class Cleaner(object):
                 for x in contents:
                     dfs(x, func, i+1)
             func(node, i)
-            if is_tag(node):
-                pass
 
         def strip_empty(node, i):
             if is_empty(node):
