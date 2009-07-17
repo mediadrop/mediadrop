@@ -11,7 +11,7 @@ from routes.util import url_for
 from tg import expose, request
 from tg.exceptions import HTTPFound
 
-from htmlsanitizer import Cleaner, elem_map
+from htmlsanitizer import Cleaner
 
 
 class expose_xhr(object):
@@ -114,16 +114,22 @@ block_tags = 'p br pre blockquote div h1 h2 h3 h4 h5 h6 hr ul ol li form table t
 block_spaces = re.compile("\s*(</{0,1}(" + "|".join(block_tags) + ")>)\s*", re.M)
 valid_tags = dict.fromkeys('p i em strong b u a br pre abbr ol ul li sub sup ins del blockquote cite'.split())
 valid_attrs = dict.fromkeys('href title'.split())
+elem_map = {'b' : 'strong', 'i': 'em'}
+# Map all invalid block elements to be paragraphs.
+for t in block_tags:
+    if t not in valid_tags:
+        elem_map[t] = 'p'
 filters = [
-    "strip_comments", "strip_tags", "strip_attrs",
-    "strip_schemes", "strip_cdata", "rename_tags",
-    "br_to_p", "make_links", "add_nofollow", "encode_xml_specials",
-    "clean_whitespace", "strip_empty_tags",
+    "strip_comments", "rename_tags", "strip_tags",
+    "strip_attrs", "strip_schemes", "strip_cdata",
+    "br_to_p", "make_links", "add_nofollow",
+    "encode_xml_specials", "clean_whitespace", "strip_empty_tags",
 ]
 cleaner_settings = dict(
     convert_entities = BeautifulSoup.ALL_ENTITIES,
     valid_tags = valid_tags,
     valid_attrs = valid_attrs,
+    elem_map = elem_map,
 )
 
 def clean_xhtml(string):
