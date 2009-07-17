@@ -455,10 +455,12 @@ class Cleaner(object):
 
         def separate_all_strings(node):
             if is_tag(node):
+                contents = [elem for elem in node.contents]
+                contents.append(None)
+
                 current = None
-                for x in node.contents:
-                    current = separate_strings(current, x)
-                separate_strings(current, None)
+                for next in contents:
+                    current = separate_strings(current, next)
 
         def reassign_whitespace():
             strings = self.root.findAll(text=True)
