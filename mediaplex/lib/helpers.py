@@ -158,6 +158,13 @@ def clean_xhtml(string):
 
     # initialize and run the cleaner
     string = Cleaner(string, *filters, **cleaner_settings)()
+    # FIXME: It's possible that the rename_tags operation creates
+    # some invalid nesting. e.g.
+    # >>> c = Cleaner("", "rename_tags", elem_map={'h2': 'p'})
+    # >>> c('<p><h2>head</h2></p>')
+    # u'<p><p>head</p></p>'
+    # This is undesirable, so here we... just re-parse the markup.
+    string = Cleaner(string, *filters, **cleaner_settings)()
 
     # strip all whitespace from immediately before/after block-level elements
     string = block_spaces.sub(u"\\1", string)
