@@ -522,13 +522,11 @@ class Cleaner(object):
             end_re = re.compile('\W')
             new_content = []
             o = 0
-            print "len(string):", len(string)
             for m in matches:
                 s, e = m.span()
 
                 # if there are no more characters after the link
                 # or if the character after the link is not a 'word character'
-                print "e:", e
                 if e >= len(string) or end_re.match(string[e]):
                     tag = BeautifulSoup.Tag(self._soup, 'a', attrs=[('href',m.group())])
                     tag.insert(0, m.group())
