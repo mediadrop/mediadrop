@@ -673,6 +673,14 @@ class Cleaner(object):
 
             return bool(a)
 
+        def contains_only_whitespace(node):
+            if is_tag(node):
+                if not any([not is_text(s) for s in node.contents]):
+                    if not any([unicode(s).strip() for s in node.contents]):
+                        return True
+            return False
+
+
         def dfs(node, func, i=1):
             if is_tag(node):
                 contents = [x for x in node.contents]
@@ -685,6 +693,8 @@ class Cleaner(object):
         def strip_empty(node, i):
             if is_empty(node):
                 node.extract()
+            elif contains_only_whitespace(node):
+                self.disgorge_elem(node)
 
         dfs(self.root, strip_empty)
 
