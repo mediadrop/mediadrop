@@ -22,6 +22,8 @@ import re
 import sys
 import copy
 
+s = lambda x: unicode(x)[:20].replace("\n", "")
+
 # Python 2.4 compatibility
 try: any
 except NameError:
@@ -250,15 +252,34 @@ class Cleaner(object):
 
     string = property(get_string, set_string)
 
+    def checkit(self, method):
+        np = lambda x, y: y.parent is None and sys.stderr.write('%s HAS NO PARENT: %s\n' % (x, y)) or None
+        a = self.root.findAllNext(True)
+        a.extend(self.root.findAllNext(text=True))
+        b = self.root.findAll(True)
+        b.extend(self.root.findAll(text=True))
+        for x in a:
+            np('A', x)
+            if x not in b:
+                print method, [s(x)], "NOT IN B"
+        for x in b:
+            np('B', x)
+            if x not in a:
+                print method, [s(x)], "NOT IN A"
+
     def clean(self):
         """
         invoke all cleaning processes stipulated in the settings
         """
         for method in self.settings['filters'] :
+            print_error = lambda: sys.stderr.write('Warning, called unimplemented method %s\n' % method)
+
             try :
-                getattr(self, method)()
-            except NotImplementedError :
-                sys.stderr.write('Warning, called unimplemented method %s' % method + '\n')
+                getattr(self, method, print_error)()
+                # Uncomment when running in development mode, under paster.
+                # self.checkit(method)
+            except NotImplementedError:
+                print_error()
 
     def strip_comments(self):
         r"""
