@@ -181,12 +181,14 @@
 
 	<py:def function="xhtml_description(fieldName)">
 		<div class="xhtml-description-helper">
-			<p>The ${fieldName} field accepts some HTML formatting:</p>
+			<p>The ${fieldName} field accepts some HTML formatting: ${h.list_acceptable_xhtml()['tags']}</p>
+			<!--!
 			<ul class="xhtml_description">
 				<li><em>Tags:</em> ${h.list_acceptable_xhtml()['tags']}.</li>
 				<li><em>Attributes:</em> ${h.list_acceptable_xhtml()['attrs']}</li>
 				<li><em>Some tag conversions</em> will be made automatically: ${h.list_acceptable_xhtml()['map']}</li>
 			</ul>
+			-->
 		</div>
 	</py:def>
 
