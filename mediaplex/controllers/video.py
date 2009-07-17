@@ -60,7 +60,7 @@ class VideoController(RoutingController):
     def flow(self, page=1, **kwargs):
         """Mediaflow Action"""
         return dict(
-            videos = self._list_query.order_by(Video.publish_on.desc())[:15],
+            videos = self._list_query[:15],
         )
 
     @expose('mediaplex.templates.video.concept_preview')
@@ -86,7 +86,8 @@ class VideoController(RoutingController):
             .filter(Video.status >= 'publish')\
             .filter(Video.publish_on <= datetime.now())\
             .filter(Video.status.excludes('trash'))\
-            .filter(Video.podcast_id == None)
+            .filter(Video.podcast_id == None)\
+            .order_by(Video.publish_on.desc())
 
 
     @expose('mediaplex.templates.video.index')
