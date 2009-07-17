@@ -11,7 +11,7 @@ from routes.util import url_for
 from tg import expose, request
 from tg.exceptions import HTTPFound
 
-from htmlsanitizer import Cleaner, elem_map
+from htmlsanitizer import Cleaner
 
 
 class expose_xhr(object):
@@ -109,21 +109,27 @@ def redirect(*args, **kwargs):
     found = HTTPFound(location=url_for(*args, **kwargs)).exception
     raise found
 
-blank_line = re.compile("\n[\s]*\n", re.M)
+blank_line = re.compile("\s*\n\s*\n\s*", re.M)
 block_tags = 'p br pre blockquote div h1 h2 h3 h4 h5 h6 hr ul ol li form table tr td tbody thead'.split()
 block_spaces = re.compile("\s*(</{0,1}(" + "|".join(block_tags) + ")>)\s*", re.M)
 valid_tags = dict.fromkeys('p i em strong b u a br pre abbr ol ul li sub sup ins del blockquote cite'.split())
 valid_attrs = dict.fromkeys('href title'.split())
+elem_map = {'b' : 'strong', 'i': 'em'}
+# Map all invalid block elements to be paragraphs.
+for t in block_tags:
+    if t not in valid_tags:
+        elem_map[t] = 'p'
 filters = [
-    "strip_comments", "strip_tags", "strip_attrs",
-    "strip_schemes", "strip_cdata", "rename_tags",
-    "br_to_p", "make_links", "add_nofollow", "encode_xml_specials",
-    "clean_whitespace", "strip_empty_tags",
+    "strip_comments", "rename_tags", "strip_tags",
+    "strip_attrs", "strip_schemes", "strip_cdata",
+    "br_to_p", "make_links", "add_nofollow",
+    "encode_xml_specials", "clean_whitespace", "strip_empty_tags",
 ]
 cleaner_settings = dict(
     convert_entities = BeautifulSoup.ALL_ENTITIES,
     valid_tags = valid_tags,
     valid_attrs = valid_attrs,
+    elem_map = elem_map,
 )
 
 def clean_xhtml(string):
@@ -137,16 +143,33 @@ def clean_xhtml(string):
     if string == u"":
         return string
 
+    # wrap string in paragraph tag, just in case
+    string = u"<p>%s</p>" % string.strip()
+
     # remove carriage return chars; FIXME: is this necessary?
-    string = string.replace("\r", "")
+    string = string.replace(u"\r", u"")
+
+    # remove non-breaking-space characters. FIXME: is this necessary?
+    string = string.replace(u"\xa0", u" ")
+    string = string.replace(u"&nbsp;", u" ")
+
     # replace all blank lines with <br> tags
-    string = blank_line.sub("<br/>", string)
+    string = blank_line.sub(u"<br/>", string)
+
     # initialize and run the cleaner
     string = Cleaner(string, *filters, **cleaner_settings)()
-    # strip all whitespace from immediately before/after block-level elements
-    string = block_spaces.sub("\\1", string)
+    # FIXME: It's possible that the rename_tags operation creates
+    # some invalid nesting. e.g.
+    # >>> c = Cleaner("", "rename_tags", elem_map={'h2': 'p'})
+    # >>> c('<p><h2>head</h2></p>')
+    # u'<p><p>head</p></p>'
+    # This is undesirable, so here we... just re-parse the markup.
+    string = Cleaner(string, *filters, **cleaner_settings)()
 
-    return string
+    # strip all whitespace from immediately before/after block-level elements
+    string = block_spaces.sub(u"\\1", string)
+
+    return string.strip()
 
 def strip_xhtml(string):
     return ''.join(BeautifulSoup(string).findAll(text=True))

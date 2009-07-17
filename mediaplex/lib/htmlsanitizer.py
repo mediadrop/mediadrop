@@ -22,6 +22,8 @@ import re
 import sys
 import copy
 
+s = lambda x: unicode(x)[:20].replace("\n", "")
+
 # Python 2.4 compatibility
 try: any
 except NameError:
@@ -250,15 +252,34 @@ class Cleaner(object):
 
     string = property(get_string, set_string)
 
+    def checkit(self, method):
+        np = lambda x, y: y.parent is None and sys.stderr.write('%s HAS NO PARENT: %s\n' % (x, y)) or None
+        a = self.root.findAllNext(True)
+        a.extend(self.root.findAllNext(text=True))
+        b = self.root.findAll(True)
+        b.extend(self.root.findAll(text=True))
+        for x in a:
+            np('A', x)
+            if x not in b:
+                print method, [s(x)], "NOT IN B"
+        for x in b:
+            np('B', x)
+            if x not in a:
+                print method, [s(x)], "NOT IN A"
+
     def clean(self):
         """
         invoke all cleaning processes stipulated in the settings
         """
         for method in self.settings['filters'] :
+            print_error = lambda: sys.stderr.write('Warning, called unimplemented method %s\n' % method)
+
             try :
-                getattr(self, method)()
-            except NotImplementedError :
-                sys.stderr.write('Warning, called unimplemented method %s' % method + '\n')
+                getattr(self, method, print_error)()
+                # Uncomment when running in development mode, under paster.
+                # self.checkit(method)
+            except NotImplementedError:
+                print_error()
 
     def strip_comments(self):
         r"""
@@ -403,6 +424,7 @@ class Cleaner(object):
             for string in self.root.findAll(text=True):
                 s = unicode(string)
                 s = any_space.sub(" ", s)
+                s = BeautifulSoup.NavigableString(s)
                 string.replaceWith(s)
 
         def separate_strings(current, next):
@@ -421,22 +443,29 @@ class Cleaner(object):
                     p = unicode(current)
                     split = start_space.split(p)
 
-                    if len(split) > 1:
-                        w = " "
-                        s = split[1]
-                        par = current.parent
+                    if len(split) > 1 and split[1]:
+                        # BeautifulSoup can't cope when we insert
+                        # an empty text node.
 
-                        par.insert(par.contents.index(current), w)
-                        current.replaceWith(s)
-                        return s
+                        par = current.parent
+                        index = par.contents.index(current)
+                        current.extract()
+
+                        w = BeautifulSoup.NavigableString(" ")
+                        s = BeautifulSoup.NavigableString(split[1])
+
+                        par.insert(index, s)
+                        par.insert(index, w)
             return next
 
         def separate_all_strings(node):
             if is_tag(node):
+                contents = [elem for elem in node.contents]
+                contents.append(None)
+
                 current = None
-                for x in node.contents:
-                    current = separate_strings(current, x)
-                separate_strings(current, None)
+                for next in contents:
+                    current = separate_strings(current, next)
 
         def reassign_whitespace():
             strings = self.root.findAll(text=True)
@@ -522,25 +551,26 @@ class Cleaner(object):
             end_re = re.compile('\W')
             new_content = []
             o = 0
-            print "len(string):", len(string)
             for m in matches:
                 s, e = m.span()
 
                 # if there are no more characters after the link
                 # or if the character after the link is not a 'word character'
-                print "e:", e
                 if e >= len(string) or end_re.match(string[e]):
-                    tag = BeautifulSoup.Tag(self._soup, 'a', attrs=[('href',m.group())])
-                    tag.insert(0, m.group())
-
-                    new_content.append(string[o:s])
-                    new_content.append(tag)
+                    link = BeautifulSoup.Tag(self._soup, 'a', attrs=[('href',m.group())])
+                    link_text = BeautifulSoup.NavigableString(m.group())
+                    link.insert(0, link_text)
+                    if o < s: # BeautifulSoup can't cope when we insert an empty text node
+                        previous_text = BeautifulSoup.NavigableString(string[o:s])
+                        new_content.append(previous_text)
+                    new_content.append(link)
                     o = e
 
             # Only do actual replacement if necessary
             if o > 0:
                 if o < len(string):
-                    new_content.append(string[o:])
+                    final_text = BeautifulSoup.NavigableString(string[o:])
+                    new_content.append(final_text)
 
                 # replace the text node with the new text
                 node.extract()
@@ -581,11 +611,16 @@ class Cleaner(object):
         e = (wrapping_element or self.settings['wrapping_element'])
         paragraph_list = []
         children = [elem for elem in start_at.contents]
+
+        # Remove all the children
+        for elem in children:
+            elem.extract()
         children.append(Stop())
 
         last_state = 'block'
         paragraph = BeautifulSoup.Tag(self._soup, e)
 
+        # Wrap each inline element a tag specified by 'e'
         for node in children :
             if isinstance(node, Stop) :
                 state = 'end'
@@ -609,7 +644,7 @@ class Cleaner(object):
 
             last_state = state
 
-        #can't use append since it doesn't work on empty elements...
+        # Add all of the newly wrapped children back
         paragraph_list.reverse()
         for paragraph in paragraph_list:
             start_at.insert(0, paragraph)
@@ -638,18 +673,26 @@ class Cleaner(object):
 
             return bool(a)
 
+        def contains_only_whitespace(node):
+            if is_tag(node):
+                if not any([not is_text(s) for s in node.contents]):
+                    if not any([unicode(s).strip() for s in node.contents]):
+                        return True
+            return False
+
+
         def dfs(node, func, i=1):
             if is_tag(node):
                 contents = [x for x in node.contents]
                 for x in contents:
                     dfs(x, func, i+1)
             func(node, i)
-            if is_tag(node):
-                pass
 
         def strip_empty(node, i):
             if is_empty(node):
                 node.extract()
+            elif contains_only_whitespace(node):
+                self.disgorge_elem(node)
 
         dfs(self.root, strip_empty)
 
@@ -669,6 +712,7 @@ class Cleaner(object):
         for string in self.root.findAll(text=True):
             s = unicode(string)
             s = encode_xhtml_entities(s)
+            s = BeautifulSoup.NavigableString(s)
             string.replaceWith(s)
 
     def disgorge_elem(self, elem):
