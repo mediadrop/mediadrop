@@ -36,6 +36,7 @@ from mediaplex.model.authors import Author
 from mediaplex.model.rating import Rating
 from mediaplex.model.comments import Comment, CommentTypeExtension, comments, PUBLISH as COMMENT_PUBLISH, TRASH as COMMENT_TRASH
 from mediaplex.model.tags import Tag, TagCollection, tags, extract_tags, fetch_and_create_tags
+from mediaplex.model.topics import Topic, TopicCollection, topics
 from mediaplex.model.status import Status, StatusSet, StatusComparator, StatusType, StatusTypeExtension
 from mediaplex.lib import helpers
 
@@ -103,6 +104,13 @@ media_tags = Table('media_tags', metadata,
     Column('media_id', Integer, ForeignKey('media.id', onupdate='CASCADE', ondelete='CASCADE'),
         primary_key=True),
     Column('tag_id', Integer, ForeignKey('tags.id', onupdate='CASCADE', ondelete='CASCADE'),
+        primary_key=True)
+)
+
+media_topics = Table('media_topics', metadata,
+    Column('media_id', Integer, ForeignKey('media.id', onupdate='CASCADE', ondelete='CASCADE'),
+        primary_key=True),
+    Column('topic_id', Integer, ForeignKey('topics.id', onupdate='CASCADE', ondelete='CASCADE'),
         primary_key=True)
 )
 
@@ -327,6 +335,7 @@ media_mapper = mapper(Media, media, polymorphic_on=media.c.type, properties={
     'rating': composite(Rating, media.c.rating_sum, media.c.rating_votes),
     'files': relation(MediaFile, backref='media', order_by=media_files.c.position.asc(), passive_deletes=True, collection_class=MediaFileList),
     'tags': relation(Tag, secondary=media_tags, backref='media', collection_class=TagCollection),
+    'topics': relation(Topic, secondary=media_topics, backref='media', collection_class=TopicCollection),
     'comments': relation(Comment, secondary=media_comments, backref=backref('media', uselist=False),
         extension=CommentTypeExtension('media'), single_parent=True, passive_deletes=True),
     'comment_count':
@@ -358,6 +367,23 @@ tags_mapper.add_property(
             and_(
                 media.c.id == media_tags.c.media_id,
                 tags.c.id == media_tags.c.tag_id,
+                media.c.status.op('&')(int(PUBLISH)) == int(PUBLISH), # status includes 'publish'
+                media.c.status.op('&')(int(TRASH)) == 0, # status excludes 'trash'
+            )
+        ).label('published_media_count'),
+       deferred=True
+    )
+)
+
+topics_mapper = class_mapper(Topic, compile=False)
+topics_mapper.add_property(
+    'published_media_count',
+    column_property(
+        sql.select(
+            [sql.func.count(media_topics.c.topic_id)],
+            and_(
+                media.c.id == media_topics.c.media_id,
+                topics.c.id == media_topics.c.topic_id,
                 media.c.status.op('&')(int(PUBLISH)) == int(PUBLISH), # status includes 'publish'
                 media.c.status.op('&')(int(TRASH)) == 0, # status excludes 'trash'
             )
