@@ -1,8 +1,126 @@
+var ManevolentMediaOverlord = new Class({
+	metaForm: null,
+	metaFormPodcastID: null,
+	statusForm: null,
+	files: null,
+	uploader: null,
+	isNew: null,
+
+	initialize: function(metaForm, files, uploader, statusForm, albumArtUploader, albumArtImg, isNew){
+		this.metaForm = $(metaForm);
+		this.metaFormPodcastID = this.metaForm.podcast.value;
+		this.statusForm = statusForm;
+		this.files = files;
+		this.uploader = uploader;
+		this.albumArtUploader = albumArtUploader;
+		this.albumArtUploader.uploader.addEvent('fileComplete', this.onAlbumArtUpload.bind(this));
+		this.albumArtImg = $(albumArtImg);
+		this.isNew = !!isNew;
+		this.reinFire();
+	},
+
+	reinFire: function(){
+		this.files.addEvents({
+			fileAdded: this.onFileAdded.bind(this),
+			fileEdited: this.onFileEdited.bind(this)
+		});
+		this.metaForm.podcast.addEvent('change', this.onPodcastChange.bind(this));
+	},
+
+	onFileAdded: function(json){
+		this.updateFormActions(json.media_id);
+		this.updateStatusForm(json.status_form);
+	},
+	
+	onFileEdited: function(json){
+		this.updateStatusForm(json.status_form);
+	},
+
+	updateFormActions: function(mediaID){
+		var actionSearch = /\/new\//, actionReplace = '/' + mediaID + '/';
+		this.metaForm.action = this.metaForm.action.replace(actionSearch, actionReplace);
+		this.statusForm.form.action = this.statusForm.form.action.replace(actionSearch, actionReplace);
+		this.albumArtUploader.uploader.setOptions({
+			url: this.albumArtUploader.uploader.options.url.replace(actionSearch, actionReplace)
+		});
+		this.uploader.uploader.setOptions({
+			url: this.uploader.uploader.options.url.replace(actionSearch, actionReplace)
+		});
+		this.files.addForm.action = this.files.addForm.action.replace(actionSearch, actionReplace);
+	/*	var fileForms = this.files.list.getChildren('form');
+		for (var form, i = fileForms.length; i--; i) {
+			form = fileForms[i];
+			form.action = form.action.replace(actionSearch, actionReplace);
+		}*/
+	},
+
+	updateStatusForm: function(html){
+		if (this.isNew) return; // dont let them click 'review complete' etc until saving!
+		var statusFormEl = new Element('div', {html: html}).getFirst();
+		this.statusForm.updateForm(statusFormEl);
+	},
+
+	onAlbumArtUpload: function(file){
+		var json = JSON.decode(file.response.text, true), src = this.albumArtImg.get('src');
+		this.albumArtImg.set('src', src.replace(/new/, json.media_id) + '?' + $time());
+		this.updateFormActions(json.media_id);
+	},
+
+	onPodcastChange: function(e){
+		e = new Event(e);
+		var podcastID = this.metaForm.podcast.value, oldPodcastID = this.metaFormPodcastID;
+		if (podcastID && !oldPodcastID) {
+			// enable toggle_feed
+			console.log('enable');
+		} else if (!podcastID && oldPodcastID) {
+			// disable toggle_feed
+			console.log('disable');
+		} else {
+			console.log('nuttin yo');
+		}
+		this.metaFormPodcastID = podcastID;
+	},
+
+});
+
+var StatusForm = new Class({
+	Extends: Options,
+
+	options: {
+		form: '',
+		submitReq: {noCache: true}
+	},
+
+	form: null,
+	submitReq: null,
+
+	initialize: function(opts){
+		this.setOptions(opts);
+		this.form = $(this.options.form).addEvent('submit', this.saveStatus.bind(this));
+	},
+
+	saveStatus: function(){
+		if (!this.submitReq) {
+			var submitOpts = $extend({url: this.form.action}, this.options.submitReq);
+			this.submitReq = new Request.HTML(submitOpts)
+				.addEvent('success', this.updateForm.bind(this));
+		}
+		this.submitReq.send(this.form);
+		return false;
+	},
+
+	updateForm: function(tree){
+		var form = $$(tree), formContents = form.getChildren();
+		this.form.empty().adopt(formContents);
+	}
+});
+
+
 /**
  * A picky sorter -- only starts the drag if left clicking on the base element
  * which happens to be the li in this case, not the any of the buttons/links.
  */
-var SortableFiles = new Class({
+var FickleSortables = new Class({
 
 	Extends: Sortables,
 
@@ -23,9 +141,15 @@ var SortableFiles = new Class({
 });
 
 
+/**
+ * Handles dynamic adding/editing of files to the media files box.
+ *
+ * Uploading itself is left to the Uploader and is expected to
+ * be tied in from that end.
+ */
 var FileManager = new Class({
 
-	Extends: Options,
+	Implements: [Events, Options],
 
 	options: {
 		saveOrderUrl: '',
@@ -35,6 +159,8 @@ var FileManager = new Class({
 			opacity: .6,
 			revert: true
 		}
+	/*	onFileAdded: function(json)
+	 *	onFileEdited: function(json, buttonClicked), */
 	},
 
 	container: null,
@@ -48,7 +174,7 @@ var FileManager = new Class({
 
 		this.list = $(this.container.getElement('ol'));
 		this.list.getChildren().each(this._setupLi.bind(this));
-		this.sortable = new SortableFiles(this.list, this.options.sortable).addEvents({
+		this.sortable = new FickleSortables(this.list, this.options.sortable).addEvents({
 			start: this.dragStart.bind(this),
 			complete: this.dragComplete.bind(this)
 		});
@@ -112,6 +238,7 @@ var FileManager = new Class({
 			this.sortable.addItems(li);
 		}.bind(this)}).slide('in').highlight();
 		this._setupLi(li);
+		return this.fireEvent('fileAdded', [json]);
 	},
 
 	editFile: function(e){
@@ -137,17 +264,14 @@ var FileManager = new Class({
 		if (json.field == 'delete') {
 			var li = button.getParent('li');
 			li.set('slide', {onComplete: li.destroy.bind(li)}).slide('out');
-			return;
-		}
-		var field = button.form.getElement('input[name=' + json.field + ']');
-		var span = button.parentNode;
-		field.set('value', json.value);
-		if (json.value) {
-			span.addClass('file-toggle-on');
 		} else {
-			span.removeClass('file-toggle-on');
+			var field = button.form.getElement('input[name=' + json.field + ']').set('value', json.value);
+			var span = button.parentNode;
+			if (json.value) span.addClass('file-toggle-on');
+			else span.removeClass('file-toggle-on');
+			span.removeClass('spinner');
 		}
-		span.removeClass('spinner');
+		return this.fireEvent('fileEdited', [json, button]);
 	},
 
 	_getFileID: function(el){

@@ -10,6 +10,9 @@
 			<h1>Publish Status</h1>
 		</div>
 		<div class="box-content" py:choose="">
+			<py:when test="media.is_new">
+				<div class="box-content center">You must add a file and save before review can begin.</div>
+			</py:when>
 			<py:when test="media.is_unreviewed">
 				<ol id="status-list">
 					<li class="status-list-inprogress">review pending</li>
@@ -17,7 +20,7 @@
 					<li class="status-list-pending">publishing pending</li>
 				</ol>
 				<div class="box-content center"
-				     py:content="h.tags.submit('update_button', 'Review Complete', id='update-status', class_='mo submitbutton btn-review-complete') if media.files else 'Review can only be completed after a file is added.'" />
+				     py:content="c.update_button('Review Complete', id='update-status', css_class='mo submitbutton btn-review-complete') if media.files else 'Review can only be completed after a file is added.'" />
 			</py:when>
 			<py:when test="media.is_unencoded">
 				<ol id="status-list">
@@ -25,7 +28,7 @@
 					<li class="status-list-inprogress">encoding pending</li>
 					<li class="status-list-pending">publishing pending</li>
 				</ol>
-				<div class="box-content center">Encoding will be complete when a ${media.ENCODED_TYPE.upper()} file is added.</div>
+				<div class="box-content center">Encoding will be complete when an acceptable file is added.</div>
 			</py:when>
 			<py:when test="media.is_draft">
 				<ol id="status-list">
@@ -33,7 +36,7 @@
 					<li class="status-list-complete">encoding complete</li>
 					<li class="status-list-inprogress">publishing pending</li>
 				</ol>
-				<div py:content="h.tags.submit('update_button', 'Publish Now', id='update-status', class_='mo submitbutton btn-publish-now')" class="box-content center" />
+				<div py:content="c.update_button('Publish Now', id='update-status', css_class='mo submitbutton btn-publish-now')" class="box-content center" />
 			</py:when>
 			<py:when test="media.is_published">
 				<ol id="status-list">

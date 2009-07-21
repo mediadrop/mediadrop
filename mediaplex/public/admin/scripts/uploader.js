@@ -4,6 +4,7 @@ var Uploader = new Class({
 
 	options: {
 		target: null,
+		uploadBtn: {text: 'Upload a file', 'class': 'mo btn-upload'},
 		statusBar: null,
 		progressBar: null,
 		progressBarOptions: {},
@@ -46,38 +47,48 @@ var Uploader = new Class({
 			buttonLeave: this.onButtonLeave.bind(this)
 		});
 
-		this.statusBar = $(this.options.statusBar);
+		this.statusBar = $(this.options.statusBar).slide('hide');
 		this.statusFile = $(this.options.statusFile);
 	},
 
 	onBrowse: function(){
-		this.statusBar.setStyle('display', 'none');
-		this.progressBar
+		this.clearStatusBar();
+	},
+
+	clearStatusBar: function(){
+		this.statusFile.empty();
+		if (this.progressBar) this.progressBar.set(0).element.setStyle('display', 'none');
 	},
 
 	onSelectSuccess: function(files){
 		var file = files[0];
-		this.statusFile.set('text', file.name).grab(new Element('div', {
-			text: ' (' + Swiff.Uploader.formatUnit(files[0].size, 'b') + ')'}), 'bottom');
-		this.progressBar = new Fx.ProgressBar(this.options.progressBar, this.options.progressBarOptions).set(0);
+		this.statusFile.grab(new Element('span', {
+			text: '(' + Swiff.Uploader.formatUnit(file.size, 'b') + ') '
+		})).appendText(file.name);
+		if (!this.progressBar) this.progressBar = new Fx.ProgressBar(this.options.progressBar, this.options.progressBarOptions).set(0);
 		this.progressBar.element.setStyle('display', 'block');
-		this.statusBar.setStyle('display', 'block');
+		this.statusBar.slide('in');
 		this.uploader.setEnabled(false);
 	},
 
 	onSelectFail: function(files){
+		var file = files[0];
+		this.statusFile.grab(new Element('span', {
+			text: '(' + Swiff.Uploader.formatUnit(file.size, 'b') + ') '
+		})).appendText(file.name);
 		console.log(files[0].name + ' was not added! (Error: #' + files[0].validationError + ')');
 		this.statusBar.setStyle('display', 'block');
 	},
 
 	onQueue: function(){
-		console.log('percent ' + this.uploader.percentLoaded);
 		this.progressBar.set(this.uploader.percentLoaded);
 	},
 
 	onFileComplete: function(file){
 		file.remove();
 		this.uploader.setEnabled(true);
+		this.progressBar.set(100);
+		this.statusBar.slide.delay(500, this.statusBar, ['out']);
 /*		if (file.response.error) {
 			this.uploader.setEnabled(true);
 			this._displayControls('block');
@@ -101,6 +112,6 @@ var Uploader = new Class({
 	},
 
 	_createUploadBtn: function(){
-		return new Element('span', {text: 'Upload a file', 'class': 'mo btn-upload'});
+		return new Element('span', this.options.uploadBtn);
 	}
 });

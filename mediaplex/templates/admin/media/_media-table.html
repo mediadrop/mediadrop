@@ -44,8 +44,9 @@
 						<a href="mailto:${media.author.email}" py:strip="not media.author.email">${media.author.name}</a>
 					</td>
 					<td py:when="'type'" class="center">
-						<img src="${h.url_for('/admin/images/icons/%s.png' % media.type.encode('utf-8'))}"
-						     py:with="pretty_type=media.type.capitalize()" alt="${pretty_type}" title="${pretty_type}" />
+						<img py:if="media.type != 'placeholder'" py:with="pretty_type=media.type.capitalize()"
+						     src="${h.url_for('/admin/images/icons/%s.png' % media.type.encode('utf-8'))}"
+						     alt="${pretty_type}" title="${pretty_type}" />
 					</td>
 				</py:for>
 			</tr>

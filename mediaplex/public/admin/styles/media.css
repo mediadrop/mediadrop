@@ -101,6 +101,13 @@ a.add-media { background-image: url('../images/buttons/add-media.png'); }
 .file-delete { background: url('../images/icons/delete.png'); }
 .file-play { background: url('../images/icons/star.png'); }
 .file-feed { background: url('../images/icons/feed.png'); }
+
+.file-list li {
+	width: 238px;
+	overflow: hidden;
+	padding: 10px;
+	border-bottom: 1px solid #CFCCC2;
+}
 .file-list li span {
 	display: block;
 	float: left;
@@ -130,12 +137,9 @@ a.add-media { background-image: url('../images/buttons/add-media.png'); }
 	cursor: pointer;
 	opacity: 1;
 }
-
-.file-list li {
-	width: 238px;
-	overflow: hidden;
-	padding: 10px;
-	border-bottom: 1px solid #CFCCC2;
+.file-list li:hover input[disabled='disabled']:hover {
+	opacity: .5;
+	cursor: auto;
 }
 #media-files-box {
 	border-bottom: 0;
@@ -153,17 +157,22 @@ a.add-media { background-image: url('../images/buttons/add-media.png'); }
 	float: left;
 	margin-left: 6px;
 }
+
 .upload-status {
-	display: none;
+	display: block;
 	background: #d1e4f2;
 	width: 100%;
 	overflow: hidden;
+	border-bottom: 1px solid #cfccc2;
 }
 .upload-status .upload-file {
-	background: url('../images/icons/file.png') no-repeat left;
+	background: url('../images/icons/file.png') no-repeat top left;
 	padding-left: 19px;
 	margin: 0 10px;
 	font-size: 12px;
+}
+.upload-status .upload-file span {
+	float: right;
 }
 .upload-status .progressbar {
 	display: none;
