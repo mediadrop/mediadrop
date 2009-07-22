@@ -7,7 +7,7 @@ from urlparse import urlparse
 from webhelpers import date, feedgenerator, html, number, misc, text, paginate
 from webhelpers.html.converters import format_paragraphs
 from webhelpers.html import tags
-from routes.util import url_for
+from routes.util import url_for as rurl
 from tg import expose, request
 from tg.exceptions import HTTPFound
 
@@ -39,6 +39,26 @@ class expose_xhr(object):
         self.normal_decorator = expose(template=template_norm, **kwargs)
         self.xhr_decorator = expose(template=template_xhr, **kwargs)
 
+def url_for(*args, **kwargs):
+    """ Wrapper for routes.util.url_for
+
+    Using the REPLACE and REPLACE_WITH GET variables, if set,
+    this method replaces the first instance of REPLACE in the
+    url string. This can be used to proxy an action at a different
+    URL.
+
+    For example, by using an apache mod_rewrite rule:
+    RewriteRule ^/proxy_url(/.*)$ /myapp/myaction$1?REPLACE_WITH=/proxy_url&REPLACE=/myapp/myaction [proxy,qsappend]
+    """
+    repl = request.str_GET.getall('REPLACE')
+    repl_with = request.str_GET.getall('REPLACE_WITH')
+    url = rurl(*args, **kwargs)
+    if repl:
+        old = repl[-1]
+        new = repl_with and repl_with[-1] or ''
+        url = url.replace(old, new, 1)
+
+    return url
 
 def duration_from_seconds(total_sec):
     if not total_sec:
