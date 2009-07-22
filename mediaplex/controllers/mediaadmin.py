@@ -307,17 +307,35 @@ class MediaadminController(RoutingController):
             media = fetch_row(Media, id, incl_trash=True)
 
         temp_file = album_art.file
-        im_path = '%s/../public/images/media/%d%%s.jpg' % (os.path.dirname(__file__), media.id)
+        im_path = os.path.join(config.media_thumb_dir, '%d%%(size)s.%%(ext)s' % media.id)
 
-        im = Image.open(temp_file)
-        im.resize((162, 113), 1).save(im_path % 's')
-        im.resize((240, 168), 1).save(im_path % 'm')
-        im.resize((410, 273), 1).save(im_path % 'l')
+        try:
+            # Create jpeg thumbnails
+            im = Image.open(temp_file)
+            im.resize((162,  91), 1).save(im_path % dict(size='s', ext='jpg'))
+            im.resize((240, 135), 1).save(im_path % dict(size='m', ext='jpg'))
+            im.resize((410, 231), 1).save(im_path % dict(size='l', ext='jpg'))
 
-        return dict(
-            success = True,
-            media_id = media.id,
-        )
+            # Backup the original image just for kicks
+            orig_type = os.path.splitext(album_art.filename)[1].lower()[1:]
+            orig_path = im_path % dict(size='orig', ext=orig_type)
+            orig_file = open(orig_path, 'w')
+            copyfileobj(temp_file, orig_file)
+            temp_file.close()
+            orig_file.close()
+
+            success = True
+            message = None
+        except IOError, e:
+            success = False
+            message = 'Unsupported image type'
+        except Exception, e:
+            success = False
+            message = e.message
+
+        return dict(success = success,
+                    message = message,
+                    media_id = media.id)
 
 
     @expose()
