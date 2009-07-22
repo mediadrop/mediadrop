@@ -28,7 +28,7 @@ from mediaplex.forms.comments import PostCommentForm
 
 
 class MediaadminController(RoutingController):
-#    allow_only = has_permission('admin')
+    allow_only = has_permission('admin')
 
     @expose_xhr('mediaplex.templates.admin.media.index',
                 'mediaplex.templates.admin.media.index-table')
