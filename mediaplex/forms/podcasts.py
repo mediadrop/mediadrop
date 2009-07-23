@@ -1,7 +1,7 @@
 from tw.forms import ListFieldSet, TextField, FileField, CalendarDatePicker, SingleSelectField, TextArea, SubmitButton, RadioButtonList
 from tw.forms.validators import Schema, Int, NotEmpty, DateConverter, DateValidator, Email, URL
 from mediaplex.lib import helpers
-from mediaplex.forms import ListForm
+from mediaplex.forms import ListForm, XHTMLTextArea
 
 class PodcastForm(ListForm):
     template = 'mediaplex.templates.admin.box-form'
@@ -91,7 +91,7 @@ class PodcastForm(ListForm):
         TextField('subtitle', maxlength=255),
         TextField('author_name', validator=NotEmpty, maxlength=50),
         TextField('author_email', validator=NotEmpty, maxlength=50),
-        TextArea('description', attrs=dict(rows=5, cols=25)),
+        XHTMLTextArea('description', attrs=dict(rows=5, cols=25)),
         ListFieldSet('details', suppress_label=True, legend='Podcast Details:', css_classes=['details_fieldset'], children=[
             SingleSelectField('explicit', label_text='Explicit?', options=explicit_options),
             SingleSelectField('category', options=category_options),

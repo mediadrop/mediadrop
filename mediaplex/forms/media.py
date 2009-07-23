@@ -3,7 +3,7 @@ from tw.forms.validators import Schema, Int, StringBool, NotEmpty, DateConverter
 
 from mediaplex.model import DBSession, Podcast, MediaFile
 from mediaplex.lib import helpers
-from mediaplex.forms import Form, ListForm, ListFieldSet, TextField, FileField, CalendarDatePicker, SingleSelectField, TextArea, SubmitButton, Button, HiddenField
+from mediaplex.forms import Form, ListForm, ListFieldSet, TextField, XHTMLTextArea, FileField, CalendarDatePicker, SingleSelectField, TextArea, SubmitButton, Button, HiddenField
 from mediaplex.model import DBSession, Podcast
 
 
@@ -63,7 +63,7 @@ class MediaForm(ListForm):
         TextField('title', validator=NotEmpty, maxlength=255),
         TextField('author_name', validator=NotEmpty, maxlength=50),
         TextField('author_email', validator=NotEmpty, maxlength=50),
-        TextArea('description', attrs=dict(rows=5, cols=25)),
+        XHTMLTextArea('description', attrs=dict(rows=5, cols=25)),
         TextArea('notes', label_text='Additional Notes', attrs=dict(rows=3, cols=25), default="""Bible References: None
 S&H References: None
 Reviewer: None
@@ -105,7 +105,7 @@ class UploadForm(ListForm):
             'badDomain': 'The portion of this email address after the @ is invalid'
         }), label_text='Your email:', help_text='(will not be published)', show_error=True, maxlength=50)
         title = TextField(validator=NotEmpty(messages={'empty':'You\'ve gotta have a title!'}), label_text='Title:', show_error=True, maxlength=255)
-        description = TextArea(validator=NotEmpty(messages={'empty':'At least give it a short description...'}), label_text='Description:', attrs=dict(rows=5, cols=25), show_error=True)
+        description = XHTMLTextArea(validator=NotEmpty(messages={'empty':'At least give it a short description...'}), label_text='Description:', attrs=dict(rows=5, cols=25), show_error=True)
         tags = TextField(label_text='Tags:', help_text='(optional) e.g.: puppies, great dane, adorable', show_error=True)
         file = FileField(validator=FieldStorageUploadConverter(not_empty=True, messages={'empty':'Oops! You forgot to enter a file.'}), label_text='Media File', show_error=True)
         submit = SubmitButton(css_class='submit-image', show_error=False)
