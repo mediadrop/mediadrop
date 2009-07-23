@@ -13,31 +13,32 @@ class AdminController(RoutingController):
     """Admin dashboard actions"""
     allow_only = has_permission('admin')
 
-    @expose_xhr('mediaplex.templates.admin.index','mediaplex.templates.admin.video.dash-table')
+    @expose('mediaplex.templates.admin.index')
     def index(self, **kwargs):
-        if request.is_xhr:
-            """ShowMore Ajax Fetch Action"""
-            type = kwargs.get('type', 'awaiting_review')
-            page = kwargs.get('page', 1)
-            return dict(videos=self._fetch_page(type, page).items)
-        else:
-            # Any publishable video that does have a publish_on date that is in the
-            # past and is publishable is 'Recently Published'
-            recent_media = DBSession.query(Media)\
-                .filter(Media.status >= 'publish')\
-                .filter(Media.publish_on < datetime.now)\
-                .order_by(Media.publish_on)[:5]
-            comments_unreviewed = DBSession.query(Comment).filter(Comment.status >= 'unreviewed').count()
-            comments_total = DBSession.query(Comment).count()
+        # Any publishable video that does have a publish_on date that is in the
+        # past and is publishable is 'Recently Published'
+        recent_media = DBSession.query(Media)\
+            .filter(Media.status >= 'publish')\
+            .filter(Media.publish_on < datetime.now)\
+            .order_by(Media.publish_on)[:5]
+        comments_unreviewed = DBSession.query(Comment).filter(Comment.status >= 'unreviewed').count()
+        comments_total = DBSession.query(Comment).count()
 
-            return dict(
-                review_page=self._fetch_page('awaiting_review'),
-                encode_page=self._fetch_page('awaiting_encoding'),
-                publish_page=self._fetch_page('awaiting_publishing'),
-                num_comments_to_review=comments_unreviewed,
-                num_comments_total=comments_total,
-                recent_media=recent_media
-            )
+        return dict(
+            review_page=self._fetch_page('awaiting_review'),
+            encode_page=self._fetch_page('awaiting_encoding'),
+            publish_page=self._fetch_page('awaiting_publishing'),
+            num_comments_to_review=comments_unreviewed,
+            num_comments_total=comments_total,
+            recent_media=recent_media
+        )
+
+    @expose('mediaplex.templates.admin.media.dash-table')
+    def video_table(self, table, page, **kwargs):
+        """ShowMore Ajax Fetch Action"""
+        return dict(
+            media=self._fetch_page(table, page).items,
+        )
 
     def _fetch_page(self, type='awaiting_review', page=1, items_per_page=6):
         """Helper method for paginating media results"""
