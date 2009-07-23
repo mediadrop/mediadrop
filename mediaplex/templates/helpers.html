@@ -3,7 +3,20 @@
       xmlns:xi="http://www.w3.org/2001/XInclude"
       py:strip="">
 
+	<!--! Call this method to set options for the nav bar -->
+	<py:def
+		function="set_nav_opts(*args)"
+		py:with="a = setattr(c, 'nav_opts', dict(
+			show_left = 'hide_left' not in args,
+			show_topics = 'hide_topics' not in args,
+			show_topic_list = 'unhide_topic_list' in args,
+			show_upload = 'hide_upload' not in args,
+			show_podcast_help = 'hide_podcast_help' not in args and 'podcast_help' in args,
+			));"
+	/>
+
 	<py:match path="head" once="true">
+		<py:if test="not c.nav_opts" py:replace="set_nav_opts()" />
 		<head>
 			<link href="${h.url_for('/styles/mediaflow.css')}" media="screen" rel="stylesheet" type="text/css" />
 			<link href="${h.url_for('/styles/ratings.css')}" media="screen" rel="stylesheet" type="text/css" />
@@ -25,11 +38,11 @@
 						button: 'nav-topics',
 						buttonActiveClass: 'topics-shown',
 						elements: $('mediaplex-topics').getChildren(),
-						startHidden: ${c.show_tags and 'false' or 'true'},
+						startHidden: ${c.nav_opts['show_topic_list'] and 'false' or 'true'},
 						openFx: flyoutOpenFx,
 						closeFx: flyoutCloseFx
 					});
-					<py:if test="c.podcast_help">
+					<py:if test="c.nav_opts['show_podcast_help']">
 						var podcastHelpFlyout = new ButtonFlyout({
 							button: 'nav-podcast-help',
 							buttonActiveClass: 'podcast-help-shown',
@@ -57,16 +70,17 @@
 	</py:match>
 
 	<py:match path="nav" recursive="false">
+		<py:if test="not c.nav_opts" py:replace="set_nav_opts()" />
 		<div class="box-nav">
-			<ul id="nav" class="box-nav-left">
+			<ul py:if="c.nav_opts['show_left']" id="nav" class="box-nav-left">
 				<li id="nav-latest"><a href="${h.url_for(controller='/video', action='flow')}">Latest</a></li>
 				<li id="nav-videos"><a href="${h.url_for(controller='/video')}">Video</a></li>
 				<li id="nav-podcasts"><a href="${h.url_for(controller='/podcasts')}">Podcasts</a></li>
 			</ul>
-			<a id="nav-topics" class="box-nav-right topics-shown" href="/video-tags">Topic Index</a>
-			<a py:if="not c.podcast_help" id="nav-upload-video" class="box-nav-right" href="${h.url_for(controller='/video', action='upload')}">Upload a Video</a>
-			<a py:if="c.podcast_help" id="nav-podcast-help" class="box-nav-right podcast-help-shown" href="#">What are podcasts?</a>
-			<div py:if="c.podcast_help" id="podcast-help-box" class="nav-box">
+			<a py:if="c.nav_opts['show_topics']" id="nav-topics" class="box-nav-right topics-shown" href="/video-tags">Topic Index</a>
+			<a py:if="c.nav_opts['show_upload']" id="nav-upload-video" class="box-nav-right" href="${h.url_for(controller='/video', action='upload')}">Upload a Video</a>
+			<a py:if="c.nav_opts['show_podcast_help']" id="nav-podcast-help" class="box-nav-right podcast-help-shown" href="#">What are podcasts?</a>
+			<div py:if="c.nav_opts['show_podcast_help']" id="podcast-help-box" class="nav-box">
 				<div id="podcast-help-top" />
 				<div class="nav-box-top" />
 				<div>
@@ -77,7 +91,7 @@
 					<div class="nav-box-bottom" />
 				</div>
 			</div>
-			<div id="mediaplex-topics" class="nav-box">
+			<div py:if="c.nav_opts['show_topics']" id="mediaplex-topics" class="nav-box">
 				<div id="topic-box-top" />
 				<div class="nav-box-topright" />
 				<div><!--! this extra div is here to group elements for the ButtonFlyout js -->

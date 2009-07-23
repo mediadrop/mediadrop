@@ -81,7 +81,6 @@ class VideoController(RoutingController):
         video_query = self._list_query\
             .filter(Video.tags.contains(tag))\
             .options(undefer('comment_count'))
-        tmpl_context.show_tags = True
         return dict(
             videos = video_query,
         )
