@@ -1,7 +1,3 @@
---
--- Table structure for table `topics`
---
-
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `topics` (
@@ -12,14 +8,7 @@ CREATE TABLE `topics` (
   UNIQUE KEY `name` (`name`),
   UNIQUE KEY `slug` (`slug`)
 ) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
-SET character_set_client = @saved_cs_client;
 
---
--- Table structure for table `media_topics`
---
-
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
 CREATE TABLE `media_topics` (
   `media_id` int(10) unsigned NOT NULL,
   `topic_id` int(10) unsigned NOT NULL,
