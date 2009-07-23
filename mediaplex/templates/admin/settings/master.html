@@ -1,0 +1,29 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      xmlns:xi="http://www.w3.org/2001/XInclude"
+      py:with="paginator=c.paginators.categories">
+<head py:match="head">
+	<title>Settings &#8211; ${category_name}</title>
+	<link href="${h.url_for('/admin/styles/settings.css')}" media="screen" rel="stylesheet" type="text/css" />
+	<meta py:replace="select('*')"/>
+</head>
+<body py:match="body" class="menu-settings-on" py:attrs="select('@*')">
+	<div class="lft-column33">
+		<div class="box">
+			<h1 class="box-head">Settings</h1>
+			<ul class="box-content">
+				<li><a href="${h.url_for(action='index', category='topics')}">Topics</a></li>
+				<li><a href="${h.url_for(action='index', category='tags')}">Tags</a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="rgt-column66">
+		<div py:replace="select('*|text()')" />
+		<div class="box"></div>
+	</div>
+</body>
+</html>
+
+
