@@ -9,19 +9,61 @@ var CategoryMgr = new Class({
 		table: 'category-table',
 		formSelector: 'form.edit-category-form',
 		cancelLink: 'a.cancel-category',
-		deleteLink: 'a.delete-category'
+		deleteLink: 'a.delete-category',
+		emptyRow: 'empty-category'
 	},
+
+	dummyTable: null,
+	emptyRow: null,
 
 	initialize: function(opts) {
 		this.setOptions(opts);
-		this.processRows($(this.options.table).getElements('tbody > tr'));
+		var table = $(this.options.table);
+		this.emptyRow = $(this.options.emptyRow);
+		this.dummyTable = new Element('table');
+
+		var cancelButton = this.emptyRow.getElement('input.cancel-category');
+		cancelButton.addEvent('click', this.stashEmptyRow.bind(this));
+		this.emptyRow.getElement('input.save-category').addEvent('click', this.handleNewSave.bind(this));
+		var formCell = this.emptyRow.getElement('form').getParent();
+		formCell.getPrevious().dispose();
+		formCell.set('colspan', '3');
+
+
+		table.getPrevious().getElement('a').addEvent('click', this.addCategory.bind(this));
+		this.stashEmptyRow();
+
+		this.processRows(table.getElements('tbody > tr'));
 	},
 
 	processRows: function(rows) {
 		$$(rows).each(function(row){
 			var category = new Category(row, this.options);
 		}.bind(this));
-	}
+	},
+
+	stashEmptyRow: function() {
+		this.dummyTable.grab(this.emptyRow);
+	},
+
+	addCategory: function() {
+
+		var tbody = $(this.options.table).getElement('tbody');
+		this.emptyRow.inject(tbody, 'top');
+		return false;
+	},
+
+	handleNewSave: function(){
+		this.emptyRow.getElement('form').set('send', {onComplete: function(response) {
+			if(JSON.decode(response).category != null) {
+				window.location.reload(true);
+			} else {
+				alert('Error saving new '+this.options.categoryName);
+			}
+		}.bind(this)});
+		this.emptyRow.getElement('form').send();
+		return false;
+	},
 });
 
 var Category = new Class({
@@ -51,6 +93,7 @@ var Category = new Class({
 		this.deleteLink = row.getElement(this.options.deleteLink);
 		this.form = row.getElement(this.options.formSelector);
 		this.formCell = this.form.getParent();
+		this.formCell.set('colspan', '3');
 		this.buttonCell = this.formCell.getPrevious();
 		this.countCell = this.formCell.getNext();
 
@@ -71,7 +114,6 @@ var Category = new Class({
 		var slug = this.form.getElement('input.category-slug').get('value');
 		this.nameCell = new Element('td', {html: this.name});
 		this.slugCell = new Element('td', {html: slug});
-		this.cancelCell = new Element('td').grab(cancelButton);
 
 		this.toggleForm()
 
@@ -105,13 +147,13 @@ var Category = new Class({
 	toggleForm: function(){
 		if(this.formVisible){
 			// show the display view
-			this.dummyRow.adopt(this.cancelCell, this.formCell);
+			this.dummyRow.adopt(this.formCell);
 			this.row.adopt(this.buttonCell, this.nameCell, this.slugCell, this.countCell);
 
 		} else {
 			// show the form
 			this.dummyRow.adopt(this.buttonCell, this.nameCell, this.slugCell);
-			this.row.adopt(this.cancelCell, this.formCell, this.countCell);
+			this.row.adopt(this.formCell, this.countCell);
 		}
 		this.formVisible = !this.formVisible;
 		return this;
@@ -120,8 +162,9 @@ var Category = new Class({
 	saveEditForm: function(){
 		this.toggleForm();
 		this.form.set('send', {onComplete: function(response) {
-			this.nameCell.set('html', JSON.decode(response).category.name);
-			this.slugCell.set('html', JSON.decode(response).category.slug);
+			var category = JSON.decode(response).category;
+			this.nameCell.set('html', category.name);
+			this.slugCell.set('html', category.slug);
 		}.bind(this)});
 		this.form.send();
 		return false;

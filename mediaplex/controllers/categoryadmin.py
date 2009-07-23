@@ -46,6 +46,10 @@ class CategoryadminController(RoutingController):
     @expose('json')
     def save(self, id, category='topics', **kwargs):
         category = fetch_row(self.select_model(category), id)
+
+        if category.id == 'new':
+            category.id = None
+
         category.name = strip_xhtml(kwargs['name'])
         category.slug = strip_xhtml(kwargs['slug'])
 

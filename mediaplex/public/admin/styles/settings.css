@@ -1,3 +1,10 @@
+.add-topic, .add-topic:hover,
+.add-tag, .add-tag:hover {
+	height: 28px;
+}
+.add-topic { background-image: url('../images/buttons/add-topic.png'); width: 103px; }
+.add-tag { background-image: url('../images/buttons/add-tag.png'); width: 91px; }
+
 .edit-category, .delete-category, .save-category, .cancel-category {
 	height: 19px;
 	float: left;
@@ -7,7 +14,7 @@
 .edit-category { background-image: url('../images/buttons/edit-half.png'); width: 37px;}
 .delete-category { background-image: url('../images/buttons/delete-half.png'); width: 26px;}
 .save-category { background-image: url('../images/buttons/table-button-save.png'); width: 42px; float: right;}
-.cancel-category { background-image: url('../images/buttons/table-button-cancel.png'); width: 63px; float: right;}
+.cancel-category { background-image: url('../images/buttons/table-button-cancel.png'); width: 63px; float: left; margin-right: 17px;}
 
 .textfield {
 	width: 183px;

@@ -4,7 +4,6 @@
 	<table py:def="category_table(collection, category, edit_form, include_thead=True, id='category-table', classes=None)"
 	    cellpadding="0" cellspacing="0" id="${id}" class="${classes}"
 	    py:with="item_count = len(collection);
-	             include_thead = include_thead and item_count > 0;
 				 category_name = category.rstrip('s')">
 		<thead py:if="include_thead">
 			<tr>
@@ -15,6 +14,13 @@
 			</tr>
 		</thead>
 		<tbody>
+			<tr id="empty-category">
+				<td></td>
+				<td colspan="2">
+					${XML(edit_form(action=h.url_for(action='save', id='new', category=category)))}
+				</td>
+				<td class="center">0</td>
+			</tr>
 			<tr py:if="item_count == 0">
 				<td>None Found</td>
 			</tr>

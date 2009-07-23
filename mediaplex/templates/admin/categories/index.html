@@ -31,7 +31,8 @@
 </head>
 <body class="menu-settings-on">
 	<div class="box">
-		<div class="box-head">
+		<div class="box-head" py:with="category_single = category_name.rstrip('s').lower()">
+			<a href="${h.url_for(action='save', id='new')}" class="mo add-${category_single} f-rgt"><span>Add ${category_single}</span></a>
 			<h1>${category_name}</h1>
 		</div>
 		<xi:include href="../categories/index-table.html" py:with="categories=categories; category=category; edit_form=edit_form;" />
