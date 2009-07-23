@@ -31,7 +31,7 @@ ${set_nav_opts('podcast_help')}
 						<p py:replace="Markup(podcast.description)" />
 					</div>
 					<div class="options">
-						<a href="#">Add to iTunes</a> |
+						<a href="${podcast.itunes_url or h.url_for(action='feed', slug=podcast.slug)}">Add to iTunes</a> |
 						Number of Episodes: ${podcast.published_media_count}
 					</div>
 				</li>
