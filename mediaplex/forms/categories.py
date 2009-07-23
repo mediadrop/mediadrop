@@ -10,10 +10,10 @@ class EditCategoryForm(ListForm):
     css_class = 'edit-category-form'
 
     fields = [
-        TextField('name', validator=NotEmpty),
-        TextField('slug', validator=NotEmpty),
-        SubmitButton('submit', default='Save', css_classes=['mo', 'btn-save', 'f-rgt']),
-        ResetButton(default='Cancel', css_classes=['mo', 'btn-cancel'])
+        TextField('name', css_classes=['category-name'], validator=NotEmpty),
+        TextField('slug', css_classes=['category-slug'], validator=NotEmpty),
+        SubmitButton('submit', default='Save', css_classes=['mo', 'save-category']),
+        ResetButton(default='Cancel', css_classes=['mo', 'cancel-category'])
     ]
 
 

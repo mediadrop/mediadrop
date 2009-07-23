@@ -4,13 +4,14 @@
 	<table py:def="category_table(collection, category, edit_form, include_thead=True, id='category-table', classes=None)"
 	    cellpadding="0" cellspacing="0" id="${id}" class="${classes}"
 	    py:with="item_count = len(collection);
-	             include_thead = include_thead and item_count > 0;">
+	             include_thead = include_thead and item_count > 0;
+				 category_name = category.rstrip('s')">
 		<thead py:if="include_thead">
 			<tr>
 				<th style="width:63px"></th>
-				<th style="width:auto">Name</th>
+				<th style="width:193px">Name</th>
 				<th style="width:auto">Slug</th>
-				<th style="width:100px"># Media</th>
+				<th style="width:58px" class="center"># Media</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -18,11 +19,11 @@
 				<td>None Found</td>
 			</tr>
 			<tr py:for="item in collection">
-				<td><a class="mo delete-category" href="${h.url_for(action='delete', id=item.id, category=category)}" title="Delete this ${category}"><span>delete</span></a></td>
+				<td><a class="mo delete-category" href="${h.url_for(action='delete', id=item.id, category=category)}" title="Delete this ${category_name}"><span>delete</span></a></td>
 				<td colspan="2">
 					${XML(edit_form(item, action=h.url_for(action='save', id=item.id, category=category)))}
 				</td>
-				<td>${item.media_count}</td>
+				<td class="center">${item.media_count}</td>
 			</tr>
 		</tbody>
 	</table>
