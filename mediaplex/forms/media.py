@@ -69,7 +69,7 @@ S&H References: None
 Reviewer: None
 License: General Upload"""),
         TextField('tags'),
-        ListFieldSet('details', suppress_label=True, legend='Media Details:', children=[
+        ListFieldSet('details', suppress_label=True, legend='Media Details:', css_classes=['details_fieldset'], children=[
             TextField('duration'),
         ]),
         SubmitButton('save', default='Save', named_button=True, css_classes=['mo', 'btn-save', 'f-rgt']),

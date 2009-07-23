@@ -14,7 +14,7 @@ class PodcastForm(ListForm):
     # required to support multiple named buttons to differentiate between Save & Delete?
     _name = 'vf'
 
-    explicit_options = ['Yes', 'No', 'Clean']
+    explicit_options = [('no', ''), ('yes', 'Parental Advisory'), ('clean', 'Clean')]
     category_options = [
         'Arts',
         'Arts > Design',
@@ -92,10 +92,10 @@ class PodcastForm(ListForm):
         TextField('author_name', validator=NotEmpty, maxlength=50),
         TextField('author_email', validator=NotEmpty, maxlength=50),
         TextArea('description', attrs=dict(rows=5, cols=25)),
-        ListFieldSet('details', suppress_label=True, legend='Podcast Details:', children=[
-            TextField('copyright', maxlength=50),
+        ListFieldSet('details', suppress_label=True, legend='Podcast Details:', css_classes=['details_fieldset'], children=[
+            SingleSelectField('explicit', label_text='Explicit?', options=explicit_options),
             SingleSelectField('category', options=category_options),
-            RadioButtonList('explicit', label_text='Explicit?', options=explicit_options),
+            TextField('copyright', maxlength=50),
             TextField('itunes_url', label_text='iTunes URL', maxlength=80),
             TextField('feedburner_url', label_text='Feedburner URL', maxlength=80),
         ]),

@@ -37,25 +37,22 @@ class PodcastadminController(RoutingController):
         podcast = fetch_row(Podcast, id)
         form = PodcastForm(action=url_for(action='save'), podcast=podcast)
 
-        explicit = 'No'
-        if podcast.explicit is not None:
-            explicit = podcast.explicit and 'Yes' or 'Clean'
-
-        form_values = {
-            'slug': podcast.slug,
-            'title': podcast.title,
-            'subtitle': podcast.subtitle,
-            'author_name': podcast.author and podcast.author.name or None,
-            'author_email': podcast.author and podcast.author.email or None,
-            'description': podcast.description,
-            'details': {
-                'category': podcast.category,
-                'explicit': explicit,
-                'copyright': podcast.copyright,
-                'itunes_url': podcast.itunes_url,
-                'feedburner_url': podcast.feedburner_url,
-            },
-        }
+        explicit_values = dict(yes=True, clean=False)
+        form_values = dict(
+            slug = podcast.slug,
+            title = podcast.title,
+            subtitle = podcast.subtitle,
+            author_name = podcast.author and podcast.author.name or None,
+            author_email = podcast.author and podcast.author.email or None,
+            description = podcast.description,
+            details = dict(
+                explicit = {True: 'yes', False: 'clean'}.get(podcast.explicit, 'no'),
+                category = podcast.category,
+                copyright = podcast.copyright,
+                itunes_url = podcast.itunes_url,
+                feedburner_url = podcast.feedburner_url,
+            ),
+        )
         form_values.update(values)
 
         album_art_form_errors = {}
@@ -93,10 +90,7 @@ class PodcastadminController(RoutingController):
         podcast.category = details['category']
         podcast.itunes_url = details['itunes_url']
         podcast.feedburner_url = details['feedburner_url']
-        if details['explicit'] == 'No':
-            podcast.explicit = None
-        else:
-            podcast.explicit = details['explicit'] == 'Yes'
+        podcast.explicit = {'yes': True, 'clean': False}.get(details['explicit'], None)
 
         DBSession.add(podcast)
         DBSession.flush()
