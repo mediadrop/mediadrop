@@ -24,7 +24,7 @@ ${set_nav_opts('hide_upload', 'hide_topics', 'hide_left')}
 		<div id="mediaflow-ctrls" />
 		<div id="mediaflow-body">
 			<xi:include href="_mediaflow-pager.html" />
-			${mediaflow_slider_pager(videos, 'concept_view')}
+			${mediaflow_slider_pager(videos, {'controller':'/media', 'action':'concept_view'})}
 		</div>
 	</box>
 </body>
