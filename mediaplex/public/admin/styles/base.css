@@ -240,7 +240,7 @@ tr.thead-row td h3 {
 
 
 /* Forms */
-.btn-save, .btn-delete, .btn-yes, .btn-no, .btn-cancel, .btn-upload {
+.btn-save, .btn-delete, .btn-yes, .btn-no, .btn-cancel, .btn-upload, .btn-upload-image {
 	text-indent: -1000px;
 	cursor: pointer;
 	border: 0;
@@ -255,6 +255,7 @@ tr.thead-row td h3 {
 .btn-cancel { background-image: url('../images/buttons/cancel.png'); width: 87px; }
 .btn-uploadfile { background-image: url('../images/buttons/upload-file.png'); width: 129px; }
 .btn-upload { background-image: url('../images/buttons/upload.png'); width: 83px; }
+.btn-upload-image { background-image: url('../images/buttons/upload-image.png'); width: 129px; }
 
 
 span.show-more {

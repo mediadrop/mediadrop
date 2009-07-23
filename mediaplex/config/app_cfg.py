@@ -19,6 +19,9 @@ class MediaplexConfig(AppConfig):
         map.connect('/concept/{slug}/comment', controller='media', action='concept_comment')
         map.connect('/concept/{slug}', controller='media', action='concept_view')
 
+        map.connect('/lessons', controller='media', action='lessons')
+        map.connect('/lessons/{slug}', controller='media', action='lesson_view')
+        map.connect('/lessons/{slug}/comment', controller='media', action='lesson_comment')
 
         # routes for all non-view, non-index, video actions
         map.connect('/video-{action}', controller='video', requirements=dict(action='flow|upload|upload_submit|upload_submit_async|upload_success|upload_failure'))
@@ -34,7 +37,7 @@ class MediaplexConfig(AppConfig):
         map.connect('/podcasts/{podcast_slug}/{slug}/{action}', controller='media', action='view', requirements=dict(action='view|rate|comment|feed'))
         # admin routes
         map.connect('/admin/media', controller='mediaadmin', action='index')
-        map.connect('/admin/media/{id}/{action}', controller='mediaadmin', action='edit', requirements=dict(action='edit|add_file|edit_file|reorder_file|save_album_art|update_status'))
+        map.connect('/admin/media/{id}/{action}', controller='mediaadmin', action='edit', requirements=dict(action='edit|save|add_file|edit_file|reorder_file|save_album_art|update_status'))
 
         map.connect('/admin/podcasts', controller='podcastadmin', action='index')
         map.connect('/admin/podcasts/{id}/{action}', controller='podcastadmin', action='edit')
@@ -91,10 +94,39 @@ base_config.sa_auth.post_login_url = '/post_login'
 # on logout:
 base_config.sa_auth.post_logout_url = '/post_logout'
 
+# custom auth goodness
+from repoze.who.classifiers import default_request_classifier
+from paste.httpheaders import USER_AGENT
+from paste.httpheaders import REQUEST_METHOD
+from paste.request import parse_formvars
+def custom_classifier_for_flash_uploads(environ):
+    """Normally classifies the request as browser, dav or xmlpost.
+
+    When the Flash uploader is sending a file, it appends the authtkt session ID
+    to the POST data so we spoof the cookie header so that the auth code will
+    think this was a normal request. In the process, we overwrite any
+    pseudo-cookie data that is sent by Flash.
+    """
+    classification = default_request_classifier(environ)
+    if classification == 'browser' and REQUEST_METHOD(environ) == 'POST' and 'Flash' in USER_AGENT(environ):
+        try:
+            session_key = environ['repoze.who.plugins']['cookie'].cookie_name
+            session_id = parse_formvars(environ)[session_key]
+            environ['HTTP_COOKIE'] = '%s=%s' % (session_key, session_id)
+            del environ['paste.cookies']
+            del environ['paste.cookies.dict']
+        except (KeyError, AttributeError):
+            pass
+    return classification
+base_config.sa_auth.classifier = custom_classifier_for_flash_uploads
+
+
 # Mimetypes
 base_config.mimetype_lookup = {
     '.flv': 'video/x-flv',
     '.mp3': 'audio/mpeg',
+    '.mp4': 'audio/mpeg',
+    '.m4a': 'audio/mpeg',
 }
 
 base_config.embeddable_filetypes = {

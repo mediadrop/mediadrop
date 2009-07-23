@@ -14,7 +14,7 @@
 
 .review-comment { background-image: url('../images/buttons/comment-approve.png'); }
 .published-comment { background-image: url('../images/buttons/comment-published.png'); }
-.trash-comment { background-image: url('../images/buttons/comment-delete.png'); }
+.trash-comment { background-image: url('../images/buttons/delete-half.png'); }
 
 .author strong {
 	font-weight: bold;

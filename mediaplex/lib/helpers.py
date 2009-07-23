@@ -7,11 +7,11 @@ from urlparse import urlparse
 from webhelpers import date, feedgenerator, html, number, misc, text, paginate
 from webhelpers.html.converters import format_paragraphs
 from webhelpers.html import tags
-from routes.util import url_for
+from routes.util import url_for as rurl
 from tg import expose, request
 from tg.exceptions import HTTPFound
 
-from htmlsanitizer import Cleaner
+from htmlsanitizer import Cleaner, entities_to_unicode, encode_xhtml_entities
 
 
 class expose_xhr(object):
@@ -39,6 +39,26 @@ class expose_xhr(object):
         self.normal_decorator = expose(template=template_norm, **kwargs)
         self.xhr_decorator = expose(template=template_xhr, **kwargs)
 
+def url_for(*args, **kwargs):
+    """ Wrapper for routes.util.url_for
+
+    Using the REPLACE and REPLACE_WITH GET variables, if set,
+    this method replaces the first instance of REPLACE in the
+    url string. This can be used to proxy an action at a different
+    URL.
+
+    For example, by using an apache mod_rewrite rule:
+    RewriteRule ^/proxy_url(/.*)$ /myapp/myaction$1?REPLACE_WITH=/proxy_url&REPLACE=/myapp/myaction [proxy,qsappend]
+    """
+    repl = request.str_GET.getall('REPLACE')
+    repl_with = request.str_GET.getall('REPLACE_WITH')
+    url = rurl(*args, **kwargs)
+    if repl:
+        old = repl[-1]
+        new = repl_with and repl_with[-1] or ''
+        url = url.replace(old, new, 1)
+
+    return url
 
 def duration_from_seconds(total_sec):
     if not total_sec:
@@ -119,11 +139,14 @@ elem_map = {'b' : 'strong', 'i': 'em'}
 for t in block_tags:
     if t not in valid_tags:
         elem_map[t] = 'p'
-filters = [
+clean_filters = [
     "strip_comments", "rename_tags", "strip_tags",
     "strip_attrs", "strip_schemes", "strip_cdata",
     "br_to_p", "make_links", "add_nofollow",
     "encode_xml_specials", "clean_whitespace", "strip_empty_tags",
+]
+truncate_filters = [
+    "strip_empty_tags"
 ]
 cleaner_settings = dict(
     convert_entities = BeautifulSoup.ALL_ENTITIES,
@@ -157,19 +180,37 @@ def clean_xhtml(string):
     string = blank_line.sub(u"<br/>", string)
 
     # initialize and run the cleaner
-    string = Cleaner(string, *filters, **cleaner_settings)()
+    string = Cleaner(string, *clean_filters, **cleaner_settings)()
     # FIXME: It's possible that the rename_tags operation creates
     # some invalid nesting. e.g.
     # >>> c = Cleaner("", "rename_tags", elem_map={'h2': 'p'})
     # >>> c('<p><h2>head</h2></p>')
     # u'<p><p>head</p></p>'
     # This is undesirable, so here we... just re-parse the markup.
-    string = Cleaner(string, *filters, **cleaner_settings)()
+    # But this ... could be pretty slow.
+    string = Cleaner(string, *clean_filters, **cleaner_settings)()
 
     # strip all whitespace from immediately before/after block-level elements
     string = block_spaces.sub(u"\\1", string)
 
     return string.strip()
+
+def truncate_xhtml(string, size, _strip_xhtml=False):
+    """Takes a string of known-good XHTML and returns
+    a clean, truncated version of roughly size characters
+    """
+    if len(string) < size:
+        return string
+
+    string = block_spaces.sub(u"\\1 ", string)
+
+    if _strip_xhtml:
+        string = strip_xhtml(string)
+
+    string = entities_to_unicode(string)
+    string = text.truncate(string, length=size, whole_word=True)
+    string = Cleaner(string, *truncate_filters, **cleaner_settings)()
+    return string
 
 def strip_xhtml(string):
     return ''.join(BeautifulSoup(string).findAll(text=True))

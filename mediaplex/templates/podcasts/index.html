@@ -5,6 +5,7 @@
       xmlns:xi="http://www.w3.org/2001/XInclude">
 <xi:include href="../helpers.html" />
 <xi:include href="../master.html" />
+${set_nav_opts('podcast_help')}
 <head>
 	<title>Podcasts</title>
 	<link href="${h.url_for('/styles/podcasts.css')}" media="screen" rel="stylesheet" type="text/css" />
@@ -15,14 +16,14 @@
 
 		<div id="featured-ep" py:if="episodes_paginator.page == 1 and episode_count" py:with="media = episodes[0]">
 			<a href="${h.url_for(controller='/media', action='view', slug=media.slug, podcast_slug=media.podcast.slug)}" class="grid2-link">
-				<img src="${h.url_for('/images/media/%sl.jpg' % media.id)}" width="410" height="273" alt="Featured: ${media.title}" class="grid-thumb" />
+				<img src="${h.url_for('/images/media/%sl.jpg' % media.id)}" width="410" height="273" alt="Featured: ${Markup(media.title).stripentities()}" class="grid-thumb" />
 				<span class="featured-ep-top">
 					<span class="featured-ep-caption">Featured Episode</span>
-					<span class="grid-title">${media.title}</span>
+					<span class="grid-title">${Markup(media.title)}</span>
 				</span>
 			</a>
 			<div class="grid-desc">
-				<p py:replace="Markup(h.clean_xhtml(h.text.truncate(media.description, 300, whole_word=True)))" />
+				<p py:replace="Markup(h.truncate_xhtml(media.description, 300))" />
 			</div>
 			<div class="grid-meta grid2">
 				<span class="grid-comments">${media.comment_count}<span> Comment<py:if test="media.comment_count != 1">s</py:if></span></span>
@@ -33,20 +34,10 @@
 
 		<h3 class="recent-eps">Recent Episodes</h3>
 		<div py:if="episode_count &lt; 2">No recent episodes found.</div>
-		<ul py:if="episode_count &gt; 1" id="podcastgrid" class="grid2" py:with="episodes = episodes_paginator.page == 1 and episodes[1:] or episodes">
-			<li py:for="media in episodes">
-				<a href="${h.url_for(controller='/media', action='view', slug=media.slug, podcast_slug=media.podcast.slug)}" class="grid2-link">
-					<img src="${h.url_for('/images/media/%ss.jpg' % media.id)}" width="128" height="78" alt="${media.title}" class="grid-thumb" />
-					<span class="grid-title">${media.title}</span>
-				</a>
-				<div class="grid-desc" py:content="h.text.truncate(h.strip_xhtml(media.description), 160, whole_word=True)">Description here</div>
-				<div class="grid-meta">
-					<span class="grid-comments">${media.comment_count}<span> Comment<py:if test="media.comment_count != 1">s</py:if></span></span>
-					<span class="grid-likes">${media.rating.sum} <span>Like<py:if test="media.rating.sum != 1">s</py:if></span></span>
-					<span class="grid-views">${media.views} <span>View<py:if test="media.views != 1">s</py:if></span></span>
-				</div>
-			</li>
-		</ul>
+		<ul py:if="episode_count &gt; 1"
+		    py:with="episodes = episodes_paginator.page == 1 and episodes[1:] or episodes"
+		    py:replace="podcastgrid(episodes)"
+		/>
 		<div py:content="pagination(episodes_paginator)" class="clear" />
 
 		<hr style="clear:both;margin-bottom:26px;height:0;border:0;" />
@@ -57,7 +48,7 @@
 				<li py:for="podcast in podcasts">
 					<a href="${h.url_for(action='view', slug=podcast.slug)}" class="podcast-art"><img src="${h.url_for('/images/podcasts/%sm.jpg' % podcast.id)}" width="154" height="151" class="f-lft" /></a>
 					<div class="description">
-						<a href="${h.url_for(action='view', slug=podcast.slug)}" class="title">${podcast.title}</a>
+						<a href="${h.url_for(action='view', slug=podcast.slug)}" class="title">${Markup(podcast.title)}</a>
 						<p py:replace="Markup(podcast.description)" />
 					</div>
 					<div class="options">

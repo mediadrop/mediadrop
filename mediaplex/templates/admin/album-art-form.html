@@ -1,13 +1,11 @@
-<div xmlns="http://www.w3.org/1999/xhtml"
-     xmlns:py="http://genshi.edgewall.org/"
-     class="box fitted-sbox"
-     id="album-art-box">
-	<h1 class="box-head">Album Art</h1>
-	<form id="${id}" name="${name}" action="${action}" method="${method}" class="${css_class}" py:attrs="attrs">
-		<div class="box-content right">
-			<span class="f-lft">Please select another image for upload:</span>
-			<input py:replace="XML(children['album_art'])" />
-		</div>
-		<div class="box-foot" py:content="XML(children['save'])" />
-	</form>
-</div>
+<form xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      action="${action}" method="${method}" name="${name}"
+      id="${id}" class="${css_class}" py:attrs="attrs">
+	<py:for each="field in fields">
+		<input py:replace="field.display(value_for(field), **args_for(field))" />
+	</py:for>
+	<py:for each="field in fields" py:with="error = error_for(field)">
+		<div py:if="error and field.show_error" class="field_error" py:content="error" />
+	</py:for>
+</form>

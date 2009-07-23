@@ -3,7 +3,7 @@ from tw.forms.validators import Schema, Int, StringBool, NotEmpty, DateConverter
 
 from mediaplex.model import DBSession, Podcast, MediaFile
 from mediaplex.lib import helpers
-from mediaplex.forms import ListForm, ListFieldSet, TextField, FileField, CalendarDatePicker, SingleSelectField, TextArea, SubmitButton, Button, HiddenField
+from mediaplex.forms import Form, ListForm, ListFieldSet, TextField, FileField, CalendarDatePicker, SingleSelectField, TextArea, SubmitButton, Button, HiddenField
 from mediaplex.model import DBSession, Podcast
 
 
@@ -24,6 +24,7 @@ class EditFileForm(ListForm):
 
     class fields(WidgetsList):
         file_id = HiddenField(validator=Int)
+        is_embeddable = HiddenField(validator=StringBool)
         player_enabled = HiddenField(validator=StringBool)
         feed_enabled = HiddenField(validator=StringBool)
         toggle_player = SubmitButton(default='Playable on site', named_button=True, css_classes=['file-play'])
@@ -38,6 +39,7 @@ class EditFileForm(ListForm):
         if value is None and isinstance(file, MediaFile):
             value = dict(
                 file_id = file.id,
+                is_embeddable = int(file.is_embeddable),
                 player_enabled = int(file.enable_player),
                 feed_enabled = int(file.enable_feed),
             )
@@ -72,6 +74,19 @@ License: General Upload"""),
         ]),
         SubmitButton('save', default='Save', named_button=True, css_classes=['mo', 'btn-save', 'f-rgt']),
         SubmitButton('delete', default='Delete', named_button=True, css_classes=['mo', 'btn-delete']),
+    ]
+
+class UpdateStatusForm(Form):
+    template = 'mediaplex.templates.admin.media.update-status-form'
+    id = 'update-status-form'
+    css_class = 'form'
+    submit_text = None
+    params = ['media']
+    media = None
+    _name = 'usf'
+
+    fields = [
+        SubmitButton('update_button', named_button=True, validator=NotEmpty),
     ]
 
 

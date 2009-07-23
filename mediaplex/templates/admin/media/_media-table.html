@@ -37,15 +37,16 @@
 						<a class="mo publish-me" py:when="media.is_draft" href="${h.url_for(controller='/mediaadmin', action='edit', id=media.id)}"><span>publish me</span></a>
 						<a class="mo published" py:otherwise="" href="${h.url_for(controller='/media', action='view', slug=media.slug)}#FIXME"><span>published</span></a>
 					</td>
-					<td py:when="'title'"><a href="${h.url_for(controller='/mediaadmin', action='edit', id=media.id)}">${media.title}</a></td>
+					<td py:when="'title'"><a href="${h.url_for(controller='/mediaadmin', action='edit', id=media.id)}">${Markup(media.title)}</a></td>
 					<td py:when="'comment_count'" class="center">${media.comment_count}</td>
 					<td py:when="'tags'" py:content="', '.join((tag.name for tag in media.tags)) if len(media.tags) else 'None'" />
 					<td py:when="'author'">
 						<a href="mailto:${media.author.email}" py:strip="not media.author.email">${media.author.name}</a>
 					</td>
 					<td py:when="'type'" class="center">
-						<img src="${h.url_for('/admin/images/icons/%s.png' % media.type.encode('utf-8'))}"
-						     py:with="pretty_type=media.type.capitalize()" alt="${pretty_type}" title="${pretty_type}" />
+						<img py:if="media.type != 'placeholder'" py:with="pretty_type=media.type.capitalize()"
+						     src="${h.url_for('/admin/images/icons/%s.png' % media.type.encode('utf-8'))}"
+						     alt="${pretty_type}" title="${pretty_type}" />
 					</td>
 				</py:for>
 			</tr>

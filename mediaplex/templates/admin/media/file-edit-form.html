@@ -8,7 +8,7 @@
 	      py:with="toggle_enabled = value_for(field.name.replace('toggle_', '') + '_enabled')"
 	      class="${'file-toggle-on' if toggle_enabled else None} file-${field.name}-span"
 	      title="${field.get_default()}">
-		<input py:replace="field.display(value_for(field), **args_for(field))" />
+		<input py:replace="field.display(value_for(field), disabled=field.name == 'toggle_feed' and value_for('is_embeddable'), **args_for(field))" />
 	</span>
 	<a href="${file.link_url}" class="file-link" py:choose="">
 		<py:when test="file.is_embeddable">${file.type.capitalize()}</py:when>

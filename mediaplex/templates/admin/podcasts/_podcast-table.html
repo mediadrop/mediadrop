@@ -12,7 +12,7 @@
 				<tr class="thead-row">
 					<td colspan="2">
 						<a href="${h.url_for(action='edit', id=podcast.id)}" class="mo edit-btn f-rgt"><span>Edit</span></a>
-						<h3>${podcast.title}</h3>
+						<h3>${Markup(podcast.title)}</h3>
 					</td>
 				</tr>
 				<tr>
