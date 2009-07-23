@@ -227,7 +227,7 @@
 			<li py:for="media in medias">
 			<a href="${h.url_for(controller='/media', action='view', slug=media.slug)}" title="${h.truncate_xhtml(media.description, 30, True)}">
 					<img src="${h.url_for('/images/media/' + str(media.id) + 's.jpg')}" width="162" height="113" alt="${Markup(media.title)}" class="grid-thumb" />
-					<span class="grid-title">${media.title}</span>
+					<span class="grid-title">${Markup(media.title)}</span>
 					<span class="grid-meta">
 						<span class="grid-likes">${media.rating.sum} <span>Like<py:if test="media.rating.sum != 1">s</py:if></span></span>
 						<span class="grid-comments">${media.comment_count}<span> Comment<py:if test="media.comment_count != 1">s</py:if></span></span>

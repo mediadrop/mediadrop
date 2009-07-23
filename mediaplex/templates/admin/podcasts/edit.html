@@ -5,8 +5,7 @@
       xmlns:xi="http://www.w3.org/2001/XInclude">
 <xi:include href="admin/master.html" />
 <head>
-	<title py:if="podcast.id != 'new'">Edit: ${podcast.title}</title>
-	<title py:if="podcast.id == 'new'">New Podcast</title>
+	<title>Edit: ${Markup(podcast.title or 'New Podcast')}</title>
 	<link href="${h.url_for('/admin/styles/podcasts.css')}" media="screen" rel="stylesheet" type="text/css" />
 	<link href="${h.url_for('/admin/styles/forms.css')}" media="screen" rel="stylesheet" type="text/css" />
 	<script src="${h.url_for('/admin/scripts/slug.js')}" type="text/javascript"></script>
@@ -34,7 +33,7 @@
 		<div class="box">
 			<div class="box-head">
 				<small py:if="podcast.created_on" class="box-head-sec">Uploaded: ${podcast.created_on.strftime('%b %d %Y')}</small>
-				<h1>${podcast.title or 'New Podcast'}</h1>
+				<h1>${Markup(podcast.title or 'New Podcast')}</h1>
 			</div>
 			${XML(form(form_values))}
 		</div>

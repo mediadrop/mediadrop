@@ -15,7 +15,7 @@ ${set_nav_opts('podcast_help')}
 	<box id="podcasts-box" py:with="episodes_paginator=c.paginators.episodes">
 		<nav />
 
-		<h3 class="recent-eps">Recent Episodes in the <span>${podcast.title}</span> series</h3>
+		<h3 class="recent-eps">Recent Episodes in the <span>${Markup(podcast.title)}</span> series</h3>
 		<ul py:replace="podcastgrid(episodes)" />
 		<div py:content="pagination(episodes_paginator)" class="clear" />
 
@@ -27,7 +27,7 @@ ${set_nav_opts('podcast_help')}
 				<li>
 					<span class="podcast-art"><img src="${h.url_for('/images/podcasts/%sm.jpg' % podcast.id)}" width="154" height="151" class="f-lft" /></span>
 					<div class="description">
-						<div class="title">${podcast.title}</div>
+						<div class="title">${Markup(podcast.title)}</div>
 						<p py:replace="Markup(podcast.description)" />
 					</div>
 					<div class="options">

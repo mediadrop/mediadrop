@@ -37,7 +37,7 @@
 						<a class="mo publish-me" py:when="media.is_draft" href="${h.url_for(controller='/mediaadmin', action='edit', id=media.id)}"><span>publish me</span></a>
 						<a class="mo published" py:otherwise="" href="${h.url_for(controller='/media', action='view', slug=media.slug)}#FIXME"><span>published</span></a>
 					</td>
-					<td py:when="'title'"><a href="${h.url_for(controller='/mediaadmin', action='edit', id=media.id)}">${media.title}</a></td>
+					<td py:when="'title'"><a href="${h.url_for(controller='/mediaadmin', action='edit', id=media.id)}">${Markup(media.title)}</a></td>
 					<td py:when="'comment_count'" class="center">${media.comment_count}</td>
 					<td py:when="'tags'" py:content="', '.join((tag.name for tag in media.tags)) if len(media.tags) else 'None'" />
 					<td py:when="'author'">

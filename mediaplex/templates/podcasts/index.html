@@ -16,14 +16,14 @@ ${set_nav_opts('podcast_help')}
 
 		<div id="featured-ep" py:if="episodes_paginator.page == 1 and episode_count" py:with="media = episodes[0]">
 			<a href="${h.url_for(controller='/media', action='view', slug=media.slug, podcast_slug=media.podcast.slug)}" class="grid2-link">
-				<img src="${h.url_for('/images/media/%sl.jpg' % media.id)}" width="410" height="273" alt="Featured: ${media.title}" class="grid-thumb" />
+				<img src="${h.url_for('/images/media/%sl.jpg' % media.id)}" width="410" height="273" alt="Featured: ${Markup(media.title).stripentities()}" class="grid-thumb" />
 				<span class="featured-ep-top">
 					<span class="featured-ep-caption">Featured Episode</span>
-					<span class="grid-title">${media.title}</span>
+					<span class="grid-title">${Markup(media.title)}</span>
 				</span>
 			</a>
 			<div class="grid-desc">
-				<p py:replace="Markup(h.clean_xhtml(h.text.truncate(media.description, 300, whole_word=True)))" />
+				<p py:replace="Markup(h.truncate_xhtml(media.description, 300))" />
 			</div>
 			<div class="grid-meta grid2">
 				<span class="grid-comments">${media.comment_count}<span> Comment<py:if test="media.comment_count != 1">s</py:if></span></span>
@@ -48,7 +48,7 @@ ${set_nav_opts('podcast_help')}
 				<li py:for="podcast in podcasts">
 					<a href="${h.url_for(action='view', slug=podcast.slug)}" class="podcast-art"><img src="${h.url_for('/images/podcasts/%sm.jpg' % podcast.id)}" width="154" height="151" class="f-lft" /></a>
 					<div class="description">
-						<a href="${h.url_for(action='view', slug=podcast.slug)}" class="title">${podcast.title}</a>
+						<a href="${h.url_for(action='view', slug=podcast.slug)}" class="title">${Markup(podcast.title)}</a>
 						<p py:replace="Markup(podcast.description)" />
 					</div>
 					<div class="options">
