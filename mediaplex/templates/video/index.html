@@ -11,19 +11,7 @@
 <body class="${not defined('show_tags') and 'nav-videos-on' or None}">
 	<box id="grid-box" py:with="paginator=c.paginators.videos">
 		<nav />
-		<ul id="mediagrid" class="grid">
-			<li py:for="video in videos">
-				<a href="${h.url_for(controller='/media', action='view', slug=video.slug)}" title="${h.text.truncate(h.strip_xhtml(video.description), whole_word=True)}">
-					<img src="${h.url_for('/images/media/' + str(video.id) + 's.jpg')}" width="162" height="113" alt="${video.title}" class="grid-thumb" />
-					<span class="grid-title">${video.title}</span>
-					<span class="grid-meta">
-						<span class="grid-likes">${video.rating.sum} <span>Like<py:if test="video.rating.sum != 1">s</py:if></span></span>
-						<span class="grid-comments">${video.comment_count}<span> Comment<py:if test="video.comment_count != 1">s</py:if></span></span>
-						<span class="grid-views">${video.views} <span>View<py:if test="video.views != 1">s</py:if></span></span>
-					</span>
-				</a>
-			</li>
-		</ul>
+		<ul py:replace="mediagrid(videos)" />
 		${pagination(paginator)}
 	</box>
 </body>

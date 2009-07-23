@@ -16,20 +16,7 @@ ${set_nav_opts('podcast_help')}
 		<nav />
 
 		<h3 class="recent-eps">Recent Episodes in the <span>${podcast.title}</span> series</h3>
-		<ul id="podcastgrid" class="grid2">
-			<li py:for="media in episodes">
-				<a href="${h.url_for(controller='/media', action='view', podcast_slug=media.podcast.slug, slug=media.slug)}" class="grid2-link">
-					<img src="${h.url_for('/images/media/%ss.jpg' % media.id)}" width="128" height="78" alt="${media.title}" class="grid-thumb" />
-					<span class="grid-title">${media.title}</span>
-				</a>
-				<div class="grid-desc" py:content="h.text.truncate(h.strip_xhtml(media.description), 160, whole_word=True)">Description here</div>
-				<div class="grid-meta">
-					<span class="grid-comments">${media.comment_count}<span> Comment<py:if test="media.comment_count != 1">s</py:if></span></span>
-					<span class="grid-likes">${media.rating.sum} <span>Like<py:if test="media.rating.sum != 1">s</py:if></span></span>
-					<span class="grid-views">${media.views} <span>View<py:if test="media.views != 1">s</py:if></span></span>
-				</div>
-			</li>
-		</ul>
+		<ul py:replace="podcastgrid(episodes)" />
 		<div py:content="pagination(episodes_paginator)" class="clear" />
 
 		<hr style="clear:both;margin-bottom:26px;height:0;border:0;" />

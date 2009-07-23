@@ -12,19 +12,7 @@ ${set_nav_opts('hide_upload')}
 <body>
 	<box id="grid-box" py:with="paginator=c.paginators.media">
 		<nav />
-		<ul id="mediagrid" class="grid">
-			<li py:for="m in media">
-				<a href="${h.url_for(controller='/media', action='view', slug=m.slug)}" title="${h.text.truncate(h.strip_xhtml(m.description), whole_word=True)}">
-					<img src="${h.url_for('/images/media/' + str(m.id) + 's.jpg')}" width="162" height="113" alt="${m.title}" class="grid-thumb" />
-					<span class="grid-title">${m.title}</span>
-					<span class="grid-meta">
-						<span class="grid-likes">${m.rating.sum} <span>Like<py:if test="m.rating.sum != 1">s</py:if></span></span>
-						<span class="grid-comments">${m.comment_count}<span> Comment<py:if test="m.comment_count != 1">s</py:if></span></span>
-						<span class="grid-views">${m.views} <span>View<py:if test="m.views != 1">s</py:if></span></span>
-					</span>
-				</a>
-			</li>
-		</ul>
+		<ul py:replace="mediagrid(media)" />
 		${pagination(paginator)}
 	</box>
 </body>
