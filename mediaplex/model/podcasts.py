@@ -27,6 +27,8 @@ podcasts = Table('podcasts', metadata,
     Column('author_email', Unicode(50), nullable=False),
     Column('explicit', Boolean, default=None),
     Column('copyright', Unicode(50)),
+    Column('itunes_url', String(80)),
+    Column('feedburner_url', String(80)),
 )
 
 
