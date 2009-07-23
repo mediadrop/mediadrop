@@ -1,4 +1,3 @@
-from string import capitalize, rstrip
 from tg import expose, validate, flash, require, url, request
 from tg.decorators import paginate
 from formencode import validators
@@ -9,7 +8,7 @@ from repoze.what.predicates import has_permission
 
 from mediaplex.lib import helpers
 from mediaplex.lib.base import RoutingController
-from mediaplex.lib.helpers import expose_xhr, redirect, url_for, clean_xhtml
+from mediaplex.lib.helpers import expose_xhr, redirect, url_for, strip_xhtml
 from mediaplex import model
 from mediaplex.model import DBSession, metadata, fetch_row, Tag, Topic
 from mediaplex.forms.categories import EditCategoryForm
@@ -31,7 +30,7 @@ class CategoryadminController(RoutingController):
         return dict(
             categories = categories,
             category = category,
-            category_name = capitalize(category),
+            category_name = category.capitalize(),
             edit_form = EditCategoryForm(),
         )
 
@@ -47,11 +46,11 @@ class CategoryadminController(RoutingController):
     @expose('json')
     def save(self, id, category='topics', **kwargs):
         category = fetch_row(self.select_model(category), id)
-        category.name = clean_xhtml(kwargs['name'])
-        category.slug = clean_xhtml(kwargs['slug'])
+        category.name = strip_xhtml(kwargs['name'])
+        category.slug = strip_xhtml(kwargs['slug'])
 
         DBSession.add(category)
         return dict(success=True,category=category)
 
     def select_model(self, category):
-        return getattr(model, capitalize(rstrip(category, 's')))
+        return getattr(model, category.rstrip('s').capitalize())
