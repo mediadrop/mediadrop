@@ -180,6 +180,33 @@ INSERT INTO `media_tags` VALUES (1,1),(2,1),(3,1),(4,1),(5,1),(6,1),(7,1),(8,1),
 /*!40000 ALTER TABLE `media_tags` ENABLE KEYS */;
 UNLOCK TABLES;
 
+-- Table structure for table `media_topics`
+--
+
+DROP TABLE IF EXISTS `media_topics`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `media_topics` (
+  `media_id` int(10) unsigned NOT NULL,
+  `topic_id` int(10) unsigned NOT NULL,
+  PRIMARY KEY  (`media_id`,`topic_id`),
+  KEY `topic_id` (`topic_id`),
+  CONSTRAINT `media_topics_ibfk_1` FOREIGN KEY (`media_id`) REFERENCES `media` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `media_topics_ibfk_2` FOREIGN KEY (`topic_id`) REFERENCES `topics` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Dumping data for table `media_topics`
+--
+
+LOCK TABLES `media_topics` WRITE;
+/*!40000 ALTER TABLE `media_topics` DISABLE KEYS */;
+INSERT INTO `media_topics` VALUES (1,1),(2,1),(3,1),(4,1),(5,1),(6,1),(7,1),(8,1),(9,1),(10,1),(11,1),(12,1),(13,1),(14,1),(15,1),(7,2),(11,2),(3,3),(1,4),(2,4),(4,4),(5,4),(6,4),(7,4),(8,4),(9,4),(10,4),(11,4),(12,4),(13,4),(14,4),(15,4),(4,5),(6,5),(5,6),(5,7),(11,7),(6,9),(8,10),(9,11),(10,12),(13,13),(14,14);
+/*!40000 ALTER TABLE `media_topics` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
 --
 -- Table structure for table `podcasts`
 --
@@ -240,6 +267,33 @@ LOCK TABLES `tags` WRITE;
 /*!40000 ALTER TABLE `tags` DISABLE KEYS */;
 INSERT INTO `tags` VALUES (1,'Monty Python','monty-python'),(2,'Chivalry','chivalry'),(3,'Flying Circus','flying-circus'),(4,'Holy Grail','holy-grail'),(5,'Animals','animals'),(6,'Politics','politics'),(7,'Power','power'),(8,'Fruit','fruit'),(9,'Africa','africa'),(10,'Life After Death','life-after-death'),(11,'Challenges','challenges'),(12,'Folk Songs','folk-songs'),(13,'Fire','fire'),(14,'Eccentric Performances','eccentric-performances'),(15,'Limbo','limbo');
 /*!40000 ALTER TABLE `tags` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `topics`
+--
+
+DROP TABLE IF EXISTS `topics`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `topics` (
+  `id` int(10) unsigned NOT NULL auto_increment,
+  `name` varchar(50) NOT NULL,
+  `slug` varchar(50) character set ascii NOT NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `name` (`name`),
+  UNIQUE KEY `slug` (`slug`)
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Dumping data for table `topics`
+--
+
+LOCK TABLES `topics` WRITE;
+/*!40000 ALTER TABLE `topics` DISABLE KEYS */;
+INSERT INTO `topics` VALUES (1,'Monty Python','monty-python'),(2,'Chivalry','chivalry'),(3,'Flying Circus','flying-circus'),(4,'Holy Grail','holy-grail'),(5,'Animals','animals'),(6,'Politics','politics'),(7,'Power','power'),(8,'Fruit','fruit'),(9,'Africa','africa'),(10,'Life After Death','life-after-death'),(11,'Challenges','challenges'),(12,'Folk Songs','folk-songs'),(13,'Fire','fire'),(14,'Eccentric Performances','eccentric-performances'),(15,'Limbo','limbo');
+/*!40000 ALTER TABLE `topics` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --

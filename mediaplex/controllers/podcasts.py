@@ -72,7 +72,15 @@ class PodcastsController(RoutingController):
 
     @expose()
     def feed(self, slug, **kwargs):
+        """Serve the feed RSS.
+        If a feedburner URL is defined for the podcast, we only serve the RSS
+        to Feedburner (by checking the useragent), everyone else is redirected.
+        """
         podcast = fetch_row(Podcast, slug=slug)
+
+        if podcast.feedburner_url and not 'Feedburner' in request.environ['HTTP_USER_AGENT']:
+            redirect(podcast.feedburner_url.encode('utf-8'))
+
         episodes = self._filter(podcast.media)\
             .order_by(Media.publish_on.desc())[:10]
 

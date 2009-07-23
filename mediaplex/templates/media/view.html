@@ -51,7 +51,7 @@ ${set_nav_opts('podcast_help') if not c.nav_opts else ''}
 			<ul id="podcast-buttons">
 				<li py:if="next_episode"><a class="btn-podcast-next" href="${h.url_for(controller='/media', action='view', podcast_slug=podcast.slug, slug=next_episode.slug)}" title="${Markup(next_episode.title).stripentities()}">Browse Episodes</a></li>
 				<li><a class="btn-podcast-view" href="${h.url_for(controller='/podcasts', action='view', slug=podcast.slug)}" title="Browse all episodes from this podcast">Browse Episodes</a></li>
-				<li><a class="btn-podcast-add" href="#" title="Add this podcast to iTunes">Add to iTunes</a></li>
+				<li><a class="btn-podcast-add" href="${podcast.itunes_url or h.url_for(controller='/podcasts', action='feed', slug=podcast.slug)}" title="Add this podcast to iTunes">Add to iTunes</a></li>
 			</ul>
 		</div>
 		<div class="contextbox-bottom" />

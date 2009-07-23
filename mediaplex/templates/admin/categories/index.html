@@ -3,21 +3,23 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:py="http://genshi.edgewall.org/"
       xmlns:xi="http://www.w3.org/2001/XInclude"
-      py:with="paginator=c.paginators.comments">
+      py:with="paginator=c.paginators.categories; category_single = category_name.rstrip('s').lower()">
+<xi:include href="admin/settings/master.html" />
 <xi:include href="admin/master.html" />
 <head>
-	<title>Comments</title>
+	<title>Settings &#8211; ${category_name}</title>
 	<script src="${h.url_for('/scripts/third-party/squeezebox-1.1-rc3.js')}" type="text/javascript"></script>
 	<link href="${h.url_for('/admin/styles/squeezebox.css')}" media="screen" rel="stylesheet" type="text/css" />
-	<link href="${h.url_for('/admin/styles/comments.css')}" media="screen" rel="stylesheet" type="text/css" />
 	<script type="text/javascript" src="${h.url_for('/admin/scripts/confirm.js')}"></script>
-	<script type="text/javascript" src="${h.url_for('/admin/scripts/comments.js')}"></script>
+	<script type="text/javascript" src="${h.url_for('/admin/scripts/settings.js')}"></script>
 	<script type="text/javascript" src="${h.url_for('/admin/scripts/show-more.js')}"></script>
 	<script type="text/javascript">
 		window.addEvent('domready', function(){
-			var cm = new CommentMgr();
+			var cm = new CategoryMgr({
+				categoryName: '${category_name.rstrip('s')}'
+			});
 			var sm = new ShowMore({
-				table: 'comment-table',
+				table: 'category-table',
 				pageNum: ${paginator.page},
 				lastPage: ${paginator.last_page or 1},
 				onMore: function(newRows){
@@ -27,16 +29,14 @@
 		});
 	</script>
 </head>
-<body class="menu-comments-on">
+<body class="menu-settings-on menu-settings-${category_single}-on">
 	<div class="box">
 		<div class="box-head">
-			<div id="quicksearch" class="f-rgt">
-				${XML(search_form(search))}
-			</div>
-			<h1 py:if="not search">All Comments</h1>
-			<h1 py:if="search">Comments that match '${search}'</h1>
+			<a href="${h.url_for(action='save', id='new')}" class="mo add-${category_single} f-rgt"><span>Add ${category_single}</span></a>
+			<h1>${category_name}</h1>
 		</div>
-		<xi:include href="../comments/index-table.html" py:with="comments=comments; edit_form=edit_form;" />
+		<xi:include href="../categories/index-table.html" py:with="categories=categories; category=category; edit_form=edit_form;" />
 	</div>
 </body>
 </html>
+

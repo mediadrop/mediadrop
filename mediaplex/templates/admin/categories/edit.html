@@ -1,0 +1,21 @@
+<form xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      xmlns:xi="http://www.w3.org/2001/XInclude"
+      id="${id}"
+      name="${name}"
+      action="${action}"
+      method="${method}"
+      class="${css_class}"
+      py:attrs="attrs">
+	<xi:include href="../../helpers.html" />
+	<div py:if="hidden_fields">
+		<div py:for="field in hidden_fields"
+		     py:strip="True">
+			<span py:replace="field.display(value_for(field), **args_for(field))" />
+		</div>
+	</div>
+	<div py:for="field in fields" py:with="div_class='form-field-%s' % field.__class__.__name__.lower()" class="form-field ${div_class}">
+		${field.display(value_for(field), id=None, **args_for(field))}
+	</div>
+</form>
+

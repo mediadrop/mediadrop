@@ -1,5 +1,5 @@
 from tw.forms import ListFieldSet, TextField, FileField, CalendarDatePicker, SingleSelectField, TextArea, SubmitButton, RadioButtonList
-from tw.forms.validators import Schema, Int, NotEmpty, DateConverter, DateValidator, Email
+from tw.forms.validators import Schema, Int, NotEmpty, DateConverter, DateValidator, Email, URL
 from mediaplex.lib import helpers
 from mediaplex.forms import ListForm
 
@@ -96,6 +96,8 @@ class PodcastForm(ListForm):
             TextField('copyright'),
             SingleSelectField('category', options=category_options),
             RadioButtonList('explicit', label_text='Explicit?', options=explicit_options),
+            TextField('itunes_url', label_text='iTunes URL'),
+            TextField('feedburner_url', label_text='Feedburner URL'),
         ]),
         SubmitButton('save', default='Save', named_button=True, css_classes=['mo', 'btn-save', 'f-rgt']),
         SubmitButton('delete', default='Delete', named_button=True, css_classes=['mo', 'btn-delete']),

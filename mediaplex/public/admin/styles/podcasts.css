@@ -18,18 +18,18 @@
 	background-image: url('../images/icons/clean.png');
 }
 
-a.add-podcast, a.add-podcast:hover,
-a.add-episode, a.add-episode:hover {
+.add-podcast, .add-podcast:hover,
+.add-episode, .add-episode:hover {
 	width: 120px;
 	height: 28px;
 }
-a.add-episode, a.add-episode:hover {
+.add-episode, .add-episode:hover {
 	margin-top: -6px;
 }
-a.add-podcast { background-image: url('../images/buttons/add-podcast.png'); }
-a.add-episode { background-image: url('../images/buttons/add-episode.png'); }
-a.edit-btn { background-image: url('../images/buttons/edit.png'); }
-a.edit-btn, a.edit-btn:hover {
+.add-podcast { background-image: url('../images/buttons/add-podcast.png'); }
+.add-episode { background-image: url('../images/buttons/add-episode.png'); }
+.edit-btn { background-image: url('../images/buttons/edit.png'); }
+.edit-btn, .edit-btn:hover {
 	width: 66px;
 	height: 28px;
 }

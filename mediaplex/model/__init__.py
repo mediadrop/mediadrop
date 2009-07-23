@@ -51,5 +51,6 @@ from mediaplex.model.authors import Author, AuthorWithIP
 from mediaplex.model.rating import Rating
 from mediaplex.model.comments import Comment
 from mediaplex.model.tags import Tag
+from mediaplex.model.topics import Topic
 from mediaplex.model.media import Media, PlaceholderMedia, Audio, Video, MediaFile
 from mediaplex.model.podcasts import Podcast

@@ -51,7 +51,9 @@ class PodcastadminController(RoutingController):
             'details': {
                 'category': podcast.category,
                 'explicit': explicit,
-                'copyright': podcast.copyright
+                'copyright': podcast.copyright,
+                'itunes_url': podcast.itunes_url,
+                'feedburner_url': podcast.feedburner_url,
             },
         }
         form_values.update(values)
@@ -71,27 +73,30 @@ class PodcastadminController(RoutingController):
 
     @expose()
     @validate(PodcastForm(), error_handler=edit)
-    def save(self, id, **values):
+    def save(self, id, slug, title, subtitle, author_name, author_email,
+             description, details, delete=None, **kwargs):
         podcast = fetch_row(Podcast, id)
 
         if podcast.id == 'new':
             podcast.id = None
-        elif values.has_key('delete'):
+        elif delete:
             DBSession.delete(podcast)
             DBSession.flush()
             redirect(action='index')
 
-        podcast.slug = values['slug']
-        podcast.title = values['title']
-        podcast.subtitle = values['subtitle']
-        podcast.author = Author(values['author_name'], values['author_email'])
-        podcast.description = clean_xhtml(values['description'])
-        podcast.copyright = values['details']['copyright']
-        podcast.category = values['details']['category']
-        if values['details']['explicit'] == 'No':
+        podcast.slug = slug
+        podcast.title = title
+        podcast.subtitle = subtitle
+        podcast.author = Author(author_name, author_email)
+        podcast.description = clean_xhtml(description)
+        podcast.copyright = details['copyright']
+        podcast.category = details['category']
+        podcast.itunes_url = details['itunes_url']
+        podcast.feedburner_url = details['feedburner_url']
+        if details['explicit'] == 'No':
             podcast.explicit = None
         else:
-            podcast.explicit = values['details']['explicit'] == 'Yes'
+            podcast.explicit = details['explicit'] == 'Yes'
 
         DBSession.add(podcast)
         DBSession.flush()
