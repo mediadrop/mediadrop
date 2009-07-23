@@ -134,6 +134,7 @@ def redirect(*args, **kwargs):
 blank_line = re.compile("\s*\n\s*\n\s*", re.M)
 block_tags = 'p br pre blockquote div h1 h2 h3 h4 h5 h6 hr ul ol li form table tr td tbody thead'.split()
 block_spaces = re.compile("\s*(</{0,1}(" + "|".join(block_tags) + ")>)\s*", re.M)
+block_close = re.compile("(</(" + "|".join(block_tags) + ")>)", re.M)
 valid_tags = dict.fromkeys('p i em strong b u a br pre abbr ol ul li sub sup ins del blockquote cite'.split())
 valid_attrs = dict.fromkeys('href title'.split())
 elem_map = {'b' : 'strong', 'i': 'em'}
@@ -216,6 +217,12 @@ def truncate_xhtml(string, size, _strip_xhtml=False):
 
 def strip_xhtml(string):
     return ''.join(BeautifulSoup(string).findAll(text=True))
+
+def line_break_xhtml(string):
+    if string:
+        string = block_close.sub(u"\\1\n", string).rstrip()
+    return string
+
 
 def list_acceptable_xhtml():
     return dict(
