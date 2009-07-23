@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      xmlns:xi="http://www.w3.org/2001/XInclude"
+      py:with="paginator=c.paginators.categories">
+<xi:include href="admin/master.html" />
+<head>
+	<title>Settings &#8211; ${category_name}</title>
+	<script src="${h.url_for('/scripts/third-party/squeezebox-1.1-rc3.js')}" type="text/javascript"></script>
+	<link href="${h.url_for('/admin/styles/squeezebox.css')}" media="screen" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="${h.url_for('/admin/scripts/confirm.js')}"></script>
+	<script type="text/javascript" src="${h.url_for('/admin/scripts/show-more.js')}"></script>
+</head>
+<body class="menu-settings-on">
+	<div class="lft-column33">
+		<div class="box">
+			<h1 class="box-head">Settings</h1>
+			<ul class="box-content">
+				<li><a href="${h.url_for(action='index', category='topics')}">Topics</a></li>
+				<li><a href="${h.url_for(action='index', category='tags')}">Tags</a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="rgt-column66">
+		<div class="box">
+			<div class="box-head">
+				<h1>${category_name}</h1>
+			</div>
+			<xi:include href="../categories/index-table.html" py:with="categories=categories; category=category; edit_form=edit_form;" />
+		</div>
+	</div>
+</body>
+</html>
+

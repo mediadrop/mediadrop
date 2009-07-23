@@ -374,6 +374,20 @@ tags_mapper.add_property(
        deferred=True
     )
 )
+tags_mapper.add_property(
+    'media_count',
+    column_property(
+        sql.select(
+            [sql.func.count(media_tags.c.tag_id)],
+            and_(
+                media.c.id == media_tags.c.media_id,
+                tags.c.id == media_tags.c.tag_id,
+                media.c.status.op('&')(int(TRASH)) == 0, # status excludes 'trash'
+            )
+        ).label('published_media_count'),
+       deferred=True
+    )
+)
 
 topics_mapper = class_mapper(Topic, compile=False)
 topics_mapper.add_property(
@@ -385,6 +399,20 @@ topics_mapper.add_property(
                 media.c.id == media_topics.c.media_id,
                 topics.c.id == media_topics.c.topic_id,
                 media.c.status.op('&')(int(PUBLISH)) == int(PUBLISH), # status includes 'publish'
+                media.c.status.op('&')(int(TRASH)) == 0, # status excludes 'trash'
+            )
+        ).label('published_media_count'),
+       deferred=True
+    )
+)
+topics_mapper.add_property(
+    'media_count',
+    column_property(
+        sql.select(
+            [sql.func.count(media_topics.c.topic_id)],
+            and_(
+                media.c.id == media_topics.c.media_id,
+                topics.c.id == media_topics.c.topic_id,
                 media.c.status.op('&')(int(TRASH)) == 0, # status excludes 'trash'
             )
         ).label('published_media_count'),

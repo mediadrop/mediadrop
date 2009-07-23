@@ -107,10 +107,12 @@ body {
 #menu-media     a { background-image: url('../images/menu/media.png');    width:  89px; }
 #menu-podcasts  a { background-image: url('../images/menu/podcasts.png');  width: 106px; }
 #menu-comments  a { background-image: url('../images/menu/comments.png');  width: 113px; }
+#menu-settings a { background-image: url('../images/menu/settings.png');  width: 98px; }
 .menu-dashboard-on #menu-dashboard a { background-image: url('../images/menu/dashboard-active.png'); }
 .menu-media-on     #menu-media     a { background-image: url('../images/menu/media-active.png'); }
 .menu-podcasts-on  #menu-podcasts  a { background-image: url('../images/menu/podcasts-active.png'); }
 .menu-comments-on  #menu-comments  a { background-image: url('../images/menu/comments-active.png'); }
+.menu-settings-on  #menu-settings a { background-image: url('../images/menu/settings-active.png'); }
 
 /*Content*/
 #body {
@@ -118,14 +120,22 @@ body {
 	width: 100%;
 	overflow: hidden;
 }
-.column66 {
+.column66,
+.rgt-column66 {
 	width: 660px;
 	float: left;
 	margin-right: 30px;
 }
-.column33 {
+.column33,
+.lft-column33 {
 	width: 260px;
 	float: left;
+}
+.rgt-column66 {
+	margin-right: 0;
+}
+.lft-column33 {
+	margin-right: 30px;
 }
 
 .box {
