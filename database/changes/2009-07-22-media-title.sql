@@ -1,0 +1,1 @@
+ALTER TABLE `media` MODIFY COLUMN `title` VARCHAR(255);

@@ -69,7 +69,7 @@ media = Table('media', metadata,
     Column('publish_on', DateTime),
     Column('publish_until', DateTime),
 
-    Column('title', Unicode(50), nullable=False),
+    Column('title', Unicode(255), nullable=False),
     Column('subtitle', Unicode(255)),
     Column('description', UnicodeText),
     Column('notes', UnicodeText),
