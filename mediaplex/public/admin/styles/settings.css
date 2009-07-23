@@ -1,0 +1,20 @@
+.edit-category, .delete-category, .save-category, .cancel-category {
+	height: 19px;
+	float: left;
+	text-indent: -1000px;
+}
+
+.edit-category { background-image: url('../images/buttons/edit-half.png'); width: 37px;}
+.delete-category { background-image: url('../images/buttons/delete-half.png'); width: 26px;}
+.save-category { background-image: url('../images/buttons/table-button-save.png'); width: 42px; float: right;}
+.cancel-category { background-image: url('../images/buttons/table-button-cancel.png'); width: 63px; float: right;}
+
+.textfield {
+	width: 183px;
+	float: left;
+	margin-right: 20px;
+}
+.save-category, .cancel-category {
+	border: none;
+	margin-top: 5px;
+}
