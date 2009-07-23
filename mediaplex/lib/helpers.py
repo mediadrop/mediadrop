@@ -48,15 +48,17 @@ def url_for(*args, **kwargs):
     URL.
 
     For example, by using an apache mod_rewrite rule:
-    RewriteRule ^/proxy_url(/.*)$ /myapp/myaction$1?REPLACE_WITH=/proxy_url&REPLACE=/myapp/myaction [proxy,qsappend]
+    RewriteRule ^/proxy_url(/.*){0,1}$ /proxy_url$1?_REP=/mycont/actionA&_RWITH=/proxyA [qsappend]
+    RewriteRule ^/proxy_url(/.*){0,1}$ /proxy_url$1?_REP=/mycont/actionB&_RWITH=/proxyB [qsappend]
+    RewriteRule ^/proxy_url(/.*){0,1}$ /mycont/actionA$1 [proxy]
     """
-    repl = request.str_GET.getall('REPLACE')
-    repl_with = request.str_GET.getall('REPLACE_WITH')
     url = rurl(*args, **kwargs)
-    if repl:
-        old = repl[-1]
-        new = repl_with and repl_with[-1] or ''
-        url = url.replace(old, new, 1)
+
+    # Make the replacements
+    repl = request.str_GET.getall('_REP')
+    repl_with = request.str_GET.getall('_RWITH')
+    for i in range(0, min(len(repl), len(repl_with))):
+        url = url.replace(repl[i], repl_with[i], 1)
 
     return url
 
