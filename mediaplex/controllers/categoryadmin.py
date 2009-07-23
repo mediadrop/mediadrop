@@ -25,7 +25,7 @@ class CategoryadminController(RoutingController):
         model = self.select_model(category)
 
         categories = DBSession.query(model).\
-            order_by(model.name.desc())
+            order_by(model.name)
 
         return dict(
             categories = categories,
