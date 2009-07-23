@@ -221,11 +221,11 @@
 		</ul>
 	</py:def>
 
-	<py:def function="mediagrid(medias)">
+	<py:def function="mediagrid(medias, url_args=None)">
 	<!--! TODO: fix the terrible grammar here. "Medias." Honestly. -->
-		<ul id="mediagrid" class="grid">
+		<ul id="mediagrid" class="grid" py:with="url_args = url_args or {'controller':'/media', 'action':'view'}">
 			<li py:for="media in medias">
-			<a href="${h.url_for(controller='/media', action='view', slug=media.slug)}" title="${h.truncate_xhtml(media.description, 30, True)}">
+				<a href="${h.url_for(slug=media.slug, **url_args)}" title="${h.truncate_xhtml(media.description, 30, True)}">
 					<img src="${h.url_for('/images/media/' + str(media.id) + 's.jpg')}" width="162" height="113" alt="${Markup(media.title)}" class="grid-thumb" />
 					<span class="grid-title">${Markup(media.title)}</span>
 					<span class="grid-meta">
