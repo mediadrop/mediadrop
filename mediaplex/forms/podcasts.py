@@ -86,18 +86,18 @@ class PodcastForm(ListForm):
     ]
 
     fields = [
-        TextField('slug', validator=NotEmpty),
-        TextField('title', validator=NotEmpty),
-        TextField('subtitle'),
-        TextField('author_name', validator=NotEmpty),
-        TextField('author_email', validator=NotEmpty),
+        TextField('slug', validator=NotEmpty, maxlength=50),
+        TextField('title', validator=NotEmpty, maxlength=50),
+        TextField('subtitle', maxlength=255),
+        TextField('author_name', validator=NotEmpty, maxlength=50),
+        TextField('author_email', validator=NotEmpty, maxlength=50),
         TextArea('description', attrs=dict(rows=5, cols=25)),
         ListFieldSet('details', suppress_label=True, legend='Podcast Details:', children=[
-            TextField('copyright'),
+            TextField('copyright', maxlength=50),
             SingleSelectField('category', options=category_options),
             RadioButtonList('explicit', label_text='Explicit?', options=explicit_options),
-            TextField('itunes_url', label_text='iTunes URL'),
-            TextField('feedburner_url', label_text='Feedburner URL'),
+            TextField('itunes_url', label_text='iTunes URL', maxlength=80),
+            TextField('feedburner_url', label_text='Feedburner URL', maxlength=80),
         ]),
         SubmitButton('save', default='Save', named_button=True, css_classes=['mo', 'btn-save', 'f-rgt']),
         SubmitButton('delete', default='Delete', named_button=True, css_classes=['mo', 'btn-delete']),

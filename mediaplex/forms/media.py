@@ -13,7 +13,7 @@ class AddFileForm(ListForm):
     submit_text = None
     fields = [
         FileField('file', suppress_label=True, validator=FieldStorageUploadConverter(not_empty=False, label_text='Upload', show_error=True)),
-        TextField('url', label_text='URL', default='URL', suppress_label=True),
+        TextField('url', label_text='URL', default='URL', suppress_label=True, maxlength=255),
     ]
 
 class EditFileForm(ListForm):
@@ -59,10 +59,10 @@ class MediaForm(ListForm):
 
     fields = [
         SingleSelectField('podcast', label_text='Include in the Podcast', help_text='Optional', options=lambda: [(None, None)] + DBSession.query(Podcast.id, Podcast.title).all()),
-        TextField('slug', validator=NotEmpty),
-        TextField('title', validator=NotEmpty),
-        TextField('author_name', validator=NotEmpty),
-        TextField('author_email', validator=NotEmpty),
+        TextField('slug', validator=NotEmpty, maxlength=50),
+        TextField('title', validator=NotEmpty, maxlength=255),
+        TextField('author_name', validator=NotEmpty, maxlength=50),
+        TextField('author_email', validator=NotEmpty, maxlength=50),
         TextArea('description', attrs=dict(rows=5, cols=25)),
         TextArea('notes', label_text='Additional Notes', attrs=dict(rows=3, cols=25), default="""Bible References: None
 S&H References: None
@@ -99,12 +99,12 @@ class UploadForm(ListForm):
     params = ['async_action']
 
     class fields(WidgetsList):
-        name = TextField(label_text='First Name:', help_text='(leave blank for anonymous)', show_error=True)
+        name = TextField(label_text='First Name:', help_text='(leave blank for anonymous)', show_error=True, maxlength=50)
         email = TextField(validator=Email(not_empty=True, messages={
             'badUsername': 'The portion of the email address before the @ is invalid',
             'badDomain': 'The portion of this email address after the @ is invalid'
-        }), label_text='Your email:', help_text='(will not be published)', show_error=True)
-        title = TextField(validator=NotEmpty(messages={'empty':'You\'ve gotta have a title!'}), label_text='Title:', show_error=True)
+        }), label_text='Your email:', help_text='(will not be published)', show_error=True, maxlength=50)
+        title = TextField(validator=NotEmpty(messages={'empty':'You\'ve gotta have a title!'}), label_text='Title:', show_error=True, maxlength=255)
         description = TextArea(validator=NotEmpty(messages={'empty':'At least give it a short description...'}), label_text='Description:', attrs=dict(rows=5, cols=25), show_error=True)
         tags = TextField(label_text='Tags:', help_text='(optional) e.g.: puppies, great dane, adorable', show_error=True)
         file = FileField(validator=FieldStorageUploadConverter(not_empty=True, messages={'empty':'Oops! You forgot to enter a file.'}), label_text='Media File', show_error=True)
