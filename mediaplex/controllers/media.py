@@ -36,6 +36,21 @@ class MediaController(RoutingController):
             .order_by(Tag.name)\
             .all()
 
+    @expose('mediaplex.templates.media.index')
+    @paginate('media', items_per_page=20)
+    def index(self, page=1, tags=None, **kwargs):
+        """Grid-style List Action"""
+        media = DBSession.query(Media)\
+            .filter(Media.status >= 'publish')\
+            .filter(Media.publish_on <= datetime.now())\
+            .filter(Media.status.excludes('trash'))\
+            .filter(Media.podcast_id == None)\
+            .order_by(Media.publish_on.desc())\
+            .options(undefer('comment_count'))
+
+        return dict(
+            media = media,
+        )
 
     @expose('mediaplex.templates.media.view')
     def view(self, slug, podcast_slug=None, **kwargs):
