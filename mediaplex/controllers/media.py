@@ -58,7 +58,7 @@ class MediaController(RoutingController):
     def lessons(self, page=1, tags=None, **kwargs):
         """Grid-style List Action"""
         try:
-            tag = DBSession.query(Tag).filter(Tag.slug == 'sunday-school').one()
+            tag = DBSession.query(Tag).filter(Tag.slug == 'bible-lesson').one()
             media = DBSession.query(Media)\
                 .filter(Media.tags.contains(tag))\
                 .filter(Media.status >= 'publish')\
