@@ -170,8 +170,7 @@ class Page(_paginate.Page):
                     self.last_item = min(self.items_first_page, self.item_count)
                 else:
                     self.first_item = (self.page - 2) * items_per_page + 1 + self.items_first_page
-                    self.last_item = min(self.first_item + items_first_page + (self.page - 2) * items_per_page, self.item_count)
-                    #print 'first', self.first_item, 'last', self.last_item
+                    self.last_item = min(self.first_item + items_per_page - 1, self.item_count)
 
             # We subclassed "list" so we need to call its init() method
             # and fill the new list with the items to be displayed on the page.
