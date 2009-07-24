@@ -23,7 +23,7 @@ from sqlalchemy.orm import eagerload, undefer
 from sqlalchemy.orm.exc import NoResultFound
 
 from mediaplex.lib import helpers
-from mediaplex.lib.helpers import expose_xhr, redirect, url_for, clean_xhtml, strip_xhtml
+from mediaplex.lib.helpers import expose_xhr, redirect, url_for, clean_xhtml, strip_xhtml, line_break_xhtml
 from mediaplex.lib.base import Controller, RoutingController
 from mediaplex.model import DBSession, metadata, fetch_row, Video, Media, MediaFile, Comment, Tag, Author, AuthorWithIP
 from mediaplex.forms.media import UploadForm
@@ -198,7 +198,7 @@ Admin URL: %s
 Description: %s
 """ % (video.title, video.author.name, video.author.email,
        url_for(controller='mediaadmin', action='edit', id=video.id),
-       clean_xhtml(video.description))
+       strip_xhtml(line_break_xhtml(line_break_xhtml(video.description))))
 
         msg = """To: %s
 From: %s
