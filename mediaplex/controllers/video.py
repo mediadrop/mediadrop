@@ -28,6 +28,9 @@ from mediaplex.model import DBSession, metadata, fetch_row, Video, Media, MediaF
 from mediaplex.forms.media import UploadForm
 from mediaplex.forms.comments import PostCommentForm
 
+from logging import getLogger
+video_log = getLogger('newvideo')
+
 
 upload_form = UploadForm(
     action = url_for(controller='/video', action='upload_submit'),
