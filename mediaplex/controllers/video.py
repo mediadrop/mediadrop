@@ -145,7 +145,7 @@ class VideoController(RoutingController):
                 kwargs['title'], kwargs['description'],
                 kwargs['tags'], kwargs['file']
             )
-            self._send_notification(self, video)
+            self._send_notification(video)
 
             return dict(
                 success = True,
@@ -167,7 +167,7 @@ class VideoController(RoutingController):
             kwargs['title'], kwargs['description'],
             kwargs['tags'], kwargs['file']
         )
-        self._send_notification(self, video)
+        self._send_notification(video)
 
         # Redirect to success page!
         redirect(action='upload_success')
