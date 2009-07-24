@@ -31,6 +31,10 @@
 #podcast-table tbody tr td {
 	vertical-align: top;
 }
+#podcast-table h3 a:link,
+#podcast-table h3 a:visited {
+	color: #627789;
+}
 #podcast-table .podcast-art {
 	text-align: center;
 	vertical-align: middle;
