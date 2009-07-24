@@ -153,7 +153,7 @@ var SwiffUploadManager = new Class({
 
 		// Uploader instance
 		this.uploader = new Swiff.Uploader({
-			path: this.baseUrl + '/scripts/third-party/Swiff.Uploader.swf',
+			path: this.baseUrl + 'scripts/third-party/Swiff.Uploader.swf',
 			url: this.action,
 			verbose: false,
 			queued: false,
