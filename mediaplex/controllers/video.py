@@ -7,6 +7,7 @@ import shutil
 import os.path
 import simplejson as json
 import time
+import smtplib
 
 from urlparse import urlparse, urlunparse
 from cgi import parse_qs
@@ -138,7 +139,13 @@ class VideoController(RoutingController):
                 kwargs['name'] = None
             if 'tags' not in kwargs:
                 kwargs['tags'] = None
-            self._save_video(kwargs['name'], kwargs['email'], kwargs['title'], kwargs['description'], kwargs['tags'], kwargs['file'])
+
+            video = self._save_video(
+                kwargs['name'], kwargs['email'],
+                kwargs['title'], kwargs['description'],
+                kwargs['tags'], kwargs['file']
+            )
+            self._send_notification(self, video)
 
             return dict(
                 success = True,
@@ -155,7 +162,12 @@ class VideoController(RoutingController):
             kwargs['tags'] = None
 
         # Save the video!
-        self._save_video(kwargs['name'], kwargs['email'], kwargs['title'], kwargs['description'], kwargs['tags'], kwargs['file'])
+        video = self._save_video(
+            kwargs['name'], kwargs['email'],
+            kwargs['title'], kwargs['description'],
+            kwargs['tags'], kwargs['file']
+        )
+        self._send_notification(self, video)
 
         # Redirect to success page!
         redirect(action='upload_success')
@@ -170,6 +182,27 @@ class VideoController(RoutingController):
     def upload_failure(self, **kwargs):
         return dict()
 
+    def _send_notification(self, video):
+        server=smtplib.SMTP('localhost')
+        fr = 'noreply@tmcyouth.com'
+        to = 'anthony@simplestation.com'
+        subject = 'New Video: %s' % video.title
+        body = """A new video has been uploaded!
+
+Title: %s
+
+Author: %s (%s)
+
+Description: %s
+""" % (video.title, video.author.name, video.author.email, video.description)
+        msg = """To: %s
+From: %s
+Subject: %s
+
+%s
+""" % (to, fr, subject, body)
+        server.sendmail(fr, to, msg)
+        server.quit()
 
     def _save_video(self, name, email, title, description, tags, file):
         # cope with anonymous posters
@@ -227,3 +260,5 @@ License: General Upload"""
 
         DBSession.add(video)
         DBSession.flush()
+
+        return video
