@@ -79,6 +79,7 @@ class MediaController(RoutingController):
         """Display the media player and comments"""
         media = fetch_row(Media, slug=slug)
         next_episode = None
+        media.views += 1
 
         return dict(
             media = media,
@@ -105,6 +106,7 @@ class MediaController(RoutingController):
     def view(self, slug, podcast_slug=None, **kwargs):
         """Display the media player and comments"""
         media = fetch_row(Media, slug=slug)
+        media.views += 1
 
         if media.podcast_id is not None:
             # Always view podcast media from a URL that shows the context of the podcast
@@ -133,6 +135,7 @@ class MediaController(RoutingController):
     def concept_view(self, slug, podcast_slug=None, **kwargs):
         """Display the media player and comments"""
         media = fetch_row(Media, slug=slug)
+        media.views += 1
 
         return dict(
             media = media,
