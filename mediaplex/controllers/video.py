@@ -197,7 +197,7 @@ Admin URL: %s
 
 Description: %s
 """ % (video.title, video.author.name, video.author.email,
-       request.environ['HTTP_HOST'] + url_for(controller='mediaadmin', action='edit', id=video.id),
+        'http://' + request.environ['HTTP_HOST'] + url_for(controller='mediaadmin', action='edit', id=video.id),
        strip_xhtml(line_break_xhtml(line_break_xhtml(video.description))))
 
         msg = """To: %s
