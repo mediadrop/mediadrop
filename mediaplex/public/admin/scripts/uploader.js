@@ -115,3 +115,39 @@ var Uploader = new Class({
 		return new Element('span', this.options.uploadBtn);
 	}
 });
+
+var AlbumArtUploader = new Class({
+
+	Extends: Uploader,
+
+	options: {
+		image: '',
+		updateFormActionsOnSubmit: false
+	},
+
+	image: null,
+
+	onFileComplete: function(file){
+		this.parent(file);
+		this.image = this.image || $(this.options.image);
+		if (!this.image) return;
+		var json = JSON.decode(file.response.text, true);
+		var src = this.image.get('src'), newsrc = src.replace(/\/new/, '/' + json.id);
+		this.image.set('src', newsrc + '?' + $time());
+		if (this.options.updateFormActionsOnSubmit && src != newsrc) {
+			// Update the form actions on the page to point to refer to the newly assigned ID
+			this.updateFormActions(json.id);
+		}
+	},
+
+	updateFormActions: function(id){
+		var find = /\/new\//, repl = '/' + id + '/';
+		this.uploader.setOptions({
+			url: this.uploader.options.url.replace(find, repl)
+		});
+		$$('form').each(function(form){
+			form.action = form.action.replace(find, repl);
+		});
+	}
+
+});

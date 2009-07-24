@@ -208,7 +208,7 @@
 		<ul id="podcastgrid" class="grid2">
 			<li py:for="media in episodes">
 				<a href="${h.url_for(controller='/media', action='view', slug=media.slug, podcast_slug=media.podcast.slug)}" class="grid2-link">
-					<img src="${h.url_for('/images/media/%ss.jpg' % media.id)}" width="128" height="78" alt="${Markup(media.title).stripentities()}" class="grid-thumb" />
+					<img src="${h.url_for('/images/media/%sss.jpg' % media.id)}" width="128" height="72" alt="${Markup(media.title).stripentities()}" class="grid-thumb" />
 					<span class="grid-title">${Markup(media.title)}</span>
 				</a>
 				<div class="grid-desc" py:content="h.truncate_xhtml(media.description, 160, True)">Description here</div>
@@ -226,7 +226,7 @@
 		<ul id="mediagrid" class="grid" py:with="url_args = url_args or {'controller':'/media', 'action':'view'}">
 			<li py:for="media in medias">
 				<a href="${h.url_for(slug=media.slug, **url_args)}" title="${h.truncate_xhtml(media.description, 30, True)}">
-					<img src="${h.url_for('/images/media/' + str(media.id) + 's.jpg')}" width="162" height="113" alt="${Markup(media.title)}" class="grid-thumb" />
+					<img src="${h.url_for('/images/media/%ss.jpg' % media.id)}" width="162" height="91" alt="${Markup(media.title)}" class="grid-thumb" />
 					<span class="grid-title">${Markup(media.title)}</span>
 					<span class="grid-meta">
 						<span class="grid-likes">${media.rating.sum} <span>Like<py:if test="media.rating.sum != 1">s</py:if></span></span>

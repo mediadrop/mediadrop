@@ -170,8 +170,9 @@ class MediaadminController(RoutingController):
         if id == 'new':
             media = PlaceholderMedia()
             media.slug = 'upload-%s' % datetime.now()
-            media.title = 'Placeholder (%s)' % datetime.now()
-            media.author = Author('FIXME', 'FIXME@FIXME.com')
+            media.title = '(Placeholder %s)' % datetime.now()
+            user = request.environ['repoze.who.identity']['user']
+            media.author = Author(user.display_name, user.email_address)
             DBSession.add(media)
             DBSession.flush()
         else:
@@ -297,27 +298,28 @@ class MediaadminController(RoutingController):
         if id == 'new':
             media = PlaceholderMedia()
             media.slug = 'upload-%s' % datetime.now()
-            media.title = 'Placeholder (%s)' % datetime.now()
-            media.author = Author('FIXME', 'FIXME@FIXME.com')
+            media.title = '(Placeholder %s)' % datetime.now()
+            user = request.environ['repoze.who.identity']['user']
+            media.author = Author(user.display_name, user.email_address)
             DBSession.add(media)
             DBSession.flush()
         else:
             media = fetch_row(Media, id, incl_trash=True)
 
         temp_file = album_art.file
-        im_path = os.path.join(config.media_thumb_dir, '%d%%(size)s.%%(ext)s' % media.id)
+        im_path = os.path.join(config.image_dir, 'media/%d%%(size)s.%%(ext)s' % media.id)
 
         try:
             # Create jpeg thumbnails
             im = Image.open(temp_file)
-            im.resize((162,  91), 1).save(im_path % dict(size='s', ext='jpg'))
-            im.resize((240, 135), 1).save(im_path % dict(size='m', ext='jpg'))
-            im.resize((410, 231), 1).save(im_path % dict(size='l', ext='jpg'))
+            im.resize((128,  72), 1).save(im_path % dict(size='ss', ext='jpg'))
+            im.resize((162,  91), 1).save(im_path % dict(size='s',  ext='jpg'))
+            im.resize((240, 135), 1).save(im_path % dict(size='m',  ext='jpg'))
+            im.resize((410, 231), 1).save(im_path % dict(size='l',  ext='jpg'))
 
             # Backup the original image just for kicks
             orig_type = os.path.splitext(album_art.filename)[1].lower()[1:]
-            orig_path = im_path % dict(size='orig', ext=orig_type)
-            orig_file = open(orig_path, 'w')
+            orig_file = open(im_path % dict(size='orig', ext=orig_type), 'w')
             copyfileobj(temp_file, orig_file)
             temp_file.close()
             orig_file.close()
@@ -334,7 +336,7 @@ class MediaadminController(RoutingController):
         return dict(
             success = success,
             message = message,
-            media_id = media.id,
+            id = media.id,
         )
 
 

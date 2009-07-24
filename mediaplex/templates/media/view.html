@@ -47,7 +47,7 @@ ${set_nav_opts('podcast_help') if not c.nav_opts else ''}
 	<div py:if="media.podcast" id="podcast-context" class="contextbox" py:with="podcast = media.podcast">
 		<div class="contextbox-top" />
 		<div class="contextbox-body">
-			<a href="${h.url_for(controller='/podcasts', action='view', slug=podcast.slug)}" class="podcast-art" title="${Markup(podcast.title).stripentities()}"><img src="${h.url_for('/images/podcasts/%sm.jpg' % podcast.id)}" width="154" height="151" class="f-lft" alt="${podcast.title}" /></a>
+			<a href="${h.url_for(controller='/podcasts', action='view', slug=podcast.slug)}" class="podcast-art" title="${Markup(podcast.title).stripentities()}"><img src="${h.url_for('/images/podcasts/%sm.jpg' % podcast.id)}" width="154" height="154" class="f-lft" alt="${podcast.title}" /></a>
 			<ul id="podcast-buttons">
 				<li py:if="next_episode"><a class="btn-podcast-next" href="${h.url_for(controller='/media', action='view', podcast_slug=podcast.slug, slug=next_episode.slug)}" title="${Markup(next_episode.title).stripentities()}">Browse Episodes</a></li>
 				<li><a class="btn-podcast-view" href="${h.url_for(controller='/podcasts', action='view', slug=podcast.slug)}" title="Browse all episodes from this podcast">Browse Episodes</a></li>

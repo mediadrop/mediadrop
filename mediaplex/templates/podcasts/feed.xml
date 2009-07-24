@@ -29,11 +29,13 @@
 		<itunes:explicit py:content="'no' if podcast.explicit is None else 'yes' if podcast.explicit else 'clean'" />
 
 		<image>
-			<url py:content="h.url_for('/images/podcasts/%sm.jpg' % podcast.id, qualified=True)" />
+			<url py:content="h.url_for('/images/podcasts/%ss.jpg' % podcast.id, qualified=True)" />
 			<title py:content="podcast.title" />
 			<link py:content="h.url_for(action='view', qualified=True)" />
+			<width>132</width>
+			<height>132</height>
 		</image>
-		<itunes:image href="${h.url_for('/images/podcasts/%situnes.jpg' % podcast.id, qualified=True)}" />
+		<itunes:image href="${h.url_for('/images/podcasts/%sl.jpg' % podcast.id, qualified=True)}" />
 		<!--! iTunes image should be square and 600x600 or larger -->
 
 		<copyright py:content="podcast.copyright" />
@@ -71,7 +73,7 @@
 			               width="${file.width}"
 			               height="${file.height}"
 			               lang="en" />
-			<media:thumbnail url="${h.url_for('/images/media/%sm.jpg' % media.id, qualified=True)}" width="240" height="168" />
+			<media:thumbnail url="${h.url_for('/images/media/%sm.jpg' % media.id, qualified=True)}" width="240" height="135" />
 		</item>
 
 	</channel>

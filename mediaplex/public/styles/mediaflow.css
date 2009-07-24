@@ -7,7 +7,7 @@
 #mediaflow-prev,
 #mediaflow-next {
 	width: 84px;
-	height: 192px;
+	height: 159px;
 	position: absolute;
 	top: 0;
 	z-index: 99;
@@ -26,7 +26,7 @@
 	display: block;
 	width: 52px;
 	height: 53px;
-	margin-top: 63px;
+	margin-top: 47px;
 	margin-left: 19px;
 	text-indent: -5000px;
 }
@@ -51,7 +51,7 @@
 	position: relative;
 }
 #mediaflow-body {
-	height: 192px;
+	height: 159px;
 	position: relative;
 	overflow: hidden;
 }
@@ -77,7 +77,7 @@
 	display: block;
 	border: 1px solid #424242;
 	width: 240px;
-	height: 168px;
+	height: 135px;
 }
 .mediaflow-label {
 	background: url('../images/layout/box-bottom-grey-trans.png') no-repeat bottom;

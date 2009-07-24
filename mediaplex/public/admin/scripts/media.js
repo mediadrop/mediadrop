@@ -14,7 +14,6 @@ var ManevolentMediaOverlord = new Class({
 		this.uploader = uploader;
 		this.albumArtUploader = albumArtUploader;
 		this.albumArtUploader.uploader.addEvent('fileComplete', this.onAlbumArtUpload.bind(this));
-		this.albumArtImg = $(albumArtImg);
 		this.isNew = !!isNew;
 		this.reinFire();
 	},
@@ -30,6 +29,7 @@ var ManevolentMediaOverlord = new Class({
 	onFileAdded: function(json){
 		this.updateFormActions(json.media_id);
 		this.updateStatusForm(json.status_form);
+		this.isNew = false;
 	},
 	
 	onFileEdited: function(json){
@@ -37,21 +37,16 @@ var ManevolentMediaOverlord = new Class({
 	},
 
 	updateFormActions: function(mediaID){
-		var actionSearch = /\/new\//, actionReplace = '/' + mediaID + '/';
-		this.metaForm.action = this.metaForm.action.replace(actionSearch, actionReplace);
-		this.statusForm.form.action = this.statusForm.form.action.replace(actionSearch, actionReplace);
+		var find = /\/new\//, repl = '/' + mediaID + '/';
+		this.metaForm.action = this.metaForm.action.replace(find, repl);
+		this.statusForm.form.action = this.statusForm.form.action.replace(find, repl);
 		this.albumArtUploader.uploader.setOptions({
-			url: this.albumArtUploader.uploader.options.url.replace(actionSearch, actionReplace)
+			url: this.albumArtUploader.uploader.options.url.replace(find, repl)
 		});
 		this.uploader.uploader.setOptions({
-			url: this.uploader.uploader.options.url.replace(actionSearch, actionReplace)
+			url: this.uploader.uploader.options.url.replace(find, repl)
 		});
-		this.files.addForm.action = this.files.addForm.action.replace(actionSearch, actionReplace);
-	/*	var fileForms = this.files.list.getChildren('form');
-		for (var form, i = fileForms.length; i--; i) {
-			form = fileForms[i];
-			form.action = form.action.replace(actionSearch, actionReplace);
-		}*/
+		this.files.addForm.action = this.files.addForm.action.replace(find, repl);
 	},
 
 	updateStatusForm: function(html){
@@ -61,13 +56,12 @@ var ManevolentMediaOverlord = new Class({
 	},
 
 	onAlbumArtUpload: function(file){
-		var json = JSON.decode(file.response.text, true), src = this.albumArtImg.get('src');
-		this.albumArtImg.set('src', src.replace(/new/, json.media_id) + '?' + $time());
-		this.updateFormActions(json.media_id);
+		var json = JSON.decode(file.response.text, true);
+		this.updateFormActions(json.id);
+		this.isNew = false;
 	},
 
 	onPodcastChange: function(e){
-		e = new Event(e);
 		var podcastID = this.metaForm.podcast.value, oldPodcastID = this.metaFormPodcastID;
 		if (podcastID && !oldPodcastID) {
 			// enable toggle_feed
@@ -212,8 +206,6 @@ var FileManager = new Class({
 	},
 
 	orderSaved: function(resp){
-		console.log('Order saved!');
-		console.log(resp);
 	},
 
 	addFile: function(e){

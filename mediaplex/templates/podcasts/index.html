@@ -16,7 +16,7 @@ ${set_nav_opts('podcast_help')}
 
 		<div id="featured-ep" py:if="first_page and episode_count" py:with="media = episodes[0]">
 			<a href="${h.url_for(controller='/media', action='view', slug=media.slug, podcast_slug=media.podcast.slug)}" class="grid2-link">
-				<img src="${h.url_for('/images/media/%sl.jpg' % media.id)}" width="410" height="273" alt="Featured: ${Markup(media.title).stripentities()}" class="grid-thumb" />
+				<img src="${h.url_for('/images/media/%sl.jpg' % media.id)}" width="410" height="231" alt="Featured: ${Markup(media.title).stripentities()}" class="grid-thumb" />
 				<span class="featured-ep-top">
 					<span class="featured-ep-caption">Featured Episode</span>
 					<span class="grid-title">${Markup(media.title)}</span>
@@ -46,7 +46,7 @@ ${set_nav_opts('podcast_help')}
 			<innerboxtitle>Podcast Series</innerboxtitle>
 			<ul id="podcasts" class="innerbox-list">
 				<li py:for="podcast in podcasts">
-					<a href="${h.url_for(action='view', slug=podcast.slug)}" class="podcast-art"><img src="${h.url_for('/images/podcasts/%sm.jpg' % podcast.id)}" width="154" height="151" class="f-lft" /></a>
+					<a href="${h.url_for(action='view', slug=podcast.slug)}" class="podcast-art"><img src="${h.url_for('/images/podcasts/%sm.jpg' % podcast.id)}" width="154" height="154" class="f-lft" /></a>
 					<div class="description">
 						<a href="${h.url_for(action='view', slug=podcast.slug)}" class="title">${Markup(podcast.title)}</a>
 						<p py:replace="Markup(podcast.description)" />

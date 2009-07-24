@@ -2,6 +2,7 @@
 Podcast/Media Admin Controller
 """
 import os
+from shutil import copyfileobj
 from PIL import Image
 from repoze.what.predicates import has_permission
 from tg import config, flash, url, request
@@ -97,14 +98,48 @@ class PodcastadminController(RoutingController):
         redirect(action='edit', id=podcast.id)
 
 
-    @expose()
+    @expose('json')
     @validate(AlbumArtForm(), error_handler=edit)
-    def save_album_art(self, id, **values):
-        podcast = fetch_row(Podcast, id)
-        temp_file = values['album_art'].file
-        im_path = '%s/../public/images/podcasts/%d%%s.jpg' % (os.path.dirname(__file__), podcast.id)
-        im = Image.open(temp_file)
-        im.resize((162, 113), 1).save(im_path % 's')
-        im.resize((154, 151), 1).save(im_path % 'm')
-        im.resize((410, 273), 1).save(im_path % 'l')
-        redirect(action='edit')
+    def save_album_art(self, id, album_art, **values):
+        if id == 'new':
+            podcast = Podcast()
+            podcast.slug = 'placeholder'
+            podcast.title = '(Placeholder Podcast)'
+            user = request.environ['repoze.who.identity']['user']
+            podcast.author = Author(user.display_name, user.email_address)
+            DBSession.add(podcast)
+            DBSession.flush()
+        else:
+            podcast = fetch_row(Podcast, id)
+
+        temp_file = album_art.file
+        im_path = os.path.join(config.image_dir, 'podcasts/%d%%(size)s.%%(ext)s' % podcast.id)
+
+        try:
+            # Create jpeg thumbnails
+            im = Image.open(temp_file)
+            im.resize((132, 132), 1).save(im_path % dict(size='s', ext='jpg'))
+            im.resize((154, 154), 1).save(im_path % dict(size='m', ext='jpg'))
+            im.resize((600, 600), 1).save(im_path % dict(size='l', ext='jpg'))
+
+            # Backup the original image just for kicks
+            orig_type = os.path.splitext(album_art.filename)[1].lower()[1:]
+            orig_file = open(im_path % dict(size='orig', ext=orig_type), 'w')
+            copyfileobj(temp_file, orig_file)
+            temp_file.close()
+            orig_file.close()
+
+            success = True
+            message = None
+        except IOError, e:
+            success = False
+            message = 'Unsupported image type'
+        except Exception, e:
+            success = False
+            message = e.message
+
+        return dict(
+            success = success,
+            message = message,
+            id = podcast.id,
+        )
