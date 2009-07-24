@@ -39,7 +39,7 @@ class PodcastsController(RoutingController):
     def index(self, page=1, **kwargs):
         episodes_query = DBSession.query(Media)\
             .filter(Media.podcast_id != None)\
-            .order_by(Media.publish_on)\
+            .order_by(Media.publish_on.desc())\
             .options(undefer('comment_count'))
         episodes_query = self._filter(episodes_query)
 
@@ -94,3 +94,4 @@ class PodcastsController(RoutingController):
         template_name = config['pylons.app_globals'].dotted_filename_finder.get_dotted_filename(
             'mediaplex.templates.podcasts.feed', template_extension='.xml')
         return templating.render_genshi(template_name, extra_vars=template_vars, method='xml')
+
