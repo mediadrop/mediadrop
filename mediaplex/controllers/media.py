@@ -3,6 +3,7 @@ import shutil
 import os.path
 import simplejson as json
 import time
+import smtplib
 
 from urlparse import urlparse, urlunparse
 from cgi import parse_qs
@@ -100,6 +101,7 @@ class MediaController(RoutingController):
 
         media.comments.append(c)
         DBSession.add(media)
+        self._send_notification(media, c)
         redirect(action='lesson_view')
 
     @expose('mediaplex.templates.media.view')
@@ -155,6 +157,7 @@ class MediaController(RoutingController):
 
         media.comments.append(c)
         DBSession.add(media)
+        self._send_notification(media, c)
         redirect(action='concept_view')
 
 
@@ -191,6 +194,7 @@ class MediaController(RoutingController):
 
         media.comments.append(c)
         DBSession.add(media)
+        self._send_notification(media, c)
         redirect(action='view')
 
 
@@ -206,3 +210,30 @@ class MediaController(RoutingController):
             return file_handle.read()
         else:
             raise HTTPNotFound()
+
+
+    def _send_notification(self, media, comment):
+        server=smtplib.SMTP('localhost')
+        fr = 'noreply@tmcyouth.com'
+        to = ['anthony@simplestation.com', 'comments@tmcyouth.com']
+        subject = 'New Comment: %s' % comment.subject
+        body = """A new comment has been posted!
+
+Author: %s
+Post: %s
+
+Body: %s
+""" % (comment.author.name,
+        'http://' + request.environ['HTTP_HOST'] + url_for(controller='media', action='view', slug=media.slug),
+       strip_xhtml(line_break_xhtml(line_break_xhtml(comment.body))))
+
+        msg = """To: %s
+From: %s
+Subject: %s
+
+%s
+""" % (str(to), fr, subject, body)
+
+        server.sendmail(fr, to, msg)
+        server.quit()
+

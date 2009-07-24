@@ -185,7 +185,7 @@ class VideoController(RoutingController):
     def _send_notification(self, video):
         server=smtplib.SMTP('localhost')
         fr = 'noreply@tmcyouth.com'
-        to = 'anthony@simplestation.com'
+        to = ['anthony@simplestation.com', 'videos@tmcyouth.com']
         subject = 'New Video: %s' % video.title
         body = """A new video has been uploaded!
 
@@ -205,7 +205,7 @@ From: %s
 Subject: %s
 
 %s
-""" % (to, fr, subject, body)
+""" % (str(to), fr, subject, body)
 
         server.sendmail(fr, to, msg)
         server.quit()
