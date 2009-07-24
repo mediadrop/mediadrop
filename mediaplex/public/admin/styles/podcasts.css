@@ -1,7 +1,3 @@
-.explicit strong,
-.clean strong {
-	display: none;
-}
 .explicit, .clean {
 	display: block;
 	height: 11px;
@@ -10,12 +6,10 @@
 	background-position: bottom;
 	background-repeat: no-repeat;
 }
-
-.explicit {
-	background-image: url('../images/icons/explicit.png');
-}
-.clean {
-	background-image: url('../images/icons/clean.png');
+.explicit { background-image: url('../images/icons/explicit.png'); }
+.clean { background-image: url('../images/icons/clean.png'); }
+.explicit strong, .clean strong {
+	display: none;
 }
 
 .add-podcast, .add-podcast:hover,
@@ -82,33 +76,24 @@
 .view-episodes strong {
 	font-weight: bold;
 }
-#podcast-form #details_copyright_label,
-#podcast-form #details_category_label,
-#podcast-form #details_explicit_label {
-	margin-right: 10px;
-	padding: 5px 0;
-	float: left;
-	font-weight: normal;
-}
-#podcast-form #details_category_label {
-	margin-left: 10px;
-}
-#podcast-form #details_explicit_label {
-	padding: 20px 0 0 0;
-}
-#podcast-form #details input#details_copyright { width: 60px; }
-#podcast-form #details input#details_category { width: 390px; }
 
-#podcast-form #details #details_explicit_container { width: 100%; }
-#podcast-form #details #details_explicit {
-	padding-top: 20px;
+#podcast-form .details_fieldset .fieldlabel {
+	width: 95px;
 }
-#podcast-form #details #details_explicit li {
+#details_itunes_url, #details_feedburner_url, #details_copyright {
+	width: 285px;
+}
+#podcast-form #details_explicit li {
+	float: left;
+	width: auto;
+	clear: none;
 	margin-right: 10px;
 }
-#podcast-form #details #details_explicit li label {
+#podcast-form #details_explicit li label {
 	margin-left: 5px;
 }
+
+
 body.menu-podcasts-on .album-art {
 	width: 160px;
 }

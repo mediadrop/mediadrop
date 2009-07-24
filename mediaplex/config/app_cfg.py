@@ -35,7 +35,10 @@ class MediaplexConfig(AppConfig):
         map.connect('/podcasts/{slug}.xml', controller='podcasts', action='feed')
         map.connect('/podcasts/{slug}', controller='podcasts', action='view')
         map.connect('/podcasts/{podcast_slug}/{slug}/{action}', controller='media', action='view', requirements=dict(action='view|rate|comment|feed'))
+
         # admin routes
+        map.connect('/admin/video_table/{table}/{page}', controller='admin', action='video_table', table='awaiting_review', page=1)
+
         map.connect('/admin/media', controller='mediaadmin', action='index')
         map.connect('/admin/media/{id}/{action}', controller='mediaadmin', action='edit', requirements=dict(action='edit|save|add_file|edit_file|reorder_file|save_album_art|update_status'))
 

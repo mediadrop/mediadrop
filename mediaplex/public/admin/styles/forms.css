@@ -24,8 +24,26 @@
 	float: left;
 	clear: none;
 }
-.form #details input,
-.form #details select {
+.details_fieldset legend {
+	font-size: 108%;
+	font-weight: bold;
+	color: #3c4d5a;
+	margin: 10px 10px 0 10px;
+}
+.details_fieldset .fieldlabel {
+	margin-right: 10px;
+	padding: 5px 0;
+	float: left;
+	font-weight: normal;
+	display: block;
+	width: 60px;
+}
+.details_fieldset li {
+	margin: 5px 0;
+}
+.details_fieldset input,
+.details_fieldset select,
+.details_fieldset textarea {
 	float: left;
 	width: auto;
 	clear: none;

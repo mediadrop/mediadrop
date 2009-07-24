@@ -72,19 +72,17 @@ class MediaadminController(RoutingController):
         media = fetch_row(Media, id, incl_trash=True)
 
         form = MediaForm(action=url_for(action='save'), media=media)
-        form_values = {
-            'podcast': media.podcast_id,
-            'slug': media.slug,
-            'title': media.title,
-            'author_name': media.author.name,
-            'author_email': media.author.email,
-            'description': media.description,
-            'tags': ', '.join((tag.name for tag in media.tags)),
-            'notes': media.notes,
-            'details': {
-                'duration': helpers.duration_from_seconds(media.duration),
-            },
-        }
+        form_values = dict(
+            podcast = media.podcast_id,
+            slug = media.slug,
+            title = media.title,
+            author_name = media.author.name,
+            author_email = media.author.email,
+            description = media.description,
+            tags = ', '.join((tag.name for tag in media.tags)),
+            notes = media.notes,
+            details = dict(duration = helpers.duration_from_seconds(media.duration)),
+        )
         if tmpl_context.action == 'save':
             form_values.update(values)
         elif id == 'new' and 'podcast' in values:
@@ -239,7 +237,7 @@ class MediaadminController(RoutingController):
                           'prev_id': validators.Int()})
     def reorder_file(self, id, file_id, prev_id, **kwargs):
         media = fetch_row(Media, id, incl_trash=True)
-        q = media.files.reposition(file_id, prev_id)
+        media.files.reposition(file_id, prev_id)
         DBSession.flush()
         return dict(success=True)
 
@@ -333,9 +331,11 @@ class MediaadminController(RoutingController):
             success = False
             message = e.message
 
-        return dict(success = success,
-                    message = message,
-                    media_id = media.id)
+        return dict(
+            success = success,
+            message = message,
+            media_id = media.id,
+        )
 
 
     @expose()
@@ -343,20 +343,23 @@ class MediaadminController(RoutingController):
     def update_status(self, id, update_button, **values):
         media = fetch_row(Media, id, incl_trash=True)
 
+        # Make the requested change assuming it can be done
         if update_button == 'Review Complete':
-            # FIXME view shouldn't display this button if there are no files added
             media.status.discard('unreviewed')
-
         elif update_button == 'Publish Now':
-            # FIXME should check that there is a file here
             media.status.discard('draft')
             media.status.add('publish')
             media.publish_on = datetime.now()
 
+        # Verify the change is valid by re-determining the status
         media.update_status()
         DBSession.add(media)
         DBSession.flush()
 
-        status_form = UpdateStatusForm(action=url_for(action='update_status'))
-        status_form_xhtml = unicode(status_form.display(media=media))
-        return status_form_xhtml
+        if request.is_xhr:
+            # Return the rendered widget for injection
+            status_form = UpdateStatusForm(action=url_for(action='update_status'))
+            status_form_xhtml = unicode(status_form.display(media=media))
+            return status_form_xhtml
+        else:
+            redirect(action='edit')

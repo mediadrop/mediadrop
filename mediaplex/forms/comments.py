@@ -2,7 +2,7 @@ from tw.forms import TextField, CalendarDatePicker, SingleSelectField, TextArea,
 from tw.forms.validators import Int, NotEmpty, DateConverter, DateValidator
 from tw.api import WidgetsList
 
-from mediaplex.forms import ListForm
+from mediaplex.forms import ListForm, XHTMLTextArea
 
 class PostCommentForm(ListForm):
     template = 'mediaplex.templates.comments.post'
@@ -11,7 +11,7 @@ class PostCommentForm(ListForm):
 
     class fields(WidgetsList):
         name = TextField(validator=NotEmpty)
-        body = TextArea(validator=NotEmpty, label_text='Comment', attrs=dict(rows=5, cols=25))
+        body = XHTMLTextArea(validator=NotEmpty, label_text='Comment', attrs=dict(rows=5, cols=25))
         submit = SubmitButton(css_class='mo submit-image')
 
 class EditCommentForm(ListForm):
@@ -20,7 +20,7 @@ class EditCommentForm(ListForm):
     css_class = 'edit-comment-form'
 
     fields = [
-        TextArea('body', validator=NotEmpty, label_text='Comment', attrs=dict(rows=5, cols=25)),
+        XHTMLTextArea('body', validator=NotEmpty, label_text='Comment', attrs=dict(rows=5, cols=25)),
         SubmitButton('submit', default='Save', css_classes=['mo', 'btn-save', 'f-rgt']),
         ResetButton(default='Cancel', css_classes=['mo', 'btn-cancel'])
     ]

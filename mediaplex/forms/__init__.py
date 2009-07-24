@@ -2,6 +2,7 @@ from tw import forms
 from tw.forms import ListFieldSet, TextField, FileField, CalendarDatePicker, SingleSelectField, TextArea, SubmitButton, Button, HiddenField
 from tg.render import _get_tg_vars
 from pylons.templating import pylons_globals
+from mediaplex.lib.helpers import line_break_xhtml
 
 
 class LeniantValidationMixin(object):
@@ -29,3 +30,9 @@ class ListForm(LeniantValidationMixin, GlobalMixin, forms.ListForm):
 
 class TableForm(LeniantValidationMixin, GlobalMixin, forms.TableForm):
     pass
+
+class XHTMLTextArea(TextArea):
+    def display(self, value=None, **kwargs):
+        if value:
+            value = line_break_xhtml(value)
+        return TextArea.display(self, value, **kwargs)

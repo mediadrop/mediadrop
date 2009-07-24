@@ -1,7 +1,7 @@
 from tw.forms import ListFieldSet, TextField, FileField, CalendarDatePicker, SingleSelectField, TextArea, SubmitButton, RadioButtonList
 from tw.forms.validators import Schema, Int, NotEmpty, DateConverter, DateValidator, Email, URL
 from mediaplex.lib import helpers
-from mediaplex.forms import ListForm
+from mediaplex.forms import ListForm, XHTMLTextArea
 
 class PodcastForm(ListForm):
     template = 'mediaplex.templates.admin.box-form'
@@ -14,7 +14,7 @@ class PodcastForm(ListForm):
     # required to support multiple named buttons to differentiate between Save & Delete?
     _name = 'vf'
 
-    explicit_options = ['Yes', 'No', 'Clean']
+    explicit_options = [('no', ''), ('yes', 'Parental Advisory'), ('clean', 'Clean')]
     category_options = [
         'Arts',
         'Arts > Design',
@@ -86,18 +86,18 @@ class PodcastForm(ListForm):
     ]
 
     fields = [
-        TextField('slug', validator=NotEmpty),
-        TextField('title', validator=NotEmpty),
-        TextField('subtitle'),
-        TextField('author_name', validator=NotEmpty),
-        TextField('author_email', validator=NotEmpty),
-        TextArea('description', attrs=dict(rows=5, cols=25)),
-        ListFieldSet('details', suppress_label=True, legend='Podcast Details:', children=[
-            TextField('copyright'),
+        TextField('slug', validator=NotEmpty, maxlength=50),
+        TextField('title', validator=NotEmpty, maxlength=50),
+        TextField('subtitle', maxlength=255),
+        TextField('author_name', validator=NotEmpty, maxlength=50),
+        TextField('author_email', validator=NotEmpty, maxlength=50),
+        XHTMLTextArea('description', attrs=dict(rows=5, cols=25)),
+        ListFieldSet('details', suppress_label=True, legend='Podcast Details:', css_classes=['details_fieldset'], children=[
+            SingleSelectField('explicit', label_text='Explicit?', options=explicit_options),
             SingleSelectField('category', options=category_options),
-            RadioButtonList('explicit', label_text='Explicit?', options=explicit_options),
-            TextField('itunes_url', label_text='iTunes URL'),
-            TextField('feedburner_url', label_text='Feedburner URL'),
+            TextField('copyright', maxlength=50),
+            TextField('itunes_url', label_text='iTunes URL', maxlength=80),
+            TextField('feedburner_url', label_text='Feedburner URL', maxlength=80),
         ]),
         SubmitButton('save', default='Save', named_button=True, css_classes=['mo', 'btn-save', 'f-rgt']),
         SubmitButton('delete', default='Delete', named_button=True, css_classes=['mo', 'btn-delete']),

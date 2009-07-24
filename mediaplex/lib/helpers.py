@@ -48,15 +48,17 @@ def url_for(*args, **kwargs):
     URL.
 
     For example, by using an apache mod_rewrite rule:
-    RewriteRule ^/proxy_url(/.*)$ /myapp/myaction$1?REPLACE_WITH=/proxy_url&REPLACE=/myapp/myaction [proxy,qsappend]
+    RewriteRule ^/proxy_url(/.*){0,1}$ /proxy_url$1?_REP=/mycont/actionA&_RWITH=/proxyA [qsappend]
+    RewriteRule ^/proxy_url(/.*){0,1}$ /proxy_url$1?_REP=/mycont/actionB&_RWITH=/proxyB [qsappend]
+    RewriteRule ^/proxy_url(/.*){0,1}$ /mycont/actionA$1 [proxy]
     """
-    repl = request.str_GET.getall('REPLACE')
-    repl_with = request.str_GET.getall('REPLACE_WITH')
     url = rurl(*args, **kwargs)
-    if repl:
-        old = repl[-1]
-        new = repl_with and repl_with[-1] or ''
-        url = url.replace(old, new, 1)
+
+    # Make the replacements
+    repl = request.str_GET.getall('_REP')
+    repl_with = request.str_GET.getall('_RWITH')
+    for i in range(0, min(len(repl), len(repl_with))):
+        url = url.replace(repl[i], repl_with[i], 1)
 
     return url
 
@@ -132,6 +134,7 @@ def redirect(*args, **kwargs):
 blank_line = re.compile("\s*\n\s*\n\s*", re.M)
 block_tags = 'p br pre blockquote div h1 h2 h3 h4 h5 h6 hr ul ol li form table tr td tbody thead'.split()
 block_spaces = re.compile("\s*(</{0,1}(" + "|".join(block_tags) + ")>)\s*", re.M)
+block_close = re.compile("(</(" + "|".join(block_tags) + ")>)", re.M)
 valid_tags = dict.fromkeys('p i em strong b u a br pre abbr ol ul li sub sup ins del blockquote cite'.split())
 valid_attrs = dict.fromkeys('href title'.split())
 elem_map = {'b' : 'strong', 'i': 'em'}
@@ -214,6 +217,12 @@ def truncate_xhtml(string, size, _strip_xhtml=False):
 
 def strip_xhtml(string):
     return ''.join(BeautifulSoup(string).findAll(text=True))
+
+def line_break_xhtml(string):
+    if string:
+        string = block_close.sub(u"\\1\n", string).rstrip()
+    return string
+
 
 def list_acceptable_xhtml():
     return dict(

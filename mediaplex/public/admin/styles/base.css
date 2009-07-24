@@ -176,8 +176,10 @@ body {
 }
 .box-content .textfield,
 .box-content .textarea,
+.box-content .xhtmltextarea,
 .rounded-inputs .textfield,
-.rounded-inputs .textarea {
+.rounded-inputs .textarea,
+.rounded-inputs .xhtmltextarea {
 	-moz-border-radius: 9px;
 	-webkit-border-radius: 9px;
 	padding: 6px 6px 5px 6px;
