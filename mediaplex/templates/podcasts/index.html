@@ -11,10 +11,10 @@ ${set_nav_opts('podcast_help')}
 	<link href="${h.url_for('/styles/podcasts.css')}" media="screen" rel="stylesheet" type="text/css" />
 </head>
 <body class="nav-podcasts-on">
-	<box id="podcasts-box" py:with="episodes_paginator = c.paginators.episodes; episode_count = len(episodes)">
+	<box id="podcasts-box" py:with="episodes_paginator = c.paginators.episodes; episode_count = len(episodes); first_page = episodes_paginator.page == 1;">
 		<nav />
 
-		<div id="featured-ep" py:if="episodes_paginator.page == 1 and episode_count" py:with="media = episodes[0]">
+		<div id="featured-ep" py:if="first_page and episode_count" py:with="media = episodes[0]">
 			<a href="${h.url_for(controller='/media', action='view', slug=media.slug, podcast_slug=media.podcast.slug)}" class="grid2-link">
 				<img src="${h.url_for('/images/media/%sl.jpg' % media.id)}" width="410" height="273" alt="Featured: ${Markup(media.title).stripentities()}" class="grid-thumb" />
 				<span class="featured-ep-top">
@@ -35,7 +35,7 @@ ${set_nav_opts('podcast_help')}
 		<h3 class="recent-eps">Recent Episodes</h3>
 		<div py:if="episode_count &lt; 2">No recent episodes found.</div>
 		<ul py:if="episode_count &gt; 1"
-		    py:with="episodes = episodes_paginator.page == 1 and episodes[1:] or episodes"
+		    py:with="episodes = first_page and episodes[1:] or episodes"
 		    py:replace="podcastgrid(episodes)"
 		/>
 		<div py:content="pagination(episodes_paginator)" class="clear" />

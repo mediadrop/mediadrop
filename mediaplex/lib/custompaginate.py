@@ -125,7 +125,6 @@ class Page(_paginate.Page):
 
         self.items_per_page = items_per_page
         self.items_first_page = items_first_page # Adddddd
-        #print 'itemsfirstpage', self.items_first_page
 
         # Unless the user tells us how many items the collections has
         # we calculate that ourselves.
@@ -137,21 +136,19 @@ class Page(_paginate.Page):
         # Compute the number of the first and last available page
         if self.item_count > 0:
             self.first_page = 1
-#            self.page_count = ((self.item_count - 1) / self.items_per_page) + 1
-#            self.last_page = self.first_page + self.page_count - 1
 
-            if self.items_first_page is None: # Go ahead with the default behaviour
-                self.page_count = ((self.item_count - 1) / self.items_per_page) + 1
+            if self.items_first_page is None:
+                # Go ahead with the default behaviour
+                self.page_count = \
+                    ((self.item_count - 1) / self.items_per_page) + 1
             else:
                 other_items = self.item_count - self.items_first_page
-                #print '# other items:', other_items
                 if other_items <= 0:
                     self.page_count = 1
                 else:
-                    self.page_count = ((other_items - 1) / self.items_per_page) + 1 + 1
-                    #print 'page count', self.page_count
+                    self.page_count = \
+                        ((other_items - 1) / self.items_per_page) + 1 + 1
             self.last_page = self.first_page + self.page_count - 1
-            #print 'last page', self.last_page
 
             # Make sure that the requested page number is the range of valid pages
             if self.page > self.last_page:
@@ -161,7 +158,8 @@ class Page(_paginate.Page):
 
             # Note: the number of items on this page can be less than
             #       items_per_page if the last page is not full
-            if self.items_first_page is None: # Go ahead with the default behaviour again
+            if self.items_first_page is None:
+                # Go ahead with the default behaviour again
                 self.first_item = (self.page - 1) * items_per_page + 1
                 self.last_item = min(self.first_item + items_per_page - 1, self.item_count)
             else:
