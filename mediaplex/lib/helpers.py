@@ -166,8 +166,9 @@ def clean_xhtml(string):
 
     Finally, runs the string through our XHTML cleaner.
     """
-    if string == u"":
-        return string
+    if not string or not string.strip():
+        # If the string is none, or empty, or whitespace
+        return u""
 
     # wrap string in paragraph tag, just in case
     string = u"<p>%s</p>" % string.strip()

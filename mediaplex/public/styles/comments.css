@@ -95,7 +95,7 @@
 	margin: 0 0 0 12px;
 }
 .comments .body {
-	font-family: 'Candara', Verdana, 'Lucida Grande', Tahoma, sans-serif;
+	font-family: 'Lucida Grande', Tahoma, sans-serif;
 	background: url('../images/layout/comment-body-bg.png') repeat-y right;
 	color: #10375c;
 	width: 424px;

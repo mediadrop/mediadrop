@@ -12,7 +12,7 @@ class MediaplexConfig(AppConfig):
                     always_scan=config['debug'])
 
         # home page redirect
-        map.redirect('/', '/video-flow')
+        map.redirect('/', '/video')
 
         # route for the concept sunday school action
         map.connect('/concept', controller='video', action='concept_preview')
