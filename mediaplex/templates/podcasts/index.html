@@ -9,6 +9,10 @@ ${set_nav_opts('podcast_help')}
 <head>
 	<title>Podcasts</title>
 	<link href="${h.url_for('/styles/podcasts.css')}" media="screen" rel="stylesheet" type="text/css" />
+	<link py:for="podcast in podcasts"
+	      type="application/rss+xml" rel="alternate"
+	      href="${h.url_for(action='feed', slug=podcast.slug)}"
+	      title="${Markup(podcast.title).stripentities()} RSS Feed" />
 </head>
 <body class="nav-podcasts-on">
 	<box id="podcasts-box" py:with="episodes_paginator = c.paginators.episodes; episode_count = len(episodes); first_page = episodes_paginator.page == 1;">
