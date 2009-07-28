@@ -10,9 +10,21 @@ ${set_nav_opts('hide_topics', 'hide_left')}
 	<title>Lessons</title>
 </head>
 <body>
-	<box id="grid-box" py:with="paginator=c.paginators.media">
+	<box id="grid-box"
+	     py:with="paginator = c.paginators.media;
+	              this_week_media = [m for m in media if m.publish_on &gt;&eq; week_start];
+	              previous_media  = [m for m in media if m.publish_on &lt; week_start];
+	">
 		<nav />
-		<ul py:replace="mediagrid(media, {'controller':'/media', 'action':'lesson_view'})" />
+		<div py:if="this_week_media" py:strip="True">
+			<!--! FIXME: make the following style into a class? -->
+			<h1 style="border-bottom: 2px solid #323232; margin: 0 20px 10px;">This Week's Episodes</h1>
+			<ul py:replace="mediagrid(this_week_media, {'controller':'/media', 'action':'lesson_view'})" />
+		</div>
+		<div py:if="previous_media" py:strip="True">
+			<h1 style="border-bottom: 2px solid #323232; margin: 0 20px 10px;">Previous Episodes</h1>
+		</div>
+		<ul py:replace="mediagrid(previous_media, {'controller':'/media', 'action':'lesson_view'})" />
 		${pagination(paginator)}
 	</box>
 </body>

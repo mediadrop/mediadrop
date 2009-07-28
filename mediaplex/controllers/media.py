@@ -8,7 +8,7 @@ import smtplib
 from urlparse import urlparse, urlunparse
 from cgi import parse_qs
 from PIL import Image
-from datetime import datetime
+from datetime import datetime, timedelta
 from tg import expose, validate, flash, require, url, request, response, config, tmpl_context
 from tg.exceptions import HTTPNotFound
 from tg.decorators import paginate
@@ -73,6 +73,8 @@ class MediaController(RoutingController):
 
         return dict(
             media = media,
+            week_start = datetime.now() - \
+                    timedelta(days=datetime.now().weekday()),
         )
 
     @expose('mediaplex.templates.media.lesson_view')
