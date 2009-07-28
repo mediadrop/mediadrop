@@ -302,15 +302,15 @@ a#nav-podcast-help.podcast-help-shown,
 	color: #fff;
 	text-decoration: underline;
 }
-.nav-box-body ul {
+#podcast-help-box ul {
 	float: none;
 	width: 100%;
 	margin-bottom: 1em;
 }
-.nav-box-body p {
+#podcast-help-box p {
 	margin-bottom: 1em;
 }
-.nav-box-body > .fL, .nav-box-body > .fR {
+#podcast-help-box .fL, #podcast-help-box .fR {
 	width: 420px;
 }
 #topics-caption {
