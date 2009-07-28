@@ -22,7 +22,7 @@ from sqlalchemy.orm.exc import NoResultFound
 from mediaplex.lib import helpers
 from mediaplex.lib.helpers import expose_xhr, redirect, url_for, clean_xhtml, strip_xhtml, line_break_xhtml
 from mediaplex.lib.base import Controller, RoutingController
-from mediaplex.model import DBSession, metadata, fetch_row, Video, Media, MediaFile, Comment, Tag, Author, AuthorWithIP
+from mediaplex.model import DBSession, metadata, fetch_row, Video, Media, MediaFile, Comment, Tag, Author, AuthorWithIP, Podcast
 from mediaplex.forms.media import UploadForm
 from mediaplex.forms.comments import PostCommentForm
 
@@ -133,6 +133,46 @@ class MediaController(RoutingController):
             comment_form = PostCommentForm(action=url_for(action='comment')),
             comment_form_values = kwargs,
             next_episode = next_episode,
+        )
+
+    @expose('json')
+    def latest(self, **kwargs):
+        """
+        EXPOSE the basic properties of the latest media object
+        TODO: work this into a more general, documented, API scheme
+
+        Arguments:
+            podcast - a podcast slug or nothing
+        """
+        media_query = DBSession.query(Media)\
+            .filter(Media.publish_on < datetime.now())\
+            .filter(Media.status >= 'publish')\
+            .filter(Media.status.excludes('trash'))
+
+        podcast_id = None
+        slug = kwargs.get('podcast', '')
+        if slug:
+            podcast = fetch_row(Podcast, slug=kwargs['podcast'])
+            podcast_id = podcast.id
+
+        media = media_query\
+            .filter(Media.podcast_id == podcast_id)\
+            .order_by(Media.publish_on.desc())\
+            .first()
+
+        im_path = '/images/media/%d%%s.jpg' % media.id
+
+        return dict(
+            title = media.title,
+            description = media.description,
+            description_plain = strip_xhtml(line_break_xhtml(\
+                line_break_xhtml(media.description))),
+            img_l = url_for(im_path % 'l'),
+            img_m = url_for(im_path % 'm'),
+            img_s = url_for(im_path % 's'),
+            img_ss = url_for(im_path % 'ss'),
+            id = media.id,
+            url = url_for(controller="/media", action="view", slug=media.slug),
         )
 
     @expose('mediaplex.templates.media.concept_view')
