@@ -66,6 +66,7 @@ class PodcastsController(RoutingController):
 
         return dict(
             podcast = podcast,
+            podcasts = DBSession.query(Podcast).options(undefer('published_media_count')).all(),
             episodes = episodes,
         )
 

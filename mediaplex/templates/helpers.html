@@ -5,13 +5,14 @@
 
 	<!--! Call this method to set options for the nav bar -->
 	<py:def
-		function="set_nav_opts(*args)"
+		function="set_nav_opts(*args, **kwargs)"
 		py:with="a = setattr(c, 'nav_opts', dict(
 			show_left = 'hide_left' not in args,
 			show_topics = 'hide_topics' not in args,
 			show_topic_list = 'unhide_topic_list' in args,
 			show_upload = 'hide_upload' not in args,
 			show_podcast_help = 'hide_podcast_help' not in args and 'podcast_help' in args,
+			podcasts = kwargs.get('podcasts', []),
 			));"
 	/>
 
@@ -84,9 +85,41 @@
 				<div id="podcast-help-top" />
 				<div class="nav-box-top" />
 				<div>
-					<div class="nav-box-body">
-						<p style="line-height:1.6em">A <em>podcast</em> is a series of digital media files, usually either digital audio or video, that is made available for download via web syndication. The syndication aspect of the delivery is what differentiates podcasts from other ways of accessing files, such as simple download or streaming: it means that special client software applications known as podcatchers (such as Apple Inc.'s iTunes or Nullsoft's Winamp) can automatically identify and retrieve new files in a series when they are made available, by accessing a centrally-maintained web feed that lists all files currently associated with that particular podcast. The files thus automatically downloaded are then stored locally on the user's computer or other device, for offline use.</p>
-						<div style="margin-top:.5em;text-align:right">from <a href="http://en.wikipedia.org/wiki/Podcast">Wikipedia</a></div>
+					<div class="nav-box-body" style="line-height: 1.6em;">
+						<div class="fL">
+							<p>A podcast is a periodical publication of audio or video files on the internet. The term is a portmanteau of the words "iPod" and "broadcast", but you don't need an iPod to listen to a podcast&mdash;any computer or portable media player will do.</p>
+							<p>A podcatcher, or podcast client is a computer program that reads a podcast feed and downloads new episodes to your computer.</p>
+							<p>For a brief video description of podcasts, check out <a href="http://www.youtube.com/watch?v=y-MSL42NV3c">this youtube video</a>!</p>
+						</div>
+						<div class="fR">
+							<ul>
+								<li>To get started all you need is a podcast client like iTunes or Juice:</li>
+								<li><a href="http://apple.com/itunes/download/">Download iTunes</a></li>
+								<li><a href="http://juicereceiver.sourceforge.net/">Download Juice</a></li>
+							</ul>
+							<table py:if="c.nav_opts['podcasts']">
+								<thead>
+									<tr>
+										<td>Then you can add our podcasts to your podcast client:</td>
+									</tr>
+								</thead>
+								<tbody>
+									<tr py:for="podcast in c.nav_opts['podcasts']">
+										<td>
+											Subscribe to
+											<a href="${h.url_for(action='view', slug=podcast.slug)}">
+												${Markup(podcast.title)}
+											</a>
+										</td>
+										<td>
+											via
+											<span py:if="podcast.itunes_url" py:strip="True"><a href="${podcast.itunes_url}">iTunes feed</a> |</span>
+											<a href="${h.url_for(action='feed', slug=podcast.slug)}">Generic feed</a>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
 					</div>
 					<div class="nav-box-bottom" />
 				</div>

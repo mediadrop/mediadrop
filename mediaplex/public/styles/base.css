@@ -278,6 +278,7 @@ a#nav-podcast-help.podcast-help-shown,
 	width: 860px;
 	overflow: hidden;
 	position: relative;
+	line-height: 1.6em;
 }
 .nav-box ul {
 	width: 25%;
@@ -300,6 +301,17 @@ a#nav-podcast-help.podcast-help-shown,
 .nav-box a:hover {
 	color: #fff;
 	text-decoration: underline;
+}
+.nav-box-body ul {
+	float: none;
+	width: 100%;
+	margin-bottom: 1em;
+}
+.nav-box-body p {
+	margin-bottom: 1em;
+}
+.nav-box-body > .fL, .nav-box-body > .fR {
+	width: 420px;
 }
 #topics-caption {
 	position: absolute;
