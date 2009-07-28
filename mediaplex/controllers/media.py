@@ -142,21 +142,34 @@ class MediaController(RoutingController):
         TODO: work this into a more general, documented, API scheme
 
         Arguments:
-            podcast - a podcast slug or nothing
+            podcast - a podcast slug or empty string
+            tag     - a tag slug
         """
         media_query = DBSession.query(Media)\
             .filter(Media.publish_on < datetime.now())\
             .filter(Media.status >= 'publish')\
             .filter(Media.status.excludes('trash'))
 
-        podcast_id = None
-        slug = kwargs.get('podcast', '')
-        if slug:
-            podcast = fetch_row(Podcast, slug=kwargs['podcast'])
-            podcast_id = podcast.id
+        # Filter by podcast, if podcast slug provided
+        slug = kwargs.get('podcast', None)
+        if slug != None:
+            if slug != '':
+                podcast = fetch_row(Podcast, slug=slug)
+                media_query = media_query\
+                    .filter(Media.podcast_id == podcast.id)
+            else:
+                media_query = media_query\
+                    .filter(Media.podcast_id == None)
 
+        # Filter by tag, if tag slug provided
+        slug = kwargs.get('tag', None)
+        if slug:
+            tag = fetch_row(Tag, slug=slug)
+            media_query = media_query\
+                .filter(Media.tags.contains(tag))\
+
+        # get the actual object (hope there is one!)
         media = media_query\
-            .filter(Media.podcast_id == podcast_id)\
             .order_by(Media.publish_on.desc())\
             .first()
 
