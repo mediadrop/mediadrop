@@ -59,7 +59,7 @@ class MediaController(RoutingController):
     def lessons(self, page=1, tags=None, **kwargs):
         """Grid-style List Action"""
         try:
-            tag = DBSession.query(Tag).filter(Tag.slug == 'bible-lesson').one()
+            tag = fetch_row(Tag, slug='bible-lesson')
             media = DBSession.query(Media)\
                 .filter(Media.tags.contains(tag))\
                 .filter(Media.status >= 'publish')\
@@ -68,7 +68,7 @@ class MediaController(RoutingController):
                 .filter(Media.podcast_id == None)\
                 .order_by(Media.publish_on.desc())\
                 .options(undefer('comment_count'))
-        except NoResultFound:
+        except HTTPNotFound:
             media = []
 
         today = date.today()

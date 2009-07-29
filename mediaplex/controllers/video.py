@@ -16,6 +16,7 @@ from datetime import datetime
 from tg import expose, validate, flash, require, url, request, response, config, tmpl_context
 from tg.decorators import paginate
 from tg.controllers import CUSTOM_CONTENT_TYPE
+from tg.exceptions import HTTPNotFound
 from formencode import validators
 from pylons.i18n import ugettext as _
 from sqlalchemy import and_, or_
@@ -69,12 +70,14 @@ class VideoController(RoutingController):
         """Mediaflow Action"""
         tmpl_context.disable_topics = True
         tmpl_context.disable_sections = True
-        videos = []
+
         try:
-            tag = DBSession.query(Tag).filter(Tag.slug == 'conceptsundayschool').one()
-            videos = self._list_query.filter(Video.tags.contains(tag)).order_by(Video.publish_on.desc())[:15]
-        except NoResultFound, e:
-            pass
+            tag = fetch_row(Tag, slug='conceptsundayschool')
+            videos = self._list_query\
+                    .filter(Video.tags.contains(tag))\
+                    .order_by(Video.publish_on.desc())[:15]
+        except HTTPNotFound, e:
+            videos = []
 
         return dict(
             videos = videos
@@ -94,7 +97,7 @@ class VideoController(RoutingController):
     @expose('mediaplex.templates.video.index')
     @paginate('videos', items_per_page=20)
     def tags(self, slug=None, page=1, **kwargs):
-        tag = DBSession.query(Tag).filter(Tag.slug == slug).one()
+        tag = fetch_row(Tag, slug=slug)
         video_query = self._list_query\
             .filter(Video.tags.contains(tag))\
             .options(undefer('comment_count'))
