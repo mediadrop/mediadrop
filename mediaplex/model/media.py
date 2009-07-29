@@ -5,6 +5,10 @@ Things to be aware of:
 
   - Polymorphism is used to return Audio or Video objects while dealing with
     a single database table. Both these classes inherit the Media base class.
+    We also have a PlaceholderMedia type for media that hasn't yet been
+    defined as one or the other.
+
+  - To switch a row from one polymorphic type to another use change_media_type()
 
   - Media.author and Media.rating are composite columns and provide an interface
     similar to relations. In other words, author_name & author_email are shuffled
@@ -24,11 +28,13 @@ Things to be aware of:
 
 """
 
+import transaction
 from datetime import datetime
 from urlparse import urlparse
 from sqlalchemy import Table, ForeignKey, Column, sql, and_, or_, func, select
 from sqlalchemy.types import String, Unicode, UnicodeText, Integer, DateTime, Boolean, Float
 from sqlalchemy.orm import mapper, class_mapper, relation, backref, synonym, composite, column_property, comparable_property, validates, collections
+from zope.sqlalchemy import datamanager
 from tg import config
 
 from mediaplex.model import DeclarativeBase, metadata, DBSession
@@ -237,16 +243,6 @@ class Audio(Media):
         return '<Audio: %s>' % self.slug
 
 
-def change_media_type(id, type):
-    """Execute a query to change the polymorphic type of the media at the given ID.
-    The type argument can be a string or the type class itself.
-
-    We need this function because simply setting media_instance.type has no effect.
-    """
-    if not isinstance(type, basestring):
-        type = class_mapper(type, compile=False).polymorphic_identity
-    DBSession.execute(media.update().where(media.c.id == id).values({media.c.type: type}))
-
 
 class MediaFile(object):
     """Metadata of files which belong to a certain media item"""
@@ -293,7 +289,6 @@ class MediaFile(object):
             raise UnknownFileTypeException, 'Could not determine whether the file is audio or video'
 
 
-
 class MediaFileList(list):
     def for_player(self):
         picks = self.pick_types(['flv', 'mp3', 'mp4'])
@@ -325,6 +320,48 @@ class MediaFileList(list):
         DBSession.add(file)
         DBSession.execute(bump_others)
 
+
+
+def change_media_type(media_item, type, refresh=True):
+    """UPDATE the polymorphic type of the given media.
+
+    Results in the current transaction being committed, and
+    old references to the given media_item will be unusable.
+
+    media_item
+      An ID or Media instance.
+
+    type
+      The polymorphic identity as a string or a Media subclass.
+
+    refresh
+      Indicates the given media should be reloaded from the
+      database as its an instance of its new polymorphic subclass.
+      Defaults to True.
+
+    """
+    if isinstance(media_item, Media):
+        id = media_item.id
+    else:
+        id = int(media_item)
+    if not isinstance(type, basestring):
+        type = class_mapper(type, compile=False).polymorphic_identity
+
+    result = DBSession.execute(media.update().where(media.c.id == id)\
+                                             .values({media.c.type: type}))
+    assert result.rowcount == 1, 'Changing media %s to type %s failed to '\
+        'affect 1 single row (%d affected).' % (id, type, result.rowcount)
+
+    # Manually executing queries on the session leaves it unchanged
+    datamanager.mark_changed(DBSession())
+    transaction.commit()
+
+    if refresh:
+        # Doesn't use query.get() since it seems to remember the polymorphic
+        # identity of the given ID and automatically filters for that.
+        return DBSession.query(Media).filter(media.c.id == id).one()
+    else:
+        return None
 
 
 mapper(MediaFile, media_files)
