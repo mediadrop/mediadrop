@@ -8,7 +8,7 @@ import smtplib
 from urlparse import urlparse, urlunparse
 from cgi import parse_qs
 from PIL import Image
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 from tg import expose, validate, flash, require, url, request, response, config, tmpl_context
 from tg.exceptions import HTTPNotFound
 from tg.decorators import paginate
@@ -71,10 +71,13 @@ class MediaController(RoutingController):
         except NoResultFound:
             media = []
 
+        today = date.today()
+        sunday = today - timedelta(days=today.weekday()+1)
+        sunday = datetime(sunday.year, sunday.month, sunday.day)
+
         return dict(
             media = media,
-            week_start = datetime.now() - \
-                    timedelta(days=datetime.now().weekday()),
+            week_start = sunday,
         )
 
     @expose('mediaplex.templates.media.lesson_view')
