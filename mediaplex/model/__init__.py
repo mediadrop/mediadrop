@@ -3,6 +3,8 @@
 from zope.sqlalchemy import ZopeTransactionExtension
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
+from tg.exceptions import HTTPNotFound
+from sqlalchemy.orm.exc import NoResultFound
 
 # Global session manager.  DBSession() returns the session object
 # appropriate for the current web request.
@@ -30,6 +32,8 @@ def init_model(engine):
 def fetch_row(mapped_class, id=None, slug=None, incl_trash=False, extra_filter=None):
     """Fetch a row from the database which matches the ID, slug, and other filters.
     If the id arg is 'new', an new, empty instance is created.
+
+    Raises a HTTPNotFound exception if no result is found.
     """
     if id == 'new':
         inst = mapped_class()
@@ -43,7 +47,11 @@ def fetch_row(mapped_class, id=None, slug=None, incl_trash=False, extra_filter=N
         query = query.filter(extra_filter)
     if not incl_trash and hasattr(mapped_class, 'status'):
         query = query.filter(mapped_class.status.excludes('trash'))
-    return query.one()
+
+    try:
+        return query.one()
+    except NoResultFound:
+        raise HTTPNotFound
 
 
 from mediaplex.model.auth import User, Group, Permission
