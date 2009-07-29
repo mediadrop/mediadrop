@@ -8,9 +8,9 @@ from repoze.what.predicates import has_permission
 
 from mediaplex.lib import helpers
 from mediaplex.lib.base import RoutingController
-from mediaplex.lib.helpers import expose_xhr, redirect, url_for, strip_xhtml
+from mediaplex.lib.helpers import expose_xhr, redirect, url_for, strip_xhtml, slugify
 from mediaplex import model
-from mediaplex.model import DBSession, metadata, fetch_row, Tag, Topic
+from mediaplex.model import DBSession, metadata, fetch_row, Tag, Topic, get_available_slug
 from mediaplex.forms.categories import EditCategoryForm
 
 
@@ -45,13 +45,14 @@ class CategoryadminController(RoutingController):
 
     @expose('json')
     def save(self, id, category='topics', **kwargs):
-        category = fetch_row(self.select_model(category), id)
+        model_class = self.select_model(category)
+        category = fetch_row(model_class, id)
 
         if category.id == 'new':
             category.id = None
 
         category.name = strip_xhtml(kwargs['name'])
-        category.slug = strip_xhtml(kwargs['slug'])
+        category.slug = get_available_slug(model_class, slugify(strip_xhtml(kwargs['slug'])))
 
         DBSession.add(category)
         return dict(success=True,category=category)

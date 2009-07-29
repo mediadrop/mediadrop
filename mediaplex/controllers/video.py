@@ -24,9 +24,9 @@ from sqlalchemy.orm import eagerload, undefer
 from sqlalchemy.orm.exc import NoResultFound
 
 from mediaplex.lib import helpers
-from mediaplex.lib.helpers import expose_xhr, redirect, url_for, clean_xhtml, strip_xhtml, line_break_xhtml
+from mediaplex.lib.helpers import expose_xhr, redirect, url_for, clean_xhtml, strip_xhtml, line_break_xhtml, slugify
 from mediaplex.lib.base import Controller, RoutingController
-from mediaplex.model import DBSession, metadata, fetch_row, Video, Media, MediaFile, Comment, Tag, Author, AuthorWithIP
+from mediaplex.model import DBSession, metadata, fetch_row, get_available_slug, Video, Media, MediaFile, Comment, Tag, Author, AuthorWithIP
 from mediaplex.forms.media import UploadForm
 from mediaplex.forms.comments import PostCommentForm
 
@@ -222,20 +222,13 @@ Subject: %s
         video = Video()
         video.author = Author(name, email)
         video.title = title
-        video.slug = title
+        video.slug = get_available_slug(Video, slugify(title))
         video.description = clean_xhtml(description)
         video.status = 'draft,unencoded,unreviewed'
         video.notes = """Bible References: None
 S&H References: None
 Reviewer: None
 License: General Upload"""
-
-        # ensure the slug is unique by appending an int in sequence
-        slug_appendix = 2
-        while DBSession.query(Video.id).filter(Video.slug == video.slug).first():
-            video.slug = video.slug[:-1-int(math.ceil(math.log10(slug_appendix)))]
-            video.slug += '-' + str(slug_appendix)
-            slug_appendix += 1
 
         # save the object to our database to get an ID
         DBSession.add(video)
