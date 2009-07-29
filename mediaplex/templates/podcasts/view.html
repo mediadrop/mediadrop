@@ -17,17 +17,13 @@ ${set_nav_opts('podcast_help', podcasts=podcasts)}
 	<box id="podcasts-box" py:with="episodes_paginator=c.paginators.episodes">
 		<nav />
 
-		<h3 class="recent-eps">Recent Episodes in the <span>${Markup(podcast.title)}</span> series</h3>
-		<ul py:replace="podcastgrid(episodes)" />
-		<div py:content="pagination(episodes_paginator)" class="clear" />
-
-		<hr style="clear:both;margin-bottom:26px;height:0;border:0;" />
+		<hr style="height:0;border:0;margin-bottom:17px" />
 
 		<innerbox>
 			<innerboxtitle>Podcast Series</innerboxtitle>
 			<ul id="podcasts" class="innerbox-list">
 				<li>
-					<span class="podcast-art"><img src="${h.url_for('/images/podcasts/%sm.jpg' % podcast.id)}" width="154" height="154" class="f-lft" /></span>
+					<span class="podcast-art"><img src="${h.url_for('/images/podcasts/%sm.jpg' % podcast.id)}" width="154" height="154" /></span>
 					<div class="description">
 						<div class="title">${Markup(podcast.title)}</div>
 						<p py:replace="Markup(podcast.description)" />
@@ -39,6 +35,12 @@ ${set_nav_opts('podcast_help', podcasts=podcasts)}
 				</li>
 			</ul>
 		</innerbox>
+
+		<hr style="clear:both;margin-bottom:26px;height:0;border:0;" />
+
+		<h3 class="recent-eps">Recent Episodes in the <span>${Markup(podcast.title)}</span> series</h3>
+		<ul py:replace="podcastgrid(episodes)" />
+		<div py:content="pagination(episodes_paginator)" class="clear" />
 	</box>
 </body>
 </html>

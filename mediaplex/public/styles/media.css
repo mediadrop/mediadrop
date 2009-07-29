@@ -94,7 +94,7 @@ a:hover .grid-title, a.grid-title:hover {
 	overflow: hidden;
 	float: left;
 	margin: 12px 20px 0 0;
-	font: 12px Tahoma;
+	font: 12px Tahoma, sans-serif;
 	position: relative;
 }
 .grid2 .grid2-link {
@@ -112,6 +112,7 @@ a:hover .grid-title, a.grid-title:hover {
 	overflow: hidden;
 }
 .grid2 .grid-desc {
+	line-height: 18px;
 	margin: 5px 0;
 }
 .grid2 .grid-likes,

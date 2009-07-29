@@ -50,7 +50,7 @@ ${set_nav_opts('podcast_help', podcasts=podcasts)}
 			<innerboxtitle>Podcast Series</innerboxtitle>
 			<ul id="podcasts" class="innerbox-list">
 				<li py:for="podcast in podcasts">
-					<a href="${h.url_for(action='view', slug=podcast.slug)}" class="podcast-art"><img src="${h.url_for('/images/podcasts/%sm.jpg' % podcast.id)}" width="154" height="154" class="f-lft" /></a>
+					<a href="${h.url_for(action='view', slug=podcast.slug)}" class="podcast-art"><img src="${h.url_for('/images/podcasts/%sm.jpg' % podcast.id)}" width="154" height="154" /></a>
 					<div class="description">
 						<a href="${h.url_for(action='view', slug=podcast.slug)}" class="title">${Markup(podcast.title)}</a>
 						<p py:replace="Markup(podcast.description)" />

@@ -4,7 +4,7 @@
 	display: block;
 	background: url('../images/layout/podcast-art-border.png') no-repeat top left;
 	width: 165px;
-	height: 162px;
+	height: 165px;
 	margin-top: 1px;
 }
 .podcast-art img {
@@ -17,6 +17,7 @@
 	overflow: hidden;
 	border-bottom: 2px solid #323232;
 	padding: 0 0 42px 0;
+	margin-top: 20px;
 }
 #featured-ep .grid-thumb {
 	float: left;
@@ -70,12 +71,13 @@
 	font: 13px/18px Tahoma, sans-serif;
 	margin: 20px 0 30px 0;
 	position: relative;
-	height: 160px;
+	width: 100%;
+	overflow: hidden;
 }
 .innerbox-list li .title {
 	color: #b1d1ef;
 	margin-right: 5px;
-	font: bold 14px/14px Tahoma, sans-serif;
+	font: bold 14px/18px Tahoma, sans-serif;
 	float: left;
 }
 .innerbox-list li a:link,
@@ -93,10 +95,15 @@
 	margin-left: 195px;
 	padding-bottom: 2em;
 	display: block;
+	padding-top: 4px;
+	line-height: 18px;
+}
+.innerbox-list .description p {
+	line-height: 18px;
 }
 .innerbox-list .options {
 	position: absolute;
-	bottom: 0;
+	bottom: 7px;
 	left: 195px;
 	color #e4e7ea;
 	font-weight: bold;

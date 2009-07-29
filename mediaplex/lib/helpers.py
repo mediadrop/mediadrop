@@ -137,7 +137,7 @@ block_spaces = re.compile("\s*(</{0,1}(" + "|".join(block_tags) + ")>)\s*", re.M
 block_close = re.compile("(</(" + "|".join(block_tags) + ")>)", re.M)
 valid_tags = dict.fromkeys('p i em strong b u a br pre abbr ol ul li sub sup ins del blockquote cite'.split())
 valid_attrs = dict.fromkeys('href title'.split())
-elem_map = {'b' : 'strong', 'i': 'em'}
+elem_map = {'b': 'strong', 'i': 'em'}
 # Map all invalid block elements to be paragraphs.
 for t in block_tags:
     if t not in valid_tags:
