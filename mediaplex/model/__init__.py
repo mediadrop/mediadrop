@@ -53,6 +53,21 @@ def fetch_row(mapped_class, id=None, slug=None, incl_trash=False, extra_filter=N
     except NoResultFound:
         raise HTTPNotFound
 
+def get_available_slug(mapped_class, slug):
+    """Return a unique slug based on the provided slug"""
+
+    # ensure the slug is unique by appending an int in sequence
+    slug_appendix = 2
+    while DBSession.query(mapped_class.id)\
+            .filter(mapped_class.slug == slug).first():
+
+        str_appendix = str(slug_appendix)
+        slug = slug[:-1-len(str_appendix)]
+        slug += '-' + str_appendix
+        slug_appendix += 1
+
+    return slug
+
 
 from mediaplex.model.auth import User, Group, Permission
 from mediaplex.model.authors import Author, AuthorWithIP
