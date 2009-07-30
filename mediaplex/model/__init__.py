@@ -53,18 +53,35 @@ def fetch_row(mapped_class, id=None, slug=None, incl_trash=False, extra_filter=N
     except NoResultFound:
         raise HTTPNotFound
 
-def get_available_slug(mapped_class, slug):
-    """Return a unique slug based on the provided slug"""
 
-    # ensure the slug is unique by appending an int in sequence
-    slug_appendix = 2
+def get_available_slug(mapped_class, slug, ignore=None):
+    """Return a unique slug based on the provided slug.
+
+    Works by appending an int in sequence.
+
+    mapped_class
+      The ORM-controlled model that the slug is for
+
+    slug
+      The already slugified slug
+
+    ignore
+      An ID or instance of mapped_class which doesn't count as a collision
+    """
+    if isinstance(ignore, mapped_class):
+        ignore = ignore.id
+    elif ignore is not None:
+        ignore = int(ignore)
+
+    appendix = 2
     while DBSession.query(mapped_class.id)\
-            .filter(mapped_class.slug == slug).first():
-
-        str_appendix = str(slug_appendix)
-        slug = slug[:-1-len(str_appendix)]
-        slug += '-' + str_appendix
-        slug_appendix += 1
+            .filter(mapped_class.slug == slug)\
+            .filter(mapped_class.id != ignore)\
+            .first():
+        if appendix > 2:
+            slug = slug[:-1-len(str(appendix))]
+        slug = '%s-%d' % (slug, appendix)
+        appendix += 1
 
     return slug
 
