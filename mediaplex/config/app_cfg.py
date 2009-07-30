@@ -3,7 +3,7 @@ from routes import Mapper
 
 import mediaplex
 from mediaplex import model
-from mediaplex.lib import app_globals, helpers
+from mediaplex.lib import app_globals, helpers, auth
 
 class MediaplexConfig(AppConfig):
     def setup_routes(self):
@@ -107,30 +107,7 @@ base_config.sa_auth.post_login_url = '/post_login'
 base_config.sa_auth.post_logout_url = '/post_logout'
 
 # custom auth goodness
-from repoze.who.classifiers import default_request_classifier
-from paste.httpheaders import USER_AGENT
-from paste.httpheaders import REQUEST_METHOD
-from paste.request import parse_formvars
-def custom_classifier_for_flash_uploads(environ):
-    """Normally classifies the request as browser, dav or xmlpost.
-
-    When the Flash uploader is sending a file, it appends the authtkt session ID
-    to the POST data so we spoof the cookie header so that the auth code will
-    think this was a normal request. In the process, we overwrite any
-    pseudo-cookie data that is sent by Flash.
-    """
-    classification = default_request_classifier(environ)
-    if classification == 'browser' and REQUEST_METHOD(environ) == 'POST' and 'Flash' in USER_AGENT(environ):
-        try:
-            session_key = environ['repoze.who.plugins']['cookie'].cookie_name
-            session_id = parse_formvars(environ)[session_key]
-            environ['HTTP_COOKIE'] = '%s=%s' % (session_key, session_id)
-            del environ['paste.cookies']
-            del environ['paste.cookies.dict']
-        except (KeyError, AttributeError):
-            pass
-    return classification
-base_config.sa_auth.classifier = custom_classifier_for_flash_uploads
+base_config.sa_auth.classifier = auth.classifier_for_flash_uploads
 
 
 # Mimetypes
