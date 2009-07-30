@@ -148,8 +148,7 @@ a:hover .grid-title, a.grid-title:hover {
 }
 .media-info {
 	float: right;
-	width: 385px;
-	margin-bottom: 58px;
+	width: 359px;
 }
 .media-info p {
 	color: #999595;
@@ -157,28 +156,48 @@ a:hover .grid-title, a.grid-title:hover {
 	font: 13px Verdana, sans-serif;
 }
 .media-meta {
+	background: url('../images/layout/littlebox-bg-200px.png') no-repeat scroll left 15px;
+	float: right;
+	clear: right;
+	width: 344px;
+	margin: 58px 7px 15px 8px;
+	height: 92px;
 	font: 13px/15px Tahoma, sans-serif;
 	color: #c4c4c4;
-	position: absolute;
-	bottom: 0;
-	right: 0;
-	height: 62px;
-	width: 385px;
 }
-.media-meta-etc {
-	margin-top: 1em;
+.media-meta-top {
+	background-image: url('../images/layout/littlebox-top.png');
+	height: 15px;
+}
+.media-meta-bottom {
+	background-image: url('../images/layout/littlebox-bottom.png');
+	position: absolute;
+	height: 15px;
+	width: 344px;
+	bottom: 0;
+	right: 7px; /* make up for the margin on the parent element */
+}
+.media-meta-views,
+.media-meta-time,
+.media-meta-etc,
+.media-meta-commented {
+	height: 20px;
+}
+.media-meta-download, .media-meta-likethis {
+	display: block;
+	width: 113px;
+	height: 0px;
+	overflow: hidden;
+	padding-top: 34px;
+	margin: 0 20px;
+	float: left;
+	clear: left;
 }
 .media-meta-likethis {
-	float: right;
-	margin-right: 140px;
+	background: url('../images/buttons/i-like-this.png') no-repeat scroll;
 }
-a#likethis {
-	text-indent: -1000px;
-	cursor: pointer;
-	border: 0;
-	height: 34px;
-	width: 113px;
-	background-repeat: no-repeat;
-	background-color: transparent;
-	background-image: url('../images/buttons/i-like-this.png');
+.media-meta-download {
+	background: url('../images/buttons/download.png') no-repeat scroll;
+	margin-top: 10px;
 }
+

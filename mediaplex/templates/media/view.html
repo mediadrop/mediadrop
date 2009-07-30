@@ -33,19 +33,23 @@ ${set_nav_opts('podcast_help') if not c.nav_opts else ''}
 				<p py:replace="Markup(media.description)" />
 			</div>
 			<div class="media-meta">
-				<div class="media-meta-likethis" id="media-rating"><a id="likethis" class="mo up" title="vote up" href="${h.url_for(action='rate', rating=1)}"><span>I like this!</span></a></div>
+				<div class="media-meta-top" />
+				<a class="media-meta-likethis mo up" id="likethis" title="vote up" href="${h.url_for(action='rate', rating=1)}">I like this!</a>
+				<a class="media-meta-download mo" href="${h.url_for(media.files.for_player().play_url)}">Download</a>
 				<div class="media-meta-views"><strong>Views:</strong> ${media.views}</div>
 				<div class="media-meta-time"><strong>Time:</strong> ${h.duration_from_seconds(media.duration)}</div>
 				<div class="media-meta-etc" style="${(media.rating.sum &gt; 0) or 'visibility:hidden'}">
 					<strong id="num-likedthis">${h.text.plural(media.rating.sum, 'person', 'people')}</strong> liked this ${media.type}!
 				</div>
+				<div class="media-meta-commented"><strong>${h.text.plural(len(comments), 'person', 'people')}</strong> commented</div>
+				<div class="media-meta-bottom" />
 			</div>
 			${media_player(media)}
 		</div>
 	</box>
 
 	<div py:if="media.podcast" id="podcast-context" class="contextbox" py:with="podcast = media.podcast">
-		<div class="contextbox-top" />
+		<div class="contextbox-top">Podcast Series Information:</div>
 		<div class="contextbox-body">
 			<a href="${h.url_for(controller='/podcasts', action='view', slug=podcast.slug)}" class="podcast-art" title="${Markup(podcast.title).stripentities()}"><img src="${h.url_for('/images/podcasts/%sm.jpg' % podcast.id)}" width="154" height="154" class="f-lft" alt="${podcast.title}" /></a>
 			<ul id="podcast-buttons">

@@ -109,8 +109,12 @@
 	font-weight: bold;
 	font-size: 12px;
 }
-
-
+#podcast-context .contextbox-top {
+	background: url('../images/layout/contextbox-top-podcast.png') no-repeat bottom;
+	padding-top: 54px;
+	overflow: hidden;
+	height: 0px;
+}
 #podcast-context .contextbox-body {
 	height: 157px;
 	padding: 5px 20px;
