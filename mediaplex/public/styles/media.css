@@ -157,6 +157,7 @@ a:hover .grid-title, a.grid-title:hover {
 }
 .media-meta {
 	background: url('../images/layout/littlebox-bg-200px.png') no-repeat scroll left 15px;
+	position: relative;
 	float: right;
 	clear: right;
 	width: 344px;
@@ -172,10 +173,9 @@ a:hover .grid-title, a.grid-title:hover {
 .media-meta-bottom {
 	background-image: url('../images/layout/littlebox-bottom.png');
 	position: absolute;
-	height: 15px;
 	width: 344px;
-	bottom: 0;
-	right: 7px; /* make up for the margin on the parent element */
+	height: 15px;
+	bottom: -15px;
 }
 .media-meta-views,
 .media-meta-time,
