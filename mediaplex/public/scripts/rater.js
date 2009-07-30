@@ -30,15 +30,19 @@ var ThumbRater = new Class({
 
 	rateUp: function(e) {
 		if (e != undefined) new Event(e).stop();
-		this._rate(this.upButton.get('href'));
-		this.upButton.set('href', '#').removeEvents('click');
+		var href = this.upButton.getAttributeNode('href');
+		this._rate(href.nodeValue);
+		this.upButton.removeAttributeNode(href);
+		this.upButton.removeEvents('click');
 		return this;
 	},
 
 	rateDown: function(e) {
 		if (e != undefined) new Event(e).stop();
-		this._rate(this.downButton.get('href'));
-		this.downButton.set('href', '#').removeEvents('click');
+		var href = this.downButton.getAttributeNode('href');
+		this._rate(href.nodeValue);
+		this.downButton.removeAttributeNode(href);
+		this.downButton.removeEvents('click');
 		return this;
 	},
 
