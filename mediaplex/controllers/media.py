@@ -22,7 +22,7 @@ from sqlalchemy.orm.exc import NoResultFound
 from mediaplex.lib import helpers
 from mediaplex.lib.helpers import expose_xhr, redirect, url_for, clean_xhtml, strip_xhtml, line_break_xhtml
 from mediaplex.lib.base import Controller, RoutingController
-from mediaplex.model import DBSession, metadata, fetch_row, Video, Media, MediaFile, Comment, Tag, Author, AuthorWithIP, Podcast
+from mediaplex.model import DBSession, metadata, fetch_row, Media, MediaFile, Comment, Tag, Author, AuthorWithIP, Podcast
 from mediaplex.forms.media import UploadForm
 from mediaplex.forms.comments import PostCommentForm
 

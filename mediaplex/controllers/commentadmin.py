@@ -9,7 +9,7 @@ from repoze.what.predicates import has_permission
 from mediaplex.lib import helpers
 from mediaplex.lib.base import RoutingController
 from mediaplex.lib.helpers import expose_xhr, redirect, url_for, clean_xhtml
-from mediaplex.model import DBSession, metadata, fetch_row, Video, Comment, Tag, Author
+from mediaplex.model import DBSession, metadata, fetch_row, Comment, Tag, Author
 from mediaplex.forms.admin import SearchForm
 from mediaplex.forms.comments import EditCommentForm
 

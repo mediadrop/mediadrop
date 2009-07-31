@@ -34,6 +34,14 @@ class Tag(object):
         return slugify(slug)
 
 
+class TagCollection(list):
+    def __unicode__(self):
+        return ', '.join([tag.name for tag in self.values()])
+
+
+mapper(Tag, tags)
+
+
 def extract_tags(string):
     return [tag.strip() for tag in string.split(',')]
 
@@ -45,17 +53,10 @@ def fetch_and_create_tags(tag_names):
     existing_tags = DBSession.query(Tag).filter(Tag.slug.in_(tag_dict.keys())).all()
     existing_slugs = [t.slug for t in existing_tags]
     new_slugs = [s for s in tag_dict.keys() if s not in existing_slugs]
-    new_tags = [{'name':tag_dict[s], 'slug':s} for s in new_slugs]
+    new_tags = [{'name': tag_dict[s], 'slug': s} for s in new_slugs]
 
     if new_tags:
         DBSession.connection().execute(tags.insert(), new_tags)
         DBSession.flush()
         existing_tags += DBSession.query(Tag).filter(Tag.slug.in_(new_slugs)).all()
     return existing_tags
-
-
-class TagCollection(list):
-    def __unicode__(self):
-        return ', '.join([tag.name for tag in self.values()])
-
-mapper(Tag, tags)
