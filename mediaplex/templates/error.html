@@ -3,11 +3,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:py="http://genshi.edgewall.org/"
       xmlns:xi="http://www.w3.org/2001/XInclude">
-<xi:include href="helpers.html" />
 <xi:include href="master.html" />
 <head>
 	<title>A ${code} Error has Occurred </title>
-	<link href="${h.url_for('/styles/404.css')}" media="screen" rel="stylesheet" type="text/css" />
+	<link href="${h.url_for('/styles/forms.css')}" media="screen" rel="stylesheet" type="text/css" />
+	<link href="${h.url_for('/styles/error.css')}" media="screen" rel="stylesheet" type="text/css" />
 </head>
 <body>
 	<div class="column">
@@ -28,14 +28,17 @@
 			<li>Fill out an error report below.</li>
 		</ol>
 
-		<form action="${h.url_for(controller='root', action='error_report')}" method="post">
+		<form action="${h.url_for(controller='error', action='report')}" method="post">
 			<div>
 				<label for="email">Email: (so we can contact you if we find it!)</label>
 				<input type="text" class="text" name="email" id="email" />
 			</div>
 			<div>
 				<label for="email">What were you looking for when you got the error?</label>
-				<textarea class="textarea" name="description" id="description" />
+				<textarea class="textarea" name="description" id="description" rows="8" cols="79" />
+			</div>
+			<div>
+				<input class="mo submit-image" type="submit" value="Submit Error Report" />
 			</div>
 		</form>
 

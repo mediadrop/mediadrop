@@ -1,0 +1,64 @@
+div.column {
+	font-size: 16px;
+	font-family: 'Helvetica Neue', Helvetica, Arial,'Liberation Sans',FreeSans, sans-serif;
+	margin: 0 auto;
+	width: 500px;
+}
+body {
+	background-color: #f8f1e7;
+}
+div.column p, li {
+	margin-bottom: 10px;
+}
+div.column textarea,
+div.column input.text {
+	-moz-border-radius: 15px;
+	-webkit-border-radius: 15px;
+	border: 5px solid #ebe4dc;
+	padding: 5px 8px 6px 8px;
+	width: 484px;
+	margin: 0 -5px;
+}
+div.column ol li {
+	list-style-type: decimal;
+	margin-left: 2em;
+}
+div.column ol {
+	margin-bottom: 3em;
+}
+div.column label,
+div.column h1,
+div.column h2 {
+	font-family: georgia;
+	font-style: italic;
+	font-weight: bold;
+}
+div.column label,
+div.column .submit-image {
+	display: block;
+	margin-top: 1.5em;
+	margin-bottom: 0.75em;
+}
+div.column h1,
+div.column h2 {
+	text-align: center;
+	margin-bottom: 0.4em;
+}
+div.column h1 {
+	font-size: 50px;
+}
+div.column h2 {
+	font-size: 40px;
+	margin-top: 1em;
+}
+div.column .submit-image {
+	background: transparent url('../images/buttons/report.png') no-repeat scroll top;
+	background-color: transparent;
+	width: 134px;
+	height: 34px;
+	float: right;
+	text-indent: -5000px;
+	cursor: pointer;
+	border: 0;
+}
+
