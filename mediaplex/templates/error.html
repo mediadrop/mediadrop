@@ -40,6 +40,7 @@
 			<div>
 				<input class="mo submit-image" type="submit" value="Submit Error Report" />
 			</div>
+			<input py:for="x in vars" id="${x}" name="${x}" value="${vars[x]}" type="hidden" />
 		</form>
 
 	</div>
