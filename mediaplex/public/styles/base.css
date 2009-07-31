@@ -48,6 +48,7 @@ a:hover {
 	margin: 0 auto;
 }
 
+/* FIXME: Clashes with logo div in new PHP template. so we remove it for now.
 #logo {
 	background: url('../images/layout/mediaplex.png') no-repeat 11px top;
 	height: 57px;
@@ -63,6 +64,7 @@ a:hover {
 	overflow: hidden;
 	display: block;
 }
+*/
 
 /* Black boxes */
 .box {
