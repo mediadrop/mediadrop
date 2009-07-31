@@ -1,19 +1,45 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:py="http://genshi.edgewall.org/"
       xmlns:xi="http://www.w3.org/2001/XInclude">
-
-  <xi:include href="master.html" />
-
+<xi:include href="helpers.html" />
+<xi:include href="master.html" />
 <head>
-  <meta content="text/html; charset=UTF-8" http-equiv="content-type" py:replace="''"/>
-  <title>A ${code} Error has Occurred </title>
+	<title>A ${code} Error has Occurred </title>
+	<link href="${h.url_for('/styles/404.css')}" media="screen" rel="stylesheet" type="text/css" />
 </head>
-
 <body>
-<h1>Error ${code}</h1>
+	<div class="column">
+		<img src="${h.url_for('/images/layout/404.png')}" alt="This page has gone missing!" />
+		<h1>Whoopsadaisy!</h1>
+		<py:choose test="code">
+			<py:when test="404">
+		<p>We can't find this page. The page may have been moved or removed.</p>
+		<p>If you typed the address in, check the spelling.</p>
+			</py:when>
+			<py:otherwise py:replace="XML(message)" />
+		</py:choose>
 
-<div>${XML(message)}</div>
+		<h2>You have a few options:</h2>
+		<ol>
+			<li>Return to the <a href="/">homepage</a>.</li>
+			<li>Return to the <a href="${h.url_for(controller='/media', action='index')}">media page</a>.</li>
+			<li>Fill out an error report below.</li>
+		</ol>
+
+		<form action="${h.url_for(controller='root', action='error_report')}" method="post">
+			<div>
+				<label for="email">Email: (so we can contact you if we find it!)</label>
+				<input type="text" class="text" name="email" id="email" />
+			</div>
+			<div>
+				<label for="email">What were you looking for when you got the error?</label>
+				<textarea class="textarea" name="description" id="description" />
+			</div>
+		</form>
+
+	</div>
 </body>
 </html>
+
