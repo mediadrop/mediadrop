@@ -6,6 +6,7 @@ from tg import expose, request
 from pylons.controllers.util import forward
 from pylons.middleware import error_document_template, media_path
 from mediaplex.lib.base import RoutingController
+from mediaplex.lib.helpers import redirect
 
 import smtplib
 
@@ -63,6 +64,7 @@ class ErrorController(RoutingController):
                 post_vars[x] = kwargs[x]
 
         self._send_notification(email, description, url, get_vars, post_vars)
+        redirect(controller='/video', action='index')
 
     def _send_notification(self, email, description, url, get_vars, post_vars):
         server=smtplib.SMTP('localhost')
