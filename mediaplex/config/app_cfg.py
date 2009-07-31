@@ -58,6 +58,9 @@ class MediaplexConfig(AppConfig):
         map.connect('/{controller}/{action}', action='index')
 
         # Set up a fallback route for object dispatch
+        # FIXME: Look into this further...
+        # Looks like routes.url_for doesn't work when using this route, so you
+        # can't even switch back to routing. Argh.
         map.connect('*url', controller='root', action='routes_placeholder')
 
         config['routes.map'] = map
