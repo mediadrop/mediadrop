@@ -15,8 +15,11 @@
 		<itunes:subtitle py:content="podcast.subtitle" />
 		<itunes:summary py:content="h.strip_xhtml(podcast.description)" />
 
-		<itunes:category py:with="category = podcast.category.split(' &gt; ')" text="${category[0]}">
-			<itunes:category py:if="len(category) > 1" text="${category[1]}" />
+		<itunes:category py:if="podcast.category"
+		                 py:with="category = podcast.category.split(' &gt; ')"
+		                 text="${category[0]}">
+			<itunes:category py:if="len(category) > 1"
+			                 text="${category[1]}" />
 		</itunes:category>
 
 		<managingEditor>${podcast.author.email}<py:if test="podcast.author.name"> (${podcast.author.name})</py:if></managingEditor>

@@ -217,6 +217,8 @@ def truncate_xhtml(string, size, _strip_xhtml=False):
     return string
 
 def strip_xhtml(string):
+    if string is None:
+        return None
     return ''.join(BeautifulSoup(string).findAll(text=True))
 
 def line_break_xhtml(string):
