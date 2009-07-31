@@ -222,7 +222,7 @@ Subject: %s
         video = Video()
         video.author = Author(name, email)
         video.title = title
-        video.slug = get_available_slug(Video, slugify(title))
+        video.slug = title
         video.description = clean_xhtml(description)
         video.status = 'draft,unencoded,unreviewed'
         video.notes = """Bible References: None

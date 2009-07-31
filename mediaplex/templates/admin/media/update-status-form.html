@@ -10,7 +10,7 @@
 			<h1>Publish Status</h1>
 		</div>
 		<div class="box-content" py:choose="">
-			<py:when test="media.is_new">
+			<py:when test="media.id is None">
 				<div class="box-content center">You must add a file and save before review can begin.</div>
 			</py:when>
 			<py:when test="media.is_unreviewed">

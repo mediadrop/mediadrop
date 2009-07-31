@@ -135,3 +135,8 @@ base_config.embeddable_filetypes = {
         'pattern': '^(http(s?)://)?(www.)?vimeo.com/(?P<id>\d+)'
     },
 }
+
+base_config.playable_types = {
+    'audio': ('mp3', 'mp4', 'm4a'),
+    'video': ('flv', )
+}
