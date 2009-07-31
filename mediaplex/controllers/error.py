@@ -46,7 +46,7 @@ class ErrorController(RoutingController):
             prefix = tg.request.environ.get('SCRIPT_NAME', ''),
             code = tg.request.params.get('code', resp.status_int),
             message = tg.request.params.get('message', default_message),
-            vars = dict(POST_request=original_request[:2048])
+            vars = dict(POST_request=unicode(original_request)[:2048])
         )
 
     @expose()
