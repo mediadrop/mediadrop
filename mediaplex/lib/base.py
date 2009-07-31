@@ -38,6 +38,7 @@ class RoutingController(DecoratedController):
         acceptable_delta = td(minutes=5)
         now = dt.now()
         tmpl_timeout = getattr(g, 'tmpl_timeout', now)
+        g.tmpl_timeout = now + acceptable_delta
         if tmpl_timeout <= now:
             # FIXME: This may be vulnerable to race conditions where two instances of the application attempt to
             # write to the file at the same time.
@@ -55,9 +56,8 @@ class RoutingController(DecoratedController):
             except Exception, e:
                 # FIXME: Should add logging here.
                 # FIXME: Should catch the appropriate exceptions, perhaps
-                raise e
-            finally:
-                g.tmpl_timeout = now + acceptable_delta
+                # raise e
+                pass
         DecoratedController.__init__(self, *args, **kwargs)
 
     def _perform_call(self, func, args):
