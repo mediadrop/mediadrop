@@ -13,7 +13,7 @@ class EditCategoryForm(ListForm):
         ResetButton(default='Cancel', css_classes=['mo', 'cancel-category']),
         TextField('name', css_classes=['category-name'], validator=NotEmpty),
         TextField('slug', css_classes=['category-slug'], validator=NotEmpty),
-        SubmitButton('submit', default='Save', css_classes=['mo', 'save-category']),
+        SubmitButton('submit', default='Save', css_classes=['mo', 'clickable', 'save-category']),
     ]
 
 
