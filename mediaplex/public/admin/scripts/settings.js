@@ -10,7 +10,9 @@ var CategoryMgr = new Class({
 		formSelector: 'form.edit-category-form',
 		cancelLink: 'a.cancel-category',
 		deleteLink: 'a.delete-category',
-		emptyRow: 'empty-category'
+		emptyRow: 'empty-category',
+		nameField: 'input.category-name',
+		slugField: 'input.category-slug'
 	},
 
 	dummyTable: null,
@@ -29,6 +31,8 @@ var CategoryMgr = new Class({
 		formCell.getPrevious().dispose();
 		formCell.set('colspan', '3');
 
+		formCell.getElement(this.options.nameField)
+			.addEvent('change', this.updateSlug.bind(this));
 
 		table.getPrevious().getElement('a').addEvent('click', this.addCategory.bind(this));
 		this.stashEmptyRow();
@@ -55,7 +59,7 @@ var CategoryMgr = new Class({
 
 	handleNewSave: function(){
 		this.emptyRow.getElement('form').set('send', {onComplete: function(response) {
-			if(JSON.decode(response).category != null) {
+			if(JSON.decode(response) != null) {
 				window.location.reload(true);
 			} else {
 				alert('Error saving new '+this.options.categoryName);
@@ -64,6 +68,13 @@ var CategoryMgr = new Class({
 		this.emptyRow.getElement('form').send();
 		return false;
 	},
+
+	updateSlug: function(){
+		var name = this.emptyRow.getElement(this.options.nameField).get('value');
+		var slug = name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9_-]/g, '');
+		this.emptyRow.getElement(this.options.slugField).set('value', slug);
+	},
+
 });
 
 var Category = new Class({
@@ -73,7 +84,6 @@ var Category = new Class({
 
 	row: null,
 	dummyRow: null,
-	name: null,
 	deleteLink: null,
 
 	buttonCell: null,
@@ -110,14 +120,22 @@ var Category = new Class({
 		cancelButton.addEvent('click', this.toggleForm.bind(this));
 
 		// create two cells to replace the form cell
-		this.name = this.form.getElement('input.category-name').get('value');
-		var slug = this.form.getElement('input.category-slug').get('value');
-		this.nameCell = new Element('td', {html: this.name});
-		this.slugCell = new Element('td', {html: slug});
+		nameField = this.form.getElement(this.options.nameField)
+		slugField = this.form.getElement(this.options.slugField);
+		this.nameCell = new Element('td', {html: nameField.get('value')});
+		this.slugCell = new Element('td', {html: slugField.get('value')});
+
+		nameField.addEvent('change', this.updateSlug.bind(this));
 
 		this.toggleForm()
 
 		if (this.deleteLink != null) this.requestConfirmDelete();
+	},
+
+	updateSlug: function(){
+		var name = this.form.getElement(this.options.nameField).get('value');
+		var slug = name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9_-]/g, '');
+		this.form.getElement(this.options.slugField).set('value', slug);
 	},
 
 	requestConfirmDelete: function(){
@@ -141,7 +159,7 @@ var Category = new Class({
 	},
 
 	getName: function(){
-		return new String(this.name).trim();
+		return new String(this.form.getElement(this.options.nameField).get('value')).trim();
 	},
 
 	toggleForm: function(){
@@ -162,9 +180,14 @@ var Category = new Class({
 	saveEditForm: function(){
 		this.toggleForm();
 		this.form.set('send', {onComplete: function(response) {
-			var category = JSON.decode(response).category;
-			this.nameCell.set('html', category.name);
-			this.slugCell.set('html', category.slug);
+			response = JSON.decode(response);
+			if(response == null) {
+				alert('Error saving changes to '+this.options.categoryName);
+			} else {
+				var category = response.category;
+				this.nameCell.set('html', category.name);
+				this.slugCell.set('html', category.slug);
+			}
 		}.bind(this)});
 		this.form.send();
 		return false;
