@@ -1,5 +1,5 @@
 from tw import forms
-from tw.forms import ListFieldSet, TextField, FileField, CalendarDatePicker, SingleSelectField, TextArea, SubmitButton, Button, HiddenField
+from tw.forms import ListFieldSet, TextField, FileField, CalendarDatePicker, SingleSelectField, TextArea, SubmitButton, Button, HiddenField, CheckBoxList
 from tg.render import _get_tg_vars
 from pylons.templating import pylons_globals
 from mediaplex.lib.helpers import line_break_xhtml
@@ -29,6 +29,9 @@ class ListForm(LeniantValidationMixin, GlobalMixin, forms.ListForm):
     pass
 
 class TableForm(LeniantValidationMixin, GlobalMixin, forms.TableForm):
+    pass
+
+class CheckBoxList(LeniantValidationMixin, GlobalMixin, forms.fields.CheckBoxList):
     pass
 
 class XHTMLTextArea(TextArea):

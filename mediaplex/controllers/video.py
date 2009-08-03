@@ -26,7 +26,7 @@ from sqlalchemy.orm.exc import NoResultFound
 from mediaplex.lib import helpers
 from mediaplex.lib.helpers import expose_xhr, redirect, url_for, clean_xhtml, strip_xhtml, line_break_xhtml, slugify
 from mediaplex.lib.base import Controller, RoutingController
-from mediaplex.model import DBSession, metadata, fetch_row, get_available_slug, Media, MediaFile, Comment, Tag, Author, AuthorWithIP
+from mediaplex.model import DBSession, metadata, fetch_row, get_available_slug, Media, MediaFile, Comment, Tag, Topic, Author, AuthorWithIP
 from mediaplex.forms.media import UploadForm
 from mediaplex.forms.comments import PostCommentForm
 
@@ -42,10 +42,10 @@ class VideoController(RoutingController):
 
     def __init__(self, *args, **kwargs):
         super(VideoController, self).__init__(*args, **kwargs)
-        tmpl_context.tags = DBSession.query(Tag)\
+        tmpl_context.topics = DBSession.query(Topic)\
             .options(undefer('published_media_count'))\
-            .filter(Tag.published_media_count >= 1)\
-            .order_by(Tag.name)\
+            .filter(Topic.published_media_count >= 1)\
+            .order_by(Topic.name)\
             .all()
 
 
@@ -72,9 +72,9 @@ class VideoController(RoutingController):
         tmpl_context.disable_sections = True
 
         try:
-            tag = fetch_row(Tag, slug='conceptsundayschool')
+            topic = fetch_row(Topic, slug='conceptsundayschool')
             videos = self._list_query\
-                    .filter(Media.tags.contains(tag))\
+                    .filter(Media.topics.contains(topic))\
                     .order_by(Media.publish_on.desc())[:15]
         except HTTPNotFound, e:
             videos = []
@@ -97,7 +97,22 @@ class VideoController(RoutingController):
 
     @expose('mediaplex.templates.video.index')
     @paginate('videos', items_per_page=20)
+    def topics(self, slug=None, page=1, **kwargs):
+        if slug is None:
+            redirect(action='index')
+        topic = fetch_row(Topic, slug=slug)
+        video_query = self._list_query\
+            .filter(Media.topics.contains(topic))\
+            .options(undefer('comment_count'))
+        return dict(
+            videos = video_query,
+        )
+
+    @expose('mediaplex.templates.video.index')
+    @paginate('videos', items_per_page=20)
     def tags(self, slug=None, page=1, **kwargs):
+        if slug is None:
+            redirect(action='index')
         tag = fetch_row(Tag, slug=slug)
         video_query = self._list_query\
             .filter(Media.tags.contains(tag))\
@@ -105,7 +120,6 @@ class VideoController(RoutingController):
         return dict(
             videos = video_query,
         )
-
 
     @expose('mediaplex.templates.video.upload')
     @validate(upload_form)

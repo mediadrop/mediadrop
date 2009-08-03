@@ -41,7 +41,7 @@ from mediaplex.model.authors import Author
 from mediaplex.model.rating import Rating
 from mediaplex.model.comments import Comment, CommentTypeExtension, comments, PUBLISH as COMMENT_PUBLISH, TRASH as COMMENT_TRASH
 from mediaplex.model.tags import Tag, TagCollection, tags, extract_tags, fetch_and_create_tags
-from mediaplex.model.topics import Topic, TopicCollection, topics
+from mediaplex.model.topics import Topic, TopicCollection, topics, fetch_topics
 from mediaplex.model.status import Status, StatusSet, StatusComparator, StatusType, StatusTypeExtension
 from mediaplex.lib import helpers
 
@@ -143,6 +143,11 @@ class Media(object):
             tags = extract_tags(tags)
             tags = fetch_and_create_tags(tags)
         self.tags = tags or []
+
+    def set_topics(self, topics):
+        if isinstance(topics, list):
+            topics = fetch_topics(topics)
+        self.topics = topics or []
 
     def reposition_file(self, file_id, prev_id):
         """Reorder the files so that the first file ID follows the second.

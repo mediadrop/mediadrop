@@ -76,8 +76,12 @@ var Category = new Class({
 		// create two cells to replace the form cell
 		nameField = this.form.getElement(this.options.nameField)
 		slugField = this.form.getElement(this.options.slugField);
-		this.nameCell = new Element('td', {html: nameField.get('value')});
-		this.slugCell = new Element('td', {html: slugField.get('value')});
+		nameSpan = new Element('span', {html: nameField.get('value')});
+		slugSpan = new Element('span', {html: slugField.get('value')});
+		this.nameCell = new Element('td').grab(nameSpan);
+		this.slugCell = new Element('td').grab(slugSpan);
+		nameSpan.setStyles({overflow: 'hidden', width: '193px'});
+		slugSpan.setStyle('overflow', 'hidden');
 
 		nameField.addEvent('change', this.updateSlug.bind(this));
 

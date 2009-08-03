@@ -12,17 +12,17 @@ from sqlalchemy.orm import eagerload, undefer
 from mediaplex.lib import helpers, custompaginate
 from mediaplex.lib.helpers import expose_xhr, redirect, url_for
 from mediaplex.lib.base import Controller, RoutingController
-from mediaplex.model import DBSession, fetch_row, Podcast, Media, Tag
+from mediaplex.model import DBSession, fetch_row, Podcast, Media, Topic
 
 class PodcastsController(RoutingController):
     """Podcast actions -- episodes are handled in the MediaController"""
 
     def __init__(self, *args, **kwargs):
         super(PodcastsController, self).__init__(*args, **kwargs)
-        tmpl_context.tags = DBSession.query(Tag)\
+        tmpl_context.topics = DBSession.query(Topic)\
             .options(undefer('published_media_count'))\
-            .filter(Tag.published_media_count >= 1)\
-            .order_by(Tag.name)\
+            .filter(Topic.published_media_count >= 1)\
+            .order_by(Topic.name)\
             .all()
 
     def _filter(self, query):

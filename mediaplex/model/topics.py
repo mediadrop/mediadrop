@@ -38,3 +38,7 @@ class TopicCollection(list):
         return ', '.join([topic.name for topic in self.values()])
 
 mapper(Topic, topics)
+
+def fetch_topics(topic_ids):
+    topics = DBSession.query(Topic).filter(Topic.id.in_(topic_ids)).all()
+    return topics

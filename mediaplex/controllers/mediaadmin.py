@@ -89,6 +89,7 @@ class MediaadminController(RoutingController):
                 author_email = media.author.email,
                 description = media.description,
                 tags = ', '.join((tag.name for tag in media.tags)),
+                topics = [topic.id for topic in media.topics],
                 notes = media.notes,
                 details = dict(duration = helpers.duration_from_seconds(media.duration)),
             )
@@ -113,7 +114,7 @@ class MediaadminController(RoutingController):
     @expose()
     @validate(MediaForm(), error_handler=edit)
     def save(self, id, slug, title, author_name, author_email,
-             description, notes, details, podcast, tags, delete=None, **kwargs):
+             description, notes, details, podcast, tags, topics, delete=None, **kwargs):
         """Create or edit the metadata for a media item."""
         media = fetch_row(Media, id, incl_trash=True)
 
@@ -131,6 +132,7 @@ class MediaadminController(RoutingController):
         media.duration = helpers.duration_to_seconds(details['duration'])
         media.podcast_id = podcast
         media.set_tags(tags)
+        media.set_topics(topics)
 
         media.update_status()
         DBSession.add(media)
