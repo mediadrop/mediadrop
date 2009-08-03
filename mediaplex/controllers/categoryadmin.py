@@ -8,7 +8,7 @@ from repoze.what.predicates import has_permission
 
 from mediaplex.lib import helpers
 from mediaplex.lib.base import RoutingController
-from mediaplex.lib.helpers import expose_xhr, redirect, url_for, strip_xhtml, slugify
+from mediaplex.lib.helpers import expose_xhr, redirect, url_for, slugify
 from mediaplex import model
 from mediaplex.model import DBSession, metadata, fetch_row, Tag, Topic, get_available_slug
 from mediaplex.forms.categories import EditCategoryForm
@@ -35,27 +35,26 @@ class CategoryadminController(RoutingController):
         )
 
     @expose('json')
-    def delete(self, category, id, **kwargs):
-        # FIXME: This method used to return absolutely nothing.
-        # Our convention is to return JSON with a 'success' value for all ajax actions.
-        # The JS needs to be updated to check for this value.
-        category = fetch_row(self.select_model(category), id)
-        DBSession.delete(category)
-        return dict(success=True)
-
-    @expose('json')
-    def save(self, id, category='topics', **kwargs):
+    def save(self, id, delete=None, category='topics', **kwargs):
         model_class = self.select_model(category)
-        category = fetch_row(model_class, id)
+        item = fetch_row(model_class, id)
 
-        if category.id == 'new':
-            category.id = None
+        if delete:
+            DBSession.delete(item)
+            item = None
+        else:
+            if item.id == 'new':
+                item.id = None
 
-        category.name = strip_xhtml(kwargs['name'])
-        category.slug = get_available_slug(model_class, slugify(strip_xhtml(kwargs['slug'])))
+            item.name = kwargs['name']
+            item.slug = get_available_slug(model_class, slugify(kwargs['slug']))
 
-        DBSession.add(category)
-        return dict(success=True,category=category)
+            DBSession.add(item)
+
+        if request.is_xhr:
+            return dict(success=True, category=item)
+        else:
+            redirect(action='index', category=category)
 
     def select_model(self, category):
         return getattr(model, category.rstrip('s').capitalize())
