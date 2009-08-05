@@ -149,6 +149,9 @@ a:hover .grid-title, a.grid-title:hover {
 .media-info {
 	float: right;
 	width: 359px;
+	margin-bottom: 142px; /* equal to 20 + 15 + 15 + .media-meta height.
+	                       * ie. we give equal spacing on top/right/bottom for
+	                       * the .media-meta box */
 }
 .media-info p {
 	color: #999595;
@@ -157,11 +160,10 @@ a:hover .grid-title, a.grid-title:hover {
 }
 .media-meta {
 	background: url('../images/layout/littlebox-bg-200px.png') no-repeat scroll left 15px;
-	position: relative;
-	float: right;
-	clear: right;
+	position: absolute;
 	width: 344px;
-	margin: 58px 7px 15px 8px;
+	bottom: 15px;
+	right: 15px;
 	height: 92px;
 	font: 13px/15px Tahoma, sans-serif;
 	color: #c4c4c4;
