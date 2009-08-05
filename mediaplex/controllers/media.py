@@ -273,7 +273,7 @@ class MediaController(RoutingController):
     def _send_notification(self, media, comment):
         server=smtplib.SMTP('localhost')
         fr = 'noreply@tmcyouth.com'
-        to = ['anthony@simplestation.com', 'comments@tmcyouth.com']
+        to = ['anthony@simplestation.com', 'notifications@tmcyouth.com']
         subject = 'New Comment: %s' % comment.subject
         body = """A new comment has been posted!
 
@@ -290,7 +290,7 @@ From: %s
 Subject: %s
 
 %s
-""" % (str(to), fr, subject, body)
+""" % (", ".join(to), fr, subject, body)
 
         server.sendmail(fr, to, msg)
         server.quit()
