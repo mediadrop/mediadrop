@@ -18,7 +18,7 @@ from pylons import tmpl_context
 from tw.forms import validators
 
 from mediaplex.lib import helpers
-from mediaplex.lib.helpers import expose_xhr, redirect, url_for, clean_xhtml, slugify
+from mediaplex.lib.helpers import expose_xhr, redirect, url_for, clean_xhtml
 from mediaplex.lib.base import RoutingController
 from mediaplex.model import DBSession, fetch_row, get_available_slug, Media, MediaFile, Podcast, Comment, Tag, Author, AuthorWithIP
 from mediaplex.forms.admin import SearchForm, AlbumArtForm
@@ -124,7 +124,7 @@ class MediaadminController(RoutingController):
             DBSession.flush()
             redirect(action='index')
 
-        media.slug = slug
+        media.slug = get_available_slug(Media, slug, media)
         media.title = title
         media.author = Author(author_name, author_email)
         media.description = clean_xhtml(description)

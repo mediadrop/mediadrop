@@ -8,7 +8,7 @@ from repoze.what.predicates import has_permission
 
 from mediaplex.lib import helpers
 from mediaplex.lib.base import RoutingController
-from mediaplex.lib.helpers import expose_xhr, redirect, url_for, slugify
+from mediaplex.lib.helpers import expose_xhr, redirect, url_for
 from mediaplex import model
 from mediaplex.model import DBSession, metadata, fetch_row, Tag, Topic, get_available_slug
 from mediaplex.forms.categories import EditCategoryForm
@@ -47,7 +47,7 @@ class CategoryadminController(RoutingController):
                 item.id = None
 
             item.name = kwargs['name']
-            item.slug = get_available_slug(model_class, slugify(kwargs['slug']))
+            item.slug = get_available_slug(model_class, kwargs['slug'], item)
 
             DBSession.add(item)
 

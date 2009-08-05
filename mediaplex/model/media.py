@@ -247,7 +247,7 @@ class Media(object):
     @validates('slug')
     def _validate_slug(self, key, slug):
         """Automatically choose a unique slug of only allowed chars."""
-        return get_available_slug(Media, helpers.slugify(slug), self)
+        return get_available_slug(Media, slug, self)
 
     @property
     def is_published(self):
@@ -278,7 +278,7 @@ def create_media_stub():
     user = request.environ['repoze.who.identity']['user']
     timestamp = datetime.now().strftime('%b-%d-%Y')
     m = Media()
-    m.slug = get_available_slug(Media, slugify('stub-%s' % timestamp))
+    m.slug = get_available_slug(Media, 'stub-%s' % timestamp)
     m.title = '(Stub %s created by %s)' % (timestamp, user.display_name)
     m.author = Author(user.display_name, user.email_address)
     return m

@@ -1,5 +1,6 @@
 """The application's model objects"""
 
+import re
 from zope.sqlalchemy import ZopeTransactionExtension
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
@@ -17,6 +18,9 @@ DBSession = scoped_session(maker)
 DeclarativeBase = declarative_base()
 # Global metadata. The default metadata is the one from the declarative base.
 metadata = DeclarativeBase.metadata
+
+# maximum length of slug strings for all objects.
+slug_length = 50
 
 #####
 # Generally you will not want to define your table's mappers, and data objects
@@ -53,6 +57,16 @@ def fetch_row(mapped_class, id=None, slug=None, incl_trash=False, extra_filter=N
     except NoResultFound:
         raise HTTPNotFound
 
+def slugify(string):
+    # FIXME: these regular expressions don't ever change. We should perhaps
+    #        create application-wide re.compile()'d regexes to do this.
+    string = str(string).lower()
+    string = re.sub(r'\s+', u'-', string)
+    string = re.sub(r'[^a-z0-9_-]', u'', string)
+    string = re.sub(r'-+', u'-', string).strip('-')
+    string = string.encode('ascii', 'ignore')
+
+    return string[:slug_length]
 
 def get_available_slug(mapped_class, slug, ignore=None):
     """Return a unique slug based on the provided slug.
@@ -73,14 +87,19 @@ def get_available_slug(mapped_class, slug, ignore=None):
     elif ignore is not None:
         ignore = int(ignore)
 
+    # ensure that the slug string is a valid slug
+    slug = slugify(slug)
+
+    # ensure the slug is unique by appending an int in sequence
     appendix = 2
     while DBSession.query(mapped_class.id)\
             .filter(mapped_class.slug == slug)\
             .filter(mapped_class.id != ignore)\
             .first():
-        if appendix > 2:
-            slug = slug[:-1-len(str(appendix))]
-        slug = '%s-%d' % (slug, appendix)
+
+        str_appendix = '-' + str(appendix)
+        max_substr_len = slug_length - len(str_appendix)
+        slug = slug[:max_substr_len] + str_appendix
         appendix += 1
 
     return slug

@@ -9,9 +9,8 @@ from sqlalchemy import Table, ForeignKey, Column, sql
 from sqlalchemy.types import String, Unicode, UnicodeText, Integer, DateTime, Boolean, Float
 from sqlalchemy.orm import mapper, relation, backref, synonym, composite, validates, dynamic_loader, column_property
 
-from mediaplex.model import DeclarativeBase, metadata, DBSession, Author
+from mediaplex.model import DeclarativeBase, metadata, DBSession, Author, slugify
 from mediaplex.model.media import Media, media, TRASH as MEDIA_TRASH, PUBLISH as MEDIA_PUBLISH
-from mediaplex.lib.helpers import slugify
 
 
 podcasts = Table('podcasts', metadata,
