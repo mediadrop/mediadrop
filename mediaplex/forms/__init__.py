@@ -39,7 +39,7 @@ class ListForm(LeniantValidationMixin, GlobalMixin, forms.ListForm):
 class TableForm(LeniantValidationMixin, GlobalMixin, forms.TableForm):
     pass
 
-class CheckBoxList(LeniantValidationMixin, GlobalMixin, forms.CheckBoxList):
+class CheckBoxList(GlobalMixin, forms.CheckBoxList):
     pass
 
 class XHTMLTextArea(TextArea):
