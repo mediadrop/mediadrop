@@ -3,8 +3,8 @@ from tw.forms.validators import Schema, Int, StringBool, NotEmpty, DateConverter
 
 from mediaplex.model import DBSession, Podcast, MediaFile
 from mediaplex.lib import helpers
-from mediaplex.forms import Form, ListForm, ListFieldSet, TextField, XHTMLTextArea, FileField, CalendarDatePicker, SingleSelectField, TextArea, SubmitButton, Button, HiddenField
-from mediaplex.model import DBSession, Podcast
+from mediaplex.forms import Form, ListForm, ListFieldSet, TextField, XHTMLTextArea, FileField, CalendarDatePicker, SingleSelectField, TextArea, SubmitButton, Button, HiddenField, CheckBoxList
+from mediaplex.model import DBSession, Podcast, Topic
 
 
 class AddFileForm(ListForm):
@@ -68,6 +68,7 @@ class MediaForm(ListForm):
 S&H References: None
 Reviewer: None
 License: General Upload"""),
+        CheckBoxList('topics', template='mediaplex.templates.admin.categories.selection_list', options=lambda: DBSession.query(Topic.id, Topic.name).all()),
         TextField('tags'),
         ListFieldSet('details', suppress_label=True, legend='Media Details:', css_classes=['details_fieldset'], children=[
             TextField('duration'),

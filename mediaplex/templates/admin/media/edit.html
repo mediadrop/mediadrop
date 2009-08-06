@@ -64,7 +64,7 @@
 			filemgr = new FileManager('media-files-box', 'media-file-form', {
 				saveOrderUrl: '${h.url_for(action='reorder_file')}'
 			});
-			filemgr.addForm.slide('${'show' if media.is_new or not media.files else 'hide'}');
+			filemgr.addForm.slide('${'show' if media.id is None or not media.files else 'hide'}');
 			mediaUploader.uploader.addEvent('fileComplete', function(file){
 				var response = JSON.decode(file.response.text, true);
 				filemgr.fileAdded(response);
@@ -72,7 +72,7 @@
 
 			var publishStatus = new StatusForm({form: 'update-status-form'});
 
-			lord = new ManevolentMediaOverlord('media-form', filemgr, mediaUploader, publishStatus, albumArtUploader, 'album-art-img', ${int(media.is_new)});
+			lord = new ManevolentMediaOverlord('media-form', filemgr, mediaUploader, publishStatus, albumArtUploader, 'album-art-img', ${int(media.id is None)});
 		});
 	</script>
 </head>
@@ -94,7 +94,7 @@
 
 		<div id="media-files-box" class="box">
 			<div class="box-head"><h1>Files</h1></div>
-			<form py:replace="file_form(file_form_values)" />
+			<form py:replace="XML(file_add_form)" />
 			<div id="media-upload-status" class="upload-status">
 				<div id="media-upload-file" class="upload-file" />
 				<img id="media-upload-progressbar" class="progressbar"
@@ -125,7 +125,7 @@
 					     width="238" height="12" />
 				</div>
 			<!--!	<div id="edit-album-art" class="mo btn-edit-art clickable"><span>Edit Image</span></div>-->
-				<div py:for="error in album_art_form_errors.itervalues()" class="field-error" py:content="error" />
+			<!--!	<div py:for="error in album_art_form_errors.itervalues()" class="field-error" py:content="error" />-->
 			</div>
 		</div>
 

@@ -12,7 +12,7 @@ from sqlalchemy.orm import undefer
 from pylons import tmpl_context
 
 from mediaplex.lib import helpers
-from mediaplex.lib.helpers import expose_xhr, redirect, url_for, clean_xhtml, slugify
+from mediaplex.lib.helpers import expose_xhr, redirect, url_for, clean_xhtml
 from mediaplex.lib.base import RoutingController
 from mediaplex.model import DBSession, fetch_row, Podcast, Author, AuthorWithIP, get_available_slug
 from mediaplex.forms.admin import SearchForm, AlbumArtForm
@@ -82,7 +82,7 @@ class PodcastadminController(RoutingController):
             DBSession.flush()
             redirect(action='index')
 
-        podcast.slug = get_available_slug(Podcast, slugify(slug))
+        podcast.slug = get_available_slug(Podcast, slug, podcast)
         podcast.title = title
         podcast.subtitle = subtitle
         podcast.author = Author(author_name, author_email)

@@ -5,6 +5,10 @@ Things to be aware of:
 
   - Polymorphism is used to return Audio or Video objects while dealing with
     a single database table. Both these classes inherit the Media base class.
+    We also have a PlaceholderMedia type for media that hasn't yet been
+    defined as one or the other.
+
+  - To switch a row from one polymorphic type to another use change_media_type()
 
   - Media.author and Media.rating are composite columns and provide an interface
     similar to relations. In other words, author_name & author_email are shuffled
@@ -24,19 +28,20 @@ Things to be aware of:
 
 """
 
+import transaction
 from datetime import datetime
 from urlparse import urlparse
 from sqlalchemy import Table, ForeignKey, Column, sql, and_, or_, func, select
 from sqlalchemy.types import String, Unicode, UnicodeText, Integer, DateTime, Boolean, Float
 from sqlalchemy.orm import mapper, class_mapper, relation, backref, synonym, composite, column_property, comparable_property, validates, collections
-from tg import config
+from tg import config, request
 
-from mediaplex.model import DeclarativeBase, metadata, DBSession
+from mediaplex.model import DeclarativeBase, metadata, DBSession, get_available_slug
 from mediaplex.model.authors import Author
 from mediaplex.model.rating import Rating
 from mediaplex.model.comments import Comment, CommentTypeExtension, comments, PUBLISH as COMMENT_PUBLISH, TRASH as COMMENT_TRASH
 from mediaplex.model.tags import Tag, TagCollection, tags, extract_tags, fetch_and_create_tags
-from mediaplex.model.topics import Topic, TopicCollection, topics
+from mediaplex.model.topics import Topic, TopicCollection, topics, fetch_topics
 from mediaplex.model.status import Status, StatusSet, StatusComparator, StatusType, StatusTypeExtension
 from mediaplex.lib import helpers
 
@@ -123,16 +128,7 @@ media_comments = Table('media_comments', metadata,
 
 
 class Media(object):
-    """Base class for Audio and Video
-
-    :param comment_count:
-      The number of comments on this Media, duh. Uses an optimized SQL query
-      instead of loading the entire list of comments into memory and calling len().
-      This field is not loaded by default, a separate query grabs it on first use.
-      To populate it on the initial load include the following option:
-          DBSession.query(Media).options(undefer('comment_count')).all()
-
-    """
+    """Audio and Video"""
     def __init__(self):
         if self.author is None:
             self.author = Author()
@@ -148,9 +144,110 @@ class Media(object):
             tags = fetch_and_create_tags(tags)
         self.tags = tags or []
 
+    def set_topics(self, topics):
+        if isinstance(topics, list):
+            topics = fetch_topics(topics)
+        self.topics = topics or []
+
+    def reposition_file(self, file_id, prev_id):
+        """Reorder the files so that the first file ID follows the second.
+
+        If prev_id is None, or the prev_id does not exist, move to the top.
+        """
+        file = [f for f in self.files if f.id == file_id][0]
+        try:
+            pos = [f for f in self.files if f.id == prev_id][0].position
+        except KeyError:
+            pos = 1
+
+        file.position = pos
+        bump_others = media_files.update()\
+            .where(and_(media_files.c.media_id == self[0].media_id,
+                        media_files.c.position >= pos,
+                        media_files.c.id != file_id))\
+            .values({media_files.c.position: media_files.c.position + 1})
+
+        DBSession.add(file)
+        DBSession.execute(bump_others)
+        return pos
+
+    def update_type(self):
+        """Ensure the media type is that of the first file."""
+        if self.files:
+            for file in self.files:
+                file_medium = file.medium
+                if file_medium is not None:
+                    self.type = file_medium
+                    return self.type
+        self.type = None
+        return None
+
+    def update_status(self, add=None, discard=None, update=None):
+        """Update and validate the status, ensuring we have a sane state.
+
+        REVIEW
+          Flag unreviewed if no files exist.
+
+        ENCODING
+          Flag encoded if one or more files is suitable, or flag unencoded.
+
+          Media is generally encoded if any file type is in cls.ENCODED_TYPES or
+          is embeddable, e.g. YouTube. However, media for podcasts are considered
+          unencoded since YouTube videos cannot be included in RSS/iTunes.
+
+        PUBLISH
+          Flag unpublished if unencoded, unreviewed, or a draft.
+        """
+        if add:
+            self.status.add(add)
+        if discard:
+            self.status.discard(discard)
+        if update:
+            self.status.update(update)
+
+        self._validate_review_status()
+        self._validate_encoding_status()
+        self._validate_publish_status()
+
+    def _validate_review_status(self):
+        """Flag unreviewed if no files exist."""
+        if not self.files:
+            self.status.add(UNREVIEWED)
+        return UNREVIEWED in self.status
+
+    def _validate_encoding_status(self):
+        """Flag encoded if one or more files is suitable, or flag unencoded.
+
+        Media is generally encoded if any file type is in cls.ENCODED_TYPES or
+        is embeddable, e.g. YouTube. However, media for podcasts are considered
+        unencoded since YouTube videos cannot be included in RSS/iTunes.
+        """
+        if self.files:
+            if not self.type:    # Sanity check
+                self.update_type()
+            for file in self.files:
+                if file.type in config.playable_types[self.type]:
+                    self.status.discard(UNENCODED)
+                    return True
+            if self.podcast_id is None:
+                for file in self.files:
+                    if file.is_embeddable:
+                        self.status.discard(UNENCODED)
+                        return True
+        self.status.add(UNENCODED)
+        return False
+
+    def _validate_publish_status(self):
+        """Flag unpublished if unencoded, unreviewed, or a draft."""
+        if self.status.intersection((UNENCODED, UNREVIEWED, DRAFT)):
+            self.status.discard(PUBLISH)
+            self.status.add(DRAFT)
+        return PUBLISH in self.status
+
     @validates('slug')
-    def validate_slug(self, key, slug):
-        return helpers.slugify(slug)
+    def _validate_slug(self, key, slug):
+        """Automatically choose a unique slug of only allowed chars."""
+        return get_available_slug(Media, slug, self)
 
     @property
     def is_published(self):
@@ -162,39 +259,6 @@ class Media(object):
     @property
     def is_unencoded(self):
         return UNENCODED in self.status
-
-    def update_status(self):
-        """Update the status to the most sane values"""
-        self.update_review_status()
-        self.update_encoding_status()
-        self.update_publish_status()
-
-    def update_review_status(self):
-        if not self.files:
-            self.status.add(UNREVIEWED)
-        return UNREVIEWED in self.status
-
-    def update_encoding_status(self):
-        """Check if the media can be safely considered encoded"""
-        if self.ENCODED_TYPES:
-            for file in self.files:
-                if file.type in self.ENCODED_TYPES:
-                    self.status.discard(UNENCODED)
-                    return True
-
-            if self.podcast_id is None:
-                for file in self.files:
-                    if file.is_embeddable:
-                        self.status.discard(UNENCODED)
-                        return True
-
-        self.status.update((UNENCODED, DRAFT))
-        return False
-
-    def update_publish_status(self):
-        if self.status.intersection((UNENCODED, UNREVIEWED, DRAFT)):
-            self.status.discard(PUBLISH)
-        return PUBLISH in self.status
 
     @property
     def is_unreviewed(self):
@@ -208,44 +272,16 @@ class Media(object):
     def is_trash(self):
         return TRASH in self.status
 
-    @property
-    def is_new(self):
-        return self.id is None
 
-
-class PlaceholderMedia(Media):
-    ENCODED_TYPES = None
-
-    def __init__(self):
-        self.status = (DRAFT, UNENCODED, UNREVIEWED)
-
-    def __repr__(self):
-        return '<PlaceholderMedia: %s>' % self.slug
-
-
-class Video(Media):
-    ENCODED_TYPES = ('flv', )
-
-    def __repr__(self):
-        return '<Video: %s>' % self.slug
-
-
-class Audio(Media):
-    ENCODED_TYPES = ('mp3', 'mp4', 'm4a')
-
-    def __repr__(self):
-        return '<Audio: %s>' % self.slug
-
-
-def change_media_type(id, type):
-    """Execute a query to change the polymorphic type of the media at the given ID.
-    The type argument can be a string or the type class itself.
-
-    We need this function because simply setting media_instance.type has no effect.
-    """
-    if not isinstance(type, basestring):
-        type = class_mapper(type, compile=False).polymorphic_identity
-    DBSession.execute(media.update().where(media.c.id == id).values({media.c.type: type}))
+def create_media_stub():
+    """Create a new placeholder Media instance."""
+    user = request.environ['repoze.who.identity']['user']
+    timestamp = datetime.now().strftime('%b-%d-%Y')
+    m = Media()
+    m.slug = get_available_slug(Media, 'stub-%s' % timestamp)
+    m.title = '(Stub %s created by %s)' % (timestamp, user.display_name)
+    m.author = Author(user.display_name, user.email_address)
+    return m
 
 
 class MediaFile(object):
@@ -266,21 +302,23 @@ class MediaFile(object):
         if self.is_embeddable:
             return config.embeddable_filetypes[self.type]['play'] % self.url
         elif urlparse(self.url)[1]:
-            return self.url.encode('utf-8') # full URL specified
+            return self.url.encode('utf-8')   # Full URL specified
         else:
-            return helpers.url_for(controller='/media', action='serve', slug=self.media.slug, type=self.type) # local file
+            return helpers.url_for(controller='/media', action='serve',
+                                   slug=self.media.slug, type=self.type)
 
     @property
     def link_url(self):
         if self.is_embeddable:
             return config.embeddable_filetypes[self.type]['link'] % self.url
         elif urlparse(self.url)[1]:
-            return self.url.encode('utf-8') # full URL specified
+            return self.url.encode('utf-8')   # Full URL specified
         else:
-            return helpers.url_for(controller='/media', action='serve', slug=self.media.slug, type=self.type) # local file
+            return helpers.url_for(controller='/media', action='serve',
+                                   slug=self.media.slug, type=self.type)
 
     @property
-    def av(self):
+    def medium(self):
         """Helper for determining whether this file is audio or video"""
         mimetype = self.mimetype
         if mimetype.startswith('audio'):
@@ -288,52 +326,27 @@ class MediaFile(object):
         elif mimetype.startswith('video'):
             return 'video'
         elif self.is_embeddable:
-            return 'video' #NOTE: This isn't always a safe assumption
+            return 'video'
         else:
-            raise UnknownFileTypeException, 'Could not determine whether the file is audio or video'
+            return None
+#            raise UnknownFileTypeException, 'Could not determine whether the file is audio or video'
 
-
-
-class MediaFileList(list):
-    def for_player(self):
-        picks = self.pick_types(['flv', 'mp3', 'mp4'])
-        if picks:
-            return picks[0]
-        for file in self:
-            if file.is_embeddable:
-                return file
-        return None
-
-    def pick_types(self, types):
-        """Return a list of files that match the given types in the order they are given"""
-        picks = (file for file in self if file.type in types)
-        return sorted(picks, key=lambda file: types.index(file.type))
-
-    def reposition(self, file_id, prev_id):
-        """Reorder the files so that the first file ID follows the second.
-        If prev_id is None, the file is moved to the top"""
-        file = [f for f in self if f.id == file_id][0]
-        pos  = [f for f in self if f.id == prev_id][0].position if prev_id else 1
-
-        file.position = pos
-        bump_others = media_files.update()\
-            .where(and_(media_files.c.media_id == self[0].media_id,
-                        media_files.c.position >= pos,
-                        media_files.c.id != file_id))\
-            .values({media_files.c.position: media_files.c.position + 1})
-
-        DBSession.add(file)
-        DBSession.execute(bump_others)
-
+    @validates('enable_feed')
+    def _validate_enable_feed(self, key, on):
+        if not on and self.media.podcast_id\
+                  and len([f for f in self.media.files if f.enable_feed]) == 1:
+            raise MediaException, 'Published podcast media requires '\
+                'at least one file be feed-enabled.'
+        return on
 
 
 mapper(MediaFile, media_files)
 
-media_mapper = mapper(Media, media, polymorphic_on=media.c.type, properties={
+media_mapper = mapper(Media, media, properties={
     'status': column_property(media.c.status, extension=StatusTypeExtension(), comparator_factory=StatusComparator),
     'author': composite(Author, media.c.author_name, media.c.author_email),
     'rating': composite(Rating, media.c.rating_sum, media.c.rating_votes),
-    'files': relation(MediaFile, backref='media', order_by=media_files.c.position.asc(), passive_deletes=True, collection_class=MediaFileList),
+    'files': relation(MediaFile, backref='media', order_by=media_files.c.position.asc(), passive_deletes=True),
     'tags': relation(Tag, secondary=media_tags, backref='media', collection_class=TagCollection),
     'topics': relation(Topic, secondary=media_topics, backref='media', collection_class=TopicCollection),
     'comments': relation(Comment, secondary=media_comments, backref=backref('media', uselist=False),
@@ -352,11 +365,6 @@ media_mapper = mapper(Media, media, polymorphic_on=media.c.type, properties={
             deferred=True
         )
 })
-mapper(PlaceholderMedia, inherits=media_mapper, polymorphic_identity='placeholder')
-mapper(Audio, inherits=media_mapper, polymorphic_identity='audio')
-mapper(Video, inherits=media_mapper, polymorphic_identity='video')
-
-
 
 tags_mapper = class_mapper(Tag, compile=False)
 tags_mapper.add_property(

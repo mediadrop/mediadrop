@@ -18,10 +18,9 @@ from pylons import tmpl_context
 from tw.forms import validators
 
 from mediaplex.lib import helpers
-from mediaplex.lib.helpers import expose_xhr, redirect, url_for, clean_xhtml, slugify
+from mediaplex.lib.helpers import expose_xhr, redirect, url_for, clean_xhtml
 from mediaplex.lib.base import RoutingController
-from mediaplex.model import DBSession, fetch_row, get_available_slug, Media, Audio, Video, PlaceholderMedia, MediaFile, Podcast, Comment, Tag, Author, AuthorWithIP
-from mediaplex.model.media import change_media_type
+from mediaplex.model import DBSession, fetch_row, get_available_slug, Media, MediaFile, Podcast, Comment, Tag, Author, AuthorWithIP
 from mediaplex.forms.admin import SearchForm, AlbumArtForm
 from mediaplex.forms.media import MediaForm, AddFileForm, EditFileForm, UpdateStatusForm, PodcastFilterForm
 from mediaplex.forms.comments import PostCommentForm
@@ -33,7 +32,7 @@ class MediaadminController(RoutingController):
     @expose_xhr('mediaplex.templates.admin.media.index',
                 'mediaplex.templates.admin.media.index-table')
     @paginate('media', items_per_page=25)
-    def index(self, page=1, search=None, podcast_filter=None, **kw):
+    def index(self, page=1, search=None, podcast_filter=None, **kwargs):
         media = DBSession.query(Media)\
             .filter(Media.status.excludes('trash'))\
             .options(undefer('comment_count'))\
@@ -68,48 +67,46 @@ class MediaadminController(RoutingController):
 
     @expose('mediaplex.templates.admin.media.edit')
     @validate(validators={'podcast': validators.Int()})
-    def edit(self, id, **values):
+    def edit(self, id, **kwargs):
+        """Display the edit forms, or create a new one if the ID is 'new'.
+
+        This page serves as the error_handler for every kind of edit action,
+        if anything goes wrong with them they'll be redirected here.
+        """
         media = fetch_row(Media, id, incl_trash=True)
-
         form = MediaForm(action=url_for(action='save'), media=media)
-        form_values = dict(
-            podcast = media.podcast_id,
-            slug = media.slug,
-            title = media.title,
-            author_name = media.author.name,
-            author_email = media.author.email,
-            description = media.description,
-            tags = ', '.join((tag.name for tag in media.tags)),
-            notes = media.notes,
-            details = dict(duration = helpers.duration_from_seconds(media.duration)),
-        )
-        if tmpl_context.action == 'save':
-            form_values.update(values)
-        elif id == 'new' and 'podcast' in values:
-            form_values['podcast'] = values['podcast']
 
-        album_art_form = AlbumArtForm(action=url_for(action='save_album_art'))
-        album_art_form_errors = {}
-        if tmpl_context.action == 'save_album_art':
-            # In case saving album art failed and we're the error_handler, pass the errors too:
-            album_art_form_errors = tmpl_context.form_errors
+        if tmpl_context.action == 'save' or id == 'new':
+            # Use the values from error_handler or GET for new podcast media
+            form_values = kwargs
+        else:
+            # Pull the defaults from the media item
+            form_values = dict(
+                podcast = media.podcast_id,
+                slug = media.slug,
+                title = media.title,
+                author_name = media.author.name,
+                author_email = media.author.email,
+                description = media.description,
+                tags = ', '.join((tag.name for tag in media.tags)),
+                topics = [topic.id for topic in media.topics],
+                notes = media.notes,
+                details = dict(duration = helpers.duration_from_seconds(media.duration)),
+            )
 
-        file_form = AddFileForm(action=url_for(action='add_file'))
-        file_form_values = {}
-        if tmpl_context.action == 'save_file':
-            file_form_values = values
-
-        file_edit_form = EditFileForm(action=url_for(action='edit_file'))
+        # Re-verify the state of our Media object in case the data is nonsensical
+        if id != 'new':
+            media.update_type()
+            media.update_status()
+            DBSession.add(media)
 
         return dict(
             media = media,
             form = form,
             form_values = form_values,
-            file_form = file_form,
-            file_form_values = file_form_values,
-            file_edit_form = file_edit_form,
-            album_art_form = album_art_form,
-            album_art_form_errors = album_art_form_errors,
+            file_add_form = AddFileForm(action=url_for(action='add_file')),
+            file_edit_form = EditFileForm(action=url_for(action='edit_file')),
+            album_art_form = AlbumArtForm(action=url_for(action='save_album_art')),
             update_status_form = UpdateStatusForm(action=url_for(action='update_status')),
         )
 
@@ -117,11 +114,9 @@ class MediaadminController(RoutingController):
     @expose()
     @validate(MediaForm(), error_handler=edit)
     def save(self, id, slug, title, author_name, author_email,
-             description, notes, details, podcast, tags, delete=None, **kwargs):
-        if id == 'new':
-            media = PlaceholderMedia()
-        else:
-            media = fetch_row(Media, id, incl_trash=True)
+             description, notes, details, podcast, tags, topics, delete, **kwargs):
+        """Create or edit the metadata for a media item."""
+        media = fetch_row(Media, id, incl_trash=True)
 
         if delete:
             media.status.add('trash')
@@ -129,33 +124,15 @@ class MediaadminController(RoutingController):
             DBSession.flush()
             redirect(action='index')
 
-        media.slug = get_available_slug(Media, slugify(slug))
+        media.slug = get_available_slug(Media, slug, media)
         media.title = title
         media.author = Author(author_name, author_email)
         media.description = clean_xhtml(description)
         media.notes = notes
         media.duration = helpers.duration_to_seconds(details['duration'])
-
-        if (podcast and not media.podcast_id and 'publish' in media.status \
-            and not any(True for file in media.files if file.enable_feed)):
-            media.status.remove('publish')
-            media.status.add('unencoded')
-            media.publish_on = None
         media.podcast_id = podcast
-
-        if id == 'new':
-            DBSession.add(media)
-            DBSession.flush()
         media.set_tags(tags)
-
-        DBSession.add(media)
-        DBSession.flush()
-
-        if isinstance(media, PlaceholderMedia) and media.files:
-            media_type = media.files[0].av
-            DBSession.expire(media)
-            change_media_type(media.id, media_type)
-            media = DBSession.query(Media).get(media.id)
+        media.set_topics(topics)
 
         media.update_status()
         DBSession.add(media)
@@ -168,127 +145,129 @@ class MediaadminController(RoutingController):
     @validate(AddFileForm(), error_handler=edit)
     def add_file(self, id, file=None, url=None, **kwargs):
         if id == 'new':
-            media = PlaceholderMedia()
-            media.slug = 'upload-%s' % datetime.now()
-            media.title = '(Placeholder %s)' % datetime.now()
-            user = request.environ['repoze.who.identity']['user']
-            media.author = Author(user.display_name, user.email_address)
-            DBSession.add(media)
-            DBSession.flush()
+            media = create_media_stub()
         else:
             media = fetch_row(Media, id, incl_trash=True)
+
         media_file = MediaFile()
 
-        if file is not None:
-            # Save the uploaded file
-            media_file.type = os.path.splitext(file.filename)[1].lower()[1:]
-            media_file.url = str(media.id) + '-' + media.slug + '.' + media_file.type
-            permanent_path = os.path.join(config.media_dir, media_file.url)
-            permanent_file = open(permanent_path, 'w')
-            copyfileobj(file.file, permanent_file)
-            file.file.close()
-            media_file.size = os.fstat(permanent_file.fileno())[6]
-            permanent_file.close()
+        try:
+            if file is not None:
+                # Save the uploaded file
+                media_file.type = os.path.splitext(file.filename)[1].lower()[1:]
+                media_file.url = '%s-%s.%s' % (media.id, media.slug, media_file.type)
+                permanent_path = os.path.join(config.media_dir, media_file.url)
+                permanent_file = open(permanent_path, 'w')
+                copyfileobj(file.file, permanent_file)
+                file.file.close()
+                media_file.size = os.fstat(permanent_file.fileno())[6]
+                permanent_file.close()
 
-        elif url:
-            # Parse the URL checking for known embeddables like YouTube
-            for type, info in config.embeddable_filetypes.iteritems():
-                match = re.match(info['pattern'], url)
-                if match:
-                    media_file.type = type
-                    media_file.url = match.group('id')
-                    media_file.enable_feed = False
-                    break
+            elif url:
+                # Parse the URL checking for known embeddables like YouTube
+                for type, info in config.embeddable_filetypes.iteritems():
+                    match = re.match(info['pattern'], url)
+                    if match:
+                        media_file.type = type
+                        media_file.url = match.group('id')
+                        media_file.enable_feed = False
+                        break
+                else:
+                    # Check for types we can play ourselves
+                    type = os.path.splitext(url)[1].lower()[1:]
+                    for medium in ('audio', 'video'):
+                        if type in config.playable_types[medium]:
+                            media_file.type = type
+                            media_file.url = url
+                            break
+                    else:
+                        raise Exception, 'Unsupported URL %s' % url
+
             else:
-                media_file.type = os.path.splitext(url)[1].lower()[1:]
-                media_file.url = url
+                raise Exception, 'Given no action to perform.'
 
-        media.files.append(media_file)
-        DBSession.add(media)
-        DBSession.flush()
+            media.files.append(media_file)
+            media.update_type()
+            media.update_status()
+            DBSession.add(media)
 
-        if isinstance(media, PlaceholderMedia) and len(media.files) == 1:
-            # We've added the 1st file to a placeholder so set it to Audio or Video
-            DBSession.expire(media)
-            change_media_type(media.id, media_file.av)
-            DBSession.flush()
-            media = DBSession.query(Media).get(media.id)
+            # Render some widgets so the XHTML can be injected into the page
+            edit_form = EditFileForm(action=url_for(action='edit_file'))
+            edit_form_xhtml = unicode(edit_form.display(file=media_file))
+            status_form = UpdateStatusForm(action=url_for(action='update_status'))
+            status_form_xhtml = unicode(status_form.display(media=media))
 
-        media.update_status()
-        DBSession.add(media)
-        DBSession.flush()
-
-        edit_form = EditFileForm(action=url_for(action='edit_file'))
-        edit_form_xhtml = unicode(edit_form.display(file=media_file))
-
-        status_form = UpdateStatusForm(action=url_for(action='update_status'))
-        status_form_xhtml = unicode(status_form.display(media=media))
-
-        return dict(
-            success = True,
-            media_id = media.id,
-            file_id = media_file.id,
-            edit_form = edit_form_xhtml,
-            status_form = status_form_xhtml,
-        )
-
+            return dict(
+                success = True,
+                media_id = media.id,
+                file_id = media_file.id,
+                edit_form = edit_form_xhtml,
+                status_form = status_form_xhtml,
+            )
+        except Exception, e:
+            return dict(
+                success = False,
+                message = e.message,
+            )
 
     @expose('json')
     @validate(validators={'file_id': validators.Int(),
                           'prev_id': validators.Int()})
     def reorder_file(self, id, file_id, prev_id, **kwargs):
         media = fetch_row(Media, id, incl_trash=True)
-        media.files.reposition(file_id, prev_id)
-        DBSession.flush()
+        position = media.reposition_file(file_id, prev_id)
+        if position == 1:
+            media.update_type()
+            DBSession.add(media)
         return dict(success=True)
 
 
     @expose('json')
     @validate(EditFileForm(), error_handler=edit)
     def edit_file(self, id, file_id, player_enabled, feed_enabled,
-                  toggle_player=None, toggle_feed=None, delete=None, **kwargs):
+                  toggle_feed, toggle_player, delete, **kwargs):
         media = fetch_row(Media, id, incl_trash=True)
-        file = [file for file in media.files if file.id == file_id][0]
-        data = dict(success=True)
+        data = {}
 
-        if toggle_player:
-            if file.enable_player == player_enabled:
-                file.enable_player = not file.enable_player
+        try:
+            try:
+                file = [file for file in media.files if file.id == file_id][0]
+            except KeyError:
+                raise Exception, 'File does not exist.'
+
+            if toggle_player:
+                data['field'] = 'player_enabled'
+                file.enable_player = data['value'] = not player_enabled
                 DBSession.add(file)
-            data['field'] = 'player_enabled'
-            data['value'] = file.enable_player
-
-        elif toggle_feed:
-            if file.enable_feed == feed_enabled:
-                file.enable_feed = not file.enable_feed
+            elif toggle_feed:
+                data['field'] = 'feed_enabled'
+                file.enable_feed = data['value'] = not feed_enabled
+                # Raises an exception if it is the only feed enabled file for
+                # an already published podcast episode.
                 DBSession.add(file)
-            data['field'] = 'feed_enabled'
-            data['value'] = file.enable_feed
+            elif delete:
+                data['field'] = 'delete'
+                DBSession.delete(file)
+                media.files.remove(file)
+            else:
+                raise Exception, 'No action to perform.'
 
-        elif delete:
-            data['field'] = 'delete'
-            DBSession.delete(file)
-            DBSession.flush()
-            DBSession.expire(media, ['files'])
-            if len(media.files) == 0:
-                # We've deleted the last file so this media is now a placeholder
-                DBSession.expire(media)
-                media.status.update('unencoded,unreviewed,draft')
-                DBSession.add(media)
-                DBSession.flush()
-                change_media_type(media.id, PlaceholderMedia)
-                media = DBSession.query(Media).get(media.id)
-
-        media.update_status()
-        DBSession.add(media)
-        DBSession.flush()
+            data['success'] = True
+            media.update_type()
+            media.update_status()
+            DBSession.add(media)
+        except Exception, e:
+            data['success'] = False
+            data['message'] = e.message
 
         if request.is_xhr:
+            # Return the rendered widget for injection
             status_form = UpdateStatusForm(action=url_for(action='update_status'))
             status_form_xhtml = unicode(status_form.display(media=media))
             data['status_form'] = status_form_xhtml
             return data
         else:
+            DBSession.flush()
             redirect(action='edit')
 
 
@@ -296,37 +275,34 @@ class MediaadminController(RoutingController):
     @validate(AlbumArtForm(), error_handler=edit)
     def save_album_art(self, id, album_art, **kwargs):
         if id == 'new':
-            media = PlaceholderMedia()
-            media.slug = 'upload-%s' % datetime.now()
-            media.title = '(Placeholder %s)' % datetime.now()
-            user = request.environ['repoze.who.identity']['user']
-            media.author = Author(user.display_name, user.email_address)
-            DBSession.add(media)
-            DBSession.flush()
+            media = create_media_stub()
         else:
             media = fetch_row(Media, id, incl_trash=True)
 
-        temp_file = album_art.file
-        im_path = os.path.join(config.image_dir, 'media/%d%%(size)s.%%(ext)s' % media.id)
+        im_path = os.path.join(config.image_dir, 'media/%d%%s.%%s' % media.id)
 
         try:
             # Create jpeg thumbnails
-            im = Image.open(temp_file)
-            im.resize((128,  72), 1).save(im_path % dict(size='ss', ext='jpg'))
-            im.resize((162,  91), 1).save(im_path % dict(size='s',  ext='jpg'))
-            im.resize((240, 135), 1).save(im_path % dict(size='m',  ext='jpg'))
-            im.resize((410, 231), 1).save(im_path % dict(size='l',  ext='jpg'))
+            im = Image.open(album_art.file)
+            im.resize((128,  72), 1).save(im_path % ('ss', 'jpg'))
+            im.resize((162,  91), 1).save(im_path % ('s',  'jpg'))
+            im.resize((240, 135), 1).save(im_path % ('m',  'jpg'))
+            im.resize((410, 231), 1).save(im_path % ('l',  'jpg'))
 
             # Backup the original image just for kicks
             orig_type = os.path.splitext(album_art.filename)[1].lower()[1:]
-            orig_file = open(im_path % dict(size='orig', ext=orig_type), 'w')
-            copyfileobj(temp_file, orig_file)
-            temp_file.close()
-            orig_file.close()
+            backup_file = open(im_path % ('orig', orig_type), 'w')
+            copyfileobj(album_art.file, backup_file)
+            album_art.file.close()
+            backup_file.close()
+
+            if id == 'new':
+                DBSession.add(media)
+                DBSession.flush()
 
             success = True
             message = None
-        except IOError, e:
+        except IOError:
             success = False
             message = 'Unsupported image type'
         except Exception, e:
@@ -345,7 +321,7 @@ class MediaadminController(RoutingController):
     def update_status(self, id, update_button, **values):
         media = fetch_row(Media, id, incl_trash=True)
 
-        # Make the requested change assuming it can be done
+        # Make the requested change assuming it will be allowed
         if update_button == 'Review Complete':
             media.status.discard('unreviewed')
         elif update_button == 'Publish Now':

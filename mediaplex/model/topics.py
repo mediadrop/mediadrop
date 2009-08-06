@@ -3,8 +3,7 @@ from sqlalchemy import Table, ForeignKey, Column
 from sqlalchemy.types import String, Unicode, UnicodeText, Integer, DateTime, Boolean, Float
 from sqlalchemy.orm import mapper, relation, backref, synonym, interfaces, validates
 
-from mediaplex.model import DeclarativeBase, metadata, DBSession
-from mediaplex.lib.helpers import slugify
+from mediaplex.model import DeclarativeBase, metadata, DBSession, slugify
 
 
 topics = Table('topics', metadata,
@@ -38,3 +37,7 @@ class TopicCollection(list):
         return ', '.join([topic.name for topic in self.values()])
 
 mapper(Topic, topics)
+
+def fetch_topics(topic_ids):
+    topics = DBSession.query(Topic).filter(Topic.id.in_(topic_ids)).all()
+    return topics

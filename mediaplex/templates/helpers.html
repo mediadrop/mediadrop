@@ -23,7 +23,7 @@
 			<link href="${h.url_for('/styles/mediaflow.css')}" media="screen" rel="stylesheet" type="text/css" />
 			<link href="${h.url_for('/styles/ratings.css')}" media="screen" rel="stylesheet" type="text/css" />
 			<link href="${h.url_for('/styles/media.css')}" media="screen" rel="stylesheet" type="text/css" />
-			<script type="text/javascript" src="${h.url_for('/scripts/tags.js')}" />
+			<script type="text/javascript" src="${h.url_for('/scripts/topics.js')}" />
 			<script type="text/javascript">
 				window.addEvent('domready', function() {
 					var flyoutOpenFx = [
@@ -78,7 +78,7 @@
 				<li id="nav-videos"><a href="${h.url_for(controller='/video')}">Video</a></li>
 				<li id="nav-podcasts"><a href="${h.url_for(controller='/podcasts')}">Podcasts</a></li>
 			</ul>
-			<a py:if="c.nav_opts['show_topics']" id="nav-topics" class="box-nav-right topics-shown" href="/video-tags">Topic Index</a>
+			<a py:if="c.nav_opts['show_topics']" id="nav-topics" class="box-nav-right topics-shown" href="/video-topics">Topic Index</a>
 			<a py:if="c.nav_opts['show_upload']" id="nav-upload-video" class="box-nav-right" href="${h.url_for(controller='/video', action='upload')}">Upload a Video</a>
 			<a py:if="c.nav_opts['show_podcast_help']" id="nav-podcast-help" class="box-nav-right podcast-help-shown" href="#">What are podcasts?</a>
 			<div py:if="c.nav_opts['show_podcast_help']" id="podcast-help-box" class="nav-box">
@@ -128,10 +128,10 @@
 				<div id="topic-box-top" />
 				<div class="nav-box-topright" />
 				<div><!--! this extra div is here to group elements for the ButtonFlyout js -->
-					<div class="nav-box-body" py:with="per_col = max(5, int(h.math.ceil((len(c.tags) + 6) / 4.0)))">
-						<ul py:if="c.tags" py:for="col in xrange(1, 5)">
-							<li py:for="tag in c.tags[(col-1)*per_col:col*per_col]">
-								<a href="${h.url_for(controller='/video', action='tags', slug=tag.slug)}">${tag}</a> <span>(${tag.published_media_count})</span>
+					<div class="nav-box-body" py:with="per_col = max(5, int(h.math.ceil((len(c.topics) + 6) / 4.0)))">
+						<ul py:if="c.topics" py:for="col in xrange(1, 5)">
+							<li py:for="topic in c.topics[(col-1)*per_col:col*per_col]">
+								<a href="${h.url_for(controller='/video', action='topics', slug=topic.slug)}">${topic}</a> <span>(${topic.published_media_count})</span>
 							</li>
 						</ul>
 						<div id="topics-caption">
@@ -165,7 +165,9 @@
 		</div>
 	</py:def>
 
-	<py:def function="media_player(media)" py:with="file = media.files.for_player()" py:choose="">
+	<py:def function="media_player(media)" py:choose=""
+	        py:with="files = [f for f in media.files if f.enable_player];
+	                 file  = files[0] if files else None;">
 		<py:when test="file is None" />
 		<py:when test="file.is_embeddable">
 			<object type="application/x-shockwave-flash"

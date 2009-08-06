@@ -1,7 +1,7 @@
-from tw.forms import TextField, FileField, SubmitButton
+from tw.forms import TextField, FileField
 from tw.forms.validators import FieldStorageUploadConverter
 
-from mediaplex.forms import Form, ListForm
+from mediaplex.forms import Form, ListForm, SubmitButton
 
 
 class SearchForm(ListForm):

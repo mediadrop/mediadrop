@@ -24,9 +24,9 @@ from sqlalchemy.orm import eagerload, undefer
 from sqlalchemy.orm.exc import NoResultFound
 
 from mediaplex.lib import helpers
-from mediaplex.lib.helpers import expose_xhr, redirect, url_for, clean_xhtml, strip_xhtml, line_break_xhtml, slugify
+from mediaplex.lib.helpers import expose_xhr, redirect, url_for, clean_xhtml, strip_xhtml, line_break_xhtml
 from mediaplex.lib.base import Controller, RoutingController
-from mediaplex.model import DBSession, metadata, fetch_row, get_available_slug, Video, Media, MediaFile, Comment, Tag, Author, AuthorWithIP
+from mediaplex.model import DBSession, metadata, fetch_row, get_available_slug, Media, MediaFile, Comment, Tag, Topic, Author, AuthorWithIP
 from mediaplex.forms.media import UploadForm
 from mediaplex.forms.comments import PostCommentForm
 
@@ -42,10 +42,10 @@ class VideoController(RoutingController):
 
     def __init__(self, *args, **kwargs):
         super(VideoController, self).__init__(*args, **kwargs)
-        tmpl_context.tags = DBSession.query(Tag)\
+        tmpl_context.topics = DBSession.query(Topic)\
             .options(undefer('published_media_count'))\
-            .filter(Tag.published_media_count >= 1)\
-            .order_by(Tag.name)\
+            .filter(Topic.published_media_count >= 1)\
+            .order_by(Topic.name)\
             .all()
 
 
@@ -72,10 +72,10 @@ class VideoController(RoutingController):
         tmpl_context.disable_sections = True
 
         try:
-            tag = fetch_row(Tag, slug='conceptsundayschool')
+            topic = fetch_row(Topic, slug='conceptsundayschool')
             videos = self._list_query\
-                    .filter(Video.tags.contains(tag))\
-                    .order_by(Video.publish_on.desc())[:15]
+                    .filter(Media.topics.contains(topic))\
+                    .order_by(Media.publish_on.desc())[:15]
         except HTTPNotFound, e:
             videos = []
 
@@ -86,25 +86,40 @@ class VideoController(RoutingController):
     @property
     def _list_query(self):
         """Helper method for paginating video results"""
-        return DBSession.query(Video)\
-            .filter(Video.status >= 'publish')\
-            .filter(Video.publish_on <= datetime.now())\
-            .filter(Video.status.excludes('trash'))\
-            .filter(Video.podcast_id == None)\
-            .order_by(Video.publish_on.desc())
+        return DBSession.query(Media)\
+            .filter(Media.type == 'video')\
+            .filter(Media.status >= 'publish')\
+            .filter(Media.publish_on <= datetime.now())\
+            .filter(Media.status.excludes('trash'))\
+            .filter(Media.podcast_id == None)\
+            .order_by(Media.publish_on.desc())
 
 
     @expose('mediaplex.templates.video.index')
     @paginate('videos', items_per_page=20)
-    def tags(self, slug=None, page=1, **kwargs):
-        tag = fetch_row(Tag, slug=slug)
+    def topics(self, slug=None, page=1, **kwargs):
+        if slug is None:
+            redirect(action='index')
+        topic = fetch_row(Topic, slug=slug)
         video_query = self._list_query\
-            .filter(Video.tags.contains(tag))\
+            .filter(Media.topics.contains(topic))\
             .options(undefer('comment_count'))
         return dict(
             videos = video_query,
         )
 
+    @expose('mediaplex.templates.video.index')
+    @paginate('videos', items_per_page=20)
+    def tags(self, slug=None, page=1, **kwargs):
+        if slug is None:
+            redirect(action='index')
+        tag = fetch_row(Tag, slug=slug)
+        video_query = self._list_query\
+            .filter(Media.tags.contains(tag))\
+            .options(undefer('comment_count'))
+        return dict(
+            videos = video_query,
+        )
 
     @expose('mediaplex.templates.video.upload')
     @validate(upload_form)
@@ -219,10 +234,11 @@ Subject: %s
             name = 'Anonymous'
 
         # create our video object as a status-less placeholder initially
-        video = Video()
+        video = Media()
+        video.type = 'video'
         video.author = Author(name, email)
         video.title = title
-        video.slug = get_available_slug(Video, slugify(title))
+        video.slug = get_available_slug(Media, title)
         video.description = clean_xhtml(description)
         video.status = 'draft,unencoded,unreviewed'
         video.notes = """Bible References: None

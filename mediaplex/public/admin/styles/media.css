@@ -178,3 +178,11 @@ a.add-media { background-image: url('../images/buttons/add-media.png'); }
 	display: none;
 	margin: 10px auto;
 }
+
+ul#topics {
+	width: 33%;
+	float: left;
+}
+ul#topics li {
+	padding-bottom: 5px;
+}

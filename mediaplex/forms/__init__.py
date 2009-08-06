@@ -1,5 +1,5 @@
 from tw import forms
-from tw.forms import ListFieldSet, TextField, FileField, CalendarDatePicker, SingleSelectField, TextArea, SubmitButton, Button, HiddenField
+from tw.forms import ListFieldSet, TextField, FileField, CalendarDatePicker, SingleSelectField, TextArea, Button, HiddenField
 from tg.render import _get_tg_vars
 from pylons.templating import pylons_globals
 from mediaplex.lib.helpers import line_break_xhtml
@@ -8,8 +8,16 @@ from mediaplex.lib.helpers import line_break_xhtml
 class LeniantValidationMixin(object):
     validator = forms.validators.Schema(
         allow_extra_fields=True, # Allow extra kwargs that tg likes to pass: pylons, start_request, environ...
-        ignore_key_missing=True, # Required for multiple submit buttons
     )
+
+class SubmitButton(forms.SubmitButton):
+    """Override the default SubmitButton validator.
+
+    This allows us to have multiple submit buttons, or to have forms
+    that are submitted without a submit button. The value for unclicked
+    submit buttons will simply be C{None}.
+    """
+    validator = forms.validators.UnicodeString(if_missing=None)
 
 class GlobalMixin(object):
     def display(self, *args, **kw):
@@ -29,6 +37,9 @@ class ListForm(LeniantValidationMixin, GlobalMixin, forms.ListForm):
     pass
 
 class TableForm(LeniantValidationMixin, GlobalMixin, forms.TableForm):
+    pass
+
+class CheckBoxList(LeniantValidationMixin, GlobalMixin, forms.CheckBoxList):
     pass
 
 class XHTMLTextArea(TextArea):

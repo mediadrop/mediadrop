@@ -22,7 +22,7 @@ from sqlalchemy.orm.exc import NoResultFound
 from mediaplex.lib import helpers
 from mediaplex.lib.helpers import expose_xhr, redirect, url_for, clean_xhtml, strip_xhtml, line_break_xhtml
 from mediaplex.lib.base import Controller, RoutingController
-from mediaplex.model import DBSession, metadata, fetch_row, Video, Media, MediaFile, Comment, Tag, Author, AuthorWithIP, Podcast
+from mediaplex.model import DBSession, metadata, fetch_row, Media, MediaFile, Comment, Topic, Author, AuthorWithIP, Podcast
 from mediaplex.forms.media import UploadForm
 from mediaplex.forms.comments import PostCommentForm
 
@@ -32,15 +32,15 @@ class MediaController(RoutingController):
 
     def __init__(self, *args, **kwargs):
         super(MediaController, self).__init__(*args, **kwargs)
-        tmpl_context.tags = DBSession.query(Tag)\
+        tmpl_context.topics = DBSession.query(Topics)\
             .options(undefer('published_media_count'))\
-            .filter(Tag.published_media_count >= 1)\
-            .order_by(Tag.name)\
+            .filter(Topic.published_media_count >= 1)\
+            .order_by(Topic.name)\
             .all()
 
     @expose('mediaplex.templates.media.index')
     @paginate('media', items_per_page=20)
-    def index(self, page=1, tags=None, **kwargs):
+    def index(self, page=1, topics=None, **kwargs):
         """Grid-style List Action"""
         media = DBSession.query(Media)\
             .filter(Media.status >= 'publish')\
@@ -56,12 +56,12 @@ class MediaController(RoutingController):
 
     @expose('mediaplex.templates.media.lessons')
     @paginate('media', items_per_page=20)
-    def lessons(self, page=1, tags=None, **kwargs):
+    def lessons(self, page=1, topics=None, **kwargs):
         """Grid-style List Action"""
         try:
-            tag = fetch_row(Tag, slug='bible-lesson')
+            topic = fetch_row(Topic, slug='bible-lesson')
             media = DBSession.query(Media)\
-                .filter(Media.tags.contains(tag))\
+                .filter(Media.topics.contains(topic))\
                 .filter(Media.status >= 'publish')\
                 .filter(Media.publish_on <= datetime.now())\
                 .filter(Media.status.excludes('trash'))\
@@ -146,7 +146,7 @@ class MediaController(RoutingController):
 
         Arguments:
             podcast - a podcast slug or empty string
-            tag     - a tag slug
+            topic     - a topic slug
         """
         media_query = DBSession.query(Media)\
             .filter(Media.publish_on < datetime.now())\
@@ -164,12 +164,12 @@ class MediaController(RoutingController):
                 media_query = media_query\
                     .filter(Media.podcast_id == None)
 
-        # Filter by tag, if tag slug provided
-        slug = kwargs.get('tag', None)
+        # Filter by topic, if topic slug provided
+        slug = kwargs.get('topic', None)
         if slug:
-            tag = fetch_row(Tag, slug=slug)
+            topic = fetch_row(Topic, slug=slug)
             media_query = media_query\
-                .filter(Media.tags.contains(tag))\
+                .filter(Media.topics.contains(topic))\
 
         # get the actual object (hope there is one!)
         media = media_query\

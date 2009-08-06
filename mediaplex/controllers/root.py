@@ -10,9 +10,6 @@ from tg import expose, flash, require, url, request, redirect
 from pylons.i18n import ugettext as _
 #from tg import redirect, validate
 
-from mediaplex import model
-from mediaplex.model import DBSession, metadata, Video, Comment
-
 #from catwalk.tg2 import Catwalk
 from repoze.what import predicates
 from mediaplex.controllers.secure import SecureController

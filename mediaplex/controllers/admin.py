@@ -7,7 +7,7 @@ from repoze.what.predicates import has_permission
 
 from mediaplex.lib.base import RoutingController
 from mediaplex.lib.helpers import expose_xhr
-from mediaplex.model import DBSession, fetch_row, Media, Video, Comment, Tag
+from mediaplex.model import DBSession, fetch_row, Media, Comment, Tag
 
 class AdminController(RoutingController):
     """Admin dashboard actions"""
@@ -43,15 +43,15 @@ class AdminController(RoutingController):
     def _fetch_page(self, type='awaiting_review', page=1, items_per_page=6):
         """Helper method for paginating media results"""
 
-        query = DBSession.query(Media).order_by(Video.created_on)
+        query = DBSession.query(Media).order_by(Media.created_on)
 
         if type == 'awaiting_review':
-            query = query.filter(Video.status.intersects('unreviewed')).\
-                         filter(Video.status.excludes('trash'))
+            query = query.filter(Media.status.intersects('unreviewed')).\
+                         filter(Media.status.excludes('trash'))
         elif type == 'awaiting_encoding':
-            query = query.filter(Video.status.intersects('unencoded')).\
-                         filter(Video.status.excludes('trash,unreviewed'))
+            query = query.filter(Media.status.intersects('unencoded')).\
+                         filter(Media.status.excludes('trash,unreviewed'))
         elif type == 'awaiting_publishing':
-            query = query.filter(Video.status.issubset('draft'))
+            query = query.filter(Media.status.issubset('draft'))
 
         return webhelpers.paginate.Page(query, page, items_per_page)

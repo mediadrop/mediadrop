@@ -118,15 +118,6 @@ class MediaflowSlidePager(object):
         return slice
 
 
-def slugify(string):
-    string = str(string).lower()
-    string = re.sub(r'\s+', u'-', string)
-    string = re.sub(r'[^a-z0-9_-]', u'', string)
-    string = re.sub(r'-+', u'-', string).strip('-')
-    string = string.encode('ascii', 'ignore')
-    return string[:50] # slugs are at most 50 chars in our database.
-
-
 def redirect(*args, **kwargs):
     found = HTTPFound(location=url_for(*args, **kwargs)).exception
     raise found
@@ -217,6 +208,8 @@ def truncate_xhtml(string, size, _strip_xhtml=False):
     return string
 
 def strip_xhtml(string):
+    if string is None:
+        return None
     return ''.join(BeautifulSoup(string).findAll(text=True))
 
 def line_break_xhtml(string):

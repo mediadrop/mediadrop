@@ -22,6 +22,8 @@ ul#settings-menu a {
 	height: 19px;
 	float: left;
 	text-indent: -1000px;
+	border: none;
+	margin-top: 5px;
 }
 
 .edit-category { background-image: url('../images/buttons/edit-half.png'); width: 37px;}
@@ -33,8 +35,4 @@ ul#settings-menu a {
 	width: 183px;
 	float: left;
 	margin-right: 20px;
-}
-.save-category, .cancel-category {
-	border: none;
-	margin-top: 5px;
 }
