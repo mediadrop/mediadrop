@@ -1,8 +1,8 @@
-from tw.forms import TextField, CalendarDatePicker, SingleSelectField, TextArea, SubmitButton, ResetButton
+from tw.forms import TextField, CalendarDatePicker, SingleSelectField, TextArea, ResetButton
 from tw.forms.validators import Int, NotEmpty, DateConverter, DateValidator
 from tw.api import WidgetsList
 
-from mediaplex.forms import ListForm, XHTMLTextArea
+from mediaplex.forms import ListForm, XHTMLTextArea, SubmitButton
 
 class PostCommentForm(ListForm):
     template = 'mediaplex.templates.comments.post'

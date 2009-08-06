@@ -114,7 +114,7 @@ class MediaadminController(RoutingController):
     @expose()
     @validate(MediaForm(), error_handler=edit)
     def save(self, id, slug, title, author_name, author_email,
-             description, notes, details, podcast, tags, topics, delete=None, **kwargs):
+             description, notes, details, podcast, tags, topics, delete, **kwargs):
         """Create or edit the metadata for a media item."""
         media = fetch_row(Media, id, incl_trash=True)
 
@@ -225,7 +225,7 @@ class MediaadminController(RoutingController):
     @expose('json')
     @validate(EditFileForm(), error_handler=edit)
     def edit_file(self, id, file_id, player_enabled, feed_enabled,
-                  toggle_feed=None, toggle_player=None, delete=None, **kwargs):
+                  toggle_feed, toggle_player, delete, **kwargs):
         media = fetch_row(Media, id, incl_trash=True)
         data = {}
 

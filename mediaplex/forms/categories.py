@@ -1,8 +1,8 @@
-from tw.forms import TextField, CalendarDatePicker, SingleSelectField, TextArea, SubmitButton, ResetButton
+from tw.forms import TextField, CalendarDatePicker, SingleSelectField, TextArea, ResetButton
 from tw.forms.validators import Int, NotEmpty, DateConverter, DateValidator
 from tw.api import WidgetsList
 
-from mediaplex.forms import ListForm
+from mediaplex.forms import ListForm, SubmitButton
 
 class EditCategoryForm(ListForm):
     template = 'mediaplex.templates.admin.categories.edit'

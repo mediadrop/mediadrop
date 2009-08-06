@@ -35,7 +35,7 @@ class CategoryadminController(RoutingController):
         )
 
     @expose('json')
-    def save(self, id, delete=None, category='topics', **kwargs):
+    def save(self, id, delete, category='topics', **kwargs):
         model_class = self.select_model(category)
         item = fetch_row(model_class, id)
 
