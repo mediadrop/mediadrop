@@ -19,6 +19,9 @@ class SubmitButton(forms.SubmitButton):
     """
     validator = forms.validators.UnicodeString(if_missing=None)
 
+class ResetButton(forms.ResetButton):
+    validator = forms.validators.UnicodeString(if_missing=None)
+
 class GlobalMixin(object):
     def display(self, *args, **kw):
         # Update the kwargs with the same values that are included in main templates
