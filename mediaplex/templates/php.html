@@ -1,293 +1,72 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://genshi.edgewall.org/" xmlns:xi="http://www.w3.org/2001/XInclude" py:strip="">
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      xmlns:xi="http://www.w3.org/2001/XInclude"
+      py:strip="">
 <head py:match="head">
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-
-	<title py:match="title">TMC Youth  ${select('text()')}</title>
-
-	<link rel="stylesheet" href="http://tmcyouth.com/css/reset.css" type="text/css" media="screen" />
-	<link rel="stylesheet" href="http://tmcyouth.com/css/text.css" type="text/css" media="screen" />
-	<link rel="stylesheet" href="http://tmcyouth.com/css/960.css" type="text/css" media="screen" />
-	<link rel="stylesheet" href="http://tmcyouth.com/css/base.css" type="text/css" media="screen" />
-	<link rel="stylesheet" href="http://tmcyouth.com/css/megamenu.css" type="text/css" media="screen" />
-		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
-	<script type="text/javascript" src="http://tmcyouth.com/wp-content/themes/tmc/js/hoverintent.js"></script>
-	<script type="text/javascript" src="http://tmcyouth.com/wp-content/themes/tmc/js/megamenu.js"></script>
-	<link rel="alternate" type="application/rss+xml" title="TMC Youth RSS Feed" href="http://tmcyouth.com/feed/" />
-	<link rel="pingback" href="http://tmcyouth.com/xmlrpc.php" />
-
-	<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://tmcyouth.com/xmlrpc.php?rsd" />
-<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://tmcyouth.com/wp-includes/wlwmanifest.xml" /> 
-<link rel='index' title='TMC Youth' href='http://tmcyouth.com' />
-<meta name="generator" content="WordPress 2.8.2" />
-<meta py:replace="select('*')"/></head>
-<body py:match="body" py:attrs="select('@*')" class="">
-<div id="masthead">
-	<div id="header">
-		<div id="logo"><a href="http://tmcyouth.com/"><img src="http://tmcyouth.com/images/structure/logo.png" alt="TMC Youth Logo"/></a></div>
-		<!-- Google CSE Search Box Begins -->
-		<!-- ACK!! -->
-		<form class="search" id="searchbox_001190028956299190214:cf8ts6oemxw" action="http://tmcyouth.com/search" method="get">
-			<div class="searchfield">
-			<input type="hidden" name="cx" value="001190028956299190214:cf8ts6oemxw" />
-			<input type="hidden" name="cof" value="FORID:9" />
-			<input name="q" type="text" tabindex="1" size="21" alt="Search" value="Search this site" class="searchBox" onclick="this.value=''" />
-			</div>
-			<div>
-			<input type="image" src="http://tmcyouth.com/images/structure/megamenu/search-button.png" value="search" id="topsearchbutton"/>
-			</div>
-		</form>
-		<ul id="megamenu">
-			<li id="about" class="sub leftend"><a href="http://tmcyouth.com/meet-the-team/">About</a>
-				<div class="menus singlecol">
-					<div class="menutop"></div>
-					<div class="col">
-						<h2>Meet the people who work here</h2>
-						<ul>
-							<li><a href="http://tmcyouth.com/meet-the-team/">Meet the team</a></li>
-						</ul>
-						<h2>Get in touch</h2>
-						<ul>
-							<li><a href="http://tmcyouth.com/contact-us">Contact us</a></li>
-						</ul>
-						<h2>Internship program information</h2>
-						<ul>
-							<li><a href="http://tmcyouth.com/internships-and-jobs/">Internship program</a></li>
-						</ul>		
-						<h2>Currently open internships</h2>
-						<ul>
-							<li><a href="http://tmcyouth.com/internships">Internship job postings</a></li>
-						</ul>											
-					</div> <!-- /.col -->
-					<div class="menubottom"></div>
-				</div> <!-- /.menus -->			
-			</li>
-			<li id="media" class="sub leftend"><a href="http://tmcyouth.com/media">Media</a>
-				<div class="menus">
-					<div class="menutop"></div>
-					<div class="col">
-						<h2>View all videos</h2>
-						<ul>
-							<li><a href="http://tmcyouth.com/media/video/">Show all</a></li>
-						</ul>
-						<h2>Bible Lesson videos</h2>
-						<ul>
-							<li><a href="http://tmcyouth.com/lesson">Weekly videos</a></li>
-						</ul>
-						<h2>Sunday School videos</h2>
-						<ul>
-							<li><a href="http://tmcyouth.com/media/video-topics/sunday-school">Resources for parents &amp; teachers</a></li>
-						</ul>												
-					</div> <!-- /.col -->
-					<div class="col">
-						<h2>View all podcasts</h2>
-						<ul>
-							<li><a href="http://tmcyouth.com/media/podcasts">Show all</a></li>
-						</ul>					
-						<h2>TMC Youth podcast</h2>
-						<ul>
-							<li><a href="http://tmcyouth.com/media/podcasts/tmcyouth-podcasts">View episodes</a></li>
-							<li>&raquo; <a href="http://phobos.apple.com/WebObjects/MZStore.woa/wa/viewPodcast?id=203260633">Add to iTunes</a></li>
-						</ul>
-						<h2>Time4Thinkers podcast</h2>
-						<ul>
-							<li><a href="http://tmcyouth.com/media/podcasts/time-4-thinkers">View episodes</a></li>
-							<li>&raquo; <a href="http://phobos.apple.com/WebObjects/MZStore.woa/wa/viewPodcast?id=292751169">Add to iTunes</a></li>
-						</ul>												
-					</div> <!-- /.col -->					
-					<div class="menubottom"></div>
-				</div> <!-- /.menus -->	
-			</li>
-			<li id="blogs"><a href="#">Blogs</a></li>
-			<li id="forums" class="sub leftend"><a href="http://tmcyouth.com/forums/">Forums</a>
-				<div class="menus singlecol">
-					<div class="menutop"></div>
-					<div class="col">
-						<h2>Share ideas, ask questions</h2>
-						<ul>
-							<li><a href="http://tmcyouth.com/forums/forumdisplay.php?f=15">Healer’s exchange</a></li>
-						</ul>
-						<h2>Discussion on life’s tough questions</h2>
-						<ul>
-							<li><a href="http://tmcyouth.com/forums/forumdisplay.php?f=22">The unasked questions</a></li>
-						</ul>
-						<h2>For college and university students</h2>
-						<ul>
-							<li><a href="http://tmcyouth.com/forums/forumdisplay.php?f=8">Campus talk forum</a></li>
-						</ul>
-						<h2>Everything to do with Sunday School</h2>
-						<ul>
-							<li><a href="http://tmcyouth.com/forums/forumdisplay.php?f=6">Sunday School forum</a></li>
-						</ul>
-					</div> <!-- /.col -->
-					<div class="menubottom"></div>
-				</div> <!-- /.menus -->
-			</li>
-			<li id="unconfined" class="sub leftend"><a href="http://tmcyouth.com/unconfined">Unconfined</a>
-				<div class="menus singlecol">
-					<div class="menutop"></div>
-					<div class="col">
-						<h2>Why become a church member?</h2>
-						<ul>
-							<li><a href="http://tmcyouth.com/church-resources/">Church membership</a></li>
-						</ul>
-						<h2>The best class you will ever take!</h2>
-						<ul>
-							<li><a href="http://tmcyouth.com/class-instruction/">Class instruction</a></li>
-						</ul>
-						<h2>Meet the editors of the magazines</h2>
-						<ul>
-							<li><a href="http://tmcyouth.com/editors-desk/">Editor&#8217;s desk</a></li>
-						</ul>
-						<h2>Links to other sites</h2>
-						<ul>
-							<li><a href="http://tmcyouth.com/community-links/">Community links</a></li>
-						</ul>
-					</div> <!-- /.col -->
-					<div class="menubottom"></div>
-				</div> <!-- /.menus -->
-			</li>
-			<li id="sunday" class="sub rightend"><a href="http://tmcyouth.com/sunday-school">Sunday School</a>
-				<div class="menus">
-					<div class="menutop"></div>
-					<div class="col">
-						<h2>Resources for Teachers</h2>
-						<ul>
-							<li><a href="http://tmcyouth.com/sunday-school/order-of-exercises">Order of excercises</a></li>
-							<li><a href="http://tmcyouth.com/sunday-school/recieving-attending">Receiving / attending</a></li>
-							<li><a href="http://tmcyouth.com/sunday-school/scriptures">Scriptures</a></li>
-							<li><a href="http://tmcyouth.com/sunday-school/first-lessons">First lessons</a></li>
-							<li><a href="http://tmcyouth.com/sunday-school/next-lessons">Next lessons</a></li>
-							<li><a href="http://tmcyouth.com/sunday-school/christian-science">Christian Science</a></li>
-						</ul>
-						<h2>Open Discussions</h2>
-						<ul>
-							<li><a href="http://tmcyouth.com/forums/forumdisplay.php?f=6">Sunday School Forum</a></li>
-						</ul>
-					</div> <!-- /.col -->
-					<div class="col">
-						<h2>Local Activities</h2>
-						<ul>
-							<li><a href="http://tmcyouth.com/sunday-school-workshops">Workshops</a></li>
-						</ul>
-						<h2>Online Events</h2>
-						<ul>
-							<li><a href="http://tmcyouth.com/roundtable-chats">Roundtable chats</a></li>
-						</ul>
-					</div> <!-- .col -->
-					<div class="menubottom"></div>
-				</div> <!-- /.menus -->
-			</li>
-			<li id="university" class="sub rightend"><a href="http://tmcyouth.com/university-activities/">CSO</a>
-				<div class="menus">
-					<div class="menutop"></div>
-					<div class="col">
-						<h2>Information on CSOs</h2>
-						<ul>
-							<li><a href="http://tmcyouth.com/cso-resources/">What are CSOs?</a></li>
-							<li><a href="http://tmcyouth.com/cso-directory">Find a CSO near you</a></li>
-							<li><a href="http://tmcyouth.com/cso-events">Upcoming events</a></li>
-						</ul>
-						<h2>University Podcast Series</h2>
-						<ul>
-							<li><a href="http://tmcyouth.com/media/podcasts/time-4-thinkers">Time 4 Thinkers</a></li>
-						</ul>
-						<h2>University Issues</h2>
-						<ul>
-							<li><a href="http://tmcyouth.com/forums/forumdisplay.php?f=8">Campus talk forum</a></li>
-						</ul>
-					</div> <!-- /.col -->
-					<div class="col">
-						<h2>CSO Resources</h2>
-						<ul>
-							<li><a href="http://tmcyouth.com/docs/cso-resource-guide.pdf">Resource guide</a></li>
-							<li><a href="http://tmcyouth.com/university-lecturers">Available lecturers</a></li>
-							<li><a href="http://tmcyouth.com/cso-resources/">Event planning forms</a></li>
-						</ul>
-					</div> <!-- .col -->
-					<div class="menubottom"></div>
-				</div> <!-- /.menus -->
-			</li>	
-			<li id="summits" class="sub rightend last"><a href="http://tmcyouth.com/summits/">Summits</a>
-				<div class="menus">
-					<div class="menutop"></div>
-					<div class="col">
-						<h2>Upcoming Summits</h2>
-						<ul>
-							<li><a href="http://tmcyouth.com/cameroun-spiritual-summit-2009/">Cameroun</a></li>
-							<li><a href="http://tmcyouth.com/upcoming-summits/bas-congo-spiritual-summit-2009/">Bas-congo</a></li>
-							<li><a href="http://tmcyouth.com/nairobi-spiritual-summit-2009/">Nairobi, Kenya</a></li>
-							<li><a href="http://tmcyouth.com/upcoming-summits/germany-spiritual-activist-summit/">Germany</a></li>
-							<li><a href="http://tmcyouth.com/upcoming-summits/canadian-spiritual-activist-summit-2009/">Canada</a></li>
-							<li><a href="http://tmcyouth.com/upcoming-summits/indonesia-spiritual-activist-summit/">Indonesia</a></li>
-							<li><a href="#">Phillipines</a></li>
-						</ul>
-						<h2>Event Registration</h2>
-						<ul>
-							<li><a href="http://tmcyouth.com/summit-registration/">Register online</a></li>
-						</ul>
-					</div> <!-- /.col -->
-					<div class="col">
-						<h2>Past Summits</h2>
-						<ul>
-							<li><a href="http://tmcyouth.com/upcoming-summits/midwest-spiritual-activist-summit/">Midwest summit</a></li>
-							<li><a href="http://tmcyouth.com/upcoming-summits/northwest-spiritual-activist-summit/">Northwest summit</a></li>
-						</ul>
-						<!--<h2>Summit Media</h2>
-						<ul>
-							<li><a href="http://tmcyouth.com/summits/">Midwest summit</a></li>
-							<li><a href="#">Northwest summit</a></li>
-							<li><a href="#">London summit</a></li>
-							<li><a href="#">Chicago summit</a></li>
-							<li><a href="#">LA summit</a></li>
-							<li><a href="#">Washington DC summit</a></li>
-						</ul>-->
-					</div> <!-- .col -->
-					<div class="menubottom"></div>
-				</div> <!-- /.menus -->
-			</li>
-		</ul> <!-- /#megamenu -->
-		<div class="clear"></div>
-		</div> <!-- /#header -->
-	</div> <!-- /#masthead --><div class="container_16">
-<!-- /header.php -->${select('*|text()')}
-
-
-</div> <!-- /.container_16 -->
-
-
-<div id="footer">
-	<div class="container_12">		
-		<div class="grid_10">
-			<ul>
-				<li><a href="/meet-the-team">About</a></li>
-				<li><a href="/media">Media</a></li>
-				<li><a href="/blogs">Blogs</a></li>
-				<li><a href="/forums">Forums</a></li>
-				<li><a href="/unconfined">Unconfined</a></li>
-				<li><a href="/sunday-school">Sunday School</a></li>
-				<li><a href="/university-activities">CSO</a></li>
-				<li><a href="/summits">Summits</a></li>																												
-			</ul>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="content-language" content="en" />
+	<meta name="ROBOTS" content="INDEX,FOLLOW" />
+	<!-- compliance patch for microsoft browsers -->
+	<!--[if lt IE 7]><script src="http://tmcyouth.com/includes/js/ie7/ie7-standard-p.js" type="text/javascript"></script><![endif]-->
+	<link rel="stylesheet" href="http://tmcyouth.com/includes/yui/build/reset-fonts-grids/reset-fonts-grids.css" type="text/css" />
+	<link rel="stylesheet" href="http://tmcyouth.com/css/base.css" type="text/css" />
+	<link rel="stylesheet" href="http://tmcyouth.com/css/subpage.css" type="text/css" />
+	<script type="text/javascript" src="http://tmcyouth.com/includes/js/swfobject.js"></script>
+	<script type="text/javascript" src="http://tmcyouth.com/includes/js/dropnavigation.js"></script>
+	<link rel="shortcut icon" href="http://tmcyouth.com/images/icons/favicon.ico" />
+<!--	<link rel="alternate" type="application/rss+xml" title="Articles RSS Feed" href="http://feeds.feedburner.com/TmcyouthChristianScienceRssFeed" />-->
+	<title py:match="title" py:content="select('text()')" />
+	<meta py:replace="select('*')"/>
+</head>
+<body py:match="body" py:attrs="select('@*')">
+	<div id="outer">
+		<div id="top">
+			<!-- begin top-menu.php -->
+							<!-- Google CSE Search Box Begins -->
+				<form id="searchbox_001190028956299190214:cf8ts6oemxw" action="/search" method="get">
+					<div>
+					<input type="hidden" name="cx" value="001190028956299190214:cf8ts6oemxw" />
+					<input type="hidden" name="cof" value="FORID:9" />
+					<input name="q" type="text" tabindex="1" alt="Search" value="Search this site" class="searchBox" onclick="this.value=''" />
+					<input type="image" src="/images/icons/go-button.gif" name="sa" alt="Search" tabindex="2" value="Search" class="goBtn"/>
+					</div>
+				</form>
+				<ul style="font-size:92%">
+					<li><a href="/meet-the-team">meet the team</a></li><li> | </li>
+					<li><a href="/internships-and-jobs">internships</a></li><li> | </li>
+					<li><a href="/contact-us">contact us</a></li><li> | </li>
+					<li><a href="/privacy">privacy</a></li><li> | </li>
+					<li><a href="http://www.twitter.com/tmcyouth"><img style="padding-left:2px; margin-top:2px;" src="/images/icons/twitter-icon.gif" alt="Twitter us" width="17" height="18" /></a></li>
+				</ul>
+				<a name="top"></a>
+				<a href="http://www.tmcyouth.com"><img src="/images/icons/tmcyouth-logo.gif" alt="TMC Youth Christian Science Healing Community" width="179" height="36" class="logo" /></a>
+			<!-- end top-menu.php -->
 		</div>
-		<div class="grid_2">
-			<div id="return_top"><a href="#top">Back to the Top</a></div>
-		</div>	
-		<div class="grid_12" id="copyright">
-			<p>&copy;2009 The First Church of Christ, Scientist <a href="/sitemap">Sitemap</a> | <a href="/privacy">Privacy Policy</a> | <a href="/terms-and-conditions">Terms and Conditions</a> | Technical problems? Email: <a href="mailto:help@tmcyouth.com">help@tmcyouth.com</a></p>				
-			<!-- ?subject=Help Request: Technical Issue &body=Please tell us what page you were trying to access and also what web browser you are using (Firefox, Safari, Internet Explorer etc.)  -->
-		</div>	
 	</div>
-</div>	
-
-<!--[if IE 6]>
-<script type="text/javascript">
-       /*Load jQuery if not already loaded*/ if(typeof jQuery == 'undefined'){ document.write("<script type=\"text/javascript\"   src=\"http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js\"></"+"script>"); var __noconflict = true; }
-       var IE6UPDATE_OPTIONS = {
-               icons_path: "http://static.ie6update.com/hosted/ie6update/images/"
-       }
-</script>
-<script type="text/javascript" src="http://static.ie6update.com/hosted/ie6update/ie6update.js"></script>
-<![endif]-->
+	<div id="doc2" class="yui-t2">
+		<div id="bd">
+						<div id="yui-main">
+									<!-- begin main content -->
+					<div class="content" py:content="select('*|text()')" />
+					<!-- end main content -->
+							</div>
+		</div>
+	</div>
+		<!--[if IE 6]>
+	<script type="text/javascript"> 
+		/* Load jQuery if not already loaded*/
+		if(typeof jQuery == 'undefined'){
+			document.write("<script type=\"text/javascript\"   src=\"http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js\"></"+"script>");
+			var __noconflict = true;
+		}
+		var IE6UPDATE_OPTIONS = {
+			icons_path: "http://static.ie6update.com/hosted/ie6update/images/"
+		}
+	</script>
+	<script type="text/javascript" src="http://static.ie6update.com/hosted/ie6update/ie6update.js"></script>
+	<![endif]-->
 </body>
 </html>
