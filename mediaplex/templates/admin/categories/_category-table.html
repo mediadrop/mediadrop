@@ -16,7 +16,7 @@
 		<tbody>
 			<tr id="empty-category">
 				<td colspan="3">
-					${XML(edit_form(action=h.url_for(action='save', id='new', category=category)))}
+					${XML(edit_form(show_delete=False, action=h.url_for(action='save', id='new', category=category)))}
 				</td>
 				<td class="center">0</td>
 			</tr>
@@ -25,7 +25,7 @@
 			</tr>
 			<tr py:for="item in collection">
 				<td colspan="3">
-					${XML(edit_form(item, action=h.url_for(action='save', id=item.id, category=category)))}
+					${XML(edit_form(item, show_delete=True, action=h.url_for(action='save', id=item.id, category=category)))}
 				</td>
 				<td class="center">${item.media_count}</td>
 			</tr>

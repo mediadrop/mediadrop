@@ -1,4 +1,4 @@
-from tw.forms import TextField, CalendarDatePicker, SingleSelectField, TextArea, ResetButton
+from tw.forms import TextField, CalendarDatePicker, SingleSelectField, TextArea
 from tw.forms.validators import Int, NotEmpty, DateConverter, DateValidator
 from tw.api import WidgetsList
 
@@ -16,7 +16,6 @@ class EditCategoryForm(ListForm):
     fields = [
         SubmitButton('submit', default='Save', named_button=True, css_classes=['f-rgt', 'mo', 'clickable', 'save-category']),
         SubmitButton('delete', default='Delete', named_button=True, css_classes=['mo', 'clickable', 'delete-category']),
-        ResetButton(default='Cancel', css_classes=['mo', 'cancel-category']),
         TextField('name', css_classes=['category-name'], validator=NotEmpty),
         TextField('slug', css_classes=['category-slug'], validator=NotEmpty),
     ]

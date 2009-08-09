@@ -8,7 +8,6 @@ var CategoryMgr = new Class({
 		categoryName: 'Topic',
 		table: 'category-table',
 		formSelector: 'form.edit-category-form',
-		cancelLink: 'a.cancel-category',
 		emptyRow: 'empty-category',
 		nameField: 'input.category-name',
 		slugField: 'input.category-slug',
@@ -17,16 +16,20 @@ var CategoryMgr = new Class({
 		saveButton: 'input.save-category',
 	},
 
+	categories: [],
+
 	initialize: function(opts) {
 		this.setOptions(opts);
 		var emptyRow = $(this.options.emptyRow);
 
-		$(this.options.table).getElements('tbody > tr').each(function(row){
+		var tbody = $(this.options.table).getChildren('tbody')[0];
+		tbody.getChildren('tr').each(function(row){
 			if(row.get('id') == this.options.emptyRow){
 				category = new NewCategory(row, this.options);
 			} else {
-				existingCategory = new Category(row, this.options);
+				category = new Category(row, this.options);
 			}
+			this.categories.extend(category);
 		}.bind(this));
 	},
 });
@@ -45,6 +48,8 @@ var Category = new Class({
 	nameCell: null,
 	slugCell: null,
 	editLink: null,
+	deleteButton: null,
+	cancelButton: null,
 	formVisible: true,
 
 	initialize: function(row, options){
@@ -61,17 +66,27 @@ var Category = new Class({
 		this.dummyRow = new Element('tr').setStyle('display', 'none');
 		this.dummyRow.inject(this.row, 'after');
 
-		// add Edit button before Delete button
-		this.editLink = new Element('a', {'class': 'mo edit-category', href: '#', title: 'Edit this ' + this.options.categoryName})
-			.addEvent('click', this.toggleForm.bind(this));
-		this.editLink.grab(new Element('span', {html: 'edit'}));
-		this.form.grab(this.editLink, 'top');
-
-		// add events to Save and Cancel buttons
-		var saveButton = this.form.getElement('input.save-category');
+		// Set up the Save button
+		var saveButton = this.form.getElement(this.options.saveButton);
 		saveButton.addEvent('click', this.handleSave.bind(this));
-		var cancelButton = this.form.getElement('input.cancel-category');
-		cancelButton.addEvent('click', this.toggleForm.bind(this));
+
+		// Create a cancel button and insert it into the beginning of the row.
+		this.cancelButton = new Element('button', {'class': 'mo cancel-category'});
+		this.cancelButton.addEvent('click', this.toggleForm.bind(this));
+		var cancelParent = new Element('td', {'class': 'form-field form-field-resetbutton'});
+		cancelParent.grab(this.cancelButton);
+		saveButton.parentNode.parentNode.grabTop(cancelParent);
+
+
+		// Set up the edit and delete buttons
+		this.deleteButton = this.form.getElement(this.options.deleteButton);
+		if (this.deleteButton != null) {
+			this.editLink = new Element('a', {'class': 'mo edit-category', href: '#', title: 'Edit this ' + this.options.categoryName})
+				.addEvent('click', this.toggleForm.bind(this));
+			this.editLink.grab(new Element('span', {html: 'edit'}));
+			this.deleteButton.parentNode.grab(this.editLink, 'top');
+		}
+
 
 		// create two cells to replace the form cell
 		nameField = this.form.getElement(this.options.nameField)
@@ -87,24 +102,35 @@ var Category = new Class({
 
 		this.toggleForm()
 
-		if (this.form.getElement(this.options.deleteButton) != null) this.requestConfirmDelete();
+		if (this.deleteButton != null) {
+			this.requestConfirmDelete();
+		}
 	},
 
 	toggleForm: function(){
 		var displayEditAndDelete;
 		var displayInputs;
 		var colspan;
+		var show;
+		var hide;
+		if (Browser.Engine.gecko) {
+			show = 'table-cell';
+		} else {
+			show = 'inline-block';
+		}
+		hide = 'none';
+
 		if(this.formVisible){
 			colspan = '1';
-			displayEditAndDelete = 'block';
-			displayInputs = 'none';
+			displayEditAndDelete = show;
+			displayInputs = hide;
 
 			this.row.adopt(this.formCell, this.nameCell, this.slugCell, this.countCell);
 		} else {
 			// show the form
 			colspan = '3';
-			displayEditAndDelete = 'none';
-			displayInputs = 'block';
+			displayEditAndDelete = hide;
+			displayInputs = show;
 
 			this.dummyRow.adopt(this.nameCell, this.slugCell);
 			this.row.adopt(this.formCell, this.countCell);
@@ -113,12 +139,12 @@ var Category = new Class({
 		this.formCell.set('colspan', colspan);
 
 		this.form.getElements('input').each(function(elem){
-			elem.setStyle('display', displayInputs);
+			elem.parentNode.setStyle('display', displayInputs);
 		});
-		this.editLink.setStyle('display', displayEditAndDelete);
-		deleteButton = this.form.getElement(this.options.deleteButton);
-		if(deleteButton != null){
-			deleteButton.setStyle('display', displayEditAndDelete);
+
+		this.cancelButton.parentNode.setStyle('display', displayInputs);
+		if (this.deleteButton != null) {
+			this.deleteButton.parentNode.setStyle('display', displayEditAndDelete);
 		}
 
 		this.formVisible = !this.formVisible;
@@ -137,7 +163,11 @@ var Category = new Class({
 			header: 'Confirm Delete',
 			msg: this.getDeleteMsg.bind(this)
 		});
-		this.form.getElement(this.options.deleteButton).addEvent('click', confirmMgr.openConfirmDialog.bind(confirmMgr));
+		if (this.deleteButton != null) {
+			// really, it should never be null, if this method is called.
+			this.deleteButton.addEvent('click',
+				confirmMgr.openConfirmDialog.bind(confirmMgr));
+		}
 		return this;
 	},
 
@@ -200,9 +230,6 @@ var NewCategory = new Class({
 
 	initialize: function(row, opts) {
 		this.parent(row, opts);
-
-		this.editLink.dispose();
-		this.form.getElement(this.options.deleteButton).dispose();
 
 		$(this.options.table).getPrevious().getElement('a').addEvent('click', this.toggleForm.bind(this));
 	},

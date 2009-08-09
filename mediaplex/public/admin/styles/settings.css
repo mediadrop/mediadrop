@@ -18,21 +18,48 @@ ul#settings-menu a {
 .add-topic { background-image: url('../images/buttons/add-topic.png'); width: 103px; }
 .add-tag { background-image: url('../images/buttons/add-tag.png'); width: 91px; }
 
-.edit-category, .delete-category, .save-category, .cancel-category {
-	height: 19px;
-	float: left;
-	text-indent: -1000px;
-	border: none;
-	margin-top: 5px;
+table#category-table > tbody > tr > td:first-child {
+/* padding will be taken care of by inner table */
+	padding-left: 0px;
+	padding-right: 0px;
+}
+.edit-category-form table {
+/* border spacing what? */
+  border-spacing: 0;
+}
+.edit-category-form td {
+/* border top is taken care of by outer table */
+	border-top: none;
 }
 
-.edit-category { background-image: url('../images/buttons/edit-half.png'); width: 37px;}
-.delete-category { background-image: url('../images/buttons/delete-half.png'); width: 26px;}
-.save-category { background-image: url('../images/buttons/table-button-save.png'); width: 42px; float: right;}
-.cancel-category { background-image: url('../images/buttons/table-button-cancel.png'); width: 63px; float: left; margin-right: 17px;}
+.edit-category, .delete-category, .save-category, .cancel-category {
+	height: 19px;
+	border: none;
+	text-indent: -1000px;
+	overflow: hidden;
+	float: left;
+}
+td.form-field-textfield {
+	padding: 0 10px;
+}
+
+.edit-category {
+	background-image: url('../images/buttons/edit-half.png');
+	width: 37px;
+}
+.delete-category {
+	background-image: url('../images/buttons/delete-half.png');
+	width: 26px;
+}
+.save-category {
+	background-image: url('../images/buttons/table-button-save.png');
+	width: 42px;
+}
+.cancel-category {
+	background-image: url('../images/buttons/table-button-cancel.png');
+	width: 63px;
+}
 
 .textfield {
 	width: 183px;
-	float: left;
-	margin-right: 20px;
 }
