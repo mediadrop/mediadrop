@@ -20,18 +20,21 @@ var CategoryMgr = new Class({
 
 	initialize: function(opts) {
 		this.setOptions(opts);
-		var emptyRow = $(this.options.emptyRow);
-
 		var tbody = $(this.options.table).getChildren('tbody')[0];
-		tbody.getChildren('tr').each(function(row){
+		this.processRows(tbody.getChildren('tr'));
+	},
+
+	processRows: function(rows) {
+		$$(rows).each(function(row) {
+			var category = null;
 			if(row.get('id') == this.options.emptyRow){
 				category = new NewCategory(row, this.options);
 			} else {
 				category = new Category(row, this.options);
 			}
-			this.categories.extend(category);
+			this.categories.push(category);
 		}.bind(this));
-	},
+	}
 });
 
 var Category = new Class({

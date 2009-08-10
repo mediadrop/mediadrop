@@ -51,7 +51,7 @@ var ShowMore = new Class({
 		this.tbody.setStyle('height', origHeight);
 
 		// inject the tables rows, adding up their heights as they're rendered outside the overflow
-		var newRows = $$(tableTree)[0].getElements('tbody > tr');
+		var newRows = $$(tableTree)[0].getChildren('tbody').getChildren('tr');
 		for (var i = 0, l = newRows.length; i < l; i++) {
 			newHeight += newRows[i].inject(this.tbody).getHeight();
 		}
