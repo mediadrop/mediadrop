@@ -60,7 +60,7 @@ def fetch_row(mapped_class, id=None, slug=None, incl_trash=False, extra_filter=N
 def slugify(string):
     # FIXME: these regular expressions don't ever change. We should perhaps
     #        create application-wide re.compile()'d regexes to do this.
-    string = str(string).lower()
+    string = unicode(string).lower()
     string = re.sub(r'\s+', u'-', string)
     string = re.sub(r'[^a-z0-9_-]', u'', string)
     string = re.sub(r'-+', u'-', string).strip('-')
