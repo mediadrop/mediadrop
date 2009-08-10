@@ -1,3 +1,20 @@
+window.addEvent('domready', function() {
+	if (Browser.Engine.gecko) {
+		$$('form').each(function(form) {
+			// FIXME: This is totally not standards compliant.
+			// I have chosen to put it in the javascript to at least
+			// allow the javascript-free version to be XHTML compliant.
+			// This must be the first domready event fired.
+
+			// This is here to avoid a firefox bug with dynamically modified forms
+			// when multiple form elements have the same name attribute.
+			// It is related to the bug described here:
+			// http://drupal.org/node/344445
+			form.setAttribute('autocomplete', 'off');
+		});
+	}
+});
+
 // Round the corners of all boxes by wrapping it in another div
 var roundBoxes = function(){
 	$$('.box').each(function(el){
