@@ -32,12 +32,16 @@ ${set_nav_opts('hide_topics', 'hide_left')}
 				<p py:replace="Markup(media.description)" />
 			</div>
 			<div class="media-meta">
-				<div class="media-meta-likethis" id="media-rating"><a id="likethis" class="mo up" title="vote up" href="${h.url_for(action='rate', rating=1)}"><span>I like this!</span></a></div>
+				<div class="media-meta-top" />
+				<a class="media-meta-likethis mo up" id="likethis" title="vote up" href="${h.url_for(action='rate', rating=1)}">I like this!</a>
+				<a class="media-meta-download mo" href="${h.url_for(media.files[0].play_url)}">Download</a>
 				<div class="media-meta-views"><strong>Views:</strong> ${media.views}</div>
 				<div class="media-meta-time"><strong>Time:</strong> ${h.duration_from_seconds(media.duration)}</div>
 				<div class="media-meta-etc" style="${(media.rating.sum &gt; 0) or 'visibility:hidden'}">
 					<strong id="num-likedthis">${h.text.plural(media.rating.sum, 'person', 'people')}</strong> liked this ${media.type}!
 				</div>
+				<div class="media-meta-commented"><strong>${h.text.plural(len(comments), 'person', 'people')}</strong> commented</div>
+				<div class="media-meta-bottom" />
 			</div>
 			${media_player(media)}
 		</div>
