@@ -44,7 +44,6 @@ var Category = new Class({
 	formCell: null,
 	countCell: null,
 
-	dummyRow: null,
 	nameCell: null,
 	slugCell: null,
 	editLink: null,
@@ -62,9 +61,6 @@ var Category = new Class({
 		}
 		this.formCell = this.form.getParent();
 		this.countCell = this.formCell.getNext();
-
-		this.dummyRow = new Element('tr').setStyle('display', 'none');
-		this.dummyRow.inject(this.row, 'after');
 
 		// Set up the Save button
 		var saveButton = this.form.getElement(this.options.saveButton);
@@ -87,16 +83,15 @@ var Category = new Class({
 			this.deleteButton.parentNode.grab(this.editLink, 'top');
 		}
 
-
-		// create two cells to replace the form cell
-		nameField = this.form.getElement(this.options.nameField)
-		slugField = this.form.getElement(this.options.slugField);
-		nameSpan = new Element('span', {html: nameField.get('value')});
-		slugSpan = new Element('span', {html: slugField.get('value')});
-		this.nameCell = new Element('td').grab(nameSpan);
-		this.slugCell = new Element('td').grab(slugSpan);
-		nameSpan.setStyles({overflow: 'hidden', width: '193px'});
-		slugSpan.setStyle('overflow', 'hidden');
+		// create two cells to display our Name and Slug
+		var nameField = this.form.getElement(this.options.nameField)
+		var slugField = this.form.getElement(this.options.slugField);
+		this.nameCell = new Element('td', {html: nameField.get('value')});
+		this.slugCell = new Element('td', {html: slugField.get('value')});
+		this.nameCell.setStyles({overflow: 'hidden', width: '193px'});
+		this.slugCell.setStyles({overflow: 'hidden'});
+		this.formCell.grabAfter(this.slugCell);
+		this.formCell.grabAfter(this.nameCell);
 
 		nameField.addEvent('change', this.updateSlug.bind(this));
 
@@ -108,46 +103,45 @@ var Category = new Class({
 	},
 
 	toggleForm: function(){
-		var displayEditAndDelete;
+		var displayOther;
 		var displayInputs;
 		var colspan;
 		var show;
 		var hide;
-		if (Browser.Engine.gecko) {
-			show = 'table-cell';
-		} else {
-			show = 'inline-block';
-		}
+
+		// IE uses a different display value for visible table cells than
+		// Safari and FF. Get this property dynamically:
+		show = this.formCell.getStyle('display');
 		hide = 'none';
 
-		if(this.formVisible){
+		if (this.formVisible) {
 			colspan = '1';
-			displayEditAndDelete = show;
+			displayOther = show;
 			displayInputs = hide;
-
-			this.row.adopt(this.formCell, this.nameCell, this.slugCell, this.countCell);
 		} else {
-			// show the form
 			colspan = '3';
-			displayEditAndDelete = hide;
+			displayOther = hide;
 			displayInputs = show;
-
-			this.dummyRow.adopt(this.nameCell, this.slugCell);
-			this.row.adopt(this.formCell, this.countCell);
 		}
+		this.formVisible = !this.formVisible;
 
 		this.formCell.set('colspan', colspan);
 
-		this.form.getElements('input').each(function(elem){
-			elem.parentNode.setStyle('display', displayInputs);
+		var otherCells = new Array(this.slugCell, this.nameCell, this.deleteButton.parentNode);
+		var inputCells = this.form.getElements('input');
+		inputCells.extend(this.form.getElements('button'));
+		inputCells = inputCells.map(function (el) { return el.parentNode; });
+
+		inputCells.each(function(elem) {
+			elem.setStyle('display', displayInputs);
 		});
 
-		this.cancelButton.parentNode.setStyle('display', displayInputs);
-		if (this.deleteButton != null) {
-			this.deleteButton.parentNode.setStyle('display', displayEditAndDelete);
-		}
+		otherCells.each(function(elem) {
+			if (elem != null) {
+				elem.setStyle('display', displayOther);
+			}
+		});
 
-		this.formVisible = !this.formVisible;
 		return false;
 	},
 
