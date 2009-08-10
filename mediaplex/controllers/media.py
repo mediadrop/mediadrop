@@ -32,7 +32,7 @@ class MediaController(RoutingController):
 
     def __init__(self, *args, **kwargs):
         super(MediaController, self).__init__(*args, **kwargs)
-        tmpl_context.topics = DBSession.query(Topics)\
+        tmpl_context.topics = DBSession.query(Topic)\
             .options(undefer('published_media_count'))\
             .filter(Topic.published_media_count >= 1)\
             .order_by(Topic.name)\
