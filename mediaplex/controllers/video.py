@@ -122,11 +122,10 @@ class VideoController(RoutingController):
         )
 
     @expose('mediaplex.templates.video.upload')
-    @validate(upload_form)
     def upload(self, **kwargs):
         return dict(
             upload_form = upload_form,
-            form_values = kwargs,
+            form_values = {},
         )
 
     @expose('json')

@@ -108,6 +108,7 @@ class UploadForm(ListForm):
         title = TextField(validator=NotEmpty(messages={'empty':'You\'ve gotta have a title!'}), label_text='Title:', show_error=True, maxlength=255)
         description = XHTMLTextArea(validator=NotEmpty(messages={'empty':'At least give it a short description...'}), label_text='Description:', attrs=dict(rows=5, cols=25), show_error=True)
         tags = TextField(label_text='Tags:', help_text='(optional) e.g.: puppies, great dane, adorable', show_error=True)
+        tags.validator.if_missing = ""
         file = FileField(validator=FieldStorageUploadConverter(not_empty=True, messages={'empty':'Oops! You forgot to enter a file.'}), label_text='Media File', show_error=True)
         submit = SubmitButton(css_class='submit-image', show_error=False)
 
