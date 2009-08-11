@@ -1,4 +1,5 @@
 import smtplib
+from tg import config
 from mediaplex.lib.helpers import url_for, clean_xhtml, strip_xhtml, line_break_xhtml
 
 def send(to_addr, from_addr, subject, body):
@@ -15,8 +16,6 @@ Subject: %s
     server.quit()
 
 def send_video_notification(video):
-    fr = 'noreply@tmcyouth.com'
-    to = ['anthony@simplestation.com', 'videos@tmcyouth.com']
     subject = 'New Video: %s' % video.title
     body = """A new video has been uploaded!
 
@@ -31,11 +30,10 @@ Description: %s
     'http://' + request.environ['HTTP_HOST'] + url_for(controller='mediaadmin', action='edit', id=video.id),
     strip_xhtml(line_break_xhtml(line_break_xhtml(video.description))))
 
-    send(to, fr, subject, body)
+    send(config.video_notification_addresses,
+            config.notification_from_address, subject, body)
 
 def send_comment_notification(media, comment):
-    fr = 'noreply@tmcyouth.com'
-    to = ['anthony@simplestation.com', 'notifications@tmcyouth.com']
     subject = 'New Comment: %s' % comment.subject
     body = """A new comment has been posted!
 
@@ -47,5 +45,5 @@ Body: %s
     'http://' + request.environ['HTTP_HOST'] + url_for(controller='media', action='view', slug=media.slug),
     strip_xhtml(line_break_xhtml(line_break_xhtml(comment.body))))
 
-    send(to, fr, subject, body)
-
+    send(config.comment_notification_addresses,
+            config.notification_from_address, subject, body)

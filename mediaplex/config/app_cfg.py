@@ -140,3 +140,15 @@ base_config.playable_types = {
     'audio': ('mp3', 'mp4', 'm4a'),
     'video': ('flv', )
 }
+
+# Email Notification Config
+base_config.video_notification_addresses = [
+    'anthony@simplestation.com',
+    'videos@tmcyouth.com',
+]
+base_config.comment_notification_addresses = [
+    'anthony@simplestation.com',
+    'notifications@tmcyouth.com',
+]
+base_config.notification_from_address = 'noreply@tmcyouth.com'
+
