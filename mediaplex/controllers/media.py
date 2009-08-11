@@ -3,7 +3,6 @@ import shutil
 import os.path
 import simplejson as json
 import time
-import smtplib
 
 from urlparse import urlparse, urlunparse
 from cgi import parse_qs
@@ -19,7 +18,7 @@ from sqlalchemy import and_, or_
 from sqlalchemy.orm import eagerload, undefer
 from sqlalchemy.orm.exc import NoResultFound
 
-from mediaplex.lib import helpers
+from mediaplex.lib import helpers, email
 from mediaplex.lib.helpers import expose_xhr, redirect, url_for, clean_xhtml, strip_xhtml, line_break_xhtml
 from mediaplex.lib.base import Controller, RoutingController
 from mediaplex.model import DBSession, metadata, fetch_row, Media, MediaFile, Comment, Topic, Author, AuthorWithIP, Podcast
@@ -106,7 +105,7 @@ class MediaController(RoutingController):
 
         media.comments.append(c)
         DBSession.add(media)
-        self._send_notification(media, c)
+        email.send_comment_notification(media, c)
         redirect(action='lesson_view')
 
     @expose('mediaplex.templates.media.view')
@@ -215,7 +214,7 @@ class MediaController(RoutingController):
 
         media.comments.append(c)
         DBSession.add(media)
-        self._send_notification(media, c)
+        email.send_comment_notification(media, c)
         redirect(action='concept_view')
 
 
@@ -252,7 +251,7 @@ class MediaController(RoutingController):
 
         media.comments.append(c)
         DBSession.add(media)
-        self._send_notification(media, c)
+        email.send_comment_notification(media, c)
         redirect(action='view')
 
 
@@ -268,30 +267,4 @@ class MediaController(RoutingController):
             return file_handle.read()
         else:
             raise HTTPNotFound()
-
-
-    def _send_notification(self, media, comment):
-        server=smtplib.SMTP('localhost')
-        fr = 'noreply@tmcyouth.com'
-        to = ['anthony@simplestation.com', 'notifications@tmcyouth.com']
-        subject = 'New Comment: %s' % comment.subject
-        body = """A new comment has been posted!
-
-Author: %s
-Post: %s
-
-Body: %s
-""" % (comment.author.name,
-        'http://' + request.environ['HTTP_HOST'] + url_for(controller='media', action='view', slug=media.slug),
-       strip_xhtml(line_break_xhtml(line_break_xhtml(comment.body))))
-
-        msg = """To: %s
-From: %s
-Subject: %s
-
-%s
-""" % (", ".join(to), fr, subject, body)
-
-        server.sendmail(fr, to, msg)
-        server.quit()
 

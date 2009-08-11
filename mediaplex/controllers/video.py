@@ -7,7 +7,6 @@ import shutil
 import os.path
 import simplejson as json
 import time
-import smtplib
 
 from urlparse import urlparse, urlunparse
 from cgi import parse_qs
@@ -23,7 +22,7 @@ from sqlalchemy import and_, or_
 from sqlalchemy.orm import eagerload, undefer
 from sqlalchemy.orm.exc import NoResultFound
 
-from mediaplex.lib import helpers
+from mediaplex.lib import helpers, email
 from mediaplex.lib.helpers import expose_xhr, redirect, url_for, clean_xhtml, strip_xhtml, line_break_xhtml
 from mediaplex.lib.base import Controller, RoutingController
 from mediaplex.model import DBSession, metadata, fetch_row, get_available_slug, Media, MediaFile, Comment, Tag, Topic, Author, AuthorWithIP
@@ -162,7 +161,7 @@ class VideoController(RoutingController):
                 kwargs['title'], kwargs['description'],
                 kwargs['tags'], kwargs['file']
             )
-            self._send_notification(video)
+            email.send_video_notification(video)
 
             return dict(
                 success = True,
@@ -184,7 +183,7 @@ class VideoController(RoutingController):
             kwargs['title'], kwargs['description'],
             kwargs['tags'], kwargs['file']
         )
-        self._send_notification(video)
+        email.send_video_notification(video)
 
         # Redirect to success page!
         redirect(action='upload_success')
@@ -198,34 +197,6 @@ class VideoController(RoutingController):
     @expose('mediaplex.templates.video.upload-failure')
     def upload_failure(self, **kwargs):
         return dict()
-
-    def _send_notification(self, video):
-        server=smtplib.SMTP('localhost')
-        fr = 'noreply@tmcyouth.com'
-        to = ['anthony@simplestation.com', 'videos@tmcyouth.com']
-        subject = 'New Video: %s' % video.title
-        body = """A new video has been uploaded!
-
-Title: %s
-
-Author: %s (%s)
-
-Admin URL: %s
-
-Description: %s
-""" % (video.title, video.author.name, video.author.email,
-        'http://' + request.environ['HTTP_HOST'] + url_for(controller='mediaadmin', action='edit', id=video.id),
-       strip_xhtml(line_break_xhtml(line_break_xhtml(video.description))))
-
-        msg = """To: %s
-From: %s
-Subject: %s
-
-%s
-""" % (str(to), fr, subject, body)
-
-        server.sendmail(fr, to, msg)
-        server.quit()
 
     def _save_video(self, name, email, title, description, tags, file):
         # cope with anonymous posters
