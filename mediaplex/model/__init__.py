@@ -97,6 +97,8 @@ def get_available_slug(mapped_class, slug, ignore=None):
             .filter(mapped_class.id != ignore)\
             .first():
 
+        if appendix > 2:
+            slug = slug[:-len(str_appendix)]
         str_appendix = '-' + str(appendix)
         max_substr_len = slug_length - len(str_appendix)
         slug = slug[:max_substr_len] + str_appendix
