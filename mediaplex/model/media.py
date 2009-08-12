@@ -254,6 +254,18 @@ class Media(object):
         return get_available_slug(Media, slug, self)
 
     @property
+    def primary_file(self):
+        """The primary MediaFile to represent this Media object.
+
+        None, if no files are marked with enable_player
+        """
+        enabled_files = [f for f in self.files if f.enable_player]
+        if enabled_files:
+            return enabled_files[0]
+        else:
+            return None
+
+    @property
     def is_published(self):
         return PUBLISH in self.status\
            and TRASH not in self.status\

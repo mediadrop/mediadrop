@@ -24,7 +24,7 @@ ${set_nav_opts('podcast_help') if not c.nav_opts else ''}
 		});
 	</script>
 </head>
-<body py:with="comments = [c for c in media.comments if 'publish' in c.status]" class="${media.podcast and 'nav-podcasts-on' or 'nav-videos-on'}"> <!-- the previous class check is a hack. FIXME -->
+<body py:with="comments = [c for c in media.comments if 'publish' in c.status]" class="${media.podcast and 'nav-podcasts-on' or 'nav-videos-on'}">
 	<box id="media-box">
 		<nav />
 		<div class="media-body">
@@ -35,7 +35,8 @@ ${set_nav_opts('podcast_help') if not c.nav_opts else ''}
 			<div class="media-meta">
 				<div class="media-meta-top" />
 				<a class="media-meta-likethis mo up" id="likethis" title="vote up" href="${h.url_for(action='rate', rating=1)}">I like this!</a>
-				<a class="media-meta-download mo" href="${media.files[0].play_url}">Download</a>
+				<a py:if="media.primary_file" class="media-meta-download mo" href="${media.primary_file.link_url}">Download</a>
+				<!--! download link may be missing from preview pages, but don't worry, all published media will have a primary_file -->
 				<div class="media-meta-views"><strong>Views:</strong> ${media.views}</div>
 				<div class="media-meta-time"><strong>Time:</strong> ${h.duration_from_seconds(media.duration)}</div>
 				<div class="media-meta-etc" style="${(media.rating.sum &gt; 0) or 'visibility:hidden'}">
