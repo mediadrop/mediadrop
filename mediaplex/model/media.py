@@ -303,6 +303,11 @@ class MediaFile(object):
 
     @property
     def play_url(self):
+        """The URL for use when embedding the media file in a page
+
+        This MAY return a different URL than
+        the link_url property.
+        """
         if self.is_embeddable:
             return config.embeddable_filetypes[self.type]['play'] % self.url
         elif urlparse(self.url)[1]:
@@ -313,6 +318,15 @@ class MediaFile(object):
 
     @property
     def link_url(self):
+        """The URL for use when linking to a media file.
+
+        This is usually a direct link to the file, but for youtube videos and
+        other files marked as embeddable, this may return a link to the hosting
+        site's view page.
+
+        This MAY return a different URL than
+        the playurl property.
+        """
         if self.is_embeddable:
             return config.embeddable_filetypes[self.type]['link'] % self.url
         elif urlparse(self.url)[1]:
