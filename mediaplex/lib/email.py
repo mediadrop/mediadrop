@@ -3,6 +3,10 @@ from tg import config
 from mediaplex.lib.helpers import url_for, clean_xhtml, strip_xhtml, line_break_xhtml
 
 def send(to_addr, from_addr, subject, body):
+    """Send an email!
+
+    Expects subject and body to be unicode strings.
+    """
     server = smtplib.SMTP('localhost')
 
     msg = """To: %s
@@ -12,7 +16,7 @@ Subject: %s
 %s
 """ % (", ".join(to_addr), from_addr, subject, body)
 
-    server.sendmail(from_addr, to_addr, msg)
+    server.sendmail(from_addr, to_addr, msg.encode('utf-8'))
     server.quit()
 
 def send_video_notification(video):
