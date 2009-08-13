@@ -205,6 +205,7 @@ class MediaController(RoutingController):
             img_ss = url_for(im_path % 'ss'),
             id = media.id,
             url = url_for(controller="/media", action="view", slug=media.slug),
+            podcast = media.podcast and media.podcast.slug or None,
         )
 
     @expose('mediaplex.templates.media.concept_view')
