@@ -92,15 +92,19 @@ media = Table('media', metadata,
 media_files = Table('media_files', metadata,
     Column('id', Integer, autoincrement=True, primary_key=True),
     Column('media_id', Integer, ForeignKey('media.id', onupdate='CASCADE', ondelete='CASCADE'), nullable=False),
+
     Column('type', String(10), nullable=False),
     Column('url', String(255), nullable=False),
+
     Column('size', Integer),
     Column('width', Integer),
     Column('height', Integer),
     Column('bitrate', Integer),
+
     Column('position', Integer, default=0, nullable=False),
     Column('enable_player', Boolean, default=True, nullable=False),
     Column('enable_feed', Boolean, default=True, nullable=False),
+
     Column('created_on', DateTime, default=datetime.now, nullable=False),
     Column('modified_on', DateTime, default=datetime.now, onupdate=datetime.now, nullable=False),
 )
@@ -162,7 +166,7 @@ class Media(object):
 
         file.position = pos
         bump_others = media_files.update()\
-            .where(and_(media_files.c.media_id == self[0].media_id,
+            .where(and_(media_files.c.media_id == self.files[0].media_id,
                         media_files.c.position >= pos,
                         media_files.c.id != file_id))\
             .values({media_files.c.position: media_files.c.position + 1})
@@ -329,7 +333,6 @@ class MediaFile(object):
             return 'video'
         else:
             return None
-#            raise UnknownFileTypeException, 'Could not determine whether the file is audio or video'
 
     @validates('enable_feed')
     def _validate_enable_feed(self, key, on):
