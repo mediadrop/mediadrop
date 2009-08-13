@@ -87,8 +87,8 @@
 				<div>
 					<div class="nav-box-body" style="line-height: 1.6em;">
 						<div class="fL">
-							<p>A podcast is a periodical publication of audio or video files on the internet. The term is a portmanteau of the words "iPod" and "broadcast", but you don't need an iPod to listen to a podcast&mdash;any computer or portable media player will do.</p>
-							<p>A podcatcher, or podcast client is a computer program that reads a podcast feed and downloads new episodes to your computer.</p>
+							<p>New to podcasts? A podcast is a periodical publication of audio or video files on the internet. The term "podcast" is a combination of the word
+							<p>A podcast client (like iTunes) is a computer program that reads a podcast and downloads new episodes to your computer automatically.</p>
 							<p>For a brief video description of podcasts, check out <a href="http://www.youtube.com/watch?v=y-MSL42NV3c">this youtube video</a>!</p>
 						</div>
 						<div class="fR">
@@ -100,7 +100,7 @@
 							<table py:if="c.nav_opts['podcasts']">
 								<thead>
 									<tr>
-										<td>Then you can add our podcasts to your podcast client:</td>
+										<td>Then you can add our podcasts to your podcast client:<br /><br /></td>
 									</tr>
 								</thead>
 								<tbody>
@@ -113,8 +113,8 @@
 										</td>
 										<td>
 											via
-											<span py:if="podcast.itunes_url" py:strip="True"><a href="${podcast.itunes_url}">iTunes feed</a> |</span>
-											<a href="${h.url_for(action='feed', slug=podcast.slug)}">Generic feed</a>
+											<span py:if="podcast.itunes_url" py:strip="True"><a href="${podcast.itunes_url}">iTunes</a> |</span>
+											<a href="${h.url_for(action='feed', slug=podcast.slug)}">RSS</a>
 										</td>
 									</tr>
 								</tbody>
