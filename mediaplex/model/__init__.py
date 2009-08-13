@@ -6,6 +6,8 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from tg.exceptions import HTTPNotFound
 from sqlalchemy.orm.exc import NoResultFound
+from mediaplex.lib.unidecode import unidecode
+from mediaplex.lib.htmlsanitizer import entities_to_unicode
 
 # Global session manager.  DBSession() returns the session object
 # appropriate for the current web request.
@@ -58,13 +60,20 @@ def fetch_row(mapped_class, id=None, slug=None, incl_trash=False, extra_filter=N
         raise HTTPNotFound
 
 def slugify(string):
+    """Transform a unicode string, potentially including XHTML entities
+    into a viable slug string (ascii)"""
     # FIXME: these regular expressions don't ever change. We should perhaps
     #        create application-wide re.compile()'d regexes to do this.
     string = unicode(string).lower()
+    # replace xhtml entities
+    string = entities_to_unicode(string)
+    # Transliterate to ASCII, as best as possible:
+    string = unidecode(string)
+    # String may now contain '[?]' triplets to describe unknown characters.
+    # These will be stripped out by the following regexes.
     string = re.sub(r'\s+', u'-', string)
     string = re.sub(r'[^a-z0-9_-]', u'', string)
     string = re.sub(r'-+', u'-', string).strip('-')
-    string = string.encode('ascii', 'ignore')
 
     return string[:slug_length]
 
