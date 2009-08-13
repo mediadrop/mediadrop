@@ -175,6 +175,23 @@ class MediaController(RoutingController):
             .order_by(Media.publish_on.desc())\
             .first()
 
+        return self._jsonify(media)
+
+    @expose('json')
+    def most_popular(self, **kwargs):
+        """
+        EXPOSE the basic properties of the most popular media object
+        TODO: work this into a more general, documented, API scheme
+        """
+        media_query = DBSession.query(Media)\
+            .filter(Media.publish_on < datetime.now())\
+            .filter(Media.status >= 'publish')\
+            .filter(Media.status.excludes('trash'))
+
+        media = media_query.order_by(Media.views.desc()).first()
+        return self._jsonify(media)
+
+    def _jsonify(self, media):
         im_path = '/images/media/%d%%s.jpg' % media.id
 
         return dict(

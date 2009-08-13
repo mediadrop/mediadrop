@@ -24,6 +24,7 @@ class MediaplexConfig(AppConfig):
         map.connect('/lessons/{slug}/comment', controller='media', action='lesson_comment')
 
         map.connect('/latest', controller='media', action='latest')
+        map.connect('/most_popular', controller='media', action='most_popular')
 
         # routes for all non-view, non-index, video actions
         map.connect('/video-{action}', controller='video', requirements=dict(action='flow|upload|upload_submit|upload_submit_async|upload_success|upload_failure'))
