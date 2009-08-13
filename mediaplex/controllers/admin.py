@@ -20,7 +20,7 @@ class AdminController(RoutingController):
         recent_media = DBSession.query(Media)\
             .filter(Media.status >= 'publish')\
             .filter(Media.publish_on < datetime.now)\
-            .order_by(Media.publish_on)[:5]
+            .order_by(Media.publish_on.desc())[:5]
         comments_unreviewed = DBSession.query(Comment).filter(Comment.status >= 'unreviewed').count()
         comments_total = DBSession.query(Comment).count()
 
@@ -43,7 +43,7 @@ class AdminController(RoutingController):
     def _fetch_page(self, type='awaiting_review', page=1, items_per_page=6):
         """Helper method for paginating media results"""
 
-        query = DBSession.query(Media).order_by(Media.created_on)
+        query = DBSession.query(Media).order_by(Media.modified_on.desc())
 
         if type == 'awaiting_review':
             query = query.filter(Media.status.intersects('unreviewed')).\
