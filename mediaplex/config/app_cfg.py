@@ -117,6 +117,20 @@ base_config.mimetype_lookup = {
     '.mp3': 'audio/mpeg',
     '.mp4': 'audio/mpeg',
     '.m4a': 'audio/mpeg',
+    # the following definitions are made up, and are intended as a temporary
+    # fix. This list includes only the file extensions listed as kosher on the
+    # upload pages. Ideally it'd be more complete. Perhaps we can use a built
+    # in one instead.
+    '.wmv': 'video/x-wmv',
+    '.divx': 'video/x-divx',
+    '.dv': 'video/x-divx',
+    '.dvx': 'video/x-divx',
+    '.mov': 'video/mov',
+    '.mpeg': 'video/mpeg',
+    '.mpg': 'video/mpeg',
+    '.qt': 'video/qt',
+    '.vob': 'video/x-vob',
+    '.3gp': 'video/x-3gp',
 }
 
 base_config.embeddable_filetypes = {
