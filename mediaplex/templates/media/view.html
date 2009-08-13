@@ -6,7 +6,7 @@
 <xi:include href="../comments/_list.html" />
 <xi:include href="../helpers.html" />
 <xi:include href="../master.html" />
-${set_nav_opts('podcast_help') if not c.nav_opts else ''}
+${set_nav_opts()}
 <head>
 	<title>${Markup(media.title)}</title>
 	<link py:if="media.podcast" href="${h.url_for('/styles/podcasts.css')}" media="screen" rel="stylesheet" type="text/css" />
