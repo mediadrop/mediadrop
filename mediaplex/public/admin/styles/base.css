@@ -45,7 +45,7 @@ a:hover, a:active, .link:hover {
 }
 h1 {
 	font-size: 18px;
-	text-shadow: 0em 0.1em #fff;
+	text-shadow: 0 1px #fff;
 }
 
 body {
@@ -153,7 +153,7 @@ body {
 .box-foot {
 	background: #e6e2d3 url('../images/layout/thead.png') repeat-x top;
 	color: #3c4d5a;
-	padding: 10px;
+	padding: 10px 10px 8px 10px;
 	border-top: 1px solid #cfccc2;
 	overflow: hidden;
 }
@@ -172,7 +172,7 @@ body {
 	color: #878685;
 }
 .box-content {
-	padding: 10px;
+	padding: 10px 10px 25px 10px;
 }
 .box-content .textfield,
 .box-content .textarea,
@@ -239,7 +239,7 @@ tr.thead-row td {
 	padding: 10px 10px 5px 10px;
 	font-size: 108.5%;
 	font-weight: bold;
-	text-shadow: 0em 0.1em #fff;
+	text-shadow: 0em 1px #fff;
 	vertical-align: middle;
 	padding: 10px;
 	white-space: nowrap;

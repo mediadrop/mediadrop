@@ -139,7 +139,7 @@ label .field_help {
 }
 
 .album-art {
-	margin: 0 auto 10px auto;
+	margin: 20px auto 10px auto;
 	border: 5px solid #989790;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
