@@ -10,8 +10,9 @@
 	      title="${field.get_default()}">
 		<input py:replace="field.display(value_for(field), disabled=field.name == 'toggle_feed' and value_for('is_embeddable'), **args_for(field))" />
 	</span>
-	<a href="${file.link_url}" class="file-link" py:choose="">
-		<py:when test="file.is_embeddable">${file.type.capitalize()}</py:when>
-		<py:otherwise>${file.type.upper()}</py:otherwise>
+	<a href="${file.link_url}" class="file-link"
+	   py:with="type = file.type.capitalize() if file.is_embeddable else file.type.upper()"
+	   title="${('Go to %s' % type) if file.is_embeddable else 'Download this file'}">
+	   ${type}
 	</a>
 </form>

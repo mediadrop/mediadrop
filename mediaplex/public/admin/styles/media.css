@@ -158,27 +158,6 @@ a.add-media { background-image: url('../images/buttons/add-media.png'); }
 	margin-left: 6px;
 }
 
-.upload-status {
-	display: block;
-	background: #d1e4f2;
-	width: 100%;
-	overflow: hidden;
-	border-bottom: 1px solid #cfccc2;
-}
-.upload-status .upload-file {
-	background: url('../images/icons/file.png') no-repeat top left;
-	padding-left: 19px;
-	margin: 0 10px;
-	font-size: 12px;
-}
-.upload-status .upload-file span {
-	float: right;
-}
-.upload-status .progressbar {
-	display: none;
-	margin: 10px auto;
-}
-
 ul#topics {
 	width: 33%;
 	float: left;

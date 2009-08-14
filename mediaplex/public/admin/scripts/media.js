@@ -82,6 +82,7 @@ var StatusForm = new Class({
 
 	options: {
 		form: '',
+		error: '',
 		submitReq: {noCache: true}
 	},
 
@@ -93,19 +94,29 @@ var StatusForm = new Class({
 		this.form = $(this.options.form).addEvent('submit', this.saveStatus.bind(this));
 	},
 
-	saveStatus: function(){
+	saveStatus: function(e){
+		e = new Event(e).stop();
 		if (!this.submitReq) {
 			var submitOpts = $extend({url: this.form.action}, this.options.submitReq);
-			this.submitReq = new Request.HTML(submitOpts)
-				.addEvent('success', this.updateForm.bind(this));
+			this.submitReq = new Request.JSON(submitOpts).addEvents({
+				success: this.updateForm.bind(this),
+				failure: this._displayError.bind(this, ['A connection problem occurred, try again.'])
+			});
 		}
 		this.submitReq.send(this.form);
-		return false;
 	},
 
-	updateForm: function(tree){
-		var form = $$(tree), formContents = form.getChildren();
-		this.form.empty().adopt(formContents);
+	updateForm: function(json){
+		json = json || {};
+		if (!json.success) return this._displayError(json.message);
+		this.form.set('html', json.status_form);
+	},
+
+	_displayError: function(msg){
+		var errorBox = $(this.options.error);
+		errorBox.set('html', msg || 'An error has occurred, try again.');
+		if (!errorBox.isDisplayed()) errorBox.slide('hide').show().slide('in');
+		errorBox.highlight();
 	}
 });
 
@@ -147,6 +158,7 @@ var FileManager = new Class({
 
 	options: {
 		saveOrderUrl: '',
+		errorPlaceholder: '.box-error',
 		sortable: {
 			constrain: true,
 			clone: true,
@@ -161,10 +173,12 @@ var FileManager = new Class({
 	list: null,
 	sortable: null,
 	addForm: null,
+	uploader: null,
 
-	initialize: function(container, addForm, opts){
+	initialize: function(container, addForm, uploader, opts){
 		this.setOptions(opts);
 		this.container = $(container);
+		this.uploader = this._setupUploader(uploader);
 
 		this.list = $(this.container.getElement('ol'));
 		this.list.getChildren().each(this._setupLi.bind(this));
@@ -199,25 +213,31 @@ var FileManager = new Class({
 	},
 
 	saveOrder: function(fileID, prevID){
+		var error = this._displayError.bind(this, ['Transport error occurred']);
 		var r = new Request.JSON({
 			url: this.options.saveOrderUrl,
-			onComplete: this.orderSaved.bind(this)
+			onComplete: this.orderSaved.bind(this),
+			onFailure: this._displayError.bind(this, ['A connection problem occurred.'])
 		}).send(new Hash({file_id: fileID, prev_id: prevID}).toQueryString());
 	},
 
-	orderSaved: function(resp){
+	orderSaved: function(json){
+		json = json || {};
+		if (!json.success) return this._displayError(json.message);
 	},
 
 	addFile: function(e){
 		e = new Event(e).preventDefault();
 		var form = $(e.target), r = new Request.JSON({
 			url: form.get('action'),
-			onComplete: this.fileAdded.bind(this)
+			onComplete: this.fileAdded.bind(this),
+			onFailure: this._displayError.bind(this, ['A connection problem occurred.'])
 		}).send(form.toQueryString());
 	},
 
 	fileAdded: function(json){
-		// for some reason request.html returns an array with textnodes at the start/end
+		json = json || {};
+		if (!json.success) return this._displayError(json.message);
 		var li = new Element('li', {
 			id: this._getFileID(json.file_id),
 			html: json.edit_form
@@ -248,22 +268,42 @@ var FileManager = new Class({
 		}
 		var r = new Request.JSON({
 			url: form.get('action'),
-			onComplete: this.fileEdited.bindWithEvent(this, [button])
+			onComplete: this.fileEdited.bindWithEvent(this, button),
+			onFailure: this._displayError.bind(this, ['A connection problem occurred.'])
 		}).send(data.toQueryString());
 	},
 
 	fileEdited: function(json, button){
-		if (json.field == 'delete') {
+		json = json || {};
+		if (!json.success) return this._displayError(json.message);
+		if (json.success && json.field == 'delete') {
 			var li = button.getParent('li');
 			li.set('slide', {onComplete: li.destroy.bind(li)}).slide('out');
-		} else {
+		} else if (json.field) {
 			var field = button.form.getElement('input[name=' + json.field + ']').set('value', json.value);
 			var span = button.parentNode;
-			if (json.value) span.addClass('file-toggle-on');
-			else span.removeClass('file-toggle-on');
+			if (json.value != undefined) {
+				if (json.value) span.addClass('file-toggle-on');
+				else span.removeClass('file-toggle-on');
+			}
 			span.removeClass('spinner');
 		}
 		return this.fireEvent('fileEdited', [json, button]);
+	},
+
+	_setupUploader: function(uploader){
+		return uploader.uploader.addEvent('fileComplete', function(file){
+			var response = JSON.decode(file.response.text, true);
+			self.fileAdded(response);
+		}.bind(this));
+	},
+
+	_displayError: function(msg){
+		var errorBox = $(this.container).getElement(this.options.errorPlaceholder);
+		errorBox.set('html', msg || 'An error has occurred, try again.');
+		if (!errorBox.isDisplayed()) errorBox.slide('hide').show().slide('in');
+		errorBox.highlight();
+		return this;
 	},
 
 	_getFileID: function(el){
@@ -285,6 +325,6 @@ var FileManager = new Class({
 		li.getElements('input[type=submit]').each(function(el){
 			el.addEvent('click', this.editFile.bind(this));
 		}.bind(this));
-	},
+	}
 
 });
