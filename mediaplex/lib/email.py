@@ -1,5 +1,5 @@
 import smtplib
-from tg import config
+from tg import config, request
 from mediaplex.lib.helpers import url_for, clean_xhtml, strip_xhtml, line_break_xhtml
 
 def send(to_addr, from_addr, subject, body):
