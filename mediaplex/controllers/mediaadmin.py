@@ -21,6 +21,7 @@ from mediaplex.lib import helpers
 from mediaplex.lib.helpers import expose_xhr, redirect, url_for, clean_xhtml
 from mediaplex.lib.base import RoutingController
 from mediaplex.model import DBSession, fetch_row, get_available_slug, Media, MediaFile, Podcast, Comment, Tag, Author, AuthorWithIP
+from mediaplex.model.media import create_media_stub
 from mediaplex.forms.admin import SearchForm, AlbumArtForm
 from mediaplex.forms.media import MediaForm, AddFileForm, EditFileForm, UpdateStatusForm, PodcastFilterForm
 from mediaplex.forms.comments import PostCommentForm
@@ -190,6 +191,7 @@ class MediaadminController(RoutingController):
             media.update_type()
             media.update_status()
             DBSession.add(media)
+            DBSession.flush()
 
             # Render some widgets so the XHTML can be injected into the page
             edit_form = EditFileForm(action=url_for(action='edit_file'))

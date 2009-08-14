@@ -294,7 +294,7 @@ var FileManager = new Class({
 	_setupUploader: function(uploader){
 		return uploader.uploader.addEvent('fileComplete', function(file){
 			var response = JSON.decode(file.response.text, true);
-			self.fileAdded(response);
+			this.fileAdded(response);
 		}.bind(this));
 	},
 
