@@ -248,11 +248,6 @@ class Media(object):
             self.status.add(DRAFT)
         return PUBLISH in self.status
 
-    @validates('slug')
-    def _validate_slug(self, key, slug):
-        """Automatically choose a unique slug of only allowed chars."""
-        return get_available_slug(Media, slug, self)
-
     @property
     def primary_file(self):
         """The primary MediaFile to represent this Media object.
