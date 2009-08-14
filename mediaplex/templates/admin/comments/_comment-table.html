@@ -1,10 +1,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:py="http://genshi.edgewall.org/"
+      xmlns:xi="http://www.w3.org/2001/XInclude"
       py:strip="">
 	<table py:def="comment_table(collection, edit_form, include_thead=True, id='comment-table', classes=None)"
 	    cellpadding="0" cellspacing="0" id="${id}" class="${classes}"
 	    py:with="item_count = len(collection);
-	             include_thead = include_thead and item_count > 0;">
+	             include_thead = include_thead and item_count > 0;
+				 paginator = c.paginators.comments;">
 		<thead py:if="include_thead">
 			<tr>
 				<th style="width:58px">Status</th>
@@ -38,5 +40,7 @@
 				</td>
 			</tr>
 		</tbody>
+		<xi:include href="../helpers.html" />
+		${paginated_tfoot(paginator, '4')}
 	</table>
 </html>

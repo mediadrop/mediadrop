@@ -1,9 +1,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:py="http://genshi.edgewall.org/"
+      xmlns:xi="http://www.w3.org/2001/XInclude"
       py:strip="">
 	<table py:def="podcast_table(collection, include_thead=True, id='media-table')"
 	       cellpadding="0" cellspacing="0" id="${id}"
-	       py:with="item_count = len(collection)">
+	       py:with="item_count = len(collection);
+	                paginator = c.paginators.podcasts">
 		<tbody>
 			<tr py:if="item_count == 0">
 				<td>None Found</td>
@@ -49,6 +51,8 @@
 				</tr>
 			</py:for>
 		</tbody>
+		<xi:include href="../helpers.html" />
+		${paginated_tfoot(paginator, '2')}
 	</table>
 </html>
 

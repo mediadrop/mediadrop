@@ -1,10 +1,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:py="http://genshi.edgewall.org/"
+      xmlns:xi="http://www.w3.org/2001/XInclude"
       py:strip="">
-	<table py:def="media_table(collection, fields, include_thead=True, id='media-table')"
+	<table py:def="media_table(collection, fields, include_thead=True, include_pagination=True, id='media-table')"
 	       cellpadding="0" cellspacing="0" id="${id}"
 	       py:with="item_count = len(collection);
-	                include_thead = include_thead and (item_count > 0);">
+	                include_thead = include_thead and (item_count > 0);
+	                paginator = include_pagination and c.paginators.media;">
 		<thead py:if="include_thead">
 			<tr>
 				<py:for each="f in fields" py:choose="f">
@@ -51,5 +53,9 @@
 				</py:for>
 			</tr>
 		</tbody>
+		<py:if test="include_pagination">
+			<xi:include href="../helpers.html" />
+			${paginated_tfoot(paginator, '7')}
+		</py:if>
 	</table>
 </html>

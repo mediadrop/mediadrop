@@ -275,9 +275,13 @@ tr.thead-row td h3 {
 .btn-upload-image { background-image: url('../images/buttons/upload-image.png'); width: 129px; }
 
 
-span.show-more {
+span.show-more, .pager {
 	font: bold 14px Helvetica,Arial,Verdana,sans-serif;
 	color: #0e436f;
+	padding-right: 10px;
+}
+
+span.show-more {
 	background: transparent url('../images/icons/show-more.png') no-repeat top right;
 	padding-right: 16px;
 }
