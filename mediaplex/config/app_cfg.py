@@ -139,7 +139,8 @@ base_config.embeddable_filetypes = {
 
 base_config.playable_types = {
     'audio': ('mp3', 'mp4', 'm4a'),
-    'video': ('flv', )
+    'video': ('flv', ),
+    None: (),
 }
 
 # Email Notification Config
