@@ -5,9 +5,11 @@ var Uploader = new Class({
 	options: {
 		target: null,
 		uploadBtn: {text: 'Upload a file', 'class': 'mo btn-upload'},
-		statusBar: null,
-		progressBar: null,
-		progressBarOptions: {},
+		statusContainer: null,
+		statusFile: '.upload-file',
+		statusProgress: '.upload-progress',
+		statusError: '.upload-error',
+		fxProgressBar: {},
 		uploader: {
 			verbose: false,
 			queued: false,
@@ -21,9 +23,13 @@ var Uploader = new Class({
 	},
 
 	target: null,
-	statusBar: null,
-	statusFile: null,
-	progressBar: null,
+	fxProgress: null,
+
+	ui: {
+		file: null,
+		progress: null,
+		error: null
+	},
 
 	initialize: function(options){
 		this.setOptions(options);
@@ -43,64 +49,98 @@ var Uploader = new Class({
 			selectFail: this.onSelectFail.bind(this),
 			queue: this.onQueue.bind(this),
 			fileComplete: this.onFileComplete.bind(this),
+			fileError: this.onFileError.bind(this),
 			buttonEnter: this.onButtonEnter.bind(this),
 			buttonLeave: this.onButtonLeave.bind(this)
 		});
 
-		this.statusBar = $(this.options.statusBar).slide('hide');
-		this.statusFile = $(this.options.statusFile);
+		this.ui.container = $(this.options.statusContainer);
+		this.ui.file = this.ui.container.getElement(this.options.statusFile);
+		this.ui.progress = this.ui.container.getElement(this.options.statusProgress);
+		this.ui.error = this.ui.container.getElement(this.options.statusError);
 	},
 
 	onBrowse: function(){
-		this.clearStatusBar();
+//		this.clearStatusBar();
 	},
 
 	clearStatusBar: function(){
-		this.statusFile.empty();
-		if (this.progressBar) this.progressBar.set(0).element.setStyle('display', 'none');
+		this.ui.file.empty();
+		if (this.ui.progress) this.progress.set(0).element.hide();
 	},
 
 	onSelectSuccess: function(files){
 		var file = files[0];
-		this.statusFile.grab(new Element('span', {
-			text: '(' + Swiff.Uploader.formatUnit(file.size, 'b') + ') '
-		})).appendText(file.name);
-		if (!this.progressBar) this.progressBar = new Fx.ProgressBar(this.options.progressBar, this.options.progressBarOptions).set(0);
-		this.progressBar.element.setStyle('display', 'block');
-		this.statusBar.slide('in');
+		this._displayFile(file);
+		if (this.ui.error) {
+			this.ui.error.slide('out').empty.delay(100, this.ui.error);
+		}
+		if (!this.fxProgress) {
+			this.fxProgress = new Fx.ProgressBar(this.ui.progress.getElement('img'), this.options.fxProgressBar);
+		}
+		this.fxProgress.set(0);
+		this.ui.progress.slide('hide').show().slide('in');
 		this.uploader.setEnabled(false);
 	},
 
 	onSelectFail: function(files){
 		var file = files[0];
-		this.statusFile.grab(new Element('span', {
-			text: '(' + Swiff.Uploader.formatUnit(file.size, 'b') + ') '
-		})).appendText(file.name);
-		console.log(files[0].name + ' was not added! (Error: #' + files[0].validationError + ')');
-		this.statusBar.setStyle('display', 'block');
+		this._displayFile(file);
+		if (this.fxProgress) {
+			this.fxProgress.set(0);
+		}
+		this.ui.progress.hide();
+		var errorMsg = MooTools.lang.get('FancyUpload', 'validationErrors')[file.validationError] || '{error} #{code}';
+		var error = errorMsg.substitute($extend({
+			fileSizeMin: Swiff.Uploader.formatUnit(this.uploader.options.fileSizeMin, 'b'),
+			fileSizeMax: Swiff.Uploader.formatUnit(this.uploader.options.fileSizeMax, 'b')
+		}, file));
+		this.uploader.fireEvent('fileError', [file, null, error]);
 	},
 
 	onQueue: function(){
-		this.progressBar.set(this.uploader.percentLoaded);
+		if (this.fxProgress) this.fxProgress.set(this.uploader.percentLoaded);
 	},
 
 	onFileComplete: function(file){
 		file.remove();
 		this.uploader.setEnabled(true);
-		this.progressBar.set(100);
-		this.statusBar.slide.delay(500, this.statusBar, ['out']);
-/*		if (file.response.error) {
-			this.uploader.setEnabled(true);
-			this._displayControls('block');
-			this.statusBar.addClass('error').removeClass('inprogress')
-				.set('html', this.uploader.fileList[0].name + ' failed to upload. Please try again. '
-					+ '(Error: #' + this.uploader.fileList[0].response.code + ' '
-					+ this.uploader.fileList[0].response.error + ')')
-				.highlight();
-		} else {
-			this.statusBar.addClass('success').removeClass('inprogress')
-				.set('html', this.uploader.fileList[0].name + ' uploaded successfully!').highlight();
-		}*/
+		if (this.fxProgress) {
+			this.fxProgress.set(100);
+		}
+		if (file.response.error) {
+			var errorMsg = MooTools.lang.get('FancyUpload', 'errors')[file.response.error] || '{error} #{code}';
+			var error = errorMsg.substitute($extend({name: file.name}, file.response));
+			return this.uploader.fireEvent('fileError', [file, file.response, error]);
+		}
+		var json = JSON.decode(file.response.text, true);
+		if (!json.success) {
+			return this.uploader.fireEvent('fileError', [file, file.response, json.message]);
+		}
+		this.ui.file.getElement('.upload-file-size').highlight();
+		this.ui.container.highlight();
+		this.ui.file.slide.delay(500, this.ui.file, ['out']);
+		this.ui.progress.slide.delay(500, this.ui.progress, ['out']);
+	},
+
+	_displayFile: function(file){
+		var fileName = new Element('span', {
+			'class': 'upload-file-name',
+			text: file.name
+		})
+		var fileSize = new Element('span', {
+			'class': 'upload-file-size',
+			text: '(' + Swiff.Uploader.formatUnit(file.size, 'b') + ') '
+		});
+		this.ui.file.empty()
+			.grab(fileName).grab(fileSize)
+			.slide('hide').show().slide('in');
+	},
+
+	onFileError: function(file, response, errorMsg){
+		this.ui.error.addClass('box-error').removeClass('inprogress')
+			.set('html', errorMsg)
+			.slide('hide').show().slide('in').highlight();
 	},
 
 	onButtonEnter: function(){
@@ -114,6 +154,7 @@ var Uploader = new Class({
 	_createUploadBtn: function(){
 		return new Element('span', this.options.uploadBtn);
 	}
+
 });
 
 var AlbumArtUploader = new Class({
@@ -122,21 +163,29 @@ var AlbumArtUploader = new Class({
 
 	options: {
 		image: '',
-		updateFormActionsOnSubmit: false
+		updateFormActionsOnSubmit: false,
+		uploader: {
+			fileSizeMax: 10 * 1024 * 1024,
+//			typeFilter: '*.jpg; *.jpeg; *.gif; *.png'
+		}
 	},
 
 	image: null,
 
 	onFileComplete: function(file){
 		this.parent(file);
-		this.image = this.image || $(this.options.image);
-		if (!this.image) return;
-		var json = JSON.decode(file.response.text, true);
-		var src = this.image.get('src'), newsrc = src.replace(/\/new/, '/' + json.id);
-		this.image.set('src', newsrc + '?' + $time());
-		if (this.options.updateFormActionsOnSubmit && src != newsrc) {
-			// Update the form actions on the page to point to refer to the newly assigned ID
-			this.updateFormActions(json.id);
+		if (!file.response.error){
+			this.image = this.image || $(this.options.image);
+			if (!this.image) return;
+			var json = JSON.decode(file.response.text, true);
+			if (json.success) {
+				var src = this.image.get('src'), newsrc = src.replace(/\/new/, '/' + json.id);
+				this.image.set('src', newsrc + '?' + $time());
+				if (this.options.updateFormActionsOnSubmit && src != newsrc) {
+					// Update the form actions on the page to point to refer to the newly assigned ID
+					this.updateFormActions(json.id);
+				}
+			}
 		}
 	},
 
@@ -150,4 +199,20 @@ var AlbumArtUploader = new Class({
 		});
 	}
 
+});
+
+
+MooTools.lang.set('en-US', 'FancyUpload', {
+	errors: {
+		httpStatus: 'Server returned HTTP-Status #{code}',
+		securityError: 'Security error occured ({text})',
+		ioError: 'Error caused a send or load operation to fail ({text})'
+	},
+	validationErrors: {
+		duplicate: 'File has already been added, duplicates are not allowed.',
+		sizeLimitMin: 'File is too small, the minimal file size is {fileSizeMin}.',
+		sizeLimitMax: 'File is too large, the maximum file size is <em>{fileSizeMax}</em>.',
+		fileListMax: 'File could not be added, amount of <em>{fileListMax} files</em> exceeded.',
+		fileListSizeMax: 'File is too big, overall filesize of <em>{fileListSizeMax}</em> exceeded.'
+	}
 });

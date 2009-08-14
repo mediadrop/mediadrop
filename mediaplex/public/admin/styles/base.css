@@ -208,6 +208,11 @@ body {
 .box-round-bot-lft { bottom: 0;  left: 0; background-image: url('../images/layout/box-bot-lft.png'); }
 .box-round-bot-rgt { bottom: 0; right: 0; background-image: url('../images/layout/box-bot-rgt.png'); }
 
+.box-error {
+	background: #d1e4f2 url('../images/icons/error.png') no-repeat 10px 45%;
+	padding: 10px 10px 10px 34px;
+}
+
 
 table {
 	background: #fff;

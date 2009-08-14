@@ -27,8 +27,8 @@ class EditFileForm(ListForm):
         is_embeddable = HiddenField(validator=StringBool)
         player_enabled = HiddenField(validator=StringBool)
         feed_enabled = HiddenField(validator=StringBool)
-        toggle_player = SubmitButton(default='Playable on site', named_button=True, css_classes=['file-play'])
-        toggle_feed = SubmitButton(default='Include in feeds', named_button=True, css_classes=['file-feed'])
+        toggle_player = SubmitButton(default='Play in the Flash Player', named_button=True, css_classes=['file-play'])
+        toggle_feed = SubmitButton(default='Include in RSS feeds', named_button=True, css_classes=['file-feed'])
         delete = SubmitButton(default='Delete file', named_button=True, css_class='file-delete')
 
     def display(self, value=None, file=None, **kwargs):
@@ -39,9 +39,9 @@ class EditFileForm(ListForm):
         if value is None and isinstance(file, MediaFile):
             value = dict(
                 file_id = file.id,
-                is_embeddable = int(file.is_embeddable),
-                player_enabled = int(file.enable_player),
-                feed_enabled = int(file.enable_feed),
+                is_embeddable = file.is_embeddable and 1 or 0,
+                player_enabled = file.enable_player and 1 or 0,
+                feed_enabled = file.enable_feed and 1 or 0,
             )
         return super(EditFileForm, self).display(value, file=file, **kwargs)
 

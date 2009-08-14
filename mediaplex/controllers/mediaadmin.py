@@ -21,6 +21,7 @@ from mediaplex.lib import helpers
 from mediaplex.lib.helpers import expose_xhr, redirect, url_for, clean_xhtml
 from mediaplex.lib.base import RoutingController
 from mediaplex.model import DBSession, fetch_row, get_available_slug, Media, MediaFile, Podcast, Comment, Tag, Author, AuthorWithIP
+from mediaplex.model.media import create_media_stub
 from mediaplex.forms.admin import SearchForm, AlbumArtForm
 from mediaplex.forms.media import MediaForm, AddFileForm, EditFileForm, UpdateStatusForm, PodcastFilterForm
 from mediaplex.forms.comments import PostCommentForm
@@ -175,8 +176,8 @@ class MediaadminController(RoutingController):
                 else:
                     # Check for types we can play ourselves
                     type = os.path.splitext(url)[1].lower()[1:]
-                    for medium in ('audio', 'video'):
-                        if type in config.playable_types[medium]:
+                    for types in config.playable_types.intervalues():
+                        if type in types:
                             media_file.type = type
                             media_file.url = url
                             break
@@ -190,6 +191,7 @@ class MediaadminController(RoutingController):
             media.update_type()
             media.update_status()
             DBSession.add(media)
+            DBSession.flush()
 
             # Render some widgets so the XHTML can be injected into the page
             edit_form = EditFileForm(action=url_for(action='edit_file'))
@@ -316,7 +318,7 @@ class MediaadminController(RoutingController):
         )
 
 
-    @expose()
+    @expose('json')
     @validate(UpdateStatusForm(), error_handler=edit)
     def update_status(self, id, update_button, **values):
         media = fetch_row(Media, id, incl_trash=True)
@@ -329,15 +331,20 @@ class MediaadminController(RoutingController):
             media.status.add('publish')
             media.publish_on = datetime.now()
 
-        # Verify the change is valid by re-determining the status
-        media.update_status()
-        DBSession.add(media)
-        DBSession.flush()
+        try:
+            # Verify the change is valid by re-determining the status
+            media.update_status()
+            DBSession.add(media)
+            DBSession.flush()
+            data = dict(success=True)
+        except Exception, e:
+            data = dict(success=False, message=e.message)
 
         if request.is_xhr:
             # Return the rendered widget for injection
             status_form = UpdateStatusForm(action=url_for(action='update_status'))
             status_form_xhtml = unicode(status_form.display(media=media))
-            return status_form_xhtml
+            data['status_form'] = status_form_xhtml
+            return data
         else:
             redirect(action='edit')
