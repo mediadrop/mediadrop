@@ -157,11 +157,18 @@ class MediaadminController(RoutingController):
                 # Save the uploaded file
                 media_file.type = os.path.splitext(file.filename)[1].lower()[1:]
                 media_file.url = '%s-%s.%s' % (media.id, media.slug, media_file.type)
+                media_file.enable_feed = True
+                media_file.enable_player = False
+                for playable_types in config.playable_types.itervalues():
+                    if media_file.type in playable_types:
+                        media_file.enable_player = True
+                        break
+
                 permanent_path = os.path.join(config.media_dir, media_file.url)
                 permanent_file = open(permanent_path, 'w')
                 copyfileobj(file.file, permanent_file)
-                file.file.close()
                 media_file.size = os.fstat(permanent_file.fileno())[6]
+                file.file.close()
                 permanent_file.close()
 
             elif url:
@@ -176,8 +183,8 @@ class MediaadminController(RoutingController):
                 else:
                     # Check for types we can play ourselves
                     type = os.path.splitext(url)[1].lower()[1:]
-                    for types in config.playable_types.intervalues():
-                        if type in types:
+                    for playable_types in config.playable_types.intervalues():
+                        if type in playable_types:
                             media_file.type = type
                             media_file.url = url
                             break

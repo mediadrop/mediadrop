@@ -56,7 +56,7 @@
 			});
 
 			// Setup the file manager and hook into the uploader
-			filemgr = new FileManager('media-files-box', 'media-file-form', mediaUploader, {
+			filemgr = new FileManager('media-files-box', 'media-file-form', mediaUploader, 'media-file-error', {
 				saveOrderUrl: '${h.url_for(action='reorder_file')}'
 			});
 			filemgr.addForm.slide('${'show' if media.id is None or not media.files else 'hide'}');
@@ -94,8 +94,9 @@
 				<div class="upload-progress hidden">
 					<img src="${h.url_for('/admin/images/progressbar/bar.png')}" width="238" height="12" />
 				</div>
-				<div id="media-file-error" class="box-error upload-error hidden" />
+				<div class="box-error upload-error hidden" />
 			</div>
+			<div id="media-file-error" class="box-error hidden" />
 			<ol id="media-file-list" class="file-list">
 				<li py:for="file in media.files" id="file-${file.id}">
 					<form py:replace="file_edit_form(file=file)" />

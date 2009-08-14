@@ -289,7 +289,7 @@ def create_media_stub():
     user = request.environ['repoze.who.identity']['user']
     timestamp = datetime.now().strftime('%b-%d-%Y')
     m = Media()
-    m.slug = 'stub-%s' % timestamp
+    m.slug = get_available_slug(Media, 'stub-%s' % timestamp)
     m.title = '(Stub %s created by %s)' % (timestamp, user.display_name)
     m.author = Author(user.display_name, user.email_address)
     return m

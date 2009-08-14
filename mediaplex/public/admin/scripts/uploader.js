@@ -64,9 +64,10 @@ var Uploader = new Class({
 //		this.clearStatusBar();
 	},
 
-	clearStatusBar: function(){
-		this.ui.file.empty();
-		if (this.ui.progress) this.progress.set(0).element.hide();
+	clearStatus: function(){
+		this.ui.file.empty().slide('hide').show();
+		this.ui.progress.slide('hide').show();
+		this.ui.error.slide('hide').show();
 	},
 
 	onSelectSuccess: function(files){

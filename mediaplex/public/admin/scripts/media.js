@@ -99,17 +99,22 @@ var StatusForm = new Class({
 		if (!this.submitReq) {
 			var submitOpts = $extend({url: this.form.action}, this.options.submitReq);
 			this.submitReq = new Request.JSON(submitOpts).addEvents({
-				success: this.updateForm.bind(this),
+				success: this.statusSaved.bind(this),
 				failure: this._displayError.bind(this, ['A connection problem occurred, try again.'])
 			});
 		}
 		this.submitReq.send(this.form);
 	},
 
-	updateForm: function(json){
+	statusSaved: function(json){
 		json = json || {};
-		if (!json.success) return this._displayError(json.message);
-		this.form.set('html', json.status_form);
+		if (json.success) this.updateForm(json.status_form);
+		else this._displayError(json.message);
+	},
+
+	updateForm: function(form){
+		var formContents = $(form).getChildren();
+		this.form.empty().adopt(formContents);
 	},
 
 	_displayError: function(msg){
@@ -158,7 +163,6 @@ var FileManager = new Class({
 
 	options: {
 		saveOrderUrl: '',
-		errorPlaceholder: '.box-error',
 		sortable: {
 			constrain: true,
 			clone: true,
@@ -174,11 +178,13 @@ var FileManager = new Class({
 	sortable: null,
 	addForm: null,
 	uploader: null,
+	errorDiv: null,
 
-	initialize: function(container, addForm, uploader, opts){
+	initialize: function(container, addForm, uploader, errorDiv, opts){
 		this.setOptions(opts);
 		this.container = $(container);
 		this.uploader = this._setupUploader(uploader);
+		this.errorDiv = $(errorDiv);
 
 		this.list = $(this.container.getElement('ol'));
 		this.list.getChildren().each(this._setupLi.bind(this));
@@ -275,8 +281,11 @@ var FileManager = new Class({
 
 	fileEdited: function(json, button){
 		json = json || {};
-		if (!json.success) return this._displayError(json.message);
-		if (json.success && json.field == 'delete') {
+		if (!json.success) {
+			button.getParent().removeClass('spinner');
+			return this._displayError(json.message);
+		}
+		if (json.field == 'delete') {
 			var li = button.getParent('li');
 			li.set('slide', {onComplete: li.destroy.bind(li)}).slide('out');
 		} else if (json.field) {
@@ -292,17 +301,28 @@ var FileManager = new Class({
 	},
 
 	_setupUploader: function(uploader){
-		return uploader.uploader.addEvent('fileComplete', function(file){
-			var response = JSON.decode(file.response.text, true);
-			this.fileAdded(response);
-		}.bind(this));
+		var self = this;
+		uploader.uploader.addEvents({
+			fileComplete: function(file){
+				var response = JSON.decode(file.response.text, true);
+				self.fileAdded(response);
+			},
+			fileError: self._hideError.bind(self)
+		});
+		return uploader;
 	},
 
 	_displayError: function(msg){
-		var errorBox = $(this.container).getElement(this.options.errorPlaceholder);
-		errorBox.set('html', msg || 'An error has occurred, try again.');
-		if (!errorBox.isDisplayed()) errorBox.slide('hide').show().slide('in');
-		errorBox.highlight();
+		this.uploader.clearStatus();
+		this.errorDiv.set('html', msg || 'An error has occurred, try again.');
+		if (!this.errorDiv.isDisplayed()) this.errorDiv.slide('hide').show().slide('in');
+		this.errorDiv.highlight();
+		return this;
+	},
+
+	_hideError: function(){
+		if (this.errorDiv.isDisplayed()) this.errorDiv.slide('out');
+		else this.errorDiv.slide('hide').show();
 		return this;
 	},
 

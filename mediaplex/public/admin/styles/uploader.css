@@ -26,5 +26,6 @@
 	margin: 0 auto 10px auto;
 }
 .upload-error {
-	padding-top: 0;
+	background: #d1e4f2 url('../images/icons/error.png') no-repeat 10px 45%;
+	padding: 0 10px 10px 34px;
 }
