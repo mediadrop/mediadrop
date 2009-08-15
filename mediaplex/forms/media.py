@@ -24,6 +24,7 @@ class EditFileForm(ListForm):
 
     class fields(WidgetsList):
         file_id = HiddenField(validator=Int)
+        is_playable = HiddenField(validator=StringBool)
         is_embeddable = HiddenField(validator=StringBool)
         player_enabled = HiddenField(validator=StringBool)
         feed_enabled = HiddenField(validator=StringBool)
@@ -39,6 +40,7 @@ class EditFileForm(ListForm):
         if value is None and isinstance(file, MediaFile):
             value = dict(
                 file_id = file.id,
+                is_playable = file.is_playable and 1 or 0,
                 is_embeddable = file.is_embeddable and 1 or 0,
                 player_enabled = file.enable_player and 1 or 0,
                 feed_enabled = file.enable_feed and 1 or 0,

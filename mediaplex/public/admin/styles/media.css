@@ -90,6 +90,9 @@ a.add-media { background-image: url('../images/buttons/add-media.png'); }
 	padding-right: 18px;
 	color: #196d29;
 }
+#add-media-file:hover {
+	text-decoration: underline;
+}
 
 .file-delete, .file-play, .file-feed {
 	width: 16px;

@@ -309,6 +309,13 @@ class MediaFile(object):
         return self.type in config.embeddable_filetypes
 
     @property
+    def is_playable(self):
+        for playable_types in config.playable_types.itervalues():
+            if self.type in playable_types:
+                return True
+        return False
+
+    @property
     def play_url(self):
         """The URL for use when embedding the media file in a page
 

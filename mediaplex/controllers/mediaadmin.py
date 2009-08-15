@@ -157,12 +157,8 @@ class MediaadminController(RoutingController):
                 # Save the uploaded file
                 media_file.type = os.path.splitext(file.filename)[1].lower()[1:]
                 media_file.url = '%s-%s.%s' % (media.id, media.slug, media_file.type)
-                media_file.enable_feed = True
-                media_file.enable_player = False
-                for playable_types in config.playable_types.itervalues():
-                    if media_file.type in playable_types:
-                        media_file.enable_player = True
-                        break
+                media_file.enable_player = media_file.is_playable
+                media_file.enable_feed = not media_file.is_embeddable
 
                 permanent_path = os.path.join(config.media_dir, media_file.url)
                 permanent_file = open(permanent_path, 'w')
