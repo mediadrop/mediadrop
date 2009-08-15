@@ -230,6 +230,8 @@ License: General Upload"""
         media_file.type = file_type
         media_file.url = file_name
         media_file.is_original = True
+        media_file.enable_player = media_file.is_playable
+        media_file.enable_feed = not media_file.is_embeddable
 
         # copy the file to its permanent location
         file_path = os.path.join(config.media_dir, file_name)
