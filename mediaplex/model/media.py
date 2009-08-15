@@ -328,7 +328,8 @@ class MediaFile(object):
             return self.url.encode('utf-8')   # Full URL specified
         else:
             return helpers.url_for(controller='/media', action='serve',
-                                   slug=self.media.slug, type=self.type)
+                                   slug=self.media.slug, id=self.id,
+                                   type=self.type)
 
     @property
     def link_url(self):
@@ -347,7 +348,8 @@ class MediaFile(object):
             return self.url.encode('utf-8')   # Full URL specified
         else:
             return helpers.url_for(controller='/media', action='serve',
-                                   slug=self.media.slug, type=self.type)
+                                   slug=self.media.slug, id=self.id,
+                                   type=self.type)
 
     @property
     def medium(self):

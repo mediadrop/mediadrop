@@ -32,7 +32,7 @@ class MediaplexConfig(AppConfig):
         # route for viewing videos and other video related actions
         map.connect('/video/{slug}/{action}', controller='video', action='view', requirements=dict(action='rate|serve'))
 
-        map.connect('/media/{slug}.{type}', controller='media', action='serve')
+        map.connect('/media/{id}-{slug}.{type}', controller='media', action='serve', requirements=dict(id='\d+'))
         map.connect('/media/{slug}/{action}', controller='media', action='view', requirements=dict(action='view|rate|comment'))
         # podcasts
         map.connect('/podcasts/{slug}.xml', controller='podcasts', action='feed')
