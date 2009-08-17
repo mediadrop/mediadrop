@@ -17,14 +17,6 @@
 			var cm = new CategoryMgr({
 				categoryName: '${category_name.rstrip('s')}'
 			});
-			var sm = new ShowMore({
-				table: 'category-table',
-				pageNum: ${paginator.page},
-				lastPage: ${paginator.last_page or 1},
-				onMore: function(newRows){
-					cm.processRows(newRows);
-				}
-			});
 		});
 	</script>
 </head>
