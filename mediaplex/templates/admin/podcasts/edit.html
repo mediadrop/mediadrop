@@ -50,7 +50,7 @@
 				<small py:if="podcast.created_on" class="box-head-sec">Uploaded: ${podcast.created_on.strftime('%b %d %Y')}</small>
 				<h1>${Markup(podcast.title or 'New Podcast')}</h1>
 			</div>
-			${XML(form(form_values))}
+			${XML(form(form_values, action=form_action))}
 		</div>
 	</div>
 	<div class="column33">
