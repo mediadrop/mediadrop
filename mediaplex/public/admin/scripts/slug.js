@@ -37,7 +37,7 @@ var SlugManager = new Class({
 		editSlugBtn.addEvent('click', this.showSlugField.bind(this));
 
 		this.stubWrapper = new Element('div', {id: this.options.stubWrapper})
-			.grab(new Element('span', {text: 'Slug:'})).appendText(' ')
+			.grab(new Element('label', {text: 'Slug:'})).appendText(' ')
 			.grab(this.stub).appendText(' ')
 			.grab(this.stubField)
 			.grab(editSlugBtn)

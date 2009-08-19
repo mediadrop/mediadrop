@@ -53,8 +53,7 @@ class MediaForm(ListForm):
     id = 'media-form'
     css_class = 'form'
     submit_text = None
-    params = ['media']
-    media = None
+    show_children_errors = True
 
     # required to support multiple named buttons to differentiate between Save & Delete?
     _name = 'vf'

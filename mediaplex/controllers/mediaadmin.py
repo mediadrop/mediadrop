@@ -26,6 +26,8 @@ from mediaplex.forms.admin import SearchForm, AlbumArtForm
 from mediaplex.forms.media import MediaForm, AddFileForm, EditFileForm, UpdateStatusForm, PodcastFilterForm
 from mediaplex.forms.comments import PostCommentForm
 
+media_form = MediaForm()
+
 
 class MediaadminController(RoutingController):
     allow_only = has_permission('admin')
@@ -75,14 +77,13 @@ class MediaadminController(RoutingController):
         if anything goes wrong with them they'll be redirected here.
         """
         media = fetch_row(Media, id, incl_trash=True)
-        form = MediaForm(action=url_for(action='save'), media=media)
 
         if tmpl_context.action == 'save' or id == 'new':
             # Use the values from error_handler or GET for new podcast media
-            form_values = kwargs
+            media_values = kwargs
         else:
             # Pull the defaults from the media item
-            form_values = dict(
+            media_values = dict(
                 podcast = media.podcast_id,
                 slug = media.slug,
                 title = media.title,
@@ -103,8 +104,9 @@ class MediaadminController(RoutingController):
 
         return dict(
             media = media,
-            form = form,
-            form_values = form_values,
+            media_form = media_form,
+            media_action = url_for(action='save'),
+            media_values = media_values,
             file_add_form = AddFileForm(action=url_for(action='add_file')),
             file_edit_form = EditFileForm(action=url_for(action='edit_file')),
             album_art_form = AlbumArtForm(action=url_for(action='save_album_art')),
@@ -113,7 +115,7 @@ class MediaadminController(RoutingController):
 
 
     @expose()
-    @validate(MediaForm(), error_handler=edit)
+    @validate(media_form, error_handler=edit)
     def save(self, id, slug, title, author_name, author_email,
              description, notes, details, podcast, tags, topics, delete, **kwargs):
         """Create or edit the metadata for a media item."""
