@@ -194,17 +194,20 @@ def truncate_xhtml(string, size, _strip_xhtml=False):
     """Takes a string of known-good XHTML and returns
     a clean, truncated version of roughly size characters
     """
-    if len(string) < size:
-        return string
-
-    string = block_spaces.sub(u"\\1 ", string)
-
     if _strip_xhtml:
+        # Insert whitespace after block elements.
+        # So they are separated when we strip the xhtml.
+        string = block_spaces.sub(u"\\1 ", string)
         string = strip_xhtml(string)
 
     string = entities_to_unicode(string)
-    string = text.truncate(string, length=size, whole_word=True)
-    string = Cleaner(string, *truncate_filters, **cleaner_settings)()
+
+    if len(string) > size:
+        string = text.truncate(string, length=size, whole_word=True)
+
+        if not _strip_xhtml:
+            string = Cleaner(string, *truncate_filters, **cleaner_settings)()
+
     return string
 
 def strip_xhtml(string):
