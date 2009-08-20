@@ -113,24 +113,22 @@ base_config.sa_auth.classifier = auth.classifier_for_flash_uploads
 
 # Mimetypes
 base_config.mimetype_lookup = {
-    '.flv': 'video/x-flv',
-    '.mp3': 'audio/mpeg',
-    '.mp4': 'audio/mpeg',
-    '.m4a': 'audio/mpeg',
-    # the following definitions are made up, and are intended as a temporary
-    # fix. This list includes only the file extensions listed as kosher on the
-    # upload pages. Ideally it'd be more complete. Perhaps we can use a built
-    # in one instead.
-    '.wmv': 'video/x-wmv',
-    '.divx': 'video/x-divx',
-    '.dv': 'video/x-divx',
-    '.dvx': 'video/x-divx',
-    '.mov': 'video/mov',
+    # TODO: Replace this with a more complete list.
+    #       or modify code to detect mimetype from something other than ext.
+    '.m4a':  'audio/mpeg',
+    '.mp3':  'audio/mpeg',
+    '.mp4':  'audio/mpeg',
+    '.3gp':  'video/3gpp',
+    '.divx': 'video/divx', # I don't think this is registered with the IANA
+    '.dv':   'video/x-dv',
+    '.dvx':  'video/divx', # Oh well, divx is just a proprietary mpeg-4 encoder
+    '.flv':  'video/x-flv', # made up, it's what everyone uses anyway.
+    '.mov':  'video/quicktime',
     '.mpeg': 'video/mpeg',
-    '.mpg': 'video/mpeg',
-    '.qt': 'video/qt',
-    '.vob': 'video/x-vob',
-    '.3gp': 'video/x-3gp',
+    '.mpg':  'video/mpeg',
+    '.qt':   'video/quicktime',
+    '.vob':  'video/x-vob', # multiplexed container format
+    '.wmv':  'video/x-ms-wmv',
 }
 
 base_config.embeddable_filetypes = {
