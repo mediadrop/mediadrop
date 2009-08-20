@@ -156,6 +156,8 @@ base_config.playable_types = {
 }
 
 # Email Notification Config
+base_config.video_notifications = True
+base_config.comment_notifications = True
 base_config.video_notification_addresses = [
     'anthony@simplestation.com',
     'videos@tmcyouth.com',
