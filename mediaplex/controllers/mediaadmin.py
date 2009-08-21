@@ -25,6 +25,7 @@ from mediaplex.model.media import create_media_stub
 from mediaplex.forms.admin import SearchForm, AlbumArtForm
 from mediaplex.forms.media import MediaForm, AddFileForm, EditFileForm, UpdateStatusForm, PodcastFilterForm
 from mediaplex.forms.comments import PostCommentForm
+from mediaplex.controllers.video import _add_new_media_file
 
 media_form = MediaForm()
 
@@ -152,24 +153,14 @@ class MediaadminController(RoutingController):
         else:
             media = fetch_row(Media, id, incl_trash=True)
 
-        media_file = MediaFile()
 
         try:
             if file is not None:
-                # Save the uploaded file
-                media_file.type = os.path.splitext(file.filename)[1].lower()[1:]
-                media_file.url = '%s-%s.%s' % (media.id, media.slug, media_file.type)
-                media_file.enable_player = media_file.is_playable
-                media_file.enable_feed = not media_file.is_embeddable
-
-                permanent_path = os.path.join(config.media_dir, media_file.url)
-                permanent_file = open(permanent_path, 'w')
-                copyfileobj(file.file, permanent_file)
-                media_file.size = os.fstat(permanent_file.fileno())[6]
-                file.file.close()
-                permanent_file.close()
-
+                # Create a media object, add it to the video, and store the file permanently.
+                media_file = _add_new_media_file(media, file.filename, file.file)
             elif url:
+
+                media_file = MediaFile()
                 # Parse the URL checking for known embeddables like YouTube
                 for type, info in config.embeddable_filetypes.iteritems():
                     match = re.match(info['pattern'], url)
