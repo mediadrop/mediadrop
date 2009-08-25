@@ -1,20 +1,70 @@
+/* BulkMgr styles */
+.bulk-div {
+	height: 23px;
+	padding-top: 6px;
+	overflow: hidden;
+	margin: -1px 0 -3px 20px;
+	width: 500px;
+}
+
+.bulk-btn {
+	text-indent: -1000px;
+	background-image: url('../images/buttons/bulk-mode.png');
+	width: 85px;
+	height: 28px;
+}
+
+.sliding-div {
+	height: 29px;
+	padding-left: 15px;
+}
+
+.select-div {
+	background: url('../images/layout/bulk-left.png') no-repeat scroll left center;
+	height: 23px;
+	padding: 6px 5px 0 10px;
+}
+
+.bulk-user-action-div {
+	background: url('../images/layout/search-right.png') no-repeat right;
+	height: 23px;
+	padding: 6px 12px 0 5px;
+}
+
+.select-all,
+.select-none,
+.select-divider {
+	float: left;
+	margin-left: 5px;
+}
+
+.select-divider {
+	margin: 0 0 0 5px;
+	float: left;
+	width: 5px;
+}
+
+/* Comment styles */
 .review-comment,
-.published-comment {
+.published-comment,
+.bulk-publish-btn,
+.bulk-delete-btn {
 	width: 29px;
 	height: 19px;
 	float: left;
 	text-indent: -1000px;
 }
 
-.trash-comment {
+.trash-comment,
+.bulk-delete-btn {
 	width: 26px;
 	height: 19px;
 	float: left;
 }
 
-.review-comment { background-image: url('../images/buttons/comment-approve.png'); }
+.bulk-publish-btn, .review-comment { background-image: url('../images/buttons/comment-approve.png'); }
 .published-comment { background-image: url('../images/buttons/comment-published.png'); }
-.trash-comment { background-image: url('../images/buttons/delete-half.png'); }
+.bulk-delete-btn, .trash-comment { background-image: url('../images/buttons/delete-half.png'); }
 
 .author strong {
 	font-weight: bold;

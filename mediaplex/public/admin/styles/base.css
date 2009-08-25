@@ -315,7 +315,7 @@ input.submitbutton {
 #quicksearch {
 	width: 205px;
 	padding-left: 25px;
-	margin-top: -3px;
+	margin: -1px 0 -3px 0;
 	background: url('../images/layout/search-left.png') no-repeat left;
 }
 #quicksearch label#search_label {
@@ -359,6 +359,16 @@ input.submitbutton {
 
 .mo:hover, .mo-hover {
 	background-position: bottom;
+}
+
+.reverse-mo {
+	display: block;
+	background-repeat: no-repeat;
+	background-position: bottom;
+}
+
+.reverse-mo:hover, .reverse-mo-hover {
+	background-position: top;
 }
 
 .xhtml-description-helper p, .xhtml-description-helper li {

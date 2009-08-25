@@ -68,7 +68,7 @@ a.total {
 a.add-media, a.add-media:hover {
 	width: 120px;
 	height: 28px;
-	margin: -3px 0 0 10px;
+	margin: -1px 0 -3px 10px;
 }
 a.add-media { background-image: url('../images/buttons/add-media.png'); }
 

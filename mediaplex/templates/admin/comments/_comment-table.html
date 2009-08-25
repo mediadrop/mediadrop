@@ -19,7 +19,7 @@
 			<tr py:if="item_count == 0">
 				<td>None Found</td>
 			</tr>
-			<tr py:for="comment in collection" class="${('unreviewed' in comment.status) and 'tr-white' or 'tr-gray'}">
+			<tr py:for="comment in collection" id='${comment.id}' class="${('unreviewed' in comment.status) and 'tr-white' or 'tr-gray'}">
 				<td py:choose="">
 					<a class="mo review-comment" py:when="'unreviewed' in comment.status" href="${h.url_for(action='approve', id=comment.id)}" title="Approve this comment for publishing"><span>approve</span></a>
 					<span class="published-comment" py:otherwise="" title="This comment has already been approved for publishing">published</span>
