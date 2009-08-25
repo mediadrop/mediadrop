@@ -8,6 +8,7 @@ from tg import request
 import pylons
 from datetime import datetime as dt, timedelta as td
 import os
+import time
 import urllib2
 
 from tg.controllers import DecoratedController
@@ -27,38 +28,78 @@ class Controller(object):
     """
 
 class RoutingController(DecoratedController):
+
     def __init__(self, *args, **kwargs):
         """Init method for RoutingController
 
         In this init function, we fetch a new copy of the php template
         every 5 minutes.
         """
+        current_dir = os.path.dirname(__file__)
+        self.tmpl_path = '%s/../templates/php.html' % current_dir
+        self.tmpl_tmp_path = '%s/../templates/php_new.html' % current_dir
+        self.tmpl_timeout = 600 # seconds
 
-        g = pylons.app_globals
-        acceptable_delta = td(minutes=5)
-        now = dt.now()
-        tmpl_timeout = getattr(g, 'tmpl_timeout', now)
-        g.tmpl_timeout = now + acceptable_delta
-        if tmpl_timeout <= now:
-            # FIXME: This may be vulnerable to race conditions where two instances of the application attempt to
-            # write to the file at the same time.
-            try:
-                tmpl_contents = urllib2.urlopen('http://tmcyouth.com/anthonys_genshi_template_2009.html')
-                s = tmpl_contents.read()
-                s = s.replace("\r\n", "\n")
-                tmpl_contents.close()
+        try:
+            self.update_php_template()
+        except Exception, e:
+            # catch the error, so that the users can at least see the old template
+            # TODO: Add error reporting here.
+            pass
 
-                tmpl_path = '%s/../templates/php.html' % os.path.dirname(__file__)
-
-                tmpl_file = open(tmpl_path, 'w')
-                tmpl_file.write(s)
-                tmpl_file.close()
-            except Exception, e:
-                # FIXME: Should add logging here.
-                # FIXME: Should catch the appropriate exceptions, perhaps
-                # raise e
-                pass
         DecoratedController.__init__(self, *args, **kwargs)
+
+
+    def update_php_template(self):
+        """ Returns C{True} if template is successfully updated.
+
+        Returns C{False} if update fails due to normal causes (like not being
+        necessary), and throws an exception if update fails due to IO problems.
+        """
+
+        # Stat the main template file.
+        statinfo = os.stat(self.tmpl_path)[:10]
+        st_mode, st_ino, st_dev, st_nlink,\
+            st_uid, st_gid, st_size, st_ntime,\
+            st_mtime, st_ctime = statinfo
+
+        # st_mtime and now are both unix timestamps.
+        now = time.time()
+        diff = now - st_mtime
+
+        # if the template file is less than 5 minutes old, return
+        if diff < self.tmpl_timeout:
+            return False
+
+        try:
+            # If the self.tmpl_tmp_path file exists
+            # That means that another instance of mediaplex is writing to it
+            # Return immediately
+            os.stat(self.tmpl_tmp_path)
+            return False
+        except OSError, e:
+            # If the stat call failed, create the file. and continue.
+            tmpl_file = open(self.tmpl_tmp_path, 'w')
+
+        self._update_php_template(tmpl_file)
+        return True
+
+
+    def _update_php_template(self, tmpl_file):
+        # Download the template, replace windows style newlines
+        tmpl_contents = urllib2.urlopen('http://tmcyouth.com/anthonys_genshi_template_2009.html')
+        s = tmpl_contents.read().replace("\r\n", "\n")
+        tmpl_contents.close()
+
+        # Write to the temp template file.
+        tmpl_file.write(s)
+        tmpl_file.close()
+
+        # Rename the temp file to the main template file
+        # NOTE: This only works on *nix, and is only guaranteed to work if the
+        #       files are on the same filesystem.
+        #       see http://docs.python.org/library/os.html#os.rename
+        os.rename(self.tmpl_tmp_path, self.tmpl_path)
 
     def _perform_call(self, func, args):
         if not args:
