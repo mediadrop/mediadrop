@@ -9,7 +9,7 @@
 #podcast-filter .singleselectfield {
 	min-width: 200px;
 	padding: 5px 2px 0 2px;
-	margin-top: -2px;
+	margin-top: 0px;
 	color: #374347;
 	font: bold 13px Helvetica,Arial,Verdana,sans-serif;
 }
@@ -68,7 +68,7 @@ a.total {
 a.add-media, a.add-media:hover {
 	width: 120px;
 	height: 28px;
-	margin: -3px 0 0 10px;
+	margin: -1px 0 -3px 10px;
 }
 a.add-media { background-image: url('../images/buttons/add-media.png'); }
 
@@ -89,6 +89,9 @@ a.add-media { background-image: url('../images/buttons/add-media.png'); }
 	background: url('../images/icons/add.png') no-repeat 100% 75%;
 	padding-right: 18px;
 	color: #196d29;
+}
+#add-media-file:hover {
+	text-decoration: underline;
 }
 
 .file-delete, .file-play, .file-feed {
@@ -156,27 +159,6 @@ a.add-media { background-image: url('../images/buttons/add-media.png'); }
 .file-list .file-link {
 	float: left;
 	margin-left: 6px;
-}
-
-.upload-status {
-	display: block;
-	background: #d1e4f2;
-	width: 100%;
-	overflow: hidden;
-	border-bottom: 1px solid #cfccc2;
-}
-.upload-status .upload-file {
-	background: url('../images/icons/file.png') no-repeat top left;
-	padding-left: 19px;
-	margin: 0 10px;
-	font-size: 12px;
-}
-.upload-status .upload-file span {
-	float: right;
-}
-.upload-status .progressbar {
-	display: none;
-	margin: 10px auto;
 }
 
 ul#topics {

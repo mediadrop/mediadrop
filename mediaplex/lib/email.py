@@ -1,5 +1,5 @@
 import smtplib
-from tg import config
+from tg import config, request
 from mediaplex.lib.helpers import url_for, clean_xhtml, strip_xhtml, line_break_xhtml
 
 def send(to_addr, from_addr, subject, body):
@@ -20,6 +20,10 @@ Subject: %s
     server.quit()
 
 def send_video_notification(video):
+    if not config.video_notifications:
+        # Video notification emails are disabled!
+        return
+
     subject = 'New Video: %s' % video.title
     body = """A new video has been uploaded!
 
@@ -38,6 +42,10 @@ Description: %s
             config.notification_from_address, subject, body)
 
 def send_comment_notification(media, comment):
+    if not config.comment_notifications:
+        # Comment notification emails are disabled!
+        return
+
     subject = 'New Comment: %s' % comment.subject
     body = """A new comment has been posted!
 

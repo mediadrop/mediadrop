@@ -8,8 +8,6 @@ class PodcastForm(ListForm):
     id = 'podcast-form'
     css_class = 'form'
     submit_text = None
-    params = ['podcast']
-    podcast = None
 
     # required to support multiple named buttons to differentiate between Save & Delete?
     _name = 'vf'

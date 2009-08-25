@@ -7,6 +7,9 @@ import shutil
 import os.path
 import simplejson as json
 import time
+import ftplib
+import sha
+import urllib2
 
 from urlparse import urlparse, urlunparse
 from cgi import parse_qs
@@ -34,6 +37,9 @@ upload_form = UploadForm(
     action = url_for(controller='/video', action='upload_submit'),
     async_action = url_for(controller='/video', action='upload_submit_async')
 )
+
+class FTPUploadException(Exception):
+    pass
 
 
 class VideoController(RoutingController):
@@ -212,41 +218,131 @@ class VideoController(RoutingController):
         video.description = clean_xhtml(description)
         video.status = 'draft,unencoded,unreviewed'
         video.notes = """Bible References: None
-S&H References: None
-Reviewer: None
-License: General Upload"""
-
-        # save the object to our database to get an ID
-        DBSession.add(video)
-        DBSession.flush()
-
-        # set up the permanent filename for this upload
-        file_name = '-'.join((str(video.id), email, file.filename))
-        file_name = file_name.lstrip(os.path.sep)
-        file_type = os.path.splitext(file_name)[1].lower()[1:]
-
-        # set the file paths depending on the file type
-        media_file = MediaFile()
-        media_file.type = file_type
-        media_file.url = file_name
-        media_file.is_original = True
-
-        # copy the file to its permanent location
-        file_path = os.path.join(config.media_dir, file_name)
-        permanent_file = open(file_path, 'w')
-        shutil.copyfileobj(file.file, permanent_file)
-        file.file.close()
-        media_file.size = os.fstat(permanent_file.fileno())[6]
-        permanent_file.close()
-
-        # update video relations
-        video.files.append(media_file)
-        if file_type == 'flv':
-            video.status.discard('unencoded')
-
+    S&H References: None
+    Reviewer: None
+    License: General Upload"""
         video.set_tags(tags)
 
+        # Create a media object, add it to the video, and store the file permanently.
+        media_file = _add_new_media_file(video, file.filename, file.file)
+
+        # If the file is a playable type, it doesn't need encoding
+        # FIXME: is this a safe assumption? What about resolution/bitrate?
+        if media_file.is_playable:
+            video.status.discard('unencoded')
+
+        # Add the final changes.
         DBSession.add(video)
-        DBSession.flush()
 
         return video
+
+# FIXME: The following helper methods should perhaps  be moved to the media controller.
+#        or some other more generic place.
+def _add_new_media_file(media, original_filename, file):
+    # FIXME: I think this will raise a KeyError if the uploaded
+    #        file doesn't have an extension.
+    file_ext = os.path.splitext(original_filename)[1].lower()[1:]
+
+    # set the file paths depending on the file type
+    media_file = MediaFile()
+    media_file.type = file_ext
+    media_file.url = 'dummy_url' # model requires that url not NULL
+    media_file.is_original = True
+    media_file.enable_player = media_file.is_playable
+    media_file.enable_feed = not media_file.is_embeddable
+    media_file.size = os.fstat(file.fileno())[6]
+
+    # update media relations
+    media.files.append(media_file)
+
+    # add the media file (and its media, if new) to the database to get IDs
+    DBSession.add(media_file)
+    DBSession.flush()
+
+    # copy the file to its permanent location
+    file_name = '%d_%d_%s.%s' % (media.id, media_file.id, media.slug, file_ext)
+    file_url = _store_media_file(file, file_name)
+    media_file.url = file_url
+
+    return media_file
+
+def _store_media_file(file, file_name):
+    """Copy the file to its permanent location and return its URI"""
+    if config.ftp_storage:
+        # Put the file into our FTP storage, return its URL
+        return _store_media_file_ftp(file, file_name)
+    else:
+        # Store the file locally, return its path relative to the media dir
+        file_path = os.path.join(config.media_dir, file_name)
+        permanent_file = open(file_path, 'w')
+        shutil.copyfileobj(file, permanent_file)
+        file.close()
+        permanent_file.close()
+        return file_name
+
+def _store_media_file_ftp(file, file_name):
+    """Store the file on the defined FTP server.
+
+    Returns the download url for accessing the resource.
+
+    Ensures that the file was stored correctly and is accessible
+    via the download url.
+
+    Raises an exception on failure (FTP connection errors, I/O errors,
+    integrity errors)
+    """
+    stor_cmd = 'STOR ' + file_name
+    file_url = config.ftp_download_url + file_name
+
+    # Put the file into our FTP storage
+    FTPSession = ftplib.FTP(config.ftp_server, config.ftp_user, config.ftp_password)
+
+    try:
+        FTPSession.cwd(config.ftp_upload_directory)
+        FTPSession.storbinary(stor_cmd, file)
+        _verify_ftp_upload_integrity(file, file_url)
+    except Exception, e:
+        FTPSession.quit()
+        raise e
+
+    FTPSession.quit()
+
+    return file_url
+
+def _verify_ftp_upload_integrity(file, file_url):
+    """Download the file, and make sure that it matches the original.
+
+    Returns True on success, and raises an Exception on failure.
+
+    FIXME: Ideally we wouldn't have to download the whole file, we'd have
+           some better way of verifying the integrity of the upload.
+    """
+    file.seek(0)
+    old_hash = sha.new(file.read()).hexdigest()
+    tries = 0
+
+    # Try to download the file. Increase the number of retries, or the
+    # timeout duration, if the server is particularly slow.
+    # eg: Akamai usually takes 3-15 seconds to make an uploaded file
+    #     available over HTTP.
+    while tries < config.ftp_upload_integrity_retries:
+        time.sleep(3)
+        tries += 1
+        try:
+            temp_file = urllib2.urlopen(file_url)
+            new_hash = sha.new(temp_file.read()).hexdigest()
+            temp_file.close()
+
+            # If the downloaded file matches, success! Otherwise, we can
+            # be pretty sure that it got corrupted during FTP transfer.
+            if old_hash == new_hash:
+                return True
+            else:
+                raise FTPUploadException(
+                    'Uploaded File and Downloaded File did not match')
+        except urllib2.HTTPError, e:
+            pass
+
+    raise FTPUploadException(
+        'Could not download the file after %d attempts' % max)
+

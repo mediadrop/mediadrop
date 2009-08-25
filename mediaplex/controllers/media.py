@@ -205,6 +205,7 @@ class MediaController(RoutingController):
             img_ss = url_for(im_path % 'ss'),
             id = media.id,
             url = url_for(controller="/media", action="view", slug=media.slug),
+            podcast = media.podcast and media.podcast.slug or None,
         )
 
     @expose('mediaplex.templates.media.concept_view')
@@ -273,15 +274,15 @@ class MediaController(RoutingController):
 
 
     @expose()
-    def serve(self, slug, type=None, **kwargs):
+    @validate(validators=dict(id=validators.Int()))
+    def serve(self, id, slug, type, **kwargs):
         media = fetch_row(Media, slug=slug)
-        if type is None:
-            type = media.ENCODED_TYPE
-        for file in (file for file in media.files if file.type == type):
-            file_path = os.path.join(config.media_dir, file.url)
-            file_handle = open(file_path, 'rb')
-            response.content_type = file.mimetype
-            return file_handle.read()
+
+        for file in media.files:
+            if file.id == id and file.type == type:
+                file_path = os.path.join(config.media_dir, file.url)
+                file_handle = open(file_path, 'rb')
+                response.content_type = file.mimetype
+                return file_handle.read()
         else:
             raise HTTPNotFound()
-

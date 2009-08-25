@@ -45,7 +45,7 @@ a:hover, a:active, .link:hover {
 }
 h1 {
 	font-size: 18px;
-	text-shadow: 0em 0.1em #fff;
+	text-shadow: 0 1px #fff;
 }
 
 body {
@@ -208,6 +208,11 @@ body {
 .box-round-bot-lft { bottom: 0;  left: 0; background-image: url('../images/layout/box-bot-lft.png'); }
 .box-round-bot-rgt { bottom: 0; right: 0; background-image: url('../images/layout/box-bot-rgt.png'); }
 
+.box-error {
+	background: #d1e4f2 url('../images/icons/error.png') no-repeat 10px 45%;
+	padding: 10px 10px 10px 34px;
+}
+
 
 table {
 	background: #fff;
@@ -239,7 +244,7 @@ tr.thead-row td {
 	padding: 10px 10px 5px 10px;
 	font-size: 108.5%;
 	font-weight: bold;
-	text-shadow: 0em 0.1em #fff;
+	text-shadow: 0em 1px #fff;
 	vertical-align: middle;
 	padding: 10px;
 	white-space: nowrap;
@@ -270,9 +275,13 @@ tr.thead-row td h3 {
 .btn-upload-image { background-image: url('../images/buttons/upload-image.png'); width: 129px; }
 
 
-span.show-more {
+span.show-more, .pager {
 	font: bold 14px Helvetica,Arial,Verdana,sans-serif;
 	color: #0e436f;
+	padding-right: 10px;
+}
+
+span.show-more {
 	background: transparent url('../images/icons/show-more.png') no-repeat top right;
 	padding-right: 16px;
 }
@@ -306,7 +315,7 @@ input.submitbutton {
 #quicksearch {
 	width: 205px;
 	padding-left: 25px;
-	margin-top: -3px;
+	margin: -1px 0 -3px 0;
 	background: url('../images/layout/search-left.png') no-repeat left;
 }
 #quicksearch label#search_label {
@@ -350,6 +359,16 @@ input.submitbutton {
 
 .mo:hover, .mo-hover {
 	background-position: bottom;
+}
+
+.reverse-mo {
+	display: block;
+	background-repeat: no-repeat;
+	background-position: bottom;
+}
+
+.reverse-mo:hover, .reverse-mo-hover {
+	background-position: top;
 }
 
 .xhtml-description-helper p, .xhtml-description-helper li {

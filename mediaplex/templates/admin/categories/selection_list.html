@@ -1,17 +1,21 @@
-<ul xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:py="http://genshi.edgewall.org/"
-    class="${css_class}"
-    id="${id}"
-    py:attrs="list_attrs" >
-	<li py:for="value, desc, attrs in options">
-		<py:with vars="id_c = id_counter.next()">
-		<input type="${field_type}"
-		       name="${name}"
-		       id="${id}_${id_c}"
-		       value="${value}"
-		       py:attrs="attrs" />
-		<label for="${id}_${id_c}" py:content="desc" />
-		</py:with>
-	</li>
-</ul>
+<div xmlns="http://www.w3.org/1999/xhtml"
+	 xmlns:py="http://genshi.edgewall.org/"
+	 py:with="per_col = max(5, int(h.math.ceil((len(options) + 6) / 4.0)))">
+	<ul py:if="options"
+		py:for="col in xrange(1,5)"
+		class="${css_class}"
+		id="${id}"
+		py:attrs="list_attrs">
+		<li py:for="(value, desc, attrs) in options[(col-1)*per_col:col*per_col]">
+			<py:with vars="id_c = id_counter.next()">
+				<input type="${field_type}"
+					name="${name}"
+					id="${id}_${id_c}"
+					value="${value}"
+					py:attrs="attrs" />
+				<label for="${id}_${id_c}" py:content="desc" />
+			</py:with>
+		</li>
+	</ul>
+</div>
 

@@ -8,19 +8,153 @@ var CommentMgr = new Class({
 		table: 'comment-table',
 		formSelector: 'form.edit-comment-form',
 		deleteLink: 'a.trash-comment',
-		publishLink: 'a.review-comment'
+		publishLink: 'a.review-comment',
+		bulkPublishBtnClass: 'bulk-publish-btn mo',
+		bulkDeleteBtnClass: 'bulk-delete-btn mo',
 	},
+
+	bulkMgr: null,
 
 	initialize: function(opts) {
 		this.setOptions(opts);
 		this.processRows($(this.options.table).getElements('tbody > tr'));
+
+		var publishBtn = new Element('a', {href: '#', 'class': this.options.bulkPublishBtnClass})
+			.addEvent('click', this.bulkPublish.bind(this))
+			.grab(new Element('span', {html: 'Publish'}));
+		var deleteBtn = new Element('a', {href: '#', 'class': this.options.bulkDeleteBtnClass})
+			.addEvent('click', this.bulkDelete.bind(this))
+			.grab(new Element('span', {html: 'Delete'}));
+		var h1 = $(this.options.table).getPrevious().getElement('h1');
+		this.bulkMgr = new BulkMgr(h1, $(this.options.table), [publishBtn, deleteBtn]);
 	},
 
 	processRows: function(rows) {
 		$$(rows).each(function(row){
 			var comment = new Comment(row, this.options);
 		}.bind(this));
+	},
+
+	bulkPublish: function() {
+	},
+
+	bulkDelete: function() {
 	}
+});
+
+var BulkMgr = new Class({
+	Implements: Options,
+
+	options:{
+		bulkDivClass: 'bulk-div f-lft',
+		bulkBtnClass: 'bulk-btn mo',
+		selectDivClass: 'select-div f-rgt',
+		selectAllClass: 'select-all',
+		selectNoneClass: 'select-none',
+		dividerClass: 'select-divider',
+		userActionDivClass: 'bulk-user-action-div f-rgt',
+		selectCol: 0,
+		checkedColClass: 'checkbox-col'
+	},
+
+	slidingDiv: null,
+	slidingDivWidth: null,
+	bulkBtn: null,
+	bulkActionDiv: null,
+	actionsVisible: true,
+	table: null,
+
+	initialize: function(h1, table, actions, opts) {
+
+		this.table = table;
+
+		var h1Div = new Element('div', {'class': 'f-lft'}).wraps(h1);
+		var bulkDiv = new Element('div', {'class': this.options.bulkDivClass});
+		bulkDiv.inject(h1Div, 'after');
+		bulkDiv.setStyle('position', 'relative');
+
+		// build bulk button
+		this.bulkBtn = new Element('a', {href:'#', 'class': this.options.bulkBtnClass})
+			.addEvent('click', this._toggleBulk.bind(this));
+		this.bulkBtn.grab(new Element('span', {html: 'Bulk mode'}));
+		this.bulkBtn.set('styles', {
+			'position': 'absolute',
+			'top': '0',
+			'left': '0',
+			'z-index': '1'
+		});
+
+		// build div to hold actions
+		var selectAll = new Element('a', {href: '#', html: 'Select All', 'class': this.options.selectAllClass})
+			.addEvent('click', this._select.pass(true, this));
+		var divider = new Element('span', {html: '|', 'class': this.options.dividerClass});
+		var selectNone = new Element('a', {href: '#', html: 'Select None', 'class': this.options.selectNoneClass})
+			.addEvent('click', this._select.pass(false,this));
+		this.selectDiv = new Element('div', {'class': this.options.selectDivClass});
+		this.selectDiv.adopt(selectAll, divider, selectNone);
+
+		var userActionDiv = new Element('div', {'class': this.options.userActionDivClass});
+		for(var i=0; i < actions.length; i++){
+			userActionDiv.grab(actions[i]);
+		}
+
+		this.slidingDiv = new Element('div', {'class': 'sliding-div'});
+		this.slidingDiv.set('styles', {
+			'overflow': 'hidden',
+			'position': 'absolute',
+			'top': '0',
+			'left': '50px',
+			'z-index': '0'
+		});
+		this.slidingDiv.adopt(userActionDiv, this.selectDiv);
+		bulkDiv.adopt(this.bulkBtn, this.slidingDiv);
+
+		this.slidingDivWidth = this.slidingDiv.offsetWidth + 10;
+		this.slidingDiv.setStyle('width', '0');
+		
+		this.table.getElement('tbody').getElements('tr').each(function(row){
+			var checkTd = new Element('td', {'class': this.options.checkedColClass})
+				.setStyle('display', 'none');
+			var selectCol = row.getChildren()[this.options.selectCol];
+			checkTd.inject(selectCol, 'after');
+			checkTd.grab(new Element('input', {'type': 'checkbox', 'value': '?', 'checked': false}));
+		}.bind(this));
+
+		this._toggleBulk();
+	},
+
+	_toggleBulk: function() {
+		var hideCol = this.options.selectCol;
+		var showCol = this.options.selectCol;
+		if(this.actionsVisible) {
+			// hide actions
+			this.bulkBtn.removeClass('reverse-mo');
+			this.bulkBtn.addClass('mo');
+			this.slidingDiv.get('tween').start('width', this.slidingDiv.offsetWidth, '0');
+			hideCol++;
+		} else {
+			// show actions
+			this.bulkBtn.removeClass('mo');
+			this.bulkBtn.addClass('reverse-mo');
+			this.slidingDiv.get('tween').start('width', this.slidingDiv.offsetWidth, this.slidingDivWidth);
+			showCol++;
+		}
+
+		this.table.getElement('tbody').getElements('tr').each(function(row){
+			row.getChildren()[hideCol].setStyle('display', 'none');
+			row.getChildren()[showCol].setStyle('display', '');
+		}.bind(this));
+
+		this.actionsVisible = !this.actionsVisible;
+	},
+
+	_select: function(toCheck){
+		$$('td.'+this.options.checkedColClass+' > input[type=checkbox]').set('checked', toCheck);
+	},
+
+	getSelectedRows: function() {
+		return $$('td.'+this.options.checkedColClass+' > input[type=checkbox]:checked')
+	},
 });
 
 var Comment = new Class({

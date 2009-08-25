@@ -82,6 +82,7 @@ var StatusForm = new Class({
 
 	options: {
 		form: '',
+		error: '',
 		submitReq: {noCache: true}
 	},
 
@@ -93,19 +94,34 @@ var StatusForm = new Class({
 		this.form = $(this.options.form).addEvent('submit', this.saveStatus.bind(this));
 	},
 
-	saveStatus: function(){
+	saveStatus: function(e){
+		e = new Event(e).stop();
 		if (!this.submitReq) {
 			var submitOpts = $extend({url: this.form.action}, this.options.submitReq);
-			this.submitReq = new Request.HTML(submitOpts)
-				.addEvent('success', this.updateForm.bind(this));
+			this.submitReq = new Request.JSON(submitOpts).addEvents({
+				success: this.statusSaved.bind(this),
+				failure: this._displayError.bind(this, ['A connection problem occurred, try again.'])
+			});
 		}
 		this.submitReq.send(this.form);
-		return false;
 	},
 
-	updateForm: function(tree){
-		var form = $$(tree), formContents = form.getChildren();
+	statusSaved: function(json){
+		json = json || {};
+		if (json.success) this.updateForm(json.status_form);
+		else this._displayError(json.message);
+	},
+
+	updateForm: function(form){
+		var formContents = $(form).getChildren();
 		this.form.empty().adopt(formContents);
+	},
+
+	_displayError: function(msg){
+		var errorBox = $(this.options.error);
+		errorBox.set('html', msg || 'An error has occurred, try again.');
+		if (!errorBox.isDisplayed()) errorBox.slide('hide').show().slide('in');
+		errorBox.highlight();
 	}
 });
 
@@ -161,10 +177,14 @@ var FileManager = new Class({
 	list: null,
 	sortable: null,
 	addForm: null,
+	uploader: null,
+	errorDiv: null,
 
-	initialize: function(container, addForm, opts){
+	initialize: function(container, addForm, uploader, errorDiv, opts){
 		this.setOptions(opts);
 		this.container = $(container);
+		this.uploader = this._setupUploader(uploader);
+		this.errorDiv = $(errorDiv);
 
 		this.list = $(this.container.getElement('ol'));
 		this.list.getChildren().each(this._setupLi.bind(this));
@@ -199,25 +219,31 @@ var FileManager = new Class({
 	},
 
 	saveOrder: function(fileID, prevID){
+		var error = this._displayError.bind(this, ['Transport error occurred']);
 		var r = new Request.JSON({
 			url: this.options.saveOrderUrl,
-			onComplete: this.orderSaved.bind(this)
+			onComplete: this.orderSaved.bind(this),
+			onFailure: this._displayError.bind(this, ['A connection problem occurred.'])
 		}).send(new Hash({file_id: fileID, prev_id: prevID}).toQueryString());
 	},
 
-	orderSaved: function(resp){
+	orderSaved: function(json){
+		json = json || {};
+		if (!json.success) return this._displayError(json.message);
 	},
 
 	addFile: function(e){
 		e = new Event(e).preventDefault();
 		var form = $(e.target), r = new Request.JSON({
 			url: form.get('action'),
-			onComplete: this.fileAdded.bind(this)
+			onComplete: this.fileAdded.bind(this),
+			onFailure: this._displayError.bind(this, ['A connection problem occurred.'])
 		}).send(form.toQueryString());
 	},
 
 	fileAdded: function(json){
-		// for some reason request.html returns an array with textnodes at the start/end
+		json = json || {};
+		if (!json.success) return this._displayError(json.message);
 		var li = new Element('li', {
 			id: this._getFileID(json.file_id),
 			html: json.edit_form
@@ -236,8 +262,7 @@ var FileManager = new Class({
 	editFile: function(e){
 		e = new Event(e).stop();
 		var button = $(e.target), form = button.form, data = new Hash();
-		button.parentNode.addClass('spinner');
-		button.blur();
+
 		// create a dict of all hidden values + the clicked submit button
 		// cuz form.send() sends the values of ALL buttons, not just the clicked 1
 		for (var field, i = form.length; i--; i) {
@@ -246,30 +271,80 @@ var FileManager = new Class({
 				data.set(field.name, field.value);
 			}
 		}
+
 		var r = new Request.JSON({
 			url: form.get('action'),
-			onComplete: this.fileEdited.bindWithEvent(this, [button])
-		}).send(data.toQueryString());
+			onComplete: this.fileEdited.bindWithEvent(this, button),
+			onFailure: this._displayError.bind(this, ['A connection problem occurred.'])
+		}), sendRequest = function(){
+			button.parentNode.addClass('spinner');
+			button.blur();
+			r.send(data.toQueryString());
+		};
+
+		if (button.get('name') == 'delete') {
+			var c = new ConfirmMgr({
+				header: 'Delete Confirmation',
+				msg: 'Are you sure you want to delete this file?',
+				onConfirm: sendRequest
+			}).openConfirmDialog(e);
+		} else {
+			sendRequest();
+		}
 	},
 
 	fileEdited: function(json, button){
+		json = json || {};
+		if (!json.success) {
+			button.getParent().removeClass('spinner');
+			return this._displayError(json.message);
+		}
 		if (json.field == 'delete') {
 			var li = button.getParent('li');
 			li.set('slide', {onComplete: li.destroy.bind(li)}).slide('out');
-		} else {
+		} else if (json.field) {
 			var field = button.form.getElement('input[name=' + json.field + ']').set('value', json.value);
 			var span = button.parentNode;
-			if (json.value) span.addClass('file-toggle-on');
-			else span.removeClass('file-toggle-on');
+			if (json.value != undefined) {
+				if (json.value) span.addClass('file-toggle-on');
+				else span.removeClass('file-toggle-on');
+			}
 			span.removeClass('spinner');
 		}
 		return this.fireEvent('fileEdited', [json, button]);
 	},
 
+	_setupUploader: function(uploader){
+		var self = this;
+		uploader.uploader.addEvents({
+			fileComplete: function(file){
+				var response = JSON.decode(file.response.text, true);
+				self.fileAdded(response);
+			},
+			fileError: self._hideError.bind(self)
+		});
+		return uploader;
+	},
+
+	_displayError: function(msg){
+		this.uploader.clearStatus();
+		this.errorDiv.set('html', msg || 'An error has occurred, try again.');
+		if (!this.errorDiv.isDisplayed()) this.errorDiv.slide('hide').show().slide('in');
+		this.errorDiv.highlight();
+		return this;
+	},
+
+	_hideError: function(){
+		if (this.errorDiv.isDisplayed()) this.errorDiv.slide('out');
+		else this.errorDiv.slide('hide').show();
+		return this;
+	},
+
 	_getFileID: function(el){
 		var type = $type(el);
 		if (type == 'number' || type == 'string') return 'file-' + el; // add prefix
-		else return el ? el.get('id').replace('file-', '') : null; // strip prefix
+		else if (el) return el.get('id').replace('file-', ''); // strip prefix
+		else return null;
 	},
 
 	_setupAddFileBtn: function(){
@@ -285,6 +360,6 @@ var FileManager = new Class({
 		li.getElements('input[type=submit]').each(function(el){
 			el.addEvent('click', this.editFile.bind(this));
 		}.bind(this));
-	},
+	}
 
 });

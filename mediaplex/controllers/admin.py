@@ -19,9 +19,13 @@ class AdminController(RoutingController):
         # past and is publishable is 'Recently Published'
         recent_media = DBSession.query(Media)\
             .filter(Media.status >= 'publish')\
+            .filter(Media.status.excludes('trash'))\
             .filter(Media.publish_on < datetime.now)\
             .order_by(Media.publish_on.desc())[:5]
-        comments_unreviewed = DBSession.query(Comment).filter(Comment.status >= 'unreviewed').count()
+        comments_unreviewed = DBSession.query(Comment)\
+            .filter(Comment.status >= 'unreviewed')\
+            .filter(Comment.status.excludes('trash'))\
+            .count()
         comments_total = DBSession.query(Comment).count()
 
         return dict(

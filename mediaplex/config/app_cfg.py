@@ -32,7 +32,7 @@ class MediaplexConfig(AppConfig):
         # route for viewing videos and other video related actions
         map.connect('/video/{slug}/{action}', controller='video', action='view', requirements=dict(action='rate|serve'))
 
-        map.connect('/media/{slug}.{type}', controller='media', action='serve')
+        map.connect('/media/{id}-{slug}.{type}', controller='media', action='serve', requirements=dict(id='\d+'))
         map.connect('/media/{slug}/{action}', controller='media', action='view', requirements=dict(action='view|rate|comment'))
         # podcasts
         map.connect('/podcasts/{slug}.xml', controller='podcasts', action='feed')
@@ -113,10 +113,22 @@ base_config.sa_auth.classifier = auth.classifier_for_flash_uploads
 
 # Mimetypes
 base_config.mimetype_lookup = {
-    '.flv': 'video/x-flv',
-    '.mp3': 'audio/mpeg',
-    '.mp4': 'audio/mpeg',
-    '.m4a': 'audio/mpeg',
+    # TODO: Replace this with a more complete list.
+    #       or modify code to detect mimetype from something other than ext.
+    '.m4a':  'audio/mpeg',
+    '.mp3':  'audio/mpeg',
+    '.mp4':  'audio/mpeg',
+    '.3gp':  'video/3gpp',
+    '.divx': 'video/divx', # I don't think this is registered with the IANA
+    '.dv':   'video/x-dv',
+    '.dvx':  'video/divx', # Oh well, divx is just a proprietary mpeg-4 encoder
+    '.flv':  'video/x-flv', # made up, it's what everyone uses anyway.
+    '.mov':  'video/quicktime',
+    '.mpeg': 'video/mpeg',
+    '.mpg':  'video/mpeg',
+    '.qt':   'video/quicktime',
+    '.vob':  'video/x-vob', # multiplexed container format
+    '.wmv':  'video/x-ms-wmv',
 }
 
 base_config.embeddable_filetypes = {
@@ -139,10 +151,13 @@ base_config.embeddable_filetypes = {
 
 base_config.playable_types = {
     'audio': ('mp3', 'mp4', 'm4a'),
-    'video': ('flv', )
+    'video': ('flv', ),
+    None: (),
 }
 
 # Email Notification Config
+base_config.video_notifications = True
+base_config.comment_notifications = True
 base_config.video_notification_addresses = [
     'anthony@simplestation.com',
     'videos@tmcyouth.com',
@@ -153,3 +168,12 @@ base_config.comment_notification_addresses = [
 ]
 base_config.notification_from_address = 'noreply@tmcyouth.com'
 
+# If ftp_storage is enabled, then media_dir is not used for storing
+# uploaded media files, and they are instead uploaded to the FTP server.
+base_config.ftp_storage = False
+base_config.ftp_server = 'my.ftp.server.com'
+base_config.ftp_user = 'ftpuser'
+base_config.ftp_password = 'secretpassword'
+base_config.ftp_upload_directory = 'media' # absolute, or relative to login home dir.
+base_config.ftp_download_url = 'http://content.distribution.network/ftpuser/media/'
+base_config.ftp_upload_integrity_retries = 10

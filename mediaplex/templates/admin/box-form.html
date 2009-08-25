@@ -25,12 +25,10 @@
 				<div py:if="show_labels and label_text and not field.suppress_label"
 				     id="${field.id}_label" class="form_label">
 					<label for="${field.id}">${label_text}: <span py:if="help_text" class="field_help">(${help_text})</span></label>
+					<span class="field_error" py:if="show_children_errors and error and not field.show_error" py:content="error"/>
 				</div>
 				<div class="form_field" py:content="field.display(value_for(field), **args_for(field))">
 					Field goes here
-				</div>
-				<div class="field_error" py:if="show_children_errors and error and not field.show_error" py:content="error">
-					Error goes here
 				</div>
 			</li>
 		</ul>

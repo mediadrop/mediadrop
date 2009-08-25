@@ -100,20 +100,19 @@ def get_available_slug(mapped_class, slug, ignore=None):
     slug = slugify(slug)
 
     # ensure the slug is unique by appending an int in sequence
+    new_slug = slug
     appendix = 2
     while DBSession.query(mapped_class.id)\
-            .filter(mapped_class.slug == slug)\
+            .filter(mapped_class.slug == new_slug)\
             .filter(mapped_class.id != ignore)\
             .first():
 
-        if appendix > 2:
-            slug = slug[:-len(str_appendix)]
         str_appendix = '-' + str(appendix)
         max_substr_len = slug_length - len(str_appendix)
-        slug = slug[:max_substr_len] + str_appendix
+        new_slug = slug[:max_substr_len] + str_appendix
         appendix += 1
 
-    return slug
+    return new_slug
 
 
 from mediaplex.model.auth import User, Group, Permission

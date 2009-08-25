@@ -58,7 +58,7 @@
 		<div class="box">
 			<h1 class="box-head">Recently Published</h1>
 			<xi:include href="media/_media-table.html" />
-			${media_table(recent_media, fields=['type', 'title'], include_thead=False, id='recently-published-table')}
+			${media_table(recent_media, fields=['type', 'title'], include_thead=False, include_pagination=False, id='recently-published-table')}
 		</div>
 	</div>
 </body>

@@ -1,0 +1,23 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      xmlns:xi="http://www.w3.org/2001/XInclude"
+      py:strip="">
+
+	<py:def function="paginated_tfoot(paginator, colspan)">
+		<tfoot py:if="paginator.page_count > 1">
+			<tr>
+				<td class="box-foot right" colspan="${colspan}">
+					<div class="pager">
+						<span class="pager-left" />
+						<span class="pager-body">
+							<span class="pager-label">Page:</span>
+							<span py:replace="paginator.pager(show_if_single_page=True, curpage_attr={'class': 'current'})" />
+						</span>
+						<span class="pager-right" />
+					</div>
+				</td>
+			</tr>
+		</tfoot>
+	</py:def>
+
+</html>

@@ -18,6 +18,7 @@ from mediaplex.model import DBSession, fetch_row, Podcast, Author, AuthorWithIP,
 from mediaplex.forms.admin import SearchForm, AlbumArtForm
 from mediaplex.forms.podcasts import PodcastForm
 
+podcast_form = PodcastForm()
 
 class PodcastadminController(RoutingController):
     """Admin podcast actions which deal with groups of podcasts"""
@@ -36,7 +37,6 @@ class PodcastadminController(RoutingController):
     @expose('mediaplex.templates.admin.podcasts.edit')
     def edit(self, id, **values):
         podcast = fetch_row(Podcast, id)
-        form = PodcastForm(action=url_for(action='save'), podcast=podcast)
 
         explicit_values = dict(yes=True, clean=False)
         form_values = dict(
@@ -62,7 +62,8 @@ class PodcastadminController(RoutingController):
 
         return dict(
             podcast = podcast,
-            form = form,
+            form = podcast_form,
+            form_action = url_for(action='save'),
             form_values = form_values,
             album_art_form_errors = album_art_form_errors,
             album_art_form = AlbumArtForm(action=url_for(action='save_album_art')),
@@ -70,7 +71,7 @@ class PodcastadminController(RoutingController):
 
 
     @expose()
-    @validate(PodcastForm(), error_handler=edit)
+    @validate(podcast_form, error_handler=edit)
     def save(self, id, slug, title, subtitle, author_name, author_email,
              description, details, delete=None, **kwargs):
         podcast = fetch_row(Podcast, id)

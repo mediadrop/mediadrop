@@ -21,9 +21,13 @@ from mediaplex.lib import helpers
 from mediaplex.lib.helpers import expose_xhr, redirect, url_for, clean_xhtml
 from mediaplex.lib.base import RoutingController
 from mediaplex.model import DBSession, fetch_row, get_available_slug, Media, MediaFile, Podcast, Comment, Tag, Author, AuthorWithIP
+from mediaplex.model.media import create_media_stub
 from mediaplex.forms.admin import SearchForm, AlbumArtForm
 from mediaplex.forms.media import MediaForm, AddFileForm, EditFileForm, UpdateStatusForm, PodcastFilterForm
 from mediaplex.forms.comments import PostCommentForm
+from mediaplex.controllers.video import _add_new_media_file
+
+media_form = MediaForm()
 
 
 class MediaadminController(RoutingController):
@@ -74,14 +78,13 @@ class MediaadminController(RoutingController):
         if anything goes wrong with them they'll be redirected here.
         """
         media = fetch_row(Media, id, incl_trash=True)
-        form = MediaForm(action=url_for(action='save'), media=media)
 
         if tmpl_context.action == 'save' or id == 'new':
             # Use the values from error_handler or GET for new podcast media
-            form_values = kwargs
+            media_values = kwargs
         else:
             # Pull the defaults from the media item
-            form_values = dict(
+            media_values = dict(
                 podcast = media.podcast_id,
                 slug = media.slug,
                 title = media.title,
@@ -102,8 +105,9 @@ class MediaadminController(RoutingController):
 
         return dict(
             media = media,
-            form = form,
-            form_values = form_values,
+            media_form = media_form,
+            media_action = url_for(action='save'),
+            media_values = media_values,
             file_add_form = AddFileForm(action=url_for(action='add_file')),
             file_edit_form = EditFileForm(action=url_for(action='edit_file')),
             album_art_form = AlbumArtForm(action=url_for(action='save_album_art')),
@@ -112,7 +116,7 @@ class MediaadminController(RoutingController):
 
 
     @expose()
-    @validate(MediaForm(), error_handler=edit)
+    @validate(media_form, error_handler=edit)
     def save(self, id, slug, title, author_name, author_email,
              description, notes, details, podcast, tags, topics, delete, **kwargs):
         """Create or edit the metadata for a media item."""
@@ -149,21 +153,14 @@ class MediaadminController(RoutingController):
         else:
             media = fetch_row(Media, id, incl_trash=True)
 
-        media_file = MediaFile()
 
         try:
             if file is not None:
-                # Save the uploaded file
-                media_file.type = os.path.splitext(file.filename)[1].lower()[1:]
-                media_file.url = '%s-%s.%s' % (media.id, media.slug, media_file.type)
-                permanent_path = os.path.join(config.media_dir, media_file.url)
-                permanent_file = open(permanent_path, 'w')
-                copyfileobj(file.file, permanent_file)
-                file.file.close()
-                media_file.size = os.fstat(permanent_file.fileno())[6]
-                permanent_file.close()
-
+                # Create a media object, add it to the video, and store the file permanently.
+                media_file = _add_new_media_file(media, file.filename, file.file)
             elif url:
+
+                media_file = MediaFile()
                 # Parse the URL checking for known embeddables like YouTube
                 for type, info in config.embeddable_filetypes.iteritems():
                     match = re.match(info['pattern'], url)
@@ -175,8 +172,8 @@ class MediaadminController(RoutingController):
                 else:
                     # Check for types we can play ourselves
                     type = os.path.splitext(url)[1].lower()[1:]
-                    for medium in ('audio', 'video'):
-                        if type in config.playable_types[medium]:
+                    for playable_types in config.playable_types.intervalues():
+                        if type in playable_types:
                             media_file.type = type
                             media_file.url = url
                             break
@@ -190,6 +187,7 @@ class MediaadminController(RoutingController):
             media.update_type()
             media.update_status()
             DBSession.add(media)
+            DBSession.flush()
 
             # Render some widgets so the XHTML can be injected into the page
             edit_form = EditFileForm(action=url_for(action='edit_file'))
@@ -316,7 +314,7 @@ class MediaadminController(RoutingController):
         )
 
 
-    @expose()
+    @expose('json')
     @validate(UpdateStatusForm(), error_handler=edit)
     def update_status(self, id, update_button, **values):
         media = fetch_row(Media, id, incl_trash=True)
@@ -329,15 +327,20 @@ class MediaadminController(RoutingController):
             media.status.add('publish')
             media.publish_on = datetime.now()
 
-        # Verify the change is valid by re-determining the status
-        media.update_status()
-        DBSession.add(media)
-        DBSession.flush()
+        try:
+            # Verify the change is valid by re-determining the status
+            media.update_status()
+            DBSession.add(media)
+            DBSession.flush()
+            data = dict(success=True)
+        except Exception, e:
+            data = dict(success=False, message=e.message)
 
         if request.is_xhr:
             # Return the rendered widget for injection
             status_form = UpdateStatusForm(action=url_for(action='update_status'))
             status_form_xhtml = unicode(status_form.display(media=media))
-            return status_form_xhtml
+            data['status_form'] = status_form_xhtml
+            return data
         else:
             redirect(action='edit')

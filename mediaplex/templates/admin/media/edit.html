@@ -6,8 +6,9 @@
 <xi:include href="admin/master.html" />
 <head>
 	<title>Edit: ${Markup(media.title or 'New Media')}</title>
-	<link href="${h.url_for('/admin/styles/media.css')}" media="screen" rel="stylesheet" type="text/css" />
 	<link href="${h.url_for('/admin/styles/forms.css')}" media="screen" rel="stylesheet" type="text/css" />
+	<link href="${h.url_for('/admin/styles/uploader.css')}" media="screen" rel="stylesheet" type="text/css" />
+	<link href="${h.url_for('/admin/styles/media.css')}" media="screen" rel="stylesheet" type="text/css" />
 	<script type="text/javascript" src="${h.url_for('/scripts/third-party/Fx.ProgressBar.js')}"></script>
 	<script type="text/javascript" src="${h.url_for('/scripts/third-party/Swiff.Uploader.js')}"></script>
 	<script type="text/javascript" src="${h.url_for('/admin/scripts/uploader.js')}"></script>
@@ -33,13 +34,11 @@
 			// Setup the flash uploader
 			mediaUploader = new Uploader({
 				target: 'file',
-				statusBar: 'media-upload-status',
-				statusFile: 'media-upload-file',
-				progressBar: 'media-upload-progressbar',
-				progressBarOptions: {url: '${h.url_for('/admin/images/progressbar/progress.png')}'},
+				statusContainer: 'media-upload-status',
+				fxProgressBar: {url: '${h.url_for('/admin/images/progressbar/progress.png')}'},
 				uploader: {
 					path: '${h.url_for('/scripts/third-party/Swiff.Uploader.swf')}',
-					fileSizeMax: 100 * 1024 * 1024,
+					fileSizeMax: 2 * 1024 * 1024 * 1024,
 					verbose: false // debug
 				}
 			});
@@ -48,29 +47,24 @@
 				updateFormActionsOnSubmit: false,
 				target: 'album_art',
 				uploadBtn: {text: 'Upload image', 'class': 'mo btn-upload-image', styles: {margin: '0 auto'}},
-				statusBar: 'album-art-status',
-				statusFile: 'album-art-file',
-				progressBar: 'album-art-progressbar',
-				progressBarOptions: {url: '${h.url_for('/admin/images/progressbar/progress.png')}'},
+				statusContainer: 'album-art-upload',
+				fxProgressBar: {url: '${h.url_for('/admin/images/progressbar/progress.png')}'},
 				uploader: {
 					path: '${h.url_for('/scripts/third-party/Swiff.Uploader.swf')}',
-					fileSizeMax: 10 * 1024 * 1024,
-					typeFilter: '*.jpg; *.jpeg; *.gif; *.png',
 					verbose: false // debug
 				}
 			});
 
 			// Setup the file manager and hook into the uploader
-			filemgr = new FileManager('media-files-box', 'media-file-form', {
+			filemgr = new FileManager('media-files-box', 'media-file-form', mediaUploader, 'media-file-error', {
 				saveOrderUrl: '${h.url_for(action='reorder_file')}'
 			});
 			filemgr.addForm.slide('${'show' if media.id is None or not media.files else 'hide'}');
-			mediaUploader.uploader.addEvent('fileComplete', function(file){
-				var response = JSON.decode(file.response.text, true);
-				filemgr.fileAdded(response);
-			});
 
-			var publishStatus = new StatusForm({form: 'update-status-form'});
+			var publishStatus = new StatusForm({
+				form: 'update-status-form',
+				error: 'update-status-error'
+			});
 
 			lord = new ManevolentMediaOverlord('media-form', filemgr, mediaUploader, publishStatus, albumArtUploader, 'album-art-img', ${int(media.id is None)});
 		});
@@ -84,7 +78,7 @@
 				<small py:if="media.created_on" class="box-head-sec">Uploaded: ${media.created_on.strftime('%b %d %Y')}</small>
 				<h1>${Markup(media.title or 'New Media')}</h1>
 			</div>
-			<form py:replace="XML(form(form_values))" />
+			<form py:replace="XML(media_form(media_values, action=media_action))" />
 		</div>
 
 	</div>
@@ -96,11 +90,13 @@
 			<div class="box-head"><h1>Files</h1></div>
 			<form py:replace="XML(file_add_form)" />
 			<div id="media-upload-status" class="upload-status">
-				<div id="media-upload-file" class="upload-file" />
-				<img id="media-upload-progressbar" class="progressbar"
-				     src="${h.url_for('/admin/images/progressbar/bar.png')}"
-				     width="238" height="12" />
+				<div class="upload-file hidden" />
+				<div class="upload-progress hidden">
+					<img src="${h.url_for('/admin/images/progressbar/bar.png')}" width="238" height="12" />
+				</div>
+				<div class="box-error upload-error hidden" />
 			</div>
+			<div id="media-file-error" class="box-error hidden" />
 			<ol id="media-file-list" class="file-list">
 				<li py:for="file in media.files" id="file-${file.id}">
 					<form py:replace="file_edit_form(file=file)" />
@@ -118,14 +114,13 @@
 				<div class="center">
 					<form py:replace="XML(album_art_form(css_class='center'))" />
 				</div>
-				<div id="album-art-status" class="upload-status">
-					<div id="album-art-file" class="upload-file" />
-					<img id="album-art-progressbar" class="progressbar"
-					     src="${h.url_for('/admin/images/progressbar/bar.png')}"
-					     width="238" height="12" />
+			</div>
+			<div id="album-art-upload" class="upload-status">
+				<div class="upload-file hidden" />
+				<div class="upload-progress hidden">
+					<img src="${h.url_for('/admin/images/progressbar/bar.png')}" width="238" height="12" />
 				</div>
-			<!--!	<div id="edit-album-art" class="mo btn-edit-art clickable"><span>Edit Image</span></div>-->
-			<!--!	<div py:for="error in album_art_form_errors.itervalues()" class="field-error" py:content="error" />-->
+				<div class="box-error upload-error hidden" />
 			</div>
 		</div>
 

@@ -161,18 +161,18 @@ class Media(object):
         file = [f for f in self.files if f.id == file_id][0]
         try:
             pos = [f for f in self.files if f.id == prev_id][0].position
-        except KeyError:
+        except IndexError:
             pos = 1
 
         file.position = pos
         bump_others = media_files.update()\
             .where(and_(media_files.c.media_id == self.files[0].media_id,
                         media_files.c.position >= pos,
-                        media_files.c.id != file_id))\
+                        media_files.c.id != file.id))\
             .values({media_files.c.position: media_files.c.position + 1})
 
-        DBSession.add(file)
         DBSession.execute(bump_others)
+        DBSession.add(file)
         return pos
 
     def update_type(self):
@@ -248,11 +248,6 @@ class Media(object):
             self.status.add(DRAFT)
         return PUBLISH in self.status
 
-    @validates('slug')
-    def _validate_slug(self, key, slug):
-        """Automatically choose a unique slug of only allowed chars."""
-        return get_available_slug(Media, slug, self)
-
     @property
     def primary_file(self):
         """The primary MediaFile to represent this Media object.
@@ -294,7 +289,7 @@ def create_media_stub():
     user = request.environ['repoze.who.identity']['user']
     timestamp = datetime.now().strftime('%b-%d-%Y')
     m = Media()
-    m.slug = 'stub-%s' % timestamp
+    m.slug = get_available_slug(Media, 'stub-%s' % timestamp)
     m.title = '(Stub %s created by %s)' % (timestamp, user.display_name)
     m.author = Author(user.display_name, user.email_address)
     return m
@@ -314,6 +309,13 @@ class MediaFile(object):
         return self.type in config.embeddable_filetypes
 
     @property
+    def is_playable(self):
+        for playable_types in config.playable_types.itervalues():
+            if self.type in playable_types:
+                return True
+        return False
+
+    @property
     def play_url(self):
         """The URL for use when embedding the media file in a page
 
@@ -326,7 +328,8 @@ class MediaFile(object):
             return self.url.encode('utf-8')   # Full URL specified
         else:
             return helpers.url_for(controller='/media', action='serve',
-                                   slug=self.media.slug, type=self.type)
+                                   slug=self.media.slug, id=self.id,
+                                   type=self.type)
 
     @property
     def link_url(self):
@@ -345,7 +348,8 @@ class MediaFile(object):
             return self.url.encode('utf-8')   # Full URL specified
         else:
             return helpers.url_for(controller='/media', action='serve',
-                                   slug=self.media.slug, type=self.type)
+                                   slug=self.media.slug, id=self.id,
+                                   type=self.type)
 
     @property
     def medium(self):

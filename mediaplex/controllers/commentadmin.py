@@ -20,7 +20,7 @@ class CommentadminController(RoutingController):
 
     @expose_xhr('mediaplex.templates.admin.comments.index',
                 'mediaplex.templates.admin.comments.index-table')
-    @paginate('comments', items_per_page=5)
+    @paginate('comments', items_per_page=50)
     def index(self, page=1, search=None, **kwargs):
         comments = DBSession.query(Comment)\
             .filter(Comment.status.excludes('trash'))\

@@ -18,6 +18,7 @@ var SlugManager = new Class({
 	stub: null,
 	stubWrapper: null,
 	stubField: null,
+	errorField: null,
 
 	initialize: function(opts){
 		this.setOptions(opts);
@@ -26,28 +27,33 @@ var SlugManager = new Class({
 		this.slugWrapper = $(this.options.slugWrapper);
 		this.masterField = $(this.options.masterField);
 
-		this._hide(this.slugWrapper, true);
-		this.slugField.set('disabled', true);
-
-		var slug = this.slugField.get('value');
-		this.stub = new Element('span', {text: slug, id: this.options.stub});
-		this.stubField = new Element('input', {type: 'hidden', name: 'slug', value: slug});
-
-		var editSlugBtn = new Element('span', {text: 'Edit', 'class': 'link', id: this.options.editSlugBtn});
-		editSlugBtn.addEvent('click', this.showSlugField.bind(this));
-
-		this.stubWrapper = new Element('div', {id: this.options.stubWrapper})
-			.grab(new Element('span', {text: 'Slug:'})).appendText(' ')
-			.grab(this.stub).appendText(' ')
-			.grab(this.stubField)
-			.grab(editSlugBtn)
-			.inject($(this.options.stubParent), 'top');
-
-		updateSlugFn = this.updateSlug.bind(this);
+		var updateSlugFn = this.updateSlug.bind(this);
 		this.masterField.addEvent('change', updateSlugFn);
-		editSlugBtn.addEvent('click', function(){
-			this.masterField.removeEvent('change', updateSlugFn);
-		}.bind(this));
+
+		// Check if any error messages are set. if so, don't hide the slug field.
+		this.errorField = this.slugWrapper.getElement('span.field_error');
+		if (this.errorField == null) {
+			this._hide(this.slugWrapper, true);
+			this.slugField.set('disabled', true);
+
+			var slug = this.slugField.get('value');
+			this.stub = new Element('span', {text: slug, id: this.options.stub});
+			this.stubField = new Element('input', {type: 'hidden', name: 'slug', value: slug});
+
+			var editSlugBtn = new Element('span', {text: 'Edit', 'class': 'link', id: this.options.editSlugBtn});
+			editSlugBtn.addEvent('click', this.showSlugField.bind(this));
+
+			this.stubWrapper = new Element('div', {id: this.options.stubWrapper})
+				.grab(new Element('label', {text: 'Slug:'})).appendText(' ')
+				.grab(this.stub).appendText(' ')
+				.grab(this.stubField)
+				.grab(editSlugBtn)
+				.inject($(this.options.stubParent), 'top');
+
+			editSlugBtn.addEvent('click', function(){
+				this.masterField.removeEvent('change', updateSlugFn);
+			}.bind(this));
+		}
 	},
 
 	showSlugField: function(){
@@ -60,8 +66,10 @@ var SlugManager = new Class({
 	updateSlug: function(){
 		var slug = this.slugify(this.masterField.get('value'));
 		this.slugField.set('value', slug);
-		this.stubField.set('value', slug);
-		this.stub.set('text', slug);
+		if (this.errorField == null) {
+			this.stubField.set('value', slug);
+			this.stub.set('text', slug);
+		}
 	},
 
 	_hide: function(field, flag){

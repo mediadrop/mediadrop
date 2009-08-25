@@ -12,18 +12,9 @@
 	<link href="${h.url_for('/admin/styles/comments.css')}" media="screen" rel="stylesheet" type="text/css" />
 	<script type="text/javascript" src="${h.url_for('/admin/scripts/confirm.js')}"></script>
 	<script type="text/javascript" src="${h.url_for('/admin/scripts/comments.js')}"></script>
-	<script type="text/javascript" src="${h.url_for('/admin/scripts/show-more.js')}"></script>
 	<script type="text/javascript">
 		window.addEvent('domready', function(){
 			var cm = new CommentMgr();
-			var sm = new ShowMore({
-				table: 'comment-table',
-				pageNum: ${paginator.page},
-				lastPage: ${paginator.last_page or 1},
-				onMore: function(newRows){
-					cm.processRows(newRows);
-				}
-			});
 		});
 	</script>
 </head>
