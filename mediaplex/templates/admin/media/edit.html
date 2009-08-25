@@ -20,16 +20,8 @@
 	<script type="text/javascript" src="${h.url_for('/admin/scripts/media.js')}"></script>
 	<script type="text/javascript">
 		window.addEvent('domready', function(){
-			var confirmMgr = new ConfirmMgr({
-				onConfirm: function(){
-					//FIXME: This shouldn't use ajax
-					$('media-form').send();
-					window.location = "${h.url_for(controller='/mediaadmin')}";
-				},
-				header: 'Confirm Delete',
-				msg: 'Are you sure you want to delete this media?'
-			});
-			$('delete').addEvent('click', confirmMgr.openConfirmDialog.bind(confirmMgr));
+			var deleteConfirm = new DeleteConfirmMgr({msg: 'Are you sure you want to delete this media?'});
+			$('delete').addEvent('click', deleteConfirm.openConfirmDialog.bind(deleteConfirm));
 
 			// Setup the flash uploader
 			mediaUploader = new Uploader({
@@ -83,7 +75,6 @@
 
 	</div>
 	<div class="column33">
-
 		<div py:replace="update_status_form(media=media)" />
 
 		<div id="media-files-box" class="box">

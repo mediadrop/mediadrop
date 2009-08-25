@@ -18,15 +18,8 @@
 	<script type="text/javascript" src="${h.url_for('/admin/scripts/confirm.js')}" />
 	<script type="text/javascript">
 		window.addEvent('domready', function(){
-			var confirmMgr = new ConfirmMgr({
-				onConfirm: function(){
-					$('podcast-form').send();
-					window.location = "${h.url_for(controller='/podcastadmin')}";
-				},
-				header: 'Confirm Delete',
-				msg: 'Are you sure you want to delete this podcast?'
-			});
-			$('delete').addEvent('click', confirmMgr.openConfirmDialog.bind(confirmMgr));
+			var deleteConfirm = new DeleteConfirmMgr({msg: 'Are you sure you want to delete this podcast?'});
+			$('delete').addEvent('click', deleteConfirm.openConfirmDialog.bind(deleteConfirm));
 
 			albumArtUploader = new AlbumArtUploader({
 				image: 'album-art-img',

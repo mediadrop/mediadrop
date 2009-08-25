@@ -61,4 +61,24 @@ var ConfirmMgr = new Class({
 
 });
 
+var DeleteConfirmMgr = new Class({
 
+	Extends: ConfirmMgr,
+
+	options: {
+		header: 'Confirm Delete',
+		msg: 'Are you sure you want to delete this?'
+	},
+
+	initialize: function(opts){
+		this.parent(opts);
+		this.addEvent('confirm', this.submitForm.bind(this));
+	},
+
+	submitForm: function(target){
+		var form = target.getParent('form');
+		form.set('action', form.get('action') + '?delete=1');
+		form.submit();
+	}
+
+});

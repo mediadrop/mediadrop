@@ -55,9 +55,6 @@ class MediaForm(ListForm):
     submit_text = None
     show_children_errors = True
 
-    # required to support multiple named buttons to differentiate between Save & Delete?
-    _name = 'vf'
-
     fields = [
         SingleSelectField('podcast', label_text='Include in the Podcast', help_text='Optional', options=lambda: [(None, None)] + DBSession.query(Podcast.id, Podcast.title).all()),
         TextField('slug', validator=NotEmpty, maxlength=50),

@@ -43,7 +43,7 @@
 								<div py:choose="podcast.media_count" py:strip="True">
 									<span py:when="0" class="view-episodes">No Episodes</span>
 									<a py:when="1" href="${h.url_for(controller='mediaadmin', action='edit', id=podcast.media.first().id)}" class="view-episodes"><strong>View First Episode</strong></a>
-									<a py:otherwise="" href="${h.url_for(controller='mediaadmin', podcast_filter=podcast.id)}" class="view-episodes"><strong>View All ${podcast.media_count} Episodes</strong></a>
+									<a py:otherwise="" href="${h.url_for(controller='mediaadmin', podcast_filter=podcast.id, id=None)}" class="view-episodes"><strong>View All ${podcast.media_count} Episodes</strong></a>
 								</div>
 							</div>
 						</div>

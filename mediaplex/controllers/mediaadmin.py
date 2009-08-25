@@ -118,7 +118,7 @@ class MediaadminController(RoutingController):
     @expose()
     @validate(media_form, error_handler=edit)
     def save(self, id, slug, title, author_name, author_email,
-             description, notes, details, podcast, tags, topics, delete, **kwargs):
+             description, notes, details, podcast, tags, topics, delete=None, **kwargs):
         """Create or edit the metadata for a media item."""
         media = fetch_row(Media, id, incl_trash=True)
 
@@ -126,7 +126,7 @@ class MediaadminController(RoutingController):
             media.status.add('trash')
             DBSession.add(media)
             DBSession.flush()
-            redirect(action='index')
+            redirect(action='index', id=None)
 
         media.slug = get_available_slug(Media, slug, media)
         media.title = title
@@ -217,7 +217,7 @@ class MediaadminController(RoutingController):
         if position == 1:
             media.update_type()
             DBSession.add(media)
-        return dict(success=True)
+        return dict(success=True, position=position)
 
 
     @expose('json')

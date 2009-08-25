@@ -76,12 +76,10 @@ class PodcastadminController(RoutingController):
              description, details, delete=None, **kwargs):
         podcast = fetch_row(Podcast, id)
 
-        if podcast.id == 'new':
-            podcast.id = None
-        elif delete:
+        if delete:
             DBSession.delete(podcast)
             DBSession.flush()
-            redirect(action='index')
+            redirect(action='index', id=None)
 
         podcast.slug = get_available_slug(Podcast, slug, podcast)
         podcast.title = title
