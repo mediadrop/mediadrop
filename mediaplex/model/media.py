@@ -161,18 +161,18 @@ class Media(object):
         file = [f for f in self.files if f.id == file_id][0]
         try:
             pos = [f for f in self.files if f.id == prev_id][0].position
-        except KeyError:
+        except IndexError:
             pos = 1
 
         file.position = pos
         bump_others = media_files.update()\
             .where(and_(media_files.c.media_id == self.files[0].media_id,
                         media_files.c.position >= pos,
-                        media_files.c.id != file_id))\
+                        media_files.c.id != file.id))\
             .values({media_files.c.position: media_files.c.position + 1})
 
-        DBSession.add(file)
         DBSession.execute(bump_others)
+        DBSession.add(file)
         return pos
 
     def update_type(self):
