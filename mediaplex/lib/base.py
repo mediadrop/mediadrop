@@ -36,6 +36,7 @@ class RoutingController(DecoratedController):
         every 5 minutes.
         """
         current_dir = os.path.dirname(__file__)
+        self.tmpl_url = 'http://tmcyouth.com/anthonys_genshi_template_2009.html'
         self.tmpl_path = '%s/../templates/php.html' % current_dir
         self.tmpl_tmp_path = '%s/../templates/php_new.html' % current_dir
         self.tmpl_timeout = 600 # seconds
@@ -87,7 +88,7 @@ class RoutingController(DecoratedController):
 
     def _update_php_template(self, tmpl_file):
         # Download the template, replace windows style newlines
-        tmpl_contents = urllib2.urlopen('http://tmcyouth.com/anthonys_genshi_template_2009.html')
+        tmpl_contents = urllib2.urlopen(self.tmpl_url)
         s = tmpl_contents.read().replace("\r\n", "\n")
         tmpl_contents.close()
 
