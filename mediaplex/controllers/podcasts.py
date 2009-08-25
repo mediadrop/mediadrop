@@ -83,7 +83,7 @@ class PodcastsController(RoutingController):
             redirect(podcast.feedburner_url.encode('utf-8'))
 
         episodes = self._filter(podcast.media)\
-            .order_by(Media.publish_on.desc())[:10]
+            .order_by(Media.publish_on.desc())[:25]
 
         template_vars = dict(
             podcast = podcast,
