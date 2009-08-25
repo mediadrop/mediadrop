@@ -262,8 +262,7 @@ var FileManager = new Class({
 	editFile: function(e){
 		e = new Event(e).stop();
 		var button = $(e.target), form = button.form, data = new Hash();
-		button.parentNode.addClass('spinner');
-		button.blur();
+
 		// create a dict of all hidden values + the clicked submit button
 		// cuz form.send() sends the values of ALL buttons, not just the clicked 1
 		for (var field, i = form.length; i--; i) {
@@ -272,11 +271,26 @@ var FileManager = new Class({
 				data.set(field.name, field.value);
 			}
 		}
+
 		var r = new Request.JSON({
 			url: form.get('action'),
 			onComplete: this.fileEdited.bindWithEvent(this, button),
 			onFailure: this._displayError.bind(this, ['A connection problem occurred.'])
-		}).send(data.toQueryString());
+		}), sendRequest = function(){
+			button.parentNode.addClass('spinner');
+			button.blur();
+			r.send(data.toQueryString());
+		};
+
+		if (button.get('name') == 'delete') {
+			var c = new ConfirmMgr({
+				header: 'Delete Confirmation',
+				msg: 'Are you sure you want to delete this file?',
+				onConfirm: sendRequest
+			}).openConfirmDialog(e);
+		} else {
+			sendRequest();
+		}
 	},
 
 	fileEdited: function(json, button){
@@ -329,7 +343,8 @@ var FileManager = new Class({
 	_getFileID: function(el){
 		var type = $type(el);
 		if (type == 'number' || type == 'string') return 'file-' + el; // add prefix
-		else return el ? el.get('id').replace('file-', '') : null; // strip prefix
+		else if (el) return el.get('id').replace('file-', ''); // strip prefix
+		else return null;
 	},
 
 	_setupAddFileBtn: function(){
