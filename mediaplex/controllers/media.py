@@ -317,12 +317,20 @@ class MediaController(RoutingController):
 
     @property
     def _list_query(self):
-        """Helper method for paginating media results"""
+        """Helper method for paginating published media
+
+        Filters out podcast media.
+        """
+        return self._published_media_query\
+            .filter(Media.podcast_id == None)
+
+    @property
+    def _published_media_query(self):
+        """Helper method for getting published media"""
         return DBSession.query(Media)\
             .filter(Media.status >= 'publish')\
             .filter(Media.publish_on <= datetime.now())\
             .filter(Media.status.excludes('trash'))\
-            .filter(Media.podcast_id == None)\
             .order_by(Media.publish_on.desc())
 
 
@@ -332,7 +340,7 @@ class MediaController(RoutingController):
         if slug is None:
             redirect(controller='/media', action='index')
         topic = fetch_row(Topic, slug=slug)
-        media_query = self._list_query\
+        media_query = self._published_media_query\
             .filter(Media.topics.contains(topic))\
             .options(undefer('comment_count'))
         return dict(
@@ -345,7 +353,7 @@ class MediaController(RoutingController):
         if slug is None:
             redirect(controller='/media', action='index')
         tag = fetch_row(Tag, slug=slug)
-        media_query = self._list_query\
+        media_query = self._published_media_query\
             .filter(Media.tags.contains(tag))\
             .options(undefer('comment_count'))
         return dict(
