@@ -92,7 +92,6 @@ class VideoController(RoutingController):
     def _list_query(self):
         """Helper method for paginating video results"""
         return DBSession.query(Media)\
-            .filter(Media.type == 'video')\
             .filter(Media.status >= 'publish')\
             .filter(Media.publish_on <= datetime.now())\
             .filter(Media.status.excludes('trash'))\
