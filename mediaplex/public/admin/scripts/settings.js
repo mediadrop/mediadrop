@@ -58,10 +58,7 @@ var Category = new Class({
 		this.setOptions(options);
 		this.row = row;
 		this.form = this.row.getElement(this.options.formSelector);
-		if(this.form == null){
-			alert('form is null! ' + this.row.getChildren());
-			return;
-		}
+		if (!this.form) return;
 		this.formCell = this.form.getParent();
 		this.countCell = this.formCell.getNext();
 
@@ -70,7 +67,7 @@ var Category = new Class({
 		saveButton.addEvent('click', this.handleSave.bind(this));
 
 		// Create a cancel button and insert it into the beginning of the row.
-		this.cancelButton = new Element('button', {'class': 'mo cancel-category'});
+		this.cancelButton = new Element('input', {type: 'reset', 'class': 'mo cancel-category'});
 		this.cancelButton.addEvent('click', this.toggleForm.bind(this));
 		var cancelParent = new Element('td', {'class': 'form-field form-field-resetbutton'});
 		cancelParent.grab(this.cancelButton);
