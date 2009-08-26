@@ -25,7 +25,7 @@ from mediaplex.model.media import create_media_stub
 from mediaplex.forms.admin import SearchForm, AlbumArtForm
 from mediaplex.forms.media import MediaForm, AddFileForm, EditFileForm, UpdateStatusForm, PodcastFilterForm
 from mediaplex.forms.comments import PostCommentForm
-from mediaplex.controllers.video import _add_new_media_file
+from mediaplex.controllers.media import _add_new_media_file
 
 media_form = MediaForm()
 

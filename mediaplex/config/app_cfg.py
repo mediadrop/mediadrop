@@ -12,7 +12,7 @@ class MediaplexConfig(AppConfig):
                     always_scan=config['debug'])
 
         # home page redirect
-        map.redirect('/', '/video')
+        map.redirect('/', '/media')
 
         # route for the concept sunday school action
         map.connect('/concept', controller='video', action='concept_preview')
@@ -26,18 +26,17 @@ class MediaplexConfig(AppConfig):
         map.connect('/latest', controller='media', action='latest')
         map.connect('/most_popular', controller='media', action='most_popular')
 
-        # routes for all non-view, non-index, video actions
-        map.connect('/video-{action}', controller='video', requirements=dict(action='flow|upload|upload_submit|upload_submit_async|upload_success|upload_failure'))
-        map.connect('/video-{action}/{slug}', slug=None, controller='video', requirements=dict(action='topics|tags|rate|serve'))
-        # route for viewing videos and other video related actions
-        map.connect('/video/{slug}/{action}', controller='video', action='view', requirements=dict(action='rate|serve'))
+        # routes for all non-view, non-index, media actions
+        map.connect('/tags/{slug}', controller='media', action='tags', slug=None)
+        map.connect('/topics/{slug}', controller='media', action='topics', slug=None)
+        map.connect('/media-{action}', controller='media', requirements=dict(action='flow|upload|upload_submit|upload_submit_async|upload_success|upload_failure'))
 
-        map.connect('/media/{id}-{slug}.{type}', controller='media', action='serve', requirements=dict(id='\d+'))
+        # routes for viewing individual media, and other related media actions
+        map.connect('/media-files/{id}-{slug}.{type}', controller='media', action='serve', requirements=dict(id='\d+'))
         map.connect('/media/{slug}/{action}', controller='media', action='view', requirements=dict(action='view|rate|comment'))
-        # podcasts
-        map.connect('/podcasts/{slug}.xml', controller='podcasts', action='feed')
+        map.connect('/podcasts/feed/{slug}.xml', controller='podcasts', action='feed')
         map.connect('/podcasts/{slug}', controller='podcasts', action='view')
-        map.connect('/podcasts/{podcast_slug}/{slug}/{action}', controller='media', action='view', requirements=dict(action='view|rate|comment|feed'))
+        map.connect('/podcasts/{podcast_slug}/{slug}/{action}', controller='media', action='view', requirements=dict(action='view|rate|comment'))
 
         # admin routes
         map.connect('/admin/video_table/{table}/{page}', controller='admin', action='video_table', table='awaiting_review', page=1)

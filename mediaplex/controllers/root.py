@@ -3,7 +3,6 @@
 from mediaplex.lib.base import BaseController
 from mediaplex.lib import helpers
 from mediaplex.controllers.error import ErrorController
-from mediaplex.controllers.video import VideoController
 from mediaplex.controllers.admin import AdminController
 
 from tg import expose, flash, require, url, request, redirect

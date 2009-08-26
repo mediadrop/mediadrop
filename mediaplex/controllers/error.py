@@ -64,7 +64,7 @@ class ErrorController(RoutingController):
                 post_vars[x] = kwargs[x]
 
         self._send_notification(email, description, url, get_vars, post_vars)
-        redirect(controller='/video', action='index')
+        redirect(controller='/media', action='index')
 
     def _send_notification(self, email, description, url, get_vars, post_vars):
         server=smtplib.SMTP('localhost')

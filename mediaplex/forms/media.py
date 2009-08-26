@@ -90,7 +90,7 @@ class UpdateStatusForm(Form):
 
 
 class UploadForm(ListForm):
-    template = 'mediaplex.templates.video.upload-form'
+    template = 'mediaplex.templates.media.upload-form'
     id = 'upload-form'
     css_class = 'form'
     css = [CSSLink(link=helpers.url_for('/styles/forms.css'))]

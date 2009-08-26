@@ -74,12 +74,12 @@
 		<py:if test="not c.nav_opts" py:replace="set_nav_opts()" />
 		<div class="box-nav">
 			<ul py:if="c.nav_opts['show_left']" id="nav" class="box-nav-left">
-				<li id="nav-latest"><a href="${h.url_for(controller='/video', action='flow')}">Latest</a></li>
-				<li id="nav-videos"><a href="${h.url_for(controller='/video')}">Video</a></li>
+				<li id="nav-latest"><a href="${h.url_for(controller='/media', action='flow')}">Latest</a></li>
+				<li id="nav-videos"><a href="${h.url_for(controller='/media', action='index')}">Video</a></li>
 				<li id="nav-podcasts"><a href="${h.url_for(controller='/podcasts')}">Podcasts</a></li>
 			</ul>
 			<a py:if="c.nav_opts['show_topics']" id="nav-topics" class="box-nav-right topics-shown" href="/video-topics">Topic Index</a>
-			<a py:if="c.nav_opts['show_upload']" id="nav-upload-video" class="box-nav-right" href="${h.url_for(controller='/video', action='upload')}">Upload a Video</a>
+			<a py:if="c.nav_opts['show_upload']" id="nav-upload-video" class="box-nav-right" href="${h.url_for(controller='/media', action='upload')}">Upload a Video</a>
 			<a py:if="c.nav_opts['show_podcast_help']" id="nav-podcast-help" class="box-nav-right podcast-help-shown" href="#">What are podcasts?</a>
 			<div py:if="c.nav_opts['show_podcast_help']" id="podcast-help-box" class="nav-box">
 				<div id="podcast-help-top" />
@@ -131,7 +131,7 @@
 					<div class="nav-box-body" py:with="per_col = max(5, int(h.math.ceil((len(c.topics) + 6) / 4.0)))">
 						<ul py:if="c.topics" py:for="col in xrange(1, 5)">
 							<li py:for="topic in c.topics[(col-1)*per_col:col*per_col]">
-								<a href="${h.url_for(controller='/video', action='topics', slug=topic.slug)}">${topic}</a> <span>(${topic.published_media_count})</span>
+								<a href="${h.url_for(controller='/media', action='topics', slug=topic.slug)}">${topic}</a> <span>(${topic.published_media_count})</span>
 							</li>
 						</ul>
 						<div id="topics-caption">
