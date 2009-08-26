@@ -15,7 +15,7 @@ class MediaplexConfig(AppConfig):
         map.redirect('/', '/media')
 
         # route for the concept sunday school action
-        map.connect('/concept', controller='video', action='concept_preview')
+        map.connect('/concept', controller='media', action='concept_preview')
         map.connect('/concept/{slug}/comment', controller='media', action='concept_comment')
         map.connect('/concept/{slug}', controller='media', action='concept_view')
 
