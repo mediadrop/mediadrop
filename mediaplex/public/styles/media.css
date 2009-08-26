@@ -203,3 +203,15 @@ a:hover .grid-title, a.grid-title:hover {
 	margin-top: 10px;
 }
 
+#category-context .contextbox-top {
+	background: url('../images/layout/contextbox-top-topics.png') no-repeat bottom;
+	padding-top: 59px;
+	overflow: hidden;
+	height: 0;
+}
+#category-context .contextbox-mid {
+	background: url('../images/layout/contextbox-mid-tags.png') no-repeat bottom;
+	padding-top: 41px;
+	overflow: hidden;
+	height: 0;
+}

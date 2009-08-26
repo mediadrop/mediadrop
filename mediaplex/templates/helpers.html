@@ -233,4 +233,12 @@
 		</ul>
 	</py:def>
 
+	<py:def function="comma_sep_links(labels, hrefs, default='None yet')"
+	        py:with="links = zip(labels, hrefs); count = len(links);">
+		<py:if test="count == 0">${default}</py:if>
+		<py:for each="i, link in enumerate(links)">
+			<a href="${link[1]}">${link[0]}</a><py:if test="i &lt; count - 1">, </py:if>
+		</py:for>
+	</py:def>
+
 </html>

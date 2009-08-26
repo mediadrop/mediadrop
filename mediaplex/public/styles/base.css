@@ -113,10 +113,12 @@ a:hover {
 
 .contextbox {
 	float: right;
+	clear: right;
 	width: 359px;
 	overflow: hidden;
 	margin-right: 20px;
 	color: #0e4f34;
+	font: 14px Verdana, sans-serif;
 }
 .contextbox-top {
 	background: url('../images/layout/contextbox-top.png') no-repeat bottom;
@@ -128,8 +130,27 @@ a:hover {
 }
 .contextbox-body {
 	background: url('../images/layout/contextbox-body-bg.png') repeat-y;
-	padding: 6px 21px;
+	padding: 10px 30px 5px 30px;
 	position: relative;
+	line-height: 1.3;
+}
+.contextbox-body-mid {
+	padding-bottom: 15px;
+}
+.contextbox a:link,
+.contextbox a:visited {
+	color: #517ca2;
+}
+.contextbox a:hover {
+	text-decoration: none;
+}
+hr.context-sep {
+	border: 0;
+	height: 0;
+	float: right;
+	width: 359px;
+	clear: right;
+	padding-bottom: 32px;
 }
 
 .pager {

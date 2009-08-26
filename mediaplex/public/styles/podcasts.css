@@ -111,9 +111,9 @@
 }
 #podcast-context .contextbox-top {
 	background: url('../images/layout/contextbox-top-podcast.png') no-repeat bottom;
-	padding-top: 54px;
+	padding-top: 59px;
 	overflow: hidden;
-	height: 0px;
+	height: 0;
 }
 #podcast-context .contextbox-body {
 	height: 157px;
