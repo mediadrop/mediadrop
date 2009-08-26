@@ -305,7 +305,7 @@ class MediaController(RoutingController):
 
         try:
             topic = fetch_row(Topic, slug='conceptsundayschool')
-            media = self._list_query\
+            media = self._published_media_query\
                     .filter(Media.topics.contains(topic))\
                     .order_by(Media.publish_on.desc())[:15]
         except HTTPNotFound, e:
