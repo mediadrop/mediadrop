@@ -183,7 +183,10 @@ a:hover .grid-title, a.grid-title:hover {
 .media-meta-time,
 .media-meta-etc,
 .media-meta-commented {
+	width: 191px;
 	height: 20px;
+	float: right;
+	clear: right;
 }
 .media-meta-download, .media-meta-likethis {
 	display: block;
@@ -191,9 +194,7 @@ a:hover .grid-title, a.grid-title:hover {
 	height: 0px;
 	overflow: hidden;
 	padding-top: 34px;
-	margin: 0 20px;
-	float: left;
-	clear: left;
+	margin-left: 20px;
 }
 .media-meta-likethis {
 	background: url('../images/buttons/i-like-this.png') no-repeat scroll;

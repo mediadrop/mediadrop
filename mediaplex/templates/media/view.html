@@ -34,15 +34,15 @@ ${set_nav_opts()}
 			</div>
 			<div class="media-meta">
 				<div class="media-meta-top" />
-				<a class="media-meta-likethis mo up" id="likethis" title="vote up" href="${h.url_for(action='rate', rating=1)}">I like this!</a>
-				<a py:if="media.primary_file" class="media-meta-download mo" href="${media.primary_file.link_url}">Download</a>
-				<!--! download link may be missing from preview pages, but don't worry, all published media will have a primary_file -->
 				<div class="media-meta-views"><strong>Views:</strong> ${media.views}</div>
 				<div class="media-meta-time"><strong>Time:</strong> ${h.duration_from_seconds(media.duration)}</div>
 				<div class="media-meta-etc" style="${(media.rating.sum &gt; 0) or 'visibility:hidden'}">
-					<strong id="num-likedthis">${h.text.plural(media.rating.sum, 'person', 'people')}</strong> liked this ${media.type}!
+					<strong id="num-likedthis">${h.text.plural(media.rating.sum, 'person', 'people')}</strong>
+					liked this ${'podcast' if media.podcast else media.type}!
 				</div>
 				<div class="media-meta-commented"><strong>${h.text.plural(len(comments), 'person', 'people')}</strong> commented</div>
+				<a class="media-meta-likethis mo up" id="likethis" title="vote up" href="${h.url_for(action='rate', rating=1)}">I like this!</a>
+				<a py:if="media.primary_file" class="media-meta-download mo" href="${media.primary_file.link_url}">Download</a>
 				<div class="media-meta-bottom" />
 			</div>
 			${media_player(media)}
