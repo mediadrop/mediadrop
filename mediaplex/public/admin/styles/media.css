@@ -161,10 +161,20 @@ a.add-media { background-image: url('../images/buttons/add-media.png'); }
 	margin-left: 6px;
 }
 
-ul#topics {
-	width: 33%;
+#media-form #topics_container {
 	float: left;
+	width: 50%;
 }
-ul#topics li {
-	padding-bottom: 5px;
+#media-form .topic-box {
+	border: 1px solid #b0bcc5;
+	-moz-border-radius: 9px;
+	padding: 6px 6px 5px 5px;
+}
+#media-form #tags_container {
+	clear: none;
+	float: left;
+	width: 50%;
+}
+#media-form #tags {
+	height: 150px;
 }

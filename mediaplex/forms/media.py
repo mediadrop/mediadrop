@@ -16,6 +16,7 @@ class AddFileForm(ListForm):
         TextField('url', label_text='URL', default='URL', suppress_label=True, maxlength=255),
     ]
 
+
 class EditFileForm(ListForm):
     template = 'mediaplex.templates.admin.media.file-edit-form'
     submit_text = None
@@ -62,18 +63,20 @@ class MediaForm(ListForm):
         TextField('author_name', validator=NotEmpty, maxlength=50),
         TextField('author_email', validator=NotEmpty, maxlength=50),
         XHTMLTextArea('description', attrs=dict(rows=5, cols=25)),
-        TextArea('notes', label_text='Additional Notes', attrs=dict(rows=3, cols=25), default="""Bible References: None
-S&H References: None
-Reviewer: None
-License: General Upload"""),
+        TextArea('notes', label_text='Additional Notes', attrs=dict(rows=3, cols=25), default=(
+            "Bible References: None\n"
+            "S&H References: None\n"
+            "Reviewer: None\n"
+            "License: General Upload\n")),
         CheckBoxList('topics', template='mediaplex.templates.admin.categories.selection_list', options=lambda: DBSession.query(Topic.id, Topic.name).all()),
-        TextField('tags'),
+        TextArea('tags', attrs=dict(rows=3, cols=15), help_text=u'e.g.: puppies, great dane, adorable'),
         ListFieldSet('details', suppress_label=True, legend='Media Details:', css_classes=['details_fieldset'], children=[
             TextField('duration'),
         ]),
         SubmitButton('save', default='Save', named_button=True, css_classes=['mo', 'btn-save', 'f-rgt']),
         SubmitButton('delete', default='Delete', named_button=True, css_classes=['mo', 'btn-delete']),
     ]
+
 
 class UpdateStatusForm(Form):
     template = 'mediaplex.templates.admin.media.update-status-form'
