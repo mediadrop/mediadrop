@@ -93,9 +93,12 @@ var Category = new Class({
 		this.formCell.grabAfter(this.slugCell);
 		this.formCell.grabAfter(this.nameCell);
 
-		nameField.addEvent('change', this.updateSlug.bind(this));
+		nameField.addEvents({
+			change: this.updateSlug.bind(this),
+			keydown: this.updateSlug.bind(this)
+		});
 
-		this.toggleForm()
+		this.toggleForm();
 
 		if (this.deleteButton != null) {
 			this.requestConfirmDelete();
@@ -103,11 +106,7 @@ var Category = new Class({
 	},
 
 	toggleForm: function(){
-		var displayOther;
-		var displayInputs;
-		var colspan;
-		var show;
-		var hide;
+		var displayOther, displayInputs, colspan, show, hide;
 
 		// IE uses a different display value for visible table cells than
 		// Safari and FF. Get this property dynamically:
