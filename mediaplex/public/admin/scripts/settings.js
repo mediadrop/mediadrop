@@ -58,10 +58,7 @@ var Category = new Class({
 		this.setOptions(options);
 		this.row = row;
 		this.form = this.row.getElement(this.options.formSelector);
-		if(this.form == null){
-			alert('form is null! ' + this.row.getChildren());
-			return;
-		}
+		if (!this.form) return;
 		this.formCell = this.form.getParent();
 		this.countCell = this.formCell.getNext();
 
@@ -70,7 +67,7 @@ var Category = new Class({
 		saveButton.addEvent('click', this.handleSave.bind(this));
 
 		// Create a cancel button and insert it into the beginning of the row.
-		this.cancelButton = new Element('button', {'class': 'mo cancel-category'});
+		this.cancelButton = new Element('input', {type: 'reset', 'class': 'mo cancel-category clickable'});
 		this.cancelButton.addEvent('click', this.toggleForm.bind(this));
 		var cancelParent = new Element('td', {'class': 'form-field form-field-resetbutton'});
 		cancelParent.grab(this.cancelButton);
@@ -126,7 +123,6 @@ var Category = new Class({
 			displayOther = hide;
 			displayInputs = show;
 		}
-		this.formVisible = !this.formVisible;
 
 		this.formCell.set('colspan', colspan);
 
@@ -144,6 +140,12 @@ var Category = new Class({
 				elem.setStyle('display', displayOther);
 			}
 		});
+
+		this.formVisible = !this.formVisible;
+		if (this.formVisible) {
+			var name = this.row.getElement("input[name='name']");
+			if (name) name.focus();
+		}
 
 		return false;
 	},
@@ -242,6 +244,10 @@ var NewCategory = new Class({
 			this.row.inject(tbody, 'top');
 		}
 		this.formVisible = !this.formVisible;
+		if (this.formVisible) {
+			var name = this.row.getElement("input[name='name']");
+			if (name) name.focus();
+		}
 		return false;
 	},
 
