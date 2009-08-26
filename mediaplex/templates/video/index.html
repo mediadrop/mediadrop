@@ -8,10 +8,10 @@
 <head>
 	<title>Videos</title>
 </head>
-<body class="${not defined('show_tags') and 'nav-videos-on' or None}">
-	<box id="grid-box" py:with="paginator=c.paginators.videos">
+<body class="nav-media-on">
+	<box id="grid-box" py:with="paginator=c.paginators.media">
 		<nav />
-		<ul py:replace="mediagrid(videos)" />
+		<ul py:replace="mediagrid(media)" />
 		${pagination(paginator)}
 	</box>
 </body>

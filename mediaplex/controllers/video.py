@@ -55,11 +55,11 @@ class VideoController(RoutingController):
 
 
     @expose('mediaplex.templates.video.index')
-    @paginate('videos', items_per_page=20)
+    @paginate('media', items_per_page=20)
     def index(self, page=1, **kwargs):
         """Grid-style List Action"""
         return dict(
-            videos = self._list_query.options(undefer('comment_count')),
+            media = self._list_query.options(undefer('comment_count')),
         )
 
 
@@ -67,7 +67,7 @@ class VideoController(RoutingController):
     def flow(self, page=1, **kwargs):
         """Mediaflow Action"""
         return dict(
-            videos = self._list_query[:15],
+            media = self._list_query[:15],
         )
 
     @expose('mediaplex.templates.video.concept_preview')
@@ -78,19 +78,19 @@ class VideoController(RoutingController):
 
         try:
             topic = fetch_row(Topic, slug='conceptsundayschool')
-            videos = self._list_query\
+            media = self._list_query\
                     .filter(Media.topics.contains(topic))\
                     .order_by(Media.publish_on.desc())[:15]
         except HTTPNotFound, e:
-            videos = []
+            media = []
 
         return dict(
-            videos = videos
+            media = media
         )
 
     @property
     def _list_query(self):
-        """Helper method for paginating video results"""
+        """Helper method for paginating media results"""
         return DBSession.query(Media)\
             .filter(Media.status >= 'publish')\
             .filter(Media.publish_on <= datetime.now())\
@@ -100,29 +100,29 @@ class VideoController(RoutingController):
 
 
     @expose('mediaplex.templates.video.index')
-    @paginate('videos', items_per_page=20)
+    @paginate('media', items_per_page=20)
     def topics(self, slug=None, page=1, **kwargs):
         if slug is None:
             redirect(action='index')
         topic = fetch_row(Topic, slug=slug)
-        video_query = self._list_query\
+        media_query = self._list_query\
             .filter(Media.topics.contains(topic))\
             .options(undefer('comment_count'))
         return dict(
-            videos = video_query,
+            media = media_query,
         )
 
     @expose('mediaplex.templates.video.index')
-    @paginate('videos', items_per_page=20)
+    @paginate('media', items_per_page=20)
     def tags(self, slug=None, page=1, **kwargs):
         if slug is None:
             redirect(action='index')
         tag = fetch_row(Tag, slug=slug)
-        video_query = self._list_query\
+        media_query = self._list_query\
             .filter(Media.tags.contains(tag))\
             .options(undefer('comment_count'))
         return dict(
-            videos = video_query,
+            media = media_query,
         )
 
     @expose('mediaplex.templates.video.upload')
@@ -161,12 +161,12 @@ class VideoController(RoutingController):
             if 'tags' not in kwargs:
                 kwargs['tags'] = None
 
-            video = self._save_video(
+            media_obj = self._save_media_obj(
                 kwargs['name'], kwargs['email'],
                 kwargs['title'], kwargs['description'],
                 kwargs['tags'], kwargs['file']
             )
-            email.send_video_notification(video)
+            email.send_media_notification(media_obj)
 
             return dict(
                 success = True,
@@ -182,13 +182,13 @@ class VideoController(RoutingController):
         if 'tags' not in kwargs:
             kwargs['tags'] = None
 
-        # Save the video!
-        video = self._save_video(
+        # Save the media_obj!
+        media_obj = self._save_media_obj(
             kwargs['name'], kwargs['email'],
             kwargs['title'], kwargs['description'],
             kwargs['tags'], kwargs['file']
         )
-        email.send_video_notification(video)
+        email.send_media_notification(media_obj)
 
         # Redirect to success page!
         redirect(action='upload_success')
@@ -203,37 +203,36 @@ class VideoController(RoutingController):
     def upload_failure(self, **kwargs):
         return dict()
 
-    def _save_video(self, name, email, title, description, tags, file):
+    def _save_media_obj(self, name, email, title, description, tags, file):
         # cope with anonymous posters
         if name is None:
             name = 'Anonymous'
 
-        # create our video object as a status-less placeholder initially
-        video = Media()
-        video.type = 'video'
-        video.author = Author(name, email)
-        video.title = title
-        video.slug = get_available_slug(Media, title)
-        video.description = clean_xhtml(description)
-        video.status = 'draft,unencoded,unreviewed'
-        video.notes = """Bible References: None
+        # create our media object as a status-less placeholder initially
+        media_obj = Media()
+        media_obj.author = Author(name, email)
+        media_obj.title = title
+        media_obj.slug = get_available_slug(Media, title)
+        media_obj.description = clean_xhtml(description)
+        media_obj.status = 'draft,unencoded,unreviewed'
+        media_obj.notes = """Bible References: None
     S&H References: None
     Reviewer: None
     License: General Upload"""
-        video.set_tags(tags)
+        media_obj.set_tags(tags)
 
-        # Create a media object, add it to the video, and store the file permanently.
-        media_file = _add_new_media_file(video, file.filename, file.file)
+        # Create a media object, add it to the media_obj, and store the file permanently.
+        media_file = _add_new_media_file(media_obj, file.filename, file.file)
 
         # If the file is a playable type, it doesn't need encoding
         # FIXME: is this a safe assumption? What about resolution/bitrate?
         if media_file.is_playable:
-            video.status.discard('unencoded')
+            media_obj.status.discard('unencoded')
 
         # Add the final changes.
-        DBSession.add(video)
+        DBSession.add(media_obj)
 
-        return video
+        return media_obj
 
 # FIXME: The following helper methods should perhaps  be moved to the media controller.
 #        or some other more generic place.

@@ -12,12 +12,12 @@
 		window.addEvent('domready', function(){
 			videoflow = new Mediaflow({
 				labelContainer: $('mediaflow-box').getElement('div.box-bottom'),
-				totalPageCount: ${int(h.math.ceil(float(len(videos))/3))}
+				totalPageCount: ${int(h.math.ceil(float(len(media))/3))}
 			});
 		});
 	</script>
 <!--!	Use this when you want to use Ajax pagination.
-		<script type="text/javascript" py:with="paginator=c.paginators.videos">
+		<script type="text/javascript" py:with="paginator=c.paginators.media">
 		window.addEvent('domready', function(){
 			var videoflow = new Mediaflow({
 				labelContainer: $('mediaflow-box').getElement('div.box-bottom'),
@@ -33,7 +33,7 @@
 		<div id="mediaflow-ctrls" />
 		<div id="mediaflow-body">
 			<xi:include href="_mediaflow-pager.html" />
-			${mediaflow_slider_pager(videos)}
+			${mediaflow_slider_pager(media)}
 		</div>
 	</box>
 </body>

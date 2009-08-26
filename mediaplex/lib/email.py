@@ -19,13 +19,19 @@ Subject: %s
     server.sendmail(from_addr, to_addr, msg.encode('utf-8'))
     server.quit()
 
-def send_video_notification(video):
-    if not config.video_notifications:
-        # Video notification emails are disabled!
+def send_media_notification(media_obj):
+    if not config.media_notifications:
+        # media notification emails are disabled!
         return
 
-    subject = 'New Video: %s' % video.title
-    body = """A new video has been uploaded!
+    edit_url = 'http://' + request.environ['HTTP_HOST']\
+        + url_for(controller='mediaadmin', action='edit', id=media_obj.id),
+
+    clean_description = strip_xhtml(
+            line_break_xhtml(line_break_xhtml(media_obj.description)))
+
+    subject = 'New %s: %s' % (media_obj.type, media_obj.title)
+    body = """A new %s file has been uploaded!
 
 Title: %s
 
@@ -34,11 +40,10 @@ Author: %s (%s)
 Admin URL: %s
 
 Description: %s
-""" % (video.title, video.author.name, video.author.email,
-    'http://' + request.environ['HTTP_HOST'] + url_for(controller='mediaadmin', action='edit', id=video.id),
-    strip_xhtml(line_break_xhtml(line_break_xhtml(video.description))))
+""" % (media_obj.type, media_obj.title, media_obj.author.name,
+       media_obj.author.email, edit_url, clean_description)
 
-    send(config.video_notification_addresses,
+    send(config.media_notification_addresses,
             config.notification_from_address, subject, body)
 
 def send_comment_notification(media, comment):
@@ -59,3 +64,4 @@ Body: %s
 
     send(config.comment_notification_addresses,
             config.notification_from_address, subject, body)
+

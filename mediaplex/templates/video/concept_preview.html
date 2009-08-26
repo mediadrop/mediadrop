@@ -13,7 +13,7 @@ ${set_nav_opts('hide_topics', 'hide_left')}
 		window.addEvent('domready', function(){
 			videoflow = new Mediaflow({
 				labelContainer: $('mediaflow-box').getElement('div.box-bottom'),
-				totalPageCount: ${int(h.math.ceil(float(len(videos))/3))}
+				totalPageCount: ${int(h.math.ceil(float(len(media))/3))}
 			});
 		});
 	</script>
@@ -24,7 +24,7 @@ ${set_nav_opts('hide_topics', 'hide_left')}
 		<div id="mediaflow-ctrls" />
 		<div id="mediaflow-body">
 			<xi:include href="_mediaflow-pager.html" />
-			${mediaflow_slider_pager(videos, {'controller':'/media', 'action':'concept_view'})}
+			${mediaflow_slider_pager(media, {'controller':'/media', 'action':'concept_view'})}
 		</div>
 	</box>
 </body>

@@ -1,12 +1,12 @@
 <div xmlns="http://www.w3.org/1999/xhtml"
      xmlns:py="http://genshi.edgewall.org/"
-     py:def="mediaflow_slider_pager(videos, url_args=None)"
+     py:def="mediaflow_slider_pager(media, url_args=None)"
      py:with="url_args = url_args or {'action':'view', 'controller':'/media'}"
-     py:for="videos_slice in h.MediaflowSlidePager(videos)"
+     py:for="media_slice in h.MediaflowSlidePager(media)"
      class="mediaflow-page">
 	<ul>
-		<li py:for="video in videos_slice">
-			<a href="${h.url_for(slug=video.slug, **url_args)}" title="${Markup(video.title).stripentities()}: ${h.truncate_xhtml(video.description, 100, True)}"><img src="${h.url_for('/images/media/%sm.jpg' % video.id)}" width="240" height="135" alt="${video.title}" /></a>
+		<li py:for="m in media_slice">
+			<a href="${h.url_for(slug=m.slug, **url_args)}" title="${Markup(m.title).stripentities()}: ${h.truncate_xhtml(m.description, 100, True)}"><img src="${h.url_for('/images/media/%sm.jpg' % m.id)}" width="240" height="135" alt="${m.title}" /></a>
 		</li>
 	</ul>
 </div>

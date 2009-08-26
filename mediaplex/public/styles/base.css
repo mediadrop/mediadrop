@@ -204,7 +204,7 @@ a:hover {
 	background: url('../images/buttons/sections.png') no-repeat 0 0;
 }
 .nav-latest-on #nav { background-position: 0 -39px; }
-.nav-videos-on #nav { background-position: 0 -78px; }
+.nav-media-on #nav { background-position: 0 -78px; }
 .nav-podcasts-on #nav { background-position: 0 -117px; }
 #nav li a {
 	background: url('../images/buttons/sections.png') no-repeat 1000px 1000px;
