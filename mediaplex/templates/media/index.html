@@ -5,11 +5,10 @@
       xmlns:xi="http://www.w3.org/2001/XInclude">
 <xi:include href="../helpers.html" />
 <xi:include href="../master.html" />
-${set_nav_opts('hide_upload')}
 <head>
 	<title>Media</title>
 </head>
-<body>
+<body class="nav-media-on">
 	<box id="grid-box" py:with="paginator=c.paginators.media">
 		<nav />
 		<ul py:replace="mediagrid(media)" />
@@ -17,4 +16,3 @@ ${set_nav_opts('hide_upload')}
 	</box>
 </body>
 </html>
-

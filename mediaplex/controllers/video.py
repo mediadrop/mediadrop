@@ -54,7 +54,7 @@ class VideoController(RoutingController):
             .all()
 
 
-    @expose('mediaplex.templates.video.index')
+    @expose('mediaplex.templates.media.index')
     @paginate('media', items_per_page=20)
     def index(self, page=1, **kwargs):
         """Grid-style List Action"""
@@ -63,14 +63,14 @@ class VideoController(RoutingController):
         )
 
 
-    @expose('mediaplex.templates.video.mediaflow')
+    @expose('mediaplex.templates.media.mediaflow')
     def flow(self, page=1, **kwargs):
         """Mediaflow Action"""
         return dict(
             media = self._list_query[:15],
         )
 
-    @expose('mediaplex.templates.video.concept_preview')
+    @expose('mediaplex.templates.media.concept_preview')
     def concept_preview(self, page=1, **kwargs):
         """Mediaflow Action"""
         tmpl_context.disable_topics = True
@@ -99,7 +99,7 @@ class VideoController(RoutingController):
             .order_by(Media.publish_on.desc())
 
 
-    @expose('mediaplex.templates.video.index')
+    @expose('mediaplex.templates.media.index')
     @paginate('media', items_per_page=20)
     def topics(self, slug=None, page=1, **kwargs):
         if slug is None:
@@ -112,7 +112,7 @@ class VideoController(RoutingController):
             media = media_query,
         )
 
-    @expose('mediaplex.templates.video.index')
+    @expose('mediaplex.templates.media.index')
     @paginate('media', items_per_page=20)
     def tags(self, slug=None, page=1, **kwargs):
         if slug is None:
@@ -125,7 +125,7 @@ class VideoController(RoutingController):
             media = media_query,
         )
 
-    @expose('mediaplex.templates.video.upload')
+    @expose('mediaplex.templates.media.upload')
     def upload(self, **kwargs):
         return dict(
             upload_form = upload_form,
@@ -194,12 +194,12 @@ class VideoController(RoutingController):
         redirect(action='upload_success')
 
 
-    @expose('mediaplex.templates.video.upload-success')
+    @expose('mediaplex.templates.media.upload-success')
     def upload_success(self, **kwargs):
         return dict()
 
 
-    @expose('mediaplex.templates.video.upload-failure')
+    @expose('mediaplex.templates.media.upload-failure')
     def upload_failure(self, **kwargs):
         return dict()
 
