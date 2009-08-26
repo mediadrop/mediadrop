@@ -31,7 +31,8 @@
 				uploader: {
 					path: '${h.url_for('/scripts/third-party/Swiff.Uploader.swf')}',
 					fileSizeMax: 2 * 1024 * 1024 * 1024,
-					verbose: false // debug
+					verbose: false, // debug
+					typeFilter: '${'; '.join(['*.'+x for x in h.accepted_extensions()])}'
 				}
 			});
 			albumArtUploader = new AlbumArtUploader({

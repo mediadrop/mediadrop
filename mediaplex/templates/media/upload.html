@@ -15,7 +15,7 @@
 		var UploadMGR = null;
 		var SwiffUploadMGR = null;
 		window.addEvent('domready', function() { UploadMGR = new UploadManager('${upload_form.id}', '${upload_form.async_action}');});
-		window.addEvent('domready', function() { SwiffUploadMGR = new SwiffUploadManager('${upload_form.id}', '${upload_form.async_action}', '${h.url_for(action='upload_failure')}', '${h.url_for('/')}', 'browse-button', 'upload-button', 'file-info', 'upload-status');})
+		window.addEvent('domready', function() { SwiffUploadMGR = new SwiffUploadManager('${upload_form.id}', '${upload_form.async_action}', '${h.url_for(action='upload_failure')}', '${h.url_for('/')}', '${'; '.join(['*.'+x for x in h.accepted_extensions()])}', 'browse-button', 'upload-button', 'file-info', 'upload-status');})
 	</script>
 </head>
 <body class="nav-upload-video-on">
@@ -40,7 +40,7 @@
 		<div id="rightbar">
 			<div>
 				<em>Acceptable File Formats</em>
-				<p>avi, divx, dv, dvx, flv, m4v, mov, mp4, mpeg, mpg, qt, vob, 3gp, and wmv.</p>
+				<p>${h.list_accepted_extensions()}.</p>
 			</div>
 			<div>
 				<em>Problems?</em>

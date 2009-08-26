@@ -8,7 +8,7 @@ from webhelpers import date, feedgenerator, html, number, misc, text, paginate
 from webhelpers.html.converters import format_paragraphs
 from webhelpers.html import tags
 from routes.util import url_for as rurl
-from tg import expose, request
+from tg import expose, request, config
 from tg.exceptions import HTTPFound
 
 from htmlsanitizer import Cleaner, entities_to_unicode, encode_xhtml_entities
@@ -227,3 +227,17 @@ def list_acceptable_xhtml():
         attrs = ", ".join(sorted(valid_attrs)),
         map = ", ".join(["%s -> %s" % (t, elem_map[t]) for t in elem_map])
     )
+
+def accepted_extensions():
+    e = config.mimetype_lookup.keys()
+    e = [x.lstrip('.') for x in e]
+    e = sorted(e)
+    return e
+
+def list_accepted_extensions():
+    e = accepted_extensions()
+    if len(e) > 1:
+        e[-1] = 'and ' + e[-1]
+
+    return ', '.join(e)
+
