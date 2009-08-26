@@ -133,8 +133,10 @@ a:hover .grid-title, a.grid-title:hover {
 	margin-bottom: 20px;
 }
 #media-box h1 {
-	font: italic bold 18px Georgia, serif;
+	font: bold 18px helvetica, 'helvetica nueue', arial, sans-serif;
 	color: #fff;
+	text-shadow: #000 0px -1px 0px;
+	text-transform: uppercase;
 }
 .media-body {
 	padding-top: 23px;
