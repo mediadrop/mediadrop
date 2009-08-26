@@ -117,21 +117,21 @@ class MediaController(RoutingController):
         media = fetch_row(Media, slug=slug)
         media.views += 1
 
+        next_episode = None
         if media.podcast_id is not None:
             # Always view podcast media from a URL that shows the context of the podcast
             if url_for() != url_for(podcast_slug=media.podcast.slug):
                redirect(podcast_slug=media.podcast.slug)
 
-            next_episode = DBSession.query(Media)\
-                .filter(Media.podcast_id == media.podcast.id)\
-                .filter(Media.publish_on > media.publish_on)\
-                .filter(Media.publish_on < datetime.now())\
-                .filter(Media.status >= 'publish')\
-                .filter(Media.status.excludes('trash'))\
-                .order_by(Media.publish_on)\
-                .first()
-        else:
-            next_episode = None
+            if media.is_published:
+                next_episode = DBSession.query(Media)\
+                    .filter(Media.podcast_id == media.podcast.id)\
+                    .filter(Media.publish_on > media.publish_on)\
+                    .filter(Media.publish_on < datetime.now())\
+                    .filter(Media.status >= 'publish')\
+                    .filter(Media.status.excludes('trash'))\
+                    .order_by(Media.publish_on)\
+                    .first()
 
         return dict(
             media = media,
