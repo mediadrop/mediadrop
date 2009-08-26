@@ -24,7 +24,7 @@ class CommentadminController(RoutingController):
     def index(self, page=1, search=None, **kwargs):
         comments = DBSession.query(Comment)\
             .filter(Comment.status.excludes('trash'))\
-            .order_by(Comment.status.desc(), Comment.created_on)
+            .order_by(Comment.status.desc(), Comment.created_on.desc())
 
         if search is not None:
             like_search = '%' + search + '%'
