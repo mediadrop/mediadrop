@@ -221,7 +221,7 @@ def truncate_xhtml(string, size, _strip_xhtml=False, _decode_entities=False):
                 string = Cleaner(string, 'encode_xml_specials',
                                  *truncate_filters, **cleaner_settings)()
 
-    return string
+    return string.strip()
 
 def strip_xhtml(string, _decode_entities=False):
     if not string:
