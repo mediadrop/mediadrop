@@ -194,6 +194,9 @@ def truncate_xhtml(string, size, _strip_xhtml=False):
     """Takes a string of known-good XHTML and returns
     a clean, truncated version of roughly size characters
     """
+    if not string:
+        return u''
+
     if _strip_xhtml:
         # Insert whitespace after block elements.
         # So they are separated when we strip the xhtml.
