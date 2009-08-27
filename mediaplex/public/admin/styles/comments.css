@@ -44,6 +44,10 @@
 	width: 5px;
 }
 
+.checkbox-col {
+	text-align: center;
+}
+
 /* Comment styles */
 .review-comment,
 .published-comment,
