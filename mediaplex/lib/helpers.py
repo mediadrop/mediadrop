@@ -190,7 +190,7 @@ def clean_xhtml(string):
 
     return string.strip()
 
-def truncate_xhtml(string, size, _strip_xhtml=False):
+def truncate_xhtml(string, size, _strip_xhtml=False, _decode_entities=False):
     """Takes a string of known-good XHTML and returns
     a clean, truncated version of roughly size characters
     """
@@ -208,15 +208,31 @@ def truncate_xhtml(string, size, _strip_xhtml=False):
     if len(string) > size:
         string = text.truncate(string, length=size, whole_word=True)
 
-        if not _strip_xhtml:
-            string = Cleaner(string, *truncate_filters, **cleaner_settings)()
+        if _strip_xhtml:
+            if not _decode_entities:
+                # re-encode the entities, if we have to.
+                string = encode_xhtml_entities(string)
+        else:
+            if _decode_entities:
+                string = Cleaner(string,
+                                 *truncate_filters, **cleaner_settings)()
+            else:
+                # re-encode the entities, if we have to.
+                string = Cleaner(string, 'encode_xml_specials',
+                                 *truncate_filters, **cleaner_settings)()
 
     return string
 
-def strip_xhtml(string):
-    if string is None:
-        return None
-    return ''.join(BeautifulSoup(string).findAll(text=True))
+def strip_xhtml(string, _decode_entities=False):
+    if not string:
+        return u''
+
+    string = ''.join(BeautifulSoup(string).findAll(text=True))
+
+    if _decode_entities:
+        string = entities_to_unicode(string)
+
+    return string
 
 def line_break_xhtml(string):
     if string:
