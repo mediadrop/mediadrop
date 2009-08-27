@@ -295,23 +295,17 @@ a#nav-podcast-help.podcast-help-shown,
 	height: 10px;
 	background: url('../images/layout/nav-box-bottom.png') no-repeat;
 }
-.nav-box-body {
+div .nav-box-body {
 	background: #333;
 	padding: 10px 20px;
 	width: 860px;
 	overflow: hidden;
 	position: relative;
-	line-height: 1.6em;
+	line-height: 1.6em; /* referenced by podcast-help-box specific stuff below */
 }
 .nav-box ul {
 	width: 25%;
 	float: left;
-}
-.nav-box li {
-	display: block;
-	margin: 3px 0;
-	height: auto;
-	text-indent: 0;
 }
 .nav-box a:link,
 .nav-box a:visited {
@@ -328,13 +322,24 @@ a#nav-podcast-help.podcast-help-shown,
 #podcast-help-box ul {
 	float: none;
 	width: 100%;
-	margin-bottom: 1em;
 }
-#podcast-help-box p {
-	margin-bottom: 1em;
+#podcast-help-box p, ul {
+	margin-bottom: 1.6em; /* same as line-height defined in .nav-box-body above */
 }
-#podcast-help-box .fL, #podcast-help-box .fR {
+#podcast-help-box .nav-box-body > .fL,
+#podcast-help-box .nav-box-body > .fR {
 	width: 420px;
+	margin-bottom: -1.6em; /* absorb the margin from the bottom p and ul elements */
+}
+#podcast-help-box li {
+	width: 100%;
+	clear: both;
+}
+#mediaplex-topics li {
+	display: block;
+	margin: 3px 0;
+	height: auto;
+	text-indent: 0;
 }
 #topics-caption {
 	position: absolute;
