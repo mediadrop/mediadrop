@@ -14,6 +14,7 @@
 	<link rel="stylesheet" type="text/css" media="all" href="${h.url_for('/../css/base.css')}" />
 	<link rel="stylesheet" type="text/css" media="all" href="${h.url_for('/../css/960.css')}" />
 	<meta py:replace="select('*')"/>
+	<link rel="shortcut icon" href="http://www.conceptsundayschool.com/images/favicon.ico" /> 
 </head>
 <body py:match="body" py:attrs="select('@*')">
 	<div id="global-nav">
@@ -21,7 +22,7 @@
 			<ul>
 				<li><a href="${h.url_for('/../')}">Home</a></li>
 				<li><a href="${h.url_for('/../concept')}">The Concept</a></li>
-				<li><a href="${h.url_for('/../preview/concept')}" class="selected">Preview</a></li>
+				<li><a href="${h.url_for('/../preview/concept')}" class="selected">Media Previews</a></li>
 				<li><a href="${h.url_for('/../ideas')}">Your Ideas</a></li>
 				<li><script type="text/javascript" src="http://w.sharethis.com/button/sharethis.js#publisher=052084b8-d129-4bb6-95d6-a1e5a37931d6&amp;type=website&amp;buttonText=Share%20This&amp;headerTitle=Share%20this%20site%20with%20your%20friends."></script></li>
 			</ul>
