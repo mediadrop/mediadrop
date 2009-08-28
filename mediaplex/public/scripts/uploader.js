@@ -119,6 +119,9 @@ var UploadField = new Class({
 });
 
 var SwiffUploadManager = new Class({
+	// TODO: Rewrite this class to use an options dict, instead of a huge
+	//       number of constructor args.
+
 	form: null,
 	action: null,
 	uploader: null,
