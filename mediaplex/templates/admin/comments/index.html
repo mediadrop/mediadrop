@@ -29,7 +29,7 @@
 			<div py:choose="" class="f-lft">
 				<h1 py:when="search">Comments that match '${search}'</h1>
 				<h1 py:when="media_filter is None">All Comments</h1>
-				<h1 py:otherwise="">Comments for ${media_filter_title}</h1>
+				<h1 py:otherwise="">Comments for ${h.text.truncate('%s' % media_filter_title, 25)}</h1>
 			</div>
 		</div>
 		<xi:include href="../comments/index-table.html" py:with="comments=comments; edit_form=edit_form;" />
