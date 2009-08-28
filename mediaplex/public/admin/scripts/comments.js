@@ -15,31 +15,51 @@ var CommentMgr = new Class({
 
 	bulkMgr: null,
 
-	initialize: function(opts) {
+	initialize: function(bulkApproveAction, bulkDeleteAction, opts) {
 		this.setOptions(opts);
 		this.processRows($(this.options.table).getElements('tbody > tr'));
 
 		var publishBtn = new Element('a', {href: '#', 'class': this.options.bulkPublishBtnClass})
-			.addEvent('click', this.bulkPublish.bind(this))
 			.grab(new Element('span', {html: 'Publish'}));
+		var publishConfirmMgr = new ConfirmMgr({
+			onConfirm: this._bulkSubmit.pass([bulkApproveAction, 'Unable to publish the selected comments'], this),
+			header: 'Confirm Publish',
+			msg: 'Are you sure you want to publish these comments?'
+		});
+		publishBtn.addEvent('click', publishConfirmMgr.openConfirmDialog.bind(publishConfirmMgr));
+
 		var deleteBtn = new Element('a', {href: '#', 'class': this.options.bulkDeleteBtnClass})
-			.addEvent('click', this.bulkDelete.bind(this))
 			.grab(new Element('span', {html: 'Delete'}));
+		var deleteConfirmMgr = new ConfirmMgr({
+			onConfirm: this._bulkSubmit.pass([bulkDeleteAction, 'Unable to delete the selected comments'], this),
+			header: 'Confirm Delete',
+			msg: 'Are you sure you want to delete these comments?'
+		});
+		deleteBtn.addEvent('click', deleteConfirmMgr.openConfirmDialog.bind(deleteConfirmMgr));
+
 		var h1 = $(this.options.table).getPrevious().getElement('h1');
 		this.bulkMgr = new BulkMgr(h1, $(this.options.table), [publishBtn, deleteBtn]);
 	},
 
 	processRows: function(rows) {
 		$$(rows).each(function(row){
-			var comment = new Comment(row, this.options);
+			if(row.getChildren().length != 1)
+				var comment = new Comment(row, this.options);
 		}.bind(this));
 	},
 
-	bulkPublish: function() {
+	_bulkSubmit: function(action, errorMsg) {
+		var r = new Request.HTML({url: action, onSuccess: function(){location.reload();}})
+			.send(new Hash({'ids': ''+this._getSelectedCommentIds()}).toQueryString());
+		return this;
 	},
 
-	bulkDelete: function() {
-	}
+	_getSelectedCommentIds: function() {
+		return this.bulkMgr.getSelectedRows().map(function(row){
+			return row.get('id');
+		});
+	},
+
 });
 
 var BulkMgr = new Class({
@@ -74,7 +94,7 @@ var BulkMgr = new Class({
 		bulkDiv.setStyle('position', 'relative');
 
 		// build bulk button
-		this.bulkBtn = new Element('a', {href:'#', 'class': this.options.bulkBtnClass})
+		this.bulkBtn = new Element('a', {href: '#', 'class': this.options.bulkBtnClass})
 			.addEvent('click', this._toggleBulk.bind(this));
 		this.bulkBtn.grab(new Element('span', {html: 'Bulk mode'}));
 		this.bulkBtn.set('styles', {
@@ -111,7 +131,7 @@ var BulkMgr = new Class({
 
 		this.slidingDivWidth = this.slidingDiv.offsetWidth + 10;
 		this.slidingDiv.setStyle('width', '0');
-		
+
 		this.table.getElement('tbody').getElements('tr').each(function(row){
 			var checkTd = new Element('td', {'class': this.options.checkedColClass})
 				.setStyle('display', 'none');
@@ -126,6 +146,7 @@ var BulkMgr = new Class({
 	_toggleBulk: function() {
 		var hideCol = this.options.selectCol;
 		var showCol = this.options.selectCol;
+
 		if(this.actionsVisible) {
 			// hide actions
 			this.bulkBtn.removeClass('reverse-mo');
@@ -153,7 +174,9 @@ var BulkMgr = new Class({
 	},
 
 	getSelectedRows: function() {
-		return $$('td.'+this.options.checkedColClass+' > input[type=checkbox]:checked')
+		return $$('td.'+this.options.checkedColClass+' > input[type=checkbox]:checked').map(function(input){
+			return input.getParent('tr');
+		});
 	},
 });
 
@@ -235,7 +258,7 @@ var Comment = new Class({
 	},
 
 	getAuthor: function(){
-		var author = this.row.getElement('.author').getChildren('strong').get('text');
+		var author = this.row.getElement('.author-name').get('text');
 		return new String(author).trim();
 	},
 

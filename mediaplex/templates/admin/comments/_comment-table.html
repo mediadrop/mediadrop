@@ -26,7 +26,7 @@
 					<a class="mo trash-comment" href="${h.url_for(action='trash', id=comment.id)}" title="Delete this comment"><span>trash</span></a>
 				</td>
 				<td class="author">
-					<div><strong py:content="comment.author.name">Author</strong></div>
+					<div><strong class="author-name" py:content="comment.author.name">Author</strong></div>
 					<div><a href="mailto:${comment.author.email}" py:content="comment.author.email">Email</a></div>
 					<div class="comment-ip" py:content="comment.author.ip">Author IP</div>
 				</td>

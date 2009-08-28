@@ -14,7 +14,9 @@
 	<script type="text/javascript" src="${h.url_for('/admin/scripts/comments.js')}"></script>
 	<script type="text/javascript">
 		window.addEvent('domready', function(){
-			var cm = new CommentMgr();
+			var cm = new CommentMgr(
+				'${h.url_for(action='approve', id='bulk')}',
+				'${h.url_for(action='trash', id='bulk')}');
 		});
 	</script>
 </head>
