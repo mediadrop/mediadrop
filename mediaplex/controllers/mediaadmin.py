@@ -211,14 +211,13 @@ class MediaadminController(RoutingController):
 
     @expose('json')
     @validate(validators={'file_id': validators.Int(),
-                          'prev_id': validators.Int()})
-    def reorder_file(self, id, file_id, prev_id, **kwargs):
+                          'budge_infront_id': validators.Int()})
+    def reorder_file(self, id, file_id, budge_infront_id, **kwargs):
         media = fetch_row(Media, id, incl_trash=True)
-        position = media.reposition_file(file_id, prev_id)
-        if position == 1:
-            media.update_type()
-            DBSession.add(media)
-        return dict(success=True, position=position)
+        media.reposition_file(file_id, budge_infront_id)
+        DBSession.add(media)
+        DBSession.flush()
+        return dict(success=True)
 
 
     @expose('json')

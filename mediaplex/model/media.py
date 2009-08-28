@@ -35,6 +35,7 @@ from sqlalchemy import Table, ForeignKey, Column, sql, and_, or_, func, select
 from sqlalchemy.types import String, Unicode, UnicodeText, Integer, DateTime, Boolean, Float
 from sqlalchemy.orm import mapper, class_mapper, relation, backref, synonym, composite, column_property, comparable_property, validates, collections
 from tg import config, request
+from zope.sqlalchemy import datamanager
 
 from mediaplex.model import DeclarativeBase, metadata, DBSession, get_available_slug
 from mediaplex.model.authors import Author
@@ -153,26 +154,76 @@ class Media(object):
             topics = fetch_topics(topics)
         self.topics = topics or []
 
-    def reposition_file(self, file_id, prev_id):
-        """Reorder the files so that the first file ID follows the second.
+    def reposition_file(self, file, budge_infront=None):
+        """Position the file at the bottom, or optionally infront of another file.
 
-        If prev_id is None, or the prev_id does not exist, move to the top.
+        If only one file is specified, we move it to the last position (the end).
+
+        If two files are specified, the first takes the seconds position, and the
+        positions of the second file and those that follow it are incremented.
+
+        This increments MediaFile.position such that gaps in the sequence occur.
+
+        Moving a file to the first position of all those for this object can
+        change the `type` attribute when a different `primary_file` is being set.
+
+        Depending on the situation, we add to the DBSession the file or a query,
+        which is a deviation from our usual practice.
+
+        file
+          A MediaFile instance or file ID to move
+
+        budge_infront
+          A MediaFile instance or file ID for the file which will be bumped back.
         """
-        file = [f for f in self.files if f.id == file_id][0]
-        try:
-            pos = [f for f in self.files if f.id == prev_id][0].position
-        except IndexError:
-            pos = 1
+        if not isinstance(file, MediaFile):
+            file = [f for f in self.files if f.id == file][0]
 
-        file.position = pos
-        bump_others = media_files.update()\
-            .where(and_(media_files.c.media_id == self.files[0].media_id,
+        if budge_infront:
+            # The first file is going to move in front of the second
+            if not isinstance(budge_infront, MediaFile):
+                budge_infront = [f for f in self.files if f.id == budge_infront][0]
+
+            pos = budge_infront.position
+            is_first = budge_infront is self.primary_file
+
+            # Update the moved row, the budge_infront file, and those after it.
+            # When we reach the moved row, the new position is simply set,
+            # otherwise the position is incremented 1.
+            update = media_files.update()\
+                .where(and_(
+                    media_files.c.media_id == self.id,
+                    or_(
                         media_files.c.position >= pos,
-                        media_files.c.id != file.id))\
-            .values({media_files.c.position: media_files.c.position + 1})
+                        media_files.c.id == file.id
+                    )
+                ))\
+                .values({
+                    media_files.c.position: sql.case(
+                        [(media_files.c.id == file.id, pos)],
+                        else_=media_files.c.position + 1
+                    )
+                })
 
-        DBSession.execute(bump_others)
-        DBSession.add(file)
+            DBSession.execute(update)
+            datamanager.mark_changed(DBSession())
+
+        else:
+            # No budging, so if there any other files we'll have to go after them...
+            pos = 1
+            is_first = True
+
+            if self.files:
+                pos += self.files[-1].position
+                is_first = False
+
+            file.position = pos
+            DBSession.add(file)
+
+        # Making an audio file primary over a video file changes the media type
+        if is_first and file.medium is not None:
+            self.type = file.medium
+
         return pos
 
     def update_type(self):
@@ -254,11 +305,10 @@ class Media(object):
 
         None, if no files are marked with enable_player
         """
-        enabled_files = [f for f in self.files if f.enable_player]
-        if enabled_files:
-            return enabled_files[0]
-        else:
-            return None
+        for file in self.files:
+            if file.enable_player:
+                return file
+        return None
 
     @property
     def is_published(self):
@@ -319,8 +369,7 @@ class MediaFile(object):
     def play_url(self):
         """The URL for use when embedding the media file in a page
 
-        This MAY return a different URL than
-        the link_url property.
+        This MAY return a different URL than the link_url property.
         """
         if self.is_embeddable:
             return config.embeddable_filetypes[self.type]['play'] % self.url
@@ -339,8 +388,7 @@ class MediaFile(object):
         other files marked as embeddable, this may return a link to the hosting
         site's view page.
 
-        This MAY return a different URL than
-        the playurl property.
+        This MAY return a different URL than the play_url property.
         """
         if self.is_embeddable:
             return config.embeddable_filetypes[self.type]['link'] % self.url
@@ -368,8 +416,8 @@ class MediaFile(object):
     def _validate_enable_feed(self, key, on):
         if not on and self.media.podcast_id\
                   and len([f for f in self.media.files if f.enable_feed]) == 1:
-            raise MediaException, 'Published podcast media requires '\
-                'at least one file be feed-enabled.'
+            raise MediaException, ('Published podcast media requires '
+                                   'at least one file be feed-enabled.')
         return on
 
 

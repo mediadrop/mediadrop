@@ -201,35 +201,29 @@ var FileManager = new Class({
 
 	dragStart: function(el, clone){
 		el.addClass('file-drag');
-		if (clone) {
-			var firstEl = clone.addClass('file-drag-clone');
-		} else {
-			var firstEl = el;
-		}
-		el.store('prevFileID', this._getFileID(firstEl.getPrevious()));
+		if (clone) clone.addClass('file-drag-clone');
+		el.store('nextFile', this._getFileID(el.getNext()) || 0);
 	},
 
 	dragComplete: function(el){
 		el.removeClass('file-drag');
-		var prevID = this._getFileID(el.getPrevious());
-		var prevIDatStart = el.retrieve('prevFileID');
-		if (prevIDatStart && prevID != prevIDatStart) {
-			this.saveOrder(this._getFileID(el), prevID);
+		var initNext = el.retrieve('nextFile'), next = this._getFileID(el.getNext());
+		if ($defined(initNext) && initNext != next) {
+			this.saveOrder(this._getFileID(el), next);
 		}
 	},
 
-	saveOrder: function(fileID, prevID){
-		var error = this._displayError.bind(this, ['Transport error occurred']);
-		var r = new Request.JSON({
+	saveOrder: function(fileID, nextFileID){
+		var r = new Request({
 			url: this.options.saveOrderUrl,
 			onComplete: this.orderSaved.bind(this),
-			onFailure: this._displayError.bind(this, ['A connection problem occurred.'])
-		}).send(new Hash({file_id: fileID, prev_id: prevID}).toQueryString());
+			onFailure: this._displayError.bind(this, ['Reordering failed, please refresh and try again.'])
+		}).send(new Hash({file_id: fileID, budge_infront_id: nextFileID}).toQueryString());
 	},
 
-	orderSaved: function(json){
-		json = json || {};
-		if (!json.success) return this._displayError(json.message);
+	orderSaved: function(text){
+		json = JSON.decode(text, true) || {};
+		if (!json.success) this._displayError(json.message);
 	},
 
 	addFile: function(e){
@@ -237,7 +231,7 @@ var FileManager = new Class({
 		var form = $(e.target), r = new Request.JSON({
 			url: form.get('action'),
 			onComplete: this.fileAdded.bind(this),
-			onFailure: this._displayError.bind(this, ['A connection problem occurred.'])
+			onFailure: this._displayError.bind(this, ['Could not add the file, please try again.'])
 		}).send(form.toQueryString());
 	},
 
