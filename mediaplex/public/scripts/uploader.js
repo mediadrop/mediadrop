@@ -127,7 +127,7 @@ var SwiffUploadManager = new Class({
 	progressBar: null,
 	enabled: false,
 	
-	initialize: function(form, action, failurePage, baseUrl, typeFilter, browseButton, uploadButton, fileInfoDiv, statusDiv) {
+	initialize: function(form, action, failurePage, baseUrl, typeFilter, browseButton, uploadButton, fileInfoDiv, statusDiv, messages) {
 		if (Browser.Platform.linux) {
 			// There's a bug in the flash player for linux that freezes the browser with swiff.uploader
 			// don't bother setting it up.
@@ -143,6 +143,13 @@ var SwiffUploadManager = new Class({
 		this.uploadButton = $(uploadButton);
 		this.fileInfoDiv = $(fileInfoDiv);
 		this.statusDiv = $(statusDiv)
+		this.percent = this.statusDiv.getChildren('.percent')[0];
+		this.notices = this.statusDiv.getChildren('.text')[0];
+
+		this.messages = {};
+		for (x in messages) {
+			this.messages[x] = [messages[x], false];
+		}
 
 		this.browseButton.addClass('active').addClass('enabled');
 		this.uploadButton.addClass('active');
@@ -246,7 +253,20 @@ var SwiffUploadManager = new Class({
 	onQueue: function() {
 		if (!this.uploader.uploading) return;
 		var p = this.uploader.percentLoaded;
-		this.statusDiv.getChildren()[1].set('html', (p>=1?p-1:p) + '%');
+		this.percent.set('html', (p>=1?p-1:p) + '%');
+
+		// Iterate over all messages, displaying them if necessary.
+		for (x in this.messages) {
+			msg = this.messages[x]
+			if (!msg[1]) {
+				// If this message has not been displayed yet
+				if (x <= p) {
+					// If this message should be displayed at this point
+					msg[1] = true;
+					this.notices.set('html', msg[0]);
+				}
+			}
+		}
 	},
 
 	// called by the uploader when selecting a file fails. eg. if it's too big.
@@ -267,8 +287,8 @@ var SwiffUploadManager = new Class({
 		} else {
 			var json = JSON.decode(file.response.text, true)
 			if (json.success) {
-				this.statusDiv.getChildren()[0].set('html', 'Success! You will be redirected shortly.');
-				this.statusDiv.getChildren()[1].set('html', '100%');
+				this.notices.set('html', 'Success! You will be redirected shortly.');
+				this.percent.set('html', '100%');
 				this.statusDiv.addClass('finished');
 				var redirect = function(){window.location = json.redirect;};
 				redirect.create({delay: 1000})();

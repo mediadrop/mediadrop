@@ -126,7 +126,6 @@ div#file-info span.filename {
 }
 
 div.box-body {
-	color: cdcdcd;
 	font-family: helvetica;
 	font-weight: light;
 }
@@ -143,20 +142,21 @@ div#rightbar div {
 }
 
 div#upload-status.active {
-	margin-top: 14px;
 	width: 100%;
+	height: 150px;
 }
 
 div#upload-status.active span.percent {
+	margin: 14px 0;
 	display: block;
 	font-size: 75px;
-	height: 66px;
+	height: 75px;
 }
 
 div#upload-status.active span.text {
 	display: block;
 	font-size: 20px;
-	height: 66px;
+	height: 75px;
 }
 
 .italic, div#rightbar em {
