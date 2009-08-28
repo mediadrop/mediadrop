@@ -6,7 +6,7 @@
       py:with="paginator=c.paginators.comments">
 <xi:include href="admin/master.html" />
 <head>
-	<title>Comments</title>
+	<title>Comments<py:if test="media_filter_title is not None"> for ${media_filter_title}</py:if></title>
 	<script src="${h.url_for('/scripts/third-party/squeezebox-1.1-rc3.js')}" type="text/javascript"></script>
 	<link href="${h.url_for('/admin/styles/squeezebox.css')}" media="screen" rel="stylesheet" type="text/css" />
 	<link href="${h.url_for('/admin/styles/comments.css')}" media="screen" rel="stylesheet" type="text/css" />
@@ -26,8 +26,11 @@
 			<div id="quicksearch" class="f-rgt">
 				${XML(search_form(search))}
 			</div>
-			<h1 py:if="not search">All Comments</h1>
-			<h1 py:if="search">Comments that match '${search}'</h1>
+			<div py:choose="" class="f-lft">
+				<h1 py:when="search">Comments that match '${search}'</h1>
+				<h1 py:when="media_filter is None">All Comments</h1>
+				<h1 py:otherwise="">Comments for ${media_filter_title}</h1>
+			</div>
 		</div>
 		<xi:include href="../comments/index-table.html" py:with="comments=comments; edit_form=edit_form;" />
 	</div>

@@ -9,7 +9,7 @@ from repoze.what.predicates import has_permission
 from mediaplex.lib import helpers
 from mediaplex.lib.base import RoutingController
 from mediaplex.lib.helpers import expose_xhr, redirect, url_for, clean_xhtml
-from mediaplex.model import DBSession, metadata, fetch_row, Comment, Tag, Author
+from mediaplex.model import DBSession, metadata, fetch_row, Comment, Tag, Author, Media
 from mediaplex.forms.admin import SearchForm
 from mediaplex.forms.comments import EditCommentForm
 
@@ -20,7 +20,7 @@ class CommentadminController(RoutingController):
     @expose_xhr('mediaplex.templates.admin.comments.index',
                 'mediaplex.templates.admin.comments.index-table')
     @paginate('comments', items_per_page=50)
-    def index(self, page=1, search=None, **kwargs):
+    def index(self, page=1, search=None, media_filter=None, **kwargs):
         comments = DBSession.query(Comment)\
             .filter(Comment.status.excludes('trash'))\
             .order_by(Comment.status.desc(), Comment.created_on.desc())
@@ -32,9 +32,17 @@ class CommentadminController(RoutingController):
                 Comment.body.like(like_search),
             ))
 
+        media_filter_title = media_filter
+        if media_filter is not None:
+            comments = comments.filter(Comment.media.has(Media.id == media_filter))
+            media_filter_title = DBSession.query(Media.title).get(media_filter)
+            media_filter = int(media_filter)
+
         return dict(
             comments = comments,
             edit_form = EditCommentForm(),
+            media_filter = media_filter,
+            media_filter_title = media_filter_title,
             search = search,
             search_form = not request.is_xhr and SearchForm(action=url_for()),
         )

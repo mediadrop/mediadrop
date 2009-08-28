@@ -40,6 +40,7 @@ class MediaadminController(RoutingController):
         media = DBSession.query(Media)\
             .filter(Media.status.excludes('trash'))\
             .options(undefer('comment_count'))\
+            .options(undefer('all_comment_count'))\
             .order_by(Media.status.desc(), Media.modified_on.desc())
 
         if search is not None:

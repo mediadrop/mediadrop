@@ -88,9 +88,8 @@ var BulkMgr = new Class({
 
 		this.table = table;
 
-		var h1Div = new Element('div', {'class': 'f-lft'}).wraps(h1);
 		var bulkDiv = new Element('div', {'class': this.options.bulkDivClass});
-		bulkDiv.inject(h1Div, 'after');
+		bulkDiv.inject(h1.getParent(), 'after');
 		bulkDiv.setStyle('position', 'relative');
 
 		// build bulk button

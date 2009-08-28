@@ -40,7 +40,12 @@
 						<a class="mo published" py:otherwise="" href="${h.url_for(controller='/media', action='view', slug=media.slug)}#FIXME"><span>published</span></a>
 					</td>
 					<td py:when="'title'"><a href="${h.url_for(controller='/mediaadmin', action='edit', id=media.id)}">${Markup(media.title)}</a></td>
-					<td py:when="'comment_count'" class="center">${media.comment_count}</td>
+					<td py:when="'comment_count'" class="center">
+						<a href="${h.url_for(controller='/commentadmin', media_filter=media.id)}" py:choose="">
+							<py:when test="media.comment_count == media.all_comment_count">${media.comment_count}</py:when>
+							<py:otherwise>${media.comment_count}/${media.all_comment_count}</py:otherwise>
+						</a>
+					</td>
 					<td py:when="'tags'" py:content="', '.join((tag.name for tag in media.tags)) if len(media.tags) else 'None'" />
 					<td py:when="'author'">
 						<a href="mailto:${media.author.email}" py:strip="not media.author.email">${media.author.name}</a>

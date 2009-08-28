@@ -99,6 +99,16 @@
 		</div>
 
 		<div class="box">
+			<h1 class="box-head">Comments</h1>
+			<p class="box-content">
+				<py:if test="media.comment_count != media.all_comment_count">
+					<a py:with="num_comments_to_review = media.all_comment_count - media.comment_count" class="review" href="${h.url_for(controller='/commentadmin', media_filter=media.id)}">${num_comments_to_review}</a> require review.<br />
+				</py:if>
+				There has been a total of <a class="total" href="${h.url_for(controller='/commentadmin', media_filter=media.id)}">${media.all_comment_count}</a> comments on this media item.
+			</p>
+		</div>
+
+		<div class="box">
 			<h1 class="box-head">Album Art</h1>
 			<div class="box-content">
 				<div class="album-art" style="width:130px">

@@ -396,6 +396,18 @@ media_mapper = mapper(Media, media, properties={
                 )
             ).label('comment_count'),
             deferred=True
+        ),
+    'all_comment_count':
+        column_property(
+            sql.select(
+                [sql.func.count(media_comments.c.comment_id)],
+                and_(
+                    media.c.id == media_comments.c.media_id,
+                    comments.c.id == media_comments.c.comment_id,
+                    comments.c.status.op('&')(int(COMMENT_TRASH)) == 0, # status excludes 'trash'
+                )
+            ).label('all_comment_count'),
+            deferred=True
         )
 })
 
