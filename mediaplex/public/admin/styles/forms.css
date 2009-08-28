@@ -189,3 +189,6 @@ label .field_help {
 .topic-box li {
 	padding-bottom: 5px;
 }
+.topic-box li input {
+	width: auto;
+}
