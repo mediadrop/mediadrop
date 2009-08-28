@@ -29,3 +29,8 @@
 	background: #d1e4f2 url('../images/icons/error.png') no-repeat 10px 45%;
 	padding: 0 10px 10px 34px;
 }
+.upload-notice {
+	background-color: #d1e4f2;
+	text-align: center;
+	padding: 0 10px;
+}

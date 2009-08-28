@@ -28,6 +28,7 @@
 				target: 'file',
 				statusContainer: 'media-upload-status',
 				fxProgressBar: {url: '${h.url_for('/admin/images/progressbar/progress.png')}'},
+				messages: {<py:if test="config.ftp_storage">99: "Hang tight, we're moving your upload to our permanent storage. This may take a few minutes."</py:if>},
 				uploader: {
 					path: '${h.url_for('/scripts/third-party/Swiff.Uploader.swf')}',
 					fileSizeMax: ${config.max_upload_size},
@@ -82,6 +83,7 @@
 			<div class="box-head"><h1>Files</h1></div>
 			<form py:replace="XML(file_add_form)" />
 			<div id="media-upload-status" class="upload-status">
+				<div class="upload-notice hidden" />
 				<div class="upload-file hidden" />
 				<div class="upload-progress hidden">
 					<img src="${h.url_for('/admin/images/progressbar/bar.png')}" width="238" height="12" />

@@ -9,7 +9,9 @@ var Uploader = new Class({
 		statusFile: '.upload-file',
 		statusProgress: '.upload-progress',
 		statusError: '.upload-error',
+		statusNotice: '.upload-notice',
 		fxProgressBar: {},
+		messages: {},
 		uploader: {
 			verbose: false,
 			queued: false,
@@ -17,7 +19,7 @@ var Uploader = new Class({
 			target: null,
 			instantStart: true,
 			typeFilter: '*.*',
-			fileSizeMax: 50 * 1024 * 1024,
+			fileSizeMax: 50 * 1024 * 1024, // default max size of 50 MB
 			appendCookieData: true
 		}
 	},
@@ -34,6 +36,11 @@ var Uploader = new Class({
 	initialize: function(options){
 		this.setOptions(options);
 		var uploaderOpts = this.options.uploader;
+
+		this.messages = {};
+		for (x in this.options.messages) {
+			this.messages[x] = [this.options.messages[x], false];
+		}
 
 		this.target = $(this.options.target) || $(this.options.uploader.target);
 		if (this.target.get('type') == 'file') {
@@ -58,6 +65,7 @@ var Uploader = new Class({
 		this.ui.file = this.ui.container.getElement(this.options.statusFile);
 		this.ui.progress = this.ui.container.getElement(this.options.statusProgress);
 		this.ui.error = this.ui.container.getElement(this.options.statusError);
+		this.ui.notice = this.ui.container.getElement(this.options.statusNotice);
 	},
 
 	onBrowse: function(){
@@ -68,6 +76,7 @@ var Uploader = new Class({
 		this.ui.file.empty().slide('hide').show();
 		this.ui.progress.slide('hide').show();
 		this.ui.error.slide('hide').show();
+		this.ui.notice.slide('hide').show();
 	},
 
 	onSelectSuccess: function(files){
@@ -100,7 +109,22 @@ var Uploader = new Class({
 	},
 
 	onQueue: function(){
-		if (this.fxProgress) this.fxProgress.set(this.uploader.percentLoaded);
+		var p = this.uploader.percentLoaded;
+		if (this.fxProgress) this.fxProgress.set(p);
+
+		// Iterate over all messages, displaying them if necessary.
+		if (this.ui.notice) {
+			for (x in this.messages) {
+				// If this message has not been displayed yet
+				// and this message should be displayed at this point
+				msg = this.messages[x];
+				if (!msg[1] && x <= p) {
+					msg[1] = true;
+					this.ui.notice.show().set('html', msg[0]).slide('in');
+					console.log(this.ui.notice);
+				}
+			}
+		}
 	},
 
 	onFileComplete: function(file){
