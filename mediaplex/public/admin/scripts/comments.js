@@ -37,8 +37,12 @@ var CommentMgr = new Class({
 		});
 		deleteBtn.addEvent('click', deleteConfirmMgr.openConfirmDialog.bind(deleteConfirmMgr));
 
-		var h1 = $(this.options.table).getPrevious().getElement('h1');
-		this.bulkMgr = new BulkMgr(h1, $(this.options.table), [publishBtn, deleteBtn]);
+		var trs = $(this.options.table).getElement('tbody').getElements('tr');
+		if(trs.length != 1 || trs[0].getElements('td').length != 1) {
+			/* Only show if there are comments -- not if there is the single row with a single cell 'None Found' */
+			var h1 = $(this.options.table).getPrevious().getElement('h1');
+			this.bulkMgr = new BulkMgr(h1, $(this.options.table), [publishBtn, deleteBtn]);
+		}
 	},
 
 	processRows: function(rows) {
