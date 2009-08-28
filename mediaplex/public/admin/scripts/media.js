@@ -1,4 +1,4 @@
-var ManevolentMediaOverlord = new Class({
+var MalevolentMediaOverlord = new Class({
 	metaForm: null,
 	metaFormPodcastID: null,
 	statusForm: null,
