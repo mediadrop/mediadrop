@@ -45,9 +45,17 @@ var ConfirmMgr = new Class({
 		cancelButton.addEvent('click', this.cancel.pass(target, this));
 		confirmButton.addEvent('click', this.confirm.pass(target, this));
 
-		SqueezeBox.fromElement(box, {handler: 'fittedAdopt', overlayOpacity: this.options.overlayOpacity});
-
-		confirmButton.focus();
+		SqueezeBox.fromElement(box, {
+			handler: 'fittedAdopt',
+			overlayOpacity: this.options.overlayOpacity,
+			onOpen: function(){
+				// FIXME: This event fires before the content is actually displayed.
+				//        Content is displayed by SqueezeBox.applyContent w/ a timer,
+				//        so we do our best to match that delay and hope that the user
+				//        isn't super quick at hitting enter.
+				confirmButton.focus.delay(SqueezeBox.presets.fx.overlay.duration || 250, confirmButton);
+			}
+		});
 	},
 
 	cancel: function(target){
