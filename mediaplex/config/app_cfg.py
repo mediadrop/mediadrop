@@ -176,3 +176,5 @@ base_config.ftp_password = 'secretpassword'
 base_config.ftp_upload_directory = 'media' # absolute, or relative to login home dir.
 base_config.ftp_download_url = 'http://content.distribution.network/ftpuser/media/'
 base_config.ftp_upload_integrity_retries = 10
+
+base_config.max_upload_size = 2 * 1024 * 1024 * 1024 # 2 Gigabytes (binary)

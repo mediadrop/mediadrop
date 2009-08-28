@@ -30,7 +30,7 @@
 				fxProgressBar: {url: '${h.url_for('/admin/images/progressbar/progress.png')}'},
 				uploader: {
 					path: '${h.url_for('/scripts/third-party/Swiff.Uploader.swf')}',
-					fileSizeMax: 2 * 1024 * 1024 * 1024,
+					fileSizeMax: ${config.max_upload_size},
 					verbose: false, // debug
 					typeFilter: '${'; '.join(['*.'+x for x in h.accepted_extensions()])}'
 				}

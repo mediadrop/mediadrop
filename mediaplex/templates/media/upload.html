@@ -16,7 +16,7 @@
 		var SwiffUploadMGR = null;
 		var swiff_messages = {<py:if test="config.ftp_storage">99: "Hang tight, we're moving your upload to our permanent storage. This may take a few minutes."</py:if>};
 		window.addEvent('domready', function() { UploadMGR = new UploadManager('${upload_form.id}', '${upload_form.async_action}');});
-		window.addEvent('domready', function() { SwiffUploadMGR = new SwiffUploadManager('${upload_form.id}', '${upload_form.async_action}', '${h.url_for(action='upload_failure')}', '${h.url_for('/')}', '${'; '.join(['*.'+x for x in h.accepted_extensions()])}', 'browse-button', 'upload-button', 'file-info', 'upload-status', swiff_messages);})
+		window.addEvent('domready', function() { SwiffUploadMGR = new SwiffUploadManager('${upload_form.id}', '${upload_form.async_action}', '${h.url_for(action='upload_failure')}', '${h.url_for('/')}', '${'; '.join(['*.'+x for x in h.accepted_extensions()])}', 'browse-button', 'upload-button', 'file-info', 'upload-status', swiff_messages, ${config.max_upload_size});})
 	</script>
 </head>
 <body class="nav-upload-video-on">

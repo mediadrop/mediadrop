@@ -127,7 +127,7 @@ var SwiffUploadManager = new Class({
 	progressBar: null,
 	enabled: false,
 	
-	initialize: function(form, action, failurePage, baseUrl, typeFilter, browseButton, uploadButton, fileInfoDiv, statusDiv, messages) {
+	initialize: function(form, action, failurePage, baseUrl, typeFilter, browseButton, uploadButton, fileInfoDiv, statusDiv, messages, fileSizeMax) {
 		if (Browser.Platform.linux) {
 			// There's a bug in the flash player for linux that freezes the browser with swiff.uploader
 			// don't bother setting it up.
@@ -170,7 +170,7 @@ var SwiffUploadManager = new Class({
 			target: this.browseButton, // the element to cover with the flash object
 			fieldName: finput.get('name'), // set the fieldname to the default form's file input name
 			instantStart: false,
-			fileSizeMax: 500 * 1024 * 1024, // 500 mb upload limit
+			fileSizeMax: fileSizeMax,
 			appendCookieData: true,
 			onSelectSuccess: this.onSelectSuccess.bind(this),
 			onSelectFail: this.onSelectFail.bind(this),
