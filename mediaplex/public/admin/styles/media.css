@@ -178,3 +178,18 @@ a.add-media { background-image: url('../images/buttons/add-media.png'); }
 #media-form #tags {
 	height: 150px;
 }
+#media-form #podcast_warning {
+	float: left;
+	background: url('../images/icons/error.png') no-repeat left;
+	padding-left: 22px;
+	margin: 0 0 0 10px;
+	font-size: 12px;
+	line-height: 1.3;
+}
+#media-form #podcast_container .form_field {
+	width: 100%;
+	overflow: hidden;
+}
+#media-form #podcast_container .form_field select {
+	float: left;
+}

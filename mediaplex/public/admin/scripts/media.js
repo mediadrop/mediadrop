@@ -5,8 +5,10 @@ var MalevolentMediaOverlord = new Class({
 	files: null,
 	uploader: null,
 	isNew: null,
+	podcastWarning: null,
+	type: '',
 
-	initialize: function(metaForm, files, uploader, statusForm, albumArtUploader, albumArtImg, isNew){
+	initialize: function(metaForm, files, uploader, statusForm, albumArtUploader, albumArtImg, isNew, type){
 		this.metaForm = $(metaForm);
 		this.metaFormPodcastID = this.metaForm.podcast.value;
 		this.statusForm = statusForm;
@@ -14,15 +16,12 @@ var MalevolentMediaOverlord = new Class({
 		this.uploader = uploader;
 		this.albumArtUploader = albumArtUploader;
 		this.albumArtUploader.uploader.addEvent('fileComplete', this.onAlbumArtUpload.bind(this));
-		this.isNew = !!isNew;
-		this.reinFire();
-	},
-
-	reinFire: function(){
 		this.files.addEvents({
 			fileAdded: this.onFileAdded.bind(this),
 			fileEdited: this.onFileEdited.bind(this)
 		});
+		this.isNew = !!isNew;
+		this.type = type;
 		this.metaForm.podcast.addEvent('change', this.onPodcastChange.bind(this));
 	},
 
@@ -31,7 +30,7 @@ var MalevolentMediaOverlord = new Class({
 		this.updateStatusForm(json.status_form);
 		this.isNew = false;
 	},
-	
+
 	onFileEdited: function(json){
 		this.updateStatusForm(json.status_form);
 	},
@@ -63,17 +62,33 @@ var MalevolentMediaOverlord = new Class({
 
 	onPodcastChange: function(e){
 		var podcastID = this.metaForm.podcast.value, oldPodcastID = this.metaFormPodcastID;
-		if (podcastID && !oldPodcastID) {
-			// enable toggle_feed
-			console.log('enable');
-		} else if (!podcastID && oldPodcastID) {
-			// disable toggle_feed
-			console.log('disable');
-		} else {
-			console.log('nuttin yo');
+		if (podcastID && !oldPodcastID && this._isPublished()) {
+			var inputs = this.files.list.getElements("input[name='is_playable']");
+			for (var warn = true, i = inputs.length; i--; i) {
+				if (inputs[i].value == 'true') {
+					warn = false;
+					break;
+				}
+			}
+			if (warn) this.displayPodcastWarning();
+		} else if (this.podcastWarning && !podcastID && oldPodcastID) {
+			this.podcastWarning.dispose();
 		}
 		this.metaFormPodcastID = podcastID;
 	},
+
+	displayPodcastWarning: function(){
+		this.podcastWarning = this.podcastWarning || new Element('div', {
+			id: 'podcast_warning',
+			html: 'You need an encoded ' + this.type + ' before publishing in podcast.<br />'
+			    + 'Choose to ignore this warning and this media will be unpublished.'
+		});
+		$('podcast_container').getElement('.form_field').grab(this.podcastWarning);
+	},
+
+	_isPublished: function(){
+		return this.statusForm.form.get('html').match(/published/i);
+	}
 
 });
 

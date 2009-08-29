@@ -60,7 +60,7 @@
 				error: 'update-status-error'
 			});
 
-			lord = new MalevolentMediaOverlord('media-form', filemgr, mediaUploader, publishStatus, albumArtUploader, 'album-art-img', ${int(media.id is None)});
+			lord = new MalevolentMediaOverlord('media-form', filemgr, mediaUploader, publishStatus, albumArtUploader, 'album-art-img', ${int(media.id is None)}, ${"'%s'" % media.type if media.type else 'null'});
 		});
 	</script>
 </head>
@@ -99,16 +99,6 @@
 		</div>
 
 		<div class="box">
-			<h1 class="box-head">Comments</h1>
-			<p class="box-content">
-				<py:if test="media.comment_count != media.all_comment_count">
-					<a py:with="num_comments_to_review = media.all_comment_count - media.comment_count" class="review" href="${h.url_for(controller='/commentadmin', media_filter=media.id)}">${num_comments_to_review}</a> require review.<br />
-				</py:if>
-				There has been a total of <a class="total" href="${h.url_for(controller='/commentadmin', media_filter=media.id)}">${media.all_comment_count}</a> comments on this media item.
-			</p>
-		</div>
-
-		<div class="box">
 			<h1 class="box-head">Album Art</h1>
 			<div class="box-content">
 				<div class="album-art" style="width:130px">
@@ -125,6 +115,20 @@
 					<img src="${h.url_for('/admin/images/progressbar/bar.png')}" width="238" height="12" />
 				</div>
 				<div class="box-error upload-error hidden" />
+			</div>
+		</div>
+
+		<div class="box">
+			<div class="box-head">
+				<a href="${h.url_for(controller='/commentadmin', media_filter=media.id)}"
+				   id="go-view-content" class="box-head-sec" target="_blank"
+				   title="Moderate the comments on this media"
+				   py:content="'Moderate'" />
+				<h1>Comments</h1>
+			</div>
+			<div class="box-content">
+				<strong>${media.all_comment_count - media.comment_count}</strong> require review and
+				<strong>${media.all_comment_count}</strong> are published.
 			</div>
 		</div>
 
