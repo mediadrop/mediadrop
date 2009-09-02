@@ -306,6 +306,7 @@ div .nav-box-body {
 .nav-box ul {
 	width: 25%;
 	float: left;
+	margin-bottom: 0;
 }
 .nav-box a:link,
 .nav-box a:visited {
@@ -342,10 +343,9 @@ div .nav-box-body {
 	text-indent: 0;
 }
 #topics-caption {
-	position: absolute;
-	bottom: 10px;
-	right: 3px;
+	padding: 3em 3px 10px 0;
 	width: 205px;
+	float: right;
 }
 #topics-dontsee {
 	background: url('../images/topics/dont-see-question.png') no-repeat;
