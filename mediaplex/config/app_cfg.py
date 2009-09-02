@@ -178,3 +178,11 @@ base_config.ftp_download_url = 'http://content.distribution.network/ftpuser/medi
 base_config.ftp_upload_integrity_retries = 10
 
 base_config.max_upload_size = 2 * 1024 * 1024 * 1024 # 2 Gigabytes (binary)
+
+base_config.album_art_sizes = { # the dimensions (in pixels) to scale album art
+    'ss':(128,  72),
+    's': (162,  91),
+    'm': (240, 135),
+    'l': (410, 231),
+}
+

@@ -281,11 +281,11 @@ class MediaadminController(RoutingController):
 
         try:
             # Create jpeg thumbnails
+            # TODO: Allow other formats?
             im = Image.open(album_art.file)
-            im.resize((128,  72), 1).save(im_path % ('ss', 'jpg'))
-            im.resize((162,  91), 1).save(im_path % ('s',  'jpg'))
-            im.resize((240, 135), 1).save(im_path % ('m',  'jpg'))
-            im.resize((410, 231), 1).save(im_path % ('l',  'jpg'))
+            for size in ['ss', 's', 'm', 'l']:
+                file_path = im_path % (size, 'jpg')
+                im.resize(config.album_art_sizes[size], 1).save(file_path)
 
             # Backup the original image just for kicks
             orig_type = os.path.splitext(album_art.filename)[1].lower()[1:]
