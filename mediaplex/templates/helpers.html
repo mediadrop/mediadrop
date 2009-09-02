@@ -117,7 +117,7 @@
 				<div class="nav-box-topright" />
 				<div><!--! this extra div is here to group elements for the ButtonFlyout js -->
 					<div class="nav-box-body" py:with="per_col = max(5, int(h.math.ceil((len(c.topics) + 6) / 4.0)))">
-						<ul py:if="c.topics" py:for="col in xrange(1, 5)">
+						<ul py:if="c.topics" py:for="col in xrange(1, h.math.ceil(len(c.topics) / float(per_col)) + 1)">
 							<li py:for="topic in c.topics[(col-1)*per_col:col*per_col]">
 								<a href="${h.url_for(controller='/media', action='topics', slug=topic.slug)}">${topic}</a> <span>(${topic.published_media_count})</span>
 							</li>
