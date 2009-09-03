@@ -15,7 +15,7 @@ from tg.controllers import DecoratedController
 from tg.exceptions import (HTTPFound, HTTPNotFound, HTTPException,
     HTTPClientError)
 
-import mediaplex.model as model
+import simpleplex.model as model
 
 from pylons.i18n import _, ungettext, N_
 from tw.api import WidgetBunch
@@ -74,7 +74,7 @@ class RoutingController(DecoratedController):
 
         try:
             # If the self.tmpl_tmp_path file exists
-            # That means that another instance of mediaplex is writing to it
+            # That means that another instance of simpleplex is writing to it
             # Return immediately
             os.stat(self.tmpl_tmp_path)
             return False

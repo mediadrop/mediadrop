@@ -7,8 +7,8 @@
 <head py:match="head">
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title py:match="title" py:with="title = select('text()')">
-		<py:if test="title and title != 'Mediaplex'">${title} |</py:if>
-		Mediaplex
+		<py:if test="title and title != 'Simpleplex'">${title} |</py:if>
+		Simpleplex
 	</title>
 	<!--[if lt IE 8]>
 	<script src="http://ie7-js.googlecode.com/svn/version/2.0(beta3)/IE8.js" type="text/javascript"></script>
@@ -23,7 +23,7 @@
 <body py:match="body" py:attrs="select('@*')">
 	<div id="container">
 		<div id="header">
-			<h2 id="logo"><a href="${h.url_for(controller='admin', action='index')}">Mediaplex</a></h2>
+			<h2 id="logo"><a href="${h.url_for(controller='admin', action='index')}">Simpleplex</a></h2>
 			<a id="logout" href="${h.url_for('/logout_handler')}">Logout</a>
 			<ul id="menu">
 				<li id="menu-dashboard"><a href="${h.url_for(controller='/admin')}"><span>Dashboard</span></a></li>

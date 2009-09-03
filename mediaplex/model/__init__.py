@@ -6,8 +6,8 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from tg.exceptions import HTTPNotFound
 from sqlalchemy.orm.exc import NoResultFound
-from mediaplex.lib.unidecode import unidecode
-from mediaplex.lib.htmlsanitizer import entities_to_unicode
+from simpleplex.lib.unidecode import unidecode
+from simpleplex.lib.htmlsanitizer import entities_to_unicode
 
 # Global session manager.  DBSession() returns the session object
 # appropriate for the current web request.
@@ -115,11 +115,11 @@ def get_available_slug(mapped_class, slug, ignore=None):
     return new_slug
 
 
-from mediaplex.model.auth import User, Group, Permission
-from mediaplex.model.authors import Author, AuthorWithIP
-from mediaplex.model.rating import Rating
-from mediaplex.model.comments import Comment
-from mediaplex.model.tags import Tag
-from mediaplex.model.topics import Topic
-from mediaplex.model.media import Media, MediaFile
-from mediaplex.model.podcasts import Podcast
+from simpleplex.model.auth import User, Group, Permission
+from simpleplex.model.authors import Author, AuthorWithIP
+from simpleplex.model.rating import Rating
+from simpleplex.model.comments import Comment
+from simpleplex.model.tags import Tag
+from simpleplex.model.topics import Topic
+from simpleplex.model.media import Media, MediaFile
+from simpleplex.model.podcasts import Podcast

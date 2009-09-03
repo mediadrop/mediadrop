@@ -39,8 +39,8 @@ from sqlalchemy import Table, ForeignKey, Column, sql
 from sqlalchemy.types import String, Unicode, UnicodeText, Integer, DateTime, Boolean, Float
 from sqlalchemy.orm import mapper, relation, backref, synonym, composite, column_property, validates, interfaces
 
-from mediaplex.model import DeclarativeBase, metadata, DBSession, AuthorWithIP
-from mediaplex.model.status import Status, StatusSet, StatusComparator, StatusType, StatusTypeExtension
+from simpleplex.model import DeclarativeBase, metadata, DBSession, AuthorWithIP
+from simpleplex.model.status import Status, StatusSet, StatusComparator, StatusType, StatusTypeExtension
 
 
 TRASH = Status('trash', 1)
@@ -85,7 +85,7 @@ class Comment(object):
       auto-generate links to any comment's parent.
 
     :param author:
-      An instance of mediaplex.model.author.Author.
+      An instance of simpleplex.model.author.Author.
 
     """
     def __repr__(self):

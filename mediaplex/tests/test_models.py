@@ -4,7 +4,7 @@
 from tg.testutil import DBTest
 from nose.tools import eq_
 
-from mediaplex import model
+from simpleplex import model
 
 
 class TestModel(DBTest):

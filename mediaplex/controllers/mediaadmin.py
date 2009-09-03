@@ -17,15 +17,15 @@ from repoze.what.predicates import has_permission
 from pylons import tmpl_context
 from tw.forms import validators
 
-from mediaplex.lib import helpers
-from mediaplex.lib.helpers import expose_xhr, redirect, url_for, clean_xhtml
-from mediaplex.lib.base import RoutingController
-from mediaplex.model import DBSession, fetch_row, get_available_slug, Media, MediaFile, Podcast, Comment, Tag, Author, AuthorWithIP
-from mediaplex.model.media import create_media_stub
-from mediaplex.forms.admin import SearchForm, AlbumArtForm
-from mediaplex.forms.media import MediaForm, AddFileForm, EditFileForm, UpdateStatusForm, PodcastFilterForm
-from mediaplex.forms.comments import PostCommentForm
-from mediaplex.controllers.media import _add_new_media_file
+from simpleplex.lib import helpers
+from simpleplex.lib.helpers import expose_xhr, redirect, url_for, clean_xhtml
+from simpleplex.lib.base import RoutingController
+from simpleplex.model import DBSession, fetch_row, get_available_slug, Media, MediaFile, Podcast, Comment, Tag, Author, AuthorWithIP
+from simpleplex.model.media import create_media_stub
+from simpleplex.forms.admin import SearchForm, AlbumArtForm
+from simpleplex.forms.media import MediaForm, AddFileForm, EditFileForm, UpdateStatusForm, PodcastFilterForm
+from simpleplex.forms.comments import PostCommentForm
+from simpleplex.controllers.media import _add_new_media_file
 
 media_form = MediaForm()
 add_file_form = AddFileForm()
@@ -39,8 +39,8 @@ podcast_filter_form = PodcastFilterForm(action=url_for(controller='/mediadmin', 
 class MediaadminController(RoutingController):
     allow_only = has_permission('admin')
 
-    @expose_xhr('mediaplex.templates.admin.media.index',
-                'mediaplex.templates.admin.media.index-table')
+    @expose_xhr('simpleplex.templates.admin.media.index',
+                'simpleplex.templates.admin.media.index-table')
     @paginate('media', items_per_page=25)
     def index(self, page=1, search=None, podcast_filter=None, **kwargs):
         media = DBSession.query(Media)\
@@ -76,7 +76,7 @@ class MediaadminController(RoutingController):
         )
 
 
-    @expose('mediaplex.templates.admin.media.edit')
+    @expose('simpleplex.templates.admin.media.edit')
     @validate(validators={'podcast': validators.Int()})
     def edit(self, id, **kwargs):
         """Display the edit forms, or create a new one if the ID is 'new'.

@@ -6,19 +6,19 @@ from sqlalchemy import and_, or_
 from sqlalchemy.orm import eagerload
 from repoze.what.predicates import has_permission
 
-from mediaplex.lib import helpers
-from mediaplex.lib.base import RoutingController
-from mediaplex.lib.helpers import expose_xhr, redirect, url_for, clean_xhtml
-from mediaplex.model import DBSession, metadata, fetch_row, Comment, Tag, Author, Media
-from mediaplex.forms.admin import SearchForm
-from mediaplex.forms.comments import EditCommentForm
+from simpleplex.lib import helpers
+from simpleplex.lib.base import RoutingController
+from simpleplex.lib.helpers import expose_xhr, redirect, url_for, clean_xhtml
+from simpleplex.model import DBSession, metadata, fetch_row, Comment, Tag, Author, Media
+from simpleplex.forms.admin import SearchForm
+from simpleplex.forms.comments import EditCommentForm
 
 class CommentadminController(RoutingController):
     """Admin comment actions which deal with groups of comments"""
     allow_only = has_permission('admin')
 
-    @expose_xhr('mediaplex.templates.admin.comments.index',
-                'mediaplex.templates.admin.comments.index-table')
+    @expose_xhr('simpleplex.templates.admin.comments.index',
+                'simpleplex.templates.admin.comments.index-table')
     @paginate('comments', items_per_page=50)
     def index(self, page=1, search=None, media_filter=None, **kwargs):
         comments = DBSession.query(Comment)\

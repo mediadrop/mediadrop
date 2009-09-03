@@ -10,7 +10,7 @@ from sqlalchemy import Table, ForeignKey, Column
 from sqlalchemy.types import String, Unicode, UnicodeText, Integer, DateTime, Boolean, Float
 from sqlalchemy.orm import relation, backref, synonym
 
-from mediaplex.model import DeclarativeBase, metadata, DBSession
+from simpleplex.model import DeclarativeBase, metadata, DBSession
 
 
 # This is the association table for the many-to-many relationship between

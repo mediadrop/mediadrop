@@ -50,7 +50,7 @@ a:hover {
 
 /* FIXME: Clashes with logo div in new PHP template. so we remove it for now.
 #logo {
-	background: url('../images/layout/mediaplex.png') no-repeat 11px top;
+	background: url('../images/layout/simpleplex.png') no-repeat 11px top;
 	height: 57px;
 	width: 940px;
 	margin: 10px auto 0 auto;
@@ -336,7 +336,7 @@ div .nav-box-body {
 	width: 100%;
 	clear: both;
 }
-#mediaplex-topics li {
+#simpleplex-topics li {
 	display: block;
 	margin: 3px 0;
 	height: auto;

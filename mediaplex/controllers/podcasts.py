@@ -9,10 +9,10 @@ from pylons import tmpl_context, templating
 from sqlalchemy import and_, or_
 from sqlalchemy.orm import eagerload, undefer
 
-from mediaplex.lib import helpers, custompaginate
-from mediaplex.lib.helpers import expose_xhr, redirect, url_for
-from mediaplex.lib.base import Controller, RoutingController
-from mediaplex.model import DBSession, fetch_row, Podcast, Media, Topic
+from simpleplex.lib import helpers, custompaginate
+from simpleplex.lib.helpers import expose_xhr, redirect, url_for
+from simpleplex.lib.base import Controller, RoutingController
+from simpleplex.model import DBSession, fetch_row, Podcast, Media, Topic
 
 class PodcastsController(RoutingController):
     """Podcast actions -- episodes are handled in the MediaController"""
@@ -35,7 +35,7 @@ class PodcastsController(RoutingController):
             .filter(Media.status >= 'publish')\
             .filter(Media.status.excludes('trash'))
 
-    @expose('mediaplex.templates.podcasts.index')
+    @expose('simpleplex.templates.podcasts.index')
     def index(self, page=1, **kwargs):
         episodes_query = DBSession.query(Media)\
             .filter(Media.podcast_id != None)\
@@ -57,7 +57,7 @@ class PodcastsController(RoutingController):
         )
 
 
-    @expose('mediaplex.templates.podcasts.view')
+    @expose('simpleplex.templates.podcasts.view')
     @paginate('episodes', items_per_page=10)
     def view(self, slug, page=1, **kwargs):
         podcast = fetch_row(Podcast, slug=slug)
@@ -93,6 +93,6 @@ class PodcastsController(RoutingController):
         # Manually render XML from genshi since tg.render.render_genshi is too stupid to support it.
         response.content_type = 'application/rss+xml'
         template_name = config['pylons.app_globals'].dotted_filename_finder.get_dotted_filename(
-            'mediaplex.templates.podcasts.feed', template_extension='.xml')
+            'simpleplex.templates.podcasts.feed', template_extension='.xml')
         return templating.render_genshi(template_name, extra_vars=template_vars, method='xml')
 

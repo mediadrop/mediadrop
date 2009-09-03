@@ -1,7 +1,7 @@
 from tw.forms import TextField, FileField
 from tw.forms.validators import FieldStorageUploadConverter
 
-from mediaplex.forms import Form, ListForm, SubmitButton
+from simpleplex.forms import Form, ListForm, SubmitButton
 
 
 class SearchForm(ListForm):
@@ -11,7 +11,7 @@ class SearchForm(ListForm):
 
 
 class AlbumArtForm(ListForm):
-    template = 'mediaplex.templates.admin.album-art-form'
+    template = 'simpleplex.templates.admin.album-art-form'
     id = 'album-art-form'
     css_class = 'form'
     submit_text = None

@@ -1,14 +1,14 @@
 from tw.api import WidgetsList, CSSLink
 from tw.forms.validators import Schema, Int, StringBool, NotEmpty, DateConverter, DateValidator, Email, FieldStorageUploadConverter
 
-from mediaplex.model import DBSession, Podcast, MediaFile
-from mediaplex.lib import helpers
-from mediaplex.forms import Form, ListForm, ListFieldSet, TextField, XHTMLTextArea, FileField, CalendarDatePicker, SingleSelectField, TextArea, SubmitButton, Button, HiddenField, CheckBoxList
-from mediaplex.model import DBSession, Podcast, Topic
+from simpleplex.model import DBSession, Podcast, MediaFile
+from simpleplex.lib import helpers
+from simpleplex.forms import Form, ListForm, ListFieldSet, TextField, XHTMLTextArea, FileField, CalendarDatePicker, SingleSelectField, TextArea, SubmitButton, Button, HiddenField, CheckBoxList
+from simpleplex.model import DBSession, Podcast, Topic
 
 
 class AddFileForm(ListForm):
-    template = 'mediaplex.templates.admin.media.file-add-form'
+    template = 'simpleplex.templates.admin.media.file-add-form'
     id = 'media-file-form'
     submit_text = None
     fields = [
@@ -18,7 +18,7 @@ class AddFileForm(ListForm):
 
 
 class EditFileForm(ListForm):
-    template = 'mediaplex.templates.admin.media.file-edit-form'
+    template = 'simpleplex.templates.admin.media.file-edit-form'
     submit_text = None
     _name = 'fileeditform'
     params = ['file']
@@ -50,7 +50,7 @@ class EditFileForm(ListForm):
 
 
 class MediaForm(ListForm):
-    template = 'mediaplex.templates.admin.box-form'
+    template = 'simpleplex.templates.admin.box-form'
     id = 'media-form'
     css_class = 'form'
     submit_text = None
@@ -68,7 +68,7 @@ class MediaForm(ListForm):
             "S&H References: None\n"
             "Reviewer: None\n"
             "License: General Upload\n")),
-        CheckBoxList('topics', template='mediaplex.templates.admin.categories.selection_list', options=lambda: DBSession.query(Topic.id, Topic.name).all()),
+        CheckBoxList('topics', template='simpleplex.templates.admin.categories.selection_list', options=lambda: DBSession.query(Topic.id, Topic.name).all()),
         TextArea('tags', attrs=dict(rows=3, cols=15), help_text=u'e.g.: puppies, great dane, adorable'),
         ListFieldSet('details', suppress_label=True, legend='Media Details:', css_classes=['details_fieldset'], children=[
             TextField('duration'),
@@ -79,7 +79,7 @@ class MediaForm(ListForm):
 
 
 class UpdateStatusForm(Form):
-    template = 'mediaplex.templates.admin.media.update-status-form'
+    template = 'simpleplex.templates.admin.media.update-status-form'
     id = 'update-status-form'
     css_class = 'form'
     submit_text = None
@@ -93,7 +93,7 @@ class UpdateStatusForm(Form):
 
 
 class UploadForm(ListForm):
-    template = 'mediaplex.templates.media.upload-form'
+    template = 'simpleplex.templates.media.upload-form'
     id = 'upload-form'
     css_class = 'form'
     css = [CSSLink(link=helpers.url_for('/styles/forms.css'))]
@@ -117,6 +117,6 @@ class UploadForm(ListForm):
 class PodcastFilterForm(ListForm):
     id = 'podcastfilterform'
     method = 'get'
-    template = 'mediaplex.templates.admin.media.podcast-filter-form'
+    template = 'simpleplex.templates.admin.media.podcast-filter-form'
 
     fields = [SingleSelectField('podcast_filter', suppress_label=True, options=lambda: [('All Media', 'All Media')] + DBSession.query(Podcast.id, Podcast.title).all() + [('Unfiled', 'Unfiled')])]

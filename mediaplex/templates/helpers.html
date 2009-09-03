@@ -39,7 +39,7 @@
 					var topicIndexFlyout = new ButtonFlyout({
 						button: 'nav-topics',
 						buttonActiveClass: 'topics-shown',
-						elements: $('mediaplex-topics').getChildren(),
+						elements: $('simpleplex-topics').getChildren(),
 						startHidden: ${c.nav_opts['show_topic_list'] and 'false' or 'true'},
 						openFx: flyoutOpenFx,
 						closeFx: flyoutCloseFx
@@ -112,7 +112,7 @@
 					<div class="nav-box-bottom" />
 				</div>
 			</div>
-			<div py:if="c.nav_opts['show_topics']" id="mediaplex-topics" class="nav-box">
+			<div py:if="c.nav_opts['show_topics']" id="simpleplex-topics" class="nav-box">
 				<div id="topic-box-top" />
 				<div class="nav-box-topright" />
 				<div><!--! this extra div is here to group elements for the ButtonFlyout js -->

@@ -6,12 +6,12 @@ IMPORTANT! Configure MySQL to use the InnoDB table engine by default.
            Otherwise foreign key constraints will not be added.
 """
 
-from mediaplex.model import DBSession, Video, metadata
+from simpleplex.model import DBSession, Video, metadata
 from sqlalchemy import create_engine
 import transaction
 
 # Prepare the database connection
-engine = create_engine('mysql://root:happyplanet@localhost/mediaplex', echo=True)
+engine = create_engine('mysql://root:happyplanet@localhost/simpleplex', echo=True)
 DBSession.configure(bind=engine)
 
 # Create the tables

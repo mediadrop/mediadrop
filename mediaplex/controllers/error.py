@@ -5,9 +5,9 @@ import tg
 from tg import expose, request
 from pylons.controllers.util import forward
 from pylons.middleware import error_document_template, media_path
-from mediaplex.lib.base import RoutingController
-from mediaplex.lib.helpers import redirect
-from mediaplex.lib import email
+from simpleplex.lib.base import RoutingController
+from simpleplex.lib.helpers import redirect
+from simpleplex.lib import email
 
 import smtplib
 
@@ -21,7 +21,7 @@ class ErrorController(RoutingController):
     ErrorDocuments middleware in your config/middleware.py file.
     """
 
-    @expose('mediaplex.templates.error')
+    @expose('simpleplex.templates.error')
     def document(self, *args, **kwargs):
         """Render the error document
 

@@ -5,15 +5,15 @@ from sqlalchemy.orm import eagerload
 import webhelpers.paginate
 from repoze.what.predicates import has_permission
 
-from mediaplex.lib.base import RoutingController
-from mediaplex.lib.helpers import expose_xhr
-from mediaplex.model import DBSession, fetch_row, Media, Comment, Tag
+from simpleplex.lib.base import RoutingController
+from simpleplex.lib.helpers import expose_xhr
+from simpleplex.model import DBSession, fetch_row, Media, Comment, Tag
 
 class AdminController(RoutingController):
     """Admin dashboard actions"""
     allow_only = has_permission('admin')
 
-    @expose('mediaplex.templates.admin.index')
+    @expose('simpleplex.templates.admin.index')
     def index(self, **kwargs):
         # Any publishable video that does have a publish_on date that is in the
         # past and is publishable is 'Recently Published'
@@ -37,7 +37,7 @@ class AdminController(RoutingController):
             recent_media=recent_media
         )
 
-    @expose('mediaplex.templates.admin.media.dash-table')
+    @expose('simpleplex.templates.admin.media.dash-table')
     def video_table(self, table, page, **kwargs):
         """ShowMore Ajax Fetch Action"""
         return dict(

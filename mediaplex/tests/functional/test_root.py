@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from mediaplex.tests import TestController
+from simpleplex.tests import TestController
 from nose.tools import assert_true
 
 # This is an example of how you can write functional tests for your controller.

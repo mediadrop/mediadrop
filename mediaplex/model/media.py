@@ -24,7 +24,7 @@ Things to be aware of:
     This gives us the flexibility to properly normalize our author data without
     modifying all the places in the app where we access our author information.
 
-  - For status documentation see mediaplex.model.status
+  - For status documentation see simpleplex.model.status
 
 """
 
@@ -37,14 +37,14 @@ from sqlalchemy.orm import mapper, class_mapper, relation, backref, synonym, com
 from tg import config, request
 from zope.sqlalchemy import datamanager
 
-from mediaplex.model import DeclarativeBase, metadata, DBSession, get_available_slug
-from mediaplex.model.authors import Author
-from mediaplex.model.rating import Rating
-from mediaplex.model.comments import Comment, CommentTypeExtension, comments, PUBLISH as COMMENT_PUBLISH, TRASH as COMMENT_TRASH
-from mediaplex.model.tags import Tag, TagCollection, tags, extract_tags, fetch_and_create_tags
-from mediaplex.model.topics import Topic, TopicCollection, topics, fetch_topics
-from mediaplex.model.status import Status, StatusSet, StatusComparator, StatusType, StatusTypeExtension
-from mediaplex.lib import helpers
+from simpleplex.model import DeclarativeBase, metadata, DBSession, get_available_slug
+from simpleplex.model.authors import Author
+from simpleplex.model.rating import Rating
+from simpleplex.model.comments import Comment, CommentTypeExtension, comments, PUBLISH as COMMENT_PUBLISH, TRASH as COMMENT_TRASH
+from simpleplex.model.tags import Tag, TagCollection, tags, extract_tags, fetch_and_create_tags
+from simpleplex.model.topics import Topic, TopicCollection, topics, fetch_topics
+from simpleplex.model.status import Status, StatusSet, StatusComparator, StatusType, StatusTypeExtension
+from simpleplex.lib import helpers
 
 
 TRASH = Status('trash', 1)

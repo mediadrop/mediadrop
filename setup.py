@@ -6,7 +6,7 @@ except ImportError:
     from setuptools import setup, find_packages
 
 setup(
-    name='Mediaplex',
+    name='Simpleplex',
     version='0.1',
     description='',
     author='',
@@ -27,10 +27,10 @@ setup(
     include_package_data=True,
     test_suite='nose.collector',
     tests_require=['WebTest', 'BeautifulSoup'],
-    package_data={'mediaplex': ['i18n/*/LC_MESSAGES/*.mo',
+    package_data={'simpleplex': ['i18n/*/LC_MESSAGES/*.mo',
                                  'templates/*/*',
                                  'public/*/*']},
-    message_extractors = {'mediaplex': [
+    message_extractors = {'simpleplex': [
             ('**.py', 'python', None),
             ('templates/**.mako', 'mako', None),
             ('templates/**.html', 'genshi', None),
@@ -38,7 +38,7 @@ setup(
 
     entry_points="""
     [paste.app_factory]
-    main = mediaplex.config.middleware:make_app
+    main = simpleplex.config.middleware:make_app
 
     [paste.app_install]
     main = pylons.util:PylonsInstaller

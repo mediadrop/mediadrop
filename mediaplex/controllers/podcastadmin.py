@@ -11,12 +11,12 @@ from sqlalchemy import or_
 from sqlalchemy.orm import undefer
 from pylons import tmpl_context
 
-from mediaplex.lib import helpers
-from mediaplex.lib.helpers import expose_xhr, redirect, url_for, clean_xhtml
-from mediaplex.lib.base import RoutingController
-from mediaplex.model import DBSession, fetch_row, Podcast, Author, AuthorWithIP, get_available_slug
-from mediaplex.forms.admin import SearchForm, AlbumArtForm
-from mediaplex.forms.podcasts import PodcastForm
+from simpleplex.lib import helpers
+from simpleplex.lib.helpers import expose_xhr, redirect, url_for, clean_xhtml
+from simpleplex.lib.base import RoutingController
+from simpleplex.model import DBSession, fetch_row, Podcast, Author, AuthorWithIP, get_available_slug
+from simpleplex.forms.admin import SearchForm, AlbumArtForm
+from simpleplex.forms.podcasts import PodcastForm
 
 podcast_form = PodcastForm()
 album_art_form = AlbumArtForm()
@@ -25,8 +25,8 @@ class PodcastadminController(RoutingController):
     """Admin podcast actions which deal with groups of podcasts"""
     allow_only = has_permission('admin')
 
-    @expose_xhr('mediaplex.templates.admin.podcasts.index',
-                'mediaplex.templates.admin.podcasts.index-table')
+    @expose_xhr('simpleplex.templates.admin.podcasts.index',
+                'simpleplex.templates.admin.podcasts.index-table')
     @paginate('podcasts', items_per_page=10)
     def index(self, page=1, search=None, podcast=None, **kw):
         podcasts = DBSession.query(Podcast)\
@@ -35,7 +35,7 @@ class PodcastadminController(RoutingController):
         return dict(podcasts=podcasts)
 
 
-    @expose('mediaplex.templates.admin.podcasts.edit')
+    @expose('simpleplex.templates.admin.podcasts.edit')
     def edit(self, id, **values):
         podcast = fetch_row(Podcast, id)
 

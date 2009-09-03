@@ -1,10 +1,10 @@
 from tw.forms import ListFieldSet, TextField, FileField, CalendarDatePicker, SingleSelectField, TextArea, RadioButtonList
 from tw.forms.validators import Schema, Int, NotEmpty, DateConverter, DateValidator, Email, URL
-from mediaplex.lib import helpers
-from mediaplex.forms import ListForm, XHTMLTextArea, SubmitButton
+from simpleplex.lib import helpers
+from simpleplex.forms import ListForm, XHTMLTextArea, SubmitButton
 
 class PodcastForm(ListForm):
-    template = 'mediaplex.templates.admin.box-form'
+    template = 'simpleplex.templates.admin.box-form'
     id = 'podcast-form'
     css_class = 'form'
     submit_text = None

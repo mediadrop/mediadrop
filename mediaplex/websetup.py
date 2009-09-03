@@ -1,18 +1,18 @@
-"""Setup the Mediaplex application"""
+"""Setup the Simpleplex application"""
 import logging
 
 import transaction
 from tg import config
 
-from mediaplex.config.environment import load_environment
+from simpleplex.config.environment import load_environment
 
 log = logging.getLogger(__name__)
 
 def setup_app(command, conf, vars):
-    """Place any commands to setup mediaplex here"""
+    """Place any commands to setup simpleplex here"""
     load_environment(conf.global_conf, conf.local_conf)
     # Load the models
-    from mediaplex import model
+    from simpleplex import model
     print "Creating tables"
     model.metadata.create_all(bind=config['pylons.app_globals'].sa_engine)
 

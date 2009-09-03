@@ -1,4 +1,4 @@
-from mediaplex.lib.base import *
+from simpleplex.lib.base import *
 
 class TemplateController(BaseController):
 

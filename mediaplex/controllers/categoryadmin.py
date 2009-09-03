@@ -6,12 +6,12 @@ from sqlalchemy import and_, or_
 from sqlalchemy.orm import eagerload
 from repoze.what.predicates import has_permission
 
-from mediaplex.lib import helpers
-from mediaplex.lib.base import RoutingController
-from mediaplex.lib.helpers import expose_xhr, redirect, url_for
-from mediaplex import model
-from mediaplex.model import DBSession, metadata, fetch_row, Tag, Topic, get_available_slug
-from mediaplex.forms.categories import EditCategoryForm
+from simpleplex.lib import helpers
+from simpleplex.lib.base import RoutingController
+from simpleplex.lib.helpers import expose_xhr, redirect, url_for
+from simpleplex import model
+from simpleplex.model import DBSession, metadata, fetch_row, Tag, Topic, get_available_slug
+from simpleplex.forms.categories import EditCategoryForm
 
 edit_category_form = EditCategoryForm()
 
@@ -19,8 +19,8 @@ class CategoryadminController(RoutingController):
     """Admin categories actions which deal with categories"""
     allow_only = has_permission('admin')
 
-    @expose_xhr('mediaplex.templates.admin.categories.index',
-                'mediaplex.templates.admin.categories.index-table')
+    @expose_xhr('simpleplex.templates.admin.categories.index',
+                'simpleplex.templates.admin.categories.index-table')
     @paginate('categories', items_per_page=25)
     def index(self, page=1, category='topics', **kwargs):
         model = self.select_model(category)

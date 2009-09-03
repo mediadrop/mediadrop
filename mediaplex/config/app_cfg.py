@@ -1,11 +1,11 @@
 from tg.configuration import AppConfig, Bunch, config
 from routes import Mapper
 
-import mediaplex
-from mediaplex import model
-from mediaplex.lib import app_globals, helpers, auth
+import simpleplex
+from simpleplex import model
+from simpleplex.lib import app_globals, helpers, auth
 
-class MediaplexConfig(AppConfig):
+class SimpleplexConfig(AppConfig):
     def setup_routes(self):
         """Setup our custom named routes"""
         map = Mapper(directory=config['pylons.paths']['controllers'],
@@ -66,10 +66,10 @@ class MediaplexConfig(AppConfig):
         config['routes.map'] = map
 
 
-base_config = MediaplexConfig()
+base_config = SimpleplexConfig()
 base_config.renderers = []
 
-base_config.package = mediaplex
+base_config.package = simpleplex
 
 #Set the default renderer
 base_config.default_renderer = 'genshi'
@@ -81,8 +81,8 @@ base_config.renderers.append('genshi')
 
 #Configure the base SQLALchemy Setup
 base_config.use_sqlalchemy = True
-base_config.model = mediaplex.model
-base_config.DBSession = mediaplex.model.DBSession
+base_config.model = simpleplex.model
+base_config.DBSession = simpleplex.model.DBSession
 
 # Configure the authentication backend
 base_config.auth_backend = 'sqlalchemy'

@@ -21,12 +21,12 @@ from sqlalchemy import and_, or_
 from sqlalchemy.orm import eagerload, undefer
 from sqlalchemy.orm.exc import NoResultFound
 
-from mediaplex.lib import helpers, email
-from mediaplex.lib.helpers import expose_xhr, redirect, url_for, clean_xhtml, strip_xhtml, line_break_xhtml
-from mediaplex.lib.base import Controller, RoutingController
-from mediaplex.model import DBSession, metadata, fetch_row, get_available_slug, Media, MediaFile, Comment, Tag, Topic, Author, AuthorWithIP, Podcast
-from mediaplex.forms.media import UploadForm
-from mediaplex.forms.comments import PostCommentForm
+from simpleplex.lib import helpers, email
+from simpleplex.lib.helpers import expose_xhr, redirect, url_for, clean_xhtml, strip_xhtml, line_break_xhtml
+from simpleplex.lib.base import Controller, RoutingController
+from simpleplex.model import DBSession, metadata, fetch_row, get_available_slug, Media, MediaFile, Comment, Tag, Topic, Author, AuthorWithIP, Podcast
+from simpleplex.forms.media import UploadForm
+from simpleplex.forms.comments import PostCommentForm
 
 upload_form = UploadForm(
     action = url_for(controller='/media', action='upload_submit'),
@@ -50,7 +50,7 @@ class MediaController(RoutingController):
             .order_by(Topic.name)\
             .all()
 
-    @expose('mediaplex.templates.media.index')
+    @expose('simpleplex.templates.media.index')
     @paginate('media', items_per_page=20)
     def index(self, page=1, topics=None, **kwargs):
         """Grid-style List Action"""
@@ -58,7 +58,7 @@ class MediaController(RoutingController):
             media = self._list_query.options(undefer('comment_count')),
         )
 
-    @expose('mediaplex.templates.media.lessons')
+    @expose('simpleplex.templates.media.lessons')
     @paginate('media', items_per_page=20)
     def lessons(self, page=1, topics=None, **kwargs):
         """Grid-style List Action"""
@@ -84,7 +84,7 @@ class MediaController(RoutingController):
             week_start = sunday,
         )
 
-    @expose('mediaplex.templates.media.lesson_view')
+    @expose('simpleplex.templates.media.lesson_view')
     def lesson_view(self, slug, **kwargs):
         """Display the media player and comments"""
         media = fetch_row(Media, slug=slug)
@@ -113,7 +113,7 @@ class MediaController(RoutingController):
         email.send_comment_notification(media, c)
         redirect(action='lesson_view')
 
-    @expose('mediaplex.templates.media.view')
+    @expose('simpleplex.templates.media.view')
     def view(self, slug, podcast_slug=None, **kwargs):
         """Display the media player and comments"""
         media = fetch_row(Media, slug=slug)
@@ -214,7 +214,7 @@ class MediaController(RoutingController):
             podcast = media.podcast and media.podcast.slug or None,
         )
 
-    @expose('mediaplex.templates.media.concept_view')
+    @expose('simpleplex.templates.media.concept_view')
     def concept_view(self, slug, podcast_slug=None, **kwargs):
         """Display the media player and comments"""
         media = fetch_row(Media, slug=slug)
@@ -293,14 +293,14 @@ class MediaController(RoutingController):
         else:
             raise HTTPNotFound()
 
-    @expose('mediaplex.templates.media.mediaflow')
+    @expose('simpleplex.templates.media.mediaflow')
     def flow(self, page=1, **kwargs):
         """Mediaflow Action"""
         return dict(
             media = self._list_query[:15],
         )
 
-    @expose('mediaplex.templates.media.concept_preview')
+    @expose('simpleplex.templates.media.concept_preview')
     def concept_preview(self, page=1, **kwargs):
         """Mediaflow Action"""
         tmpl_context.disable_topics = True
@@ -337,7 +337,7 @@ class MediaController(RoutingController):
             .order_by(Media.publish_on.desc())
 
 
-    @expose('mediaplex.templates.media.topics')
+    @expose('simpleplex.templates.media.topics')
     @paginate('media', items_per_page=20)
     def topics(self, slug=None, page=1, **kwargs):
         if slug:
@@ -355,7 +355,7 @@ class MediaController(RoutingController):
             topic = topic,
         )
 
-    @expose('mediaplex.templates.media.tags')
+    @expose('simpleplex.templates.media.tags')
     @paginate('media', items_per_page=20)
     def tags(self, slug=None, page=1, **kwargs):
         if slug:
@@ -380,7 +380,7 @@ class MediaController(RoutingController):
             tags = tags,
         )
 
-    @expose('mediaplex.templates.media.upload')
+    @expose('simpleplex.templates.media.upload')
     def upload(self, **kwargs):
         return dict(
             upload_form = upload_form,
@@ -449,12 +449,12 @@ class MediaController(RoutingController):
         redirect(action='upload_success')
 
 
-    @expose('mediaplex.templates.media.upload-success')
+    @expose('simpleplex.templates.media.upload-success')
     def upload_success(self, **kwargs):
         return dict()
 
 
-    @expose('mediaplex.templates.media.upload-failure')
+    @expose('simpleplex.templates.media.upload-failure')
     def upload_failure(self, **kwargs):
         return dict()
 

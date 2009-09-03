@@ -1,5 +1,5 @@
 """Test Secure Controller"""
-from mediaplex.lib.base import RoutingController
+from simpleplex.lib.base import RoutingController
 from tg import expose, flash
 from pylons.i18n import ugettext as _
 #from tg import redirect, validate
@@ -16,12 +16,12 @@ class SecureController(RoutingController):
     allow_only = has_permission('manage',
                                 msg=_('Only for people with the "manage" permission'))
 
-    @expose('mediaplex.templates.index')
+    @expose('simpleplex.templates.index')
     def index(self):
         flash(_("Secure Controller here"))
         return dict(page='index')
 
-    @expose('mediaplex.templates.index')
+    @expose('simpleplex.templates.index')
     def some_where(self):
         """should be protected because of the require attr
         at the controller level.
