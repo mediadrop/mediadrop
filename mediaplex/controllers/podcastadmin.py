@@ -19,6 +19,7 @@ from mediaplex.forms.admin import SearchForm, AlbumArtForm
 from mediaplex.forms.podcasts import PodcastForm
 
 podcast_form = PodcastForm()
+album_art_form = AlbumArtForm()
 
 class PodcastadminController(RoutingController):
     """Admin podcast actions which deal with groups of podcasts"""
@@ -65,8 +66,9 @@ class PodcastadminController(RoutingController):
             form = podcast_form,
             form_action = url_for(action='save'),
             form_values = form_values,
+            album_art_form = album_art_form,
+            album_art_action = url_for(action='save_album_art'),
             album_art_form_errors = album_art_form_errors,
-            album_art_form = AlbumArtForm(action=url_for(action='save_album_art')),
         )
 
 
@@ -98,7 +100,7 @@ class PodcastadminController(RoutingController):
 
 
     @expose('json')
-    @validate(AlbumArtForm(), error_handler=edit)
+    @validate(album_art_form, error_handler=edit)
     def save_album_art(self, id, album_art, **values):
         if id == 'new':
             podcast = Podcast()

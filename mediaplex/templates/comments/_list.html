@@ -11,7 +11,7 @@
 		</head>
 	</py:match>
 
-	<py:def function="comment_list(comments, form=None, values=None)">
+	<py:def function="comment_list(comments, form=None, action=None, values=None)">
 		<div class="comments">
 			<py:choose test="len(comments)">
 				<div py:when="0" class="no-comments">
@@ -34,7 +34,7 @@
 			</py:choose>
 			<py:if test="form">
 				<h3>Write a comment</h3>
-				${XML(form(values))}
+				${XML(form(values, action=action))}
 			</py:if>
 		</div>
 	</py:def>

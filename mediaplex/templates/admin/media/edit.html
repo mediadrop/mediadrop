@@ -77,11 +77,11 @@
 
 	</div>
 	<div class="column33">
-		<div py:replace="update_status_form(media=media)" />
+		<div py:replace="update_status_form(media=media, action=update_status_action)" />
 
 		<div id="media-files-box" class="box">
 			<div class="box-head"><h1>Files</h1></div>
-			<form py:replace="XML(file_add_form)" />
+			<form py:replace="XML(file_add_form(action=file_add_action))" />
 			<div id="media-upload-status" class="upload-status">
 				<div class="upload-notice hidden" />
 				<div class="upload-file hidden" />
@@ -93,7 +93,7 @@
 			<div id="media-file-error" class="box-error hidden" />
 			<ol id="media-file-list" class="file-list">
 				<li py:for="file in media.files" id="file-${file.id}">
-					<form py:replace="file_edit_form(file=file)" />
+					<form py:replace="XML(file_edit_form(file=file, action=file_edit_action))" />
 				</li>
 			</ol>
 		</div>
@@ -106,7 +106,7 @@
 					     width="128" height="72" alt="Album Art" id="album-art-img" />
 				</div>
 				<div class="center">
-					<form py:replace="XML(album_art_form(css_class='center'))" />
+					<form py:replace="XML(album_art_form(css_class='center', action=album_art_action))" />
 				</div>
 			</div>
 			<div id="album-art-upload" class="upload-status">

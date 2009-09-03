@@ -128,6 +128,9 @@ var StatusForm = new Class({
 	},
 
 	updateForm: function(form){
+		if ($type(form) == 'string') {
+			form = new Element('div', {html: form}).getFirst();
+		}
 		var formContents = $(form).getChildren();
 		this.form.empty().adopt(formContents);
 	},

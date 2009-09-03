@@ -13,6 +13,7 @@ from mediaplex import model
 from mediaplex.model import DBSession, metadata, fetch_row, Tag, Topic, get_available_slug
 from mediaplex.forms.categories import EditCategoryForm
 
+edit_category_form = EditCategoryForm()
 
 class CategoryadminController(RoutingController):
     """Admin categories actions which deal with categories"""
@@ -31,11 +32,11 @@ class CategoryadminController(RoutingController):
             categories = categories,
             category = category,
             category_name = category.capitalize(),
-            edit_form = EditCategoryForm(),
+            edit_form = edit_category_form,
         )
 
     @expose('json')
-    @validate(EditCategoryForm())
+    @validate(edit_category_form)
     def save(self, id, delete, category='topics', **kwargs):
         model_class = self.select_model(category)
         item = fetch_row(model_class, id)

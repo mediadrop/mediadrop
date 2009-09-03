@@ -28,6 +28,12 @@ from mediaplex.forms.comments import PostCommentForm
 from mediaplex.controllers.media import _add_new_media_file
 
 media_form = MediaForm()
+add_file_form = AddFileForm()
+edit_file_form = EditFileForm()
+album_art_form = AlbumArtForm()
+update_status_form = UpdateStatusForm()
+search_form = SearchForm(action=url_for(controller='/mediadmin', action='index'))
+podcast_filter_form = PodcastFilterForm(action=url_for(controller='/mediadmin', action='index'))
 
 
 class MediaadminController(RoutingController):
@@ -64,9 +70,9 @@ class MediaadminController(RoutingController):
             media = media,
             podcast_filter = podcast_filter,
             podcast_filter_title = podcast_filter_title,
-            podcast_filter_form = not request.is_xhr and PodcastFilterForm(action=url_for()),
+            podcast_filter_form = podcast_filter_form,
             search = search,
-            search_form = not request.is_xhr and SearchForm(action=url_for()),
+            search_form = search_form,
         )
 
 
@@ -109,10 +115,14 @@ class MediaadminController(RoutingController):
             media_form = media_form,
             media_action = url_for(action='save'),
             media_values = media_values,
-            file_add_form = AddFileForm(action=url_for(action='add_file')),
-            file_edit_form = EditFileForm(action=url_for(action='edit_file')),
-            album_art_form = AlbumArtForm(action=url_for(action='save_album_art')),
-            update_status_form = UpdateStatusForm(action=url_for(action='update_status')),
+            file_add_form = add_file_form,
+            file_add_action = url_for(action='add_file'),
+            file_edit_form = edit_file_form,
+            file_edit_action = url_for(action='edit_file'),
+            album_art_form = album_art_form,
+            album_art_action = url_for(action='save_album_art'),
+            update_status_form = update_status_form,
+            update_status_action = url_for(action='update_status'),
         )
 
 
@@ -147,20 +157,18 @@ class MediaadminController(RoutingController):
 
 
     @expose('json')
-    @validate(AddFileForm(), error_handler=edit)
+    @validate(add_file_form)
     def add_file(self, id, file=None, url=None, **kwargs):
         if id == 'new':
             media = create_media_stub()
         else:
             media = fetch_row(Media, id, incl_trash=True)
 
-
         try:
             if file is not None:
                 # Create a media object, add it to the video, and store the file permanently.
                 media_file = _add_new_media_file(media, file.filename, file.file)
             elif url:
-
                 media_file = MediaFile()
                 # Parse the URL checking for known embeddables like YouTube
                 for type, info in config.embeddable_filetypes.iteritems():
@@ -191,10 +199,10 @@ class MediaadminController(RoutingController):
             DBSession.flush()
 
             # Render some widgets so the XHTML can be injected into the page
-            edit_form = EditFileForm(action=url_for(action='edit_file'))
-            edit_form_xhtml = unicode(edit_form.display(file=media_file))
-            status_form = UpdateStatusForm(action=url_for(action='update_status'))
-            status_form_xhtml = unicode(status_form.display(media=media))
+            edit_form_xhtml = unicode(edit_file_form.display(
+                action=url_for(action='edit_file'), file=media_file))
+            status_form_xhtml = unicode(update_status_form.display(
+                action=url_for(action='update_status'), media=media))
 
             return dict(
                 success = True,
@@ -221,7 +229,7 @@ class MediaadminController(RoutingController):
 
 
     @expose('json')
-    @validate(EditFileForm(), error_handler=edit)
+    @validate(edit_file_form, error_handler=edit)
     def edit_file(self, id, file_id, player_enabled, feed_enabled,
                   toggle_feed, toggle_player, delete, **kwargs):
         media = fetch_row(Media, id, incl_trash=True)
@@ -260,8 +268,8 @@ class MediaadminController(RoutingController):
 
         if request.is_xhr:
             # Return the rendered widget for injection
-            status_form = UpdateStatusForm(action=url_for(action='update_status'))
-            status_form_xhtml = unicode(status_form.display(media=media))
+            status_form_xhtml = unicode(update_status_form.display(
+                action=url_for(action='update_status'), media=media))
             data['status_form'] = status_form_xhtml
             return data
         else:
@@ -270,7 +278,7 @@ class MediaadminController(RoutingController):
 
 
     @expose('json')
-    @validate(AlbumArtForm(), error_handler=edit)
+    @validate(album_art_form, error_handler=edit)
     def save_album_art(self, id, album_art, **kwargs):
         if id == 'new':
             media = create_media_stub()
@@ -315,7 +323,7 @@ class MediaadminController(RoutingController):
 
 
     @expose('json')
-    @validate(UpdateStatusForm(), error_handler=edit)
+    @validate(update_status_form, error_handler=edit)
     def update_status(self, id, update_button, **values):
         media = fetch_row(Media, id, incl_trash=True)
 
@@ -338,8 +346,8 @@ class MediaadminController(RoutingController):
 
         if request.is_xhr:
             # Return the rendered widget for injection
-            status_form = UpdateStatusForm(action=url_for(action='update_status'))
-            status_form_xhtml = unicode(status_form.display(media=media))
+            status_form_xhtml = unicode(update_status_form.display(
+                action=url_for(action='update_status'), media=media))
             data['status_form'] = status_form_xhtml
             return data
         else:

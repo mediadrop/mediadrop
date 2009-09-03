@@ -33,6 +33,8 @@ upload_form = UploadForm(
     async_action = url_for(controller='/media', action='upload_submit_async')
 )
 
+post_comment_form = PostCommentForm()
+
 class FTPUploadException(Exception):
     pass
 
@@ -135,7 +137,8 @@ class MediaController(RoutingController):
 
         return dict(
             media = media,
-            comment_form = PostCommentForm(action=url_for(action='comment')),
+            comment_form = post_comment_form,
+            comment_form_action = url_for(action='comment'),
             comment_form_values = kwargs,
             next_episode = next_episode,
         )
@@ -261,7 +264,7 @@ class MediaController(RoutingController):
 
 
     @expose()
-    @validate(PostCommentForm(), error_handler=view)
+    @validate(post_comment_form, error_handler=view)
     def comment(self, slug, **values):
         media = fetch_row(Media, slug=slug)
         c = Comment()
