@@ -1,6 +1,6 @@
 
     [paste.app_factory]
-    main = mediaplex.config.middleware:make_app
+    main = simpleplex.config.middleware:make_app
 
     [paste.app_install]
     main = pylons.util:PylonsInstaller
