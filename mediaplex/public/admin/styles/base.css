@@ -77,6 +77,22 @@ body {
 	width: 100%;
 	color: transparent; /* FIXME: this won't work for IE6, it's CSS3 */
 }
+#logout {
+	float: left;
+	margin: 34px 0 0 2px;
+	text-transform: lowercase;
+}
+#header a#logout {
+	color: transparent;
+}
+#header:hover a#logout:link,
+#header:hover a#logout:visited {
+	text-decoration: none;
+	color: #b0bcc5;
+}
+#header:hover a#logout:hover {
+	text-decoration: underline;
+}
 #footer p {
 	text-align: right;
 	padding-bottom: 15px;
