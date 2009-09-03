@@ -102,13 +102,21 @@ media_files = Table('media_files', metadata,
     Column('height', Integer),
     Column('bitrate', Integer),
 
-    Column('position', Integer, default=0, nullable=False),
     Column('enable_player', Boolean, default=True, nullable=False),
     Column('enable_feed', Boolean, default=True, nullable=False),
 
     Column('created_on', DateTime, default=datetime.now, nullable=False),
     Column('modified_on', DateTime, default=datetime.now, onupdate=datetime.now, nullable=False),
 )
+media_files.append_column(
+    # The position defaults to the greatest file position for this media plus 1.
+    Column('position', Integer, nullable=False, default=select(
+        [func.coalesce(func.max(sql.text('mf.position + 1')), sql.text('1'))],
+        sql.text('mf.media_id') == sql.bindparam('media_id'),
+        media_files.alias('mf')
+    ))
+)
+
 
 media_tags = Table('media_tags', metadata,
     Column('media_id', Integer, ForeignKey('media.id', onupdate='CASCADE', ondelete='CASCADE'),
@@ -210,7 +218,7 @@ class Media(object):
 
         else:
             # No budging, so if there any other files we'll have to go after them...
-            pos = 1
+            pos = 0
             is_first = True
 
             if self.files:
@@ -414,8 +422,8 @@ class MediaFile(object):
 
     @validates('enable_feed')
     def _validate_enable_feed(self, key, on):
-        if not on and self.media.podcast_id\
-                  and len([f for f in self.media.files if f.enable_feed]) == 1:
+        if (not on and self.media and self.media.podcast_id
+            and len([f for f in self.media.files if f.enable_feed]) == 1):
             raise MediaException, ('Published podcast media requires '
                                    'at least one file be feed-enabled.')
         return on

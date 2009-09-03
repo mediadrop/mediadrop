@@ -243,15 +243,15 @@ var FileManager = new Class({
 
 	addFile: function(e){
 		e = new Event(e).preventDefault();
-		var form = $(e.target), r = new Request.JSON({
+		var form = $(e.target), r = new Request({
 			url: form.get('action'),
 			onComplete: this.fileAdded.bind(this),
 			onFailure: this._displayError.bind(this, ['Could not add the file, please try again.'])
 		}).send(form.toQueryString());
 	},
 
-	fileAdded: function(json){
-		json = json || {};
+	fileAdded: function(resp){
+		json = JSON.decode(resp, true) || {};
 		if (!json.success) return this._displayError(json.message);
 		var li = new Element('li', {
 			id: this._getFileID(json.file_id),
@@ -327,8 +327,7 @@ var FileManager = new Class({
 		var self = this;
 		uploader.uploader.addEvents({
 			fileComplete: function(file){
-				var response = JSON.decode(file.response.text, true);
-				self.fileAdded(response);
+				self.fileAdded(file.response.text);
 			},
 			fileError: self._hideError.bind(self)
 		});
