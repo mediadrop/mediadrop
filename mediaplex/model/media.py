@@ -350,6 +350,7 @@ def create_media_stub():
     m.slug = get_available_slug(Media, 'stub-%s' % timestamp)
     m.title = '(Stub %s created by %s)' % (timestamp, user.display_name)
     m.author = Author(user.display_name, user.email_address)
+    m.status = 'draft,unencoded,unreviewed'
     return m
 
 

@@ -139,6 +139,9 @@ class MediaadminController(RoutingController):
             DBSession.flush()
             redirect(action='index', id=None)
 
+        if media.id == 'new':
+            media.status = 'draft,unencoded,unreviewed'
+
         media.slug = get_available_slug(Media, slug, media)
         media.title = title
         media.author = Author(author_name, author_email)
