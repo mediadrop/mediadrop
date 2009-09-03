@@ -78,7 +78,7 @@
 				<li id="nav-videos"><a href="${h.url_for(controller='/media', action='index')}">Video</a></li>
 				<li id="nav-podcasts"><a href="${h.url_for(controller='/podcasts')}">Podcasts</a></li>
 			</ul>
-			<a py:if="c.nav_opts['show_topics']" id="nav-topics" class="box-nav-right topics-shown" href="/video-topics">Topic Index</a>
+			<a py:if="c.nav_opts['show_topics']" id="nav-topics" class="box-nav-right topics-shown" href="${h.url_for(controller='/media', action='topics', slug=None)}">Topic Index</a>
 			<a py:if="c.nav_opts['show_upload']" id="nav-upload-video" class="box-nav-right" href="${h.url_for(controller='/media', action='upload')}">Upload a Video</a>
 			<a py:if="c.nav_opts['show_podcast_help']" id="nav-podcast-help" class="box-nav-right podcast-help-shown" href="#">What are podcasts?</a>
 			<div py:if="c.nav_opts['show_podcast_help']" id="podcast-help-box" class="nav-box">
@@ -125,6 +125,7 @@
 						<div id="topics-caption" py:if="config.support_addresses">
 							<div id="topics-dontsee">Don't see the topic you are looking for?</div>
 							<a id="topics-suggest" href="mailto:${config.support_addresses[0]}?subject=Suggest%20a%20topic!">Suggest a new topic</a>
+							<a href="${h.url_for(controller='/media', action='tags', slug=None)}">or check out the tags list</a>
 						</div>
 					</div>
 					<div class="nav-box-bottom" />

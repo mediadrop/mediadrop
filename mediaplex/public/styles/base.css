@@ -343,13 +343,19 @@ div .nav-box-body {
 	text-indent: 0;
 }
 #topics-caption {
-	padding: 3em 3px 10px 0;
-	width: 205px;
+	padding: 3em 30px 10px 0;
+	width: 185px;
 	float: right;
+	text-align: center;
+}
+#topics-caption a,
+#topics-caption div {
+	margin-left: auto;
+	margin-right: auto;
 }
 #topics-dontsee {
-	background: url('../images/topics/dont-see-question.png') no-repeat;
-	width: 174px;
+	background: url('../images/topics/dont-see-question.png') no-repeat scroll 9px 0;
+	width: 185px;
 	height: 43px;
 	display: block;
 	margin-bottom: 10px;

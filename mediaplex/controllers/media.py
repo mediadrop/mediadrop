@@ -334,30 +334,47 @@ class MediaController(RoutingController):
             .order_by(Media.publish_on.desc())
 
 
-    @expose('mediaplex.templates.media.index')
+    @expose('mediaplex.templates.media.topics')
     @paginate('media', items_per_page=20)
     def topics(self, slug=None, page=1, **kwargs):
-        if slug is None:
-            redirect(controller='/media', action='index')
-        topic = fetch_row(Topic, slug=slug)
-        media_query = self._published_media_query\
-            .filter(Media.topics.contains(topic))\
-            .options(undefer('comment_count'))
+        if slug:
+            topic = fetch_row(Topic, slug=slug)
+            media_query = self._published_media_query\
+                .filter(Media.topics.contains(topic))\
+                .options(undefer('comment_count'))
+            media = media_query
+        else:
+            topic = None
+            media = []
+
         return dict(
-            media = media_query,
+            media = media,
+            topic = topic,
         )
 
-    @expose('mediaplex.templates.media.index')
+    @expose('mediaplex.templates.media.tags')
     @paginate('media', items_per_page=20)
     def tags(self, slug=None, page=1, **kwargs):
-        if slug is None:
-            redirect(controller='/media', action='index')
-        tag = fetch_row(Tag, slug=slug)
-        media_query = self._published_media_query\
-            .filter(Media.tags.contains(tag))\
-            .options(undefer('comment_count'))
+        if slug:
+            tag = fetch_row(Tag, slug=slug)
+            media_query = self._published_media_query\
+                .filter(Media.tags.contains(tag))\
+                .options(undefer('comment_count'))
+            media = media_query
+            tags = None
+        else:
+            tag = None
+            media = []
+            tags = DBSession.query(Tag)\
+                .options(undefer('published_media_count'))\
+                .filter(Tag.published_media_count >= 1)\
+                .order_by(Tag.name)\
+                .all()
+
         return dict(
-            media = media_query,
+            media = media,
+            tag = tag,
+            tags = tags,
         )
 
     @expose('mediaplex.templates.media.upload')

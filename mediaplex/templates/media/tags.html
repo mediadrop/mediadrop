@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      xmlns:xi="http://www.w3.org/2001/XInclude">
+<xi:include href="../helpers.html" />
+<xi:include href="../master.html" />
+<head>
+	<title>Tags</title>
+</head>
+<body class="nav-media-on">
+	<box id="grid-box">
+		<nav />
+		<py:if test="media">
+			<!--! FIXME: make the following style into a class? -->
+			<h1 style="border-bottom: 2px solid #323232; margin: 0 20px 10px;">Media tagged with <a href="${h.url_for(controller='/media', action='tags', slug=tag.slug)}">${tag}</a></h1>
+			<ul py:replace="mediagrid(media)" />
+			${pagination(c.paginators.media)}
+		</py:if>
+		<py:if test="tags">
+			<h1 style="border-bottom: 2px solid #323232; margin: 0 20px 10px;">Tags</h1>
+			<div class="nav-box" style="margin: 0 auto" py:with="per_col = max(5, int(h.math.ceil(len(tags) / 4.0)))">
+				<ul py:for="col in xrange(1, h.math.ceil(len(tags) / float(per_col)) + 1)">
+					<li py:for="tag in tags[(col-1)*per_col:col*per_col]">
+						<a href="${h.url_for(controller='/media', action='tags', slug=tag.slug)}">${tag}</a> <span>(${tag.published_media_count})</span>
+					</li>
+				</ul>
+			</div>
+		</py:if>
+	</box>
+</body>
+</html>
+
