@@ -59,4 +59,4 @@ class CategoryadminController(RoutingController):
             redirect(action='index', category=category)
 
     def select_model(self, category):
-        return getattr(model, category.rstrip('s').capitalize())
+        return {'topics': Topic, 'tags': Tag}.get(category)
