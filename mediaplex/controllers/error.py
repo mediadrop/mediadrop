@@ -7,6 +7,7 @@ from pylons.controllers.util import forward
 from pylons.middleware import error_document_template, media_path
 from mediaplex.lib.base import RoutingController
 from mediaplex.lib.helpers import redirect
+from mediaplex.lib import email
 
 import smtplib
 
@@ -63,43 +64,6 @@ class ErrorController(RoutingController):
             elif x.startswith('POST_'):
                 post_vars[x] = kwargs[x]
 
-        self._send_notification(email, description, url, get_vars, post_vars)
+        email.send_support_request(email, url, description, get_vars, post_vars)
         redirect(controller='/media', action='index')
-
-    def _send_notification(self, email, description, url, get_vars, post_vars):
-        server=smtplib.SMTP('localhost')
-        fr = 'noreply@tmcyouth.com'
-        to = ['anthony@simplestation.com']
-        subject = 'New Support Request: %s' % email
-        body = """A user has asked for support
-
-Email: %s
-
-URL: %s
-
-Description: %s
-
-GET_VARS:
-  %s
-
-
-POST_VARS:
-  %s
-""" % (
-        email,
-        url,
-        description,
-        "\n\n  ".join([x + " :  " + get_vars[x] for x in get_vars]),
-        "\n\n  ".join([x + " :  " + post_vars[x] for x in post_vars])
-        )
-
-        msg = """To: %s
-From: %s
-Subject: %s
-
-%s
-""" % (", ".join(to), fr, subject, body)
-
-        server.sendmail(fr, to, msg)
-        server.quit()
 

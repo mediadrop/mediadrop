@@ -165,6 +165,9 @@ base_config.comment_notification_addresses = [
     'anthony@simplestation.com',
     'notifications@tmcyouth.com',
 ]
+base_config.support_addresses = [
+    'anthony@simplestation.com'
+]
 base_config.notification_from_address = 'noreply@tmcyouth.com'
 
 # If ftp_storage is enabled, then media_dir is not used for storing

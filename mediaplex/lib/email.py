@@ -65,3 +65,30 @@ Body: %s
     send(config.comment_notification_addresses,
             config.notification_from_address, subject, body)
 
+def send_support_request(email, url, description, get_vars, post_vars):
+    subject = 'New Support Request: %s' % email
+    body = """A user has asked for support
+
+Email: %s
+
+URL: %s
+
+Description: %s
+
+GET_VARS:
+%s
+
+
+POST_VARS:
+%s
+""" % (
+    email,
+    url,
+    description,
+    "\n\n  ".join([x + " :  " + get_vars[x] for x in get_vars]),
+    "\n\n  ".join([x + " :  " + post_vars[x] for x in post_vars])
+    )
+
+    send(config.support_addresses,
+            config.notification_from_address, subject, body)
+
