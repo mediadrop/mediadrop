@@ -71,7 +71,7 @@ class MediaController(RoutingController):
                 .filter(Media.status.excludes('trash'))\
                 .filter(Media.podcast_id == None)\
                 .order_by(Media.publish_on.desc())\
-                .options(undefer('comment_count'))
+                .options(undefer('comment_count_published'))
         except HTTPNotFound:
             media = []
 
@@ -344,7 +344,7 @@ class MediaController(RoutingController):
             topic = fetch_row(Topic, slug=slug)
             media_query = self._published_media_query\
                 .filter(Media.topics.contains(topic))\
-                .options(undefer('comment_count'))
+                .options(undefer('comment_count_published'))
             media = media_query
         else:
             topic = None
@@ -362,7 +362,7 @@ class MediaController(RoutingController):
             tag = fetch_row(Tag, slug=slug)
             media_query = self._published_media_query\
                 .filter(Media.tags.contains(tag))\
-                .options(undefer('comment_count'))
+                .options(undefer('comment_count_published'))
             media = media_query
             tags = None
         else:

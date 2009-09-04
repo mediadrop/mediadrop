@@ -1,9 +1,9 @@
 from datetime import datetime
-from sqlalchemy import Table, ForeignKey, Column
+from sqlalchemy import Table, ForeignKey, Column, sql
 from sqlalchemy.types import String, Unicode, UnicodeText, Integer, DateTime, Boolean, Float
-from sqlalchemy.orm import mapper, relation, backref, synonym, interfaces, validates
+from sqlalchemy.orm import mapper, relation, backref, synonym, interfaces, validates, column_property
 
-from mediaplex.model import DeclarativeBase, metadata, DBSession, slugify
+from mediaplex.model import DeclarativeBase, metadata, DBSession, slugify, _mtm_count_property
 
 
 tags = Table('tags', metadata,
@@ -59,3 +59,6 @@ def fetch_and_create_tags(tag_names):
         DBSession.flush()
         existing_tags += DBSession.query(Tag).filter(Tag.slug.in_(new_slugs)).all()
     return existing_tags
+
+
+tag_count_property = _mtm_count_property

@@ -96,7 +96,7 @@ is *always* an instance of the appropriate StatusSet subclass.
 """
 
 from sqlalchemy import sql, types
-from sqlalchemy.orm import interfaces, properties
+from sqlalchemy.orm import interfaces, properties, column_property
 
 
 class Status(object):
@@ -306,3 +306,37 @@ class StatusComparator(properties.ColumnProperty.Comparator):
     @property
     def _status_set_class(self):
         return self._column.type.status_set_class
+
+
+def status_where(column, include=None, exclude=None):
+    """Generate a bitwise WHERE clause to include and/or exclude statuses.
+
+    column
+      A status column. Its type must be StatusType.
+
+    include
+      Optional status(es) that must be included to match.
+
+    exclude
+      Optional status(es) that must be not be included to match.
+    """
+    status_set = column.type.status_set_class
+    clauses = dict(include=include, exclude=exclude)
+    where = []
+    for op, value in clauses.iteritems():
+        intval = int(status_set(value))
+        where.append(column.op('&')(intval) == (op == 'include' and intval or sql.text('0')))
+    return where
+
+
+def status_column_property(column, **kwargs):
+    """Return a column property with the appropriate extension and comparator."""
+    extension = kwargs.pop('extension', [])
+    extension.append(StatusTypeExtension())
+    comparator_factory = kwargs.pop('comparator_factory', StatusComparator)
+    return column_property(
+        column,
+        extension=extension,
+        comparator_factory=comparator_factory,
+        **kwargs
+    )

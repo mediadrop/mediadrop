@@ -126,10 +126,24 @@
 				   py:content="'Moderate'" />
 				<h1>Comments</h1>
 			</div>
-			<div class="box-content">
-				<strong>${media.all_comment_count - media.comment_count}</strong> require review and
-				<strong>${media.all_comment_count}</strong> are published.
-			</div>
+			<table id="comments-table" cellpadding="0" cellspacing="0">
+				<tr id="comments-total">
+					<td class="comments-count" py:content="media.comment_count" />
+					<td>Comments</td>
+				</tr>
+				<tr id="comments-published">
+					<td class="comments-count" py:content="media.comment_count_published" />
+					<td>Published</td>
+				</tr>
+				<tr id="comments-unreviewed">
+					<td class="comments-count" py:content="media.comment_count_unreviewed" />
+					<td>Unreviewed</td>
+				</tr>
+				<tr id="comments-trash">
+					<td class="comments-count" py:content="media.comment_count_trash" />
+					<td>Trash</td>
+				</tr>
+			</table>
 		</div>
 
 	</div>
