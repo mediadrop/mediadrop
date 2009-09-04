@@ -17,7 +17,7 @@ from tg.decorators import paginate
 from tg.controllers import CUSTOM_CONTENT_TYPE
 from formencode import validators
 from pylons.i18n import ugettext as _
-from sqlalchemy import and_, or_
+from sqlalchemy import and_, or_, sql
 from sqlalchemy.orm import eagerload, undefer
 from sqlalchemy.orm.exc import NoResultFound
 
@@ -46,7 +46,7 @@ class MediaController(RoutingController):
         super(MediaController, self).__init__(*args, **kwargs)
         tmpl_context.topics = DBSession.query(Topic)\
             .options(undefer('published_media_count'))\
-            .filter(Topic.published_media_count >= 1)\
+            .having(sql.text('published_media_count >= 1'))\
             .order_by(Topic.name)\
             .all()
 
@@ -370,7 +370,7 @@ class MediaController(RoutingController):
             media = []
             tags = DBSession.query(Tag)\
                 .options(undefer('published_media_count'))\
-                .filter(Tag.published_media_count >= 1)\
+                .having(sql.text('published_media_count >= 1'))\
                 .order_by(Tag.name)\
                 .all()
 
@@ -470,10 +470,12 @@ class MediaController(RoutingController):
         media_obj.slug = get_available_slug(Media, title)
         media_obj.description = clean_xhtml(description)
         media_obj.status = 'draft,unencoded,unreviewed'
-        media_obj.notes = """Bible References: None
-    S&H References: None
-    Reviewer: None
-    License: General Upload"""
+        media_obj.notes = (
+            "Bible References: None\n"
+            "S&H References: None\n"
+            "Reviewer: None\n"
+            "License: General Upload\n"
+        )
         media_obj.set_tags(tags)
 
         # Create a media object, add it to the media_obj, and store the file permanently.
