@@ -22,10 +22,7 @@ Finally the argument single_parent=True should also be included.
 Also include this property if you want to grab the comment count quickly:
 
     mapper(Media, medias, properties={
-        'comment_count': column_property(
-            sql.select([sql.func.count(media_comments.c.comment_id)],
-                       media.c.id == media_comments.c.media_id).label('comment_count'),
-            deferred=True),
+        'comment_count': comment_count_property(media_comments, 'comment_count'),
     })
 
     NOTE: This uses a correlated subquery and can be executed when you first call
@@ -39,8 +36,8 @@ from sqlalchemy import Table, ForeignKey, Column, sql
 from sqlalchemy.types import String, Unicode, UnicodeText, Integer, DateTime, Boolean, Float
 from sqlalchemy.orm import mapper, relation, backref, synonym, composite, column_property, validates, interfaces
 
-from simpleplex.model import DeclarativeBase, metadata, DBSession, AuthorWithIP
-from simpleplex.model.status import Status, StatusSet, StatusComparator, StatusType, StatusTypeExtension
+from simpleplex.model import DeclarativeBase, metadata, DBSession, AuthorWithIP, _mtm_count_property
+from simpleplex.model.status import Status, StatusSet, StatusType, status_column_property
 
 
 TRASH = Status('trash', 1)
@@ -128,8 +125,11 @@ class CommentTypeExtension(interfaces.AttributeExtension):
         raise NotImplemented
 
 
+comment_count_property = _mtm_count_property
+
+
 mapper(Comment, comments, properties={
-    'status': column_property(comments.c.status, extension=StatusTypeExtension(), comparator_factory=StatusComparator),
+    'status': status_column_property(comments.c.status),
     'author': composite(AuthorWithIP,
         comments.c.author_name,
         comments.c.author_email,

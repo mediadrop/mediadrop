@@ -41,10 +41,9 @@
 					</td>
 					<td py:when="'title'"><a href="${h.url_for(controller='/mediaadmin', action='edit', id=media.id)}">${Markup(media.title)}</a></td>
 					<td py:when="'comment_count'" class="center">
-						<py:if test="media.all_comment_count == 0">0</py:if>
-						<a py:if="media.all_comment_count > 0" href="${h.url_for(controller='/commentadmin', media_filter=media.id)}" py:choose="">
-							<py:when test="media.comment_count == media.all_comment_count">${media.comment_count}</py:when>
-							<py:otherwise>${media.comment_count}/${media.all_comment_count}</py:otherwise>
+						<a href="${h.url_for(controller='/commentadmin', media_filter=media.id)}">
+							${media.comment_count_published}
+							<py:if test="media.comment_count_unreviewed">/ ${media.comment_count_unreviewed}</py:if>
 						</a>
 					</td>
 					<td py:when="'tags'" py:content="', '.join((tag.name for tag in media.tags)) if len(media.tags) else 'None'" />

@@ -45,8 +45,8 @@ class MediaadminController(RoutingController):
     def index(self, page=1, search=None, podcast_filter=None, **kwargs):
         media = DBSession.query(Media)\
             .filter(Media.status.excludes('trash'))\
-            .options(undefer('comment_count'))\
-            .options(undefer('all_comment_count'))\
+            .options(undefer('comment_count_published'))\
+            .options(undefer('comment_count_unreviewed'))\
             .order_by(Media.status.desc(), Media.modified_on.desc())
 
         if search is not None:

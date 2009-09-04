@@ -40,7 +40,7 @@ class PodcastsController(RoutingController):
         episodes_query = DBSession.query(Media)\
             .filter(Media.podcast_id != None)\
             .order_by(Media.publish_on.desc())\
-            .options(undefer('comment_count'))
+            .options(undefer('comment_count_published'))
         episodes_query = self._filter(episodes_query)
 
         # Paginate manually using our custom paginator to show fewer results on the first page

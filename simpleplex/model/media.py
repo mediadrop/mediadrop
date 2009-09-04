@@ -37,13 +37,13 @@ from sqlalchemy.orm import mapper, class_mapper, relation, backref, synonym, com
 from tg import config, request
 from zope.sqlalchemy import datamanager
 
-from simpleplex.model import DeclarativeBase, metadata, DBSession, get_available_slug
+from simpleplex.model import DeclarativeBase, metadata, DBSession, get_available_slug, _mtm_count_property, _properties_dict_from_labels
 from simpleplex.model.authors import Author
 from simpleplex.model.rating import Rating
-from simpleplex.model.comments import Comment, CommentTypeExtension, comments, PUBLISH as COMMENT_PUBLISH, TRASH as COMMENT_TRASH
-from simpleplex.model.tags import Tag, TagCollection, tags, extract_tags, fetch_and_create_tags
-from simpleplex.model.topics import Topic, TopicCollection, topics, fetch_topics
-from simpleplex.model.status import Status, StatusSet, StatusComparator, StatusType, StatusTypeExtension
+from simpleplex.model.comments import Comment, CommentTypeExtension, comment_count_property, comments, PUBLISH as COMMENT_PUBLISH, TRASH as COMMENT_TRASH
+from simpleplex.model.tags import Tag, TagCollection, tags, extract_tags, fetch_and_create_tags, tag_count_property
+from simpleplex.model.topics import Topic, TopicCollection, topics, fetch_topics, topic_count_property
+from simpleplex.model.status import Status, StatusSet, StatusType, status_column_property, status_where
 from simpleplex.lib import helpers
 
 
@@ -116,7 +116,6 @@ media_files.append_column(
         media_files.alias('mf')
     ))
 )
-
 
 media_tags = Table('media_tags', metadata,
     Column('media_id', Integer, ForeignKey('media.id', onupdate='CASCADE', ondelete='CASCADE'),
@@ -433,7 +432,7 @@ class MediaFile(object):
 mapper(MediaFile, media_files)
 
 media_mapper = mapper(Media, media, properties={
-    'status': column_property(media.c.status, extension=StatusTypeExtension(), comparator_factory=StatusComparator),
+    'status': status_column_property(media.c.status),
     'author': composite(Author, media.c.author_name, media.c.author_email),
     'rating': composite(Rating, media.c.rating_sum, media.c.rating_votes),
     'files': relation(MediaFile, backref='media', order_by=media_files.c.position.asc(), passive_deletes=True),
@@ -441,91 +440,40 @@ media_mapper = mapper(Media, media, properties={
     'topics': relation(Topic, secondary=media_topics, backref='media', collection_class=TopicCollection),
     'comments': relation(Comment, secondary=media_comments, backref=backref('media', uselist=False),
         extension=CommentTypeExtension('media'), single_parent=True, passive_deletes=True),
-    'comment_count':
-        column_property(
-            sql.select(
-                [sql.func.count(media_comments.c.comment_id)],
-                and_(
-                    media.c.id == media_comments.c.media_id,
-                    comments.c.id == media_comments.c.comment_id,
-                    comments.c.status.op('&')(int(COMMENT_PUBLISH)) == int(COMMENT_PUBLISH), # status includes 'publish'
-                    comments.c.status.op('&')(int(COMMENT_TRASH)) == 0, # status excludes 'trash'
-                )
-            ).label('comment_count'),
-            deferred=True
-        ),
-    'all_comment_count':
-        column_property(
-            sql.select(
-                [sql.func.count(media_comments.c.comment_id)],
-                and_(
-                    media.c.id == media_comments.c.media_id,
-                    comments.c.id == media_comments.c.comment_id,
-                    comments.c.status.op('&')(int(COMMENT_TRASH)) == 0, # status excludes 'trash'
-                )
-            ).label('all_comment_count'),
-            deferred=True
-        )
 })
 
-tags_mapper = class_mapper(Tag, compile=False)
-tags_mapper.add_property(
-    'published_media_count',
-    column_property(
-        sql.select(
-            [sql.func.count(media_tags.c.tag_id)],
-            and_(
-                media.c.id == media_tags.c.media_id,
-                tags.c.id == media_tags.c.tag_id,
-                media.c.status.op('&')(int(PUBLISH)) == int(PUBLISH), # status includes 'publish'
-                media.c.status.op('&')(int(TRASH)) == 0, # status excludes 'trash'
-            )
-        ).label('published_media_count'),
-       deferred=True
-    )
-)
-tags_mapper.add_property(
-    'media_count',
-    column_property(
-        sql.select(
-            [sql.func.count(media_tags.c.tag_id)],
-            and_(
-                media.c.id == media_tags.c.media_id,
-                tags.c.id == media_tags.c.tag_id,
-                media.c.status.op('&')(int(TRASH)) == 0, # status excludes 'trash'
-            )
-        ).label('published_media_count'),
-       deferred=True
-    )
-)
+# Add comment_count, comment_count_published, ... column properties to Media
+media_mapper.add_properties(_properties_dict_from_labels(
+    comment_count_property('comment_count', media_comments),
+    comment_count_property('comment_count_published', media_comments, status_where(
+        comments.c.status, include='publish', exclude='trash'
+    )),
+    comment_count_property('comment_count_unreviewed', media_comments, status_where(
+        comments.c.status, include='unreviewed', exclude='trash'
+    )),
+    comment_count_property('comment_count_trash', media_comments, status_where(
+        comments.c.status, include='trash'
+    )),
+))
 
+# Add properties for counting how many media items have a given Tag
+tags_mapper = class_mapper(Tag, compile=False)
+tags_mapper.add_properties(_properties_dict_from_labels(
+    tag_count_property('media_count', media_tags, status_where(
+        media.c.status, exclude='trash'
+    )),
+    tag_count_property('published_media_count', media_tags, status_where(
+        media.c.status, include='publish', exclude='trash'
+    )),
+))
+
+# Add properties for counting how many media items have a given Topic
 topics_mapper = class_mapper(Topic, compile=False)
-topics_mapper.add_property(
-    'published_media_count',
-    column_property(
-        sql.select(
-            [sql.func.count(media_topics.c.topic_id)],
-            and_(
-                media.c.id == media_topics.c.media_id,
-                topics.c.id == media_topics.c.topic_id,
-                media.c.status.op('&')(int(PUBLISH)) == int(PUBLISH), # status includes 'publish'
-                media.c.status.op('&')(int(TRASH)) == 0, # status excludes 'trash'
-            )
-        ).label('published_media_count'),
-       deferred=True
-    )
-)
-topics_mapper.add_property(
-    'media_count',
-    column_property(
-        sql.select(
-            [sql.func.count(media_topics.c.topic_id)],
-            and_(
-                media.c.id == media_topics.c.media_id,
-                topics.c.id == media_topics.c.topic_id,
-                media.c.status.op('&')(int(TRASH)) == 0, # status excludes 'trash'
-            )
-        ).label('published_media_count'),
-       deferred=True
-    )
-)
+topics_mapper.add_properties(_properties_dict_from_labels(
+    topic_count_property('media_count', media_topics, status_where(
+        media.c.status, exclude='trash'
+    )),
+    topic_count_property('published_media_count', media_topics, status_where(
+        media.c.status, include='publish', exclude='trash'
+    )),
+))

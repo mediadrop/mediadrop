@@ -52,17 +52,11 @@ a.encode-me { background-image: url('../images/statuses/encode-both.png'); }
 a.publish-me { background-image: url('../images/statuses/publish-me.png'); }
 a.published { background-image: url('../images/statuses/published-both.png'); }
 
-a.review {
-	color: #862254;
-	text-decoration: none;
-	font-weight: bold;
+#recently-published-table tr td.center {
+	text-align: right;
+	width: 20px;
+	padding-right: 8px;
 }
-a.total {
-	color: #064981;
-	text-decoration: none;
-	font-weight: bold;
-}
-
 
 
 a.add-media, a.add-media:hover {

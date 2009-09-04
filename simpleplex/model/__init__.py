@@ -5,6 +5,7 @@ from zope.sqlalchemy import ZopeTransactionExtension
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from tg.exceptions import HTTPNotFound
+from sqlalchemy import sql, orm
 from sqlalchemy.orm.exc import NoResultFound
 from simpleplex.lib.unidecode import unidecode
 from simpleplex.lib.htmlsanitizer import entities_to_unicode
@@ -113,6 +114,56 @@ def get_available_slug(mapped_class, slug, ignore=None):
         appendix += 1
 
     return new_slug
+
+def _properties_dict_from_labels(*args):
+    properties_dict = {}
+    for property in args:
+        label = property.columns[0].name
+        properties_dict[label] = property
+    return properties_dict
+
+def _mtm_count_property(label, assoc_table,
+                        where=None, deferred=True, **kwargs):
+    """Return a column property for fetching the comment count for some object.
+
+    label
+      A descriptive label for the correlated subquery. Should probably be the
+      same as the name of the property set on the mapper.
+
+    assoc_table
+      The many-to-many table which associates the comments table to the parent
+      table. We expect the primary key to be two columns, one a foreign key to
+      comments, the other a foreign key to the parent table.
+
+    where=None
+      Optional additional where clauses. If given a list, the elements are
+      wrapped in an AND clause.
+
+    deferred=True
+      By default the count will be fetched when first accessed. To prefetch
+      during the initial query, use:
+        DBSession.query(ParentObject).options(undefer('comment_count_xyz'))
+
+    **kwargs
+      Any additional arguments are passed to sqlalchemy.orm.column_property
+    """
+    where_clauses = []
+    for assoc_column in assoc_table.primary_key:
+        fk = assoc_column.foreign_keys[0]
+        where_clauses.append(fk.column == assoc_column)
+    if isinstance(where, list):
+        where_clauses.extend(where)
+    elif where is not None:
+        where_clauses.append(where)
+
+    subselect = sql.select(
+        [sql.func.coalesce(sql.func.count(sql.text('*')), sql.text('0'))],
+        sql.and_(*where_clauses),
+    )
+    if label is not None:
+        subselect = subselect.label(label)
+
+    return orm.column_property(subselect, deferred=deferred, **kwargs)
 
 
 from simpleplex.model.auth import User, Group, Permission

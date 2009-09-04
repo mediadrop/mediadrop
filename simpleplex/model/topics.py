@@ -3,7 +3,7 @@ from sqlalchemy import Table, ForeignKey, Column
 from sqlalchemy.types import String, Unicode, UnicodeText, Integer, DateTime, Boolean, Float
 from sqlalchemy.orm import mapper, relation, backref, synonym, interfaces, validates
 
-from simpleplex.model import DeclarativeBase, metadata, DBSession, slugify
+from simpleplex.model import DeclarativeBase, metadata, DBSession, slugify, _mtm_count_property
 
 
 topics = Table('topics', metadata,
@@ -41,3 +41,6 @@ mapper(Topic, topics)
 def fetch_topics(topic_ids):
     topics = DBSession.query(Topic).filter(Topic.id.in_(topic_ids)).all()
     return topics
+
+
+topic_count_property = _mtm_count_property

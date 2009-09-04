@@ -397,3 +397,13 @@ input.submitbutton {
 .spinner {
 	background: url('../images/icons/spinner.gif') no-repeat;
 }
+
+
+#comments-table td.comments-count {
+	width: 30px;
+	text-align: right;
+	padding-right: 0;
+}
+#comments-published td { color: #196d29; }
+#comments-unreviewed td { color: #e66f00; }
+#comments-trash td { color: #9b9b9b; }

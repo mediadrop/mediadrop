@@ -115,9 +115,11 @@ base_config.mimetype_lookup = {
     # TODO: Replace this with a more complete list.
     #       or modify code to detect mimetype from something other than ext.
     '.m4a':  'audio/mpeg',
+    '.m4v':  'video/mpeg',
     '.mp3':  'audio/mpeg',
     '.mp4':  'audio/mpeg',
     '.3gp':  'video/3gpp',
+    '.3g2':  'video/3gpp',
     '.divx': 'video/divx', # I don't think this is registered with the IANA
     '.dv':   'video/x-dv',
     '.dvx':  'video/divx', # Oh well, divx is just a proprietary mpeg-4 encoder
