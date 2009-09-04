@@ -1,5 +1,5 @@
 #
-# Mediaplex - TurboGears configuration
+# Simpleplex - TurboGears configuration
 #
 # The %(here)s variable will be replaced with the parent directory of this file
 #
@@ -17,15 +17,15 @@ host = 0.0.0.0
 port = 8080
 
 [app:main]
-use = egg:Mediaplex
+use = egg:Simpleplex
 full_stack = true
 cache_dir = %(here)s/data
-beaker.session.key = mediaplex
+beaker.session.key = simpleplex
 beaker.session.secret = ${app_instance_secret}
 app_instance_uuid = ${app_instance_uuid}
 
 media_dir = %(here)s/data/media
-image_dir = %(here)s/mediaplex/public/images
+image_dir = %(here)s/simpleplex/public/images
 
 # If you'd like to fine-tune the individual locations of the cache data dirs
 # for the Cache data, or the Session saves, un-comment the desired settings
@@ -50,7 +50,7 @@ set debug = false
 # http://docs.python.org/lib/logging-config-fileformat.html
 
 [loggers]
-keys = root, mediaplex, sqlalchemy, auth
+keys = root, simpleplex, sqlalchemy, auth
 
 [handlers]
 keys = console
@@ -63,10 +63,10 @@ keys = generic
 level = INFO
 handlers = console
 
-[logger_mediaplex]
+[logger_simpleplex]
 level = INFO
 handlers =
-qualname = mediaplex
+qualname = simpleplex
 
 [logger_sqlalchemy]
 level = WARN

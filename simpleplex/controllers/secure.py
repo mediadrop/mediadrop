@@ -3,7 +3,7 @@ from simpleplex.lib.base import RoutingController
 from tg import expose, flash
 from pylons.i18n import ugettext as _
 #from tg import redirect, validate
-#from mediaplex.model import DBSession, metadata
+#from simpleplex.model import DBSession, metadata
 #from dbsprockets.dbmechanic.frameworks.tg2 import DBMechanic
 #from dbsprockets.saprovider import SAProvider
 from repoze.what.predicates import has_permission

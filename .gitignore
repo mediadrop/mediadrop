@@ -4,4 +4,4 @@
 .cache
 .settings
 *.pyc
-/mediaplex/public/images/media/*.jpg
+/simpleplex/public/images/media/*.jpg
