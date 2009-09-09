@@ -53,7 +53,7 @@ class ErrorController(RoutingController):
 
     @expose()
     def report(self, **kwargs):
-        email = kwargs.get('email', '')
+        email_addr = kwargs.get('email', '')
         description = kwargs.get('description', '')
         url = ''
         get_vars = {}
@@ -64,6 +64,6 @@ class ErrorController(RoutingController):
             elif x.startswith('POST_'):
                 post_vars[x] = kwargs[x]
 
-        email.send_support_request(email, url, description, get_vars, post_vars)
+        email.send_support_request(email_addr, url, description, get_vars, post_vars)
         redirect(controller='/media', action='index')
 
