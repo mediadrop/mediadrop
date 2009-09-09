@@ -80,7 +80,7 @@ class PodcastsController(RoutingController):
         podcast = fetch_row(Podcast, slug=slug)
 
         if (podcast.feedburner_url
-            and not 'Feedburner' in request.environ['HTTP_USER_AGENT']
+            and not 'feedburner' in request.environ['HTTP_USER_AGENT'].lower()
             and not kwargs.get('feedburner_bypass', False)):
             redirect(podcast.feedburner_url.encode('utf-8'))
 
