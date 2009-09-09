@@ -5,14 +5,14 @@
      xmlns:atom="http://www.w3.org/2005/Atom"
      version="2.0">
 	<channel>
-		<title py:content="podcast.title" />
+		<title py:content="Markup(podcast.title).stripentities()" />
 		<link py:content="h.url_for(action='view', qualified=True)" />
 		<language>en-us</language>
 		<docs>http://www.rssboard.org/rss-specification</docs>
 		<atom:link href="${h.url_for(qualified=True)}" rel="self" type="application/rss+xml" />
 
-		<description py:content="podcast.subtitle" />
-		<itunes:subtitle py:content="podcast.subtitle" />
+		<description py:content="Markup(podcast.subtitle).stripentities()" />
+		<itunes:subtitle py:content="Markup(podcast.subtitle).stripentities()" />
 		<itunes:summary py:content="h.strip_xhtml(podcast.description)" />
 
 		<itunes:category py:if="podcast.category"
@@ -22,18 +22,21 @@
 			                 text="${category[1]}" />
 		</itunes:category>
 
-		<managingEditor>${podcast.author.email}<py:if test="podcast.author.name"> (${podcast.author.name})</py:if></managingEditor>
-		<itunes:author py:content="podcast.author.name" />
-		<itunes:owner>
-			<itunes:email py:content="podcast.author.email" />
-			<itunes:name py:content="podcast.author.name" />
-		</itunes:owner>
+		<py:with vars="author_name = Markup(podcast.author.name).stripentities();
+		               author_email = podcast.author.email;">
+			<managingEditor>${author_email}<py:if test="author_name"> (${author_name})</py:if></managingEditor>
+			<itunes:author py:content="author_name" />
+			<itunes:owner>
+				<itunes:email py:content="author_email" />
+				<itunes:name py:content="author_name" py:if="author_name" />
+			</itunes:owner>
+		</py:with>
 
 		<itunes:explicit py:content="'no' if podcast.explicit is None else 'yes' if podcast.explicit else 'clean'" />
 
 		<image>
 			<url py:content="h.url_for('/images/podcasts/%ss.jpg' % podcast.id, qualified=True)" />
-			<title py:content="podcast.title" />
+			<title py:content="Markup(podcast.title).stripentities()" />
 			<link py:content="h.url_for(action='view', qualified=True)" />
 			<width>132</width>
 			<height>132</height>
@@ -41,7 +44,7 @@
 		<itunes:image href="${h.url_for('/images/podcasts/%sl.jpg' % podcast.id, qualified=True)}" />
 		<!--! iTunes image should be square and 600x600 or larger -->
 
-		<copyright py:content="podcast.copyright" />
+		<copyright py:content="Markup(podcast.copyright).stripentities()" />
 
 <!--!	<pubDate />
 		<lastBuildDate />
@@ -51,31 +54,35 @@
 
 		<item py:for="media in episodes"
 		      py:with="permalink = h.url_for(controller='/media', action='view', slug=media.slug, podcast_slug=podcast.slug, qualified=True);
-		               file = media.files[0];">
-			<title py:content="media.title" />
+		               file = media.primary_file;">
+			<title py:content="Markup(media.title).stripentities()" />
 			<guid py:content="permalink" />
 			<comments py:content="permalink + '#comments'" />
-			<itunes:subtitle py:content="media.subtitle" />
+			<itunes:subtitle py:content="Markup(media.subtitle).stripentities()" />
 			<description py:content="h.strip_xhtml(media.description)" />
-			<author>${media.author.email}<py:if test="media.author.name"> (${media.author.name})</py:if></author>
-			<itunes:author py:if="media.author.name" py:content="media.author.name" />
+			<author>${media.author.email}<py:if test="media.author.name"> (${Markup(media.author.name).stripentities()})</py:if></author>
+			<itunes:author py:if="media.author.name" py:content="Markup(media.author.name).stripentities()" />
 			<pubDate py:content="media.publish_on.strftime('%a, %d %b %Y %H:%M:%S') + ' GMT'" />
-			<itunes:duration py:content="h.duration_from_seconds(media.duration)" />
-			<itunes:keywords py:content="', '.join(tag.name for tag in media.tags)" />
-			<enclosure url="${h.url_for(controller='/media', action='serve', type=file.type, slug=media.slug, qualified=True)}"
-			           length="${file.size}"
-			           type="${file.mimetype}" />
-			<media:content url="${h.url_for(controller='/media', action='serve', type=file.type, slug=media.slug, qualified=True)}"
-			               medium="${media.type}"
-			               fileSize="${file.size}"
-			               type="${file.mimetype}"
-			               isDefault="true"
-			               expression="full"
-			               bitrate="${file.bitrate}"
-			               duration="${media.duration}"
-			               width="${file.width}"
-			               height="${file.height}"
-			               lang="en" />
+			<itunes:duration py:if="media.duration" py:content="media.duration" />
+			<itunes:keywords py:content="Markup(', '.join(tag.name for tag in media.tags)).stripentities()" />
+			<enclosure py:attrs="dict(
+				url = h.url_for(controller='/media', action='serve', id=file.id, type=file.type, slug=media.slug, qualified=True),
+				length = file.size or None,
+				type = file.mimetype,
+			)" />
+			<media:content py:attrs="dict(
+				url = h.url_for(controller='/media', action='serve', id=file.id, type=file.type, slug=media.slug, qualified=True),
+				medium = media.type,
+				type = file.mimetype,
+				fileSize = file.size or None,
+				bitrate = file.bitrate or None,
+				duration = media.duration or None,
+				width = file.width or None,
+				height = file.height or None,
+				isDefault = 'true',
+				expression = 'full',
+				lang = 'en',
+			)" />
 			<media:thumbnail url="${h.url_for('/images/media/%sm.jpg' % media.id, qualified=True)}" width="240" height="135" />
 		</item>
 
