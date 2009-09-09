@@ -15,8 +15,9 @@ var UploadManager = new Class({
 		this.form = $(form);
 		this.action = action;
 		this.fields = $$(this.form.elements).filter(function(el) {
-			// filter out submit buttons
-			return el.get('type') != 'submit';
+			// filter out submit buttons (all browsers)
+			// and filter out form elements themselves (ie only. go figure)
+			return el.get('type') != 'submit' && el.get('tag') != 'form';
 		}, this).map(function(value) {
 			// create upload field wrappers
 			return new UploadField(this, value);
@@ -216,10 +217,12 @@ var SwiffUploadManager = new Class({
 		// Erase the default file and submit inputs
 		/* NB: this path relies heavily on the current table layout,
 		 * and should be updated along with the template */
-		finput.parentNode.parentNode.getPrevious().destroy();
-		finput.parentNode.parentNode.destroy();
-		submit.parentNode.parentNode.getPrevious().destroy();
-		submit.parentNode.parentNode.destroy();
+		var fpp = $(finput.parentNode.parentNode); // ensure element has added mootools element properties.
+		var spp = $(submit.parentNode.parentNode); // ensure element has added mootools element properties.
+		fpp.getPrevious().destroy();
+		fpp.destroy();
+		spp.getPrevious().destroy();
+		spp.destroy();
 	},
 
 	// returns a dict with all the form fields/values,

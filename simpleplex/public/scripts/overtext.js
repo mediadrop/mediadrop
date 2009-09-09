@@ -10,7 +10,7 @@ var OverTextManager = new Class({
 				pollInterval: 400
 			});
 		});
-	},
+	}
 });
 
 var CustomOverText = new Class({
@@ -26,12 +26,13 @@ var CustomOverText = new Class({
 	},
 
 	modifyForm: function() {
-		var oldParent = this.text.parentNode;
+		var oldParent = $(this.text.parentNode);
+		var newParent = $(this.element.parentNode);
 		oldParent.removeChild(this.text);
 		this.text.inject(this.element, 'after');
 		oldParent.destroy();
-		this.element.parentNode.removeClass('form-field');
-		this.element.parentNode.addClass('form-field-wide');
+		newParent.removeClass('form-field');
+		newParent.addClass('form-field-wide');
 	},
 
 	attach: function() {
@@ -57,5 +58,5 @@ var CustomOverText = new Class({
 			parent();
 		}
 	}
-
 });
+
