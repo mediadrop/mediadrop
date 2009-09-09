@@ -94,6 +94,7 @@ class MediaController(RoutingController):
         return dict(
             media = media,
             comment_form = PostCommentForm(action=url_for(action='lesson_comment')),
+            comment_form_action = url_for(action='comment'),
             comment_form_values = kwargs,
             next_episode = next_episode,
         )
@@ -223,6 +224,7 @@ class MediaController(RoutingController):
         return dict(
             media = media,
             comment_form = PostCommentForm(action=url_for(action='concept_comment')),
+            comment_form_action = url_for(action='comment'),
             comment_form_values = kwargs,
         )
 
