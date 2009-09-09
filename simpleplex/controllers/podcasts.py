@@ -79,7 +79,9 @@ class PodcastsController(RoutingController):
         """
         podcast = fetch_row(Podcast, slug=slug)
 
-        if podcast.feedburner_url and not 'Feedburner' in request.environ['HTTP_USER_AGENT']:
+        if (podcast.feedburner_url
+            and not 'Feedburner' in request.environ['HTTP_USER_AGENT']
+            and not kwargs.get('feedburner_bypass', False)):
             redirect(podcast.feedburner_url.encode('utf-8'))
 
         episodes = self._filter(podcast.media)\
@@ -95,4 +97,3 @@ class PodcastsController(RoutingController):
         template_name = config['pylons.app_globals'].dotted_filename_finder.get_dotted_filename(
             'simpleplex.templates.podcasts.feed', template_extension='.xml')
         return templating.render_genshi(template_name, extra_vars=template_vars, method='xml')
-
