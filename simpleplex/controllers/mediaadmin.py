@@ -32,8 +32,8 @@ add_file_form = AddFileForm()
 edit_file_form = EditFileForm()
 album_art_form = AlbumArtForm()
 update_status_form = UpdateStatusForm()
-search_form = SearchForm(action=url_for(controller='/mediadmin', action='index'))
-podcast_filter_form = PodcastFilterForm(action=url_for(controller='/mediadmin', action='index'))
+search_form = SearchForm(action=url_for(controller='/mediaadmin', action='index'))
+podcast_filter_form = PodcastFilterForm(action=url_for(controller='/mediaadmin', action='index'))
 
 
 class MediaadminController(RoutingController):

@@ -55,6 +55,7 @@ class MediaForm(ListForm):
     css_class = 'form'
     submit_text = None
     show_children_errors = True
+    _name = 'media-form' # TODO: Figure out why this is required??
 
     fields = [
         SingleSelectField('podcast', label_text='Include in the Podcast', help_text='Optional', options=lambda: [(None, None)] + DBSession.query(Podcast.id, Podcast.title).all()),
