@@ -7,7 +7,7 @@ import ftplib
 import urllib2
 import sha
 
-from urlparse import urlparse, urlunparse
+from urlparse import urlparse
 from cgi import parse_qs
 from PIL import Image
 from datetime import datetime, timedelta, date
@@ -282,12 +282,15 @@ class MediaController(RoutingController):
 
 
     @expose()
-    @validate(validators=dict(id=validators.Int()))
+    @validate(validators={'id': validators.Int()})
     def serve(self, id, slug, type, **kwargs):
         media = fetch_row(Media, slug=slug)
 
         for file in media.files:
             if file.id == id and file.type == type:
+                # Redirect to an external URL
+                if urlparse(file.url)[1]:
+                    redirect(file.url.encode('utf-8'))
                 file_path = os.path.join(config.media_dir, file.url)
                 file_handle = open(file_path, 'rb')
                 response.content_type = file.mimetype
