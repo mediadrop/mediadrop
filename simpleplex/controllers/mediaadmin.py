@@ -47,7 +47,9 @@ class MediaadminController(RoutingController):
             .filter(Media.status.excludes('trash'))\
             .options(undefer('comment_count_published'))\
             .options(undefer('comment_count_unreviewed'))\
-            .order_by(Media.status.desc(), Media.modified_on.desc())
+            .order_by(Media.status.desc(),
+                      Media.publish_on.desc(),
+                      Media.modified_on.desc())
 
         if search is not None:
             like_search = '%' + search + '%'
