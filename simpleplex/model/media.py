@@ -318,6 +318,14 @@ class Media(object):
         return None
 
     @property
+    def playable_files(self):
+        return [file for file in self.files if file.enable_player]
+
+    @property
+    def feedable_files(self):
+        return [file for file in self.files if file.enable_feed]
+
+    @property
     def is_published(self):
         return PUBLISH in self.status\
            and TRASH not in self.status\
