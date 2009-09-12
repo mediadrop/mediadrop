@@ -1,0 +1,33 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      xmlns:xi="http://www.w3.org/2001/XInclude"
+      py:strip="">
+	<table py:def="user_table(collection, include_thead=True, id='user-table', classes=None)"
+	    cellpadding="0" cellspacing="0" id="${id}" class="${classes}"
+	    py:with="item_count = len(collection);
+				 paginator = c.paginators.users;">
+		<thead py:if="include_thead">
+			<tr>
+				<th style="width:63px"></th>
+				<th style="width:145px">Username</th>
+				<th style="width:185px">Full Name</th>
+				<th style="width:185px">Email</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr py:if="item_count == 0">
+				<td>None Found</td>
+			</tr>
+			<tr py:for="item in collection">
+				<td>edit/delete</td>
+				<td py:content="item.user_name">username</td>
+				<td py:content="item.display_name">full name</td>
+				<td py:content="item.email_address">email address</td>
+			</tr>
+		</tbody>
+		<xi:include href="../../admin/helpers.html" />
+		${paginated_tfoot(paginator, '4')}
+	</table>
+</html>
+
+

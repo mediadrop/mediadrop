@@ -5,16 +5,19 @@ ul#settings-menu a {
 	padding-left: 20px;
 	font-size: 16px;
 }
+.menu-settings-user-on  a#menu-settings-users,
 .menu-settings-topic-on  a#menu-settings-topics,
 .menu-settings-tag-on  a#menu-settings-tags {
 	background: url('../images/icons/arrow-green-right.png') no-repeat left;
 	color: #196d29;
 }
 
+.add-user, .add-user:hover,
 .add-topic, .add-topic:hover,
 .add-tag, .add-tag:hover {
 	height: 28px;
 }
+.add-user { background-image: url('../images/buttons/add-user.png'); width: 99px; }
 .add-topic { background-image: url('../images/buttons/add-topic.png'); width: 103px; }
 .add-tag { background-image: url('../images/buttons/add-tag.png'); width: 91px; }
 

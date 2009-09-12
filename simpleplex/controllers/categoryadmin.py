@@ -33,6 +33,7 @@ class CategoryadminController(RoutingController):
             category = category,
             category_name = category.capitalize(),
             edit_form = edit_category_form,
+            section = category.capitalize()
         )
 
     @expose('json')
