@@ -476,10 +476,10 @@ class MediaController(RoutingController):
         media_obj.description = clean_xhtml(description)
         media_obj.status = 'draft,unencoded,unreviewed'
         media_obj.notes = (
-            "Bible References: None\n"
-            "S&H References: None\n"
-            "Reviewer: None\n"
-            "License: General Upload\n"
+            u"Bible References: None\n"
+            u"S&H References: None\n"
+            u"Reviewer: None\n"
+            u"License: General Upload\n"
         )
         media_obj.set_tags(tags)
 
