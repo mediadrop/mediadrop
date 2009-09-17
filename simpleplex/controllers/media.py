@@ -428,6 +428,15 @@ class MediaController(RoutingController):
             )
             email.send_media_notification(media_obj)
 
+            # FIXME: This is here to appease the Flash on Windows.
+            # Swiff.Uploader (which we use) uses Flash's FileReference.upload()
+            # method, which doesn't allow overriding the HTTP headers.
+            # On windows, the default headers have an "Accept: text/*" line.
+            # This means that it won't accept "application/json".
+            # TG Honours that, and, when returning, will throw an error rather
+            # than return an invalid content-type.
+            response.content_type = 'text/plain'
+
             return dict(
                 success = True,
                 redirect = url_for(action='upload_success')
