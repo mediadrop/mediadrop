@@ -19,7 +19,12 @@
 				<td>None Found</td>
 			</tr>
 			<tr py:for="item in collection">
-				<td><a href="${h.url_for(action='edit', user_id=item.user_id)}">edit</a> | delete</td>
+				<td>
+					<a href="${h.url_for(action='edit', user_id=item.user_id)}" class="edit-user">edit</a>
+					<form action="${h.url_for(action='delete', user_id=item.user_id)}" method="post" class="delete-user-form">
+						<input class="submitbutton clickable mo delete-user" type="submit" value="Delete" name="delete" />
+					</form>
+				</td>
 				<td py:content="item.display_name">full name</td>
 				<td py:content="item.email_address">email address</td>
 				<td py:content="len(item.groups) == 1 and item.groups[0].display_name or None">groups</td>

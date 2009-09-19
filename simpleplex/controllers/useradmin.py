@@ -1,3 +1,4 @@
+from tg import request
 from tg.decorators import paginate, expose, validate
 from repoze.what.predicates import has_permission
 from pylons import tmpl_context
@@ -89,5 +90,18 @@ class UseradminController(RoutingController):
 
         DBSession.add(user)
         DBSession.flush()
+
+        redirect(action='index', user_id=None)
+
+    @expose('json')
+    def delete(self, user_id, **kwargs):
+        """Delete a user item"""
+        user = fetch_user(user_id)
+
+        DBSession.delete(user)
+        user = None
+
+        if request.is_xhr:
+            return dict(success=True)
 
         redirect(action='index', user_id=None)

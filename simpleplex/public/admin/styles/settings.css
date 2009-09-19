@@ -35,7 +35,7 @@ table#category-table > tbody > tr > td:first-child {
 	border-top: none;
 }
 
-.edit-category, .delete-category, .save-category, .cancel-category {
+.edit-user, .edit-category, .delete-user, .delete-category, .save-category, .cancel-category {
 	height: 19px;
 	border: none;
 	text-indent: -1000px;
@@ -46,11 +46,13 @@ td.form-field-textfield {
 	padding: 0 10px;
 }
 
+.edit-user,
 .edit-category {
 	background-image: url('../images/buttons/edit-half.png');
 	width: 37px;
 }
-.delete-category {
+.delete-category,
+.delete-user {
 	background-image: url('../images/buttons/delete-half.png');
 	width: 26px;
 }
