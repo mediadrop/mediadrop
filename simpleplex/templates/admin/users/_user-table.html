@@ -9,9 +9,9 @@
 		<thead py:if="include_thead">
 			<tr>
 				<th style="width:63px"></th>
-				<th style="width:145px">Username</th>
-				<th style="width:185px">Full Name</th>
-				<th style="width:185px">Email</th>
+				<th style="width:205px">Display Name</th>
+				<th style="width:205px">Email</th>
+				<th style="width:105px">Group</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -20,9 +20,9 @@
 			</tr>
 			<tr py:for="item in collection">
 				<td><a href="${h.url_for(action='edit', user_id=item.user_id)}">edit</a> | delete</td>
-				<td py:content="item.user_name">username</td>
 				<td py:content="item.display_name">full name</td>
 				<td py:content="item.email_address">email address</td>
+				<td py:content="len(item.groups) == 1 and item.groups[0].display_name or None">groups</td>
 			</tr>
 		</tbody>
 		<xi:include href="../../admin/helpers.html" />

@@ -146,7 +146,6 @@ class User(DeclarativeBase):
         hashed_pass.update(password + self.password[:40])
         return self.password[40:] == hashed_pass.hexdigest()
 
-
 class Permission(DeclarativeBase):
     """A relationship that determines what each Group can do
     """
@@ -173,6 +172,20 @@ def fetch_user(user_id=None):
     query = DBSession.query(User)
     if user_id is not None:
         query = query.filter_by(user_id=user_id)
+
+    try:
+        return query.one()
+    except NoResultFound:
+        raise HTTPNotFound
+
+def fetch_group(group_id=None):
+    """Fetch a row from the database which matches the group_id.
+
+    Raises a HTTPNotFound exception if no result is found.
+    """
+    query = DBSession.query(Group)
+    if group_id is not None:
+        query = query.filter_by(group_id=group_id)
 
     try:
         return query.one()

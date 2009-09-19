@@ -4,9 +4,11 @@ from pylons import tmpl_context
 
 from simpleplex.lib.base import RoutingController
 from simpleplex.lib.helpers import expose_xhr, redirect, url_for
-from simpleplex.model import DBSession
-from simpleplex.model.auth import User, fetch_user
+from simpleplex.model import DBSession, fetch_row
+from simpleplex.model.auth import User, Group, fetch_user, fetch_group
 from simpleplex.forms.users import UserForm
+
+from tg.exceptions import HTTPNotFound
 
 user_form = UserForm()
 
@@ -41,10 +43,15 @@ class UseradminController(RoutingController):
             user_values['password'] = None
         else:
             # Pull the defaults from the user item
+            group = None
+            if len(user.groups) == 1:
+                group = user.groups[0].group_id
+
             user_values = dict(
                 user_name = user.user_name,
                 display_name = user.display_name,
                 email_address = user.email_address,
+                group = group
             )
 
         if user_id != 'new':
@@ -60,7 +67,7 @@ class UseradminController(RoutingController):
 
     @expose()
     @validate(user_form, error_handler=edit)
-    def save(self, user_id, user_name, display_name, email_address, password, delete=None, **kwargs):
+    def save(self, user_id, user_name, display_name, email_address, group, password, delete=None, **kwargs):
         """Create or edit the metadata for a user item."""
         user = fetch_user(user_id)
 
@@ -72,6 +79,11 @@ class UseradminController(RoutingController):
         user.user_name = user_name
         user.display_name = display_name
         user.email_address = email_address
+
+        if group is not None:
+            group = fetch_group(group)
+            user.groups = [group,]
+
         if(password is not None and password != ''):
             user.password = password
 
