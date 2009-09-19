@@ -52,6 +52,7 @@ class SimpleplexConfig(AppConfig):
 
         map.connect('/admin/settings/', controller='settingadmin', action='index')
         map.connect('/admin/settings/users', controller='useradmin', action='index')
+        map.connect('/admin/settings/users/{user_id}/{action}', controller='useradmin', action='edit', requirements=(dict(action='edit|save')))
         map.connect('/admin/settings/{category}/', controller='categoryadmin', action='index', requirements=(dict(category='topics|tags')))
         map.connect('/admin/settings/{category}/{id}/{action}', controller='categoryadmin', requirements=dict(action='save|delete',category='topics|tags'))
 

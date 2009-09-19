@@ -7,7 +7,7 @@
 <xi:include href="admin/settings/master.html" />
 <xi:include href="admin/master.html" />
 <head>
-	<title>Settings &#8211; Users</title>
+	<title>Users</title>
 	<script src="${h.url_for('/scripts/third-party/squeezebox-1.1-rc3.js')}" type="text/javascript"></script>
 	<link href="${h.url_for('/admin/styles/squeezebox.css')}" media="screen" rel="stylesheet" type="text/css" />
 	<script type="text/javascript" src="${h.url_for('/admin/scripts/confirm.js')}"></script>
@@ -15,7 +15,7 @@
 <body class="menu-settings-on menu-settings-user-on">
 	<div class="box">
 		<div class="box-head">
-			<a href="${h.url_for(action='save', id='new')}" class="mo add-user f-rgt"><span>Add User</span></a>
+			<a href="${h.url_for(action='edit', user_id='new')}" class="mo add-user f-rgt"><span>Add User</span></a>
 			<h1>Users</h1>
 		</div>
 		<xi:include href="../users/index-table.html" py:with="users=users" />

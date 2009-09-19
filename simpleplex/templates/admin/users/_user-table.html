@@ -19,7 +19,7 @@
 				<td>None Found</td>
 			</tr>
 			<tr py:for="item in collection">
-				<td>edit/delete</td>
+				<td><a href="${h.url_for(action='edit', user_id=item.user_id)}">edit</a> | delete</td>
 				<td py:content="item.user_name">username</td>
 				<td py:content="item.display_name">full name</td>
 				<td py:content="item.email_address">email address</td>

@@ -4,7 +4,10 @@
       xmlns:py="http://genshi.edgewall.org/"
       xmlns:xi="http://www.w3.org/2001/XInclude">
 <head py:match="head">
-	<title>Settings &#8211; ${section}</title>
+	<title py:match="title" py:with="title = select('text()')">
+		<py:if test="title and title != 'Settings'">${title} | </py:if>
+		Settings
+	</title>
 	<link href="${h.url_for('/admin/styles/settings.css')}" media="screen" rel="stylesheet" type="text/css" />
 	<meta py:replace="select('*')"/>
 </head>

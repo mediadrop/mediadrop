@@ -5,10 +5,12 @@ except ImportError:
     sys.exit('ImportError: no module named hashlib\nIf you are on python2.4 this library is not part of python. Please install it. Example: easy_install hashlib')
 import os
 from datetime import datetime
+from tg.exceptions import HTTPNotFound
 
 from sqlalchemy import Table, ForeignKey, Column
 from sqlalchemy.types import String, Unicode, UnicodeText, Integer, DateTime, Boolean, Float
 from sqlalchemy.orm import relation, backref, synonym
+from sqlalchemy.orm.exc import NoResultFound
 
 from simpleplex.model import DeclarativeBase, metadata, DBSession
 
@@ -158,3 +160,21 @@ class Permission(DeclarativeBase):
 
     def __unicode__(self):
         return self.permission_name
+
+def fetch_user(user_id=None):
+    """Fetch a row from the database which matches the user_id.
+    If the user_id arg is 'new', a new, empty instance is created.
+
+    Raises a HTTPNotFound exception if no result is found.
+    """
+    if user_id == 'new':
+        inst = User()
+        return inst
+    query = DBSession.query(User)
+    if user_id is not None:
+        query = query.filter_by(user_id=user_id)
+
+    try:
+        return query.one()
+    except NoResultFound:
+        raise HTTPNotFound

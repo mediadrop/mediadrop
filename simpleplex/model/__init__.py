@@ -38,7 +38,7 @@ def init_model(engine):
 
 def fetch_row(mapped_class, id=None, slug=None, incl_trash=False, extra_filter=None):
     """Fetch a row from the database which matches the ID, slug, and other filters.
-    If the id arg is 'new', an new, empty instance is created.
+    If the id arg is 'new', a new, empty instance is created.
 
     Raises a HTTPNotFound exception if no result is found.
     """
