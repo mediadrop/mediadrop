@@ -154,10 +154,7 @@ class MediaController(RoutingController):
             podcast - a podcast slug or empty string
             topic     - a topic slug
         """
-        media_query = DBSession.query(Media)\
-            .filter(Media.publish_on < datetime.now())\
-            .filter(Media.status >= 'publish')\
-            .filter(Media.status.excludes('trash'))
+        media_query = self._published_media_query
 
         # Filter by podcast, if podcast slug provided
         slug = kwargs.get('podcast', None)
@@ -178,9 +175,7 @@ class MediaController(RoutingController):
                 .filter(Media.topics.contains(topic))\
 
         # get the actual object (hope there is one!)
-        media = media_query\
-            .order_by(Media.publish_on.desc())\
-            .first()
+        media = media_query.first()
 
         return self._jsonify(media)
 
@@ -191,11 +186,12 @@ class MediaController(RoutingController):
         TODO: work this into a more general, documented, API scheme
         """
         media_query = DBSession.query(Media)\
-            .filter(Media.publish_on < datetime.now())\
             .filter(Media.status >= 'publish')\
-            .filter(Media.status.excludes('trash'))
+            .filter(Media.publish_on <= datetime.now())\
+            .filter(Media.status.excludes('trash'))\
+            .order_by(Media.views.desc())
 
-        media = media_query.order_by(Media.views.desc()).first()
+        media = media_query.first()
         return self._jsonify(media)
 
     def _jsonify(self, media):
