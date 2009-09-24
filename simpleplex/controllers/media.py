@@ -174,6 +174,13 @@ class MediaController(RoutingController):
             media_query = media_query\
                 .filter(Media.topics.contains(topic))\
 
+        # Filter by tag, if tag slug provided
+        slug = kwargs.get('tag', None)
+        if slug:
+            tag = fetch_row(Tag, slug=slug)
+            media_query = media_query\
+                .filter(Media.tags.contains(tag))\
+
         # get the actual object (hope there is one!)
         media = media_query.first()
 
