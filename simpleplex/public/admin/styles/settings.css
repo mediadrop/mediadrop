@@ -5,16 +5,19 @@ ul#settings-menu a {
 	padding-left: 20px;
 	font-size: 16px;
 }
+.menu-settings-user-on  a#menu-settings-users,
 .menu-settings-topic-on  a#menu-settings-topics,
 .menu-settings-tag-on  a#menu-settings-tags {
 	background: url('../images/icons/arrow-green-right.png') no-repeat left;
 	color: #196d29;
 }
 
+.add-user, .add-user:hover,
 .add-topic, .add-topic:hover,
 .add-tag, .add-tag:hover {
 	height: 28px;
 }
+.add-user { background-image: url('../images/buttons/add-user.png'); width: 99px; }
 .add-topic { background-image: url('../images/buttons/add-topic.png'); width: 103px; }
 .add-tag { background-image: url('../images/buttons/add-tag.png'); width: 91px; }
 
@@ -32,7 +35,7 @@ table#category-table > tbody > tr > td:first-child {
 	border-top: none;
 }
 
-.edit-category, .delete-category, .save-category, .cancel-category {
+.edit-user, .edit-category, .delete-user, .delete-category, .save-category, .cancel-category {
 	height: 19px;
 	border: none;
 	text-indent: -1000px;
@@ -43,11 +46,13 @@ td.form-field-textfield {
 	padding: 0 10px;
 }
 
+.edit-user,
 .edit-category {
 	background-image: url('../images/buttons/edit-half.png');
 	width: 37px;
 }
-.delete-category {
+.delete-category,
+.delete-user {
 	background-image: url('../images/buttons/delete-half.png');
 	width: 26px;
 }

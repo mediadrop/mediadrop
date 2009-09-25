@@ -19,7 +19,9 @@ class SettingadminController(RoutingController):
     allow_only = has_permission('admin')
 
     @expose()
-    def index(self, section='topics', **kwargs):
+    def index(self, section='users', **kwargs):
         if section == 'topics' or section == 'tags':
             redirect(controller='categoryadmin', category=section)
+        if section == 'users':
+            redirect(controller='useradmin')
         redirect('404.html')

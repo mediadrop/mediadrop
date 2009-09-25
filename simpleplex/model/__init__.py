@@ -38,7 +38,7 @@ def init_model(engine):
 
 def fetch_row(mapped_class, id=None, incl_trash=False, extra_filter=None, **kwargs):
     """Fetch a row from the database which matches the ID, slug, and other filters.
-    If the id arg is 'new', an new, empty instance is created.
+    If the id arg is 'new', a new, empty instance is created.
 
     All kwargs are passed on to query.filter_by() -- meaning you can lookup by slug
     by calling fetch_row(cls, slug='asdf')

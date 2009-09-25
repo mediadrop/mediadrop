@@ -2,31 +2,28 @@
      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:py="http://genshi.edgewall.org/"
-      xmlns:xi="http://www.w3.org/2001/XInclude"
-      py:with="paginator=c.paginators.categories; category_single = category_name.rstrip('s').lower()">
+      xmlns:xi="http://www.w3.org/2001/XInclude">
 <xi:include href="admin/settings/master.html" />
 <xi:include href="admin/master.html" />
 <head>
-	<title>${category_name}</title>
+	<title>Edit: ${Markup(user.user_name or 'New User')}</title>
+	<link href="${h.url_for('/admin/styles/forms.css')}" media="screen" rel="stylesheet" type="text/css" />
 	<script src="${h.url_for('/scripts/third-party/squeezebox-1.1-rc3.js')}" type="text/javascript"></script>
 	<link href="${h.url_for('/admin/styles/squeezebox.css')}" media="screen" rel="stylesheet" type="text/css" />
 	<script type="text/javascript" src="${h.url_for('/admin/scripts/confirm.js')}"></script>
-	<script type="text/javascript" src="${h.url_for('/admin/scripts/settings.js')}"></script>
 	<script type="text/javascript">
 		window.addEvent('domready', function(){
-			var cm = new CategoryMgr({
-				categoryName: '${category_name.rstrip('s')}'
-			});
+			var deleteConfirm = new DeleteConfirmMgr({msg: 'Are you sure you want to delete this user?'});
+			$('delete').addEvent('click', deleteConfirm.openConfirmDialog.bind(deleteConfirm));
 		});
 	</script>
 </head>
-<body class="menu-settings-on menu-settings-${category_single}-on">
+<body class="menu-settings-on menu-settings-user-on">
 	<div class="box">
 		<div class="box-head">
-			<a href="${h.url_for(action='save', id='new')}" class="mo add-${category_single} f-rgt"><span>Add ${category_single}</span></a>
-			<h1>${category_name}</h1>
+			<h1>${Markup(user.user_name or 'New User')}</h1>
 		</div>
-		<xi:include href="../categories/index-table.html" py:with="categories=categories; category=category; edit_form=edit_form;" />
+		<form py:replace="XML(user_form(user_values, action=user_action))" />
 	</div>
 </body>
 </html>

@@ -3,31 +3,30 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:py="http://genshi.edgewall.org/"
       xmlns:xi="http://www.w3.org/2001/XInclude"
-      py:with="paginator=c.paginators.categories; category_single = category_name.rstrip('s').lower()">
+      py:with="paginator=c.paginators.users">
 <xi:include href="admin/settings/master.html" />
 <xi:include href="admin/master.html" />
 <head>
-	<title>${category_name}</title>
+	<title>Users</title>
 	<script src="${h.url_for('/scripts/third-party/squeezebox-1.1-rc3.js')}" type="text/javascript"></script>
 	<link href="${h.url_for('/admin/styles/squeezebox.css')}" media="screen" rel="stylesheet" type="text/css" />
 	<script type="text/javascript" src="${h.url_for('/admin/scripts/confirm.js')}"></script>
-	<script type="text/javascript" src="${h.url_for('/admin/scripts/settings.js')}"></script>
+	<script type="text/javascript" src="${h.url_for('/admin/scripts/users.js')}"></script>
 	<script type="text/javascript">
 		window.addEvent('domready', function(){
-			var cm = new CategoryMgr({
-				categoryName: '${category_name.rstrip('s')}'
-			});
+			var um = new UserMgr();
 		});
 	</script>
 </head>
-<body class="menu-settings-on menu-settings-${category_single}-on">
+<body class="menu-settings-on menu-settings-user-on">
 	<div class="box">
 		<div class="box-head">
-			<a href="${h.url_for(action='save', id='new')}" class="mo add-${category_single} f-rgt"><span>Add ${category_single}</span></a>
-			<h1>${category_name}</h1>
+			<a href="${h.url_for(action='edit', user_id='new')}" class="mo add-user f-rgt"><span>Add User</span></a>
+			<h1>Users</h1>
 		</div>
-		<xi:include href="../categories/index-table.html" py:with="categories=categories; category=category; edit_form=edit_form;" />
+		<xi:include href="../users/index-table.html" py:with="users=users" />
 	</div>
 </body>
 </html>
+
 

@@ -193,9 +193,11 @@ body {
 .box-content .textfield,
 .box-content .textarea,
 .box-content .xhtmltextarea,
+.box-content .passwordfield,
 .rounded-inputs .textfield,
 .rounded-inputs .textarea,
-.rounded-inputs .xhtmltextarea {
+.rounded-inputs .xhtmltextarea,
+.rounded-inputs .passwordfield {
 	-moz-border-radius: 9px;
 	-webkit-border-radius: 9px;
 	padding: 6px 6px 5px 6px;

@@ -2,10 +2,12 @@
      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:py="http://genshi.edgewall.org/"
-      xmlns:xi="http://www.w3.org/2001/XInclude"
-      py:with="paginator=c.paginators.categories">
+      xmlns:xi="http://www.w3.org/2001/XInclude">
 <head py:match="head">
-	<title>Settings &#8211; ${category_name}</title>
+	<title py:match="title" py:with="title = select('text()')">
+		<py:if test="title and title != 'Settings'">${title} | </py:if>
+		Settings
+	</title>
 	<link href="${h.url_for('/admin/styles/settings.css')}" media="screen" rel="stylesheet" type="text/css" />
 	<meta py:replace="select('*')"/>
 </head>
@@ -14,8 +16,9 @@
 		<div class="box">
 			<h1 class="box-head">Settings</h1>
 			<ul id="settings-menu" class="box-content">
-				<li><a id="menu-settings-topics" href="${h.url_for(action='index', category='topics')}">Topics</a></li>
-				<li><a id="menu-settings-tags" href="${h.url_for(action='index', category='tags')}">Tags</a></li>
+				<li><a id="menu-settings-users" href="${h.url_for(controller='settingadmin', section='users')}">Users</a></li>
+				<li><a id="menu-settings-topics" href="${h.url_for(controller='settingadmin', section='topics')}">Topics</a></li>
+				<li><a id="menu-settings-tags" href="${h.url_for(controller='settingadmin', section='tags')}">Tags</a></li>
 			</ul>
 		</div>
 	</div>

@@ -1,5 +1,5 @@
 from tw import forms
-from tw.forms import ListFieldSet, TextField, FileField, CalendarDatePicker, SingleSelectField, TextArea, Button, HiddenField
+from tw.forms import ListFieldSet, TextField, FileField, CalendarDatePicker, SingleSelectField, TextArea, Button, HiddenField, PasswordField
 from tg.render import _get_tg_vars
 from pylons.templating import pylons_globals
 from simpleplex.lib.helpers import line_break_xhtml
