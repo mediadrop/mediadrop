@@ -92,8 +92,12 @@ class PodcastsController(RoutingController):
             episodes = episodes,
         )
 
+        if 'application/rss+xml' in request.environ['HTTP_ACCEPT']:
+            response.content_type = 'application/rss+xml'
+        else:
+            response.content_type = 'text/html'
+
         # Manually render XML from genshi since tg.render.render_genshi is too stupid to support it.
-        response.content_type = 'application/rss+xml'
         template_name = config['pylons.app_globals'].dotted_filename_finder.get_dotted_filename(
             'simpleplex.templates.podcasts.feed', template_extension='.xml')
         return templating.render_genshi(template_name, extra_vars=template_vars, method='xml')
