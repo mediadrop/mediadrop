@@ -186,7 +186,7 @@ class MediaadminController(RoutingController):
                 else:
                     # Check for types we can play ourselves
                     type = os.path.splitext(url)[1].lower()[1:]
-                    for playable_types in config.playable_types.intervalues():
+                    for playable_types in config.playable_types.itervalues():
                         if type in playable_types:
                             media_file.type = type
                             media_file.url = url
