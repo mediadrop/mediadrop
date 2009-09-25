@@ -36,9 +36,12 @@ def init_model(engine):
     DBSession.configure(bind=engine)
 
 
-def fetch_row(mapped_class, id=None, slug=None, incl_trash=False, extra_filter=None):
+def fetch_row(mapped_class, id=None, incl_trash=False, extra_filter=None, **kwargs):
     """Fetch a row from the database which matches the ID, slug, and other filters.
     If the id arg is 'new', an new, empty instance is created.
+
+    All kwargs are passed on to query.filter_by() -- meaning you can lookup by slug
+    by calling fetch_row(cls, slug='asdf')
 
     Raises a HTTPNotFound exception if no result is found.
     """
@@ -48,8 +51,8 @@ def fetch_row(mapped_class, id=None, slug=None, incl_trash=False, extra_filter=N
     query = DBSession.query(mapped_class)
     if id is not None:
         query = query.filter_by(id=id)
-    if slug is not None:
-        query = query.filter_by(slug=slug)
+    if kwargs:
+        query = query.filter_by(**kwargs)
     if extra_filter is not None:
         query = query.filter(extra_filter)
     if not incl_trash and hasattr(mapped_class, 'status'):
