@@ -419,10 +419,8 @@ class MediaController(RoutingController):
                 )
 
             # else actually save it!
-            if 'name' not in kwargs:
-                kwargs['name'] = None
-            if 'tags' not in kwargs:
-                kwargs['tags'] = None
+            kwargs.setdefault('name')
+            kwargs.setdefault('tags')
 
             media_obj = self._save_media_obj(
                 kwargs['name'], kwargs['email'],
@@ -449,10 +447,8 @@ class MediaController(RoutingController):
     @expose()
     @validate(upload_form, error_handler=upload)
     def upload_submit(self, **kwargs):
-        if 'name' not in kwargs:
-            kwargs['name'] = None
-        if 'tags' not in kwargs:
-            kwargs['tags'] = None
+        kwargs.setdefault('name')
+        kwargs.setdefault('tags')
 
         # Save the media_obj!
         media_obj = self._save_media_obj(
@@ -498,12 +494,9 @@ class MediaController(RoutingController):
         # Create a media object, add it to the media_obj, and store the file permanently.
         media_file = _add_new_media_file(media_obj, file.filename, file.file)
 
-        # If the file is a playable type, it doesn't need encoding
-        # FIXME: is this a safe assumption? What about resolution/bitrate?
-        if media_file.is_playable:
-            media_obj.status.discard('unencoded')
-
         # Add the final changes.
+        media_obj.update_type()
+        media_obj.update_status()
         DBSession.add(media_obj)
 
         return media_obj
