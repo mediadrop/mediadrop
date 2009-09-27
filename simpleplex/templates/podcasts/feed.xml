@@ -58,10 +58,14 @@
 			<guid py:content="permalink" />
 			<comments py:content="permalink + '#comments'" />
 			<itunes:subtitle py:content="Markup(media.subtitle).stripentities()" />
-			<description py:content="h.strip_xhtml(media.description)" />
+			<py:with vars="description = h.strip_xhtml(media.description)">
+				<description py:content="description" />
+				<itunes:subtitle py:content="h.text.truncate(description, 200, whole_word=True)" />
+				<itunes:summary py:content="description" />
+			</py:with>
 			<author>${media.author.email}<py:if test="media.author.name"> (${Markup(media.author.name).stripentities()})</py:if></author>
 			<itunes:author py:if="media.author.name" py:content="Markup(media.author.name).stripentities()" />
-			<pubDate py:content="media.publish_on.strftime('%a, %d %b %Y %H:%M:%S') + ' GMT'" />
+			<pubDate py:content="media.publish_on.strftime('%a, %d %b %Y %H:%M:%S %Z')" />
 			<itunes:duration py:if="media.duration" py:content="media.duration" />
 			<itunes:keywords py:content="Markup(', '.join(tag.name for tag in media.tags)).stripentities()" />
 			<media:thumbnail url="${h.url_for('/images/media/%sm.jpg' % media.id, qualified=True)}" width="240" height="135" />
