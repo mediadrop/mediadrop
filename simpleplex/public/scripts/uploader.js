@@ -175,7 +175,7 @@ var SwiffUploadManager = new Class({
 			fieldName: finput.get('name'), // set the fieldname to the default form's file input name
 			instantStart: false,
 			fileSizeMax: fileSizeMax,
-			appendCookieData: true,
+			appendCookieData: false,
 			onSelectSuccess: this.onSelectSuccess.bind(this),
 			onSelectFail: this.onSelectFail.bind(this),
 			onQueue: this.onQueue.bind(this),
