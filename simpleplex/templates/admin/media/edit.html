@@ -128,19 +128,19 @@
 			</div>
 			<table id="comments-table" cellpadding="0" cellspacing="0">
 				<tr id="comments-total">
-					<td class="comments-count" py:content="media.comment_count" />
+					<td class="comments-count" py:content="media.comment_count or 0" />
 					<td>Comments</td>
 				</tr>
 				<tr id="comments-published">
-					<td class="comments-count" py:content="media.comment_count_published" />
+					<td class="comments-count" py:content="media.comment_count_published or 0" />
 					<td>Published</td>
 				</tr>
 				<tr id="comments-unreviewed">
-					<td class="comments-count" py:content="media.comment_count_unreviewed" />
+					<td class="comments-count" py:content="media.comment_count_unreviewed or 0" />
 					<td>Unreviewed</td>
 				</tr>
 				<tr id="comments-trash">
-					<td class="comments-count" py:content="media.comment_count_trash" />
+					<td class="comments-count" py:content="media.comment_count_trash or 0" />
 					<td>Trash</td>
 				</tr>
 			</table>

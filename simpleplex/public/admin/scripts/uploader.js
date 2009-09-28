@@ -12,6 +12,7 @@ var Uploader = new Class({
 		statusNotice: '.upload-notice',
 		fxProgressBar: {},
 		messages: {},
+		postAuthCookie: 'authtkt',
 		uploader: {
 			verbose: false,
 			queued: false,
@@ -20,7 +21,7 @@ var Uploader = new Class({
 			instantStart: true,
 			typeFilter: '*.*',
 			fileSizeMax: 50 * 1024 * 1024, // default max size of 50 MB
-			appendCookieData: true
+			appendCookieData: false
 		}
 	},
 
@@ -49,6 +50,11 @@ var Uploader = new Class({
 			this.target = this._createUploadBtn().replaces(this.target);
 		}
 		uploaderOpts.target = this.target;
+
+		if (this.options.postAuthCookie) {
+			uploaderOpts.data = uploaderOpts.data || {};
+			uploaderOpts.data[this.options.postAuthCookie] = Cookie.read(this.options.postAuthCookie);
+		}
 
 		this.uploader = new Swiff.Uploader(uploaderOpts).addEvents({
 			browse: this.onBrowse.bind(this),
