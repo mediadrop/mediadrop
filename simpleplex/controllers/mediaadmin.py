@@ -290,26 +290,27 @@ class MediaadminController(RoutingController):
         else:
             media = fetch_row(Media, id, incl_trash=True)
 
-        im_path = os.path.join(config.image_dir, 'media/%d%%s.%%s' % media.id)
+        im_path = os.path.join(config.image_dir, 'media/%s%s.%s')
 
         try:
-            # Create jpeg thumbnails
-            # TODO: Allow other formats?
+            # Create thumbnails
             im = Image.open(album_art.file)
-            for size in ['ss', 's', 'm', 'l']:
-                file_path = im_path % (size, 'jpg')
-                im.resize(config.album_art_sizes[size], 1).save(file_path)
-
-            # Backup the original image just for kicks
-            orig_type = os.path.splitext(album_art.filename)[1].lower()[1:]
-            backup_file = open(im_path % ('orig', orig_type), 'w')
-            copyfileobj(album_art.file, backup_file)
-            album_art.file.close()
-            backup_file.close()
 
             if id == 'new':
                 DBSession.add(media)
                 DBSession.flush()
+
+            # TODO: Allow other formats?
+            for size in ['ss', 's', 'm', 'l']:
+                file_path = im_path % (media.id, size, 'jpg')
+                im.resize(config.album_art_sizes[size], 1).save(file_path)
+
+            # Backup the original image just for kicks
+            orig_type = os.path.splitext(album_art.filename)[1].lower()[1:]
+            backup_file = open(im_path % (media.id, 'orig', orig_type), 'w')
+            copyfileobj(album_art.file, backup_file)
+            album_art.file.close()
+            backup_file.close()
 
             success = True
             message = None
