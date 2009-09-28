@@ -26,24 +26,28 @@
 			<script type="text/javascript" src="${h.url_for('/scripts/topics.js')}" py:if="c.nav_opts['show_topics']" />
 			<script type="text/javascript" py:if="c.nav_opts['show_topics']">
 				window.addEvent('domready', function() {
-					var flyoutOpenFx = [
-						{duration:  30, transition: 'linear'},
-						{duration:  20, transition: 'linear'},
-						{duration: 450, transition: 'cubic:out'}
-					];
-					var flyoutCloseFx = [
-						{duration:  30, transition: 'linear'},
-						{duration:  20, transition: 'linear'},
-						{duration: 450, transition: 'cubic:in'}
-					];
-					var topicIndexFlyout = new ButtonFlyout({
-						button: 'nav-topics',
-						buttonActiveClass: 'topics-shown',
-						elements: $('simpleplex-topics').getChildren(),
-						startHidden: ${c.nav_opts['show_topic_list'] and 'false' or 'true'},
-						openFx: flyoutOpenFx,
-						closeFx: flyoutCloseFx
-					});
+					<py:if test="c.nav_opts['show_topics'] or c.nav_opts['show_podcast_help']">
+						var flyoutOpenFx = [
+							{duration:  30, transition: 'linear'},
+							{duration:  20, transition: 'linear'},
+							{duration: 450, transition: 'cubic:out'}
+						];
+						var flyoutCloseFx = [
+							{duration:  30, transition: 'linear'},
+							{duration:  20, transition: 'linear'},
+							{duration: 450, transition: 'cubic:in'}
+						];
+					</py:if>
+					<py:if test="c.nav_opts['show_topics']">
+						var topicIndexFlyout = new ButtonFlyout({
+							button: 'nav-topics',
+							buttonActiveClass: 'topics-shown',
+							elements: $('simpleplex-topics').getChildren(),
+							startHidden: ${c.nav_opts['show_topic_list'] and 'false' or 'true'},
+							openFx: flyoutOpenFx,
+							closeFx: flyoutCloseFx
+						});
+					</py:if>
 					<py:if test="c.nav_opts['show_podcast_help']">
 						var podcastHelpFlyout = new ButtonFlyout({
 							button: 'nav-podcast-help',
@@ -73,18 +77,20 @@
 	<py:match path="nav" recursive="false">
 		<py:if test="not c.nav_opts" py:replace="set_nav_opts()" />
 		<div class="box-nav">
-			<ul py:if="c.nav_opts['show_left']" id="nav" class="box-nav-left">
-				<li id="nav-latest"><a href="${h.url_for(controller='/media', action='flow')}">Latest</a></li>
-				<li id="nav-videos"><a href="${h.url_for(controller='/media', action='index')}">Video</a></li>
-				<li id="nav-podcasts"><a href="${h.url_for(controller='/podcasts')}">Podcasts</a></li>
-			</ul>
-			<a py:if="c.nav_opts['show_topics']" id="nav-topics" class="box-nav-right topics-shown" href="${h.url_for(controller='/media', action='topics', slug=None)}">Topic Index</a>
-			<a py:if="c.nav_opts['show_upload']" id="nav-upload-video" class="box-nav-right" href="${h.url_for(controller='/media', action='upload')}">Upload a Video</a>
-			<a py:if="c.nav_opts['show_podcast_help']" id="nav-podcast-help" class="box-nav-right podcast-help-shown" href="#">What are podcasts?</a>
+			<div class="box-nav-btns">
+				<ul py:if="c.nav_opts['show_left']" id="nav" class="box-nav-left">
+					<li id="nav-latest"><a href="${h.url_for(controller='/media', action='flow')}">Latest</a></li>
+					<li id="nav-videos"><a href="${h.url_for(controller='/media', action='index')}">Video</a></li>
+					<li id="nav-podcasts"><a href="${h.url_for(controller='/podcasts')}">Podcasts</a></li>
+				</ul>
+				<a py:if="c.nav_opts['show_topics']" id="nav-topics" class="box-nav-right topics-shown" href="${h.url_for(controller='/media', action='topics', slug=None)}">Topic Index</a>
+				<a py:if="c.nav_opts['show_upload']" id="nav-upload-video" class="box-nav-right" href="${h.url_for(controller='/media', action='upload')}">Upload a Video</a>
+				<a py:if="c.nav_opts['show_podcast_help']" id="nav-podcast-help" class="box-nav-right podcast-help-shown" href="#">What are podcasts?</a>
+			</div>
 			<div py:if="c.nav_opts['show_podcast_help']" id="podcast-help-box" class="nav-box">
-				<div id="podcast-help-top" />
-				<div class="nav-box-top" />
-				<div>
+				<div id="podcast-help-top" class="nav-box-flyout" />
+				<div class="nav-box-top nav-box-flyout" />
+				<div class="nav-box-flyout">
 					<div class="nav-box-body">
 						<div class="fL">
 							<p>New to podcasts? A podcast is a periodical publication of audio or video files on the internet. The term "podcast" is a combination of the words "iPod" and "broadcast", but you don't need an iPod to listen to a podcast&mdash;any computer or portable media player will do.</p>
@@ -113,9 +119,9 @@
 				</div>
 			</div>
 			<div py:if="c.nav_opts['show_topics']" id="simpleplex-topics" class="nav-box">
-				<div id="topic-box-top" />
-				<div class="nav-box-topright" />
-				<div><!--! this extra div is here to group elements for the ButtonFlyout js -->
+				<div id="topic-box-top" class="nav-box-flyout" />
+				<div class="nav-box-topright nav-box-flyout" />
+				<div class="nav-box-flyout">
 					<div class="nav-box-body" py:with="per_col = max(5, int(h.math.ceil((len(c.topics) + 6) / 4.0)))">
 						<ul py:if="c.topics" py:for="col in xrange(1, h.math.ceil(len(c.topics) / float(per_col)) + 1)">
 							<li py:for="topic in c.topics[(col-1)*per_col:col*per_col]">
