@@ -68,10 +68,14 @@
 
 .comments .bottom {
 	display: block;
-	background: url('../images/layout/comment-bottom.png') no-repeat 12px bottom;
+	background: url('../images/layout/comment-bottom.png') no-repeat 12px 100%;
 	padding: 0 20px 10px 0;
 	text-align: right;
 }
+.comments .alt .bottom {
+	background-position: 0 100%;
+}
+
 
 .no-comments {
 	width: 493px;
