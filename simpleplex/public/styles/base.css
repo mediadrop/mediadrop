@@ -144,11 +144,12 @@ a:hover {
 .contextbox a:hover {
 	text-decoration: none;
 }
-hr.context-sep {
+.context-sep {
 	border: 0;
 	height: 0;
+	background: none;
 	float: right;
-	width: 359px;
+	width: 350px;
 	clear: right;
 	padding-bottom: 32px;
 }
@@ -403,4 +404,3 @@ a#nav-podcast-help.podcast-help-shown,
 .xhtml-description-helper em {
 	font-weight: bold;
 }
-

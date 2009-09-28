@@ -25,6 +25,7 @@
 .comments .comments-none-yet {
 	margin-left: 10px;
 }
+
 .comments-list li {
 	padding: 10px 0px;
 	margin-left: -12px
@@ -70,11 +71,6 @@
 	background: url('../images/layout/comment-bottom.png') no-repeat 12px bottom;
 	padding: 0 20px 10px 0;
 	text-align: right;
-}
-
-.comments .alt .bottom {
-	background: url('../images/layout/comment-bottom.png') no-repeat 0px bottom;
-	padding: 0 20px 10px 0;
 }
 
 .no-comments {

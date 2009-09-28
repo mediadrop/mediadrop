@@ -207,13 +207,13 @@ a:hover .grid-title, a.grid-title:hover {
 }
 
 #category-context .contextbox-top {
-	background: url('../images/layout/contextbox-top-topics.png') no-repeat bottom;
-	padding-top: 59px;
+	background: url('../images/layout/contextbox-top-topics.png') no-repeat;
+	padding-top: 58px;
 	overflow: hidden;
 	height: 0;
 }
 #category-context .contextbox-mid {
-	background: url('../images/layout/contextbox-mid-tags.png') no-repeat bottom;
+	background: url('../images/layout/contextbox-mid-tags.png') no-repeat;
 	padding-top: 41px;
 	overflow: hidden;
 	height: 0;

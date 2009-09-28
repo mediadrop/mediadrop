@@ -28,7 +28,9 @@
 							</a>
 						</h4>
 						<blockquote class="body" py:content="Markup(comment.body)" />
-						<div class="bottom date"><a href="#comment-${comment.id}" title="Permalink">Posted on ${comment.created_on.strftime("%d/%m/%y @ %H:%M")}</a></div>
+						<div class="bottom date">
+							<a href="#comment-${comment.id}" title="Permalink">Posted on ${comment.created_on.strftime("%d/%m/%y @ %H:%M")}</a>
+						</div>
 					</li>
 				</ul>
 			</py:choose>
