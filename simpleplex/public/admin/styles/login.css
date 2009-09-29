@@ -29,6 +29,7 @@ body {
 	font-size: 24px;
 	line-height: 24px;
 	border: 0;
+	margin-top: 4px;
 }
 #loginform input.text:focus {
 	outline-style: none;
