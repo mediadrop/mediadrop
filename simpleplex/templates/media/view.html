@@ -41,8 +41,8 @@
 					liked this ${'podcast' if media.podcast else media.type}!
 				</div>
 				<div class="media-meta-commented"><strong>${h.text.plural(len(comments), 'person', 'people')}</strong> commented</div>
-				<a class="media-meta-likethis mo up" id="likethis" title="vote up" href="${h.url_for(action='rate', rating=1)}">I like this!</a>
-				<a py:if="media.primary_file" class="media-meta-download mo" href="${media.primary_file.link_url}">Download</a>
+				<a class="btn btn-likethis" id="likethis" title="Vote Up" href="${h.url_for(action='rate', rating=1)}">I like this!</a>
+				<a py:if="media.primary_file" class="btn btn-download" href="${media.primary_file.link_url}">Download</a>
 				<div class="media-meta-bottom" />
 			</div>
 			${media_player(media)}

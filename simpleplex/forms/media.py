@@ -112,7 +112,7 @@ class UploadForm(ListForm):
         tags = TextField(label_text='Tags:', help_text='(optional) e.g.: puppies, great dane, adorable', show_error=True)
         tags.validator.if_missing = ""
         file = FileField(validator=FieldStorageUploadConverter(not_empty=True, messages={'empty':'Oops! You forgot to enter a file.'}), label_text='Media File', show_error=True)
-        submit = SubmitButton(css_class='submit-image', show_error=False)
+        submit = SubmitButton(show_error=False)
 
 
 class PodcastFilterForm(ListForm):

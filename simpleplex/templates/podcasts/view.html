@@ -17,7 +17,7 @@ ${set_nav_opts('podcast_help', podcasts=podcasts)}
 	<box id="podcasts-box" py:with="episodes_paginator=c.paginators.episodes">
 		<nav />
 
-		<hr style="height:0;border:0;margin-bottom:17px" />
+		<div style="margin-bottom:17px;height:0" />
 
 		<innerbox>
 			<innerboxtitle>Podcast Series</innerboxtitle>
@@ -36,7 +36,7 @@ ${set_nav_opts('podcast_help', podcasts=podcasts)}
 			</ul>
 		</innerbox>
 
-		<hr style="clear:both;margin-bottom:26px;height:0;border:0;" />
+		<div style="clear:both;margin-bottom:26px;height:0" />
 
 		<h3 class="recent-eps">Recent Episodes in the <span>${Markup(podcast.title)}</span> series</h3>
 		<ul py:replace="podcastgrid(episodes)" />

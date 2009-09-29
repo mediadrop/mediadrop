@@ -89,110 +89,7 @@ a:hover {
 	background: #2b2a2a url('../images/layout/box-body-bg.png') no-repeat top;
 }
 
-.innerbox {
-	clear: both;
-}
-.innerbox-top {
-	background: url('../images/layout/innerbox-top-trans.png') no-repeat top;
-	font: bold 14px Tahoma, sans-serif;
-	color: #acacb0;
-	text-shadow: #000 0 -1px 0;
-	padding: 10px 30px;
-	border-bottom: 1px solid #1d1d1d;
-}
-.innerbox-body {
-	background: #1c1c1c url('../images/layout/innerbox-body-bg.png') repeat-x top;
-	padding: 10px 30px 0 30px;
-	width: 840px;
-	overflow: hidden;
-}
-.innerbox-bottom {
-	height: 15px;
-	background: url('../images/layout/innerbox-bottom-trans.png') no-repeat top;
-}
-
-.contextbox {
-	float: right;
-	clear: right;
-	width: 359px;
-	overflow: hidden;
-	margin-right: 20px;
-	color: #0e4f34;
-	font: 14px Verdana, sans-serif;
-}
-.contextbox-top {
-	background: url('../images/layout/contextbox-top.png') no-repeat bottom;
-	height: 15px;
-}
-.contextbox-bottom {
-	background: url('../images/layout/contextbox-bottom.png') no-repeat bottom;
-	height: 15px;
-}
-.contextbox-body {
-	background: url('../images/layout/contextbox-body-bg.png') repeat-y;
-	padding: 10px 30px 5px 30px;
-	position: relative;
-	line-height: 1.3;
-}
-.contextbox-body-mid {
-	padding-bottom: 15px;
-}
-.contextbox a:link,
-.contextbox a:visited {
-	color: #517ca2;
-}
-.contextbox a:hover {
-	text-decoration: none;
-}
-.context-sep {
-	border: 0;
-	height: 0;
-	background: none;
-	float: right;
-	width: 350px;
-	clear: right;
-	padding-bottom: 32px;
-}
-
-.pager {
-	float: right;
-	font: 14px "Trebuchet MS", sans-serif;
-}
-.pager-left, .pager-right {
-	display: block;
-	float: left;
-	width: 15px;
-	height: 35px;
-	background: url('../images/layout/pagination-left-trans.png') no-repeat;
-}
-.pager-right { background-image: url('../images/layout/pagination-right-trans.png'); }
-.pager-body {
-	display: block;
-	float: left;
-	background: #010101;
-	height: 27px;
-	padding: 4px 5px;
-}
-.pager-body * {
-	padding: 5px 4px;
-	float: left;
-	display: block;
-}
-.pager-label {
-	color: #a2a2a2;
-	padding-left: 0;
-}
-.pager-body .current {
-	color: #a2a2a2;
-}
-.pager-body a:link, .pager-body a:visited {
-	color: #fff;
-	text-decoration: none;
-}
-.pager-body a:hover {
-	text-decoration: underline;
-}
-
+/* Navigation bar */
 .box-nav {
 	background: #000 url('../images/layout/box-nav-bg.png') repeat-x top;
 	width: 900px;
@@ -217,6 +114,7 @@ a:hover {
 	margin-left: 10px;
 }
 
+/* Sectional nav */
 #nav {
 	width: 248px;
 	background: url('../images/buttons/sections-ie.gif') no-repeat 0 0;
@@ -243,6 +141,7 @@ a:hover {
 #nav-videos a:hover { background-position: -87px -156px; }
 #nav-podcasts a:hover { background-position: -155px -156px; }
 
+/* Secondary nav, buttons for flyout boxes */
 a#nav-upload-video {
 	width: 122px;
 	background: url('../images/buttons/upload-video-ie.gif') no-repeat;
@@ -275,6 +174,7 @@ a#nav-podcast-help.podcast-help-shown,
 	background-position: 0 -78px;
 }
 
+/* Flyout boxes that go within the nav bar like topic index and whats a podcast? */
 .nav-box {
 	clear: both;
 	margin: 0 1px;
@@ -329,22 +229,8 @@ a#nav-podcast-help.podcast-help-shown,
 	color: #fff;
 	text-decoration: underline;
 }
-#podcast-help-box ul {
-	float: none;
-	width: 100%;
-}
-#podcast-help-box p, #podcast-help-box ul {
-	margin-bottom: 1.6em; /* same as line-height defined in .nav-box-body above */
-}
-#podcast-help-box .nav-box-body > .f-lft,
-#podcast-help-box .nav-box-body > .f-rgt {
-	width: 420px;
-	margin-bottom: -1.6em; /* absorb the margin from the bottom p and ul elements */
-}
-#podcast-help-box li {
-	width: 100%;
-	clear: both;
-}
+
+/* Topic index nav box */
 #simpleplex-topics li {
 	display: block;
 	margin: 3px 0;
@@ -378,6 +264,8 @@ a#nav-podcast-help.podcast-help-shown,
 	text-indent: -5000px;
 }
 
+
+/* Generic content styles */
 .box h1, .box h2, .box h3, .box h4, .box h5 {
 	font: normal 18px 'Trebuchet MS', sans-serif;
 	text-transform: capitalize;
@@ -385,22 +273,81 @@ a#nav-podcast-help.podcast-help-shown,
 .box h1 { color: #e8e5e5; }
 .box h3 { color: #acacb0; }
 
-/* Mouse-over image replacement for buttons */
-.mo span {
+
+/* Buttons */
+.btn {
+	height: 34px;
+	overflow: hidden;
+	cursor: pointer;
+	background-repeat: none;
+	background-position: 0 0;
+	display: block;
+	font-size: 0;
+	line-height: 0;
+	text-indent: -5000px;
+	border: 0;
+}
+.btn:hover {
+	background-position: 0 -34px;
+}
+.btn span {
+	display: none;
+}
+
+.btn-likethis { width: 113px; background-image: url('../images/buttons/i-like-this.png'); }
+.btn-download { width: 113px; background-image: url('../images/buttons/download.png'); }
+
+
+
+/*.mo span {
 	display: none;
 }
 .mo {
 	display: block;
 	background-repeat: no-repeat;
-	background-position: top;
+	background-position: 0 0;
 }
 .mo:hover {
-	background-position: bottom;
-}
+	background-position: 0 -50%;
+}*/
 
-.xhtml-description-helper p, .xhtml-description-helper li {
-	margin: 1em 0;
+
+/* Pagination */
+.pager {
+	float: right;
+	font: 14px "Trebuchet MS", sans-serif;
 }
-.xhtml-description-helper em {
-	font-weight: bold;
+.pager-left, .pager-right {
+	display: block;
+	float: left;
+	width: 15px;
+	height: 35px;
+	background: url('../images/layout/pagination-left-trans.png') no-repeat;
+}
+.pager-right { background-image: url('../images/layout/pagination-right-trans.png'); }
+.pager-body {
+	display: block;
+	float: left;
+	background: #010101;
+	height: 27px;
+	padding: 4px 5px;
+}
+.pager-body * {
+	padding: 5px 4px;
+	float: left;
+	display: block;
+}
+.pager-label {
+	color: #a2a2a2;
+	padding-left: 0;
+}
+.pager-body .current {
+	color: #a2a2a2;
+}
+.pager-body a:link, .pager-body a:visited {
+	color: #fff;
+	text-decoration: none;
+}
+.pager-body a:hover {
+	text-decoration: underline;
 }

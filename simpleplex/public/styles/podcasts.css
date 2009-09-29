@@ -1,3 +1,24 @@
+/* 'Whats a Podcast?' box for the nav bar */
+#podcast-help-box ul {
+	float: none;
+	width: 100%;
+}
+#podcast-help-box p, #podcast-help-box ul {
+	margin-bottom: 1.6em; /* same as line-height defined in .nav-box-body above */
+}
+#podcast-help-box .nav-box-body > .f-lft,
+#podcast-help-box .nav-box-body > .f-rgt {
+	width: 420px;
+	margin-bottom: -1.6em; /* absorb the margin from the bottom p and ul elements */
+}
+#podcast-help-box li {
+	width: 100%;
+	clear: both;
+}
+
+
+
+
 .podcast-art {
 	float: left;
 	display: block;
@@ -62,6 +83,27 @@
 }
 
 
+.innerbox {
+	clear: both;
+}
+.innerbox-top {
+	background: url('../images/layout/innerbox-top-trans.png') no-repeat top;
+	font: bold 14px Tahoma, sans-serif;
+	color: #acacb0;
+	text-shadow: #000 0 -1px 0;
+	padding: 10px 30px;
+	border-bottom: 1px solid #1d1d1d;
+}
+.innerbox-body {
+	background: #1c1c1c url('../images/layout/innerbox-body-bg.png') repeat-x top;
+	padding: 10px 30px 0 30px;
+	width: 840px;
+	overflow: hidden;
+}
+.innerbox-bottom {
+	height: 15px;
+	background: url('../images/layout/innerbox-bottom-trans.png') no-repeat top;
+}
 .innerbox-list li {
 	clear: both;
 	color: #b7b9bc;
@@ -106,6 +148,9 @@
 	font-weight: bold;
 	font-size: 12px;
 }
+
+
+/* Podcast context box for the media view */
 #podcast-context .contextbox-top {
 	background: url('../images/layout/contextbox-top-podcast.png') no-repeat;
 	padding-top: 54px;

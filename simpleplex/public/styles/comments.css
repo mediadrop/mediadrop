@@ -1,3 +1,4 @@
+/* Comments List */
 .comments {
 	width: 481px;
 	padding: 0 20px 0 12px;
@@ -14,7 +15,7 @@
 .comments h3,
 .comments-list li .top {
 	color: #3b3c3d;
-	font-family: 'Georgia';
+	font-family: Georgia, serif;
 	font-size: 19px;
 	font-weight: bold;
 	font-style: italic;
@@ -25,7 +26,6 @@
 .comments .comments-none-yet {
 	margin-left: 10px;
 }
-
 .comments-list li {
 	padding: 10px 0px;
 	margin-left: -12px
@@ -47,25 +47,21 @@
 	color: #00BEE2;
 	text-decoration: underline;
 }
-
 .comments-list li .top {
 	height: 91px;
 	background: url('../images/layout/comment-top-norm.png') no-repeat top left;
 	margin-bottom: -20px;
 }
-
 .comments-list li.alt .top {
 	background: url('../images/layout/comment-top-alt.png') no-repeat top left;
 	padding: 0 75px 0 32px;
 }
-
 .comments-list li .top a {
 	color: inherit;
 	text-decoration: inherit;
 	padding-top: 40px;
 	display: block;
 }
-
 .comments .bottom {
 	display: block;
 	background: url('../images/layout/comment-bottom.png') no-repeat 12px 100%;
@@ -75,7 +71,14 @@
 .comments .alt .bottom {
 	background-position: 0 100%;
 }
-
+.comments .body {
+	font-family: 'Lucida Grande', Tahoma, sans-serif;
+	background: url('../images/layout/comment-body-bg.png') repeat-y right;
+	color: #10375c;
+	width: 424px;
+	margin: 0 0 0 12px;
+	padding: 0 25px 10px 32px;
+}
 
 .no-comments {
 	width: 493px;
@@ -94,37 +97,30 @@
 .no-comments .top {
 	margin: 0 0 0 12px;
 }
-.comments .body {
-	font-family: 'Lucida Grande', Tahoma, sans-serif;
-	background: url('../images/layout/comment-body-bg.png') repeat-y right;
-	color: #10375c;
-	width: 424px;
-	margin: 0 0 0 12px;
-	padding: 0 25px 10px 32px;
+.comments-list li .body p {
+	margin: 10px 0;
+}
+.comments-list li.alt .body {
+	margin: 0 12px 0 0;
 }
 .no-comments .body {
 	padding-top: 3px;
 	padding-bottom: 0;
 }
 
-.comments-list li.alt blockquote {
-	margin: 0 12px 0 0;
-}
-.comments-list li blockquote p {
-	margin: 10px 0;
-}
 
+
+/* Post comment form */
 #post-comment-form textarea,
 #post-comment-form input[type='text'] {
 	-moz-border-radius: 15px;
 	-webkit-border-radius: 15px;
 	border: 5px solid #ebe4dc;
 	padding: 5px 8px 6px 8px;
-	width: 355px;
+	width: 455px;
 }
 #post-comment-form .form-field-wide textarea,
 #post-comment-form .form-field-wide input[type='text'] {
-	width: 455px;
 	margin-bottom: 12px;
 }
 #post-comment-form .form-field-wide label {
@@ -135,11 +131,9 @@
 	display: none;
 }
 #post-comment-form li .form-label {
-	width: 77px;
 	margin: 5px 0;
 }
 #post-comment-form li .form-field {
-	width: 384px;
 	margin: 5px 0;
 }
 #post-comment-form li .field-error {
@@ -148,13 +142,8 @@
 	margin: -3px 5px 5px 0;
 	color: red;
 }
-#post-comment-form li .submit-image {
-	background: transparent url('../images/buttons/comment.png') no-repeat scroll top;
-	background-color: transparent;
+
+.btn-post-comment {
+	background-image: url('../images/buttons/comment.png');
 	width: 168px;
-	height: 34px;
-	float: right;
-}
-#post-comment-form li .submit-image:hover {
-	background-position: bottom;
 }
