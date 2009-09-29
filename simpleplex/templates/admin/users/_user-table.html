@@ -25,8 +25,8 @@
 						<input class="submitbutton clickable mo delete-user" type="submit" value="Delete" name="delete" />
 					</form>
 				</td>
-				<td py:content="item.display_name">full name</td>
-				<td py:content="item.email_address">email address</td>
+				<td><a href="${h.url_for(action='edit', user_id=item.user_id)}" py:content="item.display_name">Display Name</a></td>
+				<td><a href="mailto:${item.email_address}" py:content="item.email_address">email address</a></td>
 				<td py:content="len(item.groups) == 1 and item.groups[0].display_name or None">groups</td>
 			</tr>
 		</tbody>

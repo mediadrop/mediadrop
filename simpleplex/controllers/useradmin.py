@@ -49,10 +49,14 @@ class UseradminController(RoutingController):
                 group = user.groups[0].group_id
 
             user_values = dict(
-                user_name = user.user_name,
                 display_name = user.display_name,
+                first_name = user.first_name,
+                last_name = user.last_name,
                 email_address = user.email_address,
-                group = group
+                login_details = dict(
+                    group = group,
+                    user_name = user.user_name,
+                ),
             )
 
         if user_id != 'new':
@@ -68,7 +72,7 @@ class UseradminController(RoutingController):
 
     @expose()
     @validate(user_form, error_handler=edit)
-    def save(self, user_id, user_name, display_name, email_address, group, password, delete=None, **kwargs):
+    def save(self, user_id, first_name, last_name, display_name, login_details, delete=None, **kwargs):
         """Create or edit the metadata for a user item."""
         user = fetch_user(user_id)
 
@@ -77,14 +81,18 @@ class UseradminController(RoutingController):
             user = None
             redirect(action='index', user_id=None)
 
-        user.user_name = user_name
         user.display_name = display_name
+        user.first_name = first_name
+        user.last_name = last_name
         user.email_address = email_address
+        user.user_name = login_details['user_name']
 
+        group = login_details['group']
         if group is not None:
             group = fetch_group(group)
             user.groups = [group,]
 
+        password = login_details['password']
         if(password is not None and password != ''):
             user.password = password
 
