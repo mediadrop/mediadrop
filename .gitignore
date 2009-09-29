@@ -4,5 +4,4 @@
 .cache
 .settings
 *.pyc
-/simpleplex/public/images/media/*.jpg
 *.tmproj
