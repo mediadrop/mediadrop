@@ -68,8 +68,8 @@ td.form-field-textfield {
 .edit-category-form .textfield {
 	width: 183px;
 }
-#first_name_container,
-#last_name_container {
+#display_name_container,
+#email_address_container {
 	clear: none;
 	float: left;
 	width: 50%;

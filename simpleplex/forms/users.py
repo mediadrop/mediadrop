@@ -15,8 +15,6 @@ class UserForm(ListForm):
 
     fields = [
         TextField('display_name', validator=NotEmpty, maxlength=255),
-        TextField('first_name', maxlength=255),
-        TextField('last_name', maxlength=255),
         TextField('email_address', validator=Email(not_empty=True, messages={
             'badUsername': 'The portion of the email address before the @ is invalid',
             'badDomain': 'The portion of this email address after the @ is invalid'

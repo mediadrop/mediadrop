@@ -68,8 +68,6 @@ class User(DeclarativeBase):
     email_address = Column(Unicode(255), unique=True, nullable=False,
                            info={'rum': {'field':'Email'}})
     display_name = Column(Unicode(255))
-#    first_name = Column(Unicode(255))
-#    last_name = Column(Unicode(255))
     _password = Column('password', Unicode(80),
                        info={'rum': {'field':'Password'}})
     created = Column(DateTime, default=datetime.now)
