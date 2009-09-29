@@ -72,7 +72,7 @@ class UseradminController(RoutingController):
 
     @expose()
     @validate(user_form, error_handler=edit)
-    def save(self, user_id, first_name, last_name, display_name, login_details, delete=None, **kwargs):
+    def save(self, user_id, first_name, last_name, email_address, display_name, login_details, delete=None, **kwargs):
         """Create or edit the metadata for a user item."""
         user = fetch_user(user_id)
 
