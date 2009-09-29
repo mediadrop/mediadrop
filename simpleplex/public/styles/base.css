@@ -336,8 +336,8 @@ a#nav-podcast-help.podcast-help-shown,
 #podcast-help-box p, #podcast-help-box ul {
 	margin-bottom: 1.6em; /* same as line-height defined in .nav-box-body above */
 }
-#podcast-help-box .nav-box-body > .fL,
-#podcast-help-box .nav-box-body > .fR {
+#podcast-help-box .nav-box-body > .f-lft,
+#podcast-help-box .nav-box-body > .f-rgt {
 	width: 420px;
 	margin-bottom: -1.6em; /* absorb the margin from the bottom p and ul elements */
 }
