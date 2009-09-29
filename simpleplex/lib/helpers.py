@@ -11,7 +11,7 @@ from routes.util import url_for as rurl
 from tg import expose, request, config
 from tg.exceptions import HTTPFound
 
-from htmlsanitizer import Cleaner, entities_to_unicode, encode_xhtml_entities
+from htmlsanitizer import Cleaner, entities_to_unicode as decode_entities, encode_xhtml_entities as encode_entities
 
 
 class expose_xhr(object):
@@ -203,7 +203,7 @@ def truncate_xhtml(string, size, _strip_xhtml=False, _decode_entities=False):
         string = block_spaces.sub(u"\\1 ", string)
         string = strip_xhtml(string)
 
-    string = entities_to_unicode(string)
+    string = decode_entities(string)
 
     if len(string) > size:
         string = text.truncate(string, length=size, whole_word=True)
@@ -211,7 +211,7 @@ def truncate_xhtml(string, size, _strip_xhtml=False, _decode_entities=False):
         if _strip_xhtml:
             if not _decode_entities:
                 # re-encode the entities, if we have to.
-                string = encode_xhtml_entities(string)
+                string = encode_entities(string)
         else:
             if _decode_entities:
                 string = Cleaner(string,
@@ -230,7 +230,7 @@ def strip_xhtml(string, _decode_entities=False):
     string = ''.join(BeautifulSoup(string).findAll(text=True))
 
     if _decode_entities:
-        string = entities_to_unicode(string)
+        string = decode_entities(string)
 
     return string
 

@@ -11,7 +11,7 @@ ${set_nav_opts('podcast_help', podcasts=podcasts)}
 	<link href="${h.url_for('/styles/podcasts.css')}" media="screen" rel="stylesheet" type="text/css" />
 	<link type="application/rss+xml" rel="alternate"
 	      href="${h.url_for(action='feed')}"
-	      title="${Markup(podcast.title).stripentities()} RSS Feed" />
+	      title="${h.decode_entities(podcast.title)} RSS Feed" />
 </head>
 <body class="nav-podcasts-on">
 	<box id="podcasts-box" py:with="episodes_paginator=c.paginators.episodes">
