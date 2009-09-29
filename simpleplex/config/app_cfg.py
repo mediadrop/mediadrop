@@ -170,7 +170,8 @@ base_config.comment_notification_addresses = [
     'notifications@tmcyouth.com',
 ]
 base_config.support_addresses = [
-    'anthony@simplestation.com'
+    'webteam@tmcyouth.com',
+    'anthony@simplestation.com',
 ]
 base_config.notification_from_address = 'noreply@tmcyouth.com'
 
