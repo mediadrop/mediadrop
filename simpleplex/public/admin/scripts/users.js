@@ -19,7 +19,7 @@ var UserMgr = new Class({
 			if(row.getChildren().length != 1)
 				var user = new User(row, this.options);
 		}.bind(this));
-	},
+	}
 });
 
 var User = new Class({
@@ -65,6 +65,6 @@ var User = new Class({
 
 	deleteFailure: function(xhr){
 		alert('Error deleting User');
-	},
+	}
 });
 

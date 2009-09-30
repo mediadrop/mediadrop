@@ -62,7 +62,7 @@ var CommentMgr = new Class({
 		return this.bulkMgr.getSelectedRows().map(function(row){
 			return row.get('id');
 		});
-	},
+	}
 
 });
 
@@ -180,7 +180,7 @@ var BulkMgr = new Class({
 		return $$('td.'+this.options.checkedColClass+' > input[type=checkbox]:checked').map(function(input){
 			return input.getParent('tr');
 		});
-	},
+	}
 });
 
 var Comment = new Class({

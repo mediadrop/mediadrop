@@ -46,7 +46,7 @@ var QuickSearch = new Class({
 			poll: true,
 			pollInterval: 400
 		});
-	},
+	}
 });
 
 var QSOverText = new Class({

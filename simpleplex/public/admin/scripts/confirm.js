@@ -65,7 +65,7 @@ var ConfirmMgr = new Class({
 	confirm: function(target){
 		SqueezeBox.close();
 		this.fireEvent('onConfirm', [target]);
-	},
+	}
 
 });
 

@@ -218,7 +218,7 @@ var Category = new Class({
 
 	saveFailure: function(xhr){
 		alert('Error saving changes to '+this.options.categoryName);
-	},
+	}
 });
 
 var NewCategory = new Class({
@@ -256,5 +256,5 @@ var NewCategory = new Class({
 
 	saveFailure: function(xhr){
 		alert('Error saving new '+this.options.categoryName);
-	},
+	}
 });
