@@ -153,6 +153,9 @@ class MediaController(RoutingController):
         Arguments:
             podcast - a podcast slug or empty string
             topic     - a topic slug
+            ignore  - an id to always exclude from results.
+                      this allows us to fetch two DIFFERENT results
+                      when calling this action twice.
         """
         media_query = self._published_media_query
 
@@ -172,14 +175,18 @@ class MediaController(RoutingController):
         if slug:
             topic = fetch_row(Topic, slug=slug)
             media_query = media_query\
-                .filter(Media.topics.contains(topic))\
+                .filter(Media.topics.contains(topic))
 
         # Filter by tag, if tag slug provided
         slug = kwargs.get('tag', None)
         if slug:
             tag = fetch_row(Tag, slug=slug)
             media_query = media_query\
-                .filter(Media.tags.contains(tag))\
+                .filter(Media.tags.contains(tag))
+
+        slug = kwargs.get('ignore', None)
+        if slug:
+            media_query = media_query.filter(Media.slug != slug)
 
         # get the actual object (hope there is one!)
         media = media_query.first()
@@ -214,6 +221,7 @@ class MediaController(RoutingController):
             img_s = url_for(im_path % 's'),
             img_ss = url_for(im_path % 'ss'),
             id = media.id,
+            slug = media.slug,
             url = url_for(controller="/media", action="view", slug=media.slug),
             podcast = media.podcast and media.podcast.slug or None,
         )
