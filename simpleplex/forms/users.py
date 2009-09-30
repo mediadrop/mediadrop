@@ -1,9 +1,25 @@
 from tw.forms.validators import NotEmpty, Email
+import formencode
+from tg import request
 
 from simpleplex.forms import Form, ListForm, ListFieldSet, TextField, XHTMLTextArea, FileField, CalendarDatePicker, SingleSelectField, TextArea, SubmitButton, Button, HiddenField, CheckBoxList, PasswordField
 
 from simpleplex.model import DBSession
-from simpleplex.model.auth import Group
+from simpleplex.model.auth import Group, User
+
+class UniqueUsername(formencode.FancyValidator):
+    def _to_python(self, value, state):
+        user_id = request.environ['pylons.routes_dict']['user_id']
+
+        query = DBSession.query(User).filter_by(user_name=value)
+        if user_id != 'new':
+            query = query.filter(User.user_id != user_id)
+
+        if query.count() != 0:
+            raise formencode.Invalid(
+                'User name already exists',
+                value, state)
+        return value
 
 class UserForm(ListForm):
     template = 'simpleplex.templates.admin.box-form'
@@ -21,7 +37,7 @@ class UserForm(ListForm):
         }), maxlength=255),
         ListFieldSet('login_details', suppress_label=True, legend='Login Details:', css_classes=['details_fieldset'], children=[
             SingleSelectField('group', label_text='Group', options=lambda: DBSession.query(Group.group_id, Group.display_name).all()),
-            TextField('user_name', validator=NotEmpty, maxlength=16),
+            TextField('user_name', maxlength=16, validator=UniqueUsername(not_empty=True)),
             PasswordField('password', validators=NotEmpty),
             PasswordField('confirm_password', validators=NotEmpty, maxlength=80),
         ]),

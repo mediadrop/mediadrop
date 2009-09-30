@@ -22,7 +22,7 @@ class UseradminController(RoutingController):
     @paginate('users', items_per_page=50)
     def index(self, page=1, **kwargs):
         users = DBSession.query(User)\
-            .order_by(User.user_name)
+            .order_by(User.display_name)
 
         return dict(
             users = users,

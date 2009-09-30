@@ -8,8 +8,15 @@
 	font-weight: bold;
 	color: #3c4d5a;
 }
-.form .field_error {
+.form .field_error,
+.form .fielderror {
 	color: #eb4c4c;
+}
+.form .fielderror {
+	padding: 5px 0;
+	margin-left: 10px;
+	display: block;
+	float: left;
 }
 .form .form_field {
 	/* bump the size down 12px so that when firefox adds 12px
