@@ -92,8 +92,9 @@ class PodcastsController(RoutingController):
             episodes = episodes,
         )
 
-        if 'application/rss+xml' in request.environ['HTTP_ACCEPT']:
-            response.content_type = 'application/rss+xml'
+        for type in ('application/rss+xml', 'application/xml'):
+            if type in request.environ['HTTP_ACCEPT']:
+                response.content_type = type
         else:
             response.content_type = 'text/html'
 

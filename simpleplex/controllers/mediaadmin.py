@@ -193,7 +193,6 @@ class MediaadminController(RoutingController):
                             break
                     else:
                         raise Exception, 'Unsupported URL %s' % url
-
             else:
                 raise Exception, 'Given no action to perform.'
 

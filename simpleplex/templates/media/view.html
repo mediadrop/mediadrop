@@ -24,7 +24,7 @@
 		});
 	</script>
 </head>
-<body py:with="comments = [c for c in media.comments if 'publish' in c.status and 'trash' not in c.status]" class="${media.podcast and 'nav-podcasts-on' or 'nav-videos-on'}">
+<body py:with="comments = [c for c in media.comments if 'publish' in c.status and 'trash' not in c.status]" class="${media.podcast and 'nav-podcasts-on' or 'nav-media-on'}">
 	<box id="media-box">
 		<nav />
 		<div class="media-body">

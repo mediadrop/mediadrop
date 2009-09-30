@@ -197,7 +197,7 @@ var AlbumArtUploader = new Class({
 		updateFormActionsOnSubmit: false,
 		uploader: {
 			fileSizeMax: 10 * 1024 * 1024,
-//			typeFilter: '*.jpg; *.jpeg; *.gif; *.png'
+			typeFilter: '*.jpg; *.jpeg; *.gif; *.png'
 		}
 	},
 
