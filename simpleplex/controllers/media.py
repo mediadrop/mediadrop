@@ -145,48 +145,50 @@ class MediaController(RoutingController):
         )
 
     @expose('json')
-    def latest(self, **kwargs):
+    def latest(self, type=None, podcast=None, ignore=None,
+               topic=None, tag=None, **kwargs):
         """
         EXPOSE the basic properties of the latest media object
         TODO: work this into a more general, documented, API scheme
 
         Arguments:
+            type    - audio, video, or None for either
             podcast - a podcast slug or empty string
-            topic     - a topic slug
+            topic   - a topic slug
             ignore  - an id to always exclude from results.
                       this allows us to fetch two DIFFERENT results
                       when calling this action twice.
         """
         media_query = self._published_media_query
 
+        if type:
+            media_query = media_query.filter(Media.type == type)
+
         # Filter by podcast, if podcast slug provided
-        slug = kwargs.get('podcast', None)
-        if slug != None:
-            if slug != '':
-                podcast = fetch_row(Podcast, slug=slug)
-                media_query = media_query\
-                    .filter(Media.podcast_id == podcast.id)
-            else:
+        if podcast != None:
+            if podcast == '':
                 media_query = media_query\
                     .filter(Media.podcast_id == None)
+            else:
+                podcast = fetch_row(Podcast, slug=podcast)
+                media_query = media_query\
+                    .filter(Media.podcast_id == podcast.id)
 
         # Filter by topic, if topic slug provided
-        slug = kwargs.get('topic', None)
-        if slug:
-            topic = fetch_row(Topic, slug=slug)
+        if topic:
+            topic = fetch_row(Topic, slug=topic)
             media_query = media_query\
                 .filter(Media.topics.contains(topic))
 
         # Filter by tag, if tag slug provided
-        slug = kwargs.get('tag', None)
-        if slug:
-            tag = fetch_row(Tag, slug=slug)
+        if tag:
+            tag = fetch_row(Tag, slug=tag)
             media_query = media_query\
                 .filter(Media.tags.contains(tag))
 
-        slug = kwargs.get('ignore', None)
-        if slug:
-            media_query = media_query.filter(Media.slug != slug)
+        # Filter out a media item we don't like
+        if ignore:
+            media_query = media_query.filter(Media.slug != ignore)
 
         # get the actual object (hope there is one!)
         media = media_query.first()
@@ -211,6 +213,12 @@ class MediaController(RoutingController):
     def _jsonify(self, media):
         im_path = '/images/media/%d%%s.jpg' % media.id
 
+        if media.podcast_id:
+            media_url = url_for(controller='/media', action='view', slug=media.slug,
+                                podcast_slug=media.podcast.slug)
+        else:
+            media_url = url_for(controller="/media", action="view", slug=media.slug)
+
         return dict(
             title = media.title,
             description = media.description,
@@ -222,7 +230,7 @@ class MediaController(RoutingController):
             img_ss = url_for(im_path % 'ss'),
             id = media.id,
             slug = media.slug,
-            url = url_for(controller="/media", action="view", slug=media.slug),
+            url = media_url,
             podcast = media.podcast and media.podcast.slug or None,
         )
 
