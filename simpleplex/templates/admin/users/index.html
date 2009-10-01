@@ -21,7 +21,7 @@
 <body class="menu-settings-on menu-settings-user-on">
 	<div class="box">
 		<div class="box-head">
-			<a href="${h.url_for(action='edit', user_id='new')}" class="mo add-user f-rgt"><span>Add User</span></a>
+			<a href="${h.url_for(action='edit', id='new')}" class="mo add-user f-rgt"><span>Add User</span></a>
 			<h1>Users</h1>
 		</div>
 		<xi:include href="../users/index-table.html" py:with="users=users" />

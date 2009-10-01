@@ -30,15 +30,15 @@ class UseradminController(RoutingController):
         )
 
     @expose('simpleplex.templates.admin.users.edit')
-    def edit(self, user_id, **kwargs):
-        """Display the edit form, or create a new one if the user_id is 'new'.
+    def edit(self, id, **kwargs):
+        """Display the edit form, or create a new one if the id is 'new'.
 
         This page serves as the error_handler for every kind of edit action,
         if anything goes wrong with them they'll be redirected here.
         """
-        user = fetch_user(user_id)
+        user = fetch_user(id)
 
-        if tmpl_context.action == 'save' or user_id == 'new':
+        if tmpl_context.action == 'save' or id == 'new':
             # Use the values from error_handler or GET for new users
             user_values = kwargs
             user_values['password'] = None
@@ -55,7 +55,7 @@ class UseradminController(RoutingController):
                 user_name = user.user_name,
             )
 
-        if user_id != 'new':
+        if id != 'new':
             DBSession.add(user)
 
         return dict(
@@ -68,14 +68,14 @@ class UseradminController(RoutingController):
 
     @expose()
     @validate(user_form, error_handler=edit)
-    def save(self, user_id, email_address, display_name, group, user_name, password, delete=None, **kwargs):
+    def save(self, id, email_address, display_name, group, user_name, password, delete=None, **kwargs):
         """Create or edit the metadata for a user item."""
-        user = fetch_user(user_id)
+        user = fetch_user(id)
 
         if delete:
             DBSession.delete(user)
             user = None
-            redirect(action='index', user_id=None)
+            redirect(action='index', id=None)
 
         user.display_name = display_name
         user.email_address = email_address
@@ -91,12 +91,12 @@ class UseradminController(RoutingController):
         DBSession.add(user)
         DBSession.flush()
 
-        redirect(action='index', user_id=None)
+        redirect(action='index', id=None)
 
     @expose('json')
-    def delete(self, user_id, **kwargs):
+    def delete(self, id, **kwargs):
         """Delete a user item"""
-        user = fetch_user(user_id)
+        user = fetch_user(id)
 
         DBSession.delete(user)
         user = None
@@ -104,4 +104,4 @@ class UseradminController(RoutingController):
         if request.is_xhr:
             return dict(success=True)
 
-        redirect(action='index', user_id=None)
+        redirect(action='index', id=None)

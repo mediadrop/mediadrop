@@ -9,11 +9,11 @@ from simpleplex.model.auth import Group, User
 
 class UniqueUsername(FancyValidator):
     def _to_python(self, value, state):
-        user_id = request.environ['pylons.routes_dict']['user_id']
+        id = request.environ['pylons.routes_dict']['id']
 
         query = DBSession.query(User).filter_by(user_name=value)
-        if user_id != 'new':
-            query = query.filter(User.user_id != user_id)
+        if id != 'new':
+            query = query.filter(User.user_id != id)
 
         if query.count() != 0:
             raise formencode.Invalid(
