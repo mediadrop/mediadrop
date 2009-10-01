@@ -20,7 +20,7 @@
 			</tr>
 			<tr py:for="item in collection">
 				<td>
-					<a href="${h.url_for(action='edit', id=item.user_id)}" class="edit-user">edit</a>
+					<a href="${h.url_for(action='edit', id=item.user_id)}" class="edit-user mo">edit</a>
 					<form action="${h.url_for(action='delete', id=item.user_id)}" method="post" class="delete-user-form">
 						<input class="submitbutton clickable mo delete-user" type="submit" value="Delete" name="delete" />
 					</form>
