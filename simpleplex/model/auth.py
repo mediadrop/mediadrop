@@ -159,35 +159,3 @@ class Permission(DeclarativeBase):
 
     def __unicode__(self):
         return self.permission_name
-
-def fetch_user(user_id=None):
-    """Fetch a row from the database which matches the user_id.
-    If the user_id arg is 'new', a new, empty instance is created.
-
-    Raises a HTTPNotFound exception if no result is found.
-    """
-    if user_id == 'new':
-        inst = User()
-        return inst
-    query = DBSession.query(User)
-    if user_id is not None:
-        query = query.filter_by(user_id=user_id)
-
-    try:
-        return query.one()
-    except NoResultFound:
-        raise HTTPNotFound
-
-def fetch_group(group_id=None):
-    """Fetch a row from the database which matches the group_id.
-
-    Raises a HTTPNotFound exception if no result is found.
-    """
-    query = DBSession.query(Group)
-    if group_id is not None:
-        query = query.filter_by(group_id=group_id)
-
-    try:
-        return query.one()
-    except NoResultFound:
-        raise HTTPNotFound

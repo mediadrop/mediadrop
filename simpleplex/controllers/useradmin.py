@@ -6,7 +6,7 @@ from pylons import tmpl_context
 from simpleplex.lib.base import RoutingController
 from simpleplex.lib.helpers import expose_xhr, redirect, url_for
 from simpleplex.model import DBSession, fetch_row
-from simpleplex.model.auth import User, Group, fetch_user, fetch_group
+from simpleplex.model.auth import User, Group
 from simpleplex.forms.users import UserForm
 
 from tg.exceptions import HTTPNotFound
@@ -36,7 +36,7 @@ class UseradminController(RoutingController):
         This page serves as the error_handler for every kind of edit action,
         if anything goes wrong with them they'll be redirected here.
         """
-        user = fetch_user(id)
+        user = fetch_row(User, id)
 
         if tmpl_context.action == 'save' or id == 'new':
             # Use the values from error_handler or GET for new users
@@ -70,7 +70,7 @@ class UseradminController(RoutingController):
     @validate(user_form, error_handler=edit)
     def save(self, id, email_address, display_name, group, user_name, password, delete=None, **kwargs):
         """Create or edit the metadata for a user item."""
-        user = fetch_user(id)
+        user = fetch_row(User, id)
 
         if delete:
             DBSession.delete(user)
@@ -82,7 +82,7 @@ class UseradminController(RoutingController):
         user.user_name = user_name
 
         if group is not None:
-            group = fetch_group(group)
+            group = fetch_row(Group, group)
             user.groups = [group,]
 
         if password is not None and password != '':
@@ -96,7 +96,7 @@ class UseradminController(RoutingController):
     @expose('json')
     def delete(self, id, **kwargs):
         """Delete a user item"""
-        user = fetch_user(id)
+        user = fetch_row(User, id)
 
         DBSession.delete(user)
         user = None
