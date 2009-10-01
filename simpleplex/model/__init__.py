@@ -2,7 +2,7 @@
 
 import re
 from zope.sqlalchemy import ZopeTransactionExtension
-from sqlalchemy.orm import scoped_session, sessionmaker
+from sqlalchemy.orm import scoped_session, sessionmaker, class_mapper
 from sqlalchemy.ext.declarative import declarative_base
 from tg.exceptions import HTTPNotFound
 from sqlalchemy import sql, orm
@@ -36,7 +36,7 @@ def init_model(engine):
     DBSession.configure(bind=engine)
 
 
-def fetch_row(mapped_class, id=None, incl_trash=False, extra_filter=None, **kwargs):
+def fetch_row(mapped_class, _pk=None, incl_trash=False, extra_filter=None, **kwargs):
     """Fetch a row from the database which matches the ID, slug, and other filters.
     If the id arg is 'new', a new, empty instance is created.
 
@@ -45,12 +45,13 @@ def fetch_row(mapped_class, id=None, incl_trash=False, extra_filter=None, **kwar
 
     Raises a HTTPNotFound exception if no result is found.
     """
-    if id == 'new':
+    if _pk == 'new':
         inst = mapped_class()
         return inst
     query = DBSession.query(mapped_class)
-    if id is not None:
-        query = query.filter_by(id=id)
+    if _pk is not None:
+        mapper = class_mapper(mapped_class, compile=False)
+        query = query.filter(mapper.primary_key[0] == _pk)
     if kwargs:
         query = query.filter_by(**kwargs)
     if extra_filter is not None:
