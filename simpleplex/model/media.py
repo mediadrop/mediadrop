@@ -1,37 +1,14 @@
 """
 Media Models for Audio and Video
 
-Things to be aware of:
 
-  - Polymorphism is used to return Audio or Video objects while dealing with
-    a single database table. Both these classes inherit the Media base class.
-    We also have a PlaceholderMedia type for media that hasn't yet been
-    defined as one or the other.
-
-  - To switch a row from one polymorphic type to another use change_media_type()
-
-  - Media.author and Media.rating are composite columns and provide an interface
-    similar to relations. In other words, author_name & author_email are shuffled
-    into a single Author object.
-
-    Example Author usage (ratings are the same):
-       m = Video()
-       m.author = Author()
-       m.author.email = u'a@b.com'
-       print m.author.email
-       DBSession.add(m) # everything is saved
-
-    This gives us the flexibility to properly normalize our author data without
-    modifying all the places in the app where we access our author information.
-
-  - For status documentation see simpleplex.model.status
 
 """
 
 import transaction
 from datetime import datetime
 from urlparse import urlparse
-from sqlalchemy import Table, ForeignKey, Column, sql, and_, or_, func, select
+from sqlalchemy import Table, ForeignKey, Column, sql, func
 from sqlalchemy.types import String, Unicode, UnicodeText, Integer, DateTime, Boolean, Float
 from sqlalchemy.orm import mapper, class_mapper, relation, backref, synonym, composite, column_property, comparable_property, validates, collections
 from tg import config, request
@@ -110,7 +87,7 @@ media_files = Table('media_files', metadata,
 )
 media_files.append_column(
     # The position defaults to the greatest file position for this media plus 1.
-    Column('position', Integer, nullable=False, default=select(
+    Column('position', Integer, nullable=False, default=sql.select(
         [func.coalesce(func.max(sql.text('mf.position + 1')), sql.text('1'))],
         sql.text('mf.media_id') == sql.bindparam('media_id'),
         media_files.alias('mf')
@@ -151,12 +128,20 @@ class Media(object):
         return '<Media: %s>' % self.slug
 
     def set_tags(self, tags):
+        """Set the tags relations of this media, creating them as needed.
+
+        tags
+          A list or comma separated string of tags to use.
+        """
         if isinstance(tags, basestring):
             tags = extract_tags(tags)
+        if isinstance(tags, list) and tags:
             tags = fetch_and_create_tags(tags)
         self.tags = tags or []
 
     def set_topics(self, topics):
+        """Set the topics relations of this media.
+        """
         if isinstance(topics, list):
             topics = fetch_topics(topics)
         self.topics = topics or []
@@ -171,11 +156,13 @@ class Media(object):
 
         This increments MediaFile.position such that gaps in the sequence occur.
 
-        Moving a file to the first position of all those for this object can
-        change the `type` attribute when a different `primary_file` is being set.
+        When the primary_file is changed by this operation, we ensure that the
+        Media.type matches the type of the new primary_file.
 
-        Depending on the situation, we add to the DBSession the file or a query,
-        which is a deviation from our usual practice.
+        Depending on the situation, we manipulate the DBSession, rather than our
+        usual practice of simply modifying the object and leaving DBSession work
+        to the controller. This is necessary because we run a query on the DB
+        without using the ORM in some cases.
 
         file
           A MediaFile instance or file ID to move
@@ -198,9 +185,9 @@ class Media(object):
             # When we reach the moved row, the new position is simply set,
             # otherwise the position is incremented 1.
             update = media_files.update()\
-                .where(and_(
+                .where(sql.and_(
                     media_files.c.media_id == self.id,
-                    or_(
+                    sql.or_(
                         media_files.c.position >= pos,
                         media_files.c.id == file.id
                     )
@@ -235,38 +222,10 @@ class Media(object):
 
     def update_type(self):
         """Ensure the media type is that of the first file."""
-        if self.files:
-            for file in self.files:
-                file_medium = file.medium
-                if file_medium is not None:
-                    self.type = file_medium
-                    return self.type
-        self.type = None
-        return None
+        primary_file = self.primary_file
+        self.type = primary_file.medium if primary_file else None
 
-    def update_status(self, add=None, discard=None, update=None):
-        """Update and validate the status, ensuring we have a sane state.
-
-        REVIEW
-          Flag unreviewed if no files exist.
-
-        ENCODING
-          Flag encoded if one or more files is suitable, or flag unencoded.
-
-          Media is generally encoded if any file type is in cls.ENCODED_TYPES or
-          is embeddable, e.g. YouTube. However, media for podcasts are considered
-          unencoded since YouTube videos cannot be included in RSS/iTunes.
-
-        PUBLISH
-          Flag unpublished if unencoded, unreviewed, or a draft.
-        """
-        if add:
-            self.status.add(add)
-        if discard:
-            self.status.discard(discard)
-        if update:
-            self.status.update(update)
-
+    def update_status(self):
         self._validate_review_status()
         self._validate_encoding_status()
         self._validate_publish_status()
@@ -368,14 +327,20 @@ class MediaFile(object):
 
     @property
     def mimetype(self):
+        """The best-guess mimetype for this file type.
+
+        Defaults to 'application/octet-stream'.
+        """
         return config.mimetype_lookup.get('.' + self.type, 'application/octet-stream')
 
     @property
     def is_embeddable(self):
+        """True if this file is embedded from another site, ex Youtube, Vimeo."""
         return self.type in config.embeddable_filetypes
 
     @property
     def is_playable(self):
+        """True if this file can be played in most browsers (& is not embedded)."""
         for playable_types in config.playable_types.itervalues():
             if self.type in playable_types:
                 return True
@@ -430,6 +395,10 @@ class MediaFile(object):
 
     @validates('enable_feed')
     def _validate_enable_feed(self, key, on):
+        """Ensure that modifications to the enable_feed prop won't break things.
+
+        You cannot disable the last feed-enable file of a podcast episode.
+        """
         if (not on and self.media and self.media.podcast_id
             and len([f for f in self.media.files if f.enable_feed]) == 1):
             raise MediaException, ('Published podcast media requires '
@@ -439,7 +408,7 @@ class MediaFile(object):
 
 mapper(MediaFile, media_files)
 
-media_mapper = mapper(Media, media, properties={
+_media_mapper = mapper(Media, media, properties={
     'status': status_column_property(media.c.status),
     'author': composite(Author, media.c.author_name, media.c.author_email),
     'rating': composite(Rating, media.c.rating_sum, media.c.rating_votes),
@@ -451,7 +420,7 @@ media_mapper = mapper(Media, media, properties={
 })
 
 # Add comment_count, comment_count_published, ... column properties to Media
-media_mapper.add_properties(_properties_dict_from_labels(
+_media_mapper.add_properties(_properties_dict_from_labels(
     comment_count_property('comment_count', media_comments),
     comment_count_property('comment_count_published', media_comments, status_where(
         comments.c.status, include='publish', exclude='trash'
@@ -465,8 +434,8 @@ media_mapper.add_properties(_properties_dict_from_labels(
 ))
 
 # Add properties for counting how many media items have a given Tag
-tags_mapper = class_mapper(Tag, compile=False)
-tags_mapper.add_properties(_properties_dict_from_labels(
+_tags_mapper = class_mapper(Tag, compile=False)
+_tags_mapper.add_properties(_properties_dict_from_labels(
     tag_count_property('media_count', media_tags, status_where(
         media.c.status, exclude='trash'
     )),
@@ -476,8 +445,8 @@ tags_mapper.add_properties(_properties_dict_from_labels(
 ))
 
 # Add properties for counting how many media items have a given Topic
-topics_mapper = class_mapper(Topic, compile=False)
-topics_mapper.add_properties(_properties_dict_from_labels(
+_topics_mapper = class_mapper(Topic, compile=False)
+_topics_mapper.add_properties(_properties_dict_from_labels(
     topic_count_property('media_count', media_topics, status_where(
         media.c.status, exclude='trash'
     )),
