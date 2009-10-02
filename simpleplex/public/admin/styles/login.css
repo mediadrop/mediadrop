@@ -46,3 +46,24 @@ body {
 	text-indent: -5000px;
 	border: 0;
 }
+#ie-warning {
+	background: #ff0000;
+	color: #ffd6d6;
+	font: 18px/25px Tahoma, sans-serif;
+	border: 2px solid black;
+	padding: 1em;
+	margin: 100px auto 0 auto;
+	width: 30em;
+}
+#ie-warning a:link,
+#ie-warning a:visited {
+	color: #fff;
+	text-decoration: underline;
+}
+#ie-warning a:hover {
+	text-decoration: none;
+}
+#ie-warning strong {
+	font-weight: bold;
+	color: #fff;
+}

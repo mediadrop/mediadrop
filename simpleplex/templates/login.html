@@ -16,6 +16,13 @@
 	<link href="${h.url_for('/admin/styles/login.css')}" media="screen" rel="stylesheet" type="text/css" />
 </head>
 <body>
+	<!--[if IE]>
+		<div id="ie-warning">
+			<strong>Internet Explorer is unsupported!</strong><br />
+			Your browsing experience will be subpar,<br />
+			Please update to <a href="http://getfirefox.com/">a better browser</a>.
+		</div>
+	<![endif]-->
 	<div id="loginform">
 		<form action="${tg.url('/login_handler', came_from=came_from.encode('utf-8'), __logins=login_counter.encode('utf-8'))}"
 		      method="post" class="loginfields">
