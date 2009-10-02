@@ -42,7 +42,7 @@ a:hover {
 
 .clickable { cursor: pointer; }
 
-.content {
+.simpleplex-content {
 	width: 940px;
 	overflow: hidden;
 	margin: 0 auto;
