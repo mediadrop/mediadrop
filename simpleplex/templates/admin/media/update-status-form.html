@@ -9,7 +9,8 @@
 			   py:content="'View' if media.is_published else 'Preview'" />
 			<h1>Publish Status</h1>
 		</div>
-		<div class="box-content" py:choose="">
+		<div class="box-content" py:choose="" py:with="publish_on=media.publish_on.strftime('%b %d %Y @ %H:%M') if media.publish_on else None">
+			<input py:replace="XML(c.publish_on(publish_on))" />
 			<py:when test="media.id is None">
 				<div class="box-content center">You must add a file and save before review can begin.</div>
 			</py:when>
@@ -17,7 +18,9 @@
 				<ol id="status-list">
 					<li class="status-list-inprogress">review pending</li>
 					<li class="status-list-${status}" py:with="status = 'pending' if 'unencoded' in media.status else 'complete'">encoding ${status}</li>
-					<li class="status-list-pending">publishing pending</li>
+					<li class="status-list-pending" id="status-publish" title="Click to change the publish date">
+						publishing <span class="publish-date" py:content="publish_on or 'pending'" />
+					</li>
 				</ol>
 				<div class="box-content center"
 				     py:content="c.update_button('Review Complete', id='update-status', css_class='mo submitbutton btn-review-complete') if media.files else 'Review can only be completed after a file is added.'" />
@@ -26,7 +29,9 @@
 				<ol id="status-list">
 					<li class="status-list-complete">review complete</li>
 					<li class="status-list-inprogress">encoding pending</li>
-					<li class="status-list-pending">publishing pending</li>
+					<li class="status-list-pending" id="status-publish" title="Click to change the publish date">
+						publishing <span class="publish-date" py:content="publish_on or 'pending'" />
+					</li>
 				</ol>
 				<div class="box-content center">Encoding will be complete when an acceptable file is added.</div>
 			</py:when>
@@ -34,15 +39,21 @@
 				<ol id="status-list">
 					<li class="status-list-complete">review complete</li>
 					<li class="status-list-complete">encoding complete</li>
-					<li class="status-list-inprogress">publishing pending</li>
+					<li class="status-list-inprogress" id="status-publish" title="Click to change the publish date">
+						publishing <span class="publish-date" py:content="publish_on or 'pending'" />
+					</li>
 				</ol>
-				<div py:content="c.update_button('Publish Now', id='update-status', css_class='mo submitbutton btn-publish-now')" class="box-content center" />
+				<div class="box-content center">
+					${c.update_button('Publish Now', id='update-status', css_class='mo submitbutton btn-publish-now')}
+				</div>
 			</py:when>
 			<py:when test="media.is_published">
 				<ol id="status-list">
 					<li class="status-list-complete">review complete</li>
 					<li class="status-list-complete">encoding complete</li>
-					<li class="status-list-complete">published ${media.publish_on.strftime('%b %d %Y')}</li>
+					<li class="status-list-complete" id="status-publish" title="Click to change the publish date">
+						published <span class="publish-date" py:content="publish_on or 'pending'" />
+					</li>
 				</ol>
 			</py:when>
 			<py:otherwise test="">${media.status}</py:otherwise>

@@ -38,6 +38,15 @@
 .status-list-pending {
 	color: #9b9b9b;
 }
+#publish-date {
+	width: 120px;
+	font: 12px Tahoma, sans-serif;
+	color: #196d29;
+	border: 0;
+}
+#status-publish:hover .publish-date {
+	text-decoration: underline;
+}
 
 /* Statuses */
 a.review-me,

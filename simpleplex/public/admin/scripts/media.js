@@ -98,15 +98,30 @@ var StatusForm = new Class({
 	options: {
 		form: '',
 		error: '',
-		submitReq: {noCache: true}
+		submitReq: {noCache: true},
+		pickerField: '#publish_on',
+		pickerOptions: {
+			toggleElements: '#status-publish',
+			yearPicker: false,
+			timePicker: true,
+			allowEmpty: true,
+			format: 'M d Y @ H:i',
+			inputOutputFormat: 'M d Y @ H:i'
+		}
 	},
 
 	form: null,
 	submitReq: null,
+	publishDatePicker: null,
 
 	initialize: function(opts){
 		this.setOptions(opts);
 		this.form = $(this.options.form).addEvent('submit', this.saveStatus.bind(this));
+
+		this.publishDatePicker = new DatePicker(this.options.pickerField, $extend(this.options.pickerOptions, {
+			onSelect: this.changePublishDate.bind(this),
+			onShow: this.onShowDatePicker.bind(this)
+		}));
 	},
 
 	saveStatus: function(e){
@@ -133,6 +148,7 @@ var StatusForm = new Class({
 		}
 		var formContents = $(form).getChildren();
 		this.form.empty().adopt(formContents);
+		this.publishDatePicker.attach();
 	},
 
 	_displayError: function(msg){
@@ -140,6 +156,25 @@ var StatusForm = new Class({
 		errorBox.set('html', msg || 'An error has occurred, try again.');
 		if (!errorBox.isDisplayed()) errorBox.slide('hide').show().slide('in');
 		errorBox.highlight();
+	},
+
+	onShowDatePicker: function(){
+		var coords = $$(this.publishDatePicker.options.toggleElements)[0].getCoordinates();
+		var ml = coords.left - Math.floor($(document).getSize().x / 2);
+		$$('.datepicker')[0].setStyles({left: '50%', top: coords.bottom + 'px', marginLeft: ml + 'px'});
+	},
+
+	changePublishDate: function(d){
+		var publishDate = d.format('%b %d %Y @ %H:%M');
+		$$(this.publishDatePicker.options.toggleElements)[0].getFirst().set('text', publishDate);
+
+		var r = new Request.JSON({
+			url: this.form.get('action'),
+			onComplete: this.statusSaved.bind(this)
+		}).send(new Hash({
+			publish_on: publishDate,
+			update_button: 'Change publish date'
+		}).toQueryString());
 	}
 });
 
@@ -214,7 +249,10 @@ var FileManager = new Class({
 		this.addForm = $(addForm).addEvent('submit', this.addFile.bind(this));
 		this.addForm.url.addEvent('focus', this.addForm.url.select);
 		var addFileBtn = this._setupAddFileBtn();
-		addFileBtn.addEvent('click', this.addForm.slide.bind(this.addForm, ['toggle']));
+		addFileBtn.addEvent('click', function(){
+			var open = !this.addForm.slide.run(['toggle'], this.addForm).get('slide').open;
+			this.uploader.uploader.setEnabled(open);
+		}.bind(this));
 	},
 
 	dragStart: function(el, clone){

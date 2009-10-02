@@ -329,7 +329,7 @@ class MediaadminController(RoutingController):
 
     @expose('json')
     @validate(update_status_form, error_handler=edit)
-    def update_status(self, id, update_button, **values):
+    def update_status(self, id, update_button=None, publish_on=None, **values):
         media = fetch_row(Media, id, incl_trash=True)
 
         # Make the requested change assuming it will be allowed
@@ -338,7 +338,9 @@ class MediaadminController(RoutingController):
         elif update_button == 'Publish Now':
             media.status.discard('draft')
             media.status.add('publish')
-            media.publish_on = datetime.now()
+            media.publish_on = publish_on or datetime.now()
+        elif publish_on:
+            media.publish_on = publish_on
 
         try:
             # Verify the change is valid by re-determining the status

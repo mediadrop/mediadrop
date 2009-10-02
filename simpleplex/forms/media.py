@@ -1,5 +1,5 @@
 from tw.api import WidgetsList, CSSLink
-from tw.forms.validators import Schema, Int, StringBool, NotEmpty, DateConverter, DateValidator, Email, FieldStorageUploadConverter
+from tw.forms.validators import Schema, Int, StringBool, NotEmpty, DateTimeConverter, DateValidator, Email, FieldStorageUploadConverter
 
 from simpleplex.model import DBSession, Podcast, MediaFile
 from simpleplex.lib import helpers
@@ -88,9 +88,9 @@ class UpdateStatusForm(Form):
     media = None
     _name = 'usf'
 
-    fields = [
-        SubmitButton('update_button', named_button=True, validator=NotEmpty),
-    ]
+    class fields(WidgetsList):
+        publish_on = HiddenField(validator=DateTimeConverter(format='%b %d %Y @ %H:%M'))
+        update_button = SubmitButton(named_button=True, validator=NotEmpty)
 
 
 class UploadForm(ListForm):
