@@ -9,9 +9,8 @@ from simpleplex.model import DBSession, fetch_row
 from simpleplex.model.auth import User, Group
 from simpleplex.forms.users import UserForm
 
-from tg.exceptions import HTTPNotFound
-
 user_form = UserForm()
+
 
 class UseradminController(RoutingController):
     """Admin user actions"""
@@ -21,13 +20,10 @@ class UseradminController(RoutingController):
                 'simpleplex.templates.admin.users.index-table')
     @paginate('users', items_per_page=50)
     def index(self, page=1, **kwargs):
-        users = DBSession.query(User)\
-            .order_by(User.display_name)
+        users = DBSession.query(User).order_by(User.display_name,
+                                               User.email_address)
+        return dict(users=users)
 
-        return dict(
-            users = users,
-            section = 'Users'
-        )
 
     @expose('simpleplex.templates.admin.users.edit')
     def edit(self, id, **kwargs):
@@ -41,17 +37,12 @@ class UseradminController(RoutingController):
         if tmpl_context.action == 'save' or id == 'new':
             # Use the values from error_handler or GET for new users
             user_values = kwargs
-            user_values['password'] = None
+            user_values['password'] = user_values['confirm_password'] = None
         else:
-            # Pull the defaults from the user item
-            group = None
-            if len(user.groups) == 1:
-                group = user.groups[0].group_id
-
             user_values = dict(
                 display_name = user.display_name,
                 email_address = user.email_address,
-                group = group,
+                group = user.groups[0].group_id if user.groups else None,
                 user_name = user.user_name,
             )
 
@@ -63,45 +54,40 @@ class UseradminController(RoutingController):
             user_form = user_form,
             user_action = url_for(action='save'),
             user_values = user_values,
-            section = 'Users'
         )
+
 
     @expose()
     @validate(user_form, error_handler=edit)
-    def save(self, id, email_address, display_name, group, user_name, password, delete=None, **kwargs):
+    def save(self, id, email_address, display_name, group, user_name, password,
+             delete=None, **kwargs):
         """Create or edit the metadata for a user item."""
         user = fetch_row(User, id)
 
         if delete:
             DBSession.delete(user)
-            user = None
             redirect(action='index', id=None)
 
         user.display_name = display_name
         user.email_address = email_address
         user.user_name = user_name
-
-        if group is not None:
-            group = fetch_row(Group, group)
-            user.groups = [group,]
-
         if password is not None and password != '':
             user.password = password
 
+        group = fetch_row(Group, group) if group else None
+        user.groups = [group]
+
         DBSession.add(user)
         DBSession.flush()
-
         redirect(action='index', id=None)
+
 
     @expose('json')
     def delete(self, id, **kwargs):
         """Delete a user item"""
         user = fetch_row(User, id)
-
         DBSession.delete(user)
-        user = None
 
         if request.is_xhr:
             return dict(success=True)
-
         redirect(action='index', id=None)

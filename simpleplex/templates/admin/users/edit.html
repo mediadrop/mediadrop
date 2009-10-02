@@ -23,7 +23,7 @@
 		<div class="box-head">
 			<h1>${Markup(user.user_name or 'New User')}</h1>
 		</div>
-		<form py:replace="XML(user_form(user_values, action=user_action))" />
+		<form py:replace="XML(user_form(user_values, action=user_action, autocomplete='off'))" />
 	</div>
 </body>
 </html>
