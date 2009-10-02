@@ -53,7 +53,7 @@ var ConfirmMgr = new Class({
 				//        Content is displayed by SqueezeBox.applyContent w/ a timer,
 				//        so we do our best to match that delay and hope that the user
 				//        isn't super quick at hitting enter.
-				confirmButton.focus.delay(SqueezeBox.presets.fx.overlay.duration || 250, confirmButton);
+				confirmButton.focus.delay(SqueezeBox.presets.overlayFx.duration || 250, confirmButton);
 			}
 		});
 	},
