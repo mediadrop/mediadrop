@@ -11,9 +11,6 @@ class SimpleplexConfig(AppConfig):
         map = Mapper(directory=config['pylons.paths']['controllers'],
                     always_scan=config['debug'])
 
-        # home page redirect
-        map.redirect('/', '/media')
-
         # route for the concept sunday school action
         map.connect('/concept', controller='media', action='concept_preview')
         map.connect('/concept/{slug}/comment', controller='media', action='concept_comment')
@@ -29,11 +26,14 @@ class SimpleplexConfig(AppConfig):
         # routes for all non-view, non-index, media actions
         map.connect('/tags/{slug}', controller='media', action='tags', slug=None)
         map.connect('/topics/{slug}', controller='media', action='topics', slug=None)
-        map.connect('/media-{action}', controller='media', requirements=dict(action='flow|upload|upload_submit|upload_submit_async|upload_success|upload_failure'))
+
+        # routes to make media actions the default actions.
+        map.connect('/', controller='media', action='index')
+        map.connect('/{action}', controller='media', requirements=dict(action='flow|upload|upload_submit|upload_submit_async|upload_success|upload_failure'))
 
         # routes for viewing individual media, and other related media actions
-        map.connect('/media-files/{id}-{slug}.{type}', controller='media', action='serve', requirements=dict(id='\d+'))
-        map.connect('/media/{slug}/{action}', controller='media', action='view', requirements=dict(action='view|rate|comment'))
+        map.connect('/files/{id}-{slug}.{type}', controller='media', action='serve', requirements=dict(id='\d+'))
+        map.connect('/view/{slug}/{action}', controller='media', action='view', requirements=dict(action='view|rate|comment'))
         map.connect('/podcasts/feed/{slug}.xml', controller='podcasts', action='feed')
         map.connect('/podcasts/{slug}', controller='podcasts', action='view')
         map.connect('/podcasts/{podcast_slug}/{slug}/{action}', controller='media', action='view', requirements=dict(action='view|rate|comment'))
