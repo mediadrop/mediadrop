@@ -19,7 +19,9 @@ setup(
         "zope.sqlalchemy",
         "sqlalchemy >= 0.5.2",
         "repoze.what-quickstart",
-        "BeautifulSoup"
+        # FIXME: we actually require a customized version of Beautiful Soup
+        # Patch pending: https://bugs.launchpad.net/beautifulsoup/+bug/397997
+        "BeautifulSoup == 3.0.7a"
                 ],
     setup_requires=["PasteScript>=1.6.3"],
     paster_plugins=['PasteScript', 'Pylons', 'TurboGears2'],
