@@ -4,3 +4,5 @@ tw.dynforms
 zope.sqlalchemy
 sqlalchemy >= 0.5.2
 repoze.what-quickstart
+BeautifulSoup == 3.0.7a
+
