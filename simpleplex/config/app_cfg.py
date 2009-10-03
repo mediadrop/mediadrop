@@ -89,6 +89,7 @@ base_config.DBSession = simpleplex.model.DBSession
 # Configure the authentication backend
 base_config.auth_backend = 'sqlalchemy'
 base_config.sa_auth.dbsession = model.DBSession
+base_config.sa_auth.cookie_secret = 'mysecretcookie' # TODO: customize this
 # what is the class you want to use to search for users in the database
 base_config.sa_auth.user_class = model.User
 # what is the class you want to use to search for groups in the database
