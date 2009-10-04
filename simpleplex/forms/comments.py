@@ -22,6 +22,6 @@ class EditCommentForm(ListForm):
     css_class = 'edit-comment-form'
 
     class fields(WidgetsList):
-        body = XHTMLTextArea(validator=NotEmpty, label_text='Comment', attrs=dict(rows=5, cols=25)),
-        submit = SubmitButton(default='Save', css_classes=['mo', 'btn-save', 'f-rgt']),
+        body = XHTMLTextArea(validator=NotEmpty, label_text='Comment', attrs=dict(rows=5, cols=25))
+        submit = SubmitButton(default='Save', css_classes=['mo', 'btn-save', 'f-rgt'])
         cancel = ResetButton(default='Cancel', css_classes=['mo', 'btn-cancel'])
