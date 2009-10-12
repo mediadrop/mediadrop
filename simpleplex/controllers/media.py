@@ -22,10 +22,9 @@ from sqlalchemy.orm import eagerload, undefer
 from sqlalchemy.orm.exc import NoResultFound
 
 from simpleplex.lib import helpers, email
-from simpleplex.lib.helpers import expose_xhr, redirect, url_for, clean_xhtml, strip_xhtml, line_break_xhtml
+from simpleplex.lib.helpers import expose_xhr, redirect, url_for, clean_xhtml, strip_xhtml, line_break_xhtml, fetch_setting
 from simpleplex.lib.base import Controller, RoutingController
 from simpleplex.model import DBSession, metadata, fetch_row, get_available_slug, Media, MediaFile, Comment, Tag, Topic, Author, AuthorWithIP, Podcast
-from simpleplex.model.settings import Setting, EMAIL_SUPPORT_REQUESTS, WORDING_USER_UPLOADS
 from simpleplex.forms.media import UploadForm
 from simpleplex.forms.comments import PostCommentForm
 
@@ -408,8 +407,8 @@ class MediaController(RoutingController):
     @expose('simpleplex.templates.media.upload')
     def upload(self, **kwargs):
         return dict(
-            legal_wording = fetch_row(Setting, key=WORDING_USER_UPLOADS).value,
-            support_email = fetch_row(Setting, key=EMAIL_SUPPORT_REQUESTS).value,
+            legal_wording = fetch_setting(key='wording_user_uploads'),
+            support_email = fetch_setting(key='email_support_requests'),
             upload_form = upload_form,
             form_values = {},
         )

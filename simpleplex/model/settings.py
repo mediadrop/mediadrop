@@ -1,19 +1,11 @@
+from tg.exceptions import HTTPNotFound
 from sqlalchemy import Table, ForeignKey, Column
 from sqlalchemy.types import String, Unicode, UnicodeText, Integer, Boolean, Float
 from sqlalchemy.orm import mapper, relation, backref, synonym, interfaces, validates
 
-from simpleplex.model import DeclarativeBase, metadata, DBSession, slugify, _mtm_count_property
+from simpleplex.model import DeclarativeBase, metadata, DBSession, slugify, _mtm_count_property, fetch_row
 
-EMAIL_MEDIA_UPLOADED = 'email_media_uploaded'
-EMAIL_COMMENT_POSTED = 'email_comment_posted'
-EMAIL_SUPPORT_REQUESTS = 'email_support_requests'
-EMAIL_SEND_FROM = 'email_send_from'
-FTP_SERVER = 'ftp_server'
-FTP_USERNAME = 'ftp_username'
-FTP_PASSWORD = 'ftp_password'
-FTP_UPLOAD_PATH = 'ftp_upload_path'
-FTP_DOWNLOAD_URL = 'ftp_download_url'
-WORDING_USER_UPLOADS = 'wording_user_uploads'
+class SettingNotFound(Exception): pass
 
 settings = Table('settings', metadata,
     Column('id', Integer, autoincrement=True, primary_key=True),
@@ -38,3 +30,10 @@ class Setting(object):
         return '%s = %s' % (self.key, self.value)
 
 mapper(Setting, settings)
+
+def fetch_setting(key):
+    """Returns the value for the setting key."""
+    try:
+        return fetch_row(Setting, key=key).value
+    except HTTPNotFound:
+        raise SettingNotFound, ('Key not found: %s' % key)
