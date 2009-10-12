@@ -1,11 +1,6 @@
 """The application's model objects"""
 
 import re
-try:
-    from hashlib import sha1
-except ImportError:
-    sys.exit('ImportError: no module named hashlib\nIf you are on python2.4 this library is not part of python. Please install it. Example: easy_install hashlib')
-import os
 from zope.sqlalchemy import ZopeTransactionExtension
 from sqlalchemy.orm import scoped_session, sessionmaker, class_mapper
 from sqlalchemy.ext.declarative import declarative_base
@@ -123,27 +118,6 @@ def get_available_slug(mapped_class, slug, ignore=None):
         appendix += 1
 
     return new_slug
-
-def get_hashed_password(password):
-        hashed_password = password
-
-        if isinstance(password, unicode):
-            password_8bit = password.encode('UTF-8')
-        else:
-            password_8bit = password
-
-        salt = sha1()
-        salt.update(os.urandom(60))
-        hash = sha1()
-        hash.update(password_8bit + salt.hexdigest())
-        hashed_password = salt.hexdigest() + hash.hexdigest()
-
-        # make sure the hased password is an UTF-8 object at the end of the
-        # process because SQLAlchemy _wants_ a unicode object for Unicode columns
-        if not isinstance(hashed_password, unicode):
-            hashed_password = hashed_password.decode('UTF-8')
-
-        return hashed_password
 
 def _properties_dict_from_labels(*args):
     properties_dict = {}

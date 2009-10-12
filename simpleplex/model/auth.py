@@ -12,7 +12,7 @@ from sqlalchemy.types import String, Unicode, UnicodeText, Integer, DateTime, Bo
 from sqlalchemy.orm import relation, backref, synonym
 from sqlalchemy.orm.exc import NoResultFound
 
-from simpleplex.model import DeclarativeBase, metadata, DBSession, get_hashed_password
+from simpleplex.model import DeclarativeBase, metadata, DBSession
 
 
 # This is the association table for the many-to-many relationship between
@@ -103,7 +103,24 @@ class User(DeclarativeBase):
 
     def _set_password(self, password):
         """Hash password on the fly."""
-        self._password = get_hashed_password(password)
+        hashed_password = password
+
+        if isinstance(password, unicode):
+            password_8bit = password.encode('UTF-8')
+        else:
+            password_8bit = password
+
+        salt = sha1()
+        salt.update(os.urandom(60))
+        hash = sha1()
+        hash.update(password_8bit + salt.hexdigest())
+        hashed_password = salt.hexdigest() + hash.hexdigest()
+
+        # make sure the hased password is an UTF-8 object at the end of the
+        # process because SQLAlchemy _wants_ a unicode object for Unicode columns
+        if not isinstance(hashed_password, unicode):
+            hashed_password = hashed_password.decode('UTF-8')
+        self._password = hashed_password
 
     def _get_password(self):
         """returns password

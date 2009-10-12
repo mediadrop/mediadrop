@@ -11,7 +11,7 @@ from simpleplex.lib import helpers
 from simpleplex.lib.base import RoutingController
 from simpleplex.lib.helpers import expose_xhr, redirect, url_for, clean_xhtml
 from simpleplex import model
-from simpleplex.model import DBSession, metadata, fetch_row, get_hashed_password
+from simpleplex.model import DBSession, metadata, fetch_row
 from simpleplex.model.settings import Setting, EMAIL_MEDIA_UPLOADED, EMAIL_COMMENT_POSTED, EMAIL_SUPPORT_REQUESTS, EMAIL_SEND_FROM, FTP_SERVER, FTP_USERNAME, FTP_PASSWORD, FTP_UPLOAD_PATH, FTP_DOWNLOAD_URL, WORDING_USER_UPLOADS
 from simpleplex.forms.settings import SettingsForm
 
@@ -98,7 +98,7 @@ class SettingadminController(RoutingController):
         settings[FTP_SERVER].value = ftp['server']
         settings[FTP_USERNAME].value = ftp['username']
         if ftp['password'] is not None and ftp['password'] != '':
-            settings[FTP_PASSWORD].value = get_hashed_password(ftp['password'])
+            settings[FTP_PASSWORD].value = ftp['password']
         settings[FTP_UPLOAD_PATH].value = ftp['upload_path']
         settings[FTP_DOWNLOAD_URL].value = ftp['download_url']
         settings[WORDING_USER_UPLOADS].value = legal_wording['user_uploads']
