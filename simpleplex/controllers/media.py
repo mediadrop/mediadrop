@@ -25,6 +25,7 @@ from simpleplex.lib import helpers, email
 from simpleplex.lib.helpers import expose_xhr, redirect, url_for, clean_xhtml, strip_xhtml, line_break_xhtml
 from simpleplex.lib.base import Controller, RoutingController
 from simpleplex.model import DBSession, metadata, fetch_row, get_available_slug, Media, MediaFile, Comment, Tag, Topic, Author, AuthorWithIP, Podcast
+from simpleplex.model.settings import Setting, EMAIL_SUPPORT_REQUESTS, WORDING_USER_UPLOADS
 from simpleplex.forms.media import UploadForm
 from simpleplex.forms.comments import PostCommentForm
 
@@ -407,6 +408,8 @@ class MediaController(RoutingController):
     @expose('simpleplex.templates.media.upload')
     def upload(self, **kwargs):
         return dict(
+            legal_wording = fetch_row(Setting, key=WORDING_USER_UPLOADS).value,
+            support_email = fetch_row(Setting, key=EMAIL_SUPPORT_REQUESTS).value,
             upload_form = upload_form,
             form_values = {},
         )

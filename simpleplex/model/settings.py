@@ -4,6 +4,16 @@ from sqlalchemy.orm import mapper, relation, backref, synonym, interfaces, valid
 
 from simpleplex.model import DeclarativeBase, metadata, DBSession, slugify, _mtm_count_property
 
+EMAIL_MEDIA_UPLOADED = 'email_media_uploaded'
+EMAIL_COMMENT_POSTED = 'email_comment_posted'
+EMAIL_SUPPORT_REQUESTS = 'email_support_requests'
+EMAIL_SEND_FROM = 'email_send_from'
+FTP_SERVER = 'ftp_server'
+FTP_USERNAME = 'ftp_username'
+FTP_PASSWORD = 'ftp_password'
+FTP_UPLOAD_PATH = 'ftp_upload_path'
+FTP_DOWNLOAD_URL = 'ftp_download_url'
+WORDING_USER_UPLOADS = 'wording_user_uploads'
 
 settings = Table('settings', metadata,
     Column('id', Integer, autoincrement=True, primary_key=True),

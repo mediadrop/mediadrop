@@ -11,7 +11,8 @@ from simpleplex.lib import helpers
 from simpleplex.lib.base import RoutingController
 from simpleplex.lib.helpers import expose_xhr, redirect, url_for, clean_xhtml
 from simpleplex import model
-from simpleplex.model import DBSession, metadata, fetch_row, Setting, get_hashed_password
+from simpleplex.model import DBSession, metadata, fetch_row, get_hashed_password
+from simpleplex.model.settings import Setting, EMAIL_MEDIA_UPLOADED, EMAIL_COMMENT_POSTED, EMAIL_SUPPORT_REQUESTS, EMAIL_SEND_FROM, FTP_SERVER, FTP_USERNAME, FTP_PASSWORD, FTP_UPLOAD_PATH, FTP_DOWNLOAD_URL, WORDING_USER_UPLOADS
 from simpleplex.forms.settings import SettingsForm
 
 settings_form = SettingsForm()
@@ -62,19 +63,19 @@ class SettingadminController(RoutingController):
             settings = self._fetch_keyed_settings()
             settings_values = dict(
                 email = dict(
-                    media_uploaded = settings['email_media_uploaded'].value,
-                    comment_posted = settings['email_comment_posted'].value,
-                    support_requests = settings['email_support_requests'].value,
-                    send_from = settings['email_send_from'].value,
+                    media_uploaded = settings[EMAIL_MEDIA_UPLOADED].value,
+                    comment_posted = settings[EMAIL_COMMENT_POSTED].value,
+                    support_requests = settings[EMAIL_SUPPORT_REQUESTS].value,
+                    send_from = settings[EMAIL_SEND_FROM].value,
                 ),
                 ftp = dict(
-                    server = settings['ftp_server'].value,
-                    username = settings['ftp_username'].value,
-                    upload_path = settings['ftp_upload_path'].value,
-                    download_url = settings['ftp_download_url'].value,
+                    server = settings[FTP_SERVER].value,
+                    username = settings[FTP_USERNAME].value,
+                    upload_path = settings[FTP_UPLOAD_PATH].value,
+                    download_url = settings[FTP_DOWNLOAD_URL].value,
                 ),
                 legal_wording = dict(
-                    user_uploads = settings['wording_user_uploads'].value,
+                    user_uploads = settings[WORDING_USER_UPLOADS].value,
                 ),
             )
 
@@ -90,17 +91,17 @@ class SettingadminController(RoutingController):
 
         settings = self._fetch_keyed_settings()
 
-        settings['email_media_uploaded'].value = email['media_uploaded']
-        settings['email_comment_posted'].value = email['comment_posted']
-        settings['email_support_requests'].value = email['support_requests']
-        settings['email_send_from'].value = email['send_from']
-        settings['ftp_server'].value = ftp['server']
-        settings['ftp_username'].value = ftp['username']
+        settings[EMAIL_MEDIA_UPLOADED].value = email['media_uploaded']
+        settings[EMAIL_COMMENT_POSTED].value = email['comment_posted']
+        settings[EMAIL_SUPPORT_REQUESTS].value = email['support_requests']
+        settings[EMAIL_SEND_FROM].value = email['send_from']
+        settings[FTP_SERVER].value = ftp['server']
+        settings[FTP_USERNAME].value = ftp['username']
         if ftp['password'] is not None and ftp['password'] != '':
-            settings['ftp_password'].value = get_hashed_password(ftp['password'])
-        settings['ftp_upload_path'].value = ftp['upload_path']
-        settings['ftp_download_url'].value = ftp['download_url']
-        settings['wording_user_uploads'].value = legal_wording['user_uploads']
+            settings[FTP_PASSWORD].value = get_hashed_password(ftp['password'])
+        settings[FTP_UPLOAD_PATH].value = ftp['upload_path']
+        settings[FTP_DOWNLOAD_URL].value = ftp['download_url']
+        settings[WORDING_USER_UPLOADS].value = legal_wording['user_uploads']
 
         DBSession.add_all(settings.values())
         DBSession.flush()
