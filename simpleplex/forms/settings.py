@@ -1,5 +1,5 @@
 from tw.forms import TextField, CalendarDatePicker, SingleSelectField, TextArea, ResetButton
-from tw.forms.validators import Int, DateConverter, DateValidator
+from tw.forms.validators import Schema, FieldsMatch
 from tw.api import WidgetsList
 
 from simpleplex.forms import ListForm, XHTMLTextArea, SubmitButton, ListFieldSet, PasswordField
@@ -9,7 +9,6 @@ class SettingsForm(ListForm):
     id = 'settings-form'
     css_class = 'form'
     submit_text = None
-    show_children_errors = True
 
     fields = [
         ListFieldSet('email', suppress_label=True, legend='Email Notifications:', css_classes=['details_fieldset'], children=[
@@ -18,7 +17,13 @@ class SettingsForm(ListForm):
             TextField('support_requests', maxlength=255),
             TextField('send_from', label_text='Send Emails From', maxlength=255),
         ]),
-        ListFieldSet('ftp', suppress_label=True, legend='Remote FTP File Storage:', css_classes=['details_fieldset'], children=[
+
+        ListFieldSet('ftp', suppress_label=True, legend='Remote FTP File Storage:',
+                     css_classes=['details_fieldset'],
+                     validator = Schema(chained_validators=[FieldsMatch('password',
+                                                                        'confirm_password',
+                                                                        messages={'invalidNoMatch': "Passwords do not match",})]),
+                     children=[
             TextField('server', maxlength=255),
             TextField('username', maxlength=255),
             PasswordField('password', maxlength=80, autocomplete='off'),
