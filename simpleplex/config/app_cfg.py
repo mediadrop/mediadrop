@@ -181,11 +181,6 @@ base_config.notification_from_address = 'noreply@tmcyouth.com'
 # If ftp_storage is enabled, then media_dir is not used for storing
 # uploaded media files, and they are instead uploaded to the FTP server.
 base_config.ftp_storage = False
-base_config.ftp_server = 'my.ftp.server.com'
-base_config.ftp_user = 'ftpuser'
-base_config.ftp_password = 'secretpassword'
-base_config.ftp_upload_directory = 'media' # absolute, or relative to login home dir.
-base_config.ftp_download_url = 'http://content.distribution.network/ftpuser/media/'
 base_config.ftp_upload_integrity_retries = 10
 
 base_config.max_upload_size = 2 * 1024 * 1024 * 1024 # 2 Gigabytes (binary)

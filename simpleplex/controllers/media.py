@@ -575,13 +575,13 @@ def _store_media_file_ftp(file, file_name):
     integrity errors)
     """
     stor_cmd = 'STOR ' + file_name
-    file_url = config.ftp_download_url + file_name
+    file_url = fetch_setting('ftp_download_url') + file_name
 
     # Put the file into our FTP storage
-    FTPSession = ftplib.FTP(config.ftp_server, config.ftp_user, config.ftp_password)
+    FTPSession = ftplib.FTP(fetch_setting('ftp_server'), fetch_setting('ftp_username'), fetch_setting('ftp_password'))
 
     try:
-        FTPSession.cwd(config.ftp_upload_directory)
+        FTPSession.cwd(fetch_setting('ftp_upload_path'))
         FTPSession.storbinary(stor_cmd, file)
         _verify_ftp_upload_integrity(file, file_url)
     except Exception, e:

@@ -20,6 +20,7 @@ class SettingsForm(ListForm):
 
         ListFieldSet('ftp', suppress_label=True, legend='Remote FTP File Storage:',
                      css_classes=['details_fieldset'],
+                     help_text='If ftp_storage is enabled, then media_dir is not used for storing uploaded media files, and they are instead uploaded to the FTP server',
                      validator = Schema(chained_validators=[FieldsMatch('password',
                                                                         'confirm_password',
                                                                         messages={'invalidNoMatch': "Passwords do not match",})]),
@@ -28,7 +29,7 @@ class SettingsForm(ListForm):
             TextField('username', maxlength=255),
             PasswordField('password', maxlength=80, autocomplete='off'),
             PasswordField('confirm_password', maxlength=80),
-            TextField('upload_path', maxlength=255),
+            TextField('upload_path', maxlength=255, help_text='Absolute, or relative to login home dir'),
             TextField('download_url', maxlength=255, label_text='Download URL'),
         ]),
         ListFieldSet('legal_wording', suppress_label=True, legend='Legal Wording:', css_classes=['details_fieldset'], children=[
