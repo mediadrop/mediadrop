@@ -292,6 +292,12 @@ tr.thead-row td h3 {
 .btn-upload { background-image: url('../images/buttons/upload.png'); width: 83px; }
 .btn-upload-image { background-image: url('../images/buttons/upload-image.png'); width: 129px; }
 
+.edit-btn { background-image: url('../images/buttons/edit.png'); }
+.edit-btn, .edit-btn:hover {
+	width: 66px;
+	height: 28px;
+}
+
 
 span.show-more, .pager {
 	font: bold 14px Helvetica,Arial,Verdana,sans-serif;

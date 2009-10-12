@@ -6,6 +6,7 @@ ul#settings-menu a {
 	font-size: 16px;
 }
 .menu-settings-user-on  a#menu-settings-users,
+.menu-settings-config-on  a#menu-settings-config,
 .menu-settings-topic-on  a#menu-settings-topics,
 .menu-settings-tag-on  a#menu-settings-tags {
 	background: url('../images/icons/arrow-green-right.png') no-repeat left;
@@ -33,6 +34,11 @@ table#category-table > tbody > tr > td:first-child {
 .edit-category-form td {
 /* border top is taken care of by outer table */
 	border-top: none;
+	padding: 5px 10px;
+}
+#user-table tbody td {
+/* match padding of categories table */
+	padding: 15px 10px;
 }
 
 .edit-user, .edit-category, .delete-user, .delete-category, .save-category, .cancel-category {
@@ -77,4 +83,15 @@ td.form-field-textfield {
 }
 #group {
 	width: 300px;
+}
+#settings-form .details_fieldset .fieldlabel {
+	width: 110px;
+}
+#settings-form .textfield,
+#settings-form .passwordfield,
+#settings-form .xhtmltextarea {
+	width: 472px;
+}
+#settings-form .xhtml-description-helper {
+	margin: 10px 0;
 }
