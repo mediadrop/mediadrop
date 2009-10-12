@@ -3,7 +3,6 @@ from tg import expose, validate, flash, require, url, request, response, redirec
 from tg.decorators import paginate
 from tg.controllers import CUSTOM_CONTENT_TYPE
 from tg.configuration import Bunch
-from formencode import validators
 from pylons.i18n import ugettext as _
 from pylons import tmpl_context, templating
 from sqlalchemy import and_, or_

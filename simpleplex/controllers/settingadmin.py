@@ -1,7 +1,6 @@
 from string import capitalize, rstrip
 from tg import expose, validate, flash, require, url, request
 from tg.exceptions import HTTPNotFound
-from formencode import validators
 from pylons import tmpl_context
 from pylons.i18n import ugettext as _
 from sqlalchemy import and_, or_
