@@ -1,7 +1,15 @@
 """
-Media Models for Audio and Video
+Media Models
 
+SQLAlchemy ORM definitions for:
 
+* :class:`Media`: metadata for a collection of one or more files.
+* :class:`MediaFile`: a single audio or video file.
+
+Additionally, :class:`Media` may be considered at podcast episode if it
+belongs to a :class:`simpleplex.model.podcasts.Podcast`.
+
+.. moduleauthor:: Nathan Wright <nathan@simplestation.com>
 
 """
 
@@ -17,24 +25,13 @@ from zope.sqlalchemy import datamanager
 from simpleplex.model import DeclarativeBase, metadata, DBSession, get_available_slug, _mtm_count_property, _properties_dict_from_labels
 from simpleplex.model.authors import Author
 from simpleplex.model.rating import Rating
-from simpleplex.model.comments import Comment, CommentTypeExtension, comment_count_property, comments, PUBLISH as COMMENT_PUBLISH, TRASH as COMMENT_TRASH
+from simpleplex.model.comments import Comment, CommentTypeExtension, CommentStatusSet, comment_count_property, comments
 from simpleplex.model.tags import Tag, TagCollection, tags, extract_tags, fetch_and_create_tags, tag_count_property
 from simpleplex.model.topics import Topic, TopicCollection, topics, fetch_topics, topic_count_property
-from simpleplex.model.status import Status, StatusSet, StatusType, status_column_property, status_where
+from simpleplex.model.status import StatusType, status_column_property, status_set_class, status_where
 from simpleplex.lib import helpers
 
-
-TRASH = Status('trash', 1)
-PUBLISH = Status('publish', 2)
-DRAFT = Status('draft', 4)
-UNENCODED = Status('unencoded', 8)
-UNREVIEWED = Status('unreviewed', 16)
-
-STATUSES = dict((int(s), s) for s in (TRASH, PUBLISH, DRAFT, UNENCODED, UNREVIEWED))
-"""Dictionary of allowed statuses, bitmask value(int) => Status(unicode) instance"""
-
-class MediaStatusSet(StatusSet):
-    _valid_els = STATUSES
+MediaStatusSet = status_set_class('trash', 'publish', 'draft', 'unencoded', 'unreviewed')
 
 class MediaException(Exception): pass
 class MediaFileException(MediaException): pass
@@ -45,7 +42,7 @@ media = Table('media', metadata,
     Column('id', Integer, autoincrement=True, primary_key=True),
     Column('type', String(10), nullable=False),
     Column('slug', String(50), unique=True, nullable=False),
-    Column('status', StatusType(MediaStatusSet), default=PUBLISH, nullable=False),
+    Column('status', StatusType(MediaStatusSet), default=MediaStatusSet('publish'), nullable=False),
     Column('podcast_id', Integer, ForeignKey('podcasts.id', onupdate='CASCADE', ondelete='CASCADE')),
 
     Column('created_on', DateTime, default=datetime.now, nullable=False),
@@ -117,7 +114,119 @@ media_comments = Table('media_comments', metadata,
 
 
 class Media(object):
-    """Audio and Video"""
+    """
+    Media metadata and a collection of related files.
+
+    **Primary Data**
+
+    .. attribute:: id
+
+    .. attribute:: slug
+
+        A unique URL-friendly permalink string for looking up this object.
+
+    .. attribute:: type
+
+        Indicates whether the media is to be considered audio or video.
+
+        If this object has no files, the type is None.
+        See :meth:`Media.update_type` for details on how this is determined.
+
+    .. attribute:: status
+
+        An unordered set of flags:
+
+            * ``trash`` if the file has been deleted.
+            * ``publish`` if the media is ready to be displayed publicly. Note,
+              however, that :attr:`Media.publish_on` and :attr:`Media.publish_until`
+              also effect whether this object is actually displayed.
+            * ``draft`` if we aren't ready for ``publish``.
+            * ``unencoded`` if there are no web-friendly files for this object.
+            * ``unreviewed`` if the content has not had an editorial review yet.
+
+        See :meth:`update_status` for status validation rules.
+
+    .. attribute:: created_on
+    .. attribute:: modified_on
+
+    .. attribute:: publish_on
+    .. attribute:: publish_until
+
+        A datetime range during which this object should be published.
+        The range may be open ended by leaving ``publish_until`` empty.
+
+    .. attribute:: title
+
+        Display title
+
+    .. attribute:: subtitle
+
+        An optional subtitle intended mostly for podcast episodes.
+        If none is provided, the title is concatenated and used in its place.
+
+    .. attribute:: description
+
+        A public-facing XHTML description. Should be a paragraph or more.
+
+    .. attribute:: duration
+
+        Play time in seconds
+
+    .. attribute:: views
+
+        The number of times the public media page has been viewed
+
+    .. attribute:: rating_sum
+    .. attribute:: rating_votes
+
+        The rating of this object. Currently implemented as 'likes', both values
+        will be the same.
+
+    .. attribute:: notes
+
+        Notes for administrative use -- never displayed publicly.
+
+    .. attribute:: author
+
+        An instance of :class:`simpleplex.model.authors.Author`.
+        Although not actually a relation, it is implemented as if it were.
+        This was decision was made to make it easier to integrate with
+        :class:`simpleplex.model.auth.User` down the road.
+
+    .. attribute:: podcast_id
+    .. attribute:: podcast
+
+        An optional :class:`simpleplex.model.podcasts.Podcast` to publish this object in.
+
+    .. attribute:: files
+
+        A list of :class:`MediaFile` instances.
+
+    .. attribute:: topics
+
+        A list of :class:`simpleplex.model.topics.Topic`.
+
+        See the :meth:`set_topics` helper.
+
+    .. attribute:: tags
+
+        A list of :class:`simpleplex.model.tags.Tag`.
+
+        See the :meth:`set_tags` helper.
+
+    .. attribute:: comments
+
+        A list of :class:`simpleplex.model.comments.Comment`.
+
+        .. todo:: Reimplement as a dynamic loader.
+
+    .. attribute:: comment_count
+    .. attribute:: comment_count_published
+    .. attribute:: comment_count_unreviewed
+    .. attribute:: comment_count_trash
+
+    """
+
     def __init__(self):
         if self.author is None:
             self.author = Author()
@@ -130,8 +239,7 @@ class Media(object):
     def set_tags(self, tags):
         """Set the tags relations of this media, creating them as needed.
 
-        tags
-          A list or comma separated string of tags to use.
+        :param tags: A list or comma separated string of tags to use.
         """
         if isinstance(tags, basestring):
             tags = extract_tags(tags)
@@ -141,13 +249,15 @@ class Media(object):
 
     def set_topics(self, topics):
         """Set the topics relations of this media.
+
+        :param topics: A list or comma separated string of tags to use.
         """
         if isinstance(topics, list):
             topics = fetch_topics(topics)
         self.topics = topics or []
 
     def reposition_file(self, file, budge_infront=None):
-        """Position the file at the bottom, or optionally infront of another file.
+        """Position the first file after the second or last file.
 
         If only one file is specified, we move it to the last position (the end).
 
@@ -164,11 +274,10 @@ class Media(object):
         to the controller. This is necessary because we run a query on the DB
         without using the ORM in some cases.
 
-        file
-          A MediaFile instance or file ID to move
-
-        budge_infront
-          A MediaFile instance or file ID for the file which will be bumped back.
+        :param file: The file to move
+        :type file: :class:`MediaFile` or int
+        :param budge_infront: The file to position after.
+        :type budge_infront: :class:`MediaFile` or int or None
         """
         if not isinstance(file, MediaFile):
             file = [f for f in self.files if f.id == file][0]
@@ -221,55 +330,61 @@ class Media(object):
         return pos
 
     def update_type(self):
-        """Ensure the media type is that of the first file."""
+        """Ensure the media type is that of the :attr:`Media.primary_file`."""
         primary_file = self.primary_file
         self.type = primary_file.medium if primary_file else None
 
     def update_status(self):
+        """Examine :attr:`Media.status` to ensure it is an allowable value.
+
+        * ``unreviewed`` is added if no files exist.
+        * ``unencoded`` is added if there isn't any file to play with the
+          Flash player. YouTube and other embeddable files qualify.
+        * ``unencoded`` is added if this is a podcast episode, and there
+          is no iTunes-compatible file. Embeddable file types don't qualify.
+        * ``publish`` is removed and ``draft`` is added if any of
+          ``unencoded``, ``unreviewed``, or ``draft`` are found.
+
+        """
         self._validate_review_status()
         self._validate_encoding_status()
         self._validate_publish_status()
 
     def _validate_review_status(self):
-        """Flag unreviewed if no files exist."""
         if not self.files:
-            self.status.add(UNREVIEWED)
-        return UNREVIEWED in self.status
+            self.status.add('unreviewed')
+        return 'unreviewed' in self.status
 
     def _validate_encoding_status(self):
-        """Flag encoded if one or more files is suitable, or flag unencoded.
-
-        Media is generally encoded if any file type is in cls.ENCODED_TYPES or
-        is embeddable, e.g. YouTube. However, media for podcasts are considered
-        unencoded since YouTube videos cannot be included in RSS/iTunes.
-        """
         if self.files:
             if not self.type:    # Sanity check
                 self.update_type()
             for file in self.files:
                 if file.type in config.playable_types[self.type]:
-                    self.status.discard(UNENCODED)
+                    self.status.discard('unencoded')
                     return True
             if self.podcast_id is None:
                 for file in self.files:
                     if file.is_embeddable:
-                        self.status.discard(UNENCODED)
+                        self.status.discard('unencoded')
                         return True
-        self.status.add(UNENCODED)
+        self.status.add('unencoded')
         return False
 
     def _validate_publish_status(self):
-        """Flag unpublished if unencoded, unreviewed, or a draft."""
-        if self.status.intersection((UNENCODED, UNREVIEWED, DRAFT)):
-            self.status.discard(PUBLISH)
-            self.status.add(DRAFT)
-        return PUBLISH in self.status
+        if self.status.intersection(('unencoded', 'unreviewed', 'draft')):
+            self.status.discard('publish')
+            self.status.add('draft')
+        return 'publish' in self.status
 
     @property
     def primary_file(self):
         """The primary MediaFile to represent this Media object.
 
-        None, if no files are marked with enable_player
+        None, if no files are marked with enable_player.
+
+        TODO: Re-evaluate the uses of this property, some could be relying on
+              unsafe unsumptions?
         """
         for file in self.files:
             if file.enable_player:
@@ -286,30 +401,37 @@ class Media(object):
 
     @property
     def is_published(self):
-        return PUBLISH in self.status\
-           and TRASH not in self.status\
+        return 'publish' in self.status\
+           and 'trash' not in self.status\
            and (self.publish_on is not None and self.publish_on <= datetime.now())\
            and (self.publish_until is None or self.publish_until >= datetime.now())
 
     @property
     def is_unencoded(self):
-        return UNENCODED in self.status
+        return 'unencoded' in self.status
 
     @property
     def is_unreviewed(self):
-        return UNREVIEWED in self.status
+        return 'unreviewed' in self.status
 
     @property
     def is_draft(self):
-        return DRAFT in self.status
+        return 'draft' in self.status
 
     @property
     def is_trash(self):
-        return TRASH in self.status
+        return 'trash' in self.status
 
 
 def create_media_stub():
-    """Create a new placeholder Media instance."""
+    """Return a new :class:`Media` instance with helpful defaults.
+
+    This is used any time we need a placeholder db record, such as when:
+
+        * Some admin adds a file *before* saving their new media
+        * Some admin uploads album art *before* saving their new media
+
+    """
     user = request.environ['repoze.who.identity']['user']
     timestamp = datetime.now().strftime('%b-%d-%Y')
     m = Media()
@@ -321,7 +443,13 @@ def create_media_stub():
 
 
 class MediaFile(object):
-    """Metadata of files which belong to a certain media item"""
+    """
+    Audio or Video file or link
+
+    Represents a locally- or remotely- hosted file or an embeddable YouTube video.
+
+    """
+
     def __repr__(self):
         return '<MediaFile: type=%s url=%s>' % (self.type, self.url)
 
@@ -382,7 +510,7 @@ class MediaFile(object):
 
     @property
     def medium(self):
-        """Helper for determining whether this file is audio or video"""
+        """Helper for determining whether this file is audio or video."""
         mimetype = self.mimetype
         if mimetype.startswith('audio'):
             return 'audio'

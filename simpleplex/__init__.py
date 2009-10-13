@@ -1,4 +1,7 @@
 import sys
+
+__version__ = '0.7'
+
 def debug(*args):
     """Print to stderr, for debuging"""
     print >> sys.stderr, "Simpleplex DEBUG", args

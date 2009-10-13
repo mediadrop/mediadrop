@@ -50,13 +50,13 @@ class SimpleplexConfig(AppConfig):
         map.connect('/admin/comments', controller='commentadmin', action='index')
         map.connect('/admin/comments/{id}/{action}', controller='commentadmin', action='edit')
 
-        map.connect('/admin/settings/', controller='settingadmin', action='index')
+        map.connect('/admin/settings', controller='settingadmin', action='index')
         map.connect('/admin/settings/config', controller='settingadmin', action='edit')
         map.connect('/admin/settings/config/{action}', controller='settingadmin', action='edit', requirements=(dict(action='edit|save')))
         map.connect('/admin/settings/users', controller='useradmin', action='index')
         map.connect('/admin/settings/users/{id}/{action}', controller='useradmin', action='edit', requirements=(dict(action='edit|save|delete')))
         map.connect('/admin/settings/{category}/', controller='categoryadmin', action='index', requirements=(dict(category='topics|tags')))
-        map.connect('/admin/settings/{category}/{id}/{action}', controller='categoryadmin', requirements=dict(action='save|delete',category='topics|tags'))
+        map.connect('/admin/settings/{category}/{id}/{action}', controller='categoryadmin', requirements=dict(action='save|delete', category='topics|tags'))
 
         # Set up the default route
         map.connect('/{controller}/{action}', action='index')

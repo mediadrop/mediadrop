@@ -1,4 +1,6 @@
-import math
+"""
+Publicly Facing Media Controllers
+"""
 import shutil
 import os.path
 import simplejson as json
@@ -8,32 +10,27 @@ import urllib2
 import sha
 
 from urlparse import urlparse
-from cgi import parse_qs
-from PIL import Image
 from datetime import datetime, timedelta, date
-from tg import expose, validate, flash, require, url, request, response, config, tmpl_context
+from tg import expose, validate, request, response, config, tmpl_context
 from tg.exceptions import HTTPNotFound
 from tg.decorators import paginate
-from tg.controllers import CUSTOM_CONTENT_TYPE
 from formencode import validators
-from pylons.i18n import ugettext as _
-from sqlalchemy import and_, or_, sql
-from sqlalchemy.orm import eagerload, undefer
-from sqlalchemy.orm.exc import NoResultFound
+from sqlalchemy import sql, orm
 
 from simpleplex.lib import helpers, email
 from simpleplex.lib.helpers import expose_xhr, redirect, url_for, clean_xhtml, strip_xhtml, line_break_xhtml, fetch_setting
-from simpleplex.lib.base import Controller, RoutingController
-from simpleplex.model import DBSession, metadata, fetch_row, get_available_slug, Media, MediaFile, Comment, Tag, Topic, Author, AuthorWithIP, Podcast
+from simpleplex.lib.base import RoutingController
+from simpleplex.model.settings import Setting, EMAIL_SUPPORT_REQUESTS, WORDING_USER_UPLOADS
+from simpleplex.model import DBSession, fetch_row, get_available_slug, Media, MediaFile, Comment, Tag, Topic, Author, AuthorWithIP, Podcast
 from simpleplex.forms.media import UploadForm
 from simpleplex.forms.comments import PostCommentForm
 
+post_comment_form = PostCommentForm()
 upload_form = UploadForm(
     action = url_for(controller='/media', action='upload_submit'),
     async_action = url_for(controller='/media', action='upload_submit_async')
 )
 
-post_comment_form = PostCommentForm()
 
 class FTPUploadException(Exception):
     pass
@@ -45,7 +42,7 @@ class MediaController(RoutingController):
     def __init__(self, *args, **kwargs):
         super(MediaController, self).__init__(*args, **kwargs)
         tmpl_context.topics = DBSession.query(Topic)\
-            .options(undefer('published_media_count'))\
+            .options(orm.undefer('published_media_count'))\
             .having(sql.text('published_media_count >= 1'))\
             .order_by(Topic.name)\
             .all()
@@ -55,7 +52,7 @@ class MediaController(RoutingController):
     def index(self, page=1, topics=None, **kwargs):
         """Grid-style List Action"""
         return dict(
-            media = self._list_query.options(undefer('comment_count')),
+            media = self._list_query.options(orm.undefer('comment_count')),
         )
 
     @expose('simpleplex.templates.media.lessons')
@@ -71,7 +68,7 @@ class MediaController(RoutingController):
                 .filter(Media.status.excludes('trash'))\
                 .filter(Media.podcast_id == None)\
                 .order_by(Media.publish_on.desc())\
-                .options(undefer('comment_count_published'))
+                .options(orm.undefer('comment_count_published'))
         except HTTPNotFound:
             media = []
 
@@ -368,7 +365,7 @@ class MediaController(RoutingController):
             topic = fetch_row(Topic, slug=slug)
             media_query = self._published_media_query\
                 .filter(Media.topics.contains(topic))\
-                .options(undefer('comment_count_published'))
+                .options(orm.undefer('comment_count_published'))
             media = media_query
         else:
             topic = None
@@ -386,14 +383,14 @@ class MediaController(RoutingController):
             tag = fetch_row(Tag, slug=slug)
             media_query = self._published_media_query\
                 .filter(Media.tags.contains(tag))\
-                .options(undefer('comment_count_published'))
+                .options(orm.undefer('comment_count_published'))
             media = media_query
             tags = None
         else:
             tag = None
             media = []
             tags = DBSession.query(Tag)\
-                .options(undefer('published_media_count'))\
+                .options(orm.undefer('published_media_count'))\
                 .having(sql.text('published_media_count >= 1'))\
                 .order_by(Tag.name)\
                 .all()
