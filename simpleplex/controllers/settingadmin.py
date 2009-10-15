@@ -32,11 +32,7 @@ class SettingadminController(RoutingController):
 
     @expose('simpleplex.templates.admin.settings.edit')
     def edit(self, **kwargs):
-        """Display the edit form, listing all the config settings.
-
-        This page serves as the error_handler for every kind of edit action,
-        if anything goes wrogn with them they'll be redirected here.
-        """
+        """Display the edit form, listing all the config settings."""
         if tmpl_context.action == 'save' and len(kwargs) > 0:
             # Use the values from error_handler or GET for new users
             settings_values = dict(
@@ -87,9 +83,7 @@ class SettingadminController(RoutingController):
     @expose()
     @validate(settings_form, error_handler=edit)
     def save(self, email, ftp, legal_wording, **kwargs):
-
         settings = self._fetch_keyed_settings()
-
         settings['email_media_uploaded'].value = email['media_uploaded']
         settings['email_comment_posted'].value = email['comment_posted']
         settings['email_support_requests'].value = email['support_requests']
@@ -109,4 +103,4 @@ class SettingadminController(RoutingController):
     def _fetch_keyed_settings(self):
         """Returns a dictionary of settings keyed by the setting.key."""
         settings = DBSession.query(Setting).all()
-        return dict([(setting.key, setting) for setting in settings])
+        return dict((setting.key, setting) for setting in settings)

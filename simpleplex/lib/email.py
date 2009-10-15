@@ -1,6 +1,17 @@
+"""
+Email Helpers
+
+.. autofunc:: send
+
+.. autofunc:: send_media_notification
+
+.. autofunc:: send_comment_notification
+
+"""
 import smtplib
 from tg import config, request
 from simpleplex.lib.helpers import url_for, clean_xhtml, strip_xhtml, line_break_xhtml
+
 
 def send(to_addr, from_addr, subject, body):
     """Send an email!
@@ -19,13 +30,15 @@ Subject: %s
     server.sendmail(from_addr, to_addr, msg.encode('utf-8'))
     server.quit()
 
+
 def send_media_notification(media_obj):
-    if not config.media_notifications:
+    send_to = fetch_setting('email_media_uploaded')
+    if not send_to:
         # media notification emails are disabled!
         return
 
-    edit_url = 'http://' + request.environ['HTTP_HOST']\
-        + url_for(controller='mediaadmin', action='edit', id=media_obj.id),
+    edit_url = url_for(controller='mediaadmin', action='edit',
+                       id=media_obj.id, qualified=True),
 
     clean_description = strip_xhtml(
             line_break_xhtml(line_break_xhtml(media_obj.description)))
@@ -43,11 +56,11 @@ Description: %s
 """ % (media_obj.type, media_obj.title, media_obj.author.name,
        media_obj.author.email, edit_url, clean_description)
 
-    send(config.media_notification_addresses,
-            config.notification_from_address, subject, body)
+    send(send_to, fetch_setting('email_send_from'), subject, body)
 
 def send_comment_notification(media, comment):
-    if not config.comment_notifications:
+    send_to = fetch_setting('email_comment_posted')
+    if not send_to:
         # Comment notification emails are disabled!
         return
 
@@ -59,13 +72,16 @@ Post: %s
 
 Body: %s
 """ % (comment.author.name,
-    'http://' + request.environ['HTTP_HOST'] + url_for(controller='media', action='view', slug=media.slug),
+    url_for(controller='media', action='view', slug=media.slug, qualified=True),
     strip_xhtml(line_break_xhtml(line_break_xhtml(comment.body))))
 
-    send(config.comment_notification_addresses,
-            config.notification_from_address, subject, body)
+    send(send_to, fetch_setting('email_send_from'), subject, body)
 
 def send_support_request(email, url, description, get_vars, post_vars):
+    send_to = fetch_setting('email_support_requests')
+    if not send_to:
+        return
+
     subject = 'New Support Request: %s' % email
     body = """A user has asked for support
 
@@ -89,6 +105,4 @@ POST_VARS:
     "\n\n  ".join([x + " :  " + post_vars[x] for x in post_vars])
     )
 
-    send(config.support_addresses,
-            config.notification_from_address, subject, body)
-
+    send(send_to, fetch_setting('email_send_from'), subject, body)
