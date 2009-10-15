@@ -37,13 +37,15 @@ class UseradminController(RoutingController):
         if tmpl_context.action == 'save' or id == 'new':
             # Use the values from error_handler or GET for new users
             user_values = kwargs
-            user_values['password'] = user_values['confirm_password'] = None
+            user_values['login_details.password'] = user_values['login_details.confirm_password'] = None
         else:
             user_values = dict(
                 display_name = user.display_name,
                 email_address = user.email_address,
-                group = user.groups[0].group_id if user.groups else None,
-                user_name = user.user_name,
+                login_details = dict(
+                    group = user.groups[0].group_id if user.groups else None,
+                    user_name = user.user_name,
+                ),
             )
 
         if id != 'new':
@@ -59,7 +61,7 @@ class UseradminController(RoutingController):
 
     @expose()
     @validate(user_form, error_handler=edit)
-    def save(self, id, email_address, display_name, group, user_name, password,
+    def save(self, id, email_address, display_name, login_details,
              delete=None, **kwargs):
         """Create or edit the metadata for a user item."""
         user = fetch_row(User, id)
@@ -70,11 +72,13 @@ class UseradminController(RoutingController):
 
         user.display_name = display_name
         user.email_address = email_address
-        user.user_name = user_name
+        user.user_name = login_details['user_name']
+
+        password = login_details['password']
         if password is not None and password != '':
             user.password = password
 
-        group = fetch_row(Group, group) if group else None
+        group = fetch_row(Group, login_details['group']) if login_details['group'] else None
         user.groups = [group]
 
         DBSession.add(user)

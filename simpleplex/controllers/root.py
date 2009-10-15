@@ -14,6 +14,10 @@ from repoze.what import predicates
 from simpleplex.controllers.secure import SecureController
 
 class RootController(BaseController):
+    @expose('simpleplex.templates.project.index')
+    def index(self):
+        return dict()
+
     @expose('simpleplex.templates.login')
     def login(self, came_from=url('/')):
         login_counter = request.environ['repoze.who.logins']

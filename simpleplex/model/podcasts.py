@@ -1,7 +1,11 @@
 """
 Podcast Models
 
-Dependent on the Media module.
+SQLAlchemy ORM definitions for:
+
+* :class:`Podcast`
+
+.. moduleauthor:: Nathan Wright <nathan@simplestation.com>
 
 """
 from datetime import datetime
@@ -10,7 +14,7 @@ from sqlalchemy.types import String, Unicode, UnicodeText, Integer, DateTime, Bo
 from sqlalchemy.orm import mapper, relation, backref, synonym, composite, validates, dynamic_loader, column_property
 
 from simpleplex.model import DeclarativeBase, metadata, DBSession, Author, slugify
-from simpleplex.model.media import Media, media, TRASH as MEDIA_TRASH, PUBLISH as MEDIA_PUBLISH
+from simpleplex.model.media import Media, media, MediaStatusSet
 
 
 podcasts = Table('podcasts', metadata,
@@ -32,6 +36,73 @@ podcasts = Table('podcasts', metadata,
 
 
 class Podcast(object):
+    """
+    Podcast Metadata
+
+    .. attribute:: id
+    .. attribute:: slug
+
+        A unique URL-friendly permalink string for looking up this object.
+
+    .. attribute:: created_on
+    .. attribute:: modified_on
+
+    .. attribute:: title
+    .. attribute:: subtitle
+    .. attribute:: description
+
+    .. attribute:: category
+
+        The `iTunes category <http://www.apple.com/itunes/podcasts/specs.html#categories>`_
+
+        Values with a ``>`` are parsed with special meaning. ``Arts > Design``
+        implies that this pertains to the Design subcategory of Arts, and the
+        feed markup reflects that.
+
+    .. attribute:: author
+
+        An instance of :class:`simpleplex.model.authors.Author`.
+        Although not actually a relation, it is implemented as if it were.
+        This was decision was made to make it easier to integrate with
+        :class:`simpleplex.model.auth.User` down the road.
+
+    .. attribute:: explicit
+
+        The `iTunes explicit <http://www.apple.com/itunes/podcasts/specs.html#explicit>`_
+        value.
+
+            * ``True`` means 'yes'
+            * ``None`` means no advisory displays, ie. 'no'
+            * ``False`` means 'clean'
+
+    .. attribute:: copyright
+
+    .. attribute:: itunes_url
+
+        Optional iTunes subscribe URL.
+
+    .. attribute:: feedburner_url
+
+        Optional Feedburner URL. If set, requests for this podcast's feed will
+        be forwarded to this address -- unless, of course, the request is
+        coming from Feedburner.
+
+    .. attribute:: media
+
+        A dynamic loader for :class:`simpleplex.model.media.Media` episodes:
+        essentially a preconfigured :class:`sqlalchemy.orm.Query`.
+
+    .. attribute:: media_count
+
+        The number of :class:`simpleplex.model.media.Media` episodes.
+
+    .. attribute:: published_media_count
+
+        The number of :class:`simpleplex.model.media.Media` episodes that are
+        currently published.
+
+    """
+
     def __repr__(self):
         return '<Podcast: %s>' % self.slug
 
@@ -51,7 +122,7 @@ mapper(Podcast, podcasts, properties={
                 [sql.func.count(media.c.id)],
                 sql.and_(
                     media.c.podcast_id == podcasts.c.id,
-                    media.c.status.op('&')(int(MEDIA_TRASH)) == 0 # status excludes 'trash'
+                    media.c.status.op('&')(int(MediaStatusSet('trash'))) == 0 # status excludes 'trash'
                 )
             ).label('media_count'),
             deferred=True
@@ -62,8 +133,8 @@ mapper(Podcast, podcasts, properties={
                 [sql.func.count(media.c.id)],
                 sql.and_(
                     media.c.podcast_id == podcasts.c.id,
-                    media.c.status.op('&')(int(MEDIA_PUBLISH)) == int(MEDIA_PUBLISH), # status includes 'publish'
-                    media.c.status.op('&')(int(MEDIA_TRASH)) == 0, # status excludes 'trash'
+                    media.c.status.op('&')(int(MediaStatusSet('publish'))) == int(MediaStatusSet('publish')), # status includes 'publish'
+                    media.c.status.op('&')(int(MediaStatusSet('trash'))) == 0, # status excludes 'trash'
                 )
             ).label('published_media_count'),
             deferred=True

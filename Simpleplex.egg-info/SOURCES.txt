@@ -34,6 +34,7 @@ simpleplex/forms/categories.py
 simpleplex/forms/comments.py
 simpleplex/forms/media.py
 simpleplex/forms/podcasts.py
+simpleplex/forms/settings.py
 simpleplex/forms/users.py
 simpleplex/i18n/ru/LC_MESSAGES/simpleplex.po
 simpleplex/lib/__init__.py
@@ -232,6 +233,7 @@ simpleplex/model/comments.py
 simpleplex/model/media.py
 simpleplex/model/podcasts.py
 simpleplex/model/rating.py
+simpleplex/model/settings.py
 simpleplex/model/status.py
 simpleplex/model/tags.py
 simpleplex/model/topics.py
@@ -253,4 +255,3 @@ simpleplex/tests/__init__.py
 simpleplex/tests/test_models.py
 simpleplex/tests/functional/__init__.py
 simpleplex/tests/functional/test_root.py
-

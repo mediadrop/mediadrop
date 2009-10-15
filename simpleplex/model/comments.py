@@ -1,7 +1,7 @@
 """
 Comment Model
 
-Other modules should create a join table with a UNIQUE constraint on the comment ID:
+Other modules should create a join table with a UNIQUE constraint on the comment ID::
 
     medias_comments = Table('medias_comments', metadata,
         Column('media_id', Integer, ForeignKey('medias.id', onupdate='CASCADE', ondelete='CASCADE'),
@@ -11,7 +11,7 @@ Other modules should create a join table with a UNIQUE constraint on the comment
 
 A relation property should be defined to include the CommentTypeExtension.
 Be sure to pass it the same value as the backref argument to enable reverse lookup.
-Finally the argument single_parent=True should also be included.
+Finally the argument single_parent=True should also be included. ::
 
     mapper(Media, medias, properties={
         'comments': relation(Comment, secondary=medias_comments,
@@ -19,15 +19,16 @@ Finally the argument single_parent=True should also be included.
             extension=CommentTypeExtension('media')),
     })
 
-Also include this property if you want to grab the comment count quickly:
+Also include this property if you want to grab the comment count quickly::
 
     mapper(Media, medias, properties={
         'comment_count': comment_count_property(media_comments, 'comment_count'),
     })
 
-    NOTE: This uses a correlated subquery and can be executed when you first call
-              media_item.comment_count
-          Or during the initial query by including the following option:
+.. note:: This uses a correlated subquery and can be executed when you first call
+          ``media_item.comment_count`` or during the initial query by including
+          the following option::
+
               DBSession.query(Media).options(undefer('comment_count')).all()
 
 """
@@ -37,19 +38,10 @@ from sqlalchemy.types import String, Unicode, UnicodeText, Integer, DateTime, Bo
 from sqlalchemy.orm import mapper, relation, backref, synonym, composite, column_property, validates, interfaces
 
 from simpleplex.model import DeclarativeBase, metadata, DBSession, AuthorWithIP, _mtm_count_property
-from simpleplex.model.status import Status, StatusSet, StatusType, status_column_property
+from simpleplex.model.status import StatusType, status_column_property, status_set_class
 
 
-TRASH = Status('trash', 1)
-PUBLISH = Status('publish', 2)
-UNREVIEWED = Status('unreviewed', 4)
-USER_FLAGGED = Status('user_flagged', 8)
-
-STATUSES = dict((int(s), s) for s in (TRASH, PUBLISH, UNREVIEWED, USER_FLAGGED))
-"""Dictionary of allowed statuses, bitmask value(int) => Status(unicode) instance"""
-
-class CommentStatusSet(StatusSet):
-    _valid_els = STATUSES
+CommentStatusSet = status_set_class('trash', 'publish', 'unreviewed', 'user_flagged')
 
 
 comments = Table('comments', metadata,
@@ -58,7 +50,7 @@ comments = Table('comments', metadata,
     Column('subject', Unicode(100)),
     Column('created_on', DateTime, default=datetime.now, nullable=False),
     Column('modified_on', DateTime, default=datetime.now, onupdate=datetime.now, nullable=False),
-    Column('status', StatusType(CommentStatusSet), default=PUBLISH, nullable=False),
+    Column('status', StatusType(CommentStatusSet), default=CommentStatusSet('publish'), nullable=False),
     Column('author_name', Unicode(50), nullable=False),
     Column('author_email', Unicode(255)),
     Column('author_ip', Integer, nullable=False),
@@ -71,18 +63,17 @@ comments = Table('comments', metadata,
 class Comment(object):
     """Comment Model
 
-    :param parent:
-      The object this Comment belongs to, provided for convenience mostly.
+    .. attribute:: type
 
-    :param type:
-      The relation name to use when looking up the parent object of this Comment.
-      This is the name of the backref property which can be used to find the
-      object that this Comment belongs to. Our convention is to have a controller
-      by this name, with a 'view' action which accepts a slug, so we can
-      auto-generate links to any comment's parent.
+        The relation name to use when looking up the parent object of this Comment.
+        This is the name of the backref property which can be used to find the
+        object that this Comment belongs to. Our convention is to have a controller
+        by this name, with a 'view' action which accepts a slug, so we can
+        auto-generate links to any comment's parent.
 
-    :param author:
-      An instance of simpleplex.model.author.Author.
+    .. attribute:: author
+
+        An instance of :class:`simpleplex.model.author.AuthorWithIP`.
 
     """
     def __repr__(self):
@@ -102,15 +93,36 @@ class Comment(object):
 
 
 class CommentTypeExtension(interfaces.AttributeExtension):
-    """Comment Type Mapping Handler
+    """
+    Comment Type Auto-Mapping Extension
 
-    Use this attribute extension when defining a relation() to Comment.
-    It tells us which relation to use when looking for a Comment's parent object.
+    When another module/class defines a :func:`sqlalchemy.orm.relation` to
+    :class:`Comment` this extension should be included. This will automatically
+    define the correct :attr:`Comment.type` when a comment is added to the
+    related objects list of comments. This, in turn, allows us to look up the
+    related object again from the comment alone, via :attr:`Comment.parent`.
 
-    :param type:
-      The value to assign to Comment.type, should match the relation()'s backref.
-      There should also be a controller for this type, with an exposed action 'view'
-      so that we can automatically generate links to the comments parent.
+    This is intended to make dealing with comments more convenient::
+
+        >>> c = Comment()
+        >>> print c.type
+        None
+
+        >>> m = Media()
+        >>> m.comments.append(c)
+        >>> print c.type
+        'media'
+
+    .. attribute:: type
+
+        The value to assign to :attr:`Comment.type` when a comment is added to
+        the related objects collection of comments.
+
+    .. warn::
+
+        The type given here and the name of the backref passed to
+        :func:`sqlalchemy.orm.relation` must match for the reverse-lookup
+        to work.
 
     """
     def __init__(self, type):

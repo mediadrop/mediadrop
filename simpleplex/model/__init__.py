@@ -174,6 +174,7 @@ from simpleplex.model.auth import User, Group, Permission
 from simpleplex.model.authors import Author, AuthorWithIP
 from simpleplex.model.rating import Rating
 from simpleplex.model.comments import Comment
+from simpleplex.model.settings import Setting
 from simpleplex.model.tags import Tag
 from simpleplex.model.topics import Topic
 from simpleplex.model.media import Media, MediaFile

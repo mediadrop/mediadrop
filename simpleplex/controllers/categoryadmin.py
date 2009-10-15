@@ -1,6 +1,5 @@
 from tg import expose, validate, flash, require, url, request
 from tg.decorators import paginate
-from formencode import validators
 from pylons.i18n import ugettext as _
 from sqlalchemy import and_, or_
 from sqlalchemy.orm import eagerload

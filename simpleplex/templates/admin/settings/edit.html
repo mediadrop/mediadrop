@@ -1,0 +1,23 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      xmlns:xi="http://www.w3.org/2001/XInclude">
+<xi:include href="admin/settings/master.html" />
+<xi:include href="admin/master.html" />
+<head>
+	<title>Configuration</title>
+	<link href="${h.url_for('/admin/styles/forms.css')}" media="screen" rel="stylesheet" type="text/css" />
+</head>
+<body class="menu-settings-on menu-settings-custom-on">
+	<div class="box">
+		<div class="box-head">
+			<h1>Configuration</h1>
+		</div>
+		<form py:replace="XML(settings_form(settings_values, action=settings_action, autocomplete='off'))" />
+	</div>
+</body>
+</html>
+
+
+

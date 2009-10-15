@@ -120,7 +120,6 @@ class User(DeclarativeBase):
         # process because SQLAlchemy _wants_ a unicode object for Unicode columns
         if not isinstance(hashed_password, unicode):
             hashed_password = hashed_password.decode('UTF-8')
-
         self._password = hashed_password
 
     def _get_password(self):

@@ -13,6 +13,7 @@ from tg.exceptions import HTTPFound
 
 from htmlsanitizer import Cleaner, entities_to_unicode as decode_entities, encode_xhtml_entities as encode_entities
 
+from simpleplex.model.settings import fetch_setting
 
 class expose_xhr(object):
     def __call__(self, func):
