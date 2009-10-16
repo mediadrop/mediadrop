@@ -1,17 +1,18 @@
 Welcome to Simpleplex's documentation!
 ======================================
 
-Contents:
+Simpleplex is a media-oriented content manager.
 
 .. toctree::
 
     install
-    reference/index
+    media/index
+    podcasts/index
+    comments/index
+    templates
+    library/index
 
-
-Indices and tables
-==================
-
+* :ref:`glossary`
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`

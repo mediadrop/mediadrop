@@ -1,16 +1,11 @@
-=================================================
-:mod:`simpleplex.lib` -- Library
-=================================================
-
-.. module:: simpleplex.lib
-
+=======
 Helpers
 =======
 
 .. module:: simpleplex.lib.helpers
 
 Controllers
------------
+===========
 
 .. autoclass:: expose_xhr
 
@@ -20,7 +15,7 @@ Controllers
 
 
 XHTML Handling
---------------
+==============
 
 .. autofunction:: clean_xhtml
 
