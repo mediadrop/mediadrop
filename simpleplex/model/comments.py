@@ -38,10 +38,11 @@ from sqlalchemy.types import String, Unicode, UnicodeText, Integer, DateTime, Bo
 from sqlalchemy.orm import mapper, relation, backref, synonym, composite, column_property, validates, interfaces
 
 from simpleplex.model import DeclarativeBase, metadata, DBSession, AuthorWithIP, _mtm_count_property
-from simpleplex.model.status import StatusType, status_column_property, status_set_class
+from simpleplex.model.status import Status, StatusType, status_column_property
 
 
-CommentStatusSet = status_set_class('trash', 'publish', 'unreviewed', 'user_flagged')
+class CommentStatus(Status):
+    values = ('trash', 'publish', 'unreviewed', 'user_flagged')
 
 
 comments = Table('comments', metadata,
@@ -50,7 +51,7 @@ comments = Table('comments', metadata,
     Column('subject', Unicode(100)),
     Column('created_on', DateTime, default=datetime.now, nullable=False),
     Column('modified_on', DateTime, default=datetime.now, onupdate=datetime.now, nullable=False),
-    Column('status', StatusType(CommentStatusSet), default=CommentStatusSet('publish'), nullable=False),
+    Column('status', StatusType(CommentStatus), default=CommentStatus('publish'), nullable=False),
     Column('author_name', Unicode(50), nullable=False),
     Column('author_email', Unicode(255)),
     Column('author_ip', Integer, nullable=False),
@@ -118,7 +119,7 @@ class CommentTypeExtension(interfaces.AttributeExtension):
         The value to assign to :attr:`Comment.type` when a comment is added to
         the related objects collection of comments.
 
-    .. warn::
+    .. warning::
 
         The type given here and the name of the backref passed to
         :func:`sqlalchemy.orm.relation` must match for the reverse-lookup

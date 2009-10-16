@@ -14,7 +14,7 @@ from sqlalchemy.types import String, Unicode, UnicodeText, Integer, DateTime, Bo
 from sqlalchemy.orm import mapper, relation, backref, synonym, composite, validates, dynamic_loader, column_property
 
 from simpleplex.model import DeclarativeBase, metadata, DBSession, Author, slugify
-from simpleplex.model.media import Media, media, MediaStatusSet
+from simpleplex.model.media import Media, media, MediaStatus
 
 
 podcasts = Table('podcasts', metadata,
@@ -122,7 +122,7 @@ mapper(Podcast, podcasts, properties={
                 [sql.func.count(media.c.id)],
                 sql.and_(
                     media.c.podcast_id == podcasts.c.id,
-                    media.c.status.op('&')(int(MediaStatusSet('trash'))) == 0 # status excludes 'trash'
+                    media.c.status.op('&')(int(MediaStatus('trash'))) == 0 # status excludes 'trash'
                 )
             ).label('media_count'),
             deferred=True
@@ -133,8 +133,8 @@ mapper(Podcast, podcasts, properties={
                 [sql.func.count(media.c.id)],
                 sql.and_(
                     media.c.podcast_id == podcasts.c.id,
-                    media.c.status.op('&')(int(MediaStatusSet('publish'))) == int(MediaStatusSet('publish')), # status includes 'publish'
-                    media.c.status.op('&')(int(MediaStatusSet('trash'))) == 0, # status excludes 'trash'
+                    media.c.status.op('&')(int(MediaStatus('publish'))) == int(MediaStatus('publish')), # status includes 'publish'
+                    media.c.status.op('&')(int(MediaStatus('trash'))) == 0, # status excludes 'trash'
                 )
             ).label('published_media_count'),
             deferred=True

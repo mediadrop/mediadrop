@@ -25,13 +25,14 @@ from zope.sqlalchemy import datamanager
 from simpleplex.model import DeclarativeBase, metadata, DBSession, get_available_slug, _mtm_count_property, _properties_dict_from_labels
 from simpleplex.model.authors import Author
 from simpleplex.model.rating import Rating
-from simpleplex.model.comments import Comment, CommentTypeExtension, CommentStatusSet, comment_count_property, comments
+from simpleplex.model.comments import Comment, CommentTypeExtension, CommentStatus, comment_count_property, comments
 from simpleplex.model.tags import Tag, TagCollection, tags, extract_tags, fetch_and_create_tags, tag_count_property
 from simpleplex.model.topics import Topic, TopicCollection, topics, fetch_topics, topic_count_property
-from simpleplex.model.status import StatusType, status_column_property, status_set_class, status_where
+from simpleplex.model.status import Status, StatusType, status_column_property, status_where
 from simpleplex.lib import helpers
 
-MediaStatusSet = status_set_class('trash', 'publish', 'draft', 'unencoded', 'unreviewed')
+class MediaStatus(Status):
+    values = ('trash', 'publish', 'draft', 'unencoded', 'unreviewed')
 
 class MediaException(Exception): pass
 class MediaFileException(MediaException): pass
@@ -42,7 +43,7 @@ media = Table('media', metadata,
     Column('id', Integer, autoincrement=True, primary_key=True),
     Column('type', String(10), nullable=False),
     Column('slug', String(50), unique=True, nullable=False),
-    Column('status', StatusType(MediaStatusSet), default=MediaStatusSet('publish'), nullable=False),
+    Column('status', StatusType(MediaStatus), default=MediaStatus('publish'), nullable=False),
     Column('podcast_id', Integer, ForeignKey('podcasts.id', onupdate='CASCADE', ondelete='CASCADE')),
 
     Column('created_on', DateTime, default=datetime.now, nullable=False),
@@ -231,7 +232,7 @@ class Media(object):
         if self.author is None:
             self.author = Author()
         if self.status is None:
-            self.status = MediaStatusSet()
+            self.status = MediaStatus()
 
     def __repr__(self):
         return '<Media: %s>' % self.slug
