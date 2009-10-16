@@ -38,6 +38,7 @@ image_dir = %(here)s/simpleplex/public/images
 # invalidate the URI when specifying a SQLite db via path name
 sqlalchemy.url = mysql://username:pass@localhost/dbname?charset=utf8
 sqlalchemy.echo = False
+sqlalchemy.pool_recycle = 3600
 
 # WARNING: *THE LINE BELOW MUST BE UNCOMMENTED ON A PRODUCTION ENVIRONMENT*
 # Debug mode will enable the interactive debugging tool, allowing ANYONE to
