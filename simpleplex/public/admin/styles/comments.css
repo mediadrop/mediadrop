@@ -44,8 +44,8 @@
 	width: 5px;
 }
 
-.checkbox-col {
-	text-align: center;
+.checkbox-col input {
+	width: auto;
 }
 
 /* Comment styles */
