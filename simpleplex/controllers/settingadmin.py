@@ -43,12 +43,12 @@ class SettingadminController(RoutingController):
                     support_requests = kwargs['email.support_requests'],
                     send_from = kwargs['email.send_from'],
                 ),
-                ftp = dict(
-                    server = kwargs['ftp.server'],
-                    username = kwargs['ftp.username'],
-                    upload_path = kwargs['ftp.upload_path'],
-                    download_url = kwargs['ftp.download_url'],
-                ),
+#                ftp = dict(
+#                    server = kwargs['ftp.server'],
+#                    username = kwargs['ftp.username'],
+#                    upload_path = kwargs['ftp.upload_path'],
+#                    download_url = kwargs['ftp.download_url'],
+#                ),
                 legal_wording = dict(
                     user_uploads = kwargs['legal_wording.user_uploads'],
                 ),
@@ -64,12 +64,12 @@ class SettingadminController(RoutingController):
                     support_requests = settings['email_support_requests'].value,
                     send_from = settings['email_send_from'].value,
                 ),
-                ftp = dict(
-                    server = settings['ftp_server'].value,
-                    username = settings['ftp_username'].value,
-                    upload_path = settings['ftp_upload_path'].value,
-                    download_url = settings['ftp_download_url'].value,
-                ),
+#                ftp = dict(
+#                    server = settings['ftp_server'].value,
+#                    username = settings['ftp_username'].value,
+#                    upload_path = settings['ftp_upload_path'].value,
+#                    download_url = settings['ftp_download_url'].value,
+#                ),
                 legal_wording = dict(
                     user_uploads = settings['wording_user_uploads'].value,
                 ),
@@ -82,18 +82,18 @@ class SettingadminController(RoutingController):
 
     @expose()
     @validate(settings_form, error_handler=edit)
-    def save(self, email, ftp, legal_wording, **kwargs):
+    def save(self, email, legal_wording, **kwargs):
         settings = self._fetch_keyed_settings()
         settings['email_media_uploaded'].value = email['media_uploaded']
         settings['email_comment_posted'].value = email['comment_posted']
         settings['email_support_requests'].value = email['support_requests']
         settings['email_send_from'].value = email['send_from']
-        settings['ftp_server'].value = ftp['server']
-        settings['ftp_username'].value = ftp['username']
-        if ftp['password'] is not None and ftp['password'] != '':
-            settings['ftp_password'].value = ftp['password']
-        settings['ftp_upload_path'].value = ftp['upload_path']
-        settings['ftp_download_url'].value = ftp['download_url']
+#        settings['ftp_server'].value = ftp['server']
+#        settings['ftp_username'].value = ftp['username']
+#        if ftp['password'] is not None and ftp['password'] != '':
+#            settings['ftp_password'].value = ftp['password']
+#        settings['ftp_upload_path'].value = ftp['upload_path']
+#        settings['ftp_download_url'].value = ftp['download_url']
         settings['wording_user_uploads'].value = legal_wording['user_uploads']
 
         DBSession.add_all(settings.values())
