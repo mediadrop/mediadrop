@@ -14,7 +14,8 @@ from simpleplex import model
 from simpleplex.model import DBSession, metadata, fetch_row, Setting
 from simpleplex.forms.settings import SettingsForm
 
-settings_form = SettingsForm()
+settings_form = SettingsForm(action=url_for(controller='/settingadmin',
+                                            action='save'))
 
 class SettingadminController(RoutingController):
     """Admin settings actions which deal with settings"""
@@ -77,7 +78,6 @@ class SettingadminController(RoutingController):
         return dict(
             settings_form = settings_form,
             settings_values = settings_values,
-            settings_action = url_for(action='save'),
         )
 
     @expose()

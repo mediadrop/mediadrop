@@ -9,12 +9,12 @@
 	<title>Configuration</title>
 	<link href="${h.url_for('/admin/styles/forms.css')}" media="screen" rel="stylesheet" type="text/css" />
 </head>
-<body class="menu-settings-on menu-settings-custom-on">
+<body class="menu-settings-on menu-settings-config-on">
 	<div class="box">
 		<div class="box-head">
 			<h1>Configuration</h1>
 		</div>
-		<form py:replace="XML(settings_form(settings_values, action=settings_action, autocomplete='off'))" />
+		<form py:replace="XML(settings_form(settings_values))" />
 	</div>
 </body>
 </html>
