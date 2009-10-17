@@ -10,7 +10,7 @@ Email Helpers
 """
 import smtplib
 from tg import config, request
-from simpleplex.lib.helpers import url_for, clean_xhtml, strip_xhtml, line_break_xhtml
+from simpleplex.lib.helpers import url_for, clean_xhtml, strip_xhtml, line_break_xhtml, fetch_setting
 
 
 def send(to_addr, from_addr, subject, body):
