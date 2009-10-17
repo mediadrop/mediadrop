@@ -37,16 +37,15 @@ def monkeypatch_method(cls):
     return decorator
 
 # Monkey Patch Beautiful Soup
-from BeautifulSoup import NavigableString
-@monkeypatch_method(NavigableString)
+from BeautifulSoup import NavigableString as _NavigableString
+@monkeypatch_method(_NavigableString)
 def __eq__(self, other):
     """Monkey-patch inserted method.
 
     This patch is a temporary solution to the problem described here:
         http://bugs.launchpad.net/beautifulsoup/+bug/397997
     """
-    if isinstance(other, NavigableString):
+    if isinstance(other, _NavigableString):
         return other is self
     else:
         return unicode.__eq__(self, other)
-del NavigableString
