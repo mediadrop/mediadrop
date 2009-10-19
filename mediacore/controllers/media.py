@@ -95,7 +95,7 @@ class MediaController(BaseController):
 
 
     @expose('mediacore.templates.media.view')
-    def view(self, slug, podcast_slug=None, **kwargs):
+    def view(self, slug, podcast_slug=None, notify_comment=False, **kwargs):
         """Display the media player, info and comments.
 
         :param slug: The :attr:`~mediacore.models.media.Media.slug` to lookup
@@ -145,6 +145,7 @@ class MediaController(BaseController):
             comment_form_action = url_for(action='comment'),
             comment_form_values = kwargs,
             next_episode = next_episode,
+            notify_comment = notify_comment,
         )
 
     @expose('json')
@@ -307,10 +308,7 @@ class MediaController(BaseController):
         DBSession.add(media)
         email.send_comment_notification(media, c)
 
-        if request.is_xhr:
-            return dict(success = True)
-        else:
-            redirect(action='view')
+        redirect(action='view', notify_comment=True)
 
 
     @expose(content_type=CUSTOM_CONTENT_TYPE)
