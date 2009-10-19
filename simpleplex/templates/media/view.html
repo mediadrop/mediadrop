@@ -10,8 +10,11 @@
 <head>
 	<title>${Markup(media.title)}</title>
 	<link py:if="media.podcast" href="${h.url_for('/styles/podcasts.css')}" media="screen" rel="stylesheet" type="text/css" />
+	<link href="${h.url_for('/styles/squeezebox.css')}" media="screen" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="${h.url_for('/scripts/third-party/squeezebox-1.1-rc3.js')}"></script>
 	<script type="text/javascript" src="${h.url_for('/scripts/rater.js')}"></script>
 	<script type="text/javascript" src="${h.url_for('/scripts/overtext.js')}"></script>
+	<script type="text/javascript" src="${h.url_for('/scripts/notify.js')}"></script>
 	<script type="text/javascript">
 		window.addEvent('domready', function(){
 			var overTextMGR = new OverTextManager('${comment_form.id}');
@@ -21,6 +24,19 @@
 				upCounter: likesCounter,
 				ensureVisible: likesCounter.getParent()
 			});
+			<py:if test="notify_comment">
+				var notify = new NotificationManager({
+					notifyWidgetSelector: null,
+					notifyOnEvent: null,
+					divClass: 'greybox',
+					okButtonClass: 'btn btn-ok f-rgt',
+					footerClass: 'btn-foot',
+					header: 'Thanks for your comment!',
+					headerClass: 'italic-header',
+					msg: 'We will post it just as soon as our moderator approves it.'
+				});
+				notify.openNotify(null);
+			</py:if>
 		});
 	</script>
 </head>
