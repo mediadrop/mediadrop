@@ -393,6 +393,18 @@ class Media(object):
         return None
 
     @property
+    def downloadable_file(self):
+        """The MediaFile users can download for this Media object.
+
+        None, if no files are of a type other than flv.
+        """
+        for file in self.files:
+            if file.type != 'flv':
+                return file
+        return None
+
+
+    @property
     def playable_files(self):
         return [file for file in self.files if file.enable_player]
 
