@@ -10,11 +10,8 @@
 <head>
 	<title>${Markup(media.title)}</title>
 	<link py:if="media.podcast" href="${h.url_for('/styles/podcasts.css')}" media="screen" rel="stylesheet" type="text/css" />
-	<link href="${h.url_for('/styles/squeezebox.css')}" media="screen" rel="stylesheet" type="text/css" />
-	<script type="text/javascript" src="${h.url_for('/scripts/third-party/squeezebox-1.1-rc3.js')}"></script>
 	<script type="text/javascript" src="${h.url_for('/scripts/rater.js')}"></script>
 	<script type="text/javascript" src="${h.url_for('/scripts/overtext.js')}"></script>
-	<script type="text/javascript" src="${h.url_for('/scripts/notify.js')}"></script>
 	<script type="text/javascript">
 		window.addEvent('domready', function(){
 			var overTextMGR = new OverTextManager('${comment_form.id}');
@@ -24,7 +21,14 @@
 				upCounter: likesCounter,
 				ensureVisible: likesCounter.getParent()
 			});
-			<py:if test="notify_comment">
+		});
+	</script>
+	<py:if test="notify_comment">
+		<link href="${h.url_for('/styles/squeezebox.css')}" media="screen" rel="stylesheet" type="text/css" />
+		<script type="text/javascript" src="${h.url_for('/scripts/third-party/squeezebox-1.1-rc3.js')}"></script>
+		<script type="text/javascript" src="${h.url_for('/scripts/notify.js')}"></script>
+		<script type="text/javascript">
+			window.addEvent('domready', function(){
 				var notify = new NotificationManager({
 					notifyWidgetSelector: null,
 					notifyOnEvent: null,
@@ -36,9 +40,9 @@
 					msg: 'We will post it just as soon as our moderator approves it.'
 				});
 				notify.openNotify(null);
-			</py:if>
-		});
-	</script>
+			});
+		</script>
+	</py:if>
 </head>
 <body py:with="comments = [c for c in media.comments if 'publish' in c.status and 'trash' not in c.status]" class="${media.podcast and 'nav-podcasts-on' or 'nav-media-on'}">
 	<box id="media-box">
