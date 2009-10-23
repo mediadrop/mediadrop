@@ -32,7 +32,7 @@ class Topic(object):
     def validate_slug(self, key, slug):
         return slugify(slug)
 
-class TopicCollection(list):
+class TopicList(list):
     def __unicode__(self):
         return ', '.join([topic.name for topic in self.values()])
 

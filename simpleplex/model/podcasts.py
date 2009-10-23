@@ -140,3 +140,19 @@ mapper(Podcast, podcasts, properties={
             deferred=True
         )
 })
+
+
+def create_podcast_stub():
+    """Return a new :class:`Podcast` instance with helpful defaults.
+
+    This is used any time we need a placeholder db record, such as when:
+
+        * Some admin uploads album art *before* saving their new media
+
+    """
+    podcast = Podcast()
+    podcast.slug = 'placeholder'
+    podcast.title = '(Placeholder Podcast)'
+    user = request.environ['repoze.who.identity']['user']
+    podcast.author = Author(user.display_name, user.email_address)
+    return podcast

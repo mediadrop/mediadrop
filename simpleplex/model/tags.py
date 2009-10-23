@@ -1,3 +1,12 @@
+"""
+Tag-based Categorization
+
+Content can be labelled in an ad-hoc fashion with tags. Typically tags will
+be displayed on the frontend using a 'tag cloud', rather than listing all
+tags. This means you can tag all you want!
+
+"""
+
 from datetime import datetime
 from sqlalchemy import Table, ForeignKey, Column, sql
 from sqlalchemy.types import String, Unicode, UnicodeText, Integer, DateTime, Boolean, Float
@@ -16,8 +25,25 @@ tags = Table('tags', metadata,
 
 
 class Tag(object):
-    """Tag definition
     """
+    Tag (keyword) for labelling content
+
+    .. attribute:: id
+
+    .. attribute:: name
+
+        Display name
+
+    .. attribute:: slug
+
+        A unique URL-friendly permalink string for looking up this object.
+
+    .. attribute:: media_content
+
+    .. attribute:: published_media_count
+
+    """
+
     def __init__(self, name=None, slug=None):
         self.name = name or None
         self.slug = slug or name or None
@@ -33,7 +59,17 @@ class Tag(object):
         return slugify(slug)
 
 
-class TagCollection(list):
+class TagList(list):
+    """
+    List for easy rendering
+
+    Automatically prints the contained tags separated by commas::
+
+        >>> tags = TagList(['abc', 'def', 'ghi'])
+        >>> tags
+        abc, def, ghi
+
+    """
     def __unicode__(self):
         return ', '.join([tag.name for tag in self.values()])
 

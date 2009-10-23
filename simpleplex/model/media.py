@@ -26,8 +26,8 @@ from simpleplex.model import DeclarativeBase, metadata, DBSession, get_available
 from simpleplex.model.authors import Author
 from simpleplex.model.rating import Rating
 from simpleplex.model.comments import Comment, CommentTypeExtension, CommentStatus, comment_count_property, comments
-from simpleplex.model.tags import Tag, TagCollection, tags, extract_tags, fetch_and_create_tags, tag_count_property
-from simpleplex.model.topics import Topic, TopicCollection, topics, fetch_topics, topic_count_property
+from simpleplex.model.tags import Tag, TagList, tags, extract_tags, fetch_and_create_tags, tag_count_property
+from simpleplex.model.topics import Topic, TopicList, topics, fetch_topics, topic_count_property
 from simpleplex.model.status import Status, StatusType, status_column_property, status_where
 from simpleplex.lib import helpers
 
@@ -125,6 +125,8 @@ class Media(object):
     .. attribute:: slug
 
         A unique URL-friendly permalink string for looking up this object.
+        Be sure to call :func:`simpleplex.model.get_available_slug` to ensure
+        the slug is unique.
 
     .. attribute:: type
 
@@ -193,6 +195,8 @@ class Media(object):
         Although not actually a relation, it is implemented as if it were.
         This was decision was made to make it easier to integrate with
         :class:`simpleplex.model.auth.User` down the road.
+
+    **Relations**
 
     .. attribute:: podcast_id
     .. attribute:: podcast
@@ -554,8 +558,8 @@ _media_mapper = mapper(Media, media, properties={
     'author': composite(Author, media.c.author_name, media.c.author_email),
     'rating': composite(Rating, media.c.rating_sum, media.c.rating_votes),
     'files': relation(MediaFile, backref='media', order_by=media_files.c.position.asc(), passive_deletes=True),
-    'tags': relation(Tag, secondary=media_tags, backref='media', collection_class=TagCollection),
-    'topics': relation(Topic, secondary=media_topics, backref='media', collection_class=TopicCollection),
+    'tags': relation(Tag, secondary=media_tags, backref='media', collection_class=TagList),
+    'topics': relation(Topic, secondary=media_topics, backref='media', collection_class=TopicList),
     'comments': relation(Comment, secondary=media_comments, backref=backref('media', uselist=False),
         extension=CommentTypeExtension('media'), single_parent=True, passive_deletes=True),
 })

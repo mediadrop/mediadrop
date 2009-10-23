@@ -36,22 +36,48 @@ def init_model(engine):
     DBSession.configure(bind=engine)
 
 
-def fetch_row(mapped_class, _pk=None, incl_trash=False, extra_filter=None, **kwargs):
-    """Fetch a row from the database which matches the ID, slug, and other filters.
-    If the _pk arg is 'new', a new, empty instance is created.
+def fetch_row(mapped_class, pk=None, incl_trash=False, extra_filter=None, **kwargs):
+    """Fetch a single row from the database or else have TG display a 404.
 
-    All kwargs are passed on to query.filter_by() -- meaning you can lookup by slug
-    by calling fetch_row(cls, slug='asdf')
+    Typical usage is to fetch a single row for display or editing::
 
-    Raises a HTTPNotFound exception if no result is found.
+        class PageController(object):
+            @expose()
+            def index(self, id):
+                page = fetch_row(Page, id)
+                return page.name
+
+            @expose()
+            def works_with_slugs_too(self, slug):
+                page = fetch_row(Page, slug=slug)
+                return page.name
+
+    If the ``pk`` is string ``new`` then an empty instance of ``mapped_class``
+    is created and returned. This is helpful in admin controllers where you
+    may reuse your *edit* action for *adding* too.
+
+    :param mapped_class: An ORM-controlled model
+    :param pk: A particular primary key to filter by.
+    :type pk: int, ``None`` or ``"new"``
+    :param incl_trash: By default we exclude rows with a status that includes
+        ``trash``. Set this to true
+    :type incl_trash: bool
+    :param extra_filter: Extra filter arguments.
+    :param \*\*kwargs: Any extra args are treated as column names to filter by.
+        See :meth:`sqlalchemy.orm.Query.filter_by`.
+    :returns: An instance of ``mapped_class``.
+    :raises tg.exceptions.HTTPNotFound: If no result is found
+
     """
-    if _pk == 'new':
+    if pk == 'new':
         inst = mapped_class()
         return inst
+
     query = DBSession.query(mapped_class)
-    if _pk is not None:
+
+    if pk is not None:
         mapper = class_mapper(mapped_class, compile=False)
-        query = query.filter(mapper.primary_key[0] == _pk)
+        query = query.filter(mapper.primary_key[0] == pk)
     if kwargs:
         query = query.filter_by(**kwargs)
     if extra_filter is not None:
@@ -64,55 +90,66 @@ def fetch_row(mapped_class, _pk=None, incl_trash=False, extra_filter=None, **kwa
     except NoResultFound:
         raise HTTPNotFound
 
+
+# slugify regex's
+_whitespace = re.compile(r'\s+')
+_non_alpha = re.compile(r'[^a-z0-9_-]')
+_extra_dashes = re.compile(r'-+')
+
 def slugify(string):
-    """Transform a unicode string, potentially including XHTML entities
-    into a viable slug string (ascii)"""
-    # FIXME: these regular expressions don't ever change. We should perhaps
-    #        create application-wide re.compile()'d regexes to do this.
+    """Produce a URL-friendly string from the input.
+
+    XHTML entities are converted to unicode, and then replaced with the
+    best-choice ascii equivalents.
+
+    :param string: A title, name, etc
+    :type string: unicode
+    :returns: Ascii URL-friendly slug
+    :rtype: string
+
+    """
     string = unicode(string).lower()
-    # replace xhtml entities
+    # Replace xhtml entities
     string = entities_to_unicode(string)
     # Transliterate to ASCII, as best as possible:
     string = unidecode(string)
     # String may now contain '[?]' triplets to describe unknown characters.
     # These will be stripped out by the following regexes.
-    string = re.sub(r'\s+', u'-', string)
-    string = re.sub(r'[^a-z0-9_-]', u'', string)
-    string = re.sub(r'-+', u'-', string).strip('-')
+    string = _whitepsace.sub(u'-', string)
+    string = _non_alpha.sub(u'', string)
+    string = _extra_dashes.sub(u'-', string).strip('-')
 
     return string[:slug_length]
 
-def get_available_slug(mapped_class, slug, ignore=None):
-    """Return a unique slug based on the provided slug.
+def get_available_slug(mapped_class, string, ignore=None):
+    """Return a unique slug based on the provided string.
 
-    Works by appending an int in sequence.
+    Works by appending an int in sequence starting with 2:
 
-    mapped_class
-      The ORM-controlled model that the slug is for
+        1. awesome-stuff
+        2. awesome-stuff-2
+        3. awesome-stuff-3
 
-    slug
-      The already slugified slug
-
-    ignore
-      An ID or instance of mapped_class which doesn't count as a collision
+    :param mapped_class: The ORM-controlled model that the slug is for
+    :param string: A title, name, etc
+    :type string: unicode
+    :param ignore: A record which doesn't count as a collision
+    :type ignore: Int ID, ``mapped_class`` instance or None
+    :returns: A unique slug
+    :rtype: string
     """
     if isinstance(ignore, mapped_class):
         ignore = ignore.id
     elif ignore is not None:
         ignore = int(ignore)
 
-    # ensure that the slug string is a valid slug
-    slug = slugify(slug)
-
-    # ensure the slug is unique by appending an int in sequence
-    new_slug = slug
+    new_slug = slug = slugify(string)
     appendix = 2
     while DBSession.query(mapped_class.id)\
             .filter(mapped_class.slug == new_slug)\
             .filter(mapped_class.id != ignore)\
             .first():
-
-        str_appendix = '-' + str(appendix)
+        str_appendix = '-%s' % appendix
         max_substr_len = slug_length - len(str_appendix)
         new_slug = slug[:max_substr_len] + str_appendix
         appendix += 1
@@ -120,6 +157,12 @@ def get_available_slug(mapped_class, slug, ignore=None):
     return new_slug
 
 def _properties_dict_from_labels(*args):
+    """Produce a dictionary of mapper properties from the given args list.
+
+    Intended to make the process of producing lots of column properties
+    less verbose and painful.
+
+    """
     properties_dict = {}
     for property in args:
         label = property.columns[0].name
@@ -130,25 +173,26 @@ def _mtm_count_property(label, assoc_table,
                         where=None, deferred=True, **kwargs):
     """Return a column property for fetching the comment count for some object.
 
-    label
+    :param label:
       A descriptive label for the correlated subquery. Should probably be the
       same as the name of the property set on the mapper.
 
-    assoc_table
+    :param assoc_table:
       The many-to-many table which associates the comments table to the parent
       table. We expect the primary key to be two columns, one a foreign key to
       comments, the other a foreign key to the parent table.
 
-    where=None
+    :param where:
       Optional additional where clauses. If given a list, the elements are
       wrapped in an AND clause.
 
-    deferred=True
+    :param deferred:
       By default the count will be fetched when first accessed. To prefetch
       during the initial query, use:
         DBSession.query(ParentObject).options(undefer('comment_count_xyz'))
+    :type deferred: bool
 
-    **kwargs
+    :param \*\*kwargs:
       Any additional arguments are passed to sqlalchemy.orm.column_property
     """
     where_clauses = []

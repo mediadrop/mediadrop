@@ -383,7 +383,7 @@ def map_values_to_bits(values):
         >>> map = map_values_to_bits(['trash', 'publish', 'draft', 'unencoded', 'unreviewed'])
         >>> map
         {1: trash, 2: publish, 4: draft, 8: unencoded, 16: unreviewed}
-        >>> map[1] is StatusBit
+        >>> isinstance(map[1], StatusBit)
         True
 
     .. warning::
