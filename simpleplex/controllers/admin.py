@@ -15,6 +15,37 @@ class AdminController(RoutingController):
 
     @expose('simpleplex.templates.admin.index')
     def index(self, **kwargs):
+        """List recent and important items that deserve admin attention.
+
+        We do not use the :func:`simpleplex.lib.helpers.paginate` decorator
+        because its somewhat incompatible with the way we handle ajax
+        fetching with :meth:`video_table`. This should be refactored and
+        fixed at a later date.
+
+        :rtype: Dict
+        :returns:
+            review_page
+                A :class:`webhelpers.paginate.Page` instance containing
+                :term:`unreviewed` :class:`~simpleplex.model.media.Media`.
+            encode_page
+                A :class:`webhelpers.paginate.Page` instance containing
+                :term:`unencoded` :class:`~simpleplex.model.media.Media`.
+            publish_page
+                A :class:`webhelpers.paginate.Page` instance containing
+                :term:`draft` :class:`~simpleplex.model.media.Media`.
+            recent_media
+                A list of recently published
+                :class:`~simpleplex.model.media.Media`.
+            comment_count
+                Total num comments
+            comment_count_published
+                Total approved comments
+            comment_count_unreviewed
+                Total unreviewed comments
+            comment_count_trash
+                Total deleted comments
+
+        """
         # Any publishable video that does have a publish_on date that is in the
         # past and is publishable is 'Recently Published'
         recent_media = DBSession.query(Media)\
@@ -48,8 +79,20 @@ class AdminController(RoutingController):
         )
 
     @expose('simpleplex.templates.admin.media.dash-table')
-    def video_table(self, table, page, **kwargs):
-        """ShowMore Ajax Fetch Action"""
+    def media_table(self, table, page, **kwargs):
+        """Fetch XHTML to inject when the 'showmore' ajax action is clicked.
+
+        :param table: ``awaiting_review``, ``awaiting_encoding``, or
+            ``awaiting_publishing``.
+        :type table: ``unicode``
+        :param page: Page number, defaults to 1.
+        :type page: int
+        :rtype: dict
+        :returns:
+            media
+                A list of :class:`~simpleplex.model.media.Media` instances.
+
+        """
         return dict(
             media = self._fetch_page(table, page).items,
         )
