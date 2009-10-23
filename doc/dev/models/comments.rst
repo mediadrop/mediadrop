@@ -1,6 +1,6 @@
-======
-Models
-======
+========
+Comments
+========
 
 .. automodule:: simpleplex.model.comments
 

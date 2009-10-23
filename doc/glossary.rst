@@ -38,3 +38,9 @@ Glossary
         list of topics because the list should be easy to read over for
         users.
 
+    unencoded
+        Audio or video that is not in a web-friendly format.
+
+    unreviewed
+        Audio or video that has been added, but doesn't have admin approval yet.
+

@@ -16,7 +16,7 @@ import sys, os
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
-sys.path.append(os.path.abspath('../../'))
+sys.path.append(os.path.abspath('../'))
 sys.path.append(os.path.abspath('.'))
 
 import simpleplex
@@ -30,7 +30,7 @@ from paste import fixture, deploy, registry
 
 # Load the WSGI app
 config = 'development.ini'
-config_path = path.join(path.dirname(__file__), '../..', config)
+config_path = path.join(path.dirname(__file__), '..', config)
 app = deploy.loadapp('config:%s' % config_path)
 test_app = fixture.TestApp(app)
 
@@ -50,12 +50,16 @@ registry.restorer.restoration_begin(request_id)
 
 # Add any Sphinx extension module names here, as strings. They can be extensions
 # coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
-extensions = ['sphinx.ext.autodoc',
-              'sphinx.ext.autosummary',
-              'sphinx.ext.doctest',
-              'sphinx.ext.todo',
-              'sphinx.ext.coverage',
-              'autodoc_alchemy']
+extensions = [
+    'sphinx.ext.autodoc',
+    'sphinx.ext.autosummary',
+    'sphinx.ext.doctest',
+    'sphinx.ext.todo',
+    'sphinx.ext.coverage',
+    'sphinx.ext.intersphinx',
+    'autodoc_alchemy',
+    'autodoc_expose',
+]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -229,3 +233,13 @@ latex_documents = [
 
 # Display todos
 todo_include_todos = True
+
+
+intersphinx_mapping = {
+    'http://www.python.org/doc/2.5.4/': 'python.inv',
+    'http://www.sqlalchemy.org/docs/05/': None,
+    'http://www.pylonshq.com/docs/en/0.9.7/': None,
+    'http://www.turbogears.org/2.0/docs/': None,
+    'http://toscawidgets.org/documentation/tw.forms/': None,
+    'http://toscawidgets.org/documentation/ToscaWidgets/': None,
+}

@@ -1,6 +1,6 @@
-======
-Models
-======
+=====
+Media
+=====
 
 .. automodule:: simpleplex.model.media
 

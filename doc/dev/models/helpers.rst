@@ -1,6 +1,19 @@
-==================
-Model Dependencies
-==================
+=============
+Model Helpers
+=============
+
+Fetching Records
+================
+
+.. autofunction:: simpleplex.model.fetch_row
+
+Slugs
+=====
+
+.. autofunction:: simpleplex.model.slugify
+
+.. autofunction:: simpleplex.model.get_available_slug
+
 
 Statuses
 ========
@@ -39,3 +52,4 @@ Helpers
 .. autofunction:: status_column_property
 
 .. autofunction:: map_values_to_bits
+
