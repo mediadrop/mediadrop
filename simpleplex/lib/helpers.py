@@ -2,23 +2,26 @@ import re
 import math
 import datetime as dt
 import time
+import functools
 from BeautifulSoup import BeautifulSoup
 from urlparse import urlparse
 from webhelpers import date, feedgenerator, html, number, misc, text, paginate
 from webhelpers.html.converters import format_paragraphs
 from webhelpers.html import tags
 from routes.util import url_for as rurl
-from tg import expose, request, config
+from tg import expose, request, config, decorators
 from tg.exceptions import HTTPFound
 
 from htmlsanitizer import Cleaner, entities_to_unicode as decode_entities, encode_xhtml_entities as encode_entities
 
 from simpleplex.model.settings import fetch_setting
+from simpleplex.lib.custompaginate import paginate
 
 class expose_xhr(object):
     def __call__(self, func):
         # create a wrapper function to override the template,
         # in the case that this is an xhr request
+        @functools.wraps(func)
         def f(*args, **kwargs):
             if request.is_xhr:
                return self.xhr_decorator.__call__(func)(*args, **kwargs)
@@ -35,10 +38,10 @@ class expose_xhr(object):
 
         return f
 
-
     def __init__(self, template_norm='', template_xhr='json', **kwargs):
         self.normal_decorator = expose(template=template_norm, **kwargs)
         self.xhr_decorator = expose(template=template_xhr, **kwargs)
+
 
 def url_for(*args, **kwargs):
     """ Wrapper for routes.util.url_for

@@ -1,5 +1,4 @@
 from tg import expose, validate, flash, require, url, request
-from tg.decorators import paginate
 from pylons.i18n import ugettext as _
 from sqlalchemy import and_, or_
 from sqlalchemy.orm import eagerload
@@ -7,7 +6,7 @@ from repoze.what.predicates import has_permission
 
 from simpleplex.lib import helpers
 from simpleplex.lib.base import RoutingController
-from simpleplex.lib.helpers import expose_xhr, redirect, url_for, clean_xhtml
+from simpleplex.lib.helpers import expose_xhr, paginate, redirect, url_for, clean_xhtml
 from simpleplex.model import DBSession, metadata, fetch_row, Comment, Tag, Author, Media
 from simpleplex.forms.admin import SearchForm
 from simpleplex.forms.comments import EditCommentForm

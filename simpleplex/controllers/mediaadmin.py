@@ -10,7 +10,7 @@ from PIL import Image
 from datetime import datetime
 from copy import copy
 from tg import config, flash, url, request
-from tg.decorators import paginate, expose, validate, require
+from tg.decorators import expose, validate, require
 from sqlalchemy import and_, or_
 from sqlalchemy.orm import eagerload, undefer
 from repoze.what.predicates import has_permission
@@ -18,7 +18,7 @@ from pylons import tmpl_context
 from tw.forms import validators
 
 from simpleplex.lib import helpers
-from simpleplex.lib.helpers import expose_xhr, redirect, url_for, clean_xhtml
+from simpleplex.lib.helpers import expose_xhr, paginate, redirect, url_for, clean_xhtml
 from simpleplex.lib.base import RoutingController
 from simpleplex.model import DBSession, fetch_row, get_available_slug, Media, MediaFile, Podcast, Comment, Tag, Author, AuthorWithIP
 from simpleplex.model.media import create_media_stub

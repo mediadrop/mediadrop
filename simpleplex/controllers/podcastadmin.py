@@ -1,18 +1,18 @@
 """
-Podcast/Media Admin Controller
+Podcast Admin Controller
 """
 import os
 from shutil import copyfileobj
 from PIL import Image
 from repoze.what.predicates import has_permission
-from tg import config, flash, url, request
-from tg.decorators import paginate, expose, validate, require
+from tg import config, request
+from tg.decorators import expose, validate, require
 from sqlalchemy import or_
 from sqlalchemy.orm import undefer
 from pylons import tmpl_context
 
 from simpleplex.lib import helpers
-from simpleplex.lib.helpers import expose_xhr, redirect, url_for, clean_xhtml
+from simpleplex.lib.helpers import expose_xhr, redirect, paginate, url_for, clean_xhtml
 from simpleplex.lib.base import RoutingController
 from simpleplex.model import DBSession, fetch_row, Podcast, Author, AuthorWithIP, get_available_slug
 from simpleplex.forms.admin import SearchForm, AlbumArtForm

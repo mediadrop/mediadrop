@@ -1,4 +1,3 @@
-from string import capitalize, rstrip
 from tg import expose, validate, flash, require, url, request
 from tg.exceptions import HTTPNotFound
 from pylons import tmpl_context

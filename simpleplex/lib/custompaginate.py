@@ -1,9 +1,140 @@
+import inspect
+import functools
+from pylons import request
+from pylons import tmpl_context as c
+from tg.util import partial
+from tg.configuration import Bunch
 from webhelpers import paginate as _paginate
 from webhelpers.paginate import get_wrapper
+from webob.multidict import MultiDict
+from webhelpers.paginate import Page
 
-"""Adds Page.items_first_page """
 
-class Page(_paginate.Page):
+def paginate(name, items_per_page=10, use_prefix=False, items_first_page=None):
+    """Paginate a given collection.
+
+    Duplicates and extends the functionality of :func:`tg.decorators.paginate` to:
+
+        * Copy the docstring of the exposed method to the decorator, allowing
+          :mod:`sphinx.ext.autodoc` to read docstring.
+        * Support our :class:`CustomPage` extension -- used any time
+          ``items_first_page`` is provided.
+
+    This decorator is mainly exposing the functionality
+    of :func:`webhelpers.paginate`.
+
+    :Usage:
+
+    You use this decorator as follows::
+
+     class MyController(object):
+
+         @expose()
+         @paginate("collection")
+         def sample(self, *args):
+             collection = get_a_collection()
+             return dict(collection=collection)
+
+    To render the actual pager, use::
+
+      ${c.paginators.<name>.pager()}
+
+    where c is the tmpl_context.
+
+    It is possible to have several :func:`paginate`-decorators for
+    one controller action to paginate several collections independently
+    from each other. If this is desired, don't forget to set the :attr:`use_prefix`-parameter
+    to :const:`True`.
+
+    :Parameters:
+      name
+        the collection to be paginated.
+      items_per_page
+        the number of items to be rendered. Defaults to 10
+      use_prefix
+        if True, the parameters the paginate
+        decorator renders and reacts to are prefixed with
+        "<name>_". This allows for multi-pagination.
+      items_first_page
+        the number of items to be rendered on the first page. Defaults to the
+        value of ``items_per_page``
+
+    """
+    prefix = ""
+    if use_prefix:
+        prefix = name + "_"
+    own_parameters = dict(
+        page="%spage" % prefix,
+        items_per_page="%sitems_per_page" % prefix
+        )
+    #@decorator
+    def _d(f):
+        @functools.wraps(f)
+        def _w(*args, **kwargs):
+            page = int(kwargs.pop(own_parameters["page"], 1))
+            real_items_per_page = int(
+                    kwargs.pop(
+                            own_parameters['items_per_page'],
+                            items_per_page))
+
+            # Iterate over all of the named arguments expected by the function f
+            # if any of those arguments have values present in the kwargs dict,
+            # add the value to the positional args list, and remove it from the
+            # kwargs dict
+            argvars = inspect.getargspec(f)[0][1:]
+            if argvars:
+                args = list(args)
+                for i, var in enumerate(args):
+                    if i>=len(argvars):
+                        break;
+                    var = argvars[i]
+                    if var in kwargs:
+                        if i+1 >= len(args):
+                            args.append(kwargs[var])
+                        else:
+                            args[i+1] = kargs[var]
+                        del kwargs[var]
+
+            res = f(*args, **kwargs)
+            if isinstance(res, dict) and name in res:
+                additional_parameters = MultiDict()
+                for key, value in request.str_params.iteritems():
+                    if key not in own_parameters:
+                        additional_parameters.add(key, value)
+
+                collection = res[name]
+
+                # Use CustomPage if our extra custom arg was provided
+                if items_first_page is not None:
+                    page_class = CustomPage
+                else:
+                    page_class = Page
+
+                page = page_class(
+                    collection,
+                    page,
+                    items_per_page=real_items_per_page,
+                    **additional_parameters.dict_of_lists()
+                    )
+                # wrap the pager so that it will render
+                # the proper page-parameter
+                page.pager = partial(page.pager,
+                        page_param=own_parameters["page"])
+                res[name] = page
+                # this is a bit strange - it appears
+                # as if c returns an empty
+                # string for everything it dosen't know.
+                # I didn't find that documented, so I
+                # just put this in here and hope it works.
+                if not hasattr(c, 'paginators') or type(c.paginators) == str:
+                    c.paginators = Bunch()
+                c.paginators[name] = page
+            return res
+        return _w
+    return _d
+
+
+class CustomPage(Page):
     """A list/iterator of items representing one page in a larger
     collection.
 
