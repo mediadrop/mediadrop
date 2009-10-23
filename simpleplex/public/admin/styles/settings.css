@@ -96,6 +96,7 @@ td.form-field-textfield {
 }
 #settings-form .textfield,
 #settings-form .passwordfield,
+#settings-form .textarea,
 #settings-form .xhtmltextarea {
 	width: 472px;
 }

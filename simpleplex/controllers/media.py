@@ -48,8 +48,15 @@ class MediaController(RoutingController):
 
     @expose('simpleplex.templates.media.index')
     @paginate('media', items_per_page=20)
-    def index(self, page=1, topics=None, **kwargs):
-        """Grid-style List Action"""
+    def index(self, page=1, **kwargs):
+        """Expose a paginated list.
+
+        Template: :mod:`simpleplex.templates.media.index`
+        Context:
+            media
+
+        :param page: Optional
+        """
         return dict(
             media = self._list_query.options(orm.undefer('comment_count')),
         )

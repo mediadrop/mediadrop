@@ -16,12 +16,18 @@ from simpleplex.forms.settings import SettingsForm
 settings_form = SettingsForm(action=url_for(controller='/settingadmin',
                                             action='save'))
 
+
 class SettingadminController(RoutingController):
-    """Admin settings actions which deal with settings"""
     allow_only = has_permission('admin')
 
     @expose()
-    def index(self, section='tags', **kwargs):
+    def index(self, section='topics', **kwargs):
+        """Redirect to the given section.
+
+        :param section: ``topics``, ``tags``, ``users``, ``config``
+        :rtype: Redirect
+
+        """
         if section in ('topics', 'tags'):
             redirect(controller='categoryadmin', category=section)
         if section == 'users':
@@ -30,9 +36,19 @@ class SettingadminController(RoutingController):
             redirect(action='edit')
         raise HTTPNotFound
 
+
     @expose('simpleplex.templates.admin.settings.edit')
     def edit(self, **kwargs):
-        """Display the edit form, listing all the config settings."""
+        """Display the :class:`~simpleplex.forms.settings.SettingsForm`.
+
+        :rtype: dict
+        :returns:
+            settings_form
+                The :class:`~simpleplex.forms.settings.SettingsForm` instance.
+            settings_values
+                ``dict`` form values
+
+        """
         if tmpl_context.action == 'save' and len(kwargs) > 0:
             # Use the values from error_handler or GET for new users
             settings_values = dict(
@@ -82,6 +98,11 @@ class SettingadminController(RoutingController):
     @expose()
     @validate(settings_form, error_handler=edit)
     def save(self, email, legal_wording, **kwargs):
+        """Save :class:`~simpleplex.forms.settings.SettingsForm`.
+
+        Redirects back to :meth:`edit` after successful editing.
+
+        """
         settings = self._fetch_keyed_settings()
         settings['email_media_uploaded'].value = email['media_uploaded']
         settings['email_comment_posted'].value = email['comment_posted']
@@ -100,6 +121,6 @@ class SettingadminController(RoutingController):
         redirect(action='edit')
 
     def _fetch_keyed_settings(self):
-        """Returns a dictionary of settings keyed by the setting.key."""
+        """Return a dictionary of settings keyed by the setting.key."""
         settings = DBSession.query(Setting).all()
         return dict((setting.key, setting) for setting in settings)

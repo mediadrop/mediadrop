@@ -21,9 +21,9 @@
 			</tr>
 			<tr py:for="comment in collection" id='${comment.id}' class="${('unreviewed' in comment.status) and 'tr-white' or 'tr-gray'}">
 				<td py:choose="">
-					<a class="mo review-comment" py:when="'unreviewed' in comment.status" href="${h.url_for(action='approve', id=comment.id)}" title="Approve this comment for publishing"><span>approve</span></a>
+					<a class="mo review-comment" py:when="'unreviewed' in comment.status" href="${h.url_for(action='save_status', id=comment.id, status='approve')}" title="Approve this comment for publishing"><span>approve</span></a>
 					<span class="published-comment" py:otherwise="" title="This comment has already been approved for publishing">published</span>
-					<a class="mo trash-comment" href="${h.url_for(action='trash', id=comment.id)}" title="Delete this comment"><span>trash</span></a>
+					<a class="mo trash-comment" href="${h.url_for(action='save_status', id=comment.id, status='trash')}" title="Delete this comment"><span>trash</span></a>
 				</td>
 				<td class="author">
 					<div><strong class="author-name" py:content="comment.author.name">Author</strong></div>
@@ -32,7 +32,7 @@
 				</td>
 				<td>
 					<div class="comment-submitted">Submitted on ${comment.created_on.strftime('%b %d %Y')}</div>
-					${XML(edit_form(comment, action=h.url_for(action='save', id=comment.id)))}
+					${XML(edit_form(comment, action=h.url_for(action='save_edit', id=comment.id)))}
 				</td>
 				<td>
 					<a py:content="Markup(comment.parent.title)" target="_blank"

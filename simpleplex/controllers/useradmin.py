@@ -20,6 +20,17 @@ class UseradminController(RoutingController):
                 'simpleplex.templates.admin.users.index-table')
     @paginate('users', items_per_page=50)
     def index(self, page=1, **kwargs):
+        """List users with pagination.
+
+        :param page: Page number, defaults to 1.
+        :type page: int
+        :rtype: Dict
+        :returns:
+            users
+                The list of :class:`~simpleplex.model.auth.User`
+                instances for this page.
+
+        """
         users = DBSession.query(User).order_by(User.display_name,
                                                User.email_address)
         return dict(users=users)
@@ -27,17 +38,29 @@ class UseradminController(RoutingController):
 
     @expose('simpleplex.templates.admin.users.edit')
     def edit(self, id, **kwargs):
-        """Display the edit form, or create a new one if the id is 'new'.
+        """Display the :class:`~simpleplex.forms.users.UserForm` for editing or adding.
 
-        This page serves as the error_handler for every kind of edit action,
-        if anything goes wrong with them they'll be redirected here.
+        :param id: User ID
+        :type id: ``int`` or ``"new"``
+        :rtype: dict
+        :returns:
+            user
+                The :class:`~simpleplex.model.auth.User` instance we're editing.
+            user_form
+                The :class:`~simpleplex.forms.users.UserForm` instance.
+            user_action
+                ``str`` form submit url
+            user_values
+                ``dict`` form values
+
         """
         user = fetch_row(User, id)
 
         if tmpl_context.action == 'save' or id == 'new':
             # Use the values from error_handler or GET for new users
             user_values = kwargs
-            user_values['login_details.password'] = user_values['login_details.confirm_password'] = None
+            user_values['login_details.password'] = None
+            user_values['login_details.confirm_password'] = None
         else:
             user_values = dict(
                 display_name = user.display_name,
@@ -47,9 +70,6 @@ class UseradminController(RoutingController):
                     user_name = user.user_name,
                 ),
             )
-
-        if id != 'new':
-            DBSession.add(user)
 
         return dict(
             user = user,
@@ -63,7 +83,13 @@ class UseradminController(RoutingController):
     @validate(user_form, error_handler=edit)
     def save(self, id, email_address, display_name, login_details,
              delete=None, **kwargs):
-        """Create or edit the metadata for a user item."""
+        """Save changes or create a new :class:`~simpleplex.model.auth.User` instance.
+
+        :param id: User ID. If ``"new"`` a new user is created.
+        :type id: ``int`` or ``"new"``
+        :returns: Redirect back to :meth:`index` after successful save.
+
+        """
         user = fetch_row(User, id)
 
         if delete:
@@ -78,8 +104,11 @@ class UseradminController(RoutingController):
         if password is not None and password != '':
             user.password = password
 
-        group = fetch_row(Group, login_details['group']) if login_details['group'] else None
-        user.groups = [group]
+        if login_details['group']:
+            group = fetch_row(Group, login_details['group'])
+            user.groups = [group]
+        else:
+            user.groups = []
 
         DBSession.add(user)
         DBSession.flush()
@@ -88,7 +117,12 @@ class UseradminController(RoutingController):
 
     @expose('json')
     def delete(self, id, **kwargs):
-        """Delete a user item"""
+        """Delete a user.
+
+        :param id: User ID.
+        :type id: ``int``
+        :returns: Redirect back to :meth:`index` after successful delete.
+        """
         user = fetch_row(User, id)
         DBSession.delete(user)
 

@@ -21,14 +21,24 @@ from simpleplex.forms.podcasts import PodcastForm
 podcast_form = PodcastForm()
 album_art_form = AlbumArtForm()
 
+
 class PodcastadminController(RoutingController):
-    """Admin podcast actions which deal with groups of podcasts"""
     allow_only = has_permission('admin')
 
     @expose_xhr('simpleplex.templates.admin.podcasts.index',
                 'simpleplex.templates.admin.podcasts.index-table')
     @paginate('podcasts', items_per_page=10)
-    def index(self, page=1, search=None, podcast=None, **kw):
+    def index(self, page=1, **kw):
+        """List podcasts with pagination.
+
+        :param page: Page number, defaults to 1.
+        :type page: int
+        :rtype: Dict
+        :returns:
+            podcasts
+                The list of :class:`~simpleplex.model.podcasts.Podcast`
+                instances for this page.
+        """
         podcasts = DBSession.query(Podcast)\
             .options(undefer('media_count'))\
             .order_by(Podcast.title)
@@ -37,6 +47,29 @@ class PodcastadminController(RoutingController):
 
     @expose('simpleplex.templates.admin.podcasts.edit')
     def edit(self, id, **values):
+        """Display the podcast forms for editing or adding.
+
+        This page serves as the error_handler for every kind of edit action,
+        if anything goes wrong with them they'll be redirected here.
+
+        :param id: Podcast ID
+        :type id: ``int`` or ``"new"``
+        :param \*\*kwargs: Extra args populate the form for ``"new"`` podcasts
+        :returns:
+            podcast
+                :class:`~simpleplex.model.podcasts.Podcast` instance
+            form
+                :class:`~simpleplex.forms.podcasts.PodcastForm` instance
+            form_action
+                ``str`` form submit url
+            form_values
+                ``dict`` form values
+            album_art_form
+                :class:`~simpleplex.forms.podcasts.AlbumArtForm` instance
+            album_art_action
+                ``str`` form submit url
+
+        """
         podcast = fetch_row(Podcast, id)
 
         explicit_values = dict(yes=True, clean=False)
@@ -76,6 +109,15 @@ class PodcastadminController(RoutingController):
     @validate(podcast_form, error_handler=edit)
     def save(self, id, slug, title, subtitle, author_name, author_email,
              description, details, delete=None, **kwargs):
+        """Save changes or create a new :class:`~simpleplex.model.podcasts.Podcast` instance.
+
+        Form handler the :meth:`edit` action and the
+        :class:`~simpleplex.forms.podcasts.PodcastForm`.
+
+        Redirects back to :meth:`edit` after successful editing
+        and :meth:`index` after successful deletion.
+
+        """
         podcast = fetch_row(Podcast, id)
 
         if delete:
@@ -102,14 +144,26 @@ class PodcastadminController(RoutingController):
     @expose('json')
     @validate(album_art_form, error_handler=edit)
     def save_album_art(self, id, album_art, **values):
+        """Save album art uploaded with :class:`~simpleplex.forms.media.AlbumArtForm`.
+
+        :param id: Media ID. If ``"new"`` a new Media stub is created with
+            :func:`~simpleplex.model.media.create_podcast_stub`.
+        :type id: ``int`` or ``"new"``
+        :param file: The uploaded file
+        :type file: :class:`cgi.FieldStorage` or ``None``
+        :rtype: JSON dict
+        :returns:
+            success
+                bool
+            message
+                Error message, if unsuccessful
+            id
+                The :attr:`~simpleplex.model.podcasts.Podcast.id` which is
+                important if a new podcast has just been created.
+
+        """
         if id == 'new':
-            podcast = Podcast()
-            podcast.slug = 'placeholder'
-            podcast.title = '(Placeholder Podcast)'
-            user = request.environ['repoze.who.identity']['user']
-            podcast.author = Author(user.display_name, user.email_address)
-            DBSession.add(podcast)
-            DBSession.flush()
+            podcast = create_podcast_stub()
         else:
             podcast = fetch_row(Podcast, id)
 

@@ -1,3 +1,6 @@
+"""
+Comment Moderation Controller
+"""
 from tg import expose, validate, flash, require, url, request
 from pylons.i18n import ugettext as _
 from sqlalchemy import and_, or_
@@ -11,14 +14,42 @@ from simpleplex.model import DBSession, metadata, fetch_row, Comment, Tag, Autho
 from simpleplex.forms.admin import SearchForm
 from simpleplex.forms.comments import EditCommentForm
 
+edit_form = EditCommentForm()
+
+
 class CommentadminController(RoutingController):
-    """Admin comment actions which deal with groups of comments"""
     allow_only = has_permission('admin')
 
     @expose_xhr('simpleplex.templates.admin.comments.index',
                 'simpleplex.templates.admin.comments.index-table')
     @paginate('comments', items_per_page=50)
     def index(self, page=1, search=None, media_filter=None, **kwargs):
+        """List comments with pagination and filtering.
+
+        :param page: Page number, defaults to 1.
+        :type page: int
+        :param search: Optional search term to filter by
+        :type search: unicode or None
+        :param media_filter: Optional media ID to filter by
+        :type media_filter: int or None
+        :rtype: dict
+        :returns:
+            comments
+                The list of :class:`~simpleplex.model.comments.Comment` instances
+                for this page.
+            edit_form
+                The :class:`simpleplex.forms.comments.EditCommentForm` instance,
+                to be rendered for each instance in ``comments``.
+            search
+                The given search term, if any
+            search_form
+                The :class:`~simpleplex.forms.admin.SearchForm` instance
+            media_filter
+                The given podcast ID to filter by, if any
+            media_filter_title
+                The media title for rendering if a ``media_filter`` was specified.
+
+        """
         comments = DBSession.query(Comment)\
             .filter(Comment.status.excludes('trash'))\
             .order_by(Comment.status.desc(), Comment.created_on.desc())
@@ -38,59 +69,50 @@ class CommentadminController(RoutingController):
 
         return dict(
             comments = comments,
-            edit_form = EditCommentForm(),
+            edit_form = edit_form,
             media_filter = media_filter,
             media_filter_title = media_filter_title,
             search = search,
             search_form = not request.is_xhr and SearchForm(action=url_for()),
         )
 
-    @expose_xhr()
-    def approve(self, id, **kwargs):
-        """Approves comment(s). If id='bulk' then looks in the post data for a
-           list of comment ids.
+    @expose('json')
+    def save_status(self, id, status, ids=None, **kwargs):
+        """Approve or delete a comment or comments.
+
+        :param id: A :attr:`~simpleplex.model.comments.Comment.id` if we are
+            acting on a single comment, or ``"bulk"`` if we should refer to
+            ``ids``.
+        :type id: ``int`` or ``"bulk"``
+        :param ids: An optional string of IDs separated by commas.
+        :type ids: ``unicode`` or ``None``
+        :param status: ``"approve"`` or ``"trash"`` depending on what action
+            the user requests.
+        :rtype: JSON dict
+        :returns:
+            success
+                bool
+            ids
+                A list of :attr:`~simpleplex.model.comments.Comment.id`
+                that have changed.
+
         """
-        # FIXME: This method used to return absolutely nothing.
-        # Our convention is to return JSON with a 'success' value for all ajax actions.
-        # The JS needs to be updated to check for this value.
-
-        ids = [id]
         if id == 'bulk':
-            ids = kwargs['ids'].split(',')
-
-        comments = DBSession.query(Comment)\
-            .filter(Comment.id.in_(ids))\
-            .all()
-
-        for comment in comments:
-            comment.status.discard('unreviewed')
-            comment.status.add('publish')
-            DBSession.add(comment)
-
-        if request.is_xhr:
-            return dict(success=True, ids=ids, comments=comments)
+            ids = ids.split(',')
         else:
-            redirect(action='index')
+            ids = [id]
 
-    @expose_xhr()
-    def trash(self, id, **kwargs):
-        """Trashes comment(s). If id='bulk' then looks in the post data for a
-           list of comment ids.
-        """
-        # FIXME: This method used to return absolutely nothing.
-        # Our convention is to return JSON with a 'success' value for all ajax actions.
-        # The JS needs to be updated to check for this value.
-
-        ids = [id]
-        if id == 'bulk':
-            ids = kwargs['ids'].split(',')
-
+        approve = status == 'approve'
         comments = DBSession.query(Comment)\
             .filter(Comment.id.in_(ids))\
             .all()
 
         for comment in comments:
-            comment.status.add('trash')
+            if approve:
+                comment.status.discard('unreviewed')
+                comment.status.add('publish')
+            else:
+                comment.status.add('trash')
             DBSession.add(comment)
 
         if request.is_xhr:
@@ -99,9 +121,23 @@ class CommentadminController(RoutingController):
             redirect(action='index')
 
     @expose('json')
-    def save(self, id, **kwargs):
-        comment = fetch_row(Comment, id)
-        comment.body = clean_xhtml(kwargs['body'])
+    def save_edit(self, id, body, **kwargs):
+        """Save an edit from :class:`~simpleplex.forms.comments.EditCommentForm`.
 
+        :param id: Comment ID
+        :type id: ``int``
+        :rtype: JSON dict
+        :returns:
+            success
+                bool
+            body
+                The edited comment body after validation/filtering
+
+        """
+        comment = fetch_row(Comment, id)
+        comment.body = clean_xhtml(body)
         DBSession.add(comment)
-        return dict(success=True,body=comment.body)
+        return dict(
+            success = True,
+            body = comment.body,
+        )

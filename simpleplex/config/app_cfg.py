@@ -48,7 +48,7 @@ class SimpleplexConfig(AppConfig):
         map.connect('/admin/podcasts/{id}/{action}', controller='podcastadmin', action='edit')
 
         map.connect('/admin/comments', controller='commentadmin', action='index')
-        map.connect('/admin/comments/{id}/{action}', controller='commentadmin', action='edit')
+        map.connect('/admin/comments/{id}/{status}', controller='commentadmin', action='save_status', requirements=dict(status='approve|trash'))
 
         map.connect('/admin/settings', controller='settingadmin', action='index')
         map.connect('/admin/settings/config', controller='settingadmin', action='edit')

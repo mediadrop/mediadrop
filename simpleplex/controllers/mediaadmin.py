@@ -43,6 +43,32 @@ class MediaadminController(RoutingController):
                 'simpleplex.templates.admin.media.index-table')
     @paginate('media', items_per_page=25)
     def index(self, page=1, search=None, podcast_filter=None, **kwargs):
+        """List media with pagination and filtering.
+
+        :param page: Page number, defaults to 1.
+        :type page: int
+        :param search: Optional search term to filter by
+        :type search: unicode or None
+        :param podcast_filter: Optional podcast to filter by
+        :type podcast_filter: int or None
+        :rtype: dict
+        :returns:
+            media
+                The list of :class:`~simpleplex.model.media.Media` instances
+                for this page.
+            search
+                The given search term, if any
+            search_form
+                The :class:`~simpleplex.forms.admin.SearchForm` instance
+            podcast_filter
+                The given podcast ID to filter by, if any
+            podcast_filter_title
+                The podcast name for rendering if a ``podcast_filter`` was specified.
+            podcast_filter_form
+                The :class:`~simpleplex.forms.media.PodcastFilterForm` instance.
+
+
+        """
         media = DBSession.query(Media)\
             .filter(Media.status.excludes('trash'))\
             .options(undefer('comment_count_published'))\
@@ -81,10 +107,40 @@ class MediaadminController(RoutingController):
     @expose('simpleplex.templates.admin.media.edit')
     @validate(validators={'podcast': validators.Int()})
     def edit(self, id, **kwargs):
-        """Display the edit forms, or create a new one if the ID is 'new'.
+        """Display the media forms for editing or adding.
 
         This page serves as the error_handler for every kind of edit action,
         if anything goes wrong with them they'll be redirected here.
+
+        :param id: Media ID
+        :type id: ``int`` or ``"new"``
+        :param \*\*kwargs: Extra args populate the form for ``"new"`` media
+        :returns:
+            media
+                :class:`~simpleplex.model.media.Media` instance
+            media_form
+                The :class:`~simpleplex.forms.media.MediaForm` instance
+            media_action
+                ``str`` form submit url
+            media_values
+                ``dict`` form values
+            file_add_form
+                The :class:`~simpleplex.forms.media.AddFileForm` instance
+            file_add_action
+                ``str`` form submit url
+            file_edit_form
+                The :class:`~simpleplex.forms.media.EditFileForm` instance
+            file_edit_action
+                ``str`` form submit url
+            album_art_form
+                The :class:`~simpleplex.forms.admin.AlbumArtForm` instance
+            album_art_action
+                ``str`` form submit url
+            update_status_form
+                The :class:`~simpleplex.forms.media.UpdateStatusForm` instance
+            update_status_action
+                ``str`` form submit url
+
         """
         media = fetch_row(Media, id, incl_trash=True)
 
@@ -132,7 +188,15 @@ class MediaadminController(RoutingController):
     @validate(media_form, error_handler=edit)
     def save(self, id, slug, title, author_name, author_email,
              description, notes, details, podcast, tags, topics, delete=None, **kwargs):
-        """Create or edit the metadata for a media item."""
+        """Save changes or create a new :class:`~simpleplex.model.media.Media` instance.
+
+        Form handler the :meth:`edit` action and the
+        :class:`~simpleplex.forms.media.MediaForm`.
+
+        Redirects back to :meth:`edit` after successful editing
+        and :meth:`index` after successful deletion.
+
+        """
         media = fetch_row(Media, id, incl_trash=True)
 
         if delete:
@@ -141,7 +205,7 @@ class MediaadminController(RoutingController):
             DBSession.flush()
             redirect(action='index', id=None)
 
-        if media.id == 'new':
+        if id == 'new':
             media.status = 'draft,unencoded,unreviewed'
 
         media.slug = get_available_slug(Media, slug, media)
@@ -164,6 +228,37 @@ class MediaadminController(RoutingController):
     @expose('json')
     @validate(add_file_form)
     def add_file(self, id, file=None, url=None, **kwargs):
+        """Save action for the :class:`~simpleplex.forms.media.AddFileForm`.
+
+        Creates a new :class:`~simpleplex.model.media.MediaFile` from the
+        uploaded file or the local or remote URL.
+
+        :param id: Media ID. If ``"new"`` a new Media stub is created with
+            :func:`~simpleplex.model.media.create_media_stub`.
+        :type id: :class:`int` or ``"new"``
+        :param file: The uploaded file
+        :type file: :class:`cgi.FieldStorage` or ``None``
+        :param url: A URL to a recognizable audio or video file
+        :type url: :class:`unicode` or ``None``
+        :rtype: JSON dict
+        :returns:
+            success
+                bool
+            message
+                Error message, if unsuccessful
+            media_id
+                The :attr:`~simpleplex.model.media.Media.id` which is
+                important if new media has just been created.
+            file_id
+                The :attr:`~simpleplex.model.media.MediaFile.id` for the newly
+                created file.
+            edit_form
+                The rendered XHTML :class:`~simpleplex.forms.media.EditFileForm`
+                for this file.
+            status_form
+                The rendered XHTML :class:`~simpleplex.forms.media.UpdateStatusForm`
+
+        """
         if id == 'new':
             media = create_media_stub()
         else:
@@ -225,6 +320,19 @@ class MediaadminController(RoutingController):
     @validate(validators={'file_id': validators.Int(),
                           'budge_infront_id': validators.Int()})
     def reorder_file(self, id, file_id, budge_infront_id, **kwargs):
+        """Change the position of the given file relative to the 2nd file.
+
+        :param file_id: The file to move
+        :type file_id: ``int``
+        :param budge_infront_id: The file whos position the first file takes.
+            All files behind/after this file are bumped back as well.
+        :type budge_infront_id: ``int`` or ``None``
+        :rtype: JSON dict
+        :returns:
+            success
+                bool
+
+        """
         media = fetch_row(Media, id, incl_trash=True)
         media.reposition_file(file_id, budge_infront_id)
         DBSession.add(media)
@@ -236,6 +344,23 @@ class MediaadminController(RoutingController):
     @validate(edit_file_form, error_handler=edit)
     def edit_file(self, id, file_id, player_enabled, feed_enabled,
                   toggle_feed, toggle_player, delete, **kwargs):
+        """Save action for the :class:`~simpleplex.forms.media.EditFileForm`.
+
+        Changes or delets a :class:`~simpleplex.model.media.MediaFile`.
+
+        :param id: Media ID
+        :type id: :class:`int`
+        :rtype: JSON dict
+        :returns:
+            success
+                bool
+            message
+                Error message, if unsuccessful
+            status_form
+                Rendered XHTML for the status form, updated to reflect the
+                changes made.
+
+        """
         media = fetch_row(Media, id, incl_trash=True)
         data = {}
 
@@ -284,6 +409,24 @@ class MediaadminController(RoutingController):
     @expose('json')
     @validate(album_art_form, error_handler=edit)
     def save_album_art(self, id, album_art, **kwargs):
+        """Save album art uploaded with :class:`~simpleplex.forms.media.AlbumArtForm`.
+
+        :param id: Media ID. If ``"new"`` a new Media stub is created with
+            :func:`~simpleplex.model.media.create_media_stub`.
+        :type id: ``int`` or ``"new"``
+        :param file: The uploaded file
+        :type file: :class:`cgi.FieldStorage` or ``None``
+        :rtype: JSON dict
+        :returns:
+            success
+                bool
+            message
+                Error message, if unsuccessful
+            id
+                The :attr:`~simpleplex.model.media.Media.id` which is
+                important if a new media has just been created.
+
+        """
         if id == 'new':
             media = create_media_stub()
         else:
@@ -330,6 +473,27 @@ class MediaadminController(RoutingController):
     @expose('json')
     @validate(update_status_form, error_handler=edit)
     def update_status(self, id, update_button=None, publish_on=None, **values):
+        """Update the publish status for the given media.
+
+        :param id: Media ID
+        :type id: ``int``
+        :param update_status: The text of the submit button which indicates
+            that the :attr:`~simpleplex.model.media.Media.status` should change.
+        :type update_status: ``unicode`` or ``None``
+        :param publish_on: A date to set to
+            :attr:`~simpleplex.model.media.Media.publish_on`
+        :type publish_on: :class:`datetime.datetime` or ``None``
+        :rtype: JSON dict
+        :returns:
+            success
+                bool
+            message
+                Error message, if unsuccessful
+            status_form
+                Rendered XHTML for the status form, updated to reflect the
+                changes made.
+
+        """
         media = fetch_row(Media, id, incl_trash=True)
 
         # Make the requested change assuming it will be allowed
