@@ -25,4 +25,3 @@ XHTML Handling
 
 .. autofunction:: line_break_xhtml
 
-

@@ -13,12 +13,11 @@ from urlparse import urlparse
 from datetime import datetime, timedelta, date
 from tg import expose, validate, request, response, config, tmpl_context
 from tg.exceptions import HTTPNotFound
-from tg.decorators import paginate
 from formencode import validators
 from sqlalchemy import sql, orm
 
 from simpleplex.lib import helpers, email
-from simpleplex.lib.helpers import expose_xhr, redirect, url_for, clean_xhtml, strip_xhtml, line_break_xhtml, fetch_setting
+from simpleplex.lib.helpers import expose_xhr, paginate, redirect, url_for, clean_xhtml, strip_xhtml, line_break_xhtml, fetch_setting
 from simpleplex.lib.base import RoutingController
 from simpleplex.model import DBSession, fetch_row, get_available_slug, Media, MediaFile, Comment, Tag, Topic, Author, AuthorWithIP, Podcast
 from simpleplex.forms.media import UploadForm
@@ -39,6 +38,12 @@ class MediaController(RoutingController):
     """Media actions -- for both regular and podcast media"""
 
     def __init__(self, *args, **kwargs):
+        """Populate the :obj:`pylons.tmpl_context`` with topics.
+
+        Used by :data:`simpleplex.templates.helpers` to render the
+        topic index flyout slider.
+
+        """
         super(MediaController, self).__init__(*args, **kwargs)
         tmpl_context.topics = DBSession.query(Topic)\
             .options(orm.undefer('published_media_count'))\
@@ -46,80 +51,55 @@ class MediaController(RoutingController):
             .order_by(Topic.name)\
             .all()
 
+
     @expose('simpleplex.templates.media.index')
     @paginate('media', items_per_page=20)
     def index(self, page=1, **kwargs):
-        """Expose a paginated list.
+        """List media with pagination.
 
-        Template: :mod:`simpleplex.templates.media.index`
-        Context:
+        The media paginator may be accessed in the template with
+        :attr:`c.paginators.media`, see :class:`webhelpers.paginate.Page`.
+
+        :param page: Page number, defaults to 1.
+        :type page: int
+        :rtype: dict
+        :returns:
             media
+                The list of :class:`~simpleplex.model.media.Media` instances
+                for this page.
 
-        :param page: Optional
         """
         return dict(
             media = self._list_query.options(orm.undefer('comment_count')),
         )
 
-    @expose('simpleplex.templates.media.lessons')
-    @paginate('media', items_per_page=20)
-    def lessons(self, page=1, topics=None, **kwargs):
-        """Grid-style List Action"""
-        try:
-            topic = fetch_row(Topic, slug='bible-lesson')
-            media = DBSession.query(Media)\
-                .filter(Media.topics.contains(topic))\
-                .filter(Media.status >= 'publish')\
-                .filter(Media.publish_on <= datetime.now())\
-                .filter(Media.status.excludes('trash'))\
-                .filter(Media.podcast_id == None)\
-                .order_by(Media.publish_on.desc())\
-                .options(orm.undefer('comment_count_published'))
-        except HTTPNotFound:
-            media = []
-
-        today = date.today()
-        sunday = today - timedelta(days=today.weekday()+1)
-        sunday = datetime(sunday.year, sunday.month, sunday.day)
-
-        return dict(
-            media = media,
-            week_start = sunday,
-        )
-
-    @expose('simpleplex.templates.media.lesson_view')
-    def lesson_view(self, slug, **kwargs):
-        """Display the media player and comments"""
-        media = fetch_row(Media, slug=slug)
-        next_episode = None
-        media.views += 1
-
-        return dict(
-            media = media,
-            comment_form = PostCommentForm(action=url_for(action='lesson_comment')),
-            comment_form_action = url_for(action='comment'),
-            comment_form_values = kwargs,
-            next_episode = next_episode,
-        )
-
-    @expose()
-    @validate(PostCommentForm(), error_handler=lesson_view)
-    def lesson_comment(self, slug, **values):
-        media = fetch_row(Media, slug=slug)
-        c = Comment()
-        c.status = 'unreviewed'
-        c.author = AuthorWithIP(values['name'], None, request.environ['REMOTE_ADDR'])
-        c.subject = 'Re: %s' % media.title
-        c.body = clean_xhtml(values['body'])
-
-        media.comments.append(c)
-        DBSession.add(media)
-        email.send_comment_notification(media, c)
-        redirect(action='lesson_view')
 
     @expose('simpleplex.templates.media.view')
     def view(self, slug, podcast_slug=None, **kwargs):
-        """Display the media player and comments"""
+        """Display the media player, info and comments.
+
+        :param slug: The :attr:`~simpleplex.models.media.Media.slug` to lookup
+        :param podcast_slug: The :attr:`~simpleplex.models.podcasts.Podcast.slug`
+            for podcast this media belongs to. Although not necessary for
+            looking up the media, it tells us that the podcast slug was
+            specified in the URL and therefore we reached this action by the
+            preferred route.
+        :rtype dict:
+        :returns:
+            media
+                The :class:`~simpleplex.model.media.Media` instance for display.
+            comment_form
+                The :class:`~simpleplex.forms.comments.PostCommentForm` instance.
+            comment_form_action
+                ``str`` comment form action
+            comment_form_values
+                ``dict`` form values
+            next_episode
+                The next episode in the podcast series, if this media belongs to
+                a podcast, another :class:`~simpleplex.model.media.Media`
+                instance.
+
+        """
         media = fetch_row(Media, slug=slug)
         media.views += 1
 
@@ -150,17 +130,18 @@ class MediaController(RoutingController):
     @expose('json')
     def latest(self, type=None, podcast=None, ignore=None,
                topic=None, tag=None, **kwargs):
-        """
-        EXPOSE the basic properties of the latest media object
-        TODO: work this into a more general, documented, API scheme
+        """Expose basic info of the latest media object.
 
-        Arguments:
-            type    - audio, video, or None for either
-            podcast - a podcast slug or empty string
-            topic   - a topic slug
-            ignore  - an id to always exclude from results.
-                      this allows us to fetch two DIFFERENT results
-                      when calling this action twice.
+        .. todo:: Work this into a more general, documented API scheme.
+
+        :param type: ``audio``, ``video``, or ``None`` for either
+        :param podcast: A :attr:`simpleplx.modelpodcast slug or empty string
+        :param topic: A topic slug
+        :param ignore: An id to always exclude from results.
+            this allows us to fetch two DIFFERENT results
+            when calling this action twice.
+        :rtype: JSON dict
+
         """
         media_query = self._published_media_query
 
@@ -200,9 +181,12 @@ class MediaController(RoutingController):
 
     @expose('json')
     def most_popular(self, **kwargs):
-        """
-        EXPOSE the basic properties of the most popular media object
-        TODO: work this into a more general, documented, API scheme
+        """Expose basic info of the latest media object.
+
+        .. todo:: Work this into a more general, documented API scheme.
+
+        :rtype: JSON dict
+
         """
         media_query = DBSession.query(Media)\
             .filter(Media.status >= 'publish')\
@@ -237,6 +221,163 @@ class MediaController(RoutingController):
             podcast = media.podcast and media.podcast.slug or None,
         )
 
+    @expose_xhr()
+    @validate(validators=dict(rating=validators.Int()))
+    def rate(self, slug, rating=1, **kwargs):
+        """Rate up or down the given media.
+
+        :param slug: The media :attr:`~simpleplex.model.media.Media.slug`
+        :param rating: ``1`` or ``0`` if the rating is up or down.
+        :rtype: JSON dict
+        :returns:
+            succcess
+                bool
+            upRating
+                Pluralized count of up raters, "# people" or "1 person"
+            downRating
+                Pluralized count of down raters, "# people" or "1 person"
+
+        """
+        media = fetch_row(Media, slug=slug)
+
+        if rating > 0:
+            media.rating.add_vote(1)
+        else:
+            media.rating.add_vote(0)
+        DBSession.add(media)
+
+        if request.is_xhr:
+            return dict(
+                success = True,
+                upRating = helpers.text.plural(media.rating.sum, 'person', 'people'),
+                downRating = None,
+            )
+        else:
+            redirect(action='view')
+
+
+    @expose()
+    @validate(post_comment_form, error_handler=view)
+    def comment(self, slug, **values):
+        """Post a comment from :class:`~simpleplex.forms.media.PostCommentForm`.
+
+        :param slug: The media :attr:`~simpleplex.model.media.Media.slug`
+        :returns: Redirect to :meth:`view` page for media.
+
+        """
+        media = fetch_row(Media, slug=slug)
+        c = Comment()
+        c.status = 'unreviewed'
+        c.author = AuthorWithIP(values['name'], None, request.environ['REMOTE_ADDR'])
+        c.subject = 'Re: %s' % media.title
+        c.body = clean_xhtml(values['body'])
+
+        media.comments.append(c)
+        DBSession.add(media)
+        email.send_comment_notification(media, c)
+        redirect(action='view')
+
+
+    @expose()
+    @validate(validators={'id': validators.Int()})
+    def serve(self, id, slug, type, **kwargs):
+        """Serve a :class:`~simpleplex.model.media.MediaFile` binary.
+
+        :param id: File ID
+        :type id: ``int``
+        :param slug: The media :attr:`~simpleplex.model.media.Media.slug`
+        :type: The file :attr:`~simpleplex.model.media.MediaFile.type`
+        :raises tg.exceptions.HTTPNotFound: If no file exists for the given params.
+
+        """
+        media = fetch_row(Media, slug=slug)
+
+        for file in media.files:
+            if file.id == id and file.type == type:
+                # Redirect to an external URL
+                if urlparse(file.url)[1]:
+                    redirect(file.url.encode('utf-8'))
+                file_path = os.path.join(config.media_dir, file.url)
+                file_handle = open(file_path, 'rb')
+                response.content_type = file.mimetype
+                return file_handle.read()
+        else:
+            raise HTTPNotFound()
+
+    @expose('simpleplex.templates.media.mediaflow')
+    def flow(self, page=1, **kwargs):
+        """Display the most recent 15 media.
+
+        :rtype: Dict
+        :returns:
+            media
+                Latest media
+
+        """
+        return dict(
+            media = self._list_query[:15],
+        )
+
+
+    @expose('simpleplex.templates.media.lessons')
+    @paginate('media', items_per_page=20)
+    def lessons(self, page=1, topics=None, **kwargs):
+        """"""
+        try:
+            topic = fetch_row(Topic, slug='bible-lesson')
+            media = DBSession.query(Media)\
+                .filter(Media.topics.contains(topic))\
+                .filter(Media.status >= 'publish')\
+                .filter(Media.publish_on <= datetime.now())\
+                .filter(Media.status.excludes('trash'))\
+                .filter(Media.podcast_id == None)\
+                .order_by(Media.publish_on.desc())\
+                .options(orm.undefer('comment_count_published'))
+        except HTTPNotFound:
+            media = []
+
+        today = date.today()
+        sunday = today - timedelta(days=today.weekday()+1)
+        sunday = datetime(sunday.year, sunday.month, sunday.day)
+
+        return dict(
+            media = media,
+            week_start = sunday,
+        )
+
+
+    @expose('simpleplex.templates.media.lesson_view')
+    def lesson_view(self, slug, **kwargs):
+        """TMCYouth-specific media viewer"""
+        media = fetch_row(Media, slug=slug)
+        next_episode = None
+        media.views += 1
+
+        return dict(
+            media = media,
+            comment_form = PostCommentForm(action=url_for(action='lesson_comment')),
+            comment_form_action = url_for(action='comment'),
+            comment_form_values = kwargs,
+            next_episode = next_episode,
+        )
+
+
+    @expose()
+    @validate(PostCommentForm(), error_handler=lesson_view)
+    def lesson_comment(self, slug, **values):
+        """TMCYouth-specific comment save action"""
+        media = fetch_row(Media, slug=slug)
+        c = Comment()
+        c.status = 'unreviewed'
+        c.author = AuthorWithIP(values['name'], None, request.environ['REMOTE_ADDR'])
+        c.subject = 'Re: %s' % media.title
+        c.body = clean_xhtml(values['body'])
+
+        media.comments.append(c)
+        DBSession.add(media)
+        email.send_comment_notification(media, c)
+        redirect(action='lesson_view')
+
     @expose('simpleplex.templates.media.concept_view')
     def concept_view(self, slug, podcast_slug=None, **kwargs):
         """Display the media player and comments"""
@@ -264,68 +405,6 @@ class MediaController(RoutingController):
         DBSession.add(media)
         email.send_comment_notification(media, c)
         redirect(action='concept_view')
-
-
-    @expose_xhr()
-    @validate(validators=dict(rating=validators.Int()))
-    def rate(self, slug, rating=1, **kwargs):
-        media = fetch_row(Media, slug=slug)
-
-        if rating > 0:
-            media.rating.add_vote(1)
-        else:
-            media.rating.add_vote(0)
-        DBSession.add(media)
-
-        if request.is_xhr:
-            return dict(
-                success = True,
-                upRating = helpers.text.plural(media.rating.sum, 'person', 'people'),
-                downRating = None,
-            )
-        else:
-            redirect(action='view')
-
-
-    @expose()
-    @validate(post_comment_form, error_handler=view)
-    def comment(self, slug, **values):
-        media = fetch_row(Media, slug=slug)
-        c = Comment()
-        c.status = 'unreviewed'
-        c.author = AuthorWithIP(values['name'], None, request.environ['REMOTE_ADDR'])
-        c.subject = 'Re: %s' % media.title
-        c.body = clean_xhtml(values['body'])
-
-        media.comments.append(c)
-        DBSession.add(media)
-        email.send_comment_notification(media, c)
-        redirect(action='view')
-
-
-    @expose()
-    @validate(validators={'id': validators.Int()})
-    def serve(self, id, slug, type, **kwargs):
-        media = fetch_row(Media, slug=slug)
-
-        for file in media.files:
-            if file.id == id and file.type == type:
-                # Redirect to an external URL
-                if urlparse(file.url)[1]:
-                    redirect(file.url.encode('utf-8'))
-                file_path = os.path.join(config.media_dir, file.url)
-                file_handle = open(file_path, 'rb')
-                response.content_type = file.mimetype
-                return file_handle.read()
-        else:
-            raise HTTPNotFound()
-
-    @expose('simpleplex.templates.media.mediaflow')
-    def flow(self, page=1, **kwargs):
-        """Mediaflow Action"""
-        return dict(
-            media = self._list_query[:15],
-        )
 
     @expose('simpleplex.templates.media.concept_preview')
     def concept_preview(self, page=1, **kwargs):
@@ -409,6 +488,20 @@ class MediaController(RoutingController):
 
     @expose('simpleplex.templates.media.upload')
     def upload(self, **kwargs):
+        """Display the upload form.
+
+        :rtype: Dict
+        :returns:
+            legal_wording
+                XHTML legal wording for rendering
+            support_email
+                An help contact address
+            upload_form
+                The :class:`~simpleplex.forms.media.UploadForm` instance
+            form_values
+                ``dict`` form values, if any
+
+        """
         return dict(
             legal_wording = fetch_setting('wording_user_uploads'),
             support_email = fetch_setting('email_support_requests'),
@@ -419,6 +512,33 @@ class MediaController(RoutingController):
     @expose('json')
     @validate(upload_form)
     def upload_submit_async(self, **kwargs):
+        """Ajax form validation and/or submission.
+
+        This is the save handler for :class:`~simpleplex.forms.media.UploadForm`.
+
+        When ajax is enabled this action is called for each field as the user
+        fills them in. Although the entire form is validated, the JS only
+        provides the value of one field at a time,
+
+        :param validate: A JSON list of field names to check for validation
+        :parma \*\*kwargs: One or more form field values.
+        :rtype: JSON dict
+        :returns:
+            :When validating one or more fields:
+
+            valid
+                bool
+            err
+                A dict of error messages keyed by the field names
+
+            :When saving an upload:
+
+            success
+                bool
+            redirect
+                If valid, the redirect url for the upload successful page.
+
+        """
         if 'validate' in kwargs:
             # we're just validating the fields. no need to worry.
             fields = json.loads(kwargs['validate'])
@@ -468,6 +588,8 @@ class MediaController(RoutingController):
     @expose()
     @validate(upload_form, error_handler=upload)
     def upload_submit(self, **kwargs):
+        """
+        """
         kwargs.setdefault('name')
         kwargs.setdefault('tags')
 
@@ -521,6 +643,7 @@ class MediaController(RoutingController):
         DBSession.add(media_obj)
 
         return media_obj
+
 
 # FIXME: The following helper methods should perhaps  be moved to the media controller.
 #        or some other more generic place.
@@ -594,6 +717,7 @@ def _store_media_file_ftp(file, file_name):
     FTPSession.quit()
 
     return file_url
+
 
 def _verify_ftp_upload_integrity(file, file_url):
     """Download the file, and make sure that it matches the original.
