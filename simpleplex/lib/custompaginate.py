@@ -114,6 +114,7 @@ def paginate(name, items_per_page=10, use_prefix=False, items_first_page=None):
                     collection,
                     page,
                     items_per_page=real_items_per_page,
+                    items_first_page=items_first_page,
                     **additional_parameters.dict_of_lists()
                     )
                 # wrap the pager so that it will render
