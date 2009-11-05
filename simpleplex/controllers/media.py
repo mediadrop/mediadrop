@@ -286,7 +286,7 @@ class MediaController(RoutingController):
         :param id: File ID
         :type id: ``int``
         :param slug: The media :attr:`~simpleplex.model.media.Media.slug`
-        :type: The file :attr:`~simpleplex.model.media.MediaFile.type`
+        :type slug: The file :attr:`~simpleplex.model.media.MediaFile.type`
         :raises tg.exceptions.HTTPNotFound: If no file exists for the given params.
 
         """
@@ -297,9 +297,12 @@ class MediaController(RoutingController):
                 # Redirect to an external URL
                 if urlparse(file.url)[1]:
                     redirect(file.url.encode('utf-8'))
+                file_name = '%s-%s.%s' % (media.slug, file.id, file.type)
                 file_path = os.path.join(config.media_dir, file.url)
                 file_handle = open(file_path, 'rb')
                 response.content_type = file.mimetype
+                response.headers['Content-Disposition'] = \
+                    'attachment;filename=%s' % file_name
                 return file_handle.read()
         else:
             raise HTTPNotFound()
