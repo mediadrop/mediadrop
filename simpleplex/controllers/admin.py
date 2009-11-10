@@ -78,6 +78,7 @@ class AdminController(RoutingController):
             comment_count_trash = comment_count_trash,
         )
 
+
     @expose('simpleplex.templates.admin.media.dash-table')
     def media_table(self, table, page, **kwargs):
         """Fetch XHTML to inject when the 'showmore' ajax action is clicked.
