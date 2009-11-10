@@ -1,3 +1,5 @@
+.. _dev_controllers_public:
+
 ==================
 Public Controllers
 ==================
@@ -22,6 +24,16 @@ Podcasts
 .. automodule:: simpleplex.controllers.podcasts
 
 .. autoclass:: PodcastsController
+   :members:
+   :undoc-members:
+
+
+Error Messages
+--------------
+
+.. automodule:: simpleplex.controllers.error
+
+.. autoclass:: ErrorController
    :members:
    :undoc-members:
 

@@ -1,3 +1,5 @@
+.. _dev_controllers_admin:
+
 =================
 Admin Controllers
 =================

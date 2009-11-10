@@ -1,3 +1,5 @@
+.. _dev_models_toplevel:
+
 =========
 Model API
 =========

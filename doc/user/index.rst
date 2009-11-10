@@ -1,3 +1,6 @@
+.. _user_toplevel:
+
+==========
 User Guide
 ==========
 
@@ -8,7 +11,7 @@ workflows you'll be good to go!
 .. note::
 
    This documentation is intended for content managers and administrators.
-   For technical details see the :ref:`dev`.
+   For technical details see the :ref:`dev_toplevel`.
 
 .. toctree::
 

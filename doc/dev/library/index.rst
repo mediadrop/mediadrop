@@ -1,3 +1,5 @@
+.. _dev_lib_toplevel:
+
 =======
 Library
 =======
