@@ -1,3 +1,0 @@
-PasteScript
-Pylons
-TurboGears2
