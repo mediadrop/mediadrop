@@ -5,13 +5,16 @@ except ImportError:
     use_setuptools()
     from setuptools import setup, find_packages
 
+from simpleplex import __version__ as VERSION
+
 setup(
     name='Simpleplex',
-    version='0.1',
-    description='',
-    author='',
-    author_email='',
-    #url='',
+    version=VERSION,
+    description='Simpleplex is a media-oriented content manager.',
+    author='Simplestation Inc.',
+    author_email='info@simplestation.com',
+    url='http://simplestation.com/',
+
     install_requires=[
         "TurboGears2",
         "ToscaWidgets >= 0.9.1",
@@ -19,16 +22,28 @@ setup(
         "zope.sqlalchemy",
         "sqlalchemy >= 0.5.2",
         "repoze.what-quickstart",
-        # FIXME: we actually require a customized version of Beautiful Soup
-        # Patch pending: https://bugs.launchpad.net/beautifulsoup/+bug/397997
-        "BeautifulSoup == 3.0.7a"
-                ],
-    setup_requires=["PasteScript>=1.6.3"],
-    paster_plugins=['PasteScript', 'Pylons', 'TurboGears2'],
+        "BeautifulSoup == 3.0.7a",
+            # We monkeypatch this version of BeautifulSoup in simpleplex.__init__
+            # Patch pending: https://bugs.launchpad.net/beautifulsoup/+bug/397997
+        "PIL",
+        ],
+    setup_requires=[
+        "PasteScript >= 1.6.3"
+        ],
+    paster_plugins=[
+        'PasteScript',
+        'Pylons',
+        'TurboGears2',
+        ],
+
+    test_suite='nose.collector',
+    tests_require=[
+        'WebTest',
+        'BeautifulSoup',
+        ],
+
     packages=find_packages(exclude=['ez_setup']),
     include_package_data=True,
-    test_suite='nose.collector',
-    tests_require=['WebTest', 'BeautifulSoup'],
     package_data={'simpleplex': ['i18n/*/LC_MESSAGES/*.mo',
                                  'templates/*/*',
                                  'public/*/*']},
