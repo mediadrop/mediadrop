@@ -13,7 +13,7 @@ def ipython():
     This only works with the Pylons paster server, and obviously ipython
     must be installed as well. Usage::
 
-    simpleplex.ipython()()
+        simpleplex.ipython()()
 
     """
     from IPython.Shell import IPShellEmbed
@@ -36,16 +36,23 @@ def monkeypatch_method(cls):
         return func
     return decorator
 
-# Monkey Patch Beautiful Soup
-from BeautifulSoup import NavigableString as _NavigableString
-@monkeypatch_method(_NavigableString)
-def __eq__(self, other):
-    """Monkey-patch inserted method.
 
-    This patch is a temporary solution to the problem described here:
-        http://bugs.launchpad.net/beautifulsoup/+bug/397997
-    """
-    if isinstance(other, _NavigableString):
-        return other is self
-    else:
-        return unicode.__eq__(self, other)
+# Monkey Patch Beautiful Soup
+try:
+    from BeautifulSoup import NavigableString as _NavigableString
+    @monkeypatch_method(_NavigableString)
+    def __eq__(self, other):
+        """Monkey-patch inserted method.
+
+        This patch is a temporary solution to the problem described here:
+            http://bugs.launchpad.net/beautifulsoup/+bug/397997
+        """
+        if isinstance(other, _NavigableString):
+            return other is self
+        else:
+            return unicode.__eq__(self, other)
+except ImportError:
+    # When setup.py is called to load our dependencies such as BeautifulSoup,
+    # this will fail. For now we'll just silently allow this to proceed.
+    # TODO: Move this monkeypatch??
+    pass
