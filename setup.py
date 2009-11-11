@@ -25,7 +25,6 @@ setup(
         "BeautifulSoup == 3.0.7a",
             # We monkeypatch this version of BeautifulSoup in simpleplex.__init__
             # Patch pending: https://bugs.launchpad.net/beautifulsoup/+bug/397997
-        "PIL",
         ],
     setup_requires=[
         "PasteScript >= 1.6.3"
