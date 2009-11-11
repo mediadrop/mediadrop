@@ -1,75 +1,18 @@
 from tg.configuration import AppConfig, Bunch, config
-from routes import Mapper
 
 import simpleplex
 from simpleplex import model
+from simpleplex.config.routes import make_map
 from simpleplex.lib import app_globals, helpers, auth
 
+# Routes are defined separately, and we must override the very basic default
+# TG route setup prior to its instantiation.
 class SimpleplexConfig(AppConfig):
+    """:class:`tg.configuration.AppConfig` extension for :mod:`routes` usage"""
     def setup_routes(self):
-        """Setup our custom named routes"""
-        map = Mapper(directory=config['pylons.paths']['controllers'],
-                    always_scan=config['debug'])
+        config['routes.map'] = make_map()
 
-        # route for the concept sunday school action
-        map.connect('/concept', controller='media', action='concept_preview')
-        map.connect('/concept/{slug}/comment', controller='media', action='concept_comment')
-        map.connect('/concept/{slug}', controller='media', action='concept_view')
-
-        map.connect('/lessons', controller='media', action='lessons')
-        map.connect('/lessons/{slug}', controller='media', action='lesson_view')
-        map.connect('/lessons/{slug}/comment', controller='media', action='lesson_comment')
-
-        map.connect('/latest', controller='media', action='latest')
-        map.connect('/most_popular', controller='media', action='most_popular')
-
-        # routes for all non-view, non-index, media actions
-        map.connect('/tags/{slug}', controller='media', action='tags', slug=None)
-        map.connect('/topics/{slug}', controller='media', action='topics', slug=None)
-
-        # routes to make media actions the default actions.
-        map.connect('/', controller='media', action='index')
-        map.connect('/{action}', controller='media', requirements=dict(action='flow|upload|upload_submit|upload_submit_async|upload_success|upload_failure'))
-
-        # routes for viewing individual media, and other related media actions
-        map.connect('/files/{id}-{slug}.{type}', controller='media', action='serve', requirements=dict(id='\d+'))
-        map.connect('/view/{slug}/{action}', controller='media', action='view', requirements=dict(action='view|rate|comment'))
-        map.connect('/podcasts/feed/{slug}.xml', controller='podcasts', action='feed')
-        map.connect('/podcasts/{slug}', controller='podcasts', action='view')
-        map.connect('/podcasts/{podcast_slug}/{slug}/{action}', controller='media', action='view', requirements=dict(action='view|rate|comment'))
-
-        # admin routes
-        map.connect('/admin/media_table/{table}/{page}', controller='admin', action='media_table', table='awaiting_review', page=1)
-
-        map.connect('/admin/media', controller='mediaadmin', action='index')
-        map.connect('/admin/media/{id}/{action}', controller='mediaadmin', action='edit', requirements=dict(action='edit|save|add_file|edit_file|reorder_file|save_album_art|update_status'))
-
-        map.connect('/admin/podcasts', controller='podcastadmin', action='index')
-        map.connect('/admin/podcasts/{id}/{action}', controller='podcastadmin', action='edit')
-
-        map.connect('/admin/comments', controller='commentadmin', action='index')
-        map.connect('/admin/comments/{id}/{status}', controller='commentadmin', action='save_status', requirements=dict(status='approve|trash'))
-
-        map.connect('/admin/settings', controller='settingadmin', action='index')
-        map.connect('/admin/settings/config', controller='settingadmin', action='edit')
-        map.connect('/admin/settings/config/{action}', controller='settingadmin', action='edit', requirements=(dict(action='edit|save')))
-        map.connect('/admin/settings/users', controller='useradmin', action='index')
-        map.connect('/admin/settings/users/{id}/{action}', controller='useradmin', action='edit', requirements=(dict(action='edit|save|delete')))
-        map.connect('/admin/settings/{category}/', controller='categoryadmin', action='index', requirements=(dict(category='topics|tags')))
-        map.connect('/admin/settings/{category}/{id}/{action}', controller='categoryadmin', requirements=dict(action='save|delete', category='topics|tags'))
-
-        # Set up the default route
-        map.connect('/{controller}/{action}', action='index')
-
-        # Set up a fallback route for object dispatch
-        # FIXME: Look into this further...
-        # Looks like routes.url_for doesn't work when using this route, so you
-        # can't even switch back to routing. Argh.
-        map.connect('*url', controller='root', action='routes_placeholder')
-
-        config['routes.map'] = map
-
-
+# Normal TG-style project configuration
 base_config = SimpleplexConfig()
 base_config.renderers = []
 
