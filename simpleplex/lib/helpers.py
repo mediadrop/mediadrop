@@ -5,46 +5,19 @@ import time
 import functools
 from BeautifulSoup import BeautifulSoup
 from urlparse import urlparse
-from webhelpers import date, feedgenerator, html, number, misc, text, paginate
+from webhelpers import date, feedgenerator, html, number, misc, text, paginate, containers
 from webhelpers.html.converters import format_paragraphs
 from webhelpers.html import tags
-from routes.util import url_for as rurl
+from routes.util import url_for as _routes_url
 from tg import expose, request, config, decorators
 from tg.exceptions import HTTPFound
-
-from htmlsanitizer import Cleaner, entities_to_unicode as decode_entities, encode_xhtml_entities as encode_entities
-
+from simpleplex.lib.htmlsanitizer import Cleaner, entities_to_unicode as decode_entities, encode_xhtml_entities as encode_entities
 from simpleplex.model.settings import fetch_setting
-from simpleplex.lib.custompaginate import paginate
-
-class expose_xhr(object):
-    def __call__(self, func):
-        # create a wrapper function to override the template,
-        # in the case that this is an xhr request
-        @functools.wraps(func)
-        def f(*args, **kwargs):
-            if request.is_xhr:
-               return self.xhr_decorator.__call__(func)(*args, **kwargs)
-            else:
-               return self.normal_decorator.__call__(func)(*args, **kwargs)
-
-        # set up the normal decorator so that we have the correct
-        # __dict__ properties to copy over. namely 'decoration'
-        func = self.normal_decorator.__call__(func)
-
-        # copy over all the special properties added to func
-        for i in func.__dict__:
-            f.__dict__[i] = func.__dict__[i]
-
-        return f
-
-    def __init__(self, template_norm='', template_xhr='json', **kwargs):
-        self.normal_decorator = expose(template=template_norm, **kwargs)
-        self.xhr_decorator = expose(template=template_xhr, **kwargs)
-
 
 def url_for(*args, **kwargs):
-    """ Wrapper for routes.util.url_for
+    """Compose a URL using the route mappings in :mod:`simpleplex.config.routes`.
+
+    This is a wrapper for :func:`routes.util.url_for`, all arguments are passed.
 
     Using the REPLACE and REPLACE_WITH GET variables, if set,
     this method replaces the first instance of REPLACE in the
@@ -52,11 +25,15 @@ def url_for(*args, **kwargs):
     URL.
 
     For example, by using an apache mod_rewrite rule:
-    RewriteRule ^/proxy_url(/.*){0,1}$ /proxy_url$1?_REP=/mycont/actionA&_RWITH=/proxyA [qsappend]
-    RewriteRule ^/proxy_url(/.*){0,1}$ /proxy_url$1?_REP=/mycont/actionB&_RWITH=/proxyB [qsappend]
-    RewriteRule ^/proxy_url(/.*){0,1}$ /mycont/actionA$1 [proxy]
+
+    .. sourcecode:: apacheconf
+
+        RewriteRule ^/proxy_url(/.*){0,1}$ /proxy_url$1?_REP=/mycont/actionA&_RWITH=/proxyA [qsappend]
+        RewriteRule ^/proxy_url(/.*){0,1}$ /proxy_url$1?_REP=/mycont/actionB&_RWITH=/proxyB [qsappend]
+        RewriteRule ^/proxy_url(/.*){0,1}$ /mycont/actionA$1 [proxy]
+
     """
-    url = rurl(*args, **kwargs)
+    url = _routes_url(*args, **kwargs)
 
     # Make the replacements
     repl = request.str_GET.getall('_REP')
@@ -66,7 +43,18 @@ def url_for(*args, **kwargs):
 
     return url
 
+def redirect(*args, **kwargs):
+    """Compose a URL using :func:`url_for` and raise a redirect.
+
+    :raises: :class:`tg.exceptions.HTTPFound`
+    """
+    url = url_for(*args, **kwargs)
+    found = HTTPFound(location=url)
+    raise found.exception
+
+
 def duration_from_seconds(total_sec):
+    """Return the HH:MM:SS for a given number of seconds."""
     if not total_sec:
         return u''
     secs = total_sec % 60
@@ -77,8 +65,8 @@ def duration_from_seconds(total_sec):
     else:
         return u'%d:%02d' % (mins, secs)
 
-
 def duration_to_seconds(duration):
+    """Return the number of seconds in a given HH:MM:SS."""
     if not duration:
         return 0
     parts = str(duration).split(':')
@@ -90,41 +78,6 @@ def duration_to_seconds(duration):
         i += 1
     return total_secs
 
-
-class MediaflowSlidePager(object):
-    """Mediaflow Slide Paginator
-
-    Slices rowsets into smaller groups for rendering over several slides.
-
-    Usage:
-        <div py:for="videos_slice in h.MediaflowSlidePager(page.items)" class="mediaflow-page">
-            <ul>
-                <li py:for="video in videos_slice">${video.title}</li>
-            </ul>
-        </div>
-    """
-
-    def __init__(self, items, items_per_slide=3, offset=0):
-        self.items = items
-        self.items_len = len(items)
-        self.items_per_slide = items_per_slide
-        self.offset = offset
-
-    def __iter__(self):
-        return self
-
-    def next(self):
-        if self.offset >= self.items_len:
-            raise StopIteration
-        next_offset = min(self.offset + self.items_per_slide, self.items_len)
-        slice = self.items[self.offset:next_offset]
-        self.offset = next_offset
-        return slice
-
-
-def redirect(*args, **kwargs):
-    found = HTTPFound(location=url_for(*args, **kwargs)).exception
-    raise found
 
 blank_line = re.compile("\s*\n\s*\n\s*", re.M)
 block_tags = 'p br pre blockquote div h1 h2 h3 h4 h5 h6 hr ul ol li form table tr td tbody thead'.split()
@@ -154,12 +107,12 @@ cleaner_settings = dict(
 )
 
 def clean_xhtml(string):
-    """Markup cleaner
+    """Convert the given plain text or HTML into valid XHTML.
 
-    Takes a string. If there is no markup in the string, applies
-    paragraph formatting.
+    If there is no markup in the string, apply paragraph formatting.
 
-    Finally, runs the string through our XHTML cleaner.
+    :returns: XHTML
+    :rtype: unicode
     """
     if not string or not string.strip():
         # If the string is none, or empty, or whitespace
@@ -195,8 +148,14 @@ def clean_xhtml(string):
     return string.strip()
 
 def truncate_xhtml(string, size, _strip_xhtml=False, _decode_entities=False):
-    """Takes a string of known-good XHTML and returns
-    a clean, truncated version of roughly size characters
+    """Truncate a XHTML string to roughly a given size (full words).
+
+    :param string: XHTML
+    :type string: unicode
+    :param size: Max length
+    :param _strip_xhtml: Flag to strip out all XHTML
+    :param _decode_entities: Flag to convert XHTML entities to unicode chars
+    :rtype: unicode
     """
     if not string:
         return u''
@@ -228,6 +187,10 @@ def truncate_xhtml(string, size, _strip_xhtml=False, _decode_entities=False):
     return string.strip()
 
 def strip_xhtml(string, _decode_entities=False):
+    """Strip out xhtml and optionally convert HTML entities to unicode.
+
+    :rtype: unicode
+    """
     if not string:
         return u''
 
@@ -239,6 +202,11 @@ def strip_xhtml(string, _decode_entities=False):
     return string
 
 def line_break_xhtml(string):
+    """Add a linebreak after block-level tags are closed.
+
+    :type string: unicode
+    :rtype: unicode
+    """
     if string:
         string = block_close.sub(u"\\1\n", string).rstrip()
     return string
@@ -252,15 +220,22 @@ def list_acceptable_xhtml():
     )
 
 def accepted_extensions():
+    """Return the extensions allowed for upload.
+
+    :rtype: list
+    """
     e = config.mimetype_lookup.keys()
     e = [x.lstrip('.') for x in e]
     e = sorted(e)
     return e
 
 def list_accepted_extensions():
+    """Return the extensions allowed for upload for printing.
+
+    :returns: Comma separated extensions
+    :rtype: unicode
+    """
     e = accepted_extensions()
     if len(e) > 1:
         e[-1] = 'and ' + e[-1]
-
     return ', '.join(e)
-

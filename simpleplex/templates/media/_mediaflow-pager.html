@@ -2,7 +2,7 @@
      xmlns:py="http://genshi.edgewall.org/"
      py:def="mediaflow_slider_pager(media, url_args=None)"
      py:with="url_args = url_args or {'action':'view', 'controller':'/media'}"
-     py:for="media_slice in h.MediaflowSlidePager(media)"
+     py:for="media_slice in h.containers.distribute(media, 3, 'h')"
      class="mediaflow-page">
 	<ul>
 		<li py:for="m in media_slice">
