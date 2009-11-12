@@ -27,6 +27,15 @@ app_instance_uuid = ${app_instance_uuid}
 media_dir = %(here)s/data/media
 image_dir = %(here)s/simpleplex/public/images
 
+# The layout template name to wrap simpleplex output in can be changed here
+layout_template = layout
+
+# Defines an external genshi template to wrap output in
+external_template = false
+external_template_name = external
+external_template_url = http://some/url.html
+external_template_timeout = 600 # seconds
+
 # If you'd like to fine-tune the individual locations of the cache data dirs
 # for the Cache data, or the Session saves, un-comment the desired settings
 # here:

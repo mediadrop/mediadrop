@@ -5,11 +5,11 @@ from sqlalchemy.orm import eagerload
 import webhelpers.paginate
 from repoze.what.predicates import has_permission
 
-from simpleplex.lib.base import RoutingController
+from simpleplex.lib.base import BaseController
 from simpleplex.lib.helpers import expose_xhr
 from simpleplex.model import DBSession, fetch_row, Media, Comment, Tag
 
-class AdminController(RoutingController):
+class AdminController(BaseController):
     """Admin dashboard actions"""
     allow_only = has_permission('admin')
 

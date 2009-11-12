@@ -11,14 +11,15 @@ import sha
 
 from urlparse import urlparse
 from datetime import datetime, timedelta, date
-from tg import expose, validate, request, response, config, tmpl_context
+from tg import request, response, config, tmpl_context
 from tg.exceptions import HTTPNotFound
 from formencode import validators
 from sqlalchemy import sql, orm
 
 from simpleplex.lib import helpers, email
-from simpleplex.lib.helpers import expose_xhr, paginate, redirect, url_for, clean_xhtml, strip_xhtml, line_break_xhtml, fetch_setting
-from simpleplex.lib.base import RoutingController
+from simpleplex.lib.decorators import expose, expose_xhr, validate, paginate
+from simpleplex.lib.helpers import redirect, url_for, clean_xhtml, strip_xhtml, line_break_xhtml, fetch_setting
+from simpleplex.lib.base import BaseController
 from simpleplex.model import DBSession, fetch_row, get_available_slug, Media, MediaFile, Comment, Tag, Topic, Author, AuthorWithIP, Podcast
 from simpleplex.forms.media import UploadForm
 from simpleplex.forms.comments import PostCommentForm
@@ -34,7 +35,7 @@ class FTPUploadException(Exception):
     pass
 
 
-class MediaController(RoutingController):
+class MediaController(BaseController):
     """Media actions -- for both regular and podcast media"""
 
     def __init__(self, *args, **kwargs):

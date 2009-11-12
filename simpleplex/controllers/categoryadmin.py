@@ -2,7 +2,7 @@ from tg import expose, validate, require, request
 from repoze.what.predicates import has_permission
 
 from simpleplex.lib import helpers
-from simpleplex.lib.base import RoutingController
+from simpleplex.lib.base import BaseController
 from simpleplex.lib.helpers import expose_xhr, paginate, redirect, url_for
 from simpleplex import model
 from simpleplex.model import DBSession, metadata, fetch_row, Tag, Topic, get_available_slug
@@ -11,7 +11,7 @@ from simpleplex.forms.categories import EditCategoryForm
 edit_form = EditCategoryForm()
 
 
-class CategoryadminController(RoutingController):
+class CategoryadminController(BaseController):
     allow_only = has_permission('admin')
 
     @expose_xhr('simpleplex.templates.admin.categories.index',

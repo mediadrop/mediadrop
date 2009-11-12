@@ -13,7 +13,7 @@ from pylons import tmpl_context
 
 from simpleplex.lib import helpers
 from simpleplex.lib.helpers import expose_xhr, redirect, paginate, url_for, clean_xhtml
-from simpleplex.lib.base import RoutingController
+from simpleplex.lib.base import BaseController
 from simpleplex.model import DBSession, fetch_row, Podcast, Author, AuthorWithIP, get_available_slug
 from simpleplex.forms.admin import SearchForm, AlbumArtForm
 from simpleplex.forms.podcasts import PodcastForm
@@ -22,7 +22,7 @@ podcast_form = PodcastForm()
 album_art_form = AlbumArtForm()
 
 
-class PodcastadminController(RoutingController):
+class PodcastadminController(BaseController):
     allow_only = has_permission('admin')
 
     @expose_xhr('simpleplex.templates.admin.podcasts.index',

@@ -3,7 +3,7 @@ from tg.decorators import expose, validate
 from repoze.what.predicates import has_permission
 from pylons import tmpl_context
 
-from simpleplex.lib.base import RoutingController
+from simpleplex.lib.base import BaseController
 from simpleplex.lib.helpers import expose_xhr, paginate, redirect, url_for
 from simpleplex.model import DBSession, fetch_row
 from simpleplex.model.auth import User, Group
@@ -12,7 +12,7 @@ from simpleplex.forms.users import UserForm
 user_form = UserForm()
 
 
-class UseradminController(RoutingController):
+class UseradminController(BaseController):
     """Admin user actions"""
     allow_only = has_permission('admin')
 

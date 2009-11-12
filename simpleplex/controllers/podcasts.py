@@ -4,11 +4,11 @@ from sqlalchemy.orm import undefer
 
 from simpleplex.lib import helpers
 from simpleplex.lib.helpers import expose_xhr, paginate, redirect, url_for
-from simpleplex.lib.base import RoutingController
+from simpleplex.lib.base import BaseController
 from simpleplex.model import DBSession, fetch_row, Podcast, Media, Topic
 
 
-class PodcastsController(RoutingController):
+class PodcastsController(BaseController):
     """Podcast actions -- episodes are handled in the MediaController"""
 
     def __init__(self, *args, **kwargs):

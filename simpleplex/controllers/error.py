@@ -1,11 +1,11 @@
 import smtplib
 from tg import expose, request
 from simpleplex.lib import email
-from simpleplex.lib.base import RoutingController
+from simpleplex.lib.base import BaseController
 from simpleplex.lib.helpers import redirect
 
 
-class ErrorController(RoutingController):
+class ErrorController(BaseController):
     """
     Generates error documents as and when they are required.
 

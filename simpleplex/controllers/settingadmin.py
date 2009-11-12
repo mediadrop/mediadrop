@@ -7,7 +7,7 @@ from sqlalchemy.orm import eagerload
 from repoze.what.predicates import has_permission
 
 from simpleplex.lib import helpers
-from simpleplex.lib.base import RoutingController
+from simpleplex.lib.base import BaseController
 from simpleplex.lib.helpers import expose_xhr, redirect, url_for, clean_xhtml
 from simpleplex import model
 from simpleplex.model import DBSession, metadata, fetch_row, Setting
@@ -17,7 +17,7 @@ settings_form = SettingsForm(action=url_for(controller='/settingadmin',
                                             action='save'))
 
 
-class SettingadminController(RoutingController):
+class SettingadminController(BaseController):
     allow_only = has_permission('admin')
 
     @expose()

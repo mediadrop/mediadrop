@@ -19,7 +19,7 @@ from tw.forms import validators
 
 from simpleplex.lib import helpers
 from simpleplex.lib.helpers import expose_xhr, paginate, redirect, url_for, clean_xhtml
-from simpleplex.lib.base import RoutingController
+from simpleplex.lib.base import BaseController
 from simpleplex.model import DBSession, fetch_row, get_available_slug, Media, MediaFile, Podcast, Comment, Tag, Author, AuthorWithIP
 from simpleplex.model.media import create_media_stub
 from simpleplex.forms.admin import SearchForm, AlbumArtForm
@@ -36,7 +36,7 @@ search_form = SearchForm(action=url_for(controller='/mediaadmin', action='index'
 podcast_filter_form = PodcastFilterForm(action=url_for(controller='/mediaadmin', action='index'))
 
 
-class MediaadminController(RoutingController):
+class MediaadminController(BaseController):
     allow_only = has_permission('admin')
 
     @expose_xhr('simpleplex.templates.admin.media.index',

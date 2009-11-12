@@ -8,7 +8,7 @@ from sqlalchemy.orm import eagerload
 from repoze.what.predicates import has_permission
 
 from simpleplex.lib import helpers
-from simpleplex.lib.base import RoutingController
+from simpleplex.lib.base import BaseController
 from simpleplex.lib.helpers import expose_xhr, paginate, redirect, url_for, clean_xhtml
 from simpleplex.model import DBSession, metadata, fetch_row, Comment, Tag, Author, Media
 from simpleplex.forms.admin import SearchForm
@@ -17,7 +17,7 @@ from simpleplex.forms.comments import EditCommentForm
 edit_form = EditCommentForm()
 
 
-class CommentadminController(RoutingController):
+class CommentadminController(BaseController):
     allow_only = has_permission('admin')
 
     @expose_xhr('simpleplex.templates.admin.comments.index',
