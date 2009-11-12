@@ -2,7 +2,7 @@ from tg.configuration import AppConfig, Bunch, config
 
 import simpleplex
 from simpleplex import model
-from simpleplex.config.routes import make_map
+from simpleplex.config.routing import make_map
 from simpleplex.lib import app_globals, helpers, auth
 
 # Routes are defined separately, and we must override the very basic default

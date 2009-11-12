@@ -1,8 +1,5 @@
-# Use absolute imports, otherwise importing routes tries to import from
-# THIS file instead of the *package* routes. This works in python >= 2.5
-from __future__ import absolute_import
-from routes import Mapper
 from tg.configuration import config
+from routes import Mapper
 
 def make_map():
     """Setup our custom named routes"""
