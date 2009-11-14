@@ -28,15 +28,26 @@ def make_map():
     # Public Routes #
     #################
 
-    # Media actions
+    # Media list and non-specific actions
     # These are all mapped without any prefix to indicate the controller
     map.connect('/',
         controller='media',
         action='index')
     map.connect('/{action}',
         controller='media',
-        requirements={'action': 'flow|upload|upload_submit|upload_submit_async|upload_success|upload_failure'})
+        requirements={'action': ('flow|upload|upload_submit|upload_success|'
+                                 'upload_submit_async|upload_failure')})
 
+    # Podcast list actions
+    map.connect('/podcasts/{slug}',
+        controller='podcasts',
+        action='view')
+    map.connect('/podcasts/feed/{slug}.xml',
+        controller='podcasts',
+        action='feed')
+
+
+    # Category list actions
     map.connect('/tags/{slug}',
         controller='media',
         action='tags',
@@ -59,14 +70,6 @@ def make_map():
     map.connect('/podcasts/{podcast_slug}/{slug}/{action}',
         controller='media',
         action='view')
-
-    # Podcast list actions
-    map.connect('/podcasts/{slug}',
-        controller='podcasts',
-        action='view')
-    map.connect('/podcasts/feed/{slug}.xml',
-        controller='podcasts',
-        action='feed')
 
 
     ################
@@ -122,11 +125,12 @@ def make_map():
         controller='categoryadmin',
         requirements={'category': 'topics|tags'})
 
-    # Set up the default route
+
+    # Fallback Routes
     map.connect('/{controller}/{action}',
         action='index')
 
-    # Set up a fallback route for object dispatch
+    # Set up object dispatch - this is required for TG's auth setup to work
     # FIXME: Look into this further...
     # Looks like routes.url_for doesn't work when using this route, so you
     # can't even switch back to routing. Argh.

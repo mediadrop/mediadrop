@@ -115,7 +115,7 @@ def slugify(string):
     string = unidecode(string)
     # String may now contain '[?]' triplets to describe unknown characters.
     # These will be stripped out by the following regexes.
-    string = _whitepsace.sub(u'-', string)
+    string = _whitespace.sub(u'-', string)
     string = _non_alpha.sub(u'', string)
     string = _extra_dashes.sub(u'-', string).strip('-')
 

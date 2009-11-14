@@ -2,55 +2,17 @@ import re
 import math
 import datetime as dt
 import time
-import functools
-from BeautifulSoup import BeautifulSoup
 from urlparse import urlparse
+
+from BeautifulSoup import BeautifulSoup
 from webhelpers import date, feedgenerator, html, number, misc, text, paginate, containers
-from webhelpers.html.converters import format_paragraphs
 from webhelpers.html import tags
+from webhelpers.html.converters import format_paragraphs
 from routes.util import url_for as _routes_url
-from tg import expose, request, config, decorators
-from tg.exceptions import HTTPFound
+from tg import config, request
 from simpleplex.lib.htmlsanitizer import Cleaner, entities_to_unicode as decode_entities, encode_xhtml_entities as encode_entities
 from simpleplex.model.settings import fetch_setting
-
-def url_for(*args, **kwargs):
-    """Compose a URL using the route mappings in :mod:`simpleplex.config.routes`.
-
-    This is a wrapper for :func:`routes.util.url_for`, all arguments are passed.
-
-    Using the REPLACE and REPLACE_WITH GET variables, if set,
-    this method replaces the first instance of REPLACE in the
-    url string. This can be used to proxy an action at a different
-    URL.
-
-    For example, by using an apache mod_rewrite rule:
-
-    .. sourcecode:: apacheconf
-
-        RewriteRule ^/proxy_url(/.*){0,1}$ /proxy_url$1?_REP=/mycont/actionA&_RWITH=/proxyA [qsappend]
-        RewriteRule ^/proxy_url(/.*){0,1}$ /proxy_url$1?_REP=/mycont/actionB&_RWITH=/proxyB [qsappend]
-        RewriteRule ^/proxy_url(/.*){0,1}$ /mycont/actionA$1 [proxy]
-
-    """
-    url = _routes_url(*args, **kwargs)
-
-    # Make the replacements
-    repl = request.str_GET.getall('_REP')
-    repl_with = request.str_GET.getall('_RWITH')
-    for i in range(0, min(len(repl), len(repl_with))):
-        url = url.replace(repl[i], repl_with[i], 1)
-
-    return url
-
-def redirect(*args, **kwargs):
-    """Compose a URL using :func:`url_for` and raise a redirect.
-
-    :raises: :class:`tg.exceptions.HTTPFound`
-    """
-    url = url_for(*args, **kwargs)
-    found = HTTPFound(location=url)
-    raise found.exception
+from simpleplex.lib.base import url_for
 
 
 def duration_from_seconds(total_sec):

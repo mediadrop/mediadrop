@@ -1,31 +1,28 @@
 """
 Media Admin Controller
 """
-import os
+import os.path
 import re
 from shutil import copyfileobj
 from urlparse import urlparse, urlunparse
-from cgi import parse_qs
 from PIL import Image
 from datetime import datetime
-from copy import copy
-from tg import config, flash, url, request
-from tg.decorators import expose, validate, require
-from sqlalchemy import and_, or_
-from sqlalchemy.orm import eagerload, undefer
-from repoze.what.predicates import has_permission
-from pylons import tmpl_context
-from tw.forms import validators
 
+from tg import config, request, response, tmpl_context
+from repoze.what.predicates import has_permission
+from sqlalchemy import orm, sql
+from formencode import validators
+
+from simpleplex.lib.base import (BaseController, url_for, redirect,
+    expose, expose_xhr, validate, paginate)
+from simpleplex.model import (DBSession, fetch_row, get_available_slug,
+    Media, MediaFile, Podcast, Tag, Author)
 from simpleplex.lib import helpers
-from simpleplex.lib.helpers import expose_xhr, paginate, redirect, url_for, clean_xhtml
-from simpleplex.lib.base import BaseController
-from simpleplex.model import DBSession, fetch_row, get_available_slug, Media, MediaFile, Podcast, Comment, Tag, Author, AuthorWithIP
 from simpleplex.model.media import create_media_stub
-from simpleplex.forms.admin import SearchForm, AlbumArtForm
-from simpleplex.forms.media import MediaForm, AddFileForm, EditFileForm, UpdateStatusForm, PodcastFilterForm
-from simpleplex.forms.comments import PostCommentForm
 from simpleplex.controllers.media import _add_new_media_file
+from simpleplex.forms.admin import SearchForm, AlbumArtForm
+from simpleplex.forms.media import (MediaForm, AddFileForm, EditFileForm,
+    UpdateStatusForm, PodcastFilterForm)
 
 media_form = MediaForm()
 add_file_form = AddFileForm()
@@ -71,15 +68,15 @@ class MediaadminController(BaseController):
         """
         media = DBSession.query(Media)\
             .filter(Media.status.excludes('trash'))\
-            .options(undefer('comment_count_published'))\
-            .options(undefer('comment_count_unreviewed'))\
+            .options(orm.undefer('comment_count_published'))\
+            .options(orm.undefer('comment_count_unreviewed'))\
             .order_by(Media.status.desc(),
                       Media.publish_on.desc(),
                       Media.modified_on.desc())
 
         if search is not None:
             like_search = '%' + search + '%'
-            media = media.filter(or_(
+            media = media.filter(sql.or_(
                 Media.title.like(like_search),
                 Media.description.like(like_search),
                 Media.notes.like(like_search),
@@ -211,7 +208,7 @@ class MediaadminController(BaseController):
         media.slug = get_available_slug(Media, slug, media)
         media.title = title
         media.author = Author(author_name, author_email)
-        media.description = clean_xhtml(description)
+        media.description = helpers.clean_xhtml(description)
         media.notes = notes
         media.duration = helpers.duration_to_seconds(details['duration'])
         media.podcast_id = podcast

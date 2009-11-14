@@ -1,20 +1,20 @@
 """
 Comment Moderation Controller
 """
-from tg import expose, validate, flash, require, url, request
-from pylons.i18n import ugettext as _
-from sqlalchemy import and_, or_
-from sqlalchemy.orm import eagerload
+from tg import config, request, response, tmpl_context
 from repoze.what.predicates import has_permission
+from sqlalchemy import orm, sql
 
+from simpleplex.lib.base import (BaseController, url_for, redirect,
+    expose, expose_xhr, validate, paginate)
+from simpleplex.model import DBSession, fetch_row, Media, Comment
 from simpleplex.lib import helpers
-from simpleplex.lib.base import BaseController
-from simpleplex.lib.helpers import expose_xhr, paginate, redirect, url_for, clean_xhtml
-from simpleplex.model import DBSession, metadata, fetch_row, Comment, Tag, Author, Media
 from simpleplex.forms.admin import SearchForm
 from simpleplex.forms.comments import EditCommentForm
 
 edit_form = EditCommentForm()
+search_form = SearchForm(action=url_for(controller='/commentadmin',
+                                        action='index'))
 
 
 class CommentadminController(BaseController):
@@ -56,7 +56,7 @@ class CommentadminController(BaseController):
 
         if search is not None:
             like_search = '%' + search + '%'
-            comments = comments.filter(or_(
+            comments = comments.filter(sql.or_(
                 Comment.subject.like(like_search),
                 Comment.body.like(like_search),
             ))
@@ -73,7 +73,7 @@ class CommentadminController(BaseController):
             media_filter = media_filter,
             media_filter_title = media_filter_title,
             search = search,
-            search_form = not request.is_xhr and SearchForm(action=url_for()),
+            search_form = search_form,
         )
 
     @expose('json')
@@ -135,7 +135,7 @@ class CommentadminController(BaseController):
 
         """
         comment = fetch_row(Comment, id)
-        comment.body = clean_xhtml(body)
+        comment.body = helpers.clean_xhtml(body)
         DBSession.add(comment)
         return dict(
             success = True,

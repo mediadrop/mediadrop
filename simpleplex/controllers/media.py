@@ -4,25 +4,25 @@ Publicly Facing Media Controllers
 import shutil
 import os.path
 import simplejson as json
-import time
 import ftplib
 import urllib2
 import sha
-
+import time
 from urlparse import urlparse
 from datetime import datetime, timedelta, date
-from tg import request, response, config, tmpl_context
-from tg.exceptions import HTTPNotFound
-from formencode import validators
-from sqlalchemy import sql, orm
 
+from tg import config, request, response, tmpl_context, exceptions
+from sqlalchemy import orm, sql
+from formencode import validators
+
+from simpleplex.lib.base import (BaseController, url_for, redirect,
+    expose, expose_xhr, validate, paginate)
+from simpleplex.model import (DBSession, fetch_row, get_available_slug,
+    Media, MediaFile, Comment, Tag, Topic, Author, AuthorWithIP, Podcast)
 from simpleplex.lib import helpers, email
-from simpleplex.lib.decorators import expose, expose_xhr, validate, paginate
-from simpleplex.lib.helpers import redirect, url_for, clean_xhtml, strip_xhtml, line_break_xhtml, fetch_setting
-from simpleplex.lib.base import BaseController
-from simpleplex.model import DBSession, fetch_row, get_available_slug, Media, MediaFile, Comment, Tag, Topic, Author, AuthorWithIP, Podcast
 from simpleplex.forms.media import UploadForm
 from simpleplex.forms.comments import PostCommentForm
+
 
 post_comment_form = PostCommentForm()
 upload_form = UploadForm(
@@ -210,8 +210,8 @@ class MediaController(BaseController):
         return dict(
             title = media.title,
             description = media.description,
-            description_plain = strip_xhtml(line_break_xhtml(\
-                line_break_xhtml(media.description))),
+            description_plain = helpers.strip_xhtml(helpers.line_break_xhtml(\
+                helpers.line_break_xhtml(media.description))),
             img_l = url_for(im_path % 'l'),
             img_m = url_for(im_path % 'm'),
             img_s = url_for(im_path % 's'),
@@ -271,7 +271,7 @@ class MediaController(BaseController):
         c.status = 'unreviewed'
         c.author = AuthorWithIP(values['name'], None, request.environ['REMOTE_ADDR'])
         c.subject = 'Re: %s' % media.title
-        c.body = clean_xhtml(values['body'])
+        c.body = helpers.clean_xhtml(values['body'])
 
         media.comments.append(c)
         DBSession.add(media)
@@ -306,7 +306,7 @@ class MediaController(BaseController):
                     'attachment;filename=%s' % file_name
                 return file_handle.read()
         else:
-            raise HTTPNotFound()
+            raise exceptions.HTTPNotFound()
 
     @expose('simpleplex.templates.media.mediaflow')
     def flow(self, page=1, **kwargs):
@@ -375,7 +375,7 @@ class MediaController(BaseController):
         c.status = 'unreviewed'
         c.author = AuthorWithIP(values['name'], None, request.environ['REMOTE_ADDR'])
         c.subject = 'Re: %s' % media.title
-        c.body = clean_xhtml(values['body'])
+        c.body = helpers.clean_xhtml(values['body'])
 
         media.comments.append(c)
         DBSession.add(media)
@@ -403,7 +403,7 @@ class MediaController(BaseController):
         c.status = 'unreviewed'
         c.author = AuthorWithIP(values['name'], None, request.environ['REMOTE_ADDR'])
         c.subject = 'Re: %s' % media.title
-        c.body = clean_xhtml(values['body'])
+        c.body = helpers.clean_xhtml(values['body'])
 
         media.comments.append(c)
         DBSession.add(media)
@@ -507,8 +507,8 @@ class MediaController(BaseController):
 
         """
         return dict(
-            legal_wording = fetch_setting('wording_user_uploads'),
-            support_email = fetch_setting('email_support_requests'),
+            legal_wording = helpers.fetch_setting('wording_user_uploads'),
+            support_email = helpers.fetch_setting('email_support_requests'),
             upload_form = upload_form,
             form_values = {},
         )
@@ -628,7 +628,7 @@ class MediaController(BaseController):
         media_obj.author = Author(name, email)
         media_obj.title = title
         media_obj.slug = get_available_slug(Media, title)
-        media_obj.description = clean_xhtml(description)
+        media_obj.description = helpers.clean_xhtml(description)
         media_obj.status = 'draft,unencoded,unreviewed'
         media_obj.notes = (
             u"Bible References: None\n"
@@ -705,13 +705,15 @@ def _store_media_file_ftp(file, file_name):
     integrity errors)
     """
     stor_cmd = 'STOR ' + file_name
-    file_url = fetch_setting('ftp_download_url') + file_name
+    file_url = helpers.fetch_setting('ftp_download_url') + file_name
 
     # Put the file into our FTP storage
-    FTPSession = ftplib.FTP(fetch_setting('ftp_server'), fetch_setting('ftp_username'), fetch_setting('ftp_password'))
+    FTPSession = ftplib.FTP(helpers.fetch_setting('ftp_server'),
+                            helpers.fetch_setting('ftp_username'),
+                            helpers.fetch_setting('ftp_password'))
 
     try:
-        FTPSession.cwd(fetch_setting('ftp_upload_path'))
+        FTPSession.cwd(helpers.fetch_setting('ftp_upload_path'))
         FTPSession.storbinary(stor_cmd, file)
         _verify_ftp_upload_integrity(file, file_url)
     except Exception, e:

@@ -2,6 +2,9 @@ import sys
 
 __version__ = '0.7'
 
+__all__ = ['__version__', 'debug', 'ipython']
+
+
 def debug(*args):
     """Print to stderr, for debuging"""
     print >> sys.stderr, "Simpleplex DEBUG", args
@@ -36,7 +39,6 @@ def monkeypatch_method(cls):
         return func
     return decorator
 
-
 # Monkey Patch Beautiful Soup
 try:
     from BeautifulSoup import NavigableString as _NavigableString
@@ -54,5 +56,4 @@ try:
 except ImportError:
     # When setup.py is called to load our dependencies such as BeautifulSoup,
     # this will fail. For now we'll just silently allow this to proceed.
-    # TODO: Move this monkeypatch??
     pass

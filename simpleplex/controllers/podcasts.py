@@ -1,11 +1,12 @@
-from tg import expose, validate, require, request, response, config
-from pylons import tmpl_context, templating
-from sqlalchemy.orm import undefer
+from tg import config, request, response, tmpl_context
+from sqlalchemy import orm
+from repoze.what.predicates import has_permission
+import pylons.templating
 
-from simpleplex.lib import helpers
-from simpleplex.lib.helpers import expose_xhr, paginate, redirect, url_for
-from simpleplex.lib.base import BaseController
-from simpleplex.model import DBSession, fetch_row, Podcast, Media, Topic
+from simpleplex.lib.base import (BaseController, url_for, redirect,
+    expose, expose_xhr, validate, paginate)
+from simpleplex.model import (DBSession, fetch_row,
+    Podcast, Media, Topic)
 
 
 class PodcastsController(BaseController):
@@ -20,7 +21,7 @@ class PodcastsController(BaseController):
         """
         super(PodcastsController, self).__init__(*args, **kwargs)
         tmpl_context.topics = DBSession.query(Topic)\
-            .options(undefer('published_media_count'))\
+            .options(orm.undefer('published_media_count'))\
             .filter(Topic.published_media_count >= 1)\
             .order_by(Topic.name)\
             .all()
@@ -49,11 +50,11 @@ class PodcastsController(BaseController):
         episodes = DBSession.query(Media)\
             .filter(Media.podcast_id != None)\
             .order_by(Media.publish_on.desc())\
-            .options(undefer('comment_count_published'))
+            .options(orm.undefer('comment_count_published'))
         episodes = self._filter(episodes)
 
         podcasts = DBSession.query(Podcast)\
-            .options(undefer('published_media_count'))\
+            .options(orm.undefer('published_media_count'))\
             .all()
 
         return dict(
@@ -86,7 +87,7 @@ class PodcastsController(BaseController):
             .order_by(Media.publish_on.desc())
 
         podcasts = DBSession.query(Podcast)\
-            .options(undefer('published_media_count'))\
+            .options(orm.undefer('published_media_count'))\
             .all()
 
         return dict(
@@ -122,7 +123,7 @@ class PodcastsController(BaseController):
             .order_by(Media.publish_on.desc())
 
         podcasts = DBSession.query(Podcast)\
-            .options(undefer('published_media_count'))\
+            .options(orm.undefer('published_media_count'))\
             .all()
 
         return dict(
@@ -174,10 +175,18 @@ class PodcastsController(BaseController):
         else:
             response.content_type = 'text/html'
 
-        # Manually render XML from genshi since tg.render.render_genshi is too stupid to support it.
-        template_name = config['pylons.app_globals'].dotted_filename_finder.get_dotted_filename(
-            'simpleplex.templates.podcasts.feed', template_extension='.xml')
-        return templating.render_genshi(template_name, extra_vars=template_vars, method='xml')
+        # Manually render XML from genshi since tg is didnt consider it
+        template_finder = config['pylons.app_globals'].dotted_filename_finder
+        template_name = template_finder.get_dotted_filename(
+            'simpleplex.templates.podcasts.feed',
+            template_extension='.xml'
+        )
+
+        return pylons.templating.render_genshi(
+            template_name,
+            extra_vars=template_vars,
+            method='xml'
+        )
 
 
     def _filter(self, query):

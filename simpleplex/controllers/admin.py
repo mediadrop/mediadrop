@@ -1,13 +1,13 @@
 from datetime import datetime
-from tg import expose, validate, decorators, flash, require, url, request, redirect
-from sqlalchemy import and_, or_
-from sqlalchemy.orm import eagerload
-import webhelpers.paginate
-from repoze.what.predicates import has_permission
 
-from simpleplex.lib.base import BaseController
-from simpleplex.lib.helpers import expose_xhr
-from simpleplex.model import DBSession, fetch_row, Media, Comment, Tag
+from tg import config, request, response, tmpl_context
+from repoze.what.predicates import has_permission
+import webhelpers.paginate
+
+from simpleplex.lib.base import (BaseController, url_for, redirect,
+    expose, expose_xhr, validate, paginate)
+from simpleplex.model import DBSession, fetch_row, Media, Comment
+
 
 class AdminController(BaseController):
     """Admin dashboard actions"""
