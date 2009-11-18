@@ -22,7 +22,7 @@ instructions <install>`.)
    $ source simpleplex_env/bin/activate
    $ easy_install Sphinx
    $ easy_install Pigments
-   $ cd simpleplex/doc
+   $ cd doc
    $ make html
 
 If you get an exception ``DistributionNotFound: Simpleplex``, try putting the

@@ -20,4 +20,5 @@ conventions they've set.
    controllers/index
    models/index
    library/index
+   templating
 
