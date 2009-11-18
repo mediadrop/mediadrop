@@ -166,16 +166,6 @@ div#upload-status.active span.text {
 	color: #bcdfe3;
 }
 
-.greybox {
-	font-size: 16px;
-	color: #b0b0b0;
-	background-color: #4d4d4d;
-	-moz-border-radius: 20px;
-	-webkit-border-radius: 20px;
-	padding: 20px 40px;
-	margin-bottom: 40px;
-}
-
 .greybox p, .greybox ol, .greybox ul {
 	margin-bottom: 1.5em;
 }
@@ -196,7 +186,6 @@ div#upload-status.active span.text {
 	text-align: top;
 	line-height: 18px;
 }
-
 div#upload-status {
 	color: #84c198;
 }

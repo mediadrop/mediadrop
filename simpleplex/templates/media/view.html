@@ -23,6 +23,26 @@
 			});
 		});
 	</script>
+	<py:if test="notify_comment">
+		<link href="${h.url_for('/styles/squeezebox.css')}" media="screen" rel="stylesheet" type="text/css" />
+		<script type="text/javascript" src="${h.url_for('/scripts/third-party/squeezebox-1.1-rc3.js')}"></script>
+		<script type="text/javascript" src="${h.url_for('/scripts/notify.js')}"></script>
+		<script type="text/javascript">
+			window.addEvent('domready', function(){
+				var notify = new NotificationManager({
+					notifyWidgetSelector: null,
+					notifyOnEvent: null,
+					divClass: 'greybox',
+					okButtonClass: 'btn btn-ok f-rgt',
+					footerClass: 'btn-foot',
+					header: 'Thanks for your comment!',
+					headerClass: 'italic-header',
+					msg: 'We will post it just as soon as our moderator approves it.'
+				});
+				notify.openNotify(null);
+			});
+		</script>
+	</py:if>
 </head>
 <body py:with="comments = [c for c in media.comments if 'publish' in c.status and 'trash' not in c.status]" class="${media.podcast and 'nav-podcasts-on' or 'nav-media-on'}">
 	<box id="media-box">

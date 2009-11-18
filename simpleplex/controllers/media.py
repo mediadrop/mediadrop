@@ -76,7 +76,7 @@ class MediaController(BaseController):
 
 
     @expose('simpleplex.templates.media.view')
-    def view(self, slug, podcast_slug=None, **kwargs):
+    def view(self, slug, podcast_slug=None, notify_comment=False, **kwargs):
         """Display the media player, info and comments.
 
         :param slug: The :attr:`~simpleplex.models.media.Media.slug` to lookup
@@ -85,6 +85,7 @@ class MediaController(BaseController):
             looking up the media, it tells us that the podcast slug was
             specified in the URL and therefore we reached this action by the
             preferred route.
+        :param notify_comment: If true a notification should be displayed
         :rtype dict:
         :returns:
             media
@@ -99,6 +100,8 @@ class MediaController(BaseController):
                 The next episode in the podcast series, if this media belongs to
                 a podcast, another :class:`~simpleplex.model.media.Media`
                 instance.
+            notify_comment
+                If true the comment-posted notification is to be displayed
 
         """
         media = fetch_row(Media, slug=slug)
@@ -126,6 +129,7 @@ class MediaController(BaseController):
             comment_form_action = url_for(action='comment'),
             comment_form_values = kwargs,
             next_episode = next_episode,
+            notify_comment = notify_comment,
         )
 
     @expose('json')
@@ -276,7 +280,7 @@ class MediaController(BaseController):
         media.comments.append(c)
         DBSession.add(media)
         email.send_comment_notification(media, c)
-        redirect(action='view')
+        redirect(action='view', notify_comment=True)
 
 
     @expose()

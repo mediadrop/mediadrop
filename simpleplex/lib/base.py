@@ -16,7 +16,7 @@ from tg.controllers import RoutingController
 from paste.deploy.converters import asbool
 
 # Import for convenience in controllers
-from tg import validate
+from tg import validate, flash
 from simpleplex.lib.paginate import paginate
 
 
