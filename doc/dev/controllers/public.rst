@@ -4,14 +4,14 @@
 Public Controllers
 ==================
 
-Simpleplex provides a robust frontend, but if it does not suit your needs you
+MediaCore provides a robust frontend, but if it does not suit your needs you
 can easily revise it or even completely replace it, while still maintaining the
 benefits of the admin interface.
 
 Media
 -----
 
-.. automodule:: simpleplex.controllers.media
+.. automodule:: mediacore.controllers.media
 
 .. autoclass:: MediaController
    :members:
@@ -21,7 +21,7 @@ Media
 Podcasts
 --------
 
-.. automodule:: simpleplex.controllers.podcasts
+.. automodule:: mediacore.controllers.podcasts
 
 .. autoclass:: PodcastsController
    :members:
@@ -31,7 +31,7 @@ Podcasts
 Error Messages
 --------------
 
-.. automodule:: simpleplex.controllers.error
+.. automodule:: mediacore.controllers.error
 
 .. autoclass:: ErrorController
    :members:

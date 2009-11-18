@@ -4,7 +4,7 @@
 Controllers
 ===========
 
-.. automodule:: simpleplex.controllers
+.. automodule:: mediacore.controllers
 
 .. toctree::
 

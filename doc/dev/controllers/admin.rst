@@ -8,7 +8,7 @@ Admin Controllers
 Dashboard
 ---------
 
-.. automodule:: simpleplex.controllers.admin
+.. automodule:: mediacore.controllers.admin
 
 .. autoclass:: AdminController
    :members:
@@ -18,7 +18,7 @@ Dashboard
 Media
 -----
 
-.. automodule:: simpleplex.controllers.mediaadmin
+.. automodule:: mediacore.controllers.mediaadmin
 
 .. autoclass:: MediaadminController
    :members:
@@ -28,7 +28,7 @@ Media
 Podcasts
 --------
 
-.. automodule:: simpleplex.controllers.podcastadmin
+.. automodule:: mediacore.controllers.podcastadmin
 
 .. autoclass:: PodcastadminController
    :members:
@@ -38,7 +38,7 @@ Podcasts
 Comments
 --------
 
-.. automodule:: simpleplex.controllers.commentadmin
+.. automodule:: mediacore.controllers.commentadmin
 
 .. autoclass:: CommentadminController
    :members:
@@ -48,7 +48,7 @@ Comments
 Settings
 --------
 
-.. automodule:: simpleplex.controllers.settingadmin
+.. automodule:: mediacore.controllers.settingadmin
 
 .. autoclass:: SettingadminController
    :members:
@@ -58,7 +58,7 @@ Settings
 User Management
 ---------------
 
-.. automodule:: simpleplex.controllers.useradmin
+.. automodule:: mediacore.controllers.useradmin
 
 .. autoclass:: UseradminController
    :members:
@@ -68,7 +68,7 @@ User Management
 Category Management
 -------------------
 
-.. automodule:: simpleplex.controllers.categoryadmin
+.. automodule:: mediacore.controllers.categoryadmin
 
 .. autoclass:: CategoryadminController
    :members:

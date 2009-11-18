@@ -7,20 +7,20 @@ Model Helpers
 Fetching Records
 ================
 
-.. autofunction:: simpleplex.model.fetch_row
+.. autofunction:: mediacore.model.fetch_row
 
 Slugs
 =====
 
-.. autofunction:: simpleplex.model.slugify
+.. autofunction:: mediacore.model.slugify
 
-.. autofunction:: simpleplex.model.get_available_slug
+.. autofunction:: mediacore.model.get_available_slug
 
 
 Statuses
 ========
 
-.. automodule:: simpleplex.model.status
+.. automodule:: mediacore.model.status
 
 Representation
 --------------

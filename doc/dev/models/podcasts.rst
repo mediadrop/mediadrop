@@ -4,7 +4,7 @@
 Podcasts
 ========
 
-.. automodule:: simpleplex.model.podcasts
+.. automodule:: mediacore.model.podcasts
 
 Mapped Classes
 --------------

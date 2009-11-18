@@ -9,7 +9,7 @@ Glossary
     media
         A collection of 0 or more closely-related **audio** and/or **video**
         files and metadata that describes them.
-        See :class:`simpleplex.model.media.Media` for the definition in code.
+        See :class:`mediacore.model.media.Media` for the definition in code.
 
     slug
         A unique, search-engine-friendly identifer for an item. It is made up
@@ -25,7 +25,7 @@ Glossary
             * unreviewed
             * user_flagged
 
-        See :mod:`simpleplex.model.statuses`.
+        See :mod:`mediacore.model.statuses`.
 
     tag
         A keyword or term that describes some aspect of a content item.

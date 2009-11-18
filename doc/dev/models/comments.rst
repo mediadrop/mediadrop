@@ -4,7 +4,7 @@
 Comments
 ========
 
-.. automodule:: simpleplex.model.comments
+.. automodule:: mediacore.model.comments
 
 Mapped Classes
 --------------

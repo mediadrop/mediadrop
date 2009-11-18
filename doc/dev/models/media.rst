@@ -4,7 +4,7 @@
 Media
 =====
 
-.. automodule:: simpleplex.model.media
+.. automodule:: mediacore.model.media
 
 Mapped Classes
 --------------

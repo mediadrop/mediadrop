@@ -1,9 +1,9 @@
 .. _toplevel:
 
-Simpleplex Documentation
+MediaCore Documentation
 ========================
 
-Simpleplex is a media-oriented content manager.
+MediaCore is a media-oriented content manager.
 
 
 Contents

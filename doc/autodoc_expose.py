@@ -2,7 +2,7 @@
 Sphinx autodoc extension that reads @expose deco in controllers
 
 """
-import simpleplex
+import mediacore
 from tg.controllers import DecoratedController
 from tg.decorators import Decoration
 

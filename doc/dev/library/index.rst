@@ -7,7 +7,7 @@ Library
 Pagination
 ----------
 
-.. automodule:: simpleplex.lib.custompaginate
+.. automodule:: mediacore.lib.custompaginate
 
 .. autofunction:: paginate
 

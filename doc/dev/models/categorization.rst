@@ -7,7 +7,7 @@ Categorization
 Tags
 ----
 
-.. automodule:: simpleplex.model.tags
+.. automodule:: mediacore.model.tags
 
 .. autoclass:: Tag
    :members:
@@ -20,7 +20,7 @@ Tags
 Topics
 ------
 
-.. automodule:: simpleplex.model.topics
+.. automodule:: mediacore.model.topics
 
 .. autoclass:: Topic
    :members:

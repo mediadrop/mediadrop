@@ -4,7 +4,7 @@
 Helpers
 =======
 
-.. module:: simpleplex.lib.helpers
+.. module:: mediacore.lib.helpers
 
 Controllers
 ===========

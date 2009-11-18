@@ -5,12 +5,12 @@ except ImportError:
     use_setuptools()
     from setuptools import setup, find_packages
 
-from simpleplex import __version__ as VERSION
+from mediacore import __version__ as VERSION
 
 setup(
-    name='Simpleplex',
+    name='MediaCore',
     version=VERSION,
-    description='Simpleplex is a media-oriented content manager.',
+    description='MediaCore is a media-oriented content manager.',
     author='Simplestation Inc.',
     author_email='info@simplestation.com',
     url='http://simplestation.com/',
@@ -23,7 +23,7 @@ setup(
         "sqlalchemy >= 0.5.2",
         "repoze.what-quickstart",
         "BeautifulSoup == 3.0.7a",
-            # We monkeypatch this version of BeautifulSoup in simpleplex.__init__
+            # We monkeypatch this version of BeautifulSoup in mediacore.__init__
             # Patch pending: https://bugs.launchpad.net/beautifulsoup/+bug/397997
         ],
     setup_requires=[
@@ -43,10 +43,10 @@ setup(
 
     packages=find_packages(exclude=['ez_setup']),
     include_package_data=True,
-    package_data={'simpleplex': ['i18n/*/LC_MESSAGES/*.mo',
+    package_data={'mediacore': ['i18n/*/LC_MESSAGES/*.mo',
                                  'templates/*/*',
                                  'public/*/*']},
-    message_extractors = {'simpleplex': [
+    message_extractors = {'mediacore': [
             ('**.py', 'python', None),
             ('templates/**.mako', 'mako', None),
             ('templates/**.html', 'genshi', None),
@@ -54,7 +54,7 @@ setup(
 
     entry_points="""
     [paste.app_factory]
-    main = simpleplex.config.middleware:make_app
+    main = mediacore.config.middleware:make_app
 
     [paste.app_install]
     main = pylons.util:PylonsInstaller

@@ -8,20 +8,20 @@ Virtual Environments
 --------------------
 
 It's highly recommended that you create a virtual environment for your
-Simpleplex installation, and any other Python apps you might use in the
+MediaCore installation, and any other Python apps you might use in the
 future. Part of the power of Python is the wealth of libraries for developers
 to take advantage of, but when dependencies conflict it can cause some serious
 headaches. Save yourself loads of trouble later and use ``virtualenv``.
 
-Let's create a new virtualenv for Simpleplex:
+Let's create a new virtualenv for MediaCore:
 
 .. sourcecode:: bash
 
-    $ virtualenv --no-site-packages simpleplex_env
-    New python executable in simpleplex_env/bin/python
+    $ virtualenv --no-site-packages mediacore_env
+    New python executable in mediacore_env/bin/python
     Installing setuptools............done.
 
-    $ cd simpleplex_env
+    $ cd mediacore_env
 
 The ``--no-site-packages`` command prevents this virtualenv from accessing any
 of the libraries you've installed to the system site-packages folder, so none
@@ -71,16 +71,16 @@ The recommended version can be installed with this command:
     $ easy_install -i http://www.turbogears.org/2.0/downloads/current/index tg.devtools
 
 
-Installing Simpleplex
+Installing MediaCore
 ---------------------
 
-Finally we're ready to install Simpleplex and the few additional dependencies it
+Finally we're ready to install MediaCore and the few additional dependencies it
 needs.
 
 .. sourcecode:: bash
 
-    $ git clone ssh://git@somerepo.com/simpleplex.git
-    $ cd simpleplex
+    $ git clone ssh://git@somerepo.com/mediacore.git
+    $ cd mediacore
     $ python setup.py develop
 
 Finally, create a MySQL database and run the setup.sql script. This can be done
@@ -89,6 +89,6 @@ already created an empty database).
 
 .. sourcecode:: bash
 
-    # Assuming your database is named simpleplex
-    $ mysql5 -u root -p simpleplex < database/setup.sql
+    # Assuming your database is named mediacore
+    $ mysql5 -u root -p mediacore < database/setup.sql
 

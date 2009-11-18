@@ -11,6 +11,6 @@ on XML standards and, by design, ensures valid markup. This is the **V** in our
 Adding Your Own Layout
 ----------------------
 
-The public-facing side of Simpleplex is designed so that it can be wrapped
+The public-facing side of MediaCore is designed so that it can be wrapped
 in your own site layout.
 
