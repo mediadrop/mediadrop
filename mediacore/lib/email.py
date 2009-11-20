@@ -1,17 +1,32 @@
 """
 Email Helpers
 
+.. todo::
+
+    Clean this module up and use genshi text templates.
+
 .. autofunc:: send
 
 .. autofunc:: send_media_notification
 
 .. autofunc:: send_comment_notification
 
-"""
-import smtplib
-from tg import config, request
-from mediacore.lib.helpers import url_for, clean_xhtml, strip_xhtml, line_break_xhtml, fetch_setting
+.. autofunc:: parse_email_string
 
+"""
+
+import smtplib
+from mediacore.lib.helpers import (url_for, fetch_setting, clean_xhtml,
+    strip_xhtml, line_break_xhtml)
+
+def parse_email_string(string):
+    """Take a comma separated string of emails and return a list."""
+    if ',' in string:
+        elist = string.split(',')
+        elist = [email.strip() for email in elist]
+    else:
+        elist = [string]
+    return elist
 
 def send(to_addr, from_addr, subject, body):
     """Send an email!
@@ -19,13 +34,13 @@ def send(to_addr, from_addr, subject, body):
     Expects subject and body to be unicode strings.
     """
     server = smtplib.SMTP('localhost')
+    if isinstance(to_addr, basestring):
+        to_addr = parse_email_string(to_addr)
 
-    msg = """To: %s
-From: %s
-Subject: %s
-
-%s
-""" % (", ".join(to_addr), from_addr, subject, body)
+    msg = ("To: %s\n"
+           "From: %s\n"
+           "Subject: %s\n\n"
+           "%s\n") % (", ".join(to_addr), from_addr, subject, body)
 
     server.sendmail(from_addr, to_addr, msg.encode('utf-8'))
     server.quit()
