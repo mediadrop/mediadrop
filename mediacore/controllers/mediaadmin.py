@@ -367,7 +367,6 @@ class MediaadminController(BaseController):
         data = {}
 
 #        try:
-        import mediacore;mediacore.ipython()()
         try:
             file = [file for file in media.files if file.id == file_id][0]
         except IndexError:
