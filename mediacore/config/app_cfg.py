@@ -2,15 +2,32 @@ from tg.configuration import AppConfig, Bunch, config
 
 import mediacore
 from mediacore import model
-from mediacore.config.routing import make_map
+from mediacore.config import routing
 from mediacore.lib import app_globals, helpers, auth
 
-# Routes are defined separately, and we must override the very basic default
-# TG route setup prior to its instantiation.
+
 class MediaCoreConfig(AppConfig):
-    """:class:`tg.configuration.AppConfig` extension for :mod:`routes` usage"""
     def setup_routes(self):
-        config['routes.map'] = make_map()
+        """Override the TG object dispatch with custom routes."""
+        config['routes.map'] = routing.make_map()
+
+    def setup_sa_auth_backend(self):
+        """Extend the TG method which sets sa_auth to the config.
+
+        Now it actually does something!!! Though setting the cookie_secret
+        in a deploy.ini is officially "supported", apparently no one tested
+        it because it clearly doesn't "work". In fact, the glorious work
+        that :meth:`AppConfig.setup_sa_auth_backend` *normally* does goes
+        completely to waste because :meth:`AppConfig.add_auth_middleware`
+        gets its config values from :attr:`AppConfig.sa_auth` which are
+        defined in :mod:`mediacore.config.app_cfg`. This hack will have to
+        do for now, too much time has been wasted on this already.
+        """
+        super(MediaCoreConfig, self).setup_sa_auth_backend()
+        if 'sa_auth.cookie_secret' in config:
+            config['sa_auth']['cookie_secret'] = config['sa_auth.cookie_secret']
+        self.sa_auth = config['sa_auth']
+
 
 # Normal TG-style project configuration
 base_config = MediaCoreConfig()
@@ -34,7 +51,11 @@ base_config.DBSession = mediacore.model.DBSession
 # Configure the authentication backend
 base_config.auth_backend = 'sqlalchemy'
 base_config.sa_auth.dbsession = model.DBSession
-base_config.sa_auth.cookie_secret = 'mysecretcookie' # TODO: customize this
+
+# The salt used to encrypt auth cookie data. This value must be unique to
+# each deployment so it comes from the INI config file and is randomly
+# generated when you run paster make-config
+# base_config.sa_auth.cookie_secret = 'mysecretcookie'
 # what is the class you want to use to search for users in the database
 base_config.sa_auth.user_class = model.User
 # what is the class you want to use to search for groups in the database
@@ -54,7 +75,8 @@ base_config.sa_auth.post_login_url = '/post_login'
 # on logout:
 base_config.sa_auth.post_logout_url = '/post_logout'
 
-# custom auth goodness
+# Hook into the auth process to read the session ID out of the POST vars
+# during flash upload requests.
 base_config.sa_auth.classifier = auth.classifier_for_flash_uploads
 
 
@@ -103,30 +125,6 @@ base_config.playable_types = {
     'video': ('flv', ),
     None: (),
 }
-
-# Email Notification Config
-base_config.media_notifications = True
-base_config.comment_notifications = True
-base_config.media_notification_addresses = [
-    'anthony@simplestation.com',
-    'videos@tmcyouth.com',
-]
-base_config.comment_notification_addresses = [
-    'anthony@simplestation.com',
-    'notifications@tmcyouth.com',
-]
-base_config.support_addresses = [
-    'webteam@tmcyouth.com',
-    'anthony@simplestation.com',
-]
-base_config.notification_from_address = 'noreply@tmcyouth.com'
-
-# If ftp_storage is enabled, then media_dir is not used for storing
-# uploaded media files, and they are instead uploaded to the FTP server.
-base_config.ftp_storage = False
-base_config.ftp_upload_integrity_retries = 10
-
-base_config.max_upload_size = 2 * 1024 * 1024 * 1024 # 2 Gigabytes (binary)
 
 base_config.album_art_sizes = { # the dimensions (in pixels) to scale album art
     'ss':(128,  72),

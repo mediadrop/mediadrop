@@ -92,3 +92,30 @@ already created an empty database).
     # Assuming your database is named mediacore
     $ mysql5 -u root -p mediacore < database/setup.sql
 
+Configuration
+-------------
+
+Each installation of MediaCore has its own config file, as with most Pylons
+projects. Generate a new one with this command:
+
+.. sourcecode:: bash
+
+    $ paster make-config mediacore deployment.ini
+
+.. note::
+
+    ``paster`` basically copies ``mediacore/config/deployment.ini_tmpl`` to
+    create the config. It also generates unique secret keys for cookie and auth
+    encryption, which ensures there will be no security issues caused by default
+    keys being used in production.
+
+The INI config file is for only the most sensitive and important settings.
+These are the settings that should only be set by someone who knows what they're
+doing. More commonly edited settings, which won't break things if tampered with,
+are located in the admin UI in the settings tab.
+
+Creating Your Database
+----------------------
+
+Import database/init.sql
+
