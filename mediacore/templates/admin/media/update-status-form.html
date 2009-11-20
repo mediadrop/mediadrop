@@ -14,7 +14,7 @@
 			<py:when test="media.id is None">
 				<div class="box-content center">You must add a file and save before review can begin.</div>
 			</py:when>
-			<py:when test="media.is_unreviewed">
+			<py:when test="'unreviewed' in media.status">
 				<ol id="status-list">
 					<li class="status-list-inprogress">review pending</li>
 					<li class="status-list-${status}" py:with="status = 'pending' if 'unencoded' in media.status else 'complete'">encoding ${status}</li>
@@ -25,7 +25,7 @@
 				<div class="box-content center"
 				     py:content="c.update_button('Review Complete', id='update-status', css_class='mo submitbutton btn-review-complete') if media.files else 'Review can only be completed after a file is added.'" />
 			</py:when>
-			<py:when test="media.is_unencoded">
+			<py:when test="'unencoded' in media.status">
 				<ol id="status-list">
 					<li class="status-list-complete">review complete</li>
 					<li class="status-list-inprogress">encoding pending</li>
@@ -35,7 +35,7 @@
 				</ol>
 				<div class="box-content center">Encoding will be complete when an acceptable file is added.</div>
 			</py:when>
-			<py:when test="media.is_draft">
+			<py:when test="'draft' in media.status">
 				<ol id="status-list">
 					<li class="status-list-complete">review complete</li>
 					<li class="status-list-complete">encoding complete</li>
@@ -47,12 +47,13 @@
 					${c.update_button('Publish Now', id='update-status', css_class='mo submitbutton btn-publish-now')}
 				</div>
 			</py:when>
-			<py:when test="media.is_published">
+			<py:when test="'publish' in media.status">
 				<ol id="status-list">
 					<li class="status-list-complete">review complete</li>
 					<li class="status-list-complete">encoding complete</li>
 					<li class="status-list-complete" id="status-publish" title="Click to change the publish date">
-						published <span class="publish-date" py:content="publish_on or 'pending'" />
+						${'published' if media.is_published else 'publishing'}
+						<span class="publish-date" py:content="publish_on or 'pending'" />
 					</li>
 				</ol>
 			</py:when>

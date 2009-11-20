@@ -1,4 +1,4 @@
-var MalevolentMediaOverlord = new Class({
+var MediaManager = new Class({
 	metaForm: null,
 	metaFormPodcastID: null,
 	statusForm: null,
@@ -8,30 +8,31 @@ var MalevolentMediaOverlord = new Class({
 	podcastWarning: null,
 	type: '',
 
-	initialize: function(metaForm, files, uploader, statusForm, albumArtUploader, albumArtImg, isNew, type){
-		this.metaForm = $(metaForm);
+	initialize: function(opts){
+		// metaForm, files, uploader, statusForm, albumArtUploader, albumArtImg, isNew, type
+		this.metaForm = $(opts.metaForm);
 		this.metaFormPodcastID = this.metaForm.podcast.value;
-		this.statusForm = statusForm;
-		this.files = files;
-		this.uploader = uploader;
-		this.albumArtUploader = albumArtUploader;
+		this.statusForm = opts.statusForm;
+		this.files = opts.files;
+		this.uploader = opts.uploader;
+		this.albumArtUploader = opts.albumArtUploader;
 		this.albumArtUploader.uploader.addEvent('fileComplete', this.onAlbumArtUpload.bind(this));
 		this.files.addEvents({
 			fileAdded: this.onFileAdded.bind(this),
 			fileEdited: this.onFileEdited.bind(this)
 		});
-		this.isNew = !!isNew;
-		this.type = type;
+		this.isNew = !!opts.isNew;
+		this.type = opts.type;
 		this.metaForm.podcast.addEvent('change', this.onPodcastChange.bind(this));
 	},
 
 	onFileAdded: function(json){
 		this.updateFormActions(json.media_id);
 		this.updateStatusForm(json.status_form);
-		this.isNew = false;
 	},
 
 	onFileEdited: function(json){
+		if (this.isNew) return; // dont let them click 'review complete' etc until saving!
 		this.updateStatusForm(json.status_form);
 	},
 
@@ -57,7 +58,6 @@ var MalevolentMediaOverlord = new Class({
 	onAlbumArtUpload: function(file){
 		var json = JSON.decode(file.response.text, true);
 		this.updateFormActions(json.id);
-		this.isNew = false;
 	},
 
 	onPodcastChange: function(e){
@@ -117,11 +117,19 @@ var StatusForm = new Class({
 	initialize: function(opts){
 		this.setOptions(opts);
 		this.form = $(this.options.form).addEvent('submit', this.saveStatus.bind(this));
+		this.attachDatePicker();
+	},
 
-		this.publishDatePicker = new DatePicker(this.options.pickerField, $extend(this.options.pickerOptions, {
-			onSelect: this.changePublishDate.bind(this),
-			onShow: this.onShowDatePicker.bind(this)
-		}));
+	attachDatePicker: function(){
+		try {
+			if (!this.publishDatePicker) {
+				this.publishDatePicker = new DatePicker(this.options.pickerField, $extend(this.options.pickerOptions, {
+					onSelect: this.changePublishDate.bind(this),
+					onShow: this.onShowDatePicker.bind(this)
+				}));
+			}
+			return this.publishDatePicker.attach();
+		} catch(e) {}
 	},
 
 	saveStatus: function(e){
@@ -148,7 +156,7 @@ var StatusForm = new Class({
 		}
 		var formContents = $(form).getChildren();
 		this.form.empty().adopt(formContents);
-		this.publishDatePicker.attach();
+		this.attachDatePicker();
 	},
 
 	_displayError: function(msg){

@@ -27,11 +27,11 @@
 			$('delete').addEvent('click', deleteConfirm.openConfirmDialog.bind(deleteConfirm));
 
 			// Setup the flash uploader
-			mediaUploader = new Uploader({
+			var mediaUploader = new Uploader({
 				target: 'file',
 				statusContainer: 'media-upload-status',
 				fxProgressBar: {url: '${h.url_for('/admin/images/progressbar/progress.png')}'},
-				messages: {<py:if test="config.ftp_storage">99: "Hang tight, we're moving your upload to our permanent storage. This may take a few minutes."</py:if>},
+				messages: {<py:if test="config.ftp_storage == 'true'">99: "Hang tight, we're moving your upload to our permanent storage. This may take a few minutes."</py:if>},
 				uploader: {
 					path: '${h.url_for('/scripts/third-party/Swiff.Uploader.swf')}',
 					fileSizeMax: ${config.max_upload_size},
@@ -39,7 +39,7 @@
 					typeFilter: '${'; '.join(['*.'+x for x in h.accepted_extensions()])}'
 				}
 			});
-			albumArtUploader = new AlbumArtUploader({
+			var albumArtUploader = new AlbumArtUploader({
 				image: 'album-art-img',
 				updateFormActionsOnSubmit: false,
 				target: 'album_art',
@@ -53,7 +53,7 @@
 			});
 
 			// Setup the file manager and hook into the uploader
-			filemgr = new FileManager('media-files-box', 'media-file-form', mediaUploader, 'media-file-error', {
+			var filemgr = new FileManager('media-files-box', 'media-file-form', mediaUploader, 'media-file-error', {
 				saveOrderUrl: '${h.url_for(action='reorder_file')}'
 			});
 			filemgr.addForm.slide('${'show' if media.id is None or not media.files else 'hide'}');
@@ -62,8 +62,16 @@
 				form: 'update-status-form',
 				error: 'update-status-error'
 			});
-
-			lord = new MalevolentMediaOverlord('media-form', filemgr, mediaUploader, publishStatus, albumArtUploader, 'album-art-img', ${int(media.id is None)}, ${"'%s'" % media.type if media.type else 'null'});
+			var mediamgr = new MediaManager({
+				metaForm: 'media-form',
+				files: filemgr,
+				uploader: mediaUploader,
+				statusForm: publishStatus,
+				albumArtUploader: albumArtUploader,
+				albumArtImg: 'album-art-img',
+				isNew: ${int(media.id is None)},
+				type: ${"'%s'" % media.type if media.type else 'null'}
+			});
 		});
 	</script>
 </head>
