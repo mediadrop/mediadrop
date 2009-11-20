@@ -4,7 +4,7 @@ from tg import config, request, response, tmpl_context, exceptions
 
 from mediacore.lib.base import (BaseController, url_for, redirect,
     expose, expose_xhr, validate, paginate)
-from mediacore.lib import helpers, email
+from mediacore.lib import helpers, email as libemail
 
 
 class ErrorController(BaseController):
@@ -71,5 +71,5 @@ class ErrorController(BaseController):
                 get_vars[x] = kwargs[x]
             elif x.startswith('POST_'):
                 post_vars[x] = kwargs[x]
-        email.send_support_request(email, url, description, get_vars, post_vars)
+        libemail.send_support_request(email, url, description, get_vars, post_vars)
         redirect('/')
