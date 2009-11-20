@@ -14,7 +14,7 @@
 	<script type="text/javascript">
 		var UploadMGR = null;
 		var SwiffUploadMGR = null;
-		var swiff_messages = {<py:if test="config.ftp_storage">99: "Hang tight, we're moving your upload to our permanent storage. This may take a few minutes."</py:if>};
+		var swiff_messages = {<py:if test="config.ftp_storage == 'true'">99: "Hang tight, we're moving your upload to our permanent storage. This may take a few minutes."</py:if>};
 		window.addEvent('domready', function() {
 			if (Browser.Engine.trident) return;
 			UploadMGR = new UploadManager('${upload_form.id}', '${upload_form.async_action}');
