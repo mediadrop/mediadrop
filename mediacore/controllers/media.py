@@ -342,7 +342,7 @@ class MediaController(BaseController):
                 .filter(Media.podcast_id == None)\
                 .order_by(Media.publish_on.desc())\
                 .options(orm.undefer('comment_count_published'))
-        except HTTPNotFound:
+        except exceptions.HTTPNotFound:
             media = []
 
         today = date.today()
@@ -426,7 +426,7 @@ class MediaController(BaseController):
             media = self._published_media_query\
                     .filter(Media.topics.contains(topic))\
                     .order_by(Media.publish_on.desc())[:15]
-        except HTTPNotFound, e:
+        except exceptions.HTTPNotFound, e:
             media = []
 
         return dict(
