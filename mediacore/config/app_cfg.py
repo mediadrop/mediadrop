@@ -88,6 +88,7 @@ base_config.mimetype_lookup = {
     '.m4v':  'video/mpeg',
     '.mp3':  'audio/mpeg',
     '.mp4':  'audio/mpeg',
+    '.flac': 'audio/flac',
     '.3gp':  'video/3gpp',
     '.3g2':  'video/3gpp',
     '.divx': 'video/divx', # I don't think this is registered with the IANA
