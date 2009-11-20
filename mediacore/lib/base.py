@@ -60,9 +60,8 @@ class BaseController(RoutingController):
             tmpl_context.external_template = tmpl_name
 
             try:
-                self.update_external_template(tmpl_context.external_template,
-                                              tmpl_name, timeout)
-            except Exception:
+                self.update_external_template(tmpl_url, tmpl_name, timeout)
+            except:
                 # Catch the error because the external template is noncritical.
                 # TODO: Add error reporting here.
                 pass
@@ -87,18 +86,23 @@ class BaseController(RoutingController):
         tmpl_tmp_path = '%s/../templates/%s_new.html' % (current_dir, tmpl_name)
 
         # Stat the main template file.
-        statinfo = os.stat(tmpl_path)[:10]
-        st_mode, st_ino, st_dev, st_nlink,\
-            st_uid, st_gid, st_size, st_ntime,\
-            st_mtime, st_ctime = statinfo
+        try:
+            statinfo = os.stat(tmpl_path)[:10]
+            st_mode, st_ino, st_dev, st_nlink,\
+                st_uid, st_gid, st_size, st_ntime,\
+                st_mtime, st_ctime = statinfo
 
-        # st_mtime and now are both unix timestamps.
-        now = time.time()
-        diff = now - st_mtime
+            # st_mtime and now are both unix timestamps.
+            now = time.time()
+            diff = now - st_mtime
 
-        # if the template file is less than 5 minutes old, return
-        if diff < timeout:
-            return False
+            # if the template file is less than 5 minutes old, return
+            if diff < timeout:
+                return False
+        except OSError, e:
+            # Continue if the external template hasn't ever been created yet.
+            if e.errno != 2:
+                raise e
 
         try:
             # If the tmpl_tmp_path file exists
