@@ -17,6 +17,7 @@ from paste.deploy.converters import asbool
 
 # Import for convenience in controllers
 from tg import validate, flash
+from mediacore.model.settings import fetch_setting
 from mediacore.lib.paginate import paginate
 
 
@@ -44,6 +45,11 @@ class BaseController(RoutingController):
 
         See also :meth:`update_external_template` for more information.
         """
+        # First, define the email that topic suggestions should be sent to.
+        support_emails = fetch_setting('email_support_requests')
+        support_emails = support_emails.split(',') if support_emails else ['']
+        tmpl_context.suggest_topic_email = support_emails[0]
+
         tmpl_context.layout_template = config.layout_template
         tmpl_context.external_template = None
 

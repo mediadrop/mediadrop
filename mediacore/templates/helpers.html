@@ -129,9 +129,9 @@
 								<a href="${h.url_for(controller='/media', action='topics', slug=topic.slug)}">${topic}</a> <span>(${topic.published_media_count})</span>
 							</li>
 						</ul>
-						<div id="topics-caption" py:if="config.support_addresses">
+						<div id="topics-caption" py:if="c.suggest_topic_email">
 							<div id="topics-dontsee">Don't see the topic you are looking for?</div>
-							<a id="topics-suggest" href="mailto:${config.support_addresses[0]}?subject=Suggest%20a%20topic!">Suggest a new topic</a>
+							<a id="topics-suggest" href="mailto:${c.suggest_topic_email}?subject=Suggest%20a%20topic!">Suggest a new topic</a>
 							<a href="${h.url_for(controller='/media', action='tags', slug=None)}">or check out the tags list</a>
 						</div>
 					</div>
