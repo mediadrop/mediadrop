@@ -54,6 +54,6 @@ def fetch_setting(key):
     Raises a SettingNotFound exception if the key does not exist.
     """
     try:
-        return fetch_row(Setting, key=key).value
+        return fetch_row(Setting, key=unicode(key)).value
     except HTTPNotFound:
         raise SettingNotFound, 'Key not found: %s' % key
