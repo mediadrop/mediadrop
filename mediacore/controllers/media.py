@@ -14,6 +14,7 @@ from datetime import datetime, timedelta, date
 from tg import config, request, response, tmpl_context, exceptions
 from sqlalchemy import orm, sql
 from formencode import validators
+from paste.deploy.converters import asbool
 
 from mediacore.lib.base import (BaseController, url_for, redirect,
     expose, expose_xhr, validate, paginate)
@@ -685,7 +686,7 @@ def _add_new_media_file(media, original_filename, file):
 
 def _store_media_file(file, file_name):
     """Copy the file to its permanent location and return its URI"""
-    if config.ftp_storage:
+    if asbool(config.ftp_storage):
         # Put the file into our FTP storage, return its URL
         return _store_media_file_ftp(file, file_name)
     else:
@@ -709,15 +710,15 @@ def _store_media_file_ftp(file, file_name):
     integrity errors)
     """
     stor_cmd = 'STOR ' + file_name
-    file_url = helpers.fetch_setting('ftp_download_url') + file_name
+    file_url = config.ftp_download_url + file_name
 
     # Put the file into our FTP storage
-    FTPSession = ftplib.FTP(helpers.fetch_setting('ftp_server'),
-                            helpers.fetch_setting('ftp_username'),
-                            helpers.fetch_setting('ftp_password'))
+    FTPSession = ftplib.FTP(config.ftp_server,
+                            config.ftp_username,
+                            config.ftp_password)
 
     try:
-        FTPSession.cwd(helpers.fetch_setting('ftp_upload_path'))
+        FTPSession.cwd(config.ftp_upload_path)
         FTPSession.storbinary(stor_cmd, file)
         _verify_ftp_upload_integrity(file, file_url)
     except Exception, e:

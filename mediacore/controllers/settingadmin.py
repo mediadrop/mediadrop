@@ -1,16 +1,11 @@
-from tg import expose, validate, flash, require, url, request
-from tg.exceptions import HTTPNotFound
-from pylons import tmpl_context
-from pylons.i18n import ugettext as _
-from sqlalchemy import and_, or_
-from sqlalchemy.orm import eagerload
+from tg import config, request, response, tmpl_context
+from sqlalchemy import orm, sql
 from repoze.what.predicates import has_permission
 
+from mediacore.lib.base import (BaseController, url_for, redirect,
+    expose, expose_xhr, validate, paginate)
 from mediacore.lib import helpers
-from mediacore.lib.base import BaseController
-from mediacore.lib.helpers import expose_xhr, redirect, url_for, clean_xhtml
-from mediacore import model
-from mediacore.model import DBSession, metadata, fetch_row, Setting
+from mediacore.model import DBSession, fetch_row, Setting
 from mediacore.forms.settings import SettingsForm
 
 settings_form = SettingsForm(action=url_for(controller='/settingadmin',
@@ -22,19 +17,7 @@ class SettingadminController(BaseController):
 
     @expose()
     def index(self, section='topics', **kwargs):
-        """Redirect to the given section.
-
-        :param section: ``topics``, ``tags``, ``users``, ``config``
-        :rtype: Redirect
-
-        """
-        if section in ('topics', 'tags'):
-            redirect(controller='categoryadmin', category=section)
-        if section == 'users':
-            redirect(controller='useradmin')
-        if section == 'config':
-            redirect(action='edit')
-        raise HTTPNotFound
+        redirect(controller='categoryadmin', category=section)
 
 
     @expose('mediacore.templates.admin.settings.edit')

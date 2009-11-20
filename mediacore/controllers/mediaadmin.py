@@ -5,13 +5,13 @@ import os.path
 import re
 from shutil import copyfileobj
 from urlparse import urlparse, urlunparse
-from PIL import Image
 from datetime import datetime
 
 from tg import config, request, response, tmpl_context
 from repoze.what.predicates import has_permission
 from sqlalchemy import orm, sql
 from formencode import validators
+from PIL import Image
 
 from mediacore.lib.base import (BaseController, url_for, redirect,
     expose, expose_xhr, validate, paginate)
@@ -24,6 +24,7 @@ from mediacore.forms.admin import SearchForm, AlbumArtForm
 from mediacore.forms.media import (MediaForm, AddFileForm, EditFileForm,
     UpdateStatusForm, PodcastFilterForm)
 
+
 media_form = MediaForm()
 add_file_form = AddFileForm()
 edit_file_form = EditFileForm()
@@ -31,7 +32,6 @@ album_art_form = AlbumArtForm()
 update_status_form = UpdateStatusForm()
 search_form = SearchForm(action=url_for(controller='/mediaadmin', action='index'))
 podcast_filter_form = PodcastFilterForm(action=url_for(controller='/mediaadmin', action='index'))
-
 
 class MediaadminController(BaseController):
     allow_only = has_permission('admin')
@@ -296,9 +296,11 @@ class MediaadminController(BaseController):
 
             # Render some widgets so the XHTML can be injected into the page
             edit_form_xhtml = unicode(edit_file_form.display(
-                action=url_for(action='edit_file'), file=media_file))
+                action=url_for(action='edit_file', id=media.id),
+                file=media_file))
             status_form_xhtml = unicode(update_status_form.display(
-                action=url_for(action='update_status'), media=media))
+                action=url_for(action='update_status', id=media.id),
+                media=media))
 
             return dict(
                 success = True,
@@ -361,36 +363,37 @@ class MediaadminController(BaseController):
         media = fetch_row(Media, id, incl_trash=True)
         data = {}
 
+#        try:
+        import mediacore;mediacore.ipython()()
         try:
-            try:
-                file = [file for file in media.files if file.id == file_id][0]
-            except KeyError:
-                raise Exception, 'File does not exist.'
+            file = [file for file in media.files if file.id == file_id][0]
+        except IndexError:
+            raise Exception, 'File does not exist.'
 
-            if toggle_player:
-                data['field'] = 'player_enabled'
-                file.enable_player = data['value'] = not player_enabled
-                DBSession.add(file)
-            elif toggle_feed:
-                data['field'] = 'feed_enabled'
-                file.enable_feed = data['value'] = not feed_enabled
-                # Raises an exception if it is the only feed enabled file for
-                # an already published podcast episode.
-                DBSession.add(file)
-            elif delete:
-                data['field'] = 'delete'
-                DBSession.delete(file)
-                media.files.remove(file)
-            else:
-                raise Exception, 'No action to perform.'
+        if toggle_player:
+            data['field'] = 'player_enabled'
+            file.enable_player = data['value'] = not player_enabled
+            DBSession.add(file)
+        elif toggle_feed:
+            data['field'] = 'feed_enabled'
+            file.enable_feed = data['value'] = not feed_enabled
+            # Raises an exception if it is the only feed enabled file for
+            # an already published podcast episode.
+            DBSession.add(file)
+        elif delete:
+            data['field'] = 'delete'
+            DBSession.delete(file)
+            media.files.remove(file)
+        else:
+            raise Exception, 'No action to perform.'
 
-            data['success'] = True
-            media.update_type()
-            media.update_status()
-            DBSession.add(media)
-        except Exception, e:
-            data['success'] = False
-            data['message'] = e.message
+        data['success'] = True
+        media.update_type()
+        media.update_status()
+        DBSession.add(media)
+#        except Exception, e:
+#            data['success'] = False
+#            data['message'] = e.message
 
         if request.is_xhr:
             # Return the rendered widget for injection

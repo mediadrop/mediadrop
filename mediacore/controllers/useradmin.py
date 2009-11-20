@@ -1,16 +1,16 @@
-from tg import request
-from tg.decorators import expose, validate
+from tg import config, request, response, tmpl_context
+from sqlalchemy import orm, sql
 from repoze.what.predicates import has_permission
-from pylons import tmpl_context
 
-from mediacore.lib.base import BaseController
-from mediacore.lib.helpers import expose_xhr, paginate, redirect, url_for
-from mediacore.model import DBSession, fetch_row
-from mediacore.model.auth import User, Group
+from mediacore.lib.base import (BaseController, url_for, redirect,
+    expose, expose_xhr, validate, paginate)
+from mediacore.lib import helpers
+from mediacore.model import (DBSession, fetch_row, get_available_slug,
+    User, Group)
 from mediacore.forms.users import UserForm
 
-user_form = UserForm()
 
+user_form = UserForm()
 
 class UseradminController(BaseController):
     """Admin user actions"""

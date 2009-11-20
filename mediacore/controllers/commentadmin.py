@@ -12,10 +12,10 @@ from mediacore.lib import helpers
 from mediacore.forms.admin import SearchForm
 from mediacore.forms.comments import EditCommentForm
 
+
 edit_form = EditCommentForm()
 search_form = SearchForm(action=url_for(controller='/commentadmin',
                                         action='index'))
-
 
 class CommentadminController(BaseController):
     allow_only = has_permission('admin')

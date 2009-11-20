@@ -1,15 +1,16 @@
-from tg import expose, validate, require, request
+from tg import config, request, response, tmpl_context
+from sqlalchemy import orm, sql
 from repoze.what.predicates import has_permission
 
+from mediacore.lib.base import (BaseController, url_for, redirect,
+    expose, expose_xhr, validate, paginate)
 from mediacore.lib import helpers
-from mediacore.lib.base import BaseController
-from mediacore.lib.helpers import expose_xhr, paginate, redirect, url_for
-from mediacore import model
-from mediacore.model import DBSession, metadata, fetch_row, Tag, Topic, get_available_slug
+from mediacore.model import (DBSession, fetch_row, get_available_slug,
+    Tag, Topic)
 from mediacore.forms.categories import EditCategoryForm
 
-edit_form = EditCategoryForm()
 
+edit_form = EditCategoryForm()
 
 class CategoryadminController(BaseController):
     allow_only = has_permission('admin')

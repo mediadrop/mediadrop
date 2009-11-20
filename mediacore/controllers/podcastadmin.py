@@ -1,26 +1,22 @@
-"""
-Podcast Admin Controller
-"""
-import os
+import os.path
 from shutil import copyfileobj
-from PIL import Image
-from repoze.what.predicates import has_permission
-from tg import config, request
-from tg.decorators import expose, validate, require
-from sqlalchemy import or_
-from sqlalchemy.orm import undefer
-from pylons import tmpl_context
 
+from tg import config, request, response, tmpl_context
+from sqlalchemy import orm, sql
+from repoze.what.predicates import has_permission
+from PIL import Image
+
+from mediacore.lib.base import (BaseController, url_for, redirect,
+    expose, expose_xhr, validate, paginate)
 from mediacore.lib import helpers
-from mediacore.lib.helpers import expose_xhr, redirect, paginate, url_for, clean_xhtml
-from mediacore.lib.base import BaseController
-from mediacore.model import DBSession, fetch_row, Podcast, Author, AuthorWithIP, get_available_slug
+from mediacore.model import (DBSession, fetch_row, get_available_slug,
+    Podcast, Author, AuthorWithIP)
 from mediacore.forms.admin import SearchForm, AlbumArtForm
 from mediacore.forms.podcasts import PodcastForm
 
+
 podcast_form = PodcastForm()
 album_art_form = AlbumArtForm()
-
 
 class PodcastadminController(BaseController):
     allow_only = has_permission('admin')
@@ -40,7 +36,7 @@ class PodcastadminController(BaseController):
                 instances for this page.
         """
         podcasts = DBSession.query(Podcast)\
-            .options(undefer('media_count'))\
+            .options(orm.undefer('media_count'))\
             .order_by(Podcast.title)
         return dict(podcasts=podcasts)
 
@@ -129,7 +125,7 @@ class PodcastadminController(BaseController):
         podcast.title = title
         podcast.subtitle = subtitle
         podcast.author = Author(author_name, author_email)
-        podcast.description = clean_xhtml(description)
+        podcast.description = helpers.clean_xhtml(description)
         podcast.copyright = details['copyright']
         podcast.category = details['category']
         podcast.itunes_url = details['itunes_url']
