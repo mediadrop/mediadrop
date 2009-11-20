@@ -144,6 +144,9 @@ class MediaadminController(BaseController):
         if tmpl_context.action == 'save' or id == 'new':
             # Use the values from error_handler or GET for new podcast media
             media_values = kwargs
+            user = request.environ['repoze.who.identity']['user']
+            media_values.setdefault('author_name', user.display_name)
+            media_values.setdefault('author_email', user.email_address)
         else:
             # Pull the defaults from the media item
             media_values = dict(
