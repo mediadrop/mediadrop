@@ -4,6 +4,7 @@
       xmlns:py="http://genshi.edgewall.org/"
       xmlns:xi="http://www.w3.org/2001/XInclude">
 <xi:include href="admin/master.html" />
+<xi:include href="admin/helpers.html" />
 <head>
 	<title>Edit: ${Markup(media.title or 'New Media')}</title>
 	<link href="${h.url_for('/admin/styles/forms.css')}" media="screen" rel="stylesheet" type="text/css" />
@@ -120,33 +121,9 @@
 			</div>
 		</div>
 
-		<div class="box">
-			<div class="box-head">
-				<a href="${h.url_for(controller='/commentadmin', media_filter=media.id)}"
-				   id="go-view-content" class="box-head-sec" target="_blank"
-				   title="Moderate the comments on this media"
-				   py:content="'Moderate'" />
-				<h1>Comments</h1>
-			</div>
-			<table id="comments-table" cellpadding="0" cellspacing="0">
-				<tr id="comments-total">
-					<td class="comments-count" py:content="media.comment_count or 0" />
-					<td>Comments</td>
-				</tr>
-				<tr id="comments-published">
-					<td class="comments-count" py:content="media.comment_count_published or 0" />
-					<td>Published</td>
-				</tr>
-				<tr id="comments-unreviewed">
-					<td class="comments-count" py:content="media.comment_count_unreviewed or 0" />
-					<td>Unreviewed</td>
-				</tr>
-				<tr id="comments-trash">
-					<td class="comments-count" py:content="media.comment_count_trash or 0" />
-					<td>Trash</td>
-				</tr>
-			</table>
-		</div>
+		${comment_stats_box(h.url_for(controller='/commentadmin', media_filter=media.id),
+		  media.comment_count or 0, media.comment_count_published or 0,
+		  media.comment_count_unreviewed or 0, media.comment_count_trash or 0)}
 
 	</div>
 </body>

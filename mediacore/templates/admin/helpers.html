@@ -20,4 +20,34 @@
 		</tfoot>
 	</py:def>
 
+	<py:def function="comment_stats_box(link, total, published, unreviewed, trash)">
+		<div class="box">
+			<div class="box-head">
+				<a href="${link}"
+				   id="go-view-content" class="box-head-sec" target="_blank"
+				   title="Moderate comments"
+				   py:content="'Moderate'" />
+				<h1>Comments</h1>
+			</div>
+			<table id="comments-table" cellpadding="0" cellspacing="0">
+				<tr id="comments-total">
+					<td class="comments-count" py:content="total" />
+					<td>Comments</td>
+				</tr>
+				<tr id="comments-published">
+					<td class="comments-count" py:content="published" />
+					<td>Published</td>
+				</tr>
+				<tr id="${'comments-unreviewed' if unreviewed else 'comments-trash'}">
+					<td class="comments-count" py:content="unreviewed" />
+					<td>Unreviewed</td>
+				</tr>
+				<tr id="comments-trash">
+					<td class="comments-count" py:content="trash" />
+					<td>Trash</td>
+				</tr>
+			</table>
+		</div>
+	</py:def>
+
 </html>

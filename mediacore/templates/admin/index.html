@@ -4,6 +4,7 @@
       xmlns:py="http://genshi.edgewall.org/"
       xmlns:xi="http://www.w3.org/2001/XInclude">
 <xi:include href="admin/master.html" />
+<xi:include href="admin/helpers.html" />
 <xi:include href="media/_media-table.html" />
 <head>
 	<title>Dashboard</title>
@@ -52,34 +53,8 @@
 
 	</div>
 	<div class="column33">
-
-		<div class="box">
-			<div class="box-head">
-				<a href="${h.url_for(controller='/commentadmin')}"
-				   id="go-view-content" class="box-head-sec" target="_blank"
-				   title="Moderate comments"
-				   py:content="'Moderate'" />
-				<h1>Comments</h1>
-			</div>
-			<table id="comments-table" cellpadding="0" cellspacing="0">
-				<tr id="comments-total">
-					<td class="comments-count" py:content="comment_count" />
-					<td>Comments</td>
-				</tr>
-				<tr id="comments-published">
-					<td class="comments-count" py:content="comment_count_published" />
-					<td>Published</td>
-				</tr>
-				<tr id="comments-unreviewed">
-					<td class="comments-count" py:content="comment_count_unreviewed" />
-					<td>Unreviewed</td>
-				</tr>
-				<tr id="comments-trash">
-					<td class="comments-count" py:content="comment_count_trash" />
-					<td>Trash</td>
-				</tr>
-			</table>
-		</div>
+		${comment_stats_box(h.url_for(controller='/commentadmin'), comment_count, comment_count_published,
+		                    comment_count_unreviewed, comment_count_trash)}
 
 		<div class="box">
 			<h1 class="box-head">Recently Published</h1>
