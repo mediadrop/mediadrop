@@ -15,10 +15,10 @@ def make_map():
         controller='media', action='concept_view')
     map.connect('/lessons',
         controller='media', action='lessons')
-    map.connect('/lessons/{slug}',
-        controller='media', action='lesson_view')
     map.connect('/lessons/{slug}/comment',
         controller='media', action='lesson_comment')
+    map.connect('/lessons/{slug}',
+        controller='media', action='lesson_view')
     map.connect('/latest',
         controller='media', action='latest')
     map.connect('/most_popular',
@@ -30,22 +30,19 @@ def make_map():
 
     # Media list and non-specific actions
     # These are all mapped without any prefix to indicate the controller
-    map.connect('/',
-        controller='media',
-        action='index')
     map.connect('/{action}',
         controller='media',
+        action='index',
         requirements={'action': ('flow|upload|upload_submit|upload_success|'
                                  'upload_submit_async|upload_failure')})
 
     # Podcast list actions
-    map.connect('/podcasts/{slug}',
-        controller='podcasts',
-        action='view')
     map.connect('/podcasts/feed/{slug}.xml',
         controller='podcasts',
         action='feed')
-
+    map.connect('/podcasts/{slug}',
+        controller='podcasts',
+        action='view')
 
     # Category list actions
     map.connect('/tags/{slug}',
@@ -60,16 +57,18 @@ def make_map():
     # Individual media and actions their related actions
     map.connect('/view/{slug}/{action}',
         controller='media',
-        action='view')
+        action='view',
+        requirements={'action': 'view|rate|comment'})
     map.connect('/files/{id}-{slug}.{type}',
         controller='media',
         action='serve',
-        requirements={'id': '\d+'})
+        requirements={'id': r'\d+'})
 
     # Individual podcast media actions
     map.connect('/podcasts/{podcast_slug}/{slug}/{action}',
         controller='media',
-        action='view')
+        action='view',
+        requirements={'action': 'view|rate|comment'})
 
 
     ################
