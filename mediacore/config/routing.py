@@ -6,24 +6,6 @@ def make_map():
     map = Mapper(directory=config['pylons.paths']['controllers'],
                  always_scan=config['debug'])
 
-    # Concept sunday school action
-    map.connect('/concept',
-        controller='media', action='concept_preview')
-    map.connect('/concept/{slug}/comment',
-        controller='media', action='concept_comment')
-    map.connect('/concept/{slug}',
-        controller='media', action='concept_view')
-    map.connect('/lessons',
-        controller='media', action='lessons')
-    map.connect('/lessons/{slug}/comment',
-        controller='media', action='lesson_comment')
-    map.connect('/lessons/{slug}',
-        controller='media', action='lesson_view')
-    map.connect('/latest',
-        controller='media', action='latest')
-    map.connect('/most_popular',
-        controller='media', action='most_popular')
-
     #################
     # Public Routes #
     #################
