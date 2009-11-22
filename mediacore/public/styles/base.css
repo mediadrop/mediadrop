@@ -298,7 +298,6 @@ a#nav-podcast-help.podcast-help-shown,
 
 .btn-likethis { width: 113px; background-image: url('../images/buttons/i-like-this.png'); }
 .btn-download { width: 113px; background-image: url('../images/buttons/download.png'); }
-.btn-ok { width: 51px; background-image: url('../images/buttons/ok.png'); }
 
 
 /*.mo span {
@@ -353,27 +352,3 @@ a#nav-podcast-help.podcast-help-shown,
 .pager-body a:hover {
 	text-decoration: underline;
 }
-
-/* Grey box for displaying notifications and information */
-.greybox {
-	font-size: 16px;
-	color: #b0b0b0;
-	background-color: #4d4d4d;
-	-moz-border-radius: 20px;
-	-webkit-border-radius: 20px;
-	padding: 20px 40px;
-	margin-bottom: 40px;
-}
-
-.greybox .italic,
-.greybox .italic-header {
-	font-family: georgia;
-	font-style: italic;
-	font-weight: bold;
-	color: #bcdfe3;
-}
-
-.greybox .italic-header {
-	font-size: 25px;
-}
-

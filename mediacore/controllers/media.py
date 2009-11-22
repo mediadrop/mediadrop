@@ -77,7 +77,7 @@ class MediaController(BaseController):
 
 
     @expose('mediacore.templates.media.view')
-    def view(self, slug, podcast_slug=None, notify_comment=False, **kwargs):
+    def view(self, slug, podcast_slug=None, **kwargs):
         """Display the media player, info and comments.
 
         :param slug: The :attr:`~mediacore.models.media.Media.slug` to lookup
@@ -86,7 +86,6 @@ class MediaController(BaseController):
             looking up the media, it tells us that the podcast slug was
             specified in the URL and therefore we reached this action by the
             preferred route.
-        :param notify_comment: If true a notification should be displayed
         :rtype dict:
         :returns:
             media
@@ -101,8 +100,6 @@ class MediaController(BaseController):
                 The next episode in the podcast series, if this media belongs to
                 a podcast, another :class:`~mediacore.model.media.Media`
                 instance.
-            notify_comment
-                If true the comment-posted notification is to be displayed
 
         """
         media = fetch_row(Media, slug=slug)
@@ -130,7 +127,6 @@ class MediaController(BaseController):
             comment_form_action = url_for(action='comment'),
             comment_form_values = kwargs,
             next_episode = next_episode,
-            notify_comment = notify_comment,
         )
 
     @expose('json')
@@ -262,8 +258,8 @@ class MediaController(BaseController):
             redirect(action='view')
 
 
-    @expose()
-    @validate(post_comment_form, error_handler=view)
+    @expose('json')
+    @validate(post_comment_form)
     def comment(self, slug, **values):
         """Post a comment from :class:`~mediacore.forms.media.PostCommentForm`.
 
@@ -271,6 +267,15 @@ class MediaController(BaseController):
         :returns: Redirect to :meth:`view` page for media.
 
         """
+        if tmpl_context.form_errors:
+            if request.is_xhr:
+                return dict(
+                    success = False,
+                    errors = tmpl_context.form_errors
+                )
+            else:
+                redirect(action='view')
+
         media = fetch_row(Media, slug=slug)
         c = Comment()
         c.status = 'unreviewed'
@@ -281,7 +286,11 @@ class MediaController(BaseController):
         media.comments.append(c)
         DBSession.add(media)
         email.send_comment_notification(media, c)
-        redirect(action='view', notify_comment=True)
+
+        if request.is_xhr:
+            return dict(success = True)
+        else:
+            redirect(action='view')
 
 
     @expose()
