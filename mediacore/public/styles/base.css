@@ -261,6 +261,9 @@ a#nav-podcast-help.podcast-help-shown,
 	display: block;
 	text-indent: -5000px;
 }
+#topics-suggest:hover {
+	background-position: 0 -39px;
+}
 
 
 /* Generic content styles */
