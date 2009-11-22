@@ -4,7 +4,7 @@
 # The %(here)s variable will be replaced with the parent directory of this file
 #
 [DEFAULT]
-# WARGING == If debug is not set to false, you'll get the interactive
+# WARNING == If debug is not set to false, you'll get the interactive
 # debugger on production, which is a huge security hole. 
 
 email_to = you@yourdomain.com
