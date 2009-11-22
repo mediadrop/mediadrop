@@ -17,7 +17,9 @@
 }
 
 
-
+.thumb-wrap {
+	float: left;
+}
 
 .podcast-art {
 	float: left;
