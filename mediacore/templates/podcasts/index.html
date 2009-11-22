@@ -32,7 +32,7 @@ ${set_nav_opts('podcast_help', podcasts=podcasts)}
 				<p py:replace="Markup(h.truncate_xhtml(media.description, 300))" />
 			</div>
 			<div class="grid-meta grid2">
-				<span class="grid-comments">${media.comment_count}<span> Comment<py:if test="media.comment_count != 1">s</py:if></span></span>
+				<span class="grid-comments">${media.comment_count_published}<span> Comment<py:if test="media.comment_count_published != 1">s</py:if></span></span>
 				<span class="grid-likes">${media.rating.sum} <span>Like<py:if test="media.rating.sum != 1">s</py:if></span></span>
 				<span class="grid-views">${media.views} <span>View<py:if test="media.views != 1">s</py:if></span></span>
 			</div>
