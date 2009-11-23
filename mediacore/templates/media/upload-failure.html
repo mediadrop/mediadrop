@@ -19,7 +19,7 @@
 			<h4 class="italic">A few things you can check:</h4>
 			<ul>
 				<li>Is the file under 500 Megabytes in size?</li>
-				<li>Is it encoded in one of our supported formats? <span id="formats">avi, divx, dv, dvx, flv, m4v, mov, mp4, mpeg, mpg, qt, vob, 3gp, and wmv.</span></li>
+				<li>Is it encoded in one of our supported formats? <span id="formats">${h.list_accepted_extensions()}.</span></li>
 			</ul>
 			<a id="try-again" href="${h.url_for(action='upload')}"><img alt="Try Uploading Again" src="${h.url_for('/images/uploader/try-again.png')}" /></a>
 		</div>

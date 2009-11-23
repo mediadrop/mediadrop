@@ -417,9 +417,13 @@ class MediaController(BaseController):
                 ``dict`` form values, if any
 
         """
+        support_emails = helpers.fetch_setting('email_support_requests')
+        support_emails = email.parse_email_string(support_emails)
+        support_email = support_emails and support_emails[0] or None
+
         return dict(
             legal_wording = helpers.fetch_setting('wording_user_uploads'),
-            support_email = helpers.fetch_setting('email_support_requests'),
+            support_email = support_email,
             upload_form = upload_form,
             form_values = {},
         )

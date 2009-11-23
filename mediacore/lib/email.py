@@ -21,7 +21,9 @@ from mediacore.lib.helpers import (url_for, fetch_setting, clean_xhtml,
 
 def parse_email_string(string):
     """Take a comma separated string of emails and return a list."""
-    if ',' in string:
+    if not string:
+        elist = []
+    elif ',' in string:
         elist = string.split(',')
         elist = [email.strip() for email in elist]
     else:
