@@ -12,6 +12,7 @@ from urlparse import urlparse
 from datetime import datetime, timedelta, date
 
 from tg import config, request, response, tmpl_context, exceptions
+from tg.controllers import CUSTOM_CONTENT_TYPE
 from sqlalchemy import orm, sql
 from formencode import validators
 from paste.deploy.converters import asbool
@@ -293,7 +294,7 @@ class MediaController(BaseController):
             redirect(action='view')
 
 
-    @expose()
+    @expose(content_type=CUSTOM_CONTENT_TYPE)
     @validate(validators={'id': validators.Int()})
     def serve(self, id, slug, type, **kwargs):
         """Serve a :class:`~mediacore.model.media.MediaFile` binary.
@@ -316,8 +317,9 @@ class MediaController(BaseController):
                 file_path = os.path.join(config.media_dir, file.url)
                 file_handle = open(file_path, 'rb')
                 response.content_type = file.mimetype
-                response.headers['Content-Disposition'] = \
-                    'attachment;filename=%s' % file_name
+# FIXME: Determine how to set this header properly
+#                request['Content-Disposition'] = \
+#                    'attachment;filename=%s' % file_name
                 return file_handle.read()
         else:
             raise exceptions.HTTPNotFound()
@@ -422,7 +424,7 @@ class MediaController(BaseController):
             form_values = {},
         )
 
-    @expose('json')
+    @expose()
     @validate(upload_form)
     def upload_submit_async(self, **kwargs):
         """Ajax form validation and/or submission.
@@ -451,6 +453,21 @@ class MediaController(BaseController):
             redirect
                 If valid, the redirect url for the upload successful page.
 
+        .. note::
+
+            This method returns incorrect Content-type headers. It should
+            return ``application/json``, but we return ``text/html``. There
+            seems to be a bug in TG 2.0.x wrt setting the content type
+            that was giving inconsistent results when trying to set
+            ``text/plain``.
+
+            Swiff.Uploader (which we use) uses Flash's FileReference.upload()
+            method, which doesn't allow overriding the HTTP headers.
+            On windows, the default headers have an "Accept: text/*" line.
+            This means that it won't accept "application/json".
+            TG Honours that, and, when returning, will throw an error rather
+            than return an invalid content-type.
+
         """
         if 'validate' in kwargs:
             # we're just validating the fields. no need to worry.
@@ -460,17 +477,17 @@ class MediaController(BaseController):
                 if field in tmpl_context.form_errors:
                     err[field] = tmpl_context.form_errors[field]
 
-            return dict(
+            return json.dumps(dict(
                 valid = len(err) == 0,
                 err = err
-            )
+            ))
         else:
             # We're actually supposed to save the fields. Let's do it.
             if len(tmpl_context.form_errors) != 0:
                 # if the form wasn't valid, return failure
-                return dict(
+                return json.dumps(dict(
                     success = False
-                )
+                ))
 
             # else actually save it!
             kwargs.setdefault('name')
@@ -483,19 +500,10 @@ class MediaController(BaseController):
             )
             email.send_media_notification(media_obj)
 
-            # FIXME: This is here to appease the Flash on Windows.
-            # Swiff.Uploader (which we use) uses Flash's FileReference.upload()
-            # method, which doesn't allow overriding the HTTP headers.
-            # On windows, the default headers have an "Accept: text/*" line.
-            # This means that it won't accept "application/json".
-            # TG Honours that, and, when returning, will throw an error rather
-            # than return an invalid content-type.
-            response.content_type = 'text/plain'
-
-            return dict(
+            return json.dumps(dict(
                 success = True,
                 redirect = url_for(action='upload_success')
-            )
+            ))
 
 
     @expose()

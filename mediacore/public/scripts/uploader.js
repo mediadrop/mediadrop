@@ -31,7 +31,7 @@ var UploadManager = new Class({
 			onSuccess: this.displayErrors.bind(this),
 			link: 'cancel' /* all new calls take precedence */
 		};
-		this.req = new Request.JSON(opts);
+		this.req = new Request(opts);
 	},
 
 	onSubmit: function(e) {
@@ -58,7 +58,8 @@ var UploadManager = new Class({
 		this.req.send(opts);
 	},
 
-	displayErrors: function(responseJSON) {
+	displayErrors: function(resp) {
+		responseJSON = JSON.decode(resp, true) || {};
 		if (this.submitted && responseJSON['valid']) {
 			this.form.submit();
 		} else {
@@ -96,10 +97,11 @@ var UploadField = new Class({
 			onSuccess: this.displayError.bind(this),
 			link: 'cancel' /* all new calls take precedence */
 		};
-		this.req = new Request.JSON(opts);
+		this.req = new Request(opts);
 	},
 
-	displayError: function(responseJSON) {
+	displayError: function(resp) {
+		responseJSON = JSON.decode(resp, true) || {};
 		if (err = responseJSON['err'][this.field.get('name')]) {
 			this.error.set('html', err);
 			this.td.removeClass('noerr');
@@ -236,7 +238,8 @@ var SwiffUploadManager = new Class({
 	},
 
 	// callback for validation AJAX request, which is fired when the submit button is pressed
-	validated: function(responseJSON) {
+	validated: function(resp) {
+		responseJSON = JSON.decode(resp, true) || {};
 		if (responseJSON['valid']) {
 			opts = {data: this.getFormValues()};
 			this.uploader.setOptions(opts);
