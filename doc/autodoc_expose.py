@@ -16,7 +16,7 @@ def add_expose_info(app, what, name, obj, options, lines):
 
     deco = Decoration.get_decoration(obj)
 
-    if not deco.expose:
+    if not hasattr(deco, 'expose'):
         return
 
     try:
