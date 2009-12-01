@@ -55,7 +55,7 @@ ${set_nav_opts('podcast_help', podcasts=podcasts)}
 
 		<h3 class="recent-eps">Recent Episodes in the <span>${Markup(podcast.title)}</span> series</h3>
 		<ul py:replace="podcastgrid(episodes)" />
-		<div py:content="pagination(episodes_paginator)" class="clear" />
+		<div py:content="pagination(episodes_paginator)" style="clear:both" />
 	</box>
 </body>
 </html>
