@@ -38,27 +38,36 @@
 							{duration: 450, transition: 'cubic:in'}
 						];
 					</py:if>
+					var topicIndexFlyout, podcastHelpFlyout;
 					<py:if test="c.nav_opts['show_topics']">
-						var topicIndexFlyout = new ButtonFlyout({
-							button: 'nav-topics',
-							buttonActiveClass: 'topics-shown',
-							elements: $('mediacore-topics').getChildren(),
-							startHidden: ${c.nav_opts['show_topic_list'] and 'false' or 'true'},
-							openFx: flyoutOpenFx,
-							closeFx: flyoutCloseFx
-						});
+						var topicsEl = $('mediacore-topics');
+						if (topicsEl) {
+							var topicIndexFlyout = new ButtonFlyout({
+								button: 'nav-topics',
+								buttonActiveClass: 'topics-shown',
+								elements: topicsEl.getChildren(),
+								startHidden: ${c.nav_opts['show_topic_list'] and 'false' or 'true'},
+								openFx: flyoutOpenFx,
+								closeFx: flyoutCloseFx
+							});
+						}
 					</py:if>
 					<py:if test="c.nav_opts['show_podcast_help']">
-						var podcastHelpFlyout = new ButtonFlyout({
-							button: 'nav-podcast-help',
-							buttonActiveClass: 'podcast-help-shown',
-							elements: $('podcast-help-box').getChildren(),
-							openFx: flyoutOpenFx,
-							closeFx: flyoutCloseFx
-						});
-						var hider = function(how) { if (how == 'in') if (this.open) this.hide(); };
-						topicIndexFlyout.addEvent('start', hider.bind(podcastHelpFlyout));
-						podcastHelpFlyout.addEvent('start', hider.bind(topicIndexFlyout));
+						var podcastHelpEl = $('podcast-help-box');
+						if (podcastHelpEl) {
+							podcastHelpFlyout = new ButtonFlyout({
+								button: 'nav-podcast-help',
+								buttonActiveClass: 'podcast-help-shown',
+								elements: podcastHelpEl.getChildren(),
+								openFx: flyoutOpenFx,
+								closeFx: flyoutCloseFx
+							});
+							if (topicIndexFlyout) {
+								var hider = function(how) { if (how == 'in') if (this.open) this.hide(); };
+								topicIndexFlyout.addEvent('start', hider.bind(podcastHelpFlyout));
+								podcastHelpFlyout.addEvent('start', hider.bind(topicIndexFlyout));
+							}
+						}
 					</py:if>
 				});
 			</script>
