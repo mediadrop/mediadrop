@@ -67,9 +67,9 @@ body {
 #logo {
 	float: left;
 	background: url('../images/layout/logo.png');
-	width: 210px;
-	height: 38px;
-	margin-top: 16px;
+	width: 204px;
+	height: 28px;
+	margin-top: 20px;
 }
 #logo a {
 	display: block;

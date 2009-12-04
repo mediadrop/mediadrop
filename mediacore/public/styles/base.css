@@ -48,23 +48,21 @@ a:hover {
 	margin: 0 auto;
 }
 
-/* FIXME: Clashes with logo div in new PHP template. so we remove it for now.
-#logo {
-	background: url('../images/layout/mediacore.png') no-repeat 11px top;
-	height: 57px;
+#mediacore-logo {
+	background: url('../images/layout/logo.png') no-repeat 10px 0;
+	height: 28px;
 	width: 940px;
-	margin: 10px auto 0 auto;
+	margin: 10px auto;
 }
 
-#logo a {
+#mediacore-logo a {
 	height: 0px;
-	padding-top: 57px;
-	padding-left: 8px;
-	width: 180px;
+	padding-top: 28px;
+	padding-left: 10px;
+	width: 204px;
 	overflow: hidden;
 	display: block;
 }
-*/
 
 /* Black boxes */
 .box {
