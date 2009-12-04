@@ -10,24 +10,37 @@ from mediacore import __version__ as VERSION
 setup(
     name='MediaCore',
     version=VERSION,
-    description='MediaCore is a media-oriented content manager.',
-    author='Simplestation Inc.',
+    description='A audio, video and podcast publication platform.',
+    author='Simple Station Inc.',
     author_email='info@simplestation.com',
-    url='http://simplestation.com/',
+    url='http://getmediacore.com/',
+    classifiers=[
+        'Development Status :: 4 - Beta',
+        'License :: OSI Approved :: GNU General Public License (GPL)',
+        'Framework :: TurboGears :: Applications',
+        'Programming Language :: Python',
+        'Programming Language :: JavaScript',
+        'Topic :: Internet :: WWW/HTTP :: Site Management'
+        'Topic :: Internet :: WWW/HTTP :: WSGI :: Application',
+        'Topic :: Multimedia :: Sound/Audio',
+        'Intended Audience :: Developers',
+        'Intended Audience :: End Users/Desktop',
+#        'Intended Audience :: System Administrators',
+        ],
 
     install_requires=[
-        "TurboGears2",
-        "ToscaWidgets >= 0.9.1",
-        "tw.dynforms",
-        "zope.sqlalchemy",
-        "sqlalchemy >= 0.5.2",
-        "repoze.what-quickstart",
-        "BeautifulSoup == 3.0.7a",
+        'TurboGears2',
+        'ToscaWidgets >= 0.9.1',
+        'tw.dynforms',
+        'zope.sqlalchemy',
+        'sqlalchemy >= 0.5.2',
+        'repoze.what-quickstart',
+        'BeautifulSoup == 3.0.7a',
             # We monkeypatch this version of BeautifulSoup in mediacore.__init__
             # Patch pending: https://bugs.launchpad.net/beautifulsoup/+bug/397997
         ],
     setup_requires=[
-        "PasteScript >= 1.6.3"
+        'PasteScript >= 1.6.3'
         ],
     paster_plugins=[
         'PasteScript',
