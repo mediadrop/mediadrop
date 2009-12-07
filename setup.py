@@ -25,11 +25,11 @@ setup(
         'Topic :: Multimedia :: Sound/Audio',
         'Intended Audience :: Developers',
         'Intended Audience :: End Users/Desktop',
-#        'Intended Audience :: System Administrators',
+        'Intended Audience :: System Administrators',
         ],
 
     install_requires=[
-        'TurboGears2',
+        'TurboGears2 >= 2.0.3',
         'ToscaWidgets >= 0.9.1',
         'tw.dynforms',
         'zope.sqlalchemy',
