@@ -56,7 +56,7 @@ class MediaController(BaseController):
     """Media actions -- for both regular and podcast media"""
 
     def __init__(self, *args, **kwargs):
-        """Populate the :obj:`pylons.tmpl_context`` with topics.
+        """Populate the :obj:`pylons.tmpl_context` with topics.
 
         Used by :data:`mediacore.templates.helpers` to render the
         topic index flyout slider.
@@ -153,7 +153,8 @@ class MediaController(BaseController):
         .. todo:: Work this into a more general, documented API scheme.
 
         :param type: ``audio``, ``video``, or ``None`` for either
-        :param podcast: A :attr:`simpleplx.modelpodcast slug or empty string
+        :param podcast: A :attr:`mediacore.model.podcasts.Podcast.slug`
+            or empty string.
         :param topic: A topic slug
         :param ignore: An id to always exclude from results.
             this allows us to fetch two DIFFERENT results
@@ -482,7 +483,7 @@ class MediaController(BaseController):
 
             Swiff.Uploader (which we use) uses Flash's FileReference.upload()
             method, which doesn't allow overriding the HTTP headers.
-            On windows, the default headers have an "Accept: text/*" line.
+            On windows, the default headers have an "Accept: text/\*" line.
             This means that it won't accept "application/json".
             TG Honours that, and, when returning, will throw an error rather
             than return an invalid content-type.

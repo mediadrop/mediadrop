@@ -86,7 +86,7 @@ class BaseController(RoutingController):
     def update_external_template(self, tmpl_url, tmpl_name, timeout):
         """Conditionally fetch and cache the remote template.
 
-        This method will only work on *nix systems.
+        This method will only work on \*nix systems.
 
         :param tmpl_url: The URL to fetch the Genshi template from.
         :param tmpl_name: The template name to save under.
