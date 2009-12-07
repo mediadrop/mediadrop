@@ -31,7 +31,7 @@ def make_map():
         controller='media',
         action='index',
         requirements={'action': ('flow|upload|upload_submit|upload_success|'
-                                 'upload_submit_async|upload_failure')})
+                                 'upload_submit_async|upload_failure|index')})
 
     # Podcast list actions
     map.connect('/podcasts/feed/{slug}.xml',
