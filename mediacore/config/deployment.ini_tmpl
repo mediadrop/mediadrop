@@ -26,7 +26,7 @@ beaker.session.secret = ${app_instance_secret}
 sa_auth.cookie_secret = ${app_instance_secret}
 
 # Specify the database for SQLAlchemy to use
-sqlalchemy.url = mysql://username:pass@localhost/dbname?charset=utf8
+sqlalchemy.url = mysql://username:pass@localhost/dbname?charset=utf8&use_unicode=0
 sqlalchemy.echo = False
 sqlalchemy.pool_recycle = 3600
 
