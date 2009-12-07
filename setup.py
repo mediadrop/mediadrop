@@ -29,7 +29,7 @@ setup(
         ],
 
     install_requires=[
-        'TurboGears2',
+        'TurboGears2 >= 2.0.3',
         'ToscaWidgets >= 0.9.1',
         'tw.dynforms',
         'zope.sqlalchemy',
