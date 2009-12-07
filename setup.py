@@ -29,12 +29,15 @@ setup(
         ],
 
     install_requires=[
-        'TurboGears2 >= 2.0.3',
+        # FIXME: Change to 2.0.4 when its out, right now we require a customized version
+        'TurboGears2',
         'ToscaWidgets >= 0.9.1',
         'tw.dynforms',
         'zope.sqlalchemy',
         'sqlalchemy >= 0.5.2',
         'repoze.what-quickstart',
+        'PIL >= 1.1.6',
+        'MySQL-python >= 1.2.2',
         'BeautifulSoup == 3.0.7a',
             # We monkeypatch this version of BeautifulSoup in mediacore.__init__
             # Patch pending: https://bugs.launchpad.net/beautifulsoup/+bug/397997
