@@ -144,9 +144,9 @@ def url_for(*args, **kwargs):
 
     .. sourcecode:: apacheconf
 
-        RewriteRule ^/proxy_url(/.*){0,1}$ /proxy_url$1?_REP=/mycont/actionA&_RWITH=/proxyA [qsappend]
-        RewriteRule ^/proxy_url(/.*){0,1}$ /proxy_url$1?_REP=/mycont/actionB&_RWITH=/proxyB [qsappend]
-        RewriteRule ^/proxy_url(/.*){0,1}$ /mycont/actionA$1 [proxy]
+        RewriteRule ^/proxy_url(/.\*){0,1}$ /proxy_url$1?_REP=/mycont/actionA&_RWITH=/proxyA [qsappend]
+        RewriteRule ^/proxy_url(/.\*){0,1}$ /proxy_url$1?_REP=/mycont/actionB&_RWITH=/proxyB [qsappend]
+        RewriteRule ^/proxy_url(/.\*){0,1}$ /mycont/actionA$1 [proxy]
 
     """
     # Convert unicode to str utf-8 for routes
@@ -180,7 +180,15 @@ def redirect(*args, **kwargs):
 
 class expose_xhr(object):
     """
-    Expose different templates for normal vs XMLHttpRequest requests
+    Expose different templates for normal vs XMLHttpRequest requests.
+
+    Example::
+
+        class MyController(BaseController):
+            @expose_xhr('mediacore.templates.list',
+                        'mediacore.templates.list_partial')
+            def
+
     """
     def __init__(self, template_norm='', template_xhr='json', **kwargs):
         self.normal_decorator = expose(template=template_norm, **kwargs)

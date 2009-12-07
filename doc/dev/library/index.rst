@@ -4,12 +4,39 @@
 Library
 =======
 
-Pagination
-----------
+Base
+----
 
-.. automodule:: mediacore.lib.custompaginate
+.. autoclass:: mediacore.lib.base.BaseController
+   :members:
+   :show-inheritance:
 
-.. autofunction:: paginate
+Helpers
+-------
 
-.. autoclass:: CustomPage
+.. automodule:: mediacore.lib.helpers
+
+
+Controllers
+-----------
+
+.. autoclass:: expose_xhr
+
+.. autofunction:: url_for
+
+.. autofunction:: redirect
+
+.. autofunction:: mediacore.lib.paginate.paginate
+
+
+XHTML Handling
+--------------
+
+.. autofunction:: mediacore.lib.helpers.clean_xhtml
+
+.. autofunction:: truncate_xhtml
+
+.. autofunction:: strip_xhtml
+
+.. autofunction:: line_break_xhtml
 
