@@ -15,16 +15,16 @@ Quick Overview
 For those already familiar with installing Pylons/TurboGears apps, the
 process will be very familiar:
 
- 1. Create and activate a new ``virtualenv``.
- 2. Run ``python setup.py develop`` to install MediaCore and its
-    dependencies.
- 3. For production, run ``paster make-config mediacore deployment.ini``
-    and to create a unique ``deployment.ini`` config. On development
-    machines there's already a ``development.ini`` file for you to use.
- 4. Configure your database credentials in the ini config file.
- 5. Import ``setup.sql`` using ``mysqlimport``, phpMyAdmin or any other
-    tool.
- 6. Run ``paster serve path/to/your/config.ini`` and test it out!
+1. Create and activate a new ``virtualenv``.
+2. Run ``python setup.py develop`` to install MediaCore and its
+   dependencies.
+3. For production, run ``paster make-config mediacore deployment.ini``
+   and to create a unique ``deployment.ini`` config. On development
+   machines there's already a ``development.ini`` file for you to use.
+4. Configure your database credentials in the ini config file.
+5. Import ``setup.sql`` using ``mysqlimport``, phpMyAdmin or any other
+   tool.
+6. Run ``paster serve path/to/your/config.ini`` and test it out!
 
 
 Requirements
@@ -36,14 +36,22 @@ time.
 
 This guide assumes that you already have installed:
 
- * Python 2.5.X or newer
- * MySQL 5.0.X or newer
+* Python 2.5.x or newer
+* MySQL 5.0.x or newer
+
+.. note::
+
+   Mac OSX users also require `Xcode
+   <http://developer.apple.com/tools/xcode/>`_ (comes on the OSX
+   install discs). `MacPorts <http://www.macports.org/>`_ is
+   also highly recommended.
+
 
 By the time you're done installing you will also have:
 
- * The python ``virtualenv`` package
- * The python ``MySQLdb`` database adapter
- * To run on Apache, the ``mod_wsgi`` module
+* The python ``virtualenv`` package
+* The python ``MySQLdb`` database adapter
+* To run on Apache, the ``mod_wsgi`` module
 
 
 Virtual Environments
