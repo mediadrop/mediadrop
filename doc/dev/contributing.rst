@@ -1,8 +1,10 @@
 .. _dev_contributing:
 
-==========================
+=========================
 Contributing to MediaCore
-==========================
+=========================
+
+We'd be very grateful for any 
 
 Documentation
 -------------
@@ -15,7 +17,7 @@ To build the documentation you must have Sphinx and Pygments installed. They
 were probably installed when you first installed MediaCore, but just in case,
 here's how to install them. (This example assumes that you're using a
 ``virtualenv`` called ``mediacore_env``, as outlined in the :ref:`install
-instructions <install>`.)
+instructions <install_toplevel>`.)
 
 .. sourcecode:: bash
 
@@ -25,9 +27,9 @@ instructions <install>`.)
    $ cd doc
    $ make html
 
-If you get an exception ``DistributionNotFound: MediaCore``, try putting the
-root mediacore folder (the one with MediaCore.EGG-INFO in it) on your
-:envvar:`PYTHONPATH`. (I'm really not sure why I had to do this to get it
-working, there's a ``MediaCore.egg-link`` file in my virtualenv site-packages
-folder which points here so I would expect it to be able to find it, but it
-can't. Hopefully someone else will have some insight.)
+Reporting Bugs & Submitting Patches
+-----------------------------------
+
+Please post issues to our `tracker on Github
+<http://github.com/simplestation/mediacore/issues>`_.
+
