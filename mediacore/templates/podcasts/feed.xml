@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--! This file is a part of MediaCore, Copyright 2009 Simple Station Inc.
 
 	MediaCore is free software: you can redistribute it and/or modify
@@ -13,7 +14,6 @@
 	You should have received a copy of the GNU General Public License
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<?xml version="1.0" encoding="utf-8"?>
 <rss xmlns:py="http://genshi.edgewall.org/"
      xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd"
      xmlns:media="http://search.yahoo.com/mrss/"
