@@ -31,29 +31,43 @@ from mediacore.lib.base import url_for, redirect, expose_xhr
 
 
 def duration_from_seconds(total_sec):
-    """Return the HH:MM:SS for a given number of seconds."""
+    """Return the HH:MM:SS duration for a given number of seconds.
+
+    Does not support durations longer than 24 hours.
+
+    :param total_sec: Number of seconds to convert into hours, mins, sec
+    :type total_sec: int
+    :rtype: unicode
+    :returns: String HH:MM:SS, omitting the hours if less than one.
+
+    """
     if not total_sec:
         return u''
-    secs = total_sec % 60
-    mins = math.floor(total_sec / 60)
-    hours = math.floor(total_sec / 60 / 60)
-    if hours > 0:
-        return u'%d:%02d:%02d' % (hours, mins, secs)
+    total = time.gmtime(total_sec)
+    if total.tm_hour > 0:
+        return u'%d:%02d:%02d' % total[3:6]
     else:
-        return u'%d:%02d' % (mins, secs)
+        return u'%d:%02d' % total[4:6]
 
 def duration_to_seconds(duration):
-    """Return the number of seconds in a given HH:MM:SS."""
+    """Return the number of seconds in a given HH:MM:SS.
+
+    Does not support durations longer than 24 hours.
+
+    :param duration: A HH:MM:SS or MM:SS formatted string
+    :type duration: unicode
+    :rtype: int
+    :returns: seconds
+    :raises ValueError: If the input doesn't matched the accepted formats
+
+    """
     if not duration:
         return 0
-    parts = str(duration).split(':')
-    parts.reverse()
-    i = 0
-    total_secs = 0
-    for part in parts:
-        total_secs += int(part) * (60 ** i)
-        i += 1
-    return total_secs
+    try:
+        total = time.strptime(duration, '%H:%M:%S')
+    except ValueError:
+        total = time.strptime(duration, '%M:%S')
+    return total.tm_hour * 60 * 60 + total.tm_min * 60 + total.tm_sec
 
 
 blank_line = re.compile("\s*\n\s*\n\s*", re.M)
