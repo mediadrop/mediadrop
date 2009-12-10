@@ -130,7 +130,7 @@ base_config.embeddable_filetypes = {
         'pattern': '^(http(s?)://)?video.google.com/videoplay\?(.*&)?docid=(?P<id>-\d+)'
     },
     'vimeo': {
-        'play': 'http://vimeo.com/moogaloop.swf?clip_id=%d&server=vimeo.com&show_title=1&show_byline=1&show_portrait=0&color=&fullscreen=1',
+        'play': 'http://vimeo.com/moogaloop.swf?clip_id=%s&server=vimeo.com&show_title=1&show_byline=1&show_portrait=0&color=&fullscreen=1',
         'link': 'http://vimeo.com/%s',
         'pattern': '^(http(s?)://)?(www.)?vimeo.com/(?P<id>\d+)'
     },
