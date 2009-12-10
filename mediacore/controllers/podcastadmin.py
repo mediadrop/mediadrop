@@ -26,6 +26,7 @@ from mediacore.lib.base import (BaseController, url_for, redirect,
 from mediacore.lib import helpers
 from mediacore.model import (DBSession, fetch_row, get_available_slug,
     Podcast, Author, AuthorWithIP)
+from mediacore.model.podcasts import create_podcast_stub
 from mediacore.forms.admin import SearchForm, AlbumArtForm
 from mediacore.forms.podcasts import PodcastForm
 
