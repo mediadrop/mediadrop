@@ -20,7 +20,7 @@
      py:for="media_slice in h.containers.distribute(media, 3, 'h')"
      class="mediaflow-page">
 	<ul>
-		<li py:for="m in media_slice">
+		<li py:for="m in media_slice" py:if="m">
 			<a href="${h.url_for(slug=m.slug, **url_args)}" title="${h.truncate_xhtml(m.title, 100, True, True)}: ${h.truncate_xhtml(m.description, 100, True, True)}"><img src="${h.url_for('/images/media/%sm.jpg' % m.id)}" width="240" height="135" alt="${m.title}" /></a>
 		</li>
 	</ul>
