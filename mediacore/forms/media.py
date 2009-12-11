@@ -78,7 +78,7 @@ class MediaForm(ListForm):
         TextField('author_name', validator=NotEmpty, maxlength=50),
         TextField('author_email', validator=NotEmpty, maxlength=50),
         XHTMLTextArea('description', attrs=dict(rows=5, cols=25)),
-        TextArea('notes', label_text='Additional Notes', attrs=dict(rows=3, cols=25), default=(helpers.fetch_setting('wording_additional_notes'))),
+        TextArea('notes', label_text='Additional Notes', attrs=dict(rows=3, cols=25), default=lambda: helpers.fetch_setting('wording_additional_notes')),
         CheckBoxList('topics', template='mediacore.templates.admin.categories.selection_list', options=lambda: DBSession.query(Topic.id, Topic.name).all()),
         TextArea('tags', attrs=dict(rows=3, cols=15), help_text=u'e.g.: puppies, great dane, adorable'),
         ListFieldSet('details', suppress_label=True, legend='Media Details:', css_classes=['details_fieldset'], children=[
