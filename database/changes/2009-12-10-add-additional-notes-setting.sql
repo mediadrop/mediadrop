@@ -1,3 +1,3 @@
 INSERT INTO `settings` VALUES
-(11, 'wording_additional_notes', '');
+(NULL, 'wording_additional_notes', '');
 
