@@ -86,6 +86,9 @@ class SettingadminController(BaseController):
                 legal_wording = dict(
                     user_uploads = settings['wording_user_uploads'].value,
                 ),
+                default_wording = dict(
+                    additional_notes = settings['wording_additional_notes'].value,
+                ),
             )
 
         return dict(
@@ -95,7 +98,7 @@ class SettingadminController(BaseController):
 
     @expose()
     @validate(settings_form, error_handler=edit)
-    def save(self, email, legal_wording, **kwargs):
+    def save(self, email, legal_wording, default_wording, **kwargs):
         """Save :class:`~mediacore.forms.settings.SettingsForm`.
 
         Redirects back to :meth:`edit` after successful editing.
@@ -113,6 +116,7 @@ class SettingadminController(BaseController):
 #        settings['ftp_upload_path'].value = ftp['upload_path']
 #        settings['ftp_download_url'].value = ftp['download_url']
         settings['wording_user_uploads'].value = legal_wording['user_uploads']
+        settings['wording_additional_notes'].value = default_wording['additional_notes']
 
         DBSession.add_all(settings.values())
         DBSession.flush()
