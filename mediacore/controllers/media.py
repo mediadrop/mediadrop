@@ -31,6 +31,7 @@ from tg.controllers import CUSTOM_CONTENT_TYPE
 from sqlalchemy import orm, sql
 from formencode import validators
 from paste.deploy.converters import asbool
+from paste.util import mimeparse
 
 from mediacore.lib.base import (BaseController, url_for, redirect,
     expose, expose_xhr, validate, paginate)
@@ -320,6 +321,9 @@ class MediaController(BaseController):
         :param slug: The media :attr:`~mediacore.model.media.Media.slug`
         :type slug: The file :attr:`~mediacore.model.media.MediaFile.type`
         :raises tg.exceptions.HTTPNotFound: If no file exists for the given params.
+        :raises tg.exceptions.HTTPNotAcceptable: If an Accept header field
+            is present, and if the mimetype of the requested file doesn't
+            match, then a 406 (not acceptable) response is returned.
 
         """
         media = fetch_row(Media, slug=slug)
@@ -329,13 +333,20 @@ class MediaController(BaseController):
                 # Redirect to an external URL
                 if urlparse(file.url)[1]:
                     redirect(file.url.encode('utf-8'))
+
+                # Ensure that the clients request allows for files of this type
+                mimetype = mimeparse.best_match([file.mimetype],
+                    request.environ.get('HTTP_ACCEPT', '*/*'))
+                if mimetype == '':
+                    raise exceptions.HTTPNotAcceptable() # 406
+
                 file_name = '%s-%s.%s' % (media.slug, file.id, file.type)
                 file_path = os.path.join(config.media_dir, file.url)
                 file_handle = open(file_path, 'rb')
-                response.content_type = file.mimetype
-# FIXME: Determine how to set this header properly
-#                request['Content-Disposition'] = \
-#                    'attachment;filename=%s' % file_name
+
+                response.headers['Content-Type'] = mimetype
+                response.headers['Content-Disposition'] = \
+                    'attachment;filename=%s' % file_name
                 return file_handle.read()
         else:
             raise exceptions.HTTPNotFound()
