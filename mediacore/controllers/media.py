@@ -157,9 +157,9 @@ class MediaController(BaseController):
         :param podcast: A :attr:`mediacore.model.podcasts.Podcast.slug`
             or empty string.
         :param topic: A topic slug
-        :param ignore: An id to always exclude from results.
-            this allows us to fetch two DIFFERENT results
-            when calling this action twice.
+        :param ignore: A slug (or slugs, separated by whitespace)
+            to always exclude from results. This allows us to fetch
+            two DIFFERENT results when calling this action twice.
         :rtype: JSON dict
 
         """
@@ -192,7 +192,8 @@ class MediaController(BaseController):
 
         # Filter out a media item we don't like
         if ignore:
-            media_query = media_query.filter(Media.slug != ignore)
+            ignore = ignore.split(' ')
+            media_query = media_query.filter(sql.not_(Media.slug.in_(ignore)))
 
         # get the actual object (hope there is one!)
         media = media_query.first()
