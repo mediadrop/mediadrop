@@ -112,7 +112,7 @@ class BaseController(RoutingController):
             diff = now - st_mtime
 
             # if the template file is less than 5 minutes old, return
-            if diff < timeout:
+            if diff < float(timeout):
                 return False
         except OSError, e:
             # Continue if the external template hasn't ever been created yet.
