@@ -185,13 +185,13 @@
 		</div>
 	</py:def>
 
-	<py:def function="media_player(media)" py:choose=""
+	<py:def function="media_player(media, width=479, height=383)" py:choose=""
 	        py:with="file = media.primary_file">
 		<py:when test="file is None" />
 		<py:when test="file.is_embeddable">
 			<object type="application/x-shockwave-flash"
 			        data="${file.play_url}"
-			        width="479" height="383">
+			        width="${width}" height="${height}">
 				<param name="allowfullscreen" value="true" />
 				<param name="allowscriptaccess" value="always" />
 				<param name="movie" value="${file.play_url}" />
@@ -200,10 +200,10 @@
 		<py:otherwise>
 			<script src="${h.url_for('/scripts/third-party/flowplayer-3.1.0.min.js')}" type="text/javascript" />
 			<a href="${file.play_url}"
-			   id="flowplayer" style="display:block;width:479px;height:383px" />
+			   id="flowplayer" style="display:block;width:${width}px;height:${height}px" />
 			<script type="text/javascript">
 				flowplayer('flowplayer', "${h.url_for('/scripts/third-party/flowplayer-3.1.0.swf')}", {
-					clip: { scaling: "fit" }
+					clip: {scaling: 'fit'}
 				});
 			</script>
 		</py:otherwise>
