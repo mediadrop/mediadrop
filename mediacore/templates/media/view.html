@@ -26,18 +26,14 @@
 	<title>${Markup(media.title)}</title>
 	<link py:if="media.podcast" href="${h.url_for('/styles/podcasts.css')}" media="screen" rel="stylesheet" type="text/css" />
 	<script type="text/javascript" src="${h.url_for('/scripts/rater.js')}"></script>
-	<script type="text/javascript" src="${h.url_for('/scripts/overtext.js')}"></script>
-	<script type="text/javascript" src="${h.url_for('/scripts/notify-comment.js')}"></script>
 	<script type="text/javascript">
 		window.addEvent('domready', function(){
-			var overTextMGR = new OverTextManager('${comment_form.id}');
 			var likesCounter = $('num-likedthis');
 			var likesRater = new ThumbRater({
 				upButton: 'likethis',
 				upCounter: likesCounter,
 				ensureVisible: likesCounter.getParent()
 			});
-			var notifyComment = new NotifyComment({});
 		});
 	</script>
 </head>
