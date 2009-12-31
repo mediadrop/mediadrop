@@ -1,6 +1,6 @@
 -- MySQL dump 10.11
 --
--- Host: localhost    Database: mediaplex
+-- Host: localhost    Database: mediacore
 -- ------------------------------------------------------
 -- Server version	5.0.51a
 
@@ -189,12 +189,12 @@ CREATE TABLE `media_files` (
   `width` smallint(5) unsigned default NULL,
   `height` smallint(5) unsigned default NULL,
   `bitrate` smallint(5) unsigned default NULL,
-  `position` tinyint(3) unsigned NOT NULL default '0',
   `enable_player` tinyint(1) NOT NULL default '1',
   `enable_feed` tinyint(1) NOT NULL default '1',
   `is_original` tinyint(1) NOT NULL default '0',
   `created_on` datetime NOT NULL,
   `modified_on` datetime NOT NULL,
+  `position` smallint(5) unsigned default NULL,
   PRIMARY KEY  (`id`),
   KEY `media_files_ibfk_1` (`media_id`),
   CONSTRAINT `media_files_ibfk_1` FOREIGN KEY (`media_id`) REFERENCES `media` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -207,45 +207,45 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `media_files` WRITE;
 /*!40000 ALTER TABLE `media_files` DISABLE KEYS */;
-INSERT INTO `media_files` VALUES (2,1,'flv','1-black-knight.flv',8322240,NULL,NULL,NULL,0,1,1,1,'2009-06-09 20:39:57','2009-06-09 20:39:57'),
-(3,2,'youtube','9V7zbWNznbs',NULL,NULL,NULL,NULL,0,1,1,1,'2009-06-09 20:39:57','2009-06-09 20:39:57'),
-(4,3,'youtube','Xe1a1wHxTyo',NULL,NULL,NULL,NULL,0,1,1,1,'2009-06-09 20:39:57','2009-06-09 20:39:57'),
-(5,4,'youtube','XcxKIJTb3Hg',NULL,NULL,NULL,NULL,0,1,1,1,'2009-06-09 20:39:57','2009-06-09 20:39:57'),
-(6,5,'youtube','5Xd_zkMEgkI',NULL,NULL,NULL,NULL,0,1,1,1,'2009-06-09 20:39:57','2009-06-09 20:39:57'),
-(7,6,'youtube','rzcLQRXW6B0',NULL,NULL,NULL,NULL,0,1,1,1,'2009-06-09 20:39:57','2009-06-09 20:39:57'),
-(8,7,'youtube','-jO1EOhGkY0',NULL,NULL,NULL,NULL,0,1,1,1,'2009-06-09 20:39:57','2009-06-09 20:39:57'),
-(9,8,'youtube','grbSQ6O6kbs',NULL,NULL,NULL,NULL,0,1,1,1,'2009-06-09 20:39:57','2009-06-09 20:39:57'),
-(10,9,'youtube','IMxWLuOFyZM',NULL,NULL,NULL,NULL,0,1,1,1,'2009-06-09 20:39:57','2009-06-09 20:39:57'),
-(11,10,'youtube','c4SJ0xR2_bQ',NULL,NULL,NULL,NULL,0,1,1,1,'2009-06-09 20:39:57','2009-06-09 20:39:57'),
-(12,11,'youtube','ekO3Z3XWa0Q',NULL,NULL,NULL,NULL,0,1,1,1,'2009-06-09 20:39:57','2009-06-09 20:39:57'),
-(13,12,'youtube','QTQfGd3G6dg',NULL,NULL,NULL,NULL,0,1,1,1,'2009-06-09 20:39:57','2009-06-09 20:39:57'),
-(14,13,'youtube','JTbrIo1p-So',NULL,NULL,NULL,NULL,0,1,1,1,'2009-06-09 20:39:57','2009-06-09 20:39:57'),
-(15,14,'youtube','apDGPl2SfpA',NULL,NULL,NULL,NULL,0,1,1,1,'2009-06-09 20:39:57','2009-06-09 20:39:57'),
-(16,15,'youtube','9hmDZz5pDOQ',NULL,NULL,NULL,NULL,0,1,1,1,'2009-06-09 20:39:57','2009-06-09 20:39:57'),
-(17,16,'flv','21-email@email.com-burglary.flv',5173248,NULL,NULL,NULL,0,1,1,1,'2009-06-09 20:39:57','2009-06-09 20:39:57'),
-(18,38,'youtube','WKIYzoqYjaQ',NULL,NULL,NULL,NULL,0,1,1,1,'2009-06-17 20:51:03','2009-06-17 20:51:03'),
-(19,39,'youtube','1Yu1rrEhRCM',NULL,NULL,NULL,NULL,0,1,1,1,'2009-06-17 20:51:03','2009-06-17 20:51:03'),
-(20,40,'youtube','t2Ij5Fbb6-s',NULL,NULL,NULL,NULL,0,1,1,1,'2009-06-17 20:51:03','2009-06-17 20:51:03'),
-(21,41,'youtube','NMlsIUaWaRI',NULL,NULL,NULL,NULL,0,1,1,1,'2009-06-17 20:51:03','2009-06-17 20:51:03'),
-(22,42,'youtube','vU6M5hAe-TU',NULL,NULL,NULL,NULL,0,1,1,1,'2009-06-17 20:51:03','2009-06-17 20:51:03'),
-(23,43,'youtube','trpL0ldEVFM',NULL,NULL,NULL,NULL,0,1,1,1,'2009-06-17 20:51:03','2009-06-17 20:51:03'),
-(24,44,'youtube','-d9A2oq1N38',NULL,NULL,NULL,NULL,0,1,1,1,'2009-06-17 20:51:03','2009-06-17 20:51:03'),
-(25,45,'youtube','puSkP3uym5k',NULL,NULL,NULL,NULL,0,1,1,1,'2009-06-17 20:51:03','2009-06-17 20:51:03'),
-(26,46,'youtube','bT_Jr3vasOo',NULL,NULL,NULL,NULL,0,1,1,1,'2009-06-17 20:51:03','2009-06-17 20:51:03'),
-(27,47,'youtube','m6snNwJNl-o',NULL,NULL,NULL,NULL,0,1,1,1,'2009-06-17 20:51:03','2009-06-17 20:51:03'),
-(28,48,'youtube','VDBpQVhCMb8',NULL,NULL,NULL,NULL,0,1,1,1,'2009-06-17 20:51:03','2009-06-17 20:51:03'),
-(29,49,'youtube','Ht96HJ01SE4',NULL,NULL,NULL,NULL,0,1,1,1,'2009-06-17 20:51:03','2009-06-17 20:51:03'),
-(30,50,'youtube','nM2ZcgMqhQc',NULL,NULL,NULL,NULL,0,1,1,1,'2009-06-17 20:51:03','2009-06-17 20:51:03'),
-(31,51,'youtube','6BaECAbapRg',NULL,NULL,NULL,NULL,0,1,1,1,'2009-06-17 20:51:03','2009-06-17 20:51:03'),
-(32,52,'youtube','vzYGcDZXgWQ',NULL,NULL,NULL,NULL,0,1,1,1,'2009-06-17 20:51:03','2009-06-17 20:51:03'),
-(33,53,'youtube','fNCeYKfAOZI',NULL,NULL,NULL,NULL,0,1,1,1,'2009-06-17 20:51:03','2009-06-17 20:51:03'),
-(34,54,'youtube','kc9gRZliWgA',NULL,NULL,NULL,NULL,0,1,1,1,'2009-06-17 20:51:03','2009-06-17 20:51:03'),
-(35,55,'youtube','uIn-sMq8-Ls',NULL,NULL,NULL,NULL,0,1,1,1,'2009-06-17 20:51:03','2009-06-17 20:51:03'),
-(36,56,'youtube','Tq8Yw19bn7Q',NULL,NULL,NULL,NULL,0,1,1,1,'2009-06-17 20:51:03','2009-06-17 20:51:03'),
-(37,57,'youtube','eO9oseiCTdk',NULL,NULL,NULL,NULL,0,1,1,1,'2009-06-17 20:51:03','2009-06-17 20:51:03'),
-(38,58,'youtube','_XPfoFZYso8',NULL,NULL,NULL,NULL,0,1,1,1,'2009-06-17 20:51:03','2009-06-17 20:51:03'),
-(39,59,'youtube','37qw5vNyYzE',NULL,NULL,NULL,NULL,0,1,1,1,'2009-06-17 20:51:03','2009-06-17 20:51:03'),
-(40,60,'youtube','WwUibDEH0nY',NULL,NULL,NULL,NULL,0,1,1,1,'2009-06-17 20:51:03','2009-06-17 20:51:03');
+INSERT INTO `media_files` VALUES (2,1,'flv','1-black-knight.flv',8322240,NULL,NULL,NULL,1,1,1,'2009-06-09 20:39:57','2009-06-09 20:39:57',0),
+(3,2,'youtube','9V7zbWNznbs',NULL,NULL,NULL,NULL,1,1,1,'2009-06-09 20:39:57','2009-06-09 20:39:57',0),
+(4,3,'youtube','Xe1a1wHxTyo',NULL,NULL,NULL,NULL,1,1,1,'2009-06-09 20:39:57','2009-06-09 20:39:57',0),
+(5,4,'youtube','XcxKIJTb3Hg',NULL,NULL,NULL,NULL,1,1,1,'2009-06-09 20:39:57','2009-06-09 20:39:57',0),
+(6,5,'youtube','5Xd_zkMEgkI',NULL,NULL,NULL,NULL,1,1,1,'2009-06-09 20:39:57','2009-06-09 20:39:57',0),
+(7,6,'youtube','rzcLQRXW6B0',NULL,NULL,NULL,NULL,1,1,1,'2009-06-09 20:39:57','2009-06-09 20:39:57',0),
+(8,7,'youtube','-jO1EOhGkY0',NULL,NULL,NULL,NULL,1,1,1,'2009-06-09 20:39:57','2009-06-09 20:39:57',0),
+(9,8,'youtube','grbSQ6O6kbs',NULL,NULL,NULL,NULL,1,1,1,'2009-06-09 20:39:57','2009-06-09 20:39:57',0),
+(10,9,'youtube','IMxWLuOFyZM',NULL,NULL,NULL,NULL,1,1,1,'2009-06-09 20:39:57','2009-06-09 20:39:57',0),
+(11,10,'youtube','c4SJ0xR2_bQ',NULL,NULL,NULL,NULL,1,1,1,'2009-06-09 20:39:57','2009-06-09 20:39:57',0),
+(12,11,'youtube','ekO3Z3XWa0Q',NULL,NULL,NULL,NULL,1,1,1,'2009-06-09 20:39:57','2009-06-09 20:39:57',0),
+(13,12,'youtube','QTQfGd3G6dg',NULL,NULL,NULL,NULL,1,1,1,'2009-06-09 20:39:57','2009-06-09 20:39:57',0),
+(14,13,'youtube','JTbrIo1p-So',NULL,NULL,NULL,NULL,1,1,1,'2009-06-09 20:39:57','2009-06-09 20:39:57',0),
+(15,14,'youtube','apDGPl2SfpA',NULL,NULL,NULL,NULL,1,1,1,'2009-06-09 20:39:57','2009-06-09 20:39:57',0),
+(16,15,'youtube','9hmDZz5pDOQ',NULL,NULL,NULL,NULL,1,1,1,'2009-06-09 20:39:57','2009-06-09 20:39:57',0),
+(17,16,'flv','21-email@email.com-burglary.flv',5173248,NULL,NULL,NULL,1,1,1,'2009-06-09 20:39:57','2009-06-09 20:39:57',0),
+(18,38,'youtube','WKIYzoqYjaQ',NULL,NULL,NULL,NULL,1,1,1,'2009-06-17 20:51:03','2009-06-17 20:51:03',0),
+(19,39,'youtube','1Yu1rrEhRCM',NULL,NULL,NULL,NULL,1,1,1,'2009-06-17 20:51:03','2009-06-17 20:51:03',0),
+(20,40,'youtube','t2Ij5Fbb6-s',NULL,NULL,NULL,NULL,1,1,1,'2009-06-17 20:51:03','2009-06-17 20:51:03',0),
+(21,41,'youtube','NMlsIUaWaRI',NULL,NULL,NULL,NULL,1,1,1,'2009-06-17 20:51:03','2009-06-17 20:51:03',0),
+(22,42,'youtube','vU6M5hAe-TU',NULL,NULL,NULL,NULL,1,1,1,'2009-06-17 20:51:03','2009-06-17 20:51:03',0),
+(23,43,'youtube','trpL0ldEVFM',NULL,NULL,NULL,NULL,1,1,1,'2009-06-17 20:51:03','2009-06-17 20:51:03',0),
+(24,44,'youtube','-d9A2oq1N38',NULL,NULL,NULL,NULL,1,1,1,'2009-06-17 20:51:03','2009-06-17 20:51:03',0),
+(25,45,'youtube','puSkP3uym5k',NULL,NULL,NULL,NULL,1,1,1,'2009-06-17 20:51:03','2009-06-17 20:51:03',0),
+(26,46,'youtube','bT_Jr3vasOo',NULL,NULL,NULL,NULL,1,1,1,'2009-06-17 20:51:03','2009-06-17 20:51:03',0),
+(27,47,'youtube','m6snNwJNl-o',NULL,NULL,NULL,NULL,1,1,1,'2009-06-17 20:51:03','2009-06-17 20:51:03',0),
+(28,48,'youtube','VDBpQVhCMb8',NULL,NULL,NULL,NULL,1,1,1,'2009-06-17 20:51:03','2009-06-17 20:51:03',0),
+(29,49,'youtube','Ht96HJ01SE4',NULL,NULL,NULL,NULL,1,1,1,'2009-06-17 20:51:03','2009-06-17 20:51:03',0),
+(30,50,'youtube','nM2ZcgMqhQc',NULL,NULL,NULL,NULL,1,1,1,'2009-06-17 20:51:03','2009-06-17 20:51:03',0),
+(31,51,'youtube','6BaECAbapRg',NULL,NULL,NULL,NULL,1,1,1,'2009-06-17 20:51:03','2009-06-17 20:51:03',0),
+(32,52,'youtube','vzYGcDZXgWQ',NULL,NULL,NULL,NULL,1,1,1,'2009-06-17 20:51:03','2009-06-17 20:51:03',0),
+(33,53,'youtube','fNCeYKfAOZI',NULL,NULL,NULL,NULL,1,1,1,'2009-06-17 20:51:03','2009-06-17 20:51:03',0),
+(34,54,'youtube','kc9gRZliWgA',NULL,NULL,NULL,NULL,1,1,1,'2009-06-17 20:51:03','2009-06-17 20:51:03',0),
+(35,55,'youtube','uIn-sMq8-Ls',NULL,NULL,NULL,NULL,1,1,1,'2009-06-17 20:51:03','2009-06-17 20:51:03',0),
+(36,56,'youtube','Tq8Yw19bn7Q',NULL,NULL,NULL,NULL,1,1,1,'2009-06-17 20:51:03','2009-06-17 20:51:03',0),
+(37,57,'youtube','eO9oseiCTdk',NULL,NULL,NULL,NULL,1,1,1,'2009-06-17 20:51:03','2009-06-17 20:51:03',0),
+(38,58,'youtube','_XPfoFZYso8',NULL,NULL,NULL,NULL,1,1,1,'2009-06-17 20:51:03','2009-06-17 20:51:03',0),
+(39,59,'youtube','37qw5vNyYzE',NULL,NULL,NULL,NULL,1,1,1,'2009-06-17 20:51:03','2009-06-17 20:51:03',0),
+(40,60,'youtube','WwUibDEH0nY',NULL,NULL,NULL,NULL,1,1,1,'2009-06-17 20:51:03','2009-06-17 20:51:03',0);
 /*!40000 ALTER TABLE `media_files` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -428,6 +428,42 @@ INSERT INTO `podcasts` VALUES (7,'daily-giz-wiz','2009-06-18 03:44:45','2009-06-
 UNLOCK TABLES;
 
 --
+-- Table structure for table `settings`
+--
+
+DROP TABLE IF EXISTS `settings`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `settings` (
+  `id` int(10) unsigned NOT NULL auto_increment,
+  `key` varchar(255) NOT NULL,
+  `value` text,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `key_index` (`key`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Dumping data for table `settings`
+--
+
+LOCK TABLES `settings` WRITE;
+/*!40000 ALTER TABLE `settings` DISABLE KEYS */;
+INSERT INTO `settings` VALUES (1,'email_media_uploaded',''),
+(2,'email_comment_posted',''),
+(3,'email_support_requests',''),
+(4,'email_send_from',''),
+(5,'ftp_server','my.ftp.server.com'),
+(6,'ftp_username','ftpuser'),
+(7,'ftp_password','secretpassword'),
+(8,'ftp_upload_path','media'),
+(9,'ftp_download_url','http://content.distribution.network/ftpuser/media/'),
+(10,'wording_user_uploads',''),
+(11,'wording_additional_notes','');
+/*!40000 ALTER TABLE `settings` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `tags`
 --
 
@@ -482,7 +518,7 @@ CREATE TABLE `tg_group` (
   `created` datetime default NULL,
   PRIMARY KEY  (`group_id`),
   UNIQUE KEY `group_name` (`group_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -491,7 +527,8 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `tg_group` WRITE;
 /*!40000 ALTER TABLE `tg_group` DISABLE KEYS */;
-INSERT INTO `tg_group` VALUES (1,'Admins','Administrators','2009-05-21 18:41:28');
+INSERT INTO `tg_group` VALUES (1,'Admins','Administrators','2009-05-21 18:41:28'),
+(2,'Editors','Content Editors','2009-09-18 18:41:28');
 /*!40000 ALTER TABLE `tg_group` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -657,4 +694,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2009-07-23 22:36:27
+-- Dump completed on 2009-12-31 20:06:38
