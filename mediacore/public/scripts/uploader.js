@@ -301,6 +301,11 @@ var SwiffUploadManager = new Class({
 
 	// called by the uploader when selecting a file from the browse box succeeds
 	onSelectSuccess: function(files) {
+		if (this.uploader.fileList.length > 1) {
+			// If there was already a file in the list, remove that one, and keep
+			// the new one.
+			this.uploader.fileRemove(this.uploader.fileList[0]);
+		}
 		this.setEnabled(true);
 		this.fileInfoDiv.set('html', 'You chose: <span class="filename">'+files[0].name+' ('+Swiff.Uploader.formatUnit(files[0].size, 'b')+')</span>');
 	},
