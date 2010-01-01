@@ -17,6 +17,7 @@ import re
 import math
 import datetime as dt
 import time
+import os
 from urlparse import urlparse
 
 from BeautifulSoup import BeautifulSoup
@@ -230,3 +231,22 @@ def list_accepted_extensions():
     if len(e) > 1:
         e[-1] = 'and ' + e[-1]
     return ', '.join(e)
+
+def podcast_image_url(podcast, size='s'):
+    if not podcast:
+        return None
+
+    image = 'podcasts/%d%s.jpg' % (podcast.id, size)
+    file_name = os.path.join(
+        config.image_dir,
+        image
+    )
+    if not os.path.isfile(file_name):
+        print "NOT A FILE:", file_name
+        return None
+
+    file_url = '/images/' + image
+
+    print "RETURNING ", url_for(file_url)
+
+    return url_for(file_url)

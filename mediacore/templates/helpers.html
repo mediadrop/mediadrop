@@ -201,9 +201,10 @@
 			<script src="${h.url_for('/scripts/third-party/flowplayer-3.1.0.min.js')}" type="text/javascript" />
 			<a href="${file.play_url}"
 			   id="flowplayer" style="display:block;width:${width}px;height:${height}px" />
-			<script type="text/javascript">
+			<script type="text/javascript" py:with="podcast_image=h.podcast_image_url(media.podcast, 'l')">
 				flowplayer('flowplayer', "${h.url_for('/scripts/third-party/flowplayer-3.1.0.swf')}", {
 					clip: {scaling: 'fit'}
+					<py:if test="podcast_image">, playlist: ['${podcast_image}', '${file.play_url}']</py:if>
 				});
 			</script>
 		</py:otherwise>
