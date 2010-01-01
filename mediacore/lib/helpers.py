@@ -242,11 +242,9 @@ def podcast_image_url(podcast, size='s'):
         image
     )
     if not os.path.isfile(file_name):
-        print "NOT A FILE:", file_name
         return None
 
     file_url = '/images/' + image
 
-    print "RETURNING ", url_for(file_url)
-
     return url_for(file_url)
+
