@@ -347,7 +347,7 @@ class MediaController(BaseController):
 
                 response.headers['Content-Type'] = mimetype
                 response.headers['Content-Disposition'] = \
-                    'attachment;filename=%s' % file_name
+                    'attachment;filename=%s' % file_name.encode('utf-8')
                 return file_handle.read()
         else:
             raise exceptions.HTTPNotFound()
