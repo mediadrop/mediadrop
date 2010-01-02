@@ -487,20 +487,27 @@ class MediaController(BaseController):
 
         .. note::
 
-            This method returns incorrect Content-type headers. It should
-            return ``application/json``, but we return ``text/html``. There
-            seems to be a bug in TG 2.0.x wrt setting the content type
-            that was giving inconsistent results when trying to set
-            ``text/plain``.
+            This method returns incorrect Content-Type headers: Content-Type
+            is set to ``text/html`` even though the returned data is really
+            of type ``application/json``.
 
+            This is because this method is used from the flash based uploader;
             Swiff.Uploader (which we use) uses Flash's FileReference.upload()
             method, which doesn't allow overriding the HTTP headers.
+
             On windows, the default headers have an "Accept: text/\*" line.
             This means that it won't accept "application/json".
-            TG Honours that, and, when returning, will throw an error rather
-            than return an invalid content-type.
 
+            TG honours that, and, when returning, will throw an error rather
+            than respond with an unacceptable Content-Type.
+
+            It would perhaps be more correct to set Content-Type to
+            ``text/plain`` or ``text/x-json``, but there seems to be a bug in
+            the current TG 2.0.3 + Pylons 0.9.7 stack w.r.t. overriding the
+            Content-Type headers.
         """
+        # TODO: look into the bug outlined in the note above.
+
         if 'validate' in kwargs:
             # we're just validating the fields. no need to worry.
             fields = json.loads(kwargs['validate'])
