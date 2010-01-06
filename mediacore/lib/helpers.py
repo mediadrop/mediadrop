@@ -18,6 +18,7 @@ import math
 import datetime as dt
 import time
 import os
+from copy import copy
 from urlparse import urlparse
 
 from BeautifulSoup import BeautifulSoup
@@ -77,7 +78,16 @@ block_spaces = re.compile("\s*(</{0,1}(" + "|".join(block_tags) + ")>)\s*", re.M
 block_close = re.compile("(</(" + "|".join(block_tags) + ")>)", re.M)
 valid_tags = dict.fromkeys('p i em strong b u a br pre abbr ol ul li sub sup ins del blockquote cite'.split())
 valid_attrs = dict.fromkeys('href title'.split())
+valid_attrs_admin = dict.fromkeys('href title src style class'.split())
 elem_map = {'b': 'strong', 'i': 'em'}
+
+cleaner_settings_admin = dict(
+    convert_entities = BeautifulSoup.ALL_ENTITIES,
+    valid_tags = block_tags,
+    valid_attrs = valid_attrs_admin,
+    elem_map = copy(elem_map),
+)
+
 # Map all invalid block elements to be paragraphs.
 for t in block_tags:
     if t not in valid_tags:
@@ -98,11 +108,14 @@ cleaner_settings = dict(
     elem_map = elem_map,
 )
 
-def clean_xhtml(string):
+def clean_xhtml(string, _cleaner_settings=None):
     """Convert the given plain text or HTML into valid XHTML.
 
     If there is no markup in the string, apply paragraph formatting.
 
+    :param _cleaner_settings: Constructor kwargs for
+        :class:`mediacore.lib.htmlsanitizer.Cleaner`
+    :type _cleaner_settings: dict
     :returns: XHTML
     :rtype: unicode
     """
@@ -110,8 +123,8 @@ def clean_xhtml(string):
         # If the string is none, or empty, or whitespace
         return u""
 
-    # wrap string in paragraph tag, just in case
-    string = u"<p>%s</p>" % string.strip()
+    if _cleaner_settings is None:
+        _cleaner_settings = cleaner_settings
 
     # remove carriage return chars; FIXME: is this necessary?
     string = string.replace(u"\r", u"")
@@ -124,7 +137,7 @@ def clean_xhtml(string):
     string = blank_line.sub(u"<br/>", string)
 
     # initialize and run the cleaner
-    string = Cleaner(string, *clean_filters, **cleaner_settings)()
+    string = Cleaner(string, *clean_filters, **_cleaner_settings)()
     # FIXME: It's possible that the rename_tags operation creates
     # some invalid nesting. e.g.
     # >>> c = Cleaner("", "rename_tags", elem_map={'h2': 'p'})
@@ -132,12 +145,29 @@ def clean_xhtml(string):
     # u'<p><p>head</p></p>'
     # This is undesirable, so here we... just re-parse the markup.
     # But this ... could be pretty slow.
-    string = Cleaner(string, *clean_filters, **cleaner_settings)()
+    cleaner = Cleaner(string, *clean_filters, **_cleaner_settings)
+    string = cleaner()
+
+    # Wrap in a <p> tag when no tags are used, and there are no blank
+    # lines to trigger automatic <p> creation
+    # FIXME: This should trigger any time we don't have a wrapping block tag
+    # FIXME: This doesn't wrap orphaned text when it follows a <p> tag, for ex
+    if (len(cleaner.root.contents) == 1
+        and isinstance(cleaner.root.contents[0], basestring)):
+        string = u"<p>%s</p>" % string.strip()
 
     # strip all whitespace from immediately before/after block-level elements
     string = block_spaces.sub(u"\\1", string)
 
     return string.strip()
+
+def clean_admin_xhtml(string):
+    """Convert the given text/HTML into valid HTML, allowing any tag.
+
+    :returns: XHTML
+    :rtype: unicode
+    """
+    return clean_xhtml(string, cleaner_settings_admin)
 
 def truncate_xhtml(string, size, _strip_xhtml=False, _decode_entities=False):
     """Truncate a XHTML string to roughly a given size (full words).
