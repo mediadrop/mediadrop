@@ -23,12 +23,7 @@
 <head>
 	<title>Upload Videos</title>
 	<link href="${h.url_for('/styles/upload-form.css')}" media="screen" rel="stylesheet" type="text/css" />
-	<script type="text/javascript">
-		window.addEvent('domready', function() {
-			// redirect after 12 seconds.
-			window.location = '${h.url_for('/')}';
-		}.create({delay: 12000}));
-	</script>
+	<meta http-equiv="refresh" content="12;url=${h.url_for('/')}" />
 </head>
 <body class="nav-upload-video-on">
 	<box id="mediacore">
