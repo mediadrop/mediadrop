@@ -11,6 +11,7 @@ log = logging.getLogger(__name__)
 def setup_app(command, conf, vars):
     """Place any commands to setup mediacore here"""
     load_environment(conf.global_conf, conf.local_conf)
+    return
     # Load the models
     from mediacore import model
     print "Creating tables"
