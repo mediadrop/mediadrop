@@ -1,6 +1,6 @@
 -- MySQL dump 10.11
 --
--- Host: localhost    Database: mediaplex
+-- Host: localhost    Database: mediacore
 -- ------------------------------------------------------
 -- Server version	5.0.86
 

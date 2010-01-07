@@ -14,10 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-body {
-/*	FIXME: Disable the BG color for TMCY.com
- *	background-color: #f8f1e7;*/
-}
 .column {
 	font-size: 16px;
 	font-family: 'Helvetica Neue', Helvetica, Arial, 'Liberation Sans', FreeSans, sans-serif;

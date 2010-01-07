@@ -23,9 +23,8 @@
 <head py:match="head">
 	<title py:match="title" py:with="title = unicode(select('text()'))">
 		<py:if test="title">${title} |</py:if>
-		TMC Youth
+		MediaCore
 	</title>
-<!--! FIXME: PROJSITE:	<link rel="stylesheet" type="text/css" media="all" href="${h.url_for('/project-site/styles/mediacore.css')}" />-->
 	<meta py:replace="select('*')"/>
 </head>
 
