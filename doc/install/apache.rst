@@ -10,6 +10,9 @@ document. Please refer to the documentation for `Apache
 <http://code.google.com/p/modwsgi/wiki/InstallationInstructions>`_ for
 that.
 
+More detailed instructions can be found in this `blog post
+<http://simplestation.com/locomotion/turbogears-2-tg2-with-mod_wsgi-and-virtual-environments/>`_.
+
 Here is an example Apache configuration, assuming you want to deploy to
 ``yourdomain.com/media/``. If you'd like to deploy to the root directory,
 that can be done as well, but to access static data outside of that
@@ -55,7 +58,9 @@ Here is an example for your ``wsgi-deploy.py`` script:
 
     import os, sys, site
 
+    # Make this folder writable by apache
     os.environ['PYTHON_EGG_CACHE'] = '/path/to/mediacore_install/python-wsgi-egg-cache'
+
     sd = '/path/to/mediacore_env/lib/python2.5/site-packages/'
     site.addsitedir(sd)
 

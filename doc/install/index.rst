@@ -189,6 +189,10 @@ Now edit your ini config. The most important setting right now is the
 ``sqlalchemy.url``. The format should be pretty self-explanatory, most
 users will just have to edit the username, password and dbname parts.
 
+Please note that the ``media_dir`` you've configured must be writable
+by the server. Inside the ``image_dir``, make the ``media`` and
+``podcasts`` folders writable as well.
+
 
 Launching the Built-in Server
 -----------------------------
