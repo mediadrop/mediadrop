@@ -1,0 +1,4 @@
+include LICENSE.txt development.ini setup.sql
+recursive-include data *
+recursive-include wsgi-scripts *
+recursive-include doc *

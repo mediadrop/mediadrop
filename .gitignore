@@ -6,3 +6,4 @@
 *.pyc
 *.tmproj
 MediaCore.egg-info
+dist
