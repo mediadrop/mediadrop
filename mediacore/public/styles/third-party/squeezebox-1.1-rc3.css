@@ -24,16 +24,16 @@
 	height: 30px;
 	right: -15px;
 	top: -15px;
-	background: url(closebox.png) no-repeat center;
+	background: url('../../images/squeezebox/closebox.png') no-repeat center;
 	border: none;
 }
 
 .sbox-window-ie6 #sbox-btn-close {
-	background-image: url(closebox.gif);
+	background-image: url('../../images/squeezebox/closebox.gif');
 }
 
 .sbox-loading #sbox-content {
-	background-image: url(spinner.gif);
+	background-image: url('../../images/squeezebox/spinner.gif');
 	background-repeat: no-repeat;
 	background-position: center;
 }
@@ -87,43 +87,43 @@
 	left: 0;
 	top: -40px;
 	width: 100%;
-	background: url(bg_n.png) repeat-x;
+	background: url('../../images/squeezebox/bg_n.png') repeat-x;
 }
 .sbox-bg-ne {
 	right: -33px;
 	top: -40px;
-	background: url(bg_ne.png) no-repeat;
+	background: url('../../images/squeezebox/bg_ne.png') no-repeat;
 }
 .sbox-bg-e {
 	right: -33px;
 	top: 0;
 	height: 100%;
-	background: url(bg_e.png) repeat-y;
+	background: url('../../images/squeezebox/bg_e.png') repeat-y;
 }
 .sbox-bg-se {
 	right: -33px;
 	bottom: -40px;
-	background: url(bg_se.png) no-repeat;
+	background: url('../../images/squeezebox/bg_se.png') no-repeat;
 }
 .sbox-bg-s {
 	left: 0;
 	bottom: -40px;
 	width: 100%;
-	background: url(bg_s.png) repeat-x;
+	background: url('../../images/squeezebox/bg_s.png') repeat-x;
 }
 .sbox-bg-sw {
 	left: -33px;
 	bottom: -40px;
-	background: url(bg_sw.png) no-repeat;
+	background: url('../../images/squeezebox/bg_sw.png') no-repeat;
 }
 .sbox-bg-w {
 	left: -33px;
 	top: 0;
 	height: 100%;
-	background: url(bg_w.png) repeat-y;
+	background: url('../../images/squeezebox/bg_w.png') repeat-y;
 }
 .sbox-bg-nw {
 	left: -33px;
 	top: -40px;
-	background: url(bg_nw.png) no-repeat;
+	background: url('../../images/squeezebox/bg_nw.png') no-repeat;
 }
