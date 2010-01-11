@@ -30,8 +30,9 @@
 	<script type="text/javascript">
 		window.addEvent('domready', function(){
 			var cm = new CommentMgr(
-				'${h.url_for(action='approve', id='bulk')}',
-				'${h.url_for(action='trash', id='bulk')}');
+				'${h.url_for(action='save_status', status='approve', id='bulk')}',
+				'${h.url_for(action='save_status', status='trash', id='bulk')}'
+			);
 		});
 	</script>
 </head>
