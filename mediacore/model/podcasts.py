@@ -27,6 +27,7 @@ from datetime import datetime
 from sqlalchemy import Table, ForeignKey, Column, sql
 from sqlalchemy.types import String, Unicode, UnicodeText, Integer, DateTime, Boolean, Float
 from sqlalchemy.orm import mapper, relation, backref, synonym, composite, validates, dynamic_loader, column_property
+from tg import request
 
 from mediacore.model import DeclarativeBase, metadata, DBSession, Author, slugify
 from mediacore.model.media import Media, media, MediaStatus
