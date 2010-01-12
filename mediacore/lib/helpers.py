@@ -71,41 +71,45 @@ def duration_to_seconds(duration):
         total = time.strptime(duration, '%M:%S')
     return total.tm_hour * 60 * 60 + total.tm_min * 60 + total.tm_sec
 
-
+# Configuration for HTML sanitization
 blank_line = re.compile("\s*\n\s*\n\s*", re.M)
 block_tags = 'p br pre blockquote div h1 h2 h3 h4 h5 h6 hr ul ol li form table tr td tbody thead'.split()
 block_spaces = re.compile("\s*(</{0,1}(" + "|".join(block_tags) + ")>)\s*", re.M)
 block_close = re.compile("(</(" + "|".join(block_tags) + ")>)", re.M)
 valid_tags = dict.fromkeys('p i em strong b u a br pre abbr ol ul li sub sup ins del blockquote cite'.split())
+valid_tags_admin = copy(valid_tags)
+valid_tags_admin.update(dict.fromkeys(block_tags))
 valid_attrs = dict.fromkeys('href title'.split())
 valid_attrs_admin = dict.fromkeys('href title src style class'.split())
 elem_map = {'b': 'strong', 'i': 'em'}
+truncate_filters = ['strip_empty_tags']
 
+# Permissive admin HTML sanitization rules
 cleaner_settings_admin = dict(
     convert_entities = BeautifulSoup.ALL_ENTITIES,
-    valid_tags = block_tags,
+    valid_tags = valid_tags_admin,
     valid_attrs = valid_attrs_admin,
     elem_map = copy(elem_map),
+    filters = [
+        'strip_tags', 'strip_attrs', 'strip_schemes', 'strip_cdata',
+        'rename_tags', 'br_to_p', 'make_links', 'encode_xml_specials',
+        'clean_whitespace', 'strip_empty_tags',
+    ]
 )
 
+# More restrictive rules for publicly submitted content
+cleaner_filters = copy(cleaner_settings_admin['filters'])
+cleaner_filters.extend(['strip_comments', 'add_nofollow'])
 # Map all invalid block elements to be paragraphs.
 for t in block_tags:
     if t not in valid_tags:
         elem_map[t] = 'p'
-clean_filters = [
-    "strip_comments", "rename_tags", "strip_tags",
-    "strip_attrs", "strip_schemes", "strip_cdata",
-    "br_to_p", "make_links", "add_nofollow",
-    "encode_xml_specials", "clean_whitespace", "strip_empty_tags",
-]
-truncate_filters = [
-    "strip_empty_tags"
-]
 cleaner_settings = dict(
     convert_entities = BeautifulSoup.ALL_ENTITIES,
     valid_tags = valid_tags,
     valid_attrs = valid_attrs,
     elem_map = elem_map,
+    filters = cleaner_filters
 )
 
 def clean_xhtml(string, _cleaner_settings=None):
@@ -137,7 +141,7 @@ def clean_xhtml(string, _cleaner_settings=None):
     string = blank_line.sub(u"<br/>", string)
 
     # initialize and run the cleaner
-    string = Cleaner(string, *clean_filters, **_cleaner_settings)()
+    string = Cleaner(string, **_cleaner_settings)()
     # FIXME: It's possible that the rename_tags operation creates
     # some invalid nesting. e.g.
     # >>> c = Cleaner("", "rename_tags", elem_map={'h2': 'p'})
@@ -145,7 +149,7 @@ def clean_xhtml(string, _cleaner_settings=None):
     # u'<p><p>head</p></p>'
     # This is undesirable, so here we... just re-parse the markup.
     # But this ... could be pretty slow.
-    cleaner = Cleaner(string, *clean_filters, **_cleaner_settings)
+    cleaner = Cleaner(string, **_cleaner_settings)
     string = cleaner()
 
     # Wrap in a <p> tag when no tags are used, and there are no blank
