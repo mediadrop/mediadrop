@@ -29,7 +29,7 @@ from sqlalchemy.types import String, Unicode, UnicodeText, Integer, DateTime, Bo
 from sqlalchemy.orm import mapper, relation, backref, synonym, composite, validates, dynamic_loader, column_property
 from tg import request
 
-from mediacore.model import DeclarativeBase, metadata, DBSession, Author, slugify
+from mediacore.model import DeclarativeBase, metadata, DBSession, Author, slugify, get_available_slug
 from mediacore.model.media import Media, media, MediaStatus
 
 
@@ -166,9 +166,10 @@ def create_podcast_stub():
         * Some admin uploads album art *before* saving their new media
 
     """
-    podcast = Podcast()
-    podcast.slug = 'placeholder'
-    podcast.title = '(Placeholder Podcast)'
     user = request.environ['repoze.who.identity']['user']
+    timestamp = datetime.now().strftime('%b-%d-%Y')
+    podcast = Podcast()
+    podcast.slug = get_available_slug(Podcast, 'stub-%s' % timestamp)
+    podcast.title = '(Stub %s created by %s)' % (timestamp, user.display_name)
     podcast.author = Author(user.display_name, user.email_address)
     return podcast
