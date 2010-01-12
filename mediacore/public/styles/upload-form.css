@@ -216,9 +216,9 @@ div#upload-status {
 	color: #84c198;
 }
 
-div.success {
+div.upload-success {
 	background-image: url('../images/uploader/success.png');
-	background-position: center 170px;
+	background-position: center top;
 	background-repeat: no-repeat;
 	padding-bottom: 140px;
 }
