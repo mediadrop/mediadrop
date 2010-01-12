@@ -179,22 +179,27 @@ class PodcastadminController(BaseController):
         else:
             podcast = fetch_row(Podcast, id)
 
-        temp_file = album_art.file
-        im_path = os.path.join(config.image_dir, 'podcasts/%d%%(size)s.%%(ext)s' % podcast.id)
+        im_path = os.path.join(config.image_dir, 'podcasts/%s%s.%s')
 
         try:
             # Create jpeg thumbnails
-            im = Image.open(temp_file)
-            im.resize((132, 132), 1).save(im_path % dict(size='s', ext='jpg'))
-            im.resize((154, 154), 1).save(im_path % dict(size='m', ext='jpg'))
-            im.resize((600, 600), 1).save(im_path % dict(size='l', ext='jpg'))
+            im = Image.open(album_art.file)
+
+            if id == 'new':
+                DBSession.add(podcast)
+                DBSession.flush()
+
+            # TODO: Allow other formats?
+            for key, dimensions in config.podcast_album_art_sizes.iteritems():
+                file_path = im_path % (podcast.id, key, 'jpg')
+                im.resize(dimensions, 1).save(file_path)
 
             # Backup the original image just for kicks
             orig_type = os.path.splitext(album_art.filename)[1].lower()[1:]
-            orig_file = open(im_path % dict(size='orig', ext=orig_type), 'w')
-            copyfileobj(temp_file, orig_file)
-            temp_file.close()
-            orig_file.close()
+            backup_file = open(im_path % (podcast.id, 'orig', orig_type), 'w')
+            copyfileobj(album_art.file, backup_file)
+            album_art.file.close()
+            backup_file.close()
 
             success = True
             message = None

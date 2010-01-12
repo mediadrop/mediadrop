@@ -149,3 +149,8 @@ base_config.album_art_sizes = { # the dimensions (in pixels) to scale album art
     'l': (410, 231),
 }
 
+base_config.podcast_album_art_sizes = { # the dimensions (in pixels) to scale album art
+    's': (132, 132),
+    'm': (154, 154),
+    'l': (600, 600),
+}

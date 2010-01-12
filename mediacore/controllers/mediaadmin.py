@@ -460,9 +460,9 @@ class MediaadminController(BaseController):
                 DBSession.flush()
 
             # TODO: Allow other formats?
-            for size in ['ss', 's', 'm', 'l']:
-                file_path = im_path % (media.id, size, 'jpg')
-                im.resize(config.album_art_sizes[size], 1).save(file_path)
+            for key, dimensions in config.album_art_sizes.iteritems():
+                file_path = im_path % (media.id, key, 'jpg')
+                im.resize(dimensions, 1).save(file_path)
 
             # Backup the original image just for kicks
             orig_type = os.path.splitext(album_art.filename)[1].lower()[1:]
