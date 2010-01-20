@@ -78,10 +78,10 @@ Once that's done you can create your new virtual environment:
    # To create a virtual environment:
    $ virtualenv --no-site-packages mediacore_env
 
-   # However, if this virtualenv is going to be used by Apache+mod_wsgi:
+   # Or, for Apache+mod_wsgi deployments:
    $ virtualenv mediacore_env
 
-   # To activate that virtual environment:
+   # Then, to activate that virtual environment:
    $ cd mediacore_env
    $ source bin/activate
 
@@ -106,26 +106,30 @@ it makes it easy to stay right up-to-date with bugfixes as they're made.
 
    .. sourcecode:: bash
 
-      # Test to see if PIL is installed:
-      $ python -c "from PIL import Image"
-
-      # If an ImportError is thrown, install:
+      # Install the Python Imaging Library via MacPorts:
       $ sudo port install py25-pil
 
+      # If you created your virtualenv with the --no-site-packages flag
+      # you need to manually include the PIL module in your virtualenv:
+      $ cd mediacore_env
+      $ ln -s /opt/local/lib/python2.5/site-packages/PIL* lib/python2.5/site-packages/
+
    Leopard comes with a version of MySQL pre-installed, however,
-   we recommend installing a newer version via MacPorts. Either way,
-   you'll need the Python bindings.
+   we recommend installing a newer version via MacPorts.
 
    .. sourcecode:: bash
 
-      # In case you haven't installed MySQL5 yet:
+      # If you haven't installed MySQL5 yet, do so via MacPorts:
       $ sudo port install mysql5-server
 
-      # Test to see if you have the MySQL-python bindings:
-      $ python -c "import MySQLdb"
-
-      # If an ImportError is thrown, install:
+      # Now install the MySQL-python bindings via MacPorts:
       $ sudo port install py25-mysql
+
+      # If you created your virtualenv with the --no-site-packages flag
+      # you need to manually include the MySQLdb module in your virtualenv:
+      $ cd mediacore_env
+      $ ln -s /opt/local/lib/python2.5/site-packages/MySQL* lib/python2.5/site-packages/
+      $ ln -s /opt/local/lib/python2.5/site-packages/_mysql* lib/python2.5/site-packages/
 
    Now when we run ``setup.py``, the libraries it can't install
    properly will be there already, so the setup will complete.
@@ -135,16 +139,14 @@ for MediaCore.
 
 .. sourcecode:: bash
 
-   # Coming soon -- install via PyPi -- no download necessary:
-   $ easy_install MediaCore
-
    # If you've just downloaded a source distribution:
-   $ tar xzvf MediaCore-0.7.tar.gz
-   $ cd MediaCore-0.7
+   $ tar xzvf MediaCore-0.7.1.tar.gz
+   $ cd MediaCore-0.7.1
    $ python setup.py develop
 
    # Or, for developers especially, but anyone familiar with Git:
    $ git clone git://github.com/simplestation/mediacore.git
+   $ cd mediacore
    $ python setup.py develop
 
 
@@ -153,16 +155,13 @@ Database Setup
 
 MediaCore comes with a ``setup.sql`` script to populate a database with
 tables and some basic data. You'll need to create a database for it,
-then import that script. This can be done through phpMyAdmin, CocoaMySQL,
-or the command line:
+then import that script. This can be done in a variety of ways, including
+phpMyAdmin, CocoaMySQL, or the command line:
 
 .. sourcecode:: bash
 
-   # To create an empty database with root:
-   $ mysql5 -u root -p < "CREATE DATABASE mediacore;"
-
-   # Then you can actually execute the import:
-   $ mysql5 -u root -p < setup.sql
+   # Import from the commandline to a new 'mediacore' database:
+   $ mysql5 -u root -p mediacore < setup.sql
 
    # If no mysql5 executable is found, try simply mysql instead
 
@@ -205,7 +204,10 @@ so you have it already, simply run:
 
    $ paster serve development.ini
 
-Now open http://localhost:8080/ to see how it works!
+Now open http://localhost:8080/ to see how it works! You can try access
+the admin at http://localhost:8080/admin/ with username admin, password
+admin. (Remember to `change your password
+<http://localhost:8080/admin/settings/users/1>`_!)
 
 If this produces errors then MediaCore or one of its dependencies is not
 setup correctly. Please feel free to ask questions and submit solutions
