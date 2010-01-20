@@ -1,4 +1,13 @@
-include LICENSE.txt development.ini setup.sql
-recursive-include data *
+include LICENSE.txt
+include development.ini
+include setup.sql
+include data/media/.htaccess
+include doc/Makefile
+include doc/python.inv
+recursive-include doc *.py
+recursive-include doc *.rst
+recursive-exclude doc/build *
+recursive-include mediacore/public *
+recursive-include mediacore/templates *
+recursive-include mediacore/i18n *
 recursive-include wsgi-scripts *
-recursive-include doc *
