@@ -27,13 +27,75 @@ import functools
 
 import routes
 from tg import config, request, response, tmpl_context, exceptions, expose
-from tg.controllers import RoutingController
 from paste.deploy.converters import asbool
 
 # Import for convenience in controllers
 from tg import validate, flash
 from mediacore.model.settings import fetch_setting
 from mediacore.lib.paginate import paginate
+
+# Temporary measure until TurboGears 2.0.4 is released with our routing fixes
+# See: http://simplestation.com/locomotion/routes-in-turbogears2/
+try:
+    from tg.controllers import RoutingController
+except ImportError:
+    from tg.controllers import DecoratedController
+    from tg.exceptions import HTTPException
+    class RoutingController(DecoratedController):
+        """
+        DecoratedController extended for :mod:`routes` compatibility.
+
+        Mirrors some of the behaviour of :class:`TGController`, for exception
+        handling.
+
+        Mirrors some of the behaviour of :class:`ObjectDispatchController`, which
+        includes necessary special cases for :meth:`DecoratedController.__before__`
+        and :meth:`DecoratedController.__after__`.
+        """
+
+        def _perform_call(self, func, args):
+            try:
+                # If these are the __before__ or __after__ methods, they will have
+                # no decoration property. This will make the default
+                # DecoratedController._perform_call() method choke, so we'll handle
+                # them the same way ObjectDispatchController handles them.
+                func_name = func.__name__
+                if func_name in ['__before__', '__after__']:
+                    action_name = str(args.get('action', 'lookup'))
+                    controller = getattr(self, action_name)
+
+                    if hasattr(controller.im_class, func_name):
+                        return getattr(controller.im_self, func_name)(*args)
+                    return
+
+                else:
+                    controller = func
+                    params = args
+                    remainder = ''
+
+                    # Remove all extraneous Routing related params.
+                    # Otherwise, they'd be passed as kwargs to the rendered action.
+                    undesirables = [
+                        'pylons',
+                        'start_response',
+                        'environ',
+                        'action',
+                        'controller'
+                    ]
+                    for x in undesirables:
+                        params.pop(x, None)
+
+                    result = DecoratedController._perform_call(
+                        self, controller, params, remainder=remainder)
+
+            except HTTPException, httpe:
+                result = httpe
+                # 304 Not Modified's shouldn't have a content-type set
+                if result.status_int == 304:
+                    result.headers.pop('Content-Type', None)
+                result._exception = True
+
+            return result
 
 
 class BaseController(RoutingController):
