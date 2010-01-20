@@ -11,3 +11,4 @@ recursive-include mediacore/public *
 recursive-include mediacore/templates *
 recursive-include mediacore/i18n *
 recursive-include wsgi-scripts *
+recursive-exclude * *.pyc
