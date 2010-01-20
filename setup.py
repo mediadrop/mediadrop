@@ -7,6 +7,28 @@ except ImportError:
 
 from mediacore import __version__ as VERSION
 
+install_requires = [
+    'TurboGears2',
+    'ToscaWidgets >= 0.9.1',
+    'tw.dynforms',
+    'zope.sqlalchemy',
+    'sqlalchemy >= 0.5.2',
+    'repoze.what-quickstart',
+    'MySQL-python >= 1.2.2',
+    'BeautifulSoup == 3.0.7a',
+        # We monkeypatch this version of BeautifulSoup in mediacore.__init__
+        # Patch pending: https://bugs.launchpad.net/beautifulsoup/+bug/397997
+]
+
+# PIL has some weird packaging issues (because its been around forever).
+# If PIL is installed via MacPorts, setuptools tries to install again.
+# The original PIL 1.1.6 package won't install via setuptools so this
+# this setup script will install http://dist.repoze.org/PIL-1.1.6.tar.gz
+try:
+    import PIL
+except ImportError:
+    install_requires.append('PIL >= 1.1.6')
+
 setup(
     name='MediaCore',
     version=VERSION,
@@ -28,20 +50,7 @@ setup(
         'Intended Audience :: System Administrators',
         ],
 
-    install_requires=[
-        # FIXME: Change to 2.0.4 when its out, right now we require a customized version
-        'TurboGears2',
-        'ToscaWidgets >= 0.9.1',
-        'tw.dynforms',
-        'zope.sqlalchemy',
-        'sqlalchemy >= 0.5.2',
-        'repoze.what-quickstart',
-        'PIL >= 1.1.6',
-        'MySQL-python >= 1.2.2',
-        'BeautifulSoup == 3.0.7a',
-            # We monkeypatch this version of BeautifulSoup in mediacore.__init__
-            # Patch pending: https://bugs.launchpad.net/beautifulsoup/+bug/397997
-        ],
+    install_requires=install_requires,
     setup_requires=[
         'PasteScript >= 1.6.3'
         ],
