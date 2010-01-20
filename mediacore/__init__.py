@@ -15,7 +15,7 @@
 
 import sys
 
-__version__ = '0.7.1'
+__version__ = '0.7.2dev'
 __status__ = 'beta'
 __copyright__ = 'Copyright 2009, Simple Station Inc.'
 __license__ = 'GPLv3'
