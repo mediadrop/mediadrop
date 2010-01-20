@@ -44,7 +44,7 @@ instructions <install_toplevel>`.)
 
     # As always, don't forget to work in your virtualenv
     $ source mediacore_env/bin/activate
-    $ easy_install Sphinx Pigments
+    $ easy_install Sphinx Pygments
 
     # Build the HTML docs with sphinx
     $ cd doc
