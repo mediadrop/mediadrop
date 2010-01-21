@@ -43,8 +43,8 @@ This guide assumes that you already have installed:
 
    Mac OSX users also require `Xcode
    <http://developer.apple.com/tools/xcode/>`_ (comes on the OSX
-   install discs). `MacPorts <http://www.macports.org/>`_ is
-   also highly recommended.
+   install discs too). This is because some MediaCore dependencies will
+   need to be compiled (don't worry though, it's all automatic).
 
 
 By the time you're done installing you will also have:
@@ -52,6 +52,22 @@ By the time you're done installing you will also have:
 * The python ``virtualenv`` package
 * The python ``MySQLdb`` database adapter
 * To run on Apache, the ``mod_wsgi`` module
+
+
+Database Setup
+--------------
+
+MediaCore comes with a ``setup.sql`` script to populate a database with
+tables and some basic data. You'll need to create a database for it,
+then import that script. This can be done in a variety of ways, including
+phpMyAdmin, CocoaMySQL, or the command line:
+
+.. sourcecode:: bash
+
+   # Import from the commandline to a new 'mediacore' database:
+   $ mysql -u root -p mediacore < setup.sql
+
+   # If no mysql5 executable is found, try simply mysql instead
 
 
 Virtual Environments
@@ -89,6 +105,28 @@ Now that you're in a newly created virtual environment, any packages you
 install will only be accessible when you've activated the environment as
 we just did.
 
+A Note for Mac OS X Users
+-------------------------
+
+Although Leopard comes with a version of MySQL
+pre-installed we recommend installing a newer version via MacPorts.
+
+.. sourcecode:: bash
+
+    # If you haven't installed MySQL5 yet, do so via MacPorts:
+    $ sudo port install mysql5-server
+
+When it comes time for the MySQL-python bindings to be installed,
+the correct `mysql_config` file must be on your `$PATH`:
+
+.. sourcecode:: bash
+
+    # Run this and add it to your ~/.profile
+    export PATH=$PATH:/opt/local/bin
+
+    # MacPorts calls this mysql_config5, lets symlink it to mysql_config:
+    $ ln -s /opt/local/bin/mysql_config5 /opt/local/bin/mysql_config
+
 
 Installing MediaCore and its dependencies
 -----------------------------------------
@@ -99,43 +137,9 @@ version control, we have a `public Git repository
 <http://github.com/simplestation/mediacore/>`_. Git is great because
 it makes it easy to stay right up-to-date with bugfixes as they're made.
 
-.. note::
 
-   **Mac OS X users** must install certain dependencies manually
-   before proceeding:
-
-   .. sourcecode:: bash
-
-      # Install the Python Imaging Library via MacPorts:
-      $ sudo port install py25-pil
-
-      # If you created your virtualenv with the --no-site-packages flag
-      # you need to manually include the PIL module in your virtualenv:
-      $ cd mediacore_env
-      $ ln -s /opt/local/lib/python2.5/site-packages/PIL* lib/python2.5/site-packages/
-
-   Leopard comes with a version of MySQL pre-installed, however,
-   we recommend installing a newer version via MacPorts.
-
-   .. sourcecode:: bash
-
-      # If you haven't installed MySQL5 yet, do so via MacPorts:
-      $ sudo port install mysql5-server
-
-      # Now install the MySQL-python bindings via MacPorts:
-      $ sudo port install py25-mysql
-
-      # If you created your virtualenv with the --no-site-packages flag
-      # you need to manually include the MySQLdb module in your virtualenv:
-      $ cd mediacore_env
-      $ ln -s /opt/local/lib/python2.5/site-packages/MySQL* lib/python2.5/site-packages/
-      $ ln -s /opt/local/lib/python2.5/site-packages/_mysql* lib/python2.5/site-packages/
-
-   Now when we run ``setup.py``, the libraries it can't install
-   properly will be there already, so the setup will complete.
-
-Here, ``setup.py`` downloads and installs all the necessary dependencies
-for MediaCore.
+Here ``setup.py`` downloads and installs all the necessary dependencies
+for MediaCore:
 
 .. sourcecode:: bash
 
@@ -148,22 +152,6 @@ for MediaCore.
    $ git clone git://github.com/simplestation/mediacore.git
    $ cd mediacore
    $ python setup.py develop
-
-
-Database Setup
---------------
-
-MediaCore comes with a ``setup.sql`` script to populate a database with
-tables and some basic data. You'll need to create a database for it,
-then import that script. This can be done in a variety of ways, including
-phpMyAdmin, CocoaMySQL, or the command line:
-
-.. sourcecode:: bash
-
-   # Import from the commandline to a new 'mediacore' database:
-   $ mysql5 -u root -p mediacore < setup.sql
-
-   # If no mysql5 executable is found, try simply mysql instead
 
 
 Configuring Your New Deployment
