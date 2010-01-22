@@ -38,14 +38,9 @@ This guide assumes that you already have installed:
 
 * Python 2.5.x or newer
 * MySQL 5.0.x or newer
-
-.. note::
-
-   Mac OSX users also require `Xcode
-   <http://developer.apple.com/tools/xcode/>`_ (comes on the OSX
-   install discs too). This is because some MediaCore dependencies will
-   need to be compiled (don't worry though, it's all automatic).
-
+* GCC must be installed on your ``$PATH`` for certain dependencies to
+  compile automatically. For Mac OS X users, that means installing
+  `Xcode <http://developer.apple.com/tools/xcode/>`_.
 
 By the time you're done installing you will also have:
 
@@ -54,20 +49,29 @@ By the time you're done installing you will also have:
 * To run on Apache, the ``mod_wsgi`` module
 
 
-Database Setup
---------------
+A Note for Mac OS X Users
+-------------------------
 
-MediaCore comes with a ``setup.sql`` script to populate a database with
-tables and some basic data. You'll need to create a database for it,
-then import that script. This can be done in a variety of ways, including
-phpMyAdmin, CocoaMySQL, or the command line:
+Besides `Xcode <http://developer.apple.com/tools/xcode/>`_, you'll also
+need an up to date version of MySQL -- we recommend that you not use
+the version that is bundled with Mac OS X. The easiest way to install
+is via `MacPorts <http://www.macports.org/>`_.
 
 .. sourcecode:: bash
 
-   # Import from the commandline to a new 'mediacore' database:
-   $ mysql -u root -p mediacore < setup.sql
+    # If you haven't installed MySQL5 yet, do so via MacPorts:
+    $ sudo port install mysql5-server
 
-   # If no mysql5 executable is found, try simply mysql instead
+When it comes time for the MySQL-python bindings to be installed,
+the correct ``mysql_config`` file must be on your ``$PATH``:
+
+.. sourcecode:: bash
+
+    # Run this and add it to your ~/.profile
+    export PATH=$PATH:/opt/local/bin
+
+    # MacPorts calls this mysql_config5, lets symlink it to mysql_config:
+    $ ln -s /opt/local/bin/mysql_config5 /opt/local/bin/mysql_config
 
 
 Virtual Environments
@@ -105,29 +109,6 @@ Now that you're in a newly created virtual environment, any packages you
 install will only be accessible when you've activated the environment as
 we just did.
 
-A Note for Mac OS X Users
--------------------------
-
-Although Leopard comes with a version of MySQL
-pre-installed we recommend installing a newer version via MacPorts.
-
-.. sourcecode:: bash
-
-    # If you haven't installed MySQL5 yet, do so via MacPorts:
-    $ sudo port install mysql5-server
-
-When it comes time for the MySQL-python bindings to be installed,
-the correct `mysql_config` file must be on your `$PATH`:
-
-.. sourcecode:: bash
-
-    # Run this and add it to your ~/.profile
-    export PATH=$PATH:/opt/local/bin
-
-    # MacPorts calls this mysql_config5, lets symlink it to mysql_config:
-    $ ln -s /opt/local/bin/mysql_config5 /opt/local/bin/mysql_config
-
-
 Installing MediaCore and its dependencies
 -----------------------------------------
 
@@ -137,15 +118,14 @@ version control, we have a `public Git repository
 <http://github.com/simplestation/mediacore/>`_. Git is great because
 it makes it easy to stay right up-to-date with bugfixes as they're made.
 
-
 Here ``setup.py`` downloads and installs all the necessary dependencies
 for MediaCore:
 
 .. sourcecode:: bash
 
    # If you've just downloaded a source distribution:
-   $ tar xzvf MediaCore-0.7.1.tar.gz
-   $ cd MediaCore-0.7.1
+   $ tar xzvf MediaCore-0.7.2.tar.gz
+   $ cd MediaCore-0.7.2
    $ python setup.py develop
 
    # Or, for developers especially, but anyone familiar with Git:
@@ -172,13 +152,32 @@ among other things.
    # To create deployment.ini in your current dir:
    $ paster make-config MediaCore deployment.ini
 
-Now edit your ini config. The most important setting right now is the
-``sqlalchemy.url``. The format should be pretty self-explanatory, most
-users will just have to edit the username, password and dbname parts.
+Open it up and have a look through. The default settings should get you
+started, only the database needs to be setup, which we'll do in the
+next step.
 
 Please note that the ``media_dir`` you've configured must be writable
 by the server. Inside the ``image_dir``, make the ``media`` and
 ``podcasts`` folders writable as well.
+
+
+Database Setup
+--------------
+
+MediaCore comes with a ``setup.sql`` script to populate a database with
+tables and some basic data. You'll need to create a database for it,
+then import that script. This can be done in a variety of ways, including
+phpMyAdmin, CocoaMySQL, or the command line:
+
+.. sourcecode:: bash
+
+   # Import into an already existing database called mediacore:
+   $ mysql -u root -p mediacore < setup.sql
+
+You can now edit your INI config file to point to this new database.
+Look for the ``sqlalchemy.url`` setting. The format should be pretty
+self-explanatory, most users will just have to edit the username,
+password and dbname parts.
 
 
 Launching the Built-in Server
@@ -190,7 +189,7 @@ so you have it already, simply run:
 
 .. sourcecode:: bash
 
-   $ paster serve development.ini
+   $ paster serve --reload development.ini
 
 Now open http://localhost:8080/ to see how it works! You can try access
 the admin at http://localhost:8080/admin/ with username admin, password
