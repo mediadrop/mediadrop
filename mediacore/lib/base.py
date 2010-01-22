@@ -39,6 +39,7 @@ from mediacore.lib.paginate import paginate
 try:
     from tg.controllers import RoutingController
 except ImportError:
+    import pylons
     from tg.controllers import DecoratedController
     from tg.exceptions import HTTPException
     class RoutingController(DecoratedController):
@@ -52,7 +53,6 @@ except ImportError:
         includes necessary special cases for :meth:`DecoratedController.__before__`
         and :meth:`DecoratedController.__after__`.
         """
-
         def _perform_call(self, func, args):
             try:
                 # If these are the __before__ or __after__ methods, they will have
@@ -63,11 +63,9 @@ except ImportError:
                 if func_name in ['__before__', '__after__']:
                     action_name = str(args.get('action', 'lookup'))
                     controller = getattr(self, action_name)
-
                     if hasattr(controller.im_class, func_name):
                         return getattr(controller.im_self, func_name)(*args)
                     return
-
                 else:
                     controller = func
                     params = args
@@ -85,17 +83,26 @@ except ImportError:
                     for x in undesirables:
                         params.pop(x, None)
 
+                    # Add the GET/POST request params to our params dict,
+                    # overriding any defaults passed in.
+                    params.update(pylons.request.params.mixed())
+
                     result = DecoratedController._perform_call(
                         self, controller, params, remainder=remainder)
-
             except HTTPException, httpe:
                 result = httpe
                 # 304 Not Modified's shouldn't have a content-type set
                 if result.status_int == 304:
                     result.headers.pop('Content-Type', None)
                 result._exception = True
-
             return result
+
+    # Assume that if the RoutingController isn't in tg yet,
+    # this essential bugfix isn't either. Monkeypatch!
+    from tg.decorators import Decoration
+    def exposed(self):
+        return bool(self.engines) or bool(self.custom_engines)
+    Decoration.exposed = property(exposed)
 
 
 class BaseController(RoutingController):
