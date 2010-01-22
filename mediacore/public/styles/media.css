@@ -37,27 +37,27 @@ a:hover .grid-title, a.grid-title:hover {
 	display: block;
 	border: 1px solid #b0b0b0;
 }
-.thumb-wrap {
+.grid-thumb-wrap {
 	display: block;
 	overflow: hidden;
 	position: relative;
 }
-.thumb-wrap .timestamp-right {
+.grid-thumb-wrap .grid-duration {
+	height: 15px;
+	position: absolute;
+	bottom: 1px;
+	right: 11px;
+	background: url('../images/layout/timestamp-left.png') no-repeat left;
+	padding: 0 2px 3px 12px;
+	color: #cacaca;
+}
+.grid-thumb-wrap .grid-duration-right {
 	width: 10px;
 	height: 18px;
 	position: absolute;
 	bottom: 1px;
 	right: 1px;
 	background: url('../images/layout/timestamp-right.png') no-repeat right;
-}
-.thumb-wrap .timestamp {
-	height: 15px;
-	position: absolute;
-	bottom: 1px;
-	right: 11px;
-	background: url('../images/layout/timestamp-left.png') no-repeat left;
-	padding: 0 0 3px 12px;
-	color: #cacaca;
 }
 
 .grid-meta {

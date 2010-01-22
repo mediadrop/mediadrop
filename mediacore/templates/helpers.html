@@ -226,13 +226,13 @@
 		<ul id="podcastgrid" class="grid2">
 			<li py:for="media in episodes">
 				<a href="${h.url_for(controller='/media', action='view', slug=media.slug, podcast_slug=media.podcast.slug)}" class="grid2-link">
-					<div class="thumb-wrap">
+					<span class="grid-thumb-wrap">
 						<img src="${h.url_for('/images/media/%sss.jpg' % media.id)}" width="128" height="72" alt="${h.decode_entities(media.title)}" class="grid-thumb" />
 						<py:if test="media.duration">
-							<div class="timestamp">${h.duration_from_seconds(media.duration)}</div>
-							<div class="timestamp-right"></div>
+							<span class="grid-duration" py:content="h.duration_from_seconds(media.duration)">Duration</span>
+							<span class="grid-duration-right" />
 						</py:if>
-					</div>
+					</span>
 					<span class="grid-title">${Markup(media.title)}</span>
 				</a>
 				<div class="grid-desc" py:content="Markup(h.truncate_xhtml(media.description, 110, True))">Description here</div>
@@ -249,13 +249,13 @@
 		<ul id="mediagrid" class="grid" py:with="url_args = url_args or {'controller': '/media', 'action': 'view'}">
 			<li py:for="media in media_list">
 				<a href="${h.url_for(slug=media.slug, **url_args)}" title="${h.truncate_xhtml(media.description, 100, True, True)}">
-					<div class="thumb-wrap">
+					<span class="grid-thumb-wrap">
 						<img src="${h.url_for('/images/media/%ss.jpg' % media.id)}" width="162" height="91" alt="${h.decode_entities(media.title)}" class="grid-thumb" />
 						<py:if test="media.duration">
-							<div class="timestamp">${h.duration_from_seconds(media.duration)}</div>
-							<div class="timestamp-right"></div>
+							<span class="grid-duration" py:content="h.duration_from_seconds(media.duration)">Duration</span>
+							<span class="grid-duration-right" />
 						</py:if>
-					</div>
+					</span>
 					<span class="grid-title">${Markup(media.title)}</span>
 					<span class="grid-meta">
 						<span class="grid-likes">${media.rating.sum} <span>Like<py:if test="media.rating.sum != 1">s</py:if></span></span>
