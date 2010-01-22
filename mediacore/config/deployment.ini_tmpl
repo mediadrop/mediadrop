@@ -69,7 +69,7 @@ set debug = false
 # http://docs.python.org/lib/logging-config-fileformat.html
 
 [loggers]
-keys = root, mediacore, sqlalchemy, auth
+keys = root, mediacore, sqlalchemy, auth, tgi18n
 
 [handlers]
 keys = console
@@ -102,6 +102,11 @@ qualname = sqlalchemy.engine
 level = WARN
 handlers = 
 qualname = auth
+
+[logger_tgi18n]
+level = WARN
+handlers =
+qualname = tg.i18n
 
 # If you create additional handlers, add them as a key to [handlers]
 [handler_console]
