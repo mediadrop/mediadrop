@@ -16,6 +16,7 @@
 from tg import config, request, response, tmpl_context
 from sqlalchemy import orm
 from repoze.what.predicates import has_permission
+from paste.util import mimeparse
 import pylons.templating
 
 from mediacore.lib.base import (BaseController, url_for, redirect,
@@ -176,19 +177,18 @@ class PodcastsController(BaseController):
             and not kwargs.get('feedburner_bypass', False)):
             redirect(podcast.feedburner_url.encode('utf-8'))
 
+        # Choose the most appropriate content_type for the client
+        response.content_type = mimeparse.best_match(
+            ['application/rss+xml', 'application/xml', 'text/xml'],
+            request.environ.get('HTTP_ACCEPT', '*/*')
+        )
+
         episodes = self._filter(podcast.media)\
             .order_by(Media.publish_on.desc())[:25]
-
         template_vars = dict(
             podcast = podcast,
             episodes = episodes,
         )
-
-        for type in ('application/rss+xml', 'application/xml'):
-            if type in request.environ['HTTP_ACCEPT']:
-                response.content_type = type
-        else:
-            response.content_type = 'text/html'
 
         # Manually render XML from genshi since tg is didnt consider it
         template_finder = config['pylons.app_globals'].dotted_filename_finder
@@ -196,7 +196,6 @@ class PodcastsController(BaseController):
             'mediacore.templates.podcasts.feed',
             template_extension='.xml'
         )
-
         return pylons.templating.render_genshi(
             template_name,
             extra_vars=template_vars,
