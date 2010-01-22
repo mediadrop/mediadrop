@@ -85,7 +85,7 @@ CREATE TABLE `media` (
 
 LOCK TABLES `media` WRITE;
 /*!40000 ALTER TABLE `media` DISABLE KEYS */;
-INSERT INTO `media` VALUES (1,NULL,'new-media','draft,unencoded,unreviewed',NULL,'2009-12-01 19:40:23','2009-12-01 19:43:34',NULL,NULL,'New Media',NULL,'<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>','Bible References: None\r\nS&H References: None\r\nReviewer: None\r\nLicense: General Upload\r\n',0,1,0,0,'Admin','admin@localhost');
+INSERT INTO `media` VALUES (1,NULL,'new-media','draft,unencoded,unreviewed',NULL,'2009-12-01 19:40:23','2009-12-01 19:43:34',NULL,NULL,'New Media',NULL,'<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>','',0,1,0,0,'Admin','admin@localhost');
 /*!40000 ALTER TABLE `media` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -251,7 +251,13 @@ CREATE TABLE `settings` (
 
 LOCK TABLES `settings` WRITE;
 /*!40000 ALTER TABLE `settings` DISABLE KEYS */;
-INSERT INTO `settings` VALUES (1,'email_media_uploaded',NULL),(2,'email_comment_posted',NULL),(3,'email_support_requests',NULL),(4,'email_send_from','noreply@localhost'),(5,'wording_user_uploads','Upload your media using the form below. We\'ll review it and get back to you.');
+INSERT INTO `settings` VALUES 
+(1,'email_media_uploaded',NULL),
+(2,'email_comment_posted',NULL),
+(3,'email_support_requests',NULL),
+(4,'email_send_from','noreply@localhost'),
+(5,'wording_user_uploads','Upload your media using the form below. We\'ll review it and get back to you.'),
+(6,'wording_additional_notes',NULL);
 /*!40000 ALTER TABLE `settings` ENABLE KEYS */;
 UNLOCK TABLES;
 

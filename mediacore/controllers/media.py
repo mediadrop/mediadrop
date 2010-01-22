@@ -586,7 +586,7 @@ class MediaController(BaseController):
         media_obj.slug = get_available_slug(Media, title)
         media_obj.description = helpers.clean_xhtml(description)
         media_obj.status = 'draft,unencoded,unreviewed'
-        media_obj.notes = helpers.fetch_setting('wording_user_uploads')
+        media_obj.notes = helpers.fetch_setting('wording_additional_notes')
         media_obj.set_tags(tags)
 
         # Create a media object, add it to the media_obj, and store the file permanently.
