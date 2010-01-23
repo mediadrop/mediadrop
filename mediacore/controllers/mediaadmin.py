@@ -18,14 +18,17 @@ Media Admin Controller
 """
 import os.path
 import re
+import simplejson as json
 from shutil import copyfileobj
 from urlparse import urlparse, urlunparse
 from datetime import datetime
 
 from tg import config, request, response, tmpl_context
+from tg.controllers import CUSTOM_CONTENT_TYPE
 from repoze.what.predicates import has_permission
 from sqlalchemy import orm, sql
 from formencode import validators
+from paste.util import mimeparse
 from PIL import Image
 
 from mediacore.lib.base import (BaseController, url_for, redirect,
@@ -240,7 +243,7 @@ class MediaadminController(BaseController):
         redirect(action='edit', id=media.id)
 
 
-    @expose('json')
+    @expose(content_type=CUSTOM_CONTENT_TYPE)
     @validate(add_file_form)
     def add_file(self, id, file=None, url=None, **kwargs):
         """Save action for the :class:`~mediacore.forms.media.AddFileForm`.
@@ -272,6 +275,24 @@ class MediaadminController(BaseController):
                 for this file.
             status_form
                 The rendered XHTML :class:`~mediacore.forms.media.UpdateStatusForm`
+        :raises webob.exc.HTTPNotAcceptable: If the Accept header won't
+            work with application/json or text/plain.
+
+        .. note::
+
+            This method returns incorrect Content-Type headers under
+            some circumstances. It should be ``application/json``, but
+            sometimes ``text/plain`` is used instead.
+
+            This is because this method is used from the flash based
+            uploader; Swiff.Uploader (which we use) uses Flash's
+            FileReference.upload() method, which doesn't allow
+            overriding the default HTTP headers.
+
+            On windows, the default Accept header is "text/\*". This
+            means that it won't accept "application/json". Rather than
+            throw a 406 Not Acceptable response, or worse, a 500 error,
+            we've chosen to return an incorrect ``text/plain`` type.
 
         """
         if id == 'new':
@@ -320,7 +341,7 @@ class MediaadminController(BaseController):
                 action=url_for(action='update_status', id=media.id),
                 media=media))
 
-            return dict(
+            data = dict(
                 success = True,
                 media_id = media.id,
                 file_id = media_file.id,
@@ -328,10 +349,13 @@ class MediaadminController(BaseController):
                 status_form = status_form_xhtml,
             )
         except Exception, e:
-            return dict(
+            data = dict(
                 success = False,
                 message = e.message,
             )
+
+        response.headers['Content-Type'] = helpers.best_json_content_type()
+        return json.dumps(data)
 
     @expose('json')
     @validate(validators={'file_id': validators.Int(),

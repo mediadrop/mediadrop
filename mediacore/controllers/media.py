@@ -456,7 +456,7 @@ class MediaController(BaseController):
             form_values = {},
         )
 
-    @expose()
+    @expose(content_type=CUSTOM_CONTENT_TYPE)
     @validate(upload_form)
     def upload_submit_async(self, **kwargs):
         """Ajax form validation and/or submission.
@@ -487,27 +487,21 @@ class MediaController(BaseController):
 
         .. note::
 
-            This method returns incorrect Content-Type headers: Content-Type
-            is set to ``text/html`` even though the returned data is really
-            of type ``application/json``.
+            This method returns incorrect Content-Type headers under
+            some circumstances. It should be ``application/json``, but
+            sometimes ``text/plain`` is used instead.
 
-            This is because this method is used from the flash based uploader;
-            Swiff.Uploader (which we use) uses Flash's FileReference.upload()
-            method, which doesn't allow overriding the HTTP headers.
+            This is because this method is used from the flash based
+            uploader; Swiff.Uploader (which we use) uses Flash's
+            FileReference.upload() method, which doesn't allow
+            overriding the default HTTP headers.
 
-            On windows, the default headers have an "Accept: text/\*" line.
-            This means that it won't accept "application/json".
+            On windows, the default Accept header is "text/\*". This
+            means that it won't accept "application/json". Rather than
+            throw a 406 Not Acceptable response, or worse, a 500 error,
+            we've chosen to return an incorrect ``text/plain`` type.
 
-            TG honours that, and, when returning, will throw an error rather
-            than respond with an unacceptable Content-Type.
-
-            It would perhaps be more correct to set Content-Type to
-            ``text/plain`` or ``text/x-json``, but there seems to be a bug in
-            the current TG 2.0.3 + Pylons 0.9.7 stack w.r.t. overriding the
-            Content-Type headers.
         """
-        # TODO: look into the bug outlined in the note above.
-
         if 'validate' in kwargs:
             # we're just validating the fields. no need to worry.
             fields = json.loads(kwargs['validate'])
@@ -516,33 +510,33 @@ class MediaController(BaseController):
                 if field in tmpl_context.form_errors:
                     err[field] = tmpl_context.form_errors[field]
 
-            return json.dumps(dict(
+            data = dict(
                 valid = len(err) == 0,
                 err = err
-            ))
+            )
         else:
             # We're actually supposed to save the fields. Let's do it.
             if len(tmpl_context.form_errors) != 0:
                 # if the form wasn't valid, return failure
-                return json.dumps(dict(
-                    success = False
-                ))
+                data = dict(success = False)
+            else:
+                # else actually save it!
+                kwargs.setdefault('name')
+                kwargs.setdefault('tags')
 
-            # else actually save it!
-            kwargs.setdefault('name')
-            kwargs.setdefault('tags')
+                media_obj = self._save_media_obj(
+                    kwargs['name'], kwargs['email'],
+                    kwargs['title'], kwargs['description'],
+                    kwargs['tags'], kwargs['file']
+                )
+                email.send_media_notification(media_obj)
+                data = dict(
+                    success = True,
+                    redirect = url_for(action='upload_success')
+                )
 
-            media_obj = self._save_media_obj(
-                kwargs['name'], kwargs['email'],
-                kwargs['title'], kwargs['description'],
-                kwargs['tags'], kwargs['file']
-            )
-            email.send_media_notification(media_obj)
-
-            return json.dumps(dict(
-                success = True,
-                redirect = url_for(action='upload_success')
-            ))
+        response.headers['Content-Type'] = helpers.best_json_content_type()
+        return json.dumps(data)
 
 
     @expose()

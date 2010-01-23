@@ -25,8 +25,10 @@ from BeautifulSoup import BeautifulSoup
 from webhelpers import date, feedgenerator, html, number, misc, text, paginate, containers
 from webhelpers.html import tags
 from webhelpers.html.converters import format_paragraphs
+from paste.util import mimeparse
 from routes.util import url_for as _routes_url
 from tg import config, request
+import tg.exceptions
 from mediacore.lib.htmlsanitizer import Cleaner, entities_to_unicode as decode_entities, encode_xhtml_entities as encode_entities
 from mediacore.model.settings import fetch_setting
 from mediacore.lib.base import url_for, redirect, expose_xhr
@@ -282,3 +284,29 @@ def podcast_image_url(podcast, size='s'):
 
     return url_for(file_url)
 
+def best_json_content_type(accept=None, raise_exc=True):
+    """Return the best possible JSON header we can return for a client.
+
+    Sometimes we want to return JSON as ``text/plain``. On windows,
+    Flash uploads always request ``text/\*`` so the proper
+    ``application/json`` header won't work.
+
+    :param accept: An HTTP Accept header, defaults to that of the
+        current request.
+    :type accept: string
+    :param raise_exc: By default an webob.exc.HTTPNotAcceptable header
+        will be raised if the given Accept header does not match any of
+        the possible JSON content types.
+    :type raise_exc: bool
+    :raises webob.exc.HTTPNotAcceptable: If `raise_exc` is True
+        and the given Accept header doesn't work for our json types.
+    :returns: mimetype
+    :rtype: string
+
+    """
+    best_match = mimeparse.best_match(
+        ['application/json', 'text/plain'],
+        accept or request.environ.get('HTTP_ACCEPT', '*/*'))
+    if raise_exc and not best_match:
+        raise tg.exceptions.HTTPNotAcceptable # 406
+    return best_match
