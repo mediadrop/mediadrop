@@ -76,3 +76,25 @@ except ImportError:
     # When setup.py is called to load our dependencies such as BeautifulSoup,
     # this will fail. For now we'll just silently allow this to proceed.
     pass
+
+# Monkey patch the fix for handling invalid HTTP Accept headers
+# See http://trac.pythonpaste.org/pythonpaste/ticket/330
+import paste.util.mimeparse
+def parse_mime_type(mime_type):
+    """Carves up a mime_type and returns a tuple of the
+       (type, subtype, params) where 'params' is a dictionary
+       of all the parameters for the media range.
+       For example, the media range 'application/xhtml;q=0.5' would
+       get parsed into:
+
+       ('application', 'xhtml', {'q', '0.5'})
+       """
+    parts = mime_type.split(";")
+    params = dict([tuple([s.strip() for s in param.split("=")])\
+            for param in parts[1:] ])
+    try:
+        (type, subtype) = parts[0].split("/")
+    except ValueError:
+        type, subtype = parts[0], '*'
+    return (type.strip(), subtype.strip(), params)
+paste.util.mimeparse.parse_mime_type = parse_mime_type
