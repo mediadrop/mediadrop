@@ -37,12 +37,18 @@ a:hover .grid-title, a.grid-title:hover {
 	display: block;
 	border: 1px solid #b0b0b0;
 }
-.grid-thumb-wrap {
+.grid-thumb-wrap,
+.grid2-thumb-wrap {
 	display: block;
 	overflow: hidden;
 	position: relative;
 }
-.grid-thumb-wrap .grid-duration {
+.grid2-thumb-wrap {
+	width: 130px;
+	float: left;
+}
+.grid-thumb-wrap .grid-duration,
+.grid2-thumb-wrap .grid-duration {
 	height: 15px;
 	position: absolute;
 	bottom: 1px;
@@ -51,7 +57,8 @@ a:hover .grid-title, a.grid-title:hover {
 	padding: 0 2px 3px 12px;
 	color: #cacaca;
 }
-.grid-thumb-wrap .grid-duration-right {
+.grid-thumb-wrap .grid-duration-right,
+.grid2-thumb-wrap .grid-duration-right {
 	width: 10px;
 	height: 18px;
 	position: absolute;
