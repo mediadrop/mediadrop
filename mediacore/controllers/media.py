@@ -26,7 +26,8 @@ import time
 from urlparse import urlparse
 from datetime import datetime, timedelta, date
 
-from tg import config, request, response, tmpl_context, exceptions
+from tg import config, request, response, tmpl_context
+import tg.exceptions
 from tg.controllers import CUSTOM_CONTENT_TYPE
 from sqlalchemy import orm, sql
 from formencode import validators
@@ -339,7 +340,7 @@ class MediaController(BaseController):
                 mimetype = mimeparse.best_match([file.mimetype],
                     request.environ.get('HTTP_ACCEPT', '*/*'))
                 if mimetype == '':
-                    raise exceptions.HTTPNotAcceptable() # 406
+                    raise tg.exceptions.HTTPNotAcceptable() # 406
 
                 file_name = '%s-%s.%s' % (media.slug, file.id, file.type)
                 file_path = os.path.join(config.media_dir, file.url)
@@ -350,7 +351,7 @@ class MediaController(BaseController):
                     'attachment;filename=%s' % file_name.encode('utf-8')
                 return file_handle.read()
         else:
-            raise exceptions.HTTPNotFound()
+            raise tg.exceptions.HTTPNotFound()
 
     @expose('mediacore.templates.media.mediaflow')
     def flow(self, page=1, **kwargs):

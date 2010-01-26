@@ -26,7 +26,8 @@ import urllib2
 import functools
 
 import routes
-from tg import config, request, response, tmpl_context, exceptions, expose
+import tg.exceptions
+from tg import config, request, response, tmpl_context, expose
 from tg.controllers import CUSTOM_CONTENT_TYPE
 from paste.deploy.converters import asbool
 
@@ -42,7 +43,6 @@ try:
 except ImportError:
     import pylons
     from tg.controllers import DecoratedController
-    from tg.exceptions import HTTPException
     class RoutingController(DecoratedController):
         """
         DecoratedController extended for :mod:`routes` compatibility.
@@ -90,7 +90,7 @@ except ImportError:
 
                     result = DecoratedController._perform_call(
                         self, controller, params, remainder=remainder)
-            except HTTPException, httpe:
+            except tg.exceptions.HTTPException, httpe:
                 result = httpe
                 # 304 Not Modified's shouldn't have a content-type set
                 if result.status_int == 304:
@@ -280,7 +280,7 @@ def redirect(*args, **kwargs):
     :raises: :class:`tg.exceptions.HTTPFound`
     """
     url = url_for(*args, **kwargs)
-    found = exceptions.HTTPFound(location=url)
+    found = tg.exceptions.HTTPFound(location=url)
     raise found.exception
 
 class expose_xhr(object):
