@@ -34,7 +34,9 @@ class Author(object):
         return [self.name, self.email]
 
     def __eq__(self, other):
-        return other.name == self.name and other.email == self.name
+        if isinstance(other, Author):
+            return self.name == other.name and self.email == other.email
+        return False
 
     def __ne__(self, other):
         return not self.__eq__(other)
@@ -68,7 +70,9 @@ class AuthorWithIP(Author):
         return values
 
     def __eq__(self, other):
-        return self.ip == other.ip and super(AuthorWithIP, self).__eq__(other)
+        if isinstance(other, AuthorWithIP):
+            return super(AuthorWithIP, self).__eq__(other) and self.ip == other.ip
+        return False
 
     def __repr__(self):
         return '<Author: "%s" %s>' % (self.name, self.ip)
