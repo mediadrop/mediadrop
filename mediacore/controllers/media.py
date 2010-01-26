@@ -487,7 +487,7 @@ class MediaController(BaseController):
 
         .. note::
 
-            This method returns incorrect Content-Type headers under
+            This method returns an incorrect Content-Type header under
             some circumstances. It should be ``application/json``, but
             sometimes ``text/plain`` is used instead.
 

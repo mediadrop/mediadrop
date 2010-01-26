@@ -304,9 +304,9 @@ def best_json_content_type(accept=None, raise_exc=True):
     :rtype: string
 
     """
-    best_match = mimeparse.best_match(
+    desired_matches = mimeparse.desired_matches(
         ['application/json', 'text/plain'],
         accept or request.environ.get('HTTP_ACCEPT', '*/*'))
-    if raise_exc and not best_match:
+    if raise_exc and not desired_matches:
         raise tg.exceptions.HTTPNotAcceptable # 406
-    return best_match
+    return desired_matches[0]

@@ -27,6 +27,7 @@ import functools
 
 import routes
 from tg import config, request, response, tmpl_context, exceptions, expose
+from tg.controllers import CUSTOM_CONTENT_TYPE
 from paste.deploy.converters import asbool
 
 # Import for convenience in controllers
@@ -212,6 +213,26 @@ class BaseController(RoutingController):
         #       files are on the same filesystem.
         #       see http://docs.python.org/library/os.html#os.rename
         os.rename(tmpl_tmp_path, tmpl_path)
+
+    def _render_response(self, controller, response):
+        """Workaround a bug with setting content types and Accept headers.
+
+        If the Accept request header is 'text/\*' (as it is for Flash
+        uploads on windows) then @expose(content_type=CUSTOM_CONTENT_TYPE)
+        produces a KeyError because CUSTOM_CONTENT_TYPE evaluates to
+        a mimetype of 'CUSTOM/LEAVE', which doesn't match the 'text/\*'
+        Accept header. This has fixed in tg v2.1 and we may port the fix
+        to the v2.0.x when there is time.
+
+        """
+        try:
+            return super(RoutingController, self).\
+                _render_response(controller, response)
+        except KeyError, e:
+            if (CUSTOM_CONTENT_TYPE in controller.decoration.engines
+                and not isinstance(response, dict)):
+                return response
+            raise e
 
 
 def url_for(*args, **kwargs):
