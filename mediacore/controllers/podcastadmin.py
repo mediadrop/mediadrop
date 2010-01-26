@@ -14,9 +14,11 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import os.path
+import simplejson as json
 from shutil import copyfileobj
 
 from tg import config, request, response, tmpl_context
+from tg.controllers import CUSTOM_CONTENT_TYPE
 from sqlalchemy import orm, sql
 from repoze.what.predicates import has_permission
 from PIL import Image
@@ -153,7 +155,7 @@ class PodcastadminController(BaseController):
         redirect(action='edit', id=podcast.id)
 
 
-    @expose('json')
+    @expose(content_type=CUSTOM_CONTENT_TYPE)
     @validate(album_art_form, error_handler=edit)
     def save_album_art(self, id, album_art, **values):
         """Save album art uploaded with :class:`~mediacore.forms.media.AlbumArtForm`.
@@ -172,6 +174,22 @@ class PodcastadminController(BaseController):
             id
                 The :attr:`~mediacore.model.podcasts.Podcast.id` which is
                 important if a new podcast has just been created.
+
+        .. note::
+
+            This method returns incorrect Content-Type headers under
+            some circumstances. It should be ``application/json``, but
+            sometimes ``text/plain`` is used instead.
+
+            This is because this method is used from the flash based
+            uploader; Swiff.Uploader (which we use) uses Flash's
+            FileReference.upload() method, which doesn't allow
+            overriding the default HTTP headers.
+
+            On windows, the default Accept header is "text/\*". This
+            means that it won't accept "application/json". Rather than
+            throw a 406 Not Acceptable response, or worse, a 500 error,
+            we've chosen to return an incorrect ``text/plain`` type.
 
         """
         if id == 'new':
@@ -210,8 +228,9 @@ class PodcastadminController(BaseController):
             success = False
             message = e.message
 
-        return dict(
+        response.headers['Content-Type'] = helpers.best_json_content_type()
+        return json.dumps(dict(
             success = success,
             message = message,
             id = podcast.id,
-        )
+        ))

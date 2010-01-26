@@ -447,7 +447,7 @@ class MediaadminController(BaseController):
             redirect(action='edit')
 
 
-    @expose('json')
+    @expose(content_type=CUSTOM_CONTENT_TYPE)
     @validate(album_art_form, error_handler=edit)
     def save_album_art(self, id, album_art, **kwargs):
         """Save album art uploaded with :class:`~mediacore.forms.media.AlbumArtForm`.
@@ -504,11 +504,12 @@ class MediaadminController(BaseController):
             success = False
             message = e.message
 
-        return dict(
+        response.headers['Content-Type'] = helpers.best_json_content_type()
+        return json.dumps(dict(
             success = success,
             message = message,
             id = media.id,
-        )
+        ))
 
 
     @expose('json')
