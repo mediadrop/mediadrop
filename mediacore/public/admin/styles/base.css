@@ -292,7 +292,7 @@ tr.thead-row td h3 {
 
 /* Forms */
 .btn-save, .btn-delete, .btn-yes, .btn-no, .btn-cancel, .btn-upload, .btn-upload-image {
-	text-indent: -1000px;
+	text-indent: -5000px;
 	cursor: pointer;
 	border: 0;
 	height: 34px;
