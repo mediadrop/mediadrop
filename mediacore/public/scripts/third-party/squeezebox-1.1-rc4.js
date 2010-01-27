@@ -4,12 +4,12 @@
  * Allows to open various content as modal,
  * centered and animated box.
  *
- * Dependencies: MooTools 1.2 trunk (04/2008)
+ * Dependencies: MooTools 1.2
  *
  * Inspired by
  *  ... Lokesh Dhakar	- The original Lightbox v2
  *
- * @version		1.1 rc3
+ * @version		1.1 rc4
  *
  * @license		MIT-style license
  * @author		Harald Kirschner <mail [at] digitarald.de>
@@ -114,26 +114,31 @@ var SqueezeBox = {
 	},
 
 	assign: function(to, options) {
-		return to.addEvent('click', function() {
+		return ($(to) || $$(to)).addEvent('click', function() {
 			return !SqueezeBox.fromElement(this, options);
 		});
 	},
-
-	fromElement: function(from, options) {
+	
+	open: function(subject, options) {
 		this.initialize();
-		if (this.element) this.trash();
-		this.element = $(from);
+
+		if (this.element != null) this.trash();
+		this.element = $(subject) || false;
+		
 		this.setOptions($merge(this.presets, options || {}));
+		
 		if (this.element && this.options.parse) {
 			var obj = this.element.getProperty(this.options.parse);
 			if (obj && (obj = JSON.decode(obj, this.options.parseSecure))) this.setOptions(obj);
 		}
+		this.url = ((this.element) ? (this.element.get('href')) : subject) || this.options.url || '';
+
 		this.assignOptions();
-		this.url = ((this.element) ? (this.options.url || this.element.get('href')) : from) || '';
-		var handler = this.options.handler;
+		
+		var handler = handler || this.options.handler;
 		if (handler) return this.setContent(handler, this.parsers[handler].call(this, true));
 		var ret = false;
-		this.parsers.some(function(parser, key) {
+		return this.parsers.some(function(parser, key) {
 			var content = parser.call(this);
 			if (content) {
 				ret = this.setContent(key, content);
@@ -141,7 +146,10 @@ var SqueezeBox = {
 			}
 			return false;
 		}, this);
-		return ret;
+	},
+	
+	fromElement: function(from, options) {
+		return this.open(from, options);
 	},
 
 	assignOptions: function() {
@@ -335,7 +343,6 @@ SqueezeBox.parsers.extend({
 	}
 });
 
-
 SqueezeBox.handlers.extend({
 
 	image: function(url) {
@@ -384,11 +391,14 @@ SqueezeBox.handlers.extend({
 	},
 
 	ajax: function(url) {
+		var options = this.options.ajaxOptions || {};
 		this.asset = new Request.HTML($merge({
-			method: 'get'
+			method: 'get',
+			evalScripts: false
 		}, this.options.ajaxOptions)).addEvents({
 			onSuccess: function(resp) {
 				this.applyContent(resp);
+				if (options.evalScripts !== null && !options.evalScripts) $exec(this.asset.response.javascript);
 				this.fireEvent('onAjax', [resp, this.asset]);
 				this.asset = null;
 			}.bind(this),
@@ -424,8 +434,7 @@ SqueezeBox.handlers.url = SqueezeBox.handlers.ajax;
 SqueezeBox.parsers.url = SqueezeBox.parsers.ajax;
 SqueezeBox.parsers.adopt = SqueezeBox.parsers.clone;
 
-
-// Nate's extension...
+// MediaCore extension
 SqueezeBox.handlers.extend({
 	// Unhide cloned elements automatically
 	clone: function(el) {
