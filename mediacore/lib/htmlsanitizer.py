@@ -116,7 +116,7 @@ url_regex = r"(?#Protocol)(?:([a-z\d]+)\:\/\/|~/|/)?" \
 #     when performing search and replace!
 XML_ENTITIES = [
     (u"&", u"&amp;"),
-    (u"'", u"&apos;"),
+    (u"'", u"&#39;"),
     (u'"', u"&quot;"),
     (u"<", u"&lt;"),
     (u">", u"&gt;")
