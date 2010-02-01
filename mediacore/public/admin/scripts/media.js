@@ -157,7 +157,8 @@ var StatusForm = new Class({
 				failure: this._displayError.bind(this, ['A connection problem occurred, try again.'])
 			});
 		}
-		this.submitReq.send(this.form);
+		var data = this.form.toQueryString() + '&update_button=' + this.form.update_button.get('value');
+		this.submitReq.send(data);
 	},
 
 	statusSaved: function(json){
