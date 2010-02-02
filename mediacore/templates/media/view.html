@@ -20,8 +20,8 @@
       xmlns:xi="http://www.w3.org/2001/XInclude">
 <xi:include href="../comments/_list.html" />
 <xi:include href="../helpers.html" />
+<xi:include href="../nav.html" />
 <xi:include href="../master.html" />
-<py:if test="not c.nav_opts" py:replace="set_nav_opts()" />
 <head>
 	<title>${Markup(media.title)}</title>
 	<link py:if="media.podcast" href="${h.url_for('/styles/podcasts.css')}" media="screen" rel="stylesheet" type="text/css" />

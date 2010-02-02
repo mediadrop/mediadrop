@@ -65,7 +65,7 @@ class MediaController(BaseController):
 
         """
         super(MediaController, self).__init__(*args, **kwargs)
-        tmpl_context.topics = DBSession.query(Topic)\
+        tmpl_context.nav_topics = DBSession.query(Topic)\
             .options(orm.undefer('published_media_count'))\
             .having(sql.text('published_media_count >= 1'))\
             .order_by(Topic.name)\

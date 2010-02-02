@@ -1,0 +1,144 @@
+<!--! This file is a part of MediaCore, Copyright 2009 Simple Station Inc.
+
+	MediaCore is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+
+	MediaCore is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      xmlns:xi="http://www.w3.org/2001/XInclude"
+      py:strip="">
+
+	<py:match path="head" once="true" py:if="c.nav_topics or c.nav_podcasts">
+		<head>
+			<meta py:replace="select('*')" />
+			<link href="${h.url_for('/styles/mediaflow.css')}" media="screen" rel="stylesheet" type="text/css" />
+			<link href="${h.url_for('/styles/media.css')}" media="screen" rel="stylesheet" type="text/css" />
+			<script type="text/javascript" src="${h.url_for('/scripts/topics.js')}" py:if="c.nav_topics" />
+			<script type="text/javascript" py:if="c.nav_topics">
+				window.addEvent('domready', function() {
+					<py:if test="c.nav_topics or c.nav_podcasts">
+						var flyoutOpenFx = [
+							{duration:  30, transition: 'linear'},
+							{duration:  20, transition: 'linear'},
+							{duration: 450, transition: 'cubic:out'}
+						];
+						var flyoutCloseFx = [
+							{duration:  30, transition: 'linear'},
+							{duration:  20, transition: 'linear'},
+							{duration: 450, transition: 'cubic:in'}
+						];
+					</py:if>
+					var topicIndexFlyout, podcastHelpFlyout;
+					<py:if test="c.nav_topics">
+						var topicsEl = $('mediacore-topics');
+						if (topicsEl) {
+							var topicIndexFlyout = new ButtonFlyout({
+								button: 'nav-topics',
+								buttonActiveClass: 'topics-shown',
+								elements: topicsEl.getChildren(),
+								startHidden: ${c.nav_topic_list and 'false' or 'true'},
+								openFx: flyoutOpenFx,
+								closeFx: flyoutCloseFx
+							});
+						}
+					</py:if>
+					<py:if test="c.nav_podcasts">
+						var podcastHelpEl = $('podcast-help-box');
+						if (podcastHelpEl) {
+							podcastHelpFlyout = new ButtonFlyout({
+								button: 'nav-podcast-help',
+								buttonActiveClass: 'podcast-help-shown',
+								elements: podcastHelpEl.getChildren(),
+								openFx: flyoutOpenFx,
+								closeFx: flyoutCloseFx
+							});
+							if (topicIndexFlyout) {
+								var hider = function(how) { if (how == 'in') if (this.open) this.hide(); };
+								topicIndexFlyout.addEvent('start', hider.bind(podcastHelpFlyout));
+								podcastHelpFlyout.addEvent('start', hider.bind(topicIndexFlyout));
+							}
+						}
+					</py:if>
+				});
+			</script>
+		</head>
+	</py:match>
+
+	<py:match path="nav" recursive="false">
+		<div class="box-nav">
+			<div class="box-nav-btns">
+				<ul id="nav" class="box-nav-left">
+					<li id="nav-latest"><a href="${h.url_for(controller='/media', action='flow')}">Latest</a></li>
+					<li id="nav-videos"><a href="${h.url_for(controller='/media', action='index')}">Video</a></li>
+					<li id="nav-podcasts"><a href="${h.url_for(controller='/podcasts')}">Podcasts</a></li>
+				</ul>
+				<a py:if="c.nav_topics" id="nav-topics" class="box-nav-right topics-shown" href="${h.url_for(controller='/media', action='topics', slug=None)}">Topic Index</a>
+				<a py:if="c.nav_podcasts" id="nav-podcast-help" class="box-nav-right podcast-help-shown" href="#">What are podcasts?</a>
+				<a id="nav-upload-video" class="box-nav-right" href="${h.url_for(controller='/media', action='upload')}">Upload a Video</a>
+			</div>
+			<div py:if="c.nav_podcasts" id="podcast-help-box" class="nav-box">
+				<div id="podcast-help-top" class="nav-box-flyout" />
+				<div class="nav-box-top nav-box-flyout" />
+				<div class="nav-box-flyout">
+					<div class="nav-box-body">
+						<div class="f-lft">
+							<p>New to podcasts? A podcast is a periodical publication of audio or video files on the internet. The term "podcast" is a combination of the words "iPod" and "broadcast", but you don't need an iPod to listen to a podcast&mdash;any computer or portable media player will do.</p>
+							<p>A podcast client (like iTunes) is a computer program that reads a podcast and downloads new episodes to your computer automatically.</p>
+							<p>For a brief video description of podcasts, check out <a href="http://www.youtube.com/watch?v=y-MSL42NV3c">this youtube video</a>!</p>
+							<p>If you'd like to learn more, <a href="http://www.apple.com/itunes/podcasts/fanfaq.html">read this FAQ</a>.</p>
+						</div>
+						<div class="f-rgt">
+							<p>To get started, all you need is a podcast client like iTunes or Juice:</p>
+							<ul>
+								<li><a href="http://apple.com/itunes/download/">Download iTunes</a></li>
+								<li><a href="http://juicereceiver.sourceforge.net/">Download Juice</a></li>
+							</ul>
+							<p>Then you can add our podcasts to your podcast client:</p>
+							<ul py:if="c.nav_podcasts">
+								<li py:for="podcast in c.nav_podcasts">
+									<span class="fL">Subscribe to <a href="${h.url_for(action='view', slug=podcast.slug)}">${Markup(podcast.title)}</a></span>
+									<span class="fR">via
+										<py:if test="podcast.itunes_url"><a href="${podcast.itunes_url}">iTunes</a> |</py:if>
+										<a href="${h.url_for(action='feed', slug=podcast.slug)}">RSS</a>
+									</span>
+								</li>
+							</ul>
+						</div>
+					</div>
+					<div class="nav-box-bottom" />
+				</div>
+			</div>
+			<div py:if="c.nav_topics" id="mediacore-topics" class="nav-box">
+				<div id="topic-box-top" class="nav-box-flyout" />
+				<div class="nav-box-topright nav-box-flyout" />
+				<div class="nav-box-flyout">
+					<div class="nav-box-body" py:with="per_col = max(5, int(h.math.ceil((len(c.nav_topics) + 6) / 4.0)))">
+						<ul py:if="c.nav_topics" py:for="col in xrange(1, h.math.ceil(len(c.nav_topics) / float(per_col)) + 1)">
+							<li py:for="topic in c.nav_topics[(col-1)*per_col:col*per_col]">
+								<a href="${h.url_for(controller='/media', action='topics', slug=topic.slug)}">${topic}</a> <span>(${topic.published_media_count})</span>
+							</li>
+						</ul>
+						<div id="topics-caption" py:if="c.suggest_topic_email">
+							<div id="topics-dontsee">Don't see the topic you are looking for?</div>
+							<a id="topics-suggest" href="mailto:${c.suggest_topic_email}?subject=Suggest%20a%20topic!">Suggest a new topic</a>
+							<a href="${h.url_for(controller='/media', action='tags', slug=None)}">or check out the tags list</a>
+						</div>
+					</div>
+					<div class="nav-box-bottom" />
+				</div>
+			</div>
+			<div py:replace="select('*|text()')" />
+		</div>
+	</py:match>
+
+</html>

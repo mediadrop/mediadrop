@@ -36,11 +36,12 @@ class PodcastsController(BaseController):
 
         """
         super(PodcastsController, self).__init__(*args, **kwargs)
-        tmpl_context.topics = DBSession.query(Topic)\
+        tmpl_context.nav_topics = DBSession.query(Topic)\
             .options(orm.undefer('published_media_count'))\
             .filter(Topic.published_media_count >= 1)\
             .order_by(Topic.name)\
             .all()
+        tmpl_context.nav_podcasts = DBSession.query(Podcast).all()
 
 
     @expose('mediacore.templates.podcasts.index')
@@ -63,15 +64,15 @@ class PodcastsController(BaseController):
                 for this page.
 
         """
+        podcasts = DBSession.query(Podcast)\
+            .options(orm.undefer('published_media_count'))\
+            .all()
+
         episodes = DBSession.query(Media)\
             .filter(Media.podcast_id != None)\
             .order_by(Media.publish_on.desc())\
             .options(orm.undefer('comment_count_published'))
         episodes = self._filter(episodes)
-
-        podcasts = DBSession.query(Podcast)\
-            .options(orm.undefer('published_media_count'))\
-            .all()
 
         return dict(
             podcasts = podcasts,
@@ -102,14 +103,9 @@ class PodcastsController(BaseController):
         episodes = self._filter(podcast.media)\
             .order_by(Media.publish_on.desc())
 
-        podcasts = DBSession.query(Podcast)\
-            .options(orm.undefer('published_media_count'))\
-            .all()
-
         return dict(
             podcast = podcast,
             episodes = episodes,
-            podcasts = podcasts,
         )
 
 
