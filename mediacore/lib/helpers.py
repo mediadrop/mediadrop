@@ -268,21 +268,53 @@ def list_accepted_extensions():
         e[-1] = 'and ' + e[-1]
     return ', '.join(e)
 
-def podcast_image_url(podcast, size='s'):
-    if not podcast:
-        return None
 
-    image = 'podcasts/%d%s.jpg' % (podcast.id, size)
-    file_name = os.path.join(
-        config.image_dir,
-        image
-    )
+def media_image_url(media, size='s'):
+    """Return a valid relative URL to a given media's album art.
+
+    :param media: The media item to display.
+    :type media: :class:`~mediacore.model.media.Media` instance or ID
+    :param size: Size key to display, see ``album_art_sizes`` in
+        :mod:`mediacore.config.app_config`
+    :type size: str
+    :returns: A relative URL or ``None``.
+
+    """
+    if not media:
+        return None
+    if hasattr(media, 'id'):
+        media = media.id
+
+    image = 'media/%d%s.jpg' % (media, size)
+    file_name = os.path.join(config.image_dir, image)
+
     if not os.path.isfile(file_name):
         return None
+    return url_for('/images/' + image)
 
-    file_url = '/images/' + image
+def podcast_image_url(podcast, size='s'):
+    """Return a valid relative URL to a given media's album art.
 
-    return url_for(file_url)
+    :param podcast: The podcast item to display.
+    :type podcast: :class:`~mediacore.model.podcasts.Podcast` instance or ID
+    :param size: Size key to display, see ``podcast_album_art_sizes`` in
+        :mod:`mediacore.config.app_config`
+    :type size: str
+    :returns: A relative URL or ``None``.
+
+    """
+    if not podcast:
+        return None
+    if hasattr(podcast, 'id'):
+        podcast = podcast.id
+
+    image = 'podcasts/%d%s.jpg' % (podcast, size)
+    file_name = os.path.join(config.image_dir, image)
+
+    if not os.path.isfile(file_name):
+        return None
+    return url_for('/images/' + image)
+
 
 def best_json_content_type(accept=None, raise_exc=True):
     """Return the best possible JSON header we can return for a client.

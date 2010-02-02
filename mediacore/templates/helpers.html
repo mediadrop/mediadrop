@@ -46,7 +46,7 @@
 		</div>
 	</py:def>
 
-	<py:def function="media_player(media, width=479, height=383)" py:choose=""
+	<py:def function="media_player(media, width=479, height=383, autoplay=False, autobuffer=False)" py:choose=""
 	        py:with="file = media.primary_file">
 		<py:when test="file is None" />
 		<py:when test="file.is_embeddable">
@@ -63,10 +63,20 @@
 			<a id="flowplayer"
 			   href="${file.play_url}"
 			   style="display:block;width:${width}px;height:${height}px" />
-			<script type="text/javascript" py:with="podcast_image=h.podcast_image_url(media.podcast, 'l')">
+			<script type="text/javascript" py:with="">
 				flowplayer('flowplayer', "${h.url_for('/scripts/third-party/flowplayer-3.1.5.swf')}", {
-					clip: {scaling: 'fit'}
-					<py:if test="podcast_image">, playlist: ['${podcast_image}', '${file.play_url}']</py:if>
+					clip: {
+						scaling: 'fit',
+						autoPlay: ${autoplay and 'true' or 'false'},
+						autoBuffer: ${(autoplay or autobuffer) and 'true' or 'false'}
+					}
+					<py:if test="media.type == 'audio' or not autoplay"
+					       py:with="image = h.media_image_url(media, 'l') or h.podcast_image_url(media.podcast, 'l')">,
+						playlist: [
+							<py:if test="image">{url: '${image}', autoPlay: true, autoBuffer: true},</py:if>
+							'${file.play_url}'
+						]
+					</py:if>
 				});
 			</script>
 		</py:otherwise>

@@ -58,7 +58,7 @@
 				<a py:if="media.downloadable_file" class="btn btn-download" href="${media.downloadable_file.link_url}">Download</a>
 				<div class="media-meta-bottom" />
 			</div>
-			${media_player(media)}
+			${media_player(media, autoplay=True)}
 		</div>
 	</box>
 
