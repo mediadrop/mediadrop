@@ -75,7 +75,7 @@
 	<py:match path="nav" recursive="false">
 		<div class="box-nav">
 			<div class="box-nav-btns">
-				<ul id="nav" class="box-nav-left">
+				<ul py:if="not c.nav_hide_main" id="nav" class="box-nav-left">
 					<li id="nav-latest"><a href="${h.url_for(controller='/media', action='flow')}">Latest</a></li>
 					<li id="nav-videos"><a href="${h.url_for(controller='/media', action='index')}">Video</a></li>
 					<li id="nav-podcasts"><a href="${h.url_for(controller='/podcasts')}">Podcasts</a></li>
@@ -104,8 +104,8 @@
 							<p>Then you can add our podcasts to your podcast client:</p>
 							<ul py:if="c.nav_podcasts">
 								<li py:for="podcast in c.nav_podcasts">
-									<span class="fL">Subscribe to <a href="${h.url_for(action='view', slug=podcast.slug)}">${Markup(podcast.title)}</a></span>
-									<span class="fR">via
+									<span class="f-lft">Subscribe to <a href="${h.url_for(action='view', slug=podcast.slug)}">${Markup(podcast.title)}</a></span>
+									<span class="f-rgt">via
 										<py:if test="podcast.itunes_url"><a href="${podcast.itunes_url}">iTunes</a> |</py:if>
 										<a href="${h.url_for(action='feed', slug=podcast.slug)}">RSS</a>
 									</span>
