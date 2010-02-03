@@ -107,7 +107,8 @@ a:hover {
 .box-nav {
 	background: #000 url('../images/layout/box-nav-bg.png') repeat-x top;
 	width: 900px;
-	padding: 14px 20px 25px 20px;
+	min-height: 39px;
+	padding: 0px 20px 12px 20px;
 	overflow: hidden;
 	position: relative;
 }
@@ -133,7 +134,7 @@ a:hover {
 	width: 248px;
 	background: url('../images/buttons/sections-ie.gif') no-repeat 0 0;
 }
-.box-nav > #nav {
+.box-nav-btns > #nav {
 	background-image: url('../images/buttons/sections.png');
 }
 .nav-latest-on #nav { background-position: 0 -39px; }
