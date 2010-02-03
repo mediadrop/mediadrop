@@ -35,10 +35,11 @@
 	<link href="${h.url_for('/images/favicon.ico')}" rel="shortcut icon" />
 	<meta py:replace="select('*')"/>
 </head>
+
 <body py:match="body" py:attrs="select('@*')">
 	<div id="container">
 		<div id="header">
-			<h2 id="logo"><a href="${h.url_for(controller='admin', action='index')}">MediaCore</a></h2>
+			<h2 id="logo"><a href="${h.url_for(controller='/admin', action='index')}">MediaCore</a></h2>
 			<a id="logout" href="${h.url_for('/logout_handler')}">Logout</a>
 			<ul id="menu">
 				<li id="menu-dashboard"><a href="${h.url_for(controller='/admin')}"><span>Dashboard</span></a></li>
