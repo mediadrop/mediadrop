@@ -22,26 +22,24 @@
 		<head>
 			<meta py:replace="select('*')" />
 			<py:if test="c.nav_topics or c.nav_podcasts">
-				<script type="text/javascript" src="${h.url_for('/scripts/topics.js')}" py:if="c.nav_topics" />
-				<script type="text/javascript" py:if="c.nav_topics">
+				<script type="text/javascript" src="${h.url_for('/scripts/nav-flyout.js')}" />
+				<script type="text/javascript">
 					window.addEvent('domready', function() {
-						<py:if test="c.nav_topics or c.nav_podcasts">
-							var flyoutOpenFx = [
-								{duration:  30, transition: 'linear'},
-								{duration:  20, transition: 'linear'},
-								{duration: 450, transition: 'cubic:out'}
-							];
-							var flyoutCloseFx = [
-								{duration:  30, transition: 'linear'},
-								{duration:  20, transition: 'linear'},
-								{duration: 450, transition: 'cubic:in'}
-							];
-						</py:if>
+						var flyoutOpenFx = [
+							{duration:  30, transition: 'linear'},
+							{duration:  20, transition: 'linear'},
+							{duration: 450, transition: 'cubic:out'}
+						];
+						var flyoutCloseFx = [
+							{duration:  30, transition: 'linear'},
+							{duration:  20, transition: 'linear'},
+							{duration: 450, transition: 'cubic:in'}
+						];
 						var topicIndexFlyout, podcastHelpFlyout;
 						<py:if test="c.nav_topics">
 							var topicsEl = $('mediacore-topics');
 							if (topicsEl) {
-								var topicIndexFlyout = new ButtonFlyout({
+								var topicIndexFlyout = new NavFlyout({
 									button: 'nav-topics',
 									buttonActiveClass: 'topics-shown',
 									elements: topicsEl.getChildren(),
@@ -54,7 +52,7 @@
 						<py:if test="c.nav_podcasts">
 							var podcastHelpEl = $('podcast-help-box');
 							if (podcastHelpEl) {
-								podcastHelpFlyout = new ButtonFlyout({
+								podcastHelpFlyout = new NavFlyout({
 									button: 'nav-podcast-help',
 									buttonActiveClass: 'podcast-help-shown',
 									elements: podcastHelpEl.getChildren(),

@@ -23,7 +23,7 @@
  *
  * @author Nathan Wright
  */
-var ButtonFlyout = new Class({
+var NavFlyout = new Class({
 
 	Implements: [Options, Chain, Events],
 
