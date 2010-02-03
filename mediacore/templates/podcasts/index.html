@@ -23,6 +23,7 @@
 <xi:include href="../master.html" />
 <head>
 	<title>Podcasts</title>
+	<link href="${h.url_for('/styles/media.css')}" media="screen" rel="stylesheet" type="text/css" />
 	<link href="${h.url_for('/styles/podcasts.css')}" media="screen" rel="stylesheet" type="text/css" />
 	<link py:for="podcast in podcasts"
 	      type="application/rss+xml" rel="alternate"

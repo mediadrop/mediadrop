@@ -22,7 +22,8 @@
 <xi:include href="../nav.html" />
 <xi:include href="../master.html" />
 <head>
-	<title>Podcasts</title>
+	<title>${podcast.title}</title>
+	<link href="${h.url_for('/styles/media.css')}" media="screen" rel="stylesheet" type="text/css" />
 	<link href="${h.url_for('/styles/podcasts.css')}" media="screen" rel="stylesheet" type="text/css" />
 	<link type="application/rss+xml" rel="alternate"
 	      href="${h.url_for(action='feed')}"
