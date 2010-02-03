@@ -22,8 +22,7 @@
       method="${method}"
       class="${css_class}"
       py:attrs="attrs">
-	<xi:include href="../../helpers.html" />
-	<table py:with="order = ['delete', 'name', 'slug', 'submit']; a = show_delete and True or order.pop(0); fields = [field_for(x) for x in order];">
+	<table py:with="order = ['delete', 'name', 'slug', 'save']; a = show_delete and True or order.pop(0); fields = [field_for(x) for x in order];">
 		<tbody>
 			<tr>
 				<td py:for="field in fields" py:with="div_class='form-field-%s' % field.__class__.__name__.lower()" class="form-field ${div_class}">

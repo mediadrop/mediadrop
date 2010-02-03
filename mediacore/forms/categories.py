@@ -29,10 +29,8 @@ class EditCategoryForm(ListForm):
     _name = 'vf'
 
     fields = [
-        SubmitButton('submit', default='Save', named_button=True, css_classes=['f-rgt', 'mo', 'clickable', 'save-category']),
+        SubmitButton('save', default='Save', named_button=True, css_classes=['f-rgt', 'mo', 'clickable', 'save-category']),
         SubmitButton('delete', default='Delete', named_button=True, css_classes=['mo', 'clickable', 'delete-category']),
         TextField('name', css_classes=['category-name'], validator=NotEmpty),
         TextField('slug', css_classes=['category-slug'], validator=NotEmpty),
     ]
-
-

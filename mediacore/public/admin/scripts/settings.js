@@ -162,6 +162,15 @@ var Category = new Class({
 			if (name) name.focus();
 		}
 
+		this.form.delete.set('disabled', this.formVisible);
+		if (this.formVisible) {
+			this.form.addEvent('keypress', function(e){
+				e = new Event(e);
+				if (e.key == 'enter') { this.form.submit(); }
+			}.bind(this));
+		} else {
+			this.form.removeEvents('keypress');
+		}
 		return false;
 	},
 
