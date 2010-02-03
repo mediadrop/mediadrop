@@ -21,7 +21,7 @@
 	<py:match path="box" recursive="false">
 		<div class="box" py:attrs="select('@*')">
 			<div class="box-top"></div>
-			<div py:replace="select('nav')" />
+			<div py:replace="select('nav') if unicode(select('nav')) else Markup('&lt;div class=&quot;box-nav&quot;&gt;&lt;/div&gt;')" />
 			<div class="box-body" py:content="select('*[not(nav)]|text()')">Content is inserted here</div>
 			<div class="box-bottom"></div>
 		</div>

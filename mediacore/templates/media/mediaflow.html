@@ -23,6 +23,8 @@
 <xi:include href="../master.html" />
 <head>
 	<title>Videos</title>
+	<link href="${h.url_for('/styles/mediaflow.css')}" media="screen" rel="stylesheet" type="text/css" />
+	<link href="${h.url_for('/styles/media.css')}" media="screen" rel="stylesheet" type="text/css" />
 	<script type="text/javascript" src="${h.url_for('/scripts/mediaflow.js')}"></script>
 	<script type="text/javascript">
 		window.addEvent('domready', function(){
@@ -32,7 +34,7 @@
 			});
 		});
 	</script>
-<!--!	Use this when you want to use Ajax pagination.
+<!--!	Use this instead if you want to use Ajax pagination.
 		<script type="text/javascript" py:with="paginator=c.paginators.media">
 		window.addEvent('domready', function(){
 			var videoflow = new Mediaflow({

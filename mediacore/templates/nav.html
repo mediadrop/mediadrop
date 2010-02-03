@@ -18,59 +18,59 @@
       xmlns:xi="http://www.w3.org/2001/XInclude"
       py:strip="">
 
-	<py:match path="head" once="true" py:if="c.nav_topics or c.nav_podcasts">
+	<py:match path="head" once="true">
 		<head>
 			<meta py:replace="select('*')" />
-			<link href="${h.url_for('/styles/mediaflow.css')}" media="screen" rel="stylesheet" type="text/css" />
-			<link href="${h.url_for('/styles/media.css')}" media="screen" rel="stylesheet" type="text/css" />
-			<script type="text/javascript" src="${h.url_for('/scripts/topics.js')}" py:if="c.nav_topics" />
-			<script type="text/javascript" py:if="c.nav_topics">
-				window.addEvent('domready', function() {
-					<py:if test="c.nav_topics or c.nav_podcasts">
-						var flyoutOpenFx = [
-							{duration:  30, transition: 'linear'},
-							{duration:  20, transition: 'linear'},
-							{duration: 450, transition: 'cubic:out'}
-						];
-						var flyoutCloseFx = [
-							{duration:  30, transition: 'linear'},
-							{duration:  20, transition: 'linear'},
-							{duration: 450, transition: 'cubic:in'}
-						];
-					</py:if>
-					var topicIndexFlyout, podcastHelpFlyout;
-					<py:if test="c.nav_topics">
-						var topicsEl = $('mediacore-topics');
-						if (topicsEl) {
-							var topicIndexFlyout = new ButtonFlyout({
-								button: 'nav-topics',
-								buttonActiveClass: 'topics-shown',
-								elements: topicsEl.getChildren(),
-								startHidden: ${c.nav_topic_list and 'false' or 'true'},
-								openFx: flyoutOpenFx,
-								closeFx: flyoutCloseFx
-							});
-						}
-					</py:if>
-					<py:if test="c.nav_podcasts">
-						var podcastHelpEl = $('podcast-help-box');
-						if (podcastHelpEl) {
-							podcastHelpFlyout = new ButtonFlyout({
-								button: 'nav-podcast-help',
-								buttonActiveClass: 'podcast-help-shown',
-								elements: podcastHelpEl.getChildren(),
-								openFx: flyoutOpenFx,
-								closeFx: flyoutCloseFx
-							});
-							if (topicIndexFlyout) {
-								var hider = function(how) { if (how == 'in') if (this.open) this.hide(); };
-								topicIndexFlyout.addEvent('start', hider.bind(podcastHelpFlyout));
-								podcastHelpFlyout.addEvent('start', hider.bind(topicIndexFlyout));
+			<py:if test="c.nav_topics or c.nav_podcasts">
+				<script type="text/javascript" src="${h.url_for('/scripts/topics.js')}" py:if="c.nav_topics" />
+				<script type="text/javascript" py:if="c.nav_topics">
+					window.addEvent('domready', function() {
+						<py:if test="c.nav_topics or c.nav_podcasts">
+							var flyoutOpenFx = [
+								{duration:  30, transition: 'linear'},
+								{duration:  20, transition: 'linear'},
+								{duration: 450, transition: 'cubic:out'}
+							];
+							var flyoutCloseFx = [
+								{duration:  30, transition: 'linear'},
+								{duration:  20, transition: 'linear'},
+								{duration: 450, transition: 'cubic:in'}
+							];
+						</py:if>
+						var topicIndexFlyout, podcastHelpFlyout;
+						<py:if test="c.nav_topics">
+							var topicsEl = $('mediacore-topics');
+							if (topicsEl) {
+								var topicIndexFlyout = new ButtonFlyout({
+									button: 'nav-topics',
+									buttonActiveClass: 'topics-shown',
+									elements: topicsEl.getChildren(),
+									startHidden: ${c.nav_topic_list and 'false' or 'true'},
+									openFx: flyoutOpenFx,
+									closeFx: flyoutCloseFx
+								});
 							}
-						}
-					</py:if>
-				});
-			</script>
+						</py:if>
+						<py:if test="c.nav_podcasts">
+							var podcastHelpEl = $('podcast-help-box');
+							if (podcastHelpEl) {
+								podcastHelpFlyout = new ButtonFlyout({
+									button: 'nav-podcast-help',
+									buttonActiveClass: 'podcast-help-shown',
+									elements: podcastHelpEl.getChildren(),
+									openFx: flyoutOpenFx,
+									closeFx: flyoutCloseFx
+								});
+								if (topicIndexFlyout) {
+									var hider = function(how) { if (how == 'in') if (this.open) this.hide(); };
+									topicIndexFlyout.addEvent('start', hider.bind(podcastHelpFlyout));
+									podcastHelpFlyout.addEvent('start', hider.bind(topicIndexFlyout));
+								}
+							}
+						</py:if>
+					});
+				</script>
+			</py:if>
 		</head>
 	</py:match>
 
