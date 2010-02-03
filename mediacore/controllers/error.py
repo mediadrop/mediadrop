@@ -65,10 +65,13 @@ class ErrorController(BaseController):
         default_message = ("<p>We're sorry but we weren't able to process "
                            " this request.</p>")
 
+        message = request.params.get('message', default_message)
+        message = helpers.clean_xhtml(message)
+
         return dict(
             prefix = request.environ.get('SCRIPT_NAME', ''),
-            code = request.params.get('code', original_response.status_int),
-            message = request.params.get('message', default_message),
+            code = int(request.params.get('code', original_response.status_int)),
+            message = message,
             vars = dict(POST_request=unicode(original_request)[:2048]),
         )
 
