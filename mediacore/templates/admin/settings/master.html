@@ -18,15 +18,18 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:py="http://genshi.edgewall.org/"
       xmlns:xi="http://www.w3.org/2001/XInclude">
+
 <head py:match="head">
-	<title py:match="title" py:with="title = select('text()')">
-		<py:if test="title and title != 'Settings'">${title} | </py:if>
-		Settings
-	</title>
-	<link href="${h.url_for('/admin/styles/settings.css')}" media="screen" rel="stylesheet" type="text/css" />
 	<meta py:replace="select('*')"/>
+	<link href="${h.url_for('/admin/styles/settings.css')}" media="screen" rel="stylesheet" type="text/css" />
 </head>
+
 <body py:match="body" class="menu-settings-on" py:attrs="select('@*')">
+	<!--! We're just adding the 'menu-settings-on' class to highlight the right nav button -->
+	<div py:replace="select('*|text()')" />
+</body>
+
+<div id="body" py:match="div[@id='body']">
 	<div class="lft-column33">
 		<div class="box">
 			<h1 class="box-head">Settings</h1>
@@ -41,7 +44,8 @@
 	<div class="rgt-column66">
 		<div py:replace="select('*|text()')" />
 	</div>
-</body>
+</div>
+
 </html>
 
 

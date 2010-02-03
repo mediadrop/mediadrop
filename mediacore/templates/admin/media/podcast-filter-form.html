@@ -21,7 +21,7 @@
       method="${method}"
       class="${css_class}"
       py:attrs="attrs"
-	  py:with="podcast_filter_field = children['podcast_filter']">
+      py:with="podcast_filter_field = children['podcast_filter']">
 	${XML(podcast_filter_field(value_for(podcast_filter_field)))}
 	${XML(children['submit'])}
 </form>
