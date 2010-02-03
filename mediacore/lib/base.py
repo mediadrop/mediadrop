@@ -232,7 +232,7 @@ class BaseController(RoutingController):
             if (CUSTOM_CONTENT_TYPE in controller.decoration.engines
                 and not isinstance(response, dict)):
                 return response
-            raise e
+            raise
 
 
 def url_for(*args, **kwargs):
