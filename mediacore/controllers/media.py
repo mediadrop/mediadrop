@@ -288,8 +288,10 @@ class MediaController(BaseController):
 
         """
         media = fetch_row(Media, slug=slug)
+        default_status = config.get('default_comment_status', 'publish')
+
         c = Comment()
-        c.status = 'unreviewed'
+        c.status = default_status
         c.author = AuthorWithIP(values['name'], None, request.environ['REMOTE_ADDR'])
         c.subject = 'Re: %s' % media.title
         c.body = helpers.clean_xhtml(values['body'])
@@ -298,7 +300,10 @@ class MediaController(BaseController):
         DBSession.add(media)
         email.send_comment_notification(media, c)
 
-        redirect(action='view', commented=1)
+        if 'unreviewed' in default_status:
+            redirect(action='view', commented=1, anchor='top')
+        else:
+            redirect(action='view', anchor='comment-%s' % c.id)
 
 
     @expose(content_type=CUSTOM_CONTENT_TYPE)

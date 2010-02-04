@@ -35,6 +35,10 @@ cache_dir = %(here)s/data
 image_dir = %(here)s/mediacore/public/images
 media_dir = %(here)s/data/media
 
+# Set this to 'unreviewed' to require moderator approval before publishing comments
+# Or 'publish' to skip the approval process (and you can edit/delete comments later)
+default_comment_status = publish
+
 # Max size in bytes for new uploads (300 MB by default)
 max_upload_size = 314572800
 
