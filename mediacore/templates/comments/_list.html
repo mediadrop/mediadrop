@@ -25,13 +25,28 @@
 			<link href="${h.url_for('/styles/forms.css')}" media="screen" rel="stylesheet" type="text/css" />
 			<link href="${h.url_for('/styles/comments.css')}" media="screen" rel="stylesheet" type="text/css" />
 			<script type="text/javascript" src="${h.url_for('/scripts/overtext.js')}"></script>
-			<script type="text/javascript" src="${h.url_for('/scripts/notify-comment.js')}"></script>
 			<script type="text/javascript">
 				window.addEvent('domready', function(){
 					var overTextMGR = new OverTextManager('${comment_form.id}');
-					var notifyComment = new NotifyComment({});
 				});
 			</script>
+			<py:if test="h.request.params.get('commented')">
+				<link href="${h.url_for('/styles/squeezebox.css')}" media="screen" rel="stylesheet" type="text/css" />
+				<script type="text/javascript" src="${h.url_for('/scripts/third-party/squeezebox-1.1-rc4-yui-compressed.js')}"></script>
+				<script type="text/javascript" src="${h.url_for('/scripts/notify.js')}"></script>
+				<script type="text/javascript">
+					window.addEvent('domready', function(){
+						var notify = new NotificationManager({
+							divClass: 'greybox',
+							okButtonClass: 'btn btn-ok f-rgt',
+							footerClass: 'btn-foot',
+							header: 'Thanks for your comment!',
+							headerClass: 'italic-header',
+							msg: 'We will post it just as soon as a moderator approves it.'
+						}).openNotify();
+					});
+				</script>
+			</py:if>
 		</head>
 	</py:match>
 

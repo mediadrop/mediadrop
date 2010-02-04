@@ -26,7 +26,6 @@
 	<link href="${h.url_for('/styles/media.css')}" media="screen" rel="stylesheet" type="text/css" />
 	<link py:if="media.podcast" href="${h.url_for('/styles/podcasts.css')}" media="screen" rel="stylesheet" type="text/css" />
 	<script type="text/javascript" src="${h.url_for('/scripts/rater.js')}"></script>
-	<script type="text/javascript" src="${h.url_for('/scripts/overtext.js')}"></script>
 	<script type="text/javascript">
 		window.addEvent('domready', function(){
 			var likesCounter = $('num-likedthis');
@@ -37,26 +36,6 @@
 			});
 		});
 	</script>
-	<py:if test="notify_comment">
-		<link href="${h.url_for('/styles/squeezebox.css')}" media="screen" rel="stylesheet" type="text/css" />
-		<script type="text/javascript" src="${h.url_for('/scripts/third-party/squeezebox-1.1-rc4-yui-compressed.js')}"></script>
-		<script type="text/javascript" src="${h.url_for('/scripts/notify.js')}"></script>
-		<script type="text/javascript">
-			window.addEvent('domready', function(){
-				var notify = new NotificationManager({
-					notifyWidgetSelector: null,
-					notifyOnEvent: null,
-					divClass: 'greybox',
-					okButtonClass: 'btn btn-ok f-rgt',
-					footerClass: 'btn-foot',
-					header: 'Thanks for your comment!',
-					headerClass: 'italic-header',
-					msg: 'We will post it just as soon as a moderator approves it.'
-				});
-				notify.openNotify(null);
-		});
-	</script>
-	</py:if>
 	<meta name="description" content="${h.truncate_xhtml(media.description, 249, True)}" />
 	<meta name="keywords" content="${', '.join(tag.name for tag in media.tags[:15])}" />
 </head>

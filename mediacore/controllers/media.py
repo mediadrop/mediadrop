@@ -95,7 +95,7 @@ class MediaController(BaseController):
 
 
     @expose('mediacore.templates.media.view')
-    def view(self, slug, podcast_slug=None, notify_comment=False, **kwargs):
+    def view(self, slug, podcast_slug=None, **kwargs):
         """Display the media player, info and comments.
 
         :param slug: The :attr:`~mediacore.models.media.Media.slug` to lookup
@@ -142,10 +142,9 @@ class MediaController(BaseController):
         return dict(
             media = media,
             comment_form = post_comment_form,
-            comment_form_action = url_for(action='comment'),
+            comment_form_action = url_for(action='comment', anchor=post_comment_form.id),
             comment_form_values = kwargs,
             next_episode = next_episode,
-            notify_comment = notify_comment,
         )
 
     @expose('json')
@@ -279,8 +278,8 @@ class MediaController(BaseController):
             redirect(action='view')
 
 
-    @expose('json')
-    @validate(post_comment_form)
+    @expose()
+    @validate(post_comment_form, error_handler=view)
     def comment(self, slug, **values):
         """Post a comment from :class:`~mediacore.forms.media.PostCommentForm`.
 
@@ -288,15 +287,6 @@ class MediaController(BaseController):
         :returns: Redirect to :meth:`view` page for media.
 
         """
-        if tmpl_context.form_errors:
-            if request.is_xhr:
-                return dict(
-                    success = False,
-                    errors = tmpl_context.form_errors
-                )
-            else:
-                redirect(action='view')
-
         media = fetch_row(Media, slug=slug)
         c = Comment()
         c.status = 'unreviewed'
@@ -308,7 +298,7 @@ class MediaController(BaseController):
         DBSession.add(media)
         email.send_comment_notification(media, c)
 
-        redirect(action='view', notify_comment=True)
+        redirect(action='view', commented=1)
 
 
     @expose(content_type=CUSTOM_CONTENT_TYPE)
