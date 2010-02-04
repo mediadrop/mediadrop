@@ -232,7 +232,7 @@ class Status(set):
         return sum(int(s) for s in self)
 
     def __unicode__(self):
-        return ','.join(self)
+        return ','.join([unicode(s) for s in self])
 
     def _validate_el(self, status):
         """Parse the status argument into a single StatusBit instance.
