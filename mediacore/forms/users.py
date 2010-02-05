@@ -13,10 +13,10 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from tw.forms.validators import Invalid, NotEmpty, Email, Schema, FancyValidator, All, PlainText, FieldsMatch
+from tw.forms.validators import Invalid, NotEmpty, Schema, FancyValidator, All, PlainText, FieldsMatch
 from tg import request
 
-from mediacore.forms import Form, ListForm, ListFieldSet, TextField, XHTMLTextArea, FileField, CalendarDatePicker, SingleSelectField, TextArea, SubmitButton, Button, HiddenField, CheckBoxList, PasswordField
+from mediacore.forms import Form, ListForm, ListFieldSet, TextField, XHTMLTextArea, FileField, CalendarDatePicker, SingleSelectField, TextArea, SubmitButton, Button, HiddenField, CheckBoxList, PasswordField, email_validator
 
 from mediacore.model import DBSession
 from mediacore.model.auth import Group, User
@@ -45,7 +45,7 @@ class UserForm(ListForm):
 
     fields = [
         TextField('display_name', validator=NotEmpty, maxlength=255),
-        TextField('email_address', validator=NotEmpty, maxlength=255),
+        TextField('email_address', validator=email=validator, maxlength=255),
         ListFieldSet('login_details', suppress_label=True, legend='Login Details:',
                      css_classes=['details_fieldset'],
                      validator = Schema(chained_validators=[FieldsMatch('password',

@@ -17,7 +17,7 @@ from tw.forms import TextField, CalendarDatePicker, SingleSelectField, TextArea,
 from tw.forms.validators import Schema, FieldsMatch
 from tw.api import WidgetsList
 
-from mediacore.forms import ListForm, XHTMLTextArea, SubmitButton, ListFieldSet, PasswordField
+from mediacore.forms import ListForm, XHTMLTextArea, SubmitButton, ListFieldSet, PasswordField, email_validator
 
 class SettingsForm(ListForm):
     template = 'mediacore.templates.admin.box-form'
@@ -27,10 +27,10 @@ class SettingsForm(ListForm):
 
     fields = [
         ListFieldSet('email', suppress_label=True, legend='Email Notifications:', css_classes=['details_fieldset'], children=[
-            TextField('media_uploaded', maxlength=255),
-            TextField('comment_posted', maxlength=255),
-            TextField('support_requests', maxlength=255),
-            TextField('send_from', label_text='Send Emails From', maxlength=255),
+            TextField('media_uploaded', validator=email_validator, maxlength=255),
+            TextField('comment_posted', validator=email_validator, maxlength=255),
+            TextField('support_requests', validator=email_validator, maxlength=255),
+            TextField('send_from', validator=email_validator, label_text='Send Emails From', maxlength=255),
         ]),
 #        ListFieldSet('ftp', suppress_label=True, legend='Remote FTP File Storage:',
 #                     css_classes=['details_fieldset'],

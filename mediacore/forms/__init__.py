@@ -15,6 +15,7 @@
 
 from tw import forms
 from tw.forms import ListFieldSet, TextField, FileField, CalendarDatePicker, SingleSelectField, TextArea, Button, HiddenField, PasswordField
+from tw.forms.validators import Email
 from tg.render import _get_tg_vars
 from pylons.templating import pylons_globals
 from mediacore.lib.helpers import line_break_xhtml
@@ -65,3 +66,9 @@ class XHTMLTextArea(TextArea):
         if value:
             value = line_break_xhtml(value)
         return TextArea.display(self, value, **kwargs)
+
+email_validator = Email(not_empty=True, messages={
+    'badUsername': 'The portion of the email address before the @ is invalid',
+    'badDomain': 'The portion of this email address after the @ is invalid'
+})
+

@@ -14,11 +14,11 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from tw.api import WidgetsList, CSSLink
-from tw.forms.validators import Schema, Int, StringBool, NotEmpty, DateTimeConverter, DateValidator, Email, FieldStorageUploadConverter
+from tw.forms.validators import Schema, Int, StringBool, NotEmpty, DateTimeConverter, DateValidator, FieldStorageUploadConverter
 
 from mediacore.model import DBSession, Podcast, MediaFile
 from mediacore.lib import helpers
-from mediacore.forms import Form, ListForm, ListFieldSet, TextField, XHTMLTextArea, FileField, CalendarDatePicker, SingleSelectField, TextArea, SubmitButton, Button, HiddenField, CheckBoxList
+from mediacore.forms import Form, ListForm, ListFieldSet, TextField, XHTMLTextArea, FileField, CalendarDatePicker, SingleSelectField, TextArea, SubmitButton, Button, HiddenField, CheckBoxList, email_validator
 from mediacore.model import DBSession, Podcast, Topic
 
 class AddFileForm(ListForm):
@@ -113,10 +113,7 @@ class UploadForm(ListForm):
 
     class fields(WidgetsList):
         name = TextField(label_text='First Name:', help_text='(leave blank for anonymous)', show_error=True, maxlength=50)
-        email = TextField(validator=Email(not_empty=True, messages={
-            'badUsername': 'The portion of the email address before the @ is invalid',
-            'badDomain': 'The portion of this email address after the @ is invalid'
-        }), label_text='Your email:', help_text='(will not be published)', show_error=True, maxlength=50)
+        email = TextField(validator=email_validator, label_text='Your email:', help_text='(will not be published)', show_error=True, maxlength=50)
         title = TextField(validator=NotEmpty(messages={'empty':'You\'ve gotta have a title!'}), label_text='Title:', show_error=True, maxlength=255)
         description = XHTMLTextArea(validator=NotEmpty(messages={'empty':'At least give it a short description...'}), label_text='Description:', attrs=dict(rows=5, cols=25), show_error=True)
         tags = TextField(label_text='Tags:', help_text='(optional) e.g.: puppies, great dane, adorable', show_error=True)
