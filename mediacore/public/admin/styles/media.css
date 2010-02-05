@@ -60,6 +60,9 @@
 	color: #196d29;
 	border: 0;
 }
+#status-publish .publish-date {
+	color: #3372A0;
+}
 #status-publish:hover .publish-date {
 	text-decoration: underline;
 }
