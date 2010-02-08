@@ -45,7 +45,7 @@ class UserForm(ListForm):
 
     fields = [
         TextField('display_name', validator=NotEmpty, maxlength=255),
-        TextField('email_address', validator=email=validator, maxlength=255),
+        TextField('email_address', validator=email_validator, maxlength=255),
         ListFieldSet('login_details', suppress_label=True, legend='Login Details:',
                      css_classes=['details_fieldset'],
                      validator = Schema(chained_validators=[FieldsMatch('password',
