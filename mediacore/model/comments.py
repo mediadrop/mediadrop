@@ -53,11 +53,6 @@ from sqlalchemy.types import String, Unicode, UnicodeText, Integer, DateTime, Bo
 from sqlalchemy.orm import mapper, relation, backref, synonym, composite, column_property, validates, interfaces
 
 from mediacore.model import DeclarativeBase, metadata, DBSession, AuthorWithIP, _mtm_count_property
-from mediacore.model.status import Status, StatusType, status_column_property
-
-
-class CommentStatus(Status):
-    values = ('trash', 'publish', 'unreviewed', 'user_flagged')
 
 
 comments = Table('comments', metadata,
@@ -66,7 +61,8 @@ comments = Table('comments', metadata,
     Column('subject', Unicode(100)),
     Column('created_on', DateTime, default=datetime.now, nullable=False),
     Column('modified_on', DateTime, default=datetime.now, onupdate=datetime.now, nullable=False),
-    Column('status', StatusType(CommentStatus), default=CommentStatus('publish'), nullable=False),
+    Column('reviewed', Boolean, default=False, nullable=False),
+    Column('publishable', Boolean, default=False, nullable=False),
     Column('author_name', Unicode(50), nullable=False),
     Column('author_email', Unicode(255)),
     Column('author_ip', Integer, nullable=False),
@@ -157,7 +153,6 @@ comment_count_property = _mtm_count_property
 
 
 mapper(Comment, comments, properties={
-    'status': status_column_property(comments.c.status),
     'author': composite(AuthorWithIP,
         comments.c.author_name,
         comments.c.author_email,

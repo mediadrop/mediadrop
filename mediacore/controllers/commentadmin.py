@@ -64,10 +64,12 @@ class CommentadminController(BaseController):
             media_filter_title
                 The media title for rendering if a ``media_filter`` was specified.
 
+        .. fixme:: This method uses O(n) queries because for every comment,
+            comment.parent is called.
+
         """
         comments = DBSession.query(Comment)\
-            .filter(Comment.status.excludes('trash'))\
-            .order_by(Comment.status.desc(), Comment.created_on.desc())
+            .order_by(Comment.reviewed.asc(), Comment.created_on.desc())
 
         if search is not None:
             like_search = '%' + search + '%'
@@ -117,18 +119,15 @@ class CommentadminController(BaseController):
         else:
             ids = [id]
 
-        approve = status == 'approve'
-        comments = DBSession.query(Comment)\
-            .filter(Comment.id.in_(ids))\
-            .all()
+        comments = DBSession.query(Comment).filter(Comment.id.in_(ids)).all()
+        publishable = status == 'approve'
 
         for comment in comments:
-            if approve:
-                comment.status.discard('unreviewed')
-                comment.status.add('publish')
-            else:
-                comment.status.add('trash')
+            comment.reviewed = True
+            comment.publishable = publishable
             DBSession.add(comment)
+
+        DBSession.flush()
 
         if request.is_xhr:
             return dict(success=True, ids=ids)

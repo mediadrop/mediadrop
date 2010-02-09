@@ -71,16 +71,11 @@ class AdminController(BaseController):
 
         comment_count = DBSession.query(Comment).count()
         comment_count_published = DBSession.query(Comment)\
-            .filter(Comment.status >= 'publish')\
-            .filter(Comment.status.excludes('trash'))\
-            .count()
+            .filter_by(publishable=True).count()
         comment_count_unreviewed = DBSession.query(Comment)\
-            .filter(Comment.status >= 'unreviewed')\
-            .filter(Comment.status.excludes('trash'))\
-            .count()
+            .filter_by(reviewed=False).count()
         comment_count_trash = DBSession.query(Comment)\
-            .filter(Comment.status >= 'trash')\
-            .count()
+            .filter_by(reviewed=True, publishable=False).count()
 
         return dict(
             review_page = self._fetch_page('awaiting_review'),

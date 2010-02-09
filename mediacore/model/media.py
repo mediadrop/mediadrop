@@ -39,7 +39,7 @@ from zope.sqlalchemy import datamanager
 
 from mediacore.model import DeclarativeBase, metadata, DBSession, get_available_slug, _mtm_count_property, _properties_dict_from_labels
 from mediacore.model.authors import Author
-from mediacore.model.comments import Comment, CommentTypeExtension, CommentStatus, comment_count_property, comments
+from mediacore.model.comments import Comment, CommentTypeExtension, comment_count_property, comments
 from mediacore.model.tags import Tag, TagList, tags, extract_tags, fetch_and_create_tags, tag_count_property
 from mediacore.model.topics import Topic, TopicList, topics, fetch_topics, topic_count_property
 from mediacore.model.status import Status, StatusType, status_column_property, status_where
@@ -580,15 +580,15 @@ _media_mapper = mapper(Media, media, properties={
 # Add comment_count, comment_count_published, ... column properties to Media
 _media_mapper.add_properties(_properties_dict_from_labels(
     comment_count_property('comment_count', media_comments),
-    comment_count_property('comment_count_published', media_comments, status_where(
-        comments.c.status, include='publish', exclude='trash'
-    )),
-    comment_count_property('comment_count_unreviewed', media_comments, status_where(
-        comments.c.status, include='unreviewed', exclude='trash'
-    )),
-    comment_count_property('comment_count_trash', media_comments, status_where(
-        comments.c.status, include='trash'
-    )),
+    comment_count_property('comment_count_published', media_comments, [
+        comments.c.publishable == True,
+    ]),
+    comment_count_property('comment_count_unreviewed', media_comments, [
+        comments.c.reviewed == False,
+    ]),
+    comment_count_property('comment_count_trash', media_comments, [
+        comments.c.reviewed == True, comments.c.publishable == False
+    ]),
 ))
 
 # Add properties for counting how many media items have a given Tag

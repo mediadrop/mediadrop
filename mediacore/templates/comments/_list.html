@@ -30,7 +30,7 @@
 					var overTextMGR = new OverTextManager('${comment_form.id}');
 				});
 			</script>
-			<py:if test="h.request.params.get('commented') and 'unreviewed' in h.config.get('default_comment_status', 'publish')">
+			<py:if test="h.request.params.get('commented')">
 				<link href="${h.url_for('/styles/squeezebox.css')}" media="screen" rel="stylesheet" type="text/css" />
 				<script type="text/javascript" src="${h.url_for('/scripts/third-party/squeezebox-1.1-rc4-yui-compressed.js')}"></script>
 				<script type="text/javascript" src="${h.url_for('/scripts/notify.js')}"></script>

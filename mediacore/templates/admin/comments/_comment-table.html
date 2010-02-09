@@ -21,7 +21,7 @@
 	    cellpadding="0" cellspacing="0" id="${id}" class="${classes}"
 	    py:with="item_count = len(collection);
 	             include_thead = include_thead and item_count > 0;
-				 paginator = c.paginators.comments;">
+	             paginator = c.paginators.comments;">
 		<thead py:if="include_thead">
 			<tr>
 				<th style="width:58px">Status</th>
@@ -34,10 +34,10 @@
 			<tr py:if="item_count == 0">
 				<td>None Found</td>
 			</tr>
-			<tr py:for="comment in collection" id='${comment.id}' class="${('unreviewed' in comment.status) and 'tr-white' or 'tr-gray'}">
+			<tr py:for="comment in collection" id='${comment.id}' class="${comment.reviewed and 'tr-gray' or 'tr-white'}">
 				<td py:choose="">
-					<a class="mo review-comment" py:when="'unreviewed' in comment.status" href="${h.url_for(action='save_status', id=comment.id, status='approve')}" title="Approve this comment for publishing"><span>approve</span></a>
-					<span class="published-comment" py:otherwise="" title="This comment has already been approved for publishing">published</span>
+					<span class="published-comment" py:when="comment.reviewed" title="This comment has already been approved for publishing">published</span>
+					<a class="mo review-comment" py:otherwise="" href="${h.url_for(action='save_status', id=comment.id, status='approve')}" title="Approve this comment for publishing"><span>approve</span></a>
 					<a class="mo trash-comment" href="${h.url_for(action='save_status', id=comment.id, status='trash')}" title="Delete this comment"><span>trash</span></a>
 				</td>
 				<td class="author">

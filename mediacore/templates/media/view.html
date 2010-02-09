@@ -39,7 +39,8 @@
 	<meta name="description" content="${h.truncate_xhtml(media.description, 249, True)}" />
 	<meta name="keywords" content="${', '.join(tag.name for tag in media.tags[:15])}" />
 </head>
-<body py:with="comments = [c for c in media.comments if 'publish' in c.status and 'trash' not in c.status]" class="${media.podcast and 'nav-podcasts-on' or 'nav-media-on'}">
+<body py:with="comments = [c for c in media.comments if c.publishable]"
+      class="${media.podcast and 'nav-podcasts-on' or 'nav-media-on'}">
 	<box id="media-box">
 		<nav />
 		<div class="media-body">
