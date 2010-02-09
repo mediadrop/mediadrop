@@ -39,7 +39,6 @@ from zope.sqlalchemy import datamanager
 
 from mediacore.model import DeclarativeBase, metadata, DBSession, get_available_slug, _mtm_count_property, _properties_dict_from_labels
 from mediacore.model.authors import Author
-from mediacore.model.rating import Rating
 from mediacore.model.comments import Comment, CommentTypeExtension, CommentStatus, comment_count_property, comments
 from mediacore.model.tags import Tag, TagList, tags, extract_tags, fetch_and_create_tags, tag_count_property
 from mediacore.model.topics import Topic, TopicList, topics, fetch_topics, topic_count_property
@@ -73,8 +72,7 @@ media = Table('media', metadata,
 
     Column('duration', Integer, default=0, nullable=False),
     Column('views', Integer, default=0, nullable=False),
-    Column('rating_sum', Integer, default=0, nullable=False),
-    Column('rating_votes', Integer, default=0, nullable=False),
+    Column('likes', Integer, default=0, nullable=False),
 
     Column('author_name', Unicode(50), nullable=False),
     Column('author_email', Unicode(255), nullable=False),
@@ -194,11 +192,9 @@ class Media(object):
 
         The number of times the public media page has been viewed
 
-    .. attribute:: rating_sum
-    .. attribute:: rating_votes
+    .. attribute:: likes
 
-        The rating of this object. Currently implemented as 'likes', both values
-        will be the same.
+        The number of users who clicked 'i like this'.
 
     .. attribute:: notes
 
@@ -574,7 +570,6 @@ mapper(MediaFile, media_files)
 _media_mapper = mapper(Media, media, properties={
     'status': status_column_property(media.c.status),
     'author': composite(Author, media.c.author_name, media.c.author_email),
-    'rating': composite(Rating, media.c.rating_sum, media.c.rating_votes),
     'files': relation(MediaFile, backref='media', order_by=media_files.c.position.asc(), passive_deletes=True),
     'tags': relation(Tag, secondary=media_tags, backref='media', collection_class=TagList),
     'topics': relation(Topic, secondary=media_topics, backref='media', collection_class=TopicList),

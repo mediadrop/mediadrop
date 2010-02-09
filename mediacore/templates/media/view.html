@@ -51,12 +51,12 @@
 				<div class="media-meta-top" />
 				<div class="media-meta-views"><strong>Views:</strong> ${media.views}</div>
 				<div class="media-meta-time"><strong>Time:</strong> ${h.duration_from_seconds(media.duration)}</div>
-				<div class="media-meta-etc" style="${(media.rating.sum &gt; 0) or 'visibility:hidden'}">
-					<strong id="num-likedthis">${h.text.plural(media.rating.sum, 'person', 'people')}</strong>
+				<div class="media-meta-etc" style="${(media.likes != 0) or 'visibility:hidden'}">
+					<strong id="num-likedthis">${h.text.plural(media.likes, 'person', 'people')}</strong>
 					liked this ${'podcast' if media.podcast else media.type}!
 				</div>
 				<div class="media-meta-commented"><strong>${h.text.plural(len(comments), 'person', 'people')}</strong> commented</div>
-				<a class="btn btn-likethis" id="likethis" title="Vote Up" href="${h.url_for(action='rate', rating=1)}">I like this!</a>
+				<a class="btn btn-likethis" id="likethis" title="Vote Up" href="${h.url_for(action='rate')}">I like this!</a>
 				<a py:if="media.downloadable_file" class="btn btn-download" href="${media.downloadable_file.link_url}">Download</a>
 				<div class="media-meta-bottom" />
 			</div>

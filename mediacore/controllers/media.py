@@ -244,12 +244,10 @@ class MediaController(BaseController):
         )
 
     @expose_xhr()
-    @validate(validators=dict(rating=validators.Int()))
-    def rate(self, slug, rating=1, **kwargs):
+    def rate(self, slug, **kwargs):
         """Rate up or down the given media.
 
         :param slug: The media :attr:`~mediacore.model.media.Media.slug`
-        :param rating: ``1`` or ``0`` if the rating is up or down.
         :rtype: JSON dict
         :returns:
             succcess
@@ -261,17 +259,14 @@ class MediaController(BaseController):
 
         """
         media = fetch_row(Media, slug=slug)
-
-        if rating > 0:
-            media.rating.add_vote(1)
-        else:
-            media.rating.add_vote(0)
+        media.likes += 1
         DBSession.add(media)
 
         if request.is_xhr:
             return dict(
+# FIXME UPDATE RETURN ARG NAMING
                 success = True,
-                upRating = helpers.text.plural(media.rating.sum, 'person', 'people'),
+                upRating = helpers.text.plural(media.likes, 'person', 'people'),
                 downRating = None,
             )
         else:

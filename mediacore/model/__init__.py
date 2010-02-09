@@ -231,7 +231,6 @@ def _mtm_count_property(label, assoc_table,
 
 from mediacore.model.auth import User, Group, Permission
 from mediacore.model.authors import Author, AuthorWithIP
-from mediacore.model.rating import Rating
 from mediacore.model.comments import Comment
 from mediacore.model.settings import Setting
 from mediacore.model.tags import Tag
