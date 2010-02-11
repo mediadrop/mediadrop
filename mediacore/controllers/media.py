@@ -121,7 +121,7 @@ class MediaController(BaseController):
 
         """
         media = fetch_row(Media, slug=slug)
-        media.views += 1
+        media.increment_views()
 
         next_episode = None
         if media.podcast_id is not None:

@@ -454,6 +454,9 @@ class Media(object):
     def is_trash(self):
         return 'trash' in self.status
 
+    def increment_views(self):
+        self.views = media.c.views + sql.text('1')
+
 
 def create_media_stub():
     """Return a new :class:`Media` instance with helpful defaults.
