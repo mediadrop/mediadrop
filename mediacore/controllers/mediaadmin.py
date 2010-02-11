@@ -87,19 +87,19 @@ class MediaadminController(BaseController):
         media = DBSession.query(Media)\
             .filter(Media.status.excludes('trash'))\
             .options(orm.undefer('comment_count_published'))\
-            .options(orm.undefer('comment_count_unreviewed'))\
-            .order_by(Media.status.desc(),
-                      Media.publish_on.desc(),
-                      Media.modified_on.desc())
+            .options(orm.undefer('comment_count_unreviewed'))
 
         if search is not None:
-            like_search = '%' + search + '%'
-            media = media.filter(sql.or_(
-                Media.title.like(like_search),
-                Media.description.like(like_search),
-                Media.notes.like(like_search),
-                Media.tags.any(Tag.name.like(like_search)),
-            ))
+            # TODO: This is merely a proof of concept. Refactor.
+            from mediacore.model.media import media_fulltext
+            match = 'MATCH (media_fulltext.title, media_fulltext.subtitle, media_fulltext.description_plain, media_fulltext.notes, media_fulltext.tags, media_fulltext.topics) AGAINST (:search)'
+            media = media.join((media_fulltext, Media.id == media_fulltext.c.media_id))\
+                .filter(sql.text(match))\
+                .params(search=search)
+        else:
+            media = media.order_by(Media.status.desc(),
+                                   Media.publish_on.desc(),
+                                   Media.modified_on.desc())
 
         podcast_filter_title = podcast_filter
         if podcast_filter == 'Unfiled':

@@ -68,6 +68,7 @@ media = Table('media', metadata,
     Column('title', Unicode(255), nullable=False),
     Column('subtitle', Unicode(255)),
     Column('description', UnicodeText),
+    Column('description_plain', UnicodeText),
     Column('notes', UnicodeText),
 
     Column('duration', Integer, default=0, nullable=False),
@@ -124,6 +125,17 @@ media_comments = Table('media_comments', metadata,
         primary_key=True),
     Column('comment_id', Integer, ForeignKey('comments.id', onupdate='CASCADE', ondelete='CASCADE'),
         primary_key=True, unique=True)
+)
+
+media_fulltext = Table('media_fulltext', metadata,
+    Column('media_id', Integer, ForeignKey('media.id'), primary_key=True),
+    Column('title', Unicode(255), nullable=False),
+    Column('subtitle', Unicode(255)),
+    Column('description_plain', UnicodeText),
+    Column('notes', UnicodeText),
+    Column('author_name', Unicode(50), nullable=False),
+    Column('tags', UnicodeText),
+    Column('topics', UnicodeText),
 )
 
 
