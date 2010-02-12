@@ -68,8 +68,8 @@ class CommentadminController(BaseController):
             comment.parent is called.
 
         """
-        comments = DBSession.query(Comment)\
-            .order_by(Comment.reviewed.asc(), Comment.created_on.desc())
+        comments = Comment.query.order_by(Comment.reviewed.asc(),
+                                          Comment.created_on.desc())
 
         if search is not None:
             like_search = '%' + search + '%'
@@ -119,7 +119,7 @@ class CommentadminController(BaseController):
         else:
             ids = [id]
 
-        comments = DBSession.query(Comment).filter(Comment.id.in_(ids)).all()
+        comments = Comment.query.filter(Comment.id.in_(ids)).all()
         publishable = status == 'approve'
 
         for comment in comments:

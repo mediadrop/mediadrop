@@ -33,13 +33,13 @@ from datetime import datetime
 from urlparse import urlparse
 from sqlalchemy import Table, ForeignKey, Column, sql, func
 from sqlalchemy.types import String, Unicode, UnicodeText, Integer, DateTime, Boolean, Float
-from sqlalchemy.orm import mapper, class_mapper, relation, backref, synonym, composite, column_property, comparable_property, validates, collections, Query
+from sqlalchemy.orm import mapper, class_mapper, relation, backref, synonym, composite, column_property, comparable_property, dynamic_loader, validates, collections, Query
 from tg import config, request
 from zope.sqlalchemy import datamanager
 
 from mediacore.model import DeclarativeBase, metadata, DBSession, get_available_slug, _mtm_count_property, _properties_dict_from_labels
 from mediacore.model.authors import Author
-from mediacore.model.comments import Comment, CommentTypeExtension, comment_count_property, comments
+from mediacore.model.comments import Comment, CommentQuery, comments
 from mediacore.model.tags import Tag, TagList, tags, extract_tags, fetch_and_create_tags, tag_count_property
 from mediacore.model.topics import Topic, TopicList, topics, fetch_topics, topic_count_property
 from mediacore.lib import helpers
@@ -588,20 +588,20 @@ _media_mapper = mapper(Media, media, properties={
     'files': relation(MediaFile, backref='media', order_by=media_files.c.position.asc(), passive_deletes=True),
     'tags': relation(Tag, secondary=media_tags, backref='media', collection_class=TagList),
     'topics': relation(Topic, secondary=media_topics, backref='media', collection_class=TopicList),
-    'comments': relation(Comment, secondary=media_comments, backref=backref('media', uselist=False),
-        extension=CommentTypeExtension('media'), single_parent=True, passive_deletes=True),
+    'comments': dynamic_loader(Comment, secondary=media_comments, backref=backref('media', uselist=False),
+        passive_deletes=True, query_class=CommentQuery),
 })
 
 # Add comment_count, comment_count_published, ... column properties to Media
 _media_mapper.add_properties(_properties_dict_from_labels(
-    comment_count_property('comment_count', media_comments),
-    comment_count_property('comment_count_published', media_comments, [
+    _mtm_count_property('comment_count', media_comments),
+    _mtm_count_property('comment_count_published', media_comments, [
         comments.c.publishable == True,
     ]),
-    comment_count_property('comment_count_unreviewed', media_comments, [
+    _mtm_count_property('comment_count_unreviewed', media_comments, [
         comments.c.reviewed == False,
     ]),
-    comment_count_property('comment_count_trash', media_comments, [
+    _mtm_count_property('comment_count_trash', media_comments, [
         comments.c.reviewed == True, comments.c.publishable == False
     ]),
 ))

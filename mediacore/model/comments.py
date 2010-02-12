@@ -50,9 +50,9 @@ Also include this property if you want to grab the comment count quickly::
 from datetime import datetime
 from sqlalchemy import Table, ForeignKey, Column, sql
 from sqlalchemy.types import String, Unicode, UnicodeText, Integer, DateTime, Boolean, Float
-from sqlalchemy.orm import mapper, relation, backref, synonym, composite, column_property, validates, interfaces
+from sqlalchemy.orm import mapper, relation, backref, synonym, composite, column_property, validates, interfaces, Query
 
-from mediacore.model import DeclarativeBase, metadata, DBSession, AuthorWithIP, _mtm_count_property
+from mediacore.model import DeclarativeBase, metadata, DBSession, AuthorWithIP
 
 
 comments = Table('comments', metadata,
@@ -71,6 +71,9 @@ comments = Table('comments', metadata,
     mysql_charset='utf8'
 )
 
+class CommentQuery(Query):
+    def published(self):
+        return self.filter(Comment.publishable == True)
 
 class Comment(object):
     """Comment Model
@@ -88,6 +91,9 @@ class Comment(object):
         An instance of :class:`mediacore.model.author.AuthorWithIP`.
 
     """
+
+    query = DBSession.query_property(CommentQuery)
+
     def __repr__(self):
         return '<Comment: %s subject="%s">' % (self.id, self.subject)
 
@@ -147,9 +153,6 @@ class CommentTypeExtension(interfaces.AttributeExtension):
     def set(self, value, oldvalue, initiator):
         # Pretty certain this should never be called on a relation property.
         raise NotImplemented
-
-
-comment_count_property = _mtm_count_property
 
 
 mapper(Comment, comments, properties={

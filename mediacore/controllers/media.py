@@ -137,6 +137,7 @@ class MediaController(BaseController):
 
         return dict(
             media = media,
+            comments = media.comments.published().all(),
             comment_form = post_comment_form,
             comment_form_action = url_for(action='comment', anchor=post_comment_form.id),
             comment_form_values = kwargs,
