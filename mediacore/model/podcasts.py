@@ -138,10 +138,7 @@ mapper(Podcast, podcasts, properties={
         column_property(
             sql.select(
                 [sql.func.count(media.c.id)],
-                sql.and_(
-                    media.c.podcast_id == podcasts.c.id,
-                    media.c.status.op('&')(int(MediaStatus('trash'))) == 0 # status excludes 'trash'
-                )
+                media.c.podcast_id == podcasts.c.id,
             ).label('media_count'),
             deferred=True
         ),
@@ -151,8 +148,8 @@ mapper(Podcast, podcasts, properties={
                 [sql.func.count(media.c.id)],
                 sql.and_(
                     media.c.podcast_id == podcasts.c.id,
-                    media.c.status.op('&')(int(MediaStatus('publish'))) == int(MediaStatus('publish')), # status includes 'publish'
-                    media.c.status.op('&')(int(MediaStatus('trash'))) == 0, # status excludes 'trash'
+                    media.c.publishable == True,
+                    # FIXME: Check dates
                 )
             ).label('published_media_count'),
             deferred=True

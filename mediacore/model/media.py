@@ -42,11 +42,7 @@ from mediacore.model.authors import Author
 from mediacore.model.comments import Comment, CommentTypeExtension, comment_count_property, comments
 from mediacore.model.tags import Tag, TagList, tags, extract_tags, fetch_and_create_tags, tag_count_property
 from mediacore.model.topics import Topic, TopicList, topics, fetch_topics, topic_count_property
-from mediacore.model.status import Status, StatusType, status_column_property, status_where
 from mediacore.lib import helpers
-
-class MediaStatus(Status):
-    values = ('trash', 'publish', 'draft', 'unencoded', 'unreviewed')
 
 class MediaException(Exception): pass
 class MediaFileException(MediaException): pass
@@ -57,8 +53,10 @@ media = Table('media', metadata,
     Column('id', Integer, autoincrement=True, primary_key=True),
     Column('type', String(10), nullable=False),
     Column('slug', String(50), unique=True, nullable=False),
-    Column('status', StatusType(MediaStatus), default=MediaStatus('publish'), nullable=False),
     Column('podcast_id', Integer, ForeignKey('podcasts.id', onupdate='CASCADE', ondelete='CASCADE')),
+    Column('reviewed', Boolean, default=False, nullable=False),
+    Column('encoded', Boolean, default=False, nullable=False),
+    Column('publishable', Boolean, default=False, nullable=False),
 
     Column('created_on', DateTime, default=datetime.now, nullable=False),
     Column('modified_on', DateTime, default=datetime.now, onupdate=datetime.now, nullable=False),
@@ -172,19 +170,19 @@ class Media(object):
         If this object has no files, the type is None.
         See :meth:`Media.update_type` for details on how this is determined.
 
-    .. attribute:: status
+    .. attribute:: reviewed
 
-        An unordered set of flags:
+        A flag to indicate whether this file has passed review by an admin.
 
-            * ``trash`` if the file has been deleted.
-            * ``publish`` if the media is ready to be displayed publicly. Note,
-              however, that :attr:`Media.publish_on` and :attr:`Media.publish_until`
-              also effect whether this object is actually displayed.
-            * ``draft`` if we aren't ready for ``publish``.
-            * ``unencoded`` if there are no web-friendly files for this object.
-            * ``unreviewed`` if the content has not had an editorial review yet.
+    .. attribute:: encoded
 
-        See :meth:`update_status` for status validation rules.
+        A flag to indicate whether this file is encoded in a web-ready state.
+
+    .. attribute:: publishable
+
+        A flag to indicate if this media should be published in between its
+        publish_on and publish_until dates. If this is false, this is
+        considered to be in draft state and will not appear on the site.
 
     .. attribute:: created_on
     .. attribute:: modified_on
@@ -276,8 +274,6 @@ class Media(object):
     def __init__(self):
         if self.author is None:
             self.author = Author()
-        if self.status is None:
-            self.status = MediaStatus()
 
     def __repr__(self):
         return '<Media: %s>' % self.slug
@@ -381,7 +377,7 @@ class Media(object):
         self.type = primary_file.medium if primary_file else None
 
     def update_status(self):
-        """Examine :attr:`Media.status` to ensure it is an allowable value.
+        """Ensure the reviewed, encoded, publishable flags make sense.
 
         * ``unreviewed`` is added if no files exist.
         * ``unencoded`` is added if there isn't any file to play with the
@@ -398,8 +394,7 @@ class Media(object):
 
     def _validate_review_status(self):
         if not self.files:
-            self.status.add('unreviewed')
-        return 'unreviewed' in self.status
+            self.reviewed = True
 
     def _validate_encoding_status(self):
         if self.files:
@@ -407,21 +402,19 @@ class Media(object):
                 self.update_type()
             for file in self.files:
                 if file.type in config.playable_types[self.type]:
-                    self.status.discard('unencoded')
+                    self.encoded = True
                     return True
             if self.podcast_id is None:
                 for file in self.files:
                     if file.is_embeddable:
-                        self.status.discard('unencoded')
+                        self.encoded = True
                         return True
-        self.status.add('unencoded')
+        self.encoded = False
         return False
 
     def _validate_publish_status(self):
-        if self.status.intersection(('unencoded', 'unreviewed', 'draft')):
-            self.status.discard('publish')
-            self.status.add('draft')
-        return 'publish' in self.status
+        if not self.reviewed or not self.encoded:
+            self.publishable = False
 
     @property
     def primary_file(self):
@@ -459,26 +452,9 @@ class Media(object):
 
     @property
     def is_published(self):
-        return 'publish' in self.status\
-           and 'trash' not in self.status\
+        return self.publishable\
            and (self.publish_on is not None and self.publish_on <= datetime.now())\
            and (self.publish_until is None or self.publish_until >= datetime.now())
-
-    @property
-    def is_unencoded(self):
-        return 'unencoded' in self.status
-
-    @property
-    def is_unreviewed(self):
-        return 'unreviewed' in self.status
-
-    @property
-    def is_draft(self):
-        return 'draft' in self.status
-
-    @property
-    def is_trash(self):
-        return 'trash' in self.status
 
     def increment_views(self):
         self.views = media.c.views + sql.text('1')
@@ -510,7 +486,6 @@ def create_media_stub():
     m.slug = get_available_slug(Media, 'stub-%s' % timestamp)
     m.title = '(Stub %s created by %s)' % (timestamp, user.display_name)
     m.author = Author(user.display_name, user.email_address)
-    m.status = 'draft,unencoded,unreviewed'
     return m
 
 
@@ -609,7 +584,6 @@ class MediaFile(object):
 mapper(MediaFile, media_files)
 
 _media_mapper = mapper(Media, media, properties={
-    'status': status_column_property(media.c.status),
     'author': composite(Author, media.c.author_name, media.c.author_email),
     'files': relation(MediaFile, backref='media', order_by=media_files.c.position.asc(), passive_deletes=True),
     'tags': relation(Tag, secondary=media_tags, backref='media', collection_class=TagList),
@@ -635,21 +609,19 @@ _media_mapper.add_properties(_properties_dict_from_labels(
 # Add properties for counting how many media items have a given Tag
 _tags_mapper = class_mapper(Tag, compile=False)
 _tags_mapper.add_properties(_properties_dict_from_labels(
-    tag_count_property('media_count', media_tags, status_where(
-        media.c.status, exclude='trash'
-    )),
-    tag_count_property('published_media_count', media_tags, status_where(
-        media.c.status, include='publish', exclude='trash'
-    )),
+    tag_count_property('media_count', media_tags),
+    tag_count_property('published_media_count', media_tags, [
+        media.c.publishable,
+        # FIXME: Check dates
+    ]),
 ))
 
 # Add properties for counting how many media items have a given Topic
 _topics_mapper = class_mapper(Topic, compile=False)
 _topics_mapper.add_properties(_properties_dict_from_labels(
-    topic_count_property('media_count', media_topics, status_where(
-        media.c.status, exclude='trash'
-    )),
-    topic_count_property('published_media_count', media_topics, status_where(
-        media.c.status, include='publish', exclude='trash'
-    )),
+    topic_count_property('media_count', media_topics),
+    topic_count_property('published_media_count', media_topics, [
+        media.c.publishable,
+        # FIXME: Check dates
+    ]),
 ))

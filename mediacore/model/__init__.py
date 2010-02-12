@@ -16,10 +16,10 @@
 """The application's model objects"""
 
 import re
+import tg.exceptions
 from zope.sqlalchemy import ZopeTransactionExtension
 from sqlalchemy.orm import scoped_session, sessionmaker, class_mapper
 from sqlalchemy.ext.declarative import declarative_base
-from tg.exceptions import HTTPNotFound
 from sqlalchemy import sql, orm
 from sqlalchemy.orm.exc import NoResultFound
 from mediacore.lib.unidecode import unidecode
@@ -97,13 +97,14 @@ def fetch_row(mapped_class, pk=None, incl_trash=False, extra_filter=None, **kwar
         query = query.filter_by(**kwargs)
     if extra_filter is not None:
         query = query.filter(extra_filter)
+# FIXME :REMOVE INCL_TRASH
     if not incl_trash and hasattr(mapped_class, 'status'):
         query = query.filter(mapped_class.status.excludes('trash'))
 
     try:
         return query.one()
     except NoResultFound:
-        raise HTTPNotFound
+        raise tg.exceptions.HTTPNotFound
 
 
 # slugify regex's

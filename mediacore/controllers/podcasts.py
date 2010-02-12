@@ -64,15 +64,14 @@ class PodcastsController(BaseController):
                 for this page.
 
         """
-        podcasts = DBSession.query(Podcast)\
+        podcasts = Podcast.query\
             .options(orm.undefer('published_media_count'))\
             .all()
 
-        episodes = DBSession.query(Media)\
+        episodes = Media.query.published()\
             .filter(Media.podcast_id != None)\
             .order_by(Media.publish_on.desc())\
             .options(orm.undefer('comment_count_published'))
-        episodes = self._filter(episodes)
 
         return dict(
             podcasts = podcasts,
@@ -100,7 +99,7 @@ class PodcastsController(BaseController):
 
         """
         podcast = fetch_row(Podcast, slug=slug)
-        episodes = self._filter(podcast.media)\
+        episodes = podcast.media.published()\
             .order_by(Media.publish_on.desc())
 
         return dict(
@@ -131,10 +130,10 @@ class PodcastsController(BaseController):
 
         """
         podcast = fetch_row(Podcast, slug=slug)
-        episodes = self._filter(podcast.media)\
+        episodes = podcast.media.published()\
             .order_by(Media.publish_on.desc())
 
-        podcasts = DBSession.query(Podcast)\
+        podcasts = Podcast.query\
             .options(orm.undefer('published_media_count'))\
             .all()
 
@@ -179,7 +178,7 @@ class PodcastsController(BaseController):
             request.environ.get('HTTP_ACCEPT', '*/*')
         )
 
-        episodes = self._filter(podcast.media)\
+        episodes = podcast.media.published()\
             .order_by(Media.publish_on.desc())[:25]
         template_vars = dict(
             podcast = podcast,
@@ -197,10 +196,3 @@ class PodcastsController(BaseController):
             extra_vars=template_vars,
             method='xml'
         )
-
-
-    def _filter(self, query):
-        """Filter a query for only published, undeleted media."""
-        return query\
-            .filter(Media.status >= 'publish')\
-            .filter(Media.status.excludes('trash'))

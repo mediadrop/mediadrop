@@ -130,12 +130,8 @@ class MediaController(BaseController):
                redirect(podcast_slug=media.podcast.slug)
 
             if media.is_published:
-                next_episode = DBSession.query(Media)\
+                next_episode = Media.query.published()\
                     .filter(Media.podcast_id == media.podcast.id)\
-                    .filter(Media.publish_on > media.publish_on)\
-                    .filter(Media.publish_on < datetime.now())\
-                    .filter(Media.status >= 'publish')\
-                    .filter(Media.status.excludes('trash'))\
                     .order_by(Media.publish_on)\
                     .first()
 
@@ -210,13 +206,7 @@ class MediaController(BaseController):
         :rtype: JSON dict
 
         """
-        media_query = DBSession.query(Media)\
-            .filter(Media.status >= 'publish')\
-            .filter(Media.publish_on <= datetime.now())\
-            .filter(Media.status.excludes('trash'))\
-            .order_by(Media.views.desc())
-
-        media = media_query.first()
+        media = Media.query.published.order_by(Media.views.desc()).first()
         return self._jsonify(media)
 
     def _jsonify(self, media):
@@ -371,11 +361,7 @@ class MediaController(BaseController):
     @property
     def _published_media_query(self):
         """Helper method for getting published media"""
-        return DBSession.query(Media)\
-            .filter(Media.status >= 'publish')\
-            .filter(Media.publish_on <= datetime.now())\
-            .filter(Media.status.excludes('trash'))\
-            .order_by(Media.publish_on.desc())
+        return Media.query.published().order_by(Media.publish_on.desc())
 
 
     @expose('mediacore.templates.media.topics')
@@ -571,7 +557,6 @@ class MediaController(BaseController):
         media_obj.title = title
         media_obj.slug = get_available_slug(Media, title)
         media_obj.description = helpers.clean_xhtml(description)
-        media_obj.status = 'draft,unencoded,unreviewed'
         media_obj.notes = helpers.fetch_setting('wording_additional_notes')
         media_obj.set_tags(tags)
 

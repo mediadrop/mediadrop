@@ -84,10 +84,8 @@ class MediaadminController(BaseController):
 
 
         """
-        media = DBSession.query(Media)\
-            .filter(Media.status.excludes('trash'))\
-            .options(orm.undefer('comment_count_published'))\
-            .options(orm.undefer('comment_count_unreviewed'))
+        media = Media.query.options(orm.undefer('comment_count_published'))\
+                           .options(orm.undefer('comment_count_unreviewed'))
 
         if search is not None:
             # TODO: This is merely a proof of concept. Refactor.
@@ -97,8 +95,8 @@ class MediaadminController(BaseController):
                 .filter(sql.text(match))\
                 .params(search=search)
         else:
-            media = media.order_by(Media.status.desc(),
-                                   Media.publish_on.desc(),
+            media = media.order_by_status()\
+                         .order_by(Media.publish_on.desc(),
                                    Media.modified_on.desc())
 
         podcast_filter_title = podcast_filter
@@ -218,13 +216,9 @@ class MediaadminController(BaseController):
         media = fetch_row(Media, id, incl_trash=True)
 
         if delete:
-            media.status.add('trash')
-            DBSession.add(media)
+            DBSession.delete(media)
             DBSession.flush()
             redirect(action='index', id=None)
-
-        if id == 'new':
-            media.status = 'draft,unencoded,unreviewed'
 
         media.slug = get_available_slug(Media, slug, media)
         media.title = title
@@ -540,10 +534,9 @@ class MediaadminController(BaseController):
 
         # Make the requested change assuming it will be allowed
         if update_button == 'Review Complete':
-            media.status.discard('unreviewed')
+            media.reviewed = True
         elif update_button == 'Publish Now':
-            media.status.discard('draft')
-            media.status.add('publish')
+            media.publishable = True
             media.publish_on = publish_on or datetime.now()
         elif publish_on:
             media.publish_on = publish_on

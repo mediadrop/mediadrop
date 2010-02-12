@@ -63,10 +63,7 @@ class AdminController(BaseController):
         """
         # Any publishable video that does have a publish_on date that is in the
         # past and is publishable is 'Recently Published'
-        recent_media = DBSession.query(Media)\
-            .filter(Media.status >= 'publish')\
-            .filter(Media.status.excludes('trash'))\
-            .filter(Media.publish_on < datetime.now)\
+        recent_media = Media.query.published()\
             .order_by(Media.publish_on.desc())[:5]
 
         comment_count = DBSession.query(Comment).count()
@@ -111,15 +108,13 @@ class AdminController(BaseController):
 
     def _fetch_page(self, type='awaiting_review', page=1, items_per_page=6):
         """Helper method for paginating media results"""
-        query = DBSession.query(Media).order_by(Media.modified_on.desc())
+        query = Media.query.order_by(Media.modified_on.desc())
 
         if type == 'awaiting_review':
-            query = query.filter(Media.status.intersects('unreviewed'))\
-                         .filter(Media.status.excludes('trash'))
+            query = query.filter_by(reviewed=False)
         elif type == 'awaiting_encoding':
-            query = query.filter(Media.status.intersects('unencoded'))\
-                         .filter(Media.status.excludes('trash,unreviewed'))
+            query = query.filter_by(reviewed=True, encoded=False)
         elif type == 'awaiting_publishing':
-            query = query.filter(Media.status.issubset('draft'))
+            query = query.filter_by(reviewed=True, encoded=True, publishable=False)
 
         return webhelpers.paginate.Page(query, page, items_per_page)
