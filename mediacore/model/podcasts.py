@@ -30,7 +30,7 @@ from sqlalchemy.orm import mapper, relation, backref, synonym, composite, valida
 from tg import request
 
 from mediacore.model import DeclarativeBase, metadata, DBSession, Author, slugify, get_available_slug
-from mediacore.model.media import Media, media, MediaStatus
+from mediacore.model.media import Media, MediaQuery, media
 
 
 podcasts = Table('podcasts', metadata,
@@ -119,6 +119,8 @@ class Podcast(object):
 
     """
 
+    query = DBSession.query_property()
+
     def __repr__(self):
         return '<Podcast: %s>' % self.slug
 
@@ -131,7 +133,7 @@ mapper(Podcast, podcasts, properties={
     'author': composite(Author,
         podcasts.c.author_name,
         podcasts.c.author_email),
-    'media': dynamic_loader(Media, backref='podcast'),
+    'media': dynamic_loader(Media, backref='podcast', query_class=MediaQuery),
     'media_count':
         column_property(
             sql.select(

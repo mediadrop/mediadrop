@@ -33,7 +33,7 @@ from datetime import datetime
 from urlparse import urlparse
 from sqlalchemy import Table, ForeignKey, Column, sql, func
 from sqlalchemy.types import String, Unicode, UnicodeText, Integer, DateTime, Boolean, Float
-from sqlalchemy.orm import mapper, class_mapper, relation, backref, synonym, composite, column_property, comparable_property, validates, collections
+from sqlalchemy.orm import mapper, class_mapper, relation, backref, synonym, composite, column_property, comparable_property, validates, collections, Query
 from tg import config, request
 from zope.sqlalchemy import datamanager
 
@@ -138,6 +138,18 @@ media_fulltext = Table('media_fulltext', metadata,
     Column('topics', UnicodeText),
 )
 
+
+class MediaQuery(Query):
+    def published(self):
+        return self.filter(Media.publishable == True)\
+                   .filter(Media.publish_on <= datetime.now())\
+                   .filter(sql.or_(Media.publish_until == None,
+                                   Media.publish_until >= datetime.now()))
+
+    def order_by_status(self):
+        return self.order_by(Media.reviewed.asc(),
+                             Media.encoded.asc(),
+                             Media.publishable.asc())
 
 class Media(object):
     """
@@ -258,6 +270,8 @@ class Media(object):
     .. attribute:: comment_count_trash
 
     """
+
+    query = DBSession.query_property(MediaQuery)
 
     def __init__(self):
         if self.author is None:
