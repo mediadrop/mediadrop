@@ -57,7 +57,7 @@ from mediacore.model import DeclarativeBase, metadata, DBSession, AuthorWithIP
 
 comments = Table('comments', metadata,
     Column('id', Integer, autoincrement=True, primary_key=True),
-    Column('type', Unicode(15), nullable=False),
+    Column('media_id', Integer, ForeignKey('media.id', onupdate='CASCADE', ondelete='CASCADE')),
     Column('subject', Unicode(100)),
     Column('created_on', DateTime, default=datetime.now, nullable=False),
     Column('modified_on', DateTime, default=datetime.now, onupdate=datetime.now, nullable=False),
@@ -72,8 +72,22 @@ comments = Table('comments', metadata,
 )
 
 class CommentQuery(Query):
-    def published(self):
-        return self.filter(Comment.publishable == True)
+    def published(self, flag=True):
+        return self.filter(Comment.publishable == flag)
+
+    def reviewed(self, flag=True):
+        return self.filter(Comment.reviewed == flag)
+
+    def trash(self):
+        return self.published().reviewed(False)
+
+    def search(self, q):
+        q = '%' + q + '%'
+        return self.filter(sql.or_(
+            Comment.subject.like(q),
+            Comment.body.like(q),
+        ))
+
 
 class Comment(object):
     """Comment Model
@@ -100,59 +114,20 @@ class Comment(object):
     def __unicode__(self):
         return self.subject
 
+    @property
+    def type(self):
+        if self.media_id:
+            return 'media'
+        return None
+
     def _get_parent(self):
-        return getattr(self, self.type, None)
+        return self.media or None
     def _set_parent(self, parent):
-        return setattr(self, self.type, parent)
+        self.media = parent
     parent = property(_get_parent, _set_parent, None, """
         The object this Comment belongs to, provided for convenience mostly.
         If the parent has not been eagerloaded, a query is executed automatically.
     """)
-
-
-class CommentTypeExtension(interfaces.AttributeExtension):
-    """
-    Comment Type Auto-Mapping Extension
-
-    When another module/class defines a :func:`sqlalchemy.orm.relation` to
-    :class:`Comment` this extension should be included. This will automatically
-    define the correct :attr:`Comment.type` when a comment is added to the
-    related objects list of comments. This, in turn, allows us to look up the
-    related object again from the comment alone, via :attr:`Comment.parent`.
-
-    This is intended to make dealing with comments more convenient::
-
-        >>> c = Comment()
-        >>> print c.type
-        None
-
-        >>> m = Media()
-        >>> m.comments.append(c)
-        >>> print c.type
-        'media'
-
-    .. attribute:: type
-
-        The value to assign to :attr:`Comment.type` when a comment is added to
-        the related objects collection of comments.
-
-    .. warning::
-
-        The type given here and the name of the backref passed to
-        :func:`sqlalchemy.orm.relation` must match for the reverse-lookup
-        to work.
-
-    """
-    def __init__(self, type):
-        self.type = type
-
-    def append(self, state, value, initiator):
-        value.type = self.type
-        return value
-
-    def set(self, value, oldvalue, initiator):
-        # Pretty certain this should never be called on a relation property.
-        raise NotImplemented
 
 
 mapper(Comment, comments, properties={

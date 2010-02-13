@@ -208,7 +208,7 @@ def _mtm_count_property(label, assoc_table,
         DBSession.query(ParentObject).options(undefer('comment_count_xyz'))
     :type deferred: bool
 
-    :param \*\*kwargs:
+    :param \**kwargs:
       Any additional arguments are passed to sqlalchemy.orm.column_property
     """
     where_clauses = []

@@ -72,11 +72,7 @@ class CommentadminController(BaseController):
                                           Comment.created_on.desc())
 
         if search is not None:
-            like_search = '%' + search + '%'
-            comments = comments.filter(sql.or_(
-                Comment.subject.like(like_search),
-                Comment.body.like(like_search),
-            ))
+            comments = comments.search(search)
 
         media_filter_title = media_filter
         if media_filter is not None:

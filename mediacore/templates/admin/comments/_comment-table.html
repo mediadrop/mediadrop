@@ -51,7 +51,11 @@
 				</td>
 				<td>
 					<a py:content="Markup(comment.parent.title)" target="_blank"
-					   href="${h.url_for(controller='/%s' % comment.type.encode('utf-8'), action='view', slug=comment.parent.slug)}" title="${comment.type.capitalize()}">Parent Item</a>
+					   href="${h.url_for(controller='/%s' % comment.type, action='view', slug=comment.parent.slug)}"
+					   title="${comment.type.capitalize()}">Parent Item</a><br />
+					<a target="_blank"
+					   href="${h.url_for(controller='/%sadmin' % comment.type, action='edit', id=comment.parent.id)}"
+					   title="Go to the admin page for this item"><small>edit</small></a>
 				</td>
 			</tr>
 		</tbody>

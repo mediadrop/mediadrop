@@ -52,14 +52,11 @@
 						<a class="mo review-me" py:when="not media.reviewed" href="${h.url_for(controller='/mediaadmin', action='edit', id=media.id)}"><span>review me</span></a>
 						<a class="mo encode-me" py:when="not media.encoded" href="FIXME"><span>encode me</span></a>
 						<a class="mo publish-me" py:when="not media.publishable" href="${h.url_for(controller='/mediaadmin', action='edit', id=media.id)}"><span>publish me</span></a>
-						<a class="mo published" py:otherwise="" href="${h.url_for(controller='/media', action='view', slug=media.slug)}#FIXME"><span>published</span></a>
+						<a class="mo published" py:otherwise="" href="${h.url_for(controller='/media', action='view', slug=media.slug)}"><span>published</span></a>
 					</td>
 					<td py:when="'title'"><a href="${h.url_for(controller='/mediaadmin', action='edit', id=media.id)}">${Markup(media.title)}</a></td>
 					<td py:when="'comment_count'" class="center">
-						<a href="${h.url_for(controller='/commentadmin', media_filter=media.id)}">
-							${media.comment_count_published}
-							<py:if test="media.comment_count_unreviewed">/ ${media.comment_count_unreviewed}</py:if>
-						</a>
+						<a href="${h.url_for(controller='/commentadmin', media_filter=media.id)}">${media.comment_count_published}</a>
 					</td>
 					<td py:when="'tags'" py:content="', '.join((tag.name for tag in media.tags)) if len(media.tags) else 'None'" />
 					<td py:when="'author'">

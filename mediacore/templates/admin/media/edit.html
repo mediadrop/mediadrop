@@ -144,8 +144,10 @@
 		</div>
 
 		${comment_stats_box(h.url_for(controller='/commentadmin', media_filter=media.id),
-		  media.comment_count or 0, media.comment_count_published or 0,
-		  media.comment_count_unreviewed or 0, media.comment_count_trash or 0)}
+		  media.comments.count(),
+		  media.comments.published().count(),
+		  media.comments.reviewed(False).count(),
+		  media.comments.trash().count())}
 
 	</div>
 </body>

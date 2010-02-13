@@ -66,23 +66,15 @@ class AdminController(BaseController):
         recent_media = Media.query.published()\
             .order_by(Media.publish_on.desc())[:5]
 
-        comment_count = DBSession.query(Comment).count()
-        comment_count_published = DBSession.query(Comment)\
-            .filter_by(publishable=True).count()
-        comment_count_unreviewed = DBSession.query(Comment)\
-            .filter_by(reviewed=False).count()
-        comment_count_trash = DBSession.query(Comment)\
-            .filter_by(reviewed=True, publishable=False).count()
-
         return dict(
             review_page = self._fetch_page('awaiting_review'),
             encode_page = self._fetch_page('awaiting_encoding'),
             publish_page = self._fetch_page('awaiting_publishing'),
             recent_media = recent_media,
-            comment_count = comment_count,
-            comment_count_published = comment_count_published,
-            comment_count_unreviewed = comment_count_unreviewed,
-            comment_count_trash = comment_count_trash,
+            comment_count = Comment.query.count(),
+            comment_count_published = Comment.query.published().count(),
+            comment_count_unreviewed = Comment.query.reviewed(False).count(),
+            comment_count_trash = Comment.query.trash().count(),
         )
 
 

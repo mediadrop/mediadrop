@@ -84,10 +84,9 @@ class MediaadminController(BaseController):
 
 
         """
-        media = Media.query.options(orm.undefer('comment_count_published'))\
-                           .options(orm.undefer('comment_count_unreviewed'))
+        media = Media.query.options(orm.undefer('comment_count_published'))
 
-        if search is not None:
+        if search:
             # TODO: This is merely a proof of concept. Refactor.
             from mediacore.model.media import media_fulltext
             match = 'MATCH (media_fulltext.title, media_fulltext.subtitle, media_fulltext.description_plain, media_fulltext.notes, media_fulltext.tags, media_fulltext.topics) AGAINST (:search)'

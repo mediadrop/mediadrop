@@ -118,13 +118,6 @@ media_topics = Table('media_topics', metadata,
         primary_key=True)
 )
 
-media_comments = Table('media_comments', metadata,
-    Column('media_id', Integer, ForeignKey('media.id', onupdate='CASCADE', ondelete='CASCADE'),
-        primary_key=True),
-    Column('comment_id', Integer, ForeignKey('comments.id', onupdate='CASCADE', ondelete='CASCADE'),
-        primary_key=True, unique=True)
-)
-
 media_fulltext = Table('media_fulltext', metadata,
     Column('media_id', Integer, ForeignKey('media.id'), primary_key=True),
     Column('title', Unicode(255), nullable=False),
@@ -588,23 +581,18 @@ _media_mapper = mapper(Media, media, properties={
     'files': relation(MediaFile, backref='media', order_by=media_files.c.position.asc(), passive_deletes=True),
     'tags': relation(Tag, secondary=media_tags, backref='media', collection_class=TagList),
     'topics': relation(Topic, secondary=media_topics, backref='media', collection_class=TopicList),
-    'comments': dynamic_loader(Comment, secondary=media_comments, backref=backref('media', uselist=False),
-        passive_deletes=True, query_class=CommentQuery),
-})
 
-# Add comment_count, comment_count_published, ... column properties to Media
-_media_mapper.add_properties(_properties_dict_from_labels(
-    _mtm_count_property('comment_count', media_comments),
-    _mtm_count_property('comment_count_published', media_comments, [
-        comments.c.publishable == True,
-    ]),
-    _mtm_count_property('comment_count_unreviewed', media_comments, [
-        comments.c.reviewed == False,
-    ]),
-    _mtm_count_property('comment_count_trash', media_comments, [
-        comments.c.reviewed == True, comments.c.publishable == False
-    ]),
-))
+    'comments': dynamic_loader(Comment, backref=backref('media', uselist=False), passive_deletes=True, query_class=CommentQuery),
+    'comment_count': column_property(
+        sql.select([sql.func.count(comments.c.id)],
+                   media.c.id == comments.c.media_id).label('comment_count'),
+        deferred=True),
+    'comment_count_published': column_property(
+        sql.select([sql.func.count(comments.c.id)],
+                   sql.and_(comments.c.media_id == media.c.id,
+                            comments.c.publishable == True)).label('comment_count_published'),
+        deferred=True),
+})
 
 # Add properties for counting how many media items have a given Tag
 _tags_mapper = class_mapper(Tag, compile=False)
