@@ -19,20 +19,24 @@
 -- Table structure for table `comments`
 --
 
+DROP TABLE IF EXISTS `comments`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `comments` (
   `id` int(10) unsigned NOT NULL auto_increment,
-  `type` varchar(15) character set ascii NOT NULL,
+  `media_id` int(10) unsigned default NULL,
   `subject` varchar(100) NOT NULL,
   `created_on` datetime NOT NULL,
   `modified_on` datetime NOT NULL,
-  `status` set('trash','publish','unreviewed','user_flagged') default NULL,
+  `reviewed` tinyint(1) unsigned NOT NULL default '0',
+  `publishable` tinyint(1) unsigned NOT NULL default '0',
   `author_name` varchar(50) NOT NULL,
   `author_email` varchar(255) default NULL,
   `author_ip` int(10) unsigned NOT NULL,
   `body` text NOT NULL,
-  PRIMARY KEY  (`id`)
+  PRIMARY KEY  (`id`),
+  KEY `comments_media` (`media_id`),
+  CONSTRAINT `comments_media_fk1` FOREIGN KEY (`media_id`) REFERENCES `media` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -42,7 +46,7 @@ CREATE TABLE `comments` (
 
 LOCK TABLES `comments` WRITE;
 /*!40000 ALTER TABLE `comments` DISABLE KEYS */;
-INSERT INTO `comments` VALUES (1,'media','Re: New Media','2009-12-01 19:43:50','2009-12-01 19:43:50','publish','John Doe',NULL,2130706433,'<p>Hello to you too!</p>');
+INSERT INTO `comments` VALUES (1,1,'Re: New Media','2009-12-01 19:43:50','2009-12-01 19:43:50',1,1,'John Doe',NULL,2130706433,'<p>Hello to you too!</p>');
 /*!40000 ALTER TABLE `comments` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -50,13 +54,16 @@ UNLOCK TABLES;
 -- Table structure for table `media`
 --
 
+DROP TABLE IF EXISTS `media`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `media` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `type` enum('audio','video') character set ascii default NULL,
   `slug` varchar(50) character set ascii default NULL,
-  `status` set('trash','publish','draft','unencoded','unreviewed') default NULL,
+  `reviewed` tinyint(1) unsigned NOT NULL default '0',
+  `encoded` tinyint(1) unsigned NOT NULL default '0',
+  `publishable` tinyint(1) unsigned NOT NULL default '0',
   `podcast_id` int(10) unsigned default NULL,
   `created_on` datetime NOT NULL,
   `modified_on` datetime NOT NULL,
@@ -65,11 +72,11 @@ CREATE TABLE `media` (
   `title` varchar(255) default NULL,
   `subtitle` varchar(255) default NULL,
   `description` text,
+  `description_plain` text,
   `notes` text,
   `duration` int(10) unsigned NOT NULL,
   `views` int(10) unsigned NOT NULL default '0',
-  `rating_sum` int(10) unsigned NOT NULL default '0',
-  `rating_votes` int(10) unsigned NOT NULL default '0',
+  `likes` int(10) unsigned NOT NULL default '0',
   `author_name` varchar(50) NOT NULL,
   `author_email` varchar(255) NOT NULL,
   PRIMARY KEY  (`id`),
@@ -85,40 +92,51 @@ CREATE TABLE `media` (
 
 LOCK TABLES `media` WRITE;
 /*!40000 ALTER TABLE `media` DISABLE KEYS */;
-INSERT INTO `media` VALUES (1,NULL,'new-media','draft,unencoded,unreviewed',NULL,'2009-12-01 19:40:23','2009-12-01 19:43:34',NULL,NULL,'New Media',NULL,'<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>','',0,1,0,0,'Admin','admin@localhost');
+INSERT INTO `media` VALUES (1,NULL,'new-media',0,0,0,NULL,'2009-12-01 19:40:23','2009-12-01 19:43:34',NULL,NULL,'New Media',NULL,'<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>',NULL,'',0,1,0,'Admin','admin@localhost');
 /*!40000 ALTER TABLE `media` ENABLE KEYS */;
 UNLOCK TABLES;
 
---
--- Table structure for table `media_comments`
---
+/*!50003 SET @SAVE_SQL_MODE=@@SQL_MODE*/;
 
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `media_comments` (
-  `media_id` int(10) unsigned NOT NULL,
-  `comment_id` int(10) unsigned NOT NULL,
-  PRIMARY KEY  (`media_id`,`comment_id`),
-  UNIQUE KEY `comment_id` (`comment_id`),
-  CONSTRAINT `media_comments_ibfk_1` FOREIGN KEY (`media_id`) REFERENCES `media` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `media_comments_ibfk_2` FOREIGN KEY (`comment_id`) REFERENCES `comments` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+DELIMITER ;;
+/*!50003 SET SESSION SQL_MODE="" */;;
+/*!50003 CREATE */ /*!50017 DEFINER=`root`@`localhost` */ /*!50003 TRIGGER `media_ai` AFTER INSERT ON `media` FOR EACH ROW BEGIN
+	INSERT INTO media_fulltext
+		SET `media_id` = NEW.`id`,
+		    `title` = NEW.`title`,
+		    `subtitle` = NEW.`subtitle`,
+		    `description_plain` = NEW.`description`,
+		    `notes` = NEW.`notes`,
+		    `author_name` = NEW.`author_name`,
+		    `tags` = '',
+		    `topics` = '';
+END */;;
 
---
--- Dumping data for table `media_comments`
---
+/*!50003 SET SESSION SQL_MODE="" */;;
+/*!50003 CREATE */ /*!50017 DEFINER=`root`@`localhost` */ /*!50003 TRIGGER `media_au` AFTER UPDATE ON `media` FOR EACH ROW BEGIN
+	UPDATE media_fulltext
+		SET `media_id` = NEW.`id`,
+		    `title` = NEW.`title`,
+		    `subtitle` = NEW.`subtitle`,
+		    `description_plain` = NEW.`description_plain`,
+		    `notes` = NEW.`notes`,
+		    `author_name` = NEW.`author_name`
+		WHERE media_id = OLD.id;
+END */;;
 
-LOCK TABLES `media_comments` WRITE;
-/*!40000 ALTER TABLE `media_comments` DISABLE KEYS */;
-INSERT INTO `media_comments` VALUES (1,1);
-/*!40000 ALTER TABLE `media_comments` ENABLE KEYS */;
-UNLOCK TABLES;
+/*!50003 SET SESSION SQL_MODE="" */;;
+/*!50003 CREATE */ /*!50017 DEFINER=`root`@`localhost` */ /*!50003 TRIGGER `media_ad` AFTER DELETE ON `media` FOR EACH ROW BEGIN
+	DELETE FROM media_fulltext WHERE media_id = OLD.id;
+END */;;
+
+DELIMITER ;
+/*!50003 SET SESSION SQL_MODE=@SAVE_SQL_MODE*/;
 
 --
 -- Table structure for table `media_files`
 --
 
+DROP TABLE IF EXISTS `media_files`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `media_files` (
@@ -143,9 +161,51 @@ CREATE TABLE `media_files` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `media_files`
+--
+
+LOCK TABLES `media_files` WRITE;
+/*!40000 ALTER TABLE `media_files` DISABLE KEYS */;
+/*!40000 ALTER TABLE `media_files` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `media_fulltext`
+--
+
+DROP TABLE IF EXISTS `media_fulltext`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `media_fulltext` (
+  `media_id` int(10) unsigned NOT NULL,
+  `title` varchar(255) default NULL,
+  `subtitle` varchar(255) default NULL,
+  `description_plain` text,
+  `notes` text,
+  `author_name` varchar(50) NOT NULL,
+  `tags` text,
+  `topics` text,
+  PRIMARY KEY  (`media_id`),
+  FULLTEXT KEY `media_public` (`title`,`subtitle`,`description_plain`,`tags`,`topics`),
+  FULLTEXT KEY `media_admin` (`title`,`subtitle`,`description_plain`,`notes`,`tags`,`topics`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `media_fulltext`
+--
+
+LOCK TABLES `media_fulltext` WRITE;
+/*!40000 ALTER TABLE `media_fulltext` DISABLE KEYS */;
+INSERT INTO `media_fulltext` VALUES (1,'New Media',NULL,NULL,'','Admin','hello world','Example Topic');
+/*!40000 ALTER TABLE `media_fulltext` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `media_tags`
 --
 
+DROP TABLE IF EXISTS `media_tags`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `media_tags` (
@@ -168,10 +228,34 @@ INSERT INTO `media_tags` VALUES (1,1);
 /*!40000 ALTER TABLE `media_tags` ENABLE KEYS */;
 UNLOCK TABLES;
 
+/*!50003 SET @SAVE_SQL_MODE=@@SQL_MODE*/;
+
+DELIMITER ;;
+/*!50003 SET SESSION SQL_MODE="" */;;
+/*!50003 CREATE */ /*!50017 DEFINER=`root`@`localhost` */ /*!50003 TRIGGER `media_tags_ai` AFTER INSERT ON `media_tags` FOR EACH ROW BEGIN
+	UPDATE media_fulltext
+		SET tags = CONCAT(tags, ', ', (SELECT name FROM tags WHERE id = NEW.tag_id))
+		WHERE media_id = NEW.media_id;
+END */;;
+
+/*!50003 SET SESSION SQL_MODE="" */;;
+/*!50003 CREATE */ /*!50017 DEFINER=`root`@`localhost` */ /*!50003 TRIGGER `media_tags_ad` AFTER DELETE ON `media_tags` FOR EACH ROW BEGIN
+	UPDATE media_fulltext
+		SET tags = TRIM(', ' FROM REPLACE(
+			CONCAT(', ', tags, ', '),
+			CONCAT(', ', (SELECT name FROM tags WHERE id = OLD.tag_id), ', '),
+			', '))
+		WHERE media_id = OLD.media_id;
+END */;;
+
+DELIMITER ;
+/*!50003 SET SESSION SQL_MODE=@SAVE_SQL_MODE*/;
+
 --
 -- Table structure for table `media_topics`
 --
 
+DROP TABLE IF EXISTS `media_topics`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `media_topics` (
@@ -194,10 +278,34 @@ INSERT INTO `media_topics` VALUES (1,1);
 /*!40000 ALTER TABLE `media_topics` ENABLE KEYS */;
 UNLOCK TABLES;
 
+/*!50003 SET @SAVE_SQL_MODE=@@SQL_MODE*/;
+
+DELIMITER ;;
+/*!50003 SET SESSION SQL_MODE="" */;;
+/*!50003 CREATE */ /*!50017 DEFINER=`root`@`localhost` */ /*!50003 TRIGGER `media_topics_ai` AFTER INSERT ON `media_topics` FOR EACH ROW BEGIN
+	UPDATE media_fulltext
+		SET topics = CONCAT(topics, ', ', (SELECT name FROM topics WHERE id = NEW.topic_id))
+		WHERE media_id = NEW.media_id;
+END */;;
+
+/*!50003 SET SESSION SQL_MODE="" */;;
+/*!50003 CREATE */ /*!50017 DEFINER=`root`@`localhost` */ /*!50003 TRIGGER `media_topics_ad` AFTER DELETE ON `media_topics` FOR EACH ROW BEGIN
+	UPDATE media_fulltext
+		SET topics = TRIM(', ' FROM REPLACE(
+			CONCAT(', ', topics, ', '),
+			CONCAT(', ', (SELECT name FROM topics WHERE id = OLD.topic_id), ', '),
+			', '))
+		WHERE media_id = OLD.media_id;
+END */;;
+
+DELIMITER ;
+/*!50003 SET SESSION SQL_MODE=@SAVE_SQL_MODE*/;
+
 --
 -- Table structure for table `podcasts`
 --
 
+DROP TABLE IF EXISTS `podcasts`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `podcasts` (
@@ -234,6 +342,7 @@ UNLOCK TABLES;
 -- Table structure for table `settings`
 --
 
+DROP TABLE IF EXISTS `settings`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `settings` (
@@ -242,7 +351,7 @@ CREATE TABLE `settings` (
   `value` text,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `key_index` (`key`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -251,13 +360,7 @@ CREATE TABLE `settings` (
 
 LOCK TABLES `settings` WRITE;
 /*!40000 ALTER TABLE `settings` DISABLE KEYS */;
-INSERT INTO `settings` VALUES 
-(1,'email_media_uploaded',NULL),
-(2,'email_comment_posted',NULL),
-(3,'email_support_requests',NULL),
-(4,'email_send_from','noreply@localhost'),
-(5,'wording_user_uploads','Upload your media using the form below. We\'ll review it and get back to you.'),
-(6,'wording_additional_notes',NULL);
+INSERT INTO `settings` VALUES (1,'email_media_uploaded',NULL),(2,'email_comment_posted',NULL),(3,'email_support_requests',NULL),(4,'email_send_from','noreply@localhost'),(5,'wording_user_uploads','Upload your media using the form below. We\'ll review it and get back to you.'),(6,'wording_additional_notes',NULL);
 /*!40000 ALTER TABLE `settings` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -265,6 +368,7 @@ UNLOCK TABLES;
 -- Table structure for table `tags`
 --
 
+DROP TABLE IF EXISTS `tags`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tags` (
@@ -287,10 +391,41 @@ INSERT INTO `tags` VALUES (1,'hello world','hello-world');
 /*!40000 ALTER TABLE `tags` ENABLE KEYS */;
 UNLOCK TABLES;
 
+/*!50003 SET @SAVE_SQL_MODE=@@SQL_MODE*/;
+
+DELIMITER ;;
+/*!50003 SET SESSION SQL_MODE="" */;;
+/*!50003 CREATE */ /*!50017 DEFINER=`root`@`localhost` */ /*!50003 TRIGGER `tags_au` AFTER UPDATE ON `tags` FOR EACH ROW BEGIN
+	IF OLD.name != NEW.name THEN
+		UPDATE media_fulltext
+			SET tags = TRIM(', ' FROM REPLACE(
+				CONCAT(', ', tags,     ', '),
+				CONCAT(', ', OLD.name, ', '),
+				CONCAT(', ', NEW.name, ', ')))
+			WHERE media_id IN (SELECT media_id FROM media_tags
+				WHERE tag_id = OLD.id);
+	END IF;
+END */;;
+
+/*!50003 SET SESSION SQL_MODE="" */;;
+/*!50003 CREATE */ /*!50017 DEFINER=`root`@`localhost` */ /*!50003 TRIGGER `tags_ad` AFTER DELETE ON `tags` FOR EACH ROW BEGIN
+	UPDATE media_fulltext
+		SET tags = TRIM(', ' FROM REPLACE(
+			CONCAT(', ', tags,     ', '),
+			CONCAT(', ', OLD.name, ', '),
+			', '))
+		WHERE media_id IN (SELECT media_id FROM media_tags
+			WHERE media_id = OLD.id);
+END */;;
+
+DELIMITER ;
+/*!50003 SET SESSION SQL_MODE=@SAVE_SQL_MODE*/;
+
 --
 -- Table structure for table `tg_group`
 --
 
+DROP TABLE IF EXISTS `tg_group`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tg_group` (
@@ -317,6 +452,7 @@ UNLOCK TABLES;
 -- Table structure for table `tg_group_permission`
 --
 
+DROP TABLE IF EXISTS `tg_group_permission`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tg_group_permission` (
@@ -343,6 +479,7 @@ UNLOCK TABLES;
 -- Table structure for table `tg_permission`
 --
 
+DROP TABLE IF EXISTS `tg_permission`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tg_permission` (
@@ -368,6 +505,7 @@ UNLOCK TABLES;
 -- Table structure for table `tg_user`
 --
 
+DROP TABLE IF EXISTS `tg_user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tg_user` (
@@ -397,6 +535,7 @@ UNLOCK TABLES;
 -- Table structure for table `tg_user_group`
 --
 
+DROP TABLE IF EXISTS `tg_user_group`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tg_user_group` (
@@ -423,6 +562,7 @@ UNLOCK TABLES;
 -- Table structure for table `topics`
 --
 
+DROP TABLE IF EXISTS `topics`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `topics` (
@@ -444,6 +584,36 @@ LOCK TABLES `topics` WRITE;
 INSERT INTO `topics` VALUES (1,'Example Topic','example-topic'),(2,'Another Subject','another-subject');
 /*!40000 ALTER TABLE `topics` ENABLE KEYS */;
 UNLOCK TABLES;
+
+/*!50003 SET @SAVE_SQL_MODE=@@SQL_MODE*/;
+
+DELIMITER ;;
+/*!50003 SET SESSION SQL_MODE="" */;;
+/*!50003 CREATE */ /*!50017 DEFINER=`root`@`localhost` */ /*!50003 TRIGGER `topics_au` AFTER UPDATE ON `topics` FOR EACH ROW BEGIN
+	IF OLD.name != NEW.name THEN
+		UPDATE media_fulltext
+			SET topics = TRIM(', ' FROM REPLACE(
+				CONCAT(', ', topics,   ', '),
+				CONCAT(', ', OLD.name, ', '),
+				CONCAT(', ', NEW.name, ', ')))
+			WHERE media_id IN (SELECT media_id FROM media_topics
+				WHERE topic_id = OLD.id);
+	END IF;
+END */;;
+
+/*!50003 SET SESSION SQL_MODE="" */;;
+/*!50003 CREATE */ /*!50017 DEFINER=`root`@`localhost` */ /*!50003 TRIGGER `topics_ad` AFTER DELETE ON `topics` FOR EACH ROW BEGIN
+	UPDATE media_fulltext
+		SET topics = TRIM(', ' FROM REPLACE(
+			CONCAT(', ', topics,   ', '),
+			CONCAT(', ', OLD.name, ', '),
+			', '))
+		WHERE media_id IN (SELECT media_id FROM media_topics
+			WHERE topic_id = OLD.id);
+END */;;
+
+DELIMITER ;
+/*!50003 SET SESSION SQL_MODE=@SAVE_SQL_MODE*/;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -454,4 +624,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2009-12-01 19:44:49
+-- Dump completed on 2010-02-16  2:59:34
