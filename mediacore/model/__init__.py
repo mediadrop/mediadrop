@@ -21,6 +21,7 @@ from zope.sqlalchemy import ZopeTransactionExtension
 from sqlalchemy.orm import scoped_session, sessionmaker, class_mapper
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import sql, orm
+from sqlalchemy.sql.expression import ColumnClause as _ColumnClause
 from sqlalchemy.orm.exc import NoResultFound
 from mediacore.lib.unidecode import unidecode
 from mediacore.lib.htmlsanitizer import entities_to_unicode
@@ -228,6 +229,46 @@ def _mtm_count_property(label, assoc_table,
         subselect = subselect.label(label)
 
     return orm.column_property(subselect, deferred=deferred, **kwargs)
+
+class _MatchAgainstClause(_ColumnClause):
+    """
+    A ColumnClause which allows for bindparams in a literal SQL column.
+
+    For some reason :meth:`sqlalchemy.orm.session.Session.execute` does
+    some extra processing to bindparams that
+    :meth:`sqlalchemy.engine.base.Connection.execute` does not.
+    Bind params are parsed and appear to be injected using either
+    positional arguments or python string replacement(?). Ultimately,
+    the query works on the connection, but session replaces bindparams
+    with ``%s`` etc, and when a ``:param`` reaches the database as a
+    plain string and without a value to go with it, an error is thrown.
+
+    This extension tricks :mod:`sqlalchemy.sql.compiler` into parsing
+    and rendering the bindparam properly. For some reason,
+    :func:`sqlalchemy.sql.expression.literal_column` doesn't check
+    for bind params, while :func:`sqlalchemy.sql.expression.text` does.
+    See :meth:`sqlalchemy.sql.compiler.DefaultCompiler.visit_textclause`
+    and :meth:`sqlalchemy.sql.compiler.DefaultCompiler.visit_column`.
+
+    This solution is far from perfect but it does the trick for now.
+
+    """
+
+    __visit_name__ = 'textclause'
+    bindparams = {}
+    typemap = None
+
+    def __init__(self, columns, param, bool=False, *args, **kwargs):
+        if isinstance(columns, list):
+            columns = ', '.join(str(c) for c in columns)
+        if isinstance(param, basestring):
+            param = sql.bindparam(param)
+        bool_mode = bool and ' IN BOOLEAN MODE' or ''
+
+        self.text = 'MATCH (%s) AGAINST (%s%s)' % (columns, param, bool_mode)
+        self.bindparams[param.key] = param
+
+        _ColumnClause.__init__(self, self.text, *args, **kwargs)
 
 
 from mediacore.model.auth import User, Group, Permission

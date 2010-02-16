@@ -87,12 +87,7 @@ class MediaadminController(BaseController):
         media = Media.query.options(orm.undefer('comment_count_published'))
 
         if search:
-            # TODO: This is merely a proof of concept. Refactor.
-            from mediacore.model.media import media_fulltext
-            match = 'MATCH (media_fulltext.title, media_fulltext.subtitle, media_fulltext.description_plain, media_fulltext.notes, media_fulltext.tags, media_fulltext.topics) AGAINST (:search)'
-            media = media.join((media_fulltext, Media.id == media_fulltext.c.media_id))\
-                .filter(sql.text(match))\
-                .params(search=search)
+            media = media.admin_search(search)
         else:
             media = media.order_by_status()\
                          .order_by(Media.publish_on.desc(),

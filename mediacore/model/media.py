@@ -37,7 +37,7 @@ from sqlalchemy.orm import mapper, class_mapper, relation, backref, synonym, com
 from tg import config, request
 from zope.sqlalchemy import datamanager
 
-from mediacore.model import DeclarativeBase, metadata, DBSession, get_available_slug, _mtm_count_property, _properties_dict_from_labels
+from mediacore.model import metadata, DBSession, get_available_slug, _mtm_count_property, _properties_dict_from_labels, _MatchAgainstClause
 from mediacore.model.authors import Author
 from mediacore.model.comments import Comment, CommentQuery, comments
 from mediacore.model.tags import Tag, TagList, tags, extract_tags, fetch_and_create_tags, tag_count_property
@@ -129,6 +129,21 @@ media_fulltext = Table('media_fulltext', metadata,
     Column('topics', UnicodeText),
 )
 
+# Columns grouped by their FULLTEXT index
+_search_cols = {
+    'public': [
+        media_fulltext.c.title, media_fulltext.c.subtitle,
+        media_fulltext.c.tags, media_fulltext.c.topics,
+        media_fulltext.c.description_plain, media_fulltext.c.notes,
+    ],
+    'admin': [
+        media_fulltext.c.title, media_fulltext.c.subtitle,
+        media_fulltext.c.tags, media_fulltext.c.topics,
+        media_fulltext.c.description_plain,
+    ],
+}
+_search_param = sql.bindparam('search')
+
 
 class MediaQuery(Query):
     def reviewed(self, flag=True):
@@ -153,6 +168,19 @@ class MediaQuery(Query):
         return self.order_by(Media.reviewed.asc(),
                              Media.encoded.asc(),
                              Media.publishable.asc())
+
+    def search(self, search):
+        return self.join(MediaFullText)\
+                   .filter(_MatchAgainstClause(_search_cols['public'], _search_param, True))\
+                   .order_by(MediaFullText.relevance.desc())\
+                   .params({_search_param.key: search})
+
+    def admin_search(self, search):
+        return self.join(MediaFullText)\
+                   .filter(_MatchAgainstClause(_search_cols['admin'], _search_param, True))\
+                   .order_by(MediaFullText.admin_relevance.desc())\
+                   .params({_search_param.key: search})
+
 
 class Media(object):
     """
@@ -586,9 +614,19 @@ class MediaFile(object):
         return on
 
 
+class MediaFullText(object):
+    query = DBSession.query_property()
+
+
 mapper(MediaFile, media_files)
 
+mapper(MediaFullText, media_fulltext, properties={
+    'relevance': column_property(_MatchAgainstClause(_search_cols['public'], _search_param, False), deferred=True),
+    'admin_relevance': column_property(_MatchAgainstClause(_search_cols['admin'], _search_param, False), deferred=True),
+})
+
 _media_mapper = mapper(Media, media, properties={
+    'fulltext': relation(MediaFullText, uselist=False),
     'author': composite(Author, media.c.author_name, media.c.author_email),
     'files': relation(MediaFile, backref='media', order_by=media_files.c.position.asc(), passive_deletes=True),
     'tags': relation(Tag, secondary=media_tags, backref='media', collection_class=TagList),
