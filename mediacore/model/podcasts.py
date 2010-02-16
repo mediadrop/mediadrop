@@ -149,7 +149,11 @@ mapper(Podcast, podcasts, properties={
                 sql.and_(
                     media.c.podcast_id == podcasts.c.id,
                     media.c.publishable == True,
-                    # FIXME: Check dates
+                    media.c.publish_on <= datetime.now(),
+                    sql.or_(
+                        media.c.publish_until == None,
+                        media.c.publish_until >= datetime.now()
+                    ),
                 )
             ).label('published_media_count'),
             deferred=True

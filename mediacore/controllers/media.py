@@ -161,7 +161,7 @@ class MediaController(BaseController):
         :rtype: JSON dict
 
         """
-        media_query = self._published_media_query
+        media_query = Media.query.published().options(orm.undefer('comment_count'))
 
         if type:
             media_query = media_query.filter(Media.type == type)
@@ -207,7 +207,7 @@ class MediaController(BaseController):
         :rtype: JSON dict
 
         """
-        media = Media.query.published.order_by(Media.views.desc()).first()
+        media = Media.query.published().order_by(Media.views.desc()).first()
         return self._jsonify(media)
 
     def _jsonify(self, media):
@@ -253,8 +253,8 @@ class MediaController(BaseController):
         DBSession.add(media)
 
         if request.is_xhr:
+            # TODO: Update return arg naming
             return dict(
-# FIXME UPDATE RETURN ARG NAMING
                 success = True,
                 upRating = helpers.text.plural(media.likes, 'person', 'people'),
                 downRating = None,
@@ -345,24 +345,12 @@ class MediaController(BaseController):
                 Latest media
 
         """
+        media = Media.query.published()\
+            .filter(Media.podcast_id == None)\
+            .options(orm.undefer('comment_count'))
         return dict(
-            media = self._list_query[:15],
+            media = media[:15],
         )
-
-
-    @property
-    def _list_query(self):
-        """Helper method for paginating published media
-
-        Filters out podcast media.
-        """
-        return self._published_media_query\
-            .filter(Media.podcast_id == None)
-
-    @property
-    def _published_media_query(self):
-        """Helper method for getting published media"""
-        return Media.query.published().order_by(Media.publish_on.desc())
 
 
     @expose('mediacore.templates.media.topics')
@@ -370,10 +358,10 @@ class MediaController(BaseController):
     def topics(self, slug=None, page=1, **kwargs):
         if slug:
             topic = fetch_row(Topic, slug=slug)
-            media_query = self._published_media_query\
+            media = Media.query.published()\
+                .filter(Media.podcast_id == None)\
                 .filter(Media.topics.contains(topic))\
                 .options(orm.undefer('comment_count_published'))
-            media = media_query
         else:
             topic = None
             media = []
@@ -388,10 +376,10 @@ class MediaController(BaseController):
     def tags(self, slug=None, page=1, **kwargs):
         if slug:
             tag = fetch_row(Tag, slug=slug)
-            media_query = self._published_media_query\
-                .filter(Media.tags.contains(tag))\
+            media = Media.query.published()\
+                .filter(Media.podcast_id == None)\
+                .filter(Media.tags.contains(tags))\
                 .options(orm.undefer('comment_count_published'))
-            media = media_query
             tags = None
         else:
             tag = None

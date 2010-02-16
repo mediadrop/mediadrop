@@ -131,11 +131,23 @@ media_fulltext = Table('media_fulltext', metadata,
 
 
 class MediaQuery(Query):
-    def published(self):
-        return self.filter(Media.publishable == True)\
-                   .filter(Media.publish_on <= datetime.now())\
-                   .filter(sql.or_(Media.publish_until == None,
-                                   Media.publish_until >= datetime.now()))
+    def reviewed(self, flag=True):
+        return self.filter(Media.reviewed == flag)
+
+    def encoded(self, flag=True):
+        return self.filter(Media.encoded == flag)
+
+    def published(self, flag=True):
+        published = sql.and_(
+            Media.publishable == True,
+            Media.publish_on <= datetime.now(),
+            sql.or_(Media.publish_until == None,
+                    Media.publish_until >= datetime.now()),
+        )
+        if flag:
+            return self.filter(published)
+        else:
+            return self.filter(sql.not_(published))
 
     def order_by_status(self):
         return self.order_by(Media.reviewed.asc(),
@@ -600,7 +612,9 @@ _tags_mapper.add_properties(_properties_dict_from_labels(
     tag_count_property('media_count', media_tags),
     tag_count_property('published_media_count', media_tags, [
         media.c.publishable,
-        # FIXME: Check dates
+        media.c.publish_on <= datetime.now(),
+        sql.or_(media.c.publish_until == None,
+                media.c.publish_until >= datetime.now()),
     ]),
 ))
 
@@ -610,6 +624,8 @@ _topics_mapper.add_properties(_properties_dict_from_labels(
     topic_count_property('media_count', media_topics),
     topic_count_property('published_media_count', media_topics, [
         media.c.publishable,
-        # FIXME: Check dates
+        media.c.publish_on <= datetime.now(),
+        sql.or_(media.c.publish_until == None,
+                media.c.publish_until >= datetime.now()),
     ]),
 ))
