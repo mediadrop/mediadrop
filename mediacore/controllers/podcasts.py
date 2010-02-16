@@ -42,6 +42,7 @@ class PodcastsController(BaseController):
             .order_by(Topic.name)\
             .all()
         tmpl_context.nav_podcasts = DBSession.query(Podcast).all()
+        tmpl_context.nav_search = url_for(controller='/media', action='search')
 
 
     @expose('mediacore.templates.podcasts.index')

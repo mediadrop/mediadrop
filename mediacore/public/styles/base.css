@@ -156,6 +156,35 @@ a:hover {
 #nav-videos a:hover { background-position: -87px -156px; }
 #nav-podcasts a:hover { background-position: -155px -156px; }
 
+#nav-podcast-help + #nav-search {
+	margin-right: 170px;
+}
+#nav-search {
+	float: right;
+	height: 39px;
+}
+#nav-search input {
+	float: left;
+	width: 142px;
+	height: 39px;
+	line-height: 41px;
+	background: url('../images/layout/search-left.png') no-repeat;
+	padding: 0 0 0 14px;
+	margin: 0;
+	border: 0;
+}
+#nav-search input.nav-search-btn {
+	width: 43px;
+	background: url('../images/layout/search-right.png') no-repeat;
+	cursor: pointer;
+	padding: 0;
+}
+#nav-search input,
+#nav-search .overTxtLabel {
+	color: #595050;
+	font-size: 14px;
+}
+
 /* Secondary nav, buttons for flyout boxes */
 a#nav-upload-video {
 	width: 122px;

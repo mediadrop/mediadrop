@@ -22,6 +22,7 @@
 	width: 100%;
 }
 #grid-box .pager { margin-right: 20px; }
+#grid-box h1, #grid-box h2, #grid-box h3, #grid-box h4, #grid-box h5 { padding-left: 20px }
 
 
 .grid-title, a:link .grid-title, a:visited .grid-title, a.grid-title:link, a.grid-title:visited {

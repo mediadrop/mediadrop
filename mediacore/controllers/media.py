@@ -70,6 +70,7 @@ class MediaController(BaseController):
             .having(sql.text('published_media_count >= 1'))\
             .order_by(Topic.name)\
             .all()
+        tmpl_context.nav_search = url_for(controller='/media', action='search')
 
 
     @expose('mediacore.templates.media.index')
@@ -82,6 +83,8 @@ class MediaController(BaseController):
 
         :param page: Page number, defaults to 1.
         :type page: int
+        :param search: A search query to filter by
+        :type search: unicode or None
         :rtype: dict
         :returns:
             media
@@ -89,8 +92,44 @@ class MediaController(BaseController):
                 for this page.
 
         """
+        media = Media.query\
+            .published()\
+            .filter(Media.podcast_id == None)\
+            .order_by(Media.publish_on.desc())\
+            .options(orm.undefer('comment_count_published'))
+
         return dict(
-            media = self._list_query.options(orm.undefer('comment_count')),
+            media = media,
+        )
+
+    @expose('mediacore.templates.media.search')
+    @paginate('media', items_per_page=20)
+    def search(self, page=1, q=None, **kwargs):
+        """Search media with pagination.
+
+        The media paginator may be accessed in the template with
+        :attr:`c.paginators.media`, see :class:`webhelpers.paginate.Page`.
+
+        :param page: Page number, defaults to 1.
+        :type page: int
+        :param search: A search query to filter by
+        :type search: unicode or None
+        :rtype: dict
+        :returns:
+            media
+                The list of :class:`~mediacore.model.media.Media` instances
+                for this page.
+
+        """
+        media = Media.query\
+            .published()\
+            .search(q)\
+            .options(orm.undefer('comment_count_published'))
+
+        return dict(
+            media = media,
+            search_query = q,
+            result_count = media.count(),
         )
 
 

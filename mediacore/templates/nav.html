@@ -21,6 +21,15 @@
 	<py:match path="head" once="true">
 		<head>
 			<meta py:replace="select('*')" />
+			<py:if test="c.nav_search">
+				<script type="text/javascript">
+					window.addEvent('domready', function(){
+						var searchLabel = new OverText('nav-search-input', {
+							wrap: true, positionOptions: {x: 14, y: 12}
+						});
+					});
+				</script>
+			</py:if>
 			<py:if test="c.nav_topics or c.nav_podcasts">
 				<script type="text/javascript" src="${h.url_for('/scripts/nav-flyout.js')}" />
 				<script type="text/javascript">
@@ -82,7 +91,10 @@
 				</ul>
 				<a py:if="c.nav_topics" id="nav-topics" class="box-nav-right topics-shown" href="${h.url_for(controller='/media', action='topics', slug=None)}">Topic Index</a>
 				<a py:if="c.nav_podcasts" id="nav-podcast-help" class="box-nav-right podcast-help-shown" href="#">What are podcasts?</a>
-				<a id="nav-upload-video" class="box-nav-right" href="${h.url_for(controller='/media', action='upload')}">Upload a Video</a>
+				<a py:if="not c.nav_podcasts" id="nav-upload-video" class="box-nav-right" href="${h.url_for(controller='/media', action='upload')}">Upload a Video</a>
+				<form py:if="c.nav_search" id="nav-search" method="get" action="${c.nav_search}">
+					<div><input type="text" id="nav-search-input" name="q" value="${h.request.params.get('q')}" alt="Search" /><input type="submit" class="nav-search-btn" value="" /></div>
+				</form>
 			</div>
 			<div py:if="c.nav_podcasts" id="podcast-help-box" class="nav-box">
 				<div id="podcast-help-top" class="nav-box-flyout" />
