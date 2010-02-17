@@ -64,12 +64,13 @@ class CommentadminController(BaseController):
             media_filter_title
                 The media title for rendering if a ``media_filter`` was specified.
 
-        .. fixme:: This method uses O(n) queries because for every comment,
-            comment.parent is called.
-
         """
         comments = Comment.query.order_by(Comment.reviewed.asc(),
                                           Comment.created_on.desc())
+
+        # This only works since we only have comments on one type of content.
+        # It will need re-evaluation if we ever add others.
+        comments = comments.options(orm.eagerload('media'))
 
         if search is not None:
             comments = comments.search(search)
