@@ -315,7 +315,6 @@ a#nav-podcast-help.podcast-help-shown,
 /* Generic content styles */
 .box h1, .box h2, .box h3, .box h4, .box h5 {
 	font: normal 18px 'Trebuchet MS', sans-serif;
-	text-transform: capitalize;
 }
 .box h1 { color: #e8e5e5; }
 .box h3 { color: #acacb0; }
