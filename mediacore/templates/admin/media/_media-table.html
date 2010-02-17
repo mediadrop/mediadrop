@@ -50,7 +50,7 @@
 					<td py:when="'created_on'">${media.created_on.strftime('%b %d %Y')}</td>
 					<td py:when="'status'" py:choose="">
 						<a class="mo review-me" py:when="not media.reviewed" href="${h.url_for(controller='/mediaadmin', action='edit', id=media.id)}"><span>review me</span></a>
-						<a class="mo encode-me" py:when="not media.encoded" href="FIXME"><span>encode me</span></a>
+						<a class="mo encode-me" py:when="not media.encoded" href="${h.url_for(controller='/mediaadmin', action='edit', id=media.id)}"><span>encode me</span></a>
 						<a class="mo publish-me" py:when="not media.publishable" href="${h.url_for(controller='/mediaadmin', action='edit', id=media.id)}"><span>publish me</span></a>
 						<a class="mo published" py:otherwise="" href="${h.url_for(controller='/media', action='view', slug=media.slug)}"><span>published</span></a>
 					</td>
