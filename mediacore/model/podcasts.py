@@ -106,7 +106,7 @@ class Podcast(object):
     .. attribute:: media
 
         A dynamic loader for :class:`mediacore.model.media.Media` episodes:
-        essentially a preconfigured :class:`sqlalchemy.orm.Query`.
+        see :class:`mediacore.model.media.MediaQuery`.
 
     .. attribute:: media_count
 

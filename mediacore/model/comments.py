@@ -16,35 +16,10 @@
 """
 Comment Model
 
-Other modules should create a join table with a UNIQUE constraint on the comment ID::
+Comments come with two status flags:
 
-    medias_comments = Table('medias_comments', metadata,
-        Column('media_id', Integer, ForeignKey('medias.id', onupdate='CASCADE', ondelete='CASCADE'),
-            primary_key=True),
-        Column('comment_id', Integer, ForeignKey('comments.id', onupdate='CASCADE', ondelete='CASCADE'),
-            primary_key=True, unique=True))
-
-A relation property should be defined to include the CommentTypeExtension.
-Be sure to pass it the same value as the backref argument to enable reverse lookup.
-Finally the argument single_parent=True should also be included. ::
-
-    mapper(Media, medias, properties={
-        'comments': relation(Comment, secondary=medias_comments,
-            backref=backref('media', uselist=False), single_parent=True,
-            extension=CommentTypeExtension('media')),
-    })
-
-Also include this property if you want to grab the comment count quickly::
-
-    mapper(Media, medias, properties={
-        'comment_count': comment_count_property(media_comments, 'comment_count'),
-    })
-
-.. note:: This uses a correlated subquery and can be executed when you first call
-          ``media_item.comment_count`` or during the initial query by including
-          the following option::
-
-              DBSession.query(Media).options(undefer('comment_count')).all()
+    * reviewed
+    * publishable
 
 """
 from datetime import datetime
@@ -52,7 +27,7 @@ from sqlalchemy import Table, ForeignKey, Column, sql
 from sqlalchemy.types import String, Unicode, UnicodeText, Integer, DateTime, Boolean, Float
 from sqlalchemy.orm import mapper, relation, backref, synonym, composite, column_property, validates, interfaces, Query
 
-from mediacore.model import DeclarativeBase, metadata, DBSession, AuthorWithIP
+from mediacore.model import metadata, DBSession, AuthorWithIP
 
 
 comments = Table('comments', metadata,

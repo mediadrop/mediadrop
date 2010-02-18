@@ -149,7 +149,7 @@ class MediaadminController(BaseController):
                 ``str`` form submit url
 
         """
-        media = fetch_row(Media, id, incl_trash=True)
+        media = fetch_row(Media, id)
 
         if tmpl_context.action == 'save' or id == 'new':
             # Use the values from error_handler or GET for new podcast media
@@ -207,7 +207,7 @@ class MediaadminController(BaseController):
         and :meth:`index` after successful deletion.
 
         """
-        media = fetch_row(Media, id, incl_trash=True)
+        media = fetch_row(Media, id)
 
         if delete:
             DBSession.delete(media)
@@ -286,7 +286,7 @@ class MediaadminController(BaseController):
         if id == 'new':
             media = create_media_stub()
         else:
-            media = fetch_row(Media, id, incl_trash=True)
+            media = fetch_row(Media, id)
 
         try:
             if file is not None:
@@ -362,7 +362,7 @@ class MediaadminController(BaseController):
                 bool
 
         """
-        media = fetch_row(Media, id, incl_trash=True)
+        media = fetch_row(Media, id)
         media.reposition_file(file_id, budge_infront_id)
         DBSession.add(media)
         DBSession.flush()
@@ -390,7 +390,7 @@ class MediaadminController(BaseController):
                 changes made.
 
         """
-        media = fetch_row(Media, id, incl_trash=True)
+        media = fetch_row(Media, id)
         data = {}
 
 #        try:
@@ -459,7 +459,7 @@ class MediaadminController(BaseController):
         if id == 'new':
             media = create_media_stub()
         else:
-            media = fetch_row(Media, id, incl_trash=True)
+            media = fetch_row(Media, id)
 
         im_path = os.path.join(config.image_dir, 'media/%s%s.%s')
 
@@ -524,7 +524,7 @@ class MediaadminController(BaseController):
                 changes made.
 
         """
-        media = fetch_row(Media, id, incl_trash=True)
+        media = fetch_row(Media, id)
 
         # Make the requested change assuming it will be allowed
         if update_button == 'Review Complete':

@@ -52,7 +52,7 @@ def init_model(engine):
     DBSession.configure(bind=engine)
 
 
-def fetch_row(mapped_class, pk=None, incl_trash=False, extra_filter=None, **kwargs):
+def fetch_row(mapped_class, pk=None, extra_filter=None, **kwargs):
     """Fetch a single row from the database or else have TG display a 404.
 
     Typical usage is to fetch a single row for display or editing::
@@ -75,9 +75,6 @@ def fetch_row(mapped_class, pk=None, incl_trash=False, extra_filter=None, **kwar
     :param mapped_class: An ORM-controlled model
     :param pk: A particular primary key to filter by.
     :type pk: int, ``None`` or ``"new"``
-    :param incl_trash: By default we exclude rows with a status that includes
-        ``trash``. Set this to true
-    :type incl_trash: bool
     :param extra_filter: Extra filter arguments.
     :param \*\*kwargs: Any extra args are treated as column names to filter by.
         See :meth:`sqlalchemy.orm.Query.filter_by`.
@@ -98,9 +95,6 @@ def fetch_row(mapped_class, pk=None, incl_trash=False, extra_filter=None, **kwar
         query = query.filter_by(**kwargs)
     if extra_filter is not None:
         query = query.filter(extra_filter)
-# FIXME :REMOVE INCL_TRASH
-    if not incl_trash and hasattr(mapped_class, 'status'):
-        query = query.filter(mapped_class.status.excludes('trash'))
 
     try:
         return query.one()

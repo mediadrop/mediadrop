@@ -127,6 +127,7 @@ media_fulltext = Table('media_fulltext', metadata,
     Column('author_name', Unicode(50), nullable=False),
     Column('tags', UnicodeText),
     Column('topics', UnicodeText),
+    mysql_engine='MyISAM',
 )
 
 # Columns grouped by their FULLTEXT index
@@ -291,14 +292,13 @@ class Media(object):
 
     .. attribute:: comments
 
-        A list of :class:`mediacore.model.comments.Comment`.
+        A dynamic loader for related comments,
+        see :class:`mediacore.model.comments.CommentQuery`.
 
         .. todo:: Reimplement as a dynamic loader.
 
     .. attribute:: comment_count
     .. attribute:: comment_count_published
-    .. attribute:: comment_count_unreviewed
-    .. attribute:: comment_count_trash
 
     """
 
@@ -632,7 +632,7 @@ _media_mapper = mapper(Media, media, properties={
     'tags': relation(Tag, secondary=media_tags, backref='media', collection_class=TagList),
     'topics': relation(Topic, secondary=media_topics, backref='media', collection_class=TopicList),
 
-    'comments': dynamic_loader(Comment, backref=backref('media', uselist=False), passive_deletes=True, query_class=CommentQuery),
+    'comments': dynamic_loader(Comment, backref='media', query_class=CommentQuery),
     'comment_count': column_property(
         sql.select([sql.func.count(comments.c.id)],
                    media.c.id == comments.c.media_id).label('comment_count'),
