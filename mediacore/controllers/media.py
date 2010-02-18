@@ -66,8 +66,8 @@ class MediaController(BaseController):
         """
         super(MediaController, self).__init__(*args, **kwargs)
         tmpl_context.nav_topics = DBSession.query(Topic)\
-            .options(orm.undefer('published_media_count'))\
-            .having(sql.text('published_media_count >= 1'))\
+            .options(orm.undefer('media_count_published'))\
+            .having(sql.text('media_count_published >= 1'))\
             .order_by(Topic.name)\
             .all()
         tmpl_context.nav_search = url_for(controller='/media', action='search')
@@ -200,7 +200,8 @@ class MediaController(BaseController):
         :rtype: JSON dict
 
         """
-        media_query = Media.query.published().options(orm.undefer('comment_count'))
+        media_query = Media.query.published()\
+            .options(orm.undefer('comment_count_published'))
 
         if type:
             media_query = media_query.filter(Media.type == type)
@@ -384,9 +385,8 @@ class MediaController(BaseController):
                 Latest media
 
         """
-        media = Media.query.published()\
-            .filter(Media.podcast_id == None)\
-            .options(orm.undefer('comment_count'))
+        media = Media.query.published().filter(Media.podcast_id == None)
+
         return dict(
             media = media[:15],
         )
@@ -424,8 +424,8 @@ class MediaController(BaseController):
             tag = None
             media = []
             tags = DBSession.query(Tag)\
-                .options(orm.undefer('published_media_count'))\
-                .having(sql.text('published_media_count >= 1'))\
+                .options(orm.undefer('media_count_published'))\
+                .having(sql.text('media_count_published >= 1'))\
                 .order_by(Tag.name)\
                 .all()
 

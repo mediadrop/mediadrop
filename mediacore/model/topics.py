@@ -56,6 +56,3 @@ mapper(Topic, topics)
 def fetch_topics(topic_ids):
     topics = DBSession.query(Topic).filter(Topic.id.in_(topic_ids)).all()
     return topics
-
-
-topic_count_property = _mtm_count_property

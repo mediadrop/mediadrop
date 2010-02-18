@@ -37,8 +37,8 @@ class PodcastsController(BaseController):
         """
         super(PodcastsController, self).__init__(*args, **kwargs)
         tmpl_context.nav_topics = DBSession.query(Topic)\
-            .options(orm.undefer('published_media_count'))\
-            .filter(Topic.published_media_count >= 1)\
+            .options(orm.undefer('media_count_published'))\
+            .filter(Topic.media_count_published >= 1)\
             .order_by(Topic.name)\
             .all()
         tmpl_context.nav_podcasts = DBSession.query(Podcast).all()
@@ -66,7 +66,7 @@ class PodcastsController(BaseController):
 
         """
         podcasts = Podcast.query\
-            .options(orm.undefer('published_media_count'))\
+            .options(orm.undefer('media_count_published'))\
             .all()
 
         episodes = Media.query.published()\
@@ -135,7 +135,7 @@ class PodcastsController(BaseController):
             .order_by(Media.publish_on.desc())
 
         podcasts = Podcast.query\
-            .options(orm.undefer('published_media_count'))\
+            .options(orm.undefer('media_count_published'))\
             .all()
 
         return dict(

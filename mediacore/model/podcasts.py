@@ -112,7 +112,7 @@ class Podcast(object):
 
         The number of :class:`mediacore.model.media.Media` episodes.
 
-    .. attribute:: published_media_count
+    .. attribute:: media_count_published
 
         The number of :class:`mediacore.model.media.Media` episodes that are
         currently published.
@@ -142,7 +142,7 @@ mapper(Podcast, podcasts, properties={
             ).label('media_count'),
             deferred=True
         ),
-    'published_media_count':
+    'media_count_published':
         column_property(
             sql.select(
                 [sql.func.count(media.c.id)],
@@ -155,7 +155,7 @@ mapper(Podcast, podcasts, properties={
                         media.c.publish_until >= datetime.now()
                     ),
                 )
-            ).label('published_media_count'),
+            ).label('media_count_published'),
             deferred=True
         )
 })

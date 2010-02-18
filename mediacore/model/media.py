@@ -40,8 +40,8 @@ from zope.sqlalchemy import datamanager
 from mediacore.model import metadata, DBSession, get_available_slug, _mtm_count_property, _properties_dict_from_labels, _MatchAgainstClause
 from mediacore.model.authors import Author
 from mediacore.model.comments import Comment, CommentQuery, comments
-from mediacore.model.tags import Tag, TagList, tags, extract_tags, fetch_and_create_tags, tag_count_property
-from mediacore.model.topics import Topic, TopicList, topics, fetch_topics, topic_count_property
+from mediacore.model.tags import Tag, TagList, tags, extract_tags, fetch_and_create_tags
+from mediacore.model.topics import Topic, TopicList, topics, fetch_topics
 from mediacore.lib import helpers
 
 class MediaException(Exception): pass
@@ -647,8 +647,8 @@ _media_mapper = mapper(Media, media, properties={
 # Add properties for counting how many media items have a given Tag
 _tags_mapper = class_mapper(Tag, compile=False)
 _tags_mapper.add_properties(_properties_dict_from_labels(
-    tag_count_property('media_count', media_tags),
-    tag_count_property('published_media_count', media_tags, [
+    _mtm_count_property('media_count', media_tags),
+    _mtm_count_property('media_count_published', media_tags, [
         media.c.publishable,
         media.c.publish_on <= datetime.now(),
         sql.or_(media.c.publish_until == None,
@@ -659,8 +659,8 @@ _tags_mapper.add_properties(_properties_dict_from_labels(
 # Add properties for counting how many media items have a given Topic
 _topics_mapper = class_mapper(Topic, compile=False)
 _topics_mapper.add_properties(_properties_dict_from_labels(
-    topic_count_property('media_count', media_topics),
-    topic_count_property('published_media_count', media_topics, [
+    _mtm_count_property('media_count', media_topics),
+    _mtm_count_property('media_count_published', media_topics, [
         media.c.publishable,
         media.c.publish_on <= datetime.now(),
         sql.or_(media.c.publish_until == None,

@@ -55,7 +55,7 @@ class Tag(object):
 
     .. attribute:: media_content
 
-    .. attribute:: published_media_count
+    .. attribute:: media_count_published
 
     """
 
@@ -110,6 +110,3 @@ def fetch_and_create_tags(tag_names):
         DBSession.flush()
         existing_tags += DBSession.query(Tag).filter(Tag.slug.in_(new_slugs)).all()
     return existing_tags
-
-
-tag_count_property = _mtm_count_property
