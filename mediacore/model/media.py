@@ -626,13 +626,13 @@ mapper(MediaFullText, media_fulltext, properties={
 })
 
 _media_mapper = mapper(Media, media, properties={
-    'fulltext': relation(MediaFullText, uselist=False),
+    'fulltext': relation(MediaFullText, uselist=False, passive_deletes=True),
     'author': composite(Author, media.c.author_name, media.c.author_email),
     'files': relation(MediaFile, backref='media', order_by=media_files.c.position.asc(), passive_deletes=True),
-    'tags': relation(Tag, secondary=media_tags, backref='media', collection_class=TagList),
-    'topics': relation(Topic, secondary=media_topics, backref='media', collection_class=TopicList),
+    'tags': relation(Tag, secondary=media_tags, backref='media', collection_class=TagList, passive_deletes=True),
+    'topics': relation(Topic, secondary=media_topics, backref='media', collection_class=TopicList, passive_deletes=True),
 
-    'comments': dynamic_loader(Comment, backref='media', query_class=CommentQuery),
+    'comments': dynamic_loader(Comment, backref='media', query_class=CommentQuery, passive_deletes=True),
     'comment_count': column_property(
         sql.select([sql.func.count(comments.c.id)],
                    media.c.id == comments.c.media_id).label('comment_count'),

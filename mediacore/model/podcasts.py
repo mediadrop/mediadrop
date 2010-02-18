@@ -29,7 +29,7 @@ from sqlalchemy.types import String, Unicode, UnicodeText, Integer, DateTime, Bo
 from sqlalchemy.orm import mapper, relation, backref, synonym, composite, validates, dynamic_loader, column_property
 from tg import request
 
-from mediacore.model import DeclarativeBase, metadata, DBSession, Author, slugify, get_available_slug
+from mediacore.model import metadata, DBSession, Author, slugify, get_available_slug
 from mediacore.model.media import Media, MediaQuery, media
 
 
@@ -133,7 +133,7 @@ mapper(Podcast, podcasts, properties={
     'author': composite(Author,
         podcasts.c.author_name,
         podcasts.c.author_email),
-    'media': dynamic_loader(Media, backref='podcast', query_class=MediaQuery),
+    'media': dynamic_loader(Media, backref='podcast', query_class=MediaQuery, passive_deletes=True),
     'media_count':
         column_property(
             sql.select(
