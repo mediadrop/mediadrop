@@ -73,6 +73,16 @@ def duration_to_seconds(duration):
         total = time.strptime(duration, '%M:%S')
     return total.tm_hour * 60 * 60 + total.tm_min * 60 + total.tm_sec
 
+def truncate(string, size):
+    """Truncate a plaintext string to roughly a given size (full words).
+
+    :param string: plaintext
+    :type string: unicode
+    :param size: Max length
+    :rtype: unicode
+    """
+    return text.truncate(string, size, whole_word=True)
+
 # Configuration for HTML sanitization
 blank_line = re.compile("\s*\n\s*\n\s*", re.M)
 block_tags = 'p br pre blockquote div h1 h2 h3 h4 h5 h6 hr ul ol li form table tr td tbody thead'.split()

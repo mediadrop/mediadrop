@@ -36,7 +36,7 @@
 			});
 		});
 	</script>
-	<meta name="description" content="${h.truncate_xhtml(media.description, 249, True)}" />
+	<meta name="description" content="${h.truncate(media.description_plain, 249)}" />
 	<meta name="keywords" content="${', '.join(tag.name for tag in media.tags[:15])}" />
 </head>
 <body py:with="comments = [c for c in media.comments if c.publishable]"
