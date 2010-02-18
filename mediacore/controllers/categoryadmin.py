@@ -54,7 +54,9 @@ class CategoryadminController(BaseController):
 
         """
         model = self.select_model(category)
-        categories = DBSession.query(model).order_by(model.name)
+        categories = DBSession.query(model)\
+            .options(orm.undefer('media_count'))\
+            .order_by(model.name)
 
         return dict(
             categories = categories,
