@@ -28,8 +28,8 @@
 	<box id="grid-box">
 		<nav />
 		<py:if test="media">
-			<!--! FIXME: make the following style into a class? -->
-			<h1 style="border-bottom: 2px solid #323232; margin: 0 20px 10px;">Media filed under <a href="${h.url_for(controller='/media', action='topics', slug=topic.slug)}">${topic}</a></h1>
+			<h1>Media filed under ${topic}</h1>
+			<br />
 			<ul py:replace="mediagrid(media)" />
 			${pagination(c.paginators.media)}
 		</py:if>

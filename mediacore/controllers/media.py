@@ -417,7 +417,7 @@ class MediaController(BaseController):
             tag = fetch_row(Tag, slug=slug)
             media = Media.query.published()\
                 .filter(Media.podcast_id == None)\
-                .filter(Media.tags.contains(tags))\
+                .filter(Media.tags.contains(tag))\
                 .options(orm.undefer('comment_count_published'))
             tags = None
         else:
