@@ -231,8 +231,7 @@ class MediaController(BaseController):
         return dict(
             title = media.title,
             description = media.description,
-            description_plain = helpers.strip_xhtml(helpers.line_break_xhtml(\
-                helpers.line_break_xhtml(media.description))),
+            description_plain = media.description_plain,
             img_l = url_for(im_path % 'l'),
             img_m = url_for(im_path % 'm'),
             img_s = url_for(im_path % 's'),

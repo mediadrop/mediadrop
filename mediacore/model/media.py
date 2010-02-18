@@ -196,6 +196,10 @@ class Media(object):
 
         A public-facing XHTML description. Should be a paragraph or more.
 
+    .. attribute:: description_plain
+
+        A public-facing plaintext description. Should be a paragraph or more.
+
     .. attribute:: duration
 
         Play time in seconds
@@ -464,6 +468,17 @@ class Media(object):
 
     def increment_views(self):
         self.views = media.c.views + sql.text('1')
+
+    @validates('description')
+    def _validate_description(self, key, value):
+        self.description_plain = helpers.line_break_xhtml(
+            helpers.line_break_xhtml(value)
+        )
+        return value
+
+    @validates('description_plain')
+    def _validate_description_plain(self, key, value):
+        return helpers.strip_xhtml(value, True)
 
 
 def create_media_stub():
