@@ -8,7 +8,7 @@ except ImportError:
 from mediacore import __version__ as VERSION
 
 install_requires = [
-    'TurboGears2',
+    'TurboGears2 >= 2.0.3',
     'ToscaWidgets >= 0.9.1',
     'tw.dynforms',
     'zope.sqlalchemy',
@@ -56,8 +56,8 @@ setup(
         ],
     paster_plugins=[
         'PasteScript',
-        'Pylons',
-        'TurboGears2',
+        'Pylons == 0.9.7',
+        'TurboGears2 >= 2.0.3',
         ],
 
     test_suite='nose.collector',
