@@ -294,7 +294,8 @@ var Comment = new Class({
 		return this;
 	},
 
-	saveEditForm: function(){
+	saveEditForm: function(e){
+		this.form.fireEvent('beforeAjax');
 		this.toggleForm();
 		this.form.set('send', {onComplete: function(response) {
 			this.body.set('html', JSON.decode(response).body);

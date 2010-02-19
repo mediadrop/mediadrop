@@ -68,6 +68,16 @@ class XHTMLTextArea(TextArea):
     javascript = [
         JSLink(link=url_for("/scripts/third-party/tiny_mce/tiny_mce.js")),
         JSSource("""window.addEvent('domready', function(){
+tinyMCE.onAddEditor.add(function(t, ed){
+	// Add an event for ajax form managers to call when dealing with these
+	// elements, because they will often override the form's submit action
+	ed.onInit.add(function(editor){
+		ed.formElement.addEvent('beforeAjax', function(ev) {
+			ed.save();
+			ed.isNotDirty = 1;
+		});
+	});
+});
 tinyMCE.init({
 	// General options
 	mode : "specific_textareas",

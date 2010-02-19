@@ -63,6 +63,7 @@ var UploadManager = new Class({
 
 	validate: function(o) {
 		var data = {};
+		this.form.fireEvent('beforeAjax');
 		data['validate'] = JSON.encode(this.fields.map(function(f){return f.name;}));
 		this.fields.each(function(f) {
 			data[f.name] = f.field.get('value');
@@ -131,6 +132,7 @@ var UploadField = new Class({
 
 	validate: function() {
 		var data = {};
+		this.field.form.fireEvent('beforeAjax');
 		data['validate'] = JSON.encode([this.name]);
 		data[this.field.get('name')] = this.field.get('value');
 		this.req.send({data: data});
@@ -247,6 +249,7 @@ var SwiffUploadManager = new Class({
 	// in the format of the data object for Request objects
 	getFormValues: function() {
 		var values = {};
+		this.form.fireEvent('beforeAjax');
 		$$(this.form.elements).each(function(el) {
 			values[el.get('name')] = el.get('value');
 		});
