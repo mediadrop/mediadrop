@@ -233,8 +233,7 @@ var Comment = new Class({
 		var cancelButton = this.form.getElement('input.btn-cancel');
 		cancelButton.addEvent('click', this.toggleForm.bind(this));
 
-		var saveButton = this.form.getElement('input.btn-save');
-		saveButton.addEvent('click', this.saveEditForm.bind(this));
+		this.form.addEvent('submit', this.saveEditForm.bind(this));
 		this.toggleForm();
 	},
 
