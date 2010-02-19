@@ -344,6 +344,9 @@ input, textarea {
 	padding: 5px;
 	border: 1px solid #b0bcc5;
 }
+input[type="radio"] {
+	width: 15px;
+}
 input.filefield { width: auto; }
 input:focus, textarea:focus {
 	background-color: #e8f3fa;

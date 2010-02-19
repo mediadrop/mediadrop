@@ -14,11 +14,14 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from tw import forms
+from tw.api import JSLink, JSSource
 from tw.forms import ListFieldSet, TextField, FileField, CalendarDatePicker, SingleSelectField, TextArea, Button, HiddenField, PasswordField
 from tw.forms.validators import Email
 from tg.render import _get_tg_vars
 from pylons.templating import pylons_globals
-from mediacore.lib.helpers import line_break_xhtml
+from mediacore.lib.helpers import line_break_xhtml, fetch_setting
+from mediacore.lib.base import url_for
+import mediacore
 
 
 class LeniantValidationMixin(object):
@@ -62,9 +65,37 @@ class CheckBoxList(GlobalMixin, forms.CheckBoxList):
     pass
 
 class XHTMLTextArea(TextArea):
+    javascript = [
+        JSLink(link=url_for("/scripts/third-party/tiny_mce/tiny_mce.js")),
+        JSSource("""window.addEvent('domready', function(){
+tinyMCE.init({
+	// General options
+	mode : "specific_textareas",
+	editor_selector: "tinymcearea",
+	theme : "advanced",
+	plugins : "advimage,advlink,media,print,xhtmlxtras,contextmenu,paste,inlinepopups,wordcount,autosave",
+	// Theme options
+	theme_advanced_buttons1: "bold,italic,del,ins,|,sub,sup,|,numlist,bullist,|,blockquote,link,unlink,|,code",
+	theme_advanced_buttons2: "",
+	theme_advanced_buttons3: "",
+	theme_advanced_toolbar_location : "top",
+	theme_advanced_toolbar_align : "left",
+	theme_advanced_statusbar_location : "bottom",
+	theme_advanced_resizing : false
+});
+});""", location='headbottom')
+    ]
     def display(self, value=None, **kwargs):
         if value:
             value = line_break_xhtml(value)
+
+        # Enable the rich text editor, if dictated by the settings:
+        if fetch_setting('enable_tinymce'):
+            if 'css_classes' in kwargs:
+                kwargs['css_classes'].append('tinymcearea')
+            else:
+                kwargs['css_classes'] = ['tinymcearea']
+
         return TextArea.display(self, value, **kwargs)
 
 email_validator = Email(messages={

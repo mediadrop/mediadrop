@@ -24,7 +24,8 @@ ul#settings-menu a {
 .menu-settings-user-on  a#menu-settings-users,
 .menu-settings-config-on  a#menu-settings-config,
 .menu-settings-topic-on  a#menu-settings-topics,
-.menu-settings-tag-on  a#menu-settings-tags {
+.menu-settings-tag-on  a#menu-settings-tags,
+.menu-settings-display-on a#menu-settings-display {
 	background: url('../images/icons/arrow-green-right.png') no-repeat left;
 	color: #196d29;
 }

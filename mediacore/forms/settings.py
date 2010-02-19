@@ -13,8 +13,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from tw.forms import TextField, CalendarDatePicker, SingleSelectField, TextArea, ResetButton
-from tw.forms.validators import Schema, FieldsMatch
+from tw.forms import TextField, CalendarDatePicker, SingleSelectField, TextArea, ResetButton, RadioButtonList
+from tw.forms.validators import Schema, FieldsMatch, StringBool
 from tw.api import WidgetsList
 
 from mediacore.forms import ListForm, XHTMLTextArea, SubmitButton, ListFieldSet, PasswordField, email_validator
@@ -52,6 +52,25 @@ class SettingsForm(ListForm):
         ListFieldSet('default_wording', suppress_label=True, legend='Default Form Values:', css_classes=['details_fieldset'], children=[
             XHTMLTextArea('additional_notes', label_text='Additional Notes', attrs=dict(rows=3, cols=25)),
         ]),
+        SubmitButton('save', default='Save', css_classes=['mo', 'btn-save', 'f-rgt']),
+        ResetButton('cancel', default='Cancel', css_classes=['mo', 'btn-cancel']),
+    ]
+
+class DisplaySettingsForm(ListForm):
+    template = 'mediacore.templates.admin.box-form'
+    id = 'settings-form'
+    css_class = 'form'
+    submit_text = None
+
+    fields = [
+        RadioButtonList('tinymce',
+            label_text='Rich Text Editing',
+            options=[
+                [True, 'Enable TinyMCE for <textarea> fields that accept XHTML input. Use of TinyMCE is not strictly XHTML compliant, but works in FF>=1.5, Safari>=3, IE>=5.5, so long as javascript is enabled.'],
+                [False, 'Plain <textarea> fields']
+            ],
+            validator=StringBool(not_empty=True)
+        ),
         SubmitButton('save', default='Save', css_classes=['mo', 'btn-save', 'f-rgt']),
         ResetButton('cancel', default='Cancel', css_classes=['mo', 'btn-cancel']),
     ]

@@ -21,10 +21,12 @@ from mediacore.lib.base import (BaseController, url_for, redirect,
     expose, expose_xhr, validate, paginate)
 from mediacore.lib import helpers
 from mediacore.model import DBSession, fetch_row, Setting
-from mediacore.forms.settings import SettingsForm
+from mediacore.forms.settings import SettingsForm, DisplaySettingsForm
 
-settings_form = SettingsForm(action=url_for(controller='/settingadmin',
-                                            action='save'))
+settings_form = SettingsForm(
+    action=url_for(controller='/settingadmin', action='save'))
+display_settings_form = DisplaySettingsForm(
+    action=url_for(controller='/settingadmin', action='save_display'))
 
 
 class SettingadminController(BaseController):
@@ -122,7 +124,48 @@ class SettingadminController(BaseController):
         DBSession.flush()
         redirect(action='edit')
 
+    @expose('mediacore.templates.admin.settings.edit_display')
+    def edit_display(self, **kwargs):
+        """Display the :class:`~mediacore.forms.settings.SettingsForm`.
+
+        :rtype: dict
+        :returns:
+            settings_form
+                The :class:`~mediacore.forms.settings.SettingsForm` instance.
+            settings_values
+                ``dict`` form values
+
+        """
+        if tmpl_context.action == 'save' and len(kwargs) > 0:
+            # Use the values from error_handler or GET for new users
+            settings_values = kwargs
+        else:
+            settings_values = dict(
+                tinymce = bool(helpers.fetch_setting('enable_tinymce'))
+            )
+
+        return dict(
+            display_settings_form = display_settings_form,
+            settings_values = settings_values,
+        )
+
+    @expose()
+    @validate(display_settings_form, error_handler=edit_display)
+    def save_display(self, tinymce, **kwargs):
+        rich_setting = fetch_row(Setting, key='enable_tinymce')
+
+        if tinymce:
+            rich_setting.value = 'enabled'
+        else:
+            rich_setting.value = None
+
+        DBSession.add(rich_setting)
+        DBSession.flush()
+        redirect(action='edit_display')
+
+
     def _fetch_keyed_settings(self):
         """Return a dictionary of settings keyed by the setting.key."""
         settings = DBSession.query(Setting).all()
         return dict((setting.key, setting) for setting in settings)
+
