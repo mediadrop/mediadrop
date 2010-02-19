@@ -37,7 +37,7 @@ CREATE TABLE `comments` (
   PRIMARY KEY (`id`),
   KEY `comments_media_fk1` (`media_id`),
   CONSTRAINT `comments_media_fk1` FOREIGN KEY (`media_id`) REFERENCES `media` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -50,7 +50,9 @@ INSERT INTO `comments` VALUES (1,1,'Re: The Black Knight','2009-05-11 10:54:58',
 (2,2,'Re: Four Yorkshiremen','2009-05-19 17:33:11','2009-05-28 17:24:28',1,1,'testest',NULL,2130706433,'test'),
 (3,2,'Re: Four Yorkshiremen','2009-05-19 17:33:40','2009-05-19 17:33:40',1,0,'testsetsttest',NULL,2130706433,'teste'),
 (4,2,'Re: Four Yorkshiremen','2009-05-19 17:49:57','2009-05-19 17:49:57',1,0,'testagain',NULL,2130706433,'testmixin'),
-(5,9,'Re: Three Questions','2009-05-31 17:22:58','2009-05-31 17:22:58',1,0,'Nate',NULL,2130706433,'Here\'s a question for you.\r\n\r\nDoes this work?');
+(5,9,'Re: Three Questions','2009-05-31 17:22:58','2010-02-18 22:39:50',1,0,'Nate',NULL,2130706433,'<p>Here&#39;s a question for you.</p><p>or does it? F YEA</p><p>oh man<sup><a title=\"title!\" href=\"bob.com\" rel=\"nofollow\">this is su</a>per</sup>exciting</p>'),
+(6,12,'Re: Knights Who Say Ni','2010-02-18 22:55:02','2010-02-18 22:57:36',1,1,'MY NAME',NULL,2130706433,'<p>I&#39;m totally afraid of the knights who say:</p><p>NI<sub>NI<sup>NI</sup></sub><sup>NI</sup>NI<em>NININI<strong>NINI</strong></em><strong>NIIN</strong>NI</p>'),
+(7,12,'Re: Knights Who Say Ni','2010-02-18 22:56:25','2010-02-18 22:56:25',1,1,'alskdjf',NULL,2130706433,'<pre><p>HAHA</p><p>JBLKAS dkfjasdf</p></pre>');
 /*!40000 ALTER TABLE `comments` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -63,7 +65,7 @@ DROP TABLE IF EXISTS `media`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `media` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `type` enum('audio','video','placeholder') NOT NULL DEFAULT 'placeholder',
+  `type` enum('audio','video') CHARACTER SET ascii DEFAULT NULL,
   `slug` varchar(50) CHARACTER SET ascii DEFAULT NULL,
   `reviewed` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `encoded` tinyint(1) unsigned NOT NULL DEFAULT '0',
@@ -107,7 +109,7 @@ INSERT INTO `media` VALUES (1,'video','black-knight',1,1,0,NULL,'2009-01-12 16:2
 (9,'video','three-questions',1,1,0,NULL,'2009-01-12 17:09:55','2010-02-18 17:25:52',NULL,NULL,'Three Questions',NULL,'Sir Lancelot faces skill testing questions.','Sir Lancelot faces skill testing questions.','Bible References: None\r\nS&H References: None\r\nReviewer: None\r\nLicense: General Upload',244,2,0,'John Doe','jdoe@simplestation.com'),
 (10,'video','tale-sir-robin',1,1,1,NULL,'2009-01-12 18:17:07','2010-02-18 17:25:52','2009-05-19 11:49:36',NULL,'The Tale of Sir Robin',NULL,'Sing this song!','Sing this song!','Bible References: None\r\nS&H References: None\r\nReviewer: None\r\nLicense: General Upload',173,1,0,'John Doe','jdoe@simplestation.com'),
 (11,'video','guarding-room',1,1,1,NULL,'2009-01-12 18:18:22','2010-02-18 17:25:52','2009-05-19 12:15:53',NULL,'Guarding the Room',NULL,'The trials and tribulations of being a dictator in a self-perpetuating autocracy.','The trials and tribulations of being a dictator in a self-perpetuating autocracy.','Bible References: None\r\nS&H References: None\r\nReviewer: None\r\nLicense: General Upload',123,4,3,'John Doe','jdoe@simplestation.com'),
-(12,'video','knights-who-say-ni',1,1,1,NULL,'2009-01-12 18:19:51','2010-02-18 17:25:52','2009-05-19 13:08:58',NULL,'Knights Who Say Ni',NULL,'These knights say ni.','These knights say ni.','Bible References: None\r\nS&H References: None\r\nReviewer: None\r\nLicense: General Upload',521,0,0,'John Doe','jdoe@simplestation.com'),
+(12,'video','knights-who-say-ni',1,1,1,NULL,'2009-01-12 18:19:51','2010-02-18 22:56:25','2009-05-19 13:08:58',NULL,'Knights Who Say Ni',NULL,'These knights say ni.','These knights say ni.','Bible References: None\r\nS&H References: None\r\nReviewer: None\r\nLicense: General Upload',521,5,0,'John Doe','jdoe@simplestation.com'),
 (13,'video','tim-enchanter',1,1,1,NULL,'2009-01-12 18:20:41','2010-02-18 17:25:52','2009-05-19 12:16:17',NULL,'Tim the Enchanter',NULL,'Tim enchants fire.','Tim enchants fire.','Bible References: None\r\nS&H References: None\r\nReviewer: None\r\nLicense: General Upload',52,1,0,'John Doe','jdoe@simplestation.com'),
 (14,'video','grenade-antioch',1,1,0,NULL,'2009-01-12 18:21:50','2010-02-18 17:25:52',NULL,NULL,'Grenade of Antioch',NULL,'Holy hand grenade!','Holy hand grenade!','Bible References: None\r\nS&H References: None\r\nReviewer: None\r\nLicense: General Upload',242,0,0,'John Doe','jdoe@simplestation.com'),
 (15,'video','intermission-music',1,1,1,NULL,'2009-01-12 18:36:06','2010-02-18 17:25:52','2009-05-19 12:16:17',NULL,'Intermission Music',NULL,'My personal favorite part of the movie.','My personal favorite part of the movie.','Bible References: None\r\nS&H References: None\r\nReviewer: None\r\nLicense: General Upload',546,2,0,'John Doe','jdoe@simplestation.com'),
@@ -664,17 +666,17 @@ CREATE TABLE `settings` (
 
 LOCK TABLES `settings` WRITE;
 /*!40000 ALTER TABLE `settings` DISABLE KEYS */;
-INSERT INTO `settings` VALUES (1,'email_media_uploaded',''),
-(2,'email_comment_posted',''),
-(3,'email_support_requests',''),
-(4,'email_send_from',''),
+INSERT INTO `settings` VALUES (1,'email_media_uploaded',NULL),
+(2,'email_comment_posted',NULL),
+(3,'email_support_requests',NULL),
+(4,'email_send_from',NULL),
 (5,'ftp_server','my.ftp.server.com'),
 (6,'ftp_username','ftpuser'),
 (7,'ftp_password','secretpassword'),
 (8,'ftp_upload_path','media'),
 (9,'ftp_download_url','http://content.distribution.network/ftpuser/media/'),
-(10,'wording_user_uploads',''),
-(11,'wording_additional_notes',''),
+(10,'wording_user_uploads','<p>Please upload something awesome!</p>'),
+(11,'wording_additional_notes','<p>ADDITIONAL NOTES!</p>'),
 (12,'enable_tinymce','enabled');
 /*!40000 ALTER TABLE `settings` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -693,7 +695,7 @@ CREATE TABLE `tags` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`),
   UNIQUE KEY `slug` (`slug`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1014,4 +1016,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2010-02-18 20:32:34
+-- Dump completed on 2010-02-19  0:27:38
