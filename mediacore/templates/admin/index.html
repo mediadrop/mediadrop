@@ -67,8 +67,7 @@
 
 	</div>
 	<div class="column33">
-		${comment_stats_box(h.url_for(controller='/commentadmin'), comment_count, comment_count_published,
-		                    comment_count_unreviewed, comment_count_trash)}
+		<div class="box" py:replace="comment_stats_box(h.url_for(controller='/commentadmin'), query=comments)" />
 
 		<div class="box">
 			<h1 class="box-head">Recently Published</h1>

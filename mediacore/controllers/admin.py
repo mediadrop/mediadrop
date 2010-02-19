@@ -71,10 +71,7 @@ class AdminController(BaseController):
             encode_page = self._fetch_page('awaiting_encoding'),
             publish_page = self._fetch_page('awaiting_publishing'),
             recent_media = recent_media,
-            comment_count = Comment.query.count(),
-            comment_count_published = Comment.query.published().count(),
-            comment_count_unreviewed = Comment.query.reviewed(False).count(),
-            comment_count_trash = Comment.query.trash().count(),
+            comments = Comment.query,
         )
 
 

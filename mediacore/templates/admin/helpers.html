@@ -35,7 +35,7 @@
 		</tfoot>
 	</py:def>
 
-	<py:def function="comment_stats_box(link, total, published, unreviewed, trash)">
+	<py:def function="comment_stats_box(link, total=None, published=None, unreviewed=None, trash=None, query=None)">
 		<div class="box">
 			<div class="box-head">
 				<a href="${link}"
@@ -46,19 +46,19 @@
 			</div>
 			<table id="comments-table" cellpadding="0" cellspacing="0">
 				<tr id="comments-total">
-					<td class="comments-count" py:content="total" />
+					<td class="comments-count" py:content="total if total is not None else query.count()" />
 					<td>Comments</td>
 				</tr>
 				<tr id="comments-published">
-					<td class="comments-count" py:content="published" />
+					<td class="comments-count" py:content="published if total is not None else query.published().count()" />
 					<td>Published</td>
 				</tr>
 				<tr id="${'comments-unreviewed' if unreviewed else 'comments-trash'}">
-					<td class="comments-count" py:content="unreviewed" />
+					<td class="comments-count" py:content="unreviewed if total is not None else query.reviewed(False).count()" />
 					<td>Unreviewed</td>
 				</tr>
 				<tr id="comments-trash">
-					<td class="comments-count" py:content="trash" />
+					<td class="comments-count" py:content="trash if total is not None else query.trash().count()" />
 					<td>Trash</td>
 				</tr>
 			</table>
