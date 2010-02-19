@@ -67,7 +67,7 @@ class XHTMLTextArea(TextArea):
             value = line_break_xhtml(value)
         return TextArea.display(self, value, **kwargs)
 
-email_validator = Email(not_empty=True, messages={
+email_validator = Email(messages={
     'badUsername': 'The portion of the email address before the @ is invalid',
     'badDomain': 'The portion of this email address after the @ is invalid'
 })
