@@ -21,7 +21,6 @@ from tg.render import _get_tg_vars
 from pylons.templating import pylons_globals
 from mediacore.lib.helpers import line_break_xhtml, fetch_setting
 from mediacore.lib.base import url_for
-import mediacore
 
 
 class LeniantValidationMixin(object):
