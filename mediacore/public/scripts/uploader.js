@@ -76,11 +76,20 @@ var UploadManager = new Class({
 	},
 
 	displayErrors: function(resp) {
-		responseJSON = JSON.decode(resp, true) || {};
+		var responseJSON;
+		if ($type(resp) == 'object') {
+			// TODO: Figure out why the resp argument is sometimes a string and
+			// sometimes an parsed object. I think it lies the Request object,
+			// Request.processScripts().
+			responseJSON = resp
+		} else {
+			responseJSON = JSON.decode(resp, true) || {};
+		}
 		if (this.submitted && responseJSON['valid']) {
 			this.form.submit();
 		} else {
 			this.fields.each(function(field) {
+				var singleJSON = {err: responseJSON['err'][field.name]};
 				field.displayError(responseJSON);
 			});
 		}
@@ -118,8 +127,16 @@ var UploadField = new Class({
 	},
 
 	displayError: function(resp) {
-		responseJSON = JSON.decode(resp, true) || {};
-		if (err = responseJSON['err'][this.field.get('name')]) {
+		var responseJSON;
+		if ($type(resp) == 'object') {
+			// Sometimes this is passed in as a parsed object
+			// from the UploadManager.displayErrors() method.
+			responseJSON = resp
+		} else {
+			responseJSON = JSON.decode(resp, true) || {};
+		}
+
+		if (err = responseJSON['err'][this.name]) {
 			this.error.set('html', err);
 			this.td.removeClass('noerr');
 			this.td.addClass('err');
