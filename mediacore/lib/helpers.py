@@ -18,6 +18,7 @@ import math
 import datetime as dt
 import time
 import os
+import genshi.core
 from copy import copy
 from urlparse import urlparse
 
@@ -352,3 +353,31 @@ def best_json_content_type(accept=None, raise_exc=True):
     if raise_exc and not desired_matches:
         raise tg.exceptions.HTTPNotAcceptable # 406
     return desired_matches[0]
+
+def append_class_attr(attrs, class_name):
+    """Append to the class for any input that Genshi's py:attrs understands.
+
+    This is useful when using XIncludes and you want to append a class
+    to the body tag, while still allowing all other tags to remain
+    unchanged.
+
+    For example::
+
+        <body py:match="body" py:attrs="h.append_to_class(select('@*'), 'extra_special')">
+
+    :param attrs: A collection of attrs
+    :type attrs: :class:`genshi.core.Stream`, :class:`genshi.core.Attrs`,
+        ``list`` of 2-tuples, ``dict``
+    :param class_name: The class name to append
+    :type class_name: unicode
+    :returns: All attrs
+    :rtype: ``dict``
+
+    """
+    if isinstance(attrs, genshi.core.Stream):
+        attrs = list(attrs)
+        attrs = attrs and attrs[0] or []
+    if not isinstance(attrs, dict):
+        attrs = dict(attrs or ())
+    attrs['class'] = unicode(attrs.get('class', '') + ' ' + class_name).strip()
+    return attrs
