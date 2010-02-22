@@ -200,7 +200,9 @@ class MediaController(BaseController):
         :rtype: JSON dict
 
         """
-        media_query = Media.query.published()\
+        media_query = Media.query\
+            .published()\
+            .order_by(Media.publish_on.desc())\
             .options(orm.undefer('comment_count_published'))
 
         if type:
@@ -247,7 +249,11 @@ class MediaController(BaseController):
         :rtype: JSON dict
 
         """
-        media = Media.query.published().order_by(Media.views.desc()).first()
+        media = Media.query\
+            .published()\
+            .filter(Media.publish_on <= datetime.now() - timedelta(weeks=3))\
+            .order_by(Media.views.desc())\
+            .first()
         return self._jsonify(media)
 
     def _jsonify(self, media):
@@ -385,7 +391,10 @@ class MediaController(BaseController):
                 Latest media
 
         """
-        media = Media.query.published().filter(Media.podcast_id == None)
+        media = Media.query\
+            .published()\
+            .order_by(Media.publish_on.desc())\
+            .filter(Media.podcast_id == None)
 
         return dict(
             media = media[:15],
