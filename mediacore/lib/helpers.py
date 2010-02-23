@@ -19,6 +19,7 @@ import datetime as dt
 import time
 import os
 import genshi.core
+import pylons.templating
 from copy import copy
 from urlparse import urlparse
 
@@ -385,3 +386,33 @@ def append_class_attr(attrs, class_name):
         attrs = dict(attrs or ())
     attrs['class'] = unicode(attrs.get('class', '') + ' ' + class_name).strip()
     return attrs
+
+
+_excess_whitespace = re.compile('\s\s+', re.M)
+
+def embeddable_player(media):
+    """Return a string of XHTML for embedding our player on other sites.
+
+    All URLs include the domain (they're fully qualified).
+
+    Since this returns a plain string, it is automatically escaped by Genshi
+    when called in a template.
+
+    :param media: The item to embed
+    :type media: :class:`mediacore.model.media.Media` instance
+    :returns: XHTML
+    :rtype: unicode
+
+    """
+    template_finder = config['pylons.app_globals'].dotted_filename_finder
+    template_name = template_finder.get_dotted_filename(
+        'mediacore.templates.media._embeddable_player',
+        template_extension='.html'
+    )
+    xhtml = pylons.templating.render_genshi(
+        template_name,
+        extra_vars=dict(media=media),
+        method='xhtml'
+    )
+    xhtml = _excess_whitespace.sub(' ', xhtml)
+    return xhtml.strip()

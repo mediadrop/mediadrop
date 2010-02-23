@@ -245,6 +245,18 @@ a:hover .grid-title, a.grid-title:hover {
 .media-meta .btn-download {
 	margin-top: 10px;
 }
+.media-embed {
+	text-align: right;
+	padding-top: 5px;
+	width: 480px;
+}
+#embed-markup {
+	border: 1px solid #1a1a1a;
+	background: #cdcdcd;
+	color: #000;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+}
 
 .contextbox {
 	float: right;
