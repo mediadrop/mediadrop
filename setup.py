@@ -18,6 +18,7 @@ install_requires = [
     'BeautifulSoup == 3.0.7a',
         # We monkeypatch this version of BeautifulSoup in mediacore.__init__
         # Patch pending: https://bugs.launchpad.net/beautifulsoup/+bug/397997
+    'akismet',
 ]
 
 # PIL has some weird packaging issues (because its been around forever).
