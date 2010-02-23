@@ -28,7 +28,7 @@
 		    disabled=(field.name == 'toggle_feed' and value_for('is_embeddable')) or (field.name == 'toggle_player' and not value_for('is_playable')),
 		    **args_for(field))" />
 	</span>
-	<a href="${file.link_url}" class="file-link"
+	<a href="${file.link_url()}" class="file-link"
 	   py:with="type = file.type.capitalize() if file.is_embeddable else file.type.upper()"
 	   title="${('Go to %s' % type) if file.is_embeddable else 'Download this file'}">
 	   ${type}

@@ -57,7 +57,7 @@
 				</div>
 				<div class="media-meta-commented"><strong>${h.text.plural(len(comments), 'person', 'people')}</strong> commented</div>
 				<a class="btn btn-likethis" id="likethis" title="Vote Up" href="${h.url_for(action='rate')}">I like this!</a>
-				<a py:if="media.downloadable_file" class="btn btn-download" href="${media.downloadable_file.link_url}">Download</a>
+				<a py:if="media.downloadable_file" class="btn btn-download" href="${media.downloadable_file.link_url()}">Download</a>
 				<div class="media-meta-bottom" />
 			</div>
 			${media_player(media, autobuffer=True)}

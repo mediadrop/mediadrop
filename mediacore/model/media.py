@@ -554,8 +554,7 @@ class MediaFile(object):
                 return True
         return False
 
-    @property
-    def play_url(self):
+    def play_url(self, qualified=False):
         """The URL for use when embedding the media file in a page
 
         This MAY return a different URL than the link_url property.
@@ -567,10 +566,9 @@ class MediaFile(object):
         else:
             return helpers.url_for(controller='/media', action='serve',
                                    slug=self.media.slug, id=self.id,
-                                   type=self.type)
+                                   type=self.type, qualified=qualified)
 
-    @property
-    def link_url(self):
+    def link_url(self, qualified=False):
         """The URL for use when linking to a media file.
 
         This is usually a direct link to the file, but for youtube videos and
@@ -586,7 +584,7 @@ class MediaFile(object):
         else:
             return helpers.url_for(controller='/media', action='serve',
                                    slug=self.media.slug, id=self.id,
-                                   type=self.type)
+                                   type=self.type, qualified=qualified)
 
     @property
     def medium(self):

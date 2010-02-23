@@ -280,7 +280,7 @@ def list_accepted_extensions():
     return ', '.join(e)
 
 
-def media_image_url(media, size='s'):
+def media_image_url(media, size='s', qualified=False):
     """Return a valid relative URL to a given media's album art.
 
     :param media: The media item to display.
@@ -288,7 +288,9 @@ def media_image_url(media, size='s'):
     :param size: Size key to display, see ``album_art_sizes`` in
         :mod:`mediacore.config.app_config`
     :type size: str
-    :returns: A relative URL or ``None``.
+    :param qualified: If ``True`` return the full URL including the domain.
+    :type qualified: bool
+    :returns: A relative or full URL or ``None``.
 
     """
     if not media:
@@ -301,9 +303,9 @@ def media_image_url(media, size='s'):
 
     if not os.path.isfile(file_name):
         return None
-    return url_for('/images/' + image)
+    return url_for('/images/' + image, qualified=qualified)
 
-def podcast_image_url(podcast, size='s'):
+def podcast_image_url(podcast, size='s', qualified=False):
     """Return a valid relative URL to a given media's album art.
 
     :param podcast: The podcast item to display.
@@ -311,7 +313,9 @@ def podcast_image_url(podcast, size='s'):
     :param size: Size key to display, see ``podcast_album_art_sizes`` in
         :mod:`mediacore.config.app_config`
     :type size: str
-    :returns: A relative URL or ``None``.
+    :param qualified: If ``True`` return the full URL including the domain.
+    :type qualified: bool
+    :returns: A relative or full URL or ``None``.
 
     """
     if not podcast:
@@ -324,7 +328,7 @@ def podcast_image_url(podcast, size='s'):
 
     if not os.path.isfile(file_name):
         return None
-    return url_for('/images/' + image)
+    return url_for('/images/' + image, qualified=qualified)
 
 
 def best_json_content_type(accept=None, raise_exc=True):
