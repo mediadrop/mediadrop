@@ -430,6 +430,6 @@ input.submitbutton {
 	text-align: right;
 	padding-right: 0;
 }
-#comments-published td { color: #196d29; }
-#comments-unreviewed td { color: #e66f00; }
-#comments-trash td { color: #9b9b9b; }
+.comments-published td { color: #196d29; }
+.comments-unreviewed td { color: #e66f00; }
+.comments-trash td { color: #9b9b9b; }

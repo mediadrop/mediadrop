@@ -45,20 +45,24 @@
 				<h1>Comments</h1>
 			</div>
 			<table id="comments-table" cellpadding="0" cellspacing="0">
-				<tr id="comments-total">
-					<td class="comments-count" py:content="total if total is not None else query.count()" />
+				<tr py:with="total = total if total is not None else query.count()"
+				    class="comments-total">
+					<td class="comments-count" py:content="total" />
 					<td>Comments</td>
 				</tr>
-				<tr id="comments-published">
-					<td class="comments-count" py:content="published if total is not None else query.published().count()" />
+				<tr py:with="published = published if published is not None else query.published().count()"
+				    class="comments-published">
+					<td class="comments-count" py:content="published" />
 					<td>Published</td>
 				</tr>
-				<tr id="${'comments-unreviewed' if unreviewed else 'comments-trash'}">
-					<td class="comments-count" py:content="unreviewed if total is not None else query.reviewed(False).count()" />
+				<tr py:with="unreviewed = unreviewed if unreviewed is not None else query.reviewed(False).count()"
+				    class="${'comments-unreviewed' if unreviewed else 'comments-trash'}">
+					<td class="comments-count" py:content="unreviewed" />
 					<td>Unreviewed</td>
 				</tr>
-				<tr id="comments-trash">
-					<td class="comments-count" py:content="trash if total is not None else query.trash().count()" />
+				<tr py:with="trash = trash if total is not None else query.trash().count()"
+				    class="comments-trash">
+					<td class="comments-count" py:content="trash" />
 					<td>Trash</td>
 				</tr>
 			</table>
