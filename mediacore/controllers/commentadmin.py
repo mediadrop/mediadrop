@@ -65,8 +65,9 @@ class CommentadminController(BaseController):
                 The media title for rendering if a ``media_filter`` was specified.
 
         """
-        comments = Comment.query.order_by(Comment.reviewed.asc(),
-                                          Comment.created_on.desc())
+        comments = Comment.query.trash(False)\
+            .order_by(Comment.reviewed.asc(),
+                      Comment.created_on.desc())
 
         # This only works since we only have comments on one type of content.
         # It will need re-evaluation if we ever add others.
