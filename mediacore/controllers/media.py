@@ -23,6 +23,7 @@ import ftplib
 import urllib2
 import sha
 import time
+import logging
 from urlparse import urlparse
 from datetime import datetime, timedelta, date
 
@@ -33,6 +34,7 @@ from sqlalchemy import orm, sql
 from formencode import validators
 from paste.deploy.converters import asbool
 from paste.util import mimeparse
+from akismet import Akismet
 
 from mediacore.lib.base import (BaseController, url_for, redirect,
     expose, expose_xhr, validate, paginate)
@@ -41,6 +43,9 @@ from mediacore.model import (DBSession, fetch_row, get_available_slug,
 from mediacore.lib import helpers, email
 from mediacore.forms.media import UploadForm
 from mediacore.forms.comments import PostCommentForm
+from mediacore import __version__ as MEDIACORE_VERSION
+
+log = logging.getLogger(__name__)
 
 
 post_comment_form = PostCommentForm()
@@ -318,6 +323,23 @@ class MediaController(BaseController):
         :returns: Redirect to :meth:`view` page for media.
 
         """
+        akismet_key = config.get('akismet_key', None)
+        if akismet_key:
+            akismet = Akismet(agent='MediaCore/%s' % MEDIACORE_VERSION)
+            akismet.key = akismet_key
+            akismet.blog_url = config.get('akismet_url',
+                                          url_for('/', qualified=True))
+            akismet.verify_key()
+            data = {'comment_author': values['name'],
+                    'user_ip': request.environ.get('REMOTE_ADDR'),
+                    'user_agent': request.environ.get('HTTP_USER_AGENT'),
+                    'referrer': request.environ.get('HTTP_REFERER',  'unknown'),
+                    'HTTP_ACCEPT': request.environ.get('HTTP_ACCEPT')}
+            if akismet.comment_check(values['body'], data):
+                redirect(action='view', commented=1, spam=1, anchor='top')
+        else:
+            log.debug('No Akismet API Key specified, spam filter disabled.')
+
         media = fetch_row(Media, slug=slug)
 
         c = Comment()

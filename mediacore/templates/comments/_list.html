@@ -34,15 +34,15 @@
 				<link href="${h.url_for('/styles/squeezebox.css')}" media="screen" rel="stylesheet" type="text/css" />
 				<script type="text/javascript" src="${h.url_for('/scripts/third-party/squeezebox-1.1-rc4-yui-compressed.js')}"></script>
 				<script type="text/javascript" src="${h.url_for('/scripts/notify.js')}"></script>
-				<script type="text/javascript">
+				<script type="text/javascript" py:with="is_spam = h.request.params.get('spam')">
 					window.addEvent('domready', function(){
 						var notify = new NotificationManager({
 							divClass: 'greybox',
 							okButtonClass: 'btn btn-ok f-rgt',
 							footerClass: 'btn-foot',
-							header: 'Thanks for your comment!',
 							headerClass: 'italic-header',
-							msg: 'We will post it just as soon as a moderator approves it.'
+							header: '${"Comment Rejected" if is_spam else "Thanks for your comment!"}',
+							msg: '${"Your comment appears to be spam and has been rejected." if is_spam else "We will post it just as soon as a moderator approves it."}'
 						}).openNotify();
 					});
 				</script>
