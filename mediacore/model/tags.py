@@ -23,7 +23,7 @@ tags. This means you can tag all you want!
 """
 
 from datetime import datetime
-from sqlalchemy import Table, ForeignKey, Column, sql
+from sqlalchemy import Table, ForeignKey, Column, sql, func
 from sqlalchemy.types import String, Unicode, UnicodeText, Integer, DateTime, Boolean, Float
 from sqlalchemy.orm import mapper, relation, backref, synonym, interfaces, validates, column_property
 
@@ -96,17 +96,31 @@ def extract_tags(string):
     return [tag.strip() for tag in string.split(',')]
 
 def fetch_and_create_tags(tag_names):
-    tag_dict = dict()
-    for t in tag_names:
-        tag_dict[slugify(t)] = t
+    # copy the tag_names list
+    new_tag_names = tag_names[:]
 
-    existing_tags = DBSession.query(Tag).filter(Tag.slug.in_(tag_dict.keys())).all()
-    existing_slugs = [t.slug for t in existing_tags]
-    new_slugs = [s for s in tag_dict.keys() if s not in existing_slugs]
-    new_tags = [{'name': tag_dict[s], 'slug': s} for s in new_slugs]
+    # find tag names that already exist (case insensitive match)
+    # and remove those names from our list
+    lower_case_tags = [t.lower() for t in new_tag_names]
+    existing_tags = DBSession.query(Tag).\
+        filter(
+            func.lower(Tag.name).in_(lower_case_tags)
+        ).all()
+    for t in existing_tags:
+        for n in new_tag_names[:]:
+            if n.lower() == t.name.lower():
+                new_tag_names.remove(n)
+                break
 
-    if new_tags:
+    # create the tags that don't yet exist
+    if new_tag_names:
+        new_tags = [{'name': n, 'slug': slugify(n)} for n in new_tag_names]
         DBSession.connection().execute(tags.insert(), new_tags)
         DBSession.flush()
-        existing_tags += DBSession.query(Tag).filter(Tag.slug.in_(new_slugs)).all()
+        existing_tags += DBSession.query(Tag)\
+            .filter(
+                Tag.slug.in_([t['slug'] for t in new_tags])
+            ).all()
+
     return existing_tags
+
