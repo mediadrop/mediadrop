@@ -330,12 +330,12 @@ class MediaController(BaseController):
             akismet.blog_url = config.get('akismet_url',
                                           url_for('/', qualified=True))
             akismet.verify_key()
-            data = {'comment_author': values['name'],
+            data = {'comment_author': values['name'].encode('utf-8'),
                     'user_ip': request.environ.get('REMOTE_ADDR'),
                     'user_agent': request.environ.get('HTTP_USER_AGENT'),
                     'referrer': request.environ.get('HTTP_REFERER',  'unknown'),
                     'HTTP_ACCEPT': request.environ.get('HTTP_ACCEPT')}
-            if akismet.comment_check(values['body'], data):
+            if akismet.comment_check(values['body'].encode('utf-8'), data):
                 redirect(action='view', commented=1, spam=1, anchor='top')
         else:
             log.debug('No Akismet API Key specified, spam filter disabled.')
