@@ -79,18 +79,18 @@ tinyMCE.onAddEditor.add(function(t, ed){
 });
 tinyMCE.init({
 	// General options
-	mode : "specific_textareas",
+	mode: "specific_textareas",
 	editor_selector: "tinymcearea",
-	theme : "advanced",
-	plugins : "advimage,advlink,media,print,xhtmlxtras,contextmenu,paste,inlinepopups,wordcount,autosave",
+	theme: "advanced",
+	plugins: "advimage,advlink,media,print,xhtmlxtras,contextmenu,paste,inlinepopups,wordcount,autosave",
 	// Theme options
 	theme_advanced_buttons1: "bold,italic,del,ins,|,sub,sup,|,numlist,bullist,|,blockquote,link,unlink,|,code",
 	theme_advanced_buttons2: "",
 	theme_advanced_buttons3: "",
-	theme_advanced_toolbar_location : "top",
-	theme_advanced_toolbar_align : "left",
-	theme_advanced_statusbar_location : "bottom",
-	theme_advanced_resizing : false
+	theme_advanced_toolbar_location: "top",
+	theme_advanced_toolbar_align: "left",
+	theme_advanced_statusbar_location: "bottom",
+	theme_advanced_resizing: false
 });
 });""", location='headbottom')
     ]
