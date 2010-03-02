@@ -1,4 +1,4 @@
-.. _install_apache:
+.. _install_apache-wsgi:
 
 ============================
 Apache & mod_wsgi Deployment
@@ -11,10 +11,10 @@ document. Please refer to the documentation for `Apache
 that.
 
 More detailed instructions can be found in this `blog post
-<http://simplestation.com/locomotion/turbogears-2-tg2-with-mod_wsgi-and-virtual-environments/>`_.
+<http://getmediacore.com/blog/turbogears-2-tg2-with-mod_wsgi-and-virtual-environments/>`_,
 
 Here is an example Apache configuration, assuming you want to deploy to
-``yourdomain.com/media/``. If you'd like to deploy to the root directory,
+``yourdomain.com/my_media/``. If you'd like to deploy to the root directory,
 that can be done as well, but to access static data outside of that
 directory, you must create more exceptions with ``Alias``.
 
@@ -27,8 +27,8 @@ This can be put in your ``httpd.conf`` file:
     WSGIDaemonProcess mcore threads=1 display-name=%{GROUP}
     WSGIProcessGroup mcore
 
-    # Intercept all requests to /media/* and pass them to wsgi-deployment.py
-    WSGIScriptAlias /media/ /path/to/mediacore_install/wsgi-scripts/wsgi-deployment.py
+    # Intercept all requests to /my_media/* and pass them to mediacore.wsgi
+    WSGIScriptAlias /my_media/ /path/to/mediacore_install/deployment-scripts/mediacore.wsgi
 
     # Make the wsgi script accessible
     <Directory /path/to/mediacore_install/wsgi-scripts>
@@ -37,12 +37,12 @@ This can be put in your ``httpd.conf`` file:
     </Directory>
 
     # Create exceptions for all static content
-    Alias /media/styles /path/to/mediacore_install/mediacore/public/styles
-    Alias /media/images /path/to/mediacore_install/mediacore/public/images
-    Alias /media/scripts /path/to/mediacore_install/mediacore/public/scripts
-    Alias /media/admin/styles /path/to/mediacore_install/mediacore/public/admin/styles
-    Alias /media/admin/images /path/to/mediacore_install/mediacore/public/admin/images
-    Alias /media/admin/scripts /path/to/mediacore_install/mediacore/public/admin/scripts
+    Alias /my_media/styles /path/to/mediacore_install/mediacore/public/styles
+    Alias /my_media/images /path/to/mediacore_install/mediacore/public/images
+    Alias /my_media/scripts /path/to/mediacore_install/mediacore/public/scripts
+    Alias /my_media/admin/styles /path/to/mediacore_install/mediacore/public/admin/styles
+    Alias /my_media/admin/images /path/to/mediacore_install/mediacore/public/admin/images
+    Alias /my_media/admin/scripts /path/to/mediacore_install/mediacore/public/admin/scripts
 
     # Make all the static content accessible
     <Directory /path/to/mediacore_install/mediacore/public/*>
@@ -50,11 +50,11 @@ This can be put in your ``httpd.conf`` file:
         Allow from all
     </Directory>
 
-Here is an example for your ``wsgi-deploy.py`` script:
+Here is an example for your ``mediacore.wsgi`` script:
 
 .. sourcecode:: python
 
-    # wsgi-deployment.py
+    # mediacore.wsgi
 
     import os, sys, site
 

@@ -219,5 +219,5 @@ so there are many possible ways to deploy it.
 
 .. toctree::
 
-   apache
+   apache-wsgi
 
