@@ -38,7 +38,7 @@
 			<innerboxtitle>Podcast Series</innerboxtitle>
 			<ul id="podcasts" class="innerbox-list">
 				<li>
-					<span class="podcast-art"><img src="${h.url_for('/images/podcasts/%sm.jpg' % podcast.id)}" width="154" height="154" /></span>
+					<span class="podcast-art"><img src="${h.thumb_url(podcast, 'm')}" width="154" height="154" /></span>
 					<div class="description">
 						<div class="title">${Markup(podcast.title)}</div>
 						<p py:replace="Markup(podcast.description)" />

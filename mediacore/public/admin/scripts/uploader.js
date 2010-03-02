@@ -204,7 +204,7 @@ var Uploader = new Class({
 
 });
 
-var AlbumArtUploader = new Class({
+var ThumbUploader = new Class({
 
 	Extends: Uploader,
 

@@ -71,7 +71,7 @@
 						autoBuffer: ${(autoplay or autobuffer) and 'true' or 'false'}
 					}
 					<py:if test="media.type == 'audio' or not autoplay"
-					       py:with="image = h.media_image_url(media, 'l', qualified=qualified) or h.podcast_image_url(media.podcast, 'l', qualified=qualified)">,
+					       py:with="image = h.thumb_url(media, 'l', qualified=qualified, exists=True) or h.thumb_url(media.podcast, 'l', qualified=qualified, exists=True)">,
 						playlist: [
 							<py:if test="image">{url: '${image}', autoPlay: true, autoBuffer: true},</py:if>
 							'${file.play_url(qualified=qualified)}'
@@ -100,7 +100,7 @@
 			<li py:for="media in episodes">
 				<a href="${h.url_for(controller='/media', action='view', slug=media.slug, podcast_slug=media.podcast.slug)}" class="grid2-link">
 					<span class="grid2-thumb-wrap">
-						<img src="${h.url_for('/images/media/%sss.jpg' % media.id)}" width="128" height="72" alt="${h.decode_entities(media.title)}" class="grid-thumb" />
+						<img src="${h.thumb_url(media, 'ss')}" width="128" height="72" alt="${h.decode_entities(media.title)}" class="grid-thumb" />
 						<py:if test="media.duration">
 							<span class="grid-duration" py:content="h.duration_from_seconds(media.duration)">Duration</span>
 							<span class="grid-duration-right" />
@@ -123,7 +123,7 @@
 			<li py:for="media in media_list">
 				<a href="${h.url_for(slug=media.slug, **url_args)}" title="${h.truncate(media.description_plain, 100)}">
 					<span class="grid-thumb-wrap">
-						<img src="${h.url_for('/images/media/%ss.jpg' % media.id)}" width="162" height="91" alt="${h.decode_entities(media.title)}" class="grid-thumb" />
+						<img src="${h.thumb_url(media, 's')}" width="162" height="91" alt="${h.decode_entities(media.title)}" class="grid-thumb" />
 						<py:if test="media.duration">
 							<span class="grid-duration" py:content="h.duration_from_seconds(media.duration)">Duration</span>
 							<span class="grid-duration-right" />

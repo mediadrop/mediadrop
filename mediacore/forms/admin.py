@@ -25,15 +25,15 @@ class SearchForm(ListForm):
     submit_text = None
 
 
-class AlbumArtForm(ListForm):
-    template = 'mediacore.templates.admin.album-art-form'
-    id = 'album-art-form'
+class ThumbForm(ListForm):
+    template = 'mediacore.templates.admin.thumb-form'
+    id = 'thumb-form'
     css_class = 'form'
     submit_text = None
 
     fields = [
         FileField(
-            'album_art',
+            'thumb',
             validator = FieldStorageUploadConverter(
                 not_empty = True,
                 messages = {

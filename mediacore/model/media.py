@@ -304,6 +304,8 @@ class Media(object):
 
     query = DBSession.query_property(MediaQuery)
 
+    _thumb_dir = 'media'
+
     def __init__(self):
         if self.author is None:
             self.author = Author()
@@ -510,7 +512,7 @@ def create_media_stub():
     This is used any time we need a placeholder db record, such as when:
 
         * Some admin adds a file *before* saving their new media
-        * Some admin uploads album art *before* saving their new media
+        * Some admin uploads a thumbnail *before* saving their new media
 
     """
     user = request.environ['repoze.who.identity']['user']

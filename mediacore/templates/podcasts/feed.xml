@@ -49,14 +49,14 @@
 
 		<itunes:explicit py:content="'no' if podcast.explicit is None else 'yes' if podcast.explicit else 'clean'" />
 
-		<image>
-			<url py:content="h.url_for('/images/podcasts/%ss.jpg' % podcast.id, qualified=True)" />
+		<image py:with="thumb = h.thumb(podcast, 's', qualified=True)">
+			<url py:content="thumb.url" />
 			<title py:content="Markup(podcast.title).stripentities()" />
 			<link py:content="h.url_for(action='view', qualified=True)" />
-			<width>132</width>
-			<height>132</height>
+			<width py:content="thumb.x" />
+			<height py:content="thumb.y" />
 		</image>
-		<itunes:image href="${h.url_for('/images/podcasts/%sl.jpg' % podcast.id, qualified=True)}" />
+		<itunes:image href="${h.thumb_url(podcast, 'l', qualified=True)}" />
 		<!--! iTunes image should be square and 600x600 or larger -->
 
 		<copyright py:content="Markup(podcast.copyright).stripentities()" />
@@ -81,7 +81,8 @@
 			<itunes:subtitle py:if="not media.subtitle" py:content="h.truncate(media.description_plain, 120)" />
 			<itunes:duration py:if="media.duration" py:content="media.duration" />
 			<itunes:keywords py:content="Markup(', '.join(tag.name for tag in media.tags)).stripentities()" />
-			<media:thumbnail url="${h.url_for('/images/media/%sm.jpg' % media.id, qualified=True)}" width="240" height="135" />
+			<media:thumb py:with="thumb = h.thumb(media, 'm', qualified=True)"
+			                 url="${thumb.url}" width="${thumb.x}" height="${thumb.y}" />
 			<py:with vars="files = media.feedable_files">
 				<enclosure py:if="files" py:with="file = files[0]" py:attrs="dict(
 					url = h.url_for(controller='/media', action='serve', id=file.id, type=file.type, slug=media.slug, qualified=True),

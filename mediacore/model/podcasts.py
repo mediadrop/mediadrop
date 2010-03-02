@@ -121,6 +121,8 @@ class Podcast(object):
 
     query = DBSession.query_property()
 
+    _thumb_dir = 'podcasts'
+
     def __repr__(self):
         return '<Podcast: %s>' % self.slug
 
@@ -166,7 +168,7 @@ def create_podcast_stub():
 
     This is used any time we need a placeholder db record, such as when:
 
-        * Some admin uploads album art *before* saving their new media
+        * Some admin uploads a thumbnail *before* saving their new media
 
     """
     user = request.environ['repoze.who.identity']['user']

@@ -35,7 +35,7 @@
 				<tr>
 					<td style="width:180px">
 						<div class="podcast-art">
-							<a href="${h.url_for(action='edit', id=podcast.id)}"><img src="${h.url_for('/images/podcasts/%sm.jpg' % podcast.id)}" width="154" height="154" alt="Album Art" /></a>
+							<a href="${h.url_for(action='edit', id=podcast.id)}"><img src="${h.thumb_url(podcast, 'm')}" width="154" height="154" alt="Thumb" /></a>
 						</div>
 					</td>
 					<td class="podcast-info" style="width:auto">

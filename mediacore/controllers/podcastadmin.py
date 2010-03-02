@@ -29,12 +29,12 @@ from mediacore.lib import helpers
 from mediacore.model import (DBSession, fetch_row, get_available_slug,
     Podcast, Author, AuthorWithIP)
 from mediacore.model.podcasts import create_podcast_stub
-from mediacore.forms.admin import SearchForm, AlbumArtForm
+from mediacore.forms.admin import SearchForm, ThumbForm
 from mediacore.forms.podcasts import PodcastForm
 
 
 podcast_form = PodcastForm()
-album_art_form = AlbumArtForm()
+thumb_form = ThumbForm()
 
 class PodcastadminController(BaseController):
     allow_only = has_permission('admin')
@@ -78,9 +78,9 @@ class PodcastadminController(BaseController):
                 ``str`` form submit url
             form_values
                 ``dict`` form values
-            album_art_form
-                :class:`~mediacore.forms.podcasts.AlbumArtForm` instance
-            album_art_action
+            thumb_form
+                :class:`~mediacore.forms.admin.ThumbForm` instance
+            thumb_action
                 ``str`` form submit url
 
         """
@@ -104,18 +104,18 @@ class PodcastadminController(BaseController):
         )
         form_values.update(values)
 
-        album_art_form_errors = {}
-        if tmpl_context.action == 'save_album_art':
-            album_art_form_errors = tmpl_context.form_errors
+        thumb_form_errors = {}
+        if tmpl_context.action == 'save_thumb':
+            thumb_form_errors = tmpl_context.form_errors
 
         return dict(
             podcast = podcast,
             form = podcast_form,
             form_action = url_for(action='save'),
             form_values = form_values,
-            album_art_form = album_art_form,
-            album_art_action = url_for(action='save_album_art'),
-            album_art_form_errors = album_art_form_errors,
+            thumb_form = thumb_form,
+            thumb_action = url_for(action='save_thumb'),
+            thumb_form_errors = thumb_form_errors,
         )
 
 
@@ -156,9 +156,9 @@ class PodcastadminController(BaseController):
 
 
     @expose(content_type=CUSTOM_CONTENT_TYPE)
-    @validate(album_art_form, error_handler=edit)
-    def save_album_art(self, id, album_art, **values):
-        """Save album art uploaded with :class:`~mediacore.forms.media.AlbumArtForm`.
+    @validate(thumb_form, error_handler=edit)
+    def save_thumb(self, id, thumb, **values):
+        """Save a thumbnail uploaded with :class:`~mediacore.forms.admin.ThumbForm`.
 
         :param id: Media ID. If ``"new"`` a new Media stub is created with
             :func:`~mediacore.model.media.create_podcast_stub`.
@@ -197,26 +197,26 @@ class PodcastadminController(BaseController):
         else:
             podcast = fetch_row(Podcast, id)
 
-        im_path = os.path.join(config.image_dir, 'podcasts/%s%s.%s')
+        im_path = os.path.join(config.image_dir, podcast._thumb_dir, '%s%s.%s')
 
         try:
-            # Create jpeg thumbnails
-            im = Image.open(album_art.file)
+            # Create jpeg thumbs
+            im = Image.open(thumb.file)
 
             if id == 'new':
                 DBSession.add(podcast)
                 DBSession.flush()
 
             # TODO: Allow other formats?
-            for key, dimensions in config.podcast_album_art_sizes.iteritems():
+            for key, xy in config.thumb_sizes[podcast._thumb_dir].iteritems():
                 file_path = im_path % (podcast.id, key, 'jpg')
-                im.resize(dimensions, 1).save(file_path)
+                im.resize(xy, 1).save(file_path)
 
             # Backup the original image just for kicks
-            orig_type = os.path.splitext(album_art.filename)[1].lower()[1:]
+            orig_type = os.path.splitext(thumb.filename)[1].lower()[1:]
             backup_file = open(im_path % (podcast.id, 'orig', orig_type), 'w')
-            copyfileobj(album_art.file, backup_file)
-            album_art.file.close()
+            copyfileobj(thumb.file, backup_file)
+            thumb.file.close()
             backup_file.close()
 
             success = True

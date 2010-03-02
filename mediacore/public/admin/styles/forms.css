@@ -164,13 +164,13 @@ label .field_help {
 	background-image: url('../images/buttons/edit-image.png');
 }
 
-.album-art {
+.thumb {
 	margin: 0 auto 10px auto;
 	border: 5px solid #989790;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
 }
-.album-art img {
+.thumb img {
 	border: 1px solid #fff;
 	display: block;
 }

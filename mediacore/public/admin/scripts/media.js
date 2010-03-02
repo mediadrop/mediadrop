@@ -25,14 +25,14 @@ var MediaManager = new Class({
 	type: '',
 
 	initialize: function(opts){
-		// metaForm, files, uploader, statusForm, albumArtUploader, albumArtImg, isNew, type
+		// metaForm, files, uploader, statusForm, thumbUploader, thumbImg, isNew, type
 		this.metaForm = $(opts.metaForm);
 		this.metaFormPodcastID = this.metaForm.podcast.value;
 		this.statusForm = opts.statusForm;
 		this.files = opts.files;
 		this.uploader = opts.uploader;
-		this.albumArtUploader = opts.albumArtUploader;
-		this.albumArtUploader.uploader.addEvent('fileComplete', this.onAlbumArtUpload.bind(this));
+		this.thumbUploader = opts.thumbUploader;
+		this.thumbUploader.uploader.addEvent('fileComplete', this.onThumbUpload.bind(this));
 		this.files.addEvents({
 			fileAdded: this.onFileAdded.bind(this),
 			fileEdited: this.onFileEdited.bind(this)
@@ -56,8 +56,8 @@ var MediaManager = new Class({
 		var find = /\/new\//, repl = '/' + mediaID + '/';
 		this.metaForm.action = this.metaForm.action.replace(find, repl);
 		this.statusForm.form.action = this.statusForm.form.action.replace(find, repl);
-		this.albumArtUploader.uploader.setOptions({
-			url: this.albumArtUploader.uploader.options.url.replace(find, repl)
+		this.thumbUploader.uploader.setOptions({
+			url: this.thumbUploader.uploader.options.url.replace(find, repl)
 		});
 		this.uploader.uploader.setOptions({
 			url: this.uploader.uploader.options.url.replace(find, repl)
@@ -71,7 +71,7 @@ var MediaManager = new Class({
 		this.statusForm.updateForm(statusFormEl);
 	},
 
-	onAlbumArtUpload: function(file){
+	onThumbUpload: function(file){
 		var json = JSON.decode(file.response.text, true);
 		this.updateFormActions(json.id);
 	},

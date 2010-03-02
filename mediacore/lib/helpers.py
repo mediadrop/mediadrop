@@ -31,6 +31,7 @@ from paste.util import mimeparse
 from routes.util import url_for as _routes_url
 from tg import config, request
 import tg.exceptions
+
 from mediacore.lib.htmlsanitizer import Cleaner, entities_to_unicode as decode_entities, encode_xhtml_entities as encode_entities
 from mediacore.model.settings import fetch_setting
 from mediacore.lib.base import url_for, redirect, expose_xhr
@@ -280,57 +281,80 @@ def list_accepted_extensions():
         e[-1] = 'and ' + e[-1]
     return ', '.join(e)
 
+def _normalize_thumb_item(item):
+    """Pass back the image subdir and id when given a media or podcast."""
+    try:
+        return item._thumb_dir, item.id or 'new'
+    except AttributeError:
+        return item
 
-def media_image_url(media, size='s', qualified=False):
-    """Return a valid relative URL to a given media's album art.
+def thumb_url(item, size, qualified=False, exists=False):
+    """Get the thumbnail url for the given item and size.
 
-    :param media: The media item to display.
-    :type media: :class:`~mediacore.model.media.Media` instance or ID
-    :param size: Size key to display, see ``album_art_sizes`` in
+    :param item: A 2-tuple with a subdir name and an ID. If given a
+        ORM mapped class with _thumb_dir and id attributes, the info
+        can be extracted automatically.
+    :type item: ``tuple`` or mapped class
+    :param size: Size key to display, see ``thumb_sizes`` in
         :mod:`mediacore.config.app_config`
     :type size: str
     :param qualified: If ``True`` return the full URL including the domain.
     :type qualified: bool
-    :returns: A relative or full URL or ``None``.
+    :param exists: If enabled, checks to see if the file actually exists.
+        If it doesn't exist, ``None`` is returned.
+    :type exists: bool
+    :returns: The relative or absolute URL.
+    :rtype: str
 
     """
-    if not media:
+    if not item:
         return None
-    if hasattr(media, 'id'):
-        media = media.id
 
-    image = 'media/%d%s.jpg' % (media, size)
-    file_name = os.path.join(config.image_dir, image)
+    image_dir, item_id = _normalize_thumb_item(item)
+    image = '/images/%s/%s%s.jpg' % (image_dir, item_id, size)
 
-    if not os.path.isfile(file_name):
+    if exists and not os.path.isfile(os.path.join(config.image_dir, image)):
         return None
-    return url_for('/images/' + image, qualified=qualified)
+    return url_for(image, qualified=qualified)
 
-def podcast_image_url(podcast, size='s', qualified=False):
-    """Return a valid relative URL to a given media's album art.
+class ThumbDict(dict):
+    """Dict wrapper with convenient attribute access"""
 
-    :param podcast: The podcast item to display.
-    :type podcast: :class:`~mediacore.model.podcasts.Podcast` instance or ID
-    :param size: Size key to display, see ``podcast_album_art_sizes`` in
+    def __init__(self, url, dimensions):
+        self['url'] = url
+        self['x'], self['y'] = dimensions
+
+    def __getattr__(self, name):
+        return self[name]
+
+def thumb(item, size, qualified=False, exists=False):
+    """Get the thumbnail url & dimensions for the given item and size.
+
+    :param item: A 2-tuple with a subdir name and an ID. If given a
+        ORM mapped class with _thumb_dir and id attributes, the info
+        can be extracted automatically.
+    :type item: ``tuple`` or mapped class
+    :param size: Size key to display, see ``thumb_sizes`` in
         :mod:`mediacore.config.app_config`
     :type size: str
     :param qualified: If ``True`` return the full URL including the domain.
     :type qualified: bool
-    :returns: A relative or full URL or ``None``.
+    :param exists: If enabled, checks to see if the file actually exists.
+        If it doesn't exist, ``None`` is returned.
+    :type exists: bool
+    :returns: The url, width (x) and height (y).
+    :rtype: :class:`ThumbDict` with keys url, x, y OR ``None``
 
     """
-    if not podcast:
+    if not item:
         return None
-    if hasattr(podcast, 'id'):
-        podcast = podcast.id
 
-    image = 'podcasts/%d%s.jpg' % (podcast, size)
-    file_name = os.path.join(config.image_dir, image)
+    image_dir, item_id = _normalize_thumb_item(item)
+    url = thumb_url(item, size, qualified, exists)
 
-    if not os.path.isfile(file_name):
+    if not url:
         return None
-    return url_for('/images/' + image, qualified=qualified)
-
+    return ThumbDict(url, config.thumb_sizes[image_dir][size])
 
 def best_json_content_type(accept=None, raise_exc=True):
     """Return the best possible JSON header we can return for a client.
@@ -368,7 +392,7 @@ def append_class_attr(attrs, class_name):
 
     For example::
 
-        <body py:match="body" py:attrs="h.append_to_class(select('@*'), 'extra_special')">
+        <body py:match="body" py:attrs="h.append_class_attr(select('@*'), 'extra_special')">
 
     :param attrs: A collection of attrs
     :type attrs: :class:`genshi.core.Stream`, :class:`genshi.core.Attrs`,
@@ -388,7 +412,7 @@ def append_class_attr(attrs, class_name):
     return attrs
 
 
-_excess_whitespace = re.compile('\s\s+', re.M)
+excess_whitespace = re.compile('\s\s+', re.M)
 
 def embeddable_player(media):
     """Return a string of XHTML for embedding our player on other sites.
@@ -414,5 +438,5 @@ def embeddable_player(media):
         extra_vars=dict(media=media),
         method='xhtml'
     )
-    xhtml = _excess_whitespace.sub(' ', xhtml)
+    xhtml = excess_whitespace.sub(' ', xhtml)
     return xhtml.strip()

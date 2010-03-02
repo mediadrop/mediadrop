@@ -38,7 +38,7 @@ from mediacore.model import (DBSession, fetch_row, get_available_slug,
 from mediacore.lib import helpers
 from mediacore.model.media import create_media_stub
 from mediacore.controllers.media import _add_new_media_file
-from mediacore.forms.admin import SearchForm, AlbumArtForm
+from mediacore.forms.admin import SearchForm, ThumbForm
 from mediacore.forms.media import (MediaForm, AddFileForm, EditFileForm,
     UpdateStatusForm, PodcastFilterForm)
 
@@ -46,7 +46,7 @@ from mediacore.forms.media import (MediaForm, AddFileForm, EditFileForm,
 media_form = MediaForm()
 add_file_form = AddFileForm()
 edit_file_form = EditFileForm()
-album_art_form = AlbumArtForm()
+thumb_form = ThumbForm()
 update_status_form = UpdateStatusForm()
 search_form = SearchForm(action=url_for(controller='/mediaadmin', action='index'))
 podcast_filter_form = PodcastFilterForm(action=url_for(controller='/mediaadmin', action='index'))
@@ -139,9 +139,9 @@ class MediaadminController(BaseController):
                 The :class:`~mediacore.forms.media.EditFileForm` instance
             file_edit_action
                 ``str`` form submit url
-            album_art_form
-                The :class:`~mediacore.forms.admin.AlbumArtForm` instance
-            album_art_action
+            thumb_form
+                The :class:`~mediacore.forms.admin.ThumbForm` instance
+            thumb_action
                 ``str`` form submit url
             update_status_form
                 The :class:`~mediacore.forms.media.UpdateStatusForm` instance
@@ -187,8 +187,8 @@ class MediaadminController(BaseController):
             file_add_action = url_for(action='add_file'),
             file_edit_form = edit_file_form,
             file_edit_action = url_for(action='edit_file'),
-            album_art_form = album_art_form,
-            album_art_action = url_for(action='save_album_art'),
+            thumb_form = thumb_form,
+            thumb_action = url_for(action='save_thumb'),
             update_status_form = update_status_form,
             update_status_action = url_for(action='update_status'),
         )
@@ -436,9 +436,9 @@ class MediaadminController(BaseController):
 
 
     @expose(content_type=CUSTOM_CONTENT_TYPE)
-    @validate(album_art_form, error_handler=edit)
-    def save_album_art(self, id, album_art, **kwargs):
-        """Save album art uploaded with :class:`~mediacore.forms.media.AlbumArtForm`.
+    @validate(thumb_form, error_handler=edit)
+    def save_thumb(self, id, thumb, **kwargs):
+        """Save a thumbnail uploaded with :class:`~mediacore.forms.admin.ThumbForm`.
 
         :param id: Media ID. If ``"new"`` a new Media stub is created with
             :func:`~mediacore.model.media.create_media_stub`.
@@ -461,26 +461,26 @@ class MediaadminController(BaseController):
         else:
             media = fetch_row(Media, id)
 
-        im_path = os.path.join(config.image_dir, 'media/%s%s.%s')
+        im_path = os.path.join(config.image_dir, media._thumb_dir, '%s%s.%s')
 
         try:
-            # Create thumbnails
-            im = Image.open(album_art.file)
+            # Create thumbs
+            im = Image.open(thumb.file)
 
             if id == 'new':
                 DBSession.add(media)
                 DBSession.flush()
 
             # TODO: Allow other formats?
-            for key, dimensions in config.album_art_sizes.iteritems():
+            for key, xy in config.thumb_sizes[media._thumb_dir].iteritems():
                 file_path = im_path % (media.id, key, 'jpg')
-                im.resize(dimensions, 1).save(file_path)
+                im.resize(xy, 1).save(file_path)
 
             # Backup the original image just for kicks
-            orig_type = os.path.splitext(album_art.filename)[1].lower()[1:]
+            orig_type = os.path.splitext(thumb.filename)[1].lower()[1:]
             backup_file = open(im_path % (media.id, 'orig', orig_type), 'w')
-            copyfileobj(album_art.file, backup_file)
-            album_art.file.close()
+            copyfileobj(thumb.file, backup_file)
+            thumb.file.close()
             backup_file.close()
 
             success = True

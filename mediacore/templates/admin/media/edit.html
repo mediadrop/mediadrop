@@ -32,7 +32,6 @@
 	<script src="${h.url_for('/admin/scripts/slug.js')}" type="text/javascript"></script>
 	<script src="${h.url_for('/scripts/third-party/squeezebox-1.1-rc4-yui-compressed.js')}" type="text/javascript"></script>
 	<link href="${h.url_for('/admin/styles/squeezebox.css')}" media="screen" rel="stylesheet" type="text/css" />
-<!--!	<script src="${h.url_for('/admin/scripts/album-art.js')}" type="text/javascript"></script>-->
 	<script type="text/javascript" src="${h.url_for('/admin/scripts/confirm.js')}"></script>
 	<script type="text/javascript" src="${h.url_for('/admin/scripts/media.js')}"></script>
 	<script type="text/javascript">
@@ -53,12 +52,12 @@
 					typeFilter: '${'; '.join(['*.'+x for x in h.accepted_extensions()])}'
 				}
 			});
-			var albumArtUploader = new AlbumArtUploader({
-				image: 'album-art-img',
+			var thumbUploader = new ThumbUploader({
+				image: 'thumb-img',
 				updateFormActionsOnSubmit: false,
-				target: 'album_art',
+				target: 'thumb',
 				uploadBtn: {text: 'Upload image', 'class': 'mo btn-upload-image', styles: {margin: '0 auto'}},
-				statusContainer: 'album-art-upload',
+				statusContainer: 'thumb-upload',
 				fxProgressBar: {url: '${h.url_for('/admin/images/progressbar/progress.png')}'},
 				uploader: {
 					path: '${h.url_for('/scripts/third-party/Swiff.Uploader.swf')}',
@@ -81,8 +80,8 @@
 				files: filemgr,
 				uploader: mediaUploader,
 				statusForm: publishStatus,
-				albumArtUploader: albumArtUploader,
-				albumArtImg: 'album-art-img',
+				thumbUploader: thumbUploader,
+				thumbImg: 'thumb-img',
 				isNew: ${int(media.id is None)},
 				type: ${"'%s'" % media.type if media.type else 'null'}
 			});
@@ -124,17 +123,17 @@
 		</div>
 
 		<div class="box">
-			<h1 class="box-head">Album Art</h1>
+			<h1 class="box-head">Thumbnail</h1>
 			<div class="box-content">
-				<div class="album-art" style="width:130px">
-					<img src="${h.url_for('/images/media/%sss.jpg' % (media.id if media.id else 'new'))}"
-					     width="128" height="72" alt="Album Art" id="album-art-img" />
+				<div class="thumb" py:with="thumb = h.thumb(media, 'ss')" style="width:${thumb.x + 2}px">
+					<img id="thumb-img" alt="Thumb"
+					     src="${thumb.url}" width="${thumb.x}" height="${thumb.y}" />
 				</div>
 				<div class="center">
-					<form py:replace="XML(album_art_form(css_class='center', action=album_art_action))" />
+					<form py:replace="XML(thumb_form(css_class='center', action=thumb_action))" />
 				</div>
 			</div>
-			<div id="album-art-upload" class="upload-status">
+			<div id="thumb-upload" class="upload-status">
 				<div class="upload-file hidden" />
 				<div class="upload-progress hidden">
 					<img src="${h.url_for('/admin/images/progressbar/bar.png')}" width="238" height="12" />
