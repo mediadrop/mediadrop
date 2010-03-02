@@ -155,3 +155,6 @@ base_config.thumb_sizes = { # the dimensions (in pixels) to scale thumbnails
         'l': (600, 600),
     },
 }
+
+# The max number of results to return for any api listing
+base_config.api_media_max_results = 20

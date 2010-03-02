@@ -121,6 +121,13 @@ def make_map():
         controller='categoryadmin',
         requirements={'category': 'topics|tags'})
 
+    ##############
+    # API routes #
+    ##############
+
+    map.connect('/api/media/{action}',
+        controller='media_api',
+        action='index')
 
     # Fallback Routes
     map.connect('/{controller}/{action}',
