@@ -46,8 +46,9 @@ By the time you're done installing you will also have:
 
 * The python ``virtualenv`` package
 * The python ``MySQLdb`` database adapter
-* To run on Apache, the ``mod_wsgi`` module
-
+* To run on Apache, either
+  * the Apache ``mod_wsgi`` module, or
+  * the python ``flup`` package and the Apache  ``mod_fastcgi`` module
 
 A Note for Mac OS X Users
 -------------------------
@@ -220,4 +221,5 @@ so there are many possible ways to deploy it.
 .. toctree::
 
    apache-wsgi
+   apache-fastcgi
 
