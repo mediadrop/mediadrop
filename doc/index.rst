@@ -15,6 +15,7 @@ Contents
    install/index
    user/index
    dev/index
+   debugging/index
    glossary
 
 

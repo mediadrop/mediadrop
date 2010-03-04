@@ -4,8 +4,14 @@
 Installation
 ============
 
-Requirements
-------------
+This is a full walkthrough of how to get Virtualenv / TurboGears / MediaCore
+running.
+
+Experienced TG2 users can check out the :ref:`install_overview` page for a
+(very) condensed version of the instructions.
+
+Step 0: Requirements
+--------------------
 
 MediaCore runs on \*nix operating systems. We've tested CentOS and
 Mac OS X, but any Linux or BSD based OS should work just fine.
@@ -26,28 +32,8 @@ You will also need:
   Python packages to install properly.
 
 
-Quick Overview
---------------
-
-If you're already familiar with installing Pylons/Turbogears apps, here's a
-six-step run-down of how to install MediaCore. If you're not already familiar
-with the process, skip down to `Virtual Environments`_ for a more detailed
-description of the process.
-
-1. Create and activate a new ``virtualenv``.
-2. Run ``python setup.py develop`` to install MediaCore and its
-   dependencies.
-3. For production, run ``paster make-config mediacore deployment.ini``
-   and to create a unique ``deployment.ini`` config. On development
-   machines there's already a ``development.ini`` file for you to use.
-4. Configure your database credentials in the ini config file.
-5. Import ``setup.sql`` using ``mysqlimport``, phpMyAdmin or any other
-   tool.
-6. Run ``paster serve path/to/your/config.ini`` and test it out!
-
-
-Requirements Note for Mac OS X Users
-------------------------------------
+Step 0.1: Requirements Installation on OS X
+-------------------------------------------
 
 As mentioned above, you need to have GCC installed for some of MediaCore's
 dependencies to be able to compile. For Mac OS X users, that means installing
@@ -79,44 +65,51 @@ To install MySQL 5 and Python 2.5 once MacPorts is installed:
     ln -s /opt/local/bin/mysql_config5 /opt/local/bin/mysql_config
 
 
-Virtual Environments
---------------------
+Step 1: Setup a Python Virtual Environment
+------------------------------------------
 
-We strongly recommend running MediaCore inside its own ``virtualenv``.
-Each virtual environment is compartmentalized, allowing you to run
-different versions of the same package for different apps and
-situations. It helps keep everything organized and will someday save you
-a headache, so if you haven't already, install it now!
+If you haven't heard of them, Virtual Environments are a way to keep
+installations of multiple Python applications from interfering with each
+other.
+
+This means you can install MediaCore and all of its dependencies without
+worrying about overwriting any existing versions of Python libraries.
 
 .. sourcecode:: bash
+
+   # Check if you have virtualenv installed:
+   virtualenv
+
+   # If you get an error like the following, you'll need to install it:
+   # -bash: virtualenv: command not found
 
    # To install virtualenv:
-   $ sudo easy_install virtualenv
+   sudo easy_install virtualenv
 
-   # Or, on Mac OSX with MacPorts:
-   $ sudo port -v install py25-virtualenv
+   # Or, on Mac OS X with MacPorts:
+   sudo port -v install py25-virtualenv
 
-Once that's done you can create your new virtual environment:
+Once that's done you can create your new virtual environment. The following
+command will create a folder named ``mediacore_env`` in the current directory.
+You can put this folder anywhere, but remember where it is--we'll need to
+point to it later.
 
 .. sourcecode:: bash
 
-   # To create a virtual environment:
-   $ virtualenv --no-site-packages mediacore_env
+   # Create a new virtual environment:
+   virtualenv --no-site-packages mediacore_env
 
-   # Or, for Apache+mod_wsgi deployments:
-   $ virtualenv mediacore_env
-
-   # Then, to activate that virtual environment:
-   $ cd mediacore_env
-   $ source bin/activate
-
-Now that you're in a newly created virtual environment, any packages you
-install will only be accessible when you've activated the environment as
-we just did.
+   # Now, activate that virtual environment:
+   source mediacore_env/bin/activate
 
 
-Installing MediaCore and its dependencies
------------------------------------------
+Now that you've activated the newly created virtual environment, any packages
+you install will only be accessible when you've activated the environment as
+we just did in the line above.
+
+
+Step 2: Install MediaCore
+-------------------------
 
 You can get MediaCore by `downloading it from our site
 <http://getmediacore.com/download>`_ or, for those familiar with Git
@@ -130,18 +123,37 @@ for MediaCore:
 .. sourcecode:: bash
 
    # If you've just downloaded a source distribution:
-   $ tar xzvf MediaCore-0.7.2.tar.gz
-   $ cd MediaCore-0.7.2
-   $ python setup.py develop
+   tar xzvf MediaCore-0.7.2.tar.gz
+   cd MediaCore-0.7.2
+   python setup.py develop
 
    # Or, for developers especially, but anyone familiar with Git:
-   $ git clone git://github.com/simplestation/mediacore.git
-   $ cd mediacore
-   $ python setup.py develop
+   git clone git://github.com/simplestation/mediacore.git
+   cd mediacore
+   python setup.py develop
 
 
-Configuring Your New Deployment
--------------------------------
+Step 3: Setup the Database
+--------------------------
+
+MediaCore comes with a ``setup.sql`` script to populate a database with
+tables and some basic data. You'll need to create a database for it,
+then import that script. This can be done in a variety of ways, including
+phpMyAdmin, CocoaMySQL, or the command line:
+
+.. sourcecode:: bash
+
+   # Import into an already existing database called mediacore:
+   mysql -u root -p mediacore < setup.sql
+
+You can now edit your INI config file to point to this new database.
+Look for the ``sqlalchemy.url`` setting. The format should be pretty
+self-explanatory, most users will just have to edit the username,
+password and dbname parts.
+
+
+Step 4: Preliminary Configuration
+---------------------------------
 
 The standard with TurboGears/Pylons-based apps is to have a separate ini
 config file for each deployment or installation of the app.
@@ -156,7 +168,7 @@ among other things.
 .. sourcecode:: bash
 
    # To create deployment.ini in your current dir:
-   $ paster make-config MediaCore deployment.ini
+   paster make-config MediaCore deployment.ini
 
 Open it up and have a look through. The default settings should get you
 started, only the database needs to be setup, which we'll do in the
@@ -167,27 +179,8 @@ by the server. Inside the ``image_dir``, make the ``media`` and
 ``podcasts`` folders writable as well.
 
 
-Database Setup
---------------
-
-MediaCore comes with a ``setup.sql`` script to populate a database with
-tables and some basic data. You'll need to create a database for it,
-then import that script. This can be done in a variety of ways, including
-phpMyAdmin, CocoaMySQL, or the command line:
-
-.. sourcecode:: bash
-
-   # Import into an already existing database called mediacore:
-   $ mysql -u root -p mediacore < setup.sql
-
-You can now edit your INI config file to point to this new database.
-Look for the ``sqlalchemy.url`` setting. The format should be pretty
-self-explanatory, most users will just have to edit the username,
-password and dbname parts.
-
-
-Launching the Built-in Server
------------------------------
+Step 5: Launch the Built-in Server
+----------------------------------
 
 Now that MediaCore itself is installed and the basics are configured,
 we can test it out using the Paste server. It's bundled with TG/Pylons
@@ -195,7 +188,7 @@ so you have it already, simply run:
 
 .. sourcecode:: bash
 
-   $ paster serve --reload development.ini
+   paster serve --reload development.ini
 
 Now open http://localhost:8080/ to see how it works! You can try access
 the admin at http://localhost:8080/admin/ with username admin, password
@@ -206,14 +199,8 @@ If this produces errors then MediaCore or one of its dependencies is not
 setup correctly. Please feel free to ask questions and submit solutions
 via our `community forums <http://getmediacore.com/>`_.
 
-If this is your development machine, you're good to go. There are
-lots of really cool features when debug mode is on (set in the ini
-config), like interactive web-based debugging when an exception occurs.
-You can view the entire stack trace, with local variables and their
-values, and even execute code in any context of the trace. Also,
-if you have ipython installed, try calling ``mediacore.ipython()()``
-at some point in your code; it'll act as a breakpoint where it opens
-an ipython shell with the local scope for you to play with.
+If this is your development machine, you're good to go.
+
 
 
 Further Steps for Production
