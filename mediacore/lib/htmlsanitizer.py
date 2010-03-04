@@ -169,7 +169,7 @@ class Cleaner(object):
         self.settings.update(kwargs)
         if args :
             self.settings['filters'] = args
-        super(Cleaner, self).__init__(string_or_soup, *args, **kwargs)
+        super(Cleaner, self).__init__()
         self.string = string_or_soup
 
     def __call__(self, string = None, **kwargs):

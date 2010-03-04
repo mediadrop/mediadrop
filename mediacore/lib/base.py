@@ -151,7 +151,7 @@ class BaseController(RoutingController):
                 # TODO: Add error reporting here.
                 pass
 
-        super(BaseController, self).__init__(self, *args, **kwargs)
+        super(BaseController, self).__init__(*args, **kwargs)
 
     def update_external_template(self, tmpl_url, tmpl_name, timeout):
         """Conditionally fetch and cache the remote template.
