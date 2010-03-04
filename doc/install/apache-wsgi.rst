@@ -4,31 +4,86 @@
 Apache & mod_wsgi Deployment
 ============================
 
-Installation of Apache and mod_wsgi is beyond the scope of this
-document. Please refer to the documentation for `Apache
-<http://httpd.apache.org/>`_ and `mod_wsgi
-<http://code.google.com/p/modwsgi/wiki/InstallationInstructions>`_ for
-that.
+**NOTE 1:** This tutorial assumes that you already have Apache and mod_wsgi installed.
+If you're on a shared hosting platform, and don't have the ability to install
+mod_wsgi, have no fear. Your hosting provider probably already supports
+mod_fastcgi so check out the :ref:`install_apache-fastcgi` tutorial.
 
-More detailed instructions can be found in this `blog post
-<http://getmediacore.com/blog/turbogears-2-tg2-with-mod_wsgi-and-virtual-environments/>`_,
+**NOTE 2:** If you're administrating your own system and looking for pointers on how
+to get mod_wsgi installed, check out the developer's site; the documentation is
+verbose, but very complete: `mod_wsgi main site
+<http://code.google.com/p/modwsgi/wiki/InstallationInstructions>`_.
 
-Here is an example Apache configuration, assuming you want to deploy to
-``yourdomain.com/my_media/``. If you'd like to deploy to the root directory,
-that can be done as well, but to access static data outside of that
-directory, you must create more exceptions with ``Alias``.
+Components
+----------
+The following five components are involved in getting web requests through to
+mediacore with this setup. Don't worry if this sounds like a lot! By this
+stage you already have three, and the remaining ones are very easy to set up.
 
-This can be put in your ``httpd.conf`` file:
+``Apache``
+   the web server
+
+``mod_wsgi``
+   Apache module that lets Apache host WSGI enabled Python applications
+
+``httpd.conf``
+   Your apache configuration; tells mod_wsgi how to run your app
+
+``mediacore.wsgi``
+   The script that runs mediacore as a WSGI application
+
+``mediacore``
+   the reason we're here!
+
+Instructions
+------------
+**NOTE:** The following instructions assume that you're deploying MediaCore to
+``http://yourdomain.com/my_media/``. To deploy mediacore to the root directory
+of your website, see the instructions at the bottom of the page.
+
+We will not actually be creating a ``my_media`` directory, but we will use
+aliases in the Apache config to make sure that requests to
+``http://yourdomain.com/my_media/`` are passed to MediaCore.
+
+First, TODO: BLAH BLAH BLAH CREATE TEMP FOLDER AND PYTHON-EGG CACHE
+
+Second, you'll need to edit the paths in ``/path/to/mediacore/install/deployment-scripts/mod_wsgi/mediacore.wsgi``
+to point to your own mediacore installation and virtual environment. The
+**two (2)** lines you need to edit are at the top of the file, and look like
+this:
+
+.. sourcecode:: python
+
+   deployment_config = '/path/to/mediacore_install/deployment.ini'
+   temp_dir = '/path/to/mediacore_install/data/tmp'
+
+Finally, you will need to add the following lines to your Apache configuration.
+Depending on your setup, you may want to add it to the main ``httpd.conf`` file,
+or inside a VirtualHost include.
+
+Make sure that you replace all references to ``/path/to/mediacore_install/``
+and ``/path/to/mediacore_env`` with the correct paths for your own MediaCore
+installation and virtual environment.
 
 .. sourcecode:: apacheconf
 
-    # You can tweak this next line to your heart's content based on the mod_wsgi documentation
-    # but this should work for now.
-    WSGIDaemonProcess mcore threads=1 display-name=%{GROUP}
+    # You can tweak the WSGIDaemonProcess directive for performance, but this
+    # will work for now.
+    # Relevant doc pages:
+    #     http://code.google.com/p/modwsgi/wiki/ProcessesAndThreading
+    #     http://code.google.com/p/modwsgi/wiki/ConfigurationDirectives#WSGIDaemonProcess
+    # Hint: pay attention to issues surrounding worker-mpm and prefork-mpm.
+
+    WSGIDaemonProcess mcore \
+        threads=1 \
+        display-name=%{GROUP} \
+        python-path=/path/to/mediacore_env/lib/python2.5/site-packages \
+        python-eggs=/path/to/mediacore_install/python-egg-cache
+
     WSGIProcessGroup mcore
 
     # Intercept all requests to /my_media/* and pass them to mediacore.wsgi
-    WSGIScriptAlias /my_media/ /path/to/mediacore_install/deployment-scripts/mediacore.wsgi
+    WSGIScriptAlias /my_media/ /path/to/mediacore_install/deployment-scripts/mod_wsgi/mediacore.wsgi
 
     # Make the wsgi script accessible
     <Directory /path/to/mediacore_install/wsgi-scripts>
@@ -37,35 +92,11 @@ This can be put in your ``httpd.conf`` file:
     </Directory>
 
     # Create exceptions for all static content
-    Alias /my_media/styles /path/to/mediacore_install/mediacore/public/styles
-    Alias /my_media/images /path/to/mediacore_install/mediacore/public/images
-    Alias /my_media/scripts /path/to/mediacore_install/mediacore/public/scripts
-    Alias /my_media/admin/styles /path/to/mediacore_install/mediacore/public/admin/styles
-    Alias /my_media/admin/images /path/to/mediacore_install/mediacore/public/admin/images
-    Alias /my_media/admin/scripts /path/to/mediacore_install/mediacore/public/admin/scripts
+    AliasMatch /my_media(/admin)/(images|scripts|styles)(/?.*) /path/to/mediacore_install/mediacore/public$1/$2$3
 
     # Make all the static content accessible
     <Directory /path/to/mediacore_install/mediacore/public/*>
         Order allow,deny
         Allow from all
     </Directory>
-
-Here is an example for your ``mediacore.wsgi`` script:
-
-.. sourcecode:: python
-
-    # mediacore.wsgi
-
-    import os, sys, site
-
-    # Make this folder writable by apache
-    os.environ['PYTHON_EGG_CACHE'] = '/path/to/mediacore_install/python-wsgi-egg-cache'
-
-    sd = '/path/to/mediacore_env/lib/python2.5/site-packages/'
-    site.addsitedir(sd)
-
-    from mediacore import debug
-    from paste.deploy import loadapp
-
-    application = loadapp('config:/path/to/mediacore_install/deployment.ini')
 
