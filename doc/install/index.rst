@@ -4,16 +4,35 @@
 Installation
 ============
 
-Getting started with Python web apps can sometimes be a little
-overwhelming, but we've tried to streamline the process as much as
-possible.
+Requirements
+------------
+
+MediaCore runs on \*nix operating systems. We've tested CentOS and
+Mac OS X, but any Linux or BSD based OS should work just fine.
+
+If you run Windows and want to try MediaCore, you have two options:
+
+* If you're an experienced developer, try your hand at translating MediaCore
+  and its installation process to a Windows environment. It's probably not
+  that different. We'd love to hear how you did it.
+* Find a cheap web host that offers Apache, FastCGI, and SSH support, and
+  install it on there.
+
+You will also need:
+
+* Python 2.5.x or newer
+* MySQL 5.0.x or newer
+* GCC must be installed and available on your ``$PATH`` for certain required
+  Python packages to install properly.
 
 
 Quick Overview
 --------------
 
-For those already familiar with installing Pylons/TurboGears apps, the
-process will be very familiar:
+If you're already familiar with installing Pylons/Turbogears apps, here's a
+six-step run-down of how to install MediaCore. If you're not already familiar
+with the process, skip down to `Virtual Environments`_ for a more detailed
+description of the process.
 
 1. Create and activate a new ``virtualenv``.
 2. Run ``python setup.py develop`` to install MediaCore and its
@@ -27,52 +46,37 @@ process will be very familiar:
 6. Run ``paster serve path/to/your/config.ini`` and test it out!
 
 
-Requirements
-------------
+Requirements Note for Mac OS X Users
+------------------------------------
 
-MediaCore must be run on a \*nix operating system. We've got it running
-on CentOS and Mac OS X without issue. Windows is unsupported at this
-time.
+As mentioned above, you need to have GCC installed for some of MediaCore's
+dependencies to be able to compile. For Mac OS X users, that means installing
+`Xcode <http://developer.apple.com/tools/xcode/>`_.
 
-This guide assumes that you already have installed:
+For the MySQL and Python requirements, we recommend using `MacPorts <http://www.macports.org/>`_.
+Mac OS X ships with versions of MySQL and Python installed, but we find it is
+simpler and more reliable to have your own versions installed in a separate
+place. Macports will (by default) install packages to ``/opt/local``, keeping itself
+completely separate from any previously installed packages that OS X needs to
+function.
 
-* Python 2.5.x or newer
-* MySQL 5.0.x or newer
-* GCC must be installed on your ``$PATH`` for certain dependencies to
-  compile automatically. For Mac OS X users, that means installing
-  `Xcode <http://developer.apple.com/tools/xcode/>`_.
+TODO: Explain how to install macports, and note that you'll have to port selfupdate or something. check with stuart.
 
-By the time you're done installing you will also have:
-
-* The python ``virtualenv`` package
-* The python ``MySQLdb`` database adapter
-* To run on Apache, either
-  * the Apache ``mod_wsgi`` module, or
-  * the python ``flup`` package and the Apache  ``mod_fastcgi`` module
-
-A Note for Mac OS X Users
--------------------------
-
-Besides `Xcode <http://developer.apple.com/tools/xcode/>`_, you'll also
-need an up to date version of MySQL -- we recommend that you not use
-the version that is bundled with Mac OS X. The easiest way to install
-is via `MacPorts <http://www.macports.org/>`_.
+To install MySQL 5 and Python 2.5 once MacPorts is installed:
 
 .. sourcecode:: bash
 
-    # If you haven't installed MySQL5 yet, do so via MacPorts:
-    $ sudo port install mysql5-server
-
-When it comes time for the MySQL-python bindings to be installed,
-the correct ``mysql_config`` file must be on your ``$PATH``:
-
-.. sourcecode:: bash
-
-    # Run this and add it to your ~/.profile
+    # Add the MacPorts executable path to your $PATH:
     export PATH=$PATH:/opt/local/bin
 
-    # MacPorts calls this mysql_config5, lets symlink it to mysql_config:
-    $ ln -s /opt/local/bin/mysql_config5 /opt/local/bin/mysql_config
+    # Ensure that it's always on your $PATH
+    echo "export PATH=\$PATH:/opt/local/bin" > ~/.profile
+
+    # Install MySQL5 and Python2.5
+    sudo port install mysql5-server python25
+
+    # Put a link to mysql_config where other programs will expect to find it
+    ln -s /opt/local/bin/mysql_config5 /opt/local/bin/mysql_config
 
 
 Virtual Environments
@@ -109,6 +113,7 @@ Once that's done you can create your new virtual environment:
 Now that you're in a newly created virtual environment, any packages you
 install will only be accessible when you've activated the environment as
 we just did.
+
 
 Installing MediaCore and its dependencies
 -----------------------------------------
@@ -215,11 +220,22 @@ Further Steps for Production
 ----------------------------
 
 The built-in Paste server does a great job for development, but usually
-people demand more in production environments. MediaCore is WSGI-based
-so there are many possible ways to deploy it.
+people demand more in production environments.
+
+MediaCore is WSGI-based so there are many possible ways to deploy it.
+Below are two of the most popular methods:
+
+``mod_fastcgi`` is simplest and will work with most shared hosting
+environments, so long as the server has ``mod_fastcgi`` installed.
+
+.. toctree::
+
+    apache-fastcgi
+
+``mod_wsgi`` requires root access on your server, but can be tuned
+for better performance than ``mod_fastcgi``.
 
 .. toctree::
 
    apache-wsgi
-   apache-fastcgi
 
