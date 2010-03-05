@@ -188,101 +188,6 @@ class MediaController(BaseController):
             next_episode = next_episode,
         )
 
-    @expose('json')
-    def latest(self, type=None, podcast=None, ignore=None,
-               topic=None, tag=None, **kwargs):
-        """Expose basic info of the latest media object.
-
-        .. todo:: Work this into a more general, documented API scheme.
-
-        :param type: ``audio``, ``video``, or ``None`` for either
-        :param podcast: A :attr:`mediacore.model.podcasts.Podcast.slug`
-            or empty string.
-        :param topic: A topic slug
-        :param ignore: A slug (or slugs, separated by whitespace)
-            to always exclude from results. This allows us to fetch
-            two DIFFERENT results when calling this action twice.
-        :rtype: JSON dict
-
-        """
-        media_query = Media.query\
-            .published()\
-            .order_by(Media.publish_on.desc())\
-            .options(orm.undefer('comment_count_published'))
-
-        if type:
-            media_query = media_query.filter(Media.type == type)
-
-        # Filter by podcast, if podcast slug provided
-        if podcast != None:
-            if podcast == '':
-                media_query = media_query\
-                    .filter(Media.podcast_id == None)
-            else:
-                podcast = fetch_row(Podcast, slug=podcast)
-                media_query = media_query\
-                    .filter(Media.podcast_id == podcast.id)
-
-        # Filter by topic, if topic slug provided
-        if topic:
-            topic = fetch_row(Topic, slug=topic)
-            media_query = media_query\
-                .filter(Media.topics.contains(topic))
-
-        # Filter by tag, if tag slug provided
-        if tag:
-            tag = fetch_row(Tag, slug=tag)
-            media_query = media_query\
-                .filter(Media.tags.contains(tag))
-
-        # Filter out a media item we don't like
-        if ignore:
-            ignore = ignore.split(' ')
-            media_query = media_query.filter(sql.not_(Media.slug.in_(ignore)))
-
-        # get the actual object (hope there is one!)
-        media = media_query.first()
-
-        return self._jsonify(media)
-
-    @expose('json')
-    def most_popular(self, **kwargs):
-        """Expose basic info of the latest media object.
-
-        .. todo:: Work this into a more general, documented API scheme.
-
-        :rtype: JSON dict
-
-        """
-        media = Media.query\
-            .published()\
-            .filter(Media.publish_on <= datetime.now() - timedelta(weeks=3))\
-            .order_by(Media.views.desc())\
-            .first()
-        return self._jsonify(media)
-
-    def _jsonify(self, media):
-        im_path = '/images/media/%d%%s.jpg' % media.id
-
-        if media.podcast_id:
-            media_url = url_for(controller='/media', action='view', slug=media.slug,
-                                podcast_slug=media.podcast.slug)
-        else:
-            media_url = url_for(controller="/media", action="view", slug=media.slug)
-
-        return dict(
-            title = media.title,
-            description = media.description,
-            description_plain = media.description_plain,
-            img_l = url_for(im_path % 'l'),
-            img_m = url_for(im_path % 'm'),
-            img_s = url_for(im_path % 's'),
-            img_ss = url_for(im_path % 'ss'),
-            id = media.id,
-            slug = media.slug,
-            url = media_url,
-            podcast = media.podcast and media.podcast.slug or None,
-        )
 
     @expose_xhr()
     def rate(self, slug, **kwargs):
@@ -742,4 +647,3 @@ def _verify_ftp_upload_integrity(file, file_url):
 
     raise FTPUploadException(
         'Could not download the file after %d attempts' % max)
-
