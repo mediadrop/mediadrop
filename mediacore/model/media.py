@@ -472,7 +472,7 @@ class Media(object):
         None, if no files are of a type other than flv.
         """
         for file in self.files:
-            if file.type != 'flv':
+            if not file.is_embeddable and file.type != 'flv':
                 return file
         return None
 
