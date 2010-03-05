@@ -13,9 +13,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-"""
-Publicly Facing Media Controllers
-"""
 import simplejson as json
 import time
 from urlparse import urlparse
@@ -31,7 +28,7 @@ from mediacore.model import (DBSession, fetch_row, get_available_slug,
     Media, Tag, Topic, Podcast)
 from mediacore.lib import helpers
 
-class APIUserException(Exception):
+class APIException(Exception):
     """
     API Usage Error -- wrapper for providing helpful error messages.
     TODO: Actually display these messages!!
@@ -51,35 +48,86 @@ order_columns = {
 }
 
 class MediaApiController(BaseController):
-    """Media actions -- for both regular and podcast media"""
+    """
+    JSON Media API
+    """
 
     @expose('json')
     def index(self, type=None, podcast=None, tag=None, topic=None, search=None,
-              order=None, offset=0, per_page=10, **kwargs):
-        """Query the media list.
+              max_age=None, min_age=None, order=None, offset=0, limit=10,
+              published_after=None, published_before=None, **kwargs):
+        """Query for a list of media.
 
-        :param type: 'audio' or 'video'. Defaults to any type.
-        :param order: A column name and 'asc' or 'desc', seperated by a
-            space. The column name can be any one of the returned columns.
-            Defaults to newest media first (publish_on desc).
-        :param search: A boolean search query. See
+        :param type:
+            Filter by 'audio' or 'video'. Defaults to any type.
+
+        :param podcast:
+            A podcast slug to filter by. Use 0 to include
+            only non-podcast media or 1 to include any podcast media.
+
+        :param tag:
+            A tag slug to filter by.
+
+        :param topic:
+            A topic slug to filter by.
+
+        :param search:
+            A boolean search query. See
             http://dev.mysql.com/doc/refman/5.0/en/fulltext-boolean.html
-        :param podcast: A podcast slug to filter by. Use 0 to include
-            only non-podcast media.
-        :param tag: A tag slug to filter by.
-        :param topic: A topic slug to filter by.
-        :param offset: Where in the resultset to start when returning results.
-            Defaults to 0, the very beginning.
+
+        :param published_after:
+            If given, only media published *on or after* this date is
+            returned. The expected format is 'YYYY-MM-DD HH:MM:SS' and
+            must include the year at a bare minimum.
+
+        :param published_before:
+            If given, only media published *on or before* this date is
+            returned. The expected format is 'YYYY-MM-DD HH:MM:SS' and
+            must include the year at a bare minimum.
+
+        :param max_age:
+            If given, only media published within this many days is
+            returned. This is a convenience shortcut for publish_after
+            and will override its value if both are given.
+        :type max_age: int
+
+        :param min_age:
+            If given, only media published prior to this number of days
+            ago will be returned. This is a convenience shortcut for
+            publish_before and will override its value if both are given.
+        :type min_age: int
+
+        :param order:
+            A column name and 'asc' or 'desc', seperated by a space.
+            The column name can be any one of the returned columns.
+            Defaults to newest media first (publish_on desc).
+
+        :param offset:
+            Where in the complete resultset to start returning results.
+            Defaults to 0, the very beginning. This is useful if you've
+            already fetched the first 50 results and want to fetch the
+            next 50 and so on.
         :type offset: int
-        :param per_page: Number of results to return in each query.
-            Defaults to 10. The maximum allowed value is set in
-            :attr:`mediacore.config.app_config.api_max_results`,
-            which is 20 by default.
-        :type per_page: int
-        :returns: JSON dict
+
+        :param limit:
+            Number of results to return in each query. Defaults to 10.
+            The maximum allowed value defaults to 50 and is set via
+            :attr:`mediacore.config.app_config.api_media_max_results`.
+        :type limit: int
+
+        :raises APIException:
+            If there is an user error in the query params.
+
+        :rtype: JSON dict
+        :returns:
+            count
+                The total number of results that match this query.
+            media
+                A list of media info objects.
 
         """
-        query = Media.query.published()\
+        query = Media.query\
+            .published()\
             .options(orm.undefer('comment_count_published'))
 
         # Basic filters
@@ -97,6 +145,20 @@ class MediaApiController(BaseController):
         if topic:
             topic = fetch_row(Topic, slug=topic)
             query = query.filter(Media.topics.contains(topic))
+
+        if max_age:
+            published_after = datetime.now() - timedelta(days=int(max_age))
+        if min_age:
+            published_before = datetime.now() - timedelta(days=int(min_age))
+
+        # FIXME: Parse the date and catch formatting problems before it
+        #        it hits the database. Right now support for partial
+        #        dates like '2010-02' is thanks to leniancy in MySQL.
+        #        Hopefully this leniancy is common to Postgres etc.
+        if published_after:
+            query = query.filter(Media.publish_on >= published_after)
+        if published_before:
+            query = query.filter(Media.publish_on <= published_before)
 
         # Split the order into two parts, column and direction
         if not order:
@@ -116,7 +178,7 @@ class MediaApiController(BaseController):
 
         # Normalize to something that can be used in a query
         if isinstance(order_attr, basestring):
-            order = sql.text(order_attr % ('asc' if order_dir == 'asc' else 'desc'))
+            order = sql.text(order_attr % (order_dir == 'asc' and 'asc' or 'desc'))
         else:
             # Assume this is an sqlalchemy InstrumentedAttribute
             order = getattr(order_attr, order_dir)()
@@ -131,7 +193,7 @@ class MediaApiController(BaseController):
 
         # Rudimentary pagination support
         start = int(offset)
-        end = start + min(int(per_page), int(config.api_media_max_results))
+        end = start + min(int(limit), int(config.api_media_max_results))
 
         media = [self._info(m, podcast_slugs) for m in query[start:end]]
 
@@ -143,9 +205,9 @@ class MediaApiController(BaseController):
 
     @expose('json')
     def get(self, id=None, slug=None, **kwargs):
-        """Expose info on a specific media item, found by ID or slug.
+        """Expose info on a specific media item by ID or slug.
 
-        :param id: A :attr:`mediacore.model.media.Media.slug` for lookup
+        :param id: A :attr:`mediacore.model.media.Media.id` for lookup
         :type id: int
         :param slug: A :attr:`mediacore.model.media.Media.slug` for lookup
         :type slug: str
@@ -201,6 +263,7 @@ class MediaApiController(BaseController):
             description = media.description,
             description_plain = media.description_plain,
             comment_count = media.comment_count_published,
+            publish_on = media.publish_on,
             likes = media.likes,
             views = media.views,
             thumbs = thumbs,
