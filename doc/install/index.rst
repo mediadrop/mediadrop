@@ -65,6 +65,7 @@ To install MySQL 5 and Python 2.5 once MacPorts is installed:
 
     # Start the MySQL Server running in the background
     # This will print some numbers to show that it started successfully
+    # TODO: Apparently this doesn't work with the stock macports on osx 10.6 urgh.
     sudo /opt/local/bin/mysqld_safe5 &
 
     # Put a link to mysql_config where other programs will expect to find it
@@ -116,6 +117,7 @@ we just did in the line above.
 
 Step 2: Install MediaCore
 -------------------------
+There are two main ways to get MediaCore:
 
 a. **For most users**, you should `download the latest official release of
    Mediacore <http://getmediacore.com/download>`_ from our site.
@@ -194,17 +196,6 @@ must be writable by the server.
 **NOTE 2:** For Uploads to work, the ``media`` and ``podcasts`` folders inside
 the directory pointed to by ``image_dir`` must also be writable by the server.
 
-**If you're deploying** MediaCore to a public site, you'll want to disable
-debugging, set up unique password salts, and maybe change some other settings.
-To do this, you can create a second config file named ``deployment.ini`` with
-the following one line command:
-
-.. sourcecode:: bash
-
-   # To create deployment.ini in your current dir:
-   paster make-config MediaCore deployment.ini
-
-
 
 Step 5: Launch the Built-in Server
 ----------------------------------
@@ -230,26 +221,38 @@ If this is your development machine, you're good to go.
 
 
 
-Further Steps for Production
-----------------------------
+Step 6: Production Deployments
+------------------------------
 
 The built-in Paste server does a great job for development, but usually
 people demand more in production environments.
 
-MediaCore is WSGI-based so there are many possible ways to deploy it.
-Below are two of the most popular methods:
+Production Config:
+   On your production deployment, you'll want to disable debugging, set up unique
+   password salts, and maybe change some other settings. To do this, you can
+   create a second config file named ``deployment.ini`` with the following one
+   line command:
 
-``mod_fastcgi`` is simplest and will work with most shared hosting
-environments, so long as the server has ``mod_fastcgi`` installed.
+   .. sourcecode:: bash
 
-.. toctree::
+      # To create deployment.ini in your current dir:
+      paster make-config MediaCore deployment.ini
 
-    apache-fastcgi
+Production Server:
+   MediaCore is WSGI-based so there are many possible ways to deploy it.
+   Below are two of the most popular methods:
 
-``mod_wsgi`` requires root access on your server, but can be tuned
-for better performance than ``mod_fastcgi``.
+a. ``mod_fastcgi`` is simplest and will work with most shared hosting
+   environments, so long as the server has ``mod_fastcgi`` installed.
 
-.. toctree::
+   .. toctree::
 
-   apache-wsgi
+       apache-fastcgi
+
+b. ``mod_wsgi`` requires root access on your server, but can be tuned
+   for better performance than ``mod_fastcgi``.
+
+   .. toctree::
+
+      apache-wsgi
 
