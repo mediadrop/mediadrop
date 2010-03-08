@@ -19,7 +19,7 @@ from pylons.i18n import _
 from mediacore.lib.base import (BaseController, url_for, redirect,
     expose, expose_xhr, validate, paginate)
 from mediacore.model import (DBSession, fetch_row,
-    Podcast, Media, Topic)
+    Podcast, Media, Category)
 
 
 class RootController(TGController):

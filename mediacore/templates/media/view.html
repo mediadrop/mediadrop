@@ -85,10 +85,10 @@
 	</py:if>
 
 	<div id="category-context" class="contextbox">
-		<div class="contextbox-top">Related Topics:</div>
-		<div class="contextbox-body contextbox-body-mid" py:with="url_args = dict(controller='/media', action='topics')">
-			<a py:replace="comma_sep_links([t.name for t in media.topics],
-			                               [h.url_for(slug=t.slug, **url_args) for t in media.topics], default='No topics yet')" />
+		<div class="contextbox-top">Related Categories:</div>
+		<div class="contextbox-body contextbox-body-mid" py:with="url_args = dict(controller='/media', action='categories')">
+			<a py:replace="comma_sep_links([t.name for t in media.categories],
+			                               [h.url_for(slug=t.slug, **url_args) for t in media.categories], default='No categories yet')" />
 		</div>
 		<div class="contextbox-mid">Tags:</div>
 		<div class="contextbox-body" py:with="url_args = dict(controller='/media', action='tags')">

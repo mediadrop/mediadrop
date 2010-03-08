@@ -23,7 +23,7 @@ ul#settings-menu a {
 }
 .menu-settings-users-on  a#menu-settings-users,
 .menu-settings-config-on  a#menu-settings-config,
-.menu-settings-topic-on  a#menu-settings-topics,
+.menu-settings-category-on  a#menu-settings-categories,
 .menu-settings-tag-on  a#menu-settings-tags,
 .menu-settings-display-on a#menu-settings-display {
 	background: url('../images/icons/arrow-green-right.png') no-repeat left;
@@ -31,12 +31,12 @@ ul#settings-menu a {
 }
 
 .add-user, .add-user:hover,
-.add-topic, .add-topic:hover,
+.add-category, .add-category:hover,
 .add-tag, .add-tag:hover {
 	height: 28px;
 }
 .add-user { background-image: url('../images/buttons/add-user.png'); width: 99px; }
-.add-topic { background-image: url('../images/buttons/add-topic.png'); width: 103px; }
+.add-category { background-image: url('../images/buttons/add-category.png'); width: 103px; }
 .add-tag { background-image: url('../images/buttons/add-tag.png'); width: 91px; }
 
 table#category-table > tbody > tr > td:first-child {

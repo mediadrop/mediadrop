@@ -21,7 +21,7 @@ from mediacore.lib.base import (BaseController, url_for, redirect,
     expose, expose_xhr, validate, paginate)
 from mediacore.lib import helpers
 from mediacore.model import (DBSession, fetch_row, get_available_slug,
-    Tag, Topic)
+    Tag, Category)
 from mediacore.forms.categories import EditCategoryForm
 
 
@@ -33,22 +33,22 @@ class CategoryadminController(BaseController):
     @expose_xhr('mediacore.templates.admin.categories.index',
                 'mediacore.templates.admin.categories.index-table')
     @paginate('categories', items_per_page=25)
-    def index(self, page=1, category='topics', **kwargs):
-        """List topics or tags with pagination.
+    def index(self, page=1, category='categories', **kwargs):
+        """List categories or tags with pagination.
 
-        :param category: ``topics`` or ``tags``
+        :param category: ``categories`` or ``tags``
         :param page: Page number, defaults to 1.
         :type page: int
         :rtype: Dict
         :returns:
             categories
                 The list of :class:`~mediacore.model.tags.Tag`
-                or :class:`~mediacore.model.topics.Topic`
+                or :class:`~mediacore.model.categories.Category`
                 instances for this page.
             category
-                ``topics`` or ``tags``
+                ``categories`` or ``tags``
             category_name
-                ``Topics`` or ``Tags``
+                ``Categories`` or ``Tags``
             edit_form
                 The :class:`~mediacore.forms.categories.EditCategoryForm` instance.
 
@@ -68,13 +68,13 @@ class CategoryadminController(BaseController):
 
     @expose('json')
     @validate(edit_form)
-    def save(self, id, delete, category='topics', **kwargs):
-        """Save changes or create a topic or tag.
+    def save(self, id, delete, category='categories', **kwargs):
+        """Save changes or create a category or tag.
 
         See :class:`~mediacore.forms.categories.EditCategoryForm` for POST vars.
 
-        :param id: Topic or tag ID
-        :param category: ``topics`` or ``tags``
+        :param id: Category or tag ID
+        :param category: ``categories`` or ``tags``
         :param delete: If true the category is deleted rather than saved.
         :type delete: bool
         :rtype: JSON dict
@@ -82,7 +82,7 @@ class CategoryadminController(BaseController):
             success
                 bool
             category
-                ``topics`` or ``tags``
+                ``categories`` or ``tags``
 
         """
         model = self.select_model(category)
@@ -106,13 +106,13 @@ class CategoryadminController(BaseController):
     def select_model(self, category):
         """Return the a category mapped class by the given name.
 
-        :param category: ``topics`` or ``tags``
-        :returns: A mapped class, :class:`~mediacore.model.topics.Topic`
+        :param category: ``categories`` or ``tags``
+        :returns: A mapped class, :class:`~mediacore.model.categories.Category`
             or :class:`~mediacore.model.tags.Tag`
         :raises KeyError: If ``category`` is invalid.
 
         """
         return {
-            'topics': Topic,
+            'categories': Category,
             'tags': Tag,
         }.get(category)

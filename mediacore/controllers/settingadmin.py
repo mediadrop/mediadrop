@@ -33,7 +33,7 @@ class SettingadminController(BaseController):
     allow_only = has_permission('admin')
 
     @expose()
-    def index(self, section='topics', **kwargs):
+    def index(self, section='categories', **kwargs):
         redirect(controller='categoryadmin', category=section)
 
 

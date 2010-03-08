@@ -40,7 +40,7 @@ from akismet import Akismet
 from mediacore.lib.base import (BaseController, url_for, redirect,
     expose, expose_xhr, validate, paginate)
 from mediacore.model import (DBSession, fetch_row, get_available_slug,
-    Media, MediaFile, Comment, Tag, Topic, Author, AuthorWithIP, Podcast)
+    Media, MediaFile, Comment, Tag, Category, Author, AuthorWithIP, Podcast)
 from mediacore.lib import helpers, email
 from mediacore.forms.media import UploadForm
 from mediacore.forms.comments import PostCommentForm
@@ -64,17 +64,17 @@ class MediaController(BaseController):
     """Media actions -- for both regular and podcast media"""
 
     def __init__(self, *args, **kwargs):
-        """Populate the :obj:`pylons.tmpl_context` with topics.
+        """Populate the :obj:`pylons.tmpl_context` with categories.
 
         Used by :data:`mediacore.templates.helpers` to render the
-        topic index flyout slider.
+        category index flyout slider.
 
         """
         super(MediaController, self).__init__(*args, **kwargs)
-        tmpl_context.nav_topics = DBSession.query(Topic)\
+        tmpl_context.nav_categories = DBSession.query(Category)\
             .options(orm.undefer('media_count_published'))\
             .having(sql.text('media_count_published >= 1'))\
-            .order_by(Topic.name)\
+            .order_by(Category.name)\
             .all()
         tmpl_context.nav_search = url_for(controller='/media', action='search')
 
@@ -329,23 +329,23 @@ class MediaController(BaseController):
         )
 
 
-    @expose('mediacore.templates.media.topics')
+    @expose('mediacore.templates.media.categories')
     @paginate('media', items_per_page=20)
-    def topics(self, slug=None, page=1, **kwargs):
+    def categories(self, slug=None, page=1, **kwargs):
         if slug:
-            topic = fetch_row(Topic, slug=slug)
+            category = fetch_row(Category, slug=slug)
             media = Media.query.published()\
                 .filter(Media.podcast_id == None)\
-                .filter(Media.topics.contains(topic))\
+                .filter(Media.categories.contains(category))\
                 .order_by(Media.publish_on.desc())\
                 .options(orm.undefer('comment_count_published'))
         else:
-            topic = None
+            category = None
             media = []
 
         return dict(
             media = media,
-            topic = topic,
+            category = category,
         )
 
     @expose('mediacore.templates.media.tags')

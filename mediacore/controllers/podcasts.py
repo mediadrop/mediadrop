@@ -22,24 +22,24 @@ import pylons.templating
 from mediacore.lib.base import (BaseController, url_for, redirect,
     expose, expose_xhr, validate, paginate)
 from mediacore.model import (DBSession, fetch_row,
-    Podcast, Media, Topic)
+    Podcast, Media, Category)
 
 
 class PodcastsController(BaseController):
     """Podcast actions -- episodes are handled in the MediaController"""
 
     def __init__(self, *args, **kwargs):
-        """Populate the :obj:`pylons.tmpl_context`` with topics.
+        """Populate the :obj:`pylons.tmpl_context`` with categories.
 
         Used by :data:`mediacore.templates.helpers` to render the
-        topic index flyout slider.
+        category index flyout slider.
 
         """
         super(PodcastsController, self).__init__(*args, **kwargs)
-        tmpl_context.nav_topics = DBSession.query(Topic)\
+        tmpl_context.nav_categories = DBSession.query(Category)\
             .options(orm.undefer('media_count_published'))\
-            .filter(Topic.media_count_published >= 1)\
-            .order_by(Topic.name)\
+            .filter(Category.media_count_published >= 1)\
+            .order_by(Category.name)\
             .all()
         tmpl_context.nav_podcasts = DBSession.query(Podcast).all()
         tmpl_context.nav_search = url_for(controller='/media', action='search')

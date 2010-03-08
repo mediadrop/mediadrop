@@ -46,9 +46,9 @@ def make_map():
         controller='media',
         action='tags',
         slug=None)
-    map.connect('/topics/{slug}',
+    map.connect('/categories/{slug}',
         controller='media',
-        action='topics',
+        action='categories',
         slug=None)
 
     # Individual media and actions their related actions
@@ -116,10 +116,10 @@ def make_map():
     map.connect('/admin/settings/{category}',
         controller='categoryadmin',
         action='index',
-        requirements={'category': 'topics|tags'})
+        requirements={'category': 'categories|tags'})
     map.connect('/admin/settings/{category}/{id}/{action}',
         controller='categoryadmin',
-        requirements={'category': 'topics|tags'})
+        requirements={'category': 'categories|tags'})
 
     ##############
     # API routes #

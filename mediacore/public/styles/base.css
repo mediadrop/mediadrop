@@ -190,9 +190,9 @@ a#nav-upload-video {
 	width: 122px;
 	background: url('../images/buttons/upload-video-ie.gif') no-repeat;
 }
-a#nav-topics {
+a#nav-categories {
 	width: 122px;
-	background: url('../images/buttons/topic-index-ie.gif') no-repeat;
+	background: url('../images/buttons/category-index-ie.gif') no-repeat;
 }
 a#nav-podcast-help {
 	width: 160px;
@@ -203,22 +203,22 @@ a#nav-podcast-help {
 	float: none;
 }
 .box-nav-btns > a#nav-upload-video { background-image: url('../images/buttons/upload-video.png'); }
-.box-nav-btns > a#nav-topics { background-image: url('../images/buttons/topic-index.png'); }
+.box-nav-btns > a#nav-categories { background-image: url('../images/buttons/category-index.png'); }
 .box-nav-btns > a#nav-podcast-help { background-image: url('../images/buttons/podcast-help.png'); }
-a#nav-topics:hover,
+a#nav-categories:hover,
 a#nav-podcast-help:hover,
 a#nav-upload-video:hover {
 	background-position: 0 -39px;
 }
-.nav-topics-on #nav-topics,
-a#nav-topics.topics-shown,
+.nav-categories-on #nav-categories,
+a#nav-categories.categories-shown,
 .nav-podcast-help-on #nav-podcast-help,
 a#nav-podcast-help.podcast-help-shown,
 .nav-upload-video-on #nav-upload-video {
 	background-position: 0 -78px;
 }
 
-/* Flyout boxes that go within the nav bar like topic index and whats a podcast? */
+/* Flyout boxes that go within the nav bar like category index and whats a podcast? */
 .nav-box {
 	clear: both;
 	margin: 0 1px;
@@ -228,9 +228,9 @@ a#nav-podcast-help.podcast-help-shown,
 .nav-box-flyout {
 	position: relative;
 }
-#topic-box-top {
+#category-box-top {
 	height: 16px;
-	background: url('../images/layout/nav-box-top-topics.png') no-repeat top right;
+	background: url('../images/layout/nav-box-top-categories.png') no-repeat top right;
 }
 #podcast-help-top {
 	height: 16px;
@@ -274,40 +274,40 @@ a#nav-podcast-help.podcast-help-shown,
 	text-decoration: underline;
 }
 
-/* Topic index nav box */
-#mediacore-topics li {
+/* Category index nav box */
+#mediacore-categories li {
 	display: block;
 	margin: 3px 0;
 	height: auto;
 	text-indent: 0;
 }
-#topics-caption {
+#categories-caption {
 	padding: 3em 30px 10px 0;
 	width: 180px;
 	float: right;
 	text-align: center;
 }
-#topics-caption a,
-#topics-caption div {
+#categories-caption a,
+#categories-caption div {
 	margin-left: auto;
 	margin-right: auto;
 }
-#topics-dontsee {
-	background: url('../images/topics/dont-see-question.png') no-repeat scroll 9px 0;
+#categories-dontsee {
+	background: url('../images/categories/dont-see-question.png') no-repeat scroll 9px 0;
 	width: 185px;
 	height: 43px;
 	display: block;
 	margin-bottom: 10px;
 	text-indent: -5000px;
 }
-#topics-suggest {
-	background: url('../images/topics/suggest-new.png') no-repeat;
+#categories-suggest {
+	background: url('../images/categories/suggest-new.png') no-repeat;
 	width: 159px;
 	height: 39px;
 	display: block;
 	text-indent: -5000px;
 }
-#topics-suggest:hover {
+#categories-suggest:hover {
 	background-position: 0 -39px;
 }
 

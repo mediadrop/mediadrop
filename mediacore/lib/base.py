@@ -130,10 +130,10 @@ class BaseController(RoutingController):
 
         See also :meth:`update_external_template` for more information.
         """
-        # First, define the email that topic suggestions should be sent to.
+        # First, define the email that category suggestions should be sent to.
         support_emails = fetch_setting('email_support_requests')
         support_emails = support_emails.split(',') if support_emails else ['']
-        tmpl_context.suggest_topic_email = support_emails[0]
+        tmpl_context.suggest_category_email = support_emails[0]
 
         tmpl_context.layout_template = config.layout_template
         tmpl_context.external_template = None

@@ -21,7 +21,7 @@ from sqlalchemy.orm import mapper, relation, backref, synonym, interfaces, valid
 from mediacore.model import DeclarativeBase, metadata, DBSession, slugify, _mtm_count_property
 
 
-topics = Table('topics', metadata,
+categories = Table('categories', metadata,
     Column('id', Integer, autoincrement=True, primary_key=True),
     Column('name', Unicode(50), unique=True, nullable=False),
     Column('slug', String(50), unique=True, nullable=False),
@@ -30,15 +30,16 @@ topics = Table('topics', metadata,
 )
 
 
-class Topic(object):
-    """Topic definition
+class Category(object):
+    """
+    Category definition
     """
     def __init__(self, name=None, slug=None):
         self.name = name or None
         self.slug = slug or name or None
 
     def __repr__(self):
-        return '<Topic: %s>' % self.name
+        return '<Category: %s>' % self.name
 
     def __unicode__(self):
         return self.name
@@ -47,12 +48,12 @@ class Topic(object):
     def validate_slug(self, key, slug):
         return slugify(slug)
 
-class TopicList(list):
+class CategoryList(list):
     def __unicode__(self):
-        return ', '.join([topic.name for topic in self.values()])
+        return ', '.join([cat.name for cat in self.values()])
 
-mapper(Topic, topics)
+mapper(Category, categories)
 
-def fetch_topics(topic_ids):
-    topics = DBSession.query(Topic).filter(Topic.id.in_(topic_ids)).all()
-    return topics
+def fetch_categories(cat_ids):
+    categories = DBSession.query(Category).filter(Category.id.in_(cat_ids)).all()
+    return categories

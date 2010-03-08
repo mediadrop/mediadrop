@@ -30,7 +30,7 @@
 					});
 				</script>
 			</py:if>
-			<py:if test="c.nav_topics or c.nav_podcasts">
+			<py:if test="c.nav_categories or c.nav_podcasts">
 				<script type="text/javascript" src="${h.url_for('/scripts/nav-flyout.js')}" />
 				<script type="text/javascript">
 					window.addEvent('domready', function() {
@@ -44,15 +44,15 @@
 							{duration:  20, transition: 'linear'},
 							{duration: 450, transition: 'cubic:in'}
 						];
-						var topicIndexFlyout, podcastHelpFlyout;
-						<py:if test="c.nav_topics">
-							var topicsEl = $('mediacore-topics');
-							if (topicsEl) {
-								var topicIndexFlyout = new NavFlyout({
-									button: 'nav-topics',
-									buttonActiveClass: 'topics-shown',
-									elements: topicsEl.getChildren(),
-									startHidden: ${c.nav_topic_list and 'false' or 'true'},
+						var categoryIndexFlyout, podcastHelpFlyout;
+						<py:if test="c.nav_categories">
+							var categoriesEl = $('mediacore-categories');
+							if (categoriesEl) {
+								var categoryIndexFlyout = new NavFlyout({
+									button: 'nav-categories',
+									buttonActiveClass: 'categories-shown',
+									elements: categoriesEl.getChildren(),
+									startHidden: ${c.nav_category_list and 'false' or 'true'},
 									openFx: flyoutOpenFx,
 									closeFx: flyoutCloseFx
 								});
@@ -68,10 +68,10 @@
 									openFx: flyoutOpenFx,
 									closeFx: flyoutCloseFx
 								});
-								if (topicIndexFlyout) {
+								if (categoryIndexFlyout) {
 									var hider = function(how) { if (how == 'in') if (this.open) this.hide(); };
-									topicIndexFlyout.addEvent('start', hider.bind(podcastHelpFlyout));
-									podcastHelpFlyout.addEvent('start', hider.bind(topicIndexFlyout));
+									categoryIndexFlyout.addEvent('start', hider.bind(podcastHelpFlyout));
+									podcastHelpFlyout.addEvent('start', hider.bind(categoryIndexFlyout));
 								}
 							}
 						</py:if>
@@ -89,7 +89,7 @@
 					<li id="nav-videos"><a href="${h.url_for(controller='/media', action='index')}">Video</a></li>
 					<li id="nav-podcasts"><a href="${h.url_for(controller='/podcasts')}">Podcasts</a></li>
 				</ul>
-				<a py:if="c.nav_topics" id="nav-topics" class="box-nav-right topics-shown" href="${h.url_for(controller='/media', action='topics', slug=None)}">Topic Index</a>
+				<a py:if="c.nav_categories" id="nav-categories" class="box-nav-right categories-shown" href="${h.url_for(controller='/media', action='categories', slug=None)}">Category Index</a>
 				<a py:if="c.nav_podcasts" id="nav-podcast-help" class="box-nav-right podcast-help-shown" href="#">What are podcasts?</a>
 				<a py:if="not c.nav_podcasts" id="nav-upload-video" class="box-nav-right" href="${h.url_for(controller='/media', action='upload')}">Upload a Video</a>
 				<form py:if="c.nav_search" id="nav-search" method="get" action="${c.nav_search}">
@@ -128,19 +128,19 @@
 					<div class="nav-box-bottom" />
 				</div>
 			</div>
-			<div py:if="c.nav_topics" id="mediacore-topics" class="nav-box">
-				<div id="topic-box-top" class="nav-box-flyout" />
+			<div py:if="c.nav_categories" id="mediacore-categories" class="nav-box">
+				<div id="category-box-top" class="nav-box-flyout" />
 				<div class="nav-box-topright nav-box-flyout" />
 				<div class="nav-box-flyout">
-					<div class="nav-box-body" py:with="per_col = max(5, int(h.math.ceil((len(c.nav_topics) + 6) / 4.0)))">
-						<ul py:if="c.nav_topics" py:for="col in xrange(1, h.math.ceil(len(c.nav_topics) / float(per_col)) + 1)">
-							<li py:for="topic in c.nav_topics[(col-1)*per_col:col*per_col]">
-								<a href="${h.url_for(controller='/media', action='topics', slug=topic.slug)}">${topic}</a> <span>(${topic.media_count_published})</span>
+					<div class="nav-box-body" py:with="per_col = max(5, int(h.math.ceil((len(c.nav_categories) + 6) / 4.0)))">
+						<ul py:if="c.nav_categories" py:for="col in xrange(1, h.math.ceil(len(c.nav_categories) / float(per_col)) + 1)">
+							<li py:for="category in c.nav_categories[(col-1)*per_col:col*per_col]">
+								<a href="${h.url_for(controller='/media', action='categories', slug=category.slug)}">${category}</a> <span>(${category.media_count_published})</span>
 							</li>
 						</ul>
-						<div id="topics-caption" py:if="c.suggest_topic_email">
-							<div id="topics-dontsee">Don't see the topic you are looking for?</div>
-							<a id="topics-suggest" href="mailto:${c.suggest_topic_email}?subject=Suggest%20a%20topic!">Suggest a new topic</a>
+						<div id="categories-caption" py:if="c.suggest_category_email">
+							<div id="categories-dontsee">Don't see the category you are looking for?</div>
+							<a id="categories-suggest" href="mailto:${c.suggest_category_email}?subject=Suggest%20a%20category!">Suggest a new category</a>
 							<a href="${h.url_for(controller='/media', action='tags', slug=None)}">or check out the tags list</a>
 						</div>
 					</div>

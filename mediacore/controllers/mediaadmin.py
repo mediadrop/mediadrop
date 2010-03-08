@@ -167,7 +167,7 @@ class MediaadminController(BaseController):
                 author_email = media.author.email,
                 description = media.description,
                 tags = ', '.join((tag.name for tag in media.tags)),
-                topics = [topic.id for topic in media.topics],
+                categories = [category.id for category in media.categories],
                 notes = media.notes,
                 details = dict(
                     duration = media.duration, # validator converts secs to hh:mm:ss
@@ -199,7 +199,7 @@ class MediaadminController(BaseController):
     @expose()
     @validate(media_form, error_handler=edit)
     def save(self, id, slug, title, author_name, author_email,
-             description, notes, details, podcast, tags, topics, delete=None, **kwargs):
+             description, notes, details, podcast, tags, categories, delete=None, **kwargs):
         """Save changes or create a new :class:`~mediacore.model.media.Media` instance.
 
         Form handler the :meth:`edit` action and the
@@ -224,7 +224,7 @@ class MediaadminController(BaseController):
         media.duration = details['duration'] # validator converts hh:mm:ss to secs
         media.podcast_id = podcast
         media.set_tags(tags)
-        media.set_topics(topics)
+        media.set_categories(categories)
 
         media.update_status()
         DBSession.add(media)

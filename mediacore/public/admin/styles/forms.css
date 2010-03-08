@@ -203,15 +203,15 @@ label .field_help {
 	-moz-border-radius: 10px;
 }
 
-.topic-box {
+.category-box {
 	overflow: scroll;
 	overflow-x: hidden;
 	width: 100%;
 	height: 150px;
 }
-.topic-box li {
+.category-box li {
 	padding-bottom: 5px;
 }
-.topic-box li input {
+.category-box li input {
 	width: auto;
 }

@@ -25,7 +25,7 @@ from sqlalchemy import orm, sql
 from mediacore.lib.base import (BaseController, url_for, redirect,
     expose, expose_xhr, validate, paginate)
 from mediacore.model import (DBSession, fetch_row, get_available_slug,
-    Media, Tag, Topic, Podcast)
+    Media, Tag, Category, Podcast)
 from mediacore.lib import helpers
 
 class APIException(Exception):
@@ -54,7 +54,7 @@ class MediaApiController(BaseController):
     """
 
     @expose('json')
-    def index(self, type=None, podcast=None, tag=None, topic=None, search=None,
+    def index(self, type=None, podcast=None, tag=None, category=None, search=None,
               max_age=None, min_age=None, order=None, offset=0, limit=10,
               published_after=None, published_before=None, **kwargs):
         """Query for a list of media.
@@ -69,8 +69,8 @@ class MediaApiController(BaseController):
         :param tag:
             A tag slug to filter by.
 
-        :param topic:
-            A topic slug to filter by.
+        :param category:
+            A category slug to filter by.
 
         :param search:
             A boolean search query. See
@@ -143,9 +143,9 @@ class MediaApiController(BaseController):
             tag = fetch_row(Tag, slug=tag)
             query = query.filter(Media.tags.contains(tag))
 
-        if topic:
-            topic = fetch_row(Topic, slug=topic)
-            query = query.filter(Media.topics.contains(topic))
+        if category:
+            category = fetch_row(Category, slug=category)
+            query = query.filter(Media.categories.contains(category))
 
         if max_age:
             published_after = datetime.now() - timedelta(days=int(max_age))

@@ -43,7 +43,7 @@ from mediacore.model.authors import Author
 from mediacore.model.comments import Comment, CommentQuery, comments
 from mediacore.model.settings import fetch_setting
 from mediacore.model.tags import Tag, TagList, tags, extract_tags, fetch_and_create_tags
-from mediacore.model.topics import Topic, TopicList, topics, fetch_topics
+from mediacore.model.categories import Category, CategoryList, categories, fetch_categories
 from mediacore.lib import helpers
 
 class MediaException(Exception): pass
@@ -114,10 +114,10 @@ media_tags = Table('media_tags', metadata,
         primary_key=True)
 )
 
-media_topics = Table('media_topics', metadata,
+media_categories = Table('media_categories', metadata,
     Column('media_id', Integer, ForeignKey('media.id', onupdate='CASCADE', ondelete='CASCADE'),
         primary_key=True),
-    Column('topic_id', Integer, ForeignKey('topics.id', onupdate='CASCADE', ondelete='CASCADE'),
+    Column('category_id', Integer, ForeignKey('categories.id', onupdate='CASCADE', ondelete='CASCADE'),
         primary_key=True)
 )
 
@@ -129,7 +129,7 @@ media_fulltext = Table('media_fulltext', metadata,
     Column('notes', UnicodeText),
     Column('author_name', Unicode(50), nullable=False),
     Column('tags', UnicodeText),
-    Column('topics', UnicodeText),
+    Column('categories', UnicodeText),
     mysql_engine='MyISAM',
 )
 
@@ -137,12 +137,12 @@ media_fulltext = Table('media_fulltext', metadata,
 _search_cols = {
     'public': [
         media_fulltext.c.title, media_fulltext.c.subtitle,
-        media_fulltext.c.tags, media_fulltext.c.topics,
+        media_fulltext.c.tags, media_fulltext.c.categories,
         media_fulltext.c.description_plain, media_fulltext.c.notes,
     ],
     'admin': [
         media_fulltext.c.title, media_fulltext.c.subtitle,
-        media_fulltext.c.tags, media_fulltext.c.topics,
+        media_fulltext.c.tags, media_fulltext.c.categories,
         media_fulltext.c.description_plain,
     ],
 }
@@ -281,11 +281,11 @@ class Media(object):
 
         A list of :class:`MediaFile` instances.
 
-    .. attribute:: topics
+    .. attribute:: categories
 
-        A list of :class:`mediacore.model.topics.Topic`.
+        A list of :class:`mediacore.model.categories.Category`.
 
-        See the :meth:`set_topics` helper.
+        See the :meth:`set_categories` helper.
 
     .. attribute:: tags
 
@@ -327,14 +327,14 @@ class Media(object):
             tags = fetch_and_create_tags(tags)
         self.tags = tags or []
 
-    def set_topics(self, topics):
-        """Set the topics relations of this media.
+    def set_categories(self, categories):
+        """Set the categories relations of this media.
 
-        :param topics: A list or comma separated string of tags to use.
+        :param categories: A list or comma separated string of tags to use.
         """
-        if isinstance(topics, list):
-            topics = fetch_topics(topics)
-        self.topics = topics or []
+        if isinstance(categories, list):
+            categories = fetch_categories(categories)
+        self.categories = categories or []
 
     def reposition_file(self, file, budge_infront=None):
         """Position the first file after the second or last file.
@@ -663,7 +663,7 @@ _media_mapper = mapper(Media, media, properties={
     'author': composite(Author, media.c.author_name, media.c.author_email),
     'files': relation(MediaFile, backref='media', order_by=media_files.c.position.asc(), passive_deletes=True),
     'tags': relation(Tag, secondary=media_tags, backref='media', collection_class=TagList, passive_deletes=True),
-    'topics': relation(Topic, secondary=media_topics, backref='media', collection_class=TopicList, passive_deletes=True),
+    'categories': relation(Category, secondary=media_categories, backref='media', collection_class=CategoryList, passive_deletes=True),
 
     'comments': dynamic_loader(Comment, backref='media', query_class=CommentQuery, passive_deletes=True),
     'comment_count': column_property(
@@ -689,11 +689,11 @@ _tags_mapper.add_properties(_properties_dict_from_labels(
     ]),
 ))
 
-# Add properties for counting how many media items have a given Topic
-_topics_mapper = class_mapper(Topic, compile=False)
-_topics_mapper.add_properties(_properties_dict_from_labels(
-    _mtm_count_property('media_count', media_topics),
-    _mtm_count_property('media_count_published', media_topics, [
+# Add properties for counting how many media items have a given Category
+_categories_mapper = class_mapper(Category, compile=False)
+_categories_mapper.add_properties(_properties_dict_from_labels(
+    _mtm_count_property('media_count', media_categories),
+    _mtm_count_property('media_count_published', media_categories, [
         media.c.publishable,
         media.c.publish_on <= datetime.now(),
         sql.or_(media.c.publish_until == None,

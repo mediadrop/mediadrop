@@ -21,7 +21,7 @@ var CategoryMgr = new Class({
 	Implements: Options,
 
 	options:{
-		categoryName: 'Topic',
+		categoryName: 'Category',
 		table: 'category-table',
 		formSelector: 'form.edit-category-form',
 		emptyRow: 'empty-category',
