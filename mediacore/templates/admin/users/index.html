@@ -33,13 +33,39 @@
 		});
 	</script>
 </head>
-<body class="menu-settings-on menu-settings-user-on">
+<body class="menu-settings-on menu-settings-users-on">
 	<div class="box">
 		<div class="box-head">
 			<a href="${h.url_for(action='edit', id='new')}" class="mo add-user f-rgt"><span>Add User</span></a>
 			<h1>Users</h1>
 		</div>
-		<xi:include href="../users/index-table.html" py:with="users=users" />
+		<table cellpadding="0" cellspacing="0" id="user-table">
+			<thead>
+				<tr>
+					<th style="width:63px">&nbsp;</th>
+					<th style="width:205px">Display Name</th>
+					<th style="width:205px">Email</th>
+					<th style="width:105px">Group</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr py:if="len(users) == 0">
+					<td>None Found</td>
+				</tr>
+				<tr py:for="user in users">
+					<td>
+						<a href="${h.url_for(action='edit', id=user.user_id)}" class="edit-user mo">edit</a>
+						<form action="${h.url_for(action='delete', id=user.user_id)}" method="post" class="delete-user-form">
+							<input class="submitbutton clickable mo delete-user" type="submit" value="Delete" name="delete" />
+						</form>
+					</td>
+					<td><a href="${h.url_for(action='edit', id=user.user_id)}" py:content="user.display_name">Display Name</a></td>
+					<td><a href="mailto:${user.email_address}" py:content="user.email_address">email address</a></td>
+					<td py:content="len(user.groups) == 1 and user.groups[0].display_name or None">groups</td>
+				</tr>
+			</tbody>
+			${paginated_tfoot(c.paginators.users, '4')}
+		</table>
 	</div>
 </body>
 </html>

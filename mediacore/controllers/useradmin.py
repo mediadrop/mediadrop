@@ -31,8 +31,7 @@ class UseradminController(BaseController):
     """Admin user actions"""
     allow_only = has_permission('admin')
 
-    @expose_xhr('mediacore.templates.admin.users.index',
-                'mediacore.templates.admin.users.index-table')
+    @expose_xhr('mediacore.templates.admin.users.index')
     @paginate('users', items_per_page=50)
     def index(self, page=1, **kwargs):
         """List users with pagination.
