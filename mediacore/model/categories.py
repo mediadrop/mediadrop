@@ -16,24 +16,30 @@
 from datetime import datetime
 from sqlalchemy import Table, ForeignKey, Column
 from sqlalchemy.types import String, Unicode, UnicodeText, Integer, DateTime, Boolean, Float
-from sqlalchemy.orm import mapper, relation, backref, synonym, interfaces, validates
+from sqlalchemy.orm import mapper, relation, backref, synonym, interfaces, validates, Query
 
-from mediacore.model import DeclarativeBase, metadata, DBSession, slugify, _mtm_count_property
+from mediacore.model import metadata, DBSession, slugify, _mtm_count_property
 
 
 categories = Table('categories', metadata,
     Column('id', Integer, autoincrement=True, primary_key=True),
     Column('name', Unicode(50), unique=True, nullable=False),
     Column('slug', String(50), unique=True, nullable=False),
+    Column('parent_id', Integer, ForeignKey('categories.id', onupdate='CASCADE', ondelete='CASCADE')),
     mysql_engine='InnoDB',
     mysql_charset='utf8'
 )
 
 
+class CategoryQuery(Query):
+    pass
+
 class Category(object):
     """
     Category definition
     """
+    query = DBSession.query_property()
+
     def __init__(self, name=None, slug=None):
         self.name = name or None
         self.slug = slug or name or None
@@ -50,10 +56,16 @@ class Category(object):
 
 class CategoryList(list):
     def __unicode__(self):
-        return ', '.join([cat.name for cat in self.values()])
+        return ', '.join(cat.name for cat in self.itervalues())
 
-mapper(Category, categories)
 
+mapper(Category, categories, properties={
+    'children': relation(Category, backref=backref('parent', remote_side=[categories.c.id])),
+})
+
+
+# TODO: Remove this function or refactor into CategoryQuery.
+#       It was copied over from the tags models and isn't really required here
 def fetch_categories(cat_ids):
     categories = DBSession.query(Category).filter(Category.id.in_(cat_ids)).all()
     return categories
