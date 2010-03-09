@@ -26,7 +26,7 @@ If you run Windows and want to try MediaCore, you have two options:
 * Find a cheap web host that offers Apache, FastCGI, and SSH support, and
   install it on there.
 
-You will also need:
+**You will also need:**
 
 * Python 2.5.x or newer
 * MySQL 5.0.x or newer
@@ -50,7 +50,8 @@ function.
 
 TODO: Explain how to install macports, and note that you'll have to port selfupdate or something. check with stuart.
 
-To install MySQL 5 and Python 2.5 once MacPorts is installed:
+To install MySQL 5 and Python 2.5 once MacPorts is installed, open up a
+terminal (like Terminal.app or iTerm.app) and enter the following commands:
 
 .. sourcecode:: bash
 
@@ -227,7 +228,7 @@ Step 6: Production Deployments
 The built-in Paste server does a great job for development, but usually
 people demand more in production environments.
 
-Production Config:
+**Production Config:**
    On your production deployment, you'll want to disable debugging, set up unique
    password salts, and maybe change some other settings. To do this, you can
    create a second config file named ``deployment.ini`` with the following one
@@ -238,7 +239,7 @@ Production Config:
       # To create deployment.ini in your current dir:
       paster make-config MediaCore deployment.ini
 
-Production Server:
+**Production Server:**
    MediaCore is WSGI-based so there are many possible ways to deploy it.
    Below are two of the most popular methods:
 
