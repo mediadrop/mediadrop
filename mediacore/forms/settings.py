@@ -50,7 +50,7 @@ class SettingsForm(ListForm):
             XHTMLTextArea('user_uploads', label_text='User Uploads', attrs=dict(rows=15, cols=25)),
         ]),
         ListFieldSet('default_wording', suppress_label=True, legend='Default Form Values:', css_classes=['details_fieldset'], children=[
-            XHTMLTextArea('additional_notes', label_text='Additional Notes', attrs=dict(rows=3, cols=25)),
+            TextArea('additional_notes', label_text='Additional Notes', attrs=dict(rows=3, cols=25)),
         ]),
         SubmitButton('save', default='Save', css_classes=['mo', 'btn-save', 'f-rgt']),
         ResetButton('cancel', default='Cancel', css_classes=['mo', 'btn-cancel']),
