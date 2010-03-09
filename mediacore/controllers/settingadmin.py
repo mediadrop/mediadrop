@@ -33,8 +33,8 @@ class SettingadminController(BaseController):
     allow_only = has_permission('admin')
 
     @expose()
-    def index(self, section='categories', **kwargs):
-        redirect(controller='categoryadmin', category=section)
+    def index(self, **kwargs):
+        redirect(controller='categoryadmin')
 
 
     @expose('mediacore.templates.admin.settings.edit')

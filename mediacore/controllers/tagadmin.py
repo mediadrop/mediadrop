@@ -21,49 +21,49 @@ from mediacore.lib.base import (BaseController, url_for, redirect,
     expose, expose_xhr, validate, paginate)
 from mediacore.lib import helpers
 from mediacore.model import (DBSession, fetch_row, get_available_slug,
-    Category)
-from mediacore.forms.categories import CategoryForm
+    Tag)
+from mediacore.forms.tags import TagForm
 
 
-category_form = CategoryForm()
+tag_form = TagForm()
 
-class CategoryadminController(BaseController):
+class TagadminController(BaseController):
     allow_only = has_permission('admin')
 
-    @expose('mediacore.templates.admin.categories.index')
-    @paginate('categories', items_per_page=25)
+    @expose('mediacore.templates.admin.tags.index')
+    @paginate('tags', items_per_page=25)
     def index(self, page=1, **kwargs):
-        """List categories with pagination.
+        """List tags with pagination.
 
         :param page: Page number, defaults to 1.
         :type page: int
         :rtype: Dict
         :returns:
-            categories
-                The list of :class:`~mediacore.model.categories.Category`
+            tags
+                The list of :class:`~mediacore.model.tags.Tag`
                 instances for this page.
-            category_form
-                The :class:`~mediacore.forms.categories.CategoryForm` instance.
+            tag_form
+                The :class:`~mediacore.forms.tags.TagForm` instance.
 
         """
-        categories = DBSession.query(Category)\
+        tags = DBSession.query(Tag)\
             .options(orm.undefer('media_count'))\
-            .order_by(Category.name)
+            .order_by(Tag.name)
 
         return dict(
-            categories = categories,
-            category_form = category_form,
+            tags = tags,
+            tag_form = tag_form,
         )
 
 
     @expose('json')
-    @validate(category_form)
-    def save(self, id, delete, **kwargs):
-        """Save changes or create a category.
+    @validate(tag_form)
+    def save(self, id, delete, category='categories', **kwargs):
+        """Save changes or create a tag.
 
-        See :class:`~mediacore.forms.categories.CategoryForm` for POST vars.
+        See :class:`~mediacore.forms.tags.TagForm` for POST vars.
 
-        :param id: Category ID
+        :param id: Tag ID
         :param delete: If true the category is deleted rather than saved.
         :type delete: bool
         :rtype: JSON dict
@@ -72,18 +72,16 @@ class CategoryadminController(BaseController):
                 bool
 
         """
-        cat = fetch_row(Category, id)
+        tag = fetch_row(Tag, id)
 
         if delete:
-            DBSession.delete(cat)
-            data = dict(success=True)
+            DBSession.delete(tag)
         else:
-            cat.name = kwargs['name']
-            cat.slug = get_available_slug(Category, kwargs['slug'], cat)
-            DBSession.add(cat)
-            data = dict(success=True, name=cat.name, slug=cat.slug)
+            tag.name = kwargs['name']
+            tag.slug = get_available_slug(Tag, kwargs['slug'], tag)
+            DBSession.add(tag)
 
         if request.is_xhr:
-            return data
+            return dict(success=True)
         else:
             redirect(action='index')

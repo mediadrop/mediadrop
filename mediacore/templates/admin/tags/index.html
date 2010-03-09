@@ -21,20 +21,20 @@
 <xi:include href="admin/master.html" />
 <xi:include href="admin/settings/master.html" />
 <head>
-	<title>Categories</title>
+	<title>Tags</title>
 	<script src="${h.url_for('/scripts/third-party/squeezebox-1.1-rc4-yui-compressed.js')}" type="text/javascript"></script>
 	<link href="${h.url_for('/admin/styles/squeezebox.css')}" media="screen" rel="stylesheet" type="text/css" />
 	<script type="text/javascript" src="${h.url_for('/admin/scripts/confirm.js')}"></script>
 	<script type="text/javascript" src="${h.url_for('/admin/scripts/tags.js')}"></script>
 	<script type="text/javascript">
 		window.addEvent('domready', function(){
-			var catmgr = new CategoryMgr({
-				categoryName: 'Category',
-				table: 'category-table',
-				formSelector: 'form.category-form',
-				emptyRow: 'empty-category',
-				nameField: 'input.category-name',
-				slugField: 'input.category-slug',
+			var tagmgr = new CategoryMgr({
+				categoryName: 'Tag',
+				table: 'tag-table',
+				formSelector: 'form.tag-form',
+				emptyRow: 'empty-tag',
+				nameField: 'input.tag-name',
+				slugField: 'input.tag-slug',
 				deleteButton: 'input.delete-category',
 				cancelButton: 'input.cancel-category',
 				saveButton: 'input.save-category',
@@ -42,13 +42,13 @@
 		});
 	</script>
 </head>
-<body class="menu-settings-on menu-settings-categories-on">
+<body class="menu-settings-on menu-settings-tags-on">
 	<div class="box">
 		<div class="box-head">
-			<a href="${h.url_for(action='save', id='new')}" class="mo add-category f-rgt"><span>Add Category</span></a>
-			<h1>Categories</h1>
+			<a href="${h.url_for(action='save', id='new')}" class="mo add-tag f-rgt"><span>Add Tag</span></a>
+			<h1>Tags</h1>
 		</div>
-		<table cellpadding="0" cellspacing="0" id="category-table">
+		<table cellpadding="0" cellspacing="0" id="tag-table">
 			<thead>
 				<tr>
 					<th style="width:63px"></th>
@@ -58,23 +58,23 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr id="empty-category">
+				<tr id="empty-tag">
 					<td colspan="3">
-						${XML(category_form(show_delete=False, action=h.url_for(action='save', id='new')))}
+						${XML(tag_form(show_delete=False, action=h.url_for(action='save', id='new')))}
 					</td>
 					<td class="center">0</td>
 				</tr>
-				<tr py:if="len(categories) == 0">
+				<tr py:if="len(tags) == 0">
 					<td>None Found</td>
 				</tr>
-				<tr py:for="cat in categories">
+				<tr py:for="tag in tags">
 					<td colspan="3">
-						${XML(category_form(cat, show_delete=True, action=h.url_for(action='save', id=cat.id)))}
+						${XML(tag_form(tag, show_delete=True, action=h.url_for(action='save', id=tag.id)))}
 					</td>
-					<td class="center">${cat.media_count}</td>
+					<td class="center">${tag.media_count}</td>
 				</tr>
 			</tbody>
-			${paginated_tfoot(c.paginators.categories, '4')}
+			${paginated_tfoot(c.paginators.tags, '4')}
 		</table>
 	</div>
 </body>

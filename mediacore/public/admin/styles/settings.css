@@ -23,8 +23,8 @@ ul#settings-menu a {
 }
 .menu-settings-users-on  a#menu-settings-users,
 .menu-settings-config-on  a#menu-settings-config,
-.menu-settings-category-on  a#menu-settings-categories,
-.menu-settings-tag-on  a#menu-settings-tags,
+.menu-settings-categories-on  a#menu-settings-categories,
+.menu-settings-tags-on  a#menu-settings-tags,
 .menu-settings-display-on a#menu-settings-display {
 	background: url('../images/icons/arrow-green-right.png') no-repeat left;
 	color: #196d29;
@@ -39,16 +39,19 @@ ul#settings-menu a {
 .add-category { background-image: url('../images/buttons/add-category.png'); width: 103px; }
 .add-tag { background-image: url('../images/buttons/add-tag.png'); width: 91px; }
 
-table#category-table > tbody > tr > td:first-child {
+#tag-table > tbody > tr > td:first-child,
+#category-table > tbody > tr > td:first-child {
 /* padding will be taken care of by inner table */
 	padding-left: 0px;
 	padding-right: 0px;
 }
-.edit-category-form table {
+.tag-form table,
+.category-form table {
 /* border spacing what? */
   border-spacing: 0;
 }
-.edit-category-form td {
+.tag-form td,
+.category-form td {
 /* border top is taken care of by outer table */
 	border-top: none;
 	padding: 5px 10px;
@@ -88,7 +91,8 @@ td.form-field-textfield {
 	width: 63px;
 }
 
-.edit-category-form .textfield {
+.category-form .textfield,
+.tag-form .textfield {
 	width: 183px;
 }
 #display_name_container,

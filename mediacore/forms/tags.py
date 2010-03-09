@@ -19,10 +19,10 @@ from tw.api import WidgetsList
 
 from mediacore.forms import ListForm, SubmitButton
 
-class EditCategoryForm(ListForm):
-    template = 'mediacore.templates.admin.categories.edit'
+class TagForm(ListForm):
+    template = 'mediacore.templates.admin.tags.form'
     id = None
-    css_class = 'edit-category-form'
+    css_class = 'tag-form'
     submit_text = None
 
     # required to support multiple named buttons to differentiate between Save & Delete?
@@ -31,6 +31,6 @@ class EditCategoryForm(ListForm):
     fields = [
         SubmitButton('save', default='Save', named_button=True, css_classes=['f-rgt', 'mo', 'clickable', 'save-category']),
         SubmitButton('delete', default='Delete', named_button=True, css_classes=['mo', 'clickable', 'delete-category']),
-        TextField('name', css_classes=['category-name'], validator=NotEmpty),
-        TextField('slug', css_classes=['category-slug'], validator=NotEmpty),
+        TextField('name', css_classes=['tag-name'], validator=NotEmpty),
+        TextField('slug', css_classes=['tag-slug'], validator=NotEmpty),
     ]
