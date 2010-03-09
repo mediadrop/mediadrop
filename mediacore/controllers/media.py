@@ -511,10 +511,6 @@ class MediaController(BaseController):
         return dict()
 
     def _save_media_obj(self, name, email, title, description, tags, file):
-        # cope with anonymous posters
-        if name is None:
-            name = 'Anonymous'
-
         # create our media object as a status-less placeholder initially
         media_obj = Media()
         media_obj.author = Author(name, email)
