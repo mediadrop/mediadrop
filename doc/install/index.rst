@@ -9,11 +9,15 @@ This is a full walkthrough of how to get MediaCore running.
 Experienced TG2 users can check out the :ref:`install_overview` page for a
 (very) condensed version of the instructions.
 
+This installation guide assumes a basic familiarity with a \*nix shell.
+Experience with a Windows or DOS shell will translate pretty easily.
+You should be comfortable with running commands in a terminal, and the basics
+like ``cd``, ``ls``, ``mkdir``, ``tar``, ``sudo``, etc. For a quick refresher
+check out this `introduction to \*nix command shells
+<http://vic.gedris.org/Manual-ShellIntro/1.2/ShellIntro.pdf>`_.
+
 Step 0: Requirements
 --------------------
-
-TODO: Explain that we expect a basic fluency with the \*nix shell, cd, ls, mkdir, tar, etc.
-provide a link to an intro to that stuff.
 
 MediaCore runs on \*nix operating systems. We've tested CentOS and
 Mac OS X, but any Linux or BSD based OS should work just fine.
@@ -26,12 +30,24 @@ If you run Windows and want to try MediaCore, you have two options:
 * Find a cheap web host that offers Apache, FastCGI, and SSH support, and
   install it on there.
 
-**You will also need:**
+**You will need:**
 
 * Python 2.5.x or newer
 * MySQL 5.0.x or newer
 * GCC must be installed and available on your ``$PATH`` for certain required
   Python packages to install properly.
+
+**You may need** (if you don't have permissions to install new software on
+the server you're using, you'll also need to have the following packages
+installed):
+
+* `Python setuptools <http://pypi.python.org/pypi/setuptools>`_
+* `Python virtualenv <pypi.python.ort/pypi/virtualenv>`_
+
+If you do have permissions to install new software, we'll cover
+the installation of ``setuptools`` and ``virtualenv`` in
+`Step 0.2: Installing Setuptools`_ and
+`Step 0.3: Installing Virtualenv`_ below.
 
 
 Step 0.1: Requirements Installation on OS X
@@ -41,66 +57,155 @@ As mentioned above, you need to have GCC installed for some of MediaCore's
 dependencies to be able to compile. For Mac OS X users, that means installing
 `Xcode <http://developer.apple.com/tools/xcode/>`_.
 
+You can install Xcode from your OS X install CD, from the "Optional Installs"
+directory, or (if you have OSX 10.5.8 or 10.6) you can download it from the
+above link.
+
 For the MySQL and Python requirements, we recommend using `MacPorts <http://www.macports.org/>`_.
-Mac OS X ships with versions of MySQL and Python installed, but we find it is
-simpler and more reliable to have your own versions installed in a separate
+Mac OS X ships with a version of Python installed, but we find it is
+simpler and more reliable to have your own version installed in a separate
 place. Macports will (by default) install packages to ``/opt/local``, keeping itself
 completely separate from any previously installed packages that OS X needs to
 function.
 
-TODO: Explain how to install macports, and note that you'll have to port selfupdate or something. check with stuart.
+After you have Xcode installed, You can install MacPorts by downloading the
+dmg disk image from `MacPorts install page <http://www.macports.org/install.php>`_
+and running the contained installer.
 
 To install MySQL 5 and Python 2.5 once MacPorts is installed, open up a
 terminal (like Terminal.app or iTerm.app) and enter the following commands:
 
 .. sourcecode:: bash
 
-    # Add the MacPorts executable path to your $PATH:
-    export PATH=$PATH:/opt/local/bin
+    # By this point you should have Xcode and MacPorts installed...
+    # Make sure your MacPorts files are up to date
+    sudo port selfupdate
 
-    # Ensure that it's always on your $PATH
-    echo "export PATH=\$PATH:/opt/local/bin" > ~/.profile
+    # Load the updated environment settings (make sure the installed MacPorts
+    # executables will be on your $PATH.)
+    source ~/.profile
 
     # Install MySQL5 and Python2.5
     sudo port install mysql5-server python25
 
-    # Start the MySQL Server running in the background
-    # This will print some numbers to show that it started successfully
-    # TODO: Apparently this doesn't work with the stock macports on osx 10.6 urgh.
-    sudo /opt/local/bin/mysqld_safe5 &
+    # Initialize the newly installed MySQL server
+    sudo /opt/local/lib/mysql5/bin/mysql_install_db --user=mysql
+
+    # Start the MySQL Server and instruct it to start every time you reboot
+    sudo launchctl load -w /Library/LaunchDaemons/org.macports.mysql5.plist
+
+    # NOTE: If you ever want to stop the MySQL Server, run the following command:
+    #       sudo launchctl unload -w /Library/LaunchDaemons/org.macports.mysql5.plist
 
     # Put a link to mysql_config where other programs will expect to find it
     sudo ln -s /opt/local/bin/mysql_config5 /opt/local/bin/mysql_config
 
 
-Step 1: Setup a Python Virtual Environment
-------------------------------------------
+Step 0.2: Installing Setuptools
+-------------------------------
 
-If you haven't heard of them, Virtual Environments are a way to keep
-installations of multiple Python applications from interfering with each
-other.
+The Python setuptools package is what we'll use to automate the rest of the
+installation of Python packages.
 
-This means you can install MediaCore and all of its dependencies without
-worrying about overwriting any existing versions of Python libraries.
+First, check that you have setuptools installed for Python2.5:
+
+.. sourcecode:: bash
+
+   # Check if you have setuptools installed:
+   python2.5 -c 'import setuptools'
+
+If you get no error, you can skip the rest of this step; setuptools is already
+installed!
+
+If you get an error like the following, you'll need to install setuptools first:
+
+.. sourcecode:: text
+
+   Traceback (most recent call last):
+     File "<string>", line 1, in <module>
+   ImportError: No module named setuptools
+
+To install setuptools on a linux system:
+
+.. sourcecode:: bash
+
+   # If you're using a linux system with a package manager and you know how
+   # to install setuptools 0.6c9 or higher for python2.5 using that package
+   # manager instead, go ahead.
+
+   # Otherwise, download the Setuptools installer.
+   wget http://pypi.python.org/packages/2.5/s/setuptools/setuptools-0.6c11-py2.5.egg
+
+   # Install Setuptools
+   sudo sh setuptools-0.6c11-py2.5.egg
+
+To install setuptools on Mac OS X (with MacPorts):
+
+.. sourcecode:: bash
+
+   # Install setuptools
+   sudo port -v install py25-setuptools
+
+
+Step 0.3: Installing Virtualenv
+-------------------------------
+
+First, check if you have virtualenv installed.
 
 .. sourcecode:: bash
 
    # Check if you have virtualenv installed:
-   virtualenv
+   python2.5 -c 'import virtualenv'
 
-   # If you get an error like the following, you'll need to install it:
-   # -bash: virtualenv: command not found
+If you get no error, you can skip the rest of this step; virtualenv is already
+installed!
 
-   # To install virtualenv:
-   sudo easy_install virtualenv
+If you get an error like the following, you'll need to install virtualenv.
 
-   # Or, on Mac OS X with MacPorts:
+.. sourcecode:: text
+
+   Traceback (most recent call last):
+     File "<string>", line 1, in <module>
+   ImportError: No module named virtualenv
+
+To install virtualenv on a linux system:
+
+.. sourcecode:: bash
+
+   # If you're using a linux system with a package manager and you know how
+   # to install virtualenv for python2.5 using that package manager instead,
+   # go ahead.
+
+   # Otherwise, install via setuptools
+   sudo easy_install-2.5 virtualenv
+
+To install virtualenv on Mac OS X (with MacPorts):
+
+.. sourcecode:: bash
+
+   # Otherwise, If you're on Mac OS X with MacPorts:
    sudo port -v install py25-virtualenv
 
-Once that's done you can create your new virtual environment. The following
-command will create a folder named ``mediacore_env`` in the current directory.
-You can put this folder anywhere, but remember where it is--we'll need to
-point to it later.
+   # Create a link to the main virtualenv script
+   sudo ln -s /opt/local/bin/virtualenv-2.5 /opt/local/bin/virtualenv
+
+
+Step 1: Setup a Python Virtual Environment
+------------------------------------------
+
+**NOTE: Past this point, it will be assumed that all packages required in**
+`Step 0: Requirements`_ **are installed.**
+
+If you haven't heard of them, `Virtual Environments <http://pypi.python.org/pypi/virtualenv>`_
+are a way to keep installations of multiple Python applications from
+interfering with each other.
+
+This means you can install MediaCore and all of its dependencies without
+worrying about overwriting any existing versions of Python libraries.
+
+The following command will create a folder named ``mediacore_env`` in the
+current directory you can put this folder anywhere, but remember where it
+is--we'll need to point to it later.
 
 .. sourcecode:: bash
 
