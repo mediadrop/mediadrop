@@ -22,6 +22,7 @@ import genshi.core
 import pylons.templating
 from copy import copy
 from urlparse import urlparse
+from PIL import Image
 
 from BeautifulSoup import BeautifulSoup
 from webhelpers import date, feedgenerator, html, number, misc, text, paginate, containers
@@ -355,6 +356,48 @@ def thumb(item, size, qualified=False, exists=False):
     if not url:
         return None
     return ThumbDict(url, config.thumb_sizes[image_dir][size])
+
+def resize_thumb(img, size, filter=Image.ANTIALIAS):
+    """Resize an image without any stretching by cropping when necessary.
+
+    If the given image has a different aspect ratio than the requested
+    size, the tops or sides will be cropped off before resizing.
+
+    Note that stretching will still occur if the target size is larger
+    than the given image.
+
+    :param img: Any open image
+    :type img: :class:`PIL.Image`
+    :param size: The desired width and height
+    :type size: tuple
+    :param filter: The downsampling filter to use when resizing.
+        Defaults to PIL.Image.ANTIALIAS, the highest possible quality.
+    :returns: A new, resized image instance
+
+    """
+    X, Y, X2, Y2 = 0, 1, 2, 3 # aliases for readability
+
+    src_ratio = float(img.size[X]) / img.size[Y]
+    dst_ratio = float(size[X]) / size[Y]
+
+    if dst_ratio != src_ratio and (img.size[X] >= size[X] and
+                                   img.size[Y] >= size[Y]):
+        crop_size = list(img.size)
+        crop_rect = [0, 0, 0, 0] # X, Y, X2, Y2
+
+        if dst_ratio < src_ratio:
+            crop_size[X] = int(crop_size[Y] * dst_ratio)
+            crop_rect[X] = int(float(img.size[X] - crop_size[X]) / 2)
+        else:
+            crop_size[Y] = int(crop_size[X] / dst_ratio)
+            crop_rect[Y] = int(float(img.size[Y] - crop_size[Y]) / 2)
+
+        crop_rect[X2] = crop_rect[X] + crop_size[X]
+        crop_rect[Y2] = crop_rect[Y] + crop_size[Y]
+
+        img = img.crop(crop_rect)
+
+    return img.resize(size, filter)
 
 def best_json_content_type(accept=None, raise_exc=True):
     """Return the best possible JSON header we can return for a client.

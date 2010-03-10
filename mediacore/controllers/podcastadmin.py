@@ -197,11 +197,11 @@ class PodcastadminController(BaseController):
         else:
             podcast = fetch_row(Podcast, id)
 
-        im_path = os.path.join(config.image_dir, podcast._thumb_dir, '%s%s.%s')
+        img_path = os.path.join(config.image_dir, podcast._thumb_dir, '%s%s.%s')
 
         try:
             # Create jpeg thumbs
-            im = Image.open(thumb.file)
+            img = Image.open(thumb.file)
 
             if id == 'new':
                 DBSession.add(podcast)
@@ -209,12 +209,13 @@ class PodcastadminController(BaseController):
 
             # TODO: Allow other formats?
             for key, xy in config.thumb_sizes[podcast._thumb_dir].iteritems():
-                file_path = im_path % (podcast.id, key, 'jpg')
-                im.resize(xy, 1).save(file_path)
+                file_path = img_path % (podcast.id, key, 'jpg')
+                thumb_img = helpers.resize_thumb(img, xy)
+                thumb_img.save(file_path)
 
             # Backup the original image just for kicks
             orig_type = os.path.splitext(thumb.filename)[1].lower()[1:]
-            backup_file = open(im_path % (podcast.id, 'orig', orig_type), 'w')
+            backup_file = open(img_path % (podcast.id, 'orig', orig_type), 'w')
             copyfileobj(thumb.file, backup_file)
             thumb.file.close()
             backup_file.close()
