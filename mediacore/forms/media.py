@@ -14,6 +14,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from tw.api import WidgetsList, CSSLink
+import formencode
 from tw.forms.validators import Schema, Int, StringBool, NotEmpty, DateTimeConverter, DateValidator, FieldStorageUploadConverter
 
 from mediacore.model import DBSession, Podcast, MediaFile
@@ -63,6 +64,21 @@ class EditFileForm(ListForm):
         return super(EditFileForm, self).display(value, file=file, **kwargs)
 
 
+class DurationValidator(formencode.FancyValidator):
+    """
+    Duration to Seconds Converter
+    """
+    def _to_python(self, value, state):
+        try:
+            return helpers.duration_to_seconds(value)
+        except ValueError:
+            raise formencode.Invalid('Please use the format HH:MM:SS',
+                                     value, state)
+
+    def _from_python(self, value, state):
+        return helpers.duration_from_seconds(value)
+
+
 class MediaForm(ListForm):
     template = 'mediacore.templates.admin.box-form'
     id = 'media-form'
@@ -82,7 +98,7 @@ class MediaForm(ListForm):
         CheckBoxList('topics', template='mediacore.templates.admin.categories.selection_list', options=lambda: DBSession.query(Topic.id, Topic.name).all()),
         TextArea('tags', attrs=dict(rows=3, cols=15), help_text=u'e.g.: puppies, great dane, adorable'),
         ListFieldSet('details', suppress_label=True, legend='Media Details:', css_classes=['details_fieldset'], children=[
-            TextField('duration'),
+            TextField('duration', validator=DurationValidator),
         ]),
         SubmitButton('save', default='Save', named_button=True, css_classes=['mo', 'btn-save', 'f-rgt']),
         SubmitButton('delete', default='Delete', named_button=True, css_classes=['mo', 'btn-delete']),

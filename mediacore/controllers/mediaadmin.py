@@ -169,7 +169,9 @@ class MediaadminController(BaseController):
                 tags = ', '.join((tag.name for tag in media.tags)),
                 topics = [topic.id for topic in media.topics],
                 notes = media.notes,
-                details = dict(duration = helpers.duration_from_seconds(media.duration)),
+                details = dict(
+                    duration = media.duration, # validator converts secs to hh:mm:ss
+                ),
             )
 
         # Re-verify the state of our Media object in case the data is nonsensical
@@ -219,7 +221,7 @@ class MediaadminController(BaseController):
         media.author = Author(author_name, author_email)
         media.description = helpers.clean_admin_xhtml(description)
         media.notes = notes
-        media.duration = helpers.duration_to_seconds(details['duration'])
+        media.duration = details['duration'] # validator converts hh:mm:ss to secs
         media.podcast_id = podcast
         media.set_tags(tags)
         media.set_topics(topics)
