@@ -14,7 +14,6 @@ install_requires = [
     'ToscaWidgets >= 0.9.1',
     'tw.dynforms',
     'zope.sqlalchemy',
-    'sqlalchemy >= 0.5.8',
     'repoze.what-quickstart',
     'MySQL-python >= 1.2.2',
     'BeautifulSoup == 3.0.7a',
