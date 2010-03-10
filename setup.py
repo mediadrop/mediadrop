@@ -8,6 +8,8 @@ except ImportError:
 from mediacore import __version__ as VERSION
 
 install_requires = [
+    'SQLAlchemy == 0.5.8',
+    'Pylons == 0.9.7',
     'TurboGears2 >= 2.0.3',
     'ToscaWidgets >= 0.9.1',
     'tw.dynforms',
