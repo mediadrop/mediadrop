@@ -298,7 +298,7 @@ class MediaadminController(BaseController):
                 media_file = MediaFile()
                 # Parse the URL checking for known embeddables like YouTube
                 for type, info in config.embeddable_filetypes.iteritems():
-                    match = re.match(info['pattern'], url)
+                    match = info['pattern'].match(url)
                     if match:
                         media_file.type = type
                         media_file.url = match.group('id')
