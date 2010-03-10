@@ -33,7 +33,7 @@
 			<p>Don't worry. The engineers and gnomes have been automagically notified and we're already on our way to resolving your issue.</p>
 			<h4 class="italic">A few things you can check:</h4>
 			<ul>
-				<li>Is the file under 500 Megabytes in size?</li>
+				<li>Is the file under ${int(h.config.max_upload_size)/1024/1024} Megabytes in size?</li>
 				<li>Is it encoded in one of our supported formats? <span id="formats">${h.list_accepted_extensions()}.</span></li>
 			</ul>
 			<a id="try-again" href="${h.url_for(action='upload')}"><img alt="Try Uploading Again" src="${h.url_for('/images/uploader/try-again.png')}" /></a>
