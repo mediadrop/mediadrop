@@ -15,7 +15,7 @@
 
 import os.path
 import simplejson as json
-from shutil import copyfileobj
+import shutil
 
 from tg import config, request, response, tmpl_context
 from tg.controllers import CUSTOM_CONTENT_TYPE
@@ -214,9 +214,11 @@ class PodcastadminController(BaseController):
                 thumb_img.save(file_path)
 
             # Backup the original image just for kicks
-            orig_type = os.path.splitext(thumb.filename)[1].lower()[1:]
-            backup_file = open(img_path % (podcast.id, 'orig', orig_type), 'w')
-            copyfileobj(thumb.file, backup_file)
+            backup_type = os.path.splitext(thumb.filename)[1].lower()[1:]
+            backup_path = img_path % (podcast.id, 'orig', backup_type)
+            backup_file = open(backup_path, 'w+b')
+            thumb.file.seek(0)
+            shutil.copyfileobj(thumb.file, backup_file)
             thumb.file.close()
             backup_file.close()
 

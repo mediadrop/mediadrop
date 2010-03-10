@@ -19,7 +19,7 @@ Media Admin Controller
 import os.path
 import re
 import simplejson as json
-from shutil import copyfileobj
+import shutil
 from urlparse import urlparse, urlunparse
 from datetime import datetime
 
@@ -480,9 +480,11 @@ class MediaadminController(BaseController):
                 thumb_img.save(file_path)
 
             # Backup the original image just for kicks
-            orig_type = os.path.splitext(thumb.filename)[1].lower()[1:]
-            backup_file = open(img_path % (media.id, 'orig', orig_type), 'w')
-            copyfileobj(thumb.file, backup_file)
+            backup_type = os.path.splitext(thumb.filename)[1].lower()[1:]
+            backup_path = img_path % (media.id, 'orig', backup_type)
+            backup_file = open(backup_path, 'w+b')
+            thumb.file.seek(0)
+            shutil.copyfileobj(thumb.file, backup_file)
             thumb.file.close()
             backup_file.close()
 
