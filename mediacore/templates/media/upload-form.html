@@ -26,36 +26,45 @@
 	<span py:if="error and not error.error_dict" class="field-error" py:content="error" />
 	<table class="field-list" py:attrs="list_attrs">
 		<tbody>
-		<span
-			py:strip="True"
-			py:for="i, field in enumerate(fields)"
-			py:with="required=[None,' required'][int(field.is_required)];
-			         help_url = getattr(field, 'help_url', None);
-			         is_submit = getattr(field, 'type', None) == 'submit';
-			         render_label = show_labels and not field.suppress_label;
-			         render_error = error is not None and field.show_error;"
-			py:attrs="args_for(field).get('container_attrs') or field.container_attrs"
-			id="${field.id}-container"
-			class="${i%2 and 'odd' or 'even'}${is_submit and ' submit' or None}"
-		>
-			<tr class="title" py:if="render_label or field.show_error">
-				<td>
-					<label py:if="render_label" py:content="field.label_text" id="${field.id}-label" class="form-label" for="${field.id}" />
-					<a py:if="field.help_text and help_url" py:content="field.help_text" href="${help_url}" class="field-help" />
-					<span py:if="field.help_text and not help_url" py:content="field.help_text" class="field-help" />
-					<span py:if="field.show_error" class="field-error" py:content="error_for(field)" />
-				</td>
-			</tr>
-			<tr>
-				<td class="${render_error and (error_for(field) is not None and 'err' or 'noerr') or ''}">
-				${field.display(value_for(field), **args_for(field))}
-				</td>
-			</tr>
-			<tr py:if="field.name == 'description'">
-				<td py:content="xhtml_description('description')" />
-			</tr>
-		</span>
+			<py:for each="i, field in enumerate(fields)"
+			        py:with="required = field.is_required and ' required' or None;
+			                 help_url = getattr(field, 'help_url', None);
+			                 is_submit = getattr(field, 'type', None) == 'submit';
+			                 render_label = show_labels and not field.suppress_label;
+			                 render_error = error is not None and field.show_error;">
+				<tr py:if="field.name == 'url'">
+					<td>
+						<br />
+						<div class="field-error"
+						     py:if="'_the_form' in tmpl_context.form_errors"
+						     py:content="tmpl_context.form_errors['_the_form']">
+							Display the error from the media controller, if any
+						</div>
+					</td>
+				</tr>
+				<tr class="title" py:if="render_label and not is_submit or field.show_error">
+					<td>
+						<label py:if="render_label" py:content="field.label_text" id="${field.id}-label" class="form-label" for="${field.id}" />
+						<a py:if="field.help_text and help_url" py:content="field.help_text" href="${help_url}" class="field-help" />
+						<span py:if="field.help_text and not help_url" py:content="field.help_text" class="field-help" />
+						<span py:if="field.show_error" class="field-error" py:content="error_for(field)" />
+					</td>
+				</tr>
+				<tr>
+					<td class="${render_error and (error_for(field) is not None and 'err' or 'noerr') or ''}">
+						${field.display(value_for(field), **args_for(field))}
+
+						<!-- The following 4 elements are used only by the SwiffUploadManager javascript -->
+						<div py:if="field.name == 'file'" id="bottombar">
+							<div id="browse-button" class="f-lft" />
+							<div id="file-info" class="f-lft" />
+						</div>
+					</td>
+				</tr>
+				<tr py:if="field.name == 'description'" class="${field.name}-rel">
+					<td py:content="xhtml_description('description')" />
+				</tr>
+			</py:for>
 		</tbody>
 	</table>
 </form>
-

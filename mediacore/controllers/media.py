@@ -24,6 +24,7 @@ import urllib2
 import sha
 import time
 import logging
+import formencode
 from urlparse import urlparse
 from datetime import datetime, timedelta, date
 
@@ -395,7 +396,7 @@ class MediaController(BaseController):
             legal_wording = helpers.fetch_setting('wording_user_uploads'),
             support_email = support_email,
             upload_form = upload_form,
-            form_values = {},
+            form_values = kwargs,
         )
 
     @expose(content_type=CUSTOM_CONTENT_TYPE)
@@ -460,7 +461,8 @@ class MediaController(BaseController):
             # We're actually supposed to save the fields. Let's do it.
             if len(tmpl_context.form_errors) != 0:
                 # if the form wasn't valid, return failure
-                data = dict(success = False)
+                tmpl_context.form_errors['success'] = False
+                data = tmpl_context.form_errors
             else:
                 # else actually save it!
                 kwargs.setdefault('name')
@@ -469,7 +471,7 @@ class MediaController(BaseController):
                 media_obj = self._save_media_obj(
                     kwargs['name'], kwargs['email'],
                     kwargs['title'], kwargs['description'],
-                    kwargs['tags'], kwargs['file']
+                    kwargs['tags'], kwargs['file'], kwargs['url'],
                 )
                 email.send_media_notification(media_obj)
                 data = dict(
@@ -493,7 +495,7 @@ class MediaController(BaseController):
         media_obj = self._save_media_obj(
             kwargs['name'], kwargs['email'],
             kwargs['title'], kwargs['description'],
-            kwargs['tags'], kwargs['file']
+            kwargs['tags'], kwargs['file'], kwargs['url'],
         )
         email.send_media_notification(media_obj)
 
@@ -510,7 +512,7 @@ class MediaController(BaseController):
     def upload_failure(self, **kwargs):
         return dict()
 
-    def _save_media_obj(self, name, email, title, description, tags, file):
+    def _save_media_obj(self, name, email, title, description, tags, file, url):
         # create our media object as a status-less placeholder initially
         media_obj = Media()
         media_obj.author = Author(name, email)
@@ -521,7 +523,28 @@ class MediaController(BaseController):
         media_obj.set_tags(tags)
 
         # Create a media object, add it to the media_obj, and store the file permanently.
-        media_file = _add_new_media_file(media_obj, file.filename, file.file)
+        if file is not None:
+            media_file = _add_new_media_file(media_obj, file.filename, file.file)
+        else:
+            # FIXME: For some reason the media.type isn't ever set to video
+            #        during this request. On subsequent requests, when
+            #        media_obj.update_type() is called, it is set properly.
+            #        This isn't too serious an issue right now because
+            #        it is called the first time a moderator goes to review
+            #        the new media_obj.
+            media_file = MediaFile()
+            url = unicode(url)
+            for type, info in config.embeddable_filetypes.iteritems():
+                match = info['pattern'].match(url)
+                if match:
+                    media_file.type = type
+                    media_file.url = match.group('id')
+                    media_file.enable_feed = False
+                    break
+            else:
+                # Trigger a validation error on the whole form.
+                raise formencode.Invalid('Please specify a URL or upload a file below.', None, None)
+            media_obj.files.append(media_file)
 
         # Add the final changes.
         media_obj.update_type()

@@ -32,7 +32,7 @@
 		window.addEvent('domready', function() {
 			if (Browser.Engine.trident) return;
 			UploadMGR = new UploadManager('${upload_form.id}', '${upload_form.async_action}');
-			SwiffUploadMGR = new SwiffUploadManager('${upload_form.id}', '${upload_form.async_action}', '${h.url_for(action='upload_failure')}', '${h.url_for('/')}', '${'; '.join(['*.'+x for x in h.accepted_extensions()])}', 'browse-button', 'upload-button', 'file-info', 'upload-status', swiff_messages, ${config.max_upload_size});
+			SwiffUploadMGR = new SwiffUploadManager('${upload_form.id}', '${upload_form.async_action}', '${h.url_for(action='upload_failure')}', '${h.url_for('/')}', '${'; '.join(['*.'+x for x in h.accepted_extensions()])}', 'browse-button', 'submit_btn', 'file-info', 'upload-status', swiff_messages, ${config.max_upload_size});
 		});
 	</script>
 </head>
@@ -52,12 +52,6 @@
 			<div id="upload-status"><span class="percent" /><span class="text" /></div>
 		</div>
 		${XML(upload_form(form_values))}
-		<!-- The following 4 elements are used only by the SwiffUploadManager javascript -->
-		<div id="bottombar">
-			<div id="browse-button" />
-			<div id="upload-button" />
-			<div id="file-info" />
-		</div>
 	</box>
 </body>
 </html>

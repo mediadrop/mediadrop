@@ -52,13 +52,13 @@ var UploadManager = new Class({
 
 	onSubmit: function(e) {
 		if (e) {
-			new Event(e).stop();
+//			new Event(e).stop();
 			this.validate();
 			this.submit.set('disabled', true);
 			this.submitted = true;
-			return false;
+//			return false;
 		}
-		return true;
+//		return true;
 	},
 
 	validate: function(o) {
@@ -193,7 +193,7 @@ var SwiffUploadManager = new Class({
 		}
 
 		this.browseButton.addClass('active').addClass('enabled');
-		this.uploadButton.addClass('active');
+//		this.uploadButton.addClass('active');
 		this.fileInfoDiv.addClass('active');
 		this.statusDiv.addClass('active');
 
@@ -237,10 +237,18 @@ var SwiffUploadManager = new Class({
 			}.bind(this)
 		});
 
+		this.form.addEvent('submit', function(e){
+			if (this.uploader.fileList.length >= 1) {
+				if (e) new Event(e).stop();
+				this.startUpload();
+			}
+		}.bind(this));
+
 		// Set the default onclick event for the upload button
-		this.uploadButton.addEvent('click', function() {
+/*		this.uploadButton.addEvent('click', function() {
 			this.startUpload();
 		}.bind(this));
+*/
 
 		// Overwrite the onSuccess event for the UploadManager's validation check.
 		// It won't ever be called by UploadMGR because we just removed the button that triggers it
@@ -254,12 +262,10 @@ var SwiffUploadManager = new Class({
 		// Erase the default file and submit inputs
 		/* NB: this path relies heavily on the current table layout,
 		 * and should be updated along with the template */
-		var fpp = $(finput.parentNode.parentNode); // ensure element has added mootools element properties.
-		var spp = $(submit.parentNode.parentNode); // ensure element has added mootools element properties.
+		finput.destroy();
+/*		var fpp = $(finput.parentNode.parentNode); // ensure element has added mootools element properties.
 		fpp.getPrevious().destroy();
-		fpp.destroy();
-		spp.getPrevious().destroy();
-		spp.destroy();
+		fpp.destroy();*/
 	},
 
 	// returns a dict with all the form fields/values,
@@ -359,11 +365,11 @@ var SwiffUploadManager = new Class({
 		if (en) {
 //			this.uploader.setEnabled(false);
 			this.enabled = true;
-			this.uploadButton.addClass('enabled');
+//			this.uploadButton.addClass('enabled');
 		} else {
 			this.uploader.setEnabled(true);
 			this.enabled = false;
-			this.uploadButton.removeClass('enabled');
+//			this.uploadButton.removeClass('enabled');
 		}
 
 	},
@@ -379,4 +385,3 @@ var SwiffUploadManager = new Class({
 	}
 
 });
-

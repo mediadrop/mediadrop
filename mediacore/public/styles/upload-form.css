@@ -35,6 +35,14 @@ table.field-list {
 	border-collapse: collapse;
 	width: 100%;
 }
+#upload-form {
+	position: relative;
+}
+#upload-form .btn-submit {
+	position: absolute;
+	bottom: 0;
+	right: 69px;
+}
 
 table.field-list .textfield,
 table.field-list .textarea,
@@ -89,12 +97,6 @@ table.field-list .noerr {
 	background: transparent url('../images/uploader/check.png') no-repeat scroll 620px center
 }
 
-div#bottombar {
-	margin-top: 27px;
-	background: url('../images/uploader/arrow.png') no-repeat 250px 0px;
-}
-
-
 div#browse-button.active,
 div#browse-button.enabled,
 div#browse-button.browse-button-hover {
@@ -133,8 +135,8 @@ div#upload-button.enabled:hover {
 }
 
 div#file-info.active {
-	clear: both;
-	padding-top: 10px;
+	padding-left: 15px;
+	line-height: 34px;
 }
 
 div#file-info span.filename {
