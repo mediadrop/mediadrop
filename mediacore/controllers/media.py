@@ -550,6 +550,9 @@ class MediaController(BaseController):
         media_obj.update_type()
         media_obj.update_status()
         DBSession.add(media_obj)
+        DBSession.flush()
+
+        helpers.create_default_thumbs_for(media_obj)
 
         return media_obj
 

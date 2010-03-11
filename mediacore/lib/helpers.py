@@ -20,6 +20,7 @@ import time
 import os
 import genshi.core
 import pylons.templating
+import shutil
 from copy import copy
 from urlparse import urlparse
 from PIL import Image
@@ -319,7 +320,6 @@ def thumb_path(item, size, exists=False, ext='jpg'):
         return None
     return image_path
 
-
 def thumb_url(item, size, qualified=False, exists=False):
     """Get the thumbnail url for the given item and size.
 
@@ -430,6 +430,26 @@ def resize_thumb(img, size, filter=Image.ANTIALIAS):
 
     return img.resize(size, filter)
 
+def create_default_thumbs_for(item):
+    """Create copies of the default thumbs for the given item.
+
+    This copies the default files (all named with an id of 'new') to
+    use the given item's id. This means there could be lots of duplicate
+    copies of the default thumbs, but at least we can always use the
+    same url when rendering.
+
+    :param item: A 2-tuple with a subdir name and an ID. If given a
+        ORM mapped class with _thumb_dir and id attributes, the info
+        can be extracted automatically.
+    :type item: ``tuple`` or mapped class
+
+    """
+    image_dir, item_id = _normalize_thumb_item(item)
+    for key in config.thumb_sizes[image_dir].iterkeys():
+        src_file = thumb_path((image_dir, 'new'), key)
+        dst_file = thumb_path(item, key)
+        shutil.copyfile(src_file, dst_file)
+
 def best_json_content_type(accept=None, raise_exc=True):
     """Return the best possible JSON header we can return for a client.
 
@@ -484,7 +504,6 @@ def append_class_attr(attrs, class_name):
         attrs = dict(attrs or ())
     attrs['class'] = unicode(attrs.get('class', '') + ' ' + class_name).strip()
     return attrs
-
 
 excess_whitespace = re.compile('\s\s+', re.M)
 

@@ -230,6 +230,9 @@ class MediaadminController(BaseController):
         DBSession.add(media)
         DBSession.flush()
 
+        if id == 'new':
+            helpers.create_default_thumbs_for(media)
+
         redirect(action='edit', id=media.id)
 
 
@@ -322,6 +325,9 @@ class MediaadminController(BaseController):
             media.update_status()
             DBSession.add(media)
             DBSession.flush()
+
+            if id == 'new':
+                helpers.create_default_thumbs_for(media)
 
             # Render some widgets so the XHTML can be injected into the page
             edit_form_xhtml = unicode(edit_file_form.display(

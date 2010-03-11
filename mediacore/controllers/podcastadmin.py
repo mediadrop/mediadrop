@@ -152,6 +152,10 @@ class PodcastadminController(BaseController):
 
         DBSession.add(podcast)
         DBSession.flush()
+
+        if id == 'new':
+            helpers.create_default_thumbs_for(podcast)
+
         redirect(action='edit', id=podcast.id)
 
 
