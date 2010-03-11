@@ -27,9 +27,9 @@ class SettingsForm(ListForm):
 
     fields = [
         ListFieldSet('email', suppress_label=True, legend='Email Notifications:', css_classes=['details_fieldset'], children=[
-            TextField('media_uploaded', validator=email_validator, maxlength=255),
-            TextField('comment_posted', validator=email_validator, maxlength=255),
-            TextField('support_requests', validator=email_validator, maxlength=255),
+            TextField('media_uploaded', maxlength=255),
+            TextField('comment_posted', maxlength=255),
+            TextField('support_requests', maxlength=255),
             TextField('send_from', validator=email_validator, label_text='Send Emails From', maxlength=255),
         ]),
 #        ListFieldSet('ftp', suppress_label=True, legend='Remote FTP File Storage:',
