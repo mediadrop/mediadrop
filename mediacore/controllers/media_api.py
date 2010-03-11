@@ -258,6 +258,7 @@ class MediaApiController(BaseController):
             slug = media.slug,
             url = media_url,
             title = media.title,
+            author = media.author.name,
             type = media.type,
             podcast = podcast_slug,
             description = media.description,
@@ -267,4 +268,5 @@ class MediaApiController(BaseController):
             likes = media.likes,
             views = media.views,
             thumbs = thumbs,
+            topics = dict((t.slug, t.name) for t in list(media.topics)),
         )
