@@ -289,6 +289,37 @@ def _normalize_thumb_item(item):
     except AttributeError:
         return item
 
+def thumb_path(item, size, exists=False, ext='jpg'):
+    """Get the thumbnail path for the given item and size.
+
+    :param item: A 2-tuple with a subdir name and an ID. If given a
+        ORM mapped class with _thumb_dir and id attributes, the info
+        can be extracted automatically.
+    :type item: ``tuple`` or mapped class
+    :param size: Size key to display, see ``thumb_sizes`` in
+        :mod:`mediacore.config.app_config`
+    :type size: str
+    :param exists: If enabled, checks to see if the file actually exists.
+        If it doesn't exist, ``None`` is returned.
+    :type exists: bool
+    :param ext: The extension to use, defaults to jpg.
+    :type ext: str
+    :returns: The absolute system path or ``None``.
+    :rtype: str
+
+    """
+    if not item:
+        return None
+
+    image_dir, item_id = _normalize_thumb_item(item)
+    image = '%s/%s%s.%s' % (image_dir, item_id, size, ext)
+    image_path = os.path.join(config.image_dir, image)
+
+    if exists and not os.path.isfile(image_path):
+        return None
+    return image_path
+
+
 def thumb_url(item, size, qualified=False, exists=False):
     """Get the thumbnail url for the given item and size.
 

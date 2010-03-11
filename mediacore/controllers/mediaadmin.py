@@ -463,8 +463,6 @@ class MediaadminController(BaseController):
         else:
             media = fetch_row(Media, id)
 
-        img_path = os.path.join(config.image_dir, media._thumb_dir, '%s%s.%s')
-
         try:
             # Create thumbs
             img = Image.open(thumb.file)
@@ -475,13 +473,13 @@ class MediaadminController(BaseController):
 
             # TODO: Allow other formats?
             for key, xy in config.thumb_sizes[media._thumb_dir].iteritems():
-                file_path = img_path % (media.id, key, 'jpg')
+                thumb_path = helpers.thumb_path(media, key)
                 thumb_img = helpers.resize_thumb(img, xy)
-                thumb_img.save(file_path)
+                thumb_img.save(thumb_path)
 
             # Backup the original image just for kicks
             backup_type = os.path.splitext(thumb.filename)[1].lower()[1:]
-            backup_path = img_path % (media.id, 'orig', backup_type)
+            backup_path = helpers.thumb_path(media, 'orig', ext=backup_type)
             backup_file = open(backup_path, 'w+b')
             thumb.file.seek(0)
             shutil.copyfileobj(thumb.file, backup_file)
