@@ -60,7 +60,7 @@ class PodcastadminController(BaseController):
 
 
     @expose('mediacore.templates.admin.podcasts.edit')
-    def edit(self, id, **values):
+    def edit(self, id, **kwargs):
         """Display the podcast forms for editing or adding.
 
         This page serves as the error_handler for every kind of edit action,
@@ -86,23 +86,28 @@ class PodcastadminController(BaseController):
         """
         podcast = fetch_row(Podcast, id)
 
-        explicit_values = dict(yes=True, clean=False)
-        form_values = dict(
-            slug = podcast.slug,
-            title = podcast.title,
-            subtitle = podcast.subtitle,
-            author_name = podcast.author and podcast.author.name or None,
-            author_email = podcast.author and podcast.author.email or None,
-            description = podcast.description,
-            details = dict(
-                explicit = {True: 'yes', False: 'clean'}.get(podcast.explicit, 'no'),
-                category = podcast.category,
-                copyright = podcast.copyright,
-                itunes_url = podcast.itunes_url,
-                feedburner_url = podcast.feedburner_url,
-            ),
-        )
-        form_values.update(values)
+        if tmpl_context.action == 'save' or id == 'new':
+            form_values = kwargs
+            user = request.environ['repoze.who.identity']['user']
+            form_values.setdefault('author_name', user.display_name)
+            form_values.setdefault('author_email', user.email_address)
+        else:
+            explicit_values = dict(yes=True, clean=False)
+            form_values = dict(
+                slug = podcast.slug,
+                title = podcast.title,
+                subtitle = podcast.subtitle,
+                author_name = podcast.author and podcast.author.name or None,
+                author_email = podcast.author and podcast.author.email or None,
+                description = podcast.description,
+                details = dict(
+                    explicit = {True: 'yes', False: 'clean'}.get(podcast.explicit, 'no'),
+                    category = podcast.category,
+                    copyright = podcast.copyright,
+                    itunes_url = podcast.itunes_url,
+                    feedburner_url = podcast.feedburner_url,
+                ),
+            )
 
         thumb_form_errors = {}
         if tmpl_context.action == 'save_thumb':
