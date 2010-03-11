@@ -38,7 +38,7 @@
 					</li>
 				</ol>
 				<div class="box-content center"
-				     py:content="c.update_button('Review Complete', id='update-status', css_class='mo submitbutton btn-review-complete') if media.files else 'Review can only be completed after a file is added.'" />
+				     py:content="c.update_button('Review Complete', id='update-status', css_class='btn submitbutton btn-review-complete') if media.files else 'Review can only be completed after a file is added.'" />
 			</py:when>
 			<py:when test="not media.encoded">
 				<ol id="status-list">
@@ -59,7 +59,7 @@
 					</li>
 				</ol>
 				<div class="box-content center">
-					${c.update_button('Publish Now', id='update-status', css_class='mo submitbutton btn-publish-now')}
+					${c.update_button('Publish Now', id='update-status', css_class='btn submitbutton btn-publish-now')}
 				</div>
 			</py:when>
 			<py:when test="media.publishable">

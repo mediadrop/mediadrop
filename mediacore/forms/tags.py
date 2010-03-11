@@ -29,8 +29,8 @@ class TagForm(ListForm):
     _name = 'vf'
 
     fields = [
-        SubmitButton('save', default='Save', named_button=True, css_classes=['f-rgt', 'mo', 'clickable', 'save-category']),
-        SubmitButton('delete', default='Delete', named_button=True, css_classes=['mo', 'clickable', 'delete-category']),
+        SubmitButton('save', default='Save', named_button=True, css_classes=['f-rgt', 'btn', 'clickable', 'save-category']),
+        SubmitButton('delete', default='Delete', named_button=True, css_classes=['btn', 'clickable', 'delete-category']),
         TextField('name', css_classes=['tag-name'], validator=NotEmpty),
         TextField('slug', css_classes=['tag-slug'], validator=NotEmpty),
     ]

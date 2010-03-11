@@ -36,16 +36,16 @@
 <body class="menu-settings-on menu-settings-users-on">
 	<div class="box">
 		<div class="box-head">
-			<a href="${h.url_for(action='edit', id='new')}" class="mo add-user f-rgt"><span>Add User</span></a>
+			<a href="${h.url_for(action='edit', id='new')}" class="btn btn-add-user f-rgt"><span>Add User</span></a>
 			<h1>Users</h1>
 		</div>
 		<table cellpadding="0" cellspacing="0" id="user-table">
 			<thead>
 				<tr>
-					<th style="width:63px">&nbsp;</th>
-					<th style="width:205px">Display Name</th>
-					<th style="width:205px">Email</th>
-					<th style="width:105px">Group</th>
+					<th id="h-display_name" style="width:205px">Display Name</th>
+					<th id="h-email" style="width:auto">Email</th>
+					<th id="h-group" style="width:105px">Group</th>
+					<th id="h-btns" style="width:63px">&nbsp;</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -53,15 +53,17 @@
 					<td>None Found</td>
 				</tr>
 				<tr py:for="user in users">
-					<td>
-						<a href="${h.url_for(action='edit', id=user.user_id)}" class="edit-user mo">edit</a>
+					<td headers="h-display_name"><a href="${h.url_for(action='edit', id=user.user_id)}" py:content="user.display_name">Display Name</a></td>
+					<td headers="h-email"><a href="mailto:${user.email_address}" py:content="user.email_address">email address</a></td>
+					<td headers="h-group" py:content="user.groups and user.groups[0].display_name or None">group</td>
+					<td headers="h-btns">
 						<form action="${h.url_for(action='delete', id=user.user_id)}" method="post" class="delete-user-form">
-							<input class="submitbutton clickable mo delete-user" type="submit" value="Delete" name="delete" />
+							<div>
+								<a href="${h.url_for(action='edit', id=user.user_id)}" class="btn btn-inline-edit f-lft">edit</a>
+								<input class="btn btn-inline-delete" type="submit" value="Delete" name="delete" />
+							</div>
 						</form>
 					</td>
-					<td><a href="${h.url_for(action='edit', id=user.user_id)}" py:content="user.display_name">Display Name</a></td>
-					<td><a href="mailto:${user.email_address}" py:content="user.email_address">email address</a></td>
-					<td py:content="len(user.groups) == 1 and user.groups[0].display_name or None">groups</td>
 				</tr>
 			</tbody>
 			${paginated_tfoot(c.paginators.users, '4')}

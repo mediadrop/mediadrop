@@ -24,7 +24,7 @@
 	             paginator = c.paginators.comments;">
 		<thead py:if="include_thead">
 			<tr>
-				<th style="width:58px">Status</th>
+				<th style="width:55px">Status</th>
 				<th style="width:100px">Author</th>
 				<th style="width:auto">Comment</th>
 				<th style="width:200px">In Response to</th>
@@ -36,9 +36,9 @@
 			</tr>
 			<tr py:for="comment in collection" id='${comment.id}' class="${comment.reviewed and 'tr-gray' or 'tr-white'}">
 				<td py:choose="">
-					<span class="published-comment" py:when="comment.reviewed" title="This comment has already been approved for publishing">published</span>
-					<a class="mo review-comment" py:otherwise="" href="${h.url_for(action='save_status', id=comment.id, status='approve')}" title="Approve this comment for publishing"><span>approve</span></a>
-					<a class="mo trash-comment" href="${h.url_for(action='save_status', id=comment.id, status='trash')}" title="Delete this comment"><span>trash</span></a>
+					<span py:when="comment.reviewed" class="btn unclickable btn-inline-approved f-lft" title="This comment has already been approved for publishing">published</span>
+					<a py:otherwise="" class="btn btn-inline-approve f-lft" href="${h.url_for(action='save_status', id=comment.id, status='approve')}" title="Approve this comment for publishing"><span>approve</span></a>
+					<a class="btn btn-inline-delete f-rgt" href="${h.url_for(action='save_status', id=comment.id, status='trash')}" title="Delete this comment"><span>trash</span></a>
 				</td>
 				<td class="author">
 					<div><strong class="author-name" py:content="comment.author.name">Author</strong></div>

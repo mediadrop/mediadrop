@@ -83,7 +83,7 @@ var Category = new Class({
 		saveButton.addEvent('click', this.handleSave.bind(this));
 
 		// Create a cancel button and insert it into the beginning of the row.
-		this.cancelButton = new Element('input', {type: 'reset', 'class': 'mo cancel-category clickable'});
+		this.cancelButton = new Element('input', {type: 'reset', 'class': 'btn cancel-category clickable'});
 		this.cancelButton.addEvent('click', this.toggleForm.bind(this));
 		var cancelParent = new Element('td', {'class': 'form-field form-field-resetbutton'});
 		cancelParent.grab(this.cancelButton);
@@ -93,7 +93,7 @@ var Category = new Class({
 		// Set up the edit and delete buttons
 		this.deleteButton = this.form.getElement(this.options.deleteButton);
 		if (this.deleteButton != null) {
-			this.editLink = new Element('a', {'class': 'mo edit-category', href: '#', title: 'Edit this ' + this.options.categoryName})
+			this.editLink = new Element('a', {'class': 'btn edit-category', href: '#', title: 'Edit this ' + this.options.categoryName})
 				.addEvent('click', this.toggleForm.bind(this));
 			this.editLink.grab(new Element('span', {html: 'edit'}));
 			this.deleteButton.parentNode.grab(this.editLink, 'top');

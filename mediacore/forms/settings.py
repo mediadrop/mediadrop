@@ -52,8 +52,8 @@ class SettingsForm(ListForm):
         ListFieldSet('default_wording', suppress_label=True, legend='Default Form Values:', css_classes=['details_fieldset'], children=[
             TextArea('additional_notes', label_text='Additional Notes', attrs=dict(rows=3, cols=25)),
         ]),
-        SubmitButton('save', default='Save', css_classes=['mo', 'btn-save', 'f-rgt']),
-        ResetButton('cancel', default='Cancel', css_classes=['mo', 'btn-cancel']),
+        SubmitButton('save', default='Save', css_classes=['btn', 'btn-save', 'f-rgt']),
+        ResetButton('cancel', default='Cancel', css_classes=['btn', 'btn-cancel']),
     ]
 
 class DisplaySettingsForm(ListForm):
@@ -71,6 +71,6 @@ class DisplaySettingsForm(ListForm):
             ],
             validator=StringBool(not_empty=True)
         ),
-        SubmitButton('save', default='Save', css_classes=['mo', 'btn-save', 'f-rgt']),
-        ResetButton('cancel', default='Cancel', css_classes=['mo', 'btn-cancel']),
+        SubmitButton('save', default='Save', css_classes=['btn', 'btn-save', 'f-rgt']),
+        ResetButton('cancel', default='Cancel', css_classes=['btn', 'btn-cancel']),
     ]

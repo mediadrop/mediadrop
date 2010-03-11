@@ -43,6 +43,7 @@ pre,code,kbd,samp,tt{font-family:monospace;*font-size:108%;line-height:100%}
 .f-lft { float: left; }
 .f-rgt { float: right; }
 .clickable, .link { cursor: pointer; }
+.unclickable { cursor: default; }
 .italic {
 	font-style: italic;
 	color: #adaba3;
@@ -289,29 +290,51 @@ tr.thead-row td h3 {
 }
 
 
-/* Forms */
-.btn-save, .btn-delete, .btn-yes, .btn-no, .btn-cancel, .btn-upload, .btn-upload-image {
+.btn {
+	display: block;
 	text-indent: -5000px;
 	cursor: pointer;
 	border: 0;
-	height: 34px;
-	background-repeat: no-repeat;
 	background-color: transparent;
+	background-repeat: no-repeat;
+	background-position: top;
 }
-.btn-save { background-image: url('../images/buttons/save.png'); width: 87px; }
-.btn-delete { background-image: url('../images/buttons/delete.png'); width: 97px; }
-.btn-yes { background-image: url('../images/buttons/yes.png'); width: 64px;}
-.btn-no { background-image: url('../images/buttons/no.png'); width: 64px;}
-.btn-cancel { background-image: url('../images/buttons/cancel.png'); width: 87px; }
-.btn-uploadfile { background-image: url('../images/buttons/upload-file.png'); width: 129px; }
-.btn-upload { background-image: url('../images/buttons/upload.png'); width: 83px; }
-.btn-upload-image { background-image: url('../images/buttons/upload-image.png'); width: 129px; }
+.btn:hover, .btn-hover {
+	background-position: bottom;
+}
+.btn span {
+	display: none;
+}
+.invert-btn {
+	display: block;
+	background-repeat: no-repeat;
+	background-position: bottom;
+}
+.invert-btn:hover, .invert-btn-hover {
+	background-position: top;
+}
 
-.edit-btn { background-image: url('../images/buttons/edit.png'); }
-.edit-btn, .edit-btn:hover {
-	width: 66px;
-	height: 28px;
-}
+/* big important buttons, 34px in height */
+.btn-save { background-image: url('../images/buttons/save.png'); width: 87px; height: 34px; }
+.btn-delete { background-image: url('../images/buttons/delete.png'); width: 97px; height: 34px; }
+.btn-yes { background-image: url('../images/buttons/yes.png'); width: 64px; height: 34px; }
+.btn-no { background-image: url('../images/buttons/no.png'); width: 64px; height: 34px; }
+.btn-cancel { background-image: url('../images/buttons/cancel.png'); width: 87px; height: 34px; }
+.btn-uploadfile { background-image: url('../images/buttons/upload-file.png'); width: 129px; height: 34px; }
+.btn-upload { background-image: url('../images/buttons/upload.png'); width: 83px; height: 34px; }
+.btn-upload-image { background-image: url('../images/buttons/upload-image.png'); width: 129px; height: 34px; }
+
+/* secondary buttons, 28px in height */
+.btn-edit { background-image: url('../images/buttons/edit.png'); width: 66px; height: 28px; }
+.btn-bulk { background-image: url('../images/buttons/bulk-mode.png'); width: 85px; height: 28px; }
+
+/* inline buttons, 19px in height */
+.btn-inline-edit { background-image: url('../images/buttons/inline-edit-half.png'); width: 37px; height: 19px; }
+.btn-inline-delete { background-image: url('../images/buttons/inline-delete-half.png'); width: 26px; height: 19px; }
+.btn-inline-cancel { background-image: url('../images/buttons/inline-cancel.png'); width: 42px; height: 19px; }
+.btn-inline-save { background-image: url('../images/buttons/inline-save.png'); width: 37px; height: 19px; }
+.btn-inline-approve { background-image: url('../images/buttons/inline-approve.png'); width: 29px; height: 19px; }
+.btn-inline-approved { background-image: url('../images/buttons/inline-approved.png'); width: 29px; height: 19px; }
 
 
 span.show-more, .pager {
@@ -387,31 +410,6 @@ input.submitbutton {
 	color: #196d29;
 }
 
-/* Mouse-over image replacement for buttons */
-
-.mo span {
-	display: none;
-}
-
-.mo {
-	display: block;
-	background-repeat: no-repeat;
-	background-position: top;
-}
-
-.mo:hover, .mo-hover {
-	background-position: bottom;
-}
-
-.reverse-mo {
-	display: block;
-	background-repeat: no-repeat;
-	background-position: bottom;
-}
-
-.reverse-mo:hover, .reverse-mo-hover {
-	background-position: top;
-}
 
 .xhtml-description-helper p, .xhtml-description-helper li {
 	margin-bottom: 0em;

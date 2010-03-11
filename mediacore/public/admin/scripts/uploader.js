@@ -20,7 +20,7 @@ var Uploader = new Class({
 
 	options: {
 		target: null,
-		uploadBtn: {text: 'Upload a file', 'class': 'mo btn-upload'},
+		uploadBtn: {text: 'Upload a file', 'class': 'btn btn-upload'},
 		statusContainer: null,
 		statusFile: '.upload-file',
 		statusProgress: '.upload-progress',

@@ -28,16 +28,8 @@
 	display: none;
 }
 
-.add-podcast, .add-podcast:hover,
-.add-episode, .add-episode:hover {
-	width: 120px;
-	height: 28px;
-}
-.add-episode, .add-episode:hover {
-	margin-top: -6px;
-}
-.add-podcast { background-image: url('../images/buttons/add-podcast.png'); }
-.add-episode { background-image: url('../images/buttons/add-episode.png'); }
+.btn-add-podcast { background-image: url('../images/buttons/add-podcast.png'); width: 120px; height: 28px; }
+.btn-add-episode { background-image: url('../images/buttons/add-episode.png'); width: 120px; height: 28px; }
 
 #podcast-table tbody tr td {
 	vertical-align: top;
@@ -81,6 +73,9 @@
 }
 #podcast-table .copyright {
 	font-weight: bold;
+}
+#podcast-table .btn-add-episode {
+	margin-top: -6px;
 }
 .podcast-meta, .podcast-episodes {
 	position: absolute;

@@ -41,5 +41,5 @@ class ThumbForm(ListForm):
                 },
             )
         ),
-#        SubmitButton('save', default='Save', css_classes=['mo', 'btn-save', 'f-rgt']),
+#        SubmitButton('save', default='Save', css_classes=['btn', 'btn-save', 'f-rgt']),
     ]

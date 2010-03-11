@@ -102,8 +102,8 @@ class MediaForm(ListForm):
         ListFieldSet('details', suppress_label=True, legend='Media Details:', css_classes=['details_fieldset'], children=[
             TextField('duration', validator=DurationValidator),
         ]),
-        SubmitButton('save', default='Save', named_button=True, css_classes=['mo', 'btn-save', 'f-rgt']),
-        SubmitButton('delete', default='Delete', named_button=True, css_classes=['mo', 'btn-delete']),
+        SubmitButton('save', default='Save', named_button=True, css_classes=['btn', 'btn-save', 'f-rgt']),
+        SubmitButton('delete', default='Delete', named_button=True, css_classes=['btn', 'btn-delete']),
     ]
 
 

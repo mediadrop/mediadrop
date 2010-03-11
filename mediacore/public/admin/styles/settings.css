@@ -1,19 +1,3 @@
-/**
- * This file is a part of MediaCore, Copyright 2009 Simple Station Inc.
- *
- * MediaCore is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * MediaCore is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
 ul#settings-menu li {
 	padding: 5px 0;
 }
@@ -30,71 +14,11 @@ ul#settings-menu a {
 	color: #196d29;
 }
 
-.add-user, .add-user:hover,
-.add-category, .add-category:hover,
-.add-tag, .add-tag:hover {
-	height: 28px;
-}
-.add-user { background-image: url('../images/buttons/add-user.png'); width: 99px; }
-.add-category { background-image: url('../images/buttons/add-category.png'); width: 103px; }
-.add-tag { background-image: url('../images/buttons/add-tag.png'); width: 91px; }
+.btn-add-user { background-image: url('../images/buttons/add-user.png'); width: 99px; height: 28px; }
+.btn-add-category { background-image: url('../images/buttons/add-category.png'); width: 103px; height: 28px; }
+.btn-add-tag { background-image: url('../images/buttons/add-tag.png'); width: 91px; height: 28px; }
 
-#tag-table > tbody > tr > td:first-child,
-#category-table > tbody > tr > td:first-child {
-/* padding will be taken care of by inner table */
-	padding-left: 0px;
-	padding-right: 0px;
-}
-.tag-form table,
-.category-form table {
-/* border spacing what? */
-  border-spacing: 0;
-}
-.tag-form td,
-.category-form td {
-/* border top is taken care of by outer table */
-	border-top: none;
-	padding: 5px 10px;
-}
-#user-table tbody td {
-/* match padding of categories table */
-	padding: 15px 10px;
-}
-
-.edit-user, .edit-category, .delete-user, .delete-category, .save-category, .cancel-category {
-	height: 19px;
-	border: none;
-	text-indent: -1000px;
-	overflow: hidden;
-	float: left;
-}
-td.form-field-textfield {
-	padding: 0 10px;
-}
-
-.edit-user,
-.edit-category {
-	background-image: url('../images/buttons/edit-half.png');
-	width: 37px;
-}
-.delete-category,
-.delete-user {
-	background-image: url('../images/buttons/delete-half.png');
-	width: 26px;
-}
-.save-category {
-	background-image: url('../images/buttons/table-button-save.png');
-	width: 42px;
-}
-.cancel-category {
-	background-image: url('../images/buttons/table-button-cancel.png');
-	width: 63px;
-}
-
-.category-form .textfield,
-.tag-form .textfield {
-	width: 183px;
-}
+/* Users */
 #display_name_container,
 #email_address_container {
 	clear: none;
@@ -112,6 +36,8 @@ td.form-field-textfield {
 #login_details_group {
 	width: 300px;
 }
+
+/* Emails and Wording Config Forms */
 #settings-form .details_fieldset .fieldlabel {
 	width: 110px;
 }

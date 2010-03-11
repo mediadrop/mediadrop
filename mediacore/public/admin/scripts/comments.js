@@ -23,10 +23,10 @@ var CommentMgr = new Class({
 	options:{
 		table: 'comment-table',
 		formSelector: 'form.edit-comment-form',
-		deleteLink: 'a.trash-comment',
-		publishLink: 'a.review-comment',
-		bulkPublishBtnClass: 'bulk-publish-btn mo',
-		bulkDeleteBtnClass: 'bulk-delete-btn mo',
+		deleteLink: 'a.btn-inline-delete',
+		publishLink: 'a.btn-inline-approve',
+		bulkPublishBtnClass: 'btn btn-inline-approve f-lft',
+		bulkDeleteBtnClass: 'btn btn-inline-delete f-rgt',
 	},
 
 	bulkMgr: null,
@@ -87,7 +87,7 @@ var BulkMgr = new Class({
 
 	options:{
 		bulkDivClass: 'bulk-div f-lft',
-		bulkBtnClass: 'bulk-btn mo',
+		bulkBtnClass: 'bulk-btn btn',
 		selectDivClass: 'select-div f-rgt',
 		selectAllClass: 'select-all',
 		selectNoneClass: 'select-none',
@@ -168,14 +168,14 @@ var BulkMgr = new Class({
 
 		if(this.actionsVisible) {
 			// hide actions
-			this.bulkBtn.removeClass('reverse-mo');
-			this.bulkBtn.addClass('mo');
+			this.bulkBtn.removeClass('invert-btn');
+			this.bulkBtn.addClass('btn');
 			this.slidingDiv.get('tween').start('width', this.slidingDiv.offsetWidth, '0');
 			hideCol++;
 		} else {
 			// show actions
-			this.bulkBtn.removeClass('mo');
-			this.bulkBtn.addClass('reverse-mo');
+			this.bulkBtn.removeClass('btn');
+			this.bulkBtn.addClass('invert-btn');
 			this.slidingDiv.get('tween').start('width', this.slidingDiv.offsetWidth, this.slidingDivWidth);
 			showCol++;
 		}
@@ -264,8 +264,8 @@ var Comment = new Class({
 
 	updatePublished: function(){
 		this.row.removeClass('tr-white').addClass('tr-gray');
-		var unpublished = this.row.getElement('a.review-comment');
-		var published = new Element('span', {'class': 'published-comment', text: 'published'});
+		var unpublished = this.row.getElement('a.btn-inline-approve');
+		var published = new Element('span', {'class': 'btn unclickable btn-inline-approved f-lft', text: 'published'});
 		published.replaces(unpublished);
 		return this;
 	},

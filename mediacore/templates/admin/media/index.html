@@ -45,7 +45,7 @@
 				<h1 py:when="podcast_filter is None">All Media</h1>
 				<h1 py:otherwise="">Media for ${podcast_filter_title}</h1>
 			</div>
-			<a class="mo add-media f-lft" href="${h.url_for(action='edit', id='new')}"><span>Add New Media</span></a>
+			<a class="btn btn-add-media f-lft" href="${h.url_for(action='edit', id='new')}"><span>Add New Media</span></a>
 		</div>
 		<xi:include href="admin/media/index-table.html" py:with="media=media" />
 	</div>

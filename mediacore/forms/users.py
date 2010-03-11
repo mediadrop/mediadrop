@@ -57,6 +57,6 @@ class UserForm(ListForm):
             PasswordField('password', validators=NotEmpty, maxlength=80, autocomplete='off'),
             PasswordField('confirm_password', validators=NotEmpty, maxlength=80),
         ]),
-        SubmitButton('save', default='Save', named_button=True, css_classes=['mo', 'btn-save', 'f-rgt']),
-        SubmitButton('delete', default='Delete', named_button=True, css_classes=['mo', 'btn-delete']),
+        SubmitButton('save', default='Save', named_button=True, css_classes=['btn', 'btn-save', 'f-rgt']),
+        SubmitButton('delete', default='Delete', named_button=True, css_classes=['btn', 'btn-delete']),
     ]

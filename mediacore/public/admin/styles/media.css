@@ -87,20 +87,14 @@ a.published { background-image: url('../images/statuses/published-both.png'); }
 }
 
 
-a.add-media, a.add-media:hover {
-	width: 120px;
-	height: 28px;
+.btn-add-media { background-image: url('../images/buttons/add-media.png'); width: 108px; height: 28px; }
+.box-head .btn-add-media {
 	margin: -1px 0 -3px 10px;
 }
-a.add-media { background-image: url('../images/buttons/add-media.png'); }
 
 .btn-review-complete, .btn-encoding-complete, .btn-publish-now {
-	text-indent: -1000px;
-	cursor: pointer;
-	border: 0;
 	height: 34px;
 	width: 171px;
-	background-repeat: no-repeat;
 	margin: 0 auto;
 }
 .btn-review-complete { background-image: url('../images/buttons/video-review-complete.png'); }

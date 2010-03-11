@@ -51,7 +51,7 @@ var User = new Class({
 		this.row = row;
 		this.deleteForm = row.getElement(this.options.deleteForm);
 
-		if (this.deleteForm != null) this.requestConfirmDelete();
+		if (this.deleteForm) this.requestConfirmDelete();
 	},
 
 	requestConfirmDelete: function(){
@@ -60,13 +60,13 @@ var User = new Class({
 			header: 'Confirm Delete',
 			msg: 'Are you sure you want to delete this user?'
 		});
-		this.deleteForm.addEvent('click', confirmMgr.openConfirmDialog.bind(confirmMgr));
+		$(this.deleteForm.elements['delete']).addEvent('click', confirmMgr.openConfirmDialog.bind(confirmMgr));
 		return this;
 	},
 
 	doConfirm: function(form){
 		// manually constructing the Request rather than form.send()
-		request = new Request({
+		var r = new Request({
 			url: this.deleteForm.get('action'),
 			onSuccess: this.updateDeleted.bind(this),
 			onFailure: this.deleteFailure.bind(this)
