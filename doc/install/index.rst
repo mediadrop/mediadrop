@@ -220,8 +220,10 @@ is--we'll need to point to it later.
 
 
 Now that you've activated the newly created virtual environment, any packages
-you install will only be accessible when you've activated the environment as
-we just did in the line above.
+you install will only be accessible when you've activated the environment.
+
+**NOTE: Any time you want to work with mediacore, you should thus activate the
+virtual environment as we just did in the line above.**
 
 
 Step 2: Install MediaCore
