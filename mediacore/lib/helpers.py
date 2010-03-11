@@ -312,11 +312,11 @@ def thumb_url(item, size, qualified=False, exists=False):
         return None
 
     image_dir, item_id = _normalize_thumb_item(item)
-    image = '/images/%s/%s%s.jpg' % (image_dir, item_id, size)
+    image = '%s/%s%s.jpg' % (image_dir, item_id, size)
 
     if exists and not os.path.isfile(os.path.join(config.image_dir, image)):
         return None
-    return url_for(image, qualified=qualified)
+    return url_for('/images/%s' % image, qualified=qualified)
 
 class ThumbDict(dict):
     """Dict wrapper with convenient attribute access"""
