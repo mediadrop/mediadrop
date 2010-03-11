@@ -240,7 +240,7 @@ a. **For most users**, you should `download the latest official release of
       cd MediaCore-0.7.2
 
       # Install!
-      python setup.py develop
+      python2.5 setup.py develop
 
 b. **For developers**, or users that are very familiar with Git
    version control, we have a `public Git repository
@@ -256,7 +256,7 @@ b. **For developers**, or users that are very familiar with Git
       cd mediacore
 
       # Install!
-      python setup.py develop
+      python2.5 setup.py develop
 
 
 Step 3: Setup the Database
