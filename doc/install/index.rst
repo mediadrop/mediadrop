@@ -95,10 +95,13 @@ terminal (like Terminal.app or iTerm.app) and enter the following commands:
     sudo launchctl load -w /Library/LaunchDaemons/org.macports.mysql5.plist
 
     # NOTE: If you ever want to stop the MySQL Server, run the following command:
-    #       sudo launchctl unload -w /Library/LaunchDaemons/org.macports.mysql5.plist
+    #   sudo launchctl unload -w /Library/LaunchDaemons/org.macports.mysql5.plist
 
     # Put a link to mysql_config where other programs will expect to find it
     sudo ln -s /opt/local/bin/mysql_config5 /opt/local/bin/mysql_config
+
+    # Put a link to mysql client for consistency in naming with other platforms
+    sudo ln -s /opt/local/bin/mysql5 /opt/local/bin/mysql
 
 
 Step 0.2: Installing Setuptools
@@ -269,8 +272,36 @@ use phpMyAdmin, CocoaMySQL, `cPanel
 <http://www.debuntu.org/how-to-create-a-mysql-database-and-set-privileges-to-a-user>`_,
 or any other tool you like.
 
-We're going to assume that the database is called ``mediacore`` and the mysql
-user is called ``mediacore_user``.
+We're going to assume that the database is called ``mediacore``, the mysql
+user is called ``mediacore_user``, and the password is ``mysecretpassword``.
+
+For example, via the mysql command line client:
+
+.. sourcecode:: bash
+
+   # Open up the mysql command line interface
+   mysql -u root
+
+   # OR: if you get an error like
+   # "ERROR: Access denied for user 'root'@'localhost' (using password: NO)"
+   # it's probably because your root mysql user has a password. Use -p to enter it.
+   mysql -u root -p
+
+.. sourcecode:: mysql
+
+   # Then, inside the mysql shell:
+
+   mysql> create database mediacore;
+   Query OK, 1 row affected (0.00 sec)
+
+   mysql> grant usage on mediacore.* to mediacore_user@localhost identified by 'mysecretpassword';
+   Query OK, 0 rows affected (0.00 sec)
+
+   mysql> grant all privileges on mediacore.* to mediacore_user@localhost;
+   Query OK, 0 rows affected (0.33 sec)
+
+   mysql> exit;
+   Bye
 
 The second step is to create all the tables and starting data for the
 database. All of the information is in ``setup.sql``, so you can load it
@@ -292,8 +323,8 @@ Open up ``development.ini`` and have a look through. The default settings
 should get you started. The only line that needs to be edited right away is
 the database configuration.
 
-Look for the ``sqlalchemy.url`` setting. Change the ``username``, ``pass``,
-and ``dbname`` to the username, password, and database name you used in
+Look for the ``sqlalchemy.url`` setting. **Change the "username", "pass",
+and "dbname"** to the username, password, and database name you used in
 Step 3.
 
 **NOTE 1:** For Uploads to work, the directory pointed to by ``media_dir``
@@ -315,8 +346,8 @@ so you have it already, simply run:
    paster serve --reload development.ini
 
 Now open http://localhost:8080/ to see how it works! You can try access
-the admin at http://localhost:8080/admin/ with username admin, password
-admin. (Remember to `change your password
+the admin at http://localhost:8080/admin/ with **username: admin, password:
+admin**. (Remember to `change your password
 <http://localhost:8080/admin/settings/users/1>`_!)
 
 If this produces errors then MediaCore or one of its dependencies is not
@@ -343,6 +374,9 @@ people demand more in production environments.
 
       # To create deployment.ini in your current dir:
       paster make-config MediaCore deployment.ini
+
+   Then edit ``deployment.ini`` as you did for ``development.ini`` (e.g. set
+   up the database config line).
 
 **Production Server:**
    MediaCore is WSGI-based so there are many possible ways to deploy it.
