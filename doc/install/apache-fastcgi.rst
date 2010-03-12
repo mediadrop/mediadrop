@@ -6,8 +6,8 @@ Apache & mod_fastcgi Deployment
 
 The Apache/mod_fastcgi setup is intended as an easy way for users with shared
 hosting environments to use python webapps. It adds some overhead over the
-Apache/mod_wsgi, so if you administrate your own server, you may want
-to use that instead.
+:ref:`install_apache-wsgi`, so if you administrate your own server, you may
+want to use that instead.
 
 This tutorial assumes that you already have Apache and mod_fastcgi installed
 and working. If you're unsure, check with your hosting provider.
@@ -101,7 +101,7 @@ lines you need to edit are at the top of the file, and look like this:
 .. sourcecode:: python
 
    #!/path/to/mediacore_env/bin/python
-   python_egg_cache = '/path/to/mediacore_install/python-wsgi-egg-cache'
+   python_egg_cache = '/path/to/mediacore_install/data/python-egg-cache'
    deployment_config = '/path/to/mediacore_install/deployment.ini'
 
 Testing Installation
