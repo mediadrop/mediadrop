@@ -1,6 +1,5 @@
 #!/bin/sh
 
-pwd >> 'pwd.txt'
 # If the PID file exists, attempt to kill the identified process.
 PIDFILE="fastcgi.pid"
 if [ -f $PIDFILE ]; then

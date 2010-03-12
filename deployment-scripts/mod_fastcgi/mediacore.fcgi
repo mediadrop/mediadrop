@@ -6,10 +6,10 @@ temp_dir = '/path/to/mediacore_install/data/tmp'
 # NOTE: Before running MediaCore, you will need to update the four paths
 #       above to point to the appropriate locations for your installation.
 
-import os, sys
+import os, sys, pwd, grp
 os.environ['PYTHON_EGG_CACHE'] = python_egg_cache
 os.environ['TMPDIR'] = temp_dir
-pidfile = 'fastcgi.pid'
+pidfile = os.path.dirname(__file__)+os.sep+'fastcgi.pid'
 
 def save_pid():
     """ Save the process ID to a file, so we can kill it later.
@@ -19,9 +19,15 @@ def save_pid():
     this is thought to be preferable to starting the server without an
     easy way to kill it.
     """
-    fp = open(pidfile)
-    fp.write("%d\n" % os.getpid())
-    fp.close()
+    try:
+        fp = open(pidfile, 'w')
+        fp.write("%d\n" % os.getpid())
+        fp.close()
+    except Exception, e:
+        username = "'%s'" % pwd.getpwuid(os.getuid())[0]
+        groups = ["'%s'" % grp.getgrgid(x)[0] for x in os.getgroups()]
+        print >> sys.stderr, "MEDIACORE ERROR: file \"%s\" must be writeable by user %s or one of the following groups: %s" % (pidfile, username, ', '.join(groups))
+        raise e
 
 if __name__ == '__main__':
     save_pid()

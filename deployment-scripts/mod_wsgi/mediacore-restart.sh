@@ -1,8 +1,7 @@
 #!/bin/sh
 
-pwd >> 'pwd.txt'
 # If the PID file exists, attempt to kill the identified process.
-PIDFILE="fastcgi.pid"
+PIDFILE="wsgi.pid"
 if [ -f $PIDFILE ]; then
 	kill `cat -- $PIDFILE` && echo "MediaCore successfully stopped" && exit 0
 fi
