@@ -52,8 +52,8 @@ the installation of ``setuptools`` and ``virtualenv`` in
 `Step 0.3: Installing Virtualenv`_ below.
 
 
-Step 0.1: Requirements Installation on OS X
--------------------------------------------
+Step 0.1.0: Requirements Installation on OS X
+---------------------------------------------
 
 As mentioned above, you need to have GCC installed for some of MediaCore's
 dependencies to be able to compile. For Mac OS X users, that means installing
@@ -105,6 +105,19 @@ terminal (like Terminal.app or iTerm.app) and enter the following commands:
     # Put a link to mysql client for consistency in naming with other platforms
     sudo ln -s /opt/local/bin/mysql5 /opt/local/bin/mysql
 
+Step 0.1.1: Requirements Installation on Ubuntu 9.04
+----------------------------------------------------
+
+You're in luck! GCC and mysql-server-5.0 are installed by default on Ubuntu
+9.04. You'll just have to install mysql-client and python2.5 (and their
+respective libraries). Then you can proceed with installing Setuptools and
+Virtualenv as below.
+
+.. sourcecode:: bash
+
+   # install the mysql client and python2.5
+   sudo apt-get install mysql-client-5.1 libmysqlclient15off python2.5-dev python2.5-doc
+
 
 Step 0.2: Installing Setuptools
 -------------------------------
@@ -130,26 +143,26 @@ If you get an error like the following, you'll need to install setuptools first:
      File "<string>", line 1, in <module>
    ImportError: No module named setuptools
 
-To install setuptools on a linux system:
+If you're using a system with a package manager and you know how to install
+setuptools 0.6c9 or higher for python2.5 using that package manager go ahead:
 
 .. sourcecode:: bash
 
-   # If you're using a linux system with a package manager and you know how
-   # to install setuptools 0.6c9 or higher for python2.5 using that package
-   # manager instead, go ahead.
+   # For example, on Ubuntu 9.04
+   sudo apt-get install python-setuptools
 
-   # Otherwise, download the Setuptools installer.
+   # Or on Mac OS X (with MacPorts):
+   sudo port -v install py25-setuptools
+
+Otherwise, download the setuptools installer and install manually:
+
+.. sourcecode:: bash
+
+   # Download the Setuptools installer
    wget http://pypi.python.org/packages/2.5/s/setuptools/setuptools-0.6c11-py2.5.egg
 
-   # Install Setuptools
-   sudo sh setuptools-0.6c11-py2.5.egg
-
-To install setuptools on Mac OS X (with MacPorts):
-
-.. sourcecode:: bash
-
    # Install setuptools
-   sudo port -v install py25-setuptools
+   sudo sh setuptools-0.6c11-py2.5.egg
 
 
 Step 0.3: Installing Virtualenv
@@ -173,26 +186,26 @@ If you get an error like the following, you'll need to install virtualenv.
      File "<string>", line 1, in <module>
    ImportError: No module named virtualenv
 
-To install virtualenv on a linux system:
+If you're using a system with a package manager and you know how to install
+setuptools 0.6c9 or higher for python2.5 using that package manager go ahead:
 
 .. sourcecode:: bash
 
-   # If you're using a linux system with a package manager and you know how
-   # to install virtualenv for python2.5 using that package manager instead,
-   # go ahead.
+   # For example, on Ubuntu 9.04, you must install python-virtualenv, then
+   # create a custom virtualenv-2.5 script to use with python2.5
+   sudo apt-get install python-virtualenv
+   sudo cp /usr/bin/virtualenv /usr/bin/virtualenv-2.5
+   sudo sh -c "sed 's:#\!/usr/bin/python$:#\!/usr/bin/python2.5:' /usr/bin/virtualenv > /usr/bin/virtualenv-2.5"
 
-   # Otherwise, install via setuptools
-   sudo easy_install-2.5 virtualenv
-
-To install virtualenv on Mac OS X (with MacPorts):
-
-.. sourcecode:: bash
-
-   # Otherwise, If you're on Mac OS X with MacPorts:
+   # Or on Mac OS X (with MacPorts):
    sudo port -v install py25-virtualenv
 
-   # Create a link to the main virtualenv script
-   sudo ln -s /opt/local/bin/virtualenv-2.5 /opt/local/bin/virtualenv
+Otherwise, install virtualenv via setuptools:
+
+.. sourcecode:: bash
+
+   # Install virtualenv via setuptools.
+   sudo easy_install-2.5 virtualenv
 
 
 Step 1: Setup a Python Virtual Environment
@@ -215,7 +228,7 @@ is--we'll need to point to it later.
 .. sourcecode:: bash
 
    # Create a new virtual environment:
-   virtualenv --no-site-packages mediacore_env
+   virtualenv-2.5 --no-site-packages mediacore_env
 
    # Now, activate that virtual environment:
    source mediacore_env/bin/activate
