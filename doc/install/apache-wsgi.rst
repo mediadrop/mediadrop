@@ -57,7 +57,7 @@ deployment to use.
 Make sure that these folders are writeable by your apache user. (Depending on
 how your server is set up, the user name may be different).
 
-Second, you'll need to edit the paths in ``/path/to/mediacore/install/deployment-scripts/mod_wsgi/mediacore.wsgi``
+Second, you'll need to edit the paths in ``/path/to/mediacore_install/deployment-scripts/mod_wsgi/mediacore.wsgi``
 to point to your own mediacore installation and virtual environment. The
 **two (2)** lines you need to edit are at the top of the file, and look like
 this:
@@ -109,4 +109,46 @@ installation and virtual environment.
         Order allow,deny
         Allow from all
     </Directory>
+
+Editing MediaCore
+-----------------
+If you make any changes to your MediaCore installation while Apache is running
+you'll need to make sure that mod_wsgi recognizes those changes.
+
+The easiest way to do this is to stop the process that's running the app. A
+script that does this is included in
+``/path/to/mediacore_install/deployment-scripts/mod_wsgi/``:
+
+.. sourcecode:: bash
+
+   # Navigate to the mod_wsgi directory
+   cd /path/to/mediacore_install
+   cd deployment-scripts/mod_wsgi
+
+   # Force a refresh of the mediacore code
+   ./mediacore-restart.sh
+
+   # This should have printed "MediaCore successfully stopped"
+   # If so, we're done!
+   # Visit http://yourdomain.com/my_media/ to see it in action!
+
+If this results in in error message like this:
+
+.. sourcecode:: text
+
+   -bash: kill: (xxxxx) - No such process
+
+Then MediaCore wasn't running properly in the first place.
+
+If, however, it results in in error message like this:
+
+.. sourcecode:: text
+
+   -bash: kill: (xxxxx) - Operation not permitted
+
+Then your Apache is not configured to run scripts as individualized users.
+This means that MediaCore is running as a user that is not you! Some people
+consider this to be a security problem, so you might want to look into how
+you've configured your server, but in the mean time, this isn't a problem:
+just use ``sudo`` to run the script.
 
