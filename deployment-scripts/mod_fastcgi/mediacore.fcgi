@@ -1,5 +1,5 @@
 #!/path/to/mediacore_env/bin/python
-python_egg_cache = '/path/to/mediacore_install/python-wsgi-egg-cache'
+python_egg_cache = '/path/to/mediacore_install/data/python-egg-cache'
 deployment_config = '/path/to/mediacore_install/deployment.ini'
 temp_dir = '/path/to/mediacore_install/data/tmp'
 

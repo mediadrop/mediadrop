@@ -37,15 +37,25 @@ stage you already have three, and the remaining ones are very easy to set up.
 
 Instructions
 ------------
-**NOTE:** The following instructions assume that you're deploying MediaCore to
-``http://yourdomain.com/my_media/``. To deploy mediacore to the root directory
-of your website, see the instructions at the bottom of the page.
+**NOTE 1:** The following instructions assume that you're deploying MediaCore
+to ``http://yourdomain.com/my_media/``. To deploy mediacore to any other path,
+simply replace all references to ``my_media/`` below with your desired path.
 
-We will not actually be creating a ``my_media`` directory, but we will use
-aliases in the Apache config to make sure that requests to
+**NOTE 2:** We will not actually be creating a ``my_media`` directory, but we
+will use aliases in the Apache config to make sure that requests to
 ``http://yourdomain.com/my_media/`` are passed to MediaCore.
 
-First, TODO: BLAH BLAH BLAH CREATE TEMP FOLDER AND PYTHON-EGG CACHE
+First, create a temporary directory and a python cache directory for your
+deployment to use.
+
+.. sourcecode:: bash
+
+   cd /path/to/mediacore_install/data
+   mkdir tmp
+   mkdir python-egg-cache
+
+Make sure that these folders are writeable by your apache user. (Depending on
+how your server is set up, the user name may be different).
 
 Second, you'll need to edit the paths in ``/path/to/mediacore/install/deployment-scripts/mod_wsgi/mediacore.wsgi``
 to point to your own mediacore installation and virtual environment. The
@@ -78,7 +88,7 @@ installation and virtual environment.
         threads=1 \
         display-name=%{GROUP} \
         python-path=/path/to/mediacore_env/lib/python2.5/site-packages \
-        python-eggs=/path/to/mediacore_install/python-egg-cache
+        python-eggs=/path/to/mediacore_install/data/python-egg-cache
 
     WSGIProcessGroup mcore
 

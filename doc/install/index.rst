@@ -11,6 +11,8 @@ Experienced TG2 users can check out the :ref:`install_overview` page for a
 
 This installation guide assumes a basic familiarity with a \*nix shell.
 Experience with a Windows or DOS shell will translate pretty easily.
+You should be familiar with the concepts important to web development such as
+databases, web servers, and file permissions.
 You should be comfortable with running commands in a terminal, and the basics
 like ``cd``, ``ls``, ``mkdir``, ``tar``, ``sudo``, etc. For a quick refresher
 check out this `introduction to \*nix command shells

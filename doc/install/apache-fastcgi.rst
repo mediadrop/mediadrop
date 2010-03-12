@@ -4,14 +4,13 @@
 Apache & mod_fastcgi Deployment
 ===============================
 
-This tutorial assumes that you already have Apache and mod_fastcgi installed
-and working.
-TODO: Link to instructions to do this.
-
 The Apache/mod_fastcgi setup is intended as an easy way for users with shared
 hosting environments to use python webapps. It adds some overhead over the
 Apache/mod_wsgi, so if you administrate your own server, you may want
 to use that instead.
+
+This tutorial assumes that you already have Apache and mod_fastcgi installed
+and working. If you're unsure, check with your hosting provider.
 
 Components
 ----------
@@ -39,10 +38,17 @@ stage you already have three, and the remaining ones are very easy to set up.
 
 Instructions
 ------------
-**NOTE:** The following instructions assume that you're deploying MediaCore to
-``http://yourdomain.com/my_media/``. To deploy mediacore to the root directory
-of your website, see the instructions at the bottom of the page.
+**NOTE 1:** The following instructions assume that you're deploying MediaCore
+to ``http://yourdomain.com/my_media/``. To deploy mediacore to any other
+directory of your website, the process is very simple: Instead of putting the
+files into ``/path/to/document_root/my_media``, like in the instructions below,
+put them into the folder you want to serve from.
 
+**NOTE 2:** If deploying mediacore inide an existing directory, you must make
+sure that the mediacore .htaccess file doesn't overwrite any existing
+.htaccess file in that directory--you'll have to copy the contents over to the
+existing .htaccess file if there is one, and make sure that the contents of
+the two files make sense together.
 
 First, install the ``flup`` Python package:
 
@@ -54,17 +60,22 @@ First, install the ``flup`` Python package:
    # Install flup:
    easy_install flup
 
-Second, TODO: BLAH BLAH BLAH CREATE TEMP FOLDER AND PYTHON-EGG CACHE
+Second, create a temporary directory and a python cache directory for your
+deployment to use.
+
+.. sourcecode:: bash
+
+   cd /path/to/mediacore_install/data
+   mkdir tmp
+   mkdir python-egg-cache
+
+Make sure that these folders are writeable by your apache user. (Depending on
+how your server is set up, the user name may be different).
 
 Third, create a directory named ``my_media`` inside your website's document
 root. Copy all the files from ``/path/to/mediacore_install/deployment-scripts/mod_fastcgi``
 into the new ``my_media`` directory (this includes ``.htaccess``,
 ``mediacore.fcgi``, and ``mediacore-restart.sh``).
-
-Fourth, create a symbolic link (symlink) to the ``public`` directory from your
-mediacore installation:
-
-To do steps 3 and 4 from a bash terminal:
 
 .. sourcecode:: bash
 
@@ -74,6 +85,11 @@ To do steps 3 and 4 from a bash terminal:
 
    # Copy the deployment files
    cp /path/to/mediacore/install/deployment-scripts/mod_fastcgi/* ./my_media/
+
+Fourth, create a symbolic link (symlink) to the ``public`` directory from your
+mediacore installation:
+
+.. sourcecode:: bash
 
    # Create a symlink to the public directory
    ln -sf /path/to/mediacore/install/mediacore/public ./my_media/public
@@ -139,17 +155,4 @@ This means that MediaCore is running as a user that is not you!
 * **If you don't have root access**, you'll need to run the script
   through Apache. You can do this by renaming it ``mediacore-restart.fcgi`` and
   visiting ``http://yourdomain.com/my_media/mediacore-restart.fcgi``.
-
-Installing to Your Site's Root Directory
-----------------------------------------
-If you'd rather host MediaCore from ``http://yourdomain.com/``, or from any
-other already existing directory of your site, instead of from
-``http://yourdomain.com/my_media/``, the process is very simple:
-Instead of putting the files above into ``/path/to/document_root/my_media``
-put them into the folder you want to serve from.
-
-**NOTE:** However, you must make sure that the mediacore .htaccess file
-doesn't overwrite any existing .htaccess file in that directory--you'll have
-to copy the contents over to the existing .htaccess file if there is one, and
-make sure that the contents of the two files make sense together.
 
