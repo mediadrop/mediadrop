@@ -65,16 +65,17 @@
 			   style="display:block;width:${width}px;height:${height}px" />
 			<script type="text/javascript" py:with="">
 				flowplayer('flowplayer', "${h.url_for('/scripts/third-party/flowplayer-3.1.5.swf', qualified=qualified)}", {
-					clip: {
-						scaling: 'fit',
-						autoPlay: ${autoplay and 'true' or 'false'},
-						autoBuffer: ${(autoplay or autobuffer) and 'true' or 'false'}
-					}
+					clip: {scaling: 'fit'}
 					<py:if test="media.type == 'audio' or not autoplay"
 					       py:with="image = h.thumb_url(media, 'l', qualified=qualified, exists=True) or h.thumb_url(media.podcast, 'l', qualified=qualified, exists=True)">,
 						playlist: [
 							<py:if test="image">{url: '${image}', autoPlay: true, autoBuffer: true},</py:if>
-							'${file.play_url(qualified=qualified)}'
+							{
+								url: '${file.play_url(qualified=qualified)}',
+								autoPlay: ${autoplay and 'true' or 'false'},
+								autoBuffer: ${(autoplay or autobuffer) and 'true' or 'false'}
+								<py:if test="media.duration">, duration: ${media.duration}</py:if>
+							}
 						]
 					</py:if>
 				});
