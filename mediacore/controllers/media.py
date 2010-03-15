@@ -337,6 +337,7 @@ class MediaController(BaseController):
             media = Media.query.published()\
                 .filter(Media.podcast_id == None)\
                 .filter(Media.topics.contains(topic))\
+                .order_by(Media.publish_on.desc())\
                 .options(orm.undefer('comment_count_published'))
         else:
             topic = None
@@ -355,6 +356,7 @@ class MediaController(BaseController):
             media = Media.query.published()\
                 .filter(Media.podcast_id == None)\
                 .filter(Media.tags.contains(tag))\
+                .order_by(Media.publish_on.desc())\
                 .options(orm.undefer('comment_count_published'))
             tags = None
         else:
