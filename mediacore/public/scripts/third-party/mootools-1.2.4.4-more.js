@@ -23,8 +23,8 @@ provides: [MooTools.More]
 */
 
 MooTools.More = {
-	'version': '1.2.4.2',
-	'build': 'bd5a93c0913cce25917c48cbdacde568e15e02ef'
+	'version': '1.2.4.4',
+	'build': '6f6057dc645fdb7547689183b2311063bd653ddf'
 };
 
 /*
@@ -625,7 +625,7 @@ var build = function(format){
 			bits = bits.slice(1).associate(parsed);
 			var date = new Date().clearTime();
 			if ('d' in bits) handle.call(date, 'd', 1);
-			if ('m' in bits) handle.call(date, 'm', 1);
+			if ('m' in bits || 'b' in bits || 'B' in bits) handle.call(date, 'm', 1);
 			for (var key in bits) handle.call(date, key, bits[key]);
 			return date;
 		}
@@ -813,7 +813,7 @@ var URI = new Class({
 		/*base: false*/
 	},
 
-	regex: /^(?:(\w+):)?(?:\/\/(?:(?:([^:@]*):?([^:@]*))?@)?([^:\/?#]*)(?::(\d*))?)?(\.\.?$|(?:[^?#\/]*\/)*)([^?#]*)(?:\?([^#]*))?(?:#(.*))?/,
+	regex: /^(?:(\w+):)?(?:\/\/(?:(?:([^:@\/]*):?([^:@\/]*))?@)?([^:\/?#]*)(?::(\d*))?)?(\.\.?$|(?:[^?#\/]*\/)*)([^?#]*)(?:\?([^#]*))?(?:#(.*))?/,
 	parts: ['scheme', 'user', 'password', 'host', 'port', 'directory', 'file', 'query', 'fragment'],
 	schemes: {http: 80, https: 443, ftp: 21, rtsp: 554, mms: 1755, file: 0},
 
@@ -906,8 +906,9 @@ var URI = new Class({
 
 	setData: function(values, merge, part){
 		if (typeof values == 'string'){
-			values = this.getData();
-			values[arguments[0]] = arguments[1];
+			data = this.getData();
+			data[arguments[0]] = arguments[1];
+			values = data;
 		} else if (merge) {
 			values = $merge(this.getData(), values);
 		}
@@ -939,6 +940,148 @@ String.implement({
 	}
 
 });
+
+/*
+---
+
+script: Elements.From.js
+
+description: Returns a collection of elements from a string of html.
+
+license: MIT-style license
+
+authors:
+- Aaron Newton
+
+requires:
+- core:1.2.4/Element
+- /MooTools.More
+
+provides: [Elements.from]
+
+...
+*/
+
+Elements.from = function(text, excludeScripts){
+	if ($pick(excludeScripts, true)) text = text.stripScripts();
+
+	var container, match = text.match(/^\s*<(t[dhr]|tbody|tfoot|thead)/i);
+
+	if (match){
+		container = new Element('table');
+		var tag = match[1].toLowerCase();
+		if (['td', 'th', 'tr'].contains(tag)){
+			container = new Element('tbody').inject(container);
+			if (tag != 'tr') container = new Element('tr').inject(container);
+		}
+	}
+
+	return (container || new Element('div')).set('html', text).getChildren();
+};
+
+/*
+---
+
+script: Element.Delegation.js
+
+description: Extends the Element native object to include the delegate method for more efficient event management.
+
+credits:
+- "Event checking based on the work of Daniel Steigerwald. License: MIT-style license.	Copyright: Copyright (c) 2008 Daniel Steigerwald, daniel.steigerwald.cz"
+
+license: MIT-style license
+
+authors:
+- Aaron Newton
+- Daniel Steigerwald
+
+requires:
+- core:1.2.4/Element.Event
+- core:1.2.4/Selectors
+- /MooTools.More
+
+provides: [Element.Delegation]
+
+...
+*/
+
+(function(addEvent, removeEvent){
+	
+	var match = /(.*?):relay\(([^)]+)\)$/,
+		combinators = /[+>~\s]/,
+		splitType = function(type){
+			var bits = type.match(match);
+			return !bits ? {event: type} : {
+				event: bits[1],
+				selector: bits[2]
+			};
+		},
+		check = function(e, selector){
+			var t = e.target;
+			if (combinators.test(selector = selector.trim())){
+				var els = this.getElements(selector);
+				for (var i = els.length; i--; ){
+					var el = els[i];
+					if (t == el || el.hasChild(t)) return el;
+				}
+			} else {
+				for ( ; t && t != this; t = t.parentNode){
+					if (Element.match(t, selector)) return document.id(t);
+				}
+			}
+			return null;
+		};
+
+	Element.implement({
+
+		addEvent: function(type, fn){
+			var splitted = splitType(type);
+			if (splitted.selector){
+				var monitors = this.retrieve('$moo:delegateMonitors', {});
+				if (!monitors[type]){
+					var monitor = function(e){
+						var el = check.call(this, e, splitted.selector);
+						if (el) this.fireEvent(type, [e, el], 0, el);
+					}.bind(this);
+					monitors[type] = monitor;
+					addEvent.call(this, splitted.event, monitor);
+				}
+			}
+			return addEvent.apply(this, arguments);
+		},
+
+		removeEvent: function(type, fn){
+			var splitted = splitType(type);
+			if (splitted.selector){
+				var events = this.retrieve('events');
+				if (!events || !events[type] || (fn && !events[type].keys.contains(fn))) return this;
+
+				if (fn) removeEvent.apply(this, [type, fn]);
+				else removeEvent.apply(this, type);
+
+				events = this.retrieve('events');
+				if (events && events[type] && events[type].keys.length == 0){
+					var monitors = this.retrieve('$moo:delegateMonitors', {});
+					removeEvent.apply(this, [splitted.event, monitors[type]]);
+					delete monitors[type];
+				}
+				return this;
+			}
+			return removeEvent.apply(this, arguments);
+		},
+
+		fireEvent: function(type, args, delay, bind){
+			var events = this.retrieve('events');
+			if (!events || !events[type]) return this;
+			events[type].keys.each(function(fn){
+				fn.create({bind: bind || this, delay: delay, arguments: args})();
+			}, this);
+			return this;
+		}
+
+	});
+
+})(Element.prototype.addEvent, Element.prototype.removeEvent);
 
 /*
 ---
@@ -1179,10 +1322,6 @@ Element.implement({
 				calc = rel == document.body ? window.getScroll() : rel.getPosition(),
 				top = calc.y, left = calc.x;
 
-		var scrolls = rel.getScrolls();
-		top += scrolls.y;
-		left += scrolls.x;
-
 		var dim = this.getDimensions({computeSize: true, styles:['padding', 'border','margin']});
 		var pos = {},
 				prefY = options.offset.y,
@@ -1322,15 +1461,15 @@ Element.implement({
 	hide: function(){
 		var d;
 		try {
-			// IE fails here if the element is not in the dom
-			if ((d = this.getStyle('display')) == 'none') d = null;
+			//IE fails here if the element is not in the dom
+			d = this.getStyle('display');
 		} catch(e){}
-		
-		return this.store('originalDisplay', d || 'block').setStyle('display', 'none');
+		return this.store('originalDisplay', d || '').setStyle('display', 'none');
 	},
 
 	show: function(display){
-		return this.setStyle('display', display || this.retrieve('originalDisplay') || 'block');
+		display = display || this.retrieve('originalDisplay') || 'block';
+		return this.setStyle('display', (display == 'none') ? 'block' : display);
 	},
 
 	swapClass: function(remove, add){
@@ -1487,10 +1626,12 @@ var OverText = new Class({
 			this.text.hide();
 			this.fireEvent('textHide', [this.text, this.element]);
 			this.pollingPaused = true;
-			try {
-				if (!suppressFocus) this.element.fireEvent('focus');
-				this.element.focus();
-			} catch(e){} //IE barfs if you call focus on hidden elements
+			if (!suppressFocus){
+				try {
+					this.element.fireEvent('focus');
+					this.element.focus();
+				} catch(e){} //IE barfs if you call focus on hidden elements
+			}
 		}
 		return this;
 	},
@@ -1740,12 +1881,14 @@ Fx.Slide = new Class({
 
 	options: {
 		mode: 'vertical',
+		wrapper: false,
 		hideOverflow: true
 	},
 
 	initialize: function(element, options){
 		this.addEvent('complete', function(){
 			this.open = (this.wrapper['offset' + this.layout.capitalize()] != 0);
+			if (this.open) this.wrapper.setStyle('height', '');
 			if (this.open && Browser.Engine.webkit419) this.element.dispose().inject(this.wrapper);
 		}, true);
 		this.element = this.subject = document.id(element);
@@ -1753,6 +1896,7 @@ Fx.Slide = new Class({
 		var wrapper = this.element.retrieve('wrapper');
 		var styles = this.element.getStyles('margin', 'position', 'overflow');
 		if (this.options.hideOverflow) styles = $extend(styles, {overflow: 'hidden'});
+		if (this.options.wrapper) wrapper = document.id(this.options.wrapper).setStyles(styles);
 		this.wrapper = wrapper || new Element('div', {
 			styles: styles
 		}).wraps(this.element);
@@ -2092,7 +2236,7 @@ Drag.Move = new Class({
 		if (this.container && $type(this.container) != 'element')
 			this.container = document.id(this.container.getDocument().body);
 		
-		var styles = element.getStyles('left', 'right', 'position');
+		var styles = element.getStyles('left', 'top', 'position');
 		if (styles.left == 'auto' || styles.top == 'auto')
 			element.setPosition(element.getPosition(element.getOffsetParent()));
 		
@@ -2317,12 +2461,20 @@ var Sortables = new Class({
 	getClone: function(event, element){
 		if (!this.options.clone) return new Element('div').inject(document.body);
 		if ($type(this.options.clone) == 'function') return this.options.clone.call(this, event, element, this.list);
-		return element.clone(true).setStyles({
+		var clone = element.clone(true).setStyles({
 			margin: '0px',
 			position: 'absolute',
 			visibility: 'hidden',
 			'width': element.getStyle('width')
-		}).inject(this.list).setPosition(element.getPosition(element.getOffsetParent()));
+		});
+		//prevent the duplicated radio inputs from unchecking the real one
+		if (clone.get('html').test('radio')) {
+			clone.getElements('input[type=radio]').each(function(input, i) {
+				input.set('name', 'clone_' + i);
+			});
+		}
+		
+		return clone.inject(this.list).setPosition(element.getPosition(element.getOffsetParent()));
 	},
 
 	getDroppables: function(){
