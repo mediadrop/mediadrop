@@ -1,3 +1,21 @@
+/**
+ * This file is a part of MediaCore, Copyright 2009 Simple Station Inc.
+ *
+ * MediaCore is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * MediaCore is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/* Common to all settings pages */
 ul#settings-menu li {
 	padding: 5px 0;
 }
@@ -14,11 +32,8 @@ ul#settings-menu a {
 	color: #196d29;
 }
 
-.btn-add-user { background-image: url('../images/buttons/add-user.png'); width: 99px; height: 28px; }
-.btn-add-category { background-image: url('../images/buttons/add-category.png'); width: 103px; height: 28px; }
-.btn-add-tag { background-image: url('../images/buttons/add-tag.png'); width: 91px; height: 28px; }
-
 /* Users */
+.btn-add-user { background-image: url('../images/buttons/add-user.png'); width: 99px; height: 28px; }
 #display_name_container,
 #email_address_container {
 	clear: none;
@@ -49,4 +64,15 @@ ul#settings-menu a {
 }
 #settings-form .xhtml-description-helper {
 	margin: 10px 0;
+}
+
+/* Categories and tags */
+.btn-add-category { background-image: url('../images/buttons/add-category.png'); width: 103px; height: 28px; }
+.btn-add-tag { background-image: url('../images/buttons/add-tag.png'); width: 91px; height: 28px; }
+#category-table .first-child {
+	background: url('../images/layout/inset-shadow.png') repeat-x top;
+}
+#sbox-content #add-box .box-content,
+#sbox-content #edit-box .box-content {
+	padding-top: 0;
 }

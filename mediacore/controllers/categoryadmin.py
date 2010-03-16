@@ -22,21 +22,19 @@ from mediacore.lib.base import (BaseController, url_for, redirect,
 from mediacore.lib import helpers
 from mediacore.model import (DBSession, fetch_row, get_available_slug,
     Category)
-from mediacore.forms.categories import CategoryForm
+from mediacore.forms.categories import CategoryForm, CategoryRowForm
 
 
 category_form = CategoryForm()
+category_row_form = CategoryRowForm()
 
 class CategoryadminController(BaseController):
     allow_only = has_permission('admin')
 
     @expose('mediacore.templates.admin.categories.index')
-    @paginate('categories', items_per_page=25)
-    def index(self, page=1, **kwargs):
-        """List categories with pagination.
+    def index(self, **kwargs):
+        """List categories.
 
-        :param page: Page number, defaults to 1.
-        :type page: int
         :rtype: Dict
         :returns:
             categories
@@ -46,25 +44,54 @@ class CategoryadminController(BaseController):
                 The :class:`~mediacore.forms.categories.CategoryForm` instance.
 
         """
-        categories = DBSession.query(Category)\
-            .options(orm.undefer('media_count'))\
-            .order_by(Category.name)
+        # FIXME: This page uses 1 query for the root nodes
+        #                     + n queries for their descendants
+        #                     + m queries to get the media_count of every descendant
+        #        Even with eagerloading, when there is no children, the property
+        #        is null and sqlalchemy doesn't distinguish this from it being
+        #        null because no eagerload has been performed. Maybe I'm doing
+        #        something wrong?
+        categories = Category.query.roots()\
+            .order_by(Category.name)\
+            .options(orm.undefer('media_count'))
 
         return dict(
             categories = categories,
             category_form = category_form,
+            category_row_form = category_row_form,
         )
 
+    @expose('mediacore.templates.admin.categories.edit')
+    def edit(self, id, **kwargs):
+        """Edit a single category.
+
+        :param id: Category ID
+        :rtype: Dict
+        :returns:
+            categories
+                The list of :class:`~mediacore.model.categories.Category`
+                instances for this page.
+            category_form
+                The :class:`~mediacore.forms.categories.CategoryForm` instance.
+
+        """
+        category = fetch_row(Category, id)
+
+        return dict(
+            category = category,
+            category_form = category_form,
+            category_row_form = category_row_form,
+        )
 
     @expose('json')
     @validate(category_form)
-    def save(self, id, delete, **kwargs):
+    def save(self, id, delete=None, **kwargs):
         """Save changes or create a category.
 
         See :class:`~mediacore.forms.categories.CategoryForm` for POST vars.
 
         :param id: Category ID
-        :param delete: If true the category is deleted rather than saved.
+        :param delete: If true the category is to be deleted rather than saved.
         :type delete: bool
         :rtype: JSON dict
         :returns:
@@ -72,18 +99,53 @@ class CategoryadminController(BaseController):
                 bool
 
         """
+        if tmpl_context.form_errors:
+            if request.is_xhr:
+                return dict(success=False, errors=tmpl_context.form_errors)
+            else:
+                # TODO: Add error reporting for users with JS disabled?
+                return redirect(action='edit')
+
         cat = fetch_row(Category, id)
 
         if delete:
             DBSession.delete(cat)
-            data = dict(success=True)
+            data = dict(
+                success = True,
+                id = cat.id,
+                parent_options = unicode(category_form.c['parent_id'].display()),
+            )
         else:
             cat.name = kwargs['name']
             cat.slug = get_available_slug(Category, kwargs['slug'], cat)
+
+            if kwargs['parent_id']:
+                parent = fetch_row(Category, kwargs['parent_id'])
+                if parent is not cat and not parent.has_ancestor(cat):
+                    cat.parent = parent
+            else:
+                cat.parent = None
+
             DBSession.add(cat)
-            data = dict(success=True, name=cat.name, slug=cat.slug)
+            DBSession.flush()
+
+            data = dict(
+                success = True,
+                id = cat.id,
+                name = cat.name,
+                slug = cat.slug,
+                parent_id = cat.parent_id,
+                parent_options = unicode(category_form.c['parent_id'].display()),
+                depth = cat.find_depth(),
+                row = unicode(category_row_form.display(
+                    action = url_for(id=cat.id),
+                    category = cat,
+                    depth = cat.find_depth(),
+                    first_child = True,
+                )),
+            )
 
         if request.is_xhr:
             return data
         else:
-            redirect(action='index')
+            redirect(action='index', id=None)

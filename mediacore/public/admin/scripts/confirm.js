@@ -53,9 +53,9 @@ var ConfirmMgr = new Class({
 
 		var box = new Element('div', {'class': 'box'});
 		var head = new Element('h1', {'class': 'box-head', html: header}).inject(box);
-		var text = new Element('p', {html: msg}).inject(box);
+		var text = new Element('p', {'class': 'box-content', html: msg}).inject(box);
 		var buttons = new Element('div', {'class': 'box-foot'}).inject(box);
-		var confirmButton = new Element('button', {'class':this.options.confirmButtonClass, html: this.options.confirmButtonText}).inject(buttons);
+		var confirmButton = new Element('button', {'class': this.options.confirmButtonClass, html: this.options.confirmButtonText}).inject(buttons);
 		var cancelButton = new Element('button', {'class': this.options.cancelButtonClass, html: this.options.cancelButtonText}).inject(buttons);
 
 		cancelButton.addEvent('click', this.cancel.pass(target, this));

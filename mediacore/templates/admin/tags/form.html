@@ -22,14 +22,45 @@
       method="${method}"
       class="${css_class}"
       py:attrs="attrs">
-	<table py:with="order = ['delete', 'name', 'slug', 'save']; a = show_delete and True or order.pop(0); fields = [field_for(x) for x in order];">
-		<tbody>
-			<tr>
-				<td py:for="field in fields" py:with="div_class='form-field-%s' % field.__class__.__name__.lower()" class="form-field ${div_class}">
-					${field.display(value_for(field), id=None, **args_for(field))}
-				</td>
-			</tr>
-		</tbody>
-	</table>
+	<div class="box-content" style="margin-left:-10px">
+		<div class="field-error" py:if="error and show_error" py:content="error" />
+		<div py:if="hidden_fields">
+			<div py:for="field in hidden_fields"
+				 py:with="error=error_for(field)"
+				 py:strip="True">
+				<span py:replace="field.display(value_for(field), **args_for(field))" />
+				<span py:if="show_children_errors and error and not field.show_error"
+					  class="field-error" py:content="error" />
+			</div>
+		</div>
+		<ul class="field-list" py:attrs="list_attrs">
+			<li py:for="i, field in enumerate(fields)"
+				py:if="getattr(field, 'type', None) not in ['submit', 'file']"
+				py:with="required=[None,' required'][int(field.is_required)];
+						 error=error_for(field);
+						 label_text = field.label_text;
+						 help_text = field.help_text;
+						 is_submit = getattr(field, 'type', None) == 'submit';"
+				id="${field.id}-container"
+				class="${i%2 and 'odd' or 'even'}${is_submit and ' submit' or None}"
+				py:attrs="args_for(field).get('container_attrs') or field.container_attrs">
+				<div py:if="show_labels and label_text and not field.suppress_label"
+					 id="${field.id}-label" class="form_label">
+					<label for="${field.id}">${label_text}:</label>
+				</div>
+				<div class="form_field">
+					${field.display(value_for(field), **args_for(field))}
+				</div>
+				<div py:if="field.name == 'description'" py:replace="xhtml_description('description')" />
+				<span py:if="help_text" class="field-help" py:content="help_text" />
+				<span py:if="show_children_errors and error and not field.show_error"
+					  class="field-error" py:content="error" />
+			</li>
+		</ul>
+		<span py:if="error and not error.error_dict" class="field-error" py:content="error" />
+	</div>
+	<div class="box-foot">
+		${XML(children['save'])}
+	</div>
 </form>
 

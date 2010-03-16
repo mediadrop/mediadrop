@@ -88,6 +88,19 @@ class Category(object):
             )).scalar()
         return depth
 
+    def has_ancestor(self, cat):
+        cat = isinstance(cat, Category) and cat.id or int(cat)
+        ancestor = self.parent_id
+        while ancestor:
+            if ancestor == cat:
+                return True
+            ancestor = DBSession.execute(sql.select(
+                [categories.c.parent_id],
+                categories.c.id == ancestor
+            )).scalar()
+        return False
+
+
 
 mapper(Category, categories, properties={
     'children': relation(Category,

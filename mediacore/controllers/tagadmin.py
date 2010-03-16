@@ -22,10 +22,11 @@ from mediacore.lib.base import (BaseController, url_for, redirect,
 from mediacore.lib import helpers
 from mediacore.model import (DBSession, fetch_row, get_available_slug,
     Tag)
-from mediacore.forms.tags import TagForm
+from mediacore.forms.tags import TagForm, TagRowForm
 
 
 tag_form = TagForm()
+tag_row_form = TagRowForm()
 
 class TagadminController(BaseController):
     allow_only = has_permission('admin')
@@ -53,35 +54,70 @@ class TagadminController(BaseController):
         return dict(
             tags = tags,
             tag_form = tag_form,
+            tag_row_form = tag_row_form,
         )
 
+    @expose('mediacore.templates.admin.tags.edit')
+    def edit(self, id, **kwargs):
+        """Edit a single tag.
+
+        :param id: Tag ID
+        :rtype: Dict
+        :returns:
+            tags
+                The list of :class:`~mediacore.model.tags.Tag`
+                instances for this page.
+            tag_form
+                The :class:`~mediacore.forms.tags.TagForm` instance.
+
+        """
+        tag = fetch_row(Tag, id)
+
+        return dict(
+            tag = tag,
+            tag_form = tag_form,
+        )
 
     @expose('json')
     @validate(tag_form)
-    def save(self, id, delete, category='categories', **kwargs):
+    def save(self, id, delete=False, **kwargs):
         """Save changes or create a tag.
 
         See :class:`~mediacore.forms.tags.TagForm` for POST vars.
 
         :param id: Tag ID
-        :param delete: If true the category is deleted rather than saved.
-        :type delete: bool
         :rtype: JSON dict
         :returns:
             success
                 bool
 
         """
+        if tmpl_context.form_errors:
+            if request.is_xhr:
+                return dict(success=False, errors=tmpl_context.form_errors)
+            else:
+                # TODO: Add error reporting for users with JS disabled?
+                return redirect(action='edit')
+
         tag = fetch_row(Tag, id)
 
         if delete:
             DBSession.delete(tag)
+            data = dict(success=True, id=tag.id)
         else:
             tag.name = kwargs['name']
             tag.slug = get_available_slug(Tag, kwargs['slug'], tag)
             DBSession.add(tag)
+            DBSession.flush()
+            data = dict(
+                success = True,
+                id = tag.id,
+                name = tag.name,
+                slug = tag.slug,
+                row = unicode(tag_row_form.display(tag=tag)),
+            )
 
         if request.is_xhr:
-            return dict(success=True)
+            return data
         else:
-            redirect(action='index')
+            redirect(action='index', id=None)

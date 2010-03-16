@@ -117,12 +117,14 @@ def make_map():
         controller='tagadmin',
         action='index')
     map.connect('/admin/settings/tags/{id}/{action}',
-        controller='tagadmin')
+        controller='tagadmin',
+        action='edit')
     map.connect('/admin/settings/categories',
         controller='categoryadmin',
         action='index')
     map.connect('/admin/settings/categories/{id}/{action}',
-        controller='categoryadmin')
+        controller='categoryadmin',
+        action='edit')
 
     ##############
     # API routes #

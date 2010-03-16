@@ -1,0 +1,40 @@
+<!--! This file is a part of MediaCore, Copyright 2009 Simple Station Inc.
+
+	MediaCore is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+
+	MediaCore is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      xmlns:xi="http://www.w3.org/2001/XInclude"
+      py:strip="">
+	<tr id="tag-${tag.id}">
+		<td headers="h-name">${tag.name}</td>
+		<td headers="h-slug">
+			<div class="truncate" style="width:110px" title="${tag.slug}"
+			     py:content="h.truncate(tag.slug, 20, whole_word=False)" />
+		</td>
+		<td headers="h-media_count" class="center" py:content="tag.media_count or 0" />
+		<td headers="h-btns">
+			<form action="${h.url_for(action='save', id=tag.id or 'new')}" method="post" class="edit-modal">
+				<div>
+					<input py:for="name in ('name', 'slug')"
+					       py:with="field = children[name]"
+					       py:replace="field.display(getattr(tag, name, None), **args_for(field))" />
+					<a href="${h.url_for(action='edit', id=tag.id)}" class="btn btn-inline-edit f-lft">edit</a>
+					<input py:with="field = children['delete']"
+					       py:replace="field.display(value_for(field), **args_for(field))" />
+				</div>
+			</form>
+		</td>
+	</tr>
+</html>

@@ -17,31 +17,41 @@ from tw.forms import TextField, HiddenField, CalendarDatePicker, SingleSelectFie
 from tw.forms.validators import Int, NotEmpty, DateConverter, DateValidator
 from tw.api import WidgetsList
 
+from mediacore.model import DBSession
+from mediacore.model.categories import Category
+from mediacore.lib import helpers
 from mediacore.forms import Form, ListForm, SubmitButton
 
-class TagForm(ListForm):
-    template = 'mediacore.templates.admin.tags.form'
+def option_tree(cats):
+    indent = helpers.decode_entities(u'&nbsp;') * 4
+    return [(None, None)] + \
+        [(c.id, indent * (depth - 1) + c.name) for c, depth in cats.traverse()]
+
+class CategoryForm(ListForm):
+    template = 'mediacore.templates.admin.categories.form'
     id = None
-    css_classes = ['form', 'tag-form']
+    css_classes = ['category-form', 'form']
     submit_text = None
 
     # required to support multiple named buttons to differentiate between Save & Delete?
     _name = 'vf'
 
     fields = [
-        SubmitButton('save', default='Save', css_classes=['f-rgt', 'btn', 'btn-save']),
-        TextField('name', css_classes=['tag-name'], validator=NotEmpty),
-        TextField('slug', css_classes=['tag-slug'], validator=NotEmpty),
+        SubmitButton('save', default='Save', named_button=True, css_classes=['f-rgt', 'btn', 'btn-save']),
+        TextField('name', validator=NotEmpty),
+        TextField('slug', validator=NotEmpty),
+        SingleSelectField('parent_id', label_text='Parent Category', options=lambda: option_tree(Category.query.roots().order_by(Category.name.asc()))),
     ]
 
-class TagRowForm(Form):
-    template = 'mediacore.templates.admin.tags.row-form'
+class CategoryRowForm(Form):
+    template = 'mediacore.templates.admin.categories.row-form'
     id = None
     submit_text = None
-    params = ['tag']
+    params = ['category', 'depth', 'first_child']
 
     fields = [
         HiddenField('name'),
         HiddenField('slug'),
+        HiddenField('parent_id'),
         SubmitButton('delete', default='Delete', css_classes=['btn', 'btn-inline-delete']),
     ]
