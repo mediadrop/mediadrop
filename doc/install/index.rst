@@ -6,8 +6,9 @@ Installation
 
 This is a full walkthrough of how to get MediaCore running.
 
-Experienced TG2 users can check out the :ref:`install_overview` page for a
-(very) condensed version of the instructions.
+Experienced `Pylons <http://pylonshq.com/>`_ or TG2 (`TurboGears 2 <http://turbogears.org/2.0/>`_)
+users can check out the :ref:`install_overview` page for a (very) condensed
+version of the instructions.
 
 This installation guide assumes a basic familiarity with a \*nix shell.
 Experience with a Windows or DOS shell will translate pretty easily.
@@ -36,8 +37,9 @@ If you run Windows and want to try MediaCore, you have two options:
 
 * Python 2.5.x or newer
 * MySQL 5.0.x or newer
-* GCC must be installed and available on your ``$PATH`` for certain required
-  Python packages to install properly.
+* `GCC <http://en.wikipedia.org/wiki/GNU_Compiler_Collection>`_  must be
+  installed and available on your ``$PATH`` for certain required Python
+  packages to install properly.
 
 **You may need** (if you don't have permissions to install new software on
 the server you're using, you'll also need to have the following packages
