@@ -340,15 +340,26 @@ Open up ``development.ini`` and have a look through. The default settings
 should get you started. The only line that needs to be edited right away is
 the database configuration.
 
-Look for the ``sqlalchemy.url`` setting. **Change the "username", "pass",
-and "dbname"** to the username, password, and database name you used in
-Step 3.
+Under the ``[app:main]`` heading, look for the ``sqlalchemy.url`` setting.
+It looks like this:
 
-**NOTE 1:** For Uploads to work, the directory pointed to by ``media_dir``
-must be writable by the server.
+.. sourcecode:: ini
+
+   sqlalchemy.url = mysql://username:pass@localhost/dbname?charset=utf8&use_unicode=0
+
+**Change the "username", "pass", and "dbname"** fields to the username,
+password, and database name you used in Step 3. For example:
+
+.. sourcecode:: ini
+
+   sqlalchemy.url = mysql://mediacore_user:mysecretpassword@localhost/mediacore?charset=utf8&use_unicode=0
+
+**NOTE 1:** For Uploads to work, the directory pointed to by the ``media_dir``
+setting must be writable by your user.
 
 **NOTE 2:** For Uploads to work, the ``media`` and ``podcasts`` folders inside
-the directory pointed to by ``image_dir`` must also be writable by the server.
+the directory pointed to by the ``image_dir`` setting must also be writable by
+your user.
 
 
 Step 5: Launch the Built-in Server
