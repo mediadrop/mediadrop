@@ -42,6 +42,7 @@ order_columns = {
     'duration': Media.duration,
     'views': Media.views,
     'likes': Media.likes,
+    'popularity': Media.popularity_points,
     'description': Media.description,
     'description_plain': Media.description_plain,
     'comment_count': 'comment_count_published %s'

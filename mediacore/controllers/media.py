@@ -206,14 +206,14 @@ class MediaController(BaseController):
 
         """
         media = fetch_row(Media, slug=slug)
-        media.likes += 1
+        likes = media.increment_likes()
         DBSession.add(media)
 
         if request.is_xhr:
             # TODO: Update return arg naming
             return dict(
                 success = True,
-                upRating = helpers.text.plural(media.likes, 'person', 'people'),
+                upRating = helpers.text.plural(likes, 'person', 'people'),
                 downRating = None,
             )
         else:

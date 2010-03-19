@@ -1,0 +1,1 @@
+ALTER TABLE `media` ADD COLUMN `popularity_points` INTEGER UNSIGNED NOT NULL DEFAULT 0 AFTER `likes`;

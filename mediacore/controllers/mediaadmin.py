@@ -541,8 +541,10 @@ class MediaadminController(BaseController):
         elif update_button == 'Publish Now':
             media.publishable = True
             media.publish_on = publish_on or datetime.now()
+            media.update_rating()
         elif publish_on:
             media.publish_on = publish_on
+            media.update_rating()
 
         try:
             # Verify the change is valid by re-determining the status

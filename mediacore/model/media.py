@@ -28,6 +28,7 @@ belongs to a :class:`mediacore.model.podcasts.Podcast`.
 
 """
 
+import math
 import transaction
 from datetime import datetime
 from urlparse import urlparse
@@ -40,6 +41,7 @@ from zope.sqlalchemy import datamanager
 from mediacore.model import metadata, DBSession, get_available_slug, _mtm_count_property, _properties_dict_from_labels, _MatchAgainstClause
 from mediacore.model.authors import Author
 from mediacore.model.comments import Comment, CommentQuery, comments
+from mediacore.model.settings import fetch_setting
 from mediacore.model.tags import Tag, TagList, tags, extract_tags, fetch_and_create_tags
 from mediacore.model.topics import Topic, TopicList, topics, fetch_topics
 from mediacore.lib import helpers
@@ -72,6 +74,7 @@ media = Table('media', metadata,
     Column('duration', Integer, default=0, nullable=False),
     Column('views', Integer, default=0, nullable=False),
     Column('likes', Integer, default=0, nullable=False),
+    Column('popularity_points', Integer, default=0, nullable=False),
 
     Column('author_name', Unicode(50), nullable=False),
     Column('author_email', Unicode(255), nullable=False),
@@ -492,7 +495,37 @@ class Media(object):
            and (self.publish_until is None or self.publish_until >= datetime.now())
 
     def increment_views(self):
+        # update the number of views with an expression, to avoid concurrency
+        # issues associated with simultaneous writes.
+        views = self.views + 1
         self.views = media.c.views + sql.text('1')
+        return views
+
+    def increment_likes(self):
+        self.update_rating()
+        # update the number of likes with an expression, to avoid concurrency
+        # issues associated with simultaneous writes.
+        likes = self.likes + 1
+        self.likes = media.c.likes + sql.text('1')
+        return likes
+
+    def update_rating(self):
+        # FIXME: The current algorithm assumes that the earliest publication
+        #        date is January 1, 2000.
+
+        # In our ranking algorithm, being base_life_hours newer is equivalent
+        # to having log_base times more votes.
+        log_base = 10
+        base_life_hours = 36
+
+        if self.is_published:
+            base_life = base_life_hours * 3600
+            delta = self.publish_on - datetime(2000, 1, 1) # since January 1, 2000
+            t = delta.days * 86400 + delta.seconds
+            popularity = math.log(self.likes+1, log_base) + t/base_life
+            self.popularity_points = max(int(popularity), 0)
+        else:
+            self.popularity_points = 0
 
     @validates('description')
     def _validate_description(self, key, value):
