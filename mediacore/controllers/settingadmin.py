@@ -19,7 +19,7 @@ from repoze.what.predicates import has_permission
 
 from mediacore.lib.base import (BaseController, url_for, redirect,
     expose, expose_xhr, validate, paginate)
-from mediacore.lib import helpers
+from mediacore.lib.helpers import fetch_setting
 from mediacore.model import DBSession, fetch_row, Setting
 from mediacore.forms.settings import SettingsForm, DisplaySettingsForm
 
@@ -141,11 +141,12 @@ class SettingadminController(BaseController):
             settings_values = kwargs
         else:
             settings_values = dict(
-                tinymce = bool(helpers.fetch_setting('enable_tinymce')),
+                tinymce = bool(fetch_setting('enable_tinymce')),
                 popularity = dict(
-                    decay_exponent = helpers.fetch_setting('popularity_decay_exponent'),
-                    decay_lifetime = helpers.fetch_setting('popularity_decay_lifetime')
+                    decay_exponent = fetch_setting('popularity_decay_exponent'),
+                    decay_lifetime = fetch_setting('popularity_decay_lifetime')
                 ),
+                player = fetch_setting('player'),
             )
 
         return dict(
@@ -155,10 +156,11 @@ class SettingadminController(BaseController):
 
     @expose()
     @validate(display_settings_form, error_handler=edit_display)
-    def save_display(self, tinymce, popularity, **kwargs):
+    def save_display(self, tinymce, popularity, player, **kwargs):
         rich_setting = fetch_row(Setting, key='enable_tinymce')
         decay_exponent = fetch_row(Setting, key='popularity_decay_exponent')
         decay_lifetime = fetch_row(Setting, key='popularity_decay_lifetime')
+        player_setting = fetch_row(Setting, key='player')
 
         if tinymce:
             rich_setting.value = 'enabled'
@@ -167,10 +169,12 @@ class SettingadminController(BaseController):
 
         decay_exponent.value = popularity['decay_exponent']
         decay_lifetime.value = popularity['decay_lifetime']
+        player_setting.value = player
 
         DBSession.add(rich_setting)
         DBSession.add(decay_exponent)
         DBSession.add(decay_lifetime)
+        DBSession.add(player_setting)
         DBSession.flush()
         redirect(action='edit_display')
 

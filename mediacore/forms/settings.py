@@ -19,6 +19,12 @@ from tw.api import WidgetsList
 
 from mediacore.forms import ListForm, XHTMLTextArea, SubmitButton, ListFieldSet, PasswordField, email_validator
 
+players = [
+    ('flowplayer', 'FlowPlayer. website: http://flowplayer.org. licence: http://flowplayer.org/download/license_gpl.htm GPL 3'),
+    ('jwplayer', 'JWPlayer. website: http://ongtailvideo.com/. license: http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons Non-Commercial, Share Alike'),
+    ('sublime', 'Sublime Video HTML5 Player. website: http://jilion.com/sublime/video. license: Not Yet Available'),
+]
+
 class SettingsForm(ListForm):
     template = 'mediacore.templates.admin.box-form'
     id = 'settings-form'
@@ -79,6 +85,11 @@ class DisplaySettingsForm(ListForm):
                 TextField('decay_exponent', validator=Int(not_empty=True, min=1)),
                 TextField('decay_lifetime', validator=Int(not_empty=True, min=1)),
             ]
+        ),
+        RadioButtonList('player',
+            legend='Media Player for View pages:',
+            options=players,
+            validator=OneOf([x[0] for x in players]),
         ),
         SubmitButton('save', default='Save', css_classes=['mo', 'btn-save', 'f-rgt']),
         ResetButton('cancel', default='Cancel', css_classes=['mo', 'btn-cancel']),
