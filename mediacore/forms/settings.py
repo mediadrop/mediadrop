@@ -14,7 +14,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from tw.forms import TextField, CalendarDatePicker, SingleSelectField, TextArea, ResetButton, RadioButtonList
-from tw.forms.validators import Schema, FieldsMatch, StringBool
+from tw.forms.validators import Schema, FieldsMatch, StringBool, Int, OneOf
 from tw.api import WidgetsList
 
 from mediacore.forms import ListForm, XHTMLTextArea, SubmitButton, ListFieldSet, PasswordField, email_validator
@@ -66,11 +66,21 @@ class DisplaySettingsForm(ListForm):
         RadioButtonList('tinymce',
             label_text='Rich Text Editing',
             options=[
-                [True, 'Enable TinyMCE for <textarea> fields that accept XHTML input. Use of TinyMCE is not strictly XHTML compliant, but works in FF>=1.5, Safari>=3, IE>=5.5, so long as javascript is enabled.'],
-                [False, 'Plain <textarea> fields']
+                (True, 'Enable TinyMCE for <textarea> fields that accept XHTML input. Use of TinyMCE is not strictly XHTML compliant, but works in FF>=1.5, Safari>=3, IE>=5.5, so long as javascript is enabled.'),
+                (False, 'Plain <textarea> fields')
             ],
             validator=StringBool(not_empty=True)
+        ),
+        ListFieldSet('popularity',
+            suppress_label=True,
+            css_classes=['details_fieldset'],
+            legend='Popularity Algorithm Variables:',
+            children=[
+                TextField('decay_exponent', validator=Int(not_empty=True, min=1)),
+                TextField('decay_lifetime', validator=Int(not_empty=True, min=1)),
+            ]
         ),
         SubmitButton('save', default='Save', css_classes=['mo', 'btn-save', 'f-rgt']),
         ResetButton('cancel', default='Cancel', css_classes=['mo', 'btn-cancel']),
     ]
+

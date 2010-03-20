@@ -141,7 +141,11 @@ class SettingadminController(BaseController):
             settings_values = kwargs
         else:
             settings_values = dict(
-                tinymce = bool(helpers.fetch_setting('enable_tinymce'))
+                tinymce = bool(helpers.fetch_setting('enable_tinymce')),
+                popularity = dict(
+                    decay_exponent = helpers.fetch_setting('popularity_decay_exponent'),
+                    decay_lifetime = helpers.fetch_setting('popularity_decay_lifetime')
+                ),
             )
 
         return dict(
@@ -151,15 +155,22 @@ class SettingadminController(BaseController):
 
     @expose()
     @validate(display_settings_form, error_handler=edit_display)
-    def save_display(self, tinymce, **kwargs):
+    def save_display(self, tinymce, popularity, **kwargs):
         rich_setting = fetch_row(Setting, key='enable_tinymce')
+        decay_exponent = fetch_row(Setting, key='popularity_decay_exponent')
+        decay_lifetime = fetch_row(Setting, key='popularity_decay_lifetime')
 
         if tinymce:
             rich_setting.value = 'enabled'
         else:
             rich_setting.value = None
 
+        decay_exponent.value = popularity['decay_exponent']
+        decay_lifetime.value = popularity['decay_lifetime']
+
         DBSession.add(rich_setting)
+        DBSession.add(decay_exponent)
+        DBSession.add(decay_lifetime)
         DBSession.flush()
         redirect(action='edit_display')
 

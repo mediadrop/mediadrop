@@ -515,8 +515,8 @@ class Media(object):
 
         # In our ranking algorithm, being base_life_hours newer is equivalent
         # to having log_base times more votes.
-        log_base = 10
-        base_life_hours = 36
+        log_base = int(fetch_setting('popularity_decay_exponent'))
+        base_life_hours = int(fetch_setting('popularity_decay_lifetime'))
 
         if self.is_published:
             base_life = base_life_hours * 3600
