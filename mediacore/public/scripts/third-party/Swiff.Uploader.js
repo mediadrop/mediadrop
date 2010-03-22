@@ -1,11 +1,12 @@
 /**
  * Swiff.Uploader - Flash FileReference Control
  *
- * @version		3.0 rc1
+ * @version		3.0
  *
  * @license		MIT License
  *
- * @author		Harald Kirschner <mail [at] digitarald [dot] de>
+ * @author		Harald Kirschner <http://digitarald.de>
+ * @author		Valerio Proietti, <http://mad4milk.net>
  * @copyright	Authors
  */
 
@@ -42,10 +43,12 @@ Swiff.Uploader = new Class({
 		fieldName: null,
 
 		fileSizeMin: 1,
-		fileSizeMax: null, // Official limit is 100 MB for FileReference!
+		fileSizeMax: null, // Official limit is 100 MB for FileReference, but I tested up to 2Gb!
 		allowDuplicates: false,
+		timeLimit: (Browser.Platform.linux) ? 0 : 30,
 
 		buttonImage: null,
+		policyFile: null,
 		
 		fileListMax: 0,
 		fileListSizeMax: 0,
@@ -78,7 +81,11 @@ Swiff.Uploader = new Class({
 		onFileOpen: $empty,
 		onFileProgress: $empty,
 		onFileComplete: $empty,
-		onFileRemove: $empty
+		onFileRemove: $empty,
+		
+		onBeforeStart: $empty,
+		onBeforeStop: $empty,
+		onBeforeRemove: $empty
 		*/
 	},
 
@@ -159,7 +166,7 @@ Swiff.Uploader = new Class({
 		if (Browser.Plugins.Flash.version < 9) {
 			this.fireEvent('fail', ['flash']);
 		} else {
-			this.verifyLoad.delay(500, this);
+			this.verifyLoad.delay(1000, this);
 		}
 	},
 	
@@ -225,7 +232,9 @@ Swiff.Uploader = new Class({
 			fileSizeMin: this.options.fileSizeMin,
 			fileSizeMax: this.options.fileSizeMax,
 			allowDuplicates: this.options.allowDuplicates,
-			buttonImage: this.options.buttonImage
+			timeLimit: this.options.timeLimit,
+			buttonImage: this.options.buttonImage,
+			policyFile: this.options.policyFile
 		});
 
 		this.loaded = true;
@@ -261,14 +270,17 @@ Swiff.Uploader = new Class({
 	},
 
 	start: function() {
+		this.fireEvent('beforeStart');
 		this.remote('start');
 	},
 
 	stop: function() {
+		this.fireEvent('beforeStop');
 		this.remote('stop');
 	},
 
 	remove: function() {
+		this.fireEvent('beforeRemove');
 		this.remote('remove');
 	},
 
