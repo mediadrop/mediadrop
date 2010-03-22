@@ -14,11 +14,11 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from datetime import datetime
-from sqlalchemy import Table, ForeignKey, Column
+from sqlalchemy import Table, ForeignKey, Column, sql
 from sqlalchemy.types import String, Unicode, UnicodeText, Integer, DateTime, Boolean, Float
 from sqlalchemy.orm import mapper, relation, backref, synonym, interfaces, validates, Query
 
-from mediacore.model import metadata, DBSession, slugify, _mtm_count_property
+from mediacore.model import metadata, DBSession, slugify
 
 
 categories = Table('categories', metadata,
@@ -30,15 +30,38 @@ categories = Table('categories', metadata,
     mysql_charset='utf8'
 )
 
+def traverse(cats, depth=1):
+    """Iterate through a depth-first traversal of the given categories.
+
+    Yields a 2-tuple of the :class:`Category` instance and it's
+    relative depth in the tree.
+
+    """
+    for cat in cats:
+        yield cat, depth
+        for subcat, subdepth in traverse(cat.children, depth + 1):
+            yield subcat, subdepth
 
 class CategoryQuery(Query):
-    pass
+    traverse = traverse
+
+    def roots(self):
+        return self.filter(Category.parent_id == None)
+
+    def all(self):
+       return CategoryList(self)
+
+class CategoryList(list):
+    traverse = traverse
+
+    def __unicode__(self):
+        return ', '.join(cat.name for cat in self.itervalues())
 
 class Category(object):
     """
     Category definition
     """
-    query = DBSession.query_property()
+    query = DBSession.query_property(CategoryQuery)
 
     def __init__(self, name=None, slug=None):
         self.name = name or None
@@ -54,13 +77,24 @@ class Category(object):
     def validate_slug(self, key, slug):
         return slugify(slug)
 
-class CategoryList(list):
-    def __unicode__(self):
-        return ', '.join(cat.name for cat in self.itervalues())
+    def find_depth(self):
+        depth = 0
+        ancestor = self.parent_id
+        while ancestor:
+            depth += 1
+            ancestor = DBSession.execute(sql.select(
+                [categories.c.parent_id],
+                categories.c.id == ancestor
+            )).scalar()
+        return depth
 
 
 mapper(Category, categories, properties={
-    'children': relation(Category, backref=backref('parent', remote_side=[categories.c.id])),
+    'children': relation(Category,
+        backref=backref('parent', remote_side=[categories.c.id]),
+        order_by=categories.c.name.asc(),
+        collection_class=CategoryList,
+        join_depth=3),
 })
 
 
