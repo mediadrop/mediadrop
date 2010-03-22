@@ -10,6 +10,8 @@ from mediacore import __version__ as VERSION
 install_requires = [
     'SQLAlchemy == 0.5.8',
     'Pylons == 0.9.7',
+    'Routes == 1.10.3',
+    'repoze.who == 1.0.18',
     'TurboGears2 >= 2.0.3',
     'ToscaWidgets >= 0.9.1',
     'tw.dynforms',
