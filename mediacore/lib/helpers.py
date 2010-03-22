@@ -78,15 +78,17 @@ def duration_to_seconds(duration):
         total = time.strptime(duration, '%M:%S')
     return total.tm_hour * 60 * 60 + total.tm_min * 60 + total.tm_sec
 
-def truncate(string, size):
+def truncate(string, size, whole_word=True):
     """Truncate a plaintext string to roughly a given size (full words).
 
     :param string: plaintext
     :type string: unicode
     :param size: Max length
+    :param whole_word: Whether to prefer truncating at the end of a word.
+        Defaults to True.
     :rtype: unicode
     """
-    return text.truncate(string, size, whole_word=True)
+    return text.truncate(string, size, whole_word=whole_word)
 
 # Configuration for HTML sanitization
 blank_line = re.compile("\s*\n\s*\n\s*", re.M)

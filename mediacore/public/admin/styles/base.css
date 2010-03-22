@@ -421,6 +421,11 @@ input.submitbutton {
 .spinner {
 	background: url('../images/icons/spinner.gif') no-repeat;
 }
+.truncate {
+	overflow: hidden;
+	white-space: nowrap;
+	/* you must set a width in pixels for this to work */
+}
 
 
 #comments-table td.comments-count {
