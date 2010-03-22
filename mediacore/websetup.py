@@ -5,7 +5,9 @@ import pylons
 import transaction
 
 from mediacore.config.environment import load_environment
-from mediacore.model import DBSession, metadata
+from mediacore.model import (DBSession, metadata, Media, Podcast,
+    User, Group, Permission, Tag, Category, Comment, Setting, Author,
+    AuthorWithIP)
 
 log = logging.getLogger(__name__)
 
@@ -19,8 +21,93 @@ def setup_app(command, conf, vars):
     print "Creating tables"
     metadata.create_all(bind=DBSession.bind)
 
-    # Set up any useful initial data here.
-    # TODO: Use this file to replace setup.sql
+    u = User()
+    u.user_name = u'admin'
+    u.display_name = u'Admin'
+    u.email_address = u'admin@somedomain.com'
+    u.password = u'admin'
+
+    DBSession.add(u)
+
+    g = Group()
+    g.group_name = u'admins'
+    g.display_name = u'Admins'
+
+    g.users.append(u)
+
+    DBSession.add(g)
+
+    p = Permission()
+    p.permission_name = u'admin'
+    p.description = u'Grants access to the admin panel'
+    p.groups.append(g)
+
+    DBSession.add(p)
+
+
+    tag = Tag()
+    tag.name= u'hello world'
+    tag.slug= u'hello-world'
+    DBSession.add(tag)
+
+    category1 = Category()
+    category1.name = u'Featured'
+    category1.slug = u'featured'
+
+    DBSession.add(category1)
+
+    podcast = Podcast()
+    podcast.slug = u'hello-world'
+    podcast.title = u'Hello World'
+    podcast.subtitle = u'My very first podcast!'
+    podcast.description = u"""<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>"""
+    podcast.category = u'Technology'
+    podcast.author = Author(u.display_name, u.email_address)
+    podcast.explicit = None
+    podcast.copyright = u'Copyright 2009 Xyz'
+    podcast.itunes_url = None
+    podcast.feedburner_url = None
+
+    DBSession.add(podcast)
+
+    comment = Comment()
+    comment.subject = u'Re: New Media'
+    comment.author = AuthorWithIP(name=u'John Doe', ip=2130706433)
+    comment.body = u'<p>Hello to you too!</p>'
+
+    DBSession.add(comment)
+
+    media = Media()
+    media.type = None
+    media.slug = u'new-media'
+    media.reviewed = True
+    media.encoded = False
+    media.publishable = False
+    media.title = u'New Media'
+    media.subtitle = None
+    media.description = u"""<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>"""
+    media.description_plain = u"""Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."""
+    media.author = Author(u.display_name, u.email_address)
+    media.tags.append(tag)
+    media.categories.append(category1)
+
+    media.comments.append(comment)
+
+    settings = [{'key':u'email_media_uploaded', 'value':None},
+                {'key':u'email_comment_posted', 'value':None},
+                {'key':u'email_support_requests', 'value':None},
+                {'key':u'email_send_from', 'value':u'noreply@localhost'},
+                {'key':u'wording_user_uploads', 'value':u"Upload your media using the form below. We'll review it and get back to you."},
+                {'key':u'wording_additional_notes', 'value':None},
+                {'key':u'enable_tinymce', 'value':u'enabled'},
+                ]
+
+    for d in settings:
+        s = Setting()
+        s.key = d['key']
+        s.value = d['value']
+        DBSession.add(s)
+
     DBSession.flush()
     transaction.commit()
     print "Successfully setup"
