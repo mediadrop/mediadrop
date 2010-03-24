@@ -19,7 +19,6 @@
       xmlns:py="http://genshi.edgewall.org/"
       xmlns:xi="http://www.w3.org/2001/XInclude">
 <xi:include href="../master.html" />
-<xi:include href="../nav.html" />
 <xi:include href="../comments/_list.html" />
 <head>
 	<title>${Markup(media.title)}</title>
@@ -41,8 +40,7 @@
 	<meta name="keywords" content="${', '.join(tag.name for tag in media.tags[:15])}" />
 </head>
 <body class="${media.podcast and 'nav-podcasts-on' or 'nav-media-on'}">
-	<box id="media-box">
-		<nav />
+	<div id="media-box" class="mediacore-content">
 		<div class="media-body">
 			<div class="media-info">
 				<h1>${Markup(media.title)}</h1>
@@ -66,38 +64,40 @@
 				<label>Embed this ${media.type} on your site: <input type="text" value="${h.embeddable_player(media)}" id="embed-markup" /></label>
 			</div>
 		</div>
-	</box>
+	</div>
 
-	<py:if test="media.podcast">
-		<div id="podcast-context" class="contextbox" py:with="podcast = media.podcast">
-			<div class="contextbox-top">Podcast Series Information:</div>
-			<div class="contextbox-body">
-				<a href="${h.url_for(controller='/podcasts', action='view', slug=podcast.slug)}" class="podcast-art" title="${h.decode_entities(podcast.title)}"><img src="${h.thumb_url(podcast, 'm')}" width="154" height="154" class="f-lft" alt="${podcast.title}" /></a>
-				<ul id="podcast-buttons">
-					<li py:if="next_episode"><a class="btn-podcast-next" href="${h.url_for(controller='/media', action='view', podcast_slug=podcast.slug, slug=next_episode.slug)}" title="${Markup(next_episode.title).stripentities()}">Browse Episodes</a></li>
-					<li><a class="btn-podcast-view" href="${h.url_for(controller='/podcasts', action='view', slug=podcast.slug)}" title="Browse all episodes from this podcast">Browse Episodes</a></li>
-					<li><a class="btn-podcast-add" href="${podcast.itunes_url or h.url_for(controller='/podcasts', action='feed', slug=podcast.slug)}" title="Add this podcast to iTunes">Add to iTunes</a></li>
-				</ul>
+	<div class="mediacore-content">
+		<py:if test="media.podcast">
+			<div id="podcast-context" class="contextbox" py:with="podcast = media.podcast">
+				<div class="contextbox-top">Podcast Series Information:</div>
+				<div class="contextbox-body">
+					<a href="${h.url_for(controller='/podcasts', action='view', slug=podcast.slug)}" class="podcast-art" title="${h.decode_entities(podcast.title)}"><img src="${h.thumb_url(podcast, 'm')}" width="154" height="154" class="f-lft" alt="${podcast.title}" /></a>
+					<ul id="podcast-buttons">
+						<li py:if="next_episode"><a class="btn-podcast-next" href="${h.url_for(controller='/media', action='view', podcast_slug=podcast.slug, slug=next_episode.slug)}" title="${Markup(next_episode.title).stripentities()}">Browse Episodes</a></li>
+						<li><a class="btn-podcast-view" href="${h.url_for(controller='/podcasts', action='view', slug=podcast.slug)}" title="Browse all episodes from this podcast">Browse Episodes</a></li>
+						<li><a class="btn-podcast-add" href="${podcast.itunes_url or h.url_for(controller='/podcasts', action='feed', slug=podcast.slug)}" title="Add this podcast to iTunes">Add to iTunes</a></li>
+					</ul>
+				</div>
+				<div class="contextbox-bottom" />
+			</div>
+			<div class="context-sep" />
+		</py:if>
+
+		<div id="category-context" class="contextbox">
+			<div class="contextbox-top">Related Categories:</div>
+			<div class="contextbox-body contextbox-body-mid" py:with="url_args = dict(controller='/media', action='categories')">
+				<a py:replace="comma_sep_links([t.name for t in media.categories],
+											   [h.url_for(slug=t.slug, **url_args) for t in media.categories], default='No categories yet')" />
+			</div>
+			<div class="contextbox-mid">Tags:</div>
+			<div class="contextbox-body" py:with="url_args = dict(controller='/media', action='tags')">
+				<a py:replace="comma_sep_links([t.name for t in media.tags],
+											   [h.url_for(slug=t.slug, **url_args) for t in media.tags], default='No tags yet')" />
 			</div>
 			<div class="contextbox-bottom" />
 		</div>
-		<div class="context-sep" />
-	</py:if>
 
-	<div id="category-context" class="contextbox">
-		<div class="contextbox-top">Related Categories:</div>
-		<div class="contextbox-body contextbox-body-mid" py:with="url_args = dict(controller='/media', action='categories')">
-			<a py:replace="comma_sep_links([t.name for t in media.categories],
-			                               [h.url_for(slug=t.slug, **url_args) for t in media.categories], default='No categories yet')" />
-		</div>
-		<div class="contextbox-mid">Tags:</div>
-		<div class="contextbox-body" py:with="url_args = dict(controller='/media', action='tags')">
-			<a py:replace="comma_sep_links([t.name for t in media.tags],
-			                               [h.url_for(slug=t.slug, **url_args) for t in media.tags], default='No tags yet')" />
-		</div>
-		<div class="contextbox-bottom" />
+		${comment_list(comments, comment_form, comment_form_action, comment_form_values)}
 	</div>
-
-	${comment_list(comments, comment_form, comment_form_action, comment_form_values)}
 </body>
 </html>

@@ -19,18 +19,16 @@
       xmlns:py="http://genshi.edgewall.org/"
       xmlns:xi="http://www.w3.org/2001/XInclude">
 <xi:include href="../master.html" />
-<xi:include href="../nav.html" />
 <head>
 	<title>Search Results</title>
 	<link href="${h.url_for('/styles/media.css')}" media="screen" rel="stylesheet" type="text/css" />
 </head>
 <body>
-	<box id="grid-box" py:with="paginator=c.paginators.media">
-		<nav />
+	<div id="grid-box" class="mediacore-content" py:with="paginator=c.paginators.media">
 		<h1>Showing ${result_count} results for '${search_query}'</h1>
 		<br />
 		<ul py:replace="mediagrid(media)" />
 		${pagination(paginator)}
-	</box>
+	</div>
 </body>
 </html>

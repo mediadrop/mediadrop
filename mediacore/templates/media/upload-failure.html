@@ -19,14 +19,12 @@
       xmlns:py="http://genshi.edgewall.org/"
       xmlns:xi="http://www.w3.org/2001/XInclude">
 <xi:include href="../master.html" />
-<xi:include href="../nav.html" />
 <head>
 	<title>Upload Videos</title>
 	<link href="${h.url_for('/styles/upload-form.css')}" media="screen" rel="stylesheet" type="text/css" />
 </head>
 <body class="nav-upload-on">
-	<box id="mediacore">
-		<nav />
+	<div class="mediacore-content">
 		<div id="failure">
 		<div class="greybox">
 			<p><em>Whoops, there's been an error.</em> During your upload, something went wrong.</p>
@@ -39,7 +37,6 @@
 			<a id="try-again" href="${h.url_for(action='upload')}"><img alt="Try Uploading Again" src="${h.url_for('/images/uploader/try-again.png')}" /></a>
 		</div>
 		</div>
-	</box>
+	</div>
 </body>
 </html>
-

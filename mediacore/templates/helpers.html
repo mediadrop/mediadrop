@@ -18,15 +18,6 @@
       xmlns:xi="http://www.w3.org/2001/XInclude"
       py:strip="">
 
-	<py:match path="box" recursive="false">
-		<div class="box" py:attrs="select('@*')">
-			<div class="box-top"></div>
-			<div py:replace="select('nav') if unicode(select('nav')) else Markup('&lt;div class=&quot;box-nav&quot;&gt;&lt;/div&gt;')" />
-			<div class="box-body" py:content="select('*[not(nav)]|text()')">Content is inserted here</div>
-			<div class="box-bottom"></div>
-		</div>
-	</py:match>
-
 	<py:match path="innerbox" recursive="false">
 		<div class="innerbox" py:attrs="select('@*')">
 			<div class="innerbox-top" py:content="select('innerboxtitle/text()')"></div>

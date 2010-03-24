@@ -19,21 +19,18 @@
       xmlns:py="http://genshi.edgewall.org/"
       xmlns:xi="http://www.w3.org/2001/XInclude">
 <xi:include href="../master.html" />
-<xi:include href="../nav.html" />
 <head>
 	<title>Categories</title>
 	<link href="${h.url_for('/styles/media.css')}" media="screen" rel="stylesheet" type="text/css" />
 </head>
 <body class="nav-media-on">
-	<box id="grid-box">
-		<nav />
+	<div id="grid-box" class="mediacore-content">
 		<py:if test="media">
 			<h1>Media filed under ${category}</h1>
 			<br />
 			<ul py:replace="mediagrid(media)" />
 			${pagination(c.paginators.media)}
 		</py:if>
-	</box>
+	</div>
 </body>
 </html>
-

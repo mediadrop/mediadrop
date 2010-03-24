@@ -19,7 +19,6 @@
       xmlns:py="http://genshi.edgewall.org/"
       xmlns:xi="http://www.w3.org/2001/XInclude">
 <xi:include href="../master.html" />
-<xi:include href="../nav.html" />
 <head>
 	<title>Podcasts</title>
 	<link href="${h.url_for('/styles/media.css')}" media="screen" rel="stylesheet" type="text/css" />
@@ -30,9 +29,7 @@
 	      title="${h.decode_entities(podcast.title)} RSS Feed" />
 </head>
 <body class="nav-podcasts-on">
-	<box id="podcasts-box" py:with="episodes_paginator = c.paginators.episodes; episode_count = len(episodes); first_page = episodes_paginator.page == 1;">
-		<nav />
-
+	<div class="mediacore-content" py:with="episodes_paginator = c.paginators.episodes; episode_count = len(episodes); first_page = episodes_paginator.page == 1;">
 		<div id="featured-ep" py:if="first_page and episode_count" py:with="media = episodes[0]">
 			<a href="${h.url_for(controller='/media', action='view', slug=media.slug, podcast_slug=media.podcast.slug)}" class="grid-thumb">
 				<img src="${h.thumb_url(media, 'l')}" width="410" height="231" alt="Featured: ${h.decode_entities(media.title)}" />
@@ -80,6 +77,6 @@
 				</li>
 			</ul>
 		</innerbox>
-	</box>
+	</div>
 </body>
 </html>

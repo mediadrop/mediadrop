@@ -19,7 +19,6 @@
       xmlns:py="http://genshi.edgewall.org/"
       xmlns:xi="http://www.w3.org/2001/XInclude">
 <xi:include href="../master.html" />
-<xi:include href="../nav.html" />
 <head>
 	<title>Videos</title>
 	<link href="${h.url_for('/styles/mediaflow.css')}" media="screen" rel="stylesheet" type="text/css" />
@@ -45,13 +44,12 @@
 	</script>-->
 </head>
 <body class="nav-explore-on">
-	<box id="mediaflow-box">
-		<nav />
+	<div id="mediaflow-box" class="mediacore-content">
 		<div id="mediaflow-ctrls" />
 		<div id="mediaflow-body">
 			<xi:include href="_mediaflow-pager.html" />
 			${mediaflow_slider_pager(media)}
 		</div>
-	</box>
+	</div>
 </body>
 </html>

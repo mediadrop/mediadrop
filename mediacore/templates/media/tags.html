@@ -19,14 +19,12 @@
       xmlns:py="http://genshi.edgewall.org/"
       xmlns:xi="http://www.w3.org/2001/XInclude">
 <xi:include href="../master.html" />
-<xi:include href="../nav.html" />
 <head>
 	<title>Tags</title>
 	<link href="${h.url_for('/styles/media.css')}" media="screen" rel="stylesheet" type="text/css" />
 </head>
 <body class="nav-media-on">
-	<box id="grid-box">
-		<nav />
+	<div id="grid-box" class="mediacore-content">
 		<py:if test="media">
 			<h1>Media tagged with '${tag}'</h1>
 			<br />
@@ -44,7 +42,6 @@
 				</ul>
 			</div>
 		</py:if>
-	</box>
+	</div>
 </body>
 </html>
-

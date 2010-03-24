@@ -30,7 +30,7 @@
 	</py:match>
 
 	<py:match path="nav" recursive="false">
-		<div class="box-nav">
+		<div id="nav-box">
 			<ul py:if="not c.nav_hide_main" id="nav">
 				<li id="nav-explore"><a href="${h.url_for(controller='/media', action='flow')}">Explore</a></li>
 				<li id="nav-media"><a href="${h.url_for(controller='/media', action='index')}">Media Library</a></li>

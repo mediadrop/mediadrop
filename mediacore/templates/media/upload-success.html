@@ -19,21 +19,19 @@
       xmlns:py="http://genshi.edgewall.org/"
       xmlns:xi="http://www.w3.org/2001/XInclude">
 <xi:include href="../master.html" />
-<xi:include href="../nav.html" />
 <head>
 	<title>Upload Videos</title>
 	<link href="${h.url_for('/styles/upload-form.css')}" media="screen" rel="stylesheet" type="text/css" />
 	<meta http-equiv="refresh" content="12;url=${h.url_for('/')}" />
 </head>
 <body class="nav-upload-on">
-	<box id="mediacore">
-		<nav />
+	<div class="mediacore-content">
 		<div class="greybox">
 			<p class="italic">Awesome, your upload was successful!</p>
 			<p>Your submission is awaiting review by a moderator and will be posted shortly.</p>
 			<p><a href="${h.url_for('/')}">You will be automatically redirected</a> back to the media page in a few seconds. Hang tight.</p>
 			<div class="upload-success" />
 		</div>
-	</box>
+	</div>
 </body>
 </html>

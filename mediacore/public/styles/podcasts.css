@@ -102,6 +102,8 @@
 
 
 .innerbox {
+	width: 900px;
+	margin: 0 auto;
 	clear: both;
 }
 .innerbox-top {

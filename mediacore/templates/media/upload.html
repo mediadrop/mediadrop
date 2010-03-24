@@ -19,7 +19,6 @@
       xmlns:py="http://genshi.edgewall.org/"
       xmlns:xi="http://www.w3.org/2001/XInclude">
 <xi:include href="../master.html" />
-<xi:include href="../nav.html" />
 <head>
 	<title>Upload Videos</title>
 	<link href="${h.url_for('/styles/upload-form.css')}" media="screen" rel="stylesheet" type="text/css" />
@@ -37,8 +36,7 @@
 	</script>
 </head>
 <body class="nav-upload-on">
-	<box id="mediacore">
-		<nav />
+	<div class="mediacore-content">
 		<div id="rules" class="greybox" py:if="legal_wording" py:content="Markup(legal_wording)">Legal Wording</div>
 		<div id="rightbar">
 			<div>
@@ -52,6 +50,6 @@
 			<div id="upload-status"><span class="percent" /><span class="text" /></div>
 		</div>
 		${XML(upload_form(form_values))}
-	</box>
+	</div>
 </body>
 </html>

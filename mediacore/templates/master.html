@@ -21,6 +21,7 @@
       py:strip="">
 
 <xi:include href="helpers.html" />
+<xi:include href="nav.html" />
 
 <head py:match="head">
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -31,9 +32,8 @@
 </head>
 
 <body py:match="body" py:attrs="select('@*')">
-	<div class="mediacore-content" py:content="select('*|text()')">
-		Content is injected inside this div
-	</div>
+	<nav />
+	<div py:replace="select('*|text()')" />
 </body>
 
 <!--! Optionally wrap the core MediaCore output in a layout -->
