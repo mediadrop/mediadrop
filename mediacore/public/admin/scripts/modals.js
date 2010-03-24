@@ -60,8 +60,8 @@ var ModalForm = new Class({
 	attach: function(){
 		this.form.addEvent('submit', this.formSubmit.bind(this));
 		if (this.options.slugifyField) {
-			var slugifyField = this.form.elements[this.options.slugifyField];
-			var slugField = this.form.elements['slug'];
+			var slugifyField = $(this.form.elements[this.options.slugifyField]);
+			var slugField = $(this.form.elements['slug']);
 			slugifyField.addEvent('keyup', this._slugify.bindWithEvent(this, [slugField, slugifyField]));
 		}
 		return this;
@@ -127,7 +127,7 @@ var ModalForm = new Class({
 		}
 
 		for (var el, i = this.form.elements.length; i--; ) {
-			el = this.form.elements[i];
+			el = $(this.form.elements[i]);
 			el.set('value', values.get(el.name));
 		}
 		return this;
@@ -136,7 +136,7 @@ var ModalForm = new Class({
 	getValues: function(){
 		var values = new Hash();
 		for (var el, i = this.form.elements.length; i--; ) {
-			el = this.form.elements[i];
+			el = $(this.form.elements[i]);
 			if (el.type == 'submit' || el.type == 'reset') continue;
 			values.set(el.get('name'), el.get('value'));
 		};
