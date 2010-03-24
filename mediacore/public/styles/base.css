@@ -131,15 +131,9 @@ a:hover {
 
 /* Sectional nav */
 #nav {
-	width: 248px;
-	background: url('../images/buttons/sections-ie.gif') no-repeat 0 0;
+	width: 686px;
+	float: left;
 }
-.box-nav-btns > #nav {
-	background-image: url('../images/buttons/sections.png');
-}
-.nav-latest-on #nav { background-position: 0 -39px; }
-.nav-media-on #nav { background-position: 0 -78px; }
-.nav-podcasts-on #nav { background-position: 0 -117px; }
 #nav li {
 	float: left;
 }
@@ -147,18 +141,25 @@ a:hover {
 	text-indent: -5000px;
 	display: block;
 	height: 39px;
-	background: url('../images/buttons/sections.png') no-repeat 1000px 1000px;
+	background: url('../images/buttons/nav.png') no-repeat;
 }
-#nav-latest a { width: 87px; }
-#nav-videos a { width: 68px; }
-#nav-podcasts a { width: 93px; }
-#nav-latest a:hover { background-position: 0 -156px; }
-#nav-videos a:hover { background-position: -87px -156px; }
-#nav-podcasts a:hover { background-position: -155px -156px; }
+#nav-explore a:link, #nav-explore a:visited { width: 90px; background-position: 0 0; }
+#nav-media a:link, #nav-media a:visited { width: 118px; background-position: -90px 0; }
+#nav-podcasts a:link, #nav-podcasts a:visited { width: 92px; background-position: -208px 0; }
+#nav-categories a:link, #nav-categories a:visited { width: 107px; background-position: -300px 0; }
+#nav-upload a:link, #nav-upload a:visited { width: 79px; background-position: -407px 0; }
+#nav-explore a:hover { background-position: 0 -39px; }
+#nav-media a:hover { background-position: -90px -39px; }
+#nav-podcasts a:hover { background-position: -208px -39px; }
+#nav-categories a:hover { background-position: -300px -39px; }
+#nav-upload a:hover { background-position: -407px -39px; }
+.nav-explore-on #nav-explore a { background-position: 0 -78px; }
+.nav-media-on #nav-media a { background-position: -90px -78px; }
+.nav-podcasts-on #nav-podcasts a { background-position: -208px -78px; }
+.nav-categories-on #nav-categories a { background-position: -300px -78px; }
+.nav-upload-on #nav-upload a { background-position: -407px -78px; }
+#nav #nav-upload { float: right; }
 
-#nav-podcast-help + #nav-search {
-	margin-right: 170px;
-}
 #nav-search {
 	float: right;
 	height: 39px;
@@ -183,39 +184,6 @@ a:hover {
 #nav-search .overTxtLabel {
 	color: #595050;
 	font-size: 14px;
-}
-
-/* Secondary nav, buttons for flyout boxes */
-a#nav-upload-video {
-	width: 122px;
-	background: url('../images/buttons/upload-video-ie.gif') no-repeat;
-}
-a#nav-categories {
-	width: 122px;
-	background: url('../images/buttons/category-index-ie.gif') no-repeat;
-}
-a#nav-podcast-help {
-	width: 160px;
-	background: url('../images/buttons/podcast-help-ie.gif') no-repeat;
-	position: absolute;
-	top: 0;
-	right: 132px;
-	float: none;
-}
-.box-nav-btns > a#nav-upload-video { background-image: url('../images/buttons/upload-video.png'); }
-.box-nav-btns > a#nav-categories { background-image: url('../images/buttons/category-index.png'); }
-.box-nav-btns > a#nav-podcast-help { background-image: url('../images/buttons/podcast-help.png'); }
-a#nav-categories:hover,
-a#nav-podcast-help:hover,
-a#nav-upload-video:hover {
-	background-position: 0 -39px;
-}
-.nav-categories-on #nav-categories,
-a#nav-categories.categories-shown,
-.nav-podcast-help-on #nav-podcast-help,
-a#nav-podcast-help.podcast-help-shown,
-.nav-upload-video-on #nav-upload-video {
-	background-position: 0 -78px;
 }
 
 /* Flyout boxes that go within the nav bar like category index and whats a podcast? */

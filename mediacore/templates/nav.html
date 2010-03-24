@@ -21,133 +21,26 @@
 	<py:match path="head" once="true">
 		<head>
 			<meta py:replace="select('*')" />
-			<py:if test="c.nav_search">
-				<script type="text/javascript">
-					window.addEvent('domready', function(){
-						var searchLabel = new OverText('nav-search-input', {
-							wrap: true, positionOptions: {x: 14, y: 12}
-						});
-					});
-				</script>
-			</py:if>
-			<py:if test="c.nav_categories or c.nav_podcasts">
-				<script type="text/javascript" src="${h.url_for('/scripts/nav-flyout.js')}" />
-				<script type="text/javascript">
-					window.addEvent('domready', function() {
-						var flyoutOpenFx = [
-							{duration:  30, transition: 'linear'},
-							{duration:  20, transition: 'linear'},
-							{duration: 450, transition: 'cubic:out'}
-						];
-						var flyoutCloseFx = [
-							{duration:  30, transition: 'linear'},
-							{duration:  20, transition: 'linear'},
-							{duration: 450, transition: 'cubic:in'}
-						];
-						var categoryIndexFlyout, podcastHelpFlyout;
-						<py:if test="c.nav_categories">
-							var categoriesEl = $('mediacore-categories');
-							if (categoriesEl) {
-								var categoryIndexFlyout = new NavFlyout({
-									button: 'nav-categories',
-									buttonActiveClass: 'categories-shown',
-									elements: categoriesEl.getChildren(),
-									startHidden: ${c.nav_category_list and 'false' or 'true'},
-									openFx: flyoutOpenFx,
-									closeFx: flyoutCloseFx
-								});
-							}
-						</py:if>
-						<py:if test="c.nav_podcasts">
-							var podcastHelpEl = $('podcast-help-box');
-							if (podcastHelpEl) {
-								podcastHelpFlyout = new NavFlyout({
-									button: 'nav-podcast-help',
-									buttonActiveClass: 'podcast-help-shown',
-									elements: podcastHelpEl.getChildren(),
-									openFx: flyoutOpenFx,
-									closeFx: flyoutCloseFx
-								});
-								if (categoryIndexFlyout) {
-									var hider = function(how) { if (how == 'in') if (this.open) this.hide(); };
-									categoryIndexFlyout.addEvent('start', hider.bind(podcastHelpFlyout));
-									podcastHelpFlyout.addEvent('start', hider.bind(categoryIndexFlyout));
-								}
-							}
-						</py:if>
-					});
-				</script>
-			</py:if>
+			<script type="text/javascript">
+				window.addEvent('domready', function(){
+					var searchLbl = new OverText('nav-search-input', {wrap: true, positionOptions: {x: 14, y: 12}});
+				});
+			</script>
 		</head>
 	</py:match>
 
 	<py:match path="nav" recursive="false">
 		<div class="box-nav">
-			<div class="box-nav-btns">
-				<ul py:if="not c.nav_hide_main" id="nav" class="box-nav-left">
-					<li id="nav-latest"><a href="${h.url_for(controller='/media', action='flow')}">Latest</a></li>
-					<li id="nav-videos"><a href="${h.url_for(controller='/media', action='index')}">Video</a></li>
-					<li id="nav-podcasts"><a href="${h.url_for(controller='/podcasts')}">Podcasts</a></li>
-				</ul>
-				<a py:if="c.nav_categories" id="nav-categories" class="box-nav-right categories-shown" href="${h.url_for(controller='/media', action='categories', slug=None)}">Category Index</a>
-				<a py:if="c.nav_podcasts" id="nav-podcast-help" class="box-nav-right podcast-help-shown" href="#">What are podcasts?</a>
-				<a py:if="not c.nav_podcasts" id="nav-upload-video" class="box-nav-right" href="${h.url_for(controller='/media', action='upload')}">Upload a Video</a>
-				<form py:if="c.nav_search" id="nav-search" method="get" action="${c.nav_search}">
-					<div><input type="text" id="nav-search-input" name="q" value="${h.request.params.get('q')}" alt="Search" /><input type="submit" class="nav-search-btn" value="" /></div>
-				</form>
-			</div>
-			<div py:if="c.nav_podcasts" id="podcast-help-box" class="nav-box">
-				<div id="podcast-help-top" class="nav-box-flyout" />
-				<div class="nav-box-top nav-box-flyout" />
-				<div class="nav-box-flyout">
-					<div class="nav-box-body">
-						<div class="f-lft">
-							<p>New to podcasts? A podcast is a periodical publication of audio or video files on the internet. The term "podcast" is a combination of the words "iPod" and "broadcast", but you don't need an iPod to listen to a podcast&mdash;any computer or portable media player will do.</p>
-							<p>A podcast client (like iTunes) is a computer program that reads a podcast and downloads new episodes to your computer automatically.</p>
-							<p>For a brief video description of podcasts, check out <a href="http://www.youtube.com/watch?v=y-MSL42NV3c">this youtube video</a>!</p>
-							<p>If you'd like to learn more, <a href="http://www.apple.com/itunes/podcasts/fanfaq.html">read this FAQ</a>.</p>
-						</div>
-						<div class="f-rgt">
-							<p>To get started, all you need is a podcast client like iTunes or Juice:</p>
-							<ul>
-								<li><a href="http://apple.com/itunes/download/">Download iTunes</a></li>
-								<li><a href="http://juicereceiver.sourceforge.net/">Download Juice</a></li>
-							</ul>
-							<p>Then you can add our podcasts to your podcast client:</p>
-							<ul py:if="c.nav_podcasts">
-								<li py:for="podcast in c.nav_podcasts">
-									<span class="f-lft">Subscribe to <a href="${h.url_for(action='view', slug=podcast.slug)}">${Markup(podcast.title)}</a></span>
-									<span class="f-rgt">via
-										<py:if test="podcast.itunes_url"><a href="${podcast.itunes_url}">iTunes</a> |</py:if>
-										<a href="${h.url_for(action='feed', slug=podcast.slug)}">RSS</a>
-									</span>
-								</li>
-							</ul>
-						</div>
-					</div>
-					<div class="nav-box-bottom" />
-				</div>
-			</div>
-			<div py:if="c.nav_categories" id="mediacore-categories" class="nav-box">
-				<div id="category-box-top" class="nav-box-flyout" />
-				<div class="nav-box-topright nav-box-flyout" />
-				<div class="nav-box-flyout">
-					<div class="nav-box-body" py:with="per_col = max(5, int(h.math.ceil((len(c.nav_categories) + 6) / 4.0)))">
-						<ul py:if="c.nav_categories" py:for="col in xrange(1, h.math.ceil(len(c.nav_categories) / float(per_col)) + 1)">
-							<li py:for="category in c.nav_categories[(col-1)*per_col:col*per_col]">
-								<a href="${h.url_for(controller='/media', action='categories', slug=category.slug)}">${category}</a> <span>(${category.media_count_published})</span>
-							</li>
-						</ul>
-						<div id="categories-caption" py:if="c.suggest_category_email">
-							<div id="categories-dontsee">Don't see the category you are looking for?</div>
-							<a id="categories-suggest" href="mailto:${c.suggest_category_email}?subject=Suggest%20a%20category!">Suggest a new category</a>
-							<a href="${h.url_for(controller='/media', action='tags', slug=None)}">or check out the tags list</a>
-						</div>
-					</div>
-					<div class="nav-box-bottom" />
-				</div>
-			</div>
-			<div py:replace="select('*|text()')" />
+			<ul py:if="not c.nav_hide_main" id="nav">
+				<li id="nav-explore"><a href="${h.url_for(controller='/media', action='flow')}">Explore</a></li>
+				<li id="nav-media"><a href="${h.url_for(controller='/media', action='index')}">Media Library</a></li>
+				<li id="nav-podcasts"><a href="${h.url_for(controller='/podcasts')}">Podcasts</a></li>
+				<li id="nav-categories"><a href="${h.url_for(controller='/media', action='categories')}">Categories</a></li>
+				<li id="nav-upload" class="f-rgt"><a href="${h.url_for(controller='/media', action='upload')}">Upload</a></li>
+			</ul>
+			<form id="nav-search" method="get" action="${h.url_for(controller='/media', action='search')}">
+				<div><input type="text" id="nav-search-input" name="q" value="${h.request.params.get('q')}" alt="Search" /><input type="submit" class="nav-search-btn" value="" /></div>
+			</form>
 		</div>
 	</py:match>
 
