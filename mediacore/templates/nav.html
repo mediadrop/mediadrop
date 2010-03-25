@@ -32,11 +32,11 @@
 	<py:match path="nav" recursive="false">
 		<div id="nav-box">
 			<ul py:if="not c.nav_hide_main" id="nav">
-				<li id="nav-explore"><a href="${h.url_for(controller='/media', action='flow')}">Explore</a></li>
-				<li id="nav-media"><a href="${h.url_for(controller='/media', action='index')}">Media Library</a></li>
-				<li id="nav-podcasts"><a href="${h.url_for(controller='/podcasts')}">Podcasts</a></li>
-				<li id="nav-categories"><a href="${h.url_for(controller='/media', action='categories')}">Categories</a></li>
-				<li id="nav-upload" class="f-rgt"><a href="${h.url_for(controller='/media', action='upload')}">Upload</a></li>
+				<li id="nav-explore"><a href="${h.url_for(controller='/media', action='flow')}"><span>Explore</span></a></li>
+				<li id="nav-media"><a href="${h.url_for(controller='/media')}"><span>Media Library</span></a></li>
+				<li id="nav-podcasts"><a href="${h.url_for(controller='/podcasts')}"><span>Podcasts</span></a></li>
+				<li id="nav-categories"><a href="${h.url_for(controller='/categories')}"><span>Categories</span></a></li>
+				<li id="nav-upload" class="f-rgt"><a href="${h.url_for(controller='/media', action='upload')}"><span>Upload</span></a></li>
 			</ul>
 			<form id="nav-search" method="get" action="${h.url_for(controller='/media', action='search')}">
 				<div><input type="text" id="nav-search-input" name="q" value="${h.request.params.get('q')}" alt="Search" /><input type="submit" class="nav-search-btn" value="" /></div>

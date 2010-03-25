@@ -198,9 +198,6 @@
 #podcast-buttons a:hover {
 	background-position: 0 -39px;
 }
-#podcast-buttons a:focus {
-	outline: 0;
-}
 #podcast-buttons .btn-podcast-next {
 	margin-top:10px;
 }

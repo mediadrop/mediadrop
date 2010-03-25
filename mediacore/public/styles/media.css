@@ -145,8 +145,8 @@ a:hover .grid-title, a.grid-title:hover {
 	position: relative;
 }
 .grid2 .grid2-link {
-	width: 440px;
 	height: 1.25em;
+	display: block;
 }
 .grid2-link .grid-thumb {
 	float: left;

@@ -232,10 +232,6 @@ div.upload-success {
 	margin: 0 auto;
 }
 
-#try-again:focus {
-	outline: none;
-}
-
 div#failure {
 	background: transparent url('../images/uploader/background-gears.png') no-repeat center 26px;
 	padding-bottom: 100px;
