@@ -14,6 +14,11 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#flowplayer {
+	border: 1px solid #fff;
+}
+
+
 /* video.grid */
 #grid-box .box-body {
 	padding-left: 0;
@@ -26,12 +31,10 @@
 
 
 .grid-title, a:link .grid-title, a:visited .grid-title, a.grid-title:link, a.grid-title:visited {
-	color: #b1d1ef;
 	text-decoration: none;
-	color: #b1d1ef;
+	font: bold 13px 'Trebuchet MS', sans-serif;
 }
 a:hover .grid-title, a.grid-title:hover {
-	color: #e1effc;
 	text-decoration: underline;
 }
 .grid-thumb img, img.grid-thumb {
@@ -71,18 +74,8 @@ a:hover .grid-title, a.grid-title:hover {
 .grid-meta {
 	display: block;
 }
-.grid-meta span {
-	color: #c4c4c4;
-}
 .grid-meta span span {
-	color: #777;
-}
-.grid-comments {
-	padding-left: 16px;
-	background: url('../images/icons/comments.png') no-repeat left;
-}
-.grid-comments span {
-	display: none !important;
+	display: none;
 }
 
 
@@ -103,7 +96,7 @@ a:hover .grid-title, a.grid-title:hover {
 	display: block;
 	overflow: hidden;
 	text-decoration: none;
-	border-bottom: 2px solid #323232;
+/*	border-bottom: 2px solid #323232;*/
 	padding-bottom: 5px;
 }
 .grid li img {
@@ -117,16 +110,15 @@ a:hover .grid-title, a.grid-title:hover {
 	white-space: nowrap;
 }
 .grid a:hover .grid-title {
-	color: #e1effc;
 	text-decoration: underline;
 }
 .grid .grid-meta {
 	text-align: center;
 }
-.grid .grid-comments {
+.grid .meta-comments {
 	float: left;
 }
-.grid .grid-likes {
+.grid .meta-likes {
 	float: right;
 }
 
@@ -162,15 +154,14 @@ a:hover .grid-title, a.grid-title:hover {
 	line-height: 18px;
 	margin: 5px 0;
 }
-.grid2 .grid-likes,
-.grid2 .grid-views,
-.grid2 .grid-comments {
+.grid2 .meta-likes,
+.grid2 .meta-views,
+.grid2 .meta-comments {
 	float: left;
 	display: block;
-	width: 55px;
 }
-.grid2 .grid-likes { width: 75px; }
-.grid2 .grid-views { width: 75px; }
+.grid2 .meta-comments, .grid2 .meta-likes { width: 35px }
+.grid2 .meta-views { width: 60px }
 
 
 

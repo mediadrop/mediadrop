@@ -185,6 +185,16 @@ class MediaQuery(Query):
                    .order_by(MediaFullText.admin_relevance.desc())\
                    .params({_search_param.key: search})
 
+    def in_category(self, cat):
+        all_cats = [cat]
+        all_cats.extend(cat.descendants())
+        all_ids = [c.id for c in all_cats]
+        return self.filter(sql.exists(sql.select(
+            [media_categories.c.media_id],
+            sql.and_(media_categories.c.media_id == Media.id,
+                     media_categories.c.category_id.in_(all_ids))
+        )))
+
 
 class Media(object):
     """

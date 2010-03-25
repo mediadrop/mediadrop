@@ -44,16 +44,10 @@ class CategoryadminController(BaseController):
                 The :class:`~mediacore.forms.categories.CategoryForm` instance.
 
         """
-        # FIXME: This page uses 1 query for the root nodes
-        #                     + n queries for their descendants
-        #                     + m queries to get the media_count of every descendant
-        #        Even with eagerloading, when there is no children, the property
-        #        is null and sqlalchemy doesn't distinguish this from it being
-        #        null because no eagerload has been performed. Maybe I'm doing
-        #        something wrong?
-        categories = Category.query.roots()\
+        categories = Category.query\
             .order_by(Category.name)\
-            .options(orm.undefer('media_count'))
+            .options(orm.undefer('media_count'))\
+            .populated_tree()
 
         return dict(
             categories = categories,
@@ -121,7 +115,7 @@ class CategoryadminController(BaseController):
 
             if kwargs['parent_id']:
                 parent = fetch_row(Category, kwargs['parent_id'])
-                if parent is not cat and not parent.has_ancestor(cat):
+                if parent is not cat and cat not in parent.ancestors():
                     cat.parent = parent
             else:
                 cat.parent = None
@@ -136,11 +130,11 @@ class CategoryadminController(BaseController):
                 slug = cat.slug,
                 parent_id = cat.parent_id,
                 parent_options = unicode(category_form.c['parent_id'].display()),
-                depth = cat.find_depth(),
+                depth = cat.depth(),
                 row = unicode(category_row_form.display(
                     action = url_for(id=cat.id),
                     category = cat,
-                    depth = cat.find_depth(),
+                    depth = cat.depth(),
                     first_child = True,
                 )),
             )

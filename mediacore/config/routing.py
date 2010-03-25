@@ -47,8 +47,8 @@ def make_map():
         action='tags',
         slug=None)
     map.connect('/categories/{slug}',
-        controller='media',
-        action='categories',
+        controller='categories',
+        action='index',
         slug=None)
 
     # Individual media and actions their related actions

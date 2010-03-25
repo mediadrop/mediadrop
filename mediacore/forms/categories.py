@@ -40,7 +40,7 @@ class CategoryForm(ListForm):
         SubmitButton('save', default='Save', named_button=True, css_classes=['f-rgt', 'btn', 'btn-save']),
         TextField('name', validator=NotEmpty),
         TextField('slug', validator=NotEmpty),
-        SingleSelectField('parent_id', label_text='Parent Category', options=lambda: option_tree(Category.query.roots().order_by(Category.name.asc()))),
+        SingleSelectField('parent_id', label_text='Parent Category', options=lambda: option_tree(Category.query.order_by(Category.name.asc()).populated_tree())),
     ]
 
 class CategoryRowForm(Form):

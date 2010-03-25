@@ -87,10 +87,10 @@
 		</div>
 	</py:def>
 
-	<py:def function="podcastgrid(episodes)">
+	<py:def function="podcastgrid(episodes, desc_len=110)">
 		<ul id="podcastgrid" class="grid2">
 			<li py:for="media in episodes">
-				<a href="${h.url_for(controller='/media', action='view', slug=media.slug, podcast_slug=media.podcast.slug)}" class="grid2-link">
+				<a href="${h.url_for(controller='/media', action='view', slug=media.slug, podcast_slug=media.podcast.slug)}" class="grid2-link underline-hover">
 					<span class="grid2-thumb-wrap">
 						<img src="${h.thumb_url(media, 'ss')}" width="128" height="72" alt="${h.decode_entities(media.title)}" class="grid-thumb" />
 						<py:if test="media.duration">
@@ -100,9 +100,9 @@
 					</span>
 					<span class="grid-title">${Markup(media.title)}</span>
 				</a>
-				<div class="grid-desc" py:content="h.truncate(media.description_plain, 110)">Description here</div>
+				<div class="grid-desc" py:content="h.truncate(media.description_plain, desc_len)">Description here</div>
 				<div class="grid-meta">
-					<span class="grid-comments">${media.comment_count_published}<span> Comment<py:if test="media.comment_count_published != 1">s</py:if></span></span>
+					<span class="grid-comments">${media.comment_count_published} <span>Comment<py:if test="media.comment_count_published != 1">s</py:if></span></span>
 					<span class="grid-likes">${media.likes} <span>Like<py:if test="media.likes != 1">s</py:if></span></span>
 					<span class="grid-views">${media.views} <span>View<py:if test="media.views != 1">s</py:if></span></span>
 				</div>

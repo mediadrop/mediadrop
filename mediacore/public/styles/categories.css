@@ -1,0 +1,40 @@
+#categories-bar {
+	float: left;
+	width: 210px;
+}
+.category-list {
+	font: bold 18px 'Trebuchet MS', sans-serif;
+}
+.category-list li {
+	margin-bottom: 10px;
+}
+.subcategory-list {
+	font-size: 14px;
+	margin-left: 20px;
+	margin-top: 3px;
+}
+.subcategory-list li {
+	margin-bottom: 3px;
+}
+.subcategory-list a:link,
+.subcategory-list a:visited {
+	color: #1c678e;
+}
+
+#category-content {
+	float: right;
+	width: 710px;
+}
+
+#category-grid {
+	width: 710px;
+}
+#category-grid li {
+	width: 335px;
+	height: 125px;
+}
+#category-grid .grid-title,
+#category-grid .grid-desc,
+#category-grid .grid-meta {
+	width: 195px;
+}
