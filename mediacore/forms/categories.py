@@ -13,7 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from tw.forms import TextField, HiddenField, CalendarDatePicker, SingleSelectField, TextArea
+from tw.forms import TextField, CheckBoxList, HiddenField, CalendarDatePicker, SingleSelectField, TextArea
 from tw.forms.validators import Int, NotEmpty, DateConverter, DateValidator
 from tw.api import WidgetsList
 
@@ -42,6 +42,10 @@ class CategoryForm(ListForm):
         TextField('slug', validator=NotEmpty),
         SingleSelectField('parent_id', label_text='Parent Category', options=lambda: option_tree(Category.query.order_by(Category.name.asc()).populated_tree())),
     ]
+
+class CategoryCheckBoxList(CheckBoxList):
+    params = ['category_tree']
+    template = 'mediacore.templates.admin.categories.selection_list'
 
 class CategoryRowForm(Form):
     template = 'mediacore.templates.admin.categories.row-form'

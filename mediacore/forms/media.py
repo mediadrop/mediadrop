@@ -21,6 +21,7 @@ from tg import config
 from mediacore.model import DBSession, Podcast, MediaFile
 from mediacore.lib import helpers
 from mediacore.forms import Form, ListForm, ListFieldSet, TextField, XHTMLTextArea, FileField, CalendarDatePicker, SingleSelectField, TextArea, SubmitButton, Button, HiddenField, CheckBoxList, email_validator
+from mediacore.forms.categories import CategoryCheckBoxList
 from mediacore.model import DBSession, Podcast, Category
 
 
@@ -97,7 +98,7 @@ class MediaForm(ListForm):
         TextField('author_email', validator=email_validator(not_empty=True), maxlength=50),
         XHTMLTextArea('description', attrs=dict(rows=5, cols=25)),
         TextArea('notes', label_text='Additional Notes', attrs=dict(rows=3, cols=25), default=lambda: helpers.fetch_setting('wording_additional_notes')),
-        CheckBoxList('categories', template='mediacore.templates.admin.categories.selection_list', options=lambda: DBSession.query(Category.id, Category.name).all()),
+        CategoryCheckBoxList('categories', options=lambda: DBSession.query(Category.id, Category.name).all()),
         TextArea('tags', attrs=dict(rows=3, cols=15), help_text=u'e.g.: puppies, great dane, adorable'),
         ListFieldSet('details', suppress_label=True, legend='Media Details:', css_classes=['details_fieldset'], children=[
             TextField('duration', validator=DurationValidator),

@@ -34,7 +34,7 @@ from PIL import Image
 from mediacore.lib.base import (BaseController, url_for, redirect,
     expose, expose_xhr, validate, paginate)
 from mediacore.model import (DBSession, fetch_row, get_available_slug,
-    Media, MediaFile, Podcast, Tag, Author)
+    Media, MediaFile, Podcast, Tag, Author, Category)
 from mediacore.lib import helpers
 from mediacore.model.media import create_media_stub
 from mediacore.controllers.media import _add_new_media_file
@@ -185,6 +185,7 @@ class MediaadminController(BaseController):
             media_form = media_form,
             media_action = url_for(action='save'),
             media_values = media_values,
+            category_tree = Category.query.order_by(Category.name).populated_tree(),
             file_add_form = add_file_form,
             file_add_action = url_for(action='add_file'),
             file_edit_form = edit_file_form,

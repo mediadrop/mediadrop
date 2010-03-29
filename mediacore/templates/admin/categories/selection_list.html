@@ -20,15 +20,12 @@
 	    class="${css_class}"
 	    id="${id}"
 	    py:attrs="list_attrs"
-	    py:with="selected_opts   = [opt for opt in options if 'checked' in opt[2]];
-	             unselected_opts = [opt for opt in options if 'checked' not in opt[2]];">
-		<py:for each="options_list in (selected_opts, unselected_opts)">
-			<li py:for="(value, desc, attrs) in options_list">
-				<label>
-					<input type="${field_type}" name="${name}" value="${value}" py:attrs="attrs" />
-					${desc}
-				</label>
-			</li>
-		</py:for>
+	    py:with="optfields = dict((opt[0], opt) for opt in options)">
+		<li py:for="cat, depth in category_tree.traverse()" py:with="value, desc, attrs = optfields[cat.id]">
+			<label style="padding-left:${20 * depth}px">
+				<input type="${field_type}" name="${name}" value="${value}" py:attrs="attrs" />
+				${desc}
+			</label>
+		</li>
 	</ul>
 </div>
