@@ -31,7 +31,7 @@ categories = Table('categories', metadata,
     mysql_charset='utf8'
 )
 
-def traverse(cats, depth=1):
+def traverse(cats, depth=0):
     """Iterate through a depth-first traversal of the given categories.
 
     Yields a 2-tuple of the :class:`Category` instance and it's

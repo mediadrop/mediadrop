@@ -25,7 +25,7 @@ from mediacore.forms import Form, ListForm, SubmitButton
 def option_tree(cats):
     indent = helpers.decode_entities(u'&nbsp;') * 4
     return [(None, None)] + \
-        [(c.id, indent * (depth - 1) + c.name) for c, depth in cats.traverse()]
+        [(c.id, indent * depth + c.name) for c, depth in cats.traverse()]
 
 class CategoryForm(ListForm):
     template = 'mediacore.templates.admin.categories.form'
