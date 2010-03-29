@@ -58,6 +58,7 @@ class Tag(object):
     .. attribute:: media_count_published
 
     """
+    query = DBSession.query_property()
 
     def __init__(self, name=None, slug=None):
         self.name = name or None

@@ -672,8 +672,8 @@ _media_mapper = mapper(Media, media, properties={
     'fulltext': relation(MediaFullText, uselist=False, passive_deletes=True),
     'author': composite(Author, media.c.author_name, media.c.author_email),
     'files': relation(MediaFile, backref='media', order_by=media_files.c.position.asc(), passive_deletes=True),
-    'tags': relation(Tag, secondary=media_tags, backref='media', collection_class=TagList, passive_deletes=True),
-    'categories': relation(Category, secondary=media_categories, backref='media', collection_class=CategoryList, passive_deletes=True),
+    'tags': relation(Tag, secondary=media_tags, backref=backref('media', lazy='dynamic', query_class=MediaQuery), collection_class=TagList, passive_deletes=True),
+    'categories': relation(Category, secondary=media_categories, backref=backref('media', lazy='dynamic', query_class=MediaQuery), collection_class=CategoryList, passive_deletes=True),
 
     'comments': dynamic_loader(Comment, backref='media', query_class=CommentQuery, passive_deletes=True),
     'comment_count': column_property(
