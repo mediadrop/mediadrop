@@ -20,28 +20,14 @@
       xmlns:xi="http://www.w3.org/2001/XInclude">
 <xi:include href="../master.html" />
 <head>
-	<title>Tags</title>
-	<link href="${h.url_for('/styles/media.css')}" media="screen" rel="stylesheet" type="text/css" />
+	<title>Media</title>
 </head>
-<body class="nav-media-on">
-	<div id="grid-box" class="mediacore-content">
-		<py:if test="media">
-			<h1>Media tagged with '${tag}'</h1>
-			<br />
-			<ul py:replace="mediagrid(media)" />
-			${pagination(c.paginators.media)}
-		</py:if>
-		<py:if test="tags">
-			<h1>Tags</h1>
-			<br />
-			<div class="nav-box" style="margin: 0 auto" py:with="per_col = max(5, int(h.math.ceil(len(tags) / 4.0)))">
-				<ul py:for="col in xrange(1, h.math.ceil(len(tags) / float(per_col)) + 1)">
-					<li py:for="tag in tags[(col-1)*per_col:col*per_col]">
-						<a href="${h.url_for(controller='/media', action='tags', slug=tag.slug)}">${tag}</a> <span>(${tag.media_count_published})</span>
-					</li>
-				</ul>
-			</div>
-		</py:if>
+<body class="nav-explore-on">
+	<div class="mediacore-content">
+		<h3 class="uppercase" style="margin-bottom:0">Explore</h3>
+		<ul py:replace="media_grid(media, id='library', thumb_size='m', desc_len=135)" />
+		<div style="padding-top:10px;width:100%;overflow:hidden">${pagination(paginator=c.paginators.media)}</div>
 	</div>
 </body>
 </html>
+

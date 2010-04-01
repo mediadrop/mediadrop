@@ -23,6 +23,7 @@ import pylons.templating
 import shutil
 from copy import copy
 from urlparse import urlparse
+from datetime import datetime
 from PIL import Image
 
 from BeautifulSoup import BeautifulSoup

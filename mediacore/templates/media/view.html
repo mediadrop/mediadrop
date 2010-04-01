@@ -22,10 +22,9 @@
 <xi:include href="../comments/_list.html" />
 <head>
 	<title>${Markup(media.title)}</title>
-	<link href="${h.url_for('/styles/media.css')}" media="screen" rel="stylesheet" type="text/css" />
 	<link py:if="media.podcast" href="${h.url_for('/styles/podcasts.css')}" media="screen" rel="stylesheet" type="text/css" />
 	<script type="text/javascript" src="${h.url_for('/scripts/rater.js')}"></script>
-	<script type="text/javascript">
+<!--!	<script type="text/javascript">
 		window.addEvent('domready', function(){
 			var likesCounter = $('num-likedthis');
 			var likesRater = new ThumbRater({
@@ -35,69 +34,66 @@
 			});
 			var embed = $('embed-markup').addEvent('click', function(){ this.select(); });
 		});
-	</script>
+	</script>-->
 	<meta name="description" content="${h.truncate(media.description_plain, 249)}" />
 	<meta name="keywords" content="${', '.join(tag.name for tag in media.tags[:15])}" />
 </head>
 <body class="${media.podcast and 'nav-podcasts-on' or 'nav-media-on'}">
-	<div id="media-box" class="mediacore-content">
-		<div class="media-body">
-			<div class="media-info">
-				<h1>${Markup(media.title)}</h1>
+	<div id="media-box" class="mediacore-content feat-box">
+		<div class="feat-top" />
+		<div class="feat-content clearfix">
+			<div class="feat-info">
+				<h3><a class="underline-hover" href="${h.url_for(controller='/media', action='view', slug=media.slug)}">${Markup(media.title)}</a></h3>
+				<div class="feat-date" py:with="datetime = media.publish_on.strftime('%B %d, %Y').replace(h.datetime.now().strftime(', %Y'), '')">${datetime} by ${media.author.name}</div>
 				<p py:replace="Markup(media.description)" />
 			</div>
-			<div class="media-meta">
-				<div class="media-meta-top" />
-				<div class="media-meta-views"><strong>Views:</strong> ${media.views}</div>
-				<div class="media-meta-time"><strong>Time:</strong> ${h.duration_from_seconds(media.duration)}</div>
-				<div class="media-meta-etc" style="${(media.likes != 0) or 'visibility:hidden'}">
-					<strong id="num-likedthis">${h.text.plural(media.likes, 'person', 'people')}</strong>
-					liked this ${'podcast' if media.podcast else media.type}!
-				</div>
-				<div class="media-meta-commented"><strong>${h.text.plural(len(comments), 'person', 'people')}</strong> commented</div>
-				<a class="btn btn-likethis" id="likethis" title="Vote Up" href="${h.url_for(action='rate')}">I like this!</a>
-				<a py:if="media.downloadable_file" class="btn btn-download" href="${media.downloadable_file.link_url()}">Download</a>
-				<div class="media-meta-bottom" />
-			</div>
-			${media_player(media, autobuffer=True)}
-			<div class="media-embed">
-				<label>Embed this ${media.type} on your site: <input type="text" value="${h.embeddable_player(media)}" id="embed-markup" /></label>
-			</div>
+			${media_player(media, width=560, height=315)}
+			<table class="feat-meta" cellspacing="0">
+				<tr>
+					<td><a py:if="media.downloadable_file" style="margin-right:10px" class="meta meta-download underline-hover" href="${media.downloadable_file.link_url()}"><strong>Download</strong></a></td>
+					<td><a class="meta meta-embed underline-hover" id="embedthis" title="Embed on your site" href="${h.url_for(action='embed')}"><strong>Embed</strong></a></td>
+					<td><a class="meta meta-share underline-hover" id="sharethis" title="Share this ${media.type} with friends" href="${h.url_for(action='share')}"><strong>Share</strong></a></td>
+				</tr>
+				<tr>
+					<td><span class="meta meta-comments" title="Comments">${media.comment_count_published} <span>Comment<py:if test="media.comment_count_published != 1">s</py:if></span></span></td>
+					<td><a class="meta meta-likes" href="${h.url_for(action='rate')}" id="likethis" title="Vote up">${media.likes} <strong>Like this!</strong></a></td>
+					<td><span class="meta meta-views" title="Views">${media.views} <span>View<py:if test="media.views != 1">s</py:if></span></span></td>
+				</tr>
+			</table>
 		</div>
+		<div class="feat-bottom" />
 	</div>
 
-	<div class="mediacore-content">
+	<div class="mediacore-content clearfix">
+		${comment_list(comments, comment_form, comment_form_action, comment_form_values)}
+
 		<py:if test="media.podcast">
 			<div id="podcast-context" class="contextbox" py:with="podcast = media.podcast">
-				<div class="contextbox-top">Podcast Series Information:</div>
-				<div class="contextbox-body">
-					<a href="${h.url_for(controller='/podcasts', action='view', slug=podcast.slug)}" class="podcast-art" title="${h.decode_entities(podcast.title)}"><img src="${h.thumb_url(podcast, 'm')}" width="154" height="154" class="f-lft" alt="${podcast.title}" /></a>
-					<ul id="podcast-buttons">
-						<li py:if="next_episode"><a class="btn-podcast-next" href="${h.url_for(controller='/media', action='view', podcast_slug=podcast.slug, slug=next_episode.slug)}" title="${Markup(next_episode.title).stripentities()}">Browse Episodes</a></li>
-						<li><a class="btn-podcast-view" href="${h.url_for(controller='/podcasts', action='view', slug=podcast.slug)}" title="Browse all episodes from this podcast">Browse Episodes</a></li>
-						<li><a class="btn-podcast-add" href="${podcast.itunes_url or h.url_for(controller='/podcasts', action='feed', slug=podcast.slug)}" title="Add this podcast to iTunes">Add to iTunes</a></li>
-					</ul>
-				</div>
-				<div class="contextbox-bottom" />
+				<h3 class="uppercase" style="margin-bottom:0">Related Podcast</h3>
+				<ul class="grid s-grid">
+					<li style="height:130px">
+						<a style="height:130px" href="${h.url_for(controller='/podcasts', action='view', slug=podcast.slug)}">
+							<span class="grid-title">${Markup(podcast.title)}</span>
+							<span class="thumb-wrap">
+								<img py:with="thumb = h.thumb(podcast, 's')" src="${thumb.url}" width="${thumb.x}" height="${thumb.y}" alt="" />
+							</span>
+							<span class="grid-desc" py:content="h.truncate(h.strip_xhtml(podcast.description), 155)">Description</span><br />
+							<span class="grid-meta">
+								<span class="meta meta-episodes" title="Podcast Episodes">
+									${podcast.media_count_published}
+									<span style="position:static !important">Episode<py:if test="podcast.media_count_published != 1">s</py:if> in this Series</span>
+								</span>
+							</span>
+						</a>
+					</li>
+				</ul>
 			</div>
-			<div class="context-sep" />
 		</py:if>
 
-		<div id="category-context" class="contextbox">
-			<div class="contextbox-top">Related Categories:</div>
-			<div class="contextbox-body contextbox-body-mid" py:with="url_args = dict(controller='/media', action='categories')">
-				<a py:replace="comma_sep_links([t.name for t in media.categories],
-											   [h.url_for(slug=t.slug, **url_args) for t in media.categories], default='No categories yet')" />
-			</div>
-			<div class="contextbox-mid">Tags:</div>
-			<div class="contextbox-body" py:with="url_args = dict(controller='/media', action='tags')">
-				<a py:replace="comma_sep_links([t.name for t in media.tags],
-											   [h.url_for(slug=t.slug, **url_args) for t in media.tags], default='No tags yet')" />
-			</div>
-			<div class="contextbox-bottom" />
+		<div id="media-context" class="contextbox">
+			<h3 class="uppercase" style="margin-bottom:0">Related Media</h3>
+			<ul py:replace="media_grid(related_media, thumb_size='s', desc_len=60)" />
 		</div>
-
-		${comment_list(comments, comment_form, comment_form_action, comment_form_values)}
 	</div>
 </body>
 </html>

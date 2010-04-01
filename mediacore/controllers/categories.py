@@ -29,7 +29,7 @@ class CategoriesController(BaseController):
     @expose('mediacore.templates.categories.index')
     @paginate('media', items_per_page=12, items_first_page=11)
     def index(self, slug=None, page=1, **kwargs):
-        categories = Category.query.populated_tree()
+        categories = Category.query.order_by(Category.name).populated_tree()
         media = Media.query.published()\
             .order_by(Media.publish_on.desc())\
             .options(orm.undefer('comment_count_published'))

@@ -21,14 +21,12 @@
 <xi:include href="../master.html" />
 <head>
 	<title>Search Results</title>
-	<link href="${h.url_for('/styles/media.css')}" media="screen" rel="stylesheet" type="text/css" />
 </head>
 <body>
-	<div id="grid-box" class="mediacore-content" py:with="paginator=c.paginators.media">
-		<h1>Showing ${result_count} results for '${search_query}'</h1>
-		<br />
-		<ul py:replace="mediagrid(media)" />
-		${pagination(paginator)}
+	<div class="mediacore-content">
+		<h3 style="margin-bottom:0">Showing ${result_count} results for '${search_query}'</h3>
+		<ul py:replace="media_grid(media, id='library', thumb_size='m', desc_len=135)" />
+		${pagination(c.paginators.media)}
 	</div>
 </body>
 </html>

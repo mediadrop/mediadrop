@@ -21,7 +21,7 @@
 <xi:include href="../master.html" />
 <head>
 	<title>Upload Videos</title>
-	<link href="${h.url_for('/styles/upload-form.css')}" media="screen" rel="stylesheet" type="text/css" />
+	<link href="${h.url_for('/styles/upload.css')}" media="screen" rel="stylesheet" type="text/css" />
 	<script type="text/javascript" src="${h.url_for('/scripts/third-party/Swiff.Uploader-yui-compressed.js')}"></script>
 	<script type="text/javascript" src="${h.url_for('/scripts/uploader.js')}"></script>
 	<script type="text/javascript">
@@ -37,7 +37,11 @@
 </head>
 <body class="nav-upload-on">
 	<div class="mediacore-content">
-		<div id="rules" class="greybox" py:if="legal_wording" py:content="Markup(legal_wording)">Legal Wording</div>
+		<div id="upload-wording" class="feat-box" py:if="legal_wording">
+			<div class="feat-top" />
+			<div class="feat-content" py:content="Markup(legal_wording)">Legal Wording</div>
+			<div class="feat-bottom" />
+		</div>
 		<div id="rightbar">
 			<div>
 				<em>Acceptable File Formats</em>

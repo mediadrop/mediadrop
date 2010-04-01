@@ -21,7 +21,6 @@
 <xi:include href="../master.html" />
 <head>
 	<title>Podcasts</title>
-	<link href="${h.url_for('/styles/media.css')}" media="screen" rel="stylesheet" type="text/css" />
 	<link href="${h.url_for('/styles/podcasts.css')}" media="screen" rel="stylesheet" type="text/css" />
 	<link py:for="podcast in podcasts"
 	      type="application/rss+xml" rel="alternate"
@@ -29,6 +28,38 @@
 	      title="${h.decode_entities(podcast.title)} RSS Feed" />
 </head>
 <body class="nav-podcasts-on">
+	<div class="mediacore-content">
+		<h2 class="uppercase">All Podcasts</h2>
+		<div py:for="podcast in podcasts" class="podcast-box feat-box">
+			<div class="feat-top" />
+			<div class="feat-content clearfix">
+				<a href="${h.url_for(action='view', slug=podcast.slug)}" class="f-lft" style="margin-right:13px"><img src="${h.thumb_url(podcast, 'm')}" width="160" height="160" alt="${Markup(podcast.title).stripentities()}" /></a>
+				<div style="float:right;width:715px">
+					<h3><a href="${h.url_for(action='view', slug=podcast.slug)}" class="underline-hover">${Markup(podcast.title)}</a></h3>
+					<div class="podcast-meta">
+						<a py:if="podcast.itunes_url" class="meta meta-itunes underline-hover" href="${podcast.itunes_url or h.url_for(action='feed', slug=podcast.slug)}">Add to iTunes</a>
+						<a class="meta meta-rss underline-hover" href="${h.url_for(action='feed', slug=podcast.slug)}">Subscribe via RSS</a>
+					</div>
+					<p py:replace="Markup(podcast.description)" />
+					<h4 style="font-size:15px;margin-top:10px;">Latest 4 of ${podcast.media_count_published} Episodes:</h4>
+					<ol class="podcast-episodes">
+						<li py:for="media in podcast.media[:4]">
+							<a class="meta meta-audio underline-hover" href="${h.url_for(controller='/media', action='view', slug=media.slug, podcast_slug=podcast.slug)}">${media.title}</a>
+							<span class="meta meta-comments" title="Comments">${media.comment_count_published} <span>Comment<py:if test="media.comment_count_published != 1">s</py:if></span></span>
+							<span class="meta meta-likes" title="Likes">${media.likes} <span>Like<py:if test="media.likes != 1">s</py:if></span></span>
+							<span class="meta meta-views" title="Views">${media.views} <span>View<py:if test="media.views != 1">s</py:if></span></span>
+							<br />
+							<div style="margin-left:18px" py:content="h.truncate(media.description_plain, 150)">Description</div>
+						</li>
+					</ol>
+				</div>
+			</div>
+			<div class="feat-bottom" />
+		</div>
+	</div>
+
+
+<!--!
 	<div class="mediacore-content" py:with="episodes_paginator = c.paginators.episodes; episode_count = len(episodes); first_page = episodes_paginator.page == 1;">
 		<div id="featured-ep" py:if="first_page and episode_count" py:with="media = episodes[0]">
 			<a href="${h.url_for(controller='/media', action='view', slug=media.slug, podcast_slug=media.podcast.slug)}" class="grid-thumb">
@@ -54,7 +85,7 @@
 		<div py:if="episode_count &lt; 2">No recent episodes found.</div>
 		<ul py:if="episode_count &gt; 1"
 		    py:with="episodes = first_page and episodes[1:] or episodes"
-		    py:replace="podcastgrid(episodes)"
+		    py:replace="podcast_grid(episodes)"
 		/>
 		<div py:content="pagination(episodes_paginator)" style="clear:both" />
 
@@ -77,6 +108,6 @@
 				</li>
 			</ul>
 		</innerbox>
-	</div>
+	</div>-->
 </body>
 </html>

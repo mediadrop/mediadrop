@@ -21,17 +21,22 @@
 <xi:include href="../master.html" />
 <head>
 	<title>Upload Videos</title>
-	<link href="${h.url_for('/styles/upload-form.css')}" media="screen" rel="stylesheet" type="text/css" />
+	<link href="${h.url_for('/styles/upload.css')}" media="screen" rel="stylesheet" type="text/css" />
 	<meta http-equiv="refresh" content="12;url=${h.url_for('/')}" />
 </head>
 <body class="nav-upload-on">
 	<div class="mediacore-content">
-		<div class="greybox">
-			<p class="italic">Awesome, your upload was successful!</p>
-			<p>Your submission is awaiting review by a moderator and will be posted shortly.</p>
-			<p><a href="${h.url_for('/')}">You will be automatically redirected</a> back to the media page in a few seconds. Hang tight.</p>
-			<div class="upload-success" />
+		<h2 class="uppercase">Upload Successful</h2>
+		<div id="upload-wording" class="feat-box">
+			<div class="feat-top" />
+			<div class="feat-content">
+				<p>Awesome, your upload was successful!</p>
+				<p>Your submission is awaiting review by a moderator and will be posted shortly.</p>
+				<p>You will be automatically redirected back to the <a href="${h.url_for('/')}">Media Library</a> in a few seconds. Hang tight.</p>
+			</div>
+			<div class="feat-bottom" />
 		</div>
 	</div>
+<!--!		<div class="upload-success" />-->
 </body>
 </html>

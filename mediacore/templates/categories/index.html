@@ -21,16 +21,15 @@
 <xi:include href="../master.html" />
 <head>
 	<title>Categories</title>
-	<link href="${h.url_for('/styles/media.css')}" media="screen" rel="stylesheet" type="text/css" />
 	<link href="${h.url_for('/styles/categories.css')}" media="screen" rel="stylesheet" type="text/css" />
 </head>
 <body class="nav-categories-on">
 	<div class="mediacore-content">
-		<h2 class="head-super" py:choose="">
+		<h2 id="category-breadcrumb" class="head-super" py:choose="">
 			<py:when test="category">
-				<span class="uppercase">Categories</span>
+				<a class="uppercase underline-hover" href="${h.url_for(slug=None)}">Categories</a>
 				<py:for each="cat in breadcrumb">
-					&gt; ${cat.name}
+					&gt; <a class="underline-hover" href="${h.url_for(slug=cat.slug)}">${cat.name}</a>
 				</py:for>
 			</py:when>
 			<py:otherwise><span class="uppercase">Choose a Category:</span></py:otherwise>
@@ -49,45 +48,26 @@
 		<div id="category-content" py:if="media" py:with="in_text = category and ('in ' + category.name) or ''">
 			<py:if test="c.paginators.media.page == 1">
 				<h2><span class="uppercase">Featured</span> ${in_text}</h2>
-				<div id="featured-ep" class="feat-ep" py:with="featured = media[0]">
+				<div id="category-feature" class="feat-box" py:with="featured = media[0]">
 					<div class="feat-top" />
-					<div class="feat-content">
+					<div class="feat-content clearfix">
 						<div class="feat-info">
 							<h3><a class="underline-hover" href="${h.url_for(controller='/media', action='view', slug=featured.slug)}">${Markup(featured.title)}</a></h3>
 							<p py:replace="Markup(h.truncate_xhtml(featured.description, 300))" />
 						</div>
-						<div class="feat-meta">
-							<span class="meta-comments" title="Comments">${featured.comment_count_published} <span>Comment<py:if test="featured.comment_count_published != 1">s</py:if></span></span>
-							<span class="meta-likes" title="Likes">${featured.likes} <span>Like<py:if test="featured.likes != 1">s</py:if></span></span>
-							<span class="meta-views" title="Views">${featured.views} <span>View<py:if test="featured.views != 1">s</py:if></span></span>
-						</div>
 						${media_player(featured, width=400, height=225)}
+						<div class="feat-meta">
+							<span class="meta meta-comments" title="Comments">${featured.comment_count_published} <span>Comment<py:if test="featured.comment_count_published != 1">s</py:if></span></span>
+							<a class="meta meta-likes" href="${h.url_for(controller='/media', action='rate', slug=featured.slug)}" id="likethis" title="Vote up">${featured.likes} <strong>Like this!</strong></a>
+							<span class="meta meta-views" title="Views">${featured.views} <span>View<py:if test="featured.views != 1">s</py:if></span></span>
+						</div>
 					</div>
 					<div class="feat-bottom" />
 				</div>
 			</py:if>
 
 			<h2><span class="uppercase">Latest</span> ${in_text}</h2>
-			<ul id="category-grid" class="grid2" py:with="media = c.paginators.media.page == 1 and media[1:] or media">
-				<li py:for="m in media">
-					<a href="${h.url_for(controller='/media', action='view', slug=m.slug)}" class="grid2-link underline-hover">
-						<span class="grid2-thumb-wrap">
-							<img src="${h.thumb_url(m, 'ss')}" width="128" height="72" alt="${h.decode_entities(m.title)}" class="grid-thumb" />
-							<py:if test="m.duration">
-								<span class="grid-duration" py:content="h.duration_from_seconds(m.duration)">Duration</span>
-								<span class="grid-duration-right" />
-							</py:if>
-						</span>
-						<span class="grid-title">${Markup(m.title)}</span>
-					</a>
-					<div class="grid-desc" py:content="h.truncate(m.description_plain, 90)">Description here</div>
-					<div class="grid-meta">
-						<span class="meta-comments" title="Comments">${m.comment_count_published} <span>Comment<py:if test="m.comment_count_published != 1">s</py:if></span></span>
-						<span class="meta-likes" title="Likes">${m.likes} <span>Like<py:if test="m.likes != 1">s</py:if></span></span>
-						<span class="meta-views" title="Views">${m.views} <span>View<py:if test="m.views != 1">s</py:if></span></span>
-					</div>
-				</li>
-			</ul>
+			<ul py:replace="media_grid(c.paginators.media.page == 1 and media[1:] or media, id='category-grid', thumb_size='s', desc_len=90)" />
 			<div py:content="pagination(c.paginators.media)" />
 		</div>
 		<div id="category-content" py:if="not media">There is no media in this category.</div>

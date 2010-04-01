@@ -187,6 +187,7 @@ class MediaController(BaseController):
             comment_form_action = url_for(action='comment', anchor=post_comment_form.id),
             comment_form_values = kwargs,
             next_episode = next_episode,
+            related_media = Media.query[:5],
         )
 
 
@@ -309,8 +310,9 @@ class MediaController(BaseController):
         else:
             raise tg.exceptions.HTTPNotFound()
 
-    @expose('mediacore.templates.media.mediaflow')
-    def flow(self, page=1, **kwargs):
+    @expose('mediacore.templates.media.explore')
+    @paginate('media', items_per_page=20)
+    def explore(self, page=1, **kwargs):
         """Display the most recent 15 media.
 
         :rtype: Dict
@@ -325,53 +327,7 @@ class MediaController(BaseController):
             .filter(Media.podcast_id == None)
 
         return dict(
-            media = media[:15],
-        )
-
-
-    @expose('mediacore.templates.media.categories')
-    @paginate('media', items_per_page=20)
-    def categories(self, slug=None, page=1, **kwargs):
-        if slug:
-            category = fetch_row(Category, slug=slug)
-            media = Media.query.published()\
-                .filter(Media.podcast_id == None)\
-                .filter(Media.categories.contains(category))\
-                .order_by(Media.publish_on.desc())\
-                .options(orm.undefer('comment_count_published'))
-        else:
-            category = None
-            media = []
-
-        return dict(
             media = media,
-            category = category,
-        )
-
-    @expose('mediacore.templates.media.tags')
-    @paginate('media', items_per_page=20)
-    def tags(self, slug=None, page=1, **kwargs):
-        if slug:
-            tag = fetch_row(Tag, slug=slug)
-            media = Media.query.published()\
-                .filter(Media.podcast_id == None)\
-                .filter(Media.tags.contains(tag))\
-                .order_by(Media.publish_on.desc())\
-                .options(orm.undefer('comment_count_published'))
-            tags = None
-        else:
-            tag = None
-            media = []
-            tags = DBSession.query(Tag)\
-                .options(orm.undefer('media_count_published'))\
-                .having(sql.text('media_count_published >= 1'))\
-                .order_by(Tag.name)\
-                .all()
-
-        return dict(
-            media = media,
-            tag = tag,
-            tags = tags,
         )
 
     @expose('mediacore.templates.media.upload')

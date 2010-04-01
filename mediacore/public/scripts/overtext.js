@@ -23,7 +23,8 @@ var OverTextManager = new Class({
 		this.ots = this.form.getElements('input[type=text], textarea').map(function(el) {
 			return new CustomOverText(el, {
 				poll: true,
-				pollInterval: 400
+				pollInterval: 400,
+				wrap: true
 			});
 		});
 	}

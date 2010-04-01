@@ -21,7 +21,6 @@
 <xi:include href="../master.html" />
 <head>
 	<title>${podcast.title}</title>
-	<link href="${h.url_for('/styles/media.css')}" media="screen" rel="stylesheet" type="text/css" />
 	<link href="${h.url_for('/styles/podcasts.css')}" media="screen" rel="stylesheet" type="text/css" />
 	<link type="application/rss+xml" rel="alternate"
 	      href="${h.url_for(action='feed')}"
@@ -51,7 +50,7 @@
 		<div style="clear:both;margin-bottom:26px;height:0" />
 
 		<h3 class="recent-eps">Recent Episodes in the <span>${Markup(podcast.title)}</span> series</h3>
-		<ul py:replace="podcastgrid(episodes)" />
+		<ul py:replace="podcast_grid(episodes)" />
 		<div py:content="pagination(episodes_paginator)" style="clear:both" />
 	</div>
 </body>

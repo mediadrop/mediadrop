@@ -21,12 +21,12 @@
 <xi:include href="../master.html" />
 <head>
 	<title>Media</title>
-	<link href="${h.url_for('/styles/media.css')}" media="screen" rel="stylesheet" type="text/css" />
 </head>
 <body class="nav-media-on">
-	<div id="grid-box" class="mediacore-content">
-		<ul py:replace="mediagrid(media)" />
-		${pagination(paginator=c.paginators.media)}
+	<div class="mediacore-content">
+		<h3 class="uppercase" style="margin-bottom:0">All Media</h3>
+		<ul py:replace="media_grid(media, id='library', thumb_size='m', desc_len=135)" />
+		<div style="padding-top:10px;width:100%;overflow:hidden">${pagination(paginator=c.paginators.media)}</div>
 	</div>
 </body>
 </html>

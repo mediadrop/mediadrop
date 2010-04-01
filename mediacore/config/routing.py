@@ -30,7 +30,7 @@ def make_map():
     map.connect('/{action}',
         controller='media',
         action='index',
-        requirements={'action': ('flow|upload|upload_submit|upload_success|'
+        requirements={'action': ('explore|upload|upload_submit|upload_success|'
                                  'upload_submit_async|upload_failure|index')})
 
     # Podcast list actions

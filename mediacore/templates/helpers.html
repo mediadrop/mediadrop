@@ -18,27 +18,8 @@
       xmlns:xi="http://www.w3.org/2001/XInclude"
       py:strip="">
 
-	<py:match path="innerbox" recursive="false">
-		<div class="innerbox" py:attrs="select('@*')">
-			<div class="innerbox-top" py:content="select('innerboxtitle/text()')"></div>
-			<div class="innerbox-body" py:content="select('*[not(innerboxtitle)]|text()')">Content is inserted here</div>
-			<div class="innerbox-bottom"></div>
-		</div>
-	</py:match>
-
-	<py:def function="pagination(paginator)">
-		<div class="pager">
-			<span class="pager-left" />
-			<span class="pager-body">
-				<span class="pager-label">Page:</span>
-				<span py:replace="paginator.pager(show_if_single_page=True, curpage_attr={'class': 'current'})" />
-			</span>
-			<span class="pager-right" />
-		</div>
-	</py:def>
-
 	<py:def function="media_player(media, width=479, height=383, autoplay=False, autobuffer=False, qualified=False)" py:choose=""
-	        py:with="file = media.primary_file">
+	        py:with="file = media.primary_file; player_controls_height = 24;">
 		<py:when test="file is None" />
 		<py:when test="file.is_embeddable">
 			<object type="application/x-shockwave-flash"
@@ -53,7 +34,7 @@
 			<script src="${h.url_for('/scripts/third-party/flowplayer-3.1.4.min.js', qualified=qualified)}" type="text/javascript" />
 			<a id="flowplayer"
 			   href="${file.play_url(qualified=qualified)}"
-			   style="display:block;width:${width}px;height:${height}px" />
+			   style="display:block;width:${width}px;height:${height + player_controls_height}px" />
 			<script type="text/javascript" py:with="">
 				flowplayer('flowplayer', "${h.url_for('/scripts/third-party/flowplayer-3.1.5.swf', qualified=qualified)}", {
 					clip: {scaling: 'fit'}
@@ -74,6 +55,50 @@
 		</py:otherwise>
 	</py:def>
 
+	<py:def function="media_grid(media, id=None, thumb_size='s', desc_len=90)"
+	        py:with="thumb_xy = config.thumb_sizes['media'][thumb_size]">
+		<ul id="${id}" class="grid ${thumb_size}-grid">
+			<li py:for="m in media">
+				<a href="${h.url_for(controller='/media', action='view', slug=m.slug)}">
+					<strong class="grid-title">${Markup(m.title)}</strong>
+					<span class="thumb-wrap">
+						<img src="${h.thumb_url(m, thumb_size)}" width="${thumb_xy[0]}" height="${thumb_xy[1]}" alt="" />
+						<py:if test="m.duration">
+							<span class="thumb-duration" py:content="h.duration_from_seconds(m.duration)">Duration</span>
+							<span class="thumb-duration-right" />
+						</py:if>
+					</span><br />
+					<span class="grid-desc" py:content="h.truncate(m.description_plain, desc_len)">Description</span><br />
+					<span class="grid-meta">
+						<span class="meta meta-comments" title="Comments">
+							${m.comment_count_published}
+							<span>Comment<py:if test="m.comment_count_published != 1">s</py:if></span>
+						</span>
+						<span class="meta meta-likes" title="Likes">
+							${m.likes}
+							<span>Like<py:if test="m.likes != 1">s</py:if></span>
+						</span>
+						<span class="meta meta-views" title="Views">
+							${m.views}
+							<span>View<py:if test="m.views != 1">s</py:if></span>
+						</span>
+					</span>
+				</a>
+			</li>
+		</ul>
+	</py:def>
+
+	<py:def function="pagination(paginator)">
+		<div class="pager">
+			<span class="pager-left" />
+			<span class="pager-body">
+				<span class="pager-label">Page:</span>
+				<span py:replace="paginator.pager(show_if_single_page=True, curpage_attr={'class': 'current'})" />
+			</span>
+			<span class="pager-right" />
+		</div>
+	</py:def>
+
 	<py:def function="xhtml_description(fieldName)">
 		<div class="xhtml-description-helper">
 			<p>The ${fieldName} field accepts some HTML formatting: ${h.list_acceptable_xhtml()['tags']}</p>
@@ -87,8 +112,9 @@
 		</div>
 	</py:def>
 
-	<py:def function="podcastgrid(episodes, desc_len=110)">
-		<ul id="podcastgrid" class="grid2">
+<!--! DEPRECATED, DELETE ASAP -->
+	<py:def function="podcast_grid(episodes, desc_len=110)">
+		<ul id="podcast_grid" class="grid2">
 			<li py:for="media in episodes">
 				<a href="${h.url_for(controller='/media', action='view', slug=media.slug, podcast_slug=media.podcast.slug)}" class="grid2-link underline-hover">
 					<span class="grid2-thumb-wrap">
@@ -109,35 +135,12 @@
 			</li>
 		</ul>
 	</py:def>
-
-	<py:def function="mediagrid(media_list, url_args=None)">
-		<ul id="mediagrid" class="grid" py:with="url_args = url_args or {'controller': '/media', 'action': 'view'}">
-			<li py:for="media in media_list">
-				<a href="${h.url_for(slug=media.slug, **url_args)}" title="${h.truncate(media.description_plain, 100)}">
-					<span class="grid-thumb-wrap">
-						<img src="${h.thumb_url(media, 's')}" width="162" height="91" alt="${h.decode_entities(media.title)}" class="grid-thumb" />
-						<py:if test="media.duration">
-							<span class="grid-duration" py:content="h.duration_from_seconds(media.duration)">Duration</span>
-							<span class="grid-duration-right" />
-						</py:if>
-					</span>
-					<span class="grid-title">${Markup(media.title)}</span>
-					<span class="grid-meta">
-						<span class="grid-likes">${media.likes} <span>Like<py:if test="media.likes != 1">s</py:if></span></span>
-						<span class="grid-comments">${media.comment_count_published}<span> Comment<py:if test="media.comment_count_published != 1">s</py:if></span></span>
-						<span class="grid-views">${media.views} <span>View<py:if test="media.views != 1">s</py:if></span></span>
-					</span>
-				</a>
-			</li>
-		</ul>
-	</py:def>
-
-	<py:def function="comma_sep_links(labels, hrefs, default='None yet')"
-	        py:with="links = zip(labels, hrefs); count = len(links);">
-		<py:if test="count == 0">${default}</py:if>
-		<py:for each="i, link in enumerate(links)">
-			<a href="${link[1]}">${link[0]}</a><py:if test="i &lt; count - 1">, </py:if>
-		</py:for>
-	</py:def>
+	<py:match path="innerbox" recursive="false">
+		<div class="innerbox" py:attrs="select('@*')">
+			<div class="innerbox-top" py:content="select('innerboxtitle/text()')"></div>
+			<div class="innerbox-body" py:content="select('*[not(innerboxtitle)]|text()')">Content is inserted here</div>
+			<div class="innerbox-bottom"></div>
+		</div>
+	</py:match>
 
 </html>
