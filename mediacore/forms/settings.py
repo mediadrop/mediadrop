@@ -20,9 +20,9 @@ from tw.api import WidgetsList
 from mediacore.forms import ListForm, XHTMLTextArea, SubmitButton, ListFieldSet, PasswordField, email_validator
 
 players = [
-    ('flowplayer', 'FlowPlayer. website: http://flowplayer.org. licence: http://flowplayer.org/download/license_gpl.htm GPL 3'),
-    ('jwplayer', 'JWPlayer. website: http://ongtailvideo.com/. license: http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons Non-Commercial, Share Alike'),
-    ('sublime', 'Sublime Video HTML5 Player. website: http://jilion.com/sublime/video. license: Not Yet Available'),
+    ('flowplayer', 'FlowPlayer (Flash). website: http://flowplayer.org licence: http://flowplayer.org/download/license_gpl.htm'),
+    ('jwplayer', 'JWPlayer (Flash). website: http://longtailvideo.com license: http://creativecommons.org/licenses/by-nc-sa/3.0/'),
+    ('sublime', 'Sublime (HTML5). website: http://jilion.com/sublime/video. license: Not Yet Available'),
 ]
 
 class SettingsForm(ListForm):
