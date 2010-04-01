@@ -14,10 +14,17 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from tw.forms import TextField, CalendarDatePicker, SingleSelectField, TextArea, ResetButton, RadioButtonList
-from tw.forms.validators import Schema, FieldsMatch, StringBool
+from tw.forms.validators import Schema, FieldsMatch, StringBool, Int, OneOf
 from tw.api import WidgetsList
 
 from mediacore.forms import ListForm, XHTMLTextArea, SubmitButton, ListFieldSet, PasswordField, email_validator
+
+players = [
+    ('flowplayer', 'FlowPlayer (Flash). website: http://flowplayer.org licence: http://flowplayer.org/download/license_gpl.htm'),
+    ('jwplayer', 'JWPlayer (Flash). website: http://longtailvideo.com license: http://creativecommons.org/licenses/by-nc-sa/3.0/'),
+    ('sublime', 'Sublime (HTML5). website: http://jilion.com/sublime/video. license: Not Yet Available'),
+    ('html5', '<video> tag (HTML5). Not supported equally in every browser. Do your homework before using!'),
+]
 
 class SettingsForm(ListForm):
     template = 'mediacore.templates.admin.box-form'
@@ -66,10 +73,24 @@ class DisplaySettingsForm(ListForm):
         RadioButtonList('tinymce',
             label_text='Rich Text Editing',
             options=[
-                [True, 'Enable TinyMCE for <textarea> fields that accept XHTML input. Use of TinyMCE is not strictly XHTML compliant, but works in FF>=1.5, Safari>=3, IE>=5.5, so long as javascript is enabled.'],
-                [False, 'Plain <textarea> fields']
+                (True, 'Enable TinyMCE for <textarea> fields that accept XHTML input. Use of TinyMCE is not strictly XHTML compliant, but works in FF>=1.5, Safari>=3, IE>=5.5, so long as javascript is enabled.'),
+                (False, 'Plain <textarea> fields')
             ],
             validator=StringBool(not_empty=True)
+        ),
+        ListFieldSet('popularity',
+            suppress_label=True,
+            css_classes=['details_fieldset'],
+            legend='Popularity Algorithm Variables:',
+            children=[
+                TextField('decay_exponent', validator=Int(not_empty=True, min=1)),
+                TextField('decay_lifetime', validator=Int(not_empty=True, min=1)),
+            ]
+        ),
+        RadioButtonList('player',
+            legend='Media Player for View pages:',
+            options=players,
+            validator=OneOf([x[0] for x in players]),
         ),
         SubmitButton('save', default='Save', css_classes=['btn', 'btn-save', 'f-rgt']),
         ResetButton('cancel', default='Cancel', css_classes=['btn', 'btn-cancel']),
