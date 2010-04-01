@@ -19,7 +19,7 @@
       py:strip="">
 
 	<py:def function="media_player(media, width=479, height=383, autoplay=False, autobuffer=False, qualified=False)" py:choose=""
-	        py:with="file = media.primary_file; player = h.fetch_setting('player'); player_controls_height = 24;">
+	        py:with="file = media.primary_file; player = media.player; player_controls_height = 24;">
 		<py:when test="file is None" />
 		<py:when test="file.is_embeddable">
 			<object type="application/x-shockwave-flash"

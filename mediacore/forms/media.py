@@ -15,7 +15,8 @@
 
 from tw.api import WidgetsList, CSSLink
 import formencode
-from tw.forms.validators import Schema, Int, StringBool, NotEmpty, DateTimeConverter, DateValidator, FieldStorageUploadConverter
+from tw.forms import RadioButtonList
+from tw.forms.validators import Schema, Int, StringBool, NotEmpty, DateTimeConverter, DateValidator, FieldStorageUploadConverter, OneOf
 from tg import config
 
 from mediacore.model import DBSession, Podcast, MediaFile
@@ -23,6 +24,9 @@ from mediacore.lib import helpers
 from mediacore.forms import Form, ListForm, ListFieldSet, TextField, XHTMLTextArea, FileField, CalendarDatePicker, SingleSelectField, TextArea, SubmitButton, Button, HiddenField, CheckBoxList, email_validator
 from mediacore.forms.categories import CategoryCheckBoxList
 from mediacore.model import DBSession, Podcast, Category
+from mediacore.forms.settings import players
+
+player_opts = [(None, 'Use global player defined in the settings panel.')] + players
 
 
 class AddFileForm(ListForm):
@@ -100,6 +104,11 @@ class MediaForm(ListForm):
         TextArea('notes', label_text='Additional Notes', attrs=dict(rows=3, cols=25), default=lambda: helpers.fetch_setting('wording_additional_notes')),
         CategoryCheckBoxList('categories', options=lambda: DBSession.query(Category.id, Category.name).all()),
         TextArea('tags', attrs=dict(rows=3, cols=15), help_text=u'e.g.: puppies, great dane, adorable'),
+        RadioButtonList('player',
+            legend='Media Player for View pages:',
+            options=player_opts,
+            validator=OneOf([x[0] for x in player_opts]),
+        ),
         ListFieldSet('details', suppress_label=True, legend='Media Details:', css_classes=['details_fieldset'], children=[
             TextField('duration', validator=DurationValidator),
         ]),

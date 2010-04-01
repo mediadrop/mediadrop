@@ -72,6 +72,7 @@ media = Table('media', metadata,
     Column('notes', UnicodeText),
 
     Column('duration', Integer, default=0, nullable=False),
+    Column('player_override', Unicode(50), default=None),
     Column('views', Integer, default=0, nullable=False),
     Column('likes', Integer, default=0, nullable=False),
     Column('popularity_points', Integer, default=0, nullable=False),
@@ -489,6 +490,12 @@ class Media(object):
                 return file
         return None
 
+    @property
+    def player(self):
+        """Return the name of the player to be used for this media object.
+
+        Takes into account the default global setting and the player_override"""
+        return self.player_override or helpers.fetch_setting('player')
 
     @property
     def playable_files(self):
