@@ -145,10 +145,9 @@ base_config.playable_types = {
 
 base_config.thumb_sizes = { # the dimensions (in pixels) to scale thumbnails
     'media': {
-        'ss':(128,  72),
-        's': (160,  90),
-        'm': (240, 135),
-        'l': (400, 225),
+        's': (128,  72),
+        'm': (160,  90),
+        'l': (560, 315),
     },
     'podcasts': {
         's': (128, 128),
