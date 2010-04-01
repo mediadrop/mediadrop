@@ -1,6 +1,6 @@
-ALTER TABLE `media_topics` DROP KEY `topic_id`;
-ALTER TABLE `media_topics` DROP FOREIGN KEY `media_topics_ibfk_1`,
+ALTER TABLE `media_topics` DROP FOREIGN KEY `media_topics_ibfk_1`;
 ALTER TABLE `media_topics` DROP FOREIGN KEY `media_topics_ibfk_2`;
+ALTER TABLE `media_topics` DROP KEY `topic_id`;
 ALTER TABLE `media_topics` DROP PRIMARY KEY;
 
 ALTER TABLE `media_topics` CHANGE COLUMN `topic_id` `category_id` int(10) unsigned NOT NULL;
