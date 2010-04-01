@@ -23,6 +23,7 @@ players = [
     ('flowplayer', 'FlowPlayer (Flash). website: http://flowplayer.org licence: http://flowplayer.org/download/license_gpl.htm'),
     ('jwplayer', 'JWPlayer (Flash). website: http://longtailvideo.com license: http://creativecommons.org/licenses/by-nc-sa/3.0/'),
     ('sublime', 'Sublime (HTML5). website: http://jilion.com/sublime/video. license: Not Yet Available'),
+    ('html5', '<video> tag (HTML5). Not supported equally in every browser. Do your homework before using!'),
 ]
 
 class SettingsForm(ListForm):

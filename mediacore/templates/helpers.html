@@ -81,6 +81,11 @@
 				});
 			</script>
 		</py:when>
+		<py:when test="player == 'html5'">
+			<video src="${file.play_url(qualified=qualified)}" controls="controls" height="${height}" width="${width}">
+				If your browser supported HTML5, you'd be seeing a video here instead of this text!
+			</video>
+		</py:when>
 		<py:when test="player == 'jwplayer'">
 			<a id="jwplayer"
 			   href="${file.play_url(qualified=qualified)}"
