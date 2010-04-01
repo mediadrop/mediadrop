@@ -13,7 +13,7 @@ install_requires = [
     'Routes == 1.10.3',
     'repoze.who == 1.0.18',
     'TurboGears2 >= 2.0.3',
-    'ToscaWidgets >= 0.9.1',
+    'ToscaWidgets == 0.9.9',
     'tw.dynforms',
     'zope.sqlalchemy',
     'repoze.what-quickstart',
