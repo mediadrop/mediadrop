@@ -519,14 +519,14 @@ class Media(object):
         return views
 
     def increment_likes(self):
-        self.update_rating()
+        self.update_popularity()
         # update the number of likes with an expression, to avoid concurrency
         # issues associated with simultaneous writes.
         likes = self.likes + 1
         self.likes = media.c.likes + sql.text('1')
         return likes
 
-    def update_rating(self):
+    def update_popularity(self):
         # FIXME: The current algorithm assumes that the earliest publication
         #        date is January 1, 2000.
 
