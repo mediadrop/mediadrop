@@ -79,7 +79,9 @@ a.underline-hover:active {
 	display: block;
 }
 #mediacore-credits {
-	margin: 10px auto;
+	margin: 10px auto 0 auto;
+	padding: 5px 0;
+	border-top: 1px solid #cdd2d5;
 	text-align: right;
 }
 
