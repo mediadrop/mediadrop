@@ -37,7 +37,7 @@ class SettingadminController(BaseController):
         redirect(controller='categoryadmin')
 
 
-    @expose('mediacore.templates.admin.settings.edit')
+    @expose('mediacore.templates.admin.settings.notifications.edit')
     def edit(self, **kwargs):
         """Display the :class:`~mediacore.forms.admin.settings.settings.SettingsForm`.
 
@@ -124,7 +124,7 @@ class SettingadminController(BaseController):
         DBSession.flush()
         redirect(action='edit')
 
-    @expose('mediacore.templates.admin.settings.edit_display')
+    @expose('mediacore.templates.admin.settings.display.edit')
     def edit_display(self, **kwargs):
         """Display the :class:`~mediacore.forms.admin.settings.settings.SettingsForm`.
 
