@@ -201,7 +201,6 @@ class MediaadminController(BaseController):
     @expose()
     @validate(media_form, error_handler=edit)
     def save(self, id, slug, title, author_name, author_email,
-             description, notes, details, podcast, tags, categories, delete=None, **kwargs):
              description, notes, details, podcast, tags, categories, player=None,
              delete=None, **kwargs):
         """Save changes or create a new :class:`~mediacore.model.media.Media` instance.
