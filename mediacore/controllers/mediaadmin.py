@@ -39,7 +39,7 @@ from mediacore.lib import helpers
 from mediacore.model.media import create_media_stub
 from mediacore.controllers.media import _add_new_media_file
 from mediacore.forms.admin import SearchForm, ThumbForm
-from mediacore.forms.media import (MediaForm, AddFileForm, EditFileForm,
+from mediacore.forms.admin.media import (MediaForm, AddFileForm, EditFileForm,
     UpdateStatusForm, PodcastFilterForm)
 
 
@@ -80,7 +80,7 @@ class MediaadminController(BaseController):
             podcast_filter_title
                 The podcast name for rendering if a ``podcast_filter`` was specified.
             podcast_filter_form
-                The :class:`~mediacore.forms.media.PodcastFilterForm` instance.
+                The :class:`~mediacore.forms.admin.media.PodcastFilterForm` instance.
 
 
         """
@@ -126,17 +126,17 @@ class MediaadminController(BaseController):
             media
                 :class:`~mediacore.model.media.Media` instance
             media_form
-                The :class:`~mediacore.forms.media.MediaForm` instance
+                The :class:`~mediacore.forms.admin.media.MediaForm` instance
             media_action
                 ``str`` form submit url
             media_values
                 ``dict`` form values
             file_add_form
-                The :class:`~mediacore.forms.media.AddFileForm` instance
+                The :class:`~mediacore.forms.admin.media.AddFileForm` instance
             file_add_action
                 ``str`` form submit url
             file_edit_form
-                The :class:`~mediacore.forms.media.EditFileForm` instance
+                The :class:`~mediacore.forms.admin.media.EditFileForm` instance
             file_edit_action
                 ``str`` form submit url
             thumb_form
@@ -144,7 +144,7 @@ class MediaadminController(BaseController):
             thumb_action
                 ``str`` form submit url
             update_status_form
-                The :class:`~mediacore.forms.media.UpdateStatusForm` instance
+                The :class:`~mediacore.forms.admin.media.UpdateStatusForm` instance
             update_status_action
                 ``str`` form submit url
 
@@ -206,7 +206,7 @@ class MediaadminController(BaseController):
         """Save changes or create a new :class:`~mediacore.model.media.Media` instance.
 
         Form handler the :meth:`edit` action and the
-        :class:`~mediacore.forms.media.MediaForm`.
+        :class:`~mediacore.forms.admin.media.MediaForm`.
 
         Redirects back to :meth:`edit` after successful editing
         and :meth:`index` after successful deletion.
@@ -243,7 +243,7 @@ class MediaadminController(BaseController):
     @expose(content_type=CUSTOM_CONTENT_TYPE)
     @validate(add_file_form)
     def add_file(self, id, file=None, url=None, **kwargs):
-        """Save action for the :class:`~mediacore.forms.media.AddFileForm`.
+        """Save action for the :class:`~mediacore.forms.admin.media.AddFileForm`.
 
         Creates a new :class:`~mediacore.model.media.MediaFile` from the
         uploaded file or the local or remote URL.
@@ -268,10 +268,10 @@ class MediaadminController(BaseController):
                 The :attr:`~mediacore.model.media.MediaFile.id` for the newly
                 created file.
             edit_form
-                The rendered XHTML :class:`~mediacore.forms.media.EditFileForm`
+                The rendered XHTML :class:`~mediacore.forms.admin.media.EditFileForm`
                 for this file.
             status_form
-                The rendered XHTML :class:`~mediacore.forms.media.UpdateStatusForm`
+                The rendered XHTML :class:`~mediacore.forms.admin.media.UpdateStatusForm`
         :raises webob.exc.HTTPNotAcceptable: If the Accept header won't
             work with application/json or text/plain.
 
@@ -385,7 +385,7 @@ class MediaadminController(BaseController):
     @validate(edit_file_form, error_handler=edit)
     def edit_file(self, id, file_id, player_enabled, feed_enabled,
                   toggle_feed, toggle_player, delete, **kwargs):
-        """Save action for the :class:`~mediacore.forms.media.EditFileForm`.
+        """Save action for the :class:`~mediacore.forms.admin.media.EditFileForm`.
 
         Changes or delets a :class:`~mediacore.model.media.MediaFile`.
 

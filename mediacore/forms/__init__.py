@@ -15,7 +15,7 @@
 
 from tw import forms
 from tw.api import JSLink, JSSource
-from tw.forms import ListFieldSet, TextField, FileField, CalendarDatePicker, SingleSelectField, TextArea, Button, HiddenField, PasswordField
+from tw.forms import ListFieldSet, TextField, FileField, SingleSelectField, TextArea, HiddenField, PasswordField
 from tw.forms.validators import Email
 from tg.render import _get_tg_vars
 from pylons.templating import pylons_globals

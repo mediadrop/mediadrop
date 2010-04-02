@@ -13,14 +13,13 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from tw.forms import TextField, HiddenField, CalendarDatePicker, SingleSelectField, TextArea
-from tw.forms.validators import Int, NotEmpty, DateConverter, DateValidator
-from tw.api import WidgetsList
+from tw.forms import TextField, HiddenField
+from tw.forms.validators import NotEmpty
 
 from mediacore.forms import Form, ListForm, SubmitButton
 
 class TagForm(ListForm):
-    template = 'mediacore.templates.admin.tags.form'
+    template = 'mediacore.templates.admin.settings.tags.form'
     id = None
     css_classes = ['form', 'tag-form']
     submit_text = None
@@ -35,7 +34,7 @@ class TagForm(ListForm):
     ]
 
 class TagRowForm(Form):
-    template = 'mediacore.templates.admin.tags.row-form'
+    template = 'mediacore.templates.admin.settings.tags.row-form'
     id = None
     submit_text = None
     params = ['tag']

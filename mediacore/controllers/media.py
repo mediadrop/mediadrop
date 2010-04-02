@@ -42,8 +42,8 @@ from mediacore.lib.base import (BaseController, url_for, redirect,
 from mediacore.model import (DBSession, fetch_row, get_available_slug,
     Media, MediaFile, Comment, Tag, Category, Author, AuthorWithIP, Podcast)
 from mediacore.lib import helpers, email
-from mediacore.forms.media import UploadForm
-from mediacore.forms.comments import PostCommentForm
+from mediacore.forms.frontend.uploader import UploadForm
+from mediacore.forms.frontend.comments import PostCommentForm
 from mediacore import __version__ as MEDIACORE_VERSION
 
 log = logging.getLogger(__name__)
@@ -154,7 +154,7 @@ class MediaController(BaseController):
             media
                 The :class:`~mediacore.model.media.Media` instance for display.
             comment_form
-                The :class:`~mediacore.forms.comments.PostCommentForm` instance.
+                The :class:`~mediacore.forms.frontend.comments.PostCommentForm` instance.
             comment_form_action
                 ``str`` comment form action
             comment_form_values
@@ -224,7 +224,7 @@ class MediaController(BaseController):
     @expose()
     @validate(post_comment_form, error_handler=view)
     def comment(self, slug, **values):
-        """Post a comment from :class:`~mediacore.forms.media.PostCommentForm`.
+        """Post a comment from :class:`~mediacore.forms.frontend.comments.PostCommentForm`.
 
         :param slug: The media :attr:`~mediacore.model.media.Media.slug`
         :returns: Redirect to :meth:`view` page for media.
@@ -341,7 +341,7 @@ class MediaController(BaseController):
             support_email
                 An help contact address
             upload_form
-                The :class:`~mediacore.forms.media.UploadForm` instance
+                The :class:`~mediacore.forms.frontend.uploader.UploadForm` instance
             form_values
                 ``dict`` form values, if any
 
@@ -362,7 +362,7 @@ class MediaController(BaseController):
     def upload_submit_async(self, **kwargs):
         """Ajax form validation and/or submission.
 
-        This is the save handler for :class:`~mediacore.forms.media.UploadForm`.
+        This is the save handler for :class:`~mediacore.forms.frontend.uploader.UploadForm`.
 
         When ajax is enabled this action is called for each field as the user
         fills them in. Although the entire form is validated, the JS only

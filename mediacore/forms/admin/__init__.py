@@ -16,7 +16,7 @@
 from tw.forms import TextField, FileField
 from tw.forms.validators import FieldStorageUploadConverter
 
-from mediacore.forms import Form, ListForm, SubmitButton
+from mediacore.forms import Form, ListForm#, SubmitButton
 
 
 class SearchForm(ListForm):
@@ -41,5 +41,7 @@ class ThumbForm(ListForm):
                 },
             )
         ),
+# TODO: Put this submit button back in, and update the javascript to remove it.
 #        SubmitButton('save', default='Save', css_classes=['btn', 'btn-save', 'f-rgt']),
     ]
+

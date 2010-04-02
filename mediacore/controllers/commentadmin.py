@@ -25,7 +25,7 @@ from mediacore.lib.base import (BaseController, url_for, redirect,
 from mediacore.model import DBSession, fetch_row, Media, Comment
 from mediacore.lib import helpers
 from mediacore.forms.admin import SearchForm
-from mediacore.forms.comments import EditCommentForm
+from mediacore.forms.admin.comments import EditCommentForm
 
 
 edit_form = EditCommentForm()
@@ -53,7 +53,7 @@ class CommentadminController(BaseController):
                 The list of :class:`~mediacore.model.comments.Comment` instances
                 for this page.
             edit_form
-                The :class:`mediacore.forms.comments.EditCommentForm` instance,
+                The :class:`mediacore.forms.admin.comments.EditCommentForm` instance,
                 to be rendered for each instance in ``comments``.
             search
                 The given search term, if any
@@ -134,7 +134,7 @@ class CommentadminController(BaseController):
 
     @expose('json')
     def save_edit(self, id, body, **kwargs):
-        """Save an edit from :class:`~mediacore.forms.comments.EditCommentForm`.
+        """Save an edit from :class:`~mediacore.forms.admin.comments.EditCommentForm`.
 
         :param id: Comment ID
         :type id: ``int``

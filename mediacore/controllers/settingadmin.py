@@ -21,7 +21,7 @@ from mediacore.lib.base import (BaseController, url_for, redirect,
     expose, expose_xhr, validate, paginate)
 from mediacore.lib.helpers import fetch_setting
 from mediacore.model import DBSession, fetch_row, Setting
-from mediacore.forms.settings import SettingsForm, DisplaySettingsForm
+from mediacore.forms.admin.settings.settings import SettingsForm, DisplaySettingsForm
 
 settings_form = SettingsForm(
     action=url_for(controller='/settingadmin', action='save'))
@@ -39,12 +39,12 @@ class SettingadminController(BaseController):
 
     @expose('mediacore.templates.admin.settings.edit')
     def edit(self, **kwargs):
-        """Display the :class:`~mediacore.forms.settings.SettingsForm`.
+        """Display the :class:`~mediacore.forms.admin.settings.settings.SettingsForm`.
 
         :rtype: dict
         :returns:
             settings_form
-                The :class:`~mediacore.forms.settings.SettingsForm` instance.
+                The :class:`~mediacore.forms.admin.settings.settings.SettingsForm` instance.
             settings_values
                 ``dict`` form values
 
@@ -101,7 +101,7 @@ class SettingadminController(BaseController):
     @expose()
     @validate(settings_form, error_handler=edit)
     def save(self, email, legal_wording, default_wording, **kwargs):
-        """Save :class:`~mediacore.forms.settings.SettingsForm`.
+        """Save :class:`~mediacore.forms.admin.settings.settings.SettingsForm`.
 
         Redirects back to :meth:`edit` after successful editing.
 
@@ -126,12 +126,12 @@ class SettingadminController(BaseController):
 
     @expose('mediacore.templates.admin.settings.edit_display')
     def edit_display(self, **kwargs):
-        """Display the :class:`~mediacore.forms.settings.SettingsForm`.
+        """Display the :class:`~mediacore.forms.admin.settings.settings.SettingsForm`.
 
         :rtype: dict
         :returns:
             settings_form
-                The :class:`~mediacore.forms.settings.SettingsForm` instance.
+                The :class:`~mediacore.forms.admin.settings.settings.SettingsForm` instance.
             settings_values
                 ``dict`` form values
 

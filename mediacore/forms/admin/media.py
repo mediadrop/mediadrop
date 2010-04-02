@@ -13,21 +13,19 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from tw.api import WidgetsList, CSSLink
+from tw.api import WidgetsList
 import formencode
 from tw.forms import RadioButtonList
-from tw.forms.validators import Schema, Int, StringBool, NotEmpty, DateTimeConverter, DateValidator, FieldStorageUploadConverter, OneOf
-from tg import config
+from tw.forms.validators import Int, StringBool, NotEmpty, DateTimeConverter, FieldStorageUploadConverter, OneOf
 
 from mediacore.model import DBSession, Podcast, MediaFile
 from mediacore.lib import helpers
-from mediacore.forms import Form, ListForm, ListFieldSet, TextField, XHTMLTextArea, FileField, CalendarDatePicker, SingleSelectField, TextArea, SubmitButton, Button, HiddenField, CheckBoxList, email_validator
-from mediacore.forms.categories import CategoryCheckBoxList
+from mediacore.forms import Form, ListForm, ListFieldSet, TextField, XHTMLTextArea, FileField, SingleSelectField, TextArea, SubmitButton, HiddenField, email_validator
+from mediacore.forms.admin.categories import CategoryCheckBoxList
 from mediacore.model import DBSession, Podcast, Category
-from mediacore.forms.settings import players
+from mediacore.forms.admin.settings.settings import players
 
 player_opts = [(None, 'Use global player defined in the settings panel.')] + players
-
 
 class AddFileForm(ListForm):
     template = 'mediacore.templates.admin.media.file-add-form'
@@ -130,38 +128,6 @@ class UpdateStatusForm(Form):
         publish_on = HiddenField(validator=DateTimeConverter(format='%b %d %Y @ %H:%M'))
         update_button = SubmitButton(named_button=True, validator=NotEmpty)
 
-class EmbedURLValidator(formencode.FancyValidator):
-    def _to_python(self, value, state):
-        if value:
-            for info in config.embeddable_filetypes.itervalues():
-                match = info['pattern'].match(value)
-                if match:
-                    return value
-            else:
-                raise formencode.Invalid(("This isn't a valid YouTube, "
-                                          "Google Video or Vimeo URL."),
-                                         value, state)
-        return value
-
-class UploadForm(ListForm):
-    template = 'mediacore.templates.media.upload-form'
-    id = 'upload-form'
-    css_class = 'form'
-    css = [CSSLink(link=helpers.url_for('/styles/forms.css'))]
-    show_children_errors = False
-    params = ['async_action']
-
-    class fields(WidgetsList):
-        name = TextField(validator=NotEmpty(messages={'empty':"You've gotta have a name!"}), label_text='Your Name:', show_error=True, maxlength=50)
-        email = TextField(validator=email_validator(not_empty=True), label_text='Your Email:', help_text='(will never be published)', show_error=True, maxlength=50)
-        title = TextField(validator=NotEmpty(messages={'empty':"You've gotta have a title!"}), label_text='Title:', show_error=True, maxlength=255)
-        description = XHTMLTextArea(validator=NotEmpty(messages={'empty':'At least give it a short description...'}), label_text='Description:', attrs=dict(rows=5, cols=25), show_error=True)
-        tags = TextField(label_text='Tags:', help_text='(optional) e.g.: puppies, great dane, adorable', show_error=True)
-        tags.validator.if_missing = ""
-        url = TextField(validator=EmbedURLValidator(if_missing=None), label_text='Add a YouTube, Vimeo or Google Video URL:', show_error=True, maxlength=255)
-        file = FileField(validator=FieldStorageUploadConverter(if_missing=None, messages={'empty':'Oops! You forgot to enter a file.'}), label_text='OR:', show_error=True)
-        submit = SubmitButton(show_error=False, css_classes=['btn', 'btn-submit'])
-
 
 class PodcastFilterForm(ListForm):
     id = 'podcastfilterform'
@@ -169,3 +135,4 @@ class PodcastFilterForm(ListForm):
     template = 'mediacore.templates.admin.media.podcast-filter-form'
 
     fields = [SingleSelectField('podcast_filter', suppress_label=True, options=lambda: [('All Media', 'All Media')] + DBSession.query(Podcast.id, Podcast.title).all() + [('Unfiled', 'Unfiled')])]
+

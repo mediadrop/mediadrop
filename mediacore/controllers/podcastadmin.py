@@ -30,7 +30,7 @@ from mediacore.model import (DBSession, fetch_row, get_available_slug,
     Podcast, Author, AuthorWithIP)
 from mediacore.model.podcasts import create_podcast_stub
 from mediacore.forms.admin import SearchForm, ThumbForm
-from mediacore.forms.podcasts import PodcastForm
+from mediacore.forms.admin.podcasts import PodcastForm
 
 
 podcast_form = PodcastForm()
@@ -73,7 +73,7 @@ class PodcastadminController(BaseController):
             podcast
                 :class:`~mediacore.model.podcasts.Podcast` instance
             form
-                :class:`~mediacore.forms.podcasts.PodcastForm` instance
+                :class:`~mediacore.forms.admin.podcasts.PodcastForm` instance
             form_action
                 ``str`` form submit url
             form_values
@@ -131,7 +131,7 @@ class PodcastadminController(BaseController):
         """Save changes or create a new :class:`~mediacore.model.podcasts.Podcast` instance.
 
         Form handler the :meth:`edit` action and the
-        :class:`~mediacore.forms.podcasts.PodcastForm`.
+        :class:`~mediacore.forms.admin.podcasts.PodcastForm`.
 
         Redirects back to :meth:`edit` after successful editing
         and :meth:`index` after successful deletion.
