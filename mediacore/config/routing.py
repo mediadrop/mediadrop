@@ -30,8 +30,7 @@ def make_map():
     map.connect('/{action}',
         controller='media',
         action='index',
-        requirements={'action': ('explore|upload|upload_submit|upload_success|'
-                                 'upload_submit_async|upload_failure|index')})
+        requirements={'action': ('explore|index')})
 
     # Podcast list actions
     map.connect('/podcasts/feed/{slug}.xml',
@@ -60,6 +59,9 @@ def make_map():
         controller='media',
         action='serve',
         requirements={'id': r'\d+'})
+    map.connect('/upload/{action}',
+        controller='upload',
+        action='index')
 
     # Individual podcast media actions
     map.connect('/podcasts/{podcast_slug}/{slug}/{action}',

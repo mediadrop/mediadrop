@@ -37,7 +37,7 @@ from mediacore.model import (DBSession, fetch_row, get_available_slug,
     Media, MediaFile, Podcast, Tag, Author, Category)
 from mediacore.lib import helpers
 from mediacore.model.media import create_media_stub
-from mediacore.controllers.media import _add_new_media_file
+from mediacore.controllers.upload import _add_new_media_file
 from mediacore.forms.admin import SearchForm, ThumbForm
 from mediacore.forms.media import (MediaForm, AddFileForm, EditFileForm,
     UpdateStatusForm, PodcastFilterForm)

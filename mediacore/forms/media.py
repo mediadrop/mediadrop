@@ -144,7 +144,7 @@ class EmbedURLValidator(formencode.FancyValidator):
         return value
 
 class UploadForm(ListForm):
-    template = 'mediacore.templates.media.upload-form'
+    template = 'mediacore.templates.upload.form'
     id = 'upload-form'
     css_class = 'form'
     css = [CSSLink(link=helpers.url_for('/styles/forms.css'))]
