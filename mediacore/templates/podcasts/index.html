@@ -41,7 +41,7 @@
 						<a class="meta meta-rss underline-hover" href="${h.url_for(action='feed', slug=podcast.slug)}">Subscribe via RSS</a>
 					</div>
 					<p py:replace="Markup(podcast.description)" />
-					<h4 style="font-size:15px;margin-top:10px;">Latest 4 of ${podcast.media_count_published} Episodes:</h4>
+					<h4 style="font-size:15px;margin-top:10px;">Latest ${min(4, podcast.media_count_published)} of ${podcast.media_count_published} Episodes:</h4>
 					<ol class="podcast-episodes">
 						<li py:for="media in podcast.media[:4]">
 							<a class="meta meta-audio underline-hover" href="${h.url_for(controller='/media', action='view', slug=media.slug, podcast_slug=podcast.slug)}">${media.title}</a>
