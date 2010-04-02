@@ -99,12 +99,14 @@ def make_map():
         requirements={'status': 'approve|trash'})
 
     map.connect('/admin/settings',
-        controller='settingadmin',
+        controller='categoryadmin',
         action='index')
 
-    map.connect('/admin/settings/config/{action}',
-        controller='settingadmin',
-        action='edit')
+    map.connect('/admin/settings/notifications/{action}',
+        controller='notificationadmin')
+
+    map.connect('/admin/settings/display/{action}',
+        controller='displayadmin')
 
     map.connect('/admin/settings/users',
         controller='useradmin',

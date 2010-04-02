@@ -24,21 +24,14 @@ from mediacore.model import DBSession, fetch_row, Setting
 from mediacore.forms.admin.settings.settings import SettingsForm, DisplaySettingsForm
 
 settings_form = SettingsForm(
-    action=url_for(controller='/settingadmin', action='save'))
-display_settings_form = DisplaySettingsForm(
-    action=url_for(controller='/settingadmin', action='save_display'))
+    action=url_for(controller='/notificationadmin', action='save'))
 
 
-class SettingadminController(BaseController):
+class NotificationadminController(BaseController):
     allow_only = has_permission('admin')
 
-    @expose()
-    def index(self, **kwargs):
-        redirect(controller='categoryadmin')
-
-
     @expose('mediacore.templates.admin.settings.notifications.edit')
-    def edit(self, **kwargs):
+    def index(self, **kwargs):
         """Display the :class:`~mediacore.forms.admin.settings.settings.SettingsForm`.
 
         :rtype: dict
@@ -99,11 +92,11 @@ class SettingadminController(BaseController):
         )
 
     @expose()
-    @validate(settings_form, error_handler=edit)
+    @validate(settings_form, error_handler=index)
     def save(self, email, legal_wording, default_wording, **kwargs):
         """Save :class:`~mediacore.forms.admin.settings.settings.SettingsForm`.
 
-        Redirects back to :meth:`edit` after successful editing.
+        Redirects back to :meth:`index` after successful editing.
 
         """
         settings = self._fetch_keyed_settings()
@@ -122,61 +115,7 @@ class SettingadminController(BaseController):
 
         DBSession.add_all(settings.values())
         DBSession.flush()
-        redirect(action='edit')
-
-    @expose('mediacore.templates.admin.settings.display.edit')
-    def edit_display(self, **kwargs):
-        """Display the :class:`~mediacore.forms.admin.settings.settings.SettingsForm`.
-
-        :rtype: dict
-        :returns:
-            settings_form
-                The :class:`~mediacore.forms.admin.settings.settings.SettingsForm` instance.
-            settings_values
-                ``dict`` form values
-
-        """
-        if tmpl_context.action == 'save' and len(kwargs) > 0:
-            # Use the values from error_handler or GET for new users
-            settings_values = kwargs
-        else:
-            settings_values = dict(
-                tinymce = bool(fetch_setting('enable_tinymce')),
-                popularity = dict(
-                    decay_exponent = fetch_setting('popularity_decay_exponent'),
-                    decay_lifetime = fetch_setting('popularity_decay_lifetime')
-                ),
-                player = fetch_setting('player'),
-            )
-
-        return dict(
-            display_settings_form = display_settings_form,
-            settings_values = settings_values,
-        )
-
-    @expose()
-    @validate(display_settings_form, error_handler=edit_display)
-    def save_display(self, tinymce, popularity, player, **kwargs):
-        rich_setting = fetch_row(Setting, key='enable_tinymce')
-        decay_exponent = fetch_row(Setting, key='popularity_decay_exponent')
-        decay_lifetime = fetch_row(Setting, key='popularity_decay_lifetime')
-        player_setting = fetch_row(Setting, key='player')
-
-        if tinymce:
-            rich_setting.value = 'enabled'
-        else:
-            rich_setting.value = None
-
-        decay_exponent.value = popularity['decay_exponent']
-        decay_lifetime.value = popularity['decay_lifetime']
-        player_setting.value = player
-
-        DBSession.add(rich_setting)
-        DBSession.add(decay_exponent)
-        DBSession.add(decay_lifetime)
-        DBSession.add(player_setting)
-        DBSession.flush()
-        redirect(action='edit_display')
+        redirect(action='index')
 
 
     def _fetch_keyed_settings(self):
