@@ -18,13 +18,13 @@ from tw.forms.validators import Schema, FieldsMatch, StringBool, Int, OneOf
 from tw.api import WidgetsList
 
 from mediacore.forms import ListForm, XHTMLTextArea, SubmitButton, ListFieldSet, PasswordField, email_validator
-from mediacore.lib.helpers import xhtml
+from genshi._speedups import Markup
 
 players = [
-    ('flowplayer', xhtml('FlowPlayer (Flash). <a href="http://flowplayer.org">Website</a> - <a href="http://flowplayer.org/download/license_gpl.htm">Licence</a>')),
-    ('jwplayer', xhtml('JWPlayer (Flash). <a href="http://longtailvideo.com">Website</a> - <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Licence</a>')),
-    ('sublime', xhtml('Sublime (HTML5). <a href="http://jilion.com/sublime/video">Website</a> - not yet available')),
-    ('html5', xhtml('&lt;video&gt; tag (HTML5). <a href="http://diveintohtml5.org/video.html">Website</a> - not fully implemented in all browsers')),
+    ('flowplayer', Markup('FlowPlayer (Flash). <a href="http://flowplayer.org">Website</a> - <a href="http://flowplayer.org/download/license_gpl.htm">Licence</a>')),
+    ('jwplayer', Markup('JWPlayer (Flash). <a href="http://longtailvideo.com">Website</a> - <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Licence</a>')),
+    ('sublime', Markup('Sublime (HTML5). <a href="http://jilion.com/sublime/video">Website</a> - not yet available')),
+    ('html5', Markup('&lt;video&gt; tag (HTML5). <a href="http://diveintohtml5.org/video.html">Website</a> - not fully implemented in all browsers')),
 ]
 
 class SettingsForm(ListForm):

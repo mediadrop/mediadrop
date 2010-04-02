@@ -25,8 +25,6 @@ from copy import copy
 from urlparse import urlparse
 from datetime import datetime
 from PIL import Image
-from genshi.input import XML
-from genshi import Stream
 
 from BeautifulSoup import BeautifulSoup
 from webhelpers import date, feedgenerator, html, number, misc, text, paginate, containers
@@ -133,17 +131,6 @@ cleaner_settings = dict(
     elem_map = elem_map,
     filters = cleaner_filters
 )
-
-def xhtml(string):
-    """Convert the given plain text or XHTML into a genshi stream.
-
-    Useful for including markup in form templates.
-    i.e. use this to violate MVC if doing so makes the code more readable.
-    """
-    string = '<span>' + string + '</span>'
-    stream = XML(string).select('*|text()')
-    reusable_stream = Stream(list(stream))
-    return reusable_stream
 
 def clean_xhtml(string, _cleaner_settings=None):
     """Convert the given plain text or HTML into valid XHTML.
