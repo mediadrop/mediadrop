@@ -33,17 +33,36 @@
 #category-content .feat-content {
 	width: 680px;
 }
-#category-grid {
-	width: 710px;
+
+#category-content h2 a:link,
+#category-content h2 a:visited {
+	color: #494949;
 }
-#category-grid li {
+
+#category-content .grid {
+	width: 720px;
+}
+#category-latest,
+#category-popular,
+#category-content .category-column .grid {
+	width: 335px;
+	float: left;
+}
+#category-latest {
+	margin-right: 20px;
+}
+#category-content li {
 	width: 335px;
 	height: 110px;
 }
-#category-grid .grid-title,
-#category-grid .grid-desc,
-#category-grid .grid-meta {
+#category-content .grid-title,
+#category-content .grid-desc,
+#category-content .grid-meta {
 	width: 195px;
+}
+#category-content .see-more {
+	margin-top: 5px;
+	float: right;
 }
 
 /* Feature box size overrides */

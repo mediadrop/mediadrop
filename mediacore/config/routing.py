@@ -46,6 +46,10 @@ def make_map():
         controller='categories',
         action='index',
         slug=None)
+    map.connect('/categories/{slug}/{order}',
+        controller='categories',
+        action='more',
+        requirements={'order': 'latest|popular'})
 
     # Media
     map.connect('/media/{slug}/{action}',

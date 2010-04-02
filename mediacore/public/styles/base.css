@@ -390,7 +390,7 @@ a:hover .grid-title {
 	background: url('../images/layout/duration-right.png') no-repeat right;
 }
 
-/* Overrides for full size thumbs.. TODO: Integrate into default settings */
+/* Overrides for full size thumbs */
 .m-grid .thumb-wrap {
 	width: 162px;
 }
@@ -436,6 +436,7 @@ a:hover .grid-title {
 
 /* Pagination */
 .pager {
+	margin: 10px 0;
 	float: right;
 	font: 14px 'Trebuchet MS', sans-serif;
 }

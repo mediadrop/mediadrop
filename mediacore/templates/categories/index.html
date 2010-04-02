@@ -18,59 +18,41 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:py="http://genshi.edgewall.org/"
       xmlns:xi="http://www.w3.org/2001/XInclude">
+<xi:include href="../categories/layout.html" />
 <xi:include href="../master.html" />
 <head>
-	<title>Categories</title>
+	<title>${c.category and c.category.name + ' | ' or ''}Categories</title>
 	<link href="${h.url_for('/styles/categories.css')}" media="screen" rel="stylesheet" type="text/css" />
 </head>
-<body class="nav-categories-on">
-	<div class="mediacore-content">
-		<h2 id="category-breadcrumb" class="head-super" py:choose="">
-			<py:when test="category">
-				<a class="uppercase underline-hover" href="${h.url_for(slug=None)}">Categories</a>
-				<py:for each="cat in breadcrumb">
-					&gt; <a class="underline-hover" href="${h.url_for(slug=cat.slug)}">${cat.name}</a>
-				</py:for>
-			</py:when>
-			<py:otherwise><span class="uppercase">Choose a Category:</span></py:otherwise>
-		</h2>
-
-		<div id="categories-bar">
-			<ul py:def="catlist(cats, crumb, depth=0)" class="${depth >= 1 and 'sub' or ''}category-list">
-				<li py:for="cat in cats">
-					<a class="underline-hover" href="${h.url_for(slug=cat.slug)}">${cat.name}</a>
-					<ul py:if="crumb and crumb[0] == cat" py:replace="catlist(cat.children, crumb[1:], depth + 1)" />
-				</li>
-			</ul>
-			${catlist(categories, breadcrumb)}
+<body py:if="popular or latest" py:with="in_text = c.category and ('in ' + c.category.name) or ''">
+	<h2><span class="uppercase">Featured</span> ${in_text}</h2>
+	<div id="category-feature" class="feat-box" py:with="featured = popular[0]">
+		<div class="feat-top" />
+		<div class="feat-content clearfix">
+			<div class="feat-info">
+				<h3><a class="underline-hover" href="${h.url_for(controller='/media', action='view', slug=featured.slug)}">${Markup(featured.title)}</a></h3>
+				<p py:replace="Markup(h.truncate_xhtml(featured.description, 300))" />
+			</div>
+			${media_player(featured, width=400, height=225)}
+			<div class="feat-meta">
+				<span class="meta meta-comments" title="Comments">${featured.comment_count_published} <span>Comment<py:if test="featured.comment_count_published != 1">s</py:if></span></span>
+				<a class="meta meta-likes" href="${h.url_for(controller='/media', action='rate', slug=featured.slug)}" id="likethis" title="Vote up">${featured.likes} <strong>Like this!</strong></a>
+				<span class="meta meta-views" title="Views">${featured.views} <span>View<py:if test="featured.views != 1">s</py:if></span></span>
+			</div>
 		</div>
+		<div class="feat-bottom" />
+	</div>
 
-		<div id="category-content" py:if="media" py:with="in_text = category and ('in ' + category.name) or ''">
-			<py:if test="c.paginators.media.page == 1">
-				<h2><span class="uppercase">Featured</span> ${in_text}</h2>
-				<div id="category-feature" class="feat-box" py:with="featured = media[0]">
-					<div class="feat-top" />
-					<div class="feat-content clearfix">
-						<div class="feat-info">
-							<h3><a class="underline-hover" href="${h.url_for(controller='/media', action='view', slug=featured.slug)}">${Markup(featured.title)}</a></h3>
-							<p py:replace="Markup(h.truncate_xhtml(featured.description, 300))" />
-						</div>
-						${media_player(featured, width=400, height=225)}
-						<div class="feat-meta">
-							<span class="meta meta-comments" title="Comments">${featured.comment_count_published} <span>Comment<py:if test="featured.comment_count_published != 1">s</py:if></span></span>
-							<a class="meta meta-likes" href="${h.url_for(controller='/media', action='rate', slug=featured.slug)}" id="likethis" title="Vote up">${featured.likes} <strong>Like this!</strong></a>
-							<span class="meta meta-views" title="Views">${featured.views} <span>View<py:if test="featured.views != 1">s</py:if></span></span>
-						</div>
-					</div>
-					<div class="feat-bottom" />
-				</div>
-			</py:if>
-
-			<h2><span class="uppercase">Latest</span> ${in_text}</h2>
-			<ul py:replace="media_grid(c.paginators.media.page == 1 and media[1:] or media, id='category-grid', thumb_size='s', desc_len=90)" />
-			<div py:content="pagination(c.paginators.media)" />
-		</div>
-		<div id="category-content" py:if="not media">There is no media in this category.</div>
+	<div id="category-latest" class="category-column">
+		<h2><a href="${h.url_for(action='more', order='latest')}" class="underline-hover" py:strip="not in_text"><span class="uppercase">Latest</span> ${in_text}</a></h2>
+		<ul py:replace="media_grid(latest, thumb_size='s', desc_len=90)" />
+		<a py:if="in_text" class="see-more underline-hover" href="${h.url_for(action='more', order='latest')}">more of the Latest...</a>
+	</div>
+	<div id="category-popular" class="category-column">
+		<h2><a href="${h.url_for(action='more', order='popular')}" class="underline-hover" py:strip="not in_text"><span class="uppercase">Most Popular</span> ${in_text}</a></h2>
+		<ul py:replace="media_grid(popular, thumb_size='s', desc_len=90)" />
+		<a py:if="in_text" class="see-more underline-hover" href="${h.url_for(action='more', order='popular')}">more of the Most Popular...</a>
 	</div>
 </body>
+<body py:if="not popular and not latest">There is no media in this category.</body>
 </html>

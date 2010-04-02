@@ -14,10 +14,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from tg import config, request, response, tmpl_context
-from sqlalchemy import orm
-from repoze.what.predicates import has_permission
-from paste.util import mimeparse
-import pylons.templating
+from sqlalchemy import orm, sql
 
 from mediacore.lib.base import (BaseController, url_for, redirect,
     expose, expose_xhr, validate, paginate)
@@ -26,26 +23,49 @@ from mediacore.model import (DBSession, fetch_row,
 
 
 class CategoriesController(BaseController):
+    def __init__(self, *args, **kwargs):
+        super(CategoriesController, self).__init__(*args, **kwargs)
+
+        tmpl_context.categories = Category.query.order_by(Category.name)\
+            .populated_tree()
+        category_slug = request.environ['pylons.routes_dict'].get('slug', None)
+
+        if category_slug:
+            tmpl_context.category = fetch_row(Category, slug=category_slug)
+            tmpl_context.breadcrumb = tmpl_context.category.ancestors()
+            tmpl_context.breadcrumb.append(tmpl_context.category)
+
     @expose('mediacore.templates.categories.index')
-    @paginate('media', items_per_page=12, items_first_page=11)
-    def index(self, slug=None, page=1, **kwargs):
+    def index(self, slug=None, **kwargs):
         categories = Category.query.order_by(Category.name).populated_tree()
         media = Media.query.published()\
-            .order_by(Media.publish_on.desc())\
             .options(orm.undefer('comment_count_published'))
 
-        if slug:
-            category = fetch_row(Category, slug=slug)
-            media = media.in_category(category)
-            breadcrumb = category.ancestors()
-            breadcrumb.append(category)
-        else:
-            category = None
-            breadcrumb = []
+        if tmpl_context.category:
+            media = media.in_category(tmpl_context.category)
+
+        latest = media.order_by(Media.publish_on.desc())[:5]
+        popular = media.order_by(Media.popularity_points.desc())\
+            .filter(sql.not_(Media.id.in_([m.id for m in latest])))[:5]
 
         return dict(
-            categories = categories,
+            latest = latest,
+            popular = popular,
+        )
+
+    @expose('mediacore.templates.categories.more')
+    @paginate('media', items_per_page=20)
+    def more(self, slug, order, page=1, **kwargs):
+        media = Media.query.published()\
+            .options(orm.undefer('comment_count_published'))\
+            .in_category(tmpl_context.category)
+
+        if order == 'latest':
+            media = media.order_by(Media.publish_on.desc())
+        else:
+            media = media.order_by(Media.popularity_points.desc())
+
+        return dict(
             media = media,
-            category = category,
-            breadcrumb = breadcrumb,
+            order = order,
         )
