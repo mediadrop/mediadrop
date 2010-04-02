@@ -44,7 +44,11 @@
 		<div class="feat-content clearfix">
 			<div class="feat-info">
 				<h3><a class="underline-hover" href="${h.url_for(controller='/media', action='view', slug=media.slug)}">${Markup(media.title)}</a></h3>
-				<div class="feat-date" py:with="datetime = media.publish_on.strftime('%B %d, %Y').replace(h.datetime.now().strftime(', %Y'), '')">${datetime} by ${media.author.name}</div>
+				<div class="feat-date" py:choose="">
+					<py:when test="media.is_published" py:with="datetime = media.publish_on.strftime('%B %d, %Y').replace(h.datetime.now().strftime(', %Y'), '')">${datetime}</py:when>
+					<py:otherwise>(unpublished)</py:otherwise>
+					by ${media.author.name}
+				</div>
 				<p py:replace="Markup(media.description)" />
 			</div>
 			${media_player(media, width=560, height=315)}
