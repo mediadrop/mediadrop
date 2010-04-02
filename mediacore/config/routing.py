@@ -72,61 +72,45 @@ def make_map():
     # Admin routes #
     ################
 
+    admin_paths = "|".join([
+        'admin/admin',
+        'admin/categories',
+        'admin/comments',
+        'admin/display',
+        'admin/media',
+        'admin/notifications',
+        'admin/podcasts',
+        'admin/tags',
+        'admin/users',
+    ])
+
+    map.connect('/admin', controller='admin/index', action='index')
+
     map.connect('/admin/media_table/{table}/{page}',
         controller='admin/admin',
         action='media_table')
 
-    map.connect('/admin/media',
-        controller='admin/media',
-        action='index')
-    map.connect('/admin/media/{id}/{action}',
-        controller='admin/media',
-        action='edit')
+    map.connect('{controller}',
+        requirements = { 'controller': admin_paths }
+    )
 
-    map.connect('/admin/podcasts',
-        controller='admin/podcast',
-        action='index')
-    map.connect('/admin/podcasts/{id}/{action}',
-        controller='admin/podcast',
-        action='edit')
+    map.connect('{controller}/{id}/{action}',
+        requirements = {
+            'controller': admin_paths,
+            'id': r'\d+'
+        },
+        action='edit',
+    )
 
-    map.connect('/admin/comments',
-        controller='admin/comment',
-        action='index')
+    map.connect('{controller}/{action}',
+        requirements = {'controller': admin_paths}
+    )
+
+    # TODO: Change how the save_status method works, so that it's two separate methods, and works with the above routes.
     map.connect('/admin/comments/{id}/{status}',
-        controller='admin/comment',
+        controller='admin/comments',
         action='save_status',
         requirements={'status': 'approve|trash'})
-
-    map.connect('/admin/settings',
-        controller='admin/category',
-        action='index')
-
-    map.connect('/admin/settings/notifications/{action}',
-        controller='admin/notification')
-
-    map.connect('/admin/settings/display/{action}',
-        controller='admin/display')
-
-    map.connect('/admin/settings/users',
-        controller='admin/user',
-        action='index')
-    map.connect('/admin/settings/users/{id}/{action}',
-        controller='admin/user',
-        action='edit')
-
-    map.connect('/admin/settings/tags',
-        controller='admin/tag',
-        action='index')
-    map.connect('/admin/settings/tags/{id}/{action}',
-        controller='admin/tag',
-        action='edit')
-    map.connect('/admin/settings/categories',
-        controller='admin/category',
-        action='index')
-    map.connect('/admin/settings/categories/{id}/{action}',
-        controller='admin/category',
-        action='edit')
 
     ##############
     # API routes #

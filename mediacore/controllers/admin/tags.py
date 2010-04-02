@@ -28,7 +28,7 @@ from mediacore.forms.admin.settings.tags import TagForm, TagRowForm
 tag_form = TagForm()
 tag_row_form = TagRowForm()
 
-class TagController(BaseController):
+class TagsController(BaseController):
     allow_only = has_permission('admin')
 
     @expose('mediacore.templates.admin.settings.tags.index')

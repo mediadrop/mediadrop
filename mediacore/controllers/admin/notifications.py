@@ -27,7 +27,7 @@ settings_form = SettingsForm(
     action=url_for(controller='/admin/notification', action='save'))
 
 
-class NotificationController(BaseController):
+class NotificationsController(BaseController):
     allow_only = has_permission('admin')
 
     @expose('mediacore.templates.admin.settings.notifications.edit')

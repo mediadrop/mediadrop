@@ -32,7 +32,7 @@ edit_form = EditCommentForm()
 search_form = SearchForm(action=url_for(controller='/admin/comment',
                                         action='index'))
 
-class CommentController(BaseController):
+class CommentsController(BaseController):
     allow_only = has_permission('admin')
 
     @expose_xhr('mediacore.templates.admin.comments.index',

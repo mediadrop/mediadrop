@@ -143,7 +143,7 @@
 		</div>
 
 		<div class="box" py:if="media.id"
-		     py:replace="comment_stats_box(h.url_for(controller='/commentadmin', media_filter=media.id), query=media.comments)" />
+		     py:replace="comment_stats_box(h.url_for(controller='/admin/comments', media_filter=media.id), query=media.comments)" />
 
 	</div>
 </body>

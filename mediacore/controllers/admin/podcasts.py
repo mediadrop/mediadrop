@@ -36,7 +36,7 @@ from mediacore.forms.admin.podcasts import PodcastForm
 podcast_form = PodcastForm()
 thumb_form = ThumbForm()
 
-class PodcastController(BaseController):
+class PodcastsController(BaseController):
     allow_only = has_permission('admin')
 
     @expose_xhr('mediacore.templates.admin.podcasts.index',
