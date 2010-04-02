@@ -28,7 +28,7 @@ from mediacore.forms.admin.settings.categories import CategoryForm, CategoryRowF
 category_form = CategoryForm()
 category_row_form = CategoryRowForm()
 
-class CategoryadminController(BaseController):
+class CategoryController(BaseController):
     allow_only = has_permission('admin')
 
     @expose('mediacore.templates.admin.settings.categories.index')

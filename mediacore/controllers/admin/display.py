@@ -24,10 +24,10 @@ from mediacore.model import DBSession, fetch_row, Setting
 from mediacore.forms.admin.settings.settings import SettingsForm, DisplaySettingsForm
 
 display_settings_form = DisplaySettingsForm(
-    action=url_for(controller='/displayadmin', action='save'))
+    action=url_for(controller='/admin/display', action='save'))
 
 
-class DisplayadminController(BaseController):
+class DisplayController(BaseController):
     allow_only = has_permission('admin')
 
     @expose('mediacore.templates.admin.settings.display.edit')

@@ -27,7 +27,7 @@ from mediacore.forms.admin.users import UserForm
 
 user_form = UserForm()
 
-class UseradminController(BaseController):
+class UserController(BaseController):
     """Admin user actions"""
     allow_only = has_permission('admin')
 

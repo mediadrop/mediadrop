@@ -24,10 +24,10 @@ from mediacore.model import DBSession, fetch_row, Setting
 from mediacore.forms.admin.settings.settings import SettingsForm, DisplaySettingsForm
 
 settings_form = SettingsForm(
-    action=url_for(controller='/notificationadmin', action='save'))
+    action=url_for(controller='/admin/notification', action='save'))
 
 
-class NotificationadminController(BaseController):
+class NotificationController(BaseController):
     allow_only = has_permission('admin')
 
     @expose('mediacore.templates.admin.settings.notifications.edit')

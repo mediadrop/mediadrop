@@ -73,59 +73,59 @@ def make_map():
     ################
 
     map.connect('/admin/media_table/{table}/{page}',
-        controller='admin',
+        controller='admin/admin',
         action='media_table')
 
     map.connect('/admin/media',
-        controller='mediaadmin',
+        controller='admin/media',
         action='index')
     map.connect('/admin/media/{id}/{action}',
-        controller='mediaadmin',
+        controller='admin/media',
         action='edit')
 
     map.connect('/admin/podcasts',
-        controller='podcastadmin',
+        controller='admin/podcast',
         action='index')
     map.connect('/admin/podcasts/{id}/{action}',
-        controller='podcastadmin',
+        controller='admin/podcast',
         action='edit')
 
     map.connect('/admin/comments',
-        controller='commentadmin',
+        controller='admin/comment',
         action='index')
     map.connect('/admin/comments/{id}/{status}',
-        controller='commentadmin',
+        controller='admin/comment',
         action='save_status',
         requirements={'status': 'approve|trash'})
 
     map.connect('/admin/settings',
-        controller='categoryadmin',
+        controller='admin/category',
         action='index')
 
     map.connect('/admin/settings/notifications/{action}',
-        controller='notificationadmin')
+        controller='admin/notification')
 
     map.connect('/admin/settings/display/{action}',
-        controller='displayadmin')
+        controller='admin/display')
 
     map.connect('/admin/settings/users',
-        controller='useradmin',
+        controller='admin/user',
         action='index')
     map.connect('/admin/settings/users/{id}/{action}',
-        controller='useradmin',
+        controller='admin/user',
         action='edit')
 
     map.connect('/admin/settings/tags',
-        controller='tagadmin',
+        controller='admin/tag',
         action='index')
     map.connect('/admin/settings/tags/{id}/{action}',
-        controller='tagadmin',
+        controller='admin/tag',
         action='edit')
     map.connect('/admin/settings/categories',
-        controller='categoryadmin',
+        controller='admin/category',
         action='index')
     map.connect('/admin/settings/categories/{id}/{action}',
-        controller='categoryadmin',
+        controller='admin/category',
         action='edit')
 
     ##############

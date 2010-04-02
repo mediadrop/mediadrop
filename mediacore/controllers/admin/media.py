@@ -48,10 +48,10 @@ add_file_form = AddFileForm()
 edit_file_form = EditFileForm()
 thumb_form = ThumbForm()
 update_status_form = UpdateStatusForm()
-search_form = SearchForm(action=url_for(controller='/mediaadmin', action='index'))
-podcast_filter_form = PodcastFilterForm(action=url_for(controller='/mediaadmin', action='index'))
+search_form = SearchForm(action=url_for(controller='/admin/media', action='index'))
+podcast_filter_form = PodcastFilterForm(action=url_for(controller='/admin/media', action='index'))
 
-class MediaadminController(BaseController):
+class MediaController(BaseController):
     allow_only = has_permission('admin')
 
     @expose_xhr('mediacore.templates.admin.media.index',
@@ -222,7 +222,7 @@ class MediaadminController(BaseController):
         media.slug = get_available_slug(Media, slug, media)
         media.title = title
         media.author = Author(author_name, author_email)
-        media.description = helpers.clean_admin_xhtml(description)
+        media.description = helpers.admin/clean__xhtml(description)
         media.notes = notes
         media.duration = details['duration'] # validator converts hh:mm:ss to secs
         media.podcast_id = podcast
