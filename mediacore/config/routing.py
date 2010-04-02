@@ -27,12 +27,13 @@ def make_map():
 
     # Media list and non-specific actions
     # These are all mapped without any prefix to indicate the controller
-    map.connect('/{action}',
-        controller='media',
-        action='index',
-        requirements={'action': ('explore|index')})
+    map.connect('/', controller='media', action='explore')
+    map.connect('/media', controller='media', action='index')
 
-    # Podcast list actions
+    # TODO: Refactor into media/index
+    map.connect('/search', controller='media', action='search')
+
+    # Podcasts
     map.connect('/podcasts/feed/{slug}.xml',
         controller='podcasts',
         action='feed')
@@ -40,21 +41,16 @@ def make_map():
         controller='podcasts',
         action='view')
 
-    # Category list actions
-    map.connect('/tags/{slug}',
-        controller='media',
-        action='tags',
-        slug=None)
+    # Categories
     map.connect('/categories/{slug}',
         controller='categories',
         action='index',
         slug=None)
 
-    # Individual media and actions their related actions
-    map.connect('/view/{slug}/{action}',
+    # Media
+    map.connect('/media/{slug}/{action}',
         controller='media',
-        action='view',
-        requirements={'action': 'view|rate|comment'})
+        action='view')
     map.connect('/files/{id}-{slug}.{type}',
         controller='media',
         action='serve',
@@ -63,7 +59,7 @@ def make_map():
         controller='upload',
         action='index')
 
-    # Individual podcast media actions
+    # Podcast Episodes
     map.connect('/podcasts/{podcast_slug}/{slug}/{action}',
         controller='media',
         action='view',
