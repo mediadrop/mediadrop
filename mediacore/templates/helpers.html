@@ -139,7 +139,7 @@
 			<li py:for="media in episodes">
 				<a href="${h.url_for(controller='/media', action='view', slug=media.slug, podcast_slug=media.podcast.slug)}" class="grid2-link underline-hover">
 					<span class="grid2-thumb-wrap">
-						<img src="${h.thumb_url(media, 'ss')}" width="128" height="72" alt="${h.decode_entities(media.title)}" class="grid-thumb" />
+						<img src="${h.thumb_url(media, 's')}" width="128" height="72" alt="${h.decode_entities(media.title)}" class="grid-thumb" />
 						<py:if test="media.duration">
 							<span class="grid-duration" py:content="h.duration_from_seconds(media.duration)">Duration</span>
 							<span class="grid-duration-right" />
