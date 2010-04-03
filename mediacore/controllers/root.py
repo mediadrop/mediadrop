@@ -39,7 +39,7 @@ class RootController(TGController):
         )
 
     @expose()
-    def post_login(self, came_from=url_for(controller='/admin')):
+    def post_login(self, came_from=url_for(controller='/admin/index')):
         if not request.identity:
             login_counter = request.environ['repoze.who.logins'] + 1
             redirect(came_from)

@@ -72,7 +72,7 @@ def make_map():
     # Admin routes #
     ################
 
-    admin_paths = "|".join([
+    admin_paths = '|'.join([
         'admin/admin',
         'admin/categories',
         'admin/comments',
@@ -91,20 +91,14 @@ def make_map():
         action='media_table')
 
     map.connect('{controller}',
-        requirements = { 'controller': admin_paths }
-    )
+        requirements={'controller': admin_paths})
 
     map.connect('{controller}/{id}/{action}',
-        requirements = {
-            'controller': admin_paths,
-            'id': r'\d+'
-        },
         action='edit',
-    )
+        requirements={'controller': admin_paths, 'id': r'\d+'})
 
     map.connect('{controller}/{action}',
-        requirements = {'controller': admin_paths}
-    )
+        requirements={'controller': admin_paths})
 
     # TODO: Change how the save_status method works, so that it's two separate methods, and works with the above routes.
     map.connect('/admin/comments/{id}/{status}',

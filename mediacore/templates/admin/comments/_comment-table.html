@@ -54,7 +54,7 @@
 					   href="${h.url_for(controller='/%s' % comment.type, action='view', slug=comment.parent.slug)}"
 					   title="${comment.type.capitalize()}">Parent Item</a><br />
 					<a target="_blank"
-					   href="${h.url_for(controller='/%sadmin' % comment.type, action='edit', id=comment.parent.id)}"
+					   href="${h.url_for(controller='/admin/%s' % comment.type, action='edit', id=comment.parent.id)}"
 					   title="Go to the admin page for this item"><small>edit</small></a>
 				</td>
 			</tr>

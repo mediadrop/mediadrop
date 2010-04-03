@@ -69,7 +69,7 @@ def send_media_notification(media_obj):
         # media notification emails are disabled!
         return
 
-    edit_url = url_for(controller='mediaadmin', action='edit',
+    edit_url = url_for(controller='/admin/media', action='edit',
                        id=media_obj.id, qualified=True),
 
     clean_description = strip_xhtml(
@@ -104,7 +104,7 @@ Post: %s
 
 Body: %s
 """ % (comment.author.name,
-    url_for(controller='media', action='view', slug=media.slug, qualified=True),
+    url_for(controller='/media', action='view', slug=media.slug, qualified=True),
     strip_xhtml(line_break_xhtml(line_break_xhtml(comment.body))))
 
     send(send_to, fetch_setting('email_send_from'), subject, body)
