@@ -19,7 +19,7 @@ from tw.forms.validators import NotEmpty
 from mediacore.forms import Form, ListForm, SubmitButton
 
 class TagForm(ListForm):
-    template = 'mediacore.templates.admin.settings.tags.form'
+    template = 'mediacore.templates.admin.tags.form'
     id = None
     css_classes = ['form', 'tag-form']
     submit_text = None
@@ -34,7 +34,7 @@ class TagForm(ListForm):
     ]
 
 class TagRowForm(Form):
-    template = 'mediacore.templates.admin.settings.tags.row-form'
+    template = 'mediacore.templates.admin.tags.row-form'
     id = None
     submit_text = None
     params = ['tag']

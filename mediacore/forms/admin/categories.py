@@ -26,7 +26,7 @@ def option_tree(cats):
         [(c.id, indent * depth + c.name) for c, depth in cats.traverse()]
 
 class CategoryForm(ListForm):
-    template = 'mediacore.templates.admin.settings.categories.form'
+    template = 'mediacore.templates.admin.categories.form'
     id = None
     css_classes = ['category-form', 'form']
     submit_text = None
@@ -43,10 +43,10 @@ class CategoryForm(ListForm):
 
 class CategoryCheckBoxList(CheckBoxList):
     params = ['category_tree']
-    template = 'mediacore.templates.admin.settings.categories.selection_list'
+    template = 'mediacore.templates.admin.categories.selection_list'
 
 class CategoryRowForm(Form):
-    template = 'mediacore.templates.admin.settings.categories.row-form'
+    template = 'mediacore.templates.admin.categories.row-form'
     id = None
     submit_text = None
     params = ['category', 'depth', 'first_child']

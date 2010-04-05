@@ -31,7 +31,7 @@ class UsersController(BaseController):
     """Admin user actions"""
     allow_only = has_permission('admin')
 
-    @expose_xhr('mediacore.templates.admin.settings.users.index')
+    @expose_xhr('mediacore.templates.admin.users.index')
     @paginate('users', items_per_page=50)
     def index(self, page=1, **kwargs):
         """List users with pagination.
@@ -50,7 +50,7 @@ class UsersController(BaseController):
         return dict(users=users)
 
 
-    @expose('mediacore.templates.admin.settings.users.edit')
+    @expose('mediacore.templates.admin.users.edit')
     def edit(self, id, **kwargs):
         """Display the :class:`~mediacore.forms.admin.users.UserForm` for editing or adding.
 

@@ -22,7 +22,7 @@ from mediacore.lib.base import (BaseController, url_for, redirect,
 from mediacore.lib import helpers
 from mediacore.model import (DBSession, fetch_row, get_available_slug,
     Category)
-from mediacore.forms.admin.settings.categories import CategoryForm, CategoryRowForm
+from mediacore.forms.admin.categories import CategoryForm, CategoryRowForm
 
 
 category_form = CategoryForm()
@@ -31,7 +31,7 @@ category_row_form = CategoryRowForm()
 class CategoriesController(BaseController):
     allow_only = has_permission('admin')
 
-    @expose('mediacore.templates.admin.settings.categories.index')
+    @expose('mediacore.templates.admin.categories.index')
     def index(self, **kwargs):
         """List categories.
 
@@ -55,7 +55,7 @@ class CategoriesController(BaseController):
             category_row_form = category_row_form,
         )
 
-    @expose('mediacore.templates.admin.settings.categories.edit')
+    @expose('mediacore.templates.admin.categories.edit')
     def edit(self, id, **kwargs):
         """Edit a single category.
 

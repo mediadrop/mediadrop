@@ -22,7 +22,7 @@ from mediacore.lib.base import (BaseController, url_for, redirect,
 from mediacore.lib import helpers
 from mediacore.model import (DBSession, fetch_row, get_available_slug,
     Tag)
-from mediacore.forms.admin.settings.tags import TagForm, TagRowForm
+from mediacore.forms.admin.tags import TagForm, TagRowForm
 
 
 tag_form = TagForm()
@@ -31,7 +31,7 @@ tag_row_form = TagRowForm()
 class TagsController(BaseController):
     allow_only = has_permission('admin')
 
-    @expose('mediacore.templates.admin.settings.tags.index')
+    @expose('mediacore.templates.admin.tags.index')
     @paginate('tags', items_per_page=25)
     def index(self, page=1, **kwargs):
         """List tags with pagination.
@@ -57,7 +57,7 @@ class TagsController(BaseController):
             tag_row_form = tag_row_form,
         )
 
-    @expose('mediacore.templates.admin.settings.tags.edit')
+    @expose('mediacore.templates.admin.tags.edit')
     def edit(self, id, **kwargs):
         """Edit a single tag.
 
