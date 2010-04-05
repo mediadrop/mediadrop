@@ -23,7 +23,7 @@ from mediacore.lib import helpers
 from mediacore.forms import Form, ListForm, ListFieldSet, TextField, XHTMLTextArea, FileField, SingleSelectField, TextArea, SubmitButton, HiddenField, email_validator
 from mediacore.forms.admin.categories import CategoryCheckBoxList
 from mediacore.model import DBSession, Podcast, Category
-from mediacore.forms.admin.settings.settings import players
+from mediacore.forms.admin.settings import players
 
 player_opts = [(None, 'Use global player defined in the settings panel.')] + players
 
