@@ -72,39 +72,59 @@ def make_map():
     # Admin routes #
     ################
 
-    admin_paths = '|'.join([
-        'admin/admin',
-        'admin/categories',
-        'admin/comments',
-        'admin/display',
-        'admin/media',
-        'admin/notifications',
-        'admin/podcasts',
-        'admin/tags',
-        'admin/users',
-    ])
+    map.connect('/admin',
+        controller='admin/index',
+        action='index')
 
-    map.connect('/admin', controller='admin/index', action='index')
+    map.redirect('/admin/settings', '/admin/settings/categories',
+        _redirect_code='301 Moved Permanently')
 
-    map.connect('/admin/media_table/{table}/{page}',
-        controller='admin/admin',
-        action='media_table')
-
-    map.connect('{controller}',
-        requirements={'controller': admin_paths})
-
-    map.connect('{controller}/{id}/{action}',
+    map.connect('/admin/settings/categories',
+        controller='admin/categories',
+        action='index')
+    map.connect('/admin/settings/categories/{id}/{action}',
+        controller='admin/categories',
         action='edit',
-        requirements={'controller': admin_paths, 'id': r'\d+'})
+        requirements={'id': r'(\d+|new)'})
 
-    map.connect('{controller}/{action}',
-        requirements={'controller': admin_paths})
+    map.connect('/admin/settings/tags',
+        controller='admin/tags',
+        action='index')
+    map.connect('/admin/settings/tags/{id}/{action}',
+        controller='admin/tags',
+        action='edit',
+        requirements={'id': r'(\d+|new)'})
 
-    # TODO: Change how the save_status method works, so that it's two separate methods, and works with the above routes.
+    map.connect('/admin/settings/users',
+        controller='admin/users',
+        action='index')
+    map.connect('/admin/settings/users/{id}/{action}',
+        controller='admin/users',
+        action='edit',
+        requirements={'id': r'(\d+|new)'})
+
     map.connect('/admin/comments/{id}/{status}',
         controller='admin/comments',
         action='save_status',
         requirements={'status': 'approve|trash'})
+
+
+    simple_admin_paths = '|'.join([
+        'admin/index',
+        'admin/comments',
+        'admin/media',
+        'admin/podcasts',
+    ])
+
+    map.connect('{controller}',
+        requirements={'controller': simple_admin_paths})
+
+    map.connect('{controller}/{id}/{action}',
+        action='edit',
+        requirements={'controller': simple_admin_paths, 'id': r'(\d+|new)'})
+
+    map.connect('{controller}/{action}',
+        requirements={'controller': simple_admin_paths})
 
     ##############
     # API routes #
