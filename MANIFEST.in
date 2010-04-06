@@ -5,6 +5,7 @@ include mediacore/config/deployment.ini_tmpl
 include data/media/.htaccess
 include doc/Makefile
 include doc/python.inv
+recursive-include deployment-scripts *
 recursive-include doc *.py
 recursive-include doc *.rst
 recursive-exclude doc/build *
