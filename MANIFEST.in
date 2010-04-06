@@ -13,3 +13,8 @@ recursive-include mediacore/templates *
 recursive-include mediacore/i18n *
 recursive-include wsgi-scripts *
 recursive-exclude * *.pyc
+recursive-exclude * .DS_Store
+recursive-exclude mediacore/public/images/media *.*
+include mediacore/public/images/media/.gitignore
+recursive-exclude mediacore/public/images/podcasts *.*
+include mediacore/public/images/podcasts/.gitignore
