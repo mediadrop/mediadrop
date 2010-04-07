@@ -22,13 +22,13 @@ from mediacore.lib.base import (BaseController, url_for, redirect,
 from mediacore.lib import helpers
 from mediacore.model import (DBSession, fetch_row, get_available_slug,
     Tag)
-from mediacore.forms.tags import TagForm, TagRowForm
+from mediacore.forms.admin.tags import TagForm, TagRowForm
 
 
 tag_form = TagForm()
 tag_row_form = TagRowForm()
 
-class TagadminController(BaseController):
+class TagsController(BaseController):
     allow_only = has_permission('admin')
 
     @expose('mediacore.templates.admin.tags.index')
@@ -44,7 +44,7 @@ class TagadminController(BaseController):
                 The list of :class:`~mediacore.model.tags.Tag`
                 instances for this page.
             tag_form
-                The :class:`~mediacore.forms.tags.TagForm` instance.
+                The :class:`~mediacore.forms.admin.settings.tags.TagForm` instance.
 
         """
         tags = DBSession.query(Tag)\
@@ -68,7 +68,7 @@ class TagadminController(BaseController):
                 The list of :class:`~mediacore.model.tags.Tag`
                 instances for this page.
             tag_form
-                The :class:`~mediacore.forms.tags.TagForm` instance.
+                The :class:`~mediacore.forms.admin.settings.tags.TagForm` instance.
 
         """
         tag = fetch_row(Tag, id)
@@ -83,7 +83,7 @@ class TagadminController(BaseController):
     def save(self, id, delete=False, **kwargs):
         """Save changes or create a tag.
 
-        See :class:`~mediacore.forms.tags.TagForm` for POST vars.
+        See :class:`~mediacore.forms.admin.settings.tags.TagForm` for POST vars.
 
         :param id: Tag ID
         :rtype: JSON dict

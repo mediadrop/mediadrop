@@ -43,14 +43,14 @@
 <body py:match="body" py:attrs="select('@*')">
 	<div id="container">
 		<div id="header">
-			<h2 id="logo"><a href="${h.url_for(controller='/admin', action='index')}">MediaCore</a></h2>
+			<h2 id="logo"><a href="${h.url_for(controller='/admin/index')}">MediaCore</a></h2>
 			<a id="logout" href="${h.url_for('/logout_handler')}">Logout</a>
 			<ul id="menu">
-				<li id="menu-dashboard"><a href="${h.url_for(controller='/admin')}"><span>Dashboard</span></a></li>
-				<li id="menu-media"><a href="${h.url_for(controller='/mediaadmin')}"><span>Media</span></a></li>
-				<li id="menu-podcasts"><a href="${h.url_for(controller='/podcastadmin')}"><span>Podcasts</span></a></li>
-				<li id="menu-comments"><a href="${h.url_for(controller='/commentadmin')}"><span>Comments</span></a></li>
-				<li id="menu-settings"><a href="${h.url_for(controller='/settingadmin')}"><span>Settings</span></a></li>
+				<li id="menu-dashboard"><a href="${h.url_for(controller='/admin/index')}"><span>Dashboard</span></a></li>
+				<li id="menu-media"><a href="${h.url_for(controller='/admin/media')}"><span>Media</span></a></li>
+				<li id="menu-podcasts"><a href="${h.url_for(controller='/admin/podcasts')}"><span>Podcasts</span></a></li>
+				<li id="menu-comments"><a href="${h.url_for(controller='/admin/comments')}"><span>Comments</span></a></li>
+				<li id="menu-settings"><a href="${h.url_for(controller='/admin/settings')}"><span>Settings</span></a></li>
 			</ul>
 		</div>
 		<div id="body" py:content="select('*|text()')" />

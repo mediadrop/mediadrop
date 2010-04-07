@@ -24,7 +24,7 @@ from mediacore.lib.base import (BaseController, url_for, redirect,
 from mediacore.model import (DBSession, fetch_row, get_available_slug,
     Media, MediaFile, Comment, Tag, Category, Author, AuthorWithIP, Podcast)
 from mediacore.lib import helpers, email
-from mediacore.forms.media import UploadForm
+from mediacore.forms.uploader import UploadForm
 
 upload_form = UploadForm(
     action = url_for(controller='/upload', action='submit'),

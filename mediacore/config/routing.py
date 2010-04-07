@@ -74,59 +74,59 @@ def make_map():
     # Admin routes #
     ################
 
-    map.connect('/admin/media_table/{table}/{page}',
-        controller='admin',
-        action='media_table')
-
-    map.connect('/admin/media',
-        controller='mediaadmin',
+    map.connect('/admin',
+        controller='admin/index',
         action='index')
-    map.connect('/admin/media/{id}/{action}',
-        controller='mediaadmin',
-        action='edit')
 
-    map.connect('/admin/podcasts',
-        controller='podcastadmin',
-        action='index')
-    map.connect('/admin/podcasts/{id}/{action}',
-        controller='podcastadmin',
-        action='edit')
+    map.redirect('/admin/settings', '/admin/settings/categories',
+        _redirect_code='301 Moved Permanently')
 
-    map.connect('/admin/comments',
-        controller='commentadmin',
+    map.connect('/admin/settings/categories',
+        controller='admin/categories',
         action='index')
+    map.connect('/admin/settings/categories/{id}/{action}',
+        controller='admin/categories',
+        action='edit',
+        requirements={'id': r'(\d+|new)'})
+
+    map.connect('/admin/settings/tags',
+        controller='admin/tags',
+        action='index')
+    map.connect('/admin/settings/tags/{id}/{action}',
+        controller='admin/tags',
+        action='edit',
+        requirements={'id': r'(\d+|new)'})
+
+    map.connect('/admin/settings/users',
+        controller='admin/users',
+        action='index')
+    map.connect('/admin/settings/users/{id}/{action}',
+        controller='admin/users',
+        action='edit',
+        requirements={'id': r'(\d+|new)'})
+
     map.connect('/admin/comments/{id}/{status}',
-        controller='commentadmin',
+        controller='admin/comments',
         action='save_status',
         requirements={'status': 'approve|trash'})
 
-    map.connect('/admin/settings',
-        controller='settingadmin',
-        action='index')
 
-    map.connect('/admin/settings/config/{action}',
-        controller='settingadmin',
-        action='edit')
+    simple_admin_paths = '|'.join([
+        'admin/index',
+        'admin/comments',
+        'admin/media',
+        'admin/podcasts',
+    ])
 
-    map.connect('/admin/settings/users',
-        controller='useradmin',
-        action='index')
-    map.connect('/admin/settings/users/{id}/{action}',
-        controller='useradmin',
-        action='edit')
+    map.connect('{controller}',
+        requirements={'controller': simple_admin_paths})
 
-    map.connect('/admin/settings/tags',
-        controller='tagadmin',
-        action='index')
-    map.connect('/admin/settings/tags/{id}/{action}',
-        controller='tagadmin',
-        action='edit')
-    map.connect('/admin/settings/categories',
-        controller='categoryadmin',
-        action='index')
-    map.connect('/admin/settings/categories/{id}/{action}',
-        controller='categoryadmin',
-        action='edit')
+    map.connect('{controller}/{id}/{action}',
+        action='edit',
+        requirements={'controller': simple_admin_paths, 'id': r'(\d+|new)'})
+
+    map.connect('{controller}/{action}',
+        requirements={'controller': simple_admin_paths})
 
     ##############
     # API routes #

@@ -13,11 +13,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from tw.forms import TextField, CheckBoxList, HiddenField, CalendarDatePicker, SingleSelectField, TextArea
-from tw.forms.validators import Int, NotEmpty, DateConverter, DateValidator
-from tw.api import WidgetsList
+from tw.forms import TextField, CheckBoxList, HiddenField, SingleSelectField
+from tw.forms.validators import NotEmpty
 
-from mediacore.model import DBSession
 from mediacore.model.categories import Category
 from mediacore.lib import helpers
 from mediacore.forms import Form, ListForm, SubmitButton

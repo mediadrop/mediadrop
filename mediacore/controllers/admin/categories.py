@@ -22,13 +22,13 @@ from mediacore.lib.base import (BaseController, url_for, redirect,
 from mediacore.lib import helpers
 from mediacore.model import (DBSession, fetch_row, get_available_slug,
     Category)
-from mediacore.forms.categories import CategoryForm, CategoryRowForm
+from mediacore.forms.admin.categories import CategoryForm, CategoryRowForm
 
 
 category_form = CategoryForm()
 category_row_form = CategoryRowForm()
 
-class CategoryadminController(BaseController):
+class CategoriesController(BaseController):
     allow_only = has_permission('admin')
 
     @expose('mediacore.templates.admin.categories.index')
@@ -41,7 +41,7 @@ class CategoryadminController(BaseController):
                 The list of :class:`~mediacore.model.categories.Category`
                 instances for this page.
             category_form
-                The :class:`~mediacore.forms.categories.CategoryForm` instance.
+                The :class:`~mediacore.forms.admin.settings.categories.CategoryForm` instance.
 
         """
         categories = Category.query\
@@ -66,7 +66,7 @@ class CategoryadminController(BaseController):
                 The list of :class:`~mediacore.model.categories.Category`
                 instances for this page.
             category_form
-                The :class:`~mediacore.forms.categories.CategoryForm` instance.
+                The :class:`~mediacore.forms.admin.settings.categories.CategoryForm` instance.
 
         """
         category = fetch_row(Category, id)
@@ -82,7 +82,7 @@ class CategoryadminController(BaseController):
     def save(self, id, delete=None, **kwargs):
         """Save changes or create a category.
 
-        See :class:`~mediacore.forms.categories.CategoryForm` for POST vars.
+        See :class:`~mediacore.forms.admin.settings.categories.CategoryForm` for POST vars.
 
         :param id: Category ID
         :param delete: If true the category is to be deleted rather than saved.

@@ -28,19 +28,19 @@
 		window.addEvent('domready', function(){
 			var reviewMore = new ShowMore({
 				table: 'review-table',
-				fetchUrl: '${h.url_for(controller='/admin', action='media_table', table='awaiting_review')}',
+				fetchUrl: '${h.url_for(controller='/admin/index', action='media_table', table='awaiting_review')}',
 				pageNum: ${review_page.page},
 				lastPage: ${review_page.last_page or 1}
 			});
 			var encodeMore = new ShowMore({
 				table: 'encode-table',
-				fetchUrl: '${h.url_for(controller='/admin', action='media_table', table='awaiting_encoding')}',
+				fetchUrl: '${h.url_for(controller='/admin/index', action='media_table', table='awaiting_encoding')}',
 				pageNum: ${encode_page.page},
 				lastPage: ${encode_page.last_page or 1}
 			});
 			var publishMore = new ShowMore({
 				table: 'publish-table',
-				fetchUrl: '${h.url_for(controller='/admin', action='media_table', table='awaiting_publishing')}',
+				fetchUrl: '${h.url_for(controller='/admin/index', action='media_table', table='awaiting_publishing')}',
 				pageNum: ${publish_page.page},
 				lastPage: ${publish_page.last_page or 1}
 			});
@@ -67,7 +67,7 @@
 
 	</div>
 	<div class="column33">
-		<div class="box" py:replace="comment_stats_box(h.url_for(controller='/commentadmin'), query=comments)" />
+		<div class="box" py:replace="comment_stats_box(h.url_for(controller='/admin/comments'), query=comments)" />
 
 		<div class="box">
 			<h1 class="box-head">Recently Published</h1>

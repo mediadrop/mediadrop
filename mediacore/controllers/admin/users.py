@@ -22,12 +22,12 @@ from mediacore.lib.base import (BaseController, url_for, redirect,
 from mediacore.lib import helpers
 from mediacore.model import (DBSession, fetch_row, get_available_slug,
     User, Group)
-from mediacore.forms.users import UserForm
+from mediacore.forms.admin.users import UserForm
 
 
 user_form = UserForm()
 
-class UseradminController(BaseController):
+class UsersController(BaseController):
     """Admin user actions"""
     allow_only = has_permission('admin')
 
@@ -52,7 +52,7 @@ class UseradminController(BaseController):
 
     @expose('mediacore.templates.admin.users.edit')
     def edit(self, id, **kwargs):
-        """Display the :class:`~mediacore.forms.users.UserForm` for editing or adding.
+        """Display the :class:`~mediacore.forms.admin.users.UserForm` for editing or adding.
 
         :param id: User ID
         :type id: ``int`` or ``"new"``
@@ -61,7 +61,7 @@ class UseradminController(BaseController):
             user
                 The :class:`~mediacore.model.auth.User` instance we're editing.
             user_form
-                The :class:`~mediacore.forms.users.UserForm` instance.
+                The :class:`~mediacore.forms.admin.users.UserForm` instance.
             user_action
                 ``str`` form submit url
             user_values

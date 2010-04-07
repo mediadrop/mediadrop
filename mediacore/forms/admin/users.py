@@ -16,7 +16,7 @@
 from tw.forms.validators import Invalid, NotEmpty, Schema, FancyValidator, All, PlainText, FieldsMatch
 from tg import request
 
-from mediacore.forms import Form, ListForm, ListFieldSet, TextField, XHTMLTextArea, FileField, CalendarDatePicker, SingleSelectField, TextArea, SubmitButton, Button, HiddenField, CheckBoxList, PasswordField, email_validator
+from mediacore.forms import ListForm, ListFieldSet, TextField, SingleSelectField, SubmitButton, PasswordField, email_validator
 
 from mediacore.model import DBSession
 from mediacore.model.auth import Group, User

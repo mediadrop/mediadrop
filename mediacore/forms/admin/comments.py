@@ -13,21 +13,20 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from tw.forms import TextField, TextArea
+from tw.forms import TextArea, ResetButton
 from tw.forms.validators import NotEmpty
 from tw.api import WidgetsList
 
 from mediacore.forms import ListForm, SubmitButton
 
 
-class PostCommentForm(ListForm):
-    template = 'mediacore.templates.comments.post'
-    id = 'post-comment-form'
-    css_class = 'form'
+class EditCommentForm(ListForm):
+    template = 'mediacore.templates.admin.comments.edit'
+    id = None
+    css_class = 'edit-comment-form'
 
     class fields(WidgetsList):
-        name = TextField(validator=NotEmpty)
         body = TextArea(validator=NotEmpty, label_text='Comment', attrs=dict(rows=5, cols=25))
-        submit = SubmitButton(default='Post Comment', css_class='btn btn-post-comment')
-
+        submit = SubmitButton(default='Save', css_classes=['btn', 'btn-save', 'f-rgt'])
+        cancel = ResetButton(default='Cancel', css_classes=['btn', 'btn-cancel'])
 

@@ -24,7 +24,7 @@ from mediacore.lib.base import (BaseController, url_for, redirect,
 from mediacore.model import DBSession, fetch_row, Media, Comment
 
 
-class AdminController(BaseController):
+class IndexController(BaseController):
     """Admin dashboard actions"""
     allow_only = has_permission('admin')
 

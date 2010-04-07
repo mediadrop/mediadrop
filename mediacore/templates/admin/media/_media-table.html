@@ -49,14 +49,14 @@
 					</td>
 					<td py:when="'created_on'">${media.created_on.strftime('%b %d %Y')}</td>
 					<td py:when="'status'" py:choose="">
-						<a class="btn review-me" py:when="not media.reviewed" href="${h.url_for(controller='/mediaadmin', action='edit', id=media.id)}"><span>review me</span></a>
-						<a class="btn encode-me" py:when="not media.encoded" href="${h.url_for(controller='/mediaadmin', action='edit', id=media.id)}"><span>encode me</span></a>
-						<a class="btn publish-me" py:when="not media.publishable" href="${h.url_for(controller='/mediaadmin', action='edit', id=media.id)}"><span>publish me</span></a>
+						<a class="btn review-me" py:when="not media.reviewed" href="${h.url_for(controller='/admin/media', action='edit', id=media.id)}"><span>review me</span></a>
+						<a class="btn encode-me" py:when="not media.encoded" href="${h.url_for(controller='/admin/media', action='edit', id=media.id)}"><span>encode me</span></a>
+						<a class="btn publish-me" py:when="not media.publishable" href="${h.url_for(controller='/admin/media', action='edit', id=media.id)}"><span>publish me</span></a>
 						<a class="btn published" py:otherwise="" href="${h.url_for(controller='/media', action='view', slug=media.slug)}"><span>published</span></a>
 					</td>
-					<td py:when="'title'"><a href="${h.url_for(controller='/mediaadmin', action='edit', id=media.id)}">${Markup(media.title)}</a></td>
+					<td py:when="'title'"><a href="${h.url_for(controller='/admin/media', action='edit', id=media.id)}">${Markup(media.title)}</a></td>
 					<td py:when="'comment_count'" class="center">
-						<a href="${h.url_for(controller='/commentadmin', media_filter=media.id)}">${media.comment_count_published}</a>
+						<a href="${h.url_for(controller='/admin/comments', media_filter=media.id)}">${media.comment_count_published}</a>
 					</td>
 					<td py:when="'tags'" py:content="', '.join((tag.name for tag in media.tags)) if len(media.tags) else 'None'" />
 					<td py:when="'author'">

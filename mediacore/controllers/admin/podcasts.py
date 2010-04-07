@@ -30,13 +30,13 @@ from mediacore.model import (DBSession, fetch_row, get_available_slug,
     Podcast, Author, AuthorWithIP)
 from mediacore.model.podcasts import create_podcast_stub
 from mediacore.forms.admin import SearchForm, ThumbForm
-from mediacore.forms.podcasts import PodcastForm
+from mediacore.forms.admin.podcasts import PodcastForm
 
 
 podcast_form = PodcastForm()
 thumb_form = ThumbForm()
 
-class PodcastadminController(BaseController):
+class PodcastsController(BaseController):
     allow_only = has_permission('admin')
 
     @expose_xhr('mediacore.templates.admin.podcasts.index',
@@ -73,7 +73,7 @@ class PodcastadminController(BaseController):
             podcast
                 :class:`~mediacore.model.podcasts.Podcast` instance
             form
-                :class:`~mediacore.forms.podcasts.PodcastForm` instance
+                :class:`~mediacore.forms.admin.podcasts.PodcastForm` instance
             form_action
                 ``str`` form submit url
             form_values
@@ -131,7 +131,7 @@ class PodcastadminController(BaseController):
         """Save changes or create a new :class:`~mediacore.model.podcasts.Podcast` instance.
 
         Form handler the :meth:`edit` action and the
-        :class:`~mediacore.forms.podcasts.PodcastForm`.
+        :class:`~mediacore.forms.admin.podcasts.PodcastForm`.
 
         Redirects back to :meth:`edit` after successful editing
         and :meth:`index` after successful deletion.
@@ -148,7 +148,7 @@ class PodcastadminController(BaseController):
         podcast.title = title
         podcast.subtitle = subtitle
         podcast.author = Author(author_name, author_email)
-        podcast.description = helpers.clean_admin_xhtml(description)
+        podcast.description = helpers.admin/clean__xhtml(description)
         podcast.copyright = details['copyright']
         podcast.category = details['category']
         podcast.itunes_url = details['itunes_url']
