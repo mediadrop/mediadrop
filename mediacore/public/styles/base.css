@@ -78,11 +78,15 @@ a.underline-hover:active {
 	overflow: hidden;
 	display: block;
 }
-#mediacore-credits {
+#mediacore-footer {
 	margin: 10px auto 0 auto;
-	padding: 5px 0;
 	border-top: 1px solid #cdd2d5;
 	text-align: right;
+	overflow: hidden;
+}
+#mediacore-footer p {
+	float: left;
+	padding: 5px 0;
 }
 
 .mediacore-content {
@@ -463,7 +467,7 @@ a:hover .grid-title {
 	margin: -3px 0 5px 0;
 	font-size: 14px;
 }
-#library-controls strong,
+#library-controls #library-show,
 #library-controls ul,
 #library-controls li {
 	float: left;
@@ -479,44 +483,26 @@ a:hover .grid-title {
 
 /* Pagination */
 .pager {
-	margin: 10px 0;
+	font-size: 14px;
 	float: right;
-	font: 14px 'Trebuchet MS', sans-serif;
 }
-.pager-left,
-.pager-right {
-	display: block;
-	float: left;
-	width: 15px;
-	height: 35px;
-	background: url('../images/layout/pagination-left-trans.png') no-repeat;
-}
-.pager-right {
-	background-image: url('../images/layout/pagination-right-trans.png');
-}
-.pager-body {
-	display: block;
-	float: left;
-	background: #010101;
-	height: 27px;
-	padding: 4px 5px;
-}
-.pager-body * {
-	padding: 5px 4px;
+.pager-label,
+.pager-link,
+.pager-current,
+.pager-dotdot {
+	padding: 5px 3px;
 	float: left;
 	display: block;
 }
 .pager-label {
-	color: #a2a2a2;
+	color: #637084;
+	font-weight: bold;
 	padding-left: 0;
 }
-.pager-body .current {
-	color: #a2a2a2;
+#library-controls .pager,
+#mediacore-footer .pager {
+	margin-right: -3px;
 }
-.pager-body a:link, .pager-body a:visited {
-	color: #fff;
-	text-decoration: none;
-}
-.pager-body a:hover {
-	text-decoration: underline;
+#library-controls .pager {
+	margin-top: -5px;
 }

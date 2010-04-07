@@ -87,7 +87,7 @@
 		    py:with="episodes = first_page and episodes[1:] or episodes"
 		    py:replace="podcast_grid(episodes)"
 		/>
-		<div py:content="pagination(episodes_paginator)" style="clear:both" />
+		<div py:content="pager(episodes_paginator)" style="clear:both" />
 
 		<hr style="clear:both;margin-bottom:26px;height:0;border:0;" />
 

@@ -33,7 +33,9 @@
 
 	<div py:replace="select('*|text()')">Content is injected here</div>
 
-	<div id="mediacore-credits" class="mediacore-content clear">
+	<div id="mediacore-footer" class="mediacore-content clear">
+		<div py:if="c.paginators" py:replace="pager(c.paginators.values()[0])" />
+
 		<!--! If you remove this link, please consider adding another link somewhere on your site. -->
 		<p>powered by <a href="http://getmediacore.com/">MediaCore Video CMS</a></p>
 	</div>

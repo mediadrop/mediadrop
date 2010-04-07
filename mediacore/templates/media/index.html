@@ -23,21 +23,22 @@
 	<title>Media</title>
 </head>
 <body class="nav-media-on">
-	<div class="mediacore-content">
+	<div class="mediacore-content" py:with="media_pager = pager(paginator=c.paginators.media)">
 		<h3 class="uppercase" py:choose="">
 			<py:when test="search_query">Showing ${result_count} results for '${search_query}'</py:when>
 			<py:otherwise>All ${result_count} Media</py:otherwise>
 		</h3>
 		<div id="library-controls" class="clearfix">
-			<strong>Showing:</strong>
+			<span id="library-show">Show:</span>
 			<ul>
-				<li><a py:strip="show == 'latest'" href="${h.url_for(show='latest', q=search_query)}">Latest</a></li>
-				<li><a py:strip="show == 'popular'" href="${h.url_for(show='popular', q=search_query)}">Most Popular</a></li>
-				<li><a py:strip="show == 'featured'" href="${h.url_for(show='featured', q=search_query)}">Featured</a></li>
+				<li><a py:strip="show == 'latest'" href="${h.url_for(show='latest', q=search_query)}" class="underline-hover">Latest</a></li>
+				<li><a py:strip="show == 'popular'" href="${h.url_for(show='popular', q=search_query)}" class="underline-hover">Most Popular</a></li>
+				<li><a py:strip="show == 'featured'" href="${h.url_for(show='featured', q=search_query)}" class="underline-hover">Featured</a></li>
 			</ul>
+			<div py:replace="media_pager" />
 		</div>
 		<ul py:replace="media_grid(media, id='library', thumb_size='m', desc_len=135)" />
-		<div style="padding-top:10px;width:100%;overflow:hidden">${pagination(paginator=c.paginators.media)}</div>
+		<div py:replace="media_pager" />
 	</div>
 </body>
 </html>

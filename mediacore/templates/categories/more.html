@@ -27,7 +27,6 @@
 <body py:if="media" py:with="in_text = c.category and ('in ' + c.category.name) or ''">
 	<h2><span class="uppercase">${order == 'latest' and 'Latest' or 'Most Popular'}</span> ${in_text}</h2>
 	<ul py:replace="media_grid(media, thumb_size='s', desc_len=90)" />
-	${pagination(c.paginators.media)}
 </body>
 <body py:if="not media">There is no media in this category.</body>
 </html>

@@ -109,14 +109,18 @@
 		</ul>
 	</py:def>
 
-	<py:def function="pagination(paginator)">
+	<py:def function="pager(paginator, **kwargs)" py:with="options = dict(
+		show_if_single_page = True,
+		curpage_attr = {'class': 'pager-current'},
+		link_attr = {'class': 'pager-link underline-hover'},
+		dotdot_attr = {'class': 'pager-dotdot'},
+		format = '~2~ $link_next',
+		symbol_next = Markup('&lt;strong&gt;Next&lt;/strong&gt;'),
+	)">
+		<?python options.update(kwargs) ?>
 		<div class="pager">
-			<span class="pager-left" />
-			<span class="pager-body">
-				<span class="pager-label">Page:</span>
-				<span py:replace="paginator.pager(show_if_single_page=True, curpage_attr={'class': 'current'})" />
-			</span>
-			<span class="pager-right" />
+			<span class="pager-label">Page:</span>
+			<span py:replace="paginator.pager(**options)" />
 		</div>
 	</py:def>
 
