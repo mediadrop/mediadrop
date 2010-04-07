@@ -170,6 +170,9 @@ h1, h2, h3, h4, h5 {
 	padding-bottom: 10px;
 	margin-bottom: 11px;
 }
+h1 a.nocolor:link, h1 a.nocolor:visited, h2 a.nocolor:link, h2 a.nocolor:visited, h3 a.nocolor:link, h3 a.nocolor:visited, h4 a.nocolor:link, h4 a.nocolor:visited, h5 a.nocolor:link, h5 a.nocolor:visited {
+	color: #494949;
+}
 
 /* Buttons */
 .btn {
@@ -254,35 +257,18 @@ a.meta-likes:active strong {
 }
 .feat-box .feat-info {
 	float: right;
-	width: 313px;
+	width: 445px;
 	margin-bottom: 26px;
-}
-.feat-box .feat-info-with-btns {
-	margin-bottom: 67px;
 }
 .feat-box .feat-date {
 	margin: -5px 0 0 0;
 	font: bold 12px 'Trebuchet MS', sans-serif;
 }
-.feat-box .feat-inline-btns {
-	position: absolute;
-	bottom: 20px;
-	right: 15px;
-	width: 313px;
-	height: 24px;
-}
-.feat-box .feat-btns {
-	position: absolute;
-	bottom: 30px;
-	right: 15px;
-	width: 313px;
-	height: 24px;
-}
 .feat-box .feat-meta {
 	position: absolute;
 	bottom: 0;
 	right: 15px;
-	width: 313px;
+	width: 445px;
 	height: 19px;
 	line-height: 19px;
 }
@@ -301,10 +287,6 @@ a.meta-likes:active strong {
 .feat-box .meta-views {
 	color: #637084;
 	margin-right: 10px;
-}
-.feat-box h3 a:link,
-.feat-box h3 a:visited {
-	color: #494949;
 }
 
 /* Media grids */
@@ -402,6 +384,12 @@ a:hover .grid-title {
 	width: 263px;
 }
 
+.m-grid-column,
+.m-grid-column .m-grid {
+	width: 440px;
+	float: left;
+}
+
 /* Media details page */
 #media-player {
 	border: 1px solid #fff;
@@ -411,6 +399,10 @@ a:hover .grid-title {
 }
 #media-box .feat-info {
 	margin-bottom: 58px;
+}
+#media-box .feat-info,
+#media-box .feat-meta {
+	width: 313px;
 }
 
 .contextbox {

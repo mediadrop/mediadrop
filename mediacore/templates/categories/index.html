@@ -30,7 +30,7 @@
 		<div class="feat-top" />
 		<div class="feat-content clearfix">
 			<div class="feat-info">
-				<h3><a class="underline-hover" href="${h.url_for(controller='/media', action='view', slug=featured.slug)}">${Markup(featured.title)}</a></h3>
+				<h3><a class="underline-hover nocolor" href="${h.url_for(controller='/media', action='view', slug=featured.slug)}">${Markup(featured.title)}</a></h3>
 				<p py:replace="Markup(h.truncate_xhtml(featured.description, 300))" />
 			</div>
 			${media_player(featured, width=400, height=225)}
@@ -43,14 +43,14 @@
 		<div class="feat-bottom" />
 	</div>
 
-	<div id="category-latest" class="category-column">
-		<h2><a href="${h.url_for(action='more', order='latest')}" class="underline-hover" py:strip="not in_text"><span class="uppercase">Latest</span> ${in_text}</a></h2>
+	<div id="category-latest" class="s-grid-column">
+		<h2><a href="${h.url_for(action='more', order='latest')}" class="underline-hover nocolor" py:strip="not in_text"><span class="uppercase">Latest</span> ${in_text}</a></h2>
 		<ul py:replace="media_grid(latest, thumb_size='s', desc_len=90)" />
 		<a py:if="in_text" class="see-more underline-hover" href="${h.url_for(action='more', order='latest')}">more of the Latest...</a>
 	</div>
-	<div id="category-popular" class="category-column">
-		<h2><a href="${h.url_for(action='more', order='popular')}" class="underline-hover" py:strip="not in_text"><span class="uppercase">Most Popular</span> ${in_text}</a></h2>
-		<ul py:replace="media_grid(popular, thumb_size='s', desc_len=90)" />
+	<div id="category-popular" class="s-grid-column">
+		<h2><a href="${h.url_for(action='more', order='popular')}" class="underline-hover nocolor" py:strip="not in_text"><span class="uppercase">Most Popular</span> ${in_text}</a></h2>
+		<ul py:replace="media_grid(popular[1:], thumb_size='s', desc_len=90)" />
 		<a py:if="in_text" class="see-more underline-hover" href="${h.url_for(action='more', order='popular')}">more of the Most Popular...</a>
 	</div>
 </body>

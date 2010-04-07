@@ -33,18 +33,15 @@
 #category-content .feat-content {
 	width: 680px;
 }
-
-#category-content h2 a:link,
-#category-content h2 a:visited {
-	color: #494949;
+#category-content .feat-info,
+#category-content .feat-meta {
+	width: 313px;
 }
 
 #category-content .grid {
 	width: 720px;
 }
-#category-latest,
-#category-popular,
-#category-content .category-column .grid {
+#category-content .s-grid-column .grid {
 	width: 335px;
 	float: left;
 }
@@ -53,7 +50,7 @@
 }
 #category-content li {
 	width: 335px;
-	height: 110px;
+	height: 115px;
 }
 #category-content .grid-title,
 #category-content .grid-desc,

@@ -293,15 +293,20 @@ class MediaController(BaseController):
 
         :rtype: Dict
         :returns:
-            media
+            latest
+                Latest media
+            popular
                 Latest media
 
         """
-        media = Media.query\
-            .published()\
-            .order_by(Media.publish_on.desc())\
-            .filter(Media.podcast_id == None)
+        media = Media.query.published()\
+            .options(orm.undefer('comment_count_published'))
+
+        latest = media.order_by(Media.publish_on.desc())[:5]
+        popular = media.order_by(Media.popularity_points.desc())\
+            .filter(sql.not_(Media.id.in_([m.id for m in latest])))[:5]
 
         return dict(
-            media = media,
+            latest = latest,
+            popular = popular,
         )
