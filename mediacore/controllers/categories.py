@@ -13,7 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from tg import config, request, response, tmpl_context
+from tg import config, request, response, tmpl_context as c
 from sqlalchemy import orm, sql
 
 from mediacore.lib.base import (BaseController, url_for, redirect,
@@ -23,17 +23,25 @@ from mediacore.model import (DBSession, fetch_row,
 
 
 class CategoriesController(BaseController):
+    """
+    Categories Controller
+
+    Handles the display of the category hierarchy, displaying the media
+    associated with any given category and its descendants.
+
+    """
+
     def __init__(self, *args, **kwargs):
         super(CategoriesController, self).__init__(*args, **kwargs)
 
-        tmpl_context.categories = Category.query.order_by(Category.name)\
+        c.categories = Category.query.order_by(Category.name)\
             .populated_tree()
         category_slug = request.environ['pylons.routes_dict'].get('slug', None)
 
         if category_slug:
-            tmpl_context.category = fetch_row(Category, slug=category_slug)
-            tmpl_context.breadcrumb = tmpl_context.category.ancestors()
-            tmpl_context.breadcrumb.append(tmpl_context.category)
+            c.category = fetch_row(Category, slug=category_slug)
+            c.breadcrumb = c.category.ancestors()
+            c.breadcrumb.append(c.category)
 
     @expose('mediacore.templates.categories.index')
     def index(self, slug=None, **kwargs):
@@ -41,8 +49,8 @@ class CategoriesController(BaseController):
         media = Media.query.published()\
             .options(orm.undefer('comment_count_published'))
 
-        if tmpl_context.category:
-            media = media.in_category(tmpl_context.category)
+        if c.category:
+            media = media.in_category(c.category)
 
         latest = media.order_by(Media.publish_on.desc())[:5]
         popular = media.order_by(Media.popularity_points.desc())\
@@ -58,7 +66,7 @@ class CategoriesController(BaseController):
     def more(self, slug, order, page=1, **kwargs):
         media = Media.query.published()\
             .options(orm.undefer('comment_count_published'))\
-            .in_category(tmpl_context.category)
+            .in_category(c.category)
 
         if order == 'latest':
             media = media.order_by(Media.publish_on.desc())

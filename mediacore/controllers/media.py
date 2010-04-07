@@ -51,23 +51,9 @@ post_comment_form = PostCommentForm()
 
 
 class MediaController(BaseController):
-    """Media actions -- for both regular and podcast media"""
-
-    def __init__(self, *args, **kwargs):
-        """Populate the :obj:`pylons.tmpl_context` with categories.
-
-        Used by :data:`mediacore.templates.helpers` to render the
-        category index flyout slider.
-
-        """
-        super(MediaController, self).__init__(*args, **kwargs)
-        tmpl_context.nav_categories = DBSession.query(Category)\
-            .options(orm.undefer('media_count_published'))\
-            .having(sql.text('media_count_published >= 1'))\
-            .order_by(Category.name)\
-            .all()
-        tmpl_context.nav_search = url_for(controller='/media', action='search')
-
+    """
+    Media actions -- for both regular and podcast media
+    """
 
     @expose('mediacore.templates.media.index')
     @paginate('media', items_per_page=20)

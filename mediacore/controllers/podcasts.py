@@ -26,24 +26,13 @@ from mediacore.model import (DBSession, fetch_row,
 
 
 class PodcastsController(BaseController):
-    """Podcast actions -- episodes are handled in the MediaController"""
+    """
+    Podcast Series Controller
 
-    def __init__(self, *args, **kwargs):
-        """Populate the :obj:`pylons.tmpl_context`` with categories.
+    This handles episode collections, individual episodes are handled as
+    regular media by :mod:`mediacore.controllers.media`.
 
-        Used by :data:`mediacore.templates.helpers` to render the
-        category index flyout slider.
-
-        """
-        super(PodcastsController, self).__init__(*args, **kwargs)
-        tmpl_context.nav_categories = DBSession.query(Category)\
-            .options(orm.undefer('media_count_published'))\
-            .filter(Category.media_count_published >= 1)\
-            .order_by(Category.name)\
-            .all()
-        tmpl_context.nav_podcasts = DBSession.query(Podcast).all()
-        tmpl_context.nav_search = url_for(controller='/media', action='search')
-
+    """
 
     @expose('mediacore.templates.podcasts.index')
     @paginate('episodes', items_per_page=12, items_first_page=7)

@@ -1,3 +1,18 @@
+# This file is a part of MediaCore, Copyright 2009 Simple Station Inc.
+#
+# MediaCore is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# MediaCore is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 import shutil
 import os.path
 import simplejson as json
@@ -33,6 +48,10 @@ upload_form = UploadForm(
 
 
 class UploadController(BaseController):
+    """
+    Media Upload Controller
+    """
+
     @expose('mediacore.templates.upload.index')
     def index(self, **kwargs):
         """Display the upload form.
@@ -259,7 +278,8 @@ def _store_media_file(file, file_name):
         permanent_file.close()
         return file_name
 
-class FTPUploadException(Exception): pass
+class FTPUploadException(Exception):
+    pass
 
 def _store_media_file_ftp(file, file_name):
     """Store the file on the defined FTP server.
