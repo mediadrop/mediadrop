@@ -57,7 +57,7 @@ class MediaController(BaseController):
 
     @expose('mediacore.templates.media.index')
     @paginate('media', items_per_page=20)
-    def index(self, page=1, **kwargs):
+    def index(self, page=1, show='latest', q=None, **kwargs):
         """List media with pagination.
 
         The media paginator may be accessed in the template with
@@ -65,53 +65,38 @@ class MediaController(BaseController):
 
         :param page: Page number, defaults to 1.
         :type page: int
-        :param search: A search query to filter by
-        :type search: unicode or None
+        :param q: A search query to filter by
+        :type q: unicode or None
         :rtype: dict
         :returns:
             media
                 The list of :class:`~mediacore.model.media.Media` instances
                 for this page.
+            result_count
+                The total number of media items for this query
+            search_query
+                The query the user searched for, if any
 
         """
-        media = Media.query\
-            .published()\
-            .filter(Media.podcast_id == None)\
-            .order_by(Media.publish_on.desc())\
+        media = Media.query.published()\
             .options(orm.undefer('comment_count_published'))
+
+        if q:
+            media = media.search(q)
+
+        if show == 'latest':
+            media = media.order_by(Media.publish_on.desc())
+        elif show == 'popular':
+            media = media.order_by(Media.popularity_points.desc())
+        elif show == 'featured':
+            # FIXME!!!!
+            media = media
 
         return dict(
             media = media,
-        )
-
-    @expose('mediacore.templates.media.search')
-    @paginate('media', items_per_page=20)
-    def search(self, page=1, q=None, **kwargs):
-        """Search media with pagination.
-
-        The media paginator may be accessed in the template with
-        :attr:`c.paginators.media`, see :class:`webhelpers.paginate.Page`.
-
-        :param page: Page number, defaults to 1.
-        :type page: int
-        :param search: A search query to filter by
-        :type search: unicode or None
-        :rtype: dict
-        :returns:
-            media
-                The list of :class:`~mediacore.model.media.Media` instances
-                for this page.
-
-        """
-        media = Media.query\
-            .published()\
-            .search(q)\
-            .options(orm.undefer('comment_count_published'))
-
-        return dict(
-            media = media,
-            search_query = q,
             result_count = media.count(),
+            search_query = q,
+            show = show,
         )
 
 

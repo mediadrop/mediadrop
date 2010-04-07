@@ -24,7 +24,18 @@
 </head>
 <body class="nav-media-on">
 	<div class="mediacore-content">
-		<h3 class="uppercase" style="margin-bottom:0">All Media</h3>
+		<h3 class="uppercase" py:choose="">
+			<py:when test="search_query">Showing ${result_count} results for '${search_query}'</py:when>
+			<py:otherwise>All ${result_count} Media</py:otherwise>
+		</h3>
+		<div id="library-controls" class="clearfix">
+			<strong>Showing:</strong>
+			<ul>
+				<li><a py:strip="show == 'latest'" href="${h.url_for(show='latest', q=search_query)}">Latest</a></li>
+				<li><a py:strip="show == 'popular'" href="${h.url_for(show='popular', q=search_query)}">Most Popular</a></li>
+				<li><a py:strip="show == 'featured'" href="${h.url_for(show='featured', q=search_query)}">Featured</a></li>
+			</ul>
+		</div>
 		<ul py:replace="media_grid(media, id='library', thumb_size='m', desc_len=135)" />
 		<div style="padding-top:10px;width:100%;overflow:hidden">${pagination(paginator=c.paginators.media)}</div>
 	</div>

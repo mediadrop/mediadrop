@@ -428,6 +428,27 @@ a:hover .grid-title {
 	width: 186px;
 }
 
+/* Media Library */
+#library-controls {
+	border-top: 1px solid #cdd2d5;
+	padding-top: 5px;
+	margin: -3px 0 5px 0;
+	font-size: 14px;
+}
+#library-controls strong,
+#library-controls ul,
+#library-controls li {
+	float: left;
+	margin-right: 10px;
+}
+#library-controls li {
+	color: #4c4c4c;
+	font-weight: bold;
+}
+#library-controls a {
+	font-weight: normal;
+}
+
 /* Pagination */
 .pager {
 	margin: 10px 0;
@@ -471,4 +492,3 @@ a:hover .grid-title {
 .pager-body a:hover {
 	text-decoration: underline;
 }
-

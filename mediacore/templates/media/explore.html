@@ -50,13 +50,13 @@
 		<div id="explore-latest" class="m-grid-column" style="margin-right:20px">
 			<h2><a href="${h.url_for(action='index', order='latest')}" class="underline-hover uppercase nocolor">Latest</a></h2>
 			<ul py:replace="media_grid(latest, thumb_size='m', desc_len=135)" />
-			<a class="see-more underline-hover" href="${h.url_for(action='more', order='latest')}">more of the Latest...</a>
+			<a class="see-more underline-hover" href="${h.url_for(action='index', show='latest')}">more of the Latest...</a>
 		</div>
 
 		<div id="explore-popular" class="m-grid-column">
 			<h2><a href="${h.url_for(action='index', order='popular')}" class="underline-hover uppercase nocolor">Most Popular</a></h2>
 			<ul py:replace="media_grid(popular, thumb_size='m', desc_len=135)" />
-			<a class="see-more underline-hover" href="${h.url_for(action='more', order='popular')}">more of the Most Popular...</a>
+			<a class="see-more underline-hover" href="${h.url_for(action='index', show='popular')}">more of the Most Popular...</a>
 		</div>
 	</div>
 </body>

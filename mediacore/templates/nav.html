@@ -38,7 +38,7 @@
 				<li id="nav-categories"><a href="${h.url_for(controller='/categories')}"><span>Categories</span></a></li>
 				<li id="nav-upload" class="f-rgt"><a href="${h.url_for(controller='/upload')}"><span>Upload</span></a></li>
 			</ul>
-			<form id="nav-search" method="get" action="${h.url_for(controller='/media', action='search')}">
+			<form id="nav-search" method="get" action="${h.url_for(controller='/media', action='index')}">
 				<div><input type="text" id="nav-search-input" name="q" value="${h.request.params.get('q')}" alt="Search" /><input type="submit" class="nav-search-btn clickable" value="Search" /></div>
 			</form>
 		</div>
