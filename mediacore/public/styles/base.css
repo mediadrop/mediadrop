@@ -237,49 +237,49 @@ a.meta-likes:active strong {
 .feat-box {
 	margin-bottom: 20px;
 }
-.feat-box .feat-top,
-.feat-box .feat-bottom {
+.feat-top,
+.feat-bottom {
 	width: 920px;
 	height: 15px;
 	background: url('../images/layout/feature-top.png') no-repeat;
 }
-.feat-box .feat-bottom {
+.feat-bottom {
 	background: url('../images/layout/feature-bottom.png') no-repeat;
 }
-.feat-box .feat-content {
+.feat-content {
 	padding: 0 15px;
 	background: url('../images/layout/feature-bg.png') repeat-y;
 	position: relative;
 	width: 890px;
 }
-.feat-box .feat-content p {
+.feat-content p {
 	margin-top: 10px;
 }
-.feat-box .feat-info {
+.feat-info {
 	float: right;
-	width: 445px;
+	width: 265px;
 	margin-bottom: 26px;
 }
-.feat-box .feat-date {
+.feat-date {
 	margin: -5px 0 0 0;
 	font: bold 12px 'Trebuchet MS', sans-serif;
 }
-.feat-box .feat-meta {
+.feat-meta {
 	position: absolute;
 	bottom: 0;
 	right: 15px;
-	width: 445px;
+	width: 265px;
 	height: 19px;
 	line-height: 19px;
 }
-.feat-box table.feat-meta {
+table.feat-meta {
 	height: 48px;
 	background: url('../images/layout/hr.png') repeat-x center center;
 }
-.feat-box table.feat-meta tr td {
+table.feat-meta tr td {
 	padding: 5px 0 0 0;
 }
-.feat-box table.feat-meta tr:first-child td {
+table.feat-meta tr:first-child td {
 	padding: 0 0 5px 0;
 }
 .feat-box .meta-comments,
@@ -388,6 +388,34 @@ a:hover .grid-title {
 .m-grid-column .m-grid {
 	width: 440px;
 	float: left;
+}
+.m-grid-column .feat-box {
+	margin-bottom: 15px;
+}
+.m-grid-column .feat-top {
+	background-image: url('../images/layout/column-feature-top.png');
+	width: 440px;
+}
+.m-grid-column .feat-bottom {
+	background-image: url('../images/layout/column-feature-bottom.png');
+	width: 440px;
+}
+.m-grid-column .feat-content {
+	background-image: url('../images/layout/column-feature-bg.png');
+	width: 410px;
+}
+.m-grid-column .feat-box h3 {
+	text-align: right;
+	margin-top: 10px;
+	margin-bottom: 1px;
+	overflow: hidden;
+	width: 100%;
+}
+.m-grid-column .feat-meta {
+	position: static;
+	width: auto;
+	float: right;
+	margin-right: -10px;
 }
 
 /* Media details page */
