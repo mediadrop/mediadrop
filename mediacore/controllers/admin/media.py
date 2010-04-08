@@ -222,7 +222,7 @@ class MediaController(BaseController):
         media.slug = get_available_slug(Media, slug, media)
         media.title = title
         media.author = Author(author_name, author_email)
-        media.description = helpers.clean_xhtml(description)
+        media.description = helpers.clean_admin_xhtml(description)
         media.notes = notes
         media.duration = details['duration'] # validator converts hh:mm:ss to secs
         media.podcast_id = podcast
