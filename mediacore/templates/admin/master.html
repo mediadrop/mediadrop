@@ -26,7 +26,7 @@
 <head py:match="head">
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title py:match="title" py:with="title = select('text()')">
-		<py:if test="title and title != 'MediaCore'">${title} |</py:if>
+		<py:if test="title and title != 'MediaCore'">${Markup(title)} |</py:if>
 		MediaCore
 	</title>
 	<!--[if lt IE 8]>

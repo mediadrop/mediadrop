@@ -22,7 +22,7 @@
 
 <head py:match="head">
 	<title py:match="title" py:with="title = unicode(select('text()'))">
-		<py:if test="title">${title} |</py:if>
+		<py:if test="title">${Markup(title)} |</py:if>
 		MediaCore
 	</title>
 	<meta py:replace="select('*')"/>
