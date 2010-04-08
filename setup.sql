@@ -531,7 +531,7 @@ INSERT INTO `settings` VALUES (1,'email_media_uploaded',NULL),
 (4,'email_send_from','noreply@localhost'),
 (5,'wording_user_uploads','Upload your media using the form below. We\'ll review it and get back to you.'),
 (6,'wording_additional_notes',NULL),
-(7,'enable_tinymce','enabled'),
+(7,'enable_tinymce','tinymce'),
 (8,'popularity_decay_exponent','4'),
 (9,'popularity_decay_lifetime','36'),
 (10,'player','flowplayer');

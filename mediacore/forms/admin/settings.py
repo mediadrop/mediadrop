@@ -26,6 +26,12 @@ players = [
     ('html5', Markup('&lt;video&gt; tag (HTML5). <a href="http://diveintohtml5.org/video.html">Website</a> - not fully implemented in all browsers')),
 ]
 
+text_editors = [
+    ('tinymce', 'Enable TinyMCE for <textarea> fields that accept XHTML input. Use of TinyMCE is not strictly XHTML compliant, but works in FF>=1.5, Safari>=3, IE>=5.5, so long as javascript is enabled.'),
+    ('plain', 'Plain <textarea> fields'),
+]
+
+
 class NotificationsForm(ListForm):
     template = 'mediacore.templates.admin.box-form'
     id = 'settings-form'
@@ -52,11 +58,8 @@ class DisplayForm(ListForm):
     fields = [
         RadioButtonList('enable_tinymce',
             label_text='Rich Text Editing',
-            options=[
-                (True, 'Enable TinyMCE for <textarea> fields that accept XHTML input. Use of TinyMCE is not strictly XHTML compliant, but works in FF>=1.5, Safari>=3, IE>=5.5, so long as javascript is enabled.'),
-                (False, 'Plain <textarea> fields')
-            ],
-            validator=StringBool(not_empty=True)
+            options=text_editors,
+            validator=OneOf([x[0] for x in text_editors]),
         ),
         RadioButtonList('player',
             legend='Media Player for View pages:',
