@@ -18,17 +18,6 @@
       xmlns:xi="http://www.w3.org/2001/XInclude"
       py:strip="">
 
-	<py:match path="head" once="true">
-		<head>
-			<meta py:replace="select('*')" />
-			<script type="text/javascript">
-				window.addEvent('domready', function(){
-					var searchLbl = new OverText('nav-search-input', {wrap: true, positionOptions: {x: 14, y: 12}});
-				});
-			</script>
-		</head>
-	</py:match>
-
 	<py:match path="nav" recursive="false">
 		<div id="nav-box">
 			<ul py:if="not c.nav_hide_main" id="nav">

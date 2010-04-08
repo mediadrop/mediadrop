@@ -23,18 +23,6 @@
 <head>
 	<title>${Markup(media.title)}</title>
 	<link py:if="media.podcast" href="${h.url_for('/styles/podcasts.css')}" media="screen" rel="stylesheet" type="text/css" />
-	<script type="text/javascript" src="${h.url_for('/scripts/rater.js')}"></script>
-<!--!	<script type="text/javascript">
-		window.addEvent('domready', function(){
-			var likesCounter = $('num-likedthis');
-			var likesRater = new ThumbRater({
-				upButton: 'likethis',
-				upCounter: likesCounter,
-				ensureVisible: likesCounter.getParent()
-			});
-			var embed = $('embed-markup').addEvent('click', function(){ this.select(); });
-		});
-	</script>-->
 	<meta name="description" content="${h.truncate(media.description_plain, 249)}" />
 	<meta name="keywords" content="${', '.join(tag.name for tag in media.tags[:15])}" />
 </head>

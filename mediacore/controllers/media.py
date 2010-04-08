@@ -16,17 +16,8 @@
 """
 Publicly Facing Media Controllers
 """
-import shutil
 import os.path
-import simplejson as json
-import ftplib
-import urllib2
-import sha
-import time
-import logging
-import formencode
 from urlparse import urlparse
-from datetime import datetime, timedelta, date
 
 from tg import config, request, response, tmpl_context
 import tg.exceptions
@@ -44,8 +35,6 @@ from mediacore.model import (DBSession, fetch_row, get_available_slug,
 from mediacore.lib import helpers, email
 from mediacore.forms.comments import PostCommentForm
 from mediacore import __version__ as MEDIACORE_VERSION
-
-log = logging.getLogger(__name__)
 
 post_comment_form = PostCommentForm()
 
@@ -141,19 +130,14 @@ class MediaController(BaseController):
         )
 
 
-    @expose_xhr()
+    @expose()
     def rate(self, slug, **kwargs):
-        """Rate up or down the given media.
+        """Say 'I like this' for the given media.
 
         :param slug: The media :attr:`~mediacore.model.media.Media.slug`
-        :rtype: JSON dict
+        :rtype: unicode
         :returns:
-            succcess
-                bool
-            upRating
-                Pluralized count of up raters, "# people" or "1 person"
-            downRating
-                Pluralized count of down raters, "# people" or "1 person"
+            The new number of likes
 
         """
         media = fetch_row(Media, slug=slug)
@@ -161,12 +145,7 @@ class MediaController(BaseController):
         DBSession.add(media)
 
         if request.is_xhr:
-            # TODO: Update return arg naming
-            return dict(
-                success = True,
-                upRating = helpers.text.plural(likes, 'person', 'people'),
-                downRating = None,
-            )
+            return unicode(likes)
         else:
             redirect(action='view')
 
