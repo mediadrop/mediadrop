@@ -18,6 +18,11 @@
 .comments {
 	float: left;
 }
+.comments-head {
+	position: absolute;
+	top: -5000px;
+	left: -5000px;
+}
 .comments,
 .no-comments,
 .comment {
