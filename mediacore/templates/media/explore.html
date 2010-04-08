@@ -20,7 +20,7 @@
       xmlns:xi="http://www.w3.org/2001/XInclude">
 <xi:include href="../master.html" />
 <head>
-	<title>Media</title>
+	<title>Explore</title>
 </head>
 <body class="nav-explore-on">
 	<div class="mediacore-content">
@@ -31,7 +31,7 @@
 					<div class="feat-top" />
 					<div class="feat-content clearfix">
 						${media_player(featured, width=410, height=230)}
-						<h3><a class="underline-hover nocolor" href="${h.url_for(controller='/media', action='view', slug=featured.slug)}">${Markup(featured.title)}</a></h3>
+						<h3><a class="underline-hover nocolor" href="${h.url_for(controller='/media', action='view', slug=featured.slug)}">${featured.title}</a></h3>
 						<div class="feat-meta">
 							<span class="meta meta-comments" title="Comments">${featured.comment_count_published} <span>Comment<py:if test="featured.comment_count_published != 1">s</py:if></span></span>
 							<a class="meta meta-likes" href="${h.url_for(controller='/media', action='rate', slug=featured.slug)}" id="likethis" title="Vote up">${featured.likes} <strong>Like this!</strong></a>

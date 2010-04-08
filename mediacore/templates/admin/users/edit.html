@@ -18,7 +18,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:py="http://genshi.edgewall.org/"
       xmlns:xi="http://www.w3.org/2001/XInclude"
-      py:with="username = Markup(user.user_name or 'New User')">
+      py:with="username = user.user_name or 'New User'">
 <xi:include href="admin/master.html" />
 <xi:include href="admin/settings/master.html" />
 <head>

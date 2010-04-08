@@ -21,7 +21,7 @@
 <xi:include href="../master.html" />
 <xi:include href="../comments/_list.html" />
 <head>
-	<title>${Markup(media.title)}</title>
+	<title>${media.title}</title>
 	<link py:if="media.podcast" href="${h.url_for('/styles/podcasts.css')}" media="screen" rel="stylesheet" type="text/css" />
 	<meta name="description" content="${h.truncate(media.description_plain, 249)}" />
 	<meta name="keywords" content="${', '.join(tag.name for tag in media.tags[:15])}" />
@@ -31,7 +31,7 @@
 		<div class="feat-top" />
 		<div class="feat-content clearfix">
 			<div class="feat-info">
-				<h3><a class="underline-hover nocolor" href="${h.url_for(controller='/media', action='view', slug=media.slug)}">${Markup(media.title)}</a></h3>
+				<h3>${media.title}</h3>
 				<div class="feat-date" py:choose="">
 					<py:when test="media.is_published" py:with="datetime = media.publish_on.strftime('%B %d, %Y').replace(h.datetime.now().strftime(', %Y'), '')">${datetime}</py:when>
 					<py:otherwise>(unpublished)</py:otherwise>
@@ -65,7 +65,7 @@
 				<ul class="grid s-grid">
 					<li style="height:130px">
 						<a style="height:130px" href="${h.url_for(controller='/podcasts', action='view', slug=podcast.slug)}">
-							<span class="grid-title">${Markup(podcast.title)}</span>
+							<span class="grid-title">${podcast.title}</span>
 							<span class="thumb-wrap">
 								<img py:with="thumb = h.thumb(podcast, 's')" src="${thumb.url}" width="${thumb.x}" height="${thumb.y}" alt="" />
 							</span>

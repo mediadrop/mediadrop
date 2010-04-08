@@ -25,7 +25,7 @@
 	<link py:for="podcast in podcasts"
 	      type="application/rss+xml" rel="alternate"
 	      href="${h.url_for(action='feed', slug=podcast.slug)}"
-	      title="${h.decode_entities(podcast.title)} RSS Feed" />
+	      title="${podcast.title} RSS Feed" />
 </head>
 <body class="nav-podcasts-on">
 	<div class="mediacore-content podcasts-list">
@@ -36,7 +36,7 @@
 				<div class="feat-vr clearfix">
 					<a href="${h.url_for(action='view', slug=podcast.slug)}" class="thumb-wrap"><img src="${h.thumb_url(podcast, 'm')}" width="160" height="160" alt="${podcast.title}" /></a>
 					<div class="podcast-info">
-						<h3><a href="${h.url_for(action='view', slug=podcast.slug)}" class="underline-hover nocolor">${Markup(podcast.title)}</a></h3>
+						<h3><a href="${h.url_for(action='view', slug=podcast.slug)}" class="underline-hover nocolor">${podcast.title}</a></h3>
 						<p py:replace="Markup(podcast.description)" />
 					</div>
 					<div class="podcast-meta">
@@ -48,7 +48,7 @@
 						<!--!${min(4, podcast.media_count_published)} of ${podcast.media_count_published}-->
 						<ol>
 							<li py:for="media in podcast.media[:4]" class="meta-${media.type}">
-								<a class="underline-hover" href="${h.url_for(controller='/media', action='view', slug=media.slug, podcast_slug=podcast.slug)}">${Markup(media.title)}</a>
+								<a class="underline-hover" href="${h.url_for(controller='/media', action='view', slug=media.slug, podcast_slug=podcast.slug)}">${media.title}</a>
 							</li>
 						</ol>
 					</div>

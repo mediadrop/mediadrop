@@ -24,11 +24,11 @@
 	<link href="${h.url_for('/styles/podcasts.css')}" media="screen" rel="stylesheet" type="text/css" />
 	<link type="application/rss+xml" rel="alternate"
 	      href="${h.url_for(action='feed')}"
-	      title="${h.decode_entities(podcast.title)} RSS Feed" />
+	      title="${podcast.title} RSS Feed" />
 </head>
 <body class="nav-podcasts-on">
 	<div class="mediacore-content">
-		<h3>${Markup(podcast.title)}</h3>
+		<h3>${podcast.title}</h3>
 		<div class="podcast-box feat-box">
 			<div class="feat-top" />
 			<div class="feat-content clearfix">

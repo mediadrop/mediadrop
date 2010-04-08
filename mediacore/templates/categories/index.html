@@ -31,7 +31,7 @@
 			<div class="feat-top" />
 			<div class="feat-content clearfix">
 				<div class="feat-info">
-					<h3><a class="underline-hover nocolor" href="${h.url_for(controller='/media', action='view', slug=featured.slug)}">${Markup(featured.title)}</a></h3>
+					<h3><a class="underline-hover nocolor" href="${h.url_for(controller='/media', action='view', slug=featured.slug)}">${featured.title}</a></h3>
 					<p py:replace="Markup(h.truncate_xhtml(featured.description, 300))" />
 				</div>
 				${media_player(featured, width=400, height=225)}

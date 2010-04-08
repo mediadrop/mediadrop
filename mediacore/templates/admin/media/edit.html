@@ -20,7 +20,7 @@
       xmlns:xi="http://www.w3.org/2001/XInclude">
 <xi:include href="admin/master.html" />
 <head>
-	<title>Edit: ${Markup(media.title or 'New Media')}</title>
+	<title>Edit: ${media.title or 'New Media'}</title>
 	<link href="${h.url_for('/admin/styles/forms.css')}" media="screen" rel="stylesheet" type="text/css" />
 	<link href="${h.url_for('/admin/styles/datepicker.css')}" media="screen" rel="stylesheet" type="text/css" />
 	<link href="${h.url_for('/admin/styles/uploader.css')}" media="screen" rel="stylesheet" type="text/css" />
@@ -94,7 +94,7 @@
 		<div class="box">
 			<div class="box-head">
 				<small py:if="media.created_on" class="box-head-sec">Uploaded: ${media.created_on.strftime('%b %d %Y')}</small>
-				<h1>${Markup(media.title or 'New Media')}</h1>
+				<h1>${media.title or 'New Media'}</h1>
 			</div>
 			<form py:replace="XML(media_form(media_values, action=media_action, child_args={'categories': {'category_tree': category_tree}}))" />
 		</div>

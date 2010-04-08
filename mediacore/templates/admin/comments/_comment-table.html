@@ -50,7 +50,7 @@
 					${XML(edit_form(comment, action=h.url_for(action='save_edit', id=comment.id)))}
 				</td>
 				<td>
-					<a py:content="Markup(comment.parent.title)" target="_blank"
+					<a py:content="comment.parent.title" target="_blank"
 					   href="${h.url_for(controller='/%s' % comment.type, action='view', slug=comment.parent.slug)}"
 					   title="${comment.type.capitalize()}">Parent Item</a><br />
 					<a target="_blank"
