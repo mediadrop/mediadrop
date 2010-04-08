@@ -79,3 +79,18 @@ ul#settings-menu a {
 #sbox-content #edit-box .box-content {
 	padding-top: 0;
 }
+
+div.box div.caveats ul {
+	margin: 0 10px;
+}
+div.box div.caveats ul li {
+	list-style: disc outside none;
+	margin: 5px 15px;
+}
+div.box div.caveats h2 {
+	/* FIXME: Stolen from style in forms.css ".details_fieldset legend" make sure this is kept up to date */
+	font-size: 108%;
+	font-weight: bold;
+	color: #3c4d5a;
+	margin: 10px 10px 0 10px;
+}

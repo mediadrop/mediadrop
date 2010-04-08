@@ -21,13 +21,19 @@
 <xi:include href="admin/master.html" />
 <xi:include href="admin/settings/master.html" />
 <head>
-	<title>Analytics Options</title>
+	<title>Analytics</title>
 	<link href="${h.url_for('/admin/styles/forms.css')}" media="screen" rel="stylesheet" type="text/css" />
 </head>
 <body class="menu-settings-on menu-settings-analytics-on">
 	<div class="box">
 		<div class="box-head">
-			<h1>Analytics Options</h1>
+			<h1>Analytics</h1>
+		</div>
+		<div class="box-content caveats">
+			<h2>Notes</h2>
+			<ul class="caveats">
+				<li>Tracking code is in the format UA-xxxx-xx. See the <a href="http://www.google.com/support/googleanalytics/bin/answer.py?answer=55603">Google site</a> for help.</li>
+			</ul>
 		</div>
 		<form py:replace="XML(form(form_values))" />
 	</div>
