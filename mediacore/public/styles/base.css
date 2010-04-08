@@ -19,12 +19,6 @@ html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abb
 /*960.gs Typography*/
 body{font:13px/1.5 'Helvetica Neue', Helvetica, Arial,'Liberation Sans',FreeSans, sans-serif;}
 hr{border:0 #ccc solid;border-top-width:1px;clear:both;height:0}
-h1{font-size:25px}
-h2{font-size:23px}
-h3{font-size:21px}
-h4{font-size:19px}
-h5{font-size:17px}
-h6{font-size:15px}
 
 /* Base generic styles */
 body, select, input, button, textarea {
@@ -224,6 +218,7 @@ a.meta:visited {
 .meta-rss { background:url('/images/icons/rss.png') no-repeat left; }
 .meta-audio { background:url('/images/icons/audio.png') no-repeat left; }
 .meta-video { background:url('/images/icons/video.png') no-repeat left; }
+.meta-go { background:url('/images/icons/go.png') no-repeat left; }
 
 a.meta-likes strong {
 	color: #0F7CB4;
@@ -259,6 +254,9 @@ a.meta-likes:active strong {
 }
 .feat-content p {
 	margin-top: 10px;
+}
+.feat-content p:first-child {
+	margin-top: 0;
 }
 .feat-info {
 	float: right;

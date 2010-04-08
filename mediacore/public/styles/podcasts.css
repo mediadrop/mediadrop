@@ -14,241 +14,72 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-.podcast-box {
+.podcast-box .thumb-wrap {
+	margin-right: 13px;
+	width: 162px;
+}
+.podcast-box .thumb-wrap img {
+	border-color: #fff;
+}
+.podcast-info {
+	float: left;
+	width: 715px;
+	position: relative;
+	margin-bottom: 24px;
+}
+.podcasts-list .podcast-info {
+	width: 440px;
 }
 .podcast-meta {
-	margin: -5px 0;
+	position: absolute;
+	bottom: 0;
+	left: 188px;
+	height: 20px;
 }
 .podcast-meta .meta {
 	margin-right: 10px;
-	font-weight: bold;
 }
-ol.podcast-episodes {
-	list-style-position: outside;
+.podcast-info h3 {
+	margin-bottom: -5px;
+}
+.podcast-episodes {
+	float: right;
+	width: 255px;
+	padding-left: 15px;
+	margin-bottom: 19px;
+}
+.podcast-episodes h4 {
+	color: #494949;
+	font-weight: normal;
+	margin-bottom: 5px;
 }
 .podcast-episodes li {
-	margin-top: 5px;
+	margin-bottom: 5px;
+	width: 100%;
 }
-.podcast-episodes li .meta-audio,
-.podcast-episodes li .meta-video {
-	font-weight: bold;
-	font-family: 'Trebuchet MS', sans-serif;
+.podcast-episodes li a:link,
+.podcast-episodes li a:visited {
 	padding-left: 18px;
-	margin-right: 15px;
-}
-.podcast-episodes li .meta span {
-	display: none;
-}
-
-
-
-
-/* 'Whats a Podcast?' box for the nav bar */
-#podcast-help-box ul {
-	float: none;
-	width: 100%;
-}
-#podcast-help-box p, #podcast-help-box ul {
-	margin-bottom: 1.6em; /* same as line-height defined in .nav-box-body above */
-}
-#podcast-help-box .nav-box-body > .f-lft,
-#podcast-help-box .nav-box-body > .f-rgt {
-	width: 420px;
-	margin-bottom: -1.6em; /* absorb the margin from the bottom p and ul elements */
-}
-#podcast-help-box li {
-	width: 100%;
-	clear: both;
-}
-
-
-.thumb-wrap {
-	float: left;
-}
-
-.podcast-art {
-	float: left;
 	display: block;
-	background: url('../images/layout/podcast-art-border.png') no-repeat top left;
-	width: 165px;
-	height: 165px;
-	margin-top: 1px;
+	font: bold 13px/18px 'Trebuchet MS', sans-serif;
 }
-.podcast-art img {
-	margin: 4px 0 0 4px;
-	display: block;
+.podcast-box .meta-go {
+	position: absolute;
+	bottom: 0;
+	left: 650px;
 }
-
-#featured-ep {
-	width: 900px;
-	overflow: hidden;
-	border-bottom: 2px solid #323232;
-	padding: 0 0 42px 0;
-	margin-top: 20px;
+.feat-vr {
+	background: url('../images/layout/feature-vr.png') repeat-y;
 }
-#featured-ep .grid-thumb {
-	float: left;
+.podcast-box .feat-content .feat-vr {
+	background-position: 620px 0;
 }
-#featured-ep h3, #featured-ep h2 {
-	float: left;
-	margin-right: 8px;
-}
-#featured-ep .grid2-link {
-	display: block;
-	text-decoration: none;
-}
-#featured-ep .grid-desc p {
-	line-height: 1.6em;
-}
-#featured-ep p {
-	margin-bottom: 10px;
-	font: 13px Tahoma, sans-serif;
-	color: #8b8f93;
-}
-#featured-ep .featured-ep-top,
-#featured-ep .grid-desc,
-#featured-ep .grid-meta {
-	width: 440px;
-	float: right;
-	padding-top: 5px;
-}
-#featured-ep .grid-meta {
-	padding-top: 0;
-}
-#featured-ep .featured-ep-top {
-	font: 18px "Trebuchet MS", sans-serif;
-	text-transform: uppercase;
-	padding-top: 0;
-}
-#featured-ep .featured-ep-caption {
-	color: #fff;
-	padding-right: 4px;
-}
-#featured-ep .grid2-link .grid-title {
-	float: none;
-	width: auto;
-}
-
-
-.innerbox {
-	width: 900px;
-	margin: 0 auto;
-	clear: both;
-}
-.innerbox-top {
-	background: url('../images/layout/innerbox-top-trans.png') no-repeat top;
-	font: bold 14px Tahoma, sans-serif;
-	color: #acacb0;
-	text-shadow: #000 0 -1px 0;
-	padding: 10px 30px;
-	border-bottom: 1px solid #1d1d1d;
-}
-.innerbox-body {
-	background: #1c1c1c url('../images/layout/innerbox-body-bg.png') repeat-x top;
-	padding: 10px 30px 0 30px;
-	width: 840px;
-	overflow: hidden;
-}
-.innerbox-bottom {
+.podcast-box .feat-top .feat-vr,
+.podcast-box .feat-bottom .feat-vr {
+	background-position: 635px;
 	height: 15px;
-	background: url('../images/layout/innerbox-bottom-trans.png') no-repeat top;
 }
-.innerbox-list li {
-	clear: both;
-	color: #b7b9bc;
-	font: 13px/18px Tahoma, sans-serif;
-	margin: 20px 0 30px 0;
-	position: relative;
-	width: 100%;
-	overflow: hidden;
-}
-.innerbox-list li .title {
-	color: #b1d1ef;
-	margin-right: 5px;
-	font: bold 14px/18px Tahoma, sans-serif;
-	float: left;
-}
-.innerbox-list li a:link,
-.innerbox-list li a:visited {
-	color: #b1d1ef;
-	text-decoration: none;
-}
-.innerbox-list li a:hover {
-	text-decoration: underline;
-}
-.innerbox-list .podcast-art {
-	margin-top: 3px;
-}
-.innerbox-list .description {
-	margin-left: 195px;
-	padding-bottom: 2em;
-	display: block;
-	padding-top: 4px;
-	line-height: 18px;
-}
-.innerbox-list .description p {
-	line-height: 18px;
-}
-.innerbox-list .options {
-	position: absolute;
-	bottom: 7px;
-	left: 195px;
-	color #e4e7ea;
-	font-weight: bold;
-	font-size: 12px;
-}
-
-
-/* Podcast context box for the media view */
-#podcast-context .contextbox-body {
-	position: relative;
-}
-/*#podcast-context .podcast-box {
-	float: left;
-	margin-right: 13px;
-}
-.podcast-box {
-	display: block;
-	width: 130px;
-	height: 130px;
-	padding: 5px;
-	background: url('../images/layout/podcast-box.png') no-repeat;
-}*/
-.podcast-box img {
-	-moz-border-radius: 5px;
-	-webkit-border-radius: 5px;
-	border: 1px solid #fff;
-	display: block;
-}
-#podcast-context .podcast-art {
-	position: absolute;
-	top: 0;
-	left: 15px;
-}
-#podcast-buttons a {
-	width: 137px;
-	height: 39px;
-	display: block;
-	text-indent: -5000px;
-	float: right;
-	clear: right;
-	margin: 6px 0;
-}
-#podcast-buttons a:hover {
-	background-position: 0 -39px;
-}
-#podcast-buttons .btn-podcast-next {
-	margin-top:10px;
-}
-.btn-podcast-next { background: url('../images/buttons/podcast-next-episode.png') no-repeat; }
-.btn-podcast-view { background: url('../images/buttons/podcast-browse-episodes.png') no-repeat; }
-.btn-podcast-add { background: url('../images/buttons/podcast-add-itunes.png') no-repeat; }
-
-.recent-eps {
-	margin: 2em 0 .5em 0;
-}
-.recent-eps span {
-	font-family: Georgia, serif;
-	font-style: italic;
-	color: #fff;
+.podcast-box .feat-top {
+	padding-top: 1px;
+	height: 14px;
 }

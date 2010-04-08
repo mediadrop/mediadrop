@@ -35,7 +35,6 @@ class PodcastsController(BaseController):
     """
 
     @expose('mediacore.templates.podcasts.index')
-    @paginate('episodes', items_per_page=12, items_first_page=7)
     def index(self, page=1, **kwargs):
         """List podcasts and podcast media.
 
@@ -49,23 +48,14 @@ class PodcastsController(BaseController):
         :returns:
             podcasts
                 The :class:`~mediacore.model.podcasts.Podcast` instance
-            episodes
-                The list of :class:`~mediacore.model.media.Media` instances
-                for this page.
 
         """
         podcasts = Podcast.query\
             .options(orm.undefer('media_count_published'))\
             .all()
 
-        episodes = Media.query.published()\
-            .filter(Media.podcast_id != None)\
-            .order_by(Media.publish_on.desc())\
-            .options(orm.undefer('comment_count_published'))
-
         return dict(
             podcasts = podcasts,
-            episodes = episodes,
         )
 
 

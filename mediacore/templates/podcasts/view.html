@@ -27,30 +27,26 @@
 	      title="${h.decode_entities(podcast.title)} RSS Feed" />
 </head>
 <body class="nav-podcasts-on">
-	<div id="podcasts-box" class="mediacore-content" py:with="episodes_paginator=c.paginators.episodes">
-		<div style="margin-bottom:17px;height:0" />
+	<div class="mediacore-content">
+		<h3>${Markup(podcast.title)}</h3>
+		<div class="podcast-box feat-box">
+			<div class="feat-top" />
+			<div class="feat-content clearfix">
+				<span class="thumb-wrap"><img src="${h.thumb_url(podcast, 'm')}" width="160" height="160" alt="${podcast.title}" /></span>
+				<div class="podcast-info">
+					<p py:replace="Markup(podcast.description)" />
+				</div>
+				<div class="podcast-meta">
+					<a py:if="podcast.itunes_url" class="meta meta-itunes underline-hover" href="${podcast.itunes_url or h.url_for(action='feed', slug=podcast.slug)}">Add to iTunes</a>
+					<a class="meta meta-rss underline-hover" href="${h.url_for(action='feed', slug=podcast.slug)}">Subscribe via RSS</a>
+				</div>
+			</div>
+			<div class="feat-bottom" />
+		</div>
 
-		<innerbox>
-			<innerboxtitle>Podcast Series</innerboxtitle>
-			<ul id="podcasts" class="innerbox-list">
-				<li>
-					<span class="podcast-art"><img src="${h.thumb_url(podcast, 'm')}" width="154" height="154" /></span>
-					<div class="description">
-						<div class="title">${Markup(podcast.title)}</div>
-						<p py:replace="Markup(podcast.description)" />
-					</div>
-					<div class="options">
-						<a href="${podcast.itunes_url or h.url_for(action='feed', slug=podcast.slug)}">Add to iTunes</a> |
-						Number of Episodes: ${podcast.media_count_published}
-					</div>
-				</li>
-			</ul>
-		</innerbox>
-
-		<div style="clear:both;margin-bottom:26px;height:0" />
-
-		<h3 class="recent-eps">Recent Episodes in the <span>${Markup(podcast.title)}</span> series</h3>
-		<ul py:replace="podcast_grid(episodes)" />
+		<div py:strip="" style="width:920px;margin-left:15px">
+		<ul py:replace="media_grid(episodes, thumb_size='m', desc_len=135)" />
+		</div>
 	</div>
 </body>
 </html>

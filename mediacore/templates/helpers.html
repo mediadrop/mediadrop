@@ -138,35 +138,4 @@
 		</div>
 	</py:def>
 
-<!--! DEPRECATED, DELETE ASAP -->
-	<py:def function="podcast_grid(episodes, desc_len=110)">
-		<ul id="podcast_grid" class="grid2">
-			<li py:for="media in episodes">
-				<a href="${h.url_for(controller='/media', action='view', slug=media.slug, podcast_slug=media.podcast.slug)}" class="grid2-link underline-hover">
-					<span class="grid2-thumb-wrap">
-						<img src="${h.thumb_url(media, 's')}" width="128" height="72" alt="${h.decode_entities(media.title)}" class="grid-thumb" />
-						<py:if test="media.duration">
-							<span class="grid-duration" py:content="h.duration_from_seconds(media.duration)">Duration</span>
-							<span class="grid-duration-right" />
-						</py:if>
-					</span>
-					<span class="grid-title">${Markup(media.title)}</span>
-				</a>
-				<div class="grid-desc" py:content="h.truncate(media.description_plain, desc_len)">Description here</div>
-				<div class="grid-meta">
-					<span class="grid-comments">${media.comment_count_published} <span>Comment<py:if test="media.comment_count_published != 1">s</py:if></span></span>
-					<span class="grid-likes">${media.likes} <span>Like<py:if test="media.likes != 1">s</py:if></span></span>
-					<span class="grid-views">${media.views} <span>View<py:if test="media.views != 1">s</py:if></span></span>
-				</div>
-			</li>
-		</ul>
-	</py:def>
-	<py:match path="innerbox" recursive="false">
-		<div class="innerbox" py:attrs="select('@*')">
-			<div class="innerbox-top" py:content="select('innerboxtitle/text()')"></div>
-			<div class="innerbox-body" py:content="select('*[not(innerboxtitle)]|text()')">Content is inserted here</div>
-			<div class="innerbox-bottom"></div>
-		</div>
-	</py:match>
-
 </html>
