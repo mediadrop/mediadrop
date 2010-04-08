@@ -114,7 +114,8 @@
 		curpage_attr = {'class': 'pager-current'},
 		link_attr = {'class': 'pager-link underline-hover'},
 		dotdot_attr = {'class': 'pager-dotdot'},
-		format = '~2~ $link_next',
+		format = '$link_previous ~2~ $link_next',
+		symbol_previous = Markup('&lt;strong&gt;Previous&lt;/strong&gt;'),
 		symbol_next = Markup('&lt;strong&gt;Next&lt;/strong&gt;'),
 	)">
 		<?python options.update(kwargs) ?>
