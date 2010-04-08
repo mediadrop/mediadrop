@@ -19,8 +19,9 @@ from tw.forms import ListFieldSet, TextField, FileField, SingleSelectField, Text
 from tw.forms.validators import Email
 from tg.render import _get_tg_vars
 from pylons.templating import pylons_globals
-from mediacore.lib.helpers import line_break_xhtml, fetch_setting
+from mediacore.lib.helpers import line_break_xhtml
 from mediacore.lib.base import url_for
+from mediacore.model.settings import fetch_setting
 
 
 class LeniantValidationMixin(object):

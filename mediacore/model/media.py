@@ -495,7 +495,7 @@ class Media(object):
         """Return the name of the player to be used for this media object.
 
         Takes into account the default global setting and the player_override"""
-        return self.player_override or helpers.fetch_setting('player')
+        return self.player_override or fetch_setting('player')
 
     @property
     def playable_files(self):

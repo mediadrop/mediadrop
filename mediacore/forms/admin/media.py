@@ -18,12 +18,12 @@ import formencode
 from tw.forms import RadioButtonList
 from tw.forms.validators import Int, StringBool, NotEmpty, DateTimeConverter, FieldStorageUploadConverter, OneOf
 
-from mediacore.model import DBSession, Podcast, MediaFile
 from mediacore.lib import helpers
 from mediacore.forms import Form, ListForm, ListFieldSet, TextField, XHTMLTextArea, FileField, SingleSelectField, TextArea, SubmitButton, HiddenField, email_validator
 from mediacore.forms.admin.categories import CategoryCheckBoxList
-from mediacore.model import DBSession, Podcast, Category
 from mediacore.forms.admin.settings import players
+from mediacore.model import DBSession, Podcast, Category, MediaFile
+from mediacore.model.settings import fetch_setting
 
 player_opts = [(None, 'Use global player defined in the settings panel.')] + players
 
@@ -99,7 +99,7 @@ class MediaForm(ListForm):
         TextField('author_name', maxlength=50),
         TextField('author_email', validator=email_validator(not_empty=True), maxlength=50),
         XHTMLTextArea('description', attrs=dict(rows=5, cols=25)),
-        TextArea('notes', label_text='Additional Notes', attrs=dict(rows=3, cols=25), default=lambda: helpers.fetch_setting('wording_additional_notes')),
+        TextArea('notes', label_text='Additional Notes', attrs=dict(rows=3, cols=25), default=lambda: fetch_setting('wording_additional_notes')),
         CategoryCheckBoxList('categories', options=lambda: DBSession.query(Category.id, Category.name).all()),
         TextArea('tags', attrs=dict(rows=3, cols=15), help_text=u'e.g.: puppies, great dane, adorable'),
         RadioButtonList('player',

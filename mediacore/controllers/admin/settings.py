@@ -20,8 +20,8 @@ import tw.forms.fields
 
 from mediacore.lib.base import (BaseController, url_for, redirect,
     expose, expose_xhr, validate, paginate)
-from mediacore.lib.helpers import fetch_setting
 from mediacore.model import DBSession, fetch_row, Setting
+from mediacore.model.settings import fetch_setting
 from mediacore.forms.admin.settings import NotificationsForm, DisplaySettingsForm
 
 notifications_form = NotificationsForm(

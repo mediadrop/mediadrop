@@ -31,7 +31,8 @@ Email Helpers
 """
 
 import smtplib
-from mediacore.lib.helpers import (url_for, fetch_setting, clean_xhtml,
+from mediacore.model.settings import fetch_setting
+from mediacore.lib.helpers import (url_for, clean_xhtml,
     strip_xhtml, line_break_xhtml)
 
 def parse_email_string(string):

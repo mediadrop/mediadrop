@@ -36,7 +36,6 @@ from tg import config, request
 import tg.exceptions
 
 from mediacore.lib.htmlsanitizer import Cleaner, entities_to_unicode as decode_entities, encode_xhtml_entities as encode_entities
-from mediacore.model.settings import fetch_setting
 from mediacore.lib.base import url_for, redirect, expose_xhr
 
 

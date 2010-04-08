@@ -38,6 +38,7 @@ from mediacore.lib.base import (BaseController, url_for, redirect,
     expose, expose_xhr, validate, paginate)
 from mediacore.model import (DBSession, fetch_row, get_available_slug,
     Media, MediaFile, Comment, Tag, Category, Author, AuthorWithIP, Podcast)
+from mediacore.model.settings import fetch_setting
 from mediacore.lib import helpers, email
 from mediacore.forms.uploader import UploadForm
 
@@ -68,12 +69,12 @@ class UploadController(BaseController):
                 ``dict`` form values, if any
 
         """
-        support_emails = helpers.fetch_setting('email_support_requests')
+        support_emails = fetch_setting('email_support_requests')
         support_emails = email.parse_email_string(support_emails)
         support_email = support_emails and support_emails[0] or None
 
         return dict(
-            legal_wording = helpers.fetch_setting('wording_user_uploads'),
+            legal_wording = fetch_setting('wording_user_uploads'),
             support_email = support_email,
             upload_form = upload_form,
             form_values = kwargs,
@@ -196,7 +197,7 @@ class UploadController(BaseController):
         media_obj.title = title
         media_obj.slug = get_available_slug(Media, title)
         media_obj.description = helpers.clean_xhtml(description)
-        media_obj.notes = helpers.fetch_setting('wording_additional_notes')
+        media_obj.notes = fetch_setting('wording_additional_notes')
         media_obj.set_tags(tags)
 
         # Create a media object, add it to the media_obj, and store the file permanently.

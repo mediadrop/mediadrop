@@ -33,7 +33,6 @@ from paste.deploy.converters import asbool
 
 # Import for convenience in controllers
 from tg import validate, flash
-from mediacore.model.settings import fetch_setting
 from mediacore.lib.paginate import paginate
 
 # Temporary measure until TurboGears 2.0.4 is released with our routing fixes
