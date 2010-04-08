@@ -81,16 +81,10 @@ class MediaController(BaseController):
         media = Media.query.published()\
             .options(orm.undefer('comment_count_published'))
 
+        media, show = helpers.filter_library_controls(media, show)
+
         if q:
             media = media.search(q)
-
-        if show == 'latest':
-            media = media.order_by(Media.publish_on.desc())
-        elif show == 'popular':
-            media = media.order_by(Media.popularity_points.desc())
-        elif show == 'featured':
-            # FIXME!!!!
-            media = media
 
         return dict(
             media = media,

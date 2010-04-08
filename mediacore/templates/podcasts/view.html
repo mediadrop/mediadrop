@@ -44,9 +44,9 @@
 			<div class="feat-bottom" />
 		</div>
 
-		<div py:strip="" style="width:920px;margin-left:15px">
+		<h4 class="uppercase">All ${podcast.media_count_published} Episodes</h4>
+		${library_controls(show, paginator=c.paginators.episodes)}
 		<ul py:replace="media_grid(episodes, thumb_size='m', desc_len=135)" />
-		</div>
 	</div>
 </body>
 </html>

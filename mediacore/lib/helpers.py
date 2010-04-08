@@ -536,3 +536,13 @@ def embeddable_player(media):
     )
     xhtml = excess_whitespace.sub(' ', xhtml)
     return xhtml.strip()
+
+def filter_library_controls(query, show='latest'):
+    from mediacore.model import Media
+    if show == 'latest':
+        query = query.order_by(Media.publish_on.desc())
+    elif show == 'popular':
+        query = query.order_by(Media.popularity_points.desc())
+    elif show == 'featured':
+        query = query # FIXME!!!!
+    return query, show

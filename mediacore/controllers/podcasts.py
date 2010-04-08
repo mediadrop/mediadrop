@@ -21,6 +21,7 @@ import pylons.templating
 
 from mediacore.lib.base import (BaseController, url_for, redirect,
     expose, expose_xhr, validate, paginate)
+from mediacore.lib import helpers
 from mediacore.model import (DBSession, fetch_row,
     Podcast, Media, Category)
 
@@ -61,7 +62,7 @@ class PodcastsController(BaseController):
 
     @expose('mediacore.templates.podcasts.view')
     @paginate('episodes', items_per_page=10)
-    def view(self, slug, page=1, **kwargs):
+    def view(self, slug, page=1, show='latest', **kwargs):
         """View a podcast and the media that belongs to it.
 
         :param slug: A :attr:`~mediacore.model.podcasts.Podcast.slug`
@@ -80,11 +81,14 @@ class PodcastsController(BaseController):
         """
         podcast = fetch_row(Podcast, slug=slug)
         episodes = podcast.media.published()\
-            .order_by(Media.publish_on.desc())
+            .options(orm.undefer('comment_count_published'))
+
+        episodes, show = helpers.filter_library_controls(episodes, show)
 
         return dict(
             podcast = podcast,
             episodes = episodes,
+            show = show,
         )
 
 
