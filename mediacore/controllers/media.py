@@ -123,26 +123,22 @@ class MediaController(BaseController):
         media = fetch_row(Media, slug=slug)
         media.increment_views()
 
-        next_episode = None
         if media.podcast_id is not None:
             # Always view podcast media from a URL that shows the context of the podcast
             if url_for() != url_for(podcast_slug=media.podcast.slug):
                redirect(podcast_slug=media.podcast.slug)
 
-            if media.is_published:
-                next_episode = Media.query.published()\
-                    .filter(Media.podcast_id == media.podcast.id)\
-                    .order_by(Media.publish_on)\
-                    .first()
+        related = Media.query.published()\
+            .options(orm.undefer('comment_count_published'))\
+            .search(media.title)[:6]
 
         return dict(
             media = media,
+            related_media = related,
             comments = media.comments.published().all(),
             comment_form = post_comment_form,
             comment_form_action = url_for(action='comment', anchor=post_comment_form.id),
             comment_form_values = kwargs,
-            next_episode = next_episode,
-            related_media = Media.query[:5],
         )
 
 
