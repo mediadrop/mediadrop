@@ -34,6 +34,7 @@ from paste.deploy.converters import asbool
 # Import for convenience in controllers
 from tg import validate, flash
 from mediacore.lib.paginate import paginate
+from mediacore.model.settings import fetch_setting
 
 # Temporary measure until TurboGears 2.0.4 is released with our routing fixes
 # See: http://simplestation.com/locomotion/routes-in-turbogears2/
@@ -131,6 +132,14 @@ class BaseController(RoutingController):
         """
         tmpl_context.layout_template = config.layout_template
         tmpl_context.external_template = None
+
+        # Load Google Analytics settings into template context:
+        try:
+            tmpl_context.google_analytics_uacct = \
+                fetch_setting('google_analytics_uacct')
+        except:
+            tmpl_context.google_analytics_uacct = None
+
 
         if asbool(config.external_template):
             tmpl_name = config.external_template_name

@@ -23,7 +23,7 @@ from mediacore.lib.base import (BaseController, url_for, redirect,
 from mediacore.model import DBSession, fetch_row, Setting
 from mediacore.model.settings import fetch_setting
 from mediacore.forms.admin.settings import (NotificationsForm, DisplayForm,
-    PopularityForm, UploadForm)
+    PopularityForm, UploadForm, AnalyticsForm)
 
 notifications_form = NotificationsForm(
     action=url_for(controller='/admin/settings', action='save_notifications'))
@@ -36,6 +36,9 @@ popularity_form = PopularityForm(
 
 upload_form = UploadForm(
     action=url_for(controller='/admin/settings', action='save_upload'))
+
+analytics_form = AnalyticsForm(
+    action=url_for(controller='/admin/settings', action='save_analytics'))
 
 
 class SettingsController(BaseController):
@@ -131,6 +134,16 @@ class SettingsController(BaseController):
     def save_upload(self, **kwargs):
         """Save :class:`~mediacore.forms.admin.settings.UploadForm`."""
         return self._save(upload_form, 'upload', **kwargs)
+
+    @expose('mediacore.templates.admin.settings.analytics')
+    def analytics(self, **kwargs):
+        return self._display(analytics_form, **kwargs)
+
+    @expose()
+    @validate(analytics_form, error_handler=analytics)
+    def save_analytics(self, **kwargs):
+        """Save :class:`~mediacore.forms.admin.settings.AnalyticsForm`."""
+        return self._save(analytics_form, 'analytics', **kwargs)
 
 def _nest_settings_for_form(settings, form):
     """Create a dict of setting values nested to match the form."""

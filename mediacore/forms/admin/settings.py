@@ -106,3 +106,17 @@ class UploadForm(ListForm):
         ResetButton('cancel', default='Cancel', css_classes=['btn', 'btn-cancel']),
     ]
 
+
+class AnalyticsForm(ListForm):
+    template = 'mediacore.templates.admin.box-form'
+    id = 'settings-form'
+    css_class = 'form'
+    submit_text = None
+    fields = [
+        ListFieldSet('google', suppress_label=True, legend='Google Analytics Details:', css_classes=['details_fieldset'], children=[
+            TextField('google_analytics_uacct', maxlength=255, label_text='Tracking Code'),
+        ]),
+        SubmitButton('save', default='Save', css_classes=['btn', 'btn-save', 'f-rgt']),
+        ResetButton('cancel', default='Cancel', css_classes=['btn', 'btn-cancel']),
+    ]
+

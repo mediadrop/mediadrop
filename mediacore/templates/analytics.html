@@ -1,3 +1,4 @@
+
 <!--! This file is a part of MediaCore, Copyright 2009 Simple Station Inc.
 
 	MediaCore is free software: you can redistribute it and/or modify
@@ -21,36 +22,22 @@
       py:strip="">
 
 <head py:match="head">
-	<title py:match="title" py:with="title = unicode(select('text()'))">
-		<py:if test="title">${title} |</py:if>
-		MediaCore
-	</title>
 	<meta py:replace="select('*')"/>
 </head>
 
 <body py:match="body" py:attrs="select('@*')">
-	<h1 id="mediacore-logo"><a href="${h.url_for('/')}">MediaCore</a></h1>
-
 	<div py:replace="select('*|text()|comment()')">Content is injected here</div>
-
-	<div id="mediacore-footer" class="mediacore-content clear">
-		<div py:if="c.paginators" py:replace="pager(c.paginators.values()[0])" />
-
-		<!--! If you remove this link, please consider adding another link somewhere on your site. -->
-		<p>powered by <a href="http://getmediacore.com/">MediaCore Video CMS</a></p>
-	</div>
-
-	<!--[if IE 6]>
-		<script type="text/javascript">
-			// Load jQuery if not already loaded
-			if (typeof jQuery == 'undefined') {
-				document.write('<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></'+'script>');
-				var __noconflict = true;
-			}
-			var IE6UPDATE_OPTIONS = {icons_path: 'http://static.ie6update.com/hosted/ie6update/images/'}
-		</script>
-		<script type="text/javascript" src="http://static.ie6update.com/hosted/ie6update/ie6update.js"></script>
-	<![endif]-->
+	<script type="text/javascript">
+		var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+		document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+	</script>
+	<script type="text/javascript">
+		try{
+			var pageTracker = _gat._getTracker("${c.google_analytics_uacct}");
+			pageTracker._trackPageview();
+		} catch(err) {}
+	</script>
 </body>
 
 </html>
+
