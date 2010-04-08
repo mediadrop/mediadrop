@@ -45,7 +45,8 @@ a.underline-hover:visited {
 	text-decoration: none;
 }
 a.underline-hover:hover,
-a.underline-hover:active {
+a.underline-hover:active,
+a.underline-hover:focus {
 	text-decoration: underline;
 }
 
@@ -309,13 +310,14 @@ table.feat-meta tr:first-child td {
 	display: block;
 	text-decoration: none;
 	width: 100%;
-	height: 110px;
+	height: 120px;
 }
 .grid-title {
 	text-decoration: none;
 	font: bold 13px 'Trebuchet MS', sans-serif;
 }
-a:hover .grid-title {
+a:hover .grid-title,
+a:focus .grid-title {
 	text-decoration: underline;
 }
 .grid-title,
