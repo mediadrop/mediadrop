@@ -41,6 +41,7 @@
 #category-content .grid {
 	width: 720px;
 }
+#category-content .s-grid-column,
 #category-content .s-grid-column .grid {
 	width: 335px;
 	float: left;
@@ -50,16 +51,11 @@
 }
 #category-content li {
 	width: 335px;
-	height: 115px;
 }
 #category-content .grid-title,
 #category-content .grid-desc,
 #category-content .grid-meta {
 	width: 195px;
-}
-#category-content .see-more {
-	margin-top: 5px;
-	float: right;
 }
 
 /* Feature box size overrides */

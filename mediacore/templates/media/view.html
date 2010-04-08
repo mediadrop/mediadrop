@@ -73,7 +73,7 @@
 
 		<py:if test="media.podcast">
 			<div id="podcast-context" class="contextbox" py:with="podcast = media.podcast">
-				<h3 class="uppercase" style="margin-bottom:0">Related Podcast</h3>
+				<h3 class="uppercase">Related Podcast</h3>
 				<ul class="grid s-grid">
 					<li style="height:130px">
 						<a style="height:130px" href="${h.url_for(controller='/podcasts', action='view', slug=podcast.slug)}">
@@ -95,7 +95,7 @@
 		</py:if>
 
 		<div id="media-context" class="contextbox">
-			<h3 class="uppercase" style="margin-bottom:0">Related Media</h3>
+			<h3 class="uppercase">Related Media</h3>
 			<ul py:replace="media_grid(related_media, thumb_size='s', desc_len=60)" />
 		</div>
 	</div>
