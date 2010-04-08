@@ -148,7 +148,7 @@ class PodcastsController(BaseController):
         podcast.title = title
         podcast.subtitle = subtitle
         podcast.author = Author(author_name, author_email)
-        podcast.description = helpers.admin/clean__xhtml(description)
+        podcast.description = helpers.clean_xhtml(description)
         podcast.copyright = details['copyright']
         podcast.category = details['category']
         podcast.itunes_url = details['itunes_url']
