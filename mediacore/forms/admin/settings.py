@@ -39,17 +39,11 @@ class NotificationsForm(ListForm):
             TextField('email_support_requests', maxlength=255),
             TextField('email_send_from', validator=email_validator, label_text='Send Emails From', maxlength=255),
         ]),
-        ListFieldSet('legal_wording', suppress_label=True, legend='Legal Wording:', css_classes=['details_fieldset'], children=[
-            XHTMLTextArea('wording_user_uploads', label_text='User Uploads', attrs=dict(rows=15, cols=25)),
-        ]),
-        ListFieldSet('default_wording', suppress_label=True, legend='Default Form Values:', css_classes=['details_fieldset'], children=[
-            TextArea('wording_additional_notes', label_text='Additional Notes', attrs=dict(rows=3, cols=25)),
-        ]),
         SubmitButton('save', default='Save', css_classes=['btn', 'btn-save', 'f-rgt']),
         ResetButton('cancel', default='Cancel', css_classes=['btn', 'btn-cancel']),
     ]
 
-class DisplaySettingsForm(ListForm):
+class DisplayForm(ListForm):
     template = 'mediacore.templates.admin.box-form'
     id = 'settings-form'
     css_class = 'form'
@@ -64,6 +58,22 @@ class DisplaySettingsForm(ListForm):
             ],
             validator=StringBool(not_empty=True)
         ),
+        RadioButtonList('player',
+            legend='Media Player for View pages:',
+            options=players,
+            validator=OneOf([x[0] for x in players]),
+        ),
+        SubmitButton('save', default='Save', css_classes=['btn', 'btn-save', 'f-rgt']),
+        ResetButton('cancel', default='Cancel', css_classes=['btn', 'btn-cancel']),
+    ]
+
+class PopularityForm(ListForm):
+    template = 'mediacore.templates.admin.box-form'
+    id = 'settings-form'
+    css_class = 'form'
+    submit_text = None
+
+    fields = [
         ListFieldSet('popularity',
             suppress_label=True,
             css_classes=['details_fieldset'],
@@ -73,11 +83,23 @@ class DisplaySettingsForm(ListForm):
                 TextField('popularity_decay_lifetime', validator=Int(not_empty=True, min=1)),
             ]
         ),
-        RadioButtonList('player',
-            legend='Media Player for View pages:',
-            options=players,
-            validator=OneOf([x[0] for x in players]),
-        ),
         SubmitButton('save', default='Save', css_classes=['btn', 'btn-save', 'f-rgt']),
         ResetButton('cancel', default='Cancel', css_classes=['btn', 'btn-cancel']),
     ]
+
+class UploadForm(ListForm):
+    template = 'mediacore.templates.admin.box-form'
+    id = 'settings-form'
+    css_class = 'form'
+    submit_text = None
+    fields = [
+        ListFieldSet('legal_wording', suppress_label=True, legend='Legal Wording:', css_classes=['details_fieldset'], children=[
+            XHTMLTextArea('wording_user_uploads', label_text='User Uploads', attrs=dict(rows=15, cols=25)),
+        ]),
+        ListFieldSet('default_wording', suppress_label=True, legend='Default Form Values:', css_classes=['details_fieldset'], children=[
+            TextArea('wording_additional_notes', label_text='Additional Notes', attrs=dict(rows=3, cols=25)),
+        ]),
+        SubmitButton('save', default='Save', css_classes=['btn', 'btn-save', 'f-rgt']),
+        ResetButton('cancel', default='Cancel', css_classes=['btn', 'btn-cancel']),
+    ]
+

@@ -22,12 +22,20 @@ from mediacore.lib.base import (BaseController, url_for, redirect,
     expose, expose_xhr, validate, paginate)
 from mediacore.model import DBSession, fetch_row, Setting
 from mediacore.model.settings import fetch_setting
-from mediacore.forms.admin.settings import NotificationsForm, DisplaySettingsForm
+from mediacore.forms.admin.settings import (NotificationsForm, DisplayForm,
+    PopularityForm, UploadForm)
 
 notifications_form = NotificationsForm(
     action=url_for(controller='/admin/settings', action='save_notifications'))
-display_form = DisplaySettingsForm(
+
+display_form = DisplayForm(
     action=url_for(controller='/admin/settings', action='save_display'))
+
+popularity_form = PopularityForm(
+    action=url_for(controller='/admin/settings', action='save_popularity'))
+
+upload_form = UploadForm(
+    action=url_for(controller='/admin/settings', action='save_upload'))
 
 
 class SettingsController(BaseController):
@@ -60,66 +68,69 @@ class SettingsController(BaseController):
                 DBSession.add(self.settings[name])
         DBSession.flush()
 
-    @expose('mediacore.templates.admin.settings.notifications')
-    def notifications(self, **kwargs):
-        """Display the form.
+    def _display(self, form, **kwargs):
+        """Return the template variables for display of the form.
 
         :rtype: dict
         :returns:
-            settings_form
-                The :class:`~mediacore.forms.admin.settings.NotificationsForm`
-                instance.
-            settings_values
+            form
+                The passed in form instance.
+            form_values
                 ``dict`` form values
-
         """
-        form = notifications_form
         form_values = _nest_settings_for_form(self.settings, form)
         form_values.update(kwargs)
         return dict(
             form = form,
             form_values = form_values,
         )
+
+    def _save(self, form, redirect_action, **kwargs):
+        """Save the values from the passed in form instance."""
+        values = _flatten_settings_from_form(self.settings, form, kwargs)
+        self._update_settings(values)
+        redirect(action=redirect_action)
+
+
+    @expose('mediacore.templates.admin.settings.notifications')
+    def notifications(self, **kwargs):
+        return self._display(notifications_form, **kwargs)
 
     @expose()
     @validate(notifications_form, error_handler=notifications)
     def save_notifications(self, **kwargs):
         """Save :class:`~mediacore.forms.admin.settings.NotificationsForm`."""
-        form = notifications_form
-        values = _flatten_settings_from_form(self.settings, form, kwargs)
-        self._update_settings(values)
-        redirect(action='notifications')
+        return self._save(notifications_form, 'notifications', **kwargs)
 
     @expose('mediacore.templates.admin.settings.display')
     def display(self, **kwargs):
-        """Display the form.
-
-        :rtype: dict
-        :returns:
-            settings_form
-                The :class:`~mediacore.forms.admin.settings.NotificationsForm`
-                instance.
-            settings_values
-                ``dict`` form values
-
-        """
-        form = display_form
-        form_values = _nest_settings_for_form(self.settings, form)
-        form_values.update(kwargs)
-        return dict(
-            form = form,
-            form_values = form_values,
-        )
+        return self._display(display_form, **kwargs)
 
     @expose()
     @validate(display_form, error_handler=display)
     def save_display(self, **kwargs):
-        """Save :class:`~mediacore.forms.admin.settings.DisplaySettingsForm`."""
-        form = display_form
-        values = _flatten_settings_from_form(self.settings, form, kwargs)
-        self._update_settings(values)
-        redirect(action='display')
+        """Save :class:`~mediacore.forms.admin.settings.DisplayForm`."""
+        return self._save(display_form, 'display', **kwargs)
 
+    @expose('mediacore.templates.admin.settings.popularity')
+    def popularity(self, **kwargs):
+        return self._display(popularity_form, **kwargs)
+
+    @expose()
+    @validate(popularity_form, error_handler=popularity)
+    def save_popularity(self, **kwargs):
+        """Save :class:`~mediacore.forms.admin.settings.PopularityForm`."""
+        return self._save(popularity_form, 'popularity', **kwargs)
+
+    @expose('mediacore.templates.admin.settings.upload')
+    def upload(self, **kwargs):
+        return self._display(upload_form, **kwargs)
+
+    @expose()
+    @validate(upload_form, error_handler=upload)
+    def save_upload(self, **kwargs):
+        """Save :class:`~mediacore.forms.admin.settings.UploadForm`."""
+        return self._save(upload_form, 'upload', **kwargs)
 
 def _nest_settings_for_form(settings, form):
     """Create a dict of setting values nested to match the form."""
