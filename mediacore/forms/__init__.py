@@ -102,7 +102,7 @@ tinyMCE.init({
             value = line_break_xhtml(value)
 
         # Enable the rich text editor, if dictated by the settings:
-        if fetch_setting('enable_tinymce') == 'tinymce':
+        if fetch_setting('rich_text_editor') == 'tinymce':
             if 'css_classes' in kwargs:
                 kwargs['css_classes'].append('tinymcearea')
             else:

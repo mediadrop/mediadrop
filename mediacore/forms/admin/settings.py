@@ -26,8 +26,8 @@ players = [
     ('html5', Markup('&lt;video&gt; tag (HTML5). <a href="http://diveintohtml5.org/video.html">Website</a> - not fully implemented in all browsers')),
 ]
 
-text_editors = [
-    ('tinymce', 'Enable TinyMCE for <textarea> fields that accept XHTML input. Use of TinyMCE is not strictly XHTML compliant, but works in FF>=1.5, Safari>=3, IE>=5.5, so long as javascript is enabled.'),
+rich_text_editors = [
+    ('tinymce', 'Enable TinyMCE for <textarea> fields that accept XHTML input.'),
     ('plain', 'Plain <textarea> fields'),
 ]
 
@@ -56,10 +56,10 @@ class DisplayForm(ListForm):
     submit_text = None
 
     fields = [
-        RadioButtonList('enable_tinymce',
+        RadioButtonList('rich_text_editor',
             label_text='Rich Text Editing',
-            options=text_editors,
-            validator=OneOf([x[0] for x in text_editors]),
+            options=rich_text_editors,
+            validator=OneOf([x[0] for x in rich_text_editors]),
         ),
         RadioButtonList('player',
             legend='Media Player for View pages:',
