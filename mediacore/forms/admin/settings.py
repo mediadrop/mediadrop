@@ -13,10 +13,10 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from tw.forms import TextField, TextArea, ResetButton, RadioButtonList
-from tw.forms.validators import StringBool, Int, OneOf
+from tw.forms import RadioButtonList
+from tw.forms.validators import Int, OneOf, StringBool
 
-from mediacore.forms import ListForm, XHTMLTextArea, SubmitButton, ListFieldSet, email_validator
+from mediacore.forms import ListFieldSet, ListForm, ResetButton, SubmitButton, TextArea, TextField, XHTMLTextArea, email_validator
 from genshi.core import Markup
 
 players = [

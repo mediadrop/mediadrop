@@ -13,11 +13,10 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from tw.forms import TextArea, ResetButton
 from tw.forms.validators import NotEmpty
 from tw.api import WidgetsList
 
-from mediacore.forms import ListForm, SubmitButton
+from mediacore.forms import ListForm, ResetButton, SubmitButton, TextArea
 
 
 class EditCommentForm(ListForm):

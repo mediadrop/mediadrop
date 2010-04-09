@@ -15,14 +15,14 @@
 
 from tw.api import WidgetsList
 import formencode
-from tw.forms import RadioButtonList
+from tw.forms import HiddenField, RadioButtonList, SingleSelectField
 from tw.forms.validators import Int, StringBool, NotEmpty, DateTimeConverter, FieldStorageUploadConverter, OneOf
 
 from mediacore.lib import helpers
-from mediacore.forms import Form, ListForm, ListFieldSet, TextField, XHTMLTextArea, FileField, SingleSelectField, TextArea, SubmitButton, HiddenField, email_validator
+from mediacore.forms import FileField, Form, ListFieldSet, ListForm, SubmitButton, TextArea, TextField, XHTMLTextArea, email_validator
 from mediacore.forms.admin.categories import CategoryCheckBoxList
 from mediacore.forms.admin.settings import players
-from mediacore.model import DBSession, Podcast, Category, MediaFile
+from mediacore.model import Category, DBSession, MediaFile, Podcast
 from mediacore.model.settings import fetch_setting
 
 player_opts = [(None, 'Use global player defined in the settings panel.')] + players

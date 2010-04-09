@@ -13,10 +13,11 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from tw.forms.validators import Invalid, NotEmpty, Schema, FancyValidator, All, PlainText, FieldsMatch
+from tw.forms import PasswordField, SingleSelectField
+from tw.forms.validators import All, FancyValidator, FieldsMatch, Invalid, NotEmpty, PlainText, Schema
 from tg import request
 
-from mediacore.forms import ListForm, ListFieldSet, TextField, SingleSelectField, SubmitButton, PasswordField, email_validator
+from mediacore.forms import ListFieldSet, ListForm, SubmitButton, TextField, email_validator
 
 from mediacore.model import DBSession
 from mediacore.model.auth import Group, User

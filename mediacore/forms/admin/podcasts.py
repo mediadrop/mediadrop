@@ -13,9 +13,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from tw.forms import ListFieldSet, TextField, SingleSelectField
+from tw.forms import ListFieldSet, SingleSelectField
 from tw.forms.validators import NotEmpty
-from mediacore.forms import ListForm, XHTMLTextArea, SubmitButton
+from mediacore.forms import ListForm, SubmitButton, TextField, XHTMLTextArea
 
 class PodcastForm(ListForm):
     template = 'mediacore.templates.admin.box-form'

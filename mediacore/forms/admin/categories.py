@@ -13,12 +13,12 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from tw.forms import TextField, CheckBoxList, HiddenField, SingleSelectField
+from tw.forms import CheckBoxList, HiddenField, SingleSelectField
 from tw.forms.validators import NotEmpty
 
 from mediacore.model.categories import Category
 from mediacore.lib import helpers
-from mediacore.forms import Form, ListForm, SubmitButton
+from mediacore.forms import Form, ListForm, SubmitButton, TextField
 
 def option_tree(cats):
     indent = helpers.decode_entities(u'&nbsp;') * 4

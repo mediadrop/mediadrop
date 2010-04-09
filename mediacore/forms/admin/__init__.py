@@ -13,11 +13,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from tw.forms import TextField, FileField
 from tw.forms.validators import FieldStorageUploadConverter
-
-from mediacore.forms import Form, ListForm#, SubmitButton
-
+from mediacore.forms import FileField, Form, ListForm, TextField
 
 class SearchForm(ListForm):
     method = 'get'
