@@ -46,7 +46,7 @@ class MediaController(BaseController):
 
     @expose('mediacore.templates.media.index')
     @paginate('media', items_per_page=20)
-    def index(self, page=1, show='latest', q=None, **kwargs):
+    def index(self, page=1, show='latest', q=None, tag=None, **kwargs):
         """List media with pagination.
 
         The media paginator may be accessed in the template with
@@ -54,8 +54,12 @@ class MediaController(BaseController):
 
         :param page: Page number, defaults to 1.
         :type page: int
+        :param show: 'latest', 'popular' or 'featured'
+        :type show: unicode or None
         :param q: A search query to filter by
         :type q: unicode or None
+        :param tag: A tag slug to filter for
+        :type tag: unicode or None
         :rtype: dict
         :returns:
             media
@@ -74,12 +78,16 @@ class MediaController(BaseController):
 
         if q:
             media = media.search(q)
+        if tag:
+            tag = fetch_row(Tag, slug=tag)
+            media = media.filter(Media.tags.contains(tag))
 
         return dict(
             media = media,
             result_count = media.count(),
             search_query = q,
             show = show,
+            tag = tag,
         )
 
 

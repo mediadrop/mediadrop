@@ -125,13 +125,13 @@
 		</div>
 	</py:def>
 
-	<py:def function="library_controls(show='latest', paginator=None, search_query=None)">
+	<py:def function="library_controls(show='latest', paginator=None, search_query=None, **kwargs)">
 		<div id="library-controls" class="clearfix">
 			<span id="library-show">Show:</span>
 			<ul>
-				<li><a py:strip="show == 'latest'" href="${h.url_for(show='latest', q=search_query)}" class="underline-hover">Latest</a></li>
-				<li><a py:strip="show == 'popular'" href="${h.url_for(show='popular', q=search_query)}" class="underline-hover">Most Popular</a></li>
-				<li><a py:strip="show == 'featured'" href="${h.url_for(show='featured', q=search_query)}" class="underline-hover">Featured</a></li>
+				<li><a py:strip="show == 'latest'" href="${h.url_for(show='latest', q=search_query, **kwargs)}" class="underline-hover">Latest</a></li>
+				<li><a py:strip="show == 'popular'" href="${h.url_for(show='popular', q=search_query, **kwargs)}" class="underline-hover">Most Popular</a></li>
+				<li><a py:strip="show == 'featured'" href="${h.url_for(show='featured', q=search_query, **kwargs)}" class="underline-hover">Featured</a></li>
 			</ul>
 			<div py:replace="pager(paginator)" />
 		</div>

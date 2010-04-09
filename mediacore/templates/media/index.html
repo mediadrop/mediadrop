@@ -24,11 +24,12 @@
 </head>
 <body class="nav-media-on">
 	<div class="mediacore-content">
-		<h3 class="uppercase" py:choose="">
+		<h3 py:choose="">
 			<py:when test="search_query">Showing ${result_count} results for '${search_query}'</py:when>
-			<py:otherwise>All ${result_count} Media</py:otherwise>
+			<py:when test="tag">Showing ${result_count} results tagged with '${tag.name}'</py:when>
+			<py:otherwise><span class="uppercase">All ${result_count} Media</span></py:otherwise>
 		</h3>
-		${library_controls(show, paginator=c.paginators.media, search_query=search_query)}
+		${library_controls(show, paginator=c.paginators.media, search_query=search_query, tag=tag and tag.slug or None)}
 		<ul py:replace="media_grid(media, id='library', thumb_size='m', desc_len=135)" />
 	</div>
 </body>
