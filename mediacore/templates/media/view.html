@@ -86,6 +86,18 @@
 			<h3 class="uppercase">Related Media</h3>
 			<ul py:replace="media_grid(related_media, thumb_size='s', desc_len=60)" />
 		</div>
+
+		<div id="category-context" class="contextbox" py:if="media.categories">
+			<h3 class="uppercase">Categories</h3>
+			<a py:def="cat_link(cat)" href="${h.url_for(controller='/categories', slug=cat.slug)}" class="underline-hover">${cat.name}</a>
+			${cat_link(media.categories[0])}<py:for each="cat in media.categories[1:]">, ${cat_link(cat)}</py:for>
+		</div>
+
+		<div id="tag-context" class="contextbox" py:if="media.tags">
+			<h3 class="uppercase">Tags</h3>
+			<a py:def="tag_link(tag)" href="${h.url_for(controller='/media', tag=tag.slug)}" class="underline-hover">${tag.name}</a>
+			${tag_link(media.tags[0])}<py:for each="tag in media.tags[1:]">, ${tag_link(tag)}</py:for>
+		</div>
 	</div>
 </body>
 </html>

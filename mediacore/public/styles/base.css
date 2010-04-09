@@ -460,6 +460,16 @@ a:focus .grid-title {
 .contextbox .grid .grid-meta {
 	width: 186px;
 }
+#category-context,
+#tag-context {
+	margin-top: 10px;
+}
+#category-context h3,
+#tag-context h3 {
+	border-top: 1px solid #cdd2d5;
+	margin-bottom: 5px;
+	padding-top: 11px;
+}
 
 /* Media Library */
 #library-controls {
