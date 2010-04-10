@@ -182,8 +182,6 @@ class MediaController(BaseController):
                     'HTTP_ACCEPT': request.environ.get('HTTP_ACCEPT')}
             if akismet.comment_check(values['body'].encode('utf-8'), data):
                 redirect(action='view', commented=1, spam=1, anchor='top')
-        else:
-            log.debug('No Akismet API Key specified, spam filter disabled.')
 
         media = fetch_row(Media, slug=slug)
 
