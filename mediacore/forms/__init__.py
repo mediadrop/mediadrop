@@ -13,14 +13,17 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+from tg.render import _get_tg_vars
 from tw import forms
 from tw.api import JSLink, JSSource
-from tw.forms import ListFieldSet, TextField, FileField, TextArea
+from tw.forms import FileField, ListFieldSet, TextArea as tw_TA, TextField as tw_TF
 from tw.forms.validators import Email
-from tg.render import _get_tg_vars
+from formencode import FancyValidator
+
 from pylons.templating import pylons_globals
-from mediacore.lib.helpers import line_break_xhtml
+
 from mediacore.lib.base import url_for
+from mediacore.lib.helpers import line_break_xhtml
 from mediacore.model.settings import fetch_setting
 
 
@@ -64,7 +67,23 @@ class TableForm(LeniantValidationMixin, GlobalMixin, forms.TableForm):
 class CheckBoxList(GlobalMixin, forms.CheckBoxList):
     pass
 
+class HTMLEntityValidator(FancyValidator):
+    def _to_python(self, value, state=None):
+        return value
+
+class XHTMLValidator(FancyValidator):
+    def _to_python(self, value, state=None):
+        return value
+
+class TextField(tw_TF):
+    validator = HTMLEntityValidator
+
+class TextArea(tw_TA):
+    validator = HTMLEntityValidator
+
 class XHTMLTextArea(TextArea):
+    validator = XHTMLValidator
+
     javascript = [
         JSLink(link=url_for("/scripts/third-party/tiny_mce/tiny_mce.js")),
         JSSource("""window.addEvent('domready', function(){
