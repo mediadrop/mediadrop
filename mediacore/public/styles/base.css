@@ -460,6 +460,13 @@ a:focus .grid-title {
 .contextbox .grid .grid-meta {
 	width: 186px;
 }
+#podcast-context .grid li,
+#podcast-context .grid a {
+	height: 130px;
+}
+#podcast-context .grid-meta span.meta-episodes span {
+	position: static;
+}
 #category-context,
 #tag-context {
 	margin-top: 10px;

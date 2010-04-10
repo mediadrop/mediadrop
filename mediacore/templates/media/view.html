@@ -95,8 +95,8 @@
 			<div id="podcast-context" class="contextbox" py:with="podcast = media.podcast">
 				<h3 class="uppercase">Related Podcast</h3>
 				<ul class="grid s-grid">
-					<li style="height:130px">
-						<a style="height:130px" href="${h.url_for(controller='/podcasts', action='view', slug=podcast.slug)}">
+					<li>
+						<a href="${h.url_for(controller='/podcasts', action='view', slug=podcast.slug)}">
 							<span class="grid-title">${podcast.title}</span>
 							<span class="thumb-wrap">
 								<img py:with="thumb = h.thumb(podcast, 's')" src="${thumb.url}" width="${thumb.x}" height="${thumb.y}" alt="" />
@@ -105,7 +105,7 @@
 							<span class="grid-meta">
 								<span class="meta meta-episodes" title="Podcast Episodes">
 									${podcast.media_count_published}
-									<span style="position:static !important">Episode<py:if test="podcast.media_count_published != 1">s</py:if> in this Series</span>
+									<span>Episode<py:if test="podcast.media_count_published != 1">s</py:if> in this Series</span>
 								</span>
 							</span>
 						</a>
