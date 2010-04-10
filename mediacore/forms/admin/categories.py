@@ -13,6 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+from tw.api import WidgetsList
 from tw.forms import CheckBoxList, HiddenField, SingleSelectField
 from tw.forms.validators import NotEmpty
 
@@ -25,6 +26,9 @@ def option_tree(cats):
     return [(None, None)] + \
         [(c.id, indent * depth + c.name) for c, depth in cats.traverse()]
 
+def parent_id_options():
+    return option_tree(Category.query.order_by(Category.name.asc()).populated_tree())
+
 class CategoryForm(ListForm):
     template = 'mediacore.templates.admin.categories.form'
     id = None
@@ -34,12 +38,13 @@ class CategoryForm(ListForm):
     # required to support multiple named buttons to differentiate between Save & Delete?
     _name = 'vf'
 
-    fields = [
-        SubmitButton('save', default='Save', named_button=True, css_classes=['f-rgt', 'btn', 'btn-save']),
-        TextField('name', validator=NotEmpty),
-        TextField('slug', validator=NotEmpty),
-        SingleSelectField('parent_id', label_text='Parent Category', options=lambda: option_tree(Category.query.order_by(Category.name.asc()).populated_tree())),
-    ]
+    class fields(WidgetsList):
+        save = SubmitButton(default='Save', named_button=True, css_classes=['f-rgt', 'btn', 'btn-save'])
+        name = TextField()
+        slug = TextField(validator=NotEmpty)
+        parent_id = SingleSelectField(label_text='Parent Category', options=parent_id_options)
+
+        name.validator.not_empty = True
 
 class CategoryCheckBoxList(CheckBoxList):
     params = ['category_tree']
@@ -51,9 +56,8 @@ class CategoryRowForm(Form):
     submit_text = None
     params = ['category', 'depth', 'first_child']
 
-    fields = [
-        HiddenField('name'),
-        HiddenField('slug'),
-        HiddenField('parent_id'),
-        SubmitButton('delete', default='Delete', css_classes=['btn', 'btn-inline-delete']),
-    ]
+    class fields(WidgetsList):
+        name = HiddenField()
+        slug = HiddenField()
+        parent_id = HiddenField()
+        delete = SubmitButton(default='Delete', css_classes=['btn', 'btn-inline-delete'])

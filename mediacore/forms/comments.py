@@ -25,8 +25,11 @@ class PostCommentForm(ListForm):
     css_class = 'form'
 
     class fields(WidgetsList):
-        name = TextField(validator=NotEmpty)
-        body = TextArea(validator=NotEmpty, label_text='Comment', attrs=dict(rows=5, cols=25))
+        name = TextField()
+        body = TextArea(label_text='Comment', attrs=dict(rows=5, cols=25))
         submit = SubmitButton(default='Post Comment', css_class='btn btn-post-comment')
+
+        name.validator.not_empty = True
+        body.validator.not_empty = True
 
 

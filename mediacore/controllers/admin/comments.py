@@ -147,7 +147,7 @@ class CommentsController(BaseController):
 
         """
         comment = fetch_row(Comment, id)
-        comment.body = helpers.clean_xhtml(body)
+        comment.body = body
         DBSession.add(comment)
         return dict(
             success = True,

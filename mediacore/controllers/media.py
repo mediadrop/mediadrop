@@ -188,7 +188,7 @@ class MediaController(BaseController):
         c = Comment()
         c.author = AuthorWithIP(values['name'], None, request.environ['REMOTE_ADDR'])
         c.subject = 'Re: %s' % media.title
-        c.body = helpers.clean_xhtml(values['body'])
+        c.body = values['body']
 
         require_review = asbool(config.get('req_comment_approval', 'false'))
         if not require_review:

@@ -19,11 +19,13 @@ from tw.api import JSLink, JSSource
 from tw.forms import FileField, ListFieldSet, TextArea as tw_TA, TextField as tw_TF
 from tw.forms.validators import Email
 from formencode import FancyValidator
+from formencode.api import Invalid
 
+from BeautifulSoup import BeautifulStoneSoup
 from pylons.templating import pylons_globals
 
 from mediacore.lib.base import url_for
-from mediacore.lib.helpers import line_break_xhtml
+from mediacore.lib.helpers import line_break_xhtml, clean_xhtml
 from mediacore.model.settings import fetch_setting
 
 
@@ -67,19 +69,64 @@ class TableForm(LeniantValidationMixin, GlobalMixin, forms.TableForm):
 class CheckBoxList(GlobalMixin, forms.CheckBoxList):
     pass
 
-class HTMLEntityValidator(FancyValidator):
+class XHTMLEntityValidator(FancyValidator):
     def _to_python(self, value, state=None):
-        return value
+        """Strip XML tags and convert XHTML entities in to unicode."""
+        cleaner_settings = dict(
+           convert_entities = BeautifulStoneSoup.ALL_ENTITIES,
+           filters = ['strip_tags'],
+           valid_tags = [],
+        )
+        return clean_xhtml(
+            value,
+            p_wrap=False,
+            _cleaner_settings = cleaner_settings,
+        )
 
 class XHTMLValidator(FancyValidator):
     def _to_python(self, value, state=None):
-        return value
+        """Convert the given plain text or HTML into valid XHTML.
+
+        Invalid elements are stripped or converted.
+        Essentially a wapper for :func:`~mediacore.helpers.clean_xhtml`.
+        """
+        return clean_xhtml(value)
 
 class TextField(tw_TF):
-    validator = HTMLEntityValidator
+    """TextField widget.
+
+    The default validator converts any HTML entities into Unicode in the
+    submitted text.
+    """
+    validator = XHTMLEntityValidator
+
+    def __init__(self, *args, **kwargs):
+        """Initialize the widget.
+
+        If no validator is specified at instantiation time, instantiates
+        the default validator.
+        """
+        tw_TF.__init__(self, *args, **kwargs)
+        if 'validator' not in kwargs:
+            self.validator = self.validator()
 
 class TextArea(tw_TA):
-    validator = HTMLEntityValidator
+    """TextArea widget.
+
+    The default validator converts any HTML entities into Unicode in the
+    submitted text.
+    """
+    validator = XHTMLEntityValidator
+
+    def __init__(self, *args, **kwargs):
+        """Initialize the widget.
+
+        If no validator is specified at instantiation time, instantiates
+        the default validator.
+        """
+        tw_TA.__init__(self, *args, **kwargs)
+        if 'validator' not in kwargs:
+            self.validator = self.validator()
 
 class XHTMLTextArea(TextArea):
     validator = XHTMLValidator
@@ -133,4 +180,26 @@ email_validator = Email(messages={
     'badUsername': 'The portion of the email address before the @ is invalid',
     'badDomain': 'The portion of this email address after the @ is invalid'
 })
+
+class email_list_validator(FancyValidator):
+    def __init__(self, *args, **kwargs):
+        FancyValidator.__init__(self, *args, **kwargs)
+        self.email = Email()
+
+    def _to_python(self, value, state=None):
+        """Validate a comma separated list of email addresses."""
+        emails = [x.strip() for x in value.split(',')]
+        good_emails = []
+        messages = []
+
+        for addr in emails:
+            try:
+                good_emails.append(self.email.to_python(addr, state))
+            except Invalid, e:
+                messages.append(str(e))
+
+        if messages:
+            raise Invalid("; ".join(messages), value, state)
+        else:
+            return ", ".join(good_emails)
 

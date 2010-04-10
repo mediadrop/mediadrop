@@ -13,9 +13,10 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+from formencode.validators import URL
 from tw.forms import ListFieldSet, SingleSelectField
 from tw.forms.validators import NotEmpty
-from mediacore.forms import ListForm, SubmitButton, TextField, XHTMLTextArea
+from mediacore.forms import ListForm, SubmitButton, TextField, XHTMLTextArea, email_validator
 
 class PodcastForm(ListForm):
     template = 'mediacore.templates.admin.box-form'
@@ -99,18 +100,19 @@ class PodcastForm(ListForm):
 
     fields = [
         TextField('slug', validator=NotEmpty, maxlength=50),
-        TextField('title', validator=NotEmpty, maxlength=50),
+        TextField('title', validator=TextField.validator(not_empty=True), maxlength=50),
         TextField('subtitle', maxlength=255),
-        TextField('author_name', validator=NotEmpty, maxlength=50),
-        TextField('author_email', validator=NotEmpty, maxlength=50),
+        TextField('author_name', validator=TextField.validator(not_empty=True), maxlength=50),
+        TextField('author_email', validator=email_validator(not_empty=True), maxlength=50),
         XHTMLTextArea('description', attrs=dict(rows=5, cols=25)),
         ListFieldSet('details', suppress_label=True, legend='Podcast Details:', css_classes=['details_fieldset'], children=[
             SingleSelectField('explicit', label_text='Explicit?', options=explicit_options),
             SingleSelectField('category', options=category_options),
             TextField('copyright', maxlength=50),
-            TextField('itunes_url', label_text='iTunes URL', maxlength=80),
-            TextField('feedburner_url', label_text='Feedburner URL', maxlength=80),
+            TextField('itunes_url', validator=URL, label_text='iTunes URL', maxlength=80),
+            TextField('feedburner_url', validator=URL, label_text='Feedburner URL', maxlength=80),
         ]),
         SubmitButton('save', default='Save', named_button=True, css_classes=['btn', 'btn-save', 'f-rgt']),
         SubmitButton('delete', default='Delete', named_button=True, css_classes=['btn', 'btn-delete']),
     ]
+

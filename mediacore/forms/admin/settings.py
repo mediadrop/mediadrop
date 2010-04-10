@@ -16,7 +16,7 @@
 from tw.forms import RadioButtonList
 from tw.forms.validators import Int, OneOf, StringBool
 
-from mediacore.forms import ListFieldSet, ListForm, ResetButton, SubmitButton, TextArea, TextField, XHTMLTextArea, email_validator
+from mediacore.forms import ListFieldSet, ListForm, ResetButton, SubmitButton, TextArea, TextField, XHTMLTextArea, email_validator, email_list_validator
 from genshi.core import Markup
 
 players = [
@@ -40,9 +40,9 @@ class NotificationsForm(ListForm):
 
     fields = [
         ListFieldSet('email', suppress_label=True, legend='Email Notifications:', css_classes=['details_fieldset'], children=[
-            TextField('email_media_uploaded', maxlength=255),
-            TextField('email_comment_posted', maxlength=255),
-            TextField('email_support_requests', maxlength=255),
+            TextField('email_media_uploaded', validator=email_list_validator, maxlength=255),
+            TextField('email_comment_posted', validator=email_list_validator, maxlength=255),
+            TextField('email_support_requests', validator=email_list_validator, maxlength=255),
             TextField('email_send_from', validator=email_validator, label_text='Send Emails From', maxlength=255),
         ]),
         SubmitButton('save', default='Save', css_classes=['btn', 'btn-save', 'f-rgt']),

@@ -29,7 +29,7 @@ class TagForm(ListForm):
 
     fields = [
         SubmitButton('save', default='Save', css_classes=['f-rgt', 'btn', 'btn-save']),
-        TextField('name', css_classes=['tag-name'], validator=NotEmpty),
+        TextField('name', css_classes=['tag-name'], validator=TextField.validator(not_empty=True)),
         TextField('slug', css_classes=['tag-slug'], validator=NotEmpty),
     ]
 

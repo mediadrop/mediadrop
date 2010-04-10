@@ -15,7 +15,9 @@
 
 from tw.api import WidgetsList
 import formencode
+from formencode.validators import URL
 from tw.forms import HiddenField, RadioButtonList, SingleSelectField
+from tw.forms.core import DefaultValidator
 from tw.forms.validators import Int, StringBool, NotEmpty, DateTimeConverter, FieldStorageUploadConverter, OneOf
 
 from mediacore.lib import helpers
@@ -33,7 +35,7 @@ class AddFileForm(ListForm):
     submit_text = None
     fields = [
         FileField('file', suppress_label=True, validator=FieldStorageUploadConverter(not_empty=False, label_text='Upload', show_error=True)),
-        TextField('url', label_text='URL', default='URL', suppress_label=True, maxlength=255),
+        TextField('url', validator=URL, label_text='URL', default='URL', suppress_label=True, maxlength=255),
     ]
 
 
@@ -95,7 +97,7 @@ class MediaForm(ListForm):
     fields = [
         SingleSelectField('podcast', label_text='Include in the Podcast', help_text='Optional', options=lambda: [(None, None)] + DBSession.query(Podcast.id, Podcast.title).all()),
         TextField('slug', validator=NotEmpty, maxlength=50),
-        TextField('title', validator=NotEmpty, maxlength=255),
+        TextField('title', validator=TextField.validator(not_empty=True), maxlength=255),
         TextField('author_name', maxlength=50),
         TextField('author_email', validator=email_validator(not_empty=True), maxlength=50),
         XHTMLTextArea('description', attrs=dict(rows=5, cols=25)),

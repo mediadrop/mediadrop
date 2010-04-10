@@ -45,7 +45,7 @@ class UserForm(ListForm):
     _name = 'user-form' # TODO: Figure out why this is required??
 
     fields = [
-        TextField('display_name', validator=NotEmpty, maxlength=255),
+        TextField('display_name', validator=TextField.validator(not_empty=True), maxlength=255),
         TextField('email_address', validator=email_validator(not_empty=True), maxlength=255),
         ListFieldSet('login_details', suppress_label=True, legend='Login Details:',
                      css_classes=['details_fieldset'],

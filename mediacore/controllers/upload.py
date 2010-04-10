@@ -196,7 +196,7 @@ class UploadController(BaseController):
         media_obj.author = Author(name, email)
         media_obj.title = title
         media_obj.slug = get_available_slug(Media, title)
-        media_obj.description = helpers.clean_xhtml(description)
+        media_obj.description = description
         media_obj.notes = fetch_setting('wording_additional_notes')
         media_obj.set_tags(tags)
 
