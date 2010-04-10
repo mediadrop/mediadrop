@@ -96,29 +96,14 @@ block_tags = 'p br pre blockquote div h1 h2 h3 h4 h5 h6 hr ul ol li form table t
 block_spaces = re.compile("\s*(</{0,1}(" + "|".join(block_tags) + ")>)\s*", re.M)
 block_close = re.compile("(</(" + "|".join(block_tags) + ")>)", re.M)
 valid_tags = dict.fromkeys('p i em strong b u a br pre abbr ol ul li sub sup ins del blockquote cite'.split())
-valid_tags_admin = copy(valid_tags)
-valid_tags_admin.update(dict.fromkeys(block_tags))
 valid_attrs = dict.fromkeys('href title'.split())
-valid_attrs_admin = dict.fromkeys('href title src style class'.split())
 elem_map = {'b': 'strong', 'i': 'em'}
 truncate_filters = ['strip_empty_tags']
-
-# Permissive admin HTML sanitization rules
-cleaner_settings_admin = dict(
-    convert_entities = BeautifulSoup.ALL_ENTITIES,
-    valid_tags = valid_tags_admin,
-    valid_attrs = valid_attrs_admin,
-    elem_map = copy(elem_map),
-    filters = [
-        'strip_tags', 'strip_attrs', 'strip_schemes', 'strip_cdata',
-        'rename_tags', 'br_to_p', 'make_links', 'encode_xml_specials',
-        'clean_whitespace', 'strip_empty_tags',
-    ]
-)
-
-# More restrictive rules for publicly submitted content
-cleaner_filters = copy(cleaner_settings_admin['filters'])
-cleaner_filters.extend(['strip_comments', 'add_nofollow'])
+cleaner_filters = [
+        'add_nofollow', 'br_to_p', 'clean_whitespace', 'encode_xml_specials',
+        'make_links', 'rename_tags', 'strip_attrs', 'strip_cdata',
+        'strip_comments', 'strip_empty_tags', 'strip_schemes', 'strip_tags'
+]
 # Map all invalid block elements to be paragraphs.
 for t in block_tags:
     if t not in valid_tags:
@@ -183,14 +168,6 @@ def clean_xhtml(string, _cleaner_settings=None):
     string = block_spaces.sub(u"\\1", string)
 
     return string.strip()
-
-def clean_admin_xhtml(string):
-    """Convert the given text/HTML into valid HTML, allowing any tag.
-
-    :returns: XHTML
-    :rtype: unicode
-    """
-    return clean_xhtml(string, cleaner_settings_admin)
 
 def truncate_xhtml(string, size, _strip_xhtml=False, _decode_entities=False):
     """Truncate a XHTML string to roughly a given size (full words).
