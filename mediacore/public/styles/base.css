@@ -524,3 +524,44 @@ a:focus .grid-title {
 	font-family: 'Trebuchet MS', sans-serif;
 	font-weight: bold;
 }
+
+.meta-wrapper {
+	position: relative;
+}
+.meta-hover {
+	width: 138px;
+	position: absolute;
+	top: 19px;
+	left: -35px;
+	z-index: 100;
+	display: none;
+}
+#embedthis .meta-hover {
+	background: url('../images/layout/embed-box.png') no-repeat;
+	height: 66px;
+}
+#sharethis .meta-hover {
+	background: url('../images/layout/share-box.png') no-repeat;
+	height: 106px;
+}
+.meta-hover input {
+	position: absolute;
+	top: 24px;
+	left: 14px;
+	padding: 5px;
+	width: 98px;
+	border: 1px solid #c6c6c6;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+}
+.meta-hover li a {
+	text-indent: -5000px;
+	width: 40px;
+	height: 30px;
+	position: absolute;
+	top: 63px;
+	display: block;
+}
+.meta-hover li.share-facebook a { left: 48px; width:42px }
+.meta-hover li.share-email a { left: 7px }
+.meta-hover li.share-twitter a { left:91px }

@@ -25,6 +25,19 @@
 	<link py:if="media.podcast" href="${h.url_for('/styles/podcasts.css')}" media="screen" rel="stylesheet" type="text/css" />
 	<meta name="description" content="${h.truncate(media.description_plain, 249)}" />
 	<meta name="keywords" content="${', '.join(tag.name for tag in media.tags[:15])}" />
+	<script type="text/javascript">
+		window.addEvent('domready', function(){
+			var embed = new MetaHover('embedthis');
+			var share = new ShareHover('sharethis');
+			var hideShare = share.hide.bind(share);
+			embed.btn.addEvent('focus', hideShare);
+			share.btn.addEvent('focus', embed.hide.bind(embed));
+			$$('likethis').addEvent('focus', hideShare);
+			var c = $$$$('li.comment:first-child cite a');
+			if (c.length) c[0].addEvent('focus', hideShare);
+			$('name').addEvent('focus', hideShare);
+		});
+	</script>
 </head>
 <body class="${media.podcast and 'nav-podcasts-on' or 'nav-media-on'}">
 	<div id="media-box" class="mediacore-content feat-box">
@@ -43,8 +56,27 @@
 			<table class="feat-meta" cellspacing="0">
 				<tr>
 					<td><a py:if="media.downloadable_file" style="margin-right:10px" class="meta meta-download underline-hover" href="${media.downloadable_file.link_url()}"><strong>Download</strong></a></td>
-					<td><a class="meta meta-embed underline-hover" id="embedthis" title="Embed on your site" href="${h.url_for(action='embed')}"><strong>Embed</strong></a></td>
-					<td><a class="meta meta-share underline-hover" id="sharethis" title="Share this ${media.type} with friends" href="${h.url_for(action='share')}"><strong>Share</strong></a></td>
+					<td>
+						<div id="embedthis" class="meta-wrapper">
+							<a class="meta meta-embed underline-hover" title="Embed on your site" href="#"><strong>Embed</strong></a>
+							<div class="meta-hover">
+								<input type="text" value="${helpers.embeddable_player(media)}" readonly="readonly" />
+							</div>
+						</div>
+					</td>
+					<td>
+						<div id="sharethis" class="meta-wrapper">
+							<a class="meta meta-share underline-hover" title="Share this ${media.type} with friends" href="#"><strong>Share</strong></a>
+							<div class="meta-hover" py:with="current_url = h.url_for(qualified=True)">
+								<input type="text" value="${current_url}" readonly="readonly" />
+								<ul>
+									<li class="share-email"><a href="mailto:?subject=${media.title + ': ' + current_url}">email</a></li>
+									<li class="share-facebook"><a href="http://www.facebook.com/sharer.php?u=${current_url}">facebook</a></li>
+									<li class="share-twitter"><a href="http://twitter.com/home?status=${media.title + ': ' + current_url}">twitter</a></li>
+								</ul>
+							</div>
+						</div>
+					</td>
 				</tr>
 				<tr>
 					<td><span class="meta meta-comments" title="Comments">${media.comment_count_published} <span>Comment<py:if test="media.comment_count_published != 1">s</py:if></span></span></td>
