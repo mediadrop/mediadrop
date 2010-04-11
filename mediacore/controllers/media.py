@@ -127,7 +127,7 @@ class MediaController(BaseController):
         related = Media.query.published()\
             .options(orm.undefer('comment_count_published'))\
             .filter(Media.id != media.id)\
-            .search(media.title + ' ' + media.fulltext.tags)[:6]
+            .search('>(%s) <(%s)' % (media.title, media.fulltext.tags))[:6]
 
         return dict(
             media = media,
