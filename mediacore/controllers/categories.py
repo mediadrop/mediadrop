@@ -18,6 +18,7 @@ from sqlalchemy import orm, sql
 
 from mediacore.lib.base import (BaseController, url_for, redirect,
     expose, expose_xhr, validate, paginate)
+from mediacore.lib import helpers
 from mediacore.model import (DBSession, fetch_row,
     Podcast, Media, Category)
 
@@ -52,11 +53,21 @@ class CategoriesController(BaseController):
         if c.category:
             media = media.in_category(c.category)
 
-        latest = media.order_by(Media.publish_on.desc())[:5]
-        popular = media.order_by(Media.popularity_points.desc())\
-            .filter(sql.not_(Media.id.in_([m.id for m in latest])))[:6]
+        latest = media.order_by(Media.publish_on.desc())
+        popular = media.order_by(Media.popularity_points.desc())
+
+        featured = None
+        featured_cat = helpers.get_featured_category()
+        if featured_cat and featured_cat is not c.category:
+            featured = media.in_category(featured_cat).first()
+        if not featured:
+            featured = popular.first()
+
+        latest = latest.exclude(featured)[:5]
+        popular = popular.exclude(latest, featured)[:5]
 
         return dict(
+            featured = featured,
             latest = latest,
             popular = popular,
         )

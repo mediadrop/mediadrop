@@ -514,6 +514,12 @@ def embeddable_player(media):
     xhtml = excess_whitespace.sub(' ', xhtml)
     return xhtml.strip()
 
+def get_featured_category():
+    from mediacore.model import Category
+    from mediacore.model.settings import fetch_setting
+    feat_id = int(fetch_setting('featured_category'))
+    return Category.query.get(feat_id)
+
 def filter_library_controls(query, show='latest'):
     from mediacore.model import Media
     if show == 'latest':
@@ -521,7 +527,9 @@ def filter_library_controls(query, show='latest'):
     elif show == 'popular':
         query = query.order_by(Media.popularity_points.desc())
     elif show == 'featured':
-        query = query # FIXME!!!!
+        featured_cat = get_featured_category()
+        if featured_cat:
+            query = query.in_category(featured_cat)
     return query, show
 
 def is_admin():

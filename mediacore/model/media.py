@@ -196,6 +196,25 @@ class MediaQuery(Query):
                      media_categories.c.category_id.in_(all_ids))
         )))
 
+    def exclude(self, *args):
+        """Exclude the given Media rows or IDs from the results.
+
+        Accepts any number of arguments of Media instances, ids,
+        lists of both, or None.
+        """
+        ids = []
+        for arg in args:
+            if isinstance(arg, list):
+                ids.extend(self.exclude(*arg))
+            elif isinstance(arg, Media):
+                ids.append(arg.id)
+            elif arg is not None:
+                ids.append(int(arg))
+        if ids:
+            return self.filter(sql.not_(Media.id.in_(ids)))
+        else:
+            return self
+
 
 class Media(object):
     """

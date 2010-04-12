@@ -24,10 +24,10 @@
 </head>
 <body class="nav-explore-on">
 	<div class="mediacore-content">
-		<div py:if="popular or latest" id="explore-latest" class="m-grid-column" style="margin-right:20px">
-			<py:if test="popular">
+		<div py:if="featured or latest" id="explore-latest" class="m-grid-column" style="margin-right:20px">
+			<py:if test="featured">
 				<h2><span class="uppercase">Featured</span></h2>
-				<div class="feat-box" py:with="featured = popular[0]">
+				<div class="feat-box">
 					<div class="feat-top" />
 					<div class="feat-content clearfix">
 						${media_player(featured, width=410, height=230)}
@@ -49,13 +49,13 @@
 			</py:if>
 		</div>
 
-		<div py:if="len(latest) > 1" id="explore-popular" class="m-grid-column">
+		<div py:if="popular" id="explore-popular" class="m-grid-column">
 			<h2><a href="${h.url_for(action='index', order='popular')}" class="underline-hover uppercase nocolor">Most Popular</a></h2>
 			<ul py:replace="media_grid(popular, thumb_size='m', desc_len=135)" />
 			<a class="see-more underline-hover" href="${h.url_for(action='index', show='popular')}">more of the Most Popular...</a>
 		</div>
 
-		<p py:if="not (latest or popular)">
+		<p py:if="not (featured or latest or popular)">
 			There are no media items published yet!
 		</p>
 	</div>

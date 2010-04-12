@@ -266,11 +266,21 @@ class MediaController(BaseController):
         media = Media.query.published()\
             .options(orm.undefer('comment_count_published'))
 
-        latest = media.order_by(Media.publish_on.desc())[:5]
-        popular = media.order_by(Media.popularity_points.desc())\
-            .filter(sql.not_(Media.id.in_([m.id for m in latest])))[:8]
+        latest = media.order_by(Media.publish_on.desc())
+        popular = media.order_by(Media.popularity_points.desc())
+
+        featured = None
+        featured_cat = helpers.get_featured_category()
+        if featured_cat:
+            featured = media.in_category(featured_cat).first()
+        if not featured:
+            featured = popular.first()
+
+        latest = latest.exclude(featured)[:5]
+        popular = popular.exclude(latest, featured)[:8]
 
         return dict(
+            featured = featured,
             latest = latest,
             popular = popular,
         )
