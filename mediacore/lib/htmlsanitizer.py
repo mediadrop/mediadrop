@@ -126,9 +126,25 @@ BR_EXTRACTION_RE = re.compile("</?br ?/?>", re.MULTILINE)
 URL_RE = re.compile(url_regex, re.IGNORECASE)
 
 def entities_to_unicode(text):
-    """Converts HTML entities to unicode.  For example '&amp;' becomes '&'."""
-    text = unicode(BeautifulSoup.BeautifulStoneSoup(text, convertEntities=BeautifulSoup.BeautifulStoneSoup.ALL_ENTITIES))
-    return text
+    """Converts HTML entities to unicode.  For example '&amp;' becomes '&'.
+
+    FIXME:
+    WARNING: There is a bug between sgmllib.SGMLParser.goahead() and
+    BeautifulSoup.BeautifulStoneSoup.handle_entityref() where entity-like
+    strings that don't match known entities are guessed at (if they come in
+    the middle of the text) or are omitted (if they come at the end of the
+    text).
+
+    Further, unrecognized entities will have their leading ampersand escaped
+    and trailing semicolon (if it exists) stripped. Examples:
+
+    Inputs "...&bob;...", "...&bob&...", "...&bob;", and "...&bob" will give
+    outputs "...&amp;bob...", "...&amp;bob&...", "...&amp;bob", and "...",
+    respectively.
+    """
+    soup = BeautifulSoup.BeautifulStoneSoup(text,
+        convertEntities=BeautifulSoup.BeautifulStoneSoup.ALL_ENTITIES)
+    return unicode(soup)
 
 def encode_xhtml_entities(text):
     """Escapes only those entities that are required for XHTML compliance"""
