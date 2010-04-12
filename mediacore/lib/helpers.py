@@ -116,11 +116,12 @@ cleaner_settings = dict(
     filters = cleaner_filters
 )
 
-def clean_xhtml(string, _cleaner_settings=None):
+def clean_xhtml(string, p_wrap=True, _cleaner_settings=None):
     """Convert the given plain text or HTML into valid XHTML.
 
     If there is no markup in the string, apply paragraph formatting.
 
+    :param p_wrap: Wrap the output in <p></p> tags?
     :param _cleaner_settings: Constructor kwargs for
         :class:`mediacore.lib.htmlsanitizer.Cleaner`
     :type _cleaner_settings: dict
@@ -160,8 +161,9 @@ def clean_xhtml(string, _cleaner_settings=None):
     # lines to trigger automatic <p> creation
     # FIXME: This should trigger any time we don't have a wrapping block tag
     # FIXME: This doesn't wrap orphaned text when it follows a <p> tag, for ex
-    if (len(cleaner.root.contents) == 1
-        and isinstance(cleaner.root.contents[0], basestring)):
+    if p_wrap \
+        and len(cleaner.root.contents) == 1 \
+        and isinstance(cleaner.root.contents[0], basestring):
         string = u"<p>%s</p>" % string.strip()
 
     # strip all whitespace from immediately before/after block-level elements
