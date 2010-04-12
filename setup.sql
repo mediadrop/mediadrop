@@ -41,7 +41,7 @@ CREATE TABLE `categories` (
 
 LOCK TABLES `categories` WRITE;
 /*!40000 ALTER TABLE `categories` DISABLE KEYS */;
-INSERT INTO `categories` VALUES (1,'Example Topic','example-topic',NULL),
+INSERT INTO `categories` VALUES (1,'Featured','featured',NULL),
 (2,'Another Subject','another-subject',NULL);
 /*!40000 ALTER TABLE `categories` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -531,10 +531,11 @@ INSERT INTO `settings` VALUES (1,'email_media_uploaded',NULL),
 (4,'email_send_from','noreply@localhost'),
 (5,'wording_user_uploads','Upload your media using the form below. We\'ll review it and get back to you.'),
 (6,'wording_additional_notes',NULL),
-(7,'enable_tinymce','tinymce'),
+(7,'rich_text_editor','tinymce'),
 (8,'popularity_decay_exponent','4'),
 (9,'popularity_decay_lifetime','36'),
-(10,'player','flowplayer');
+(10,'player','flowplayer'),
+(10,'featured_category','1');
 /*!40000 ALTER TABLE `settings` ENABLE KEYS */;
 UNLOCK TABLES;
 

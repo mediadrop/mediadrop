@@ -26,7 +26,7 @@ def option_tree(cats):
     return [(None, None)] + \
         [(c.id, indent * depth + c.name) for c, depth in cats.traverse()]
 
-def parent_id_options():
+def category_options():
     return option_tree(Category.query.order_by(Category.name.asc()).populated_tree())
 
 class CategoryForm(ListForm):
@@ -42,7 +42,7 @@ class CategoryForm(ListForm):
         save = SubmitButton(default='Save', named_button=True, css_classes=['f-rgt', 'btn', 'btn-save'])
         name = TextField()
         slug = TextField(validator=NotEmpty)
-        parent_id = SingleSelectField(label_text='Parent Category', options=parent_id_options)
+        parent_id = SingleSelectField(label_text='Parent Category', options=category_options)
 
         name.validator.not_empty = True
 

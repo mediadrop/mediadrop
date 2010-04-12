@@ -13,17 +13,18 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from tw.forms import RadioButtonList
+from genshi.core import Markup
+from tw.forms import RadioButtonList, SingleSelectField
 from tw.forms.validators import Int, OneOf, StringBool
 
 from mediacore.forms import ListFieldSet, ListForm, ResetButton, SubmitButton, TextArea, TextField, XHTMLTextArea, email_validator, email_list_validator
-from genshi.core import Markup
+from mediacore.forms.admin.categories import category_options
 
 players = [
-    ('flowplayer', Markup('FlowPlayer (Flash). <a href="http://flowplayer.org">Website</a> - <a href="http://flowplayer.org/download/license_gpl.htm">Licence</a>')),
-    ('jwplayer', Markup('JWPlayer (Flash). <a href="http://longtailvideo.com">Website</a> - <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Licence</a>')),
-    ('sublime', Markup('Sublime (HTML5). <a href="http://jilion.com/sublime/video">Website</a> - not yet available')),
-    ('html5', Markup('&lt;video&gt; tag (HTML5). <a href="http://diveintohtml5.org/video.html">Website</a> - not fully implemented in all browsers')),
+    ('flowplayer', Markup('<a href="http://flowplayer.org">FlowPlayer</a> (Flash) - <a href="http://flowplayer.org/download/license_gpl.htm">Licence</a>')),
+    ('jwplayer', Markup('<a href="http://longtailvideo.com">JWPlayer</a> (Flash) - <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Licence</a>')),
+    ('sublime', Markup('<a href="http://jilion.com/sublime/video">Sublime</a> (HTML5) - not yet available')),
+    ('html5', Markup('<a href="http://diveintohtml5.org/video.html">&lt;video&gt; tag</a> (HTML5) - not fully implemented in all browsers')),
 ]
 
 rich_text_editors = [
@@ -66,6 +67,10 @@ class DisplayForm(ListForm):
             options=players,
             validator=OneOf([x[0] for x in players]),
         ),
+        SingleSelectField('featured_category',
+            options=category_options,
+            validator=Int(),
+        ),
         SubmitButton('save', default='Save', css_classes=['btn', 'btn-save', 'f-rgt']),
         ResetButton('cancel', default='Cancel', css_classes=['btn', 'btn-cancel']),
     ]
@@ -106,7 +111,6 @@ class UploadForm(ListForm):
         ResetButton('cancel', default='Cancel', css_classes=['btn', 'btn-cancel']),
     ]
 
-
 class AnalyticsForm(ListForm):
     template = 'mediacore.templates.admin.box-form'
     id = 'settings-form'
@@ -119,4 +123,3 @@ class AnalyticsForm(ListForm):
         SubmitButton('save', default='Save', css_classes=['btn', 'btn-save', 'f-rgt']),
         ResetButton('cancel', default='Cancel', css_classes=['btn', 'btn-cancel']),
     ]
-
