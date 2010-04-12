@@ -14,11 +14,13 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import datetime as dt
+import hashlib
 import math
 import os
 import re
 import shutil
 import time
+import urllib
 from PIL import Image
 from copy import copy
 from datetime import datetime
@@ -542,3 +544,19 @@ def is_admin():
     return 'Admins' in request.environ\
         .get('repoze.who.identity', {})\
         .get('groups', '')
+
+def gravatar_from_email(email, size):
+    """Return the URL for a gravatar image matching the povided email address.
+
+    :param email: the email address
+    :type email: string or unicode or None
+    :param size: the width (or height) of the desired image
+    :type size: int
+    """
+    if email is None:
+        email = ''
+    # Set your variables here
+    gravatar_url = "http://www.gravatar.com/avatar/%s?size=%d" % \
+        (hashlib.md5(email).hexdigest(), size)
+    return gravatar_url
+

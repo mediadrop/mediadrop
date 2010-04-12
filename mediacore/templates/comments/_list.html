@@ -63,7 +63,7 @@
 					<li py:for="comment in comments" class="comment">
 						<div class="comment-top-divot"></div>
 						<div class="comment-content clearfix">
-							<span class="avatar"><img src="http://www.gravatar.com/avatar/3b3be63a4c2a439b013787725dfce802?s=70" width="70" height="70" alt="" /></span>
+							<span class="avatar"><img src="${h.gravatar_from_email(comment.author.email, 70)}" width="70" height="70" alt="" /></span>
 							<cite>
 								<a href="#comment-${comment.id}" name="comment-${comment.id}" class="underline-hover" title="Permalink"
 								   py:with="datetime = comment.created_on.strftime('%B %d, %Y at %H:%M').replace(h.datetime.now().strftime(', %Y'), '')">
