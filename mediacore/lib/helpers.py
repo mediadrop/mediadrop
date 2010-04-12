@@ -31,7 +31,6 @@ from webhelpers import date, feedgenerator, html, number, misc, text, paginate, 
 from webhelpers.html import tags
 from webhelpers.html.converters import format_paragraphs
 from paste.util import mimeparse
-from routes.util import url_for as _routes_url
 from tg import config, request
 import tg.exceptions
 
@@ -524,3 +523,13 @@ def filter_library_controls(query, show='latest'):
     elif show == 'featured':
         query = query # FIXME!!!!
     return query, show
+
+def is_admin():
+    """Return True if the logged in user is a part of the Admins group.
+
+    This method will need to be replaced when we improve our user
+    access controls.
+    """
+    return 'Admins' in request.environ\
+        .get('repoze.who.identity', {})\
+        .get('groups', '')
