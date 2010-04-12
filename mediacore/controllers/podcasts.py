@@ -88,6 +88,7 @@ class PodcastsController(BaseController):
         return dict(
             podcast = podcast,
             episodes = episodes,
+            result_count = episodes.count(),
             show = show,
         )
 
