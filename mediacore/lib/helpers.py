@@ -13,29 +13,30 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import re
-import math
 import datetime as dt
-import time
+import math
 import os
+import re
+import shutil
+import time
+from PIL import Image
+from copy import copy
+from datetime import datetime
+from urlparse import urlparse
+
 import genshi.core
 import pylons.templating
-import shutil
-from copy import copy
-from urlparse import urlparse
-from datetime import datetime
-from PIL import Image
+import tg.exceptions
 
 from BeautifulSoup import BeautifulSoup
+from paste.util import mimeparse
+from tg import config, request
 from webhelpers import date, feedgenerator, html, number, misc, text, paginate, containers
 from webhelpers.html import tags
 from webhelpers.html.converters import format_paragraphs
-from paste.util import mimeparse
-from tg import config, request
-import tg.exceptions
 
-from mediacore.lib.htmlsanitizer import Cleaner, entities_to_unicode as decode_entities, encode_xhtml_entities as encode_entities
 from mediacore.lib.base import url_for, redirect, expose_xhr
+from mediacore.lib.htmlsanitizer import Cleaner, entities_to_unicode as decode_entities, encode_xhtml_entities as encode_entities
 
 
 def duration_from_seconds(total_sec):
