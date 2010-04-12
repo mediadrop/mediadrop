@@ -617,6 +617,9 @@ def gravatar_from_email(email, size):
         (hashlib.md5(email).hexdigest(), size)
     return gravatar_url
 
+
+flash_support = ['flv', 'mp4', 'm4v', 'm4a', 'mov', 'f4v', 'f4p', 'f4a', 'f4b']
+
 # Container and Codec support for HTML5 tag in various browsers.
 # The following list taken from http://diveintohtml5.org/video.html#what-works
 # Safari also supports all default quicktime formats. But we'll keep it simple.
@@ -671,11 +674,11 @@ def parse_user_agent_version():
     """Return a tuple representing the user agent's browser name and version.
     """
     ua = request.headers['User-Agent']
-    for x in ['android', 'chrome', 'firefox', 'iphone', 'opera', 'safari']:
-        match = user_agent_regexes[x].search(ua)
+    for device, pattern in user_agent_regexes.iteritems():
+        match = pattern.search(ua)
         if match is not None:
             version = float(match.groups()[0])
-            return x, version
+            return device, version
     return 'unknown', 0
 
 def supported_html5_types():
@@ -728,3 +731,13 @@ def pick_media_file_player(files):
             return file, 'embed'
 
     return None, None
+
+def pretty_file_size(size):
+    """Return the given file size in the largest possible unit of bytes."""
+    if not size:
+        return u'-'
+    for unit in ('B', 'KB', 'MB', 'GB', 'TB'):
+        if size < 1024.0:
+            return '%3.1f %s' % (size, unit)
+        size /= 1024.0
+    return '%3.1f %s' % (size, 'PB')

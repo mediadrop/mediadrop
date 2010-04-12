@@ -101,6 +101,10 @@
 	border: 0;
 	line-height: 43px;
 }
+#sbox-content .box-head .box-head-sec {
+	margin-top: 12px;
+	margin-right: 5px;
+}
 #sbox-content .box-content {
 	background: url('../images/layout/sbox-content.png') repeat-y;
 	width: 600px;

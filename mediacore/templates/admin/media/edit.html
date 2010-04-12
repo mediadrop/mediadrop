@@ -33,6 +33,7 @@
 	<script src="${h.url_for('/scripts/third-party/squeezebox-1.1-rc4-yui-compressed.js')}" type="text/javascript"></script>
 	<link href="${h.url_for('/admin/styles/squeezebox.css')}" media="screen" rel="stylesheet" type="text/css" />
 	<script type="text/javascript" src="${h.url_for('/admin/scripts/confirm.js')}"></script>
+	<script type="text/javascript" src="${h.url_for('/admin/scripts/modals.js')}"></script>
 	<script type="text/javascript" src="${h.url_for('/admin/scripts/media.js')}"></script>
 	<script type="text/javascript">
 		window.addEvent('domready', function(){
@@ -40,18 +41,6 @@
 			$('delete').addEvent('click', deleteConfirm.openConfirmDialog.bind(deleteConfirm));
 
 			// Setup the flash uploader
-			var mediaUploader = new Uploader({
-				target: 'file',
-				statusContainer: 'media-upload-status',
-				fxProgressBar: {url: '${h.url_for('/admin/images/progressbar/progress.png')}'},
-				messages: {<py:if test="config.ftp_storage == 'true'">99: "Hang tight, we're moving your upload to our permanent storage. This may take a few minutes."</py:if>},
-				uploader: {
-					path: '${h.url_for('/scripts/third-party/Swiff.Uploader.swf')}',
-					fileSizeMax: ${config.max_upload_size},
-					verbose: false, // debug
-					typeFilter: '${'; '.join(['*.'+x for x in h.accepted_extensions()])}'
-				}
-			});
 			var thumbUploader = new ThumbUploader({
 				image: 'thumb-img',
 				updateFormActionsOnSubmit: false,
@@ -59,17 +48,27 @@
 				uploadBtn: {text: 'Upload image', 'class': 'btn btn-upload-image', styles: {margin: '0 auto'}},
 				statusContainer: 'thumb-upload',
 				fxProgressBar: {url: '${h.url_for('/admin/images/progressbar/progress.png')}'},
+				path: '${h.url_for('/scripts/third-party/Swiff.Uploader.swf')}',
+				verbose: false // debug
+			});
+
+			// Setup the file manager (which hooks into the uploader)
+			var fileMgr = new FileManager('fmgr', {
+				addForm: 'add-file-form',
+				editURL: '${h.url_for(action='edit_file')}',
 				uploader: {
+					target: 'file',
+					uploadBtn: {'class': 'btn btn-upload-file f-rgt'},
+					fxProgressBar: {url: '${h.url_for('/admin/images/progressbar/progress.png')}'},
+					messages: {<py:if test="config['ftp_storage'] == 'true'">99: "Hang tight, we're moving your upload to our permanent storage. This may take a few minutes."</py:if>},
 					path: '${h.url_for('/scripts/third-party/Swiff.Uploader.swf')}',
+					fileSizeMax: ${config['max_upload_size']},
 					verbose: false // debug
 				}
 			});
-
-			// Setup the file manager and hook into the uploader
-			var filemgr = new FileManager('media-files-box', 'media-file-form', mediaUploader, 'media-file-error', {
-				saveOrderUrl: '${h.url_for(action='reorder_file')}'
-			});
-			filemgr.addForm.slide('${'show' if media.id is None or not media.files else 'hide'}');
+			$('fmgr-open').addEvent('click', fileMgr.open.bind(fileMgr));
+			$('fmgr-close').addEvent('click', fileMgr.close.bind(fileMgr));
+			var fileList = new FileList('file-list', fileMgr);
 
 			var publishStatus = new StatusForm({
 				form: 'update-status-form',
@@ -77,18 +76,19 @@
 			});
 			var mediamgr = new MediaManager({
 				metaForm: 'media-form',
-				files: filemgr,
-				uploader: mediaUploader,
+				files: fileMgr,
+				uploader: fileMgr.uploader,
 				statusForm: publishStatus,
 				thumbUploader: thumbUploader,
 				thumbImg: 'thumb-img',
 				isNew: ${int(media.id is None)},
 				type: ${"'%s'" % media.type if media.type else 'null'}
 			});
+
 		});
 	</script>
 </head>
-<body class="menu-media-on">
+<body id="media-edit" class="menu-media-on">
 	<div class="column66">
 
 		<div class="box">
@@ -105,19 +105,16 @@
 
 		<div id="media-files-box" class="box">
 			<div class="box-head"><h1>Files</h1></div>
-			<form py:replace="XML(file_add_form(action=file_add_action))" />
-			<div id="media-upload-status" class="upload-status">
-				<div class="upload-notice hidden" />
-				<div class="upload-file hidden" />
-				<div class="upload-progress hidden">
-					<img src="${h.url_for('/admin/images/progressbar/bar.png')}" width="238" height="12" />
-				</div>
-				<div class="box-error upload-error hidden" />
+			<div class="upload-progress hidden">
+				<img src="${h.url_for('/admin/images/progressbar/bar.png')}" width="238" height="12" />
 			</div>
-			<div id="media-file-error" class="box-error hidden" />
-			<ol id="media-file-list" class="file-list">
-				<li py:for="file in media.files" id="file-${file.id}">
-					<form py:replace="XML(file_edit_form(file=file, action=file_edit_action))" />
+			<div class="box-content"><div id="fmgr-open" class="btn btn-add-manage"><span>Add / Manage</span></div></div>
+			<ol id="file-list" class="file-list">
+				<li py:for="file in media.files" class="${file.type}" id="list-file-${file.id}">
+					<a class="file-name" href="${file.link_url()}"
+					   title="${('Go to %s' % file.container.capitalize()) if file.embed else 'Download this file'}">
+					   ${file.display_name}
+					</a>
 				</li>
 			</ol>
 		</div>
@@ -146,5 +143,33 @@
 		     py:replace="comment_stats_box(h.url_for(controller='/admin/comments', media_filter=media.id), query=media.comments)" />
 
 	</div>
+
+
+	<div id="fmgr" class="box">
+		<div class="box-head clearfix">
+			<h1 class="f-lft">Manage Files</h1>
+			<span id="fmgr-close" class="box-head-sec clickable">Hide</span>
+		</div>
+		<table class="box-content" cellspacing="0" cellpadding="0">
+			<thead>
+				<tr>
+					<th id="thf-name">File</th>
+					<th id="thf-size">Size</th>
+					<th id="thf-opts">Type</th>
+					<th id="thf-delete">&nbsp;</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr py:for="file in media.files" py:strip="">
+					${file_edit_form(file=file, action=file_edit_action)}
+				</tr>
+			</tbody>
+		</table>
+		<div class="box-content rounded-inputs clearfix">
+			<div id="add-box" py:content="file_add_form(action=file_add_action)" />
+		</div>
+		<div class="box-bottom" />
+	</div>
+
 </body>
 </html>

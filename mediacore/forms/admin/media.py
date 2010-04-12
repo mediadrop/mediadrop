@@ -27,13 +27,15 @@ from mediacore.model import Category, DBSession, MediaFile, Podcast
 
 class AddFileForm(ListForm):
     template = 'mediacore.templates.admin.media.file-add-form'
-    id = 'media-file-form'
+    id = 'add-file-form'
     submit_text = None
     fields = [
-        FileField('file', suppress_label=True, validator=FieldStorageUploadConverter(not_empty=False, label_text='Upload')),
-        TextField('url', validator=URL, label_text='URL', default='URL', suppress_label=True, maxlength=255),
+        FileField('file', label_text='Select an encoded video or audio file on your computer', validator=FieldStorageUploadConverter(not_empty=False, label_text='Upload')),
+        SubmitButton('add_url', default='Add URL', named_button=True, css_class='btn btn-add-url f-rgt'),
+        TextField('url', validator=URL, suppress_label=True, attrs={'title': 'YouTube, Vimeo or Google Video Link'}, maxlength=255),
     ]
 
+file_type_options = [('video', 'Video'), ('audio', 'Audio'), ('audio_desc', 'Audio Description'), ('captions', 'Captions')]
 
 class EditFileForm(ListForm):
     template = 'mediacore.templates.admin.media.file-edit-form'
@@ -42,29 +44,8 @@ class EditFileForm(ListForm):
     params = ['file']
 
     class fields(WidgetsList):
-        file_id = HiddenField(validator=Int)
-        is_playable = HiddenField(validator=StringBool)
-        is_embeddable = HiddenField(validator=StringBool)
-        player_enabled = HiddenField(validator=StringBool)
-        feed_enabled = HiddenField(validator=StringBool)
-        toggle_player = SubmitButton(default='Play in the Flash Player', named_button=True, css_classes=['file-play'])
-        toggle_feed = SubmitButton(default='Include in RSS feeds', named_button=True, css_classes=['file-feed'])
-        delete = SubmitButton(default='Delete file', named_button=True, css_class='file-delete')
-
-    def display(self, value=None, file=None, **kwargs):
-        """Autopopulate the values when passed a file kwarg.
-        Since 'file' is passed as a kwarg and is a defined param of the form,
-        its accessible in the template.
-        """
-        if value is None and isinstance(file, MediaFile):
-            value = dict(
-                file_id = file.id,
-                is_playable = 1,
-                is_embeddable = 1,
-                player_enabled = 1,
-                feed_enabled = 1,
-            )
-        return super(EditFileForm, self).display(value, file=file, **kwargs)
+        file_type = SingleSelectField(options=file_type_options, attrs={'id': None, 'autocomplete': 'off'})
+        delete = SubmitButton(default='Delete file', named_button=True, css_class='file-delete', attrs={'id': None})
 
 
 class DurationValidator(formencode.FancyValidator):

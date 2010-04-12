@@ -20,15 +20,16 @@ import os.path
 import re
 import shutil
 import simplejson as json
-
 from PIL import Image
 from datetime import datetime
+from urlparse import urlparse, urlunparse
+
+import transaction
 from formencode import validators
 from paste.util import mimeparse
 from pylons import config, request, response, session, tmpl_context
 from repoze.what.predicates import has_permission
 from sqlalchemy import orm, sql
-from urlparse import urlparse, urlunparse
 
 from mediacore.controllers.upload import _add_new_media_file
 from mediacore.forms.admin import SearchForm, ThumbForm
@@ -81,7 +82,6 @@ class MediaController(BaseController):
                 The podcast name for rendering if a ``podcast_filter`` was specified.
             podcast_filter_form
                 The :class:`~mediacore.forms.admin.media.PodcastFilterForm` instance.
-
 
         """
         media = Media.query.options(orm.undefer('comment_count_published'))
@@ -214,8 +214,10 @@ class MediaController(BaseController):
         media = fetch_row(Media, id)
 
         if delete:
+            file_paths = [f.file_path for f in media.files]
             DBSession.delete(media)
-            DBSession.flush()
+            transaction.commit()
+            delete_files(file_paths)
             redirect(action='index', id=None)
 
         media.slug = get_available_slug(Media, slug, media)
@@ -295,35 +297,40 @@ class MediaController(BaseController):
         else:
             media = fetch_row(Media, id)
 
-        try:
-            if file is not None:
-                # Create a media object, add it to the video, and store the file permanently.
-                media_file = _add_new_media_file(media, file.filename, file.file)
-            elif url:
-                media_file = MediaFile()
-                # Parse the URL checking for known embeddables like YouTube
-                for type, info in config.embeddable_filetypes.iteritems():
-                    match = info['pattern'].match(url)
-                    if match:
+        data = dict(success=False)
+
+        if file is not None:
+            # Create a media object, add it to the video, and store the file permanently.
+            media_file = _add_new_media_file(media, file.filename, file.file)
+            data['success'] = True
+        elif url:
+            media_file = MediaFile()
+            # Parse the URL checking for known embeddables like YouTube
+            for type, info in config.embeddable_filetypes.iteritems():
+                match = info['pattern'].match(url)
+                if match:
+                    media_file.type = helpers.guess_media_type(type)
+                    media_file.container = type
+                    media_file.embed = match.group('id')
+                    media_file.display_name = type.capitalize() + ' ID: ' + media_file.embed
+                    data['success'] = True
+                    break
+            else:
+                # Check for types we can play ourselves
+                type = os.path.splitext(url)[1].lower()[1:]
+                for playable_types in config.playable_types.itervalues():
+                    if type in playable_types:
                         media_file.type = helpers.guess_media_type(type)
                         media_file.container = type
-                        media_file.embed = match.group('id')
-                        media_file.display_name = type.capitalize() + ' ID: ' + media_file.embed
+                        media_file.url = url
+                        data['success'] = True
                         break
                 else:
-                    # Check for types we can play ourselves
-                    type = os.path.splitext(url)[1].lower()[1:]
-                    for playable_types in config.playable_types.itervalues():
-                        if type in playable_types:
-                            media_file.type = helpers.guess_media_type(type)
-                            media_file.container = type
-                            media_file.url = url
-                            break
-                    else:
-                        raise Exception, 'Unsupported URL %s' % url
-            else:
-                raise Exception, 'Given no action to perform.'
+                    data['message'] = 'Unsupported URL'
+        else:
+            data['message'] = 'No action to perform.'
 
+        if data['success']:
             media.files.append(media_file)
             media.update_type()
             media.update_status()
@@ -341,27 +348,21 @@ class MediaController(BaseController):
                 action=url_for(action='update_status', id=media.id),
                 media=media))
 
-            data = dict(
-                success = True,
+            data.update(dict(
                 media_id = media.id,
                 file_id = media_file.id,
+                file_type = media_file.type,
                 edit_form = edit_form_xhtml,
                 status_form = status_form_xhtml,
-            )
-        except Exception, e:
-            data = dict(
-                success = False,
-                message = e.message,
-            )
+            ))
 
         response.headers['Content-Type'] = helpers.best_json_content_type()
         return json.dumps(data)
 
 
     @expose('json')
-    @validate(edit_file_form, error_handler=edit)
-    def edit_file(self, id, file_id, player_enabled, feed_enabled,
-                  toggle_feed, toggle_player, delete, **kwargs):
+    @validate(validators={'file_id': validators.Int()})
+    def edit_file(self, id, file_id, file_type=None, delete=None, **kwargs):
         """Save action for the :class:`~mediacore.forms.admin.media.EditFileForm`.
 
         Changes or delets a :class:`~mediacore.model.media.MediaFile`.
@@ -380,48 +381,40 @@ class MediaController(BaseController):
 
         """
         media = fetch_row(Media, id)
-        data = {}
+        data = dict(success=False)
 
-#        try:
         try:
             file = [file for file in media.files if file.id == int(file_id)][0]
         except IndexError:
-            raise Exception, 'File does not exist.'
+            data['message'] = 'File no longer exists.'
 
-        if toggle_player:
-            data['field'] = 'player_enabled'
-            file.enable_player = data['value'] = not player_enabled
+        if file_type:
+            file.type = file_type
             DBSession.add(file)
-        elif toggle_feed:
-            data['field'] = 'feed_enabled'
-            file.enable_feed = data['value'] = not feed_enabled
-            # Raises an exception if it is the only feed enabled file for
-            # an already published podcast episode.
-            DBSession.add(file)
+            data['success'] = True
         elif delete:
-            data['field'] = 'delete'
+            file_path = file.file_path
             DBSession.delete(file)
-            media.files.remove(file)
+            transaction.commit()
+            if file_path:
+                delete_files([file_path])
+            media = fetch_row(Media, id)
+            data['success'] = True
         else:
-            raise Exception, 'No action to perform.'
+            data['message'] = 'No action to perform.'
 
-        data['success'] = True
-        media.update_type()
-        media.update_status()
-        DBSession.add(media)
-#        except Exception, e:
-#            data['success'] = False
-#            data['message'] = e.message
+        if data['success']:
+            data['file_type'] = file.type
+            media.update_type()
+            media.update_status()
+            DBSession.add(media)
+            DBSession.flush()
 
-        if request.is_xhr:
             # Return the rendered widget for injection
             status_form_xhtml = unicode(update_status_form.display(
                 action=url_for(action='update_status'), media=media))
             data['status_form'] = status_form_xhtml
-            return data
-        else:
-            DBSession.flush()
-            redirect(action='edit')
+        return data
 
 
     @expose()
@@ -544,3 +537,12 @@ class MediaController(BaseController):
             return data
         else:
             redirect(action='edit')
+
+def delete_files(paths):
+    deleted_dir = config.get('deleted_files_dir', None)
+    for path in paths:
+        if path and os.path.exists(path):
+            if deleted_dir:
+                shutil.move(path, deleted_dir)
+            else:
+                os.remove(path)

@@ -13,23 +13,17 @@
 	You should have received a copy of the GNU General Public License
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<form xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:py="http://genshi.edgewall.org/"
-      action="${action}" method="${method}" name="${name}"
-      id="${id}" class="${css_class}" py:attrs="attrs">
-	<input py:for="field in hidden_fields"
-	       py:replace="field.display(value_for(field), **args_for(field))" />
-	<span py:for="field in fields"
-	      py:with="toggle_enabled = value_for(field.name.replace('toggle_', '') + '_enabled')"
-	      class="${'file-toggle-on' if toggle_enabled else None} file-${field.name}-span"
-	      title="${field.get_default()}">
-		<input py:replace="field.display(
-		    value_for(field),
-		    disabled=(field.name == 'toggle_feed' and value_for('is_embeddable')) or (field.name == 'toggle_player' and not value_for('is_playable')),
-		    **args_for(field))" />
-	</span>
-	<a href="${file.link_url()}" class="file-link"
-	   title="${('Go to %s' % type) if file.embed else 'Download this file'}">
-	   ${file.display_name}
-	</a>
-</form>
+<tr xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:py="http://genshi.edgewall.org/"
+    id="file-${file.id}"
+	class="${file.type}">
+	<td headers="thf-name">
+		<a class="file-name" href="${file.link_url()}"
+		   title="${('Go to %s' % file.container.capitalize()) if file.embed else 'Download this file'}">
+		   ${file.display_name}
+		</a>
+	</td>
+	<td headers="thf-size">${h.pretty_file_size(file.size)}</td>
+	<td headers="thf-type" py:with="field = children['file_type']" py:content="field.display(value_for(field) or file.type, **args_for(field))" />
+	<td headers="thf-delete" py:with="field = children['delete']" py:content="field.display(value_for(field), **args_for(field))" />
+</tr>

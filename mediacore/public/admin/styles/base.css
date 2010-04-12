@@ -42,6 +42,15 @@ pre,code,kbd,samp,tt{font-family:monospace;*font-size:108%;line-height:100%}
 .right { text-align: right; }
 .f-lft { float: left; }
 .f-rgt { float: right; }
+.clear { clear: both }
+.clearfix:after {
+	content: ".";
+	display: block;
+	height: 0;
+	clear: both;
+	visibility: hidden;
+}
+* html .clearfix { height: 1% }
 .clickable, .link { cursor: pointer; }
 .unclickable { cursor: default; }
 .italic {

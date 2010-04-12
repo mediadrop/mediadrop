@@ -92,86 +92,156 @@ a.published { background-image: url('../images/statuses/published-both.png'); }
 	margin: -1px 0 -3px 10px;
 }
 
-.btn-review-complete, .btn-encoding-complete, .btn-publish-now {
+.btn-review-complete, .btn-encoding-complete, .btn-publish-now, .btn-add-manage, .btn-add-url, .btn-upload-file {
 	height: 34px;
 	width: 171px;
 	margin: 0 auto;
 }
-.btn-review-complete { background-image: url('../images/buttons/video-review-complete.png'); }
-.btn-encoding-complete { background-image: url('../images/buttons/video-encoding-complete.png'); }
-.btn-publish-now { background-image: url('../images/buttons/video-publish-now.png'); }
+.btn-review-complete { background-image: url('../images/buttons/review-complete.png'); }
+.btn-encoding-complete { background-image: url('../images/buttons/encoding-complete.png'); }
+.btn-publish-now { background-image: url('../images/buttons/publish-now.png'); }
+.btn-add-manage { background-image: url('../images/buttons/add-manage.png'); }
+.btn-add-url { background-image: url('../images/buttons/add-url.png'); width: 104px; }
+.btn-upload-file { background-image: url('../images/buttons/upload-file.png'); width: 104px; }
 
-#add-media-file {
-	background: url('../images/icons/add.png') no-repeat 100% 75%;
-	padding-right: 18px;
-	color: #196d29;
+#fmgr-close {
+	color: #196D29;
 }
-#add-media-file:hover {
+#fmgr-close:hover {
 	text-decoration: underline;
 }
-
-.file-delete, .file-play, .file-feed {
-	width: 16px;
+#fmgr thead tr th {
+	border-top: 0;
+}
+#fmgr th#thf-size,
+#fmgr td[headers='thf-size'] {
+	white-space: nowrap;
+	text-align: right;
+}
+#fmgr th#thf-delete,
+#fmgr td[headers='thf-delete'] {
+	padding-left: 2px;
+}
+#fmgr select[name="file_type"] {
+	width: 105px;
+	padding-right: 5px;
+}
+#fmgr table .file-delete {
 	height: 16px;
+	width: 16px;
 	display: block;
 	text-indent: -5000px;
 	border: 0;
+	background: url('../images/icons/delete.png') no-repeat;
+	opacity: .6;
 }
-.file-delete { background: url('../images/icons/delete.png'); }
-.file-play { background: url('../images/icons/star.png'); }
-.file-feed { background: url('../images/icons/feed.png'); }
+#fmgr tr .file-delete:hover {
+	opacity: 1;
+	cursor: pointer;
+}
 
-.file-list li {
-	width: 238px;
-	overflow: hidden;
-	padding: 10px;
-	border-bottom: 1px solid #CFCCC2;
+
+#fmgr #add-box {
+	border-top: 1px solid #cfccc2;
+	padding: 25px 34px 15px 34px;
 }
-.file-list li span {
-	display: block;
+#fmgr #url,
+#fmgr .url-container .overTxtLabel,
+#fmgr #file-label {
 	float: left;
-	width: 16px;
-	height: 16px;
+	width: 400px;
+	color: #8b8b8b;
+	height: 21px;
+	line-height: 24px;
+	font-size: 14px;
 }
-.file-list .file-delete-span {
+#fmgr #url {
+	color: #3c4d5a;
+}
+#fmgr .url-container .overTxtLabel {
+	display: block;
+	padding: 5px;
+}
+#fmgr .url-container .overTxtWrapper {
+	position: relative;
+}
+#fmgr .url-or-file {
+	background: url('../images/layout/hr.png') repeat-x center center;
+	text-align: center;
+	margin-top: 5px;
+	padding: 10px 0 10px 0;
+	clear: both;
+}
+#fmgr .url-or-file strong {
+	padding: 0 10px;
+	font-weight: bold;
+	background: #fff;
+	font-size: 14px;
+	clear: both;
+}
+#fmgr #file-label {
+	padding: 6px 6px 5px 0;
+}
+#fmgr .btn-upload-file {
 	float: right;
 }
-.file-list li input {
-	opacity: 0;
+#fmgr .upload-progress {
+	margin: 15px 5px;
 }
-.file-list li input:focus {
-	outline: 0;
+#fmgr .file-error {
+	font-size: 12px;
+	color: red;
 }
-.file-list li .spinner input {
-	display: none;
+
+/* Necessary for the uploader work! */
+body#media-edit.body-overlayed {
+	overflow: visible !important;
 }
-.file-list li .file-toggle-on input,
-.file-list li:hover .file-toggle-on input {
-	opacity: 1;
+body#media-edit .swiff-uploader-box object,
+body#media-edit .swiff-uploader-box embed {
+	visibility: visible !important;
 }
-.file-list li:hover input {
-	opacity: .5;
+
+.file-list li {
+	padding: 10px;
+	border-top: 1px solid #CFCCC2;
 }
-.file-list li:hover input:hover {
-	cursor: pointer;
-	opacity: 1;
+.file-list li.video,
+tr.video td[headers='thf-name'] {
+	padding-left: 30px;
+	background: url('../images/icons/video.png') no-repeat 8px 50%;
 }
-.file-list li:hover input[disabled='disabled']:hover {
-	opacity: .5;
-	cursor: auto;
+.file-list li.audio,
+tr.audio td[headers='thf-name'] {
+	padding-left: 30px;
+	background: url('../images/icons/audio.png') no-repeat 8px 50%;
 }
-#media-files-box {
-	border-bottom: 0;
+.file-list li.audio_desc,
+tr.audio_desc td[headers='thf-name'] {
+	padding-left: 30px;
+	background: url('../images/icons/audio-desc.png') no-repeat 8px 50%;
 }
-.file-list li.file-drag-clone {
-	border-top: 0;
+.file-list li.captions,
+tr.captions td[headers='thf-name'] {
+	padding-left: 30px;
+	background: url('../images/icons/captions.png') no-repeat 8px 50%;
 }
-.file-list .file-play { float: left; }
-.file-list .file-feed { float: left; }
-.file-list .file-delete { float: right; }
-.file-list .file-link {
-	float: left;
-	margin-left: 6px;
+.file-list li.uploading,
+.file-list li.queued,
+.file-list li.saving,
+tr.uploading td[headers='thf-name'],
+tr.queued td[headers='thf-name'],
+tr.saving td[headers='thf-name'] {
+	padding-left: 30px;
+	background: url('../images/icons/spinner.gif') no-repeat 8px 50%;
+}
+.file-list li.error,
+tr.error td[headers='thf-name'] {
+	padding-left: 30px;
+	background: url('../images/icons/error.png') no-repeat 8px 50%;
+}
+tr.error td[headers='thf-type'] {
+	color: red;
 }
 
 #media-form #categories_container {

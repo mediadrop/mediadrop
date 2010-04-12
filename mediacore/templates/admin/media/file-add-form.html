@@ -17,17 +17,16 @@
       xmlns:py="http://genshi.edgewall.org/"
       action="${action}" method="${method}" name="${name}"
       id="${id}" class="${css_class}" py:attrs="attrs">
-	<div class="box-content">
-		<py:with vars="field = children['file']">
-			<input py:replace="field.display(value_for(field), **args_for(field))" />
-		</py:with>
-		<span class="file-or-url">or</span>
-		<py:with vars="field = children['url']">
-			<input py:replace="field.display(value_for(field), **args_for(field))" />
-		</py:with>
-
-		<py:for each="field in fields" py:with="error = error_for(field)">
-			<div py:if="error and field.show_error" class="field_error" py:content="error" />
-		</py:for>
+	<div py:with="field = children['url']" class="url-container clearfix">
+		<input py:replace="field.display(value_for(field), **args_for(field))" />
+		<input py:replace="children['add_url'].display(value_for(field), **args_for(field))" />
 	</div>
+	<div class="url-or-file"><strong>OR</strong></div>
+	<div py:with="field = children['file']" class="file-container clearfix">
+		<label id="${field.id}-label" for="${field.id}">${field.label_text}:</label>
+		<input py:replace="field.display(value_for(field), **args_for(field))" />
+	</div>
+	<py:for each="field in fields" py:with="error = error_for(field)">
+		<div py:if="error and field.show_error" class="field_error" py:content="error" />
+	</py:for>
 </form>
