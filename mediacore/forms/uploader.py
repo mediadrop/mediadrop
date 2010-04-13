@@ -34,9 +34,9 @@ validators = dict(
     ),
     tags = TextField.validator(
         not_empty = True,
-    )
+    ),
     title = TextField.validator(
-        messages = {'empty': "You've gotta have a title!"),
+        messages = {'empty': "You've gotta have a title!"},
         not_empty = True,
     ),
 )
