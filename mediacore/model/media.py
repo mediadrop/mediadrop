@@ -202,14 +202,17 @@ class MediaQuery(Query):
         Accepts any number of arguments of Media instances, ids,
         lists of both, or None.
         """
-        ids = []
-        for arg in args:
-            if isinstance(arg, list):
-                ids.extend(self.exclude(*arg))
-            elif isinstance(arg, Media):
-                ids.append(arg.id)
-            elif arg is not None:
-                ids.append(int(arg))
+        def _flatten(*args):
+            ids = []
+            for arg in args:
+                if isinstance(arg, list):
+                    ids.extend(_flatten(*arg))
+                elif isinstance(arg, Media):
+                    ids.append(int(arg.id))
+                elif arg is not None:
+                    ids.append(int(arg))
+            return ids
+        ids = _flatten(*args)
         if ids:
             return self.filter(sql.not_(Media.id.in_(ids)))
         else:
