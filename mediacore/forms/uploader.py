@@ -44,7 +44,7 @@ class UploadForm(ListForm):
 
     class fields(WidgetsList):
         name = TextField(label_text='Your Name:', show_error=True, maxlength=50)
-        email = TextField(validator=email_validator(not_empty=True), label_text='Your Email:', help_text='(will never be published)', show_error=True, maxlength=50)
+        email = TextField(validator=email_validator(not_empty=True), label_text='Your Email:', help_text='(will never be published)', show_error=True, maxlength=255)
         title = TextField(label_text='Title:', show_error=True, maxlength=255)
         description = XHTMLTextArea(label_text='Description:', attrs=dict(rows=5, cols=25), show_error=True)
         tags = TextField(label_text='Tags:', help_text='(optional) e.g.: puppies, great dane, adorable', show_error=True)

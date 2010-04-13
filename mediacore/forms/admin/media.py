@@ -96,7 +96,7 @@ class MediaForm(ListForm):
         TextField('slug', validator=NotEmpty, maxlength=50),
         TextField('title', validator=TextField.validator(not_empty=True), maxlength=255),
         TextField('author_name', maxlength=50),
-        TextField('author_email', validator=email_validator(not_empty=True), maxlength=50),
+        TextField('author_email', validator=email_validator(not_empty=True), maxlength=255),
         XHTMLTextArea('description', attrs=dict(rows=5, cols=25)),
         TextArea('notes', label_text='Additional Notes', attrs=dict(rows=3, cols=25), default=lambda: fetch_setting('wording_additional_notes')),
         CategoryCheckBoxList('categories', options=lambda: DBSession.query(Category.id, Category.name).all()),
