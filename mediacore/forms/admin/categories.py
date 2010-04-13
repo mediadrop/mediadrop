@@ -40,11 +40,9 @@ class CategoryForm(ListForm):
 
     class fields(WidgetsList):
         save = SubmitButton(default='Save', named_button=True, css_classes=['f-rgt', 'btn', 'btn-save'])
-        name = TextField()
+        name = TextField(validator=TextField.validator(not_empty=True))
         slug = TextField(validator=NotEmpty)
         parent_id = SingleSelectField(label_text='Parent Category', options=category_options)
-
-        name.validator.not_empty = True
 
 class CategoryCheckBoxList(CheckBoxList):
     params = ['category_tree']
