@@ -31,7 +31,11 @@ var ModalForm = new Class({
 		onError: $empty, */
 		content: null,
 		focus: null,
-		squeezeBox: {handler: 'fittedAdopt'},
+		squeezeBox: {
+			handler: 'fittedAdopt',
+			size: {x: 630, y: 400},
+			overlayOpacity: 0.4
+		},
 		ajax: false,
 		ajaxOptions: {link: 'cancel'},
 		extraData: {}, // FIXME: Inject for static forms?

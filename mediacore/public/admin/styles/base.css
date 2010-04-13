@@ -206,6 +206,9 @@ body {
 .box-content {
 	padding: 10px;
 }
+table.box-content {
+	padding: 0;
+}
 .box-content .textfield,
 .box-content .textarea,
 .box-content .xhtmltextarea,

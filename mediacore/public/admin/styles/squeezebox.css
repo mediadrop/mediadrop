@@ -25,19 +25,15 @@
 }
 #sbox-window {
 	position: absolute;
-	background-color: #fff;
 	text-align: left;
 	overflow: visible;
-	/* invalid values, but looks smoother! */
-/*	-moz-border-radius: 3px;
-	-webkit-border-radius: 3px;*/
 }
 #sbox-btn-close {
 	position: absolute;
 	width: 30px;
 	height: 30px;
-	right: -20px;
-	top: -20px;
+	right: 0;
+	top: 0;
 	background: url('../images/layout/sbox-close.png') no-repeat center;
 	border: none;
 	z-index: 99;
@@ -53,7 +49,6 @@
 #sbox-content {
 	clear: both;
 	overflow: auto;
-	background-color: #fff;
 	height: 100%;
 	width: 100%;
 }
@@ -86,103 +81,52 @@
 
 /* Shadows */
 .sbox-bg {
-	position: absolute;
-	width: 44px;
-	height: 44px;
+	display: none !important;
 }
-.sbox-bg-n {
-	left: 0;
-	top: -50px;
-	height: 50px;
-	width: 100%;
-	background: url('../images/layout/sbox-n.png') repeat-x top;
-}
-.sbox-bg-ne {
-	right: -44px;
-	top: -50px;
-	height: 84px;
-	z-index: 1;
-	background: url('../images/layout/sbox-ne.png') no-repeat top right;
-}
-.sbox-bg-e {
-	right: -44px;
-	top: 0;
-	height: 100%;
-	background: url('../images/layout/sbox-e.png') repeat-y top right;
-}
-.sbox-bg-se {
-	right: -44px;
-	bottom: -43px;
-	height: 88px;
-	z-index: 1;
-	background: url('../images/layout/sbox-se.png') no-repeat bottom right;
-}
-.sbox-bg-s {
-	left: 0;
-	bottom: -43px;
-	width: 100%;
-	background: url('../images/layout/sbox-s.png') repeat-x bottom;
-}
-.sbox-bg-sw {
-	left: -44px;
-	bottom: -43px;
-	height: 88px;
-	z-index: 1;
-	background: url('../images/layout/sbox-sw.png') no-repeat bottom left;
-}
-.sbox-bg-w {
-	left: -44px;
-	top: 0;
-	height: 100%;
-	background: url('../images/layout/sbox-w.png') repeat-y top left;
-}
-.sbox-bg-nw {
-	left: -44px;
-	top: -50px;
-	height: 84px;
-	z-index: 1;
-	background: url('../images/layout/sbox-nw.png') no-repeat top left;
-}
-/* header */
-#sbox-content h1.box-head {
-	background: #e6e2d3 url('../images/layout/sbox-thead.png') repeat-x top;
-	height: 34px;
-	color: #3c4d5a;
-	padding: 0;
-	border-top: none;
-	border-bottom: none;
-	clear: both;
-}
-#sbox-content div.box {
-	border: 0;
-	margin-bottom: 0;
+#sbox-content .box-round {
+	display: none !important;
 }
 
-#sbox-content p {
-	padding-top: 20px;
+/* header */
+#sbox-content .box {
+	border: 0;
+	background: none;
+	margin: 0;
 }
-#sbox-content p strong {
-	font-weight: bold;
-}
-#sbox-content div.buttons {
-	position: absolute;
-	right: 30px;
-	bottom: 10px;
-}
-#sbox-content .box-foot {
-	background: #e6e2d3 url('../images/layout/sbox-tfoot.png') repeat-x top;
-	height: 34px;
-	padding: 10px 0 0 0;
-	border-top: none;
+#sbox-content .box-head {
+	background: url('../images/layout/sbox-top.png') no-repeat top;
+	height: 43px;
+	width: 580px;
+	padding: 12px 25px 0 25px;
+	border: 0;
+	line-height: 43px;
 }
 #sbox-content .box-content {
-	padding: 10px 0 0 0;
+	background: url('../images/layout/sbox-content.png') repeat-y;
+	width: 600px;
+	padding: 0 15px;
 }
-
-#sbox-content .box-foot button,
-#sbox-content .box-foot input {
+#sbox-content table.box-content {
+	padding: 0 15px;
+	width: 630px;
+}
+#sbox-content p.box-content {
+	margin: 0;
+	padding: 10px 25px;
+	width: 580px;
+}
+#sbox-content .box-bottom {
+	height: 29px;
+	width: 630px;
+	background: url('../images/layout/sbox-bottom.png') no-repeat;
+}
+#sbox-content .box-foot {
+	background: url('../images/layout/sbox-bottom-buttons.png') no-repeat;
+	border: 0;
+	width: 580px;
+	height: 54px;
+	padding: 10px 25px;
+}
+#sbox-content .box-foot .btn {
 	margin-left: 10px;
-}
-#sbox-content .box-foot .btn-delete {
-	margin-left: 0;
 }
