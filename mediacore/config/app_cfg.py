@@ -107,9 +107,9 @@ base_config.mimetype_lookup = {
     '.flac': 'audio/flac',
     '.3gp':  'video/3gpp',
     '.3g2':  'video/3gpp',
-    '.divx': 'video/divx', # I don't think this is registered with the IANA
+    '.divx': 'video/mpeg',
     '.dv':   'video/x-dv',
-    '.dvx':  'video/divx', # Oh well, divx is just a proprietary mpeg-4 encoder
+    '.dvx':  'video/mpeg',
     '.flv':  'video/x-flv', # made up, it's what everyone uses anyway.
     '.mov':  'video/quicktime',
     '.mpeg': 'video/mpeg',
