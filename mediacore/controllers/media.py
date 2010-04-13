@@ -186,7 +186,9 @@ class MediaController(BaseController):
         media = fetch_row(Media, slug=slug)
 
         c = Comment()
-        c.author = AuthorWithIP(values['name'], None, request.environ['REMOTE_ADDR'])
+        c.author = AuthorWithIP(
+            values['name'], values['email'], request.environ['REMOTE_ADDR']
+        )
         c.subject = 'Re: %s' % media.title
         c.body = values['body']
 

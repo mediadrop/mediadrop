@@ -16,7 +16,7 @@
 from tw.forms.validators import NotEmpty
 from tw.api import WidgetsList
 
-from mediacore.forms import ListForm, SubmitButton, TextField, TextArea
+from mediacore.forms import ListForm, SubmitButton, TextField, TextArea, email_validator
 
 
 class PostCommentForm(ListForm):
@@ -26,6 +26,7 @@ class PostCommentForm(ListForm):
 
     class fields(WidgetsList):
         name = TextField(not_empty=True, maxlength=50)
+        email = TextField(validator=email_validator(), label_text='Email Address (will never be published)', show_error=True, maxlength=255)
         body = TextArea(label_text='Comment', attrs=dict(rows=5, cols=25))
         submit = SubmitButton(default='Post Comment', css_class='btn btn-post-comment')
 
