@@ -23,11 +23,8 @@ from tw.forms.validators import Int, StringBool, NotEmpty, DateTimeConverter, Fi
 from mediacore.lib import helpers
 from mediacore.forms import FileField, Form, ListFieldSet, ListForm, SubmitButton, TextArea, TextField, XHTMLTextArea, email_validator
 from mediacore.forms.admin.categories import CategoryCheckBoxList
-from mediacore.forms.admin.settings import players
 from mediacore.model import Category, DBSession, MediaFile, Podcast
 from mediacore.model.settings import fetch_setting
-
-player_opts = [(None, 'Use global player defined in the settings panel.')] + players
 
 class AddFileForm(ListForm):
     template = 'mediacore.templates.admin.media.file-add-form'
@@ -104,11 +101,6 @@ class MediaForm(ListForm):
         TextArea('notes', label_text='Additional Notes', attrs=dict(rows=3, cols=25), default=lambda: fetch_setting('wording_additional_notes')),
         CategoryCheckBoxList('categories', options=lambda: DBSession.query(Category.id, Category.name).all()),
         TextArea('tags', attrs=dict(rows=3, cols=15), help_text=u'e.g.: puppies, great dane, adorable'),
-        RadioButtonList('player',
-            legend='Media Player for View pages:',
-            options=player_opts,
-            validator=OneOf([x[0] for x in player_opts]),
-        ),
         ListFieldSet('details', suppress_label=True, legend='Media Details:', css_classes=['details_fieldset'], children=[
             TextField('duration', validator=DurationValidator),
         ]),

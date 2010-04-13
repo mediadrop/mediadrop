@@ -29,6 +29,7 @@ belongs to a :class:`mediacore.model.podcasts.Podcast`.
 """
 
 import math
+import re
 import transaction
 from datetime import datetime
 from urlparse import urlparse
@@ -72,7 +73,6 @@ media = Table('media', metadata,
     Column('notes', UnicodeText),
 
     Column('duration', Integer, default=0, nullable=False),
-    Column('player_override', Unicode(50), default=None),
     Column('views', Integer, default=0, nullable=False),
     Column('likes', Integer, default=0, nullable=False),
     Column('popularity_points', Integer, default=0, nullable=False),
@@ -513,8 +513,44 @@ class Media(object):
     def player(self):
         """Return the name of the player to be used for this media object.
 
-        Takes into account the default global setting and the player_override"""
-        return self.player_override or fetch_setting('player')
+        Takes into account the default global settings, the media type, and
+        the request headers.
+        """
+        browser_accepts = helpers.supported_html5_types()
+
+        player_type = fetch_setting('player_type')
+        if player_type == 'flash':
+            return fetch_setting('flash_player')
+        elif player_type == 'html5':
+            return fetch_setting('html5_player')
+
+        # If we got this far, assume player_type is 'best'. Next, determine if
+        # html5 is feasible with the current browser and media file. html5 is
+        # the preferred option.
+
+        # FIXME: Dirty hack that pretends we know how the files are encoded.
+        # TODO: MediaCore doesn't currently store any information about the
+        # codecs used. For now we're going to fudge it based on file extension.
+        # NOTE: It's just as likely that video is mpeg4-part2 instead of h.264
+        # (aka mpeg4-part10), and that audio is mp3 (aka mpeg1-audio-layer-3)
+        # instead of aac (aka mpeg2-part7, aka mpeg4-part3-sub4), and there is
+        # a remote possibility that the actual codecs could be different still.
+        format_map = {
+            'mp3': ('mp3', ['mp3']),
+            'mp4': ('mp4', ['aac']),
+            'm4a': ('mp4', ['aac']),
+            'm4v': ('mp4', ['h264', 'aac']),
+            'flv': ('flv', ['h264', 'aac']),
+        }
+
+        my_container, my_codecs = \
+            format_map.get(self.primary_file.type, (None, None))
+
+        for container, codecs in browser_accepts:
+            if container == my_container \
+            and all([codec in codecs for codec in my_codecs]):
+                return fetch_setting('html5_player')
+        return fetch_setting('flash_player')
 
     @property
     def playable_files(self):

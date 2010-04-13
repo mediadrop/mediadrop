@@ -169,7 +169,6 @@ class MediaController(BaseController):
                 tags = ', '.join((tag.name for tag in media.tags)),
                 categories = [category.id for category in media.categories],
                 notes = media.notes,
-                player = media.player_override,
                 details = dict(
                     duration = media.duration, # validator converts secs to hh:mm:ss
                 ),
@@ -201,7 +200,7 @@ class MediaController(BaseController):
     @expose()
     @validate(media_form, error_handler=edit)
     def save(self, id, slug, title, author_name, author_email,
-             description, notes, details, podcast, tags, categories, player=None,
+             description, notes, details, podcast, tags, categories,
              delete=None, **kwargs):
         """Save changes or create a new :class:`~mediacore.model.media.Media` instance.
 
@@ -228,7 +227,6 @@ class MediaController(BaseController):
         media.podcast_id = podcast
         media.set_tags(tags)
         media.set_categories(categories)
-        media.player_override = player
 
         media.update_status()
         DBSession.add(media)

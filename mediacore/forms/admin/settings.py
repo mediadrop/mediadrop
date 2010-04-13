@@ -20,11 +20,18 @@ from tw.forms.validators import Int, OneOf, StringBool
 from mediacore.forms import ListFieldSet, ListForm, ResetButton, SubmitButton, TextArea, TextField, XHTMLTextArea, email_validator, email_list_validator
 from mediacore.forms.admin.categories import category_options
 
-players = [
+flash_players = [
     ('flowplayer', Markup('<a href="http://flowplayer.org">FlowPlayer</a> (Flash) - <a href="http://flowplayer.org/download/license_gpl.htm">Licence</a>')),
     ('jwplayer', Markup('<a href="http://longtailvideo.com">JWPlayer</a> (Flash) - <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Licence</a>')),
+]
+html5_players = [
     ('sublime', Markup('<a href="http://jilion.com/sublime/video">Sublime</a> (HTML5) - not yet available')),
     ('html5', Markup('<a href="http://diveintohtml5.org/video.html">&lt;video&gt; tag</a> (HTML5) - not fully implemented in all browsers')),
+]
+player_types = [
+    ('best', "Automatically choose the player type for each media item based on the client browser's supported features."),
+    ('flash', 'Always use the selected Flash player'),
+    ('html5', 'Always use the selected HTML5 player'),
 ]
 
 rich_text_editors = [
@@ -62,10 +69,20 @@ class DisplayForm(ListForm):
             options=rich_text_editors,
             validator=OneOf([x[0] for x in rich_text_editors]),
         ),
-        RadioButtonList('player',
-            legend='Media Player for View pages:',
-            options=players,
-            validator=OneOf([x[0] for x in players]),
+        RadioButtonList('player_type',
+            label_text='Preferred Media Player Type for View Pages',
+            options=player_types,
+            validator=OneOf([x[0] for x in player_types]),
+        ),
+        RadioButtonList('flash_player',
+            label_text='Preferred Flash Player',
+            options=flash_players,
+            validator=OneOf([x[0] for x in flash_players]),
+        ),
+        RadioButtonList('html5_player',
+            label_text='Preferred HTML5 Player',
+            options=html5_players,
+            validator=OneOf([x[0] for x in html5_players]),
         ),
         SingleSelectField('featured_category',
             options=category_options,

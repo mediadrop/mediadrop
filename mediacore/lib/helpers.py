@@ -560,3 +560,74 @@ def gravatar_from_email(email, size):
         (hashlib.md5(email).hexdigest(), size)
     return gravatar_url
 
+# Container and Codec support for HTML5 tag in various browsers.
+# The following list taken from http://diveintohtml5.org/video.html#what-works
+# Safari also supports all default quicktime formats. But we'll keep it simple.
+# h264 = h264 all profiles
+# h264b = h264 baseline profile
+# aac = aac all profiles
+# aacl = aac low complexity profile
+html5_support = {
+    'firefox': [
+        (3.5, 'ogg', ['theora', 'vorbis']),
+    ],
+    'opera': [
+        (10.5, 'ogg', ['theora', 'vorbis']),
+    ],
+    'chrome': [
+        (3.0, 'ogg', ['theora', 'vorbis']),
+        (3.0, 'mp4', ['h264', 'aac']),
+        (3.0, 'mp4', ['h264b', 'aacl']),
+    ],
+    'safari': [
+        (522, 'mp4', ['h264', 'aac']), # revision 522 was introduced in version 3.0
+        (522, 'mp4', ['h264b', 'aacl']),
+    ],
+    'iphone': [
+        (0, 'mp4', ['h264b', 'aacl']),
+        # FIXME: Dirty hack to maximize chance of showing videos in iPhone.
+        # Even though the iPhone can't actually handle full quality h264 and
+        # AAC encodings, our system never knows for sure if the files are
+        # baseline/low complexity or full quality. Even though the files are
+        # likely not to work with HTML5 this way, they're guaranteed not to
+        # work if we serve flash. So we lie, here, and hope for the best.
+        (0, 'mp4', ['h264', 'aac']),
+    ],
+    'android': [
+        (0, 'mp4', ['h264b', 'aacl']),
+    ],
+}
+
+# This is a wildly incomplete set of regular expressions that parse the
+# important numbers from the browser version for determining things like
+# HTML5 support.
+user_agent_regexes = {
+    'chrome': re.compile(r'Chrome.(\d+\.\d+)'), # contains the safari string. check for chrome before safari
+    'firefox': re.compile(r'Firefox.(\d+\.\d+)'),
+    'opera': re.compile(r'Opera.(\d+\.\d+)'),
+    'safari': re.compile(r'Safari.(\d+\.\d+)'),
+    'android':  re.compile(r'Android.(\d+\.\d+)'),
+    'iphone': re.compile(r'iPhone.+Safari/(\d+\.\d+)'),
+}
+
+def parse_user_agent_version():
+    """Return a tuple representing the user agent's browser name and version.
+    """
+    ua = request.headers['User-Agent']
+    for x in ['android', 'chrome', 'firefox', 'iphone', 'opera', 'safari']:
+        match = user_agent_regexes[x].search(ua)
+        if match is not None:
+            version = float(match.groups()[0])
+            return x, version
+    return 'unknown', 0
+
+def supported_html5_types():
+    """Return the user agent's supported HTML5 video containers and codecs.
+    """
+    browser, version = parse_user_agent_version()
+    html5_options = []
+    for req_version, containers, codecs in html5_support[browser]:
+        if version >= req_version:
+            html5_options.append((containers, codecs))
+    return html5_options
+
