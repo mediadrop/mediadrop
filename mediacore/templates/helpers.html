@@ -77,7 +77,7 @@
 	</py:def>
 
 	<py:def function="media_grid(media, id=None, thumb_size='s', desc_len=90)"
-	        py:with="thumb_xy = config.thumb_sizes['media'][thumb_size]">
+	        py:with="thumb_xy = config['thumb_sizes']['media'][thumb_size]">
 		<ul id="${id}" class="grid ${thumb_size}-grid">
 			<li py:for="m in media" py:with="title = h.strip_xhtml(m.title, True)">
 				<a href="${h.url_for(controller='/media', action='view', slug=m.slug)}" title="${title}">

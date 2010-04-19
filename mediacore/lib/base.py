@@ -12,107 +12,87 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 """
 The Base Controller API
 
 Provides the BaseController class for subclassing and other utils useful
 when working with controllers.
-
 """
 import os
 import time
 import urllib2
-import functools
 
-import routes
-import tg.exceptions
-from tg import config, request, response, tmpl_context, expose
-from tg.controllers import CUSTOM_CONTENT_TYPE
 from paste.deploy.converters import asbool
+from pylons import config, request, tmpl_context
+from pylons.controllers import WSGIController
+from pylons.controllers.util import abort
 
-# Import for convenience in controllers
-from tg import validate, flash
-from mediacore.lib.paginate import paginate
-from mediacore.model.settings import fetch_setting
+from repoze.what.plugins.pylonshq import ControllerProtector
+from repoze.what.predicates import Predicate
 
-# Temporary measure until TurboGears 2.0.4 is released with our routing fixes
-# See: http://simplestation.com/locomotion/routes-in-turbogears2/
-try:
-    from tg.controllers import RoutingController
-except ImportError:
-    import pylons
-    from tg.controllers import DecoratedController
-    class RoutingController(DecoratedController):
+from mediacore.model.meta import DBSession
+
+__all__ = ['BareBonesController', 'BaseController']
+
+class BareBonesController(WSGIController):
+    """
+    The Bare Bones extension of a WSGIController needed for this app to function
+    """
+    def __init__(self, *args, **kwargs):
+        """Implements TG2 style controller-level permissions requirements.
+
+        If the allow_only class attribute has been set, wrap the __before__
+        method with an ActionProtector using the predicate defined there.
         """
-        DecoratedController extended for :mod:`routes` compatibility.
+        if hasattr(self, 'allow_only') \
+        and isinstance(self.allow_only, Predicate):
+            # ControllerProtector wraps the __before__ method of this instance.
+            cp = ControllerProtector(self.allow_only)
+            self = cp(self)
+        super(BareBonesController, self).__init__(*args, **kwargs)
 
-        Mirrors some of the behaviour of :class:`TGController`, for exception
-        handling.
+    def __call__(self, environ, start_response):
+        """Invoke the Controller"""
+        # WSGIController.__call__ dispatches to the Controller method
+        # the request is routed to. This routing information is
+        # available in environ['pylons.routes_dict']
+        try:
+            return WSGIController.__call__(self, environ, start_response)
+        finally:
+            DBSession.remove()
 
-        Mirrors some of the behaviour of :class:`ObjectDispatchController`, which
-        includes necessary special cases for :meth:`DecoratedController.__before__`
-        and :meth:`DecoratedController.__after__`.
+    def _perform_call(self, func, args):
         """
-        def _perform_call(self, func, args):
-            try:
-                # If these are the __before__ or __after__ methods, they will have
-                # no decoration property. This will make the default
-                # DecoratedController._perform_call() method choke, so we'll handle
-                # them the same way ObjectDispatchController handles them.
-                func_name = func.__name__
-                if func_name in ['__before__', '__after__']:
-                    action_name = str(args.get('action', 'lookup'))
-                    controller = getattr(self, action_name)
-                    if hasattr(controller.im_class, func_name):
-                        return getattr(controller.im_self, func_name)(*args)
-                    return
-                else:
-                    controller = func
-                    params = args
-                    remainder = ''
+        _perform_call is called by _inspect_call in Pylons' WSGIController.
+        """
+        # Steal a page from TurboGears' book, and Add the GET/POST
+        # request params to our params dict, overriding any defaults passed in.
+        args.update(request.params.mixed())
+        return WSGIController._perform_call(self, func, args)
 
-                    # Remove all extraneous Routing related params.
-                    # Otherwise, they'd be passed as kwargs to the rendered action.
-                    undesirables = [
-                        'pylons',
-                        'start_response',
-                        'environ',
-                        'action',
-                        'controller'
-                    ]
-                    for x in undesirables:
-                        params.pop(x, None)
+    def __before__(self, *args, **kwargs):
+        """This method is called before your action is.
+        It should be used for setting up variables/objects, restricting access
+        to other actions, or other tasks which should be executed before the
+        action is called.
 
-                    # Add the GET/POST request params to our params dict,
-                    # overriding any defaults passed in.
-                    params.update(pylons.request.params.mixed())
-
-                    result = DecoratedController._perform_call(
-                        self, controller, params, remainder=remainder)
-            except tg.exceptions.HTTPException, httpe:
-                result = httpe
-                # 304 Not Modified's shouldn't have a content-type set
-                if result.status_int == 304:
-                    result.headers.pop('Content-Type', None)
-                result._exception = True
-            return result
-
-    # Assume that if the RoutingController isn't in tg yet,
-    # this essential bugfix isn't either. Monkeypatch!
-    from tg.decorators import Decoration
-    def exposed(self):
-        return bool(self.engines) or bool(self.custom_engines)
-    Decoration.exposed = property(exposed)
+        NOTE: if this method is wrapped in an ActionProtector, all methods of
+        the class will be protected it. See the __init__ method.
+        """
+        action = getattr(self, kwargs['action'])
+        # The expose decorator sets the exposed attribute on controller
+        # actions. If a method is not exposed, do not allow access to it.
+        if not hasattr(action, 'exposed'):
+            print action, kwargs['action'], self
+            abort(status_code=404)
 
 
-class BaseController(RoutingController):
+class BaseController(BareBonesController):
     """
     The BaseController for all our controllers.
 
-    If you want to revert to TG-style object dispatch, have this class
-    inherit from :class:`tg.controllers.TGController`.
-
+    Adds functionality for fetching and updating an externally generated
+    template.
     """
     def __init__(self, *args, **kwargs):
         """Initialize the controller and hook in the external template, if any.
@@ -130,7 +110,7 @@ class BaseController(RoutingController):
 
         See also :meth:`update_external_template` for more information.
         """
-        tmpl_context.layout_template = config.layout_template
+        tmpl_context.layout_template = config['layout_template']
         tmpl_context.external_template = None
 
         # Load Google Analytics settings into template context:
@@ -141,10 +121,10 @@ class BaseController(RoutingController):
             tmpl_context.google_analytics_uacct = None
 
 
-        if asbool(config.external_template):
-            tmpl_name = config.external_template_name
-            tmpl_url = config.external_template_url
-            timeout = config.external_template_timeout
+        if asbool(config['external_template']):
+            tmpl_name = config['external_template_name']
+            tmpl_url = config['external_template_url']
+            timeout = config['external_template_timeout']
             tmpl_context.external_template = tmpl_name
 
             try:
@@ -216,108 +196,3 @@ class BaseController(RoutingController):
         #       files are on the same filesystem.
         #       see http://docs.python.org/library/os.html#os.rename
         os.rename(tmpl_tmp_path, tmpl_path)
-
-    def _render_response(self, controller, response):
-        """Workaround a bug with setting content types and Accept headers.
-
-        If the Accept request header is 'text/\*' (as it is for Flash
-        uploads on windows) then @expose(content_type=CUSTOM_CONTENT_TYPE)
-        produces a KeyError because CUSTOM_CONTENT_TYPE evaluates to
-        a mimetype of 'CUSTOM/LEAVE', which doesn't match the 'text/\*'
-        Accept header. This has fixed in tg v2.1 and we may port the fix
-        to the v2.0.x when there is time.
-
-        """
-        try:
-            return super(RoutingController, self).\
-                _render_response(controller, response)
-        except KeyError, e:
-            if (CUSTOM_CONTENT_TYPE in controller.decoration.engines
-                and not isinstance(response, dict)):
-                return response
-            raise
-
-
-def url_for(*args, **kwargs):
-    """Compose a URL using the route mappings in :mod:`mediacore.config.routes`.
-
-    This is a wrapper for :func:`routes.util.url_for`, all arguments are passed.
-
-    Using the REPLACE and REPLACE_WITH GET variables, if set,
-    this method replaces the first instance of REPLACE in the
-    url string. This can be used to proxy an action at a different
-    URL.
-
-    For example, by using an apache mod_rewrite rule:
-
-    .. sourcecode:: apacheconf
-
-        RewriteRule ^/proxy_url(/.\*){0,1}$ /proxy_url$1?_REP=/mycont/actionA&_RWITH=/proxyA [qsappend]
-        RewriteRule ^/proxy_url(/.\*){0,1}$ /proxy_url$1?_REP=/mycont/actionB&_RWITH=/proxyB [qsappend]
-        RewriteRule ^/proxy_url(/.\*){0,1}$ /mycont/actionA$1 [proxy]
-
-    """
-    # Convert unicode to str utf-8 for routes
-    if args:
-        args = [(val.encode('utf-8') if isinstance(val, basestring) else val)
-                for val in args]
-    if kwargs:
-        kwargs = dict(
-            (key, val.encode('utf-8') if isinstance(val, unicode) else val)\
-            for key, val in kwargs.items()
-        )
-
-    url = routes.url_for(*args, **kwargs)
-
-    # Make the replacements
-    repl = request.str_GET.getall('_REP')
-    repl_with = request.str_GET.getall('_RWITH')
-    for i in range(0, min(len(repl), len(repl_with))):
-        url = url.replace(repl[i], repl_with[i], 1)
-
-    return url
-
-def redirect(*args, **kwargs):
-    """Compose a URL using :func:`url_for` and raise a redirect.
-
-    :raises: :class:`tg.exceptions.HTTPFound`
-    """
-    url = url_for(*args, **kwargs)
-    found = tg.exceptions.HTTPFound(location=url)
-    raise found.exception
-
-class expose_xhr(object):
-    """
-    Expose different templates for normal vs XMLHttpRequest requests.
-
-    Example::
-
-        class MyController(BaseController):
-            @expose_xhr('mediacore.templates.list',
-                        'mediacore.templates.list_partial')
-            def
-
-    """
-    def __init__(self, template_norm='', template_xhr='json', **kwargs):
-        self.normal_decorator = expose(template=template_norm, **kwargs)
-        self.xhr_decorator = expose(template=template_xhr, **kwargs)
-
-    def __call__(self, func):
-        # create a wrapper function to override the template,
-        # in the case that this is an xhr request
-        @functools.wraps(func)
-        def f(*args, **kwargs):
-            if request.is_xhr:
-               return self.xhr_decorator.__call__(func)(*args, **kwargs)
-            else:
-               return self.normal_decorator.__call__(func)(*args, **kwargs)
-
-        # set up the normal decorator so that we have the correct
-        # __dict__ properties to copy over. namely 'decoration'
-        func = self.normal_decorator.__call__(func)
-
-        # copy over all the special properties added to func
-        for i in func.__dict__:
-            f.__dict__[i] = func.__dict__[i]
-
-        return f

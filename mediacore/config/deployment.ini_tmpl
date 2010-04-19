@@ -1,12 +1,9 @@
 #
-# MediaCore - TurboGears configuration
+# MediaCore - Pylons configuration
 #
 # The %(here)s variable will be replaced with the parent directory of this file
 #
 [DEFAULT]
-# WARNING == If debug is not set to false, you'll get the interactive
-# debugger on production, which is a huge security hole. 
-
 email_to = you@yourdomain.com
 smtp_server = localhost
 error_email_from = paste@localhost
@@ -17,18 +14,14 @@ host = 0.0.0.0
 port = 8080
 
 [app:main]
-use = egg:MediaCore
-full_stack = true
-app_instance_uuid = ${app_instance_uuid}
-beaker.session.key = mediacore
-
-beaker.session.secret = ${app_instance_secret}
-sa_auth.cookie_secret = ${app_instance_secret}
-
 # Specify the database for SQLAlchemy to use
 sqlalchemy.url = mysql://username:pass@localhost/dbname?charset=utf8&use_unicode=0
 sqlalchemy.echo = False
 sqlalchemy.pool_recycle = 3600
+
+# Session salts.
+beaker.session.secret = ${app_instance_secret}
+sa_auth.cookie_secret = ${app_instance_secret}
 
 # Host the app with mod_fastcgi?
 fastcgi = false
@@ -44,6 +37,11 @@ fastcgi_rewrite_path = /
 cache_dir = %(here)s/data
 image_dir = %(here)s/mediacore/public/images
 media_dir = %(here)s/data/media
+# If you'd like to fine-tune the individual locations of the cache data dirs
+# for the Cache data, or the Session saves, un-comment the desired settings
+# here:
+#beaker.cache.data_dir = %(here)s/data/cache
+#beaker.session.data_dir = %(here)s/data/sessions
 
 # Enable akismet anti-spam protection by setting your API key here
 # The akismet_url is the 'blog url' you signed up with. Defaults to the app root
@@ -77,6 +75,13 @@ external_template_name = external
 external_template_url = http://some/valid_genshi_template.html
 external_template_timeout = 600
 
+# Misc app instance settings
+use = egg:mediacore
+full_stack = true
+static_files = true
+app_instance_uuid = ${app_instance_uuid}
+beaker.session.key = mediacore
+
 # WARNING: *THE LINE BELOW MUST BE UNCOMMENTED ON A PRODUCTION ENVIRONMENT*
 # Debug mode will enable the interactive debugging tool, allowing ANYONE to
 # execute malicious code after an exception is raised.
@@ -89,7 +94,7 @@ set debug = false
 # http://docs.python.org/lib/logging-config-fileformat.html
 
 [loggers]
-keys = root, mediacore, sqlalchemy, auth, tgi18n
+keys = root
 
 [handlers]
 keys = console
@@ -98,35 +103,10 @@ keys = console
 keys = generic
 
 # If you create additional loggers, add them as a key to [loggers]
+# see development.ini for examples
 [logger_root]
 level = INFO
 handlers = console
-
-[logger_mediacore]
-level = INFO
-handlers =
-qualname = mediacore
-
-[logger_sqlalchemy]
-level = WARN
-handlers =
-qualname = sqlalchemy.engine
-# "level = INFO" logs SQL queries.
-# "level = DEBUG" logs SQL queries and results.
-# "level = WARN" logs neither.  (Recommended for production systems.)
-
-
-# A logger for authentication, identification and authorization -- this is
-# repoze.who and repoze.what:
-[logger_auth]
-level = WARN
-handlers = 
-qualname = auth
-
-[logger_tgi18n]
-level = WARN
-handlers =
-qualname = tg.i18n
 
 # If you create additional handlers, add them as a key to [handlers]
 [handler_console]
@@ -137,5 +117,5 @@ formatter = generic
 
 # If you create additional formatters, add them as a key to [formatters]
 [formatter_generic]
-format = %(asctime)s,%(msecs)03d %(levelname)-5.5s [%(name)s] %(message)s
+format = %(asctime)s,%(msecs)03d %(levelname)-5.5s [%(name)s] [%(threadName)s] %(message)s
 datefmt = %H:%M:%S

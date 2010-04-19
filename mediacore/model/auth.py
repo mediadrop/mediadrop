@@ -5,46 +5,46 @@ except ImportError:
     sys.exit('ImportError: no module named hashlib\nIf you are on python2.4 this library is not part of python. Please install it. Example: easy_install hashlib')
 import os
 from datetime import datetime
-from tg.exceptions import HTTPNotFound
 
 from sqlalchemy import Table, ForeignKey, Column
 from sqlalchemy.types import String, Unicode, UnicodeText, Integer, DateTime, Boolean, Float
 from sqlalchemy.orm import relation, backref, synonym
 from sqlalchemy.orm.exc import NoResultFound
 
-from mediacore.model import DeclarativeBase, metadata, DBSession
+from mediacore.model.meta import Base, DBSession
 
 
 # This is the association table for the many-to-many relationship between
 # groups and permissions.
-group_permission_table = Table('tg_group_permission', metadata,
-    Column('group_id', Integer, ForeignKey('tg_group.group_id',
+groups_permissions_table = Table('groups_permissions', Base.metadata,
+    Column('group_id', Integer, ForeignKey('groups.group_id',
         onupdate="CASCADE", ondelete="CASCADE")),
-    Column('permission_id', Integer, ForeignKey('tg_permission.permission_id',
+    Column('permission_id', Integer, ForeignKey('permissions.permission_id',
         onupdate="CASCADE", ondelete="CASCADE"))
 )
 
 # This is the association table for the many-to-many relationship between
 # groups and members - this is, the memberships.
-user_group_table = Table('tg_user_group', metadata,
-    Column('user_id', Integer, ForeignKey('tg_user.user_id',
+users_groups_table = Table('users_groups', Base.metadata,
+    Column('user_id', Integer, ForeignKey('users.user_id',
         onupdate="CASCADE", ondelete="CASCADE")),
-    Column('group_id', Integer, ForeignKey('tg_group.group_id',
+    Column('group_id', Integer, ForeignKey('groups.group_id',
         onupdate="CASCADE", ondelete="CASCADE"))
 )
 
 # auth model
 
-class Group(DeclarativeBase):
+class Group(Base):
+
     """An ultra-simple group definition.
     """
-    __tablename__ = 'tg_group'
+    __tablename__ = 'groups'
 
     group_id = Column(Integer, autoincrement=True, primary_key=True)
     group_name = Column(Unicode(16), unique=True, nullable=False)
     display_name = Column(Unicode(255))
     created = Column(DateTime, default=datetime.now)
-    users = relation('User', secondary=user_group_table, backref='groups')
+    users = relation('User', secondary=users_groups_table, backref='groups')
 
     def __repr__(self):
         return '<Group: name=%s>' % self.group_name
@@ -57,11 +57,11 @@ class Group(DeclarativeBase):
 # contain metadata that Rum (http://python-rum.org/) can use generate an
 # admin interface for your models.
 #
-class User(DeclarativeBase):
+class User(Base):
     """Reasonably basic User definition. Probably would want additional
     attributes.
     """
-    __tablename__ = 'tg_user'
+    __tablename__ = 'users'
 
     user_id = Column(Integer, autoincrement=True, primary_key=True)
     user_name = Column(Unicode(16), unique=True, nullable=False)
@@ -145,15 +145,15 @@ class User(DeclarativeBase):
         hashed_pass.update(password + self.password[:40])
         return self.password[40:] == hashed_pass.hexdigest()
 
-class Permission(DeclarativeBase):
+class Permission(Base):
     """A relationship that determines what each Group can do
     """
-    __tablename__ = 'tg_permission'
+    __tablename__ = 'permissions'
 
     permission_id = Column(Integer, autoincrement=True, primary_key=True)
     permission_name = Column(Unicode(16), unique=True, nullable=False)
     description = Column(Unicode(255))
-    groups = relation(Group, secondary=group_permission_table,
+    groups = relation(Group, secondary=groups_permissions_table,
                       backref='permissions')
 
     def __unicode__(self):

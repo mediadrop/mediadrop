@@ -1,9 +1,12 @@
 .DS_Store
 .*.swp
+.swp
 .project
 .cache
 .settings
 *.pyc
 *.tmproj
 MediaCore.egg-info
+mediacore.egg-info
 dist
+*.egg

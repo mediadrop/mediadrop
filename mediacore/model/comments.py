@@ -27,10 +27,11 @@ from sqlalchemy import Table, ForeignKey, Column, sql
 from sqlalchemy.types import String, Unicode, UnicodeText, Integer, DateTime, Boolean, Float
 from sqlalchemy.orm import mapper, relation, backref, synonym, composite, column_property, validates, interfaces, Query
 
-from mediacore.model import metadata, DBSession, AuthorWithIP
+from mediacore.model import AuthorWithIP
+from mediacore.model.meta import Base, DBSession
 
 
-comments = Table('comments', metadata,
+comments = Table('comments', Base.metadata,
     Column('id', Integer, autoincrement=True, primary_key=True),
     Column('media_id', Integer, ForeignKey('media.id', onupdate='CASCADE', ondelete='CASCADE')),
     Column('subject', Unicode(100)),

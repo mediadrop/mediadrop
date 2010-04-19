@@ -19,32 +19,34 @@ Publicly Facing Media Controllers
 import os.path
 from urlparse import urlparse
 
-from tg import config, request, response, tmpl_context
-import tg.exceptions
-from tg.controllers import CUSTOM_CONTENT_TYPE
+from pylons import config, request, response, session, tmpl_context
+import webob.exc
 from sqlalchemy import orm, sql
 from formencode import validators
 from paste.deploy.converters import asbool
 from paste.util import mimeparse
 from akismet import Akismet
 
-from mediacore.lib.base import (BaseController, url_for, redirect,
-    expose, expose_xhr, validate, paginate)
+from mediacore.lib.base import BaseController
+from mediacore.lib.decorators import expose, expose_xhr, paginate, validate
+from mediacore.lib.helpers import url_for, redirect
 from mediacore.model import (DBSession, fetch_row, get_available_slug,
     Media, MediaFile, Comment, Tag, Category, Author, AuthorWithIP, Podcast)
 from mediacore.lib import helpers, email
 from mediacore.forms.comments import PostCommentForm
 from mediacore import __version__ as MEDIACORE_VERSION
 
-post_comment_form = PostCommentForm()
+import logging
+log = logging.getLogger(__name__)
 
+post_comment_form = PostCommentForm()
 
 class MediaController(BaseController):
     """
     Media actions -- for both regular and podcast media
     """
 
-    @expose('mediacore.templates.media.index')
+    @expose('media/index.html')
     @paginate('media', items_per_page=20)
     def index(self, page=1, show='latest', q=None, tag=None, **kwargs):
         """List media with pagination.
@@ -91,7 +93,7 @@ class MediaController(BaseController):
         )
 
 
-    @expose('mediacore.templates.media.view')
+    @expose('media/view.html')
     def view(self, slug, podcast_slug=None, **kwargs):
         """Display the media player, info and comments.
 
@@ -208,7 +210,7 @@ class MediaController(BaseController):
             redirect(action='view', anchor='comment-%s' % c.id)
 
 
-    @expose(content_type=CUSTOM_CONTENT_TYPE)
+    @expose()
     @validate(validators={'id': validators.Int()})
     def serve(self, id, slug, type, **kwargs):
         """Serve a :class:`~mediacore.model.media.MediaFile` binary.
@@ -217,8 +219,8 @@ class MediaController(BaseController):
         :type id: ``int``
         :param slug: The media :attr:`~mediacore.model.media.Media.slug`
         :type slug: The file :attr:`~mediacore.model.media.MediaFile.type`
-        :raises tg.exceptions.HTTPNotFound: If no file exists for the given params.
-        :raises tg.exceptions.HTTPNotAcceptable: If an Accept header field
+        :raises webob.exc.HTTPNotFound: If no file exists for the given params.
+        :raises webob.exc.HTTPNotAcceptable: If an Accept header field
             is present, and if the mimetype of the requested file doesn't
             match, then a 406 (not acceptable) response is returned.
 
@@ -239,7 +241,7 @@ class MediaController(BaseController):
                 mimetype = mimeparse.best_match([file.mimetype],
                     request.environ.get('HTTP_ACCEPT', '*/*'))
                 if mimetype == '':
-                    raise tg.exceptions.HTTPNotAcceptable() # 406
+                    raise webob.exc.HTTPNotAcceptable() # 406
 
                 file_name = '%s-%s.%s' % (media.slug, file.id, file.type)
                 file_path = os.path.join(config.media_dir, file.url)
@@ -250,9 +252,9 @@ class MediaController(BaseController):
                     'attachment;filename=%s' % file_name.encode('utf-8')
                 return file_handle.read()
         else:
-            raise tg.exceptions.HTTPNotFound()
+            raise webob.exc.HTTPNotFound()
 
-    @expose('mediacore.templates.media.explore')
+    @expose('media/explore.html')
     @paginate('media', items_per_page=20)
     def explore(self, page=1, **kwargs):
         """Display the most recent 15 media.

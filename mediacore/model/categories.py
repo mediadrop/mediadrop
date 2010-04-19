@@ -19,10 +19,11 @@ from sqlalchemy import Table, ForeignKey, Column, sql
 from sqlalchemy.types import String, Unicode, UnicodeText, Integer, DateTime, Boolean, Float
 from sqlalchemy.orm import mapper, relation, backref, synonym, interfaces, validates, Query, attributes
 
-from mediacore.model import metadata, DBSession, slugify
+from mediacore.model import slugify
+from mediacore.model.meta import Base, DBSession
 
 
-categories = Table('categories', metadata,
+categories = Table('categories', Base.metadata,
     Column('id', Integer, autoincrement=True, primary_key=True),
     Column('name', Unicode(50), unique=True, nullable=False),
     Column('slug', String(50), unique=True, nullable=False),

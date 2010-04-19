@@ -14,24 +14,26 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import os.path
-import simplejson as json
 import shutil
+import simplejson as json
 
-from tg import config, request, response, tmpl_context
-from tg.controllers import CUSTOM_CONTENT_TYPE
-from sqlalchemy import orm, sql
+from pylons import request, response, session, tmpl_context
 from repoze.what.predicates import has_permission
+from sqlalchemy import orm, sql
 from PIL import Image
 
-from mediacore.lib.base import (BaseController, url_for, redirect,
-    expose, expose_xhr, validate, paginate)
-from mediacore.lib import helpers
-from mediacore.model import (DBSession, fetch_row, get_available_slug,
-    Podcast, Author, AuthorWithIP)
-from mediacore.model.podcasts import create_podcast_stub
 from mediacore.forms.admin import SearchForm, ThumbForm
 from mediacore.forms.admin.podcasts import PodcastForm
+from mediacore.lib import helpers
+from mediacore.lib.base import BaseController
+from mediacore.lib.decorators import expose, expose_xhr, paginate, validate
+from mediacore.lib.helpers import redirect, url_for
+from mediacore.model import Author, AuthorWithIP, Podcast, fetch_row, get_available_slug
+from mediacore.model.meta import DBSession
+from mediacore.model.podcasts import create_podcast_stub
 
+import logging
+log = logging.getLogger(__name__)
 
 podcast_form = PodcastForm()
 thumb_form = ThumbForm()
@@ -39,8 +41,8 @@ thumb_form = ThumbForm()
 class PodcastsController(BaseController):
     allow_only = has_permission('admin')
 
-    @expose_xhr('mediacore.templates.admin.podcasts.index',
-                'mediacore.templates.admin.podcasts.index-table')
+    @expose_xhr('admin/podcasts/index.html',
+                'admin/podcasts/index-table.html')
     @paginate('podcasts', items_per_page=10)
     def index(self, page=1, **kw):
         """List podcasts with pagination.
@@ -59,7 +61,7 @@ class PodcastsController(BaseController):
         return dict(podcasts=podcasts)
 
 
-    @expose('mediacore.templates.admin.podcasts.edit')
+    @expose('admin/podcasts/edit.html')
     def edit(self, id, **kwargs):
         """Display the podcast forms for editing or adding.
 
@@ -164,7 +166,7 @@ class PodcastsController(BaseController):
         redirect(action='edit', id=podcast.id)
 
 
-    @expose(content_type=CUSTOM_CONTENT_TYPE)
+    @expose()
     @validate(thumb_form, error_handler=edit)
     def save_thumb(self, id, thumb, **values):
         """Save a thumbnail uploaded with :class:`~mediacore.forms.admin.ThumbForm`.

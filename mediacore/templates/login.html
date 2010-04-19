@@ -39,7 +39,7 @@
 		</div>
 	<![endif]-->
 	<div id="loginform">
-		<form action="${tg.url('/login_handler', came_from=came_from.encode('utf-8'), __logins=login_counter.encode('utf-8'))}"
+		<form action="${h.url_for('/login/submit', came_from=came_from.encode('utf-8'), __logins=login_counter.encode('utf-8'))}"
 		      method="post" class="loginfields">
 			<h2><span>Login</span></h2>
 			<ul>

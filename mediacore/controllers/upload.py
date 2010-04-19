@@ -25,22 +25,25 @@ import formencode
 from urlparse import urlparse
 from datetime import datetime, timedelta, date
 
-from tg import config, request, response, tmpl_context
-import tg.exceptions
-from tg.controllers import CUSTOM_CONTENT_TYPE
-from sqlalchemy import orm, sql
+from akismet import Akismet
 from formencode import validators
 from paste.deploy.converters import asbool
 from paste.util import mimeparse
-from akismet import Akismet
+from pylons import config, request, response, session, tmpl_context
+from sqlalchemy import orm, sql
 
-from mediacore.lib.base import (BaseController, url_for, redirect,
-    expose, expose_xhr, validate, paginate)
-from mediacore.model import (DBSession, fetch_row, get_available_slug,
-    Media, MediaFile, Comment, Tag, Category, Author, AuthorWithIP, Podcast)
-from mediacore.model.settings import fetch_setting
-from mediacore.lib import helpers, email
 from mediacore.forms.uploader import UploadForm
+from mediacore.lib import email
+from mediacore.lib.base import BaseController
+from mediacore.lib.decorators import expose, expose_xhr, paginate, validate
+from mediacore.lib.helpers import redirect, url_for, best_json_content_type, create_default_thumbs_for
+from mediacore.model import (fetch_row, get_available_slug,
+    Media, MediaFile, Comment, Tag, Category, Author, AuthorWithIP, Podcast)
+from mediacore.model.meta import DBSession
+from mediacore.model.settings import fetch_setting
+
+import logging
+log = logging.getLogger(__name__)
 
 upload_form = UploadForm(
     action = url_for(controller='/upload', action='submit'),
@@ -53,7 +56,7 @@ class UploadController(BaseController):
     Media Upload Controller
     """
 
-    @expose('mediacore.templates.upload.index')
+    @expose('upload/index.html')
     def index(self, **kwargs):
         """Display the upload form.
 
@@ -80,7 +83,7 @@ class UploadController(BaseController):
             form_values = kwargs,
         )
 
-    @expose(content_type=CUSTOM_CONTENT_TYPE)
+    @expose()
     @validate(upload_form)
     def submit_async(self, **kwargs):
         """Ajax form validation and/or submission.
@@ -160,7 +163,7 @@ class UploadController(BaseController):
                     redirect = url_for(action='success')
                 )
 
-        response.headers['Content-Type'] = helpers.best_json_content_type()
+        response.headers['Content-Type'] = best_json_content_type()
         return json.dumps(data)
 
     @expose()
@@ -182,11 +185,11 @@ class UploadController(BaseController):
         # Redirect to success page!
         redirect(action='success')
 
-    @expose('mediacore.templates.upload.success')
+    @expose('upload/success.html')
     def success(self, **kwargs):
         return dict()
 
-    @expose('mediacore.templates.upload.failure')
+    @expose('upload/failure.html')
     def failure(self, **kwargs):
         return dict()
 
@@ -212,7 +215,7 @@ class UploadController(BaseController):
             #        the new media_obj.
             media_file = MediaFile()
             url = unicode(url)
-            for type, info in config.embeddable_filetypes.iteritems():
+            for type, info in config['embeddable_filetypes'].iteritems():
                 match = info['pattern'].match(url)
                 if match:
                     media_file.type = type
@@ -230,7 +233,7 @@ class UploadController(BaseController):
         DBSession.add(media_obj)
         DBSession.flush()
 
-        helpers.create_default_thumbs_for(media_obj)
+        create_default_thumbs_for(media_obj)
 
         return media_obj
 
@@ -267,12 +270,12 @@ def _add_new_media_file(media, original_filename, file):
 
 def _store_media_file(file, file_name):
     """Copy the file to its permanent location and return its URI"""
-    if asbool(config.ftp_storage):
+    if asbool(config['ftp_storage']):
         # Put the file into our FTP storage, return its URL
         return _store_media_file_ftp(file, file_name)
     else:
         # Store the file locally, return its path relative to the media dir
-        file_path = os.path.join(config.media_dir, file_name)
+        file_path = os.path.join(config['media_dir'], file_name)
         permanent_file = open(file_path, 'w')
         shutil.copyfileobj(file, permanent_file)
         file.close()
@@ -294,15 +297,15 @@ def _store_media_file_ftp(file, file_name):
     integrity errors)
     """
     stor_cmd = 'STOR ' + file_name
-    file_url = config.ftp_download_url + file_name
+    file_url = config['ftp_download_url'] + file_name
 
     # Put the file into our FTP storage
-    FTPSession = ftplib.FTP(config.ftp_server,
-                            config.ftp_username,
-                            config.ftp_password)
+    FTPSession = ftplib.FTP(config['ftp_server'],
+                            config['ftp_username'],
+                            config['ftp_password'])
 
     try:
-        FTPSession.cwd(config.ftp_upload_path)
+        FTPSession.cwd(config['ftp_upload_path'])
         FTPSession.storbinary(stor_cmd, file)
         _verify_ftp_upload_integrity(file, file_url)
     except Exception, e:
@@ -330,7 +333,7 @@ def _verify_ftp_upload_integrity(file, file_url):
     # timeout duration, if the server is particularly slow.
     # eg: Akamai usually takes 3-15 seconds to make an uploaded file
     #     available over HTTP.
-    while tries < config.ftp_upload_integrity_retries:
+    while tries < config['ftp_upload_integrity_retries']:
         time.sleep(3)
         tries += 1
         try:

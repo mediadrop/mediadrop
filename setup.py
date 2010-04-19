@@ -8,15 +8,16 @@ except ImportError:
 from mediacore import __version__ as VERSION
 
 install_requires = [
+    'Pylons == 0.10rc1',
     'SQLAlchemy == 0.5.8',
-    'Pylons == 0.9.7',
-    'Routes == 1.10.3',
+    'Genshi == 0.5.1',
+    'Routes == 1.12',
     'repoze.who == 1.0.18',
-    'TurboGears2 >= 2.0.3',
+    'repoze.what-pylons == 1.0',
+    'repoze.what-quickstart',
     'ToscaWidgets == 0.9.9',
     'tw.dynforms',
     'zope.sqlalchemy',
-    'repoze.what-quickstart',
     'MySQL-python >= 1.2.2',
     'BeautifulSoup == 3.0.7a',
         # We monkeypatch this version of BeautifulSoup in mediacore.__init__
@@ -34,7 +35,7 @@ except ImportError:
     install_requires.append('PIL >= 1.1.6')
 
 setup(
-    name='MediaCore',
+    name='mediacore',
     version=VERSION,
     description='A audio, video and podcast publication platform.',
     author='Simple Station Inc.',
@@ -57,12 +58,11 @@ setup(
     install_requires=install_requires,
     setup_requires=[
         'PasteScript >= 1.6.3'
-        ],
+    ],
     paster_plugins=[
         'PasteScript',
-        'Pylons == 0.9.7',
-        'TurboGears2 >= 2.0.3',
-        ],
+        'Pylons',
+    ],
 
     test_suite='nose.collector',
     tests_require=[
@@ -72,14 +72,12 @@ setup(
 
     packages=find_packages(exclude=['ez_setup']),
     include_package_data=True,
-    package_data={'mediacore': ['i18n/*/LC_MESSAGES/*.mo',
-                                 'templates/*/*',
-                                 'public/*/*']},
-    message_extractors = {'mediacore': [
-            ('**.py', 'python', None),
-            ('templates/**.mako', 'mako', None),
-            ('templates/**.html', 'genshi', None),
-            ('public/**', 'ignore', None)]},
+    package_data={'mediacore': ['i18n/*/LC_MESSAGES/*.mo']},
+    # message_extractors = {'mediacore': [
+    #    ('**.py', 'python', None),
+    #    ('templates/**.html', 'genshi', None),
+    #    ('public/**', 'ignore', None)]},
+    zip_safe=False,
 
     entry_points="""
     [paste.app_factory]

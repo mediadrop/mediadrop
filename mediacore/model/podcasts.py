@@ -27,13 +27,14 @@ from datetime import datetime
 from sqlalchemy import Table, ForeignKey, Column, sql
 from sqlalchemy.types import String, Unicode, UnicodeText, Integer, DateTime, Boolean, Float
 from sqlalchemy.orm import mapper, relation, backref, synonym, composite, validates, dynamic_loader, column_property
-from tg import request
+from pylons import request
 
-from mediacore.model import metadata, DBSession, Author, slugify, get_available_slug
+from mediacore.model import Author, slugify, get_available_slug
+from mediacore.model.meta import Base, DBSession
 from mediacore.model.media import Media, MediaQuery, media
 
 
-podcasts = Table('podcasts', metadata,
+podcasts = Table('podcasts', Base.metadata,
     Column('id', Integer, autoincrement=True, primary_key=True),
     Column('slug', String(50), unique=True, nullable=False),
     Column('created_on', DateTime, default=datetime.now, nullable=False),

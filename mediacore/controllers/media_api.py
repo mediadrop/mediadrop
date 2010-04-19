@@ -13,20 +13,21 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import simplejson as json
-import time
-from urlparse import urlparse
-from datetime import datetime, timedelta, date
 
-from tg import config, request, response, tmpl_context
-import tg.exceptions
+from datetime import datetime, timedelta
+from pylons import config, request, response, session, tmpl_context
 from sqlalchemy import orm, sql
+import webob.exc
 
-from mediacore.lib.base import (BaseController, url_for, redirect,
-    expose, expose_xhr, validate, paginate)
-from mediacore.model import (DBSession, fetch_row, get_available_slug,
-    Media, Tag, Category, Podcast)
+from mediacore.lib.base import BaseController
+from mediacore.lib.decorators import expose, expose_xhr, paginate, validate
+from mediacore.lib.helpers import url_for
 from mediacore.lib import helpers
+from mediacore.model import Category, Media, Podcast, Tag, fetch_row, get_available_slug
+from mediacore.model.meta import DBSession
+
+import logging
+log = logging.getLogger(__name__)
 
 class APIException(Exception):
     """
@@ -113,7 +114,7 @@ class MediaApiController(BaseController):
         :param limit:
             Number of results to return in each query. Defaults to 10.
             The maximum allowed value defaults to 50 and is set via
-            :attr:`mediacore.config.app_config.api_media_max_results`.
+            :attr:`mediacore.config['app_config'].api_media_max_results`.
         :type limit: int
 
         :raises APIException:
@@ -194,7 +195,7 @@ class MediaApiController(BaseController):
 
         # Rudimentary pagination support
         start = int(offset)
-        end = start + min(int(limit), int(config.api_media_max_results))
+        end = start + min(int(limit), int(config['api_media_max_results']))
 
         media = [self._info(m, podcast_slugs) for m in query[start:end]]
 
@@ -212,7 +213,7 @@ class MediaApiController(BaseController):
         :type id: int
         :param slug: A :attr:`mediacore.model.media.Media.slug` for lookup
         :type slug: str
-        :raises tg.exceptions.HTTPNotFound: If the media doesn't exist.
+        :raises webob.exc.HTTPNotFound: If the media doesn't exist.
         :returns: JSON dict
 
         """
@@ -226,7 +227,7 @@ class MediaApiController(BaseController):
         try:
             media = query.one()
         except orm.exc.NoResultFound:
-            raise tg.exceptions.HTTPNotFound
+            raise webob.exc.HTTPNotFound
 
         info = self._info(media)
         info['embed'] = helpers.embeddable_player(media)
@@ -251,7 +252,7 @@ class MediaApiController(BaseController):
                 .filter_by(id=media.podcast_id).scalar()
 
         thumbs = {}
-        for size in config.thumb_sizes[media._thumb_dir].iterkeys():
+        for size in config['thumb_sizes'][media._thumb_dir].iterkeys():
             thumbs[size] = helpers.thumb(media, size, qualified=True)
 
         return dict(

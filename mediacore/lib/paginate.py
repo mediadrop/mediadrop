@@ -15,15 +15,50 @@
 
 import inspect
 import functools
-from pylons import request
-from pylons import tmpl_context as c
-from tg.util import partial
-from tg.configuration import Bunch
+from pylons import request, tmpl_context
 from webhelpers import paginate as _paginate
 from webhelpers.paginate import get_wrapper
 from webob.multidict import MultiDict
 from webhelpers.paginate import Page
 
+# FIXME: The following class is taken from TG2.0.3. Find a way to replace it.
+# This is not an ideal solution, but avoids the immediate need to rewrite the
+# paginate and CustomPage methods below.
+# TG licence: http://turbogears.org/2.0/docs/main/License.html
+class Bunch(dict):
+    """A dictionary that provides attribute-style access."""
+
+    def __getitem__(self, key):
+        return  dict.__getitem__(self, key)
+
+    def __getattr__(self, name):
+        try:
+            return self[name]
+        except KeyError:
+            return get_partial_dict(name, self)
+
+    __setattr__ = dict.__setitem__
+
+    def __delattr__(self, name):
+        try:
+            del self[name]
+        except KeyError:
+            raise AttributeError(name)
+
+
+# FIXME: The following function is taken from TG2.0.3. Find a way to replace it.
+# This is not an ideal solution, but avoids the immediate need to rewrite the
+# paginate and CustomPage methods below.
+# TG licence: http://turbogears.org/2.0/docs/main/License.html
+def partial(*args, **create_time_kwds):
+    func = args[0]
+    create_time_args = args[1:]
+    def curried_function(*call_time_args, **call_time_kwds):
+        args = create_time_args + call_time_args
+        kwds = create_time_kwds.copy()
+        kwds.update(call_time_kwds)
+        return func(*args, **kwds)
+    return curried_function
 
 def paginate(name, items_per_page=10, use_prefix=False, items_first_page=None):
     """Paginate a given collection.
@@ -52,7 +87,7 @@ def paginate(name, items_per_page=10, use_prefix=False, items_first_page=None):
 
     To render the actual pager, use::
 
-      ${c.paginators.<name>.pager()}
+      ${tmpl_context.paginators.<name>.pager()}
 
     where c is the tmpl_context.
 
@@ -142,9 +177,9 @@ def paginate(name, items_per_page=10, use_prefix=False, items_first_page=None):
                 # string for everything it dosen't know.
                 # I didn't find that documented, so I
                 # just put this in here and hope it works.
-                if not hasattr(c, 'paginators') or type(c.paginators) == str:
-                    c.paginators = Bunch()
-                c.paginators[name] = page
+                if not hasattr(tmpl_context, 'paginators') or type(tmpl_context.paginators) == str:
+                    tmpl_context.paginators = Bunch()
+                tmpl_context.paginators[name] = page
             return res
         return _w
     return _d

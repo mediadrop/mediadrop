@@ -13,17 +13,18 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from tg import config, request, response, tmpl_context
-from sqlalchemy import orm, sql
+from pylons import request, response, session, tmpl_context
 from repoze.what.predicates import has_permission
+from sqlalchemy import orm, sql
 
-from mediacore.lib.base import (BaseController, url_for, redirect,
-    expose, expose_xhr, validate, paginate)
-from mediacore.lib import helpers
-from mediacore.model import (DBSession, fetch_row, get_available_slug,
-    User, Group)
 from mediacore.forms.admin.users import UserForm
-
+from mediacore.lib import helpers
+from mediacore.lib.base import BaseController
+from mediacore.lib.decorators import expose, expose_xhr, paginate, validate
+from mediacore.lib.helpers import redirect, url_for
+from mediacore.model import Group, User, fetch_row, get_available_slug
+from mediacore.model.meta import DBSession
+from mediacore.model.settings import fetch_setting
 
 user_form = UserForm()
 
@@ -31,7 +32,7 @@ class UsersController(BaseController):
     """Admin user actions"""
     allow_only = has_permission('admin')
 
-    @expose_xhr('mediacore.templates.admin.users.index')
+    @expose_xhr('admin/users/index.html')
     @paginate('users', items_per_page=50)
     def index(self, page=1, **kwargs):
         """List users with pagination.
@@ -50,7 +51,7 @@ class UsersController(BaseController):
         return dict(users=users)
 
 
-    @expose('mediacore.templates.admin.users.edit')
+    @expose('admin/users/edit.html')
     def edit(self, id, **kwargs):
         """Display the :class:`~mediacore.forms.admin.users.UserForm` for editing or adding.
 

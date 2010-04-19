@@ -31,7 +31,7 @@
 			                 help_url = getattr(field, 'help_url', None);
 			                 is_submit = getattr(field, 'type', None) == 'submit';
 			                 render_label = show_labels and not field.suppress_label;
-			                 render_error = error is not None and field.show_error;">
+			                 render_error = error is not None and not field.show_error;">
 				<tr py:if="field.name == 'url'">
 					<td>
 						<br />
@@ -42,12 +42,12 @@
 						</div>
 					</td>
 				</tr>
-				<tr class="title" py:if="render_label and not is_submit or field.show_error">
+				<tr class="title" py:if="render_label and not (is_submit and field.show_error)">
 					<td>
 						<label py:if="render_label" py:content="field.label_text" id="${field.id}-label" class="form-label" for="${field.id}" />
 						<a py:if="field.help_text and help_url" py:content="field.help_text" href="${help_url}" class="field-help" />
 						<span py:if="field.help_text and not help_url" py:content="field.help_text" class="field-help" />
-						<span py:if="field.show_error" class="field-error" py:content="error_for(field)" />
+						<span py:if="not field.show_error" class="field-error" py:content="error_for(field)" />
 					</td>
 				</tr>
 				<tr>

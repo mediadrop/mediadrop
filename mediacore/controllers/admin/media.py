@@ -18,30 +18,31 @@ Media Admin Controller
 """
 import os.path
 import re
-import simplejson as json
 import shutil
-from urlparse import urlparse, urlunparse
-from datetime import datetime
+import simplejson as json
 
-from tg import config, request, response, tmpl_context
-from tg.controllers import CUSTOM_CONTENT_TYPE
-from repoze.what.predicates import has_permission
-from sqlalchemy import orm, sql
+from PIL import Image
+from datetime import datetime
 from formencode import validators
 from paste.util import mimeparse
-from PIL import Image
+from pylons import config, request, response, session, tmpl_context
+from repoze.what.predicates import has_permission
+from sqlalchemy import orm, sql
+from urlparse import urlparse, urlunparse
 
-from mediacore.lib.base import (BaseController, url_for, redirect,
-    expose, expose_xhr, validate, paginate)
-from mediacore.model import (DBSession, fetch_row, get_available_slug,
-    Media, MediaFile, Podcast, Tag, Author, Category)
-from mediacore.lib import helpers
-from mediacore.model.media import create_media_stub
 from mediacore.controllers.upload import _add_new_media_file
 from mediacore.forms.admin import SearchForm, ThumbForm
-from mediacore.forms.admin.media import (MediaForm, AddFileForm, EditFileForm,
-    UpdateStatusForm, PodcastFilterForm)
+from mediacore.forms.admin.media import AddFileForm, EditFileForm, MediaForm, PodcastFilterForm, UpdateStatusForm
+from mediacore.lib import helpers
+from mediacore.lib.base import BaseController
+from mediacore.lib.decorators import expose, expose_xhr, paginate, validate
+from mediacore.lib.helpers import redirect, url_for
+from mediacore.model import Author, Category, Media, MediaFile, Podcast, Tag, fetch_row, get_available_slug
+from mediacore.model.media import create_media_stub
+from mediacore.model.meta import DBSession
 
+import logging
+log = logging.getLogger(__name__)
 
 media_form = MediaForm()
 add_file_form = AddFileForm()
@@ -54,8 +55,7 @@ podcast_filter_form = PodcastFilterForm(action=url_for(controller='/admin/media'
 class MediaController(BaseController):
     allow_only = has_permission('admin')
 
-    @expose_xhr('mediacore.templates.admin.media.index',
-                'mediacore.templates.admin.media.index-table')
+    @expose_xhr('admin/media/index.html', 'admin/media/index-table.html')
     @paginate('media', items_per_page=25)
     def index(self, page=1, search=None, podcast_filter=None, **kwargs):
         """List media with pagination and filtering.
@@ -111,7 +111,7 @@ class MediaController(BaseController):
         )
 
 
-    @expose('mediacore.templates.admin.media.edit')
+    @expose('admin/media/edit.html')
     @validate(validators={'podcast': validators.Int()})
     def edit(self, id, **kwargs):
         """Display the media forms for editing or adding.
@@ -238,7 +238,7 @@ class MediaController(BaseController):
         redirect(action='edit', id=media.id)
 
 
-    @expose(content_type=CUSTOM_CONTENT_TYPE)
+    @expose()
     @validate(add_file_form)
     def add_file(self, id, file=None, url=None, **kwargs):
         """Save action for the :class:`~mediacore.forms.admin.media.AddFileForm`.
@@ -445,7 +445,7 @@ class MediaController(BaseController):
             redirect(action='edit')
 
 
-    @expose(content_type=CUSTOM_CONTENT_TYPE)
+    @expose()
     @validate(thumb_form, error_handler=edit)
     def save_thumb(self, id, thumb, **kwargs):
         """Save a thumbnail uploaded with :class:`~mediacore.forms.admin.ThumbForm`.

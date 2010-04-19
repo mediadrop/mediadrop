@@ -26,8 +26,8 @@ class PostCommentForm(ListForm):
 
     class fields(WidgetsList):
         name = TextField(validator=TextField.validator(not_empty=True, messages={'empty': 'Please enter your name!'}), maxlength=50)
-        email = TextField(validator=email_validator(), label_text='Email Address (will never be published)', show_error=True, maxlength=255)
-        body = TextArea(validator=XHTMLValidator, label_text='Comment', attrs=dict(rows=5, cols=25))
+        email = TextField(validator=email_validator(), label_text='Email Address (will never be published)', maxlength=255)
+        body = TextArea(validator=XHTMLValidator(not_empty=True), label_text='Comment', attrs=dict(rows=5, cols=25))
         submit = SubmitButton(default='Post Comment', css_class='btn btn-post-comment')
 
 

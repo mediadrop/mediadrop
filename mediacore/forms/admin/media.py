@@ -31,7 +31,7 @@ class AddFileForm(ListForm):
     id = 'media-file-form'
     submit_text = None
     fields = [
-        FileField('file', suppress_label=True, validator=FieldStorageUploadConverter(not_empty=False, label_text='Upload', show_error=True)),
+        FileField('file', suppress_label=True, validator=FieldStorageUploadConverter(not_empty=False, label_text='Upload')),
         TextField('url', validator=URL, label_text='URL', default='URL', suppress_label=True, maxlength=255),
     ]
 

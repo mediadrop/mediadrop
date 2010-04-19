@@ -13,22 +13,25 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from datetime import datetime
-
-from tg import config, request, response, tmpl_context
-from repoze.what.predicates import has_permission
 import webhelpers.paginate
 
-from mediacore.lib.base import (BaseController, url_for, redirect,
-    expose, expose_xhr, validate, paginate)
-from mediacore.model import DBSession, fetch_row, Media, Comment
+from pylons import request, response, session, tmpl_context
+from repoze.what.predicates import has_permission
 
+from mediacore.lib.base import BaseController
+from mediacore.lib.decorators import expose, expose_xhr, paginate, validate
+from mediacore.lib.helpers import redirect, url_for
+from mediacore.model import Comment, Media, fetch_row
+from mediacore.model.meta import DBSession
+
+import logging
+log = logging.getLogger(__name__)
 
 class IndexController(BaseController):
     """Admin dashboard actions"""
     allow_only = has_permission('admin')
 
-    @expose('mediacore.templates.admin.index')
+    @expose('admin/index.html')
     def index(self, **kwargs):
         """List recent and important items that deserve admin attention.
 
@@ -75,7 +78,7 @@ class IndexController(BaseController):
         )
 
 
-    @expose('mediacore.templates.admin.media.dash-table')
+    @expose('admin/media/dash-table.html')
     def media_table(self, table, page, **kwargs):
         """Fetch XHTML to inject when the 'showmore' ajax action is clicked.
 

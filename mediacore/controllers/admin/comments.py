@@ -16,17 +16,21 @@
 """
 Comment Moderation Controller
 """
-from tg import config, request, response, tmpl_context
+from pylons import request, response, session, tmpl_context
 from repoze.what.predicates import has_permission
 from sqlalchemy import orm, sql
 
-from mediacore.lib.base import (BaseController, url_for, redirect,
-    expose, expose_xhr, validate, paginate)
-from mediacore.model import DBSession, fetch_row, Media, Comment
-from mediacore.lib import helpers
+from mediacore.lib.base import BaseController
+from mediacore.lib.decorators import expose, expose_xhr, paginate, validate
+from mediacore.lib.helpers import redirect, url_for
+from mediacore.model import Comment, Media, fetch_row, get_available_slug
+from mediacore.model.meta import DBSession
+
 from mediacore.forms.admin import SearchForm
 from mediacore.forms.admin.comments import EditCommentForm
 
+import logging
+log = logging.getLogger(__name__)
 
 edit_form = EditCommentForm()
 search_form = SearchForm(action=url_for(controller='/admin/comment',
@@ -35,8 +39,8 @@ search_form = SearchForm(action=url_for(controller='/admin/comment',
 class CommentsController(BaseController):
     allow_only = has_permission('admin')
 
-    @expose_xhr('mediacore.templates.admin.comments.index',
-                'mediacore.templates.admin.comments.index-table')
+    @expose_xhr('admin/comments/index.html',
+                'admin/comments/index-table.html')
     @paginate('comments', items_per_page=50)
     def index(self, page=1, search=None, media_filter=None, **kwargs):
         """List comments with pagination and filtering.

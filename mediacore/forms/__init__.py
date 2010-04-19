@@ -13,7 +13,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from tg.render import _get_tg_vars
 from tw import forms
 from tw.api import JSLink, JSSource
 from tw.forms import FileField, ListFieldSet, TextArea as tw_TA, TextField as tw_TF
@@ -24,13 +23,13 @@ from formencode.api import Invalid
 from BeautifulSoup import BeautifulStoneSoup
 from pylons.templating import pylons_globals
 
-from mediacore.lib.base import url_for
-from mediacore.lib.helpers import line_break_xhtml, clean_xhtml
+from mediacore.lib.helpers import line_break_xhtml, clean_xhtml, url_for
 from mediacore.model.settings import fetch_setting
 
 
 class LeniantValidationMixin(object):
     validator = forms.validators.Schema(
+        # TODO: See if this is necessary now that we've stripped turbogears out.
         allow_extra_fields=True, # Allow extra kwargs that tg likes to pass: pylons, start_request, environ...
     )
 
@@ -48,12 +47,12 @@ class ResetButton(forms.ResetButton):
 
 class GlobalMixin(object):
     def display(self, *args, **kw):
+        # TODO: See if this is still necessary. Furthermore, find out which variables it actually adds.
         # Update the kwargs with the same values that are included in main templates
         # this allows us to access the following objects in widget templates:
         # ['tmpl_context', 'translator', 'session', 'ungettext', 'response', '_',
         #  'c', 'app_globals', 'g', 'url', 'h', 'request', 'helpers', 'N_', 'tg',
         #  'config']
-        kw.update(_get_tg_vars())
         kw.update(pylons_globals())
         return forms.Widget.display(self, *args, **kw)
 

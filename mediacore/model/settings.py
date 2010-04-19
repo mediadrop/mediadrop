@@ -25,18 +25,19 @@ non-mission-critical options which can be edited via the admin UI.
     with attribute-style access.
 
 """
-from tg.exceptions import HTTPNotFound
+from webob.exc import HTTPNotFound
 from sqlalchemy import Table, ForeignKey, Column
 from sqlalchemy.types import String, Unicode, UnicodeText, Integer, Boolean, Float
 from sqlalchemy.orm import mapper, relation, backref, synonym, interfaces, validates
 
-from mediacore.model import DeclarativeBase, metadata, DBSession, fetch_row
+from mediacore.model import fetch_row
+from mediacore.model.meta import Base, DBSession
 
 
 class SettingNotFound(Exception): pass
 
 
-settings = Table('settings', metadata,
+settings = Table('settings', Base.metadata,
     Column('id', Integer, autoincrement=True, primary_key=True),
     Column('key', Unicode(255), nullable=False, unique=True),
     Column('value', UnicodeText),

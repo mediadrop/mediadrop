@@ -27,10 +27,11 @@ from sqlalchemy import Table, ForeignKey, Column, sql, func
 from sqlalchemy.types import String, Unicode, UnicodeText, Integer, DateTime, Boolean, Float
 from sqlalchemy.orm import mapper, relation, backref, synonym, interfaces, validates, column_property
 
-from mediacore.model import DeclarativeBase, metadata, DBSession, slugify, _mtm_count_property
+from mediacore.model import slugify, _mtm_count_property
+from mediacore.model.meta import Base, DBSession
 
 
-tags = Table('tags', metadata,
+tags = Table('tags', Base.metadata,
     Column('id', Integer, autoincrement=True, primary_key=True),
     Column('name', Unicode(50), unique=True, nullable=False),
     Column('slug', String(50), unique=True, nullable=False),

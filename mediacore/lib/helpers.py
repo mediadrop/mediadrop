@@ -12,7 +12,11 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+"""Helper functions
 
+Consists of functions to typically be used within templates, but also
+available to Controllers. This module is available to templates as 'h'.
+"""
 import datetime as dt
 import hashlib
 import math
@@ -20,7 +24,6 @@ import os
 import re
 import shutil
 import time
-import urllib
 from PIL import Image
 from copy import copy
 from datetime import datetime
@@ -28,18 +31,67 @@ from urlparse import urlparse
 
 import genshi.core
 import pylons.templating
-import tg.exceptions
+import webob.exc
 
 from BeautifulSoup import BeautifulSoup
 from paste.util import mimeparse
-from tg import config, request
+from pylons import config, request, url as pylons_url
 from webhelpers import date, feedgenerator, html, number, misc, text, paginate, containers
 from webhelpers.html import tags
 from webhelpers.html.converters import format_paragraphs
 
-from mediacore.lib.base import url_for, redirect, expose_xhr
 from mediacore.lib.htmlsanitizer import Cleaner, entities_to_unicode as decode_entities, encode_xhtml_entities as encode_entities
 
+def url_for(*args, **kwargs):
+    """Compose a URL using the route mappings in :mod:`mediacore.config.routes`.
+
+    This is a wrapper for :func:`pylons.url`, all arguments are passed.
+
+    Using the REPLACE and REPLACE_WITH GET variables, if set,
+    this method replaces the first instance of REPLACE in the
+    url string. This can be used to proxy an action at a different
+    URL.
+
+    For example, by using an apache mod_rewrite rule:
+
+    .. sourcecode:: apacheconf
+
+        RewriteRule ^/proxy_url(/.\*){0,1}$ /proxy_url$1?_REP=/mycont/actionA&_RWITH=/proxyA [qsappend]
+        RewriteRule ^/proxy_url(/.\*){0,1}$ /proxy_url$1?_REP=/mycont/actionB&_RWITH=/proxyB [qsappend]
+        RewriteRule ^/proxy_url(/.\*){0,1}$ /mycont/actionA$1 [proxy]
+
+    """
+    # Convert unicode to str utf-8 for routes
+    if args:
+        args = [(val.encode('utf-8') if isinstance(val, basestring) else val)
+                for val in args]
+    if kwargs:
+        kwargs = dict(
+            (key, val.encode('utf-8') if isinstance(val, unicode) else val)\
+            for key, val in kwargs.items()
+        )
+
+    # TODO: Rework templates so that we can avoid using .current, and use named
+    # routes, as described at http://routes.groovie.org/manual.html#generating-routes-based-on-the-current-url
+    # NOTE: pylons.url is a StackedObjectProxy wrapping the routes.url method.
+    url = pylons_url.current(*args, **kwargs)
+
+    # Make the replacements
+    repl = request.str_GET.getall('_REP')
+    repl_with = request.str_GET.getall('_RWITH')
+    for i in range(0, min(len(repl), len(repl_with))):
+        url = url.replace(repl[i], repl_with[i], 1)
+
+    return url
+
+def redirect(*args, **kwargs):
+    """Compose a URL using :func:`url_for` and raise a redirect.
+
+    :raises: :class:`webob.exc.HTTPFound`
+    """
+    url = url_for(*args, **kwargs)
+    found = webob.exc.HTTPFound(location=url)
+    raise found.exception
 
 def duration_from_seconds(total_sec):
     """Return the HH:MM:SS duration for a given number of seconds.
@@ -250,7 +302,7 @@ def accepted_extensions():
 
     :rtype: list
     """
-    e = config.mimetype_lookup.keys()
+    e = config['mimetype_lookup'].keys()
     e = [x.lstrip('.') for x in e]
     e = sorted(e)
     return e
@@ -297,7 +349,7 @@ def thumb_path(item, size, exists=False, ext='jpg'):
 
     image_dir, item_id = _normalize_thumb_item(item)
     image = '%s/%s%s.%s' % (image_dir, item_id, size, ext)
-    image_path = os.path.join(config.image_dir, image)
+    image_path = os.path.join(config['image_dir'], image)
 
     if exists and not os.path.isfile(image_path):
         return None
@@ -328,7 +380,7 @@ def thumb_url(item, size, qualified=False, exists=False):
     image_dir, item_id = _normalize_thumb_item(item)
     image = '%s/%s%s.jpg' % (image_dir, item_id, size)
 
-    if exists and not os.path.isfile(os.path.join(config.image_dir, image)):
+    if exists and not os.path.isfile(os.path.join(config['image_dir'], image)):
         return None
     return url_for('/images/%s' % image, qualified=qualified)
 
@@ -369,7 +421,7 @@ def thumb(item, size, qualified=False, exists=False):
 
     if not url:
         return None
-    return ThumbDict(url, config.thumb_sizes[image_dir][size])
+    return ThumbDict(url, config['thumb_sizes'][image_dir][size])
 
 def resize_thumb(img, size, filter=Image.ANTIALIAS):
     """Resize an image without any stretching by cropping when necessary.
@@ -428,7 +480,7 @@ def create_default_thumbs_for(item):
 
     """
     image_dir, item_id = _normalize_thumb_item(item)
-    for key in config.thumb_sizes[image_dir].iterkeys():
+    for key in config['thumb_sizes'][image_dir].iterkeys():
         src_file = thumb_path((image_dir, 'new'), key)
         dst_file = thumb_path(item, key)
         shutil.copyfile(src_file, dst_file)
@@ -457,7 +509,7 @@ def best_json_content_type(accept=None, raise_exc=True):
         ['application/json', 'text/plain'],
         accept or request.environ.get('HTTP_ACCEPT', '*/*'))
     if raise_exc and not desired_matches:
-        raise tg.exceptions.HTTPNotAcceptable # 406
+        raise webob.exc.HTTPNotAcceptable # 406
     return desired_matches[0]
 
 def append_class_attr(attrs, class_name):
@@ -504,13 +556,8 @@ def embeddable_player(media):
     :rtype: unicode
 
     """
-    template_finder = config['pylons.app_globals'].dotted_filename_finder
-    template_name = template_finder.get_dotted_filename(
-        'mediacore.templates.media._embeddable_player',
-        template_extension='.html'
-    )
     xhtml = pylons.templating.render_genshi(
-        template_name,
+        'media/_embeddable_player.html',
         extra_vars=dict(media=media),
         method='xhtml'
     )

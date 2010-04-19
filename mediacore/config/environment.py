@@ -12,8 +12,132 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+"""Pylons environment configuration"""
+import os
+import re
 
-from mediacore.config.app_cfg import base_config
+from genshi.template import TemplateLoader
+from pylons.configuration import PylonsConfig
+from sqlalchemy import engine_from_config
 
-#Use base_config to setup the environment loader function
-load_environment = base_config.make_load_environment()
+import mediacore.lib.app_globals as app_globals
+import mediacore.lib.helpers
+
+from mediacore.config.routing import make_map
+from mediacore.lib.auth import classifier_for_flash_uploads
+from mediacore.model import User, Group, Permission, init_model
+from mediacore.model.meta import DBSession
+
+def load_environment(global_conf, app_conf):
+    """Configure the Pylons environment via the ``pylons.config``
+    object
+    """
+    config = PylonsConfig()
+
+    # Pylons paths
+    root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    paths = dict(root=root,
+                 controllers=os.path.join(root, 'controllers'),
+                 static_files=os.path.join(root, 'public'),
+                 templates=[os.path.join(root, 'templates')])
+
+    # Initialize config with the basic options
+    config.init_app(global_conf, app_conf, package='mediacore', paths=paths)
+
+    config['routes.map'] = make_map(config)
+    config['pylons.app_globals'] = app_globals.Globals(config)
+    config['pylons.h'] = mediacore.lib.helpers
+
+    # Setup cache object as early as possible
+    import pylons
+    pylons.cache._push_object(config['pylons.app_globals'].cache)
+
+
+    # Create the Genshi TemplateLoader
+    config['pylons.app_globals'].genshi_loader = TemplateLoader(
+        search_path=paths['templates'],
+        auto_reload=True,
+    )
+
+    # Setup the SQLAlchemy database engine
+    engine = engine_from_config(config, 'sqlalchemy.')
+    init_model(engine)
+
+    # CONFIGURATION OPTIONS HERE (note: all config options will override
+    # any Pylons config options)
+    # TODO: Move as many of these custom options into an .ini file, or at least
+    # to somewhere more friendly.
+
+    # TODO: rework templates not to rely on this line:
+    # See docstring in pylons.configuration.PylonsConfig for details.
+    config['pylons.strict_tmpl_context'] = False
+
+    # Genshi Default Search Path
+    config['genshi_search_path'] = paths['templates'][0]
+
+    # Mimetypes
+    config['mimetype_lookup'] = {
+        # TODO: Replace this with a more complete list.
+        #       or modify code to detect mimetype from something other than ext.
+        '.m4a':  'audio/mpeg',
+        '.m4v':  'video/mpeg',
+        '.mp3':  'audio/mpeg',
+        '.mp4':  'audio/mpeg',
+        '.flac': 'audio/flac',
+        '.3gp':  'video/3gpp',
+        '.3g2':  'video/3gpp',
+        '.divx': 'video/mpeg',
+        '.dv':   'video/x-dv',
+        '.dvx':  'video/mpeg',
+        '.flv':  'video/x-flv', # made up, it's what everyone uses anyway.
+        '.mov':  'video/quicktime',
+        '.mpeg': 'video/mpeg',
+        '.mpg':  'video/mpeg',
+        '.qt':   'video/quicktime',
+        '.vob':  'video/x-vob', # multiplexed container format
+        '.wmv':  'video/x-ms-wmv',
+    }
+
+    config['embeddable_filetypes'] = {
+        'youtube': {
+            'play': 'http://youtube.com/v/%s',
+            'link': 'http://youtube.com/watch?v=%s',
+            'pattern': re.compile('^(http(s?)://)?(www.)?youtube.com/watch\?(.*&)?v=(?P<id>[^&#]+)')
+        },
+        'google': {
+            'play': 'http://video.google.com/googleplayer.swf?docid=%s&hl=en&fs=true',
+            'link': 'http://video.google.com/videoplay?docid=%s',
+            'pattern': re.compile('^(http(s?)://)?video.google.com/videoplay\?(.*&)?docid=(?P<id>-\d+)')
+        },
+        'vimeo': {
+            'play': 'http://vimeo.com/moogaloop.swf?clip_id=%s&server=vimeo.com&show_title=1&show_byline=1&show_portrait=0&color=&fullscreen=1',
+            'link': 'http://vimeo.com/%s',
+            'pattern': re.compile('^(http(s?)://)?(www.)?vimeo.com/(?P<id>\d+)')
+        },
+    }
+
+    config['playable_types'] = {
+        'audio': ('mp3', 'mp4', 'm4a'),
+        'video': ('flv', 'm4v'),
+        None: (),
+    }
+
+    config['thumb_sizes'] = { # the dimensions (in pixels) to scale thumbnails
+        'media': {
+            's': (128,  72),
+            'm': (160,  90),
+            'l': (560, 315),
+        },
+        'podcasts': {
+            's': (128, 128),
+            'm': (160, 160),
+            'l': (600, 600),
+        },
+    }
+
+    # The max number of results to return for any api listing
+    config['api_media_max_results'] = 50
+
+    # END CUSTOM CONFIGURATION OPTIONS
+
+    return config

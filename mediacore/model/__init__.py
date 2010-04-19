@@ -12,31 +12,17 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 """The application's model objects"""
+from mediacore.model.meta import DBSession, Base
 
 import re
-import tg.exceptions
-from zope.sqlalchemy import ZopeTransactionExtension
-from sqlalchemy.orm import scoped_session, sessionmaker, class_mapper
-from sqlalchemy.ext.declarative import declarative_base
+import webob.exc
 from sqlalchemy import sql, orm
-from sqlalchemy.sql.expression import ColumnClause as _ColumnClause
+from sqlalchemy.orm import class_mapper
 from sqlalchemy.orm.exc import NoResultFound
-from mediacore.lib.unidecode import unidecode
+from sqlalchemy.sql.expression import ColumnClause as _ColumnClause
 from mediacore.lib.htmlsanitizer import entities_to_unicode
-
-# Global session manager.  DBSession() returns the session object
-# appropriate for the current web request.
-maker = sessionmaker(autoflush=True, autocommit=False,
-                     extension=ZopeTransactionExtension())
-DBSession = scoped_session(maker)
-
-# By default, the data model is defined with SQLAlchemy's declarative
-# extension, but if you need more control, you can switch to the traditional method.
-DeclarativeBase = declarative_base()
-# Global metadata. The default metadata is the one from the declarative base.
-metadata = DeclarativeBase.metadata
+from mediacore.lib.unidecode import unidecode
 
 # maximum length of slug strings for all objects.
 slug_length = 50
@@ -53,7 +39,7 @@ def init_model(engine):
 
 
 def fetch_row(mapped_class, pk=None, extra_filter=None, **kwargs):
-    """Fetch a single row from the database or else have TG display a 404.
+    """Fetch a single row from the database or else trigger a 404.
 
     Typical usage is to fetch a single row for display or editing::
 
@@ -79,7 +65,7 @@ def fetch_row(mapped_class, pk=None, extra_filter=None, **kwargs):
     :param \*\*kwargs: Any extra args are treated as column names to filter by.
         See :meth:`sqlalchemy.orm.Query.filter_by`.
     :returns: An instance of ``mapped_class``.
-    :raises tg.exceptions.HTTPNotFound: If no result is found
+    :raises webob.exc.HTTPNotFound: If no result is found
 
     """
     if pk == 'new':
@@ -99,7 +85,7 @@ def fetch_row(mapped_class, pk=None, extra_filter=None, **kwargs):
     try:
         return query.one()
     except NoResultFound:
-        raise tg.exceptions.HTTPNotFound
+        raise webob.exc.HTTPNotFound
 
 
 # slugify regex's

@@ -13,28 +13,23 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import smtplib
+from pylons import config, request
 
-from tg import config, request, response, tmpl_context, exceptions
-
-from mediacore.lib.base import (BaseController, url_for, redirect,
-    expose, expose_xhr, validate, paginate)
-from mediacore.lib import helpers, email as libemail
-
+from mediacore.lib.base import BaseController
+from mediacore.lib.decorators import expose
+from mediacore.lib.helpers import redirect, clean_xhtml
+from mediacore.lib import email as libemail
 
 class ErrorController(BaseController):
-    """
-    Generates error documents as and when they are required.
+    """Generates error documents as and when they are required.
 
     The ErrorDocuments middleware forwards to ErrorController when error
     related status codes are returned from the application.
 
     This behaviour can be altered by changing the parameters to the
     ErrorDocuments middleware in your config/middleware.py file.
-
     """
-
-    @expose('mediacore.templates.error')
+    @expose('error.html')
     def document(self, *args, **kwargs):
         """Render the error document for the general public.
 
@@ -60,13 +55,14 @@ class ErrorController(BaseController):
                 ``tg.request.params['message']``.
 
         """
+        request = self._py_object.request
         original_request = request.environ['pylons.original_request']
         original_response = request.environ.get('pylons.original_response')
         default_message = ("<p>We're sorry but we weren't able to process "
                            " this request.</p>")
 
         message = request.params.get('message', default_message)
-        message = helpers.clean_xhtml(message)
+        message = clean_xhtml(message)
 
         return dict(
             prefix = request.environ.get('SCRIPT_NAME', ''),
@@ -91,3 +87,4 @@ class ErrorController(BaseController):
                 post_vars[x] = kwargs[x]
         libemail.send_support_request(email, url, description, get_vars, post_vars)
         redirect('/')
+

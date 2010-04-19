@@ -12,14 +12,19 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+"""Routes configuration
 
-from tg.configuration import config
+The more specific and detailed routes should be defined first so they
+may take precedent over the more generic routes. For more information
+refer to the routes manual at http://routes.groovie.org/docs/
+"""
 from routes import Mapper
 
-def make_map():
-    """Setup our custom named routes"""
+def make_map(config):
+    """Create, configure and return the routes Mapper"""
     map = Mapper(directory=config['pylons.paths']['controllers'],
                  always_scan=config['debug'])
+    map.minimization = True # TODO: Rework routes so we can set this to False
 
     #################
     # Public Routes #
@@ -70,11 +75,29 @@ def make_map():
         requirements={'action': 'view|rate|comment'})
 
 
+    ###############
+    # Auth Routes #
+    ###############
+
+    # XXX: These URLs are hardcoded into mediacore.lib.auth and
+    # mediacore.templates.login.html. These files are initialized before
+    # routing helper methods (ie pylons.url) are available.
+    map.connect('/login', controller='login', action='login')
+    map.connect('/login/submit', controller='login', action='login_handler')
+    map.connect('/login/continue', controller='login', action='post_login')
+    map.connect('/logout/continue', controller='login', action='post_logout')
+    map.connect('/logout', controller='login', action='logout_handler')
+
+
     ################
     # Admin routes #
     ################
 
     map.connect('/admin',
+        controller='admin/index',
+        action='index')
+
+    map.connect('/admin/index',
         controller='admin/index',
         action='index')
 
@@ -118,14 +141,15 @@ def make_map():
         'admin/podcasts',
     ])
 
-    map.connect('{controller}',
+    map.connect('/{controller}',
+        action='index',
         requirements={'controller': simple_admin_paths})
 
-    map.connect('{controller}/{id}/{action}',
+    map.connect('/{controller}/{id}/{action}',
         action='edit',
         requirements={'controller': simple_admin_paths, 'id': r'(\d+|new)'})
 
-    map.connect('{controller}/{action}',
+    map.connect('/{controller}/{action}',
         requirements={'controller': simple_admin_paths})
 
     ##############
@@ -136,16 +160,9 @@ def make_map():
         controller='media_api',
         action='index')
 
-    # Fallback Routes
-    map.connect('/{controller}/{action}',
-        action='index')
-
-    # Set up object dispatch - this is required for TG's auth setup to work
-    # FIXME: Look into this further...
-    # Looks like routes.url_for doesn't work when using this route, so you
-    # can't even switch back to routing. Argh.
-    map.connect('*url',
-        controller='root',
-        action='routes_placeholder')
+    ##################
+    # Fallback Route #
+    ##################
+    map.connect('/{controller}/{action}', action='index')
 
     return map

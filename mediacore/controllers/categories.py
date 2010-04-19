@@ -13,15 +13,17 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from tg import config, request, response, tmpl_context as c
+from pylons import config, request, response, session, tmpl_context
 from sqlalchemy import orm, sql
 
-from mediacore.lib.base import (BaseController, url_for, redirect,
-    expose, expose_xhr, validate, paginate)
-from mediacore.lib import helpers
-from mediacore.model import (DBSession, fetch_row,
-    Podcast, Media, Category)
+from mediacore.lib.base import BaseController
+from mediacore.lib.decorators import expose, expose_xhr, paginate, validate
+from mediacore.lib.helpers import get_featured_category, redirect, url_for
+from mediacore.model import Category, Media, Podcast, fetch_row
+from mediacore.model.meta import DBSession
 
+import logging
+log = logging.getLogger(__name__)
 
 class CategoriesController(BaseController):
     """
@@ -35,30 +37,30 @@ class CategoriesController(BaseController):
     def __init__(self, *args, **kwargs):
         super(CategoriesController, self).__init__(*args, **kwargs)
 
-        c.categories = Category.query.order_by(Category.name)\
+        tmpl_context.categories = Category.query.order_by(Category.name)\
             .populated_tree()
         category_slug = request.environ['pylons.routes_dict'].get('slug', None)
 
         if category_slug:
-            c.category = fetch_row(Category, slug=category_slug)
-            c.breadcrumb = c.category.ancestors()
-            c.breadcrumb.append(c.category)
+            tmpl_context.category = fetch_row(Category, slug=category_slug)
+            tmpl_context.breadcrumb = tmpl_context.category.ancestors()
+            tmpl_context.breadcrumb.append(tmpl_context.category)
 
-    @expose('mediacore.templates.categories.index')
+    @expose('categories/index.html')
     def index(self, slug=None, **kwargs):
         categories = Category.query.order_by(Category.name).populated_tree()
         media = Media.query.published()\
             .options(orm.undefer('comment_count_published'))
 
-        if c.category:
-            media = media.in_category(c.category)
+        if tmpl_context.category:
+            media = media.in_category(tmpl_context.category)
 
         latest = media.order_by(Media.publish_on.desc())
         popular = media.order_by(Media.popularity_points.desc())
 
         featured = None
-        featured_cat = helpers.get_featured_category()
-        if featured_cat and featured_cat is not c.category:
+        featured_cat = get_featured_category()
+        if featured_cat and featured_cat is not tmpl_context.category:
             featured = media.in_category(featured_cat).first()
         if not featured:
             featured = popular.first()
@@ -72,12 +74,12 @@ class CategoriesController(BaseController):
             popular = popular,
         )
 
-    @expose('mediacore.templates.categories.more')
+    @expose('categories/more.html')
     @paginate('media', items_per_page=20)
     def more(self, slug, order, page=1, **kwargs):
         media = Media.query.published()\
             .options(orm.undefer('comment_count_published'))\
-            .in_category(c.category)
+            .in_category(tmpl_context.category)
 
         if order == 'latest':
             media = media.order_by(Media.publish_on.desc())
@@ -88,3 +90,4 @@ class CategoriesController(BaseController):
             media = media,
             order = order,
         )
+

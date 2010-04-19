@@ -36,10 +36,11 @@ from urlparse import urlparse
 from sqlalchemy import Table, ForeignKey, Column, sql, func
 from sqlalchemy.types import String, Unicode, UnicodeText, Integer, DateTime, Boolean, Float
 from sqlalchemy.orm import mapper, class_mapper, relation, backref, synonym, composite, column_property, comparable_property, dynamic_loader, validates, collections, Query
-from tg import config, request
+from pylons import config, request
 from zope.sqlalchemy import datamanager
 
-from mediacore.model import metadata, DBSession, get_available_slug, _mtm_count_property, _properties_dict_from_labels, _MatchAgainstClause
+from mediacore.model import get_available_slug, _mtm_count_property, _properties_dict_from_labels, _MatchAgainstClause
+from mediacore.model.meta import Base, DBSession
 from mediacore.model.authors import Author
 from mediacore.model.comments import Comment, CommentQuery, comments
 from mediacore.model.settings import fetch_setting
@@ -52,7 +53,7 @@ class MediaFileException(MediaException): pass
 class UnknownFileTypeException(MediaFileException): pass
 
 
-media = Table('media', metadata,
+media = Table('media', Base.metadata,
     Column('id', Integer, autoincrement=True, primary_key=True),
     Column('type', String(10), nullable=False),
     Column('slug', String(50), unique=True, nullable=False),
@@ -81,7 +82,7 @@ media = Table('media', metadata,
     Column('author_email', Unicode(255), nullable=False),
 )
 
-media_files = Table('media_files', metadata,
+media_files = Table('media_files', Base.metadata,
     Column('id', Integer, autoincrement=True, primary_key=True),
     Column('media_id', Integer, ForeignKey('media.id', onupdate='CASCADE', ondelete='CASCADE'), nullable=False),
 
@@ -108,21 +109,21 @@ media_files.append_column(
     ))
 )
 
-media_tags = Table('media_tags', metadata,
+media_tags = Table('media_tags', Base.metadata,
     Column('media_id', Integer, ForeignKey('media.id', onupdate='CASCADE', ondelete='CASCADE'),
         primary_key=True),
     Column('tag_id', Integer, ForeignKey('tags.id', onupdate='CASCADE', ondelete='CASCADE'),
         primary_key=True)
 )
 
-media_categories = Table('media_categories', metadata,
+media_categories = Table('media_categories', Base.metadata,
     Column('media_id', Integer, ForeignKey('media.id', onupdate='CASCADE', ondelete='CASCADE'),
         primary_key=True),
     Column('category_id', Integer, ForeignKey('categories.id', onupdate='CASCADE', ondelete='CASCADE'),
         primary_key=True)
 )
 
-media_fulltext = Table('media_fulltext', metadata,
+media_fulltext = Table('media_fulltext', Base.metadata,
     Column('media_id', Integer, ForeignKey('media.id'), primary_key=True),
     Column('title', Unicode(255), nullable=False),
     Column('subtitle', Unicode(255)),
@@ -472,7 +473,7 @@ class Media(object):
             if not self.type:    # Sanity check
                 self.update_type()
             for file in self.files:
-                if file.type in config.playable_types[self.type]:
+                if file.type in config['playable_types'][self.type]:
                     self.encoded = True
                     return True
             if self.podcast_id is None:
@@ -649,17 +650,17 @@ class MediaFile(object):
 
         Defaults to 'application/octet-stream'.
         """
-        return config.mimetype_lookup.get('.' + self.type, 'application/octet-stream')
+        return config['mimetype_lookup'].get('.' + self.type, 'application/octet-stream')
 
     @property
     def is_embeddable(self):
         """True if this file is embedded from another site, ex Youtube, Vimeo."""
-        return self.type in config.embeddable_filetypes
+        return self.type in config['embeddable_filetypes']
 
     @property
     def is_playable(self):
         """True if this file can be played in most browsers (& is not embedded)."""
-        for playable_types in config.playable_types.itervalues():
+        for playable_types in config['playable_types'].itervalues():
             if self.type in playable_types:
                 return True
         return False
@@ -670,7 +671,7 @@ class MediaFile(object):
         This MAY return a different URL than the link_url property.
         """
         if self.is_embeddable:
-            return config.embeddable_filetypes[self.type]['play'] % self.url
+            return config['embeddable_filetypes'][self.type]['play'] % self.url
         elif urlparse(self.url)[1]:
             return self.url.encode('utf-8')   # Full URL specified
         else:
@@ -688,7 +689,7 @@ class MediaFile(object):
         This MAY return a different URL than the play_url property.
         """
         if self.is_embeddable:
-            return config.embeddable_filetypes[self.type]['link'] % self.url
+            return config['embeddable_filetypes'][self.type]['link'] % self.url
         elif urlparse(self.url)[1]:
             return self.url.encode('utf-8')   # Full URL specified
         else:

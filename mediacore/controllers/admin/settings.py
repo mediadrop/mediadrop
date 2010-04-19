@@ -13,17 +13,22 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from tg import config, request, response, tmpl_context
-from sqlalchemy import orm, sql
-from repoze.what.predicates import has_permission
 import tw.forms.fields
 
-from mediacore.lib.base import (BaseController, url_for, redirect,
-    expose, expose_xhr, validate, paginate)
-from mediacore.model import DBSession, fetch_row, Setting
+from pylons import request, response, session, tmpl_context
+from repoze.what.predicates import has_permission
+from sqlalchemy import orm, sql
+
+from mediacore.forms.admin.settings import AnalyticsForm, DisplayForm, NotificationsForm, PopularityForm, UploadForm
+from mediacore.lib.base import BaseController
+from mediacore.lib.decorators import expose, expose_xhr, paginate, validate
+from mediacore.lib.helpers import redirect, url_for
+from mediacore.model import Setting, fetch_row
+from mediacore.model.meta import DBSession
 from mediacore.model.settings import fetch_setting
-from mediacore.forms.admin.settings import (NotificationsForm, DisplayForm,
-    PopularityForm, UploadForm, AnalyticsForm)
+
+import logging
+log = logging.getLogger(__name__)
 
 notifications_form = NotificationsForm(
     action=url_for(controller='/admin/settings', action='save_notifications'))
@@ -95,7 +100,7 @@ class SettingsController(BaseController):
         redirect(action=redirect_action)
 
 
-    @expose('mediacore.templates.admin.settings.notifications')
+    @expose('admin/settings/notifications.html')
     def notifications(self, **kwargs):
         return self._display(notifications_form, **kwargs)
 
@@ -105,7 +110,7 @@ class SettingsController(BaseController):
         """Save :class:`~mediacore.forms.admin.settings.NotificationsForm`."""
         return self._save(notifications_form, 'notifications', **kwargs)
 
-    @expose('mediacore.templates.admin.settings.display')
+    @expose('admin/settings/display.html')
     def display(self, **kwargs):
         return self._display(display_form, **kwargs)
 
@@ -115,7 +120,7 @@ class SettingsController(BaseController):
         """Save :class:`~mediacore.forms.admin.settings.DisplayForm`."""
         return self._save(display_form, 'display', **kwargs)
 
-    @expose('mediacore.templates.admin.settings.popularity')
+    @expose('admin/settings/popularity.html')
     def popularity(self, **kwargs):
         return self._display(popularity_form, **kwargs)
 
@@ -125,7 +130,7 @@ class SettingsController(BaseController):
         """Save :class:`~mediacore.forms.admin.settings.PopularityForm`."""
         return self._save(popularity_form, 'popularity', **kwargs)
 
-    @expose('mediacore.templates.admin.settings.upload')
+    @expose('admin/settings/upload.html')
     def upload(self, **kwargs):
         return self._display(upload_form, **kwargs)
 
@@ -135,7 +140,7 @@ class SettingsController(BaseController):
         """Save :class:`~mediacore.forms.admin.settings.UploadForm`."""
         return self._save(upload_form, 'upload', **kwargs)
 
-    @expose('mediacore.templates.admin.settings.analytics')
+    @expose('admin/settings/analytics.html')
     def analytics(self, **kwargs):
         return self._display(analytics_form, **kwargs)
 

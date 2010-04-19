@@ -19,8 +19,47 @@ Auth-related helpers
 Provides a custom request classifier for repoze.who to allow for Flash uploads.
 """
 
-from repoze.who.classifiers import default_request_classifier
 from paste.request import parse_formvars
+from repoze.what.plugins.quickstart import setup_sql_auth
+from repoze.who.classifiers import default_request_classifier
+
+from mediacore.model.meta import DBSession
+from mediacore.model import Group, Permission, User
+
+__all__ = ['add_auth', 'classifier_for_flash_uploads']
+
+def add_auth(app, config):
+    """Add authentication and authorization middleware to the ``app``."""
+    return setup_sql_auth(
+        app, User, Group, Permission, DBSession,
+
+        # NOTE: all four URLs are defined in mediacore.config.routing
+        # XXX: The first two URLs are intercepted by the sql_auth middleware
+        login_handler = '/login/submit',
+        logout_handler = '/logout',
+
+        # You may optionally define a page where you want users to be
+        # redirected to on login:
+        post_login_url = '/login/continue',
+
+        # You may optionally define a page where you want users to be
+        # redirected to on logout:
+        post_logout_url = '/logout/continue',
+
+        # Hook into the auth process to read the session ID out of the POST
+        # vars during flash upload requests.
+        classifier = classifier_for_flash_uploads,
+
+        # override this if you would like to provide a different who plugin for
+        # managing login and logout of your application
+        form_plugin = None,
+
+        # The salt used to encrypt auth cookie data. This value must be unique
+        # to each deployment so it comes from the INI config file and is
+        # randomly generated when you run paster make-config
+        cookie_secret = config['sa_auth.cookie_secret']
+    )
+
 
 def classifier_for_flash_uploads(environ):
     """Normally classifies the request as browser, dav or xmlpost.

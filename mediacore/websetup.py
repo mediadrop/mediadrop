@@ -2,7 +2,7 @@
 import logging
 
 import transaction
-from tg import config
+from pylons import config
 
 from mediacore.config.environment import load_environment
 
@@ -10,8 +10,10 @@ log = logging.getLogger(__name__)
 
 def setup_app(command, conf, vars):
     """Place any commands to setup mediacore here"""
-    load_environment(conf.global_conf, conf.local_conf)
-    return
+    # Don't reload the app if it was loaded under the testing environment
+    if not pylons.test.pylonsapp:
+        load_environment(conf.global_conf, conf.local_conf)
+
     # Load the models
     from mediacore import model
     print "Creating tables"

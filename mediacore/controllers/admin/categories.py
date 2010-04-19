@@ -13,17 +13,20 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from tg import config, request, response, tmpl_context
-from sqlalchemy import orm, sql
+from pylons import request, response, session, tmpl_context
 from repoze.what.predicates import has_permission
+from sqlalchemy import orm, sql
 
-from mediacore.lib.base import (BaseController, url_for, redirect,
-    expose, expose_xhr, validate, paginate)
-from mediacore.lib import helpers
-from mediacore.model import (DBSession, fetch_row, get_available_slug,
-    Category)
+from mediacore.lib.base import BaseController
+from mediacore.lib.decorators import expose, expose_xhr, paginate, validate
+from mediacore.lib.helpers import redirect, url_for
+from mediacore.model import Category, fetch_row, get_available_slug
+from mediacore.model.meta import DBSession
+
 from mediacore.forms.admin.categories import CategoryForm, CategoryRowForm
 
+import logging
+log = logging.getLogger(__name__)
 
 category_form = CategoryForm()
 category_row_form = CategoryRowForm()
@@ -31,7 +34,7 @@ category_row_form = CategoryRowForm()
 class CategoriesController(BaseController):
     allow_only = has_permission('admin')
 
-    @expose('mediacore.templates.admin.categories.index')
+    @expose('admin/categories/index.html')
     def index(self, **kwargs):
         """List categories.
 
@@ -55,7 +58,7 @@ class CategoriesController(BaseController):
             category_row_form = category_row_form,
         )
 
-    @expose('mediacore.templates.admin.categories.edit')
+    @expose('admin/categories/edit.html')
     def edit(self, id, **kwargs):
         """Edit a single category.
 

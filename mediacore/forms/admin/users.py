@@ -15,7 +15,7 @@
 
 from tw.forms import PasswordField, SingleSelectField
 from tw.forms.validators import All, FancyValidator, FieldsMatch, Invalid, NotEmpty, PlainText, Schema
-from tg import request
+from pylons import request
 
 from mediacore.forms import ListFieldSet, ListForm, SubmitButton, TextField, email_validator
 
