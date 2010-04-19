@@ -19,9 +19,9 @@
       py:strip="">
 
 	<py:def function="media_player(media, width=479, height=383, autoplay=False, autobuffer=False, qualified=False)" py:choose=""
-	        py:with="file = media.primary_file; player = media.player; player_controls_height = 24;">
+	        py:with="file, player = h.pick_media_file_player(media.files)">
 		<py:when test="file is None" />
-		<py:when test="file.is_embeddable">
+		<py:when test="player == 'embed'">
 			<object type="application/x-shockwave-flash"
 			        data="${file.play_url(qualified=qualified)}"
 			        width="${width}" height="${height}">
@@ -30,12 +30,12 @@
 				<param name="movie" value="${file.play_url(qualified=qualified)}" />
 			</object>
 		</py:when>
-		<py:when test="player == 'flowplayer'">
+		<py:when test="player == 'flowplayer'" py:with="height = height + 24">
 			<script src="${h.url_for('/scripts/third-party/flowplayer-3.1.4.min.js', qualified=qualified)}" type="text/javascript" />
 			<a id="flowplayer"
 			   href="${file.play_url(qualified=qualified)}"
-			   style="display:block;width:${width}px;height:${height + player_controls_height}px" />
-			<script type="text/javascript" py:with="">
+			   style="display:block;width:${width}px;height:${height}px" />
+			<script type="text/javascript">
 				flowplayer('flowplayer', "${h.url_for('/scripts/third-party/flowplayer-3.1.5.swf', qualified=qualified)}", {
 					clip: {scaling: 'fit'}
 					<py:if test="media.type == 'audio' or not autoplay"
@@ -53,23 +53,27 @@
 				});
 			</script>
 		</py:when>
-		<py:when test="player == 'html5'">
-			<video src="${file.play_url(qualified=qualified)}" controls="controls" height="${height}" width="${width}">
-				If your browser supported HTML5, you'd be seeing a video here instead of this text!
-			</video>
-		</py:when>
 		<py:when test="player == 'jwplayer'">
 			<a id="jwplayer"
 			   href="${file.play_url(qualified=qualified)}"
 			   style="display:block;width:${width}px;height:${height}px" />
 			<script type="text/javascript" src="${h.url_for('/scripts/third-party/jw_player/swfobject.js')}"></script>
 			<script type="text/javascript">
+				// FIXME: Replace with Swiff
 				var s1 = new SWFObject('${h.url_for('/scripts/third-party/jw_player/player.swf')}','player','${width}','${height}','9');
 				s1.addParam('allowfullscreen','true');
 				s1.addParam('allowscriptaccess','always');
 				s1.addParam('flashvars','file=${file.play_url(qualified=qualified)}');
 				s1.write('jwplayer');
 			</script>
+		</py:when>
+		<py:when test="player == 'html5'" py:choose="file.type">
+			<audio py:when="audio" src="${file.play_url(qualified=qualified)}" controls="controls" height="${height}" width="${width}">
+				If your browser supported HTML5, you'd be seeing a video here instead of this text!
+			</audio>
+			<video py:when="video" src="${file.play_url(qualified=qualified)}" controls="controls" height="${height}" width="${width}">
+				If your browser supported HTML5, you'd be seeing a video here instead of this text!
+			</video>
 		</py:when>
 		<py:when test="player == 'sublime'">
 			This player has not yet been implemented! Check the project status at <a href="http://jilion.com/sublime/video">Jillion.com</a>.

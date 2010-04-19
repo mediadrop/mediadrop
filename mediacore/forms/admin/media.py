@@ -59,10 +59,10 @@ class EditFileForm(ListForm):
         if value is None and isinstance(file, MediaFile):
             value = dict(
                 file_id = file.id,
-                is_playable = file.is_playable and 1 or 0,
-                is_embeddable = file.is_embeddable and 1 or 0,
-                player_enabled = file.enable_player and 1 or 0,
-                feed_enabled = file.enable_feed and 1 or 0,
+                is_playable = 1,
+                is_embeddable = 1,
+                player_enabled = 1,
+                feed_enabled = 1,
             )
         return super(EditFileForm, self).display(value, file=file, **kwargs)
 

@@ -212,13 +212,13 @@ class MediaController(BaseController):
 
     @expose()
     @validate(validators={'id': validators.Int()})
-    def serve(self, id, slug, type, **kwargs):
+    def serve(self, id, slug, container, **kwargs):
         """Serve a :class:`~mediacore.model.media.MediaFile` binary.
 
         :param id: File ID
         :type id: ``int``
         :param slug: The media :attr:`~mediacore.model.media.Media.slug`
-        :type slug: The file :attr:`~mediacore.model.media.MediaFile.type`
+        :type slug: The file :attr:`~mediacore.model.media.MediaFile.container`
         :raises webob.exc.HTTPNotFound: If no file exists for the given params.
         :raises webob.exc.HTTPNotAcceptable: If an Accept header field
             is present, and if the mimetype of the requested file doesn't
@@ -228,29 +228,25 @@ class MediaController(BaseController):
         media = fetch_row(Media, slug=slug)
 
         for file in media.files:
-            if file.id == id and file.type == type:
+            if file.id == id and file.container == container:
                 media.increment_views()
                 DBSession.add(media)
                 DBSession.flush()
 
-                # Redirect to an external URL
-                if urlparse(file.url)[1]:
+                # Catch external redirects in case they aren't linked to directly
+                if file.url:
                     redirect(file.url.encode('utf-8'))
 
-                # Ensure that the clients request allows for files of this type
+                # Ensure that the clients request allows for files of this container
                 mimetype = mimeparse.best_match([file.mimetype],
                     request.environ.get('HTTP_ACCEPT', '*/*'))
                 if mimetype == '':
                     raise webob.exc.HTTPNotAcceptable() # 406
 
-                file_name = '%s-%s.%s' % (media.slug, file.id, file.type)
-                file_path = os.path.join(config.media_dir, file.url)
-                file_handle = open(file_path, 'rb')
-
                 response.headers['Content-Type'] = mimetype
                 response.headers['Content-Disposition'] = \
-                    'attachment;filename=%s' % file_name.encode('utf-8')
-                return file_handle.read()
+                    'attachment;filename="%s"' % file.display_name.encode('utf-8')
+                return open(file.file_path, 'rb').read()
         else:
             raise webob.exc.HTTPNotFound()
 

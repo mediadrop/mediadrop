@@ -163,9 +163,6 @@ a.published { background-image: url('../images/statuses/published-both.png'); }
 #media-files-box {
 	border-bottom: 0;
 }
-.file-list li:hover {
-	cursor: move;
-}
 .file-list li.file-drag-clone {
 	border-top: 0;
 }

@@ -85,12 +85,12 @@
 			                 url="${thumb.url}" width="${thumb.x}" height="${thumb.y}" />
 			<py:with vars="files = media.feedable_files">
 				<enclosure py:if="files" py:with="file = files[0]" py:attrs="dict(
-					url = h.url_for(controller='/media', action='serve', id=file.id, type=file.type, slug=media.slug, qualified=True),
+					url = h.url_for(controller='/media', action='serve', id=file.id, container=file.container, slug=media.slug, qualified=True),
 					length = file.size or None,
 					type = file.mimetype,
 				)" />
 				<media:content py:for="file in files" py:attrs="dict(
-					url = h.url_for(controller='/media', action='serve', id=file.id, type=file.type, slug=media.slug, qualified=True),
+					url = h.url_for(controller='/media', action='serve', id=file.id, container=file.container, slug=media.slug, qualified=True),
 					medium = media.type,
 					type = file.mimetype,
 					fileSize = file.size or None,

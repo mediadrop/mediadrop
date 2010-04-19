@@ -305,16 +305,18 @@ class MediaController(BaseController):
                 for type, info in config.embeddable_filetypes.iteritems():
                     match = info['pattern'].match(url)
                     if match:
-                        media_file.type = type
-                        media_file.url = match.group('id')
-                        media_file.enable_feed = False
+                        media_file.type = helpers.guess_media_type(type)
+                        media_file.container = type
+                        media_file.embed = match.group('id')
+                        media_file.display_name = type.capitalize() + ' ID: ' + media_file.embed
                         break
                 else:
                     # Check for types we can play ourselves
                     type = os.path.splitext(url)[1].lower()[1:]
                     for playable_types in config.playable_types.itervalues():
                         if type in playable_types:
-                            media_file.type = type
+                            media_file.type = helpers.guess_media_type(type)
+                            media_file.container = type
                             media_file.url = url
                             break
                     else:
@@ -355,29 +357,6 @@ class MediaController(BaseController):
         response.headers['Content-Type'] = helpers.best_json_content_type()
         return json.dumps(data)
 
-    @expose('json')
-    @validate(validators={'file_id': validators.Int(),
-                          'budge_infront_id': validators.Int()})
-    def reorder_file(self, id, file_id, budge_infront_id, **kwargs):
-        """Change the position of the given file relative to the 2nd file.
-
-        :param file_id: The file to move
-        :type file_id: ``int``
-        :param budge_infront_id: The file whos position the first file takes.
-            All files behind/after this file are bumped back as well.
-        :type budge_infront_id: ``int`` or ``None``
-        :rtype: JSON dict
-        :returns:
-            success
-                bool
-
-        """
-        media = fetch_row(Media, id)
-        media.reposition_file(file_id, budge_infront_id)
-        DBSession.add(media)
-        DBSession.flush()
-        return dict(success=True)
-
 
     @expose('json')
     @validate(edit_file_form, error_handler=edit)
@@ -405,7 +384,7 @@ class MediaController(BaseController):
 
 #        try:
         try:
-            file = [file for file in media.files if file.id == file_id][0]
+            file = [file for file in media.files if file.id == int(file_id)][0]
         except IndexError:
             raise Exception, 'File does not exist.'
 

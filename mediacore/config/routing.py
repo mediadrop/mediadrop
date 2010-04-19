@@ -58,7 +58,7 @@ def make_map(config):
     map.connect('/media/{slug}/{action}',
         controller='media',
         action='view')
-    map.connect('/files/{id}-{slug}.{type}',
+    map.connect('/files/{id}-{slug}.{container}',
         controller='media',
         action='serve',
         requirements={'id': r'\d+'})

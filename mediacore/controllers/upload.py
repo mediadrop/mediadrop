@@ -37,7 +37,7 @@ from mediacore.lib import email
 from mediacore.lib.base import BaseController
 from mediacore.lib.decorators import expose, expose_xhr, paginate, validate
 from mediacore.lib.helpers import (redirect, url_for, best_json_content_type,
-	create_default_thumbs_for, fetch_setting)
+	create_default_thumbs_for, guess_media_type, fetch_setting)
 from mediacore.model import (fetch_row, get_available_slug,
     Media, MediaFile, Comment, Tag, Category, Author, AuthorWithIP, Podcast)
 from mediacore.model.meta import DBSession
@@ -218,9 +218,10 @@ class UploadController(BaseController):
             for type, info in config['embeddable_filetypes'].iteritems():
                 match = info['pattern'].match(url)
                 if match:
-                    media_file.type = type
-                    media_file.url = match.group('id')
-                    media_file.enable_feed = False
+                    media_file.type = guess_media_type(type)
+                    media_file.container = type
+                    media_file.embed = match.group('id')
+                    media_file.display_name = type.capitalize() + ' ID: ' + media_file.embed
                     break
             else:
                 # Trigger a validation error on the whole form.
@@ -247,12 +248,10 @@ def _add_new_media_file(media, original_filename, file):
 
     # set the file paths depending on the file type
     media_file = MediaFile()
-    media_file.type = file_ext
-    media_file.url = 'dummy_url' # model requires that url not NULL
-    media_file.is_original = True
-    media_file.enable_player = media_file.is_playable
-    media_file.enable_feed = not media_file.is_embeddable
+    media_file.type = guess_media_type(file_ext)
+    media_file.container = file_ext
     media_file.size = os.fstat(file.fileno())[6]
+    media_file.display_name = original_filename
 
     # update media relations
     media.files.append(media_file)
@@ -264,7 +263,7 @@ def _add_new_media_file(media, original_filename, file):
     # copy the file to its permanent location
     file_name = '%d_%d_%s.%s' % (media.id, media_file.id, media.slug, file_ext)
     file_url = _store_media_file(file, file_name)
-    media_file.url = file_url
+    media_file.file_name = file_name
 
     return media_file
 

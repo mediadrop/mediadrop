@@ -688,3 +688,43 @@ def supported_html5_types():
             html5_options.append((containers, codecs))
     return html5_options
 
+flash_support = ('mp3', 'mp4', 'm4v', 'm4a', 'flv', 'f4v', 'f4p', 'f4a', 'f4b', 'flac')
+upload_only_support = ('3gp', '3g2', 'divx', 'dv', 'dvx', 'mov', 'mpeg', 'mpg', 'vob', 'qt', 'wmv')
+accepted_formats = set(flash_support)
+accepted_formats.union(upload_only_support)
+accepted_formats = sorted(accepted_formats)
+
+def guess_media_type(container):
+    if container in ('mp3', 'flac', 'f4a', 'm4a'):
+        return 'audio'
+    elif container in ('xml'):
+        return 'captions'
+    return 'video'
+
+def pick_media_file_player(files):
+    """Return the best choice of files to play and which player to use.
+
+    :param files: :class:`~mediacore.model.media.MediaFile` instances.
+    :type files: list
+    :rtype: tuple
+    :returns: A :class:`~mediacore.model.media.MediaFile` and a player name.
+
+    """
+    if fetch_setting('player_type') == 'best':
+        for container, codecs in supported_html5_types():
+            for file in files:
+                if file.type in ('audio', 'video') \
+                and file.container == container:
+                    return file, fetch_setting('html5_player')
+
+    for file in files:
+        if file.type in ('audio', 'video') \
+        and file.container in flash_support:
+            return file, fetch_setting('flash_player')
+
+    for file in files:
+        if file.type in ('audio', 'video') \
+        and file.container in config['embeddable_filetypes']:
+            return file, 'embed'
+
+    return None, None

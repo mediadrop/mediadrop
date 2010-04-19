@@ -29,15 +29,14 @@ belongs to a :class:`mediacore.model.podcasts.Podcast`.
 """
 
 import math
-import re
-import transaction
+import os.path
 from datetime import datetime
 from urlparse import urlparse
+
 from sqlalchemy import Table, ForeignKey, Column, sql, func
 from sqlalchemy.types import String, Unicode, UnicodeText, Integer, DateTime, Boolean, Float
 from sqlalchemy.orm import mapper, class_mapper, relation, backref, synonym, composite, column_property, comparable_property, dynamic_loader, validates, collections, Query
 from pylons import config, request
-from zope.sqlalchemy import datamanager
 
 from mediacore.model import get_available_slug, _mtm_count_property, _properties_dict_from_labels, _MatchAgainstClause
 from mediacore.model.meta import Base, DBSession
@@ -86,26 +85,15 @@ media_files = Table('media_files', Base.metadata,
     Column('media_id', Integer, ForeignKey('media.id', onupdate='CASCADE', ondelete='CASCADE'), nullable=False),
 
     Column('type', String(10), nullable=False),
+    Column('container', String(10), nullable=False),
+    Column('display_name', String(255), nullable=False),
+    Column('file_name', String(255), nullable=False),
     Column('url', String(255), nullable=False),
-
+    Column('embed', String(50), nullable=False),
     Column('size', Integer),
-    Column('width', Integer),
-    Column('height', Integer),
-    Column('bitrate', Integer),
-
-    Column('enable_player', Boolean, default=True, nullable=False),
-    Column('enable_feed', Boolean, default=True, nullable=False),
 
     Column('created_on', DateTime, default=datetime.now, nullable=False),
     Column('modified_on', DateTime, default=datetime.now, onupdate=datetime.now, nullable=False),
-)
-media_files.append_column(
-    # The position defaults to the greatest file position for this media plus 1.
-    Column('position', Integer, nullable=False, default=sql.select(
-        [func.coalesce(func.max(sql.text('mf.position + 1')), sql.text('1'))],
-        sql.text('mf.media_id') == sql.bindparam('media_id'),
-        media_files.alias('mf')
-    ))
 )
 
 media_tags = Table('media_tags', Base.metadata,
@@ -369,83 +357,13 @@ class Media(object):
             categories = fetch_categories(categories)
         self.categories = categories or []
 
-    def reposition_file(self, file, budge_infront=None):
-        """Position the first file after the second or last file.
-
-        If only one file is specified, we move it to the last position (the end).
-
-        If two files are specified, the first takes the seconds position, and the
-        positions of the second file and those that follow it are incremented.
-
-        This increments MediaFile.position such that gaps in the sequence occur.
-
-        When the primary_file is changed by this operation, we ensure that the
-        Media.type matches the type of the new primary_file.
-
-        Depending on the situation, we manipulate the DBSession, rather than our
-        usual practice of simply modifying the object and leaving DBSession work
-        to the controller. This is necessary because we run a query on the DB
-        without using the ORM in some cases.
-
-        :param file: The file to move
-        :type file: :class:`MediaFile` or int
-        :param budge_infront: The file to position after.
-        :type budge_infront: :class:`MediaFile` or int or None
-        """
-        if not isinstance(file, MediaFile):
-            file = [f for f in self.files if f.id == file][0]
-
-        if budge_infront:
-            # The first file is going to move in front of the second
-            if not isinstance(budge_infront, MediaFile):
-                budge_infront = [f for f in self.files if f.id == budge_infront][0]
-
-            pos = budge_infront.position
-            is_first = budge_infront is self.primary_file
-
-            # Update the moved row, the budge_infront file, and those after it.
-            # When we reach the moved row, the new position is simply set,
-            # otherwise the position is incremented 1.
-            update = media_files.update()\
-                .where(sql.and_(
-                    media_files.c.media_id == self.id,
-                    sql.or_(
-                        media_files.c.position >= pos,
-                        media_files.c.id == file.id
-                    )
-                ))\
-                .values({
-                    media_files.c.position: sql.case(
-                        [(media_files.c.id == file.id, pos)],
-                        else_=media_files.c.position + 1
-                    )
-                })
-
-            DBSession.execute(update)
-            datamanager.mark_changed(DBSession())
-
-        else:
-            # No budging, so if there any other files we'll have to go after them...
-            pos = 0
-            is_first = True
-
-            if self.files:
-                pos += self.files[-1].position
-                is_first = False
-
-            file.position = pos
-            DBSession.add(file)
-
-        # Making an audio file primary over a video file changes the media type
-        if is_first and file.medium is not None:
-            self.type = file.medium
-
-        return pos
-
     def update_type(self):
-        """Ensure the media type is that of the :attr:`Media.primary_file`."""
-        primary_file = self.primary_file
-        self.type = primary_file.medium if primary_file else None
+        if any(True for file in self.files if file.type == 'video'):
+            self.type = 'video'
+        elif any(True for file in self.files if file.type == 'audio'):
+            self.type = 'audio'
+        else:
+            self.type = None
 
     def update_status(self):
         """Ensure the reviewed, encoded, publishable flags make sense.
@@ -465,19 +383,19 @@ class Media(object):
 
     def _validate_review_status(self):
         if not self.files:
-            self.reviewed = True
+            self.reviewed = False
 
     def _validate_encoding_status(self):
         if self.files:
             if not self.type:    # Sanity check
                 self.update_type()
             for file in self.files:
-                if file.type in config['playable_types'][self.type]:
+                if file.container in config['playable_types'][self.type]:
                     self.encoded = True
                     return True
             if self.podcast_id is None:
                 for file in self.files:
-                    if file.is_embeddable:
+                    if file.embed:
                         self.encoded = True
                         return True
         self.encoded = False
@@ -488,80 +406,15 @@ class Media(object):
             self.publishable = False
 
     @property
-    def primary_file(self):
-        """The primary MediaFile to represent this Media object.
-
-        None, if no files are marked with enable_player.
-
-        TODO: Re-evaluate the uses of this property, some could be relying on
-              unsafe unsumptions?
-        """
-        for file in self.files:
-            if file.enable_player:
-                return file
-        return None
-
-    @property
     def downloadable_file(self):
-        """The MediaFile users can download for this Media object.
-
-        None, if no files are of a type other than flv.
-        """
-        for file in self.files:
-            if not file.is_embeddable and file.type != 'flv':
-                return file
-        return None
-
-    @property
-    def player(self):
-        """Return the name of the player to be used for this media object.
-
-        Takes into account the default global settings, the media type, and
-        the request headers.
-        """
-        browser_accepts = helpers.supported_html5_types()
-
-        player_type = fetch_setting('player_type')
-        if player_type == 'flash':
-            return fetch_setting('flash_player')
-        elif player_type == 'html5':
-            return fetch_setting('html5_player')
-
-        # If we got this far, assume player_type is 'best'. Next, determine if
-        # html5 is feasible with the current browser and media file. html5 is
-        # the preferred option.
-
-        # FIXME: Dirty hack that pretends we know how the files are encoded.
-        # TODO: MediaCore doesn't currently store any information about the
-        # codecs used. For now we're going to fudge it based on file extension.
-        # NOTE: It's just as likely that video is mpeg4-part2 instead of h.264
-        # (aka mpeg4-part10), and that audio is mp3 (aka mpeg1-audio-layer-3)
-        # instead of aac (aka mpeg2-part7, aka mpeg4-part3-sub4), and there is
-        # a remote possibility that the actual codecs could be different still.
-        format_map = {
-            'mp3': ('mp3', ['mp3']),
-            'mp4': ('mp4', ['aac']),
-            'm4a': ('mp4', ['aac']),
-            'm4v': ('mp4', ['h264', 'aac']),
-            'flv': ('flv', ['h264', 'aac']),
-        }
-
-        my_container, my_codecs = \
-            format_map.get(self.primary_file.type, (None, None))
-
-        for container, codecs in browser_accepts:
-            if container == my_container \
-            and all([codec in codecs for codec in my_codecs]):
-                return fetch_setting('html5_player')
-        return fetch_setting('flash_player')
-
-    @property
-    def playable_files(self):
-        return [file for file in self.files if file.enable_player]
-
-    @property
-    def feedable_files(self):
-        return [file for file in self.files if file.enable_feed]
+        if not self.files:
+            return None
+        primaries = [file for file in self.files if file.type == self.type]
+        primaries.sort(key=lambda file: file.size)
+        largest = primaries[-1]
+        if largest.embed:
+            return None
+        return largest
 
     @property
     def is_published(self):
@@ -641,7 +494,7 @@ class MediaFile(object):
     """
 
     def __repr__(self):
-        return '<MediaFile: type=%s url=%s>' % (self.type, self.url)
+        return '<MediaFile: %s %s url=%s>' % (self.type, self.container, self.url)
 
     @property
     def mimetype(self):
@@ -649,34 +502,27 @@ class MediaFile(object):
 
         Defaults to 'application/octet-stream'.
         """
-        return config['mimetype_lookup'].get('.' + self.type, 'application/octet-stream')
+        return config['mimetype_lookup'].get('.' + self.container, 'application/octet-stream')
 
     @property
-    def is_embeddable(self):
-        """True if this file is embedded from another site, ex Youtube, Vimeo."""
-        return self.type in config['embeddable_filetypes']
-
-    @property
-    def is_playable(self):
-        """True if this file can be played in most browsers (& is not embedded)."""
-        for playable_types in config['playable_types'].itervalues():
-            if self.type in playable_types:
-                return True
-        return False
+    def file_path(self):
+        if self.file_name:
+            return os.path.join(config['media_dir'], self.file_name)
+        return None
 
     def play_url(self, qualified=False):
         """The URL for use when embedding the media file in a page
 
         This MAY return a different URL than the link_url property.
         """
-        if self.is_embeddable:
-            return config['embeddable_filetypes'][self.type]['play'] % self.url
-        elif urlparse(self.url)[1]:
-            return self.url.encode('utf-8')   # Full URL specified
+        if self.url is not None:
+            return self.url
+        elif self.embed is not None:
+            return config['embeddable_filetypes'][self.container]['play'] % self.embed
         else:
             return helpers.url_for(controller='/media', action='serve',
                                    slug=self.media.slug, id=self.id,
-                                   type=self.type, qualified=qualified)
+                                   container=self.container, qualified=qualified)
 
     def link_url(self, qualified=False):
         """The URL for use when linking to a media file.
@@ -687,40 +533,14 @@ class MediaFile(object):
 
         This MAY return a different URL than the play_url property.
         """
-        if self.is_embeddable:
-            return config['embeddable_filetypes'][self.type]['link'] % self.url
-        elif urlparse(self.url)[1]:
-            return self.url.encode('utf-8')   # Full URL specified
+        if self.url is not None:
+            return self.url
+        elif self.embed is not None:
+            return config['embeddable_filetypes'][self.container]['link'] % self.embed
         else:
             return helpers.url_for(controller='/media', action='serve',
                                    slug=self.media.slug, id=self.id,
-                                   type=self.type, qualified=qualified)
-
-    @property
-    def medium(self):
-        """Helper for determining whether this file is audio or video."""
-        mimetype = self.mimetype
-        if mimetype.startswith('audio'):
-            return 'audio'
-        elif mimetype.startswith('video'):
-            return 'video'
-        elif self.is_embeddable:
-            return 'video'
-        else:
-            return None
-
-    @validates('enable_feed')
-    def _validate_enable_feed(self, key, on):
-        """Ensure that modifications to the enable_feed prop won't break things.
-
-        You cannot disable the last feed-enable file of a podcast episode.
-        """
-        if (not on and self.media and self.media.podcast_id
-            and len([f for f in self.media.files if f.enable_feed]) == 1):
-            raise MediaException, ('Published podcast media requires '
-                                   'at least one file be feed-enabled.')
-        return on
-
+                                   container=self.container, qualified=qualified)
 
 class MediaFullText(object):
     query = DBSession.query_property()
@@ -736,7 +556,7 @@ mapper(MediaFullText, media_fulltext, properties={
 _media_mapper = mapper(Media, media, properties={
     'fulltext': relation(MediaFullText, uselist=False, passive_deletes=True),
     'author': composite(Author, media.c.author_name, media.c.author_email),
-    'files': relation(MediaFile, backref='media', order_by=media_files.c.position.asc(), passive_deletes=True),
+    'files': relation(MediaFile, backref='media', order_by=media_files.c.type.asc(), passive_deletes=True),
     'tags': relation(Tag, secondary=media_tags, backref=backref('media', lazy='dynamic', query_class=MediaQuery), collection_class=TagList, passive_deletes=True),
     'categories': relation(Category, secondary=media_categories, backref=backref('media', lazy='dynamic', query_class=MediaQuery), collection_class=CategoryList, passive_deletes=True),
 

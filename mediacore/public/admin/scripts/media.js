@@ -205,31 +205,6 @@ var StatusForm = new Class({
 
 
 /**
- * A picky sorter -- only starts the drag if left clicking on the base element
- * which happens to be the li in this case, not the any of the buttons/links.
- */
-var FickleSortables = new Class({
-
-	Extends: Sortables,
-
-	addItems: function(){
-		Array.flatten(arguments).each(function(element){
-			this.elements.push(element);
-			var start = element.retrieve('sortables:start', this.fireStart.bindWithEvent(this, element));
-			(this.options.handle ? element.getElement(this.options.handle) || element : element).addEvent('mousedown', start);
-		}, this);
-		return this;
-	},
-
-	fireStart: function(e, el){
-		e = new Event(e);
-		if (!e.rightClick && $(e.target) == $(el)) this.start(e, el);
-	}
-
-});
-
-
-/**
  * Handles dynamic adding/editing of files to the media files box.
  *
  * Uploading itself is left to the Uploader and is expected to
@@ -240,20 +215,13 @@ var FileManager = new Class({
 	Implements: [Events, Options],
 
 	options: {
-		saveOrderUrl: '',
-		sortable: {
-			constrain: true,
-			clone: true,
-			opacity: .6,
-			revert: true
-		}
 	/*	onFileAdded: function(json)
 	 *	onFileEdited: function(json, buttonClicked), */
+		saveOrderUrl: ''
 	},
 
 	container: null,
 	list: null,
-	sortable: null,
 	addForm: null,
 	uploader: null,
 	errorDiv: null,
@@ -266,10 +234,6 @@ var FileManager = new Class({
 
 		this.list = $(this.container.getElement('ol'));
 		this.list.getChildren().each(this._setupLi.bind(this));
-		this.sortable = new FickleSortables(this.list, this.options.sortable).addEvents({
-			start: this.dragStart.bind(this),
-			complete: this.dragComplete.bind(this)
-		});
 
 		this.addForm = $(addForm).addEvent('submit', this.addFile.bind(this));
 		this.addForm.url.addEvent('focus', this.addForm.url.select);
@@ -278,33 +242,6 @@ var FileManager = new Class({
 			var open = !this.addForm.slide.run(['toggle'], this.addForm).get('slide').open;
 			this.uploader.uploader.setEnabled(open);
 		}.bind(this));
-	},
-
-	dragStart: function(el, clone){
-		el.addClass('file-drag');
-		if (clone) clone.addClass('file-drag-clone');
-		el.store('nextFile', this._getFileID(el.getNext()) || 0);
-	},
-
-	dragComplete: function(el){
-		el.removeClass('file-drag');
-		var initNext = el.retrieve('nextFile'), next = this._getFileID(el.getNext());
-		if ($defined(initNext) && initNext != next) {
-			this.saveOrder(this._getFileID(el), next);
-		}
-	},
-
-	saveOrder: function(fileID, nextFileID){
-		var r = new Request({
-			url: this.options.saveOrderUrl,
-			onComplete: this.orderSaved.bind(this),
-			onFailure: this._displayError.bind(this, ['Reordering failed, please refresh and try again.'])
-		}).send(new Hash({file_id: fileID, budge_infront_id: nextFileID}).toQueryString());
-	},
-
-	orderSaved: function(text){
-		json = JSON.decode(text, true) || {};
-		if (!json.success) this._displayError(json.message);
 	},
 
 	addFile: function(e){
@@ -328,7 +265,6 @@ var FileManager = new Class({
 			var div = li.getParent();
 			li.dispose().inject(this.list, 'bottom');
 			div.destroy();
-			this.sortable.addItems(li);
 		}.bind(this)}).slide('in').highlight();
 		this._setupLi(li);
 		return this.fireEvent('fileAdded', [json]);
