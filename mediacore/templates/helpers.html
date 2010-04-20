@@ -109,19 +109,31 @@
 		</ul>
 	</py:def>
 
-	<py:def function="pager(paginator, **kwargs)" py:with="options = dict(
-		show_if_single_page = True,
-		curpage_attr = {'class': 'pager-current'},
-		link_attr = {'class': 'pager-link underline-hover'},
-		dotdot_attr = {'class': 'pager-dotdot'},
-		format = '$link_previous ~2~ $link_next',
-		symbol_previous = Markup('&lt;strong&gt;Previous&lt;/strong&gt;'),
-		symbol_next = Markup('&lt;strong&gt;Next&lt;/strong&gt;'),
-	)">
-		<?python options.update(kwargs) ?>
-		<div class="pager" py:if="paginator.page_count > (not options.show_if_single_page and 1 or 0)">
+	<py:def function="pager(paginator, radius=2, show_if_single_page=False)" py:with="
+		leftmost_page = max(paginator.first_page, paginator.page - radius);
+		rightmost_page = min(paginator.last_page, paginator.page + radius);
+	">
+		<!--! This duplicates the behaviour of paginator.pager() since it has yet to be updated for Pylons .10.
+		      We should be able to revert to it later, as it will likely perform better. -->
+		<div class="pager" py:if="paginator.page_count > (not show_if_single_page and 1 or 0)">
+			<a py:def="pagelink(page, text=None, strong=False)"
+			   href="${h.url_for(page=page)}"
+			   class="pager-link underline-hover"><strong py:strip="not strong">${text or page}</strong></a>
 			<span class="pager-label">Page:</span>
-			<span py:replace="paginator.pager(**options)" />
+			<a py:if="paginator.page &gt; paginator.first_page" py:replace="pagelink(paginator.page - 1, 'Previous', True)" />
+			<py:if test="leftmost_page > paginator.first_page">
+				<a py:replace="pagelink(paginator.first_page)" />
+				<span py:if="leftmost_page - paginator.first_page > 1" class="pager-dotdot">..</span>
+			</py:if>
+			<py:for each="page in xrange(leftmost_page, rightmost_page + 1)" py:choose="">
+				<span py:when="paginator.page == page" class="pager-current">${page}</span>
+				<a py:otherwise="" py:replace="pagelink(page)" />
+			</py:for>
+			<py:if test="paginator.last_page > rightmost_page">
+				<span py:if="paginator.last_page - rightmost_page > 1" class="pager-dotdot">..</span>
+				<a py:replace="pagelink(paginator.last_page)" />
+			</py:if>
+			<a py:if="paginator.page &lt; paginator.last_page" py:replace="pagelink(paginator.page + 1, 'Next', True)" />
 		</div>
 	</py:def>
 

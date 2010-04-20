@@ -18,15 +18,34 @@
       xmlns:xi="http://www.w3.org/2001/XInclude"
       py:strip="">
 
-	<py:def function="paginated_tfoot(paginator, colspan)">
-		<tfoot py:if="paginator.page_count > 1">
+	<py:def function="paginated_tfoot(paginator, colspan=1, radius=2, show_if_single_page=False)">
+		<tfoot py:if="paginator.page_count > (not show_if_single_page and 1 or 0)" py:with="
+			leftmost_page = max(paginator.first_page, paginator.page - radius);
+			rightmost_page = min(paginator.last_page, paginator.page + radius);
+		">
+			<a py:def="pagelink(page, text=None, strong=False)"
+			   href="${h.url_for(page=page)}"
+			   class="pager-link underline-hover"><strong py:strip="not strong">${text or page}</strong></a>
 			<tr>
 				<td class="box-foot right" colspan="${colspan}">
 					<div class="pager">
 						<span class="pager-left" />
 						<span class="pager-body">
 							<span class="pager-label">Page:</span>
-							<span py:replace="paginator.pager(show_if_single_page=True, curpage_attr={'class': 'current'})" />
+							<a py:if="paginator.page &gt; paginator.first_page" py:replace="pagelink(paginator.page - 1, 'Previous', True)" />
+							<py:if test="leftmost_page > paginator.first_page">
+								<a py:replace="pagelink(paginator.first_page)" />
+								<span py:if="leftmost_page - paginator.first_page > 1" class="pager-dotdot">..</span>
+							</py:if>
+							<py:for each="page in xrange(leftmost_page, rightmost_page + 1)" py:choose="">
+								<span py:when="paginator.page == page" class="pager-current">${page}</span>
+								<a py:otherwise="" py:replace="pagelink(page)" />
+							</py:for>
+							<py:if test="paginator.last_page > rightmost_page">
+								<span py:if="paginator.last_page - rightmost_page > 1" class="pager-dotdot">..</span>
+								<a py:replace="pagelink(paginator.last_page)" />
+							</py:if>
+							<a py:if="paginator.page &lt; paginator.last_page" py:replace="pagelink(paginator.page + 1, 'Next', True)" />
 						</span>
 						<span class="pager-right" />
 					</div>
