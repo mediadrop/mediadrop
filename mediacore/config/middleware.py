@@ -14,6 +14,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 """Pylons middleware initialization"""
+import os
+
 from beaker.middleware import SessionMiddleware
 from paste.cascade import Cascade
 from paste.registry import RegistryManager
@@ -22,12 +24,12 @@ from paste.deploy.converters import asbool
 from pylons.middleware import ErrorHandler, StatusCodeRedirect
 from pylons.wsgiapp import PylonsApp
 from routes.middleware import RoutesMiddleware
-
-import os
+from repoze.tm import make_tm
 import tw.api
-from paste.deploy.converters import asbool
+
 from mediacore.config.environment import load_environment
 from mediacore.lib.auth import add_auth
+from mediacore.model.meta import DBSession
 
 class FastCGIFixMiddleware(object):
     """Remove FastCGI script name from the SCRIPT_NAME
@@ -50,6 +52,18 @@ class FastCGIFixMiddleware(object):
         environ['SCRIPT_NAME'] = \
             environ['SCRIPT_NAME'].replace(real_path, rewrite_path)
         return self.app(environ, start_response)
+
+class DBSessionRemoverMiddleware(object):
+    """Ensure the contextual session ends at the end of the request."""
+    def __init__(self, app, session=None):
+        self.app = app
+        self.session = session
+
+    def __call__(self, environ, start_response):
+        try:
+            return self.app(environ, start_response)
+        finally:
+            self.session.remove()
 
 def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
     """Create a Pylons WSGI application and return it
@@ -102,6 +116,10 @@ def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
         'toscawidgets.framework.default_view': 'genshi',
     })
 
+    # Add transaction management
+    app = make_tm(app, transaction_commit_veto)
+    app = DBSessionRemoverMiddleware(app, DBSession)
+
     # END CUSTOM MIDDLEWARE
 
     if asbool(full_stack):
@@ -126,3 +144,10 @@ def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
     app.config = config
     return app
 
+def transaction_commit_veto(environ, status, headers):
+    """Veto the commit if the response's status code is an error code.
+
+    This hook is called by repoze.tm in case we want to veto a commit
+    for some reason. Return True to force a rollback.
+    """
+    return not 200 <= int(status.split(None, 1)[0]) < 400

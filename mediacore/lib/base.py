@@ -15,8 +15,7 @@
 """
 The Base Controller API
 
-Provides the BaseController class for subclassing and other utils useful
-when working with controllers.
+Provides controller classes for subclassing.
 """
 import os
 import time
@@ -26,11 +25,8 @@ from paste.deploy.converters import asbool
 from pylons import config, request, tmpl_context
 from pylons.controllers import WSGIController
 from pylons.controllers.util import abort
-
 from repoze.what.plugins.pylonshq import ControllerProtector
 from repoze.what.predicates import Predicate
-
-from mediacore.model.meta import DBSession
 
 __all__ = ['BareBonesController', 'BaseController']
 
@@ -50,16 +46,6 @@ class BareBonesController(WSGIController):
             cp = ControllerProtector(self.allow_only)
             self = cp(self)
         super(BareBonesController, self).__init__(*args, **kwargs)
-
-    def __call__(self, environ, start_response):
-        """Invoke the Controller"""
-        # WSGIController.__call__ dispatches to the Controller method
-        # the request is routed to. This routing information is
-        # available in environ['pylons.routes_dict']
-        try:
-            return WSGIController.__call__(self, environ, start_response)
-        finally:
-            DBSession.remove()
 
     def _perform_call(self, func, args):
         """
@@ -83,9 +69,7 @@ class BareBonesController(WSGIController):
         # The expose decorator sets the exposed attribute on controller
         # actions. If a method is not exposed, do not allow access to it.
         if not hasattr(action, 'exposed'):
-            print action, kwargs['action'], self
             abort(status_code=404)
-
 
 class BaseController(BareBonesController):
     """
