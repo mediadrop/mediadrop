@@ -68,6 +68,10 @@ class SettingsController(BaseController):
         super(SettingsController, self).__init__(*args, **kwargs)
         self.settings = dict(DBSession.query(Setting.key, Setting))
 
+    @expose()
+    def index(self, **kwargs):
+        redirect(controller='/admin/categories')
+
     def _update_settings(self, values):
         """Modify the settings associated with the given dictionary."""
         for name, value in values.iteritems():

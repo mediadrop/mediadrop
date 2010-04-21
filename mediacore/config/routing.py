@@ -101,9 +101,6 @@ def make_map(config):
         controller='admin/index',
         action='index')
 
-    map.redirect('/admin/settings', '/admin/settings/categories',
-        _redirect_code='301 Moved Permanently')
-
     map.connect('/admin/settings/categories',
         controller='admin/categories',
         action='index')
@@ -139,6 +136,7 @@ def make_map(config):
         'admin/comments',
         'admin/media',
         'admin/podcasts',
+        'admin/settings',
     ])
 
     map.connect('/{controller}',
