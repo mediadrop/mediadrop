@@ -31,8 +31,8 @@ Email Helpers
 """
 
 import smtplib
-from mediacore.lib.helpers import line_break_xhtml, strip_xhtml, url_for
-from mediacore.model.settings import fetch_setting
+
+from mediacore.lib.helpers import line_break_xhtml, strip_xhtml, url_for, fetch_setting
 
 def parse_email_string(string):
     """Take a comma separated string of emails and return a list."""

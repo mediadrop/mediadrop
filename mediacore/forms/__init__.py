@@ -23,9 +23,7 @@ from formencode.api import Invalid
 from BeautifulSoup import BeautifulStoneSoup
 from pylons.templating import pylons_globals
 
-from mediacore.lib.helpers import line_break_xhtml, clean_xhtml, url_for
-from mediacore.model.settings import fetch_setting
-
+from mediacore.lib.helpers import line_break_xhtml, clean_xhtml, url_for, fetch_setting
 
 class LeniantValidationMixin(object):
     validator = forms.validators.Schema(

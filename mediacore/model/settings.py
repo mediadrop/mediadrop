@@ -62,14 +62,3 @@ class Setting(object):
 
 
 mapper(Setting, settings)
-
-
-def fetch_setting(key):
-    """Return the value for the setting key.
-
-    Raises a SettingNotFound exception if the key does not exist.
-    """
-    try:
-        return fetch_row(Setting, key=unicode(key)).value
-    except HTTPNotFound:
-        raise SettingNotFound, 'Key not found: %s' % key

@@ -36,11 +36,11 @@ from mediacore.forms.uploader import UploadForm
 from mediacore.lib import email
 from mediacore.lib.base import BaseController
 from mediacore.lib.decorators import expose, expose_xhr, paginate, validate
-from mediacore.lib.helpers import redirect, url_for, best_json_content_type, create_default_thumbs_for
+from mediacore.lib.helpers import (redirect, url_for, best_json_content_type,
+	create_default_thumbs_for, fetch_setting)
 from mediacore.model import (fetch_row, get_available_slug,
     Media, MediaFile, Comment, Tag, Category, Author, AuthorWithIP, Podcast)
 from mediacore.model.meta import DBSession
-from mediacore.model.settings import fetch_setting
 
 import logging
 log = logging.getLogger(__name__)

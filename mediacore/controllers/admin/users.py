@@ -21,10 +21,9 @@ from mediacore.forms.admin.users import UserForm
 from mediacore.lib import helpers
 from mediacore.lib.base import BaseController
 from mediacore.lib.decorators import expose, expose_xhr, paginate, validate
-from mediacore.lib.helpers import redirect, url_for
+from mediacore.lib.helpers import fetch_setting, redirect, url_for
 from mediacore.model import Group, User, fetch_row, get_available_slug
 from mediacore.model.meta import DBSession
-from mediacore.model.settings import fetch_setting
 
 user_form = UserForm()
 

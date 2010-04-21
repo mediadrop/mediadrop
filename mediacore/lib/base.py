@@ -28,6 +28,8 @@ from pylons.controllers.util import abort
 from repoze.what.plugins.pylonshq import ControllerProtector
 from repoze.what.predicates import Predicate
 
+from mediacore.lib import helpers
+
 __all__ = ['BareBonesController', 'BaseController']
 
 class BareBonesController(WSGIController):
@@ -100,7 +102,7 @@ class BaseController(BareBonesController):
         # Load Google Analytics settings into template context:
         try:
             tmpl_context.google_analytics_uacct = \
-                fetch_setting('google_analytics_uacct')
+                helpers.fetch_setting('google_analytics_uacct')
         except:
             tmpl_context.google_analytics_uacct = None
 

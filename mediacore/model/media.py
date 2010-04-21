@@ -43,7 +43,6 @@ from mediacore.model import get_available_slug, _mtm_count_property, _properties
 from mediacore.model.meta import Base, DBSession
 from mediacore.model.authors import Author
 from mediacore.model.comments import Comment, CommentQuery, comments
-from mediacore.model.settings import fetch_setting
 from mediacore.model.tags import Tag, TagList, tags, extract_tags, fetch_and_create_tags
 from mediacore.model.categories import Category, CategoryList, categories, fetch_categories
 from mediacore.lib import helpers
@@ -591,8 +590,8 @@ class Media(object):
 
         # In our ranking algorithm, being base_life_hours newer is equivalent
         # to having log_base times more votes.
-        log_base = int(fetch_setting('popularity_decay_exponent'))
-        base_life_hours = int(fetch_setting('popularity_decay_lifetime'))
+        log_base = int(helpers.fetch_setting('popularity_decay_exponent'))
+        base_life_hours = int(helpers.fetch_setting('popularity_decay_lifetime'))
 
         if self.is_published:
             base_life = base_life_hours * 3600
