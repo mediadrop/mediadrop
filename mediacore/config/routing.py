@@ -36,9 +36,6 @@ def make_map(config):
     map.connect('/', controller='media', action='explore')
     map.connect('/media', controller='media', action='index')
 
-    # TODO: Refactor into media/index
-    map.connect('/search', controller='media', action='search')
-
     # Podcasts
     map.connect('/podcasts/feed/{slug}.xml',
         controller='podcasts',
