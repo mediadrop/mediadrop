@@ -24,6 +24,7 @@ def make_map(config):
     """Create, configure and return the routes Mapper"""
     map = Mapper(directory=config['pylons.paths']['controllers'],
                  always_scan=config['debug'])
+    map.explicit = False
     map.minimization = True # TODO: Rework routes so we can set this to False
 
     #################
