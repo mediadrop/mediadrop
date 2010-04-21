@@ -20,45 +20,79 @@
  *
  * @author Nathan Wright <nathan@simplestation.com>
  */
-var ModalForm = new Class({
+
+var Modal = new Class({
 
 	Implements: [Options, Events],
 
 	options: {
 	/*	onOpen: $empty,
-		onSubmit: $empty,
-		onComplete: $empty,
-		onError: $empty, */
-		content: null,
-		focus: null,
+		onClose: $empty, */
 		squeezeBox: {
 			handler: 'fittedAdopt',
 			size: {x: 630, y: 400},
 			overlayOpacity: 0.4
-		},
+		}
+	},
+
+	content: null,
+	stash: null,
+
+	initialize: function(content, opts){
+		this.setOptions(opts);
+		this.content = $(content);
+		this.stash = new Element('div', {id: this.content.id + '-stash'});
+		this.stash.hide().adopt(this.content).inject(document.body);
+		this.content.show();
+	},
+
+	open: function(e){
+		if ($type(e) == 'event') {
+			var e = new Event(e).stop(), target = $(e.target);
+		} else {
+			var target = $(e);
+		}
+		var self = this, onClose = function(squeezeContent){
+			// steal back our content, preventing it from being trashed
+			self.fireEvent('close');
+			self.stash.empty().adopt(squeezeContent.getChildren());
+			SqueezeBox.removeEvent('close', onClose);
+		};
+		SqueezeBox.initialize(this.options.squeezeBox)
+			.fromElement(this.content, this.options.squeezeBox)
+			.addEvent('close', onClose);
+		return this.fireEvent('open', [target, this.content, this.form]);
+	},
+
+	close: function(){
+		SqueezeBox.close();
+		return this;
+	}
+
+});
+
+var ModalForm = new Class({
+
+	Extends: Modal,
+
+	options: {
+	/*	onSubmit: $empty,
+		onComplete: $empty,
+		onError: $empty, */
+		focus: null,
 		ajax: false,
 		ajaxOptions: {link: 'cancel'},
 		extraData: {}, // FIXME: Inject for static forms?
 		slugifyField: ''
 	},
 
-	content: null,
 	form: null,
-	stash: null,
 	req: null,
 
 	initialize: function(content, opts){
-		this.setOptions(opts);
-		this.content = $(content);
+		this.parent(content, opts);
 		this.form = this.content && this.content.getElement('form');
-		this.build();
 		this.attach();
-	},
-
-	build: function(){
-		this.stash = new Element('div', {id: this.content.id + '-stash'});
-		this.stash.hide().adopt(this.content).inject(document.body);
-		this.content.show();
 	},
 
 	attach: function(){
@@ -158,25 +192,16 @@ var ModalForm = new Class({
 			if (targetForm) this.setFormAction(targetForm).setValues(targetForm);
 		}
 
-		this.fireEvent('open', [target, this.content, this.form]);
-
 		var focusOn = (this.options.focus ? $(this.form.elements[this.options.focus]) : null);
-		SqueezeBox.fromElement(this.content, $extend(this.options.squeezeBox, {
-			onOpen: function(){
-				if (focusOn) focusOn.focus.delay(250, focusOn);
-			},
-			onClose: function(squeezeContent){
-				// steal back our content, preventing it from being trashed
-				this.stash.empty().adopt(squeezeContent.getChildren());
-			}.bind(this)
-		}));
+		if (focusOn) {
+			var onOpen = focusOn.focus.create({delay: 250, bind: focusOn}), onClose = function(){
+				SqueezeBox.removeEvent('open', onOpen);
+				SqueezeBox.removeEvent('close', onClose);
+			};
+			SqueezeBox.addEvents({'open': onOpen, 'close': onClose});
+		}
 
-		return this;
-	},
-
-	close: function(){
-		SqueezeBox.close();
-		return this;
+		return this.parent(e);
 	},
 
 	_slugify: function(e, slugField, slugifyField){
@@ -194,4 +219,5 @@ var ModalForm = new Class({
 			exception: function(){ alert('exception saving'); }
 		});
 	}
+
 });
