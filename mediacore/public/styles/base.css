@@ -437,6 +437,9 @@ a:focus .grid-title {
 #media-box .feat-meta {
 	width: 313px;
 }
+#jwplayer {
+	margin-bottom: -4px;
+}
 
 .contextbox {
 	float: right;

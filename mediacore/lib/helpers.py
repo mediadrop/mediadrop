@@ -700,7 +700,7 @@ accepted_formats = sorted(accepted_formats)
 def guess_media_type(container):
     if container in ('mp3', 'flac', 'f4a', 'm4a'):
         return 'audio'
-    elif container in ('xml'):
+    elif container in ('xml', 'srt'):
         return 'captions'
     return 'video'
 

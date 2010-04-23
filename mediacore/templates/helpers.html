@@ -53,18 +53,37 @@
 				});
 			</script>
 		</py:when>
-		<py:when test="player == 'jwplayer'">
+		<py:when test="player == 'jwplayer'" py:with="
+			height = height + 24;
+			audio_desc = media.audio_desc;
+			captions = media.captions;
+			plugins = [];
+		">
+			<?python
+			if audio_desc: plugins.append('audiodescription');
+			if captions: plugins.append('captions');
+			?>
 			<a id="jwplayer"
 			   href="${file.play_url(qualified=qualified)}"
 			   style="display:block;width:${width}px;height:${height}px" />
-			<script type="text/javascript" src="${h.url_for('/scripts/third-party/jw_player/swfobject.js')}"></script>
-			<script type="text/javascript">
-				// FIXME: Replace with Swiff
-				var s1 = new SWFObject('${h.url_for('/scripts/third-party/jw_player/player.swf')}','player','${width}','${height}','9');
-				s1.addParam('allowfullscreen','true');
-				s1.addParam('allowscriptaccess','always');
-				s1.addParam('flashvars','file=${file.play_url(qualified=qualified)}');
-				s1.write('jwplayer');
+			<script type="text/javascript" py:with="">
+				var jwObj = new Swiff('${h.url_for('/scripts/third-party/jw_player/player.swf')}', {
+					width: ${width},
+					height: ${height},
+					params: {allowFullscreen: 'true'},
+					vars: {
+						file: '${file.play_url(qualified=qualified)}',
+						image: '${h.thumb_url(media, 'l')}',
+						autostart: ${autoplay and 'true' or 'false'}
+						<py:if test="media.duration">, duration: ${media.duration}</py:if>
+						<py:if test="plugins">
+							, plugins: '${','.join(plugins)}'
+							<py:if test="audio_desc">, 'audiodescription.file': '${audio_desc.play_url(qualified=qualified)}'</py:if>
+							<py:if test="captions">, 'captions.file': '${captions.play_url(qualified=qualified)}'</py:if>
+						</py:if>
+					}
+				});
+				new Element('div').replaces('jwplayer').set('id', 'jwplayer').grab(jwObj);
 			</script>
 		</py:when>
 		<py:when test="player == 'html5'" py:choose="file.type">

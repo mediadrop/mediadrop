@@ -417,6 +417,20 @@ class Media(object):
         return largest
 
     @property
+    def captions(self):
+        for file in self.files:
+            if file.type == 'captions':
+                return file
+        return None
+
+    @property
+    def audio_desc(self):
+        for file in self.files:
+            if file.type == 'audio_desc':
+                return file
+        return None
+
+    @property
     def is_published(self):
         return self.publishable\
            and (self.publish_on is not None and self.publish_on <= datetime.now())\
