@@ -14,7 +14,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import shutil
-import os.path
+import os
 import simplejson as json
 import ftplib
 import urllib2
@@ -248,10 +248,18 @@ def _add_new_media_file(media, original_filename, file):
 
     # set the file paths depending on the file type
     media_file = MediaFile()
+    media_file.display_name = original_filename
     media_file.type = guess_media_type(file_ext)
     media_file.container = file_ext
-    media_file.size = os.fstat(file.fileno())[6]
-    media_file.display_name = original_filename
+
+    # Small files are stored in memory and do not have a tmp file w/ fileno
+    if hasattr(file, 'fileno'):
+        media_file.size = os.fstat(file.fileno())[6]
+    else:
+        # The file may contain multi-byte characters, so we must seek instead of count chars
+        file.seek(0, os.SEEK_END)
+        media_file.size = file.tell()
+        file.seek(0)
 
     # update media relations
     media.files.append(media_file)
