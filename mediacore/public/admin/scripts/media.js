@@ -29,13 +29,12 @@ var MediaManager = new Class({
 		this.metaForm = $(opts.metaForm);
 		this.metaFormPodcastID = this.metaForm.podcast.value;
 		this.statusForm = opts.statusForm;
-		this.files = opts.files;
 		this.uploader = opts.uploader;
-		this.thumbUploader = opts.thumbUploader;
-		this.thumbUploader.uploader.addEvent('fileComplete', this.onThumbUpload.bind(this));
-		this.files.addEvents({
+		this.thumbUploader = opts.thumbUploader.addEvent('fileComplete', this.onThumbUpload.bind(this));
+		this.files = opts.files.addEvents({
 			fileAdded: this.onFileAdded.bind(this),
-			fileEdited: this.onFileEdited.bind(this)
+			fileEdited: this.updateStatusForm.bind(this),
+			fileDeleted: this.updateStatusForm.bind(this)
 		});
 		this.isNew = !!opts.isNew;
 		this.type = opts.type;
@@ -56,19 +55,19 @@ var MediaManager = new Class({
 		var find = /\/new\//, repl = '/' + mediaID + '/';
 		this.metaForm.action = this.metaForm.action.replace(find, repl);
 		this.statusForm.form.action = this.statusForm.form.action.replace(find, repl);
-		this.thumbUploader.uploader.setOptions({
-			url: this.thumbUploader.uploader.options.url.replace(find, repl)
+		this.thumbUploader.setOptions({
+			url: this.thumbUploader.options.url.replace(find, repl)
 		});
-		this.uploader.uploader.setOptions({
-			url: this.uploader.uploader.options.url.replace(find, repl)
+		this.uploader.setOptions({
+			url: this.uploader.options.url.replace(find, repl)
 		});
 		this.files.addForm.action = this.files.addForm.action.replace(find, repl);
 	},
 
-	updateStatusForm: function(html){
+	updateStatusForm: function(resp){
 		if (this.isNew) return; // dont let them click 'review complete' etc until saving!
-		var statusFormEl = new Element('div', {html: html}).getFirst();
-		this.statusForm.updateForm(statusFormEl);
+		if (resp['status_form']) resp = resp['status_form'];
+		this.statusForm.updateForm(Elements.from(resp)[0]);
 	},
 
 	onThumbUpload: function(file){

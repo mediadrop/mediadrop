@@ -14,34 +14,83 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-var Uploader = new Class({
+var UploaderBase = new Class({
 
-	Extends: Options,
+	Extends: Swiff.Uploader,
 
 	options: {
-		target: null,
 		uploadBtn: {text: 'Upload a file', 'class': 'btn btn-upload'},
+		postAuthCookie: 'authtkt',
+		verbose: false,
+		queued: false,
+		multiple: false,
+		target: null,
+		instantStart: true,
+		typeFilter: '*.*',
+		fileSizeMax: 50 * 1024 * 1024, // default max size of 50 MB
+		appendCookieData: false,
+		data: {}
+	},
+
+	initialize: function(options){
+		this.setOptions(options);
+		if (this.options.postAuthCookie) {
+			this.options.data[this.options.postAuthCookie] = Cookie.read(this.options.postAuthCookie);
+		}
+
+		this.target = $(this.options.target);
+		if (this.target.get('type') == 'file') {
+			this.options.fieldName = this.target.get('name');
+			this.options.url = this.target.form.get('action');
+			this.target = this._createUploadBtn().replaces(this.target);
+		}
+		this.options.target = this.target;
+
+		this.parent();
+
+		this.addEvents({
+			buttonEnter: this.onButtonEnter.bind(this),
+			buttonLeave: this.onButtonLeave.bind(this)
+		});
+	},
+
+	onButtonEnter: function(){
+		if (this.target) this.target.setStyle('background-position', 'bottom');
+	},
+
+	onButtonLeave: function(){
+		if (this.target) this.target.setStyle('background-position', 'top');
+	},
+
+	_createUploadBtn: function(){
+		return new Element('span', this.options.uploadBtn);
+	},
+
+	reposition: function(coords) {
+		// fix a logic bug when target is null
+		coords = coords || (this.target && this.target.offsetHeight
+			? this.target.getCoordinates(this.box.getOffsetParent())
+			: {top: window.getScrollTop(), left: 0, width: 1, height: 1});
+		this.box.setStyles(coords);
+		this.fireEvent('reposition', [coords, this.box, this.target]);
+	}
+
+});
+
+var Uploader = new Class({
+
+	Extends: UploaderBase,
+
+	options: {
 		statusContainer: null,
 		statusFile: '.upload-file',
 		statusProgress: '.upload-progress',
 		statusError: '.upload-error',
 		statusNotice: '.upload-notice',
 		fxProgressBar: {},
-		messages: {},
-		postAuthCookie: 'authtkt',
-		uploader: {
-			verbose: false,
-			queued: false,
-			multiple: false,
-			target: null,
-			instantStart: true,
-			typeFilter: '*.*',
-			fileSizeMax: 50 * 1024 * 1024, // default max size of 50 MB
-			appendCookieData: false
-		}
+		messages: {}
 	},
 
-	target: null,
 	fxProgress: null,
 
 	ui: {
@@ -51,36 +100,19 @@ var Uploader = new Class({
 	},
 
 	initialize: function(options){
-		this.setOptions(options);
-		var uploaderOpts = this.options.uploader;
+		this.parent(options);
 
 		this.messages = {};
 		for (x in this.options.messages) {
 			this.messages[x] = [this.options.messages[x], false];
 		}
 
-		this.target = $(this.options.target) || $(this.options.uploader.target);
-		if (this.target.get('type') == 'file') {
-			uploaderOpts.fieldName = this.target.get('name');
-			uploaderOpts.url = this.target.form.get('action');
-			this.target = this._createUploadBtn().replaces(this.target);
-		}
-		uploaderOpts.target = this.target;
-
-		if (this.options.postAuthCookie) {
-			uploaderOpts.data = uploaderOpts.data || {};
-			uploaderOpts.data[this.options.postAuthCookie] = Cookie.read(this.options.postAuthCookie);
-		}
-
-		this.uploader = new Swiff.Uploader(uploaderOpts).addEvents({
-			browse: this.onBrowse.bind(this),
+		this.addEvents({
 			selectSuccess: this.onSelectSuccess.bind(this),
 			selectFail: this.onSelectFail.bind(this),
-			queue: this.onQueue.bind(this),
 			fileComplete: this.onFileComplete.bind(this),
 			fileError: this.onFileError.bind(this),
-			buttonEnter: this.onButtonEnter.bind(this),
-			buttonLeave: this.onButtonLeave.bind(this)
+			queue: this.onQueue.bind(this)
 		});
 
 		this.ui.container = $(this.options.statusContainer);
@@ -88,10 +120,6 @@ var Uploader = new Class({
 		this.ui.progress = this.ui.container.getElement(this.options.statusProgress);
 		this.ui.error = this.ui.container.getElement(this.options.statusError);
 		this.ui.notice = this.ui.container.getElement(this.options.statusNotice);
-	},
-
-	onBrowse: function(){
-//		this.clearStatusBar();
 	},
 
 	clearStatus: function(){
@@ -112,7 +140,7 @@ var Uploader = new Class({
 		}
 		this.fxProgress.set(0);
 		this.ui.progress.slide('hide').show().slide('in');
-		this.uploader.setEnabled(false);
+		this.setEnabled(false);
 	},
 
 	onSelectFail: function(files){
@@ -124,45 +152,26 @@ var Uploader = new Class({
 		this.ui.progress.hide();
 		var errorMsg = MooTools.lang.get('FancyUpload', 'validationErrors')[file.validationError] || '{error} #{code}';
 		var error = errorMsg.substitute($extend({
-			fileSizeMin: Swiff.Uploader.formatUnit(this.uploader.options.fileSizeMin, 'b'),
-			fileSizeMax: Swiff.Uploader.formatUnit(this.uploader.options.fileSizeMax, 'b')
+			fileSizeMin: Swiff.Uploader.formatUnit(this.options.fileSizeMin, 'b'),
+			fileSizeMax: Swiff.Uploader.formatUnit(this.options.fileSizeMax, 'b')
 		}, file));
-		this.uploader.fireEvent('fileError', [file, null, error]);
-	},
-
-	onQueue: function(){
-		var p = this.uploader.percentLoaded;
-		if (this.fxProgress) this.fxProgress.set(p);
-
-		// Iterate over all messages, displaying them if necessary.
-		if (this.ui.notice) {
-			for (x in this.messages) {
-				// If this message has not been displayed yet
-				// and this message should be displayed at this point
-				msg = this.messages[x];
-				if (!msg[1] && x <= p) {
-					msg[1] = true;
-					this.ui.notice.show().set('html', msg[0]).slide('in');
-					console.log(this.ui.notice);
-				}
-			}
-		}
+		this.fireEvent('fileError', [file, null, error]);
 	},
 
 	onFileComplete: function(file){
 		file.remove();
-		this.uploader.setEnabled(true);
+		this.setEnabled(true);
 		if (this.fxProgress) {
 			this.fxProgress.set(100);
 		}
 		if (file.response.error) {
 			var errorMsg = MooTools.lang.get('FancyUpload', 'errors')[file.response.error] || '{error} #{code}';
 			var error = errorMsg.substitute($extend({name: file.name}, file.response));
-			return this.uploader.fireEvent('fileError', [file, file.response, error]);
+			return this.fireEvent('fileError', [file, file.response, error]);
 		}
 		var json = JSON.decode(file.response.text, true);
 		if (!json.success) {
-			return this.uploader.fireEvent('fileError', [file, file.response, json.message]);
+			return this.fireEvent('fileError', [file, file.response, json.message]);
 		}
 		this.ui.file.getElement('.upload-file-size').highlight();
 		this.ui.container.highlight();
@@ -190,16 +199,23 @@ var Uploader = new Class({
 			.slide('hide').show().slide('in').highlight();
 	},
 
-	onButtonEnter: function(){
-		this.target.setStyle('background-position', 'bottom');
-	},
+	onQueue: function(){
+		var p = this.percentLoaded;
+		if (this.fxProgress) this.fxProgress.set(p);
 
-	onButtonLeave: function(){
-		this.target.setStyle('background-position', 'top');
-	},
-
-	_createUploadBtn: function(){
-		return new Element('span', this.options.uploadBtn);
+		// Iterate over all messages, displaying them if necessary.
+		if (this.ui.notice) {
+			for (x in this.messages) {
+				// If this message has not been displayed yet
+				// and this message should be displayed at this point
+				msg = this.messages[x];
+				if (!msg[1] && x <= p) {
+					msg[1] = true;
+					this.ui.notice.show().set('html', msg[0]).slide('in');
+					console.log(this.ui.notice);
+				}
+			}
+		}
 	}
 
 });
@@ -211,10 +227,8 @@ var ThumbUploader = new Class({
 	options: {
 		image: '',
 		updateFormActionsOnSubmit: false,
-		uploader: {
-			fileSizeMax: 10 * 1024 * 1024,
-			typeFilter: '*.jpg; *.jpeg; *.gif; *.png'
-		}
+		fileSizeMax: 10 * 1024 * 1024,
+		typeFilter: '*.jpg; *.jpeg; *.gif; *.png'
 	},
 
 	image: null,
@@ -238,8 +252,8 @@ var ThumbUploader = new Class({
 
 	updateFormActions: function(id){
 		var find = /\/new\//, repl = '/' + id + '/';
-		this.uploader.setOptions({
-			url: this.uploader.options.url.replace(find, repl)
+		this.setOptions({
+			url: this.options.url.replace(find, repl)
 		});
 		$$('form').each(function(form){
 			form.action = form.action.replace(find, repl);
@@ -251,15 +265,15 @@ var ThumbUploader = new Class({
 
 MooTools.lang.set('en-US', 'FancyUpload', {
 	errors: {
-		httpStatus: 'Server returned HTTP-Status #{code}',
+		httpStatus: 'Saving the file failed. Please try again.',
 		securityError: 'Security error occured ({text})',
 		ioError: 'Error caused a send or load operation to fail ({text})'
 	},
 	validationErrors: {
 		duplicate: 'File has already been added, duplicates are not allowed.',
 		sizeLimitMin: 'File is too small, the minimal file size is {fileSizeMin}.',
-		sizeLimitMax: 'File is too large, the maximum file size is <em>{fileSizeMax}</em>.',
-		fileListMax: 'File could not be added, amount of <em>{fileListMax} files</em> exceeded.',
-		fileListSizeMax: 'File is too big, overall filesize of <em>{fileListSizeMax}</em> exceeded.'
+		sizeLimitMax: 'File is too large, the maximum file size is {fileSizeMax}.',
+		fileListMax: 'File could not be added, amount of {fileListMax} files exceeded.',
+		fileListSizeMax: 'File is too big, overall filesize of {fileListSizeMax} exceeded.'
 	}
 });

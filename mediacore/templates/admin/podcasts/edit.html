@@ -36,17 +36,15 @@
 			var deleteConfirm = new DeleteConfirmMgr({msg: 'Are you sure you want to delete this podcast?'});
 			$('delete').addEvent('click', deleteConfirm.openConfirmDialog.bind(deleteConfirm));
 
-			thumbUploader = new ThumbUploader({
+			var thumbUploader = new ThumbUploader({
 				image: 'thumb-img',
 				updateFormActionsOnSubmit: false,
 				target: 'thumb',
 				uploadBtn: {text: 'Upload image', 'class': 'btn btn-upload-image', styles: {margin: '0 auto'}},
 				statusContainer: 'thumb-upload',
 				fxProgressBar: {url: '${h.url_for('/admin/images/progressbar/progress.png')}'},
-				uploader: {
-					path: '${h.url_for('/scripts/third-party/Swiff.Uploader.swf')}',
-					verbose: false // debug
-				}
+				path: '${h.url_for('/scripts/third-party/Swiff.Uploader.swf')}',
+				verbose: false // debug
 			});
 		});
 	</script>
