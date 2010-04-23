@@ -56,13 +56,18 @@
 	color: #3c4d5a;
 	margin: 10px 10px 0 10px;
 }
-.details_fieldset .fieldlabel {
+.details_fieldset .fieldlabel,
+.details_fieldset .fieldhelp {
 	margin-right: 10px;
 	padding: 5px 0;
 	float: left;
 	font-weight: normal;
 	display: block;
 	width: 60px;
+}
+.details_fieldset .fieldhelp {
+	width: auto;
+	margin-left: 10px;
 }
 .details_fieldset li {
 	margin: 5px 0;

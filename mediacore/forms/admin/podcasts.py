@@ -14,6 +14,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from formencode.validators import URL
+from genshi.core import Markup
 from tw.forms import ListFieldSet, SingleSelectField
 from tw.forms.validators import NotEmpty
 from mediacore.forms import ListForm, SubmitButton, TextField, XHTMLTextArea, email_validator
@@ -109,8 +110,8 @@ class PodcastForm(ListForm):
             SingleSelectField('explicit', label_text='Explicit?', options=explicit_options),
             SingleSelectField('category', options=category_options),
             TextField('copyright', maxlength=50),
-            TextField('itunes_url', validator=URL, label_text='iTunes URL', maxlength=80),
-            TextField('feedburner_url', validator=URL, label_text='Feedburner URL', maxlength=80),
+            TextField('itunes_url', validator=URL, label_text='iTunes URL', help_text=Markup('<a href="https://phobos.apple.com/WebObjects/MZFinance.woa/wa/publishPodcast" target="_blank">Get an iTunes URL</a>'), maxlength=80),
+            TextField('feedburner_url', validator=URL, label_text='Feedburner URL', help_text=Markup('<a href="http://feedburner.com/" target="_blank">Get a Feedburner URL</a>'), maxlength=80),
         ]),
         SubmitButton('save', default='Save', named_button=True, css_classes=['btn', 'btn-save', 'f-rgt']),
         SubmitButton('delete', default='Delete', named_button=True, css_classes=['btn', 'btn-delete']),
