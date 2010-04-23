@@ -61,7 +61,7 @@
 						<div id="embedthis" class="meta-wrapper">
 							<a class="meta meta-embed underline-hover" title="Embed on your site" href="#"><strong>Embed</strong></a>
 							<div class="meta-hover">
-								<input type="text" value="${h.embeddable_player(media)}" readonly="readonly" />
+								<label>Embeddable Player HTML: <input type="text" value="${h.embeddable_player(media)}" readonly="readonly" /></label>
 							</div>
 						</div>
 					</td>
@@ -69,11 +69,11 @@
 						<div id="sharethis" class="meta-wrapper">
 							<a class="meta meta-share underline-hover" title="Share this ${media.type} with friends" href="#"><strong>Share</strong></a>
 							<div class="meta-hover" py:with="current_url = h.url_for(qualified=True)">
-								<input type="text" value="${current_url}" readonly="readonly" />
+								<label>Permalink: <input type="text" value="${current_url}" readonly="readonly" /></label>
 								<ul>
-									<li class="share-email"><a href="mailto:?subject=${media.title + ': ' + current_url}">email</a></li>
-									<li class="share-facebook"><a href="http://www.facebook.com/sharer.php?u=${current_url}">facebook</a></li>
-									<li class="share-twitter"><a href="http://twitter.com/home?status=${media.title + ': ' + current_url}">twitter</a></li>
+									<li class="share-email"><a title="Share by email" href="mailto:?subject=${media.title + ': ' + current_url}">email</a></li>
+									<li class="share-facebook"><a title="Share on Facebook" href="http://www.facebook.com/sharer.php?u=${current_url}">facebook</a></li>
+									<li class="share-twitter"><a title="Share on Twitter" href="http://twitter.com/home?status=${media.title + ': ' + current_url}">twitter</a></li>
 								</ul>
 							</div>
 						</div>
