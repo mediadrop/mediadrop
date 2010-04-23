@@ -407,14 +407,13 @@ class Media(object):
 
     @property
     def downloadable_file(self):
-        if not self.files:
+        if not self.files or not self.type:
             return None
         primaries = [file for file in self.files if file.type == self.type]
         primaries.sort(key=lambda file: file.size)
-        largest = primaries[-1]
-        if largest.embed:
+        if not primaries or primaries[-1].embed:
             return None
-        return largest
+        return primaries[-1]
 
     @property
     def captions(self):
