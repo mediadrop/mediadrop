@@ -17,7 +17,7 @@ import os.path
 import shutil
 import simplejson as json
 
-from pylons import request, response, session, tmpl_context
+from pylons import config, request, response, session, tmpl_context
 from repoze.what.predicates import has_permission
 from sqlalchemy import orm, sql
 from PIL import Image
