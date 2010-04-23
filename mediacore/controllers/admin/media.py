@@ -306,7 +306,7 @@ class MediaController(BaseController):
         elif url:
             media_file = MediaFile()
             # Parse the URL checking for known embeddables like YouTube
-            for type, info in config.embeddable_filetypes.iteritems():
+            for type, info in config['embeddable_filetypes'].iteritems():
                 match = info['pattern'].match(url)
                 if match:
                     media_file.type = helpers.guess_media_type(type)
@@ -318,7 +318,7 @@ class MediaController(BaseController):
             else:
                 # Check for types we can play ourselves
                 type = os.path.splitext(url)[1].lower()[1:]
-                for playable_types in config.playable_types.itervalues():
+                for playable_types in config['playable_types'].itervalues():
                     if type in playable_types:
                         media_file.type = helpers.guess_media_type(type)
                         media_file.container = type
@@ -452,7 +452,7 @@ class MediaController(BaseController):
                 DBSession.flush()
 
             # TODO: Allow other formats?
-            for key, xy in config.thumb_sizes[media._thumb_dir].iteritems():
+            for key, xy in config['thumb_sizes'][media._thumb_dir].iteritems():
                 thumb_path = helpers.thumb_path(media, key)
                 thumb_img = helpers.resize_thumb(img, xy)
                 thumb_img.save(thumb_path)

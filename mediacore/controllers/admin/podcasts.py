@@ -217,7 +217,7 @@ class PodcastsController(BaseController):
                 DBSession.flush()
 
             # TODO: Allow other formats?
-            for key, xy in config.thumb_sizes[podcast._thumb_dir].iteritems():
+            for key, xy in config['thumb_sizes'][podcast._thumb_dir].iteritems():
                 thumb_path = helpers.thumb_path(podcast, key)
                 thumb_img = helpers.resize_thumb(img, xy)
                 thumb_img.save(thumb_path)
