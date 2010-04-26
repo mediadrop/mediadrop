@@ -358,9 +358,14 @@ class Media(object):
         self.categories = categories or []
 
     def update_type(self):
-        if any(True for file in self.files if file.type == 'video'):
+        """Update the type of this Media object.
+
+        If there's a video file, mark this as a video type, else fallback
+        to audio, if possible, or unknown (None)
+        """
+        if any(file.type == 'video' for file in self.files):
             self.type = 'video'
-        elif any(True for file in self.files if file.type == 'audio'):
+        elif any(file.type == 'audio' for file in self.files):
             self.type = 'audio'
         else:
             self.type = None
