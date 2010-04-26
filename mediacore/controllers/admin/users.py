@@ -80,7 +80,7 @@ class UsersController(BaseController):
                 display_name = user.display_name,
                 email_address = user.email_address,
                 login_details = dict(
-                    group = user.groups[0].group_id if user.groups else None,
+                    group = user.groups and user.groups[0].group_id or None,
                     user_name = user.user_name,
                 ),
             )

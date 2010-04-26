@@ -62,14 +62,15 @@ def url_for(*args, **kwargs):
 
     """
     # Convert unicode to str utf-8 for routes
+    def to_utf8(value):
+        if isinstance(value, unicode):
+            return value.encode('utf-8')
+        return value
+
     if args:
-        args = [(val.encode('utf-8') if isinstance(val, basestring) else val)
-                for val in args]
+        args = [to_utf8(val) for val in args]
     if kwargs:
-        kwargs = dict(
-            (key, val.encode('utf-8') if isinstance(val, unicode) else val)\
-            for key, val in kwargs.items()
-        )
+        kwargs = dict( (key, to_utf8(val)) for key, val in kwargs.items() )
 
     # TODO: Rework templates so that we can avoid using .current, and use named
     # routes, as described at http://routes.groovie.org/manual.html#generating-routes-based-on-the-current-url
