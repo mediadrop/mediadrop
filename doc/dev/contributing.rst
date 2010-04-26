@@ -91,7 +91,7 @@ create a patch for submission:
     # Move your branch on top of our latest changes
     $ git rebase origin/master
 
-    # This creates a file your_patches from the commits in your_local_branch
+    # This creates a file your_patch from the commits in your_local_branch
     $ git format-patch --stdout origin/master.. > your_patch
 
 Attach the ``your_patch`` file to an `issue
