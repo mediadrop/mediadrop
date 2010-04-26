@@ -15,6 +15,8 @@
 
 import inspect
 import functools
+import warnings
+
 from pylons import request, tmpl_context
 from webhelpers import paginate as _paginate
 from webhelpers.paginate import get_wrapper
@@ -142,7 +144,7 @@ def paginate(name, items_per_page=10, use_prefix=False, items_first_page=None):
                         if i+1 >= len(args):
                             args.append(kwargs[var])
                         else:
-                            args[i+1] = kargs[var]
+                            args[i+1] = kwargs[var]
                         del kwargs[var]
 
             res = f(*args, **kwargs)
