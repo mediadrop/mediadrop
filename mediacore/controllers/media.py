@@ -124,7 +124,7 @@ class MediaController(BaseController):
         if media.podcast_id is not None:
             # Always view podcast media from a URL that shows the context of the podcast
             if url_for() != url_for(podcast_slug=media.podcast.slug):
-               redirect(podcast_slug=media.podcast.slug)
+                redirect(podcast_slug=media.podcast.slug)
 
         related = Media.query.published()\
             .options(orm.undefer('comment_count_published'))\
