@@ -1,8 +1,6 @@
 from urlparse import urlparse
 import os.path
 import transaction
-import pkg_resources
-pkg_resources.require('TurboGears2')
 
 from mediacore.model import *
 from sqlalchemy import create_engine, select
