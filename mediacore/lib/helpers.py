@@ -677,7 +677,7 @@ user_agent_regexes = {
 def parse_user_agent_version():
     """Return a tuple representing the user agent's browser name and version.
     """
-    ua = request.headers['User-Agent']
+    ua = request.headers.get('User-Agent', '')
     for device, pattern in user_agent_regexes.iteritems():
         match = pattern.search(ua)
         if match is not None:
@@ -690,7 +690,7 @@ def supported_html5_types():
     """
     browser, version = parse_user_agent_version()
     html5_options = []
-    for req_version, containers, codecs in html5_support[browser]:
+    for req_version, containers, codecs in html5_support.get(browser, []):
         if version >= req_version:
             html5_options.append((containers, codecs))
     return html5_options
