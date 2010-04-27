@@ -23,7 +23,7 @@ from mediacore.forms.admin.settings import AnalyticsForm, DisplayForm, Notificat
 from mediacore.lib.base import BaseController
 from mediacore.lib.decorators import expose, expose_xhr, paginate, validate
 from mediacore.lib.helpers import fetch_setting, redirect, url_for
-from mediacore.model import Setting, fetch_row
+from mediacore.model import Media, Setting, fetch_row
 from mediacore.model.meta import DBSession
 
 import logging
@@ -96,7 +96,7 @@ class SettingsController(BaseController):
             form_values = form_values,
         )
 
-    def _save(self, form, redirect_action, **kwargs):
+    def _save(self, form, redirect_action=None, redirect=True, **kwargs):
         """Save the values from the passed in form instance."""
         values = _flatten_settings_from_form(self.settings, form, kwargs)
         self._update_settings(values)
@@ -130,8 +130,16 @@ class SettingsController(BaseController):
     @expose()
     @validate(popularity_form, error_handler=popularity)
     def save_popularity(self, **kwargs):
-        """Save :class:`~mediacore.forms.admin.settings.PopularityForm`."""
-        return self._save(popularity_form, 'popularity', **kwargs)
+        """Save :class:`~mediacore.forms.admin.settings.PopularityForm`.
+
+        Updates the popularity for every media item based on the submitted
+        values.
+        """
+        self._save(popularity_form, redirect=False, **kwargs)
+        for m in Media.query():
+            m.update_popularity()
+            DBSession.add(m)
+        redirect(action='popularity')
 
     @expose('admin/settings/upload.html')
     def upload(self, **kwargs):
