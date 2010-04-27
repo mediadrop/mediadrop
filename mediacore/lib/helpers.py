@@ -567,7 +567,10 @@ def embeddable_player(media):
 
 def get_featured_category():
     from mediacore.model import Category
-    feat_id = int(fetch_setting('featured_category'))
+    feat_id = fetch_setting('featured_category')
+    if not feat_id:
+        return None
+    feat_id = int(feat_id)
     return Category.query.get(feat_id)
 
 def filter_library_controls(query, show='latest'):
