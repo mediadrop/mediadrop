@@ -4,8 +4,6 @@ import urllib
 import transaction
 import time
 import sys
-import pkg_resources
-pkg_resources.require('TurboGears2')
 
 from mediacore.model import *
 from sqlalchemy import create_engine, select
