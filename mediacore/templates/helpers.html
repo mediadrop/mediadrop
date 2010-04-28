@@ -21,7 +21,7 @@
 	<py:def function="media_player(media, width=479, height=383, autoplay=False, autobuffer=False, qualified=False)" py:choose=""
 	        py:with="file, player = h.pick_media_file_player(media.files)">
 		<py:when test="file is None" />
-		<py:when test="player == 'embed'">
+		<py:when test="player == 'embed'" py:with="heights = {'youtube': 25, 'google': 27}; height = height + heights.get(file.container, 0)">
 			<object type="application/x-shockwave-flash"
 			        data="${file.play_url(qualified=qualified)}"
 			        width="${width}" height="${height}">
