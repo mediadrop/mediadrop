@@ -21,6 +21,7 @@ be displayed on the frontend using a 'tag cloud', rather than listing all
 tags. This means you can tag all you want!
 
 """
+import re
 
 from datetime import datetime
 from sqlalchemy import Table, ForeignKey, Column, sql, func
@@ -95,7 +96,20 @@ mapper(Tag, tags)
 
 
 def extract_tags(string):
-    return [tag.strip() for tag in string.split(',')]
+    """Convert a comma separated string into a list of tag names.
+
+    NOTE: The space-stripping here is necessary to  patch a leaky abstraction.
+          MySQL's string comparison with varchar columns is pretty fuzzy
+          when it comes to space characters, and is even inconsistent between
+          versions. We strip all preceding/trailing/duplicated spaces to be
+          safe.
+    """
+    tags = string.split(',')
+    # strip preceding and trailing whitespace
+    tags = [tag.strip() for tag in tags]
+    # collapse middle whitespace to a single space char
+    tags = [' '.join(re.split('\s+', tag)) for tag in tags]
+    return tags
 
 def fetch_and_create_tags(tag_names):
     # copy the tag_names list
