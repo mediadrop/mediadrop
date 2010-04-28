@@ -32,13 +32,17 @@ var MetaHover = new Class({
 		this.hover.addEvent('mouseleave', this.hide.bind(this));
 	},
 
-	toggle: function(){
+	toggle: function(e){
+		if ($type(e) == 'event') e.stop();
 		this.hover.setStyle('display', 'block').fade('toggle');
 		this.fireEvent('toggle');
+		return this;
 	},
 
-	hide: function(){
+	hide: function(e){
+		if ($type(e) == 'event') e.stop();
 		this.hover.fade('out');
+		return this;
 	}
 });
 
