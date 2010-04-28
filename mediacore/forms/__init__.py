@@ -31,6 +31,26 @@ class LeniantValidationMixin(object):
         allow_extra_fields=True, # Allow extra kwargs that tg likes to pass: pylons, start_request, environ...
     )
 
+class ConditionalJSLink(JSLink):
+    """
+    Initialize this resource with a boolean function as the 'condition'
+    argument, and it will only render itself when that condition is true.
+    """
+    def render(self, *args, **kwargs):
+        if not hasattr(self, 'condition') or self.condition():
+            return JSLink.render(self, *args, **kwargs)
+        return ""
+
+class ConditionalJSSource(JSSource):
+    """
+    Initialize this resource with a boolean function as the 'condition'
+    argument, and it will only render itself when that condition is true.
+    """
+    def render(self, *args, **kwargs):
+        if not hasattr(self, 'condition') or self.condition():
+            return JSSource.render(self, *args, **kwargs)
+        return ""
+
 class SubmitButton(forms.SubmitButton):
     """Override the default SubmitButton validator.
 
@@ -125,12 +145,16 @@ class TextArea(tw_TA):
         if 'validator' not in kwargs:
             self.validator = self.validator()
 
+tiny_mce_condition = lambda: fetch_setting('rich_text_editor') == 'tinymce'
+
 class XHTMLTextArea(TextArea):
     validator = XHTMLValidator
-
     javascript = [
-        JSLink(link=url_for("/scripts/third-party/tiny_mce/tiny_mce.js")),
-        JSSource("""window.addEvent('domready', function(){
+        ConditionalJSLink(
+            link = url_for("/scripts/third-party/tiny_mce/tiny_mce.js"),
+            condition = tiny_mce_condition,
+        ),
+        ConditionalJSSource("""window.addEvent('domready', function(){
 tinyMCE.onAddEditor.add(function(t, ed){
 	// Add an event for ajax form managers to call when dealing with these
 	// elements, because they will often override the form's submit action
@@ -158,14 +182,18 @@ tinyMCE.init({
 	relative_urls : false,
 	remove_script_host : false
 });
-});""", location='headbottom')
+});""",
+            location = 'headbottom',
+            condition = tiny_mce_condition,
+        )
     ]
+
     def display(self, value=None, **kwargs):
         if value:
             value = line_break_xhtml(value)
 
         # Enable the rich text editor, if dictated by the settings:
-        if fetch_setting('rich_text_editor') == 'tinymce':
+        if tiny_mce_condition():
             if 'css_classes' in kwargs:
                 kwargs['css_classes'].append('tinymcearea')
             else:
