@@ -214,7 +214,13 @@ class MediaController(BaseController):
         media = fetch_row(Media, id)
 
         if delete:
-            file_paths = [f.file_path for f in media.files]
+            file_paths = []
+            for f in media.files:
+                file_paths.append(f.file_path)
+                # Remove the file from the session so that SQLAlchemy doesn't
+                # try to issue an UPDATE to set the MediaFile.media_id to None.
+                # The database ON DELETE CASCADE handles everything for us.
+                DBSession.expunge(f)
             DBSession.delete(media)
             transaction.commit()
             delete_files(file_paths)
