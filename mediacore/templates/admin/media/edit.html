@@ -74,11 +74,11 @@
 				form: 'update-status-form',
 				error: 'update-status-error'
 			});
-			var mediamgr = new MediaManager({
+			var mediaMgr = new MediaManager({
 				metaForm: 'media-form',
-				files: fileMgr,
-				uploader: fileMgr.uploader,
 				statusForm: publishStatus,
+				files: fileMgr,
+				fileUploader: fileMgr.uploader,
 				thumbUploader: thumbUploader,
 				thumbImg: 'thumb-img',
 				isNew: ${int(media.id is None)},

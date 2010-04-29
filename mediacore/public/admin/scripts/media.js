@@ -15,22 +15,45 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 var MediaManager = new Class({
+
+	Implements: Options,
+
+	options: {
+		delayNotification: {
+			id: 'delay-notification',
+			'class': 'f-rgt',
+			text: 'Waiting for uploads to finish...',
+		},
+		delayConfirm: "Your uploads are now complete.\n\nWould you like to save all your changes now?"
+	},
+
 	metaForm: null,
 	metaFormPodcastID: null,
 	statusForm: null,
 	files: null,
-	uploader: null,
+	fileUploader: null,
 	isNew: null,
 	podcastWarning: null,
 	type: '',
+	uploading: [],
+	bound: {},
 
 	initialize: function(opts){
 		// metaForm, files, uploader, statusForm, thumbUploader, thumbImg, isNew, type
 		this.metaForm = $(opts.metaForm);
 		this.metaFormPodcastID = this.metaForm.podcast.value;
 		this.statusForm = opts.statusForm;
-		this.uploader = opts.uploader;
-		this.thumbUploader = opts.thumbUploader.addEvent('fileComplete', this.onThumbUpload.bind(this));
+		this.fileUploader = opts.fileUploader;
+		this.fileUploader.addEvents({
+			start: this.onUploadStart.bind(this, [this.fileUploader]),
+			complete: this.onUploadComplete.bind(this, [this.fileUploader])
+		});
+		this.thumbUploader = opts.thumbUploader;
+		this.thumbUploader.addEvents({
+			start: this.onUploadStart.bind(this, [this.thumbUploader]),
+			complete: this.onUploadComplete.bind(this, [this.thumbUploader]),
+			fileComplete: this.onThumbUpload.bind(this)
+		});
 		this.files = opts.files.addEvents({
 			fileAdded: this.onFileAdded.bind(this),
 			fileEdited: this.updateStatusForm.bind(this),
@@ -39,6 +62,8 @@ var MediaManager = new Class({
 		this.isNew = !!opts.isNew;
 		this.type = opts.type;
 		this.metaForm.podcast.addEvent('change', this.onPodcastChange.bind(this));
+		this.bound.delayMetaSubmit = this.delayMetaSubmit.bind(this);
+		this.setOptions(opts);
 	},
 
 	onFileAdded: function(json){
@@ -58,8 +83,8 @@ var MediaManager = new Class({
 		this.thumbUploader.setOptions({
 			url: this.thumbUploader.options.url.replace(find, repl)
 		});
-		this.uploader.setOptions({
-			url: this.uploader.options.url.replace(find, repl)
+		this.fileUploader.setOptions({
+			url: this.fileUploader.options.url.replace(find, repl)
 		});
 		this.files.addForm.action = this.files.addForm.action.replace(find, repl);
 	},
@@ -73,6 +98,27 @@ var MediaManager = new Class({
 	onThumbUpload: function(file){
 		var json = JSON.decode(file.response.text, true);
 		this.updateFormActions(json.id);
+	},
+
+	onUploadStart: function(uploader){
+		this.uploading.push(uploader);
+		this.metaForm.addEvent('submit', this.bound.delayMetaSubmit);
+	},
+
+	delayMetaSubmit: function(e){
+		if ($type(e) == 'event') e = new Event(e).preventDefault();
+		if (this.metaForm.getElementById(this.options.delayNotification.id)) return;
+		this.delayNotification = new Element('span', this.options.delayNotification)
+			.inject(this.metaForm.getElementById('save'), 'after');
+	},
+
+	onUploadComplete: function(uploader){
+		this.uploading.erase(uploader);
+		if (!this.uploading.length) this.metaForm.removeEvent('submit', this.bound.delayMetaSubmit);
+		if (!this.delayNotification) return;
+		this.delayNotification.destroy();
+		if (!confirm(this.options.delayConfirm)) return;
+		this.metaForm.submit();
 	},
 
 	onPodcastChange: function(e){

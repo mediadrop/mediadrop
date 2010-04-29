@@ -276,3 +276,9 @@ tr.error td[headers='thf-type'] {
 #media-form #podcast_container .form_field select {
 	float: left;
 }
+
+#delay-notification {
+	margin-right: 10px;
+	line-height: 34px;
+	color: #878685;
+}
