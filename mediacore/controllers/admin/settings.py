@@ -96,11 +96,12 @@ class SettingsController(BaseController):
             form_values = form_values,
         )
 
-    def _save(self, form, redirect_action=None, redirect=True, **kwargs):
+    def _save(self, form, redirect_action=None, **kwargs):
         """Save the values from the passed in form instance."""
         values = _flatten_settings_from_form(self.settings, form, kwargs)
         self._update_settings(values)
-        redirect(action=redirect_action)
+        if redirect_action:
+            redirect(action=redirect_action)
 
 
     @expose('admin/settings/notifications.html')
@@ -135,8 +136,8 @@ class SettingsController(BaseController):
         Updates the popularity for every media item based on the submitted
         values.
         """
-        self._save(popularity_form, redirect=False, **kwargs)
-        for m in Media.query():
+        self._save(popularity_form, **kwargs)
+        for m in Media.query:
             m.update_popularity()
             DBSession.add(m)
         redirect(action='popularity')
