@@ -480,7 +480,7 @@ def create_default_thumbs_for(item):
 def best_json_content_type(accept=None, raise_exc=True):
     """Return the best possible JSON header we can return for a client.
 
-    Sometimes we want to return JSON as ``text/plain``. On windows,
+    Sometimes we want to return JSON as ``text/plain``: on windows,
     Flash uploads always request ``text/\*`` so the proper
     ``application/json`` header won't work.
 
