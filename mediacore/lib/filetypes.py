@@ -3,16 +3,21 @@ from pylons import config, request
 
 __all__ = [
     'accepted_extensions',
-    'embeddable_filetypes',
+    'external_embedded_containers',
     'guess_media_type',
     'mimetype_lookup',
     'playable_types',
 ]
 
-# Mimetypes
+# Mimetypes.
+# This lookup table of file extensions is used in the media saving logic to
+# determine the media object's container format. media_obj.container will be
+# one of the keys in this dict.
+# It is also used to determine the mimetype to serve, based on the value of
+# media_obj.container.
+# TODO: Replace this with a more complete list or change the logic
+#       to detect mimetypes from something other than the file extension.
 mimetype_lookup = {
-    # TODO: Replace this with a more complete list.
-    #       or modify code to detect mimetype from something other than ext.
     'm4a':  'audio/mpeg',
     'm4v':  'video/mpeg',
     'mp3':  'audio/mpeg',
@@ -32,9 +37,10 @@ mimetype_lookup = {
     'wmv':  'video/x-ms-wmv',
 }
 
+# When media_obj.container doesn't match a key in the mimetype_lookup dict...
 default_media_mimetype = 'application/octet-stream'
 
-embeddable_filetypes = {
+external_embedded_containers = {
     'youtube': {
         'play': 'http://youtube.com/v/%s',
         'link': 'http://youtube.com/watch?v=%s',
@@ -52,17 +58,19 @@ embeddable_filetypes = {
     },
 }
 
+# The file extensions that will be considered to be 'encoded', and thus ready
+# for playing, when they are uploaded.
 playable_types = {
     'audio': ('mp3', 'mp4', 'm4a'),
     'video': ('flv', 'm4v'),
     None: (),
 }
 
-flash_support = ('mp3', 'mp4', 'm4v', 'm4a', 'flv', 'f4v', 'f4p', 'f4a', 'f4b', 'flac')
-upload_only_support = ('3gp', '3g2', 'divx', 'dv', 'dvx', 'mov', 'mpeg', 'mpg', 'vob', 'qt', 'wmv')
-accepted_formats = set(flash_support)
-accepted_formats.union(upload_only_support)
-accepted_formats = sorted(accepted_formats)
+# The list of file extensions that flash will recognize and be able to play
+# XXX: that not all filetypes here will be considered playable by the system
+#      as the associated media files will not be marked 'encoded' as per the
+#      playable_types dict.
+flash_supported_containers = ('mp3', 'mp4', 'm4v', 'm4a', 'flv', 'f4v', 'f4p', 'f4a', 'f4b', 'flac')
 
 # Container and Codec support for HTML5 tag in various browsers.
 # The following list taken from http://diveintohtml5.org/video.html#what-works
@@ -71,7 +79,14 @@ accepted_formats = sorted(accepted_formats)
 # h264b = h264 baseline profile
 # aac = aac all profiles
 # aacl = aac low complexity profile
-html5_support = {
+# FIXME: While included for future usefuleness, the codecs in the list below
+#        are ignored by the actual logic in pick_media_file_player() below.
+#        If the media file in question has a container type that might hold
+#        a supported codec for the platform, we assume it will work.
+# XXX: that not all container types here will be be considered playable by the
+#      system, as the associated media files will not be marked 'encoded' as
+#      per the playable_types dict.
+html5_supported_containers_codecs = {
     'firefox': [
         (3.5, 'ogg', ['theora', 'vorbis']),
     ],
@@ -89,17 +104,11 @@ html5_support = {
     ],
     'iphone': [
         (0, 'mp4', ['h264b', 'aacl']),
-        # FIXME: Dirty hack to maximize chance of showing videos in iPhone.
-        # Even though the iPhone can't actually handle full quality h264 and
-        # AAC encodings, our system never knows for sure if the files are
-        # baseline/low complexity or full quality. Even though the files are
-        # likely not to work with HTML5 this way, they're guaranteed not to
-        # work if we serve flash. So we lie, here, and hope for the best.
-        (0, 'mp4', ['h264', 'aac']),
     ],
     'android': [
         (0, 'mp4', ['h264b', 'aacl']),
     ],
+    'unknown': []
 }
 
 # This is a wildly incomplete set of regular expressions that parse the
@@ -138,8 +147,10 @@ def supported_html5_types():
     """Return the user agent's supported HTML5 video containers and codecs.
     """
     browser, version = parse_user_agent_version()
+    scc = html5_supported_containers_codecs[browser]
     html5_options = []
-    for req_version, containers, codecs in html5_support.get(browser, []):
+
+    for req_version, containers, codecs in scc:
         if version >= req_version:
             html5_options.append((containers, codecs))
     return html5_options
@@ -161,23 +172,30 @@ def pick_media_file_player(files):
 
     """
     from mediacore.lib.helpers import fetch_setting
+    player_type = fetch_setting('player_type')
 
-    if fetch_setting('player_type') == 'best':
-        for container, codecs in supported_html5_types():
-            for file in files:
-                if file.type in ('audio', 'video') \
-                and file.container == container:
-                    return file, fetch_setting('html5_player')
+    # Only proceed if this file is a playable type
+    files = [file for file in files if file.type in ('audio', 'video')]
 
+    # First, check if it's an embedded video from another site.
     for file in files:
-        if file.type in ('audio', 'video') \
-        and file.container in flash_support:
-            return file, fetch_setting('flash_player')
-
-    for file in files:
-        if file.type in ('audio', 'video') \
-        and file.container in embeddable_filetypes:
+        if file.container in external_embedded_containers:
             return file, 'embed'
 
+    # If possible, return an applicable file and html5 player
+    # Note that this is currently based only on the container type
+    if player_type in ['best', 'html5']:
+        for container, codecs in supported_html5_types():
+            for file in files:
+                if file.container == container:
+                    return file, fetch_setting('html5_player')
+
+    # If possible, return an applicable file and flash player
+    if player_type in ['best', 'flash']:
+        for file in files:
+            if file.container in flash_supported_containers:
+                return file, fetch_setting('flash_player')
+
+    # No acceptable file/player combination could be found.
     return None, None
 

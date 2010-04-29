@@ -36,7 +36,7 @@ from mediacore.forms.uploader import UploadForm
 from mediacore.lib import email
 from mediacore.lib.base import BaseController
 from mediacore.lib.decorators import expose, expose_xhr, paginate, validate
-from mediacore.lib.filetypes import embeddable_filetypes, guess_media_type
+from mediacore.lib.filetypes import external_embedded_containers, guess_media_type
 from mediacore.lib.helpers import (redirect, url_for, best_json_content_type,
     create_default_thumbs_for, fetch_setting)
 from mediacore.model import (fetch_row, get_available_slug,
@@ -216,7 +216,7 @@ class UploadController(BaseController):
             #        the new media_obj.
             media_file = MediaFile()
             url = unicode(url)
-            for type, info in embeddable_filetypes.iteritems():
+            for type, info in external_embedded_containers.iteritems():
                 match = info['pattern'].match(url)
                 if match:
                     media_file.type = guess_media_type(type)

@@ -45,7 +45,7 @@ from mediacore.model.comments import Comment, CommentQuery, comments
 from mediacore.model.tags import Tag, TagList, tags, extract_tags, fetch_and_create_tags
 from mediacore.model.categories import Category, CategoryList, categories, fetch_categories
 from mediacore.lib import helpers
-from mediacore.lib.filetypes import default_media_mimetype, embeddable_filetypes, mimetype_lookup, playable_types
+from mediacore.lib.filetypes import default_media_mimetype, external_embedded_containers, mimetype_lookup, playable_types
 
 class MediaException(Exception): pass
 class MediaFileException(MediaException): pass
@@ -537,7 +537,7 @@ class MediaFile(object):
         if self.url is not None:
             return self.url
         elif self.embed is not None:
-            return embeddable_filetypes[self.container]['play'] % self.embed
+            return external_embedded_containers[self.container]['play'] % self.embed
         else:
             return helpers.url_for(controller='/media', action='serve',
                                    slug=self.media.slug, id=self.id,
@@ -555,7 +555,7 @@ class MediaFile(object):
         if self.url is not None:
             return self.url
         elif self.embed is not None:
-            return embeddable_filetypes[self.container]['link'] % self.embed
+            return external_embedded_containers[self.container]['link'] % self.embed
         else:
             return helpers.url_for(controller='/media', action='serve',
                                    slug=self.media.slug, id=self.id,
