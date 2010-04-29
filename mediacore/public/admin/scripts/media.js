@@ -513,7 +513,20 @@ var FileManager = new Class({
 
 var FileList = new Class({
 
-	initialize: function(list, mgr){
+	Implements: Options,
+
+	options: {
+		statusContainer: '',
+		progress: '.upload-progress',
+		fxProgress: {}
+	},
+
+	list: null,
+	mgr: null,
+	ui: {},
+	fxProgress: null,
+
+	initialize: function(list, mgr, options){
 		this.list = $(list);
 		this.mgr = mgr.addEvents({
 			onFileAdded: this.onFileAdded.bind(this),
@@ -522,6 +535,31 @@ var FileList = new Class({
 			onFileQueued: this.onFileQueued.bind(this),
 			onFileError: this.onFileError.bind(this)
 		});
+		this.mgr.uploader.addEvents({
+			onStart: this.onUploadStart.bind(this),
+			onFileProgress: this.onUploadProgress.bind(this),
+			onComplete: this.onUploadComplete.bind(this)
+		});
+		this.setOptions(options);
+		this.ui.container = $(this.options.statusContainer);
+		this.ui.progress = this.ui.container.getElement(this.options.progress);
+	},
+
+	onUploadStart: function(){
+		if (!this.fxProgress) {
+			this.fxProgress = new Fx.ProgressBar(this.ui.progress.getElement('img'), this.options.fxProgressBar);
+		}
+		this.fxProgress.set(0);
+		this.ui.progress.slide('hide').show().slide('in');
+	},
+
+	onUploadProgress: function(file){
+		this.fxProgress.set(file.base.percentLoaded);
+	},
+
+	onUploadComplete: function(){
+		if (this.fxProgress) this.fxProgress.set(100);
+		this.ui.progress.slide.delay(500, this.ui.progress, ['out']);
 	},
 
 	onFileAdded: function(json, row, replaces){

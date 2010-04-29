@@ -244,6 +244,14 @@ tr.error td[headers='thf-type'] {
 	color: red;
 }
 
+#file-upload.upload-status .upload-progress {
+	border-top: 1px solid #CFCCC2;
+}
+#file-upload.upload-status .upload-progress img {
+	margin-top: 10px;
+	margin-bottom: 8px;
+}
+
 #media-form #categories_container {
 	float: left;
 	width: 50%;
