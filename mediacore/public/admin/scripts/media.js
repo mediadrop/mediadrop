@@ -283,6 +283,8 @@ var FileManager = new Class({
 	files: [],
 	uploader: null,
 	modal: null,
+	thead: null,
+	tbody: null,
 
 	initialize: function(container, opts){
 		this.setOptions(opts);
@@ -290,7 +292,10 @@ var FileManager = new Class({
 		this.addForm = $(this.options.addForm);
 		this.uploader = new UploaderBase(this.options.uploader);
 		this.modal = new Modal(this.container, this.options.modal);
-		this.files = this.container.getElements('table tbody tr');
+		this.thead = this.container.getElement('table thead');
+		this.tbody = this.container.getElement('table tbody');
+		this.files = this.tbody.getChildren();
+		this.updateDisplay();
 		this.urlOverText = new OverText('url', {wrap: true});
 		this.attach();
 	},
@@ -360,9 +365,8 @@ var FileManager = new Class({
 			size: '-',
 			typeText: 'Saving'
 		});
-		var row = this._createQueueRow(fileSpoof)
-			.inject(this.container.getElement('table tbody'))
-			.highlight();
+		var row = this._createQueueRow(fileSpoof).inject(this.tbody).highlight();
+		this.updateDisplay();
 		var req = new Request.JSON({
 			url: form.get('action'),
 			onSuccess: this.fileAdded.bindWithEvent(this, [row]),
@@ -380,7 +384,8 @@ var FileManager = new Class({
 		var row = this._attachFile(Elements.from(resp.edit_form)[0]);
 		this.files.push(row);
 		if (replaces) row.replaces(replaces);
-		else row.inject(this.container.getElement('table tbody'));
+		else row.inject(this.tbody);
+		this.updateDisplay();
 		row.highlight();
 		return this.fireEvent('fileAdded', [resp, row, replaces]);
 	},
@@ -413,6 +418,7 @@ var FileManager = new Class({
 		if (target.get('name') == 'delete') {
 			this.files.erase(row);
 			row.dispose();
+			this.updateDisplay();
 			return this.fireEvent('fileDeleted', [json, row]);
 		} else {
 			row.className = json.file_type;
@@ -429,9 +435,8 @@ var FileManager = new Class({
 	},
 
 	onFileQueue: function(file){
-		var row = this._createQueueRow(file)
-			.inject(this.container.getElement('table tbody'))
-			.highlight();
+		var row = this._createQueueRow(file).inject(this.tbody).highlight();
+		this.updateDisplay();
 		this.fireEvent('fileQueued', [row, file]);
 	},
 
@@ -447,11 +452,13 @@ var FileManager = new Class({
 			fileListSizeMax: Swiff.Uploader.formatUnit(this.uploader.options.fileListSizeMax || 0, 'b')
 		}));
 		file.ui.type.set('text', 'Error');
-		row.inject(this.container.getElement('table tbody')).highlight();
+		row.inject(this.tbody).highlight();
+		this.updateDisplay();
 	},
 
 	onFileQueueRemove: function(file){
 		this.container.getElementById('fileupload-' + file.id).destroy();
+		this.updateDisplay();
 	},
 
 	onFileUploadStart: function(file){
@@ -473,6 +480,11 @@ var FileManager = new Class({
 		var replaces = this.container.getElementById('fileupload-' + file.id);
 		var resp = JSON.decode(file.response.text);
 		this.fileAdded(resp, replaces);
+	},
+
+	updateDisplay: function(){
+		var hasFiles = !!this.tbody.getFirst();
+		if (hasFiles == this.container.hasClass('no-files')) this.container.toggleClass('no-files');
 	},
 
 	_createQueueRow: function(file){

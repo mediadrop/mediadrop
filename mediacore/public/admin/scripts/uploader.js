@@ -212,7 +212,6 @@ var Uploader = new Class({
 				if (!msg[1] && x <= p) {
 					msg[1] = true;
 					this.ui.notice.show().set('html', msg[0]).slide('in');
-					console.log(this.ui.notice);
 				}
 			}
 		}

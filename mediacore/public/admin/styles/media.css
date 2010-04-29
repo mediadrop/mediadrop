@@ -110,6 +110,9 @@ a.published { background-image: url('../images/statuses/published-both.png'); }
 #fmgr-close:hover {
 	text-decoration: underline;
 }
+#fmgr.no-files table {
+	display: none;
+}
 #fmgr thead tr th {
 	border-top: 0;
 }
@@ -144,6 +147,9 @@ a.published { background-image: url('../images/statuses/published-both.png'); }
 #fmgr #add-box {
 	border-top: 1px solid #cfccc2;
 	padding: 25px 34px 15px 34px;
+}
+#fmgr.no-files #add-box {
+	border-top: 0;
 }
 #fmgr #url,
 #fmgr .url-container .overTxtLabel,
