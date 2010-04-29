@@ -347,6 +347,19 @@ def thumb_path(item, size, exists=False, ext='jpg'):
         return None
     return image_path
 
+def thumb_paths(item, **kwargs):
+    """Return a list of paths to all sizes of thumbs for a given item.
+
+    :param item: A 2-tuple with a subdir name and an ID. If given a
+        ORM mapped class with _thumb_dir and id attributes, the info
+        can be extracted automatically.
+    :type item: ``tuple`` or mapped class
+
+    """
+    image_dir, item_id = _normalize_thumb_item(item)
+    return [thumb_path(item, key, **kwargs)
+            for key in config['thumb_sizes'][image_dir].iterkeys()]
+
 def thumb_url(item, size, qualified=False, exists=False):
     """Get the thumbnail url for the given item and size.
 
@@ -621,3 +634,31 @@ def pretty_file_size(size):
             return '%3.1f %s' % (size, unit)
         size /= 1024.0
     return '%3.1f %s' % (size, 'PB')
+
+def delete_files(paths, subdir=None):
+    """Move the given files to the 'deleted' folder, or just delete them.
+
+    If the config contains a deleted_files_dir setting, then files are
+    moved there. If that setting does not exist, or is empty, then the
+    files will be deleted permanently instead.
+
+    :param paths: File paths to delete. These files do not necessarily
+        have to exist.
+    :type paths: list
+    :param subdir: A subdir within the configured deleted_files_dir to
+        move the given files to. If this folder does not yet exist, it
+        will be created.
+    :type subdir: str or ``None``
+
+    """
+    deleted_dir = config.get('deleted_files_dir', None)
+    if deleted_dir and subdir:
+        deleted_dir = os.path.join(deleted_dir, subdir)
+    if deleted_dir and not os.path.exists(deleted_dir):
+        os.mkdir(deleted_dir)
+    for path in paths:
+        if path and os.path.exists(path):
+            if deleted_dir:
+                shutil.move(path, deleted_dir)
+            else:
+                os.remove(path)

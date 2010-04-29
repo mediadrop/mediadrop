@@ -215,7 +215,7 @@ class MediaController(BaseController):
         media = fetch_row(Media, id)
 
         if delete:
-            file_paths = []
+            file_paths = helpers.thumb_paths(media)
             for f in media.files:
                 file_paths.append(f.file_path)
                 # Remove the file from the session so that SQLAlchemy doesn't
@@ -224,7 +224,7 @@ class MediaController(BaseController):
                 DBSession.expunge(f)
             DBSession.delete(media)
             transaction.commit()
-            delete_files(file_paths)
+            helpers.delete_files(file_paths, 'media')
             redirect(action='index', id=None)
 
         media.slug = get_available_slug(Media, slug, media)
@@ -404,7 +404,7 @@ class MediaController(BaseController):
             DBSession.delete(file)
             transaction.commit()
             if file_path:
-                delete_files([file_path])
+                helpers.delete_files([file_path], 'media')
             media = fetch_row(Media, id)
             data['success'] = True
         else:
@@ -544,12 +544,3 @@ class MediaController(BaseController):
             return data
         else:
             redirect(action='edit')
-
-def delete_files(paths):
-    deleted_dir = config.get('deleted_files_dir', None)
-    for path in paths:
-        if path and os.path.exists(path):
-            if deleted_dir:
-                shutil.move(path, deleted_dir)
-            else:
-                os.remove(path)

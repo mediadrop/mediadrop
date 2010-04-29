@@ -17,6 +17,7 @@ import os.path
 import shutil
 import simplejson as json
 
+import transaction
 from pylons import config, request, response, session, tmpl_context
 from repoze.what.predicates import has_permission
 from sqlalchemy import orm, sql
@@ -142,8 +143,10 @@ class PodcastsController(BaseController):
         podcast = fetch_row(Podcast, id)
 
         if delete:
+            file_paths = helpers.thumb_paths(podcast)
             DBSession.delete(podcast)
-            DBSession.flush()
+            transaction.commit()
+            helpers.delete_files(file_paths, 'podcasts')
             redirect(action='index', id=None)
 
         podcast.slug = get_available_slug(Podcast, slug, podcast)
