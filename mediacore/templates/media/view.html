@@ -55,15 +55,9 @@
 			</div>
 			${media_player(media, width=560, height=315)}
 			<table class="feat-meta" cellspacing="0">
-				<tr>
-					<td><a py:if="media.downloadable_file" style="margin-right:10px" class="meta meta-download underline-hover" href="${media.downloadable_file.link_url()}"><strong>Download</strong></a></td>
-					<td>
-						<div id="embedthis" class="meta-wrapper">
-							<a class="meta meta-embed underline-hover" title="Embed on your site" href="#"><strong>Embed</strong></a>
-							<div class="meta-hover">
-								<label>Embeddable Player HTML: <input type="text" value="${h.embeddable_player(media)}" readonly="readonly" /></label>
-							</div>
-						</div>
+				<tr py:with="download = media.downloadable_file">
+					<td py:if="download">
+						<a class="meta meta-download underline-hover" href="${download.link_url()}"><strong>Download</strong></a>
 					</td>
 					<td>
 						<div id="sharethis" class="meta-wrapper">
@@ -78,6 +72,15 @@
 							</div>
 						</div>
 					</td>
+					<td>
+						<div id="embedthis" class="meta-wrapper">
+							<a class="meta meta-embed underline-hover" title="Embed on your site" href="#"><strong>Embed</strong></a>
+							<div class="meta-hover">
+								<label>Embeddable Player HTML: <input type="text" value="${h.embeddable_player(media)}" readonly="readonly" /></label>
+							</div>
+						</div>
+					</td>
+					<td py:if="not download">&nbsp;</td>
 				</tr>
 				<tr>
 					<td><span class="meta meta-comments" title="Comments">${media.comment_count_published} <span>Comment<py:if test="media.comment_count_published != 1">s</py:if></span></span></td>
