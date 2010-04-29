@@ -21,6 +21,7 @@ from tw.forms.validators import NotEmpty, FieldStorageUploadConverter
 from pylons import config
 
 from mediacore.lib import helpers
+from mediacore.lib.filetypes import embeddable_filetypes
 from mediacore.forms import ListForm, TextField, XHTMLTextArea, FileField, SubmitButton, email_validator
 
 validators = dict(
@@ -44,7 +45,7 @@ validators = dict(
 class EmbedURLValidator(formencode.FancyValidator):
     def _to_python(self, value, state):
         if value:
-            for info in config['embeddable_filetypes'].itervalues():
+            for info in embeddable_filetypes.itervalues():
                 match = info['pattern'].match(value)
                 if match:
                     return value

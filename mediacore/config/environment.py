@@ -75,53 +75,6 @@ def load_environment(global_conf, app_conf):
     # Genshi Default Search Path
     config['genshi_search_path'] = paths['templates'][0]
 
-    # Mimetypes
-    config['mimetype_lookup'] = {
-        # TODO: Replace this with a more complete list.
-        #       or modify code to detect mimetype from something other than ext.
-        '.m4a':  'audio/mpeg',
-        '.m4v':  'video/mpeg',
-        '.mp3':  'audio/mpeg',
-        '.mp4':  'audio/mpeg',
-        '.flac': 'audio/flac',
-        '.3gp':  'video/3gpp',
-        '.3g2':  'video/3gpp',
-        '.divx': 'video/mpeg',
-        '.dv':   'video/x-dv',
-        '.dvx':  'video/mpeg',
-        '.flv':  'video/x-flv', # made up, it's what everyone uses anyway.
-        '.mov':  'video/quicktime',
-        '.mpeg': 'video/mpeg',
-        '.mpg':  'video/mpeg',
-        '.qt':   'video/quicktime',
-        '.vob':  'video/x-vob', # multiplexed container format
-        '.wmv':  'video/x-ms-wmv',
-    }
-
-    config['embeddable_filetypes'] = {
-        'youtube': {
-            'play': 'http://youtube.com/v/%s',
-            'link': 'http://youtube.com/watch?v=%s',
-            'pattern': re.compile('^(http(s?)://)?(www.)?youtube.com/watch\?(.*&)?v=(?P<id>[^&#]+)')
-        },
-        'google': {
-            'play': 'http://video.google.com/googleplayer.swf?docid=%s&hl=en&fs=true',
-            'link': 'http://video.google.com/videoplay?docid=%s',
-            'pattern': re.compile('^(http(s?)://)?video.google.com/videoplay\?(.*&)?docid=(?P<id>-\d+)')
-        },
-        'vimeo': {
-            'play': 'http://vimeo.com/moogaloop.swf?clip_id=%s&server=vimeo.com&show_title=1&show_byline=1&show_portrait=0&color=&fullscreen=1',
-            'link': 'http://vimeo.com/%s',
-            'pattern': re.compile('^(http(s?)://)?(www.)?vimeo.com/(?P<id>\d+)')
-        },
-    }
-
-    config['playable_types'] = {
-        'audio': ('mp3', 'mp4', 'm4a'),
-        'video': ('flv', 'm4v'),
-        None: (),
-    }
-
     config['thumb_sizes'] = { # the dimensions (in pixels) to scale thumbnails
         'media': {
             's': (128,  72),

@@ -45,6 +45,7 @@ from mediacore.model.comments import Comment, CommentQuery, comments
 from mediacore.model.tags import Tag, TagList, tags, extract_tags, fetch_and_create_tags
 from mediacore.model.categories import Category, CategoryList, categories, fetch_categories
 from mediacore.lib import helpers
+from mediacore.lib.filetypes import default_media_mimetype, embeddable_filetypes, mimetype_lookup, playable_types
 
 class MediaException(Exception): pass
 class MediaFileException(MediaException): pass
@@ -395,7 +396,7 @@ class Media(object):
             if not self.type:    # Sanity check
                 self.update_type()
             for file in self.files:
-                if file.container in config['playable_types'][self.type]:
+                if file.container in playable_types[self.type]:
                     self.encoded = True
                     return True
             if self.podcast_id is None:
@@ -520,7 +521,7 @@ class MediaFile(object):
 
         Defaults to 'application/octet-stream'.
         """
-        return config['mimetype_lookup'].get('.' + self.container, 'application/octet-stream')
+        return mimetype_lookup.get(self.container, default_media_mimetype)
 
     @property
     def file_path(self):
@@ -536,7 +537,7 @@ class MediaFile(object):
         if self.url is not None:
             return self.url
         elif self.embed is not None:
-            return config['embeddable_filetypes'][self.container]['play'] % self.embed
+            return embeddable_filetypes[self.container]['play'] % self.embed
         else:
             return helpers.url_for(controller='/media', action='serve',
                                    slug=self.media.slug, id=self.id,
@@ -554,7 +555,7 @@ class MediaFile(object):
         if self.url is not None:
             return self.url
         elif self.embed is not None:
-            return config['embeddable_filetypes'][self.container]['link'] % self.embed
+            return embeddable_filetypes[self.container]['link'] % self.embed
         else:
             return helpers.url_for(controller='/media', action='serve',
                                    slug=self.media.slug, id=self.id,

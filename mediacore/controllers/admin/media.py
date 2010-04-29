@@ -37,6 +37,7 @@ from mediacore.forms.admin.media import AddFileForm, EditFileForm, MediaForm, Po
 from mediacore.lib import helpers
 from mediacore.lib.base import BaseController
 from mediacore.lib.decorators import expose, expose_xhr, paginate, validate
+from mediacore.lib.filetypes import embeddable_filetypes, guess_media_type, playable_types
 from mediacore.lib.helpers import redirect, url_for
 from mediacore.model import Author, Category, Media, MediaFile, Podcast, Tag, fetch_row, get_available_slug
 from mediacore.model.media import create_media_stub
@@ -312,10 +313,10 @@ class MediaController(BaseController):
         elif url:
             media_file = MediaFile()
             # Parse the URL checking for known embeddables like YouTube
-            for type, info in config['embeddable_filetypes'].iteritems():
+            for type, info in embeddable_filetypes.iteritems():
                 match = info['pattern'].match(url)
                 if match:
-                    media_file.type = helpers.guess_media_type(type)
+                    media_file.type = guess_media_type(type)
                     media_file.container = type
                     media_file.embed = match.group('id')
                     media_file.display_name = type.capitalize() + ' ID: ' + media_file.embed
@@ -324,9 +325,9 @@ class MediaController(BaseController):
             else:
                 # Check for types we can play ourselves
                 type = os.path.splitext(url)[1].lower()[1:]
-                for playable_types in config['playable_types'].itervalues():
-                    if type in playable_types:
-                        media_file.type = helpers.guess_media_type(type)
+                for types in playable_types.itervalues():
+                    if type in types:
+                        media_file.type = guess_media_type(type)
                         media_file.container = type
                         media_file.url = url
                         data['success'] = True
