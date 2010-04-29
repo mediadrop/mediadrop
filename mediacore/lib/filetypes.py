@@ -44,7 +44,7 @@ external_embedded_containers = {
     'youtube': {
         'play': 'http://youtube.com/v/%s',
         'link': 'http://youtube.com/watch?v=%s',
-        'pattern': re.compile('^(http(s?)://)?(www.)?youtube.com/watch\?(.*&)?v=(?P<id>[^&#]+)')
+        'pattern': re.compile('^(http(s?)://)?(\w+.)?youtube.com/watch\?(.*&)?v=(?P<id>[^&#]+)')
     },
     'google': {
         'play': 'http://video.google.com/googleplayer.swf?docid=%s&hl=en&fs=true',
