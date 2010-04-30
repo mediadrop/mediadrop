@@ -15,9 +15,9 @@
 
 import sys
 
-__version__ = '0.7.2'
+__version__ = '0.8rc1'
 __status__ = 'beta'
-__copyright__ = 'Copyright 2009, Simple Station Inc.'
+__copyright__ = 'Copyright 2009-2010, Simple Station Inc.'
 __license__ = 'GPLv3'
 __email__ = 'info@simplestation.com'
 __maintainer__ = 'http://getmediacore.com/'
