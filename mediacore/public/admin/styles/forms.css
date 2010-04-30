@@ -39,7 +39,7 @@
 	 * to the 100% input width it still fits visually */
 	padding-right: 12px;
 }
-.form li {
+.form .field_list > li {
 	clear: both;
 	width: 100%;
 	overflow: hidden;
@@ -59,7 +59,6 @@
 .details_fieldset .fieldlabel,
 .details_fieldset .fieldhelp {
 	margin-right: 10px;
-	padding: 5px 0;
 	float: left;
 	font-weight: normal;
 	display: block;
@@ -69,15 +68,9 @@
 	width: auto;
 	margin-left: 10px;
 }
-.details_fieldset li {
-	margin: 5px 0;
-}
-.details_fieldset input,
-.details_fieldset select,
-.details_fieldset textarea {
-	float: left;
-	width: auto;
-	clear: none;
+.details_fieldset > ul > li {
+	margin-bottom: 5px;
+	padding: 5px 0;
 }
 label .field_help {
 	font-weight: normal;
