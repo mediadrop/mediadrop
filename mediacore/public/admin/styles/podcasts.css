@@ -39,14 +39,10 @@
 	color: #627789;
 }
 #podcast-table .podcast-art {
-	text-align: center;
-	vertical-align: middle;
-	width: 170px;
+	width: 160px;
 	height: 160px;
+	padding: 2px 0px 0px 2px;
 	background: transparent url('../images/layout/podcast-art-frame.png') no-repeat top left;
-}
-#podcast-table .podcast-art img {
-	padding: 3px 7px 7px 3px;
 }
 #podcast-table .info-content {
 	position: relative;
