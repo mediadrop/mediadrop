@@ -34,6 +34,11 @@ window.addEvent('domready', function() {
 // Round the corners of all boxes by wrapping it in another div
 var roundBoxes = function(){
 	$$('.box').each(function(el){
+		if (el.hasClass('hidden')) {
+			// this box will soon be a modal dialog, and adding rounded corners
+			// will just mess up the layout.
+			return;
+		}
 		var round = new Element('div', {'class': 'box-round'})
 			.wraps(el)
 			.grab(new Element('div', {'class': 'box-round-top-lft'}))
