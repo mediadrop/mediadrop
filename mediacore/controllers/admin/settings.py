@@ -77,6 +77,10 @@ class SettingsController(BaseController):
     def _update_settings(self, values):
         """Modify the settings associated with the given dictionary."""
         for name, value in values.iteritems():
+            if value is None:
+                value = u''
+            else:
+                value = unicode(value)
             if self.settings[name].value != value:
                 self.settings[name].value = value
                 DBSession.add(self.settings[name])
