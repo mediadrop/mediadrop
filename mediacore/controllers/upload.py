@@ -36,7 +36,7 @@ from mediacore.forms.uploader import UploadForm
 from mediacore.lib import email
 from mediacore.lib.base import BaseController
 from mediacore.lib.decorators import expose, expose_xhr, paginate, validate
-from mediacore.lib.filetypes import external_embedded_containers, guess_media_type
+from mediacore.lib.filetypes import external_embedded_containers, guess_container_format, guess_media_type
 from mediacore.lib.helpers import (redirect, url_for, best_json_content_type,
     create_default_thumbs_for, fetch_setting)
 from mediacore.model import (fetch_row, get_available_slug,
@@ -250,8 +250,8 @@ def _add_new_media_file(media, original_filename, file):
     # set the file paths depending on the file type
     media_file = MediaFile()
     media_file.display_name = original_filename
-    media_file.type = guess_media_type(file_ext)
-    media_file.container = file_ext
+    media_file.container = guess_container_format(file_ext)
+    media_file.type = guess_media_type(media_file.container)
 
     # Small files are stored in memory and do not have a tmp file w/ fileno
     if hasattr(file, 'fileno'):

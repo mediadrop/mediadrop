@@ -4,24 +4,28 @@ from pylons import config, request
 __all__ = [
     'accepted_extensions',
     'external_embedded_containers',
+    'guess_container_format'
     'guess_media_type',
     'mimetype_lookup',
-    'playable_types',
+    'playable_containers',
 ]
 
-# Mimetypes.
-# This lookup table of file extensions is used in the media saving logic to
-# determine the media object's container format. media_obj.container will be
-# one of the keys in this dict.
-# It is also used to determine the mimetype to serve, based on the value of
-# media_obj.container.
-# TODO: Replace this with a more complete list or change the logic
+# Mimetypes for all file extensions accepted by the front and backend uploaders
+#
+# OTHER USES:
+# 1) To determine the mimetype to serve, based on a MediaFile's container type.
+# 2) In conjunction with the container_lookup dict below to determine the
+#    container type for a MediaFile, based on the uploaded file's extension.
+#
+# XXX: The keys in this dict are sometimes treated as names for container types
+#      and sometimes treated as file extensions. Caveat coder.
+# TODO: Replace with a more complete list or (even better) change the logic
 #       to detect mimetypes from something other than the file extension.
 mimetype_lookup = {
-    'm4a':  'audio/mpeg',
-    'm4v':  'video/mpeg',
+    'm4a':  'audio/mp4',
+    'm4v':  'video/mp4',
     'mp3':  'audio/mpeg',
-    'mp4':  'audio/mpeg',
+    'mp4':  'audio/mp4', # This is not strictly true. It could contain video.
     'flac': 'audio/flac',
     '3gp':  'video/3gpp',
     '3g2':  'video/3gpp',
@@ -35,6 +39,22 @@ mimetype_lookup = {
     'qt':   'video/quicktime',
     'vob':  'video/x-vob', # multiplexed container format
     'wmv':  'video/x-ms-wmv',
+}
+
+# Default container format (and also file extension) for each mimetype we allow
+# users to upload.
+container_lookup = {
+    'audio/flac':      'flac',
+    'audio/mp4':       'm4a',
+    'audio/mpeg':      'mp3',
+    'video/3gpp':      '3gp',
+    'video/mp4':       'm4v',
+    'video/mpeg':      'mpg',
+    'video/quicktime': 'mov',
+    'video/x-dv':      'dv',
+    'video/x-flv':     'flv',
+    'video/x-ms-wmv':  'wmv',
+    'video/x-vob':     'vob',
 }
 
 # When media_obj.container doesn't match a key in the mimetype_lookup dict...
@@ -58,18 +78,18 @@ external_embedded_containers = {
     },
 }
 
-# The file extensions that will be considered to be 'encoded', and thus ready
+# The container types that will be considered to be 'encoded', and thus ready
 # for playing, when they are uploaded.
-playable_types = {
+playable_containers = {
     'audio': ('mp3', 'mp4', 'm4a'),
     'video': ('flv', 'm4v'),
     None: (),
 }
 
-# The list of file extensions that flash will recognize and be able to play
-# XXX: that not all filetypes here will be considered playable by the system
-#      as the associated media files will not be marked 'encoded' as per the
-#      playable_types dict.
+# The list of file extensions that flash should recognize and be able to play.
+# XXX: not all files with extensions matched here will be considered playable,
+#      as the associated media files may not be considered 'encoded' as per the
+#      playable_containers dict.
 flash_supported_containers = ('mp3', 'mp4', 'm4v', 'm4a', 'flv', 'f4v', 'f4p', 'f4a', 'f4b', 'flac')
 
 # Container and Codec support for HTML5 tag in various browsers.
@@ -81,11 +101,11 @@ flash_supported_containers = ('mp3', 'mp4', 'm4v', 'm4a', 'flv', 'f4v', 'f4p', '
 # aacl = aac low complexity profile
 # FIXME: While included for future usefuleness, the codecs in the list below
 #        are ignored by the actual logic in pick_media_file_player() below.
-#        If the media file in question has a container type that might hold
+#        If the media file in question has a container type that /might/ hold
 #        a supported codec for the platform, we assume it will work.
-# XXX: that not all container types here will be be considered playable by the
+# XXX: not all container types here will be be considered playable by the
 #      system, as the associated media files will not be marked 'encoded' as
-#      per the playable_types dict.
+#      per the playable_containers dict.
 html5_supported_containers_codecs = {
     'firefox': [
         (3.5, 'ogg', ['theora', 'vorbis']),
@@ -155,7 +175,22 @@ def supported_html5_types():
             html5_options.append((containers, codecs))
     return html5_options
 
+def guess_container_format(extension):
+    """Returns the most likely container format based on the file extension.
+
+    Precondition: extension must be an 'accepted extension'.
+
+    :param extension: the file extension, without a preceding period.
+    :type extension: string
+    :rtype: string
+    """
+    mt = mimetype_lookup[extension]
+    cf = container_lookup[mt]
+    return cf
+
 def guess_media_type(container):
+    """Returns the most likely media type based on the container format.
+    """
     if container in ('mp3', 'flac', 'f4a', 'm4a'):
         return 'audio'
     elif container in ('xml', 'srt'):
@@ -164,6 +199,14 @@ def guess_media_type(container):
 
 def pick_media_file_player(files):
     """Return the best choice of files to play and which player to use.
+
+    XXX: This method uses the very unsophisticated technique of assuming
+         that if the client is capable of playing the container format, then
+         the client should be able to play the tracks within the container,
+         regardless of the codecs actually used. As such, admins would be
+         well advised to use the lowest-common-denominator for their targeted
+         clients when using files for consumption in an HTML5 player, and
+         to use the standard codecs when encoding for Flash player use.
 
     :param files: :class:`~mediacore.model.media.MediaFile` instances.
     :type files: list

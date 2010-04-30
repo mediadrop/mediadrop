@@ -45,7 +45,7 @@ from mediacore.model.comments import Comment, CommentQuery, comments
 from mediacore.model.tags import Tag, TagList, tags, extract_tags, fetch_and_create_tags
 from mediacore.model.categories import Category, CategoryList, categories, fetch_categories
 from mediacore.lib import helpers
-from mediacore.lib.filetypes import default_media_mimetype, external_embedded_containers, mimetype_lookup, playable_types
+from mediacore.lib.filetypes import default_media_mimetype, external_embedded_containers, mimetype_lookup, playable_containers
 
 class MediaException(Exception): pass
 class MediaFileException(MediaException): pass
@@ -396,7 +396,7 @@ class Media(object):
             if not self.type:    # Sanity check
                 self.update_type()
             for file in self.files:
-                if file.container in playable_types[self.type]:
+                if file.container in playable_containers[self.type]:
                     self.encoded = True
                     return True
             if self.podcast_id is None:
@@ -517,7 +517,7 @@ class MediaFile(object):
 
     @property
     def mimetype(self):
-        """The best-guess mimetype for this file type.
+        """The best-guess mimetype based on this file's container format.
 
         Defaults to 'application/octet-stream'.
         """
