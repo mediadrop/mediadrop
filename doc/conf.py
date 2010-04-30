@@ -240,7 +240,6 @@ intersphinx_mapping = {
     'http://www.sqlalchemy.org/docs/05/': None,
     'http://routes.groovie.org/': None,
     'http://www.pylonshq.com/docs/en/0.9.7/': None,
-    'http://www.turbogears.org/2.0/docs/': None,
     'http://toscawidgets.org/documentation/tw.forms/': None,
     'http://toscawidgets.org/documentation/ToscaWidgets/': None,
 }

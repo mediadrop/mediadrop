@@ -6,7 +6,7 @@ Installation
 
 This is a full walkthrough of how to get MediaCore running.
 
-Experienced `Pylons <http://pylonshq.com/>`_ or TG2 (`TurboGears 2 <http://turbogears.org/2.0/>`_)
+Experienced `Pylons <http://pylonshq.com/>`_
 users can check out the :ref:`install_overview` page for a (very) condensed
 version of the instructions.
 
@@ -258,8 +258,8 @@ a. **For most users**, you should `download the latest official release of
    .. sourcecode:: bash
 
       # Unpack the downloaded distribution
-      tar xzvf MediaCore-0.7.2.tar.gz
-      cd MediaCore-0.7.2
+      tar xzvf MediaCore-0.8.tar.gz
+      cd MediaCore-0.8
 
       # Install!
       python2.5 setup.py develop

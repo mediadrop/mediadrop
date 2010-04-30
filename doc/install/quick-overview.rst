@@ -4,7 +4,7 @@
 Quick Installation Overview
 ===========================
 
-If you're already familiar with installing Pylons/Turbogears apps, here's a
+If you're already familiar with installing Pylons apps, here's a
 six-step run-down of how to install MediaCore.
 
 If you're not already familiar with the process, head to the main

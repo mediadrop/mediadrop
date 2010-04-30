@@ -4,8 +4,10 @@
 Developer Guide
 ===============
 
-MediaCore is developed on TurboGears 2.0 and generally attempts to follow the
-conventions they've set.
+MediaCore is developed on top of Pylons 0.10rc1, but borrows some ideas from
+TurboGears 2.0 (esp. see the decorators in mediacore.lib.decorators, and the
+form widgets). Pylons conventions are generally followed, so experienced Pylons
+and TurboGears2 developers should feel comfortable.
 
 .. note::
 
