@@ -39,6 +39,13 @@ rich_text_editors = [
     ('plain', 'Plain <textarea> fields'),
 ]
 
+def boolean_radiobuttonlist(name, **kwargs):
+    return RadioButtonList(
+        name,
+        options=(('true', 'Yes'), ('false', 'No')),
+        validator=OneOf(['true', 'false']),
+        **kwargs
+    )
 
 class NotificationsForm(ListForm):
     template = 'mediacore.templates.admin.box-form'
@@ -118,6 +125,16 @@ class UploadForm(ListForm):
     css_class = 'form'
     submit_text = None
     fields = [
+        TextField('max_upload_size', label_text='Max. allowed upload file size in bytes', validator=Int(not_empty=True, min=1000000)),
+        ListFieldSet('remote_ftp', suppress_label=True, legend='Remote FTP Storage Settings (Optional)', css_classes=['details_fieldset'], children=[
+            boolean_radiobuttonlist('ftp_storage', label_text='Enable Remote FTP Storage for Uploaded Files?'),
+            TextField('ftp_server', label_text='FTP Server Hostname'),
+            TextField('ftp_user', label_text='FTP Username'),
+            TextField('ftp_password', label_text='FTP Password'),
+            TextField('ftp_upload_directory', label_text='Subdirectory on server to upload to'),
+            TextField('ftp_download_url', label_text='HTTP URL to access remotely stored files'),
+            TextField('ftp_upload_integrity_retries', label_text='How many times should MediaCore try to verify the FTP upload before declaring it a failure?', validator=Int()),
+        ]),
         ListFieldSet('legal_wording', suppress_label=True, legend='Legal Wording:', css_classes=['details_fieldset'], children=[
             XHTMLTextArea('wording_user_uploads', label_text='User Uploads', attrs=dict(rows=15, cols=25)),
         ]),
@@ -140,3 +157,21 @@ class AnalyticsForm(ListForm):
         SubmitButton('save', default='Save', css_classes=['btn', 'btn-save', 'f-rgt']),
         ResetButton('cancel', default='Cancel', css_classes=['btn', 'btn-cancel']),
     ]
+
+class CommentsForm(ListForm):
+    template = 'mediacore.templates.admin.box-form'
+    id = 'settings-form'
+    css_class = 'form'
+    submit_text = None
+
+    fields = [
+        boolean_radiobuttonlist('req_comment_approval', label_text='Require comments to be approved by an admin'),
+        ListFieldSet('akismet', suppress_label=True, legend='Akismet Anti-Spam Details:', css_classes=['details_fieldset'], children=[
+            TextField('akismet_key', label_text='Akismet Key'),
+            TextField('akismet_url', label_text='Akismet URL'),
+            TextField('google_analytics_uacct', maxlength=255, label_text='Tracking Code'),
+        ]),
+        SubmitButton('save', default='Save', css_classes=['btn', 'btn-save', 'f-rgt']),
+        ResetButton('cancel', default='Cancel', css_classes=['btn', 'btn-cancel']),
+    ]
+

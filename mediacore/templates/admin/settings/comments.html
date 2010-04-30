@@ -21,23 +21,25 @@
 <xi:include href="admin/master.html" />
 <xi:include href="admin/settings/master.html" />
 <head>
-	<title>Upload</title>
+	<title>Comments</title>
 	<link href="${h.url_for('/admin/styles/forms.css')}" media="screen" rel="stylesheet" type="text/css" />
 </head>
-<body class="menu-settings-on menu-settings-upload-on">
+<body class="menu-settings-on menu-settings-comments-on">
 	<div class="box">
 		<div class="box-head">
-			<h1>Upload</h1>
+			<h1>Comments</h1>
 		</div>
 		<div class="box-content caveats">
 			<h2>Notes</h2>
 			<ul class="caveats">
-				<li>Remember that the max upload size is in bytes. eg. 314572800 = 300 MiB</li>
-				<li>Use the FTP options below if you want to store media files on a CDN instead of storing them locally.</li>
+				<li>Enable akismet anti-spam protection by setting your API key.</li>
+				<li>The Akismet URL is the 'blog url' you signed up with. This defaults to your application root, if empty.</li>
+				<li>If Akismet is enabled, spam will be discarded before saving it for moderator approval.</li>
 			</ul>
 		</div>
 		<form py:replace="XML(form(form_values))" />
 	</div>
 </body>
 </html>
+
 

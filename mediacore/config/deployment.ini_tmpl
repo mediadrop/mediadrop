@@ -44,29 +44,6 @@ deleted_files_dir = %(here)s/data/deleted
 #beaker.cache.data_dir = %(here)s/data/cache
 #beaker.session.data_dir = %(here)s/data/sessions
 
-# Enable akismet anti-spam protection by setting your API key here
-# The akismet_url is the 'blog url' you signed up with. Defaults to the app root
-# For more information see http://akismet.com/
-akismet_key =
-akismet_url =
-
-# Require a moderator's approval before publishing new comments on the site
-# If akismet is enabled, it filters out spam regardless of this setting
-req_comment_approval = false
-
-# Max size in bytes for new uploads (300 MB by default)
-max_upload_size = 314572800
-
-# If you want to use a CDN instead of storing media locally,
-# specify the FTP login info here:
-ftp_storage = false
-ftp_server = ftp.someserver.com
-ftp_user = username
-ftp_password = password
-ftp_upload_directory = media
-ftp_download_url = http://www.someserver.com/web/accessible/media/
-ftp_upload_integrity_retries = 10
-
 # Specify the layout template name to wrap core mediacore output in
 layout_template = layout
 

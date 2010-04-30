@@ -170,12 +170,12 @@ class MediaController(BaseController):
         :returns: Redirect to :meth:`view` page for media.
 
         """
-        akismet_key = config.get('akismet_key', None)
+        akismet_key = helpers.fetch_setting('akismet_key')
+        akismet_url = helpers.fetch_setting('akismet_url')
         if akismet_key:
             akismet = Akismet(agent='MediaCore/%s' % MEDIACORE_VERSION)
             akismet.key = akismet_key
-            akismet.blog_url = config.get('akismet_url',
-                                          url_for('/', qualified=True))
+            akismet.blog_url = akismet_url or url_for('/', qualified=True)
             akismet.verify_key()
             data = {'comment_author': values['name'].encode('utf-8'),
                     'user_ip': request.environ.get('REMOTE_ADDR'),
@@ -198,7 +198,7 @@ class MediaController(BaseController):
         c.subject = 'Re: %s' % media.title
         c.body = values['body']
 
-        require_review = asbool(config.get('req_comment_approval', 'false'))
+        require_review = asbool(helpers.fetch_setting('req_comment_approval'))
         if not require_review:
             c.reviewed = True
             c.publishable = True

@@ -592,7 +592,7 @@ CREATE TABLE `settings` (
   `value` text,
   PRIMARY KEY (`id`),
   UNIQUE KEY `key_index` (`key`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -601,20 +601,32 @@ CREATE TABLE `settings` (
 
 LOCK TABLES `settings` WRITE;
 /*!40000 ALTER TABLE `settings` DISABLE KEYS */;
-INSERT INTO `settings` VALUES (1,'email_media_uploaded',NULL),
-(2,'email_comment_posted',NULL),
-(3,'email_support_requests',NULL),
-(4,'email_send_from','noreply@localhost'),
-(5,'wording_user_uploads','Upload your media using the form below. We\'ll review it and get back to you.'),
-(6,'wording_additional_notes',NULL),
-(7,'popularity_decay_exponent','4'),
-(8,'popularity_decay_lifetime','36'),
-(9,'rich_text_editor','tinymce'),
-(10,'google_analytics_uacct',''),
-(11,'flash_player','flowplayer'),
-(12,'html5_player','html5'),
-(13,'player_type','best'),
-(14,'featured_category','1');
+INSERT INTO `settings` VALUES
+(NULL,'email_media_uploaded',NULL),
+(NULL,'email_comment_posted',NULL),
+(NULL,'email_support_requests',NULL),
+(NULL,'email_send_from','noreply@localhost'),
+(NULL,'wording_user_uploads','Upload your media using the form below. We\'ll review it and get back to you.'),
+(NULL,'wording_additional_notes',NULL),
+(NULL,'popularity_decay_exponent','4'),
+(NULL,'popularity_decay_lifetime','36'),
+(NULL,'rich_text_editor','tinymce'),
+(NULL,'google_analytics_uacct',''),
+(NULL,'flash_player','flowplayer'),
+(NULL,'html5_player','html5'),
+(NULL,'player_type','best'),
+(NULL,'featured_category','1'),
+(NULL, 'max_upload_size', '314572800'),
+(NULL, 'ftp_storage', 'false'),
+(NULL, 'ftp_server', 'ftp.someserver.com'),
+(NULL, 'ftp_user', 'username'),
+(NULL, 'ftp_password', 'password'),
+(NULL, 'ftp_upload_directory', 'media'),
+(NULL, 'ftp_download_url', 'http://www.someserver.com/web/accessible/media/'),
+(NULL, 'ftp_upload_integrity_retries', '10'),
+(NULL, 'akismet_key',''),
+(NULL, 'akismet_url',''),
+(NULL, 'req_comment_approval', 'false');
 /*!40000 ALTER TABLE `settings` ENABLE KEYS */;
 UNLOCK TABLES;
 

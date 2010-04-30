@@ -278,7 +278,7 @@ def _add_new_media_file(media, original_filename, file):
 
 def _store_media_file(file, file_name):
     """Copy the file to its permanent location and return its URI"""
-    if asbool(config['ftp_storage']):
+    if asbool(fetch_setting('ftp_storage')):
         # Put the file into our FTP storage, return its URL
         return _store_media_file_ftp(file, file_name)
     else:
@@ -305,15 +305,15 @@ def _store_media_file_ftp(file, file_name):
     integrity errors)
     """
     stor_cmd = 'STOR ' + file_name
-    file_url = config['ftp_download_url'] + file_name
+    file_url = fetch_setting('ftp_download_url') + file_name
 
     # Put the file into our FTP storage
-    FTPSession = ftplib.FTP(config['ftp_server'],
-                            config['ftp_username'],
-                            config['ftp_password'])
+    FTPSession = ftplib.FTP(fetch_setting('ftp_server'),
+                            fetch_setting('ftp_username'),
+                            fetch_setting('ftp_password'))
 
     try:
-        FTPSession.cwd(config['ftp_upload_path'])
+        FTPSession.cwd(fetch_setting('ftp_upload_directory'))
         FTPSession.storbinary(stor_cmd, file)
         _verify_ftp_upload_integrity(file, file_url)
     except Exception, e:
@@ -341,7 +341,7 @@ def _verify_ftp_upload_integrity(file, file_url):
     # timeout duration, if the server is particularly slow.
     # eg: Akamai usually takes 3-15 seconds to make an uploaded file
     #     available over HTTP.
-    while tries < config['ftp_upload_integrity_retries']:
+    while tries < int(fetch_setting('ftp_upload_integrity_retries')):
         time.sleep(3)
         tries += 1
         try:
