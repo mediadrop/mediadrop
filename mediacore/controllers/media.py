@@ -29,7 +29,7 @@ from akismet import Akismet
 
 from mediacore.lib.base import BaseController
 from mediacore.lib.decorators import expose, expose_xhr, paginate, validate
-from mediacore.lib.helpers import url_for, redirect
+from mediacore.lib.helpers import url_for, redirect, add_transient_message
 from mediacore.model import (DBSession, fetch_row, get_available_slug,
     Media, MediaFile, Comment, Tag, Category, Author, AuthorWithIP, Podcast)
 from mediacore.lib import helpers, email
@@ -182,8 +182,12 @@ class MediaController(BaseController):
                     'user_agent': request.environ.get('HTTP_USER_AGENT'),
                     'referrer': request.environ.get('HTTP_REFERER',  'unknown'),
                     'HTTP_ACCEPT': request.environ.get('HTTP_ACCEPT')}
+
             if akismet.comment_check(values['body'].encode('utf-8'), data):
-                redirect(action='view', commented=1, spam=1, anchor='top')
+                title = "Comment Rejected"
+                text = "Your comment appears to be spam and has been rejected."
+                add_transient_message('comment_posted', title, text)
+                redirect(action='view', anchor='top')
 
         media = fetch_row(Media, slug=slug)
 
@@ -204,8 +208,10 @@ class MediaController(BaseController):
         email.send_comment_notification(media, c)
 
         if require_review:
-            # TODO: Update this to use a local session, not a GET flag
-            redirect(action='view', commented=1, anchor='top')
+            title = "Thanks for your comment!"
+            text = "We will post it just as soon as a moderator approves it."
+            add_transient_message('comment_posted', title, text)
+            redirect(action='view', anchor='top')
         else:
             redirect(action='view', anchor='comment-%s' % c.id)
 

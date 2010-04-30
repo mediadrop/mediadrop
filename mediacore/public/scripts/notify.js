@@ -73,3 +73,23 @@ var NotificationManager = new Class({
 		this.fireEvent('onClose', [target]);
 	}
 });
+
+var getTransientNotification = function(cookie_name) {
+	var msgs = document.cookie.match('(?:^|;)\\s*' + cookie_name.escapeRegExp() + '=([^;]+)');
+	if (!msgs) { return 0; }
+	msgs = decodeURIComponent(msgs[1]);
+	document.cookie = cookie_name + '=; expires=Thu, 01-Jan-70 00:00:01 GMT; path=/'; // Delete this cookie.
+	msgs = JSON.decode(msgs);
+	$each(msgs, function(msg) {
+		var notify = new NotificationManager({
+			divClass: 'greybox',
+			okButtonClass: 'btn btn-ok f-rgt',
+			footerClass: 'btn-foot',
+			headerClass: 'italic-header',
+			header: msg['title'],
+			msg: msg['text']
+		});
+		notify.openNotify();
+	});
+	return msgs.length;
+}

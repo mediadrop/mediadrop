@@ -27,15 +27,17 @@ import time
 from PIL import Image
 from copy import copy
 from datetime import datetime
+from urllib import quote, unquote
 from urlparse import urlparse
 
 import genshi.core
 import pylons.templating
+import simplejson
 import webob.exc
 
 from BeautifulSoup import BeautifulSoup
 from paste.util import mimeparse
-from pylons import config, request, url as pylons_url
+from pylons import config, request, response, url as pylons_url
 from webhelpers import date, feedgenerator, html, number, misc, text, paginate, containers
 from webhelpers.html import tags
 from webhelpers.html.converters import format_paragraphs
@@ -662,3 +664,32 @@ def delete_files(paths, subdir=None):
                 shutil.move(path, deleted_dir)
             else:
                 os.remove(path)
+
+def add_transient_message(cookie_name, message_title, message_text):
+    """Add a message dict to the serialized list of message dicts stored in
+    the named cookie.
+
+    If there is no existing cookie, create one.
+    If there is an existing cookie, assumes that it will de-serialize into
+    a list object.
+    """
+
+    time = datetime.now().strftime('%H:%M, %B %d, %Y')
+    msg = dict(
+        time = time,
+        title = message_title,
+        text = message_text,
+    )
+    old_data = request.cookies.get(cookie_name, None)
+
+    if old_data is not None:
+        response.delete_cookie(cookie_name)
+
+    if old_data:
+        msgs = simplejson.loads(unquote(old_data))
+    else:
+        msgs = []
+    msgs.append(msg)
+    new_data = quote(simplejson.dumps(msgs))
+    response.set_cookie(cookie_name, new_data, path='/')
+
