@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 .form .form_field,
-/*.form .field_list div,*/
+/*.form .field-list div,*/
 .form .form_label {
 	margin: 10px;
 }
@@ -39,7 +39,7 @@
 	 * to the 100% input width it still fits visually */
 	padding-right: 12px;
 }
-.form .field_list > li {
+.form .field-list > li {
 	clear: both;
 	width: 100%;
 	overflow: hidden;
@@ -125,7 +125,7 @@ label .field_help {
 	color: #3c4d5a;
 	margin: 10px 10px 0 10px;
 }
-#media-form #details ul.field_list {
+#media-form #details ul.field-list {
 	position: relative;
 }
 #media-form #podcast_container {
