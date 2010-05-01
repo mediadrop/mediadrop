@@ -45,6 +45,7 @@ information is returned:
         A dict of dicts containing URLs, width and height of
         different sizes of thumbnails. The default sizes
         are 'ss', 's', 'm' and 'l'. Using medium for example::
+
             medium_url = thumbs['m']['url']
             medium_width = thumbs['m']['x']
             medium_height = thumbs['m']['y']

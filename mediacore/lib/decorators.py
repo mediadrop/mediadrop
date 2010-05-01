@@ -30,7 +30,7 @@ __all__ = ['expose', 'expose_xhr', 'paginate', 'validate']
 _func_attrs = [
     # Attributes that define useful information or context for functions
     '__dict__', '__doc__', '__name__', 'im_class', 'im_func', 'im_self',
-    'exposed' # custom attribute to allow web access
+    'template', 'exposed' # custom attribute to allow web access
 ]
 
 _pylons_kwargs = [
@@ -74,6 +74,7 @@ def _expose_wrapper(f, template):
     """Returns a function that will render the passed in function according
     to the passed in template"""
     f.exposed = True
+    f.template = template
 
     if template == "json":
         return jsonify(f)
@@ -102,12 +103,31 @@ def _expose_wrapper(f, template):
 def expose(template='string'):
     """Simple expose decorator for controller actions.
 
-    Takes a single template argument.
-    :param template: One of:
-        The path (relative to template dir) to a genshi template
-        'string'
-        'json'
+    Transparently wraps a method in a function that will render the method's
+    return value with the given template.
+
+    Sets the 'exposed' and 'template' attributes of the wrapped method,
+    marking it as safe to be accessed via HTTP request.
+
+    :Usage:
+
+    Example, using a genshi template::
+
+        class MyController(BaseController):
+
+            @expose('path/to/template.html')
+            def sample_action(self, *args):
+                # do something
+                return dict(message='Hello World!')
+
+    :param template:
+        One of:
+            * The path to a genshi template, relative to the project's
+              template directory
+            * 'string'
+            * 'json'
     :type template: string or unicode
+
     """
     def wrap(f):
         wrapped_f = _expose_wrapper(f, template)
@@ -119,11 +139,16 @@ def expose_xhr(template_norm='', template_xhr='json'):
     """
     Expose different templates for normal vs XMLHttpRequest requests.
 
-    Example::
+    :Usage:
+
+    Example, using two genshi templates:
 
         class MyController(BaseController):
-            @expose_xhr('mediacore.templates.list',
-                        'mediacore.templates.list_partial')
+
+            @expose_xhr('items/main_list.html', 'items/ajax_list.html')
+            def sample_action(self, *args):
+                # do something
+                return dict(items=get_items_list())
     """
     def wrap(f):
         norm = _expose_wrapper(f, template_norm)

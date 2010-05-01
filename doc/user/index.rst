@@ -16,8 +16,4 @@ workflows you'll be good to go!
 .. toctree::
 
    firststeps
-   media
-   podcasts
-   comments
-   settings
 

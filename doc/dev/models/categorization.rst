@@ -20,10 +20,10 @@ Tags
 Topics
 ------
 
-.. automodule:: mediacore.model.topics
+.. automodule:: mediacore.model.categories
 
-.. autoclass:: Topic
+.. autoclass:: Category
    :members:
 
-.. autofunction:: fetch_topics
+.. autofunction:: fetch_categories
 

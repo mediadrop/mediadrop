@@ -12,10 +12,3 @@ Mapped Classes
 .. autoclass:: Comment
    :members:
 
-Mapping Extensions & Helpers
-----------------------------
-
-.. autoclass:: CommentTypeExtension
-
-    .. automethod:: __init__
-

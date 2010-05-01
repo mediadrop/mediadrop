@@ -8,9 +8,9 @@ Admin Controllers
 Dashboard
 ---------
 
-.. automodule:: mediacore.controllers.admin
+.. automodule:: mediacore.controllers.admin.index
 
-.. autoclass:: AdminController
+.. autoclass:: IndexController
    :members:
    :undoc-members:
 
@@ -18,9 +18,9 @@ Dashboard
 Media
 -----
 
-.. automodule:: mediacore.controllers.mediaadmin
+.. automodule:: mediacore.controllers.admin.media
 
-.. autoclass:: MediaadminController
+.. autoclass:: MediaController
    :members:
    :undoc-members:
 
@@ -28,9 +28,9 @@ Media
 Podcasts
 --------
 
-.. automodule:: mediacore.controllers.podcastadmin
+.. automodule:: mediacore.controllers.admin.podcasts
 
-.. autoclass:: PodcastadminController
+.. autoclass:: PodcastsController
    :members:
    :undoc-members:
 
@@ -38,9 +38,9 @@ Podcasts
 Comments
 --------
 
-.. automodule:: mediacore.controllers.commentadmin
+.. automodule:: mediacore.controllers.admin.comments
 
-.. autoclass:: CommentadminController
+.. autoclass:: CommentsController
    :members:
    :undoc-members:
 
@@ -48,9 +48,9 @@ Comments
 Settings
 --------
 
-.. automodule:: mediacore.controllers.settingadmin
+.. automodule:: mediacore.controllers.admin.settings
 
-.. autoclass:: SettingadminController
+.. autoclass:: SettingsController
    :members:
    :undoc-members:
 
@@ -58,9 +58,9 @@ Settings
 User Management
 ---------------
 
-.. automodule:: mediacore.controllers.useradmin
+.. automodule:: mediacore.controllers.admin.users
 
-.. autoclass:: UseradminController
+.. autoclass:: UsersController
    :members:
    :undoc-members:
 
@@ -68,9 +68,9 @@ User Management
 Category Management
 -------------------
 
-.. automodule:: mediacore.controllers.categoryadmin
+.. automodule:: mediacore.controllers.admin.categories
 
-.. autoclass:: CategoryadminController
+.. autoclass:: CategoriesController
    :members:
    :undoc-members:
 

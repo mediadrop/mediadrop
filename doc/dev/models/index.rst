@@ -11,5 +11,4 @@ Model API
    comments
    categorization
    helpers
-   auth
 
