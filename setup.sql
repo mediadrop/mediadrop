@@ -592,7 +592,7 @@ CREATE TABLE `settings` (
   `value` text,
   PRIMARY KEY (`id`),
   UNIQUE KEY `key_index` (`key`)
-) ENGINE=InnoDB AUTO_INCREMENT DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
