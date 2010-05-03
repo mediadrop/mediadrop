@@ -511,6 +511,7 @@ class MediaFile(object):
     Represents a locally- or remotely- hosted file or an embeddable YouTube video.
 
     """
+    query = DBSession.query_property()
 
     def __repr__(self):
         return '<MediaFile: %s %s url=%s>' % (self.type, self.container, self.url)
@@ -521,6 +522,11 @@ class MediaFile(object):
 
         Defaults to 'application/octet-stream'.
         """
+        if self.container == 'mp4':
+            # TODO: Work this special case into a standard way of determining
+            #       the mimetype. This returns video/mp4 if the user has
+            #       set the type to captions, which doesn't make any sense anyway.
+            return '%s/mp4' % (self.type.startswith('audio') and 'audio' or 'video')
         return mimetype_lookup.get(self.container, default_media_mimetype)
 
     @property
