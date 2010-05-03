@@ -329,7 +329,12 @@ with a one line command, like so:
 .. sourcecode:: bash
 
    # Import initial data into an existing database named mediacore:
-   mysql -u mediacore_user -p mediacore < setup.sql
+   mysql -u root < setup.sql
+
+NOTE: Notice in the line above that the root user is used. This is required to
+create the necessary MySQL triggers for MediaCore's search functionality. It is
+planned, for a later release, to allow administrators to avoid needing root
+permissions on their database, and use SQLAlchemy triggers instead.
 
 
 Step 4: Preliminary Configuration
