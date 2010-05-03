@@ -37,7 +37,7 @@ from mediacore.forms.admin.media import AddFileForm, EditFileForm, MediaForm, Po
 from mediacore.lib import helpers
 from mediacore.lib.base import BaseController
 from mediacore.lib.decorators import expose, expose_xhr, paginate, validate
-from mediacore.lib.filetypes import external_embedded_containers, guess_media_type, playable_containers
+from mediacore.lib.filetypes import external_embedded_containers, guess_media_type, guess_container_format, playable_containers
 from mediacore.lib.helpers import redirect, url_for
 from mediacore.model import Author, Category, Media, MediaFile, Podcast, Tag, fetch_row, get_available_slug
 from mediacore.model.media import create_media_stub
@@ -324,13 +324,17 @@ class MediaController(BaseController):
                     break
             else:
                 # Check for types we can play ourselves
-                ext = os.path.splitext(url)[1].lower()[1:]
-                container = guess_container_format(ext)
+                try:
+                    ext = os.path.splitext(url)[1].lower()[1:]
+                    container = guess_container_format(ext)
+                except KeyError:
+                    container = None
                 for conts in playable_containers.itervalues():
                     if container in conts:
                         media_file.type = guess_media_type(container)
                         media_file.container = container
                         media_file.url = url
+                        media_file.display_name = os.path.basename(url)
                         data['success'] = True
                         break
                 else:
