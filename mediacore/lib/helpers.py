@@ -41,6 +41,7 @@ from pylons import config, request, response, url as pylons_url
 from webhelpers import date, feedgenerator, html, number, misc, text, paginate, containers
 from webhelpers.html import tags
 from webhelpers.html.converters import format_paragraphs
+from webob.exc import HTTPNotFound
 
 from mediacore.lib.htmlsanitizer import Cleaner, entities_to_unicode as decode_entities, encode_xhtml_entities as encode_entities
 from mediacore.lib.filetypes import accepted_extensions, pick_media_file_player
@@ -607,6 +608,7 @@ def fetch_setting(key):
     Raises a SettingNotFound exception if the key does not exist.
     """
     from mediacore.model import fetch_row, Setting
+    from mediacore.model.settings import SettingNotFound
     try:
         return fetch_row(Setting, key=unicode(key)).value
     except HTTPNotFound:
