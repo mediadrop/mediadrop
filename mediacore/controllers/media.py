@@ -120,6 +120,8 @@ class MediaController(BaseController):
 
         """
         media = fetch_row(Media, slug=slug)
+        media.increment_views()
+        DBSession.add(media)
 
         if media.podcast_id is not None:
             # Always view podcast media from a URL that shows the context of the podcast
@@ -235,10 +237,6 @@ class MediaController(BaseController):
 
         for file in media.files:
             if file.id == id and file.container == container:
-                media.increment_views()
-                DBSession.add(media)
-                DBSession.flush()
-
                 # Catch external redirects in case they aren't linked to directly
                 if file.url:
                     redirect(file.url.encode('utf-8'))
