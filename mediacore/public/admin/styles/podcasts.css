@@ -27,7 +27,6 @@
 .explicit strong, .clean strong {
 	display: none;
 }
-
 .btn-add-podcast { background-image: url('../images/buttons/add-podcast.png'); width: 120px; height: 28px; }
 .btn-add-episode { background-image: url('../images/buttons/add-episode.png'); width: 120px; height: 28px; }
 
@@ -85,8 +84,18 @@
 #podcast-form .details_fieldset .fieldlabel {
 	width: 95px;
 }
-#details_itunes_url, #details_feedburner_url, #details_copyright {
+#podcast-form .details_fieldset .fieldlabel,
+#podcast-form .details_fieldset .fieldhelp {
+	line-height: 26px;
+}
+#podcast-form .details_fieldset li {
+	clear: both;
+}
+#details_itunes_url,
+#details_feedburner_url,
+#details_copyright {
 	width: 285px;
+	float: left;
 }
 #podcast-form #details_explicit li {
 	float: left;
