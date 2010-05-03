@@ -57,6 +57,9 @@ class PodcastsController(BaseController):
             .options(orm.undefer('media_count_published'))\
             .all()
 
+        if len(podcasts) == 1:
+            redirect(action='view', slug=podcasts[0].slug)
+
         return dict(
             podcasts = podcasts,
         )
