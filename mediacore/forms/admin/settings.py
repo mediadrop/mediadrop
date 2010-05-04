@@ -169,7 +169,6 @@ class CommentsForm(ListForm):
         ListFieldSet('akismet', suppress_label=True, legend='Akismet Anti-Spam Details:', css_classes=['details_fieldset'], children=[
             TextField('akismet_key', label_text='Akismet Key'),
             TextField('akismet_url', label_text='Akismet URL'),
-            TextField('google_analytics_uacct', maxlength=255, label_text='Tracking Code'),
         ]),
         SubmitButton('save', default='Save', css_classes=['btn', 'btn-save', 'f-rgt']),
         ResetButton('cancel', default='Cancel', css_classes=['btn', 'btn-cancel']),
