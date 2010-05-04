@@ -21,6 +21,7 @@ from paste.cascade import Cascade
 from paste.registry import RegistryManager
 from paste.urlparser import StaticURLParser
 from paste.deploy.converters import asbool
+from paste.deploy.config import PrefixMiddleware
 from pylons.middleware import ErrorHandler, StatusCodeRedirect
 from pylons.wsgiapp import PylonsApp
 from routes.middleware import RoutesMiddleware
@@ -31,27 +32,17 @@ from mediacore.config.environment import load_environment
 from mediacore.lib.auth import add_auth
 from mediacore.model.meta import DBSession
 
-class FastCGIFixMiddleware(object):
-    """Remove FastCGI script name from the SCRIPT_NAME
+def setup_prefix_middleware(app, global_conf, proxy_prefix):
+    """Add prefix middleware.
 
-    mod_rewrite doesn't do a perfect job of hiding it's actions to the
-    underlying script. This means that the name of the FastCGI script is
-    prepended to the SCRIPT_NAME. This causes TurboGears routing to
-    get confused.
+    Essentially replaces request.environ[SCRIPT_NAME] with the prefix defined
+    in the .ini file.
 
-    Here we remove the FastCGI script name before any processing is done
-    and avoid any errors.
+    See: http://wiki.pylonshq.com/display/pylonsdocs/Configuration+Files#prefixmiddleware
     """
-    def __init__(self, app, config, global_conf=None):
-        self.app = app
-        self.config = config
+    app = PrefixMiddleware(app, global_conf, proxy_prefix)
+    return app
 
-    def __call__(self, environ, start_response):
-        real_path = self.config.get('fastcgi_real_path')
-        rewrite_path = self.config.get('fastcgi_rewrite_path').rstrip(os.sep)
-        environ['SCRIPT_NAME'] = \
-            environ['SCRIPT_NAME'].replace(real_path, rewrite_path)
-        return self.app(environ, start_response)
 
 class DBSessionRemoverMiddleware(object):
     """Ensure the contextual session ends at the end of the request."""
@@ -104,10 +95,6 @@ def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
     # http://wiki.pylonshq.com/display/pylonscookbook/Authorization+with+repoze.what
     app = add_auth(app, config)
 
-    # Set up the FastCGI wrapper, if requested.
-    if asbool(config.get('fastcgi', False)):
-        app = FastCGIFixMiddleware(app, config)
-
     # Set up the TW middleware, as per errors and instructions at:
     # http://groups.google.com/group/toscawidgets-discuss/browse_thread/thread/c06950b8d1f62db9
     # http://toscawidgets.org/documentation/ToscaWidgets/install/pylons_app.html
@@ -119,6 +106,11 @@ def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
     # Add transaction management
     app = make_tm(app, transaction_commit_veto)
     app = DBSessionRemoverMiddleware(app, DBSession)
+
+    # If enabled, set up the proxy prefix for routing behind
+    # fastcgi and mod_proxy based deployments.
+    if (config.get('proxy_prefix', None)):
+        app = setup_prefix_middleware(app, global_conf, config['proxy_prefix'])
 
     # END CUSTOM MIDDLEWARE
 

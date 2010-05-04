@@ -81,7 +81,32 @@ def url_for(*args, **kwargs):
     # NOTE: pylons.url is a StackedObjectProxy wrapping the routes.url method.
     url = pylons_url.current(*args, **kwargs)
 
-    # Make the replacements
+    # If the proxy_prefix config directive is set up, then we need to make sure
+    # that the SCRIPT_NAME is prepended to the URL. This SCRIPT_NAME prepending
+    # is necessary for mod_proxy'd deployments, and for FastCGI deployments.
+    # XXX: Leaking abstraction below. This code is tied closely to Routes 1.12
+    #      implementation of routes.util.URLGenerator.__call__()
+    # If the arguments given didn't describe a raw URL, then Routes 1.12 didn't
+    # prepend the SCRIPT_NAME automatically--we'll need to feed the new URL
+    # back to the routing method to prepend the SCRIPT_NAME.
+    prefix = config.get('proxy_prefix', None)
+    if prefix:
+        if args:
+            named_route = config['routes.map']._routenames.get(args[0])
+            protocol = urlparse(args[0]).scheme
+            static = not named_route and (args[0][0]=='/' or protocol)
+        else:
+            static = False
+            protocol = ''
+
+        if not static:
+            offset = 0
+            if protocol:
+                offset += len(protocol+"://")
+            path_index = url.index('/', offset)
+            url = url[:path_index] + prefix + url[path_index:]
+
+    # Make the URL string replacements based on GET vars.
     repl = request.str_GET.getall('_REP')
     repl_with = request.str_GET.getall('_RWITH')
     for i in range(0, min(len(repl), len(repl_with))):

@@ -23,15 +23,11 @@ sqlalchemy.pool_recycle = 3600
 beaker.session.secret = ${app_instance_secret}
 sa_auth.cookie_secret = ${app_instance_secret}
 
-# Host the app with mod_fastcgi?
-fastcgi = false
-# There is no need to change the paths if you are using the default .htaccess
-# Both paths are relative to the location of the .htaccess file.
-# fastcgi_real_path    - the path to your fastcgi script
-# fastcgi_rewrite_path - the path that your rewrite rules use to direct
-#                        requests to the fastcgi script.
-fastcgi_real_path = /mediacore.fcgi
-fastcgi_rewrite_path = /
+# Fastcgi and mod_proxy settings.
+# Use these if you are hosting mediacore via FastCGI or behind a proxy.
+# e.g. if hosting mediacore via mod_rewrite or mod_proxy at the URL
+# yoursite.com/my_proxied_mediacore/, you should set:
+# proxy_prefix = /my_proxied_mediacore
 
 # Data paths
 cache_dir = %(here)s/data
