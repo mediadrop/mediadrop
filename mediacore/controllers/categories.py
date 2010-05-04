@@ -12,8 +12,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-from pylons import config, request, response, session, tmpl_context
+from pylons import config, request, response, session, tmpl_context as c
 from sqlalchemy import orm, sql
 
 from mediacore.lib.base import BaseController
@@ -37,14 +36,20 @@ class CategoriesController(BaseController):
     def __init__(self, *args, **kwargs):
         super(CategoriesController, self).__init__(*args, **kwargs)
 
-        tmpl_context.categories = Category.query.order_by(Category.name)\
-            .populated_tree()
-        category_slug = request.environ['pylons.routes_dict'].get('slug', None)
+        c.categories = Category.query.order_by(Category.name).populated_tree()
 
+        counts = dict(DBSession.query(Category.id, Category.media_count_published))
+        c.category_counts = counts.copy()
+        for cat, depth in c.categories.traverse():
+            count = counts[cat.id]
+            for ancestor in cat.ancestors():
+                c.category_counts[ancestor.id] += count
+
+        category_slug = request.environ['pylons.routes_dict'].get('slug', None)
         if category_slug:
-            tmpl_context.category = fetch_row(Category, slug=category_slug)
-            tmpl_context.breadcrumb = tmpl_context.category.ancestors()
-            tmpl_context.breadcrumb.append(tmpl_context.category)
+            c.category = fetch_row(Category, slug=category_slug)
+            c.breadcrumb = c.category.ancestors()
+            c.breadcrumb.append(c.category)
 
     @expose('categories/index.html')
     def index(self, slug=None, **kwargs):
@@ -52,15 +57,15 @@ class CategoriesController(BaseController):
         media = Media.query.published()\
             .options(orm.undefer('comment_count_published'))
 
-        if tmpl_context.category:
-            media = media.in_category(tmpl_context.category)
+        if c.category:
+            media = media.in_category(c.category)
 
         latest = media.order_by(Media.publish_on.desc())
         popular = media.order_by(Media.popularity_points.desc())
 
         featured = None
         featured_cat = get_featured_category()
-        if featured_cat and featured_cat is not tmpl_context.category:
+        if featured_cat and featured_cat is not c.category:
             featured = media.in_category(featured_cat).first()
         if not featured:
             featured = popular.first()
@@ -79,7 +84,7 @@ class CategoriesController(BaseController):
     def more(self, slug, order, page=1, **kwargs):
         media = Media.query.published()\
             .options(orm.undefer('comment_count_published'))\
-            .in_category(tmpl_context.category)
+            .in_category(c.category)
 
         if order == 'latest':
             media = media.order_by(Media.publish_on.desc())
