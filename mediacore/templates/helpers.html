@@ -87,10 +87,10 @@
 			</script>
 		</py:when>
 		<py:when test="player == 'html5'" py:choose="file.type">
-			<audio py:when="audio" src="${file.play_url(qualified=qualified)}" controls="controls" height="${height}" width="${width}">
+			<audio py:when="'audio'" src="${file.play_url(qualified=qualified)}" controls="controls" height="${height}" width="${width}">
 				If your browser supported HTML5, you'd be seeing a video here instead of this text!
 			</audio>
-			<video py:when="video" src="${file.play_url(qualified=qualified)}" controls="controls" height="${height}" width="${width}">
+			<video py:when="'video'" src="${file.play_url(qualified=qualified)}" controls="controls" height="${height}" width="${width}">
 				If your browser supported HTML5, you'd be seeing a video here instead of this text!
 			</video>
 		</py:when>
