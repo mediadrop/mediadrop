@@ -100,9 +100,10 @@ def url_for(*args, **kwargs):
             protocol = ''
 
         if not static:
-            offset = 0
-            if protocol:
-                offset += len(protocol+"://")
+            if kwargs.get('qualified', False):
+                offset = len(urlparse(url).scheme+"://")
+            else:
+                offset = 0
             path_index = url.index('/', offset)
             url = url[:path_index] + prefix + url[path_index:]
 
