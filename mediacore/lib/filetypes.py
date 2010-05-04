@@ -117,16 +117,22 @@ html5_supported_containers_codecs = {
         (3.0, 'ogg', ['theora', 'vorbis']),
         (3.0, 'mp4', ['h264', 'aac']),
         (3.0, 'mp4', ['h264b', 'aacl']),
+        (3.0, 'm4v', ['h264', 'aac']),
+        (3.0, 'm4v', ['h264b', 'aacl']),
     ],
     'safari': [
         (522, 'mp4', ['h264', 'aac']), # revision 522 was introduced in version 3.0
         (522, 'mp4', ['h264b', 'aacl']),
+        (522, 'm4v', ['h264', 'aac']),
+        (522, 'm4v', ['h264b', 'aacl']),
     ],
     'iphone': [
         (0, 'mp4', ['h264b', 'aacl']),
+        (0, 'm4v', ['h264b', 'aacl']),
     ],
     'android': [
         (0, 'mp4', ['h264b', 'aacl']),
+        (0, 'm4v', ['h264b', 'aacl']),
     ],
     'unknown': []
 }
@@ -241,4 +247,3 @@ def pick_media_file_player(files):
 
     # No acceptable file/player combination could be found.
     return None, None
-
