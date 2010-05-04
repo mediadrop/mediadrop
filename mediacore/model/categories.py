@@ -32,17 +32,68 @@ categories = Table('categories', Base.metadata,
     mysql_charset='utf8'
 )
 
-def traverse(cats, depth=0):
+class CategoryNestingException(Exception):
+    pass
+
+def traverse(cats, depth=0, ancestors=None):
     """Iterate through a depth-first traversal of the given categories.
 
     Yields a 2-tuple of the :class:`Category` instance and it's
     relative depth in the tree.
 
+    :param cats: A list of :class:`Category` instances.
+    :param depth: Distance from the root
+    :param ancestors: Visited ancestors, tracked to prevent infinite
+        loops on circular nesting.
+    :type ancestors: dict
+
     """
+    if ancestors is None:
+        ancestors = {}
     for cat in cats:
+        if cat.id in ancestors:
+            raise CategoryNestingException, 'Category tree contains ' \
+                'invalid nesting: %s is a parent to one of its ' \
+                'ancestors %s.' % (cat, ancestors)
+        child_anc = ancestors.copy()
+        child_anc[cat.id] = True
+
         yield cat, depth
-        for subcat, subdepth in traverse(cat.children, depth + 1):
+        for subcat, subdepth in traverse(cat.children, depth + 1, child_anc):
             yield subcat, subdepth
+
+def populated_tree(cats):
+    """Return the root categories with children populated to any depth.
+
+    Adjacency lists are notoriously inefficient for fetching deeply
+    nested trees, and since our dataset will always be reasonably
+    small, this method should greatly improve efficiency. Only one
+    query is necessary to fetch a tree of any depth. This isn't
+    always the solution, but for some situations, it is worthwhile.
+
+    For example, printing the entire tree can be done with one query::
+
+        query = Category.query.options(undefer('media_count'))
+        for cat, depth in query.populated_tree().traverse():
+            print "    " * depth, cat.name, '(%d)' % cat.media_count
+
+    Without this method, especially with the media_count undeferred,
+    this would require a lot of extra queries for nested categories.
+
+    NOTE: If the tree contains circular nesting, the circular portion
+          of the tree will be silently omitted from the results.
+
+    """
+    roots = CategoryList()
+    children = defaultdict(list)
+    for cat in cats:
+        if cat.parent_id:
+            children[cat.parent_id].append(cat)
+        else:
+            roots.append(cat)
+    for cat in cats:
+        attributes.set_committed_value(cat, 'children', children[cat.id])
+    return roots
 
 class CategoryQuery(Query):
     traverse = traverse
@@ -56,35 +107,8 @@ class CategoryQuery(Query):
         return self.filter(Category.parent_id == None)
 
     def populated_tree(self):
-        """Return the root categories with children populated to any depth.
+        return populated_tree(self.all())
 
-        Adjacency lists are notoriously inefficient for fetching deeply
-        nested trees, and since our dataset will always be reasonably
-        small, this method should greatly improve efficiency. Only one
-        query is necessary to fetch a tree of any depth. This isn't
-        always the solution, but for some situations, it is worthwhile.
-
-        For example, printing the entire tree can be done with one query::
-
-            query = Category.query.options(undefer('media_count'))
-            for cat, depth in query.populated_tree().traverse():
-                print "    " * depth, cat.name, '(%d)' % cat.media_count
-
-        Without this method, especially with the media_count undeferred,
-        this would require a lot of extra queries for nested categories.
-
-        """
-        cats = self.all()
-        roots = CategoryList()
-        children = defaultdict(list)
-        for cat in cats:
-            if cat.parent_id:
-                children[cat.parent_id].append(cat)
-            else:
-                roots.append(cat)
-        for cat in cats:
-            attributes.set_committed_value(cat, 'children', children[cat.id])
-        return roots
 
 class CategoryList(list):
     traverse = traverse
@@ -92,6 +116,9 @@ class CategoryList(list):
 
     def __unicode__(self):
         return ', '.join(cat.name for cat in self.itervalues())
+
+    def populated_tree(self):
+        return populated_tree(self)
 
 class Category(object):
     """
@@ -141,6 +168,9 @@ class Category(object):
         ancestors = CategoryList()
         anc = self.parent
         while anc:
+            if anc is self:
+                raise CategoryNestingException, 'Category %s is defined as a ' \
+                    'parent of one of its ancestors.' % anc
             ancestors.insert(0, anc)
             anc = anc.parent
         return ancestors
@@ -148,7 +178,6 @@ class Category(object):
     def depth(self):
         """Return this category's distance from the root of the tree."""
         return len(self.ancestors())
-
 
 
 mapper(Category, categories, properties={
