@@ -42,7 +42,8 @@ Instructions
 to ``http://yourdomain.com/my_media/``. To deploy mediacore to any other
 directory of your website, the process is very simple: Instead of putting the
 files into ``/path/to/document_root/my_media``, like in the instructions below,
-put them into the folder you want to serve from.
+put them into the folder you want to serve from, and change the prefix config
+line to match.
 
 **NOTE 2:** If deploying mediacore inide an existing directory, you must make
 sure that the mediacore .htaccess file doesn't overwrite any existing
@@ -69,8 +70,15 @@ deployment to use.
    mkdir tmp
    mkdir python-egg-cache
 
-Make sure that these folders are writeable by your apache user. (Depending on
-how your server is set up, the user name may be different).
+**Permissions:**
+Now is a good time to make sure that all of the apropriate files have the
+correct permissions. The following files/directories should be writeable by
+your apache user.
+(Depending on how your server is set up, the user name may be different).
+
+1. all of the folders inside the ``/path/to/mediacore_install/data/``
+#. ``/path/to/mediacore_install/mediacore/public/images/podcasts/``
+#. ``/path/to/mediacore_install/mediacore/public/images/media/``
 
 Third, create a directory named ``my_media`` inside your website's document
 root. Copy all the files from ``/path/to/mediacore_install/deployment-scripts/mod_fastcgi``
@@ -85,6 +93,10 @@ into the new ``my_media`` directory (this includes ``.htaccess``,
 
    # Copy the deployment files
    cp /path/to/mediacore/install/deployment-scripts/mod_fastcgi/* ./my_media/
+   cp /path/to/mediacore/install/deployment-scripts/mod_fastcgi/.htaccess ./my_media/
+
+**Permissions:**
+Make sure that the ``./my_media/fastcgi.pid`` file is writeable by your apache user.
 
 Fourth, create a symbolic link (symlink) to the ``public`` directory from your
 mediacore installation:
@@ -94,8 +106,8 @@ mediacore installation:
    # Create a symlink to the public directory
    ln -sf /path/to/mediacore/install/mediacore/public ./my_media/public
 
-Finally, you'll need to edit the paths in ``my_media/mediacore.fcgi`` to point
-to your own mediacore installation and virtual environment. The **three (3)**
+Fifth, you'll need to edit the paths in ``my_media/mediacore.fcgi`` to point
+to your own mediacore installation and virtual environment. The **four (4)**
 lines you need to edit are at the top of the file, and look like this:
 
 .. sourcecode:: python
@@ -103,6 +115,16 @@ lines you need to edit are at the top of the file, and look like this:
    #!/path/to/mediacore_env/bin/python
    python_egg_cache = '/path/to/mediacore_install/data/python-egg-cache'
    deployment_config = '/path/to/mediacore_install/deployment.ini'
+   temp_dir = '/path/to/mediacore_install/data/tmp'
+
+Finally, edit one line in ``/path/to/mediacore_install/deployment.ini``. Find
+the proxy_prefix line, uncomment it, and set the prefix to ``/my_media``. This
+will ensure that the URLs generated within the application point to the right
+place:
+
+.. sourcecode:: ini
+
+   proxy_prefix = /my_media
 
 Testing Installation
 --------------------
