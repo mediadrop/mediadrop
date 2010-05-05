@@ -110,7 +110,7 @@ installation and virtual environment.
     WSGIProcessGroup mcore
 
     # Intercept all requests to /my_media/* and pass them to mediacore.wsgi
-    WSGIScriptAlias /my_media/ /path/to/mediacore_install/deployment-scripts/mod_wsgi/mediacore.wsgi
+    WSGIScriptAlias /my_media /path/to/mediacore_install/deployment-scripts/mod_wsgi/mediacore.wsgi
 
     # Make the url accessible (just in case it's not already)
     <Location "/my_media">
