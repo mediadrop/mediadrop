@@ -1,7 +1,5 @@
 -- MySQL dump 10.13  Distrib 5.1.41, for apple-darwin8.11.1 (i386)
---
--- Host: localhost    Database: mediacore
--- ------------------------------------------------------
+-- Database: mediacore
 -- Server version	5.1.41
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -45,58 +43,6 @@ INSERT INTO `categories` VALUES (1,'Example Topic','example-topic',NULL),
 (2,'Another Subject','another-subject',NULL);
 /*!40000 ALTER TABLE `categories` ENABLE KEYS */;
 UNLOCK TABLES;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = latin1 */ ;
-/*!50003 SET character_set_results = latin1 */ ;
-/*!50003 SET collation_connection  = latin1_swedish_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = '' */ ;
-DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER categories_au
-	AFTER UPDATE ON categories FOR EACH ROW
-BEGIN
-	IF OLD.name != NEW.name THEN
-		UPDATE media_fulltext
-			SET categories = TRIM(', ' FROM REPLACE(
-				CONCAT(', ', categories,   ', '),
-				CONCAT(', ', OLD.name, ', '),
-				CONCAT(', ', NEW.name, ', ')))
-			WHERE media_id IN (SELECT media_id FROM media_categories
-				WHERE category_id = OLD.id);
-	END IF;
-END */;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = latin1 */ ;
-/*!50003 SET character_set_results = latin1 */ ;
-/*!50003 SET collation_connection  = latin1_swedish_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = '' */ ;
-DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER categories_ad
-	AFTER DELETE ON categories FOR EACH ROW
-BEGIN
-	UPDATE media_fulltext
-		SET categories = TRIM(', ' FROM REPLACE(
-			CONCAT(', ', categories,   ', '),
-			CONCAT(', ', OLD.name, ', '),
-			', '))
-		WHERE media_id IN (SELECT media_id FROM media_categories
-			WHERE category_id = OLD.id);
-END */;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Table structure for table `comments`
@@ -233,78 +179,6 @@ LOCK TABLES `media` WRITE;
 INSERT INTO `media` VALUES (1,NULL,'new-media',0,0,0,NULL,'2009-12-01 19:40:23','2009-12-01 19:43:34',NULL,NULL,'New Media',NULL,'<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>',NULL,'',0,1,0,0,'Admin','admin@localhost');
 /*!40000 ALTER TABLE `media` ENABLE KEYS */;
 UNLOCK TABLES;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = latin1 */ ;
-/*!50003 SET character_set_results = latin1 */ ;
-/*!50003 SET collation_connection  = latin1_swedish_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = '' */ ;
-DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER media_ai
-	AFTER INSERT ON media FOR EACH ROW
-BEGIN
-	INSERT INTO media_fulltext
-		SET `media_id` = NEW.`id`,
-		    `title` = NEW.`title`,
-		    `subtitle` = NEW.`subtitle`,
-		    `description_plain` = NEW.`description_plain`,
-		    `notes` = NEW.`notes`,
-		    `author_name` = NEW.`author_name`,
-		    `tags` = '',
-		    `categories` = '';
-END */;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = latin1 */ ;
-/*!50003 SET character_set_results = latin1 */ ;
-/*!50003 SET collation_connection  = latin1_swedish_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = '' */ ;
-DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER media_au
-	AFTER UPDATE ON media FOR EACH ROW
-BEGIN
-	UPDATE media_fulltext
-		SET `media_id` = NEW.`id`,
-		    `title` = NEW.`title`,
-		    `subtitle` = NEW.`subtitle`,
-		    `description_plain` = NEW.`description_plain`,
-		    `notes` = NEW.`notes`,
-		    `author_name` = NEW.`author_name`
-		WHERE media_id = OLD.id;
-END */;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = latin1 */ ;
-/*!50003 SET character_set_results = latin1 */ ;
-/*!50003 SET collation_connection  = latin1_swedish_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = '' */ ;
-DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER media_ad
-	AFTER DELETE ON media FOR EACH ROW
-BEGIN
-	DELETE FROM media_fulltext WHERE media_id = OLD.id;
-END */;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Table structure for table `media_categories`
@@ -332,51 +206,6 @@ LOCK TABLES `media_categories` WRITE;
 INSERT INTO `media_categories` VALUES (1,1);
 /*!40000 ALTER TABLE `media_categories` ENABLE KEYS */;
 UNLOCK TABLES;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = latin1 */ ;
-/*!50003 SET character_set_results = latin1 */ ;
-/*!50003 SET collation_connection  = latin1_swedish_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = '' */ ;
-DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER media_categories_ai
-	AFTER INSERT ON media_categories FOR EACH ROW
-BEGIN
-	UPDATE media_fulltext
-		SET categories = CONCAT(categories, ', ', (SELECT name FROM categories WHERE id = NEW.category_id))
-		WHERE media_id = NEW.media_id;
-END */;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = latin1 */ ;
-/*!50003 SET character_set_results = latin1 */ ;
-/*!50003 SET collation_connection  = latin1_swedish_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = '' */ ;
-DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER media_categories_ad
-	AFTER DELETE ON media_categories FOR EACH ROW
-BEGIN
-	UPDATE media_fulltext
-		SET categories = TRIM(', ' FROM REPLACE(
-			CONCAT(', ', categories, ', '),
-			CONCAT(', ', (SELECT name FROM categories WHERE id = OLD.category_id), ', '),
-			', '))
-		WHERE media_id = OLD.media_id;
-END */;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Table structure for table `media_files`
@@ -470,51 +299,6 @@ LOCK TABLES `media_tags` WRITE;
 INSERT INTO `media_tags` VALUES (1,1);
 /*!40000 ALTER TABLE `media_tags` ENABLE KEYS */;
 UNLOCK TABLES;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = latin1 */ ;
-/*!50003 SET character_set_results = latin1 */ ;
-/*!50003 SET collation_connection  = latin1_swedish_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = '' */ ;
-DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER media_tags_ai
-	AFTER INSERT ON media_tags FOR EACH ROW
-BEGIN
-	UPDATE media_fulltext
-		SET tags = CONCAT(tags, ', ', (SELECT name FROM tags WHERE id = NEW.tag_id))
-		WHERE media_id = NEW.media_id;
-END */;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = latin1 */ ;
-/*!50003 SET character_set_results = latin1 */ ;
-/*!50003 SET collation_connection  = latin1_swedish_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = '' */ ;
-DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER media_tags_ad
-	AFTER DELETE ON media_tags FOR EACH ROW
-BEGIN
-	UPDATE media_fulltext
-		SET tags = TRIM(', ' FROM REPLACE(
-			CONCAT(', ', tags, ', '),
-			CONCAT(', ', (SELECT name FROM tags WHERE id = OLD.tag_id), ', '),
-			', '))
-		WHERE media_id = OLD.media_id;
-END */;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Table structure for table `permissions`
@@ -592,7 +376,7 @@ CREATE TABLE `settings` (
   `value` text,
   PRIMARY KEY (`id`),
   UNIQUE KEY `key_index` (`key`)
-) ENGINE=InnoDB AUTO_INCREMENT DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -656,58 +440,6 @@ LOCK TABLES `tags` WRITE;
 INSERT INTO `tags` VALUES (1,'hello world','hello-world');
 /*!40000 ALTER TABLE `tags` ENABLE KEYS */;
 UNLOCK TABLES;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = latin1 */ ;
-/*!50003 SET character_set_results = latin1 */ ;
-/*!50003 SET collation_connection  = latin1_swedish_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = '' */ ;
-DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER tags_au
-	AFTER UPDATE ON tags FOR EACH ROW
-BEGIN
-	IF OLD.name != NEW.name THEN
-		UPDATE media_fulltext
-			SET tags = TRIM(', ' FROM REPLACE(
-				CONCAT(', ', tags,     ', '),
-				CONCAT(', ', OLD.name, ', '),
-				CONCAT(', ', NEW.name, ', ')))
-			WHERE media_id IN (SELECT media_id FROM media_tags
-				WHERE tag_id = OLD.id);
-	END IF;
-END */;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = latin1 */ ;
-/*!50003 SET character_set_results = latin1 */ ;
-/*!50003 SET collation_connection  = latin1_swedish_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = '' */ ;
-DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER tags_ad
-	AFTER DELETE ON tags FOR EACH ROW
-BEGIN
-	UPDATE media_fulltext
-		SET tags = TRIM(', ' FROM REPLACE(
-			CONCAT(', ', tags,     ', '),
-			CONCAT(', ', OLD.name, ', '),
-			', '))
-		WHERE media_id IN (SELECT media_id FROM media_tags
-			WHERE media_id = OLD.id);
-END */;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Table structure for table `users`
@@ -775,4 +507,165 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2010-04-28 21:04:54
+
+-- Set up triggers for Search functionality --
+
+DELIMITER //
+
+-- After Media is Inserted
+-- Create a new Search row --
+DROP TRIGGER IF EXISTS media_ai//
+CREATE TRIGGER media_ai
+	AFTER INSERT ON media FOR EACH ROW
+BEGIN
+	INSERT INTO media_fulltext
+		SET `media_id` = NEW.`id`,
+		    `title` = NEW.`title`,
+		    `subtitle` = NEW.`subtitle`,
+		    `description_plain` = NEW.`description_plain`,
+		    `notes` = NEW.`notes`,
+		    `author_name` = NEW.`author_name`,
+		    `tags` = '',
+		    `categories` = '';
+END;//
+
+-- After Media is Updated
+-- Copies changes to the corresponding Search row
+DROP TRIGGER IF EXISTS media_au//
+CREATE TRIGGER media_au
+	AFTER UPDATE ON media FOR EACH ROW
+BEGIN
+	UPDATE media_fulltext
+		SET `media_id` = NEW.`id`,
+		    `title` = NEW.`title`,
+		    `subtitle` = NEW.`subtitle`,
+		    `description_plain` = NEW.`description_plain`,
+		    `notes` = NEW.`notes`,
+		    `author_name` = NEW.`author_name`
+		WHERE media_id = OLD.id;
+END;//
+
+--
+-- Deletes the corresponding Search row
+DROP TRIGGER IF EXISTS media_ad//
+CREATE TRIGGER media_ad
+	AFTER DELETE ON media FOR EACH ROW
+BEGIN
+	DELETE FROM media_fulltext WHERE media_id = OLD.id;
+END;//
+
+-- Add Tag to Media
+-- Append the tag to the Search row's tag TEXT column
+DROP TRIGGER IF EXISTS media_tags_ai//
+CREATE TRIGGER media_tags_ai
+	AFTER INSERT ON media_tags FOR EACH ROW
+BEGIN
+	UPDATE media_fulltext
+		SET tags = CONCAT(tags, ', ', (SELECT name FROM tags WHERE id = NEW.tag_id))
+		WHERE media_id = NEW.media_id;
+END;//
+
+-- Remove Tag From Media
+-- Remove the tag from the Search row's tag TEXT column
+DROP TRIGGER IF EXISTS media_tags_ad//
+CREATE TRIGGER media_tags_ad
+	AFTER DELETE ON media_tags FOR EACH ROW
+BEGIN
+	UPDATE media_fulltext
+		SET tags = TRIM(', ' FROM REPLACE(
+			CONCAT(', ', tags, ', '),
+			CONCAT(', ', (SELECT name FROM tags WHERE id = OLD.tag_id), ', '),
+			', '))
+		WHERE media_id = OLD.media_id;
+END;//
+
+-- Rename Tag
+-- Update all Search row's which use this Tag
+DROP TRIGGER IF EXISTS tags_au//
+CREATE TRIGGER tags_au
+	AFTER UPDATE ON tags FOR EACH ROW
+BEGIN
+	IF OLD.name != NEW.name THEN
+		UPDATE media_fulltext
+			SET tags = TRIM(', ' FROM REPLACE(
+				CONCAT(', ', tags,     ', '),
+				CONCAT(', ', OLD.name, ', '),
+				CONCAT(', ', NEW.name, ', ')))
+			WHERE media_id IN (SELECT media_id FROM media_tags
+				WHERE tag_id = OLD.id);
+	END IF;
+END;//
+
+-- Delete Tag
+-- Remove the tag from all Search row's which use this Tag
+DROP TRIGGER IF EXISTS tags_ad//
+CREATE TRIGGER tags_ad
+	AFTER DELETE ON tags FOR EACH ROW
+BEGIN
+	UPDATE media_fulltext
+		SET tags = TRIM(', ' FROM REPLACE(
+			CONCAT(', ', tags,     ', '),
+			CONCAT(', ', OLD.name, ', '),
+			', '))
+		WHERE media_id IN (SELECT media_id FROM media_tags
+			WHERE media_id = OLD.id);
+END;//
+
+-- Add Category to Media
+-- Append the Category to the Search row's Category TEXT column
+DROP TRIGGER IF EXISTS media_categories_ai//
+CREATE TRIGGER media_categories_ai
+	AFTER INSERT ON media_categories FOR EACH ROW
+BEGIN
+	UPDATE media_fulltext
+		SET categories = CONCAT(categories, ', ', (SELECT name FROM categories WHERE id = NEW.category_id))
+		WHERE media_id = NEW.media_id;
+END;//
+
+-- Remove Category From Media
+-- Remove the Category from the Search row's Category TEXT column
+DROP TRIGGER IF EXISTS media_categories_ad//
+CREATE TRIGGER media_categories_ad
+	AFTER DELETE ON media_categories FOR EACH ROW
+BEGIN
+	UPDATE media_fulltext
+		SET categories = TRIM(', ' FROM REPLACE(
+			CONCAT(', ', categories, ', '),
+			CONCAT(', ', (SELECT name FROM categories WHERE id = OLD.category_id), ', '),
+			', '))
+		WHERE media_id = OLD.media_id;
+END;//
+
+-- Rename Category
+-- Update all Search row's which use this Category
+DROP TRIGGER IF EXISTS categories_au//
+CREATE TRIGGER categories_au
+	AFTER UPDATE ON categories FOR EACH ROW
+BEGIN
+	IF OLD.name != NEW.name THEN
+		UPDATE media_fulltext
+			SET categories = TRIM(', ' FROM REPLACE(
+				CONCAT(', ', categories,   ', '),
+				CONCAT(', ', OLD.name, ', '),
+				CONCAT(', ', NEW.name, ', ')))
+			WHERE media_id IN (SELECT media_id FROM media_categories
+				WHERE category_id = OLD.id);
+	END IF;
+END;//
+
+-- Delete Category
+-- Remove the Category from all Search row's which use this Category
+DROP TRIGGER IF EXISTS categories_ad//
+CREATE TRIGGER categories_ad
+	AFTER DELETE ON categories FOR EACH ROW
+BEGIN
+	UPDATE media_fulltext
+		SET categories = TRIM(', ' FROM REPLACE(
+			CONCAT(', ', categories,   ', '),
+			CONCAT(', ', OLD.name, ', '),
+			', '))
+		WHERE media_id IN (SELECT media_id FROM media_categories
+			WHERE category_id = OLD.id);
+END;//
+
+DELIMITER ;

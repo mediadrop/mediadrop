@@ -329,13 +329,25 @@ with a one line command, like so:
 .. sourcecode:: bash
 
    # Import initial data into an existing database named mediacore:
-   mysql -u root < setup.sql
+   mysql -u mediacore_user -p mediacore < setup.sql
 
-**NOTE:** Notice that the root user is used in the line above. This is required
-in order to create the necessary MySQL triggers for MediaCore's search
-functionality. It is planned, for a later release, to give administrators the
-option to use SQLAlchemy based triggers instead of MySQL triggers, and thus
-avoid the need to use MySQL's root account.
+
+If you want to enable the fulltext searching shown on the demo site, you will
+need to have access to the root account for your MySQL database. Some shared
+hosts don't allow this, so we have made this feature optional. To set up the
+triggers that enable fulltext searching, import ``setup_triggers.sql`` like so:
+
+.. sourcecode:: bash
+
+   # Import fulltext search database triggers
+   mysql -u root mediacore < setup_triggers.sql
+
+**NOTE:** If you do not import ``setup_triggers.sql``, MediaCore's search
+will always return no results. You can easily disable this feature in your
+installation by removing the search form from
+``/path/to/mediacore_install/mediacore/templates/nav.html``.
+In a future release, we plan to design search so that it doesn't require
+MySQL's root account.
 
 
 Step 4: Preliminary Configuration
