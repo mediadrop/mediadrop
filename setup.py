@@ -36,7 +36,7 @@ except ImportError:
     install_requires.append('PIL >= 1.1.6')
 
 setup(
-    name='mediacore',
+    name='MediaCore',
     version=VERSION,
     description='A audio, video and podcast publication platform.',
     author='Simple Station Inc.',
