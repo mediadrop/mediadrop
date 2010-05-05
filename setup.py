@@ -20,7 +20,7 @@ install_requires = [
     'PasteDeploy == 1.3.3',
     'PasteScript == 1.7.3',
     'ToscaWidgets == 0.9.9',
-    'tw.dynforms',
+    'tw.forms == 0.9.9',
     'zope.sqlalchemy == 0.4',
     'MySQL-python >= 1.2.2',
     'BeautifulSoup == 3.0.7a',
