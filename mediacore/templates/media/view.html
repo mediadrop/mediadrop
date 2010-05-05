@@ -118,7 +118,7 @@
 			</div>
 		</py:if>
 
-		<div id="media-context" class="contextbox">
+		<div id="media-context" class="contextbox" py:if="related_media">
 			<h3 class="uppercase">Related Media</h3>
 			<ul py:replace="media_grid(related_media, thumb_size='s', desc_len=60)" />
 		</div>

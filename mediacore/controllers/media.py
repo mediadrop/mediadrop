@@ -128,10 +128,13 @@ class MediaController(BaseController):
             if url_for() != url_for(podcast_slug=media.podcast.slug):
                 redirect(podcast_slug=media.podcast.slug)
 
-        related = Media.query.published()\
-            .options(orm.undefer('comment_count_published'))\
-            .filter(Media.id != media.id)\
-            .search('>(%s) <(%s)' % (media.title, media.fulltext.tags))[:6]
+        if media.fulltext:
+            related = Media.query.published()\
+                .options(orm.undefer('comment_count_published'))\
+                .filter(Media.id != media.id)\
+                .search('>(%s) <(%s)' % (media.title, media.fulltext.tags))[:6]
+        else:
+            related = []
 
         return dict(
             media = media,
