@@ -176,7 +176,7 @@ CREATE TABLE `media` (
 
 LOCK TABLES `media` WRITE;
 /*!40000 ALTER TABLE `media` DISABLE KEYS */;
-INSERT INTO `media` VALUES (1,NULL,'new-media',0,0,0,NULL,'2009-12-01 19:40:23','2009-12-01 19:43:34',NULL,NULL,'New Media',NULL,'<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>',NULL,'',0,1,0,0,'Admin','admin@localhost');
+INSERT INTO `media` VALUES (1,NULL,'new-media',0,0,0,NULL,'2009-12-01 19:40:23','2009-12-01 19:43:34',NULL,NULL,'New Media',NULL,'<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>',NULL,'',0,1,0,0,'Admin','admin@localhost.com');
 /*!40000 ALTER TABLE `media` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -359,7 +359,7 @@ CREATE TABLE `podcasts` (
 
 LOCK TABLES `podcasts` WRITE;
 /*!40000 ALTER TABLE `podcasts` DISABLE KEYS */;
-INSERT INTO `podcasts` VALUES (1,'hello-world','2009-12-01 19:38:43','2009-12-01 19:38:43','Hello World','My very first podcast!','<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>','Technology','Admin','admin@localhost',NULL,'Copyright 2009 Xyz',NULL,NULL);
+INSERT INTO `podcasts` VALUES (1,'hello-world','2009-12-01 19:38:43','2009-12-01 19:38:43','Hello World','My very first podcast!','<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>','Technology','Admin','admin@localhost.com',NULL,'Copyright 2009 Xyz',NULL,NULL);
 /*!40000 ALTER TABLE `podcasts` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -467,7 +467,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'admin','admin@localhost','Admin','80aa2676d7501e68547d0b9a75438e94ff9b7509916fb3b7bcd7fe630a4f1bed836e82dc5eded90e','2009-12-01 19:25:12');
+INSERT INTO `users` VALUES (1,'admin','admin@localhost.com','Admin','80aa2676d7501e68547d0b9a75438e94ff9b7509916fb3b7bcd7fe630a4f1bed836e82dc5eded90e','2009-12-01 19:25:12');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
