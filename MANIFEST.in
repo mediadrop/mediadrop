@@ -1,6 +1,7 @@
 include LICENSE.txt
 include development.ini
 include setup.sql
+include setup_triggers.sql
 include mediacore/config/deployment.ini_tmpl
 include data/media/.htaccess
 include doc/Makefile
@@ -14,8 +15,15 @@ recursive-include mediacore/templates *
 recursive-include mediacore/i18n *
 recursive-include wsgi-scripts *
 recursive-exclude * *.pyc
+recursive-exclude * .*.swp
 recursive-exclude * .DS_Store
 recursive-exclude mediacore/public/images/media *.*
-include mediacore/public/images/media/.gitignore
+include mediacore/public/images/media/new*.jpg
+include mediacore/public/images/media/1s.jpg
+include mediacore/public/images/media/1m.jpg
+include mediacore/public/images/media/1l.jpg
 recursive-exclude mediacore/public/images/podcasts *.*
-include mediacore/public/images/podcasts/.gitignore
+include mediacore/public/images/podcasts/new*.jpg
+include mediacore/public/images/podcasts/1s.jpg
+include mediacore/public/images/podcasts/1m.jpg
+include mediacore/public/images/podcasts/1l.jpg
