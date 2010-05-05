@@ -16,6 +16,9 @@ install_requires = [
     'repoze.what-pylons == 1.0',
     'repoze.what-quickstart',
     'repoze.tm2 == 1.0a5',
+    'Paste == 1.7.3.1',
+    'PasteDeploy == 1.3.3',
+    'PasteScript == 1.7.3',
     'ToscaWidgets == 0.9.9',
     'tw.dynforms',
     'zope.sqlalchemy == 0.4',
@@ -23,7 +26,7 @@ install_requires = [
     'BeautifulSoup == 3.0.7a',
         # We monkeypatch this version of BeautifulSoup in mediacore.__init__
         # Patch pending: https://bugs.launchpad.net/beautifulsoup/+bug/397997
-    'akismet',
+    'akismet == 0.2.0',
 ]
 
 # PIL has some weird packaging issues (because its been around forever).
@@ -57,9 +60,6 @@ setup(
         ],
 
     install_requires=install_requires,
-    setup_requires=[
-        'PasteScript >= 1.6.3'
-    ],
     paster_plugins=[
         'PasteScript',
         'Pylons',
@@ -68,7 +68,6 @@ setup(
     test_suite='nose.collector',
     tests_require=[
         'WebTest',
-        'BeautifulSoup',
         ],
 
     packages=find_packages(exclude=['ez_setup']),
