@@ -15,7 +15,6 @@
 
 import os.path
 import shutil
-import simplejson as json
 
 import transaction
 from pylons import config, request, response, session, tmpl_context
@@ -169,7 +168,7 @@ class PodcastsController(BaseController):
         redirect(action='edit', id=podcast.id)
 
 
-    @expose()
+    @expose('json')
     @validate(thumb_form, error_handler=edit)
     def save_thumb(self, id, thumb, **values):
         """Save a thumbnail uploaded with :class:`~mediacore.forms.admin.ThumbForm`.
@@ -188,22 +187,6 @@ class PodcastsController(BaseController):
             id
                 The :attr:`~mediacore.model.podcasts.Podcast.id` which is
                 important if a new podcast has just been created.
-
-        .. note::
-
-            This method returns incorrect Content-Type headers under
-            some circumstances. It should be ``application/json``, but
-            sometimes ``text/plain`` is used instead.
-
-            This is because this method is used from the flash based
-            uploader; Swiff.Uploader (which we use) uses Flash's
-            FileReference.upload() method, which doesn't allow
-            overriding the default HTTP headers.
-
-            On windows, the default Accept header is "text/\*". This
-            means that it won't accept "application/json". Rather than
-            throw a 406 Not Acceptable response, or worse, a 500 error,
-            we've chosen to return an incorrect ``text/plain`` type.
 
         """
         if id == 'new':
@@ -243,9 +226,8 @@ class PodcastsController(BaseController):
             success = False
             message = e.message
 
-        response.headers['Content-Type'] = helpers.best_json_content_type()
-        return json.dumps(dict(
+        return dict(
             success = success,
             message = message,
             id = podcast.id,
-        ))
+        )

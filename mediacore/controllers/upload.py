@@ -37,8 +37,7 @@ from mediacore.lib import email
 from mediacore.lib.base import BaseController
 from mediacore.lib.decorators import expose, expose_xhr, paginate, validate
 from mediacore.lib.filetypes import external_embedded_containers, guess_container_format, guess_media_type
-from mediacore.lib.helpers import (redirect, url_for, best_json_content_type,
-    create_default_thumbs_for, fetch_setting)
+from mediacore.lib.helpers import redirect, url_for, create_default_thumbs_for, fetch_setting
 from mediacore.model import (fetch_row, get_available_slug,
     Media, MediaFile, Comment, Tag, Category, Author, AuthorWithIP, Podcast)
 from mediacore.model.meta import DBSession
@@ -84,7 +83,7 @@ class UploadController(BaseController):
             form_values = kwargs,
         )
 
-    @expose()
+    @expose('json')
     @validate(upload_form)
     def submit_async(self, **kwargs):
         """Ajax form validation and/or submission.
@@ -112,22 +111,6 @@ class UploadController(BaseController):
                 bool
             redirect
                 If valid, the redirect url for the upload successful page.
-
-        .. note::
-
-            This method returns an incorrect Content-Type header under
-            some circumstances. It should be ``application/json``, but
-            sometimes ``text/plain`` is used instead.
-
-            This is because this method is used from the flash based
-            uploader; Swiff.Uploader (which we use) uses Flash's
-            FileReference.upload() method, which doesn't allow
-            overriding the default HTTP headers.
-
-            On windows, the default Accept header is "text/\*". This
-            means that it won't accept "application/json". Rather than
-            throw a 406 Not Acceptable response, or worse, a 500 error,
-            we've chosen to return an incorrect ``text/plain`` type.
 
         """
         if 'validate' in kwargs:
@@ -164,8 +147,7 @@ class UploadController(BaseController):
                     redirect = url_for(action='success')
                 )
 
-        response.headers['Content-Type'] = best_json_content_type()
-        return json.dumps(data)
+        return data
 
     @expose()
     @validate(upload_form, error_handler=index)

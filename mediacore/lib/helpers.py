@@ -518,33 +518,6 @@ def create_default_thumbs_for(item):
         dst_file = thumb_path(item, key)
         shutil.copyfile(src_file, dst_file)
 
-def best_json_content_type(accept=None, raise_exc=True):
-    """Return the best possible JSON header we can return for a client.
-
-    Sometimes we want to return JSON as ``text/plain``: on windows,
-    Flash uploads always request ``text/\*`` so the proper
-    ``application/json`` header won't work.
-
-    :param accept: An HTTP Accept header, defaults to that of the
-        current request.
-    :type accept: string
-    :param raise_exc: By default an webob.exc.HTTPNotAcceptable header
-        will be raised if the given Accept header does not match any of
-        the possible JSON content types.
-    :type raise_exc: bool
-    :raises webob.exc.HTTPNotAcceptable: If `raise_exc` is True
-        and the given Accept header doesn't work for our json types.
-    :returns: mimetype
-    :rtype: string
-
-    """
-    desired_matches = mimeparse.desired_matches(
-        ['application/json', 'text/plain'],
-        accept or request.environ.get('HTTP_ACCEPT', '*/*'))
-    if raise_exc and not desired_matches:
-        raise webob.exc.HTTPNotAcceptable # 406
-    return desired_matches[0]
-
 def append_class_attr(attrs, class_name):
     """Append to the class for any input that Genshi's py:attrs understands.
 
