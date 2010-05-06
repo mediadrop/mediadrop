@@ -118,7 +118,7 @@ installation and virtual environment.
     </Location>
 
     # Make the wsgi script accessible
-    <Directory /path/to/mediacore_install/wsgi-scripts>
+    <Directory /path/to/mediacore_install/deployment-scripts/mod_wsgi>
         Order allow,deny
         Allow from all
     </Directory>
