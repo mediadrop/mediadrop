@@ -279,10 +279,11 @@ class MediaController(BaseController):
         featured = None
         featured_cat = helpers.get_featured_category()
         if featured_cat:
-            featured = media.in_category(featured_cat).first()
+            featured = latest.in_category(featured_cat)
         if not featured:
-            featured = popular.first()
+            featured = popular
 
+        featured = featured.first()
         latest = latest.exclude(featured)[:5]
         popular = popular.exclude(latest, featured)[:8]
 

@@ -65,11 +65,12 @@ class CategoriesController(BaseController):
 
         featured = None
         featured_cat = get_featured_category()
-        if featured_cat and featured_cat is not c.category:
-            featured = media.in_category(featured_cat).first()
+        if featured_cat:
+            featured = latest.in_category(featured_cat)
         if not featured:
-            featured = popular.first()
+            featured = popular
 
+        featured = featured.first()
         latest = latest.exclude(featured)[:5]
         popular = popular.exclude(latest, featured)[:5]
 
