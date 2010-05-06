@@ -197,20 +197,21 @@ def supported_html5_types():
     return html5_options
 
 def guess_container_format(extension):
-    """Returns the most likely container format based on the file extension.
-
-    Precondition: extension must be an 'accepted extension'.
+    """Return the most likely container format based on the file extension.
 
     :param extension: the file extension, without a preceding period.
     :type extension: string
-    :rtype: string
+    :rtype: string or None
     """
-    mt = mimetype_lookup[extension]
-    cf = container_lookup[mt]
-    return cf
+    try:
+        mt = mimetype_lookup[extension]
+        cf = container_lookup[mt]
+        return cf
+    except KeyError:
+        return None
 
 def guess_media_type(container):
-    """Returns the most likely media type based on the container format.
+    """Return the most likely media type based on the container format.
     """
     if container in ('mp3', 'flac', 'f4a', 'm4a'):
         return 'audio'
