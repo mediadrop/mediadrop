@@ -54,7 +54,7 @@
 	font-size: 108%;
 	font-weight: bold;
 	color: #3c4d5a;
-	margin: 10px 10px 0 10px;
+	margin: 10px 10px 0 0;
 }
 .details_fieldset .fieldlabel,
 .details_fieldset .fieldhelp {
