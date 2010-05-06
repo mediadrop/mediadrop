@@ -55,9 +55,9 @@ class NotificationsForm(ListForm):
 
     fields = [
         ListFieldSet('email', suppress_label=True, legend='Email Notifications:', css_classes=['details_fieldset'], children=[
-            TextField('email_media_uploaded', validator=email_list_validator, maxlength=255),
-            TextField('email_comment_posted', validator=email_list_validator, maxlength=255),
-            TextField('email_support_requests', validator=email_list_validator, maxlength=255),
+            TextField('email_media_uploaded', validator=email_list_validator, label_text='Media Uploaded', maxlength=255),
+            TextField('email_comment_posted', validator=email_list_validator, label_text='Comment Posted', maxlength=255),
+            TextField('email_support_requests', validator=email_list_validator, label_text='Support Requested', maxlength=255),
             TextField('email_send_from', validator=email_validator, label_text='Send Emails From', maxlength=255),
         ]),
         SubmitButton('save', default='Save', css_classes=['btn', 'btn-save', 'f-rgt']),
@@ -111,8 +111,8 @@ class PopularityForm(ListForm):
             css_classes=['details_fieldset'],
             legend='Popularity Algorithm Variables:',
             children=[
-                TextField('popularity_decay_exponent', validator=Int(not_empty=True, min=1)),
-                TextField('popularity_decay_lifetime', validator=Int(not_empty=True, min=1)),
+                TextField('popularity_decay_exponent', validator=Int(not_empty=True, min=1), label_text='Decay Exponent'),
+                TextField('popularity_decay_lifetime', validator=Int(not_empty=True, min=1), label_text='Decay Lifetime'),
             ]
         ),
         SubmitButton('save', default='Save', css_classes=['btn', 'btn-save', 'f-rgt']),

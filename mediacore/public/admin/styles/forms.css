@@ -63,6 +63,8 @@
 	font-weight: normal;
 	display: block;
 	width: 60px;
+	margin-top: 5px;
+	margin-bottom: 5px;
 }
 .details_fieldset .fieldhelp {
 	width: auto;
@@ -71,6 +73,7 @@
 .details_fieldset > ul > li {
 	margin-bottom: 5px;
 	padding: 5px 0;
+	clear: both;
 }
 label .field_help {
 	font-weight: normal;
