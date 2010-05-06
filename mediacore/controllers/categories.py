@@ -62,15 +62,14 @@ class CategoriesController(BaseController):
 
         latest = media.order_by(Media.publish_on.desc())
         popular = media.order_by(Media.popularity_points.desc())
-
         featured = None
+
         featured_cat = get_featured_category()
         if featured_cat:
-            featured = latest.in_category(featured_cat)
+            featured = latest.in_category(featured_cat).first()
         if not featured:
-            featured = popular
+            featured = popular.first()
 
-        featured = featured.first()
         latest = latest.exclude(featured)[:5]
         popular = popular.exclude(latest, featured)[:5]
 
