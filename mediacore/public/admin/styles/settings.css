@@ -82,7 +82,7 @@ ul#settings-menu a {
 /* Categories and tags */
 .btn-add-category { background-image: url('../images/buttons/add-category.png'); width: 124px; height: 28px; }
 .btn-add-tag { background-image: url('../images/buttons/add-tag.png'); width: 91px; height: 28px; }
-#category-table .first-child {
+#category-table .first-child td {
 	background: url('../images/layout/inset-shadow.png') repeat-x top;
 }
 #sbox-content #add-box .box-content,
