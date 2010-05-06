@@ -285,6 +285,7 @@ var FileManager = new Class({
 	modal: null,
 	thead: null,
 	tbody: null,
+	durationInputs: [],
 
 	initialize: function(container, opts){
 		this.setOptions(opts);
@@ -312,6 +313,11 @@ var FileManager = new Class({
 	_attachFile: function(row){
 		row.getElement('input.file-delete').addEvent('click', this.editFile.bind(this));
 		row.getElement('select[name=file_type]').addEvent('change', this.editFile.bind(this));
+		var duration = row.getElement('input[name=duration]').addEvents({
+			keyup: this.syncDurations.bind(this),
+			blur: this.editFile.bind(this)
+		});
+		this.durationInputs.push(duration);
 		return row;
 	},
 
@@ -421,8 +427,18 @@ var FileManager = new Class({
 			this.updateDisplay();
 			return this.fireEvent('fileDeleted', [json, row]);
 		} else {
+			if (json.duration) this.syncDurations(json.duration);
 			row.className = json.file_type;
 			return this.fireEvent('fileEdited', [json, row, target]);
+		}
+	},
+
+	syncDurations: function(eOrValue){
+		if ($type(eOrValue) == 'event') var e = new Event(eOrValue), target = $(e.target), value = target.get('value');
+		else var target, value = eOrValue;
+		for (var input, i = 0, l = this.durationInputs.length; i < l; i++) {
+			input = this.durationInputs[i];
+			if (input != target) input.set('value', value);
 		}
 	},
 
@@ -492,6 +508,7 @@ var FileManager = new Class({
 		file.ui = new Hash({
 			name: new Element('td', {headers: 'thf-name', text: file.name}),
 			size: new Element('td', {headers: 'thf-size', text: (file.size == '-') ? '-' : Swiff.Uploader.formatUnit(file.size, 'b')}),
+			duration: new Element('td', {headers: 'thf-duration', text: '-'}),
 			type: new Element('td', {headers: 'thf-type', text: file.typeText || 'Queued'}),
 			del: new Element('td', {headers: 'thf-delete'}).grab(cancelBtn)
 		});

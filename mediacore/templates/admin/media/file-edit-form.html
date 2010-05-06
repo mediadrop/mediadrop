@@ -24,6 +24,7 @@
 		</a>
 	</td>
 	<td headers="thf-size">${h.pretty_file_size(file.size)}</td>
+	<td headers="thf-duration" py:with="field = children['duration']" py:content="field.display(value_for(field) or file.media.duration, **args_for(field))" />
 	<td headers="thf-type" py:with="field = children['file_type']" py:content="field.display(value_for(field) or file.type, **args_for(field))" />
 	<td headers="thf-delete" py:with="field = children['delete']" py:content="field.display(value_for(field), **args_for(field))" />
 </tr>

@@ -169,9 +169,6 @@ class MediaController(BaseController):
                 tags = ', '.join((tag.name for tag in media.tags)),
                 categories = [category.id for category in media.categories],
                 notes = media.notes,
-                details = dict(
-                    duration = media.duration, # validator converts secs to hh:mm:ss
-                ),
             )
 
         # Re-verify the state of our Media object in case the data is nonsensical
@@ -200,7 +197,7 @@ class MediaController(BaseController):
     @expose()
     @validate(media_form, error_handler=edit)
     def save(self, id, slug, title, author_name, author_email,
-             description, notes, details, podcast, tags, categories,
+             description, notes, podcast, tags, categories,
              delete=None, **kwargs):
         """Save changes or create a new :class:`~mediacore.model.media.Media` instance.
 
@@ -231,7 +228,6 @@ class MediaController(BaseController):
         media.author = Author(author_name, author_email)
         media.description = description
         media.notes = notes
-        media.duration = details['duration'] # validator converts hh:mm:ss to secs
         media.podcast_id = podcast
         media.set_tags(tags)
         media.set_categories(categories)
@@ -354,10 +350,16 @@ class MediaController(BaseController):
 
     @expose('json')
     @validate(validators={'file_id': validators.Int()})
-    def edit_file(self, id, file_id, file_type=None, delete=None, **kwargs):
+    def edit_file(self, id, file_id, file_type=None, duration=None, delete=None, **kwargs):
         """Save action for the :class:`~mediacore.forms.admin.media.EditFileForm`.
 
         Changes or delets a :class:`~mediacore.model.media.MediaFile`.
+
+        TODO: Use the form validators to validate this form. We only
+              POST one field at a time, so the validate decorator doesn't
+              work, because it doesn't work for partial validation, because
+              none of the kwargs are updated if an Invalid exception is
+              raised by any validator.
 
         :param id: Media ID
         :type id: :class:`int`
@@ -376,14 +378,26 @@ class MediaController(BaseController):
         data = dict(success=False)
 
         try:
-            file = [file for file in media.files if file.id == int(file_id)][0]
+            file = [file for file in media.files if file.id == file_id][0]
         except IndexError:
-            data['message'] = 'File no longer exists.'
+            file = None
 
-        if file_type:
+        if file is None:
+            data['message'] = 'File "%s" does not exist.' % file_id
+        elif file_type:
             file.type = file_type
             DBSession.add(file)
             data['success'] = True
+        elif duration is not None:
+            try:
+                duration = helpers.duration_to_seconds(duration)
+            except ValueError:
+                data['message'] = 'Bad duration formatting, use Hour:Min:Sec'
+            else:
+                media.duration = duration
+                DBSession.add(media)
+                data['success'] = True
+                data['duration'] = helpers.duration_from_seconds(duration)
         elif delete:
             file_path = file.file_path
             DBSession.delete(file)

@@ -125,6 +125,14 @@ a.published { background-image: url('../images/statuses/published-both.png'); }
 #fmgr td[headers='thf-delete'] {
 	padding-left: 2px;
 }
+#fmgr th#thf-duration,
+#fmgr td[headers='thf-duration'] {
+	text-align: center;
+}
+#fmgr input[name="duration"] {
+	width: 50px;
+	text-align: right;
+}
 #fmgr select[name="file_type"] {
 	width: 105px;
 	padding-right: 5px;

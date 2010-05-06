@@ -14,8 +14,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from tw.api import WidgetsList
-import formencode
-from formencode.validators import URL
+from formencode.validators import FancyValidator, URL
 from tw.forms import HiddenField, RadioButtonList, SingleSelectField
 from tw.forms.core import DefaultValidator
 from tw.forms.validators import Int, StringBool, NotEmpty, DateTimeConverter, FieldStorageUploadConverter, OneOf
@@ -24,6 +23,21 @@ from mediacore.lib import helpers
 from mediacore.forms import FileField, Form, ListFieldSet, ListForm, SubmitButton, TextArea, TextField, XHTMLTextArea, email_validator
 from mediacore.forms.admin.categories import CategoryCheckBoxList
 from mediacore.model import Category, DBSession, MediaFile, Podcast
+
+class DurationValidator(FancyValidator):
+    """
+    Duration to Seconds Converter
+    """
+    def _to_python(self, value, state=None):
+        try:
+            return helpers.duration_to_seconds(value)
+        except ValueError:
+            raise formencode.Invalid('Please use the format HH:MM:SS',
+                                     value, state)
+
+    def _from_python(self, value, state):
+        return helpers.duration_from_seconds(value)
+
 
 class AddFileForm(ListForm):
     template = 'mediacore.templates.admin.media.file-add-form'
@@ -45,22 +59,8 @@ class EditFileForm(ListForm):
 
     class fields(WidgetsList):
         file_type = SingleSelectField(options=file_type_options, attrs={'id': None, 'autocomplete': 'off'})
+        duration = TextField(validator=DurationValidator, attrs={'id': None, 'autocomplete': 'off'})
         delete = SubmitButton(default='Delete file', named_button=True, css_class='file-delete', attrs={'id': None})
-
-
-class DurationValidator(formencode.FancyValidator):
-    """
-    Duration to Seconds Converter
-    """
-    def _to_python(self, value, state):
-        try:
-            return helpers.duration_to_seconds(value)
-        except ValueError:
-            raise formencode.Invalid('Please use the format HH:MM:SS',
-                                     value, state)
-
-    def _from_python(self, value, state):
-        return helpers.duration_from_seconds(value)
 
 
 class MediaForm(ListForm):
@@ -78,12 +78,9 @@ class MediaForm(ListForm):
         TextField('author_name', maxlength=50),
         TextField('author_email', validator=email_validator(not_empty=True), maxlength=255),
         XHTMLTextArea('description', attrs=dict(rows=5, cols=25)),
-        TextArea('notes', label_text='Additional Notes', attrs=dict(rows=3, cols=25), default=lambda: helpers.fetch_setting('wording_additional_notes')),
         CategoryCheckBoxList('categories', options=lambda: DBSession.query(Category.id, Category.name).all()),
         TextArea('tags', attrs=dict(rows=3, cols=15), help_text=u'e.g.: puppies, great dane, adorable'),
-        ListFieldSet('details', suppress_label=True, legend='Media Details:', css_classes=['details_fieldset'], children=[
-            TextField('duration', validator=DurationValidator),
-        ]),
+        TextArea('notes', label_text='Additional Notes', attrs=dict(rows=3, cols=25), default=lambda: helpers.fetch_setting('wording_additional_notes')),
         SubmitButton('save', default='Save', named_button=True, css_classes=['btn', 'btn-save', 'f-rgt']),
         SubmitButton('delete', default='Delete', named_button=True, css_classes=['btn', 'btn-delete']),
     ]
