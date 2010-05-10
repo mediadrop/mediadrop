@@ -23,7 +23,6 @@
 <head>
 	<title>Media<py:if test="podcast_filter_title is not None"> for ${podcast_filter_title}</py:if></title>
 	<link href="${h.url_for('/admin/styles/media.css')}" media="screen" rel="stylesheet" type="text/css" />
-	<link href="${h.url_for('/admin/styles/videos.css')}" media="screen" rel="stylesheet" type="text/css" />
 	<script type="text/javascript">
 		window.addEvent('domready', function(){
 			$('podcast_filter').addEvent('change', function(){$('podcastfilterform').submit();});
