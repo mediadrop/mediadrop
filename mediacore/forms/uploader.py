@@ -33,9 +33,6 @@ validators = dict(
         messages = {'empty': "You've gotta have a name!"},
         not_empty = True,
     ),
-    tags = TextField.validator(
-        not_empty = False,
-    ),
     title = TextField.validator(
         messages = {'empty': "You've gotta have a title!"},
         not_empty = True,
@@ -68,7 +65,6 @@ class UploadForm(ListForm):
         email = TextField(validator=email_validator(not_empty=True), label_text='Your Email:', help_text='(will never be published)', maxlength=255)
         title = TextField(validator=validators['title'], label_text='Title:', maxlength=255)
         description = XHTMLTextArea(validator=validators['description'], label_text='Description:', attrs=dict(rows=5, cols=25))
-        tags = TextField(validator=validators['tags'], label_text='Tags:', help_text='(optional) e.g.: puppies, great dane, adorable')
         url = TextField(validator=EmbedURLValidator(if_missing=None), label_text='Add a YouTube, Vimeo or Google Video URL:', maxlength=255)
         file = FileField(validator=FieldStorageUploadConverter(if_missing=None, messages={'empty':'Oops! You forgot to enter a file.'}), label_text='OR:')
         submit = SubmitButton(show_error=False, css_classes=['btn', 'btn-submit'])
