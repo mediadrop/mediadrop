@@ -45,7 +45,7 @@ from mediacore.model.comments import Comment, CommentQuery, comments
 from mediacore.model.tags import Tag, TagList, tags, extract_tags, fetch_and_create_tags
 from mediacore.model.categories import Category, CategoryList, categories, fetch_categories
 from mediacore.lib import helpers
-from mediacore.lib.filetypes import default_media_mimetype, external_embedded_containers, mimetype_lookup, playable_containers
+from mediacore.lib.filetypes import external_embedded_containers, guess_mimetype, pick_media_file_player
 
 class MediaException(Exception): pass
 class MediaFileException(MediaException): pass
@@ -392,20 +392,19 @@ class Media(object):
             self.reviewed = False
 
     def _validate_encoding_status(self):
-        if self.files:
-            if not self.type:    # Sanity check
-                self.update_type()
-            for file in self.files:
-                if file.container in playable_containers[self.type]:
-                    self.encoded = True
-                    return True
-            if self.podcast_id is None:
-                for file in self.files:
-                    if file.embed:
-                        self.encoded = True
-                        return True
-        self.encoded = False
-        return False
+        # Test to see if we can find a workable file/player conbination
+        # for the most common podcasting app w/ the POOREST format support
+        if self.podcast_id \
+        and not pick_media_file_player(self.files, browser='itunes')[0]:
+            self.encoded = False
+            return False
+        # Test to see if we can find a workable file/player conbination
+        # for the browser w/ the BEST format support
+        if not pick_media_file_player(self.files, browser='chrome')[0]:
+            self.encoded = False
+            return False
+        self.encoded = True
+        return True
 
     def _validate_publish_status(self):
         if not self.reviewed or not self.encoded:
@@ -522,12 +521,10 @@ class MediaFile(object):
 
         Defaults to 'application/octet-stream'.
         """
-        if self.container == 'mp4':
-            # TODO: Work this special case into a standard way of determining
-            #       the mimetype. This returns video/mp4 if the user has
-            #       set the type to captions, which doesn't make any sense anyway.
-            return '%s/mp4' % (self.type.startswith('audio') and 'audio' or 'video')
-        return mimetype_lookup.get(self.container, default_media_mimetype)
+        type = self.type
+        if type == 'audio_desc':
+            type = 'audio'
+        return guess_mimetype(self.container, type)
 
     @property
     def file_path(self):

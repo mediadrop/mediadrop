@@ -18,12 +18,16 @@ from pylons import config, request
 
 __all__ = [
     'accepted_extensions',
-    'external_embedded_containers',
     'guess_container_format'
     'guess_media_type',
-    'mimetype_lookup',
-    'playable_containers',
+    'guess_mimetype',
+    'parse_embed_url',
+    'pick_media_file_player',
 ]
+
+AUDIO = 'audio'
+VIDEO = 'video'
+CAPTIONS = 'captions'
 
 # Mimetypes for all file extensions accepted by the front and backend uploaders
 #
@@ -37,75 +41,100 @@ __all__ = [
 # TODO: Replace with a more complete list or (even better) change the logic
 #       to detect mimetypes from something other than the file extension.
 mimetype_lookup = {
-    'm4a':  'audio/mp4',
-    'm4v':  'video/mp4',
-    'mp3':  'audio/mpeg',
-    'mp4':  'audio/mp4', # This is not strictly true. It could contain video.
     'flac': 'audio/flac',
-    '3gp':  'video/3gpp',
-    '3g2':  'video/3gpp',
+    'mp3':  'audio/mpeg',
+    'mp4':  '%s/mp4',
+    'm4a':  '%s/mp4',
+    'm4v':  '%s/mp4',
+    'ogg':  '%s/ogg',
+    '3gp':  '%s/3gpp',
+    '3g2':  '%s/3gpp',
     'divx': 'video/mpeg',
     'dv':   'video/x-dv',
     'dvx':  'video/mpeg',
     'flv':  'video/x-flv', # made up, it's what everyone uses anyway.
     'mov':  'video/quicktime',
-    'mpeg': 'video/mpeg',
-    'mpg':  'video/mpeg',
+    'mpeg': '%s/mpeg',
+    'mpg':  '%s/mpeg',
     'qt':   'video/quicktime',
-    'vob':  'video/x-vob', # multiplexed container format
+    'vob':  '%s/x-vob', # multiplexed container format
     'wmv':  'video/x-ms-wmv',
+    'xml':  'application/ttml+xml',
+    'srt':  'text/plain',
 }
 
 # Default container format (and also file extension) for each mimetype we allow
 # users to upload.
 container_lookup = {
-    'audio/flac':      'flac',
-    'audio/mp4':       'm4a',
-    'audio/mpeg':      'mp3',
-    'video/3gpp':      '3gp',
-    'video/mp4':       'm4v',
-    'video/mpeg':      'mpg',
+    'audio/flac': 'flac',
+    'audio/mp4': 'mp4',
+    'audio/mpeg': 'mp3',
+    'audio/ogg': 'ogg',
+    'video/3gpp': '3gp',
+    'video/mp4': 'mp4',
+    'video/mpeg': 'mpg',
+    'video/ogg': 'ogg',
     'video/quicktime': 'mov',
-    'video/x-dv':      'dv',
-    'video/x-flv':     'flv',
-    'video/x-ms-wmv':  'wmv',
-    'video/x-vob':     'vob',
+    'video/x-dv': 'dv',
+    'video/x-flv': 'flv',
+    'video/x-ms-wmv': 'wmv',
+    'video/x-vob': 'vob',
+    'application/ttml+xml': 'xml',
+    'text/plain': 'srt',
 }
 
 # When media_obj.container doesn't match a key in the mimetype_lookup dict...
 default_media_mimetype = 'application/octet-stream'
 
-external_embedded_containers = {
-    'youtube': {
-        'play': 'http://youtube.com/v/%s',
-        'link': 'http://youtube.com/watch?v=%s',
-        'pattern': re.compile('^(http(s?)://)?(\w+.)?youtube.com/watch\?(.*&)?v=(?P<id>[^&#]+)')
-    },
-    'google': {
-        'play': 'http://video.google.com/googleplayer.swf?docid=%s&hl=en&fs=true',
-        'link': 'http://video.google.com/videoplay?docid=%s',
-        'pattern': re.compile('^(http(s?)://)?video.google.com/videoplay\?(.*&)?docid=(?P<id>-\d+)')
-    },
-    'vimeo': {
-        'play': 'http://vimeo.com/moogaloop.swf?clip_id=%s&server=vimeo.com&show_title=1&show_byline=1&show_portrait=0&color=&fullscreen=1',
-        'link': 'http://vimeo.com/%s',
-        'pattern': re.compile('^(http(s?)://)?(www.)?vimeo.com/(?P<id>\d+)')
-    },
+# File extension map to audio, video or captions
+guess_media_type_map = {
+    'mp3':  AUDIO,
+    'm4a':  AUDIO,
+    'flac': AUDIO,
+    'mp4':  VIDEO,
+    'm4v':  VIDEO,
+    'ogg':  VIDEO,
+    '3gp':  VIDEO,
+    '3g2':  VIDEO,
+    'divx': VIDEO,
+    'dv':   VIDEO,
+    'dvx':  VIDEO,
+    'flv':  VIDEO,
+    'mov':  VIDEO,
+    'mpeg': VIDEO,
+    'mpg':  VIDEO,
+    'qt':   VIDEO,
+    'vob':  VIDEO,
+    'wmv':  VIDEO,
+    'xml':  CAPTIONS,
+    'srt':  CAPTIONS,
 }
 
-# The container types that will be considered to be 'encoded', and thus ready
-# for playing, when they are uploaded.
-playable_containers = {
-    'audio': ('mp3', 'mp4', 'm4a'),
-    'video': ('flv', 'mp4', 'm4v'),
-    None: (),
+# Patterns for embedding third party video which extract the video ID
+external_embedded_containers = {
+    'youtube': {
+        'pattern': re.compile('^(http(s?)://)?(\w+.)?youtube.com/watch\?(.*&)?v=(?P<id>[^&#]+)'),
+        'play': 'http://youtube.com/v/%s',
+        'link': 'http://youtube.com/watch?v=%s',
+        'type': VIDEO,
+    },
+    'google': {
+        'pattern': re.compile('^(http(s?)://)?video.google.com/videoplay\?(.*&)?docid=(?P<id>-\d+)'),
+        'play': 'http://video.google.com/googleplayer.swf?docid=%s&hl=en&fs=true',
+        'link': 'http://video.google.com/videoplay?docid=%s',
+        'type': VIDEO,
+    },
+    'vimeo': {
+        'pattern': re.compile('^(http(s?)://)?(www.)?vimeo.com/(?P<id>\d+)'),
+        'play': 'http://vimeo.com/moogaloop.swf?clip_id=%s&server=vimeo.com&show_title=1&show_byline=1&show_portrait=0&color=&fullscreen=1',
+        'link': 'http://vimeo.com/%s',
+        'type': VIDEO,
+    },
 }
 
 # The list of file extensions that flash should recognize and be able to play.
-# XXX: not all files with extensions matched here will be considered playable,
-#      as the associated media files may not be considered 'encoded' as per the
-#      playable_containers dict.
-flash_supported_containers = ('mp3', 'mp4', 'm4v', 'm4a', 'flv', 'f4v', 'f4p', 'f4a', 'f4b', 'flac')
+flash_supported_containers = ('mp3', 'mp4', 'm4v', 'm4a', 'flv', 'flac')
+flash_supported_browsers = ('firefox', 'opera', 'chrome', 'safari', 'unknown')
 
 # Container and Codec support for HTML5 tag in various browsers.
 # The following list taken from http://diveintohtml5.org/video.html#what-works
@@ -118,10 +147,11 @@ flash_supported_containers = ('mp3', 'mp4', 'm4v', 'm4a', 'flv', 'f4v', 'f4p', '
 #        are ignored by the actual logic in pick_media_file_player() below.
 #        If the media file in question has a container type that /might/ hold
 #        a supported codec for the platform, we assume it will work.
+#        Furthermore, the list of codec support is very incomplete.
 # XXX: not all container types here will be be considered playable by the
 #      system, as the associated media files will not be marked 'encoded' as
 #      per the playable_containers dict.
-html5_supported_containers_codecs = {
+native_supported_containers_codecs = {
     'firefox': [
         (3.5, 'ogg', ['theora', 'vorbis']),
     ],
@@ -131,25 +161,35 @@ html5_supported_containers_codecs = {
     'chrome': [
         (3.0, 'ogg', ['theora', 'vorbis']),
         (3.0, 'mp4', ['h264', 'aac']),
-        (3.0, 'mp4', ['h264b', 'aacl']),
         (3.0, 'm4v', ['h264', 'aac']),
-        (3.0, 'm4v', ['h264b', 'aacl']),
+        (3.0, 'm4a', []),
+        (3.0, 'mp3', []),
     ],
     'safari': [
         (522, 'mp4', ['h264', 'aac']), # revision 522 was introduced in version 3.0
-        (522, 'mp4', ['h264b', 'aacl']),
         (522, 'm4v', ['h264', 'aac']),
-        (522, 'm4v', ['h264b', 'aacl']),
+        (522, 'm4a', []),
+        (522, 'mp3', []),
+    ],
+    'itunes': [
+        (0, 'mp4', ['h264', 'aac']),
+        (0, 'm4v', ['h264', 'aac']),
+        (0, 'm4a', []),
+        (0, 'mp3', []),
     ],
     'iphone': [
         (0, 'mp4', ['h264b', 'aacl']),
         (0, 'm4v', ['h264b', 'aacl']),
+        (0, 'm4a', []),
+        (0, 'mp3', []), # TODO: Test this. We assume it is supported because Safari supports it.
     ],
     'android': [
         (0, 'mp4', ['h264b', 'aacl']),
         (0, 'm4v', ['h264b', 'aacl']),
+        (0, 'm4a', []),
+        (0, 'mp3', []), # TODO: Test this. We assume it is supported because Chrome supports it.
     ],
-    'unknown': []
+    'unknown': [],
 }
 
 # This is a wildly incomplete set of regular expressions that parse the
@@ -162,6 +202,7 @@ user_agent_regexes = {
     'safari': re.compile(r'Safari.(\d+\.\d+)'),
     'android':  re.compile(r'Android.(\d+\.\d+)'),
     'iphone': re.compile(r'iPhone.+Safari/(\d+\.\d+)'),
+    'itunes': re.compile(r'iTunes/(\d+\.\d+)'),
 }
 
 def accepted_extensions():
@@ -173,10 +214,35 @@ def accepted_extensions():
     e = sorted(e)
     return e
 
-def parse_user_agent_version():
-    """Return a tuple representing the user agent's browser name and version.
+def parse_embed_url(url):
+    """Parse the URL to return relevant info if its a for valid embed.
+
+    :param url: A fully qualified URL.
+    :returns: The container (embed site name), the unique id,
+        and a type (audio or video).
+    :rtype: dict or None
+
     """
-    ua = request.headers.get('User-Agent', '')
+    for container, info in external_embedded_containers.iteritems():
+        match = info['pattern'].match(url)
+        if match is not None:
+            return {
+                'container': container,
+                'id': match.group('id'),
+                'type': info['type'],
+            }
+    return None
+
+def parse_user_agent_version(ua=None):
+    """Return a tuple representing the user agent's browser name and version.
+
+    :param ua: An optional User-Agent header to use. Defaults to
+        that of the current request.
+    :type ua: str
+
+    """
+    if ua is None:
+        ua = request.headers.get('User-Agent', '')
     for device, pattern in user_agent_regexes.iteritems():
         match = pattern.search(ua)
         if match is not None:
@@ -184,42 +250,88 @@ def parse_user_agent_version():
             return device, version
     return 'unknown', 0
 
-def supported_html5_types():
-    """Return the user agent's supported HTML5 video containers and codecs.
+def native_supported_types(browser, version=None):
+    """Return the browser's supported HTML5 video containers and codecs.
+
+    The browser can be determined automatically from the user agent. If
+    no browser and no user agent is specified, the user agent is read
+    from the request headers. See :func
+
+    :param browser: Browser name from :attr:`native_browser_supported_containers`
+    :type browser: str or None
+    :param version: Optional version number, used when a browser arg is given.
+    :type version: float or None
+    :returns: The containers and codecs supported by the given browser/version.
+    :rtype: list
+
     """
-    browser, version = parse_user_agent_version()
-    scc = html5_supported_containers_codecs[browser]
-    html5_options = []
+    if browser not in native_supported_containers_codecs:
+        browser = 'unknown'
+    scc = native_supported_containers_codecs[browser]
+    native_options = []
 
     for req_version, containers, codecs in scc:
-        if version >= req_version:
-            html5_options.append((containers, codecs))
-    return html5_options
+        if version is None or version >= req_version:
+            native_options.append((containers, codecs))
+    return native_options
 
 def guess_container_format(extension):
     """Return the most likely container format based on the file extension.
 
+    This standardizes to an audio/video-agnostic form of the container, if
+    applicable. For example m4v becomes mp4.
+
     :param extension: the file extension, without a preceding period.
     :type extension: string
     :rtype: string or None
+
     """
+    mt = guess_mimetype(extension)
     try:
-        mt = mimetype_lookup[extension]
-        cf = container_lookup[mt]
-        return cf
+        return container_lookup[mt]
     except KeyError:
         return None
 
-def guess_media_type(container):
-    """Return the most likely media type based on the container format.
-    """
-    if container in ('mp3', 'flac', 'f4a', 'm4a'):
-        return 'audio'
-    elif container in ('xml', 'srt'):
-        return 'captions'
-    return 'video'
+def guess_media_type(extension=None, embed=None, default=VIDEO):
+    """Return the most likely media type based on the container or embed site.
 
-def pick_media_file_player(files):
+    :param extension: Optional, the file extension without a preceding period.
+    :param embed: Optional, the third-party site name.
+    :param default: Default to video if we don't have any other guess.
+    :returns: 'audio', 'video', 'captions', or None
+
+    """
+    if extension is not None:
+        return guess_media_type_map.get(extension, default)
+    if embed is not None:
+        return external_embedded_containers.get(embed, {}).get('type', default)
+    return default
+
+def guess_mimetype(container, type_=None, default=None):
+    """Return the best guess mimetype for the given container.
+
+    If the type (audio or video) is not provided, we make our best guess
+    as to which is will probably be, using :func:`guess_container_type`.
+    Note that this value is ignored for certain mimetypes: it's useful
+    only when a container can be both audio and video.
+
+    :param container: The file extension
+    :param type_: 'audio', 'video' or 'captions'
+    :param default: Default mimetype for when guessing fails
+    :returns: A mime string or None.
+
+    """
+    if type_ is None:
+        type_ = guess_media_type(container)
+    mt = mimetype_lookup.get(container, None)
+    if mt is None:
+        return default or default_media_mimetype
+    try:
+        return mt % type_
+    except (ValueError, TypeError):
+        return mt
+
+def pick_media_file_player(files, browser=None, version=None, user_agent=None):
     """Return the best choice of files to play and which player to use.
 
     XXX: This method uses the very unsophisticated technique of assuming
@@ -232,31 +344,48 @@ def pick_media_file_player(files):
 
     :param files: :class:`~mediacore.model.media.MediaFile` instances.
     :type files: list
-    :rtype: tuple
+    :param browser: Optional browser name to bypass user agents altogether.
+        See :attr:`native_browser_supported_containers` for possible values.
+    :type browser: str or None
+    :param version: Optional version number, used when a browser arg is given.
+    :type version: float or None
+    :param user_agent: Optional User-Agent header to use. Defaults to
+        that of the current request.
+    :type user_agent: str or None
     :returns: A :class:`~mediacore.model.media.MediaFile` and a player name.
+    :rtype: tuple
 
     """
     from mediacore.lib.helpers import fetch_setting
     player_type = fetch_setting('player_type')
 
+    if browser is None:
+        browser, version = parse_user_agent_version(user_agent)
+
+    support_html5 = player_type in ('best', 'html5')
+    support_flash = player_type in ('best', 'flash') and \
+        browser in flash_supported_browsers
+
     # Only proceed if this file is a playable type
-    files = [file for file in files if file.type in ('audio', 'video')]
+    files = [file for file in files if file.type in (AUDIO, VIDEO)]
 
     # First, check if it's an embedded video from another site.
-    for file in files:
-        if file.container in external_embedded_containers:
-            return file, 'embed'
+    if support_flash:
+        for file in files:
+            if file.container in external_embedded_containers:
+                # TODO: Support vimeo and youtube in our jwplayer/etc
+                return file, 'embed'
 
     # If possible, return an applicable file and html5 player
     # Note that this is currently based only on the container type
-    if player_type in ['best', 'html5']:
-        for container, codecs in supported_html5_types():
+    if support_html5:
+        for container, codecs in native_supported_types(browser, version):
             for file in files:
                 if file.container == container:
                     return file, fetch_setting('html5_player')
 
     # If possible, return an applicable file and flash player
-    if player_type in ['best', 'flash']:
+    if support_flash:
         for file in files:
             if file.container in flash_supported_containers:
                 return file, fetch_setting('flash_player')

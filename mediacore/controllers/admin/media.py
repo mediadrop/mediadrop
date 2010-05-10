@@ -36,7 +36,7 @@ from mediacore.forms.admin.media import AddFileForm, EditFileForm, MediaForm, Po
 from mediacore.lib import helpers
 from mediacore.lib.base import BaseController
 from mediacore.lib.decorators import expose, expose_xhr, paginate, validate
-from mediacore.lib.filetypes import external_embedded_containers, guess_media_type, guess_container_format, playable_containers
+from mediacore.lib.filetypes import guess_container_format, guess_media_type, parse_embed_url
 from mediacore.lib.helpers import redirect, url_for
 from mediacore.model import Author, Category, Media, MediaFile, Podcast, Tag, fetch_row, get_available_slug
 from mediacore.model.media import create_media_stub
@@ -290,15 +290,14 @@ class MediaController(BaseController):
         elif url:
             media_file = MediaFile()
             # Parse the URL checking for known embeddables like YouTube
-            for type, info in external_embedded_containers.iteritems():
-                match = info['pattern'].match(url)
-                if match:
-                    media_file.type = guess_media_type(type)
-                    media_file.container = type
-                    media_file.embed = match.group('id')
-                    media_file.display_name = type.capitalize() + ' ID: ' + media_file.embed
-                    data['success'] = True
-                    break
+            embed = parse_embed_url(url)
+            if embed:
+                media_file.type = embed['type']
+                media_file.container = embed['container']
+                media_file.embed = embed['id']
+                media_file.display_name = '%s ID: %s' % \
+                    (embed['container'].capitalize(), media_file.embed)
+                data['success'] = True
             else:
                 # Check for types we can play ourselves
                 try:
@@ -306,14 +305,12 @@ class MediaController(BaseController):
                     container = guess_container_format(ext)
                 except KeyError:
                     container = None
-                for conts in playable_containers.itervalues():
-                    if container in conts:
-                        media_file.type = guess_media_type(container)
-                        media_file.container = container
-                        media_file.url = url
-                        media_file.display_name = os.path.basename(url)
-                        data['success'] = True
-                        break
+                if container in helpers.accepted_extensions():
+                    media_file.type = guess_media_type(container)
+                    media_file.container = container
+                    media_file.url = url
+                    media_file.display_name = os.path.basename(url)
+                    data['success'] = True
                 else:
                     data['message'] = 'Unsupported URL'
         else:

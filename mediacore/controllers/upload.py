@@ -36,7 +36,7 @@ from mediacore.forms.uploader import UploadForm
 from mediacore.lib import email
 from mediacore.lib.base import BaseController
 from mediacore.lib.decorators import expose, expose_xhr, paginate, validate
-from mediacore.lib.filetypes import external_embedded_containers, guess_container_format, guess_media_type
+from mediacore.lib.filetypes import guess_container_format, guess_media_type, parse_embed_url
 from mediacore.lib.helpers import redirect, url_for, create_default_thumbs_for, fetch_setting
 from mediacore.model import (fetch_row, get_available_slug,
     Media, MediaFile, Comment, Tag, Category, Author, AuthorWithIP, Podcast)
@@ -198,17 +198,29 @@ class UploadController(BaseController):
             #        the new media_obj.
             media_file = MediaFile()
             url = unicode(url)
-            for type, info in external_embedded_containers.iteritems():
-                match = info['pattern'].match(url)
-                if match:
-                    media_file.type = guess_media_type(type)
-                    media_file.container = type
-                    media_file.embed = match.group('id')
-                    media_file.display_name = type.capitalize() + ' ID: ' + media_file.embed
-                    break
+            embed = parse_embed_url(url)
+            if embed:
+                media_file.type = embed['type']
+                media_file.container = embed['container']
+                media_file.embed = embed['id']
+                media_file.display_name = '%s ID: %s' % \
+                    (embed['container'].capitalize(), media_file.embed)
             else:
-                # Trigger a validation error on the whole form.
-                raise formencode.Invalid('Please specify a URL or upload a file below.', None, None)
+                # Check for types we can play ourselves
+                try:
+                    ext = os.path.splitext(url)[1].lower()[1:]
+                    container = guess_container_format(ext)
+                except KeyError:
+                    container = None
+                if container in helpers.accepted_extensions():
+                    media_file.type = guess_media_type(container)
+                    media_file.container = container
+                    media_file.url = url
+                    media_file.display_name = os.path.basename(url)
+                    data['success'] = True
+                else:
+                    # Trigger a validation error on the whole form.
+                    raise formencode.Invalid('Please specify a URL or upload a file below.', None, None)
             media_obj.files.append(media_file)
 
         # Add the final changes.
