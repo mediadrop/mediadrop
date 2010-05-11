@@ -24,7 +24,7 @@ from datetime import datetime
 from urlparse import urlparse, urlunparse
 
 import transaction
-from formencode import validators
+from formencode import validators, Invalid
 from paste.util import mimeparse
 from pylons import config, request, response, session, tmpl_context
 from repoze.what.predicates import has_permission
@@ -281,12 +281,15 @@ class MediaController(BaseController):
         else:
             media = fetch_row(Media, id)
 
-        data = dict(success=False)
+        data = {'success': False}
 
         if file is not None:
             # Create a media object, add it to the video, and store the file permanently.
-            media_file = _add_new_media_file(media, file.filename, file.file)
-            data['success'] = True
+            try:
+                media_file = _add_new_media_file(media, file.filename, file.file)
+                data['success'] = True
+            except Invalid, e:
+                data['message'] = unicode(e)
         elif url:
             media_file = MediaFile()
             # Parse the URL checking for known embeddables like YouTube

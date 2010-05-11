@@ -240,6 +240,11 @@ def _add_new_media_file(media, original_filename, file):
     # FIXME: I think this will raise a KeyError if the uploaded
     #        file doesn't have an extension.
     file_ext = os.path.splitext(original_filename)[1].lower()[1:]
+    container = guess_container_format(file_ext)
+
+    if container is None:
+        msg = 'File extension "%s" is not supported.' % file_ext
+        raise formencode.Invalid(msg, file_ext, None)
 
     # set the file paths depending on the file type
     media_file = MediaFile()
