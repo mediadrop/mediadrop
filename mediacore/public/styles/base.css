@@ -589,3 +589,35 @@ a:focus .grid-title {
 .meta-hover li.share-email a { left: 6px }
 .meta-hover li.share-facebook a { left: 66px }
 .meta-hover li.share-twitter a { left: 126px }
+
+/* Forms */
+.form {
+	font-family: Verdana, sans-serif;
+}
+.form li {
+	width: 100%;
+	overflow: hidden;
+}
+.form .submit,
+.form .submit .form-field {
+	text-align: right;
+}
+.form .submit input {
+	float: right;
+}
+.form .inputfield,
+.form .xhtmltextarea,
+.form .selectfield {
+	width: 98%;
+	border: 1px solid #a9a9a9;
+	background: #f9f9f9;
+	font: 12px Verdana, sans-serif;
+	padding: 3px;
+}
+.xhtml-description-helper p,
+.xhtml-description-helper li {
+	margin: 1em 0;
+}
+.xhtml-description-helper em {
+	font-weight: bold;
+}

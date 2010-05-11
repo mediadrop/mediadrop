@@ -56,7 +56,6 @@ class UploadForm(ListForm):
     template = 'mediacore.templates.upload.form'
     id = 'upload-form'
     css_class = 'form'
-    css = [CSSLink(link=helpers.url_for('/styles/forms.css'))]
     show_children_errors = False
     params = ['async_action']
 
