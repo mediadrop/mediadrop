@@ -77,13 +77,14 @@ class SettingsController(BaseController):
     def _update_settings(self, values):
         """Modify the settings associated with the given dictionary."""
         for name, value in values.iteritems():
+            setting = self.settings[name]
             if value is None:
                 value = u''
             else:
                 value = unicode(value)
-            if self.settings[name].value != value:
-                self.settings[name].value = value
-                DBSession.add(self.settings[name])
+            if setting.value != value:
+                setting.value = value
+                DBSession.add(setting)
         DBSession.flush()
 
     def _display(self, form, **kwargs):
@@ -139,7 +140,17 @@ class SettingsController(BaseController):
     @validate(display_form, error_handler=display)
     def save_display(self, **kwargs):
         """Save :class:`~mediacore.forms.admin.settings.DisplayForm`."""
-        return self._save(display_form, 'display', **kwargs)
+        player_type = self.settings['player_type'].value
+        self._save(display_form, **kwargs)
+        # If the player_type changes, we must update the Media.encoded flag,
+        # since some things may play now and/or not play anymore with the
+        # new setting.
+        if player_type != self.settings['player_type'].value:
+            for m in Media.query.options(orm.eagerload('files')):
+                m.update_status()
+                DBSession.add(m)
+        redirect(action='display')
+
 
     @expose('admin/settings/popularity.html')
     def popularity(self, **kwargs):
