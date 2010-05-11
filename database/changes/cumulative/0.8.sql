@@ -39,8 +39,7 @@ CREATE TABLE `categories` (
 
 LOCK TABLES `categories` WRITE;
 /*!40000 ALTER TABLE `categories` DISABLE KEYS */;
-INSERT INTO `categories` VALUES (1,'Example Topic','example-topic',NULL),
-(2,'Another Subject','another-subject',NULL);
+INSERT INTO `categories` VALUES (1,'Featured','featured',NULL);
 /*!40000 ALTER TABLE `categories` ENABLE KEYS */;
 UNLOCK TABLES;
 
