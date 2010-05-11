@@ -395,7 +395,7 @@ INSERT INTO `settings` VALUES
 (NULL,'popularity_decay_lifetime','36'),
 (NULL,'rich_text_editor','tinymce'),
 (NULL,'google_analytics_uacct',''),
-(NULL,'flash_player','flowplayer'),
+(NULL,'flash_player','jwplayer'),
 (NULL,'html5_player','html5'),
 (NULL,'player_type','best'),
 (NULL,'featured_category','1'),
