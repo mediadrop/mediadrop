@@ -125,3 +125,13 @@
 	background-image: url('../images/buttons/comment.png');
 	width: 168px;
 }
+
+#comment-flash .success,
+#comment-flash .error {
+	background: url('../images/uploader/check.png') no-repeat left;
+	line-height: 24px;
+	padding-left: 33px;
+}
+#comment-flash .error {
+	background-image: url('../images/uploader/ex.png');
+}

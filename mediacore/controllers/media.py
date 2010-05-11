@@ -29,7 +29,7 @@ from akismet import Akismet
 
 from mediacore.lib.base import BaseController
 from mediacore.lib.decorators import expose, expose_xhr, paginate, validate
-from mediacore.lib.helpers import url_for, redirect, add_transient_message
+from mediacore.lib.helpers import url_for, redirect, store_transient_message
 from mediacore.model import (DBSession, fetch_row, get_available_slug,
     Media, MediaFile, Comment, Tag, Category, Author, AuthorWithIP, Podcast)
 from mediacore.lib import helpers, email
@@ -189,9 +189,8 @@ class MediaController(BaseController):
                     'HTTP_ACCEPT': request.environ.get('HTTP_ACCEPT')}
 
             if akismet.comment_check(values['body'].encode('utf-8'), data):
-                title = "Comment Rejected"
-                text = "Your comment appears to be spam and has been rejected."
-                add_transient_message('comment_posted', title, text)
+                text = 'Your comment appears to be spam and has been rejected.'
+                store_transient_message('comment_posted', text, success=False)
                 redirect(action='view', anchor='top')
 
         media = fetch_row(Media, slug=slug)
@@ -213,10 +212,11 @@ class MediaController(BaseController):
         email.send_comment_notification(media, c)
 
         if require_review:
-            title = "Thanks for your comment!"
-            text = "We will post it just as soon as a moderator approves it."
-            add_transient_message('comment_posted', title, text)
-            redirect(action='view', anchor='top')
+            title = 'Thanks for your comment!'
+            text = 'We will post it just as soon as a moderator approves it.'
+            store_transient_message('comment_posted', text, title=title,
+                success=True)
+            redirect(action='view', anchor='comment-flash')
         else:
             redirect(action='view', anchor='comment-%s' % c.id)
 

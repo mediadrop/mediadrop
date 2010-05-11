@@ -30,12 +30,19 @@
 					var overTextMGR = new OverTextManager('${comment_form.id}');
 				});
 			</script>
-			<link href="${h.url_for('/styles/squeezebox.css')}" media="screen" rel="stylesheet" type="text/css" />
-			<script type="text/javascript" src="${h.url_for('/scripts/third-party/squeezebox-1.1-rc4-yui-compressed.js')}"></script>
-			<script type="text/javascript" src="${h.url_for('/scripts/notify.js')}"></script>
 			<script type="text/javascript">
 				window.addEvent('domready', function(){
-					var notify = getTransientNotification('comment_posted');
+					var flashMsg = Cookie.read('comment_posted');
+					if (flashMsg) {
+						var flash = $('comment-flash');
+						var json = JSON.decode(flashMsg);
+						var content = new Element('div').inject(flash.getElement('.comment-content'));
+						if (json.title) content.grab(new Element('strong', {text: json.title}));
+						if (json.success != undefined) content.addClass(json.success ? 'success' : 'error');
+						content.appendText(' ' + json.text);
+						flash.show();
+						Cookie.dispose('comment_posted', {path: '/'});
+					}
 				});
 			</script>
 		</head>
@@ -68,6 +75,11 @@
 					</li>
 				</ul>
 			</py:choose>
+			<div id="comment-flash" class="no-comments" style="display:none">
+				<div class="comment-top" />
+				<div class="comment-content" />
+				<div class="comment-bottom" />
+			</div>
 			<py:if test="form">
 				<br />
 				<h3>Write a comment</h3>

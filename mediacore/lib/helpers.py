@@ -32,7 +32,7 @@ from urlparse import urlparse
 
 import genshi.core
 import pylons.templating
-import simplejson
+import simplejson as json
 import webob.exc
 
 from BeautifulSoup import BeautifulSoup
@@ -666,31 +666,25 @@ def delete_files(paths, subdir=None):
             else:
                 os.remove(path)
 
-def add_transient_message(cookie_name, message_title, message_text):
-    """Add a message dict to the serialized list of message dicts stored in
-    the named cookie.
+def store_transient_message(cookie_name, text, time=None, path='/', **kwargs):
+    """Store a JSON message dict in the named cookie.
 
-    If there is no existing cookie, create one.
-    If there is an existing cookie, assumes that it will de-serialize into
-    a list object.
+    The cookie will expire at the end of the session, but should be
+    explicitly deleted by whoever reads it.
+
+    :param cookie_name: The cookie name for this message.
+    :param text: Message text
+    :param time: Optional time to report. Defaults to now.
+    :param path: Optional cookie path
+    :param kwargs: Passed into the JSON dict
+    :returns: The message python dict
+    :rtype: dict
+
     """
-
     time = datetime.now().strftime('%H:%M, %B %d, %Y')
-    msg = dict(
-        time = time,
-        title = message_title,
-        text = message_text,
-    )
-    old_data = request.cookies.get(cookie_name, None)
-
-    if old_data is not None:
-        response.delete_cookie(cookie_name)
-
-    if old_data:
-        msgs = simplejson.loads(unquote(old_data))
-    else:
-        msgs = []
-    msgs.append(msg)
-    new_data = quote(simplejson.dumps(msgs))
-    response.set_cookie(cookie_name, new_data, path='/')
-
+    msg = kwargs
+    msg['text'] = text
+    msg['time'] = time or datetime.now().strftime('%H:%M, %B %d, %Y')
+    new_data = quote(json.dumps(msg))
+    response.set_cookie(cookie_name, new_data, path=path)
+    return msg
