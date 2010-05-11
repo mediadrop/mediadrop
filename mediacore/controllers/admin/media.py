@@ -173,7 +173,6 @@ class MediaController(BaseController):
 
         # Re-verify the state of our Media object in case the data is nonsensical
         if id != 'new':
-            media.update_type()
             media.update_status()
             DBSession.add(media)
 
@@ -321,7 +320,6 @@ class MediaController(BaseController):
 
         if data['success']:
             media.files.append(media_file)
-            media.update_type()
             media.update_status()
             DBSession.add(media)
             DBSession.flush()
@@ -411,7 +409,6 @@ class MediaController(BaseController):
 
         if data['success']:
             data['file_type'] = file.type
-            media.update_type()
             media.update_status()
             DBSession.add(media)
             DBSession.flush()

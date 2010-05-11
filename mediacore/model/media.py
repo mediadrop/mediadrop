@@ -148,6 +148,8 @@ class MediaQuery(Query):
 
     def published(self, flag=True):
         published = sql.and_(
+            Media.reviewed == True,
+            Media.encoded == True,
             Media.publishable == True,
             Media.publish_on <= datetime.now(),
             sql.or_(Media.publish_until == None,
@@ -358,57 +360,39 @@ class Media(object):
             categories = fetch_categories(categories)
         self.categories = categories or []
 
-    def update_type(self):
+    def update_status(self):
+        """Ensure the type (audio/video) and encoded flag are properly set.
+
+        Call this after modifying any files belonging to this item.
+
+        """
+        self.type = self._update_type()
+        self.encoded = self._update_encoding()
+
+    def _update_type(self):
         """Update the type of this Media object.
 
         If there's a video file, mark this as a video type, else fallback
         to audio, if possible, or unknown (None)
         """
         if any(file.type == 'video' for file in self.files):
-            self.type = 'video'
+            return 'video'
         elif any(file.type == 'audio' for file in self.files):
-            self.type = 'audio'
+            return 'audio'
         else:
-            self.type = None
+            return None
 
-    def update_status(self):
-        """Ensure the reviewed, encoded, publishable flags make sense.
-
-        * ``unreviewed`` is added if no files exist.
-        * ``unencoded`` is added if there isn't any file to play with the
-          Flash player. YouTube and other embeddable files qualify.
-        * ``unencoded`` is added if this is a podcast episode, and there
-          is no iTunes-compatible file. Embeddable file types don't qualify.
-        * ``publish`` is removed and ``draft`` is added if any of
-          ``unencoded``, ``unreviewed``, or ``draft`` are found.
-
-        """
-        self._validate_review_status()
-        self._validate_encoding_status()
-        self._validate_publish_status()
-
-    def _validate_review_status(self):
-        if not self.files:
-            self.reviewed = False
-
-    def _validate_encoding_status(self):
+    def _update_encoding(self):
         # Test to see if we can find a workable file/player conbination
         # for the most common podcasting app w/ the POOREST format support
         if self.podcast_id \
         and not pick_media_file_player(self.files, browser='itunes')[0]:
-            self.encoded = False
             return False
         # Test to see if we can find a workable file/player conbination
         # for the browser w/ the BEST format support
         if not pick_media_file_player(self.files, browser='chrome')[0]:
-            self.encoded = False
             return False
-        self.encoded = True
         return True
-
-    def _validate_publish_status(self):
-        if not self.reviewed or not self.encoded:
-            self.publishable = False
 
     @property
     def downloadable_file(self):

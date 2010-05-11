@@ -190,12 +190,6 @@ class UploadController(BaseController):
         if file is not None:
             media_file = _add_new_media_file(media_obj, file.filename, file.file)
         else:
-            # FIXME: For some reason the media.type isn't ever set to video
-            #        during this request. On subsequent requests, when
-            #        media_obj.update_type() is called, it is set properly.
-            #        This isn't too serious an issue right now because
-            #        it is called the first time a moderator goes to review
-            #        the new media_obj.
             media_file = MediaFile()
             url = unicode(url)
             embed = parse_embed_url(url)
@@ -224,7 +218,6 @@ class UploadController(BaseController):
             media_obj.files.append(media_file)
 
         # Add the final changes.
-        media_obj.update_type()
         media_obj.update_status()
         DBSession.add(media_obj)
         DBSession.flush()
