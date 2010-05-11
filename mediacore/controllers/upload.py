@@ -37,7 +37,8 @@ from mediacore.lib import email
 from mediacore.lib.base import BaseController
 from mediacore.lib.decorators import expose, expose_xhr, paginate, validate
 from mediacore.lib.filetypes import guess_container_format, guess_media_type, parse_embed_url
-from mediacore.lib.helpers import redirect, url_for, create_default_thumbs_for, fetch_setting
+from mediacore.lib.helpers import (accepted_extensions, redirect, url_for,
+    create_default_thumbs_for, fetch_setting)
 from mediacore.model import (fetch_row, get_available_slug,
     Media, MediaFile, Comment, Tag, Category, Author, AuthorWithIP, Podcast)
 from mediacore.model.meta import DBSession
@@ -206,7 +207,7 @@ class UploadController(BaseController):
                     container = guess_container_format(ext)
                 except KeyError:
                     container = None
-                if container in helpers.accepted_extensions():
+                if container in accepted_extensions():
                     media_file.type = guess_media_type(container)
                     media_file.container = container
                     media_file.url = url
