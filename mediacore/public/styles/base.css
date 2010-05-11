@@ -34,13 +34,13 @@ a:visited {
 a:hover {
 	text-decoration: none;
 }
-a.underline-hover:link,
-a.underline-hover:visited {
+.underline-hover:link,
+.underline-hover:visited {
 	text-decoration: none;
 }
-a.underline-hover:hover,
-a.underline-hover:active,
-a.underline-hover:focus {
+.underline-hover:hover,
+.underline-hover:active,
+.underline-hover:focus {
 	text-decoration: underline;
 }
 
@@ -254,9 +254,6 @@ a.meta-likes:active strong {
 }
 .feat-content p {
 	margin-top: 10px;
-}
-.feat-content p:first-child {
-	margin-top: 0;
 }
 .feat-info {
 	float: right;
@@ -533,6 +530,17 @@ a:focus .grid-title {
 	float: right;
 	font-family: 'Trebuchet MS', sans-serif;
 	font-weight: bold;
+}
+#desc-full,
+#desc-excerpt {
+	overflow: hidden;
+}
+#desc-more {
+	color: #0F7CB4;
+	font-weight: bold;
+}
+#desc-more:hover {
+	cursor: pointer;
 }
 
 .meta-wrapper {
