@@ -41,7 +41,11 @@ var MediaManager = new Class({
 	initialize: function(opts){
 		// metaForm, files, uploader, statusForm, thumbUploader, thumbImg, isNew, type
 		this.metaForm = $(opts.metaForm);
-		this.metaFormPodcastID = this.metaForm.podcast.value;
+		if (this.metaForm.podcast.options.length == 1) {
+			$(this.metaForm.podcast).getParent('li').hide();
+		} else {
+			this.metaFormPodcastID = this.metaForm.podcast.value;
+		}
 		this.statusForm = opts.statusForm;
 		this.fileUploader = opts.fileUploader;
 		this.fileUploader.addEvents({
