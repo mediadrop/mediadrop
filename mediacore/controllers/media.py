@@ -243,6 +243,8 @@ class MediaController(BaseController):
                 # Catch external redirects in case they aren't linked to directly
                 if file.url:
                     redirect(file.url.encode('utf-8'))
+                elif file.embed:
+                    redirect(file.link_url())
 
                 # Ensure that the clients request allows for files of this container
                 mimetype = mimeparse.best_match([file.mimetype],
