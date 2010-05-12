@@ -16,6 +16,8 @@
 from pylons import request, response, session, tmpl_context
 from repoze.what.predicates import has_permission
 from sqlalchemy import orm, sql
+import transaction
+import webob.exc
 
 from mediacore.forms.admin.users import UserForm
 from mediacore.lib import helpers
@@ -125,7 +127,16 @@ class UsersController(BaseController):
             user.groups = []
 
         DBSession.add(user)
-        DBSession.flush()
+
+        # Check if we're changing the logged in user's own password
+        logged_in_user = request.environ['repoze.who.identity']['user']
+        if user.user_id == logged_in_user.user_id \
+        and password is not None and password != '':
+            transaction.commit()
+            # repoze.who sees the Unauthorized response and clears the cookie,
+            # forcing a fresh login with the new password
+            raise webob.exc.HTTPUnauthorized
+
         redirect(action='index', id=None)
 
 
