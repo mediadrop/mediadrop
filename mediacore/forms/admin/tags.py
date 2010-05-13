@@ -16,7 +16,15 @@
 from tw.forms import HiddenField
 from tw.forms.validators import NotEmpty
 
-from mediacore.forms import Form, ListForm, SubmitButton, TextField
+from mediacore.forms import Form, ListForm, SubmitButton, TextField, XHTMLEntityValidator
+from mediacore.lib.helpers import excess_whitespace
+
+class TagNameValidator(XHTMLEntityValidator):
+    def _to_python(self, value, state=None):
+        value = value.strip()
+        value = excess_whitespace.sub(' ', value)
+        value = super(TagNameValidator, self)._to_python(value, state)
+        return value
 
 class TagForm(ListForm):
     template = 'mediacore.templates.admin.tags.form'
@@ -29,7 +37,7 @@ class TagForm(ListForm):
 
     fields = [
         SubmitButton('save', default='Save', css_classes=['f-rgt', 'btn', 'btn-save']),
-        TextField('name', css_classes=['tag-name'], validator=TextField.validator(not_empty=True)),
+        TextField('name', css_classes=['tag-name'], validator=TagNameValidator(not_empty=True)),
         TextField('slug', css_classes=['tag-slug'], validator=NotEmpty),
     ]
 
