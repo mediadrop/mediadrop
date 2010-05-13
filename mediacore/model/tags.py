@@ -28,6 +28,7 @@ from sqlalchemy import Table, ForeignKey, Column, sql, func
 from sqlalchemy.types import String, Unicode, UnicodeText, Integer, DateTime, Boolean, Float
 from sqlalchemy.orm import mapper, relation, backref, synonym, interfaces, validates, column_property
 
+from mediacore.lib.helpers import excess_whitespace
 from mediacore.model import slugify, _mtm_count_property
 from mediacore.model.meta import Base, DBSession
 
@@ -98,18 +99,22 @@ mapper(Tag, tags)
 def extract_tags(string):
     """Convert a comma separated string into a list of tag names.
 
-    NOTE: The space-stripping here is necessary to  patch a leaky abstraction.
+    NOTE: The space-stripping here is necessary to patch a leaky abstraction.
           MySQL's string comparison with varchar columns is pretty fuzzy
           when it comes to space characters, and is even inconsistent between
           versions. We strip all preceding/trailing/duplicated spaces to be
           safe.
+
     """
-    tags = string.split(',')
-    # strip preceding and trailing whitespace
-    tags = [tag.strip() for tag in tags]
-    # collapse middle whitespace to a single space char
-    tags = [' '.join(re.split('\s+', tag)) for tag in tags]
-    return tags
+    # count linebreaks as commas -- we assume user negligence
+    string = string.replace("\n", ',')
+    # strip repeating whitespace with a single space
+    string = excess_whitespace.sub(' ', string)
+    # make a tags list without any preceding and trailing whitespace
+    tags = [tag.strip() for tag in string.split(',')]
+    # remove duplicate and empty tags
+    tags = set(tag for tag in tags if tag)
+    return list(tags)
 
 def fetch_and_create_tags(tag_names):
     # copy the tag_names list
@@ -139,4 +144,3 @@ def fetch_and_create_tags(tag_names):
             ).all()
 
     return existing_tags
-
