@@ -23,7 +23,7 @@ from formencode.api import Invalid
 from BeautifulSoup import BeautifulStoneSoup
 from pylons.templating import pylons_globals
 
-from mediacore.lib.helpers import line_break_xhtml, clean_xhtml, url_for, fetch_setting
+from mediacore.lib.helpers import line_break_xhtml, clean_xhtml, decode_entities, url_for, fetch_setting
 
 class LeniantValidationMixin(object):
     validator = forms.validators.Schema(
@@ -88,17 +88,8 @@ class CheckBoxList(GlobalMixin, forms.CheckBoxList):
 
 class XHTMLEntityValidator(FancyValidator):
     def _to_python(self, value, state=None):
-        """Strip XML tags and convert XHTML entities in to unicode."""
-        cleaner_settings = dict(
-           convert_entities = BeautifulStoneSoup.ALL_ENTITIES,
-           filters = ['strip_tags'],
-           valid_tags = [],
-        )
-        return clean_xhtml(
-            value,
-            p_wrap=False,
-            _cleaner_settings = cleaner_settings,
-        )
+        """Convert XHTML entities to unicode."""
+        return decode_entities(value)
 
 class XHTMLValidator(FancyValidator):
     def _to_python(self, value, state=None):
