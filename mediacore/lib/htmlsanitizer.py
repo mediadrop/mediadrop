@@ -708,7 +708,12 @@ class Cleaner(object):
             if is_empty(node):
                 node.extract()
             elif contains_only_whitespace(node):
-                self.disgorge_elem(node)
+                try:
+                    self.disgorge_elem(node)
+                except AttributeError:
+                    # Don't complain when trying to disgorge the root element,
+                    # as it'll be removed later anyway.
+                    pass
 
         dfs(self.root, strip_empty)
 
