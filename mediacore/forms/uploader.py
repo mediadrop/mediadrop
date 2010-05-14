@@ -15,13 +15,15 @@
 
 __all__ = ['EmbedURLValidator', 'UploadForm']
 
+import os.path
+
 from tw.api import WidgetsList, CSSLink
 import formencode
 from tw.forms.validators import NotEmpty, FieldStorageUploadConverter
 from pylons import config
 
 from mediacore.lib import helpers
-from mediacore.lib.filetypes import external_embedded_containers
+from mediacore.lib.filetypes import accepted_extensions, guess_container_format, parse_embed_url
 from mediacore.forms import ListForm, TextField, XHTMLTextArea, FileField, SubmitButton, email_validator
 
 validators = dict(
@@ -41,16 +43,22 @@ validators = dict(
 
 class EmbedURLValidator(formencode.FancyValidator):
     def _to_python(self, value, state):
-        if value:
-            for info in external_embedded_containers.itervalues():
-                match = info['pattern'].match(value)
-                if match:
-                    return value
-            else:
-                raise formencode.Invalid(("This isn't a valid YouTube, "
-                                          "Google Video or Vimeo URL."),
-                                         value, state)
-        return value
+        if value == '':
+            return value
+
+        embed = parse_embed_url(value)
+        if embed:
+            return value
+
+        ext = os.path.splitext(value)[1].lower()[1:]
+        container = guess_container_format(ext)
+        if container in accepted_extensions():
+            return value
+
+        raise formencode.Invalid(
+            "This isn't a valid YouTube, Google Video, Vimeo or direct link.",
+            value, state
+        )
 
 class UploadForm(ListForm):
     template = 'mediacore.templates.upload.form'

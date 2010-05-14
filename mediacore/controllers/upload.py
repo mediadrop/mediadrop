@@ -202,17 +202,13 @@ class UploadController(BaseController):
                     (embed['container'].capitalize(), media_file.embed)
             else:
                 # Check for types we can play ourselves
-                try:
-                    ext = os.path.splitext(url)[1].lower()[1:]
-                    container = guess_container_format(ext)
-                except KeyError:
-                    container = None
+                ext = os.path.splitext(url)[1].lower()[1:]
+                container = guess_container_format(ext)
                 if container in accepted_extensions():
                     media_file.type = guess_media_type(container)
                     media_file.container = container
                     media_file.url = url
                     media_file.display_name = os.path.basename(url)
-                    data['success'] = True
                 else:
                     # Trigger a validation error on the whole form.
                     raise formencode.Invalid('Please specify a URL or upload a file below.', None, None)
