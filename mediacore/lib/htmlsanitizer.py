@@ -144,7 +144,10 @@ def entities_to_unicode(text):
     """
     soup = BeautifulSoup.BeautifulStoneSoup(text,
         convertEntities=BeautifulSoup.BeautifulStoneSoup.ALL_ENTITIES)
-    return unicode(soup)
+    string = unicode(soup)
+    # for some reason plain old instances of &amp; aren't converted to & ??
+    string = string.replace('&amp;', '&')
+    return string
 
 def encode_xhtml_entities(text):
     """Escapes only those entities that are required for XHTML compliance"""
