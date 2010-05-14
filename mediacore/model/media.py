@@ -420,7 +420,7 @@ class Media(object):
 
     @property
     def is_published(self):
-        return self.publishable\
+        return self.publishable and self.reviewed and self.encoded\
            and (self.publish_on is not None and self.publish_on <= datetime.now())\
            and (self.publish_until is None or self.publish_until >= datetime.now())
 
