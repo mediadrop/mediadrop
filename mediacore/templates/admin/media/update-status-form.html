@@ -18,10 +18,16 @@
       py:strip="">
 	<form method="post" action="${h.url_for(action='update_status')}" id="update-status-form" class="box">
 		<div class="box-head">
-			<a py:if="media.slug" href="${h.url_for(controller='/media', action='view', slug=media.slug)}"
-			   id="go-view-content" class="box-head-sec" target="_blank"
-			   title="View this media where it ${'is' if media.is_published else 'will be'} published"
-			   py:content="'View' if media.is_published else 'Preview'" />
+			<span class="box-head-sec">
+				<a href="http://getmediacore.com/media/workflow-in-mediacore" target="_blank">Help</a>
+				<py:if test="media.slug">
+					|
+					<a href="${h.url_for(controller='/media', action='view', slug=media.slug)}"
+					   id="go-view-content" target="_blank"
+					   title="View this media where it ${'is' if media.is_published else 'will be'} published"
+					   py:content="'View' if media.is_published else 'Preview'" />
+				</py:if>
+			</span>
 			<h1>Publish Status</h1>
 		</div>
 		<div class="box-content" py:choose="" py:with="publish_on=media.publish_on.strftime('%b %d %Y @ %H:%M') if media.publish_on else None">

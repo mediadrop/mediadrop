@@ -28,8 +28,9 @@
 <body class="menu-podcasts-on">
 	<div class="box">
 		<div class="box-head">
-			<a href="${h.url_for(action='edit', id='new')}" class="btn btn-add-podcast f-rgt"><span>Add podcast</span></a>
-			<h1>Podcasts</h1>
+			<span class="box-head-sec"><a href="http://getmediacore.com/media/creating-a-podcast-in-mediacore" target="_blank">Help</a></span>
+			<h1 class="f-lft">Podcasts</h1>
+			<a href="${h.url_for(action='edit', id='new')}" class="btn btn-add-podcast f-lft"><span>Add podcast</span></a>
 		</div>
 		<xi:include href="../podcasts/index-table.html" py:with="podcasts=podcasts" />
 	</div>
