@@ -295,6 +295,25 @@ def truncate_xhtml(string, size, _strip_xhtml=False, _decode_entities=False):
 
     return string.strip()
 
+def excerpt_xhtml(string, size, buffer=50):
+    """Return an excerpt for the given string.
+
+    Truncate to the given size iff we are removing more than the buffer size.
+
+    :param string: A XHTML string
+    :param size: The desired length
+    :type size: int
+    :param buffer: How much more than the desired length we can go to
+        avoid truncating just a couple words etc.
+    :type buffer: int
+    :returns: XHTML
+
+    """
+    new_str = decode_entities(string)
+    if len(new_str) <= size + buffer:
+        return string
+    return truncate_xhtml(new_str, size)
+
 def strip_xhtml(string, _decode_entities=False):
     """Strip out xhtml and optionally convert HTML entities to unicode.
 
