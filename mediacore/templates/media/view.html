@@ -62,9 +62,9 @@
 					<py:otherwise>(unpublished)</py:otherwise>
 					by ${media.author.name}
 				</div>
-				<py:with vars="excerpt = h.excerpt_xhtml(media.description, 400)">
-					<div id="desc-full"><p py:replace="Markup(media.description)" /></div>
-					<div id="desc-excerpt" py:if="excerpt != media.description" style="display:none"><p py:replace="Markup(excerpt)" /></div>
+				<py:with vars="fulltext = media.description or u''; excerpt = h.excerpt_xhtml(fulltext, 340)">
+					<div id="desc-full"><p py:replace="Markup(fulltext)" /></div>
+					<div id="desc-excerpt" py:if="excerpt != fulltext" style="display:none"><p py:replace="Markup(excerpt)" /></div>
 				</py:with>
 			</div>
 			${media_player(media, width=560, height=315)}

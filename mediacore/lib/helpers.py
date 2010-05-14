@@ -295,7 +295,7 @@ def truncate_xhtml(string, size, _strip_xhtml=False, _decode_entities=False):
 
     return string.strip()
 
-def excerpt_xhtml(string, size, buffer=50):
+def excerpt_xhtml(string, size, buffer=60):
     """Return an excerpt for the given string.
 
     Truncate to the given size iff we are removing more than the buffer size.
@@ -309,6 +309,8 @@ def excerpt_xhtml(string, size, buffer=50):
     :returns: XHTML
 
     """
+    if not string:
+        return u''
     new_str = decode_entities(string)
     if len(new_str) <= size + buffer:
         return string
