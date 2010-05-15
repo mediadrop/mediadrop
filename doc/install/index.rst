@@ -258,8 +258,8 @@ a. **For most users**, you should `download the latest official release of
    .. sourcecode:: bash
 
       # Unpack the downloaded distribution
-      tar xzvf MediaCore-0.8rc2.tar.gz
-      cd MediaCore-0.8rc2
+      tar xzvf MediaCore-0.8.0.tar.gz
+      cd MediaCore-0.8.0
 
       # Install!
       python2.5 setup.py develop

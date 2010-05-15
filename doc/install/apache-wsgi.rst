@@ -102,7 +102,7 @@ installation and virtual environment.
     # Hint: pay attention to issues surrounding worker-mpm and prefork-mpm.
 
     WSGIDaemonProcess mcore \
-        threads=1 \
+        threads=10 \
         display-name=%{GROUP} \
         python-path=/path/to/mediacore_env/lib/python2.5/site-packages \
         python-eggs=/path/to/mediacore_install/data/python-egg-cache
