@@ -142,7 +142,7 @@ DROP TABLE IF EXISTS `media`;
 CREATE TABLE `media` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `type` enum('audio','video') CHARACTER SET ascii DEFAULT NULL,
-  `slug` varchar(50) CHARACTER SET ascii DEFAULT NULL,
+  `slug` varchar(50) CHARACTER SET ascii NOT NULL,
   `reviewed` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `encoded` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `publishable` tinyint(1) unsigned NOT NULL DEFAULT '0',
@@ -249,7 +249,7 @@ DROP TABLE IF EXISTS `media_fulltext`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `media_fulltext` (
   `media_id` int(10) unsigned NOT NULL,
-  `title` varchar(255) DEFAULT NULL,
+  `title` varchar(255) NOT NULL,
   `subtitle` varchar(255) DEFAULT NULL,
   `description_plain` text,
   `notes` text,
