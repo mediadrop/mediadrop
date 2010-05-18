@@ -27,6 +27,7 @@ import transaction
 from formencode import validators, Invalid
 from paste.util import mimeparse
 from pylons import config, request, response, session, tmpl_context
+from pylons.i18n import _
 from repoze.what.predicates import has_permission
 from sqlalchemy import orm, sql
 
@@ -314,9 +315,9 @@ class MediaController(BaseController):
                     media_file.display_name = os.path.basename(url)
                     data['success'] = True
                 else:
-                    data['message'] = 'Unsupported URL'
+                    data['message'] = _('Unsupported URL')
         else:
-            data['message'] = 'No action to perform.'
+            data['message'] = _('No action to perform.')
 
         if data['success']:
             media.files.append(media_file)
@@ -381,7 +382,7 @@ class MediaController(BaseController):
             file = None
 
         if file is None:
-            data['message'] = 'File "%s" does not exist.' % file_id
+            data['message'] = _('File "%s" does not exist.') % file_id
         elif file_type:
             file.type = file_type
             DBSession.add(file)
@@ -390,7 +391,7 @@ class MediaController(BaseController):
             try:
                 duration = helpers.duration_to_seconds(duration)
             except ValueError:
-                data['message'] = 'Bad duration formatting, use Hour:Min:Sec'
+                data['message'] = _('Bad duration formatting, use Hour:Min:Sec')
             else:
                 media.duration = duration
                 DBSession.add(media)
@@ -405,7 +406,7 @@ class MediaController(BaseController):
             media = fetch_row(Media, id)
             data['success'] = True
         else:
-            data['message'] = 'No action to perform.'
+            data['message'] = _('No action to perform.')
 
         if data['success']:
             data['file_type'] = file.type
@@ -473,7 +474,7 @@ class MediaController(BaseController):
             message = None
         except IOError:
             success = False
-            message = 'Unsupported image type'
+            message = _('Unsupported image type')
         except Exception, e:
             success = False
             message = e.message
@@ -512,9 +513,9 @@ class MediaController(BaseController):
         media = fetch_row(Media, id)
 
         # Make the requested change assuming it will be allowed
-        if update_button == 'Review Complete':
+        if update_button == _('Review Complete'):
             media.reviewed = True
-        elif update_button == 'Publish Now':
+        elif update_button == _('Publish Now'):
             media.publishable = True
             media.publish_on = publish_on or datetime.now()
             media.update_popularity()

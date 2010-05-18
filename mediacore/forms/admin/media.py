@@ -13,6 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+from pylons.i18n import _
 from tw.api import WidgetsList
 from formencode.validators import FancyValidator, URL
 from tw.forms import HiddenField, RadioButtonList, SingleSelectField
@@ -32,7 +33,7 @@ class DurationValidator(FancyValidator):
         try:
             return helpers.duration_to_seconds(value)
         except ValueError:
-            raise formencode.Invalid('Please use the format HH:MM:SS',
+            raise formencode.Invalid(_('Please use the format HH:MM:SS'),
                                      value, state)
 
     def _from_python(self, value, state):
@@ -44,12 +45,12 @@ class AddFileForm(ListForm):
     id = 'add-file-form'
     submit_text = None
     fields = [
-        FileField('file', label_text='Select an encoded video or audio file on your computer', validator=FieldStorageUploadConverter(not_empty=False, label_text='Upload')),
-        SubmitButton('add_url', default='Add URL', named_button=True, css_class='btn btn-add-url f-rgt'),
-        TextField('url', validator=URL, suppress_label=True, attrs={'title': 'YouTube, Vimeo, Google Video, Amazon S3 or any other link'}, maxlength=255),
+        FileField('file', label_text=_('Select an encoded video or audio file on your computer'), validator=FieldStorageUploadConverter(not_empty=False, label_text='Upload')),
+        SubmitButton('add_url', default=_('Add URL'), named_button=True, css_class='btn btn-add-url f-rgt'),
+        TextField('url', validator=URL, suppress_label=True, attrs={'title': _('YouTube, Vimeo, Google Video, Amazon S3 or any other link')}, maxlength=255),
     ]
 
-file_type_options = [('video', 'Video'), ('audio', 'Audio'), ('audio_desc', 'Audio Description'), ('captions', 'Captions')]
+file_type_options = [('video', _('Video')), ('audio', _('Audio')), ('audio_desc', _('Audio Description')), ('captions', _('Captions'))]
 
 class EditFileForm(ListForm):
     template = 'mediacore.templates.admin.media.file-edit-form'
@@ -60,7 +61,7 @@ class EditFileForm(ListForm):
     class fields(WidgetsList):
         file_type = SingleSelectField(options=file_type_options, attrs={'id': None, 'autocomplete': 'off'})
         duration = TextField(validator=DurationValidator, attrs={'id': None, 'autocomplete': 'off'})
-        delete = SubmitButton(default='Delete file', named_button=True, css_class='file-delete', attrs={'id': None})
+        delete = SubmitButton(default=_('Delete file'), named_button=True, css_class='file-delete', attrs={'id': None})
 
 
 class MediaForm(ListForm):
@@ -72,17 +73,17 @@ class MediaForm(ListForm):
     _name = 'media-form' # TODO: Figure out why this is required??
 
     fields = [
-        SingleSelectField('podcast', label_text='Include in the Podcast', help_text='Optional', options=lambda: [(None, None)] + DBSession.query(Podcast.id, Podcast.title).all()),
+        SingleSelectField('podcast', label_text=_('Include in the Podcast'), help_text=_('Optional'), options=lambda: [(None, None)] + DBSession.query(Podcast.id, Podcast.title).all()),
         TextField('slug', validator=NotEmpty, maxlength=50),
         TextField('title', validator=TextField.validator(not_empty=True), maxlength=255),
         TextField('author_name', maxlength=50),
         TextField('author_email', validator=email_validator(not_empty=True), maxlength=255),
         XHTMLTextArea('description', attrs=dict(rows=5, cols=25)),
         CategoryCheckBoxList('categories', options=lambda: DBSession.query(Category.id, Category.name).all()),
-        TextArea('tags', attrs=dict(rows=3, cols=15), help_text=u'e.g.: puppies, great dane, adorable'),
-        TextArea('notes', label_text='Additional Notes', attrs=dict(rows=3, cols=25), default=lambda: helpers.fetch_setting('wording_additional_notes')),
-        SubmitButton('save', default='Save', named_button=True, css_classes=['btn', 'btn-save', 'f-rgt']),
-        SubmitButton('delete', default='Delete', named_button=True, css_classes=['btn', 'btn-delete']),
+        TextArea('tags', attrs=dict(rows=3, cols=15), help_text=_(u'e.g.: puppies, great dane, adorable')),
+        TextArea('notes', label_text=_('Additional Notes'), attrs=dict(rows=3, cols=25), default=lambda: helpers.fetch_setting('wording_additional_notes')),
+        SubmitButton('save', default=_('Save'), named_button=True, css_classes=['btn', 'btn-save', 'f-rgt']),
+        SubmitButton('delete', default=_('Delete'), named_button=True, css_classes=['btn', 'btn-delete']),
     ]
 
 
@@ -105,4 +106,4 @@ class PodcastFilterForm(ListForm):
     method = 'get'
     template = 'mediacore.templates.admin.media.podcast-filter-form'
 
-    fields = [SingleSelectField('podcast_filter', suppress_label=True, options=lambda: [('All Media', 'All Media')] + DBSession.query(Podcast.id, Podcast.title).all() + [('Unfiled', 'Unfiled')])]
+    fields = [SingleSelectField('podcast_filter', suppress_label=True, options=lambda: [('All Media', _('All Media'))] + DBSession.query(Podcast.id, Podcast.title).all() + [('Unfiled', _('Unfiled'))])]
