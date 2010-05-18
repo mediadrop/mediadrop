@@ -68,7 +68,7 @@ class UploadController(BaseController):
             support_email
                 An help contact address
             upload_form
-                The :class:`~mediacore.forms.media.UploadForm` instance
+                The :class:`~mediacore.forms.uploader.UploadForm` instance
             form_values
                 ``dict`` form values, if any
 
