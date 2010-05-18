@@ -2,6 +2,7 @@
 import logging
 
 import pylons
+import pylons.test
 import transaction
 
 from mediacore.config.environment import load_environment
@@ -10,6 +11,9 @@ from mediacore.model import (DBSession, metadata, Media, Podcast,
     AuthorWithIP)
 
 log = logging.getLogger(__name__)
+
+# FIXME: media_fulltext FULLTEXT search indices are never created.
+# XXX: Triggers for search still need to be installed separately w/ MySQL root.
 
 def setup_app(command, conf, vars):
     """Place any commands to setup mediacore here"""
@@ -93,19 +97,38 @@ def setup_app(command, conf, vars):
 
     media.comments.append(comment)
 
-    settings = [{'key':u'email_media_uploaded', 'value':None},
-                {'key':u'email_comment_posted', 'value':None},
-                {'key':u'email_support_requests', 'value':None},
-                {'key':u'email_send_from', 'value':u'noreply@localhost'},
-                {'key':u'wording_user_uploads', 'value':u"Upload your media using the form below. We'll review it and get back to you."},
-                {'key':u'wording_additional_notes', 'value':None},
-                {'key':u'enable_tinymce', 'value':u'enabled'},
-                ]
+    settings = [
+        (u'email_media_uploaded', None),
+        (u'email_comment_posted', None),
+        (u'email_support_requests', None),
+        (u'email_send_from', u'noreply@localhost'),
+        (u'wording_user_uploads', u"Upload your media using the form below. We'll review it and get back to you."),
+        (u'wording_additional_notes', None),
+        (u'popularity_decay_exponent', u'4'),
+        (u'popularity_decay_lifetime', u'36'),
+        (u'rich_text_editor', u'tinymce'),
+        (u'google_analytics_uacct', u''),
+        (u'flash_player', u'jwplayer'),
+        (u'html5_player', u'html5'),
+        (u'player_type', u'best'),
+        (u'featured_category', u'1'),
+        (u'max_upload_size', u'314572800'),
+        (u'ftp_storage', u'false'),
+        (u'ftp_server', u'ftp.someserver.com'),
+        (u'ftp_user', u'username'),
+        (u'ftp_password', u'password'),
+        (u'ftp_upload_directory', u'media'),
+        (u'ftp_download_url', u'http://www.someserver.com/web/accessible/media/'),
+        (u'ftp_upload_integrity_retries', u'10'),
+        (u'akismet_key', u''),
+        (u'akismet_url', u''),
+        (u'req_comment_approval', u'false'),
+    ]
 
-    for d in settings:
+    for key, value in settings:
         s = Setting()
-        s.key = d['key']
-        s.value = d['value']
+        s.key = key
+        s.value = value
         DBSession.add(s)
 
     DBSession.flush()
