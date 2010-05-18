@@ -12,8 +12,8 @@ from mediacore.model import (DBSession, metadata, Media, Podcast,
 
 log = logging.getLogger(__name__)
 
-# FIXME: media_fulltext FULLTEXT search indices are never created.
 # XXX: Triggers for search still need to be installed separately w/ MySQL root.
+#      After running this script, run setup_search.sql as root
 
 def setup_app(command, conf, vars):
     """Place any commands to setup mediacore here"""
