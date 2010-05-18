@@ -18,7 +18,6 @@ import os
 import simplejson as json
 import ftplib
 import urllib2
-import sha
 import time
 import logging
 import formencode
@@ -35,6 +34,7 @@ from sqlalchemy import orm, sql
 from mediacore.forms.uploader import UploadForm
 from mediacore.lib import email
 from mediacore.lib.base import BaseController
+from mediacore.lib.compat import sha1
 from mediacore.lib.decorators import expose, expose_xhr, paginate, validate
 from mediacore.lib.filetypes import guess_container_format, guess_media_type, parse_embed_url
 from mediacore.lib.helpers import (accepted_extensions, redirect, url_for,
@@ -323,7 +323,7 @@ def _verify_ftp_upload_integrity(file, file_url):
            some better way of verifying the integrity of the upload.
     """
     file.seek(0)
-    old_hash = sha.new(file.read()).hexdigest()
+    old_hash = sha1(file.read()).hexdigest()
     tries = 0
 
     # Try to download the file. Increase the number of retries, or the
@@ -335,7 +335,7 @@ def _verify_ftp_upload_integrity(file, file_url):
         tries += 1
         try:
             temp_file = urllib2.urlopen(file_url)
-            new_hash = sha.new(temp_file.read()).hexdigest()
+            new_hash = sha1(temp_file.read()).hexdigest()
             temp_file.close()
 
             # If the downloaded file matches, success! Otherwise, we can

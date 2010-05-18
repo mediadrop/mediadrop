@@ -1,8 +1,4 @@
 import sys
-try:
-    from hashlib import sha1
-except ImportError:
-    sys.exit('ImportError: no module named hashlib\nIf you are on python2.4 this library is not part of python. Please install it. Example: easy_install hashlib')
 import os
 from datetime import datetime
 
@@ -12,7 +8,7 @@ from sqlalchemy.orm import relation, backref, synonym
 from sqlalchemy.orm.exc import NoResultFound
 
 from mediacore.model.meta import Base, DBSession
-
+from mediacore.lib.compat import sha1
 
 # This is the association table for the many-to-many relationship between
 # groups and permissions.

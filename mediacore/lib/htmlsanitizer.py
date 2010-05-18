@@ -22,16 +22,9 @@ import re
 import sys
 import copy
 
-s = lambda x: unicode(x)[:20].replace("\n", "")
+from mediacore.lib.compat import any
 
-# Python 2.4 compatibility
-try: any
-except NameError:
-    def any(iterable):
-        for element in iterable:
-            if element:
-                return True
-        return False
+s = lambda x: unicode(x)[:20].replace("\n", "")
 
 """
 html5lib compatibility. Basically, we need to know that this still works whether html5lib
