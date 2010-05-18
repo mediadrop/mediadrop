@@ -13,7 +13,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """The application's model objects"""
-from mediacore.model.meta import DBSession, Base
 
 import re
 import webob.exc
@@ -23,6 +22,7 @@ from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.sql.expression import ColumnClause as _ColumnClause
 from mediacore.lib.htmlsanitizer import entities_to_unicode
 from mediacore.lib.unidecode import unidecode
+from mediacore.model.meta import DBSession, Base, metadata
 
 # maximum length of slug strings for all objects.
 slug_length = 50
@@ -36,6 +36,9 @@ slug_length = 50
 def init_model(engine):
     """Call me before using any of the tables or classes in the model."""
     DBSession.configure(bind=engine)
+    from mediacore.model import meta
+    meta.metadata.bind = engine
+    meta.engine = engine 
 
 
 def fetch_row(mapped_class, pk=None, extra_filter=None, **kwargs):
