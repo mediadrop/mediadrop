@@ -29,6 +29,7 @@ from formencode import validators
 from paste.deploy.converters import asbool
 from paste.util import mimeparse
 from pylons import config, request, response, session, tmpl_context
+from pylons.i18n import _
 from sqlalchemy import orm, sql
 
 from mediacore.forms.uploader import UploadForm
@@ -211,7 +212,7 @@ class UploadController(BaseController):
                     media_file.display_name = os.path.basename(url)
                 else:
                     # Trigger a validation error on the whole form.
-                    raise formencode.Invalid('Please specify a URL or upload a file below.', None, None)
+                    raise formencode.Invalid(_('Please specify a URL or upload a file below.'), None, None)
             media_obj.files.append(media_file)
 
         # Add the final changes.
@@ -344,9 +345,9 @@ def _verify_ftp_upload_integrity(file, file_url):
                 return True
             else:
                 raise FTPUploadException(
-                    'Uploaded File and Downloaded File did not match')
+                    _('Uploaded File and Downloaded File did not match'))
         except urllib2.HTTPError, e:
             pass
 
     raise FTPUploadException(
-        'Could not download the file after %d attempts' % max)
+        _('Could not download the file after %d attempts') % max)

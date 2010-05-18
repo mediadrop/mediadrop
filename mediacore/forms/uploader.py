@@ -21,6 +21,7 @@ from tw.api import WidgetsList, CSSLink
 import formencode
 from tw.forms.validators import NotEmpty, FieldStorageUploadConverter
 from pylons import config
+from pylons.i18n import _
 
 from mediacore.lib import helpers
 from mediacore.lib.filetypes import accepted_extensions, guess_container_format, parse_embed_url
@@ -28,15 +29,15 @@ from mediacore.forms import ListForm, TextField, XHTMLTextArea, FileField, Submi
 
 validators = dict(
     description = XHTMLTextArea.validator(
-        messages = {'empty': 'At least give it a short description...'},
+        messages = {'empty': _('At least give it a short description...')},
         not_empty = True,
     ),
     name = TextField.validator(
-        messages = {'empty': "You've gotta have a name!"},
+        messages = {'empty': _("You've gotta have a name!")},
         not_empty = True,
     ),
     title = TextField.validator(
-        messages = {'empty': "You've gotta have a title!"},
+        messages = {'empty': _("You've gotta have a title!")},
         not_empty = True,
     ),
 )
@@ -56,7 +57,7 @@ class EmbedURLValidator(formencode.FancyValidator):
             return value
 
         raise formencode.Invalid(
-            "This isn't a valid YouTube, Google Video, Vimeo or direct link.",
+            _("This isn't a valid YouTube, Google Video, Vimeo or direct link."),
             value, state
         )
 
@@ -68,11 +69,11 @@ class UploadForm(ListForm):
     params = ['async_action']
 
     class fields(WidgetsList):
-        name = TextField(validator=validators['name'], label_text='Your Name:', maxlength=50)
-        email = TextField(validator=email_validator(not_empty=True), label_text='Your Email:', help_text='(will never be published)', maxlength=255)
-        title = TextField(validator=validators['title'], label_text='Title:', maxlength=255)
-        description = XHTMLTextArea(validator=validators['description'], label_text='Description:', attrs=dict(rows=5, cols=25))
-        url = TextField(validator=EmbedURLValidator(if_missing=None), label_text='Add a YouTube, Vimeo or Google Video URL:', maxlength=255)
-        file = FileField(validator=FieldStorageUploadConverter(if_missing=None, messages={'empty':'Oops! You forgot to enter a file.'}), label_text='OR:')
+        name = TextField(validator=validators['name'], label_text=_('Your Name:'), maxlength=50)
+        email = TextField(validator=email_validator(not_empty=True), label_text=_('Your Email:'), help_text=_('(will never be published)'), maxlength=255)
+        title = TextField(validator=validators['title'], label_text=_('Title:'), maxlength=255)
+        description = XHTMLTextArea(validator=validators['description'], label_text=_('Description:'), attrs=dict(rows=5, cols=25))
+        url = TextField(validator=EmbedURLValidator(if_missing=None), label_text=_('Add a YouTube, Vimeo or Google Video URL:'), maxlength=255)
+        file = FileField(validator=FieldStorageUploadConverter(if_missing=None, messages={'empty':_('Oops! You forgot to enter a file.')}), label_text=_('OR:'))
         submit = SubmitButton(show_error=False, css_classes=['btn', 'btn-submit'])
 
