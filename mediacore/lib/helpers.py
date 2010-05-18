@@ -46,10 +46,19 @@ from webob.exc import HTTPNotFound
 from mediacore.lib.htmlsanitizer import Cleaner, entities_to_unicode as decode_entities, encode_xhtml_entities as encode_entities
 from mediacore.lib.filetypes import accepted_extensions, pick_media_file_player
 
-def url_for(*args, **kwargs):
-    """Compose a URL using the route mappings in :mod:`mediacore.config.routes`.
+def url(*args, **kwargs):
+    """Compose a URL with :func:`pylons.url`, all arguments are passed."""
+    return _generate_url(pylons_url, *args, **kwargs)
 
-    This is a wrapper for :func:`pylons.url`, all arguments are passed.
+def url_for(*args, **kwargs):
+    """Compose a URL :func:`pylons.url.current`, all arguments are passed."""
+    return _generate_url(pylons_url.current, *args, **kwargs)
+
+# Mirror the behaviour you'd expect from pylons.url
+url.current = url_for
+
+def _generate_url(url_func, *args, **kwargs):
+    """Generate a URL using the given callable.
 
     Using the REPLACE and REPLACE_WITH GET variables, if set,
     this method replaces the first instance of REPLACE in the
@@ -74,12 +83,12 @@ def url_for(*args, **kwargs):
     if args:
         args = [to_utf8(val) for val in args]
     if kwargs:
-        kwargs = dict( (key, to_utf8(val)) for key, val in kwargs.items() )
+        kwargs = dict((key, to_utf8(val)) for key, val in kwargs.items())
 
     # TODO: Rework templates so that we can avoid using .current, and use named
     # routes, as described at http://routes.groovie.org/manual.html#generating-routes-based-on-the-current-url
     # NOTE: pylons.url is a StackedObjectProxy wrapping the routes.url method.
-    url = pylons_url.current(*args, **kwargs)
+    url = url_func(*args, **kwargs)
 
     # If the proxy_prefix config directive is set up, then we need to make sure
     # that the SCRIPT_NAME is prepended to the URL. This SCRIPT_NAME prepending
