@@ -266,9 +266,9 @@ class MediaApiController(BaseController):
             description = media.description,
             description_plain = media.description_plain,
             comment_count = media.comment_count_published,
-            publish_on = media.publish_on,
+            publish_on = unicode(media.publish_on),
             likes = media.likes,
             views = media.views,
             thumbs = thumbs,
-            topics = dict((t.slug, t.name) for t in list(media.topics)),
+            categories = dict((c.slug, c.name) for c in list(media.categories)),
         )
