@@ -86,11 +86,13 @@
 							</div>
 						</div>
 					</td>
-					<td>
-						<div id="embedthis" class="meta-wrapper">
+					<td py:with="embed_code = h.embeddable_player(media)">
+						<!--! FIXME: Don't render these elements when there's no embed_code.
+						             We only render because of the mess of js above that expects these elements. -->
+						<div id="embedthis" class="meta-wrapper" style="${not embed_code and 'display:none' or None}">
 							<a class="meta meta-embed underline-hover" title="Embed on your site" href="#"><strong>Embed</strong></a>
 							<div class="meta-hover">
-								<label>Embeddable Player HTML: <input type="text" value="${h.embeddable_player(media)}" readonly="readonly" /></label>
+								<label>Embeddable Player HTML: <input type="text" value="${embed_code}" readonly="readonly" /></label>
 							</div>
 						</div>
 					</td>
