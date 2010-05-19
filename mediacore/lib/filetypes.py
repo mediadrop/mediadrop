@@ -114,7 +114,7 @@ guess_media_type_map = {
 external_embedded_containers = {
     'youtube': {
         'pattern': re.compile('^(http(s?)://)?(\w+.)?youtube.com/watch\?(.*&)?v=(?P<id>[^&#]+)'),
-        'play': 'http://youtube.com/v/%s',
+        'play': 'http://youtube.com/v/%s?rel=0&fs=1&hd=1',
         'link': 'http://youtube.com/watch?v=%s',
         'type': VIDEO,
     },
