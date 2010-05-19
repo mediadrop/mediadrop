@@ -119,7 +119,7 @@ external_embedded_containers = {
         'type': VIDEO,
     },
     'google': {
-        'pattern': re.compile('^(http(s?)://)?video.google.com/videoplay\?(.*&)?docid=(?P<id>-\d+)'),
+        'pattern': re.compile('^(http(s?)://)?video.google.com/videoplay\?(.*&)?docid=(?P<id>-?\d+)'),
         'play': 'http://video.google.com/googleplayer.swf?docid=%s&hl=en&fs=true',
         'link': 'http://video.google.com/videoplay?docid=%s',
         'type': VIDEO,
