@@ -40,6 +40,7 @@ from paste.util import mimeparse
 from pylons import config, request, response, url as pylons_url
 from webhelpers import date, feedgenerator, html, number, misc, text, paginate, containers
 from webhelpers.html import tags
+from webhelpers.html.builder import literal
 from webhelpers.html.converters import format_paragraphs
 from webob.exc import HTTPNotFound
 
@@ -578,6 +579,7 @@ def append_class_attr(attrs, class_name):
     return attrs
 
 excess_whitespace = re.compile('\s\s+', re.M)
+spaces_between_tags = re.compile('>\s+<', re.M)
 
 def embeddable_player(media):
     """Return a string of XHTML for embedding our player on other sites.
@@ -589,8 +591,8 @@ def embeddable_player(media):
 
     :param media: The item to embed
     :type media: :class:`mediacore.model.media.Media` instance
-    :returns: XHTML
-    :rtype: unicode
+    :returns: Unicode XHTML
+    :rtype: :class:`webhelpers.html.builder.literal`
 
     """
     xhtml = pylons.templating.render_genshi(
@@ -598,7 +600,7 @@ def embeddable_player(media):
         extra_vars=dict(media=media),
         method='xhtml'
     )
-    xhtml = excess_whitespace.sub(' ', xhtml)
+    xhtml = spaces_between_tags.sub(literal('><'), xhtml)
     return xhtml.strip()
 
 def get_featured_category():
