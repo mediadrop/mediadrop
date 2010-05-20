@@ -100,6 +100,7 @@ guess_media_type_map = {
     'mp4':  VIDEO,
     'm4v':  VIDEO,
     'ogg':  VIDEO,
+    'ogv':  VIDEO,
     '3gp':  VIDEO,
     '3g2':  VIDEO,
     'divx': VIDEO,
