@@ -120,6 +120,9 @@ Virtualenv as below.
    # install the mysql client and python2.5
    sudo apt-get install mysql-client-5.1 libmysqlclient15off python2.5-dev python2.5-doc
 
+   # install the necessary libraries for creating thumbnails
+   sudo apt-get install libjpeg-dev libjpeg62 libjpeg62-dev zlib1g-dev libfreetype6 libfreetype6-dev
+
 
 Step 0.2: Installing Setuptools
 -------------------------------
