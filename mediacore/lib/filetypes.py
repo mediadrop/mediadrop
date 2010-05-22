@@ -40,6 +40,9 @@ CAPTIONS = 'captions'
 #      and sometimes treated as file extensions. Caveat coder.
 # TODO: Replace with a more complete list or (even better) change the logic
 #       to detect mimetypes from something other than the file extension.
+# XXX: This list can contain at most 21 items! Any more will crash Flash when
+#      accepted_extensions() is passed to Swiff.Uploader to provide the
+#      typeFilter.
 mimetype_lookup = {
     'flac': 'audio/flac',
     'mp3':  'audio/mpeg',
@@ -55,13 +58,10 @@ mimetype_lookup = {
     '3g2':  '%s/3gpp',
     'divx': 'video/mpeg',
     'dv':   'video/x-dv',
-    'dvx':  'video/mpeg',
     'flv':  'video/x-flv', # made up, it's what everyone uses anyway.
     'mov':  'video/quicktime',
     'mpeg': '%s/mpeg',
     'mpg':  '%s/mpeg',
-    'qt':   'video/quicktime',
-    'vob':  '%s/x-vob', # multiplexed container format
     'wmv':  'video/x-ms-wmv',
     'xml':  'application/ttml+xml',
     'srt':  'text/plain',
