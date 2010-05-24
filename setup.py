@@ -10,7 +10,7 @@ from mediacore import __version__ as VERSION
 install_requires = [
     'Pylons == 0.10rc1',
     'SQLAlchemy == 0.5.8',
-    'Genshi == 0.5.1',
+    'Genshi >= 0.5.1',
     'Routes == 1.12',
     'repoze.who == 1.0.18',
     'repoze.what-pylons == 1.0',

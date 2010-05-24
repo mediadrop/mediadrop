@@ -21,7 +21,6 @@
       py:strip="">
 
 <xi:include href="helpers.html" />
-<xi:include href="nav.html" />
 
 <head py:match="head">
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -36,6 +35,7 @@
 	<nav />
 	<div py:replace="select('*|text()|comment()')" />
 </body>
+<xi:include href="nav.html" />
 
 <!--! Optionally wrap the core MediaCore output in a layout -->
 <xi:include py:if="c.layout_template" href="${c.layout_template}.html" />
