@@ -38,6 +38,23 @@ try:
 except ImportError:
     install_requires.append('PIL >= 1.1.6')
 
+extra_arguments_for_setup = {}
+# optional dependency on babel - if it is not installed, you can not extract 
+# new messages but MediaCore itself will still work...
+try:
+    import babel
+    # extractors are declared separately so it is easier for 3rd party users
+    # to use them for other packages as well...
+    extractors = [
+        ('**.py',             'python', None),
+        ('templates/**.html', 'genshi', None),
+        ('public/**',         'ignore', None),
+    ]
+    extra_arguments_for_setup['message_extractors'] = {'mediacore': extractors}
+except ImportError:
+    pass
+
+
 setup(
     name='MediaCore',
     version=VERSION,
@@ -73,10 +90,6 @@ setup(
     packages=find_packages(exclude=['ez_setup']),
     include_package_data=True,
     package_data={'mediacore': ['i18n/*/LC_MESSAGES/*.mo']},
-    # message_extractors = {'mediacore': [
-    #    ('**.py', 'python', None),
-    #    ('templates/**.html', 'genshi', None),
-    #    ('public/**', 'ignore', None)]},
     zip_safe=False,
 
     entry_points="""
@@ -86,4 +99,5 @@ setup(
     [paste.app_install]
     main = pylons.util:PylonsInstaller
     """,
+    **extra_arguments_for_setup
 )
