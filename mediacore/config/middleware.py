@@ -17,11 +17,13 @@
 import os
 
 from beaker.middleware import SessionMiddleware
+from genshi.filters.i18n import Translator
 from paste.cascade import Cascade
 from paste.registry import RegistryManager
 from paste.urlparser import StaticURLParser
 from paste.deploy.converters import asbool
 from paste.deploy.config import PrefixMiddleware
+from pylons.i18n.translation import lazify, ugettext
 from pylons.middleware import ErrorHandler, StatusCodeRedirect
 from pylons.wsgiapp import PylonsApp
 from routes.middleware import RoutesMiddleware
@@ -98,9 +100,16 @@ def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
     # Set up the TW middleware, as per errors and instructions at:
     # http://groups.google.com/group/toscawidgets-discuss/browse_thread/thread/c06950b8d1f62db9
     # http://toscawidgets.org/documentation/ToscaWidgets/install/pylons_app.html
+    
+    
+    def enable_i18n_for_template(template):
+        template.filters.insert(0, Translator(ugettext))
+    
     app = tw.api.make_middleware(app, {
         'toscawidgets.framework': 'pylons',
         'toscawidgets.framework.default_view': 'genshi',
+        'toscawidgets.framework.translator': lazify(ugettext),
+        'toscawidgets.framework.engine_options': {'genshi.loader_callback': enable_i18n_for_template},
     })
 
     # Add transaction management

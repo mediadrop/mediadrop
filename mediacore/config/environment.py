@@ -16,8 +16,10 @@
 import os
 import re
 
+from genshi.filters.i18n import Translator
 from genshi.template import TemplateLoader
 from pylons.configuration import PylonsConfig
+from pylons.i18n.translation import ugettext
 from sqlalchemy import engine_from_config
 
 import mediacore.lib.app_globals as app_globals
@@ -53,10 +55,15 @@ def load_environment(global_conf, app_conf):
     pylons.cache._push_object(config['pylons.app_globals'].cache)
 
 
+    translator = Translator(ugettext)
+    def enable_i18n_for_template(template):
+        template.filters.insert(0, translator)
+    
     # Create the Genshi TemplateLoader
     config['pylons.app_globals'].genshi_loader = TemplateLoader(
         search_path=paths['templates'],
         auto_reload=True,
+        callback=enable_i18n_for_template
     )
 
     # Setup the SQLAlchemy database engine
