@@ -17,7 +17,12 @@ from webtest import TestApp
 
 import pylons.test
 
-__all__ = ['environ', 'url', 'TestController']
+__all__ = [
+    'environ',
+    'TestCase',
+    'TestController',
+    'url',
+]
 
 # Invoke websetup with the current config file
 SetupCommand('setup-app').run([pylons.test.pylonsapp.config['__file__']])

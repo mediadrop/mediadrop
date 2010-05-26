@@ -13,6 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import pylons.test
 from tw import forms
 from tw.api import JSLink, JSSource
 from tw.forms import FileField, ListFieldSet, TextArea as tw_TA, TextField as tw_TF
@@ -142,7 +143,8 @@ class XHTMLTextArea(TextArea):
     validator = XHTMLValidator
     javascript = [
         ConditionalJSLink(
-            link = url_for("/scripts/third-party/tiny_mce/tiny_mce.js"),
+            link = pylons.test.pylonsapp and '/scripts/third-party/tiny_mce/tiny_mce.js' \
+                or url_for('/scripts/third-party/tiny_mce/tiny_mce.js'),
             condition = tiny_mce_condition,
         ),
         ConditionalJSSource("""window.addEvent('domready', function(){
