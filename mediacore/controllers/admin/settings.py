@@ -15,7 +15,7 @@
 
 import tw.forms.fields
 
-from pylons import request, response, session, tmpl_context
+from pylons import request, response, session, tmpl_context as c
 from repoze.what.predicates import has_permission
 from sqlalchemy import orm, sql
 
@@ -66,9 +66,10 @@ class SettingsController(BaseController):
 
     allow_only = has_permission('admin')
 
-    def __init__(self, *args, **kwargs):
-        super(SettingsController, self).__init__(*args, **kwargs)
-        self.settings = dict(DBSession.query(Setting.key, Setting))
+    def __before__(self, *args, **kwargs):
+        """Load all our settings before each request."""
+        BaseController.__before__(self, *args, **kwargs)
+        c.settings = dict(DBSession.query(Setting.key, Setting))
 
     @expose()
     def index(self, **kwargs):
@@ -77,7 +78,7 @@ class SettingsController(BaseController):
     def _update_settings(self, values):
         """Modify the settings associated with the given dictionary."""
         for name, value in values.iteritems():
-            setting = self.settings[name]
+            setting = c.settings[name]
             if value is None:
                 value = u''
             else:
@@ -97,7 +98,7 @@ class SettingsController(BaseController):
             form_values
                 ``dict`` form values
         """
-        form_values = _nest_settings_for_form(self.settings, form)
+        form_values = _nest_settings_for_form(c.settings, form)
         form_values.update(kwargs)
         return dict(
             form = form,
@@ -106,7 +107,7 @@ class SettingsController(BaseController):
 
     def _save(self, form, redirect_action=None, **kwargs):
         """Save the values from the passed in form instance."""
-        values = _flatten_settings_from_form(self.settings, form, kwargs)
+        values = _flatten_settings_from_form(c.settings, form, kwargs)
         self._update_settings(values)
         if redirect_action:
             redirect(action=redirect_action)
@@ -140,12 +141,12 @@ class SettingsController(BaseController):
     @validate(display_form, error_handler=display)
     def save_display(self, **kwargs):
         """Save :class:`~mediacore.forms.admin.settings.DisplayForm`."""
-        player_type = self.settings['player_type'].value
+        player_type = c.settings['player_type'].value
         self._save(display_form, **kwargs)
         # If the player_type changes, we must update the Media.encoded flag,
         # since some things may play now and/or not play anymore with the
         # new setting.
-        if player_type != self.settings['player_type'].value:
+        if player_type != c.settings['player_type'].value:
             for m in Media.query.options(orm.eagerload('files')):
                 m.update_status()
                 DBSession.add(m)
