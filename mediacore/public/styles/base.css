@@ -213,12 +213,12 @@ a.meta:visited {
 .meta-download { background: url('../images/icons/download.png') no-repeat left; }
 .meta-embed { background: url('../images/icons/embed.png') no-repeat left; }
 .meta-share { background: url('../images/icons/share.png') no-repeat left; }
-.meta-episodes { background:url('/images/icons/rss.png') no-repeat left; }
-.meta-itunes { background:url('/images/icons/rss.png') no-repeat left; }
-.meta-rss { background:url('/images/icons/rss.png') no-repeat left; }
-.meta-audio { background:url('/images/icons/audio.png') no-repeat left; }
-.meta-video { background:url('/images/icons/video.png') no-repeat left; }
-.meta-go { background:url('/images/icons/go.png') no-repeat left; }
+.meta-episodes { background:url('../images/icons/rss.png') no-repeat left; }
+.meta-itunes { background:url('../images/icons/rss.png') no-repeat left; }
+.meta-rss { background:url('../images/icons/rss.png') no-repeat left; }
+.meta-audio { background:url('../images/icons/audio.png') no-repeat left; }
+.meta-video { background:url('../images/icons/video.png') no-repeat left; }
+.meta-go { background:url('../images/icons/go.png') no-repeat left; }
 
 a.meta-likes strong {
 	color: #0F7CB4;
