@@ -191,7 +191,7 @@ class MediaController(BaseController):
             if akismet.comment_check(values['body'].encode('utf-8'), data):
                 text = 'Your comment appears to be spam and has been rejected.'
                 store_transient_message('comment_posted', text, success=False)
-                redirect(action='view', anchor='top')
+                redirect(action='view', anchor='comment-flash')
 
         media = fetch_row(Media, slug=slug)
 
