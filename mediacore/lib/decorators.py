@@ -19,7 +19,7 @@ import formencode
 import tw.forms
 
 from genshi import XML
-from pylons import config, request, tmpl_context
+from pylons import config, request, response, tmpl_context
 from pylons.templating import render_genshi as render
 from pylons.decorators import jsonify
 
@@ -80,13 +80,17 @@ def _expose_wrapper(f, template):
         return jsonify(f)
     elif template == "string":
         return f
+
     def wrapped_f(*args, **kwargs):
         result = f(*args, **kwargs)
+
         extra_vars = {
             # Steal a page from TurboGears' book:
             # include the genshi XML helper for convenience in templates.
             'XML': XML
         }
+        extra_vars.update(result)
+
         # If the provided template path isn't absolute (ie, doesn't start with
         # a '/'), then prepend the default search path. By providing the
         # template path to genshi as an absolute path, we invoke different
@@ -96,7 +100,15 @@ def _expose_wrapper(f, template):
             tmpl = os.path.join(config['genshi_search_path'], template)
         else:
             tmpl = template
-        extra_vars.update(result)
+
+        # Use a application/xhtml+xml content-type when the client supports it.
+        # We don't use paste.util.mimeparse because we're picky negotiators.
+        # For our purposes, Accepting */* isn't reason enough to be served XHTML:
+        # we err on the side of caution (text/html)
+        if response.content_type == 'text/html' \
+        and 'application/xhtml+xml' in request.headers.get('Accept', ''):
+            response.content_type = 'application/xhtml+xml'
+
         return render(tmpl, extra_vars=extra_vars)
     return wrapped_f
 
