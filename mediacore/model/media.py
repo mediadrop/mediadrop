@@ -35,8 +35,9 @@ from urlparse import urlparse
 
 from sqlalchemy import Table, ForeignKey, Column, sql, func
 from sqlalchemy.types import String, Unicode, UnicodeText, Integer, DateTime, Boolean, Float
-from sqlalchemy.orm import mapper, class_mapper, relation, backref, synonym, composite, column_property, comparable_property, dynamic_loader, validates, collections, Query
+from sqlalchemy.orm import mapper, class_mapper, relation, backref, synonym, composite, column_property, comparable_property, dynamic_loader, validates, collections, attributes, Query
 from pylons import config, request
+from zope.sqlalchemy import datamanager
 
 from mediacore.model import get_available_slug, _mtm_count_property, _properties_dict_from_labels, _MatchAgainstClause
 from mediacore.model.meta import Base, DBSession
@@ -425,11 +426,29 @@ class Media(object):
            and (self.publish_until is None or self.publish_until >= datetime.now())
 
     def increment_views(self):
-        # update the number of views with an expression, to avoid concurrency
-        # issues associated with simultaneous writes.
-        views = self.views + 1
-        self.views = media.c.views + sql.text('1')
-        return views
+        """Increment the number of views in the database.
+
+        We avoid concurrency issues by incrementing JUST the views and
+        not allowing modified_on to be updated automatically.
+
+        """
+        if self.id is None:
+            self.views += 1
+            return self.views
+
+        query = 'UPDATE %s SET %s = (%s + 1) WHERE %s = :media_id' \
+              % (media, media.c.views, media.c.views, media.c.id)
+        DBSession.execute(query, {'media_id': self.id})
+
+        # Let the repoze.tm2 transaction middleware know that the above
+        # query modifies the database and we'll eventually want to issue
+        # transaction.commit() to ensure it takes effect.
+        datamanager.mark_changed(DBSession())
+
+        # Increment the views by one for the rest of the request,
+        # but don't allow the ORM to increment the views too.
+        attributes.set_committed_value(self, 'views', self.views + 1)
+        return self.views
 
     def increment_likes(self):
         self.update_popularity()
