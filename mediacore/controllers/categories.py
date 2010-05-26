@@ -33,17 +33,20 @@ class CategoriesController(BaseController):
 
     """
 
-    def __init__(self, *args, **kwargs):
-        super(CategoriesController, self).__init__(*args, **kwargs)
+    def __before__(self, *args, **kwargs):
+        """Load all our category data before each request."""
+        BaseController.__before__(self, *args, **kwargs)
 
         c.categories = Category.query.order_by(Category.name).populated_tree()
 
-        counts = dict(DBSession.query(Category.id, Category.media_count_published))
+        counts = dict(DBSession.query(Category.id,
+                                      Category.media_count_published))
         c.category_counts = counts.copy()
         for cat, depth in c.categories.traverse():
             count = counts[cat.id]
-            for ancestor in cat.ancestors():
-                c.category_counts[ancestor.id] += count
+            if count:
+                for ancestor in cat.ancestors():
+                    c.category_counts[ancestor.id] += count
 
         category_slug = request.environ['pylons.routes_dict'].get('slug', None)
         if category_slug:
@@ -53,7 +56,6 @@ class CategoriesController(BaseController):
 
     @expose('categories/index.html')
     def index(self, slug=None, **kwargs):
-        categories = Category.query.order_by(Category.name).populated_tree()
         media = Media.query.published()\
             .options(orm.undefer('comment_count_published'))
 
