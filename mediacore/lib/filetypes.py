@@ -365,7 +365,8 @@ def pick_media_file_player(files, browser=None, version=None, user_agent=None):
     if browser is None:
         browser, version = parse_user_agent_version(user_agent)
 
-    support_html5 = player_type in ('best', 'html5')
+    support_html5 = player_type in ('best', 'html5') or \
+        browser not in flash_supported_browsers # try anyway on iTunes, iPhone
     support_flash = player_type in ('best', 'flash') and \
         browser in flash_supported_browsers
 
