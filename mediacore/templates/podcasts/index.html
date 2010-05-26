@@ -45,9 +45,8 @@
 					</div>
 					<div class="podcast-episodes">
 						<h4>Latest Episodes</h4>
-						<!--!${min(4, podcast.media_count_published)} of ${podcast.media_count_published}-->
 						<ol>
-							<li py:for="media in podcast.media[:4]" class="meta-${media.type}">
+							<li py:for="media in podcast_episodes[podcast]" class="meta-${media.type}">
 								<a class="underline-hover" href="${h.url_for(controller='/media', action='view', slug=media.slug, podcast_slug=podcast.slug)}">${media.title}</a>
 							</li>
 						</ol>

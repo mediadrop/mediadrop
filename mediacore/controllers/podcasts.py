@@ -60,8 +60,14 @@ class PodcastsController(BaseController):
         if len(podcasts) == 1:
             redirect(action='view', slug=podcasts[0].slug)
 
+        podcast_episodes = {}
+        for podcast in podcasts:
+            podcast_episodes[podcast] = podcast.media.published()\
+                .order_by(Media.publish_on.desc())[:4]
+
         return dict(
             podcasts = podcasts,
+            podcast_episodes = podcast_episodes,
         )
 
 
