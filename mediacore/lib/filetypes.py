@@ -100,18 +100,18 @@ guess_media_type_map = {
     'mp4':  VIDEO,
     'm4v':  VIDEO,
     'ogg':  VIDEO,
+    'oga':  AUDIO,
     'ogv':  VIDEO,
+    'mka':  AUDIO,
+    'mkv':  VIDEO,
     '3gp':  VIDEO,
     '3g2':  VIDEO,
     'divx': VIDEO,
     'dv':   VIDEO,
-    'dvx':  VIDEO,
     'flv':  VIDEO,
     'mov':  VIDEO,
     'mpeg': VIDEO,
     'mpg':  VIDEO,
-    'qt':   VIDEO,
-    'vob':  VIDEO,
     'wmv':  VIDEO,
     'xml':  CAPTIONS,
     'srt':  CAPTIONS,
@@ -218,7 +218,7 @@ def accepted_extensions():
     :rtype: list
     """
     e = mimetype_lookup.keys()
-    e = sorted(e)
+    e.sort()
     return e
 
 def parse_embed_url(url):
