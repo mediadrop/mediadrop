@@ -26,9 +26,9 @@ CREATE TABLE `categories` (
   `slug` varchar(50) CHARACTER SET ascii NOT NULL,
   `parent_id` int(10) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `name` (`name`),
   UNIQUE KEY `slug` (`slug`),
   KEY `categories_ibfk_1` (`parent_id`),
+  KEY `name` USING BTREE (`name`),
   CONSTRAINT `categories_ibfk_1` FOREIGN KEY (`parent_id`) REFERENCES `categories` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;

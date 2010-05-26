@@ -25,7 +25,7 @@ from mediacore.model.meta import Base, DBSession
 
 categories = Table('categories', Base.metadata,
     Column('id', Integer, autoincrement=True, primary_key=True),
-    Column('name', Unicode(50), unique=True, nullable=False),
+    Column('name', Unicode(50), nullable=False),
     Column('slug', String(50), unique=True, nullable=False),
     Column('parent_id', Integer, ForeignKey('categories.id', onupdate='CASCADE', ondelete='CASCADE')),
     mysql_engine='InnoDB',
