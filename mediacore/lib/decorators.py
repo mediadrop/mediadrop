@@ -101,13 +101,18 @@ def _expose_wrapper(f, template):
         else:
             tmpl = template
 
-        # Use a application/xhtml+xml content-type when the client supports it.
-        # We don't use paste.util.mimeparse because we're picky negotiators.
-        # For our purposes, Accepting */* isn't reason enough to be served XHTML:
-        # we err on the side of caution (text/html)
-        if response.content_type == 'text/html' \
-        and 'application/xhtml+xml' in request.headers.get('Accept', ''):
-            response.content_type = 'application/xhtml+xml'
+        if request.environ.get('paste.testing', False):
+            # Make the vars passed from action to template accessible to tests
+            request.environ['paste.testing_variables']['tmpl_vars'] = result
+
+            # Serve application/xhtml+xml instead of text/html during testing.
+            # This allows us to query the response xhtml as ElementTree XML
+            # instead of BeautifulSoup HTML.
+            # NOTE: We do not serve true xhtml to all clients that support it
+            #       because of a bug in Mootools Swiff as of v1.2.4:
+            #       https://mootools.lighthouseapp.com/projects/2706/tickets/758
+            if response.content_type == 'text/html':
+                response.content_type = 'application/xhtml+xml'
 
         return render(tmpl, extra_vars=extra_vars)
     return wrapped_f
