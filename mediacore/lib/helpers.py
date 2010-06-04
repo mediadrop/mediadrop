@@ -27,7 +27,7 @@ import time
 from PIL import Image
 from copy import copy
 from datetime import datetime
-from urllib import quote, unquote
+from urllib import urlencode, quote, unquote
 from urlparse import urlparse
 
 import genshi.core
@@ -720,3 +720,120 @@ def store_transient_message(cookie_name, text, time=None, path='/', **kwargs):
     new_data = quote(json.dumps(msg))
     response.set_cookie(cookie_name, new_data, path=path)
     return msg
+
+
+class Player(object):
+    """Abstract Player Class"""
+    is_flash = False
+    is_embed = False
+    is_html5 = False
+
+class FlowPlayer(Player):
+    """Flash-based FlowPlayer"""
+    is_flash = True
+
+    @staticmethod
+    def swf_url(media, file, qualified=False):
+        return url_for('/scripts/third-party/flowplayer-3.1.5.swf', qualified=qualified)
+
+    @staticmethod
+    def flashvars(media, file, autoplay=False, autobuffer=False, qualified=False):
+        playlist = []
+        vars = {
+            'canvas': {'backgroundColor': '#000', 'backgroundGradient': 'none'},
+            'clip': {'scaling': 'fit'},
+            'playlist': playlist,
+        }
+
+        # Show a preview image
+        if media.type == 'audio' or not autoplay:
+            playlist.append({
+                'url': thumb_url(media, 'l', qualified=qualified),
+                'autoPlay': True,
+                'autoBuffer': True,
+            })
+
+        playlist.append({
+            'url': file.play_url(qualified=qualified),
+            'autoPlay': autoplay,
+            'autoBuffer': autoplay or autobuffer,
+        })
+
+        # Flowplayer wants these options passed as an escaped JSON string
+        # inside a single 'config' flashvar. When using the flowplayer's
+        # own JS, this is automatically done, but since we use Swiff, a
+        # SWFObject clone, we have to do this ourselves.
+        vars = {'config': json.dumps(vars, separators=(',', ':'))}
+        return vars
+
+class JWPlayer(Player):
+    """Flash-based JWPlayer -- this can play YouTube videos!"""
+    is_flash = True
+
+    @staticmethod
+    def swf_url(media, file, qualified=False):
+        return url_for('/scripts/third-party/jw_player/player.swf', qualified=qualified)
+
+    @staticmethod
+    def flashvars(media, file, autoplay=False, autobuffer=False, qualified=False):
+        vars = {
+            'image': thumb_url(media, 'l'),
+            'autostart': autoplay,
+        }
+
+        if file.container == 'youtube':
+            vars['provider'] = 'youtube'
+            vars['file'] = file.link_url(qualified=qualified)
+        else:
+            vars['file'] = file.play_url(qualified=qualified)
+
+        plugins = []
+        audio_desc = media.audio_desc
+        captions = media.captions
+        if audio_desc:
+            plugins.append('audiodescription');
+            vars['audiodescription.file'] = audio_desc.play_url(qualified=qualified)
+        if captions:
+            plugins.append('captions');
+            vars['captions.file'] = captions.play_url(qualified=qualified)
+        if plugins:
+            vars['plugins'] = ','.join(plugins)
+
+        return vars
+
+class EmbedPlayer(Player):
+    """Generic third-party embed player.
+
+    YouTube, Vimeo and Google Video can all be embedded in the same way.
+    """
+    is_embed = True
+    is_flash = True
+
+    @staticmethod
+    def swf_url(media, file, qualified=False):
+        return file.play_url(qualified=qualified)
+
+    @staticmethod
+    def flashvars(*args, **kwargs):
+        return {}
+
+class HTML5Player(Player):
+    """Stub that says HTML5 <audio> / <video> tags should be used."""
+    is_html5 = True
+
+players = {
+    'flowplayer': FlowPlayer,
+    'jwplayer': JWPlayer,
+    'youtube': EmbedPlayer,
+    'google': EmbedPlayer,
+    'vimeo': EmbedPlayer,
+    'html5': HTML5Player,
+    'sublime': HTML5Player,
+}
+"""Maps player names to classes that describe their behaviour.
+
+The names are from the html5_player and flash_player settings.
+
+You can use set 'youtube' to JWPlayer to take advantage of YouTube's
+chromeless player. The only catch is that it doesn't support HD.
+"""

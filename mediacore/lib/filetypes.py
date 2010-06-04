@@ -360,7 +360,7 @@ def pick_media_file_player(files, browser=None, version=None, user_agent=None):
     :rtype: tuple
 
     """
-    from mediacore.lib.helpers import fetch_setting
+    from mediacore.lib.helpers import fetch_setting, players
     player_type = fetch_setting('player_type')
 
     if browser is None:
@@ -378,8 +378,7 @@ def pick_media_file_player(files, browser=None, version=None, user_agent=None):
     if support_flash:
         for file in files:
             if file.container in external_embedded_containers:
-                # TODO: Support vimeo and youtube in our jwplayer/etc
-                return file, 'embed'
+                return file, players[file.container]
 
     # If possible, return an applicable file and html5 player
     # Note that this is currently based only on the container type
@@ -387,13 +386,15 @@ def pick_media_file_player(files, browser=None, version=None, user_agent=None):
         for container, codecs in native_supported_types(browser, version):
             for file in files:
                 if file.container == container:
-                    return file, fetch_setting('html5_player')
+                    player = fetch_setting('html5_player')
+                    return file, players.get(player, player)
 
     # If possible, return an applicable file and flash player
     if support_flash:
         for file in files:
             if file.container in flash_supported_containers:
-                return file, fetch_setting('flash_player')
+                player = fetch_setting('flash_player')
+                return file, players.get(player, player)
 
     # No acceptable file/player combination could be found.
     return None, None

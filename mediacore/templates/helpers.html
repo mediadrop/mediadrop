@@ -23,96 +23,48 @@
 
 		<py:when test="file is None" />
 
-		<py:when test="player == 'embed' or embed_only">
+		<py:when test="player.is_embed or embed_only">
 			<?python
-				controlbar_heights = {
-					'youtube': 25,
-					'google': 27,
-				}
-				height += controlbar_heights.get(file.container, 0)
-				player_urls = {
-					'jwplayer': h.url_for('/scripts/third-party/jw_player/player.swf', qualified=True),
-					'flowplayer': h.url_for('/scripts/third-party/flowplayer-3.1.5.swf', qualified=True),
-				}
-				play_url = file.play_url(qualified=qualified)
-				swf_url = file.embed and play_url or player_urls.get(player)
+			swf_url = player.swf_url(media, file, qualified=qualified)
+			vars = h.urlencode(player.flashvars(media, file, autoplay=autoplay, autobuffer=autobuffer, qualified=qualified))
 			?>
-			<object type="application/x-shockwave-flash" data="${swf_url}" width="${width}" height="${height}">
+			<object id="${media.slug}-${file.id}-player" type="application/x-shockwave-flash" data="${swf_url}" width="${width}" height="${height}">
 				<param name="movie" value="${swf_url}" />
 				<param name="allowfullscreen" value="true" />
 				<param name="allowscriptaccess" value="always" />
-				<param name="flashvars" py:if="not file.embed" value="file=${play_url}&amp;dock=true" />
+				<param name="flashvars" py:if="vars" value="${vars}" />
 			</object>
 		</py:when>
 
-		<py:when test="player == 'flowplayer'" py:with="height = height + 24">
-			<script src="${h.url_for('/scripts/third-party/flowplayer-3.1.4.min.js', qualified=qualified)}" type="text/javascript" />
-			<a id="flowplayer"
-			   href="${file.play_url(qualified=qualified)}"
-			   style="display:block;width:${width}px;height:${height}px" />
-			<script type="text/javascript">
-				flowplayer('flowplayer', "${h.url_for('/scripts/third-party/flowplayer-3.1.5.swf', qualified=qualified)}", {
-					clip: {scaling: 'fit'}
-					<py:if test="media.type == 'audio' or not autoplay"
-					       py:with="image = h.thumb_url(media, 'l', qualified=qualified, exists=True) or h.thumb_url(media.podcast, 'l', qualified=qualified, exists=True)">,
-						playlist: [
-							<py:if test="image">{url: '${image}', autoPlay: true, autoBuffer: true},</py:if>
-							{
-								url: '${file.play_url(qualified=qualified)}',
-								autoPlay: ${autoplay and 'true' or 'false'},
-								autoBuffer: ${(autoplay or autobuffer) and 'true' or 'false'}
-								<py:if test="media.duration">, duration: ${media.duration}</py:if>
-							}
-						]
-					</py:if>
-				});
-			</script>
-		</py:when>
-
-		<py:when test="player == 'jwplayer'">
+		<py:when test="player.is_flash">
 			<?python
-				height += 24
-				audio_desc = media.audio_desc
-				captions = media.captions
-				plugins = []
-				if audio_desc: plugins.append('audiodescription');
-				if captions: plugins.append('captions');
+			swf_url = player.swf_url(media, file, qualified=qualified)
+			vars = h.json.dumps(player.flashvars(media, file, autoplay=autoplay, autobuffer=autobuffer, qualified=qualified))
+			player_id = '%s-%s-player' % (media.slug, file.id)
 			?>
-			<a id="jwplayer"
+			<a id="${player_id}"
 			   href="${file.play_url(qualified=qualified)}"
-			   style="display:block;width:${width}px;height:${height}px" />
-			<script type="text/javascript" py:with="">
-				var jwObj = new Swiff('${h.url_for('/scripts/third-party/jw_player/player.swf', qualified=qualified)}', {
+			   style="display:block;width:${width}px;height:${height}px">
+				Download this ${media.type}!
+			</a>
+			<script type="text/javascript">
+				var jwObj = new Swiff('${swf_url}', {
 					width: ${width},
 					height: ${height},
 					params: {allowFullscreen: 'true'},
-					vars: {
-						file: '${file.play_url(qualified=qualified)}',
-						image: '${h.thumb_url(media, 'l')}',
-						autostart: ${autoplay and 'true' or 'false'}
-						<py:if test="media.duration">, duration: ${media.duration}</py:if>
-						<py:if test="plugins">
-							, plugins: '${','.join(plugins)}'
-							<py:if test="audio_desc">, 'audiodescription.file': '${audio_desc.play_url(qualified=qualified)}'</py:if>
-							<py:if test="captions">, 'captions.file': '${captions.play_url(qualified=qualified)}'</py:if>
-						</py:if>
-					}
+					vars: ${vars}
 				});
-				new Element('div').replaces('jwplayer').set('id', 'jwplayer').grab(jwObj);
+				var div = new Element('div').replaces('${player_id}').set('id', '${player_id}').grab(jwObj);
 			</script>
 		</py:when>
 
-		<py:when test="player == 'html5'" py:choose="file.type">
+		<py:when test="player.is_html5" py:choose="file.type">
 			<audio py:when="'audio'" src="${file.play_url(qualified=qualified)}" controls="controls" height="${height}" width="${width}">
-				If your browser supported HTML5, you'd be seeing a video here instead of this text!
+				If your browser supported HTML5, you'd be seeing an audio player here instead of this text!
 			</audio>
 			<video py:when="'video'" src="${file.play_url(qualified=qualified)}" controls="controls" height="${height}" width="${width}">
-				If your browser supported HTML5, you'd be seeing a video here instead of this text!
+				If your browser supported HTML5, you'd be seeing a video player here instead of this text!
 			</video>
-		</py:when>
-
-		<py:when test="player == 'sublime'">
-			This player has not yet been implemented! Check the project status at <a href="http://jilion.com/sublime/video">Jillion.com</a>.
 		</py:when>
 
 	</py:def>
