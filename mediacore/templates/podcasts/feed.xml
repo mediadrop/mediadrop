@@ -20,14 +20,14 @@
      xmlns:atom="http://www.w3.org/2005/Atom"
      version="2.0">
 	<channel>
-		<title py:content="Markup(podcast.title).stripentities()" />
+		<title py:content="podcast.title" />
 		<link py:content="h.url_for(action='view', qualified=True)" />
 		<language>en-us</language>
 		<docs>http://www.rssboard.org/rss-specification</docs>
 		<atom:link href="${h.url_for(qualified=True)}" rel="self" type="application/rss+xml" />
 
-		<description py:content="Markup(podcast.subtitle).stripentities()" />
-		<itunes:subtitle py:content="Markup(podcast.subtitle).stripentities()" />
+		<description py:content="podcast.subtitle" />
+		<itunes:subtitle py:content="podcast.subtitle" />
 		<itunes:summary py:content="h.strip_xhtml(podcast.description)" />
 
 		<itunes:category py:if="podcast.category"
@@ -37,7 +37,7 @@
 			                 text="${category[1]}" />
 		</itunes:category>
 
-		<py:with vars="author_name = Markup(podcast.author.name).stripentities();
+		<py:with vars="author_name = podcast.author.name;
 		               author_email = podcast.author.email;">
 			<managingEditor>${author_email}<py:if test="author_name"> (${author_name})</py:if></managingEditor>
 			<itunes:author py:content="author_name" />
@@ -51,7 +51,7 @@
 
 		<image py:with="thumb = h.thumb(podcast, 's', qualified=True)">
 			<url py:content="thumb.url" />
-			<title py:content="Markup(podcast.title).stripentities()" />
+			<title py:content="podcast.title" />
 			<link py:content="h.url_for(action='view', qualified=True)" />
 			<width py:content="thumb.x" />
 			<height py:content="thumb.y" />
@@ -59,7 +59,7 @@
 		<itunes:image href="${h.thumb_url(podcast, 'l', qualified=True)}" />
 		<!--! iTunes image should be square and 600x600 or larger -->
 
-		<copyright py:content="Markup(podcast.copyright).stripentities()" />
+		<copyright py:content="podcast.copyright" />
 
 <!--!	<pubDate />
 		<lastBuildDate />
@@ -69,18 +69,18 @@
 
 		<item py:for="media in episodes"
 		      py:with="permalink = h.url_for(controller='/media', action='view', slug=media.slug, podcast_slug=podcast.slug, qualified=True)">
-			<title py:content="Markup(media.title).stripentities()" />
+			<title py:content="media.title" />
 			<guid py:content="permalink" />
 			<pubDate py:content="media.publish_on.strftime('%a, %d %b %Y %H:%M:%S %Z')" />
 			<comments py:content="permalink + '#comments'" />
-			<author>${media.author.email}<py:if test="media.author.name"> (${Markup(media.author.name).stripentities()})</py:if></author>
-			<itunes:author py:if="media.author.name" py:content="Markup(media.author.name).stripentities()" />
+			<author>${media.author.email}<py:if test="media.author.name"> (${media.author.name})</py:if></author>
+			<itunes:author py:if="media.author.name" py:content="media.author.name" />
 			<description py:content="media.description_plain" />
 			<itunes:summary py:content="media.description_plain" />
-			<itunes:subtitle py:if="media.subtitle" py:content="Markup(media.subtitle).stripentities()" />
+			<itunes:subtitle py:if="media.subtitle" py:content="media.subtitle" />
 			<itunes:subtitle py:if="not media.subtitle" py:content="h.truncate(media.description_plain, 120)" />
 			<itunes:duration py:if="media.duration" py:content="media.duration" />
-			<itunes:keywords py:content="Markup(', '.join(tag.name for tag in media.tags)).stripentities()" />
+			<itunes:keywords py:content="', '.join(tag.name for tag in media.tags)" />
 			<media:thumb py:with="thumb = h.thumb(media, 'm', qualified=True)"
 			                 url="${thumb.url}" width="${thumb.x}" height="${thumb.y}" />
 			<py:with vars="file = h.pick_media_file_player(media.files, browser='itunes')[0]">
