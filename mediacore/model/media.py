@@ -34,7 +34,7 @@ from datetime import datetime
 from urlparse import urlparse
 
 from sqlalchemy import Table, ForeignKey, Column, sql, func
-from sqlalchemy.types import String, Unicode, UnicodeText, Integer, DateTime, Boolean, Float
+from sqlalchemy.types import String, Unicode, UnicodeText, Integer, DateTime, Boolean, Float, Enum
 from sqlalchemy.orm import mapper, class_mapper, relation, backref, synonym, composite, column_property, comparable_property, dynamic_loader, validates, collections, attributes, Query
 from pylons import config, request
 from zope.sqlalchemy import datamanager
@@ -55,7 +55,7 @@ class UnknownFileTypeException(MediaFileException): pass
 
 media = Table('media', Base.metadata,
     Column('id', Integer, autoincrement=True, primary_key=True),
-    Column('type', String(10)),
+    Column('type', Enum('video', 'audio')),
     Column('slug', String(50), unique=True, nullable=False),
     Column('podcast_id', Integer, ForeignKey('podcasts.id', onupdate='CASCADE', ondelete='CASCADE')),
     Column('reviewed', Boolean, default=False, nullable=False),
@@ -86,7 +86,7 @@ media_files = Table('media_files', Base.metadata,
     Column('id', Integer, autoincrement=True, primary_key=True),
     Column('media_id', Integer, ForeignKey('media.id', onupdate='CASCADE', ondelete='CASCADE'), nullable=False),
 
-    Column('type', String(10), nullable=False),
+    Column('type', Enum('video', 'audio', 'audio_desc', 'captions'), nullable=False),
     Column('container', String(10), nullable=False),
     Column('display_name', String(255), nullable=False),
     Column('file_name', String(255)),

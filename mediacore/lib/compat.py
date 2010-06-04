@@ -20,7 +20,7 @@ try:
 except ImportError:
     import sha as sha1
 
-try: 
+try:
     any = any
 except NameError:
     def any(iterable):
@@ -28,5 +28,3 @@ except NameError:
             if element:
                 return True
         return False
-
-

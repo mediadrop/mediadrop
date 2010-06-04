@@ -57,7 +57,10 @@ class CommentQuery(Query):
     def trash(self, flag=True):
         filter = sql.and_(Comment.reviewed == True,
                           Comment.publishable == False)
-        return self.filter(flag and filter or sql.not_(filter))
+        if flag:
+            return self.filter(filter)
+        else:
+            return self.filter(sql.not_(filter))
 
     def search(self, q):
         q = '%' + q + '%'
