@@ -65,6 +65,7 @@
 					fileSizeMax: ${h.fetch_setting('max_upload_size')},
 					typeFilter: '${'; '.join(['*.' + x for x in h.accepted_extensions()])}',
 					verbose: false // debug
+					<py:if test="h.fetch_setting('ftp_storage') == 'true'">, timeLimit: 900</py:if>
 				}
 			});
 			$('fmgr-open').addEvent('click', fileMgr.open.bind(fileMgr));

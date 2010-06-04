@@ -32,6 +32,7 @@
 			if (Browser.Engine.trident) return;
 			UploadMGR = new UploadManager('${upload_form.id}', '${upload_form.async_action}');
 			SwiffUploadMGR = new SwiffUploadManager('${upload_form.id}', '${upload_form.async_action}', '${h.url_for(action='failure')}', '${h.url_for('/')}', '${'; '.join(['*.'+x for x in h.accepted_extensions()])}', 'browse-button', 'submit_btn', 'file-info', 'upload-status', swiff_messages, ${h.fetch_setting('max_upload_size')});
+			<py:if test="h.fetch_setting('ftp_storage') == 'true'">SwiffUploadMGR.uploader.setOptions({timeLimit: 900});</py:if>
 		});
 	</script>
 </head>

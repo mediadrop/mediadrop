@@ -228,13 +228,11 @@ class UploadController(BaseController):
 # FIXME: The following helper methods should perhaps  be moved to the media controller.
 #        or some other more generic place.
 def _add_new_media_file(media, original_filename, file):
-    # FIXME: I think this will raise a KeyError if the uploaded
-    #        file doesn't have an extension.
-    file_ext = os.path.splitext(original_filename)[1].lower()[1:]
+    file_ext = os.path.splitext(original_filename)[1].lower().lstrip('.')
     container = guess_container_format(file_ext)
 
     if container is None:
-        msg = 'File extension "%s" is not supported.' % file_ext
+        msg = _('File extension "%s" is not supported.') % file_ext
         raise formencode.Invalid(msg, file_ext, None)
 
     # set the file paths depending on the file type
@@ -262,7 +260,13 @@ def _add_new_media_file(media, original_filename, file):
     # copy the file to its permanent location
     file_name = '%d_%d_%s.%s' % (media.id, media_file.id, media.slug, file_ext)
     file_url = _store_media_file(file, file_name)
-    media_file.file_name = file_name
+
+    if file_url:
+        # The file has been stored remotely
+        media_file.url = file_url
+    else:
+        # The file is stored locally and we just need its name
+        media_file.file_name = file_name
 
     return media_file
 
@@ -274,13 +278,14 @@ def _store_media_file(file, file_name):
     else:
         # Store the file locally, return its path relative to the media dir
         file_path = os.path.join(config['media_dir'], file_name)
+        file.seek(0)
         permanent_file = open(file_path, 'w')
         shutil.copyfileobj(file, permanent_file)
         file.close()
         permanent_file.close()
-        return file_name
+        return None # The file name is unchanged, so return nothing
 
-class FTPUploadException(Exception):
+class FTPUploadException(formencode.Invalid):
     pass
 
 def _store_media_file_ftp(file, file_name):
@@ -295,44 +300,49 @@ def _store_media_file_ftp(file, file_name):
     integrity errors)
     """
     stor_cmd = 'STOR ' + file_name
-    file_url = fetch_setting('ftp_download_url') + file_name
+    file_url = fetch_setting('ftp_download_url').rstrip('/') + '/' + file_name
+    ftp_server = fetch_setting('ftp_server')
+    ftp_user = fetch_setting('ftp_user')
+    ftp_password = fetch_setting('ftp_password')
+    upload_dir = fetch_setting('ftp_upload_directory')
 
     # Put the file into our FTP storage
-    FTPSession = ftplib.FTP(fetch_setting('ftp_server'),
-                            fetch_setting('ftp_username'),
-                            fetch_setting('ftp_password'))
+    FTPSession = ftplib.FTP(ftp_server, ftp_user, ftp_password)
 
     try:
-        FTPSession.cwd(fetch_setting('ftp_upload_directory'))
+        if upload_dir:
+            FTPSession.cwd(upload_dir)
         FTPSession.storbinary(stor_cmd, file)
         _verify_ftp_upload_integrity(file, file_url)
-    except Exception, e:
+        # TODO: Delete the file if the integrity check fails
+    finally:
         FTPSession.quit()
-        raise e
-
-    FTPSession.quit()
 
     return file_url
 
-
 def _verify_ftp_upload_integrity(file, file_url):
-    """Download the file, and make sure that it matches the original.
+    """Download the file and make sure that it matches the original.
 
-    Returns True on success, and raises an Exception on failure.
+    Returns True on success, and raises a formencode.Invalid on failure
+    so that the error may be displayed to the user.
 
     FIXME: Ideally we wouldn't have to download the whole file, we'd have
            some better way of verifying the integrity of the upload.
+
     """
-    file.seek(0)
-    old_hash = sha1(file.read()).hexdigest()
     tries = 0
+    max_tries = int(fetch_setting('ftp_upload_integrity_retries'))
+    if max_tries < 1:
+        return True
+
+    file.seek(0)
+    orig_hash = sha1(file.read()).hexdigest()
 
     # Try to download the file. Increase the number of retries, or the
     # timeout duration, if the server is particularly slow.
     # eg: Akamai usually takes 3-15 seconds to make an uploaded file
     #     available over HTTP.
-    while tries < int(fetch_setting('ftp_upload_integrity_retries')):
-        time.sleep(3)
+    while tries < max_tries:
         tries += 1
         try:
             temp_file = urllib2.urlopen(file_url)
@@ -341,13 +351,17 @@ def _verify_ftp_upload_integrity(file, file_url):
 
             # If the downloaded file matches, success! Otherwise, we can
             # be pretty sure that it got corrupted during FTP transfer.
-            if old_hash == new_hash:
+            if orig_hash == new_hash:
                 return True
             else:
-                raise FTPUploadException(
-                    _('Uploaded File and Downloaded File did not match'))
-        except urllib2.HTTPError, e:
-            pass
+                msg = _('The file transferred to your FTP server is '\
+                        'corrupted. Please try again.')
+                raise FTPUploadException(msg, None, None)
+        except urllib2.HTTPError, http_err:
+            # Don't raise the exception now, wait until all attempts fail
+            time.sleep(3)
 
-    raise FTPUploadException(
-        _('Could not download the file after %d attempts') % max)
+    # Raise the exception from the last attempt
+    msg = _('Could not download the file from your FTP server: %s')\
+        % http_err.message
+    raise FTPUploadException(msg, None, None)
