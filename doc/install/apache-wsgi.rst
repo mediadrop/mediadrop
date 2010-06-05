@@ -124,7 +124,7 @@ installation and virtual environment.
     </Directory>
 
     # Create exceptions for all static content
-    AliasMatch /my_media(/admin)/(images|scripts|styles)(/?.*) /path/to/mediacore_install/mediacore/public$1/$2$3
+    AliasMatch /my_media/(admin/)?(images|scripts|styles)(/?.*) /path/to/mediacore_install/mediacore/public/$1$2$3
 
     # Make all the static content accessible
     <Directory /path/to/mediacore_install/mediacore/public/*>
