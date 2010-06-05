@@ -72,7 +72,7 @@
 			$('fmgr-close').addEvent('click', fileMgr.close.bind(fileMgr));
 			var fileList = new FileList('file-list', fileMgr, {
 				statusContainer: $('file-upload'),
-				fxProgressBar: {url: '${h.url_for('/admin/images/progressbar/progress.png')}'},
+				fxProgressBar: {url: '${h.url_for('/admin/images/progressbar/progress.png')}'}
 			});
 
 			var publishStatus = new StatusForm({

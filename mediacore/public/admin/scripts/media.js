@@ -22,7 +22,7 @@ var MediaManager = new Class({
 		delayNotification: {
 			id: 'delay-notification',
 			'class': 'f-rgt',
-			text: 'Waiting for uploads to finish...',
+			text: 'Waiting for uploads to finish...'
 		},
 		delayConfirm: "Your uploads are now complete.\n\nWould you like to save all your changes now?"
 	},
@@ -65,7 +65,7 @@ var MediaManager = new Class({
 		});
 		this.isNew = !!opts.isNew;
 		this.type = opts.type;
-		this.metaForm.podcast.addEvent('change', this.onPodcastChange.bind(this));
+		$(this.metaForm.podcast).addEvent('change', this.onPodcastChange.bind(this));
 		this.bound.delayMetaSubmit = this.delayMetaSubmit.bind(this);
 		this.setOptions(opts);
 	},

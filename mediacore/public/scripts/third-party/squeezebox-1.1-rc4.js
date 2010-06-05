@@ -468,7 +468,7 @@ SqueezeBox.handlers.extend({
 			}.bindWithEvent(this, [origY])
 		});
 		return el;
-	},
+	}
 });
 
 SqueezeBox.parsers.fittedClone = SqueezeBox.parsers.clone;
