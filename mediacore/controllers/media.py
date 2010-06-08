@@ -92,6 +92,40 @@ class MediaController(BaseController):
             tag = tag,
         )
 
+    @expose('media/explore.html')
+    @paginate('media', items_per_page=20)
+    def explore(self, page=1, **kwargs):
+        """Display the most recent 15 media.
+
+        :rtype: Dict
+        :returns:
+            latest
+                Latest media
+            popular
+                Latest media
+
+        """
+        media = Media.query.published()\
+            .options(orm.undefer('comment_count_published'))
+
+        latest = media.order_by(Media.publish_on.desc())
+        popular = media.order_by(Media.popularity_points.desc())
+        featured = None
+
+        featured_cat = helpers.get_featured_category()
+        if featured_cat:
+            featured = latest.in_category(featured_cat).first()
+        if not featured:
+            featured = popular.first()
+
+        latest = latest.exclude(featured)[:5]
+        popular = popular.exclude(latest, featured)[:8]
+
+        return dict(
+            featured = featured,
+            latest = latest,
+            popular = popular,
+        )
 
     @expose('media/view.html')
     def view(self, slug, podcast_slug=None, **kwargs):
@@ -145,7 +179,6 @@ class MediaController(BaseController):
             comment_form_values = kwargs,
         )
 
-
     @expose()
     def rate(self, slug, **kwargs):
         """Say 'I like this' for the given media.
@@ -164,7 +197,6 @@ class MediaController(BaseController):
             return unicode(likes)
         else:
             redirect(action='view')
-
 
     @expose()
     @validate(post_comment_form, error_handler=view)
@@ -220,7 +252,6 @@ class MediaController(BaseController):
         else:
             redirect(action='view', anchor='comment-%s' % c.id)
 
-
     @expose()
     @validate(validators={'id': validators.Int()})
     def serve(self, id, slug, container, **kwargs):
@@ -258,38 +289,3 @@ class MediaController(BaseController):
                 return open(file.file_path, 'rb').read()
         else:
             raise webob.exc.HTTPNotFound()
-
-    @expose('media/explore.html')
-    @paginate('media', items_per_page=20)
-    def explore(self, page=1, **kwargs):
-        """Display the most recent 15 media.
-
-        :rtype: Dict
-        :returns:
-            latest
-                Latest media
-            popular
-                Latest media
-
-        """
-        media = Media.query.published()\
-            .options(orm.undefer('comment_count_published'))
-
-        latest = media.order_by(Media.publish_on.desc())
-        popular = media.order_by(Media.popularity_points.desc())
-        featured = None
-
-        featured_cat = helpers.get_featured_category()
-        if featured_cat:
-            featured = latest.in_category(featured_cat).first()
-        if not featured:
-            featured = popular.first()
-
-        latest = latest.exclude(featured)[:5]
-        popular = popular.exclude(latest, featured)[:8]
-
-        return dict(
-            featured = featured,
-            latest = latest,
-            popular = popular,
-        )
