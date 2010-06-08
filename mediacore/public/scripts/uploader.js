@@ -217,7 +217,8 @@ var SwiffUploadManager = new Class({
 			onSelectFail: this.onSelectFail.bind(this),
 			onQueue: this.onQueue.bind(this),
 			onFileComplete: this.onFileComplete.bind(this),
-			onComplete: this.onComplete.bind(this)
+			onComplete: this.onComplete.bind(this),
+			timeLimit: 60
 		});
 
 		// Set up the focus/blur and reposition events for the uploader Flash object

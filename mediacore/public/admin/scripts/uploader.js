@@ -29,7 +29,8 @@ var UploaderBase = new Class({
 		typeFilter: '*.*',
 		fileSizeMax: 50 * 1024 * 1024, // default max size of 50 MB
 		appendCookieData: false,
-		data: {}
+		data: {},
+		timeLimit: 60
 	},
 
 	initialize: function(options){
