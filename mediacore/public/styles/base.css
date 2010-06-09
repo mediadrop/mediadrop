@@ -253,7 +253,26 @@ a.meta-likes:active strong {
 	width: 890px;
 }
 .feat-content p {
-	margin-top: 10px;
+	margin-bottom: 10px;
+}
+.feat-content ol,
+.feat-content ul {
+	margin: 0 15px 10px 30px;
+	list-style-type: decimal;
+}
+.feat-content ul {
+	list-style-type: circle;
+}
+.feat-content blockquote {
+	margin: 0 15px 0 30px;
+}
+.feat-content del {
+	color: red;
+}
+.feat-content ins {
+	border-bottom: 1px solid green;
+	color: green;
+	text-decoration: none;
 }
 .feat-info {
 	float: right;
@@ -261,7 +280,7 @@ a.meta-likes:active strong {
 	margin-bottom: 26px;
 }
 .feat-date {
-	margin: -5px 0 0 0;
+	margin: -5px 0 10px 0;
 	font: bold 12px 'Trebuchet MS', sans-serif;
 }
 .feat-meta {
@@ -428,7 +447,7 @@ a:focus .grid-title {
 	margin-bottom: 0;
 }
 #media-box .feat-info {
-	margin-bottom: 58px;
+	margin-bottom: 48px;
 }
 #media-box .feat-info,
 #media-box .feat-meta {
