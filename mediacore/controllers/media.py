@@ -127,6 +127,22 @@ class MediaController(BaseController):
             popular = popular,
         )
 
+    @expose()
+    def random(self, **kwargs):
+        """Redirect to a randomly selected media item."""
+        # TODO: Implement something more efficient than ORDER BY RAND().
+        #       This method does a full table scan every time.
+        media = Media.query.published()\
+            .order_by(sql.func.random())\
+            .first()
+        if media is None:
+            redirect(action='explore')
+        if media.podcast_id:
+            podcast_slug = DBSession.query(Podcast.slug).get(media.podcast_id)
+        else:
+            podcast_slug = None
+        redirect(action='view', slug=media.slug, podcast_slug=podcast_slug)
+
     @expose('media/view.html')
     def view(self, slug, podcast_slug=None, **kwargs):
         """Display the media player, info and comments.

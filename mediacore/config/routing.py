@@ -35,6 +35,7 @@ def make_map(config):
     # These are all mapped without any prefix to indicate the controller
     map.connect('/', controller='media', action='explore')
     map.connect('/media', controller='media', action='index')
+    map.connect('/random', controller='media', action='random')
 
     # Podcasts
     map.connect('/podcasts/feed/{slug}.xml',
