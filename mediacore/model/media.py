@@ -165,6 +165,9 @@ class MediaQuery(Query):
                              Media.encoded.asc(),
                              Media.publishable.asc())
 
+    def order_by_popularity(self):
+        return self.order_by(Media.popularity_points.desc())
+
     def search(self, search):
         return self.join(MediaFullText)\
                    .filter(_MatchAgainstClause(_search_cols['public'], _search_param, True))\
