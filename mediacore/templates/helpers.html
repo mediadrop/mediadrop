@@ -25,8 +25,10 @@
 
 		<py:when test="player.is_embed or embed_only">
 			<?python
+			width, height = player.adjust_dimensions(media, file, width, height)
 			swf_url = player.swf_url(media, file, qualified=qualified)
 			vars = h.urlencode(player.flashvars(media, file, autoplay=autoplay, autobuffer=autobuffer, qualified=qualified))
+			player_id = '%s-%s-player' % (media.slug, file.id)
 			?>
 			<object id="${media.slug}-${file.id}-player" type="application/x-shockwave-flash" data="${swf_url}" width="${width}" height="${height}">
 				<param name="movie" value="${swf_url}" />
@@ -38,6 +40,7 @@
 
 		<py:when test="player.is_flash">
 			<?python
+			width, height = player.adjust_dimensions(media, file, width, height)
 			swf_url = player.swf_url(media, file, qualified=qualified)
 			vars = h.json.dumps(player.flashvars(media, file, autoplay=autoplay, autobuffer=autobuffer, qualified=qualified))
 			player_id = '%s-%s-player' % (media.slug, file.id)

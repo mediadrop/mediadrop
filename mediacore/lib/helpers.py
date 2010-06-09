@@ -733,6 +733,10 @@ class FlowPlayer(Player):
     is_flash = True
 
     @staticmethod
+    def adjust_dimensions(media, file, width, height):
+        return width, height + player_controls_heights.get('flowplayer', 0)
+
+    @staticmethod
     def swf_url(media, file, qualified=False):
         return url_for('/scripts/third-party/flowplayer-3.1.5.swf', qualified=qualified)
 
@@ -769,6 +773,10 @@ class FlowPlayer(Player):
 class JWPlayer(Player):
     """Flash-based JWPlayer -- this can play YouTube videos!"""
     is_flash = True
+
+    @staticmethod
+    def adjust_dimensions(media, file, width, height):
+        return width, height + player_controls_heights.get('jwplayer', 0)
 
     @staticmethod
     def swf_url(media, file, qualified=False):
@@ -810,6 +818,10 @@ class EmbedPlayer(Player):
     is_flash = True
 
     @staticmethod
+    def adjust_dimensions(media, file, width, height):
+        return width, height + player_controls_heights.get(file.container, 0)
+
+    @staticmethod
     def swf_url(media, file, qualified=False):
         return file.play_url(qualified=qualified)
 
@@ -836,4 +848,16 @@ The names are from the html5_player and flash_player settings.
 
 You can use set 'youtube' to JWPlayer to take advantage of YouTube's
 chromeless player. The only catch is that it doesn't support HD.
+"""
+
+player_controls_heights = {
+    'youtube': 25,
+    'google': 27,
+    'flowplayer': 24,
+    'jwplayer': 24,
+}
+"""The height of the controls for each player.
+
+We increase the height of the player by this number of pixels to
+maintain a 16:9 aspect ratio.
 """
