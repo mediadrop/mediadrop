@@ -27,7 +27,6 @@ from pylons.i18n.translation import lazify, ugettext
 from pylons.middleware import ErrorHandler, StatusCodeRedirect
 from pylons.wsgiapp import PylonsApp
 from routes.middleware import RoutesMiddleware
-from repoze.tm import make_tm
 import tw.api
 
 from mediacore.config.environment import load_environment
@@ -45,18 +44,16 @@ def setup_prefix_middleware(app, global_conf, proxy_prefix):
     app = PrefixMiddleware(app, global_conf, proxy_prefix)
     return app
 
-
 class DBSessionRemoverMiddleware(object):
     """Ensure the contextual session ends at the end of the request."""
-    def __init__(self, app, session=None):
+    def __init__(self, app):
         self.app = app
-        self.session = session
 
     def __call__(self, environ, start_response):
         try:
             return self.app(environ, start_response)
         finally:
-            self.session.remove()
+            DBSession.remove()
 
 def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
     """Create a Pylons WSGI application and return it
@@ -100,11 +97,9 @@ def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
     # Set up the TW middleware, as per errors and instructions at:
     # http://groups.google.com/group/toscawidgets-discuss/browse_thread/thread/c06950b8d1f62db9
     # http://toscawidgets.org/documentation/ToscaWidgets/install/pylons_app.html
-    
-    
     def enable_i18n_for_template(template):
         template.filters.insert(0, Translator(ugettext))
-    
+
     app = tw.api.make_middleware(app, {
         'toscawidgets.framework': 'pylons',
         'toscawidgets.framework.default_view': 'genshi',
@@ -112,14 +107,12 @@ def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
         'toscawidgets.framework.engine_options': {'genshi.loader_callback': enable_i18n_for_template},
     })
 
-    # Add transaction management
-    app = make_tm(app, transaction_commit_veto)
-    app = DBSessionRemoverMiddleware(app, DBSession)
-
     # If enabled, set up the proxy prefix for routing behind
     # fastcgi and mod_proxy based deployments.
-    if (config.get('proxy_prefix', None)):
+    if config.get('proxy_prefix', None):
         app = setup_prefix_middleware(app, global_conf, config['proxy_prefix'])
+
+    app = DBSessionRemoverMiddleware(app)
 
     # END CUSTOM MIDDLEWARE
 
@@ -144,11 +137,3 @@ def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
 
     app.config = config
     return app
-
-def transaction_commit_veto(environ, status, headers):
-    """Veto the commit if the response's status code is an error code.
-
-    This hook is called by repoze.tm in case we want to veto a commit
-    for some reason. Return True to force a rollback.
-    """
-    return not 200 <= int(status.split(None, 1)[0]) < 400

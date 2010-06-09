@@ -37,7 +37,6 @@ from sqlalchemy import Table, ForeignKey, Column, sql, func
 from sqlalchemy.types import String, Unicode, UnicodeText, Integer, DateTime, Boolean, Float, Enum
 from sqlalchemy.orm import mapper, class_mapper, relation, backref, synonym, composite, column_property, comparable_property, dynamic_loader, validates, collections, attributes, Query
 from pylons import config, request
-from zope.sqlalchemy import datamanager
 
 from mediacore.model import get_available_slug, _mtm_count_property, _properties_dict_from_labels, _MatchAgainstClause
 from mediacore.model.meta import Base, DBSession
@@ -439,11 +438,6 @@ class Media(object):
         query = 'UPDATE %s SET %s = (%s + 1) WHERE %s = :media_id' \
               % (media, media.c.views, media.c.views, media.c.id)
         DBSession.execute(query, {'media_id': self.id})
-
-        # Let the repoze.tm2 transaction middleware know that the above
-        # query modifies the database and we'll eventually want to issue
-        # transaction.commit() to ensure it takes effect.
-        datamanager.mark_changed(DBSession())
 
         # Increment the views by one for the rest of the request,
         # but don't allow the ORM to increment the views too.

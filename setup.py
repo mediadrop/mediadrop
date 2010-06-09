@@ -16,13 +16,11 @@ install_requires = [
     'repoze.who == 1.0.18',
     'repoze.what-pylons == 1.0',
     'repoze.what-quickstart',
-    'repoze.tm2 == 1.0a5',
     'Paste == 1.7.3.1',
     'PasteDeploy == 1.3.3',
     'PasteScript == 1.7.3',
     'ToscaWidgets == 0.9.9',
     'tw.forms == 0.9.9',
-    'zope.sqlalchemy == 0.4',
     'MySQL-python >= 1.2.2',
     'BeautifulSoup == 3.0.7a',
         # We monkeypatch this version of BeautifulSoup in mediacore.__init__

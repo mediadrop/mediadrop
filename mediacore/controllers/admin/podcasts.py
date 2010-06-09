@@ -16,7 +16,6 @@
 import os.path
 import shutil
 
-import transaction
 from pylons import config, request, response, session, tmpl_context
 from repoze.what.predicates import has_permission
 from sqlalchemy import orm, sql
@@ -144,7 +143,7 @@ class PodcastsController(BaseController):
         if delete:
             file_paths = helpers.thumb_paths(podcast)
             DBSession.delete(podcast)
-            transaction.commit()
+            DBSession.commit()
             helpers.delete_files(file_paths, 'podcasts')
             redirect(action='index', id=None)
 

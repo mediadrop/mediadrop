@@ -23,7 +23,6 @@ from PIL import Image
 from datetime import datetime
 from urlparse import urlparse, urlunparse
 
-import transaction
 from formencode import validators, Invalid
 from paste.util import mimeparse
 from pylons import config, request, response, session, tmpl_context
@@ -219,7 +218,7 @@ class MediaController(BaseController):
                 # The database ON DELETE CASCADE handles everything for us.
                 DBSession.expunge(f)
             DBSession.delete(media)
-            transaction.commit()
+            DBSession.commit()
             helpers.delete_files(file_paths, 'media')
             redirect(action='index', id=None)
 
@@ -400,7 +399,7 @@ class MediaController(BaseController):
         elif delete:
             file_path = file.file_path
             DBSession.delete(file)
-            transaction.commit()
+            DBSession.commit()
             if file_path:
                 helpers.delete_files([file_path], 'media')
             media = fetch_row(Media, id)

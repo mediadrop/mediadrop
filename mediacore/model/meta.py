@@ -2,13 +2,12 @@
 from sqlalchemy import MetaData
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import scoped_session, sessionmaker
-from zope.sqlalchemy import ZopeTransactionExtension
 
 __all__ = ['Base', 'DBSession', 'metadata']
 
 # SQLAlchemy session manager. Updated by model.init_model()
 # DBSession() returns the session object appropriate for the current request.
-maker = sessionmaker(extension=ZopeTransactionExtension())
+maker = sessionmaker()
 DBSession = scoped_session(maker)
 
 metadata = MetaData()

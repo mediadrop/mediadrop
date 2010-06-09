@@ -4,7 +4,6 @@ import os.path
 
 import pylons
 import pylons.test
-import transaction
 
 from mediacore.config.environment import load_environment
 from mediacore.model import (DBSession, metadata, Media, Podcast,
@@ -131,6 +130,5 @@ def setup_app(command, conf, vars):
         s.value = value
         DBSession.add(s)
 
-    DBSession.flush()
-    transaction.commit()
+    DBSession.commit()
     log.info('Successfully setup')

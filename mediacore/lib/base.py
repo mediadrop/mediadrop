@@ -22,13 +22,14 @@ import time
 import urllib2
 
 from paste.deploy.converters import asbool
-from pylons import config, request, tmpl_context
+from pylons import config, request, response, tmpl_context
 from pylons.controllers import WSGIController
 from pylons.controllers.util import abort
 from repoze.what.plugins.pylonshq import ControllerProtector
 from repoze.what.predicates import Predicate
 
 from mediacore.lib import helpers
+from mediacore.model.meta import DBSession
 
 __all__ = ['BareBonesController', 'BaseController']
 
@@ -47,7 +48,7 @@ class BareBonesController(WSGIController):
             # ControllerProtector wraps the __before__ method of this instance.
             cp = ControllerProtector(self.allow_only)
             self = cp(self)
-        super(BareBonesController, self).__init__(*args, **kwargs)
+        WSGIController.__init__(self, *args, **kwargs)
 
     def _perform_call(self, func, args):
         """
@@ -70,7 +71,7 @@ class BareBonesController(WSGIController):
         action = getattr(self, kwargs['action'])
         # The expose decorator sets the exposed attribute on controller
         # actions. If a method is not exposed, do not allow access to it.
-        if not hasattr(action, 'exposed'):
+        if not getattr(action, 'exposed', False):
             abort(status_code=404)
 
 class BaseController(BareBonesController):
@@ -120,7 +121,31 @@ class BaseController(BareBonesController):
                 # TODO: Add error reporting here.
                 pass
 
-        super(BaseController, self).__init__(*args, **kwargs)
+        BareBonesController.__init__(self, *args, **kwargs)
+
+    def __call__(self, environ, start_response):
+        """Commit or rollback the DBSession for every request.
+
+        Your controller may override this method and have it call
+        :meth:`BareBonesController.__call__` directly to avoid
+        this transaction management.
+
+        """
+        try:
+            app_iter = BareBonesController.__call__(self, environ,
+                                                    start_response)
+        except:
+            # An unexpected error has occurred that the WebError will catch
+            DBSession.rollback()
+            raise
+        else:
+            # webob.exc.HTTPException's are caught and turned into a regular
+            # responses in WSGIController._inspect_call. Veto error responses:
+            if 200 <= response.status_int < 400:
+                DBSession.commit()
+            else:
+                DBSession.rollback()
+            return app_iter
 
     def update_external_template(self, tmpl_url, tmpl_name, timeout):
         """Conditionally fetch and cache the remote template.
