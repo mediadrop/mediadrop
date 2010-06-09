@@ -44,6 +44,7 @@ from webhelpers.html.builder import literal
 from webhelpers.html.converters import format_paragraphs
 from webob.exc import HTTPNotFound
 
+from mediacore.lib.compat import any
 from mediacore.lib.htmlsanitizer import Cleaner, entities_to_unicode as decode_entities, encode_xhtml_entities as encode_entities
 from mediacore.lib.filetypes import accepted_extensions, pick_media_file_player
 
@@ -629,9 +630,8 @@ def is_admin():
     This method will need to be replaced when we improve our user
     access controls.
     """
-    return 'Admins' in request.environ\
-        .get('repoze.who.identity', {})\
-        .get('groups', '')
+    groups = request.environ.get('repoze.who.identity', {}).get('groups', 0)
+    return groups and any(group.lower() == 'admins' for group in groups)
 
 def fetch_setting(key):
     """Return the value for the setting key.
