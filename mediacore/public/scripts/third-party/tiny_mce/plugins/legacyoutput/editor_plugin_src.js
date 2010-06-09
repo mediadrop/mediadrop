@@ -55,8 +55,11 @@
 
 					// Setup font elements for colors as well
 					forecolor : {inline : 'font', styles : {color : '%value'}},
-					hilitecolor : {inline : 'font', styles : {backgroundColor : '%value'}},
+					hilitecolor : {inline : 'font', styles : {backgroundColor : '%value'}}
 				});
+
+				// Force parsing of the serializer rules
+				serializer._setup();
 
 				// Check that deprecated elements are allowed if not add them
 				tinymce.each('b,i,u,strike'.split(','), function(name) {
