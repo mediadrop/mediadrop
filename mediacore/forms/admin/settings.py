@@ -21,17 +21,17 @@ from mediacore.forms import ListFieldSet, ListForm, ResetButton, SubmitButton, T
 from mediacore.forms.admin.categories import category_options
 
 flash_players = [
-    ('flowplayer', Markup('<a href="http://flowplayer.org">FlowPlayer</a> (Flash) - <a href="http://flowplayer.org/download/license_gpl.htm">Licence</a>')),
-    ('jwplayer', Markup('<a href="http://longtailvideo.com">JWPlayer</a> (Flash) - <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Licence</a>')),
+    ('flowplayer', Markup('<a href="http://flowplayer.org">FlowPlayer</a> - <a href="http://flowplayer.org/download/license_gpl.htm">Licence</a>')),
+    ('jwplayer', Markup('<a href="http://longtailvideo.com">JWPlayer</a> - <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Licence</a>')),
 ]
 html5_players = [
-    ('sublime', Markup('<a href="http://jilion.com/sublime/video">Sublime</a> (HTML5) - not yet available')),
-    ('html5', Markup('<a href="http://diveintohtml5.org/video.html">&lt;video&gt; tag</a> (HTML5) - not fully implemented in all browsers')),
+    ('sublime', Markup('<a href="http://jilion.com/sublime/video">Sublime</a> - not yet available')),
+    ('html5', Markup('<a href="http://diveintohtml5.org/video.html">&lt;video&gt; tag</a> - not fully implemented in all browsers')),
 ]
 player_types = [
-    ('best', "Automatically choose the player type for each media item based on the client browser's supported features."),
-    ('flash', 'Always use the selected Flash player'),
     ('html5', 'Always use the selected HTML5 player'),
+    ('best', 'Prefer the selected HTML5 player, but use the selected Flash player or embedded player if necessary'),
+    ('flash', 'Prefer the selected Flash player, but use the selected HTML5 player or embedded player if necessary'),
 ]
 
 rich_text_editors = [

@@ -33,7 +33,16 @@
 			<h2>Notes</h2>
 			<ul class="caveats">
 				<li>Use of TinyMCE is not strictly XHTML compliant, but works in FF&gt;=1.5, Safari&lt;=3, IE&gt;=5.5, so long as javascript is enabled.</li>
-				<li>Regardless of the "Preferred Media Player Type" setting, if the chosen setting will yield no useable player for a particular user's browser, an error message will be displayed to the user in place of the media object.</li>
+				<li>Regardless of the "Preferred Media Player Type" setting, if the chosen setting will yield no useable player for a particular user's browser, an error message will be displayed to the user in place of the media object. The exception to this is if the media object has an embedded (YouTube/Vimeo/etc.) media file, in which case MediaCore will attempt to render this embedded file, rather than display an error, leaving it up to the embedded player to display an error if necessary.</li>
+				<li>A useable Flash player will be found if the user's browser supports Flash, and there is a media file associated with the media object that Flash is capable of playing. A list of which formats Flash supports can be found <a href="http://kb2.adobe.com/cps/402/kb402866.html">here</a>.</li>
+				<li>A useable HTML5 player will be found if the user's browser supports the HTML5 &lt;video&gt; tag, and there is a media file associated with the media object that the user's browser is capable of playing natively. A list of which browsers support which formats natively can be found <a href="http://diveintohtml5.com/video.html#what-works">here</a>.</li>
+				<li>In the case that an embedded video (YouTube/Vimeo/etc.) the appropriate media file for a media object, that video will be displayed within the selected Flash or HTML5 player, if possible.</li>
+				<li>When choosing which media file to display, the following criteria are applied (in order of importance):
+					<ol>
+						<li>Files that will play in the preferred player get priority.</li>
+						<li>Embedded files (YouTube/Vimeo/etc.) get priority.</li>
+					</ol>
+				</li>
 			</ul>
 		</div>
 		<form py:replace="XML(form(form_values))" />
