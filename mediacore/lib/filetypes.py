@@ -185,7 +185,7 @@ native_supported_containers_codecs = {
         (0, 'm4a', []),
         (0, 'mp3', []),
     ],
-    'iphone': [
+    'iphone-ipod-ipad': [
         (0, 'mp4', ['h264b', 'aacl']),
         (0, 'm4v', ['h264b', 'aacl']),
         (0, 'm4a', []),
@@ -209,7 +209,7 @@ user_agent_regexes = {
     'opera': re.compile(r'Opera.(\d+\.\d+)'),
     'safari': re.compile(r'Safari.(\d+\.\d+)'),
     'android':  re.compile(r'Android.(\d+\.\d+)'),
-    'iphone': re.compile(r'iPhone.+Safari/(\d+\.\d+)'),
+    'iphone-ipod-ipad': re.compile(r'i(?:Phone|Pod|Pad).+Safari/(\d+\.\d+)'),
     'itunes': re.compile(r'iTunes/(\d+\.\d+)'),
 }
 
