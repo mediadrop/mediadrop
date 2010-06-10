@@ -21,7 +21,10 @@
 	<py:def function="media_player(media, width=400, height=225, autoplay=False, autobuffer=False, qualified=False, embed_only=False)" py:choose=""
 	        py:with="file, player = h.pick_media_file_player(media.files, browser=embed_only and 'unknown' or None)">
 
-		<py:when test="file is None" />
+		<py:when test="file is None">
+			MediaCore could not find an appropriate encoding of this media item to display in your browser.
+			Contact the site admin if you need assistance.
+		</py:when>
 
 		<py:when test="player.is_embed or embed_only">
 			<?python
