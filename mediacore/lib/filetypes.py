@@ -203,15 +203,17 @@ native_supported_containers_codecs = {
 # This is a wildly incomplete set of regular expressions that parse the
 # important numbers from the browser version for determining things like
 # HTML5 support.
-user_agent_regexes = {
-    'chrome': re.compile(r'Chrome.(\d+\.\d+)'), # contains the safari string. check for chrome before safari
-    'firefox': re.compile(r'Firefox.(\d+\.\d+)'),
-    'opera': re.compile(r'Opera.(\d+\.\d+)'),
-    'safari': re.compile(r'Safari.(\d+\.\d+)'),
-    'android':  re.compile(r'Android.(\d+\.\d+)'),
-    'iphone-ipod-ipad': re.compile(r'i(?:Phone|Pod|Pad).+Safari/(\d+\.\d+)'),
-    'itunes': re.compile(r'iTunes/(\d+\.\d+)'),
-}
+user_agent_regexes = (
+    # chrome UA contains the safari UA string. check for chrome before safari
+    ('chrome', re.compile(r'Chrome.(\d+\.\d+)')),
+    # iphone-ipod-ipad UA contains the safari UA string. check for iphone-ipod-ipad before safari
+    ('iphone-ipod-ipad', re.compile(r'i(?:Phone|Pod|Pad).+Safari/(\d+\.\d+)')),
+    ('firefox', re.compile(r'Firefox.(\d+\.\d+)')),
+    ('opera', re.compile(r'Opera.(\d+\.\d+)')),
+    ('safari', re.compile(r'Safari.(\d+\.\d+)')),
+    ('android', re.compile(r'Android.(\d+\.\d+)')),
+    ('itunes', re.compile(r'iTunes/(\d+\.\d+)')),
+)
 
 def accepted_extensions():
     """Return the extensions allowed for upload.
@@ -251,7 +253,7 @@ def parse_user_agent_version(ua=None):
     """
     if ua is None:
         ua = request.headers.get('User-Agent', '')
-    for device, pattern in user_agent_regexes.iteritems():
+    for device, pattern in user_agent_regexes:
         match = pattern.search(ua)
         if match is not None:
             version = float(match.groups()[0])
