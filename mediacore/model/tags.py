@@ -41,7 +41,6 @@ tags = Table('tags', Base.metadata,
     mysql_charset='utf8'
 )
 
-
 class Tag(object):
     """
     Tag (keyword) for labelling content
@@ -77,7 +76,6 @@ class Tag(object):
     def validate_slug(self, key, slug):
         return slugify(slug)
 
-
 class TagList(list):
     """
     List for easy rendering
@@ -92,9 +90,7 @@ class TagList(list):
     def __unicode__(self):
         return ', '.join([tag.name for tag in self.values()])
 
-
 mapper(Tag, tags)
-
 
 def extract_tags(string):
     """Convert a comma separated string into a list of tag names.
@@ -117,30 +113,42 @@ def extract_tags(string):
     return list(tags)
 
 def fetch_and_create_tags(tag_names):
-    # copy the tag_names list
-    new_tag_names = tag_names[:]
+    """Return a list of Tag instances that match the given names.
 
-    # find tag names that already exist (case insensitive match)
-    # and remove those names from our list
-    lower_case_tags = [t.lower() for t in new_tag_names]
-    existing_tags = DBSession.query(Tag).\
-        filter(
-            func.lower(Tag.name).in_(lower_case_tags)
-        ).all()
-    for t in existing_tags:
-        for n in new_tag_names[:]:
-            if n.lower() == t.name.lower():
-                new_tag_names.remove(n)
+    Tag names that don't yet exist are created automatically and
+    returned alongside the results that did already exist.
+
+    If you try to create a new tag that would have the same slug
+    as an already existing tag, the existing tag is used instead.
+
+    :param tag_names: The display :attr:`Tag.name`
+    :type tag_names: list
+    :returns: A list of :class:`Tag` instances.
+    :rtype: :class:`TagList` instance
+
+    """
+    results = TagList()
+    lower_names = [name.lower() for name in tag_names]
+    slugs = [slugify(name) for name in lower_names]
+    matches = Tag.query.filter(sql.or_(func.lower(Tag.name).in_(lower_names),
+                                       Tag.slug.in_(slugs)))
+    for tag in matches:
+        results.append(tag)
+        # Remove the match from our three lists until its completely gone
+        while True:
+            try:
+                try:
+                    index = slugs.index(tag.slug)
+                except ValueError:
+                    index = lower_names.index(tag.name.lower())
+                tag_names.pop(index)
+                lower_names.pop(index)
+                slugs.pop(index)
+            except ValueError:
                 break
-
-    # create the tags that don't yet exist
-    if new_tag_names:
-        new_tags = [{'name': n, 'slug': slugify(n)} for n in new_tag_names]
-        DBSession.connection().execute(tags.insert(), new_tags)
+    if tag_names:
+        new_tags = [{'name': n, 'slug': s} for n, s in zip(tag_names, slugs)]
+        DBSession.execute(tags.insert(), new_tags)
         DBSession.flush()
-        existing_tags += DBSession.query(Tag)\
-            .filter(
-                Tag.slug.in_([t['slug'] for t in new_tags])
-            ).all()
-
-    return existing_tags
+        results += Tag.query.filter(Tag.slug.in_(slugs)).all()
+    return results
