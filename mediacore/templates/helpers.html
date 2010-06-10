@@ -19,7 +19,7 @@
       py:strip="">
 
 	<py:def function="media_player(media, width=400, height=225, autoplay=False, autobuffer=False, qualified=False, embed_only=False)" py:choose=""
-	        py:with="file, player = h.pick_media_file_player(media.files, browser=embed_only and 'unknown' or None)">
+	        py:with="file, player, browser, browser_ver = h.pick_media_file_player(media.files, browser=embed_only and 'unknown' or None)">
 
 		<py:when test="file is None">
 			MediaCore could not find an appropriate encoding of this media item to display in your browser.
@@ -38,6 +38,8 @@
 				<param name="allowfullscreen" value="true" />
 				<param name="allowscriptaccess" value="always" />
 				<param name="flashvars" py:if="vars" value="${vars}" />
+				<!--! XHTML uncompliant hack to display youtube videos on iphones, etc. !-->
+				<embed py:if="browser == 'iphone-ipod-ipad'" src="${swf_url}" type="application/x-shockwave-flash" allowfullscreen="true" allowScriptAccess="always" width="${width}" height="${height}"></embed>
 			</object>
 		</py:when>
 
