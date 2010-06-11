@@ -36,7 +36,7 @@ settings = Table('settings', metadata,
     Column('key', Unicode(255), nullable=False, unique=True),
     Column('value', UnicodeText),
     mysql_engine='InnoDB',
-    mysql_charset='utf8'
+    mysql_charset='utf8',
 )
 
 class Setting(object):

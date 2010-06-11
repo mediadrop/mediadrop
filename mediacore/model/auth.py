@@ -16,7 +16,9 @@ groups_permissions_table = Table('groups_permissions', Base.metadata,
     Column('group_id', Integer, ForeignKey('groups.group_id',
         onupdate="CASCADE", ondelete="CASCADE")),
     Column('permission_id', Integer, ForeignKey('permissions.permission_id',
-        onupdate="CASCADE", ondelete="CASCADE"))
+        onupdate="CASCADE", ondelete="CASCADE")),
+    mysql_engine='InnoDB',
+    mysql_charset='utf8',
 )
 
 # This is the association table for the many-to-many relationship between
@@ -25,7 +27,9 @@ users_groups_table = Table('users_groups', Base.metadata,
     Column('user_id', Integer, ForeignKey('users.user_id',
         onupdate="CASCADE", ondelete="CASCADE")),
     Column('group_id', Integer, ForeignKey('groups.group_id',
-        onupdate="CASCADE", ondelete="CASCADE"))
+        onupdate="CASCADE", ondelete="CASCADE")),
+    mysql_engine='InnoDB',
+    mysql_charset='utf8',
 )
 
 # auth model
@@ -35,6 +39,7 @@ class Group(Base):
     """An ultra-simple group definition.
     """
     __tablename__ = 'groups'
+    __table_args__ = {'mysql_engine': 'InnoDB', 'mysql_charset': 'utf8'}
 
     group_id = Column(Integer, autoincrement=True, primary_key=True)
     group_name = Column(Unicode(16), unique=True, nullable=False)
@@ -58,6 +63,7 @@ class User(Base):
     attributes.
     """
     __tablename__ = 'users'
+    __table_args__ = {'mysql_engine': 'InnoDB', 'mysql_charset': 'utf8'}
 
     user_id = Column(Integer, autoincrement=True, primary_key=True)
     user_name = Column(Unicode(16), unique=True, nullable=False)
@@ -145,6 +151,7 @@ class Permission(Base):
     """A relationship that determines what each Group can do
     """
     __tablename__ = 'permissions'
+    __table_args__ = {'mysql_engine': 'InnoDB', 'mysql_charset': 'utf8'}
 
     permission_id = Column(Integer, autoincrement=True, primary_key=True)
     permission_name = Column(Unicode(16), unique=True, nullable=False)

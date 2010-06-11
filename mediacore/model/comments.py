@@ -28,10 +28,10 @@ from sqlalchemy.types import String, Unicode, UnicodeText, Integer, DateTime, Bo
 from sqlalchemy.orm import mapper, relation, backref, synonym, composite, column_property, validates, interfaces, Query
 
 from mediacore.model import AuthorWithIP
-from mediacore.model.meta import Base, DBSession
+from mediacore.model.meta import DBSession, metadata
 
 
-comments = Table('comments', Base.metadata,
+comments = Table('comments', metadata,
     Column('id', Integer, autoincrement=True, primary_key=True),
     Column('media_id', Integer, ForeignKey('media.id', onupdate='CASCADE', ondelete='CASCADE')),
     Column('subject', Unicode(100)),
@@ -44,7 +44,7 @@ comments = Table('comments', Base.metadata,
     Column('author_ip', Integer, nullable=False),
     Column('body', UnicodeText, nullable=False),
     mysql_engine='InnoDB',
-    mysql_charset='utf8'
+    mysql_charset='utf8',
 )
 
 class CommentQuery(Query):

@@ -29,14 +29,14 @@ from sqlalchemy.types import String, Unicode, UnicodeText, Integer, DateTime, Bo
 from sqlalchemy.orm import mapper, relation, backref, synonym, interfaces, validates, column_property
 
 from mediacore.lib.helpers import excess_whitespace
-from mediacore.model import slugify, _mtm_count_property
+from mediacore.model import slug_length, slugify, _mtm_count_property
 from mediacore.model.meta import Base, DBSession
 
 
 tags = Table('tags', Base.metadata,
     Column('id', Integer, autoincrement=True, primary_key=True),
     Column('name', Unicode(50), unique=True, nullable=False),
-    Column('slug', String(50), unique=True, nullable=False),
+    Column('slug', String(slug_length), unique=True, nullable=False),
     mysql_engine='InnoDB',
     mysql_charset='utf8'
 )

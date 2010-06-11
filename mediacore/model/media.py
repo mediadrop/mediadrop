@@ -38,8 +38,8 @@ from sqlalchemy.types import String, Unicode, UnicodeText, Integer, DateTime, Bo
 from sqlalchemy.orm import mapper, class_mapper, relation, backref, synonym, composite, column_property, comparable_property, dynamic_loader, validates, collections, attributes, Query
 from pylons import app_globals, config, request
 
-from mediacore.model import get_available_slug, _mtm_count_property, _properties_dict_from_labels, _MatchAgainstClause
-from mediacore.model.meta import Base, DBSession
+from mediacore.model import get_available_slug, slug_length, _mtm_count_property, _properties_dict_from_labels, _MatchAgainstClause
+from mediacore.model.meta import DBSession, metadata
 from mediacore.model.authors import Author
 from mediacore.model.comments import Comment, CommentQuery, comments
 from mediacore.model.tags import Tag, TagList, tags, extract_tags, fetch_and_create_tags
@@ -52,11 +52,11 @@ class MediaFileException(MediaException): pass
 class UnknownFileTypeException(MediaFileException): pass
 
 
-media = Table('media', Base.metadata,
+media = Table('media', metadata,
     Column('id', Integer, autoincrement=True, primary_key=True),
     Column('type', Enum('video', 'audio')),
-    Column('slug', String(50), unique=True, nullable=False),
-    Column('podcast_id', Integer, ForeignKey('podcasts.id', onupdate='CASCADE', ondelete='CASCADE')),
+    Column('slug', String(slug_length), unique=True, nullable=False),
+    Column('podcast_id', Integer, ForeignKey('podcasts.id', onupdate='CASCADE', ondelete='SET NULL')),
     Column('reviewed', Boolean, default=False, nullable=False),
     Column('encoded', Boolean, default=False, nullable=False),
     Column('publishable', Boolean, default=False, nullable=False),
@@ -79,9 +79,12 @@ media = Table('media', Base.metadata,
 
     Column('author_name', Unicode(50), nullable=False),
     Column('author_email', Unicode(255), nullable=False),
+
+    mysql_engine='InnoDB',
+    mysql_charset='utf8',
 )
 
-media_files = Table('media_files', Base.metadata,
+media_files = Table('media_files', metadata,
     Column('id', Integer, autoincrement=True, primary_key=True),
     Column('media_id', Integer, ForeignKey('media.id', onupdate='CASCADE', ondelete='CASCADE'), nullable=False),
 
@@ -95,23 +98,30 @@ media_files = Table('media_files', Base.metadata,
 
     Column('created_on', DateTime, default=datetime.now, nullable=False),
     Column('modified_on', DateTime, default=datetime.now, onupdate=datetime.now, nullable=False),
+
+    mysql_engine='InnoDB',
+    mysql_charset='utf8',
 )
 
-media_tags = Table('media_tags', Base.metadata,
+media_tags = Table('media_tags', metadata,
     Column('media_id', Integer, ForeignKey('media.id', onupdate='CASCADE', ondelete='CASCADE'),
         primary_key=True),
     Column('tag_id', Integer, ForeignKey('tags.id', onupdate='CASCADE', ondelete='CASCADE'),
-        primary_key=True)
+        primary_key=True),
+    mysql_engine='InnoDB',
+    mysql_charset='utf8',
 )
 
-media_categories = Table('media_categories', Base.metadata,
+media_categories = Table('media_categories', metadata,
     Column('media_id', Integer, ForeignKey('media.id', onupdate='CASCADE', ondelete='CASCADE'),
         primary_key=True),
     Column('category_id', Integer, ForeignKey('categories.id', onupdate='CASCADE', ondelete='CASCADE'),
-        primary_key=True)
+        primary_key=True),
+    mysql_engine='InnoDB',
+    mysql_charset='utf8',
 )
 
-media_fulltext = Table('media_fulltext', Base.metadata,
+media_fulltext = Table('media_fulltext', metadata,
     Column('media_id', Integer, ForeignKey('media.id'), primary_key=True),
     Column('title', Unicode(255), nullable=False),
     Column('subtitle', Unicode(255)),
@@ -121,6 +131,7 @@ media_fulltext = Table('media_fulltext', Base.metadata,
     Column('tags', UnicodeText),
     Column('categories', UnicodeText),
     mysql_engine='MyISAM',
+    mysql_charset='utf8',
 )
 
 # Columns grouped by their FULLTEXT index
