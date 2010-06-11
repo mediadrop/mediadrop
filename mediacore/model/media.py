@@ -631,7 +631,9 @@ _tags_mapper = class_mapper(Tag, compile=False)
 _tags_mapper.add_properties(_properties_dict_from_labels(
     _mtm_count_property('media_count', media_tags),
     _mtm_count_property('media_count_published', media_tags, [
-        media.c.publishable,
+        media.c.reviewed == True,
+        media.c.encoded == True,
+        media.c.publishable == True,
         media.c.publish_on <= datetime.now(),
         sql.or_(media.c.publish_until == None,
                 media.c.publish_until >= datetime.now()),
@@ -643,7 +645,9 @@ _categories_mapper = class_mapper(Category, compile=False)
 _categories_mapper.add_properties(_properties_dict_from_labels(
     _mtm_count_property('media_count', media_categories),
     _mtm_count_property('media_count_published', media_categories, [
-        media.c.publishable,
+        media.c.reviewed == True,
+        media.c.encoded == True,
+        media.c.publishable == True,
         media.c.publish_on <= datetime.now(),
         sql.or_(media.c.publish_until == None,
                 media.c.publish_until >= datetime.now()),

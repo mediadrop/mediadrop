@@ -153,6 +153,8 @@ mapper(Podcast, podcasts, properties={
                 [sql.func.count(media.c.id)],
                 sql.and_(
                     media.c.podcast_id == podcasts.c.id,
+                    media.c.reviewed == True,
+                    media.c.encoded == True,
                     media.c.publishable == True,
                     media.c.publish_on <= datetime.now(),
                     sql.or_(
