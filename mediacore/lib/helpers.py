@@ -37,7 +37,7 @@ import webob.exc
 
 from BeautifulSoup import BeautifulSoup
 from paste.util import mimeparse
-from pylons import config, request, response, url as pylons_url
+from pylons import app_globals, config, request, response, url as pylons_url
 from webhelpers import date, feedgenerator, html, number, misc, text, paginate, containers
 from webhelpers.html import tags
 from webhelpers.html.builder import literal
@@ -638,12 +638,7 @@ def fetch_setting(key):
 
     Raises a SettingNotFound exception if the key does not exist.
     """
-    from mediacore.model import fetch_row, Setting
-    from mediacore.model.settings import SettingNotFound
-    try:
-        return fetch_row(Setting, key=unicode(key)).value
-    except HTTPNotFound:
-        raise SettingNotFound, 'Key not found: %s' % key
+    return app_globals.settings[key]
 
 def gravatar_from_email(email, size):
     """Return the URL for a gravatar image matching the povided email address.
