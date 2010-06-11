@@ -40,7 +40,7 @@ def init_model(engine):
     DBSession.configure(bind=engine)
     from mediacore.model import meta
     meta.metadata.bind = engine
-    meta.engine = engine 
+    meta.engine = engine
 
 
 def fetch_row(mapped_class, pk=None, extra_filter=None, **kwargs):
@@ -107,7 +107,7 @@ def slugify(string):
     :param string: A title, name, etc
     :type string: unicode
     :returns: Ascii URL-friendly slug
-    :rtype: string
+    :rtype: unicode
 
     """
     string = unicode(string).lower()
@@ -138,7 +138,7 @@ def get_available_slug(mapped_class, string, ignore=None):
     :param ignore: A record which doesn't count as a collision
     :type ignore: Int ID, ``mapped_class`` instance or None
     :returns: A unique slug
-    :rtype: string
+    :rtype: unicode
     """
     if isinstance(ignore, mapped_class):
         ignore = ignore.id
@@ -151,7 +151,7 @@ def get_available_slug(mapped_class, string, ignore=None):
             .filter(mapped_class.slug == new_slug)\
             .filter(mapped_class.id != ignore)\
             .first():
-        str_appendix = '-%s' % appendix
+        str_appendix = u'-%s' % appendix
         max_substr_len = slug_length - len(str_appendix)
         new_slug = slug[:max_substr_len] + str_appendix
         appendix += 1
