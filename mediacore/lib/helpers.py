@@ -861,3 +861,18 @@ player_controls_heights = {
 We increase the height of the player by this number of pixels to
 maintain a 16:9 aspect ratio.
 """
+
+def pick_podcast_media_file(files):
+    """Return the best choice of files to play.
+
+    XXX: This method uses the
+         :ref:`~mediacore.lib.filetypes.pick_media_file_player` method and
+         comes with the same caveats.
+
+    :param files: :class:`~mediacore.model.media.MediaFile` instances.
+    :type files: list
+    :returns: A :class:`~mediacore.model.media.MediaFile` object or None
+    :rtype: tuple
+    """
+
+    return pick_media_file_player(files, browser='itunes', player_type='html5')[0]

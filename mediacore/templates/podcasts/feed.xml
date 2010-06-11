@@ -83,7 +83,7 @@
 			<itunes:keywords py:content="', '.join(tag.name for tag in media.tags)" />
 			<media:thumb py:with="thumb = h.thumb(media, 'm', qualified=True)"
 			                 url="${thumb.url}" width="${thumb.x}" height="${thumb.y}" />
-			<py:with vars="file = h.pick_media_file_player(media.files, browser='itunes')[0]">
+			<py:with vars="file = h.pick_podcast_media_file(media.files)">
 				<enclosure py:if="file" py:attrs="dict(
 					url = h.url_for(controller='/media', action='serve', id=file.id, container=file.container, slug=media.slug, qualified=True),
 					length = file.size or None,

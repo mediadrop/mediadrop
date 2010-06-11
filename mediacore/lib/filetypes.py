@@ -337,7 +337,7 @@ def guess_mimetype(container, type_=None, default=None):
         return mt
 
 def pick_media_file_player(files, browser=None, version=None, user_agent=None,
-        include_embedded=True):
+        player_type=None, include_embedded=True):
     """Return the best choice of files to play and which player to use.
 
     XXX: This method uses the very unsophisticated technique of assuming
@@ -358,6 +358,8 @@ def pick_media_file_player(files, browser=None, version=None, user_agent=None,
     :param user_agent: Optional User-Agent header to use. Defaults to
         that of the current request.
     :type user_agent: str or None
+    :param player_type: Optional override value for the player_type setting.
+    :type player_type: str or None
     :param include_embedded: Whether or not to include embedded players.
     :type include_embedded: bool
     :returns: A :class:`~mediacore.model.media.MediaFile` object or None,
@@ -387,12 +389,14 @@ def pick_media_file_player(files, browser=None, version=None, user_agent=None,
                 return file, players[file.container]
         return None, None
 
-    player_type = fetch_setting('player_type')
-    html5_player = fetch_setting('html5_player')
-    flash_player = fetch_setting('flash_player')
-
     if browser is None:
         browser, version = parse_user_agent_version(user_agent)
+
+    if player_type is None:
+        player_type = fetch_setting('player_type')
+
+    html5_player = fetch_setting('html5_player')
+    flash_player = fetch_setting('flash_player')
 
     # Only proceed if this file is a playable type
     files = [file for file in files if file.type in (AUDIO, VIDEO)]
