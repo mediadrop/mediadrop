@@ -36,6 +36,7 @@ from urlparse import urlparse
 from sqlalchemy import Table, ForeignKey, Column, sql, func
 from sqlalchemy.types import String, Unicode, UnicodeText, Integer, DateTime, Boolean, Float, Enum
 from sqlalchemy.orm import mapper, class_mapper, relation, backref, synonym, composite, column_property, comparable_property, dynamic_loader, validates, collections, attributes, Query
+from sqlalchemy.schema import DDL
 from pylons import app_globals, config, request
 
 from mediacore.model import get_available_slug, slug_length, _mtm_count_property, _properties_dict_from_labels, _MatchAgainstClause
@@ -136,12 +137,12 @@ media_fulltext = Table('media_fulltext', metadata,
 
 # Columns grouped by their FULLTEXT index
 _search_cols = {
-    'public': [
+    'admin': [
         media_fulltext.c.title, media_fulltext.c.subtitle,
         media_fulltext.c.tags, media_fulltext.c.categories,
         media_fulltext.c.description_plain, media_fulltext.c.notes,
     ],
-    'admin': [
+    'public': [
         media_fulltext.c.title, media_fulltext.c.subtitle,
         media_fulltext.c.tags, media_fulltext.c.categories,
         media_fulltext.c.description_plain,
@@ -149,6 +150,17 @@ _search_cols = {
 }
 _search_param = sql.bindparam('search')
 
+def _setup_mysql_fulltext_indexes():
+    for name, cols in _search_cols.iteritems():
+        sql = (
+            'ALTER TABLE %%(table)s '
+            'ADD FULLTEXT INDEX media_fulltext_%(name)s (%(cols)s)'
+        ) % {
+            'name': name,
+            'cols': ', '.join(col.name for col in cols)
+        }
+        DDL(sql, on='mysql').execute_at('after-create', media_fulltext)
+_setup_mysql_fulltext_indexes()
 
 class MediaQuery(Query):
     def reviewed(self, flag=True):
