@@ -32,7 +32,9 @@ Email Helpers
 
 import smtplib
 
-from mediacore.lib.helpers import line_break_xhtml, strip_xhtml, url_for, fetch_setting
+from pylons import app_globals
+
+from mediacore.lib.helpers import line_break_xhtml, strip_xhtml, url_for
 
 def parse_email_string(string):
     """Take a comma separated string of emails and return a list."""
@@ -64,7 +66,7 @@ def send(to_addr, from_addr, subject, body):
 
 
 def send_media_notification(media_obj):
-    send_to = fetch_setting('email_media_uploaded')
+    send_to = app_globals.settings['email_media_uploaded']
     if not send_to:
         # media notification emails are disabled!
         return
@@ -88,10 +90,10 @@ Description: %s
 """ % (media_obj.type, media_obj.title, media_obj.author.name,
        media_obj.author.email, edit_url, clean_description)
 
-    send(send_to, fetch_setting('email_send_from'), subject, body)
+    send(send_to, app_globals.settings['email_send_from'], subject, body)
 
 def send_comment_notification(media, comment):
-    send_to = fetch_setting('email_comment_posted')
+    send_to = app_globals.settings['email_comment_posted']
     if not send_to:
         # Comment notification emails are disabled!
         return
@@ -107,10 +109,10 @@ Body: %s
     url_for(controller='/media', action='view', slug=media.slug, qualified=True),
     strip_xhtml(line_break_xhtml(line_break_xhtml(comment.body))))
 
-    send(send_to, fetch_setting('email_send_from'), subject, body)
+    send(send_to, app_globals.settings['email_send_from'], subject, body)
 
 def send_support_request(email, url, description, get_vars, post_vars):
-    send_to = fetch_setting('email_support_requests')
+    send_to = app_globals.settings['email_support_requests']
     if not send_to:
         return
 
@@ -137,4 +139,4 @@ POST_VARS:
     "\n\n  ".join([x + " :  " + post_vars[x] for x in post_vars])
     )
 
-    send(send_to, fetch_setting('email_send_from'), subject, body)
+    send(send_to, app_globals.settings['email_send_from'], subject, body)

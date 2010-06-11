@@ -606,7 +606,7 @@ def embeddable_player(media):
 
 def get_featured_category():
     from mediacore.model import Category
-    feat_id = fetch_setting('featured_category')
+    feat_id = app_globals.settings['featured_category']
     if not feat_id:
         return None
     feat_id = int(feat_id)
@@ -632,13 +632,6 @@ def is_admin():
     """
     groups = request.environ.get('repoze.who.identity', {}).get('groups', 0)
     return groups and any(group.lower() == 'admins' for group in groups)
-
-def fetch_setting(key):
-    """Return the value for the setting key.
-
-    Raises a SettingNotFound exception if the key does not exist.
-    """
-    return app_globals.settings[key]
 
 def gravatar_from_email(email, size):
     """Return the URL for a gravatar image matching the povided email address.

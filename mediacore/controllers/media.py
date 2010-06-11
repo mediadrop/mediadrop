@@ -19,7 +19,7 @@ Publicly Facing Media Controllers
 import os.path
 from urlparse import urlparse
 
-from pylons import config, request, response, session, tmpl_context
+from pylons import app_globals, config, request, response, session, tmpl_context
 import webob.exc
 from sqlalchemy import orm, sql
 from formencode import validators
@@ -223,8 +223,8 @@ class MediaController(BaseController):
         :returns: Redirect to :meth:`view` page for media.
 
         """
-        akismet_key = helpers.fetch_setting('akismet_key')
-        akismet_url = helpers.fetch_setting('akismet_url')
+        akismet_key = app_globals.settings['akismet_key']
+        akismet_url = app_globals.settings['akismet_url']
         if akismet_key:
             akismet = Akismet(agent='MediaCore/%s' % MEDIACORE_VERSION)
             akismet.key = akismet_key
@@ -250,7 +250,7 @@ class MediaController(BaseController):
         c.subject = 'Re: %s' % media.title
         c.body = values['body']
 
-        require_review = asbool(helpers.fetch_setting('req_comment_approval'))
+        require_review = asbool(app_globals.settings['req_comment_approval'])
         if not require_review:
             c.reviewed = True
             c.publishable = True

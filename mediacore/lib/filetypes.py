@@ -14,7 +14,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import re
-from pylons import config, request
+from pylons import app_globals, config, request
 
 __all__ = [
     'accepted_extensions',
@@ -370,7 +370,7 @@ def pick_media_file_player(files, browser=None, version=None, user_agent=None,
     :rtype: tuple
 
     """
-    from mediacore.lib.helpers import fetch_setting, players
+    from mediacore.lib.helpers import players
 
     def get_html5_player():
         for container, codecs in native_supported_types(browser, version):
@@ -396,10 +396,10 @@ def pick_media_file_player(files, browser=None, version=None, user_agent=None,
         browser, version = parse_user_agent_version(user_agent)
 
     if player_type is None:
-        player_type = fetch_setting('player_type')
+        player_type = app_globals.settings['player_type']
 
-    html5_player = fetch_setting('html5_player')
-    flash_player = fetch_setting('flash_player')
+    html5_player = app_globals.settings['html5_player']
+    flash_player = app_globals.settings['flash_player']
 
     # Only proceed if this file is a playable type
     files = [file for file in files if file.type in (AUDIO, VIDEO)]

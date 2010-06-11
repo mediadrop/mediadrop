@@ -13,6 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+from pylons import app_globals
 from pylons.i18n import _
 from tw.api import WidgetsList
 from formencode.validators import FancyValidator, URL
@@ -81,7 +82,7 @@ class MediaForm(ListForm):
         XHTMLTextArea('description', attrs=dict(rows=5, cols=25)),
         CategoryCheckBoxList('categories', options=lambda: DBSession.query(Category.id, Category.name).all()),
         TextArea('tags', attrs=dict(rows=3, cols=15), help_text=_(u'e.g.: puppies, great dane, adorable')),
-        TextArea('notes', label_text=_('Additional Notes'), attrs=dict(rows=3, cols=25), default=lambda: helpers.fetch_setting('wording_additional_notes')),
+        TextArea('notes', label_text=_('Additional Notes'), attrs=dict(rows=3, cols=25), default=lambda: app_globals.settings['wording_additional_notes']),
         SubmitButton('save', default=_('Save'), named_button=True, css_classes=['btn', 'btn-save', 'f-rgt']),
         SubmitButton('delete', default=_('Delete'), named_button=True, css_classes=['btn', 'btn-delete']),
     ]

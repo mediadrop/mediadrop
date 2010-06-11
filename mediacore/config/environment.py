@@ -58,7 +58,7 @@ def load_environment(global_conf, app_conf):
     translator = Translator(ugettext)
     def enable_i18n_for_template(template):
         template.filters.insert(0, translator)
-    
+
     # Create the Genshi TemplateLoader
     config['pylons.app_globals'].genshi_loader = TemplateLoader(
         search_path=paths['templates'],

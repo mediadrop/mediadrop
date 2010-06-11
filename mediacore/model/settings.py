@@ -25,19 +25,13 @@ non-mission-critical options which can be edited via the admin UI.
     with attribute-style access.
 
 """
-from webob.exc import HTTPNotFound
 from sqlalchemy import Table, ForeignKey, Column
 from sqlalchemy.types import String, Unicode, UnicodeText, Integer, Boolean, Float
 from sqlalchemy.orm import mapper, relation, backref, synonym, interfaces, validates
 
-from mediacore.model import fetch_row
-from mediacore.model.meta import Base, DBSession
+from mediacore.model.meta import DBSession, metadata
 
-
-class SettingNotFound(Exception): pass
-
-
-settings = Table('settings', Base.metadata,
+settings = Table('settings', metadata,
     Column('id', Integer, autoincrement=True, primary_key=True),
     Column('key', Unicode(255), nullable=False, unique=True),
     Column('value', UnicodeText),
@@ -45,11 +39,12 @@ settings = Table('settings', Base.metadata,
     mysql_charset='utf8'
 )
 
-
 class Setting(object):
     """
     A Single Setting
     """
+    query = DBSession.query_property()
+
     def __init__(self, key=None, value=None):
         self.key = key or None
         self.value = value or None
@@ -59,6 +54,5 @@ class Setting(object):
 
     def __unicode__(self):
         return self.value
-
 
 mapper(Setting, settings)

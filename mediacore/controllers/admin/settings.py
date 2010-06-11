@@ -22,7 +22,7 @@ from sqlalchemy import orm, sql
 from mediacore.forms.admin.settings import AnalyticsForm, CommentsForm, DisplayForm, NotificationsForm, PopularityForm, UploadForm
 from mediacore.lib.base import BaseController
 from mediacore.lib.decorators import expose, expose_xhr, paginate, validate
-from mediacore.lib.helpers import fetch_setting, redirect, url_for
+from mediacore.lib.helpers import redirect, url_for
 from mediacore.model import Media, Setting, fetch_row
 from mediacore.model.meta import DBSession
 

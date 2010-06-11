@@ -44,6 +44,6 @@
 <xi:include py:if="c.external_template" href="${c.external_template}.html" />
 
 <!--! Make sure the google analytics code (if enabled) is appended at the very end of the body tag -->
-<xi:include py:if="c.google_analytics_uacct" href="analytics.html" />
+<xi:include py:if="g.settings.get('google_analytics_uacct', None)" href="analytics.html" />
 
 </html>

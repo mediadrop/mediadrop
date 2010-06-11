@@ -36,7 +36,7 @@ from urlparse import urlparse
 from sqlalchemy import Table, ForeignKey, Column, sql, func
 from sqlalchemy.types import String, Unicode, UnicodeText, Integer, DateTime, Boolean, Float, Enum
 from sqlalchemy.orm import mapper, class_mapper, relation, backref, synonym, composite, column_property, comparable_property, dynamic_loader, validates, collections, attributes, Query
-from pylons import config, request
+from pylons import app_globals, config, request
 
 from mediacore.model import get_available_slug, _mtm_count_property, _properties_dict_from_labels, _MatchAgainstClause
 from mediacore.model.meta import Base, DBSession
@@ -461,8 +461,8 @@ class Media(object):
 
         # In our ranking algorithm, being base_life_hours newer is equivalent
         # to having log_base times more votes.
-        log_base = int(helpers.fetch_setting('popularity_decay_exponent'))
-        base_life_hours = int(helpers.fetch_setting('popularity_decay_lifetime'))
+        log_base = int(app_globals.settings['popularity_decay_exponent'])
+        base_life_hours = int(app_globals.settings['popularity_decay_lifetime'])
 
         if self.is_published:
             base_life = base_life_hours * 3600

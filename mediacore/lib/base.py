@@ -22,7 +22,7 @@ import time
 import urllib2
 
 from paste.deploy.converters import asbool
-from pylons import config, request, response, tmpl_context
+from pylons import app_globals, config, request, response, tmpl_context
 from pylons.controllers import WSGIController
 from pylons.controllers.util import abort
 from repoze.what.plugins.pylonshq import ControllerProtector
@@ -100,14 +100,7 @@ class BaseController(BareBonesController):
         tmpl_context.layout_template = config['layout_template']
         tmpl_context.external_template = None
 
-        # Load Google Analytics settings into template context:
-        try:
-            tmpl_context.google_analytics_uacct = \
-                helpers.fetch_setting('google_analytics_uacct')
-        except:
-            tmpl_context.google_analytics_uacct = None
-
-
+        # FIXME: This external template is only ever updated on server startup
         if asbool(config['external_template']):
             tmpl_name = config['external_template_name']
             tmpl_url = config['external_template_url']

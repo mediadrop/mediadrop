@@ -28,7 +28,7 @@ from akismet import Akismet
 from formencode import validators
 from paste.deploy.converters import asbool
 from paste.util import mimeparse
-from pylons import config, request, response, session, tmpl_context
+from pylons import app_globals, config, request, response, session, tmpl_context
 from pylons.i18n import _
 from sqlalchemy import orm, sql
 
@@ -39,7 +39,7 @@ from mediacore.lib.compat import sha1
 from mediacore.lib.decorators import expose, expose_xhr, paginate, validate
 from mediacore.lib.filetypes import guess_container_format, guess_media_type, parse_embed_url
 from mediacore.lib.helpers import (accepted_extensions, redirect, url_for,
-    create_default_thumbs_for, fetch_setting)
+    create_default_thumbs_for)
 from mediacore.model import (fetch_row, get_available_slug,
     Media, MediaFile, Comment, Tag, Category, Author, AuthorWithIP, Podcast)
 from mediacore.model.meta import DBSession
@@ -74,12 +74,12 @@ class UploadController(BaseController):
                 ``dict`` form values, if any
 
         """
-        support_emails = fetch_setting('email_support_requests')
+        support_emails = app_globals.settings['email_support_requests']
         support_emails = email.parse_email_string(support_emails)
         support_email = support_emails and support_emails[0] or None
 
         return dict(
-            legal_wording = fetch_setting('wording_user_uploads'),
+            legal_wording = app_globals.settings['wording_user_uploads'],
             support_email = support_email,
             upload_form = upload_form,
             form_values = kwargs,
@@ -185,7 +185,7 @@ class UploadController(BaseController):
         media_obj.title = title
         media_obj.slug = get_available_slug(Media, title)
         media_obj.description = description
-        media_obj.notes = fetch_setting('wording_additional_notes')
+        media_obj.notes = app_globals.settings['wording_additional_notes']
         media_obj.set_tags(tags)
 
         # Create a media object, add it to the media_obj, and store the file permanently.
@@ -272,7 +272,7 @@ def _add_new_media_file(media, original_filename, file):
 
 def _store_media_file(file, file_name):
     """Copy the file to its permanent location and return its URI"""
-    if asbool(fetch_setting('ftp_storage')):
+    if asbool(app_globals.settings['ftp_storage']):
         # Put the file into our FTP storage, return its URL
         return _store_media_file_ftp(file, file_name)
     else:
@@ -300,11 +300,11 @@ def _store_media_file_ftp(file, file_name):
     integrity errors)
     """
     stor_cmd = 'STOR ' + file_name
-    file_url = fetch_setting('ftp_download_url').rstrip('/') + '/' + file_name
-    ftp_server = fetch_setting('ftp_server')
-    ftp_user = fetch_setting('ftp_user')
-    ftp_password = fetch_setting('ftp_password')
-    upload_dir = fetch_setting('ftp_upload_directory')
+    file_url = app_globals.settings['ftp_download_url'].rstrip('/') + '/' + file_name
+    ftp_server = app_globals.settings['ftp_server']
+    ftp_user = app_globals.settings['ftp_user']
+    ftp_password = app_globals.settings['ftp_password']
+    upload_dir = app_globals.settings['ftp_upload_directory']
 
     # Put the file into our FTP storage
     FTPSession = ftplib.FTP(ftp_server, ftp_user, ftp_password)
@@ -331,7 +331,7 @@ def _verify_ftp_upload_integrity(file, file_url):
 
     """
     tries = 0
-    max_tries = int(fetch_setting('ftp_upload_integrity_retries'))
+    max_tries = int(app_globals.settings['ftp_upload_integrity_retries'])
     if max_tries < 1:
         return True
 

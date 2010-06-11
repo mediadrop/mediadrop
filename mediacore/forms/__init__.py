@@ -22,9 +22,10 @@ from formencode import FancyValidator
 from formencode.api import Invalid
 
 from BeautifulSoup import BeautifulStoneSoup
+from pylons import app_globals
 from pylons.templating import pylons_globals
 
-from mediacore.lib.helpers import line_break_xhtml, clean_xhtml, decode_entities, url_for, fetch_setting
+from mediacore.lib.helpers import line_break_xhtml, clean_xhtml, decode_entities, url_for
 
 class LeniantValidationMixin(object):
     validator = forms.validators.Schema(
@@ -137,7 +138,7 @@ class TextArea(tw_TA):
         if 'validator' not in kwargs:
             self.validator = self.validator()
 
-tiny_mce_condition = lambda: fetch_setting('rich_text_editor') == 'tinymce'
+tiny_mce_condition = lambda: app_globals.settings['rich_text_editor'] == 'tinymce'
 
 class XHTMLTextArea(TextArea):
     validator = XHTMLValidator
