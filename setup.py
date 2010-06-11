@@ -8,8 +8,8 @@ except ImportError:
 from mediacore import __version__ as VERSION
 
 install_requires = [
-    'Pylons == 0.10rc1',
-    'WebHelpers >= 1.0rc1',
+    'Pylons == 0.10',
+    'WebHelpers == 1.0',
     'SQLAlchemy >= 0.6.1',
     'Genshi >= 0.5.1',
     'Routes == 1.12',
