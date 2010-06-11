@@ -79,7 +79,7 @@ class MediaController(BaseController):
         media, show = helpers.filter_library_controls(media, show)
 
         if q:
-            media = media.search(q)
+            media = media.search(q, bool=True)
         if tag:
             tag = fetch_row(Tag, slug=tag)
             media = media.filter(Media.tags.contains(tag))
@@ -179,16 +179,17 @@ class MediaController(BaseController):
                 redirect(podcast_slug=media.podcast.slug)
 
         if media.fulltext:
+            search_terms = '%s %s' % (media.title, media.fulltext.tags)
             related = Media.query.published()\
                 .options(orm.undefer('comment_count_published'))\
                 .filter(Media.id != media.id)\
-                .search('>(%s) <(%s)' % (media.title, media.fulltext.tags))[:6]
+                .search(search_terms, bool=False)
         else:
             related = []
 
         return dict(
             media = media,
-            related_media = related,
+            related_media = related[:6],
             comments = media.comments.published().all(),
             comment_form = post_comment_form,
             comment_form_action = url_for(action='comment', anchor=post_comment_form.id),

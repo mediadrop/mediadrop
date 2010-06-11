@@ -19,7 +19,9 @@ import webob.exc
 from sqlalchemy import sql, orm
 from sqlalchemy.orm import class_mapper
 from sqlalchemy.orm.exc import NoResultFound
-from sqlalchemy.sql.expression import ColumnClause as _ColumnClause
+from sqlalchemy.sql.expression import bindparam, ClauseList, ColumnElement
+from sqlalchemy.types import FLOAT
+from sqlalchemy.ext.compiler import compiles
 from mediacore.lib.htmlsanitizer import entities_to_unicode
 from mediacore.lib.unidecode import unidecode
 from mediacore.model.meta import DBSession, Base, metadata
@@ -213,45 +215,26 @@ def _mtm_count_property(label, assoc_table,
 
     return orm.column_property(subselect, deferred=deferred, **kwargs)
 
-class _MatchAgainstClause(_ColumnClause):
+class MatchAgainstClause(ColumnElement):
     """
-    A ColumnClause which allows for bindparams in a literal SQL column.
+    A MySQL FULLTEXT Search Clause
 
-    For some reason :meth:`sqlalchemy.orm.session.Session.execute` does
-    some extra processing to bindparams that
-    :meth:`sqlalchemy.engine.base.Connection.execute` does not.
-    Bind params are parsed and appear to be injected using either
-    positional arguments or python string replacement(?). Ultimately,
-    the query works on the connection, but session replaces bindparams
-    with ``%s`` etc, and when a ``:param`` reaches the database as a
-    plain string and without a value to go with it, an error is thrown.
-
-    This extension tricks :mod:`sqlalchemy.sql.compiler` into parsing
-    and rendering the bindparam properly. For some reason,
-    :func:`sqlalchemy.sql.expression.literal_column` doesn't check
-    for bind params, while :func:`sqlalchemy.sql.expression.text` does.
-    See :meth:`sqlalchemy.sql.compiler.DefaultCompiler.visit_textclause`
-    and :meth:`sqlalchemy.sql.compiler.DefaultCompiler.visit_column`.
-
-    This solution is far from perfect but it does the trick for now.
-
+    The return value from MySQL for this clause is the row relevance.
     """
+    type = FLOAT()
 
-    __visit_name__ = 'textclause'
-    bindparams = {}
-    typemap = None
+    def __init__(self, columns, against, bool=False):
+        self.columns = ClauseList(*columns)
+        self.against = bindparam('search', against)
+        self.bool = bool
 
-    def __init__(self, columns, param, bool=False, *args, **kwargs):
-        if isinstance(columns, list):
-            columns = ', '.join(str(c) for c in columns)
-        if isinstance(param, basestring):
-            param = sql.bindparam(param)
-        bool_mode = bool and ' IN BOOLEAN MODE' or ''
-
-        self.text = 'MATCH (%s) AGAINST (%s%s)' % (columns, param, bool_mode)
-        self.bindparams[param.key] = param
-
-        _ColumnClause.__init__(self, self.text, *args, **kwargs)
+@compiles(MatchAgainstClause, 'mysql')
+def _compile_fulltext_mysql(element, compiler, **kwargs):
+    return 'MATCH (%(columns)s) AGAINST (%(against)s%(bool_mode)s)' % {
+        'columns': compiler.process(element.columns),
+        'against': compiler.process(element.against),
+        'bool_mode': element.bool and ' IN BOOLEAN MODE' or ''
+    }
 
 
 from mediacore.model.auth import User, Group, Permission

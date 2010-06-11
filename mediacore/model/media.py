@@ -39,7 +39,7 @@ from sqlalchemy.orm import mapper, class_mapper, relation, backref, synonym, com
 from sqlalchemy.schema import DDL
 from pylons import app_globals, config, request
 
-from mediacore.model import get_available_slug, slug_length, _mtm_count_property, _properties_dict_from_labels, _MatchAgainstClause
+from mediacore.model import get_available_slug, slug_length, _mtm_count_property, _properties_dict_from_labels, MatchAgainstClause
 from mediacore.model.meta import DBSession, metadata
 from mediacore.model.authors import Author
 from mediacore.model.comments import Comment, CommentQuery, comments
@@ -136,22 +136,21 @@ media_fulltext = Table('media_fulltext', metadata,
 )
 
 # Columns grouped by their FULLTEXT index
-_search_cols = {
-    'admin': [
+_fulltext_indexes = {
+    'admin': (
         media_fulltext.c.title, media_fulltext.c.subtitle,
         media_fulltext.c.tags, media_fulltext.c.categories,
         media_fulltext.c.description_plain, media_fulltext.c.notes,
-    ],
-    'public': [
+    ),
+    'public': (
         media_fulltext.c.title, media_fulltext.c.subtitle,
         media_fulltext.c.tags, media_fulltext.c.categories,
         media_fulltext.c.description_plain,
-    ],
+    ),
 }
-_search_param = sql.bindparam('search')
 
 def _setup_mysql_fulltext_indexes():
-    for name, cols in _search_cols.iteritems():
+    for name, cols in _fulltext_indexes.iteritems():
         sql = (
             'ALTER TABLE %%(table)s '
             'ADD FULLTEXT INDEX media_fulltext_%(name)s (%(cols)s)'
@@ -191,17 +190,30 @@ class MediaQuery(Query):
     def order_by_popularity(self):
         return self.order_by(Media.popularity_points.desc())
 
-    def search(self, search):
-        return self.join(MediaFullText)\
-                   .filter(_MatchAgainstClause(_search_cols['public'], _search_param, True))\
-                   .order_by(MediaFullText.relevance.desc())\
-                   .params({_search_param.key: search})
+    def search(self, search, bool=False, order_by=True):
+        search_cols = _fulltext_indexes['public']
+        return self._search(search_cols, search, bool, order_by)
 
-    def admin_search(self, search):
-        return self.join(MediaFullText)\
-                   .filter(_MatchAgainstClause(_search_cols['admin'], _search_param, True))\
-                   .order_by(MediaFullText.admin_relevance.desc())\
-                   .params({_search_param.key: search})
+    def admin_search(self, search, bool=False, order_by=True):
+        search_cols = _fulltext_indexes['admin']
+        return self._search(search_cols, search, bool, order_by)
+
+    def _search(self, search_cols, search, bool=False, order_by=True):
+        if self.session.connection().dialect.name != 'mysql':
+            # TODO: Use this fallback when triggers haven't been installed
+            return self.filter(Media.title.like(search))
+        filter = MatchAgainstClause(search_cols, search, bool)
+        query = self.join(MediaFullText).filter(filter)
+        if order_by:
+            # MySQL automatically orders natural lang searches by relevance,
+            # so override any existing ordering
+            query = query.order_by(None)
+            if bool:
+                # To mimic the same behaviour in boolean mode, we must do an
+                # extra natural language search on our boolean-filtered results
+                relevance = MatchAgainstClause(search_cols, search, bool=False)
+                query = query.order_by(relevance)
+        return query
 
     def in_category(self, cat):
         all_cats = [cat]
@@ -593,10 +605,7 @@ class MediaFullText(object):
 
 mapper(MediaFile, media_files)
 
-mapper(MediaFullText, media_fulltext, properties={
-    'relevance': column_property(_MatchAgainstClause(_search_cols['public'], _search_param, False), deferred=True),
-    'admin_relevance': column_property(_MatchAgainstClause(_search_cols['admin'], _search_param, False), deferred=True),
-})
+mapper(MediaFullText, media_fulltext)
 
 _media_mapper = mapper(Media, media, properties={
     'fulltext': relation(MediaFullText, uselist=False, passive_deletes=True),
