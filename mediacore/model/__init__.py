@@ -236,6 +236,17 @@ def _compile_fulltext_mysql(element, compiler, **kwargs):
         'bool_mode': element.bool and ' IN BOOLEAN MODE' or ''
     }
 
+__all__ = [
+    'DBSession',
+    'User', 'Group', 'Permission',
+    'Author', 'AuthorWithIP',
+    'Comment',
+    'Setting',
+    'Tag',
+    'Category',
+    'Media', 'MediaFile',
+    'Podcast',
+]
 
 from mediacore.model.auth import User, Group, Permission
 from mediacore.model.authors import Author, AuthorWithIP
