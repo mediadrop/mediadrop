@@ -15,7 +15,7 @@
 
 import tw.forms.fields
 
-from pylons import request, response, session, tmpl_context as c
+from pylons import app_globals, request, response, session, tmpl_context as c
 from repoze.what.predicates import has_permission
 from sqlalchemy import orm, sql
 
@@ -87,6 +87,7 @@ class SettingsController(BaseController):
                 setting.value = value
                 DBSession.add(setting)
         DBSession.flush()
+        app_globals.settings.refresh()
 
     def _display(self, form, **kwargs):
         """Return the template variables for display of the form.

@@ -3,7 +3,7 @@
 from beaker.cache import CacheManager
 from beaker.util import parse_cache_config_options
 
-class CachedSettingsDict(object):
+class CachedSettingsDescriptor(object):
     """
     A caching descriptor for the application settings from our database.
 
@@ -11,6 +11,10 @@ class CachedSettingsDict(object):
 
         from pylons import app_globals
         some_value = app_globals.settings[some_key]
+
+    To invalidate the cache for this process::
+
+        app_globals.settings.refresh()
 
     """
     def __init__(self, namespace='app_settings', expire=3600):
@@ -36,16 +40,37 @@ class CachedSettingsDict(object):
                                                   type='memory')
         return self.cache.get(key=None, createfunc=self.fetch_settings)
 
-    def fetch_settings(self):
+    def _fetch_settings(self):
         from mediacore.model import DBSession, Setting
-        return dict(DBSession.query(Setting.key, Setting.value))
+        return DBSession.query(Setting.key, Setting.value)
+
+    def fetch_settings(self):
+        return CachedSettingsDict(self._fetch_settings(), self)
+
+    def refresh(self):
+        self.cache.clear()
+        # FIXME: True here is a bit of a hack to avoid referencing app_globals.
+        #        We know it will work because the cache has been setup already.
+        return self.__get__(True, Globals)
+
+class CachedSettingsDict(dict):
+    def __init__(self, settings, descriptor):
+        dict.__init__(self, settings)
+        self.descriptor = descriptor
+
+    def refresh(self):
+        """Refresh the settings from the database."""
+        refreshed = self.descriptor.refresh()
+        self.clear()
+        self.update(refreshed)
+        return self
 
 class Globals(object):
     """Globals acts as a container for objects available throughout the
     life of the application
 
     """
-    settings = CachedSettingsDict()
+    settings = CachedSettingsDescriptor()
 
     def __init__(self, config):
         """One instance of Globals is created during application
