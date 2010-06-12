@@ -40,7 +40,7 @@
 	margin-right: 10px;
 }
 .podcast-info h3 {
-	margin-bottom: -5px;
+	margin-bottom: 5px;
 }
 .podcast-episodes {
 	float: right;
@@ -52,6 +52,10 @@
 	color: #494949;
 	font-weight: normal;
 	margin-bottom: 5px;
+}
+.podcast-episodes ol {
+	list-style: none;
+	margin: 0;
 }
 .podcast-episodes li {
 	margin-bottom: 5px;
