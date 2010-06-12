@@ -274,6 +274,14 @@ a.meta-likes:active strong {
 	color: green;
 	text-decoration: none;
 }
+.feat-content sup,
+.feat-content sub {
+	font-size: 80%;
+	vertical-align: super;
+}
+.feat-content sub {
+	vertical-align: sub;
+}
 .feat-info {
 	float: right;
 	width: 265px;
