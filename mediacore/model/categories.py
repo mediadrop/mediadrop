@@ -180,7 +180,7 @@ class Category(object):
         return len(self.ancestors())
 
 
-mapper(Category, categories, properties={
+mapper(Category, categories, order_by=categories.c.name, properties={
     'children': relation(Category,
         backref=backref('parent', remote_side=[categories.c.id]),
         order_by=categories.c.name.asc(),

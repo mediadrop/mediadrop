@@ -90,7 +90,7 @@ class TagList(list):
     def __unicode__(self):
         return ', '.join([tag.name for tag in self.values()])
 
-mapper(Tag, tags)
+mapper(Tag, tags, order_by=tags.c.name)
 
 def extract_tags(string):
     """Convert a comma separated string into a list of tag names.

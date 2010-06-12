@@ -111,7 +111,7 @@ class Comment(object):
     """)
 
 
-mapper(Comment, comments, properties={
+mapper(Comment, comments, order_by=comments.c.created_on, properties={
     'author': composite(AuthorWithIP,
         comments.c.author_name,
         comments.c.author_email,

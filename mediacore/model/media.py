@@ -607,7 +607,7 @@ mapper(MediaFile, media_files)
 
 mapper(MediaFullText, media_fulltext)
 
-_media_mapper = mapper(Media, media, properties={
+_media_mapper = mapper(Media, media, order_by=media.c.title, properties={
     'fulltext': relation(MediaFullText, uselist=False, passive_deletes=True),
     'author': composite(Author, media.c.author_name, media.c.author_email),
     'files': relation(MediaFile, backref='media', order_by=media_files.c.type.asc(), passive_deletes=True),

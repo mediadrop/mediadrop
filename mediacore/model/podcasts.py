@@ -134,7 +134,7 @@ class Podcast(object):
         return slugify(slug)
 
 
-mapper(Podcast, podcasts, properties={
+mapper(Podcast, podcasts, order_by=podcasts.c.title, properties={
     'author': composite(Author,
         podcasts.c.author_name,
         podcasts.c.author_email),
