@@ -101,3 +101,29 @@ def load_environment(global_conf, app_conf):
     # END CUSTOM CONFIGURATION OPTIONS
 
     return config
+
+def load_batch_environment(config_dir, config_file):
+    """Set up a simple environment for executing batch scripts.
+
+    This will provide access to the SQLAlchemy models, and to
+    pylons.config.
+    """
+
+    # Load the application config
+    from paste.deploy import appconfig
+    conf = appconfig('config:'+config_file, relative_to=config_dir)
+
+    # Load the logging options
+    # (must be done before environment is loaded or sqlalchemy won't log)
+    from paste.script.util.logging_config import fileConfig
+    fileConfig(config_dir+os.sep+config_file)
+
+    # Load the environment
+    config = load_environment(conf.global_conf, conf.local_conf)
+
+    # Set up globals for helper libs to use (like pylons.config)
+    from paste.registry import Registry
+    import pylons
+    reg = Registry()
+    reg.prepare()
+    reg.register(pylons.config, config)

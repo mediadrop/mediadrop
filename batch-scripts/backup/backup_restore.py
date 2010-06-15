@@ -1,46 +1,37 @@
 #!/usr/bin/env python2.5
 # -*- coding: utf-8 -*-
+from mediacore.config.environment import load_batch_environment
 
-# SETUP PYLONS APP & ENVIRONMENT
-from paste.deploy import appconfig
-from mediacore.config.environment import load_environment
+def parse_options():
+    from optparse import OptionParser
+    parser = OptionParser()
+    parser.add_option('-d', '--dump', dest='dump_to', help='Dump the selected tables to OUTPUT_FILE', metavar='OUTPUT_FILE')
+    parser.add_option('-r', '--read', dest='read_from', help='Update the database from the dump in INPUT_FILE', metavar='INPUT_FILE')
+    parser.add_option('-i', '--ini', dest='ini_file', help='Specify the .ini file to read pylons settings from.', default='deployment.ini', metavar='INI_FILE')
+    parser.add_option('--ini-path', dest='ini_path', help='Relative path to the .ini file.', default='../..', metavar='INI_PATH')
+    parser.add_option('--debug', action='store_true', dest='debug', help='Write debug output to STDOUT.', default=False)
+    options, args = parser.parse_args()
+    return parser, options, args
 
-# Load the application config
-config_dir = '../..'
-config_file = 'deployment.ini'
-conf = appconfig('config:'+config_file, relative_to=config_dir)
-
-# Load the logging options
-# (must be done before environment is loaded or sqlalchemy won't log)
-import os
-from paste.script.util.logging_config import fileConfig
-fileConfig(config_dir+os.sep+config_file)
-
-# Load the environment
-config = load_environment(conf.global_conf, conf.local_conf)
-
-# Set up globals for helper libs to use (like pylons.config)
-from paste.registry import Registry
-import pylons
-reg = Registry()
-reg.prepare()
-reg.register(pylons.config, config)
+DEBUG = False
+if __name__ == "__main__":
+    parser, options, args = parse_options()
+    DEBUG = options.debug
+    load_batch_environment(options.ini_path, options.ini_file)
 
 # BEGIN SCRIPT & SCRIPT SPECIFIC IMPORTS
+import os
 import sys
 import select
 import shutil
 import commands
 import subprocess
-from optparse import OptionParser
+from pylons import config
 from webob.exc import HTTPNotFound
 from mediacore.model.meta import DBSession
 from mediacore.model import *
 from mediacore.lib import helpers
 
-globals = dict(
-    debug = False
-)
 database = 'mediacore'
 user = 'root'
 password = ''
@@ -67,41 +58,6 @@ if deleted_dir:
     m_deleted_dir = deleted_dir + os.sep + 'media'
     p_deleted_dir = deleted_dir + os.sep + 'podcasts'
 
-def main():
-    parser = OptionParser()
-    parser.add_option('-d', '--dump', dest='dump_to', help='Dump the selected tables to OUTPUT_FILE', metavar='OUTPUT_FILE')
-    parser.add_option('-r', '--read', dest='read_from', help='Update the database from the dump in INPUT_FILE', metavar='INPUT_FILE')
-    parser.add_option('--debug', action='store_true', dest='debug', help='Write debug output to STDOUT.', default=False)
-
-    options, args = parser.parse_args()
-
-    globals['debug'] = options.debug
-
-    print ""
-
-    if options.dump_to:
-        status, output = dump_backup_file(options.dump_to)
-
-    if options.read_from:
-        remove_unnecessary_files()
-        status, output = restore_backup_file(options.read_from)
-        DBSession.commit() # Create a new transaction, to reload the tables for
-        restore_necessary_files()
-
-    if not options.dump_to and not options.read_from:
-        parser.error('Insufficient arguments provided. Use the -h argument to display help.')
-        status, output = 1, ''
-
-    # print output and exit
-    sys.stdout.write(output.strip())
-    print ""
-    if status == 0:
-        print "Operation completed successfully."
-    else:
-        print "Error occurred in operation. You can use the --debug flag for more information."
-    print ""
-    sys.exit(status)
-
 def poll_for_content(file_descriptor, timeout=0):
     ready = select.select([file_descriptor], [], [], timeout)[0]
     return ready and ready[0] == file_descriptor
@@ -114,7 +70,7 @@ def dump_backup_file(filename):
     )
     perl_cmd = 'perl -p -e "s:\),\(:\),\\n\(:g"'
     exc_string = "%s | %s" % (dump_cmd, perl_cmd)
-    if globals['debug']:
+    if DEBUG:
         print "Executing:"
         print "\t" + exc_string
         print ""
@@ -182,7 +138,7 @@ def restore_backup_file(filename):
     stdoutdata, stderrdata = '', ''
     try:
         print "Sending input data..."
-        if globals['debug']:
+        if DEBUG:
             print "Sending MySQL commands via STDIN:"
             print "\t" + input.replace("\n","\n\t")
             print ""
@@ -255,9 +211,34 @@ def restore_necessary_files():
 
     for src, dest in filename_pairs:
         if os.path.exists(src):
-            if globals['debug']:
+            if DEBUG:
                 print "Moving % to %" % (src, dest)
             shutil.move(src, dest)
 
-if __name__ == "__main__":
-    main()
+def main(parser):
+    if options.dump_to:
+        status, output = dump_backup_file(options.dump_to)
+
+    if options.read_from:
+        remove_unnecessary_files()
+        status, output = restore_backup_file(options.read_from)
+        DBSession.commit() # Create a new transaction, to reload the tables for
+        restore_necessary_files()
+
+    if not options.dump_to and not options.read_from:
+        parser.print_help()
+        print ""
+        status, output = 1, 'Incorrect or insufficient arguments provided.\n'
+
+    # print output and exit
+    sys.stdout.write(output.strip())
+    print ""
+    if status == 0:
+        print "Operation completed successfully."
+    else:
+        print "Error occurred in operation. You can use the --debug flag for more information."
+    print ""
+    sys.exit(status)
+
+if __name__ == '__main__':
+    main(parser)

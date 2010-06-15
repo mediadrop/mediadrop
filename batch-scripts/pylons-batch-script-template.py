@@ -1,34 +1,28 @@
 #!/usr/bin/env python2.5
 # -*- coding: utf-8 -*-
+from mediacore.config.environment import load_batch_environment
 
-# SETUP PYLONS APP & ENVIRONMENT
-from paste.deploy import appconfig
-from mediacore.config.environment import load_environment
+def parse_options():
+    from optparse import OptionParser
+    parser = OptionParser()
+    parser.add_option('-i', '--ini', dest='ini_file', help='Specify the .ini file to read pylons settings from.', default='deployment.ini', metavar='INI_FILE')
+    parser.add_option('--ini-path', dest='ini_path', help='Relative path to the .ini file.', default='..', metavar='INI_PATH')
+    parser.add_option('--debug', action='store_true', dest='debug', help='Write debug output to STDOUT.', default=False)
+    options, args = parser.parse_args()
+    return parser, options, args
 
-# Load the application config
-config_dir = '../..'
-config_file = 'deployment.ini'
-conf = appconfig('config:'+config_file, relative_to=config_dir)
-
-# Load the logging options
-# (must be done before environment is loaded or sqlalchemy won't log)
-import os
-from paste.script.util.logging_config import fileConfig
-fileConfig(config_dir+os.sep+config_file)
-
-# Load the environment
-config = load_environment(conf.global_conf, conf.local_conf)
-
-# Set up globals for helper libs to use (like pylons.config)
-from paste.registry import Registry
-import pylons
-reg = Registry()
-reg.prepare()
-reg.register(pylons.config, config)
+DEBUG = False
+if __name__ == "__main__":
+    parser, options, args = parse_options()
+    DEBUG = options.debug
+    load_batch_environment(options.ini_path, options.ini_file)
 
 # BEGIN SCRIPT & SCRIPT SPECIFIC IMPORTS
 import sys
 
-if __name__ == "__main__":
-    print "Running the script successfully..."
+def main(parser):
+    parser.print_help()
     sys.exit(0)
+
+if __name__ == "__main__":
+    main(parser)
