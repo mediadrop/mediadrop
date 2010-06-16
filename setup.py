@@ -26,6 +26,7 @@ install_requires = [
         # We monkeypatch this version of BeautifulSoup in mediacore.__init__
         # Patch pending: https://bugs.launchpad.net/beautifulsoup/+bug/397997
     'akismet == 0.2.0',
+    'feedparser >= 4.1', # needed only for rss import script
 ]
 
 # PIL has some weird packaging issues (because its been around forever).
