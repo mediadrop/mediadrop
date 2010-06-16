@@ -212,7 +212,7 @@ def restore_necessary_files():
     for src, dest in filename_pairs:
         if os.path.exists(src):
             if DEBUG:
-                print "Moving % to %" % (src, dest)
+                print "Moving %s to %s" % (src, dest)
             shutil.move(src, dest)
 
 def main(parser):
