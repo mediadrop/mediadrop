@@ -1,10 +1,12 @@
 include LICENSE.txt
 include development.ini
+include ez_setup.py
 include setup.sql
 include setup_triggers.sql
 include mediacore/config/deployment.ini_tmpl
 include data/media/.htaccess
 include data/deleted/.htaccess
+include data/tmp/.htaccess
 include doc/Makefile
 include doc/python.inv
 recursive-include deployment-scripts *
