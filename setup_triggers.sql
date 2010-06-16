@@ -157,3 +157,17 @@ BEGIN
 END;//
 
 DELIMITER ;
+
+INSERT INTO media_fulltext (`media_id`, `title`, `subtitle`, `description_plain`, `notes`, `author_name`, `tags`, `categories`)
+	SELECT id AS media_id, title, subtitle, description_plain, notes, author_name
+	, (SELECT GROUP_CONCAT(t.name SEPARATOR ', ')
+		 FROM media_tags j
+		 LEFT JOIN tags t ON j.tag_id = t.id
+		 WHERE j.media_id = m.id
+		 GROUP BY j.media_id) AS tags
+	, (SELECT GROUP_CONCAT(t.name SEPARATOR ', ')
+		 FROM media_categories j
+		 LEFT JOIN categories t ON j.category_id = t.id
+		 WHERE j.media_id = m.id
+		 GROUP BY j.media_id) AS categories
+	FROM media AS m;
