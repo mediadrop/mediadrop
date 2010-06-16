@@ -227,6 +227,62 @@ class UploadController(BaseController):
 
 # FIXME: The following helper methods should perhaps  be moved to the media controller.
 #        or some other more generic place.
+def _generic_add_new_media_file(media, filename_or_url, file_obj=None):
+    """Create a new MediaFile for the provided Media object and File/URL
+    and add it to that Media object's files list.
+
+    :param media: The Media object to append the file to
+    :type media: :class:`~mediacore.model.media.Media` instance
+    :param filename_or_url: A filename or a URL that the MediaFile will represent.
+    :type filename_or_url: unicode
+    :param file: A file object that the MediaFile will represent.
+    :type file: file object
+    :rtype: tuple
+    :returns: The created MediaFile (or None) and any error message (or None)
+    """
+    error_msg = None
+    media_file = None
+
+    if file_obj is not None:
+        filename = os.path.basename(filename_or_url)
+        # Create a media object, add it to the video, and store the file permanently.
+        try:
+            media_file = _add_new_media_file(media, filename, file_obj)
+        except formencode.Invalid, e:
+            error_msg = unicode(e)
+
+    else:
+        # Looks like we were just given a URL.
+        media_file = MediaFile()
+        # Parse the URL checking for known embeddables like YouTube
+        embed = parse_embed_url(filename_or_url)
+        if embed:
+            media_file.type = embed['type']
+            media_file.container = embed['container']
+            media_file.embed = embed['id']
+            media_file.display_name = '%s ID: %s' % \
+                (embed['container'].capitalize(), media_file.embed)
+        else:
+            # Check for types we can play ourselves
+            try:
+                ext = os.path.splitext(filename_or_url)[1].lower()[1:]
+                container = guess_container_format(ext)
+            except KeyError:
+                container = None
+            if container in accepted_extensions():
+                media_file.type = guess_media_type(container)
+                media_file.container = container
+                media_file.url = filename_or_url
+                media_file.display_name = os.path.basename(filename_or_url)
+            else:
+                media_file = None
+                error_msg = _('Unsupported URL')
+
+    if media_file:
+        media.files.append(media_file)
+
+    return media_file, error_msg
+
 def _add_new_media_file(media, original_filename, file):
     file_ext = os.path.splitext(original_filename)[1].lower().lstrip('.')
     container = guess_container_format(file_ext)

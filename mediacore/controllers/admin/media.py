@@ -23,14 +23,14 @@ from PIL import Image
 from datetime import datetime
 from urlparse import urlparse, urlunparse
 
-from formencode import validators, Invalid
+from formencode import validators
 from paste.util import mimeparse
 from pylons import config, request, response, session, tmpl_context
 from pylons.i18n import _
 from repoze.what.predicates import has_permission
 from sqlalchemy import orm, sql
 
-from mediacore.controllers.upload import _add_new_media_file
+from mediacore.controllers.upload import _generic_add_new_media_file
 from mediacore.forms.admin import SearchForm, ThumbForm
 from mediacore.forms.admin.media import AddFileForm, EditFileForm, MediaForm, PodcastFilterForm, UpdateStatusForm
 from mediacore.lib import helpers
@@ -38,7 +38,7 @@ from mediacore.lib.base import BaseController
 from mediacore.lib.decorators import expose, expose_xhr, paginate, validate
 from mediacore.lib.filetypes import guess_container_format, guess_media_type, parse_embed_url
 from mediacore.lib.helpers import redirect, url_for
-from mediacore.model import Author, Category, Media, MediaFile, Podcast, Tag, fetch_row, get_available_slug
+from mediacore.model import Author, Category, Media, Podcast, Tag, fetch_row, get_available_slug
 from mediacore.model.media import create_media_stub
 from mediacore.model.meta import DBSession
 
@@ -280,46 +280,15 @@ class MediaController(BaseController):
         else:
             media = fetch_row(Media, id)
 
-        data = {'success': False}
-
         if file is not None:
-            # Create a media object, add it to the video, and store the file permanently.
-            try:
-                media_file = _add_new_media_file(media, file.filename, file.file)
-                data['success'] = True
-            except Invalid, e:
-                data['message'] = unicode(e)
+            media_file, message = _generic_add_new_media_file(media, file.filename, file.file)
         elif url:
-            media_file = MediaFile()
-            # Parse the URL checking for known embeddables like YouTube
-            embed = parse_embed_url(url)
-            if embed:
-                media_file.type = embed['type']
-                media_file.container = embed['container']
-                media_file.embed = embed['id']
-                media_file.display_name = '%s ID: %s' % \
-                    (embed['container'].capitalize(), media_file.embed)
-                data['success'] = True
-            else:
-                # Check for types we can play ourselves
-                try:
-                    ext = os.path.splitext(url)[1].lower()[1:]
-                    container = guess_container_format(ext)
-                except KeyError:
-                    container = None
-                if container in helpers.accepted_extensions():
-                    media_file.type = guess_media_type(container)
-                    media_file.container = container
-                    media_file.url = url
-                    media_file.display_name = os.path.basename(url)
-                    data['success'] = True
-                else:
-                    data['message'] = _('Unsupported URL')
+            media_file, message = _generic_add_new_media_file(media, url)
         else:
-            data['message'] = _('No action to perform.')
+            message = _('No action to perform.')
 
-        if data['success']:
-            media.files.append(media_file)
+        if not message:
+            data = {'success': True}
             media.update_status()
             DBSession.add(media)
             DBSession.flush()
@@ -342,6 +311,8 @@ class MediaController(BaseController):
                 edit_form = edit_form_xhtml,
                 status_form = status_form_xhtml,
             ))
+        else:
+            data = {'success': False, 'message': message}
 
         return data
 
