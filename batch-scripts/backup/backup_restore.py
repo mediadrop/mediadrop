@@ -90,6 +90,7 @@ def dump_backup_file(filename):
 
 def restore_backup_file(filename):
     # Prepare the statements to lock, unlock, and drop all of the tables
+    charset_stmt = "SET character_set_client=utf8;"
     lock_stmt =  "START TRANSACTION;"
     disable_keys_stmt = "SET FOREIGN_KEY_CHECKS=0;"
     enable_keys_stmt = "SET FOREIGN_KEY_CHECKS=1;"
@@ -111,6 +112,7 @@ def restore_backup_file(filename):
 
     # Put all the SQL in order in one big string.
     input = "\n".join((
+        charset_stmt,
         lock_stmt,
         disable_keys_stmt,
         drop_stmt,
