@@ -308,7 +308,7 @@ class MediaController(BaseController):
 
                 if serve_method == 'apache_xsendfile':
                     # Requires mod_xsendfile for Apache 2.x
-                    response.headers['X-Sendfile'] = file_path
+                    response.headers['X-Sendfile'] = file_path.encode('utf-8')
                     response.body = ''
                 elif serve_method == 'nginx_redirect':
                     # Placeholder for nginx's x-sendfile equivalent
