@@ -531,6 +531,43 @@ def resize_thumb(img, size, filter=Image.ANTIALIAS):
 
     return img.resize(size, filter)
 
+def create_thumbs_for(item, image_file, image_filename):
+    """Creates thumbnails in all sizes for a given Media or Podcast object.
+
+    Side effects: Closes the open file handle passed in as image_file.
+                  Adds and Flushes any new Media or Podcast objects passed in.
+
+    :param item: A 2-tuple with a subdir name and an ID. If given a
+        ORM mapped class with _thumb_dir and id attributes, the info
+        can be extracted automatically.
+    :type item: ``tuple`` or mapped class
+    :param image_file: An open file handle for the original image file.
+    :type image_file: file
+    :param image_filename: The original filename of the thumbnail image.
+    :type image_filename: unicode
+    """
+    image_dir, item_id = _normalize_thumb_item(item)
+    img = Image.open(image_file)
+
+    if item_id == 'new':
+        DBSession.add(item)
+        DBSession.flush()
+
+    # TODO: Allow other formats?
+    for key, xy in config['thumb_sizes'][item._thumb_dir].iteritems():
+        path = thumb_path(item, key)
+        thumb_img = resize_thumb(img, xy)
+        thumb_img.save(path)
+
+    # Backup the original image just for kicks
+    backup_type = os.path.splitext(image_filename)[1].lower()[1:]
+    backup_path = thumb_path(item, 'orig', ext=backup_type)
+    backup_file = open(backup_path, 'w+b')
+    image_file.seek(0)
+    shutil.copyfileobj(image_file, backup_file)
+    image_file.close()
+    backup_file.close()
+
 def create_default_thumbs_for(item):
     """Create copies of the default thumbs for the given item.
 

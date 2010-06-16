@@ -19,7 +19,6 @@ Media Admin Controller
 import os.path
 import re
 import shutil
-from PIL import Image
 from datetime import datetime
 from urlparse import urlparse, urlunparse
 
@@ -418,28 +417,8 @@ class MediaController(BaseController):
             media = fetch_row(Media, id)
 
         try:
-            # Create thumbs
-            img = Image.open(thumb.file)
-
-            if id == 'new':
-                DBSession.add(media)
-                DBSession.flush()
-
-            # TODO: Allow other formats?
-            for key, xy in config['thumb_sizes'][media._thumb_dir].iteritems():
-                thumb_path = helpers.thumb_path(media, key)
-                thumb_img = helpers.resize_thumb(img, xy)
-                thumb_img.save(thumb_path)
-
-            # Backup the original image just for kicks
-            backup_type = os.path.splitext(thumb.filename)[1].lower()[1:]
-            backup_path = helpers.thumb_path(media, 'orig', ext=backup_type)
-            backup_file = open(backup_path, 'w+b')
-            thumb.file.seek(0)
-            shutil.copyfileobj(thumb.file, backup_file)
-            thumb.file.close()
-            backup_file.close()
-
+            # Create JPEG thumbs
+            helpers.create_thumbs_for(media, thumb.file, thumb.filename)
             success = True
             message = None
         except IOError:

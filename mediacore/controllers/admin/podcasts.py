@@ -19,7 +19,6 @@ import shutil
 from pylons import config, request, response, session, tmpl_context
 from repoze.what.predicates import has_permission
 from sqlalchemy import orm, sql
-from PIL import Image
 
 from mediacore.forms.admin import SearchForm, ThumbForm
 from mediacore.forms.admin.podcasts import PodcastForm
@@ -194,28 +193,8 @@ class PodcastsController(BaseController):
             podcast = fetch_row(Podcast, id)
 
         try:
-            # Create jpeg thumbs
-            img = Image.open(thumb.file)
-
-            if id == 'new':
-                DBSession.add(podcast)
-                DBSession.flush()
-
-            # TODO: Allow other formats?
-            for key, xy in config['thumb_sizes'][podcast._thumb_dir].iteritems():
-                thumb_path = helpers.thumb_path(podcast, key)
-                thumb_img = helpers.resize_thumb(img, xy)
-                thumb_img.save(thumb_path)
-
-            # Backup the original image just for kicks
-            backup_type = os.path.splitext(thumb.filename)[1].lower()[1:]
-            backup_path = helpers.thumb_path(podcast, 'orig', ext=backup_type)
-            backup_file = open(backup_path, 'w+b')
-            thumb.file.seek(0)
-            shutil.copyfileobj(thumb.file, backup_file)
-            thumb.file.close()
-            backup_file.close()
-
+            # Create JPEG thumbs
+            helpers.create_thumbs_for(podcast, thumb.file, thumb.filename)
             success = True
             message = None
         except IOError, e:
