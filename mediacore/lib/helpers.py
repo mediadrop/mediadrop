@@ -557,6 +557,8 @@ def create_thumbs_for(item, image_file, image_filename):
     for key, xy in config['thumb_sizes'][item._thumb_dir].iteritems():
         path = thumb_path(item, key)
         thumb_img = resize_thumb(img, xy)
+        if thumb_img.mode != "RGB":
+            thumb_img = thumb_img.convert("RGB")
         thumb_img.save(path)
 
     # Backup the original image just for kicks
