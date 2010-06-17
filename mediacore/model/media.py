@@ -424,7 +424,7 @@ class Media(object):
         # Test to see if we can find a workable file/player conbination
         # for the most common podcasting app w/ the POOREST format support
         if self.podcast_id \
-        and not pick_media_file_player(self.files, browser='itunes')[0]:
+        and not helpers.pick_podcast_media_file(self.files):
             return False
         # Test to see if we can find a workable file/player conbination
         # for the browser w/ the BEST format support
