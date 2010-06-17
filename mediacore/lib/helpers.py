@@ -821,6 +821,7 @@ class JWPlayer(Player):
             vars['file'] = file.link_url(qualified=qualified)
         else:
             vars['file'] = file.play_url(qualified=qualified)
+            vars['type'] = file.container
 
         plugins = []
         audio_desc = media.audio_desc
