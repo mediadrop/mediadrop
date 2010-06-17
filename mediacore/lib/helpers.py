@@ -815,11 +815,16 @@ class JWPlayer(Player):
             'image': thumb_url(media, 'l'),
             'autostart': autoplay,
         }
+        providers = {
+            'audio': 'sound',
+            'video': 'video',
+        }
 
         if file.container == 'youtube':
             vars['provider'] = 'youtube'
             vars['file'] = file.link_url(qualified=qualified)
         else:
+            vars['provider'] = providers[file.type]
             vars['file'] = file.play_url(qualified=qualified)
             vars['type'] = file.container
 
