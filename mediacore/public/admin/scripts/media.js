@@ -91,6 +91,7 @@ var MediaManager = new Class({
 			url: this.fileUploader.options.url.replace(find, repl)
 		});
 		this.files.addForm.action = this.files.addForm.action.replace(find, repl);
+		this.files.options.editURL = this.files.options.editURL.replace(find, repl);
 	},
 
 	updateStatusForm: function(resp){
