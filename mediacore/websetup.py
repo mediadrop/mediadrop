@@ -4,6 +4,9 @@ import os.path
 
 import pylons
 import pylons.test
+from sqlalchemy.orm import class_mapper
+from migrate.versioning.api import version_control, version, upgrade
+from migrate.versioning.exceptions import DatabaseAlreadyControlledError
 
 from mediacore.config.environment import load_environment
 from mediacore.model import (DBSession, metadata, Media, Podcast,
@@ -12,11 +15,37 @@ from mediacore.model import (DBSession, metadata, Media, Podcast,
 
 log = logging.getLogger(__name__)
 
-# XXX: Triggers for search still need to be installed separately w/ MySQL root.
-#      After running this script, run setup_search.sql as root
+migrate_repository = 'mediacore/migrations'
 
 def setup_app(command, conf, vars):
-    """Place any commands to setup mediacore here"""
+    """Called by ``paster setup-app``.
+
+    This script is responsible for:
+
+        * Creating the initial database schema and loading default data.
+        * Executing any migrations necessary to bring an existing database
+          up-to-date. Your data should be safe but, as always, be sure to
+          make backups before using this.
+        * Re-creating the default database for every run of the test suite.
+
+    XXX: All your data will be lost IF you run the test suite with a
+         config file named 'test.ini'. Make sure you have this configured
+         to a different database than in your usual deployment.ini or
+         development.ini file because all database tables are dropped a
+         and recreated every time this script runs.
+
+    XXX: If you are upgrading from MediaCore v0.7.2 or v0.8.0, run whichever
+         one of these that applies:
+           ``python batch-scripts/upgrade/upgrade_from_v072.py deployment.ini``
+           ``python batch-scripts/upgrade/upgrade_from_v080.py deployment.ini``
+
+    XXX: For search to work, we depend on a number of MySQL triggers which
+         copy the data from our InnoDB tables to a MyISAM table for its
+         fulltext indexing capability. Triggers can only be installed with
+         a mysql superuser like root, so you must run the setup_triggers.sql
+         script yourself.
+
+    """
     if pylons.test.pylonsapp:
         # NOTE: This extra filename check may be unnecessary, the example it is
         # from did not check for pylons.test.pylonsapp. Leaving it in for now
@@ -29,72 +58,37 @@ def setup_app(command, conf, vars):
         # Don't reload the app if it was loaded under the testing environment
         load_environment(conf.global_conf, conf.local_conf)
 
-    # Load the models
-    log.info('Creating tables')
-    metadata.create_all(bind=DBSession.bind)
+    # Setup events to load the default data when the tables are first created.
+    # These events are not fired if the tables already exist.
+    media_table = class_mapper(Media).mapped_table
+    media_table.append_ddl_listener('after-create', add_default_data)
 
-    u = User()
-    u.user_name = u'admin'
-    u.display_name = u'Admin'
-    u.email_address = u'admin@somedomain.com'
-    u.password = u'admin'
-    DBSession.add(u)
+    log.info("Creating tables if they don't exist yet")
+    metadata.create_all(bind=DBSession.bind, checkfirst=True)
 
-    g = Group()
-    g.group_name = u'admins'
-    g.display_name = u'Admins'
-    g.users.append(u)
-    DBSession.add(g)
+    # Create the migrate_version table if it doesn't exist.
+    # If the table doesn't exist, we assume the schema was just setup
+    # by this script and therefore must be the latest version.
+    latest_version = version(migrate_repository)
+    try:
+        version_control(conf.local_conf['sqlalchemy.url'],
+                        migrate_repository,
+                        version=latest_version)
+        log.info('Migrate table created with version %s' % latest_version)
+    except DatabaseAlreadyControlledError:
+        log.info('Migrate table already present')
 
-    p = Permission()
-    p.permission_name = u'admin'
-    p.description = u'Grants access to the admin panel'
-    p.groups.append(g)
-    DBSession.add(p)
+    # Run any new migrations, if there are any
+    upgrade(conf.local_conf['sqlalchemy.url'],
+            migrate_repository,
+            version=latest_version)
 
-    tag = Tag()
-    tag.name= u'hello world'
-    tag.slug= u'hello-world'
-    DBSession.add(tag)
+    # Save everything, along with the dummy data if applicable
+    DBSession.commit()
+    log.info('Successfully setup')
 
-    category1 = Category()
-    category1.name = u'Featured'
-    category1.slug = u'featured'
-    DBSession.add(category1)
-
-    podcast = Podcast()
-    podcast.slug = u'hello-world'
-    podcast.title = u'Hello World'
-    podcast.subtitle = u'My very first podcast!'
-    podcast.description = u"""<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>"""
-    podcast.category = u'Technology'
-    podcast.author = Author(u.display_name, u.email_address)
-    podcast.explicit = None
-    podcast.copyright = u'Copyright 2009 Xyz'
-    podcast.itunes_url = None
-    podcast.feedburner_url = None
-    DBSession.add(podcast)
-
-    comment = Comment()
-    comment.subject = u'Re: New Media'
-    comment.author = AuthorWithIP(name=u'John Doe', ip=2130706433)
-    comment.body = u'<p>Hello to you too!</p>'
-    DBSession.add(comment)
-
-    media = Media()
-    media.type = None
-    media.slug = u'new-media'
-    media.reviewed = True
-    media.encoded = False
-    media.publishable = False
-    media.title = u'New Media'
-    media.subtitle = None
-    media.description = u"""<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>"""
-    media.description_plain = u"""Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."""
-    media.author = Author(u.display_name, u.email_address)
-    media.tags.append(tag)
-    media.categories.append(category1)
-    media.comments.append(comment)
+def add_default_data(event, target, bind):
+    log.info('Adding default data')
 
     settings = [
         (u'email_media_uploaded', None),
@@ -130,5 +124,62 @@ def setup_app(command, conf, vars):
         s.value = value
         DBSession.add(s)
 
-    DBSession.commit()
-    log.info('Successfully setup')
+    log.info('Adding default data for media, podcasts, categories')
+
+    u = User()
+    u.user_name = u'admin'
+    u.display_name = u'Admin'
+    u.email_address = u'admin@somedomain.com'
+    u.password = u'admin'
+    DBSession.add(u)
+
+    g = Group()
+    g.group_name = u'admins'
+    g.display_name = u'Admins'
+    g.users.append(u)
+    DBSession.add(g)
+
+    p = Permission()
+    p.permission_name = u'admin'
+    p.description = u'Grants access to the admin panel'
+    p.groups.append(g)
+    DBSession.add(p)
+
+    category = Category()
+    category.name = u'Featured'
+    category.slug = u'featured'
+    DBSession.add(category)
+
+    podcast = Podcast()
+    podcast.slug = u'hello-world'
+    podcast.title = u'Hello World'
+    podcast.subtitle = u'My very first podcast!'
+    podcast.description = u"""<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>"""
+    podcast.category = u'Technology'
+    podcast.author = Author(u.display_name, u.email_address)
+    podcast.explicit = None
+    podcast.copyright = u'Copyright 2009 Xyz'
+    podcast.itunes_url = None
+    podcast.feedburner_url = None
+    DBSession.add(podcast)
+
+    comment = Comment()
+    comment.subject = u'Re: New Media'
+    comment.author = AuthorWithIP(name=u'John Doe', ip=2130706433)
+    comment.body = u'<p>Hello to you too!</p>'
+    DBSession.add(comment)
+
+    media = Media()
+    media.type = None
+    media.slug = u'new-media'
+    media.reviewed = True
+    media.encoded = False
+    media.publishable = False
+    media.title = u'New Media'
+    media.subtitle = None
+    podcast.description = u"""<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>"""
+    podcast.description_plain = u"""Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."""
+    media.author = Author(u.display_name, u.email_address)
+    media.categories.append(category)
+    media.comments.append(comment)
+    DBSession.add(media)

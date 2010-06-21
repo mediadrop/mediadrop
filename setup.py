@@ -1,3 +1,5 @@
+import os
+
 try:
     from setuptools import setup, find_packages
 except ImportError:
@@ -11,6 +13,7 @@ install_requires = [
     'Pylons == 0.10',
     'WebHelpers == 1.0',
     'SQLAlchemy >= 0.6.1',
+    'sqlalchemy-migrate >= 0.6dev',
     'Genshi >= 0.5.1',
     'Routes == 1.12',
     'repoze.who == 1.0.18',
@@ -54,6 +57,12 @@ try:
 except ImportError:
     pass
 
+# Path to the local copy of SQLAlchemy-Migrate-0.6.dev.
+# We need this version for SQLAlchemy 0.6.x support, and it isn't on PyPi yet.
+local_dependency_dir = os.path.join(
+    os.path.dirname(os.path.realpath(__file__)),
+    'dependencies',
+)
 
 setup(
     name='MediaCore',
@@ -91,6 +100,9 @@ setup(
     include_package_data=True,
     package_data={'mediacore': ['i18n/*/LC_MESSAGES/*.mo']},
     zip_safe=False,
+    dependency_links=[
+        local_dependency_dir
+    ],
 
     entry_points="""
     [paste.app_factory]
@@ -99,5 +111,6 @@ setup(
     [paste.app_install]
     main = pylons.util:PylonsInstaller
     """,
+
     **extra_arguments_for_setup
 )
