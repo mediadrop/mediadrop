@@ -535,7 +535,6 @@ def create_thumbs_for(item, image_file, image_filename):
     """Creates thumbnails in all sizes for a given Media or Podcast object.
 
     Side effects: Closes the open file handle passed in as image_file.
-                  Adds and Flushes any new Media or Podcast objects passed in.
 
     :param item: A 2-tuple with a subdir name and an ID. If given a
         ORM mapped class with _thumb_dir and id attributes, the info
@@ -548,10 +547,6 @@ def create_thumbs_for(item, image_file, image_filename):
     """
     image_dir, item_id = _normalize_thumb_item(item)
     img = Image.open(image_file)
-
-    if item_id == 'new':
-        DBSession.add(item)
-        DBSession.flush()
 
     # TODO: Allow other formats?
     for key, xy in config['thumb_sizes'][item._thumb_dir].iteritems():

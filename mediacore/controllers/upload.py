@@ -243,6 +243,7 @@ def _generic_add_new_media_file(media, filename_or_url, file_obj=None):
     error_msg = None
     media_file = None
     display_name = os.path.basename(filename_or_url)
+    initial_id = media.id
 
     if file_obj is not None:
         # Create a media object, add it to the video, and store the file permanently.
@@ -280,6 +281,10 @@ def _generic_add_new_media_file(media, filename_or_url, file_obj=None):
 
     if media_file:
         media.files.append(media_file)
+    elif error_msg and initial_id is None:
+        DBSession.delete(media)
+
+    DBSession.flush()
 
     return media_file, error_msg
 

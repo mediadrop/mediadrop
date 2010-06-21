@@ -38,7 +38,6 @@ from mediacore.lib.decorators import expose, expose_xhr, paginate, validate
 from mediacore.lib.filetypes import guess_container_format, guess_media_type, parse_embed_url
 from mediacore.lib.helpers import redirect, url_for
 from mediacore.model import Author, Category, Media, Podcast, Tag, fetch_row, get_available_slug
-from mediacore.model.media import create_media_stub
 from mediacore.model.meta import DBSession
 
 import logging
@@ -248,8 +247,7 @@ class MediaController(BaseController):
         Creates a new :class:`~mediacore.model.media.MediaFile` from the
         uploaded file or the local or remote URL.
 
-        :param id: Media ID. If ``"new"`` a new Media stub is created with
-            :func:`~mediacore.model.media.create_media_stub`.
+        :param id: Media ID. If ``"new"`` a new Media stub is created.
         :type id: :class:`int` or ``"new"``
         :param file: The uploaded file
         :type file: :class:`cgi.FieldStorage` or ``None``
@@ -275,7 +273,13 @@ class MediaController(BaseController):
 
         """
         if id == 'new':
-            media = create_media_stub()
+            media = Media()
+            user = request.environ['repoze.who.identity']['user']
+            media.author = Author(user.display_name, user.email_address)
+            # Create a temp stub until we can set it to something meaningful
+            timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            media.title = u'Temporary stub %s' % timestamp
+            media.slug = get_available_slug(Media, '_slug_' + timestamp)
         else:
             media = fetch_row(Media, id)
 
@@ -289,10 +293,10 @@ class MediaController(BaseController):
         if not message:
             data = {'success': True}
             media.update_status()
-            DBSession.add(media)
-            DBSession.flush()
 
             if id == 'new':
+                media.title = media_file.display_name
+                media.slug = get_available_slug(Media, '_stub_' + media.title)
                 helpers.create_default_thumbs_for(media)
 
             # Render some widgets so the XHTML can be injected into the page
@@ -395,8 +399,7 @@ class MediaController(BaseController):
     def save_thumb(self, id, thumb, **kwargs):
         """Save a thumbnail uploaded with :class:`~mediacore.forms.admin.ThumbForm`.
 
-        :param id: Media ID. If ``"new"`` a new Media stub is created with
-            :func:`~mediacore.model.media.create_media_stub`.
+        :param id: Media ID. If ``"new"`` a new Media stub is created.
         :type id: ``int`` or ``"new"``
         :param file: The uploaded file
         :type file: :class:`cgi.FieldStorage` or ``None``
@@ -412,7 +415,13 @@ class MediaController(BaseController):
 
         """
         if id == 'new':
-            media = create_media_stub()
+            media = Media()
+            user = request.environ['repoze.who.identity']['user']
+            media.author = Author(user.display_name, user.email_address)
+            media.title = os.path.basename(thumb.filename)
+            media.slug = get_available_slug(Media, '_stub_' + media.title)
+            DBSession.add(media)
+            DBSession.flush()
         else:
             media = fetch_row(Media, id)
 
@@ -427,6 +436,9 @@ class MediaController(BaseController):
         except Exception, e:
             success = False
             message = e.message
+
+        if message is not None and id == 'new':
+            DBSession.delete(media)
 
         return dict(
             success = success,

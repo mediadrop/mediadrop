@@ -28,7 +28,6 @@ from mediacore.lib.decorators import expose, expose_xhr, paginate, validate
 from mediacore.lib.helpers import redirect, url_for
 from mediacore.model import Author, AuthorWithIP, Podcast, fetch_row, get_available_slug
 from mediacore.model.meta import DBSession
-from mediacore.model.podcasts import create_podcast_stub
 
 import logging
 log = logging.getLogger(__name__)
@@ -171,8 +170,7 @@ class PodcastsController(BaseController):
     def save_thumb(self, id, thumb, **values):
         """Save a thumbnail uploaded with :class:`~mediacore.forms.admin.ThumbForm`.
 
-        :param id: Media ID. If ``"new"`` a new Media stub is created with
-            :func:`~mediacore.model.media.create_podcast_stub`.
+        :param id: Media ID. If ``"new"`` a new Podcast stub is created.
         :type id: ``int`` or ``"new"``
         :param file: The uploaded file
         :type file: :class:`cgi.FieldStorage` or ``None``
@@ -188,7 +186,14 @@ class PodcastsController(BaseController):
 
         """
         if id == 'new':
-            podcast = create_podcast_stub()
+            podcast = Podcast()
+            user = request.environ['repoze.who.identity']['user']
+            podcast.author = Author(user.display_name, user.email_address)
+            podcast.title = os.path.basename(thumb.filename)
+            podcast.slug = get_available_slug(Podcast,
+                                              '_stub_' + podcast.title)
+            DBSession.add(podcast)
+            DBSession.flush()
         else:
             podcast = fetch_row(Podcast, id)
 
@@ -203,6 +208,9 @@ class PodcastsController(BaseController):
         except Exception, e:
             success = False
             message = e.message
+
+        if message is not None and id == 'new':
+            DBSession.delete(podcast)
 
         return dict(
             success = success,

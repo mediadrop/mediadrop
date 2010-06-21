@@ -247,7 +247,6 @@ class MediaQuery(Query):
         else:
             return self
 
-
 class Media(object):
     """
     Media metadata and a collection of related files.
@@ -518,25 +517,6 @@ class Media(object):
     @validates('description_plain')
     def _validate_description_plain(self, key, value):
         return helpers.strip_xhtml(value, True)
-
-
-def create_media_stub():
-    """Return a new :class:`Media` instance with helpful defaults.
-
-    This is used any time we need a placeholder db record, such as when:
-
-        * Some admin adds a file *before* saving their new media
-        * Some admin uploads a thumbnail *before* saving their new media
-
-    """
-    user = request.environ['repoze.who.identity']['user']
-    timestamp = datetime.now().strftime('%b-%d-%Y')
-    m = Media()
-    m.slug = get_available_slug(Media, 'stub-%s' % timestamp)
-    m.title = '(Stub %s created by %s)' % (timestamp, user.display_name)
-    m.author = Author(user.display_name, user.email_address)
-    return m
-
 
 class MediaFile(object):
     """
