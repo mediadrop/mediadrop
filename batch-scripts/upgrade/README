@@ -1,0 +1,11 @@
+If you are updating from a newer version than those listed here,
+you may simply run this:
+
+	cd mediacore_install/
+	paster setup-app deployment.ini
+
+This will run all the pending migrations necessary to bring your
+database up-to-date.
+
+These scripts are required only because we had not set up
+sqlalchemy-migrate at the time of these releases.
