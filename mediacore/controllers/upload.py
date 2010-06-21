@@ -242,12 +242,12 @@ def _generic_add_new_media_file(media, filename_or_url, file_obj=None):
     """
     error_msg = None
     media_file = None
+    display_name = os.path.basename(filename_or_url)
 
     if file_obj is not None:
-        filename = os.path.basename(filename_or_url)
         # Create a media object, add it to the video, and store the file permanently.
         try:
-            media_file = _add_new_media_file(media, filename, file_obj)
+            media_file = _add_new_media_file(media, display_name, file_obj)
         except formencode.Invalid, e:
             error_msg = unicode(e)
 
@@ -273,7 +273,7 @@ def _generic_add_new_media_file(media, filename_or_url, file_obj=None):
                 media_file.type = guess_media_type(container)
                 media_file.container = container
                 media_file.url = filename_or_url
-                media_file.display_name = os.path.basename(filename_or_url)
+                media_file.display_name = display_name
             else:
                 media_file = None
                 error_msg = _('Unsupported URL')
@@ -284,8 +284,9 @@ def _generic_add_new_media_file(media, filename_or_url, file_obj=None):
     return media_file, error_msg
 
 def _add_new_media_file(media, original_filename, file):
-    file_ext = os.path.splitext(original_filename)[1].lower().lstrip('.')
-    container = guess_container_format(file_ext)
+    name, file_ext = os.path.splitext(original_filename)
+    container = guess_container_format(file_ext.lower().lstrip('.'))
+    display_name = '%s.%s' % (name, container)
 
     if container is None:
         msg = _('File extension "%s" is not supported.') % file_ext
@@ -293,9 +294,9 @@ def _add_new_media_file(media, original_filename, file):
 
     # set the file paths depending on the file type
     media_file = MediaFile()
-    media_file.display_name = original_filename
-    media_file.container = guess_container_format(file_ext)
-    media_file.type = guess_media_type(media_file.container)
+    media_file.display_name = display_name
+    media_file.container = container
+    media_file.type = guess_media_type(container)
 
     # Small files are stored in memory and do not have a tmp file w/ fileno
     if hasattr(file, 'fileno'):
@@ -314,7 +315,7 @@ def _add_new_media_file(media, original_filename, file):
     DBSession.flush()
 
     # copy the file to its permanent location
-    file_name = '%d_%d_%s.%s' % (media.id, media_file.id, media.slug, file_ext)
+    file_name = '%d_%d_%s.%s' % (media.id, media_file.id, media.slug, container)
     file_url = _store_media_file(file, file_name)
 
     if file_url:

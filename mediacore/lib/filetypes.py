@@ -169,32 +169,22 @@ native_supported_containers_codecs = {
     'chrome': [
         (3.0, 'ogg', ['theora', 'vorbis']),
         (3.0, 'mp4', ['h264', 'aac']),
-        (3.0, 'm4v', ['h264', 'aac']),
-        (3.0, 'm4a', []),
         (3.0, 'mp3', []),
     ],
     'safari': [
         (522, 'mp4', ['h264', 'aac']), # revision 522 was introduced in version 3.0
-        (522, 'm4v', ['h264', 'aac']),
-        (522, 'm4a', []),
         (522, 'mp3', []),
     ],
     'itunes': [
         (0, 'mp4', ['h264', 'aac']),
-        (0, 'm4v', ['h264', 'aac']),
-        (0, 'm4a', []),
         (0, 'mp3', []),
     ],
     'iphone-ipod-ipad': [
         (0, 'mp4', ['h264b', 'aacl']),
-        (0, 'm4v', ['h264b', 'aacl']),
-        (0, 'm4a', []),
         (0, 'mp3', []), # TODO: Test this. We assume it is supported because Safari supports it.
     ],
     'android': [
         (0, 'mp4', ['h264b', 'aacl']),
-        (0, 'm4v', ['h264b', 'aacl']),
-        (0, 'm4a', []),
         (0, 'mp3', []), # TODO: Test this. We assume it is supported because Chrome supports it.
     ],
     'unknown': [],
