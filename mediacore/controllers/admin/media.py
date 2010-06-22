@@ -436,12 +436,12 @@ class MediaController(BaseController):
         except IOError:
             success = False
             message = _('Unsupported image type')
-        except Exception, e:
-            success = False
-            message = e.message
-
-        if message is not None and id == 'new':
-            DBSession.delete(media)
+            if id == 'new':
+                DBSession.delete(media)
+        except Exception:
+            if id == 'new':
+                DBSession.delete(media)
+            raise
 
         return dict(
             success = success,
