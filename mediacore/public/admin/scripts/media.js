@@ -97,46 +97,23 @@ var BoxForm = new Class({
 
 var MediaManager = new Class({
 
-	Implements: Options,
-
-	options: {
-		delayNotification: {
-			id: 'delay-notification',
-			'class': 'f-rgt',
-			text: 'Waiting for uploads to finish...'
-		},
-		delayConfirm: "Your uploads are now complete.\n\nWould you like to save all your changes now?"
-	},
-
 	metaForm: null,
-	metaFormPodcastID: null,
 	statusForm: null,
 	files: null,
 	fileUploader: null,
 	isNew: null,
-	podcastWarning: null,
+	newID: null,
+	mergeURL: '',
 	type: '',
-	uploading: [],
-	bound: {},
 
 	initialize: function(opts){
-		// metaForm, files, uploader, statusForm, thumbUploader, thumbImg, isNew, type
-		this.metaForm = $(opts.metaForm);
-		if (this.metaForm.podcast.options.length == 1) {
-			$(this.metaForm.podcast).getParent('li').hide();
-		} else {
-			this.metaFormPodcastID = this.metaForm.podcast.value;
-		}
+		this.metaForm = opts.metaForm.addEvents({
+			saveSuccess: this.onMetaSaved.bind(this)
+		});
 		this.statusForm = opts.statusForm;
 		this.fileUploader = opts.fileUploader;
-		this.fileUploader.addEvents({
-			start: this.onUploadStart.bind(this, [this.fileUploader]),
-			complete: this.onUploadComplete.bind(this, [this.fileUploader])
-		});
 		this.thumbUploader = opts.thumbUploader;
 		this.thumbUploader.addEvents({
-			start: this.onUploadStart.bind(this, [this.thumbUploader]),
-			complete: this.onUploadComplete.bind(this, [this.thumbUploader]),
 			fileComplete: this.onThumbUpload.bind(this)
 		});
 		this.files = opts.files.addEvents({
@@ -145,14 +122,27 @@ var MediaManager = new Class({
 			fileDeleted: this.updateStatusForm.bind(this)
 		});
 		this.isNew = !!opts.isNew;
+		this.mergeURL = opts.mergeURL;
 		this.type = opts.type;
-		$(this.metaForm.podcast).addEvent('change', this.onPodcastChange.bind(this));
-		this.bound.delayMetaSubmit = this.delayMetaSubmit.bind(this);
-		this.setOptions(opts);
+	},
+
+	onThumbUpload: function(file){
+		var json = JSON.decode(file.response.text, true);
+		if (this.isNew) {
+			this.setStubData(json.title, json.slug, json.link);
+			this.updateFormActions(json.id);
+		} else if (this.newID && this.newID != json.id) {
+			this._mergeMedia(json.id);
+		}
 	},
 
 	onFileAdded: function(json){
-		if (this.isNew) this.setStubData(json.media_id, json.title, json.slug, json.link);
+		if (this.isNew) {
+			this.setStubData(json.title, json.slug, json.link);
+			this.updateFormActions(json.media_id);
+		} else if (this.newID && this.newID != json.media_id) {
+			this._mergeMedia(json.media_id);
+		}
 		this.updateStatusForm(json.status_form);
 	},
 
@@ -160,14 +150,32 @@ var MediaManager = new Class({
 		this.updateStatusForm(json.status_form);
 	},
 
-	setStubData: function(mediaID, title, slug, link){
-		if (!this.metaForm.title.value) {
-			this.metaForm.title.value = title;
-			$(this.metaForm.title).retrieve('SlugManager').setSlug(slug);
+	onMetaSaved: function(json){
+		if (this.isNew) {
+			this.updateFormActions(json.media_id);
+			this.setStubData(json.values.title, json.values.stub, json.link);
+		} else if (this.newID && this.newID != json.media_id) {
+			this._mergeMedia(json.media_id);
+		}
+	},
+
+	_mergeMedia: function(mediaID){
+		var r = new Request.JSON({url: this.mergeURL});
+		r.send('orig_id=' + this.newID + '&input_id=' + mediaID);
+	},
+
+	setStubData: function(title, slug, link){
+		if (!this.metaForm.form.title.value) {
+			this.metaForm.form.title.value = title;
+			$(this.metaForm.form.title).retrieve('SlugManager').setSlug(slug);
 		}
 		$('media-title').empty().adopt(new Element('a', {href: link, text: title}));
+	},
+
+	updateFormActions: function(mediaID){
 		var find = /\/new\//, repl = '/' + mediaID + '/';
-		this.metaForm.action = this.metaForm.action.replace(find, repl);
+		this.metaForm.form.action = this.metaForm.form.action.replace(find, repl);
+		this.metaForm.request.options.url = this.metaForm.request.options.url.replace(find, repl);
 		this.statusForm.form.action = this.statusForm.form.action.replace(find, repl);
 		this.thumbUploader.setOptions({
 			url: this.thumbUploader.options.url.replace(find, repl)
@@ -177,71 +185,16 @@ var MediaManager = new Class({
 		});
 		this.files.addForm.action = this.files.addForm.action.replace(find, repl);
 		this.files.options.editURL = this.files.options.editURL.replace(find, repl);
-		this.isNew = false;
+		if (this.isNew) {
+			this.newID = mediaID;
+			this.isNew = false;
+		}
 	},
 
 	updateStatusForm: function(resp){
 		if (resp['status_form']) resp = resp['status_form'];
 		if ($type(resp) != 'string' || !resp) return;
 		this.statusForm.updateForm(Elements.from(resp)[0]);
-	},
-
-	onThumbUpload: function(file){
-		if (!this.isNew) return;
-		var json = JSON.decode(file.response.text, true);
-		this.setStubData(json.id, json.title, json.slug, json.link);
-	},
-
-	onUploadStart: function(uploader){
-		this.uploading.push(uploader);
-		this.metaForm.addEvent('submit', this.bound.delayMetaSubmit);
-	},
-
-	delayMetaSubmit: function(e){
-		if ($type(e) == 'event') e = new Event(e).preventDefault();
-		if (this.metaForm.getElementById(this.options.delayNotification.id)) return;
-		this.delayNotification = new Element('span', this.options.delayNotification)
-			.inject(this.metaForm.getElementById('save'), 'after');
-	},
-
-	onUploadComplete: function(uploader){
-		this.uploading.erase(uploader);
-		if (!this.uploading.length) this.metaForm.removeEvent('submit', this.bound.delayMetaSubmit);
-		if (!this.delayNotification) return;
-		this.delayNotification.destroy();
-		if (!confirm(this.options.delayConfirm)) return;
-		this.metaForm.submit();
-	},
-
-	onPodcastChange: function(e){
-		return;
-		var podcastID = this.metaForm.podcast.value, oldPodcastID = this.metaFormPodcastID;
-		if (podcastID && !oldPodcastID && this._isPublished()) {
-			var inputs = this.files.list.getElements("input[name='is_playable']");
-			for (var warn = true, i = inputs.length; i--; i) {
-				if (inputs[i].value == 'true') {
-					warn = false;
-					break;
-				}
-			}
-			if (warn) this.displayPodcastWarning();
-		} else if (this.podcastWarning && !podcastID && oldPodcastID) {
-			this.podcastWarning.dispose();
-		}
-		this.metaFormPodcastID = podcastID;
-	},
-
-	displayPodcastWarning: function(){
-		this.podcastWarning = this.podcastWarning || new Element('div', {
-			id: 'podcast_warning',
-			html: 'You need an encoded ' + this.type + ' before publishing in podcast.<br />'
-			    + 'Choose to ignore this warning and this media will be unpublished.'
-		});
-		$('podcast_container').getElement('.form_field').grab(this.podcastWarning);
-	},
-
-	_isPublished: function(){
-		return this.statusForm.form.get('html').match(/published/i);
 	}
 
 });

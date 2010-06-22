@@ -16,7 +16,8 @@
 """
 Media Admin Controller
 """
-import os.path
+import filecmp
+import os
 import re
 import shutil
 from datetime import datetime
@@ -237,7 +238,10 @@ class MediaController(BaseController):
             helpers.create_default_thumbs_for(media)
 
         if request.is_xhr:
-            return dict(media_id=media.id)
+            return dict(
+                media_id = media.id,
+                link = url_for(action='edit', id=media.id),
+            )
         else:
             redirect(action='edit', id=media.id)
 
@@ -398,6 +402,73 @@ class MediaController(BaseController):
                 action=url_for(action='update_status'), media=media))
             data['status_form'] = status_form_xhtml
         return data
+
+
+    @expose('json')
+    def merge(self, orig_id, input_id):
+        """Overwrite the default settings of the original with the input.
+
+        All files, comments, thumbs
+
+        :param orig_id: Media ID to copy data to
+        :type orig_id: ``int``
+        :param input_id: Media ID to source files, thumbs, etc from
+        :type input_id: ``int``
+        :returns: JSON dict
+
+        """
+        orig = fetch_row(Media, orig_id)
+        input = fetch_row(Media, input_id)
+
+        # Copy over the original thumb if the input thumb is not the default
+        if filecmp.cmp(helpers.thumb_path(input, 's'),
+                       helpers.thumb_path((Media, 'new'), 's')):
+            for path in helpers.thumb_paths(input).itervalues():
+                os.remove(path)
+        else:
+            for key, dst_file in helpers.thumb_paths(orig).iteritems():
+                src_file = helpers.thumb_path(input, key)
+                # This will raise an OSError on Windows, but not *nix
+                os.rename(src_file, dst_file)
+
+        # Copy over all comments
+        for comment in input.comments:
+            comment.media = orig
+
+        # Copy over meta data when the original is a stub but the input is not
+        if orig.slug.startswith('_stub_') and not input.slug.startswith('_stub_'):
+            orig.podcast = input.podcast
+            orig.title = input.title
+            orig.subtitle = input.subtitle
+            orig.slug = input.slug
+            orig.author = input.author
+            orig.description = input.description
+            orig.notes = input.notes
+            orig.duration = input.duration
+            orig.views = input.views
+            orig.likes = input.likes
+            orig.publish_on = input.publish_on
+            orig.publish_until = input.publish_until
+            orig.categories = input.categories
+            orig.tags = input.tags
+            orig.update_popularity()
+
+        # Copy over all files
+        for file in input.files[:]:
+            file.media = orig
+            if file.file_name:
+                input_file_name = file.file_name
+                input_file_path = file.file_path
+                try:
+                    file.file_name = '%s_%s_%s.%s' % (orig.id, file.id, orig.slug,
+                                                      file.container)
+                    os.rename(input_file_path, file.file_path)
+                except OSError:
+                    file.file_name = input_file_name
+
+        orig.update_status()
+        DBSession.delete(input)
+        return dict(success=True)
 
 
     @expose('json')
