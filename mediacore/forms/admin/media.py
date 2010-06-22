@@ -84,7 +84,7 @@ class MediaForm(ListForm):
         TextArea('tags', attrs=dict(rows=3, cols=15), help_text=_(u'e.g.: puppies, great dane, adorable')),
         TextArea('notes', label_text=_('Additional Notes'), attrs=dict(rows=3, cols=25), default=lambda: app_globals.settings['wording_additional_notes']),
         SubmitButton('save', default=_('Save'), named_button=True, css_classes=['btn', 'btn-save', 'f-rgt']),
-        SubmitButton('delete', default=_('Delete'), named_button=True, css_classes=['btn', 'btn-delete']),
+        SubmitButton('delete', default=_('Delete'), named_button=True, css_classes=['btn', 'btn-delete', 'f-lft']),
     ]
 
 

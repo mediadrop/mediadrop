@@ -34,7 +34,7 @@ from mediacore.forms.admin import SearchForm, ThumbForm
 from mediacore.forms.admin.media import AddFileForm, EditFileForm, MediaForm, PodcastFilterForm, UpdateStatusForm
 from mediacore.lib import helpers
 from mediacore.lib.base import BaseController
-from mediacore.lib.decorators import expose, expose_xhr, paginate, validate
+from mediacore.lib.decorators import expose, expose_xhr, paginate, validate, validate_xhr
 from mediacore.lib.filetypes import guess_container_format, guess_media_type, parse_embed_url
 from mediacore.lib.helpers import redirect, url_for
 from mediacore.model import Author, Category, Media, Podcast, Tag, fetch_row, get_available_slug
@@ -191,8 +191,8 @@ class MediaController(BaseController):
         )
 
 
-    @expose()
-    @validate(media_form, error_handler=edit)
+    @expose_xhr()
+    @validate_xhr(media_form, error_handler=edit)
     def save(self, id, slug, title, author_name, author_email,
              description, notes, podcast, tags, categories,
              delete=None, **kwargs):
@@ -236,7 +236,10 @@ class MediaController(BaseController):
         if id == 'new':
             helpers.create_default_thumbs_for(media)
 
-        redirect(action='edit', id=media.id)
+        if request.is_xhr:
+            return dict(media_id=media.id)
+        else:
+            redirect(action='edit', id=media.id)
 
 
     @expose('json')

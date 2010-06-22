@@ -17,6 +17,7 @@ import os
 
 import formencode
 import tw.forms
+import webob.exc
 
 from genshi import XML
 from pylons import config, request, response, tmpl_context
@@ -232,10 +233,6 @@ class validate(object):
         Sets up tmpl_context.form_values and tmpl_context.form_errors to assist
         generating a form with given values and the validation failure
         messages.
-
-        The error handler in self.error_handler is called. If
-        an error_handler isn't given, the original controller is used as the
-        error handler instead.
         """
         tmpl_context.validation_exception = exception
         tmpl_context.form_errors = {}
@@ -257,11 +254,13 @@ class validate(object):
         # Set up the tmpl_context.form_values dict
         tmpl_context.form_values = exception.value
 
+        return self._call_error_handler(args, kwargs)
+
+    def _call_error_handler(self, args, kwargs):
         # Get the correct error_handler function
         error_handler = self.error_handler
         if error_handler is None:
             error_handler = self.func
-
         return error_handler(*args, **kwargs)
 
     def _to_python(self, kwargs):
@@ -344,3 +343,53 @@ class validate(object):
 
         return new_kwargs
 
+class validate_xhr(validate):
+    """
+    Special validation that returns JSON dicts for Ajax requests.
+
+    Regular synchronous requests are handled normally.
+
+    Example usage::
+
+        @expose_xhr()
+        @validate_xhr(my_form_instance, error_handler=edit)
+        def save(self, id, **kwargs):
+            something = make_something()
+            if request.is_xhr:
+                return dict(my_id=something.id)
+            else:
+                redirect(id=id)
+
+    On success, returns this in addition to whatever dict you provide::
+
+        {'success': True, 'values': {}, 'my_id': 123}
+
+    On validation error, returns::
+
+        {'success': False, 'values': {}, 'errors': {}}
+
+    """
+    def __call__(self, func):
+        """Catch redirects in the controller action and return JSON."""
+        self.validate_func = super(validate_xhr, self).__call__(func)
+        def validate_wrapper(*args, **kwargs):
+            result = {}
+            try:
+                result = self.validate_func(*args, **kwargs)
+            except webob.exc.HTTPRedirection:
+                if not request.is_xhr:
+                    raise
+            if request.is_xhr:
+                if not isinstance(result, dict):
+                    result = {}
+                result.setdefault('success', True)
+                result.setdefault('values', request.params.mixed())
+            return result
+        _copy_func_attrs(func, validate_wrapper)
+        return validate_wrapper
+
+    def _call_error_handler(self, args, kwargs):
+        if request.is_xhr:
+            return {'success': False, 'errors': tmpl_context.form_errors}
+        else:
+            return super(validate_xhr, self)._call_error_handler(args, kwargs)

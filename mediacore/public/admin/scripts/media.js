@@ -14,6 +14,87 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+var BoxForm = new Class({
+
+	Implements: [Options, Events],
+
+	options: {
+	/*	onSave: function(){},
+		onSaveSuccess: function(json){},
+		onSaveError: function(json){}, */
+		save: {link: 'cancel'},
+		spinner: {
+			'class': 'f-rgt form-saving',
+			text: 'Saving...'
+		},
+		success: {
+			'class': 'f-rgt form-saved',
+			text: 'Saved!'
+		},
+		error: {
+			'class': 'f-rgt form-save-error',
+			text: 'Please correct the highlighted errors and save again.'
+		}
+	},
+
+	initialize: function(form, opts){
+		this.setOptions(opts);
+		this.form = $(form).addEvent('submit', this.save.bind(this));
+		this.request = this.form.get('send').addEvents({
+			success: this.saved.bind(this),
+			failure: function(){ alert('Saving failed. Please try again.'); }
+		}).setOptions(this.options.save);
+	},
+
+	save: function(e){
+		e = new Event(e).stop();
+		this.injectSpinner();
+		this.form.send();
+		this.fireEvent('save');
+	},
+
+	saved: function(resp){
+		var json = JSON.decode(resp);
+		new Hash(json.values).each(this.injectValue, this);
+		this.form.getElements('span[class=field_error]').destroy();
+		if (!json.success) new Hash(json.errors).each(this.injectError, this);
+		this.updateSpinner(json.success);
+		this.fireEvent('save' + (json.success? 'Success' : 'Error'), json);
+	},
+
+	injectValue: function(value, name){
+		var field = this.form.getElementById(name), tag = field.get('tag');
+		if (tag == 'select' && field.get('multiple')) return alert('BoxForm js has not yet implemented multiple selects.');
+		if (tag == 'ul') {
+			field.getElements('input[checked]').set('checked', '');
+			$each(value, function(val){
+				field.getElement('input[value="' + val + '"]').set('checked', 'checked');
+			});
+		} else {
+			field.value = value;
+		}
+	},
+
+	injectError: function(msg, name){
+		var label = this.form.getElement('label[for=' + name + ']');
+		var el = new Element('span', {'class': 'field_error', text: msg}).inject(label, 'after');
+		var field = this.form.getElementById(name).highlight();
+	},
+
+	injectSpinner: function(){
+		if (this.spinner) this.spinner.destroy();
+		this.spinner = new Element('span', this.options.spinner);
+		this.form.getElement('.box-foot').adopt(this.spinner);
+	},
+
+	updateSpinner: function(success){
+		var props = this.options[success ? 'success' : 'error'];
+		this.spinner = new Element('span', props).replaces(this.spinner);
+		if (success) this.spinner.fade.delay(2000, this.spinner);
+	}
+
+});
+
 var MediaManager = new Class({
 
 	Implements: Options,
