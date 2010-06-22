@@ -208,7 +208,7 @@ class MediaController(BaseController):
         media = fetch_row(Media, id)
 
         if delete:
-            file_paths = helpers.thumb_paths(media)
+            file_paths = helpers.thumb_paths(media).values()
             for f in media.files:
                 file_paths.append(f.file_path)
                 # Remove the file from the session so that SQLAlchemy doesn't

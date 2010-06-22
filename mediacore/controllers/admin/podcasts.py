@@ -139,7 +139,7 @@ class PodcastsController(BaseController):
         podcast = fetch_row(Podcast, id)
 
         if delete:
-            file_paths = helpers.thumb_paths(podcast)
+            file_paths = helpers.thumb_paths(podcast).values()
             DBSession.delete(podcast)
             DBSession.commit()
             helpers.delete_files(file_paths, 'podcasts')

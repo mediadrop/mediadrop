@@ -173,13 +173,13 @@ def remove_unnecessary_files():
         return
 
     for media in DBSession.query(Media).all():
-        file_paths = helpers.thumb_paths(media)
+        file_paths = helpers.thumb_paths(media).values()
         for f in media.files:
             file_paths.append(f.file_path)
         helpers.delete_files(file_paths, 'media')
 
     for podcast in DBSession.query(Podcast).all():
-        file_paths = helpers.thumb_paths(podcast)
+        file_paths = helpers.thumb_paths(podcast).values()
         helpers.delete_files(file_paths, 'podcasts')
 
 
@@ -192,7 +192,7 @@ def restore_necessary_files():
 
     filename_pairs = []
     for media in DBSession.query(Media).all():
-        for thumb in helpers.thumb_paths(media):
+        for thumb in helpers.thumb_paths(media).values():
             filename_pairs.append((
                 thumb.replace(m_img_dir, m_deleted_dir),
                 thumb
@@ -204,7 +204,7 @@ def restore_necessary_files():
                     file.file_path
                 ))
     for podcast in DBSession.query(Podcast).all():
-        for thumb in helpers.thumb_paths(podcast):
+        for thumb in helpers.thumb_paths(podcast).values():
             filename_pairs.append((
                 thumb.replace(p_img_dir, p_deleted_dir),
                 thumb

@@ -384,7 +384,7 @@ def thumb_path(item, size, exists=False, ext='jpg'):
     :param item: A 2-tuple with a subdir name and an ID. If given a
         ORM mapped class with _thumb_dir and id attributes, the info
         can be extracted automatically.
-    :type item: ``tuple`` or mapped class
+    :type item: ``tuple`` or mapped class instance
     :param size: Size key to display, see ``thumb_sizes`` in
         :mod:`mediacore.config.app_config`
     :type size: str
@@ -414,12 +414,14 @@ def thumb_paths(item, **kwargs):
     :param item: A 2-tuple with a subdir name and an ID. If given a
         ORM mapped class with _thumb_dir and id attributes, the info
         can be extracted automatically.
-    :type item: ``tuple`` or mapped class
+    :type item: ``tuple`` or mapped class instance
+    :returns: thumb sizes and their paths
+    :rtype: ``dict``
 
     """
     image_dir, item_id = _normalize_thumb_item(item)
-    return [thumb_path(item, key, **kwargs)
-            for key in config['thumb_sizes'][image_dir].iterkeys()]
+    return dict((key, thumb_path(item, key, **kwargs))
+                for key in config['thumb_sizes'][image_dir].iterkeys())
 
 def thumb_url(item, size, qualified=False, exists=False):
     """Get the thumbnail url for the given item and size.
@@ -427,7 +429,7 @@ def thumb_url(item, size, qualified=False, exists=False):
     :param item: A 2-tuple with a subdir name and an ID. If given a
         ORM mapped class with _thumb_dir and id attributes, the info
         can be extracted automatically.
-    :type item: ``tuple`` or mapped class
+    :type item: ``tuple`` or mapped class instance
     :param size: Size key to display, see ``thumb_sizes`` in
         :mod:`mediacore.config.app_config`
     :type size: str
@@ -466,7 +468,7 @@ def thumb(item, size, qualified=False, exists=False):
     :param item: A 2-tuple with a subdir name and an ID. If given a
         ORM mapped class with _thumb_dir and id attributes, the info
         can be extracted automatically.
-    :type item: ``tuple`` or mapped class
+    :type item: ``tuple`` or mapped class instance
     :param size: Size key to display, see ``thumb_sizes`` in
         :mod:`mediacore.config.app_config`
     :type size: str
@@ -539,7 +541,7 @@ def create_thumbs_for(item, image_file, image_filename):
     :param item: A 2-tuple with a subdir name and an ID. If given a
         ORM mapped class with _thumb_dir and id attributes, the info
         can be extracted automatically.
-    :type item: ``tuple`` or mapped class
+    :type item: ``tuple`` or mapped class instance
     :param image_file: An open file handle for the original image file.
     :type image_file: file
     :param image_filename: The original filename of the thumbnail image.
@@ -576,7 +578,7 @@ def create_default_thumbs_for(item):
     :param item: A 2-tuple with a subdir name and an ID. If given a
         ORM mapped class with _thumb_dir and id attributes, the info
         can be extracted automatically.
-    :type item: ``tuple`` or mapped class
+    :type item: ``tuple`` or mapped class instance
 
     """
     image_dir, item_id = _normalize_thumb_item(item)
