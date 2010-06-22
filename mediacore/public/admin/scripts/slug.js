@@ -44,7 +44,7 @@ var SlugManager = new Class({
 		this.masterField = $(this.options.masterField);
 
 		var updateSlugFn = this.updateSlug.bind(this);
-		this.masterField.addEvent('change', updateSlugFn);
+		this.masterField.addEvent('change', updateSlugFn).store('SlugManager', this);
 
 		// Check if any error messages are set. if so, don't hide the slug field.
 		this.errorField = this.slugWrapper.getElement('span.field_error');
@@ -80,7 +80,10 @@ var SlugManager = new Class({
 	},
 
 	updateSlug: function(){
-		var slug = this.slugify(this.masterField.get('value'));
+		this.setSlug(this.slugify(this.masterField.get('value')));
+	},
+
+	setSlug: function(slug){
 		this.slugField.set('value', slug);
 		if (this.errorField == null) {
 			this.stubField.set('value', slug);

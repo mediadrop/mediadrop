@@ -71,16 +71,20 @@ var MediaManager = new Class({
 	},
 
 	onFileAdded: function(json){
-		this.updateFormActions(json.media_id);
+		if (this.isNew) this.setStubData(json.media_id, json.title, json.slug, json.link);
 		this.updateStatusForm(json.status_form);
 	},
 
 	onFileEdited: function(json){
-		if (this.isNew) return; // dont let them click 'review complete' etc until saving!
 		this.updateStatusForm(json.status_form);
 	},
 
-	updateFormActions: function(mediaID){
+	setStubData: function(mediaID, title, slug, link){
+		if (!this.metaForm.title.value) {
+			this.metaForm.title.value = title;
+			$(this.metaForm.title).retrieve('SlugManager').setSlug(slug);
+		}
+		$('media-title').empty().adopt(new Element('a', {href: link, text: title}));
 		var find = /\/new\//, repl = '/' + mediaID + '/';
 		this.metaForm.action = this.metaForm.action.replace(find, repl);
 		this.statusForm.form.action = this.statusForm.form.action.replace(find, repl);
@@ -92,17 +96,18 @@ var MediaManager = new Class({
 		});
 		this.files.addForm.action = this.files.addForm.action.replace(find, repl);
 		this.files.options.editURL = this.files.options.editURL.replace(find, repl);
+		this.isNew = false;
 	},
 
 	updateStatusForm: function(resp){
-		if (this.isNew) return; // dont let them click 'review complete' etc until saving!
 		if (resp['status_form']) resp = resp['status_form'];
 		this.statusForm.updateForm(Elements.from(resp)[0]);
 	},
 
 	onThumbUpload: function(file){
+		if (!this.isNew) return;
 		var json = JSON.decode(file.response.text, true);
-		this.updateFormActions(json.id);
+		this.setStubData(json.id, json.title, json.slug, json.link);
 	},
 
 	onUploadStart: function(uploader){

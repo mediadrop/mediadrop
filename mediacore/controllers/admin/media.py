@@ -313,6 +313,9 @@ class MediaController(BaseController):
                 file_type = media_file.type,
                 edit_form = edit_form_xhtml,
                 status_form = status_form_xhtml,
+                title = media.title,
+                slug = media.slug,
+                link = url_for(action='edit', id=media.id),
             ))
         else:
             data = {'success': False, 'message': message}
@@ -444,6 +447,9 @@ class MediaController(BaseController):
             success = success,
             message = message,
             id = media.id,
+            title = media.title,
+            slug = media.slug,
+            link = url_for(action='edit', id=media.id),
         )
 
 
