@@ -39,19 +39,24 @@ _pylons_kwargs = [
     'pylons', 'start_response', 'controller', 'environ', 'action'
 ]
 
-def kwargs_for_validator(validator, kwargs):
-    """Takes a formencode.Schema object and a dict of kwargs.
+def kwargs_for_validator(kwargs, validator=None):
+    """Return a new dict of values used by the validator.
 
-    Returns a dict with all _pylons_kwargs stripped out, unless
-    those args are explicitly required by the validator.
+    If no validator is provided, or it does not match the API of
+    formencode.Schema, then we simply filter out all
+    :attr:`_pylons_kwargs`.
+
     """
-    new_kwargs = {}
-    extra_keys = [x for x in _pylons_kwargs if x not in validator.fields]
-    for key, value in kwargs.items():
-        if key not in extra_keys:
-            new_kwargs[key] = value
+    if validator is not None and hasattr(validator, 'fields'):
+        new_kwargs = {}
+        for key, value in kwargs.iteritems():
+            if key in validator.fields:
+                new_kwargs[key] = value
+    else:
+        new_kwargs = kwargs.copy()
+        for key in _pylons_kwargs:
+            new_kwargs.pop(key, None)
     return new_kwargs
-
 
 def _copy_func_attrs(f1, f2):
     """Copy relevant attributes from f1 to f2
@@ -153,7 +158,7 @@ def expose(template='string'):
         return wrapped_f
     return wrap
 
-def expose_xhr(template_norm='', template_xhr='json'):
+def expose_xhr(template_norm='string', template_xhr='json'):
     """
     Expose different templates for normal vs XMLHttpRequest requests.
 
@@ -251,7 +256,7 @@ class validate(object):
                 continue
             tmpl_context.form_errors[field_value[0]] = field_value[1].strip()
 
-        # Set up the tmpl_context.form_values dict
+        # Set up the tmpl_context.form_values dict with the invalid values
         tmpl_context.form_values = exception.value
 
         return self._call_error_handler(args, kwargs)
@@ -293,11 +298,6 @@ class validate(object):
                 except formencode.api.Invalid, inv:
                     errors[field] = inv
 
-            # Parameters that don't have validators are returned verbatim
-            for param, param_value in kwargs.items():
-                if not param in new_kwargs:
-                    new_kwargs[param] = param_value
-
             # If there are errors, create a compound validation error based on
             # the errors dictionary, and raise it as an exception
             if errors:
@@ -311,35 +311,35 @@ class validate(object):
             v = self.validators
 
             # 1) First, filter out the extra kwargs that pylons passes in
-            new_kwargs = kwargs_for_validator(v, kwargs)
+            new_kwargs = kwargs_for_validator(kwargs, v)
             # 2) Validate the appropriate kwargs
             new_kwargs = v.to_python(new_kwargs)
-            # 3) Replace the extra kwargs that Pylons passes in
-            for key in [x for x in kwargs if x not in new_kwargs]:
-                new_kwargs[key] = kwargs[key]
 
-        elif isinstance(self.validators, tw.forms.InputWidget):
+        elif isinstance(self.validators, tw.forms.InputWidget) \
+        or hasattr(self.validators, 'validate'):
             # A tw.forms.InputWidget object. validate converts the incoming
             # parameters to sanitized Python values
-
-            # 1) First, try to filter out the extra kwargs that pylons passes in
-            v = getattr(self.validators, 'validator', None)
-            if v:
-                new_kwargs = kwargs_for_validator(v, kwargs)
-            # 2) Validate the appropriate kwargs
-            new_kwargs = self.validators.validate(new_kwargs)
-            # 3) Replace the extra kwargs that Pylons passes in (if previously stripped)
-            for key in [x for x in kwargs if x not in new_kwargs]:
-                new_kwargs[key] = kwargs[key]
-
-        elif hasattr(self.validators, 'validate'):
+            # - OR -
             # An object with a "validate" method - call it with the parameters
             # This is a generic case for classes mimicking tw.forms.InputWidget
-            new_kwargs = self.validators.validate(kwargs)
+
+            # 1) First, try to filter out the extra kwargs that pylons passes in
+            v = getattr(self.validators, 'validator', self.validators)
+            new_kwargs = kwargs_for_validator(kwargs, v)
+            # 2) Validate the appropriate kwargs
+            new_kwargs = self.validators.validate(new_kwargs)
 
         else:
             # No validation was done. Just return the original kwargs.
             return kwargs
+
+        # If we've made it this far, validation has succeeded.
+        # new_kwargs contains only the validated/filtered values.
+        tmpl_context.form_values = new_kwargs.copy()
+
+        # Re-add the kwargs provided by pylons, routes, and extra GET/POST
+        for param, value in kwargs.iteritems():
+            new_kwargs.setdefault(param, value)
 
         return new_kwargs
 
@@ -358,7 +358,7 @@ class validate_xhr(validate):
             if request.is_xhr:
                 return dict(my_id=something.id)
             else:
-                redirect(id=id)
+                redirect(action='view', id=id)
 
     On success, returns this in addition to whatever dict you provide::
 
@@ -373,17 +373,12 @@ class validate_xhr(validate):
         """Catch redirects in the controller action and return JSON."""
         self.validate_func = super(validate_xhr, self).__call__(func)
         def validate_wrapper(*args, **kwargs):
-            result = {}
-            try:
-                result = self.validate_func(*args, **kwargs)
-            except webob.exc.HTTPRedirection:
-                if not request.is_xhr:
-                    raise
+            result = self.validate_func(*args, **kwargs)
             if request.is_xhr:
                 if not isinstance(result, dict):
                     result = {}
                 result.setdefault('success', True)
-                result.setdefault('values', request.params.mixed())
+                result.setdefault('values', tmpl_context.form_values)
             return result
         _copy_func_attrs(func, validate_wrapper)
         return validate_wrapper
