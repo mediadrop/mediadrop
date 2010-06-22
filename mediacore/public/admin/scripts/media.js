@@ -101,6 +101,7 @@ var MediaManager = new Class({
 
 	updateStatusForm: function(resp){
 		if (resp['status_form']) resp = resp['status_form'];
+		if ($type(resp) != 'string' || !resp) return;
 		this.statusForm.updateForm(Elements.from(resp)[0]);
 	},
 
@@ -270,7 +271,7 @@ var FileManager = new Class({
 	options: {
 	/*	onFileAdded: function(json, row)
 		onFileEdited: function(json, row, target),
-		onFileDeleted: function(json), */
+		onFileDeleted: function(json, row), */
 		editURL: '',
 		modal: {squeezeBox: {zIndex: 10000}},
 		deleteConfirmMsg: function(name){ return "Are you sure you want to delete this file?\n\n" + name; },
@@ -483,8 +484,9 @@ var FileManager = new Class({
 	},
 
 	onFileQueueRemove: function(file){
-		this.container.getElementById('fileupload-' + file.id).destroy();
+		var row = this.container.getElementById('fileupload-' + file.id).dispose();
 		this.updateDisplay();
+		return this.fireEvent('fileDeleted', [{}, row]);
 	},
 
 	onFileUploadStart: function(file){
