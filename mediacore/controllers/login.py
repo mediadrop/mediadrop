@@ -28,7 +28,7 @@ log = logging.getLogger(__name__)
 
 class LoginController(BaseController):
     @expose('login.html')
-    def login(self, came_from=url_for('/admin/index'), **kwargs):
+    def login(self, came_from=url_for(controller='admin', action='index'), **kwargs):
         login_counter = request.environ.get('repoze.who.logins', 0)
         if login_counter > 0:
             # TODO: display a 'wrong username/password' warning
@@ -60,7 +60,7 @@ class LoginController(BaseController):
         pass
 
     @expose()
-    def post_login(self, came_from=url_for(controller='/admin/index'), **kwargs):
+    def post_login(self, came_from=url_for(controller='admin', action='index'), **kwargs):
         if not request.identity:
             login_counter = request.environ['repoze.who.logins'] + 1
             redirect(came_from)
