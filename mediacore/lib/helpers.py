@@ -42,7 +42,6 @@ from webhelpers import date, feedgenerator, html, number, misc, text, paginate, 
 from webhelpers.html import tags
 from webhelpers.html.builder import literal
 from webhelpers.html.converters import format_paragraphs
-from webob.exc import HTTPNotFound
 
 from mediacore.lib.compat import any
 from mediacore.lib.htmlsanitizer import Cleaner, entities_to_unicode as decode_entities, encode_xhtml_entities as encode_entities
