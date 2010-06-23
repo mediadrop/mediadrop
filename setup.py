@@ -10,6 +10,7 @@ except ImportError:
 from mediacore import __version__ as VERSION
 
 install_requires = [
+    'WebTest == 1.2',
     'Pylons == 0.10',
     'WebHelpers == 1.0',
     'SQLAlchemy >= 0.6.1',
