@@ -113,7 +113,7 @@ var Uploader = new Class({
 			selectFail: this.onSelectFail.bind(this),
 			fileComplete: this.onFileComplete.bind(this),
 			fileError: this.onFileError.bind(this),
-			queue: this.onQueue.bind(this)
+			fileProgress: this.onFileProgress.bind(this)
 		});
 
 		this.ui.container = $(this.options.statusContainer);
@@ -200,7 +200,7 @@ var Uploader = new Class({
 			.slide('hide').show().slide('in').highlight();
 	},
 
-	onQueue: function(){
+	onFileProgress: function(){
 		var p = this.percentLoaded;
 		if (this.fxProgress) this.fxProgress.set(p);
 
@@ -209,7 +209,7 @@ var Uploader = new Class({
 			for (x in this.messages) {
 				// If this message has not been displayed yet
 				// and this message should be displayed at this point
-				msg = this.messages[x];
+				var msg = this.messages[x];
 				if (!msg[1] && x <= p) {
 					msg[1] = true;
 					this.ui.notice.show().set('html', msg[0]).slide('in');
