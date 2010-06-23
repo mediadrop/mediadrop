@@ -96,10 +96,6 @@ def make_map(config):
         controller='admin/index',
         action='index')
 
-    map.connect('/admin/index',
-        controller='admin/index',
-        action='index')
-
     map.connect('/admin/settings/categories',
         controller='admin/categories',
         action='index')
