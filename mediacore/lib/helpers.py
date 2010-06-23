@@ -352,6 +352,27 @@ def line_break_xhtml(string):
         string = block_close.sub(u"\\1\n", string).rstrip()
     return string
 
+html_entities = re.compile(r'&(\#x?[0-9a-f]{2,6}|[a-z]{2,10});')
+long_words = re.compile(r'((\w|' + html_entities.pattern + '){5})([^\b])')
+
+def wrap_long_words(string, _encode_entities=True):
+    """Inject <wbr> periodically to let the browser wrap the string.
+
+    The <wbr /> tag is widely deployed and included in HTML5,
+    but it isn't XHTML-compliant. See this for more info:
+    http://dev.w3.org/html5/spec/text-level-semantics.html#the-wbr-element
+
+    :type string: unicode
+    :rtype: literal
+    """
+    if _encode_entities:
+        string = encode_entities(string)
+    def inject_wbr(match):
+        groups = match.groups()
+        return u'%s<wbr />%s' % (groups[0], groups[-1])
+    string = long_words.sub(inject_wbr, string)
+    string = u'.<wbr />'.join(string.split('.'))
+    return literal(string)
 
 def list_acceptable_xhtml():
     return dict(

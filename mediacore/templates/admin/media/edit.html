@@ -117,7 +117,7 @@
 				<li py:for="file in media.files" class="${file.type}" id="list-file-${file.id}">
 					<a class="file-name" href="${file.link_url()}"
 					   title="${('Go to %s' % file.container.capitalize()) if file.embed else 'Download this file'}">
-					   ${file.display_name}
+					   ${h.wrap_long_words(file.display_name)}
 					</a>
 				</li>
 			</ol>
