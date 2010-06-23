@@ -112,8 +112,8 @@ var Uploader = new Class({
 			selectSuccess: this.onSelectSuccess.bind(this),
 			selectFail: this.onSelectFail.bind(this),
 			fileComplete: this.onFileComplete.bind(this),
-			fileError: this.onFileError.bind(this),
-			fileProgress: this.onFileProgress.bind(this)
+			fileProgress: this.onFileProgress.bind(this),
+			error: this.onError.bind(this) // not a Swiff.Uploader event
 		});
 
 		this.ui.container = $(this.options.statusContainer);
@@ -134,7 +134,7 @@ var Uploader = new Class({
 		var file = files[0];
 		this._displayFile(file);
 		if (this.ui.error) {
-			this.ui.error.slide('out').empty.delay(100, this.ui.error);
+			this.ui.error.slide('out');
 		}
 		if (!this.fxProgress) {
 			this.fxProgress = new Fx.ProgressBar(this.ui.progress.getElement('img'), this.options.fxProgressBar);
@@ -156,7 +156,7 @@ var Uploader = new Class({
 			fileSizeMin: Swiff.Uploader.formatUnit(this.options.fileSizeMin, 'b'),
 			fileSizeMax: Swiff.Uploader.formatUnit(this.options.fileSizeMax, 'b')
 		}, file));
-		this.fireEvent('fileError', [file, null, error]);
+		this.fireEvent('error', [error]);
 	},
 
 	onFileComplete: function(file){
@@ -168,11 +168,11 @@ var Uploader = new Class({
 		if (file.response.error) {
 			var errorMsg = MooTools.lang.get('FancyUpload', 'errors')[file.response.error] || '{error} #{code}';
 			var error = errorMsg.substitute($extend({name: file.name}, file.response));
-			return this.fireEvent('fileError', [file, file.response, error]);
+			return this.fireEvent('error', [error]);
 		}
 		var json = JSON.decode(file.response.text, true);
 		if (!json.success) {
-			return this.fireEvent('fileError', [file, file.response, json.message]);
+			return this.fireEvent('error', [json.message]);
 		}
 		this.ui.file.getElement('.upload-file-size').highlight();
 		this.ui.container.highlight();
@@ -194,9 +194,9 @@ var Uploader = new Class({
 			.slide('hide').show().slide('in');
 	},
 
-	onFileError: function(file, response, errorMsg){
+	onError: function(msg){
 		this.ui.error.addClass('box-error').removeClass('inprogress')
-			.set('html', errorMsg)
+			.set('text', msg)
 			.slide('hide').show().slide('in').highlight();
 	},
 
@@ -231,23 +231,31 @@ var ThumbUploader = new Class({
 		typeFilter: '*.jpg; *.jpeg; *.gif; *.png'
 	},
 
-	image: null,
+	initialize: function(options){
+		this.parent(options);
+		this.image = $(this.options.image);
+	},
 
 	onFileComplete: function(file){
 		this.parent(file);
 		if (!file.response.error){
-			this.image = this.image || $(this.options.image);
-			if (!this.image) return;
 			var json = JSON.decode(file.response.text, true);
 			if (json.success) {
 				var src = this.image.get('src'), newsrc = src.replace(/\/new/, '/' + json.id);
-				this.image.set('src', newsrc + '?' + $time());
+				this.image.set('src', newsrc);
 				if (this.options.updateFormActionsOnSubmit && src != newsrc) {
 					// Update the form actions on the page to point to refer to the newly assigned ID
 					this.updateFormActions(json.id);
 				}
+				this.refreshThumb();
 			}
 		}
+	},
+
+	refreshThumb: function(){
+		var src = this.image.get('src'), qsStart = src.indexOf('?');
+		if (qsStart > 0) src = src.substr(0, qsStart);
+		this.image.set('src', src + '?' + $time());
 	},
 
 	updateFormActions: function(id){
@@ -265,15 +273,15 @@ var ThumbUploader = new Class({
 
 MooTools.lang.set('en-US', 'FancyUpload', {
 	errors: {
-		httpStatus: 'Saving the file failed. Please try again.',
+		httpStatus: 'Saving the file failed. Please try again',
 		securityError: 'Security error occured ({text})',
 		ioError: 'Error caused a send or load operation to fail ({text})'
 	},
 	validationErrors: {
-		duplicate: 'File has already been added, duplicates are not allowed.',
-		sizeLimitMin: 'File is too small, the minimal file size is {fileSizeMin}.',
-		sizeLimitMax: 'File is too large, the maximum file size is {fileSizeMax}.',
-		fileListMax: 'File could not be added, amount of {fileListMax} files exceeded.',
-		fileListSizeMax: 'File is too big, overall filesize of {fileListSizeMax} exceeded.'
+		duplicate: 'File has already been added, duplicates are not allowed',
+		sizeLimitMin: 'File is too small, the minimal file size is {fileSizeMin}',
+		sizeLimitMax: 'File is too large, the maximum file size is {fileSizeMax}',
+		fileListMax: 'File could not be added, amount of {fileListMax} files exceeded',
+		fileListSizeMax: 'File is too big, overall filesize of {fileListSizeMax} exceeded'
 	}
 });
