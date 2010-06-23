@@ -49,6 +49,11 @@ var BoxForm = new Class({
 	save: function(e){
 		e = new Event(e).stop();
 		this.injectSpinner();
+		if (this.tinyMCEInputs == undefined) {
+			this.tinyMCEInputs = this.form.getElements('textarea.tinymcearea')
+				.map(this.createHiddenTinyMCEInput, this);
+		}
+		this.tinyMCEInputs.each(this.stashTinyMCEValue, this);
 		this.form.send();
 		this.fireEvent('save');
 	},
@@ -64,13 +69,22 @@ var BoxForm = new Class({
 
 	injectValue: function(value, name){
 		var field = this.form.getElementById(name), tag = field.get('tag');
-		if (tag == 'select' && field.get('multiple')) return alert('BoxForm js has not yet implemented multiple selects.');
 		if (tag == 'ul') {
-			field.getElements('input[checked]').set('checked', '');
-			$each(value, function(val){
-				field.getElement('input[value="' + val + '"]').set('checked', 'checked');
-			});
+			field.getElements('input[checked]').set('checked', false);
+			if ($type(value) != 'array') value = [value];
+			for (var i = 0, l = value.length; i < l; i++) {
+				field.getElements('input[value="' + value[i] + '"]').set('checked', true);
+			}
+		} else if (tag == 'select' && field.multiple) {
+			field.getElements('option[selected]').set('selected', false);
+			if ($type(value) != 'array') value = [value];
+			for (var i = 0, l = value.length; i < l; i++) {
+				field.getElements('option[value="' + value[i] + '"]').set('selected', true);
+			}
+		} else if (tag == 'input' && (field.type == 'checkbox' || field.type == 'radio'))  {
+			field.set('checked', !!value);
 		} else {
+			if (field.hasClass('hidden_tinymce_value')) tinyMCE.get(field.name).setContent(value || '');
 			field.value = value;
 		}
 	},
@@ -91,6 +105,19 @@ var BoxForm = new Class({
 		var props = this.options[success ? 'success' : 'error'];
 		this.spinner = new Element('span', props).replaces(this.spinner);
 		if (success) this.spinner.fade.delay(2000, this.spinner);
+	},
+
+	createHiddenTinyMCEInput: function(textarea){
+		return new Element('input', {
+			id: textarea.id,
+			name: textarea.name,
+			type: 'hidden',
+			'class': 'hidden_tinymce_value'
+		}).replaces(textarea);
+	},
+
+	stashTinyMCEValue: function(el){
+		el.value = tinyMCE.get(el.name).getContent();
 	}
 
 });
