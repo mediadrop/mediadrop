@@ -44,7 +44,7 @@ from mediacore.model.meta import DBSession, metadata
 from mediacore.model.authors import Author
 from mediacore.model.comments import Comment, CommentQuery, comments
 from mediacore.model.tags import Tag, TagList, tags, extract_tags, fetch_and_create_tags
-from mediacore.model.categories import Category, CategoryList, categories, fetch_categories
+from mediacore.model.categories import Category, CategoryList, categories
 from mediacore.lib import helpers
 from mediacore.lib.filetypes import external_embedded_containers, guess_mimetype, pick_media_file_player
 
@@ -388,14 +388,14 @@ class Media(object):
             tags = fetch_and_create_tags(tags)
         self.tags = tags or []
 
-    def set_categories(self, categories):
-        """Set the categories relations of this media.
+    def set_categories(self, cats):
+        """Set the related categories of this media.
 
-        :param categories: A list or comma separated string of tags to use.
+        :param cats: A list of category IDs to set.
         """
-        if isinstance(categories, list):
-            categories = fetch_categories(categories)
-        self.categories = categories or []
+        if cats:
+            cats = Category.query.filter(Category.id.in_(cats)).all()
+        self.categories = cats or []
 
     def update_status(self):
         """Ensure the type (audio/video) and encoded flag are properly set.

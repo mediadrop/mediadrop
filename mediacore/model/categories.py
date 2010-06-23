@@ -187,10 +187,3 @@ mapper(Category, categories, order_by=categories.c.name, properties={
         collection_class=CategoryList,
         join_depth=2),
 })
-
-
-# TODO: Remove this function or refactor into CategoryQuery.
-#       It was copied over from the tags models and isn't really required here
-def fetch_categories(cat_ids):
-    categories = DBSession.query(Category).filter(Category.id.in_(cat_ids)).all()
-    return categories
