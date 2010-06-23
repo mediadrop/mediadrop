@@ -23,7 +23,7 @@
 				<py:if test="media.slug">
 					|
 					<a href="${h.url_for(controller='/media', action='view', slug=media.slug)}"
-					   id="go-view-content" target="_blank"
+					   id="go-view-content"
 					   title="View this media where it ${'is' if media.is_published else 'will be'} published"
 					   py:content="'View' if media.is_published else 'Preview'" />
 				</py:if>
