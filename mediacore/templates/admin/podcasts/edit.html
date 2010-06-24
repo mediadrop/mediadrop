@@ -38,13 +38,20 @@
 
 			var thumbUploader = new ThumbUploader({
 				image: 'thumb-img',
-				updateFormActionsOnSubmit: false,
 				target: 'thumb',
 				uploadBtn: {text: 'Upload image', 'class': 'btn btn-upload-image', styles: {margin: '0 auto'}},
 				statusContainer: 'thumb-upload',
 				fxProgressBar: {url: '${h.url_for('/admin/images/progressbar/progress.png')}'},
 				path: '${h.url_for('/scripts/third-party/Swiff.Uploader.swf')}',
 				verbose: false // debug
+			<py:if test="podcast.id is None">
+				, onDisabledBrowse: function(){
+					alert('You must first save this podcast before you can attach a thumbnail.');
+				},
+				onLoad: function(){
+					this.setEnabled(false);
+				}
+			</py:if>
 			});
 		});
 	</script>

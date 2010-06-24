@@ -186,16 +186,12 @@ class PodcastsController(BaseController):
 
         """
         if id == 'new':
-            podcast = Podcast()
-            user = request.environ['repoze.who.identity']['user']
-            podcast.author = Author(user.display_name, user.email_address)
-            podcast.title = os.path.basename(thumb.filename)
-            podcast.slug = get_available_slug(Podcast,
-                                              '_stub_' + podcast.title)
-            DBSession.add(podcast)
-            DBSession.flush()
-        else:
-            podcast = fetch_row(Podcast, id)
+            return dict(
+                success = False,
+                message = u'You must first save the podcast before you can upload a thumbnail',
+            )
+
+        podcast = fetch_row(Podcast, id)
 
         try:
             # Create JPEG thumbs
@@ -212,11 +208,7 @@ class PodcastsController(BaseController):
             else:
                 raise
 
-        if message is not None and id == 'new':
-            DBSession.delete(podcast)
-
         return dict(
             success = success,
             message = message,
-            id = podcast.id,
         )

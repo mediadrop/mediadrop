@@ -226,7 +226,6 @@ var ThumbUploader = new Class({
 
 	options: {
 		image: '',
-		updateFormActionsOnSubmit: false,
 		fileSizeMax: 10 * 1024 * 1024,
 		typeFilter: '*.jpg; *.jpeg; *.gif; *.png'
 	},
@@ -241,11 +240,9 @@ var ThumbUploader = new Class({
 		if (!file.response.error){
 			var json = JSON.decode(file.response.text, true);
 			if (json.success) {
-				var src = this.image.get('src'), newsrc = src.replace(/\/new/, '/' + json.id);
-				this.image.set('src', newsrc);
-				if (this.options.updateFormActionsOnSubmit && src != newsrc) {
-					// Update the form actions on the page to point to refer to the newly assigned ID
-					this.updateFormActions(json.id);
+				if (json.id) {
+					var src = this.image.get('src'), newsrc = src.replace(/\/new([sml])\.(jpg|png)/, '/' + json.id + '$1.$2');
+					if (src != newsrc) this.image.set('src', newsrc);
 				}
 				this.refreshThumb();
 			}
@@ -256,16 +253,6 @@ var ThumbUploader = new Class({
 		var src = this.image.get('src'), qsStart = src.indexOf('?');
 		if (qsStart > 0) src = src.substr(0, qsStart);
 		this.image.set('src', src + '?' + $time());
-	},
-
-	updateFormActions: function(id){
-		var find = /\/new\//, repl = '/' + id + '/';
-		this.setOptions({
-			url: this.options.url.replace(find, repl)
-		});
-		$$('form').each(function(form){
-			form.action = form.action.replace(find, repl);
-		});
 	}
 
 });
