@@ -124,15 +124,6 @@ var BoxForm = new Class({
 
 var MediaManager = new Class({
 
-	metaForm: null,
-	statusForm: null,
-	files: null,
-	fileUploader: null,
-	isNew: null,
-	newID: null,
-	mergeURL: '',
-	type: '',
-
 	initialize: function(opts){
 		this.metaForm = opts.metaForm.addEvents({
 			saveSuccess: this.onMetaSaved.bind(this)
@@ -149,46 +140,75 @@ var MediaManager = new Class({
 			fileDeleted: this.updateStatusForm.bind(this)
 		});
 		this.isNew = !!opts.isNew;
+		this.newID = null;
 		this.mergeURL = opts.mergeURL;
 		this.type = opts.type;
+		this.head = $(opts.head);
+	},
+
+	initNewMedia: function(mediaID){
+		this.isNew = false;
+		this.newID = mediaID;
+	},
+
+	onMetaSaved: function(json){
+		if (this.isNew) {
+			this.initNewMedia(json.media_id);
+			this.updateFormActions(json.media_id);
+		}
+		if (this.newID && this.newID != json.media_id) {
+			this.mergeMedia(json.media_id);
+		} else {
+			this.updateStatusForm(json.status_form);
+			this.updateTitle(json.values.title, json.link);
+		}
 	},
 
 	onThumbUpload: function(file){
 		var json = JSON.decode(file.response.text, true);
 		if (this.isNew) {
+			this.initNewMedia(json.id);
 			this.setStubData(json.title, json.slug, json.link);
 			this.updateFormActions(json.id);
-		} else if (this.newID && this.newID != json.id) {
-			this._mergeMedia(json.id);
+		}
+		if (this.newID && this.newID != json.id) {
+			this.mergeMedia(json.id);
 		}
 	},
 
 	onFileAdded: function(json){
 		if (this.isNew) {
+			this.initNewMedia(json.media_id);
 			this.setStubData(json.title, json.slug, json.link);
 			this.updateFormActions(json.media_id);
-		} else if (this.newID && this.newID != json.media_id) {
-			this._mergeMedia(json.media_id);
 		}
-		this.updateStatusForm(json.status_form);
+		if (this.newID && this.newID != json.media_id) {
+			this.mergeMedia(json.media_id);
+		} else {
+			this.updateStatusForm(json.status_form);
+		}
 	},
 
 	onFileEdited: function(json){
 		this.updateStatusForm(json.status_form);
 	},
 
-	onMetaSaved: function(json){
-		if (this.isNew) {
-			this.updateFormActions(json.media_id);
-			this.setStubData(json.values.title, json.values.stub, json.link);
-		} else if (this.newID && this.newID != json.media_id) {
-			this._mergeMedia(json.media_id);
-		}
+	mergeMedia: function(mediaID){
+		var r = new Request.JSON({url: this.mergeURL, onSuccess: this.onMediaMerged.bind(this)});
+		r.send('orig_id=' + this.newID + '&input_id=' + mediaID);
 	},
 
-	_mergeMedia: function(mediaID){
-		var r = new Request.JSON({url: this.mergeURL});
-		r.send('orig_id=' + this.newID + '&input_id=' + mediaID);
+	onMediaMerged: function(json){
+		if (!json.success) return alert(json.message);
+		this.updateStatusForm(json.status_form);
+		this.updateTitle(json.title, json.link);
+		new Hash(json.file_forms).each(function(xhtml, id){
+			var pseudoresp = {success: true, media_id: json.media_id};
+			var row = Elements.from(xhtml)[0];
+			var replaces = $(this.files._getFileID(id));
+			this.files.fileAdded(pseudoresp, replaces, row);
+		}, this);
+		this.thumbUploader.refreshThumb();
 	},
 
 	setStubData: function(title, slug, link){
@@ -196,7 +216,25 @@ var MediaManager = new Class({
 			this.metaForm.form.title.value = title;
 			$(this.metaForm.form.title).retrieve('SlugManager').setSlug(slug);
 		}
-		$('media-title').empty().adopt(new Element('a', {href: link, text: title}));
+		this.updateTitle(title, link);
+	},
+
+	updateTitle: function(title, link){
+		if (!title) return;
+		if (link && !(new String(window.location).match(new RegExp(link.escapeRegExp())))) {
+			var el = new Element('a', {href: link});
+		} else {
+			var el = new Element('span');
+		}
+		this.head.empty().adopt(el.set('text', title));
+		if (this.newID) return; // don't update the title when we're still at /admin/media/new
+		try { // Expects a title formatted like 'Edit: Xyz Title | MediaCore'
+			var start = document.title.substr(0, document.title.indexOf(':') + 2);
+			var end = document.title.substr(document.title.lastIndexOf('|') - 1);
+			document.title = start + title + end;
+		} catch (e) {
+			if (console) console.log('Error changing the title');
+		}
 	},
 
 	updateFormActions: function(mediaID){
@@ -212,14 +250,10 @@ var MediaManager = new Class({
 		});
 		this.files.addForm.action = this.files.addForm.action.replace(find, repl);
 		this.files.options.editURL = this.files.options.editURL.replace(find, repl);
-		if (this.isNew) {
-			this.newID = mediaID;
-			this.isNew = false;
-		}
 	},
 
 	updateStatusForm: function(resp){
-		if (resp['status_form']) resp = resp['status_form'];
+		if (resp && resp.status_form) resp = resp.status_form;
 		if ($type(resp) != 'string' || !resp) return;
 		this.statusForm.updateForm(Elements.from(resp)[0]);
 	}
@@ -321,10 +355,6 @@ var StatusForm = new Class({
 	}
 });
 
-/**
- * Agh! This class got big quickly, and I don't have time to refactor it
- * into smaller, more managable chunks.
- */
 var FileManager = new Class({
 
 	Implements: [Events, Options],
@@ -351,12 +381,7 @@ var FileManager = new Class({
 		}
 	},
 
-	container: null,
 	files: [],
-	uploader: null,
-	modal: null,
-	thead: null,
-	tbody: null,
 	durationInputs: [],
 
 	initialize: function(container, opts){
@@ -457,9 +482,12 @@ var FileManager = new Class({
 		req.send(form.toQueryString());
 	},
 
-	fileAdded: function(resp, replaces){
-		if (!resp.success) this._injectError(replaces, resp.message);
-		var row = this._attachFile(Elements.from(resp.edit_form)[0]);
+	fileAdded: function(resp, replaces, row){
+		if (!row) {
+			if (!resp.success) this._injectError(replaces, resp.message);
+			row = Elements.from(resp.edit_form)[0];
+		}
+		row = this._attachFile(row);
 		this.files.push(row);
 		if (replaces) row.replaces(replaces);
 		else row.inject(this.tbody);
@@ -550,7 +578,11 @@ var FileManager = new Class({
 		return this.fireEvent('fileDeleted', [{}, row]);
 	},
 
-	onFileUploadStart: function(file){
+	onFileUploadStart: function(file, pollAttempts){
+		if (!file.ui) {
+			if (pollAttempts > 10) return;
+			return this.onFileUploadStart.delay(2, this, [file, (pollAttempts || 0) + 1]);
+		}
 		file.ui.progress = new Element('span', {'class': 'f-rgt', text: '0%'});
 		file.ui.type.empty()
 			.grab(file.ui.progress)
@@ -667,9 +699,8 @@ var FileList = new Class({
 	onFileAdded: function(json, row, replaces){
 		// a file has been added. it may have been a queued file (already in the list)
 		// or its a URL being added and it's the first time we're seeing it
-		var li = this.list.getElementById('list-' + replaces.id);
-		if (li) li.set('id', 'list-' + row.id);
-		else li = this._createLi(row).inject(this.list);
+		if (replaces) var li = this.list.getElementById('list-' + replaces.id).set('id', 'list-' + row.id);
+		else var li = this._createLi(row).inject(this.list);
 		li.className = row.className;
 		var namelink = row.getElement('td[headers="thf-name"]').getChildren();
 		li.empty().adopt(namelink.clone());

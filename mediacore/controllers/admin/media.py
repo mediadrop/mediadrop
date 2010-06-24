@@ -238,9 +238,14 @@ class MediaController(BaseController):
             helpers.create_default_thumbs_for(media)
 
         if request.is_xhr:
+            status_form_xhtml = unicode(update_status_form.display(
+                action=url_for(action='update_status', id=media.id),
+                media=media))
+
             return dict(
                 media_id = media.id,
                 link = url_for(action='edit', id=media.id),
+                status_form = status_form_xhtml,
             )
         else:
             redirect(action='edit', id=media.id)
@@ -422,6 +427,7 @@ class MediaController(BaseController):
         """
         orig = fetch_row(Media, orig_id)
         input = fetch_row(Media, input_id)
+        merged_files = []
 
         # Merge in the file(s) from the input stub
         if input.slug.startswith('_stub_') and input.files:
@@ -436,6 +442,7 @@ class MediaController(BaseController):
                         os.rename(input_file_path, file.file_path)
                     except OSError:
                         file.file_name = input_file_name
+                merged_files.append(file)
             DBSession.delete(input)
 
         # The original is a file or thumb stub, copy in the new values
@@ -477,7 +484,25 @@ class MediaController(BaseController):
             )
 
         orig.update_status()
-        return dict(success=True)
+
+        status_form_xhtml = unicode(update_status_form.display(
+            action=url_for(action='update_status', id=orig.id),
+            media=orig))
+
+        file_xhtml = {}
+        for file in merged_files:
+            file_xhtml[file.id] = unicode(edit_file_form.display(
+                action=url_for(action='edit_file', id=orig.id),
+                file=file))
+
+        return dict(
+            success = True,
+            media_id = orig.id,
+            title = orig.title,
+            link = url_for(action='edit', id=orig.id),
+            status_form = status_form_xhtml,
+            file_forms = file_xhtml,
+        )
 
 
     @expose('json')

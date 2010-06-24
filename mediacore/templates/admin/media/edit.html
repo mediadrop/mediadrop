@@ -88,7 +88,8 @@
 				thumbImg: 'thumb-img',
 				isNew: ${int(media.id is None)},
 				mergeURL: '${h.url_for(action='merge_stubs', id=None)}',
-				type: ${"'%s'" % media.type if media.type else 'null'}
+				type: ${"'%s'" % media.type if media.type else 'null'},
+				head: 'media-title'
 			});
 
 		});
