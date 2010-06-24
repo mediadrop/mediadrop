@@ -901,7 +901,19 @@ def pick_podcast_media_file(files):
     :param files: :class:`~mediacore.model.media.MediaFile` instances.
     :type files: list
     :returns: A :class:`~mediacore.model.media.MediaFile` object or None
-    :rtype: tuple
     """
-
     return pick_media_file_player(files, browser='itunes', player_type='html5')[0]
+
+def pick_any_media_file(files):
+    """Return a file playable in at least one browser, with the current
+    player_type setting, or None.
+
+    XXX: This method uses the
+         :ref:`~mediacore.lib.filetypes.pick_media_file_player` method and
+         comes with the same caveats.
+
+    :param files: :class:`~mediacore.model.media.MediaFile` instances.
+    :type files: list
+    :returns: A :class:`~mediacore.model.media.MediaFile` object or None
+    """
+    return pick_media_file_player(files, browser='chrome')[0]

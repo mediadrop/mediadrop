@@ -427,7 +427,7 @@ class Media(object):
             return False
         # Test to see if we can find a workable file/player conbination
         # for the browser w/ the BEST format support
-        if not pick_media_file_player(self.files, browser='chrome')[0]:
+        if not helpers.pick_any_media_file(self.files):
             return False
         return True
 
