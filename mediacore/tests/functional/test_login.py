@@ -2,6 +2,7 @@ from mediacore.tests import *
 
 test_user = 'admin'
 test_password = 'admin'
+local = 'http://localhost%s'
 
 class TestLoginController(TestController):
 
@@ -17,8 +18,10 @@ class TestLoginController(TestController):
         # Requesting a protected area as anonymous should redirect to the
         # login form page
         restricted_page = self.app.get(restricted_url, status=302)
-        assert restricted_page.location.startswith(
-                    'http://localhost%s' % login_form_url)
+
+        assert restricted_page.location.startswith(local % login_form_url), \
+            "Restricted page is redirecting to %s, but %s... was expected." % (
+                restricted_page.location, local % login_form_url)
 
         # Follow the redirect to the login page and fill out the login form.
         login_page = restricted_page.follow(status=200)
@@ -29,16 +32,22 @@ class TestLoginController(TestController):
         # TODO: Figure out why this post_login page is necessary, or at least why
         #       it's not mentioned in the repoze.who-testutil docs.
         login_handler_page = login_page.form.submit(status=302)
-        assert login_handler_page.location.startswith(
-                    'http://localhost%s' % post_login_url)
+
+        assert login_handler_page.location.startswith(local % post_login_url), \
+            "Login handler is redirecting to %s, but %s... was expected." % (
+                login_handler_page.location, local % post_login_url)
 
         # The post_login page should set up our authentication cookies
         # and redirect to the initially requested page.
         post_login_handler_page = login_handler_page.follow(status=302)
-        assert post_login_handler_page.location == \
-                'http://localhost%s' % restricted_url
+
+        assert post_login_handler_page.location == local % restricted_url, \
+            "Post-login handler is redirecting to %s, but %s was expected." % (
+                post_login_handler_page.location, local % restricted_url)
+
         assert 'authtkt' in post_login_handler_page.request.cookies, \
-               "Session cookie wasn't defined: %s" % post_login_handler_page.request.cookies
+           "Session cookie wasn't defined: %s" % (
+                post_login_handler_page.request.cookies)
 
         # Follow the redirect to check that we were correctly authenticated:
         initial_page = post_login_handler_page.follow(status=200)
@@ -62,14 +71,19 @@ class TestLoginController(TestController):
 
         # Submitting the login form should redirect us to the 'post_login' page
         login_handler_page = login_page.form.submit(status=302)
-        assert login_handler_page.location.startswith(
-                    'http://localhost%s' % post_login_url)
+
+        assert login_handler_page.location.startswith(local % post_login_url), \
+            "Login handler is redirecting to %s, but %s... was expected." % (
+                login_handler_page.location, local % post_login_url)
 
         # The post_login page should set up our authentication cookies
         # and redirect to the initially requested page.
         post_login_handler_page = login_handler_page.follow(status=302)
-        assert post_login_handler_page.location == \
-                'http://localhost%s' % admin_url
+
+        assert post_login_handler_page.location == local % admin_url, \
+            "Post-login handler is redirecting to %s, but %s was expected." % (
+                post_login_handler_page.location, local % restricted_url)
+
         assert 'authtkt' in post_login_handler_page.request.cookies, \
                "Session cookie wasn't defined: %s" % post_login_handler_page.request.cookies
 
@@ -80,15 +94,21 @@ class TestLoginController(TestController):
         # This sends all relevant cookies, and ensures that the logout link is
         # actually displayed on the admin page.
         logout_handler_page = admin_page.click(linkid='logout', href=logout_handler_url)
-        assert logout_handler_page.location.startswith(
-                'http://localhost%s' % post_logout_url)
+
+        assert logout_handler_page.location.startswith(local % post_logout_url), \
+            "Logout handler is redirecting to %s, but %s... was expected." % (
+                login_handler_page.location, local % post_logout_url)
 
         # Follow the first logout redirect.
         # This should invalidate our authtkt cookie.
         post_logout_page = logout_handler_page.follow(status=302)
-        assert post_logout_page.location == \
-                'http://localhost%s' % home_url
-        assert post_logout_page.request.cookies['authtkt'] == 'INVALID'
+
+        assert post_logout_page.location == local % home_url, \
+            "Post-login handler is redirecting to %s, but %s was expected." % (
+                post_login_handler_page.location, local % home_url)
+
+        assert post_logout_page.request.cookies['authtkt'] == 'INVALID', \
+            "Post-login handler did not set 'authtkt' cookie to 'INVALID'"
 
         # Follow the final logout redirect, back to the home page.
         home_page = post_logout_page.follow(status=200)
