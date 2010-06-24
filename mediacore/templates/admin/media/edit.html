@@ -20,7 +20,7 @@
       xmlns:xi="http://www.w3.org/2001/XInclude">
 <xi:include href="admin/master.html" />
 <head>
-	<title>Edit: ${media.title or 'New Media'}</title>
+	<title>${media.title and 'Edit: %s' % media.title or 'New Media'}</title>
 	<link href="${h.url_for('/admin/styles/forms.css')}" media="screen" rel="stylesheet" type="text/css" />
 	<link href="${h.url_for('/admin/styles/datepicker.css')}" media="screen" rel="stylesheet" type="text/css" />
 	<link href="${h.url_for('/admin/styles/uploader.css')}" media="screen" rel="stylesheet" type="text/css" />

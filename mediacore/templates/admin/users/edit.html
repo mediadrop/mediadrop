@@ -17,12 +17,11 @@
      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:py="http://genshi.edgewall.org/"
-      xmlns:xi="http://www.w3.org/2001/XInclude"
-      py:with="username = user.user_name or 'New User'">
+      xmlns:xi="http://www.w3.org/2001/XInclude">
 <xi:include href="admin/master.html" />
 <xi:include href="admin/settings/master.html" />
 <head>
-	<title>Edit User: ${username}</title>
+	<title>${user.user_name and 'Edit User: %s' % user.user_name or 'New User'}</title>
 	<link href="${h.url_for('/admin/styles/forms.css')}" media="screen" rel="stylesheet" type="text/css" />
 	<script src="${h.url_for('/scripts/third-party/squeezebox-1.1-rc4-yui-compressed.js')}" type="text/javascript"></script>
 	<link href="${h.url_for('/admin/styles/squeezebox.css')}" media="screen" rel="stylesheet" type="text/css" />
@@ -37,7 +36,7 @@
 <body class="menu-settings-on menu-settings-users-on">
 	<div class="box">
 		<div class="box-head">
-			<h1>Edit User: ${username}</h1>
+			<h1>${user.user_name or 'New User'}</h1>
 		</div>
 		<form py:replace="XML(user_form(user_values, action=user_action, autocomplete='off'))" />
 	</div>
