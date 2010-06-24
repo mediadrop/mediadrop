@@ -58,10 +58,8 @@ def setup_app(command, conf, vars):
         # Don't reload the app if it was loaded under the testing environment
         load_environment(conf.global_conf, conf.local_conf)
 
-    # Setup events to load the default data when the tables are first created.
-    # These events are not fired if the tables already exist.
-    media_table = class_mapper(Media).mapped_table
-    media_table.append_ddl_listener('after-create', add_default_data)
+    # Have the tables already been created? If not, we'll add data later
+    db_is_fresh = not class_mapper(Media).mapped_table.exists()
 
     log.info("Creating tables if they don't exist yet")
     metadata.create_all(bind=DBSession.bind, checkfirst=True)
@@ -83,11 +81,15 @@ def setup_app(command, conf, vars):
             migrate_repository,
             version=latest_version)
 
+    # If the tables are new, populate with the default data.
+    if db_is_fresh:
+        add_default_data()
+
     # Save everything, along with the dummy data if applicable
     DBSession.commit()
     log.info('Successfully setup')
 
-def add_default_data(event, target, bind):
+def add_default_data():
     log.info('Adding default data')
 
     settings = [
