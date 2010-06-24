@@ -23,7 +23,7 @@ from mediacore.lib import email
 from mediacore.lib.base import BaseController
 from mediacore.lib.decorators import expose, expose_xhr, paginate, validate
 from mediacore.lib.helpers import redirect, url_for
-from mediacore.lib.mediafiles import _save_media_obj
+from mediacore.lib.mediafiles import save_media_obj
 
 import logging
 log = logging.getLogger(__name__)
@@ -32,7 +32,6 @@ upload_form = UploadForm(
     action = url_for(controller='/upload', action='submit'),
     async_action = url_for(controller='/upload', action='submit_async')
 )
-
 
 class UploadController(BaseController):
     """
@@ -119,7 +118,7 @@ class UploadController(BaseController):
                 kwargs.setdefault('name')
                 kwargs.setdefault('tags')
 
-                media_obj = _save_media_obj(
+                media_obj = save_media_obj(
                     kwargs['name'], kwargs['email'],
                     kwargs['title'], kwargs['description'],
                     kwargs['tags'], kwargs['file'], kwargs['url'],
@@ -141,7 +140,7 @@ class UploadController(BaseController):
         kwargs.setdefault('tags')
 
         # Save the media_obj!
-        media_obj = _save_media_obj(
+        media_obj = save_media_obj(
             kwargs['name'], kwargs['email'],
             kwargs['title'], kwargs['description'],
             kwargs['tags'], kwargs['file'], kwargs['url'],

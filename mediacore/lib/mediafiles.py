@@ -19,8 +19,18 @@ from mediacore.model.meta import DBSession
 import logging
 log = logging.getLogger(__name__)
 
+__all__ = [
+    'generic_add_new_media_file',
+    'add_new_media_file',
+    'store_media_file',
+    'save_media_obj',
+    'FTPUploadException',
+]
 
-def _generic_add_new_media_file(media, filename_or_url, file_obj=None):
+class FTPUploadException(formencode.Invalid):
+    pass
+
+def generic_add_new_media_file(media, filename_or_url, file_obj=None):
     """Create a new MediaFile for the provided Media object and File/URL
     and add it to that Media object's files list.
 
@@ -41,7 +51,7 @@ def _generic_add_new_media_file(media, filename_or_url, file_obj=None):
     if file_obj is not None:
         # Create a media object, add it to the video, and store the file permanently.
         try:
-            media_file = _add_new_media_file(media, display_name, file_obj)
+            media_file = add_new_media_file(media, display_name, file_obj)
         except formencode.Invalid, e:
             error_msg = unicode(e)
 
@@ -81,7 +91,7 @@ def _generic_add_new_media_file(media, filename_or_url, file_obj=None):
 
     return media_file, error_msg
 
-def _add_new_media_file(media, original_filename, file):
+def add_new_media_file(media, original_filename, file):
     name, file_ext = os.path.splitext(original_filename)
     container = guess_container_format(file_ext.lower().lstrip('.'))
     display_name = '%s.%s' % (name, container)
@@ -114,7 +124,7 @@ def _add_new_media_file(media, original_filename, file):
 
     # copy the file to its permanent location
     file_name = '%d_%d_%s.%s' % (media.id, media_file.id, media.slug, container)
-    file_url = _store_media_file(file, file_name)
+    file_url = store_media_file(file, file_name)
 
     if file_url:
         # The file has been stored remotely
@@ -125,7 +135,7 @@ def _add_new_media_file(media, original_filename, file):
 
     return media_file
 
-def _store_media_file(file, file_name):
+def store_media_file(file, file_name):
     """Copy the file to its permanent location and return its URI"""
     if asbool(app_globals.settings['ftp_storage']):
         # Put the file into our FTP storage, return its URL
@@ -139,9 +149,6 @@ def _store_media_file(file, file_name):
         file.close()
         permanent_file.close()
         return None # The file name is unchanged, so return nothing
-
-class FTPUploadException(formencode.Invalid):
-    pass
 
 def _store_media_file_ftp(file, file_name):
     """Store the file on the defined FTP server.
@@ -221,7 +228,7 @@ def _verify_ftp_upload_integrity(file, file_url):
         % http_err.message
     raise FTPUploadException(msg, None, None)
 
-def _save_media_obj(name, email, title, description, tags, file, url):
+def save_media_obj(name, email, title, description, tags, file, url):
     # create our media object as a status-less placeholder initially
     media_obj = Media()
     media_obj.author = Author(name, email)
@@ -233,7 +240,7 @@ def _save_media_obj(name, email, title, description, tags, file, url):
 
     # Create a media object, add it to the media_obj, and store the file permanently.
     if file is not None:
-        media_file = _add_new_media_file(media_obj, file.filename, file.file)
+        media_file = add_new_media_file(media_obj, file.filename, file.file)
     else:
         media_file = MediaFile()
         url = unicode(url)
