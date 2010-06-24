@@ -129,9 +129,9 @@ def make_map(config):
         action='save_status',
         requirements={'status': 'approve|trash'})
 
-    map.connect('/admin/media/merge',
+    map.connect('/admin/media/merge_stubs',
         controller='admin/media',
-        action='merge')
+        action='merge_stubs')
 
 
     simple_admin_paths = '|'.join([

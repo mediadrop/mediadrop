@@ -405,10 +405,13 @@ class MediaController(BaseController):
 
 
     @expose('json')
-    def merge(self, orig_id, input_id):
-        """Overwrite the default settings of the original with the input.
+    def merge_stubs(self, orig_id, input_id):
+        """Merge in a newly created media item.
 
-        All files, comments, thumbs
+        This is merges media that has just been created. It must have:
+            1. a non-default thumbnail, or
+            2. a file, or
+            3. a title, description, etc
 
         :param orig_id: Media ID to copy data to
         :type orig_id: ``int``
@@ -420,23 +423,26 @@ class MediaController(BaseController):
         orig = fetch_row(Media, orig_id)
         input = fetch_row(Media, input_id)
 
-        # Copy over the original thumb if the input thumb is not the default
-        if filecmp.cmp(helpers.thumb_path(input, 's'),
-                       helpers.thumb_path((Media, 'new'), 's')):
-            for path in helpers.thumb_paths(input).itervalues():
-                os.remove(path)
-        else:
-            for key, dst_file in helpers.thumb_paths(orig).iteritems():
-                src_file = helpers.thumb_path(input, key)
-                # This will raise an OSError on Windows, but not *nix
-                os.rename(src_file, dst_file)
+        # Merge in the file(s) from the input stub
+        if input.slug.startswith('_stub_') and input.files:
+            for file in input.files[:]:
+                file.media = orig
+                if file.file_name:
+                    input_file_name = file.file_name
+                    input_file_path = file.file_path
+                    try:
+                        file.file_name = '%s_%s_%s.%s' \
+                            % (orig.id, file.id, orig.slug, file.container)
+                        os.rename(input_file_path, file.file_path)
+                    except OSError:
+                        file.file_name = input_file_name
+            DBSession.delete(input)
 
-        # Copy over all comments
-        for comment in input.comments:
-            comment.media = orig
-
-        # Copy over meta data when the original is a stub but the input is not
-        if orig.slug.startswith('_stub_') and not input.slug.startswith('_stub_'):
+        # The original is a file or thumb stub, copy in the new values
+        elif orig.slug.startswith('_stub_') \
+        and not input.slug.startswith('_stub_'):
+            DBSession.delete(input)
+            DBSession.flush()
             orig.podcast = input.podcast
             orig.title = input.title
             orig.subtitle = input.subtitle
@@ -453,21 +459,24 @@ class MediaController(BaseController):
             orig.tags = input.tags
             orig.update_popularity()
 
-        # Copy over all files
-        for file in input.files[:]:
-            file.media = orig
-            if file.file_name:
-                input_file_name = file.file_name
-                input_file_path = file.file_path
-                try:
-                    file.file_name = '%s_%s_%s.%s' % (orig.id, file.id, orig.slug,
-                                                      file.container)
-                    os.rename(input_file_path, file.file_path)
-                except OSError:
-                    file.file_name = input_file_name
+        # Copy the input thumb over the default thumbnail
+        elif input.slug.startswith('_stub_') \
+        and filecmp.cmp(helpers.thumb_path(orig, 's'),
+                        helpers.thumb_path((Media._thumb_dir, 'new'), 's')):
+            for key, dst_path in helpers.thumb_paths(orig).iteritems():
+                src_path = helpers.thumb_path(input, key)
+                # This will raise an OSError on Windows, but not *nix
+                os.rename(src_path, dst_path)
+            DBSession.delete(input)
+
+        # Report an error
+        else:
+            return dict(
+                success = False,
+                message = u'No merge operation fits.',
+            )
 
         orig.update_status()
-        DBSession.delete(input)
         return dict(success=True)
 
 
