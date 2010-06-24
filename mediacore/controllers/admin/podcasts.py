@@ -204,10 +204,13 @@ class PodcastsController(BaseController):
             message = None
         except IOError, e:
             success = False
-            message = 'Unsupported image type'
-        except Exception, e:
-            success = False
-            message = e.message
+            if e.errno == 13:
+                message = 'Permission denied, cannot write file'
+            elif e.message == 'cannot identify image file':
+                message = 'Unsupport image type: %s' \
+                    % os.path.splitext(thumb.filename)[1].lstrip('.')
+            else:
+                raise
 
         if message is not None and id == 'new':
             DBSession.delete(podcast)

@@ -507,11 +507,17 @@ class MediaController(BaseController):
             helpers.create_thumbs_for(media, thumb.file, thumb.filename)
             success = True
             message = None
-        except IOError:
+        except IOError, e:
             success = False
-            message = _('Unsupported image type')
             if id == 'new':
                 DBSession.delete(media)
+            if e.errno == 13:
+                message = _('Permission denied, cannot write file')
+            elif e.message == 'cannot identify image file':
+                message = _('Unsupport image type: %s') \
+                    % os.path.splitext(thumb.filename)[1].lstrip('.')
+            else:
+                raise
         except Exception:
             if id == 'new':
                 DBSession.delete(media)
