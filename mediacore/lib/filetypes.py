@@ -328,6 +328,20 @@ def guess_mimetype(container, type_=None, default=None):
     except (ValueError, TypeError):
         return mt
 
+def ordered_playable_files(files):
+    """Return a sorted list of AUDIO and VIDEO files.
+
+    The list will first contain all VIDEO files, sorted by size (decreasing),
+    then all AUDIO files, sorted by size (decreasing).
+
+    The returned list of files is thus in order of decreasing media-richness.
+    """
+    video_files = [file for file in files if file.type == VIDEO]
+    audio_files = [file for file in files if file.type == AUDIO]
+    video_files.sort(key=lambda file: file.size, reverse=True)
+    audio_files.sort(key=lambda file: file.size, reverse=True)
+    return video_files + audio_files
+
 def pick_media_file_player(files, browser=None, version=None, user_agent=None,
         player_type=None, include_embedded=True):
     """Return the best choice of files to play and which player to use.
@@ -391,8 +405,8 @@ def pick_media_file_player(files, browser=None, version=None, user_agent=None,
     html5_player = app_globals.settings['html5_player']
     flash_player = app_globals.settings['flash_player']
 
-    # Only proceed if this file is a playable type
-    files = [file for file in files if file.type in (AUDIO, VIDEO)]
+    # Only proceed if this file is a playable type.
+    files = ordered_playable_files(files)
 
     file, player = None, None
     ef_file, ef_player = None, None
