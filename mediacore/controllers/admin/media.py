@@ -30,7 +30,6 @@ from pylons.i18n import _
 from repoze.what.predicates import has_permission
 from sqlalchemy import orm, sql
 
-from mediacore.controllers.upload import _generic_add_new_media_file
 from mediacore.forms.admin import SearchForm, ThumbForm
 from mediacore.forms.admin.media import AddFileForm, EditFileForm, MediaForm, PodcastFilterForm, UpdateStatusForm
 from mediacore.lib import helpers
@@ -38,6 +37,7 @@ from mediacore.lib.base import BaseController
 from mediacore.lib.decorators import expose, expose_xhr, paginate, validate, validate_xhr
 from mediacore.lib.filetypes import guess_container_format, guess_media_type, parse_embed_url
 from mediacore.lib.helpers import redirect, url_for
+from mediacore.lib.mediafiles import _generic_add_new_media_file
 from mediacore.model import Author, Category, Media, Podcast, Tag, fetch_row, get_available_slug
 from mediacore.model.meta import DBSession
 
