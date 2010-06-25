@@ -205,10 +205,7 @@ var ModalForm = new Class({
 	},
 
 	_slugify: function(e, slugField, slugifyField){
-		var slug = slugifyField.get('value')
-			.toLowerCase()
-			.replace(/\s+/g, '-')
-			.replace(/[^a-z0-9_-]/g, '');
+		var slug = slugifyField.get('value').slugify();
 		slugField.set('value', slug);
 	},
 

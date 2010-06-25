@@ -14,6 +14,18 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+String.implement({
+
+	slugify: function(){
+		return this.toString().trim().tidy().standardize().toLowerCase()
+			.replace(/\s+/g,'-')
+			.replace(/&(\#x?[0-9a-f]{2,6}|[a-z]{2,10});/g, '') // strip xhtml entities, they should be entered as unicode anyway
+			.replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue') // some common german chars
+			.replace(/[^a-z0-9\-]/g,'');
+	}
+
+});
+
 var BoxForm = new Class({
 
 	Implements: [Options, Events],

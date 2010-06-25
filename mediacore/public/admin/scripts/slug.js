@@ -80,7 +80,7 @@ var SlugManager = new Class({
 	},
 
 	updateSlug: function(){
-		this.setSlug(this.slugify(this.masterField.get('value')));
+		this.setSlug(this.masterField.get('value').slugify());
 	},
 
 	setSlug: function(slug){
@@ -93,10 +93,6 @@ var SlugManager = new Class({
 
 	_hide: function(field, flag){
 		field.setStyle('display', (flag ? 'none' : 'block'));
-	},
-
-	slugify: function(title){
-		return title.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9_-]/g, '');
 	}
 });
 
