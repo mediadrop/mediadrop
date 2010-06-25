@@ -32,6 +32,7 @@
 		</div>
 		<div class="box-content" py:choose="" py:with="publish_on=media.publish_on.strftime('%b %d %Y @ %H:%M') if media.publish_on else None">
 			<input py:replace="XML(c.publish_on(publish_on))" />
+			<input type="hidden" name="is_published" value="${int(media.is_published)}" />
 			<py:when test="media.id is None">
 				<div class="box-content center">You must add a file and save before review can begin.</div>
 			</py:when>

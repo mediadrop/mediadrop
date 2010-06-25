@@ -186,13 +186,19 @@ var BoxForm = new Class({
 		error: {
 			'class': 'f-rgt form-save-error',
 			text: 'Please correct the highlighted errors and save again.'
+		},
+		slug: {
+			slugify: 'title'
 		}
 	},
 
 	initialize: function(form, opts){
 		this.setOptions(opts);
 		this.form = $(form).store('BoxForm', this)
-			.addEvent('submit', this.save.bind(this))
+			.addEvent('submit', this.save.bind(this));
+		if (this.options.slug && this.form.elements['slug']) {
+			this.slug = new BoxForm.Slug(this.form.elements['slug'], this.options.slug);
+		}
 	},
 
 	save: function(e){
@@ -234,6 +240,74 @@ var BoxForm = new Class({
 		var props = this.options[success ? 'success' : 'error'];
 		this.spinner = new Element('span', props).replaces(this.spinner);
 		if (success) this.spinner.fade.delay(2000, this.spinner);
+	}
+
+});
+
+BoxForm.Slug = new Class({
+
+	Implements: Options,
+
+	Binds: ['slugify'],
+
+	options: {
+		slugify: '',
+		slugifyOn: 'change'
+	},
+
+	initialize: function(el, opts){
+		this.field = $(el);
+		this.container = this.field.getParent('li');
+		this.label = this.container.getElement('div.form_label');
+		this.indicator = new Element('span', {'class': 'slug-indicator'})
+			.inject(this.label, 'bottom');
+		this.label.appendText(' ');
+		this.toggleButton = new Element('span', {text: 'Hide', 'class': 'slug-toggle link'})
+			.inject(this.label, 'bottom')
+			.addEvent('click', this.toggle.bind(this));
+		this.setOptions(opts);
+		if (this.options.slugify) this.attachSlugifier();
+		this.show(false);
+	},
+
+	attachSlugifier: function(){
+		$(this.options.slugify).addEvent(this.options.slugifyOn, this.slugify);
+		return this;
+	},
+
+	detachSlugifier: function(){
+		$(this.options.slugify).removeEvent(this.options.slugifyOn, this.slugify);
+		return this;
+	},
+
+	show: function(flag){
+		if (flag) {
+			this.container.removeClass('slug-minimized').addClass('slug-expanded');
+			this.field.set('type', 'text').select();
+			this.toggleButton.set('text', 'Hide');
+		} else {
+			this.container.addClass('slug-minimized').removeClass('slug-expanded');
+			this.field.set('type', 'hidden');
+			this.indicator.set('text', this.field.get('value'));
+			this.toggleButton.set('text', 'Edit');
+		}
+		this.shown = !!flag;
+		return this;
+	},
+
+	toggle: function(){
+		return this.show(!this.shown);
+	},
+
+	slugify: function(e){
+		var target = $(new Event(e).target);
+		return this.setSlug(target.get('value').slugify());
+	},
+
+	setSlug: function(slug){
+		this.field.value = slug;
+		this.indicator.set('text', slug);
+		return this;
 	}
 
 });

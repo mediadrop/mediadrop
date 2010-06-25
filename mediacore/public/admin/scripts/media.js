@@ -20,7 +20,9 @@ var MediaManager = new Class({
 		this.metaForm = opts.metaForm.addEvents({
 			saveSuccess: this.onMetaSaved.bind(this)
 		});
-		this.statusForm = opts.statusForm;
+		this.statusForm = opts.statusForm.addEvents({
+			onUpdate: this.updateSlugifier.bind(this)
+		});
 		this.fileUploader = opts.fileUploader;
 		this.thumbUploader = opts.thumbUploader;
 		this.thumbUploader.addEvents({
@@ -36,6 +38,7 @@ var MediaManager = new Class({
 		this.mergeURL = opts.mergeURL;
 		this.type = opts.type;
 		this.head = $(opts.head);
+		this.updateSlugifier();
 	},
 
 	initNewMedia: function(mediaID){
@@ -106,7 +109,7 @@ var MediaManager = new Class({
 	setStubData: function(title, slug, link){
 		if (!this.metaForm.form.title.value) {
 			this.metaForm.form.title.value = title;
-			$(this.metaForm.form.title).retrieve('SlugManager').setSlug(slug);
+			this.metaForm.slug.setSlug(slug);
 		}
 		this.updateTitle(title, link);
 	},
@@ -147,12 +150,18 @@ var MediaManager = new Class({
 		if (resp && resp.status_form) resp = resp.status_form;
 		if ($type(resp) != 'string' || !resp) return;
 		this.statusForm.updateForm(Elements.from(resp)[0]);
+	},
+
+	updateSlugifier: function(){
+		if (this.statusForm.isPublished()) this.metaForm.slug.detachSlugifier();
+		else this.metaForm.slug.attachSlugifier();
 	}
 
 });
 
 var StatusForm = new Class({
-	Extends: Options,
+
+	Implements: [Options, Events],
 
 	options: {
 		form: '',
@@ -217,6 +226,7 @@ var StatusForm = new Class({
 		var formContents = $(form).getChildren();
 		this.form.empty().adopt(formContents);
 		this.attachDatePicker();
+		this.fireEvent('update', [this.form]);
 	},
 
 	_displayError: function(msg){
@@ -243,6 +253,10 @@ var StatusForm = new Class({
 			publish_on: publishDate,
 			update_button: 'Change publish date'
 		}).toQueryString());
+	},
+
+	isPublished: function(){
+		return this.form.elements['is_published'].value == '1';
 	}
 });
 

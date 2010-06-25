@@ -360,18 +360,6 @@ span.show-more {
 	padding-right: 16px;
 }
 
-#slug_stub {
-	font-weight: normal;
-	background: #ffffdd;
-}
-#slug_stub_wrapper {
-	float: right;
-	font-size: 93%;
-}
-#slug_edit {
-	font-weight: normal;
-}
-
 /* Quick Search */
 input, textarea {
 	width: 100%;

@@ -183,6 +183,7 @@ label .field_help {
 	width: 100%;
 	height: 150px;
 }
+
 .category-box li {
 	padding-bottom: 5px;
 }
@@ -206,4 +207,34 @@ label .field_help {
 }
 .form-save-error {
 	color: red;
+}
+
+.form .field-list li.slug-minimized {
+	clear: none;
+	width: auto;
+	overflow: visible;
+	font-size: 12px;
+	position: relative;
+}
+.form .field-list li.slug-minimized .form_label,
+.form .field-list li.slug-minimized .form_field {
+	position: absolute;
+	top: 0;
+	right: 0;
+}
+.slug-indicator {
+	font-weight: normal;
+	background: #ffffdd;
+}
+.slug-expanded .slug-indicator {
+	display: none;
+}
+.slug-expanded .form_label {
+	position: relative;
+}
+.slug-expanded .slug-toggle {
+	font-size: 12px;
+	position: absolute;
+	top: 1px;
+	right: 0;
 }
