@@ -148,37 +148,12 @@ var ModalForm = new Class({
 	},
 
 	setValues: function(input){
-		if ($type(input) == 'element') {
-			var values = new Hash();
-			// taken from Element.toQueryString
-			input.getElements('input, select, textarea', true).each(function(el){
-				if (!el.name || el.disabled || el.type == 'submit' || el.type == 'reset' || el.type == 'file') return;
-				var value = (el.tagName.toLowerCase() == 'select') ? Element.getSelected(el).map(function(opt){
-					return opt.value;
-				}) : ((el.type == 'radio' || el.type == 'checkbox') && !el.checked) ? null : el.value;
-				$splat(value).each(function(val){
-					if (typeof val != 'undefined') values.set(el.name, val);
-				});
-			});
-		} else {
-			var values = new Hash(input);
-		}
-
-		for (var el, i = this.form.elements.length; i--; ) {
-			el = $(this.form.elements[i]);
-			el.set('value', values.get(el.name));
-		}
-		return this;
+		if ($type(input) == 'element') input = input.get('formValues');
+		return this.form.set('formValues', input);
 	},
 
 	getValues: function(){
-		var values = new Hash();
-		for (var el, i = this.form.elements.length; i--; ) {
-			el = $(this.form.elements[i]);
-			if (el.type == 'submit' || el.type == 'reset') continue;
-			values.set(el.get('name'), el.get('value'));
-		};
-		return values;
+		return this.form.get('formValues');
 	},
 
 	open: function(e){

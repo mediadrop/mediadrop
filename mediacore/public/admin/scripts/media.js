@@ -132,7 +132,6 @@ var MediaManager = new Class({
 	updateFormActions: function(mediaID){
 		var find = /\/new\//, repl = '/' + mediaID + '/';
 		this.metaForm.form.action = this.metaForm.form.action.replace(find, repl);
-		this.metaForm.request.options.url = this.metaForm.request.options.url.replace(find, repl);
 		this.statusForm.form.action = this.statusForm.form.action.replace(find, repl);
 		this.thumbUploader.setOptions({
 			url: this.thumbUploader.options.url.replace(find, repl)
