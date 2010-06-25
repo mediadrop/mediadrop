@@ -34,30 +34,6 @@ _func_attrs = [
     'template', 'exposed' # custom attribute to allow web access
 ]
 
-_pylons_kwargs = [
-    # extra kwargs that Pylons/Routes like to send to controller actions
-    'pylons', 'start_response', 'controller', 'environ', 'action'
-]
-
-def kwargs_for_validator(kwargs, validator=None):
-    """Return a new dict of values used by the validator.
-
-    If no validator is provided, or it does not match the API of
-    formencode.Schema, then we simply filter out all
-    :attr:`_pylons_kwargs`.
-
-    """
-    if validator is not None and hasattr(validator, 'fields'):
-        new_kwargs = {}
-        for key, value in kwargs.iteritems():
-            if key in validator.fields:
-                new_kwargs[key] = value
-    else:
-        new_kwargs = kwargs.copy()
-        for key in _pylons_kwargs:
-            new_kwargs.pop(key, None)
-    return new_kwargs
-
 def _copy_func_attrs(f1, f2):
     """Copy relevant attributes from f1 to f2
 
@@ -189,7 +165,11 @@ def expose_xhr(template_norm='string', template_xhr='json'):
 class validate(object):
     """Registers which validators ought to be applied to the following action
 
-    Copies the functionality of TurboGears2.0, rather than that of Pylons1.0
+    Copies the functionality of TurboGears2.0, rather than that of Pylons1.0,
+    except that we validate request.params, not kwargs. TurboGears has the
+    unfortunate need to validate all kwargs because it uses object dispatch.
+    We really only need to validate request.params: if we do need to
+    validate the kw/routing args we can and should do that in our routes.
 
     If you want to validate the contents of your form,
     you can use the ``@validate()`` decorator to register
@@ -224,7 +204,10 @@ class validate(object):
             tmpl_context.form_values = {}
             try:
                 # Perform the validation
-                kwargs = self._to_python(kwargs)
+                values = self._to_python(request.params.mixed())
+                tmpl_context.form_values = values
+                # We like having our request params as kwargs but this is optional
+                kwargs.update(values)
                 # Call the decorated function
                 return self.func(*args, **kwargs)
             except formencode.api.Invalid, inv:
@@ -268,7 +251,7 @@ class validate(object):
             error_handler = self.func
         return error_handler(*args, **kwargs)
 
-    def _to_python(self, kwargs):
+    def _to_python(self, params):
         """
         self.validators can be in three forms:
 
@@ -284,16 +267,12 @@ class validate(object):
         passed in, not just raise an exception.  Validation exceptions should
         be FormEncode Invalid objects.
         """
-        #Initialize new_kwargs -- if it never gets updated just return kwargs
-        new_kwargs = {}
-
-        # The validator may be a dictionary, a FormEncode Schema object, or any
-        # object with a "validate" method.
         if isinstance(self.validators, dict):
+            new_params = {}
             errors = {}
             for field, validator in self.validators.iteritems():
                 try:
-                    new_kwargs[field] = validator.to_python(kwargs.get(field))
+                    new_params[field] = validator.to_python(params.get(field))
                 # catch individual validation errors into the errors dictionary
                 except formencode.api.Invalid, inv:
                     errors[field] = inv
@@ -303,17 +282,13 @@ class validate(object):
             if errors:
                 raise formencode.api.Invalid(
                     formencode.schema.format_compound_error(errors),
-                    kwargs, None, error_dict=errors)
+                    params, None, error_dict=errors)
+            return new_params
 
         elif isinstance(self.validators, formencode.Schema):
             # A FormEncode Schema object - to_python converts the incoming
             # parameters to sanitized Python values
-            v = self.validators
-
-            # 1) First, filter out the extra kwargs that pylons passes in
-            new_kwargs = kwargs_for_validator(kwargs, v)
-            # 2) Validate the appropriate kwargs
-            new_kwargs = v.to_python(new_kwargs)
+            return v.to_python(params)
 
         elif isinstance(self.validators, tw.forms.InputWidget) \
         or hasattr(self.validators, 'validate'):
@@ -322,26 +297,10 @@ class validate(object):
             # - OR -
             # An object with a "validate" method - call it with the parameters
             # This is a generic case for classes mimicking tw.forms.InputWidget
+            return self.validators.validate(params)
 
-            # 1) First, try to filter out the extra kwargs that pylons passes in
-            v = getattr(self.validators, 'validator', self.validators)
-            new_kwargs = kwargs_for_validator(kwargs, v)
-            # 2) Validate the appropriate kwargs
-            new_kwargs = self.validators.validate(new_kwargs)
-
-        else:
-            # No validation was done. Just return the original kwargs.
-            return kwargs
-
-        # If we've made it this far, validation has succeeded.
-        # new_kwargs contains only the validated/filtered values.
-        tmpl_context.form_values = new_kwargs.copy()
-
-        # Re-add the kwargs provided by pylons, routes, and extra GET/POST
-        for param, value in kwargs.iteritems():
-            new_kwargs.setdefault(param, value)
-
-        return new_kwargs
+        # No validation was done. Just return the original params.
+        return params
 
 class validate_xhr(validate):
     """
