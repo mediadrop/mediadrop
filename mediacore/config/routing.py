@@ -158,7 +158,7 @@ def make_map(config):
     ##############
 
     map.connect('/api/media/{action}',
-        controller='media_api',
+        controller='api/media',
         action='index')
 
     ##################

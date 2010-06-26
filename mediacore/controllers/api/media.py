@@ -49,7 +49,7 @@ order_columns = {
     'comment_count': 'comment_count_published %s'
 }
 
-class MediaApiController(BaseController):
+class MediaController(BaseController):
     """
     JSON Media API
     """
