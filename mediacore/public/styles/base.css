@@ -609,6 +609,9 @@ a:focus .grid-title {
 	-moz-border-radius: 8px;
 	-webkit-border-radius: 8px;
 }
+.meta-hover ul {
+	list-style: none;
+}
 .meta-hover li a {
 	text-indent: -5000px;
 	width: 59px;
