@@ -119,13 +119,31 @@ class PopularityForm(ListForm):
         ResetButton('cancel', default='Cancel', css_classes=['btn', 'btn-cancel']),
     ]
 
+class MegaByteValidator(Int):
+    """
+    Integer Validator that accepts megabytes and translates to bytes.
+    """
+    def _to_python(self, value, state=None):
+        try:
+            value = int(value) * 1024 ** 2
+        except ValueError:
+            pass
+        return super(MegaByteValidator, self)._to_python(value, state)
+
+    def _from_python(self, value, state):
+        try:
+            value = int(value) / 1024 ** 4
+        except ValueError:
+            pass
+        return super(MegaByteValidator, self)._from_python(value, state)
+
 class UploadForm(ListForm):
     template = 'mediacore.templates.admin.box-form'
     id = 'settings-form'
     css_class = 'form'
     submit_text = None
     fields = [
-        TextField('max_upload_size', label_text='Max. allowed upload file size in bytes', validator=Int(not_empty=True, min=1000000)),
+        TextField('max_upload_size', label_text='Max. allowed upload file size in megabytes', validator=MegaByteValidator(not_empty=True, min=0)),
         ListFieldSet('remote_ftp', suppress_label=True, legend='Remote FTP Storage Settings (Optional)', css_classes=['details_fieldset'], children=[
             boolean_radiobuttonlist('ftp_storage', label_text='Enable Remote FTP Storage for Uploaded Files?'),
             TextField('ftp_server', label_text='FTP Server Hostname'),
@@ -173,4 +191,3 @@ class CommentsForm(ListForm):
         SubmitButton('save', default='Save', css_classes=['btn', 'btn-save', 'f-rgt']),
         ResetButton('cancel', default='Cancel', css_classes=['btn', 'btn-cancel']),
     ]
-
