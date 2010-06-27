@@ -27,6 +27,7 @@ __all__ = [
 
 AUDIO = 'audio'
 VIDEO = 'video'
+AUDIO_DESC = 'audio_desc'
 CAPTIONS = 'captions'
 
 # Mimetypes for all file extensions accepted by the front and backend uploaders
@@ -295,7 +296,7 @@ def guess_media_type(extension=None, embed=None, default=VIDEO):
     :param extension: Optional, the file extension without a preceding period.
     :param embed: Optional, the third-party site name.
     :param default: Default to video if we don't have any other guess.
-    :returns: 'audio', 'video', 'captions', or None
+    :returns: AUDIO, VIDEO, CAPTIONS, or None
 
     """
     if extension is not None:
@@ -313,7 +314,7 @@ def guess_mimetype(container, type_=None, default=None):
     only when a container can be both audio and video.
 
     :param container: The file extension
-    :param type_: 'audio', 'video' or 'captions'
+    :param type_: AUDIO, VIDEO, or CAPTIONS
     :param default: Default mimetype for when guessing fails
     :returns: A mime string or None.
 
@@ -327,6 +328,20 @@ def guess_mimetype(container, type_=None, default=None):
         return mt % type_
     except (ValueError, TypeError):
         return mt
+
+def ordered_playable_files(files):
+    """Return a sorted list of AUDIO and VIDEO files.
+
+    The list will first contain all VIDEO files, sorted by size (decreasing),
+    then all AUDIO files, sorted by size (decreasing).
+
+    The returned list of files is thus in order of decreasing media-richness.
+    """
+    video_files = [file for file in files if file.type == VIDEO]
+    audio_files = [file for file in files if file.type == AUDIO]
+    video_files.sort(key=lambda file: file.size, reverse=True)
+    audio_files.sort(key=lambda file: file.size, reverse=True)
+    return video_files + audio_files
 
 def pick_media_file_player(files, browser=None, version=None, user_agent=None,
         player_type=None, include_embedded=True):
@@ -391,8 +406,8 @@ def pick_media_file_player(files, browser=None, version=None, user_agent=None,
     html5_player = app_globals.settings['html5_player']
     flash_player = app_globals.settings['flash_player']
 
-    # Only proceed if this file is a playable type
-    files = [file for file in files if file.type in (AUDIO, VIDEO)]
+    # Only proceed if this file is a playable type.
+    files = ordered_playable_files(files)
 
     file, player = None, None
     ef_file, ef_player = None, None

@@ -22,6 +22,7 @@ from tw.forms.core import DefaultValidator
 from tw.forms.validators import Int, StringBool, NotEmpty, DateTimeConverter, FieldStorageUploadConverter, OneOf
 
 from mediacore.lib import helpers
+from mediacore.lib.filetypes import AUDIO, AUDIO_DESC, CAPTIONS, VIDEO
 from mediacore.forms import FileField, Form, ListFieldSet, ListForm, SubmitButton, TextArea, TextField, XHTMLTextArea, email_validator
 from mediacore.forms.admin.categories import CategoryCheckBoxList
 from mediacore.model import Category, DBSession, MediaFile, Podcast
@@ -51,7 +52,7 @@ class AddFileForm(ListForm):
         TextField('url', validator=URL, suppress_label=True, attrs={'title': _('YouTube, Vimeo, Google Video, Amazon S3 or any other link')}, maxlength=255),
     ]
 
-file_type_options = [('video', _('Video')), ('audio', _('Audio')), ('audio_desc', _('Audio Description')), ('captions', _('Captions'))]
+file_type_options = [(VIDEO, _('Video')), (AUDIO, _('Audio')), (AUDIO_DESC, _('Audio Description')), (CAPTIONS, _('Captions'))]
 
 class EditFileForm(ListForm):
     template = 'mediacore.templates.admin.media.file-edit-form'

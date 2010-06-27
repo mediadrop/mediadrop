@@ -233,7 +233,7 @@ class MediaController(BaseController):
             akismet.verify_key()
             data = {'comment_author': values['name'].encode('utf-8'),
                     'user_ip': request.environ.get('REMOTE_ADDR'),
-                    'user_agent': request.environ.get('HTTP_USER_AGENT'),
+                    'user_agent': request.environ.get('HTTP_USER_AGENT', ''),
                     'referrer': request.environ.get('HTTP_REFERER',  'unknown'),
                     'HTTP_ACCEPT': request.environ.get('HTTP_ACCEPT')}
 

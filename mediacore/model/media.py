@@ -46,7 +46,7 @@ from mediacore.model.comments import Comment, CommentQuery, comments
 from mediacore.model.tags import Tag, TagList, tags, extract_tags, fetch_and_create_tags
 from mediacore.model.categories import Category, CategoryList, categories
 from mediacore.lib import helpers
-from mediacore.lib.filetypes import external_embedded_containers, guess_mimetype, pick_media_file_player
+from mediacore.lib.filetypes import AUDIO, AUDIO_DESC, CAPTIONS, VIDEO, external_embedded_containers, guess_mimetype, pick_media_file_player
 
 class MediaException(Exception): pass
 class MediaFileException(MediaException): pass
@@ -55,7 +55,7 @@ class UnknownFileTypeException(MediaFileException): pass
 
 media = Table('media', metadata,
     Column('id', Integer, autoincrement=True, primary_key=True),
-    Column('type', Enum('video', 'audio')),
+    Column('type', Enum(VIDEO, AUDIO)),
     Column('slug', String(slug_length), unique=True, nullable=False),
     Column('podcast_id', Integer, ForeignKey('podcasts.id', onupdate='CASCADE', ondelete='SET NULL')),
     Column('reviewed', Boolean, default=False, nullable=False),
@@ -89,7 +89,7 @@ media_files = Table('media_files', metadata,
     Column('id', Integer, autoincrement=True, primary_key=True),
     Column('media_id', Integer, ForeignKey('media.id', onupdate='CASCADE', ondelete='CASCADE'), nullable=False),
 
-    Column('type', Enum('video', 'audio', 'audio_desc', 'captions'), nullable=False),
+    Column('type', Enum(VIDEO, AUDIO, AUDIO_DESC, CAPTIONS), nullable=False),
     Column('container', String(10), nullable=False),
     Column('display_name', String(255), nullable=False),
     Column('file_name', String(255)),
@@ -412,10 +412,10 @@ class Media(object):
         If there's a video file, mark this as a video type, else fallback
         to audio, if possible, or unknown (None)
         """
-        if any(file.type == 'video' for file in self.files):
-            return 'video'
-        elif any(file.type == 'audio' for file in self.files):
-            return 'audio'
+        if any(file.type == VIDEO for file in self.files):
+            return VIDEO
+        elif any(file.type == AUDIO for file in self.files):
+            return AUDIO
         else:
             return None
 
@@ -427,7 +427,7 @@ class Media(object):
             return False
         # Test to see if we can find a workable file/player conbination
         # for the browser w/ the BEST format support
-        if not pick_media_file_player(self.files, browser='chrome')[0]:
+        if not helpers.pick_any_media_file(self.files):
             return False
         return True
 
@@ -444,14 +444,14 @@ class Media(object):
     @property
     def captions(self):
         for file in self.files:
-            if file.type == 'captions':
+            if file.type == CAPTIONS:
                 return file
         return None
 
     @property
     def audio_desc(self):
         for file in self.files:
-            if file.type == 'audio_desc':
+            if file.type == AUDIO_DESC:
                 return file
         return None
 
@@ -539,8 +539,8 @@ class MediaFile(object):
         Defaults to 'application/octet-stream'.
         """
         type = self.type
-        if type == 'audio_desc':
-            type = 'audio'
+        if type == AUDIO_DESC:
+            type = AUDIO
         return guess_mimetype(self.container, type)
 
     @property

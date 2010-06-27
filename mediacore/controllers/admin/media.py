@@ -30,14 +30,13 @@ from pylons.i18n import _
 from repoze.what.predicates import has_permission
 from sqlalchemy import orm, sql
 
-from mediacore.controllers.upload import _generic_add_new_media_file
 from mediacore.forms.admin import SearchForm, ThumbForm
 from mediacore.forms.admin.media import AddFileForm, EditFileForm, MediaForm, PodcastFilterForm, UpdateStatusForm
 from mediacore.lib import helpers
 from mediacore.lib.base import BaseController
 from mediacore.lib.decorators import expose, expose_xhr, paginate, validate, validate_xhr
-from mediacore.lib.filetypes import guess_container_format, guess_media_type, parse_embed_url
 from mediacore.lib.helpers import redirect, url_for
+from mediacore.lib.mediafiles import add_new_media_file
 from mediacore.model import Author, Category, Media, Podcast, Tag, fetch_row, get_available_slug
 from mediacore.model.meta import DBSession
 
@@ -218,7 +217,7 @@ class MediaController(BaseController):
                 DBSession.expunge(f)
             DBSession.delete(media)
             DBSession.commit()
-            helpers.delete_files(file_paths, 'media')
+            helpers.delete_files(file_paths, Media._thumb_dir)
             redirect(action='index', id=None)
 
         media.slug = get_available_slug(Media, slug, media)
@@ -295,16 +294,15 @@ class MediaController(BaseController):
         else:
             media = fetch_row(Media, id)
 
-        if file is not None:
-            media_file, message = _generic_add_new_media_file(media, file.filename, file.file)
-        elif url:
-            media_file, message = _generic_add_new_media_file(media, url)
-        else:
-            message = _('No action to perform.')
+        message = None
+        try:
+            media_file = add_new_media_file(media, file, url)
+        except Exception, e:
+            DBSession.rollback()
+            message = e.message
 
         if not message:
             data = {'success': True}
-            media.update_status()
 
             if id == 'new':
                 media.title = media_file.display_name
@@ -390,7 +388,7 @@ class MediaController(BaseController):
             DBSession.delete(file)
             DBSession.commit()
             if file_path:
-                helpers.delete_files([file_path], 'media')
+                helpers.delete_files([file_path], Media._thumb_dir)
             media = fetch_row(Media, id)
             data['success'] = True
         else:

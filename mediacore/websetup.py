@@ -58,10 +58,8 @@ def setup_app(command, conf, vars):
         # Don't reload the app if it was loaded under the testing environment
         load_environment(conf.global_conf, conf.local_conf)
 
-    # Setup events to load the default data when the tables are first created.
-    # These events are not fired if the tables already exist.
-    media_table = class_mapper(Media).mapped_table
-    media_table.append_ddl_listener('after-create', add_default_data)
+    # Have the tables already been created? If not, we'll add data later
+    db_is_fresh = not class_mapper(Media).mapped_table.exists()
 
     log.info("Creating tables if they don't exist yet")
     metadata.create_all(bind=DBSession.bind, checkfirst=True)
@@ -83,11 +81,15 @@ def setup_app(command, conf, vars):
             migrate_repository,
             version=latest_version)
 
+    # If the tables are new, populate with the default data.
+    if db_is_fresh:
+        add_default_data()
+
     # Save everything, along with the dummy data if applicable
     DBSession.commit()
     log.info('Successfully setup')
 
-def add_default_data(event, target, bind):
+def add_default_data():
     log.info('Adding default data')
 
     settings = [
@@ -177,8 +179,8 @@ def add_default_data(event, target, bind):
     media.publishable = False
     media.title = u'New Media'
     media.subtitle = None
-    podcast.description = u"""<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>"""
-    podcast.description_plain = u"""Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."""
+    media.description = u"""<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>"""
+    media.description_plain = u"""Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."""
     media.author = Author(u.display_name, u.email_address)
     media.categories.append(category)
     media.comments.append(comment)

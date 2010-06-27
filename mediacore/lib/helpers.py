@@ -42,11 +42,10 @@ from webhelpers import date, feedgenerator, html, number, misc, text, paginate, 
 from webhelpers.html import tags
 from webhelpers.html.builder import literal
 from webhelpers.html.converters import format_paragraphs
-from webob.exc import HTTPNotFound
 
 from mediacore.lib.compat import any
 from mediacore.lib.htmlsanitizer import Cleaner, entities_to_unicode as decode_entities, encode_xhtml_entities as encode_entities
-from mediacore.lib.filetypes import accepted_extensions, pick_media_file_player
+from mediacore.lib.filetypes import AUDIO, AUDIO_DESC, CAPTIONS, VIDEO, accepted_extensions, pick_media_file_player
 
 def url(*args, **kwargs):
     """Compose a URL with :func:`pylons.url`, all arguments are passed."""
@@ -795,7 +794,7 @@ class FlowPlayer(Player):
         }
 
         # Show a preview image
-        if media.type == 'audio' or not autoplay:
+        if media.type == AUDIO or not autoplay:
             playlist.append({
                 'url': thumb_url(media, 'l', qualified=qualified),
                 'autoPlay': True,
@@ -834,8 +833,8 @@ class JWPlayer(Player):
             'autostart': autoplay,
         }
         providers = {
-            'audio': 'sound',
-            'video': 'video',
+            AUDIO: 'sound',
+            VIDEO: 'video',
         }
 
         if file.container == 'youtube':
@@ -923,7 +922,19 @@ def pick_podcast_media_file(files):
     :param files: :class:`~mediacore.model.media.MediaFile` instances.
     :type files: list
     :returns: A :class:`~mediacore.model.media.MediaFile` object or None
-    :rtype: tuple
     """
-
     return pick_media_file_player(files, browser='itunes', player_type='html5')[0]
+
+def pick_any_media_file(files):
+    """Return a file playable in at least one browser, with the current
+    player_type setting, or None.
+
+    XXX: This method uses the
+         :ref:`~mediacore.lib.filetypes.pick_media_file_player` method and
+         comes with the same caveats.
+
+    :param files: :class:`~mediacore.model.media.MediaFile` instances.
+    :type files: list
+    :returns: A :class:`~mediacore.model.media.MediaFile` object or None
+    """
+    return pick_media_file_player(files, browser='chrome')[0]

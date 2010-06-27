@@ -142,7 +142,7 @@ class PodcastsController(BaseController):
             file_paths = helpers.thumb_paths(podcast).values()
             DBSession.delete(podcast)
             DBSession.commit()
-            helpers.delete_files(file_paths, 'podcasts')
+            helpers.delete_files(file_paths, Podcast._thumb_dir)
             redirect(action='index', id=None)
 
         podcast.slug = get_available_slug(Podcast, slug, podcast)

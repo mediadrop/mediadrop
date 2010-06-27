@@ -127,7 +127,7 @@ class PodcastsController(BaseController):
         podcast = fetch_row(Podcast, slug=slug)
 
         if (podcast.feedburner_url
-            and not 'feedburner' in request.environ.get('HTTP_USER_AGENT').lower()
+            and not 'feedburner' in request.environ.get('HTTP_USER_AGENT', '').lower()
             and not kwargs.get('feedburner_bypass', False)):
             redirect(podcast.feedburner_url.encode('utf-8'))
 
