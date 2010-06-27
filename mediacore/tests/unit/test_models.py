@@ -111,3 +111,56 @@ class TestModels(TestController):
         except SQLAlchemyError, e:
             DBSession.rollback()
             raise e
+
+    def test_audio_video_url_media(self):
+        """Media with both Audio files and Video files attatched should be
+        Video type."""
+        try:
+            # Create the media object
+            media = self._new_publishable_media(u'audio-video',
+                    u'(Audio + Video)')
+            DBSession.add(media)
+            # Add an audio description
+            media_file = add_new_media_file(media, None,
+                    'http://fakesite.com/fakefile.mp3')
+            media.update_status()
+            # Add a video file
+            media_file = add_new_media_file(media, None,
+                    'http://fakesite.com/fakefile.m4v')
+            media.update_status()
+            # Commit + test
+            DBSession.commit()
+            assert media.type == VIDEO, \
+                "A Media object with a .m4v file and an audio file " \
+                "was not labelled as a video type; it was labelled %s" % \
+                (t, media.type)
+        except SQLAlchemyError, e:
+            DBSession.rollback()
+            raise e
+
+    def test_audiodesc_video_url_media(self):
+        """Media with both Audio files and Video files attatched should be
+        Video type."""
+        try:
+            # Create the media object
+            media = self._new_publishable_media(u'description-video',
+                    u'(Audio Description + Video)')
+            DBSession.add(media)
+            # Add an audio description
+            media_file = add_new_media_file(media, None,
+                    'http://fakesite.com/fakefile.mp3')
+            media_file.type = AUDIO_DESC
+            media.update_status()
+            # Add a video file
+            media_file = add_new_media_file(media, None,
+                    'http://fakesite.com/fakefile.m4v')
+            media.update_status()
+            # Commit + test
+            DBSession.commit()
+            assert media.type == VIDEO, \
+                "A Media object with a .m4v file and an Audio Description " \
+                "was not labelled as a video type; it was labelled %s" % \
+                (t, media.type)
+        except SQLAlchemyError, e:
+            DBSession.rollback()
+            raise e
