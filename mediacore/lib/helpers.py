@@ -45,7 +45,7 @@ from webhelpers.html.converters import format_paragraphs
 
 from mediacore.lib.compat import any
 from mediacore.lib.htmlsanitizer import Cleaner, entities_to_unicode as decode_entities, encode_xhtml_entities as encode_entities
-from mediacore.lib.filetypes import accepted_extensions, pick_media_file_player
+from mediacore.lib.filetypes import AUDIO, AUDIO_DESC, CAPTIONS, VIDEO, accepted_extensions, pick_media_file_player
 
 def url(*args, **kwargs):
     """Compose a URL with :func:`pylons.url`, all arguments are passed."""
@@ -773,7 +773,7 @@ class FlowPlayer(Player):
         }
 
         # Show a preview image
-        if media.type == 'audio' or not autoplay:
+        if media.type == AUDIO or not autoplay:
             playlist.append({
                 'url': thumb_url(media, 'l', qualified=qualified),
                 'autoPlay': True,
@@ -812,8 +812,8 @@ class JWPlayer(Player):
             'autostart': autoplay,
         }
         providers = {
-            'audio': 'sound',
-            'video': 'video',
+            AUDIO: 'sound',
+            VIDEO: 'video',
         }
 
         if file.container == 'youtube':

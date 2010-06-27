@@ -27,6 +27,7 @@ __all__ = [
 
 AUDIO = 'audio'
 VIDEO = 'video'
+AUDIO_DESC = 'audio_desc'
 CAPTIONS = 'captions'
 
 # Mimetypes for all file extensions accepted by the front and backend uploaders
@@ -295,7 +296,7 @@ def guess_media_type(extension=None, embed=None, default=VIDEO):
     :param extension: Optional, the file extension without a preceding period.
     :param embed: Optional, the third-party site name.
     :param default: Default to video if we don't have any other guess.
-    :returns: 'audio', 'video', 'captions', or None
+    :returns: AUDIO, VIDEO, CAPTIONS, or None
 
     """
     if extension is not None:
@@ -313,7 +314,7 @@ def guess_mimetype(container, type_=None, default=None):
     only when a container can be both audio and video.
 
     :param container: The file extension
-    :param type_: 'audio', 'video' or 'captions'
+    :param type_: AUDIO, VIDEO, or CAPTIONS
     :param default: Default mimetype for when guessing fails
     :returns: A mime string or None.
 
