@@ -35,7 +35,6 @@ from mediacore.forms.admin.media import AddFileForm, EditFileForm, MediaForm, Po
 from mediacore.lib import helpers
 from mediacore.lib.base import BaseController
 from mediacore.lib.decorators import expose, expose_xhr, paginate, validate, validate_xhr
-from mediacore.lib.filetypes import guess_container_format, guess_media_type, parse_embed_url
 from mediacore.lib.helpers import redirect, url_for
 from mediacore.lib.mediafiles import generic_add_new_media_file
 from mediacore.model import Author, Category, Media, Podcast, Tag, fetch_row, get_available_slug
@@ -290,16 +289,15 @@ class MediaController(BaseController):
         else:
             media = fetch_row(Media, id)
 
-        if file is not None:
-            media_file, message = generic_add_new_media_file(media, file.filename, file.file)
-        elif url:
-            media_file, message = generic_add_new_media_file(media, url)
-        else:
-            message = _('No action to perform.')
+        message = None
+        try:
+            media_file = generic_add_new_media_file(media, file, url)
+        except Exception, e:
+            DBSession.rollback()
+            message = e.message
 
         if not message:
             data = {'success': True}
-            media.update_status()
 
             if id == 'new':
                 media.title = media_file.display_name

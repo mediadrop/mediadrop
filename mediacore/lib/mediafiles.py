@@ -11,8 +11,7 @@ from pylons.i18n import _
 from mediacore.lib.compat import sha1
 from mediacore.lib.filetypes import (guess_container_format, guess_media_type,
     parse_embed_url)
-from mediacore.lib.helpers import (accepted_extensions,
-    create_default_thumbs_for)
+from mediacore.lib.helpers import create_default_thumbs_for
 from mediacore.model import Author, Media, MediaFile, get_available_slug
 from mediacore.model.meta import DBSession
 
@@ -21,8 +20,6 @@ log = logging.getLogger(__name__)
 
 __all__ = [
     'generic_add_new_media_file',
-    'add_new_media_file',
-    'store_media_file',
     'save_media_obj',
     'FTPUploadException',
 ]
@@ -30,82 +27,108 @@ __all__ = [
 class FTPUploadException(formencode.Invalid):
     pass
 
-def generic_add_new_media_file(media, filename_or_url, file_obj=None):
+def generic_add_new_media_file(media, uploaded_file=None, url=None):
     """Create a new MediaFile for the provided Media object and File/URL
     and add it to that Media object's files list.
 
     :param media: The Media object to append the file to
     :type media: :class:`~mediacore.model.media.Media` instance
-    :param filename_or_url: A filename or a URL that the MediaFile will represent.
-    :type filename_or_url: unicode
-    :param file: A file object that the MediaFile will represent.
-    :type file: file object
-    :rtype: tuple
-    :returns: The created MediaFile (or None) and any error message (or None)
+    :param uploaded_file: An object with 'filename' and 'file' properties.
+    :type uploaded_file: Formencode uploaded file object.
+    :param url: The URL to represent, if no file is given.
+    :type url: unicode
+    :returns: The created MediaFile (or None)
     """
-    error_msg = None
-    media_file = None
-    display_name = os.path.basename(filename_or_url)
-    initial_id = media.id
-
-    if file_obj is not None:
-        # Create a media object, add it to the video, and store the file permanently.
-        try:
-            media_file = add_new_media_file(media, display_name, file_obj)
-        except formencode.Invalid, e:
-            error_msg = unicode(e)
-
-    else:
-        # Looks like we were just given a URL.
-        media_file = MediaFile()
-        # Parse the URL checking for known embeddables like YouTube
-        embed = parse_embed_url(filename_or_url)
-        if embed:
-            media_file.type = embed['type']
-            media_file.container = embed['container']
-            media_file.embed = embed['id']
-            media_file.display_name = '%s ID: %s' % \
-                (embed['container'].capitalize(), media_file.embed)
-        else:
-            # Check for types we can play ourselves
-            try:
-                ext = os.path.splitext(filename_or_url)[1].lower()[1:]
-                container = guess_container_format(ext)
-            except KeyError:
-                container = None
-            if container in accepted_extensions():
-                media_file.type = guess_media_type(container)
-                media_file.container = container
-                media_file.url = filename_or_url
-                media_file.display_name = display_name
-            else:
-                media_file = None
-                error_msg = _('Unsupported URL')
-
-    if media_file:
+    if uploaded_file is not None:
+        # Create a MediaFile object, add it to the video, and store the file permanently.
+        media_file = media_file_from_filename(uploaded_file.filename)
+        attach_and_store_media_file(media, media_file, uploaded_file.file)
+    elif url is not None:
+        # Looks like we were just given a URL. Create a MediaFile object with that URL.
+        media_file = media_file_from_url(url)
         media.files.append(media_file)
-    elif error_msg and initial_id is None:
-        DBSession.delete(media)
+    else:
+        raise formencode.Invalid(_('No File or URL provided.'), None, None)
 
+    media.update_status()
     DBSession.flush()
 
-    return media_file, error_msg
+    return media_file
 
-def add_new_media_file(media, original_filename, file):
-    name, file_ext = os.path.splitext(original_filename)
-    container = guess_container_format(file_ext.lower().lstrip('.'))
-    display_name = '%s.%s' % (name, container)
+def base_ext_container_from_uri(uri):
+    """Returns a 3-tuple of strings:
 
+    - Base of the filename (without extension)
+    - Normalized file extension (without preceding dot)
+    - Best-guess container format.
+
+    Raises a formencode.Invalid exception if a useful container isn't found.
+    """
+    name, file_ext = os.path.splitext(uri)
+    ext = file_ext[1:].lower()
+    container = guess_container_format(ext)
     if container is None:
-        msg = _('File extension "%s" is not supported.') % file_ext
-        raise formencode.Invalid(msg, file_ext, None)
+        error_msg = _('File extension "%s" is not supported.') % file_ext
+        raise formencode.Invalid(error_msg, None, None)
+    return name, ext, container
+
+def media_file_from_url(url):
+    """Create and return  a MediaFile object representing a given URL.
+
+    Does not add the created MediaFile to the database.
+    """
+    media_file = MediaFile()
+    # Parse the URL checking for known embeddables like YouTube
+    embed = parse_embed_url(url)
+    if embed:
+        media_file.type = embed['type']
+        media_file.container = embed['container']
+        media_file.embed = embed['id']
+        media_file.display_name = '%s ID: %s' % \
+            (embed['container'].capitalize(), media_file.embed)
+    else:
+        # Check for types we can play ourselves
+        name, ext, container = base_ext_container_from_uri(url)
+        media_file.type = guess_media_type(ext)
+        media_file.container = container
+        media_file.url = url
+        media_file.display_name = os.path.basename(url)
+
+    return media_file
+
+def media_file_from_filename(filename):
+    """Create and return a MediaFile object representing a given filename.
+
+    Does not store the file, or add the created MediaFile to the database.
+    """
+    name, ext, container = base_ext_container_from_uri(filename)
 
     # set the file paths depending on the file type
     media_file = MediaFile()
-    media_file.display_name = display_name
+    media_file.display_name = '%s.%s' % (name, container)
     media_file.container = container
-    media_file.type = guess_media_type(container)
+    media_file.type = guess_media_type(ext)
 
+    # File has not been stored. It has neither URL nor Filename.
+    media_file.url = None
+    media_file.file_name = None
+
+    if file_url:
+        # The file has been stored remotely
+        media_file.url = file_url
+    else:
+        # The file is stored locally and we just need its name
+        media_file.file_name = file_name
+
+    return media_file
+
+def attach_and_store_media_file(media, media_file, file):
+    """Given a Media object, a MediaFile object, and a file handle,
+    attaches the MediaFile to the Media object, and saves the file to permanent
+    storage.
+
+    Adds the MediaFile to the database.
+    """
     # Small files are stored in memory and do not have a tmp file w/ fileno
     if hasattr(file, 'fileno'):
         media_file.size = os.fstat(file.fileno())[6]
@@ -123,7 +146,7 @@ def add_new_media_file(media, original_filename, file):
     DBSession.flush()
 
     # copy the file to its permanent location
-    file_name = '%d_%d_%s.%s' % (media.id, media_file.id, media.slug, container)
+    file_name = '%d_%d_%s.%s' % (media.id, media_file.id, media.slug, media_file.container)
     file_url = store_media_file(file, file_name)
 
     if file_url:
@@ -132,8 +155,6 @@ def add_new_media_file(media, original_filename, file):
     else:
         # The file is stored locally and we just need its name
         media_file.file_name = file_name
-
-    return media_file
 
 def store_media_file(file, file_name):
     """Copy the file to its permanent location and return its URI"""
@@ -228,7 +249,7 @@ def _verify_ftp_upload_integrity(file, file_url):
         % http_err.message
     raise FTPUploadException(msg, None, None)
 
-def save_media_obj(name, email, title, description, tags, file, url):
+def save_media_obj(name, email, title, description, tags, uploaded_file, url):
     # create our media object as a status-less placeholder initially
     media_obj = Media()
     media_obj.author = Author(name, email)
@@ -238,38 +259,14 @@ def save_media_obj(name, email, title, description, tags, file, url):
     media_obj.notes = app_globals.settings['wording_additional_notes']
     media_obj.set_tags(tags)
 
-    # Create a media object, add it to the media_obj, and store the file permanently.
-    if file is not None:
-        media_file = add_new_media_file(media_obj, file.filename, file.file)
-    else:
-        media_file = MediaFile()
-        url = unicode(url)
-        embed = parse_embed_url(url)
-        if embed:
-            media_file.type = embed['type']
-            media_file.container = embed['container']
-            media_file.embed = embed['id']
-            media_file.display_name = '%s ID: %s' % \
-                (embed['container'].capitalize(), media_file.embed)
-        else:
-            # Check for types we can play ourselves
-            ext = os.path.splitext(url)[1].lower()[1:]
-            container = guess_container_format(ext)
-            if container in accepted_extensions():
-                media_file.type = guess_media_type(container)
-                media_file.container = container
-                media_file.url = url
-                media_file.display_name = os.path.basename(url)
-            else:
-                # Trigger a validation error on the whole form.
-                raise formencode.Invalid(_('Please specify a URL or upload a file below.'), None, None)
-        media_obj.files.append(media_file)
-
-    # Add the final changes.
-    media_obj.update_status()
+    # Give the Media object an ID.
     DBSession.add(media_obj)
     DBSession.flush()
 
+    # Create a MediaFile object, add it to the media_obj, and store the file permanently.
+    media_file = generic_add_new_media_file(media_obj, uploaded_file, url)
+
+    # Create the thumbnails
     create_default_thumbs_for(media_obj)
 
     return media_obj
