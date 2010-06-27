@@ -33,7 +33,7 @@ from datetime import datetime
 from mediacore.model import Author, Media, MediaFile, Podcast, slugify, get_available_slug
 from mediacore.model.meta import DBSession
 from mediacore.lib.helpers import create_default_thumbs_for, create_thumbs_for, duration_to_seconds
-from mediacore.lib.mediafiles import generic_add_new_media_file
+from mediacore.lib.mediafiles import add_new_media_file
 
 img_regex = re.compile(""".*<\s*img\s*.*?src\s*=\s*(("[^"]+")|('[^']')).*?>.*""", re.MULTILINE)
 
@@ -194,11 +194,11 @@ def media_file_from_enclosure(enc, media, save_files=False):
         temp_file.seek(0)
         # Make a fake uploaded file object.
         uploaded_file = DictWithPropertyAccessors(file=temp_file, filename=url)
-        media_file = generic_add_new_media_file(media, uploaded_file, url)
+        media_file = add_new_media_file(media, uploaded_file, url)
         temp_file.close()
         file.close()
     else:
-        media_file = generic_add_new_media_file(media, None, url)
+        media_file = add_new_media_file(media, None, url)
 
     if message:
         raise Exception(message)

@@ -3,7 +3,7 @@ from datetime import datetime
 from mediacore.tests import *
 from mediacore.model import Author, Category, DBSession, Media
 from mediacore.lib.filetypes import AUDIO, AUDIO_DESC, CAPTIONS, VIDEO
-from mediacore.lib.mediafiles import generic_add_new_media_file
+from mediacore.lib.mediafiles import add_new_media_file
 from sqlalchemy.exc import SQLAlchemyError
 
 class TestModels(TestController):
@@ -42,7 +42,7 @@ class TestModels(TestController):
                 media = self._new_publishable_media(u'audio-%s' % t,
                         u'%s (Audio)' % t.upper())
                 DBSession.add(media)
-                media_file = generic_add_new_media_file(media, None,
+                media_file = add_new_media_file(media, None,
                         'http://fakesite.com/fakefile.%s' % t)
                 media.update_status()
                 DBSession.commit()
@@ -61,7 +61,7 @@ class TestModels(TestController):
                 media = self._new_publishable_media(u'video-%s' % t,
                         u'%s (Video)' % t.upper())
                 DBSession.add(media)
-                media_file = generic_add_new_media_file(media, None,
+                media_file = add_new_media_file(media, None,
                         'http://fakesite.com/fakefile.%s' % t)
                 media.update_status()
                 DBSession.commit()
@@ -80,7 +80,7 @@ class TestModels(TestController):
                 media = self._new_publishable_media(u'caption-%s' % t,
                         u'%s (Captioned)' % t.upper())
                 DBSession.add(media)
-                media_file = generic_add_new_media_file(media, None,
+                media_file = add_new_media_file(media, None,
                         'http://fakesite.com/fakefile.%s' % t)
                 media.update_status()
                 DBSession.commit()
@@ -99,7 +99,7 @@ class TestModels(TestController):
                 media = self._new_publishable_media(u'description-%s' % t,
                         u'%s (Audio Description)' % t.upper())
                 DBSession.add(media)
-                media_file = generic_add_new_media_file(media, None,
+                media_file = add_new_media_file(media, None,
                         'http://fakesite.com/fakefile.%s' % t)
                 media_file.type = AUDIO_DESC
                 media.update_status()

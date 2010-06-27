@@ -36,7 +36,7 @@ from mediacore.lib import helpers
 from mediacore.lib.base import BaseController
 from mediacore.lib.decorators import expose, expose_xhr, paginate, validate, validate_xhr
 from mediacore.lib.helpers import redirect, url_for
-from mediacore.lib.mediafiles import generic_add_new_media_file
+from mediacore.lib.mediafiles import add_new_media_file
 from mediacore.model import Author, Category, Media, Podcast, Tag, fetch_row, get_available_slug
 from mediacore.model.meta import DBSession
 
@@ -291,7 +291,7 @@ class MediaController(BaseController):
 
         message = None
         try:
-            media_file = generic_add_new_media_file(media, file, url)
+            media_file = add_new_media_file(media, file, url)
         except Exception, e:
             DBSession.rollback()
             message = e.message

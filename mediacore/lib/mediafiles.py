@@ -19,7 +19,7 @@ import logging
 log = logging.getLogger(__name__)
 
 __all__ = [
-    'generic_add_new_media_file',
+    'add_new_media_file',
     'save_media_obj',
     'FTPUploadException',
 ]
@@ -27,7 +27,7 @@ __all__ = [
 class FTPUploadException(formencode.Invalid):
     pass
 
-def generic_add_new_media_file(media, uploaded_file=None, url=None):
+def add_new_media_file(media, uploaded_file=None, url=None):
     """Create a new MediaFile for the provided Media object and File/URL
     and add it to that Media object's files list.
 
@@ -264,7 +264,7 @@ def save_media_obj(name, email, title, description, tags, uploaded_file, url):
     DBSession.flush()
 
     # Create a MediaFile object, add it to the media_obj, and store the file permanently.
-    media_file = generic_add_new_media_file(media_obj, uploaded_file, url)
+    media_file = add_new_media_file(media_obj, uploaded_file, url)
 
     # Create the thumbnails
     create_default_thumbs_for(media_obj)
