@@ -1,6 +1,7 @@
 from mediacore.tests import *
 import pylons
 import os, pwd, grp, stat
+from mediacore.model import Media, Podcast
 
 class TestPermissions(TestController):
 
@@ -101,3 +102,17 @@ class TestPermissions(TestController):
 
     def test_deleted_files_dir(self):
         self._test_writable(pylons.config['deleted_files_dir'])
+
+    def test_deleted_media_dir(self):
+        # It doesn't really matter if this dir doesn't exist, so long as the
+        # deleted_files_dir is writeable, because MediaCore will create it
+        path = pylons.config['deleted_files_dir'] + os.sep + Media._thumb_dir
+        if os.path.exists(path):
+            self._test_writable(path)
+
+    def test_deleted_podcast_dir(self):
+        # It doesn't really matter if this dir doesn't exist, so long as the
+        # deleted_files_dir is writeable, because MediaCore will create it
+        path = pylons.config['deleted_files_dir'] + os.sep + Podcast._thumb_dir
+        if os.path.exists(path):
+            self._test_writable(path)
