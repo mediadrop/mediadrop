@@ -218,7 +218,7 @@ class MediaController(BaseController):
                 DBSession.expunge(f)
             DBSession.delete(media)
             DBSession.commit()
-            helpers.delete_files(file_paths, 'media')
+            helpers.delete_files(file_paths, Media._thumb_dir)
             redirect(action='index', id=None)
 
         media.slug = get_available_slug(Media, slug, media)
@@ -385,7 +385,7 @@ class MediaController(BaseController):
             DBSession.delete(file)
             DBSession.commit()
             if file_path:
-                helpers.delete_files([file_path], 'media')
+                helpers.delete_files([file_path], Media._thumb_dir)
             media = fetch_row(Media, id)
             data['success'] = True
         else:

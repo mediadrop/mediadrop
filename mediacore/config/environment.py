@@ -27,7 +27,7 @@ import mediacore.lib.helpers
 
 from mediacore.config.routing import make_map
 from mediacore.lib.auth import classifier_for_flash_uploads
-from mediacore.model import User, Group, Permission, init_model
+from mediacore.model import Group, Media, Permission, Podcast, User, init_model
 from mediacore.model.meta import DBSession
 
 def load_environment(global_conf, app_conf):
@@ -83,12 +83,12 @@ def load_environment(global_conf, app_conf):
     config['genshi_search_path'] = paths['templates'][0]
 
     config['thumb_sizes'] = { # the dimensions (in pixels) to scale thumbnails
-        'media': {
+        Media._thumb_dir: {
             's': (128,  72),
             'm': (160,  90),
             'l': (560, 315),
         },
-        'podcasts': {
+        Podcast._thumb_dir: {
             's': (128, 128),
             'm': (160, 160),
             'l': (600, 600),
