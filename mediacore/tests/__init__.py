@@ -37,3 +37,20 @@ class TestController(TestCase):
         self.app = TestApp(wsgiapp)
         url._push_object(URLGenerator(config['routes.map'], environ))
         TestCase.__init__(self, *args, **kwargs)
+
+    def _new_publishable_media(self, slug, name):
+        from datetime import datetime
+        from mediacore.model import Author, Media
+        media = Media()
+        media.slug = slug
+        media.title = name
+        media.subtitle = None
+        media.description = u"""<p>Description</p>"""
+        media.description_plain = u"""Description"""
+        media.author = Author(u'fake name', u'fake@email.com')
+        media.publish_on = datetime.now()
+        media.publishable = True
+        media.reviewed = True
+        media.encoded = False
+        media.type = None
+        return media
