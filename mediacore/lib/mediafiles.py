@@ -1,11 +1,12 @@
 import formencode
 import ftplib
 import os
+import shutil
 import time
 import urllib2
 
 from paste.deploy.converters import asbool
-from pylons import config
+from pylons import app_globals, config
 from pylons.i18n import _
 
 from mediacore.lib.compat import sha1
@@ -112,13 +113,6 @@ def media_file_from_filename(filename):
     # File has not been stored. It has neither URL nor Filename.
     media_file.url = None
     media_file.file_name = None
-
-    if file_url:
-        # The file has been stored remotely
-        media_file.url = file_url
-    else:
-        # The file is stored locally and we just need its name
-        media_file.file_name = file_name
 
     return media_file
 
