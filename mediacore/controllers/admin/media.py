@@ -297,7 +297,7 @@ class MediaController(BaseController):
         message = None
         try:
             media_file = add_new_media_file(media, file, url)
-        except Exception, e:
+        except Invalid, e:
             DBSession.rollback()
             message = e.message
 
