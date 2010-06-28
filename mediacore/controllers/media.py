@@ -270,7 +270,6 @@ class MediaController(BaseController):
             redirect(action='view', anchor='comment-%s' % c.id)
 
     @expose()
-    @validate(validators={'id': validators.Int()})
     def serve(self, id, slug, container, **kwargs):
         """Serve a :class:`~mediacore.model.media.MediaFile` binary.
 
@@ -287,7 +286,7 @@ class MediaController(BaseController):
         media = fetch_row(Media, slug=slug)
 
         for file in media.files:
-            if file.id == id and file.container == container:
+            if file.id == int(id) and file.container == container:
                 # Catch external redirects in case they aren't linked to directly
                 if file.url:
                     redirect(file.url.encode('utf-8'))
