@@ -20,7 +20,7 @@ install_requires = [
     'repoze.who == 1.0.18',
     'repoze.what-pylons == 1.0',
     'repoze.what-quickstart',
-    'Paste == 1.7.3.1',
+    'Paste == 1.7.4',
     'PasteDeploy == 1.3.3',
     'PasteScript == 1.7.3',
     'ToscaWidgets == 0.9.9',
