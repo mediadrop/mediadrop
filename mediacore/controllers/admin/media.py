@@ -220,6 +220,8 @@ class MediaController(BaseController):
             helpers.delete_files(file_paths, Media._thumb_dir)
             redirect(action='index', id=None)
 
+        if not slug:
+            slug = title
         media.slug = get_available_slug(Media, slug, media)
         media.title = title
         media.author = Author(author_name, author_email)

@@ -76,7 +76,7 @@ class MediaForm(ListForm):
 
     fields = [
         SingleSelectField('podcast', label_text=_('Include in the Podcast'), help_text=_('Optional'), options=lambda: [(None, None)] + DBSession.query(Podcast.id, Podcast.title).all()),
-        TextField('slug', validator=NotEmpty, maxlength=50),
+        TextField('slug', maxlength=50),
         TextField('title', validator=TextField.validator(not_empty=True), maxlength=255),
         TextField('author_name', maxlength=50),
         TextField('author_email', validator=email_validator(not_empty=True), maxlength=255),

@@ -1,9 +1,8 @@
 import pylons
-from datetime import datetime
 from mediacore.tests import *
-from mediacore.model import Author, Category, DBSession, Media
 from mediacore.lib.filetypes import AUDIO, AUDIO_DESC, CAPTIONS, VIDEO
 from mediacore.lib.mediafiles import add_new_media_file
+from mediacore.model import DBSession
 from sqlalchemy.exc import SQLAlchemyError
 
 class TestModels(TestController):
@@ -19,21 +18,6 @@ class TestModels(TestController):
         # Initialize pylons.app_globals, for use in main thread.
         self.response = self.app.get('/_test_vars')
         pylons.app_globals._push_object(self.response.app_globals)
-
-    def _new_publishable_media(self, slug, name):
-        media = Media()
-        media.slug = slug
-        media.title = name
-        media.subtitle = None
-        media.description = u"""<p>Description</p>"""
-        media.description_plain = u"""Description"""
-        media.author = Author(u'fake name', u'fake@email.com')
-        media.publish_on = datetime.now()
-        media.publishable = True
-        media.reviewed = True
-        media.encoded = False
-        media.type = None
-        return media
 
     def test_audio_url_media(self):
         """Media with only audio files attatched should be AUDIO type."""

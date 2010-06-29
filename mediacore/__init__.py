@@ -59,6 +59,28 @@ def monkeypatch_method(cls):
     return decorator
 
 try:
+    # Monkey Patch our StaticURLParser for Paste-1.7.4
+    from paste.urlparser import StaticURLParser
+    def add_slash(self, environ, start_response):
+        """Monkey-patch overridden method.
+
+        MediaCore doesn't use any public directory listings, or index.html
+        files, so there's no reason to issue a redirect to normalize folder
+        requests to have a trailing slash, as all of these URLs will 404
+        either way.
+
+        This also avoids useless redirects for routes that have the same name
+        as a folder in the ./public directory, such as requests for "/admin".
+        """
+        environ['PATH_INFO'] = '/'
+        sup = self.__class__(
+            self.directory,
+            root_directory=self.root_directory,
+            cache_max_age=self.cache_max_age
+        )
+        return sup(environ, start_response)
+    StaticURLParser.add_slash = add_slash
+
     # Monkey Patch Beautiful Soup
     from BeautifulSoup import NavigableString as _NavigableString
     @monkeypatch_method(_NavigableString)

@@ -143,7 +143,7 @@ external_embedded_containers = {
 
 # The list of file extensions that flash should recognize and be able to play.
 flash_supported_containers = ['mp3', 'mp4', 'm4v', 'm4a', 'flv', 'flac']
-flash_supported_browsers = ['firefox', 'opera', 'chrome', 'safari', 'unknown']
+flash_supported_browsers = ['firefox', 'opera', 'chrome', 'safari', 'android', 'unknown']
 
 # Container and Codec support for HTML5 tag in various browsers.
 # The following list taken from http://diveintohtml5.org/video.html#what-works
@@ -337,10 +337,15 @@ def ordered_playable_files(files):
 
     The returned list of files is thus in order of decreasing media-richness.
     """
+    # Sort alphabetically
+    files = sorted(files, key=lambda file: file.container)
+    # Split by type
     video_files = [file for file in files if file.type == VIDEO]
     audio_files = [file for file in files if file.type == AUDIO]
+    # Sort each type by filesize
     video_files.sort(key=lambda file: file.size, reverse=True)
     audio_files.sort(key=lambda file: file.size, reverse=True)
+    # Done. Join and return the new, sorted list.
     return video_files + audio_files
 
 def pick_media_file_player(files, browser=None, version=None, user_agent=None,
@@ -378,10 +383,14 @@ def pick_media_file_player(files, browser=None, version=None, user_agent=None,
     from mediacore.lib.helpers import players
 
     def get_html5_player():
-        for container, codecs in native_supported_types(browser, version):
-            for file in files:
-                if file.container == container:
-                    return file, players.get(html5_player, html5_player)
+        html5_supported_containers = [
+            container
+            for container, codecs
+            in native_supported_types(browser, version)
+        ]
+        for file in files:
+            if file.container in html5_supported_containers:
+                return file, players.get(html5_player, html5_player)
         return None, None
 
     def get_flash_player():
