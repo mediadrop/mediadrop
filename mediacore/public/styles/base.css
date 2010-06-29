@@ -133,6 +133,7 @@ a:hover {
 
 #nav-search {
 	float: right;
+	width: 199px;
 	height: 39px;
 }
 #nav-search input {
