@@ -123,13 +123,8 @@ var MediaManager = new Class({
 			var el = new Element('span');
 		}
 		this.head.empty().adopt(el.set('text', title));
-		try { // Expects a title formatted like 'Edit: Xyz Title | MediaCore'
-			var start = document.title.substr(0, document.title.indexOf(':') + 2);
-			var end = document.title.substr(document.title.lastIndexOf('|') - 1);
-			document.title = start + title + end;
-		} catch (e) {
-			if (console) console.log('Error changing the title');
-		}
+		var i = document.title.lastIndexOf(' | '), suffix = (i > 0 ? document.title.substr(i) : '');
+		document.title = 'Edit: ' + title + suffix;
 	},
 
 	updateFormActions: function(mediaID){
