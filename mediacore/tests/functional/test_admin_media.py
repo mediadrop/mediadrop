@@ -1,5 +1,6 @@
 from mediacore.tests import *
-from mediacore.model import DBSession, Media, fetch_row
+from mediacore.model import DBSession, Media, Author, fetch_row
+from sqlalchemy.exc import SQLAlchemyError
 
 class TestMediaController(TestController):
 
@@ -64,3 +65,59 @@ class TestMediaController(TestController):
         assert form['slug'].value == slug
         assert form['description'].value == htmlized_description
         assert form['notes'].value == ''
+
+    def test_edit_media(self):
+        title = u'Edit Existing Media Test'
+        slug = u'edit-existing-media-test' # this should be unique
+
+        # Values that we will change during the edit process
+        name = u'Frederick Awesomeson'
+        email = u'fake_address@mailinator.com'
+        description = u'This media item was created to test the "admin/media/edit/someID" method'
+        htmlized_description = '<p>This media item was created to test the &quot;admin/media/edit/someID&quot; method</p>'
+        notes = u'Some Notes!'
+
+        try:
+            media = self._new_publishable_media(slug, title)
+            media.publishable = False
+            media.reviewed = False
+            DBSession.add(media)
+            DBSession.commit()
+            media_id = media.id
+        except SQLAlchemyError, e:
+            DBSession.rollback()
+            raise e
+
+        edit_url = url(controller='admin/media', action='edit', id=media_id)
+        save_url = url(controller='admin/media', action='save', id=media_id)
+
+        # render the edit form
+        self._login()
+        edit_response = self.app.get(edit_url, status=200)
+
+        # ensure the form submits like we want it to
+        form = edit_response.forms['media-form']
+        assert form.action == save_url
+
+        # Fill out the edit form, and submit it
+        form['title'] = title
+        form['author_name'] = name
+        form['author_email'] = email
+        form['description'] = description
+        # form['categories']
+        # form['tags']
+        form['notes'] = notes
+        save_response = form.submit()
+
+        # Ensure that the correct redirect was issued
+        assert save_response.status_int == 302
+        assert save_response.location == 'http://localhost%s' % edit_url
+
+        # Ensure that the media object was correctly updated
+        media = fetch_row(Media, media_id)
+        assert media.title == title
+        assert media.slug == slug
+        assert media.notes == notes
+        assert media.description == htmlized_description
+        assert media.author.name == name
+        assert media.author.email == email
