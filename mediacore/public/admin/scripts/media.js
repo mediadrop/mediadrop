@@ -44,6 +44,7 @@ var MediaManager = new Class({
 	initNewMedia: function(mediaID){
 		this.isNew = false;
 		this.newID = mediaID;
+		window.location.hash = '#' + mediaID;
 	},
 
 	onMetaSaved: function(json){
@@ -122,7 +123,6 @@ var MediaManager = new Class({
 			var el = new Element('span');
 		}
 		this.head.empty().adopt(el.set('text', title));
-		if (this.newID) return; // don't update the title when we're still at /admin/media/new
 		try { // Expects a title formatted like 'Edit: Xyz Title | MediaCore'
 			var start = document.title.substr(0, document.title.indexOf(':') + 2);
 			var end = document.title.substr(document.title.lastIndexOf('|') - 1);
