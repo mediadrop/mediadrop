@@ -116,12 +116,11 @@ class UploadController(BaseController):
             else:
                 # else actually save it!
                 kwargs.setdefault('name')
-                kwargs.setdefault('tags')
 
                 media_obj = save_media_obj(
                     kwargs['name'], kwargs['email'],
                     kwargs['title'], kwargs['description'],
-                    kwargs['tags'], kwargs['file'], kwargs['url'],
+                    None, kwargs['file'], kwargs['url'],
                 )
                 email.send_media_notification(media_obj)
                 data = dict(
@@ -137,13 +136,12 @@ class UploadController(BaseController):
         """
         """
         kwargs.setdefault('name')
-        kwargs.setdefault('tags')
 
         # Save the media_obj!
         media_obj = save_media_obj(
             kwargs['name'], kwargs['email'],
             kwargs['title'], kwargs['description'],
-            kwargs['tags'], kwargs['file'], kwargs['url'],
+            None, kwargs['file'], kwargs['url'],
         )
         email.send_media_notification(media_obj)
 
