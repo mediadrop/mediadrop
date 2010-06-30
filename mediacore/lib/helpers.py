@@ -808,7 +808,7 @@ class JWPlayer(Player):
     @staticmethod
     def flashvars(media, file, autoplay=False, autobuffer=False, qualified=False):
         vars = {
-            'image': thumb_url(media, 'l'),
+            'image': thumb_url(media, 'l', qualified=qualified),
             'autostart': autoplay,
         }
         providers = {
