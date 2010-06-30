@@ -72,8 +72,21 @@ var CustomOverText = new Class({
 		} else {
 			// label element doesn't exist. fall back to
 			// regular OverText behaviour and create one.
-			parent();
+			this.parent();
 		}
 	}
 });
 
+var displayCommentFlashMsg = function(){
+	var flashMsg = Cookie.read('comment_posted');
+	if (flashMsg) {
+		var flash = $('comment-flash');
+		var json = JSON.decode(flashMsg);
+		var content = new Element('div').inject(flash.getElement('.comment-content'));
+		if (json.title) content.grab(new Element('strong', {text: json.title}));
+		if (json.success != undefined) content.addClass(json.success ? 'success' : 'error');
+		content.appendText(' ' + json.text);
+		flash.show();
+		Cookie.dispose('comment_posted', {path: '/'});
+	}
+};
