@@ -67,10 +67,13 @@
 		</py:when>
 
 		<py:when test="player.is_html5" py:choose="file.type">
-			<audio py:when="'audio'" src="${file.play_url(qualified=qualified)}" controls="controls" height="${height}" width="${width}">
+			<?python
+			attrs = player.html5_attrs(media, file, autoplay=autoplay, autobuffer=autobuffer, qualified=qualified)
+			?>
+			<audio py:when="'audio'" py:attrs="attrs">
 				If your browser supported HTML5, you'd be seeing an audio player here instead of this text!
 			</audio>
-			<video py:when="'video'" src="${file.play_url(qualified=qualified)}" controls="controls" height="${height}" width="${width}">
+			<video py:when="'video'" py:attrs="attrs" height="${height}" width="${width}">
 				If your browser supported HTML5, you'd be seeing a video player here instead of this text!
 			</video>
 		</py:when>

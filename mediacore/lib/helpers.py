@@ -859,8 +859,31 @@ class EmbedPlayer(Player):
         return {}
 
 class HTML5Player(Player):
-    """Stub that says HTML5 <audio> / <video> tags should be used."""
+    """HTML5 <audio> / <video> tag.
+
+    References:
+
+        http://dev.w3.org/html5/spec/Overview.html#audio
+        http://dev.w3.org/html5/spec/Overview.html#video
+        http://developer.apple.com/safari/library/documentation/AudioVideo/Conceptual/Using_HTML5_Audio_Video/Introduction/Introduction.html
+
+    """
     is_html5 = True
+
+    @staticmethod
+    def html5_attrs(media, file, autoplay=False, autobuffer=False, qualified=False):
+        attrs = {
+            'src': file.play_url(qualified=qualified),
+            'controls': 'controls',
+        }
+        if autoplay:
+            attrs['autoplay'] = 'autoplay'
+        elif autobuffer:
+            # This isn't included in the HTML5 spec, but Safari supports it
+            attrs['autobuffer'] = 'autobuffer'
+        if file.type == 'video':
+            attrs['poster'] = thumb_url(media, 'l', qualified=qualified)
+        return attrs
 
 players = {
     'flowplayer': FlowPlayer,
