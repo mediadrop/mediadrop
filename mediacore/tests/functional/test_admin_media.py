@@ -1,8 +1,18 @@
+import simplejson
+import os
+import pylons
 from mediacore.tests import *
 from mediacore.model import DBSession, Media, Author, fetch_row
 from sqlalchemy.exc import SQLAlchemyError
 
 class TestMediaController(TestController):
+    def __init__(self, *args, **kwargs):
+        TestController.__init__(self, *args, **kwargs)
+
+        # Initialize pylons.app_globals, etc. for use in main thread.
+        self.response = self.app.get('/_test_vars')
+        pylons.app_globals._push_object(self.response.app_globals)
+        pylons.config._push_object(self.response.config)
 
     def _login(self):
         test_user = 'admin'
@@ -121,3 +131,65 @@ class TestMediaController(TestController):
         assert media.description == htmlized_description
         assert media.author.name == name
         assert media.author.email == email
+
+    def test_add_file(self):
+        title = u'test-add-file'
+        slug = u'Test Adding File on Media Edit Page.'
+
+        try:
+            media = self._new_publishable_media(slug, title)
+            media.publishable = False
+            media.reviewed = False
+            DBSession.add(media)
+            DBSession.commit()
+            media_id = media.id
+        except SQLAlchemyError, e:
+            DBSession.rollback()
+            raise e
+
+        edit_url = url(controller='admin/media', action='edit', id=media_id)
+        add_url = url(controller='admin/media', action='add_file', id=media_id)
+        files = [
+            ('file', '/some/fake/filename.mp3', 'FILE CONTENT: This is not an MP3 file at all, but this random string will work for our purposes.')
+        ]
+        fields = {
+            'url': '',
+        }
+        # render the edit form
+        self._login()
+        edit_response = self.app.get(edit_url, status=200)
+
+        # Ensure that the add-file-form rendered correctly.
+        form = edit_response.forms['add-file-form']
+        assert form.action == add_url
+        for x in fields:
+            form[x] = fields[x]
+        form['file'] = files[0][1]
+
+        # Submit the form with a regular POST request anyway, because
+        # webtest.Form objects can't handle file uploads.
+        add_response = self.app.post(add_url, params=fields, upload_files=files)
+        assert add_response.status_int == 200
+        assert add_response.headers['Content-Type'] == 'application/json'
+
+        # Ensure the media file was created properly.
+        media = fetch_row(Media, slug=slug)
+        assert media.files[0].container == 'mp3'
+        assert media.files[0].type == 'audio'
+        assert media.type == 'audio'
+
+        # Ensure that the response content was correct.
+        add_json = simplejson.loads(add_response.body)
+        assert add_json['success'] == True
+        assert add_json['media_id'] == media_id
+        assert add_json['file_id'] == media.files[0].id
+        assert 'message' not in add_json
+
+        # Ensure that the file was properly created.
+        file_name = media.files[0].file_name
+        file_path = os.sep.join((pylons.config['media_dir'], file_name))
+        assert os.path.exists(file_path)
+        file = open(file_path)
+        content = file.read()
+        file.close()
+        assert content == files[0][2]
