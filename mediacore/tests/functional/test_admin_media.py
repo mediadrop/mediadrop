@@ -1,8 +1,9 @@
-import simplejson
 import os
 import pylons
+import simplejson
+import webob.exc
 from mediacore.tests import *
-from mediacore.model import DBSession, Media, Author, fetch_row
+from mediacore.model import DBSession, Media, MediaFile, fetch_row
 from sqlalchemy.exc import SQLAlchemyError
 
 class TestMediaController(TestController):
@@ -242,3 +243,84 @@ class TestMediaController(TestController):
         assert add_json['media_id'] == media_id
         assert add_json['file_id'] == media.files[0].id
         assert 'message' not in add_json
+
+    def test_merge_stubs(self):
+        new_url = url(controller='admin/media', action='edit', id='new')
+        save_url = url(controller='admin/media', action='save', id='new')
+        add_url = url(controller='admin/media', action='add_file', id='new')
+
+        title = 'Merge Stubs Test'
+        slug = 'merge-stubs-test' # this should be unique
+        name = 'Frederick Awesomeson'
+        email = 'fake_address@mailinator.com'
+        description = 'This media item was created to test the "admin/media/merge_stubs" method'
+        htmlized_description = '<p>This media item was created to test the &quot;admin/media/merge_stubs&quot; method</p>'
+
+        ## Log in and render the New Media page.
+        self._login()
+        new_response = self.app.get(new_url, status=200)
+
+        # Make a new media object by filling out the form.
+        form = new_response.forms['media-form']
+        form['title'] = title
+        form['author_name'] = name
+        form['author_email'] = email
+        form['description'] = description
+        form['notes'] = ''
+        assert form.action == save_url
+        save_response = form.submit()
+        assert save_response.status_int == 302
+        media_1 = fetch_row(Media, slug=slug)
+        media_1_id = media_1.id
+        edit_url = url(controller='admin/media', action='edit', id=media_1.id)
+        assert save_response.location == 'http://localhost%s' % edit_url
+
+        # Make a new media object by adding a new file
+        files = [
+            ('file', '/some/fake/filename.mp3', 'FILE CONTENT: This is not an MP3 file at all, but this random string will work for our purposes.')
+        ]
+        fields = {
+            'url': '',
+        }
+        add_response = self.app.post(add_url, params=fields, upload_files=files)
+        assert add_response.status_int == 200
+        assert add_response.headers['Content-Type'] == 'application/json'
+        add_json = simplejson.loads(add_response.body)
+        assert add_json['success'] == True
+        assert 'message' not in add_json
+        media_2_id = add_json['media_id']
+        file_2_id = add_json['file_id']
+
+        # Assert that the stub file was named properly.
+        file_2 = fetch_row(MediaFile, file_2_id)
+        assert file_2.file_name.startswith('%d_%d_' % (media_2_id, file_2_id))
+        assert file_2.file_name.endswith('.mp3')
+
+        # Merge the objects!
+        merge_url = url(controller='admin/media', action='merge_stubs', orig_id=media_1_id, input_id=media_2_id)
+        merge_response = self.app.get(merge_url)
+        merge_json = simplejson.loads(merge_response.body)
+        assert merge_json['success'] == True
+        assert merge_json['media_id'] == media_1_id
+
+        # Ensure that the correct objects were created/destroyed
+        try:
+            media_2 = fetch_row(Media, media_2_id)
+            raise Exception('Stub media object not properly deleted!')
+        except webob.exc.HTTPNotFound, e:
+            pass
+        media_1 = fetch_row(Media, media_1_id)
+        file_1 = media_1.files[0]
+
+        # Ensure that the file was correctly renamed and has the right content.
+        assert media_1.type == 'audio'
+        assert file_1.type == 'audio'
+        assert file_1.container == 'mp3'
+        file_name = media_1.files[0].file_name
+        assert file_name == '%d_%d_%s.%s' % (media_1.id, file_1.id, media_1.slug, file_1.container)
+        file_path = os.sep.join((pylons.config['media_dir'], file_name))
+        assert os.path.exists(file_path)
+        file = open(file_path)
+        content = file.read()
+        file.close()
+        assert content == files[0][2]
