@@ -193,3 +193,52 @@ class TestMediaController(TestController):
         content = file.read()
         file.close()
         assert content == files[0][2]
+
+    def test_add_file_url(self):
+        title = u'test-add-file-url'
+        slug = u'Test Adding File by URL on Media Edit Page.'
+
+        try:
+            media = self._new_publishable_media(slug, title)
+            media.publishable = False
+            media.reviewed = False
+            DBSession.add(media)
+            DBSession.commit()
+            media_id = media.id
+        except SQLAlchemyError, e:
+            DBSession.rollback()
+            raise e
+
+        edit_url = url(controller='admin/media', action='edit', id=media_id)
+        add_url = url(controller='admin/media', action='add_file', id=media_id)
+        fields = {
+            'url': 'http://www.youtube.com/watch?v=uLTIowBF0kE',
+        }
+        # render the edit form
+        self._login()
+        edit_response = self.app.get(edit_url, status=200)
+
+        # Ensure that the add-file-form rendered correctly.
+        form = edit_response.forms['add-file-form']
+        assert form.action == add_url
+        for x in fields:
+            form[x] = fields[x]
+
+        # Submit the form with a regular POST request anyway, because
+        # webtest.Form objects can't handle file uploads.
+        add_response = self.app.post(add_url, params=fields)
+        assert add_response.status_int == 200
+        assert add_response.headers['Content-Type'] == 'application/json'
+
+        # Ensure the media file was created properly.
+        media = fetch_row(Media, slug=slug)
+        assert media.files[0].container == 'youtube'
+        assert media.files[0].type == 'video'
+        assert media.type == 'video'
+
+        # Ensure that the response content was correct.
+        add_json = simplejson.loads(add_response.body)
+        assert add_json['success'] == True
+        assert add_json['media_id'] == media_id
+        assert add_json['file_id'] == media.files[0].id
+        assert 'message' not in add_json
