@@ -291,6 +291,12 @@ tr.error td[headers='thf-type'] {
 	font-size: 12px;
 	line-height: 1.3;
 }
+#media-form #podcast_container {
+	background: #D1E4F2;
+	margin: -10px -10px 5px -10px;
+	padding: 5px 10px;
+	width: 660px;
+}
 #media-form #podcast_container .form_field {
 	width: 100%;
 	overflow: hidden;

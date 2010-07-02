@@ -82,76 +82,6 @@ label .field_help {
 	margin-left: 5px;
 }
 
-#media-form #media_upload_container {
-	float: left;
-	width: 144px;
-}
-#media-form #media-upload-status.active {
-	height: 34px;
-	line-height: 34px;
-	padding-left: 35px;
-}
-#media-form #media-upload-status.inprogress {
-	background: url('../images/icons/spinner.gif') no-repeat 5px 50%;
-}
-#media-form #media-upload-status.success {
-	background: url('../../images/uploader/check.png') no-repeat 0 50%;
-}
-#media-form #media-upload-status.error {
-	background: url('../../images/uploader/ex.png') no-repeat 0 50%;
-}
-#media-form #media_url_container {
-	clear: none;
-	float: left;
-	width: 462px;
-	overflow: visible;
-	margin: 4px 0 0 0;
-	padding: 0;
-	position: relative;
-}
-#media-form #media_url {
-	float: left;
-	width: 362px;
-	margin-right: 0;
-	position: absolute;
-	top: 0px;
-	left: 100px;
-}
-#media-form #media_container .form_field,
-#media-form #details_container .form_field {
-	padding-right: 0;
-}
-#media-form #media_container legend,
-#media-form #details_container legend {
-	font-size: 108%;
-	font-weight: bold;
-	color: #3c4d5a;
-	margin: 10px 10px 0 10px;
-}
-#media-form #details ul.field-list {
-	position: relative;
-}
-#media-form #podcast_container {
-	background: #D1E4F2;
-	margin: -10px -10px 5px -10px;
-	padding: 5px 10px;
-	width: 660px;
-}
-#media-form #media_url_label,
-#media-form #details_duration_label {
-	margin-right: 10px;
-	padding: 5px 0;
-	float: left;
-	font-weight: normal;
-	width: 50px;
-}
-#media-form #details_duration {
-	width: 60px;
-}
-#media-form #media_url {
-	margin-right: 20px;
-}
-
 .btn-edit-art {
 	text-indent: -1000px;
 	cursor: pointer;
@@ -176,14 +106,12 @@ label .field_help {
 	display: block;
 }
 
-
 .category-box {
 	overflow: scroll;
 	overflow-x: hidden;
 	width: 100%;
 	height: 150px;
 }
-
 .category-box li {
 	padding-bottom: 5px;
 }
