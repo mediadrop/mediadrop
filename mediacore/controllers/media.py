@@ -17,12 +17,10 @@
 Publicly Facing Media Controllers
 """
 import os.path
-from urlparse import urlparse
 
 from pylons import app_globals, config, request, response, session, tmpl_context
 import webob.exc
 from sqlalchemy import orm, sql
-from formencode import validators
 from paste.deploy.converters import asbool
 from paste.util import mimeparse
 from akismet import Akismet

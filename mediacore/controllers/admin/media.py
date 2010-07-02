@@ -18,17 +18,13 @@ Media Admin Controller
 """
 import filecmp
 import os
-import re
-import shutil
 from datetime import datetime
-from urlparse import urlparse, urlunparse
 
 from formencode import validators
-from paste.util import mimeparse
 from pylons import config, request, response, session, tmpl_context
 from pylons.i18n import _
 from repoze.what.predicates import has_permission
-from sqlalchemy import orm, sql
+from sqlalchemy import orm
 
 from mediacore.forms.admin import SearchForm, ThumbForm
 from mediacore.forms.admin.media import AddFileForm, EditFileForm, MediaForm, PodcastFilterForm, UpdateStatusForm

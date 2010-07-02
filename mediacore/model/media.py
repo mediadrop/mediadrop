@@ -31,7 +31,6 @@ belongs to a :class:`mediacore.model.podcasts.Podcast`.
 import math
 import os.path
 from datetime import datetime
-from urlparse import urlparse
 
 from sqlalchemy import Table, ForeignKey, Column, sql, func
 from sqlalchemy.types import String, Unicode, UnicodeText, Integer, DateTime, Boolean, Float, Enum
