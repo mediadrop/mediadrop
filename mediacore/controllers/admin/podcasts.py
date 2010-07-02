@@ -115,10 +115,6 @@ class PodcastsController(BaseController):
                 ),
             )
 
-        thumb_form_errors = {}
-        if tmpl_context.action == 'save_thumb':
-            thumb_form_errors = tmpl_context.form_errors
-
         return dict(
             podcast = podcast,
             form = podcast_form,
@@ -126,7 +122,6 @@ class PodcastsController(BaseController):
             form_values = form_values,
             thumb_form = thumb_form,
             thumb_action = url_for(action='save_thumb'),
-            thumb_form_errors = thumb_form_errors,
         )
 
 
@@ -152,6 +147,8 @@ class PodcastsController(BaseController):
             helpers.delete_files(file_paths, Podcast._thumb_dir)
             redirect(action='index', id=None)
 
+        if not slug:
+            slug = title
         podcast.slug = get_available_slug(Podcast, slug, podcast)
         podcast.title = title
         podcast.subtitle = subtitle
