@@ -35,6 +35,9 @@
 		window.addEvent('domready', function(){
 			var slug = new BoxForm.Slug('slug', {slugify: 'title'});
 			if (${int(podcast.id is not None)}) slug.detachSlugifier();
+			$('feed_feed_url').addEvent('click', function(e){
+				e.target.select();
+			});
 
 			var deleteConfirm = new DeleteConfirmMgr({msg: 'Are you sure you want to delete this podcast?'});
 			$('delete').addEvent('click', deleteConfirm.openConfirmDialog.bind(deleteConfirm));

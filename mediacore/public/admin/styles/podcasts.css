@@ -92,11 +92,15 @@
 #podcast-form .details_fieldset li {
 	clear: both;
 }
-#details_itunes_url,
-#details_feedburner_url,
+#feed_feed_url,
+#feed_itunes_url,
+#feed_feedburner_url,
 #details_copyright {
 	width: 285px;
 	float: left;
+}
+#feed_feed_url {
+	color: #5D7485;
 }
 #podcast-form #details_explicit li {
 	float: left;

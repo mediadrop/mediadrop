@@ -91,8 +91,10 @@ class PodcastsController(BaseController):
             user = request.environ['repoze.who.identity']['user']
             form_values.setdefault('author_name', user.display_name)
             form_values.setdefault('author_email', user.email_address)
+            form_values.setdefault('feed', {}).setdefault('feed_url',
+                u'Save the media to get your feed URL')
         else:
-            explicit_values = dict(yes=True, clean=False)
+            explicit_values = {True: 'yes', False: 'clean', None: 'no'}
             form_values = dict(
                 slug = podcast.slug,
                 title = podcast.title,
@@ -101,9 +103,13 @@ class PodcastsController(BaseController):
                 author_email = podcast.author and podcast.author.email or None,
                 description = podcast.description,
                 details = dict(
-                    explicit = {True: 'yes', False: 'clean'}.get(podcast.explicit, 'no'),
+                    explicit = explicit_values.get(podcast.explicit),
                     category = podcast.category,
                     copyright = podcast.copyright,
+                ),
+                feed = dict(
+                    feed_url = url_for(controller='/podcasts', action='feed',
+                                       slug=podcast.slug, qualified=True),
                     itunes_url = podcast.itunes_url,
                     feedburner_url = podcast.feedburner_url,
                 ),

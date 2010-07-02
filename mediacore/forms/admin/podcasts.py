@@ -110,6 +110,9 @@ class PodcastForm(ListForm):
             SingleSelectField('explicit', label_text='Explicit?', options=explicit_options),
             SingleSelectField('category', options=category_options),
             TextField('copyright', maxlength=50),
+        ]),
+        ListFieldSet('feed', suppress_label=True, legend='Advanced Options:', css_classes=['details_fieldset'], children=[
+            TextField('feed_url', maxlength=50, label_text='Your Feed URL', attrs={'readonly': True}),
             TextField('itunes_url', validator=URL, label_text='iTunes URL', help_text=Markup('<a href="https://phobos.apple.com/WebObjects/MZFinance.woa/wa/publishPodcast" target="_blank">Get an iTunes URL</a>'), maxlength=80),
             TextField('feedburner_url', validator=URL, label_text='Feedburner URL', help_text=Markup('<a href="http://feedburner.com/" target="_blank">Get a Feedburner URL</a>'), maxlength=80),
         ]),
