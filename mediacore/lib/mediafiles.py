@@ -19,6 +19,7 @@ import os
 import shutil
 import time
 import urllib2
+from cStringIO import StringIO
 
 from paste.deploy.converters import asbool
 from pylons import app_globals, config
@@ -27,7 +28,7 @@ from pylons.i18n import _
 from mediacore.lib.compat import sha1
 from mediacore.lib.filetypes import (guess_container_format, guess_media_type,
     parse_embed_url)
-from mediacore.lib.thumbnails import create_default_thumbs_for
+from mediacore.lib.thumbnails import create_default_thumbs_for, create_thumbs_for
 from mediacore.model import Author, Media, MediaFile, get_available_slug
 from mediacore.model.meta import DBSession
 
@@ -47,6 +48,9 @@ def add_new_media_file(media, uploaded_file=None, url=None):
     """Create a new MediaFile for the provided Media object and File/URL
     and add it to that Media object's files list.
 
+    Will also attempt to set up duration and thumbnails according to the
+    'use_embed_thumbnails' setting.
+
     :param media: The Media object to append the file to
     :type media: :class:`~mediacore.model.media.Media` instance
     :param uploaded_file: An object with 'filename' and 'file' properties.
@@ -61,8 +65,26 @@ def add_new_media_file(media, uploaded_file=None, url=None):
         attach_and_store_media_file(media, media_file, uploaded_file.file)
     elif url is not None:
         # Looks like we were just given a URL. Create a MediaFile object with that URL.
-        media_file = media_file_from_url(url)
+        media_file, thumb_url, duration = media_file_from_url(url)
         media.files.append(media_file)
+
+        # Do we have a useful duration?
+        if duration and media.duration == 0:
+            media.duration = duration
+
+        # Do we need to create thumbs for an embedded media item?
+        use_et = asbool(app_globals.settings['use_embed_thumbnails'])
+        if use_et and thumb_url and len(media.files) == 1:
+            # Download the image into a buffer, wrap the buffer as a File-like
+            # object, and create the thumbs.
+            try:
+                temp_img = urllib2.urlopen(thumb_url)
+                file_like_img = StringIO(temp_img.read())
+                temp_img.close()
+                create_thumbs_for(media, file_like_img, thumb_url)
+                file_like_img.close()
+            except urllib2.URLError, e:
+                log.exception(e)
     else:
         raise formencode.Invalid(_('No File or URL provided.'), None, None)
 
@@ -89,10 +111,14 @@ def base_ext_container_from_uri(uri):
     return name, ext, container
 
 def media_file_from_url(url):
-    """Create and return  a MediaFile object representing a given URL.
+    """Create and return a MediaFile object representing a given URL.
+    Also returns the URL to a suitable thumbnail image (or None) and the
+    duration of the media file in seconds (or None).
 
     Does not add the created MediaFile to the database.
     """
+    thumb_url = None
+    duration = None
     media_file = MediaFile()
     # Parse the URL checking for known embeddables like YouTube
     embed = parse_embed_url(url)
@@ -102,6 +128,8 @@ def media_file_from_url(url):
         media_file.embed = embed['id']
         media_file.display_name = '%s ID: %s' % \
             (embed['container'].capitalize(), media_file.embed)
+        thumb_url = embed['thumb_url']
+        duration = embed['duration']
     else:
         # Check for types we can play ourselves
         name, ext, container = base_ext_container_from_uri(url)
@@ -110,7 +138,7 @@ def media_file_from_url(url):
         media_file.url = url
         media_file.display_name = os.path.basename(url)
 
-    return media_file
+    return media_file, thumb_url, duration
 
 def media_file_from_filename(filename):
     """Create and return a MediaFile object representing a given filename.
@@ -272,10 +300,12 @@ def save_media_obj(name, email, title, description, tags, uploaded_file, url):
     DBSession.add(media_obj)
     DBSession.flush()
 
+    # Create the thumbnails (these may be overwritten by add_new_media_file)
+    # if the media object is from YouTube, Vimeo, etc.
+    # TODO: reorganize this to avoid redundant thumbnail creation.
+    create_default_thumbs_for(media_obj)
+
     # Create a MediaFile object, add it to the media_obj, and store the file permanently.
     media_file = add_new_media_file(media_obj, uploaded_file, url)
-
-    # Create the thumbnails
-    create_default_thumbs_for(media_obj)
 
     return media_obj

@@ -118,6 +118,7 @@ def add_default_data():
         (u'akismet_key', u''),
         (u'akismet_url', u''),
         (u'req_comment_approval', u'false'),
+        (u'use_embed_thumbnails', u'true'),
     ]
 
     for key, value in settings:

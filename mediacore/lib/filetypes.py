@@ -15,6 +15,7 @@
 
 import re
 from pylons import app_globals, config, request
+from mediacore.lib.thumbnails import get_embed_details_youtube, get_embed_details_google, get_embed_details_vimeo
 
 __all__ = [
     'accepted_extensions',
@@ -125,18 +126,21 @@ external_embedded_containers = {
         'pattern': re.compile('^(http(s?)://)?(\w+.)?youtube.com/watch\?(.*&)?v=(?P<id>[^&#]+)'),
         'play': 'http://youtube.com/v/%s?rel=0&fs=1&hd=1',
         'link': 'http://youtube.com/watch?v=%s',
+        'get_details': get_embed_details_youtube,
         'type': VIDEO,
     },
     'google': {
         'pattern': re.compile('^(http(s?)://)?video.google.com/videoplay\?(.*&)?docid=(?P<id>-?\d+)'),
         'play': 'http://video.google.com/googleplayer.swf?docid=%s&hl=en&fs=true',
         'link': 'http://video.google.com/videoplay?docid=%s',
+        'get_details': get_embed_details_google,
         'type': VIDEO,
     },
     'vimeo': {
         'pattern': re.compile('^(http(s?)://)?(www.)?vimeo.com/(?P<id>\d+)'),
         'play': 'http://vimeo.com/moogaloop.swf?clip_id=%s&server=vimeo.com&show_title=1&show_byline=1&show_portrait=0&color=&fullscreen=1',
         'link': 'http://vimeo.com/%s',
+        'get_details': get_embed_details_vimeo,
         'type': VIDEO,
     },
 }
@@ -227,10 +231,13 @@ def parse_embed_url(url):
     for container, info in external_embedded_containers.iteritems():
         match = info['pattern'].match(url)
         if match is not None:
+            thumb_url, duration = info['get_details'](match.group('id'))
             return {
                 'container': container,
                 'id': match.group('id'),
                 'type': info['type'],
+                'thumb_url': thumb_url,
+                'duration': duration,
             }
     return None
 

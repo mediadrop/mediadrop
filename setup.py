@@ -31,6 +31,8 @@ install_requires = [
         # Patch pending: https://bugs.launchpad.net/beautifulsoup/+bug/397997
     'akismet == 0.2.0',
     'feedparser >= 4.1', # needed only for rss import script
+    'cElementTree >= 1, < 2',
+    'gdata > 2, < 2.1',
 ]
 
 # PIL has some weird packaging issues (because its been around forever).

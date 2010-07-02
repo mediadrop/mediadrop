@@ -1,7 +1,9 @@
 import pylons
 from mediacore.tests import *
+from mediacore.lib.compat import sha1
 from mediacore.lib.filetypes import pick_media_file_player
-from mediacore.lib.mediafiles import add_new_media_file
+from mediacore.lib.mediafiles import add_new_media_file, save_media_obj
+from mediacore.lib.thumbnails import thumb_path
 from mediacore.model import DBSession
 from sqlalchemy.exc import SQLAlchemyError
 
@@ -246,3 +248,69 @@ class TestHelpers(TestController):
             print "Sized:", browser, version, p_type, embedded, e_file, e_player
             assert player == players[e_player], "Expected %r but was %r" % (players[e_player], player)
             assert file == media_files[e_file], "Expected %r but got %r" % (media_files[e_file], file)
+
+    def test_add_youtube_video(self):
+        pylons.app_globals.settings['use_embed_thumbnails'] = 'true'
+        media = save_media_obj(
+            u'Fake Name',
+            u'fake@email.com',
+            u'Old Spice',
+            u'Isiah Mustafa stars in...',
+            u'',
+            None,
+            u'http://www.youtube.com/watch?v=uLTIowBF0kE'
+        )
+        # XXX: The following values are based on the values provided by the
+        #      remote site at the time this test was written. They may change
+        #      in future.
+        assert media.duration == 32
+        thumbnail_path = thumb_path(media, 's', exists=True)
+        assert thumbnail_path is not None
+        img = open(thumbnail_path)
+        s = sha1(img.read()).hexdigest()
+        img.close()
+        assert s == 'f0a3f5991fa032077faf2d3c698a6cf3e9dcadc1'
+
+    def test_add_google_video(self):
+        pylons.app_globals.settings['use_embed_thumbnails'] = 'true'
+        media = save_media_obj(
+            u'Fake Name',
+            u'fake@email.com',
+            u'Pictures at an Exhibition',
+            u'A nice, long, production of the orchestrated Pictures...',
+            u'',
+            None,
+            u'http://video.google.com/videoplay?docid=8997593004077118819'
+        )
+        # XXX: The following values are based on the values provided by the
+        #      remote site at the time this test was written. They may change
+        #      in future.
+        assert media.duration == 1121
+        thumbnail_path = thumb_path(media, 's', exists=True)
+        assert thumbnail_path is not None
+        img = open(thumbnail_path)
+        s = sha1(img.read()).hexdigest()
+        img.close()
+        assert s == 'f8e84e4a487c9ff6ea69ac696c199ae6ac222e38'
+
+    def test_add_vimeo_video(self):
+        pylons.app_globals.settings['use_embed_thumbnails'] = 'true'
+        media = save_media_obj(
+            u'Fake Name',
+            u'fake@email.com',
+            u'Python Code Swarm',
+            u'A visualization of all activity in the Python repository.',
+            u'',
+            None,
+            u'http://www.vimeo.com/1093745'
+        )
+        # XXX: The following values are based on the values provided by the
+        #      remote site at the time this test was written. They may change
+        #      in future.
+        assert media.duration == 282
+        thumbnail_path = thumb_path(media, 's', exists=True)
+        assert thumbnail_path is not None
+        img = open(thumbnail_path)
+        s = sha1(img.read()).hexdigest()
+        img.close()
+        assert s == '1eb9442b7864841e0f48270de7e3e871050b3876'

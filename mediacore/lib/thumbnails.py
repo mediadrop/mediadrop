@@ -14,14 +14,26 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import os
+import re
 import shutil
+import urllib2
+import simplejson
 from PIL import Image
+import gdata.youtube
+import gdata.youtube.service
 # XXX: note that pylons.url is imported here. Make sure to only use it with
-#      absolute paths (ie. those starting with a /)
+#      absolute paths (ie. those starting with a /) to avoid differences in
+#      behavior from mediacore.lib.helpers.url_for
 from pylons import config, url as url_for
+from mediacore import __version__ as VERSION
+from mediacore.lib.compat import max
+
+import logging
+log = logging.getLogger(__name__)
 
 __all__ = [
     'ThumbDict', 'create_default_thumbs_for', 'create_thumbs_for',
+    'get_embed_details_youtube', 'get_embed_details_google', 'get_embed_details_vimeo',
     'thumb', 'thumb_path', 'thumb_paths', 'thumb_url',
 ]
 
@@ -240,3 +252,79 @@ def create_default_thumbs_for(item):
         src_file = thumb_path((image_dir, 'new'), key)
         dst_file = thumb_path(item, key)
         shutil.copyfile(src_file, dst_file)
+
+def get_embed_details_youtube(id):
+    """Given a YouTube video ID, return the associated thumbnail URL and
+    the duration of the video.
+
+    :param id: a valid YouTube video ID
+    :type id: string
+    :returns: Thumbnail URL (or None), and duration (or None)
+    :rtype: tuple (string, int)
+    """
+    yt_service = gdata.youtube.service.YouTubeService()
+    yt_service.ssl = False
+    entry = yt_service.GetYouTubeVideoEntry(video_id=id)
+    duration = int(entry.media.duration.seconds)
+    tn = max(entry.media.thumbnail, key=lambda tn: int(tn.width))
+    thumb_url = tn.url
+
+    return thumb_url, duration
+
+google_image_rgx = re.compile(r'media:thumbnail url="([^"]*)"')
+google_duration_rgx = re.compile(r'duration="([^"]*)"')
+def get_embed_details_google(id):
+    """Given a Google Video ID, return the associated thumbnail URL and
+    the duration of the video.
+
+    :param id: a valid Google Video ID
+    :type id: string
+    :returns: Thumbnail URL (or None), and duration (or None)
+    :rtype: tuple (string, int)
+    """
+    google_data_url = 'http://video.google.com/videofeed?docid=%s' % id
+    thumb_url = None
+    duration = None
+    from mediacore.lib.helpers import decode_entities
+    try:
+        temp_data = urllib2.urlopen(google_data_url)
+        data = temp_data.read()
+        temp_data.close()
+        thumb_match = google_image_rgx.search(data)
+        dur_match = google_duration_rgx.search(data)
+        if thumb_match:
+            thumb_url = decode_entities(thumb_match.group(1))
+        if dur_match:
+            duration = int(dur_match.group(1))
+    except urllib2.URLError, e:
+        log.exception(e)
+
+    return thumb_url, duration
+
+def get_embed_details_vimeo(id):
+    """Given a Vimeo video ID, return the associated thumbnail URL and
+    the duration of the video.
+
+    :param id: a valid Vimeo video ID
+    :type id: string
+    :returns: Thumbnail URL (or None), and duration (or None)
+    :rtype: tuple (string, int)
+    """
+    # Vimeo API requires us to give a user-agent, to avoid 403 errors.
+    headers = {
+        'User-Agent': 'MediaCore %s' % VERSION,
+    }
+    vimeo_data_url = 'http://vimeo.com/api/v2/video/%s.%s' % (id, 'json')
+    req = urllib2.Request(vimeo_data_url, headers=headers)
+    thumb_url = None
+    duration = None
+    try:
+        temp_data = urllib2.urlopen(req)
+        data = simplejson.loads(temp_data.read())
+        temp_data.close()
+        thumb_url = data[0]['thumbnail_large']
+        duration = int(data[0]['duration'])
+    except urllib2.URLError, e:
+        log.exception(e)
+
+    return thumb_url, duration
