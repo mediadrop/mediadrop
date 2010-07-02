@@ -30,6 +30,7 @@ from webob.exc import HTTPNotFound
 from mediacore.model.meta import DBSession
 from mediacore.model import *
 from mediacore.lib import helpers
+from mediacore.lib.thumbnails import thumb_paths
 
 database = 'mediacore'
 user = 'root'
@@ -173,13 +174,13 @@ def remove_unnecessary_files():
         return
 
     for media in DBSession.query(Media).all():
-        file_paths = helpers.thumb_paths(media).values()
+        file_paths = thumb_paths(media).values()
         for f in media.files:
             file_paths.append(f.file_path)
         helpers.delete_files(file_paths, 'media')
 
     for podcast in DBSession.query(Podcast).all():
-        file_paths = helpers.thumb_paths(podcast).values()
+        file_paths = thumb_paths(podcast).values()
         helpers.delete_files(file_paths, 'podcasts')
 
 
@@ -192,7 +193,7 @@ def restore_necessary_files():
 
     filename_pairs = []
     for media in DBSession.query(Media).all():
-        for thumb in helpers.thumb_paths(media).values():
+        for thumb in thumb_paths(media).values():
             filename_pairs.append((
                 thumb.replace(m_img_dir, m_deleted_dir),
                 thumb
@@ -204,7 +205,7 @@ def restore_necessary_files():
                     file.file_path
                 ))
     for podcast in DBSession.query(Podcast).all():
-        for thumb in helpers.thumb_paths(podcast).values():
+        for thumb in thumb_paths(podcast).values():
             filename_pairs.append((
                 thumb.replace(p_img_dir, p_deleted_dir),
                 thumb

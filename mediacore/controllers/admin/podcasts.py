@@ -26,6 +26,7 @@ from mediacore.lib import helpers
 from mediacore.lib.base import BaseController
 from mediacore.lib.decorators import expose, expose_xhr, paginate, validate
 from mediacore.lib.helpers import redirect, url_for
+from mediacore.lib.thumbnails import thumb_paths, create_thumbs_for, create_default_thumbs_for
 from mediacore.model import Author, AuthorWithIP, Podcast, fetch_row, get_available_slug
 from mediacore.model.meta import DBSession
 
@@ -139,7 +140,7 @@ class PodcastsController(BaseController):
         podcast = fetch_row(Podcast, id)
 
         if delete:
-            file_paths = helpers.thumb_paths(podcast).values()
+            file_paths = thumb_paths(podcast).values()
             DBSession.delete(podcast)
             DBSession.commit()
             helpers.delete_files(file_paths, Podcast._thumb_dir)
@@ -160,7 +161,7 @@ class PodcastsController(BaseController):
         DBSession.flush()
 
         if id == 'new':
-            helpers.create_default_thumbs_for(podcast)
+            create_default_thumbs_for(podcast)
 
         redirect(action='edit', id=podcast.id)
 
@@ -195,7 +196,7 @@ class PodcastsController(BaseController):
 
         try:
             # Create JPEG thumbs
-            helpers.create_thumbs_for(podcast, thumb.file, thumb.filename)
+            create_thumbs_for(podcast, thumb.file, thumb.filename)
             success = True
             message = None
         except IOError, e:

@@ -10,6 +10,7 @@ conf = appconfig('config:deployment.ini', relative_to='../../..')
 load_environment(conf.global_conf, conf.local_conf)
 
 from mediacore.lib import helpers
+from mediacore.lib.thumbnails import thumb_path, create_default_thumbs_for
 from mediacore.model import *
 from mediacore.model.meta import DBSession
 
@@ -74,7 +75,7 @@ helpers.config['thumb_sizes'] = { # the dimensions (in pixels) to scale thumbnai
 
 for collection in (Media.query, Podcast.query):
     for item in collection:
-        if not helpers.thumb_path(item, 'm', exists=True):
-            helpers.create_default_thumbs_for(item)
+        if not thumb_path(item, 'm', exists=True):
+            create_default_thumbs_for(item)
             print 'Default thumbs created for', item
 

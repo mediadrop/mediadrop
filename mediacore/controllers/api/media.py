@@ -23,6 +23,7 @@ from mediacore.lib.base import BaseController
 from mediacore.lib.decorators import expose, expose_xhr, paginate, validate
 from mediacore.lib.helpers import url_for
 from mediacore.lib import helpers
+from mediacore.lib.thumbnails import thumb
 from mediacore.model import Category, Media, Podcast, Tag, fetch_row, get_available_slug
 from mediacore.model.meta import DBSession
 
@@ -253,7 +254,7 @@ class MediaController(BaseController):
 
         thumbs = {}
         for size in config['thumb_sizes'][media._thumb_dir].iterkeys():
-            thumbs[size] = helpers.thumb(media, size, qualified=True)
+            thumbs[size] = thumb(media, size, qualified=True)
 
         return dict(
             id = media.id,

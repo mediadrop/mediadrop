@@ -37,6 +37,7 @@ from mediacore.lib.base import BaseController
 from mediacore.lib.decorators import expose, expose_xhr, paginate, validate, validate_xhr
 from mediacore.lib.helpers import redirect, url_for
 from mediacore.lib.mediafiles import add_new_media_file
+from mediacore.lib.thumbnails import thumb_path, thumb_paths, create_thumbs_for, create_default_thumbs_for
 from mediacore.model import Author, Category, Media, Podcast, Tag, fetch_row, get_available_slug
 from mediacore.model.meta import DBSession
 
@@ -208,7 +209,7 @@ class MediaController(BaseController):
         media = fetch_row(Media, id)
 
         if delete:
-            file_paths = helpers.thumb_paths(media).values()
+            file_paths = thumb_paths(media).values()
             for f in media.files:
                 file_paths.append(f.file_path)
                 # Remove the file from the session so that SQLAlchemy doesn't
@@ -236,7 +237,7 @@ class MediaController(BaseController):
         DBSession.flush()
 
         if id == 'new':
-            helpers.create_default_thumbs_for(media)
+            create_default_thumbs_for(media)
 
         if request.is_xhr:
             status_form_xhtml = unicode(update_status_form.display(
@@ -309,7 +310,7 @@ class MediaController(BaseController):
             if id == 'new':
                 media.title = media_file.display_name
                 media.slug = get_available_slug(Media, '_stub_' + media.title)
-                helpers.create_default_thumbs_for(media)
+                create_default_thumbs_for(media)
 
             # Render some widgets so the XHTML can be injected into the page
             edit_form_xhtml = unicode(edit_file_form.display(
@@ -468,10 +469,10 @@ class MediaController(BaseController):
 
         # Copy the input thumb over the default thumbnail
         elif input.slug.startswith('_stub_') \
-        and filecmp.cmp(helpers.thumb_path(orig, 's'),
-                        helpers.thumb_path((Media._thumb_dir, 'new'), 's')):
-            for key, dst_path in helpers.thumb_paths(orig).iteritems():
-                src_path = helpers.thumb_path(input, key)
+        and filecmp.cmp(thumb_path(orig, 's'),
+                        thumb_path((Media._thumb_dir, 'new'), 's')):
+            for key, dst_path in thumb_paths(orig).iteritems():
+                src_path = thumb_path(input, key)
                 # This will raise an OSError on Windows, but not *nix
                 os.rename(src_path, dst_path)
             DBSession.delete(input)
@@ -538,7 +539,7 @@ class MediaController(BaseController):
 
         try:
             # Create JPEG thumbs
-            helpers.create_thumbs_for(media, thumb.file, thumb.filename)
+            create_thumbs_for(media, thumb.file, thumb.filename)
             success = True
             message = None
         except IOError, e:
