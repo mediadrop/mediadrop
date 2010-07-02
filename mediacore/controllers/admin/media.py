@@ -20,7 +20,7 @@ import filecmp
 import os
 from datetime import datetime
 
-from formencode import validators
+from formencode import Invalid, validators
 from pylons import config, request, response, session, tmpl_context
 from pylons.i18n import _
 from repoze.what.predicates import has_permission
