@@ -16,7 +16,7 @@
  */
 var MetaHover = new Class({
 
-	Implements: [Events, Class.Binds],
+	Implements: Events,
 
 	Binds: ['toggle', 'hide'],
 

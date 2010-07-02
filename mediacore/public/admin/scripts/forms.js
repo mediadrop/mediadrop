@@ -111,6 +111,7 @@ Class.refactor(Hash, {
  * @author Nathan Wright <nathan@simplestation.com>
  */
 (function(){
+
 Element.Properties.fieldValue = {
 
 	set: function(value){
@@ -122,10 +123,10 @@ Element.Properties.fieldValue = {
 			if (this.hasClass('tinymcearea')) tinyMCE.get(this.name).setContent(value || '');
 			this.value = value;
 		} else if (tag == 'select') {
-			if (this.multiple) _setChildren(this, 'option', 'selected', value);
+			if (this.multiple) _setOptions(this, 'option', 'selected', value);
 			else this.value = value;
 		} else if (tag == 'ul' || tag == 'ol') {
-			_setChildren(this, 'input', 'checked', value);
+			_setOptions(this, 'input', 'checked', value);
 		}
 	},
 
@@ -142,23 +143,23 @@ Element.Properties.fieldValue = {
 			if (this.hasClass('tinymcearea')) return tinyMCE.get(this.name).getContent();
 			return this.value;
 		} else if (tag == 'select') {
-			if (this.multiple) return _getChildren(this, 'option', 'selected');
+			if (this.multiple) return _getOptions(this, 'option', 'selected');
 			return this.value;
 		} else if (tag == 'ul' || tag == 'ol') {
-			return _getChildren(this, 'input', 'checked');
+			return _getOptions(this, 'input', 'checked');
 		}
 	}
 
 };
 
 // private helpers for fieldValue
-var _setChildren = function(el, tag, prop, value){
+var _setOptions = function(el, tag, prop, value){
 	value = $splat(value);
 	el.getElements(tag + '[' + prop + ']').set(prop, false);
 	for (var i = 0, l = value.length; i < l; i++) {
 		el.getElements(tag + '[value="' + value[i] + '"]').set(prop, true);
 	}
-}, _getChildren = function(el, tag, prop){
+}, _getOptions = function(el, tag, prop){
 	return child = el.getElements(tag + '[' + prop + ']').map(function(opt){
 		return opt.value;
 	});
@@ -169,6 +170,8 @@ var _setChildren = function(el, tag, prop, value){
 var BoxForm = new Class({
 
 	Implements: [Options, Events],
+
+	Binds: ['save', 'saved', 'updateSpinner'],
 
 	options: {
 	/*	onSave: function(values){},
@@ -183,7 +186,11 @@ var BoxForm = new Class({
 			'class': 'f-rgt form-saved',
 			text: 'Saved!'
 		},
-		error: {
+		failure: {
+			'class': 'f-rgt form-save-error',
+			text: 'Saving failed. Please try again.'
+		},
+		userError: {
 			'class': 'f-rgt form-save-error',
 			text: 'Please correct the highlighted errors and save again.'
 		},
@@ -195,7 +202,7 @@ var BoxForm = new Class({
 	initialize: function(form, opts){
 		this.setOptions(opts);
 		this.form = $(form).store('BoxForm', this)
-			.addEvent('submit', this.save.bind(this));
+			.addEvent('submit', this.save);
 		if (this.options.slug && this.form.elements['slug']) {
 			this.slug = new BoxForm.Slug(this.form.elements['slug'], this.options.slug);
 		}
@@ -205,8 +212,8 @@ var BoxForm = new Class({
 		e = new Event(e).preventDefault();
 		this.injectSpinner();
 		if (!this.request) this.request = new Request.JSON(this.options.save).addEvents({
-			success: this.saved.bind(this),
-			failure: function(){ alert('Saving failed. Please try again.'); }
+			success: this.saved,
+			failure: this.updateSpinner.pass('failure')
 		});
 		var values = this.form.get('formValues');
 		this.request.send({
@@ -220,8 +227,8 @@ var BoxForm = new Class({
 	saved: function(json){
 		this.form.set('formValues', json.values).getElements('span[class=field_error]').destroy();
 		if (!json.success) new Hash(json.errors).each(this.injectError, this);
-		this.updateSpinner(json.success);
-		this.fireEvent('save' + (json.success? 'Success' : 'Error'), json);
+		this.updateSpinner(json.success ? 'success' : 'userError');
+		this.fireEvent('save' + (json.success? 'Success' : 'UserError'), json);
 	},
 
 	injectError: function(msg, name){
@@ -236,10 +243,10 @@ var BoxForm = new Class({
 		this.form.getElement('.box-foot').adopt(this.spinner);
 	},
 
-	updateSpinner: function(success){
-		var props = this.options[success ? 'success' : 'error'];
+	updateSpinner: function(status){
+		var props = this.options[status];
 		this.spinner = new Element('span', props).replaces(this.spinner);
-		if (success) this.spinner.fade.delay(2000, this.spinner);
+		if (status == 'success') this.spinner.fade.delay(2000, this.spinner);
 	}
 
 });
@@ -248,7 +255,7 @@ BoxForm.Slug = new Class({
 
 	Implements: Options,
 
-	Binds: ['slugify'],
+	Binds: ['slugify', 'toggle'],
 
 	options: {
 		slugify: '',
@@ -264,7 +271,7 @@ BoxForm.Slug = new Class({
 		this.label.appendText(' ');
 		this.toggleButton = new Element('span', {text: 'Hide', 'class': 'slug-toggle link'})
 			.inject(this.label, 'bottom')
-			.addEvent('click', this.toggle.bind(this));
+			.addEvent('click', this.toggle);
 		this.setOptions(opts);
 		if (this.options.slugify) this.attachSlugifier();
 		this.show(false);
