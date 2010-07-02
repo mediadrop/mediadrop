@@ -133,6 +133,30 @@ MediaCore for the first time, point your browser to ``http://yourdomain/my_media
 
 If you don't see MediaCore make sure you've followed all of the instructions above!
 
+Performance Enhancements
+------------------------
+By default, all files are served through MediaCore. The configuration above
+ensures that Apache will serve all static files (.css, .js, and images)
+directly, but MediaCore will still check for static files before serving any
+page. There are two speedups we can enable here.
+
+First, edit one line in ``/path/to/mediacore_install/deployment.ini``. Find
+the static_files line, and set it to false.
+
+.. sourcecode:: ini
+
+   static_files = false
+
+The second speedup is only available if you have mod_xsendfile installed and
+enabled in Apache. MediaCore can take advantage of mod_xsendfile and have
+Apache serve all media files (.mp3, .mp4, etc.) directly. To enable this, edit
+another line in ``/path/to/mediacore_install/deployment.ini``. Find the
+files_serve_method line, and set it to apache_xsendfile.
+
+.. sourcecode:: ini
+
+   files_serve_method = apache_xsendfile
+
 Editing MediaCore
 -----------------
 If you make any changes to your MediaCore installation while Apache is running
