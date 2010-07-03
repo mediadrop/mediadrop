@@ -33,6 +33,8 @@
 			<h2>Notes</h2>
 			<ul class="caveats">
 				<li>Use the FTP options below if you want to store media files on a CDN instead of storing them locally.</li>
+				<li>In this release of MediaCore, only remote HTTP hosting is available: RTMP is unsupported.</li>
+				<li>Thumbnails will only ever be fetched from YouTube, Vimeo, etc. if the embedded video is the first media file added to a particular media item.</li>
 			</ul>
 		</div>
 		<form py:replace="XML(form(form_values))" />

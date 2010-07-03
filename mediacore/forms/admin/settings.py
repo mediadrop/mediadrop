@@ -143,7 +143,7 @@ class UploadForm(ListForm):
     css_class = 'form'
     submit_text = None
     fields = [
-        boolean_radiobuttonlist('use_embed_thumbnails', label_text='Automatically download thumbnails from YouTube, Vimeo, etc. if the first file added to a media item is an embedded video.'),
+        boolean_radiobuttonlist('use_embed_thumbnails', label_text='Automatically fetch thumbnails from YouTube, Vimeo, etc.'),
         TextField('max_upload_size', label_text='Max. allowed upload file size in megabytes', validator=MegaByteValidator(not_empty=True, min=0)),
         ListFieldSet('remote_ftp', suppress_label=True, legend='Remote FTP Storage Settings (Optional)', css_classes=['details_fieldset'], children=[
             boolean_radiobuttonlist('ftp_storage', label_text='Enable Remote FTP Storage for Uploaded Files?'),
