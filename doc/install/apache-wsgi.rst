@@ -159,11 +159,12 @@ files_serve_method line, and set it to apache_xsendfile.
 Editing MediaCore
 -----------------
 If you make any changes to your MediaCore installation while Apache is running
-you'll need to make sure that mod_wsgi recognizes those changes.
+(eg. if you upgrade MediaCore or make any customizations), you'll need to make
+sure that mod_wsgi recognizes those changes.
 
-The easiest way to do this is to stop the process that's running the app. A
-script that does this is included in
-``/path/to/mediacore_install/deployment-scripts/mod_wsgi/``:
+The easiest way to do this is to 'touch' the .wsgi script. This will modify the
+'last modified on' timestamp of the file, so that mod_wsgi thinks it has been
+updated and will read and re-load it.
 
 .. sourcecode:: bash
 
@@ -172,29 +173,4 @@ script that does this is included in
    cd deployment-scripts/mod_wsgi
 
    # Force a refresh of the mediacore code
-   ./mediacore-restart.sh
-
-   # This should have printed "MediaCore successfully stopped"
-   # If so, we're done!
-   # Visit http://yourdomain.com/my_media/ to see it in action!
-
-If this results in in error message like this:
-
-.. sourcecode:: text
-
-   -bash: kill: (xxxxx) - No such process
-
-Then MediaCore wasn't running properly in the first place.
-
-If, however, it results in in error message like this:
-
-.. sourcecode:: text
-
-   -bash: kill: (xxxxx) - Operation not permitted
-
-Then your Apache is not configured to run scripts as individualized users.
-This means that MediaCore is running as a user that is not you! Some people
-consider this to be a security problem, so you might want to look into how
-you've configured your server, but in the mean time, this isn't a problem:
-just use ``sudo`` to run the script.
-
+   touch mediacore.wsgi
