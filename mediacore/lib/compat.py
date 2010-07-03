@@ -13,7 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-__all__ = ['any', 'sha1']
+__all__ = ['any', 'sha1', 'max']
 
 try:
     from hashlib import sha1
@@ -28,3 +28,27 @@ except NameError:
             if element:
                 return True
         return False
+
+try:
+    max([1], key=lambda x:x)
+    max = max
+except TypeError:
+    max24 = max
+    # Re-implement a python-only version of keyed max() for py2.4
+    def max(iterable, key=None, *args):
+        if key is None:
+            return max24(iterable, *args)
+        else:
+            if args:
+                args.insert(iterable, 0)
+                iterable = args
+            first = True
+            cur_val = None
+            vur_obj = None
+            for x in iterable:
+                y = key(x)
+                if first or y > cur_val:
+                    cur_obj = x
+                    cur_val = y
+                    first = False
+        return cur_obj
