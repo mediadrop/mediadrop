@@ -24,7 +24,8 @@ from pylons import config
 from pylons.i18n import _
 
 from mediacore.lib import helpers
-from mediacore.lib.filetypes import accepted_extensions, guess_container_format, parse_embed_url
+from mediacore.lib.filetypes import accepted_extensions, guess_container_format
+from mediacore.lib.embedtypes import parse_embed_url
 from mediacore.forms import ListForm, TextField, XHTMLTextArea, FileField, SubmitButton, email_validator
 
 validators = dict(

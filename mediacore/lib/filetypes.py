@@ -15,7 +15,6 @@
 
 import re
 from pylons import app_globals, config, request
-from mediacore.lib.thumbnails import get_embed_details_youtube, get_embed_details_google, get_embed_details_vimeo
 
 __all__ = [
     'accepted_extensions',
@@ -120,31 +119,6 @@ guess_media_type_map = {
     'srt':  CAPTIONS,
 }
 
-# Patterns for embedding third party video which extract the video ID
-external_embedded_containers = {
-    'youtube': {
-        'pattern': re.compile('^(http(s?)://)?(\w+.)?youtube.com/watch\?(.*&)?v=(?P<id>[^&#]+)'),
-        'play': 'http://youtube.com/v/%s?rel=0&fs=1&hd=1',
-        'link': 'http://youtube.com/watch?v=%s',
-        'get_details': get_embed_details_youtube,
-        'type': VIDEO,
-    },
-    'google': {
-        'pattern': re.compile('^(http(s?)://)?video.google.com/videoplay\?(.*&)?docid=(?P<id>-?\d+)'),
-        'play': 'http://video.google.com/googleplayer.swf?docid=%s&hl=en&fs=true',
-        'link': 'http://video.google.com/videoplay?docid=%s',
-        'get_details': get_embed_details_google,
-        'type': VIDEO,
-    },
-    'vimeo': {
-        'pattern': re.compile('^(http(s?)://)?(www.)?vimeo.com/(?P<id>\d+)'),
-        'play': 'http://vimeo.com/moogaloop.swf?clip_id=%s&server=vimeo.com&show_title=1&show_byline=1&show_portrait=0&color=&fullscreen=1',
-        'link': 'http://vimeo.com/%s',
-        'get_details': get_embed_details_vimeo,
-        'type': VIDEO,
-    },
-}
-
 # The list of file extensions that flash should recognize and be able to play.
 flash_supported_containers = ['mp3', 'mp4', 'm4v', 'm4a', 'flv', 'flac']
 flash_supported_browsers = ['firefox', 'opera', 'chrome', 'safari', 'android', 'unknown']
@@ -219,28 +193,6 @@ def accepted_extensions():
     e.sort()
     return e
 
-def parse_embed_url(url):
-    """Parse the URL to return relevant info if its a for valid embed.
-
-    :param url: A fully qualified URL.
-    :returns: The container (embed site name), the unique id,
-        and a type (audio or video).
-    :rtype: dict or None
-
-    """
-    for container, info in external_embedded_containers.iteritems():
-        match = info['pattern'].match(url)
-        if match is not None:
-            thumb_url, duration = info['get_details'](match.group('id'))
-            return {
-                'container': container,
-                'id': match.group('id'),
-                'type': info['type'],
-                'thumb_url': thumb_url,
-                'duration': duration,
-            }
-    return None
-
 def parse_user_agent_version(ua=None):
     """Return a tuple representing the user agent's browser name and version.
 
@@ -309,6 +261,7 @@ def guess_media_type(extension=None, embed=None, default=VIDEO):
     if extension is not None:
         return guess_media_type_map.get(extension, default)
     if embed is not None:
+        from mediacore.lib.embedtypes import external_embedded_containers
         return external_embedded_containers.get(embed, {}).get('type', default)
     return default
 
@@ -408,6 +361,7 @@ def pick_media_file_player(files, browser=None, version=None, user_agent=None,
         return None, None
 
     def get_embedded_player():
+        from mediacore.lib.embedtypes import external_embedded_containers
         for file in files:
             if file.container in external_embedded_containers:
                 return file, players[file.container]

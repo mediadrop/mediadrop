@@ -26,8 +26,8 @@ from pylons import app_globals, config
 from pylons.i18n import _
 
 from mediacore.lib.compat import sha1
-from mediacore.lib.filetypes import (guess_container_format, guess_media_type,
-    parse_embed_url)
+from mediacore.lib.filetypes import guess_container_format, guess_media_type
+from mediacore.lib.embedtypes import parse_embed_url
 from mediacore.lib.thumbnails import create_default_thumbs_for, create_thumbs_for
 from mediacore.model import Author, Media, MediaFile, get_available_slug
 from mediacore.model.meta import DBSession
