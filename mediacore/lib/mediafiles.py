@@ -28,7 +28,7 @@ from pylons.i18n import _
 from mediacore.lib.compat import sha1
 from mediacore.lib.filetypes import guess_container_format, guess_media_type
 from mediacore.lib.embedtypes import parse_embed_url
-from mediacore.lib.thumbnails import create_default_thumbs_for, create_thumbs_for
+from mediacore.lib.thumbnails import create_default_thumbs_for, create_thumbs_for, thumb_path
 from mediacore.model import Author, Media, MediaFile, get_available_slug
 from mediacore.model.meta import DBSession
 
@@ -309,12 +309,11 @@ def save_media_obj(name, email, title, description, tags, uploaded_file, url):
     DBSession.add(media_obj)
     DBSession.flush()
 
-    # Create the thumbnails (these may be overwritten by add_new_media_file)
-    # if the media object is from YouTube, Vimeo, etc.
-    # TODO: reorganize this to avoid redundant thumbnail creation.
-    create_default_thumbs_for(media_obj)
-
     # Create a MediaFile object, add it to the media_obj, and store the file permanently.
     media_file = add_new_media_file(media_obj, uploaded_file, url)
+
+    # The thumbs may have been created already by add_new_media_file
+    if not thumb_path(media_obj, 's', exists=True):
+        create_default_thumbs_for(media_obj)
 
     return media_obj
