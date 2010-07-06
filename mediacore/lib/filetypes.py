@@ -21,7 +21,6 @@ __all__ = [
     'guess_container_format'
     'guess_media_type',
     'guess_mimetype',
-    'parse_embed_url',
     'pick_media_file_player',
 ]
 

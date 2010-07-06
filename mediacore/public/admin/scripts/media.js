@@ -75,10 +75,10 @@ var MediaManager = new Class({
 	onFileAdded: function(json){
 		if (this.isNew) {
 			this.initNewMedia(json.media_id);
-			this.setStubData(json.title, json.slug, json.link);
 			this.updateFormActions(json.media_id);
 			this.thumbUploader.setNewID(json.media_id);
 		}
+		this.setStubData(json.title, json.slug, json.link);
 		if (this.newID && this.newID != json.media_id) {
 			this.mergeMedia(json.media_id);
 		} else {
@@ -110,9 +110,10 @@ var MediaManager = new Class({
 	},
 
 	setStubData: function(title, slug, link){
-		if (!this.metaForm.form.title.value) {
+		var slugObj = this.metaForm.slug;
+		if (!slugObj.field.value || slugObj.field.value.match(/^_stub_/)) {
+			slugObj.setSlug(slug);
 			this.metaForm.form.title.value = title;
-			this.metaForm.slug.setSlug(slug);
 		}
 		this.updateTitle(title, link);
 	},

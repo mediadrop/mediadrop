@@ -289,7 +289,7 @@ class MediaController(BaseController):
             # Create a temp stub until we can set it to something meaningful
             timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             media.title = u'Temporary stub %s' % timestamp
-            media.slug = get_available_slug(Media, '_slug_' + timestamp)
+            media.slug = get_available_slug(Media, '_stub_' + timestamp)
             DBSession.add(media)
             DBSession.flush()
         else:
@@ -304,13 +304,13 @@ class MediaController(BaseController):
                 message = message,
             )
         else:
-            if id == 'new':
+            if media.slug.startswith('_stub_'):
                 media.title = media_file.display_name
                 media.slug = get_available_slug(Media, '_stub_' + media.title)
 
-                # The thumbs may have been created already by add_new_media_file
-                if not thumb_path(media, 's', exists=True):
-                    create_default_thumbs_for(media)
+            # The thumbs may have been created already by add_new_media_file
+            if id == 'new' and not thumb_path(media, 's', exists=True):
+                create_default_thumbs_for(media)
 
             # Render some widgets so the XHTML can be injected into the page
             edit_form_xhtml = unicode(edit_file_form.display(

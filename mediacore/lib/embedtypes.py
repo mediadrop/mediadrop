@@ -42,8 +42,9 @@ def get_embed_details_youtube(id):
     duration = int(entry.media.duration.seconds)
     tn = max(entry.media.thumbnail, key=lambda tn: int(tn.width))
     thumb_url = tn.url
+    title = unicode(entry.media.title.text)
 
-    return thumb_url, duration
+    return thumb_url, duration, title
 
 google_image_rgx = re.compile(r'media:thumbnail url="([^"]*)"')
 google_duration_rgx = re.compile(r'duration="([^"]*)"')
@@ -59,6 +60,7 @@ def get_embed_details_google(id):
     google_data_url = 'http://video.google.com/videofeed?docid=%s' % id
     thumb_url = None
     duration = None
+    title = None # Google Video doesn't appear to expose the title
     from mediacore.lib.helpers import decode_entities
     try:
         temp_data = urllib2.urlopen(google_data_url)
@@ -73,7 +75,7 @@ def get_embed_details_google(id):
     except urllib2.URLError, e:
         log.exception(e)
 
-    return thumb_url, duration
+    return thumb_url, duration, title
 
 def get_embed_details_vimeo(id):
     """Given a Vimeo video ID, return the associated thumbnail URL and
@@ -92,16 +94,18 @@ def get_embed_details_vimeo(id):
     req = urllib2.Request(vimeo_data_url, headers=headers)
     thumb_url = None
     duration = None
+    title = None
     try:
         temp_data = urllib2.urlopen(req)
         data = simplejson.loads(temp_data.read())
         temp_data.close()
         thumb_url = data[0]['thumbnail_large']
         duration = int(data[0]['duration'])
+        title = unicode(data[0]['title'])
     except urllib2.URLError, e:
         log.exception(e)
 
-    return thumb_url, duration
+    return thumb_url, duration, title
 
 # Patterns for embedding third party video which extract the video ID
 external_embedded_containers = {
@@ -140,12 +144,13 @@ def parse_embed_url(url):
     for container, info in external_embedded_containers.iteritems():
         match = info['pattern'].match(url)
         if match is not None:
-            thumb_url, duration = info['get_details'](match.group('id'))
+            thumb_url, duration, title = info['get_details'](match.group('id'))
             return {
                 'container': container,
                 'id': match.group('id'),
                 'type': info['type'],
                 'thumb_url': thumb_url,
                 'duration': duration,
+                'title': title,
             }
     return None

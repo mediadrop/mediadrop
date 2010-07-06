@@ -65,8 +65,12 @@ def add_new_media_file(media, uploaded_file=None, url=None):
         attach_and_store_media_file(media, media_file, uploaded_file.file)
     elif url is not None:
         # Looks like we were just given a URL. Create a MediaFile object with that URL.
-        media_file, thumb_url, duration = media_file_from_url(url)
+        media_file, thumb_url, duration, title = media_file_from_url(url)
         media.files.append(media_file)
+
+        if title and media.slug.startswith('_stub_'):
+            media.title = title
+            media.slug = get_available_slug(Media, title, media)
 
         # Do we have a useful duration?
         if duration and not media.duration:
@@ -119,6 +123,7 @@ def media_file_from_url(url):
     """
     thumb_url = None
     duration = None
+    title = None
     media_file = MediaFile()
     # Parse the URL checking for known embeddables like YouTube
     embed = parse_embed_url(url)
@@ -126,8 +131,12 @@ def media_file_from_url(url):
         media_file.type = embed['type']
         media_file.container = embed['container']
         media_file.embed = embed['id']
-        media_file.display_name = '%s ID: %s' % \
-            (embed['container'].capitalize(), media_file.embed)
+        title = embed['title']
+        if title:
+            media_file.display_name = title
+        else:
+            media_file.display_name = '%s ID: %s' % \
+                (embed['container'].capitalize(), media_file.embed)
         thumb_url = embed['thumb_url']
         duration = embed['duration']
     else:
@@ -138,7 +147,7 @@ def media_file_from_url(url):
         media_file.url = url
         media_file.display_name = os.path.basename(url)
 
-    return media_file, thumb_url, duration
+    return media_file, thumb_url, duration, title
 
 def media_file_from_filename(filename):
     """Create and return a MediaFile object representing a given filename.
