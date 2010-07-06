@@ -295,20 +295,22 @@ class MediaController(BaseController):
         else:
             media = fetch_row(Media, id)
 
-        message = None
         try:
             media_file = add_new_media_file(media, file, url)
         except Invalid, e:
             DBSession.rollback()
-            message = e.message
-
-        if not message:
-            data = {'success': True}
-
+            data = dict(
+                success = False,
+                message = message,
+            )
+        else:
             if id == 'new':
                 media.title = media_file.display_name
                 media.slug = get_available_slug(Media, '_stub_' + media.title)
-                create_default_thumbs_for(media)
+
+                # The thumbs may have been created already by add_new_media_file
+                if not thumb_path(media, 's', exists=True):
+                    create_default_thumbs_for(media)
 
             # Render some widgets so the XHTML can be injected into the page
             edit_form_xhtml = unicode(edit_file_form.display(
@@ -318,7 +320,8 @@ class MediaController(BaseController):
                 action=url_for(action='update_status', id=media.id),
                 media=media))
 
-            data.update(dict(
+            data = dict(
+                success = True,
                 media_id = media.id,
                 file_id = media_file.id,
                 file_type = media_file.type,
@@ -328,9 +331,7 @@ class MediaController(BaseController):
                 slug = media.slug,
                 link = url_for(action='edit', id=media.id),
                 duration = helpers.duration_from_seconds(media.duration),
-            ))
-        else:
-            data = {'success': False, 'message': message}
+            )
 
         return data
 
