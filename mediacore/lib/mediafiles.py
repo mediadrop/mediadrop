@@ -69,7 +69,7 @@ def add_new_media_file(media, uploaded_file=None, url=None):
         media.files.append(media_file)
 
         # Do we have a useful duration?
-        if duration and media.duration == 0:
+        if duration and not media.duration:
             media.duration = duration
 
         # Do we need to create thumbs for an embedded media item?
