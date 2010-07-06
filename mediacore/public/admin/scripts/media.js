@@ -77,12 +77,14 @@ var MediaManager = new Class({
 			this.initNewMedia(json.media_id);
 			this.setStubData(json.title, json.slug, json.link);
 			this.updateFormActions(json.media_id);
+			this.thumbUploader.setNewID(json.media_id);
 		}
 		if (this.newID && this.newID != json.media_id) {
 			this.mergeMedia(json.media_id);
 		} else {
 			this.updateStatusForm(json.status_form);
 		}
+		this.thumbUploader.refreshThumb();
 	},
 
 	onFileEdited: function(json){
@@ -392,6 +394,7 @@ var FileManager = new Class({
 		if (replaces) row.replaces(replaces);
 		else row.inject(this.tbody);
 		this.updateDisplay();
+		if (resp.duration) this.syncDurations(resp.duration);
 		row.highlight();
 		return this.fireEvent('fileAdded', [resp, row, replaces]);
 	},
@@ -599,7 +602,8 @@ var FileList = new Class({
 	onFileAdded: function(json, row, replaces){
 		// a file has been added. it may have been a queued file (already in the list)
 		// or its a URL being added and it's the first time we're seeing it
-		if (replaces) var li = this.list.getElementById('list-' + replaces.id).set('id', 'list-' + row.id);
+		if (replaces) replaces = this.list.getElementById('list-' + replaces.id);
+		if (replaces) var li = replaces.set('id', 'list-' + row.id);
 		else var li = this._createLi(row).inject(this.list);
 		li.className = row.className;
 		var namelink = row.getElement('td[headers="thf-name"]').getChildren();

@@ -240,19 +240,23 @@ var ThumbUploader = new Class({
 		if (!file.response.error){
 			var json = JSON.decode(file.response.text, true);
 			if (json.success) {
-				if (json.id) {
-					var src = this.image.get('src'), newsrc = src.replace(/\/new([sml])\.(jpg|png)/, '/' + json.id + '$1.$2');
-					if (src != newsrc) this.image.set('src', newsrc);
-				}
+				if (json.id) this.setNewID(json.id);
 				this.refreshThumb();
 			}
 		}
+	},
+
+	setNewID: function(id){
+		var src = this.image.get('src'), newsrc = src.replace(/\/new([sml])\.(jpg|png)/, '/' + id + '$1.$2');
+		if (newsrc && src != newsrc) this.image.set('src', newsrc);
+		return this;
 	},
 
 	refreshThumb: function(){
 		var src = this.image.get('src'), qsStart = src.indexOf('?');
 		if (qsStart > 0) src = src.substr(0, qsStart);
 		this.image.set('src', src + '?' + $time());
+		return this;
 	}
 
 });

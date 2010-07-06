@@ -327,6 +327,7 @@ class MediaController(BaseController):
                 title = media.title,
                 slug = media.slug,
                 link = url_for(action='edit', id=media.id),
+                duration = helpers.duration_from_seconds(media.duration),
             ))
         else:
             data = {'success': False, 'message': message}
