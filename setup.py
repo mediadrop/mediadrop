@@ -13,7 +13,7 @@ install_requires = [
     'WebTest == 1.2',
     'Pylons == 0.10',
     'WebHelpers == 1.0',
-    'SQLAlchemy >= 0.6.1',
+    'SQLAlchemy >= 0.6.2',
     'sqlalchemy-migrate >= 0.6dev',
     'Genshi >= 0.5.1',
     'Routes == 1.12',
