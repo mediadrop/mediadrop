@@ -649,6 +649,9 @@ a:focus .grid-title {
 	font: 12px Verdana, sans-serif;
 	padding: 3px;
 }
+.form .form-field-wide {
+	position: relative;
+}
 .xhtml-description-helper p,
 .xhtml-description-helper li {
 	margin: 1em 0;

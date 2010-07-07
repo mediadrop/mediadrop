@@ -15,65 +15,46 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 var OverTextManager = new Class({
-	form: null,
-	ots: [],
 
 	initialize: function(form) {
 		this.form = $(form);
-		this.ots = this.form.getElements('input[type=text], textarea').map(function(el) {
-			return new CustomOverText(el, {
-				poll: true,
-				pollInterval: 400,
-				wrap: true
-			});
+		this.ots = this.form.getElements('input[type=text], textarea').map(function(el){
+			return new CustomOverText(el);
 		});
 	}
+
 });
 
 var CustomOverText = new Class({
+
 	Extends: OverText,
-	
-	getLabelElement: function() {
-		var els = $$('label[for='+this.element.id+']');
-		if (els.length > 0) {
-			return els[0];
-		} else {
-			return undefined;
-		}
+
+	getLabelElement: function(){
+		var form = this.element.getParent('form');
+		return (form ? form.getElement('label[for='+this.element.id+']') : null);
 	},
 
-	modifyForm: function() {
-		var oldParent = $(this.text.parentNode);
-		var newParent = $(this.element.parentNode);
-		oldParent.removeChild(this.text);
-		this.text.inject(this.element, 'after');
-		oldParent.destroy();
-		newParent.removeClass('form-field');
-		newParent.addClass('form-field-wide');
+	modifyForm: function(){
+		var labelDiv = this.text.getParent();
+		var fieldDiv = this.element.getParent();
+		fieldDiv.adopt(this.text).removeClass('form-field').addClass('form-field-wide');
+		labelDiv.destroy();
+		return this;
 	},
 
-	attach: function() {
+	attach: function(){
 		this.text = this.getLabelElement();
-		if ($defined(this.text)) {
-			// Element exists!
-			this.modifyForm();
-			this.text.addEvent('click', this.hide.pass(true, this))
-			this.element.addEvents({
-				focus: this.focus,
-				blur: this.assert,
-				change: this.assert
-			}).store('OverTextDiv', this.text);
-			window.addEvent('resize', this.reposition.bind(this));
-			/* Sometimes there's a race condition that prevents the
-			 * elements from getting displayed correctly (they're positioned
-			 * too far up the page). This should reset them after 1 second. */
-			this.assert.delay(1000, this);
-			this.reposition.delay(1300, this);
-		} else {
-			// label element doesn't exist. fall back to
-			// regular OverText behaviour and create one.
-			this.parent();
-		}
+		if (!this.text) return this.parent(); // label element doesn't exist. fall back to regular OverText behaviour and create one.
+		this.modifyForm();
+		this.text.addEvent('click', this.hide.pass(true));
+		this.element.addEvents({
+			focus: this.focus,
+			blur: this.assert,
+			change: this.assert
+		}).store('OverTextDiv', this.text);
+		window.addEvent('resize', this.reposition);
+		this.assert(true);
+		return this.reposition();
 	}
 });
 
