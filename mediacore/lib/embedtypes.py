@@ -42,7 +42,7 @@ def get_embed_details_youtube(id):
     duration = int(entry.media.duration.seconds)
     tn = max(entry.media.thumbnail, key=lambda tn: int(tn.width))
     thumb_url = tn.url
-    title = unicode(entry.media.title.text)
+    title = unicode(entry.media.title.text, 'utf-8')
 
     return thumb_url, duration, title
 
