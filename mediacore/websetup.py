@@ -127,8 +127,6 @@ def add_default_data():
         s.value = value
         DBSession.add(s)
 
-    log.info('Adding default data for media, podcasts, categories')
-
     u = User()
     u.user_name = u'admin'
     u.display_name = u'Admin'
