@@ -301,7 +301,7 @@ class MediaController(BaseController):
             DBSession.rollback()
             data = dict(
                 success = False,
-                message = message,
+                message = e.message,
             )
         else:
             if media.slug.startswith('_stub_'):
