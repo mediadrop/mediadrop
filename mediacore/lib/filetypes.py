@@ -55,13 +55,13 @@ mimetype_lookup = {
     'mka':  'audio/x-matroska',
     'mkv':  'video/x-matroska',
     '3gp':  '%s/3gpp',
-    '3g2':  '%s/3gpp',
     'avi':  'video/avi',
     'dv':   'video/x-dv',
     'flv':  'video/x-flv', # made up, it's what everyone uses anyway.
     'mov':  'video/quicktime',
     'mpeg': '%s/mpeg',
     'mpg':  '%s/mpeg',
+    'webm': '%s/webm',
     'wmv':  'video/x-ms-wmv',
     'xml':  'application/ttml+xml',
     'srt':  'text/plain',
@@ -75,6 +75,7 @@ container_lookup = {
     'audio/mpeg': 'mp3',
     'audio/ogg': 'ogg',
     'audio/x-matroska': 'mka',
+    'audio/webm': 'webm',
     'video/3gpp': '3gp',
     'video/avi': 'avi',
     'video/mp4': 'mp4',
@@ -86,6 +87,7 @@ container_lookup = {
     'video/x-matroska': 'mkv',
     'video/x-ms-wmv': 'wmv',
     'video/x-vob': 'vob',
+    'video/webm': 'webm',
     'application/ttml+xml': 'xml',
     'text/plain': 'srt',
 }
@@ -106,13 +108,13 @@ guess_media_type_map = {
     'mka':  AUDIO,
     'mkv':  VIDEO,
     '3gp':  VIDEO,
-    '3g2':  VIDEO,
     'avi':  VIDEO,
     'dv':   VIDEO,
     'flv':  VIDEO,
     'mov':  VIDEO,
     'mpeg': VIDEO,
     'mpg':  VIDEO,
+    'webm': VIDEO,
     'wmv':  VIDEO,
     'xml':  CAPTIONS,
     'srt':  CAPTIONS,
@@ -140,14 +142,17 @@ flash_supported_browsers = ['firefox', 'opera', 'chrome', 'safari', 'android', '
 native_supported_containers_codecs = {
     'firefox': [
         (3.5, 'ogg', ['theora', 'vorbis']),
+        (4.0, 'webm', ['vp8', 'vorbis']),
     ],
     'opera': [
         (10.5, 'ogg', ['theora', 'vorbis']),
+        (10.6, 'webm', ['vp8', 'vorbis']),
     ],
     'chrome': [
         (3.0, 'ogg', ['theora', 'vorbis']),
         (3.0, 'mp4', ['h264', 'aac']),
         (3.0, 'mp3', []),
+        (6.0, 'webm', ['vp8', 'vorbis']), # XXX: Support was actually added in 6.0.453.1, WebKit 534
     ],
     'safari': [
         (522, 'mp4', ['h264', 'aac']), # revision 522 was introduced in version 3.0
