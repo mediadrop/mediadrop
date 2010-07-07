@@ -1,3 +1,0 @@
-ALTER TABLE `podcasts`
- MODIFY COLUMN `author_name`  VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
- MODIFY COLUMN `author_email` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;

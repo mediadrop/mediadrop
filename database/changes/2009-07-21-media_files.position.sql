@@ -1,1 +1,0 @@
-ALTER TABLE `media_files` CHANGE COLUMN `order` `position` TINYINT(3) UNSIGNED NOT NULL DEFAULT 0;

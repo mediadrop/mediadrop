@@ -1,7 +1,6 @@
 include LICENSE.txt
 include development.ini
 include ez_setup.py
-include setup.sql
 include setup_triggers.sql
 include mediacore/config/deployment.ini_tmpl
 include data/media/.htaccess

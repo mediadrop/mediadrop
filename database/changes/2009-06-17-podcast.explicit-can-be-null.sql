@@ -1,1 +1,0 @@
-ALTER TABLE `podcasts` MODIFY COLUMN `explicit` TINYINT(1) DEFAULT NULL;

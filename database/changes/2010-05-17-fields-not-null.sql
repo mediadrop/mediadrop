@@ -1,4 +1,0 @@
-ALTER TABLE `media`
-	MODIFY COLUMN `slug` VARCHAR(50) CHARACTER SET ascii COLLATE ascii_general_ci NOT NULL;
-ALTER TABLE `media_fulltext`
-	MODIFY COLUMN `title` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
