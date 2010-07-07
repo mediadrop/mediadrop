@@ -21,12 +21,12 @@ from mediacore.forms import ListFieldSet, ListForm, ResetButton, SubmitButton, T
 from mediacore.forms.admin.categories import category_options
 
 flash_players = [
-    ('flowplayer', Markup('<a href="http://flowplayer.org">FlowPlayer</a> - <a href="http://flowplayer.org/download/license_gpl.htm">Licence</a>')),
-    ('jwplayer', Markup('<a href="http://longtailvideo.com">JWPlayer</a> - <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Licence</a>')),
+    ('flowplayer', Markup('<a href="http://flowplayer.org">FlowPlayer</a> - <a href="http://flowplayer.org/download/license_gpl.htm">GPL Licence</a>')),
+    ('jwplayer', Markup('<a href="http://longtailvideo.com">JWPlayer</a> - <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/">CC Non-Commercial Licence</a>')),
 ]
 html5_players = [
+    ('html5', Markup('<a href="http://diveintohtml5.org/video.html">Plain &lt;video&gt; tag</a>')),
     ('sublime', Markup('<a href="http://jilion.com/sublime/video">Sublime</a> - not yet available')),
-    ('html5', Markup('<a href="http://diveintohtml5.org/video.html">&lt;video&gt; tag</a> - not fully implemented in all browsers')),
 ]
 player_types = [
     ('html5', 'Always use the selected HTML5 player'),
@@ -35,8 +35,8 @@ player_types = [
 ]
 
 rich_text_editors = [
-    ('tinymce', 'Enable TinyMCE for <textarea> fields that accept XHTML input.'),
     ('plain', 'Plain <textarea> fields'),
+    ('tinymce', Markup('Enable <a href="http://tinymce.moxiecode.com">TinyMCE</a> for &lt;textarea&gt; fields that accept XHTML input. - <a href="http://wiki.moxiecode.com/index.php/TinyMCE:License">LGPL License</a>')),
 ]
 
 def boolean_radiobuttonlist(name, **kwargs):
