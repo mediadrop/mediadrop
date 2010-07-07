@@ -183,12 +183,19 @@ user_agent_regexes = (
     ('itunes', re.compile(r'iTunes/(\d+\.\d+)')),
 )
 
-def accepted_extensions():
+def accepted_extensions(*types):
     """Return the extensions allowed for upload.
+
+    Limit to certain file types like so::
+
+        audio_video_exts = accepted_extensions('audio', 'video')
 
     :rtype: list
     """
-    e = mimetype_lookup.keys()
+    if types:
+        e = [e for e, t in guess_media_type_map.iteritems() if t in types]
+    else:
+        e = guess_media_type_map.keys()
     e.sort()
     return e
 

@@ -377,13 +377,13 @@ def list_acceptable_xhtml():
         map = ", ".join(["%s -> %s" % (t, elem_map[t]) for t in elem_map])
     )
 
-def list_accepted_extensions():
+def list_accepted_extensions(*args, **kwargs):
     """Return the extensions allowed for upload for printing.
 
     :returns: Comma separated extensions
     :rtype: unicode
     """
-    e = accepted_extensions()
+    e = accepted_extensions(*args, **kwargs)
     if len(e) > 1:
         e[-1] = 'and ' + e[-1]
     return ', '.join(e)
