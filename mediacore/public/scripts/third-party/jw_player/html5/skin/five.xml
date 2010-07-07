@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<skin version="1.0" name="Five" author="LongTail Video">
+
+	<settings>
+		<setting name="backcolor" value="0xFFFFFF" />
+		<setting name="frontcolor" value="0x000000" />
+		<setting name="lightcolor" value="0x000000" />
+		<setting name="screencolor" value="0x000000" />
+	</settings>
+
+	<components>
+		<component name="controlbar">
+			<settings>
+				<setting name="margin" value="20" />
+				<setting name="fontsize" value="11" />
+			</settings>
+
+			<elements>
+				<element name="background" src="back.png" />
+				<element name="capLeft" src="divider.png" />
+				<element name="capRight" src="divider.png" />
+				<element name="divider" src="divider.png" />
+				<element name="playButton" src="play.png" />
+				<element name="pauseButton" src="pause.png" />
+				<element name="prevButton" src="prev.png" />
+				<element name="nextButton" src="next.png" />
+				<element name="timeSliderRail" src="timeRail.png" />
+				<element name="timeSliderBuffer" src="timeBuffer.png" />
+				<element name="timeSliderProgress" src="timeProgress.png" />
+				<element name="timeSliderThumb" src="timeThumb.png" />
+				<element name="muteButton" src="mute.png" />
+				<element name="unmuteButton" src="unmute.png" />
+				<element name="volumeSliderRail" src="volumeRail.png" />
+				<element name="volumeSliderProgress" src="volumeProgress.png" />
+				<element name="fullscreenButton" src="fullscreen.png" />
+				<element name="normalscreenButton" src="normalscreen.png" />
+			</elements>
+		</component>
+
+		<component name="display">
+			<elements>
+				<element name="background" src="back.png" />
+				<element name="playIcon" src="play.png" />
+				<element name="muteIcon" src="mute.png" />
+				<element name="errorIcon" src="error.png" />
+				<element name="bufferIcon" src="buffer.png" />
+			</elements>
+		</component>
+
+		<component name="dock">
+			<elements>
+				<element name="button" src="back.png" />
+			</elements>
+		</component>
+
+		<component name="playlist">
+			<elements>
+				<element name="item" src="item.png" />
+				<element name="sliderRail" src="rail.png" />
+				<element name="sliderThumb" src="thumb.png" />
+			</elements>
+		</component>
+
+	</components>
+
+</skin>
