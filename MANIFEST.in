@@ -8,14 +8,16 @@ include data/deleted/.htaccess
 include data/tmp/.htaccess
 include doc/Makefile
 include doc/python.inv
+recursive-include batch-scripts *
 recursive-include deployment-scripts *
+recursive-include dependencies *
 recursive-include doc *.py
 recursive-include doc *.rst
 recursive-exclude doc/build *
+recursive-include mediacore/migrations *
 recursive-include mediacore/public *
 recursive-include mediacore/templates *
 recursive-include mediacore/i18n *
-recursive-include wsgi-scripts *
 recursive-exclude * *.pyc
 recursive-exclude * .*.swp
 recursive-exclude * .DS_Store
