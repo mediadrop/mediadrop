@@ -28,7 +28,7 @@ from pylons.i18n import _
 from mediacore.lib.compat import sha1
 from mediacore.lib.filetypes import guess_container_format, guess_media_type
 from mediacore.lib.embedtypes import parse_embed_url
-from mediacore.lib.thumbnails import create_default_thumbs_for, create_thumbs_for, thumb_path
+from mediacore.lib.thumbnails import create_default_thumbs_for, create_thumbs_for, has_thumbs, has_default_thumbs, thumb_path
 from mediacore.model import Author, Media, MediaFile, get_available_slug
 from mediacore.model.meta import DBSession
 
@@ -77,8 +77,9 @@ def add_new_media_file(media, uploaded_file=None, url=None):
             media.duration = duration
 
         # Do we need to create thumbs for an embedded media item?
-        use_et = asbool(app_globals.settings['use_embed_thumbnails'])
-        if use_et and thumb_url and len(media.files) == 1:
+        if thumb_url \
+        and asbool(app_globals.settings['use_embed_thumbnails']) \
+        and (not has_thumbs(media) or has_default_thumbs(media)):
             # Download the image into a buffer, wrap the buffer as a File-like
             # object, and create the thumbs.
             try:
@@ -313,7 +314,7 @@ def save_media_obj(name, email, title, description, tags, uploaded_file, url):
     media_file = add_new_media_file(media_obj, uploaded_file, url)
 
     # The thumbs may have been created already by add_new_media_file
-    if not thumb_path(media_obj, 's', exists=True):
+    if not has_thumbs(media_obj):
         create_default_thumbs_for(media_obj)
 
     return media_obj

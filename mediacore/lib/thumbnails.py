@@ -13,6 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import filecmp
 import os
 import shutil
 import urllib2
@@ -27,6 +28,7 @@ log = logging.getLogger(__name__)
 
 __all__ = [
     'ThumbDict', 'create_default_thumbs_for', 'create_thumbs_for',
+    'has_thumbs', 'has_default_thumbs',
     'thumb', 'thumb_path', 'thumb_paths', 'thumb_url',
 ]
 
@@ -245,3 +247,25 @@ def create_default_thumbs_for(item):
         src_file = thumb_path((image_dir, 'new'), key)
         dst_file = thumb_path(item, key)
         shutil.copyfile(src_file, dst_file)
+
+def has_thumbs(item):
+    """Return True if a thumb exists for this item.
+
+    :param item: A 2-tuple with a subdir name and an ID. If given a
+        ORM mapped class with _thumb_dir and id attributes, the info
+        can be extracted automatically.
+    :type item: ``tuple`` or mapped class instance
+    """
+    return bool(thumb_path(item, 's', exists=True))
+
+def has_default_thumbs(item):
+    """Return True if the thumbs for the given item are the defaults.
+
+    :param item: A 2-tuple with a subdir name and an ID. If given a
+        ORM mapped class with _thumb_dir and id attributes, the info
+        can be extracted automatically.
+    :type item: ``tuple`` or mapped class instance
+    """
+    image_dir, item_id = _normalize_thumb_item(item)
+    return filecmp.cmp(thumb_path((image_dir, item_id), 's'),
+                       thumb_path((image_dir, 'new'), 's'))
