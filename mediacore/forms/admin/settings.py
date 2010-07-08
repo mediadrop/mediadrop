@@ -26,6 +26,7 @@ flash_players = [
 ]
 html5_players = [
     ('html5', Markup('<a href="http://diveintohtml5.org/video.html">Plain &lt;video&gt; tag</a>')),
+    ('jwplayer-html5', Markup('<a href="http://www.longtailvideo.com/support/jw-player/jw-player-for-html5/">JWPlayer for HTML5</a> - <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/">CC Non-Commercial Licence</a>')),
     ('sublime', Markup('<a href="http://jilion.com/sublime/video">Sublime</a> - not yet available')),
 ]
 player_types = [

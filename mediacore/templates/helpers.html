@@ -69,13 +69,15 @@
 		<py:when test="player.is_html5" py:choose="file.type">
 			<?python
 			attrs = player.html5_attrs(media, file, autoplay=autoplay, autobuffer=autobuffer, qualified=qualified)
+			player_id = '%s-%s-player' % (media.slug, file.id)
 			?>
-			<audio py:when="'audio'" py:attrs="attrs">
+			<audio id="${player_id}" py:when="'audio'" py:attrs="attrs">
 				If your browser supported HTML5, you'd be seeing an audio player here instead of this text!
 			</audio>
-			<video py:when="'video'" py:attrs="attrs" height="${height}" width="${width}">
+			<video id="${player_id}" py:when="'video'" py:attrs="attrs" height="${height}" width="${width}">
 				If your browser supported HTML5, you'd be seeing a video player here instead of this text!
 			</video>
+			${Markup(player.include(player_id))}
 		</py:when>
 
 	</py:def>
