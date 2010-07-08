@@ -120,8 +120,8 @@ guess_media_type_map = {
 }
 
 # The list of file extensions that flash should recognize and be able to play.
-flash_supported_containers = ['mp3', 'mp4', 'm4v', 'm4a', 'flv', 'flac']
-flash_supported_browsers = ['firefox', 'opera', 'chrome', 'safari', 'android', 'unknown']
+flash_supported_containers = ('mp3', 'mp4', 'flv', 'flac')
+flash_supported_browsers = ('firefox', 'opera', 'chrome', 'safari', 'android', 'unknown')
 
 # Container and Codec support for HTML5 tag in various browsers.
 # The following list taken from http://diveintohtml5.org/video.html#what-works
