@@ -41,7 +41,7 @@ class CommentsController(BaseController):
 
     @expose_xhr('admin/comments/index.html',
                 'admin/comments/index-table.html')
-    @paginate('comments', items_per_page=50)
+    @paginate('comments', items_per_page=25)
     def index(self, page=1, search=None, media_filter=None, **kwargs):
         """List comments with pagination and filtering.
 
