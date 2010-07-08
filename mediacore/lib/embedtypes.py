@@ -21,7 +21,7 @@ import urllib2
 import gdata.youtube
 import gdata.youtube.service
 
-from mediacore import __version__ as VERSION
+from mediacore import USER_AGENT
 from mediacore.lib.compat import max
 from mediacore.lib.filetypes import AUDIO, VIDEO, AUDIO_DESC, CAPTIONS
 
@@ -88,7 +88,7 @@ def get_embed_details_vimeo(id):
     """
     # Vimeo API requires us to give a user-agent, to avoid 403 errors.
     headers = {
-        'User-Agent': 'MediaCore %s' % VERSION,
+        'User-Agent': USER_AGENT,
     }
     vimeo_data_url = 'http://vimeo.com/api/v2/video/%s.%s' % (id, 'json')
     req = urllib2.Request(vimeo_data_url, headers=headers)

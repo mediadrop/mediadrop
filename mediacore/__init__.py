@@ -23,6 +23,7 @@ __email__ = 'info@simplestation.com'
 __maintainer__ = 'http://getmediacore.com/'
 __all__ = ['__version__', 'debug', 'ipython']
 
+USER_AGENT = 'MediaCore/%s' % __version__
 
 def debug(*args):
     """Print to stderr, for debuging"""

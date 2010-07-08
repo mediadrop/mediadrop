@@ -32,7 +32,7 @@ from mediacore.model import (DBSession, fetch_row, get_available_slug,
     Media, MediaFile, Comment, Tag, Category, Author, AuthorWithIP, Podcast)
 from mediacore.lib import helpers, email
 from mediacore.forms.comments import PostCommentForm
-from mediacore import __version__ as MEDIACORE_VERSION
+from mediacore import USER_AGENT
 
 import logging
 log = logging.getLogger(__name__)
@@ -223,11 +223,11 @@ class MediaController(BaseController):
 
         """
         akismet_key = app_globals.settings['akismet_key']
-        akismet_url = app_globals.settings['akismet_url']
         if akismet_key:
-            akismet = Akismet(agent='MediaCore/%s' % MEDIACORE_VERSION)
+            akismet = Akismet(agent=USER_AGENT)
             akismet.key = akismet_key
-            akismet.blog_url = akismet_url or url_for('/', qualified=True)
+            akismet.blog_url = app_globals.settings['akismet_url'] or \
+                url_for('/', qualified=True)
             akismet.verify_key()
             data = {'comment_author': values['name'].encode('utf-8'),
                     'user_ip': request.environ.get('REMOTE_ADDR'),
