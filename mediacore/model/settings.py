@@ -26,7 +26,7 @@ non-mission-critical options which can be edited via the admin UI.
 
 """
 from sqlalchemy import Table, ForeignKey, Column
-from sqlalchemy.types import String, Unicode, UnicodeText, Integer, Boolean, Float
+from sqlalchemy.types import Unicode, UnicodeText, Integer, Boolean, Float
 from sqlalchemy.orm import mapper, relation, backref, synonym, interfaces, validates
 
 from mediacore.model.meta import DBSession, metadata

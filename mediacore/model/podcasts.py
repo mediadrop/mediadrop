@@ -25,7 +25,7 @@ SQLAlchemy ORM definitions for:
 """
 from datetime import datetime
 from sqlalchemy import Table, ForeignKey, Column, sql
-from sqlalchemy.types import String, Unicode, UnicodeText, Integer, DateTime, Boolean, Float
+from sqlalchemy.types import Unicode, UnicodeText, Integer, DateTime, Boolean, Float
 from sqlalchemy.orm import mapper, relation, backref, synonym, composite, validates, dynamic_loader, column_property
 from pylons import request
 
@@ -36,7 +36,7 @@ from mediacore.model.media import Media, MediaQuery, media
 
 podcasts = Table('podcasts', metadata,
     Column('id', Integer, autoincrement=True, primary_key=True),
-    Column('slug', String(slug_length), unique=True, nullable=False),
+    Column('slug', Unicode(slug_length), unique=True, nullable=False),
     Column('created_on', DateTime, default=datetime.now, nullable=False),
     Column('modified_on', DateTime, default=datetime.now, onupdate=datetime.now, nullable=False),
     Column('title', Unicode(50), nullable=False),
@@ -47,8 +47,8 @@ podcasts = Table('podcasts', metadata,
     Column('author_email', Unicode(50), nullable=False),
     Column('explicit', Boolean, default=None),
     Column('copyright', Unicode(50)),
-    Column('itunes_url', String(80)),
-    Column('feedburner_url', String(80)),
+    Column('itunes_url', Unicode(80)),
+    Column('feedburner_url', Unicode(80)),
     mysql_engine='InnoDB',
     mysql_charset='utf8',
 )

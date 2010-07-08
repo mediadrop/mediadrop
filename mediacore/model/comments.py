@@ -24,7 +24,7 @@ Comments come with two status flags:
 """
 from datetime import datetime
 from sqlalchemy import Table, ForeignKey, Column, sql
-from sqlalchemy.types import String, Unicode, UnicodeText, Integer, DateTime, Boolean, Float
+from sqlalchemy.types import Unicode, UnicodeText, Integer, DateTime, Boolean, Float
 from sqlalchemy.orm import mapper, relation, backref, synonym, composite, column_property, validates, interfaces, Query
 
 from mediacore.model import AuthorWithIP

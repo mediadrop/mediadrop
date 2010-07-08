@@ -3,7 +3,7 @@ import os
 from datetime import datetime
 
 from sqlalchemy import Table, ForeignKey, Column
-from sqlalchemy.types import String, Unicode, UnicodeText, Integer, DateTime, Boolean, Float
+from sqlalchemy.types import Unicode, UnicodeText, Integer, DateTime, Boolean, Float
 from sqlalchemy.orm import relation, backref, synonym
 from sqlalchemy.orm.exc import NoResultFound
 

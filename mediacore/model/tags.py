@@ -25,7 +25,7 @@ import re
 
 from datetime import datetime
 from sqlalchemy import Table, ForeignKey, Column, sql, func
-from sqlalchemy.types import String, Unicode, UnicodeText, Integer, DateTime, Boolean, Float
+from sqlalchemy.types import Unicode, UnicodeText, Integer, DateTime, Boolean, Float
 from sqlalchemy.orm import mapper, relation, backref, synonym, interfaces, validates, column_property
 
 from mediacore.lib.helpers import excess_whitespace
@@ -36,7 +36,7 @@ from mediacore.model.meta import Base, DBSession
 tags = Table('tags', Base.metadata,
     Column('id', Integer, autoincrement=True, primary_key=True),
     Column('name', Unicode(50), unique=True, nullable=False),
-    Column('slug', String(slug_length), unique=True, nullable=False),
+    Column('slug', Unicode(slug_length), unique=True, nullable=False),
     mysql_engine='InnoDB',
     mysql_charset='utf8'
 )

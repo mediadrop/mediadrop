@@ -33,7 +33,7 @@ import os.path
 from datetime import datetime
 
 from sqlalchemy import Table, ForeignKey, Column, sql, func, exc
-from sqlalchemy.types import String, Unicode, UnicodeText, Integer, DateTime, Boolean, Float, Enum
+from sqlalchemy.types import Unicode, UnicodeText, Integer, DateTime, Boolean, Float, Enum
 from sqlalchemy.orm import mapper, class_mapper, relation, backref, synonym, composite, column_property, comparable_property, dynamic_loader, validates, collections, attributes, Query
 from sqlalchemy.schema import DDL
 from pylons import app_globals, config, request
@@ -56,7 +56,7 @@ class UnknownFileTypeException(MediaFileException): pass
 media = Table('media', metadata,
     Column('id', Integer, autoincrement=True, primary_key=True),
     Column('type', Enum(VIDEO, AUDIO)),
-    Column('slug', String(slug_length), unique=True, nullable=False),
+    Column('slug', Unicode(slug_length), unique=True, nullable=False),
     Column('podcast_id', Integer, ForeignKey('podcasts.id', onupdate='CASCADE', ondelete='SET NULL')),
     Column('reviewed', Boolean, default=False, nullable=False),
     Column('encoded', Boolean, default=False, nullable=False),
@@ -90,11 +90,11 @@ media_files = Table('media_files', metadata,
     Column('media_id', Integer, ForeignKey('media.id', onupdate='CASCADE', ondelete='CASCADE'), nullable=False),
 
     Column('type', Enum(VIDEO, AUDIO, AUDIO_DESC, CAPTIONS), nullable=False),
-    Column('container', String(10), nullable=False),
-    Column('display_name', String(255), nullable=False),
-    Column('file_name', String(255)),
-    Column('url', String(255)),
-    Column('embed', String(50)),
+    Column('container', Unicode(10), nullable=False),
+    Column('display_name', Unicode(255), nullable=False),
+    Column('file_name', Unicode(255)),
+    Column('url', Unicode(255)),
+    Column('embed', Unicode(50)),
     Column('size', Integer),
 
     Column('created_on', DateTime, default=datetime.now, nullable=False),
