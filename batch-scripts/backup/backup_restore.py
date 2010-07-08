@@ -217,7 +217,7 @@ def restore_necessary_files():
                 print "Moving %s to %s" % (src, dest)
             shutil.move(src, dest)
 
-def main(parser):
+def main(parser, options):
     if options.dump_to:
         status, output = dump_backup_file(options.dump_to)
 
@@ -243,4 +243,4 @@ def main(parser):
     sys.exit(status)
 
 if __name__ == '__main__':
-    main(cmd.parser)
+    main(cmd.parser, cmd.options)
