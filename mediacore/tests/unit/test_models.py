@@ -8,7 +8,7 @@ from sqlalchemy.exc import SQLAlchemyError
 class TestModels(TestController):
 
     audio_types = ['mp3', 'm4a', 'flac', 'oga', 'mka']
-    video_types = ['mp4', 'm4v', 'ogg', 'ogv', 'mkv', '3gp', '3g2', 'avi',
+    video_types = ['mp4', 'm4v', 'ogg', 'ogv', 'mkv', '3gp', 'webm', 'avi',
                    'dv', 'flv', 'mov', 'mpeg', 'mpg', 'wmv']
     caption_types = ['xml', 'srt']
 
