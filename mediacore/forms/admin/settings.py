@@ -21,12 +21,12 @@ from mediacore.forms import ListFieldSet, ListForm, ResetButton, SubmitButton, T
 from mediacore.forms.admin.categories import category_options
 
 flash_players = [
-    ('flowplayer', Markup('<a href="http://flowplayer.org">FlowPlayer</a> - <a href="http://flowplayer.org/download/license_gpl.htm">GPL Licence</a>')),
-    ('jwplayer', Markup('<a href="http://longtailvideo.com">JWPlayer</a> - <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/">CC Non-Commercial Licence</a>')),
+    ('flowplayer', Markup('<a href="http://flowplayer.org">FlowPlayer</a> - <a href="http://flowplayer.org/download/license_gpl.htm">GPL Licence</a> (137kB)')),
+    ('jwplayer', Markup('<a href="http://longtailvideo.com">JWPlayer</a> - <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/">CC Non-Commercial Licence</a> (86kB)')),
 ]
 html5_players = [
-    ('html5', Markup('<a href="http://diveintohtml5.org/video.html">Plain &lt;video&gt; tag</a>')),
-    ('jwplayer-html5', Markup('<a href="http://www.longtailvideo.com/support/jw-player/jw-player-for-html5/">JWPlayer for HTML5</a> - <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/">CC Non-Commercial Licence</a>')),
+    ('html5', Markup('<a href="http://diveintohtml5.org/video.html">Plain &lt;video&gt; tag</a> (0kB)')),
+    ('jwplayer-html5', Markup('<a href="http://www.longtailvideo.com/support/jw-player/jw-player-for-html5/">JWPlayer for HTML5</a> - <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/">CC Non-Commercial Licence</a> (126kB)')),
     ('sublime', Markup('<a href="http://jilion.com/sublime/video">Sublime</a> - not yet available')),
 ]
 player_types = [
@@ -36,8 +36,8 @@ player_types = [
 ]
 
 rich_text_editors = [
-    ('plain', 'Plain <textarea> fields'),
-    ('tinymce', Markup('Enable <a href="http://tinymce.moxiecode.com">TinyMCE</a> for &lt;textarea&gt; fields that accept XHTML input. - <a href="http://wiki.moxiecode.com/index.php/TinyMCE:License">LGPL License</a>')),
+    ('plain', 'Plain <textarea> fields (0kB)'),
+    ('tinymce', Markup('Enable <a href="http://tinymce.moxiecode.com">TinyMCE</a> for &lt;textarea&gt; fields that accept XHTML input. - <a href="http://wiki.moxiecode.com/index.php/TinyMCE:License">LGPL License</a> (281kB)')),
 ]
 
 def boolean_radiobuttonlist(name, **kwargs):
