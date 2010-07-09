@@ -632,7 +632,6 @@ class JWPlayer(Player):
         else:
             vars['provider'] = providers[file.type]
             vars['file'] = file.play_url(qualified=qualified)
-            vars['type'] = file.container
 
         plugins = []
         audio_desc = media.audio_desc
