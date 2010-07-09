@@ -35,7 +35,7 @@ class TestMediaController(TestController):
         save_url = url(controller='admin/media', action='save', id='new')
 
         title = 'Add New Media Test'
-        slug = 'add-new-media-test' # this should be unique
+        slug = u'add-new-media-test' # this should be unique
         name = 'Frederick Awesomeson'
         email = 'fake_address@mailinator.com'
         description = 'This media item was created to test the "admin/media/edit/new" method'
@@ -250,7 +250,7 @@ class TestMediaController(TestController):
         add_url = url(controller='admin/media', action='add_file', id='new')
 
         title = 'Merge Stubs Test'
-        slug = 'merge-stubs-test' # this should be unique
+        slug = u'merge-stubs-test' # this should be unique
         name = 'Frederick Awesomeson'
         email = 'fake_address@mailinator.com'
         description = 'This media item was created to test the "admin/media/merge_stubs" method'

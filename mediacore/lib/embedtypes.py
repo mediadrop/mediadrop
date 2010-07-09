@@ -109,21 +109,21 @@ def get_embed_details_vimeo(id):
 
 # Patterns for embedding third party video which extract the video ID
 external_embedded_containers = {
-    'youtube': {
+    u'youtube': {
         'pattern': re.compile('^(http(s?)://)?(\w+.)?youtube.com/watch\?(.*&)?v=(?P<id>[^&#]+)'),
         'play': 'http://youtube.com/v/%s?rel=0&fs=1&hd=1',
         'link': 'http://youtube.com/watch?v=%s',
         'get_details': get_embed_details_youtube,
         'type': VIDEO,
     },
-    'google': {
+    u'google': {
         'pattern': re.compile('^(http(s?)://)?video.google.com/videoplay\?(.*&)?docid=(?P<id>-?\d+)'),
         'play': 'http://video.google.com/googleplayer.swf?docid=%s&hl=en&fs=true',
         'link': 'http://video.google.com/videoplay?docid=%s',
         'get_details': get_embed_details_google,
         'type': VIDEO,
     },
-    'vimeo': {
+    u'vimeo': {
         'pattern': re.compile('^(http(s?)://)?(www.)?vimeo.com/(?P<id>\d+)'),
         'play': 'http://vimeo.com/moogaloop.swf?clip_id=%s&server=vimeo.com&show_title=1&show_byline=1&show_portrait=0&color=&fullscreen=1',
         'link': 'http://vimeo.com/%s',

@@ -30,7 +30,7 @@ class TestUploadController(TestController):
         assert response.headers['Content-Type'] == 'application/json'
         assert response.body == '{"redirect": "/upload/success", "success": true}'
 
-        media = fetch_row(Media, slug='testing-mp3-async-upload')
+        media = fetch_row(Media, slug=u'testing-mp3-async-upload')
         assert len(media.files) == 1
         assert media.files[0].container == 'mp3'
         assert media.description == "<p>actually just testing an mp3 upload.</p>"
@@ -56,7 +56,7 @@ class TestUploadController(TestController):
         assert submit_response.location == 'http://localhost%s' % success_url
 
         # Ensure the media item and file were  created properly.
-        media = fetch_row(Media, slug='testing-mp3-upload')
+        media = fetch_row(Media, slug=u'testing-mp3-upload')
         assert len(media.files) == 1
         assert media.files[0].container == 'mp3'
         assert media.description == "<p>actually just testing an mp3 upload.</p>"

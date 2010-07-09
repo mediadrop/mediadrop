@@ -7,10 +7,10 @@ from sqlalchemy.exc import SQLAlchemyError
 
 class TestModels(TestController):
 
-    audio_types = ['mp3', 'm4a', 'flac', 'oga', 'mka']
-    video_types = ['mp4', 'm4v', 'ogg', 'ogv', 'mkv', '3gp', 'webm', 'avi',
-                   'dv', 'flv', 'mov', 'mpeg', 'mpg', 'wmv']
-    caption_types = ['xml', 'srt']
+    audio_types = [u'mp3', u'm4a', u'flac', u'oga', u'mka']
+    video_types = [u'mp4', u'm4v', u'ogg', u'ogv', u'mkv', u'3gp', u'webm', u'avi',
+                   u'dv', u'flv', u'mov', u'mpeg', u'mpg', u'wmv']
+    caption_types = [u'xml', u'srt']
 
     def __init__(self, *args, **kwargs):
         TestController.__init__(self, *args, **kwargs)
@@ -27,7 +27,7 @@ class TestModels(TestController):
                         u'%s (Audio)' % t.upper())
                 DBSession.add(media)
                 media_file = add_new_media_file(media, None,
-                        'http://fakesite.com/fakefile.%s' % t)
+                        u'http://fakesite.com/fakefile.%s' % t)
                 media.update_status()
                 DBSession.commit()
                 assert media.type == AUDIO, \
@@ -46,7 +46,7 @@ class TestModels(TestController):
                         u'%s (Video)' % t.upper())
                 DBSession.add(media)
                 media_file = add_new_media_file(media, None,
-                        'http://fakesite.com/fakefile.%s' % t)
+                        u'http://fakesite.com/fakefile.%s' % t)
                 media.update_status()
                 DBSession.commit()
                 assert media.type == VIDEO, \
@@ -65,7 +65,7 @@ class TestModels(TestController):
                         u'%s (Captioned)' % t.upper())
                 DBSession.add(media)
                 media_file = add_new_media_file(media, None,
-                        'http://fakesite.com/fakefile.%s' % t)
+                        u'http://fakesite.com/fakefile.%s' % t)
                 media.update_status()
                 DBSession.commit()
                 assert media.type == None, \
@@ -84,7 +84,7 @@ class TestModels(TestController):
                         u'%s (Audio Description)' % t.upper())
                 DBSession.add(media)
                 media_file = add_new_media_file(media, None,
-                        'http://fakesite.com/fakefile.%s' % t)
+                        u'http://fakesite.com/fakefile.%s' % t)
                 media_file.type = AUDIO_DESC
                 media.update_status()
                 DBSession.commit()
@@ -106,11 +106,11 @@ class TestModels(TestController):
             DBSession.add(media)
             # Add an audio description
             media_file = add_new_media_file(media, None,
-                    'http://fakesite.com/fakefile.mp3')
+                    u'http://fakesite.com/fakefile.mp3')
             media.update_status()
             # Add a video file
             media_file = add_new_media_file(media, None,
-                    'http://fakesite.com/fakefile.m4v')
+                    u'http://fakesite.com/fakefile.m4v')
             media.update_status()
             # Commit + test
             DBSession.commit()
@@ -132,12 +132,12 @@ class TestModels(TestController):
             DBSession.add(media)
             # Add an audio description
             media_file = add_new_media_file(media, None,
-                    'http://fakesite.com/fakefile.mp3')
+                    u'http://fakesite.com/fakefile.mp3')
             media_file.type = AUDIO_DESC
             media.update_status()
             # Add a video file
             media_file = add_new_media_file(media, None,
-                    'http://fakesite.com/fakefile.m4v')
+                    u'http://fakesite.com/fakefile.m4v')
             media.update_status()
             # Commit + test
             DBSession.commit()

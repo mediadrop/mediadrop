@@ -24,10 +24,10 @@ __all__ = [
     'pick_media_file_player',
 ]
 
-AUDIO = 'audio'
-VIDEO = 'video'
-AUDIO_DESC = 'audio_desc'
-CAPTIONS = 'captions'
+AUDIO = u'audio'
+VIDEO = u'video'
+AUDIO_DESC = u'audio_desc'
+CAPTIONS = u'captions'
 
 # Mimetypes for all file extensions accepted by the front and backend uploaders
 #
@@ -44,52 +44,52 @@ CAPTIONS = 'captions'
 #      accepted_extensions() is passed to Swiff.Uploader to provide the
 #      typeFilter.
 mimetype_lookup = {
-    'flac': 'audio/flac',
-    'mp3':  'audio/mpeg',
-    'mp4':  '%s/mp4',
-    'm4a':  'audio/mp4',
-    'm4v':  'video/mp4',
-    'ogg':  '%s/ogg',
-    'oga':  'audio/ogg',
-    'ogv':  'video/ogg',
-    'mka':  'audio/x-matroska',
-    'mkv':  'video/x-matroska',
-    '3gp':  '%s/3gpp',
-    'avi':  'video/avi',
-    'dv':   'video/x-dv',
-    'flv':  'video/x-flv', # made up, it's what everyone uses anyway.
-    'mov':  'video/quicktime',
-    'mpeg': '%s/mpeg',
-    'mpg':  '%s/mpeg',
-    'webm': '%s/webm',
-    'wmv':  'video/x-ms-wmv',
-    'xml':  'application/ttml+xml',
-    'srt':  'text/plain',
+    u'flac': u'audio/flac',
+    u'mp3':  u'audio/mpeg',
+    u'mp4':  u'%s/mp4',
+    u'm4a':  u'audio/mp4',
+    u'm4v':  u'video/mp4',
+    u'ogg':  u'%s/ogg',
+    u'oga':  u'audio/ogg',
+    u'ogv':  u'video/ogg',
+    u'mka':  u'audio/x-matroska',
+    u'mkv':  u'video/x-matroska',
+    u'3gp':  u'%s/3gpp',
+    u'avi':  u'video/avi',
+    u'dv':   u'video/x-dv',
+    u'flv':  u'video/x-flv', # made up, it's what everyone uses anyway.
+    u'mov':  u'video/quicktime',
+    u'mpeg': u'%s/mpeg',
+    u'mpg':  u'%s/mpeg',
+    u'webm': u'%s/webm',
+    u'wmv':  u'video/x-ms-wmv',
+    u'xml':  u'application/ttml+xml',
+    u'srt':  u'text/plain',
 }
 
 # Default container format (and also file extension) for each mimetype we allow
 # users to upload.
 container_lookup = {
-    'audio/flac': 'flac',
-    'audio/mp4': 'mp4',
-    'audio/mpeg': 'mp3',
-    'audio/ogg': 'ogg',
-    'audio/x-matroska': 'mka',
-    'audio/webm': 'webm',
-    'video/3gpp': '3gp',
-    'video/avi': 'avi',
-    'video/mp4': 'mp4',
-    'video/mpeg': 'mpg',
-    'video/ogg': 'ogg',
-    'video/quicktime': 'mov',
-    'video/x-dv': 'dv',
-    'video/x-flv': 'flv',
-    'video/x-matroska': 'mkv',
-    'video/x-ms-wmv': 'wmv',
-    'video/x-vob': 'vob',
-    'video/webm': 'webm',
-    'application/ttml+xml': 'xml',
-    'text/plain': 'srt',
+    u'audio/flac': u'flac',
+    u'audio/mp4': u'mp4',
+    u'audio/mpeg': u'mp3',
+    u'audio/ogg': u'ogg',
+    u'audio/x-matroska': u'mka',
+    u'audio/webm': u'webm',
+    u'video/3gpp': u'3gp',
+    u'video/avi': u'avi',
+    u'video/mp4': u'mp4',
+    u'video/mpeg': u'mpg',
+    u'video/ogg': u'ogg',
+    u'video/quicktime': u'mov',
+    u'video/x-dv': u'dv',
+    u'video/x-flv': u'flv',
+    u'video/x-matroska': u'mkv',
+    u'video/x-ms-wmv': u'wmv',
+    u'video/x-vob': u'vob',
+    u'video/webm': u'webm',
+    u'application/ttml+xml': u'xml',
+    u'text/plain': u'srt',
 }
 
 # When media_obj.container doesn't match a key in the mimetype_lookup dict...

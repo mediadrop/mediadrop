@@ -25,9 +25,9 @@ class TestHelpers(TestController):
             media_files = {}
             for t in ['oga', 'ogv', 'm4a', 'm4v', 'flv', 'mp3', 'xml']:
                 media_files[t] = add_new_media_file(media, None,
-                    'http://fakesite.com/fakefile.%s' % t)
+                    u'http://fakesite.com/fakefile.%s' % t)
             media_files['youtube'] = add_new_media_file(media, None,
-                    'http://www.youtube.com/watch?v=3RsbmjNLQkc')
+                    u'http://www.youtube.com/watch?v=3RsbmjNLQkc')
             media.update_status()
             DBSession.commit()
         except SQLAlchemyError, e:
