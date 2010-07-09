@@ -18,9 +18,8 @@
       xmlns:xi="http://www.w3.org/2001/XInclude"
       py:strip="">
 
-	<py:def function="media_player(media, width=400, height=225, autoplay=False, autobuffer=False, qualified=False, embed_only=False)" py:choose=""
-	        py:with="file, player, browser, browser_ver = h.pick_media_file_player(media.files, browser=embed_only and 'unknown' or None)">
-
+	<py:def function="media_player(media, width=400, height=225, autoplay=False, autobuffer=False, qualified=False, embed_only=False, player_type=None)" py:choose=""
+	        py:with="file, player, browser, browser_ver = h.pick_media_file_player(media.files, browser=embed_only and 'unknown' or None, player_type=player_type)">
 		<py:when test="file is None">
 			MediaCore could not find an appropriate encoding of this media item to display in your browser.
 			Contact the site admin if you need assistance.
@@ -46,8 +45,6 @@
 		<py:when test="player.is_flash">
 			<?python
 			width, height = player.adjust_dimensions(media, file, width, height)
-			swf_url = player.swf_url(media, file, qualified=qualified)
-			vars = h.json.dumps(player.flashvars(media, file, autoplay=autoplay, autobuffer=autobuffer, qualified=qualified))
 			player_id = '%s-%s-player' % (media.slug, file.id)
 			?>
 			<a id="${player_id}"
@@ -56,13 +53,7 @@
 				Download this ${media.type}!
 			</a>
 			<script type="text/javascript">
-				var jwObj = new Swiff('${swf_url}', {
-					width: ${width},
-					height: ${height},
-					params: {allowFullscreen: 'true'},
-					vars: ${vars}
-				});
-				var div = new Element('div').replaces('${player_id}').set('id', '${player_id}').grab(jwObj);
+				${flash_player_script(media, file, width, height, player, player_id)}
 			</script>
 		</py:when>
 
@@ -77,9 +68,36 @@
 			<video id="${player_id}" py:when="'video'" py:attrs="attrs" height="${height}" width="${width}">
 				If your browser supported HTML5, you'd be seeing a video player here instead of this text!
 			</video>
+			<script py:if="player.fallback is not None" type="text/javascript">
+				function can_play_container_type(cont) {
+					// Returns false, '', 'maybe', or 'probably'
+					var v = document.createElement("video");
+					// Are we dealing with a browser that supports html5 video?
+					if ( !v.play ) { return false; }
+					// If so, can it play the requested container type?
+					return v.canPlayType(cont);
+				}
+				var can_play_file = can_play_container_type('${h.guess_mimetype(file.container)}');
+				if ( !can_play_file ) {
+					${flash_player_script(media, file, width, height, player.fallback, player_id)}
+				}
+			</script>
 			${Markup(player.include(player_id))}
 		</py:when>
+	</py:def>
 
+	<py:def function="flash_player_script(media, file, width, height, player, player_id)">
+		<?python
+		swf_url = player.swf_url(media, file, qualified=qualified)
+		vars = h.json.dumps(player.flashvars(media, file, autoplay=autoplay, autobuffer=autobuffer, qualified=qualified))
+		?>
+		var flash_obj = new Swiff('${swf_url}', {
+			width: ${width},
+			height: ${height},
+			params: {allowFullscreen: 'true'},
+			vars: ${vars}
+		});
+		var div = new Element('div').replaces('${player_id}').set('id', '${player_id}').grab(flash_obj);
 	</py:def>
 
 	<py:def function="media_grid(media, id=None, thumb_size='s', desc_len=90)"

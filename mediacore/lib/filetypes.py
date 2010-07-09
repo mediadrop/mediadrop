@@ -361,14 +361,14 @@ def pick_media_file_player(files, browser=None, version=None, user_agent=None,
         ]
         for file in files:
             if file.container in html5_supported_containers:
-                return file, players.get(html5_player, html5_player)
+                return file, players[html5_player]
         return None, None
 
     def get_flash_player():
         if browser in flash_supported_browsers:
             for file in files:
                 if file.container in flash_supported_containers:
-                    return file, players.get(flash_player, flash_player)
+                    return file, players[flash_player]
         return None, None
 
     def get_embedded_player():
@@ -460,5 +460,16 @@ def pick_media_file_player(files, browser=None, version=None, user_agent=None,
         # e.g. It allows iPhones to display YouTube videos.
         if player is None and include_embedded:
             file, player = ef_file, ef_player
+
+    # Instantiate the player, and indicate whether to allow the player to
+    # fail over to a different player inside the browser, if necessary.
+    if player is not None:
+        fallback = None
+        if player_type != 'html5':
+            if player.is_html5:
+                fallback = players[flash_player]
+            elif player.is_flash:
+                fallback = players[html5_player]
+        player = player(fallback=fallback)
 
     return file, player, browser, version

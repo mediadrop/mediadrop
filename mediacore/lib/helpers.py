@@ -40,7 +40,7 @@ from webhelpers.html.converters import format_paragraphs
 
 from mediacore.lib.compat import any
 from mediacore.lib.htmlsanitizer import Cleaner, entities_to_unicode as decode_entities, encode_xhtml_entities as encode_entities
-from mediacore.lib.filetypes import AUDIO, AUDIO_DESC, CAPTIONS, VIDEO, accepted_extensions, pick_media_file_player
+from mediacore.lib.filetypes import AUDIO, AUDIO_DESC, CAPTIONS, VIDEO, accepted_extensions, pick_media_file_player, guess_mimetype
 from mediacore.lib.thumbnails import thumb, thumb_url
 
 imports = [
@@ -48,6 +48,8 @@ imports = [
     'feedgenerator', 'format_paragraphs', 'html', 'literal', 'misc', 'number',
     'paginate', 'quote', 'tags', 'text', 'unquote', 'urlencode', 'urlparse',
     'config', # is this appropriate to export here?
+    'guess_mimetype', # XXX: imported from mediacore.lib.filetypes, for template use.
+    'pick_media_file_player', # XXX: imported from mediacore.lib.filetypes, for template use.
     'thumb_url', # XXX: imported from  mediacore.lib.thumbnails, for template use.
     'thumb', # XXX: imported from  mediacore.lib.thumbnails, for template use.
 ]
@@ -63,6 +65,8 @@ defined = [
     'store_transient_message', 'strip_xhtml', 'truncate', 'truncate_xhtml',
     'url', 'url_for', 'wrap_long_words',
 ]
+# TODO: It doesn't seem to matter which members are exposed in the __all__
+#       list--templates have access to all of them anyway. Look into this.
 __all__ = imports + defined
 
 def url(*args, **kwargs):
@@ -552,6 +556,9 @@ class Player(object):
     is_flash = False
     is_embed = False
     is_html5 = False
+
+    def __init__(self, fallback=None):
+        self.fallback = fallback
 
     @staticmethod
     def include(elem_id):

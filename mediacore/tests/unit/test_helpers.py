@@ -137,7 +137,8 @@ class TestHelpers(TestController):
                     include_embedded = embedded
             )
             print "Unsized:", browser, version, p_type, embedded, e_file, e_player
-            assert player == players[e_player], "Expected %r but was %r" % (players[e_player], player)
+            player_class = player and player.__class__ or None
+            assert player_class == players[e_player], "Expected %r but was %r" % (players[e_player], player_class)
             assert file == media_files[e_file], "Expected %r but got %r" % (media_files[e_file], file)
 
     def test_sized_file_picking(self):
@@ -160,6 +161,7 @@ class TestHelpers(TestController):
 
         combinations = [
             # Prefer flash, without embeds
+            # TODO: write tests to check fallback players, and JW html5 player.
             ('firefox', 2,          'flash', False, 'm4v', 'flowplayer'),
             ('firefox', 3,          'flash', False, 'm4v', 'flowplayer'),
             ('firefox', 3.5,        'flash', False, 'm4v', 'flowplayer'),
@@ -246,7 +248,8 @@ class TestHelpers(TestController):
                     include_embedded = embedded
             )
             print "Sized:", browser, version, p_type, embedded, e_file, e_player
-            assert player == players[e_player], "Expected %r but was %r" % (players[e_player], player)
+            player_class = player and player.__class__ or None
+            assert player_class == players[e_player], "Expected %r but was %r" % (players[e_player], player_class)
             assert file == media_files[e_file], "Expected %r but got %r" % (media_files[e_file], file)
 
     def test_add_youtube_video(self):
