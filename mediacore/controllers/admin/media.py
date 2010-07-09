@@ -168,7 +168,6 @@ class MediaController(BaseController):
         # Re-verify the state of our Media object in case the data is nonsensical
         if id != 'new':
             media.update_status()
-            DBSession.add(media)
 
         return dict(
             media = media,
@@ -377,7 +376,6 @@ class MediaController(BaseController):
             data['message'] = _('File "%s" does not exist.') % file_id
         elif file_type:
             file.type = file_type
-            DBSession.add(file)
             data['success'] = True
         elif duration is not None:
             try:
@@ -386,7 +384,6 @@ class MediaController(BaseController):
                 data['message'] = _('Bad duration formatting, use Hour:Min:Sec')
             else:
                 media.duration = duration
-                DBSession.add(media)
                 data['success'] = True
                 data['duration'] = helpers.duration_from_seconds(duration)
         elif delete:
@@ -403,7 +400,6 @@ class MediaController(BaseController):
         if data['success']:
             data['file_type'] = file.type
             media.update_status()
-            DBSession.add(media)
             DBSession.flush()
 
             # Return the rendered widget for injection
@@ -615,7 +611,6 @@ class MediaController(BaseController):
 
         # Verify the change is valid by re-determining the status
         media.update_status()
-
         DBSession.flush()
 
         if request.is_xhr:

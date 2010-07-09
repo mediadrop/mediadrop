@@ -205,7 +205,6 @@ class MediaController(BaseController):
         """
         media = fetch_row(Media, slug=slug)
         likes = media.increment_likes()
-        DBSession.add(media)
 
         if request.is_xhr:
             return unicode(likes)
@@ -254,7 +253,6 @@ class MediaController(BaseController):
             c.publishable = True
 
         media.comments.append(c)
-        DBSession.add(media)
         email.send_comment_notification(media, c)
 
         if require_review:
