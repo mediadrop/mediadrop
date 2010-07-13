@@ -284,10 +284,10 @@ b. **For developers**, or users that are very familiar with Git
       python2.5 setup.py develop
 
 
-Step 3: Setup the Database
---------------------------
+Step 3: Create the Database
+---------------------------
 
-The first step here is to create a database for MediaCore in MySQL. You can
+Here we will create a database for MediaCore in MySQL. You can
 use phpMyAdmin, CocoaMySQL, `cPanel
 <http://www.siteground.com/tutorials/php-mysql/mysql_database_user.htm>`_, the
 `mysql command line interface
@@ -325,33 +325,6 @@ For example, via the mysql command line client:
    mysql> exit;
    Bye
 
-The second step is to create all the tables and starting data for the
-database. All of the information is in ``setup.sql``, so you can load it
-with a one line command, like so:
-
-.. sourcecode:: bash
-
-   # Import initial data into an existing database named mediacore:
-   mysql -u mediacore_user -p mediacore < setup.sql
-
-
-If you want to enable the fulltext searching shown on the demo site, you will
-need to have access to the root account for your MySQL database. Some shared
-hosts don't allow this, so we have made this feature optional. To set up the
-triggers that enable fulltext searching, import ``setup_triggers.sql`` like so:
-
-.. sourcecode:: bash
-
-   # Import fulltext search database triggers
-   mysql -u root mediacore < setup_triggers.sql
-
-**NOTE:** If you do not import ``setup_triggers.sql``, MediaCore's search
-will always return no results. You can easily disable this feature in your
-installation by removing the search form from
-``/path/to/mediacore_install/mediacore/templates/nav.html``.
-In a future release, we plan to design search so that it doesn't require
-MySQL's root account.
-
 
 Step 4: Preliminary Configuration
 ---------------------------------
@@ -385,7 +358,35 @@ the directory pointed to by the ``image_dir`` setting must also be writable by
 your user.
 
 
-Step 5: Launch the Built-in Server
+Step 5: Populate the Database
+-----------------------------
+
+First, The creation of all database tables and addition of initial data is
+taken care of via this Pylons command:
+
+.. sourcecode:: bash
+
+   paster setup-app development.ini
+
+Second, If you want to enable the fulltext searching shown on the demo site, you will
+need to have access to the root account for your MySQL database. Some shared
+hosts don't allow this, so we have made this feature optional. To set up the
+triggers that enable fulltext searching, import ``setup_triggers.sql`` like so:
+
+.. sourcecode:: bash
+
+   # Import fulltext search database triggers
+   mysql -u root mediacore < setup_triggers.sql
+
+**NOTE:** If you do not import ``setup_triggers.sql``, MediaCore's search
+will always return no results. You can easily disable this feature in your
+installation by removing the search form from
+``/path/to/mediacore_install/mediacore/templates/nav.html``.
+In a future release, we plan to design search so that it doesn't require
+MySQL's root account.
+
+
+Step 6: Launch the Built-in Server
 ----------------------------------
 
 Now that MediaCore itself is installed and the basics are configured,
@@ -408,8 +409,7 @@ via our `community forums <http://getmediacore.com/>`_.
 If this is your development machine, you're good to go.
 
 
-
-Step 6: Production Deployments
+Step 7: Production Deployments
 ------------------------------
 
 The built-in Paste server does a great job for development, but usually
