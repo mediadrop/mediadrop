@@ -217,7 +217,10 @@ def clean_xhtml(string, p_wrap=True, _cleaner_settings=None):
 
     If there is no markup in the string, apply paragraph formatting.
 
+    :param string: XHTML input string
+    :type string: unicode
     :param p_wrap: Wrap the output in <p></p> tags?
+    :type p_wrap: bool
     :param _cleaner_settings: Constructor kwargs for
         :class:`mediacore.lib.htmlsanitizer.Cleaner`
     :type _cleaner_settings: dict
