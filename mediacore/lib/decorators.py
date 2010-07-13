@@ -108,8 +108,6 @@ def expose(template='string'):
     Sets the 'exposed' and 'template' attributes of the wrapped method,
     marking it as safe to be accessed via HTTP request.
 
-    :Usage:
-
     Example, using a genshi template::
 
         class MyController(BaseController):
@@ -138,9 +136,7 @@ def expose_xhr(template_norm='string', template_xhr='json'):
     """
     Expose different templates for normal vs XMLHttpRequest requests.
 
-    :Usage:
-
-    Example, using two genshi templates:
+    Example, using two genshi templates::
 
         class MyController(BaseController):
 
@@ -308,7 +304,7 @@ class validate_xhr(validate):
 
     Regular synchronous requests are handled normally.
 
-    Example usage::
+    Example Usage::
 
         @expose_xhr()
         @validate_xhr(my_form_instance, error_handler=edit)

@@ -75,8 +75,6 @@ def paginate(name, items_per_page=10, use_prefix=False, items_first_page=None):
     This decorator is mainly exposing the functionality
     of :func:`webhelpers.paginate`.
 
-    :Usage:
-
     You use this decorator as follows::
 
      class MyController(object):

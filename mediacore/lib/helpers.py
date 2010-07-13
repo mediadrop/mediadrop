@@ -58,7 +58,7 @@ defined = [
     'Player', 'append_class_attr', 'clean_xhtml', 'delete_files',
     'duration_from_seconds', 'duration_to_seconds', 'embeddable_player',
     'excerpt_xhtml', 'excess_whitespace', 'filter_library_controls',
-    'get_featured_category', 'gravatar_from_email' 'is_admin',
+    'get_featured_category', 'gravatar_from_email', 'is_admin',
     'line_break_xhtml', 'list_acceptable_xhtml', 'list_accepted_extensions',
     'pick_any_media_file', 'pick_podcast_media_file',
     'player_controls_heights', 'players', 'pretty_file_size', 'redirect',
@@ -681,10 +681,9 @@ class HTML5Player(Player):
     """HTML5 <audio> / <video> tag.
 
     References:
-
-        http://dev.w3.org/html5/spec/Overview.html#audio
-        http://dev.w3.org/html5/spec/Overview.html#video
-        http://developer.apple.com/safari/library/documentation/AudioVideo/Conceptual/Using_HTML5_Audio_Video/Introduction/Introduction.html
+        - http://dev.w3.org/html5/spec/Overview.html#audio
+        - http://dev.w3.org/html5/spec/Overview.html#video
+        - http://developer.apple.com/safari/library/documentation/AudioVideo/Conceptual/Using_HTML5_Audio_Video/Introduction/Introduction.html
 
     """
     is_html5 = True
