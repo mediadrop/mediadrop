@@ -227,7 +227,7 @@ This means you can install MediaCore and all of its dependencies without
 worrying about overwriting any existing versions of Python libraries.
 
 The following command will create a folder named ``mediacore_env`` in the
-current directory you can put this folder anywhere, but remember where it
+current directory. You can put this folder anywhere, but remember where it
 is--we'll need to point to it later.
 
 .. sourcecode:: bash
@@ -389,7 +389,7 @@ Step 5: Launch the Built-in Server
 ----------------------------------
 
 Now that MediaCore itself is installed and the basics are configured,
-we can test it out using the Paste server. It's bundled with TG/Pylons
+we can test it out using the Paste server. It's bundled with Pylons
 so you have it already, simply run:
 
 .. sourcecode:: bash
