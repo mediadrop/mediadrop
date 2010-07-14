@@ -149,7 +149,8 @@ class PodcastsController(BaseController):
 
         if not slug:
             slug = title
-        podcast.slug = get_available_slug(Podcast, slug, podcast)
+        if slug != podcast.slug:
+            podcast.slug = get_available_slug(Podcast, slug, podcast)
         podcast.title = title
         podcast.subtitle = subtitle
         podcast.author = Author(author_name, author_email)

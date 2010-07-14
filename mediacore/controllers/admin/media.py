@@ -218,7 +218,8 @@ class MediaController(BaseController):
 
         if not slug:
             slug = title
-        media.slug = get_available_slug(Media, slug, media)
+        if slug != media.slug:
+            media.slug = get_available_slug(Media, slug, media)
         media.title = title
         media.author = Author(author_name, author_email)
         media.description = description
