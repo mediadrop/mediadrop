@@ -324,7 +324,7 @@ class MediaController(BaseController):
                     # Fallback to iterating over the file and returning chunks
                     response.app_iter = FileIterable(file_path)
 
-                response.headers['Content-Type'] = mimetype
+                response.headers['Content-Type'] = mimetype.encode('utf-8')
                 response.headers['Content-Disposition'] = 'attachment; '\
                     'filename="%s"' % file.display_name.encode('utf-8')
                 response.content_length = file_size
