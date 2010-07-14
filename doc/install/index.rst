@@ -35,13 +35,7 @@ If you run Windows and want to try MediaCore, you have two options:
 
 **You will need:**
 
-* Python 2.5.x or newer
-* MySQL 5.0.x or newer
-* `GCC <http://en.wikipedia.org/wiki/GNU_Compiler_Collection>`_  must be
-  installed and available on your ``$PATH`` for certain required Python
-  packages to install properly.
-* `Python setuptools <http://pypi.python.org/pypi/setuptools>`_
-* `Python virtualenv <pypi.python.ort/pypi/virtualenv>`_
+.. include:: requirements-list.rst
 
 The :ref:`install_requirements` page has examples of how to install these
 packages on a few different platforms. If you haven't already done so,

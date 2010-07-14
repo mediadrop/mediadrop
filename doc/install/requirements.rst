@@ -4,6 +4,11 @@
 Preliminary Requirements Installation
 =====================================
 
+MediaCore is dependant on a number of packages being available on your system.
+This page has examples of how to install them on a few different platforms.
+
+.. include:: requirements-list.rst
+
 Step 1.0: First Requirements on OS X
 ------------------------------------
 
