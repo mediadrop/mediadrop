@@ -150,9 +150,10 @@ var MediaManager = new Class({
 		this.statusForm.updateForm(Elements.from(resp)[0]);
 	},
 
-	updateSlugifier: function(){
+	updateSlugifier: function(form, json){
 		if (this.statusForm.isPublished()) this.metaForm.slug.detachSlugifier();
 		else this.metaForm.slug.attachSlugifier();
+		if (json && $defined(json.slug)) this.metaForm.slug.setSlug(json.slug);
 	}
 
 });
@@ -213,18 +214,18 @@ var StatusForm = new Class({
 
 	statusSaved: function(json){
 		json = json || {};
-		if (json.success) this.updateForm(json.status_form);
+		if (json.success) this.updateForm(json.status_form, json);
 		else this._displayError(json.message);
 	},
 
-	updateForm: function(form){
+	updateForm: function(form, json){
 		if ($type(form) == 'string') {
 			form = new Element('div', {html: form}).getFirst();
 		}
 		var formContents = $(form).getChildren();
 		this.form.empty().adopt(formContents);
 		this.attachDatePicker();
-		this.fireEvent('update', [this.form]);
+		this.fireEvent('update', [this.form, json]);
 	},
 
 	_displayError: function(msg){

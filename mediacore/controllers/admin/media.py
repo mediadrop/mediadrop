@@ -596,6 +596,7 @@ class MediaController(BaseController):
 
         """
         media = fetch_row(Media, id)
+        new_slug = None
 
         # Make the requested change assuming it will be allowed
         if update_button == _('Review Complete'):
@@ -604,24 +605,27 @@ class MediaController(BaseController):
             media.publishable = True
             media.publish_on = publish_on or datetime.now()
             media.update_popularity()
+            # Remove the stub prefix if the user wants the default media title
+            if media.slug.startswith('_stub_'):
+                new_slug = get_available_slug(Media, media.slug[len('_stub_'):])
+                media.slug = new_slug
         elif publish_on:
             media.publish_on = publish_on
             media.update_popularity()
 
-        try:
-            # Verify the change is valid by re-determining the status
-            media.update_status()
-            DBSession.add(media)
-            DBSession.flush()
-            data = dict(success=True)
-        except Exception, e:
-            data = dict(success=False, message=e.message)
+        # Verify the change is valid by re-determining the status
+        media.update_status()
+
+        DBSession.flush()
 
         if request.is_xhr:
             # Return the rendered widget for injection
             status_form_xhtml = unicode(update_status_form.display(
                 action=url_for(action='update_status'), media=media))
-            data['status_form'] = status_form_xhtml
-            return data
+            return dict(
+                success = True,
+                status_form = status_form_xhtml,
+                slug = new_slug,
+            )
         else:
             redirect(action='edit')
