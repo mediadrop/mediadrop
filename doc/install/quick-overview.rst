@@ -17,8 +17,8 @@ If you're not already familiar with the process, head to the main
    and to create a unique ``deployment.ini`` config. On development
    machines there's already a ``development.ini`` file for you to use.
 4. Configure your database credentials in the ini config file.
-5. Import ``setup.sql`` using ``mysqlimport``, phpMyAdmin or any other
-   tool.
+5. Run ``paster setup-app path/to/your/config.ini`` to set up the database
+   tables and data.
 6. Run ``paster serve path/to/your/config.ini`` and test it out!
 
 
