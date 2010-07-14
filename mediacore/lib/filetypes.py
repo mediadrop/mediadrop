@@ -18,7 +18,7 @@ from pylons import app_globals, config, request
 
 __all__ = [
     'accepted_extensions',
-    'guess_container_format'
+    'guess_container_format',
     'guess_media_type',
     'guess_mimetype',
     'pick_media_file_player',
