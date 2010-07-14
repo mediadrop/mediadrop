@@ -4,6 +4,15 @@
 Upgrading MediaCore
 ===================
 
+Upgrading MediaCore is now relatively straightforward:
+
+1. Make a new Virtual Environment
+2. Download and unpack the new version of MediaCore
+3. Move all your old media files and thumbnails into the new MediaCore
+   directory
+4. Set up your .ini config files in the new MediaCore directory
+5. Upgrade your database (now completely automated!)
+
 **NOTE 1:** `yourconf.ini` below should be replaced to refer to `development.ini`
 or `deployment.ini`, depending on which one you have set up for your current
 MediaCore installation.
