@@ -218,6 +218,8 @@ class MediaController(BaseController):
 
         if not slug:
             slug = title
+        elif slug.startswith('_stub_'):
+            slug = slug[len('_stub_'):]
         if slug != media.slug:
             media.slug = get_available_slug(Media, slug, media)
         media.title = title
@@ -242,6 +244,7 @@ class MediaController(BaseController):
 
             return dict(
                 media_id = media.id,
+                values = {'slug': slug},
                 link = url_for(action='edit', id=media.id),
                 status_form = status_form_xhtml,
             )

@@ -337,7 +337,9 @@ class validate_xhr(validate):
                 if not isinstance(result, dict):
                     result = {}
                 result.setdefault('success', True)
-                result.setdefault('values', tmpl_context.form_values)
+                values = result.get('values', {})
+                for key, value in tmpl_context.form_values.iteritems():
+                    values.setdefault(key, value)
             return result
         _copy_func_attrs(func, validate_wrapper)
         return validate_wrapper

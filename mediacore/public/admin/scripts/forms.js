@@ -118,6 +118,7 @@ Element.Properties.fieldValue = {
 		var tag = this.get('tag');
 		if (tag == 'input') {
 			if (this.type == 'checkbox' || this.type == 'radio') this.checked = !!value;
+			else if (this.retrieve('BoxForm.Slug')) this.retrieve('BoxForm.Slug').setSlug(value);
 			else this.value = value;
 		} else if (tag == 'textarea') {
 			if (this.hasClass('tinymcearea')) tinyMCE.get(this.name).setContent(value || '');
@@ -263,7 +264,7 @@ BoxForm.Slug = new Class({
 	},
 
 	initialize: function(el, opts){
-		this.field = $(el);
+		this.field = $(el).store('BoxForm.Slug', this);
 		this.container = this.field.getParent('li');
 		this.label = this.container.getElement('div.form_label');
 		this.indicator = new Element('span', {'class': 'slug-indicator'})
