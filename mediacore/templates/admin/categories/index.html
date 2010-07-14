@@ -37,15 +37,9 @@
 <body class="menu-settings-on menu-settings-categories-on">
 	<div class="box">
 		<div class="box-head">
-			<a id="add-btn" href="${h.url_for(action='edit', id='new')}" class="btn btn-add-category f-rgt"><span>Add Category</span></a>
 			<h1>Categories</h1>
-		</div>
-		<div class="box-content caveats">
-			<h2>Notes</h2>
-			<ul class="caveats">
-				<li>Categories, as the name implies, provide a concise list of the main categories of media on your site. Like <a href="${h.url_for(controller='admin/tags', action='index')}">Tags</a>, they are considered when searching for media and when displaying related media. Unlike Tags, Categories have their own <a href="${h.url_for(controller='categories', action='index')}">section in the front-end</a> that that provides a way for users to explore the media by subject matter.</li>
-				<li>Categories can be nested. A parent category is considered to contain all of the media contained by its child categories.</li>
-			</ul>
+			<a id="add-btn" href="${h.url_for(action='edit', id='new')}" class="btn btn-add-category"><span>Add Category</span></a>
+			<span class="box-head-sec">${h.doc_link('Help', 'admin/settings', 'categories')}</span>
 		</div>
 		<table cellpadding="0" cellspacing="0" id="category-table">
 			<thead>

@@ -212,6 +212,13 @@ body {
 	margin: 3px 0;
 	color: #878685;
 }
+.box-head h1 {
+	float: left;
+}
+.box-head #add-btn {
+	margin: -1px 0 -3px 10px;
+	float: left;
+}
 .box-content {
 	padding: 10px;
 }

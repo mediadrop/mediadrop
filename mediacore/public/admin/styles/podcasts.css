@@ -29,7 +29,6 @@
 }
 .btn-add-podcast { background-image: url('../images/buttons/add-podcast.png'); width: 120px; height: 28px; }
 .btn-add-episode { background-image: url('../images/buttons/add-episode.png'); width: 120px; height: 28px; }
-.box-head .btn-add-podcast { margin: -1px 0 -3px 10px; }
 
 #podcast-table tbody tr td {
 	vertical-align: top;

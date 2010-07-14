@@ -28,14 +28,7 @@
 	<div class="box">
 		<div class="box-head">
 			<h1>Comments</h1>
-		</div>
-		<div class="box-content caveats">
-			<h2>Notes</h2>
-			<ul class="caveats">
-				<li>Enable akismet anti-spam protection by setting your API key.</li>
-				<li>The Akismet URL is the 'blog url' you signed up with. This defaults to your application root, if empty.</li>
-				<li>If Akismet is enabled, spam will be discarded before saving it for moderator approval.</li>
-			</ul>
+			<span class="box-head-sec">${h.doc_link('Help', 'admin/settings', 'comments')}</span>
 		</div>
 		<form py:replace="XML(form(form_values))" />
 	</div>

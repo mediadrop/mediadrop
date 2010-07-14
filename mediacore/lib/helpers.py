@@ -55,7 +55,7 @@ imports = [
 ]
 defined = [
     'EmbedPlayer', 'FlowPlayer', 'HTML5Player', 'JWPlayer', 'JWPlayerHTML5',
-    'Player', 'append_class_attr', 'clean_xhtml', 'delete_files',
+    'Player', 'append_class_attr', 'clean_xhtml', 'delete_files', 'doc_link',
     'duration_from_seconds', 'duration_to_seconds', 'embeddable_player',
     'excerpt_xhtml', 'excess_whitespace', 'filter_library_controls',
     'get_featured_category', 'gravatar_from_email', 'is_admin',
@@ -789,3 +789,16 @@ def pick_any_media_file(files):
     :returns: A :class:`~mediacore.model.media.MediaFile` object or None
     """
     return pick_media_file_player(files, browser='chrome')[0]
+
+def doc_link(text, page, anchor=''):
+    """Return a genshi markup element representing a link to the documentation.
+
+    XXX: Target attribute is not XHTML compliant.
+    """
+    attrs = {
+        'href': 'http://getmediacore.com/docs/user/%s.html#%s' % (page, anchor),
+        'target': '_blank',
+    }
+    attrs_string = ' '.join(['%s="%s"' % (key, attrs[key]) for key in attrs])
+    out = '<a %s>%s</a>' % (attrs_string, text)
+    return genshi.core.Markup(out)

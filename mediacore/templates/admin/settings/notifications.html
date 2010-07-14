@@ -28,14 +28,7 @@
 	<div class="box">
 		<div class="box-head">
 			<h1>Notification Emails</h1>
-		</div>
-		<div class="box-content caveats">
-			<h2>Notes</h2>
-			<ul class="caveats">
-				<li>Where should MediaCore send an email when the following actions occur?</li>
-				<li>Email fields may be comma separated lists of email addresses.</li>
-				<li>Leave blank for no notification.</li>
-			</ul>
+			<span class="box-head-sec">${h.doc_link('Help', 'admin/settings', 'notifications')}</span>
 		</div>
 		<form py:replace="XML(form(form_values))" />
 	</div>

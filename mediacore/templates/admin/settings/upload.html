@@ -28,14 +28,7 @@
 	<div class="box">
 		<div class="box-head">
 			<h1>Upload</h1>
-		</div>
-		<div class="box-content caveats">
-			<h2>Notes</h2>
-			<ul class="caveats">
-				<li>Use the FTP options below if you want to store media files on a CDN instead of storing them locally.</li>
-				<li>In this release of MediaCore, only remote HTTP hosting is available: RTMP is unsupported.</li>
-				<li>Thumbnails will only ever be fetched from YouTube, Vimeo, etc. if the embedded video is the first media file added to a particular media item.</li>
-			</ul>
+			<span class="box-head-sec">${h.doc_link('Help', 'admin/settings', 'upload')}</span>
 		</div>
 		<form py:replace="XML(form(form_values))" />
 	</div>

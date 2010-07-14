@@ -32,19 +32,20 @@
 <body class="menu-media-on">
 	<div class="box">
 		<div class="box-head">
+			<py:choose>
+				<h1 py:when="search">Media that matches '${search}'</h1>
+				<h1 py:when="podcast_filter == 'Unfiled'">Unfiled Media</h1>
+				<h1 py:when="podcast_filter is None">All Media</h1>
+				<h1 py:otherwise="">Media for ${podcast_filter_title}</h1>
+			</py:choose>
+			<a class="btn btn-add-media" id="add-btn" href="${h.url_for(action='edit', id='new')}"><span>Add New Media</span></a>
 			<div id="quicksearch" class="f-rgt">
 				${XML(search_form(dict(search=search)))}
 			</div>
 			<div id="podcast-filter" class="f-rgt">
 				${XML(podcast_filter_form(dict(podcast_filter=podcast_filter)))}
 			</div>
-			<div py:choose="" class="f-lft">
-				<h1 py:when="search">Media that matches '${search}'</h1>
-				<h1 py:when="podcast_filter == 'Unfiled'">Unfiled Media</h1>
-				<h1 py:when="podcast_filter is None">All Media</h1>
-				<h1 py:otherwise="">Media for ${podcast_filter_title}</h1>
-			</div>
-			<a class="btn btn-add-media f-lft" href="${h.url_for(action='edit', id='new')}"><span>Add New Media</span></a>
+			<span class="box-head-sec">${h.doc_link('Help', 'admin/media', '')}</span>
 		</div>
 		<xi:include href="admin/media/index-table.html" py:with="media=media" />
 	</div>
