@@ -128,7 +128,7 @@ class PodcastsController(BaseController):
     @expose()
     @validate(podcast_form, error_handler=edit)
     def save(self, id, slug, title, subtitle, author_name, author_email,
-             description, details, delete=None, **kwargs):
+             description, details, feed, delete=None, **kwargs):
         """Save changes or create a new :class:`~mediacore.model.podcasts.Podcast` instance.
 
         Form handler the :meth:`edit` action and the
@@ -156,14 +156,13 @@ class PodcastsController(BaseController):
         podcast.description = description
         podcast.copyright = details['copyright']
         podcast.category = details['category']
-        podcast.itunes_url = details['itunes_url']
-        podcast.feedburner_url = details['feedburner_url']
+        podcast.itunes_url = feed['itunes_url']
+        podcast.feedburner_url = feed['feedburner_url']
         podcast.explicit = {'yes': True, 'clean': False}.get(details['explicit'], None)
 
-        DBSession.add(podcast)
-        DBSession.flush()
-
         if id == 'new':
+            DBSession.add(podcast)
+            DBSession.flush()
             create_default_thumbs_for(podcast)
 
         redirect(action='edit', id=podcast.id)
