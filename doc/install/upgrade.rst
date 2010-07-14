@@ -16,10 +16,6 @@ directory and Installation directory, respectively.
 the correct versions for your installation. For example, with `MediaCore-0.8.0`
 and `MediaCore-0.8.1`, respectively.
 
-Regardless of which version you're currently running, the first step to upgrade
-is to download the newest release from the `MediaCore download page
-<http://getmediacore.com/download>`_.
-
 
 Step 1: Re-Create Your Virtual Environment
 ------------------------------------------
@@ -61,6 +57,11 @@ your current MediaCore installation.
 Step 3: Migrate Your Media Files and Thumbnails
 -----------------------------------------------
 
+Here we will move all of the relevant files in ``./data/``
+and ``./mediacore/public/images/podcasts/``
+and ``./mediacore/public/images/media/`` from your old installation directory
+to your new installation directory.
+
 .. sourcecode:: bash
 
    # Navigate to the parent directory, where MediaCore-OLD and MediaCore-NEW
@@ -73,12 +74,12 @@ Step 3: Migrate Your Media Files and Thumbnails
    mv ./MediaCore-OLD/data/media ./MediaCore-NEW/data/
 
    # Ensure that the new default thumbnails are saved.
-   cp ./MediaCore-NEW/public/images/podcasts/* ./MediaCore-OLD/public/images/podcasts/
-   cp ./MediaCore-NEW/public/images/media/* ./MediaCore-OLD/public/images/media/
+   cp ./MediaCore-NEW/mediacore/public/images/podcasts/* ./MediaCore-OLD/mediacore/public/images/podcasts/
+   cp ./MediaCore-NEW/mediacore/public/images/media/* ./MediaCore-OLD/mediacore/public/images/media/
 
    # Move over the old thumbnails.
-   mv ./MediaCore-OLD/public/images/podcasts ./MediaCore-NEW/public/images/
-   mv ./MediaCore-OLD/public/images/media ./MediaCore-NEW/public/images/
+   mv ./MediaCore-OLD/mediacore/public/images/podcasts ./MediaCore-NEW/mediacore/public/images/
+   mv ./MediaCore-OLD/mediacore/public/images/media ./MediaCore-NEW/mediacore/public/images/
 
 
 Step 4: Create a New Config
