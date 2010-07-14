@@ -53,7 +53,7 @@
 				Download this ${media.type}!
 			</a>
 			<script type="text/javascript">
-				${flash_player_script(media, file, width, height, player, player_id)}
+				${flash_player_script(media, file, width, height, player, player_id, autoplay, autobuffer, qualified)}
 			</script>
 		</py:when>
 
@@ -68,36 +68,29 @@
 			<video id="${player_id}" py:when="'video'" py:attrs="attrs" height="${height}" width="${width}">
 				If your browser supported HTML5, you'd be seeing a video player here instead of this text!
 			</video>
-			<script py:if="player.fallback is not None" type="text/javascript">
-				function can_play_container_type(cont) {
-					// Returns false, '', 'maybe', or 'probably'
-					var v = document.createElement("video");
-					// Are we dealing with a browser that supports html5 video?
-					if ( !v.play ) { return false; }
-					// If so, can it play the requested container type?
-					return v.canPlayType(cont);
-				}
-				var can_play_file = can_play_container_type('${h.guess_mimetype(file.container)}');
-				if ( !can_play_file ) {
-					${flash_player_script(media, file, width, height, player.fallback, player_id)}
-				}
+			<script py:if="player.fallback is not None" type="text/javascript" py:with="width, height = player.fallback.adjust_dimensions(media, file, width, height)">
+				$('${player_id}').addEvent('error', function(){
+					if (this.error.code == this.error.MEDIA_ERR_SRC_NOT_SUPPORTED) {
+						${flash_player_script(media, file, width, height, player.fallback, player_id, autoplay, autobuffer, qualified)}
+					}
+				});
 			</script>
 			${Markup(player.include(player_id))}
 		</py:when>
 	</py:def>
 
-	<py:def function="flash_player_script(media, file, width, height, player, player_id)">
+	<py:def function="flash_player_script(media, file, width, height, player, player_id, autoplay, autobuffer, qualified)">
 		<?python
 		swf_url = player.swf_url(media, file, qualified=qualified)
 		vars = h.json.dumps(player.flashvars(media, file, autoplay=autoplay, autobuffer=autobuffer, qualified=qualified))
 		?>
-		var flash_obj = new Swiff('${swf_url}', {
+		var flashObj = new Swiff('${swf_url}', {
 			width: ${width},
 			height: ${height},
 			params: {allowFullscreen: 'true'},
 			vars: ${vars}
 		});
-		var div = new Element('div').replaces('${player_id}').set('id', '${player_id}').grab(flash_obj);
+		var div = new Element('div').replaces('${player_id}').set('id', '${player_id}').grab(flashObj);
 	</py:def>
 
 	<py:def function="media_grid(media, id=None, thumb_size='s', desc_len=90)"

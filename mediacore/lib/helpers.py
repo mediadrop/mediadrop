@@ -48,7 +48,6 @@ imports = [
     'feedgenerator', 'format_paragraphs', 'html', 'literal', 'misc', 'number',
     'paginate', 'quote', 'tags', 'text', 'unquote', 'urlencode', 'urlparse',
     'config', # is this appropriate to export here?
-    'guess_mimetype', # XXX: imported from mediacore.lib.filetypes, for template use.
     'pick_media_file_player', # XXX: imported from mediacore.lib.filetypes, for template use.
     'thumb_url', # XXX: imported from  mediacore.lib.thumbnails, for template use.
     'thumb', # XXX: imported from  mediacore.lib.thumbnails, for template use.
@@ -65,8 +64,6 @@ defined = [
     'store_transient_message', 'strip_xhtml', 'truncate', 'truncate_xhtml',
     'url', 'url_for', 'wrap_long_words',
 ]
-# TODO: It doesn't seem to matter which members are exposed in the __all__
-#       list--templates have access to all of them anyway. Look into this.
 __all__ = imports + defined
 
 def url(*args, **kwargs):
