@@ -73,15 +73,16 @@ var MediaManager = new Class({
 	},
 
 	onFileAdded: function(json){
+		// XXX: mergeMedia calls fileAdded directly, which triggers this event an extra time
 		if (this.isNew) {
 			this.initNewMedia(json.media_id);
 			this.updateFormActions(json.media_id);
 			this.thumbUploader.setNewID(json.media_id);
 		}
-		this.setStubData(json.title, json.slug, json.link);
 		if (this.newID && this.newID != json.media_id) {
 			this.mergeMedia(json.media_id);
-		} else {
+		} else if ($defined(json.slug)) {
+			this.setStubData(json.title, json.slug, json.link);
 			this.updateStatusForm(json.status_form);
 		}
 		this.thumbUploader.refreshThumb();
@@ -101,7 +102,7 @@ var MediaManager = new Class({
 		this.updateStatusForm(json.status_form);
 		this.updateTitle(json.title, json.link);
 		new Hash(json.file_forms).each(function(xhtml, id){
-			var pseudoresp = {success: true, media_id: json.media_id};
+			var pseudoresp = {success: true, media_id: this.newID};
 			var row = Elements.from(xhtml)[0];
 			var replaces = $(this.files._getFileID(id));
 			this.files.fileAdded(pseudoresp, replaces, row);
