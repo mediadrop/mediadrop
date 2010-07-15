@@ -256,15 +256,17 @@ BoxForm.Slug = new Class({
 
 	Implements: Options,
 
-	Binds: ['slugify', 'toggle'],
+	Binds: ['onChange', 'slugify', 'toggle'],
 
 	options: {
 		slugify: '',
 		slugifyOn: 'change'
 	},
 
+	initialValue: null,
+
 	initialize: function(el, opts){
-		this.field = $(el).store('BoxForm.Slug', this);
+		this.field = $(el).store('BoxForm.Slug', this).addEvent('change', this.onChange);
 		this.container = this.field.getParent('li');
 		this.label = this.container.getElement('div.form_label');
 		this.indicator = new Element('span', {'class': 'slug-indicator'})
@@ -293,6 +295,7 @@ BoxForm.Slug = new Class({
 			this.container.removeClass('slug-minimized').addClass('slug-expanded');
 			this.field.set('type', 'text').select();
 			this.toggleButton.set('text', 'Hide');
+			if (this.initialValue == null) this.initialValue = this.field.get('value');
 		} else {
 			this.container.addClass('slug-minimized').removeClass('slug-expanded');
 			this.field.set('type', 'hidden');
@@ -316,6 +319,11 @@ BoxForm.Slug = new Class({
 		this.field.value = slug;
 		this.indicator.set('text', slug);
 		return this;
+	},
+
+	onChange: function(e){
+		if (this.initialValue == this.field.get('value')) return;
+		this.detachSlugifier();
 	}
 
 });
