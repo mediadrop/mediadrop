@@ -45,7 +45,7 @@ from mediacore.model.comments import Comment, CommentQuery, comments
 from mediacore.model.tags import Tag, TagList, tags, extract_tags, fetch_and_create_tags
 from mediacore.model.categories import Category, CategoryList, categories
 from mediacore.lib import helpers
-from mediacore.lib.filetypes import AUDIO, AUDIO_DESC, CAPTIONS, VIDEO, guess_mimetype, pick_media_file_player
+from mediacore.lib.filetypes import AUDIO, AUDIO_DESC, CAPTIONS, VIDEO, guess_mimetype
 from mediacore.lib.embedtypes import external_embedded_containers
 
 class MediaException(Exception): pass

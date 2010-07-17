@@ -40,15 +40,16 @@ from webhelpers.html.converters import format_paragraphs
 
 from mediacore.lib.compat import any
 from mediacore.lib.htmlsanitizer import Cleaner, entities_to_unicode as decode_entities, encode_xhtml_entities as encode_entities
-from mediacore.lib.filetypes import AUDIO, AUDIO_DESC, CAPTIONS, VIDEO, accepted_extensions, pick_media_file_player, guess_mimetype
+from mediacore.lib.filetypes import AUDIO, AUDIO_DESC, CAPTIONS, VIDEO, accepted_extensions, guess_mimetype
 from mediacore.lib.thumbnails import thumb, thumb_url
+from mediacore.lib.players import pick_media_file_player
 
 imports = [
     'any', 'containers', 'date', 'decode_entities', 'encode_entities',
     'feedgenerator', 'format_paragraphs', 'html', 'literal', 'misc', 'number',
     'paginate', 'quote', 'tags', 'text', 'unquote', 'urlencode', 'urlparse',
     'config', # is this appropriate to export here?
-    'pick_media_file_player', # XXX: imported from mediacore.lib.filetypes, for template use.
+    'pick_media_file_player', # XXX: imported from mediacore.lib.players, for template use.
     'thumb_url', # XXX: imported from  mediacore.lib.thumbnails, for template use.
     'thumb', # XXX: imported from  mediacore.lib.thumbnails, for template use.
 ]
@@ -546,215 +547,6 @@ def store_transient_message(cookie_name, text, time=None, path='/', **kwargs):
     new_data = quote(json.dumps(msg))
     response.set_cookie(cookie_name, new_data, path=path)
     return msg
-
-
-class Player(object):
-    """Abstract Player Class"""
-    is_flash = False
-    is_embed = False
-    is_html5 = False
-
-    def __init__(self, media, file, browser, width=400, height=225,
-                 autoplay=False, autobuffer=False, qualified=False,
-                 fallback=None):
-        self.media = media
-        self.file = file
-        self.browser = browser
-        self.width = width
-        self.height = height
-        self.autoplay = autoplay
-        self.autobuffer = autobuffer
-        self.qualified = qualified
-        self.fallback = fallback
-
-    def include(self):
-        return ''
-
-    def update(self, **kwargs):
-        for key, value in kwargs.iteritems():
-            # Throw an exception if given an unrecognized key
-            getattr(self, key)
-            setattr(self, key, value)
-
-    @property
-    def adjusted_width(self):
-        return self.width
-
-    @property
-    def adjusted_height(self):
-        return self.height + player_controls_heights.get(self.__class__, 0)
-
-    @property
-    def elem_id(self):
-        return '%s-%s-player' % (self.media.slug, self.file.id)
-
-class FlowPlayer(Player):
-    """Flash-based FlowPlayer"""
-    is_flash = True
-
-    def swf_url(self):
-        return url_for('/scripts/third-party/flowplayer-3.1.5.swf', qualified=self.qualified)
-
-    def flashvars(self):
-        playlist = []
-        vars = {
-            'canvas': {'backgroundColor': '#000', 'backgroundGradient': 'none'},
-            'clip': {'scaling': 'fit'},
-            'playlist': playlist,
-        }
-
-        # Show a preview image
-        if self.media.type == AUDIO or not self.autoplay:
-            playlist.append({
-                'url': thumb_url(self.media, 'l', qualified=self.qualified),
-                'autoPlay': True,
-                'autoBuffer': True,
-            })
-
-        playlist.append({
-            'url': self.file.play_url(qualified=self.qualified),
-            'autoPlay': self.autoplay,
-            'autoBuffer': self.autoplay or self.autobuffer,
-        })
-
-        # Flowplayer wants these options passed as an escaped JSON string
-        # inside a single 'config' flashvar. When using the flowplayer's
-        # own JS, this is automatically done, but since we use Swiff, a
-        # SWFObject clone, we have to do this ourselves.
-        vars = {'config': json.dumps(vars, separators=(',', ':'))}
-        return vars
-
-class JWPlayer(Player):
-    """Flash-based JWPlayer -- this can play YouTube videos!"""
-    is_flash = True
-    providers = {
-        AUDIO: 'sound',
-        VIDEO: 'video',
-    }
-
-    def swf_url(self):
-        return url_for('/scripts/third-party/jw_player/player.swf', qualified=self.qualified)
-
-    def flashvars(self):
-        vars = {
-            'image': thumb_url(self.media, 'l', qualified=self.qualified),
-            'autostart': self.autoplay,
-        }
-
-        if self.file.container == 'youtube':
-            vars['provider'] = 'youtube'
-            vars['file'] = self.file.link_url(qualified=self.qualified)
-        else:
-            vars['provider'] = self.providers[self.file.type]
-            vars['file'] = self.file.play_url(qualified=self.qualified)
-
-        plugins = []
-        audio_desc = self.media.audio_desc
-        captions = self.media.captions
-        if audio_desc:
-            plugins.append('audiodescription');
-            vars['audiodescription.file'] = audio_desc.play_url(qualified=self.qualified)
-        if captions:
-            plugins.append('captions');
-            vars['captions.file'] = captions.play_url(qualified=self.qualified)
-        if plugins:
-            vars['plugins'] = ','.join(plugins)
-
-        return vars
-
-class EmbedPlayer(Player):
-    """Generic third-party embed player.
-
-    YouTube, Vimeo and Google Video can all be embedded in the same way.
-    """
-    is_embed = True
-    is_flash = True
-
-    def swf_url(self):
-        return self.file.play_url(qualified=self.qualified)
-
-    def flashvars(self):
-        return {}
-
-class HTML5Player(Player):
-    """HTML5 <audio> / <video> tag.
-
-    References:
-
-        http://dev.w3.org/html5/spec/Overview.html#audio
-        http://dev.w3.org/html5/spec/Overview.html#video
-        http://developer.apple.com/safari/library/documentation/AudioVideo/Conceptual/Using_HTML5_Audio_Video/Introduction/Introduction.html
-
-    """
-    is_html5 = True
-
-    def html5_attrs(self):
-        attrs = {
-            'src': self.file.play_url(qualified=self.qualified),
-            'controls': 'controls',
-        }
-        if self.autoplay:
-            attrs['autoplay'] = 'autoplay'
-        elif self.autobuffer:
-            # This isn't included in the HTML5 spec, but Safari supports it
-            attrs['autobuffer'] = 'autobuffer'
-        if self.file.type == VIDEO:
-            attrs['poster'] = thumb_url(self.media, 'l', qualified=self.qualified)
-        return attrs
-
-class JWPlayerHTML5(HTML5Player):
-    """HTML5-based JWPlayer"""
-
-    def include(self):
-        jquery = url_for('/scripts/third-party/jQuery-1.4.2-compressed.js', qualified=self.qualified)
-        jwplayer = url_for('/scripts/third-party/jw_player/html5/jquery.jwplayer-compressed.js', qualified=self.qualified)
-        skin = url_for('/scripts/third-party/jw_player/html5/skin/five.xml', qualified=self.qualified)
-        include = """
-<script type="text/javascript" src="%s"></script>
-<script type="text/javascript" src="%s"></script>
-<script type="text/javascript">
-    jQuery('#%s').jwplayer({
-        skin:'%s'
-    });
-</script>""" % (jquery, jwplayer, self.elem_id, skin)
-        return include
-
-    def html5_attrs(self):
-        # We don't want the default controls to display. We'll use the JW controls.
-        attrs = super(JWPlayerHTML5, self).html5_attrs()
-        del attrs['controls']
-        return attrs
-
-players = {
-    'flowplayer': FlowPlayer,
-    'jwplayer': JWPlayer,
-    'jwplayer-html5': JWPlayerHTML5,
-    'youtube': EmbedPlayer,
-    'google': EmbedPlayer,
-    'vimeo': EmbedPlayer,
-    'html5': HTML5Player,
-    'sublime': HTML5Player,
-}
-"""Maps player names to classes that describe their behaviour.
-
-The names are from the html5_player and flash_player settings.
-
-You can use set 'youtube' to JWPlayer to take advantage of YouTube's
-chromeless player. The only catch is that it doesn't support HD.
-"""
-
-player_controls_heights = {
-    'youtube': 25,
-    'google': 27,
-    'flowplayer': 24,
-    'jwplayer': 24,
-    'jwplayer-html5': 0,
-}
-"""The height of the controls for each player.
-
-We increase the height of the player by this number of pixels to
-maintain a 16:9 aspect ratio.
-"""
 
 def pick_podcast_media_file(media):
     """Return the best choice of files to play.

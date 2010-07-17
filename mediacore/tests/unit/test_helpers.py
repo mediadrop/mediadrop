@@ -1,7 +1,7 @@
 import pylons
 from mediacore.tests import *
 from mediacore.lib.compat import sha1
-from mediacore.lib.filetypes import pick_media_file_player
+from mediacore.lib.players import pick_media_file_player
 from mediacore.lib.mediafiles import add_new_media_file, save_media_obj
 from mediacore.lib.thumbnails import thumb_path
 from mediacore.model import DBSession
@@ -124,7 +124,7 @@ class TestHelpers(TestController):
             ('unknown', 0,          'html5', True, None, None),
         ]
 
-        from mediacore.lib.helpers import players
+        from mediacore.lib.players import players
         players = dict(players)
         players[None] = None
         media_files[None] = None
@@ -136,16 +136,18 @@ class TestHelpers(TestController):
                     player_type = p_type,
                     include_embedded = embedded
             )
-            file = player.file
-            browser, version = player.browser
+            if player:
+                file = player.file
+                browser, version = player.browser
+            else:
+                file, browser, version = None, None, None
             print "Unsized:", browser, version, p_type, embedded, e_file, e_player
             player_class = player and player.__class__ or None
             assert player_class == players[e_player], "Expected %r but was %r" % (players[e_player], player_class)
             assert file == media_files[e_file], "Expected %r but got %r" % (media_files[e_file], file)
 
     def test_sized_file_picking(self):
-        """Test while file gets served to each browser, given that all files
-        are the same filesize.
+        """Test while file gets served to each browser, given that all files are the same filesize.
         """
         media, media_files = self._get_media('sized')
 
@@ -237,7 +239,7 @@ class TestHelpers(TestController):
             ('unknown', 0,          'html5', True, None, None),
         ]
 
-        from mediacore.lib.helpers import players
+        from mediacore.lib.players import players
         players = dict(players)
         players[None] = None
         media_files[None] = None
@@ -249,8 +251,11 @@ class TestHelpers(TestController):
                     player_type = p_type,
                     include_embedded = embedded
             )
-            file = player.file
-            browser, version = player.browser
+            if player:
+                file = player.file
+                browser, version = player.browser
+            else:
+                file, browser, version = None, None, None
             print "Sized:", browser, version, p_type, embedded, e_file, e_player
             player_class = player and player.__class__ or None
             assert player_class == players[e_player], "Expected %r but was %r" % (players[e_player], player_class)
