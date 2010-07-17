@@ -137,6 +137,9 @@ a.published { background-image: url('../images/statuses/published-both.png'); }
 	width: 105px;
 	padding-right: 5px;
 }
+#fmgr .fmgr-upload-progress {
+	width: 105px;
+}
 #fmgr table .file-delete {
 	height: 16px;
 	width: 16px;

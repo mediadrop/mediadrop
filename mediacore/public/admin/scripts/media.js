@@ -490,9 +490,10 @@ var FileManager = new Class({
 			return this.onFileUploadStart.delay(2, this, [file, (pollAttempts || 0) + 1]);
 		}
 		file.ui.progress = new Element('span', {'class': 'f-rgt', text: '0%'});
-		file.ui.type.empty()
+		var progressContainer = new Element('div', {'class': 'fmgr-upload-progress'})
 			.grab(file.ui.progress)
 			.grab(new Element('span', {text: 'Uploading'}));
+		file.ui.type.empty().grab(progressContainer);
 	},
 
 	onFileUploadProgress: function(file){
