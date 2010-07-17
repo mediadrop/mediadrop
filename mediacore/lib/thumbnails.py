@@ -23,9 +23,6 @@ from PIL import Image
 #      behavior from mediacore.lib.helpers.url_for
 from pylons import config, url as url_for
 
-import logging
-log = logging.getLogger(__name__)
-
 __all__ = [
     'ThumbDict', 'create_default_thumbs_for', 'create_thumbs_for',
     'has_thumbs', 'has_default_thumbs',

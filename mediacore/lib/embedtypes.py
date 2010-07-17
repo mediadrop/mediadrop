@@ -13,6 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import logging
 import re
 import simplejson
 import shutil
@@ -26,6 +27,8 @@ from mediacore.lib.compat import max
 from mediacore.lib.filetypes import AUDIO, VIDEO, AUDIO_DESC, CAPTIONS
 
 __all__ = ['parse_embed_url']
+
+log = logging.getLogger(__name__)
 
 def get_embed_details_youtube(id):
     """Given a YouTube video ID, return the associated thumbnail URL and
