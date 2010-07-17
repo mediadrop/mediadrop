@@ -334,7 +334,7 @@ var SwiffUploadManager = new Class({
 			this.uploader.fileRemove(this.uploader.fileList[0]);
 		}
 		this.setEnabled(true);
-		this.fileInfoDiv.set('html', 'You chose: <span class="filename">'+files[0].name+' ('+Swiff.Uploader.formatUnit(files[0].size, 'b')+')</span>');
+		this.fileInfoDiv.set('html', '<span class="f-lft">You chose:&nbsp;</span> <span class="filename">'+files[0].name+' ('+Swiff.Uploader.formatUnit(files[0].size, 'b')+')</span>');
 	},
 
 	// called by the uploader when a file upload is completed
