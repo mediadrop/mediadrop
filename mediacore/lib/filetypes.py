@@ -319,7 +319,7 @@ def ordered_playable_files(files):
     # Done. Join and return the new, sorted list.
     return video_files + audio_files
 
-def pick_media_file_player(files, browser=None, version=None, user_agent=None,
+def pick_media_file_player(media, browser=None, version=None, user_agent=None,
         player_type=None, include_embedded=True):
     """Return the best choice of files to play and which player to use.
 
@@ -331,8 +331,7 @@ def pick_media_file_player(files, browser=None, version=None, user_agent=None,
          clients when using files for consumption in an HTML5 player, and
          to use the standard codecs when encoding for Flash player use.
 
-    :param files: :class:`~mediacore.model.media.MediaFile` instances.
-    :type files: list
+    :param media: A :class:`~mediacore.model.media.Media` instance.
     :param browser: Optional browser name to bypass user agents altogether.
         See :attr:`native_browser_supported_containers` for possible values.
     :type browser: str or None
@@ -351,6 +350,12 @@ def pick_media_file_player(files, browser=None, version=None, user_agent=None,
     :rtype: tuple
 
     """
+    files = ordered_playable_files(media.files)
+
+    # Only proceed if this file is a playable type.
+    if not files:
+        return None
+
     from mediacore.lib.helpers import players
 
     def get_html5_player():
@@ -386,9 +391,6 @@ def pick_media_file_player(files, browser=None, version=None, user_agent=None,
 
     html5_player = app_globals.settings['html5_player']
     flash_player = app_globals.settings['flash_player']
-
-    # Only proceed if this file is a playable type.
-    files = ordered_playable_files(files)
 
     file, player = None, None
     ef_file, ef_player = None, None
@@ -470,6 +472,8 @@ def pick_media_file_player(files, browser=None, version=None, user_agent=None,
                 fallback = players[flash_player]
             elif player.is_flash:
                 fallback = players[html5_player]
-        player = player(fallback=fallback)
+        if fallback:
+            fallback = fallback(media, file, browser=(browser, version))
+        player = player(media, file, browser=(browser, version), fallback=fallback)
 
-    return file, player, browser, version
+    return player

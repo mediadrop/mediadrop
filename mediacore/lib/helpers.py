@@ -554,31 +554,48 @@ class Player(object):
     is_embed = False
     is_html5 = False
 
-    def __init__(self, fallback=None):
+    def __init__(self, media, file, browser, width=400, height=225,
+                 autoplay=False, autobuffer=False, qualified=False,
+                 fallback=None):
+        self.media = media
+        self.file = file
+        self.browser = browser
+        self.width = width
+        self.height = height
+        self.autoplay = autoplay
+        self.autobuffer = autobuffer
+        self.qualified = qualified
         self.fallback = fallback
 
-    @staticmethod
-    def include(elem_id):
-        return ""
+    def include(self):
+        return ''
 
-    @staticmethod
-    def adjust_dimensions(media, file, width, height):
-        return width, height
+    def update(self, **kwargs):
+        for key, value in kwargs.iteritems():
+            # Throw an exception if given an unrecognized key
+            getattr(self, key)
+            setattr(self, key, value)
+
+    @property
+    def adjusted_width(self):
+        return self.width
+
+    @property
+    def adjusted_height(self):
+        return self.height + player_controls_heights.get(self.__class__, 0)
+
+    @property
+    def elem_id(self):
+        return '%s-%s-player' % (self.media.slug, self.file.id)
 
 class FlowPlayer(Player):
     """Flash-based FlowPlayer"""
     is_flash = True
 
-    @staticmethod
-    def adjust_dimensions(media, file, width, height):
-        return width, height + player_controls_heights.get('flowplayer', 0)
+    def swf_url(self):
+        return url_for('/scripts/third-party/flowplayer-3.1.5.swf', qualified=self.qualified)
 
-    @staticmethod
-    def swf_url(media, file, qualified=False):
-        return url_for('/scripts/third-party/flowplayer-3.1.5.swf', qualified=qualified)
-
-    @staticmethod
-    def flashvars(media, file, autoplay=False, autobuffer=False, qualified=False):
+    def flashvars(self):
         playlist = []
         vars = {
             'canvas': {'backgroundColor': '#000', 'backgroundGradient': 'none'},
@@ -587,17 +604,17 @@ class FlowPlayer(Player):
         }
 
         # Show a preview image
-        if media.type == AUDIO or not autoplay:
+        if self.media.type == AUDIO or not self.autoplay:
             playlist.append({
-                'url': thumb_url(media, 'l', qualified=qualified),
+                'url': thumb_url(self.media, 'l', qualified=self.qualified),
                 'autoPlay': True,
                 'autoBuffer': True,
             })
 
         playlist.append({
-            'url': file.play_url(qualified=qualified),
-            'autoPlay': autoplay,
-            'autoBuffer': autoplay or autobuffer,
+            'url': self.file.play_url(qualified=self.qualified),
+            'autoPlay': self.autoplay,
+            'autoBuffer': self.autoplay or self.autobuffer,
         })
 
         # Flowplayer wants these options passed as an escaped JSON string
@@ -610,42 +627,36 @@ class FlowPlayer(Player):
 class JWPlayer(Player):
     """Flash-based JWPlayer -- this can play YouTube videos!"""
     is_flash = True
+    providers = {
+        AUDIO: 'sound',
+        VIDEO: 'video',
+    }
 
-    @staticmethod
-    def adjust_dimensions(media, file, width, height):
-        return width, height + player_controls_heights.get('jwplayer', 0)
+    def swf_url(self):
+        return url_for('/scripts/third-party/jw_player/player.swf', qualified=self.qualified)
 
-    @staticmethod
-    def swf_url(media, file, qualified=False):
-        return url_for('/scripts/third-party/jw_player/player.swf', qualified=qualified)
-
-    @staticmethod
-    def flashvars(media, file, autoplay=False, autobuffer=False, qualified=False):
+    def flashvars(self):
         vars = {
-            'image': thumb_url(media, 'l', qualified=qualified),
-            'autostart': autoplay,
-        }
-        providers = {
-            AUDIO: 'sound',
-            VIDEO: 'video',
+            'image': thumb_url(self.media, 'l', qualified=self.qualified),
+            'autostart': self.autoplay,
         }
 
-        if file.container == 'youtube':
+        if self.file.container == 'youtube':
             vars['provider'] = 'youtube'
-            vars['file'] = file.link_url(qualified=qualified)
+            vars['file'] = self.file.link_url(qualified=self.qualified)
         else:
-            vars['provider'] = providers[file.type]
-            vars['file'] = file.play_url(qualified=qualified)
+            vars['provider'] = self.providers[self.file.type]
+            vars['file'] = self.file.play_url(qualified=self.qualified)
 
         plugins = []
-        audio_desc = media.audio_desc
-        captions = media.captions
+        audio_desc = self.media.audio_desc
+        captions = self.media.captions
         if audio_desc:
             plugins.append('audiodescription');
-            vars['audiodescription.file'] = audio_desc.play_url(qualified=qualified)
+            vars['audiodescription.file'] = audio_desc.play_url(qualified=self.qualified)
         if captions:
             plugins.append('captions');
-            vars['captions.file'] = captions.play_url(qualified=qualified)
+            vars['captions.file'] = captions.play_url(qualified=self.qualified)
         if plugins:
             vars['plugins'] = ','.join(plugins)
 
@@ -659,16 +670,10 @@ class EmbedPlayer(Player):
     is_embed = True
     is_flash = True
 
-    @staticmethod
-    def adjust_dimensions(media, file, width, height):
-        return width, height + player_controls_heights.get(file.container, 0)
+    def swf_url(self):
+        return self.file.play_url(qualified=self.qualified)
 
-    @staticmethod
-    def swf_url(media, file, qualified=False):
-        return file.play_url(qualified=qualified)
-
-    @staticmethod
-    def flashvars(*args, **kwargs):
+    def flashvars(self):
         return {}
 
 class HTML5Player(Player):
@@ -683,29 +688,27 @@ class HTML5Player(Player):
     """
     is_html5 = True
 
-    @staticmethod
-    def html5_attrs(media, file, autoplay=False, autobuffer=False, qualified=False):
+    def html5_attrs(self):
         attrs = {
-            'src': file.play_url(qualified=qualified),
+            'src': self.file.play_url(qualified=self.qualified),
             'controls': 'controls',
         }
-        if autoplay:
+        if self.autoplay:
             attrs['autoplay'] = 'autoplay'
-        elif autobuffer:
+        elif self.autobuffer:
             # This isn't included in the HTML5 spec, but Safari supports it
             attrs['autobuffer'] = 'autobuffer'
-        if file.type == 'video':
-            attrs['poster'] = thumb_url(media, 'l', qualified=qualified)
+        if self.file.type == VIDEO:
+            attrs['poster'] = thumb_url(self.media, 'l', qualified=self.qualified)
         return attrs
 
 class JWPlayerHTML5(HTML5Player):
     """HTML5-based JWPlayer"""
 
-    @staticmethod
-    def include(elem_id):
-        jquery = url_for('/scripts/third-party/jQuery-1.4.2-compressed.js')
-        jwplayer = url_for('/scripts/third-party/jw_player/html5/jquery.jwplayer-compressed.js')
-        skin = url_for('/scripts/third-party/jw_player/html5/skin/five.xml')
+    def include(self):
+        jquery = url_for('/scripts/third-party/jQuery-1.4.2-compressed.js', qualified=self.qualified)
+        jwplayer = url_for('/scripts/third-party/jw_player/html5/jquery.jwplayer-compressed.js', qualified=self.qualified)
+        skin = url_for('/scripts/third-party/jw_player/html5/skin/five.xml', qualified=self.qualified)
         include = """
 <script type="text/javascript" src="%s"></script>
 <script type="text/javascript" src="%s"></script>
@@ -713,19 +716,14 @@ class JWPlayerHTML5(HTML5Player):
     jQuery('#%s').jwplayer({
         skin:'%s'
     });
-</script>""" % (jquery, jwplayer, elem_id, skin)
+</script>""" % (jquery, jwplayer, self.elem_id, skin)
         return include
 
-    @staticmethod
-    def html5_attrs(media, file, autoplay=False, autobuffer=False, qualified=False):
+    def html5_attrs(self):
         # We don't want the default controls to display. We'll use the JW controls.
-        attrs = HTML5Player.html5_attrs(media, file, autoplay, autobuffer, qualified)
+        attrs = super(JWPlayerHTML5, self).html5_attrs()
         del attrs['controls']
         return attrs
-
-    @staticmethod
-    def adjust_dimensions(media, file, width, height):
-        return width, height + player_controls_heights.get('jwplayer-html5', 0)
 
 players = {
     'flowplayer': FlowPlayer,
@@ -758,20 +756,20 @@ We increase the height of the player by this number of pixels to
 maintain a 16:9 aspect ratio.
 """
 
-def pick_podcast_media_file(files):
+def pick_podcast_media_file(media):
     """Return the best choice of files to play.
 
     XXX: This method uses the
          :ref:`~mediacore.lib.filetypes.pick_media_file_player` method and
          comes with the same caveats.
 
-    :param files: :class:`~mediacore.model.media.MediaFile` instances.
-    :type files: list
+    :param media: A :class:`~mediacore.model.media.Media` instance.
     :returns: A :class:`~mediacore.model.media.MediaFile` object or None
     """
-    return pick_media_file_player(files, browser='itunes', player_type='html5')[0]
+    player = pick_media_file_player(media, browser='itunes', player_type='html5')
+    return player and player.file or None
 
-def pick_any_media_file(files):
+def pick_any_media_file(media):
     """Return a file playable in at least one browser, with the current
     player_type setting, or None.
 
@@ -779,8 +777,8 @@ def pick_any_media_file(files):
          :ref:`~mediacore.lib.filetypes.pick_media_file_player` method and
          comes with the same caveats.
 
-    :param files: :class:`~mediacore.model.media.MediaFile` instances.
-    :type files: list
+    :param media: A :class:`~mediacore.model.media.Media` instance.
     :returns: A :class:`~mediacore.model.media.MediaFile` object or None
     """
-    return pick_media_file_player(files, browser='chrome')[0]
+    player = pick_media_file_player(media, browser='chrome')
+    return player and player.file or None

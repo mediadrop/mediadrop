@@ -18,79 +18,77 @@
       xmlns:xi="http://www.w3.org/2001/XInclude"
       py:strip="">
 
-	<py:def function="media_player(media, width=400, height=225, autoplay=False, autobuffer=False, qualified=False, embed_only=False, player_type=None)" py:choose=""
-	        py:with="file, player, browser, browser_ver = h.pick_media_file_player(media.files, browser=embed_only and 'unknown' or None, player_type=player_type)">
-		<py:when test="file is None">
+	<py:def function="media_player(media, width=400, height=225, autoplay=False, autobuffer=False, qualified=False, embed_only=False, player_type=None)" py:choose="">
+
+		<?python
+		player = h.pick_media_file_player(media, browser=embed_only and 'unknown' or None, player_type=player_type)
+		player.update(width=width, height=height, autoplay=autoplay, autobuffer=autobuffer, qualified=qualified)
+		if player.fallback:
+			player.fallback.update(width=width, height=height, autoplay=autoplay, autobuffer=autobuffer, qualified=qualified)
+		?>
+
+		<py:when test="player is None">
 			MediaCore could not find an appropriate encoding of this media item to display in your browser.
 			Contact the site admin if you need assistance.
 		</py:when>
 
 		<py:when test="player.is_embed or embed_only">
 			<?python
-			width, height = player.adjust_dimensions(media, file, width, height)
-			swf_url = player.swf_url(media, file, qualified=qualified)
-			vars = h.urlencode(player.flashvars(media, file, autoplay=autoplay, autobuffer=autobuffer, qualified=qualified))
-			player_id = '%s-%s-player' % (media.slug, file.id)
+			swf_url = player.swf_url()
+			vars = h.urlencode(player.flashvars())
 			?>
-			<object id="${media.slug}-${file.id}-player" type="application/x-shockwave-flash" data="${swf_url}" width="${width}" height="${height}">
+			<object id="${player.elem_id}" type="application/x-shockwave-flash" data="${swf_url}"
+			        width="${player.adjusted_width}" height="${player.adjusted_height}">
 				<param name="movie" value="${swf_url}" />
 				<param name="allowfullscreen" value="true" />
 				<param name="allowscriptaccess" value="always" />
 				<param name="flashvars" py:if="vars" value="${vars}" />
-				<!--! XHTML uncompliant hack to display youtube videos on iphones, etc. !-->
-				<embed py:if="browser == 'iphone-ipod-ipad'" src="${swf_url}" type="application/x-shockwave-flash" allowfullscreen="true" allowScriptAccess="always" width="${width}" height="${height}"></embed>
+				<!--! XHTML uncompliant hack to display youtube videos on iphones, etc. -->
+				<embed py:if="player.browser[0] == 'iphone-ipod-ipad'"
+				       type="application/x-shockwave-flash" src="${swf_url}"
+				       allowfullscreen="true" allowScriptAccess="always"
+				       width="${player.adjusted_width}" height="${player.adjusted_height}" />
 			</object>
 		</py:when>
 
 		<py:when test="player.is_flash">
-			<?python
-			width, height = player.adjust_dimensions(media, file, width, height)
-			player_id = '%s-%s-player' % (media.slug, file.id)
-			?>
-			<a id="${player_id}"
-			   href="${file.play_url(qualified=qualified)}"
-			   style="display:block;width:${width}px;height:${height}px">
+			<a id="${player.elem_id}"
+			   href="${player.file.play_url(qualified=qualified)}"
+			   style="display:block;width:${player.adjusted_width}px;height:${player.adjusted_height}px">
 				Download this ${media.type}!
 			</a>
 			<script type="text/javascript">
-				${flash_player_script(media, file, width, height, player, player_id, autoplay, autobuffer, qualified)}
+				${flash_player_script(player)}
 			</script>
 		</py:when>
 
-		<py:when test="player.is_html5" py:choose="file.type">
-			<?python
-			attrs = player.html5_attrs(media, file, autoplay=autoplay, autobuffer=autobuffer, qualified=qualified)
-			player_id = '%s-%s-player' % (media.slug, file.id)
-			?>
-			<audio id="${player_id}" py:when="'audio'" py:attrs="attrs">
+		<py:when test="player.is_html5" py:choose="player.file.type">
+			<audio id="${player.elem_id}" py:when="'audio'" py:attrs="player.html5_attrs()">
 				If your browser supported HTML5, you'd be seeing an audio player here instead of this text!
 			</audio>
-			<video id="${player_id}" py:when="'video'" py:attrs="attrs" height="${height}" width="${width}">
+			<video id="${player.elem_id}" py:when="'video'" py:attrs="player.html5_attrs()"
+			       height="${player.adjusted_height}" width="${player.adjusted_width}">
 				If your browser supported HTML5, you'd be seeing a video player here instead of this text!
 			</video>
-			<script py:if="player.fallback is not None" type="text/javascript" py:with="width, height = player.fallback.adjust_dimensions(media, file, width, height)">
-				$('${player_id}').addEvent('error', function(){
+			<script py:if="player.fallback" type="text/javascript">
+				$('${player.elem_id}').addEvent('error', function(){
 					if (this.error.code == this.error.MEDIA_ERR_SRC_NOT_SUPPORTED) {
-						${flash_player_script(media, file, width, height, player.fallback, player_id, autoplay, autobuffer, qualified)}
+						${flash_player_script(player.fallback)}
 					}
 				});
 			</script>
-			${Markup(player.include(player_id))}
+			${Markup(player.include())}
 		</py:when>
 	</py:def>
 
-	<py:def function="flash_player_script(media, file, width, height, player, player_id, autoplay, autobuffer, qualified)">
-		<?python
-		swf_url = player.swf_url(media, file, qualified=qualified)
-		vars = h.json.dumps(player.flashvars(media, file, autoplay=autoplay, autobuffer=autobuffer, qualified=qualified))
-		?>
-		var flashObj = new Swiff('${swf_url}', {
-			width: ${width},
-			height: ${height},
+	<py:def function="flash_player_script(player)">
+		var flashObj = new Swiff('${player.swf_url()}', {
+			width: ${player.adjusted_width},
+			height: ${player.adjusted_height},
 			params: {allowFullscreen: 'true'},
-			vars: ${vars}
+			vars: ${h.json.dumps(player.flashvars())}
 		});
-		var div = new Element('div').replaces('${player_id}').set('id', '${player_id}').grab(flashObj);
+		var div = new Element('div').replaces('${player.elem_id}').set('id', '${player.elem_id}').grab(flashObj);
 	</py:def>
 
 	<py:def function="media_grid(media, id=None, thumb_size='s', desc_len=90)"

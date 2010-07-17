@@ -130,12 +130,14 @@ class TestHelpers(TestController):
         media_files[None] = None
 
         for browser, version, p_type, embedded, e_file, e_player in combinations:
-            file, player, browser, version = pick_media_file_player(media.files,
+            player = pick_media_file_player(media,
                     browser = browser,
                     version = version,
                     player_type = p_type,
                     include_embedded = embedded
             )
+            file = player.file
+            browser, version = player.browser
             print "Unsized:", browser, version, p_type, embedded, e_file, e_player
             player_class = player and player.__class__ or None
             assert player_class == players[e_player], "Expected %r but was %r" % (players[e_player], player_class)
@@ -241,12 +243,14 @@ class TestHelpers(TestController):
         media_files[None] = None
 
         for browser, version, p_type, embedded, e_file, e_player in combinations:
-            file, player, browser, version = pick_media_file_player(media.files,
+            player = pick_media_file_player(media,
                     browser = browser,
                     version = version,
                     player_type = p_type,
                     include_embedded = embedded
             )
+            file = player.file
+            browser, version = player.browser
             print "Sized:", browser, version, p_type, embedded, e_file, e_player
             player_class = player and player.__class__ or None
             assert player_class == players[e_player], "Expected %r but was %r" % (players[e_player], player_class)

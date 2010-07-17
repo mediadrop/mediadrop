@@ -423,11 +423,11 @@ class Media(object):
         # Test to see if we can find a workable file/player conbination
         # for the most common podcasting app w/ the POOREST format support
         if self.podcast_id \
-        and not helpers.pick_podcast_media_file(self.files):
+        and not helpers.pick_podcast_media_file(self):
             return False
         # Test to see if we can find a workable file/player conbination
         # for the browser w/ the BEST format support
-        if not helpers.pick_any_media_file(self.files):
+        if not helpers.pick_any_media_file(self):
             return False
         return True
 
