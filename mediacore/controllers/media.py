@@ -16,12 +16,11 @@
 """
 Publicly Facing Media Controllers
 """
-import os.path
-
 from pylons import app_globals, config, request, response, session, tmpl_context
 import webob.exc
 from sqlalchemy import orm, sql
 from paste.deploy.converters import asbool
+from paste.fileapp import FileApp
 from paste.util import mimeparse
 from akismet import Akismet
 
@@ -268,7 +267,7 @@ class MediaController(BaseController):
             redirect(action='view', anchor='comment-%s' % c.id)
 
     @expose()
-    def serve(self, id, slug, container, **kwargs):
+    def serve(self, id, slug, container, environ, start_response, **kwargs):
         """Serve a :class:`~mediacore.model.media.MediaFile` binary.
 
         :param id: File ID
@@ -291,95 +290,43 @@ class MediaController(BaseController):
                 elif file.embed:
                     redirect(file.link_url())
 
-                # Ensure that the clients request allows for files of this container
+                file_path = file.file_path.encode('utf-8')
+                file_type = file.mimetype.encode('utf-8')
+                file_name = file.display_name.encode('utf-8')
+
+                # Ensure the request accepts files with this container
                 accept = request.environ.get('HTTP_ACCEPT', '*/*')
-                mimetype = mimeparse.best_match([file.mimetype], accept)
-                if mimetype == '':
+                if not mimeparse.best_match([file_type], accept):
                     raise webob.exc.HTTPNotAcceptable() # 406
 
-                file_path = file.file_path
-                file_hash = hash(file_path)
-                file_size = os.path.getsize(file_path)
-                file_mtime = os.path.getmtime(file_path)
+                # Headers to add to FileApp
+                headers = [
+                    ('Content-Disposition',
+                     'attachment; filename="%s"' % file_name),
+                ]
+
                 serve_method = config.get('file_serve_method', None)
 
                 if serve_method == 'apache_xsendfile':
                     # Requires mod_xsendfile for Apache 2.x
-                    response.headers['X-Sendfile'] = file_path.encode('utf-8')
+                    # XXX: Don't send Content-Length or Etag headers,
+                    #      Apache handles them for you.
+                    response.headers['X-Sendfile'] = file_path
                     response.body = ''
+
                 elif serve_method == 'nginx_redirect':
-                    # Placeholder for nginx's x-sendfile equivalent
-                    raise NotImplementedError
+                    raise NotImplementedError, 'This is only a placeholder'
                     response.headers['X-Accel-Redirect'] = '../relative/path'
-                elif 'wsgi.file_wrapper' in request.environ:
-                    # Take advantage of the file-serving mechanism provided
-                    # by the server or gateway, if provided.
-                    # http://www.python.org/dev/peps/pep-0333/#optional-platform-specific-file-handling
-                    # http://code.google.com/p/modwsgi/wiki/FileWrapperExtension
-                    file_wrapper = request.environ['wsgi.file_wrapper']
-                    fileobj = open(file_path, 'rb')
-                    chunk_size = 4096
-                    response.app_iter = file_wrapper(fileobj, chunk_size)
+
                 else:
-                    # Fallback to iterating over the file and returning chunks
-                    response.app_iter = FileIterable(file_path)
+                    fileapp = FileApp(file_path, headers,
+                                      content_type=file_type)
+                    return fileapp(environ, start_response)
 
-                response.headers['Content-Type'] = mimetype.encode('utf-8')
-                response.headers['Content-Disposition'] = 'attachment; '\
-                    'filename="%s"' % file.display_name.encode('utf-8')
-                response.content_length = file_size
-                response.last_modified = file_mtime
-                response.etag = '%s-%s-%s' % (file_mtime, file_size, file_hash)
+                response.headers['Content-Type'] = file_type
+                for header, value in headers:
+                    response.headers[header] = value
 
-                # Don't set response.body as it overrides response.app_iter
                 return None
         else:
             raise webob.exc.HTTPNotFound()
-
-class FileIterable(object):
-    def __init__(self, filename, start=None, stop=None):
-        self.filename = filename
-        self.start = start
-        self.stop = stop
-
-    def __iter__(self):
-        return FileIterator(self.filename, self.start, self.stop)
-
-    def app_iter_range(self, start, stop):
-        return self.__class__(self.filename, start, stop)
-
-class FileIterator(object):
-    chunk_size = 4096
-
-    def __init__(self, filename, start, stop):
-        self.filename = filename
-        self.fileobj = open(self.filename, 'rb')
-        if start:
-            self.fileobj.seek(start)
-        if stop is not None:
-            self.length = stop - start
-        else:
-            self.length = None
-
-    def __iter__(self):
-        return self
-
-    def next(self):
-        if self.length is not None and self.length <= 0:
-            self.close()
-            raise StopIteration
-        chunk = self.fileobj.read(self.chunk_size)
-        if not chunk:
-            self.close()
-            raise StopIteration
-        if self.length is not None:
-            self.length -= len(chunk)
-            if self.length < 0:
-                # Chop off the extra:
-                chunk = chunk[:self.length]
-        return chunk
-
-    def close(self):
-        if self.fileobj:
-            self.fileobj.close()
-            self.fileobj = None
