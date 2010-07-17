@@ -42,7 +42,7 @@
 						</div>
 					</td>
 				</tr>
-				<tr class="title" py:if="render_label and not (is_submit and field.show_error)">
+				<tr class="title" py:if="render_label and not (is_submit or field.show_error)">
 					<td>
 						<label py:if="render_label" py:content="field.label_text" id="${field.id}-label" class="form-label" for="${field.id}" />
 						<a py:if="field.help_text and help_url" py:content="field.help_text" href="${help_url}" class="field-help" />

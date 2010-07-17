@@ -76,5 +76,5 @@ class UploadForm(ListForm):
         description = XHTMLTextArea(validator=validators['description'], label_text=_('Description:'), attrs=dict(rows=5, cols=25))
         url = TextField(validator=EmbedURLValidator(if_missing=None), label_text=_('Add a YouTube, Vimeo or Google Video URL:'), maxlength=255)
         file = FileField(validator=FieldStorageUploadConverter(if_missing=None, messages={'empty':_('Oops! You forgot to enter a file.')}), label_text=_('OR:'))
-        submit = SubmitButton(show_error=False, css_classes=['btn', 'btn-submit'])
+        submit = SubmitButton(css_classes=['btn', 'btn-submit'])
 
