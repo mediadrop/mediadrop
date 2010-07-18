@@ -30,6 +30,9 @@ class Player(object):
     is_embed = False
     is_html5 = False
 
+    _width_diff = 0
+    _height_diff = 0
+
     def __init__(self, media, file, browser, width=400, height=225,
                  autoplay=False, autobuffer=False, qualified=False,
                  fallback=None):
@@ -43,22 +46,22 @@ class Player(object):
         self.qualified = qualified
         self.fallback = fallback
 
-    def include(self):
-        return ''
-
     def update(self, **kwargs):
         for key, value in kwargs.iteritems():
             # Throw an exception if given an unrecognized key
             getattr(self, key)
             setattr(self, key, value)
 
+    def include(self):
+        return ''
+
     @property
     def adjusted_width(self):
-        return self.width
+        return self.width + self._width_diff
 
     @property
     def adjusted_height(self):
-        return self.height + player_controls_heights.get(self.__class__, 0)
+        return self.height + self._height_diff
 
     @property
     def elem_id(self):
@@ -67,6 +70,9 @@ class Player(object):
 class FlowPlayer(Player):
     """Flash-based FlowPlayer"""
     is_flash = True
+
+    # Height adjustment in pixels to accomodate the control bar and stay 16:9
+    _height_diff = 24
 
     def swf_url(self):
         from mediacore.lib.helpers import url_for
@@ -108,6 +114,9 @@ class JWPlayer(Player):
         AUDIO: 'sound',
         VIDEO: 'video',
     }
+
+    # Height adjustment in pixels to accomodate the control bar and stay 16:9
+    _height_diff = 24
 
     def is_youtube_on_ipod(self):
         """Return True if this player instance is for YouTube video on an iDevice.
@@ -165,6 +174,16 @@ class EmbedPlayer(Player):
     """
     is_embed = True
     is_flash = True
+
+    # Height adjustment in pixels to accomodate the control bar and stay 16:9
+    _height_diffs = {
+        'youtube': 25,
+        'google': 27,
+    }
+
+    @property
+    def _height_diff(self):
+        return self._height_diffs.get(self.file.container, 0)
 
     def swf_url(self):
         return self.file.play_url(qualified=self.qualified)
@@ -238,19 +257,6 @@ The names are from the html5_player and flash_player settings.
 
 You can use set 'youtube' to JWPlayer to take advantage of YouTube's
 chromeless player. The only catch is that it doesn't support HD.
-"""
-
-player_controls_heights = {
-    'youtube': 25,
-    'google': 27,
-    'flowplayer': 24,
-    'jwplayer': 24,
-    'jwplayer-html5': 0,
-}
-"""The height of the controls for each player.
-
-We increase the height of the player by this number of pixels to
-maintain a 16:9 aspect ratio.
 """
 
 def ordered_playable_files(files):
