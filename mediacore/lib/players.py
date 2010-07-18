@@ -109,11 +109,29 @@ class JWPlayer(Player):
         VIDEO: 'video',
     }
 
+    def is_youtube_on_ipod(self):
+        """Return True if this player instance is for YouTube video on an iDevice.
+
+        In this case we render <object><embed /></object> tags so the
+        iDevice's special handling of YouTube videos will work.
+        """
+        return self.file.container == 'youtube' \
+            and self.browser[0] == 'iphone-ipod-ipad'
+
+    @property
+    def is_embed(self):
+        return self.is_youtube_on_ipod()
+
     def swf_url(self):
+        if self.is_youtube_on_ipod():
+            return self.file.play_url(qualified=self.qualified)
         from mediacore.lib.helpers import url_for
         return url_for('/scripts/third-party/jw_player/player.swf', qualified=self.qualified)
 
     def flashvars(self):
+        if self.is_youtube_on_ipod():
+            return {}
+
         vars = {
             'image': thumb_url(self.media, 'l', qualified=self.qualified),
             'autostart': self.autoplay,
