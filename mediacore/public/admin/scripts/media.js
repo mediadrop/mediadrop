@@ -159,6 +159,20 @@ var MediaManager = new Class({
 
 });
 
+var MediaMetaForm = new Class({
+
+	Extends: BoxForm,
+
+	initialize: function(el, opts){
+		this.parent(el, opts);
+		var podSelect = $(this.form.elements['podcast']);
+		if (podSelect.options.length <= 1) {
+			podSelect.getParent('li').hide();
+		}
+	}
+
+});
+
 var StatusForm = new Class({
 
 	Implements: [Options, Events],
