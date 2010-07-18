@@ -22,9 +22,10 @@
 
 		<?python
 		player = h.pick_media_file_player(media, browser=embed_only and 'unknown' or None, player_type=player_type)
-		player.update(width=width, height=height, autoplay=autoplay, autobuffer=autobuffer, qualified=qualified)
-		if player.fallback:
-			player.fallback.update(width=width, height=height, autoplay=autoplay, autobuffer=autobuffer, qualified=qualified)
+		if player:
+			player.update(width=width, height=height, autoplay=autoplay, autobuffer=autobuffer, qualified=qualified)
+			if player.fallback:
+				player.fallback.update(width=width, height=height, autoplay=autoplay, autobuffer=autobuffer, qualified=qualified)
 		?>
 
 		<py:when test="player is None">
