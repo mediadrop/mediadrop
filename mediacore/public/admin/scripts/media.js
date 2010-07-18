@@ -294,6 +294,7 @@ var FileManager = new Class({
 		},
 		errorDiv: {'class': 'file-error'},
 		uploader: {
+			allowDuplicates: true,
 			multiple: true,
 			queued: 1,
 			zIndex: 65555
