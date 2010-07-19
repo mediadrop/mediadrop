@@ -21,7 +21,7 @@ import webob.exc
 
 from mediacore.lib.base import BaseController
 from mediacore.lib.decorators import expose, expose_xhr, paginate, validate
-from mediacore.lib.helpers import url_for
+from mediacore.lib.helpers import get_featured_category, url_for
 from mediacore.lib import helpers
 from mediacore.lib.thumbnails import thumb
 from mediacore.model import Category, Media, Podcast, Tag, fetch_row, get_available_slug
@@ -58,7 +58,8 @@ class MediaController(BaseController):
     @expose('json')
     def index(self, type=None, podcast=None, tag=None, category=None, search=None,
               max_age=None, min_age=None, order=None, offset=0, limit=10,
-              published_after=None, published_before=None, **kwargs):
+              published_after=None, published_before=None, featured=False,
+              id=None, slug=None, include_embed=False, **kwargs):
         """Query for a list of media.
 
         :param type:
@@ -118,6 +119,26 @@ class MediaController(BaseController):
             :attr:`mediacore.config['app_config'].api_media_max_results`.
         :type limit: int
 
+        :param featured:
+            If nonzero, the results will only include media from the
+            configured featured category, if there is one.
+        :type featured: bool
+
+        :param include_embed:
+            If nonzero, the HTML for the embeddable player is included
+            for all results.
+        :type include_embed: bool
+
+        :param id:
+            Filters the results to include the one item with the given ID.
+            Note that we still return a list.
+        :type id: int or None
+
+        :param slug:
+            Filters the results to include the one item with the given slug.
+            Note that we still return a list.
+        :type slug: unicode or None
+
         :raises APIException:
             If there is an user error in the query params.
 
@@ -134,6 +155,11 @@ class MediaController(BaseController):
             .options(orm.undefer('comment_count_published'))
 
         # Basic filters
+        if id:
+            query = query.filter_by(id=id)
+        if slug:
+            query = query.filter_by(slug=slug)
+
         if type:
             query = query.filter_by(type=type)
 
@@ -191,6 +217,11 @@ class MediaController(BaseController):
         if search:
             query = query.search(search)
 
+        if featured:
+            featured_cat = get_featured_category()
+            if featured_cat:
+                query = query.in_category(featured_cat)
+
         # Preload podcast slugs so we don't do n+1 queries
         podcast_slugs = dict(DBSession.query(Podcast.id, Podcast.slug))
 
@@ -198,7 +229,7 @@ class MediaController(BaseController):
         start = int(offset)
         end = start + min(int(limit), int(config['api_media_max_results']))
 
-        media = [self._info(m, podcast_slugs) for m in query[start:end]]
+        media = [self._info(m, podcast_slugs, include_embed) for m in query[start:end]]
 
         return dict(
             media = media,
@@ -230,12 +261,10 @@ class MediaController(BaseController):
         except orm.exc.NoResultFound:
             raise webob.exc.HTTPNotFound
 
-        info = self._info(media)
-        info['embed'] = helpers.embeddable_player(media)
-        return info
+        return self._info(media, include_embed=True)
 
 
-    def _info(self, media, podcast_slugs=None):
+    def _info(self, media, podcast_slugs=None, include_embed=False):
         """Return a JSON-ready dict for the given media instance"""
         if media.podcast_id:
             media_url = url_for(controller='/media', action='view', slug=media.slug,
@@ -256,7 +285,7 @@ class MediaController(BaseController):
         for size in config['thumb_sizes'][media._thumb_dir].iterkeys():
             thumbs[size] = thumb(media, size, qualified=True)
 
-        return dict(
+        info = dict(
             id = media.id,
             slug = media.slug,
             url = media_url,
@@ -273,3 +302,8 @@ class MediaController(BaseController):
             thumbs = thumbs,
             categories = dict((c.slug, c.name) for c in list(media.categories)),
         )
+
+        if include_embed:
+            info['embed'] = helpers.embeddable_player(media)
+
+        return info
