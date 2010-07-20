@@ -18,7 +18,7 @@ media_files = Table('media_files', metadata,
     Column('id', Integer, autoincrement=True, primary_key=True),
     Column('media_id', Integer, ForeignKey('media.id', onupdate='CASCADE', ondelete='CASCADE'), nullable=False),
 
-    Column('type', Enum('video', 'audio', 'audio_desc', 'captions'), nullable=False),
+    Column('type', Enum('video', 'audio', 'audio_desc', 'captions', name='type'), nullable=False),
     Column('container', String(10), nullable=False),
     Column('display_name', String(255), nullable=False),
     Column('file_name', String(255)),

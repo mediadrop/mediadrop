@@ -55,7 +55,7 @@ class UnknownFileTypeException(MediaFileException): pass
 
 media = Table('media', metadata,
     Column('id', Integer, autoincrement=True, primary_key=True),
-    Column('type', Enum(VIDEO, AUDIO)),
+    Column('type', Enum(VIDEO, AUDIO, name="type")),
     Column('slug', Unicode(slug_length), unique=True, nullable=False),
     Column('podcast_id', Integer, ForeignKey('podcasts.id', onupdate='CASCADE', ondelete='SET NULL')),
     Column('reviewed', Boolean, default=False, nullable=False),
@@ -89,7 +89,7 @@ media_files = Table('media_files', metadata,
     Column('id', Integer, autoincrement=True, primary_key=True),
     Column('media_id', Integer, ForeignKey('media.id', onupdate='CASCADE', ondelete='CASCADE'), nullable=False),
 
-    Column('type', Enum(VIDEO, AUDIO, AUDIO_DESC, CAPTIONS), nullable=False),
+    Column('type', Enum(VIDEO, AUDIO, AUDIO_DESC, CAPTIONS, name="type"), nullable=False),
     Column('container', Unicode(10), nullable=False),
     Column('display_name', Unicode(255), nullable=False),
     Column('file_name', Unicode(255)),
