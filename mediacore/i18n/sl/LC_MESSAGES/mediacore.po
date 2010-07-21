@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: MediaCore 0.8.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2010-05-23 13:39+0200\n"
-"PO-Revision-Date: 2010-07-21 12:26+0100\n"
+"PO-Revision-Date: 2010-07-21 19:01+0100\n"
 "Last-Translator: Domen Kožar <domen@dev.si>\n"
 "Language-Team: sl <LL@li.org>\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3)\n"
@@ -324,7 +324,7 @@ msgstr "Pokaži:"
 #: mediacore/templates/categories/index.html:47
 #: mediacore/templates/media/explore.html:46
 msgid "Latest"
-msgstr "Zadnji"
+msgstr "Zadnje"
 
 #: mediacore/templates/helpers.html:186
 #: mediacore/templates/categories/index.html:52
@@ -452,7 +452,7 @@ msgstr "Čaka na objavo"
 
 #: mediacore/templates/admin/index.html:73
 msgid "Recently Published"
-msgstr "Nedavno objavljen"
+msgstr "Nedavno objavljeni"
 
 #: mediacore/templates/admin/master.html:47
 msgid "Logout"
