@@ -474,9 +474,6 @@ class Media(object):
             self.views += 1
             return self.views
 
-        query = 'UPDATE %s SET %s = (%s + 1) WHERE %s = :media_id' \
-              % (media, media.c.views, media.c.views, media.c.id)
-
         # Don't raise an exception should concurrency problems occur.
         # Views will not actually be incremented in this case, but thats
         # relatively unimportant compared to rendering the page for the user.
@@ -487,7 +484,9 @@ class Media(object):
         # media_fulltext's MyISAM engine must lock the whole table to do so.
         transaction = DBSession.begin_nested()
         try:
-            DBSession.execute(query, {'media_id': self.id}, self.__class__)
+            DBSession.query(self.__class__)\
+                .filter(self.__class__.id == self.id)\
+                .update({self.__class__.views: self.__class__.views + 1})
             transaction.commit()
         except exc.OperationalError, e:
             transaction.rollback()
