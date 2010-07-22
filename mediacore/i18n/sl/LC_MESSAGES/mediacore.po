@@ -390,7 +390,7 @@ msgstr "Najbolj popularni"
 #: mediacore/templates/categories/index.html:29
 #: mediacore/templates/media/explore.html:30
 msgid "Featured"
-msgstr "Izbrano"
+msgstr "Izbrani"
 
 #: mediacore/templates/helpers.html:184
 #, python-format
