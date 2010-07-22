@@ -17,6 +17,7 @@
      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:py="http://genshi.edgewall.org/"
+      xmlns:i18n="http://genshi.edgewall.org/i18n"
       xmlns:xi="http://www.w3.org/2001/XInclude">
 <xi:include href="../master.html" />
 <head>
@@ -34,7 +35,7 @@
 				<h4 class="italic">A few things you can check:</h4>
 				<ul>
 					<li>Is the file under ${int(g.settings['max_upload_size'])/1024/1024} Megabytes in size?</li>
-					<li>Is it encoded in one of our supported formats? <span id="formats">${h.list_accepted_extensions()}.</span></li>
+					<li i18n:msg="formats">Is it encoded in one of our supported formats? <span id="formats">${h.list_accepted_extensions()}.</span></li>
 				</ul>
 				<br />
 				<a id="try-again" href="${h.url_for(action='index')}"><img alt="Try Uploading Again" src="${h.url_for('/images/uploader/try-again.png')}" /></a>

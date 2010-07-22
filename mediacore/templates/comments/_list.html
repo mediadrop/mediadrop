@@ -15,6 +15,7 @@
 -->
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:py="http://genshi.edgewall.org/"
+      xmlns:i18n="http://genshi.edgewall.org/i18n"
       xmlns:xi="http://www.w3.org/2001/XInclude"
       py:strip="">
 
@@ -50,7 +51,7 @@
 								<a href="#comment-${comment.id}" name="comment-${comment.id}" class="underline-hover" title="Permalink"
 								   py:with="datetime = comment.created_on.strftime('%B %d, %Y at %H:%M').replace(h.datetime.now().strftime(', %Y'), '')">
 									<strong>${comment.author.name}</strong><br />
-									<span class="comment-date">said on ${datetime}&#8230;</span>
+									<span class="comment-date" i18n:msg="datetime">said on ${datetime}&#8230;</span>
 								</a>
 							</cite>
 							<blockquote py:content="Markup(comment.body)" />

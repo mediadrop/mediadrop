@@ -56,7 +56,9 @@ else:
     # to use them for other packages as well...
     extractors = [
         ('**.py',             'python', None),
-        ('templates/**.html', 'genshi', None),
+        ('templates/**.html', 'genshi', {
+                'template_class': 'genshi.template.markup:MarkupTemplate'
+            }),
         ('public/**',         'ignore', None),
     ]
     extra_arguments_for_setup['message_extractors'] = {'mediacore': extractors}

@@ -18,6 +18,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:py="http://genshi.edgewall.org/"
       xmlns:xi="http://www.w3.org/2001/XInclude"
+      xmlns:i18n="http://genshi.edgewall.org/i18n"
       py:with="in_text = c.category and ('in ' + c.category.name) or ''">
 <xi:include href="./layout.html" />
 <xi:include href="../master.html" />
@@ -42,9 +43,19 @@
 			</div>
 			${media_player(featured, width=400, height=225)}
 			<div class="feat-meta">
-				<span class="meta meta-comments" title="Comments">${featured.comment_count_published} <span>Comment<py:if test="featured.comment_count_published != 1">s</py:if></span></span>
+				<span class="meta meta-comments" title="Comments">${featured.comment_count_published}
+                    <i18n:choose numeral="featured.comment_count_published">
+                      <span i18n:singular="">Comment</span>
+                      <span i18n:plural="">Comments</span>
+                    </i18n:choose>
+                </span>
 				<a class="meta meta-likes" href="${h.url_for(controller='/media', action='rate', slug=featured.slug)}" id="likethis" title="Vote up">${featured.likes} <strong>Like this!</strong></a>
-				<span class="meta meta-views" title="Views">${featured.views} <span>View<py:if test="featured.views != 1">s</py:if></span></span>
+				<span class="meta meta-views" title="Views">${featured.views}
+                    <i18n:choose numeral="featured.views">
+                      <span i18n:singular="">View</span>
+                      <span i18n:plural="">Views</span>
+                    </i18n:choose>
+                </span>
 			</div>
 		</div>
 		<div class="feat-bottom" />

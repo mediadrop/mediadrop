@@ -17,10 +17,11 @@
      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:py="http://genshi.edgewall.org/"
+      xmlns:i18n="http://genshi.edgewall.org/i18n"
       xmlns:xi="http://www.w3.org/2001/XInclude">
 <xi:include href="../master.html" />
 <head>
-	<title>${search_query and 'Search: "%s"' % search_query or 'Media Library'}</title>
+	<title>${search_query and _('Search: "%s"') % search_query or _('Media Library') }</title>
 	<link py:if="show == 'latest' and not (search_query or tag)"
 	      title="Latest Media" rel="alternate" type="application/rss+xml"
 	      href="${h.url_for(controller='/sitemaps', action='latest')}" />
@@ -28,9 +29,9 @@
 <body class="nav-media-on">
 	<div class="mediacore-content">
 		<h3 py:choose="">
-			<py:when test="search_query">Showing ${result_count} results for '${search_query}'</py:when>
-			<py:when test="tag">Showing ${result_count} results tagged with '${tag.name}'</py:when>
-			<py:otherwise><span class="uppercase">All ${result_count} Media</span></py:otherwise>
+			<py:when test="search_query"><span i18n:msg="result_count, search_query">Showing ${result_count} results for '${search_query}'</span></py:when>
+			<py:when test="tag"><span i18n:msg="result_count, tag.name">Showing ${result_count} results tagged with '${tag.name}'</span></py:when>
+			<py:otherwise><span class="uppercase" i18n:msg="result_count">All ${result_count} Media</span></py:otherwise>
 		</h3>
 		${library_controls(show, paginator=c.paginators.media, search_query=search_query, tag=tag and tag.slug or None)}
 		<ul py:replace="media_grid(media, id='library', thumb_size='m', desc_len=135)" />

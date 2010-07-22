@@ -15,6 +15,7 @@
 -->
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:py="http://genshi.edgewall.org/"
+      xmlns:i18n="http://genshi.edgewall.org/i18n"
       py:strip="">
 	<form method="post" action="${h.url_for(action='update_status')}" id="update-status-form" class="box">
 		<div class="box-head">
@@ -22,10 +23,20 @@
 				${h.doc_link('admin/media', 'status')}
 				<py:if test="media.slug">
 					|
-					<a href="${h.url_for(controller='/media', action='view', slug=media.slug)}"
-					   id="go-view-content"
-					   title="View this media where it ${'is' if media.is_published else 'will be'} published"
-					   py:content="'View' if media.is_published else 'Preview'" />
+                    <py:choose test="media.is_published">
+                      <py:when test="1">
+                        <a href="${h.url_for(controller='/media', action='view', slug=media.slug)}"
+                           id="go-view-content"
+                           title="View this media where it is published"
+                           py:content="_('View') if media.is_published else _('Preview')" />
+                      </py:when>
+                      <py:when test="0">
+                        <a href="${h.url_for(controller='/media', action='view', slug=media.slug)}"
+                           id="go-view-content"
+                           title="View this media where it will be published"
+                           py:content="_('View') if media.is_published else _('Preview')" />
+                      </py:when>
+                    </py:choose>
 				</py:if>
 			</span>
 			<h1>Publish Status</h1>
@@ -39,7 +50,7 @@
 			<py:when test="not media.reviewed">
 				<ol id="status-list">
 					<li class="status-list-inprogress">review pending</li>
-					<li class="status-list-${status}" py:with="status = 'complete' if media.encoded else 'pending'">encoding ${status}</li>
+					<li i18n:msg="status" class="status-list-${status}" py:with="status = 'complete' if media.encoded else 'pending'">encoding ${status}</li>
 					<li class="status-list-pending" id="status-publish" title="Click to change the publish date">
 						publishing <span class="publish-date" py:content="publish_on or 'pending'" />
 					</li>

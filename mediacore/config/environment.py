@@ -15,11 +15,12 @@
 """Pylons environment configuration"""
 import os
 import re
+from gettext import GNUTranslations
 
 from genshi.filters.i18n import Translator
 from genshi.template import TemplateLoader
 from pylons.configuration import PylonsConfig
-from pylons.i18n.translation import ugettext
+from pylons.i18n.translation import ugettext, ungettext
 from sqlalchemy import engine_from_config
 
 import mediacore.lib.app_globals as app_globals
@@ -52,16 +53,20 @@ def load_environment(global_conf, app_conf):
     import pylons
     pylons.cache._push_object(config['pylons.app_globals'].cache)
 
+    class DummyTranslators(GNUTranslations):
+        ugettext = staticmethod(ugettext)
+        ungettext = staticmethod(ungettext)
 
-    translator = Translator(ugettext)
     def enable_i18n_for_template(template):
-        template.filters.insert(0, translator)
+        translations = Translator(DummyTranslators())
+        translations.setup(template)
+        template.filters.insert(0, translations)
 
     # Create the Genshi TemplateLoader
     config['pylons.app_globals'].genshi_loader = TemplateLoader(
         search_path=paths['templates'],
         auto_reload=True,
-        callback=enable_i18n_for_template
+        callback=enable_i18n_for_template,
     )
 
     # Setup the SQLAlchemy database engine

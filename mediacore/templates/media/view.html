@@ -17,6 +17,7 @@
      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:py="http://genshi.edgewall.org/"
+      xmlns:i18n="http://genshi.edgewall.org/i18n"
       xmlns:xi="http://www.w3.org/2001/XInclude">
 <xi:include href="../master.html" />
 <xi:include href="../comments/_list.html" />
@@ -76,9 +77,21 @@
 					<td py:if="not download">&nbsp;</td>
 				</tr>
 				<tr>
-					<td><span class="meta meta-comments" title="Comments">${media.comment_count_published} <span>Comment<py:if test="media.comment_count_published != 1">s</py:if></span></span></td>
-					<td><a class="meta meta-likes" href="${h.url_for(action='rate')}" id="likethis" title="Vote up">${media.likes} <strong>Like this!</strong></a></td>
-					<td><span class="meta meta-views" title="Views">${media.views} <span>View<py:if test="media.views != 1">s</py:if></span></span></td>
+					<td><span class="meta meta-comments" title="Comments">${media.comment_count_published}
+                        <i18n:choose numeral="media.comment_count_published">
+                          <span i18n:singular="">Comment</span>
+                          <span i18n:plural="">Comments</span>
+                        </i18n:choose>
+                    </span></td>
+					<td><a class="meta meta-likes" href="${h.url_for(action='rate')}" id="likethis" title="Vote up">
+                        ${media.likes} <strong>Like this!</strong>
+                    </a></td>
+					<td><span class="meta meta-views" title="Views">${media.views}
+                        <i18n:choose numeral="media.views">
+                          <span i18n:singular="">View</span>
+                          <span i18n:plural="">Views</span>
+                        </i18n:choose>
+                    </span></td>
 				</tr>
 			</table>
 		</div>
@@ -102,7 +115,12 @@
 							<span class="grid-meta">
 								<span class="meta meta-episodes" title="Podcast Episodes">
 									${podcast.media_count_published}
-									<span>Episode<py:if test="podcast.media_count_published != 1">s</py:if> in this Series</span>
+									<span>
+                                        <i18n:choose numeral="podcast.media_count_published">
+                                          <span i18n:singular="">Episode</span>
+                                          <span i18n:plural="">Episodes</span>
+                                        </i18n:choose>
+                                    </span>
 								</span>
 							</span>
 						</a>

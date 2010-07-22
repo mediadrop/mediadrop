@@ -6,176 +6,182 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MediaCore 0.8.0\n"
-"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"Report-Msgid-Bugs-To: video@kiberpipa.org\n"
 "POT-Creation-Date: 2010-05-23 13:39+0200\n"
-"PO-Revision-Date: 2010-07-21 19:01+0100\n"
-"Last-Translator: Domen Kožar <domen@dev.si>\n"
-"Language-Team: sl <LL@li.org>\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3)\n"
+"PO-Revision-Date: 2010-07-22 17:11+0200\n"
+"Last-Translator: Klemen Robnik <klemen.robnik@kiberpipa.org>\n"
+"Language-Team: sl <sl@li.org>\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 "
+"|| n%100==4 ? 2 : 3)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 0.9.1\n"
+"Generated-By: Babel 0.9.5\n"
 
-#: mediacore/controllers/upload.py:215
-msgid "Please specify a URL or upload a file below."
-msgstr "Prosimo vnesite URL ali naložite datoteko spodaj."
-
-#: mediacore/controllers/upload.py:348
-msgid "Uploaded File and Downloaded File did not match"
-msgstr "Naložen in dolpotegnjena datoteka se ne ujemata"
-
-#: mediacore/controllers/upload.py:353
-#, python-format
-msgid "Could not download the file after %d attempts"
-msgstr ""
-
-#: mediacore/controllers/admin/media.py:318
-msgid "Unsupported URL"
-msgstr "Nepodprt URL"
-
-#: mediacore/controllers/admin/media.py:320
-#: mediacore/controllers/admin/media.py:409
-msgid "No action to perform."
-msgstr ""
-
-#: mediacore/controllers/admin/media.py:385
+#: mediacore/controllers/admin/media.py:377
 #, python-format
 msgid "File \"%s\" does not exist."
 msgstr "Datoteka \"%s\" ne obstaja."
 
-#: mediacore/controllers/admin/media.py:394
+#: mediacore/controllers/admin/media.py:386
 msgid "Bad duration formatting, use Hour:Min:Sec"
-msgstr ""
+msgstr "Napačna oblika časa trajanja, uporabi Ura:Min:Sek"
 
-#: mediacore/controllers/admin/media.py:477
-msgid "Unsupported image type"
-msgstr "Nepodprt tip slike"
+#: mediacore/controllers/admin/media.py:401
+msgid "No action to perform."
+msgstr "Ne vem kaj naj počnem."
 
-#: mediacore/controllers/admin/media.py:516
+#: mediacore/controllers/admin/media.py:553
+msgid "Permission denied, cannot write file"
+msgstr "Nimam pravic za pisanje v datoteko"
+
+#: mediacore/controllers/admin/media.py:555
+#, python-format
+msgid "Unsupport image type: %s"
+msgstr "Nepodprt tip slike: %s"
+
+#: mediacore/controllers/admin/media.py:602
 msgid "Review Complete"
 msgstr "Pregled končan"
 
-#: mediacore/controllers/admin/media.py:518
+#: mediacore/controllers/admin/media.py:604
 msgid "Publish Now"
 msgstr "Objavi zdaj"
 
-#: mediacore/forms/uploader.py:32
+#: mediacore/forms/uploader.py:33
 msgid "At least give it a short description..."
-msgstr ""
+msgstr "Podaj vsaj kratek opis..."
 
-#: mediacore/forms/uploader.py:36
+#: mediacore/forms/uploader.py:37
 msgid "You've gotta have a name!"
-msgstr ""
+msgstr "Brez imena te ne moremo poznati!"
 
-#: mediacore/forms/uploader.py:40
+#: mediacore/forms/uploader.py:41
 msgid "You've gotta have a title!"
-msgstr ""
+msgstr "Posnetek moraš poimenovati!"
 
-#: mediacore/forms/uploader.py:60
+#: mediacore/forms/uploader.py:61
 msgid "This isn't a valid YouTube, Google Video, Vimeo or direct link."
-msgstr ""
+msgstr "Povezava na YouTube, Google Video, Vimeo ni veljavna."
 
-#: mediacore/forms/uploader.py:72
+#: mediacore/forms/uploader.py:73
 msgid "Your Name:"
 msgstr "Tvoje ime:"
 
-#: mediacore/forms/uploader.py:73
+#: mediacore/forms/uploader.py:74
 msgid "Your Email:"
 msgstr "Tvoja E-pošta:"
 
-#: mediacore/forms/uploader.py:73
-msgid "(will never be published)"
-msgstr "(ne bo nikoli objavljen)"
-
 #: mediacore/forms/uploader.py:74
+msgid "(will never be published)"
+msgstr "(nikoli ne bo objavljen)"
+
+#: mediacore/forms/uploader.py:75
 msgid "Title:"
 msgstr "Naslov:"
 
-#: mediacore/forms/uploader.py:75
+#: mediacore/forms/uploader.py:76
 msgid "Description:"
 msgstr "Opis:"
 
-#: mediacore/forms/uploader.py:76
+#: mediacore/forms/uploader.py:77
 msgid "Add a YouTube, Vimeo or Google Video URL:"
-msgstr ""
+msgstr "Podaj povezavo na YouTube, Google Video ali Vimeo:"
 
-#: mediacore/forms/uploader.py:77
+#: mediacore/forms/uploader.py:78
 msgid "Oops! You forgot to enter a file."
-msgstr "Ups! Pozabili ste vnesti datoteko."
+msgstr "Ups! Ne pozabi vnesti datoteke."
 
-#: mediacore/forms/uploader.py:77
+#: mediacore/forms/uploader.py:78
 msgid "OR:"
 msgstr "ALI:"
 
-#: mediacore/forms/admin/media.py:36
+#: mediacore/forms/admin/media.py:38
 msgid "Please use the format HH:MM:SS"
 msgstr "Prosimo uporabite format HH:MM:SS"
 
-#: mediacore/forms/admin/media.py:48
+#: mediacore/forms/admin/media.py:50
 msgid "Select an encoded video or audio file on your computer"
-msgstr ""
+msgstr "Izberi video ali zvočni posnetek na svojem računalniku"
 
-#: mediacore/forms/admin/media.py:49
+#: mediacore/forms/admin/media.py:51
 msgid "Add URL"
 msgstr "Dodaj URL"
 
-#: mediacore/forms/admin/media.py:50
+#: mediacore/forms/admin/media.py:52
 msgid "YouTube, Vimeo, Google Video, Amazon S3 or any other link"
 msgstr "YouTube, Vimeo, Google Video, Amazon S3 ali katero drugo povezavo"
 
-#: mediacore/forms/admin/media.py:53
+#: mediacore/forms/admin/media.py:55
 msgid "Video"
 msgstr "Video"
 
-#: mediacore/forms/admin/media.py:53
+#: mediacore/forms/admin/media.py:55
 msgid "Audio"
 msgstr "Zvočni posnetek"
 
-#: mediacore/forms/admin/media.py:53
+#: mediacore/forms/admin/media.py:55
 msgid "Audio Description"
 msgstr "Opis zvočnega posnetka"
 
-#: mediacore/forms/admin/media.py:53
+#: mediacore/forms/admin/media.py:55
 msgid "Captions"
 msgstr "Naslovi"
 
-#: mediacore/forms/admin/media.py:64
+#: mediacore/forms/admin/media.py:66
 msgid "Delete file"
 msgstr "Izbriši datoteko"
 
-#: mediacore/forms/admin/media.py:76
+#: mediacore/forms/admin/media.py:78
 msgid "Include in the Podcast"
-msgstr ""
+msgstr "Vključi v podcast"
 
-#: mediacore/forms/admin/media.py:76
+#: mediacore/forms/admin/media.py:78
 msgid "Optional"
 msgstr "Opcijsko"
 
-#: mediacore/forms/admin/media.py:83
-msgid "e.g.: puppies, great dane, adorable"
-msgstr ""
-
-#: mediacore/forms/admin/media.py:84
-msgid "Additional Notes"
-msgstr ""
-
 #: mediacore/forms/admin/media.py:85
+msgid "e.g.: puppies, great dane, adorable"
+msgstr "npr.: kužki, Nemška doga, prikupno"
+
+#: mediacore/forms/admin/media.py:86
+msgid "Additional Notes"
+msgstr "Opombe"
+
+#: mediacore/forms/admin/media.py:87
 msgid "Save"
 msgstr "Shrani"
 
-#: mediacore/forms/admin/media.py:86
+#: mediacore/forms/admin/media.py:88
 msgid "Delete"
 msgstr "Izbriši"
 
-#: mediacore/forms/admin/media.py:109
-#: mediacore/templates/admin/media/index.html:44
+#: mediacore/forms/admin/media.py:111
+#: mediacore/templates/admin/media/index.html:45
 msgid "All Media"
-msgstr ""
+msgstr "Vsi posnetki"
 
-#: mediacore/forms/admin/media.py:109
+#: mediacore/forms/admin/media.py:111
 msgid "Unfiled"
 msgstr ""
+
+#: mediacore/lib/mediafiles.py:94
+msgid "No File or URL provided."
+msgstr ""
+
+#: mediacore/lib/mediafiles.py:114
+#, python-format
+msgid "File extension \"%s\" is not supported."
+msgstr "Datotečna končnica \"%s\" ni podprta."
+
+#: mediacore/lib/mediafiles.py:287
+msgid "The file transferred to your FTP server is corrupted. Please try again."
+msgstr ""
+
+#: mediacore/lib/mediafiles.py:295
+#, python-format
+msgid "Could not download the file from your FTP server: %s"
+msgstr "Datoteke ni bilo mogoče prenesti iz FTP strežnika: %s"
 
 #: mediacore/templates/debug.html:11
 msgid "Sample Template, for looking at template locals"
@@ -183,171 +189,215 @@ msgstr ""
 
 #: mediacore/templates/debug.html:15
 msgid "All objects from locals():"
-msgstr ""
+msgstr "Vsi objekti iz locals():"
 
-#: mediacore/templates/error.html:23
-msgid "A"
-msgstr ""
-
-#: mediacore/templates/error.html:23
-msgid "Error has Occurred"
-msgstr ""
-
-#: mediacore/templates/error.html:28
-msgid "This page has gone missing!"
-msgstr ""
+#: mediacore/templates/error.html:24
+#, fuzzy, python-format
+msgid "A %(code)s Error has Occurred"
+msgstr "Prišlo je do napake: %(code)s"
 
 #: mediacore/templates/error.html:29
-msgid "Whoopsadaisy!"
-msgstr ""
+msgid "This page has gone missing!"
+msgstr "Te strani ne najdemo!"
 
-#: mediacore/templates/error.html:32
-msgid "We can't find this page. The page may have been moved or removed."
-msgstr ""
+#: mediacore/templates/error.html:30
+msgid "Whoopsadaisy!"
+msgstr "Opsasa!"
 
 #: mediacore/templates/error.html:33
+msgid "We can't find this page. The page may have been moved or removed."
+msgstr "Ta stran ne obstaja. Morda smo jo prestavili na drug naslov ali izbrisali."
+
+#: mediacore/templates/error.html:34
 msgid "If you typed the address in, check the spelling."
-msgstr ""
+msgstr "Preveri črkovanje naslova."
 
-#: mediacore/templates/error.html:38
+#: mediacore/templates/error.html:39
 msgid "You have a few options:"
-msgstr ""
+msgstr "Imaš naslednje možnosti:"
 
-#: mediacore/templates/error.html:40
-#: mediacore/templates/error.html:41
+#: mediacore/templates/error.html:41 mediacore/templates/error.html:42
 msgid "Return to the"
-msgstr ""
-
-#: mediacore/templates/error.html:40
-msgid "homepage"
-msgstr "domača stran"
+msgstr "Vrni se na"
 
 #: mediacore/templates/error.html:41
-msgid "media page"
-msgstr ""
+msgid "homepage"
+msgstr "domačo stran"
 
 #: mediacore/templates/error.html:42
+msgid "media page"
+msgstr "stran s posnetki"
+
+#: mediacore/templates/error.html:43
 msgid "Fill out an error report below."
-msgstr ""
+msgstr "Izpolni poročilo o napaki."
 
-#: mediacore/templates/error.html:47
+#: mediacore/templates/error.html:48
 msgid "Email: (so we can contact you if we find it!)"
-msgstr "E-pošta: (za kontakt, če ga najdemo)"
+msgstr "E-pošta: (kamor ti pošljemo e-pošto, če najdemo)"
 
-#: mediacore/templates/error.html:51
+#: mediacore/templates/error.html:52
 msgid "What were you looking for when you got the error?"
+msgstr "Kaj si iskal, ko si dobil napako?"
+
+#: mediacore/templates/helpers.html:24
+msgid ""
+"MediaCore could not find an appropriate encoding of this media item to "
+"display in your browser.\n"
+"\t\t\tContact the site admin if you need assistance."
 msgstr ""
 
-#: mediacore/templates/helpers.html:106
-#: mediacore/templates/helpers.html:109
-msgid "If your browser supported HTML5, you'd be seeing a video here instead of this text!"
-msgstr "Če bi vaš brskalnik podpiral HTML5, bi tu videli video namesto tega napisa!"
+#: mediacore/templates/helpers.html:51
+msgid "Download this %(media.type)s!"
+msgstr "Dolpovleci ta %(media.type)s"
 
-#: mediacore/templates/helpers.html:114
-msgid "This player has not yet been implemented! Check the project status at"
-msgstr "Predvajalnik še ni bil implementiran! Preveri stanje projekta na"
+#: mediacore/templates/helpers.html:67
+msgid ""
+"If your browser supported HTML5, you'd be seeing an audio player here "
+"instead of this text!"
+msgstr ""
+"Če bi tvoj brskalnik podpiral HTML5, bi tu videl predvajalnik zvoka "
+"namesto tega napisa!"
+
+#: mediacore/templates/helpers.html:70
+#, fuzzy
+msgid ""
+"If your browser supported HTML5, you'd be seeing a video player here "
+"instead of this text!"
+msgstr ""
+"Če bi tvoj brskalnik podpiral HTML5, bi tu videl predvajalnik slike "
+"namesto tega napisa!"
+
+#: mediacore/templates/helpers.html:89
+msgid "var flashObj = new Swiff('"
+msgstr ""
+
+#: mediacore/templates/helpers.html:90
+msgid ""
+"', {\n"
+"\t\t\twidth:"
+msgstr ""
+
+#: mediacore/templates/helpers.html:91
+msgid ""
+",\n"
+"\t\t\theight:"
+msgstr ""
+
+#: mediacore/templates/helpers.html:92
+msgid ""
+",\n"
+"\t\t\tparams: {allowFullscreen: 'true'},\n"
+"\t\t\tvars:"
+msgstr ""
+
+#: mediacore/templates/helpers.html:94
+msgid ""
+"});\n"
+"\t\tvar div = new Element('div').replaces('"
+msgstr ""
+
+#: mediacore/templates/helpers.html:96
+msgid "').set('id', '"
+msgstr ""
+
+#: mediacore/templates/helpers.html:96
+msgid "').grab(flashObj);"
+msgstr ""
 
 #: mediacore/templates/helpers.html:115
-msgid "Jillion.com"
-msgstr "Jillion.com"
-
-#: mediacore/templates/helpers.html:135
-#: mediacore/templates/admin/helpers.html:64
-#: mediacore/templates/admin/helpers.html:70
+#: mediacore/templates/admin/helpers.html:65
 #: mediacore/templates/admin/master.html:52
-#: mediacore/templates/admin/comments/index.html:24
+#: mediacore/templates/admin/comments/index.html:27
 #: mediacore/templates/admin/media/_media-table.html:32
 #: mediacore/templates/admin/settings/comments.html:24
 #: mediacore/templates/admin/settings/comments.html:30
 #: mediacore/templates/admin/settings/master.html:46
-#: mediacore/templates/categories/index.html:38
-#: mediacore/templates/comments/_list.html:51
-#: mediacore/templates/media/explore.html:36
-#: mediacore/templates/media/view.html:102
+#: mediacore/templates/categories/index.html:39
+#: mediacore/templates/comments/_list.html:38
+#: mediacore/templates/media/explore.html:37
+#: mediacore/templates/media/view.html:80
 msgid "Comments"
 msgstr "Komentarji"
 
-#: mediacore/templates/helpers.html:137
-#: mediacore/templates/admin/comments
-#: /_comment-table.html:29
-#: mediacore/templates/categories/index.html:38
-#: mediacore/templates/media/explore.html:36
-#: mediacore/templates/media/view.html:102
-msgid "Comment"
-msgstr "Komentar"
-
-#: mediacore/templates/helpers.html:137
-#: mediacore/templates/helpers.html:141
-#: mediacore/templates/helpers.html:145
-#: mediacore/templates/categories/index.html:38
+#: mediacore/templates/helpers.html:117
+#: mediacore/templates/admin/helpers.html:71
+#: mediacore/templates/admin/comments/_comment-table.html:30
 #: mediacore/templates/categories/index.html:40
-#: mediacore/templates/media/explore.html:36
 #: mediacore/templates/media/explore.html:38
-#: mediacore/templates/media/view.html:102
-#: mediacore/templates/media/view.html:104
-#: mediacore/templates/media/view.html:128
-msgid "s"
-msgstr ""
+#: mediacore/templates/media/view.html:81
+msgid "Comment"
+msgid_plural "Comments"
+msgstr[0] "Komentar"
+msgstr[1] "Komentarja"
+msgstr[2] "Komentarji"
+msgstr[3] "Komentarjev"
 
-#: mediacore/templates/helpers.html:139
+#: mediacore/templates/helpers.html:122
 msgid "Likes"
 msgstr ""
 
-#: mediacore/templates/helpers.html:141
+#: mediacore/templates/helpers.html:124
 msgid "Like"
-msgstr ""
+msgid_plural "Likes"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
 
-#: mediacore/templates/helpers.html:143
-#: mediacore/templates/categories/index.html:40
-#: mediacore/templates/media/explore.html:38
-#: mediacore/templates/media/view.html:104
+#: mediacore/templates/helpers.html:129
+#: mediacore/templates/categories/index.html:46
+#: mediacore/templates/media/explore.html:44
+#: mediacore/templates/media/view.html:89
 msgid "Views"
-msgstr ""
+msgstr "Ogledi"
 
-#: mediacore/templates/helpers.html:145
-#: mediacore/templates/categories/index.html:40
-#: mediacore/templates/media/explore.html:38
-#: mediacore/templates/media/view.html:104
+#: mediacore/templates/helpers.html:131
+#: mediacore/templates/admin/media/update-status-form.html:28
+#: mediacore/templates/admin/media/update-status-form.html:34
+#: mediacore/templates/categories/index.html:47
+#: mediacore/templates/media/explore.html:45
+#: mediacore/templates/media/view.html:90
 msgid "View"
-msgstr ""
+msgid_plural "Views"
+msgstr[0] "Ogled"
+msgstr[1] "Ogleda"
+msgstr[2] "Ogledi"
+msgstr[3] "Ogledov"
 
-#: mediacore/templates/helpers.html:163
-#: mediacore/templates/admin/helpers.html:34
+#: mediacore/templates/helpers.html:152
+#: mediacore/templates/admin/helpers.html:35
 msgid "Page:"
 msgstr "Stran:"
 
-#: mediacore/templates/helpers.html:183
+#: mediacore/templates/helpers.html:172
 msgid "Show:"
 msgstr "Pokaži:"
 
-#: mediacore/templates/helpers.html:185
-#: mediacore/templates/categories/index.html:47
-#: mediacore/templates/media/explore.html:46
+#: mediacore/templates/helpers.html:174
+#: mediacore/templates/categories/index.html:58
+#: mediacore/templates/media/explore.html:57
 msgid "Latest"
-msgstr "Zadnje"
+msgstr "Zadnji"
 
-#: mediacore/templates/helpers.html:186
-#: mediacore/templates/categories/index.html:52
-#: mediacore/templates/media/explore.html:53
+#: mediacore/templates/helpers.html:175
+#: mediacore/templates/categories/index.html:63
+#: mediacore/templates/media/explore.html:64
 msgid "Most Popular"
-msgstr ""
+msgstr "Najbolj popularni"
 
-#: mediacore/templates/helpers.html:187
-#: mediacore/templates/categories/index.html:28
-#: mediacore/templates/media/explore.html:29
+#: mediacore/templates/helpers.html:176
+#: mediacore/templates/categories/index.html:29
+#: mediacore/templates/media/explore.html:30
 msgid "Featured"
-msgstr ""
+msgstr "Izbrano"
 
-#: mediacore/templates/helpers.html:195
-msgid "The"
-msgstr ""
+#: mediacore/templates/helpers.html:184
+#, python-format
+msgid "The %(fieldName)s field accepts some HTML formatting: %(formatting_list)s"
+msgstr "%(fieldName)s polje podpira HTML sintakso: %(formatting_list)s"
 
-#: mediacore/templates/helpers.html:195
-msgid "field accepts some HTML formatting:"
-msgstr ""
-
-#: mediacore/templates/layout.html:25
-#: mediacore/templates/layout.html:32
+#: mediacore/templates/layout.html:25 mediacore/templates/layout.html:32
 #: mediacore/templates/admin/master.html:29
 #: mediacore/templates/admin/master.html:46
 msgid "MediaCore"
@@ -355,7 +405,7 @@ msgstr "MediaCore"
 
 #: mediacore/templates/layout.html:40
 msgid "powered by"
-msgstr ""
+msgstr "powered by"
 
 #: mediacore/templates/layout.html:40
 msgid "MediaCore Video CMS"
@@ -363,11 +413,11 @@ msgstr "MediaCore Video CMS"
 
 #: mediacore/templates/login.html:23
 msgid "Login to MediaCore"
-msgstr "Vpis v MediaCore"
+msgstr "Prijavi se v MediaCore"
 
 #: mediacore/templates/login.html:44
 msgid "Login"
-msgstr "Vpis"
+msgstr "Prijava"
 
 #: mediacore/templates/login.html:47
 msgid "Username:"
@@ -377,18 +427,15 @@ msgstr "Uporabniško ime:"
 msgid "Password:"
 msgstr "Geslo:"
 
-#: mediacore/templates/nav.html:24
-#: mediacore/templates/media/explore.html:23
+#: mediacore/templates/nav.html:24 mediacore/templates/media/explore.html:24
 msgid "Explore"
-msgstr ""
+msgstr "Razišči"
 
-#: mediacore/templates/nav.html:25
-#: mediacore/templates/upload/success.html:35
+#: mediacore/templates/nav.html:25 mediacore/templates/media/index.html:24
 msgid "Media Library"
-msgstr ""
+msgstr "Media Library"
 
-#: mediacore/templates/nav.html:26
-#: mediacore/templates/admin/master.html:51
+#: mediacore/templates/nav.html:26 mediacore/templates/admin/master.html:51
 #: mediacore/templates/admin/podcasts/index.html:24
 #: mediacore/templates/admin/podcasts/index.html:32
 #: mediacore/templates/podcasts/index.html:23
@@ -397,12 +444,12 @@ msgstr "Podcasti"
 
 #: mediacore/templates/nav.html:27
 #: mediacore/templates/admin/categories/edit.html:24
-#: mediacore/templates/admin/categories/index.html:24
-#: mediacore/templates/admin/categories/index.html:40
+#: mediacore/templates/admin/categories/index.html:25
+#: mediacore/templates/admin/categories/index.html:42
 #: mediacore/templates/admin/settings/master.html:38
-#: mediacore/templates/categories/index.html:24
+#: mediacore/templates/categories/index.html:25
 #: mediacore/templates/categories/layout.html:26
-#: mediacore/templates/media/view.html:143
+#: mediacore/templates/media/view.html:138
 msgid "Categories"
 msgstr "Kategorije"
 
@@ -417,19 +464,19 @@ msgstr "Naloži"
 msgid "Search"
 msgstr "Išči"
 
-#: mediacore/templates/admin/helpers.html:60
+#: mediacore/templates/admin/helpers.html:61
 msgid "Moderate comments"
-msgstr ""
+msgstr "Komentarje je potrebno moderirati"
 
-#: mediacore/templates/admin/helpers.html:75
+#: mediacore/templates/admin/helpers.html:79
 msgid "Published"
 msgstr "Objavljeno"
 
-#: mediacore/templates/admin/helpers.html:80
+#: mediacore/templates/admin/helpers.html:84
 msgid "Unreviewed"
-msgstr ""
+msgstr "Nepreverjeno"
 
-#: mediacore/templates/admin/helpers.html:85
+#: mediacore/templates/admin/helpers.html:89
 msgid "Trash"
 msgstr "Koš"
 
@@ -456,15 +503,14 @@ msgstr "Nedavno objavljeni"
 
 #: mediacore/templates/admin/master.html:47
 msgid "Logout"
-msgstr "Izpis"
+msgstr "Odjava"
 
 #: mediacore/templates/admin/master.html:50
-#: mediacore/templates/admin/categories/index.html:47
-#: mediacore/templates/admin/media/index.html:24
-#: mediacore/templates/admin/tags/index.html:47
-#: mediacore/templates/media/index.html:30
+#: mediacore/templates/admin/categories/index.html:56
+#: mediacore/templates/admin/media/index.html:25
+#: mediacore/templates/admin/tags/index.html:55
 msgid "Media"
-msgstr ""
+msgstr "Stran posnetka"
 
 #: mediacore/templates/admin/master.html:53
 #: mediacore/templates/admin/settings/master.html:36
@@ -473,127 +519,157 @@ msgstr "Nastavitve"
 
 #: mediacore/templates/admin/master.html:59
 msgid "copyright 2009 simple station inc"
-msgstr ""
+msgstr "copyright 2009 simple station inc"
 
-#: mediacore/templates/admin/categories/index.html:39
+#: mediacore/templates/admin/categories/index.html:41
 msgid "Add Category"
 msgstr "Dodaj kategorijo"
 
 #: mediacore/templates/admin/categories/index.html:45
+#: mediacore/templates/admin/settings/analytics.html:34
+#: mediacore/templates/admin/settings/comments.html:33
+#: mediacore/templates/admin/settings/display.html:34
+#: mediacore/templates/admin/settings/notifications.html:33
+#: mediacore/templates/admin/settings/popularity.html:33
+#: mediacore/templates/admin/settings/upload.html:33
 #: mediacore/templates/admin/tags/index.html:45
+msgid "Notes"
+msgstr "Opombe"
+
+#: mediacore/templates/admin/categories/index.html:47
+msgid ""
+"Categories, as the name implies, provide a concise list of the main "
+"categories of media on your site. Like [1:Tags], they are considered when"
+" searching for media and when displaying related media. Unlike Tags, "
+"Categories have their own [2:section in the front-end] that that provides"
+" a way for users to explore the media by subject matter."
+msgstr ""
+
+#: mediacore/templates/admin/categories/index.html:48
+msgid ""
+"Categories can be nested. A parent category is considered to contain all "
+"of the media contained by its child categories."
+msgstr ""
+
+#: mediacore/templates/admin/categories/index.html:54
+#: mediacore/templates/admin/tags/index.html:53
 msgid "Name"
 msgstr "Ime"
 
-#: mediacore/templates/admin/categories/index.html:46
-#: mediacore/templates/admin/tags/index.html:46
+#: mediacore/templates/admin/categories/index.html:55
+#: mediacore/templates/admin/tags/index.html:54
 msgid "Slug"
 msgstr "Slug"
 
-#: mediacore/templates/admin/categories/index.html:62
+#: mediacore/templates/admin/categories/index.html:71
 msgid "Add New Category"
 msgstr "Dodaj novo kategorijo"
 
-#: mediacore/templates/admin/categories/index.html:66
+#: mediacore/templates/admin/categories/index.html:75
 msgid "Edit Category"
 msgstr "Uredi kategorijo"
 
-#: mediacore/templates/admin/categories/index.html:70
+#: mediacore/templates/admin/categories/index.html:79
 msgid "Delete Category"
 msgstr "Izbriši kategorijo"
 
-#: mediacore/templates/admin/categories/index.html:73
-msgid "Are you sure you want to delete this category"
-msgstr ""
-
-#: mediacore/templates/admin/categories/index.html:73
-msgid "and ALL of its children"
-msgstr ""
+#: mediacore/templates/admin/categories/index.html:82
+#, fuzzy
+msgid "Are you sure you want to delete this category [1:and ALL of its children]?"
+msgstr "Si prepričan da želiš izbrisati kategorijo [1:in vse njene podkategorije]?"
 
 #: mediacore/templates/admin/categories/row-form.html:41
-#: mediacore/templates/admin/comments/_comment-table.html:58
+#: mediacore/templates/admin/comments/_comment-table.html:59
 #: mediacore/templates/admin/tags/row-form.html:33
 #: mediacore/templates/admin/users/index.html:62
 msgid "edit"
 msgstr "uredi"
 
-#: mediacore/templates/admin/comments/_comment-table.html:27
+#: mediacore/templates/admin/comments/_comment-table.html:28
 #: mediacore/templates/admin/media/_media-table.html:30
 msgid "Status"
 msgstr "Stanje"
 
-#: mediacore/templates/admin/comments/_comment-table.html:28
+#: mediacore/templates/admin/comments/_comment-table.html:29
 #: mediacore/templates/admin/media/_media-table.html:34
 msgid "Author"
 msgstr "Avtor"
 
-#: mediacore/templates/admin/comments/_comment-table.html:30
+#: mediacore/templates/admin/comments/_comment-table.html:31
 msgid "In Response to"
-msgstr "Odgovor k"
+msgstr "Odgovor na"
 
-#: mediacore/templates/admin/comments/_comment-table.html:35
+#: mediacore/templates/admin/comments/_comment-table.html:36
 #: mediacore/templates/admin/media/_media-table.html:41
-#: mediacore/templates/admin/podcasts/_podcast-table.html:26
+#: mediacore/templates/admin/podcasts/_podcast-table.html:27
 #: mediacore/templates/admin/users/index.html:53
 msgid "None Found"
 msgstr "Ni zadetkov"
 
-#: mediacore/templates/admin/comments/_comment-table.html:39
+#: mediacore/templates/admin/comments/_comment-table.html:40
 msgid "This comment has already been approved for publishing"
-msgstr "Komentar je že bil odobren za pregled"
+msgstr "Komentar je že bil odobren za objavo"
 
-#: mediacore/templates/admin/comments/_comment-table.html:39
+#: mediacore/templates/admin/comments/_comment-table.html:40
 #: mediacore/templates/admin/media/_media-table.html:55
 msgid "published"
 msgstr "objavljen"
 
-#: mediacore/templates/admin/comments/_comment-table.html:40
+#: mediacore/templates/admin/comments/_comment-table.html:41
 msgid "Approve this comment for publishing"
 msgstr "Odobri komentar za objavo"
 
-#: mediacore/templates/admin/comments/_comment-table.html:40
-msgid "approve"
-msgstr "odobriti"
-
 #: mediacore/templates/admin/comments/_comment-table.html:41
+msgid "approve"
+msgstr "odobritev"
+
+#: mediacore/templates/admin/comments/_comment-table.html:42
 msgid "Delete this comment"
 msgstr "Izbriši komentar"
 
-#: mediacore/templates/admin/comments/_comment-table.html:41
+#: mediacore/templates/admin/comments/_comment-table.html:42
 msgid "trash"
 msgstr "koš"
 
-#: mediacore/templates/admin/comments/_comment-table.html:49
+#: mediacore/templates/admin/comments/_comment-table.html:50
 msgid "Submitted on"
-msgstr "Oddano ob"
+msgstr "Napisano dne"
 
-#: mediacore/templates/admin/comments/_comment-table.html:56
+#: mediacore/templates/admin/comments/_comment-table.html:57
 msgid "Go to the admin page for this item"
-msgstr ""
+msgstr "Pojdi na admin stran za ta komentar"
 
-#: mediacore/templates/admin/comments/index.html:24
-#: mediacore/templates/admin/media/index.html:24
-msgid "for"
-msgstr "za"
+#: mediacore/templates/admin/comments/index.html:28
+#, python-format
+msgid "Comments for %(media_filter_title)s"
+msgstr "Komentarji za %(media_filter_title)s"
 
-#: mediacore/templates/admin/comments/index.html:46
-msgid "Comments that match '"
-msgstr ""
+#: mediacore/templates/admin/comments/index.html:28
+#, fuzzy
+msgid "Comments for"
+msgstr "Komentarji"
 
-#: mediacore/templates/admin/comments/index.html:47
+#: mediacore/templates/admin/comments/index.html:52
+#, python-format
+msgid "Comments that match '%(search)s'"
+msgstr "Komentarji, ki se ujemajo z '%(search)s'"
+
+#: mediacore/templates/admin/comments/index.html:53
 msgid "All Comments"
 msgstr "Vsi komentarji"
 
-#: mediacore/templates/admin/comments/index.html:48
-msgid "Comments for"
-msgstr "Komentarji za"
+#: mediacore/templates/admin/comments/index.html:54
+#, python-format
+msgid "Comments for %(search)s"
+msgstr "Komentarji za %(search)s"
 
 #: mediacore/templates/admin/media/_media-table.html:28
 msgid "Publish Date"
-msgstr "Datum objave"
+msgstr "Objavljeno dne"
 
 #: mediacore/templates/admin/media/_media-table.html:29
 msgid "Upload Date"
-msgstr ""
+msgstr "Naloženo dne"
 
 #: mediacore/templates/admin/media/_media-table.html:31
 msgid "Title"
@@ -606,81 +682,75 @@ msgstr "Število komentarjev"
 #: mediacore/templates/admin/media/_media-table.html:33
 #: mediacore/templates/admin/settings/master.html:39
 #: mediacore/templates/admin/tags/edit.html:24
-#: mediacore/templates/admin/tags/index.html:24
-#: mediacore/templates/admin/tags/index.html:40
-#: mediacore/templates/media/view.html:149
+#: mediacore/templates/admin/tags/index.html:25
+#: mediacore/templates/admin/tags/index.html:42
+#: mediacore/templates/media/view.html:144
 msgid "Tags"
 msgstr "Oznake"
 
 #: mediacore/templates/admin/media/_media-table.html:52
 msgid "review me"
-msgstr ""
+msgstr "preglej"
 
 #: mediacore/templates/admin/media/_media-table.html:53
 msgid "encode me"
-msgstr ""
+msgstr "zakodiraj"
 
 #: mediacore/templates/admin/media/_media-table.html:54
 msgid "publish me"
-msgstr ""
+msgstr "objavi"
 
-#: mediacore/templates/admin/media/edit.html:23
-#: mediacore/templates/admin/podcasts/edit.html:23
-msgid "Edit:"
-msgstr "Uredi;"
-
-#: mediacore/templates/admin/media/edit.html:100
-#: mediacore/templates/admin/podcasts/edit.html:56
+#: mediacore/templates/admin/media/edit.html:111
+#: mediacore/templates/admin/podcasts/edit.html:69
 msgid "Uploaded:"
 msgstr "Naloženo:"
 
-#: mediacore/templates/admin/media/edit.html:111
+#: mediacore/templates/admin/media/edit.html:122
 msgid "Files"
 msgstr "Datoteke"
 
-#: mediacore/templates/admin/media/edit.html:112
+#: mediacore/templates/admin/media/edit.html:123
 msgid "Add / Manage"
-msgstr "Dodaj / Vodi"
+msgstr "Dodaj / Upravljaj"
 
-#: mediacore/templates/admin/media/edit.html:129
-#: mediacore/templates/admin/podcasts/edit.html:64
+#: mediacore/templates/admin/media/edit.html:140
+#: mediacore/templates/admin/podcasts/edit.html:84
 msgid "Thumbnail"
+msgstr "Predogledna sličica"
+
+#: mediacore/templates/admin/media/edit.html:143
+#: mediacore/templates/admin/podcasts/_podcast-table.html:39
+#: mediacore/templates/admin/podcasts/edit.html:88
+msgid "Thumb"
 msgstr "Sličica"
 
-#: mediacore/templates/admin/media/edit.html:132
-#: mediacore/templates/admin/podcasts/_podcast-table.html:38
-#: mediacore/templates/admin/podcasts/edit.html:67
-#, fuzzy
-msgid "Thumb"
-msgstr "Thumb"
-
-#: mediacore/templates/admin/media/edit.html:156
+#: mediacore/templates/admin/media/edit.html:167
 msgid "Manage Files"
-msgstr ""
+msgstr "Upravljaj datoteke"
 
-#: mediacore/templates/admin/media/edit.html:158
-#: mediacore/templates/admin/media/update-status-form.html:22
+#: mediacore/templates/admin/media/edit.html:169
+#: mediacore/templates/admin/media/update-status-form.html:23
 #: mediacore/templates/admin/podcasts/index.html:31
 msgid "Help"
 msgstr "Pomoč"
 
-#: mediacore/templates/admin/media/edit.html:159
+#: mediacore/templates/admin/media/edit.html:170
 msgid "Hide"
 msgstr "Skrij"
 
-#: mediacore/templates/admin/media/edit.html:165
+#: mediacore/templates/admin/media/edit.html:176
 msgid "File"
 msgstr "Datoteka"
 
-#: mediacore/templates/admin/media/edit.html:166
+#: mediacore/templates/admin/media/edit.html:177
 msgid "Size"
 msgstr "Velikost"
 
-#: mediacore/templates/admin/media/edit.html:167
+#: mediacore/templates/admin/media/edit.html:178
 msgid "Duration"
 msgstr "Dolžina"
 
-#: mediacore/templates/admin/media/edit.html:168
+#: mediacore/templates/admin/media/edit.html:179
 msgid "Type"
 msgstr "Tip"
 
@@ -692,171 +762,232 @@ msgstr "ALI"
 msgid "or"
 msgstr "ali"
 
-#: mediacore/templates/admin/media/index.html:42
-msgid "Media that matches '"
-msgstr ""
+#: mediacore/templates/admin/media/index.html:25
+msgid "for"
+msgstr "za"
 
 #: mediacore/templates/admin/media/index.html:43
+#, fuzzy, python-format
+msgid "Media that matches '%(search)s'"
+msgstr "Posnetki, ki se ujemajo z '%(search)s"
+
+#: mediacore/templates/admin/media/index.html:44
 msgid "Unfiled Media"
-msgstr ""
+msgstr "Neobjavljeni posnetki"
 
-#: mediacore/templates/admin/media/index.html:45
-msgid "Media for"
-msgstr ""
+#: mediacore/templates/admin/media/index.html:46
+#, python-format
+msgid "Media for %(podcast_filter_title)s"
+msgstr "Posnetki za %(podcast_filter_title)"
 
-#: mediacore/templates/admin/media/index.html:47
+#: mediacore/templates/admin/media/index.html:48
 msgid "Add New Media"
-msgstr ""
+msgstr "Dodaj nov posnetek"
 
-#: mediacore/templates/admin/media/update-status-form.html:31
+#: mediacore/templates/admin/media/update-status-form.html:28
+#, fuzzy
+msgid "View this media where it is published"
+msgstr "Poglej posnetek, kjer je objavljen"
+
+#: mediacore/templates/admin/media/update-status-form.html:28
+#: mediacore/templates/admin/media/update-status-form.html:34
+msgid "Preview"
+msgstr "Predogled"
+
+#: mediacore/templates/admin/media/update-status-form.html:34
+msgid "View this media where it will be published"
+msgstr "Poglej posnetek, kjer bo objavljen"
+
+#: mediacore/templates/admin/media/update-status-form.html:42
 msgid "Publish Status"
-msgstr ""
+msgstr "Stanje objave"
 
-#: mediacore/templates/admin/media/update-status-form.html:36
+#: mediacore/templates/admin/media/update-status-form.html:48
 msgid "You must add a file and save before review can begin."
-msgstr ""
+msgstr "Preden lahko začnemo s preverjanjem, moraš datoteko dodati in shraniti."
 
-#: mediacore/templates/admin/media/update-status-form.html:40
+#: mediacore/templates/admin/media/update-status-form.html:52
 msgid "review pending"
-msgstr ""
+msgstr "čaka na preverjanje"
 
-#: mediacore/templates/admin/media/update-status-form.html:41
-msgid "encoding"
-msgstr "kodiram"
-
-#: mediacore/templates/admin/media/update-status-form.html:42
 #: mediacore/templates/admin/media/update-status-form.html:53
-#: mediacore/templates/admin/media/update-status-form.html:63
+#, python-format
+msgid "encoding %(status)s"
+msgstr "%(status)s zakodiranja"
+
+#: mediacore/templates/admin/media/update-status-form.html:54
+#: mediacore/templates/admin/media/update-status-form.html:65
 #: mediacore/templates/admin/media/update-status-form.html:75
+#: mediacore/templates/admin/media/update-status-form.html:87
 msgid "Click to change the publish date"
-msgstr ""
+msgstr "Klikni in spremeni datum objave"
 
-#: mediacore/templates/admin/media/update-status-form.html:42
-#: mediacore/templates/admin/media/update-status-form.html:53
-#: mediacore/templates/admin/media/update-status-form.html:63
+#: mediacore/templates/admin/media/update-status-form.html:54
+#: mediacore/templates/admin/media/update-status-form.html:65
+#: mediacore/templates/admin/media/update-status-form.html:75
 msgid "publishing"
 msgstr "objavljam"
 
-#: mediacore/templates/admin/media/update-status-form.html:51
-#: mediacore/templates/admin/media/update-status-form.html:61
+#: mediacore/templates/admin/media/update-status-form.html:63
 #: mediacore/templates/admin/media/update-status-form.html:73
+#: mediacore/templates/admin/media/update-status-form.html:85
 msgid "review complete"
 msgstr "pregled končan"
 
-#: mediacore/templates/admin/media/update-status-form.html:52
+#: mediacore/templates/admin/media/update-status-form.html:64
 msgid "encoding pending"
 msgstr "čaka na kodiranje"
 
-#: mediacore/templates/admin/media/update-status-form.html:57
+#: mediacore/templates/admin/media/update-status-form.html:69
 msgid "Encoding will be complete when an acceptable file is added."
-msgstr ""
+msgstr "Kodiranje se bo zaključilo, ko dodana sprejemljiva datoteka."
 
-#: mediacore/templates/admin/media/update-status-form.html:62
 #: mediacore/templates/admin/media/update-status-form.html:74
+#: mediacore/templates/admin/media/update-status-form.html:86
 msgid "encoding complete"
-msgstr "Kodiranje končano"
+msgstr "kodiranje končano"
 
-#: mediacore/templates/admin/media/update-status-form.html:81
+#: mediacore/templates/admin/media/update-status-form.html:93
 msgid "Status error"
-msgstr ""
+msgstr "Napaka"
 
-#: mediacore/templates/admin/podcasts/_podcast-table.html:31
-#: mediacore/templates/media/view.html:58
+#: mediacore/templates/admin/podcasts/_podcast-table.html:32
+#: mediacore/templates/media/view.html:36
+#: mediacore/templates/podcasts/view.html:38
 msgid "Edit"
 msgstr "Uredi"
 
-#: mediacore/templates/admin/podcasts/_podcast-table.html:45
+#: mediacore/templates/admin/podcasts/_podcast-table.html:46
 msgid "Category:"
 msgstr "Kategorija:"
 
-#: mediacore/templates/admin/podcasts/_podcast-table.html:47
+#: mediacore/templates/admin/podcasts/_podcast-table.html:48
 msgid "Author:"
 msgstr "Avtor:"
 
-#: mediacore/templates/admin/podcasts/_podcast-table.html:51
+#: mediacore/templates/admin/podcasts/_podcast-table.html:52
 msgid "Explicit"
 msgstr ""
 
-#: mediacore/templates/admin/podcasts/_podcast-table.html:52
+#: mediacore/templates/admin/podcasts/_podcast-table.html:53
 msgid "Clean"
 msgstr "Počisti:"
 
-#: mediacore/templates/admin/podcasts/_podcast-table.html:57
+#: mediacore/templates/admin/podcasts/_podcast-table.html:58
 msgid "Add episode"
 msgstr "Dodaj epizodo"
 
-#: mediacore/templates/admin/podcasts/_podcast-table.html:59
-msgid "No Episodes"
-msgstr "Ni epizod."
-
 #: mediacore/templates/admin/podcasts/_podcast-table.html:60
-msgid "View First Episode"
-msgstr "Poglej prvo epizodo"
+#, python-format
+msgid "View First Episode %(num)s"
+msgid_plural "View All %(num)s Episodes"
+msgstr[0] "Poglej prvo epizodo"
+msgstr[1] "Poglej %(num)s epizodi"
+msgstr[2] "Poglej %(num)s epizode"
+msgstr[3] "Poglej %(num)s epizode"
 
-#: mediacore/templates/admin/podcasts/_podcast-table.html:61
-msgid "View All"
-msgstr "Poglej vse"
-
-#: mediacore/templates/admin/podcasts/_podcast-table.html:61
-#: mediacore/templates/podcasts/view.html:47
-msgid "Episodes"
-msgstr "Epizode"
+#: mediacore/templates/admin/podcasts/edit.html:79
+msgid "View this podcast where it is published"
+msgstr "Poglej podcast, kjer je objavljen"
 
 #: mediacore/templates/admin/podcasts/index.html:33
 msgid "Add podcast"
 msgstr "Dodaj podcast"
 
-#: mediacore/templates/admin/settings/analytics.html:24
-#: mediacore/templates/admin/settings/analytics.html:30
+#: mediacore/templates/admin/settings/analytics.html:25
+#: mediacore/templates/admin/settings/analytics.html:31
 #: mediacore/templates/admin/settings/master.html:44
 msgid "Analytics"
-msgstr ""
-
-#: mediacore/templates/admin/settings/analytics.html:33
-#: mediacore/templates/admin/settings/comments.html:33
-#: mediacore/templates/admin/settings/display.html:33
-#: mediacore/templates/admin/settings/notifications.html:33
-#: mediacore/templates/admin/settings/popularity.html:33
-#: mediacore/templates/admin/settings/upload.html:33
-msgid "Notes"
-msgstr "Opombe"
-
-#: mediacore/templates/admin/settings/analytics.html:35
-msgid "Tracking code is in the format UA-xxxx-xx. See the"
-msgstr "Koda je v formatu UA-xxxx-xx. Poglejte si"
-
-#: mediacore/templates/admin/settings/analytics.html:35
-msgid "Google site"
-msgstr "Google site"
-
-#: mediacore/templates/admin/settings/analytics.html:35
-msgid "for help."
-msgstr "za pomoč."
+msgstr "Analytics"
 
 #: mediacore/templates/admin/settings/analytics.html:36
+msgid ""
+"Tracking code is in the format UA-xxxx-xx. See the [1:Google site] for "
+"help."
+msgstr "Koda je v formatu UA-xxxx-xx. Več na [1:Google sites]"
+
+#: mediacore/templates/admin/settings/analytics.html:37
 msgid "Leave blank to disable Google Analytics."
-msgstr "Pustite prazno, da onemogočite Google Analytics."
+msgstr "Pusti prazno, da onemogočiš Google Analytics."
 
 #: mediacore/templates/admin/settings/comments.html:35
 msgid "Enable akismet anti-spam protection by setting your API key."
 msgstr ""
+"Omogoči aksimet zaščito prot nezaželjeni vsebini z nastavljanjem API "
+"kjuča."
 
 #: mediacore/templates/admin/settings/comments.html:36
-msgid "The Akismet URL is the 'blog url' you signed up with. This defaults to your application root, if empty."
+msgid ""
+"The Akismet URL is the 'blog url' you signed up with. This defaults to "
+"your application root, if empty."
 msgstr ""
+"Akismet URL je 'blog url' za katerega si se prijavil. Privzeto \"\n"
+"\"je nastavljen na glavni URL aplikacije."
 
 #: mediacore/templates/admin/settings/comments.html:37
-msgid "If Akismet is enabled, spam will be discarded before saving it for moderator approval."
-msgstr ""
+msgid ""
+"If Akismet is enabled, spam will be discarded before saving it for "
+"moderator approval."
+msgstr "Nezaželjena vsebina ni prikazana, dokler jo moderator ne odobri/izbriše."
 
-#: mediacore/templates/admin/settings/display.html:24
-#: mediacore/templates/admin/settings/display.html:30
+#: mediacore/templates/admin/settings/display.html:25
+#: mediacore/templates/admin/settings/display.html:31
 #: mediacore/templates/admin/settings/master.html:42
 msgid "Display"
+msgstr "Prikazovalnik"
+
+#: mediacore/templates/admin/settings/display.html:36
+msgid ""
+"Use of TinyMCE is not strictly XHTML compliant, but works in FF>=1.5, "
+"Safari<=3, IE>=5.5, so long as javascript is enabled."
 msgstr ""
 
-#: mediacore/templates/admin/settings/display.html:35
-msgid "Use of TinyMCE is not strictly XHTML compliant, but works in FF>=1.5, Safari<=3, IE>=5.5, so long as javascript is enabled."
+#: mediacore/templates/admin/settings/display.html:37
+msgid ""
+"Regardless of the \"Preferred Media Player Type\" setting, if the chosen "
+"setting will yield no useable player for a particular user's browser, an "
+"error message will be displayed to the user in place of the media object."
+" The exception to this is if the media object has an embedded "
+"(YouTube/Vimeo/etc.) media file, in which case MediaCore will attempt to "
+"render this embedded file, rather than display an error, leaving it up to"
+" the embedded player to display an error if necessary."
+msgstr ""
+
+#: mediacore/templates/admin/settings/display.html:38
+msgid ""
+"A useable Flash player will be found if the user's browser supports "
+"Flash, and there is a media file associated with the media object that "
+"Flash is capable of playing. A list of which formats Flash supports can "
+"be found [1:here]."
+msgstr ""
+
+#: mediacore/templates/admin/settings/display.html:39
+msgid ""
+"A useable HTML5 player will be found if the user's browser supports the "
+"HTML5 <video> tag, and there is a media file associated with the media "
+"object that the user's browser is capable of playing natively. A list of "
+"which browsers support which formats natively can be found [1:here]."
+msgstr ""
+
+#: mediacore/templates/admin/settings/display.html:40
+msgid ""
+"In the case that an embedded video (YouTube/Vimeo/etc.) the appropriate "
+"media file for a media object, that video will be displayed within the "
+"selected Flash or HTML5 player, if possible."
+msgstr ""
+
+#: mediacore/templates/admin/settings/display.html:41
+msgid ""
+"When choosing which media file to display, the following criteria are "
+"applied (in order of importance):"
+msgstr ""
+
+#: mediacore/templates/admin/settings/display.html:43
+msgid "Files that will play in the preferred player get priority."
+msgstr ""
+
+#: mediacore/templates/admin/settings/display.html:44
+msgid "Embedded files (YouTube/Vimeo/etc.) get priority."
 msgstr ""
 
 #: mediacore/templates/admin/settings/master.html:40
@@ -869,13 +1000,13 @@ msgstr "Uporabniki"
 #: mediacore/templates/admin/settings/notifications.html:24
 #: mediacore/templates/admin/settings/notifications.html:30
 msgid "Notification Emails"
-msgstr ""
+msgstr "Obvestila po e-pošti"
 
 #: mediacore/templates/admin/settings/master.html:43
 #: mediacore/templates/admin/settings/popularity.html:24
 #: mediacore/templates/admin/settings/popularity.html:30
 msgid "Popularity Algorithm"
-msgstr ""
+msgstr "Algoritem za popularnost"
 
 #: mediacore/templates/admin/settings/notifications.html:35
 msgid "Where should MediaCore send an email when the following actions occur?"
@@ -883,23 +1014,27 @@ msgstr "Kam naj MediaCore pošlje e-pošto ob naslednjih dogodkih?"
 
 #: mediacore/templates/admin/settings/notifications.html:36
 msgid "Email fields may be comma separated lists of email addresses."
-msgstr ""
+msgstr "Naslovi za e-pošto so lahko ločeni z vejico."
 
 #: mediacore/templates/admin/settings/notifications.html:37
 msgid "Leave blank for no notification."
-msgstr ""
+msgstr "Pusti prazno, če ne želiš obvestila."
 
 #: mediacore/templates/admin/settings/popularity.html:35
 msgid "MediaCore uses a popularity ranking algorithm similar to Reddit's."
 msgstr ""
+"MediaCore uporablja algoritm za določanje popularnosti približno tak kot "
+"Reddit."
 
 #: mediacore/templates/admin/settings/popularity.html:36
-msgid "The popularity of a media item is described by: log_x(media.likes) + media.age/y"
+msgid ""
+"The popularity of a media item is described by: log_x(media.likes) + "
+"media.age/y"
 msgstr ""
 
 #: mediacore/templates/admin/settings/popularity.html:37
 msgid "Where:"
-msgstr ""
+msgstr "Kje:"
 
 #: mediacore/templates/admin/settings/popularity.html:38
 msgid "x (the base of the logarithm) is the \"Popularity Decay Exponent\""
@@ -910,7 +1045,9 @@ msgid "y is the \"Popularity Decay Lifetime\""
 msgstr ""
 
 #: mediacore/templates/admin/settings/popularity.html:40
-msgid "media.age is the number of hours between January 1, 2000, and the time the media item was published"
+msgid ""
+"media.age is the number of hours between January 1, 2000, and the time "
+"the media item was published"
 msgstr ""
 
 #: mediacore/templates/admin/settings/popularity.html:41
@@ -918,45 +1055,68 @@ msgid "media.likes is the number of likes the media item has received"
 msgstr ""
 
 #: mediacore/templates/admin/settings/popularity.html:43
-msgid "Essentially, in this algorithm, a media item (A) that is y hours older than media item (B), will need x times as many votes as (B) to rank at the same level."
+msgid ""
+"Essentially, in this algorithm, a media item (A) that is y hours older "
+"than media item (B), will need x times as many votes as (B) to rank at "
+"the same level."
 msgstr ""
 
 #: mediacore/templates/admin/settings/popularity.html:44
-msgid "Lower traffic websites will want a higher y value, or a lower x value, or both."
+msgid ""
+"Lower traffic websites will want a higher y value, or a lower x value, or"
+" both."
 msgstr ""
+"Za spletna mesta z manj obiska, je bolje če je vrednost y večja ali "
+"vrednost x manjša, oziroma oboje."
 
 #: mediacore/templates/admin/settings/upload.html:35
-msgid "Remember that the max upload size is in bytes. eg. 314572800 = 300 MiB"
-msgstr "Največja dovoljena velikost datoteke je 300MB"
+msgid ""
+"Use the FTP options below if you want to store media files on a CDN "
+"instead of storing them locally."
+msgstr "Uporabi FTP, za shranjevanje posnetkov na CDN (namesto lokalno)."
 
 #: mediacore/templates/admin/settings/upload.html:36
-msgid "Use the FTP options below if you want to store media files on a CDN instead of storing them locally."
+msgid ""
+"In this release of MediaCore, only remote HTTP hosting is available: RTMP"
+" is unsupported."
+msgstr ""
+"V tej izdaji MediaCore-a, samo oddaljeno HTTP gostovanje je na\"\n"
+"\" voljo, RTMP ni podprt."
+
+#: mediacore/templates/admin/settings/upload.html:37
+msgid ""
+"Thumbnails will only ever be fetched from YouTube, Vimeo, etc. if the "
+"embedded video is the first media file added to a particular media item."
 msgstr ""
 
-#: mediacore/templates/admin/tags/index.html:39
+#: mediacore/templates/admin/tags/index.html:41
 msgid "Add Tag"
 msgstr "Dodaj oznako"
 
-#: mediacore/templates/admin/tags/index.html:59
+#: mediacore/templates/admin/tags/index.html:47
+msgid ""
+"Tags are keywords or terms that describe each media item. Like "
+"[1:Categories], they are considered when searching for media and when "
+"displaying related media. Unlike Categories, Tags are mostly invisible to"
+" the user, though Tags are used to generate the <meta keywords=\"...\"> "
+"tags on media pages."
+msgstr ""
+
+#: mediacore/templates/admin/tags/index.html:67
 msgid "Add New Tag"
 msgstr "Dodaj novo oznako"
 
-#: mediacore/templates/admin/tags/index.html:63
+#: mediacore/templates/admin/tags/index.html:71
 msgid "Edit Tag"
 msgstr "Uredi oznako"
 
-#: mediacore/templates/admin/tags/index.html:67
+#: mediacore/templates/admin/tags/index.html:75
 msgid "Delete Tag"
 msgstr "Izbriši oznako"
 
-#: mediacore/templates/admin/tags/index.html:70
+#: mediacore/templates/admin/tags/index.html:78
 msgid "Are you sure you want to delete this tag?"
-msgstr "Ste prepričani, da hočete izbrisati to oznako?"
-
-#: mediacore/templates/admin/users/edit.html:25
-#: mediacore/templates/admin/users/edit.html:40
-msgid "Edit User:"
-msgstr "Uredi uporabnika:"
+msgstr "Si prepričan, da želiš izbrisati oznako?"
 
 #: mediacore/templates/admin/users/index.html:39
 msgid "Add User"
@@ -974,32 +1134,32 @@ msgstr "E-pošta"
 msgid "Group"
 msgstr "Skupina"
 
-#: mediacore/templates/categories/index.html:39
-#: mediacore/templates/media/explore.html:37
-#: mediacore/templates/media/view.html:103
+#: mediacore/templates/categories/index.html:45
+#: mediacore/templates/media/explore.html:43
+#: mediacore/templates/media/view.html:86
 msgid "Vote up"
 msgstr "Glasuj"
 
-#: mediacore/templates/categories/index.html:39
-#: mediacore/templates/media/explore.html:37
-#: mediacore/templates/media/view.html:103
+#: mediacore/templates/categories/index.html:45
+#: mediacore/templates/media/explore.html:43
+#: mediacore/templates/media/view.html:87
 msgid "Like this!"
 msgstr "Všeč mi je!"
 
-#: mediacore/templates/categories/index.html:49
-#: mediacore/templates/media/explore.html:48
+#: mediacore/templates/categories/index.html:60
+#: mediacore/templates/media/explore.html:59
 msgid "more of the Latest..."
-msgstr ""
+msgstr "več izmed Najnovejše..."
 
-#: mediacore/templates/categories/index.html:54
-#: mediacore/templates/media/explore.html:55
+#: mediacore/templates/categories/index.html:65
+#: mediacore/templates/media/explore.html:66
 msgid "more of the Most Popular..."
-msgstr ""
+msgstr "več izmed Najbolj Priljubljenih..."
 
-#: mediacore/templates/categories/index.html:57
+#: mediacore/templates/categories/index.html:68
 #: mediacore/templates/categories/more.html:31
 msgid "There is no media in this category."
-msgstr ""
+msgstr "V tej kategoriji še ni posnetkov."
 
 #: mediacore/templates/categories/layout.html:31
 msgid "Choose a Category:"
@@ -1007,207 +1167,227 @@ msgstr "Izberi kategorijo:"
 
 #: mediacore/templates/categories/more.html:24
 msgid "| Categories"
-msgstr ""
+msgstr "| Kategorije"
 
-#: mediacore/templates/comments/_list.html:55
+#: mediacore/templates/comments/_list.html:42
 msgid "No comments have been posted yet."
-msgstr ""
+msgstr "Ni še objavljenih komentarjev."
 
-#: mediacore/templates/comments/_list.html:64
+#: mediacore/templates/comments/_list.html:51
 msgid "Permalink"
 msgstr "Povezava"
 
-#: mediacore/templates/comments/_list.html:67
-msgid "said on"
-msgstr ""
+#: mediacore/templates/comments/_list.html:54
+#, python-format
+msgid "said on %(datetime)s…"
+msgstr "Napisano dne %(datetime)s…"
 
-#: mediacore/templates/comments/_list.html:83
+#: mediacore/templates/comments/_list.html:70
 msgid "Write a comment"
-msgstr "Napiši komentar"
+msgstr "Dodaj komentar"
 
-#: mediacore/templates/media/explore.html:58
+#: mediacore/templates/media/explore.html:69
 msgid "There are no media items published yet!"
-msgstr ""
+msgstr "Ni še objavljenih posnetkov!"
 
-#: mediacore/templates/media/index.html:28
-#: mediacore/templates/media/index.html:29
-msgid "Showing"
-msgstr ""
-
-#: mediacore/templates/media/index.html:28
-msgid "results for '"
-msgstr "rezultati za '"
+#: mediacore/templates/media/index.html:24
+#, python-format
+msgid "Search: \"%s\""
+msgstr "Išči: \"%s\""
 
 #: mediacore/templates/media/index.html:29
-msgid "results tagged with '"
-msgstr ""
+#, python-format
+msgid "Showing %(result_count)s results for '%(search_query)s'"
+msgstr "Prikazujem %(result_count)s zadetkov za '%(search_query)s'"
 
 #: mediacore/templates/media/index.html:30
-#: mediacore/templates/podcasts/view.html:47
-msgid "All"
-msgstr "Vse"
+#, python-format
+msgid "Showing %(result_count)s results tagged with '%(tag.name)s'"
+msgstr "Prikazujem %(result_count)s zadetkov označenih z '%(tag.name)s'"
 
-#: mediacore/templates/media/view.html:62
+#: mediacore/templates/media/index.html:31
+#, python-format
+msgid "All %(result_count)s Media"
+msgstr "Vseh %(result_count)s posnetkov"
+
+#: mediacore/templates/media/view.html:40
 msgid "(unpublished)"
 msgstr "(neobjavljeno)"
 
-#: mediacore/templates/media/view.html:62
+#: mediacore/templates/media/view.html:40
 msgid "by"
-msgstr ""
+msgstr "avtor"
 
-#: mediacore/templates/media/view.html:74
+#: mediacore/templates/media/view.html:52
 msgid "Download"
-msgstr "Dolpoteg"
+msgstr "Prenos s spleta"
 
-#: mediacore/templates/media/view.html:78
+#: mediacore/templates/media/view.html:56
 msgid "Share"
 msgstr "Deli z drugimi"
 
-#: mediacore/templates/media/view.html:80
+#: mediacore/templates/media/view.html:58
 msgid "Permalink:"
 msgstr "Povezava:"
 
-#: mediacore/templates/media/view.html:82
+#: mediacore/templates/media/view.html:60
 msgid "Share by email"
-msgstr "Deli preko e-pošte"
+msgstr "Pošlji po e-pošti"
 
-#: mediacore/templates/media/view.html:82
+#: mediacore/templates/media/view.html:60
 msgid "email"
 msgstr "e-pošta"
 
-#: mediacore/templates/media/view.html:83
+#: mediacore/templates/media/view.html:61
 msgid "Share on Facebook"
-msgstr "Deli na facebook-u"
+msgstr "Posreduj na Facebook"
 
-#: mediacore/templates/media/view.html:83
+#: mediacore/templates/media/view.html:61
 msgid "facebook"
 msgstr "facebook"
 
-#: mediacore/templates/media/view.html:84
+#: mediacore/templates/media/view.html:62
 msgid "Share on Twitter"
-msgstr "Deli na twitter-ju"
+msgstr "Posreduj na Twitter"
 
-#: mediacore/templates/media/view.html:84
+#: mediacore/templates/media/view.html:62
 msgid "twitter"
 msgstr "twitter"
 
-#: mediacore/templates/media/view.html:93
+#: mediacore/templates/media/view.html:71
 msgid "Embed on your site"
-msgstr "Vgradi na tvojo stran"
+msgstr "Vgradi si na spletno stran"
 
-#: mediacore/templates/media/view.html:93
+#: mediacore/templates/media/view.html:71
 msgid "Embed"
-msgstr "Vgrajen"
+msgstr "Vgradi"
 
-#: mediacore/templates/media/view.html:95
+#: mediacore/templates/media/view.html:73
 msgid "Embeddable Player HTML:"
-msgstr "Vgrajen predvajalnik v HTML:"
+msgstr "HTML predvajalnik:"
+
+#: mediacore/templates/media/view.html:106
+msgid "Related Podcast"
+msgstr "Sorodni podcasti"
 
 #: mediacore/templates/media/view.html:116
-msgid "Related Podcast"
-msgstr "Sorodne epizode"
-
-#: mediacore/templates/media/view.html:126
 msgid "Podcast Episodes"
-msgstr "Podcast epizode"
+msgstr "Epizode podcastev"
 
-#: mediacore/templates/media/view.html:128
+#: mediacore/templates/media/view.html:119
+#, fuzzy
 msgid "Episode"
-msgstr "Epizoda"
+msgid_plural "Episodes"
+msgstr[0] "Epizoda"
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
 
-#: mediacore/templates/media/view.html:128
-msgid "in this Series"
-msgstr "v tej seriji"
-
-#: mediacore/templates/media/view.html:138
+#: mediacore/templates/media/view.html:133
 msgid "Related Media"
-msgstr ""
+msgstr "Podobni posnetki"
 
 #: mediacore/templates/podcasts/index.html:32
 msgid "All Podcasts"
 msgstr "Vsi podcasti"
 
 #: mediacore/templates/podcasts/index.html:43
-#: mediacore/templates/podcasts/view.html:40
+#: mediacore/templates/podcasts/view.html:42
 msgid "Add to iTunes"
 msgstr "Dodaj v iTunes"
 
 #: mediacore/templates/podcasts/index.html:44
-#: mediacore/templates/podcasts/view.html:41
+#: mediacore/templates/podcasts/view.html:43
 msgid "Subscribe via RSS"
-msgstr ""
+msgstr "Naroči se na RSS"
 
 #: mediacore/templates/podcasts/index.html:47
 msgid "Latest Episodes"
 msgstr "Zadnje epizode"
 
-#: mediacore/templates/podcasts/index.html:55
+#: mediacore/templates/podcasts/index.html:54
 msgid "Browse all episodes"
-msgstr "Brskaj po vseh epizodah"
+msgstr "Prebrskaj epizode"
 
-#: mediacore/templates/upload/failure.html:23
+#: mediacore/templates/podcasts/view.html:49
+#, python-format
+msgid "%(result_count)s Episodes"
+msgid_plural "All %(result_count)s Episodes"
+msgstr[0] "%(result_count)s posnetek"
+msgstr[1] "%(result_count)s posnetka"
+msgstr[2] "Vsi %(result_count)s posnetki"
+msgstr[3] "Vseh %(result_count)s posnetkov"
+
+#: mediacore/templates/upload/failure.html:24
 #: mediacore/templates/upload/index.html:23
-#: mediacore/templates/upload/success.html:23
+#: mediacore/templates/upload/success.html:24
 msgid "Upload Videos"
 msgstr "Naloži posnetek"
 
-#: mediacore/templates/upload/failure.html:28
+#: mediacore/templates/upload/failure.html:29
 msgid "Upload Error"
-msgstr "Napaka pri prenosu"
+msgstr "Napaka nalaganju"
 
-#: mediacore/templates/upload/failure.html:32
-msgid "During your upload, something went wrong, but don't worry. The engineers and gnomes have been automagically notified and we're already on our way to resolving your issue."
+#: mediacore/templates/upload/failure.html:33
+msgid ""
+"During your upload, something went wrong, but don't worry. The engineers "
+"and gnomes have been automagically notified and we're already on our way "
+"to resolving your issue."
 msgstr ""
+"Med nalaganjem tvoje datoteke je prišlo do napake, vendar brez skrbi. "
+"Naši strokovnjaki in palčki so prejeli obvestilo o napaki in so že na "
+"poti da jo odpravijo."
 
-#: mediacore/templates/upload/failure.html:34
+#: mediacore/templates/upload/failure.html:35
 msgid "A few things you can check:"
-msgstr ""
-
-#: mediacore/templates/upload/failure.html:36
-msgid "Is the file under"
-msgstr ""
-
-#: mediacore/templates/upload/failure.html:36
-msgid "Megabytes in size?"
-msgstr ""
+msgstr "Preveri še naslednje:"
 
 #: mediacore/templates/upload/failure.html:37
-msgid "Is it encoded in one of our supported formats?"
-msgstr ""
+msgid "Is the file under"
+msgstr "Ali je datoteka manjša kot"
 
-#: mediacore/templates/upload/failure.html:40
+#: mediacore/templates/upload/failure.html:37
+msgid "Megabytes in size?"
+msgstr "Velikost v megabyte-ih?"
+
+#: mediacore/templates/upload/failure.html:38
+#, fuzzy, python-format
+msgid "Is it encoded in one of our supported formats? [1:%(formats)s.]"
+msgstr "Ali je posnetek zakodiran v kateri izmed podprtih oblik?"
+
+#: mediacore/templates/upload/failure.html:41
 msgid "Try Uploading Again"
-msgstr "Poizkusite naložiti ponovno"
+msgstr "Poskusi ponovno naložiti posnetek"
 
-#: mediacore/templates/upload/index.html:47
+#: mediacore/templates/upload/index.html:48
 msgid "Acceptable File Formats"
 msgstr "Podprti datotečni formati"
 
-#: mediacore/templates/upload/index.html:51
-msgid "Problems?"
-msgstr "Problemi?"
-
 #: mediacore/templates/upload/index.html:52
+msgid "Problems?"
+msgstr "Težave?"
+
+#: mediacore/templates/upload/index.html:53
 msgid "If you have problems uploading or have some questions, please email us at"
-msgstr ""
+msgstr "Če imaš probleme z nalaganjem ali dodatna vprašanja za nas, nam piši na:"
 
-#: mediacore/templates/upload/success.html:29
+#: mediacore/templates/upload/success.html:30
 msgid "Upload Successful"
-msgstr ""
-
-#: mediacore/templates/upload/success.html:33
-msgid "Awesome, your upload was successful!"
-msgstr "Zakon, tvoja datoteka je uspešno naložena!"
+msgstr "Nalaganje uspešno."
 
 #: mediacore/templates/upload/success.html:34
-msgid "Your submission is awaiting review by a moderator and will be posted shortly."
-msgstr ""
+msgid "Awesome, your upload was successful!"
+msgstr "Čestitam, tvoja datoteka je uspešno naložena!"
 
 #: mediacore/templates/upload/success.html:35
-msgid "You will be automatically redirected back to the"
-msgstr ""
+msgid ""
+"Your submission is awaiting review by a moderator and will be posted "
+"shortly."
+msgstr "Tvoj prispevek bo objavljen takoj, ko to odobri moderator."
 
-#: mediacore/templates/upload/success.html:35
-msgid "in a few seconds. Hang tight."
-msgstr ""
+#: mediacore/templates/upload/success.html:36
+msgid ""
+"You will be automatically redirected back to the [1:Media Library] in a "
+"few seconds. Hang tight."
+msgstr "Takoj te bomo preusmerili nazaj na [1:Arhiv posnetkov]. Drži se."
 
