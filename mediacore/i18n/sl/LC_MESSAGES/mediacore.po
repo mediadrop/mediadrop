@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: MediaCore 0.8.0\n"
 "Report-Msgid-Bugs-To: video@kiberpipa.org\n"
 "POT-Creation-Date: 2010-05-23 13:39+0200\n"
-"PO-Revision-Date: 2010-07-23 11:25+0200\n"
+"PO-Revision-Date: 2010-07-23 19:59+0200\n"
 "Last-Translator: Domen Kožar <domen@dev.si>\n"
 "Language-Team: sl <sl@li.org>\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 "
@@ -233,12 +233,12 @@ msgstr "Vsi posnetki"
 msgid "Unfiled"
 msgstr ""
 
-#: mediacore/forms/admin/podcasts.py:31
+#: mediacore/forms/admin/podcasts.py:32
 #, fuzzy
 msgid "Parental Advisory"
 msgstr "Nadkategorija"
 
-#: mediacore/forms/admin/podcasts.py:31
+#: mediacore/forms/admin/podcasts.py:32
 #: mediacore/templates/admin/podcasts/_podcast-table.html:53
 msgid "Clean"
 msgstr "Počisti:"
@@ -391,11 +391,14 @@ msgid ""
 "HTML5 compatible browser\n"
 "            such as [1:Google Chrome]."
 msgstr ""
+"MediaCore ni našel primernega formata za željen posnetek v vašem "
+"brskalniku. Kontaktirajte administratorja spletne strani, če potrebujete "
+"pomoč. Priporočamo uporabo HTML5 kompatibilnega brskalnika kot je npr. "
+"[1:Google Chrome]."
 
 #: mediacore/templates/helpers.html:60
-#, fuzzy
 msgid "Download this"
-msgstr "Prenos s spleta"
+msgstr "Prenos"
 
 #: mediacore/templates/helpers.html:69
 msgid ""
@@ -406,12 +409,11 @@ msgstr ""
 "namesto tega napisa!"
 
 #: mediacore/templates/helpers.html:73
-#, fuzzy
 msgid ""
 "If your browser supported HTML5, you'd be seeing a video player here "
 "instead of this text!"
 msgstr ""
-"Če bi tvoj brskalnik podpiral HTML5, bi tu videl predvajalnik slike "
+"Če bi tvoj brskalnik podpiral HTML5, bi tu videl video predvajalnik "
 "namesto tega napisa!"
 
 #: mediacore/templates/helpers.html:114
@@ -1303,7 +1305,7 @@ msgstr "avtor"
 
 #: mediacore/templates/media/view.html:52
 msgid "Download"
-msgstr "Prenos s spleta"
+msgstr "Prenos"
 
 #: mediacore/templates/media/view.html:56
 msgid "Share"

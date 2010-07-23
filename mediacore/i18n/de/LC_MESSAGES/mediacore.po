@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: MediaCore 0.8.0\n"
 "Report-Msgid-Bugs-To: mediacore-developers@googlegroups.com\n"
 "POT-Creation-Date: 2010-05-23 13:39+0200\n"
-"PO-Revision-Date: 2010-07-23 11:25+0200\n"
+"PO-Revision-Date: 2010-07-23 19:59+0200\n"
 "Last-Translator: Felix Schwarz <felix.schwarz@oss.schwarz.eu>\n"
 "Language-Team: de <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
@@ -235,12 +235,12 @@ msgstr "Alle Medien"
 msgid "Unfiled"
 msgstr "Ungeordnet"
 
-#: mediacore/forms/admin/podcasts.py:31
+#: mediacore/forms/admin/podcasts.py:32
 #, fuzzy
 msgid "Parental Advisory"
 msgstr "Kategorie löschen"
 
-#: mediacore/forms/admin/podcasts.py:31
+#: mediacore/forms/admin/podcasts.py:32
 #: mediacore/templates/admin/podcasts/_podcast-table.html:53
 msgid "Clean"
 msgstr "In Ordnung"
