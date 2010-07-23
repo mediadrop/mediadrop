@@ -4,6 +4,7 @@ import os.path
 
 import pylons
 import pylons.test
+from pylons.i18n import N_
 from sqlalchemy.orm import class_mapper
 from migrate.versioning.api import version_control, version, upgrade
 from migrate.versioning.exceptions import DatabaseAlreadyControlledError
@@ -97,7 +98,7 @@ def add_default_data():
         (u'email_comment_posted', None),
         (u'email_support_requests', None),
         (u'email_send_from', u'noreply@localhost'),
-        (u'wording_user_uploads', u"Upload your media using the form below. We'll review it and get back to you."),
+        (u'wording_user_uploads', N_(u"Upload your media using the form below. We'll review it and get back to you.")),
         (u'wording_additional_notes', None),
         (u'popularity_decay_exponent', u'4'),
         (u'popularity_decay_lifetime', u'36'),

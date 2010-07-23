@@ -13,7 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from pylons.i18n import _
+from pylons.i18n import _, ungettext
 from tw.forms.validators import NotEmpty
 from tw.api import WidgetsList
 
@@ -31,6 +31,6 @@ class PostCommentForm(ListForm):
         email = TextField(validator=email_validator(), maxlength=255,
             label_text=_('Email Address (will never be published)'))
         body = TextArea(validator=XHTMLValidator(not_empty=True),
-            label_text=_('Comment'), attrs=dict(rows=5, cols=25))
+            label_text=ungettext('Comment', 'Comments', 1), attrs=dict(rows=5, cols=25))
         submit = SubmitButton(default=_('Post Comment'),
             css_class='btn btn3 btn-post-comment')

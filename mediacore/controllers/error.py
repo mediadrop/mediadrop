@@ -13,6 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+from pylons.i18n import _
 from pylons import config, request
 
 from mediacore.lib.base import BaseController
@@ -58,8 +59,8 @@ class ErrorController(BaseController):
         request = self._py_object.request
         original_request = request.environ['pylons.original_request']
         original_response = request.environ.get('pylons.original_response')
-        default_message = ("<p>We're sorry but we weren't able to process "
-                           " this request.</p>")
+        default_message = "<p>%s</p>" % _("We're sorry but we weren't able "
+            "to process this request.")
 
         message = request.params.get('message', default_message)
         message = clean_xhtml(message)

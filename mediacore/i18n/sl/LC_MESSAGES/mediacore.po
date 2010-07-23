@@ -1,14 +1,14 @@
 # Slovenian translations for MediaCore.
-# Copyright (C) 2010 ORGANIZATION
+# Copyright (C) 2010 KIBERPIPA
 # This file is distributed under the same license as the MediaCore project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+# Domen Kožar <domen@dev.si>, 2010.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: MediaCore 0.8.0\n"
 "Report-Msgid-Bugs-To: video@kiberpipa.org\n"
 "POT-Creation-Date: 2010-05-23 13:39+0200\n"
-"PO-Revision-Date: 2010-07-23 10:33+0200\n"
+"PO-Revision-Date: 2010-07-23 11:25+0200\n"
 "Last-Translator: Domen Kožar <domen@dev.si>\n"
 "Language-Team: sl <sl@li.org>\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 "
@@ -17,6 +17,16 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 0.9.5\n"
+
+#: mediacore/websetup.py:101
+msgid ""
+"Upload your media using the form below. We'll review it and get back to "
+"you."
+msgstr "Naloži tvoj najljubši posnetek. Pregledali ga bomo in te obvestili o tem."
+
+#: mediacore/controllers/error.py:62
+msgid "We're sorry but we weren't able to process this request."
+msgstr "Se opravičujemo, poizvedba ni uspela."
 
 #: mediacore/controllers/admin/media.py:376
 #, python-format
@@ -106,7 +116,7 @@ msgstr "Tvoja E-pošta:"
 
 #: mediacore/forms/uploader.py:74
 msgid "(will never be published)"
-msgstr "(nikoli ne bo objavljen)"
+msgstr "(nikoli ne bo objavljena)"
 
 #: mediacore/forms/uploader.py:75
 msgid "Title:"
@@ -574,7 +584,7 @@ msgstr "Čaka na pregled"
 
 #: mediacore/templates/admin/index.html:59
 msgid "Awaiting Encoding"
-msgstr "Čaka na kodiranje"
+msgstr "Čaka na zakodiranje"
 
 #: mediacore/templates/admin/index.html:64
 msgid "Awaiting Publishing"
@@ -1463,3 +1473,4 @@ msgid ""
 "You will be automatically redirected back to the [1:Media Library] in a "
 "few seconds. Hang tight."
 msgstr "Takoj te bomo preusmerili nazaj na [1:Arhiv posnetkov]. Drži se."
+

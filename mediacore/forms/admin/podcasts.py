@@ -13,6 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+from pylons.i18n import _
 from formencode.validators import URL
 from genshi.core import Markup
 from tw.forms import ListFieldSet, SingleSelectField

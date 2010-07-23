@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MediaCore 0.8.2\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2010-08-18 22:56-0700\n"
+"POT-Creation-Date: 2010-08-18 22:57-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,6 +16,14 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 0.9.5\n"
+
+#: mediacore/websetup.py:101
+msgid "Upload your media using the form below. We'll review it and get back to you."
+msgstr ""
+
+#: mediacore/controllers/error.py:62
+msgid "We're sorry but we weren't able to process this request."
+msgstr ""
 
 #: mediacore/controllers/admin/media.py:376
 #, python-format
@@ -216,11 +224,11 @@ msgstr ""
 msgid "Unfiled"
 msgstr ""
 
-#: mediacore/forms/admin/podcasts.py:31
+#: mediacore/forms/admin/podcasts.py:32
 msgid "Parental Advisory"
 msgstr ""
 
-#: mediacore/forms/admin/podcasts.py:31
+#: mediacore/forms/admin/podcasts.py:32
 #: mediacore/templates/admin/podcasts/_podcast-table.html:53
 msgid "Clean"
 msgstr ""

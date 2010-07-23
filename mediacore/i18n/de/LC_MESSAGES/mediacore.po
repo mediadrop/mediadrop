@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: MediaCore 0.8.0\n"
 "Report-Msgid-Bugs-To: mediacore-developers@googlegroups.com\n"
 "POT-Creation-Date: 2010-05-23 13:39+0200\n"
-"PO-Revision-Date: 2010-07-23 10:33+0200\n"
+"PO-Revision-Date: 2010-07-23 11:25+0200\n"
 "Last-Translator: Felix Schwarz <felix.schwarz@oss.schwarz.eu>\n"
 "Language-Team: de <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
@@ -16,6 +16,16 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 0.9.5\n"
+
+#: mediacore/websetup.py:101
+msgid ""
+"Upload your media using the form below. We'll review it and get back to "
+"you."
+msgstr ""
+
+#: mediacore/controllers/error.py:62
+msgid "We're sorry but we weren't able to process this request."
+msgstr ""
 
 #: mediacore/controllers/admin/media.py:376
 #, python-format
@@ -1470,34 +1480,4 @@ msgid ""
 "You will be automatically redirected back to the [1:Media Library] in a "
 "few seconds. Hang tight."
 msgstr "Sie werden in ein paar Sekunden automatisch zurück zur"
-
-#~ msgid "var flashObj = new Swiff('"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "', {\n"
-#~ "\t\t\twidth:"
-#~ msgstr ""
-
-#~ msgid ""
-#~ ",\n"
-#~ "\t\t\theight:"
-#~ msgstr ""
-
-#~ msgid ""
-#~ ",\n"
-#~ "\t\t\tparams: {allowFullscreen: 'true'},\n"
-#~ "\t\t\tvars:"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "});\n"
-#~ "\t\tvar div = new Element('div').replaces('"
-#~ msgstr ""
-
-#~ msgid "').set('id', '"
-#~ msgstr ""
-
-#~ msgid "').grab(flashObj);"
-#~ msgstr ""
 
