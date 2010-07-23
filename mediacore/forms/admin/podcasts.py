@@ -28,7 +28,7 @@ class PodcastForm(ListForm):
     # required to support multiple named buttons to differentiate between Save & Delete?
     _name = 'vf'
 
-    explicit_options = [('no', ''), ('yes', 'Parental Advisory'), ('clean', 'Clean')]
+    explicit_options = [('no', ''), ('yes', _('Parental Advisory')), ('clean', _('Clean'))]
     category_options = [
         'Arts',
         'Arts > Design',
@@ -96,7 +96,7 @@ class PodcastForm(ListForm):
         'Technology > Tech News',
         'Technology > Podcasting',
         'Technology > Software How-To',
-        'TV & Film'
+        'TV & Film',
     ]
 
     fields = [

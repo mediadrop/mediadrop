@@ -47,12 +47,13 @@ class AddFileForm(ListForm):
     id = 'add-file-form'
     submit_text = None
     fields = [
-        FileField('file', label_text=_('Select an encoded video or audio file on your computer'), validator=FieldStorageUploadConverter(not_empty=False, label_text='Upload')),
+        FileField('file', label_text=_('Select an encoded video or audio file on your computer'), validator=FieldStorageUploadConverter(not_empty=False, label_text=_('Upload'))),
         SubmitButton('add_url', default=_('Add URL'), named_button=True, css_class='btn btn-add-url f-rgt'),
         TextField('url', validator=URL, suppress_label=True, attrs={'title': _('YouTube, Vimeo, Google Video, Amazon S3 or any other link')}, maxlength=255),
     ]
 
-file_type_options = [(VIDEO, _('Video')), (AUDIO, _('Audio')), (AUDIO_DESC, _('Audio Description')), (CAPTIONS, _('Captions'))]
+file_type_options = [(VIDEO, _('Video')), (AUDIO, _('Audio')),
+    (AUDIO_DESC, _('Audio Description')), (CAPTIONS, _('Captions'))]
 
 class EditFileForm(ListForm):
     template = 'mediacore.templates.admin.media.file-edit-form'
@@ -99,6 +100,7 @@ class UpdateStatusForm(Form):
     _name = 'usf'
 
     class fields(WidgetsList):
+        # TODO: handle format with babel localization
         publish_on = HiddenField(validator=DateTimeConverter(format='%b %d %Y @ %H:%M'))
         update_button = SubmitButton(named_button=True, validator=NotEmpty)
 
@@ -108,4 +110,6 @@ class PodcastFilterForm(ListForm):
     method = 'get'
     template = 'mediacore.templates.admin.media.podcast-filter-form'
 
-    fields = [SingleSelectField('podcast_filter', suppress_label=True, options=lambda: [('All Media', _('All Media'))] + DBSession.query(Podcast.id, Podcast.title).all() + [('Unfiled', _('Unfiled'))])]
+    fields = [SingleSelectField('podcast_filter', suppress_label=True,
+        options=lambda: [('All Media', _('All Media'))] + \
+        DBSession.query(Podcast.id, Podcast.title).all() + [('Unfiled', _('Unfiled'))])]

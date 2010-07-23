@@ -13,12 +13,15 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+from pylons.i18n import _
 from tw.forms.validators import FieldStorageUploadConverter
+
 from mediacore.forms import FileField, Form, ListForm, TextField
+
 
 class SearchForm(ListForm):
     method = 'get'
-    fields = [TextField('search', label_text='SEARCH...')]
+    fields = [TextField('search', label_text=_('SEARCH...'))]
     submit_text = None
 
 
@@ -34,7 +37,7 @@ class ThumbForm(ListForm):
             validator = FieldStorageUploadConverter(
                 not_empty = True,
                 messages = {
-                    'empty': 'You forgot to select an image!'
+                    'empty': _('You forgot to select an image!')
                 },
             )
         ),

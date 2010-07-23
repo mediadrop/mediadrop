@@ -13,6 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+from pylons.i18n import _
 from genshi.core import Markup
 from tw.forms import RadioButtonList, SingleSelectField
 from tw.forms.validators import Int, OneOf, StringBool
@@ -31,20 +32,20 @@ html5_players = [
 #    ('sublime', Markup('<a href="http://jilion.com/sublime/video">Sublime</a> - not yet available')),
 ]
 player_types = [
-    ('html5', 'Always use the selected HTML5 player'),
-    ('best', 'Prefer the selected HTML5 player, but use the selected Flash player or embedded player if necessary'),
-    ('flash', 'Prefer the selected Flash player, but use the selected HTML5 player or embedded player if necessary'),
+    ('html5', _('Always use the selected HTML5 player')),
+    ('best', _('Prefer the selected HTML5 player, but use the selected Flash player or embedded player if necessary')),
+    ('flash', _('Prefer the selected Flash player, but use the selected HTML5 player or embedded player if necessary')),
 ]
 
 rich_text_editors = [
-    ('plain', 'Plain <textarea> fields (0kB)'),
+    ('plain', _('Plain <textarea> fields (0kB)')),
     ('tinymce', Markup('Enable <a href="http://tinymce.moxiecode.com">TinyMCE</a> for &lt;textarea&gt; fields that accept XHTML input. - <a href="http://wiki.moxiecode.com/index.php/TinyMCE:License">LGPL License</a> (281kB)')),
 ]
 
 def boolean_radiobuttonlist(name, **kwargs):
     return RadioButtonList(
         name,
-        options=(('true', 'Yes'), ('false', 'No')),
+        options=(('true', _('Yes')), ('false', _('No'))),
         validator=OneOf(['true', 'false']),
         **kwargs
     )

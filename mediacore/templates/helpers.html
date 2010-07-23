@@ -22,10 +22,11 @@
 	<py:def function="media_player(media, width=400, height=225, autoplay=False, autobuffer=False, qualified=False, embed_only=False, player_type=None)" py:choose=""
 	        py:with="player = h.pick_media_file_player(media, browser=embed_only and 'unknown' or None, player_type=player_type, width=width, height=height, autoplay=autoplay, autobuffer=autobuffer, qualified=qualified)">
 
-		<py:when test="player is None">
+		<p py:when="player is None" i18n:msg="link">
 			MediaCore could not find an appropriate encoding of this media item to display in your browser.
-			Contact the site admin if you need assistance.
-		</py:when>
+			Contact the site admin if you need assistance. We recommend useing HTML5 compatible browser
+            such as <a href="http://www.google.com/chrome/">Google Chrome</a>.
+		</p>
 
 		<py:when test="player.is_embed or embed_only">
 			<?python
@@ -83,6 +84,7 @@
 	</py:def>
 
 	<py:def function="flash_player_script(player)">
+    ${Markup("""
 		var flashObj = new Swiff('${player.swf_url()}', {
 			width: ${player.adjusted_width},
 			height: ${player.adjusted_height},
@@ -90,6 +92,7 @@
 			vars: ${h.json.dumps(player.flashvars())}
 		});
 		var div = new Element('div').replaces('${player.elem_id}').set('id', '${player.elem_id}').grab(flashObj);
+    """)}
 	</py:def>
 
 	<py:def function="media_grid(media, id=None, thumb_size='s', desc_len=90)"
