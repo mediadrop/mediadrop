@@ -17,7 +17,8 @@ from collections import defaultdict
 from datetime import datetime
 from sqlalchemy import Table, ForeignKey, Column, sql
 from sqlalchemy.types import Unicode, UnicodeText, Integer, DateTime, Boolean, Float
-from sqlalchemy.orm import mapper, relation, backref, synonym, interfaces, validates, Query, attributes
+from sqlalchemy.orm import mapper, relation, backref, synonym, interfaces, validates, Query
+from sqlalchemy.orm.attributes import set_committed_value
 
 from mediacore.model import slug_length, slugify
 from mediacore.model.meta import DBSession, metadata
@@ -84,16 +85,12 @@ def populated_tree(cats):
           of the tree will be silently omitted from the results.
 
     """
-    roots = CategoryList()
-    children = defaultdict(list)
+    children = defaultdict(CategoryList)
     for cat in cats:
-        if cat.parent_id:
-            children[cat.parent_id].append(cat)
-        else:
-            roots.append(cat)
+        children[cat.parent_id].append(cat)
     for cat in cats:
-        attributes.set_committed_value(cat, 'children', children[cat.id])
-    return roots
+        set_committed_value(cat, 'children', children[cat.id])
+    return children[None]
 
 class CategoryQuery(Query):
     traverse = traverse
