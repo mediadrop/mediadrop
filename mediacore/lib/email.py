@@ -57,10 +57,12 @@ def send(to_addr, from_addr, subject, body):
     if isinstance(to_addr, basestring):
         to_addr = parse_email_string(to_addr)
 
-    msg = ("To: %s\n"
-           "From: %s\n"
-           "Subject: %s\n\n"
-           "%s\n") % (", ".join(to_addr), from_addr, subject, body)
+    to_addr = ", ".join(to_addr)
+
+    msg = _("To: %(to_addr)s\n"
+           "From: %(from_addr)s\n"
+           "Subject: %(subject)s\n\n"
+           "%(body)s\n") % locals()
 
     server.sendmail(from_addr, to_addr, msg.encode('utf-8'))
     server.quit()
@@ -75,21 +77,23 @@ def send_media_notification(media_obj):
     edit_url = url_for(controller='/admin/media', action='edit',
                        id=media_obj.id, qualified=True),
 
-    clean_description = strip_xhtml(
-            line_break_xhtml(line_break_xhtml(media_obj.description)))
+    clean_description = strip_xhtml(line_break_xhtml(line_break_xhtml(media_obj.description)))
 
-    subject = 'New %s: %s' % (media_obj.type, media_obj.title)
-    body = """A new %s file has been uploaded!
+    type = media_obj.type
+    title = media_obj.title
+    author_name = media_obj.author.name
+    author_email = media_obj.author.email
+    subject = _('New %(type)s: %(title)s') % locals()
+    body = _("""A new %(type)s file has been uploaded!
 
-Title: %s
+Title: %(title)s
 
-Author: %s (%s)
+Author: %(author_name)s (%(author_email)s)
 
-Admin URL: %s
+Admin URL: %(edit_url)s
 
-Description: %s
-""" % (media_obj.type, media_obj.title, media_obj.author.name,
-       media_obj.author.email, edit_url, clean_description)
+Description: %(clean_description)s
+""") % locals()
 
     send(send_to, app_globals.settings['email_send_from'], subject, body)
 
@@ -99,16 +103,18 @@ def send_comment_notification(media, comment):
         # Comment notification emails are disabled!
         return
 
-    subject = 'New Comment: %s' % comment.subject
-    body = """A new comment has been posted!
+    author_name = media_obj.author.name
+    comment_subject = comment.subject
+    post_url = url_for(controller='/media', action='view', slug=media.slug, qualified=True),
+    comment_body = strip_xhtml(line_break_xhtml(line_break_xhtml(comment.body)))
+    subject = _('New Comment: %(comment_subject)s') % locals()
+    body = _("""A new comment has been posted!
 
-Author: %s
-Post: %s
+Author: %(author_name)s
+Post: %(post_url)s
 
-Body: %s
-""" % (comment.author.name,
-    url_for(controller='/media', action='view', slug=media.slug, qualified=True),
-    strip_xhtml(line_break_xhtml(line_break_xhtml(comment.body))))
+Body: %(comment_body)s
+""") % locals()
 
     send(send_to, app_globals.settings['email_send_from'], subject, body)
 
@@ -117,27 +123,23 @@ def send_support_request(email, url, description, get_vars, post_vars):
     if not send_to:
         return
 
-    subject = 'New Support Request: %s' % email
-    body = """A user has asked for support
+    get_vars = "\n\n  ".join([x + " :  " + get_vars[x] for x in get_vars]),
+    post_vars = "\n\n  ".join([x + " :  " + post_vars[x] for x in post_vars])
+    subject = _('New Support Request: %(email)s') % locals()
+    body = _("""A user has asked for support
 
-Email: %s
+Email: %(email)s
 
-URL: %s
+URL: %(url)s
 
-Description: %s
+Description: %(description)s
 
 GET_VARS:
-%s
+%(get_vars)s
 
 
 POST_VARS:
-%s
-""" % (
-    email,
-    url,
-    description,
-    "\n\n  ".join([x + " :  " + get_vars[x] for x in get_vars]),
-    "\n\n  ".join([x + " :  " + post_vars[x] for x in post_vars])
-    )
+%(post_vars)s
+""") % locals()
 
     send(send_to, app_globals.settings['email_send_from'], subject, body)
