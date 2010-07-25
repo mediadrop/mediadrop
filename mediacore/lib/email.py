@@ -33,6 +33,7 @@ Email Helpers
 import smtplib
 
 from pylons import app_globals
+from pylons.i18n import _
 
 from mediacore.lib.helpers import line_break_xhtml, strip_xhtml, url_for
 

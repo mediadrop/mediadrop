@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: MediaCore 0.8.0\n"
 "Report-Msgid-Bugs-To: mediacore-developers@googlegroups.com\n"
 "POT-Creation-Date: 2010-05-23 13:39+0200\n"
-"PO-Revision-Date: 2010-07-23 19:59+0200\n"
+"PO-Revision-Date: 2010-07-24 02:32+0200\n"
 "Last-Translator: Felix Schwarz <felix.schwarz@oss.schwarz.eu>\n"
 "Language-Team: de <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
@@ -497,7 +497,7 @@ msgstr "Featured"
 
 #: mediacore/templates/helpers.html:183
 #, python-format
-msgid "The %(fieldName)s field accepts some HTML formatting: %(formatting_list)s"
+msgid "The %(fieldName)s field accepts some HTML formatting: %(formattingList)s"
 msgstr ""
 
 #: mediacore/templates/layout.html:25 mediacore/templates/layout.html:32
@@ -871,9 +871,9 @@ msgid "Unfiled Media"
 msgstr "Unsortierte Medien"
 
 #: mediacore/templates/admin/media/index.html:46
-#, python-format
-msgid "Media for %(podcast_filter_title)s"
-msgstr ""
+#, fuzzy, python-format
+msgid "Media for %(podcastFilterTitle)s"
+msgstr "Kommentare für"
 
 #: mediacore/templates/admin/media/index.html:48
 msgid "Add New Media"

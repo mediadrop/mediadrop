@@ -37,7 +37,7 @@
 				<h1 py:when="search" i18n:msg="search">Media that matches '${search}'</h1>
 				<h1 py:when="podcast_filter == 'Unfiled'">Unfiled Media</h1>
 				<h1 py:when="podcast_filter is None">All Media</h1>
-				<h1 py:otherwise="" i18n:msg="podcast_filter_title">Media for ${podcast_filter_title}</h1>
+				<h1 py:otherwise="" i18n:msg="podcastFilterTitle">Media for ${podcast_filter_title}</h1>
 			</py:choose>
 			<a class="btn btn-add-media" id="add-btn" href="${h.url_for(action='edit', id='new')}"><span>Add New Media</span></a>
 			<div id="quicksearch" class="f-rgt">

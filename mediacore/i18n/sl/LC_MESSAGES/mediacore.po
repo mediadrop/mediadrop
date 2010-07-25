@@ -8,20 +8,17 @@ msgstr ""
 "Project-Id-Version: MediaCore 0.8.0\n"
 "Report-Msgid-Bugs-To: video@kiberpipa.org\n"
 "POT-Creation-Date: 2010-05-23 13:39+0200\n"
-"PO-Revision-Date: 2010-07-23 19:59+0200\n"
+"PO-Revision-Date: 2010-07-24 02:41+0100\n"
 "Last-Translator: Domen Kožar <domen@dev.si>\n"
 "Language-Team: sl <sl@li.org>\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 "
-"|| n%100==4 ? 2 : 3)\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 0.9.5\n"
 
 #: mediacore/websetup.py:101
-msgid ""
-"Upload your media using the form below. We'll review it and get back to "
-"you."
+msgid "Upload your media using the form below. We'll review it and get back to you."
 msgstr "Naloži tvoj najljubši posnetek. Pregledali ga bomo in te obvestili o tem."
 
 #: mediacore/controllers/error.py:62
@@ -72,7 +69,8 @@ msgstr "Ime"
 msgid "Email Address (will never be published)"
 msgstr "E-pošta (nikoli ne bo objavljena)"
 
-#: mediacore/forms/comments.py:34 mediacore/forms/admin/comments.py:29
+#: mediacore/forms/comments.py:34
+#: mediacore/forms/admin/comments.py:29
 #: mediacore/templates/helpers.html:116
 #: mediacore/templates/admin/helpers.html:70
 #: mediacore/templates/admin/comments/_comment-table.html:30
@@ -147,8 +145,10 @@ msgstr "Išči..."
 msgid "You forgot to select an image!"
 msgstr "Ups! Ne pozabi vnesti datoteke."
 
-#: mediacore/forms/admin/categories.py:43 mediacore/forms/admin/comments.py:30
-#: mediacore/forms/admin/media.py:88 mediacore/forms/admin/users.py:61
+#: mediacore/forms/admin/categories.py:43
+#: mediacore/forms/admin/comments.py:30
+#: mediacore/forms/admin/media.py:88
+#: mediacore/forms/admin/users.py:61
 msgid "Save"
 msgstr "Shrani"
 
@@ -156,7 +156,8 @@ msgstr "Shrani"
 msgid "Parent Category"
 msgstr "Nadkategorija"
 
-#: mediacore/forms/admin/categories.py:62 mediacore/forms/admin/media.py:89
+#: mediacore/forms/admin/categories.py:62
+#: mediacore/forms/admin/media.py:89
 #: mediacore/forms/admin/users.py:62
 msgid "Delete"
 msgstr "Izbriši"
@@ -173,7 +174,8 @@ msgstr "Prosimo uporabite format HH:MM:SS"
 msgid "Select an encoded video or audio file on your computer"
 msgstr "Izberi video ali zvočni posnetek na svojem računalniku"
 
-#: mediacore/forms/admin/media.py:50 mediacore/templates/nav.html:28
+#: mediacore/forms/admin/media.py:50
+#: mediacore/templates/nav.html:28
 #: mediacore/templates/admin/settings/master.html:45
 #: mediacore/templates/admin/settings/upload.html:24
 #: mediacore/templates/admin/settings/upload.html:30
@@ -248,15 +250,11 @@ msgid "Always use the selected HTML5 player"
 msgstr "Vedno uporabi izbran HTML5 predvajalnik"
 
 #: mediacore/forms/admin/settings.py:35
-msgid ""
-"Prefer the selected HTML5 player, but use the selected Flash player or "
-"embedded player if necessary"
+msgid "Prefer the selected HTML5 player, but use the selected Flash player or embedded player if necessary"
 msgstr ""
 
 #: mediacore/forms/admin/settings.py:36
-msgid ""
-"Prefer the selected Flash player, but use the selected HTML5 player or "
-"embedded player if necessary"
+msgid "Prefer the selected Flash player, but use the selected HTML5 player or embedded player if necessary"
 msgstr ""
 
 #: mediacore/forms/admin/settings.py:40
@@ -359,7 +357,8 @@ msgstr "Preveri črkovanje naslova."
 msgid "You have a few options:"
 msgstr "Imaš naslednje možnosti:"
 
-#: mediacore/templates/error.html:41 mediacore/templates/error.html:42
+#: mediacore/templates/error.html:41
+#: mediacore/templates/error.html:42
 msgid "Return to the"
 msgstr "Vrni se na"
 
@@ -385,36 +384,22 @@ msgstr "Kaj si iskal, ko si dobil napako?"
 
 #: mediacore/templates/helpers.html:32
 msgid ""
-"MediaCore could not find an appropriate encoding of this media item to "
-"display in your browser.\n"
-"\t\t\tContact the site admin if you need assistance. We recommend useing "
-"HTML5 compatible browser\n"
+"MediaCore could not find an appropriate encoding of this media item to display in your browser.\n"
+"\t\t\tContact the site admin if you need assistance. We recommend useing HTML5 compatible browser\n"
 "            such as [1:Google Chrome]."
-msgstr ""
-"MediaCore ni našel primernega formata za željen posnetek v vašem "
-"brskalniku. Kontaktirajte administratorja spletne strani, če potrebujete "
-"pomoč. Priporočamo uporabo HTML5 kompatibilnega brskalnika kot je npr. "
-"[1:Google Chrome]."
+msgstr "MediaCore ni našel primernega formata za željen posnetek v vašem brskalniku. Kontaktirajte administratorja spletne strani, če potrebujete pomoč. Priporočamo uporabo HTML5 kompatibilnega brskalnika kot je npr. [1:Google Chrome]."
 
 #: mediacore/templates/helpers.html:60
 msgid "Download this"
 msgstr "Prenos"
 
 #: mediacore/templates/helpers.html:69
-msgid ""
-"If your browser supported HTML5, you'd be seeing an audio player here "
-"instead of this text!"
-msgstr ""
-"Če bi tvoj brskalnik podpiral HTML5, bi tu videl predvajalnik zvoka "
-"namesto tega napisa!"
+msgid "If your browser supported HTML5, you'd be seeing an audio player here instead of this text!"
+msgstr "Če bi tvoj brskalnik podpiral HTML5, bi tu videl predvajalnik zvoka namesto tega napisa!"
 
 #: mediacore/templates/helpers.html:73
-msgid ""
-"If your browser supported HTML5, you'd be seeing a video player here "
-"instead of this text!"
-msgstr ""
-"Če bi tvoj brskalnik podpiral HTML5, bi tu videl video predvajalnik "
-"namesto tega napisa!"
+msgid "If your browser supported HTML5, you'd be seeing a video player here instead of this text!"
+msgstr "Če bi tvoj brskalnik podpiral HTML5, bi tu videl video predvajalnik namesto tega napisa!"
 
 #: mediacore/templates/helpers.html:114
 #: mediacore/templates/admin/helpers.html:64
@@ -492,10 +477,11 @@ msgstr "Izbrani"
 
 #: mediacore/templates/helpers.html:183
 #, python-format
-msgid "The %(fieldName)s field accepts some HTML formatting: %(formatting_list)s"
-msgstr "%(fieldName)s polje podpira HTML sintakso: %(formatting_list)s"
+msgid "The %(fieldName)s field accepts some HTML formatting: %(formattingList)s"
+msgstr "Polje %(fieldName)s podpira HTML sintakso: %(formattingList)s"
 
-#: mediacore/templates/layout.html:25 mediacore/templates/layout.html:32
+#: mediacore/templates/layout.html:25
+#: mediacore/templates/layout.html:32
 #: mediacore/templates/admin/master.html:29
 #: mediacore/templates/admin/master.html:46
 msgid "MediaCore"
@@ -525,15 +511,18 @@ msgstr "Uporabniško ime:"
 msgid "Password:"
 msgstr "Geslo:"
 
-#: mediacore/templates/nav.html:24 mediacore/templates/media/explore.html:24
+#: mediacore/templates/nav.html:24
+#: mediacore/templates/media/explore.html:24
 msgid "Explore"
 msgstr "Razišči"
 
-#: mediacore/templates/nav.html:25 mediacore/templates/media/index.html:24
+#: mediacore/templates/nav.html:25
+#: mediacore/templates/media/index.html:24
 msgid "Media Library"
 msgstr "Media Library"
 
-#: mediacore/templates/nav.html:26 mediacore/templates/admin/master.html:51
+#: mediacore/templates/nav.html:26
+#: mediacore/templates/admin/master.html:51
 #: mediacore/templates/admin/podcasts/index.html:24
 #: mediacore/templates/admin/podcasts/index.html:32
 #: mediacore/templates/podcasts/index.html:23
@@ -632,18 +621,11 @@ msgid "Notes"
 msgstr "Opombe"
 
 #: mediacore/templates/admin/categories/index.html:47
-msgid ""
-"Categories, as the name implies, provide a concise list of the main "
-"categories of media on your site. Like [1:Tags], they are considered when"
-" searching for media and when displaying related media. Unlike Tags, "
-"Categories have their own [2:section in the front-end] that that provides"
-" a way for users to explore the media by subject matter."
+msgid "Categories, as the name implies, provide a concise list of the main categories of media on your site. Like [1:Tags], they are considered when searching for media and when displaying related media. Unlike Tags, Categories have their own [2:section in the front-end] that that provides a way for users to explore the media by subject matter."
 msgstr ""
 
 #: mediacore/templates/admin/categories/index.html:48
-msgid ""
-"Categories can be nested. A parent category is considered to contain all "
-"of the media contained by its child categories."
+msgid "Categories can be nested. A parent category is considered to contain all of the media contained by its child categories."
 msgstr ""
 
 #: mediacore/templates/admin/categories/index.html:55
@@ -866,8 +848,8 @@ msgstr "Neobjavljeni posnetki"
 
 #: mediacore/templates/admin/media/index.html:46
 #, python-format
-msgid "Media for %(podcast_filter_title)s"
-msgstr "Posnetki za %(podcast_filter_title)"
+msgid "Media for %(podcastFilterTitle)s"
+msgstr "Posnetki za %(podcastFilterTitle)s"
 
 #: mediacore/templates/admin/media/index.html:48
 msgid "Add New Media"
@@ -966,7 +948,7 @@ msgstr "Dodaj epizodo"
 #, python-format
 msgid "View First Episode %(num)s"
 msgid_plural "View All %(num)s Episodes"
-msgstr[0] "Poglej prvo epizodo"
+msgstr[0] "Poglej %(num)s epizodo"
 msgstr[1] "Poglej %(num)s epizodi"
 msgstr[2] "Poglej %(num)s epizode"
 msgstr[3] "Poglej %(num)s epizode"
@@ -986,9 +968,7 @@ msgid "Analytics"
 msgstr "Analytics"
 
 #: mediacore/templates/admin/settings/analytics.html:36
-msgid ""
-"Tracking code is in the format UA-xxxx-xx. See the [1:Google site] for "
-"help."
+msgid "Tracking code is in the format UA-xxxx-xx. See the [1:Google site] for help."
 msgstr "Koda je v formatu UA-xxxx-xx. Več na [1:Google sites]"
 
 #: mediacore/templates/admin/settings/analytics.html:37
@@ -997,22 +977,16 @@ msgstr "Pusti prazno, da onemogočiš Google Analytics."
 
 #: mediacore/templates/admin/settings/comments.html:35
 msgid "Enable akismet anti-spam protection by setting your API key."
-msgstr ""
-"Omogoči aksimet zaščito prot nezaželjeni vsebini z nastavljanjem API "
-"kjuča."
+msgstr "Omogoči aksimet zaščito prot nezaželjeni vsebini z nastavljanjem API kjuča."
 
 #: mediacore/templates/admin/settings/comments.html:36
-msgid ""
-"The Akismet URL is the 'blog url' you signed up with. This defaults to "
-"your application root, if empty."
+msgid "The Akismet URL is the 'blog url' you signed up with. This defaults to your application root, if empty."
 msgstr ""
 "Akismet URL je 'blog url' za katerega si se prijavil. Privzeto \"\n"
 "\"je nastavljen na glavni URL aplikacije."
 
 #: mediacore/templates/admin/settings/comments.html:37
-msgid ""
-"If Akismet is enabled, spam will be discarded before saving it for "
-"moderator approval."
+msgid "If Akismet is enabled, spam will be discarded before saving it for moderator approval."
 msgstr "Nezaželjena vsebina ni prikazana, dokler jo moderator ne odobri/izbriše."
 
 #: mediacore/templates/admin/settings/display.html:25
@@ -1022,49 +996,27 @@ msgid "Display"
 msgstr "Prikazovalnik"
 
 #: mediacore/templates/admin/settings/display.html:36
-msgid ""
-"Use of TinyMCE is not strictly XHTML compliant, but works in FF>=1.5, "
-"Safari<=3, IE>=5.5, so long as javascript is enabled."
+msgid "Use of TinyMCE is not strictly XHTML compliant, but works in FF>=1.5, Safari<=3, IE>=5.5, so long as javascript is enabled."
 msgstr ""
 
 #: mediacore/templates/admin/settings/display.html:37
-msgid ""
-"Regardless of the \"Preferred Media Player Type\" setting, if the chosen "
-"setting will yield no useable player for a particular user's browser, an "
-"error message will be displayed to the user in place of the media object."
-" The exception to this is if the media object has an embedded "
-"(YouTube/Vimeo/etc.) media file, in which case MediaCore will attempt to "
-"render this embedded file, rather than display an error, leaving it up to"
-" the embedded player to display an error if necessary."
+msgid "Regardless of the \"Preferred Media Player Type\" setting, if the chosen setting will yield no useable player for a particular user's browser, an error message will be displayed to the user in place of the media object. The exception to this is if the media object has an embedded (YouTube/Vimeo/etc.) media file, in which case MediaCore will attempt to render this embedded file, rather than display an error, leaving it up to the embedded player to display an error if necessary."
 msgstr ""
 
 #: mediacore/templates/admin/settings/display.html:38
-msgid ""
-"A useable Flash player will be found if the user's browser supports "
-"Flash, and there is a media file associated with the media object that "
-"Flash is capable of playing. A list of which formats Flash supports can "
-"be found [1:here]."
+msgid "A useable Flash player will be found if the user's browser supports Flash, and there is a media file associated with the media object that Flash is capable of playing. A list of which formats Flash supports can be found [1:here]."
 msgstr ""
 
 #: mediacore/templates/admin/settings/display.html:39
-msgid ""
-"A useable HTML5 player will be found if the user's browser supports the "
-"HTML5 <video> tag, and there is a media file associated with the media "
-"object that the user's browser is capable of playing natively. A list of "
-"which browsers support which formats natively can be found [1:here]."
+msgid "A useable HTML5 player will be found if the user's browser supports the HTML5 <video> tag, and there is a media file associated with the media object that the user's browser is capable of playing natively. A list of which browsers support which formats natively can be found [1:here]."
 msgstr ""
 
 #: mediacore/templates/admin/settings/display.html:40
-msgid ""
-"In the case that an embedded video (YouTube/Vimeo/etc.) the appropriate "
-"media file for a media object, that video will be displayed within the "
-"selected Flash or HTML5 player, if possible."
+msgid "In the case that an embedded video (YouTube/Vimeo/etc.) the appropriate media file for a media object, that video will be displayed within the selected Flash or HTML5 player, if possible."
 msgstr ""
 
 #: mediacore/templates/admin/settings/display.html:41
-msgid ""
-"When choosing which media file to display, the following criteria are "
-"applied (in order of importance):"
+msgid "When choosing which media file to display, the following criteria are applied (in order of importance):"
 msgstr ""
 
 #: mediacore/templates/admin/settings/display.html:43
@@ -1107,14 +1059,10 @@ msgstr "Pusti prazno, če ne želiš obvestila."
 
 #: mediacore/templates/admin/settings/popularity.html:35
 msgid "MediaCore uses a popularity ranking algorithm similar to Reddit's."
-msgstr ""
-"MediaCore uporablja algoritm za določanje popularnosti približno tak kot "
-"Reddit."
+msgstr "MediaCore uporablja algoritm za določanje popularnosti približno tak kot Reddit."
 
 #: mediacore/templates/admin/settings/popularity.html:36
-msgid ""
-"The popularity of a media item is described by: log_x(media.likes) + "
-"media.age/y"
+msgid "The popularity of a media item is described by: log_x(media.likes) + media.age/y"
 msgstr ""
 
 #: mediacore/templates/admin/settings/popularity.html:37
@@ -1130,9 +1078,7 @@ msgid "y is the \"Popularity Decay Lifetime\""
 msgstr ""
 
 #: mediacore/templates/admin/settings/popularity.html:40
-msgid ""
-"media.age is the number of hours between January 1, 2000, and the time "
-"the media item was published"
+msgid "media.age is the number of hours between January 1, 2000, and the time the media item was published"
 msgstr ""
 
 #: mediacore/templates/admin/settings/popularity.html:41
@@ -1140,38 +1086,25 @@ msgid "media.likes is the number of likes the media item has received"
 msgstr ""
 
 #: mediacore/templates/admin/settings/popularity.html:43
-msgid ""
-"Essentially, in this algorithm, a media item (A) that is y hours older "
-"than media item (B), will need x times as many votes as (B) to rank at "
-"the same level."
+msgid "Essentially, in this algorithm, a media item (A) that is y hours older than media item (B), will need x times as many votes as (B) to rank at the same level."
 msgstr ""
 
 #: mediacore/templates/admin/settings/popularity.html:44
-msgid ""
-"Lower traffic websites will want a higher y value, or a lower x value, or"
-" both."
-msgstr ""
-"Za spletna mesta z manj obiska, je bolje če je vrednost y večja ali "
-"vrednost x manjša, oziroma oboje."
+msgid "Lower traffic websites will want a higher y value, or a lower x value, or both."
+msgstr "Za spletna mesta z manj obiska, je bolje če je vrednost y večja ali vrednost x manjša, oziroma oboje."
 
 #: mediacore/templates/admin/settings/upload.html:35
-msgid ""
-"Use the FTP options below if you want to store media files on a CDN "
-"instead of storing them locally."
+msgid "Use the FTP options below if you want to store media files on a CDN instead of storing them locally."
 msgstr "Uporabi FTP, za shranjevanje posnetkov na CDN (namesto lokalno)."
 
 #: mediacore/templates/admin/settings/upload.html:36
-msgid ""
-"In this release of MediaCore, only remote HTTP hosting is available: RTMP"
-" is unsupported."
+msgid "In this release of MediaCore, only remote HTTP hosting is available: RTMP is unsupported."
 msgstr ""
 "V tej izdaji MediaCore-a, samo oddaljeno HTTP gostovanje je na\"\n"
 "\" voljo, RTMP ni podprt."
 
 #: mediacore/templates/admin/settings/upload.html:37
-msgid ""
-"Thumbnails will only ever be fetched from YouTube, Vimeo, etc. if the "
-"embedded video is the first media file added to a particular media item."
+msgid "Thumbnails will only ever be fetched from YouTube, Vimeo, etc. if the embedded video is the first media file added to a particular media item."
 msgstr ""
 
 #: mediacore/templates/admin/tags/index.html:41
@@ -1179,12 +1112,7 @@ msgid "Add Tag"
 msgstr "Dodaj oznako"
 
 #: mediacore/templates/admin/tags/index.html:47
-msgid ""
-"Tags are keywords or terms that describe each media item. Like "
-"[1:Categories], they are considered when searching for media and when "
-"displaying related media. Unlike Categories, Tags are mostly invisible to"
-" the user, though Tags are used to generate the <meta keywords=\"...\"> "
-"tags on media pages."
+msgid "Tags are keywords or terms that describe each media item. Like [1:Categories], they are considered when searching for media and when displaying related media. Unlike Categories, Tags are mostly invisible to the user, though Tags are used to generate the <meta keywords=\"...\"> tags on media pages."
 msgstr ""
 
 #: mediacore/templates/admin/tags/index.html:67
@@ -1205,7 +1133,7 @@ msgstr "Si prepričan, da želiš izbrisati oznako?"
 
 #: mediacore/templates/admin/users/edit.html:39
 msgid "New User"
-msgstr ""
+msgstr "Nov uporabnik"
 
 #: mediacore/templates/admin/users/index.html:39
 msgid "Add User"
@@ -1414,14 +1342,8 @@ msgid "Upload Error"
 msgstr "Napaka nalaganju"
 
 #: mediacore/templates/upload/failure.html:33
-msgid ""
-"During your upload, something went wrong, but don't worry. The engineers "
-"and gnomes have been automagically notified and we're already on our way "
-"to resolving your issue."
-msgstr ""
-"Med nalaganjem tvoje datoteke je prišlo do napake, vendar brez skrbi. "
-"Naši strokovnjaki in palčki so prejeli obvestilo o napaki in so že na "
-"poti da jo odpravijo."
+msgid "During your upload, something went wrong, but don't worry. The engineers and gnomes have been automagically notified and we're already on our way to resolving your issue."
+msgstr "Med nalaganjem tvoje datoteke je prišlo do napake, vendar brez skrbi. Naši strokovnjaki in palčki so prejeli obvestilo o napaki in so že na poti da jo odpravijo."
 
 #: mediacore/templates/upload/failure.html:35
 msgid "A few things you can check:"
@@ -1465,14 +1387,10 @@ msgid "Awesome, your upload was successful!"
 msgstr "Čestitam, tvoja datoteka je uspešno naložena!"
 
 #: mediacore/templates/upload/success.html:35
-msgid ""
-"Your submission is awaiting review by a moderator and will be posted "
-"shortly."
+msgid "Your submission is awaiting review by a moderator and will be posted shortly."
 msgstr "Tvoj prispevek bo objavljen takoj, ko to odobri moderator."
 
 #: mediacore/templates/upload/success.html:36
-msgid ""
-"You will be automatically redirected back to the [1:Media Library] in a "
-"few seconds. Hang tight."
+msgid "You will be automatically redirected back to the [1:Media Library] in a few seconds. Hang tight."
 msgstr "Takoj te bomo preusmerili nazaj na [1:Arhiv posnetkov]. Drži se."
 
