@@ -83,7 +83,8 @@ var ModalForm = new Class({
 		ajax: false,
 		ajaxOptions: {link: 'cancel'},
 		extraData: {}, // FIXME: Inject for static forms?
-		slugifyField: ''
+		slugifyField: '',
+		resetOnComplete: false
 	},
 
 	form: null,
@@ -102,7 +103,7 @@ var ModalForm = new Class({
 			var slugField = $(this.form.elements['slug']);
 			slugifyField.addEvent('keyup', this._slugify.bindWithEvent(this, [slugField, slugifyField]));
 		}
-		return this;
+		return this.addEvent('complete', this._resetOnComplete.bind(this), true);
 	},
 
 	formSubmit: function(e, btn){
@@ -190,6 +191,10 @@ var ModalForm = new Class({
 			failure: function(){ alert('error saving'); },
 			exception: function(){ alert('exception saving'); }
 		});
+	},
+
+	_resetOnComplete: function(e){
+		if (this.options.resetOnComplete) this.form.reset();
 	}
 
 });

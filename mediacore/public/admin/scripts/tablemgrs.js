@@ -78,7 +78,8 @@ var CrudTable = new Class({
 		addModalOptions: {
 			ajax: true,
 			focus: 'name',
-			slugifyField: 'name'
+			slugifyField: 'name',
+			resetOnComplete: true
 		},
 		editModal: 'edit-box',
 		editModalOptions: {
