@@ -18,15 +18,8 @@
       xmlns:xi="http://www.w3.org/2001/XInclude"
       py:strip="">
 
-	<py:def function="media_player(media, width=400, height=225, autoplay=False, autobuffer=False, qualified=False, embed_only=False, player_type=None)" py:choose="">
-
-		<?python
-		player = h.pick_media_file_player(media, browser=embed_only and 'unknown' or None, player_type=player_type)
-		if player:
-			player.update(width=width, height=height, autoplay=autoplay, autobuffer=autobuffer, qualified=qualified)
-			if player.fallback:
-				player.fallback.update(width=width, height=height, autoplay=autoplay, autobuffer=autobuffer, qualified=qualified)
-		?>
+	<py:def function="media_player(media, width=400, height=225, autoplay=False, autobuffer=False, qualified=False, embed_only=False, player_type=None)" py:choose=""
+	        py:with="player = h.pick_media_file_player(media, browser=embed_only and 'unknown' or None, player_type=player_type, width=width, height=height, autoplay=autoplay, autobuffer=autobuffer, qualified=qualified)">
 
 		<py:when test="player is None">
 			MediaCore could not find an appropriate encoding of this media item to display in your browser.

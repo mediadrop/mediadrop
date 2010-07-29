@@ -279,7 +279,7 @@ def ordered_playable_files(files):
     return video_files + audio_files
 
 def pick_media_file_player(media, browser=None, version=None, user_agent=None,
-        player_type=None, include_embedded=True):
+        player_type=None, include_embedded=True, **kwargs):
     """Return the best choice of files to play and which player to use.
 
     XXX: This method uses the very unsophisticated technique of assuming
@@ -419,17 +419,23 @@ def pick_media_file_player(media, browser=None, version=None, user_agent=None,
         if player is None and include_embedded:
             file, player = ef_file, ef_player
 
-    # Instantiate the player, and indicate whether to allow the player to
-    # fail over to a different player inside the browser, if necessary.
-    if player is not None:
-        fallback = None
-        if player_type != 'html5':
-            if player.is_html5:
-                fallback = players[flash_player]
-            elif player.is_flash:
-                fallback = players[html5_player]
-        if fallback:
-            fallback = fallback(media, file, browser=(browser, version))
-        player = player(media, file, browser=(browser, version), fallback=fallback)
+    if player is None:
+        return None
 
-    return player
+    # Pick a player to fail over to inside the browser, if decoding fails.
+    fallback = None
+    if 'fallback' in kwargs:
+        fallback = kwargs.pop('fallback')
+    elif player_type != 'html5':
+        if player.is_html5:
+            fallback = players[flash_player]
+        elif player.is_flash:
+            fallback = players[html5_player]
+
+    # Instantiate the players
+    player_args = (media, file, (browser, version))
+    if fallback:
+        kwargs['fallback'] = fallback(*player_args, **kwargs)
+    player_obj = player(*player_args, **kwargs)
+
+    return player_obj
