@@ -134,8 +134,8 @@ class TestMediaController(TestController):
         assert media.author.email == email
 
     def test_add_file(self):
-        title = u'test-add-file'
-        slug = u'Test Adding File on Media Edit Page.'
+        slug = u'test-add-file'
+        title = u'Test Adding File on Media Edit Page.'
 
         try:
             media = self._new_publishable_media(slug, title)
@@ -196,8 +196,8 @@ class TestMediaController(TestController):
         assert content == files[0][2]
 
     def test_add_file_url(self):
-        title = u'test-add-file-url'
-        slug = u'Test Adding File by URL on Media Edit Page.'
+        slug = u'test-add-file-url'
+        title = u'Test Adding File by URL on Media Edit Page.'
 
         try:
             media = self._new_publishable_media(slug, title)
