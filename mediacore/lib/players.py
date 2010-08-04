@@ -219,7 +219,6 @@ class HTML5Player(Player):
 
 class JWPlayerHTML5(HTML5Player):
     """HTML5-based JWPlayer"""
-
     def include(self):
         from mediacore.lib.helpers import url_for
         jquery = url_for('/scripts/third-party/jQuery-1.4.2-compressed.js', qualified=self.qualified)
@@ -241,6 +240,36 @@ class JWPlayerHTML5(HTML5Player):
         del attrs['controls']
         return attrs
 
+class ZencoderVideoJSPlayer(HTML5Player):
+    """HTML5 "VideoJS" Player by Zencoder"""
+    def html5_attrs(self):
+        attrs = super(ZencoderVideoJSPlayer, self).html5_attrs()
+        if self.media.type == VIDEO:
+            attrs['class'] = (attrs.get('class', '') + ' video-js').strip()
+            for file in self.media.files:
+                if file.type == CAPTIONS and file.container == 'srt':
+                    attrs['data-subtitles'] = file.play_url(qualified=self.qualified)
+                    break
+        return attrs
+
+    def include(self):
+        if self.media.type != VIDEO:
+            return ''
+        from mediacore.lib.helpers import url_for
+        js = url_for('/scripts/third-party/zencoder-video-js/video-yui-compressed.js', qualified=self.qualified)
+        css = url_for('/scripts/third-party/zencoder-video-js/video-js.css', qualified=self.qualified)
+        include = """
+<script type="text/javascript" src="%s"></script>
+<link rel="stylesheet" href="%s" type="text/css" media="screen" />
+<script type="text/javascript">
+    window.addEvent('domready', function(){
+        var media = $('%s');
+        var wrapper = new Element('div', {'class': 'video-js-box'}).wraps(media);
+        var vjs = new VideoJS(media);
+    });
+</script>""" % (js, css, self.elem_id)
+        return include
+
 players = {
     'flowplayer': FlowPlayer,
     'jwplayer': JWPlayer,
@@ -250,6 +279,7 @@ players = {
     'vimeo': EmbedPlayer,
     'html5': HTML5Player,
     'sublime': HTML5Player,
+    'zencoder-video-js': ZencoderVideoJSPlayer,
 }
 """Maps player names to classes that describe their behaviour.
 
