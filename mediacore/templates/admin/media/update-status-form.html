@@ -19,7 +19,7 @@
 	<form method="post" action="${h.url_for(action='update_status')}" id="update-status-form" class="box">
 		<div class="box-head">
 			<span class="box-head-sec">
-				${h.doc_link('admin/settings', 'categories')}
+				${h.doc_link('admin/media', 'status')}
 				<py:if test="media.slug">
 					|
 					<a href="${h.url_for(controller='/media', action='view', slug=media.slug)}"

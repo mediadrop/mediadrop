@@ -27,4 +27,6 @@ Admin User Guide
 
 .. toctree::
 
+   admin/media
+   admin/podcasts
    admin/settings
