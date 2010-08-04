@@ -28,21 +28,7 @@
 	<div class="box">
 		<div class="box-head">
 			<h1>Popularity Algorithm</h1>
-		</div>
-		<div class="box-content caveats">
-			<h2>Notes</h2>
-			<ul>
-				<li>MediaCore uses a popularity ranking algorithm similar to Reddit's.</li>
-				<li>The popularity of a media item is described by: log_x(media.likes) + media.age/y</li>
-				<li>Where: <ul>
-					<li>x (the base of the logarithm) is the "Popularity Decay Exponent"</li>
-					<li>y is the "Popularity Decay Lifetime"</li>
-					<li>media.age is the number of hours between January 1, 2000, and the time the media item was published</li>
-					<li>media.likes is the number of likes the media item has received</li>
-				</ul></li>
-				<li>Essentially, in this algorithm, a media item (A) that is y hours older than media item (B), will need x times as many votes as (B) to rank at the same level.</li>
-				<li>Lower traffic websites will want a higher y value, or a lower x value, or both.</li>
-			</ul>
+			<span class="box-head-sec">${h.doc_link('Help', 'admin/settings', 'popularity')}</span>
 		</div>
 		<form py:replace="XML(form(form_values))" />
 	</div>

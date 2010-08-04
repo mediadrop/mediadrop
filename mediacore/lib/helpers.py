@@ -55,10 +55,10 @@ imports = [
 ]
 defined = [
     'EmbedPlayer', 'FlowPlayer', 'HTML5Player', 'JWPlayer', 'JWPlayerHTML5',
-    'Player', 'append_class_attr', 'clean_xhtml', 'delete_files',
+    'Player', 'append_class_attr', 'clean_xhtml', 'delete_files', 'doc_link',
     'duration_from_seconds', 'duration_to_seconds', 'embeddable_player',
     'excerpt_xhtml', 'excess_whitespace', 'filter_library_controls',
-    'get_featured_category', 'gravatar_from_email' 'is_admin',
+    'get_featured_category', 'gravatar_from_email', 'is_admin',
     'line_break_xhtml', 'list_acceptable_xhtml', 'list_accepted_extensions',
     'pick_any_media_file', 'pick_podcast_media_file',
     'player_controls_heights', 'players', 'pretty_file_size', 'redirect',
@@ -215,7 +215,10 @@ def clean_xhtml(string, p_wrap=True, _cleaner_settings=None):
 
     If there is no markup in the string, apply paragraph formatting.
 
+    :param string: XHTML input string
+    :type string: unicode
     :param p_wrap: Wrap the output in <p></p> tags?
+    :type p_wrap: bool
     :param _cleaner_settings: Constructor kwargs for
         :class:`mediacore.lib.htmlsanitizer.Cleaner`
     :type _cleaner_settings: dict
@@ -574,3 +577,16 @@ def pick_any_media_file(media):
     """
     player = pick_media_file_player(media, browser='chrome')
     return player and player.file or None
+
+def doc_link(text, page, anchor=''):
+    """Return a genshi markup element representing a link to the documentation.
+
+    XXX: Target attribute is not XHTML compliant.
+    """
+    attrs = {
+        'href': 'http://getmediacore.com/docs/user/%s.html#%s' % (page, anchor),
+        'target': '_blank',
+    }
+    attrs_string = ' '.join(['%s="%s"' % (key, attrs[key]) for key in attrs])
+    out = '<a %s>%s</a>' % (attrs_string, text)
+    return genshi.core.Markup(out)

@@ -18,7 +18,7 @@ from pylons import request
 
 __all__ = [
     'accepted_extensions',
-    'guess_container_format'
+    'guess_container_format',
     'guess_media_type',
     'guess_mimetype',
 ]

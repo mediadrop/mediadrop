@@ -16,7 +16,7 @@
  */
 #podcast-filter {
 	height: 23px;
-	padding-right: 10px;
+	padding: 0 10px;
 	vertical-align: middle;
 }
 #podcast-filter .submitbutton {
@@ -88,9 +88,6 @@ a.published { background-image: url('../images/statuses/published-both.png'); }
 
 
 .btn-add-media { background-image: url('../images/buttons/add-media.png'); width: 108px; height: 28px; }
-.box-head .btn-add-media {
-	margin: -1px 0 -3px 10px;
-}
 
 .btn-review-complete, .btn-encoding-complete, .btn-publish-now, .btn-add-manage, .btn-add-url, .btn-upload-file {
 	height: 34px;

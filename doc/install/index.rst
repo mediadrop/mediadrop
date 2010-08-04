@@ -35,182 +35,11 @@ If you run Windows and want to try MediaCore, you have two options:
 
 **You will need:**
 
-* Python 2.5.x or newer
-* MySQL 5.0.x or newer
-* `GCC <http://en.wikipedia.org/wiki/GNU_Compiler_Collection>`_  must be
-  installed and available on your ``$PATH`` for certain required Python
-  packages to install properly.
+.. include:: requirements-list.rst
 
-**You may need** (if you don't have permissions to install new software on
-the server you're using, you'll also need to have the following packages
-installed):
-
-* `Python setuptools <http://pypi.python.org/pypi/setuptools>`_
-* `Python virtualenv <pypi.python.ort/pypi/virtualenv>`_
-
-If you do have permissions to install new software, we'll cover
-the installation of ``setuptools`` and ``virtualenv`` in
-`Step 0.2: Installing Setuptools`_ and
-`Step 0.3: Installing Virtualenv`_ below.
-
-
-Step 0.1.0: Requirements Installation on OS X
----------------------------------------------
-
-As mentioned above, you need to have GCC installed for some of MediaCore's
-dependencies to be able to compile. For Mac OS X users, that means installing
-`Xcode <http://developer.apple.com/tools/xcode/>`_.
-
-You can install Xcode from your OS X install CD, from the "Optional Installs"
-directory, or (if you have OSX 10.5.8 or 10.6) you can download it from the
-above link.
-
-For the MySQL and Python requirements, we recommend using `MacPorts <http://www.macports.org/>`_.
-Mac OS X ships with a version of Python installed, but we find it is
-simpler and more reliable to have your own version installed in a separate
-place. Macports will (by default) install packages to ``/opt/local``, keeping itself
-completely separate from any previously installed packages that OS X needs to
-function.
-
-After you have Xcode installed, You can install MacPorts by downloading the
-dmg disk image from `MacPorts install page <http://www.macports.org/install.php>`_
-and running the contained installer.
-
-To install MySQL 5 and Python 2.5 once MacPorts is installed, open up a
-terminal (like Terminal.app or iTerm.app) and enter the following commands:
-
-.. sourcecode:: bash
-
-    # By this point you should have Xcode and MacPorts installed...
-    # Make sure your MacPorts files are up to date
-    sudo port selfupdate
-
-    # Load the updated environment settings (make sure the installed MacPorts
-    # executables will be on your $PATH.)
-    source ~/.profile
-
-    # Install MySQL5 and Python2.5
-    sudo port install mysql5-server python25
-
-    # Initialize the newly installed MySQL server
-    sudo /opt/local/lib/mysql5/bin/mysql_install_db --user=mysql
-
-    # Start the MySQL Server and instruct it to start every time you reboot
-    sudo launchctl load -w /Library/LaunchDaemons/org.macports.mysql5.plist
-
-    # NOTE: If you ever want to stop the MySQL Server, run the following command:
-    #   sudo launchctl unload -w /Library/LaunchDaemons/org.macports.mysql5.plist
-
-    # Put a link to mysql_config where other programs will expect to find it
-    sudo ln -s /opt/local/bin/mysql_config5 /opt/local/bin/mysql_config
-
-    # Put a link to mysql client for consistency in naming with other platforms
-    sudo ln -s /opt/local/bin/mysql5 /opt/local/bin/mysql
-
-Step 0.1.1: Requirements Installation on Ubuntu 9.04
-----------------------------------------------------
-
-You're in luck! GCC and mysql-server-5.0 are installed by default on Ubuntu
-9.04. You'll just have to install mysql-client and python2.5 (and their
-respective libraries). Then you can proceed with installing Setuptools and
-Virtualenv as below.
-
-.. sourcecode:: bash
-
-   # install the mysql client and python2.5
-   sudo apt-get install mysql-client-5.1 libmysqlclient15off python2.5-dev python2.5-doc
-
-   # install the necessary libraries for creating thumbnails
-   sudo apt-get install libjpeg-dev libjpeg62 libjpeg62-dev zlib1g-dev libfreetype6 libfreetype6-dev
-
-
-Step 0.2: Installing Setuptools
--------------------------------
-
-The Python setuptools package is what we'll use to automate the rest of the
-installation of Python packages.
-
-First, check that you have setuptools installed for Python2.5:
-
-.. sourcecode:: bash
-
-   # Check if you have setuptools installed:
-   python2.5 -c 'import setuptools'
-
-If you get no error, you can skip the rest of this step; setuptools is already
-installed!
-
-If you get an error like the following, you'll need to install setuptools first:
-
-.. sourcecode:: text
-
-   Traceback (most recent call last):
-     File "<string>", line 1, in <module>
-   ImportError: No module named setuptools
-
-If you're using a system with a package manager and you know how to install
-setuptools 0.6c9 or higher for python2.5 using that package manager go ahead:
-
-.. sourcecode:: bash
-
-   # For example, on Ubuntu 9.04
-   sudo apt-get install python-setuptools
-
-   # Or on Mac OS X (with MacPorts):
-   sudo port -v install py25-setuptools
-
-Otherwise, download the setuptools installer and install manually:
-
-.. sourcecode:: bash
-
-   # Download the Setuptools installer
-   wget http://pypi.python.org/packages/2.5/s/setuptools/setuptools-0.6c11-py2.5.egg
-
-   # Install setuptools
-   sudo sh setuptools-0.6c11-py2.5.egg
-
-
-Step 0.3: Installing Virtualenv
--------------------------------
-
-First, check if you have virtualenv installed.
-
-.. sourcecode:: bash
-
-   # Check if you have virtualenv installed:
-   python2.5 -c 'import virtualenv'
-
-If you get no error, you can skip the rest of this step; virtualenv is already
-installed!
-
-If you get an error like the following, you'll need to install virtualenv.
-
-.. sourcecode:: text
-
-   Traceback (most recent call last):
-     File "<string>", line 1, in <module>
-   ImportError: No module named virtualenv
-
-If you're using a system with a package manager and you know how to install
-setuptools 0.6c9 or higher for python2.5 using that package manager go ahead:
-
-.. sourcecode:: bash
-
-   # For example, on Ubuntu 9.04, you must install python-virtualenv, then
-   # create a custom virtualenv-2.5 script to use with python2.5
-   sudo apt-get install python-virtualenv
-   sudo cp /usr/bin/virtualenv /usr/bin/virtualenv-2.5
-   sudo sh -c "sed 's:#\!/usr/bin/python$:#\!/usr/bin/python2.5:' /usr/bin/virtualenv > /usr/bin/virtualenv-2.5"
-
-   # Or on Mac OS X (with MacPorts):
-   sudo port -v install py25-virtualenv
-
-Otherwise, install virtualenv via setuptools:
-
-.. sourcecode:: bash
-
-   # Install virtualenv via setuptools.
-   sudo easy_install-2.5 virtualenv
+The :ref:`install_requirements` page has examples of how to install these
+packages on a few different platforms. If you haven't already done so,
+go there now.
 
 
 Step 1: Setup a Python Virtual Environment
@@ -227,7 +56,7 @@ This means you can install MediaCore and all of its dependencies without
 worrying about overwriting any existing versions of Python libraries.
 
 The following command will create a folder named ``mediacore_env`` in the
-current directory you can put this folder anywhere, but remember where it
+current directory. You can put this folder anywhere, but remember where it
 is--we'll need to point to it later.
 
 .. sourcecode:: bash
@@ -284,10 +113,10 @@ b. **For developers**, or users that are very familiar with Git
       python2.5 setup.py develop
 
 
-Step 3: Setup the Database
---------------------------
+Step 3: Create the Database
+---------------------------
 
-The first step here is to create a database for MediaCore in MySQL. You can
+Here we will create a database for MediaCore in MySQL. You can
 use phpMyAdmin, CocoaMySQL, `cPanel
 <http://www.siteground.com/tutorials/php-mysql/mysql_database_user.htm>`_, the
 `mysql command line interface
@@ -325,33 +154,6 @@ For example, via the mysql command line client:
    mysql> exit;
    Bye
 
-The second step is to create all the tables and starting data for the
-database. All of the information is in ``setup.sql``, so you can load it
-with a one line command, like so:
-
-.. sourcecode:: bash
-
-   # Import initial data into an existing database named mediacore:
-   mysql -u mediacore_user -p mediacore < setup.sql
-
-
-If you want to enable the fulltext searching shown on the demo site, you will
-need to have access to the root account for your MySQL database. Some shared
-hosts don't allow this, so we have made this feature optional. To set up the
-triggers that enable fulltext searching, import ``setup_triggers.sql`` like so:
-
-.. sourcecode:: bash
-
-   # Import fulltext search database triggers
-   mysql -u root mediacore < setup_triggers.sql
-
-**NOTE:** If you do not import ``setup_triggers.sql``, MediaCore's search
-will always return no results. You can easily disable this feature in your
-installation by removing the search form from
-``/path/to/mediacore_install/mediacore/templates/nav.html``.
-In a future release, we plan to design search so that it doesn't require
-MySQL's root account.
-
 
 Step 4: Preliminary Configuration
 ---------------------------------
@@ -385,11 +187,39 @@ the directory pointed to by the ``image_dir`` setting must also be writable by
 your user.
 
 
-Step 5: Launch the Built-in Server
+Step 5: Populate the Database
+-----------------------------
+
+First, The creation of all database tables and addition of initial data is
+taken care of via this Pylons command:
+
+.. sourcecode:: bash
+
+   paster setup-app development.ini
+
+Second, If you want to enable the fulltext searching shown on the demo site, you will
+need to have access to the root account for your MySQL database. Some shared
+hosts don't allow this, so we have made this feature optional. To set up the
+triggers that enable fulltext searching, import ``setup_triggers.sql`` like so:
+
+.. sourcecode:: bash
+
+   # Import fulltext search database triggers
+   mysql -u root mediacore < setup_triggers.sql
+
+**NOTE:** If you do not import ``setup_triggers.sql``, MediaCore's search
+will always return no results. You can easily disable this feature in your
+installation by removing the search form from
+``/path/to/mediacore_install/mediacore/templates/nav.html``.
+In a future release, we plan to design search so that it doesn't require
+MySQL's root account.
+
+
+Step 6: Launch the Built-in Server
 ----------------------------------
 
 Now that MediaCore itself is installed and the basics are configured,
-we can test it out using the Paste server. It's bundled with TG/Pylons
+we can test it out using the Paste server. It's bundled with Pylons
 so you have it already, simply run:
 
 .. sourcecode:: bash
@@ -408,8 +238,7 @@ via our `community forums <http://getmediacore.com/>`_.
 If this is your development machine, you're good to go.
 
 
-
-Step 6: Production Deployments
+Step 7: Production Deployments
 ------------------------------
 
 The built-in Paste server does a great job for development, but usually

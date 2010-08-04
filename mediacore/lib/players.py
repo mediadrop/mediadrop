@@ -196,9 +196,9 @@ class HTML5Player(Player):
 
     References:
 
-        http://dev.w3.org/html5/spec/Overview.html#audio
-        http://dev.w3.org/html5/spec/Overview.html#video
-        http://developer.apple.com/safari/library/documentation/AudioVideo/Conceptual/Using_HTML5_Audio_Video/Introduction/Introduction.html
+        - http://dev.w3.org/html5/spec/Overview.html#audio
+        - http://dev.w3.org/html5/spec/Overview.html#video
+        - http://developer.apple.com/safari/library/documentation/AudioVideo/Conceptual/Using_HTML5_Audio_Video/Introduction/Introduction.html
 
     """
     is_html5 = True

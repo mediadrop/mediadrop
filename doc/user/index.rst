@@ -13,7 +13,18 @@ workflows you'll be good to go!
    This documentation is intended for content managers and administrators.
    For technical details see the :ref:`dev_toplevel`.
 
+
+Front-end User Guide
+--------------------
+
 .. toctree::
 
    firststeps
 
+
+Admin User Guide
+----------------
+
+.. toctree::
+
+   admin/settings
