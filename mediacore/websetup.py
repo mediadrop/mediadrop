@@ -104,7 +104,7 @@ def add_default_data():
         (u'rich_text_editor', u'tinymce'),
         (u'google_analytics_uacct', u''),
         (u'flash_player', u'jwplayer'),
-        (u'html5_player', u'html5'),
+        (u'html5_player', u'zencoder-video-js'),
         (u'player_type', u'best'),
         (u'featured_category', u'1'),
         (u'max_upload_size', u'314572800'),
