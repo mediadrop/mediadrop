@@ -38,7 +38,7 @@
 				<param name="allowscriptaccess" value="always" />
 				<param name="flashvars" py:if="vars" value="${vars}" />
 				<!--! XHTML uncompliant hack to display youtube videos on iphones, etc. -->
-				<embed py:if="player.browser[0] == 'iphone-ipod-ipad'"
+				<embed py:if="player.browser.name == 'iphone-ipod-ipad'"
 				       type="application/x-shockwave-flash" src="${swf_url}"
 				       allowfullscreen="true" allowScriptAccess="always"
 				       width="${player.adjusted_width}" height="${player.adjusted_height}" />

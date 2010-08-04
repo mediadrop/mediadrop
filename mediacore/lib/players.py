@@ -17,12 +17,17 @@ import simplejson as json
 
 from pylons import app_globals, config, request
 
+from mediacore.lib.compat import namedtuple
 from mediacore.lib.embedtypes import external_embedded_containers
 from mediacore.lib.filetypes import (AUDIO, VIDEO, AUDIO_DESC, CAPTIONS,
     flash_supported_browsers, flash_supported_containers,
     native_supported_types, parse_user_agent_version)
 from mediacore.lib.thumbnails import thumb_url
 
+# TODO: This should probably be returned by parse_user_agent_version
+#       when time permits. For now it's good enough to have it here so
+#       at least the public API in templates is more readable.
+Browser = namedtuple('Browser', 'name version')
 
 class Player(object):
     """Abstract Player Class"""
@@ -38,7 +43,7 @@ class Player(object):
                  fallback=None):
         self.media = media
         self.file = file
-        self.browser = browser
+        self.browser = Browser(name=browser[0], version=browser[1])
         self.width = width
         self.height = height
         self.autoplay = autoplay
@@ -325,11 +330,11 @@ def ordered_playable_files(files):
     return video_files + audio_files
 
 def pick_media_file_player(media, browser=None, version=None, user_agent=None,
-        player_type=None, include_embedded=True, **kwargs):
+        player_type=None, include_embedded=True, **player_kwargs):
     """Return the best choice of files to play and which player to use.
 
     XXX: This method uses the very unsophisticated technique of assuming
-         that if the client is capable of playing the container format, then
+         that if the client is capplayer_able of playing the container format, then
          the client should be able to play the tracks within the container,
          regardless of the codecs actually used. As such, admins would be
          well advised to use the lowest-common-denominator for their targeted
@@ -470,8 +475,8 @@ def pick_media_file_player(media, browser=None, version=None, user_agent=None,
 
     # Pick a player to fail over to inside the browser, if decoding fails.
     fallback = None
-    if 'fallback' in kwargs:
-        fallback = kwargs.pop('fallback')
+    if 'fallback' in player_kwargs:
+        fallback = player_kwargs.pop('fallback')
     elif player_type != 'html5':
         if player.is_html5:
             fallback = players[flash_player]
@@ -481,7 +486,7 @@ def pick_media_file_player(media, browser=None, version=None, user_agent=None,
     # Instantiate the players
     player_args = (media, file, (browser, version))
     if fallback:
-        kwargs['fallback'] = fallback(*player_args, **kwargs)
-    player_obj = player(*player_args, **kwargs)
+        player_kwargs['fallback'] = fallback(*player_args, **player_kwargs)
+    player_obj = player(*player_args, **player_kwargs)
 
     return player_obj
