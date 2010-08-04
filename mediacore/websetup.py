@@ -9,7 +9,7 @@ from migrate.versioning.api import version_control, version, upgrade
 from migrate.versioning.exceptions import DatabaseAlreadyControlledError
 
 from mediacore.config.environment import load_environment
-from mediacore.model import (DBSession, metadata, Media, Podcast,
+from mediacore.model import (DBSession, metadata, Media, MediaFile, Podcast,
     User, Group, Permission, Tag, Category, Comment, Setting, Author,
     AuthorWithIP)
 
@@ -151,6 +151,11 @@ def add_default_data():
     category.slug = u'featured'
     DBSession.add(category)
 
+    category2 = Category()
+    category2.name = u'Instructional'
+    category2.slug = u'instructional'
+    DBSession.add(category2)
+
     podcast = Podcast()
     podcast.slug = u'hello-world'
     podcast.title = u'Hello World'
@@ -184,3 +189,77 @@ def add_default_data():
     media.categories.append(category)
     media.comments.append(comment)
     DBSession.add(media)
+
+    import datetime
+    instructional_media = [
+        (u'workflow-in-mediacore',
+        u'Workflow in MediaCore',
+        u'<p>This sceencast explains the publish status feature in MediaCore.</p><p>Initially all videos uploaded through the front-end or admin panel are placed under &quot;awaiting review&quot; status. Once the administrator hits the &quot;review complete&quot; button, they can upload media. Videos can be added in any format, however, they can only be published if they are in a web-ready format such as FLV, M4V, MP3, or MP4. Alternatively, if they are published through Youtube or Vimeo the encoding step is skipped</p><p>Once uploaded and encoded the administrator can then publish the video.</p>',
+        u'This sceencast explains the publish status feature in MediaCore.\nInitially all videos uploaded through the front-end or admin panel are placed under \"awaiting review\" status. Once the administrator hits the \"review complete\" button, they can upload media. Videos can be added in any format, however, they can only be published if they are in a web-ready format such as FLV, M4V, MP3, or MP4. Alternatively, if they are published through Youtube or Vimeo the encoding step is skipped\nOnce uploaded and encoded the administrator can then publish the video.',
+        datetime.datetime(2010, 5, 13, 2, 29, 40),
+        218,
+        u'http://getmediacore.com/files/tutorial-workflow-in-mediacore.flv',
+        u'video',
+        u'flv',
+        ),
+        (u'creating-a-podcast-in-mediacore',
+        u'Creating a Podcast in MediaCore',
+        u'<p>This describes the process an administrator goes through in creating a podcast in MediaCore. An administrator can enter information that will automatically generate the iTunes/RSS feed information. Any episodes published to a podcast will automatically publish to iTunes/RSS.</p>',
+        u'This describes the process an administrator goes through in creating a podcast in MediaCore. An administrator can enter information that will automatically generate the iTunes/RSS feed information. Any episodes published to a podcast will automatically publish to iTunes/RSS.',
+        datetime.datetime(2010, 5, 13, 2, 33, 44),
+        100,
+        u'http://getmediacore.com/files/tutorial-create-podcast-in-mediacore.flv',
+        u'video',
+        u'flv',
+        ),
+        (u'adding-a-video-in-mediacore',
+        u'Adding a Video in MediaCore',
+        u'<p>This screencast shows how video or audio can be added in MediaCore.</p><p>MediaCore supports a wide range of formats including (but not limited to): YouTube, Vimeo, Google Video, Amazon S3, Bits on the Run, BrightCove, Kaltura, and either your own server or someone else\'s.</p><p>Videos can be uploaded in any format, but can only be published in web-ready formats such as FLV, MP3, M4V, MP4 etc.</p>',
+        u'This screencast shows how video or audio can be added in MediaCore.\nMediaCore supports a wide range of formats including (but not limited to): YouTube, Vimeo, Google Video, Amazon S3, Bits on the Run, BrightCove, Kaltura, and either your own server or someone else\'s.\nVideos can be uploaded in any format, but can only be published in web-ready formats such as FLV, MP3, M4V, MP4 etc.',
+        datetime.datetime(2010, 5, 13, 02, 37, 36),
+        169,
+        u'http://getmediacore.com/files/tutorial-add-video-in-mediacore.flv',
+        u'video',
+        u'flv',
+        ),
+        (u'mediacore-screencast-demo',
+        u'MediaCore Screencast Demo',
+        u'<p>This is a screencast for the MediaCore Video CMS which demonstrates both the front-end and back-end administrative functionality.</p><ul><li>Check out the <a href=\"http://getmediacore.com/features\">features </a></li><li>Download <a href=\"http://getmediacore.com/download\">MediaCore </a></li><li>Follow us on <a href=\"http://twitter.com/simplestation\">Twitter @simplestation </a></li></ul>',
+        u'This is a screencast for the MediaCore Video CMS which demonstrates both the front-end and back-end administrative functionality.\nCheck out the features \nDownload MediaCore \nFollow us on Twitter @simplestation \n',
+        datetime.datetime(2010, 6, 8, 20, 18, 17),
+        1795,
+        u'http://getmediacore.com/files/tutorial-comprehensive-screencast.flv',
+        u'video',
+        u'flv',
+        ),
+    ]
+
+    name = u'MediaCore Team'
+    email = u'info@simplestation.com'
+    for slug, title, desc, desc_plain, publish_on, duration, url, type, container in instructional_media:
+        media = Media()
+        media.author = Author(name, email)
+        media.description = desc
+        media.description_plain = desc_plain
+        media.duration = duration
+        media.publish_on = publish_on
+        media.slug = slug
+        media.title = title
+
+        media_file = MediaFile()
+        media_file.container = container
+        media_file.created_on = publish_on
+        media_file.display_name = url
+        media_file.duration = duration
+        media_file.type = type
+        media_file.url = url
+
+        DBSession.add(media)
+        DBSession.add(media_file)
+
+        media.files.append(media_file)
+        media.categories.append(category2)
+
+        media.encoded = True
+        media.reviewed = True
+        media.publishable = True

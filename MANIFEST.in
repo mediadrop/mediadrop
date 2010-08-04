@@ -26,6 +26,15 @@ include mediacore/public/images/media/new*.jpg
 include mediacore/public/images/media/1s.jpg
 include mediacore/public/images/media/1m.jpg
 include mediacore/public/images/media/1l.jpg
+include mediacore/public/images/media/2s.jpg
+include mediacore/public/images/media/2m.jpg
+include mediacore/public/images/media/2l.jpg
+include mediacore/public/images/media/3s.jpg
+include mediacore/public/images/media/3m.jpg
+include mediacore/public/images/media/3l.jpg
+include mediacore/public/images/media/4s.jpg
+include mediacore/public/images/media/4m.jpg
+include mediacore/public/images/media/4l.jpg
 recursive-exclude mediacore/public/images/podcasts *.*
 include mediacore/public/images/podcasts/new*.jpg
 include mediacore/public/images/podcasts/1s.jpg
