@@ -16,20 +16,17 @@ along with VideoJS.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 // Store a list of players on the page for reference
-var videoJSPlayers = new Array();
-
-// Using jresig's Class implementation http://ejohn.org/blog/simple-javascript-inheritance/
-(function(){var initializing=false, fnTest=/xyz/.test(function(){xyz;}) ? /\b_super\b/ : /.*/; this.Class = function(){}; Class.extend = function(prop) { var _super = this.prototype; initializing = true; var prototype = new this(); initializing = false; for (var name in prop) { prototype[name] = typeof prop[name] == "function" && typeof _super[name] == "function" && fnTest.test(prop[name]) ? (function(name, fn){ return function() { var tmp = this._super; this._super = _super[name]; var ret = fn.apply(this, arguments); this._super = tmp; return ret; }; })(name, prop[name]) : prop[name]; } function Class() { if ( !initializing && this.init ) this.init.apply(this, arguments); } Class.prototype = prototype; Class.constructor = Class; Class.extend = arguments.callee; return Class;};})();
+var videoJSPlayers = [];
 
 // Video JS Player Class
-var VideoJS = Class.extend({
+var VideoJS = new Class({
 
   // Initialize the player for the supplied video tag element
   // element: video tag
   // num: the current player's position in the videoJSPlayers array
-  init: function(element, setOptions){
+  initialize: function(element, setOptions){
 
-    this.video = element;
+    this.video = $(element);
 
     // Hide default controls
     this.video.controls = false;
@@ -373,16 +370,8 @@ var VideoJS = Class.extend({
   },
 
   canPlaySource: function(){
-    var children = this.video.children;
-    for (var i=0,j=children.length; i<j; i++) {
-      if (children[i].tagName.toUpperCase() == "SOURCE") {
-        var canPlay = this.video.canPlayType(children[i].type);
-        if(canPlay == "probably" || canPlay == "maybe") {
-          return true;
-        }
-      }
-    }
-    return false;
+    // override to disable this function. mediacore provides its own (better) js fallback solution.
+    return true;
   },
 
   // When the video is played
@@ -699,25 +688,11 @@ var VideoJS = Class.extend({
   /* Subtitles
   ================================================================================ */
   loadSubtitles: function() {
-    if (typeof XMLHttpRequest == "undefined") {
-      XMLHttpRequest = function () {
-        try { return new ActiveXObject("Msxml2.XMLHTTP.6.0"); }
-          catch (e) {}
-        try { return new ActiveXObject("Msxml2.XMLHTTP.3.0"); }
-          catch (e) {}
-        try { return new ActiveXObject("Msxml2.XMLHTTP"); }
-          catch (e) {}
-        //Microsoft.XMLHTTP points to Msxml2.XMLHTTP.3.0 and is redundant
-        throw new Error("This browser does not support XMLHttpRequest.");
-      };
-    }
-    var request = new XMLHttpRequest();
-    request.open("GET",this.subtitlesSource);
-    request.onreadystatechange = function() {
-      if (request.readyState == 4 && request.status == 200) {
-        this.parseSubtitles(request.responseText);
-      }
-    }.context(this);
+    var request = new Request({
+      url: this.subtitlesSource,
+      method: 'get',
+      onSuccess: this.parseSubtitles.bind(this),
+    });
     request.send();
   },
 
@@ -811,18 +786,15 @@ var VideoJS = Class.extend({
 ////////////////////////////////////////////////////////////////////////////////
 var _V_ = {
   addClass: function(element, classToAdd){
-    if (element.className.split(/\s+/).lastIndexOf(classToAdd) == -1) { element.className = element.className == "" ? classToAdd : element.className + " " + classToAdd; }
+    $(element).addClass(classToAdd);
   },
 
   removeClass: function(element, classToRemove){
-    if (element.className.indexOf(classToRemove) == -1) return;
-    var classNames = element.className.split(/\s+/);
-    classNames.splice(classNames.lastIndexOf(classToRemove),1);
-    element.className = classNames.join(" ");
+    $(element).removeClass(classToRemove);
   },
 
   merge: function(obj1, obj2){
-    for(attrname in obj2){obj1[attrname]=obj2[attrname];} return obj1;
+    return $extend(obj1, obj2);
   },
 
   createElement: function(tagName, attributes){
@@ -877,7 +849,7 @@ var _V_ = {
 // Add video-js to any video tag with the class
 // Typically used when page is loaded.
 VideoJS.setup = function(options){
-  var elements = document.getElementsByTagName("video");
+  var elements = $$("video");
   for (var i=0,j=elements.length; i<j; i++) {
     videoTag = elements[i];
     if (videoTag.className.indexOf("video-js") != -1) {
@@ -890,16 +862,10 @@ VideoJS.setup = function(options){
 // Add video-js to the video tag or array of video tags (or IDs) passed in.
 // Typically used when videos are being added to a page dynamically.
 VideoJS.addVideos = function(videos, options) {
-  videos = videos instanceof Array ? videos : [videos];
-  var videoTag;
+  videos = $splat(videos);
   for (var i=0; i<videos.length; i++) {
-    if (typeof videos[i] == 'string') {
-      videoTag = document.getElementById(videos[i]);
-    } else { // assume DOM object
-      videoTag = videos[i];
-    }
     options = (options) ? _V_.merge(options, { num: videoJSPlayers.length }) : options;
-    videoJSPlayers.push(new VideoJS(videoTag, options));
+    videoJSPlayers.push(new VideoJS(videos[i], options));
   }
 }
 
@@ -909,36 +875,11 @@ VideoJS.browserSupportsVideo = function() {
   return VideoJS.videoSupport = !!document.createElement('video').canPlayType;
 }
 
-VideoJS.getFlashVersion = function(){
-  // Cache Version
-  if (typeof VideoJS.flashVersion != "undefined") return VideoJS.flashVersion;
-  var version = 0;
-  if (typeof navigator.plugins != "undefined" && typeof navigator.plugins["Shockwave Flash"] == "object") {
-    desc = navigator.plugins["Shockwave Flash"].description;
-    if (desc && !(typeof navigator.mimeTypes != "undefined" && navigator.mimeTypes["application/x-shockwave-flash"] && !navigator.mimeTypes["application/x-shockwave-flash"].enabledPlugin)) {
-      version = parseInt(desc.match(/^.*\s+([^\s]+)\.[^\s]+\s+[^\s]+$/)[1]);
-    }
-  } else if (typeof window.ActiveXObject != "undefined") {
-    try {
-      var testObject = new ActiveXObject("ShockwaveFlash.ShockwaveFlash");
-      if (testObject) {
-        version = parseInt(testObject.GetVariable("$version").match(/^[^\s]+\s(\d+)/)[1]);
-      }
-    }
-    catch(e) {}
-  }
-  return VideoJS.flashVersion = version;
-}
+VideoJS.getFlashVersion = $lambda(Browser.Plugins.Flash.version);
 
 VideoJS.isIE = function(){ return !+"\v1"; }
 VideoJS.isIpad = function(){ return navigator.userAgent.match(/iPad/i) != null; }
 
 // Allows for binding context to functions
 // when using in event listeners and timeouts
-Function.prototype.context = function(obj) {
-  var method = this
-  temp = function() {
-    return method.apply(obj, arguments)
-  }
- return temp
-}
+Function.prototype.context = Function.prototype.bind;
