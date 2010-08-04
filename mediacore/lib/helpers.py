@@ -54,14 +54,13 @@ imports = [
     'thumb', # XXX: imported from  mediacore.lib.thumbnails, for template use.
 ]
 defined = [
-    'EmbedPlayer', 'FlowPlayer', 'HTML5Player', 'JWPlayer', 'JWPlayerHTML5',
-    'Player', 'append_class_attr', 'clean_xhtml', 'delete_files', 'doc_link',
+    'append_class_attr', 'clean_xhtml', 'delete_files', 'doc_link',
     'duration_from_seconds', 'duration_to_seconds', 'embeddable_player',
     'excerpt_xhtml', 'excess_whitespace', 'filter_library_controls',
     'get_featured_category', 'gravatar_from_email', 'is_admin',
     'line_break_xhtml', 'list_acceptable_xhtml', 'list_accepted_extensions',
     'pick_any_media_file', 'pick_podcast_media_file',
-    'player_controls_heights', 'players', 'pretty_file_size', 'redirect',
+    'pretty_file_size', 'redirect',
     'store_transient_message', 'strip_xhtml', 'truncate', 'truncate_xhtml',
     'url', 'url_for', 'wrap_long_words',
 ]
