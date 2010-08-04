@@ -23,7 +23,7 @@ directory and Installation directory, respectively.
 
 **NOTE 3:** `MediaCore-OLD` and `MediaCore-NEW` below should be replaced with
 the correct versions for your installation. For example, with `MediaCore-0.8.0`
-and `MediaCore-0.8.1`, respectively.
+and `MediaCore-0.8.2`, respectively.
 
 
 Step 1: Re-Create Your Virtual Environment
@@ -134,7 +134,7 @@ Step 5.1: Upgrade Database from MediaCore 0.8.0
    python batch-scripts/upgrade/upgrade-from-v080.py yourconf.ini
 
 
-Step 5.2: Upgrade Database from MediaCore >= 0.8.1
+Step 5.2: Upgrade Database from MediaCore >= 0.8.2
 --------------------------------------------------
 
 .. sourcecode:: bash
