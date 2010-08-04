@@ -578,8 +578,8 @@ def pick_any_media_file(media):
     player = pick_media_file_player(media, browser='chrome')
     return player and player.file or None
 
-def doc_link(text, page, anchor=''):
-    """Return a genshi markup element representing a link to the documentation.
+def doc_link(page=None, anchor='', text='Help', **kwargs):
+    """Return a link (anchor element) to the documentation on the project site.
 
     XXX: Target attribute is not XHTML compliant.
     """
@@ -587,6 +587,8 @@ def doc_link(text, page, anchor=''):
         'href': 'http://getmediacore.com/docs/user/%s.html#%s' % (page, anchor),
         'target': '_blank',
     }
+    if kwargs:
+        attrs.update(kwargs)
     attrs_string = ' '.join(['%s="%s"' % (key, attrs[key]) for key in attrs])
     out = '<a %s>%s</a>' % (attrs_string, text)
-    return genshi.core.Markup(out)
+    return literal(out)

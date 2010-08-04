@@ -30,7 +30,7 @@
 		<div class="box-head">
 			<h1>Podcasts</h1>
 			<a id="add-btn" href="${h.url_for(action='edit', id='new')}" class="btn btn-add-podcast"><span>Add podcast</span></a>
-			<span class="box-head-sec">${h.doc_link('Help', 'admin/podcasts', '')}</span>
+			<span class="box-head-sec">${h.doc_link('admin/podcasts', '')}</span>
 		</div>
 		<xi:include href="../podcasts/index-table.html" py:with="podcasts=podcasts" />
 	</div>

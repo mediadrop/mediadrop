@@ -45,7 +45,7 @@
 			<div id="podcast-filter" class="f-rgt">
 				${XML(podcast_filter_form(dict(podcast_filter=podcast_filter)))}
 			</div>
-			<span class="box-head-sec">${h.doc_link('Help', 'admin/media', '')}</span>
+			<span class="box-head-sec">${h.doc_link('admin/media', '')}</span>
 		</div>
 		<xi:include href="admin/media/index-table.html" py:with="media=media" />
 	</div>
