@@ -18,7 +18,7 @@ var OverTextManager = new Class({
 
 	initialize: function(form) {
 		this.form = $(form);
-		this.ots = this.form.getElements('input[type=text], textarea').map(function(el){
+		this.ots = this.form.getElements('input[type=text], input[type=password], textarea').map(function(el) {
 			return new CustomOverText(el);
 		});
 	}
