@@ -17,7 +17,6 @@ recursive-exclude doc/build *
 recursive-include mediacore/migrations *
 recursive-include mediacore/public *
 recursive-include mediacore/templates *
-recursive-include mediacore/i18n *
 recursive-exclude * *.pyc
 recursive-exclude * .*.swp
 recursive-exclude * .DS_Store
