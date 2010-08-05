@@ -218,7 +218,15 @@ class HTML5Player(Player):
         return attrs
 
 class JWPlayerHTML5(HTML5Player):
-    """HTML5-based JWPlayer"""
+    """HTML5-based JWPlayer
+
+    XXX: This player cannot be chosen through the admin settings UI. We
+         consider it to be too buggy for proper inclusion in this release,
+         but have left it here in case anyone would like to use it anyway.
+         Hopefully with time the bugs will be worked out and this code will
+         become more useful.
+
+    """
     def include(self):
         from mediacore.lib.helpers import url_for
         jquery = url_for('/scripts/third-party/jQuery-1.4.2-compressed.js', qualified=self.qualified)
@@ -241,7 +249,15 @@ class JWPlayerHTML5(HTML5Player):
         return attrs
 
 class ZencoderVideoJSPlayer(HTML5Player):
-    """HTML5 "VideoJS" Player by Zencoder"""
+    """HTML5 "VideoJS" Player by Zencoder
+
+    XXX: This player cannot be chosen through the admin settings UI. We
+         consider it to be too buggy for proper inclusion in this release,
+         but have left it here in case anyone would like to use it anyway.
+         Hopefully with time the bugs will be worked out and this code will
+         become more useful.
+
+    """
     def html5_attrs(self):
         attrs = super(ZencoderVideoJSPlayer, self).html5_attrs()
         if self.media.type == VIDEO:
