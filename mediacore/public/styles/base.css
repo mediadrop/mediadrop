@@ -124,11 +124,11 @@ a:hover {
 #nav-podcasts a:hover { background-position: -208px -39px }
 #nav-categories a:hover { background-position: -300px -39px }
 #nav-upload a:hover { background-position: -407px -39px }
-.nav-explore-on #nav-explore a { background-position: 0 -78px }
-.nav-media-on #nav-media a { background-position: -90px -78px }
-.nav-podcasts-on #nav-podcasts a { background-position: -208px -78px }
-.nav-categories-on #nav-categories a { background-position: -300px -78px }
-.nav-upload-on #nav-upload a { background-position: -407px -78px }
+#nav-explore a:active, .nav-explore-on #nav-explore a { background-position: 0 -78px }
+#nav-media a:active, .nav-media-on #nav-media a { background-position: -90px -78px }
+#nav-podcasts a:active, .nav-podcasts-on #nav-podcasts a { background-position: -208px -78px }
+#nav-categories a:active, .nav-categories-on #nav-categories a { background-position: -300px -78px }
+#nav-upload a:active, .nav-upload-on #nav-upload a { background-position: -407px -78px }
 #nav #nav-upload { float: right }
 
 #nav-search {
