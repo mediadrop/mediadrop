@@ -48,7 +48,7 @@
 			<div py:if="not popular" class="feat-box">
 				<div class="feat-top" />
 				<div class="feat-content clearfix">
-					As soon as there are more than ${unicode(len(latest) + len(popular) + 1)} published videos in the library, the most popular videos will be listed here.
+					As soon as there are more than 9 published videos in the library, the most popular videos will be listed here.
 					<py:if test="h.is_admin()">Why not <a href="${h.url_for(controller='/admin/media', action='edit', id='new')}">add</a> a few more?</py:if>
 				</div>
 				<div class="feat-bottom"/>
