@@ -41,11 +41,11 @@
 			</div>
 
 			<h2><a href="${h.url_for(action='index', show='popular')}" class="underline-hover uppercase nocolor">Most Popular</a></h2>
-			<py:if test="not popular">
+			<py:if test="popular">
 				<ul py:replace="media_grid(popular, thumb_size='m', desc_len=135)" />
 				<a class="see-more underline-hover" href="${h.url_for(action='index', show='popular')}">more of the Most Popular...</a>
 			</py:if>
-			<div py:if="popular" class="feat-box">
+			<div py:if="not popular" class="feat-box">
 				<div class="feat-top" />
 				<div class="feat-content clearfix">
 					As soon as there are more than ${unicode(len(latest) + len(popular) + 1)} published videos in the library, the most popular videos will be listed here.

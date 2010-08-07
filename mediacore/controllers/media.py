@@ -115,8 +115,8 @@ class MediaController(BaseController):
         if not featured:
             featured = popular.first()
 
-        latest = latest.exclude(featured)[:5]
-        popular = popular.exclude(latest, featured)[:8]
+        latest = latest.exclude(featured)[:8]
+        popular = popular.exclude(featured, latest)[:5]
 
         return dict(
             featured = featured,
