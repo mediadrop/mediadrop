@@ -67,10 +67,10 @@
 				<tr py:with="total = total if total is not None else query.count()"
 				    class="comments-total">
 					<td class="comments-count" py:content="total" />
-                    <i18n:choose numeral="total">
-                      <td i18n:singular="">Comment</td>
-                      <td i18n:plural="">Comments</td>
-                    </i18n:choose>
+					<i18n:choose numeral="total">
+						<td i18n:singular="">Comment</td>
+						<td i18n:plural="">Comments</td>
+					</i18n:choose>
 				</tr>
 				<tr py:with="published = published if published is not None else query.published().count()"
 				    class="comments-published">

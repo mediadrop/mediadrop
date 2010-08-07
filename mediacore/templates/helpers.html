@@ -25,7 +25,7 @@
 		<p py:when="player is None" i18n:msg="link">
 			MediaCore could not find an appropriate encoding of this media item to display in your browser.
 			Contact the site admin if you need assistance. We recommend useing HTML5 compatible browser
-            such as <a href="http://www.google.com/chrome/">Google Chrome</a>.
+			such as <a href="http://www.google.com/chrome/">Google Chrome</a>.
 		</p>
 
 		<py:when test="player.is_embed or embed_only">
@@ -84,7 +84,6 @@
 	</py:def>
 
 	<py:def function="flash_player_script(player)">
-    ${Markup("""
 		var flashObj = new Swiff('${player.swf_url()}', {
 			width: ${player.adjusted_width},
 			height: ${player.adjusted_height},
@@ -92,7 +91,6 @@
 			vars: ${h.json.dumps(player.flashvars())}
 		});
 		var div = new Element('div').replaces('${player.elem_id}').set('id', '${player.elem_id}').grab(flashObj);
-    """)}
 	</py:def>
 
 	<py:def function="media_grid(media, id=None, thumb_size='s', desc_len=90)"
@@ -112,24 +110,24 @@
 					<span class="grid-meta">
 						<span class="meta meta-comments" title="Comments">
 							${m.comment_count_published}
-                            <i18n:choose numeral="m.comment_count_published">
-                              <span i18n:singular="">Comment</span>
-                              <span i18n:plural="">Comments</span>
-                            </i18n:choose>
+							<i18n:choose numeral="m.comment_count_published">
+								<span i18n:singular="">Comment</span>
+								<span i18n:plural="">Comments</span>
+							</i18n:choose>
 						</span>
 						<span class="meta meta-likes" title="Likes">
 							${m.likes}
-                            <i18n:choose numeral="m.likes">
-                              <span i18n:singular="">Like</span>
-                              <span i18n:plural="">Likes</span>
-                            </i18n:choose>
+							<i18n:choose numeral="m.likes">
+								<span i18n:singular="">Like</span>
+								<span i18n:plural="">Likes</span>
+							</i18n:choose>
 						</span>
 						<span class="meta meta-views" title="Views">
 							${m.views}
-                            <i18n:choose numeral="m.views">
-                              <span i18n:singular="">View</span>
-                              <span i18n:plural="">Views</span>
-                            </i18n:choose>
+							<i18n:choose numeral="m.views">
+								<span i18n:singular="">View</span>
+								<span i18n:plural="">Views</span>
+							</i18n:choose>
 						</span>
 					</span>
 				</a>

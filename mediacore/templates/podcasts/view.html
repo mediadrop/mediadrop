@@ -47,9 +47,9 @@
 		</div>
 
 		<h4 i18n:choose="result_count; result_count" class="uppercase">
-            <i18n:singular>${result_count} Episodes</i18n:singular>
-            <i18n:plural>All ${result_count} Episodes</i18n:plural>
-        </h4>
+			<i18n:singular>${result_count} Episodes</i18n:singular>
+			<i18n:plural>All ${result_count} Episodes</i18n:plural>
+		</h4>
 		${library_controls(show, paginator=c.paginators.episodes)}
 		<ul py:replace="media_grid(episodes, thumb_size='m', desc_len=135)" />
 	</div>

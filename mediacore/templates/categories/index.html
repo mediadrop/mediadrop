@@ -43,19 +43,21 @@
 			</div>
 			${media_player(featured, width=400, height=225)}
 			<div class="feat-meta">
-				<span class="meta meta-comments" title="Comments">${featured.comment_count_published}
-                    <i18n:choose numeral="featured.comment_count_published">
-                      <span i18n:singular="">Comment</span>
-                      <span i18n:plural="">Comments</span>
-                    </i18n:choose>
-                </span>
+				<span class="meta meta-comments" title="Comments">
+					${featured.comment_count_published}
+					<i18n:choose numeral="featured.comment_count_published">
+						<span i18n:singular="">Comment</span>
+						<span i18n:plural="">Comments</span>
+					</i18n:choose>
+				</span>
 				<a class="meta meta-likes" href="${h.url_for(controller='/media', action='rate', slug=featured.slug)}" id="likethis" title="Vote up">${featured.likes} <strong>Like this!</strong></a>
-				<span class="meta meta-views" title="Views">${featured.views}
-                    <i18n:choose numeral="featured.views">
-                      <span i18n:singular="">View</span>
-                      <span i18n:plural="">Views</span>
-                    </i18n:choose>
-                </span>
+				<span class="meta meta-views" title="Views">
+					${featured.views}
+					<i18n:choose numeral="featured.views">
+						<span i18n:singular="">View</span>
+						<span i18n:plural="">Views</span>
+					</i18n:choose>
+				</span>
 			</div>
 		</div>
 		<div class="feat-bottom" />

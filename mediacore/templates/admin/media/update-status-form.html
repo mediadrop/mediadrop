@@ -21,22 +21,21 @@
 		<div class="box-head">
 			<span class="box-head-sec">
 				${h.doc_link('admin/media', 'status')}
-				<py:if test="media.slug">
-					|
-                    <py:choose test="media.is_published">
-                      <py:when test="1">
-                        <a href="${h.url_for(controller='/media', action='view', slug=media.slug)}"
-                           id="go-view-content"
-                           title="View this media where it is published"
-                           py:content="_('View') if media.is_published else _('Preview')" />
-                      </py:when>
-                      <py:when test="0">
-                        <a href="${h.url_for(controller='/media', action='view', slug=media.slug)}"
-                           id="go-view-content"
-                           title="View this media where it will be published"
-                           py:content="_('View') if media.is_published else _('Preview')" />
-                      </py:when>
-                    </py:choose>
+				<py:if test="media.slug"> |
+					<py:choose test="media.is_published">
+						<py:when test="1">
+							<a href="${h.url_for(controller='/media', action='view', slug=media.slug)}"
+							   id="go-view-content"
+							   title="View this media where it is published"
+							   py:content="_('View') if media.is_published else _('Preview')" />
+						</py:when>
+						<py:when test="0">
+							<a href="${h.url_for(controller='/media', action='view', slug=media.slug)}"
+							   id="go-view-content"
+							   title="View this media where it will be published"
+							   py:content="_('View') if media.is_published else _('Preview')" />
+						  </py:when>
+					</py:choose>
 				</py:if>
 			</span>
 			<h1>Publish Status</h1>
