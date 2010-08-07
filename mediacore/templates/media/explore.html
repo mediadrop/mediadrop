@@ -24,35 +24,41 @@
 </head>
 <body class="nav-explore-on">
 	<div class="mediacore-content">
-		<div py:if="featured or latest" id="explore-latest" class="m-grid-column" style="margin-right:20px">
-			<py:if test="featured">
-				<h2><span class="uppercase">Featured</span></h2>
-				<div class="feat-box">
-					<div class="feat-top" />
-					<div class="feat-content clearfix">
-						${media_player(featured, width=410, height=230)}
-						<h3><a class="underline-hover nocolor" href="${h.url_for(controller='/media', action='view', slug=featured.slug)}">${featured.title}</a></h3>
-						<div class="feat-meta">
-							<span class="meta meta-comments" title="Comments">${featured.comment_count_published} <span>Comment<py:if test="featured.comment_count_published != 1">s</py:if></span></span>
-							<a class="meta meta-likes" href="${h.url_for(controller='/media', action='rate', slug=featured.slug)}" id="likethis" title="Vote up">${featured.likes} <strong>Like this!</strong></a>
-							<span class="meta meta-views" title="Views">${featured.views} <span>View<py:if test="featured.views != 1">s</py:if></span></span>
-						</div>
+		<div id="explore-popular" class="m-grid-column" style="margin-right:20px">
+			<h2><span class="uppercase">Featured</span></h2>
+			<div class="feat-box">
+				<div class="feat-top" />
+				<div class="feat-content clearfix">
+					${media_player(featured, width=410, height=230)}
+					<h3><a class="underline-hover nocolor" href="${h.url_for(controller='/media', action='view', slug=featured.slug)}">${featured.title}</a></h3>
+					<div class="feat-meta">
+						<span class="meta meta-comments" title="Comments">${featured.comment_count_published} <span>Comment<py:if test="featured.comment_count_published != 1">s</py:if></span></span>
+						<a class="meta meta-likes" href="${h.url_for(controller='/media', action='rate', slug=featured.slug)}" id="likethis" title="Vote up">${featured.likes} <strong>Like this!</strong></a>
+						<span class="meta meta-views" title="Views">${featured.views} <span>View<py:if test="featured.views != 1">s</py:if></span></span>
 					</div>
-					<div class="feat-bottom" />
 				</div>
-			</py:if>
+				<div class="feat-bottom" />
+			</div>
 
-			<py:if test="latest">
-				<h2><a href="${h.url_for(action='index', show='latest')}" class="underline-hover uppercase nocolor">Latest</a></h2>
-				<ul py:replace="media_grid(latest, thumb_size='m', desc_len=135)" />
-				<a class="see-more underline-hover" href="${h.url_for(action='index', show='latest')}">more of the Latest...</a>
+			<h2><a href="${h.url_for(action='index', show='popular')}" class="underline-hover uppercase nocolor">Most Popular</a></h2>
+			<py:if test="not popular">
+				<ul py:replace="media_grid(popular, thumb_size='m', desc_len=135)" />
+				<a class="see-more underline-hover" href="${h.url_for(action='index', show='popular')}">more of the Most Popular...</a>
 			</py:if>
+			<div py:if="popular" class="feat-box">
+				<div class="feat-top" />
+				<div class="feat-content clearfix">
+					As soon as there are more than ${unicode(len(latest) + len(popular) + 1)} published videos in the library, the most popular videos will be listed here.
+					<py:if test="h.is_admin()">Why not <a href="${h.url_for(controller='/admin/media', action='edit', id='new')}">add</a> a few more?</py:if>
+				</div>
+				<div class="feat-bottom"/>
+			</div>
 		</div>
 
-		<div py:if="popular" id="explore-popular" class="m-grid-column">
-			<h2><a href="${h.url_for(action='index', show='popular')}" class="underline-hover uppercase nocolor">Most Popular</a></h2>
-			<ul py:replace="media_grid(popular, thumb_size='m', desc_len=135)" />
-			<a class="see-more underline-hover" href="${h.url_for(action='index', show='popular')}">more of the Most Popular...</a>
+		<div py:if="latest" id="explore-latest" class="m-grid-column">
+			<h2><a href="${h.url_for(action='index', show='latest')}" class="underline-hover uppercase nocolor">Latest</a></h2>
+			<ul py:replace="media_grid(latest, thumb_size='m', desc_len=135)" />
+			<a class="see-more underline-hover" href="${h.url_for(action='index', show='latest')}">more of the Latest...</a>
 		</div>
 
 		<p py:if="not (featured or latest or popular)">
