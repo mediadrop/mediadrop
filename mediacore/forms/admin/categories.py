@@ -13,7 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from pylons.i18n import _
+from pylons.i18n import N_ as _
 from tw.api import WidgetsList
 from tw.forms import CheckBoxList, HiddenField, SingleSelectField
 from tw.forms.validators import NotEmpty
@@ -41,8 +41,8 @@ class CategoryForm(ListForm):
 
     class fields(WidgetsList):
         save = SubmitButton(default=_('Save'), named_button=True, css_classes=['f-rgt', 'btn', 'btn-save'])
-        name = TextField(validator=TextField.validator(not_empty=True))
-        slug = TextField(validator=NotEmpty)
+        name = TextField(validator=TextField.validator(not_empty=True), label_text=_('Name'))
+        slug = TextField(validator=NotEmpty, label_text=_('Slug'))
         parent_id = SingleSelectField(label_text=_('Parent Category'), options=category_options)
 
 class CategoryCheckBoxList(CheckBoxList):

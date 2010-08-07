@@ -13,6 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+from pylons.i18n import N_ as _
 from tw.forms import HiddenField
 from tw.forms.validators import NotEmpty
 
@@ -36,9 +37,9 @@ class TagForm(ListForm):
     _name = 'vf'
 
     fields = [
-        SubmitButton('save', default='Save', css_classes=['f-rgt', 'btn', 'btn-save']),
-        TextField('name', css_classes=['tag-name'], validator=TagNameValidator(not_empty=True)),
-        TextField('slug', css_classes=['tag-slug'], validator=NotEmpty),
+        SubmitButton('save', default=_('Save'), css_classes=['f-rgt', 'btn', 'btn-save']),
+        TextField('name', label_text=_('Name'), css_classes=['tag-name'], validator=TagNameValidator(not_empty=True)),
+        TextField('slug', label_text=_('Slug'), css_classes=['tag-slug'], validator=NotEmpty),
     ]
 
 class TagRowForm(Form):
@@ -50,5 +51,5 @@ class TagRowForm(Form):
     fields = [
         HiddenField('name'),
         HiddenField('slug'),
-        SubmitButton('delete', default='Delete', css_classes=['btn', 'btn-inline-delete']),
+        SubmitButton('delete', default=_('Delete'), css_classes=['btn', 'btn-inline-delete']),
     ]

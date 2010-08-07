@@ -21,7 +21,7 @@ from tw.api import WidgetsList, CSSLink
 import formencode
 from tw.forms.validators import NotEmpty, FieldStorageUploadConverter
 from pylons import config
-from pylons.i18n import _
+from pylons.i18n import N_ as _
 
 from mediacore.lib import helpers
 from mediacore.lib.filetypes import accepted_extensions, guess_container_format
@@ -77,4 +77,3 @@ class UploadForm(ListForm):
         url = TextField(validator=EmbedURLValidator(if_missing=None), label_text=_('Add a YouTube, Vimeo or Google Video URL:'), maxlength=255)
         file = FileField(validator=FieldStorageUploadConverter(if_missing=None, messages={'empty':_('Oops! You forgot to enter a file.')}), label_text=_('OR:'))
         submit = SubmitButton(css_classes=['btn', 'btn-submit'])
-

@@ -14,7 +14,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from pylons import request
-from pylons.i18n import _
+from pylons.i18n import N_ as _
 from tw.forms import PasswordField, SingleSelectField
 from tw.forms.validators import All, FancyValidator, FieldsMatch, Invalid, NotEmpty, PlainText, Schema
 
@@ -44,8 +44,8 @@ class UserForm(ListForm):
     _name = 'user-form' # TODO: Figure out why this is required??
 
     fields = [
-        TextField('display_name', validator=TextField.validator(not_empty=True), maxlength=255),
-        TextField('email_address', validator=email_validator(not_empty=True), maxlength=255),
+        TextField('display_name', label_text=_('Display Name'), validator=TextField.validator(not_empty=True), maxlength=255),
+        TextField('email_address', label_text=_('Email Address'), validator=email_validator(not_empty=True), maxlength=255),
         ListFieldSet('login_details', suppress_label=True, legend=_('Login Details:'),
                      css_classes=['details_fieldset'],
                      validator = Schema(chained_validators=[FieldsMatch('password',
@@ -54,7 +54,7 @@ class UserForm(ListForm):
                      children=[
             SingleSelectField('group', label_text=_('Group'),
                 options=lambda: DBSession.query(Group.group_id, Group.display_name).all()),
-            TextField('user_name', label_text=_(u'Username'), maxlength=16, validator=All(PlainText(), UniqueUsername(not_empty=True))),
+            TextField('user_name', label_text=_('Username'), maxlength=16, validator=All(PlainText(), UniqueUsername(not_empty=True))),
             PasswordField('password', label_text=_('Password'), validators=NotEmpty, maxlength=80, autocomplete='off'),
             PasswordField('confirm_password', label_text=_('Confirm password'), validators=NotEmpty, maxlength=80),
         ]),

@@ -14,7 +14,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from pylons import app_globals
-from pylons.i18n import _
+from pylons.i18n import N_ as _
 from tw.api import WidgetsList
 from formencode.validators import FancyValidator, URL
 from tw.forms import HiddenField, RadioButtonList, SingleSelectField
@@ -52,8 +52,12 @@ class AddFileForm(ListForm):
         TextField('url', validator=URL, suppress_label=True, attrs={'title': _('YouTube, Vimeo, Google Video, Amazon S3 or any other link')}, maxlength=255),
     ]
 
-file_type_options = [(VIDEO, _('Video')), (AUDIO, _('Audio')),
-    (AUDIO_DESC, _('Audio Description')), (CAPTIONS, _('Captions'))]
+file_type_options = [
+    (VIDEO, _('Video')),
+    (AUDIO, _('Audio')),
+    (AUDIO_DESC, _('Audio Description')),
+    (CAPTIONS, _('Captions')),
+]
 
 class EditFileForm(ListForm):
     template = 'mediacore.templates.admin.media.file-edit-form'
@@ -77,13 +81,13 @@ class MediaForm(ListForm):
 
     fields = [
         SingleSelectField('podcast', label_text=_('Include in the Podcast'), help_text=_('Optional'), options=lambda: [(None, None)] + DBSession.query(Podcast.id, Podcast.title).all()),
-        TextField('slug', maxlength=50),
-        TextField('title', validator=TextField.validator(not_empty=True), maxlength=255),
-        TextField('author_name', maxlength=50),
-        TextField('author_email', validator=email_validator(not_empty=True), maxlength=255),
-        XHTMLTextArea('description', attrs=dict(rows=5, cols=25)),
-        CategoryCheckBoxList('categories', options=lambda: DBSession.query(Category.id, Category.name).all()),
-        TextArea('tags', attrs=dict(rows=3, cols=15), help_text=_(u'e.g.: puppies, great dane, adorable')),
+        TextField('slug', label_text=_('Slug'), maxlength=50),
+        TextField('title', label_text=_('Title'), validator=TextField.validator(not_empty=True), maxlength=255),
+        TextField('author_name', label_text=_('Author Name'), maxlength=50),
+        TextField('author_email', label_text=_('Author Email'), validator=email_validator(not_empty=True), maxlength=255),
+        XHTMLTextArea('description', label_text=_('Description'), attrs=dict(rows=5, cols=25)),
+        CategoryCheckBoxList('categories', label_text=_('Categories'), options=lambda: DBSession.query(Category.id, Category.name).all()),
+        TextArea('tags', label_text=_('Tags'), attrs=dict(rows=3, cols=15), help_text=_(u'e.g.: puppies, great dane, adorable')),
         TextArea('notes', label_text=_('Additional Notes'), attrs=dict(rows=3, cols=25), default=lambda: app_globals.settings['wording_additional_notes']),
         SubmitButton('save', default=_('Save'), named_button=True, css_classes=['btn', 'btn-save', 'f-rgt']),
         SubmitButton('delete', default=_('Delete'), named_button=True, css_classes=['btn', 'btn-delete', 'f-lft']),
@@ -111,5 +115,7 @@ class PodcastFilterForm(ListForm):
     template = 'mediacore.templates.admin.media.podcast-filter-form'
 
     fields = [SingleSelectField('podcast_filter', suppress_label=True,
-        options=lambda: [('All Media', _('All Media'))] + \
-        DBSession.query(Podcast.id, Podcast.title).all() + [('Unfiled', _('Unfiled'))])]
+        options=lambda: \
+            [('All Media', _('All Media'))] + \
+            DBSession.query(Podcast.id, Podcast.title).all() + \
+            [('Unfiled', _('Unfiled'))])]

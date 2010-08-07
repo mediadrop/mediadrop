@@ -13,23 +13,23 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from pylons.i18n import _
-from genshi.core import Markup
+from pylons.i18n import N_ as _
 from tw.forms import RadioButtonList, SingleSelectField
 from tw.forms.validators import Int, OneOf, StringBool
+from webhelpers.html import literal
 
 from mediacore.forms import ListFieldSet, ListForm, ResetButton, SubmitButton, TextArea, TextField, XHTMLTextArea, email_validator, email_list_validator
 from mediacore.forms.admin.categories import category_options
 
 flash_players = [
-    ('flowplayer', Markup('<a href="http://flowplayer.org">FlowPlayer</a> - <a href="http://flowplayer.org/download/license_gpl.htm">GPL Licence</a> (137kB)')),
-    ('jwplayer', Markup('<a href="http://longtailvideo.com">JWPlayer</a> - <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/">CC Non-Commercial Licence</a> (86kB)')),
+    ('flowplayer', literal('<a href="http://flowplayer.org">FlowPlayer</a> - <a href="http://flowplayer.org/download/license_gpl.htm">GPL Licence</a> (137kB)')),
+    ('jwplayer', literal('<a href="http://longtailvideo.com">JWPlayer</a> - <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/">CC Non-Commercial Licence</a> (86kB)')),
 ]
 html5_players = [
-    ('html5', Markup('<a href="http://diveintohtml5.org/video.html">Plain &lt;video&gt; tag</a> (0kB)')),
-#    ('zencoder-video-js', Markup('<a href="http://videojs.com/">Zencoder Video JS</a> - <a href="http://github.com/zencoder/video-js/blob/master/LICENSE.txt">LGPL License</a> (25kB) - Video only, supports SRT subtitles')),
-#    ('jwplayer-html5', Markup('<a href="http://www.longtailvideo.com/support/jw-player/jw-player-for-html5/">JWPlayer for HTML5</a> - <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/">CC Non-Commercial Licence</a> (126kB)')),
-#    ('sublime', Markup('<a href="http://jilion.com/sublime/video">Sublime</a> - not yet available')),
+    ('html5', literal('<a href="http://diveintohtml5.org/video.html">Plain &lt;video&gt; tag</a> (0kB)')),
+#    ('zencoder-video-js', literal('<a href="http://videojs.com/">Zencoder Video JS</a> - <a href="http://github.com/zencoder/video-js/blob/master/LICENSE.txt">LGPL License</a> (25kB) - Video only, supports SRT subtitles')),
+#    ('jwplayer-html5', literal('<a href="http://www.longtailvideo.com/support/jw-player/jw-player-for-html5/">JWPlayer for HTML5</a> - <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/">CC Non-Commercial Licence</a> (126kB)')),
+#    ('sublime', literal('<a href="http://jilion.com/sublime/video">Sublime</a> - not yet available')),
 ]
 player_types = [
     ('html5', _('Always use the selected HTML5 player')),
@@ -39,7 +39,7 @@ player_types = [
 
 rich_text_editors = [
     ('plain', _('Plain <textarea> fields (0kB)')),
-    ('tinymce', Markup('Enable <a href="http://tinymce.moxiecode.com">TinyMCE</a> for &lt;textarea&gt; fields that accept XHTML input. - <a href="http://wiki.moxiecode.com/index.php/TinyMCE:License">LGPL License</a> (281kB)')),
+    ('tinymce', literal('Enable <a href="http://tinymce.moxiecode.com">TinyMCE</a> for &lt;textarea&gt; fields that accept XHTML input. - <a href="http://wiki.moxiecode.com/index.php/TinyMCE:License">LGPL License</a> (281kB)')),
 ]
 
 def boolean_radiobuttonlist(name, **kwargs):
@@ -57,14 +57,14 @@ class NotificationsForm(ListForm):
     submit_text = None
 
     fields = [
-        ListFieldSet('email', suppress_label=True, legend='Email Notifications:', css_classes=['details_fieldset'], children=[
-            TextField('email_media_uploaded', validator=email_list_validator, label_text='Media Uploaded', maxlength=255),
-            TextField('email_comment_posted', validator=email_list_validator, label_text='Comment Posted', maxlength=255),
-            TextField('email_support_requests', validator=email_list_validator, label_text='Support Requested', maxlength=255),
-            TextField('email_send_from', validator=email_validator, label_text='Send Emails From', maxlength=255),
+        ListFieldSet('email', suppress_label=True, legend=_('Email Notifications:'), css_classes=['details_fieldset'], children=[
+            TextField('email_media_uploaded', validator=email_list_validator, label_text=_('Media Uploaded'), maxlength=255),
+            TextField('email_comment_posted', validator=email_list_validator, label_text=_('Comment Posted'), maxlength=255),
+            TextField('email_support_requests', validator=email_list_validator, label_text=_('Support Requested'), maxlength=255),
+            TextField('email_send_from', validator=email_validator, label_text=_('Send Emails From'), maxlength=255),
         ]),
-        SubmitButton('save', default='Save', css_classes=['btn', 'btn-save', 'f-rgt']),
-        ResetButton('cancel', default='Cancel', css_classes=['btn', 'btn-cancel']),
+        SubmitButton('save', default=_('Save'), css_classes=['btn', 'btn-save', 'f-rgt']),
+        ResetButton('cancel', default=_('Cancel'), css_classes=['btn', 'btn-cancel']),
     ]
 
 class DisplayForm(ListForm):
@@ -75,31 +75,32 @@ class DisplayForm(ListForm):
 
     fields = [
         RadioButtonList('rich_text_editor',
-            label_text='Rich Text Editing',
+            label_text=_('Rich Text Editing'),
             options=rich_text_editors,
             validator=OneOf([x[0] for x in rich_text_editors]),
         ),
         RadioButtonList('player_type',
-            label_text='Preferred Media Player Type for View Pages',
+            label_text=_('Preferred Media Player Type for View Pages'),
             options=player_types,
             validator=OneOf([x[0] for x in player_types]),
         ),
         RadioButtonList('flash_player',
-            label_text='Preferred Flash Player',
+            label_text=_('Preferred Flash Player'),
             options=flash_players,
             validator=OneOf([x[0] for x in flash_players]),
         ),
         RadioButtonList('html5_player',
-            label_text='Preferred HTML5 Player',
+            label_text=_('Preferred HTML5 Player'),
             options=html5_players,
             validator=OneOf([x[0] for x in html5_players]),
         ),
         SingleSelectField('featured_category',
+            label_text=_('Featured Category'),
             options=category_options,
             validator=Int(),
         ),
-        SubmitButton('save', default='Save', css_classes=['btn', 'btn-save', 'f-rgt']),
-        ResetButton('cancel', default='Cancel', css_classes=['btn', 'btn-cancel']),
+        SubmitButton('save', default=_('Save'), css_classes=['btn', 'btn-save', 'f-rgt']),
+        ResetButton('cancel', default=_('Cancel'), css_classes=['btn', 'btn-cancel']),
     ]
 
 class PopularityForm(ListForm):
@@ -112,14 +113,14 @@ class PopularityForm(ListForm):
         ListFieldSet('popularity',
             suppress_label=True,
             css_classes=['details_fieldset'],
-            legend='Popularity Algorithm Variables:',
+            legend=_('Popularity Algorithm Variables:'),
             children=[
-                TextField('popularity_decay_exponent', validator=Int(not_empty=True, min=1), label_text='Decay Exponent'),
-                TextField('popularity_decay_lifetime', validator=Int(not_empty=True, min=1), label_text='Decay Lifetime'),
+                TextField('popularity_decay_exponent', validator=Int(not_empty=True, min=1), label_text=_('Decay Exponent')),
+                TextField('popularity_decay_lifetime', validator=Int(not_empty=True, min=1), label_text=_('Decay Lifetime')),
             ]
         ),
-        SubmitButton('save', default='Save', css_classes=['btn', 'btn-save', 'f-rgt']),
-        ResetButton('cancel', default='Cancel', css_classes=['btn', 'btn-cancel']),
+        SubmitButton('save', default=_('Save'), css_classes=['btn', 'btn-save', 'f-rgt']),
+        ResetButton('cancel', default=_('Cancel'), css_classes=['btn', 'btn-cancel']),
     ]
 
 class MegaByteValidator(Int):
@@ -146,25 +147,25 @@ class UploadForm(ListForm):
     css_class = 'form'
     submit_text = None
     fields = [
-        boolean_radiobuttonlist('use_embed_thumbnails', label_text='Automatically fetch thumbnails from YouTube, Vimeo, etc.'),
-        TextField('max_upload_size', label_text='Max. allowed upload file size in megabytes', validator=MegaByteValidator(not_empty=True, min=0)),
-        ListFieldSet('remote_ftp', suppress_label=True, legend='Remote FTP Storage Settings (Optional)', css_classes=['details_fieldset'], children=[
-            boolean_radiobuttonlist('ftp_storage', label_text='Enable Remote FTP Storage for Uploaded Files?'),
-            TextField('ftp_server', label_text='FTP Server Hostname'),
-            TextField('ftp_user', label_text='FTP Username'),
-            TextField('ftp_password', label_text='FTP Password'),
-            TextField('ftp_upload_directory', label_text='Subdirectory on server to upload to'),
-            TextField('ftp_download_url', label_text='HTTP URL to access remotely stored files'),
-            TextField('ftp_upload_integrity_retries', label_text='How many times should MediaCore try to verify the FTP upload before declaring it a failure?', validator=Int()),
+        boolean_radiobuttonlist('use_embed_thumbnails', label_text=_('Automatically fetch thumbnails from YouTube, Vimeo, etc.')),
+        TextField('max_upload_size', label_text=_('Max. allowed upload file size in megabytes'), validator=MegaByteValidator(not_empty=True, min=0)),
+        ListFieldSet('remote_ftp', suppress_label=True, legend=_('Remote FTP Storage Settings (Optional)'), css_classes=['details_fieldset'], children=[
+            boolean_radiobuttonlist('ftp_storage', label_text=_('Enable Remote FTP Storage for Uploaded Files?')),
+            TextField('ftp_server', label_text=_('FTP Server Hostname')),
+            TextField('ftp_user', label_text=_('FTP Username')),
+            TextField('ftp_password', label_text=_('FTP Password')),
+            TextField('ftp_upload_directory', label_text=_('Subdirectory on server to upload to')),
+            TextField('ftp_download_url', label_text=_('HTTP URL to access remotely stored files')),
+            TextField('ftp_upload_integrity_retries', label_text=_('How many times should MediaCore try to verify the FTP upload before declaring it a failure?'), validator=Int()),
         ]),
-        ListFieldSet('legal_wording', suppress_label=True, legend='Legal Wording:', css_classes=['details_fieldset'], children=[
-            XHTMLTextArea('wording_user_uploads', label_text='User Uploads', attrs=dict(rows=15, cols=25)),
+        ListFieldSet('legal_wording', suppress_label=True, legend=_('Legal Wording:'), css_classes=['details_fieldset'], children=[
+            XHTMLTextArea('wording_user_uploads', label_text=_('User Uploads'), attrs=dict(rows=15, cols=25)),
         ]),
-        ListFieldSet('default_wording', suppress_label=True, legend='Default Form Values:', css_classes=['details_fieldset'], children=[
-            TextArea('wording_additional_notes', label_text='Additional Notes', attrs=dict(rows=3, cols=25)),
+        ListFieldSet('default_wording', suppress_label=True, legend=_('Default Form Values:'), css_classes=['details_fieldset'], children=[
+            TextArea('wording_additional_notes', label_text=_('Additional Notes'), attrs=dict(rows=3, cols=25)),
         ]),
-        SubmitButton('save', default='Save', css_classes=['btn', 'btn-save', 'f-rgt']),
-        ResetButton('cancel', default='Cancel', css_classes=['btn', 'btn-cancel']),
+        SubmitButton('save', default=_('Save'), css_classes=['btn', 'btn-save', 'f-rgt']),
+        ResetButton('cancel', default=_('Cancel'), css_classes=['btn', 'btn-cancel']),
     ]
 
 class AnalyticsForm(ListForm):
@@ -173,11 +174,11 @@ class AnalyticsForm(ListForm):
     css_class = 'form'
     submit_text = None
     fields = [
-        ListFieldSet('google', suppress_label=True, legend='Google Analytics Details:', css_classes=['details_fieldset'], children=[
-            TextField('google_analytics_uacct', maxlength=255, label_text='Tracking Code'),
+        ListFieldSet('google', suppress_label=True, legend=_('Google Analytics Details:'), css_classes=['details_fieldset'], children=[
+            TextField('google_analytics_uacct', maxlength=255, label_text=_('Tracking Code')),
         ]),
-        SubmitButton('save', default='Save', css_classes=['btn', 'btn-save', 'f-rgt']),
-        ResetButton('cancel', default='Cancel', css_classes=['btn', 'btn-cancel']),
+        SubmitButton('save', default=_('Save'), css_classes=['btn', 'btn-save', 'f-rgt']),
+        ResetButton('cancel', default=_('Cancel'), css_classes=['btn', 'btn-cancel']),
     ]
 
 class CommentsForm(ListForm):
@@ -187,11 +188,11 @@ class CommentsForm(ListForm):
     submit_text = None
 
     fields = [
-        boolean_radiobuttonlist('req_comment_approval', label_text='Require comments to be approved by an admin'),
-        ListFieldSet('akismet', suppress_label=True, legend='Akismet Anti-Spam Details:', css_classes=['details_fieldset'], children=[
-            TextField('akismet_key', label_text='Akismet Key'),
-            TextField('akismet_url', label_text='Akismet URL'),
+        boolean_radiobuttonlist('req_comment_approval', label_text=_('Require comments to be approved by an admin')),
+        ListFieldSet('akismet', suppress_label=True, legend=_('Akismet Anti-Spam Details:'), css_classes=['details_fieldset'], children=[
+            TextField('akismet_key', label_text=_('Akismet Key')),
+            TextField('akismet_url', label_text=_('Akismet URL')),
         ]),
-        SubmitButton('save', default='Save', css_classes=['btn', 'btn-save', 'f-rgt']),
-        ResetButton('cancel', default='Cancel', css_classes=['btn', 'btn-cancel']),
+        SubmitButton('save', default=_('Save'), css_classes=['btn', 'btn-save', 'f-rgt']),
+        ResetButton('cancel', default=_('Cancel'), css_classes=['btn', 'btn-cancel']),
     ]
