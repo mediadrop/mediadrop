@@ -19,7 +19,7 @@
       xmlns:py="http://genshi.edgewall.org/"
       xmlns:xi="http://www.w3.org/2001/XInclude"
       py:with="paginator=c.paginators.media">
-<xi:include href="admin/master.html" />
+<xi:include href="../master.html" />
 <head>
 	<title>Media<py:if test="podcast_filter_title is not None"> for ${podcast_filter_title}</py:if></title>
 	<link href="${h.url_for('/admin/styles/media.css')}" media="screen" rel="stylesheet" type="text/css" />
@@ -47,7 +47,7 @@
 			</div>
 			<span class="box-head-sec">${h.doc_link('admin/media', '')}</span>
 		</div>
-		<xi:include href="admin/media/index-table.html" py:with="media=media" />
+		<xi:include href="./index-table.html" py:with="media=media" />
 	</div>
 </body>
 </html>

@@ -19,6 +19,6 @@
       py:strip=""
       py:with="id = defined('id') and id or 'media-table';
                include_thead = not h.request.is_xhr;">
-<xi:include href="_media-table.html" />
+<xi:include href="./_media-table.html" />
 ${media_table(media, fields=['publish_on', 'status', 'type', 'title', 'author'], id=id, include_thead=include_thead, include_pagination=False)}
 </html>

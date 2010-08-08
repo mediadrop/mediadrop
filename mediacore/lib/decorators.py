@@ -73,16 +73,6 @@ def _expose_wrapper(f, template):
         }
         extra_vars.update(result)
 
-        # If the provided template path isn't absolute (ie, doesn't start with
-        # a '/'), then prepend the default search path. By providing the
-        # template path to genshi as an absolute path, we invoke different
-        # rules for the resolution of 'xi:include' paths in the template.
-        # See http://genshi.edgewall.org/browser/trunk/genshi/template/loader.py#L178
-        if not template.startswith('/'):
-            tmpl = os.path.join(config['genshi_search_path'], template)
-        else:
-            tmpl = template
-
         if request.environ.get('paste.testing', False):
             # Make the vars passed from action to template accessible to tests
             request.environ['paste.testing_variables']['tmpl_vars'] = result
@@ -96,7 +86,7 @@ def _expose_wrapper(f, template):
             if response.content_type == 'text/html':
                 response.content_type = 'application/xhtml+xml'
 
-        return render(tmpl, extra_vars=extra_vars)
+        return render(template, extra_vars=extra_vars)
     return wrapped_f
 
 def expose(template='string'):

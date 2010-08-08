@@ -19,7 +19,7 @@
       xmlns:py="http://genshi.edgewall.org/"
       xmlns:xi="http://www.w3.org/2001/XInclude"
       py:with="paginator=c.paginators.podcasts">
-<xi:include href="admin/master.html" />
+<xi:include href="../master.html" />
 <head>
 	<title>Podcasts</title>
 	<link href="${h.url_for('/admin/styles/media.css')}" media="screen" rel="stylesheet" type="text/css" />
@@ -32,7 +32,7 @@
 			<a id="add-btn" href="${h.url_for(action='edit', id='new')}" class="btn btn-add-podcast"><span>Add podcast</span></a>
 			<span class="box-head-sec">${h.doc_link('admin/podcasts', '')}</span>
 		</div>
-		<xi:include href="../podcasts/index-table.html" py:with="podcasts=podcasts" />
+		<xi:include href="./index-table.html" py:with="podcasts=podcasts" />
 	</div>
 </body>
 </html>

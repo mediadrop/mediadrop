@@ -79,9 +79,6 @@ def load_environment(global_conf, app_conf):
     # See docstring in pylons.configuration.PylonsConfig for details.
     config['pylons.strict_tmpl_context'] = False
 
-    # Genshi Default Search Path
-    config['genshi_search_path'] = paths['templates'][0]
-
     config['thumb_sizes'] = { # the dimensions (in pixels) to scale thumbnails
         Media._thumb_dir: {
             's': (128,  72),
