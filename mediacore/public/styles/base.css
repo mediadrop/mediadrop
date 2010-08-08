@@ -346,6 +346,9 @@ a:hover .grid-title,
 a:focus .grid-title {
 	text-decoration: underline;
 }
+a:visited .grid-title {
+	color: #55934a;
+}
 .grid-title,
 .grid-desc,
 .grid-meta {
