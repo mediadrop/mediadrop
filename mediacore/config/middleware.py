@@ -80,9 +80,13 @@ def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
     """
     # Configure the Pylons environment
     config = load_environment(global_conf, app_conf)
+    plugin_mgr = config['pylons.app_globals'].plugin_mgr
 
     # The Pylons WSGI app
     app = PylonsApp(config=config)
+
+    # Allow the plugin manager to tweak our WSGI app
+    app = plugin_mgr.wrap_pylons_app(app)
 
     # Routing/Session/Cache Middleware
     app = RoutesMiddleware(app, config['routes.map'], singleton=False)
@@ -133,7 +137,7 @@ def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
     if asbool(static_files):
         # Serve static files
         static_app = StaticURLParser(config['pylons.paths']['static_files'])
-        app = Cascade([static_app, app])
+        app = Cascade([static_app] + plugin_mgr.static_url_apps() + [app])
 
     app.config = config
     return app

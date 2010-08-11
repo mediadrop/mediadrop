@@ -30,6 +30,7 @@ from mediacore.config.routing import make_map
 from mediacore.lib.auth import classifier_for_flash_uploads
 from mediacore.model import Media, Podcast, init_model
 from mediacore.model.meta import DBSession
+from mediacore.plugin import PluginManager
 
 def load_environment(global_conf, app_conf):
     """Configure the Pylons environment via the ``pylons.config`` object"""
@@ -45,8 +46,13 @@ def load_environment(global_conf, app_conf):
     # Initialize config with the basic options
     config.init_app(global_conf, app_conf, package='mediacore', paths=paths)
 
-    config['routes.map'] = make_map(config)
+    # Initialize the plugin manager to load all active plugins
+    plugin_mgr = PluginManager(config)
+
+    mapper = make_map(config, plugin_mgr.controller_scan)
+    config['routes.map'] = mapper
     config['pylons.app_globals'] = app_globals.Globals(config)
+    config['pylons.app_globals'].plugin_mgr = plugin_mgr
     config['pylons.h'] = mediacore.lib.helpers
 
     # Setup cache object as early as possible
@@ -64,7 +70,7 @@ def load_environment(global_conf, app_conf):
 
     # Create the Genshi TemplateLoader
     config['pylons.app_globals'].genshi_loader = TemplateLoader(
-        search_path=paths['templates'],
+        search_path=paths['templates'] + plugin_mgr.template_loaders(),
         auto_reload=True,
         callback=enable_i18n_for_template,
     )
