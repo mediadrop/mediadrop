@@ -45,6 +45,15 @@ def make_map(config):
         controller='podcasts',
         action='view')
 
+    #sitemaps
+    map.connect('/sitemap.xml', #set google as the default sitemap
+        controller='sitemap',
+        action='google')
+
+    map.connect('/sitemap/mrss.xml',
+        controller='sitemap',
+        action='mrss')
+
     # Categories
     map.connect('/categories/{slug}',
         controller='categories',
