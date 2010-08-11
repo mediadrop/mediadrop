@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--! This file is a part of MediaCore, Copyright 2009 Simple Station Inc.
+
+	MediaCore is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+
+	MediaCore is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/"
+		xmlns:creativeCommons="http://backend.userland.com/creativeCommonsRssModule"
+		xmlns:py="http://genshi.edgewall.org/">
+	<channel>
+		<title py:if="defined('title')" py:content="title" />
+		<link py:content="h.url_for(controller='/media', qualified=True)" />
+		<description py:if="defined('description')" py:content="description" />
+		<item py:for="item in media" py:with="file=h.pick_any_media_file(item)">
+			<title py:content="item.title" />
+			<link py:content="h.url_for(controller='/media', action='view', id=file.id, slug=item.slug, qualified=True)" />
+			<pubDate py:content="item.publish_on.isoformat()" />
+			<description py:content="item.description_plain" />
+			<media:thumbnail url="${h.thumb_url(item, 'l', qualified=True)}" />
+			<media:content py:attrs="dict(url=h.url_for(controller='/media', action='serve', id=file.id, container=file.container, slug=item.slug, qualified=True), duration=item.duration)"  />
+			<media:community>
+				<media:statistics views="${item.views}" />
+				<media:tags py:if="item.tags" py:content=" ', '.join([x.name for x in item.tags ]) " />
+			</media:community>
+			<py:for each="category in item.categories[:1]">
+				<media:category  py:content="category.name" />
+			</py:for>
+		</item>
+   </channel>
+</rss>

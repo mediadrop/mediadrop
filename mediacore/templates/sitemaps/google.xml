@@ -14,46 +14,35 @@
 	You should have received a copy of the GNU General Public License
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
-
 <urlset xmlns:py="http://genshi.edgewall.org/"
 		xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:video="http://www.google.com/schemas/sitemap-video/1.1"> 
-   
-   <url py:for="item in media" py:with="file=h.pick_any_media_file(item)"> 
-     	<loc py:content="h.url_for(controller='/media', action='view', id=file.id, slug=item.slug, qualified=True)"></loc>
-     
-     	<video:video>
-       
-          <video:content_loc py:content="h.url_for(controller='/media', action='serve', id=file.id, container=file.container, slug=item.slug, qualified=True)" /> 
-       
-       	  <video:thumbnail_loc py:content="h.thumb_url(item, 'l', qualified=True)" />
-       
-          <video:title py:content="item.title" />
-          <video:description py:content="item.description_plain" /> 
-
-          <video:view_count py:content="item.views" />
-           
-          <video:publication_date py:content="item.publish_on.isoformat()" />
-          <video:expiration_date py:if="item.publish_until" py:content="item.publish_until.isoformat()" />
-       
-          <py:for each="tag in item.tags[:32]">
-       		<video:tag py:content="tag.name" />
-          </py:for>
-       
-          <py:for each="category in item.categories[:1]">
-        		<video:tag py:content="category.name" />
-          </py:for>
-          
-       	  <video:duration py:content="item.duration" /> 
-          
-          <!--! # left out for now, maybe supported in the future ??
-          <video:player_loc allow_embed="yes" autoplay="ap=1">http://www.example.com/videoplayer.swf?video=123</video:player_loc>
-       	   <video:rating>4.2</video:rating>
-	       <video:family_friendly>yes</video:family_friendly>
-    	   <video:restriction relationship="allow">IE GB US CA</video:restriction> 
-	       -->
-                
-    	</video:video>
-     
+		xmlns:video="http://www.google.com/schemas/sitemap-video/1.1"> 
+	<url py:for='location in ("", "categories", "media", "podcasts", "upload", "media?show=popular", "media?show=popular")'>
+		<loc py:content=" '%s%s' % (h.url_for(controller='/', qualified=True), location)" />
+	</url>
+	<url py:for="item in media" py:with="file=h.pick_any_media_file(item)"> 
+		<loc py:content="h.url_for(controller='/media', action='view', id=file.id, slug=item.slug, qualified=True)"></loc>
+		<video:video>
+			<video:content_loc py:content="h.url_for(controller='/media', action='serve', id=file.id, container=file.container, slug=item.slug, qualified=True)" /> 
+			<video:thumbnail_loc py:content="h.thumb_url(item, 'l', qualified=True)" />
+			<video:title py:content="item.title" />
+			<video:description py:content="item.description_plain" /> 
+			<video:view_count py:content="item.views" />
+			<video:publication_date py:content="item.publish_on.isoformat()" />
+			<video:expiration_date py:if="item.publish_until" py:content="item.publish_until.isoformat()" />
+			<py:for each="tag in item.tags[:32]">
+				<video:tag py:content="tag.name" />
+			</py:for>
+			<py:for each="category in item.categories[:1]">
+				<video:tag py:content="category.name" />
+			</py:for>
+			<video:duration py:content="item.duration" /> 
+			<!--! # left out for now, maybe supported in the future ??
+			<video:player_loc allow_embed="yes" autoplay="ap=1">http://www.example.com/videoplayer.swf?video=123</video:player_loc>
+			<video:rating>4.2</video:rating>
+			<video:family_friendly>yes</video:family_friendly>
+			<video:restriction relationship="allow">IE GB US CA</video:restriction>
+			--> 
+		</video:video>
 	</url> 
 </urlset>
