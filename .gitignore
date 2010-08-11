@@ -10,3 +10,6 @@ MediaCore.egg-info
 mediacore.egg-info
 dist
 *.egg
+env
+test.ini
+.pydev*
