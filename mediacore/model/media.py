@@ -100,6 +100,12 @@ media_files = Table('media_files', metadata,
     Column('created_on', DateTime, default=datetime.now, nullable=False),
     Column('modified_on', DateTime, default=datetime.now, onupdate=datetime.now, nullable=False),
 
+    Column('rtmp_stream_url', Unicode(255)),
+    Column('rtmp_file_name', Unicode(255)),
+    Column('max_bitrate', Integer),
+    Column('width', Integer),
+    Column('height', Integer),
+
     mysql_engine='InnoDB',
     mysql_charset='utf8',
 )
@@ -433,9 +439,11 @@ class Media(object):
 
     @property
     def downloadable_file(self):
-        if not self.files or not self.type:
+        http_files = [f for f in self.files if not f.is_rtmp]
+
+        if not http_files or not self.type:
             return None
-        primaries = [file for file in self.files if file.type == self.type]
+        primaries = [file for file in http_files if file.type == self.type]
         primaries.sort(key=lambda file: file.size)
         if not primaries or primaries[-1].embed:
             return None
@@ -549,6 +557,10 @@ class MediaFile(object):
         return '<MediaFile: %s %s url=%s>' % (self.type, self.container, self.http_url)
 
     @property
+    def is_rtmp(self):
+        return self.rtmp_stream_url is not None
+
+    @property
     def mimetype(self):
         """The best-guess mimetype based on this file's container format.
 
@@ -570,7 +582,10 @@ class MediaFile(object):
 
         This MAY return a different URL than the link_url property.
         """
-        if self.http_url is not None:
+        if self.is_rtmp:
+            # This isn't really useful, but we might as well output something.
+            return u'/'.join((self.rtmp_stream_url, self.rtmp_file_name))
+        elif self.http_url is not None:
             return self.http_url
         elif self.embed is not None:
             return external_embedded_containers[self.container]['play'] % self.embed
@@ -588,7 +603,9 @@ class MediaFile(object):
 
         This MAY return a different URL than the play_url property.
         """
-        if self.http_url is not None:
+        if self.is_rtmp:
+            return u'/'.join((self.rtmp_stream_url, self.rtmp_file_name))
+        elif self.http_url is not None:
             return self.http_url
         elif self.embed is not None:
             return external_embedded_containers[self.container]['link'] % self.embed
