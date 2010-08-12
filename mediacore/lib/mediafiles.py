@@ -145,7 +145,7 @@ def media_file_from_url(url):
         name, ext, container = base_ext_container_from_uri(url)
         media_file.type = guess_media_type(ext)
         media_file.container = container
-        media_file.url = url
+        media_file.http_url = url
         media_file.display_name = os.path.basename(url)
 
     return media_file, thumb_url, duration, title
@@ -164,7 +164,7 @@ def media_file_from_filename(filename):
     media_file.type = guess_media_type(ext)
 
     # File has not been stored. It has neither URL nor Filename.
-    media_file.url = None
+    media_file.http_url = None
     media_file.file_name = None
 
     return media_file
@@ -198,7 +198,7 @@ def attach_and_store_media_file(media, media_file, file):
 
     if file_url:
         # The file has been stored remotely
-        media_file.url = file_url
+        media_file.http_url = file_url
     else:
         # The file is stored locally and we just need its name
         media_file.file_name = file_name

@@ -283,8 +283,8 @@ class MediaController(BaseController):
         for file in media.files:
             if file.id == int(id) and file.container == container:
                 # Catch external redirects in case they aren't linked to directly
-                if file.url:
-                    redirect(file.url.encode('utf-8'))
+                if file.http_url:
+                    redirect(file.http_url.encode('utf-8'))
                 elif file.embed:
                     redirect(file.link_url())
 

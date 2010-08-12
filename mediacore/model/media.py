@@ -93,7 +93,7 @@ media_files = Table('media_files', metadata,
     Column('container', Unicode(10), nullable=False),
     Column('display_name', Unicode(255), nullable=False),
     Column('file_name', Unicode(255)),
-    Column('url', Unicode(255)),
+    Column('http_url', Unicode(255)),
     Column('embed', Unicode(50)),
     Column('size', Integer),
 
@@ -546,7 +546,7 @@ class MediaFile(object):
     query = DBSession.query_property()
 
     def __repr__(self):
-        return '<MediaFile: %s %s url=%s>' % (self.type, self.container, self.url)
+        return '<MediaFile: %s %s url=%s>' % (self.type, self.container, self.http_url)
 
     @property
     def mimetype(self):
@@ -570,8 +570,8 @@ class MediaFile(object):
 
         This MAY return a different URL than the link_url property.
         """
-        if self.url is not None:
-            return self.url
+        if self.http_url is not None:
+            return self.http_url
         elif self.embed is not None:
             return external_embedded_containers[self.container]['play'] % self.embed
         else:
@@ -588,8 +588,8 @@ class MediaFile(object):
 
         This MAY return a different URL than the play_url property.
         """
-        if self.url is not None:
-            return self.url
+        if self.http_url is not None:
+            return self.http_url
         elif self.embed is not None:
             return external_embedded_containers[self.container]['link'] % self.embed
         else:
