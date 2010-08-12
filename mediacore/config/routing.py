@@ -46,11 +46,16 @@ def make_map(config):
         action='view')
 
     #sitemaps
-    map.connect('/sitemap.xml', #set google as the default sitemap
+    map.connect('/sitemap.xml',
         controller='sitemap',
-        action='google')
+        action='sitemap')
+    
+    map.connect('/sitemap{page}.xml',
+        controller='sitemap',
+        action='sitemap',
+        requirements={'page': r'\d+'})
 
-    map.connect('/sitemap/mrss.xml',
+    map.connect('/mrss.xml',
         controller='sitemap',
         action='mrss')
 

@@ -32,6 +32,7 @@ from mediacore.model import (DBSession, fetch_row, get_available_slug,
 from mediacore.lib import helpers, email
 from mediacore import USER_AGENT
 
+import math
 import logging
 log = logging.getLogger(__name__)
 
@@ -41,11 +42,18 @@ class SitemapController(BaseController):
     Sitemap generation
     """
 
-    @expose('sitemaps/google.xml')
-    def google(self, *args, **kwargs):
-        """ Generate a google compatible Video Sitemap """
+    @expose('sitemaps/sitemap.xml')
+    def sitemap(self, page=None, limit=10000, *args, **kwargs):
+        """ Generate a sitemap which contains googles Video Sitemap information
         
-        #TODO:  check and handle sitemap size limits
+        :param page: Page number, defaults to 1.
+        :type page: int
+        
+        :param page: max records to display on page, defaults to 10000.
+        :type page: int
+        
+        """
+        
         response.content_type = mimeparse.best_match(
             ['application/rss+xml', 'application/xml', 'text/xml'],
             request.environ.get('HTTP_ACCEPT', '*/*')
@@ -53,10 +61,15 @@ class SitemapController(BaseController):
         
         media = Media.query.published()\
             .options(orm.undefer('comment_count_published'))
-            
-        return dict(media=media)
-    
-    index = google
+
+        if page is None:
+            if media.count() > limit:
+                return dict(pages=math.ceil(media.count() / float(limit)))
+        else:
+            page = int(page)
+            media = media.offset(page*limit).limit(limit)
+
+        return dict(media=media, page=page)
     
     @expose('sitemaps/mrss.xml')
     def mrss(self, *args,  **kwargs):
@@ -70,5 +83,5 @@ class SitemapController(BaseController):
         media = Media.query.published()\
             .options(orm.undefer('comment_count_published'))
             
-        return dict(media=media)
+        return dict(media=media, title="Video Feed")
         

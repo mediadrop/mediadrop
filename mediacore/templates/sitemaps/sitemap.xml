@@ -14,10 +14,18 @@
 	You should have received a copy of the GNU General Public License
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<urlset xmlns:py="http://genshi.edgewall.org/"
+<sitemap xmlns:py="http://genshi.edgewall.org/" py:strip="True">
+
+<sitemapindex py:if="defined('pages')" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+	<sitemap py:for="page in range(0, pages)">
+		<loc py:content="h.url_for(controller='/sitemap%s.xml' % page, qualified=True)" />
+	</sitemap>
+</sitemapindex>
+
+<urlset py:if="defined('media')" 
 		xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
 		xmlns:video="http://www.google.com/schemas/sitemap-video/1.1"> 
-	<url py:for='location in ("", "categories", "media", "podcasts", "upload", "media?show=popular", "media?show=popular")'>
+	<url py:if="page in (None, 0)" py:for='location in ("", "categories", "media", "podcasts", "upload", "media?show=popular", "media?show=popular")'>
 		<loc py:content=" '%s%s' % (h.url_for(controller='/', qualified=True), location)" />
 	</url>
 	<url py:for="item in media" py:with="file=h.pick_any_media_file(item)"> 
@@ -46,3 +54,5 @@
 		</video:video>
 	</url> 
 </urlset>
+
+</sitemap>
