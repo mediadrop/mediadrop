@@ -200,7 +200,7 @@ def add_default_data():
         218,
         u'http://getmediacore.com/files/tutorial-workflow-in-mediacore.mp4',
         u'video',
-        u'flv',
+        u'mp4',
         ),
         (u'creating-a-podcast-in-mediacore',
         u'Creating a Podcast in MediaCore',
@@ -210,7 +210,7 @@ def add_default_data():
         100,
         u'http://getmediacore.com/files/tutorial-create-podcast-in-mediacore.mp4',
         u'video',
-        u'flv',
+        u'mp4',
         ),
         (u'adding-a-video-in-mediacore',
         u'Adding a Video in MediaCore',
@@ -220,7 +220,7 @@ def add_default_data():
         169,
         u'http://getmediacore.com/files/tutorial-add-video-in-mediacore.mp4',
         u'video',
-        u'flv',
+        u'mp4',
         ),
     ]
 
