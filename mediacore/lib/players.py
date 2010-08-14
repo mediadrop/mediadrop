@@ -35,14 +35,17 @@ class Player(object):
     is_embed = False
     is_html5 = False
 
+    supports_rtmp = False
+    supports_http = False
+
     _width_diff = 0
     _height_diff = 0
 
-    def __init__(self, media, file, browser, width=400, height=225,
+    def __init__(self, media, files, browser, width=400, height=225,
                  autoplay=False, autobuffer=False, qualified=False,
                  fallback=None):
         self.media = media
-        self.file = file
+        self.file = files[0]
         self.browser = Browser(name=browser[0], version=browser[1])
         self.width = width
         self.height = height
@@ -75,6 +78,7 @@ class Player(object):
 class FlowPlayer(Player):
     """Flash-based FlowPlayer"""
     is_flash = True
+    supports_http = True
 
     # Height adjustment in pixels to accomodate the control bar and stay 16:9
     _height_diff = 24
@@ -115,6 +119,7 @@ class FlowPlayer(Player):
 class JWPlayer(Player):
     """Flash-based JWPlayer -- this can play YouTube videos!"""
     is_flash = True
+    supports_http = True
     providers = {
         AUDIO: 'sound',
         VIDEO: 'video',
@@ -207,6 +212,7 @@ class HTML5Player(Player):
 
     """
     is_html5 = True
+    supports_http = True
 
     def html5_attrs(self):
         attrs = {
@@ -356,37 +362,10 @@ def pick_media_file_player(media, browser=None, version=None, user_agent=None,
     :type include_embedded: bool
     :returns: A :class:`~mediacore.lib.players.Player` instance or None
     :rtype: tuple
-
     """
     files = ordered_playable_files(media.files)
-
-    # Only proceed if this file is a playable type.
     if not files:
         return None
-
-    def get_html5_player():
-        html5_supported_containers = [
-            container
-            for container, codecs
-            in native_supported_types(browser, version)
-        ]
-        for file in files:
-            if file.container in html5_supported_containers:
-                return file, players[html5_player]
-        return None, None
-
-    def get_flash_player():
-        if browser in flash_supported_browsers:
-            for file in files:
-                if file.container in flash_supported_containers:
-                    return file, players[flash_player]
-        return None, None
-
-    def get_embedded_player():
-        for file in files:
-            if file.container in external_embedded_containers:
-                return file, players[file.container]
-        return None, None
 
     if browser is None:
         browser, version = parse_user_agent_version(user_agent)
@@ -394,79 +373,127 @@ def pick_media_file_player(media, browser=None, version=None, user_agent=None,
     if player_type is None:
         player_type = app_globals.settings['player_type']
 
+    browser_supports_flash = browser in flash_supported_browsers
+    html5_supported_containers = [
+        container
+        for container, codecs
+        in native_supported_types(browser, version)
+    ]
+
+    def get_playable_files(supported_containers):
+        playable_files = [file for file in files if file.container in supported_containers]
+        rtmp_playable_files = [file for file in playable_files if file.is_rtmp]
+        http_playable_files = [file for file in playable_files if not file.is_rtmp]
+        return rtmp_playable_files, http_playable_files
+
+    def get_files_player(player, rtmp_playable_files, http_playable_files):
+        """Return a list of playable MediaFile objects (or None) and an associated Player subclass (or None).
+
+        The list will contain only RTMP files if possible, and only HTTP files otherwise."""
+        if player:
+            if player.supports_rtmp and rtmp_playable_files:
+                return rtmp_playable_files, player
+            elif player.supports_http and http_playable_files:
+                return http_playable_files, player
+        return None, None
+
+    def get_html5_player():
+        """Return a list of MediaFile objects and an associated HTML5 Player."""
+        player = players[html5_player]
+        rtmp_playable_files, http_playable_files = get_playable_files(html5_supported_containers)
+        return get_files_player(player, rtmp_playable_files, http_playable_files)
+
+    def get_flash_player():
+        """Return a list of MediaFile objects and an associated Flash Player."""
+        if browser_supports_flash:
+            player = players[flash_player]
+            rtmp_playable_files, http_playable_files = get_playable_files(flash_supported_containers)
+            return get_files_player(player, rtmp_playable_files, http_playable_files)
+        return None, None
+
+    def get_embedded_player():
+        """Return a list of MediaFile objects and an associated Embedded Player"""
+        # We don't really track rtmp, http, or alternative files for embedded
+        # videos. Playback is based on the MediaFile.embed field.
+        # This method will just return the first embeddable file and its player
+        useless_files, playable_files = get_playable_files(external_embedded_containers)
+        if playable_files:
+            playable_files = playable_files[:1]
+            player = players[playable_files[0].container]
+            return playable_files, player
+        return None, None
+
     html5_player = app_globals.settings['html5_player']
     flash_player = app_globals.settings['flash_player']
 
-    file, player = None, None
-    ef_file, ef_player = None, None
-    eh_file, eh_player = None, None
+    chosen_files, player = None, None
+    ef_files, ef_player = None, None
+    eh_files, eh_player = None, None
 
     if player_type == 'html5':
-        file, player = get_html5_player()
+        chosen_files, player = get_html5_player()
 
     elif player_type == 'best':
         # Prefer embedded videos with a HTML5 player
         # FIXME: Ignores client browser support for HTML5.
         if include_embedded:
-            file, player = get_embedded_player()
+            chosen_files, player = get_embedded_player()
             if player is not None and not player.is_html5:
-                ef_file, ef_player = file, player
-                file, player = None, None
+                ef_files, ef_player = chosen_files, player
+                chosen_files, player = None, None
 
         # Fall back to hosted videos with an HTML5 player
         if player is None:
-            file, player = get_html5_player()
+            chosen_files, player = get_html5_player()
 
         # Fall back to embedded videos with a Flash player
         if player is None \
         and include_embedded \
-        and browser in flash_supported_browsers:
-            file, player = ef_file, ef_player
+        and browser_supports_flash:
+            chosen_files, player = ef_files, ef_player
 
         # Fall back to hosted videos with a Flash player
         if player is None:
-            file, player = get_flash_player()
+            chosen_files, player = get_flash_player()
 
         # Fall back to embedded videos with a Flash player, even if the
         # client browser doesn't support Flash. This ignorance is a last ditch
         # effort to allow devices to specially handle YouTube, Vimeo, et al.
         # e.g. It allows iPhones to display YouTube videos.
         if player is None and include_embedded:
-            file, player = ef_file, ef_player
+            chosen_files, player = ef_files, ef_player
 
     elif player_type == 'flash':
-        ef_file, ef_player = None, None
-
         # Prefer embedded videos with a Flash player
         if include_embedded:
-            file, player = get_embedded_player()
+            chosen_files, player = get_embedded_player()
             if player is not None:
-                if player.is_flash and browser not in flash_supported_browsers:
-                    ef_file, ef_player = file, player
-                    file, player = None, None
+                if player.is_flash and not browser_supports_flash:
+                    ef_files, ef_player = chosen_files, player
+                    chosen_files, player = None, None
                 elif not player.is_flash:
-                    eh_file, eh_player = file, player
-                    file, player = None, None
+                    eh_files, eh_player = chosen_files, player
+                    chosen_files, player = None, None
 
         # Fall back to hosted videos with a Flash player
         if player is None:
-            file, player = get_flash_player()
+            chosen_files, player = get_flash_player()
 
         # Fall back to embedded videos with an HTML5 player
         # FIXME: Ignores client browser support for HTML5.
         if player is None and include_embedded:
-            file, player = eh_file, eh_player
+            chosen_files, player = eh_files, eh_player
 
         # Fall back to hosted videos with an HTML5 player
         if player is None:
-            file, player = get_html5_player()
+            chosen_files, player = get_html5_player()
 
         # Fall back to embedded videos with a Flash player, even if the
         # client browser doesn't support Flash. This ignorance is a last ditch
         # effort to allow devices to specially handle YouTube, Vimeo, et al.
         # e.g. It allows iPhones to display YouTube videos.
         if player is None and include_embedded:
-            file, player = ef_file, ef_player
+            chosen_files, player = ef_files, ef_player
 
     if player is None:
         return None
@@ -482,7 +509,7 @@ def pick_media_file_player(media, browser=None, version=None, user_agent=None,
             fallback = players[html5_player]
 
     # Instantiate the players
-    player_args = (media, file, (browser, version))
+    player_args = (media, chosen_files, (browser, version))
     if fallback:
         player_kwargs['fallback'] = fallback(*player_args, **player_kwargs)
     player_obj = player(*player_args, **player_kwargs)
