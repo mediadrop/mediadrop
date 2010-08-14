@@ -120,6 +120,7 @@ class JWPlayer(Player):
     """Flash-based JWPlayer -- this can play YouTube videos!"""
     is_flash = True
     supports_http = True
+    supports_rtmp = True
     providers = {
         AUDIO: 'sound',
         VIDEO: 'video',
@@ -151,21 +152,29 @@ class JWPlayer(Player):
         if self.is_youtube_on_ipod():
             return {}
 
+        youtube = self.file.container == 'youtube'
+        rtmp = self.file.is_rtmp
+        audio_desc = self.media.audio_desc
+        captions = self.media.captions
+
         vars = {
             'image': thumb_url(self.media, 'l', qualified=self.qualified),
             'autostart': self.autoplay,
         }
-
-        if self.file.container == 'youtube':
+        if youtube:
             vars['provider'] = 'youtube'
             vars['file'] = self.file.link_url(qualified=self.qualified)
+        elif rtmp:
+            vars['provider'] = 'rtmp'
+            vars['file'] = self.file.rtmp_file_name
+            vars['streamer'] = self.file.rtmp_stream_url
         else:
             vars['provider'] = self.providers[self.file.type]
             vars['file'] = self.file.play_url(qualified=self.qualified)
 
         plugins = []
-        audio_desc = self.media.audio_desc
-        captions = self.media.captions
+        if rtmp:
+            plugins.append('rtmp')
         if audio_desc:
             plugins.append('audiodescription');
             vars['audiodescription.file'] = audio_desc.play_url(qualified=self.qualified)
