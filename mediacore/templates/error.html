@@ -29,20 +29,21 @@
 		<h1>Whoopsadaisy!</h1>
 		<py:choose test="code">
 			<py:when test="404">
-		<p>We can't find this page. The page may have been moved or removed.</p>
-		<p>If you typed the address in, check the spelling.</p>
+				<p>We can't find this page. The page may have been moved or removed.</p>
+				<p>If you typed the address in, check the spelling.</p>
 			</py:when>
 			<py:otherwise py:replace="XML(message)" />
 		</py:choose>
 
 		<h2>You have a few options:</h2>
 		<ol>
-			<li>Return to the <a href="/">homepage</a>.</li>
+			<li>Return to the <a href="${h.url_for('/')}">homepage</a>.</li>
 			<li>Return to the <a href="${h.url_for(controller='/media', action='index')}">media page</a>.</li>
 			<li>Fill out an error report below.</li>
 		</ol>
 
 		<form action="${h.url_for(controller='error', action='report')}" method="post">
+			<input py:for="x in vars" id="${x}" name="${x}" value="${vars[x]}" type="hidden" />
 			<div>
 				<label for="email">Email: (so we can contact you if we find it!)</label>
 				<input type="text" class="text" name="email" id="email" />
@@ -54,7 +55,6 @@
 			<div>
 				<input class="btn btn3 btn-report-error f-rgt" type="submit" value="Submit Error Report" />
 			</div>
-			<input py:for="x in vars" id="${x}" name="${x}" value="${vars[x]}" type="hidden" />
 		</form>
 
 	</div>
