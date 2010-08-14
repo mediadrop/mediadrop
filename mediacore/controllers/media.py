@@ -193,6 +193,34 @@ class MediaController(BaseController):
             comment_form_values = kwargs,
         )
 
+    @expose('media/jwplayer_rtmp_mrss.xml')
+    def jwplayer_rtmp_mrss(self, slug, **kwargs):
+        """List the rtmp-playable files associated with this media item
+
+        :param slug: The :attr:`~mediacore.models.media.Media.slug` to lookup
+        :rtype dict:
+        :returns:
+            media
+                The :class:`~mediacore.model.media.Media` instance for display.
+            files
+                A list of :class:`~mediacore.model.media.MediaFile` instances to display.
+
+        """
+        media = fetch_row(Media, slug=slug)
+
+        from mediacore.lib.players import ordered_playable_files
+        files = [
+            file
+            for file in ordered_playable_files(media.files)
+            if file.is_rtmp
+        ]
+
+        response.headers['Content-Type'] = 'application/rss+xml; charset=UTF-8'
+        return dict(
+            media = media,
+            files = files,
+        )
+
     @expose()
     def rate(self, slug, **kwargs):
         """Say 'I like this' for the given media.

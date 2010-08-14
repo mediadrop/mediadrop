@@ -46,6 +46,7 @@ class Player(object):
                  fallback=None):
         self.media = media
         self.file = files[0]
+        self.files = files
         self.browser = Browser(name=browser[0], version=browser[1])
         self.width = width
         self.height = height
@@ -165,9 +166,16 @@ class JWPlayer(Player):
             vars['provider'] = 'youtube'
             vars['file'] = self.file.link_url(qualified=self.qualified)
         elif rtmp:
+            if len(self.files) > 1:
+                # For multiple RTMP bitrates, use Media RSS playlist
+                vars = {}
+                from mediacore.lib.helpers import url_for
+                vars['playlistfile'] = url_for(controller='/media', action='jwplayer_rtmp_mrss', slug=self.media.slug)
+            else:
+                # For a single RTMP stream, use regular Flash vars.
+                vars['file'] = self.file.rtmp_file_name
+                vars['streamer'] = self.file.rtmp_stream_url
             vars['provider'] = 'rtmp'
-            vars['file'] = self.file.rtmp_file_name
-            vars['streamer'] = self.file.rtmp_stream_url
         else:
             vars['provider'] = self.providers[self.file.type]
             vars['file'] = self.file.play_url(qualified=self.qualified)
