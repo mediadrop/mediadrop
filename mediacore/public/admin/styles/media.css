@@ -113,27 +113,56 @@ a.published { background-image: url('../images/statuses/published-both.png'); }
 #fmgr thead tr th {
 	border-top: 0;
 }
+#fmgr th, #fmgr td {
+	padding-right: 0px;
+}
 #fmgr th#thf-size,
 #fmgr td[headers='thf-size'] {
 	white-space: nowrap;
 	text-align: right;
 }
-#fmgr th#thf-delete,
-#fmgr td[headers='thf-delete'] {
-	padding-left: 2px;
-}
 #fmgr th#thf-duration,
 #fmgr td[headers='thf-duration'] {
 	text-align: center;
 }
+#fmgr th#thf-max-bitrate,
+#fmgr td[headers='thf-max-bitrate'] {
+	text-align: center;
+}
+#fmgr th#thf-width,
+#fmgr td[headers='thf-width'] {
+	text-align: center;
+}
+#fmgr th#thf-height,
+#fmgr td[headers='thf-height'] {
+	text-align: center;
+}
+#fmgr th#thf-delete,
+#fmgr td[headers='thf-delete'] {
+	padding-right: 10px;
+}
+
 #fmgr input[name="duration"] {
 	width: 50px;
+	text-align: right;
+}
+#fmgr input[name="max_bitrate"] {
+	width: 40px;
+	text-align: right;
+}
+#fmgr input[name="width"] {
+	width: 35px;
+	text-align: right;
+}
+#fmgr input[name="height"] {
+	width: 35px;
 	text-align: right;
 }
 #fmgr select[name="file_type"] {
 	width: 105px;
 	padding-right: 5px;
 }
+
 #fmgr .fmgr-upload-progress {
 	width: 105px;
 }
@@ -163,7 +192,7 @@ a.published { background-image: url('../images/statuses/published-both.png'); }
 #fmgr .url-container .overTxtLabel,
 #fmgr #file-label {
 	float: left;
-	width: 400px;
+	width: 580px;
 	color: #8b8b8b;
 	height: 21px;
 	line-height: 24px;

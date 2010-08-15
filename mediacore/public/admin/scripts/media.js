@@ -288,7 +288,12 @@ var FileManager = new Class({
 		onFileEdited: function(json, row, target),
 		onFileDeleted: function(json, row), */
 		editURL: '',
-		modal: {squeezeBox: {zIndex: 10000}},
+		modal: {
+			squeezeBox: {
+				zIndex: 10000,
+				size: {x: 830, y: 450}
+			}
+		},
 		deleteConfirmMsg: function(name){ return "Are you sure you want to delete this file?\n\n" + name; },
 		uploadQueueRow: {'class': 'uploading'},
 		uploadCancelBtn: {
@@ -335,10 +340,13 @@ var FileManager = new Class({
 	_attachFile: function(row){
 		row.getElement('input.file-delete').addEvent('click', this.editFile.bind(this));
 		row.getElement('select[name=file_type]').addEvent('change', this.editFile.bind(this));
-		var duration = row.getElement('input[name=duration]').addEvents({
-			keyup: this.syncDurations.bind(this),
-			blur: this.editFile.bind(this)
-		});
+		// Set up all on-blur events for text fields
+		row.getElements('input.textfield').each(function(el) {
+			el.addEvent('blur', this.editFile.bind(this));
+		}, this);
+		// Custom handling for the duration row.
+		var duration = row.getElement('input[name=duration]');
+		duration.addEvent('keyup', this.syncDurations.bind(this));
 		this.durationInputs.push(duration);
 		return row;
 	},
@@ -541,6 +549,9 @@ var FileManager = new Class({
 			name: new Element('td', {headers: 'thf-name', text: file.name}),
 			size: new Element('td', {headers: 'thf-size', text: (file.size == '-') ? '-' : Swiff.Uploader.formatUnit(file.size, 'b')}),
 			duration: new Element('td', {headers: 'thf-duration', text: '-'}),
+			bitrate: new Element('td', {headers: 'thf-max-bitrate', text: '-'}),
+			width: new Element('td', {headers: 'thf-width', text: '-'}),
+			height: new Element('td', {headers: 'thf-height', text: '-'}),
 			type: new Element('td', {headers: 'thf-type', text: file.typeText || 'Queued'}),
 			del: new Element('td', {headers: 'thf-delete'}).grab(cancelBtn)
 		});

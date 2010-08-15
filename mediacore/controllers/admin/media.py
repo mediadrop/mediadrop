@@ -339,17 +339,15 @@ class MediaController(BaseController):
 
 
     @expose('json')
-    @validate(validators={'file_id': validators.Int()})
-    def edit_file(self, id, file_id, file_type=None, duration=None, delete=None, **kwargs):
+    @validate(edit_file_form)
+    def edit_file(self, id, file_id, file_type=None, duration=None, delete=None, max_bitrate=None, width=None, height=None, **kwargs):
         """Save action for the :class:`~mediacore.forms.admin.media.EditFileForm`.
 
         Changes or delets a :class:`~mediacore.model.media.MediaFile`.
 
-        TODO: Use the form validators to validate this form. We only
-              POST one field at a time, so the validate decorator doesn't
-              work, because it doesn't work for partial validation, because
-              none of the kwargs are updated if an Invalid exception is
-              raised by any validator.
+        XXX: If the edit_file_form schema did not validate, we will be passed
+             the unvalidated keyword arguments. This is handled in the second
+             case in the if-elif-block below.
 
         :param id: Media ID
         :type id: :class:`int`
@@ -366,6 +364,7 @@ class MediaController(BaseController):
         """
         media = fetch_row(Media, id)
         data = dict(success=False)
+        file_id = int(file_id) # Just in case validation failed somewhere.
 
         try:
             file = [file for file in media.files if file.id == file_id][0]
@@ -374,18 +373,26 @@ class MediaController(BaseController):
 
         if file is None:
             data['message'] = _('File "%s" does not exist.') % file_id
+        elif tmpl_context.form_errors:
+            # Catch the case where the form did not validate.
+            # Here, we choose to just display the first error, if there is one.
+            data['message'] = tmpl_context.form_errors.values()[0]
         elif file_type:
             file.type = file_type
             data['success'] = True
         elif duration is not None:
-            try:
-                duration = helpers.duration_to_seconds(duration)
-            except ValueError:
-                data['message'] = _('Bad duration formatting, use Hour:Min:Sec')
-            else:
-                media.duration = duration
-                data['success'] = True
-                data['duration'] = helpers.duration_from_seconds(duration)
+            media.duration = duration
+            data['success'] = True
+            data['duration'] = helpers.duration_from_seconds(duration)
+        elif width is not None:
+            file.width = width
+            data['success'] = True
+        elif height is not None:
+            file.height = height
+            data['success'] = True
+        elif max_bitrate is not None:
+            file.max_bitrate = max_bitrate
+            data['success'] = True
         elif delete:
             file_path = file.file_path
             DBSession.delete(file)

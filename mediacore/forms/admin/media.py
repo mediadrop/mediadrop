@@ -13,6 +13,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import formencode
+
 from pylons import app_globals
 from pylons.i18n import _
 from tw.api import WidgetsList
@@ -35,8 +37,9 @@ class DurationValidator(FancyValidator):
         try:
             return helpers.duration_to_seconds(value)
         except ValueError:
-            raise formencode.Invalid(_('Please use the format HH:MM:SS'),
-                                     value, state)
+            raise formencode.Invalid(
+                # XXX: THIS CREATES A BUG: Colons in formencode.Invalid messages are not allowed.
+                _('Bad duration formatting, use Hour:Min:Sec'), value, state)
 
     def _from_python(self, value, state):
         return helpers.duration_from_seconds(value)
@@ -61,8 +64,12 @@ class EditFileForm(ListForm):
     params = ['file']
 
     class fields(WidgetsList):
-        file_type = SingleSelectField(options=file_type_options, attrs={'id': None, 'autocomplete': 'off'})
-        duration = TextField(validator=DurationValidator, attrs={'id': None, 'autocomplete': 'off'})
+        file_id = TextField(validator=Int())
+        file_type = SingleSelectField(validator=OneOf((x[0] for x in file_type_options), if_missing=None), options=file_type_options, attrs={'id': None, 'autocomplete': 'off'})
+        duration = TextField(validator=DurationValidator(if_missing=None), attrs={'id': None, 'autocomplete': 'off'})
+        width = TextField(validator=Int(if_missing=None), attrs={'id': None, 'autocomplete': 'off'})
+        height = TextField(validator=Int(if_missing=None), attrs={'id': None, 'autocomplete': 'off'})
+        max_bitrate = TextField(validator=Int(if_missing=None), attrs={'id': None, 'autocomplete': 'off'})
         delete = SubmitButton(default=_('Delete file'), named_button=True, css_class='file-delete', attrs={'id': None})
 
 
