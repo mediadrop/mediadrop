@@ -354,9 +354,7 @@ def pick_media_file_player(media, browser=None, version=None, user_agent=None,
     :type player_type: str or None
     :param include_embedded: Whether or not to include embedded players.
     :type include_embedded: bool
-    :returns: A :class:`~mediacore.model.media.MediaFile` object or None,
-        a :class:`~mediacore.lib.helpers.Player` object or None,
-        the detected browser name, and the detected browser version.
+    :returns: A :class:`~mediacore.lib.players.Player` instance or None
     :rtype: tuple
 
     """
