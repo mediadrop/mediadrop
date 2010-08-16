@@ -13,28 +13,23 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
+import logging
 from datetime import datetime, timedelta
+
+import webob.exc
 from pylons import config, request, response, session, tmpl_context
 from sqlalchemy import orm, sql
-import webob.exc
 
+from mediacore.controllers.api import APIException, get_order_by
+from mediacore.lib import helpers
 from mediacore.lib.base import BaseController
 from mediacore.lib.decorators import expose, expose_xhr, paginate, validate
 from mediacore.lib.helpers import get_featured_category, url_for
-from mediacore.lib import helpers
 from mediacore.lib.thumbnails import thumb
 from mediacore.model import Category, Media, Podcast, Tag, fetch_row, get_available_slug
 from mediacore.model.meta import DBSession
 
-import logging
 log = logging.getLogger(__name__)
-
-class APIException(Exception):
-    """
-    API Usage Error -- wrapper for providing helpful error messages.
-    TODO: Actually display these messages!!
-    """
 
 order_columns = {
     'id': Media.id,
@@ -189,29 +184,7 @@ class MediaController(BaseController):
         if published_before:
             query = query.filter(Media.publish_on <= published_before)
 
-        # Split the order into two parts, column and direction
-        if not order:
-            order_col, order_dir = 'publish_on', 'desc'
-        else:
-            try:
-                order_col, order_dir = unicode(order).strip().lower().split(' ')
-                assert order_dir in ('asc', 'desc')
-            except:
-                raise APIException, 'Invalid order format, must be "column asc/desc", given "%s"' % order
-
-        # Get the order clause for the given column name
-        try:
-            order_attr = order_columns[order_col]
-        except KeyError:
-            raise APIException, 'Not allowed to order by "%s", please pick one of %s' % (order_col, ', '.join(order_columns.keys()))
-
-        # Normalize to something that can be used in a query
-        if isinstance(order_attr, basestring):
-            order = sql.text(order_attr % (order_dir == 'asc' and 'asc' or 'desc'))
-        else:
-            # Assume this is an sqlalchemy InstrumentedAttribute
-            order = getattr(order_attr, order_dir)()
-        query = query.order_by(order)
+        query = query.order_by(get_order_by(order, order_columns))
 
         # Search will supercede the ordering above
         if search:

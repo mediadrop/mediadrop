@@ -175,6 +175,10 @@ def make_map(config):
         controller='api/media',
         action='index')
 
+    map.connect('/api/categories/{action}',
+        controller='api/categories',
+        action='index')
+
     ##################
     # Fallback Route #
     ##################
