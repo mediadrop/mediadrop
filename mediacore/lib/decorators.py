@@ -13,20 +13,27 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import logging
 import os
 
 import formencode
 import tw.forms
 import webob.exc
 
+from decorator import decorator
 from genshi import XML
+from paste.deploy.converters import asbool
 from pylons import config, request, response, tmpl_context
-from pylons.templating import render_genshi as render
 from pylons.decorators import jsonify
+from pylons.decorators.cache import create_cache_key, _make_dict_from_args
+from pylons.decorators.util import get_pylons
+from pylons.templating import render_genshi as render
 
 from mediacore.lib.paginate import paginate
 
-__all__ = ['expose', 'expose_xhr', 'paginate', 'validate']
+log = logging.getLogger(__name__)
+
+__all__ = ['expose', 'expose_xhr', 'paginate', 'validate', 'beaker_cache']
 
 # TODO: Rework all decorators to use the decorators module. By using it,
 #       the function signature of the original action method is preserved,
@@ -340,3 +347,125 @@ class validate_xhr(validate):
             return {'success': False, 'errors': tmpl_context.form_errors}
         else:
             return super(validate_xhr, self)._call_error_handler(args, kwargs)
+
+
+def beaker_cache(key="cache_default", expire="never", type=None,
+                 query_args=False,
+                 cache_headers=('content-type', 'content-length'),
+                 invalidate_on_startup=False,
+                 cache_response=True, **b_kwargs):
+    """Cache decorator utilizing Beaker. Caches action or other
+    function that returns a pickle-able object as a result.
+
+    Optional arguments:
+
+    ``key``
+        None - No variable key, uses function name as key
+        "cache_default" - Uses all function arguments as the key
+        string - Use kwargs[key] as key
+        list - Use [kwargs[k] for k in list] as key
+    ``expire``
+        Time in seconds before cache expires, or the string "never".
+        Defaults to "never"
+    ``type``
+        Type of cache to use: dbm, memory, file, memcached, or None for
+        Beaker's default
+    ``query_args``
+        Uses the query arguments as the key, defaults to False
+    ``cache_headers``
+        A tuple of header names indicating response headers that
+        will also be cached.
+    ``invalidate_on_startup``
+        If True, the cache will be invalidated each time the application
+        starts or is restarted.
+    ``cache_response``
+        Determines whether the response at the time beaker_cache is used
+        should be cached or not, defaults to True.
+
+        .. note::
+            When cache_response is set to False, the cache_headers
+            argument is ignored as none of the response is cached.
+
+    If cache_enabled is set to False in the .ini file, then cache is
+    disabled globally.
+
+    """
+    if invalidate_on_startup:
+        starttime = time.time()
+    else:
+        starttime = None
+    cache_headers = set(cache_headers)
+
+    def wrapper(func, *args, **kwargs):
+        """Decorator wrapper"""
+        pylons = get_pylons(args)
+        log.debug("Wrapped with key: %s, expire: %s, type: %s, query_args: %s",
+                  key, expire, type, query_args)
+        enabled = pylons.config.get("cache_enabled", "True")
+        if not asbool(enabled):
+            log.debug("Caching disabled, skipping cache lookup")
+            return func(*args, **kwargs)
+
+        if key:
+            key_dict = kwargs.copy()
+            key_dict.update(_make_dict_from_args(func, args))
+
+            ## FIXME: if we can stop there variables from being passed to the controller
+            # action then we can use the stock beaker_cache.
+            # Remove some system variables that can cause issues while generating cache keys
+            [key_dict.pop(x, None) for x in ("pylons", "start_response", "environ")]
+
+            if query_args:
+                key_dict.update(pylons.request.GET.mixed())
+
+            if key != "cache_default":
+                if isinstance(key, list):
+                    key_dict = dict((k, key_dict[k]) for k in key)
+                else:
+                    key_dict = {key: key_dict[key]}
+        else:
+            key_dict = None
+
+        self = None
+        if args:
+            self = args[0]
+        namespace, cache_key = create_cache_key(func, key_dict, self)
+
+        if type:
+            b_kwargs['type'] = type
+
+        cache_obj = getattr(pylons.app_globals, 'cache', None)
+        if not cache_obj:
+            cache_obj = getattr(pylons, 'cache', None)
+        if not cache_obj:
+            raise Exception('No cache object found')
+        my_cache = cache_obj.get_cache(namespace, **b_kwargs)
+
+        if expire == "never":
+            cache_expire = None
+        else:
+            cache_expire = expire
+
+        def create_func():
+            log.debug("Creating new cache copy with key: %s, type: %s",
+                      cache_key, type)
+            result = func(*args, **kwargs)
+            glob_response = pylons.response
+            headers = glob_response.headerlist
+            status = glob_response.status
+            full_response = dict(headers=headers, status=status,
+                                 cookies=None, content=result)
+            return full_response
+
+        response = my_cache.get_value(cache_key, createfunc=create_func,
+                                      expiretime=cache_expire,
+                                      starttime=starttime)
+        if cache_response:
+            glob_response = pylons.response
+            glob_response.headerlist = [header for header in response['headers']
+                                        if header[0].lower() in cache_headers]
+            glob_response.status = response['status']
+
+        return response['content']
+    return decorator(wrapper)
+

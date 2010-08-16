@@ -25,7 +25,7 @@ from paste.util import mimeparse
 from akismet import Akismet
 
 from mediacore.lib.base import BaseController
-from mediacore.lib.decorators import expose, expose_xhr, paginate, validate
+from mediacore.lib.decorators import expose, expose_xhr, paginate, validate, beaker_cache
 from mediacore.lib.helpers import url_for, redirect, store_transient_message
 from mediacore.model import (DBSession, fetch_row, get_available_slug,
     Media, MediaFile, Comment, Tag, Category, Author, AuthorWithIP, Podcast)
@@ -36,52 +36,58 @@ import math
 import logging
 log = logging.getLogger(__name__)
 
-
 class SitemapController(BaseController):
     """
     Sitemap generation
     """
 
+    @beaker_cache(expire=60 * 60 * 4, query_args=True)
     @expose('sitemaps/sitemap.xml')
     def sitemap(self, page=None, limit=10000, *args, **kwargs):
         """ Generate a sitemap which contains googles Video Sitemap information
-        
+
         :param page: Page number, defaults to 1.
         :type page: int
-        
+
         :param page: max records to display on page, defaults to 10000.
         :type page: int
-        
+
         """
-        
+
         response.content_type = mimeparse.best_match(
             ['application/rss+xml', 'application/xml', 'text/xml'],
             request.environ.get('HTTP_ACCEPT', '*/*')
         )
-        
-        media = Media.query.published()\
-            .options(orm.undefer('comment_count_published'))
+
+        media = Media.query.published()
 
         if page is None:
             if media.count() > limit:
                 return dict(pages=math.ceil(media.count() / float(limit)))
         else:
             page = int(page)
-            media = media.offset(page*limit).limit(limit)
+            media = media.offset(page * limit).limit(limit)
 
-        return dict(media=media, page=page)
-    
+        if page in (0, None):
+            links = [
+                     dict(controller="/", qualified=True),
+                     dict(controller="/media", show='poplular', qualified=True),
+                     dict(controller="/media", show='latest', qualified=True),
+                     dict(controller="/categories", qualified=True)
+                     ]
+
+        return dict(media=media, page=page, links=links)
+
+    @beaker_cache(expire=60 * 60 * 4, query_args=True)
     @expose('sitemaps/mrss.xml')
-    def mrss(self, *args,  **kwargs):
+    def mrss(self, *args, **kwargs):
         """ Generate a media rss (mRSS) feed of all the sites media """
-        
+
         response.content_type = mimeparse.best_match(
             ['application/rss+xml', 'application/xml', 'text/xml'],
             request.environ.get('HTTP_ACCEPT', '*/*')
         )
-        
-        media = Media.query.published()\
-            .options(orm.undefer('comment_count_published'))
-            
+
+        media = Media.query.published()
+
         return dict(media=media, title="Video Feed")
-        
