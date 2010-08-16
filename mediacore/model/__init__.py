@@ -35,12 +35,19 @@ slug_length = 50
 # and import them at the bottom of this file.
 ######
 
-def init_model(engine):
+def init_model(engine, table_prefix=None):
     """Call me before using any of the tables or classes in the model."""
     DBSession.configure(bind=engine)
     from mediacore.model import meta
     meta.metadata.bind = engine
     meta.engine = engine
+    # Change all table names to include the given prefix. This can't be
+    # easily done before the models are added to the metadata because
+    # that happens on import, before the config is available.
+    if table_prefix:
+        table_prefix = table_prefix.rstrip('_') + '_'
+        for table in meta.metadata.sorted_tables:
+            table.name = table_prefix + table.name
 
 
 def fetch_row(mapped_class, pk=None, extra_filter=None, **kwargs):

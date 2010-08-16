@@ -56,7 +56,7 @@ def setup_app(command, conf, vars):
             metadata.drop_all(checkfirst=True)
     else:
         # Don't reload the app if it was loaded under the testing environment
-        load_environment(conf.global_conf, conf.local_conf)
+        config = load_environment(conf.global_conf, conf.local_conf)
 
     # Have the tables already been created? If not, we'll add data later
     db_is_fresh = not class_mapper(Media).mapped_table.exists()

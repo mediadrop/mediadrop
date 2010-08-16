@@ -27,7 +27,7 @@ import mediacore.lib.helpers
 
 from mediacore.config.routing import make_map
 from mediacore.lib.auth import classifier_for_flash_uploads
-from mediacore.model import Group, Media, Permission, Podcast, User, init_model
+from mediacore.model import Media, Podcast, init_model
 from mediacore.model.meta import DBSession
 
 def load_environment(global_conf, app_conf):
@@ -68,7 +68,7 @@ def load_environment(global_conf, app_conf):
 
     # Setup the SQLAlchemy database engine
     engine = engine_from_config(config, 'sqlalchemy.')
-    init_model(engine)
+    init_model(engine, config.get('db_table_prefix', None))
 
     # CONFIGURATION OPTIONS HERE (note: all config options will override
     # any Pylons config options)

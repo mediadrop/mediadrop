@@ -23,6 +23,11 @@ sqlalchemy.pool_recycle = 3600
 beaker.session.secret = ${app_instance_secret}
 sa_auth.cookie_secret = ${app_instance_secret}
 
+# Specify an optional prefix for table names.
+# Use this if you want to put mediacore in the same database as another app.
+# e.g. if you want your tables to be named like 'mcore_media', you should set:
+# db_table_prefix = mcore
+
 # Fastcgi and mod_proxy settings.
 # Use these if you are hosting mediacore via FastCGI or behind a proxy.
 # e.g. if hosting mediacore via mod_rewrite or mod_proxy at the URL
