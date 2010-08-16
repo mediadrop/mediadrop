@@ -126,7 +126,7 @@
 		      We should be able to revert to it later, as it will likely perform better. -->
 		<div class="pager" py:if="paginator.page_count > (not show_if_single_page and 1 or 0)">
 			<a py:def="pagelink(page, text=None, strong=False)"
-			   href="${h.url_for(page=page)}"
+			   href="${h.url_for(page=page, show=value_of('show'), q=value_of('search_query'))}"
 			   class="pager-link underline-hover"><strong py:strip="not strong">${text or page}</strong></a>
 			<span class="pager-label">Page:</span>
 			<a py:if="paginator.page &gt; paginator.first_page" py:replace="pagelink(paginator.page - 1, 'Previous', True)" />
