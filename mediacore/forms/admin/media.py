@@ -115,7 +115,7 @@ class EditFileForm(ListForm):
         file_id = TextField(validator=Int())
         file_type = SingleSelectField(validator=file_type_validator, options=file_type_options, attrs={'id': None, 'autocomplete': 'off'})
         duration = TextField(validator=DurationValidator(if_missing=None), attrs={'id': None, 'autocomplete': 'off'})
-        width = TextField(validator=Int(if_missing=None), attrs={'id': None, 'autocomplete': 'off'})
+        width_height = TextField(validator=WXHValidator(if_missing=None), attrs={'id': None, 'autocomplete': 'off'})
         height = TextField(validator=Int(if_missing=None), attrs={'id': None, 'autocomplete': 'off'})
         max_bitrate = TextField(validator=Int(if_missing=None), attrs={'id': None, 'autocomplete': 'off'})
         delete = SubmitButton(default=_('Delete file'), named_button=True, css_class='file-delete', attrs={'id': None})

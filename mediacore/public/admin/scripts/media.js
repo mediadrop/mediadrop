@@ -550,8 +550,7 @@ var FileManager = new Class({
 			size: new Element('td', {headers: 'thf-size', text: (file.size == '-') ? '-' : Swiff.Uploader.formatUnit(file.size, 'b')}),
 			duration: new Element('td', {headers: 'thf-duration', text: '-'}),
 			bitrate: new Element('td', {headers: 'thf-max-bitrate', text: '-'}),
-			width: new Element('td', {headers: 'thf-width', text: '-'}),
-			height: new Element('td', {headers: 'thf-height', text: '-'}),
+			'width-height': new Element('td', {headers: 'thf-width-height', text: '-'}),
 			type: new Element('td', {headers: 'thf-type', text: file.typeText || 'Queued'}),
 			del: new Element('td', {headers: 'thf-delete'}).grab(cancelBtn)
 		});

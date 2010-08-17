@@ -130,11 +130,7 @@ a.published { background-image: url('../images/statuses/published-both.png'); }
 	text-align: center;
 }
 #fmgr th#thf-width,
-#fmgr td[headers='thf-width'] {
-	text-align: center;
-}
-#fmgr th#thf-height,
-#fmgr td[headers='thf-height'] {
+#fmgr td[headers='thf-width-height'] {
 	text-align: center;
 }
 #fmgr th#thf-delete,
@@ -150,12 +146,8 @@ a.published { background-image: url('../images/statuses/published-both.png'); }
 	width: 40px;
 	text-align: right;
 }
-#fmgr input[name="width"] {
-	width: 35px;
-	text-align: right;
-}
-#fmgr input[name="height"] {
-	width: 35px;
+#fmgr input[name="width_height"] {
+	width: 90px;
 	text-align: right;
 }
 #fmgr select[name="file_type"] {

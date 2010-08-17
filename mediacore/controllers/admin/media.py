@@ -340,7 +340,7 @@ class MediaController(BaseController):
 
     @expose('json')
     @validate(edit_file_form)
-    def edit_file(self, id, file_id, file_type=None, duration=None, delete=None, max_bitrate=None, width=None, height=None, **kwargs):
+    def edit_file(self, id, file_id, file_type=None, duration=None, delete=None, max_bitrate=None, width_height=None, **kwargs):
         """Save action for the :class:`~mediacore.forms.admin.media.EditFileForm`.
 
         Changes or delets a :class:`~mediacore.model.media.MediaFile`.
@@ -384,11 +384,8 @@ class MediaController(BaseController):
             media.duration = duration
             data['success'] = True
             data['duration'] = helpers.duration_from_seconds(duration)
-        elif width is not None:
-            file.width = width
-            data['success'] = True
-        elif height is not None:
-            file.height = height
+        elif width_height is not None:
+            file.width, file.height = width_height
             data['success'] = True
         elif max_bitrate is not None:
             file.max_bitrate = max_bitrate
