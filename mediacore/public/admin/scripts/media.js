@@ -544,6 +544,7 @@ var FileManager = new Class({
 	},
 
 	_createQueueRow: function(file){
+		/* XXX: The form DOM created below mimics that in .../mediacore/templates/admin/media/file-edit-form.html */
 		var cancelBtn = new Element('input', this.options.uploadCancelBtn);
 		file.ui = new Hash({
 			name: new Element('td', {headers: 'thf-name', text: file.name}),
