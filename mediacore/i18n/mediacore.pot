@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: MediaCore 0.8.2b1\n"
+"Project-Id-Version: MediaCore 0.8.2\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2010-08-04 19:24-0700\n"
+"POT-Creation-Date: 2010-08-17 09:52-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -233,11 +233,11 @@ msgstr ""
 msgid "Fill out an error report below."
 msgstr ""
 
-#: mediacore/templates/error.html:47
+#: mediacore/templates/error.html:48
 msgid "Email: (so we can contact you if we find it!)"
 msgstr ""
 
-#: mediacore/templates/error.html:51
+#: mediacore/templates/error.html:52
 msgid "What were you looking for when you got the error?"
 msgstr ""
 
@@ -274,14 +274,14 @@ msgstr ""
 #: mediacore/templates/admin/settings/master.html:46
 #: mediacore/templates/categories/index.html:38
 #: mediacore/templates/comments/_list.html:37
-#: mediacore/templates/media/explore.html:36 mediacore/templates/media/view.html:79
+#: mediacore/templates/media/explore.html:35 mediacore/templates/media/view.html:79
 msgid "Comments"
 msgstr ""
 
 #: mediacore/templates/helpers.html:105
 #: mediacore/templates/admin/comments/_comment-table.html:29
 #: mediacore/templates/categories/index.html:38
-#: mediacore/templates/media/explore.html:36 mediacore/templates/media/view.html:79
+#: mediacore/templates/media/explore.html:35 mediacore/templates/media/view.html:79
 msgid "Comment"
 msgstr ""
 
@@ -289,8 +289,8 @@ msgstr ""
 #: mediacore/templates/helpers.html:113
 #: mediacore/templates/categories/index.html:38
 #: mediacore/templates/categories/index.html:40
-#: mediacore/templates/media/explore.html:36
-#: mediacore/templates/media/explore.html:38 mediacore/templates/media/view.html:79
+#: mediacore/templates/media/explore.html:35
+#: mediacore/templates/media/explore.html:37 mediacore/templates/media/view.html:79
 #: mediacore/templates/media/view.html:81 mediacore/templates/media/view.html:105
 msgid "s"
 msgstr ""
@@ -305,13 +305,13 @@ msgstr ""
 
 #: mediacore/templates/helpers.html:111
 #: mediacore/templates/categories/index.html:40
-#: mediacore/templates/media/explore.html:38 mediacore/templates/media/view.html:81
+#: mediacore/templates/media/explore.html:37 mediacore/templates/media/view.html:81
 msgid "Views"
 msgstr ""
 
 #: mediacore/templates/helpers.html:113
 #: mediacore/templates/categories/index.html:40
-#: mediacore/templates/media/explore.html:38 mediacore/templates/media/view.html:81
+#: mediacore/templates/media/explore.html:37 mediacore/templates/media/view.html:81
 msgid "View"
 msgstr ""
 
@@ -325,19 +325,19 @@ msgstr ""
 
 #: mediacore/templates/helpers.html:153
 #: mediacore/templates/categories/index.html:47
-#: mediacore/templates/media/explore.html:46
+#: mediacore/templates/media/explore.html:59
 msgid "Latest"
 msgstr ""
 
 #: mediacore/templates/helpers.html:154
 #: mediacore/templates/categories/index.html:52
-#: mediacore/templates/media/explore.html:53
+#: mediacore/templates/media/explore.html:43
 msgid "Most Popular"
 msgstr ""
 
 #: mediacore/templates/helpers.html:155
 #: mediacore/templates/categories/index.html:28
-#: mediacore/templates/media/explore.html:29
+#: mediacore/templates/media/explore.html:28
 msgid "Featured"
 msgstr ""
 
@@ -863,22 +863,22 @@ msgid "Group"
 msgstr ""
 
 #: mediacore/templates/categories/index.html:39
-#: mediacore/templates/media/explore.html:37 mediacore/templates/media/view.html:80
+#: mediacore/templates/media/explore.html:36 mediacore/templates/media/view.html:80
 msgid "Vote up"
 msgstr ""
 
 #: mediacore/templates/categories/index.html:39
-#: mediacore/templates/media/explore.html:37 mediacore/templates/media/view.html:80
+#: mediacore/templates/media/explore.html:36 mediacore/templates/media/view.html:80
 msgid "Like this!"
 msgstr ""
 
 #: mediacore/templates/categories/index.html:49
-#: mediacore/templates/media/explore.html:48
+#: mediacore/templates/media/explore.html:61
 msgid "more of the Latest..."
 msgstr ""
 
 #: mediacore/templates/categories/index.html:54
-#: mediacore/templates/media/explore.html:55
+#: mediacore/templates/media/explore.html:46
 msgid "more of the Most Popular..."
 msgstr ""
 
@@ -911,7 +911,25 @@ msgstr ""
 msgid "Write a comment"
 msgstr ""
 
-#: mediacore/templates/media/explore.html:58
+#: mediacore/templates/media/explore.html:50
+msgid ""
+"As soon as there are more than 9 published videos in the library, the most "
+"popular videos will be listed here."
+msgstr ""
+
+#: mediacore/templates/media/explore.html:52
+msgid "Why not"
+msgstr ""
+
+#: mediacore/templates/media/explore.html:52
+msgid "add"
+msgstr ""
+
+#: mediacore/templates/media/explore.html:52
+msgid "a few more?"
+msgstr ""
+
+#: mediacore/templates/media/explore.html:64
 msgid "There are no media items published yet!"
 msgstr ""
 
