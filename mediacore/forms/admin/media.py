@@ -44,6 +44,52 @@ class DurationValidator(FancyValidator):
     def _from_python(self, value, state):
         return helpers.duration_from_seconds(value)
 
+class WXHValidator(FancyValidator):
+    """
+    width by height validator.
+    example input 1: "800x600"
+    example output 2: (800, 600)
+
+    example input 2: ""
+    example output 2: (None, None)
+
+    example input 3: "0x0"
+    example output 3:" (None, None)
+    """
+    def _to_python(self, value, state=None):
+        if not value.strip():
+            return (None, None)
+
+        try:
+            width, height = value.split('x')
+        except ValueError, e:
+            raise formencode.Invalid(
+                _('Value must be in the format wxh; e.g. 200x300'),
+                value, state)
+        errors = []
+        try:
+            width = int(width)
+        except ValueError, e:
+            errors.append(_('Width must be a valid integer'))
+        try:
+            height = int(height)
+        except ValueError, e:
+            errors.append(_('Height must be a valid integer'))
+        if errors:
+            raise formencode.Invalid(u'; '.join(errors), value, state)
+
+        if (width, height) == (0, 0):
+            return (None, None)
+
+        return width, height
+
+
+    def _from_python(self, value, state):
+        if value == (None, None):
+            return "0x0"
+
+        width, height = value
+        return u"%dx%d" % (width, height)
 
 class AddFileForm(ListForm):
     template = 'mediacore.templates.admin.media.file-add-form'
