@@ -128,8 +128,8 @@ js_sources = {
     'mootools_more': '/scripts/third-party/mootools-1.2.4.4-more-yui-compressed.js',
     'mootools_core': 'http://ajax.googleapis.com/ajax/libs/mootools/1.2.4/mootools-yui-compressed.js',
 # Debugging values:
-#    'mootools_more': '/scripts/third-party/mootools-1.2.4.4-more.js',
-#    'mootools_core': '/scripts/third-party/mootools-1.2.4-core.js',
+    'mootools_more': '/scripts/third-party/mootools-1.2.4.4-more.js',
+    'mootools_core': '/scripts/third-party/mootools-1.2.4-core.js',
 }
 def js(source):
     if pylons.test.pylonsapp:

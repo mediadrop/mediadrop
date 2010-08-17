@@ -29,6 +29,7 @@
 	<script type="text/javascript" src="${h.url_for('/scripts/third-party/Fx.ProgressBar-yui-compressed.js')}"></script>
 	<script type="text/javascript" src="${h.url_for('/scripts/third-party/Swiff.Uploader-yui-compressed.js')}"></script>
 	<script type="text/javascript" src="${h.url_for('/scripts/third-party/datepicker-yui-compressed.js')}"></script>
+	<script type="text/javascript" src="${h.url_for('/scripts/third-party/meio-mask/Meio.Mask.min.js')}"></script>
 	<script type="text/javascript" src="${h.url_for('/admin/scripts/forms.js')}"></script>
 	<script type="text/javascript" src="${h.url_for('/admin/scripts/uploader.js')}"></script>
 	<script type="text/javascript" src="${h.url_for('/scripts/third-party/squeezebox-1.1-rc4-yui-compressed.js')}"></script>
@@ -45,6 +46,12 @@
 				window.location = loc.substr(0, loc.lastIndexOf('new')) + id;
 			}
 		}
+		/* Create the width x height mask */
+		Meio.Mask.createMasks('Regexp', {
+			'widthxheight': {
+				regex: /^(\d+x){0,1}(\d+)?$/
+			}
+		});
 		window.addEvent('domready', function(){
 			var deleteConfirm = new DeleteConfirmMgr({msg: 'Are you sure you want to delete this media?'});
 			$('delete').addEvent('click', deleteConfirm.openConfirmDialog.bind(deleteConfirm));
@@ -100,7 +107,6 @@
 				type: ${"'%s'" % media.type if media.type else 'null'},
 				head: 'media-title'
 			});
-
 		});
 	</script>
 </head>

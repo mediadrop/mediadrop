@@ -348,6 +348,9 @@ var FileManager = new Class({
 		var duration = row.getElement('input[name=duration]');
 		duration.addEvent('keyup', this.syncDurations.bind(this));
 		this.durationInputs.push(duration);
+		// Custom handling for the width x height row
+		var wxh = row.getElement('input[name=width_height]');
+		wxh.meiomask('Regexp.widthxheight', {});
 		return row;
 	},
 
