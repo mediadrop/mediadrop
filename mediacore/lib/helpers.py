@@ -28,6 +28,7 @@ from urlparse import urlparse
 
 import genshi.core
 import pylons.templating
+import pylons.test
 import simplejson as json
 import webob.exc
 
@@ -57,7 +58,7 @@ defined = [
     'append_class_attr', 'clean_xhtml', 'delete_files', 'doc_link',
     'duration_from_seconds', 'duration_to_seconds', 'embeddable_player',
     'excerpt_xhtml', 'excess_whitespace', 'filter_library_controls',
-    'get_featured_category', 'gravatar_from_email', 'is_admin',
+    'get_featured_category', 'gravatar_from_email', 'is_admin', 'js',
     'line_break_xhtml', 'list_acceptable_xhtml', 'list_accepted_extensions',
     'pick_any_media_file', 'pick_podcast_media_file',
     'pretty_file_size', 'redirect',
@@ -122,6 +123,20 @@ def _generate_url(url_func, *args, **kwargs):
             url = url[:path_index] + prefix + url[path_index:]
 
     return url
+
+js_sources = {
+    'mootools_more': '/scripts/third-party/mootools-1.2.4.4-more-yui-compressed.js',
+    'mootools_core': 'http://ajax.googleapis.com/ajax/libs/mootools/1.2.4/mootools-yui-compressed.js',
+# Debugging values:
+#    'mootools_more': '/scripts/third-party/mootools-1.2.4.4-more.js',
+#    'mootools_core': '/scripts/third-party/mootools-1.2.4-core.js',
+}
+def js(source):
+    if pylons.test.pylonsapp:
+        return js_sources[source]
+    else:
+        return url_for(js_sources[source])
+
 
 def redirect(*args, **kwargs):
     """Compose a URL using :func:`url_for` and raise a redirect.
