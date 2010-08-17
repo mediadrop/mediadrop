@@ -23,6 +23,13 @@ from webhelpers.paginate import get_wrapper
 from webob.multidict import MultiDict
 from webhelpers.paginate import Page
 
+# TODO: Move the paginate decorator to mediacore.lib.decorators,
+#       and rework it to use the decorators module. This whole
+#       module could be greatly simplified, and my CustomPage
+#       class can be removed since it is no longer used as of
+#       the v0.8.0 frontend redesign. Also, use of functools
+#       must be factored out as it was not included in py2.4.
+
 # FIXME: The following class is taken from TG2.0.3. Find a way to replace it.
 # This is not an ideal solution, but avoids the immediate need to rewrite the
 # paginate and CustomPage methods below.

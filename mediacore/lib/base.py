@@ -50,14 +50,21 @@ class BareBonesController(WSGIController):
             self = cp(self)
         WSGIController.__init__(self, *args, **kwargs)
 
-    def _perform_call(self, func, args):
+    def _get_method_args(self):
+        """Retrieve the method arguments to use with inspect call.
+
+        By default, this uses Routes to retrieve the arguments,
+        override this method to customize the arguments your controller
+        actions are called with.
+
+        For MediaCore, we extend this to include all GET and POST params.
+
+        NOTE: If the action does not define \*\*kwargs, then only the kwargs
+              that it defines will be passed to it when it is called.
         """
-        _perform_call is called by _inspect_call in Pylons' WSGIController.
-        """
-        # Steal a page from TurboGears' book, and Add the GET/POST
-        # request params to our params dict, overriding any defaults passed in.
-        args.update(request.params.mixed())
-        return WSGIController._perform_call(self, func, args)
+        kwargs = request.params.mixed()
+        kwargs.update(WSGIController._get_method_args(self))
+        return kwargs
 
     def __before__(self, *args, **kwargs):
         """This method is called before your action is.

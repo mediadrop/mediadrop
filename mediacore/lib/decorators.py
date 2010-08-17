@@ -28,10 +28,15 @@ from mediacore.lib.paginate import paginate
 
 __all__ = ['expose', 'expose_xhr', 'paginate', 'validate']
 
+# TODO: Rework all decorators to use the decorators module. By using it,
+#       the function signature of the original action method is preserved,
+#       allowing pylons.controllers.core.WSGIController._inspect_call to
+#       do its job properly.
+
 _func_attrs = [
     # Attributes that define useful information or context for functions
     '__dict__', '__doc__', '__name__', 'im_class', 'im_func', 'im_self',
-    'template', 'exposed' # custom attribute to allow web access
+    'template', 'exposed', # custom attribute to allow web access
 ]
 
 def _copy_func_attrs(f1, f2):
