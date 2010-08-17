@@ -15,6 +15,8 @@
 
 import sys
 
+# Module description following the guidelines at:
+# http://bayes.colorado.edu/PythonGuidelines.html#module_formatting
 __version__ = '0.8.2'
 __status__ = 'Production'
 __copyright__ = 'Copyright 2009-2010, Simple Station Inc.'
