@@ -15,8 +15,8 @@
 
 import sys
 
-__version__ = '0.8.2b1'
-__status__ = 'beta'
+__version__ = '0.8.2'
+__status__ = 'Production'
 __copyright__ = 'Copyright 2009-2010, Simple Station Inc.'
 __license__ = 'GPLv3'
 __email__ = 'info@simplestation.com'
