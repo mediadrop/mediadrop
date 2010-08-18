@@ -33,6 +33,7 @@ install_requires = [
     'cElementTree >= 1, < 2',
     'gdata > 2, < 2.1',
     'importlib',
+    'decorator',
 ]
 
 # PIL has some weird packaging issues (because its been around forever).

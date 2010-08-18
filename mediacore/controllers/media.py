@@ -25,13 +25,14 @@ from paste.util import mimeparse
 from akismet import Akismet
 
 from mediacore.lib.base import BaseController
-from mediacore.lib.decorators import expose, expose_xhr, paginate, validate
+from mediacore.lib.decorators import expose, expose_xhr, observable, paginate, validate
 from mediacore.lib.helpers import url_for, redirect, store_transient_message
 from mediacore.model import (DBSession, fetch_row, get_available_slug,
     Media, MediaFile, Comment, Tag, Category, Author, AuthorWithIP, Podcast)
 from mediacore.lib import helpers, email
 from mediacore.forms.comments import PostCommentForm
 from mediacore import USER_AGENT
+from mediacore.plugin import events
 
 import logging
 log = logging.getLogger(__name__)
@@ -45,6 +46,7 @@ class MediaController(BaseController):
 
     @expose('media/index.html')
     @paginate('media', items_per_page=20)
+    @observable(events.MediaController.index)
     def index(self, page=1, show='latest', q=None, tag=None, **kwargs):
         """List media with pagination.
 
@@ -91,6 +93,7 @@ class MediaController(BaseController):
 
     @expose('media/explore.html')
     @paginate('media', items_per_page=20)
+    @observable(events.MediaController.explore)
     def explore(self, page=1, **kwargs):
         """Display the most recent 15 media.
 
@@ -141,6 +144,7 @@ class MediaController(BaseController):
         redirect(action='view', slug=media.slug, podcast_slug=podcast_slug)
 
     @expose('media/view.html')
+    @observable(events.MediaController.view)
     def view(self, slug, podcast_slug=None, **kwargs):
         """Display the media player, info and comments.
 
@@ -194,6 +198,7 @@ class MediaController(BaseController):
         )
 
     @expose()
+    @observable(events.MediaController.rate)
     def rate(self, slug, **kwargs):
         """Say 'I like this' for the given media.
 
@@ -213,6 +218,7 @@ class MediaController(BaseController):
 
     @expose()
     @validate(post_comment_form, error_handler=view)
+    @observable(events.MediaController.comment)
     def comment(self, slug, **values):
         """Post a comment from :class:`~mediacore.forms.comments.PostCommentForm`.
 

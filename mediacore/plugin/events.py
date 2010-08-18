@@ -56,3 +56,88 @@ class observes(object):
 class Environment(object):
     routes = Event(['mapper'])
     loaded = Event(['config'])
+
+###############################################################################
+# Controllers
+
+class Admin(object):
+
+    class CategoriesController(object):
+        index = Event(['**kwargs'])
+        edit = Event(['**kwargs'])
+        save = Event(['**kwargs'])
+
+    class CommentsController(object):
+        index = Event(['**kwargs'])
+        save_status = Event(['**kwargs'])
+        save_edit = Event(['**kwargs'])
+
+    class IndexController(object):
+        index = Event(['**kwargs'])
+        media_table = Event(['**kwargs'])
+
+    class MediaController(object):
+        index = Event(['**kwargs'])
+        edit = Event(['**kwargs'])
+        save = Event(['**kwargs'])
+        add_file = Event(['**kwargs'])
+        edit_file = Event(['**kwargs'])
+        merge_stubs = Event(['**kwargs'])
+        save_thumb = Event(['**kwargs'])
+        update_status = Event(['**kwargs'])
+
+    class PodcastsController(object):
+        index = Event(['**kwargs'])
+        edit = Event(['**kwargs'])
+        save = Event(['**kwargs'])
+        save_thumb = Event(['**kwargs'])
+
+    class TagsController(object):
+        index = Event(['**kwargs'])
+        edit = Event(['**kwargs'])
+        save = Event(['**kwargs'])
+
+    class UsersController(object):
+        index = Event(['**kwargs'])
+        edit = Event(['**kwargs'])
+        save = Event(['**kwargs'])
+        delete = Event(['**kwargs'])
+
+class API(object):
+    class MediaController(object):
+        index = Event(['**kwargs'])
+        get = Event(['**kwargs'])
+
+class CategoriesController(object):
+    index = Event(['**kwargs'])
+    more = Event(['**kwargs'])
+
+class ErrorController(object):
+    document = Event(['**kwargs'])
+    report = Event(['**kwargs'])
+
+class LoginController(object):
+    login = Event(['**kwargs'])
+    login_handler = Event(['**kwargs'])
+    logout_handler = Event(['**kwargs'])
+    post_login = Event(['**kwargs'])
+    post_logout = Event(['**kwargs'])
+
+class MediaController(object):
+    index = Event(['**kwargs'])
+    comment = Event(['**kwargs'])
+    explore = Event(['**kwargs'])
+    rate = Event(['**kwargs'])
+    view = Event(['**kwargs'])
+
+class PodcastsController(object):
+    index = Event(['**kwargs'])
+    view = Event(['**kwargs'])
+    feed = Event(['**kwargs'])
+
+class UploadController(object):
+    index = Event(['**kwargs'])
+    submit = Event(['**kwargs'])
+    submit_async = Event(['**kwargs'])
+    success = Event(['**kwargs'])
+    failure = Event(['**kwargs'])

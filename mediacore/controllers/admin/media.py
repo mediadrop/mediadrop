@@ -29,12 +29,13 @@ from mediacore.forms.admin import SearchForm, ThumbForm
 from mediacore.forms.admin.media import AddFileForm, EditFileForm, MediaForm, PodcastFilterForm, UpdateStatusForm
 from mediacore.lib import helpers
 from mediacore.lib.base import BaseController
-from mediacore.lib.decorators import expose, expose_xhr, paginate, validate, validate_xhr
+from mediacore.lib.decorators import expose, expose_xhr, observable, paginate, validate, validate_xhr
 from mediacore.lib.helpers import redirect, url_for
 from mediacore.lib.mediafiles import add_new_media_file
 from mediacore.lib.thumbnails import thumb_path, thumb_paths, create_thumbs_for, create_default_thumbs_for, has_thumbs, has_default_thumbs
 from mediacore.model import Author, Category, Media, Podcast, Tag, fetch_row, get_available_slug
 from mediacore.model.meta import DBSession
+from mediacore.plugin import events
 
 import logging
 log = logging.getLogger(__name__)
@@ -52,6 +53,7 @@ class MediaController(BaseController):
 
     @expose_xhr('admin/media/index.html', 'admin/media/index-table.html')
     @paginate('media', items_per_page=25)
+    @observable(events.Admin.MediaController.index)
     def index(self, page=1, search=None, podcast_filter=None, **kwargs):
         """List media with pagination and filtering.
 
@@ -107,6 +109,7 @@ class MediaController(BaseController):
 
     @expose('admin/media/edit.html')
     @validate(validators={'podcast': validators.Int()})
+    @observable(events.Admin.MediaController.edit)
     def edit(self, id, **kwargs):
         """Display the media forms for editing or adding.
 
@@ -188,6 +191,7 @@ class MediaController(BaseController):
 
     @expose_xhr()
     @validate_xhr(media_form, error_handler=edit)
+    @observable(events.Admin.MediaController.save)
     def save(self, id, slug, title, author_name, author_email,
              description, notes, podcast, tags, categories,
              delete=None, **kwargs):
@@ -253,6 +257,7 @@ class MediaController(BaseController):
 
     @expose('json')
     @validate(add_file_form)
+    @observable(events.Admin.MediaController.add_file)
     def add_file(self, id, file=None, url=None, **kwargs):
         """Save action for the :class:`~mediacore.forms.admin.media.AddFileForm`.
 
@@ -340,6 +345,7 @@ class MediaController(BaseController):
 
     @expose('json')
     @validate(validators={'file_id': validators.Int()})
+    @observable(events.Admin.MediaController.edit_file)
     def edit_file(self, id, file_id, file_type=None, duration=None, delete=None, **kwargs):
         """Save action for the :class:`~mediacore.forms.admin.media.EditFileForm`.
 
@@ -507,6 +513,7 @@ class MediaController(BaseController):
 
     @expose('json')
     @validate(thumb_form, error_handler=edit)
+    @observable(events.Admin.MediaController.save_thumb)
     def save_thumb(self, id, thumb, **kwargs):
         """Save a thumbnail uploaded with :class:`~mediacore.forms.admin.ThumbForm`.
 
@@ -569,6 +576,7 @@ class MediaController(BaseController):
 
     @expose('json')
     @validate(update_status_form, error_handler=edit)
+    @observable(events.Admin.MediaController.update_status)
     def update_status(self, id, update_button=None, publish_on=None, **values):
         """Update the publish status for the given media.
 

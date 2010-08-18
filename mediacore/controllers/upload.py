@@ -21,9 +21,10 @@ from pylons import app_globals, config, request, response, session, tmpl_context
 from mediacore.forms.uploader import UploadForm
 from mediacore.lib import email
 from mediacore.lib.base import BaseController
-from mediacore.lib.decorators import expose, expose_xhr, paginate, validate
+from mediacore.lib.decorators import expose, expose_xhr, observable, paginate, validate
 from mediacore.lib.helpers import redirect, url_for
 from mediacore.lib.mediafiles import save_media_obj
+from mediacore.plugin import events
 
 import logging
 log = logging.getLogger(__name__)
@@ -39,6 +40,7 @@ class UploadController(BaseController):
     """
 
     @expose('upload/index.html')
+    @observable(events.UploadController.index)
     def index(self, **kwargs):
         """Display the upload form.
 
@@ -67,6 +69,7 @@ class UploadController(BaseController):
 
     @expose('json')
     @validate(upload_form)
+    @observable(events.UploadController.submit_async)
     def submit_async(self, **kwargs):
         """Ajax form validation and/or submission.
 
@@ -132,6 +135,7 @@ class UploadController(BaseController):
 
     @expose()
     @validate(upload_form, error_handler=index)
+    @observable(events.UploadController.submit)
     def submit(self, **kwargs):
         """
         """
@@ -149,9 +153,11 @@ class UploadController(BaseController):
         redirect(action='success')
 
     @expose('upload/success.html')
+    @observable(events.UploadController.success)
     def success(self, **kwargs):
         return dict()
 
     @expose('upload/failure.html')
+    @observable(events.UploadController.failure)
     def failure(self, **kwargs):
         return dict()

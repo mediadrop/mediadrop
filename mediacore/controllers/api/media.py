@@ -22,11 +22,12 @@ from sqlalchemy import orm, sql
 from mediacore.controllers.api import APIException, get_order_by
 from mediacore.lib import helpers
 from mediacore.lib.base import BaseController
-from mediacore.lib.decorators import expose, expose_xhr, paginate, validate
+from mediacore.lib.decorators import expose, expose_xhr, observable, paginate, validate
 from mediacore.lib.helpers import get_featured_category, url_for
 from mediacore.lib.thumbnails import thumb
 from mediacore.model import Category, Media, Podcast, Tag, fetch_row, get_available_slug
 from mediacore.model.meta import DBSession
+from mediacore.plugin import events
 
 log = logging.getLogger(__name__)
 
@@ -50,6 +51,7 @@ class MediaController(BaseController):
     """
 
     @expose('json')
+    @observable(events.API.MediaController.index)
     def index(self, type=None, podcast=None, tag=None, category=None, search=None,
               max_age=None, min_age=None, order=None, offset=0, limit=10,
               published_after=None, published_before=None, featured=False,
@@ -210,6 +212,7 @@ class MediaController(BaseController):
 
 
     @expose('json')
+    @observable(events.API.MediaController.get)
     def get(self, id=None, slug=None, **kwargs):
         """Expose info on a specific media item by ID or slug.
 

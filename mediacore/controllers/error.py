@@ -17,9 +17,10 @@ from pylons.i18n import _
 from pylons import config, request
 
 from mediacore.lib.base import BaseController
-from mediacore.lib.decorators import expose
+from mediacore.lib.decorators import expose, observable
 from mediacore.lib.helpers import redirect, clean_xhtml
 from mediacore.lib import email as libemail
+from mediacore.plugin import events
 
 class ErrorController(BaseController):
     """Generates error documents as and when they are required.
@@ -31,6 +32,7 @@ class ErrorController(BaseController):
     ErrorDocuments middleware in your config/middleware.py file.
     """
     @expose('error.html')
+    @observable(events.ErrorController.document)
     def document(self, *args, **kwargs):
         """Render the error document for the general public.
 
@@ -73,6 +75,7 @@ class ErrorController(BaseController):
         )
 
     @expose()
+    @observable(events.ErrorController.report)
     def report(self, email='', description='', **kwargs):
         """Email a support request that's been submitted on :meth:`document`.
 
@@ -88,4 +91,3 @@ class ErrorController(BaseController):
                 post_vars[x] = kwargs[x]
         libemail.send_support_request(email, url, description, get_vars, post_vars)
         redirect('/')
-

@@ -359,7 +359,6 @@ class validate_xhr(validate):
         else:
             return super(validate_xhr, self)._call_error_handler(args, kwargs)
 
-
 def beaker_cache(key="cache_default", expire="never", type=None,
                  query_args=False,
                  cache_headers=('content-type', 'content-length'),
@@ -480,3 +479,16 @@ def beaker_cache(key="cache_default", expire="never", type=None,
         return response['content']
     return decorator(wrapper)
 
+def observable(event):
+    """Filter the result of the decorated action through the events observers.
+
+    :param event: An instance of :class:`mediacore.plugin.events.Event`
+        whose observers are called.
+    :returns: A decorator function.
+    """
+    def wrapper(func, *args, **kwargs):
+        result = func(*args, **kwargs)
+        for observer in event.observers:
+            result = observer(**result)
+        return result
+    return decorator(wrapper)

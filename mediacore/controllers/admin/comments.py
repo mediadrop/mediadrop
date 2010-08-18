@@ -20,14 +20,14 @@ from pylons import request, response, session, tmpl_context
 from repoze.what.predicates import has_permission
 from sqlalchemy import orm, sql
 
+from mediacore.forms.admin import SearchForm
+from mediacore.forms.admin.comments import EditCommentForm
 from mediacore.lib.base import BaseController
-from mediacore.lib.decorators import expose, expose_xhr, paginate, validate
+from mediacore.lib.decorators import expose, expose_xhr, observable, paginate, validate
 from mediacore.lib.helpers import redirect, url_for
 from mediacore.model import Comment, Media, fetch_row, get_available_slug
 from mediacore.model.meta import DBSession
-
-from mediacore.forms.admin import SearchForm
-from mediacore.forms.admin.comments import EditCommentForm
+from mediacore.plugin import events
 
 import logging
 log = logging.getLogger(__name__)
@@ -42,6 +42,7 @@ class CommentsController(BaseController):
     @expose_xhr('admin/comments/index.html',
                 'admin/comments/index-table.html')
     @paginate('comments', items_per_page=25)
+    @observable(events.Admin.CommentsController.index)
     def index(self, page=1, search=None, media_filter=None, **kwargs):
         """List comments with pagination and filtering.
 
@@ -96,6 +97,7 @@ class CommentsController(BaseController):
         )
 
     @expose('json')
+    @observable(events.Admin.CommentsController.save_status)
     def save_status(self, id, status, ids=None, **kwargs):
         """Approve or delete a comment or comments.
 
@@ -137,6 +139,7 @@ class CommentsController(BaseController):
             redirect(action='index')
 
     @expose('json')
+    @observable(events.Admin.CommentsController.save_edit)
     def save_edit(self, id, body, **kwargs):
         """Save an edit from :class:`~mediacore.forms.admin.comments.EditCommentForm`.
 

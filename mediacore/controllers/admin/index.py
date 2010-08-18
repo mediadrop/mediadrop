@@ -19,10 +19,11 @@ from pylons import request, response, session, tmpl_context
 from repoze.what.predicates import has_permission
 
 from mediacore.lib.base import BaseController
-from mediacore.lib.decorators import expose, expose_xhr, paginate, validate
+from mediacore.lib.decorators import expose, expose_xhr, observable, paginate, validate
 from mediacore.lib.helpers import redirect, url_for
 from mediacore.model import Comment, Media, fetch_row
 from mediacore.model.meta import DBSession
+from mediacore.plugin import events
 
 import logging
 log = logging.getLogger(__name__)
@@ -32,6 +33,7 @@ class IndexController(BaseController):
     allow_only = has_permission('admin')
 
     @expose('admin/index.html')
+    @observable(events.Admin.IndexController.index)
     def index(self, **kwargs):
         """List recent and important items that deserve admin attention.
 
@@ -79,6 +81,7 @@ class IndexController(BaseController):
 
 
     @expose('admin/media/dash-table.html')
+    @observable(events.Admin.IndexController.media_table)
     def media_table(self, table, page, **kwargs):
         """Fetch XHTML to inject when the 'showmore' ajax action is clicked.
 

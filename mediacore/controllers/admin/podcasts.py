@@ -24,11 +24,12 @@ from mediacore.forms.admin import SearchForm, ThumbForm
 from mediacore.forms.admin.podcasts import PodcastForm
 from mediacore.lib import helpers
 from mediacore.lib.base import BaseController
-from mediacore.lib.decorators import expose, expose_xhr, paginate, validate
+from mediacore.lib.decorators import expose, expose_xhr, observable, paginate, validate
 from mediacore.lib.helpers import redirect, url_for
 from mediacore.lib.thumbnails import thumb_paths, create_thumbs_for, create_default_thumbs_for
 from mediacore.model import Author, AuthorWithIP, Podcast, fetch_row, get_available_slug
 from mediacore.model.meta import DBSession
+from mediacore.plugin import events
 
 import logging
 log = logging.getLogger(__name__)
@@ -42,6 +43,7 @@ class PodcastsController(BaseController):
     @expose_xhr('admin/podcasts/index.html',
                 'admin/podcasts/index-table.html')
     @paginate('podcasts', items_per_page=10)
+    @observable(events.Admin.PodcastsController.index)
     def index(self, page=1, **kw):
         """List podcasts with pagination.
 
@@ -60,6 +62,7 @@ class PodcastsController(BaseController):
 
 
     @expose('admin/podcasts/edit.html')
+    @observable(events.Admin.PodcastsController.edit)
     def edit(self, id, **kwargs):
         """Display the podcast forms for editing or adding.
 
@@ -127,6 +130,7 @@ class PodcastsController(BaseController):
 
     @expose()
     @validate(podcast_form, error_handler=edit)
+    @observable(events.Admin.PodcastsController.save)
     def save(self, id, slug, title, subtitle, author_name, author_email,
              description, details, feed, delete=None, **kwargs):
         """Save changes or create a new :class:`~mediacore.model.podcasts.Podcast` instance.
@@ -171,6 +175,7 @@ class PodcastsController(BaseController):
 
     @expose('json')
     @validate(thumb_form, error_handler=edit)
+    @observable(events.Admin.PodcastsController.save_thumb)
     def save_thumb(self, id, thumb, **values):
         """Save a thumbnail uploaded with :class:`~mediacore.forms.admin.ThumbForm`.
 
