@@ -31,7 +31,7 @@ from mediacore.lib import helpers
 from mediacore.lib.base import BaseController
 from mediacore.lib.decorators import expose, expose_xhr, paginate, validate, validate_xhr
 from mediacore.lib.helpers import redirect, url_for
-from mediacore.lib.mediafiles import add_new_media_file
+from mediacore.lib.mediafiles import add_new_media_file, parse_rtmp_url, UnknownRTMPServer
 from mediacore.lib.thumbnails import thumb_path, thumb_paths, create_thumbs_for, create_default_thumbs_for, has_thumbs, has_default_thumbs
 from mediacore.model import Author, Category, Media, Podcast, Tag, fetch_row, get_available_slug
 from mediacore.model.meta import DBSession
@@ -301,9 +301,16 @@ class MediaController(BaseController):
             media_file = add_new_media_file(media, file, url)
         except Invalid, e:
             DBSession.rollback()
+            if isinstance(e, UnknownRTMPServer):
+                message = e.message\
+                    + _(' If you would like to add this server, you can do so'\
+                        ' at the <a href="%s">RTMP Settings</a> page.')\
+                    %  url_for(controller='/admin/settings', action='rtmp')
+            else:
+                message = e.message
             data = dict(
                 success = False,
-                message = e.message,
+                message = message,
             )
         else:
             if media.slug.startswith('_stub_'):

@@ -25,11 +25,11 @@ from paste.deploy.converters import asbool
 from pylons import app_globals, config
 from pylons.i18n import _
 
-from mediacore.lib.compat import sha1
+from mediacore.lib.compat import sha1, any
 from mediacore.lib.filetypes import guess_container_format, guess_media_type
 from mediacore.lib.embedtypes import parse_embed_url
 from mediacore.lib.thumbnails import create_default_thumbs_for, create_thumbs_for, has_thumbs, has_default_thumbs, thumb_path
-from mediacore.model import Author, Media, MediaFile, get_available_slug
+from mediacore.model import Author, Media, MediaFile, MultiSetting, get_available_slug
 from mediacore.model.meta import DBSession
 
 import logging
@@ -43,6 +43,31 @@ __all__ = [
 
 class FTPUploadException(formencode.Invalid):
     pass
+
+class UnknownRTMPServer(formencode.Invalid):
+    pass
+
+def parse_rtmp_url(url):
+    """Attempt to parse an RTMP url.
+
+    Returns None if the URL is not in the RTMP scheme.
+    Returns (stream_url, file_name) tuple if a server is found.
+    Raises UnknownRTMPServer exception if a server is not found.
+    """
+    if url.startswith('rtmp://'):
+        # If this is an RTMP URL, check it against all known RTMP servers
+        known_rtmp_servers = MultiSetting.query\
+            .filter(MultiSetting.key==u'rtmp_server')\
+            .all()
+        for server in known_rtmp_servers:
+            if url.startswith(server.value):
+                # strip the server name and the leading slash from the filename
+                return server.value, url[len(server.value)+1:]
+        # If it does not match any known RTMP servers,
+        raise UnknownRTMPServer(
+                _('URL does not match any known RTMP server.'), url, None)
+    return None
+
 
 def add_new_media_file(media, uploaded_file=None, url=None):
     """Create a new MediaFile for the provided Media object and File/URL
@@ -128,6 +153,8 @@ def media_file_from_url(url):
     media_file = MediaFile()
     # Parse the URL checking for known embeddables like YouTube
     embed = parse_embed_url(url)
+    rtmp = parse_rtmp_url(url) # Careful, this throws UnknownRTMPServer
+
     if embed:
         media_file.type = embed['type']
         media_file.container = embed['container']
@@ -145,7 +172,10 @@ def media_file_from_url(url):
         name, ext, container = base_ext_container_from_uri(url)
         media_file.type = guess_media_type(ext)
         media_file.container = container
-        media_file.http_url = url
+        if rtmp:
+            media_file.rtmp_stream_url, media_file.rtmp_file_name = rtmp
+        else:
+            media_file.http_url = url
         media_file.display_name = os.path.basename(url)
 
     return media_file, thumb_url, duration, title

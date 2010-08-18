@@ -574,7 +574,7 @@ var FileManager = new Class({
 		if (typeCol && !typeCol.getElement('select')) typeCol.set('text', 'Error');
 		row.className = 'error';
 		this.fireEvent('fileError', [row, msg]);
-		return errorDiv.set('text', msg);
+		return errorDiv.set('html', msg);
 	},
 
 	_getFileID: function(el){

@@ -68,7 +68,7 @@ def boolean_radiobuttonlist(name, **kwargs):
 class RTMPURLValidator(FancyValidator):
     def _to_python(self, value, state=None):
         if value.startswith('rtmp://'):
-            return value
+            return value.rstrip('/')
         raise formencode.Invalid(
             _('RTMP server URLs must begin with rtmp://'), value, state)
 
