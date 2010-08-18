@@ -31,9 +31,7 @@ from mediacore.model import Media, Podcast, init_model
 from mediacore.model.meta import DBSession
 
 def load_environment(global_conf, app_conf):
-    """Configure the Pylons environment via the ``pylons.config``
-    object
-    """
+    """Configure the Pylons environment via the ``pylons.config`` object"""
     config = PylonsConfig()
 
     # Pylons paths
@@ -71,12 +69,13 @@ def load_environment(global_conf, app_conf):
     init_model(engine, config.get('db_table_prefix', None))
 
     # CONFIGURATION OPTIONS HERE (note: all config options will override
-    # any Pylons config options)
-    # TODO: Move as many of these custom options into an .ini file, or at least
-    # to somewhere more friendly.
+    #                                   any Pylons config options)
 
-    # TODO: rework templates not to rely on this line:
-    # See docstring in pylons.configuration.PylonsConfig for details.
+    # TODO: Move as many of these custom options into an .ini file, or at least
+    #       to somewhere more friendly.
+
+    # TODO: Rework templates not to rely on this line:
+    #       See docstring in pylons.configuration.PylonsConfig for details.
     config['pylons.strict_tmpl_context'] = False
 
     config['thumb_sizes'] = { # the dimensions (in pixels) to scale thumbnails

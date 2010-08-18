@@ -23,7 +23,7 @@ from paste.registry import RegistryManager
 from paste.urlparser import StaticURLParser
 from paste.deploy.converters import asbool
 from paste.deploy.config import PrefixMiddleware
-from pylons.i18n.translation import lazify, ugettext
+from pylons.i18n.translation import lazy_ugettext, ugettext
 from pylons.middleware import ErrorHandler, StatusCodeRedirect
 from pylons.wsgiapp import PylonsApp
 from routes.middleware import RoutesMiddleware
@@ -103,7 +103,7 @@ def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
     app = tw.api.make_middleware(app, {
         'toscawidgets.framework': 'pylons',
         'toscawidgets.framework.default_view': 'genshi',
-        'toscawidgets.framework.translator': lazify(ugettext),
+        'toscawidgets.framework.translator': lazy_ugettext,
         'toscawidgets.framework.engine_options': {'genshi.loader_callback': enable_i18n_for_template},
     })
 
