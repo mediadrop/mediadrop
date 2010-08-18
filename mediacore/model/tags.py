@@ -31,6 +31,7 @@ from sqlalchemy.orm import mapper, relation, backref, synonym, interfaces, valid
 from mediacore.lib.helpers import excess_whitespace
 from mediacore.model import slug_length, slugify, _mtm_count_property
 from mediacore.model.meta import Base, DBSession
+from mediacore.plugin import events
 
 
 tags = Table('tags', Base.metadata,
@@ -90,7 +91,7 @@ class TagList(list):
     def __unicode__(self):
         return ', '.join([tag.name for tag in self.values()])
 
-mapper(Tag, tags, order_by=tags.c.name)
+mapper(Tag, tags, order_by=tags.c.name, extension=events.MapperObserver(events.Tag))
 
 def extract_tags(string):
     """Convert a comma separated string into a list of tag names.

@@ -9,6 +9,7 @@ from sqlalchemy.orm.exc import NoResultFound
 
 from mediacore.model.meta import Base, DBSession
 from mediacore.lib.compat import sha1
+from mediacore.plugin import events
 
 # This is the association table for the many-to-many relationship between
 # groups and permissions.
@@ -64,6 +65,7 @@ class User(Base):
     """
     __tablename__ = 'users'
     __table_args__ = {'mysql_engine': 'InnoDB', 'mysql_charset': 'utf8'}
+    __mapper_args__ = {'extension': events.MapperObserver(events.User)}
 
     user_id = Column(Integer, autoincrement=True, primary_key=True)
     user_name = Column(Unicode(16), unique=True, nullable=False)

@@ -16,6 +16,9 @@
 Abstract events which plugins subscribe to and are called by the app.
 """
 import logging
+
+from sqlalchemy.orm.interfaces import MapperExtension
+
 log = logging.getLogger(__name__)
 
 class Event(object):
@@ -49,6 +52,31 @@ class observes(object):
         for event in self.events:
             event.observers.append(func)
         return func
+
+class MapperObserver(MapperExtension):
+    """
+    Fire events whenever the mapper triggers any kind of row modification.
+    """
+    def __init__(self, event_group):
+        self.event_group = event_group
+
+    def after_delete(self, mapper, connection, instance):
+        self.event_group.after_delete(instance)
+
+    def after_insert(self, mapper, connection, instance):
+        self.event_group.after_insert(instance)
+
+    def after_update(self, mapper, connection, instance):
+        self.event_group.after_update(instance)
+
+    def before_delete(self, mapper, connection, instance):
+        self.event_group.before_delete(instance)
+
+    def before_insert(self, mapper, connection, instance):
+        self.event_group.before_insert(instance)
+
+    def before_update(self, mapper, connection, instance):
+        self.event_group.before_update(instance)
 
 ###############################################################################
 # Application Setup
@@ -141,3 +169,70 @@ class UploadController(object):
     submit_async = Event(['**kwargs'])
     success = Event(['**kwargs'])
     failure = Event(['**kwargs'])
+
+###############################################################################
+# Models
+
+class Media(object):
+    before_delete = Event(['instance'])
+    after_delete = Event(['instance'])
+    before_insert = Event(['instance'])
+    after_insert = Event(['instance'])
+    before_update = Event(['instance'])
+    after_update = Event(['instance'])
+
+class MediaFile(object):
+    before_delete = Event(['instance'])
+    after_delete = Event(['instance'])
+    before_insert = Event(['instance'])
+    after_insert = Event(['instance'])
+    before_update = Event(['instance'])
+    after_update = Event(['instance'])
+
+class Podcast(object):
+    before_delete = Event(['instance'])
+    after_delete = Event(['instance'])
+    before_insert = Event(['instance'])
+    after_insert = Event(['instance'])
+    before_update = Event(['instance'])
+    after_update = Event(['instance'])
+
+class Comment(object):
+    before_delete = Event(['instance'])
+    after_delete = Event(['instance'])
+    before_insert = Event(['instance'])
+    after_insert = Event(['instance'])
+    before_update = Event(['instance'])
+    after_update = Event(['instance'])
+
+class Category(object):
+    before_delete = Event(['instance'])
+    after_delete = Event(['instance'])
+    before_insert = Event(['instance'])
+    after_insert = Event(['instance'])
+    before_update = Event(['instance'])
+    after_update = Event(['instance'])
+
+class Tag(object):
+    before_delete = Event(['instance'])
+    after_delete = Event(['instance'])
+    before_insert = Event(['instance'])
+    after_insert = Event(['instance'])
+    before_update = Event(['instance'])
+    after_update = Event(['instance'])
+
+class Setting(object):
+    before_delete = Event(['instance'])
+    after_delete = Event(['instance'])
+    before_insert = Event(['instance'])
+    after_insert = Event(['instance'])
+    before_update = Event(['instance'])
+    after_update = Event(['instance'])
+
+class User(object):
+    before_delete = Event(['instance'])
+    after_delete = Event(['instance'])
+    before_insert = Event(['instance'])
+    after_insert = Event(['instance'])
+    before_update = Event(['instance'])
+    after_update = Event(['instance'])

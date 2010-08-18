@@ -47,6 +47,7 @@ from mediacore.model.categories import Category, CategoryList, categories
 from mediacore.lib import helpers
 from mediacore.lib.filetypes import AUDIO, AUDIO_DESC, CAPTIONS, VIDEO, guess_mimetype
 from mediacore.lib.embedtypes import external_embedded_containers
+from mediacore.plugin import events
 
 class MediaException(Exception): pass
 class MediaFileException(MediaException): pass
@@ -601,11 +602,11 @@ class MediaFullText(object):
     query = DBSession.query_property()
 
 
-mapper(MediaFile, media_files)
+mapper(MediaFile, media_files, extension=events.MapperObserver(events.MediaFile))
 
 mapper(MediaFullText, media_fulltext)
 
-_media_mapper = mapper(Media, media, order_by=media.c.title, properties={
+_media_mapper = mapper(Media, media, order_by=media.c.title, extension=events.MapperObserver(events.Media), properties={
     'fulltext': relation(MediaFullText, uselist=False, passive_deletes=True),
     'author': composite(Author, media.c.author_name, media.c.author_email),
     'files': relation(MediaFile, backref='media', order_by=media_files.c.type.asc(), passive_deletes=True),

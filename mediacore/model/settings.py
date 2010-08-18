@@ -30,6 +30,7 @@ from sqlalchemy.types import Unicode, UnicodeText, Integer, Boolean, Float
 from sqlalchemy.orm import mapper, relation, backref, synonym, interfaces, validates
 
 from mediacore.model.meta import DBSession, metadata
+from mediacore.plugin import events
 
 settings = Table('settings', metadata,
     Column('id', Integer, autoincrement=True, primary_key=True),
@@ -55,4 +56,4 @@ class Setting(object):
     def __unicode__(self):
         return self.value
 
-mapper(Setting, settings)
+mapper(Setting, settings, extension=events.MapperObserver(events.Setting))

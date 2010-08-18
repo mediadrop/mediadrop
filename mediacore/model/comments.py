@@ -29,6 +29,7 @@ from sqlalchemy.orm import mapper, relation, backref, synonym, composite, column
 
 from mediacore.model import AuthorWithIP
 from mediacore.model.meta import DBSession, metadata
+from mediacore.plugin import events
 
 
 comments = Table('comments', metadata,
@@ -111,7 +112,7 @@ class Comment(object):
     """)
 
 
-mapper(Comment, comments, order_by=comments.c.created_on, properties={
+mapper(Comment, comments, order_by=comments.c.created_on, extension=events.MapperObserver(events.Comment), properties={
     'author': composite(AuthorWithIP,
         comments.c.author_name,
         comments.c.author_email,

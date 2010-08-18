@@ -32,6 +32,7 @@ from pylons import request
 from mediacore.model import Author, slug_length, slugify, get_available_slug
 from mediacore.model.meta import DBSession, metadata
 from mediacore.model.media import Media, MediaQuery, media
+from mediacore.plugin import events
 
 
 podcasts = Table('podcasts', metadata,
@@ -134,7 +135,7 @@ class Podcast(object):
         return slugify(slug)
 
 
-mapper(Podcast, podcasts, order_by=podcasts.c.title, properties={
+mapper(Podcast, podcasts, order_by=podcasts.c.title, extension=events.MapperObserver(events.Podcast), properties={
     'author': composite(Author,
         podcasts.c.author_name,
         podcasts.c.author_email),
