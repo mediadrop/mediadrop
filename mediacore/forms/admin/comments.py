@@ -18,7 +18,7 @@ from tw.forms.validators import NotEmpty
 from tw.api import WidgetsList
 
 from mediacore.forms import ListForm, ResetButton, SubmitButton, TextArea
-
+from mediacore.plugin import events
 
 class EditCommentForm(ListForm):
     template = 'mediacore.templates.admin.comments.edit'
@@ -29,3 +29,6 @@ class EditCommentForm(ListForm):
         body = TextArea(validator=NotEmpty, label_text=_('Comment'), attrs=dict(rows=5, cols=25))
         submit = SubmitButton(default=_('Save'), css_classes=['btn', 'btn-save', 'f-rgt'])
         cancel = ResetButton(default=_('Cancel'), css_classes=['btn', 'btn-cancel'])
+
+    def post_init(self, *args, **kwargs):
+        events.Admin.EditCommentForm(self)

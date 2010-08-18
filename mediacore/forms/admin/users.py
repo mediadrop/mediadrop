@@ -21,6 +21,7 @@ from tw.forms.validators import All, FancyValidator, FieldsMatch, Invalid, NotEm
 from mediacore.forms import ListFieldSet, ListForm, SubmitButton, TextField, email_validator
 from mediacore.model import DBSession
 from mediacore.model.auth import Group, User
+from mediacore.plugin import events
 
 
 class UniqueUsername(FancyValidator):
@@ -61,3 +62,6 @@ class UserForm(ListForm):
         SubmitButton('save', default=_('Save'), named_button=True, css_classes=['btn', 'btn-save', 'f-rgt']),
         SubmitButton('delete', default=_('Delete'), named_button=True, css_classes=['btn', 'btn-delete']),
     ]
+
+    def post_init(self, *args, **kwargs):
+        events.Admin.UserForm(self)

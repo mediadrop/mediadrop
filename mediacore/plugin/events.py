@@ -236,3 +236,23 @@ class User(object):
     after_insert = Event(['instance'])
     before_update = Event(['instance'])
     after_update = Event(['instance'])
+
+###############################################################################
+# Forms
+
+PostCommentForm = Event(['form'])
+UploadForm = Event(['form'])
+Admin.CategoryForm = Event(['form'])
+Admin.CategoryRowForm = Event(['form'])
+Admin.EditCommentForm = Event(['form'])
+Admin.MediaForm = Event(['form'])
+Admin.AddFileForm = Event(['form'])
+Admin.EditFileForm = Event(['form'])
+Admin.UpdateStatusForm = Event(['form'])
+Admin.SearchForm = Event(['form'])
+Admin.PodcastForm = Event(['form'])
+Admin.PodcastFilterForm = Event(['form'])
+Admin.UserForm = Event(['form'])
+Admin.TagForm = Event(['form'])
+Admin.TagRowForm = Event(['form'])
+Admin.ThumbForm = Event(['form'])

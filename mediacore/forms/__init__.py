@@ -26,6 +26,7 @@ from pylons import app_globals
 from pylons.templating import pylons_globals
 
 from mediacore.lib.helpers import line_break_xhtml, clean_xhtml, decode_entities, url_for
+from mediacore.plugin import events
 
 class LeniantValidationMixin(object):
     validator = forms.validators.Schema(

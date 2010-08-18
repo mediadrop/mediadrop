@@ -26,6 +26,7 @@ from mediacore.lib.filetypes import AUDIO, AUDIO_DESC, CAPTIONS, VIDEO
 from mediacore.forms import FileField, Form, ListFieldSet, ListForm, SubmitButton, TextArea, TextField, XHTMLTextArea, email_validator
 from mediacore.forms.admin.categories import CategoryCheckBoxList
 from mediacore.model import Category, DBSession, MediaFile, Podcast
+from mediacore.plugin import events
 
 class DurationValidator(FancyValidator):
     """
@@ -41,7 +42,6 @@ class DurationValidator(FancyValidator):
     def _from_python(self, value, state):
         return helpers.duration_from_seconds(value)
 
-
 class AddFileForm(ListForm):
     template = 'mediacore.templates.admin.media.file-add-form'
     id = 'add-file-form'
@@ -51,6 +51,9 @@ class AddFileForm(ListForm):
         SubmitButton('add_url', default=_('Add URL'), named_button=True, css_class='btn btn-add-url f-rgt'),
         TextField('url', validator=URL, suppress_label=True, attrs={'title': _('YouTube, Vimeo, Google Video, Amazon S3 or any other link')}, maxlength=255),
     ]
+
+    def post_init(self, *args, **kwargs):
+        events.Admin.AddFileForm(self)
 
 file_type_options = [
     (VIDEO, _('Video')),
@@ -69,6 +72,9 @@ class EditFileForm(ListForm):
         file_type = SingleSelectField(options=file_type_options, attrs={'id': None, 'autocomplete': 'off'})
         duration = TextField(validator=DurationValidator, attrs={'id': None, 'autocomplete': 'off'})
         delete = SubmitButton(default=_('Delete file'), named_button=True, css_class='file-delete', attrs={'id': None})
+
+    def post_init(self, *args, **kwargs):
+        events.Admin.EditFileForm(self)
 
 
 class MediaForm(ListForm):
@@ -93,6 +99,9 @@ class MediaForm(ListForm):
         SubmitButton('delete', default=_('Delete'), named_button=True, css_classes=['btn', 'btn-delete', 'f-lft']),
     ]
 
+    def post_init(self, *args, **kwargs):
+        events.Admin.MediaForm(self)
+
 
 class UpdateStatusForm(Form):
     template = 'mediacore.templates.admin.media.update-status-form'
@@ -108,6 +117,9 @@ class UpdateStatusForm(Form):
         publish_on = HiddenField(validator=DateTimeConverter(format='%b %d %Y @ %H:%M'))
         update_button = SubmitButton(named_button=True, validator=NotEmpty)
 
+    def post_init(self, *args, **kwargs):
+        events.Admin.UpdateStatusForm(self)
+
 
 class PodcastFilterForm(ListForm):
     id = 'podcastfilterform'
@@ -119,3 +131,6 @@ class PodcastFilterForm(ListForm):
             [('All Media', _('All Media'))] + \
             DBSession.query(Podcast.id, Podcast.title).all() + \
             [('Unfiled', _('Unfiled'))])]
+
+    def post_init(self, *args, **kwargs):
+        events.Admin.PodcastFilterForm(self)

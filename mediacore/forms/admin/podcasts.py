@@ -19,6 +19,7 @@ from genshi.core import Markup
 from tw.forms import ListFieldSet, SingleSelectField
 from tw.forms.validators import NotEmpty
 from mediacore.forms import ListForm, SubmitButton, TextField, XHTMLTextArea, email_validator
+from mediacore.plugin import events
 
 class PodcastForm(ListForm):
     template = 'mediacore.templates.admin.box-form'
@@ -120,3 +121,6 @@ class PodcastForm(ListForm):
         SubmitButton('save', default=_('Save'), named_button=True, css_classes=['btn', 'btn-save', 'f-rgt']),
         SubmitButton('delete', default=_('Delete'), named_button=True, css_classes=['btn', 'btn-delete']),
     ]
+
+    def post_init(self, *args, **kwargs):
+        events.Admin.PodcastForm(self)

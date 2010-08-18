@@ -21,6 +21,7 @@ from tw.forms.validators import NotEmpty
 from mediacore.model.categories import Category
 from mediacore.lib import helpers
 from mediacore.forms import Form, ListForm, SubmitButton, TextField
+from mediacore.plugin import events
 
 def option_tree(cats):
     indent = helpers.decode_entities(u'&nbsp;') * 4
@@ -45,6 +46,9 @@ class CategoryForm(ListForm):
         slug = TextField(validator=NotEmpty, label_text=_('Slug'))
         parent_id = SingleSelectField(label_text=_('Parent Category'), options=category_options)
 
+    def post_init(self, *args, **kwargs):
+        events.Admin.CategoryForm(self)
+
 class CategoryCheckBoxList(CheckBoxList):
     params = ['category_tree']
     template = 'mediacore.templates.admin.categories.selection_list'
@@ -60,3 +64,6 @@ class CategoryRowForm(Form):
         slug = HiddenField()
         parent_id = HiddenField()
         delete = SubmitButton(default=_('Delete'), css_classes=['btn', 'btn-inline-delete'])
+
+    def post_init(self, *args, **kwargs):
+        events.Admin.CategoryRowForm(self)

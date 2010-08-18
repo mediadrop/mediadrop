@@ -19,6 +19,7 @@ from tw.forms.validators import NotEmpty
 
 from mediacore.forms import Form, ListForm, SubmitButton, TextField, XHTMLEntityValidator
 from mediacore.lib.helpers import excess_whitespace
+from mediacore.plugin import events
 
 class TagNameValidator(XHTMLEntityValidator):
     def _to_python(self, value, state=None):
@@ -42,6 +43,9 @@ class TagForm(ListForm):
         TextField('slug', label_text=_('Slug'), css_classes=['tag-slug'], validator=NotEmpty),
     ]
 
+    def post_init(self, *args, **kwargs):
+        events.Admin.TagForm(self)
+
 class TagRowForm(Form):
     template = 'mediacore.templates.admin.tags.row-form'
     id = None
@@ -53,3 +57,6 @@ class TagRowForm(Form):
         HiddenField('slug'),
         SubmitButton('delete', default=_('Delete'), css_classes=['btn', 'btn-inline-delete']),
     ]
+
+    def post_init(self, *args, **kwargs):
+        events.Admin.TagRowForm(self)

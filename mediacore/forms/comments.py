@@ -18,6 +18,7 @@ from tw.forms.validators import NotEmpty
 from tw.api import WidgetsList
 
 from mediacore.forms import ListForm, SubmitButton, TextField, TextArea, XHTMLValidator, email_validator
+from mediacore.plugin import events
 
 class PostCommentForm(ListForm):
     template = 'mediacore.templates.comments.post'
@@ -33,3 +34,6 @@ class PostCommentForm(ListForm):
             label_text=_('Comment'), attrs=dict(rows=5, cols=25))
         submit = SubmitButton(default=_('Post Comment'),
             css_class='btn btn3 btn-post-comment')
+
+    def post_init(self, *args, **kwargs):
+        events.PostCommentForm(self)

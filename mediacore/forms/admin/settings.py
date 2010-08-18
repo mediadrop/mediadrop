@@ -20,6 +20,7 @@ from webhelpers.html import literal
 
 from mediacore.forms import ListFieldSet, ListForm, ResetButton, SubmitButton, TextArea, TextField, XHTMLTextArea, email_validator, email_list_validator
 from mediacore.forms.admin.categories import category_options
+from mediacore.plugin import events
 
 flash_players = [
     ('flowplayer', literal('<a href="http://flowplayer.org">FlowPlayer</a> - <a href="http://flowplayer.org/download/license_gpl.htm">GPL Licence</a> (137kB)')),

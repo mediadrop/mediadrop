@@ -27,6 +27,7 @@ from mediacore.lib import helpers
 from mediacore.lib.filetypes import accepted_extensions, guess_container_format
 from mediacore.lib.embedtypes import parse_embed_url
 from mediacore.forms import ListForm, TextField, XHTMLTextArea, FileField, SubmitButton, email_validator
+from mediacore.plugin import events
 
 validators = dict(
     description = XHTMLTextArea.validator(
@@ -77,3 +78,6 @@ class UploadForm(ListForm):
         url = TextField(validator=EmbedURLValidator(if_missing=None), label_text=_('Add a YouTube, Vimeo or Google Video URL:'), maxlength=255)
         file = FileField(validator=FieldStorageUploadConverter(if_missing=None, messages={'empty':_('Oops! You forgot to enter a file.')}), label_text=_('OR:'))
         submit = SubmitButton(css_classes=['btn', 'btn-submit'])
+
+    def post_init(self, *args, **kwargs):
+        events.UploadForm(self)
