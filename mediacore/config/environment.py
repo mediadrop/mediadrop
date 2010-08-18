@@ -30,7 +30,7 @@ from mediacore.config.routing import make_map
 from mediacore.lib.auth import classifier_for_flash_uploads
 from mediacore.model import Media, Podcast, init_model
 from mediacore.model.meta import DBSession
-from mediacore.plugin import PluginManager
+from mediacore.plugin import PluginManager, events
 
 def load_environment(global_conf, app_conf):
     """Configure the Pylons environment via the ``pylons.config`` object"""
@@ -50,6 +50,7 @@ def load_environment(global_conf, app_conf):
     plugin_mgr = PluginManager(config)
 
     mapper = make_map(config, plugin_mgr.controller_scan)
+    events.Environment.routes(mapper)
     config['routes.map'] = mapper
     config['pylons.app_globals'] = app_globals.Globals(config)
     config['pylons.app_globals'].plugin_mgr = plugin_mgr
@@ -109,5 +110,7 @@ def load_environment(global_conf, app_conf):
     config['api_tree_max_depth'] = 10
 
     # END CUSTOM CONFIGURATION OPTIONS
+
+    events.Environment.loaded(config)
 
     return config
