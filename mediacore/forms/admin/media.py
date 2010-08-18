@@ -56,6 +56,8 @@ class AddFileForm(ListForm):
     ]
 
 file_type_options = [(VIDEO, _('Video')), (AUDIO, _('Audio')), (AUDIO_DESC, _('Audio Description')), (CAPTIONS, _('Captions'))]
+file_types = [x[0] for x in file_type_options]
+file_type_validator = OneOf(file_types, if_missing=None)
 
 class EditFileForm(ListForm):
     template = 'mediacore.templates.admin.media.file-edit-form'
@@ -65,7 +67,7 @@ class EditFileForm(ListForm):
 
     class fields(WidgetsList):
         file_id = TextField(validator=Int())
-        file_type = SingleSelectField(validator=OneOf((x[0] for x in file_type_options), if_missing=None), options=file_type_options, attrs={'id': None, 'autocomplete': 'off'})
+        file_type = SingleSelectField(validator=file_type_validator, options=file_type_options, attrs={'id': None, 'autocomplete': 'off'})
         duration = TextField(validator=DurationValidator(if_missing=None), attrs={'id': None, 'autocomplete': 'off'})
         width = TextField(validator=Int(if_missing=None), attrs={'id': None, 'autocomplete': 'off'})
         height = TextField(validator=Int(if_missing=None), attrs={'id': None, 'autocomplete': 'off'})
