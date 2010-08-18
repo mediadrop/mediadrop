@@ -13,12 +13,15 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import formencode
+from pylons.i18n import _
 from genshi.core import Markup
 from tw.forms import RadioButtonList, SingleSelectField
-from tw.forms.validators import Int, OneOf, StringBool
+from tw.forms.validators import FancyValidator, Int, OneOf, StringBool
 
 from mediacore.forms import ListFieldSet, ListForm, ResetButton, SubmitButton, TextArea, TextField, XHTMLTextArea, email_validator, email_list_validator
 from mediacore.forms.admin.categories import category_options
+from mediacore.model import MultiSetting
 
 flash_players = [
     ('flowplayer', Markup('<a href="http://flowplayer.org">FlowPlayer</a> - <a href="http://flowplayer.org/download/license_gpl.htm">GPL Licence</a> (137kB)')),
@@ -41,6 +44,19 @@ rich_text_editors = [
     ('tinymce', Markup('Enable <a href="http://tinymce.moxiecode.com">TinyMCE</a> for &lt;textarea&gt; fields that accept XHTML input. - <a href="http://wiki.moxiecode.com/index.php/TinyMCE:License">LGPL License</a> (281kB)')),
 ]
 
+def multi_settings_options(key):
+    settings = MultiSetting.query\
+        .filter(MultiSetting.key==key)\
+        .all()
+    return [(s.id, s.value) for s in settings]
+
+class RTMPSelectField(SingleSelectField):
+    validator = Int
+    def update_params(self, d):
+        d['options']= multi_settings_options(u'rtmp_server')
+        SingleSelectField.update_params(self, d)
+        return d
+
 def boolean_radiobuttonlist(name, **kwargs):
     return RadioButtonList(
         name,
@@ -48,6 +64,26 @@ def boolean_radiobuttonlist(name, **kwargs):
         validator=OneOf(['true', 'false']),
         **kwargs
     )
+
+class RTMPURLValidator(FancyValidator):
+    def _to_python(self, value, state=None):
+        if value.startswith('rtmp://'):
+            return value
+        raise formencode.Invalid(
+            _('RTMP server URLs must begin with rtmp://'), value, state)
+
+class RTMPForm(ListForm):
+    template = 'mediacore.templates.admin.box-form'
+    id = 'settings-form'
+    css_class = 'form'
+    submit_text = None
+
+    fields = [
+        TextField('new_rtmp_url', validator=RTMPURLValidator(if_missing=None), label_text='Save a new RTMP Server URL', maxlength=255),
+        RTMPSelectField('old_rtmp_id', validator=Int(if_missing=None), label_text='Delete an RTMP Server URL'),
+        SubmitButton('save', default='Save', css_classes=['btn', 'btn-save', 'f-rgt']),
+        SubmitButton('delete', default='Delete', named_button=True, css_classes=['btn', 'btn-delete']),
+    ]
 
 class NotificationsForm(ListForm):
     template = 'mediacore.templates.admin.box-form'

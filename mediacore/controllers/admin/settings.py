@@ -19,11 +19,11 @@ from pylons import app_globals, request, response, session, tmpl_context as c
 from repoze.what.predicates import has_permission
 from sqlalchemy import orm, sql
 
-from mediacore.forms.admin.settings import AnalyticsForm, CommentsForm, DisplayForm, NotificationsForm, PopularityForm, UploadForm
+from mediacore.forms.admin.settings import AnalyticsForm, CommentsForm, DisplayForm, NotificationsForm, PopularityForm, RTMPForm, UploadForm
 from mediacore.lib.base import BaseController
 from mediacore.lib.decorators import expose, expose_xhr, paginate, validate
 from mediacore.lib.helpers import redirect, url_for
-from mediacore.model import Media, Setting, fetch_row
+from mediacore.model import Media, MultiSetting, Setting, fetch_row
 from mediacore.model.meta import DBSession
 
 import logging
@@ -47,6 +47,8 @@ upload_form = UploadForm(
 analytics_form = AnalyticsForm(
     action=url_for(controller='/admin/settings', action='save_analytics'))
 
+rtmp_form = RTMPForm(
+    action=url_for(controller='/admin/settings', action='save_rtmp'))
 
 class SettingsController(BaseController):
     """
@@ -191,6 +193,25 @@ class SettingsController(BaseController):
     def save_analytics(self, **kwargs):
         """Save :class:`~mediacore.forms.admin.settings.AnalyticsForm`."""
         return self._save(analytics_form, 'analytics', **kwargs)
+
+    @expose('admin/settings/rtmp.html')
+    def rtmp(self, **kwargs):
+        return dict(
+            form = rtmp_form,
+            form_values = {},
+        )
+
+    @expose()
+    @validate(rtmp_form, error_handler=rtmp)
+    def save_rtmp(self, new_rtmp_url=None, old_rtmp_id=None, delete=None, **kwargs):
+        """Save :class:`~mediacore.forms.admin.settings.RTMPForm`."""
+        if delete:
+            s = fetch_row(MultiSetting, old_rtmp_id, key=u'rtmp_server')
+            DBSession.delete(s)
+        elif new_rtmp_url:
+            s = MultiSetting(u'rtmp_server', new_rtmp_url)
+            DBSession.add(s)
+        redirect(controller='/admin/settings', action='rtmp')
 
 def _nest_settings_for_form(settings, form):
     """Create a dict of setting values nested to match the form."""

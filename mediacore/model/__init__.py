@@ -258,7 +258,7 @@ __all__ = [
 from mediacore.model.auth import User, Group, Permission
 from mediacore.model.authors import Author, AuthorWithIP
 from mediacore.model.comments import Comment
-from mediacore.model.settings import Setting
+from mediacore.model.settings import Setting, MultiSetting
 from mediacore.model.tags import Tag
 from mediacore.model.categories import Category
 from mediacore.model.media import Media, MediaFile
