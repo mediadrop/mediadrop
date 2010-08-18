@@ -28,6 +28,7 @@ non-mission-critical options which can be edited via the admin UI.
 from sqlalchemy import Table, ForeignKey, Column
 from sqlalchemy.types import Unicode, UnicodeText, Integer, Boolean, Float
 from sqlalchemy.orm import mapper, relation, backref, synonym, interfaces, validates
+from urlparse import urlparse
 
 from mediacore.model.meta import DBSession, metadata
 
@@ -39,6 +40,13 @@ settings = Table('settings', metadata,
     mysql_charset='utf8',
 )
 
+multisettings = Table('settings_multi', metadata,
+    Column('id', Integer, autoincrement=True, primary_key=True),
+    Column('key', Unicode(255), nullable=False),
+    Column('value', UnicodeText, nullable=False),
+    mysql_engine='InnoDB',
+    mysql_charset='utf8',
+)
 class Setting(object):
     """
     A Single Setting
@@ -55,4 +63,21 @@ class Setting(object):
     def __unicode__(self):
         return self.value
 
+class MultiSetting(object):
+    """
+    A MultiSetting
+    """
+    query = DBSession.query_property()
+
+    def __init__(self, key=None, value=None):
+        self.key = key or None
+        self.value = value or None
+
+    def __repr__(self):
+        return '<MultiSetting: %s = %s>' % (self.key, self.value)
+
+    def __unicode__(self):
+        return self.value
+
 mapper(Setting, settings)
+mapper(MultiSetting, multisettings)
