@@ -98,7 +98,12 @@ def _expose_wrapper(f, template):
             if response.content_type == 'text/html':
                 response.content_type = 'application/xhtml+xml'
 
-        return render(template, extra_vars=extra_vars)
+        if template.endswith('.xml'):
+            method = 'xml'
+        else:
+            method = 'xhtml'
+
+        return render(template, extra_vars=extra_vars, method=method)
     return wrapped_f
 
 def expose(template='string'):
