@@ -16,7 +16,6 @@
 import logging
 from datetime import datetime, timedelta
 
-import webob.exc
 from pylons import config, request, response, session, tmpl_context
 from sqlalchemy import orm, sql
 
@@ -232,7 +231,7 @@ class MediaController(BaseController):
         try:
             media = query.one()
         except orm.exc.NoResultFound:
-            raise webob.exc.HTTPNotFound
+            return dict(error="No match found")
 
         return self._info(media, include_embed=True)
 
@@ -280,3 +279,47 @@ class MediaController(BaseController):
             info['embed'] = helpers.embeddable_player(media)
 
         return info
+
+
+    @expose('json')
+    def files(self, id=None, slug=None, **kwargs):
+        """List all files related to specific media.
+
+        :param id: A :attr:`mediacore.model.media.Media.id` for lookup
+        :type id: int
+        :param slug: A :attr:`mediacore.model.media.Media.slug` for lookup
+        :type slug: str
+        :raises webob.exc.HTTPNotFound: If the media doesn't exist.
+        :returns: JSON dict
+
+        """
+        query = Media.query.published()
+
+        if id:
+            query = query.filter_by(id=id)
+        else:
+            query = query.filter_by(slug=slug)
+
+        try:
+            media = query.one()
+        except orm.exc.NoResultFound:
+            return dict(error='No match found')
+
+        return dict(
+            files = [self._file_info(f, media) for f in media.files],
+        )
+
+    def _file_info(self, file, media):
+        """Return a JSON-ready dict for the media file including links."""
+
+        return dict(
+            container = file.container,
+            type = file.type,
+            display_name = file.display_name,
+            created = file.created_on.isoformat(),
+            link = helpers.url_for(controller='/media', action='view',
+                                   slug=media.slug, qualified=True),
+            content = helpers.url_for(controller='/media', action='serve',
+                                      id=file.id, container=file.container,
+                                      slug=media.slug, qualified=True),
+        )
