@@ -130,6 +130,7 @@ installation and virtual environment.
     <Directory /path/to/mediacore_install/mediacore/public/*>
         Order allow,deny
         Allow from all
+        Options -Indexes
     </Directory>
 
 Performance Enhancements
