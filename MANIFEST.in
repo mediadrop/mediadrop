@@ -10,7 +10,6 @@ include doc/Makefile
 include doc/python.inv
 recursive-include batch-scripts *
 recursive-include deployment-scripts *
-recursive-include dependencies *
 recursive-include doc *.py
 recursive-include doc *.rst
 recursive-exclude doc/build *
