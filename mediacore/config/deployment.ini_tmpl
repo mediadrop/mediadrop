@@ -25,6 +25,8 @@ sa_auth.cookie_secret = ${app_instance_secret}
 
 # Specify an optional prefix for table names.
 # Use this if you want to put mediacore in the same database as another app.
+# XXX: If you use this setting and you want to enable search, you'll have to
+#      manually edit the table names in setup_triggers.sql to use this prefix.
 # e.g. if you want your tables to be named like 'mcore_media', you should set:
 # db_table_prefix = mcore
 

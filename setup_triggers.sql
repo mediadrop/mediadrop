@@ -1,3 +1,9 @@
+
+-- XXX: If your config.ini file has a db_table_prefix set, you'll have to
+--      manually prepend it to all table names in this class. This is far
+--      from ideal, it's true, and we hope to improve this in the future.
+
+
 DELIMITER //
 
 -- After Media is Inserted
