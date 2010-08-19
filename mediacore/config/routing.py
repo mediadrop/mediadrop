@@ -45,18 +45,16 @@ def make_map(config):
         controller='podcasts',
         action='view')
 
-    #sitemaps
+    # Sitemaps
     map.connect('/sitemap.xml',
-        controller='sitemap',
+        controller='sitemaps',
         action='sitemap')
-    
     map.connect('/sitemap{page}.xml',
-        controller='sitemap',
+        controller='sitemaps',
         action='sitemap',
         requirements={'page': r'\d+'})
-
     map.connect('/mrss.xml',
-        controller='sitemap',
+        controller='sitemaps',
         action='mrss')
 
     # Categories

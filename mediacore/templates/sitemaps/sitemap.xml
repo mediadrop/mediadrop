@@ -16,20 +16,21 @@
 -->
 <sitemap xmlns:py="http://genshi.edgewall.org/" py:strip="True">
 
-<sitemapindex py:if="defined('pages')" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<sitemapindex py:if="defined('pages')"
+              xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 	<sitemap py:for="page in range(0, pages)">
 		<loc py:content="h.url_for(controller='/sitemap%s.xml' % page, qualified=True)" />
 	</sitemap>
 </sitemapindex>
 
 <urlset py:if="defined('media')"
-		xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-		xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
-	<url py:if="links" py:for="link in links">
-		<loc py:content="h.url_for(**link)" />
+        xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
+	<url py:for="link in links">
+		<loc py:content="link" />
 	</url>
 	<url py:for="item in media" py:with="file=h.pick_any_media_file(item)">
-		<loc py:content="h.url_for(controller='/media', action='view', id=file.id, slug=item.slug, qualified=True)"></loc>
+		<loc py:content="h.url_for(controller='/media', action='view', id=file.id, slug=item.slug, qualified=True)" />
 		<video:video>
 			<video:content_loc py:content="h.url_for(controller='/media', action='serve', id=file.id, container=file.container, slug=item.slug, qualified=True)" />
 			<video:thumbnail_loc py:content="h.thumb_url(item, 'l', qualified=True)" />
