@@ -108,10 +108,12 @@ a.published { background-image: url('../images/statuses/published-both.png'); }
 	line-height: 28px;
 	display: inline;
 }
-#fmgr tr:hover .textfield {
+#fmgr tr:hover .textfield,
+#fmgr tr.editing .textfield {
 	display: inline;
 }
-#fmgr tr:hover .textspan {
+#fmgr tr:hover .textspan,
+#fmgr tr.editing .textspan {
 	display: none;
 }
 

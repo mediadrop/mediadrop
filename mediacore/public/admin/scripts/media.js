@@ -351,6 +351,14 @@ var FileManager = new Class({
 		row.getElement('select[name=file_type]').addEvent('change', this.editFile.bind(this));
 		// Set up all on-blur events for text fields
 		row.getElements('input.textfield').each(function(el) {
+			el.addEvent('focus', function(e) {
+				var e = new Event(e), target = $(e.target), row = target.getParent('tr');
+				row.addClass('editing');
+			});
+			el.addEvent('blur', function(e) {
+				var e = new Event(e), target = $(e.target), row = target.getParent('tr');
+				row.removeClass('editing');
+			});
 			el.addEvent('blur', this.editFile.bind(this));
 			var text = new Element('span', {'class': 'textspan'});
 			text.injectAfter(el);
