@@ -337,12 +337,25 @@ var FileManager = new Class({
 		return this;
 	},
 
+	_updateTextSpan: function(input) {
+		var text = input.textspan;
+		if (input.value == '0x0' || input.value == '') {
+			text.set('text', '-');
+		} else {
+			text.set('text', input.value);
+		}
+	},
+
 	_attachFile: function(row){
 		row.getElement('input.file-delete').addEvent('click', this.editFile.bind(this));
 		row.getElement('select[name=file_type]').addEvent('change', this.editFile.bind(this));
 		// Set up all on-blur events for text fields
 		row.getElements('input.textfield').each(function(el) {
 			el.addEvent('blur', this.editFile.bind(this));
+			var text = new Element('span', {'class': 'textspan'});
+			text.injectAfter(el);
+			el.textspan = text;
+			this._updateTextSpan(el);
 		}, this);
 		// Custom handling for the duration row.
 		var duration = row.getElement('input[name=duration]');
@@ -466,6 +479,7 @@ var FileManager = new Class({
 		} else {
 			if (json.duration) this.syncDurations(json.duration);
 			row.className = json.file_type;
+			this._updateTextSpan(target);
 			return this.fireEvent('fileEdited', [json, row, target]);
 		}
 	},
@@ -475,6 +489,7 @@ var FileManager = new Class({
 		else var target, value = eOrValue;
 		for (var input, i = 0, l = this.durationInputs.length; i < l; i++) {
 			input = this.durationInputs[i];
+			this._updateTextSpan(input);
 			if (input != target) input.set('value', value);
 		}
 	},

@@ -101,6 +101,20 @@ a.published { background-image: url('../images/statuses/published-both.png'); }
 .btn-add-url { background-image: url('../images/buttons/add-url.png'); width: 104px; }
 .btn-upload-file { background-image: url('../images/buttons/upload-file.png'); width: 104px; }
 
+#fmgr tr .textfield {
+	display: none;
+}
+#fmgr tr .textspan {
+	line-height: 28px;
+	display: inline;
+}
+#fmgr tr:hover .textfield {
+	display: inline;
+}
+#fmgr tr:hover .textspan {
+	display: none;
+}
+
 #fmgr-close {
 	color: #196D29;
 }
@@ -139,15 +153,15 @@ a.published { background-image: url('../images/statuses/published-both.png'); }
 }
 
 #fmgr input[name="duration"] {
-	width: 50px;
+	width: 48px;
 	text-align: right;
 }
 #fmgr input[name="max_bitrate"] {
-	width: 40px;
+	width: 34px;
 	text-align: right;
 }
 #fmgr input[name="width_height"] {
-	width: 90px;
+	width: 92px;
 	text-align: right;
 }
 #fmgr select[name="file_type"] {
