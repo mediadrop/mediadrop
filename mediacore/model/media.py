@@ -33,9 +33,12 @@ import os.path
 from datetime import datetime
 
 from sqlalchemy import Table, ForeignKey, Column, sql, func, exc
-from sqlalchemy.types import Unicode, UnicodeText, Integer, DateTime, Boolean, Float, Enum
+from sqlalchemy.types import Boolean, DateTime, Enum, Float, Integer, Unicode, UnicodeText
 from sqlalchemy.orm import mapper, class_mapper, relation, backref, synonym, composite, column_property, comparable_property, dynamic_loader, validates, collections, attributes, Query
 from sqlalchemy.schema import DDL
+from sqlalchemy.orm.collections import attribute_mapped_collection
+from sqlalchemy.ext.associationproxy import association_proxy
+
 from pylons import app_globals, config, request
 
 from mediacore.model import get_available_slug, slug_length, _mtm_count_property, _properties_dict_from_labels, MatchAgainstClause
@@ -84,6 +87,13 @@ media = Table('media', metadata,
 
     mysql_engine='InnoDB',
     mysql_charset='utf8',
+)
+
+media_meta = Table('media_meta', metadata,
+    Column('id', Integer, autoincrement=True, primary_key=True),
+    Column('media_id', Integer, ForeignKey('media.id'), nullable=False),
+    Column('key', Unicode(64), nullable=False),
+    Column('value', UnicodeText, default=None),
 )
 
 media_files = Table('media_files', metadata,
@@ -248,6 +258,26 @@ class MediaQuery(Query):
         else:
             return self
 
+class MediaMeta(object):
+    """
+    Metadata related to a media object
+
+    .. attribute:: id
+
+    .. attribute:: key
+
+        A lookup key
+
+    .. attribute:: value
+
+        The metadata value
+
+    """
+
+    def __init__(self, key, value):
+        self.key = key
+        self.value = value
+
 class Media(object):
     """
     Media metadata and a collection of related files.
@@ -366,6 +396,8 @@ class Media(object):
     .. attribute:: comment_count_published
 
     """
+
+    meta = association_proxy('_meta', 'value', creator=MediaMeta)
 
     query = DBSession.query_property(MediaQuery)
 
@@ -606,6 +638,8 @@ mapper(MediaFile, media_files, extension=events.MapperObserver(events.MediaFile)
 
 mapper(MediaFullText, media_fulltext)
 
+mapper(MediaMeta, media_meta)
+
 _media_mapper = mapper(Media, media, order_by=media.c.title, extension=events.MapperObserver(events.Media), properties={
     'fulltext': relation(MediaFullText, uselist=False, passive_deletes=True),
     'author': composite(Author, media.c.author_name, media.c.author_email),
@@ -613,6 +647,7 @@ _media_mapper = mapper(Media, media, order_by=media.c.title, extension=events.Ma
     'tags': relation(Tag, secondary=media_tags, backref=backref('media', lazy='dynamic', query_class=MediaQuery), collection_class=TagList, passive_deletes=True),
     'categories': relation(Category, secondary=media_categories, backref=backref('media', lazy='dynamic', query_class=MediaQuery), collection_class=CategoryList, passive_deletes=True),
 
+    '_meta': relation(MediaMeta, collection_class=attribute_mapped_collection('key')),
     'comments': dynamic_loader(Comment, backref='media', query_class=CommentQuery, passive_deletes=True),
     'comment_count': column_property(
         sql.select([sql.func.count(comments.c.id)],
