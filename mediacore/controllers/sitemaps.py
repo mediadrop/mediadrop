@@ -19,14 +19,13 @@ Sitemaps Controller
 import logging
 import math
 
-from pylons import app_globals, config, request, response, session, tmpl_context
 from paste.util import mimeparse
+from pylons import request, response
 
 from mediacore.lib.base import BaseController
-from mediacore.lib.decorators import expose, expose_xhr, paginate, validate, beaker_cache
-from mediacore.lib.helpers import url_for, redirect
-from mediacore.model import DBSession, Media
-from mediacore.lib import helpers
+from mediacore.lib.decorators import expose, beaker_cache
+from mediacore.lib.helpers import url_for
+from mediacore.model import Media
 
 log = logging.getLogger(__name__)
 
@@ -89,3 +88,18 @@ class SitemapsController(BaseController):
         media = Media.query.published()
 
         return dict(media=media, title="Video Feed")
+
+    @beaker_cache(expire=60 * 60 * 4, query_args=True)
+    @expose('sitemaps/mrss.xml')
+    def latest(self, limit=30, **kwargs):
+        """Generate a media rss (mRSS) feed of all the sites media."""
+
+        response.content_type = mimeparse.best_match(
+            ['application/rss+xml', 'application/xml', 'text/xml'],
+            request.environ.get('HTTP_ACCEPT', '*/*')
+        )
+
+        media = Media.query.published().\
+                            order_by(Media.publish_on.desc()).limit(limit).all()
+
+        return dict(media=media, title="Latest Videos")

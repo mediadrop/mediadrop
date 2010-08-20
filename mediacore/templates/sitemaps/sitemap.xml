@@ -37,8 +37,8 @@
 			<video:title py:content="item.title" />
 			<video:description py:content="item.description_plain" />
 			<video:view_count py:content="item.views" />
-			<video:publication_date py:content="item.publish_on.isoformat()" />
-			<video:expiration_date py:if="item.publish_until" py:content="item.publish_until.isoformat()" />
+			<video:publication_date py:content="item.publish_on.strftime('%a, %d %b %Y %H:%M:%S') + ' +0000'" />
+			<video:expiration_date py:if="item.publish_until" py:content="item.publish_until.strftime('%a, %d %b %Y %H:%M:%S') + ' +0000'" />
 			<py:for each="tag in item.tags[:32]">
 				<video:tag py:content="tag.name" />
 			</py:for>

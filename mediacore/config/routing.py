@@ -49,6 +49,9 @@ def make_map(config):
     map.connect('/sitemap.xml',
         controller='sitemaps',
         action='sitemap')
+    map.connect('/latest.xml',
+        controller='sitemaps',
+        action='latest')
     map.connect('/sitemap{page}.xml',
         controller='sitemaps',
         action='sitemap',
@@ -58,6 +61,10 @@ def make_map(config):
         action='mrss')
 
     # Categories
+    map.connect('/categories/feed/{slug}',
+        controller='categories',
+        action='feed',
+        slug=None)
     map.connect('/categories/{slug}',
         controller='categories',
         action='index',

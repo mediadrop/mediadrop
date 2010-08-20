@@ -21,6 +21,7 @@
 <xi:include href="../master.html" />
 <head>
 	<title>${search_query and 'Search: "%s"' % search_query or 'Media Library'}</title>
+	<link rel="alternate" type="application/rss+xml" title="Latest Media" href="${h.url_for(controller='/latest.xml', qualified=True)}" />
 </head>
 <body class="nav-media-on">
 	<div class="mediacore-content">

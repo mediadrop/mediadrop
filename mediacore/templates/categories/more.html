@@ -17,12 +17,15 @@
      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:py="http://genshi.edgewall.org/"
-      xmlns:xi="http://www.w3.org/2001/XInclude">
+      xmlns:xi="http://www.w3.org/2001/XInclude"
+      py:if="popular or latest" py:with="in_text = c.category and ('in ' + c.category.name) or ''">
 <xi:include href="./layout.html" />
 <xi:include href="../master.html" />
 <head>
 	<title>${c.category.name} | Categories</title>
 	<link href="${h.url_for('/styles/categories.css')}" media="screen" rel="stylesheet" type="text/css" />
+	<link py:if="not c.category" rel="alternate" type="application/rss+xml" title="Latest media" href="${h.url_for(controller='/latest.xml')}" />
+	<link py:if="c.category" rel="alternate" type="application/rss+xml" title="Latest media ${in_text}" href="${h.url_for(controller='/categories', action='feed', slug=c.category.name, order='latest')}" />
 </head>
 <body py:if="media" py:with="in_text = c.category and ('in ' + c.category.name) or ''">
 	<h2><span class="uppercase">${order == 'latest' and 'Latest' or 'Most Popular'}</span> ${in_text}</h2>
