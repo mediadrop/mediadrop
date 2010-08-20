@@ -51,7 +51,7 @@ class SitemapsController(BaseController):
 
         """
         response.content_type = mimeparse.best_match(
-            ['application/rss+xml', 'application/xml', 'text/xml'],
+            ['application/xml', 'text/xml'],
             request.environ.get('HTTP_ACCEPT', '*/*')
         )
 
