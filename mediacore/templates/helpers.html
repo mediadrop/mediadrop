@@ -49,16 +49,16 @@
 		</py:when>
 
 		<py:when test="player.is_flash">
-			<a i18n:msg="media.type"
+			<a i18n:msg="media_type"
 			   id="${player.elem_id}"
 			   href="${player.file.play_url(qualified=qualified)}"
 			   style="display:block;width:${player.adjusted_width}px;height:${player.adjusted_height}px">
 				Download this ${media.type}!
 			</a>
 			<script type="text/javascript">
-				<![CDATA[
+				//<![CDATA[
 				${flash_player_script(player)}
-				]]>
+				//]]>
 			</script>
 		</py:when>
 
@@ -71,13 +71,13 @@
 				If your browser supported HTML5, you'd be seeing a video player here instead of this text!
 			</video>
 			<script py:if="player.fallback" type="text/javascript">
-				<![CDATA[
+				//<![CDATA[
 				$('${player.elem_id}').addEvent('error', function(){
 					if (this.error.code == this.error.MEDIA_ERR_SRC_NOT_SUPPORTED) {
 						${flash_player_script(player.fallback)}
 					}
 				});
-				]]>
+				//]]>
 			</script>
 			${Markup(player.include())}
 		</py:when>
