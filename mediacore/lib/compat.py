@@ -13,7 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-__all__ = ['any', 'sha1', 'max', 'namedtuple']
+__all__ = ['all', 'any', 'sha1', 'max', 'namedtuple']
 
 try:
     from hashlib import sha1
@@ -28,6 +28,15 @@ except NameError:
             if element:
                 return True
         return False
+
+try:
+    all = all
+except NameError:
+    def all(iterable):
+        for element in iterable:
+            if not element:
+                return False
+        return True
 
 try:
     max([1], key=lambda x:x)
