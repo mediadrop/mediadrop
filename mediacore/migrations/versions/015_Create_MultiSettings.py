@@ -16,10 +16,10 @@ def upgrade(migrate_engine):
     # Upgrade operations go here. Don't create your own engine; bind migrate_engine
     # to your metadata
     metadata.bind = migrate_engine
-    multisettings.create()
+    multisettings.create(checkfirst=True)
 
 def downgrade(migrate_engine):
     # Operations to reverse the above upgrade go here.
     metadata.bind = migrate_engine
-    multisettings.drop()
+    multisettings.drop(checkfirst=True)
 
