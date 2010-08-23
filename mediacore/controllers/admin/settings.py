@@ -63,34 +63,34 @@ class SettingsController(BaseSettingsController):
 
     @expose('admin/settings/notifications.html')
     def notifications(self, **kwargs):
-        return self._display(notifications_form, **kwargs)
+        return self._display(notifications_form, values=kwargs)
 
     @expose()
     @validate(notifications_form, error_handler=notifications)
     def save_notifications(self, **kwargs):
         """Save :class:`~mediacore.forms.admin.settings.NotificationsForm`."""
-        return self._save(notifications_form, 'notifications', **kwargs)
+        return self._save(notifications_form, 'notifications', values=kwargs)
 
     @expose('admin/settings/comments.html')
     def comments(self, **kwargs):
-        return self._display(comments_form, **kwargs)
+        return self._display(comments_form, values=kwargs)
 
     @expose()
     @validate(comments_form, error_handler=comments)
     def save_comments(self, **kwargs):
         """Save :class:`~mediacore.forms.admin.settings.CommentsForm`."""
-        return self._save(comments_form, 'comments', **kwargs)
+        return self._save(comments_form, 'comments', values=kwargs)
 
     @expose('admin/settings/display.html')
     def display(self, **kwargs):
-        return self._display(display_form, **kwargs)
+        return self._display(display_form, values=kwargs)
 
     @expose()
     @validate(display_form, error_handler=display)
     def save_display(self, **kwargs):
         """Save :class:`~mediacore.forms.admin.settings.DisplayForm`."""
         player_type = c.settings['player_type'].value
-        self._save(display_form, **kwargs)
+        self._save(display_form, values=kwargs)
         # If the player_type changes, we must update the Media.encoded flag,
         # since some things may play now and/or not play anymore with the
         # new setting.
@@ -102,7 +102,7 @@ class SettingsController(BaseSettingsController):
 
     @expose('admin/settings/popularity.html')
     def popularity(self, **kwargs):
-        return self._display(popularity_form, **kwargs)
+        return self._display(popularity_form, values=kwargs)
 
     @expose()
     @validate(popularity_form, error_handler=popularity)
@@ -112,7 +112,7 @@ class SettingsController(BaseSettingsController):
         Updates the popularity for every media item based on the submitted
         values.
         """
-        self._save(popularity_form, **kwargs)
+        self._save(popularity_form, values=kwargs)
         for m in Media.query:
             m.update_popularity()
             DBSession.add(m)
@@ -120,23 +120,23 @@ class SettingsController(BaseSettingsController):
 
     @expose('admin/settings/upload.html')
     def upload(self, **kwargs):
-        return self._display(upload_form, **kwargs)
+        return self._display(upload_form, values=kwargs)
 
     @expose()
     @validate(upload_form, error_handler=upload)
     def save_upload(self, **kwargs):
         """Save :class:`~mediacore.forms.admin.settings.UploadForm`."""
-        return self._save(upload_form, 'upload', **kwargs)
+        return self._save(upload_form, 'upload', values=kwargs)
 
     @expose('admin/settings/analytics.html')
     def analytics(self, **kwargs):
-        return self._display(analytics_form, **kwargs)
+        return self._display(analytics_form, values=kwargs)
 
     @expose()
     @validate(analytics_form, error_handler=analytics)
     def save_analytics(self, **kwargs):
         """Save :class:`~mediacore.forms.admin.settings.AnalyticsForm`."""
-        return self._save(analytics_form, 'analytics', **kwargs)
+        return self._save(analytics_form, 'analytics', values=kwargs)
 
     @expose('admin/settings/rtmp.html')
     def rtmp(self, **kwargs):

@@ -250,7 +250,7 @@ class BaseSettingsController(BaseController):
         DBSession.flush()
         app_globals.settings.refresh()
 
-    def _display(self, form, **kwargs):
+    def _display(self, form, values=None, action=None):
         """Return the template variables for display of the form.
 
         :rtype: dict
@@ -261,16 +261,18 @@ class BaseSettingsController(BaseController):
                 ``dict`` form values
         """
         form_values = self._nest_settings_for_form(tmpl_context.settings, form)
-        form_values.update(kwargs)
+        if values:
+            form_values.update(values)
         return dict(
             form = form,
+            form_action = action,
             form_values = form_values,
         )
 
-    def _save(self, form, redirect_action=None, **kwargs):
+    def _save(self, form, redirect_action=None, values=None):
         """Save the values from the passed in form instance."""
         values = self._flatten_settings_from_form(tmpl_context.settings,
-                                                  form, kwargs)
+                                                  form, values)
         self._update_settings(values)
         if redirect_action:
             helpers.redirect(action=redirect_action)
