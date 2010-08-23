@@ -26,12 +26,17 @@ from pylons import app_globals, config, request, response, tmpl_context
 from pylons.controllers import WSGIController
 from pylons.controllers.util import abort
 from repoze.what.plugins.pylonshq import ControllerProtector
-from repoze.what.predicates import Predicate
+from repoze.what.predicates import has_permission, Predicate
+from tw.forms.fields import ContainerMixin as _ContainerMixin
 
 from mediacore.lib import helpers
 from mediacore.model.meta import DBSession
 
-__all__ = ['BareBonesController', 'BaseController']
+__all__ = [
+    'BareBonesController',
+    'BaseController',
+    'BaseSettingsController',
+]
 
 class BareBonesController(WSGIController):
     """
@@ -207,3 +212,89 @@ class BaseController(BareBonesController):
         #       files are on the same filesystem.
         #       see http://docs.python.org/library/os.html#os.rename
         os.rename(tmpl_tmp_path, tmpl_path)
+
+class BaseSettingsController(BaseController):
+    """
+    Dumb controller for display and saving basic settings forms
+
+    This maps forms from :class:`mediacore.forms.admin.settings` to our
+    model :class:`~mediacore.model.settings.Setting`. This controller
+    doesn't care what settings are used, the form dictates everything.
+    The form field names should exactly match the name in the model,
+    regardless of it's nesting in the form.
+
+    If and when setting values need to be altered for display purposes,
+    or before it is saved to the database, it should be done with a
+    field validator instead of adding complexity here.
+
+    """
+    allow_only = has_permission('admin')
+
+    def __before__(self, *args, **kwargs):
+        """Load all our settings before each request."""
+        BaseController.__before__(self, *args, **kwargs)
+        from mediacore.model import Setting
+        tmpl_context.settings = dict(DBSession.query(Setting.key, Setting))
+
+    def _update_settings(self, values):
+        """Modify the settings associated with the given dictionary."""
+        for name, value in values.iteritems():
+            setting = tmpl_context.settings[name]
+            if value is None:
+                value = u''
+            else:
+                value = unicode(value)
+            if setting.value != value:
+                setting.value = value
+                DBSession.add(setting)
+        DBSession.flush()
+        app_globals.settings.refresh()
+
+    def _display(self, form, **kwargs):
+        """Return the template variables for display of the form.
+
+        :rtype: dict
+        :returns:
+            form
+                The passed in form instance.
+            form_values
+                ``dict`` form values
+        """
+        form_values = self._nest_settings_for_form(tmpl_context.settings, form)
+        form_values.update(kwargs)
+        return dict(
+            form = form,
+            form_values = form_values,
+        )
+
+    def _save(self, form, redirect_action=None, **kwargs):
+        """Save the values from the passed in form instance."""
+        values = self._flatten_settings_from_form(tmpl_context.settings,
+                                                  form, kwargs)
+        self._update_settings(values)
+        if redirect_action:
+            helpers.redirect(action=redirect_action)
+
+    def _nest_settings_for_form(self, settings, form):
+        """Create a dict of setting values nested to match the form."""
+        form_values = {}
+        for field in form.c:
+            if isinstance(field, _ContainerMixin):
+                form_values[field._name] = self._nest_settings_for_form(
+                    settings, field
+                )
+            elif field._name in settings:
+                form_values[field._name] = settings[field._name].value
+        return form_values
+
+    def _flatten_settings_from_form(self, settings, form, form_values):
+        """Take a nested dict and return a flat dict of setting values."""
+        setting_values = {}
+        for field in form.c:
+            if isinstance(field, _ContainerMixin):
+                setting_values.update(self._flatten_settings_from_form(
+                    settings, field, form_values[field._name]
+                ))
+            elif field._name in settings:
+                setting_values[field._name] = form_values[field._name]
+        return setting_values
