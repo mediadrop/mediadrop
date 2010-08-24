@@ -121,6 +121,13 @@ media_files = Table('media_files', metadata,
     mysql_charset='utf8',
 )
 
+media_files_meta = Table('media_files_meta', metadata,
+    Column('id', Integer, autoincrement=True, primary_key=True),
+    Column('media_files_id', Integer, ForeignKey('media_files.id'), nullable=False),
+    Column('key', Unicode(64), nullable=False),
+    Column('value', UnicodeText, default=None),
+)
+
 media_tags = Table('media_tags', metadata,
     Column('media_id', Integer, ForeignKey('media.id', onupdate='CASCADE', ondelete='CASCADE'),
         primary_key=True),
@@ -264,7 +271,7 @@ class MediaQuery(Query):
         else:
             return self
 
-class MediaMeta(object):
+class Meta(object):
     """
     Metadata related to a media object
 
@@ -279,10 +286,15 @@ class MediaMeta(object):
         The metadata value
 
     """
-
     def __init__(self, key, value):
         self.key = key
         self.value = value
+
+class MediaMeta(Meta):
+    pass
+
+class MediaFilesMeta(Meta):
+    pass
 
 class Media(object):
     """
@@ -584,6 +596,7 @@ class MediaFile(object):
     Represents a locally- or remotely- hosted file or an embeddable YouTube video.
 
     """
+    meta = association_proxy('_meta', 'value', creator=MediaFilesMeta)
     query = DBSession.query_property()
 
     def __repr__(self):
@@ -651,11 +664,13 @@ class MediaFullText(object):
     query = DBSession.query_property()
 
 
-mapper(MediaFile, media_files, extension=events.MapperObserver(events.MediaFile))
-
 mapper(MediaFullText, media_fulltext)
-
 mapper(MediaMeta, media_meta)
+mapper(MediaFilesMeta, media_files_meta)
+
+_media_files_mapper = mapper(MediaFile, media_files, extension=events.MapperObserver(events.MediaFile), properties={
+    '_meta': relation(MediaFilesMeta, collection_class=attribute_mapped_collection('key')),
+})
 
 _media_mapper = mapper(Media, media, order_by=media.c.title, extension=events.MapperObserver(events.Media), properties={
     'fulltext': relation(MediaFullText, uselist=False, passive_deletes=True),
