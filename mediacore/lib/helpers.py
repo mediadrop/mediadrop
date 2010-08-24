@@ -147,13 +147,15 @@ def redirect(*args, **kwargs):
     found = webob.exc.HTTPFound(location=url)
     raise found.exception
 
-def duration_from_seconds(total_sec):
+def duration_from_seconds(total_sec, shortest=True):
     """Return the HH:MM:SS duration for a given number of seconds.
 
     Does not support durations longer than 24 hours.
 
     :param total_sec: Number of seconds to convert into hours, mins, sec
     :type total_sec: int
+    :param shortest: If True, return the shortest possible timestamp.
+        Defaults to True.
     :rtype: unicode
     :returns: String HH:MM:SS, omitting the hours if less than one.
 
@@ -161,7 +163,9 @@ def duration_from_seconds(total_sec):
     if not total_sec:
         return u''
     total = time.gmtime(total_sec)
-    if total.tm_hour > 0:
+    if not shortest:
+        return u'%02d:%02d:%02d' % total[3:6]
+    elif total.tm_hour > 0:
         return u'%d:%02d:%02d' % total[3:6]
     else:
         return u'%d:%02d' % total[4:6]
