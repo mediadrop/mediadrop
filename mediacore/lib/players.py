@@ -86,7 +86,7 @@ class FlowPlayer(Player):
 
     def swf_url(self):
         from mediacore.lib.helpers import url_for
-        return url_for('/scripts/third-party/flowplayer-3.1.5.swf', qualified=self.qualified)
+        return url_for('/scripts/third-party/flowplayer-3.2.3.swf', qualified=self.qualified)
 
     def flashvars(self):
         playlist = []
