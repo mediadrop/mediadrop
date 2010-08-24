@@ -169,6 +169,11 @@ var MediaMetaForm = new Class({
 		if (podSelect.options.length <= 1) {
 			podSelect.getParent('li').hide();
 		}
+		this.notesArea = new DynamicTextarea(this.form.elements['notes']);
+		var desc = $(this.form.elements['description']);
+		if (!desc.hasClass('tinymcearea')) {
+			this.descArea = new DynamicTextarea(desc, {minRows: 4});
+		}
 	}
 
 });

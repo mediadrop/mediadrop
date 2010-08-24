@@ -24,6 +24,7 @@
 	<link href="${h.url_for('/admin/styles/forms.css')}" media="screen" rel="stylesheet" type="text/css" />
 	<link href="${h.url_for('/admin/styles/uploader.css')}" media="screen" rel="stylesheet" type="text/css" />
 	<link href="${h.url_for('/admin/styles/podcasts.css')}" media="screen" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="${h.url_for('/scripts/third-party/DynamicTextarea-0.92-yui-compressed.js')}"></script>
 	<script src="${h.url_for('/scripts/third-party/squeezebox-1.1-rc4-yui-compressed.js')}" type="text/javascript" />
 	<link href="${h.url_for('/admin/styles/squeezebox.css')}" media="screen" rel="stylesheet" type="text/css" />
 	<script type="text/javascript" src="${h.url_for('/scripts/third-party/Fx.ProgressBar-yui-compressed.js')}"></script>
@@ -59,6 +60,11 @@
 				}
 			</py:if>
 			});
+
+			var desc = $('description');
+			if (!desc.hasClass('tinymcearea')) {
+				var descArea = new DynamicTextarea(desc, {minRows: 4});
+			}
 		});
 	</script>
 </head>
