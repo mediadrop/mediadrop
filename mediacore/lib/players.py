@@ -81,9 +81,6 @@ class FlowPlayer(Player):
     is_flash = True
     supports_http = True
 
-    # Height adjustment in pixels to accomodate the control bar and stay 16:9
-    _height_diff = 24
-
     def swf_url(self):
         from mediacore.lib.helpers import url_for
         return url_for('/scripts/third-party/flowplayer-3.2.3.swf', qualified=self.qualified)
@@ -92,6 +89,9 @@ class FlowPlayer(Player):
         playlist = []
         vars = {
             'canvas': {'backgroundColor': '#000', 'backgroundGradient': 'none'},
+            'plugins': {
+                'controls': {'autoHide': True},
+            },
             'clip': {'scaling': 'fit'},
             'playlist': playlist,
         }
