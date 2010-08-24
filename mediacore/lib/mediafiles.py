@@ -87,6 +87,7 @@ def add_new_media_file(media, uploaded_file=None, url=None):
     if uploaded_file is not None:
         # Create a MediaFile object, add it to the video, and store the file permanently.
         media_file = media_file_from_filename(uploaded_file.filename)
+        thumb_url = None
         attach_and_store_media_file(media, media_file, uploaded_file.file)
     elif url is not None:
         # Looks like we were just given a URL. Create a MediaFile object with that URL.
@@ -100,23 +101,23 @@ def add_new_media_file(media, uploaded_file=None, url=None):
         # Do we have a useful duration?
         if duration and not media.duration:
             media.duration = duration
-
-        # Do we need to create thumbs for an embedded media item?
-        if thumb_url \
-        and asbool(app_globals.settings['use_embed_thumbnails']) \
-        and (not has_thumbs(media) or has_default_thumbs(media)):
-            # Download the image into a buffer, wrap the buffer as a File-like
-            # object, and create the thumbs.
-            try:
-                temp_img = urllib2.urlopen(thumb_url)
-                file_like_img = StringIO(temp_img.read())
-                temp_img.close()
-                create_thumbs_for(media, file_like_img, thumb_url)
-                file_like_img.close()
-            except urllib2.URLError, e:
-                log.exception(e)
     else:
         raise formencode.Invalid(_('No File or URL provided.'), None, None)
+
+    # Do we need to create thumbs for an embedded media item?
+    if thumb_url \
+    and asbool(app_globals.settings['use_embed_thumbnails']) \
+    and (not has_thumbs(media) or has_default_thumbs(media)):
+        # Download the image into a buffer, wrap the buffer as a File-like
+        # object, and create the thumbs.
+        try:
+            temp_img = urllib2.urlopen(thumb_url)
+            file_like_img = StringIO(temp_img.read())
+            temp_img.close()
+            create_thumbs_for(media, file_like_img, thumb_url)
+            file_like_img.close()
+        except urllib2.URLError, e:
+            log.exception(e)
 
     media.update_status()
     DBSession.flush()
