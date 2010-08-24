@@ -30,25 +30,25 @@ import logging
 log = logging.getLogger(__name__)
 
 notifications_form = NotificationsForm(
-    action=url_for(controller='/admin/settings', action='save_notifications'))
+    action=url_for(controller='/admin/settings', action='notifications_save'))
 
 comments_form = CommentsForm(
-    action=url_for(controller='/admin/settings', action='save_comments'))
+    action=url_for(controller='/admin/settings', action='comments_save'))
 
 display_form = DisplayForm(
-    action=url_for(controller='/admin/settings', action='save_display'))
+    action=url_for(controller='/admin/settings', action='display_save'))
 
 popularity_form = PopularityForm(
-    action=url_for(controller='/admin/settings', action='save_popularity'))
+    action=url_for(controller='/admin/settings', action='popularity_save'))
 
 upload_form = UploadForm(
-    action=url_for(controller='/admin/settings', action='save_upload'))
+    action=url_for(controller='/admin/settings', action='upload_save'))
 
 analytics_form = AnalyticsForm(
-    action=url_for(controller='/admin/settings', action='save_analytics'))
+    action=url_for(controller='/admin/settings', action='analytics_save'))
 
 rtmp_form = RTMPForm(
-    action=url_for(controller='/admin/settings', action='save_rtmp'))
+    action=url_for(controller='/admin/settings', action='rtmp_save'))
 
 class SettingsController(BaseSettingsController):
     """
@@ -67,7 +67,7 @@ class SettingsController(BaseSettingsController):
 
     @expose()
     @validate(notifications_form, error_handler=notifications)
-    def save_notifications(self, **kwargs):
+    def notifications_save(self, **kwargs):
         """Save :class:`~mediacore.forms.admin.settings.NotificationsForm`."""
         return self._save(notifications_form, 'notifications', values=kwargs)
 
@@ -77,7 +77,7 @@ class SettingsController(BaseSettingsController):
 
     @expose()
     @validate(comments_form, error_handler=comments)
-    def save_comments(self, **kwargs):
+    def comments_save(self, **kwargs):
         """Save :class:`~mediacore.forms.admin.settings.CommentsForm`."""
         return self._save(comments_form, 'comments', values=kwargs)
 
@@ -87,7 +87,7 @@ class SettingsController(BaseSettingsController):
 
     @expose()
     @validate(display_form, error_handler=display)
-    def save_display(self, **kwargs):
+    def display_save(self, **kwargs):
         """Save :class:`~mediacore.forms.admin.settings.DisplayForm`."""
         player_type = c.settings['player_type'].value
         self._save(display_form, values=kwargs)
@@ -106,7 +106,7 @@ class SettingsController(BaseSettingsController):
 
     @expose()
     @validate(popularity_form, error_handler=popularity)
-    def save_popularity(self, **kwargs):
+    def popularity_save(self, **kwargs):
         """Save :class:`~mediacore.forms.admin.settings.PopularityForm`.
 
         Updates the popularity for every media item based on the submitted
@@ -124,7 +124,7 @@ class SettingsController(BaseSettingsController):
 
     @expose()
     @validate(upload_form, error_handler=upload)
-    def save_upload(self, **kwargs):
+    def upload_save(self, **kwargs):
         """Save :class:`~mediacore.forms.admin.settings.UploadForm`."""
         return self._save(upload_form, 'upload', values=kwargs)
 
@@ -134,7 +134,7 @@ class SettingsController(BaseSettingsController):
 
     @expose()
     @validate(analytics_form, error_handler=analytics)
-    def save_analytics(self, **kwargs):
+    def analytics_save(self, **kwargs):
         """Save :class:`~mediacore.forms.admin.settings.AnalyticsForm`."""
         return self._save(analytics_form, 'analytics', values=kwargs)
 
@@ -147,7 +147,7 @@ class SettingsController(BaseSettingsController):
 
     @expose()
     @validate(rtmp_form, error_handler=rtmp)
-    def save_rtmp(self, new_rtmp_url=None, old_rtmp_id=None, delete=None, **kwargs):
+    def rtmp_save(self, new_rtmp_url=None, old_rtmp_id=None, delete=None, **kwargs):
         """Save :class:`~mediacore.forms.admin.settings.RTMPForm`."""
         if delete:
             s = fetch_row(MultiSetting, old_rtmp_id, key=u'rtmp_server')
