@@ -31,7 +31,10 @@
 </body>
 
 <div id="body" py:match="div[@id='body']">
-	<div class="lft-column33" py:with="current_url = h.url_for()">
+	<div class="lft-column33" py:with="
+		current_url = h.url_for();
+		plugin_links = sorted(g.events.plugin_settings_links(), key=lambda (text, link): text.lower());
+	">
 		<div class="box">
 			<h1 class="box-head">Settings</h1>
 			<ul class="box-content settings-menu" py:with="links = [
@@ -47,6 +50,14 @@
 				('Analytics', h.url_for(controller='/admin/settings', action='analytics')),
 			]">
 				<li py:for="text, link in links">
+					<a href="${link}" class="${current_url.startswith(link) and 'selected' or None}">${text}</a>
+				</li>
+			</ul>
+		</div>
+		<div class="box" py:if="plugin_links">
+			<h1 class="box-head">Plugins</h1>
+			<ul class="box-content settings-menu">
+				<li py:for="text, link in plugin_links">
 					<a href="${link}" class="${current_url.startswith(link) and 'selected' or None}">${text}</a>
 				</li>
 			</ul>

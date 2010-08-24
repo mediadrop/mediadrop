@@ -41,6 +41,15 @@ class Event(object):
     def __iter__(self):
         return iter(self.observers)
 
+class GeneratorEvent(Event):
+    """
+    An arbitrary event that yields all results from all observers.
+    """
+    def __call__(self, *args, **kwargs):
+        for observer in self.observers:
+            for result in observer(*args, **kwargs):
+                yield result
+
 class observes(object):
     """
     Register the decorated function as an observer of the given event.
@@ -265,3 +274,8 @@ Admin.UserForm = Event(['form'])
 Admin.TagForm = Event(['form'])
 Admin.TagRowForm = Event(['form'])
 Admin.ThumbForm = Event(['form'])
+
+###############################################################################
+# Miscellaneous... may require refactoring
+
+plugin_settings_links = GeneratorEvent([])

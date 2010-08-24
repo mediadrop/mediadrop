@@ -54,6 +54,7 @@ def load_environment(global_conf, app_conf):
     config['routes.map'] = mapper
     config['pylons.app_globals'] = app_globals.Globals(config)
     config['pylons.app_globals'].plugin_mgr = plugin_mgr
+    config['pylons.app_globals'].events = events
     config['pylons.h'] = mediacore.lib.helpers
 
     # Setup cache object as early as possible
