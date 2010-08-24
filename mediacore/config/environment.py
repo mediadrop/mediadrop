@@ -80,6 +80,7 @@ def load_environment(global_conf, app_conf):
     # Setup the SQLAlchemy database engine
     engine = engine_from_config(config, 'sqlalchemy.')
     init_model(engine, config.get('db_table_prefix', None))
+    events.Environment.init_model()
 
     # CONFIGURATION OPTIONS HERE (note: all config options will override
     #                                   any Pylons config options)

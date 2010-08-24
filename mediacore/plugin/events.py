@@ -92,6 +92,7 @@ class MapperObserver(MapperExtension):
 
 class Environment(object):
     routes = Event(['mapper'])
+    init_model = Event([])
     loaded = Event(['config'])
 
 ###############################################################################

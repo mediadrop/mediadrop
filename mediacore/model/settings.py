@@ -26,6 +26,7 @@ non-mission-critical options which can be edited via the admin UI.
 
 """
 from sqlalchemy import Table, ForeignKey, Column
+from sqlalchemy.exceptions import IntegrityError
 from sqlalchemy.types import Unicode, UnicodeText, Integer, Boolean, Float
 from sqlalchemy.orm import mapper, relation, backref, synonym, interfaces, validates
 from urlparse import urlparse
@@ -83,3 +84,28 @@ class MultiSetting(object):
 
 mapper(Setting, settings, extension=events.MapperObserver(events.Setting))
 mapper(MultiSetting, multisettings, extension=events.MapperObserver(events.MultiSetting))
+
+def insert_settings(defaults):
+    """Insert the given setting if they don't exist yet.
+
+    XXX: Does not include any support for MultiSetting. This approach
+         won't work for that. We'll need to use sqlalchemy-migrate.
+
+    :type defaults: list
+    :param defaults: Key and value pairs
+    :rtype: list
+    :returns: Any settings that have just been created.
+    """
+    inserted = []
+    for key, value in defaults:
+        transaction = DBSession.begin_nested()
+        try:
+            s = Setting(key, value)
+            DBSession.add(s)
+            transaction.commit()
+            inserted.append(s)
+        except IntegrityError:
+            transaction.rollback()
+    if inserted:
+        DBSession.commit()
+    return inserted
