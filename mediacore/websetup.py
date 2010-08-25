@@ -59,12 +59,6 @@ def setup_app(command, conf, vars):
         # Don't reload the app if it was loaded under the testing environment
         config = load_environment(conf.global_conf, conf.local_conf)
 
-    # Have the tables already been created? If not, we'll add data later
-    db_is_fresh = not class_mapper(Media).mapped_table.exists()
-
-    log.info("Creating tables if they don't exist yet")
-    metadata.create_all(bind=DBSession.bind, checkfirst=True)
-
     # Create the migrate_version table if it doesn't exist.
     # If the table doesn't exist, we assume the schema was just setup
     # by this script and therefore must be the latest version.
@@ -73,17 +67,14 @@ def setup_app(command, conf, vars):
         version_control(conf.local_conf['sqlalchemy.url'],
                         migrate_repository,
                         version=latest_version)
-        log.info('Migrate table created with version %s' % latest_version)
     except DatabaseAlreadyControlledError:
-        log.info('Migrate table already present')
-
-    # Run any new migrations, if there are any
-    upgrade(conf.local_conf['sqlalchemy.url'],
-            migrate_repository,
-            version=latest_version)
-
-    # If the tables are new, populate with the default data.
-    if db_is_fresh:
+        log.info('Running any new migrations, if there are any')
+        upgrade(conf.local_conf['sqlalchemy.url'],
+                migrate_repository,
+                version=latest_version)
+    else:
+        log.info('Initializing new database with version %r' % latest_version)
+        metadata.create_all(bind=DBSession.bind, checkfirst=True)
         add_default_data()
 
     # Save everything, along with the dummy data if applicable
