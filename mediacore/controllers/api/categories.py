@@ -23,6 +23,7 @@ from sqlalchemy import orm
 from mediacore.controllers.api import APIException, get_order_by
 from mediacore.lib import helpers
 from mediacore.lib.base import BaseController
+from mediacore.lib.compat import any
 from mediacore.lib.decorators import expose
 from mediacore.lib.helpers import get_featured_category, url_for
 from mediacore.lib.thumbnails import thumb
@@ -35,6 +36,7 @@ order_columns = {
     'id': Category.id,
     'name': Category.name,
     'slug': Category.slug,
+    'media_count': 'media_count %s',
 }
 
 class CategoryController(BaseController):
@@ -75,8 +77,7 @@ class CategoryController(BaseController):
         :returns: JSON dict
 
         """
-
-        if True in [(key in kwargs) for key in ('id', 'slug', 'name')]:
+        if any(key in kwargs for key in ('id', 'slug', 'name')):
             kwargs['offset'] = offset
             kwargs['limit'] = limit
             kwargs['tree'] = False
@@ -130,13 +131,12 @@ class CategoryController(BaseController):
         :returns: JSON dict
 
         """
-        if True in [(key in kwargs) for key in ('id', 'slug', 'name')]:
+        if any(key in kwargs for key in ('id', 'slug', 'name')):
             kwargs['depth'] = depth
             kwargs['tree'] = True
             return self._get_query(**kwargs)
 
         return self._index_query(depth=depth, tree=True)
-
 
     def _index_query(self, order=None, offset=0, limit=10, tree=False,
                      depth=10, parents=False, **kwargs):
@@ -182,13 +182,13 @@ class CategoryController(BaseController):
 
         start = int(offset)
         limit = min(int(limit), int(config['api_media_max_results']))
+        depth = min(int(depth), int(config['api_tree_max_depth']))
 
         # get the total of all the matches
         count = query.count()
 
         query = query.offset(start).limit(limit)
-
-        categories = self.expand(query.all(), asbool(tree), depth)
+        categories = self._expand(query.all(), asbool(tree), depth)
 
         return dict(
            categories = categories,
@@ -212,6 +212,7 @@ class CategoryController(BaseController):
 
         """
         query = Category.query
+        depth = min(int(depth), int(config['api_tree_max_depth']))
 
         if id:
             query = query.filter_by(id=id)
@@ -225,33 +226,26 @@ class CategoryController(BaseController):
         except (orm.exc.NoResultFound, orm.exc.MultipleResultsFound):
             return dict(error='No Match found')
 
-        return dict(category=self.expand(category, tree, depth=depth))
+        return dict(
+            category = self._expand(category, tree, depth=depth),
+        )
 
-    def expand(self, obj, children=False, depth=0):
+    def _expand(self, obj, children=False, depth=0):
         """Expand a category object into json."""
-        depth = min(int(depth), int(config['api_tree_max_depth']))
-
-        if isinstance(obj, Category):
-            data = self._info(obj)
         if isinstance(obj, list):
-            data = [self.expand(x, children, depth - 1) for x in obj]
-        if isinstance(obj, dict):
-            data = dict([(key, self.expand(value, children, depth - 1)) for key, value in obj])
-
-        if children is True and depth > 0 and hasattr(obj, 'children') and len(obj.children):
-            data['children'] = [self.expand(x, children) for x in obj.children]
-
+            data = [self._expand(x, children, depth) for x in obj]
+        elif isinstance(obj, Category):
+            data = self._info(obj)
+            if children and depth > 0:
+                data['children'] = self._expand(obj.children, children, depth - 1)
         return data
-
 
     def _info(self, cat):
         """Return a JSON-ready dict for the given category instance."""
-        data = dict(
+        return dict(
             id = cat.id,
             name = cat.name,
             slug = cat.slug,
+            parent = cat.parent_id,
             media_count = cat.media_count_published,
         )
-        if cat.parent:
-            data['parent'] = cat.parent.name
-        return data
