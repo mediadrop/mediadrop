@@ -61,10 +61,9 @@ def make_map(config):
         action='mrss')
 
     # Categories
-    map.connect('/categories/feed/{slug}',
+    map.connect('/categories/feed/{slug}.xml',
         controller='categories',
-        action='feed',
-        slug=None)
+        action='feed')
     map.connect('/categories/{slug}',
         controller='categories',
         action='index',

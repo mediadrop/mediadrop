@@ -18,7 +18,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:py="http://genshi.edgewall.org/"
       xmlns:xi="http://www.w3.org/2001/XInclude"
-      py:if="popular or latest" py:with="in_text = c.category and ('in ' + c.category.name) or ''">
+      py:with="in_text = c.category and ('in ' + c.category.name) or ''">
 <xi:include href="./layout.html" />
 <xi:include href="../master.html" />
 <head>

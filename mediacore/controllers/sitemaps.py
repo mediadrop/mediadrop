@@ -73,7 +73,11 @@ class SitemapsController(BaseController):
                 url_for(controller='/categories', qualified=True),
             ]
 
-        return dict(media=media, page=page, links=links)
+        return dict(
+            media = media,
+            page = page,
+            links = links,
+        )
 
     @beaker_cache(expire=60 * 60 * 4, query_args=True)
     @expose('sitemaps/mrss.xml')
@@ -87,7 +91,10 @@ class SitemapsController(BaseController):
 
         media = Media.query.published()
 
-        return dict(media=media, title="Video Feed")
+        return dict(
+            media = media,
+            title = 'MediaRSS Sitemap',
+        )
 
     @beaker_cache(expire=60 * 60 * 4, query_args=True)
     @expose('sitemaps/mrss.xml')
@@ -99,7 +106,12 @@ class SitemapsController(BaseController):
             request.environ.get('HTTP_ACCEPT', '*/*')
         )
 
-        media = Media.query.published().\
-                            order_by(Media.publish_on.desc()).limit(limit).all()
+        media = Media.query.published()\
+            .order_by(Media.publish_on.desc())\
+            .limit(limit)\
+            .all()
 
-        return dict(media=media, title="Latest Videos")
+        return dict(
+            media = media,
+            title = 'Latest Media',
+        )

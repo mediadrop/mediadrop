@@ -12,12 +12,13 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+from paste.util import mimeparse
 from pylons import config, request, response, session, tmpl_context as c
 from sqlalchemy import orm, sql
 
 from mediacore.lib.base import BaseController
-from mediacore.lib.decorators import expose, expose_xhr, paginate, validate, \
-    beaker_cache
+from mediacore.lib.decorators import (expose, expose_xhr, paginate, validate,
+    beaker_cache)
 from mediacore.lib.helpers import get_featured_category, redirect, url_for
 from mediacore.model import Category, Media, Podcast, fetch_row
 from mediacore.model.meta import DBSession
@@ -121,6 +122,6 @@ class CategoriesController(BaseController):
         media = media.order_by(Media.publish_on.desc()).limit(limit)
 
         return dict(
-            media=media,
-            title="Category Feed",
+            media = media,
+            title = u'%s Media' % c.category.name,
         )

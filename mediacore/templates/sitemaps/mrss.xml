@@ -15,10 +15,9 @@
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/"
-		xmlns:creativeCommons="http://backend.userland.com/creativeCommonsRssModule"
-		xmlns:py="http://genshi.edgewall.org/"
-		xmlns:atom="http://www.w3.org/2005/Atom"
-		>
+     xmlns:creativeCommons="http://backend.userland.com/creativeCommonsRssModule"
+     xmlns:py="http://genshi.edgewall.org/"
+     xmlns:atom="http://www.w3.org/2005/Atom">
 	<channel>
 		<title py:if="defined('title')" py:content="title" />
 		<link py:content="h.url_for(controller='/media', qualified=True)" />
@@ -34,11 +33,11 @@
 			<media:content py:attrs="dict(url=h.url_for(controller='/media', action='serve', id=file.id, container=file.container, slug=item.slug, qualified=True), duration=item.duration)"  />
 			<media:community>
 				<media:statistics views="${item.views}" />
-				<media:tags py:if="item.tags" py:content=" ', '.join([x.name for x in item.tags ]) " />
+				<media:tags py:if="item.tags" py:content="', '.join(x.name for x in item.tags)" />
 			</media:community>
 			<py:for each="category in item.categories[:1]">
-				<media:category  py:content="category.name" />
+				<media:category py:content="category.name" />
 			</py:for>
 		</item>
-   </channel>
+	</channel>
 </rss>
