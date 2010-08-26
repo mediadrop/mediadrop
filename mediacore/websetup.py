@@ -243,7 +243,7 @@ def add_default_data():
         media_file.display_name = os.path.basename(url)
         media_file.duration = duration
         media_file.type = type
-        media_file.url = url
+        media_file.http_url = url
 
         DBSession.add(media)
         DBSession.add(media_file)

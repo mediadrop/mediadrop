@@ -155,6 +155,7 @@ class MediaController(object):
     index = Event(['**kwargs'])
     comment = Event(['**kwargs'])
     explore = Event(['**kwargs'])
+    jwplayer_rtmp_mrss = Event(['**kwargs'])
     rate = Event(['**kwargs'])
     view = Event(['**kwargs'])
 
@@ -222,6 +223,14 @@ class Tag(object):
     after_update = Event(['instance'])
 
 class Setting(object):
+    before_delete = Event(['instance'])
+    after_delete = Event(['instance'])
+    before_insert = Event(['instance'])
+    after_insert = Event(['instance'])
+    before_update = Event(['instance'])
+    after_update = Event(['instance'])
+
+class MultiSetting(object):
     before_delete = Event(['instance'])
     after_delete = Event(['instance'])
     before_insert = Event(['instance'])

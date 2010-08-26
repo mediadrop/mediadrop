@@ -13,6 +13,7 @@
 	You should have received a copy of the GNU General Public License
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
+<!--! XXX: The DOM created below is mimicked in .../mediacore/public/admin/scripts/media.js::FileManager::_createQueueRow -->
 <tr xmlns="http://www.w3.org/1999/xhtml"
     xmlns:py="http://genshi.edgewall.org/"
     id="file-${file.id}"
@@ -25,6 +26,8 @@
 	</td>
 	<td headers="thf-size">${h.pretty_file_size(file.size)}</td>
 	<td headers="thf-duration" py:with="field = children['duration']" py:content="field.display(value_for(field) or file.media.duration, **args_for(field))" />
+	<td headers="thf-max-bitrate" py:with="field = children['max_bitrate']" py:content="field.display(value_for(field) or file.max_bitrate, **args_for(field))" />
+	<td headers="thf-width-height" py:with="field = children['width_height']" py:content="field.display(value_for(field) or (file.width, file.height), **args_for(field))" />
 	<td headers="thf-type" py:with="field = children['file_type']" py:content="field.display(value_for(field) or file.type, **args_for(field))" />
 	<td headers="thf-delete" py:with="field = children['delete']" py:content="field.display(value_for(field), **args_for(field))" />
 </tr>

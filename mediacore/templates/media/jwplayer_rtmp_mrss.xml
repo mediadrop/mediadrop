@@ -1,0 +1,25 @@
+<rss version="2.0"
+     xmlns:py="http://genshi.edgewall.org/"
+     xmlns:media="http://search.yahoo.com/mrss/"
+     xmlns:jwplayer="http://developer.longtailvideo.com/"
+>
+	<channel>
+		<title>MediaRSS Playlist with JSPlayer's RTMP Dynamic Streaming Extensions</title>
+		<item>
+			<title>${media.title}</title>
+			<description>${media.description_plain}</description>
+			<link>${h.url_for(controller='/media', action='view', slug=media.slug, podcast_slug=media.podcast and media.podcast.slug or None, qualified=True)}</link>
+			<media:thumbnail url="${h.thumb_url(media, 'l')}" />
+			<media:group py:strip="not len(files)>1">
+				<media:content py:for="file in files"
+					bitrate="${file.max_bitrate}"
+					url="${file.rtmp_file_name}"
+					width="${file.width}"
+				/>
+			</media:group>
+			<!--! XXX: Note that only the first file's rtmp_stream_url is taken into account. If the other files have a different rtmp_stream_url, they will not be able to play. -->
+			<jwplayer:streamer>${files[0].rtmp_stream_url}</jwplayer:streamer>
+		</item>
+	</channel>
+</rss>
+
