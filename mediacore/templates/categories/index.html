@@ -24,8 +24,12 @@
 <head>
 	<title>${c.category and c.category.name + ' | ' or ''}Categories</title>
 	<link href="${h.url_for('/styles/categories.css')}" media="screen" rel="stylesheet" type="text/css" />
-	<link py:if="not c.category" rel="alternate" type="application/rss+xml" title="Latest media" href="${h.url_for(controller='/latest.xml')}" />
-	<link py:if="c.category" rel="alternate" type="application/rss+xml" title="Latest media ${in_text}" href="${h.url_for(controller='/categories', action='feed', slug=c.category.name, order='latest')}" />
+	<link py:if="not c.category"
+	      rel="alternate" type="application/rss+xml" title="Latest media"
+	      href="${h.url_for(controller='/sitemaps', action='latest')}" />
+	<link py:if="c.category"
+	      rel="alternate" type="application/rss+xml" title="Latest media ${in_text}"
+	      href="${h.url_for(controller='/categories', action='feed', slug=c.category.name)}" />
 </head>
 <body>
 	<h2><span class="uppercase">Featured</span> ${in_text}</h2>
