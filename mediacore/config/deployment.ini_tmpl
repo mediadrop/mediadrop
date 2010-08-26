@@ -85,7 +85,7 @@ set debug = false
 keys = root
 
 [handlers]
-keys = console
+keys = console, wsgierrors, logfile
 
 [formatters]
 keys = generic
@@ -100,6 +100,20 @@ handlers = console
 [handler_console]
 class = StreamHandler
 args = (sys.stderr,)
+level = NOTSET
+formatter = generic
+
+[handler_wsgierrors]
+# Handler for logging to the WSGI error handler (eg. apache's error log)
+class = pylons.log.WSGIErrorsHandler
+args = ()
+level = NOTSET
+format = generic
+
+[handler_logfile]
+# Handler for logging to a dedicated logfile
+class = FileHandler
+args = ('/path/to/mediacore_install/data/deployment.log','a')
 level = NOTSET
 formatter = generic
 
