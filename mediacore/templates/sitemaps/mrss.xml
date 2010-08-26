@@ -23,7 +23,7 @@
 		<link py:content="h.url_for(controller='/media', qualified=True)" />
 		<description py:if="defined('description')" py:content="description" />
 		<atom:link href="${h.url_for(qualified=True)}" rel="self" type="application/rss+xml" />
-		<item py:for="item in media" py:with="file=h.pick_any_media_file(item); link=h.url_for(controller='/media', action='view', id=file.id, slug=item.slug, qualified=True)">
+		<item py:for="item in media" py:with="file=h.pick_any_media_file(item); link=h.url_for(controller='/media', action='view', slug=item.slug, qualified=True)">
 			<title py:content="item.title" />
 			<link py:content="link" />
 			<guid py:content="link" />
