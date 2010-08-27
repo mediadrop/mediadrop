@@ -59,17 +59,19 @@ class ErrorController(BaseController):
 
         """
         request = self._py_object.request
-        original_request = request.environ['pylons.original_request']
-        original_response = request.environ.get('pylons.original_response')
-        default_message = "<p>%s</p>" % _("We're sorry but we weren't able "
-            "to process this request.")
+        environ = request.environ
+        original_request = environ.get('pylons.original_request', None)
+        original_response = environ.get('pylons.original_response', None)
+        default_message = '<p>%s</p>' % _("We're sorry but we weren't able "
+                                          "to process this request.")
 
         message = request.params.get('message', default_message)
         message = clean_xhtml(message)
 
         return dict(
-            prefix = request.environ.get('SCRIPT_NAME', ''),
-            code = int(request.params.get('code', original_response.status_int)),
+            prefix = environ.get('SCRIPT_NAME', ''),
+            code = int(request.params.get('code', getattr(original_response,
+                                                          'status_int', 500))),
             message = message,
             vars = dict(POST_request=unicode(original_request)[:2048]),
         )
