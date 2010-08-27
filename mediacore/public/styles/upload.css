@@ -91,27 +91,10 @@ div#browse-button.browse-button-hover {
 	width: 203px;
 	height: 34px;
 }
-div#browse-button.active {
-	background: url('../images/uploader/choose-file-grey.png') no-repeat bottom;
-}
 div#browse-button.enabled {
 	background: url('../images/uploader/choose-file.png') no-repeat;
 }
 div#browse-button.browse-button-hover {
-	background-position: bottom;
-}
-div#upload-button.active {
-	float: left;
-	background: url('../images/uploader/upload-grey.png') no-repeat bottom;
-	width: 148px;
-	height: 34px;
-	margin-left: 150px;
-}
-div#upload-button.enabled {
-	background: url('../images/uploader/upload.png') no-repeat;
-	cursor: pointer;
-}
-div#upload-button.enabled:hover {
 	background-position: bottom;
 }
 div#file-info.active {
