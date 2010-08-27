@@ -62,7 +62,7 @@ var ConfirmMgr = new Class({
 		confirmButton.addEvent('click', this.confirm.pass(target, this));
 
 		SqueezeBox.fromElement(box, {
-			size: {x: 630, y: 400},
+			size: {x: 830, y: 400},
 			handler: 'fittedAdopt',
 			overlayOpacity: this.options.overlayOpacity,
 			onOpen: function(){
