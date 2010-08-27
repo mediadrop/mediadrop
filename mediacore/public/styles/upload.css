@@ -88,14 +88,17 @@ div#browse-button.active,
 div#browse-button.enabled,
 div#browse-button.browse-button-hover {
 	float: left;
-	width: 203px;
+	width: 202px;
 	height: 34px;
 }
 div#browse-button.enabled {
-	background: url('../images/uploader/choose-file.png') no-repeat;
+	background: url('../images/buttons/choose-file.png') no-repeat;
 }
 div#browse-button.browse-button-hover {
-	background-position: bottom;
+	background-position: 0 -34px;
+}
+div#browse-button.browse-button-active {
+	background-position: 0 -68px;
 }
 div#file-info.active {
 	padding: 6px 15px 0 15px;
