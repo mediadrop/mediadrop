@@ -31,7 +31,7 @@
 	<!--! Display visible inputs/textareas/selects -->
 		<ul class="field-list" py:attrs="list_attrs">
 			<li py:for="i, field in enumerate(visible_fields)"
-			    py:with="required = 'required' if field.is_required else None;
+			    py:with="required = (field.is_required and 'required') or None;
 			             error = error_for(field);
 			             label_text = field.label_text;
 			             help_text = field.help_text;"

@@ -14,6 +14,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import sys
+from types import NoneType
 
 # Module description following the guidelines at:
 # http://bayes.colorado.edu/PythonGuidelines.html#module_formatting
@@ -64,6 +65,7 @@ def monkeypatch_method(cls):
 try:
     # Monkey Patch our StaticURLParser for Paste-1.7.4
     from paste.urlparser import StaticURLParser
+    @monkeypatch_method(StaticURLParser)
     def add_slash(self, environ, start_response):
         """Monkey-patch overridden method.
 
@@ -82,21 +84,22 @@ try:
             cache_max_age=self.cache_max_age
         )
         return sup(environ, start_response)
-    StaticURLParser.add_slash = add_slash
 
     # Monkey Patch Beautiful Soup
-    from BeautifulSoup import NavigableString as _NavigableString
-    @monkeypatch_method(_NavigableString)
+    from BeautifulSoup import NavigableString
+    @monkeypatch_method(NavigableString)
     def __eq__(self, other):
         """Monkey-patch inserted method.
 
         This patch is a temporary solution to the problem described here:
             http://bugs.launchpad.net/beautifulsoup/+bug/397997
         """
-        if isinstance(other, _NavigableString):
+        if other is None:
+            return False
+        elif isinstance(other, NavigableString):
             return other is self
         else:
-            return unicode.__eq__(self, other)
+            return unicode(self) == unicode(other)
 except ImportError:
     # When setup.py install is called, these monkeypatches will fail.
     # For now we'll just silently allow this to proceed.

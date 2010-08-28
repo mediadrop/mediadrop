@@ -42,11 +42,9 @@
 			</tr>
 			<tr py:for="media in collection">
 				<py:for each="f in fields" py:choose="f">
-					<td py:when="'publish_on'" py:with="is_published = media.is_published"
-					    class="${'italic' if not is_published else None}"
-					    py:content="media.publish_on.strftime('%b %d %Y') if is_published else 'unpublished'">
-						Publish Date
-					</td>
+					<td py:when="'publish_on'"
+					    class="${not media.is_published and 'italic' or None}"
+					    py:content="(media.publish_on and media.publish_on.strftime('%b %d %Y')) or 'unpublished'" />
 					<td py:when="'created_on'">${media.created_on.strftime('%b %d %Y')}</td>
 					<td py:when="'status'" py:choose="">
 						<a class="btn review-me" py:when="not media.reviewed" href="${h.url_for(controller='/admin/media', action='edit', id=media.id)}"><span>review me</span></a>
@@ -58,7 +56,7 @@
 					<td py:when="'comment_count'" class="center">
 						<a href="${h.url_for(controller='/admin/comments', media_filter=media.id)}">${media.comment_count_published}</a>
 					</td>
-					<td py:when="'tags'" py:content="', '.join((tag.name for tag in media.tags)) if len(media.tags) else 'None'" />
+					<td py:when="'tags'" py:content="' '.join(tag.name for tag in media.tags) or 'None'" />
 					<td py:when="'author'">
 						<a href="mailto:${media.author.email}" py:strip="not media.author.email">${media.author.name}</a>
 					</td>

@@ -97,7 +97,7 @@
 				thumbImg: 'thumb-img',
 				isNew: ${int(media.id is None)},
 				mergeURL: '${h.url_for(action='merge_stubs', id=None)}',
-				type: ${"'%s'" % media.type if media.type else 'null'},
+				type: ${(media.type and "'%s'" % media.type) or 'null'},
 				head: 'media-title'
 			});
 
@@ -125,7 +125,7 @@
 			<ol id="file-list" class="file-list">
 				<li py:for="file in media.files" class="${file.type}" id="list-file-${file.id}">
 					<a class="file-name" href="${file.link_url()}"
-					   title="${('Go to %s' % file.container.capitalize()) if file.embed else 'Download this file'}">
+					   title="${(file.embed is not None and 'Go to %s' % file.container.capitalize()) or 'Download this file'}">
 					   ${h.wrap_long_words(file.display_name)}
 					</a>
 				</li>

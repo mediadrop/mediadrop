@@ -47,7 +47,11 @@
 			</itunes:owner>
 		</py:with>
 
-		<itunes:explicit py:content="'no' if podcast.explicit is None else 'yes' if podcast.explicit else 'clean'" />
+		<itunes:explicit py:choose="podcast.explicit">
+			<py:when test="None">no</py:when>
+			<py:when test="True">yes</py:when>
+			<py:otherwise>clean</py:otherwise>
+		</itunes:explicit>
 
 		<image py:with="thumb = h.thumb(podcast, 's', qualified=True)">
 			<url py:content="thumb.url" />

@@ -55,6 +55,16 @@
 	</py:def>
 
 	<py:def function="comment_stats_box(link, total=None, published=None, unreviewed=None, trash=None, query=None)">
+		<?python
+		if total is None:
+			total = query.count()
+		if published is None:
+			published = query.published().count()
+		if unreviewed is None:
+			unreviewed = query.reviewed(False).count()
+		if trash is None:
+			trash = query.trash().count()
+		?>
 		<div class="box">
 			<div class="box-head">
 				<a href="${link}"
@@ -64,23 +74,19 @@
 				<h1>Comments</h1>
 			</div>
 			<table id="comments-table" cellpadding="0" cellspacing="0">
-				<tr py:with="total = total if total is not None else query.count()"
-				    class="comments-total">
+				<tr class="comments-total">
 					<td class="comments-count" py:content="total" />
 					<td>Comments</td>
 				</tr>
-				<tr py:with="published = published if published is not None else query.published().count()"
-				    class="comments-published">
+				<tr class="comments-published">
 					<td class="comments-count" py:content="published" />
 					<td>Published</td>
 				</tr>
-				<tr py:with="unreviewed = unreviewed if unreviewed is not None else query.reviewed(False).count()"
-				    class="${'comments-unreviewed' if unreviewed else 'comments-trash'}">
+				<tr class="${(unreviewed and 'comments-unreviewed') or 'comments-trash'}">
 					<td class="comments-count" py:content="unreviewed" />
 					<td>Unreviewed</td>
 				</tr>
-				<tr py:with="trash = trash if total is not None else query.trash().count()"
-				    class="comments-trash">
+				<tr class="comments-trash">
 					<td class="comments-count" py:content="trash" />
 					<td>Trash</td>
 				</tr>

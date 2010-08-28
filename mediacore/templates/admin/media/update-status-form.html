@@ -24,13 +24,13 @@
 					|
 					<a href="${h.url_for(controller='/media', action='view', slug=media.slug)}"
 					   id="go-view-content"
-					   title="View this media where it ${'is' if media.is_published else 'will be'} published"
-					   py:content="'View' if media.is_published else 'Preview'" />
+					   title="View this media where it ${(media.is_published and 'is') or 'will be'} published"
+					   py:content="(media.is_published and 'View') or 'Preview'" />
 				</py:if>
 			</span>
 			<h1>Publish Status</h1>
 		</div>
-		<div class="box-content" py:choose="" py:with="publish_on=media.publish_on.strftime('%b %d %Y @ %H:%M') if media.publish_on else None">
+		<div class="box-content" py:choose="" py:with="publish_on=(media.publish_on and media.publish_on.strftime('%b %d %Y @ %H:%M')) or None">
 			<input py:replace="XML(c.publish_on(publish_on))" />
 			<input type="hidden" name="is_published" value="${int(media.is_published)}" />
 			<py:when test="media.id is None">
@@ -39,13 +39,15 @@
 			<py:when test="not media.reviewed">
 				<ol id="status-list">
 					<li class="status-list-inprogress">review pending</li>
-					<li class="status-list-${status}" py:with="status = 'complete' if media.encoded else 'pending'">encoding ${status}</li>
+					<li class="status-list-${status}" py:with="status = (media.encoded and 'complete') or 'pending'">encoding ${status}</li>
 					<li class="status-list-pending" id="status-publish" title="Click to change the publish date">
 						publishing <span class="publish-date" py:content="publish_on or 'pending'" />
 					</li>
 				</ol>
-				<div class="box-content center"
-				     py:content="c.update_button('Review Complete', id='update-status', css_class='btn submitbutton btn-review-complete') if media.files else 'Review can only be completed after a file is added.'" />
+				<div class="box-content center" py:choose="">
+					<py:when test="media.files">${c.update_button('Review Complete', id='update-status', css_class='btn submitbutton btn-review-complete')}</py:when>
+					<py:otherwise>Review can only be completed after a file is added.</py:otherwise>
+				</div>
 			</py:when>
 			<py:when test="not media.encoded">
 				<ol id="status-list">
@@ -74,7 +76,7 @@
 					<li class="status-list-complete">review complete</li>
 					<li class="status-list-complete">encoding complete</li>
 					<li class="status-list-complete" id="status-publish" title="Click to change the publish date">
-						${'published' if media.is_published else 'publishing'}
+						${(media.is_published and 'published') or 'publishing'}
 						<span class="publish-date" py:content="publish_on or 'pending'" />
 					</li>
 				</ol>

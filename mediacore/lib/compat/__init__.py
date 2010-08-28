@@ -13,7 +13,20 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-__all__ = ['any', 'sha1', 'max', 'namedtuple']
+__all__ = [
+    'all',
+    'any',
+    'defaultdict',
+    'max',
+    'namedtuple',
+    'sha1',
+    'wraps',
+]
+
+try:
+    from functools import wraps
+except ImportError:
+    from mediacore.lib.compat.functional import wraps
 
 try:
     from hashlib import sha1
@@ -28,6 +41,15 @@ except NameError:
             if element:
                 return True
         return False
+
+try:
+    all = all
+except NameError:
+    def all(iterable):
+        for element in iterable:
+            if not element:
+                return False
+        return True
 
 try:
     max([1], key=lambda x:x)
@@ -95,14 +117,14 @@ except ImportError:
             names = list(field_names)
             seen = set()
             for i, name in enumerate(names):
-                if (not min(c.isalnum() or c=='_' for c in name) or _iskeyword(name)
+                if (not min(c.isalnum() or c == '_' for c in name) or _iskeyword(name)
                     or not name or name[0].isdigit() or name.startswith('_')
                     or name in seen):
                         names[i] = '_%d' % i
                 seen.add(name)
             field_names = tuple(names)
         for name in (typename,) + field_names:
-            if not min(c.isalnum() or c=='_' for c in name):
+            if not min(c.isalnum() or c == '_' for c in name):
                 raise ValueError('Type names and field names can only contain alphanumeric characters and underscores: %r' % name)
             if _iskeyword(name):
                 raise ValueError('Type names and field names cannot be a keyword: %r' % name)
@@ -170,3 +192,43 @@ except ImportError:
             pass
 
         return result
+
+try:
+    from collections import defaultdict
+except:
+    # Backported for py2.4 by Jason Kirtland
+    # http://code.activestate.com/recipes/523034/
+    class defaultdict(dict):
+        def __init__(self, default_factory=None, *a, **kw):
+            if (default_factory is not None and
+                not hasattr(default_factory, '__call__')):
+                raise TypeError('first argument must be callable')
+            dict.__init__(self, *a, **kw)
+            self.default_factory = default_factory
+        def __getitem__(self, key):
+            try:
+                return dict.__getitem__(self, key)
+            except KeyError:
+                return self.__missing__(key)
+        def __missing__(self, key):
+            if self.default_factory is None:
+                raise KeyError(key)
+            self[key] = value = self.default_factory()
+            return value
+        def __reduce__(self):
+            if self.default_factory is None:
+                args = tuple()
+            else:
+                args = self.default_factory,
+            return type(self), args, None, None, self.items()
+        def copy(self):
+            return self.__copy__()
+        def __copy__(self):
+            return type(self)(self.default_factory, self)
+        def __deepcopy__(self, memo):
+            import copy
+            return type(self)(self.default_factory,
+                              copy.deepcopy(self.items()))
+        def __repr__(self):
+            return 'defaultdict(%s, %s)' % (self.default_factory,
+                                            dict.__repr__(self))

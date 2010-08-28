@@ -13,13 +13,13 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from collections import defaultdict
 from datetime import datetime
 from sqlalchemy import Table, ForeignKey, Column, sql
 from sqlalchemy.types import Unicode, UnicodeText, Integer, DateTime, Boolean, Float
 from sqlalchemy.orm import mapper, relation, backref, synonym, interfaces, validates, Query
 from sqlalchemy.orm.attributes import set_committed_value
 
+from mediacore.lib.compat import defaultdict
 from mediacore.model import slug_length, slugify
 from mediacore.model.meta import DBSession, metadata
 

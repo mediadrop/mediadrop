@@ -14,7 +14,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import inspect
-import functools
 import warnings
 
 from pylons import request, tmpl_context
@@ -23,12 +22,13 @@ from webhelpers.paginate import get_wrapper
 from webob.multidict import MultiDict
 from webhelpers.paginate import Page
 
+from mediacore.lib.compat import wraps
+
 # TODO: Move the paginate decorator to mediacore.lib.decorators,
 #       and rework it to use the decorators module. This whole
 #       module could be greatly simplified, and my CustomPage
 #       class can be removed since it is no longer used as of
-#       the v0.8.0 frontend redesign. Also, use of functools
-#       must be factored out as it was not included in py2.4.
+#       the v0.8.0 frontend redesign.
 
 # FIXME: The following class is taken from TG2.0.3. Find a way to replace it.
 # This is not an ideal solution, but avoids the immediate need to rewrite the
@@ -126,7 +126,7 @@ def paginate(name, items_per_page=10, use_prefix=False, items_first_page=None):
         )
     #@decorator
     def _d(f):
-        @functools.wraps(f)
+        @wraps(f)
         def _w(*args, **kwargs):
             page = int(kwargs.pop(own_parameters["page"], 1))
             real_items_per_page = int(
