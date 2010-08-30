@@ -34,6 +34,7 @@ install_requires = [
     'gdata > 2, < 2.1',
     'importlib',
     'decorator',
+    'simplejson',
 ]
 
 # PIL has some weird packaging issues (because its been around forever).
