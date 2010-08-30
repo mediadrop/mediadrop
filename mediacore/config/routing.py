@@ -83,6 +83,10 @@ def make_map(config, controller_scan=controller_scan):
         controller='media',
         action='serve',
         requirements={'id': r'\d+'})
+    map.connect('static_file_url', '/files/{id}.{container}',
+        controller='media',
+        action='serve',
+        requirements={'id': r'\d+'})
     map.connect('/upload/{action}',
         controller='upload',
         action='index')

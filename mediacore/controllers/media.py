@@ -300,7 +300,7 @@ class MediaController(BaseController):
             redirect(action='view', anchor='comment-%s' % c.id)
 
     @expose()
-    def serve(self, id, slug, container, environ, start_response, **kwargs):
+    def serve(self, id, container, environ, start_response, slug=None, **kwargs):
         """Serve a :class:`~mediacore.model.media.MediaFile` binary.
 
         :param id: File ID
@@ -313,9 +313,14 @@ class MediaController(BaseController):
             match, then a 406 (not acceptable) response is returned.
 
         """
-        media = fetch_row(Media, slug=slug)
+        if slug:
+            media = fetch_row(Media, slug=slug)
+            media_files = media.files
+        else:
+            media_file = fetch_row(MediaFile, id=id)
+            media_files = [media_file]
 
-        for file in media.files:
+        for file in media_files:
             if file.id == int(id) and file.container == container:
                 # Catch external redirects in case they aren't linked to directly
                 if file.http_url:

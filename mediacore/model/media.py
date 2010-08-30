@@ -640,7 +640,7 @@ class MediaFile(object):
                                    slug=self.media.slug, id=self.id,
                                    container=self.container, qualified=qualified)
 
-    def link_url(self, qualified=False):
+    def link_url(self, qualified=False, static=False):
         """The URL for use when linking to a media file.
 
         This is usually a direct link to the file, but for youtube videos and
@@ -655,6 +655,9 @@ class MediaFile(object):
             return self.http_url
         elif self.embed is not None:
             return external_embedded_containers[self.container]['link'] % self.embed
+        elif static:
+            return helpers.url_for('static_file_url', id=self.id,
+                                   container=self.container, qualified=qualified)
         else:
             return helpers.url_for(controller='/media', action='serve',
                                    slug=self.media.slug, id=self.id,
