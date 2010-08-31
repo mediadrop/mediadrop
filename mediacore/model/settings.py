@@ -109,3 +109,14 @@ def insert_settings(defaults):
     if inserted:
         DBSession.commit()
     return inserted
+
+def fetch_and_create_multi_setting(key, value):
+    multisettings = MultiSetting.query\
+        .filter(MultiSetting.key==key)\
+        .all()
+    for ms in multisettings:
+        if ms.value == value:
+            return ms
+    ms = MultiSetting(key, value)
+    DBSession.add(ms)
+    return ms
