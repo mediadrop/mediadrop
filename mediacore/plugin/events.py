@@ -280,3 +280,4 @@ Admin.ThumbForm = Event(['form'])
 # Miscellaneous... may require refactoring
 
 plugin_settings_links = GeneratorEvent([])
+EncodeMediaFile = Event(['media_file'])

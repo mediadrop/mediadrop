@@ -31,6 +31,7 @@ from mediacore.lib.embedtypes import parse_embed_url
 from mediacore.lib.thumbnails import create_default_thumbs_for, create_thumbs_for, has_thumbs, has_default_thumbs, thumb_path
 from mediacore.model import Author, Media, MediaFile, MultiSetting, get_available_slug
 from mediacore.model.meta import DBSession
+from mediacore.plugin import events
 
 import logging
 log = logging.getLogger(__name__)
@@ -69,7 +70,7 @@ def parse_rtmp_url(url):
     return None
 
 
-def add_new_media_file(media, uploaded_file=None, url=None):
+def add_new_media_file(media, uploaded_file=None, url=None, already_encoded=False):
     """Create a new MediaFile for the provided Media object and File/URL
     and add it to that Media object's files list.
 
@@ -103,6 +104,9 @@ def add_new_media_file(media, uploaded_file=None, url=None):
             media.duration = duration
     else:
         raise formencode.Invalid(_('No File or URL provided.'), None, None)
+
+    if not already_encoded:
+        events.EncodeMediaFile(media_file)
 
     # Do we need to create thumbs for an embedded media item?
     if thumb_url \
