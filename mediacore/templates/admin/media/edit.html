@@ -52,6 +52,7 @@
 				regex: /^(\d+x){0,1}(\d+)?$/
 			}
 		});
+		var fileMgr, mediaMgr; // Make the fileMgr and mediaMgr 'public'
 		window.addEvent('domready', function(){
 			var deleteConfirm = new DeleteConfirmMgr({msg: 'Are you sure you want to delete this media?'});
 			$('delete').addEvent('click', deleteConfirm.openConfirmDialog.bind(deleteConfirm));
@@ -68,7 +69,7 @@
 			});
 
 			// Setup the file manager (which hooks into the uploader)
-			var fileMgr = new FileManager('fmgr', {
+			fileMgr = new FileManager('fmgr', {
 				addForm: 'add-file-form',
 				editURL: '${h.url_for(action='edit_file')}',
 				uploader: {
@@ -95,7 +96,7 @@
 				error: 'update-status-error'
 			});
 			var metaForm = new MediaMetaForm('media-form');
-			var mediaMgr = new MediaManager({
+			mediaMgr = new MediaManager({
 				metaForm: metaForm,
 				statusForm: publishStatus,
 				files: fileMgr,

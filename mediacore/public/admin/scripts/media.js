@@ -16,6 +16,8 @@
  */
 var MediaManager = new Class({
 
+	Implements: [Events],
+
 	initialize: function(opts){
 		this.metaForm = opts.metaForm.addEvents({
 			saveSuccess: this.onMetaSaved.bind(this)
@@ -45,6 +47,7 @@ var MediaManager = new Class({
 		this.isNew = false;
 		this.newID = mediaID;
 		window.location.hash = '#' + mediaID;
+		this.fireEvent('initMedia', [mediaID]);
 	},
 
 	onMetaSaved: function(json){
