@@ -61,6 +61,7 @@ def load_environment(global_conf, app_conf):
     config['pylons.app_globals'].genshi_loader = TemplateLoader(
         search_path=paths['templates'],
         auto_reload=True,
+        max_cache_size=100,
         callback=enable_i18n_for_template
     )
 
