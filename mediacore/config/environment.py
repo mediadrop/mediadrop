@@ -18,7 +18,6 @@ import re
 from gettext import GNUTranslations
 
 from genshi.filters.i18n import Translator
-from genshi.template import TemplateLoader
 from pylons.configuration import PylonsConfig
 from pylons.i18n.translation import ugettext, ungettext
 from sqlalchemy import engine_from_config
@@ -30,7 +29,7 @@ from mediacore.config.routing import make_map
 from mediacore.lib.auth import classifier_for_flash_uploads
 from mediacore.model import Media, Podcast, init_model
 from mediacore.model.meta import DBSession
-from mediacore.plugin import PluginManager, events
+from mediacore.plugin import PluginManager, TemplateLoader, events
 
 def load_environment(global_conf, app_conf):
     """Configure the Pylons environment via the ``pylons.config`` object"""

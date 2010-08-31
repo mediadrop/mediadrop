@@ -17,7 +17,7 @@ import logging
 import os
 import re
 
-from genshi.template import loader
+from genshi.template import loader, TemplateLoader as _TemplateLoader
 from importlib import import_module
 from paste.urlmap import URLMap
 from paste.urlparser import StaticURLParser
@@ -138,7 +138,7 @@ class PluginManager(object):
             self._match_templates[template] = matches = []
             for name, plugin in self.plugins.iteritems():
                 if os.path.exists(os.path.join(plugin.templates_path, template)):
-                    matches.append(os.path.join(name, template))
+                    matches.append(os.path.sep + os.path.join(name, template))
             log.debug('Found match templates for %r: %r', template, matches)
         return matches
 
@@ -192,6 +192,118 @@ class PluginManager(object):
         else:
             log.warn('The given app %r is NOT an instance of PylonsApp', app)
         return app
+
+class TemplateLoader(_TemplateLoader):
+    def load(self, filename, relative_to=None, cls=None, encoding=None):
+        """Load the template with the given name.
+
+        XXX: This code copied and modified from Genshi 0.6
+
+        If the `filename` parameter is relative, this method searches the
+        search path trying to locate a template matching the given name. If the
+        file name is an absolute path, the search path is ignored.
+
+        If the requested template is not found, a `TemplateNotFound` exception
+        is raised. Otherwise, a `Template` object is returned that represents
+        the parsed template.
+
+        Template instances are cached to avoid having to parse the same
+        template file more than once. Thus, subsequent calls of this method
+        with the same template file name will return the same `Template`
+        object (unless the ``auto_reload`` option is enabled and the file was
+        changed since the last parse.)
+
+        If the `relative_to` parameter is provided, the `filename` is
+        interpreted as being relative to that path.
+
+        :param filename: the relative path of the template file to load
+        :param relative_to: the filename of the template from which the new
+                            template is being loaded, or ``None`` if the
+                            template is being loaded directly
+        :param cls: the class of the template object to instantiate
+        :param encoding: the encoding of the template to load; defaults to the
+                         ``default_encoding`` of the loader instance
+        :return: the loaded `Template` instance
+        :raises TemplateNotFound: if a template with the given name could not
+                                  be found
+        """
+        if cls is None:
+            cls = self.default_class
+        search_path = self.search_path
+
+        # Make the filename relative to the template file its being loaded
+        # from, but only if that file is specified as a relative path, or no
+        # search path has been set up
+        if relative_to and (not search_path or not os.path.isabs(relative_to)):
+            filename = os.path.join(os.path.dirname(relative_to), filename)
+
+        filename = os.path.normpath(filename)
+        cachekey = filename
+
+        self._lock.acquire()
+        try:
+            # First check the cache to avoid reparsing the same file
+            try:
+                tmpl = self._cache[cachekey]
+                if not self.auto_reload:
+                    return tmpl
+                uptodate = self._uptodate[cachekey]
+                if uptodate is not None and uptodate():
+                    return tmpl
+            except (KeyError, OSError):
+                pass
+
+            isabs = False
+
+            if os.path.isabs(filename):
+                # Make absolute paths relative to the base search path.
+                log.debug("Modifying default TemplateLoader behaviour; treating an absolute template path as relative to the template search path.")
+                relative_to = None
+                filename = filename[1:] # strip leading slash
+
+            if relative_to and os.path.isabs(relative_to):
+                # Make sure that the directory containing the including
+                # template is on the search path
+                dirname = os.path.dirname(relative_to)
+                if dirname not in search_path:
+                    search_path = list(search_path) + [dirname]
+                isabs = True
+
+            elif not search_path:
+                # Uh oh, don't know where to look for the template
+                raise TemplateError('Search path for templates not configured')
+
+            for loadfunc in search_path:
+                if isinstance(loadfunc, basestring):
+                    loadfunc = loader.directory(loadfunc)
+                try:
+                    filepath, filename, fileobj, uptodate = loadfunc(filename)
+                except IOError:
+                    continue
+                else:
+                    try:
+                        if isabs:
+                            # If the filename of either the included or the
+                            # including template is absolute, make sure the
+                            # included template gets an absolute path, too,
+                            # so that nested includes work properly without a
+                            # search path
+                            filename = filepath
+                        tmpl = self._instantiate(cls, fileobj, filepath,
+                                                 filename, encoding=encoding)
+                        if self.callback:
+                            self.callback(tmpl)
+                        self._cache[cachekey] = tmpl
+                        self._uptodate[cachekey] = uptodate
+                    finally:
+                        if hasattr(fileobj, 'close'):
+                            fileobj.close()
+                    return tmpl
+
+            raise TemplateNotFound(filename, search_path)
+
+        finally:
+            self._lock.release()
 
 class _Plugin(object):
     """
