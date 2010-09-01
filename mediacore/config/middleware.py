@@ -116,8 +116,6 @@ def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
     if config.get('proxy_prefix', None):
         app = setup_prefix_middleware(app, global_conf, config['proxy_prefix'])
 
-    app = DBSessionRemoverMiddleware(app)
-
     # END CUSTOM MIDDLEWARE
 
     if asbool(full_stack):
@@ -130,6 +128,9 @@ def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
             app = StatusCodeRedirect(app)
         else:
             app = StatusCodeRedirect(app, [400, 401, 403, 404, 500])
+
+    # Cleanup the DBSession only after errors are handled
+    app = DBSessionRemoverMiddleware(app)
 
     # Establish the Registry for this application
     app = RegistryManager(app)
