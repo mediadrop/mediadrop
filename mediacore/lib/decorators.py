@@ -87,7 +87,7 @@ def _expose_wrapper(f, template):
 
         # Pass in all the templates that plugins have defined to apply to this template
         plugin_mgr = app_globals.plugin_mgr
-        tmpl_context.plugin_templates = \
+        extra_vars['plugin_templates'] = \
             plugin_mgr.match_templates('master.html') + \
             plugin_mgr.match_templates(template)
 
