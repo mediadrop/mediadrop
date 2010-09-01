@@ -27,9 +27,10 @@ import mediacore.lib.helpers
 
 from mediacore.config.routing import make_map
 from mediacore.lib.auth import classifier_for_flash_uploads
+from mediacore.lib.templating import TemplateLoader
 from mediacore.model import Media, Podcast, init_model
 from mediacore.model.meta import DBSession
-from mediacore.plugin import PluginManager, TemplateLoader, events
+from mediacore.plugin import PluginManager, events
 
 def load_environment(global_conf, app_conf):
     """Configure the Pylons environment via the ``pylons.config`` object"""

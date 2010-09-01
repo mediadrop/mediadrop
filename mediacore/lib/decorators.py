@@ -21,15 +21,14 @@ import tw.forms
 import webob.exc
 
 from decorator import decorator
-from genshi import XML
 from paste.deploy.converters import asbool
 from pylons import app_globals, config, request, response, tmpl_context
 from pylons.decorators import jsonify
 from pylons.decorators.cache import create_cache_key, _make_dict_from_args
 from pylons.decorators.util import get_pylons
-from pylons.templating import render_genshi as render
 
 from mediacore.lib.paginate import paginate
+from mediacore.lib.templating import render
 
 log = logging.getLogger(__name__)
 
@@ -78,19 +77,6 @@ def _expose_wrapper(f, template):
     def wrapped_f(*args, **kwargs):
         result = f(*args, **kwargs)
 
-        extra_vars = {
-            # Steal a page from TurboGears' book:
-            # include the genshi XML helper for convenience in templates.
-            'XML': XML
-        }
-        extra_vars.update(result)
-
-        # Pass in all the templates that plugins have defined to apply to this template
-        plugin_mgr = app_globals.plugin_mgr
-        extra_vars['plugin_templates'] = \
-            plugin_mgr.match_templates('master.html') + \
-            plugin_mgr.match_templates(template)
-
         if request.environ.get('paste.testing', False):
             # Make the vars passed from action to template accessible to tests
             request.environ['paste.testing_variables']['tmpl_vars'] = result
@@ -104,12 +90,8 @@ def _expose_wrapper(f, template):
             if response.content_type == 'text/html':
                 response.content_type = 'application/xhtml+xml'
 
-        if template.endswith('.xml'):
-            method = 'xml'
-        else:
-            method = 'xhtml'
+        return render(template, extra_vars=result)
 
-        return render(template, extra_vars=extra_vars, method=method)
     return wrapped_f
 
 def expose(template='string'):
