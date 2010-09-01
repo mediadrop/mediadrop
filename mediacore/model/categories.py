@@ -20,7 +20,7 @@ from sqlalchemy.types import Unicode, UnicodeText, Integer, DateTime, Boolean, F
 from sqlalchemy.orm import mapper, relation, backref, synonym, interfaces, validates, Query
 from sqlalchemy.orm.attributes import set_committed_value
 
-from mediacore.model import slug_length, slugify
+from mediacore.model import SLUG_LENGTH, slugify
 from mediacore.model.meta import DBSession, metadata
 from mediacore.plugin import events
 
@@ -28,7 +28,7 @@ from mediacore.plugin import events
 categories = Table('categories', metadata,
     Column('id', Integer, autoincrement=True, primary_key=True),
     Column('name', Unicode(50), nullable=False, index=True),
-    Column('slug', Unicode(slug_length), nullable=False, unique=True),
+    Column('slug', Unicode(SLUG_LENGTH), nullable=False, unique=True),
     Column('parent_id', Integer, ForeignKey('categories.id', onupdate='CASCADE', ondelete='CASCADE')),
     mysql_engine='InnoDB',
     mysql_charset='utf8'

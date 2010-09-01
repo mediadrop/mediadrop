@@ -27,7 +27,7 @@ from mediacore.lib.unidecode import unidecode
 from mediacore.model.meta import DBSession, Base, metadata
 
 # maximum length of slug strings for all objects.
-slug_length = 50
+SLUG_LENGTH = 50
 
 #####
 # Generally you will not want to define your table's mappers, and data objects
@@ -128,7 +128,7 @@ def slugify(string):
     string = _non_alpha.sub(u'', string)
     string = _extra_dashes.sub(u'-', string).strip('-')
 
-    return string[:slug_length]
+    return string[:SLUG_LENGTH]
 
 def get_available_slug(mapped_class, string, ignore=None):
     """Return a unique slug based on the provided string.
@@ -159,7 +159,7 @@ def get_available_slug(mapped_class, string, ignore=None):
             .filter(mapped_class.id != ignore)\
             .first():
         str_appendix = u'-%s' % appendix
-        max_substr_len = slug_length - len(str_appendix)
+        max_substr_len = SLUG_LENGTH - len(str_appendix)
         new_slug = slug[:max_substr_len] + str_appendix
         appendix += 1
 

@@ -41,7 +41,7 @@ from sqlalchemy.ext.associationproxy import association_proxy
 
 from pylons import app_globals, config, request
 
-from mediacore.model import get_available_slug, slug_length, _mtm_count_property, _properties_dict_from_labels, MatchAgainstClause
+from mediacore.model import get_available_slug, SLUG_LENGTH, _mtm_count_property, _properties_dict_from_labels, MatchAgainstClause
 from mediacore.model.meta import DBSession, metadata
 from mediacore.model.authors import Author
 from mediacore.model.comments import Comment, CommentQuery, comments
@@ -60,7 +60,7 @@ class UnknownFileTypeException(MediaFileException): pass
 media = Table('media', metadata,
     Column('id', Integer, autoincrement=True, primary_key=True),
     Column('type', Enum(VIDEO, AUDIO, name="type")),
-    Column('slug', Unicode(slug_length), unique=True, nullable=False),
+    Column('slug', Unicode(SLUG_LENGTH), unique=True, nullable=False),
     Column('podcast_id', Integer, ForeignKey('podcasts.id', onupdate='CASCADE', ondelete='SET NULL')),
     Column('reviewed', Boolean, default=False, nullable=False),
     Column('encoded', Boolean, default=False, nullable=False),
