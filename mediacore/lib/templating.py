@@ -56,9 +56,7 @@ def render(template, extra_vars=None, method=None, **kwargs):
     # top of the template file.
     plugin_mgr = app_globals.plugin_mgr
     if plugin_mgr:
-        extra_vars['plugin_templates'] = \
-            plugin_mgr.match_templates('master.html') + \
-            plugin_mgr.match_templates(template)
+        extra_vars['plugin_templates'] = plugin_mgr.match_templates(template)
 
     return _render(template, extra_vars=extra_vars, method=method, **kwargs)
 

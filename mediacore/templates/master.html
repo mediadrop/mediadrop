@@ -21,7 +21,8 @@
       py:strip="">
 
 <xi:include href="./helpers.html" />
-<xi:include py:for="tmpl in value_of('plugin_templates', '')" href="${tmpl}" />
+<xi:include py:for="tmpl in g.plugin_mgr.match_templates('/master.html')" href="${tmpl}" />
+<xi:include py:for="tmpl in value_of('plugin_templates', ())" href="${tmpl}" />
 
 <head py:match="head">
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
