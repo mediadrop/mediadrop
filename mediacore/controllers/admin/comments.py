@@ -33,7 +33,7 @@ import logging
 log = logging.getLogger(__name__)
 
 edit_form = EditCommentForm()
-search_form = SearchForm(action=url_for(controller='/admin/comment',
+search_form = SearchForm(action=url_for(controller='/admin/comments',
                                         action='index'))
 
 class CommentsController(BaseController):
