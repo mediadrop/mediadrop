@@ -170,7 +170,12 @@ class JWPlayer(Player):
                 # For multiple RTMP bitrates, use Media RSS playlist
                 vars = {}
                 from mediacore.lib.helpers import url_for
-                vars['playlistfile'] = url_for(controller='/media', action='jwplayer_rtmp_mrss', slug=self.media.slug)
+                vars['playlistfile'] = url_for(
+                    controller='/media',
+                    action='jwplayer_rtmp_mrss',
+                    slug=self.media.slug,
+                    ids=[f.id for f in self.files]
+                )
             else:
                 # For a single RTMP stream, use regular Flash vars.
                 vars['file'] = self.file.rtmp_file_name
