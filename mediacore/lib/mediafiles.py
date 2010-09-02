@@ -80,7 +80,7 @@ def add_new_media_file(media, uploaded_file=None, url=None, already_encoded=Fals
     :param media: The Media object to append the file to
     :type media: :class:`~mediacore.model.media.Media` instance
     :param uploaded_file: An object with 'filename' and 'file' properties.
-    :type uploaded_file: Formencode uploaded file object.
+    :type uploaded_file: Formencode uploaded file object (ie. :class:`cgi.FieldStorage` instance)
     :param url: The URL to represent, if no file is given.
     :type url: unicode
     :returns: The created MediaFile (or None)
