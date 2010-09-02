@@ -79,7 +79,7 @@
 					messages: {<py:if test="g.settings['ftp_storage'] == 'true'">99: "Hang tight, we're moving your upload to our permanent storage. This may take a few minutes."</py:if>},
 					path: '${h.url_for('/scripts/third-party/Swiff.Uploader.swf')}',
 					fileSizeMax: ${g.settings['max_upload_size']},
-					typeFilter: '${'; '.join(['*.' + x for x in h.accepted_extensions()])}',
+					typeFilter: '*.*',
 					verbose: false // debug
 					<py:if test="g.settings['ftp_storage'] == 'true'">, timeLimit: 900</py:if>
 				}

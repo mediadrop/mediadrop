@@ -17,7 +17,6 @@ import re
 from pylons import request
 
 __all__ = [
-    'accepted_extensions',
     'guess_container_format',
     'guess_media_type',
     'guess_mimetype',
@@ -40,9 +39,6 @@ UNKNOWN = u'unknown'
 #      and sometimes treated as file extensions. Caveat coder.
 # TODO: Replace with a more complete list or (even better) change the logic
 #       to detect mimetypes from something other than the file extension.
-# XXX: This list can contain at most 21 items! Any more will crash Flash when
-#      accepted_extensions() is passed to Swiff.Uploader to provide the
-#      typeFilter.
 mimetype_lookup = {
     u'flac': u'audio/flac',
     u'mp3':  u'audio/mpeg',
@@ -189,22 +185,6 @@ user_agent_regexes = (
     ('android', re.compile(r'Android.(\d+\.\d+)')),
     ('itunes', re.compile(r'iTunes/(\d+\.\d+)')),
 )
-
-def accepted_extensions(*types):
-    """Return the extensions allowed for upload.
-
-    Limit to certain file types like so::
-
-        audio_video_exts = accepted_extensions('audio', 'video')
-
-    :rtype: list
-    """
-    if types:
-        e = [e for e, t in guess_media_type_map.iteritems() if t in types]
-    else:
-        e = guess_media_type_map.keys()
-    e.sort()
-    return e
 
 def parse_user_agent_version(ua=None):
     """Return a tuple representing the user agent's browser name and version.

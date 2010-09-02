@@ -31,7 +31,7 @@
 		window.addEvent('domready', function() {
 			if (Browser.Engine.trident) return;
 			UploadMGR = new UploadManager('${upload_form.id}', '${upload_form.async_action}');
-			SwiffUploadMGR = new SwiffUploadManager('${upload_form.id}', '${upload_form.async_action}', '${h.url_for(action='failure')}', '${h.url_for('/')}', '${'; '.join(['*.'+x for x in h.accepted_extensions('audio', 'video')])}', 'browse-button', 'submit_btn', 'file-info', 'upload-status', swiff_messages, ${g.settings['max_upload_size']});
+			SwiffUploadMGR = new SwiffUploadManager('${upload_form.id}', '${upload_form.async_action}', '${h.url_for(action='failure')}', '${h.url_for('/')}', '*.*', 'browse-button', 'submit_btn', 'file-info', 'upload-status', swiff_messages, ${g.settings['max_upload_size']});
 			<py:if test="g.settings['ftp_storage'] == 'true'">SwiffUploadMGR.uploader.setOptions({timeLimit: 900});</py:if>
 		});
 	</script>
@@ -44,10 +44,6 @@
 			<div class="feat-bottom" />
 		</div>
 		<div id="rightbar">
-			<div>
-				<em>Acceptable File Formats</em>
-				<p>${h.list_accepted_extensions('audio', 'video')}.</p>
-			</div>
 			<div py:if="support_email">
 				<em>Problems?</em>
 				<p>If you have problems uploading or have some questions, please email us at <a href="mailto:${support_email}" py:content="support_email">Support Email</a></p>

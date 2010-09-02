@@ -32,10 +32,9 @@
 			<div class="feat-content">
 				<p>During your upload, something went wrong, but don't worry. The engineers and gnomes have been automagically notified and we're already on our way to resolving your issue.</p>
 				<br />
-				<h4 class="italic">A few things you can check:</h4>
+				<h4 class="italic">Something you can check:</h4>
 				<ul>
 					<li>Is the file under ${int(g.settings['max_upload_size'])/1024/1024} Megabytes in size?</li>
-					<li i18n:msg="formats">Is it encoded in one of our supported formats? <span id="formats">${h.list_accepted_extensions()}.</span></li>
 				</ul>
 				<br />
 				<a id="try-again" href="${h.url_for(action='index')}"><img alt="Try Uploading Again" src="${h.url_for('/images/uploader/try-again.png')}" /></a>

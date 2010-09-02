@@ -41,7 +41,6 @@ from webhelpers.html.converters import format_paragraphs
 
 from mediacore.lib.compat import any
 from mediacore.lib.htmlsanitizer import Cleaner, entities_to_unicode as decode_entities, encode_xhtml_entities as encode_entities
-from mediacore.lib.filetypes import AUDIO, AUDIO_DESC, CAPTIONS, VIDEO, accepted_extensions, guess_mimetype
 from mediacore.lib.thumbnails import thumb, thumb_url
 from mediacore.lib.players import pick_media_file_player
 
@@ -59,7 +58,7 @@ defined = [
     'duration_from_seconds', 'duration_to_seconds', 'embeddable_player',
     'excerpt_xhtml', 'excess_whitespace', 'filter_library_controls',
     'get_featured_category', 'gravatar_from_email', 'is_admin', 'js',
-    'line_break_xhtml', 'list_acceptable_xhtml', 'list_accepted_extensions',
+    'line_break_xhtml', 'list_acceptable_xhtml',
     'pick_any_media_file', 'pick_podcast_media_file',
     'pretty_file_size', 'redirect',
     'store_transient_message', 'strip_xhtml', 'truncate', 'truncate_xhtml',
@@ -399,17 +398,6 @@ def list_acceptable_xhtml():
         attrs = ", ".join(sorted(valid_attrs)),
         map = ", ".join(["%s -> %s" % (t, elem_map[t]) for t in elem_map])
     )
-
-def list_accepted_extensions(*args, **kwargs):
-    """Return the extensions allowed for upload for printing.
-
-    :returns: Comma separated extensions
-    :rtype: unicode
-    """
-    e = accepted_extensions(*args, **kwargs)
-    if len(e) > 1:
-        e[-1] = 'and ' + e[-1]
-    return ', '.join(e)
 
 def append_class_attr(attrs, class_name):
     """Append to the class for any input that Genshi's py:attrs understands.
