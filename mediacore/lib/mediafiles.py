@@ -141,6 +141,7 @@ def base_ext_container_from_uri(uri):
     ext = file_ext[1:].lower()
     container = guess_container_format(ext)
     if container is None:
+        # TODO: This block should actually never be reached. Ensure that it is not, and remove it.
         error_msg = _('File extension "%s" is not supported.') % file_ext
         raise formencode.Invalid(error_msg, None, None)
     return name, ext, container

@@ -27,6 +27,7 @@ AUDIO = u'audio'
 VIDEO = u'video'
 AUDIO_DESC = u'audio_desc'
 CAPTIONS = u'captions'
+UNKNOWN = u'unknown'
 
 # Mimetypes for all file extensions accepted by the front and backend uploaders
 #
@@ -89,6 +90,7 @@ container_lookup = {
     u'video/webm': u'webm',
     u'application/ttml+xml': u'xml',
     u'text/plain': u'srt',
+    u'application/octet-stream': UNKNOWN,
 }
 
 # When media_obj.container doesn't match a key in the mimetype_lookup dict...
@@ -117,6 +119,7 @@ guess_media_type_map = {
     'wmv':  VIDEO,
     'xml':  CAPTIONS,
     'srt':  CAPTIONS,
+    UNKNOWN: VIDEO,
 }
 
 # The list of file extensions that flash should recognize and be able to play.
@@ -257,7 +260,7 @@ def guess_container_format(extension):
 
     """
     mt = guess_mimetype(extension)
-    return container_lookup.get(mt, None)
+    return container_lookup.get(mt)
 
 def guess_media_type(extension=None, embed=None, default=VIDEO):
     """Return the most likely media type based on the container or embed site.
