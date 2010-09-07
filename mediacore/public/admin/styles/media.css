@@ -285,3 +285,19 @@ tr.error td[headers='thf-type'] {
 #media-form #podcast_container .form_field select {
 	float: left;
 }
+
+.btn-dash {
+	background:url("/admin/images/buttons/btn-dark-bg.png") repeat-x;
+	border-bottom:none;
+	text-align:center;
+}
+.btn-dash a {
+	color: #F1E9E6;
+	font-size:18px;
+	display:block;
+	width:100%;
+}
+.btn-dash a:hover {
+	color: #CCC;
+	text-decoration:none;
+}
