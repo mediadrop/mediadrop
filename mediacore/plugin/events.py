@@ -31,7 +31,7 @@ class Event(object):
 
     """
     def __init__(self, args):
-        self.args = args and frozenset(args) or None
+        self.args = args and tuple(args) or None
         self.observers = []
 
     def __call__(self, *args, **kwargs):
