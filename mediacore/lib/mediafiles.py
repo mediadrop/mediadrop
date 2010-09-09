@@ -105,6 +105,7 @@ def add_new_media_file(media, uploaded_file=None, url=None, already_encoded=Fals
     else:
         raise formencode.Invalid(_('No File or URL provided.'), None, None)
 
+    DBSession.flush()
     if not already_encoded:
         events.EncodeMediaFile(media_file)
 
