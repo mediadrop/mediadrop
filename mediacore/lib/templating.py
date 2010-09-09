@@ -17,11 +17,12 @@ import logging
 import os.path
 
 from genshi import Markup, XML
+from genshi.output import XHTMLSerializer
 from genshi.template import loader
 from pylons import app_globals
 from pylons.templating import pylons_globals
 
-__all__ = ['render', 'render_stream', 'TemplateLoader']
+__all__ = ['render', 'render_stream', 'TemplateLoader', 'XHTMLPlusSerializer']
 
 log = logging.getLogger(__name__)
 
@@ -66,6 +67,9 @@ def render(template, tmpl_vars=None, method=None):
 def render_stream(stream, method='auto', template_name=None):
     """Render the given stream to a unicode Markup string.
 
+    We substitute the standard XHTMLSerializer with our own
+    :class:`XHTMLPlusSerializer` which is (more) HTML5-aware.
+
     :type stream: :class:`genshi.Stream`
     :param stream: An iterable markup stream.
     :param method: The serialization method for Genshi to use.
@@ -83,7 +87,19 @@ def render_stream(stream, method='auto', template_name=None):
         else:
             method = 'xhtml'
 
+    if method == 'xhtml':
+        method = XHTMLPlusSerializer
+
     return Markup(stream.render(method=method, encoding=None))
+
+class XHTMLPlusSerializer(XHTMLSerializer):
+    """Produces XHTML text from an event stream.
+
+    This serializer is aware that <source/> tags are empty, which is
+    required for it to be valid (working) HTML5 in some browsers.
+
+    """
+    _EMPTY_ELEMS = frozenset(set(['source']) | XHTMLSerializer._EMPTY_ELEMS)
 
 class TemplateLoader(loader.TemplateLoader):
     def load(self, filename, relative_to=None, cls=None, encoding=None):
