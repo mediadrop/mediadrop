@@ -285,6 +285,20 @@ tr.error td[headers='thf-type'] {
 #media-form #podcast_container .form_field select {
 	float: left;
 }
+#add-media-btn a{
+	background:url("/admin/images/buttons/add-new-media-refined.png");
+	display:block;
+	height:34px;
+	margin-bottom:32px;
+}
+#add-media-btn a span {
+	height: 0;
+	display: block;
+	overflow: hidden;
+}
+#add-media-btn a:link, #add-media-btn a:visited { background-position: 0 0 }
+#add-media-btn a:hover { background-position: 0 -34px }
+#add-media-btn a:active { background-position: 0 -68px }
 
 .btn-dash {
 	background:url("/admin/images/buttons/btn-dark-bg.png") repeat-x;
