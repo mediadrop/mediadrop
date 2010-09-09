@@ -90,7 +90,7 @@ def _expose_wrapper(f, template):
             if response.content_type == 'text/html':
                 response.content_type = 'application/xhtml+xml'
 
-        return render(template, extra_vars=result)
+        return render(template, tmpl_vars=result, method='auto')
 
     return wrapped_f
 

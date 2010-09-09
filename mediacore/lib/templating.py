@@ -14,51 +14,76 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import logging
-import os
+import os.path
 
-from genshi import XML
+from genshi import Markup, XML
 from genshi.template import loader
-from pylons import app_globals, request, tmpl_context
-from pylons.templating import render_genshi as _render
+from pylons import app_globals
+from pylons.templating import pylons_globals
 
-__all__ = ['render', 'TemplateLoader']
+__all__ = ['render', 'render_stream', 'TemplateLoader']
 
 log = logging.getLogger(__name__)
 
-def render(template, extra_vars=None, method=None, **kwargs):
-    """Render the given template with helpful default params.
+def render(template, tmpl_vars=None, method=None):
+    """Generate a markup stream from the given template and vars.
 
     :param template: A template path.
-    :param extra_vars: A dict of variables to pass into the template.
-    :param method: The serialization method for Genshi to use.
-        Defaults to xhtml unless the template file extension is xml.
-    :returns: The rendered unicode string.
+    :param tmpl_vars: A dict of variables to pass into the template.
+    :param method: Optional serialization method for Genshi to use.
+        If None, we don't serialize the markup stream into a string.
+        Provide 'auto' to use the best guess. See :func:`render_stream`.
+    :rtype: :class:`genshi.Stream` or :class:`genshi.Markup`
+    :returns: An iterable markup stream, or a serialized markup string
+        if `method` was not None.
 
     """
-    if extra_vars is None:
-        extra_vars = {}
-    assert isinstance(extra_vars, dict), \
-        'extra_vars must be a dict or None, given: %r' % extra_vars
+    if tmpl_vars is None:
+        tmpl_vars = {}
+    assert isinstance(tmpl_vars, dict), \
+        'tmpl_vars must be a dict or None, given: %r' % tmpl_vars
 
     # Steal a page from TurboGears' book:
     # include the genshi XML helper for convenience in templates.
-    extra_vars.setdefault('XML', XML)
-
-    # Default to xhtml serialization except when given a "*.xml" template file
-    if method is None:
-        if template.endswith('.xml'):
-            method = 'xml'
-        else:
-            method = 'xhtml'
+    tmpl_vars.setdefault('XML', XML)
+    tmpl_vars.update(pylons_globals())
 
     # Pass in all the plugin templates that will manipulate this template
     # The idea is that these paths should be <xi:include> somewhere in the
     # top of the template file.
-    plugin_mgr = app_globals.plugin_mgr
-    if plugin_mgr:
-        extra_vars['plugin_templates'] = plugin_mgr.match_templates(template)
+    plugin_templates = app_globals.plugin_mgr.match_templates(template)
+    tmpl_vars['plugin_templates'] = plugin_templates
 
-    return _render(template, extra_vars=extra_vars, method=method, **kwargs)
+    # Grab a template reference and apply the template context
+    tmpl = app_globals.genshi_loader.load(template)
+    stream = tmpl.generate(**tmpl_vars)
+
+    if method is None:
+        return stream
+    else:
+        return render_stream(stream, method=method, template_name=template)
+
+def render_stream(stream, method='auto', template_name=None):
+    """Render the given stream to a unicode Markup string.
+
+    :type stream: :class:`genshi.Stream`
+    :param stream: An iterable markup stream.
+    :param method: The serialization method for Genshi to use.
+        If given 'auto', the default value, we assume xhtml unless
+        a template name is given with an xml extension.
+    :param template_name: Optional template name which we use only to
+        guess what method to use, if one hasn't been explicitly provided.
+    :rtype: :class:`genshi.Markup`
+    :returns: A subclassed `unicode` object.
+
+    """
+    if method == 'auto':
+        if template_name and template_name.endswith('.xml'):
+            method = 'xml'
+        else:
+            method = 'xhtml'
+
+    return Markup(stream.render(method=method, encoding=None))
 
 class TemplateLoader(loader.TemplateLoader):
     def load(self, filename, relative_to=None, cls=None, encoding=None):
