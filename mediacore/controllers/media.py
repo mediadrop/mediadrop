@@ -16,26 +16,27 @@
 """
 Publicly Facing Media Controllers
 """
-from pylons import app_globals, config, request, response, session, tmpl_context
-from pylons.controllers.util import forward
-import webob.exc
-from sqlalchemy import orm, sql
+import logging
+
+from akismet import Akismet
 from paste.deploy.converters import asbool
 from paste.fileapp import FileApp
 from paste.util import mimeparse
-from akismet import Akismet
+from pylons import app_globals, config, request, response
+from pylons.controllers.util import forward
+from sqlalchemy import orm, sql
+from webob.exc import HTTPNotAcceptable, HTTPNotFound
 
+from mediacore import USER_AGENT
+from mediacore.forms.comments import PostCommentForm
+from mediacore.lib import email, helpers
 from mediacore.lib.base import BaseController
 from mediacore.lib.decorators import expose, expose_xhr, observable, paginate, validate
 from mediacore.lib.helpers import url_for, redirect, store_transient_message
 from mediacore.model import (DBSession, fetch_row, get_available_slug,
     Media, MediaFile, Comment, Tag, Category, Author, AuthorWithIP, Podcast)
-from mediacore.lib import helpers, email
-from mediacore.forms.comments import PostCommentForm
-from mediacore import USER_AGENT
 from mediacore.plugin import events
 
-import logging
 log = logging.getLogger(__name__)
 
 post_comment_form = PostCommentForm()
@@ -351,9 +352,9 @@ class MediaController(BaseController):
                 # Ensure the request accepts files with this container
                 accept = request.environ.get('HTTP_ACCEPT', '*/*')
                 if not mimeparse.best_match([file_type], accept):
-                    raise webob.exc.HTTPNotAcceptable() # 406
+                    raise HTTPNotAcceptable() # 406
 
-                # Headers to add to FileApp
+                method = config.get('file_serve_method', None)
                 headers = []
 
                 # Serving files with this header breaks playback on iPhone
@@ -361,16 +362,14 @@ class MediaController(BaseController):
                     headers.append(('Content-Disposition',
                                     'attachment; filename="%s"' % file_name))
 
-                serve_method = config.get('file_serve_method', None)
-
-                if serve_method == 'apache_xsendfile':
+                if method == 'apache_xsendfile':
                     # Requires mod_xsendfile for Apache 2.x
                     # XXX: Don't send Content-Length or Etag headers,
                     #      Apache handles them for you.
                     response.headers['X-Sendfile'] = file_path
                     response.body = ''
 
-                elif serve_method == 'nginx_redirect':
+                elif method == 'nginx_redirect':
                     raise NotImplementedError, 'This is only a placeholder'
                     response.headers['X-Accel-Redirect'] = '../relative/path'
 
@@ -384,4 +383,4 @@ class MediaController(BaseController):
 
                 return None
         else:
-            raise webob.exc.HTTPNotFound()
+            raise HTTPNotFound()
