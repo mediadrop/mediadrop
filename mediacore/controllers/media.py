@@ -313,13 +313,16 @@ class MediaController(BaseController):
             redirect(action='view', anchor='comment-%s' % c.id)
 
     @expose()
-    def serve(self, id, container, slug=None, **kwargs):
+    def serve(self, id, container, slug=None, download=False, **kwargs):
         """Serve a :class:`~mediacore.model.media.MediaFile` binary.
 
         :param id: File ID
         :type id: ``int``
         :param slug: The media :attr:`~mediacore.model.media.Media.slug`
         :type slug: The file :attr:`~mediacore.model.media.MediaFile.container`
+        :param bool download: If true, serve with an Content-Disposition that
+            makes the file download to the users computer instead of playing
+            in the browser.
         :raises webob.exc.HTTPNotFound: If no file exists for the given params.
         :raises webob.exc.HTTPNotAcceptable: If an Accept header field
             is present, and if the mimetype of the requested file doesn't
@@ -351,10 +354,12 @@ class MediaController(BaseController):
                     raise webob.exc.HTTPNotAcceptable() # 406
 
                 # Headers to add to FileApp
-                headers = [
-                    ('Content-Disposition',
-                     'attachment; filename="%s"' % file_name),
-                ]
+                headers = []
+
+                # Serving files with this header breaks playback on iPhone
+                if download:
+                    headers.append(('Content-Disposition',
+                                    'attachment; filename="%s"' % file_name))
 
                 serve_method = config.get('file_serve_method', None)
 

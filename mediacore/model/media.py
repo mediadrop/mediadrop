@@ -661,7 +661,8 @@ class MediaFile(object):
         else:
             return helpers.url_for(controller='/media', action='serve',
                                    slug=self.media.slug, id=self.id,
-                                   container=self.container, qualified=qualified)
+                                   container=self.container, qualified=qualified,
+                                   download=1)
 
 class MediaFullText(object):
     query = DBSession.query_property()
