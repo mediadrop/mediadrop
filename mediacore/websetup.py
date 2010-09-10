@@ -1,6 +1,8 @@
 """Setup the MediaCore application"""
 import logging
 import os.path
+import random
+import string
 
 import pylons
 import pylons.test
@@ -89,6 +91,9 @@ def setup_app(command, conf, vars):
     DBSession.commit()
     log.info('Successfully setup')
 
+def random_string(length):
+    return u"".join([random.choice(string.letters+string.digits) for x in range(1, length)])
+
 def add_default_data():
     log.info('Adding default data')
 
@@ -119,6 +124,10 @@ def add_default_data():
         (u'akismet_url', u''),
         (u'req_comment_approval', u'false'),
         (u'use_embed_thumbnails', u'true'),
+        (u'api_secret_key_required', u'true'),
+        (u'api_secret_key', random_string(20)),
+        (u'api_media_max_results', u'50'),
+        (u'api_tree_max_depth', u'10'),
     ]
 
     for key, value in settings:

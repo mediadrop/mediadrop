@@ -91,12 +91,6 @@ def load_environment(global_conf, app_conf):
         },
     }
 
-    # The max number of results to return for any api listing
-    config['api_media_max_results'] = 50
-
-    # The max level deep to expand trees
-    config['api_tree_max_depth'] = 10
-
     # END CUSTOM CONFIGURATION OPTIONS
 
     return config

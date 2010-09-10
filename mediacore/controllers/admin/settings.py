@@ -19,7 +19,7 @@ from pylons import app_globals, request, response, session, tmpl_context as c
 from repoze.what.predicates import has_permission
 from sqlalchemy import orm, sql
 
-from mediacore.forms.admin.settings import AnalyticsForm, CommentsForm, DisplayForm, NotificationsForm, PopularityForm, UploadForm
+from mediacore.forms.admin.settings import APIForm, AnalyticsForm, CommentsForm, DisplayForm, NotificationsForm, PopularityForm, UploadForm
 from mediacore.lib.base import BaseController
 from mediacore.lib.decorators import expose, expose_xhr, paginate, validate
 from mediacore.lib.helpers import redirect, url_for
@@ -34,6 +34,9 @@ notifications_form = NotificationsForm(
 
 comments_form = CommentsForm(
     action=url_for(controller='/admin/settings', action='save_comments'))
+
+api_form = APIForm(
+    action=url_for(controller='/admin/settings', action='save_api'))
 
 display_form = DisplayForm(
     action=url_for(controller='/admin/settings', action='save_display'))
@@ -133,6 +136,16 @@ class SettingsController(BaseController):
     def save_comments(self, **kwargs):
         """Save :class:`~mediacore.forms.admin.settings.CommentsForm`."""
         return self._save(comments_form, 'comments', **kwargs)
+
+    @expose('admin/settings/api.html')
+    def api(self, **kwargs):
+        return self._display(api_form, **kwargs)
+
+    @expose()
+    @validate(api_form, error_handler=comments)
+    def save_api(self, **kwargs):
+        """Save :class:`~mediacore.forms.admin.settings.APIForm`."""
+        return self._save(api_form, 'api', **kwargs)
 
     @expose('admin/settings/display.html')
     def display(self, **kwargs):

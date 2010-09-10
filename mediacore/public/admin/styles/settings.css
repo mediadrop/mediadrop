@@ -25,6 +25,7 @@ ul#settings-menu a {
 }
 .menu-settings-analytics-on  a#menu-settings-analytics,
 .menu-settings-comments-on  a#menu-settings-comments,
+.menu-settings-api-on  a#menu-settings-api,
 .menu-settings-categories-on  a#menu-settings-categories,
 .menu-settings-display-on a#menu-settings-display,
 .menu-settings-notifications-on  a#menu-settings-notifications,
@@ -89,4 +90,11 @@ ul#settings-menu a {
 #sbox-content #edit-box .box-content {
 	padding-top: 0;
 }
-
+#generate_key{
+	font-size: 15px;
+	font-weight: bold;
+	margin-left: 16px;
+}
+#generate_key:hover{
+	text-decoration:none;
+}

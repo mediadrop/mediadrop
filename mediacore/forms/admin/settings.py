@@ -15,6 +15,7 @@
 
 from genshi.core import Markup
 from tw.forms import RadioButtonList, SingleSelectField
+from tw.forms.fields import Button
 from tw.forms.validators import Int, OneOf, StringBool
 
 from mediacore.forms import ListFieldSet, ListForm, ResetButton, SubmitButton, TextArea, TextField, XHTMLTextArea, email_validator, email_list_validator
@@ -190,6 +191,25 @@ class CommentsForm(ListForm):
         ListFieldSet('akismet', suppress_label=True, legend='Akismet Anti-Spam Details:', css_classes=['details_fieldset'], children=[
             TextField('akismet_key', label_text='Akismet Key'),
             TextField('akismet_url', label_text='Akismet URL'),
+        ]),
+        SubmitButton('save', default='Save', css_classes=['btn', 'btn-save', 'f-rgt']),
+        ResetButton('cancel', default='Cancel', css_classes=['btn', 'btn-cancel']),
+    ]
+
+class APIForm(ListForm):
+    template = 'mediacore.templates.admin.box-form'
+    id = 'settings-form'
+    css_class = 'form'
+    submit_text = None
+
+    fields = [
+        boolean_radiobuttonlist('api_secret_key_required', label_text='Require a key to access the API'),
+        ListFieldSet('key', suppress_label=True, legend='API Key:', css_classes=['details_fieldset'], children=[
+            TextField('api_secret_key', label_text='Access Key'),
+        ]),
+        ListFieldSet('prefs', suppress_label=True, legend='API Settings:', css_classes=['details_fieldset'], children=[
+            TextField('api_media_max_results', label_text='Max media results'),
+            TextField('api_tree_max_depth', label_text='Max tree depth'),
         ]),
         SubmitButton('save', default='Save', css_classes=['btn', 'btn-save', 'f-rgt']),
         ResetButton('cancel', default='Cancel', css_classes=['btn', 'btn-cancel']),
