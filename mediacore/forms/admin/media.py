@@ -113,6 +113,7 @@ file_type_options = [
 ]
 file_types = [x[0] for x in file_type_options]
 file_type_validator = OneOf(file_types, if_missing=None)
+file_type_validator = None
 
 class EditFileForm(ListForm):
     template = 'mediacore.templates.admin.media.file-edit-form'
