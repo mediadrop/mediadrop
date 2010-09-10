@@ -17,6 +17,7 @@
 Publicly Facing Media Controllers
 """
 import logging
+import os.path
 
 from akismet import Akismet
 from paste.deploy.converters import asbool
@@ -348,6 +349,10 @@ class MediaController(BaseController):
                 file_path = file.file_path.encode('utf-8')
                 file_type = file.mimetype.encode('utf-8')
                 file_name = file.display_name.encode('utf-8')
+
+                if not os.path.exists(file_path):
+                    log.warn('No such file or directory: %r', file_path)
+                    raise HTTPNotFound()
 
                 # Ensure the request accepts files with this container
                 accept = request.environ.get('HTTP_ACCEPT', '*/*')
