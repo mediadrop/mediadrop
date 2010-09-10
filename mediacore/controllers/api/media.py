@@ -16,7 +16,8 @@
 import logging
 from datetime import datetime, timedelta
 
-from pylons import config, request, response, session, tmpl_context
+from paste.util.converters import asbool
+from pylons import app_globals, config, request, response, session, tmpl_context
 from sqlalchemy import orm, sql
 
 from mediacore.controllers.api import APIException, get_order_by
@@ -53,7 +54,7 @@ class MediaController(BaseController):
     def index(self, type=None, podcast=None, tag=None, category=None, search=None,
               max_age=None, min_age=None, order=None, offset=0, limit=10,
               published_after=None, published_before=None, featured=False,
-              id=None, slug=None, include_embed=False, **kwargs):
+              id=None, slug=None, include_embed=False, secret_key=None, **kwargs):
         """Query for a list of media.
 
         :param type:
@@ -110,7 +111,7 @@ class MediaController(BaseController):
         :param limit:
             Number of results to return in each query. Defaults to 10.
             The maximum allowed value defaults to 50 and is set via
-            :attr:`mediacore.config['app_config'].api_media_max_results`.
+            :attr:`app_globals.settings['api_media_max_results']`.
         :type limit: int
 
         :param featured:
@@ -133,6 +134,10 @@ class MediaController(BaseController):
             Note that we still return a list.
         :type slug: unicode or None
 
+        :param api_key:
+            The api access key if required in settings
+        :type api_key: unicode or None
+
         :raises APIException:
             If there is an user error in the query params.
 
@@ -144,6 +149,11 @@ class MediaController(BaseController):
                 A list of media info objects.
 
         """
+
+        if asbool(app_globals.settings['api_secret_key_required']) \
+            and secret_key != app_globals.settings['api_secret_key']:
+            return dict(error='Authentication Error')
+
         query = Media.query\
             .published()\
             .options(orm.undefer('comment_count_published'))
@@ -199,7 +209,7 @@ class MediaController(BaseController):
 
         # Rudimentary pagination support
         start = int(offset)
-        end = start + min(int(limit), int(config['api_media_max_results']))
+        end = start + min(int(limit), int(app_globals.settings['api_media_max_results']))
 
         media = [self._info(m, podcast_slugs, include_embed) for m in query[start:end]]
 
@@ -210,17 +220,24 @@ class MediaController(BaseController):
 
 
     @expose('json')
-    def get(self, id=None, slug=None, **kwargs):
+    def get(self, id=None, slug=None, secret_key=None, **kwargs):
         """Expose info on a specific media item by ID or slug.
 
         :param id: A :attr:`mediacore.model.media.Media.id` for lookup
         :type id: int
         :param slug: A :attr:`mediacore.model.media.Media.slug` for lookup
         :type slug: str
+        :param api_key:
+            The api access key if required in settings
+        :type api_key: unicode or None
         :raises webob.exc.HTTPNotFound: If the media doesn't exist.
         :returns: JSON dict
 
         """
+        if asbool(app_globals.settings['api_secret_key_required']) \
+            and secret_key != app_globals.settings['api_secret_key']:
+            return dict(error='Authentication Error')
+
         query = Media.query.published()
 
         if id:
@@ -282,17 +299,23 @@ class MediaController(BaseController):
 
 
     @expose('json')
-    def files(self, id=None, slug=None, **kwargs):
+    def files(self, id=None, slug=None, secret_key=None, **kwargs):
         """List all files related to specific media.
 
         :param id: A :attr:`mediacore.model.media.Media.id` for lookup
         :type id: int
         :param slug: A :attr:`mediacore.model.media.Media.slug` for lookup
         :type slug: str
+        :param api_key:
+            The api access key if required in settings
+        :type api_key: unicode or None
         :raises webob.exc.HTTPNotFound: If the media doesn't exist.
         :returns: JSON dict
 
         """
+        if asbool(app_globals.settings['api_secret_key_required']) \
+            and secret_key != app_globals.settings['api_secret_key']:
+            return dict(error='Authentication Error')
         query = Media.query.published()
 
         if id:

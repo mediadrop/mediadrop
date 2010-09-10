@@ -17,7 +17,7 @@ import logging
 from datetime import datetime, timedelta
 
 from paste.util.converters import asbool
-from pylons import config
+from pylons import app_globals
 from sqlalchemy import orm
 
 from mediacore.controllers.api import APIException, get_order_by
@@ -45,7 +45,7 @@ class CategoriesController(BaseController):
     """
 
     @expose('json')
-    def index(self, order=None, offset=0, limit=10, **kwargs):
+    def index(self, order=None, offset=0, limit=10, secret_key=None, **kwargs):
         """Query for a flat list of categories.
 
         :param id: A :attr:`mediacore.model.media.Category.id` for lookup
@@ -70,12 +70,20 @@ class CategoriesController(BaseController):
         :param limit:
             Number of results to return in each query. Defaults to 10.
             The maximum allowed value defaults to 50 and is set via
-            :attr:`mediacore.config['app_config'].api_media_max_results`.
+            :attr:`app_globals.settings['api_media_max_results']`.
         :type limit: int
+
+        :param api_key:
+            The api access key if required in settings
+        :type api_key: unicode or None
 
         :returns: JSON dict
 
         """
+        if asbool(app_globals.settings['api_secret_key_required']) \
+            and secret_key != app_globals.settings['api_secret_key']:
+            return dict(error='Authentication Error')
+
         if any(key in kwargs for key in ('id', 'slug', 'name')):
             kwargs['offset'] = offset
             kwargs['limit'] = limit
@@ -85,7 +93,7 @@ class CategoriesController(BaseController):
         return self._index_query(order, offset, limit, tree=False)
 
     @expose('json')
-    def tree(self, depth=10, **kwargs):
+    def tree(self, depth=10, secret_key=None, **kwargs):
         """Query for an expanded tree of categories.
 
         :param id: A :attr:`mediacore.model.media.Category.id` to lookup the parent node
@@ -98,12 +106,17 @@ class CategoriesController(BaseController):
         :param depth:
             Number of level deep in children to expand. Defaults to 10.
             The maximum allowed value defaults to 10 and is set via
-            :attr:`mediacore.config['app_config'].api_tree_max_depth`.
+            :attr:`app_globals.settings['api_tree_max_depth']`.
         :type limit: int
-
+        :param api_key:
+            The api access key if required in settings
+        :type api_key: unicode or None
         :returns: JSON dict
 
         """
+        if asbool(app_globals.settings['api_secret_key_required']) \
+            and secret_key != app_globals.settings['api_secret_key']:
+            return dict(error='Authentication Error')
         if any(key in kwargs for key in ('id', 'slug', 'name')):
             kwargs['depth'] = depth
             kwargs['tree'] = True
@@ -124,8 +137,8 @@ class CategoriesController(BaseController):
         query = query.order_by(get_order_by(order, order_columns))
 
         start = int(offset)
-        limit = min(int(limit), int(config['api_media_max_results']))
-        depth = min(int(depth), int(config['api_tree_max_depth']))
+        limit = min(int(limit), int(app_globals.settings['api_media_max_results']))
+        depth = min(int(depth), int(app_globals.settings['api_tree_max_depth']))
 
         # get the total of all the matches
         count = query.count()
@@ -139,9 +152,9 @@ class CategoriesController(BaseController):
         )
 
     def _get_query(self, id=None, name=None, slug=None, tree=False, depth=10, **kwargs):
-        """Query for a specific category item by ID, name or slug and optionaly expand the children of this category."""
+        """Query for a specific category item by ID, name or slug and optionally expand the children of this category."""
         query = Category.query
-        depth = min(int(depth), int(config['api_tree_max_depth']))
+        depth = min(int(depth), int(app_globals.settings['api_tree_max_depth']))
 
         if id:
             query = query.filter_by(id=id)
