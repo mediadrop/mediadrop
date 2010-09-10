@@ -17,6 +17,7 @@
 Publicly Facing Media Controllers
 """
 from pylons import app_globals, config, request, response, session, tmpl_context
+from pylons.controllers.util import forward
 import webob.exc
 from sqlalchemy import orm, sql
 from paste.deploy.converters import asbool
@@ -312,7 +313,7 @@ class MediaController(BaseController):
             redirect(action='view', anchor='comment-%s' % c.id)
 
     @expose()
-    def serve(self, id, container, environ, start_response, slug=None, **kwargs):
+    def serve(self, id, container, slug=None, **kwargs):
         """Serve a :class:`~mediacore.model.media.MediaFile` binary.
 
         :param id: File ID
@@ -369,9 +370,8 @@ class MediaController(BaseController):
                     response.headers['X-Accel-Redirect'] = '../relative/path'
 
                 else:
-                    fileapp = FileApp(file_path, headers,
-                                      content_type=file_type)
-                    return fileapp(environ, start_response)
+                    app = FileApp(file_path, headers, content_type=file_type)
+                    return forward(app)
 
                 response.headers['Content-Type'] = file_type
                 for header, value in headers:
