@@ -30,31 +30,30 @@ belongs to a :class:`mediacore.model.podcasts.Podcast`.
 
 import math
 import os.path
+
 from datetime import datetime
 
-from sqlalchemy import Table, ForeignKey, Column, sql, func, exc
-from sqlalchemy.types import Boolean, DateTime, Enum, Float, Integer, Unicode, UnicodeText
-from sqlalchemy.orm import mapper, class_mapper, relation, backref, synonym, composite, column_property, comparable_property, dynamic_loader, validates, collections, attributes, Query
-from sqlalchemy.schema import DDL
-from sqlalchemy.orm.collections import attribute_mapped_collection
+from sqlalchemy import Table, ForeignKey, Column, sql
+from sqlalchemy.exc import OperationalError
 from sqlalchemy.ext.associationproxy import association_proxy
+from sqlalchemy.orm import (attributes, backref, class_mapper, column_property,
+    composite, dynamic_loader, mapper, Query, relation, validates)
+from sqlalchemy.orm.collections import attribute_mapped_collection
+from sqlalchemy.schema import DDL
+from sqlalchemy.types import Boolean, DateTime, Integer, Unicode, UnicodeText
 
-from pylons import app_globals, config, request
+from pylons import app_globals
 
-from mediacore.model import get_available_slug, SLUG_LENGTH, _mtm_count_property, _properties_dict_from_labels, MatchAgainstClause
+from mediacore.lib import helpers
+from mediacore.lib.embedtypes import external_embedded_containers
+from mediacore.lib.filetypes import AUDIO, AUDIO_DESC, CAPTIONS, VIDEO, guess_mimetype
+from mediacore.model import SLUG_LENGTH, _mtm_count_property, _properties_dict_from_labels, MatchAgainstClause
 from mediacore.model.meta import DBSession, metadata
 from mediacore.model.authors import Author
+from mediacore.model.categories import Category, CategoryList, categories
 from mediacore.model.comments import Comment, CommentQuery, comments
 from mediacore.model.tags import Tag, TagList, tags, extract_tags, fetch_and_create_tags
-from mediacore.model.categories import Category, CategoryList, categories
-from mediacore.lib import helpers
-from mediacore.lib.filetypes import AUDIO, AUDIO_DESC, CAPTIONS, VIDEO, guess_mimetype
-from mediacore.lib.embedtypes import external_embedded_containers
 from mediacore.plugin import events
-
-class MediaException(Exception): pass
-class MediaFileException(MediaException): pass
-class UnknownFileTypeException(MediaFileException): pass
 
 
 media = Table('media', metadata,
@@ -541,7 +540,7 @@ class Media(object):
                 .filter(self.__class__.id == self.id)\
                 .update({self.__class__.views: self.__class__.views + 1})
             transaction.commit()
-        except exc.OperationalError, e:
+        except OperationalError, e:
             transaction.rollback()
             # (OperationalError) (1205, 'Lock wait timeout exceeded, try restarting the transaction')
             if not '1205' in e.message:
@@ -672,28 +671,79 @@ mapper(MediaFullText, media_fulltext)
 mapper(MediaMeta, media_meta)
 mapper(MediaFilesMeta, media_files_meta)
 
-_media_files_mapper = mapper(MediaFile, media_files, extension=events.MapperObserver(events.MediaFile), properties={
-    '_meta': relation(MediaFilesMeta, collection_class=attribute_mapped_collection('key')),
-})
+_media_files_mapper = mapper(
+    MediaFile, media_files,
+    extension=events.MapperObserver(events.MediaFile),
+    properties={
+        '_meta': relation(
+            MediaFilesMeta,
+            collection_class=attribute_mapped_collection('key'),
+        ),
+    },
+)
 
-_media_mapper = mapper(Media, media, order_by=media.c.title, extension=events.MapperObserver(events.Media), properties={
-    'fulltext': relation(MediaFullText, uselist=False, passive_deletes=True),
-    'author': composite(Author, media.c.author_name, media.c.author_email),
-    'files': relation(MediaFile, backref='media', order_by=media_files.c.type.asc(), passive_deletes=True),
-    'tags': relation(Tag, secondary=media_tags, backref=backref('media', lazy='dynamic', query_class=MediaQuery), collection_class=TagList, passive_deletes=True),
-    'categories': relation(Category, secondary=media_categories, backref=backref('media', lazy='dynamic', query_class=MediaQuery), collection_class=CategoryList, passive_deletes=True),
-
-    '_meta': relation(MediaMeta, collection_class=attribute_mapped_collection('key')),
-    'comments': dynamic_loader(Comment, backref='media', query_class=CommentQuery, passive_deletes=True),
-    'comment_count': column_property(
-        sql.select([sql.func.count(comments.c.id)],
-                   media.c.id == comments.c.media_id).label('comment_count'),
-        deferred=True),
-    'comment_count_published': column_property(
-        sql.select([sql.func.count(comments.c.id)],
-                   sql.and_(comments.c.media_id == media.c.id,
-                            comments.c.publishable == True)).label('comment_count_published'),
-        deferred=True),
+_media_mapper = mapper(
+    Media, media,
+    order_by=media.c.title,
+    extension=events.MapperObserver(events.Media),
+    properties={
+        'fulltext': relation(
+            MediaFullText,
+            uselist=False,
+            passive_deletes=True,
+        ),
+        'author': composite(
+            Author,
+            media.c.author_name,
+            media.c.author_email,
+        ),
+        'files': relation(
+            MediaFile,
+            backref='media',
+            order_by=media_files.c.type.asc(),
+            passive_deletes=True,
+        ),
+        'tags': relation(
+            Tag,
+            secondary=media_tags,
+            backref=backref('media', lazy='dynamic', query_class=MediaQuery),
+            collection_class=TagList,
+            passive_deletes=True,
+        ),
+        'categories': relation(
+            Category,
+            secondary=media_categories,
+            backref=backref('media', lazy='dynamic', query_class=MediaQuery),
+            collection_class=CategoryList,
+            passive_deletes=True,
+        ),
+        '_meta': relation(
+            MediaMeta,
+            collection_class=attribute_mapped_collection('key'),
+        ),
+        'comments': dynamic_loader(
+            Comment,
+            backref='media',
+            query_class=CommentQuery,
+            passive_deletes=True,
+        ),
+        'comment_count': column_property(
+            sql.select(
+                [sql.func.count(comments.c.id)],
+                media.c.id == comments.c.media_id,
+            ).label('comment_count'),
+            deferred=True,
+        ),
+        'comment_count_published': column_property(
+            sql.select(
+                [sql.func.count(comments.c.id)],
+                sql.and_(
+                    comments.c.media_id == media.c.id,
+                    comments.c.publishable == True,
+                )
+            ).label('comment_count_published'),
+            deferred=True,
+        ),
 })
 
 # Add properties for counting how many media items have a given Tag
@@ -705,8 +755,10 @@ _tags_mapper.add_properties(_properties_dict_from_labels(
         media.c.encoded == True,
         media.c.publishable == True,
         media.c.publish_on <= datetime.now(),
-        sql.or_(media.c.publish_until == None,
-                media.c.publish_until >= datetime.now()),
+        sql.or_(
+            media.c.publish_until == None,
+            media.c.publish_until >= datetime.now(),
+        ),
     ]),
 ))
 
@@ -719,7 +771,9 @@ _categories_mapper.add_properties(_properties_dict_from_labels(
         media.c.encoded == True,
         media.c.publishable == True,
         media.c.publish_on <= datetime.now(),
-        sql.or_(media.c.publish_until == None,
-                media.c.publish_until >= datetime.now()),
+        sql.or_(
+            media.c.publish_until == None,
+            media.c.publish_until >= datetime.now(),
+        ),
     ]),
 ))
