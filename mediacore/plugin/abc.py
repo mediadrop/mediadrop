@@ -29,6 +29,7 @@ class AbstractMetaClass(type):
     """
     _registry = defaultdict(list)
     _abstracts = {}
+    _observers = {}
 
     def __new__(mcls, name, bases, namespace):
         """Create a class object for an abstract class or its implementation.
@@ -76,6 +77,33 @@ class AbstractMetaClass(type):
         for base in cls.__mro__:
             if base.__class__ is AbstractMetaClass:
                 AbstractMetaClass._registry[base].append(subclass)
+                for observer in AbstractMetaClass._observers.get(base, ()):
+                    observer(subclass)
+
+    def add_register_observer(cls, callable):
+        """Notify this callable when a subclass of this abstract is registered.
+
+        This is useful when some action must be taken for each new
+        implementation of an abstract class. This observer will also be
+        called any time any of its sub-abstract classes are implemented.
+
+        :param cls: The abstract class
+        :param callable: A function that expects a subclass as its
+            first and only argument.
+
+        """
+        AbstractMetaClass._observers.setdefault(cls, []).append(callable)
+
+    def remove_register_observer(cls, callable):
+        """Cancel notifications to this callable for this abstract class.
+
+        :param cls: The abstract class
+        :param callable: A function that expects a subclass as its
+            first and only argument.
+        :raises ValueError: If the callable has not been registered.
+
+        """
+        AbstractMetaClass._observers.setdefault(cls, []).remove(callable)
 
     def __iter__(cls):
         """Iterate over all implementations of the given abstract class."""
@@ -106,3 +134,4 @@ class ImplementationError(Exception):
 def _reset_registry():
     AbstractMetaClass._registry.clear()
     AbstractMetaClass._abstracts.clear()
+    AbstractMetaClass._observers.clear()
