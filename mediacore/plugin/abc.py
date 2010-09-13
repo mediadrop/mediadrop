@@ -13,21 +13,18 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import logging
 from collections import defaultdict
-from mediacore import ipython
-
-log = logging.getLogger(__name__)
 
 class AbstractMetaClass(type):
     """
     Abstract Class Manager
 
-    This combines concepts from the Trac ComponentMeta class and Python 2.6's abc module.
+    This combines concepts from the Trac ComponentMeta class and
+    Python 2.6's abc module:
 
-    http://www.python.org/dev/peps/pep-3119/#specification
-    http://svn.python.org/view/python/trunk/Lib/abc.py?view=markup
-    http://trac.edgewall.org/browser/trunk/trac/core.py#L85
+        * http://www.python.org/dev/peps/pep-3119/#specification
+        * http://svn.python.org/view/python/trunk/Lib/abc.py?view=markup
+        * http://trac.edgewall.org/browser/trunk/trac/core.py#L85
 
     """
     _registry = defaultdict(list)
@@ -40,12 +37,14 @@ class AbstractMetaClass(type):
         that have been defined. We use this data in :meth:`register`
         to validate all subclasses to ensure it has a complete
         implementation.
+
         """
-        cls = super(AbstractMetaClass, mcls).__new__(mcls, name, bases, namespace)
-        abstracts = set(key for key, value in namespace.iteritems()
+        cls = type.__new__(mcls, name, bases, namespace)
+        abstracts = set(key
+                        for key, value in namespace.iteritems()
                         if getattr(value, '_isabstract', False))
         for base in bases:
-            for name in AbstractMetaClass._abstracts.get(base, ''):
+            for name in AbstractMetaClass._abstracts.get(base, ()):
                 cls_attr = getattr(cls, name, None)
                 if getattr(cls_attr, '_isabstract', False):
                     abstracts.add(name)
@@ -56,22 +55,20 @@ class AbstractMetaClass(type):
     def register(cls, subclass):
         """Register an implementation of the abstract class.
 
-        We check the subclass to ensure that it implements all the
-        abstract properties and methods. You do not need to register
-        sub-abstract-classes, just register the complete implementation
-        of the sub-abstract-class.
-
         :param cls: The abstract class
         :param subclass: A complete implementation of the abstract class.
+        :raises ImplementationError: If the subclass contains any
+            unimplemented abstract methods or properties.
+
         """
         # Ensure all abstract methods have been implemented
         missing = []
-        for name in AbstractMetaClass._abstracts.get(cls, ''):
+        for name in AbstractMetaClass._abstracts.get(cls, ()):
             attr = getattr(subclass, name, None)
             if not attr or getattr(attr, '_isabstract', False):
                 missing.append(name)
         if missing:
-            raise ImplementationException(
+            raise ImplementationError(
                 'Cannot register %r under %r because it contains abstract '
                 'methods/properties: %s' % (subclass, cls, ', '.join(missing))
             )
@@ -101,9 +98,9 @@ def abstractmethod(func):
 class abstractproperty(property):
     _isabstract = True
 
-class ImplementationException(Exception):
+class ImplementationError(Exception):
     """
-    Exception raised when a partial abstract class implementation is registered.
+    Error raised when a partial abstract class implementation is registered.
     """
 
 def _reset_registry():
