@@ -244,6 +244,7 @@ def add_default_data():
         media.publish_on = publish_on
         media.slug = slug
         media.title = title
+        media.type = type
 
         media_file = MediaFile()
         media_file.container = container
