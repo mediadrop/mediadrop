@@ -55,8 +55,8 @@ class UserForm(ListForm):
                      children=[
             SingleSelectField('group', label_text='Group', options=lambda: DBSession.query(Group.group_id, Group.display_name).all()),
             TextField('user_name', maxlength=16, validator=All(PlainText(), UniqueUsername(not_empty=True))),
-            PasswordField('password', validators=NotEmpty, maxlength=80, autocomplete='off'),
-            PasswordField('confirm_password', validators=NotEmpty, maxlength=80),
+            PasswordField('password', validator=NotEmpty, maxlength=80, autocomplete='off'),
+            PasswordField('confirm_password', validator=NotEmpty, maxlength=80),
         ]),
         SubmitButton('save', default='Save', named_button=True, css_classes=['btn', 'btn-save', 'f-rgt']),
         SubmitButton('delete', default='Delete', named_button=True, css_classes=['btn', 'btn-delete']),
