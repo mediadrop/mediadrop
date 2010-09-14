@@ -15,6 +15,11 @@
 
 import logging
 import os
+import warnings
+try:
+    import json
+except ImportError:
+    import simplejson as json
 
 import formencode
 import tw.forms
@@ -24,7 +29,6 @@ from decorator import decorator
 from genshi import XML
 from paste.deploy.converters import asbool
 from pylons import config, request, response, tmpl_context
-from pylons.decorators import jsonify
 from pylons.decorators.cache import create_cache_key, _make_dict_from_args
 from pylons.decorators.util import get_pylons
 from pylons.templating import render_genshi as render
@@ -70,13 +74,27 @@ def _expose_wrapper(f, template):
     f.exposed = True
     f.template = template
 
-    if template == "json":
-        return jsonify(f)
-    elif template == "string":
+    if template == "string":
         return f
 
     def wrapped_f(*args, **kwargs):
         result = f(*args, **kwargs)
+        tmpl = template
+
+        if hasattr(request, "override_template"):
+            tmpl = request.override_template
+
+        if tmpl == "json":
+            response.content_type = 'application/json'
+            if isinstance(result, (list, tuple)):
+                msg = "JSON responses with Array envelopes are susceptible to " \
+                      "cross-site data leak attacks, see " \
+                      "http://pylonshq.com/warnings/JSONArray"
+                warnings.warn(msg, Warning, 2)
+                log.warning(msg)
+            log.debug("Returning JSON wrapped action output")
+            return json.dumps(result)
+
 
         extra_vars = {
             # Steal a page from TurboGears' book:
@@ -103,7 +121,7 @@ def _expose_wrapper(f, template):
         else:
             method = 'xhtml'
 
-        return render(template, extra_vars=extra_vars, method=method)
+        return render(tmpl, extra_vars=extra_vars, method=method)
     return wrapped_f
 
 def expose(template='string'):
