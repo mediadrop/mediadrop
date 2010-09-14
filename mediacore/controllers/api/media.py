@@ -45,6 +45,9 @@ order_columns = {
     'comment_count': 'comment_count_published %s'
 }
 
+AUTHERROR = "Authentication Error"
+INVALIDFORMATERROR = "Invalid format (%s). Only json and mrss are supported"
+
 class MediaController(BaseController):
     """
     JSON Media API
@@ -54,7 +57,7 @@ class MediaController(BaseController):
     def index(self, type=None, podcast=None, tag=None, category=None, search=None,
               max_age=None, min_age=None, order=None, offset=0, limit=10,
               published_after=None, published_before=None, featured=False,
-              id=None, slug=None, include_embed=False, secret_key=None, **kwargs):
+              id=None, slug=None, include_embed=False, secret_key=None, format="json", **kwargs):
         """Query for a list of media.
 
         :param type:
@@ -152,7 +155,10 @@ class MediaController(BaseController):
 
         if asbool(app_globals.settings['api_secret_key_required']) \
             and secret_key != app_globals.settings['api_secret_key']:
-            return dict(error='Authentication Error')
+            return dict(error=AUTHERROR)
+
+        if format not in ("json", "mrss"):
+            return dict(error= INVALIDFORMATERROR % format)
 
         query = Media.query\
             .published()\
@@ -211,16 +217,23 @@ class MediaController(BaseController):
         start = int(offset)
         end = start + min(int(limit), int(app_globals.settings['api_media_max_results']))
 
+        if format == "mrss":
+            request.override_template = "sitemaps/mrss.xml"
+            return dict(
+                media = query[start:end],
+                title = "Media Feed",
+            )
+
         media = [self._info(m, podcast_slugs, include_embed) for m in query[start:end]]
 
         return dict(
             media = media,
-            count = query.count()
+            count = query.count(),
         )
 
 
     @expose('json')
-    def get(self, id=None, slug=None, secret_key=None, **kwargs):
+    def get(self, id=None, slug=None, secret_key=None, format="json", **kwargs):
         """Expose info on a specific media item by ID or slug.
 
         :param id: A :attr:`mediacore.model.media.Media.id` for lookup
@@ -236,7 +249,10 @@ class MediaController(BaseController):
         """
         if asbool(app_globals.settings['api_secret_key_required']) \
             and secret_key != app_globals.settings['api_secret_key']:
-            return dict(error='Authentication Error')
+            return dict(error=AUTHERROR)
+
+        if format not in ("json", "mrss"):
+            return dict(error= INVALIDFORMATERROR % format)
 
         query = Media.query.published()
 
@@ -249,6 +265,13 @@ class MediaController(BaseController):
             media = query.one()
         except orm.exc.NoResultFound:
             return dict(error="No match found")
+
+        if format == "mrss":
+            request.override_template = "sitemaps/mrss.xml"
+            return dict(
+                media = [media],
+                title = "Media Entry",
+            )
 
         return self._info(media, include_embed=True)
 
