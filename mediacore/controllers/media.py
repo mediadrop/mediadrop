@@ -76,7 +76,11 @@ class MediaController(BaseController):
         media, show = helpers.filter_library_controls(media, show)
 
         if q:
-            media = media.search(q, bool=True)
+            search = media.search(q, bool=True)
+            if search.count():
+                media = search
+            else:
+                media = media.filter(Media.title.like("%%%s%%" % q))
         if tag:
             tag = fetch_row(Tag, slug=tag)
             media = media.filter(Media.tags.contains(tag))
