@@ -24,6 +24,7 @@
 	             paginator = c.paginators.comments;">
 		<thead py:if="include_thead">
 			<tr>
+				<th id="h-bulk" style="width:20px"><input type="checkbox" /></th>
 				<th style="width:55px">Status</th>
 				<th style="width:100px">Author</th>
 				<th style="width:auto">Comment</th>
@@ -34,7 +35,8 @@
 			<tr py:if="item_count == 0">
 				<td>None Found</td>
 			</tr>
-			<tr py:for="comment in collection" id='${comment.id}' class="${comment.reviewed and 'tr-gray' or 'tr-white'}">
+			<tr py:for="comment in collection" id='comment-${comment.id}' class="${comment.reviewed and 'tr-gray' or 'tr-white'}">
+				<td headers="h-bulk"><input type="checkbox" /></td>
 				<td py:choose="">
 					<span py:when="comment.reviewed" class="btn unclickable btn-inline-approved f-lft" title="This comment has already been approved for publishing">published</span>
 					<a py:otherwise="" class="btn btn-inline-approve f-lft" href="${h.url_for(action='save_status', id=comment.id, status='approve')}" title="Approve this comment for publishing"><span>approve</span></a>
