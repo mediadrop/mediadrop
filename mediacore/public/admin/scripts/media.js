@@ -344,7 +344,7 @@ var FileManager = new Class({
 		var text = input.textspan;
 		if (input.value == '0x0' || input.value == '') {
 			text.set('text', '-');
-		} else {
+		} else if (text) {
 			text.set('text', input.value);
 		}
 	},
