@@ -257,3 +257,129 @@ var CategoryTable = new Class({
 	}
 
 });
+
+
+var BulkTableManager = new Class({
+
+	Extends: TableManager,
+	Binds: ['toggleCheckboxes', 'clearToggle', 'getSelectedIds', 'onSelect', 'removeRow'],
+
+	actions: new Hash(),
+	actionsVisible: false,
+	checkboxes: null,
+
+	initialize: function(table, controls, actions, opts){
+		this.parent(table, opts);
+		actions.map(this.addAction, this);
+		this.controls = this.injectControls($(controls));
+	},
+
+	addAction: function(action){
+		this.actions[action.options.label] = action.setManager(this);
+	},
+
+	injectControls: function(container){
+		this.setupCheckboxes();
+		container.set('class', this.options.bulkDivClass );
+		this.bulkSelect = new Element('select')
+			.grab(new Element("option", {value: '', text: 'Bulk Actions'}))
+			.addEvent('change', this.onSelect);
+		this.actions.each(function(action, label){
+			this.bulkSelect.grab(new Element('option', {value: label, text: label}));
+		}, this);
+		container.adopt(this.bulkSelect);
+		return container;
+	},
+
+	onSelect: function(e){
+		if (!this.bulkSelect.value) return false;
+		var action = this.actions[this.bulkSelect.value];
+		var ids = this.getSelectedIds();
+		action.onSelect(e, ids);
+		this.bulkSelect.value = '';
+		return this;
+	},
+
+	setupCheckboxes: function(){
+		this.checkboxToggle = this.table.getElements("thead th#h-bulk > input");
+		this.checkboxToggle.addEvent('click', this.toggleCheckboxes);
+		this.checkboxes = this.table.getElements("tbody td[headers=h-bulk] > input");
+		this.checkboxes.addEvent('click', this.clearToggle);
+		return this;
+	},
+
+	toggleCheckboxes:function(e){
+		this.checkboxes.set('checked', e.target.checked);
+		return this;
+	},
+
+	clearToggle: function(){
+		this.checkboxToggle.set('checked', false);
+		return this;
+	},
+
+	getSelectedIds: function(){
+		var ids = [];
+		for (var i = 0, l = this.checkboxes.length; i < l; i++) {
+			var checkbox = this.checkboxes[i];
+			if (checkbox.checked){
+				ids.push(checkbox.getParent('tr').get('id').replace(this.options.prefix, ''));
+			}
+		};
+		return ids;
+	}
+});
+
+var BulkAction = new Class({
+
+	Implements: [Options, Events],
+	Binds: ['onClick', 'onConfirm', 'onComplete', 'onError'],
+
+	options: {
+		label: 'Action',
+		saveUrl: '',
+		confirmMgr: {}
+	},
+
+	ids: [],
+	msg: null,
+
+	initialize: function(opts){
+		this.setOptions(opts);
+		this.deleteConfirmMgr = new ConfirmMgr(this.options.confirmMgr)
+			.addEvent('onConfirm', this.onConfirm);
+	},
+
+	setManager: function(mgr){
+		this.mgr = mgr;
+		return this;
+	},
+
+	onSelect: function(e, ids){
+		this.ids = ids;
+		this.deleteConfirmMgr.openConfirmDialog(e);
+		return this;
+	},
+
+	onConfirm: function(e){
+		if (this.ids.length){
+			var r = new Request.JSON({
+				url: this.options.saveUrl,
+				onSuccess: this.onComplete,
+				onFailure: this.onError
+			});
+			r.send(new Hash({'ids': this.ids.join(',')}).toQueryString());
+		};
+		return this;
+	},
+
+	onComplete: function(respJSON){
+		respJSON.ids.map(function(id){
+			this.fireEvent("actionComplete", [id])
+		}, this);
+	},
+
+	onError: function(e){
+		alert("An Error occured. Please contact an administrator.");
+	}
+});
