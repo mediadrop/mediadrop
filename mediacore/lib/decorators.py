@@ -47,7 +47,7 @@ __all__ = ['expose', 'expose_xhr', 'paginate', 'validate', 'beaker_cache']
 _func_attrs = [
     # Attributes that define useful information or context for functions
     '__dict__', '__doc__', '__name__', 'im_class', 'im_func', 'im_self',
-    'template', 'exposed', # custom attribute to allow web access
+    'exposed', # custom attribute to allow web access
 ]
 
 def _copy_func_attrs(f1, f2):
@@ -72,7 +72,6 @@ def _expose_wrapper(f, template):
     """Returns a function that will render the passed in function according
     to the passed in template"""
     f.exposed = True
-    f.template = template
 
     if template == "string":
         return f
