@@ -101,11 +101,3 @@ class UpdateStatusForm(Form):
     class fields(WidgetsList):
         publish_on = HiddenField(validator=DateTimeConverter(format='%b %d %Y @ %H:%M'))
         update_button = SubmitButton(named_button=True, validator=NotEmpty)
-
-
-class PodcastFilterForm(ListForm):
-    id = 'podcastfilterform'
-    method = 'get'
-    template = 'mediacore.templates.admin.media.podcast-filter-form'
-
-    fields = [SingleSelectField('podcast_filter', suppress_label=True, options=lambda: [('All Media', _('All Media'))] + DBSession.query(Podcast.id, Podcast.title).all() + [('Unfiled', _('Unfiled'))])]

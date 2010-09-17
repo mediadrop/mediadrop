@@ -21,7 +21,7 @@
       py:with="paginator=c.paginators.media">
 <xi:include href="../master.html" />
 <head>
-	<title>Media<py:if test="podcast_filter_title is not None"> for ${podcast_filter_title}</py:if></title>
+	<title>Media<py:if test="podcast_filter_title is not None"> for "${podcast_filter_title}" Podcast</py:if></title>
 	<script src="${h.url_for('/scripts/third-party/squeezebox-1.1-rc4-yui-compressed.js')}" type="text/javascript"></script>
 	<link href="${h.url_for('/admin/styles/squeezebox.css')}" media="screen" rel="stylesheet" type="text/css" />
 	<link href="${h.url_for('/admin/styles/media.css')}" media="screen" rel="stylesheet" type="text/css" />
@@ -29,7 +29,6 @@
 	<script type="text/javascript" src="${h.url_for('/admin/scripts/confirm.js')}"></script>
 	<script type="text/javascript">
 		window.addEvent('domready', function(){
-			$('podcast_filter').addEvent('change', function(){$('podcastfilterform').submit();});
 			var mediaDeleteAction = new BulkAction({
 				label: 'Delete',
 				saveUrl: '${h.url_for(action='bulk/delete')}',
@@ -53,19 +52,14 @@
 <body class="menu-media-on">
 	<div class="box">
 		<div class="box-head">
-			<py:choose>
-				<h1 py:when="search">Media that matches '${search}'</h1>
-				<h1 py:when="podcast_filter == 'Unfiled'">Unfiled Media</h1>
-				<h1 py:when="podcast_filter is None">All Media</h1>
-				<h1 py:otherwise="">Media for ${podcast_filter_title}</h1>
-			</py:choose>
+			<h1>
+				<py:if test="podcast_filter_title is None">All Media</py:if>
+				<py:if test="podcast_filter_title is not None">"${podcast_filter_title}" Episodes</py:if>
+			</h1>
 			<a class="btn btn-add-media" id="add-btn" href="${h.url_for(action='edit', id='new')}"><span>Add New Media</span></a>
 			<span id="bulk-actions" />
 			<div id="quicksearch" class="f-rgt">
 				${XML(search_form(dict(search=search)))}
-			</div>
-			<div id="podcast-filter" class="f-rgt">
-				${XML(podcast_filter_form(dict(podcast_filter=podcast_filter)))}
 			</div>
 			<span class="box-head-sec">${h.doc_link('admin/media', '')}</span>
 		</div>

@@ -26,7 +26,7 @@ from repoze.what.predicates import has_permission
 from sqlalchemy import orm
 
 from mediacore.forms.admin import SearchForm, ThumbForm
-from mediacore.forms.admin.media import AddFileForm, EditFileForm, MediaForm, PodcastFilterForm, UpdateStatusForm
+from mediacore.forms.admin.media import AddFileForm, EditFileForm, MediaForm, UpdateStatusForm
 from mediacore.lib import helpers
 from mediacore.lib.base import BaseController
 from mediacore.lib.decorators import expose, expose_xhr, paginate, validate, validate_xhr
@@ -45,7 +45,6 @@ edit_file_form = EditFileForm()
 thumb_form = ThumbForm()
 update_status_form = UpdateStatusForm()
 search_form = SearchForm(action=url_for(controller='/admin/media', action='index'))
-podcast_filter_form = PodcastFilterForm(action=url_for(controller='/admin/media', action='index'))
 
 class MediaController(BaseController):
     allow_only = has_permission('admin')
@@ -74,8 +73,6 @@ class MediaController(BaseController):
                 The given podcast ID to filter by, if any
             podcast_filter_title
                 The podcast name for rendering if a ``podcast_filter`` was specified.
-            podcast_filter_form
-                The :class:`~mediacore.forms.admin.media.PodcastFilterForm` instance.
 
         """
         media = Media.query.options(orm.undefer('comment_count_published'))
@@ -87,19 +84,16 @@ class MediaController(BaseController):
                          .order_by(Media.publish_on.desc(),
                                    Media.modified_on.desc())
 
-        podcast_filter_title = podcast_filter
-        if podcast_filter == 'Unfiled':
-            media = media.filter(~Media.podcast.has())
-        elif podcast_filter is not None and podcast_filter != 'All Media':
+        podcast_filter_title = None
+        if podcast_filter:
+            podcast_filter = int(podcast_filter)
             media = media.filter(Media.podcast.has(Podcast.id == podcast_filter))
             podcast_filter_title = DBSession.query(Podcast.title).get(podcast_filter)
-            podcast_filter = int(podcast_filter)
 
         return dict(
             media = media,
             podcast_filter = podcast_filter,
             podcast_filter_title = podcast_filter_title,
-            podcast_filter_form = podcast_filter_form,
             search = search,
             search_form = search_form,
         )

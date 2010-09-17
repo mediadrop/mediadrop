@@ -14,26 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#podcast-filter {
-	height: 23px;
-	padding: 0 10px;
-	vertical-align: middle;
-}
-#podcast-filter .submitbutton {
-	display: none;
-}
-#podcast-filter .singleselectfield {
-	min-width: 200px;
-	padding: 5px 2px 0 2px;
-	margin-top: 0px;
-	color: #374347;
-	font: bold 13px Helvetica,Arial,Verdana,sans-serif;
-}
 
-#podcast-filter .singleselectfield option {
-	padding: 1px 0;
-	font: bold 13px Helvetica,Arial,Verdana,sans-serif;
-}
 /* Statuses */
 #status-list {
 	margin: 3px 5px;

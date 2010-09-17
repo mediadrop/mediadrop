@@ -387,7 +387,7 @@ input.submitbutton {
 #quicksearch {
 	width: 205px;
 	padding-left: 25px;
-	margin: -1px 0 -3px 0;
+	margin: -1px 0 -3px 10px;
 	background: url('../images/layout/search-left.png') no-repeat left;
 }
 #quicksearch label#search_label {
