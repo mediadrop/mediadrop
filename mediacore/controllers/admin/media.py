@@ -185,6 +185,16 @@ class MediaController(BaseController):
             update_status_action = url_for(action='update_status'),
         )
 
+    def _delete_media(self, media):
+        file_paths = thumb_paths(media).values()
+        for f in media.files:
+            file_paths.append(f.file_path)
+            # Remove the file from the session so that SQLAlchemy doesn't
+            # try to issue an UPDATE to set the MediaFile.media_id to None.
+            # The database ON DELETE CASCADE handles everything for us.
+            DBSession.expunge(f)
+        DBSession.delete(media)
+        helpers.delete_files(file_paths, Media._thumb_dir)
 
     @expose_xhr()
     @validate_xhr(media_form, error_handler=edit)
@@ -203,16 +213,8 @@ class MediaController(BaseController):
         media = fetch_row(Media, id)
 
         if delete:
-            file_paths = thumb_paths(media).values()
-            for f in media.files:
-                file_paths.append(f.file_path)
-                # Remove the file from the session so that SQLAlchemy doesn't
-                # try to issue an UPDATE to set the MediaFile.media_id to None.
-                # The database ON DELETE CASCADE handles everything for us.
-                DBSession.expunge(f)
-            DBSession.delete(media)
+            self._delete_media(media)
             DBSession.commit()
-            helpers.delete_files(file_paths, Media._thumb_dir)
             redirect(action='index', id=None)
 
         if not slug:
@@ -624,3 +626,29 @@ class MediaController(BaseController):
             )
         else:
             redirect(action='edit')
+
+
+    @expose('json')
+    def bulk(self, type=None, ids=None, **kwargs):
+        """Perform bulk operations on media items
+
+        :param type: The type of bulk action to perform (delete)
+        :param ids: A string of IDs separated by commas.
+        :type ids: ``unicode``
+
+        """
+        if ids:
+            ids = ids.split(',')
+            if type == "delete":
+                media_items = Media.query.filter(Media.id.in_(ids))
+                for media in media_items:
+                    self._delete_media(media)
+                DBSession.commit()
+                success = True
+        else:
+            success = False
+
+        return dict(
+            success = success,
+            ids = ids,
+        )

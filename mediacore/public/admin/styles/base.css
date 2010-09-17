@@ -443,3 +443,11 @@ input.submitbutton {
 .comments-published td { color: #196d29; }
 .comments-unreviewed td { color: #e66f00; }
 .comments-trash td { color: #9b9b9b; }
+.bulk-control {
+	margin-top: 1px;
+	margin-left: 10px;
+}
+.bulk-control select {
+	font-size :14px;
+	margin-top: 1px;
+}

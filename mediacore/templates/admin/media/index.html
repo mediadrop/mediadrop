@@ -22,10 +22,31 @@
 <xi:include href="../master.html" />
 <head>
 	<title>Media<py:if test="podcast_filter_title is not None"> for ${podcast_filter_title}</py:if></title>
+	<script src="${h.url_for('/scripts/third-party/squeezebox-1.1-rc4-yui-compressed.js')}" type="text/javascript"></script>
+	<link href="${h.url_for('/admin/styles/squeezebox.css')}" media="screen" rel="stylesheet" type="text/css" />
 	<link href="${h.url_for('/admin/styles/media.css')}" media="screen" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="${h.url_for('/admin/scripts/tablemgrs.js')}"></script>
+	<script type="text/javascript" src="${h.url_for('/admin/scripts/confirm.js')}"></script>
 	<script type="text/javascript">
 		window.addEvent('domready', function(){
 			$('podcast_filter').addEvent('change', function(){$('podcastfilterform').submit();});
+			var mediaDeleteAction = new BulkAction({
+				label: 'Delete',
+				saveUrl: '${h.url_for(action='bulk/delete')}',
+				confirmMgr: {
+					header: 'Confirm Delete',
+					msg: 'Are you sure you want to delete these media items?'
+				}
+			});
+			mediaDeleteAction.addEvent("actionComplete", function(id){
+				this.mgr.removeRow({id:id})
+			});
+			table_options = {
+				bulkDivClass: 'bulk-control f-lft',
+				selectCol: 0,
+				prefix: 'media-'
+			};
+			var mediaTable = new BulkTableManager('media-table', 'bulk-actions', [mediaDeleteAction], table_options);
 		});
 	</script>
 </head>
@@ -39,6 +60,7 @@
 				<h1 py:otherwise="">Media for ${podcast_filter_title}</h1>
 			</py:choose>
 			<a class="btn btn-add-media" id="add-btn" href="${h.url_for(action='edit', id='new')}"><span>Add New Media</span></a>
+			<span id="bulk-actions" />
 			<div id="quicksearch" class="f-rgt">
 				${XML(search_form(dict(search=search)))}
 			</div>

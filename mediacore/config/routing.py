@@ -143,6 +143,11 @@ def make_map(config):
         action='save_status',
         requirements={'status': 'approve|trash'})
 
+    map.connect('/admin/media/bulk/{type}',
+        controller='admin/media',
+        action='bulk',
+        requirements={'type': 'delete|publish'})
+
     map.connect('/admin/media/merge_stubs',
         controller='admin/media',
         action='merge_stubs')

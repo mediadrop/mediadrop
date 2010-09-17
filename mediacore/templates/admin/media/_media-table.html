@@ -25,14 +25,15 @@
 		<thead py:if="include_thead">
 			<tr>
 				<py:for each="f in fields" py:choose="f">
-					<th py:when="'publish_on'" style="width:100px">Publish Date</th>
-					<th py:when="'created_on'" style="width:100px">Upload Date</th>
-					<th py:when="'status'" style="width:90px">Status</th>
-					<th py:when="'title'" style="width:auto">Title</th>
-					<th py:when="'comment_count'" style="width:30px" class="center"><img src="${h.url_for('/admin/images/icons/comments.png')}" alt="Comments" title="Number of Comments" /></th>
-					<th py:when="'tags'" style="width:120px">Tags</th>
-					<th py:when="'author'" style="width:120px">Author</th>
-					<th py:when="'type'" style="width:30px">&nbsp;</th>
+					<th py:when="'bulk'" id="h-bulk" style="width:20px"><input type="checkbox" /></th>
+					<th py:when="'publish_on'" id="h-publish_on" style="width:100px">Publish Date</th>
+					<th py:when="'created_on'" id="h-created_on" style="width:100px">Upload Date</th>
+					<th py:when="'status'" id="h-status" style="width:90px">Status</th>
+					<th py:when="'title'" id="h-publish_on" style="width:auto">Title</th>
+					<th py:when="'comment_count'" id="h-comment-count" style="width:30px" class="center"><img src="${h.url_for('/admin/images/icons/comments.png')}" alt="Comments" title="Number of Comments" /></th>
+					<th py:when="'tags'" id="h-tags" style="width:120px">Tags</th>
+					<th py:when="'author'" id="h-author" style="width:120px">Author</th>
+					<th py:when="'type'" id="h-type" style="width:30px">&nbsp;</th>
 				</py:for>
 			</tr>
 		</thead>
@@ -40,27 +41,33 @@
 			<tr py:if="item_count == 0">
 				<td>None Found</td>
 			</tr>
-			<tr py:for="media in collection">
+			<tr py:for="media in collection" id="media-${media.id}">
 				<py:for each="f in fields" py:choose="f">
+					<td py:when="'bulk'" headers="h-bulk"><input type="checkbox" /></td>
 					<td py:when="'publish_on'"
+					    py:content="(media.publish_on and media.publish_on.strftime('%b %d %Y')) or 'unpublished'"
+					    headers="h-publish_on"
 					    class="${not media.is_published and 'italic' or None}"
-					    py:content="(media.publish_on and media.publish_on.strftime('%b %d %Y')) or 'unpublished'" />
-					<td py:when="'created_on'">${media.created_on.strftime('%b %d %Y')}</td>
-					<td py:when="'status'" py:choose="">
+					/>
+					<td py:when="'created_on'" headers="h-created_on">${media.created_on.strftime('%b %d %Y')}</td>
+					<td py:when="'status'" headers="h-status" py:choose="">
+						<input type="text" name="id" style="display:none;" value="${media.id}" />
 						<a class="btn review-me" py:when="not media.reviewed" href="${h.url_for(controller='/admin/media', action='edit', id=media.id)}"><span>review me</span></a>
 						<a class="btn encode-me" py:when="not media.encoded" href="${h.url_for(controller='/admin/media', action='edit', id=media.id)}"><span>encode me</span></a>
 						<a class="btn publish-me" py:when="not media.publishable" href="${h.url_for(controller='/admin/media', action='edit', id=media.id)}"><span>publish me</span></a>
 						<a class="btn published" py:otherwise="" href="${h.url_for(controller='/media', action='view', slug=media.slug)}"><span>published</span></a>
 					</td>
-					<td py:when="'title'"><a href="${h.url_for(controller='/admin/media', action='edit', id=media.id)}">${media.title}</a></td>
-					<td py:when="'comment_count'" class="center">
+					<td py:when="'title'" headers="h-title">
+						<a href="${h.url_for(controller='/admin/media', action='edit', id=media.id)}">${media.title}</a>
+					</td>
+					<td py:when="'comment_count'" class="center" headers="h-comment_count">
 						<a href="${h.url_for(controller='/admin/comments', media_filter=media.id)}">${media.comment_count_published}</a>
 					</td>
-					<td py:when="'tags'" py:content="' '.join(tag.name for tag in media.tags) or 'None'" />
-					<td py:when="'author'">
+					<td py:when="'tags'" headers="h-tags" py:content="' '.join(tag.name for tag in media.tags) or 'None'" />
+					<td py:when="'author'" headers="h-author">
 						<a href="mailto:${media.author.email}" py:strip="not media.author.email">${media.author.name}</a>
 					</td>
-					<td py:when="'type'" class="center">
+					<td py:when="'type'" class="center" headers="h-type">
 						<img py:if="media.type" py:with="pretty_type = media.type.capitalize()"
 						     src="${h.url_for('/admin/images/icons/%s.png' % media.type.encode('utf-8'))}"
 						     alt="${pretty_type}" title="${pretty_type}" />
@@ -70,7 +77,7 @@
 		</tbody>
 		<py:if test="include_pagination">
 			<xi:include href="../helpers.html" />
-			${paginated_tfoot(paginator, '7')}
+			${paginated_tfoot(paginator, '8')}
 		</py:if>
 	</table>
 </html>
