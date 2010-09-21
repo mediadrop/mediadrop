@@ -73,6 +73,14 @@ def make_map(config):
         action='more',
         requirements={'order': 'latest|popular'})
 
+    # Tags
+    map.connect('/tags',
+        controller='media',
+        action='tags')
+    map.connect('/tags/{tag}',
+        controller='media',
+        action='index')
+
     # Media
     map.connect('/media/{slug}/{action}',
         controller='media',

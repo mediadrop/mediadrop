@@ -473,6 +473,11 @@ a:visited .grid-title {
 	width: 328px;
 	margin-top: 15px;
 }
+.contextbox .subhead {
+	float: right;
+	padding-right: 1em;
+	padding-top: 12px;
+}
 .contextbox .grid {
 	width: 328px;
 }
@@ -679,4 +684,13 @@ a:visited .grid-title {
 }
 .feat-content .vjs-progress-holder {
 	margin: 7px 1px 0px 5px;
+}
+
+/* Tag listing page */
+#tag-directory {
+	clear: both;
+}
+#tag-directory li {
+	width: 50%;
+	float: left;
 }

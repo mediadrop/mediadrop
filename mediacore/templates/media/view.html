@@ -122,16 +122,19 @@
 			<ul py:replace="media_grid(related_media, thumb_size='s', desc_len=60)" />
 		</div>
 
-		<div id="category-context" class="contextbox" py:if="media.categories">
-			<h3 class="uppercase">Categories</h3>
+		<div id="category-context" class="contextbox">
 			<a py:def="cat_link(cat)" href="${h.url_for(controller='/categories', slug=cat.slug)}" class="underline-hover">${cat.name}</a>
-			${cat_link(media.categories[0])}<py:for each="cat in media.categories[1:]">, ${cat_link(cat)}</py:for>
+			<h3 class="uppercase">Categories</h3>
+			<p py:if="media.categories">${cat_link(media.categories[0])}<py:for each="cat in media.categories[1:]">, ${cat_link(cat)}</py:for></p>
+			<p py:if="not media.categories">This media item is not listed under any categories.</p>
 		</div>
 
-		<div id="tag-context" class="contextbox" py:if="media.tags">
+		<div id="tag-context" class="contextbox">
+			<a class="subhead underline-hover" href="${h.url_for(controller='/media', action='tags')}">See All Tags</a>
 			<h3 class="uppercase">Tags</h3>
-			<a py:def="tag_link(tag)" href="${h.url_for(controller='/media', tag=tag.slug)}" class="underline-hover">${tag.name}</a>
-			${tag_link(media.tags[0])}<py:for each="tag in media.tags[1:]">, ${tag_link(tag)}</py:for>
+			<a py:def="tag_link(tag)" href="${h.url_for(controller='/media', action='index', tag=tag.slug)}" class="underline-hover">${tag.name}</a>
+			<p py:if="media.tags">${tag_link(media.tags[0])}<py:for each="tag in media.tags[1:]">, ${tag_link(tag)}</py:for></p>
+			<p py:if="not media.tags">This media item does not have any associated tags.</p>
 		</div>
 	</div>
 </body>

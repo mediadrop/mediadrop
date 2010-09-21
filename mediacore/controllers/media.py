@@ -93,6 +93,16 @@ class MediaController(BaseController):
             tag = tag,
         )
 
+    @expose('media/tags.html')
+    def tags(self, **kwargs):
+        """Display a listing of all tags."""
+        tags = Tag.query\
+            .options(orm.undefer('media_count_published'))\
+            .filter(Tag.media_count_published > 0)
+        return dict(
+            tags = tags,
+        )
+
     @expose('media/explore.html')
     @paginate('media', items_per_page=20)
     def explore(self, page=1, **kwargs):
