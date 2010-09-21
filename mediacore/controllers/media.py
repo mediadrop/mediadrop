@@ -188,6 +188,11 @@ class MediaController(BaseController):
 
         media.increment_views()
 
+        # Which style of 'likes' links has the admin selected?
+        # TODO: Add settings to control these options.
+        mediacore_likes = True
+        facebook_likes = True
+
         return dict(
             media = media,
             related_media = related[:6],
@@ -195,6 +200,8 @@ class MediaController(BaseController):
             comment_form = post_comment_form,
             comment_form_action = url_for(action='comment', anchor=post_comment_form.id),
             comment_form_values = kwargs,
+            mediacore_likes = mediacore_likes,
+            facebook_likes = facebook_likes,
         )
 
     @expose()

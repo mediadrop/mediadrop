@@ -20,6 +20,7 @@
       xmlns:xi="http://www.w3.org/2001/XInclude">
 <xi:include href="../master.html" />
 <xi:include href="../comments/_list.html" />
+<xi:include href="../social/facebook.html" />
 <head>
 	<title>${media.title}</title>
 	<link py:if="media.podcast" href="${h.url_for('/styles/podcasts.css')}" media="screen" rel="stylesheet" type="text/css" />
@@ -77,10 +78,15 @@
 				</tr>
 				<tr>
 					<td><span class="meta meta-comments" title="Comments">${media.comment_count_published} <span>Comment<py:if test="media.comment_count_published != 1">s</py:if></span></span></td>
-					<td><a class="meta meta-likes" href="${h.url_for(action='rate')}" id="likethis" title="Vote up">${media.likes} <strong>Like this!</strong></a></td>
+					<td py:if="mediacore_likes"><a class="meta meta-likes" href="${h.url_for(action='rate')}" id="likethis" title="Vote up">${media.likes} <strong>Like this!</strong></a></td>
 					<td><span class="meta meta-views" title="Views">${media.views} <span>View<py:if test="media.views != 1">s</py:if></span></span></td>
+					<td py:if="not mediacore_likes">&nbsp;</td>
+				</tr>
+				<tr py:if="facebook_likes">
+					<td colspan="3">${facebook_like('likethis')}</td>
 				</tr>
 			</table>
+
 		</div>
 		<div class="feat-bottom" />
 	</div>
