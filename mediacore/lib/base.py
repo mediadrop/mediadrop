@@ -248,7 +248,13 @@ class BaseSettingsController(BaseController):
                 setting.value = value
                 DBSession.add(setting)
         DBSession.flush()
-        app_globals.settings.refresh()
+
+        # Clear the settings cache unless there are multiple processes.
+        # We have no way of notifying the other processes that they need
+        # to clear their caches too, so we've just gotta let it play out
+        # until all the caches expire.
+        if not request.environ.get('wsgi.multiprocess', False):
+            app_globals.settings_cache.clear()
 
     def _display(self, form, values=None, action=None):
         """Return the template variables for display of the form.
