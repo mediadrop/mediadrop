@@ -392,6 +392,26 @@ def list_accepted_extensions(*args, **kwargs):
         e[-1] = 'and ' + e[-1]
     return ', '.join(e)
 
+def attrs_to_dict(attrs):
+    """Return a dict for any input that Genshi's py:attrs understands.
+
+    For example::
+
+        <link py:match="link" py:if="h.attrs_to_dict(select('@*'))['rel'] == 'alternate'">
+
+    :param attrs: A collection of attrs
+    :type attrs: :class:`genshi.core.Stream`, :class:`genshi.core.Attrs`,
+        ``list`` of 2-tuples, ``dict``
+    :returns: All attrs
+    :rtype: ``dict``
+    """
+    if isinstance(attrs, genshi.core.Stream):
+        attrs = list(attrs)
+        attrs = attrs and attrs[0] or []
+    if not isinstance(attrs, dict):
+        attrs = dict(attrs or ())
+    return attrs
+
 def append_class_attr(attrs, class_name):
     """Append to the class for any input that Genshi's py:attrs understands.
 
@@ -412,11 +432,7 @@ def append_class_attr(attrs, class_name):
     :rtype: ``dict``
 
     """
-    if isinstance(attrs, genshi.core.Stream):
-        attrs = list(attrs)
-        attrs = attrs and attrs[0] or []
-    if not isinstance(attrs, dict):
-        attrs = dict(attrs or ())
+    attrs = attrs_to_dict(attrs)
     attrs['class'] = unicode(attrs.get('class', '') + ' ' + class_name).strip()
     return attrs
 
