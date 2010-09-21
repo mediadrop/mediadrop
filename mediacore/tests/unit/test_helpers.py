@@ -4,8 +4,12 @@ from mediacore.lib.compat import sha1
 from mediacore.lib.players import pick_media_file_player
 from mediacore.lib.mediafiles import add_new_media_file, save_media_obj
 from mediacore.lib.thumbnails import thumb_path
+from mediacore.lib.helpers import clean_xhtml, line_break_xhtml
 from mediacore.model import DBSession
 from sqlalchemy.exc import SQLAlchemyError
+
+expected_text = "Expected:\n\"\"\"%s\"\"\"\n\nBut Got:\n\"\"\"%s\"\"\"\n"
+results_text = "This:\n\"\"\"%s\"\"\"\n\nShould have been the same as:\n\"\"\"%s\"\"\"\n"
 
 class TestHelpers(TestController):
     def __init__(self, *args, **kwargs):
@@ -326,3 +330,44 @@ class TestHelpers(TestController):
         s = sha1(img.read()).hexdigest()
         img.close()
         assert s == '1eb9442b7864841e0f48270de7e3e871050b3876'
+
+    def test_clean_xhtml_linebreaks(self):
+        expected_clean = "<p>First line first line cont'd</p><p>second line</p><p>third line</p><p>fourth line</p>"
+        dirty = """First line\nfirst line cont'd\n\nsecond line\n\nthird line\n\n\n\nfourth line"""
+        # Ensure that the cleaned XHTML is what we expected
+        clean = clean_xhtml(dirty)
+        assert clean == expected_clean, expected_text % (expected_clean, clean)
+        # Ensure that re-cleaning the XHTML provides the same result.
+        clean = clean_xhtml(clean)
+        assert clean == expected_clean, expected_text % (expected_clean, clean)
+
+    def test_clean_xhtml_mixed1(self):
+        expected_clean = "<p>First line first line cont'd.</p><p>second line</p><p>third line</p>"
+        dirty = """<p>First line\nfirst line cont'd.\n\nsecond line</p>\nthird line\n\n"""
+        # Ensure that the cleaned XHTML is what we expected
+        clean = clean_xhtml(dirty)
+        assert clean == expected_clean, expected_text % (expected_clean, clean)
+        # Ensure that re-cleaning the XHTML provides the same result.
+        clean = clean_xhtml(clean)
+        assert clean == expected_clean, expected_text % (expected_clean, clean)
+
+    def test_clean_xhtml_mixed2(self):
+        expected_clean = "<p>First line first line cont'd.</p><p>second line</p><p>third line</p>"
+        dirty1 = """<p>First line\nfirst line cont'd.\n\nsecond line</p>\nthird line\n"""
+        dirty2 = """<p>First line\nfirst line cont'd.\n\nsecond line</p>\nthird line\n\n"""
+        # Ensure that the cleaned XHTML is the same regardless of trailing newlines.
+        clean1 = clean_xhtml(dirty1)
+        clean2 = clean_xhtml(dirty2)
+        assert clean1 == clean2, results_text % (clean1, clean2)
+
+    def test_xhtmltextarea_logic(self):
+        """Mimics the input -> clean -> display -> input... cycle of the XHTMLTextArea widget."""
+        expected_clean = "<p>First line first line cont'd</p><p>second line</p><p>third line</p><p>fourth line</p>"
+        dirty = "First line\nfirst line cont'd\n\nsecond line\n\nthird line\n\n\n\nfourth line"
+        # Ensure that the cleaned XHTML is what we expected
+        clean = clean_xhtml(dirty)
+        assert clean == expected_clean, expected_text % (expected_clean, clean)
+        # Ensure that re-cleaning the XHTML provides the same result.
+        displayed = line_break_xhtml(clean)
+        clean = clean_xhtml(displayed)
+        assert clean == expected_clean, expected_text % (expected_clean, clean)
