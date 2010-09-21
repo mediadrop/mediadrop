@@ -76,14 +76,8 @@ a:hover {
 #mediacore-footer {
 	margin: 10px auto 0 auto;
 	border-top: 1px solid #cdd2d5;
-	text-align: right;
 	overflow: hidden;
 }
-#mediacore-footer p {
-	float: left;
-	padding: 5px 0;
-}
-
 .mediacore-content {
 	width: 920px;
 	margin: 0 auto;
@@ -561,6 +555,18 @@ a:visited .grid-title {
 }
 #library-controls .pager {
 	margin-top: -5px;
+}
+
+/* Feed links in footer */
+#mediacore-footer #feeds h2 {
+	font-size: 14px;
+	float: left;
+	color: #637084;
+	font-weight: normal;
+}
+#mediacore-footer #feeds li {
+	float: left;
+	margin: 0 3px 0 3px;
 }
 
 .see-more {
