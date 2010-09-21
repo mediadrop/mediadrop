@@ -19,7 +19,7 @@
 <sitemapindex py:if="defined('pages')"
               xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 	<sitemap py:for="page in range(0, pages)">
-		<loc py:content="h.url_for(controller='/sitemap%s.xml' % page, qualified=True)" />
+		<loc py:content="h.url_for(controller='/sitemaps', action='google', page=page, qualified=True)" />
 	</sitemap>
 </sitemapindex>
 
