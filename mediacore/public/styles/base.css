@@ -300,18 +300,19 @@ a.meta-likes:active strong {
 	bottom: 0;
 	right: 15px;
 	width: 265px;
-	height: 19px;
 	line-height: 19px;
 }
-table.feat-meta {
-	height: 48px;
-	background: url('../images/layout/hr.png') repeat-x center center;
+table.feat-meta > tbody > tr {
+	background: url('../images/layout/hr.png') repeat-x scroll left top transparent;
 }
-table.feat-meta tr td {
-	padding: 5px 0 0 0;
+table.feat-meta > tbody > tr:first-child {
+	background: none;
 }
-table.feat-meta tr:first-child td {
-	padding: 0 0 5px 0;
+table.feat-meta > tbody > tr > td {
+	padding: 4px 0 2px 0;
+}
+table.feat-meta > tbody > tr:first-child > td {
+	padding: 0 0 3px 0;
 }
 .feat-box .meta-comments,
 .feat-box .meta-likes,
