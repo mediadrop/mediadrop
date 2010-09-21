@@ -35,8 +35,8 @@ class SitemapsController(BaseController):
     """
 
     @beaker_cache(expire=60 * 60 * 4, query_args=True)
-    @expose('sitemaps/sitemap.xml')
-    def sitemap(self, page=None, limit=10000, **kwargs):
+    @expose('sitemaps/google.xml')
+    def google(self, page=None, limit=10000, **kwargs):
         """Generate a sitemap which contains googles Video Sitemap information.
 
         This action may return a <sitemapindex> or a <urlset>, depending

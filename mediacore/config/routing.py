@@ -48,13 +48,13 @@ def make_map(config):
     # Sitemaps
     map.connect('/sitemap.xml',
         controller='sitemaps',
-        action='sitemap')
+        action='google')
     map.connect('/latest.xml',
         controller='sitemaps',
         action='latest')
     map.connect('/sitemap{page}.xml',
         controller='sitemaps',
-        action='sitemap',
+        action='google',
         requirements={'page': r'\d+'})
     map.connect('/mrss.xml',
         controller='sitemaps',
