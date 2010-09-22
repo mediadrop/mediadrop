@@ -5,9 +5,9 @@
 	var tinymce = {
 		majorVersion : '3',
 
-		minorVersion : '3.6',
+		minorVersion : '3.9',
 
-		releaseDate : '2010-05-20',
+		releaseDate : '2010-09-08',
 
 		_init : function() {
 			var t = this, d = document, na = navigator, ua = na.userAgent, i, nl, n, base, p, v;
@@ -52,7 +52,7 @@
 			}
 
 			function getBase(n) {
-				if (n.src && /tiny_mce(|_gzip|_jquery|_prototype)(_dev|_src)?.js/.test(n.src)) {
+				if (n.src && /tiny_mce(|_gzip|_jquery|_prototype|_full)(_dev|_src)?.js/.test(n.src)) {
 					if (/_(src|dev)\.js/g.test(n.src))
 						t.suffix = '_src';
 
@@ -591,7 +591,7 @@ tinymce.create('tinymce.util.Dispatcher', {
 
 			return o;
 		},
-	
+
 		toAbsolute : function(u, nh) {
 			var u = new tinymce.util.URI(u, {base_uri : this});
 
@@ -1023,7 +1023,7 @@ tinymce.create('static tinymce.util.XHR', {
 			t.files = {};
 			t.cssFlicker = false;
 			t.counter = 0;
-			t.boxModel = !tinymce.isIE || d.compatMode == "CSS1Compat"; 
+			t.boxModel = !tinymce.isIE || d.compatMode == "CSS1Compat";
 			t.stdMode = d.documentMode === 8;
 
 			t.settings = s = tinymce.extend({
@@ -1309,7 +1309,7 @@ tinymce.create('static tinymce.util.XHR', {
 					case 'float':
 						isIE ? s.styleFloat = v : s.cssFloat = v;
 						break;
-					
+
 					default:
 						s[na] = v || '';
 				}
@@ -1421,7 +1421,7 @@ tinymce.create('static tinymce.util.XHR', {
 						}
 
 						break;
-					
+
 					case "shape":
 						e.setAttribute('_mce_style', v);
 						break;
@@ -1578,7 +1578,6 @@ tinymce.create('static tinymce.util.XHR', {
 					e = t.boxModel ? d.documentElement : d.body;
 					x = t.getStyle(t.select('html')[0], 'borderWidth'); // Remove border
 					x = (x == 'medium' || t.boxModel && !t.isIE6) && 2 || x;
-					n.top += t.win.self != t.win.top ? 2 : 0; // IE adds some strange extra cord if used in a frameset
 
 					return {x : n.left + e.scrollLeft - x, y : n.top + e.scrollTop - x};
 				}
@@ -3289,6 +3288,13 @@ tinymce.create('static tinymce.util.XHR', {
 				// Create marker and insert it at the end of the endpoints parent
 				marker = dom.create('a');
 				parent = checkRng.parentElement();
+
+				// If parent doesn't have any children then set the container to that parent and the index to 0
+				if (!parent.hasChildNodes()) {
+					domRange[start ? 'setStart' : 'setEnd'](parent, 0);
+					return;
+				}
+
 				parent.appendChild(marker);
 				checkRng.moveToElementText(marker);
 				position = ieRange.compareEndPoints(start ? 'StartToStart' : 'EndToEnd', checkRng);
@@ -3365,145 +3371,81 @@ tinymce.create('static tinymce.util.XHR', {
 		};
 
 		this.addRange = function(rng) {
-			var ieRng, ieRng2, doc = selection.dom.doc, body = doc.body, startPos, endPos, sc, so, ec, eo, marker, lastIndex, skipStart, skipEnd;
+			var ieRng, ctrlRng, startContainer, startOffset, endContainer, endOffset, doc = selection.dom.doc, body = doc.body;
 
+			function setEndPoint(start) {
+				var container, offset, marker, tmpRng, nodes;
+
+				marker = dom.create('a');
+				container = start ? startContainer : endContainer;
+				offset = start ? startOffset : endOffset;
+				tmpRng = ieRng.duplicate();
+
+				if (container == doc) {
+					container = body;
+					offset = 0;
+				}
+
+				if (container.nodeType == 3) {
+					container.parentNode.insertBefore(marker, container);
+					tmpRng.moveToElementText(marker);
+					tmpRng.moveStart('character', offset);
+					dom.remove(marker);
+					ieRng.setEndPoint(start ? 'StartToStart' : 'EndToEnd', tmpRng);
+				} else {
+					nodes = container.childNodes;
+
+					if (nodes.length) {
+						if (offset >= nodes.length) {
+							dom.insertAfter(marker, nodes[nodes.length - 1]);
+						} else {
+							container.insertBefore(marker, nodes[offset]);
+						}
+
+						tmpRng.moveToElementText(marker);
+					} else {
+						// Empty node selection for example <div>|</div>
+						marker = doc.createTextNode(invisibleChar);
+						container.appendChild(marker);
+						tmpRng.moveToElementText(marker.parentNode);
+						tmpRng.collapse(TRUE);
+					}
+
+					ieRng.setEndPoint(start ? 'StartToStart' : 'EndToEnd', tmpRng);
+					dom.remove(marker);
+				}
+			}
+
+			// Destroy cached range
 			this.destroy();
 
 			// Setup some shorter versions
-			sc = rng.startContainer;
-			so = rng.startOffset;
-			ec = rng.endContainer;
-			eo = rng.endOffset;
+			startContainer = rng.startContainer;
+			startOffset = rng.startOffset;
+			endContainer = rng.endContainer;
+			endOffset = rng.endOffset;
 			ieRng = body.createTextRange();
 
-			// If document selection move caret to first node in document
-			if (sc == doc || ec == doc) {
-				ieRng = body.createTextRange();
-				ieRng.collapse();
-				ieRng.select();
-				return;
-			}
-
-			// If child index resolve it
-			if (sc.nodeType == 1 && sc.hasChildNodes()) {
-				lastIndex = sc.childNodes.length - 1;
-
-				// Index is higher that the child count then we need to jump over the start container
-				if (so > lastIndex) {
-					skipStart = 1;
-					sc = sc.childNodes[lastIndex];
-				} else
-					sc = sc.childNodes[so];
-
-				// Child was text node then move offset to start of it
-				if (sc.nodeType == 3)
-					so = 0;
-			}
-
-			// If child index resolve it
-			if (ec.nodeType == 1 && ec.hasChildNodes()) {
-				lastIndex = ec.childNodes.length - 1;
-
-				if (eo == 0) {
-					skipEnd = 1;
-					ec = ec.childNodes[0];
-				} else {
-					ec = ec.childNodes[Math.min(lastIndex, eo - 1)];
-
-					// Child was text node then move offset to end of text node
-					if (ec.nodeType == 3)
-						eo = ec.nodeValue.length;
-				}
-			}
-
-			// Single element selection
-			if (sc == ec && sc.nodeType == 1) {
-				// Make control selection for some elements
-				if (/^(IMG|TABLE)$/.test(sc.nodeName) && so != eo) {
-					ieRng = body.createControlRange();
-					ieRng.addElement(sc);
-				} else {
-					ieRng = body.createTextRange();
-
-					// Padd empty elements with invisible character
-					if (!sc.hasChildNodes() && sc.canHaveHTML)
-						sc.innerHTML = invisibleChar;
-
-					// Select element contents
-					ieRng.moveToElementText(sc);
-
-					// If it's only containing a padding remove it so the caret remains
-					if (sc.innerHTML == invisibleChar) {
-						ieRng.collapse(TRUE);
-						sc.removeChild(sc.firstChild);
+			// If single element selection then try making a control selection out of it
+			if (startContainer == endContainer && startContainer.nodeType == 1 && startOffset == endOffset - 1) {
+				if (startOffset == endOffset - 1) {
+					try {
+						ctrlRng = body.createControlRange();
+						ctrlRng.addElement(startContainer.childNodes[startOffset]);
+						ctrlRng.select();
+						ctrlRng.scrollIntoView();
+						return;
+					} catch (ex) {
+						// Ignore
 					}
 				}
-
-				if (so == eo)
-					ieRng.collapse(eo <= rng.endContainer.childNodes.length - 1);
-
-				ieRng.select();
-				ieRng.scrollIntoView();
-				return;
 			}
 
-			// Create range and marker
-			ieRng = body.createTextRange();
-			marker = doc.createElement('span');
-			marker.innerHTML = ' ';
+			// Set start/end point of selection
+			setEndPoint(true);
+			setEndPoint();
 
-			// Set start of range to startContainer/startOffset
-			if (sc.nodeType == 3) {
-				// Insert marker after/before startContainer
-				if (skipStart)
-					dom.insertAfter(marker, sc);
-				else
-					sc.parentNode.insertBefore(marker, sc);
-
-				// Select marker the caret to offset position
-				ieRng.moveToElementText(marker);
-				marker.parentNode.removeChild(marker);
-				ieRng.move('character', so);
-			} else {
-				ieRng.moveToElementText(sc);
-
-				if (skipStart)
-					ieRng.collapse(FALSE);
-			}
-
-			// If same text container then we can do a more simple move
-			if (sc == ec && sc.nodeType == 3) {
-				try {
-					ieRng.moveEnd('character', eo - so);
-					ieRng.select();
-					ieRng.scrollIntoView();
-				} catch (ex) {
-					// Some times a Runtime error of the 800a025e type gets thrown
-					// especially when the caret is placed before a table.
-					// This is a somewhat strange location for the caret.
-					// TODO: Find a better solution for this would possible require a rewrite of the setRng method
-				}
-
-				return;
-			}
-
-			// Set end of range to endContainer/endOffset
-			ieRng2 = body.createTextRange();
-			if (ec.nodeType == 3) {
-				// Insert marker after/before startContainer
-				ec.parentNode.insertBefore(marker, ec);
-
-				// Move selection to end marker and move caret to end offset
-				ieRng2.moveToElementText(marker);
-				marker.parentNode.removeChild(marker);
-				ieRng2.move('character', eo);
-				ieRng.setEndPoint('EndToStart', ieRng2);
-			} else {
-				ieRng2.moveToElementText(ec);
-				ieRng2.collapse(!!skipEnd);
-				ieRng.setEndPoint('EndToEnd', ieRng2);
-			}
-
+			// Select the new range and scroll it into view
 			ieRng.select();
 			ieRng.scrollIntoView();
 		};
@@ -3623,36 +3565,54 @@ tinymce.create('static tinymce.util.XHR', {
  */
 (function(){
 
-var chunker = /((?:\((?:\([^()]+\)|[^()]+)+\)|\[(?:\[[^[\]]*\]|['"][^'"]*['"]|[^[\]'"]+)+\]|\\.|[^ >+~,(\[\\]+)+|[>+~])(\s*,\s*)?/g,
+var chunker = /((?:\((?:\([^()]+\)|[^()]+)+\)|\[(?:\[[^\[\]]*\]|['"][^'"]*['"]|[^\[\]'"]+)+\]|\\.|[^ >+~,(\[\\]+)+|[>+~])(\s*,\s*)?((?:.|\r|\n)*)/g,
 	done = 0,
 	toString = Object.prototype.toString,
-	hasDuplicate = false;
+	hasDuplicate = false,
+	baseHasDuplicate = true;
+
+// Here we check if the JavaScript engine is using some sort of
+// optimization where it does not always call our comparision
+// function. If that is the case, discard the hasDuplicate value.
+//   Thus far that includes Google Chrome.
+[0, 0].sort(function(){
+	baseHasDuplicate = false;
+	return 0;
+});
 
 var Sizzle = function(selector, context, results, seed) {
 	results = results || [];
-	var origContext = context = context || document;
+	context = context || document;
+
+	var origContext = context;
 
 	if ( context.nodeType !== 1 && context.nodeType !== 9 ) {
 		return [];
 	}
-	
+
 	if ( !selector || typeof selector !== "string" ) {
 		return results;
 	}
 
-	var parts = [], m, set, checkSet, check, mode, extra, prune = true, contextXML = isXML(context);
-	
+	var parts = [], m, set, checkSet, extra, prune = true, contextXML = Sizzle.isXML(context),
+		soFar = selector, ret, cur, pop, i;
+
 	// Reset the position of the chunker regexp (start from head)
-	chunker.lastIndex = 0;
-	
-	while ( (m = chunker.exec(selector)) !== null ) {
-		parts.push( m[1] );
-		
-		if ( m[2] ) {
-			extra = RegExp.rightContext;
-			break;
+	do {
+		chunker.exec("");
+		m = chunker.exec(soFar);
+
+		if ( m ) {
+			soFar = m[3];
+
+			parts.push( m[1] );
+
+			if ( m[2] ) {
+				extra = m[3];
+				break;
+			}
 		}
-	}
+	} while ( m );
 
 	if ( parts.length > 1 && origPOS.exec( selector ) ) {
 		if ( parts.length === 2 && Expr.relative[ parts[0] ] ) {
@@ -3665,8 +3625,9 @@ var Sizzle = function(selector, context, results, seed) {
 			while ( parts.length ) {
 				selector = parts.shift();
 
-				if ( Expr.relative[ selector ] )
+				if ( Expr.relative[ selector ] ) {
 					selector += parts.shift();
+				}
 
 				set = posProcess( selector, set );
 			}
@@ -3676,12 +3637,12 @@ var Sizzle = function(selector, context, results, seed) {
 		// (but not if it'll be faster if the inner selector is an ID)
 		if ( !seed && parts.length > 1 && context.nodeType === 9 && !contextXML &&
 				Expr.match.ID.test(parts[0]) && !Expr.match.ID.test(parts[parts.length - 1]) ) {
-			var ret = Sizzle.find( parts.shift(), context, contextXML );
+			ret = Sizzle.find( parts.shift(), context, contextXML );
 			context = ret.expr ? Sizzle.filter( ret.expr, ret.set )[0] : ret.set[0];
 		}
 
 		if ( context ) {
-			var ret = seed ?
+			ret = seed ?
 				{ expr: parts.pop(), set: makeArray(seed) } :
 				Sizzle.find( parts.pop(), parts.length === 1 && (parts[0] === "~" || parts[0] === "+") && context.parentNode ? context.parentNode : context, contextXML );
 			set = ret.expr ? Sizzle.filter( ret.expr, ret.set ) : ret.set;
@@ -3693,7 +3654,8 @@ var Sizzle = function(selector, context, results, seed) {
 			}
 
 			while ( parts.length ) {
-				var cur = parts.pop(), pop = cur;
+				cur = parts.pop();
+				pop = cur;
 
 				if ( !Expr.relative[ cur ] ) {
 					cur = "";
@@ -3717,20 +3679,20 @@ var Sizzle = function(selector, context, results, seed) {
 	}
 
 	if ( !checkSet ) {
-		throw "Syntax error, unrecognized expression: " + (cur || selector);
+		Sizzle.error( cur || selector );
 	}
 
 	if ( toString.call(checkSet) === "[object Array]" ) {
 		if ( !prune ) {
 			results.push.apply( results, checkSet );
 		} else if ( context && context.nodeType === 1 ) {
-			for ( var i = 0; checkSet[i] != null; i++ ) {
-				if ( checkSet[i] && (checkSet[i] === true || checkSet[i].nodeType === 1 && contains(context, checkSet[i])) ) {
+			for ( i = 0; checkSet[i] != null; i++ ) {
+				if ( checkSet[i] && (checkSet[i] === true || checkSet[i].nodeType === 1 && Sizzle.contains(context, checkSet[i])) ) {
 					results.push( set[i] );
 				}
 			}
 		} else {
-			for ( var i = 0; checkSet[i] != null; i++ ) {
+			for ( i = 0; checkSet[i] != null; i++ ) {
 				if ( checkSet[i] && checkSet[i].nodeType === 1 ) {
 					results.push( set[i] );
 				}
@@ -3750,7 +3712,7 @@ var Sizzle = function(selector, context, results, seed) {
 
 Sizzle.uniqueSort = function(results){
 	if ( sortOrder ) {
-		hasDuplicate = false;
+		hasDuplicate = baseHasDuplicate;
 		results.sort(sortOrder);
 
 		if ( hasDuplicate ) {
@@ -3761,6 +3723,8 @@ Sizzle.uniqueSort = function(results){
 			}
 		}
 	}
+
+	return results;
 };
 
 Sizzle.matches = function(expr, set){
@@ -3768,7 +3732,7 @@ Sizzle.matches = function(expr, set){
 };
 
 Sizzle.find = function(expr, context, isXML){
-	var set, match;
+	var set;
 
 	if ( !expr ) {
 		return [];
@@ -3776,9 +3740,10 @@ Sizzle.find = function(expr, context, isXML){
 
 	for ( var i = 0, l = Expr.order.length; i < l; i++ ) {
 		var type = Expr.order[i], match;
-		
-		if ( (match = Expr.match[ type ].exec( expr )) ) {
-			var left = RegExp.leftContext;
+
+		if ( (match = Expr.leftMatch[ type ].exec( expr )) ) {
+			var left = match[1];
+			match.splice(1,1);
 
 			if ( left.substr( left.length - 1 ) !== "\\" ) {
 				match[1] = (match[1] || "").replace(/\\/g, "");
@@ -3800,15 +3765,21 @@ Sizzle.find = function(expr, context, isXML){
 
 Sizzle.filter = function(expr, set, inplace, not){
 	var old = expr, result = [], curLoop = set, match, anyFound,
-		isXMLFilter = set && set[0] && isXML(set[0]);
+		isXMLFilter = set && set[0] && Sizzle.isXML(set[0]);
 
 	while ( expr && set.length ) {
 		for ( var type in Expr.filter ) {
-			if ( (match = Expr.match[ type ].exec( expr )) != null ) {
-				var filter = Expr.filter[ type ], found, item;
+			if ( (match = Expr.leftMatch[ type ].exec( expr )) != null && match[2] ) {
+				var filter = Expr.filter[ type ], found, item, left = match[1];
 				anyFound = false;
 
-				if ( curLoop == result ) {
+				match.splice(1,1);
+
+				if ( left.substr( left.length - 1 ) === "\\" ) {
+					continue;
+				}
+
+				if ( curLoop === result ) {
 					result = [];
 				}
 
@@ -3859,9 +3830,9 @@ Sizzle.filter = function(expr, set, inplace, not){
 		}
 
 		// Improper expression
-		if ( expr == old ) {
+		if ( expr === old ) {
 			if ( anyFound == null ) {
-				throw "Syntax error, unrecognized expression: " + expr;
+				Sizzle.error( expr );
 			} else {
 				break;
 			}
@@ -3873,18 +3844,23 @@ Sizzle.filter = function(expr, set, inplace, not){
 	return curLoop;
 };
 
+Sizzle.error = function( msg ) {
+	throw "Syntax error, unrecognized expression: " + msg;
+};
+
 var Expr = Sizzle.selectors = {
 	order: [ "ID", "NAME", "TAG" ],
 	match: {
-		ID: /#((?:[\w\u00c0-\uFFFF_-]|\\.)+)/,
-		CLASS: /\.((?:[\w\u00c0-\uFFFF_-]|\\.)+)/,
-		NAME: /\[name=['"]*((?:[\w\u00c0-\uFFFF_-]|\\.)+)['"]*\]/,
-		ATTR: /\[\s*((?:[\w\u00c0-\uFFFF_-]|\\.)+)\s*(?:(\S?=)\s*(['"]*)(.*?)\3|)\s*\]/,
-		TAG: /^((?:[\w\u00c0-\uFFFF\*_-]|\\.)+)/,
-		CHILD: /:(only|nth|last|first)-child(?:\((even|odd|[\dn+-]*)\))?/,
-		POS: /:(nth|eq|gt|lt|first|last|even|odd)(?:\((\d*)\))?(?=[^-]|$)/,
-		PSEUDO: /:((?:[\w\u00c0-\uFFFF_-]|\\.)+)(?:\((['"]*)((?:\([^\)]+\)|[^\2\(\)]*)+)\2\))?/
+		ID: /#((?:[\w\u00c0-\uFFFF\-]|\\.)+)/,
+		CLASS: /\.((?:[\w\u00c0-\uFFFF\-]|\\.)+)/,
+		NAME: /\[name=['"]*((?:[\w\u00c0-\uFFFF\-]|\\.)+)['"]*\]/,
+		ATTR: /\[\s*((?:[\w\u00c0-\uFFFF\-]|\\.)+)\s*(?:(\S?=)\s*(['"]*)(.*?)\3|)\s*\]/,
+		TAG: /^((?:[\w\u00c0-\uFFFF\*\-]|\\.)+)/,
+		CHILD: /:(only|nth|last|first)-child(?:\((even|odd|[\dn+\-]*)\))?/,
+		POS: /:(nth|eq|gt|lt|first|last|even|odd)(?:\((\d*)\))?(?=[^\-]|$)/,
+		PSEUDO: /:((?:[\w\u00c0-\uFFFF\-]|\\.)+)(?:\((['"]?)((?:\([^\)]+\)|[^\(\)]*)+)\2\))?/
 	},
+	leftMatch: {},
 	attrMap: {
 		"class": "className",
 		"for": "htmlFor"
@@ -3895,20 +3871,20 @@ var Expr = Sizzle.selectors = {
 		}
 	},
 	relative: {
-		"+": function(checkSet, part, isXML){
+		"+": function(checkSet, part){
 			var isPartStr = typeof part === "string",
 				isTag = isPartStr && !/\W/.test(part),
 				isPartStrNotTag = isPartStr && !isTag;
 
-			if ( isTag && !isXML ) {
-				part = part.toUpperCase();
+			if ( isTag ) {
+				part = part.toLowerCase();
 			}
 
 			for ( var i = 0, l = checkSet.length, elem; i < l; i++ ) {
 				if ( (elem = checkSet[i]) ) {
 					while ( (elem = elem.previousSibling) && elem.nodeType !== 1 ) {}
 
-					checkSet[i] = isPartStrNotTag || elem && elem.nodeName === part ?
+					checkSet[i] = isPartStrNotTag || elem && elem.nodeName.toLowerCase() === part ?
 						elem || false :
 						elem === part;
 				}
@@ -3918,22 +3894,23 @@ var Expr = Sizzle.selectors = {
 				Sizzle.filter( part, checkSet, true );
 			}
 		},
-		">": function(checkSet, part, isXML){
-			var isPartStr = typeof part === "string";
+		">": function(checkSet, part){
+			var isPartStr = typeof part === "string",
+				elem, i = 0, l = checkSet.length;
 
 			if ( isPartStr && !/\W/.test(part) ) {
-				part = isXML ? part : part.toUpperCase();
+				part = part.toLowerCase();
 
-				for ( var i = 0, l = checkSet.length; i < l; i++ ) {
-					var elem = checkSet[i];
+				for ( ; i < l; i++ ) {
+					elem = checkSet[i];
 					if ( elem ) {
 						var parent = elem.parentNode;
-						checkSet[i] = parent.nodeName === part ? parent : false;
+						checkSet[i] = parent.nodeName.toLowerCase() === part ? parent : false;
 					}
 				}
 			} else {
-				for ( var i = 0, l = checkSet.length; i < l; i++ ) {
-					var elem = checkSet[i];
+				for ( ; i < l; i++ ) {
+					elem = checkSet[i];
 					if ( elem ) {
 						checkSet[i] = isPartStr ?
 							elem.parentNode :
@@ -3947,20 +3924,22 @@ var Expr = Sizzle.selectors = {
 			}
 		},
 		"": function(checkSet, part, isXML){
-			var doneName = done++, checkFn = dirCheck;
+			var doneName = done++, checkFn = dirCheck, nodeCheck;
 
-			if ( !part.match(/\W/) ) {
-				var nodeCheck = part = isXML ? part : part.toUpperCase();
+			if ( typeof part === "string" && !/\W/.test(part) ) {
+				part = part.toLowerCase();
+				nodeCheck = part;
 				checkFn = dirNodeCheck;
 			}
 
 			checkFn("parentNode", part, doneName, checkSet, nodeCheck, isXML);
 		},
 		"~": function(checkSet, part, isXML){
-			var doneName = done++, checkFn = dirCheck;
+			var doneName = done++, checkFn = dirCheck, nodeCheck;
 
-			if ( typeof part === "string" && !part.match(/\W/) ) {
-				var nodeCheck = part = isXML ? part : part.toUpperCase();
+			if ( typeof part === "string" && !/\W/.test(part) ) {
+				part = part.toLowerCase();
+				nodeCheck = part;
 				checkFn = dirNodeCheck;
 			}
 
@@ -3974,7 +3953,7 @@ var Expr = Sizzle.selectors = {
 				return m ? [m] : [];
 			}
 		},
-		NAME: function(match, context, isXML){
+		NAME: function(match, context){
 			if ( typeof context.getElementsByName !== "undefined" ) {
 				var ret = [], results = context.getElementsByName(match[1]);
 
@@ -4001,9 +3980,10 @@ var Expr = Sizzle.selectors = {
 
 			for ( var i = 0, elem; (elem = curLoop[i]) != null; i++ ) {
 				if ( elem ) {
-					if ( not ^ (elem.className && (" " + elem.className + " ").indexOf(match) >= 0) ) {
-						if ( !inplace )
+					if ( not ^ (elem.className && (" " + elem.className + " ").replace(/[\t\n]/g, " ").indexOf(match) >= 0) ) {
+						if ( !inplace ) {
 							result.push( elem );
+						}
 					} else if ( inplace ) {
 						curLoop[i] = false;
 					}
@@ -4016,14 +3996,13 @@ var Expr = Sizzle.selectors = {
 			return match[1].replace(/\\/g, "");
 		},
 		TAG: function(match, curLoop){
-			for ( var i = 0; curLoop[i] === false; i++ ){}
-			return curLoop[i] && isXML(curLoop[i]) ? match[1] : match[1].toUpperCase();
+			return match[1].toLowerCase();
 		},
 		CHILD: function(match){
-			if ( match[1] == "nth" ) {
+			if ( match[1] === "nth" ) {
 				// parse equations like 'even', 'odd', '5', '2n', '3n+2', '4n-1', '-n+6'
 				var test = /(-?)(\d*)n((?:\+|-)?\d*)/.exec(
-					match[2] == "even" && "2n" || match[2] == "odd" && "2n+1" ||
+					match[2] === "even" && "2n" || match[2] === "odd" && "2n+1" ||
 					!/\D/.test( match[2] ) && "0n+" + match[2] || match[2]);
 
 				// calculate the numbers (first)n+(last) including if they are negative
@@ -4038,7 +4017,7 @@ var Expr = Sizzle.selectors = {
 		},
 		ATTR: function(match, curLoop, inplace, result, not, isXML){
 			var name = match[1].replace(/\\/g, "");
-			
+
 			if ( !isXML && Expr.attrMap[name] ) {
 				match[1] = Expr.attrMap[name];
 			}
@@ -4052,7 +4031,7 @@ var Expr = Sizzle.selectors = {
 		PSEUDO: function(match, curLoop, inplace, result, not){
 			if ( match[1] === "not" ) {
 				// If we're dealing with a complex expression, or a simple one
-				if ( match[3].match(chunker).length > 1 || /^\w/.test(match[3]) ) {
+				if ( ( chunker.exec(match[3]) || "" ).length > 1 || /^\w/.test(match[3]) ) {
 					match[3] = Sizzle(match[3], null, null, curLoop);
 				} else {
 					var ret = Sizzle.filter(match[3], curLoop, inplace, true ^ not);
@@ -4064,7 +4043,7 @@ var Expr = Sizzle.selectors = {
 			} else if ( Expr.match.POS.test( match[0] ) || Expr.match.CHILD.test( match[0] ) ) {
 				return true;
 			}
-			
+
 			return match;
 		},
 		POS: function(match){
@@ -4098,7 +4077,7 @@ var Expr = Sizzle.selectors = {
 			return !!Sizzle( match[3], elem ).length;
 		},
 		header: function(elem){
-			return /h\d/i.test( elem.nodeName );
+			return (/h\d/i).test( elem.nodeName );
 		},
 		text: function(elem){
 			return "text" === elem.type;
@@ -4125,10 +4104,10 @@ var Expr = Sizzle.selectors = {
 			return "reset" === elem.type;
 		},
 		button: function(elem){
-			return "button" === elem.type || elem.nodeName.toUpperCase() === "BUTTON";
+			return "button" === elem.type || elem.nodeName.toLowerCase() === "button";
 		},
 		input: function(elem){
-			return /input|select|textarea|button/i.test(elem.nodeName);
+			return (/input|select|textarea|button/i).test(elem.nodeName);
 		}
 	},
 	setFilters: {
@@ -4151,10 +4130,10 @@ var Expr = Sizzle.selectors = {
 			return i > match[3] - 0;
 		},
 		nth: function(elem, i, match){
-			return match[3] - 0 == i;
+			return match[3] - 0 === i;
 		},
 		eq: function(elem, i, match){
-			return match[3] - 0 == i;
+			return match[3] - 0 === i;
 		}
 	},
 	filter: {
@@ -4164,17 +4143,19 @@ var Expr = Sizzle.selectors = {
 			if ( filter ) {
 				return filter( elem, i, match, array );
 			} else if ( name === "contains" ) {
-				return (elem.textContent || elem.innerText || "").indexOf(match[3]) >= 0;
+				return (elem.textContent || elem.innerText || Sizzle.getText([ elem ]) || "").indexOf(match[3]) >= 0;
 			} else if ( name === "not" ) {
 				var not = match[3];
 
-				for ( var i = 0, l = not.length; i < l; i++ ) {
-					if ( not[i] === elem ) {
+				for ( var j = 0, l = not.length; j < l; j++ ) {
+					if ( not[j] === elem ) {
 						return false;
 					}
 				}
 
 				return true;
+			} else {
+				Sizzle.error( "Syntax error, unrecognized expression: " + name );
 			}
 		},
 		CHILD: function(elem, match){
@@ -4182,41 +4163,47 @@ var Expr = Sizzle.selectors = {
 			switch (type) {
 				case 'only':
 				case 'first':
-					while (node = node.previousSibling)  {
-						if ( node.nodeType === 1 ) return false;
+					while ( (node = node.previousSibling) )	 {
+						if ( node.nodeType === 1 ) {
+							return false;
+						}
 					}
-					if ( type == 'first') return true;
+					if ( type === "first" ) {
+						return true;
+					}
 					node = elem;
 				case 'last':
-					while (node = node.nextSibling)  {
-						if ( node.nodeType === 1 ) return false;
+					while ( (node = node.nextSibling) )	 {
+						if ( node.nodeType === 1 ) {
+							return false;
+						}
 					}
 					return true;
 				case 'nth':
 					var first = match[2], last = match[3];
 
-					if ( first == 1 && last == 0 ) {
+					if ( first === 1 && last === 0 ) {
 						return true;
 					}
-					
+
 					var doneName = match[0],
 						parent = elem.parentNode;
-	
+
 					if ( parent && (parent.sizcache !== doneName || !elem.nodeIndex) ) {
 						var count = 0;
 						for ( node = parent.firstChild; node; node = node.nextSibling ) {
 							if ( node.nodeType === 1 ) {
 								node.nodeIndex = ++count;
 							}
-						} 
+						}
 						parent.sizcache = doneName;
 					}
-					
+
 					var diff = elem.nodeIndex - last;
-					if ( first == 0 ) {
-						return diff == 0;
+					if ( first === 0 ) {
+						return diff === 0;
 					} else {
-						return ( diff % first == 0 && diff / first >= 0 );
+						return ( diff % first === 0 && diff / first >= 0 );
 					}
 			}
 		},
@@ -4224,7 +4211,7 @@ var Expr = Sizzle.selectors = {
 			return elem.nodeType === 1 && elem.getAttribute("id") === match;
 		},
 		TAG: function(elem, match){
-			return (match === "*" && elem.nodeType === 1) || elem.nodeName === match;
+			return (match === "*" && elem.nodeType === 1) || elem.nodeName.toLowerCase() === match;
 		},
 		CLASS: function(elem, match){
 			return (" " + (elem.className || elem.getAttribute("class")) + " ")
@@ -4252,7 +4239,7 @@ var Expr = Sizzle.selectors = {
 				!check ?
 				value && result !== false :
 				type === "!=" ?
-				value != check :
+				value !== check :
 				type === "^=" ?
 				value.indexOf(check) === 0 :
 				type === "$=" ?
@@ -4271,42 +4258,48 @@ var Expr = Sizzle.selectors = {
 	}
 };
 
-var origPOS = Expr.match.POS;
+var origPOS = Expr.match.POS,
+	fescape = function(all, num){
+		return "\\" + (num - 0 + 1);
+	};
 
 for ( var type in Expr.match ) {
-	Expr.match[ type ] = new RegExp( Expr.match[ type ].source + /(?![^\[]*\])(?![^\(]*\))/.source );
+	Expr.match[ type ] = new RegExp( Expr.match[ type ].source + (/(?![^\[]*\])(?![^\(]*\))/.source) );
+	Expr.leftMatch[ type ] = new RegExp( /(^(?:.|\r|\n)*?)/.source + Expr.match[ type ].source.replace(/\\(\d+)/g, fescape) );
 }
 
 var makeArray = function(array, results) {
-	array = Array.prototype.slice.call( array );
+	array = Array.prototype.slice.call( array, 0 );
 
 	if ( results ) {
 		results.push.apply( results, array );
 		return results;
 	}
-	
+
 	return array;
 };
 
 // Perform a simple check to determine if the browser is capable of
 // converting a NodeList to an array using builtin methods.
+// Also verifies that the returned array holds DOM nodes
+// (which is not the case in the Blackberry browser)
 try {
-	Array.prototype.slice.call( document.documentElement.childNodes );
+	Array.prototype.slice.call( document.documentElement.childNodes, 0 )[0].nodeType;
 
 // Provide a fallback method if it does not work
 } catch(e){
 	makeArray = function(array, results) {
-		var ret = results || [];
+		var ret = results || [], i = 0;
 
 		if ( toString.call(array) === "[object Array]" ) {
 			Array.prototype.push.apply( ret, array );
 		} else {
 			if ( typeof array.length === "number" ) {
-				for ( var i = 0, l = array.length; i < l; i++ ) {
+				for ( var l = array.length; i < l; i++ ) {
 					ret.push( array[i] );
 				}
 			} else {
-				for ( var i = 0; array[i]; i++ ) {
+				for ( ; array[i]; i++ ) {
 					ret.push( array[i] );
 				}
 			}
@@ -4320,6 +4313,13 @@ var sortOrder;
 
 if ( document.documentElement.compareDocumentPosition ) {
 	sortOrder = function( a, b ) {
+		if ( !a.compareDocumentPosition || !b.compareDocumentPosition ) {
+			if ( a == b ) {
+				hasDuplicate = true;
+			}
+			return a.compareDocumentPosition ? -1 : 1;
+		}
+
 		var ret = a.compareDocumentPosition(b) & 4 ? -1 : a === b ? 0 : 1;
 		if ( ret === 0 ) {
 			hasDuplicate = true;
@@ -4328,6 +4328,13 @@ if ( document.documentElement.compareDocumentPosition ) {
 	};
 } else if ( "sourceIndex" in document.documentElement ) {
 	sortOrder = function( a, b ) {
+		if ( !a.sourceIndex || !b.sourceIndex ) {
+			if ( a == b ) {
+				hasDuplicate = true;
+			}
+			return a.sourceIndex ? -1 : 1;
+		}
+
 		var ret = a.sourceIndex - b.sourceIndex;
 		if ( ret === 0 ) {
 			hasDuplicate = true;
@@ -4336,6 +4343,13 @@ if ( document.documentElement.compareDocumentPosition ) {
 	};
 } else if ( document.createRange ) {
 	sortOrder = function( a, b ) {
+		if ( !a.ownerDocument || !b.ownerDocument ) {
+			if ( a == b ) {
+				hasDuplicate = true;
+			}
+			return a.ownerDocument ? -1 : 1;
+		}
+
 		var aRange = a.ownerDocument.createRange(), bRange = b.ownerDocument.createRange();
 		aRange.setStart(a, 0);
 		aRange.setEnd(a, 0);
@@ -4349,12 +4363,32 @@ if ( document.documentElement.compareDocumentPosition ) {
 	};
 }
 
+// Utility function for retreiving the text value of an array of DOM nodes
+Sizzle.getText = function( elems ) {
+	var ret = "", elem;
+
+	for ( var i = 0; elems[i]; i++ ) {
+		elem = elems[i];
+
+		// Get the text from text nodes and CDATA nodes
+		if ( elem.nodeType === 3 || elem.nodeType === 4 ) {
+			ret += elem.nodeValue;
+
+		// Traverse everything else, except comment nodes
+		} else if ( elem.nodeType !== 8 ) {
+			ret += Sizzle.getText( elem.childNodes );
+		}
+	}
+
+	return ret;
+};
+
 // Check to see if the browser returns elements by name when
 // querying by getElementById (and provide a workaround)
 (function(){
 	// We're going to inject a fake input element with a specified name
 	var form = document.createElement("div"),
-		id = "script" + (new Date).getTime();
+		id = "script" + (new Date()).getTime();
 	form.innerHTML = "<a name='" + id + "'/>";
 
 	// Inject it into the root element, check its status, and remove it quickly
@@ -4363,7 +4397,7 @@ if ( document.documentElement.compareDocumentPosition ) {
 
 	// The workaround has to do additional checks after a getElementById
 	// Which slows things down for other browsers (hence the branching)
-	if ( !!document.getElementById( id ) ) {
+	if ( document.getElementById( id ) ) {
 		Expr.find.ID = function(match, context, isXML){
 			if ( typeof context.getElementById !== "undefined" && !isXML ) {
 				var m = context.getElementById(match[1]);
@@ -4378,6 +4412,7 @@ if ( document.documentElement.compareDocumentPosition ) {
 	}
 
 	root.removeChild( form );
+	root = form = null; // release memory in IE
 })();
 
 (function(){
@@ -4418,50 +4453,60 @@ if ( document.documentElement.compareDocumentPosition ) {
 			return elem.getAttribute("href", 2);
 		};
 	}
+
+	div = null; // release memory in IE
 })();
 
-if ( document.querySelectorAll ) (function(){
-	var oldSizzle = Sizzle, div = document.createElement("div");
-	div.innerHTML = "<p class='TEST'></p>";
+if ( document.querySelectorAll ) {
+	(function(){
+		var oldSizzle = Sizzle, div = document.createElement("div");
+		div.innerHTML = "<p class='TEST'></p>";
 
-	// Safari can't handle uppercase or unicode characters when
-	// in quirks mode.
-	if ( div.querySelectorAll && div.querySelectorAll(".TEST").length === 0 ) {
-		return;
-	}
-	
-	Sizzle = function(query, context, extra, seed){
-		context = context || document;
-
-		// Only use querySelectorAll on non-XML documents
-		// (ID selectors don't work in non-HTML documents)
-		if ( !seed && context.nodeType === 9 && !isXML(context) ) {
-			try {
-				return makeArray( context.querySelectorAll(query), extra );
-			} catch(e){}
+		// Safari can't handle uppercase or unicode characters when
+		// in quirks mode.
+		if ( div.querySelectorAll && div.querySelectorAll(".TEST").length === 0 ) {
+			return;
 		}
-		
-		return oldSizzle(query, context, extra, seed);
-	};
 
-	for ( var prop in oldSizzle ) {
-		Sizzle[ prop ] = oldSizzle[ prop ];
-	}
-})();
+		Sizzle = function(query, context, extra, seed){
+			context = context || document;
 
-if ( document.getElementsByClassName && document.documentElement.getElementsByClassName ) (function(){
+			// Only use querySelectorAll on non-XML documents
+			// (ID selectors don't work in non-HTML documents)
+			if ( !seed && context.nodeType === 9 && !Sizzle.isXML(context) ) {
+				try {
+					return makeArray( context.querySelectorAll(query), extra );
+				} catch(e){}
+			}
+
+			return oldSizzle(query, context, extra, seed);
+		};
+
+		for ( var prop in oldSizzle ) {
+			Sizzle[ prop ] = oldSizzle[ prop ];
+		}
+
+		div = null; // release memory in IE
+	})();
+}
+
+(function(){
 	var div = document.createElement("div");
+
 	div.innerHTML = "<div class='test e'></div><div class='test'></div>";
 
 	// Opera can't find a second classname (in 9.6)
-	if ( div.getElementsByClassName("e").length === 0 )
+	// Also, make sure that getElementsByClassName actually exists
+	if ( !div.getElementsByClassName || div.getElementsByClassName("e").length === 0 ) {
 		return;
+	}
 
 	// Safari caches class attributes, doesn't catch changes (in 3.2)
 	div.lastChild.className = "e";
 
-	if ( div.getElementsByClassName("e").length === 1 )
+	if ( div.getElementsByClassName("e").length === 1 ) {
 		return;
+	}
 
 	Expr.order.splice(1, 0, "CLASS");
 	Expr.find.CLASS = function(match, context, isXML) {
@@ -4469,17 +4514,14 @@ if ( document.getElementsByClassName && document.documentElement.getElementsByCl
 			return context.getElementsByClassName(match[1]);
 		}
 	};
+
+	div = null; // release memory in IE
 })();
 
 function dirNodeCheck( dir, cur, doneName, checkSet, nodeCheck, isXML ) {
-	var sibDir = dir == "previousSibling" && !isXML;
 	for ( var i = 0, l = checkSet.length; i < l; i++ ) {
 		var elem = checkSet[i];
 		if ( elem ) {
-			if ( sibDir && elem.nodeType === 1 ){
-				elem.sizcache = doneName;
-				elem.sizset = i;
-			}
 			elem = elem[dir];
 			var match = false;
 
@@ -4494,7 +4536,7 @@ function dirNodeCheck( dir, cur, doneName, checkSet, nodeCheck, isXML ) {
 					elem.sizset = i;
 				}
 
-				if ( elem.nodeName === cur ) {
+				if ( elem.nodeName.toLowerCase() === cur ) {
 					match = elem;
 					break;
 				}
@@ -4508,14 +4550,9 @@ function dirNodeCheck( dir, cur, doneName, checkSet, nodeCheck, isXML ) {
 }
 
 function dirCheck( dir, cur, doneName, checkSet, nodeCheck, isXML ) {
-	var sibDir = dir == "previousSibling" && !isXML;
 	for ( var i = 0, l = checkSet.length; i < l; i++ ) {
 		var elem = checkSet[i];
 		if ( elem ) {
-			if ( sibDir && elem.nodeType === 1 ) {
-				elem.sizcache = doneName;
-				elem.sizset = i;
-			}
 			elem = elem[dir];
 			var match = false;
 
@@ -4550,15 +4587,17 @@ function dirCheck( dir, cur, doneName, checkSet, nodeCheck, isXML ) {
 	}
 }
 
-var contains = document.compareDocumentPosition ?  function(a, b){
-	return a.compareDocumentPosition(b) & 16;
+Sizzle.contains = document.compareDocumentPosition ? function(a, b){
+	return !!(a.compareDocumentPosition(b) & 16);
 } : function(a, b){
 	return a !== b && (a.contains ? a.contains(b) : true);
 };
 
-var isXML = function(elem){
-	return elem.nodeType === 9 && elem.documentElement.nodeName !== "HTML" ||
-		!!elem.ownerDocument && elem.ownerDocument.documentElement.nodeName !== "HTML";
+Sizzle.isXML = function(elem){
+	// documentElement is verified for cases where it doesn't yet exist
+	// (such as loading iframes in IE - #4833)
+	var documentElement = (elem ? elem.ownerDocument || elem : 0).documentElement;
+	return documentElement ? documentElement.nodeName !== "HTML" : false;
 };
 
 var posProcess = function(selector, context){
@@ -4885,9 +4924,9 @@ window.tinymce.dom.Sizzle = Sizzle;
 			el = dom.get(t.id);
 
 		tinymce.each(
-				('getPos,getRect,getParent,add,setStyle,getStyle,setStyles,' + 
-				'setAttrib,setAttribs,getAttrib,addClass,removeClass,' + 
-				'hasClass,getOuterHTML,setOuterHTML,remove,show,hide,' + 
+				('getPos,getRect,getParent,add,setStyle,getStyle,setStyles,' +
+				'setAttrib,setAttribs,getAttrib,addClass,removeClass,' +
+				'hasClass,getOuterHTML,setOuterHTML,remove,show,hide,' +
 				'isHidden,setHTML,get').split(/,/)
 			, function(k) {
 				t[k] = function() {
@@ -5068,7 +5107,7 @@ window.tinymce.dom.Sizzle = Sizzle;
 				h += '<span id="__caret">_</span>';
 
 				// Delete and insert new node
-				
+
 				if (r.startContainer == d && r.endContainer ==  d) {
 					// WebKit will fail if the body is empty since the range is then invalid and it can't insert contents
 					d.body.innerHTML = h;
@@ -5106,30 +5145,43 @@ window.tinymce.dom.Sizzle = Sizzle;
 		},
 
 		getStart : function() {
-			var t = this, r = t.getRng(), e;
+			var rng = this.getRng(), startElement, parentElement, checkRng, node;
 
-			if (r.duplicate || r.item) {
-				if (r.item)
-					return r.item(0);
+			if (rng.duplicate || rng.item) {
+				// Control selection, return first item
+				if (rng.item)
+					return rng.item(0);
 
-				r = r.duplicate();
-				r.collapse(1);
-				e = r.parentElement();
+				// Get start element
+				checkRng = rng.duplicate();
+				checkRng.collapse(1);
+				startElement = checkRng.parentElement();
 
-				if (e && e.nodeName == 'BODY')
-					return e.firstChild || e;
+				// Check if range parent is inside the start element, then return the inner parent element
+				// This will fix issues when a single element is selected, IE would otherwise return the wrong start element
+				parentElement = node = rng.parentElement();
+				while (node = node.parentNode) {
+					if (node == startElement) {
+						startElement = parentElement;
+						break;
+					}
+				}
 
-				return e;
+				// If start element is body element try to move to the first child if it exists
+				if (startElement && startElement.nodeName == 'BODY')
+					return startElement.firstChild || startElement;
+
+				return startElement;
 			} else {
-				e = r.startContainer;
+				startElement = rng.startContainer;
 
-				if (e.nodeType == 1 && e.hasChildNodes())
-					e = e.childNodes[Math.min(e.childNodes.length - 1, r.startOffset)];
+				if (startElement.nodeType == 1 && startElement.hasChildNodes())
+					startElement = startElement.childNodes[Math.min(startElement.childNodes.length - 1, rng.startOffset)];
 
-				if (e && e.nodeType == 3)
-					return e.parentNode;
+				if (startElement && startElement.nodeType == 3)
+					return startElement.parentNode;
 
-				return e;
+				return startElement;
 			}
 		},
 
@@ -5287,12 +5339,16 @@ window.tinymce.dom.Sizzle = Sizzle;
 					root = dom.getRoot();
 
 					function setEndPoint(start) {
-						var point = bookmark[start ? 'start' : 'end'], i, node, offset;
+						var point = bookmark[start ? 'start' : 'end'], i, node, offset, children;
 
 						if (point) {
 							// Find container node
-							for (node = root, i = point.length - 1; i >= 1; i--)
-								node = node.childNodes[point[i]];
+							for (node = root, i = point.length - 1; i >= 1; i--) {
+								children = node.childNodes;
+
+								if (children.length)
+									node = children[point[i]];
+							}
 
 							// Set offset within container node
 							if (start)
@@ -5317,7 +5373,7 @@ window.tinymce.dom.Sizzle = Sizzle;
 								if (!keep) {
 									idx = dom.nodeIndex(marker);
 								} else {
-									node = marker;
+									node = marker.firstChild;
 									idx = 1;
 								}
 
@@ -5327,7 +5383,7 @@ window.tinymce.dom.Sizzle = Sizzle;
 								if (!keep) {
 									idx = dom.nodeIndex(marker);
 								} else {
-									node = marker;
+									node = marker.firstChild;
 									idx = 1;
 								}
 
@@ -5368,14 +5424,25 @@ window.tinymce.dom.Sizzle = Sizzle;
 						}
 					};
 
+					function addBogus(node) {
+						// Adds a bogus BR element for empty block elements
+						// on non IE browsers just to have a place to put the caret
+						if (!isIE && dom.isBlock(node) && !node.innerHTML)
+							node.innerHTML = '<br _mce_bogus="1" />';
+
+						return node;
+					};
+
 					// Restore start/end points
 					restoreEndPoint('start');
 					restoreEndPoint('end');
 
-					rng = dom.createRng();
-					rng.setStart(startContainer, startOffset);
-					rng.setEnd(endContainer, endOffset);
-					t.setRng(rng);
+					if (startContainer) {
+						rng = dom.createRng();
+						rng.setStart(addBogus(startContainer), startOffset);
+						rng.setEnd(addBogus(endContainer), endOffset);
+						t.setRng(rng);
+					}
 				} else if (bookmark.name) {
 					t.select(dom.select(bookmark.name)[bookmark.index]);
 				} else if (bookmark.rng)
@@ -5494,7 +5561,7 @@ window.tinymce.dom.Sizzle = Sizzle;
 
 		setRng : function(r) {
 			var s, t = this;
-			
+
 			if (!t.tridentSel) {
 				s = t.getSel();
 
@@ -5548,8 +5615,8 @@ window.tinymce.dom.Sizzle = Sizzle;
 					}
 
 					// If the anchor node is a element instead of a text node then return this element
-					if (tinymce.isWebKit && sel.anchorNode && sel.anchorNode.nodeType == 1) 
-						return sel.anchorNode.childNodes[sel.anchorOffset]; 
+					if (tinymce.isWebKit && sel.anchorNode && sel.anchorNode.nodeType == 1)
+						return sel.anchorNode.childNodes[sel.anchorOffset];
 				}
 
 				if (elm && elm.nodeType == 3)
@@ -5618,7 +5685,7 @@ window.tinymce.dom.Sizzle = Sizzle;
 			};
 
 			this.doc = getXML();
-			
+
 			// Since Opera and WebKit doesn't escape > into &gt; we need to do it our self to normalize the output for all browsers
 			this.valid = tinymce.isOpera || tinymce.isWebKit;
 
@@ -6341,7 +6408,7 @@ window.tinymce.dom.Sizzle = Sizzle;
 		},
 
 		_serializeNode : function(n, inner) {
-			var t = this, s = t.settings, w = t.writer, hc, el, cn, i, l, a, at, no, v, nn, ru, ar, iv, closed, keep, type;
+			var t = this, s = t.settings, w = t.writer, hc, el, cn, i, l, a, at, no, v, nn, ru, ar, iv, closed, keep, type, scopeName;
 
 			if (!s.node_filter || s.node_filter(n)) {
 				switch (n.nodeType) {
@@ -6365,8 +6432,9 @@ window.tinymce.dom.Sizzle = Sizzle;
 
 						// Add correct prefix on IE
 						if (isIE) {
-							if (n.scopeName !== 'HTML' && n.scopeName !== 'html')
-								nn = n.scopeName + ':' + nn;
+							scopeName = n.scopeName;
+							if (scopeName && scopeName !== 'HTML' && scopeName !== 'html')
+								nn = scopeName + ':' + nn;
 						}
 
 						// Remove mce prefix on IE needed for the abbr element
@@ -6410,7 +6478,7 @@ window.tinymce.dom.Sizzle = Sizzle;
 						}
 
 						ru = t.findRule(nn);
-						
+
 						// No valid rule for this element could be found then skip it
 						if (!ru) {
 							iv = true;
@@ -6975,89 +7043,89 @@ tinymce.dom.TreeWalker = function(start_node, root_node) {
 		H : 'G|F',
 		G : 'br|span|bdo',
 		F : 'object|applet|img|map|iframe'
-	}, 'script[]' + 
-		'style[]' + 
-		'object[#|param|X|form|a|H|K|N|O|Q]' + 
-		'param[]' + 
-		'p[S]' + 
-		'a[Z]' + 
-		'br[]' + 
-		'span[S]' + 
-		'bdo[S]' + 
-		'applet[#|param|X|form|a|H|K|N|O|Q]' + 
-		'h1[S]' + 
-		'img[]' + 
-		'map[X|form|Q|area]' + 
-		'h2[S]' + 
-		'iframe[#|X|form|a|H|K|N|O|Q]' + 
-		'h3[S]' + 
-		'tt[S]' + 
-		'i[S]' + 
-		'b[S]' + 
-		'u[S]' + 
-		's[S]' + 
-		'strike[S]' + 
-		'big[S]' + 
-		'small[S]' + 
-		'font[S]' + 
-		'basefont[]' + 
-		'em[S]' + 
-		'strong[S]' + 
-		'dfn[S]' + 
-		'code[S]' + 
-		'q[S]' + 
-		'samp[S]' + 
-		'kbd[S]' + 
-		'var[S]' + 
-		'cite[S]' + 
-		'abbr[S]' + 
-		'acronym[S]' + 
-		'sub[S]' + 
-		'sup[S]' + 
-		'input[]' + 
-		'select[optgroup|option]' + 
-		'optgroup[option]' + 
-		'option[]' + 
-		'textarea[]' + 
-		'label[S]' + 
-		'button[#|p|T|div|U|W|table|G|object|applet|img|map|K|N|Q]' + 
-		'h4[S]' + 
-		'ins[#|X|form|a|H|K|N|O|Q]' + 
-		'h5[S]' + 
-		'del[#|X|form|a|H|K|N|O|Q]' + 
-		'h6[S]' + 
-		'div[#|X|form|a|H|K|N|O|Q]' + 
-		'ul[li]' + 
-		'li[#|X|form|a|H|K|N|O|Q]' + 
-		'ol[li]' + 
-		'dl[dt|dd]' + 
-		'dt[S]' + 
-		'dd[#|X|form|a|H|K|N|O|Q]' + 
-		'menu[li]' + 
-		'dir[li]' + 
-		'pre[ZA]' + 
-		'hr[]' + 
-		'blockquote[#|X|form|a|H|K|N|O|Q]' + 
-		'address[S|p]' + 
-		'center[#|X|form|a|H|K|N|O|Q]' + 
-		'noframes[#|X|form|a|H|K|N|O|Q]' + 
-		'isindex[]' + 
-		'fieldset[#|legend|X|form|a|H|K|N|O|Q]' + 
-		'legend[S]' + 
-		'table[caption|col|colgroup|thead|tfoot|tbody|tr]' + 
-		'caption[S]' + 
-		'col[]' + 
-		'colgroup[col]' + 
-		'thead[tr]' + 
-		'tr[th|td]' + 
-		'th[#|X|form|a|H|K|N|O|Q]' + 
-		'form[#|X|a|H|K|N|O|Q]' + 
-		'noscript[#|X|form|a|H|K|N|O|Q]' + 
-		'td[#|X|form|a|H|K|N|O|Q]' + 
-		'tfoot[tr]' + 
-		'tbody[tr]' + 
-		'area[]' + 
-		'base[]' + 
+	}, 'script[]' +
+		'style[]' +
+		'object[#|param|X|form|a|H|K|N|O|Q]' +
+		'param[]' +
+		'p[S]' +
+		'a[Z]' +
+		'br[]' +
+		'span[S]' +
+		'bdo[S]' +
+		'applet[#|param|X|form|a|H|K|N|O|Q]' +
+		'h1[S]' +
+		'img[]' +
+		'map[X|form|Q|area]' +
+		'h2[S]' +
+		'iframe[#|X|form|a|H|K|N|O|Q]' +
+		'h3[S]' +
+		'tt[S]' +
+		'i[S]' +
+		'b[S]' +
+		'u[S]' +
+		's[S]' +
+		'strike[S]' +
+		'big[S]' +
+		'small[S]' +
+		'font[S]' +
+		'basefont[]' +
+		'em[S]' +
+		'strong[S]' +
+		'dfn[S]' +
+		'code[S]' +
+		'q[S]' +
+		'samp[S]' +
+		'kbd[S]' +
+		'var[S]' +
+		'cite[S]' +
+		'abbr[S]' +
+		'acronym[S]' +
+		'sub[S]' +
+		'sup[S]' +
+		'input[]' +
+		'select[optgroup|option]' +
+		'optgroup[option]' +
+		'option[]' +
+		'textarea[]' +
+		'label[S]' +
+		'button[#|p|T|div|U|W|table|G|object|applet|img|map|K|N|Q]' +
+		'h4[S]' +
+		'ins[#|X|form|a|H|K|N|O|Q]' +
+		'h5[S]' +
+		'del[#|X|form|a|H|K|N|O|Q]' +
+		'h6[S]' +
+		'div[#|X|form|a|H|K|N|O|Q]' +
+		'ul[li]' +
+		'li[#|X|form|a|H|K|N|O|Q]' +
+		'ol[li]' +
+		'dl[dt|dd]' +
+		'dt[S]' +
+		'dd[#|X|form|a|H|K|N|O|Q]' +
+		'menu[li]' +
+		'dir[li]' +
+		'pre[ZA]' +
+		'hr[]' +
+		'blockquote[#|X|form|a|H|K|N|O|Q]' +
+		'address[S|p]' +
+		'center[#|X|form|a|H|K|N|O|Q]' +
+		'noframes[#|X|form|a|H|K|N|O|Q]' +
+		'isindex[]' +
+		'fieldset[#|legend|X|form|a|H|K|N|O|Q]' +
+		'legend[S]' +
+		'table[caption|col|colgroup|thead|tfoot|tbody|tr]' +
+		'caption[S]' +
+		'col[]' +
+		'colgroup[col]' +
+		'thead[tr]' +
+		'tr[th|td]' +
+		'th[#|X|form|a|H|K|N|O|Q]' +
+		'form[#|X|a|H|K|N|O|Q]' +
+		'noscript[#|X|form|a|H|K|N|O|Q]' +
+		'td[#|X|form|a|H|K|N|O|Q]' +
+		'tfoot[tr]' +
+		'tbody[tr]' +
+		'area[]' +
+		'base[]' +
 		'body[#|X|form|a|H|K|N|O|Q]'
 	);
 
@@ -7408,7 +7476,7 @@ tinymce.create('tinymce.ui.Separator:tinymce.ui.Control', {
 
 		postRender : function() {
 			var t = this;
-			
+
 			t.parent();
 
 			// Set pending state
@@ -8089,7 +8157,7 @@ tinymce.create('tinymce.ui.Separator:tinymce.ui.Control', {
 			var t = this, cp = t.classPrefix;
 
 			Event.add(t.id, 'click', t.showMenu, t);
-			Event.add(t.id + '_text', 'focus', function(e) {
+			Event.add(t.id + '_text', 'focus', function() {
 				if (!t._focused) {
 					t.keyDownHandler = Event.add(t.id + '_text', 'keydown', function(e) {
 						var idx = -1, v, kc = e.keyCode;
@@ -8387,7 +8455,7 @@ tinymce.create('tinymce.ui.Separator:tinymce.ui.Control', {
 				h1 = DOM.createHTML('span', {'class' : 'mceAction ' + s['class']}, '');
 
 			h += '<td>' + DOM.createHTML('a', {id : t.id + '_action', href : 'javascript:;', 'class' : 'mceAction ' + s['class'], onclick : "return false;", onmousedown : 'return false;', title : s.title}, h1) + '</td>';
-	
+
 			h1 = DOM.createHTML('span', {'class' : 'mceOpen ' + s['class']});
 			h += '<td>' + DOM.createHTML('a', {id : t.id + '_open', href : 'javascript:;', 'class' : 'mceOpen ' + s['class'], onclick : "return false;", onmousedown : 'return false;', title : s.title}, h1) + '</td>';
 
@@ -8667,11 +8735,14 @@ tinymce.create('tinymce.ui.Toolbar:tinymce.ui.Container', {
 	var Dispatcher = tinymce.util.Dispatcher, each = tinymce.each;
 
 	tinymce.create('tinymce.AddOnManager', {
-		items : [],
-		urls : {},
-		lookup : {},
+		AddOnManager : function() {
+			var self = this;
 
-		onAdd : new Dispatcher(this),
+			self.items = [];
+			self.urls = {};
+			self.lookup = {};
+			self.onAdd = new Dispatcher(self);
+		},
 
 		get : function(n) {
 			return this.lookup[n];
@@ -8702,7 +8773,9 @@ tinymce.create('tinymce.ui.Toolbar:tinymce.ui.Container', {
 				u = tinymce.baseURL + '/' +  u;
 
 			t.urls[n] = u.substring(0, u.lastIndexOf('/'));
-			tinymce.ScriptLoader.add(u, cb, s);
+
+			if (!t.lookup[n])
+				tinymce.ScriptLoader.add(u, cb, s);
 		}
 	});
 
@@ -8857,7 +8930,7 @@ tinymce.create('tinymce.ui.Toolbar:tinymce.ui.Container', {
 
 						// All done
 						if (l == co)
-							execCallback(s, 'oninit');					
+							execCallback(s, 'oninit');
 					});
 				}
 			});
@@ -9442,7 +9515,7 @@ tinymce.create('tinymce.ui.Toolbar:tinymce.ui.Container', {
 				if (isIE || (tinymce.isOpera && parseFloat(opera.version()) >= 9.5))
 					u = 'javascript:(function(){document.open();document.domain="' + document.domain + '";var ed = window.parent.tinyMCE.get("' + t.id + '");document.write(ed.iframeHTML);document.close();ed.setupIframe();})()';
 				else if (tinymce.isOpera)
-					u = 'javascript:(function(){document.open();document.domain="' + document.domain + '";document.close();ed.setupIframe();})()';					
+					u = 'javascript:(function(){document.open();document.domain="' + document.domain + '";document.close();ed.setupIframe();})()';
 			}
 
 			// Create iframe
@@ -9747,7 +9820,7 @@ tinymce.create('tinymce.ui.Toolbar:tinymce.ui.Container', {
 					if (o.set)
 						o.content = t.execCallback('cleanup_callback', 'insert_to_editor', o.content, o);
 
-					if (o.get)						
+					if (o.get)
 						o.content = t.execCallback('cleanup_callback', 'get_from_editor', o.content, o);
 				});
 			}
@@ -9843,7 +9916,7 @@ tinymce.create('tinymce.ui.Toolbar:tinymce.ui.Container', {
 					}, 100);
 				}
 			}, 1);
-	
+
 			e = null;
 		},
 
@@ -10636,7 +10709,7 @@ tinymce.create('tinymce.ui.Toolbar:tinymce.ui.Container', {
 
 			// Add node change handlers
 			t.onMouseUp.add(t.nodeChanged);
-			t.onClick.add(t.nodeChanged);
+			//t.onClick.add(t.nodeChanged);
 			t.onKeyUp.add(function(ed, e) {
 				var c = e.keyCode;
 
@@ -10810,6 +10883,48 @@ tinymce.create('tinymce.ui.Toolbar:tinymce.ui.Container', {
 				});
 
 				t.onKeyDown.add(function(ed, e) {
+					var rng, parent, bookmark;
+
+					// IE has a really odd bug where the DOM might include an node that doesn't have
+					// a proper structure. If you try to access nodeValue it would throw an illegal value exception.
+					// This seems to only happen when you delete contents and it seems to be avoidable if you refresh the element
+					// after you delete contents from it. See: #3008923
+					if (isIE && e.keyCode == 46) {
+						rng = t.selection.getRng();
+
+						if (rng.parentElement) {
+							parent = rng.parentElement();
+
+							// Select next word when ctrl key is used in combo with delete
+							if (e.ctrlKey) {
+								rng.moveEnd('word', 1);
+								rng.select();
+							}
+
+							// Delete contents
+							t.selection.getSel().clear();
+
+							// Check if we are within the same parent
+							if (rng.parentElement() == parent) {
+								bookmark = t.selection.getBookmark();
+
+								try {
+									// Update the HTML and hopefully it will remove the artifacts
+									parent.innerHTML = parent.innerHTML;
+								} catch (ex) {
+									// And since it's IE it can sometimes produce an unknown runtime error
+								}
+
+								// Restore the caret position
+								t.selection.moveToBookmark(bookmark);
+							}
+
+							// Block the default delete behavior since it might be broken
+							e.preventDefault();
+							return;
+						}
+					}
+
 					// Is caracter positon keys
 					if ((e.keyCode >= 33 && e.keyCode <= 36) || (e.keyCode >= 37 && e.keyCode <= 40) || e.keyCode == 13 || e.keyCode == 45) {
 						if (t.undoManager.typing)
@@ -11097,13 +11212,15 @@ tinymce.create('tinymce.ui.Toolbar:tinymce.ui.Container', {
 			},
 
 			FormatBlock : function(command, ui, value) {
-				return toggleFormat(value);
+				return toggleFormat(value || 'p');
 			},
 
 			mceCleanup : function() {
-				storeSelection();
+				var bookmark = selection.getBookmark();
+
 				editor.setContent(editor.getContent({cleanup : TRUE}), {cleanup : TRUE});
-				restoreSelection();
+
+				selection.moveToBookmark(bookmark);
 			},
 
 			mceRemoveNode : function(command, ui, value) {
@@ -11138,7 +11255,7 @@ tinymce.create('tinymce.ui.Toolbar:tinymce.ui.Container', {
 
 			mceInsertRawHTML : function(command, ui, value) {
 				selection.setContent('tiny_mce_marker');
-				editor.setContent(editor.getContent().replace(/tiny_mce_marker/g, value));
+				editor.setContent(editor.getContent().replace(/tiny_mce_marker/g, function() { return value }));
 			},
 
 			mceSetContent : function(command, ui, value) {
@@ -11218,12 +11335,13 @@ tinymce.create('tinymce.ui.Toolbar:tinymce.ui.Container', {
 						editor.dom.remove(link, TRUE);
 				}
 			},
-			
+
 			selectAll : function() {
-				var root = dom.getRoot();
-				var rng = dom.createRng();
+				var root = dom.getRoot(), rng = dom.createRng();
+
 				rng.setStart(root, 0);
 				rng.setEnd(root, root.childNodes.length);
+
 				editor.selection.setRng(rng);
 			}
 		});
@@ -11416,6 +11534,27 @@ tinymce.create('tinymce.ui.Toolbar:tinymce.ui.Container', {
 		TRUE = true,
 		FALSE = false;
 
+	function cloneFormats(node) {
+		var clone, temp, inner;
+
+		do {
+			if (/^(SPAN|STRONG|B|EM|I|FONT|STRIKE|U)$/.test(node.nodeName)) {
+				if (clone) {
+					temp = node.cloneNode(false);
+					temp.appendChild(clone);
+					clone = temp;
+				} else {
+					clone = inner = node.cloneNode(false);
+				}
+
+				clone.removeAttribute('id');
+			}
+		} while (node = node.parentNode);
+
+		if (clone)
+			return {wrapper : clone, inner : inner};
+	};
+
 	// Checks if the selection/caret is at the end of the specified block element
 	function isAtEnd(rng, par) {
 		var rng2 = par.ownerDocument.createRange();
@@ -11524,11 +11663,55 @@ tinymce.create('tinymce.ui.Toolbar:tinymce.ui.Container', {
 				}
 			}
 
-			if (!isIE && s.force_p_newlines) {
-				ed.onKeyPress.add(function(ed, e) {
-					if (e.keyCode == 13 && !e.shiftKey && !t.insertPara(e))
-						Event.cancel(e);
-				});
+			if (s.force_p_newlines) {
+				if (!isIE) {
+					ed.onKeyPress.add(function(ed, e) {
+						if (e.keyCode == 13 && !e.shiftKey && !t.insertPara(e))
+							Event.cancel(e);
+					});
+				} else {
+					// Ungly hack to for IE to preserve the formatting when you press
+					// enter at the end of a block element with formatted contents
+					// This logic overrides the browsers default logic with
+					// custom logic that enables us to control the output
+					tinymce.addUnload(function() {
+						t._previousFormats = 0; // Fix IE leak
+					});
+
+					ed.onKeyPress.add(function(ed, e) {
+						t._previousFormats = 0;
+
+						// Clone the current formats, this will later be applied to the new block contents
+						if (e.keyCode == 13 && !e.shiftKey && ed.selection.isCollapsed() && s.keep_styles)
+							t._previousFormats = cloneFormats(ed.selection.getStart());
+					});
+
+					ed.onKeyUp.add(function(ed, e) {
+						// Let IE break the element and the wrap the new caret location in the previous formats
+						if (e.keyCode == 13 && !e.shiftKey) {
+							var parent = ed.selection.getStart(), fmt = t._previousFormats;
+
+							// Parent is an empty block
+							if (!parent.hasChildNodes() && fmt) {
+								parent = dom.getParent(parent, dom.isBlock);
+
+								if (parent && parent.nodeName != 'LI') {
+									parent.innerHTML = '';
+
+									if (t._previousFormats) {
+										parent.appendChild(fmt.wrapper);
+										fmt.inner.innerHTML = '\uFEFF';
+									} else
+										parent.innerHTML = '\uFEFF';
+
+									selection.select(parent, 1);
+									ed.getDoc().execCommand('Delete', false, null);
+									t._previousFormats = 0;
+								}
+							}
+						}
+					});
+				}
 
 				if (isGecko) {
 					ed.onKeyDown.add(function(ed, e) {
@@ -12030,7 +12213,22 @@ tinymce.create('tinymce.ui.Toolbar:tinymce.ui.Container', {
 		},
 
 		backspaceDelete : function(e, bs) {
-			var t = this, ed = t.editor, b = ed.getBody(), dom = ed.dom, n, se = ed.selection, r = se.getRng(), sc = r.startContainer, n, w, tn;
+			var t = this, ed = t.editor, b = ed.getBody(), dom = ed.dom, n, se = ed.selection, r = se.getRng(), sc = r.startContainer, n, w, tn, walker;
+
+			// Delete when caret is behind a element doesn't work correctly on Gecko see #3011651
+			if (!bs && r.collapsed && sc.nodeType == 1 && r.startOffset == sc.childNodes.length) {
+				walker = new tinymce.dom.TreeWalker(sc.lastChild, sc);
+
+				// Walk the dom backwards until we find a text node
+				for (n = sc.lastChild; n; n = walker.prev()) {
+					if (n.nodeType == 3) {
+						r.setStart(n, n.nodeValue.length);
+						r.collapse(true);
+						se.setRng(r);
+						return;
+					}
+				}
+			}
 
 			// The caret sometimes gets stuck in Gecko if you delete empty paragraphs
 			// This workaround removes the element by hand and moves the caret to the previous element
@@ -12061,37 +12259,6 @@ tinymce.create('tinymce.ui.Toolbar:tinymce.ui.Container', {
 					}
 				}
 			}
-
-			// Gecko generates BR elements here and there, we don't like those so lets remove them
-			function handler(e) {
-				var pr;
-
-				e = e.target;
-
-				// A new BR was created in a block element, remove it
-				if (e && e.parentNode && e.nodeName == 'BR' && (n = t.getParentBlock(e))) {
-					pr = e.previousSibling;
-
-					Event.remove(b, 'DOMNodeInserted', handler);
-
-					// Is there whitespace at the end of the node before then we might need the pesky BR
-					// to place the caret at a correct location see bug: #2013943
-					if (pr && pr.nodeType == 3 && /\s+$/.test(pr.nodeValue))
-						return;
-
-					// Only remove BR elements that got inserted in the middle of the text
-					if (e.previousSibling || e.nextSibling)
-						ed.dom.remove(e);
-				}
-			};
-
-			// Listen for new nodes
-			Event._add(b, 'DOMNodeInserted', handler);
-
-			// Remove listener
-			window.setTimeout(function() {
-				Event._remove(b, 'DOMNodeInserted', handler);
-			}, 1);
 		}
 	});
 })(tinymce);
@@ -12447,7 +12614,7 @@ tinymce.create('tinymce.ui.Toolbar:tinymce.ui.Container', {
 		setControlType : function(n, c) {
 			return this._cls[n.toLowerCase()] = c;
 		},
-	
+
 		destroy : function() {
 			each(this.controls, function(c) {
 				c.destroy();
@@ -12708,11 +12875,15 @@ tinymce.create('tinymce.ui.Toolbar:tinymce.ui.Container', {
 				// Move startContainer/startOffset in to a suitable node
 				if (container.nodeType == 1 || container.nodeValue === "") {
 					container = container.nodeType == 1 ? container.childNodes[offset] : container;
-					walker = new TreeWalker(container, container.parentNode);
-					for (node = walker.current(); node; node = walker.next()) {
-						if (node.nodeType == 3 && !isBlock(node.parentNode) && !isWhiteSpaceNode(node)) {
-							rng.setStart(node, 0);
-							break;
+
+					// Might fail if the offset is behind the last element in it's container
+					if (container) {
+						walker = new TreeWalker(container, container.parentNode);
+						for (node = walker.current(); node; node = walker.next()) {
+							if (node.nodeType == 3 && !isWhiteSpaceNode(node)) {
+								rng.setStart(node, 0);
+								break;
+							}
 						}
 					}
 				}
@@ -12918,7 +13089,7 @@ tinymce.create('tinymce.ui.Toolbar:tinymce.ui.Container', {
 					rng.setStartBefore(node);
 					rng.setEndAfter(node);
 
-					applyRngStyle(rng);
+					applyRngStyle(expandRng(rng, formatList));
 				} else {
 					if (!selection.isCollapsed() || !format.inline) {
 						// Apply formatting to selection
@@ -12936,6 +13107,45 @@ tinymce.create('tinymce.ui.Toolbar:tinymce.ui.Container', {
 
 		function remove(name, vars, node) {
 			var formatList = get(name), format = formatList[0], bookmark, i, rng;
+
+			function moveStart(rng) {
+				var container = rng.startContainer,
+					offset = rng.startOffset,
+					walker, node, nodes, tmpNode;
+
+				// Convert text node into index if possible
+				if (container.nodeType == 3 && offset >= container.nodeValue.length - 1) {
+					container = container.parentNode;
+					offset = nodeIndex(container) + 1;
+				}
+
+				// Move startContainer/startOffset in to a suitable node
+				if (container.nodeType == 1) {
+					nodes = container.childNodes;
+					container = nodes[Math.min(offset, nodes.length - 1)];
+					walker = new TreeWalker(container);
+
+					// If offset is at end of the parent node walk to the next one
+					if (offset > nodes.length - 1)
+						walker.next();
+
+					for (node = walker.current(); node; node = walker.next()) {
+						if (node.nodeType == 3 && !isWhiteSpaceNode(node)) {
+							// IE has a "neat" feature where it moves the start node into the closest element
+							// we can avoid this by inserting an element before it and then remove it after we set the selection
+							tmpNode = dom.create('a', null, INVISIBLE_CHAR);
+							node.parentNode.insertBefore(tmpNode, node);
+
+							// Set selection and remove tmpNode
+							rng.setStart(node, 0);
+							selection.setRng(rng);
+							dom.remove(tmpNode);
+
+							return;
+						}
+					}
+				}
+			};
 
 			// Merges the styles for each node
 			function process(node) {
@@ -13090,6 +13300,12 @@ tinymce.create('tinymce.ui.Toolbar:tinymce.ui.Container', {
 				bookmark = selection.getBookmark();
 				removeRngStyle(selection.getRng(TRUE));
 				selection.moveToBookmark(bookmark);
+
+				// Check if start element still has formatting then we are at: "<b>text|</b>text" and need to move the start into the next text node
+				if (match(name, vars, selection.getStart())) {
+					moveStart(selection.getRng(true));
+				}
+
 				ed.nodeChanged();
 			} else
 				performCaretAction('remove', name, vars);
@@ -13344,7 +13560,7 @@ tinymce.create('tinymce.ui.Toolbar:tinymce.ui.Container', {
 		};
 
 		function isWhiteSpaceNode(node) {
-			return node && node.nodeType === 3 && /^\s*$/.test(node.nodeValue);
+			return node && node.nodeType === 3 && /^([\s\r\n]+|)$/.test(node.nodeValue);
 		};
 
 		function wrap(node, name, attrs) {
@@ -13882,13 +14098,16 @@ tinymce.create('tinymce.ui.Toolbar:tinymce.ui.Container', {
 									if (isCaretNode(node)) {
 										textNode = node.firstChild;
 
-										perform(node);
+										if (textNode) {
+											perform(node);
 
-										rng = dom.createRng();
-										rng.setStart(textNode, textNode.nodeValue.length);
-										rng.setEnd(textNode, textNode.nodeValue.length);
-										selection.setRng(rng);
-										ed.nodeChanged();
+											rng = dom.createRng();
+											rng.setStart(textNode, textNode.nodeValue.length);
+											rng.setEnd(textNode, textNode.nodeValue.length);
+											selection.setRng(rng);
+											ed.nodeChanged();
+										} else
+											dom.remove(node);
 									}
 								});
 
@@ -13911,9 +14130,12 @@ tinymce.onAddEditor.add(function(tinymce, ed) {
 		fontSizes = tinymce.explode(settings.font_size_style_values);
 
 		function replaceWithSpan(node, styles) {
-			dom.replace(dom.create('span', {
-				style : styles
-			}), node, 1);
+			tinymce.each(styles, function(value, name) {
+				if (value)
+					dom.setStyle(node, name, value);
+			});
+
+			dom.rename(node, 'span');
 		};
 
 		filters = {

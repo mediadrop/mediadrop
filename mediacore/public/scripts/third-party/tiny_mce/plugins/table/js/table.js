@@ -279,7 +279,7 @@ function init() {
 
 	var cols = 2, rows = 2, border = tinyMCEPopup.getParam('table_default_border', '0'), cellpadding = tinyMCEPopup.getParam('table_default_cellpadding', ''), cellspacing = tinyMCEPopup.getParam('table_default_cellspacing', '');
 	var align = "", width = "", height = "", bordercolor = "", bgcolor = "", className = "";
-	var id = "", summary = "", style = "", dir = "", lang = "", background = "", bgcolor = "", bordercolor = "", rules, frame;
+	var id = "", summary = "", style = "", dir = "", lang = "", background = "", bgcolor = "", bordercolor = "", rules = "", frame = "";
 	var inst = tinyMCEPopup.editor, dom = inst.dom;
 	var formObj = document.forms[0];
 	var elm = dom.getParent(inst.selection.getNode(), "table");
@@ -316,7 +316,7 @@ function init() {
 		style = dom.serializeStyle(st);
 		dir = dom.getAttrib(elm, 'dir');
 		lang = dom.getAttrib(elm, 'lang');
-		background = getStyle(elm, 'background', 'backgroundImage').replace(new RegExp("url\\('?([^']*)'?\\)", 'gi'), "$1");
+		background = getStyle(elm, 'background', 'backgroundImage').replace(new RegExp("url\\(['\"]?([^'\"]*)['\"]?\\)", 'gi'), "$1");
 		formObj.caption.checked = elm.getElementsByTagName('caption').length > 0;
 
 		orgTableWidth = width;
