@@ -33,7 +33,7 @@ from mediacore.forms.comments import PostCommentForm
 from mediacore.lib import email, helpers
 from mediacore.lib.base import BaseController
 from mediacore.lib.decorators import expose, expose_xhr, observable, paginate, validate
-from mediacore.lib.helpers import url_for, redirect, store_transient_message
+from mediacore.lib.helpers import file_path, pick_uris, redirect, store_transient_message, url_for
 from mediacore.model import (DBSession, fetch_row, get_available_slug,
     Media, MediaFile, Comment, Tag, Category, Author, AuthorWithIP, Podcast)
 from mediacore.plugin import events
@@ -340,13 +340,7 @@ class MediaController(BaseController):
 
         for file in media_files:
             if file.id == int(id) and file.container == container:
-                # Catch external redirects in case they aren't linked to directly
-                if file.http_url:
-                    redirect(file.http_url.encode('utf-8'))
-                elif file.embed:
-                    redirect(file.link_url())
-
-                file_path = file.file_path.encode('utf-8')
+                file_path = helpers.file_path(file).encode('utf-8')
                 file_type = file.mimetype.encode('utf-8')
                 file_name = file.display_name.encode('utf-8')
 

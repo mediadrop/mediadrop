@@ -131,8 +131,8 @@
 			<div class="box-content"><div id="fmgr-open" class="btn btn-add-manage"><span>Add / Manage</span></div></div>
 			<ol id="file-list" class="file-list">
 				<li py:for="file in media.files" class="${file.type}" id="list-file-${file.id}">
-					<a class="file-name" href="${file.link_url()}"
-					   title="${('Go to %s' % file.container.capitalize()) if file.embed else 'Download this file'}">
+					<a class="file-name" href="${h.best_link_uri(file)}"
+					   title="View this file">
 					   ${h.wrap_long_words(file.display_name)}
 					</a>
 				</li>

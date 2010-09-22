@@ -209,7 +209,7 @@ class MediaController(BaseController):
         if delete:
             file_paths = thumb_paths(media).values()
             for f in media.files:
-                file_paths.append(f.file_path)
+                file_paths.append(helpers.file_path(f))
                 # Remove the file from the session so that SQLAlchemy doesn't
                 # try to issue an UPDATE to set the MediaFile.media_id to None.
                 # The database ON DELETE CASCADE handles everything for us.
@@ -404,7 +404,7 @@ class MediaController(BaseController):
             file.max_bitrate = max_bitrate
             data['success'] = True
         elif delete:
-            file_path = file.file_path
+            file_path = helpers.file_path(file)
             DBSession.delete(file)
             DBSession.commit()
             if file_path:
@@ -449,16 +449,8 @@ class MediaController(BaseController):
         # Merge in the file(s) from the input stub
         if input.slug.startswith('_stub_') and input.files:
             for file in input.files[:]:
+                # XXX: The filename will still use the old ID
                 file.media = orig
-                if file.file_name:
-                    input_file_name = file.file_name
-                    input_file_path = file.file_path
-                    try:
-                        file.file_name = '%s_%s_%s.%s' \
-                            % (orig.id, file.id, orig.slug, file.container)
-                        os.rename(input_file_path, file.file_path)
-                    except OSError:
-                        file.file_name = input_file_name
                 merged_files.append(file)
             DBSession.delete(input)
 

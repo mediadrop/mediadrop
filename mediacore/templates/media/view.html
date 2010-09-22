@@ -47,9 +47,9 @@
 			</div>
 			${media_player(media, width=560, height=315)}
 			<table class="feat-meta" cellspacing="0">
-				<tr py:with="download = media.downloadable_file">
-					<td py:if="download">
-						<a class="meta meta-download underline-hover" href="${download.link_url()}"><strong>Download</strong></a>
+				<tr py:with="download_uri = h.download_uri(media)">
+					<td py:if="download_uri">
+						<a class="meta meta-download underline-hover" href="${download_uri}"><strong>Download</strong></a>
 					</td>
 					<td>
 						<div id="sharethis" class="meta-wrapper">
@@ -74,7 +74,7 @@
 							</div>
 						</div>
 					</td>
-					<td py:if="not download">&nbsp;</td>
+					<td py:if="not download_uri">&nbsp;</td>
 				</tr>
 				<tr>
 					<td><span class="meta meta-comments" title="Comments">${media.comment_count_published}

@@ -24,7 +24,7 @@ import shutil
 import time
 from datetime import datetime
 from urllib import quote, unquote, urlencode
-from urlparse import urlparse
+from urlparse import urlparse, urlsplit
 
 import genshi.core
 import pylons.templating
@@ -583,6 +583,96 @@ def pick_any_media_file(media):
     """
     player = pick_media_file_player(media, browser='chrome')
     return player and player.file or None
+
+def pick_uris(uris, **kwargs):
+    """Return a subset of the given URIs whose attributes match the kwargs.
+
+    This function attempts to simplify the somewhat unwieldly process of
+    filtering a list of :class:`mediacore.lib.storage.StorageURI` instances
+    for a specific type, protocol, container, etc::
+
+        pick_uris(uris, scheme='rtmp', container='mp4', type='video')
+
+    :type uris: iterable or :class:`~mediacore.model.media.Media` or
+        :class:`~mediacore.model.media.MediaFile` instance
+    :params uris: A collection of :class:`~mediacore.lib.storage.StorageURI`
+        instances, including Media and MediaFile objects.
+    :param \*\*kwargs: Required attribute values. These attributes can be
+        on the `StorageURI` instance or, failing that, on the `StorageURI.file`
+        instance within it.
+    :rtype: list
+    :returns: A subset of the input `uris`.
+
+    """
+    if not isinstance(uris, (list, tuple)):
+        from mediacore.model.media import Media, MediaFile
+        if isinstance(uris, (Media, MediaFile)):
+            uris = uris.get_uris()
+    if not uris or not kwargs:
+        return uris
+    return [uri
+            for uri in uris
+            if all(getattr(uri, k) == v for k, v in kwargs.iteritems())]
+
+def pick_uri(uris, **kwargs):
+    """Return the first URL that meets the given criteria.
+
+    See: :func:`pick_uris`.
+
+    :returns: A :class:`mediacore.lib.storage.StorageURI` instance or None.
+    """
+    uris = pick_uris(uris, **kwargs)
+    if uris:
+        return uris[0]
+    return None
+
+def download_uri(uris):
+    """Pick out the best possible URI for downloading purposes.
+
+    :returns: A :class:`mediacore.lib.storage.StorageURI` instance or None.
+    """
+    uris = pick_uris(uris, scheme='download')\
+        or pick_uris(uris, scheme='http')
+    uris.sort(key=lambda uri: uri.file.size, reverse=True)
+    if uris:
+        return uris[0]
+    return None
+
+def web_uri(uris):
+    """Pick out the web link URI for viewing an embed in its original context.
+
+    :returns: A :class:`mediacore.lib.storage.StorageURI` instance or None.
+    """
+    return pick_uri(uris, scheme='www')\
+        or None
+
+def best_link_uri(uris):
+    """Pick out the best general purpose URI from those given.
+
+    :returns: A :class:`mediacore.lib.storage.StorageURI` instance or None.
+    """
+    return pick_uri(uris, scheme='download')\
+        or pick_uri(uris, scheme='http')\
+        or pick_uri(uris, scheme='www')\
+        or pick_uri(uris)\
+        or None
+
+def file_path(uris):
+    """Pick out the local file path from the given list of URIs.
+
+    Local file paths are passed around as urlencoded strings in
+    :class:`mediacore.lib.storage.StorageURI`. The form is:
+
+        file:///path/to/file
+
+    :rtype: `str` or `unicode` or `None`
+    :returns: Absolute /path/to/file
+    """
+    uris = pick_uris(uris, scheme='file')
+    if uris:
+        scheme, netloc, path, query, fragment = urlsplit(uris[0].file_uri)
+        return path
+    return None
 
 def doc_link(page=None, anchor='', text='Help', **kwargs):
     """Return a link (anchor element) to the documentation on the project site.
