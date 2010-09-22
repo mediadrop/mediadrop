@@ -42,14 +42,12 @@ from webhelpers.html.converters import format_paragraphs
 from mediacore.lib.compat import any
 from mediacore.lib.htmlsanitizer import Cleaner, entities_to_unicode as decode_entities, encode_xhtml_entities as encode_entities
 from mediacore.lib.thumbnails import thumb, thumb_url
-from mediacore.lib.players import pick_media_file_player
 
 imports = [
     'any', 'containers', 'date', 'decode_entities', 'encode_entities',
     'feedgenerator', 'format_paragraphs', 'html', 'literal', 'misc', 'number',
     'paginate', 'quote', 'tags', 'text', 'unquote', 'urlencode', 'urlparse',
     'config', # is this appropriate to export here?
-    'pick_media_file_player', # XXX: imported from mediacore.lib.players, for template use.
     'thumb_url', # XXX: imported from  mediacore.lib.thumbnails, for template use.
     'thumb', # XXX: imported from  mediacore.lib.thumbnails, for template use.
 ]
@@ -444,13 +442,9 @@ def embeddable_player(media):
     :rtype: :class:`webhelpers.html.builder.literal`
 
     """
-    xhtml = pylons.templating.render_genshi(
-        'media/_embeddable_player.html',
-        extra_vars=dict(media=media),
-        method='xhtml'
-    )
-    xhtml = spaces_between_tags.sub(literal('><'), xhtml)
-    return xhtml.strip()
+    # FIXME: This doesn't do anything different than media_player, yet.
+    from mediacore.lib.players import manager
+    return manager().render(media)
 
 def get_featured_category():
     from mediacore.model import Category
@@ -557,6 +551,14 @@ def store_transient_message(cookie_name, text, time=None, path='/', **kwargs):
     response.set_cookie(cookie_name, new_data, path=path)
     return msg
 
+def media_player(*args, **kwargs):
+    """Render the media player for the given media.
+
+    See :class:`mediacore.lib.players.AbstractPlayersManager`.
+    """
+    from mediacore.lib.players import manager
+    return manager().render(*args, **kwargs)
+
 def pick_podcast_media_file(media):
     """Return the best choice of files to play.
 
@@ -567,8 +569,12 @@ def pick_podcast_media_file(media):
     :param media: A :class:`~mediacore.model.media.Media` instance.
     :returns: A :class:`~mediacore.model.media.MediaFile` object or None
     """
-    player = pick_media_file_player(media, browser='itunes', player_type='html5')
-    return player and player.file or None
+    from mediacore.lib.players import iTunesPlayer, manager
+    uris = manager().sort_uris(media.get_uris())
+    for i, plays in enumerate(iTunesPlayer.can_play(uris)):
+        if plays:
+            return uris[i]
+    return None
 
 def pick_any_media_file(media):
     """Return a file playable in at least one browser, with the current
@@ -581,8 +587,14 @@ def pick_any_media_file(media):
     :param media: A :class:`~mediacore.model.media.Media` instance.
     :returns: A :class:`~mediacore.model.media.MediaFile` object or None
     """
-    player = pick_media_file_player(media, browser='chrome')
-    return player and player.file or None
+    from mediacore.lib.players import manager
+    manager = manager()
+    uris = manager.sort_uris(media.get_uris())
+    for player in manager.players:
+        for i, plays in enumerate(player.can_play(uris)):
+            if plays:
+                return uris[i]
+    return None
 
 def pick_uris(uris, **kwargs):
     """Return a subset of the given URIs whose attributes match the kwargs.

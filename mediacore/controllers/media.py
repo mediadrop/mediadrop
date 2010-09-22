@@ -34,6 +34,7 @@ from mediacore.lib import email, helpers
 from mediacore.lib.base import BaseController
 from mediacore.lib.decorators import expose, expose_xhr, observable, paginate, validate
 from mediacore.lib.helpers import file_path, pick_uris, redirect, store_transient_message, url_for
+from mediacore.lib.players import manager
 from mediacore.model import (DBSession, fetch_row, get_available_slug,
     Media, MediaFile, Comment, Tag, Category, Author, AuthorWithIP, Podcast)
 from mediacore.plugin import events
@@ -215,30 +216,13 @@ class MediaController(BaseController):
 
         """
         media = fetch_row(Media, slug=slug)
-
-        ids = kwargs.get('ids', None)
-        if isinstance(ids, basestring):
-            ids = [ids]
-
-        if ids:
-            ids = [int(x) for x in ids]
-            all_files = MediaFile.query\
-                    .filter(MediaFile.media == media)\
-                    .filter(MediaFile.id.in_(ids))
-        else:
-            from mediacore.lib.players import ordered_playable_files
-            all_files = ordered_playable_files(media.files)
-
-        files = [
-            file
-            for file in all_files
-            if file.is_rtmp and file.media is media
-        ]
+        rtmp_uris = pick_uris(media, scheme='rtmp')
+        rtmp_uris = manager().sort_uris(rtmp_uris)
 
         response.headers['Content-Type'] = 'application/rss+xml; charset=UTF-8'
         return dict(
             media = media,
-            files = files,
+            uris = rtmp_uris,
         )
 
     @expose()
