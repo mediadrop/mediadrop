@@ -118,116 +118,6 @@ guess_media_type_map = {
     UNKNOWN: VIDEO,
 }
 
-# The list of file extensions that flash should recognize and be able to play.
-flash_supported_containers = ('mp3', 'mp4', 'flv', 'flac')
-flash_supported_browsers = ('firefox', 'opera', 'chrome', 'safari', 'android', 'unknown')
-
-# Container and Codec support for HTML5 tag in various browsers.
-# The following list taken from http://diveintohtml5.org/video.html#what-works
-# Safari also supports all default quicktime formats. But we'll keep it simple.
-# h264 = h264 all profiles
-# h264b = h264 baseline profile
-# aac = aac all profiles
-# aacl = aac low complexity profile
-# FIXME: While included for future usefuleness, the codecs in the list below
-#        are ignored by the actual logic in pick_media_file_player() below.
-#        If the media file in question has a container type that /might/ hold
-#        a supported codec for the platform, we assume it will work.
-#        Furthermore, the list of codec support is very incomplete.
-# XXX: not all container types here will be be considered playable by the
-#      system, as the associated media files will not be marked 'encoded' as
-#      per the playable_containers dict.
-native_supported_containers_codecs = {
-    'firefox': [
-        (3.5, 'ogg', ['theora', 'vorbis']),
-        (4.0, 'webm', ['vp8', 'vorbis']),
-    ],
-    'opera': [
-        (10.5, 'ogg', ['theora', 'vorbis']),
-        (10.6, 'webm', ['vp8', 'vorbis']),
-    ],
-    'chrome': [
-        (3.0, 'ogg', ['theora', 'vorbis']),
-        (3.0, 'mp4', ['h264', 'aac']),
-        (3.0, 'mp3', []),
-        (6.0, 'webm', ['vp8', 'vorbis']), # XXX: Support was actually added in 6.0.453.1, WebKit 534
-    ],
-    'safari': [
-        (522, 'mp4', ['h264', 'aac']), # revision 522 was introduced in version 3.0
-        (522, 'mp3', []),
-    ],
-    'itunes': [
-        (0, 'mp4', ['h264', 'aac']),
-        (0, 'mp3', []),
-    ],
-    'iphone-ipod-ipad': [
-        (0, 'mp4', ['h264b', 'aacl']),
-        (0, 'mp3', []), # TODO: Test this. We assume it is supported because Safari supports it.
-    ],
-    'android': [
-        (0, 'mp4', ['h264b', 'aacl']),
-        (0, 'mp3', []), # TODO: Test this. We assume it is supported because Chrome supports it.
-    ],
-    'unknown': [],
-}
-
-# This is a wildly incomplete set of regular expressions that parse the
-# important numbers from the browser version for determining things like
-# HTML5 support.
-user_agent_regexes = (
-    # chrome UA contains the safari UA string. check for chrome before safari
-    ('chrome', re.compile(r'Chrome.(\d+\.\d+)')),
-    # iphone-ipod-ipad UA contains the safari UA string. check for iphone-ipod-ipad before safari
-    ('iphone-ipod-ipad', re.compile(r'i(?:Phone|Pod|Pad).+Safari/(\d+\.\d+)')),
-    ('firefox', re.compile(r'Firefox.(\d+\.\d+)')),
-    ('opera', re.compile(r'Opera.(\d+\.\d+)')),
-    ('safari', re.compile(r'Safari.(\d+\.\d+)')),
-    ('android', re.compile(r'Android.(\d+\.\d+)')),
-    ('itunes', re.compile(r'iTunes/(\d+\.\d+)')),
-)
-
-def parse_user_agent_version(ua=None):
-    """Return a tuple representing the user agent's browser name and version.
-
-    :param ua: An optional User-Agent header to use. Defaults to
-        that of the current request.
-    :type ua: str
-
-    """
-    if ua is None:
-        ua = request.headers.get('User-Agent', '')
-    for device, pattern in user_agent_regexes:
-        match = pattern.search(ua)
-        if match is not None:
-            version = float(match.groups()[0])
-            return device, version
-    return 'unknown', 0
-
-def native_supported_types(browser, version=None):
-    """Return the browser's supported HTML5 video containers and codecs.
-
-    The browser can be determined automatically from the user agent. If
-    no browser and no user agent is specified, the user agent is read
-    from the request headers. See :func
-
-    :param browser: Browser name from :attr:`native_browser_supported_containers`
-    :type browser: str or None
-    :param version: Optional version number, used when a browser arg is given.
-    :type version: float or None
-    :returns: The containers and codecs supported by the given browser/version.
-    :rtype: list
-
-    """
-    if browser not in native_supported_containers_codecs:
-        browser = 'unknown'
-    scc = native_supported_containers_codecs[browser]
-    native_options = []
-
-    for req_version, containers, codecs in scc:
-        if version is None or version >= req_version:
-            native_options.append((containers, codecs))
-    return native_options
-
 def guess_container_format(extension):
     """Return the most likely container format based on the file extension.
 
@@ -242,21 +132,15 @@ def guess_container_format(extension):
     mt = guess_mimetype(extension)
     return container_lookup.get(mt)
 
-def guess_media_type(extension=None, embed=None, default=VIDEO):
+def guess_media_type(extension=None, default=VIDEO):
     """Return the most likely media type based on the container or embed site.
 
-    :param extension: Optional, the file extension without a preceding period.
-    :param embed: Optional, the third-party site name.
+    :param extension: The file extension without a preceding period.
     :param default: Default to video if we don't have any other guess.
     :returns: AUDIO, VIDEO, CAPTIONS, or None
 
     """
-    if extension is not None:
-        return guess_media_type_map.get(extension, default)
-    if embed is not None:
-        from mediacore.lib.embedtypes import external_embedded_containers
-        return external_embedded_containers.get(embed, {}).get('type', default)
-    return default
+    return guess_media_type_map.get(extension, default)
 
 def guess_mimetype(container, type_=None, default=None):
     """Return the best guess mimetype for the given container.

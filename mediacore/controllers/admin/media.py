@@ -31,7 +31,6 @@ from mediacore.lib import helpers
 from mediacore.lib.base import BaseController
 from mediacore.lib.decorators import expose, expose_xhr, observable, paginate, validate, validate_xhr
 from mediacore.lib.helpers import redirect, url_for
-from mediacore.lib.mediafiles import UnknownRTMPServer
 from mediacore.lib.storage import add_new_media_file
 from mediacore.lib.thumbnails import thumb_path, thumb_paths, create_thumbs_for, create_default_thumbs_for, has_thumbs, has_default_thumbs
 from mediacore.model import Author, Category, Media, Podcast, Tag, fetch_row, get_available_slug

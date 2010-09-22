@@ -45,7 +45,6 @@ from sqlalchemy.types import Boolean, DateTime, Integer, Unicode, UnicodeText
 from pylons import app_globals
 
 from mediacore.lib import helpers
-from mediacore.lib.embedtypes import external_embedded_containers
 from mediacore.lib.filetypes import AUDIO, AUDIO_DESC, CAPTIONS, VIDEO, guess_mimetype
 from mediacore.model import SLUG_LENGTH, _mtm_count_property, _properties_dict_from_labels, MatchAgainstClause
 from mediacore.model.meta import DBSession, metadata
