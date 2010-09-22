@@ -22,8 +22,8 @@ from importlib import import_module
 from paste.urlmap import URLMap
 from paste.urlparser import StaticURLParser
 from pkg_resources import iter_entry_points, resource_exists, resource_filename
-from pylons.wsgiapp import PylonsApp
 from pylons.util import class_name_from_module_name
+from pylons.wsgiapp import PylonsApp
 from routes.util import controller_scan
 
 log = logging.getLogger(__name__)
@@ -119,7 +119,7 @@ class PluginManager(object):
         your plugin should provide its own `media/view.html` file in its templates
         directory. This override template would be directly includable like so::
 
-            {plugin.name}/media/view.html
+            /{plugin.name}/media/view.html
 
         Typically this file would use Genshi's `py:match directive
         <http://genshi.edgewall.org/wiki/Documentation/xml-templates.html#id5>`_
@@ -133,13 +133,13 @@ class PluginManager(object):
         template = os.path.normpath(template)
         if template in self._match_templates and not self.DEBUG:
             matches = self._match_templates[template]
-            log.debug('Cached %r matches retrieved: %r', template, matches)
         else:
-            self._match_templates[template] = matches = []
+            matches = self._match_templates[template] = []
             for name, plugin in self.plugins.iteritems():
-                if os.path.exists(os.path.join(plugin.templates_path, template)):
+                templates_path = plugin.templates_path
+                if templates_path is not None \
+                and os.path.exists(os.path.join(templates_path, template)):
                     matches.append(os.path.sep + os.path.join(name, template))
-            log.debug('Found match templates for %r: %r', template, matches)
         return matches
 
     def controller_classes(self):
@@ -159,7 +159,6 @@ class PluginManager(object):
         classes = {}
         for plugin in self.plugins.itervalues():
             classes.update(plugin.controllers)
-        log.debug('Controller classes: %r', classes)
         return classes
 
     def controller_scan(self, directory):
