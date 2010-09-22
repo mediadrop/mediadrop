@@ -474,3 +474,27 @@ def observable(event):
             result = observer(**result)
         return result
     return decorator(wrapper)
+
+def _memoize(func, *args, **kwargs):
+    update_cache = kwargs.pop('update_cache', False)
+    if kwargs: # frozenset is used to ensure hashability
+        key = args, frozenset(kwargs.iteritems())
+    else:
+        key = args
+    cache = func.cache # attributed added by memoize
+    if key in cache and not update_cache:
+        return cache[key]
+    else:
+        cache[key] = result = func(*args, **kwargs)
+        return result
+
+def memoize(func):
+    """Decorate this function so cached results are returned indefinitely.
+
+    Copied from docs for the decorator module by Michele Simionato:
+    http://micheles.googlecode.com/hg/decorator/documentation.html#the-solution
+
+    Pass the kwarg update_cache=True to force a refresh of the cache.
+    """
+    func.cache = {}
+    return decorator(_memoize, func)
