@@ -73,17 +73,19 @@ class BareBonesController(WSGIController):
 
     def __before__(self, *args, **kwargs):
         """This method is called before your action is.
+
         It should be used for setting up variables/objects, restricting access
         to other actions, or other tasks which should be executed before the
         action is called.
 
-        NOTE: if this method is wrapped in an ActionProtector, all methods of
-        the class will be protected it. See the __init__ method.
+        NOTE: If this method is wrapped in an ActionProtector, all methods of
+              the class will be protected it. See :meth:`__init__`.
         """
-        action = getattr(self, kwargs['action'])
+        action_method = getattr(self, kwargs['action'], None)
         # The expose decorator sets the exposed attribute on controller
-        # actions. If a method is not exposed, do not allow access to it.
-        if not getattr(action, 'exposed', False):
+        # actions. If the method does not exist or is not exposed, raise
+        # an HTTPNotFound exception.
+        if not getattr(action_method, 'exposed', False):
             abort(status_code=404)
 
 class BaseController(BareBonesController):
