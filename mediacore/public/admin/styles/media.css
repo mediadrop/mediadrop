@@ -158,7 +158,7 @@ a.published { background-image: url('../images/statuses/published-both.png'); }
 	width: 48px;
 	text-align: right;
 }
-#fmgr input[name="max_bitrate"] {
+#fmgr input[name="bitrate"] {
 	width: 34px;
 	text-align: right;
 }

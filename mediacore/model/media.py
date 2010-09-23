@@ -108,7 +108,7 @@ media_files = Table('media_files', metadata,
     Column('created_on', DateTime, default=datetime.now, nullable=False),
     Column('modified_on', DateTime, default=datetime.now, onupdate=datetime.now, nullable=False),
 
-    Column('max_bitrate', Integer),
+    Column('bitrate', Integer),
     Column('width', Integer),
     Column('height', Integer),
 

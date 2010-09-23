@@ -127,7 +127,7 @@ class EditFileForm(ListForm):
         duration = TextField(validator=DurationValidator(if_missing=None), attrs={'id': None, 'autocomplete': 'off'})
         width_height = TextField(validator=WXHValidator(if_missing=None), attrs={'id': None, 'autocomplete': 'off'})
         height = TextField(validator=Int(if_missing=None), attrs={'id': None, 'autocomplete': 'off'})
-        max_bitrate = TextField(validator=Int(if_missing=None), attrs={'id': None, 'autocomplete': 'off'})
+        bitrate = TextField(validator=Int(if_missing=None), attrs={'id': None, 'autocomplete': 'off'})
         delete = SubmitButton(default=_('Delete file'), named_button=True, css_class='file-delete', attrs={'id': None})
 
     def post_init(self, *args, **kwargs):
