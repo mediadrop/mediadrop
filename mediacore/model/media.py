@@ -98,20 +98,17 @@ media_meta = Table('media_meta', metadata,
 media_files = Table('media_files', metadata,
     Column('id', Integer, autoincrement=True, primary_key=True),
     Column('media_id', Integer, ForeignKey('media.id', onupdate='CASCADE', ondelete='CASCADE'), nullable=False),
+    Column('storage_id', Integer, ForeignKey('storage.id', onupdate='CASCADE', ondelete='CASCADE'), nullable=False),
 
     Column('type', Unicode(16), nullable=False),
-    Column('container', Unicode(10), nullable=False),
+    Column('container', Unicode(10)),
     Column('display_name', Unicode(255), nullable=False),
-    Column('file_name', Unicode(255)),
-    Column('http_url', Unicode(255)),
-    Column('embed', Unicode(50)),
+    Column('unique_id', Unicode(255)),
     Column('size', Integer),
 
     Column('created_on', DateTime, default=datetime.now, nullable=False),
     Column('modified_on', DateTime, default=datetime.now, onupdate=datetime.now, nullable=False),
 
-    Column('rtmp_stream_url', Unicode(255)),
-    Column('rtmp_file_name', Unicode(255)),
     Column('max_bitrate', Integer),
     Column('width', Integer),
     Column('height', Integer),
@@ -482,32 +479,6 @@ class Media(object):
         return True
 
     @property
-    def downloadable_file(self):
-        http_files = [f for f in self.files if not f.is_rtmp]
-
-        if not http_files or not self.type:
-            return None
-        primaries = [file for file in http_files if file.type == self.type]
-        primaries.sort(key=lambda file: file.size)
-        if not primaries or primaries[-1].embed:
-            return None
-        return primaries[-1]
-
-    @property
-    def captions(self):
-        for file in self.files:
-            if file.type == CAPTIONS:
-                return file
-        return None
-
-    @property
-    def audio_desc(self):
-        for file in self.files:
-            if file.type == AUDIO_DESC:
-                return file
-        return None
-
-    @property
     def is_published(self):
         if self.id is None:
             return False
@@ -588,22 +559,26 @@ class Media(object):
     def _validate_description_plain(self, key, value):
         return helpers.strip_xhtml(value, True)
 
+    def get_uris(self):
+        uris = []
+        for file in self.files:
+            uris.extend(file.get_uris())
+        return uris
+
+class MediaFileQuery(Query):
+    pass
+
 class MediaFile(object):
     """
-    Audio or Video file or link
-
-    Represents a locally- or remotely- hosted file or an embeddable YouTube video.
+    Audio or Video File
 
     """
     meta = association_proxy('_meta', 'value', creator=MediaFilesMeta)
-    query = DBSession.query_property()
+    query = DBSession.query_property(MediaFileQuery)
 
     def __repr__(self):
-        return '<MediaFile: %s %s url=%s>' % (self.type, self.container, self.http_url)
-
-    @property
-    def is_rtmp(self):
-        return self.rtmp_stream_url is not None
+        return '<MediaFile: %s %s unique_id=%s>' \
+            % (self.type, self.storage.display_name, self.unique_id)
 
     @property
     def mimetype(self):
@@ -616,56 +591,17 @@ class MediaFile(object):
             type = AUDIO
         return guess_mimetype(self.container, type)
 
-    @property
-    def file_path(self):
-        if self.file_name:
-            return os.path.join(config['media_dir'], self.file_name)
-        return None
+    def get_uris(self):
+        """Return a list all possible playback URIs for this file.
 
-    def play_url(self, qualified=False):
-        """The URL for use when embedding the media file in a page
+        :rtype: list
+        :returns: :class:`mediacore.lib.storage.StorageURI` instances.
 
-        This MAY return a different URL than the link_url property.
         """
-        if self.is_rtmp:
-            # This isn't really useful, but we might as well output something.
-            return u'/'.join((self.rtmp_stream_url, self.rtmp_file_name))
-        elif self.http_url is not None:
-            return self.http_url
-        elif self.embed is not None:
-            return external_embedded_containers[self.container]['play'] % self.embed
-        else:
-            return helpers.url_for(controller='/media', action='serve',
-                                   slug=self.media.slug, id=self.id,
-                                   container=self.container, qualified=qualified)
-
-    def link_url(self, qualified=False, static=False):
-        """The URL for use when linking to a media file.
-
-        This is usually a direct link to the file, but for youtube videos and
-        other files marked as embeddable, this may return a link to the hosting
-        site's view page.
-
-        This MAY return a different URL than the play_url property.
-        """
-        if self.is_rtmp:
-            return u'/'.join((self.rtmp_stream_url, self.rtmp_file_name))
-        elif self.http_url is not None:
-            return self.http_url
-        elif self.embed is not None:
-            return external_embedded_containers[self.container]['link'] % self.embed
-        elif static:
-            return helpers.url_for('static_file_url', id=self.id,
-                                   container=self.container, qualified=qualified)
-        else:
-            return helpers.url_for(controller='/media', action='serve',
-                                   slug=self.media.slug, id=self.id,
-                                   container=self.container, qualified=qualified,
-                                   download=1)
+        return self.storage.get_uris(self)
 
 class MediaFullText(object):
     query = DBSession.query_property()
-
 
 mapper(MediaFullText, media_fulltext)
 mapper(MediaMeta, media_meta)

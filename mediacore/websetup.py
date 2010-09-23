@@ -228,7 +228,7 @@ def add_default_data():
 
     name = u'MediaCore Team'
     email = u'info@simplestation.com'
-    for slug, title, desc, desc_plain, publish_on, duration, url, type, container in instructional_media:
+    for slug, title, desc, desc_plain, publish_on, duration, url, type_, container in instructional_media:
         media = Media()
         media.author = Author(name, email)
         media.description = desc
@@ -237,14 +237,16 @@ def add_default_data():
         media.publish_on = publish_on
         media.slug = slug
         media.title = title
+        media.type = type_
 
         media_file = MediaFile()
         media_file.container = container
         media_file.created_on = publish_on
         media_file.display_name = os.path.basename(url)
         media_file.duration = duration
-        media_file.type = type
-        media_file.http_url = url
+        media_file.type = type_
+        media_file.storage = remote_url_storage
+        media_file.unique_id = url
 
         DBSession.add(media)
         DBSession.add(media_file)
