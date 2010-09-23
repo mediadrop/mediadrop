@@ -17,8 +17,8 @@ from pylons import config, request, response, session, tmpl_context as c
 from sqlalchemy import orm, sql
 
 from mediacore.lib.base import BaseController
-from mediacore.lib.decorators import (expose, expose_xhr, paginate, validate,
-    beaker_cache)
+from mediacore.lib.decorators import (beaker_cache, expose, expose_xhr,
+    observable, paginate, validate)
 from mediacore.lib.helpers import get_featured_category, redirect, url_for
 from mediacore.model import Category, Media, Podcast, fetch_row
 from mediacore.model.meta import DBSession
