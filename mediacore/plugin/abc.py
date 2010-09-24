@@ -62,11 +62,12 @@ class AbstractMetaClass(type):
             unimplemented abstract methods or properties.
 
         """
-        # Ensure all abstract methods have been implemented
+        # If an attr was abstract when the class was created, check again
+        # to see if it was implemented after the fact (by monkepatch etc).
         missing = []
-        for name in AbstractMetaClass._abstracts.get(cls, ()):
-            attr = getattr(subclass, name, None)
-            if not attr or getattr(attr, '_isabstract', False):
+        for name in AbstractMetaClass._abstracts.get(subclass, ()):
+            attr = getattr(subclass, name)
+            if getattr(attr, '_isabstract', False):
                 missing.append(name)
         if missing:
             raise ImplementationError(
