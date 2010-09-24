@@ -14,10 +14,10 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from mediacore.lib.filetypes import guess_container_format, guess_media_type
-from mediacore.lib.storage import (get_file_size, StorageURI, StorageEngine,
+from mediacore.lib.storage import (get_file_size, StorageURI, FileStorageEngine,
     UnsuitableEngineError)
 
-class AmazonS3Storage(StorageEngine):
+class AmazonS3Storage(FileStorageEngine):
 
     engine_type = u'AmazonS3Storage'
     """A uniquely identifying unicode string for the StorageEngine."""
@@ -85,4 +85,4 @@ class AmazonS3Storage(StorageEngine):
             uris = [StorageURI(file, 'http', file.unique_id, self._data['s3_url'])]
         return uris
 
-StorageEngine.register(AmazonS3Storage)
+FileStorageEngine.register(AmazonS3Storage)

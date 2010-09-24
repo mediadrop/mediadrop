@@ -20,6 +20,7 @@ from urlparse import urlunsplit
 
 from pylons import config
 
+from mediacore.forms.admin.storage.localfiles import LocalFileStorageForm
 from mediacore.lib.helpers import delete_files, url_for
 from mediacore.lib.storage import (default_file_name, StorageURI,
     FileStorageEngine, UnsuitableEngineError)
@@ -28,6 +29,14 @@ class LocalFileStorage(FileStorageEngine):
 
     engine_type = u'LocalFileStorage'
     """A uniquely identifying unicode string for the StorageEngine."""
+
+    settings_form_class = LocalFileStorageForm
+    """Your :class:`mediacore.forms.Form` class for changing :attr:`_data`."""
+
+    _default_data = {
+        'path': None,
+        'rtmp_server_uri': None,
+    }
 
     def store(self, file=None, url=None, media_file=None, meta=None):
         """Store the given file or URL and return a unique identifier for it.
@@ -84,6 +93,11 @@ class LocalFileStorage(FileStorageEngine):
                       slug=file.media.slug, container=file.container,
                       qualified=True)
         uris.append(StorageURI(file, 'http', url, None))
+
+        # An optional streaming RTMP URI
+        rtmp_server_uri = self._data.get('rtmp_server_uri', None)
+        if rtmp_server_uri:
+            uris.append(StorageURI(file, 'rtmp', file.unique_id, rtmp_server_uri))
 
         # Remotely *download* accessible URL
         url = url_for(controller='/media', action='serve', id=file.id,

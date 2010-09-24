@@ -17,6 +17,7 @@ import os
 
 from urlparse import urlsplit
 
+from mediacore.forms.admin.storage.remoteurls import RTMPRemoteURLStorageForm
 from mediacore.lib.filetypes import guess_container_format, guess_media_type
 from mediacore.lib.storage import (StorageURI,
     StorageEngine, UnsuitableEngineError)
@@ -27,6 +28,8 @@ class RemoteURLStorage(StorageEngine):
 
     engine_type = u'RemoteURLStorage'
     """A uniquely identifying unicode string for the StorageEngine."""
+
+    is_singleton = True
 
     def parse(self, file=None, url=None):
         """Return metadata for the given file or raise an error.
@@ -79,6 +82,10 @@ class RTMPRemoteURLStorage(RemoteURLStorage):
 
     engine_type = u'RTMPRemoteURLStorage'
     """A uniquely identifying unicode string for the StorageEngine."""
+
+    is_singleton = False
+
+    settings_form_class = RTMPRemoteURLStorageForm
 
     _default_data = {
         RTMP_SERVER_URI: None,

@@ -16,10 +16,12 @@
 import re
 
 from operator import attrgetter
+from urllib import urlencode
 
 import gdata.youtube
 import gdata.youtube.service
 
+from mediacore.forms.admin.storage.youtube import YoutubeStorageForm
 from mediacore.lib.compat import max
 from mediacore.lib.filetypes import VIDEO
 from mediacore.lib.storage import (EmbedStorageEngine, StorageURI,
@@ -30,10 +32,24 @@ class YoutubeStorage(EmbedStorageEngine):
     engine_type = u'YoutubeStorage'
     """A uniquely identifying unicode string for the StorageEngine."""
 
+    settings_form_class = YoutubeStorageForm
+
     url_pattern = re.compile(
         r'^(http(s?)://)?(\w+\.)?youtube.com/watch\?(.*&)?v=(?P<id>[^&#]+)'
     )
     """A compiled pattern object that uses named groupings for matches."""
+
+    _default_data = {
+        'player_params': {
+            'disablekb': 0,
+            'fs': 1,
+            'hd': 0,
+            'rel': 0,
+            'showsearch': 1,
+            'showinfo': 1,
+        },
+        'nocookie': False,
+    }
 
     def _parse(self, url, id):
         """Return metadata for the given URL that matches :attr:`url_pattern`.
@@ -70,7 +86,13 @@ class YoutubeStorage(EmbedStorageEngine):
         :returns: All :class:`StorageURI` tuples for this file.
 
         """
-        play_url = 'http://youtube.com/v/%s?rel=0&fs=1' % file.unique_id
+        params = self._data.get('player_params', {})
+        params = dict((k, int(v)) for k, v in params.iteritems())
+        play_url = 'http://youtube%s.com/v/%s?%s' % (
+            self._data.get('nocookie', False) and '-nocookie' or '',
+            file.unique_id,
+            urlencode(params, True),
+        )
         web_url = 'http://youtube.com/watch?v=%s' % file.unique_id
         return [
             StorageURI(file, 'youtube', play_url, None),

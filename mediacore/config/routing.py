@@ -144,6 +144,14 @@ def make_map(config, controller_scan=controller_scan):
         action='edit',
         requirements={'id': r'(\d+|new)'})
 
+    map.connect('/admin/settings/storage',
+        controller='admin/storage',
+        action='index')
+    map.connect('/admin/settings/storage/{id}/{action}',
+        controller='admin/storage',
+        action='edit',
+        requirements={'id': r'(\d+|new)'})
+
     map.connect('/admin/comments/{id}/{status}',
         controller='admin/comments',
         action='save_status',

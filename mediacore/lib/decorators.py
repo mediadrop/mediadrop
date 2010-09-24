@@ -228,6 +228,7 @@ class validate(object):
             if len(field_value) == 1:
                 tmpl_context.form_errors['_the_form'] = field_value[0].strip()
                 continue
+            # XXX: This doesn't support nested form fields
             tmpl_context.form_errors[field_value[0]] = field_value[1].strip()
 
         # Set up the tmpl_context.form_values dict with the invalid values

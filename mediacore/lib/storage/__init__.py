@@ -26,6 +26,7 @@ from pylons import app_globals
 from pylons.i18n import _
 
 from mediacore.lib.compat import namedtuple
+from mediacore.lib.decorators import memoize
 from mediacore.lib.filetypes import guess_container_format, guess_media_type
 from mediacore.lib.thumbnails import (create_thumbs_for, has_thumbs,
     has_default_thumbs, thumb_path)
@@ -136,6 +137,11 @@ class StorageEngine(AbstractClass):
     engine_type = abstractproperty()
     """A unique identifying unicode string for the StorageEngine."""
 
+    is_singleton = abstractproperty()
+
+    settings_form_class = None
+    """Your :class:`mediacore.forms.Form` class for changing :attr:`_data`."""
+
     _default_data = {}
     """The default data dictionary to create from the start.
 
@@ -163,6 +169,19 @@ class StorageEngine(AbstractClass):
 
         """
         return self._data
+
+    @property
+    @memoize
+    def settings_form(self):
+        """Return an instance of :attr:`settings_form_class` if defined.
+
+        :rtype: :class:`mediacore.forms.Form` or None
+        :returns: A memoized form instance, since instantiation is expensive.
+
+        """
+        if self.settings_form_class is None:
+            return None
+        return self.settings_form_class()
 
     @abstractmethod
     def parse(self, file=None, url=None):
@@ -254,6 +273,8 @@ class FileStorageEngine(StorageEngine):
     Helper subclass that parses file uploads for basic metadata.
     """
 
+    is_singleton = False
+
     def parse(self, file=None, url=None):
         """Return metadata for the given file or raise an error.
 
@@ -285,6 +306,8 @@ class EmbedStorageEngine(StorageEngine):
     """
     A specialized URL storage engine for URLs that match a certain pattern.
     """
+
+    is_singleton = True
 
     url_pattern = abstractproperty()
     """A compiled pattern object that uses named groupings for matches."""

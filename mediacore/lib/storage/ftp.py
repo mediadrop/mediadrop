@@ -33,7 +33,10 @@ FTP_PASSWORD = 'ftp_password'
 FTP_UPLOAD_DIR = 'ftp_upload_dir'
 FTP_MAX_INTEGRITY_RETRIES = 'ftp_max_integrity_retries'
 
-HTTP_DOWNLOAD_URL = 'http_download_url'
+HTTP_DOWNLOAD_URI = 'http_download_uri'
+RTMP_SERVER_URI = 'rtmp_server_uri'
+
+from mediacore.forms.admin.storage.ftp import FTPStorageForm
 
 class FTPUploadError(Invalid):
     pass
@@ -43,12 +46,16 @@ class FTPStorage(FileStorageEngine):
     engine_type = u'FTPStorage'
     """A uniquely identifying string for each StorageEngine implementation."""
 
+    settings_form_class = FTPStorageForm
+
     _default_data = {
         FTP_SERVER: '',
         FTP_USERNAME: '',
         FTP_PASSWORD: '',
         FTP_UPLOAD_DIR: '',
         FTP_MAX_INTEGRITY_RETRIES: 0,
+        HTTP_DOWNLOAD_URI: '',
+        RTMP_SERVER_URI: '',
     }
 
     def store(self, file=None, url=None, media_file=None, meta=None):
@@ -74,7 +81,7 @@ class FTPStorage(FileStorageEngine):
         """
         file_name = default_file_name(media_file)
 
-        file_url = os.path.join(self._data[HTTP_DOWNLOAD_URL], file_name)
+        file_url = os.path.join(self._data[HTTP_DOWNLOAD_URI], file_name)
         upload_dir = self._data[FTP_UPLOAD_DIR]
         stor_cmd = 'STOR ' + file_name
 
@@ -128,7 +135,7 @@ class FTPStorage(FileStorageEngine):
         :returns: All :class:`StorageURI` tuples for this file.
 
         """
-        url = os.path.join(self._data[HTTP_DOWNLOAD_URL], file.unique_id)
+        url = os.path.join(self._data[HTTP_DOWNLOAD_URI], file.unique_id)
         # TODO: Support RTMP
         return [StorageURI(file, 'http', url, None)]
 

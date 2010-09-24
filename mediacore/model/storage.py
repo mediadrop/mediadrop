@@ -17,13 +17,13 @@ import logging
 
 from datetime import datetime
 
-from sqlalchemy import Table, Column
-from sqlalchemy.orm import dynamic_loader, mapper, reconstructor
+from sqlalchemy import Column, sql, Table
+from sqlalchemy.orm import column_property, dynamic_loader, mapper, reconstructor
 from sqlalchemy.orm.interfaces import MapperExtension
 from sqlalchemy.types import Boolean, DateTime, Integer, Unicode, PickleType
 
 from mediacore.lib.storage import StorageEngine
-from mediacore.model.media import MediaFile, MediaFileQuery
+from mediacore.model.media import MediaFile, MediaFileQuery, media_files
 from mediacore.model.meta import DBSession, metadata
 
 log = logging.getLogger(__name__)
@@ -57,6 +57,13 @@ storage_mapper = mapper(
             backref='storage',
             query_class=MediaFileQuery,
             passive_deletes=True,
+        ),
+        'file_count': column_property(
+            sql.select(
+                [sql.func.count(media_files.c.id)],
+                storage.c.id == media_files.c.storage_id,
+            ).label('file_count'),
+            deferred=True,
         ),
     },
 )

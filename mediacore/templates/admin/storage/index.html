@@ -1,0 +1,68 @@
+<!--! This file is a part of MediaCore, Copyright 2009 Simple Station Inc.
+
+	MediaCore is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+
+	MediaCore is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      xmlns:xi="http://www.w3.org/2001/XInclude">
+<xi:include href="../master.html" />
+<xi:include href="../settings/master.html" />
+<head>
+	<title>Storage Engines</title>
+</head>
+<body>
+	<div class="box">
+		<div class="box-head">
+			<h1>Storage Engines</h1>
+<!--!			<a id="add-engine" href="${h.url_for(action='edit', id='new')}" style="margin-left:10px"><span>Add Storage Engine</span></a>-->
+			<select id="select-engine" style="margin-left:10px">
+				<option py:for="engine in addable_engines" py:content="engine.engine_type" />
+			</select>
+			<button onclick="window.location = '${h.url_for(action='edit', id='new')}?engine_type=' + $$('select-engine').get('value');return false;">Go</button>
+			<span class="box-head-sec">${h.doc_link('admin/settings', 'storage')}</span>
+		</div>
+		<table cellpadding="0" cellspacing="0" id="engine-table">
+			<thead>
+				<tr>
+					<th id="h-display_name" style="width:auto">Display Name</th>
+					<th id="h-engine-type" style="width:200px">Engine Type</th>
+					<th id="h-file-count" style="width:100px">Files</th>
+					<th id="h-btns" style="width:63px">&nbsp;</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr py:if="len(engines) == 0">
+					<td>None Found</td>
+				</tr>
+				<tr py:for="engine in engines">
+					<td headers="h-display_name"><a href="${h.url_for(action='edit', id=engine.id)}" py:content="engine.display_name">Display Name</a></td>
+					<td headers="h-engine-type">${engine.engine_type}</td>
+					<td headers="h-file-count">${engine.file_count}</td>
+					<td headers="h-btns">
+						<form action="${h.url_for(action='delete', id=engine.id)}" method="post" class="delete-engine-form">
+							<div style="float:right">
+								<a py:if="engine.settings_form" href="${h.url_for(action='edit', id=engine.id)}" class="btn btn-inline-edit f-lft">edit</a>
+								<input class="btn btn-inline-delete" type="submit" value="Delete" name="delete" />
+							</div>
+						</form>
+					</td>
+				</tr>
+			</tbody>
+			${paginated_tfoot(c.paginators.engines, '4')}
+		</table>
+	</div>
+</body>
+</html>
