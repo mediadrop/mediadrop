@@ -427,6 +427,12 @@ class GoogleVideoFlashPlayer(AbstractFlashEmbedPlayer):
 
 AbstractFlashEmbedPlayer.register(GoogleVideoFlashPlayer)
 
+class BlipTVFlashPlayer(AbstractFlashEmbedPlayer):
+
+    name = scheme = 'bliptv'
+
+AbstractFlashEmbedPlayer.register(BlipTVFlashPlayer)
+
 ###############################################################################
 
 class AbstractHTML5Player(FileSupportMixin, AbstractPlayer):

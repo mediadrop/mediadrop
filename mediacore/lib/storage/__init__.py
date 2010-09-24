@@ -434,5 +434,6 @@ from mediacore.lib.storage.ftp import FTPStorage
 from mediacore.lib.storage.s3 import AmazonS3Storage
 from mediacore.lib.storage.youtube import YoutubeStorage
 from mediacore.lib.storage.vimeo import VimeoStorage
+from mediacore.lib.storage.bliptv import BlipTVStorage
 from mediacore.lib.storage.googlevideo import GoogleVideoStorage
 from mediacore.lib.storage.remoteurls import RemoteURLStorage
