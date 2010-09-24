@@ -25,7 +25,6 @@ from formencode import Invalid
 from pylons import app_globals
 from pylons.i18n import _
 
-from mediacore.lib.compat import namedtuple
 from mediacore.lib.decorators import memoize
 from mediacore.lib.filetypes import guess_container_format, guess_media_type
 from mediacore.lib.thumbnails import (create_thumbs_for, has_thumbs,
@@ -44,9 +43,7 @@ class UnsuitableEngineError(StorageError):
     """Error to indicate that StorageEngine.parse can't parse its input."""
 
 
-_StorageURI = namedtuple('StorageURI', 'file scheme file_uri server_uri')
-
-class StorageURI(_StorageURI):
+class StorageURI(object):
     """
     An access point for a :class:`mediacore.model.media.MediaFile`.
 
@@ -83,11 +80,13 @@ class StorageURI(_StorageURI):
         be declared separately from the file.
 
     """
-    __slots__ = ()
+    __slots__ = ('file', 'scheme', 'file_uri', 'server_uri', '__weakref__')
 
-    def __new__(cls, file, scheme, file_uri, server_uri=None):
-        """Create the new tuple with server_uri defaulting to None."""
-        return _StorageURI.__new__(cls, file, scheme, file_uri, server_uri)
+    def __init__(self, file, scheme, file_uri, server_uri=None):
+        self.file = file
+        self.scheme = scheme
+        self.file_uri = file_uri
+        self.server_uri = server_uri
 
     def __str__(self):
         """Return the best possible string representation of the URI.
