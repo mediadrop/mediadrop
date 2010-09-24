@@ -25,7 +25,7 @@ from mediacore.plugin.abc import abstractmethod
 class StorageForm(ListForm):
     template = 'mediacore.templates.admin.box-form'
     id = 'storage-form'
-    css_class = 'form'
+    css_class = 'form storageform'
     submit_text = None
     show_children_errors = True
     _name = 'storage-form' # TODO: Figure out why this is required??

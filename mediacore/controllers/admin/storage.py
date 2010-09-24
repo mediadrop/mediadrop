@@ -34,16 +34,13 @@ class StorageController(BaseController):
     allow_only = has_permission('admin')
 
     @expose('admin/storage/index.html')
-    @paginate('engines', items_per_page=50)
     def index(self, page=1, **kwargs):
         """List storage engines with pagination.
 
-        :param page: Page number, defaults to 1.
-        :type page: int
         :rtype: Dict
         :returns:
-            users
-                The list of :class:`~mediacore.model.auth.User`
+            engines
+                The list of :class:`~mediacore.lib.storage.StorageEngine`
                 instances for this page.
 
         """
@@ -51,12 +48,13 @@ class StorageController(BaseController):
             .options(orm.undefer('file_count'),
                      orm.undefer('file_size_sum'))\
             .all()
-        existing_engine_types = set(ecls.engine_type for ecls in engines)
+        existing_types = set(ecls.engine_type for ecls in engines)
         addable_engines = [
             ecls
             for ecls in StorageEngine
-            if not ecls.is_singleton or ecls.engine_type not in existing_engine_types
+            if not ecls.is_singleton or ecls.engine_type not in existing_types
         ]
+
         return {
             'engines': engines,
             'addable_engines': addable_engines,
