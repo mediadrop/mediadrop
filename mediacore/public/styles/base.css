@@ -563,15 +563,13 @@ a:visited .grid-title {
 }
 
 /* Feed links in footer */
-#mediacore-footer #feeds h2 {
-	font-size: 14px;
-	float: left;
-	color: #637084;
-	font-weight: normal;
+#mediacore-feeds h5 {
+	display: none;
 }
-#mediacore-footer #feeds li {
-	float: left;
-	margin: 0 3px 0 3px;
+#mediacore-feeds li {
+	display: inline;
+	margin-right: 5px;
+	font-size: 12px;
 }
 
 .see-more {
