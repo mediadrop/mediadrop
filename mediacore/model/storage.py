@@ -65,6 +65,13 @@ storage_mapper = mapper(
             ).label('file_count'),
             deferred=True,
         ),
+        'file_size_sum': column_property(
+            sql.select(
+                [sql.func.sum(media_files.c.size)],
+                storage.c.id == media_files.c.storage_id,
+            ).label('file_size_sum'),
+            deferred=True,
+        ),
     },
 )
 

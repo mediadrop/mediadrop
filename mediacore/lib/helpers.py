@@ -494,6 +494,7 @@ def pretty_file_size(size):
     """Return the given file size in the largest possible unit of bytes."""
     if not size:
         return u'-'
+    size = float(size)
     for unit in ('B', 'KB', 'MB', 'GB', 'TB'):
         if size < 1024.0:
             return '%3.1f %s' % (size, unit)

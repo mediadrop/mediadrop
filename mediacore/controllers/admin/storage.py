@@ -47,7 +47,10 @@ class StorageController(BaseController):
                 instances for this page.
 
         """
-        engines = DBSession.query(StorageEngine).options(orm.undefer('file_count')).all()
+        engines = DBSession.query(StorageEngine)\
+            .options(orm.undefer('file_count'),
+                     orm.undefer('file_size_sum'))\
+            .all()
         existing_engine_types = set(ecls.engine_type for ecls in engines)
         addable_engines = [
             ecls

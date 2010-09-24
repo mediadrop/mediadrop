@@ -37,9 +37,9 @@
 		<table cellpadding="0" cellspacing="0" id="engine-table">
 			<thead>
 				<tr>
-					<th id="h-display_name" style="width:auto">Display Name</th>
-					<th id="h-engine-type" style="width:200px">Engine Type</th>
-					<th id="h-file-count" style="width:100px">Files</th>
+					<th id="h-display_name" style="width:auto">Name</th>
+					<th id="h-file-count" style="width:100px;text-align:center">Files</th>
+					<th id="h-file-size" style="width:100px;text-align:right">File Size</th>
 					<th id="h-btns" style="width:63px">&nbsp;</th>
 				</tr>
 			</thead>
@@ -49,8 +49,8 @@
 				</tr>
 				<tr py:for="engine in engines">
 					<td headers="h-display_name"><a href="${h.url_for(action='edit', id=engine.id)}" py:content="engine.display_name">Display Name</a></td>
-					<td headers="h-engine-type">${engine.engine_type}</td>
-					<td headers="h-file-count">${engine.file_count}</td>
+					<td headers="h-file-count" style="text-align:center">${engine.file_count}</td>
+					<td headers="h-file-size" style="text-align:right">${h.pretty_file_size(engine.file_size_sum)}</td>
 					<td headers="h-btns">
 						<form action="${h.url_for(action='delete', id=engine.id)}" method="post" class="delete-engine-form">
 							<div style="float:right">
