@@ -38,15 +38,15 @@ class AmazonS3Storage(FileStorageEngine):
             raise UnsuitableEngineError
         raise NotImplementedError
 
-    def store(self, file=None, url=None, media_file=None, meta=None):
+    def store(self, media_file, file=None, url=None, meta=None):
         """Store the given file or URL and return a unique identifier for it.
 
+        :type media_file: :class:`~mediacore.model.media.MediaFile`
+        :param media_file: The associated media file object.
         :type file: :class:`cgi.FieldStorage` or None
         :param file: A freshly uploaded file object.
         :type url: unicode or None
         :param url: A remote URL string.
-        :type media_file: :class:`~mediacore.model.media.MediaFile`
-        :param media_file: The associated media file object.
         :type meta: dict
         :param meta: The metadata returned by :meth:`parse`.
         :rtype: unicode or None

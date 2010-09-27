@@ -216,7 +216,7 @@ class StorageEngine(AbstractClass):
 
         """
 
-    def store(self, file=None, url=None, media_file=None, meta=None):
+    def store(self, media_file, file=None, url=None, meta=None):
         """Store the given file or URL and return a unique identifier for it.
 
         This method is called with a newly persisted instance of
@@ -233,12 +233,12 @@ class StorageEngine(AbstractClass):
         for informational purposes only, so that a unique ID may be
         generated with the primary key from the database.
 
+        :type media_file: :class:`~mediacore.model.media.MediaFile`
+        :param media_file: The associated media file object.
         :type file: :class:`cgi.FieldStorage` or None
         :param file: A freshly uploaded file object.
         :type url: unicode or None
         :param url: A remote URL string.
-        :type media_file: :class:`~mediacore.model.media.MediaFile`
-        :param media_file: The associated media file object.
         :type meta: dict
         :param meta: The metadata returned by :meth:`parse`.
         :rtype: unicode or None
@@ -393,7 +393,7 @@ def add_new_media_file(media, file=None, url=None):
     media.files.append(mf)
     DBSession.flush()
 
-    unique_id = engine.store(file=file, url=url, meta=meta, media_file=mf)
+    unique_id = engine.store(media_file=mf, file=file, url=url, meta=meta)
 
     if unique_id:
         mf.unique_id = unique_id
