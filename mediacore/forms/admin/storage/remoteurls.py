@@ -15,30 +15,60 @@
 
 from formencode.validators import Int
 from pylons.i18n import N_ as _
+from tw.api import JSSource
+from tw.forms import FormFieldRepeater
 
 from mediacore.forms import ListFieldSet, TextField
 from mediacore.forms.admin.storage import StorageForm
-from mediacore.lib.storage.ftp import FTP_SERVER
 
-class RTMPRemoteURLStorageForm(StorageForm):
+rtmp_server_js = JSSource("""
+    window.addEvent('domready', function(){
+        var fields = $('rtmp').getElement('li');
+        var addButton = new Element('span', {
+            'class': 'add-another clickable',
+            'text': 'Add another URL'
+        });
+        addButton.inject(fields, 'bottom').addEvent('click', function(){
+            var lastInput = addButton.getPrevious();
+            var fullname = lastInput.get('name');
+            var sepindex = fullname.indexOf('-') + 1;
+            var name = fullname.substr(0, sepindex);
+            var nextNum = fullname.substr(sepindex).toInt() + 1;
+            var el = new Element('input', {
+                'type': 'text',
+                'name': name + nextNum,
+                'class': 'textfield repeatedtextfield rtmp-server-uri'
+            });
+            el.inject(lastInput, 'after').focus();
+        });
+    });
+""", location='headbottom')
+
+class RemoteURLStorageForm(StorageForm):
 
     fields = StorageForm.fields + [
         ListFieldSet('rtmp',
+            legend=_('RTMP Servers:'),
             suppress_label=True,
-            legend=_('RTMP Server Details:'),
             children=[
-                TextField('server_uri', label_text=_('RTMP Server URL')),
-            ]
-        ),
+                FormFieldRepeater('known_servers',
+                    widget=TextField(css_classes=['textfield rtmp-server-uri']),
+                    suppress_label=True,
+                    repetitions=1,
+                ),
+            ],
+        )
     ] + StorageForm.buttons
+
+    javascript = [rtmp_server_js]
 
     def display(self, value, **kwargs):
         engine = kwargs['engine']
-        specifics = value.setdefault('rtmp', {})
-        specifics.setdefault('server_uri', engine._data.get('rtmp_server_uri', None))
+        rtmp = value.setdefault('rtmp', {})
+        rtmp.setdefault('known_servers', engine._data.get('rtmp_server_uris', ()))
         return StorageForm.display(self, value, **kwargs)
 
-    def save_engine_params(self, engine, specifics=None, **kwargs):
+    def save_engine_params(self, engine, **kwargs):
         """Map validated field values to engine data.
 
         Since form widgets may be nested or named differently than the keys
@@ -53,4 +83,6 @@ class RTMPRemoteURLStorageForm(StorageForm):
             behaviour as with the @validate decorator.
 
         """
-        engine._data['rtmp_server_uri'] = specifics['rtmp_server_uri'] or None
+        rtmp = kwargs.get('rtmp', {})
+        rtmp_servers = rtmp.get('known_servers', ())
+        engine._data['rtmp_server_uris'] = [x for x in rtmp_servers if x]

@@ -17,78 +17,25 @@ import os
 
 from urlparse import urlsplit
 
-from mediacore.forms.admin.storage.remoteurls import RTMPRemoteURLStorageForm
+from mediacore.forms.admin.storage.remoteurls import RemoteURLStorageForm
 from mediacore.lib.filetypes import guess_container_format, guess_media_type
 from mediacore.lib.storage import (StorageURI,
     StorageEngine, UnsuitableEngineError)
 
-RTMP_SERVER_URI = 'rtmp_server_uri'
+RTMP_SERVER_URIS = 'rtmp_server_uris'
+RTMP_URI_DIVIDER = '$^'
 
 class RemoteURLStorage(StorageEngine):
 
     engine_type = u'RemoteURLStorage'
     """A uniquely identifying unicode string for the StorageEngine."""
 
+    settings_form_class = RemoteURLStorageForm
+
     is_singleton = True
 
-    def parse(self, file=None, url=None):
-        """Return metadata for the given file or raise an error.
-
-        :type file: :class:`cgi.FieldStorage` or None
-        :param file: A freshly uploaded file object.
-        :type url: unicode or None
-        :param url: A remote URL string.
-        :rtype: dict
-        :returns: Any extracted metadata.
-        :raises UnsuitableEngineError: If file information cannot be parsed.
-
-        """
-        if url is None:
-            raise UnsuitableEngineError
-
-        filename = os.path.basename(url)
-        name, ext = os.path.splitext(filename)
-        ext = ext.lstrip('.').lower()
-
-        # FIXME: Replace guess_container_format with something that takes
-        #        into consideration the supported formats of all the custom
-        #        players that may be installed.
-        container = guess_container_format(ext)
-
-        if not container or container == 'unknown':
-            raise UnsuitableEngineError
-
-        return {
-            'type': guess_media_type(ext),
-            'container': container,
-            'display_name': u'%s.%s' % (name, container or ext),
-            'unique_id': url,
-        }
-
-    def get_uris(self, file):
-        """Return a list of URIs from which the stored file can be accessed.
-
-        :type unique_id: unicode
-        :param unique_id: The identifying string for this file.
-        :rtype: list
-        :returns: All :class:`StorageURI` tuples for this file.
-
-        """
-        return [StorageURI(file, 'http', file.unique_id, None)]
-
-StorageEngine.register(RemoteURLStorage)
-
-class RTMPRemoteURLStorage(RemoteURLStorage):
-
-    engine_type = u'RTMPRemoteURLStorage'
-    """A uniquely identifying unicode string for the StorageEngine."""
-
-    is_singleton = False
-
-    settings_form_class = RTMPRemoteURLStorageForm
-
     _default_data = {
-        RTMP_SERVER_URI: None,
+        RTMP_SERVER_URIS: [],
     }
 
     def parse(self, file=None, url=None):
@@ -106,16 +53,46 @@ class RTMPRemoteURLStorage(RemoteURLStorage):
         if url is None:
             raise UnsuitableEngineError
 
-        rtmp_server = self._data[RTMP_SERVER_URI]
+        if url.startswith('rtmp://'):
+            known_server_uris = self._data.setdefault(RTMP_SERVER_URIS, ())
 
-        if not url.startswith(rtmp_server):
-            raise UnsuitableEngineError
+            if RTMP_URI_DIVIDER in url:
+                # Allow the user to explicitly mark the server/file separation
+                parts = url.split(RTMP_URI_DIVIDER)
+                server_uri = parts[0].rstrip('/')
+                file_uri = ''.join(parts[1:]).lstrip('/')
+                if server_uri not in known_server_uris:
+                    known_server_uris.append(server_uri)
+            else:
+                # Get the rtmp server from our list of known servers or fail
+                for server_uri in known_server_uris:
+                    if url.startswith(server_uri):
+                        file_uri = url[len(server_uri.rstrip('/') + '/'):]
+                        break
+                else:
+                    raise UnsuitableEngineError
+            unique_id = ''.join((server_uri, RTMP_URI_DIVIDER, file_uri))
+        else:
+            unique_id = url
 
-        # Strip off the rtmp server from the URL.
-        # We only use the relative file path as the unique ID.
-        url = url[len(rtmp_server.rstrip('/') + '/'):]
+        filename = os.path.basename(url)
+        name, ext = os.path.splitext(filename)
+        ext = ext.lstrip('.').lower()
 
-        return super(RTMPRemoteURLStorage, self).parse(url=url)
+        container = guess_container_format(ext)
+
+        # FIXME: Replace guess_container_format with something that takes
+        #        into consideration the supported formats of all the custom
+        #        players that may be installed.
+#        if not container or container == 'unknown':
+#            raise UnsuitableEngineError
+
+        return {
+            'type': guess_media_type(ext),
+            'container': container,
+            'display_name': u'%s.%s' % (name, container or ext),
+            'unique_id': unique_id,
+        }
 
     def get_uris(self, file):
         """Return a list of URIs from which the stored file can be accessed.
@@ -126,7 +103,12 @@ class RTMPRemoteURLStorage(RemoteURLStorage):
         :returns: All :class:`StorageURI` tuples for this file.
 
         """
-        rtmp_server = self._data[RTMP_SERVER_URI]
-        return [StorageURI(file, 'rtmp', file.unique_id, rtmp_server)]
+        uid = file.unique_id
+        if uid.startswith('rtmp://'):
+            sep_index = uid.index(RTMP_URI_DIVIDER) # can raise ValueError
+            server_uri = uid[:sep_index]
+            file_uri = uid[sep_index + len(RTMP_URI_DIVIDER)]
+            return [StorageURI(file, 'rtmp', file_uri, server_uri)]
+        return [StorageURI(file, 'http', file.unique_id, None)]
 
-StorageEngine.register(RTMPRemoteURLStorage)
+StorageEngine.register(RemoteURLStorage)
