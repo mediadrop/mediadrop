@@ -21,6 +21,8 @@ from urllib import urlencode
 import gdata.youtube
 import gdata.youtube.service
 
+from pylons.i18n import N_
+
 from mediacore.forms.admin.storage.youtube import YoutubeStorageForm
 from mediacore.lib.compat import max
 from mediacore.lib.filetypes import VIDEO
@@ -31,6 +33,8 @@ class YoutubeStorage(EmbedStorageEngine):
 
     engine_type = u'YoutubeStorage'
     """A uniquely identifying unicode string for the StorageEngine."""
+
+    default_name = N_(u'YouTube')
 
     settings_form_class = YoutubeStorageForm
 

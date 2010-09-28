@@ -20,6 +20,7 @@ from ftplib import FTP
 from urllib2 import URLError, urlopen
 
 from formencode import Invalid
+from pylons.i18n import N_
 
 from mediacore.lib.compat import sha1
 from mediacore.lib.storage import (default_file_name, StorageURI,
@@ -45,6 +46,9 @@ class FTPStorage(FileStorageEngine):
 
     engine_type = u'FTPStorage'
     """A uniquely identifying string for each StorageEngine implementation."""
+
+    default_name = N_(u'FTP Storage')
+    """A user-friendly display name that identifies this StorageEngine."""
 
     settings_form_class = FTPStorageForm
 

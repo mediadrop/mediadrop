@@ -21,6 +21,8 @@ from urllib2 import Request, urlopen, URLError
 # FIXME: This does not exist in py2.4
 from xml.etree import ElementTree
 
+from pylons.i18n import N_
+
 from mediacore.lib.filetypes import VIDEO
 from mediacore.lib.storage import (EmbedStorageEngine, StorageURI,
     UnsuitableEngineError)
@@ -31,6 +33,8 @@ class BlipTVStorage(EmbedStorageEngine):
 
     engine_type = u'BlipTVStorage'
     """A uniquely identifying unicode string for the StorageEngine."""
+
+    default_name = N_(u'BlipTV')
 
     url_pattern = re.compile(r'^(http(s?)://)?(\w+\.)?blip.tv/file/(?P<id>\d+)')
     """A compiled pattern object that uses named groupings for matches."""

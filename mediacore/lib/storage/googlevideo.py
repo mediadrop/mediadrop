@@ -19,6 +19,8 @@ import simplejson
 
 from urllib2 import Request, urlopen, URLError
 
+from pylons.i18n import N_
+
 from mediacore import USER_AGENT
 from mediacore.lib.compat import max
 from mediacore.lib.filetypes import VIDEO
@@ -32,6 +34,8 @@ class GoogleVideoStorage(EmbedStorageEngine):
 
     engine_type = u'GoogleVideoStorage'
     """A uniquely identifying unicode string for the StorageEngine."""
+
+    default_name = N_(u'Google Video')
 
     url_pattern = re.compile(
         r'^(http(s?)://)?video.google.com/videoplay\?(.*&)?docid=(?P<id>-?\d+)'

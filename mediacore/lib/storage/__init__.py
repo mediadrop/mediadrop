@@ -136,6 +136,9 @@ class StorageEngine(AbstractClass):
     engine_type = abstractproperty()
     """A unique identifying unicode string for the StorageEngine."""
 
+    default_name = abstractproperty()
+    """A user-friendly display name that identifies this StorageEngine."""
+
     is_singleton = abstractproperty()
 
     settings_form_class = None

@@ -19,6 +19,7 @@ from shutil import copyfileobj
 from urlparse import urlunsplit
 
 from pylons import config
+from pylons.i18n import N_
 
 from mediacore.forms.admin.storage.localfiles import LocalFileStorageForm
 from mediacore.lib.helpers import delete_files, url_for
@@ -29,6 +30,8 @@ class LocalFileStorage(FileStorageEngine):
 
     engine_type = u'LocalFileStorage'
     """A uniquely identifying unicode string for the StorageEngine."""
+
+    default_name = N_(u'Local File Storage')
 
     settings_form_class = LocalFileStorageForm
     """Your :class:`mediacore.forms.Form` class for changing :attr:`_data`."""

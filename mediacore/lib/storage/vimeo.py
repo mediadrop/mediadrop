@@ -19,6 +19,8 @@ import simplejson
 
 from urllib2 import Request, urlopen, URLError
 
+from pylons.i18n import N_
+
 from mediacore import USER_AGENT
 from mediacore.lib.compat import max
 from mediacore.lib.filetypes import VIDEO
@@ -31,6 +33,8 @@ class VimeoStorage(EmbedStorageEngine):
 
     engine_type = u'VimeoStorage'
     """A uniquely identifying unicode string for the StorageEngine."""
+
+    default_name = N_(u'Vimeo')
 
     url_pattern = re.compile(r'^(http(s?)://)?(\w+\.)?vimeo.com/(?P<id>\d+)')
     """A compiled pattern object that uses named groupings for matches."""

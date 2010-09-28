@@ -13,6 +13,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+from pylons.i18n import N_
+
 from mediacore.lib.filetypes import guess_container_format, guess_media_type
 from mediacore.lib.storage import (get_file_size, StorageURI, FileStorageEngine,
     UnsuitableEngineError)
@@ -21,6 +23,8 @@ class AmazonS3Storage(FileStorageEngine):
 
     engine_type = u'AmazonS3Storage'
     """A uniquely identifying unicode string for the StorageEngine."""
+
+    default_name = N_(u'Amazon S3')
 
     def parse(self, file=None, url=None):
         """Return metadata for the given file or raise an error.

@@ -17,6 +17,8 @@ import os
 
 from urlparse import urlsplit
 
+from pylons.i18n import N_
+
 from mediacore.forms.admin.storage.remoteurls import RemoteURLStorageForm
 from mediacore.lib.filetypes import guess_container_format, guess_media_type
 from mediacore.lib.storage import (StorageURI,
@@ -29,6 +31,8 @@ class RemoteURLStorage(StorageEngine):
 
     engine_type = u'RemoteURLStorage'
     """A uniquely identifying unicode string for the StorageEngine."""
+
+    default_name = N_(u'Remote URLs')
 
     settings_form_class = RemoteURLStorageForm
 
