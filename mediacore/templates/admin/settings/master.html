@@ -38,17 +38,16 @@
 		<div class="box">
 			<h1 class="box-head">Settings</h1>
 			<ul class="box-content settings-menu" py:with="links = [
+				('Analytics', h.url_for(controller='/admin/settings', action='analytics')),
 				('Categories', h.url_for(controller='/admin/categories')),
 				('Comments', h.url_for(controller='/admin/settings', action='comments')),
 				('Display', h.url_for(controller='/admin/settings', action='display')),
-				('Notification Emails', h.url_for(controller='/admin/settings', action='notifications')),
-				('Popularity Algorithm', h.url_for(controller='/admin/settings', action='popularity')),
+				('Notifications', h.url_for(controller='/admin/settings', action='notifications')),
+				('Popularity', h.url_for(controller='/admin/settings', action='popularity')),
 				('Upload', h.url_for(controller='/admin/settings', action='upload')),
-				('RTMP', h.url_for(controller='/admin/settings', action='rtmp')),
 				('Storage Engines', h.url_for(controller='/admin/storage')),
 				('Tags', h.url_for(controller='/admin/tags')),
 				('Users', h.url_for(controller='/admin/users')),
-				('Analytics', h.url_for(controller='/admin/settings', action='analytics')),
 			]">
 				<li py:for="text, link in links">
 					<a href="${link}" class="${current_url.startswith(link) and 'selected' or None}">${text}</a>
