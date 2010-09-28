@@ -13,7 +13,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from formencode.validators import Int
+from formencode import Invalid
+from formencode.validators import FancyValidator, Int
 from pylons.i18n import N_ as _
 from tw.api import JSSource
 from tw.forms import FormFieldRepeater
@@ -44,6 +45,13 @@ rtmp_server_js = JSSource("""
     });
 """, location='headbottom')
 
+class RTMPURLValidator(FancyValidator):
+    def _to_python(self, value, state=None):
+        if value.startswith('rtmp://'):
+            return value.rstrip('/')
+        raise Invalid(_('RTMP server URLs must begin with rtmp://'),
+                      value, state)
+
 class RemoteURLStorageForm(StorageForm):
 
     fields = StorageForm.fields + [
@@ -51,8 +59,12 @@ class RemoteURLStorageForm(StorageForm):
             legend=_('RTMP Servers:'),
             suppress_label=True,
             children=[
+                # FIXME: Display errors from the RTMPURLValidator
                 FormFieldRepeater('known_servers',
-                    widget=TextField(css_classes=['textfield rtmp-server-uri']),
+                    widget=TextField(
+                        css_classes=['textfield rtmp-server-uri'],
+                        validator=RTMPURLValidator(),
+                    ),
                     suppress_label=True,
                     repetitions=1,
                 ),

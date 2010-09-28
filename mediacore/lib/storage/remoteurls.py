@@ -13,6 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import logging
 import os
 
 from urlparse import urlsplit
@@ -23,6 +24,8 @@ from mediacore.forms.admin.storage.remoteurls import RemoteURLStorageForm
 from mediacore.lib.filetypes import guess_container_format, guess_media_type
 from mediacore.lib.storage import (StorageURI,
     StorageEngine, UnsuitableEngineError)
+
+log = logging.getLogger(__name__)
 
 RTMP_SERVER_URIS = 'rtmp_server_uris'
 RTMP_URI_DIVIDER = '$^'
@@ -109,7 +112,10 @@ class RemoteURLStorage(StorageEngine):
         """
         uid = file.unique_id
         if uid.startswith('rtmp://'):
-            sep_index = uid.index(RTMP_URI_DIVIDER) # can raise ValueError
+            sep_index = uid.find(RTMP_URI_DIVIDER) # can raise ValueError
+            if sep_index < 0:
+                log.warn('File %r has an invalidly formatted unique ID for RTMP.', file)
+                return []
             server_uri = uid[:sep_index]
             file_uri = uid[sep_index + len(RTMP_URI_DIVIDER)]
             return [StorageURI(file, 'rtmp', file_uri, server_uri)]
