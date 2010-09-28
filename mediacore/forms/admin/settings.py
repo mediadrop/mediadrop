@@ -59,6 +59,15 @@ def boolean_radiobuttonlist(name, **kwargs):
         **kwargs
     )
 
+def real_boolean_radiobuttonlist(name, **kwargs):
+    # TODO: replace uses of boolean_radiobuttonlist with this, then scrap the old one.
+    return RadioButtonList(
+        name,
+        options=((True, _('Yes')), (False, _('No'))),
+        validator=StringBool,
+        **kwargs
+    )
+
 class NotificationsForm(ListForm):
     template = 'mediacore.templates.admin.box-form'
     id = 'settings-form'
