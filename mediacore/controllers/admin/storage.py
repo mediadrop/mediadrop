@@ -98,6 +98,9 @@ class StorageController(BaseController):
         engine = fetch_row(engine_class, id)
         form = engine.settings_form
 
+        if id == 'new':
+            DBSession.add(engine)
+
         @validate(form, error_handler=self.edit)
         def save_engine_params(id, general, **kwargs):
             # Allow the form to modify the StorageEngine directly
