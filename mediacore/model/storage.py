@@ -18,7 +18,7 @@ import logging
 from datetime import datetime
 
 from sqlalchemy import Column, sql, Table
-from sqlalchemy.orm import column_property, dynamic_loader, mapper, reconstructor
+from sqlalchemy.orm import column_property, dynamic_loader, mapper
 from sqlalchemy.orm.interfaces import MapperExtension
 from sqlalchemy.types import Boolean, DateTime, Integer, Unicode, PickleType
 
@@ -33,7 +33,7 @@ storage = Table('storage', metadata,
     Column('engine_type', Unicode(30), nullable=False),
     Column('display_name', Unicode(100), nullable=False, unique=True),
     Column('pickled_data', PickleType, nullable=False),
-    Column('is_primary', Boolean, nullable=False, default=False),
+    Column('enabled', Boolean, nullable=False, default=True),
     Column('created_on', DateTime, nullable=False, default=datetime.now),
     Column('modified_on', DateTime, nullable=False, default=datetime.now,
                                                     onupdate=datetime.now),
@@ -97,7 +97,8 @@ def fetch_engines():
         subclasses.
 
     """
-    query = DBSession.query(StorageEngine)\
-        .order_by(StorageEngine.is_primary.asc(),
-                  StorageEngine.created_on.desc())
-    return query.all()
+    engines = DBSession.query(StorageEngine)\
+        .filter(StorageEngine.enabled == True)\
+        .order_by(StorageEngine.created_on.desc())\
+        .all()
+    return engines
