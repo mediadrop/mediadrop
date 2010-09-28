@@ -127,6 +127,15 @@ def abstractmethod(func):
 class abstractproperty(property):
     _isabstract = True
 
+def isabstract(x):
+    """Return True if given an abstract class, method, or property."""
+    if isinstance(x, AbstractMetaClass):
+        return bool(AbstractMetaClass._abstracts.get(x, ()))
+    elif isinstance(x, (abstractmethod, abstractproperty)):
+        return x._isabstract
+    else:
+        raise NotImplementedError
+
 class ImplementationError(Exception):
     """
     Error raised when a partial abstract class implementation is registered.
