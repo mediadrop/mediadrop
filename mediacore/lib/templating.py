@@ -18,7 +18,7 @@ import os.path
 
 from genshi import Markup, XML
 from genshi.output import XHTMLSerializer
-from genshi.template import loader
+from genshi.template.loader import TemplateLoader, directory, TemplateNotFound
 from pylons import app_globals
 from pylons.templating import pylons_globals
 
@@ -101,7 +101,7 @@ class XHTMLPlusSerializer(XHTMLSerializer):
     """
     _EMPTY_ELEMS = frozenset(set(['source']) | XHTMLSerializer._EMPTY_ELEMS)
 
-class TemplateLoader(loader.TemplateLoader):
+class TemplateLoader(TemplateLoader):
     def load(self, filename, relative_to=None, cls=None, encoding=None):
         """Load the template with the given name.
 
@@ -194,7 +194,7 @@ class TemplateLoader(loader.TemplateLoader):
 
             for loadfunc in search_path:
                 if isinstance(loadfunc, basestring):
-                    loadfunc = loader.directory(loadfunc)
+                    loadfunc = directory(loadfunc)
                 try:
                     filepath, filename, fileobj, uptodate = loadfunc(filename)
                 except IOError:
