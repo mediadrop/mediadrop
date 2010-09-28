@@ -446,6 +446,19 @@ def embeddable_player(media):
     from mediacore.lib.players import manager
     return manager().render(media)
 
+def embed_iframe_code(media, **kwargs):
+    """Return an <iframe> tag that loads our universal player.
+
+    :type media: :class:`mediacore.model.media.Media`
+    :param media: The media object that is being rendered, to be passed
+        to all instantiated player objects.
+    :rtype: :class:`genshi.builder.Element`
+    :returns: An iframe element stream.
+
+    """
+    from mediacore.lib.players import embed_iframe
+    return embed_iframe(media, **kwargs)
+
 def get_featured_category():
     from mediacore.model import Category
     feat_id = app_globals.settings['featured_category']

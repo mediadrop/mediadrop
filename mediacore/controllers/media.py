@@ -20,10 +20,12 @@ import logging
 import os.path
 
 from akismet import Akismet
+from formencode import Invalid, Schema, validators
 from paste.deploy.converters import asbool
 from paste.fileapp import FileApp
 from paste.util import mimeparse
 from pylons import app_globals, config, request, response
+from pylons.i18n import _
 from pylons.controllers.util import forward
 from sqlalchemy import orm, sql
 from webob.exc import HTTPNotAcceptable, HTTPNotFound
@@ -42,6 +44,18 @@ from mediacore.plugin import events
 log = logging.getLogger(__name__)
 
 post_comment_form = PostCommentForm()
+
+class EmbedPlayerSchema(Schema):
+    allow_extra_fields = True
+    filter_extra_fields = True
+    ignore_key_missing = True
+
+    width = validators.Int()
+    height = validators.Int()
+    autoplay = validators.Bool()
+    autobuffer = validators.Bool()
+
+embed_player_schema = EmbedPlayerSchema()
 
 class MediaController(BaseController):
     """
@@ -199,6 +213,20 @@ class MediaController(BaseController):
             comment_form = post_comment_form,
             comment_form_action = url_for(action='comment', anchor=post_comment_form.id),
             comment_form_values = kwargs,
+        )
+
+    @expose('players/iframe.html')
+    @observable(events.MediaController.embed_player)
+    def embed_player(self, slug, **kwargs):
+        try:
+            player_kwargs = embed_player_schema.to_python(kwargs)
+        except Invalid, e:
+            # TODO: Return the error messages from the formencode schema
+            return {'error': _('Invalid player params provided.')}
+        return dict(
+            media = fetch_row(Media, slug=slug),
+            player_kwargs = player_kwargs,
+            error = None,
         )
 
     @expose('media/jwplayer_rtmp_mrss.xml')

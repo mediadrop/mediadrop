@@ -165,6 +165,7 @@ class MediaController(object):
     index = Event(['**kwargs'])
     comment = Event(['**kwargs'])
     explore = Event(['**kwargs'])
+    embed_player = Event(['xhtml'])
     jwplayer_rtmp_mrss = Event(['**kwargs'])
     rate = Event(['**kwargs'])
     view = Event(['**kwargs'])

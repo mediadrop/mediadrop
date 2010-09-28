@@ -753,3 +753,19 @@ def manager():
         else:
             raise PlayerError('Unrecognized player type, given %r', name)
     return cache.get(createfunc=init_manager, key=key)
+
+def embed_iframe(media, width=400, height=225, frameborder=0, **kwargs):
+    """Return an <iframe> tag that loads our universal player.
+
+    :type media: :class:`mediacore.model.media.Media`
+    :param media: The media object that is being rendered, to be passed
+        to all instantiated player objects.
+    :rtype: :class:`genshi.builder.Element`
+    :returns: An iframe element stream.
+
+    """
+    src = url_for(controller='/media', action='embed_player', slug=media.slug,
+                  qualified=True)
+    tag = Element('iframe', src=src, width=width, height=height,
+                  frameborder=frameborder, **kwargs)
+    return tag
