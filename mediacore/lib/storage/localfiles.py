@@ -80,11 +80,11 @@ class LocalFileStorage(FileStorageEngine):
         file_path = self._get_path(file)
         return delete_files(file_path, 'media')
 
-    def get_uris(self, file):
+    def get_uris(self, media_file):
         """Return a list of URIs from which the stored file can be accessed.
 
-        :type unique_id: unicode
-        :param unique_id: The identifying string for this file.
+        :type media_file: :class:`~mediacore.model.media.MediaFile`
+        :param media_file: The associated media file object.
         :rtype: list
         :returns: All :class:`StorageURI` tuples for this file.
 
@@ -92,25 +92,25 @@ class LocalFileStorage(FileStorageEngine):
         uris = []
 
         # Remotely accessible URL
-        url = url_for(controller='/media', action='serve', id=file.id,
-                      slug=file.media.slug, container=file.container,
+        url = url_for(controller='/media', action='serve', id=media_file.id,
+                      slug=media_file.media.slug, container=media_file.container,
                       qualified=True)
-        uris.append(StorageURI(file, 'http', url, None))
+        uris.append(StorageURI(media_file, 'http', url, None))
 
         # An optional streaming RTMP URI
         rtmp_server_uri = self._data.get('rtmp_server_uri', None)
         if rtmp_server_uri:
-            uris.append(StorageURI(file, 'rtmp', file.unique_id, rtmp_server_uri))
+            uris.append(StorageURI(media_file, 'rtmp', media_file.unique_id, rtmp_server_uri))
 
         # Remotely *download* accessible URL
-        url = url_for(controller='/media', action='serve', id=file.id,
-                      slug=file.media.slug, container=file.container,
+        url = url_for(controller='/media', action='serve', id=media_file.id,
+                      slug=media_file.media.slug, container=media_file.container,
                       qualified=True, download=1)
-        uris.append(StorageURI(file, 'download', url, None))
+        uris.append(StorageURI(media_file, 'download', url, None))
 
         # Internal file URI that will be used by MediaController.serve
-        path = urlunsplit(('file', '', self._get_path(file.unique_id), '', ''))
-        uris.append(StorageURI(file, 'file', path, None))
+        path = urlunsplit(('file', '', self._get_path(media_file.unique_id), '', ''))
+        uris.append(StorageURI(media_file, 'file', path, None))
 
         return uris
 
