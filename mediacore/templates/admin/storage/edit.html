@@ -38,7 +38,7 @@
 		<div class="box-head">
 			<h1>${engine.display_name or _('New Storage Engine')}</h1>
 		</div>
-		<form py:if="form" py:replace="XML(form(form_values, engine=engine, action=form_action))" />
+		<form py:if="form" py:replace="Markup(form(form_values, engine=engine, action=form_action))" />
 	</div>
 </body>
 </html>
