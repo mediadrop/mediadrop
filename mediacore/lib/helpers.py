@@ -701,3 +701,20 @@ def doc_link(page=None, anchor='', text='Help', **kwargs):
     attrs_string = ' '.join(['%s="%s"' % (key, attrs[key]) for key in attrs])
     out = '<a %s>%s</a>' % (attrs_string, text)
     return literal(out)
+
+def merge_dicts(dst, src):
+    """Recursively merge two dictionaries.
+
+    Code adapted from Manuel Muradas' example at
+    http://code.activestate.com/recipes/499335-recursively-update-a-dictionary-without-hitting-py/
+    """
+    stack = [(dst, src)]
+    while stack:
+        current_dst, current_src = stack.pop()
+        for key in current_src:
+            if key in current_dst \
+            and isinstance(current_src[key], dict) \
+            and isinstance(current_dst[key], dict):
+                stack.append((current_dst[key], current_src[key]))
+            else:
+                current_dst[key] = current_src[key]
