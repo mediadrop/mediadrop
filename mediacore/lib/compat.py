@@ -13,7 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-__all__ = ['all', 'any', 'sha1', 'max']
+__all__ = ['all', 'any', 'chain', 'sha1', 'max']
 
 try:
     from hashlib import sha1
@@ -61,3 +61,19 @@ except TypeError:
                     cur_val = y
                     first = False
         return cur_obj
+
+from itertools import chain
+try:
+    chain.from_iterable
+except AttributeError:
+    # New in version 2.6: Alternate constructor for chain().
+    # Gets chained inputs from a single iterable arg that is evaluated lazily.
+    # NOTE: itertools is written in C so we can't monkeypatch it.
+    _chain = chain
+    def chain(*iterables):
+        return _chain(*iterables)
+    def _chain_from_iterable(iterables):
+        for it in iterables:
+            for element in it:
+                yield element
+    chain.from_iterable = _chain_from_iterable

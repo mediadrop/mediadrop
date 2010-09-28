@@ -99,6 +99,5 @@ def fetch_engines():
     """
     engines = DBSession.query(StorageEngine)\
         .filter(StorageEngine.enabled == True)\
-        .order_by(StorageEngine.created_on.desc())\
         .all()
     return engines

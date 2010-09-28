@@ -17,7 +17,9 @@ import logging
 import os
 import re
 
+from collections import defaultdict
 from cStringIO import StringIO
+from operator import attrgetter
 from shutil import copyfileobj
 from urllib2 import URLError, urlopen
 
@@ -25,11 +27,13 @@ from formencode import Invalid
 from pylons import app_globals
 from pylons.i18n import _
 
+from mediacore.lib.compat import chain
 from mediacore.lib.decorators import memoize
 from mediacore.lib.filetypes import guess_container_format, guess_media_type
 from mediacore.lib.thumbnails import (create_thumbs_for, has_thumbs,
     has_default_thumbs, thumb_path)
-from mediacore.plugin.abc import AbstractClass, abstractmethod, abstractproperty
+from mediacore.plugin.abc import (AbstractClass, abstractmethod,
+    abstractproperty, isabstract)
 
 __all__ = ['add_new_media_file']
 
@@ -139,7 +143,10 @@ class StorageEngine(AbstractClass):
     default_name = abstractproperty()
     """A user-friendly display name that identifies this StorageEngine."""
 
+    second_to = []
+
     is_singleton = abstractproperty()
+    """A flag that indicates whether this engine should be added only once."""
 
     settings_form_class = None
     """Your :class:`mediacore.forms.Form` class for changing :attr:`_data`."""
@@ -311,6 +318,8 @@ class EmbedStorageEngine(StorageEngine):
 
     is_singleton = True
 
+    second_to = [FileStorageEngine]
+
     url_pattern = abstractproperty()
     """A compiled pattern object that uses named groupings for matches."""
 
@@ -368,7 +377,7 @@ def add_new_media_file(media, file=None, url=None):
     from mediacore.model import DBSession, MediaFile
     from mediacore.model.storage import fetch_engines
 
-    for engine in fetch_engines():
+    for engine in sort_engines(fetch_engines()):
         try:
             meta = engine.parse(file=file, url=url)
             log.debug('Engine %r returned meta %r', engine, meta)
@@ -433,6 +442,44 @@ def add_new_media_file(media, file=None, url=None):
     DBSession.flush()
 
     return mf
+
+def sort_engines(engines):
+    """Yield a topologically sort of the given list of engines.
+
+    :type engines: list
+    :param engines: Unsorted instances of :class:`StorageEngine`.
+
+    """
+    # Partial ordering mapped from one child to all its parents.
+    edges = defaultdict(set)
+
+    # Partial ordering is defined for classes, not instances, so this
+    # will map classes to their instances.
+    engine_objs = defaultdict(set)
+
+    for engine in engines:
+        engine_cls = engine.__class__
+        engine_objs[engine_cls].add(engine)
+        for parent in engine.second_to:
+            if isabstract(parent):
+                edges[engine_cls].update(parent)
+            else:
+                edges[engine_cls].add(parent)
+
+    todo = set(engine_objs.iterkeys())
+    while todo:
+        output = set()
+        for node in list(todo):
+            if not todo.intersection(edges[node]):
+                output.add(node)
+        if not output:
+            raise RuntimeError('Circular dependency detected.')
+        todo.difference_update(output)
+
+        # output is currently just class objects, grab the instances
+        output_engines = chain.from_iterable(engine_objs[x] for x in output)
+        for engine in sorted(output_engines, key=attrgetter('id')):
+            yield engine
 
 def get_file_size(file):
     if hasattr(file, 'fileno'):

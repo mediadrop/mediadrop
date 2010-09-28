@@ -23,14 +23,14 @@ from mediacore.lib import helpers
 from mediacore.lib.base import BaseController
 from mediacore.lib.decorators import expose, observable, paginate, validate
 from mediacore.lib.helpers import redirect, url_for
-from mediacore.lib.storage import StorageEngine
+from mediacore.lib.storage import sort_engines, StorageEngine
 from mediacore.model import DBSession, fetch_row
 from mediacore.plugin import events
 
 log = logging.getLogger(__name__)
 
 class StorageController(BaseController):
-    """Admin user actions"""
+    """Admin storage engine actions"""
     allow_only = has_permission('admin')
 
     @expose('admin/storage/index.html')
@@ -48,6 +48,7 @@ class StorageController(BaseController):
             .options(orm.undefer('file_count'),
                      orm.undefer('file_size_sum'))\
             .all()
+        engines = list(sort_engines(engines))
         existing_types = set(ecls.engine_type for ecls in engines)
         addable_engines = [
             ecls

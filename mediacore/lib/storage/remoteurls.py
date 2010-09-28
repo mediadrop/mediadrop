@@ -22,8 +22,8 @@ from pylons.i18n import N_
 
 from mediacore.forms.admin.storage.remoteurls import RemoteURLStorageForm
 from mediacore.lib.filetypes import guess_container_format, guess_media_type
-from mediacore.lib.storage import (StorageURI,
-    StorageEngine, UnsuitableEngineError)
+from mediacore.lib.storage import (FileStorageEngine, EmbedStorageEngine,
+    StorageURI, StorageEngine, UnsuitableEngineError)
 
 log = logging.getLogger(__name__)
 
@@ -36,6 +36,8 @@ class RemoteURLStorage(StorageEngine):
     """A uniquely identifying unicode string for the StorageEngine."""
 
     default_name = N_(u'Remote URLs')
+
+    second_to = [FileStorageEngine, EmbedStorageEngine]
 
     settings_form_class = RemoteURLStorageForm
 
