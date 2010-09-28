@@ -51,13 +51,6 @@ def multi_settings_options(key):
         .all()
     return [(s.id, s.value) for s in settings]
 
-class RTMPSelectField(SingleSelectField):
-    validator = Int
-    def update_params(self, d):
-        d['options']= multi_settings_options(u'rtmp_server')
-        SingleSelectField.update_params(self, d)
-        return d
-
 def boolean_radiobuttonlist(name, **kwargs):
     return RadioButtonList(
         name,
@@ -65,26 +58,6 @@ def boolean_radiobuttonlist(name, **kwargs):
         validator=OneOf(['true', 'false']),
         **kwargs
     )
-
-class RTMPURLValidator(FancyValidator):
-    def _to_python(self, value, state=None):
-        if value.startswith('rtmp://'):
-            return value.rstrip('/')
-        raise formencode.Invalid(
-            _('RTMP server URLs must begin with rtmp://'), value, state)
-
-class RTMPForm(ListForm):
-    template = 'mediacore.templates.admin.box-form'
-    id = 'settings-form'
-    css_class = 'form'
-    submit_text = None
-
-    fields = [
-        TextField('new_rtmp_url', validator=RTMPURLValidator(if_missing=None), label_text='Save a new RTMP Server URL', maxlength=255),
-        RTMPSelectField('old_rtmp_id', validator=Int(if_missing=None), label_text='Delete an RTMP Server URL'),
-        SubmitButton('save', default='Save', css_classes=['btn', 'btn-save', 'f-rgt']),
-        SubmitButton('delete', default='Delete', named_button=True, css_classes=['btn', 'btn-delete']),
-    ]
 
 class NotificationsForm(ListForm):
     template = 'mediacore.templates.admin.box-form'

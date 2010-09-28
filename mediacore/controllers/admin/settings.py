@@ -19,7 +19,7 @@ from pylons import app_globals, request, response, session, tmpl_context as c
 from repoze.what.predicates import has_permission
 from sqlalchemy import orm, sql
 
-from mediacore.forms.admin.settings import AnalyticsForm, CommentsForm, DisplayForm, NotificationsForm, PopularityForm, RTMPForm, UploadForm
+from mediacore.forms.admin.settings import AnalyticsForm, CommentsForm, DisplayForm, NotificationsForm, PopularityForm, UploadForm
 from mediacore.lib.base import BaseSettingsController
 from mediacore.lib.decorators import expose, expose_xhr, paginate, validate
 from mediacore.lib.helpers import redirect, url_for
@@ -46,9 +46,6 @@ upload_form = UploadForm(
 
 analytics_form = AnalyticsForm(
     action=url_for(controller='/admin/settings', action='analytics_save'))
-
-rtmp_form = RTMPForm(
-    action=url_for(controller='/admin/settings', action='rtmp_save'))
 
 class SettingsController(BaseSettingsController):
     """
@@ -137,22 +134,3 @@ class SettingsController(BaseSettingsController):
     def analytics_save(self, **kwargs):
         """Save :class:`~mediacore.forms.admin.settings.AnalyticsForm`."""
         return self._save(analytics_form, 'analytics', values=kwargs)
-
-    @expose('admin/settings/rtmp.html')
-    def rtmp(self, **kwargs):
-        return dict(
-            form = rtmp_form,
-            form_values = {},
-        )
-
-    @expose()
-    @validate(rtmp_form, error_handler=rtmp)
-    def rtmp_save(self, new_rtmp_url=None, old_rtmp_id=None, delete=None, **kwargs):
-        """Save :class:`~mediacore.forms.admin.settings.RTMPForm`."""
-        if delete:
-            s = fetch_row(MultiSetting, old_rtmp_id, key=u'rtmp_server')
-            DBSession.delete(s)
-        elif new_rtmp_url:
-            s = MultiSetting(u'rtmp_server', new_rtmp_url)
-            DBSession.add(s)
-        redirect(controller='/admin/settings', action='rtmp')
