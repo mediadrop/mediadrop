@@ -32,19 +32,31 @@ class StorageForm(ListForm):
     params = ['engine']
 
     fields = [
-        ListFieldSet('general', suppress_label=True, legend=_('General Options'), children=[
-            TextField('display_name', label_text=_('Display Name'), validator=TextField.validator(not_empty=True), maxlength=100),
-        ]),
+        ListFieldSet('general',
+            legend=_('General Options:'),
+            suppress_label=True,
+            children=[
+                TextField('display_name',
+                    label_text=_('Display Name'),
+                    validator=TextField.validator(not_empty=True),
+                    maxlength=100,
+                ),
+            ],
+        ),
     ]
 
     buttons = [
-        SubmitButton('save', default=_('Save'), named_button=True, css_classes=['btn', 'btn-save', 'f-rgt']),
-        SubmitButton('delete', default=_('Delete'), named_button=True, css_classes=['btn', 'btn-delete', 'f-lft']),
+        SubmitButton('save',
+            default=_('Save'),
+            named_button=True,
+            css_classes=['btn', 'btn-save', 'f-rgt'],
+        ),
+        SubmitButton('delete',
+            default=_('Delete'),
+            named_button=True,
+            css_classes=['btn', 'btn-delete', 'f-lft'],
+        ),
     ]
-
-    def post_init(self, *args, **kwargs):
-        pass
-        #events.Admin.UserForm(self)
 
     def display(self, value, **kwargs):
         """Display the form with default values from the engine param."""
