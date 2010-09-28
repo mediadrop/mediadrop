@@ -46,10 +46,15 @@ class StorageForm(ListForm):
         pass
         #events.Admin.UserForm(self)
 
-    # XXX: Technically, this form isnt an abstract class. This decorator is
-    #      used for documentation purposes only.
-    @abstractmethod
-    def save_engine_params(self, engine, **kwargs):
+    def display(self, value, **kwargs):
+        """Display the form with default values from the engine param."""
+        engine = kwargs['engine']
+        general = value.setdefault('general', {})
+        if not general.get('display_name', None):
+            general['display_name'] = engine.default_name
+        return ListForm.display(self, value, **kwargs)
+
+    def save_engine_params(self, engine, general, **kwargs):
         """Map validated field values to engine data.
 
         Since form widgets may be nested or named differently than the keys
@@ -64,3 +69,4 @@ class StorageForm(ListForm):
             behaviour as with the @validate decorator.
 
         """
+        engine.display_name = general['display_name']

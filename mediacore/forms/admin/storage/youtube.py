@@ -44,6 +44,7 @@ class YoutubeStorageForm(StorageForm):
     player_params = ('disablekb', 'fs', 'hd', 'rel', 'showsearch', 'showinfo')
 
     def display(self, value, **kwargs):
+        """Display the form with default values from the engine param."""
         engine = kwargs['engine']
         player_data = engine._data.get('player_params', {})
         player = value.setdefault('player', {})

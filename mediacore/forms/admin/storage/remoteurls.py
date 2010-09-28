@@ -63,6 +63,7 @@ class RemoteURLStorageForm(StorageForm):
     javascript = [rtmp_server_js]
 
     def display(self, value, **kwargs):
+        """Display the form with default values from the engine param."""
         engine = kwargs['engine']
         rtmp = value.setdefault('rtmp', {})
         rtmp.setdefault('known_servers', engine._data.get('rtmp_server_uris', ()))

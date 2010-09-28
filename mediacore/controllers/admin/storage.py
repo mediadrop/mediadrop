@@ -79,15 +79,11 @@ class StorageController(BaseController):
                 redirect(controller='/admin/storage', action='index')
             engine = engine_cls()
 
-        form = engine.settings_form
-        form_values = {'general': {'display_name': engine.display_name}}
-        form_values.update(kwargs)
-
         return {
             'engine': engine,
-            'form': form,
+            'form': engine.settings_form,
             'form_action': url_for(action='save', engine_type=engine_type),
-            'form_values': form_values,
+            'form_values': kwargs,
         }
 
     @expose()
@@ -97,18 +93,10 @@ class StorageController(BaseController):
 
         @validate(form, error_handler=self.edit)
         def save_engine_params(id, general, **kwargs):
-            # Save the values from fields that are shared by all engine forms.
-            engine.display_name = general['display_name']
-
-            # Save form specifics using the custom save handler on the
-            # engine's form class, or use a default handler that just
-            # tries to map field names to predefined _data attributes.
-            save_func = getattr(form, 'save_engine_params', None)
-            if save_func and getattr(save_func, '_isabstract', False):
-                save_func = _default_save_handler
-            log.debug('found save func: %r', save_func)
+            # Allow the form to modify the StorageEngine directly
+            # since each can have radically different fields.
+            save_func = getattr(form, 'save_engine_params')
             save_func(engine, **tmpl_context.form_values)
-
             redirect(controller='/admin/storage', action='index')
 
         return save_engine_params(id, **kwargs)
@@ -121,8 +109,3 @@ class StorageController(BaseController):
         :type id: ``int``
         :returns: Redirect back to :meth:`index` after successful delete.
         """
-
-def _default_save_handler(engine, **kwargs):
-    for key, value in kwargs.iteritems():
-        if key in engine._default_data:
-            engine._data[key] = value
