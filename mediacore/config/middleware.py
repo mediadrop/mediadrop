@@ -104,11 +104,20 @@ def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
     def enable_i18n_for_template(template):
         template.filters.insert(0, Translator(ugettext))
 
+    # Ensure that the toscawidgets template loader includes the search paths
+    # from our main template loader.
+    from tw.core.view import EngineManager
+    from genshi.template.plugin import MarkupTemplateEnginePlugin
+    tw_engine_options = {'genshi.loader_callback': enable_i18n_for_template}
+    tw_engines = EngineManager(extra_vars_func=None, options=tw_engine_options)
+    tw_engines['genshi'] = MarkupTemplateEnginePlugin()
+    tw_engines['genshi'].loader = config['pylons.app_globals'].genshi_loader
+
     app = tw.api.make_middleware(app, {
         'toscawidgets.framework': 'pylons',
         'toscawidgets.framework.default_view': 'genshi',
         'toscawidgets.framework.translator': lazy_ugettext,
-        'toscawidgets.framework.engine_options': {'genshi.loader_callback': enable_i18n_for_template},
+        'toscawidgets.framework.engines': tw_engines,
     })
 
     # If enabled, set up the proxy prefix for routing behind

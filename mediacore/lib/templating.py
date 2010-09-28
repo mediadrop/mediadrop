@@ -163,7 +163,16 @@ class TemplateLoader(loader.TemplateLoader):
 
             isabs = False
 
+            retry_vars = {}
             if os.path.isabs(filename):
+                # Set up secondary search options for template paths that don't
+                # resolve with our relative path trick below.
+                retry_vars = dict(
+                    filename = os.path.basename(filename),
+                    relative_to = os.path.dirname(filename) + '/',
+                    cls = cls,
+                    encoding = encoding
+                )
                 # Make absolute paths relative to the base search path.
                 log.debug('Modifying the default TemplateLoader behaviour '
                           'for path %r; treating the absolute template path '
@@ -190,6 +199,8 @@ class TemplateLoader(loader.TemplateLoader):
                     filepath, filename, fileobj, uptodate = loadfunc(filename)
                 except IOError:
                     continue
+                except TemplateNotFound:
+                    continue
                 else:
                     try:
                         if isabs:
@@ -209,6 +220,9 @@ class TemplateLoader(loader.TemplateLoader):
                         if hasattr(fileobj, 'close'):
                             fileobj.close()
                     return tmpl
+
+            if retry_vars:
+                return self.load(**retry_vars)
 
             raise TemplateNotFound(filename, search_path)
 
