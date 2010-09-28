@@ -88,8 +88,14 @@ class StorageController(BaseController):
         }
 
     @expose()
-    def save(self, id, **kwargs):
-        engine = fetch_row(StorageEngine, id)
+    def save(self, id, engine_type=None, **kwargs):
+        if id == 'new':
+            assert engine_type is not None, 'engine_type must be specified when saving a new StorageEngine.'
+            engine_class = [x for x in StorageEngine if x.engine_type == engine_type][0]
+        else:
+            engine_class = StorageEngine
+
+        engine = fetch_row(engine_class, id)
         form = engine.settings_form
 
         @validate(form, error_handler=self.edit)
