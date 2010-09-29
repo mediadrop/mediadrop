@@ -567,6 +567,8 @@ var DatePicker = new Class({
 					if (this.options.timePicker){
 						date.setDate(d.day);
 						date.setMonth(d.month);
+						this.d.setDate(d.day);
+						this.d.setMonth(d.month);
 						this.mode = 'time';
 						this.render('fade');
 					} else {
