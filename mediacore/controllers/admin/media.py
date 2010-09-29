@@ -302,50 +302,35 @@ class MediaController(BaseController):
         else:
             media = fetch_row(Media, id)
 
-        try:
-            media_file = add_new_media_file(media, file, url)
-        except Invalid, e:
-            DBSession.rollback()
-            if isinstance(e, UnknownRTMPServer):
-                message = e.message\
-                    + _(' If you would like to add this server, you can do so'\
-                        ' at the <a href="%s">RTMP Settings</a> page.')\
-                    %  url_for(controller='/admin/settings', action='rtmp')
-            else:
-                message = e.message
-            data = dict(
-                success = False,
-                message = message,
-            )
-        else:
-            if media.slug.startswith('_stub_'):
-                media.title = media_file.display_name
-                media.slug = get_available_slug(Media, '_stub_' + media.title)
+        media_file = add_new_media_file(media, file, url)
+        if media.slug.startswith('_stub_'):
+            media.title = media_file.display_name
+            media.slug = get_available_slug(Media, '_stub_' + media.title)
 
-            # The thumbs may have been created already by add_new_media_file
-            if id == 'new' and not has_thumbs(media):
-                create_default_thumbs_for(media)
+        # The thumbs may have been created already by add_new_media_file
+        if id == 'new' and not has_thumbs(media):
+            create_default_thumbs_for(media)
 
-            # Render some widgets so the XHTML can be injected into the page
-            edit_form_xhtml = unicode(edit_file_form.display(
-                action=url_for(action='edit_file', id=media.id),
-                file=media_file))
-            status_form_xhtml = unicode(update_status_form.display(
-                action=url_for(action='update_status', id=media.id),
-                media=media))
+        # Render some widgets so the XHTML can be injected into the page
+        edit_form_xhtml = unicode(edit_file_form.display(
+            action=url_for(action='edit_file', id=media.id),
+            file=media_file))
+        status_form_xhtml = unicode(update_status_form.display(
+            action=url_for(action='update_status', id=media.id),
+            media=media))
 
-            data = dict(
-                success = True,
-                media_id = media.id,
-                file_id = media_file.id,
-                file_type = media_file.type,
-                edit_form = edit_form_xhtml,
-                status_form = status_form_xhtml,
-                title = media.title,
-                slug = media.slug,
-                link = url_for(action='edit', id=media.id),
-                duration = helpers.duration_from_seconds(media.duration),
-            )
+        data = dict(
+            success = True,
+            media_id = media.id,
+            file_id = media_file.id,
+            file_type = media_file.type,
+            edit_form = edit_form_xhtml,
+            status_form = status_form_xhtml,
+            title = media.title,
+            slug = media.slug,
+            link = url_for(action='edit', id=media.id),
+            duration = helpers.duration_from_seconds(media.duration),
+        )
 
         return data
 
