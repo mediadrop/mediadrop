@@ -189,14 +189,13 @@ var StatusForm = new Class({
 		form: '',
 		error: '',
 		submitReq: {noCache: true},
-		pickerField: '#publish_on',
+		pickerField: 'publish_on',
 		pickerOptions: {
-			toggleElements: '#status-publish',
+			toggle: 'status-publish',
 			yearPicker: false,
 			timePicker: true,
 			allowEmpty: true,
-			format: 'M d Y @ H:i',
-			inputOutputFormat: 'M d Y @ H:i'
+			format: '%b %d %Y @ %H:%M'
 		}
 	},
 
@@ -211,15 +210,14 @@ var StatusForm = new Class({
 	},
 
 	attachDatePicker: function(){
-		try {
-			if (!this.publishDatePicker) {
-				this.publishDatePicker = new DatePicker(this.options.pickerField, $extend(this.options.pickerOptions, {
-					onSelect: this.changePublishDate.bind(this),
-					onShow: this.onShowDatePicker.bind(this)
-				}));
-			}
-			return this.publishDatePicker.attach();
-		} catch(e) {}
+		var toggle = $(this.options.pickerOptions.toggle);
+		if (!toggle) return;
+		if (this.publishDatePicker == null) {
+			this.publishDatePicker = new DatePicker(this.options.pickerField, this.options.pickerOptions)
+				.addEvent('select', this.changePublishDate.bind(this));
+		} else {
+			this.publishDatePicker.attach(this.options.pickerField, toggle);
+		}
 	},
 
 	saveStatus: function(e){
@@ -258,15 +256,9 @@ var StatusForm = new Class({
 		errorBox.highlight();
 	},
 
-	onShowDatePicker: function(){
-		var coords = $$(this.publishDatePicker.options.toggleElements)[0].getCoordinates();
-		var ml = coords.left - Math.floor($(document).getSize().x / 2);
-		$$('.datepicker')[0].setStyles({left: '50%', top: coords.bottom + 'px', marginLeft: ml + 'px'});
-	},
-
 	changePublishDate: function(d){
-		var publishDate = d.format('%b %d %Y @ %H:%M');
-		$$(this.publishDatePicker.options.toggleElements)[0].getFirst().set('text', publishDate);
+		var publishDate = d.format(this.options.pickerOptions.format);
+		$(this.publishDatePicker.options.toggle).getFirst().set('text', publishDate);
 
 		var r = new Request.JSON({
 			url: this.form.get('action'),
