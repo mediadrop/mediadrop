@@ -40,9 +40,12 @@ media = Table('media', metadata,
 )
 media_meta = Table('media_meta', metadata,
     Column('id', Integer, autoincrement=True, primary_key=True),
-    Column('media_id', Integer, ForeignKey('media.id'), nullable=False),
+    Column('media_id', Integer, ForeignKey('media.id', onupdate='CASCADE', ondelete='CASCADE'), nullable=False),
     Column('key', Unicode(64), nullable=False),
     Column('value', UnicodeText, default=None),
+
+    mysql_engine='InnoDB',
+    mysql_charset='utf8',
 )
 
 def upgrade(migrate_engine):
