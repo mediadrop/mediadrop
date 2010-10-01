@@ -327,71 +327,60 @@ class MediaController(BaseController):
             redirect(action='view', anchor='comment-%s' % c.id)
 
     @expose()
-    def serve(self, id, container, slug=None, download=False, **kwargs):
+    def serve(self, id, download=False, **kwargs):
         """Serve a :class:`~mediacore.model.media.MediaFile` binary.
 
         :param id: File ID
         :type id: ``int``
-        :param slug: The media :attr:`~mediacore.model.media.Media.slug`
-        :type slug: The file :attr:`~mediacore.model.media.MediaFile.container`
         :param bool download: If true, serve with an Content-Disposition that
             makes the file download to the users computer instead of playing
             in the browser.
-        :raises webob.exc.HTTPNotFound: If no file exists for the given params.
+        :raises webob.exc.HTTPNotFound: If no file exists with this ID.
         :raises webob.exc.HTTPNotAcceptable: If an Accept header field
             is present, and if the mimetype of the requested file doesn't
             match, then a 406 (not acceptable) response is returned.
 
         """
-        if slug:
-            media = fetch_row(Media, slug=slug)
-            media_files = media.files
-        else:
-            media_file = fetch_row(MediaFile, id=id)
-            media_files = [media_file]
+        file = fetch_row(MediaFile, id=id)
 
-        for file in media_files:
-            if file.id == int(id) and file.container == container:
-                file_path = helpers.file_path(file).encode('utf-8')
-                file_type = file.mimetype.encode('utf-8')
-                file_name = file.display_name.encode('utf-8')
+        file_path = helpers.file_path(file).encode('utf-8')
+        file_type = file.mimetype.encode('utf-8')
+        file_name = file.display_name.encode('utf-8')
 
-                if not os.path.exists(file_path):
-                    log.warn('No such file or directory: %r', file_path)
-                    raise HTTPNotFound()
-
-                # Ensure the request accepts files with this container
-                accept = request.environ.get('HTTP_ACCEPT', '*/*')
-                if not mimeparse.best_match([file_type], accept):
-                    raise HTTPNotAcceptable() # 406
-
-                method = config.get('file_serve_method', None)
-                headers = []
-
-                # Serving files with this header breaks playback on iPhone
-                if download:
-                    headers.append(('Content-Disposition',
-                                    'attachment; filename="%s"' % file_name))
-
-                if method == 'apache_xsendfile':
-                    # Requires mod_xsendfile for Apache 2.x
-                    # XXX: Don't send Content-Length or Etag headers,
-                    #      Apache handles them for you.
-                    response.headers['X-Sendfile'] = file_path
-                    response.body = ''
-
-                elif method == 'nginx_redirect':
-                    raise NotImplementedError, 'This is only a placeholder'
-                    response.headers['X-Accel-Redirect'] = '../relative/path'
-
-                else:
-                    app = FileApp(file_path, headers, content_type=file_type)
-                    return forward(app)
-
-                response.headers['Content-Type'] = file_type
-                for header, value in headers:
-                    response.headers[header] = value
-
-                return None
-        else:
+        if not os.path.exists(file_path):
+            log.warn('No such file or directory: %r', file_path)
             raise HTTPNotFound()
+
+        # Ensure the request accepts files with this container
+        accept = request.environ.get('HTTP_ACCEPT', '*/*')
+        if not mimeparse.best_match([file_type], accept):
+            raise HTTPNotAcceptable() # 406
+
+        method = config.get('file_serve_method', None)
+        headers = []
+
+        # Serving files with this header breaks playback on iPhone
+        if download:
+            headers.append(('Content-Disposition',
+                            'attachment; filename="%s"' % file_name))
+
+        if method == 'apache_xsendfile':
+            # Requires mod_xsendfile for Apache 2.x
+            # XXX: Don't send Content-Length or Etag headers,
+            #      Apache handles them for you.
+            response.headers['X-Sendfile'] = file_path
+            response.body = ''
+
+        elif method == 'nginx_redirect':
+            raise NotImplementedError, 'This is only a placeholder'
+            response.headers['X-Accel-Redirect'] = '../relative/path'
+
+        else:
+            app = FileApp(file_path, headers, content_type=file_type)
+            return forward(app)
+
+        response.headers['Content-Type'] = file_type
+        for header, value in headers:
+            response.headers[header] = value
+
+        return None
