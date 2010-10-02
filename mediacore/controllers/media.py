@@ -19,6 +19,8 @@ Publicly Facing Media Controllers
 import logging
 import os.path
 
+from itertools import izip
+
 from akismet import Akismet
 from formencode import Invalid, Schema, validators
 from paste.deploy.converters import asbool
@@ -36,7 +38,7 @@ from mediacore.lib import email, helpers
 from mediacore.lib.base import BaseController
 from mediacore.lib.decorators import expose, expose_xhr, observable, paginate, validate
 from mediacore.lib.helpers import file_path, pick_uris, redirect, store_transient_message, url_for
-from mediacore.lib.players import manager
+from mediacore.lib.players import JWPlayer, manager
 from mediacore.model import (DBSession, fetch_row, get_available_slug,
     Media, MediaFile, Comment, Tag, Category, Author, AuthorWithIP, Podcast)
 from mediacore.plugin import events
@@ -246,11 +248,15 @@ class MediaController(BaseController):
         media = fetch_row(Media, slug=slug)
         rtmp_uris = pick_uris(media, scheme='rtmp')
         rtmp_uris = manager().sort_uris(rtmp_uris)
+        can_play = JWPlayer.can_play(rtmp_uris)
+        uris = [uri for uri, plays in izip(rtmp_uris, can_play) if plays]
 
-        response.headers['Content-Type'] = 'application/rss+xml; charset=UTF-8'
+        if not uris:
+            raise HTTPNotFound()
+        response.content_type = 'application/rss+xml'
         return dict(
             media = media,
-            uris = rtmp_uris,
+            uris = uris,
         )
 
     @expose()
