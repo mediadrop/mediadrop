@@ -446,7 +446,7 @@ class AbstractHTML5Player(FileSupportMixin, AbstractPlayer):
 
     """
     logical_types = set(['html5'])
-    supported_containers = set(['mp3', 'mp4', 'ogg', 'webm'])
+    supported_containers = set(['mp3', 'mp4', 'ogg', 'webm', 'm3u8'])
     supported_schemes = set([HTTP])
 
     def __init__(self, *args, **kwargs):
@@ -476,7 +476,13 @@ class AbstractHTML5Player(FileSupportMixin, AbstractPlayer):
         attrs = self.html5_attrs()
         tag = Element(self.media.type, **attrs)
         for uri in self.uris:
-            tag(Element('source', src=uri.file_uri, type=uri.file.mimetype))
+            # Providing a type attr breaks for m3u8 breaks iPhone playback.
+            # Tried: application/x-mpegURL, vnd.apple.mpegURL, video/MP2T
+            if uri.file.container == 'm3u8':
+                mimetype = None
+            else:
+                mimetype = uri.file.mimetype
+            tag(Element('source', src=uri.file_uri, type=mimetype))
         return tag
 
 

@@ -55,6 +55,7 @@ mimetype_lookup = {
     u'mpg':  u'%s/mpeg',
     u'webm': u'%s/webm',
     u'wmv':  u'video/x-ms-wmv',
+    u'm3u8': u'application/x-mpegURL',
     u'xml':  u'application/ttml+xml',
     u'srt':  u'text/plain',
 }
@@ -80,6 +81,7 @@ container_lookup = {
     u'video/x-ms-wmv': u'wmv',
     u'video/x-vob': u'vob',
     u'video/webm': u'webm',
+    u'application/x-mpegURL': 'm3u8',
     u'application/ttml+xml': u'xml',
     u'text/plain': u'srt',
 }
