@@ -13,9 +13,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import re
-from pylons import request
-
 __all__ = [
     'guess_container_format',
     'guess_media_type',
@@ -26,7 +23,6 @@ AUDIO = u'audio'
 VIDEO = u'video'
 AUDIO_DESC = u'audio_desc'
 CAPTIONS = u'captions'
-UNKNOWN = u'unknown'
 
 # Mimetypes for all file extensions accepted by the front and backend uploaders
 #
@@ -86,7 +82,6 @@ container_lookup = {
     u'video/webm': u'webm',
     u'application/ttml+xml': u'xml',
     u'text/plain': u'srt',
-    u'application/octet-stream': UNKNOWN,
 }
 
 # When media_obj.container doesn't match a key in the mimetype_lookup dict...
@@ -115,7 +110,6 @@ guess_media_type_map = {
     'wmv':  VIDEO,
     'xml':  CAPTIONS,
     'srt':  CAPTIONS,
-    UNKNOWN: VIDEO,
 }
 
 def guess_container_format(extension):
@@ -126,10 +120,12 @@ def guess_container_format(extension):
 
     :param extension: the file extension, without a preceding period.
     :type extension: string
-    :rtype: string or None
+    :rtype: string
 
     """
-    mt = guess_mimetype(extension)
+    mt = guess_mimetype(extension, default=True)
+    if mt is True:
+        return extension
     return container_lookup.get(mt)
 
 def guess_media_type(extension=None, default=VIDEO):
