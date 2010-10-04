@@ -10,7 +10,8 @@ from migrate.versioning.api import version_control, version, upgrade
 from migrate.versioning.exceptions import DatabaseAlreadyControlledError
 
 from mediacore.config.environment import load_environment
-from mediacore.lib.storage import LocalFileStorage, RemoteURLStorage
+from mediacore.lib.storage import (BlipTVStorage, GoogleVideoStorage,
+    LocalFileStorage, RemoteURLStorage, VimeoStorage, YoutubeStorage)
 from mediacore.model import (DBSession, metadata, Media, MediaFile, Podcast,
     User, Group, Permission, Tag, Category, Comment, Setting, Author,
     AuthorWithIP)
@@ -183,14 +184,17 @@ def add_default_data():
     media.comments.append(comment)
     DBSession.add(media)
 
-    local_storage = LocalFileStorage()
-    local_storage.display_name = u'Default File Storage'
-    local_storage.is_primary = True
-    DBSession.add(local_storage)
-
     remote_url_storage = RemoteURLStorage()
-    remote_url_storage.display_name = u'Default URL Storage'
-    DBSession.add(remote_url_storage)
+    default_engines = [
+        LocalFileStorage(),
+        remote_url_storage,
+        YoutubeStorage(),
+        VimeoStorage(),
+        BlipTVStorage(),
+        GoogleVideoStorage(),
+    ]
+    for engine in default_engines:
+        DBSession.add(engine)
 
     import datetime
     instructional_media = [
