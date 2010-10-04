@@ -394,7 +394,7 @@ def add_new_media_file(media, file=None, url=None):
     from mediacore.model import DBSession, MediaFile
     from mediacore.model.storage import fetch_engines
 
-    sorted_engines = sort_engines(fetch_engines())
+    sorted_engines = list(sort_engines(fetch_engines()))
 
     for engine in sorted_engines:
         try:
@@ -463,7 +463,7 @@ def add_new_media_file(media, file=None, url=None):
     # Try to transcode the file.
     for engine in sorted_engines:
         try:
-            engine.trancode(mf)
+            engine.transcode(mf)
             log.debug('Engine %r has agreed to transcode %r', engine, mf)
             break
         except CannotTranscode:
@@ -473,7 +473,7 @@ def add_new_media_file(media, file=None, url=None):
     return mf
 
 def sort_engines(engines):
-    """Yield a topologically sort of the given list of engines.
+    """Yield a topological sort of the given list of engines.
 
     :type engines: list
     :param engines: Unsorted instances of :class:`StorageEngine`.
