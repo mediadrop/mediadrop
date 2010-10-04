@@ -89,9 +89,12 @@ media = Table('media', metadata,
 
 media_meta = Table('media_meta', metadata,
     Column('id', Integer, autoincrement=True, primary_key=True),
-    Column('media_id', Integer, ForeignKey('media.id'), nullable=False),
+    Column('media_id', Integer, ForeignKey('media.id', onupdate='CASCADE', ondelete='CASCADE'), nullable=False),
     Column('key', Unicode(64), nullable=False),
     Column('value', UnicodeText, default=None),
+
+    mysql_engine='InnoDB',
+    mysql_charset='utf8',
 )
 
 media_files = Table('media_files', metadata,
@@ -118,9 +121,12 @@ media_files = Table('media_files', metadata,
 
 media_files_meta = Table('media_files_meta', metadata,
     Column('id', Integer, autoincrement=True, primary_key=True),
-    Column('media_files_id', Integer, ForeignKey('media_files.id'), nullable=False),
+    Column('media_files_id', Integer, ForeignKey('media_files.id', onupdate='CASCADE', ondelete='CASCADE'), nullable=False),
     Column('key', Unicode(64), nullable=False),
     Column('value', UnicodeText, default=None),
+
+    mysql_engine='InnoDB',
+    mysql_charset='utf8',
 )
 
 media_tags = Table('media_tags', metadata,
