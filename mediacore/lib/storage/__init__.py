@@ -162,13 +162,16 @@ class StorageEngine(AbstractClass):
     known keys are used.
     """
 
-    def __init__(self, data=None):
+    def __init__(self, display_name=None, data=None):
         """Initialize with the given data, or the class defaults.
 
+        :type display_name: unicode
+        :param display_name: Name, defaults to :attr:`default_name`.
         :type data: dict
         :param data: The unique parameters of this engine instance.
 
         """
+        self.display_name = display_name or self.default_name
         self._data = data or self._default_data
 
     def engine_params(self):
