@@ -454,6 +454,7 @@ class AbstractHTML5Player(FileSupportMixin, AbstractPlayer):
         # Move mp4 files to the front of the list because the iPad has
         # a bug that prevents it from playing but the first file.
         self.uris.sort(key=lambda uri: uri.file.container != 'mp4')
+        self.uris.sort(key=lambda uri: uri.file.container != 'm3u8')
 
     def html5_attrs(self):
         attrs = {
