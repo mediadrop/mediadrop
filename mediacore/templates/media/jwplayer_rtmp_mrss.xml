@@ -8,7 +8,7 @@
 		<item>
 			<title>${media.title}</title>
 			<description>${media.description_plain}</description>
-			<link>${h.url_for(controller='/media', action='view', slug=media.slug, podcast_slug=media.podcast and media.podcast.slug or None, qualified=True)}</link>
+			<link>${h.url_for(controller='/media', action='view', slug=media.slug, qualified=True)}</link>
 			<media:thumbnail url="${h.thumb_url(media, 'l')}" />
 			<media:group py:strip="not len(uris) > 1">
 				<media:content py:for="uri in uris"
