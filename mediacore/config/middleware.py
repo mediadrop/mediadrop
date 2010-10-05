@@ -18,6 +18,7 @@ import os
 
 from beaker.middleware import SessionMiddleware
 from genshi.filters.i18n import Translator
+from genshi.template.plugin import MarkupTemplateEnginePlugin
 from paste.cascade import Cascade
 from paste.registry import RegistryManager
 from paste.urlparser import StaticURLParser
@@ -27,6 +28,7 @@ from pylons.i18n.translation import lazy_ugettext, ugettext
 from pylons.middleware import ErrorHandler, StatusCodeRedirect
 from pylons.wsgiapp import PylonsApp
 from routes.middleware import RoutesMiddleware
+from tw.core.view import EngineManager
 import tw.api
 
 from mediacore.config.environment import load_environment
@@ -54,6 +56,28 @@ class DBSessionRemoverMiddleware(object):
             return self.app(environ, start_response)
         finally:
             DBSession.remove()
+
+def setup_tw_middleware(app, config):
+    # Set up the TW middleware, as per errors and instructions at:
+    # http://groups.google.com/group/toscawidgets-discuss/browse_thread/thread/c06950b8d1f62db9
+    # http://toscawidgets.org/documentation/ToscaWidgets/install/pylons_app.html
+    def enable_i18n_for_template(template):
+        template.filters.insert(0, Translator(ugettext))
+
+    # Ensure that the toscawidgets template loader includes the search paths
+    # from our main template loader.
+    tw_engine_options = {'genshi.loader_callback': enable_i18n_for_template}
+    tw_engines = EngineManager(extra_vars_func=None, options=tw_engine_options)
+    tw_engines['genshi'] = MarkupTemplateEnginePlugin()
+    tw_engines['genshi'].loader = config['pylons.app_globals'].genshi_loader
+
+    app = tw.api.make_middleware(app, {
+        'toscawidgets.framework': 'pylons',
+        'toscawidgets.framework.default_view': 'genshi',
+        'toscawidgets.framework.translator': lazy_ugettext,
+        'toscawidgets.framework.engines': tw_engines,
+    })
+    return app
 
 def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
     """Create a Pylons WSGI application and return it
@@ -98,27 +122,8 @@ def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
     # http://wiki.pylonshq.com/display/pylonscookbook/Authorization+with+repoze.what
     app = add_auth(app, config)
 
-    # Set up the TW middleware, as per errors and instructions at:
-    # http://groups.google.com/group/toscawidgets-discuss/browse_thread/thread/c06950b8d1f62db9
-    # http://toscawidgets.org/documentation/ToscaWidgets/install/pylons_app.html
-    def enable_i18n_for_template(template):
-        template.filters.insert(0, Translator(ugettext))
-
-    # Ensure that the toscawidgets template loader includes the search paths
-    # from our main template loader.
-    from tw.core.view import EngineManager
-    from genshi.template.plugin import MarkupTemplateEnginePlugin
-    tw_engine_options = {'genshi.loader_callback': enable_i18n_for_template}
-    tw_engines = EngineManager(extra_vars_func=None, options=tw_engine_options)
-    tw_engines['genshi'] = MarkupTemplateEnginePlugin()
-    tw_engines['genshi'].loader = config['pylons.app_globals'].genshi_loader
-
-    app = tw.api.make_middleware(app, {
-        'toscawidgets.framework': 'pylons',
-        'toscawidgets.framework.default_view': 'genshi',
-        'toscawidgets.framework.translator': lazy_ugettext,
-        'toscawidgets.framework.engines': tw_engines,
-    })
+    # ToscaWidgets Middleware
+    app = setup_tw_middleware(app, config)
 
     # If enabled, set up the proxy prefix for routing behind
     # fastcgi and mod_proxy based deployments.
