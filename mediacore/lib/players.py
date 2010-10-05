@@ -270,7 +270,7 @@ class FlowPlayer(AbstractFlashPlayer):
             })
 
         playlist.append({
-            'url': http_uri.file_uri,
+            'url': str(http_uri),
             'autoPlay': self.autoplay,
             'autoBuffer': self.autoplay or self.autobuffer,
         })
@@ -323,7 +323,7 @@ class JWPlayer(AbstractFlashPlayer):
         }
         if youtube:
             vars['provider'] = 'youtube'
-            vars['file'] = youtube[0].uri
+            vars['file'] = str(youtube[0])
         elif rtmp:
             if len(rtmp) > 1:
                 # For multiple RTMP bitrates, use Media RSS playlist
@@ -342,7 +342,7 @@ class JWPlayer(AbstractFlashPlayer):
         else:
             http_uri = http[0]
             vars['provider'] = self.providers[http_uri.file.type]
-            vars['file'] = http_uri.file_uri
+            vars['file'] = str(http_uri)
 
         plugins = []
         if rtmp:
@@ -391,7 +391,7 @@ class VimeoUniversalEmbedPlayer(AbstractEmbedPlayer):
 
     def render(self, **kwargs):
         uri = self.uris[0]
-        tag = Element('iframe', src=uri.file_uri, frameborder=0,
+        tag = Element('iframe', src=uri, frameborder=0,
                       width=self.adjusted_width, height=self.adjusted_height)
         return tag
 
@@ -404,7 +404,7 @@ class AbstractFlashEmbedPlayer(FlashRenderMixin, AbstractEmbedPlayer):
 
     def swf_url(self):
         """Return the flash player URL."""
-        return self.uris[0].file_uri
+        return str(self.uris[0])
 
     def flashvars(self):
         """Return a python dict of flashvars for this player."""
@@ -483,7 +483,7 @@ class AbstractHTML5Player(FileSupportMixin, AbstractPlayer):
                 mimetype = None
             else:
                 mimetype = uri.file.mimetype
-            tag(Element('source', src=uri.file_uri, type=mimetype))
+            tag(Element('source', src=uri, type=mimetype))
         return tag
 
 
