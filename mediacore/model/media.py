@@ -619,6 +619,7 @@ _media_files_mapper = mapper(
         '_meta': relation(
             MediaFilesMeta,
             collection_class=attribute_mapped_collection('key'),
+            passive_deletes=True,
         ),
     },
 )
@@ -661,6 +662,7 @@ _media_mapper = mapper(
         '_meta': relation(
             MediaMeta,
             collection_class=attribute_mapped_collection('key'),
+            passive_deletes=True,
         ),
         'comments': dynamic_loader(
             Comment,

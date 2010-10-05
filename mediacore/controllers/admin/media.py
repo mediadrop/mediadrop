@@ -213,6 +213,8 @@ class MediaController(BaseController):
                 # Remove the file from the session so that SQLAlchemy doesn't
                 # try to issue an UPDATE to set the MediaFile.media_id to None.
                 # The database ON DELETE CASCADE handles everything for us.
+                # TODO: Try setting Media.files.cascade to 'all, delete-orphan'
+                #       so this can be removed.
                 DBSession.expunge(f)
             DBSession.delete(media)
             DBSession.commit()
