@@ -93,7 +93,7 @@ class WXHValidator(FancyValidator):
         return u"%dx%d" % (width, height)
 
 class AddFileForm(ListForm):
-    template = 'mediacore.templates.admin.media.file-add-form'
+    template = 'admin/media/file-add-form.html'
     id = 'add-file-form'
     submit_text = None
     fields = [
@@ -116,7 +116,7 @@ file_type_validator = OneOf(file_types, if_missing=None)
 file_type_validator = None
 
 class EditFileForm(ListForm):
-    template = 'mediacore.templates.admin.media.file-edit-form'
+    template = 'admin/media/file-edit-form.html'
     submit_text = None
     _name = 'fileeditform'
     params = ['file']
@@ -135,7 +135,7 @@ class EditFileForm(ListForm):
 
 
 class MediaForm(ListForm):
-    template = 'mediacore.templates.admin.box-form'
+    template = 'admin/box-form.html'
     id = 'media-form'
     css_class = 'form'
     submit_text = None
@@ -161,7 +161,7 @@ class MediaForm(ListForm):
 
 
 class UpdateStatusForm(Form):
-    template = 'mediacore.templates.admin.media.update-status-form'
+    template = 'admin/media/update-status-form.html'
     id = 'update-status-form'
     css_class = 'form'
     submit_text = None
@@ -181,7 +181,7 @@ class UpdateStatusForm(Form):
 class PodcastFilterForm(ListForm):
     id = 'podcastfilterform'
     method = 'get'
-    template = 'mediacore.templates.admin.media.podcast-filter-form'
+    template = 'admin/media/podcast-filter-form.html'
 
     fields = [SingleSelectField('podcast_filter', suppress_label=True,
         options=lambda: \

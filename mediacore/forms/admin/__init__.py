@@ -28,7 +28,7 @@ class SearchForm(ListForm):
         events.Admin.SearchForm(self)
 
 class ThumbForm(ListForm):
-    template = 'mediacore.templates.admin.thumb-form'
+    template = 'admin/thumb-form.html'
     id = 'thumb-form'
     css_class = 'form'
     submit_text = None

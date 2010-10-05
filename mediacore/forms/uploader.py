@@ -45,7 +45,7 @@ validators = dict(
 )
 
 class UploadForm(ListForm):
-    template = 'mediacore.templates.upload.form'
+    template = 'upload/form.html'
     id = 'upload-form'
     css_class = 'form'
     show_children_errors = False

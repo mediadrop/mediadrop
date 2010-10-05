@@ -29,7 +29,7 @@ class TagNameValidator(XHTMLEntityValidator):
         return value
 
 class TagForm(ListForm):
-    template = 'mediacore.templates.admin.tags.form'
+    template = 'admin/tags/form.html'
     id = None
     css_classes = ['form', 'tag-form']
     submit_text = None
@@ -47,7 +47,7 @@ class TagForm(ListForm):
         events.Admin.TagForm(self)
 
 class TagRowForm(Form):
-    template = 'mediacore.templates.admin.tags.row-form'
+    template = 'admin/tags/row-form.html'
     id = None
     submit_text = None
     params = ['tag']

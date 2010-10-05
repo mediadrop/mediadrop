@@ -18,6 +18,7 @@ import os
 
 from beaker.middleware import SessionMiddleware
 from genshi.filters.i18n import Translator
+from genshi.template import loader
 from genshi.template.plugin import MarkupTemplateEnginePlugin
 from paste.cascade import Cascade
 from paste.registry import RegistryManager
@@ -64,12 +65,41 @@ def setup_tw_middleware(app, config):
     def enable_i18n_for_template(template):
         template.filters.insert(0, Translator(ugettext))
 
+    def filename_suffix_adder(inner_loader, suffix):
+        def _add_suffix(filename):
+            return inner_loader(filename + suffix)
+        return _add_suffix
+
     # Ensure that the toscawidgets template loader includes the search paths
     # from our main template loader.
     tw_engine_options = {'genshi.loader_callback': enable_i18n_for_template}
     tw_engines = EngineManager(extra_vars_func=None, options=tw_engine_options)
     tw_engines['genshi'] = MarkupTemplateEnginePlugin()
     tw_engines['genshi'].loader = config['pylons.app_globals'].genshi_loader
+
+    # Disable the built-in package name template resolution.
+    tw_engines['genshi'].use_package_naming = False
+
+    # Rebuild package name template resolution using mostly standard Genshi
+    # load functions. With our customizations to the TemplateLoader, the
+    # absolute paths that the builtin resolution produces are erroneously
+    # treated as being relative to the search path.
+
+    # Search the tw templates dir using the pkg_resources API.
+    # Expected input: 'input_field.html'
+    tw_loader = loader.package('tw.forms', 'templates')
+
+    # Include the .html extension automatically.
+    # Expected input: 'input_field'
+    tw_loader = filename_suffix_adder(tw_loader, '.html')
+
+    # Apply this loader only when the filename starts with tw.forms.templates.
+    # This prefix is stripped off when calling the above loader.
+    # Expected input: 'tw.forms.templates.input_field'
+    tw_loader = loader.prefixed(**{'tw.forms.templates.': tw_loader})
+
+    # Add this path to our global loader
+    tw_engines['genshi'].loader.search_path.append(tw_loader)
 
     app = tw.api.make_middleware(app, {
         'toscawidgets.framework': 'pylons',

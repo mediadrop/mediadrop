@@ -69,7 +69,7 @@ def real_boolean_radiobuttonlist(name, **kwargs):
     )
 
 class NotificationsForm(ListForm):
-    template = 'mediacore.templates.admin.box-form'
+    template = 'admin/box-form.html'
     id = 'settings-form'
     css_class = 'form'
     submit_text = None
@@ -86,7 +86,7 @@ class NotificationsForm(ListForm):
     ]
 
 class DisplayForm(ListForm):
-    template = 'mediacore.templates.admin.box-form'
+    template = 'admin/box-form.html'
     id = 'settings-form'
     css_class = 'form'
     submit_text = None
@@ -122,7 +122,7 @@ class DisplayForm(ListForm):
     ]
 
 class PopularityForm(ListForm):
-    template = 'mediacore.templates.admin.box-form'
+    template = 'admin/box-form.html'
     id = 'settings-form'
     css_class = 'form'
     submit_text = None
@@ -160,7 +160,7 @@ class MegaByteValidator(Int):
         return super(MegaByteValidator, self)._from_python(value, state)
 
 class UploadForm(ListForm):
-    template = 'mediacore.templates.admin.box-form'
+    template = 'admin/box-form.html'
     id = 'settings-form'
     css_class = 'form'
     submit_text = None
@@ -187,7 +187,7 @@ class UploadForm(ListForm):
     ]
 
 class AnalyticsForm(ListForm):
-    template = 'mediacore.templates.admin.box-form'
+    template = 'admin/box-form.html'
     id = 'settings-form'
     css_class = 'form'
     submit_text = None
@@ -200,7 +200,7 @@ class AnalyticsForm(ListForm):
     ]
 
 class CommentsForm(ListForm):
-    template = 'mediacore.templates.admin.box-form'
+    template = 'admin/box-form.html'
     id = 'settings-form'
     css_class = 'form'
     submit_text = None

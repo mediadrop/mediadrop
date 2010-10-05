@@ -32,7 +32,7 @@ def category_options():
     return option_tree(Category.query.order_by(Category.name.asc()).populated_tree())
 
 class CategoryForm(ListForm):
-    template = 'mediacore.templates.admin.categories.form'
+    template = 'admin/categories/form.html'
     id = None
     css_classes = ['category-form', 'form']
     submit_text = None
@@ -51,10 +51,10 @@ class CategoryForm(ListForm):
 
 class CategoryCheckBoxList(CheckBoxList):
     params = ['category_tree']
-    template = 'mediacore.templates.admin.categories.selection_list'
+    template = 'admin/categories/selection_list.html'
 
 class CategoryRowForm(Form):
-    template = 'mediacore.templates.admin.categories.row-form'
+    template = 'admin/categories/row-form.html'
     id = None
     submit_text = None
     params = ['category', 'depth', 'first_child']

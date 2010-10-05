@@ -21,7 +21,7 @@ from mediacore.forms import ListForm, ResetButton, SubmitButton, TextArea
 from mediacore.plugin import events
 
 class EditCommentForm(ListForm):
-    template = 'mediacore.templates.admin.comments.edit'
+    template = 'admin/comments/edit.html'
     id = None
     css_class = 'edit-comment-form'
 

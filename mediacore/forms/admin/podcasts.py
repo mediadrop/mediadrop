@@ -22,7 +22,7 @@ from mediacore.forms import ListForm, SubmitButton, TextField, XHTMLTextArea, em
 from mediacore.plugin import events
 
 class PodcastForm(ListForm):
-    template = 'mediacore.templates.admin.box-form'
+    template = 'admin/box-form.html'
     id = 'podcast-form'
     css_class = 'form'
     submit_text = None

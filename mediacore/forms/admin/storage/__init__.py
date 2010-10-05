@@ -24,7 +24,7 @@ from mediacore.plugin import events
 from mediacore.plugin.abc import abstractmethod
 
 class StorageForm(ListForm):
-    template = 'mediacore.templates.admin.box-form'
+    template = 'admin/box-form.html'
     id = 'storage-form'
     css_class = 'form storageform'
     submit_text = None

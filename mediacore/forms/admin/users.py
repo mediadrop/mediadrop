@@ -37,7 +37,7 @@ class UniqueUsername(FancyValidator):
         return value
 
 class UserForm(ListForm):
-    template = 'mediacore.templates.admin.box-form'
+    template = 'admin/box-form.html'
     id = 'user-form'
     css_class = 'form'
     submit_text = None

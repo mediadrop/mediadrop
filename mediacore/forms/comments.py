@@ -21,7 +21,7 @@ from mediacore.forms import ListForm, SubmitButton, TextField, TextArea, XHTMLVa
 from mediacore.plugin import events
 
 class PostCommentForm(ListForm):
-    template = 'mediacore.templates.comments.post'
+    template = 'comments/post.html'
     id = 'post-comment-form'
     css_class = 'form'
 
