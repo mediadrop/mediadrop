@@ -24,7 +24,7 @@ from sqlalchemy.types import FLOAT
 from sqlalchemy.ext.compiler import compiles
 from mediacore.lib.htmlsanitizer import entities_to_unicode
 from mediacore.lib.unidecode import unidecode
-from mediacore.model.meta import DBSession, Base, metadata
+from mediacore.model.meta import DBSession, metadata
 
 # maximum length of slug strings for all objects.
 SLUG_LENGTH = 50

@@ -30,11 +30,11 @@ from sqlalchemy.orm import mapper, relation, backref, synonym, interfaces, valid
 
 from mediacore.lib.helpers import excess_whitespace
 from mediacore.model import SLUG_LENGTH, slugify, _mtm_count_property
-from mediacore.model.meta import Base, DBSession
+from mediacore.model.meta import DBSession, metadata
 from mediacore.plugin import events
 
 
-tags = Table('tags', Base.metadata,
+tags = Table('tags', metadata,
     Column('id', Integer, autoincrement=True, primary_key=True),
     Column('name', Unicode(50), unique=True, nullable=False),
     Column('slug', Unicode(SLUG_LENGTH), unique=True, nullable=False),
