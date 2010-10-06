@@ -19,16 +19,18 @@
       xmlns:xi="http://www.w3.org/2001/XInclude"
       py:strip="">
 
+	<?python c.player_count = int(getattr(c, 'player_count', 0) or 0) + 1; ?>
+
 	<xi:include py:for="tmpl in value_of('plugin_templates', ())" href="${tmpl}" />
 
-	<div id="player-container" py:with="error_text = _('Your browser is incapable of playing this media.')">
+	<div id="player-container-${c.player_count}" py:with="error_text = _('Your browser is incapable of playing this media.')">
 		${html5 and html5.render()(error_text) or error_text}
 	</div>
 
 	<script type="text/javascript" src="${h.url_for('/scripts/player.js')}" />
 	<script type="text/javascript">
 		//<![CDATA[
-		var p = new MediaPlayer('player-container', {
+		var p = new MediaPlayer('player-container-${c.player_count}', {
 			swiff: ${flash and flash.render(method='swiff') or 'null'},
 			preferFlash: ${prefer_flash and 'true' or 'false'}
 		});
