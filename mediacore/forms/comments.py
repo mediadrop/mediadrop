@@ -13,21 +13,27 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+from pylons.i18n import N_ as _
 from tw.forms.validators import NotEmpty
 from tw.api import WidgetsList
 
 from mediacore.forms import ListForm, SubmitButton, TextField, TextArea, XHTMLValidator, email_validator
-
+from mediacore.plugin import events
 
 class PostCommentForm(ListForm):
-    template = 'mediacore.templates.comments.post'
+    template = 'comments/post.html'
     id = 'post-comment-form'
     css_class = 'form'
 
     class fields(WidgetsList):
-        name = TextField(validator=TextField.validator(not_empty=True, messages={'empty': 'Please enter your name!'}), maxlength=50)
-        email = TextField(validator=email_validator(), label_text='Email Address (will never be published)', maxlength=255)
-        body = TextArea(validator=XHTMLValidator(not_empty=True), label_text='Comment', attrs=dict(rows=5, cols=25))
-        submit = SubmitButton(default='Post Comment', css_class='btn btn3 btn-post-comment')
+        name = TextField(validator=TextField.validator(not_empty=True, maxlength=50,
+            messages={'empty': _('Please enter your name!')}), label_text=_('Name'))
+        email = TextField(validator=email_validator(), maxlength=255,
+            label_text=_('Email Address (will never be published)'))
+        body = TextArea(validator=XHTMLValidator(not_empty=True),
+            label_text=_('Comment'), attrs=dict(rows=5, cols=25))
+        submit = SubmitButton(default=_('Post Comment'),
+            css_class='btn btn-post-comment')
 
-
+    def post_init(self, *args, **kwargs):
+        events.PostCommentForm(self)

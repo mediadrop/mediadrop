@@ -22,10 +22,11 @@ from sqlalchemy import orm, sql
 from mediacore.forms.admin.tags import TagForm, TagRowForm
 from mediacore.lib import helpers
 from mediacore.lib.base import BaseController
-from mediacore.lib.decorators import expose, expose_xhr, paginate, validate
+from mediacore.lib.decorators import expose, expose_xhr, observable, paginate, validate
 from mediacore.lib.helpers import redirect, url_for
 from mediacore.model import Tag, fetch_row, get_available_slug
 from mediacore.model.meta import DBSession
+from mediacore.plugin import events
 
 import logging
 log = logging.getLogger(__name__)
@@ -38,6 +39,7 @@ class TagsController(BaseController):
 
     @expose('admin/tags/index.html')
     @paginate('tags', items_per_page=25)
+    @observable(events.Admin.TagsController.index)
     def index(self, page=1, **kwargs):
         """List tags with pagination.
 
@@ -63,6 +65,7 @@ class TagsController(BaseController):
         )
 
     @expose('admin/tags/edit.html')
+    @observable(events.Admin.TagsController.edit)
     def edit(self, id, **kwargs):
         """Edit a single tag.
 
@@ -85,6 +88,7 @@ class TagsController(BaseController):
 
     @expose('json')
     @validate(tag_form)
+    @observable(events.Admin.TagsController.save)
     def save(self, id, delete=False, **kwargs):
         """Save changes or create a tag.
 

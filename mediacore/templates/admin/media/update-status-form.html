@@ -15,17 +15,27 @@
 -->
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:py="http://genshi.edgewall.org/"
+      xmlns:i18n="http://genshi.edgewall.org/i18n"
       py:strip="">
 	<form method="post" action="${h.url_for(action='update_status')}" id="update-status-form" class="box">
 		<div class="box-head">
 			<span class="box-head-sec">
 				${h.doc_link('admin/media', 'status')}
-				<py:if test="media.slug">
-					|
-					<a href="${h.url_for(controller='/media', action='view', slug=media.slug)}"
-					   id="go-view-content"
-					   title="View this media where it ${(media.is_published and 'is') or 'will be'} published"
-					   py:content="(media.is_published and 'View') or 'Preview'" />
+				<py:if test="media.slug"> |
+					<py:choose test="media.is_published">
+						<py:when test="1">
+							<a href="${h.url_for(controller='/media', action='view', slug=media.slug)}"
+							   id="go-view-content"
+							   title="View this media where it is published"
+							   py:content="_('View')" />
+						</py:when>
+						<py:when test="0">
+							<a href="${h.url_for(controller='/media', action='view', slug=media.slug)}"
+							   id="go-view-content"
+							   title="View this media where it will be published"
+							   py:content="_('Preview')" />
+						  </py:when>
+					</py:choose>
 				</py:if>
 			</span>
 			<h1>Publish Status</h1>
@@ -39,7 +49,7 @@
 			<py:when test="not media.reviewed">
 				<ol id="status-list">
 					<li class="status-list-inprogress">review pending</li>
-					<li class="status-list-${status}" py:with="status = (media.encoded and 'complete') or 'pending'">encoding ${status}</li>
+					<li class="status-list-${status}" py:with="status = media.encoded and 'complete' or 'pending'">encoding ${status}</li>
 					<li class="status-list-pending" id="status-publish" title="Click to change the publish date">
 						publishing <span class="publish-date" py:content="publish_on or 'pending'" />
 					</li>

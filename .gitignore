@@ -6,8 +6,8 @@
 .settings
 *.pyc
 *.tmproj
-MediaCore.egg-info
-mediacore.egg-info
+*.egg-info
+*.egg-info
 dist
 *.egg
 env

@@ -29,14 +29,15 @@ from sqlalchemy.types import Unicode, UnicodeText, Integer, DateTime, Boolean, F
 from sqlalchemy.orm import mapper, relation, backref, synonym, composite, validates, dynamic_loader, column_property
 from pylons import request
 
-from mediacore.model import Author, slug_length, slugify, get_available_slug
+from mediacore.model import Author, SLUG_LENGTH, slugify, get_available_slug
 from mediacore.model.meta import DBSession, metadata
 from mediacore.model.media import Media, MediaQuery, media
+from mediacore.plugin import events
 
 
 podcasts = Table('podcasts', metadata,
     Column('id', Integer, autoincrement=True, primary_key=True),
-    Column('slug', Unicode(slug_length), unique=True, nullable=False),
+    Column('slug', Unicode(SLUG_LENGTH), unique=True, nullable=False),
     Column('created_on', DateTime, default=datetime.now, nullable=False),
     Column('modified_on', DateTime, default=datetime.now, onupdate=datetime.now, nullable=False),
     Column('title', Unicode(50), nullable=False),
@@ -134,7 +135,7 @@ class Podcast(object):
         return slugify(slug)
 
 
-mapper(Podcast, podcasts, order_by=podcasts.c.title, properties={
+mapper(Podcast, podcasts, order_by=podcasts.c.title, extension=events.MapperObserver(events.Podcast), properties={
     'author': composite(Author,
         podcasts.c.author_name,
         podcasts.c.author_email),

@@ -20,14 +20,16 @@ from pylons.controllers.util import abort, redirect
 
 from mediacore.lib.base import BaseController
 from mediacore.lib.helpers import redirect, url_for
-from mediacore.lib.decorators import expose, expose_xhr, validate, paginate
+from mediacore.lib.decorators import expose, expose_xhr, observable, validate, paginate
 from mediacore.model import fetch_row, Podcast, Media, Category
+from mediacore.plugin import events
 
 import logging
 log = logging.getLogger(__name__)
 
 class LoginController(BaseController):
     @expose('login.html')
+    @observable(events.LoginController.login)
     def login(self, came_from=url_for(controller='admin', action='index'), **kwargs):
         login_counter = request.environ.get('repoze.who.logins', 0)
         if login_counter > 0:
@@ -60,6 +62,7 @@ class LoginController(BaseController):
         pass
 
     @expose()
+    @observable(events.LoginController.post_login)
     def post_login(self, came_from=url_for(controller='admin', action='index'), **kwargs):
         if not request.identity:
             login_counter = request.environ['repoze.who.logins'] + 1
@@ -69,6 +72,7 @@ class LoginController(BaseController):
         redirect(came_from)
 
     @expose()
+    @observable(events.LoginController.post_logout)
     def post_logout(self, came_from=None, **kwargs):
         redirect(url_for('/'))
 

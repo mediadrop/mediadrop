@@ -16,6 +16,7 @@
 __all__ = [
     'all',
     'any',
+    'chain',
     'defaultdict',
     'max',
     'namedtuple',
@@ -232,3 +233,19 @@ except:
         def __repr__(self):
             return 'defaultdict(%s, %s)' % (self.default_factory,
                                             dict.__repr__(self))
+
+from itertools import chain
+try:
+    chain.from_iterable
+except AttributeError:
+    # New in version 2.6: Alternate constructor for chain().
+    # Gets chained inputs from a single iterable arg that is evaluated lazily.
+    # NOTE: itertools is written in C so we can't monkeypatch it.
+    _chain = chain
+    def chain(*iterables):
+        return _chain(*iterables)
+    def _chain_from_iterable(iterables):
+        for it in iterables:
+            for element in it:
+                yield element
+    chain.from_iterable = _chain_from_iterable

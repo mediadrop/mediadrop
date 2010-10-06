@@ -24,10 +24,11 @@ import shutil
 import time
 from datetime import datetime
 from urllib import quote, unquote, urlencode
-from urlparse import urlparse
+from urlparse import urlparse, urlsplit
 
 import genshi.core
 import pylons.templating
+import pylons.test
 import simplejson as json
 import webob.exc
 
@@ -40,16 +41,13 @@ from webhelpers.html.converters import format_paragraphs
 
 from mediacore.lib.compat import any
 from mediacore.lib.htmlsanitizer import Cleaner, entities_to_unicode as decode_entities, encode_xhtml_entities as encode_entities
-from mediacore.lib.filetypes import AUDIO, AUDIO_DESC, CAPTIONS, VIDEO, accepted_extensions, guess_mimetype
 from mediacore.lib.thumbnails import thumb, thumb_url
-from mediacore.lib.players import pick_media_file_player
 
 imports = [
     'any', 'containers', 'date', 'decode_entities', 'encode_entities',
     'feedgenerator', 'format_paragraphs', 'html', 'literal', 'misc', 'number',
     'paginate', 'quote', 'tags', 'text', 'unquote', 'urlencode', 'urlparse',
     'config', # is this appropriate to export here?
-    'pick_media_file_player', # XXX: imported from mediacore.lib.players, for template use.
     'thumb_url', # XXX: imported from  mediacore.lib.thumbnails, for template use.
     'thumb', # XXX: imported from  mediacore.lib.thumbnails, for template use.
 ]
@@ -57,8 +55,8 @@ defined = [
     'append_class_attr', 'clean_xhtml', 'delete_files', 'doc_link',
     'duration_from_seconds', 'duration_to_seconds', 'embeddable_player',
     'excerpt_xhtml', 'excess_whitespace', 'filter_library_controls',
-    'get_featured_category', 'gravatar_from_email', 'is_admin',
-    'line_break_xhtml', 'list_acceptable_xhtml', 'list_accepted_extensions',
+    'get_featured_category', 'gravatar_from_email', 'is_admin', 'js',
+    'line_break_xhtml', 'list_acceptable_xhtml',
     'pick_any_media_file', 'pick_podcast_media_file',
     'pretty_file_size', 'redirect',
     'store_transient_message', 'strip_xhtml', 'truncate', 'truncate_xhtml',
@@ -123,6 +121,20 @@ def _generate_url(url_func, *args, **kwargs):
 
     return url
 
+js_sources = {
+    'mootools_more': '/scripts/third-party/mootools-1.2.4.4-more-yui-compressed.js',
+    'mootools_core': 'http://ajax.googleapis.com/ajax/libs/mootools/1.2.5/mootools-yui-compressed.js',
+# Debugging values:
+    'mootools_more': '/scripts/third-party/mootools-1.2.4.4-more.js',
+    'mootools_core': '/scripts/third-party/mootools-1.2.5-core.js',
+}
+def js(source):
+    if pylons.test.pylonsapp:
+        return js_sources[source]
+    else:
+        return url_for(js_sources[source])
+
+
 def redirect(*args, **kwargs):
     """Compose a URL using :func:`url_for` and raise a redirect.
 
@@ -132,13 +144,15 @@ def redirect(*args, **kwargs):
     found = webob.exc.HTTPFound(location=url)
     raise found.exception
 
-def duration_from_seconds(total_sec):
+def duration_from_seconds(total_sec, shortest=True):
     """Return the HH:MM:SS duration for a given number of seconds.
 
     Does not support durations longer than 24 hours.
 
     :param total_sec: Number of seconds to convert into hours, mins, sec
     :type total_sec: int
+    :param shortest: If True, return the shortest possible timestamp.
+        Defaults to True.
     :rtype: unicode
     :returns: String HH:MM:SS, omitting the hours if less than one.
 
@@ -146,7 +160,9 @@ def duration_from_seconds(total_sec):
     if not total_sec:
         return u''
     total = time.gmtime(total_sec)
-    if total.tm_hour > 0:
+    if not shortest:
+        return u'%02d:%02d:%02d' % total[3:6]
+    elif total.tm_hour > 0:
         return u'%d:%02d:%02d' % total[3:6]
     else:
         return u'%d:%02d' % total[4:6]
@@ -381,17 +397,6 @@ def list_acceptable_xhtml():
         map = ", ".join(["%s -> %s" % (t, elem_map[t]) for t in elem_map])
     )
 
-def list_accepted_extensions(*args, **kwargs):
-    """Return the extensions allowed for upload for printing.
-
-    :returns: Comma separated extensions
-    :rtype: unicode
-    """
-    e = accepted_extensions(*args, **kwargs)
-    if len(e) > 1:
-        e[-1] = 'and ' + e[-1]
-    return ', '.join(e)
-
 def attrs_to_dict(attrs):
     """Return a dict for any input that Genshi's py:attrs understands.
 
@@ -453,13 +458,22 @@ def embeddable_player(media):
     :rtype: :class:`webhelpers.html.builder.literal`
 
     """
-    xhtml = pylons.templating.render_genshi(
-        'media/_embeddable_player.html',
-        extra_vars=dict(media=media),
-        method='xhtml'
-    )
-    xhtml = spaces_between_tags.sub(literal('><'), xhtml)
-    return xhtml.strip()
+    # FIXME: This doesn't do anything different than media_player, yet.
+    from mediacore.lib.players import manager
+    return manager().render(media)
+
+def embed_iframe_code(media, **kwargs):
+    """Return an <iframe> tag that loads our universal player.
+
+    :type media: :class:`mediacore.model.media.Media`
+    :param media: The media object that is being rendered, to be passed
+        to all instantiated player objects.
+    :rtype: :class:`genshi.builder.Element`
+    :returns: An iframe element stream.
+
+    """
+    from mediacore.lib.players import embed_iframe
+    return embed_iframe(media, **kwargs)
 
 def get_featured_category():
     from mediacore.model import Category
@@ -509,6 +523,7 @@ def pretty_file_size(size):
     """Return the given file size in the largest possible unit of bytes."""
     if not size:
         return u'-'
+    size = float(size)
     for unit in ('B', 'KB', 'MB', 'GB', 'TB'):
         if size < 1024.0:
             return '%3.1f %s' % (size, unit)
@@ -566,6 +581,14 @@ def store_transient_message(cookie_name, text, time=None, path='/', **kwargs):
     response.set_cookie(cookie_name, new_data, path=path)
     return msg
 
+def media_player(*args, **kwargs):
+    """Render the media player for the given media.
+
+    See :class:`mediacore.lib.players.AbstractPlayersManager`.
+    """
+    from mediacore.lib.players import manager
+    return manager().render(*args, **kwargs)
+
 def pick_podcast_media_file(media):
     """Return the best choice of files to play.
 
@@ -576,8 +599,12 @@ def pick_podcast_media_file(media):
     :param media: A :class:`~mediacore.model.media.Media` instance.
     :returns: A :class:`~mediacore.model.media.MediaFile` object or None
     """
-    player = pick_media_file_player(media, browser='itunes', player_type='html5')
-    return player and player.file or None
+    from mediacore.lib.players import iTunesPlayer, manager
+    uris = manager().sort_uris(media.get_uris())
+    for i, plays in enumerate(iTunesPlayer.can_play(uris)):
+        if plays:
+            return uris[i]
+    return None
 
 def pick_any_media_file(media):
     """Return a file playable in at least one browser, with the current
@@ -590,8 +617,104 @@ def pick_any_media_file(media):
     :param media: A :class:`~mediacore.model.media.Media` instance.
     :returns: A :class:`~mediacore.model.media.MediaFile` object or None
     """
-    player = pick_media_file_player(media, browser='chrome')
-    return player and player.file or None
+    from mediacore.lib.players import manager
+    manager = manager()
+    uris = manager.sort_uris(media.get_uris())
+    for player in manager.players:
+        for i, plays in enumerate(player.can_play(uris)):
+            if plays:
+                return uris[i]
+    return None
+
+def pick_uris(uris, **kwargs):
+    """Return a subset of the given URIs whose attributes match the kwargs.
+
+    This function attempts to simplify the somewhat unwieldly process of
+    filtering a list of :class:`mediacore.lib.storage.StorageURI` instances
+    for a specific type, protocol, container, etc::
+
+        pick_uris(uris, scheme='rtmp', container='mp4', type='video')
+
+    :type uris: iterable or :class:`~mediacore.model.media.Media` or
+        :class:`~mediacore.model.media.MediaFile` instance
+    :params uris: A collection of :class:`~mediacore.lib.storage.StorageURI`
+        instances, including Media and MediaFile objects.
+    :param \*\*kwargs: Required attribute values. These attributes can be
+        on the `StorageURI` instance or, failing that, on the `StorageURI.file`
+        instance within it.
+    :rtype: list
+    :returns: A subset of the input `uris`.
+
+    """
+    if not isinstance(uris, (list, tuple)):
+        from mediacore.model.media import Media, MediaFile
+        if isinstance(uris, (Media, MediaFile)):
+            uris = uris.get_uris()
+    if not uris or not kwargs:
+        return uris
+    return [uri
+            for uri in uris
+            if all(getattr(uri, k) == v for k, v in kwargs.iteritems())]
+
+def pick_uri(uris, **kwargs):
+    """Return the first URL that meets the given criteria.
+
+    See: :func:`pick_uris`.
+
+    :returns: A :class:`mediacore.lib.storage.StorageURI` instance or None.
+    """
+    uris = pick_uris(uris, **kwargs)
+    if uris:
+        return uris[0]
+    return None
+
+def download_uri(uris):
+    """Pick out the best possible URI for downloading purposes.
+
+    :returns: A :class:`mediacore.lib.storage.StorageURI` instance or None.
+    """
+    uris = pick_uris(uris, scheme='download')\
+        or pick_uris(uris, scheme='http')
+    uris.sort(key=lambda uri: uri.file.size, reverse=True)
+    if uris:
+        return uris[0]
+    return None
+
+def web_uri(uris):
+    """Pick out the web link URI for viewing an embed in its original context.
+
+    :returns: A :class:`mediacore.lib.storage.StorageURI` instance or None.
+    """
+    return pick_uri(uris, scheme='www')\
+        or None
+
+def best_link_uri(uris):
+    """Pick out the best general purpose URI from those given.
+
+    :returns: A :class:`mediacore.lib.storage.StorageURI` instance or None.
+    """
+    return pick_uri(uris, scheme='download')\
+        or pick_uri(uris, scheme='http')\
+        or pick_uri(uris, scheme='www')\
+        or pick_uri(uris)\
+        or None
+
+def file_path(uris):
+    """Pick out the local file path from the given list of URIs.
+
+    Local file paths are passed around as urlencoded strings in
+    :class:`mediacore.lib.storage.StorageURI`. The form is:
+
+        file:///path/to/file
+
+    :rtype: `str` or `unicode` or `None`
+    :returns: Absolute /path/to/file
+    """
+    uris = pick_uris(uris, scheme='file')
+    if uris:
+        scheme, netloc, path, query, fragment = urlsplit(uris[0].file_uri)
+        return path
+    return None
 
 def doc_link(page=None, anchor='', text='Help', **kwargs):
     """Return a link (anchor element) to the documentation on the project site.
@@ -607,3 +730,20 @@ def doc_link(page=None, anchor='', text='Help', **kwargs):
     attrs_string = ' '.join(['%s="%s"' % (key, attrs[key]) for key in attrs])
     out = '<a %s>%s</a>' % (attrs_string, text)
     return literal(out)
+
+def merge_dicts(dst, src):
+    """Recursively merge two dictionaries.
+
+    Code adapted from Manuel Muradas' example at
+    http://code.activestate.com/recipes/499335-recursively-update-a-dictionary-without-hitting-py/
+    """
+    stack = [(dst, src)]
+    while stack:
+        current_dst, current_src = stack.pop()
+        for key in current_src:
+            if key in current_dst \
+            and isinstance(current_src[key], dict) \
+            and isinstance(current_dst[key], dict):
+                stack.append((current_dst[key], current_src[key]))
+            else:
+                current_dst[key] = current_src[key]

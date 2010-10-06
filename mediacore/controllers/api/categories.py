@@ -50,8 +50,10 @@ class CategoriesController(BaseController):
 
         :param id: A :attr:`mediacore.model.media.Category.id` for lookup
         :type id: int
+
         :param name: A :attr:`mediacore.model.media.Category.name` for lookup
         :type name: str
+
         :param slug: A :attr:`mediacore.model.media.Category.slug` for lookup
         :type slug: str
 
@@ -191,4 +193,3 @@ class CategoriesController(BaseController):
             parent = cat.parent_id,
             media_count = cat.media_count_published,
         )
-

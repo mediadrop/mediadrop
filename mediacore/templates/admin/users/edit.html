@@ -33,13 +33,12 @@
 		});
 	</script>
 </head>
-<body class="menu-settings-on menu-settings-users-on">
+<body>
 	<div class="box">
 		<div class="box-head">
-			<h1>${user.user_name or 'New User'}</h1>
+			<h1>${user.user_name or _('New User')}</h1>
 		</div>
 		<form py:replace="XML(user_form(user_values, action=user_action, autocomplete='off'))" />
 	</div>
 </body>
 </html>
-

@@ -1,0 +1,40 @@
+<!--! This file is a part of MediaCore, Copyright 2009 Simple Station Inc.
+
+	MediaCore is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+
+	MediaCore is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      xmlns:i18n="http://genshi.edgewall.org/i18n"
+      xmlns:xi="http://www.w3.org/2001/XInclude"
+      py:strip="">
+
+	<?python c.player_count = int(getattr(c, 'player_count', 0) or 0) + 1; ?>
+
+	<xi:include py:for="tmpl in value_of('plugin_templates', ())" href="${tmpl}" />
+
+	<div id="player-container-${c.player_count}" py:with="error_text = _('Your browser is incapable of playing this media.')">
+		${html5 and html5.render()(error_text) or error_text}
+	</div>
+
+	<script type="text/javascript" src="${h.url_for('/scripts/player.js')}" />
+	<script type="text/javascript">
+		//<![CDATA[
+		var p = new MediaPlayer('player-container-${c.player_count}', {
+			swiff: ${flash and flash.render(method='swiff') or 'null'},
+			preferFlash: ${prefer_flash and 'true' or 'false'}
+		});
+		//]]>
+	</script>
+
+</html>

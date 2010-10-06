@@ -26,12 +26,17 @@ from pylons import app_globals, config, request, response, tmpl_context
 from pylons.controllers import WSGIController
 from pylons.controllers.util import abort
 from repoze.what.plugins.pylonshq import ControllerProtector
-from repoze.what.predicates import Predicate
+from repoze.what.predicates import has_permission, Predicate
+from tw.forms.fields import ContainerMixin as _ContainerMixin
 
 from mediacore.lib import helpers
 from mediacore.model.meta import DBSession
 
-__all__ = ['BareBonesController', 'BaseController']
+__all__ = [
+    'BareBonesController',
+    'BaseController',
+    'BaseSettingsController',
+]
 
 class BareBonesController(WSGIController):
     """
@@ -68,17 +73,19 @@ class BareBonesController(WSGIController):
 
     def __before__(self, *args, **kwargs):
         """This method is called before your action is.
+
         It should be used for setting up variables/objects, restricting access
         to other actions, or other tasks which should be executed before the
         action is called.
 
-        NOTE: if this method is wrapped in an ActionProtector, all methods of
-        the class will be protected it. See the __init__ method.
+        NOTE: If this method is wrapped in an ActionProtector, all methods of
+              the class will be protected it. See :meth:`__init__`.
         """
-        action = getattr(self, kwargs['action'])
+        action_method = getattr(self, kwargs['action'], None)
         # The expose decorator sets the exposed attribute on controller
-        # actions. If a method is not exposed, do not allow access to it.
-        if not getattr(action, 'exposed', False):
+        # actions. If the method does not exist or is not exposed, raise
+        # an HTTPNotFound exception.
+        if not getattr(action_method, 'exposed', False):
             abort(status_code=404)
 
 class BaseController(BareBonesController):
@@ -207,3 +214,97 @@ class BaseController(BareBonesController):
         #       files are on the same filesystem.
         #       see http://docs.python.org/library/os.html#os.rename
         os.rename(tmpl_tmp_path, tmpl_path)
+
+class BaseSettingsController(BaseController):
+    """
+    Dumb controller for display and saving basic settings forms
+
+    This maps forms from :class:`mediacore.forms.admin.settings` to our
+    model :class:`~mediacore.model.settings.Setting`. This controller
+    doesn't care what settings are used, the form dictates everything.
+    The form field names should exactly match the name in the model,
+    regardless of it's nesting in the form.
+
+    If and when setting values need to be altered for display purposes,
+    or before it is saved to the database, it should be done with a
+    field validator instead of adding complexity here.
+
+    """
+    allow_only = has_permission('admin')
+
+    def __before__(self, *args, **kwargs):
+        """Load all our settings before each request."""
+        BaseController.__before__(self, *args, **kwargs)
+        from mediacore.model import Setting
+        tmpl_context.settings = dict(DBSession.query(Setting.key, Setting))
+
+    def _update_settings(self, values):
+        """Modify the settings associated with the given dictionary."""
+        for name, value in values.iteritems():
+            setting = tmpl_context.settings[name]
+            if value is None:
+                value = u''
+            else:
+                value = unicode(value)
+            if setting.value != value:
+                setting.value = value
+                DBSession.add(setting)
+        DBSession.flush()
+
+        # Clear the settings cache unless there are multiple processes.
+        # We have no way of notifying the other processes that they need
+        # to clear their caches too, so we've just gotta let it play out
+        # until all the caches expire.
+        if not request.environ.get('wsgi.multiprocess', False):
+            app_globals.settings_cache.clear()
+
+    def _display(self, form, values=None, action=None):
+        """Return the template variables for display of the form.
+
+        :rtype: dict
+        :returns:
+            form
+                The passed in form instance.
+            form_values
+                ``dict`` form values
+        """
+        form_values = self._nest_settings_for_form(tmpl_context.settings, form)
+        if values:
+            form_values.update(values)
+        return dict(
+            form = form,
+            form_action = action,
+            form_values = form_values,
+        )
+
+    def _save(self, form, redirect_action=None, values=None):
+        """Save the values from the passed in form instance."""
+        values = self._flatten_settings_from_form(tmpl_context.settings,
+                                                  form, values)
+        self._update_settings(values)
+        if redirect_action:
+            helpers.redirect(action=redirect_action)
+
+    def _nest_settings_for_form(self, settings, form):
+        """Create a dict of setting values nested to match the form."""
+        form_values = {}
+        for field in form.c:
+            if isinstance(field, _ContainerMixin):
+                form_values[field._name] = self._nest_settings_for_form(
+                    settings, field
+                )
+            elif field._name in settings:
+                form_values[field._name] = settings[field._name].value
+        return form_values
+
+    def _flatten_settings_from_form(self, settings, form, form_values):
+        """Take a nested dict and return a flat dict of setting values."""
+        setting_values = {}
+        for field in form.c:
+            if isinstance(field, _ContainerMixin):
+                setting_values.update(self._flatten_settings_from_form(
+                    settings, field, form_values[field._name]
+                ))
+            elif field._name in settings:
+                setting_values[field._name] = form_values[field._name]
+        return setting_values

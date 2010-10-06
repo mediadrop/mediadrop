@@ -21,10 +21,11 @@ import pylons.templating
 
 from mediacore.lib import helpers
 from mediacore.lib.base import BaseController
-from mediacore.lib.decorators import expose, expose_xhr, paginate, validate
+from mediacore.lib.decorators import expose, expose_xhr, observable, paginate, validate
 from mediacore.lib.helpers import redirect
 from mediacore.model import Category, Media, Podcast, fetch_row
 from mediacore.model.meta import DBSession
+from mediacore.plugin import events
 
 import logging
 log = logging.getLogger(__name__)
@@ -38,6 +39,7 @@ class PodcastsController(BaseController):
     """
 
     @expose('podcasts/index.html')
+    @observable(events.PodcastsController.index)
     def index(self, page=1, **kwargs):
         """List podcasts and podcast media.
 
@@ -73,6 +75,7 @@ class PodcastsController(BaseController):
 
     @expose('podcasts/view.html')
     @paginate('episodes', items_per_page=10)
+    @observable(events.PodcastsController.view)
     def view(self, slug, page=1, show='latest', **kwargs):
         """View a podcast and the media that belongs to it.
 
@@ -104,6 +107,7 @@ class PodcastsController(BaseController):
         )
 
     @expose('podcasts/feed.xml')
+    @observable(events.PodcastsController.feed)
     def feed(self, slug, **kwargs):
         """Serve the feed as RSS 2.0.
 

@@ -17,6 +17,7 @@
      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:py="http://genshi.edgewall.org/"
+      xmlns:i18n="http://genshi.edgewall.org/i18n"
       xmlns:xi="http://www.w3.org/2001/XInclude">
 <xi:include href="../master.html" />
 <head>
@@ -32,7 +33,7 @@
 			<div class="feat-content">
 				<p>Awesome, your upload was successful!</p>
 				<p>Your submission is awaiting review by a moderator and will be posted shortly.</p>
-				<p>You will be automatically redirected back to the <a href="${h.url_for('/')}">Media Library</a> in a few seconds. Hang tight.</p>
+				<p i18n:msg="link">You will be automatically redirected back to the <a href="${h.url_for('/')}">Media Library</a> in a few seconds. Hang tight.</p>
 			</div>
 			<div class="feat-bottom" />
 		</div>

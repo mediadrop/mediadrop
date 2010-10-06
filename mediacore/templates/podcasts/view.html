@@ -17,6 +17,7 @@
      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:py="http://genshi.edgewall.org/"
+      xmlns:i18n="http://genshi.edgewall.org/i18n"
       xmlns:xi="http://www.w3.org/2001/XInclude">
 <xi:include href="../master.html" />
 <head>
@@ -45,7 +46,10 @@
 			<div class="feat-bottom" />
 		</div>
 
-		<h4 class="uppercase">All ${result_count} Episodes</h4>
+		<h4 i18n:choose="result_count; result_count" class="uppercase">
+			<i18n:singular>${result_count} Episodes</i18n:singular>
+			<i18n:plural>All ${result_count} Episodes</i18n:plural>
+		</h4>
 		${library_controls(show, paginator=c.paginators.episodes)}
 		<ul py:replace="media_grid(episodes, thumb_size='m', desc_len=135)" />
 	</div>

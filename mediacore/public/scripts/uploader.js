@@ -234,8 +234,17 @@ var SwiffUploadManager = new Class({
 //				this.uploader.blur();
 			}.bind(this),
 			mousedown: function() {
+				this.browseButton.addClass('browse-button-active');
 //				this.uploader.focus();
 			}.bind(this)
+		});
+
+		var deactivateBtn = function(){
+			this.browseButton.removeClass('browse-button-active');
+		}.bind(this);
+		this.uploader.addEvents({
+			select: deactivateBtn,
+			cancel: deactivateBtn
 		});
 
 		this.form.addEvent('submit', function(e){

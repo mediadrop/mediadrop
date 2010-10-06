@@ -16,27 +16,48 @@
 """
 Publicly Facing Media Controllers
 """
-from pylons import app_globals, config, request, response, session, tmpl_context
-import webob.exc
-from sqlalchemy import orm, sql
+import logging
+import os.path
+
+from itertools import izip
+
+from akismet import Akismet
+from formencode import Invalid, Schema, validators
 from paste.deploy.converters import asbool
 from paste.fileapp import FileApp
 from paste.util import mimeparse
-from akismet import Akismet
+from pylons import app_globals, config, request, response
+from pylons.i18n import _
+from pylons.controllers.util import forward
+from sqlalchemy import orm, sql
+from webob.exc import HTTPNotAcceptable, HTTPNotFound
 
+from mediacore import USER_AGENT
+from mediacore.forms.comments import PostCommentForm
+from mediacore.lib import email, helpers
 from mediacore.lib.base import BaseController
-from mediacore.lib.decorators import expose, expose_xhr, paginate, validate
-from mediacore.lib.helpers import url_for, redirect, store_transient_message
+from mediacore.lib.decorators import expose, expose_xhr, observable, paginate, validate
+from mediacore.lib.helpers import file_path, pick_uris, redirect, store_transient_message, url_for
+from mediacore.lib.players import JWPlayer, manager
 from mediacore.model import (DBSession, fetch_row, get_available_slug,
     Media, MediaFile, Comment, Tag, Category, Author, AuthorWithIP, Podcast)
-from mediacore.lib import helpers, email
-from mediacore.forms.comments import PostCommentForm
-from mediacore import USER_AGENT
+from mediacore.plugin import events
 
-import logging
 log = logging.getLogger(__name__)
 
 post_comment_form = PostCommentForm()
+
+class EmbedPlayerSchema(Schema):
+    allow_extra_fields = True
+    filter_extra_fields = True
+    ignore_key_missing = True
+
+    width = validators.Int()
+    height = validators.Int()
+    autoplay = validators.Bool()
+    autobuffer = validators.Bool()
+
+embed_player_schema = EmbedPlayerSchema()
 
 class MediaController(BaseController):
     """
@@ -45,6 +66,7 @@ class MediaController(BaseController):
 
     @expose('media/index.html')
     @paginate('media', items_per_page=20)
+    @observable(events.MediaController.index)
     def index(self, page=1, show='latest', q=None, tag=None, **kwargs):
         """List media with pagination.
 
@@ -105,6 +127,7 @@ class MediaController(BaseController):
 
     @expose('media/explore.html')
     @paginate('media', items_per_page=20)
+    @observable(events.MediaController.explore)
     def explore(self, page=1, **kwargs):
         """Display the most recent 15 media.
 
@@ -155,6 +178,7 @@ class MediaController(BaseController):
         redirect(action='view', slug=media.slug, podcast_slug=podcast_slug)
 
     @expose('media/view.html')
+    @observable(events.MediaController.view)
     def view(self, slug, podcast_slug=None, **kwargs):
         """Display the media player, info and comments.
 
@@ -214,7 +238,50 @@ class MediaController(BaseController):
             facebook_likes = facebook_likes,
         )
 
+    @expose('players/iframe.html')
+    @observable(events.MediaController.embed_player)
+    def embed_player(self, slug, **kwargs):
+        try:
+            player_kwargs = embed_player_schema.to_python(kwargs)
+        except Invalid, e:
+            # TODO: Return the error messages from the formencode schema
+            return {'error': _('Invalid player params provided.')}
+        return dict(
+            media = fetch_row(Media, slug=slug),
+            player_kwargs = player_kwargs,
+            error = None,
+        )
+
+    @expose('media/jwplayer_rtmp_mrss.xml')
+    @observable(events.MediaController.jwplayer_rtmp_mrss)
+    def jwplayer_rtmp_mrss(self, slug, **kwargs):
+        """List the rtmp-playable files associated with this media item
+
+        :param slug: The :attr:`~mediacore.models.media.Media.slug` to lookup
+        :rtype dict:
+        :returns:
+            media
+                The :class:`~mediacore.model.media.Media` instance for display.
+            files
+                A list of :class:`~mediacore.model.media.MediaFile` instances to display.
+
+        """
+        media = fetch_row(Media, slug=slug)
+        rtmp_uris = pick_uris(media, scheme='rtmp')
+        rtmp_uris = manager().sort_uris(rtmp_uris)
+        can_play = JWPlayer.can_play(rtmp_uris)
+        uris = [uri for uri, plays in izip(rtmp_uris, can_play) if plays]
+
+        if not uris:
+            raise HTTPNotFound()
+        response.content_type = 'application/rss+xml'
+        return dict(
+            media = media,
+            uris = uris,
+        )
+
     @expose()
+    @observable(events.MediaController.rate)
     def rate(self, slug, **kwargs):
         """Say 'I like this' for the given media.
 
@@ -234,6 +301,7 @@ class MediaController(BaseController):
 
     @expose()
     @validate(post_comment_form, error_handler=view)
+    @observable(events.MediaController.comment)
     def comment(self, slug, **values):
         """Post a comment from :class:`~mediacore.forms.comments.PostCommentForm`.
 
@@ -286,66 +354,60 @@ class MediaController(BaseController):
             redirect(action='view', anchor='comment-%s' % c.id)
 
     @expose()
-    def serve(self, id, slug, container, environ, start_response, **kwargs):
+    def serve(self, id, download=False, **kwargs):
         """Serve a :class:`~mediacore.model.media.MediaFile` binary.
 
         :param id: File ID
         :type id: ``int``
-        :param slug: The media :attr:`~mediacore.model.media.Media.slug`
-        :type slug: The file :attr:`~mediacore.model.media.MediaFile.container`
-        :raises webob.exc.HTTPNotFound: If no file exists for the given params.
+        :param bool download: If true, serve with an Content-Disposition that
+            makes the file download to the users computer instead of playing
+            in the browser.
+        :raises webob.exc.HTTPNotFound: If no file exists with this ID.
         :raises webob.exc.HTTPNotAcceptable: If an Accept header field
             is present, and if the mimetype of the requested file doesn't
             match, then a 406 (not acceptable) response is returned.
 
         """
-        media = fetch_row(Media, slug=slug)
+        file = fetch_row(MediaFile, id=id)
 
-        for file in media.files:
-            if file.id == int(id) and file.container == container:
-                # Catch external redirects in case they aren't linked to directly
-                if file.url:
-                    redirect(file.url.encode('utf-8'))
-                elif file.embed:
-                    redirect(file.link_url())
+        file_path = helpers.file_path(file).encode('utf-8')
+        file_type = file.mimetype.encode('utf-8')
+        file_name = file.display_name.encode('utf-8')
 
-                file_path = file.file_path.encode('utf-8')
-                file_type = file.mimetype.encode('utf-8')
-                file_name = file.display_name.encode('utf-8')
+        if not os.path.exists(file_path):
+            log.warn('No such file or directory: %r', file_path)
+            raise HTTPNotFound()
 
-                # Ensure the request accepts files with this container
-                accept = request.environ.get('HTTP_ACCEPT', '*/*')
-                if not mimeparse.best_match([file_type], accept):
-                    raise webob.exc.HTTPNotAcceptable() # 406
+        # Ensure the request accepts files with this container
+        accept = request.environ.get('HTTP_ACCEPT', '*/*')
+        if not mimeparse.best_match([file_type], accept):
+            raise HTTPNotAcceptable() # 406
 
-                # Headers to add to FileApp
-                headers = [
-                    ('Content-Disposition',
-                     'attachment; filename="%s"' % file_name),
-                ]
+        method = config.get('file_serve_method', None)
+        headers = []
 
-                serve_method = config.get('file_serve_method', None)
+        # Serving files with this header breaks playback on iPhone
+        if download:
+            headers.append(('Content-Disposition',
+                            'attachment; filename="%s"' % file_name))
 
-                if serve_method == 'apache_xsendfile':
-                    # Requires mod_xsendfile for Apache 2.x
-                    # XXX: Don't send Content-Length or Etag headers,
-                    #      Apache handles them for you.
-                    response.headers['X-Sendfile'] = file_path
-                    response.body = ''
+        if method == 'apache_xsendfile':
+            # Requires mod_xsendfile for Apache 2.x
+            # XXX: Don't send Content-Length or Etag headers,
+            #      Apache handles them for you.
+            response.headers['X-Sendfile'] = file_path
+            response.body = ''
 
-                elif serve_method == 'nginx_redirect':
-                    raise NotImplementedError, 'This is only a placeholder'
-                    response.headers['X-Accel-Redirect'] = '../relative/path'
+        elif method == 'nginx_redirect':
+            raise NotImplementedError, 'This is only a placeholder'
+            response.headers['X-Accel-Redirect'] = '../relative/path'
 
-                else:
-                    fileapp = FileApp(file_path, headers,
-                                      content_type=file_type)
-                    return fileapp(environ, start_response)
-
-                response.headers['Content-Type'] = file_type
-                for header, value in headers:
-                    response.headers[header] = value
-
-                return None
         else:
-            raise webob.exc.HTTPNotFound()
+            app = FileApp(file_path, headers, content_type=file_type)
+            return forward(app)
+
+        response.headers['Content-Type'] = file_type
+        for header, value in headers:
+            response.headers[header] = value
+
+        return None

@@ -15,6 +15,7 @@
 -->
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:py="http://genshi.edgewall.org/"
+      xmlns:i18n="http://genshi.edgewall.org/i18n"
       xmlns:xi="http://www.w3.org/2001/XInclude"
       py:strip="">
 
@@ -69,14 +70,16 @@
 			<div class="box-head">
 				<a href="${link}"
 				   id="go-view-content" class="box-head-sec" target="_blank"
-				   title="Moderate comments"
-				   py:content="'Moderate'" />
+				   title="Moderate comments">Moderate</a>
 				<h1>Comments</h1>
 			</div>
 			<table id="comments-table" cellpadding="0" cellspacing="0">
 				<tr class="comments-total">
 					<td class="comments-count" py:content="total" />
-					<td>Comments</td>
+					<i18n:choose numeral="total">
+						<td i18n:singular="">Comment</td>
+						<td i18n:plural="">Comments</td>
+					</i18n:choose>
 				</tr>
 				<tr class="comments-published">
 					<td class="comments-count" py:content="published" />

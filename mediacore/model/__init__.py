@@ -15,6 +15,7 @@
 """The application's model objects"""
 
 import re
+
 import webob.exc
 from sqlalchemy import sql, orm
 from sqlalchemy.orm import class_mapper
@@ -23,11 +24,12 @@ from sqlalchemy.sql.expression import bindparam, ClauseList, ColumnElement
 from sqlalchemy.types import FLOAT
 from sqlalchemy.ext.compiler import compiles
 from unidecode import unidecode
+
 from mediacore.lib.htmlsanitizer import entities_to_unicode
-from mediacore.model.meta import DBSession, Base, metadata
+from mediacore.model.meta import DBSession, metadata
 
 # maximum length of slug strings for all objects.
-slug_length = 50
+SLUG_LENGTH = 50
 
 #####
 # Generally you will not want to define your table's mappers, and data objects
@@ -128,7 +130,7 @@ def slugify(string):
     string = _non_alpha.sub(u'', string)
     string = _extra_dashes.sub(u'-', string).strip('-')
 
-    return string[:slug_length]
+    return string[:SLUG_LENGTH]
 
 def get_available_slug(mapped_class, string, ignore=None):
     """Return a unique slug based on the provided string.
@@ -159,7 +161,7 @@ def get_available_slug(mapped_class, string, ignore=None):
             .filter(mapped_class.id != ignore)\
             .first():
         str_appendix = u'-%s' % appendix
-        max_substr_len = slug_length - len(str_appendix)
+        max_substr_len = SLUG_LENGTH - len(str_appendix)
         new_slug = slug[:max_substr_len] + str_appendix
         appendix += 1
 
@@ -258,8 +260,10 @@ __all__ = [
 from mediacore.model.auth import User, Group, Permission
 from mediacore.model.authors import Author, AuthorWithIP
 from mediacore.model.comments import Comment
-from mediacore.model.settings import Setting
+from mediacore.model.settings import Setting, MultiSetting
 from mediacore.model.tags import Tag
 from mediacore.model.categories import Category
 from mediacore.model.media import Media, MediaFile
 from mediacore.model.podcasts import Podcast
+
+from mediacore.model import storage

@@ -146,6 +146,8 @@ a:hover {
 	padding: 0;
 	text-indent: -5000px;
 }
+#nav-search input.nav-search-btn:hover { background-position: 0 -39px }
+#nav-search input.nav-search-btn:active { background-position: 0 -78px }
 #nav-search input,
 #nav-search .overTxtLabel {
 	color: #595050;
@@ -188,13 +190,13 @@ h1 a.nocolor:link, h1 a.nocolor:visited, h2 a.nocolor:link, h2 a.nocolor:visited
 .btn span {
 	display: none;
 }
-.btn3:active {
+.btn:active {
 	background-position: 0 -68px;
 }
 .btn-likethis { width: 113px; background-image: url('../images/buttons/i-like-this.png'); }
 .btn-download { width: 113px; background-image: url('../images/buttons/download.png'); }
 .btn-ok { width: 51px; background-image: url('../images/buttons/ok.png'); }
-.btn-submit { width: 100px; background-image: url('../images/buttons/submit.png'); }
+.btn-submit { width: 94px; background-image: url('../images/buttons/submit.png'); }
 
 /* Meta info/link text with an icon to its left */
 .meta {

@@ -16,6 +16,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:py="http://genshi.edgewall.org/"
       xmlns:xi="http://www.w3.org/2001/XInclude"
+      xmlns:i18n="http://genshi.edgewall.org/i18n"
       py:strip="">
 	<table py:def="podcast_table(collection, include_thead=True, id='media-table')"
 	       cellpadding="0" cellspacing="0" id="${id}"
@@ -55,10 +56,11 @@
 							</div>
 							<div class="podcast-episodes">
 								<a href="${h.url_for(controller='/admin/media', action='edit', id='new', podcast=podcast.id)}" class="btn btn-add-episode"><span>Add episode</span></a>
-								<div py:choose="podcast.media_count" py:strip="True">
-									<span py:when="0" class="view-episodes">No Episodes</span>
-									<a py:when="1" href="${h.url_for(controller='admin/media', action='edit', id=podcast.media.first().id)}" class="view-episodes"><strong>View First Episode</strong></a>
-									<a py:otherwise="" href="${h.url_for(controller='admin/media', podcast_filter=podcast.id, id=None)}" class="view-episodes"><strong>View All ${podcast.media_count} Episodes</strong></a>
+								<div py:strip="True"><strong>
+									<i18n:choose numeral="podcast.media_count" params="num">
+										<a i18n:singular="" href="${h.url_for(controller='admin/media', action='edit', id=podcast.media.first().id)}" class="view-episodes">View First Episode ${''}</a>
+										<a i18n:plural="" href="${h.url_for(controller='admin/media', podcast_filter=podcast.id, id=None)}" class="view-episodes">View All ${podcast.media_count} Episodes</a>
+									</i18n:choose></strong>
 								</div>
 							</div>
 						</div>

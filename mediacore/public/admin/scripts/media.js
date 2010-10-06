@@ -16,6 +16,8 @@
  */
 var MediaManager = new Class({
 
+	Implements: [Events],
+
 	initialize: function(opts){
 		this.metaForm = opts.metaForm.addEvents({
 			saveSuccess: this.onMetaSaved.bind(this)
@@ -45,6 +47,7 @@ var MediaManager = new Class({
 		this.isNew = false;
 		this.newID = mediaID;
 		window.location.hash = '#' + mediaID;
+		this.fireEvent('initMedia', [mediaID]);
 	},
 
 	onMetaSaved: function(json){
@@ -186,14 +189,13 @@ var StatusForm = new Class({
 		form: '',
 		error: '',
 		submitReq: {noCache: true},
-		pickerField: '#publish_on',
+		pickerField: 'publish_on',
 		pickerOptions: {
-			toggleElements: '#status-publish',
+			toggle: 'status-publish',
 			yearPicker: false,
 			timePicker: true,
 			allowEmpty: true,
-			format: 'M d Y @ H:i',
-			inputOutputFormat: 'M d Y @ H:i'
+			format: '%b %d %Y @ %H:%M'
 		}
 	},
 
@@ -208,15 +210,14 @@ var StatusForm = new Class({
 	},
 
 	attachDatePicker: function(){
-		try {
-			if (!this.publishDatePicker) {
-				this.publishDatePicker = new DatePicker(this.options.pickerField, $extend(this.options.pickerOptions, {
-					onSelect: this.changePublishDate.bind(this),
-					onShow: this.onShowDatePicker.bind(this)
-				}));
-			}
-			return this.publishDatePicker.attach();
-		} catch(e) {}
+		var toggle = $(this.options.pickerOptions.toggle);
+		if (!toggle) return;
+		if (this.publishDatePicker == null) {
+			this.publishDatePicker = new DatePicker(this.options.pickerField, this.options.pickerOptions)
+				.addEvent('select', this.changePublishDate.bind(this));
+		} else {
+			this.publishDatePicker.attach(this.options.pickerField, toggle);
+		}
 	},
 
 	saveStatus: function(e){
@@ -255,15 +256,9 @@ var StatusForm = new Class({
 		errorBox.highlight();
 	},
 
-	onShowDatePicker: function(){
-		var coords = $$(this.publishDatePicker.options.toggleElements)[0].getCoordinates();
-		var ml = coords.left - Math.floor($(document).getSize().x / 2);
-		$$('.datepicker')[0].setStyles({left: '50%', top: coords.bottom + 'px', marginLeft: ml + 'px'});
-	},
-
 	changePublishDate: function(d){
-		var publishDate = d.format('%b %d %Y @ %H:%M');
-		$$(this.publishDatePicker.options.toggleElements)[0].getFirst().set('text', publishDate);
+		var publishDate = d.format(this.options.pickerOptions.format);
+		$(this.publishDatePicker.options.toggle).getFirst().set('text', publishDate);
 
 		var r = new Request.JSON({
 			url: this.form.get('action'),
@@ -288,7 +283,12 @@ var FileManager = new Class({
 		onFileEdited: function(json, row, target),
 		onFileDeleted: function(json, row), */
 		editURL: '',
-		modal: {squeezeBox: {zIndex: 10000}},
+		modal: {
+			squeezeBox: {
+				zIndex: 10000,
+				size: {x: 830, y: 450}
+			}
+		},
 		deleteConfirmMsg: function(name){ return "Are you sure you want to delete this file?\n\n" + name; },
 		uploadQueueRow: {'class': 'uploading'},
 		uploadCancelBtn: {
@@ -332,14 +332,41 @@ var FileManager = new Class({
 		return this;
 	},
 
+	_updateTextSpan: function(input) {
+		var text = input.textspan;
+		if (input.value == '0x0' || input.value == '') {
+			text.set('text', '-');
+		} else if (text) {
+			text.set('text', input.value);
+		}
+	},
+
 	_attachFile: function(row){
 		row.getElement('input.file-delete').addEvent('click', this.editFile.bind(this));
 		row.getElement('select[name=file_type]').addEvent('change', this.editFile.bind(this));
-		var duration = row.getElement('input[name=duration]').addEvents({
-			keyup: this.syncDurations.bind(this),
-			blur: this.editFile.bind(this)
-		});
+		// Set up all on-blur events for text fields
+		row.getElements('input.textfield').each(function(el) {
+			el.addEvent('focus', function(e) {
+				var e = new Event(e), target = $(e.target), row = target.getParent('tr');
+				row.addClass('editing');
+			});
+			el.addEvent('blur', function(e) {
+				var e = new Event(e), target = $(e.target), row = target.getParent('tr');
+				row.removeClass('editing');
+			});
+			el.addEvent('blur', this.editFile.bind(this));
+			var text = new Element('span', {'class': 'textspan'});
+			text.injectAfter(el);
+			el.textspan = text;
+			this._updateTextSpan(el);
+		}, this);
+		// Custom handling for the duration row.
+		var duration = row.getElement('input[name=duration]');
+		duration.addEvent('keyup', this.syncDurations.bind(this));
 		this.durationInputs.push(duration);
+		// Custom handling for the width x height row
+		var wxh = row.getElement('input[name=width_height]');
+		wxh.meiomask('Regexp.widthxheight', {});
 		return row;
 	},
 
@@ -455,6 +482,7 @@ var FileManager = new Class({
 		} else {
 			if (json.duration) this.syncDurations(json.duration);
 			row.className = json.file_type;
+			this._updateTextSpan(target);
 			return this.fireEvent('fileEdited', [json, row, target]);
 		}
 	},
@@ -464,6 +492,7 @@ var FileManager = new Class({
 		else var target, value = eOrValue;
 		for (var input, i = 0, l = this.durationInputs.length; i < l; i++) {
 			input = this.durationInputs[i];
+			this._updateTextSpan(input);
 			if (input != target) input.set('value', value);
 		}
 	},
@@ -536,11 +565,14 @@ var FileManager = new Class({
 	},
 
 	_createQueueRow: function(file){
+		/* XXX: The form DOM created below mimics that in .../mediacore/templates/admin/media/file-edit-form.html */
 		var cancelBtn = new Element('input', this.options.uploadCancelBtn);
 		file.ui = new Hash({
 			name: new Element('td', {headers: 'thf-name', text: file.name}),
 			size: new Element('td', {headers: 'thf-size', text: (file.size == '-') ? '-' : Swiff.Uploader.formatUnit(file.size, 'b')}),
 			duration: new Element('td', {headers: 'thf-duration', text: '-'}),
+			bitrate: new Element('td', {headers: 'thf-max-bitrate', text: '-'}),
+			'width-height': new Element('td', {headers: 'thf-width-height', text: '-'}),
 			type: new Element('td', {headers: 'thf-type', text: file.typeText || 'Queued'}),
 			del: new Element('td', {headers: 'thf-delete'}).grab(cancelBtn)
 		});
@@ -560,7 +592,7 @@ var FileManager = new Class({
 		if (typeCol && !typeCol.getElement('select')) typeCol.set('text', 'Error');
 		row.className = 'error';
 		this.fireEvent('fileError', [row, msg]);
-		return errorDiv.set('text', msg);
+		return errorDiv.set('html', msg);
 	},
 
 	_getFileID: function(el){

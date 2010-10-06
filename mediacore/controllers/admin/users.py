@@ -21,10 +21,11 @@ import webob.exc
 from mediacore.forms.admin.users import UserForm
 from mediacore.lib import helpers
 from mediacore.lib.base import BaseController
-from mediacore.lib.decorators import expose, expose_xhr, paginate, validate
+from mediacore.lib.decorators import expose, expose_xhr, observable, paginate, validate
 from mediacore.lib.helpers import redirect, url_for
 from mediacore.model import Group, User, fetch_row, get_available_slug
 from mediacore.model.meta import DBSession
+from mediacore.plugin import events
 
 user_form = UserForm()
 
@@ -34,6 +35,7 @@ class UsersController(BaseController):
 
     @expose_xhr('admin/users/index.html')
     @paginate('users', items_per_page=50)
+    @observable(events.Admin.UsersController.index)
     def index(self, page=1, **kwargs):
         """List users with pagination.
 
@@ -52,6 +54,7 @@ class UsersController(BaseController):
 
 
     @expose('admin/users/edit.html')
+    @observable(events.Admin.UsersController.edit)
     def edit(self, id, **kwargs):
         """Display the :class:`~mediacore.forms.admin.users.UserForm` for editing or adding.
 
@@ -96,6 +99,7 @@ class UsersController(BaseController):
 
     @expose()
     @validate(user_form, error_handler=edit)
+    @observable(events.Admin.UsersController.save)
     def save(self, id, email_address, display_name, login_details,
              delete=None, **kwargs):
         """Save changes or create a new :class:`~mediacore.model.auth.User` instance.
@@ -140,6 +144,7 @@ class UsersController(BaseController):
 
 
     @expose('json')
+    @observable(events.Admin.UsersController.delete)
     def delete(self, id, **kwargs):
         """Delete a user.
 

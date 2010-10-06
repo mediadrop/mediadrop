@@ -11,10 +11,11 @@ install_requires = [
     'WebTest == 1.2',
     'Pylons == 0.10',
     'WebHelpers == 1.0',
-    'SQLAlchemy >= 0.6.3',
+    'SQLAlchemy >= 0.6.4',
     'sqlalchemy-migrate == 0.6',
     'Genshi == 0.6',
-    'Routes == 1.12',
+    'Babel == 0.9.5',
+    'Routes == 1.12.3',
     'repoze.who == 1.0.18',
     'repoze.what-pylons == 1.0',
     'repoze.what-quickstart',
@@ -32,6 +33,9 @@ install_requires = [
     'cElementTree >= 1, < 2',
     'gdata > 2, < 2.1',
     'unidecode',
+    'importlib',
+    'decorator',
+    'simplejson',
 ]
 
 # PIL has some weird packaging issues (because its been around forever).
@@ -44,20 +48,26 @@ except ImportError:
     install_requires.append('PIL >= 1.1.6')
 
 extra_arguments_for_setup = {}
+
 # optional dependency on babel - if it is not installed, you can not extract
 # new messages but MediaCore itself will still work...
 try:
     import babel
+except ImportError:
+    pass
+else:
     # extractors are declared separately so it is easier for 3rd party users
     # to use them for other packages as well...
     extractors = [
-        ('**.py',             'python', None),
-        ('templates/**.html', 'genshi', None),
-        ('public/**',         'ignore', None),
+        ('lib/unidecode/**', 'ignore', None),
+        ('tests/**', 'ignore', None),
+        ('**.py', 'python', None),
+        ('templates/**.html', 'genshi', {
+                'template_class': 'genshi.template.markup:MarkupTemplate'
+            }),
+        ('public/**', 'ignore', None),
     ]
     extra_arguments_for_setup['message_extractors'] = {'mediacore': extractors}
-except ImportError:
-    pass
 
 setup(
     name='MediaCore',

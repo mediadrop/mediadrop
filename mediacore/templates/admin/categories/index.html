@@ -17,6 +17,7 @@
      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:py="http://genshi.edgewall.org/"
+      xmlns:i18n="http://genshi.edgewall.org/i18n"
       xmlns:xi="http://www.w3.org/2001/XInclude">
 <xi:include href="../master.html" />
 <xi:include href="../settings/master.html" />
@@ -34,7 +35,7 @@
 		});
 	</script>
 </head>
-<body class="menu-settings-on menu-settings-categories-on">
+<body>
 	<div class="box">
 		<div class="box-head">
 			<h1>Categories</h1>
@@ -72,7 +73,7 @@
 		<h1 class="box-head">Delete Category</h1>
 		<form>
 			<input py:for="field in ('name', 'slug', 'parent_id')" type="hidden" name="${field}" value="" />
-			<p class="box-content">Are you sure you want to delete this category <strong>and ALL of its children</strong>?</p>
+			<p class="box-content" i18n:msg="strong">Are you sure you want to delete this category <strong>and ALL of its children</strong>?</p>
 			<div class="box-foot">
 				<input type="submit" value="Delete" name="delete" class="btn btn-delete f-rgt" />
 			</div>

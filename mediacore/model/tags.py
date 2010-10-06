@@ -29,14 +29,15 @@ from sqlalchemy.types import Unicode, UnicodeText, Integer, DateTime, Boolean, F
 from sqlalchemy.orm import mapper, relation, backref, synonym, interfaces, validates, column_property
 
 from mediacore.lib.helpers import excess_whitespace
-from mediacore.model import slug_length, slugify, _mtm_count_property
-from mediacore.model.meta import Base, DBSession
+from mediacore.model import SLUG_LENGTH, slugify, _mtm_count_property
+from mediacore.model.meta import DBSession, metadata
+from mediacore.plugin import events
 
 
-tags = Table('tags', Base.metadata,
+tags = Table('tags', metadata,
     Column('id', Integer, autoincrement=True, primary_key=True),
     Column('name', Unicode(50), unique=True, nullable=False),
-    Column('slug', Unicode(slug_length), unique=True, nullable=False),
+    Column('slug', Unicode(SLUG_LENGTH), unique=True, nullable=False),
     mysql_engine='InnoDB',
     mysql_charset='utf8'
 )
@@ -90,7 +91,7 @@ class TagList(list):
     def __unicode__(self):
         return ', '.join([tag.name for tag in self.values()])
 
-mapper(Tag, tags, order_by=tags.c.name)
+mapper(Tag, tags, order_by=tags.c.name, extension=events.MapperObserver(events.Tag))
 
 def extract_tags(string):
     """Convert a comma separated string into a list of tag names.

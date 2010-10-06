@@ -15,8 +15,21 @@
 -->
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:py="http://genshi.edgewall.org/"
+      xmlns:i18n="http://genshi.edgewall.org/i18n"
       xmlns:xi="http://www.w3.org/2001/XInclude"
       py:strip="">
-	<xi:include href="../helpers.html" />
-	${media_player(media, width=400, height=225, qualified=True, embed_only=True)}
+
+	<xi:include py:for="tmpl in value_of('plugin_templates', ())" href="${tmpl}" />
+
+	<div id="${flash.elem_id}" style="display:block;width:${flash.adjusted_width}px;height:${flash.adjusted_height}px">
+		You must have javascript and flash enabled to see the player.
+	</div>
+
+	<script type="text/javascript">
+		//<![CDATA[
+		${getattr(flash, 'is_youtube', False) and u"if (Browser.Platform.ipod) { $('%s').set('html', '%s'); }" % (flash.elem_id, flash.render(id=None)) or u''}
+		${u"if (Browser.Plugins.Flash.version) { $('%s').empty().grab(%s); }" % (flash.elem_id, flash.render(method='swiff'))}
+		//]]>
+	</script>
+
 </html>

@@ -25,26 +25,42 @@
 	<link href="${h.url_for('/admin/styles/settings.css')}" media="screen" rel="stylesheet" type="text/css" />
 </head>
 
-<body py:match="body" class="menu-settings-on" py:attrs="select('@*')">
+<body py:match="body" py:attrs="h.append_class_attr(select('@*'), 'menu-settings-on')">
 	<!--! We're just adding the 'menu-settings-on' class to highlight the right nav button -->
 	<div py:replace="select('*|text()')" />
 </body>
 
 <div id="body" py:match="div[@id='body']">
-	<div class="lft-column33">
+	<div class="lft-column33" py:with="
+		current_url = h.url_for();
+		plugin_links = sorted(g.events.plugin_settings_links(), key=lambda (text, link): text.lower());
+	">
 		<div class="box">
 			<h1 class="box-head">Settings</h1>
-			<ul id="settings-menu" class="box-content">
-				<li><a id="menu-settings-categories" href="${h.url_for(controller='/admin/categories')}">Categories</a></li>
-				<li><a id="menu-settings-tags" href="${h.url_for(controller='/admin/tags')}">Tags</a></li>
-				<li><a id="menu-settings-users" href="${h.url_for(controller='/admin/users')}">Users</a></li>
-				<li><a id="menu-settings-notifications" href="${h.url_for(controller='/admin/settings', action='notifications')}">Notification Emails</a></li>
-				<li><a id="menu-settings-display" href="${h.url_for(controller='/admin/settings', action='display')}">Display</a></li>
-				<li><a id="menu-settings-popularity" href="${h.url_for(controller='/admin/settings', action='popularity')}">Popularity Algorithm</a></li>
-				<li><a id="menu-settings-analytics" href="${h.url_for(controller='/admin/settings', action='analytics')}">Analytics</a></li>
-				<li><a id="menu-settings-upload" href="${h.url_for(controller='/admin/settings', action='upload')}">Upload</a></li>
-				<li><a id="menu-settings-comments" href="${h.url_for(controller='/admin/settings', action='comments')}">Comments</a></li>
-				<li><a id="menu-settings-api" href="${h.url_for(controller='/admin/settings', action='api')}">Data API</a></li>
+			<ul class="box-content settings-menu" py:with="links = [
+				('Analytics', h.url_for(controller='/admin/settings', action='analytics')),
+				('Categories', h.url_for(controller='/admin/categories')),
+				('Comments', h.url_for(controller='/admin/settings', action='comments')),
+				('Data API', h.url_for(controller='/admin/settings', action='api')),
+				('Display', h.url_for(controller='/admin/settings', action='display')),
+				('Notifications', h.url_for(controller='/admin/settings', action='notifications')),
+				('Popularity', h.url_for(controller='/admin/settings', action='popularity')),
+				('Upload', h.url_for(controller='/admin/settings', action='upload')),
+				('Storage Engines', h.url_for(controller='/admin/storage')),
+				('Tags', h.url_for(controller='/admin/tags')),
+				('Users', h.url_for(controller='/admin/users')),
+			]">
+				<li py:for="text, link in links">
+					<a href="${link}" class="${current_url.startswith(link) and 'selected' or None}">${text}</a>
+				</li>
+			</ul>
+		</div>
+		<div class="box" py:if="plugin_links">
+			<h1 class="box-head">Plugins</h1>
+			<ul class="box-content settings-menu">
+				<li py:for="text, link in plugin_links">
+					<a href="${link}" class="${current_url.startswith(link) and 'selected' or None}">${text}</a>
+				</li>
 			</ul>
 		</div>
 	</div>
@@ -54,5 +70,3 @@
 </div>
 
 </html>
-
-

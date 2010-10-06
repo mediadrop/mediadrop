@@ -18,6 +18,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:py="http://genshi.edgewall.org/"
       xmlns:xi="http://www.w3.org/2001/XInclude"
+      xmlns:i18n="http://genshi.edgewall.org/i18n"
       py:with="paginator=c.paginators.media">
 <xi:include href="../master.html" />
 <head>
@@ -52,10 +53,11 @@
 <body class="menu-media-on">
 	<div class="box">
 		<div class="box-head">
-			<h1>
-				<py:if test="podcast_filter_title is None">All Media</py:if>
-				<py:if test="podcast_filter_title is not None">"${podcast_filter_title}" Episodes</py:if>
-			</h1>
+			<py:choose>
+				<h1 py:when="search" i18n:msg="search">Media that matches '${search}'</h1>
+				<h1 py:when="podcast_filter_title" i18n:msg="podcastFilterTitle">${podcast_filter_title} Episodes</h1>
+				<h1 py:otherwise="">All Media</h1>
+			</py:choose>
 			<a class="btn btn-add-media" id="add-btn" href="${h.url_for(action='edit', id='new')}"><span>Add New Media</span></a>
 			<span id="bulk-actions" />
 			<div id="quicksearch" class="f-rgt">

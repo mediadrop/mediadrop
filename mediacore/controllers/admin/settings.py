@@ -20,122 +20,66 @@ from repoze.what.predicates import has_permission
 from sqlalchemy import orm, sql
 
 from mediacore.forms.admin.settings import APIForm, AnalyticsForm, CommentsForm, DisplayForm, NotificationsForm, PopularityForm, UploadForm
-from mediacore.lib.base import BaseController
+from mediacore.lib.base import BaseSettingsController
 from mediacore.lib.decorators import expose, expose_xhr, paginate, validate
 from mediacore.lib.helpers import redirect, url_for
-from mediacore.model import Media, Setting, fetch_row
+from mediacore.model import Media, MultiSetting, Setting, fetch_row
 from mediacore.model.meta import DBSession
 
 import logging
 log = logging.getLogger(__name__)
 
 notifications_form = NotificationsForm(
-    action=url_for(controller='/admin/settings', action='save_notifications'))
+    action=url_for(controller='/admin/settings', action='notifications_save'))
 
 comments_form = CommentsForm(
-    action=url_for(controller='/admin/settings', action='save_comments'))
+    action=url_for(controller='/admin/settings', action='comments_save'))
 
 api_form = APIForm(
     action=url_for(controller='/admin/settings', action='save_api'))
 
 display_form = DisplayForm(
-    action=url_for(controller='/admin/settings', action='save_display'))
+    action=url_for(controller='/admin/settings', action='display_save'))
 
 popularity_form = PopularityForm(
-    action=url_for(controller='/admin/settings', action='save_popularity'))
+    action=url_for(controller='/admin/settings', action='popularity_save'))
 
 upload_form = UploadForm(
-    action=url_for(controller='/admin/settings', action='save_upload'))
+    action=url_for(controller='/admin/settings', action='upload_save'))
 
 analytics_form = AnalyticsForm(
-    action=url_for(controller='/admin/settings', action='save_analytics'))
+    action=url_for(controller='/admin/settings', action='analytics_save'))
 
-
-class SettingsController(BaseController):
+class SettingsController(BaseSettingsController):
     """
-    Dumb controller for display and saving basic settings forms
+    Dumb controller for display and saving basic settings forms.
 
-    This maps forms from :class:`mediacore.forms.admin.settings` to our
-    model :class:`~mediacore.model.settings.Setting`. This controller
-    doesn't care what settings are used, the form dictates everything.
-    The form field names should exactly match the name in the model,
-    regardless of it's nesting in the form.
-
-    If and when setting values need to be altered for display purposes,
-    or before it is saved to the database, it should be done with a
-    field validator instead of adding complexity here.
+    See :class:`mediacore.lib.base.BaseSettingsController` for more details.
 
     """
-
-    allow_only = has_permission('admin')
-
-    def __before__(self, *args, **kwargs):
-        """Load all our settings before each request."""
-        BaseController.__before__(self, *args, **kwargs)
-        c.settings = dict(DBSession.query(Setting.key, Setting))
-
     @expose()
     def index(self, **kwargs):
         redirect(controller='/admin/categories')
 
-    def _update_settings(self, values):
-        """Modify the settings associated with the given dictionary."""
-        for name, value in values.iteritems():
-            setting = c.settings[name]
-            if value is None:
-                value = u''
-            else:
-                value = unicode(value)
-            if setting.value != value:
-                setting.value = value
-                DBSession.add(setting)
-        DBSession.flush()
-        app_globals.settings.refresh()
-
-    def _display(self, form, **kwargs):
-        """Return the template variables for display of the form.
-
-        :rtype: dict
-        :returns:
-            form
-                The passed in form instance.
-            form_values
-                ``dict`` form values
-        """
-        form_values = _nest_settings_for_form(c.settings, form)
-        form_values.update(kwargs)
-        return dict(
-            form = form,
-            form_values = form_values,
-        )
-
-    def _save(self, form, redirect_action=None, **kwargs):
-        """Save the values from the passed in form instance."""
-        values = _flatten_settings_from_form(c.settings, form, kwargs)
-        self._update_settings(values)
-        if redirect_action:
-            redirect(action=redirect_action)
-
-
     @expose('admin/settings/notifications.html')
     def notifications(self, **kwargs):
-        return self._display(notifications_form, **kwargs)
+        return self._display(notifications_form, values=kwargs)
 
     @expose()
     @validate(notifications_form, error_handler=notifications)
-    def save_notifications(self, **kwargs):
+    def notifications_save(self, **kwargs):
         """Save :class:`~mediacore.forms.admin.settings.NotificationsForm`."""
-        return self._save(notifications_form, 'notifications', **kwargs)
+        return self._save(notifications_form, 'notifications', values=kwargs)
 
     @expose('admin/settings/comments.html')
     def comments(self, **kwargs):
-        return self._display(comments_form, **kwargs)
+        return self._display(comments_form, values=kwargs)
 
     @expose()
     @validate(comments_form, error_handler=comments)
-    def save_comments(self, **kwargs):
+    def comments_save(self, **kwargs):
         """Save :class:`~mediacore.forms.admin.settings.CommentsForm`."""
-        return self._save(comments_form, 'comments', **kwargs)
+        return self._save(comments_form, 'comments', values=kwargs)
 
     @expose('admin/settings/api.html')
     def api(self, **kwargs):
@@ -149,14 +93,14 @@ class SettingsController(BaseController):
 
     @expose('admin/settings/display.html')
     def display(self, **kwargs):
-        return self._display(display_form, **kwargs)
+        return self._display(display_form, values=kwargs)
 
     @expose()
     @validate(display_form, error_handler=display)
-    def save_display(self, **kwargs):
+    def display_save(self, **kwargs):
         """Save :class:`~mediacore.forms.admin.settings.DisplayForm`."""
         player_type = c.settings['player_type'].value
-        self._save(display_form, **kwargs)
+        self._save(display_form, values=kwargs)
         # If the player_type changes, we must update the Media.encoded flag,
         # since some things may play now and/or not play anymore with the
         # new setting.
@@ -166,20 +110,19 @@ class SettingsController(BaseController):
                 DBSession.add(m)
         redirect(action='display')
 
-
     @expose('admin/settings/popularity.html')
     def popularity(self, **kwargs):
-        return self._display(popularity_form, **kwargs)
+        return self._display(popularity_form, values=kwargs)
 
     @expose()
     @validate(popularity_form, error_handler=popularity)
-    def save_popularity(self, **kwargs):
+    def popularity_save(self, **kwargs):
         """Save :class:`~mediacore.forms.admin.settings.PopularityForm`.
 
         Updates the popularity for every media item based on the submitted
         values.
         """
-        self._save(popularity_form, **kwargs)
+        self._save(popularity_form, values=kwargs)
         for m in Media.query:
             m.update_popularity()
             DBSession.add(m)
@@ -187,42 +130,20 @@ class SettingsController(BaseController):
 
     @expose('admin/settings/upload.html')
     def upload(self, **kwargs):
-        return self._display(upload_form, **kwargs)
+        return self._display(upload_form, values=kwargs)
 
     @expose()
     @validate(upload_form, error_handler=upload)
-    def save_upload(self, **kwargs):
+    def upload_save(self, **kwargs):
         """Save :class:`~mediacore.forms.admin.settings.UploadForm`."""
-        return self._save(upload_form, 'upload', **kwargs)
+        return self._save(upload_form, 'upload', values=kwargs)
 
     @expose('admin/settings/analytics.html')
     def analytics(self, **kwargs):
-        return self._display(analytics_form, **kwargs)
+        return self._display(analytics_form, values=kwargs)
 
     @expose()
     @validate(analytics_form, error_handler=analytics)
-    def save_analytics(self, **kwargs):
+    def analytics_save(self, **kwargs):
         """Save :class:`~mediacore.forms.admin.settings.AnalyticsForm`."""
-        return self._save(analytics_form, 'analytics', **kwargs)
-
-def _nest_settings_for_form(settings, form):
-    """Create a dict of setting values nested to match the form."""
-    form_values = {}
-    for field in form.c:
-        if isinstance(field, tw.forms.fields.ContainerMixin):
-            form_values[field._name] = _nest_settings_for_form(settings, field)
-        elif field._name in settings:
-            form_values[field._name] = settings[field._name].value
-    return form_values
-
-def _flatten_settings_from_form(settings, form, form_values):
-    """Take a nested dict and return a flat dict of setting values."""
-    setting_values = {}
-    for field in form.c:
-        if isinstance(field, tw.forms.fields.ContainerMixin):
-            setting_values.update(_flatten_settings_from_form(
-                settings, field, form_values[field._name]
-            ))
-        elif field._name in settings:
-            setting_values[field._name] = form_values[field._name]
-    return setting_values
+        return self._save(analytics_form, 'analytics', values=kwargs)

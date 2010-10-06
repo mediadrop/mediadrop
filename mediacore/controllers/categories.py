@@ -17,11 +17,12 @@ from pylons import config, request, response, session, tmpl_context as c
 from sqlalchemy import orm, sql
 
 from mediacore.lib.base import BaseController
-from mediacore.lib.decorators import (expose, expose_xhr, paginate, validate,
-    beaker_cache)
+from mediacore.lib.decorators import (beaker_cache, expose, expose_xhr,
+    observable, paginate, validate)
 from mediacore.lib.helpers import get_featured_category, redirect, url_for
 from mediacore.model import Category, Media, Podcast, fetch_row
 from mediacore.model.meta import DBSession
+from mediacore.plugin import events
 
 import logging
 from paste.util import mimeparse
@@ -58,6 +59,7 @@ class CategoriesController(BaseController):
             c.breadcrumb.append(c.category)
 
     @expose('categories/index.html')
+    @observable(events.CategoriesController.index)
     def index(self, slug=None, **kwargs):
         media = Media.query.published()\
             .options(orm.undefer('comment_count_published'))
@@ -86,6 +88,7 @@ class CategoriesController(BaseController):
 
     @expose('categories/more.html')
     @paginate('media', items_per_page=20)
+    @observable(events.CategoriesController.more)
     def more(self, slug, order, page=1, **kwargs):
         media = Media.query.published()\
             .options(orm.undefer('comment_count_published'))\

@@ -19,10 +19,12 @@ may take precedent over the more generic routes. For more information
 refer to the routes manual at http://routes.groovie.org/docs/
 """
 from routes import Mapper
+from routes.util import controller_scan
 
-def make_map(config):
+def make_map(config, controller_scan=controller_scan):
     """Create, configure and return the routes Mapper"""
-    map = Mapper(directory=config['pylons.paths']['controllers'],
+    map = Mapper(controller_scan=controller_scan,
+                 directory=config['pylons.paths']['controllers'],
                  always_scan=config['debug'])
     map.explicit = False
     map.minimization = True # TODO: Rework routes so we can set this to False
@@ -89,6 +91,10 @@ def make_map(config):
         controller='media',
         action='serve',
         requirements={'id': r'\d+'})
+    map.connect('static_file_url', '/files/{id}.{container}',
+        controller='media',
+        action='serve',
+        requirements={'id': r'\d+'})
     map.connect('/upload/{action}',
         controller='upload',
         action='index')
@@ -143,6 +149,14 @@ def make_map(config):
         action='index')
     map.connect('/admin/settings/users/{id}/{action}',
         controller='admin/users',
+        action='edit',
+        requirements={'id': r'(\d+|new)'})
+
+    map.connect('/admin/settings/storage',
+        controller='admin/storage',
+        action='index')
+    map.connect('/admin/settings/storage/{id}/{action}',
+        controller='admin/storage',
         action='edit',
         requirements={'id': r'(\d+|new)'})
 

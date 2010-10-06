@@ -16,24 +16,21 @@
 import logging
 import os
 import warnings
-try:
-    import json
-except ImportError:
-    import simplejson as json
+import simplejson as json
 
 import formencode
 import tw.forms
 import webob.exc
 
 from decorator import decorator
-from genshi import XML
 from paste.deploy.converters import asbool
-from pylons import config, request, response, tmpl_context
+from pylons import app_globals, config, request, response, tmpl_context
+from pylons.decorators import jsonify
 from pylons.decorators.cache import create_cache_key, _make_dict_from_args
 from pylons.decorators.util import get_pylons
-from pylons.templating import render_genshi as render
 
 from mediacore.lib.paginate import paginate
+from mediacore.lib.templating import render
 
 log = logging.getLogger(__name__)
 
@@ -94,14 +91,6 @@ def _expose_wrapper(f, template):
             log.debug("Returning JSON wrapped action output")
             return json.dumps(result)
 
-
-        extra_vars = {
-            # Steal a page from TurboGears' book:
-            # include the genshi XML helper for convenience in templates.
-            'XML': XML
-        }
-        extra_vars.update(result)
-
         if request.environ.get('paste.testing', False):
             # Make the vars passed from action to template accessible to tests
             request.environ['paste.testing_variables']['tmpl_vars'] = result
@@ -115,12 +104,7 @@ def _expose_wrapper(f, template):
             if response.content_type == 'text/html':
                 response.content_type = 'application/xhtml+xml'
 
-        if template.endswith('.xml'):
-            method = 'xml'
-        else:
-            method = 'xhtml'
-
-        return render(tmpl, extra_vars=extra_vars, method=method)
+        return render(template, tmpl_vars=result, method='auto')
     return wrapped_f
 
 def expose(template='string'):
@@ -257,6 +241,7 @@ class validate(object):
             if len(field_value) == 1:
                 tmpl_context.form_errors['_the_form'] = field_value[0].strip()
                 continue
+            # XXX: This doesn't support nested form fields
             tmpl_context.form_errors[field_value[0]] = field_value[1].strip()
 
         # Set up the tmpl_context.form_values dict with the invalid values
@@ -369,7 +354,6 @@ class validate_xhr(validate):
             return {'success': False, 'errors': tmpl_context.form_errors}
         else:
             return super(validate_xhr, self)._call_error_handler(args, kwargs)
-
 
 def beaker_cache(key="cache_default", expire="never", type=None,
                  query_args=False,
@@ -491,3 +475,40 @@ def beaker_cache(key="cache_default", expire="never", type=None,
         return response['content']
     return decorator(wrapper)
 
+def observable(event):
+    """Filter the result of the decorated action through the events observers.
+
+    :param event: An instance of :class:`mediacore.plugin.events.Event`
+        whose observers are called.
+    :returns: A decorator function.
+    """
+    def wrapper(func, *args, **kwargs):
+        result = func(*args, **kwargs)
+        for observer in event.observers:
+            result = observer(**result)
+        return result
+    return decorator(wrapper)
+
+def _memoize(func, *args, **kwargs):
+    update_cache = kwargs.pop('update_cache', False)
+    if kwargs: # frozenset is used to ensure hashability
+        key = args, frozenset(kwargs.iteritems())
+    else:
+        key = args
+    cache = func.cache # attributed added by memoize
+    if key in cache and not update_cache:
+        return cache[key]
+    else:
+        cache[key] = result = func(*args, **kwargs)
+        return result
+
+def memoize(func):
+    """Decorate this function so cached results are returned indefinitely.
+
+    Copied from docs for the decorator module by Michele Simionato:
+    http://micheles.googlecode.com/hg/decorator/documentation.html#the-solution
+
+    Pass the kwarg update_cache=True to force a refresh of the cache.
+    """
+    func.cache = {}
+    return decorator(_memoize, func)

@@ -30,35 +30,36 @@ belongs to a :class:`mediacore.model.podcasts.Podcast`.
 
 import math
 import os.path
+
 from datetime import datetime
 
-from sqlalchemy import Table, ForeignKey, Column, sql, func, exc
-from sqlalchemy.types import Unicode, UnicodeText, Integer, DateTime, Boolean, Float, Enum
-from sqlalchemy.orm import mapper, class_mapper, relation, backref, synonym, composite, column_property, comparable_property, dynamic_loader, validates, collections, attributes, Query
+from sqlalchemy import Table, ForeignKey, Column, sql
+from sqlalchemy.exc import OperationalError
+from sqlalchemy.ext.associationproxy import association_proxy
+from sqlalchemy.orm import (attributes, backref, class_mapper, column_property,
+    composite, dynamic_loader, mapper, Query, relation, validates)
+from sqlalchemy.orm.collections import attribute_mapped_collection
 from sqlalchemy.schema import DDL
-from pylons import app_globals, config, request
+from sqlalchemy.types import Boolean, DateTime, Integer, Unicode, UnicodeText
 
-from mediacore.model import get_available_slug, slug_length, _mtm_count_property, _properties_dict_from_labels, MatchAgainstClause
+from pylons import app_globals
+
+from mediacore.lib import helpers
+from mediacore.lib.compat import any
+from mediacore.lib.filetypes import AUDIO, AUDIO_DESC, CAPTIONS, VIDEO, guess_mimetype
+from mediacore.model import SLUG_LENGTH, _mtm_count_property, _properties_dict_from_labels, MatchAgainstClause
 from mediacore.model.meta import DBSession, metadata
 from mediacore.model.authors import Author
+from mediacore.model.categories import Category, CategoryList, categories
 from mediacore.model.comments import Comment, CommentQuery, comments
 from mediacore.model.tags import Tag, TagList, tags, extract_tags, fetch_and_create_tags
-from mediacore.model.categories import Category, CategoryList, categories
-from mediacore.lib.compat import any
-from mediacore.lib import helpers
-from mediacore.lib.filetypes import AUDIO, AUDIO_DESC, CAPTIONS, VIDEO, guess_mimetype
-from mediacore.lib.embedtypes import external_embedded_containers
-
-
-class MediaException(Exception): pass
-class MediaFileException(MediaException): pass
-class UnknownFileTypeException(MediaFileException): pass
+from mediacore.plugin import events
 
 
 media = Table('media', metadata,
     Column('id', Integer, autoincrement=True, primary_key=True),
-    Column('type', Enum(VIDEO, AUDIO, name="type")),
-    Column('slug', Unicode(slug_length), unique=True, nullable=False),
+    Column('type', Unicode(8)),
+    Column('slug', Unicode(SLUG_LENGTH), unique=True, nullable=False),
     Column('podcast_id', Integer, ForeignKey('podcasts.id', onupdate='CASCADE', ondelete='SET NULL')),
     Column('reviewed', Boolean, default=False, nullable=False),
     Column('encoded', Boolean, default=False, nullable=False),
@@ -87,20 +88,43 @@ media = Table('media', metadata,
     mysql_charset='utf8',
 )
 
+media_meta = Table('media_meta', metadata,
+    Column('id', Integer, autoincrement=True, primary_key=True),
+    Column('media_id', Integer, ForeignKey('media.id', onupdate='CASCADE', ondelete='CASCADE'), nullable=False),
+    Column('key', Unicode(64), nullable=False),
+    Column('value', UnicodeText, default=None),
+
+    mysql_engine='InnoDB',
+    mysql_charset='utf8',
+)
+
 media_files = Table('media_files', metadata,
     Column('id', Integer, autoincrement=True, primary_key=True),
     Column('media_id', Integer, ForeignKey('media.id', onupdate='CASCADE', ondelete='CASCADE'), nullable=False),
+    Column('storage_id', Integer, ForeignKey('storage.id', onupdate='CASCADE', ondelete='CASCADE'), nullable=False),
 
-    Column('type', Enum(VIDEO, AUDIO, AUDIO_DESC, CAPTIONS, name="type"), nullable=False),
-    Column('container', Unicode(10), nullable=False),
+    Column('type', Unicode(16), nullable=False),
+    Column('container', Unicode(10)),
     Column('display_name', Unicode(255), nullable=False),
-    Column('file_name', Unicode(255)),
-    Column('url', Unicode(255)),
-    Column('embed', Unicode(50)),
+    Column('unique_id', Unicode(255)),
     Column('size', Integer),
 
     Column('created_on', DateTime, default=datetime.now, nullable=False),
     Column('modified_on', DateTime, default=datetime.now, onupdate=datetime.now, nullable=False),
+
+    Column('bitrate', Integer),
+    Column('width', Integer),
+    Column('height', Integer),
+
+    mysql_engine='InnoDB',
+    mysql_charset='utf8',
+)
+
+media_files_meta = Table('media_files_meta', metadata,
+    Column('id', Integer, autoincrement=True, primary_key=True),
+    Column('media_files_id', Integer, ForeignKey('media_files.id', onupdate='CASCADE', ondelete='CASCADE'), nullable=False),
+    Column('key', Unicode(64), nullable=False),
+    Column('value', UnicodeText, default=None),
 
     mysql_engine='InnoDB',
     mysql_charset='utf8',
@@ -249,6 +273,31 @@ class MediaQuery(Query):
         else:
             return self
 
+class Meta(object):
+    """
+    Metadata related to a media object
+
+    .. attribute:: id
+
+    .. attribute:: key
+
+        A lookup key
+
+    .. attribute:: value
+
+        The metadata value
+
+    """
+    def __init__(self, key, value):
+        self.key = key
+        self.value = value
+
+class MediaMeta(Meta):
+    pass
+
+class MediaFilesMeta(Meta):
+    pass
+
 class Media(object):
     """
     Media metadata and a collection of related files.
@@ -368,6 +417,8 @@ class Media(object):
 
     """
 
+    meta = association_proxy('_meta', 'value', creator=MediaMeta)
+
     query = DBSession.query_property(MediaQuery)
 
     _thumb_dir = 'media'
@@ -434,30 +485,6 @@ class Media(object):
         return True
 
     @property
-    def downloadable_file(self):
-        if not self.files or not self.type:
-            return None
-        primaries = [file for file in self.files if file.type == self.type]
-        primaries.sort(key=lambda file: file.size)
-        if not primaries or primaries[-1].embed:
-            return None
-        return primaries[-1]
-
-    @property
-    def captions(self):
-        for file in self.files:
-            if file.type == CAPTIONS:
-                return file
-        return None
-
-    @property
-    def audio_desc(self):
-        for file in self.files:
-            if file.type == AUDIO_DESC:
-                return file
-        return None
-
-    @property
     def is_published(self):
         if self.id is None:
             return False
@@ -490,7 +517,7 @@ class Media(object):
                 .filter(self.__class__.id == self.id)\
                 .update({self.__class__.views: self.__class__.views + 1})
             transaction.commit()
-        except exc.OperationalError, e:
+        except OperationalError, e:
             transaction.rollback()
             # (OperationalError) (1205, 'Lock wait timeout exceeded, try restarting the transaction')
             if not '1205' in e.message:
@@ -538,17 +565,26 @@ class Media(object):
     def _validate_description_plain(self, key, value):
         return helpers.strip_xhtml(value, True)
 
+    def get_uris(self):
+        uris = []
+        for file in self.files:
+            uris.extend(file.get_uris())
+        return uris
+
+class MediaFileQuery(Query):
+    pass
+
 class MediaFile(object):
     """
-    Audio or Video file or link
-
-    Represents a locally- or remotely- hosted file or an embeddable YouTube video.
+    Audio or Video File
 
     """
-    query = DBSession.query_property()
+    meta = association_proxy('_meta', 'value', creator=MediaFilesMeta)
+    query = DBSession.query_property(MediaFileQuery)
 
     def __repr__(self):
-        return '<MediaFile: %s %s url=%s>' % (self.type, self.container, self.url)
+        return '<MediaFile: %s %s unique_id=%s>' \
+            % (self.type, self.storage.display_name, self.unique_id)
 
     @property
     def mimetype(self):
@@ -561,69 +597,97 @@ class MediaFile(object):
             type = AUDIO
         return guess_mimetype(self.container, type)
 
-    @property
-    def file_path(self):
-        if self.file_name:
-            return os.path.join(config['media_dir'], self.file_name)
-        return None
+    def get_uris(self):
+        """Return a list all possible playback URIs for this file.
 
-    def play_url(self, qualified=False):
-        """The URL for use when embedding the media file in a page
+        :rtype: list
+        :returns: :class:`mediacore.lib.storage.StorageURI` instances.
 
-        This MAY return a different URL than the link_url property.
         """
-        if self.url is not None:
-            return self.url
-        elif self.embed is not None:
-            return external_embedded_containers[self.container]['play'] % self.embed
-        else:
-            return helpers.url_for(controller='/media', action='serve',
-                                   slug=self.media.slug, id=self.id,
-                                   container=self.container, qualified=qualified)
-
-    def link_url(self, qualified=False):
-        """The URL for use when linking to a media file.
-
-        This is usually a direct link to the file, but for youtube videos and
-        other files marked as embeddable, this may return a link to the hosting
-        site's view page.
-
-        This MAY return a different URL than the play_url property.
-        """
-        if self.url is not None:
-            return self.url
-        elif self.embed is not None:
-            return external_embedded_containers[self.container]['link'] % self.embed
-        else:
-            return helpers.url_for(controller='/media', action='serve',
-                                   slug=self.media.slug, id=self.id,
-                                   container=self.container, qualified=qualified)
+        return self.storage.get_uris(self)
 
 class MediaFullText(object):
     query = DBSession.query_property()
 
-
-mapper(MediaFile, media_files)
-
 mapper(MediaFullText, media_fulltext)
+mapper(MediaMeta, media_meta)
+mapper(MediaFilesMeta, media_files_meta)
 
-_media_mapper = mapper(Media, media, order_by=media.c.title, properties={
-    'fulltext': relation(MediaFullText, uselist=False, passive_deletes=True),
-    'author': composite(Author, media.c.author_name, media.c.author_email),
-    'files': relation(MediaFile, backref='media', order_by=media_files.c.type.asc(), passive_deletes=True),
-    'tags': relation(Tag, secondary=media_tags, backref=backref('media', lazy='dynamic', query_class=MediaQuery), collection_class=TagList, passive_deletes=True),
-    'categories': relation(Category, secondary=media_categories, backref=backref('media', lazy='dynamic', query_class=MediaQuery), collection_class=CategoryList, passive_deletes=True),
+_media_files_mapper = mapper(
+    MediaFile, media_files,
+    extension=events.MapperObserver(events.MediaFile),
+    properties={
+        '_meta': relation(
+            MediaFilesMeta,
+            collection_class=attribute_mapped_collection('key'),
+            passive_deletes=True,
+        ),
+    },
+)
 
-    'comments': dynamic_loader(Comment, backref='media', query_class=CommentQuery, passive_deletes=True),
-    'comment_count': column_property(
-        sql.select([sql.func.count(comments.c.id)],
-                   media.c.id == comments.c.media_id).label('comment_count'),
-        deferred=True),
-    'comment_count_published': column_property(
-        sql.select([sql.func.count(comments.c.id)],
-                   sql.and_(comments.c.media_id == media.c.id,
-                            comments.c.publishable == True)).label('comment_count_published'),
-        deferred=True),
+_media_mapper = mapper(
+    Media, media,
+    order_by=media.c.title,
+    extension=events.MapperObserver(events.Media),
+    properties={
+        'fulltext': relation(
+            MediaFullText,
+            uselist=False,
+            passive_deletes=True,
+        ),
+        'author': composite(
+            Author,
+            media.c.author_name,
+            media.c.author_email,
+        ),
+        'files': relation(
+            MediaFile,
+            backref='media',
+            order_by=media_files.c.type.asc(),
+            passive_deletes=True,
+        ),
+        'tags': relation(
+            Tag,
+            secondary=media_tags,
+            backref=backref('media', lazy='dynamic', query_class=MediaQuery),
+            collection_class=TagList,
+            passive_deletes=True,
+        ),
+        'categories': relation(
+            Category,
+            secondary=media_categories,
+            backref=backref('media', lazy='dynamic', query_class=MediaQuery),
+            collection_class=CategoryList,
+            passive_deletes=True,
+        ),
+        '_meta': relation(
+            MediaMeta,
+            collection_class=attribute_mapped_collection('key'),
+            passive_deletes=True,
+        ),
+        'comments': dynamic_loader(
+            Comment,
+            backref='media',
+            query_class=CommentQuery,
+            passive_deletes=True,
+        ),
+        'comment_count': column_property(
+            sql.select(
+                [sql.func.count(comments.c.id)],
+                media.c.id == comments.c.media_id,
+            ).label('comment_count'),
+            deferred=True,
+        ),
+        'comment_count_published': column_property(
+            sql.select(
+                [sql.func.count(comments.c.id)],
+                sql.and_(
+                    comments.c.media_id == media.c.id,
+                    comments.c.publishable == True,
+                )
+            ).label('comment_count_published'),
+            deferred=True,
+        ),
 })
 
 # Add properties for counting how many media items have a given Tag
@@ -635,8 +699,10 @@ _tags_mapper.add_properties(_properties_dict_from_labels(
         media.c.encoded == True,
         media.c.publishable == True,
         media.c.publish_on <= datetime.now(),
-        sql.or_(media.c.publish_until == None,
-                media.c.publish_until >= datetime.now()),
+        sql.or_(
+            media.c.publish_until == None,
+            media.c.publish_until >= datetime.now(),
+        ),
     ]),
 ))
 
@@ -649,7 +715,9 @@ _categories_mapper.add_properties(_properties_dict_from_labels(
         media.c.encoded == True,
         media.c.publishable == True,
         media.c.publish_on <= datetime.now(),
-        sql.or_(media.c.publish_until == None,
-                media.c.publish_until >= datetime.now()),
+        sql.or_(
+            media.c.publish_until == None,
+            media.c.publish_until >= datetime.now(),
+        ),
     ]),
 ))

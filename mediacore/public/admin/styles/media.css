@@ -82,6 +82,22 @@ a.published { background-image: url('../images/statuses/published-both.png'); }
 .btn-add-url { background-image: url('../images/buttons/add-url.png'); width: 104px; }
 .btn-upload-file { background-image: url('../images/buttons/upload-file.png'); width: 104px; }
 
+#fmgr tr .textfield {
+	display: none;
+}
+#fmgr tr .textspan {
+	line-height: 28px;
+	display: inline;
+}
+#fmgr tr:hover .textfield,
+#fmgr tr.editing .textfield {
+	display: inline;
+}
+#fmgr tr:hover .textspan,
+#fmgr tr.editing .textspan {
+	display: none;
+}
+
 #fmgr-close {
 	color: #196D29;
 }
@@ -94,27 +110,48 @@ a.published { background-image: url('../images/statuses/published-both.png'); }
 #fmgr thead tr th {
 	border-top: 0;
 }
+#fmgr th, #fmgr td {
+	padding-right: 0px;
+}
 #fmgr th#thf-size,
 #fmgr td[headers='thf-size'] {
 	white-space: nowrap;
 	text-align: right;
 }
-#fmgr th#thf-delete,
-#fmgr td[headers='thf-delete'] {
-	padding-left: 2px;
-}
 #fmgr th#thf-duration,
 #fmgr td[headers='thf-duration'] {
 	text-align: center;
 }
+#fmgr th#thf-max-bitrate,
+#fmgr td[headers='thf-max-bitrate'] {
+	text-align: center;
+}
+#fmgr th#thf-width,
+#fmgr td[headers='thf-width-height'] {
+	text-align: center;
+}
+#fmgr th#thf-delete,
+#fmgr td[headers='thf-delete'] {
+	padding-right: 10px;
+}
+
 #fmgr input[name="duration"] {
-	width: 50px;
+	width: 48px;
+	text-align: right;
+}
+#fmgr input[name="bitrate"] {
+	width: 34px;
+	text-align: right;
+}
+#fmgr input[name="width_height"] {
+	width: 92px;
 	text-align: right;
 }
 #fmgr select[name="file_type"] {
 	width: 105px;
 	padding-right: 5px;
 }
+
 #fmgr .fmgr-upload-progress {
 	width: 105px;
 }
@@ -144,7 +181,7 @@ a.published { background-image: url('../images/statuses/published-both.png'); }
 #fmgr .url-container .overTxtLabel,
 #fmgr #file-label {
 	float: left;
-	width: 400px;
+	width: 580px;
 	color: #8b8b8b;
 	height: 21px;
 	line-height: 24px;

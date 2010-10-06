@@ -29,12 +29,13 @@ from mediacore.forms.admin import SearchForm, ThumbForm
 from mediacore.forms.admin.media import AddFileForm, EditFileForm, MediaForm, UpdateStatusForm
 from mediacore.lib import helpers
 from mediacore.lib.base import BaseController
-from mediacore.lib.decorators import expose, expose_xhr, paginate, validate, validate_xhr
+from mediacore.lib.decorators import expose, expose_xhr, observable, paginate, validate, validate_xhr
 from mediacore.lib.helpers import redirect, url_for
-from mediacore.lib.mediafiles import add_new_media_file
+from mediacore.lib.storage import add_new_media_file
 from mediacore.lib.thumbnails import thumb_path, thumb_paths, create_thumbs_for, create_default_thumbs_for, has_thumbs, has_default_thumbs
 from mediacore.model import Author, Category, Media, Podcast, Tag, fetch_row, get_available_slug
 from mediacore.model.meta import DBSession
+from mediacore.plugin import events
 
 import logging
 log = logging.getLogger(__name__)
@@ -51,6 +52,7 @@ class MediaController(BaseController):
 
     @expose_xhr('admin/media/index.html', 'admin/media/index-table.html')
     @paginate('media', items_per_page=25)
+    @observable(events.Admin.MediaController.index)
     def index(self, page=1, search=None, podcast_filter=None, **kwargs):
         """List media with pagination and filtering.
 
@@ -101,6 +103,7 @@ class MediaController(BaseController):
 
     @expose('admin/media/edit.html')
     @validate(validators={'podcast': validators.Int()})
+    @observable(events.Admin.MediaController.edit)
     def edit(self, id, **kwargs):
         """Display the media forms for editing or adding.
 
@@ -186,12 +189,15 @@ class MediaController(BaseController):
             # Remove the file from the session so that SQLAlchemy doesn't
             # try to issue an UPDATE to set the MediaFile.media_id to None.
             # The database ON DELETE CASCADE handles everything for us.
+            # TODO: Try setting Media.files.cascade to 'all, delete-orphan'
+            #       so this can be removed.
             DBSession.expunge(f)
         DBSession.delete(media)
         helpers.delete_files(file_paths, Media._thumb_dir)
 
     @expose_xhr()
     @validate_xhr(media_form, error_handler=edit)
+    @observable(events.Admin.MediaController.save)
     def save(self, id, slug, title, author_name, author_email,
              description, notes, podcast, tags, categories,
              delete=None, **kwargs):
@@ -229,7 +235,7 @@ class MediaController(BaseController):
         DBSession.add(media)
         DBSession.flush()
 
-        if id == 'new':
+        if id == 'new' and not has_thumbs(media):
             create_default_thumbs_for(media)
 
         if request.is_xhr:
@@ -249,6 +255,7 @@ class MediaController(BaseController):
 
     @expose('json')
     @validate(add_file_form)
+    @observable(events.Admin.MediaController.add_file)
     def add_file(self, id, file=None, url=None, **kwargs):
         """Save action for the :class:`~mediacore.forms.admin.media.AddFileForm`.
 
@@ -293,59 +300,50 @@ class MediaController(BaseController):
         else:
             media = fetch_row(Media, id)
 
-        try:
-            media_file = add_new_media_file(media, file, url)
-        except Invalid, e:
-            DBSession.rollback()
-            data = dict(
-                success = False,
-                message = e.message,
-            )
-        else:
-            if media.slug.startswith('_stub_'):
-                media.title = media_file.display_name
-                media.slug = get_available_slug(Media, '_stub_' + media.title)
+        media_file = add_new_media_file(media, file, url)
+        if media.slug.startswith('_stub_'):
+            media.title = media_file.display_name
+            media.slug = get_available_slug(Media, '_stub_' + media.title)
 
-            # The thumbs may have been created already by add_new_media_file
-            if id == 'new' and not has_thumbs(media):
-                create_default_thumbs_for(media)
+        # The thumbs may have been created already by add_new_media_file
+        if id == 'new' and not has_thumbs(media):
+            create_default_thumbs_for(media)
 
-            # Render some widgets so the XHTML can be injected into the page
-            edit_form_xhtml = unicode(edit_file_form.display(
-                action=url_for(action='edit_file', id=media.id),
-                file=media_file))
-            status_form_xhtml = unicode(update_status_form.display(
-                action=url_for(action='update_status', id=media.id),
-                media=media))
+        # Render some widgets so the XHTML can be injected into the page
+        edit_form_xhtml = unicode(edit_file_form.display(
+            action=url_for(action='edit_file', id=media.id),
+            file=media_file))
+        status_form_xhtml = unicode(update_status_form.display(
+            action=url_for(action='update_status', id=media.id),
+            media=media))
 
-            data = dict(
-                success = True,
-                media_id = media.id,
-                file_id = media_file.id,
-                file_type = media_file.type,
-                edit_form = edit_form_xhtml,
-                status_form = status_form_xhtml,
-                title = media.title,
-                slug = media.slug,
-                link = url_for(action='edit', id=media.id),
-                duration = helpers.duration_from_seconds(media.duration),
-            )
+        data = dict(
+            success = True,
+            media_id = media.id,
+            file_id = media_file.id,
+            file_type = media_file.type,
+            edit_form = edit_form_xhtml,
+            status_form = status_form_xhtml,
+            title = media.title,
+            slug = media.slug,
+            link = url_for(action='edit', id=media.id),
+            duration = helpers.duration_from_seconds(media.duration),
+        )
 
         return data
 
 
     @expose('json')
-    @validate(validators={'file_id': validators.Int()})
-    def edit_file(self, id, file_id, file_type=None, duration=None, delete=None, **kwargs):
+    @validate(edit_file_form)
+    @observable(events.Admin.MediaController.edit_file)
+    def edit_file(self, id, file_id, file_type=None, duration=None, delete=None, bitrate=None, width_height=None, **kwargs):
         """Save action for the :class:`~mediacore.forms.admin.media.EditFileForm`.
 
         Changes or delets a :class:`~mediacore.model.media.MediaFile`.
 
-        TODO: Use the form validators to validate this form. We only
-              POST one field at a time, so the validate decorator doesn't
-              work, because it doesn't work for partial validation, because
-              none of the kwargs are updated if an Invalid exception is
-              raised by any validator.
+        XXX: If the edit_file_form schema did not validate, we will be passed
+             the unvalidated keyword arguments. This is handled in the second
+             case in the if-elif-block below.
 
         :param id: Media ID
         :type id: :class:`int`
@@ -362,6 +360,7 @@ class MediaController(BaseController):
         """
         media = fetch_row(Media, id)
         data = dict(success=False)
+        file_id = int(file_id) # Just in case validation failed somewhere.
 
         try:
             file = [file for file in media.files if file.id == file_id][0]
@@ -370,20 +369,25 @@ class MediaController(BaseController):
 
         if file is None:
             data['message'] = _('File "%s" does not exist.') % file_id
+        elif tmpl_context.form_errors:
+            # Catch the case where the form did not validate.
+            # Here, we choose to just display the first error, if there is one.
+            data['message'] = tmpl_context.form_errors.values()[0]
         elif file_type:
             file.type = file_type
             data['success'] = True
         elif duration is not None:
-            try:
-                duration = helpers.duration_to_seconds(duration)
-            except ValueError:
-                data['message'] = _('Bad duration formatting, use Hour:Min:Sec')
-            else:
-                media.duration = duration
-                data['success'] = True
-                data['duration'] = helpers.duration_from_seconds(duration)
+            media.duration = duration
+            data['success'] = True
+            data['duration'] = helpers.duration_from_seconds(duration)
+        elif width_height is not None:
+            file.width, file.height = width_height
+            data['success'] = True
+        elif bitrate is not None:
+            file.bitrate = bitrate
+            data['success'] = True
         elif delete:
-            file_path = file.file_path
+            file_path = helpers.file_path(file)
             DBSession.delete(file)
             DBSession.commit()
             if file_path:
@@ -428,16 +432,8 @@ class MediaController(BaseController):
         # Merge in the file(s) from the input stub
         if input.slug.startswith('_stub_') and input.files:
             for file in input.files[:]:
+                # XXX: The filename will still use the old ID
                 file.media = orig
-                if file.file_name:
-                    input_file_name = file.file_name
-                    input_file_path = file.file_path
-                    try:
-                        file.file_name = '%s_%s_%s.%s' \
-                            % (orig.id, file.id, orig.slug, file.container)
-                        os.rename(input_file_path, file.file_path)
-                    except OSError:
-                        file.file_name = input_file_name
                 merged_files.append(file)
             DBSession.delete(input)
 
@@ -503,6 +499,7 @@ class MediaController(BaseController):
 
     @expose('json')
     @validate(thumb_form, error_handler=edit)
+    @observable(events.Admin.MediaController.save_thumb)
     def save_thumb(self, id, thumb, **kwargs):
         """Save a thumbnail uploaded with :class:`~mediacore.forms.admin.ThumbForm`.
 
@@ -565,6 +562,7 @@ class MediaController(BaseController):
 
     @expose('json')
     @validate(update_status_form, error_handler=edit)
+    @observable(events.Admin.MediaController.update_status)
     def update_status(self, id, update_button=None, publish_on=None, **values):
         """Update the publish status for the given media.
 

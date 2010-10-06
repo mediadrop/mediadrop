@@ -13,11 +13,13 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+from pylons.i18n import N_ as _
 from tw.forms import HiddenField
 from tw.forms.validators import NotEmpty
 
 from mediacore.forms import Form, ListForm, SubmitButton, TextField, XHTMLEntityValidator
 from mediacore.lib.helpers import excess_whitespace
+from mediacore.plugin import events
 
 class TagNameValidator(XHTMLEntityValidator):
     def _to_python(self, value, state=None):
@@ -27,7 +29,7 @@ class TagNameValidator(XHTMLEntityValidator):
         return value
 
 class TagForm(ListForm):
-    template = 'mediacore.templates.admin.tags.form'
+    template = 'admin/tags/form.html'
     id = None
     css_classes = ['form', 'tag-form']
     submit_text = None
@@ -36,13 +38,16 @@ class TagForm(ListForm):
     _name = 'vf'
 
     fields = [
-        SubmitButton('save', default='Save', css_classes=['f-rgt', 'btn', 'btn-save']),
-        TextField('name', css_classes=['tag-name'], validator=TagNameValidator(not_empty=True)),
-        TextField('slug', css_classes=['tag-slug'], validator=NotEmpty),
+        SubmitButton('save', default=_('Save'), css_classes=['f-rgt', 'btn', 'btn-save']),
+        TextField('name', label_text=_('Name'), css_classes=['tag-name'], validator=TagNameValidator(not_empty=True)),
+        TextField('slug', label_text=_('Slug'), css_classes=['tag-slug'], validator=NotEmpty),
     ]
 
+    def post_init(self, *args, **kwargs):
+        events.Admin.TagForm(self)
+
 class TagRowForm(Form):
-    template = 'mediacore.templates.admin.tags.row-form'
+    template = 'admin/tags/row-form.html'
     id = None
     submit_text = None
     params = ['tag']
@@ -50,5 +55,8 @@ class TagRowForm(Form):
     fields = [
         HiddenField('name'),
         HiddenField('slug'),
-        SubmitButton('delete', default='Delete', css_classes=['btn', 'btn-inline-delete']),
+        SubmitButton('delete', default=_('Delete'), css_classes=['btn', 'btn-inline-delete']),
     ]
+
+    def post_init(self, *args, **kwargs):
+        events.Admin.TagRowForm(self)

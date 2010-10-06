@@ -21,9 +21,12 @@ from pylons import app_globals, config, request, response, session, tmpl_context
 from mediacore.forms.uploader import UploadForm
 from mediacore.lib import email
 from mediacore.lib.base import BaseController
-from mediacore.lib.decorators import expose, expose_xhr, paginate, validate
+from mediacore.lib.decorators import expose, expose_xhr, observable, paginate, validate
 from mediacore.lib.helpers import redirect, url_for
-from mediacore.lib.mediafiles import save_media_obj
+from mediacore.lib.storage import add_new_media_file
+from mediacore.lib.thumbnails import create_default_thumbs_for, has_thumbs
+from mediacore.model import Author, DBSession, get_available_slug, Media
+from mediacore.plugin import events
 
 import logging
 log = logging.getLogger(__name__)
@@ -39,6 +42,7 @@ class UploadController(BaseController):
     """
 
     @expose('upload/index.html')
+    @observable(events.UploadController.index)
     def index(self, **kwargs):
         """Display the upload form.
 
@@ -67,6 +71,7 @@ class UploadController(BaseController):
 
     @expose('json')
     @validate(upload_form)
+    @observable(events.UploadController.submit_async)
     def submit_async(self, **kwargs):
         """Ajax form validation and/or submission.
 
@@ -117,7 +122,7 @@ class UploadController(BaseController):
                 # else actually save it!
                 kwargs.setdefault('name')
 
-                media_obj = save_media_obj(
+                media_obj = self.save_media_obj(
                     kwargs['name'], kwargs['email'],
                     kwargs['title'], kwargs['description'],
                     None, kwargs['file'], kwargs['url'],
@@ -132,13 +137,14 @@ class UploadController(BaseController):
 
     @expose()
     @validate(upload_form, error_handler=index)
+    @observable(events.UploadController.submit)
     def submit(self, **kwargs):
         """
         """
         kwargs.setdefault('name')
 
         # Save the media_obj!
-        media_obj = save_media_obj(
+        media_obj = self.save_media_obj(
             kwargs['name'], kwargs['email'],
             kwargs['title'], kwargs['description'],
             None, kwargs['file'], kwargs['url'],
@@ -149,9 +155,37 @@ class UploadController(BaseController):
         redirect(action='success')
 
     @expose('upload/success.html')
+    @observable(events.UploadController.success)
     def success(self, **kwargs):
         return dict()
 
     @expose('upload/failure.html')
+    @observable(events.UploadController.failure)
     def failure(self, **kwargs):
         return dict()
+
+    def save_media_obj(self, name, email, title, description, tags, uploaded_file, url):
+        # create our media object as a status-less placeholder initially
+        media_obj = Media()
+        media_obj.author = Author(name, email)
+        media_obj.title = title
+        media_obj.slug = get_available_slug(Media, title)
+        media_obj.description = description
+        media_obj.notes = app_globals.settings['wording_additional_notes']
+        media_obj.set_tags(tags)
+
+        # Give the Media object an ID.
+        DBSession.add(media_obj)
+        DBSession.flush()
+
+        # Create a MediaFile object, add it to the media_obj, and store the file permanently.
+        media_file = add_new_media_file(media_obj, file=uploaded_file, url=url)
+
+        # The thumbs may have been created already by add_new_media_file
+        if not has_thumbs(media_obj):
+            create_default_thumbs_for(media_obj)
+
+        media.update_status()
+        DBSession.flush()
+
+        return media_obj

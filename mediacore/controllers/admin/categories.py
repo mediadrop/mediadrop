@@ -18,10 +18,11 @@ from repoze.what.predicates import has_permission
 from sqlalchemy import orm, sql
 
 from mediacore.lib.base import BaseController
-from mediacore.lib.decorators import expose, expose_xhr, paginate, validate
+from mediacore.lib.decorators import expose, expose_xhr, observable, paginate, validate
 from mediacore.lib.helpers import redirect, url_for
 from mediacore.model import Category, fetch_row, get_available_slug
 from mediacore.model.meta import DBSession
+from mediacore.plugin import events
 
 from mediacore.forms.admin.categories import CategoryForm, CategoryRowForm
 
@@ -35,6 +36,7 @@ class CategoriesController(BaseController):
     allow_only = has_permission('admin')
 
     @expose('admin/categories/index.html')
+    @observable(events.Admin.CategoriesController.index)
     def index(self, **kwargs):
         """List categories.
 
@@ -59,6 +61,7 @@ class CategoriesController(BaseController):
         )
 
     @expose('admin/categories/edit.html')
+    @observable(events.Admin.CategoriesController.edit)
     def edit(self, id, **kwargs):
         """Edit a single category.
 
@@ -82,6 +85,7 @@ class CategoriesController(BaseController):
 
     @expose('json')
     @validate(category_form)
+    @observable(events.Admin.CategoriesController.save)
     def save(self, id, delete=None, **kwargs):
         """Save changes or create a category.
 
