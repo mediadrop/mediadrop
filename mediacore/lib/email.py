@@ -97,7 +97,7 @@ Description: %(clean_description)s
 
     send(send_to, app_globals.settings['email_send_from'], subject, body)
 
-def send_comment_notification(media, comment):
+def send_comment_notification(media_obj, comment):
     send_to = app_globals.settings['email_comment_posted']
     if not send_to:
         # Comment notification emails are disabled!
