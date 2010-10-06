@@ -12,6 +12,7 @@ storage = Table('storage', metadata,
     Column('display_name', Unicode(100), nullable=False, unique=True),
     Column('pickled_data', PickleType, nullable=False),
     Column('is_primary', Boolean, nullable=False, default=False),
+    Column('enabled', Boolean, nullable=False, default=True),
     Column('created_on', DateTime, nullable=False, default=datetime.now),
     Column('modified_on', DateTime, nullable=False, default=datetime.now,
                                                     onupdate=datetime.now),
@@ -24,8 +25,14 @@ def upgrade(migrate_engine):
     # to your metadata
     metadata.bind = migrate_engine
     connection = migrate_engine.connect()
+
+    transaction = connection.begin()
     storage.c.is_primary.alter(name='enabled')
+    transaction.commit()
+
+    transaction = connection.begin()
     connection.execute(storage.update().values(enabled=True))
+    transaction.commit()
 
 def downgrade(migrate_engine):
     # Operations to reverse the above upgrade go here.
