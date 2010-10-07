@@ -8,7 +8,8 @@ import pylons
 import pylons.test
 from pylons.i18n import N_
 from sqlalchemy.orm import class_mapper
-from migrate.versioning.api import version_control, version, upgrade
+from migrate.versioning.api import (drop_version_control, version_control,
+    version, upgrade)
 from migrate.versioning.exceptions import DatabaseAlreadyControlledError
 
 from mediacore.config.environment import load_environment
@@ -59,6 +60,8 @@ def setup_app(command, conf, vars):
         if filename == 'test.ini':
             log.info('Dropping existing tables...')
             metadata.drop_all(checkfirst=True)
+            drop_version_control(conf.local_conf['sqlalchemy.url'],
+                                 migrate_repository)
     else:
         # Don't reload the app if it was loaded under the testing environment
         config = load_environment(conf.global_conf, conf.local_conf)
