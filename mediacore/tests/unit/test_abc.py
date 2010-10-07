@@ -1,7 +1,7 @@
 import py.test
 
 from mediacore import ipython
-from mediacore.plugin.abc import AbstractClass, abstractmethod, abstractproperty, ImplementationException, _reset_registry
+from mediacore.plugin.abc import AbstractClass, abstractmethod, abstractproperty, ImplementationError, _reset_registry
 
 def pytest_funcarg__AbstractStuff(request):
     class AbstractStuff(AbstractClass):
@@ -44,5 +44,5 @@ def test_register_multiple_interfaces(AbstractStuff):
 def test_implementation_checking(AbstractStuff):
     class StuffDoer(AbstractStuff):
         pass
-    py.test.raises(ImplementationException, lambda: AbstractStuff.register(StuffDoer))
+    py.test.raises(ImplementationError, lambda: AbstractStuff.register(StuffDoer))
     _reset_registry()

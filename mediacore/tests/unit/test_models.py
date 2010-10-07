@@ -1,7 +1,7 @@
 import pylons
 from mediacore.tests import *
 from mediacore.lib.filetypes import AUDIO, AUDIO_DESC, CAPTIONS, VIDEO
-from mediacore.lib.mediafiles import add_new_media_file
+from mediacore.lib.storage import add_new_media_file
 from mediacore.model import DBSession
 from sqlalchemy.exc import SQLAlchemyError
 

@@ -15,6 +15,10 @@ class TestMediaController(TestController):
         pylons.app_globals._push_object(self.response.app_globals)
         pylons.config._push_object(self.response.config)
 
+        # So that Pylons.url can generate fully qualified URLs.
+        pylons.url.environ['SERVER_NAME'] = 'test_value'
+        pylons.url.environ['SERVER_PORT'] = '80'
+
     def _login(self):
         test_user = 'admin'
         test_password = 'admin'
@@ -187,7 +191,8 @@ class TestMediaController(TestController):
         assert 'message' not in add_json
 
         # Ensure that the file was properly created.
-        file_name = media.files[0].file_name
+        file_uri = [u for u in media_1.files[0].get_uris() if u.scheme == 'file'][0]
+        file_name = file_uri.file_uri
         file_path = os.sep.join((pylons.config['media_dir'], file_name))
         assert os.path.exists(file_path)
         file = open(file_path)
@@ -233,7 +238,7 @@ class TestMediaController(TestController):
 
         # Ensure the media file was created properly.
         media = fetch_row(Media, slug=slug)
-        assert media.files[0].container == 'youtube'
+        assert media.files[0].get_uris()[0].scheme == 'youtube'
         assert media.files[0].type == 'video'
         assert media.type == 'video'
 
@@ -293,8 +298,10 @@ class TestMediaController(TestController):
 
         # Assert that the stub file was named properly.
         file_2 = fetch_row(MediaFile, file_2_id)
-        assert file_2.file_name.startswith('%d_%d_' % (media_2_id, file_2_id))
-        assert file_2.file_name.endswith('.mp3')
+        file_2_uri = [u for u in file_2.get_uris() if u.scheme == 'file'][0]
+        file_2_basename = os.path.basename(file_2_uri.file_uri)
+        assert file_2_basename.startswith('%d_%d_' % (media_2_id, file_2_id))
+        assert file_2_basename.endswith('.mp3')
 
         # Merge the objects!
         merge_url = url(controller='admin/media', action='merge_stubs', orig_id=media_1_id, input_id=media_2_id)
@@ -309,6 +316,7 @@ class TestMediaController(TestController):
             raise Exception('Stub media object not properly deleted!')
         except webob.exc.HTTPNotFound, e:
             pass
+
         media_1 = fetch_row(Media, media_1_id)
         file_1 = media_1.files[0]
 
@@ -316,9 +324,11 @@ class TestMediaController(TestController):
         assert media_1.type == 'audio'
         assert file_1.type == 'audio'
         assert file_1.container == 'mp3'
-        file_name = media_1.files[0].file_name
-        assert file_name == '%d_%d_%s.%s' % (media_1.id, file_1.id, media_1.slug, file_1.container)
-        file_path = os.sep.join((pylons.config['media_dir'], file_name))
+        file_uri = [u for u in file_1.get_uris() if u.scheme == 'file'][0]
+        file_path = file_uri.file_uri[len("file://"):]
+        base_name = os.path.basename(file_path)
+        expected_base_name = '%d_%d_%s.%s' % (media_1.id, file_1.id, media_1.slug, file_1.container)
+        assert base_name == expected_base_name, "Got basename %s, but expected %s" % (base_name, expected_base_name)
         assert os.path.exists(file_path)
         file = open(file_path)
         content = file.read()
