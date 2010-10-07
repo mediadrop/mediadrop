@@ -185,7 +185,7 @@ class UploadController(BaseController):
         if not has_thumbs(media_obj):
             create_default_thumbs_for(media_obj)
 
-        media.update_status()
+        media_obj.update_status()
         DBSession.flush()
 
         return media_obj
