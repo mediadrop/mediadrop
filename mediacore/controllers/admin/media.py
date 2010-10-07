@@ -410,7 +410,7 @@ class MediaController(BaseController):
 
 
     @expose('json')
-    def merge_stubs(self, orig_id, input_id):
+    def merge_stubs(self, orig_id, input_id, **kwargs):
         """Merge in a newly created media item.
 
         This is merges media that has just been created. It must have:
