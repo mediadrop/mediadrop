@@ -81,7 +81,7 @@ def _expose_wrapper(f, template):
             tmpl = request.override_template
 
         if tmpl == "json":
-            response.content_type = 'application/json'
+            response.headers['Content-Type'] = 'application/json'
             if isinstance(result, (list, tuple)):
                 msg = "JSON responses with Array envelopes are susceptible to " \
                       "cross-site data leak attacks, see " \
