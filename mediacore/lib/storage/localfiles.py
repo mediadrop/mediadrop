@@ -77,8 +77,8 @@ class LocalFileStorage(FileStorageEngine):
         :returns: True if successful, False if an error occurred.
 
         """
-        file_path = self._get_path(file)
-        return delete_files(file_path, 'media')
+        file_path = self._get_path(unique_id)
+        return delete_files([file_path], 'media')
 
     def get_uris(self, media_file):
         """Return a list of URIs from which the stored file can be accessed.

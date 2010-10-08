@@ -18,6 +18,7 @@ Media Admin Controller
 """
 import os
 from datetime import datetime
+from itertools import izip
 
 from formencode import Invalid, validators
 from pylons import config, request, response, session, tmpl_context
@@ -183,17 +184,24 @@ class MediaController(BaseController):
         )
 
     def _delete_media(self, media):
-        file_paths = thumb_paths(media).values()
-        for f in media.files:
-            file_paths.append(f.file_path)
-            # Remove the file from the session so that SQLAlchemy doesn't
-            # try to issue an UPDATE to set the MediaFile.media_id to None.
-            # The database ON DELETE CASCADE handles everything for us.
-            # TODO: Try setting Media.files.cascade to 'all, delete-orphan'
-            #       so this can be removed.
-            DBSession.expunge(f)
+        # Collect everything we'll need to delete after updating the DB
+        files = []
+        file_storage = []
+        for file in media.files:
+            file_storage.append(file.storage)
+            # Detach the file from the session but retain the data
+            orm.make_transient(file)
+            files.append(file)
+        thumbs = thumb_paths(media).values()
+
+        # Delete it
         DBSession.delete(media)
-        helpers.delete_files(file_paths, Media._thumb_dir)
+        DBSession.flush()
+
+        # Delete all the files from their corresponding storage engines
+        for storage, file in izip(file_storage, files):
+            storage.delete(file.unique_id)
+        helpers.delete_files(thumbs, Media._thumb_dir)
 
     @expose_xhr()
     @validate_xhr(media_form, error_handler=edit)
@@ -387,11 +395,11 @@ class MediaController(BaseController):
             file.bitrate = bitrate
             data['success'] = True
         elif delete:
-            file_path = helpers.file_path(file)
+            storage = file.storage
+            unique_id = file.unique_id
             DBSession.delete(file)
-            DBSession.commit()
-            if file_path:
-                helpers.delete_files([file_path], Media._thumb_dir)
+            DBSession.flush()
+            storage.delete(unique_id)
             media = fetch_row(Media, id)
             data['success'] = True
         else:
