@@ -296,17 +296,17 @@ a.meta-likes:active strong {
 .feat-top,
 .feat-bottom {
 	width: 920px;
-	height: 15px;
+	height: 10px;
 	background: url('../images/layout/feature-top.png') no-repeat;
 }
 .feat-bottom {
 	background: url('../images/layout/feature-bottom.png') no-repeat;
 }
 .feat-content {
-	padding: 0 15px;
+	padding: 5px 15px;
 	background: url('../images/layout/feature-bg.png') repeat-y;
 	position: relative;
-	width: 890px;
+	width: 900px;
 }
 .feat-content p {
 	margin-bottom: 10px;
@@ -519,7 +519,8 @@ a:visited .grid-title {
 }
 #media-box .feat-info,
 #media-box .feat-meta {
-	width: 313px;
+	width: 315px;
+	margin-right: 10px;
 }
 #jwplayer {
 	margin-bottom: -4px;
@@ -528,13 +529,13 @@ a:visited .grid-title {
 .contextbox {
 	float: right;
 	clear: right;
-	width: 328px;
+	width: 315px;
 	margin-top: 15px;
+	margin-right: 15px;
 }
 .contextbox .subhead {
 	float: right;
-	padding-right: 1em;
-	padding-top: 12px;
+	padding-top: 11px;
 }
 .contextbox .grid {
 	width: 328px;
@@ -552,6 +553,9 @@ a:visited .grid-title {
 .contextbox .grid .grid-meta {
 	width: 186px;
 }
+.contextbox-none {
+	font-style: italic;
+}
 #podcast-context .grid li,
 #podcast-context .grid a {
 	height: 130px;
@@ -565,7 +569,7 @@ a:visited .grid-title {
 }
 .contextbox + .contextbox h3 {
 	border-top: 1px solid #cdd2d5;
-	padding-top: 11px;
+	padding-top: 10px;
 	margin-bottom: 5px;
 }
 #media-context.contextbox h3 {
@@ -700,8 +704,8 @@ a:visited .grid-title {
 .meta-hover li.share-twitter a { left: 126px }
 
 /* Forms */
-.form {
-	font-family: Verdana, sans-serif;
+textarea {
+	resize: vertical;
 }
 .form li {
 	width: 100%;

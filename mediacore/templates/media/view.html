@@ -144,7 +144,7 @@
 			<a py:def="cat_link(cat)" href="${h.url_for(controller='/categories', slug=cat.slug)}" class="underline-hover">${cat.name}</a>
 			<h3 class="uppercase">Categories</h3>
 			<p py:if="media.categories">${cat_link(media.categories[0])}<py:for each="cat in media.categories[1:]">, ${cat_link(cat)}</py:for></p>
-			<p py:if="not media.categories">This media item is not listed under any categories.</p>
+			<p py:if="not media.categories" class="contextbox-none">This is not listed under any categories.</p>
 		</div>
 
 		<div id="tag-context" class="contextbox">
@@ -152,7 +152,7 @@
 			<h3 class="uppercase">Tags</h3>
 			<a py:def="tag_link(tag)" href="${h.url_for(controller='/media', action='index', tag=tag.slug)}" class="underline-hover">${tag.name}</a>
 			<p py:if="media.tags">${tag_link(media.tags[0])}<py:for each="tag in media.tags[1:]">, ${tag_link(tag)}</py:for></p>
-			<p py:if="not media.tags">This media item does not have any associated tags.</p>
+			<p py:if="not media.tags" class="contextbox-none">This does not have any associated tags.</p>
 		</div>
 	</div>
 </body>

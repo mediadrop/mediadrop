@@ -17,6 +17,8 @@
 /* Comments List */
 .comments {
 	float: left;
+	margin-left: 15px;
+	width: 560px;
 }
 .comments-head {
 	position: absolute;
@@ -26,30 +28,30 @@
 .comments,
 .no-comments,
 .comment {
-	width: 577px;
+	width: 560px;
 	position: relative;
 }
 .comment-top,
-.comment-top-divot {
-	height: 30px;
+.comment-bottom {
+	height: 10px;
 	background: url('../images/layout/comment-top.png') no-repeat bottom;
 }
-.comment-top-divot {
-	background-image: url('../images/layout/comment-top-divot.png');
-}
 .comment-bottom {
-	height: 15px;
 	background: url('../images/layout/comment-bottom.png') no-repeat;
+}
+.comment-top-divot {
+	height: 30px;
+	background: url('../images/layout/comment-top-divot.png') no-repeat bottom;
 }
 .comment-content {
 	background: url('../images/layout/comment-bg.png') repeat-y;
-	padding: 0 15px;
+	padding: 5px 15px;
 }
 
 .comment cite,
 .comment blockquote {
 	display: block;
-	width: 452px;
+	width: 433px;
 	float: right;
 }
 .comment cite {
@@ -85,16 +87,13 @@
 }
 
 /* Post comment form */
-#post-comment-form {
-	width: 577px;
-}
 #post-comment-form textarea,
 #post-comment-form input[type='text'] {
 	-moz-border-radius: 15px;
 	-webkit-border-radius: 15px;
 	border: 5px solid #d9dee1;
 	padding: 5px 8px 6px 8px;
-	width: 551px;
+	width: 535px;
 	font-size: 13px;
 }
 #post-comment-form .form-field-wide textarea,
