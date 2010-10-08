@@ -86,28 +86,76 @@ a:hover {
 /* Sectional nav */
 #nav-box {
 	width: 920px;
-	padding: 13px 15px;
-	height: 39px;
+	padding: 14px 15px;
+	height: 37px;
 	margin: 0 auto 15px auto;
 	background: url('../images/layout/nav-box.png') no-repeat;
 }
 #nav {
-	width: 709px;
+	width: 730px;
 	float: left;
 }
 #nav li {
 	float: left;
 }
-#nav li a {
+#nav li a:link,
+#nav li a:visited {
 	display: block;
-	height: 39px;
-	background-image: url('../images/buttons/nav.png');
+	height: 37px;
+	background: url('../images/layout/nav-btn-edge-inner.png') no-repeat -5px 0;
+	color: #9b9fa2;
+	text-decoration: none;
+	font: bold 12px arial, helvetica, sans-serif;
+	-webkit-font-smoothing: antialiased;
+	text-shadow: 0 -1px #000;
+}
+#nav li a:hover,
+#nav li a:active,
+#nav li a.active {
+	color: #fff;
 }
 #nav li a span {
-	height: 0;
 	display: block;
-	overflow: hidden;
+	height: 37px;
+	line-height: 37px;
+	float: left;
+	margin-left: 5px;
+	padding: 0 10px;
+	font-size: 12px;
+	background: url('../images/layout/nav-btn-bg.png') repeat-x;
 }
+#nav li a em {
+	display: block;
+	float: left;
+	width: 5px;
+	height: 37px;
+	background: url('../images/layout/nav-btn-edge-inner.png') no-repeat 0px 0;
+}
+#nav li.nav-left a { background-image: url('../images/layout/nav-btn-edge-outer.png') }
+#nav li.nav-right a em { background-image: url('../images/layout/nav-btn-edge-outer.png') }
+#nav li.f-rgt { float: right; }
+#nav li a { background-position: -5px 0 }
+#nav li a:hover { background-position: -5px -37px }
+#nav li a:active,
+#nav li a.active { background-position: -5px -74px }
+#nav li a:hover em { background-position: 0 -37px }
+#nav li a:active em,
+#nav li a.active em { background-position: 0 -74px }
+#nav li a:hover span { background-position: 0 -37px }
+#nav li a:active span,
+#nav li a.active span { background-position: 0 -74px }
+/*
+#nav li a { background-position: -5px 0 }
+#nav li a:hover { background-position: -5px -37px }
+#nav li a:active,
+#nav li a.active { background-position: -5px -74px }
+#nav li a strong { background-position: 100% 0 }
+#nav li a:hover strong { background-position: 100% -37px }
+#nav li a:active strong,
+#nav li a.active strong { background-position: 100% -74px }
+#nav li a:hover strong span { background-position: 0 -37px }
+#nav li a:active strong span,
+#nav li a.active strong span { background-position: 0 -74px }
 #nav-explore a:link, #nav-explore a:visited { width: 90px; background-position: 0 0 }
 #nav-media a:link, #nav-media a:visited { width: 118px; background-position: -90px 0 }
 #nav-podcasts a:link, #nav-podcasts a:visited { width: 92px; background-position: -208px 0 }
@@ -123,35 +171,36 @@ a:hover {
 #nav-podcasts a:active, .nav-podcasts-on #nav-podcasts a { background-position: -208px -78px }
 #nav-categories a:active, .nav-categories-on #nav-categories a { background-position: -300px -78px }
 #nav-upload a:active, .nav-upload-on #nav-upload a { background-position: -407px -78px }
+*/
 #nav #nav-upload { float: right }
 
 #nav-search {
 	float: right;
-	width: 199px;
-	height: 39px;
+	width: 175px;
+	height: 37px;
 }
 #nav-search input {
 	float: left;
-	width: 142px;
+	width: 131px;
 	height: 15px;
 	background: url('../images/layout/search-left.png') no-repeat;
-	padding: 12px 0 12px 14px;
+	padding: 11px 0 11px 10px;
 	margin: 0;
 	border: 0;
 }
 #nav-search input.nav-search-btn {
-	width: 43px;
-	height: 39px;
+	width: 34px;
+	height: 37px;
 	background: url('../images/layout/search-right.png') no-repeat;
 	padding: 0;
 	text-indent: -5000px;
 }
-#nav-search input.nav-search-btn:hover { background-position: 0 -39px }
-#nav-search input.nav-search-btn:active { background-position: 0 -78px }
+#nav-search input.nav-search-btn:hover { background-position: 0 -37px }
+#nav-search input.nav-search-btn:active { background-position: 0 -74px }
 #nav-search input,
 #nav-search .overTxtLabel {
 	color: #595050;
-	font-size: 14px;
+	font-size: 13px;
 }
 
 /* Generic content styles */

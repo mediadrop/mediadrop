@@ -33,14 +33,14 @@
 	<meta py:replace="select('*')"/>
 </head>
 
-<body py:match="body" py:attrs="select('@*')">
+<body py:match="body" py:with="attrs = h.attrs_to_dict(select('@*')); body_class = attrs.get('class', '').split(' ')" py:attrs="attrs">
 	<div id="nav-box">
 		<ul py:if="not c.nav_hide_main" id="nav">
-			<li id="nav-explore"><a href="${h.url_for(controller='/media', action='explore')}"><span>Explore</span></a></li>
-			<li id="nav-media"><a href="${h.url_for(controller='/media')}"><span>Media Library</span></a></li>
-			<li id="nav-podcasts"><a href="${h.url_for(controller='/podcasts')}"><span>Podcasts</span></a></li>
-			<li id="nav-categories"><a href="${h.url_for(controller='/categories')}"><span>Categories</span></a></li>
-			<li id="nav-upload" class="f-rgt"><a href="${h.url_for(controller='/upload')}"><span>Upload</span></a></li>
+			<li class="nav-left"><a class="${'nav-explore-on' in body_class and 'active' or None}" href="${h.url_for(controller='/media', action='explore')}"><span>Explore</span><em /></a></li>
+			<li><a class="${'nav-media-on' in body_class and 'active' or None}" href="${h.url_for(controller='/media')}"><span>Media Library</span><em /></a></li>
+			<li><a class="${'nav-podcasts-on' in body_class and 'active' or None}" href="${h.url_for(controller='/podcasts')}"><span>Podcasts</span><em /></a></li>
+			<li class="nav-right"><a class="${'nav-categories-on' in body_class and 'active' or None}" href="${h.url_for(controller='/categories')}"><span>Categories</span><em /></a></li>
+			<li class="nav-left nav-right f-rgt"><a class="${'nav-upload-on' in body_class and 'active' or None}" href="${h.url_for(controller='/upload')}"><span>Upload</span><em /></a></li>
 		</ul>
 		<form id="nav-search" method="get" action="${h.url_for(controller='/media', action='index')}">
 			<div><input type="text" id="nav-search-input" name="q" value="${h.request.params.get('q')}" alt="Search" /><input type="submit" class="nav-search-btn clickable" value="Search" /></div>
