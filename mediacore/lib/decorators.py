@@ -16,7 +16,7 @@
 import logging
 import os
 import warnings
-import simplejson as json
+import simplejson
 
 import formencode
 import tw.forms
@@ -25,7 +25,6 @@ import webob.exc
 from decorator import decorator
 from paste.deploy.converters import asbool
 from pylons import app_globals, config, request, response, tmpl_context
-from pylons.decorators import jsonify
 from pylons.decorators.cache import create_cache_key, _make_dict_from_args
 from pylons.decorators.util import get_pylons
 
@@ -70,26 +69,25 @@ def _expose_wrapper(f, template):
     to the passed in template"""
     f.exposed = True
 
-    if template == "string":
+    if template == 'string':
         return f
 
     def wrapped_f(*args, **kwargs):
         result = f(*args, **kwargs)
         tmpl = template
 
-        if hasattr(request, "override_template"):
+        if hasattr(request, 'override_template'):
             tmpl = request.override_template
 
-        if tmpl == "json":
-            response.headers['Content-Type'] = 'application/json'
+        if tmpl == 'json':
             if isinstance(result, (list, tuple)):
-                msg = "JSON responses with Array envelopes are susceptible to " \
-                      "cross-site data leak attacks, see " \
-                      "http://pylonshq.com/warnings/JSONArray"
+                msg = ("JSON responses with Array envelopes are susceptible "
+                       "to cross-site data leak attacks, see "
+                       "http://wiki.pylonshq.com/display/pylonsfaq/Warnings")
                 warnings.warn(msg, Warning, 2)
                 log.warning(msg)
-            log.debug("Returning JSON wrapped action output")
-            return json.dumps(result)
+            response.headers['Content-Type'] = 'application/json'
+            return simplejson.dumps(result)
 
         if request.environ.get('paste.testing', False):
             # Make the vars passed from action to template accessible to tests
