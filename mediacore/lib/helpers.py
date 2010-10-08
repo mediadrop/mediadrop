@@ -131,7 +131,7 @@ js_sources_debug = {
 }
 
 def js(source):
-    if config.debug and source in js_sources_debug:
+    if config['debug'] and source in js_sources_debug:
         return url_for(js_sources_debug[source])
     return url_for(js_sources[source])
 
