@@ -229,7 +229,7 @@ var StatusForm = new Class({
 				failure: this._displayError.bind(this, ['A connection problem occurred, try again.'])
 			});
 		}
-		var data = this.form.toQueryString() + '&update_button=' + this.form.update_button.get('value');
+		var data = this.form.toQueryString();
 		this.submitReq.send(data);
 	},
 

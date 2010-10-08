@@ -172,7 +172,8 @@ class UpdateStatusForm(Form):
     class fields(WidgetsList):
         # TODO: handle format with babel localization
         publish_on = HiddenField(validator=DateTimeConverter(format='%b %d %Y @ %H:%M'))
-        update_button = SubmitButton(named_button=True, validator=NotEmpty)
+        status = HiddenField(validator=None)
+        update_button = SubmitButton()
 
     def post_init(self, *args, **kwargs):
         events.Admin.UpdateStatusForm(self)

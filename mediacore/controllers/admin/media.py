@@ -563,7 +563,7 @@ class MediaController(BaseController):
     @expose('json')
     @validate(update_status_form, error_handler=edit)
     @observable(events.Admin.MediaController.update_status)
-    def update_status(self, id, update_button=None, publish_on=None, **values):
+    def update_status(self, id, status=None, publish_on=None, **values):
         """Update the publish status for the given media.
 
         :param id: Media ID
@@ -589,9 +589,9 @@ class MediaController(BaseController):
         new_slug = None
 
         # Make the requested change assuming it will be allowed
-        if update_button == _('Review Complete'):
+        if status == 'unreviewed':
             media.reviewed = True
-        elif update_button == _('Publish Now'):
+        elif status == 'draft':
             media.publishable = True
             media.publish_on = publish_on or datetime.now()
             media.update_popularity()

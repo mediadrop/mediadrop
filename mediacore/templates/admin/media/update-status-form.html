@@ -55,7 +55,10 @@
 					</li>
 				</ol>
 				<div class="box-content center" py:choose="">
-					<py:when test="media.files">${c.update_button('Review Complete', id='update-status', css_class='btn submitbutton btn-review-complete')}</py:when>
+					<py:when test="media.files">
+						${c.status('unreviewed')}
+						${c.update_button('Review Complete', id='update-status', css_class='btn submitbutton btn-review-complete')}
+					</py:when>
 					<py:otherwise>Review can only be completed after a file is added.</py:otherwise>
 				</div>
 			</py:when>
@@ -78,6 +81,7 @@
 					</li>
 				</ol>
 				<div class="box-content center">
+					${c.status('draft')}
 					${c.update_button('Publish Now', id='update-status', css_class='btn submitbutton btn-publish-now')}
 				</div>
 			</py:when>
