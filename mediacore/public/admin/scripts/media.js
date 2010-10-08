@@ -342,7 +342,7 @@ var FileManager = new Class({
 	},
 
 	_attachFile: function(row){
-		row.getElement('input.file-delete').addEvent('click', this.editFile.bind(this));
+		row.getElement('button.file-delete').addEvent('click', this.editFile.bind(this));
 		row.getElement('select[name=file_type]').addEvent('change', this.editFile.bind(this));
 		// Set up all on-blur events for text fields
 		row.getElements('input.textfield').each(function(el) {
@@ -458,10 +458,13 @@ var FileManager = new Class({
 			var name = row.getElement('td[headers="thf-name"]').get('text').trim();
 			var msg = $lambda(this.options.deleteConfirmMsg)(name);
 			if (!confirm(msg)) return false;
+			var value = true;
+		} else {
+			var value = target.get('value');
 		}
 		row.className = 'saving';
 		var data = new Hash({file_id: this._getFileID(row)})
-			.set(target.get('name'), target.get('value'));
+			.set(target.get('name'), value);
 		var r = new Request.JSON({
 			url: this.options.editURL,
 			data: data,
@@ -566,7 +569,7 @@ var FileManager = new Class({
 
 	_createQueueRow: function(file){
 		/* XXX: The form DOM created below mimics that in .../mediacore/templates/admin/media/file-edit-form.html */
-		var cancelBtn = new Element('input', this.options.uploadCancelBtn);
+		var cancelBtn = new Element('button', this.options.uploadCancelBtn);
 		file.ui = new Hash({
 			name: new Element('td', {headers: 'thf-name', text: file.name}),
 			size: new Element('td', {headers: 'thf-size', text: (file.size == '-') ? '-' : Swiff.Uploader.formatUnit(file.size, 'b')}),
