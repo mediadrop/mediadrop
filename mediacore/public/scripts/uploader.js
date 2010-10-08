@@ -192,8 +192,7 @@ var SwiffUploadManager = new Class({
 			this.messages[x] = [messages[x], false];
 		}
 
-		this.browseButton.addClass('active').addClass('enabled');
-//		this.uploadButton.addClass('active');
+		this.browseButton.addClass('enabled');
 		this.fileInfoDiv.addClass('active');
 		this.statusDiv.addClass('active');
 
@@ -224,23 +223,21 @@ var SwiffUploadManager = new Class({
 		// Set up the focus/blur and reposition events for the uploader Flash object
 		this.browseButton.addEvents({
 			mouseenter: function() {
-				this.browseButton.removeClass('active');
-				this.browseButton.addClass('browse-button-hover');
+				this.browseButton.addClass('hover');
 				this.uploader.reposition();
 			}.bind(this),
 			mouseleave: function() {
-				this.browseButton.removeClass('browse-button-hover');
-				this.browseButton.addClass('active');
+				this.browseButton.removeClass('hover');
 //				this.uploader.blur();
 			}.bind(this),
 			mousedown: function() {
-				this.browseButton.addClass('browse-button-active');
+				this.browseButton.addClass('active');
 //				this.uploader.focus();
 			}.bind(this)
 		});
 
 		var deactivateBtn = function(){
-			this.browseButton.removeClass('browse-button-active');
+			this.browseButton.removeClass('active');
 		}.bind(this);
 		this.uploader.addEvents({
 			select: deactivateBtn,

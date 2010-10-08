@@ -72,9 +72,11 @@ class SubmitButton(forms.SubmitButton):
     submit buttons will simply be C{None}.
     """
     validator = forms.validators.UnicodeString(if_missing=None)
+    template = 'forms/button.html'
 
 class ResetButton(forms.ResetButton):
     validator = forms.validators.UnicodeString(if_missing=None)
+    template = 'forms/button.html'
 
 class GlobalMixin(object):
     def display(self, *args, **kw):

@@ -121,11 +121,6 @@
 	color: red;
 }
 
-.btn-post-comment {
-	background-image: url('../images/buttons/comment.png');
-	width: 168px;
-}
-
 #comment-flash .success,
 #comment-flash .error {
 	background: url('../images/uploader/check.png') no-repeat left;

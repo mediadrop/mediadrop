@@ -172,31 +172,38 @@ h1 a.nocolor:link, h1 a.nocolor:visited, h2 a.nocolor:link, h2 a.nocolor:visited
 
 /* Buttons */
 .btn {
-	height: 34px;
+	height: 32px;
 	overflow: hidden;
 	cursor: pointer;
-	background-color: transparent;
-	background-repeat: none;
-	background-position: 0 0;
 	display: block;
-	font-size: 0;
-	line-height: 0;
-	text-indent: -5000px;
 	border: 0;
-}
-.btn:hover {
-	background-position: 0 -34px;
+	margin: 0;
+	padding: 0;
+	background: url('../images/layout/button-left.png') no-repeat;
+	color: #9b9fa2;
+	text-decoration: none;
+	font: bold 12px arial, helvetica, sans-serif;
+	-webkit-font-smoothing: antialiased;
+	text-shadow: 0 -1px #000;
 }
 .btn span {
-	display: none;
+	display: block;
+	height: 32px;
+	margin-left: 5px;
+	padding: 0 12px 0 7px;
+	line-height: 32px;
+	background: url('../images/layout/button-right.png') no-repeat 100% 0;
 }
-.btn:active {
-	background-position: 0 -68px;
+.btn:hover, .btn.hover { background-position: 0 -32px; color: #fff }
+.btn:active, .btn.active { background-position: 0 -64px; color: #fff }
+.btn:hover span, .btn.hover span { background-position: 100% -32px }
+.btn:active span, .btn.active span { background-position: 100% -64px }
+
+/* Fix extra padding on button elements in firefox */
+button::-moz-focus-inner {
+	border: 0;
+	padding: 0;
 }
-.btn-likethis { width: 113px; background-image: url('../images/buttons/i-like-this.png'); }
-.btn-download { width: 113px; background-image: url('../images/buttons/download.png'); }
-.btn-ok { width: 51px; background-image: url('../images/buttons/ok.png'); }
-.btn-submit { width: 94px; background-image: url('../images/buttons/submit.png'); }
 
 /* Meta info/link text with an icon to its left */
 .meta {
