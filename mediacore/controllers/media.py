@@ -225,7 +225,7 @@ class MediaController(BaseController):
         # Which style of 'likes' links has the admin selected?
         # TODO: Add settings to control these options.
         mediacore_likes = True
-        facebook_likes = True
+        facebook_likes = False
 
         return dict(
             media = media,
