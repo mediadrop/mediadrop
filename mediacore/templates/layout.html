@@ -30,7 +30,7 @@
 	<link py:match="link" py:attrs="select('@*')"><?python
 		attrs = h.attrs_to_dict(select('@*'))
 		if attrs['type'] == 'application/rss+xml':
-		    feed_links.append((attrs['href'], attrs['title'] + " RSS"))
+		    feed_links.append((attrs['href'], attrs['title']))
 	?></link>
 	<meta py:replace="select('*')"/>
 </head>
