@@ -25,27 +25,7 @@
 }
 .settings-menu .selected {
 	background: url('../images/icons/arrow-green-right.png') no-repeat left;
-	color: #196d29;
-}
-
-/* Users */
-.btn-add-user { background-image: url('../images/buttons/add-user.png'); width: 99px; height: 28px; }
-#display_name_container,
-#email_address_container {
-	clear: none;
-	float: left;
-	width: 50%;
-}
-#user-form .details_fieldset .fieldlabel {
-	width: 120px;
-}
-#login_details_user_name,
-#login_details_password,
-#login_details_confirm_password {
-	width: 287px;
-}
-#login_details_group {
-	width: 300px;
+	color: #417F00;
 }
 
 /* Emails and Wording Config Forms */
@@ -72,8 +52,6 @@
 }
 
 /* Categories and tags */
-.btn-add-category { background-image: url('../images/buttons/add-category.png'); width: 124px; height: 28px; }
-.btn-add-tag { background-image: url('../images/buttons/add-tag.png'); width: 91px; height: 28px; }
 #category-table .first-child td {
 	background: url('../images/layout/inset-shadow.png') repeat-x top;
 }

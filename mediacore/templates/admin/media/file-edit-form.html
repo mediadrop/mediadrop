@@ -25,9 +25,9 @@
 		</a>
 	</td>
 	<td headers="thf-size">${h.pretty_file_size(file.size)}</td>
-	<td headers="thf-duration" py:with="field = children['duration']" py:content="field.display(value_for(field) or file.media.duration, **args_for(field))" />
-	<td headers="thf-max-bitrate" py:with="field = children['bitrate']" py:content="field.display(value_for(field) or file.bitrate, **args_for(field))" />
-	<td headers="thf-width-height" py:with="field = children['width_height']" py:content="field.display(value_for(field) or (file.width, file.height), **args_for(field))" />
+	<td headers="thf-duration" py:with="field = children['duration']"><div py:content="field.display(value_for(field) or file.media.duration, **args_for(field))" /></td>
+	<td headers="thf-bitrate" py:with="field = children['bitrate']"><div py:content="field.display(value_for(field) or file.bitrate, **args_for(field))" /></td>
+	<td headers="thf-dimensions" py:with="field = children['width_height']"><div py:content="field.display(value_for(field) or (file.width, file.height), **args_for(field))" /></td>
 	<td headers="thf-type" py:with="field = children['file_type']" py:content="field.display(value_for(field) or file.type, **args_for(field))" />
 	<td headers="thf-delete" py:with="field = children['delete']" py:content="field.display(value_for(field), **args_for(field))" />
 </tr>

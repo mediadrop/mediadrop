@@ -97,7 +97,7 @@ class AddFileForm(ListForm):
     submit_text = None
     fields = [
         FileField('file', label_text=_('Select an encoded video or audio file on your computer'), validator=FieldStorageUploadConverter(not_empty=False, label_text=_('Upload'))),
-        SubmitButton('add_url', default=_('Add URL'), named_button=True, css_class='btn btn-add-url f-rgt'),
+        SubmitButton('add_url', default=_('Add URL'), named_button=True, css_class='btn grey btn-add-url f-rgt'),
         TextField('url', validator=URL, suppress_label=True, attrs={'title': _('YouTube, Vimeo, Google Video, Amazon S3 or any other link')}, maxlength=255),
     ]
 
@@ -125,7 +125,6 @@ class EditFileForm(ListForm):
         file_type = SingleSelectField(validator=file_type_validator, options=file_type_options, attrs={'id': None, 'autocomplete': 'off'})
         duration = TextField(validator=DurationValidator(if_missing=None), attrs={'id': None, 'autocomplete': 'off'})
         width_height = TextField(validator=WXHValidator(if_missing=None), attrs={'id': None, 'autocomplete': 'off'})
-        height = TextField(validator=Int(if_missing=None), attrs={'id': None, 'autocomplete': 'off'})
         bitrate = TextField(validator=Int(if_missing=None), attrs={'id': None, 'autocomplete': 'off'})
         delete = SubmitButton(default=_('Delete file'), named_button=True, css_class='file-delete', attrs={'id': None})
 
@@ -142,8 +141,8 @@ class MediaForm(ListForm):
     _name = 'media-form' # TODO: Figure out why this is required??
 
     fields = [
-        SingleSelectField('podcast', label_text=_('Include in the Podcast'), help_text=_('Optional'), options=lambda: [(None, None)] + DBSession.query(Podcast.id, Podcast.title).all()),
-        TextField('slug', label_text=_('Slug'), maxlength=50),
+        SingleSelectField('podcast', label_text=_('Include in the Podcast'), css_classes=['dropdown-select'], help_text=_('Optional'), options=lambda: [(None, None)] + DBSession.query(Podcast.id, Podcast.title).all()),
+        TextField('slug', label_text=_('Permalink'), maxlength=50),
         TextField('title', label_text=_('Title'), validator=TextField.validator(not_empty=True), maxlength=255),
         TextField('author_name', label_text=_('Author Name'), maxlength=50),
         TextField('author_email', label_text=_('Author Email'), validator=email_validator(not_empty=True), maxlength=255),
@@ -151,8 +150,8 @@ class MediaForm(ListForm):
         CategoryCheckBoxList('categories', label_text=_('Categories'), options=lambda: DBSession.query(Category.id, Category.name).all()),
         TextArea('tags', label_text=_('Tags'), attrs=dict(rows=3, cols=15), help_text=_(u'e.g.: puppies, great dane, adorable')),
         TextArea('notes', label_text=_('Additional Notes'), attrs=dict(rows=3, cols=25), default=lambda: app_globals.settings['wording_additional_notes']),
-        SubmitButton('save', default=_('Save'), named_button=True, css_classes=['btn', 'btn-save', 'f-rgt']),
-        SubmitButton('delete', default=_('Delete'), named_button=True, css_classes=['btn', 'btn-delete', 'f-lft']),
+        SubmitButton('save', default=_('Save'), named_button=True, css_classes=['btn', 'blue', 'f-rgt']),
+        SubmitButton('delete', default=_('Delete'), named_button=True, css_classes=['btn', 'f-lft']),
     ]
 
     def post_init(self, *args, **kwargs):

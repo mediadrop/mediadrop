@@ -50,12 +50,12 @@ class StorageForm(ListForm):
         SubmitButton('save',
             default=_('Save'),
             named_button=True,
-            css_classes=['btn', 'btn-save', 'f-rgt'],
+            css_classes=['btn', 'btn-save', 'green', 'f-rgt'],
         ),
         SubmitButton('delete',
             default=_('Delete'),
             named_button=True,
-            css_classes=['btn', 'btn-delete', 'f-lft'],
+            css_classes=['btn', 'btn-delete', 'grey', 'f-lft'],
         ),
     ]
 

@@ -82,7 +82,7 @@ class NotificationsForm(ListForm):
             TextField('email_support_requests', validator=email_list_validator, label_text=_('Support Requested'), maxlength=255),
             TextField('email_send_from', validator=email_validator, label_text=_('Send Emails From'), maxlength=255),
         ]),
-        SubmitButton('save', default=_('Save'), css_classes=['btn', 'btn-save', 'f-rgt']),
+        SubmitButton('save', default=_('Save'), css_classes=['btn', 'btn-save', 'blue', 'f-rgt']),
         ResetButton('cancel', default=_('Cancel'), css_classes=['btn', 'btn-cancel']),
     ]
 
@@ -118,7 +118,7 @@ class DisplayForm(ListForm):
             options=category_options,
             validator=Int(),
         ),
-        SubmitButton('save', default=_('Save'), css_classes=['btn', 'btn-save', 'f-rgt']),
+        SubmitButton('save', default=_('Save'), css_classes=['btn', 'btn-save', 'blue', 'f-rgt']),
         ResetButton('cancel', default=_('Cancel'), css_classes=['btn', 'btn-cancel']),
     ]
 
@@ -138,7 +138,7 @@ class PopularityForm(ListForm):
                 TextField('popularity_decay_lifetime', validator=Int(not_empty=True, min=1), label_text=_('Decay Lifetime')),
             ]
         ),
-        SubmitButton('save', default=_('Save'), css_classes=['btn', 'btn-save', 'f-rgt']),
+        SubmitButton('save', default=_('Save'), css_classes=['btn', 'btn-save', 'blue', 'f-rgt']),
         ResetButton('cancel', default=_('Cancel'), css_classes=['btn', 'btn-cancel']),
     ]
 
@@ -183,7 +183,7 @@ class UploadForm(ListForm):
         ListFieldSet('default_wording', suppress_label=True, legend=_('Default Form Values:'), css_classes=['details_fieldset'], children=[
             TextArea('wording_additional_notes', label_text=_('Additional Notes'), attrs=dict(rows=3, cols=25)),
         ]),
-        SubmitButton('save', default=_('Save'), css_classes=['btn', 'btn-save', 'f-rgt']),
+        SubmitButton('save', default=_('Save'), css_classes=['btn', 'btn-save', 'blue', 'f-rgt']),
         ResetButton('cancel', default=_('Cancel'), css_classes=['btn', 'btn-cancel']),
     ]
 
@@ -196,7 +196,7 @@ class AnalyticsForm(ListForm):
         ListFieldSet('google', suppress_label=True, legend=_('Google Analytics Details:'), css_classes=['details_fieldset'], children=[
             TextField('google_analytics_uacct', maxlength=255, label_text=_('Tracking Code')),
         ]),
-        SubmitButton('save', default=_('Save'), css_classes=['btn', 'btn-save', 'f-rgt']),
+        SubmitButton('save', default=_('Save'), css_classes=['btn', 'btn-save', 'blue', 'f-rgt']),
         ResetButton('cancel', default=_('Cancel'), css_classes=['btn', 'btn-cancel']),
     ]
 
@@ -212,12 +212,12 @@ class CommentsForm(ListForm):
             TextField('akismet_key', label_text=_('Akismet Key')),
             TextField('akismet_url', label_text=_('Akismet URL')),
         ]),
-        SubmitButton('save', default=_('Save'), css_classes=['btn', 'btn-save', 'f-rgt']),
+        SubmitButton('save', default=_('Save'), css_classes=['btn', 'btn-save', 'blue', 'f-rgt']),
         ResetButton('cancel', default=_('Cancel'), css_classes=['btn', 'btn-cancel']),
     ]
 
 class APIForm(ListForm):
-    template = 'mediacore.templates.admin.box-form'
+    template = 'admin/box-form.html'
     id = 'settings-form'
     css_class = 'form'
     submit_text = None
@@ -231,6 +231,6 @@ class APIForm(ListForm):
             TextField('api_media_max_results', label_text='Max media results'),
             TextField('api_tree_max_depth', label_text='Max tree depth'),
         ]),
-        SubmitButton('save', default='Save', css_classes=['btn', 'btn-save', 'f-rgt']),
+        SubmitButton('save', default='Save', css_classes=['btn', 'btn-save', 'blue', 'f-rgt']),
         ResetButton('cancel', default='Cancel', css_classes=['btn', 'btn-cancel']),
     ]

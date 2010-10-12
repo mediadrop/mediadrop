@@ -42,7 +42,7 @@
 				this.mgr.removeRow({id:id})
 			});
 			table_options = {
-				bulkDivClass: 'bulk-control f-lft',
+				bulkDivClass: 'bulk-control f-rgt',
 				selectCol: 0,
 				prefix: 'media-'
 			};
@@ -52,18 +52,48 @@
 </head>
 <body class="menu-media-on">
 	<div class="box">
-		<div class="box-head">
+		<div class="box-head clearfix">
 			<py:choose>
 				<h1 py:when="search" i18n:msg="search">Media that matches '${search}'</h1>
 				<h1 py:when="podcast_filter_title" i18n:msg="podcastFilterTitle">${podcast_filter_title} Episodes</h1>
 				<h1 py:otherwise="">All Media</h1>
 			</py:choose>
-			<a class="btn btn-add-media" id="add-btn" href="${h.url_for(action='edit', id='new')}"><span>Add New Media</span></a>
-			<span id="bulk-actions" />
-			<div id="quicksearch" class="f-rgt">
-				${XML(search_form(dict(search=search)))}
+			<div class="f-rgt">
+				<a class="btn inline f-lft" href="${h.url_for(action='edit', id='new')}" style="margin-right:10px"><span>Add New Media</span></a>
+				<div class="dropdown-wrapper f-lft" style="margin-right:10px;width:130px">
+					<button class="btn inline dropdown-toggle"><span>Bulk Actions</span></button>
+					<div class="dropdown-box">
+						<div class="dropdown-top"><div /></div>
+						<div class="dropdown-content">
+							<ol class="clearfix">
+								<li id="bulk-publish"><span>Publish</span></li>
+								<li id="bulk-delete"><span>Delete</span></li>
+							</ol>
+						</div>
+						<div class="dropdown-bottom"><div /></div>
+					</div>
+				</div>
+				<div class="dropdown-wrapper f-lft" style="margin-right:10px;width:120px">
+					<button class="btn inline dropdown-toggle"><span>Filters</span></button>
+					<div class="dropdown-box">
+						<div class="dropdown-top"><div /></div>
+						<div class="dropdown-content">
+							<ol class="clearfix">
+								<li><span class="selected">All Media</span></li>
+								<li><a href="${h.url_for(filter='unreviewed')}">Unreviewed</a></li>
+								<li><a href="${h.url_for(filter='unencoded')}">Unencoded</a></li>
+								<li><a href="${h.url_for(filter='drafts')}">Drafts</a></li>
+								<li><a href="${h.url_for(filter='published')}">Published</a></li>
+							</ol>
+						</div>
+						<div class="dropdown-bottom"><div /></div>
+					</div>
+				</div>
+				<div id="quicksearch" class="f-lft">
+					${XML(search_form(dict(search=search)))}
+				</div>
+				<!--!<span class="box-head-sec">${h.doc_link('admin/media', '')}</span>-->
 			</div>
-			<span class="box-head-sec">${h.doc_link('admin/media', '')}</span>
 		</div>
 		<xi:include href="./index-table.html" py:with="media=media" />
 	</div>

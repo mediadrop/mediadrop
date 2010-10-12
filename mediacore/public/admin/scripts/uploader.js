@@ -19,7 +19,7 @@ var UploaderBase = new Class({
 	Extends: Swiff.Uploader,
 
 	options: {
-		uploadBtn: {text: 'Upload a file', 'class': 'btn btn-upload'},
+		uploadBtn: {html: '<span>Upload a file</span>', 'class': 'btn grey'},
 		postAuthCookie: 'authtkt',
 		verbose: false,
 		queued: false,
@@ -51,16 +51,27 @@ var UploaderBase = new Class({
 
 		this.addEvents({
 			buttonEnter: this.onButtonEnter.bind(this),
-			buttonLeave: this.onButtonLeave.bind(this)
+			buttonLeave: this.onButtonLeave.bind(this),
+			browse: this.onButtonClick.bind(this),
+			select: this.onButtonReset.bind(this),
+			cancel: this.onButtonReset.bind(this)
 		});
 	},
 
 	onButtonEnter: function(){
-		if (this.target) this.target.setStyle('background-position', 'bottom');
+		if (this.target) this.target.addClass('hover');
 	},
 
 	onButtonLeave: function(){
-		if (this.target) this.target.setStyle('background-position', 'top');
+		if (this.target) this.target.removeClass('hover');
+	},
+
+	onButtonClick: function(){
+		if (this.target) this.target.addClass('active');
+	},
+
+	onButtonReset: function(){
+		if (this.target) this.target.removeClass('active');
 	},
 
 	_createUploadBtn: function(){
@@ -227,7 +238,12 @@ var ThumbUploader = new Class({
 	options: {
 		image: '',
 		fileSizeMax: 10 * 1024 * 1024,
-		typeFilter: '*.jpg; *.jpeg; *.gif; *.png'
+		typeFilter: '*.jpg; *.jpeg; *.gif; *.png',
+		uploadBtn: {
+			html: '<span>Upload image</span>',
+			'class': 'btn',
+			styles: {width: '130px', margin: '0 auto'}
+		}
 	},
 
 	initialize: function(options){

@@ -54,15 +54,15 @@
 		});
 		var fileMgr, mediaMgr; // Make the fileMgr and mediaMgr 'public'
 		window.addEvent('domready', function(){
-			var deleteConfirm = new DeleteConfirmMgr({msg: 'Are you sure you want to delete this media?'});
+			var deleteConfirm = new DeleteConfirmMgr({msg: 'Are you sure you want to delete this?'});
 			$('delete').addEvent('click', deleteConfirm.openConfirmDialog.bind(deleteConfirm));
 
 			// Setup the flash uploader
 			var thumbUploader = new ThumbUploader({
 				image: 'thumb-img',
 				target: 'thumb',
-				uploadBtn: {text: 'Upload image', 'class': 'btn btn-upload-image', styles: {margin: '0 auto'}},
 				statusContainer: 'thumb-upload',
+				uploadBtn: {'class': 'btn grey'},
 				fxProgressBar: {url: '${h.url_for('/admin/images/progressbar/progress.png')}'},
 				path: '${h.url_for('/scripts/third-party/Swiff.Uploader.swf')}',
 				verbose: false // debug
@@ -74,7 +74,7 @@
 				editURL: '${h.url_for(action='edit_file')}',
 				uploader: {
 					target: 'file',
-					uploadBtn: {'class': 'btn btn-upload-file f-rgt'},
+					uploadBtn: {'class': 'btn grey f-rgt'},
 					fxProgressBar: {url: '${h.url_for('/admin/images/progressbar/progress.png')}'},
 					messages: {<py:if test="g.settings['ftp_storage'] == 'true'">99: "Hang tight, we're moving your upload to our permanent storage. This may take a few minutes."</py:if>},
 					path: '${h.url_for('/scripts/third-party/Swiff.Uploader.swf')}',
@@ -128,7 +128,7 @@
 
 		<div id="media-files-box" class="box">
 			<div class="box-head"><h1>Files</h1></div>
-			<div class="box-content"><div id="fmgr-open" class="btn btn-add-manage"><span>Add / Manage</span></div></div>
+			<div class="box-content"><div id="fmgr-open" class="btn"><span>Add &amp; Manage</span></div></div>
 			<ol id="file-list" class="file-list">
 				<li py:for="file in media.files" class="${file.type}" id="list-file-${file.id}">
 					<a class="file-name" href="${h.best_link_uri(file)}"
@@ -170,7 +170,7 @@
 	</div>
 
 
-	<div id="fmgr" class="box">
+	<div id="fmgr" class="box box-wide">
 		<div class="box-head clearfix">
 			<h1>Manage Files</h1>
 			<div class="box-head-sec">
@@ -185,7 +185,7 @@
 					<th id="thf-size">Size</th>
 					<th id="thf-duration">Duration</th>
 					<th id="thf-max-bitrate">Bitrate</th>
-					<th id="thf-width">Width x Height</th>
+					<th id="thf-dimensions">Dimensions</th>
 					<th id="thf-type">Type</th>
 					<th id="thf-delete">&nbsp;</th>
 				</tr>

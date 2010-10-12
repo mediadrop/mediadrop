@@ -44,6 +44,9 @@
 	width: 100%;
 	overflow: hidden;
 }
+.form .field-list > li.clearfix {
+	overflow: visible;
+}
 .form #author_name_container,
 .form #author_email_container {
 	width: 50%;
@@ -131,7 +134,8 @@ label .field_help {
 	color: #878685;
 }
 .form-saved {
-	color: #196D29;
+	color: #609f00;
+	text-shadow: 0 -1px #fff;
 }
 .form-save-error {
 	color: red;

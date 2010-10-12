@@ -20,8 +20,8 @@
 	<form method="post" action="${h.url_for(action='update_status')}" id="update-status-form" class="box">
 		<div class="box-head">
 			<span class="box-head-sec">
-				${h.doc_link('admin/media', 'status')}
-				<py:if test="media.slug"> |
+				<!--!${h.doc_link('admin/media', 'status')}-->
+				<py:if test="media.slug">
 					<py:choose test="media.is_published">
 						<py:when test="1">
 							<a href="${h.url_for(controller='/media', action='view', slug=media.slug)}"
@@ -44,7 +44,7 @@
 			<input py:replace="XML(c.publish_on(publish_on))" />
 			<input type="hidden" name="is_published" value="${int(media.is_published)}" />
 			<py:when test="media.id is None">
-				<div class="box-content center">You must add a file and save before review can begin.</div>
+				<div class="center">You must add a file and save before review can begin.</div>
 			</py:when>
 			<py:when test="not media.reviewed">
 				<ol id="status-list">
@@ -54,12 +54,12 @@
 						publishing <span class="publish-date" py:content="publish_on or 'pending'" />
 					</li>
 				</ol>
-				<div class="box-content center" py:choose="">
+				<div class="center" py:choose="">
 					<py:when test="media.files">
 						${c.status('unreviewed')}
-						${c.update_button('Review Complete', id='update-status', css_class='btn submitbutton btn-review-complete')}
+						${c.update_button('Review Complete', id='update-status', css_class='btn blue btn-review-complete')}
 					</py:when>
-					<py:otherwise>Review can only be completed after a file is added.</py:otherwise>
+					<py:otherwise><div style="margin-top:10px">Review can only be completed after a file is added.</div></py:otherwise>
 				</div>
 			</py:when>
 			<py:when test="not media.encoded">
@@ -70,7 +70,7 @@
 						publishing <span class="publish-date" py:content="publish_on or 'pending'" />
 					</li>
 				</ol>
-				<div class="box-content center">Encoding will be complete when an acceptable file is added.</div>
+				<div class="center" style="margin-top:10px">Encoding will be complete when an acceptable file is added.</div>
 			</py:when>
 			<py:when test="not media.publishable">
 				<ol id="status-list">
@@ -80,9 +80,9 @@
 						publishing <span class="publish-date" py:content="publish_on or 'pending'" />
 					</li>
 				</ol>
-				<div class="box-content center">
+				<div class="center">
 					${c.status('draft')}
-					${c.update_button('Publish Now', id='update-status', css_class='btn submitbutton btn-publish-now')}
+					${c.update_button('Publish Now', id='update-status', css_class='btn green btn-publish-now')}
 				</div>
 			</py:when>
 			<py:when test="media.publishable">

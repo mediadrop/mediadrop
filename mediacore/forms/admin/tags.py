@@ -38,7 +38,7 @@ class TagForm(ListForm):
     _name = 'vf'
 
     fields = [
-        SubmitButton('save', default=_('Save'), css_classes=['f-rgt', 'btn', 'btn-save']),
+        SubmitButton('save', default=_('Save'), css_classes=['f-rgt', 'btn', 'blue', 'btn-save']),
         TextField('name', label_text=_('Name'), css_classes=['tag-name'], validator=TagNameValidator(not_empty=True)),
         TextField('slug', label_text=_('Slug'), css_classes=['tag-slug'], validator=NotEmpty),
     ]
@@ -55,7 +55,7 @@ class TagRowForm(Form):
     fields = [
         HiddenField('name'),
         HiddenField('slug'),
-        SubmitButton('delete', default=_('Delete'), css_classes=['btn', 'btn-inline-delete']),
+        SubmitButton('delete', default=_('Delete'), css_classes=['btn', 'table-row', 'delete', 'btn-inline-delete']),
     ]
 
     def post_init(self, *args, **kwargs):

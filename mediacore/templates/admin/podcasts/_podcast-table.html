@@ -29,12 +29,12 @@
 			<py:for each="podcast in collection">
 				<tr class="thead-row">
 					<td colspan="2">
-						<a href="${h.url_for(action='edit', id=podcast.id)}" class="btn btn-edit f-rgt"><span>Edit</span></a>
+						<a href="${h.url_for(action='edit', id=podcast.id)}" class="btn inline f-rgt"><span>Edit</span></a>
 						<h3><a href="${h.url_for(action='edit', id=podcast.id)}">${podcast.title}</a></h3>
 					</td>
 				</tr>
 				<tr>
-					<td style="width:180px">
+					<td class="podcast-art-col">
 						<div class="podcast-art">
 							<a href="${h.url_for(action='edit', id=podcast.id)}"><img src="${h.thumb_url(podcast, 'm')}" width="154" height="154" alt="Thumb" /></a>
 						</div>
@@ -55,7 +55,7 @@
 								<span py:if="podcast.copyright" class="copyright">&copy; ${podcast.copyright}</span>
 							</div>
 							<div class="podcast-episodes">
-								<a href="${h.url_for(controller='/admin/media', action='edit', id='new', podcast=podcast.id)}" class="btn btn-add-episode"><span>Add episode</span></a>
+								<a href="${h.url_for(controller='/admin/media', action='edit', id='new', podcast=podcast.id)}" class="btn f-lft"><span>Add episode</span></a>
 								<div py:strip="True"><strong>
 									<i18n:choose numeral="podcast.media_count" params="num">
 										<a i18n:singular="" href="${h.url_for(controller='admin/media', action='edit', id=podcast.media.first().id)}" class="view-episodes">View First Episode ${''}</a>

@@ -27,8 +27,6 @@
 .explicit strong, .clean strong {
 	display: none;
 }
-.btn-add-podcast { background-image: url('../images/buttons/add-podcast.png'); width: 120px; height: 28px; }
-.btn-add-episode { background-image: url('../images/buttons/add-episode.png'); width: 120px; height: 28px; }
 
 #podcast-table tbody tr td {
 	vertical-align: top;
@@ -37,15 +35,23 @@
 #podcast-table h3 a:visited {
 	color: #627789;
 }
+#podcast-table td.podcast-art-col {
+	width: 180px;
+	padding-bottom: 6px;
+}
 #podcast-table .podcast-art {
 	width: 160px;
 	height: 160px;
 	padding: 2px 0px 0px 2px;
+	margin-left: -1px;
 	background: transparent url('../images/layout/podcast-art-frame.png') no-repeat top left;
+}
+#podcast-table .podcast-info {
+	padding-left: 0;
 }
 #podcast-table .info-content {
 	position: relative;
-	min-height: 158px;
+	min-height: 156px;
 	min-width: 700px;
 }
 #podcast-table .info-content p {
@@ -69,13 +75,12 @@
 #podcast-table .copyright {
 	font-weight: bold;
 }
-#podcast-table .btn-add-episode {
-	margin-top: -6px;
-}
 .podcast-meta, .podcast-episodes {
 	position: absolute;
 	bottom: 0;
 	left: 0;
+	height: 32px;
+	line-height: 32px;
 }
 .view-episodes strong {
 	font-weight: bold;

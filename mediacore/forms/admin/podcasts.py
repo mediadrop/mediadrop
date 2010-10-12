@@ -102,7 +102,7 @@ class PodcastForm(ListForm):
     ]
 
     fields = [
-        TextField('slug', label_text=_('Slug'), validator=NotEmpty, maxlength=50),
+        TextField('slug', label_text=_('Permalink'), validator=NotEmpty, maxlength=50),
         TextField('title', label_text=_('Title'), validator=TextField.validator(not_empty=True), maxlength=50),
         TextField('subtitle', label_text=_('Subtitle'), maxlength=255),
         TextField('author_name', label_text=_('Author Name'), validator=TextField.validator(not_empty=True), maxlength=50),
@@ -118,8 +118,8 @@ class PodcastForm(ListForm):
             TextField('itunes_url', validator=URL, label_text=_('iTunes URL'), help_text=Markup('<a href="https://phobos.apple.com/WebObjects/MZFinance.woa/wa/publishPodcast" target="_blank">Get an iTunes URL</a>'), maxlength=80),
             TextField('feedburner_url', validator=URL, label_text=_('Feedburner URL'), help_text=Markup('<a href="http://feedburner.com/" target="_blank">Get a Feedburner URL</a>'), maxlength=80),
         ]),
-        SubmitButton('save', default=_('Save'), named_button=True, css_classes=['btn', 'btn-save', 'f-rgt']),
-        SubmitButton('delete', default=_('Delete'), named_button=True, css_classes=['btn', 'btn-delete']),
+        SubmitButton('save', default=_('Save'), named_button=True, css_classes=['btn', 'blue', 'f-rgt']),
+        SubmitButton('delete', default=_('Delete'), named_button=True, css_classes=['btn']),
     ]
 
     def post_init(self, *args, **kwargs):

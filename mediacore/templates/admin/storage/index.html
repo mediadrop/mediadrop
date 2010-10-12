@@ -18,7 +18,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:py="http://genshi.edgewall.org/"
       xmlns:xi="http://www.w3.org/2001/XInclude">
-<xi:include href="../master.html" />
 <xi:include href="../settings/master.html" />
 <head>
 	<title>Storage Engines</title>
@@ -63,9 +62,9 @@
 					<td headers="h-file-count" style="text-align:center">${engine.file_count}</td>
 					<td headers="h-btns">
 						<form action="${h.url_for(action='delete', id=engine.id)}" method="post" class="delete-engine-form">
-							<div style="float:right">
-								<a py:if="engine.settings_form" href="${h.url_for(action='edit', id=engine.id)}" class="btn btn-inline-edit f-lft">edit</a>
-								<input class="btn btn-inline-delete" type="submit" value="Delete" name="delete" />
+							<div class="f-rgt">
+								<a py:if="engine.settings_form" href="${h.url_for(action='edit', id=engine.id)}" class="btn table-row middle f-lft"><span>edit</span></a>
+								<button class="btn table-row delete btn-inline-delete" type="submit" name="delete"><span>Delete</span></button>
 							</div>
 						</form>
 					</td>

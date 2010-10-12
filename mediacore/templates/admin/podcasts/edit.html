@@ -46,9 +46,9 @@
 			var thumbUploader = new ThumbUploader({
 				image: 'thumb-img',
 				target: 'thumb',
-				uploadBtn: {text: 'Upload image', 'class': 'btn btn-upload-image', styles: {margin: '0 auto'}},
 				statusContainer: 'thumb-upload',
 				fxProgressBar: {url: '${h.url_for('/admin/images/progressbar/progress.png')}'},
+				uploadBtn: {'class': 'btn grey', styles: {width: '162px'}},
 				path: '${h.url_for('/scripts/third-party/Swiff.Uploader.swf')}',
 				verbose: false // debug
 			<py:if test="podcast.id is None">

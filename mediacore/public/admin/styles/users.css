@@ -1,0 +1,17 @@
+#display_name_container,
+#email_address_container {
+	clear: none;
+	float: left;
+	width: 50%;
+}
+#user-form .details_fieldset .fieldlabel {
+	width: 120px;
+}
+#login_details_user_name,
+#login_details_password,
+#login_details_confirm_password {
+	width: 287px;
+}
+#login_details_group {
+	width: 300px;
+}

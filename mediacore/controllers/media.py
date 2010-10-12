@@ -65,7 +65,7 @@ class MediaController(BaseController):
     """
 
     @expose('media/index.html')
-    @paginate('media', items_per_page=20)
+    @paginate('media', items_per_page=10)
     @observable(events.MediaController.index)
     def index(self, page=1, show='latest', q=None, tag=None, **kwargs):
         """List media with pagination.

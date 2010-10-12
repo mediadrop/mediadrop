@@ -41,7 +41,7 @@ class CategoryForm(ListForm):
     _name = 'vf'
 
     class fields(WidgetsList):
-        save = SubmitButton(default=_('Save'), named_button=True, css_classes=['f-rgt', 'btn', 'btn-save'])
+        save = SubmitButton(default=_('Save'), named_button=True, css_classes=['f-rgt', 'btn', 'blue', 'btn-save'])
         name = TextField(validator=TextField.validator(not_empty=True), label_text=_('Name'))
         slug = TextField(validator=NotEmpty, label_text=_('Slug'))
         parent_id = SingleSelectField(label_text=_('Parent Category'), options=category_options)
@@ -63,7 +63,7 @@ class CategoryRowForm(Form):
         name = HiddenField()
         slug = HiddenField()
         parent_id = HiddenField()
-        delete = SubmitButton(default=_('Delete'), css_classes=['btn', 'btn-inline-delete'])
+        delete = SubmitButton(default=_('Delete'), css_classes=['btn', 'table-row', 'delete', 'btn-inline-delete'])
 
     def post_init(self, *args, **kwargs):
         events.Admin.CategoryRowForm(self)

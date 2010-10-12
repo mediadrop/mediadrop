@@ -450,6 +450,19 @@ class Media(object):
             cats = Category.query.filter(Category.id.in_(cats)).all()
         self.categories = cats or []
 
+    @property
+    def status(self):
+        if not self.reviewed:
+            return u'Unreviewed'
+        elif not self.encoded:
+            return u'Unencoded'
+        elif not self.publishable:
+            return u'Draft'
+        elif self.is_published:
+            return u'Published'
+        else:
+            return u'Publishing...'
+
     def update_status(self):
         """Ensure the type (audio/video) and encoded flag are properly set.
 

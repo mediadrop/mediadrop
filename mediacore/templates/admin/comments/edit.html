@@ -32,5 +32,4 @@
 	<div py:for="field in fields" py:with="div_class='form-field-%s' % field.__class__.__name__.lower()" class="form-field ${div_class}">
 		${field.display(value_for(field), id=None, **args_for(field))}
 	</div>
-	${xhtml_description('body')}
 </form>

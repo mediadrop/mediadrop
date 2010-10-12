@@ -36,13 +36,13 @@
 			             label_text = field.label_text;
 			             help_text = field.help_text;"
 			    id="${field.id}_container"
-			    py:attrs="args_for(field).get('container_attrs') or field.container_attrs">
+			    py:attrs="h.append_class_attr(args_for(field).get('container_attrs') or field.container_attrs, 'clearfix')">
 				<div py:if="show_labels and label_text and not field.suppress_label"
 				     id="${field.id}_label" class="form_label">
 					<label for="${field.id}">${label_text}: <span py:if="help_text" class="field_help">(${help_text})</span></label>
 					<span class="field_error" py:if="show_children_errors and error and not field.show_error" py:content="error"/>
 				</div>
-				<div class="form_field" py:content="field.display(value_for(field), **args_for(field))">
+				<div class="form_field clearfix" py:content="field.display(value_for(field), **args_for(field))">
 					Field goes here
 				</div>
 			</li>

@@ -82,10 +82,6 @@
 	float: left;
 }
 
-.bulk-publish-btn, .review-comment { background-image: url('../images/buttons/comment-approve.png'); }
-.published-comment { background-image: url('../images/buttons/comment-published.png'); }
-.bulk-delete-btn, .trash-comment { background-image: url('../images/buttons/delete-half.png'); }
-
 .author strong {
 	font-weight: bold;
 }
@@ -107,10 +103,6 @@
 .tr-gray td {
 	background-color: #c7d5dd;
 }
-.edit-comment-form .form-field-xhtmltextarea {
-	margin: 10px 0;
-	padding-right: 18px;
-}
-.edit-comment-form .xhtml-description-helper {
-	margin: 10px 0;
+#comment-table .form-field-textarea {
+	margin-right: 10px;
 }

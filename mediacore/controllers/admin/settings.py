@@ -59,7 +59,7 @@ class SettingsController(BaseSettingsController):
     """
     @expose()
     def index(self, **kwargs):
-        redirect(controller='/admin/categories')
+        redirect(action='analytics')
 
     @expose('admin/settings/notifications.html')
     def notifications(self, **kwargs):
@@ -83,7 +83,7 @@ class SettingsController(BaseSettingsController):
 
     @expose('admin/settings/api.html')
     def api(self, **kwargs):
-        return self._display(api_form, **kwargs)
+        return self._display(api_form, values=kwargs)
 
     @expose()
     @validate(api_form, error_handler=comments)

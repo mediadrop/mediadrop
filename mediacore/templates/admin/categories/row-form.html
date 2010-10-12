@@ -29,16 +29,16 @@
 		</td>
 		<td headers="h-slug">
 			<div class="truncate" style="width:110px" title="${category.slug}"
-				 py:content="h.truncate(category.slug, 20, whole_word=False)" />
+			     py:content="h.truncate(category.slug, 20, whole_word=False)" />
 		</td>
 		<td headers="h-media_count" class="center" py:content="category.media_count or 0" />
 		<td headers="h-btns">
 			<form action="${h.url_for(action='save', id=category.id or 'new')}" method="post" class="edit-modal">
-				<div>
+				<div class="f-rgt">
 					<input py:for="name in ('name', 'slug', 'parent_id')"
 					       py:with="field = children[name]"
 					       py:replace="field.display(getattr(category, name, None), **args_for(field))" />
-					<a href="${h.url_for(action='edit', id=category.id)}" class="btn btn-inline-edit f-lft">edit</a>
+					<a href="${h.url_for(action='edit', id=category.id)}" class="btn table-row middle btn-inline-edit f-lft"><span>edit</span></a>
 					<input py:with="field = children['delete']"
 					       py:replace="field.display(value_for(field), **args_for(field))" />
 				</div>

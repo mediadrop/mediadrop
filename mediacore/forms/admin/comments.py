@@ -27,7 +27,7 @@ class EditCommentForm(ListForm):
 
     class fields(WidgetsList):
         body = TextArea(validator=NotEmpty, label_text=_('Comment'), attrs=dict(rows=5, cols=25))
-        submit = SubmitButton(default=_('Save'), css_classes=['btn', 'btn-save', 'f-rgt'])
+        submit = SubmitButton(default=_('Save'), css_classes=['btn', 'btn-save', 'blue', 'f-rgt'])
         cancel = ResetButton(default=_('Cancel'), css_classes=['btn', 'btn-cancel'])
 
     def post_init(self, *args, **kwargs):

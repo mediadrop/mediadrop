@@ -99,6 +99,9 @@ var Comment = new Class({
 		var confirmMgr = new ConfirmMgr({
 			onConfirm: this.doConfirm.pass([this.publishLink.href, this.updatePublished.bind(this)], this),
 			header: 'Confirm Publish',
+			confirmButtonText: 'Publish',
+			confirmButtonClass: 'btn green f-rgt',
+			cancelButtonText: 'Cancel',
 			msg: 'Are you sure you want to publish <strong>' + this.getAuthor() + '</strong>&#8217;s comment?'
 		});
 		this.publishLink.addEvent('click', confirmMgr.openConfirmDialog.bind(confirmMgr));
@@ -109,6 +112,9 @@ var Comment = new Class({
 		var confirmMgr = new ConfirmMgr({
 			onConfirm: this.doConfirm.pass([this.deleteLink.href, this.updateDeleted.bind(this)], this),
 			header: 'Confirm Delete',
+			confirmButtonText: 'Delete',
+			cancelButtonText: 'Cancel',
+			focus: 'cancel',
 			msg: 'Are you sure you want to delete <strong>' + this.getAuthor() + '</strong>&#8217;s comment?'
 		});
 		this.deleteLink.addEvent('click', confirmMgr.openConfirmDialog.bind(confirmMgr));

@@ -258,19 +258,18 @@ var CategoryTable = new Class({
 
 });
 
-
 var BulkTableManager = new Class({
 
 	Extends: TableManager,
+
 	Binds: ['toggleCheckboxes', 'clearToggle', 'getSelectedIds', 'onSelect', 'removeRow'],
 
 	actions: new Hash(),
-	actionsVisible: false,
 	checkboxes: null,
 
 	initialize: function(table, controls, actions, opts){
 		this.parent(table, opts);
-		actions.map(this.addAction, this);
+		actions.each(this.addAction, this);
 		this.controls = this.injectControls($(controls));
 	},
 
@@ -333,6 +332,7 @@ var BulkTableManager = new Class({
 var BulkAction = new Class({
 
 	Implements: [Options, Events],
+
 	Binds: ['onClick', 'onConfirm', 'onComplete', 'onError'],
 
 	options: {

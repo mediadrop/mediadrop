@@ -169,9 +169,9 @@ var MediaMetaForm = new Class({
 	initialize: function(el, opts){
 		this.parent(el, opts);
 		var podSelect = $(this.form.elements['podcast']);
-		if (podSelect.options.length <= 1) {
+/*		if (podSelect.options.length <= 1) {
 			podSelect.getParent('li').hide();
-		}
+		}*/
 		this.notesArea = new DynamicTextarea(this.form.elements['notes']);
 		var desc = $(this.form.elements['description']);
 		if (!desc.hasClass('tinymcearea')) {
@@ -274,6 +274,18 @@ var StatusForm = new Class({
 	}
 });
 
+var DimensionOverText = new Class({
+
+	Extends: OverText,
+
+	test: function(){
+		var v = this.element.get('value');
+		if (v == '0x0') v = '';
+		return !v;
+	}
+
+});
+
 var FileManager = new Class({
 
 	Implements: [Events, Options],
@@ -303,11 +315,15 @@ var FileManager = new Class({
 			multiple: true,
 			queued: 1,
 			zIndex: 65555
+		},
+		overtext: {
+			textOverride: '-'
 		}
 	},
 
 	files: [],
 	durationInputs: [],
+	overtexts: [],
 
 	initialize: function(container, opts){
 		this.setOptions(opts);
@@ -327,39 +343,22 @@ var FileManager = new Class({
 		this.addForm.addEvent('submit', this.addFile.bind(this));
 		this.addForm.url.addEvent('focus', this.addForm.url.select);
 		this.files.each(this._attachFile.bind(this));
-		this._attachUploader(this.uploader);
 		this._attachModal(this.modal);
+		this._attachUploader(this.uploader);
 		return this;
-	},
-
-	_updateTextSpan: function(input) {
-		var text = input.textspan;
-		if (input.value == '0x0' || input.value == '') {
-			text.set('text', '-');
-		} else if (text) {
-			text.set('text', input.value);
-		}
 	},
 
 	_attachFile: function(row){
 		row.getElement('button.file-delete').addEvent('click', this.editFile.bind(this));
-		row.getElement('select[name=file_type]').addEvent('change', this.editFile.bind(this));
-		// Set up all on-blur events for text fields
-		row.getElements('input.textfield').each(function(el) {
-			el.addEvent('focus', function(e) {
-				var e = new Event(e), target = $(e.target), row = target.getParent('tr');
-				row.addClass('editing');
-			});
-			el.addEvent('blur', function(e) {
-				var e = new Event(e), target = $(e.target), row = target.getParent('tr');
-				row.removeClass('editing');
-			});
-			el.addEvent('blur', this.editFile.bind(this));
-			var text = new Element('span', {'class': 'textspan'});
-			text.injectAfter(el);
-			el.textspan = text;
-			this._updateTextSpan(el);
-		}, this);
+		var typeSelect = row.getElement('select[name=file_type]');
+		var dropdown = new DropdownSelect(typeSelect).addEvent('change', this.editFile.bind(this));
+		row.getElements('input[class=textfield]').addEvents({
+			blur: this.editFile.bind(this),
+			keydown: function(e){
+				e = new Event(e);
+				if (e.key == 'enter') this.editFile(e);
+			}.bind(this)
+		});
 		// Custom handling for the duration row.
 		var duration = row.getElement('input[name=duration]');
 		duration.addEvent('keyup', this.syncDurations.bind(this));
@@ -367,6 +366,11 @@ var FileManager = new Class({
 		// Custom handling for the width x height row
 		var wxh = row.getElement('input[name=width_height]');
 		wxh.meiomask('Regexp.widthxheight', {});
+		// Default labels when no value is entered
+		var otOpts = this.options.overtext;
+		this.overtexts.push(new OverText(duration, otOpts));
+		this.overtexts.push(new OverText(row.getElement('input[name=bitrate]'), otOpts));
+		this.overtexts.push(new DimensionOverText(wxh, otOpts));
 		return row;
 	},
 
@@ -404,7 +408,12 @@ var FileManager = new Class({
 		this.uploader.target = this.uploader.options.target;
 		this.uploader.reposition();
 		this.urlOverText.reposition();
-		this.urlOverText.reposition.delay(300);
+		this._repositionOverTexts.delay(300, this);
+	},
+
+	_repositionOverTexts: function(){
+		this.urlOverText.reposition();
+		this.overtexts.each(function(ot){ ot.reposition(); });
 	},
 
 	onClose: function(){
@@ -449,12 +458,16 @@ var FileManager = new Class({
 		return this.fireEvent('fileAdded', [resp, row, replaces]);
 	},
 
-	editFile: function(e){
-		var e = new Event(e), target = $(e.target), row = target.getParent('tr');
+	editFile: function(eOrTarget, el){
+		console.log('editfile');
+		if (el) var target = el;
+		else if ($type(eOrTarget) == 'event') var target = $(eOrTarget.target);
+		else var target = $(eOrTarget);
+		var row = target.getParent('tr');
 		var oldError = row.retrieve('fileError');
 		if (oldError) oldError.destroy();
 		if (target.get('name') == 'delete') {
-			e.stop();
+			eOrTarget.stop();
 			var name = row.getElement('td[headers="thf-name"]').get('text').trim();
 			var msg = $lambda(this.options.deleteConfirmMsg)(name);
 			if (!confirm(msg)) return false;
@@ -485,7 +498,6 @@ var FileManager = new Class({
 		} else {
 			if (json.duration) this.syncDurations(json.duration);
 			row.className = json.file_type;
-			this._updateTextSpan(target);
 			return this.fireEvent('fileEdited', [json, row, target]);
 		}
 	},
@@ -495,7 +507,6 @@ var FileManager = new Class({
 		else var target, value = eOrValue;
 		for (var input, i = 0, l = this.durationInputs.length; i < l; i++) {
 			input = this.durationInputs[i];
-			this._updateTextSpan(input);
 			if (input != target) input.set('value', value);
 		}
 	},
@@ -592,7 +603,7 @@ var FileManager = new Class({
 		var errorDiv = new Element('div', this.options.errorDiv);
 		row.store('fileError', errorDiv).getElement('td[headers="thf-name"]').grab(errorDiv);
 		var typeCol = row.getElement('td[headers="thf-type"]');
-		if (typeCol && !typeCol.getElement('select')) typeCol.set('text', 'Error');
+		if (typeCol && !typeCol.getElement('select, input')) typeCol.set('text', 'Error');
 		row.className = 'error';
 		this.fireEvent('fileError', [row, msg]);
 		return errorDiv.set('html', msg);

@@ -52,7 +52,7 @@ class MediaController(BaseController):
     allow_only = has_permission('admin')
 
     @expose_xhr('admin/media/index.html', 'admin/media/index-table.html')
-    @paginate('media', items_per_page=25)
+    @paginate('media', items_per_page=15)
     @observable(events.Admin.MediaController.index)
     def index(self, page=1, search=None, podcast_filter=None, **kwargs):
         """List media with pagination and filtering.
