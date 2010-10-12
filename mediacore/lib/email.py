@@ -105,7 +105,7 @@ def send_comment_notification(media_obj, comment):
 
     author_name = media_obj.author.name
     comment_subject = comment.subject
-    post_url = url_for(controller='/media', action='view', slug=media.slug, qualified=True),
+    post_url = url_for(controller='/media', action='view', slug=media_obj.slug, qualified=True),
     comment_body = strip_xhtml(line_break_xhtml(line_break_xhtml(comment.body)))
     subject = _('New Comment: %(comment_subject)s') % locals()
     body = _("""A new comment has been posted!
