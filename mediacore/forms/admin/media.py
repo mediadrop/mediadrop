@@ -39,8 +39,7 @@ class DurationValidator(FancyValidator):
             return helpers.duration_to_seconds(value)
         except ValueError:
             raise formencode.Invalid(
-                # XXX: THIS CREATES A BUG: Colons in formencode.Invalid messages are not allowed.
-                _('Bad duration formatting, use Hour:Min:Sec'), value, state)
+                _('Bad duration formatting, use Hour&#058;Min&#058;Sec'), value, state)
 
     def _from_python(self, value, state):
         return helpers.duration_from_seconds(value)
