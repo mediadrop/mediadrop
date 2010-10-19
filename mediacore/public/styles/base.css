@@ -239,6 +239,10 @@ h1 a.nocolor:link, h1 a.nocolor:visited, h2 a.nocolor:link, h2 a.nocolor:visited
 	-webkit-font-smoothing: antialiased;
 	text-shadow: 0 -1px #000;
 }
+a.btn:link,
+a.btn:visited {
+	color: #cdcdcd;
+}
 .btn span {
 	display: block;
 	height: 33px;
