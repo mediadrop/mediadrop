@@ -26,6 +26,7 @@ body, select, input, button, textarea {
 }
 body {
 	color: #637084;
+	background: #fff;
 }
 a:link,
 a:visited {
@@ -87,7 +88,7 @@ a:hover {
 #nav-box {
 	width: 920px;
 	padding: 14px 15px;
-	height: 37px;
+	height: 38px;
 	margin: 0 auto 15px auto;
 	background: url('../images/layout/nav-box.png') no-repeat;
 }
@@ -119,7 +120,7 @@ a:hover {
 }
 #nav li a span {
 	display: block;
-	height: 37px;
+	height: 38px;
 	line-height: 37px;
 	float: left;
 	margin-left: 5px;
@@ -131,22 +132,22 @@ a:hover {
 	display: block;
 	float: left;
 	width: 5px;
-	height: 37px;
+	height: 38px;
 	background: url('../images/layout/nav-btn-edge-inner.png') no-repeat 0px 0;
 }
 #nav li.nav-left a { background-image: url('../images/layout/nav-btn-edge-outer.png') }
 #nav li.nav-right a em { background-image: url('../images/layout/nav-btn-edge-outer.png') }
 #nav li.f-rgt { float: right; }
 #nav li a { background-position: -5px 0 }
-#nav li a:hover { background-position: -5px -37px }
+#nav li a:hover { background-position: -5px -38px }
 #nav li a:active,
-#nav li a.active { background-position: -5px -74px }
-#nav li a:hover em { background-position: 0 -37px }
+#nav li a.active { background-position: -5px -76px }
+#nav li a:hover em { background-position: 0 -38px }
 #nav li a:active em,
-#nav li a.active em { background-position: 0 -74px }
-#nav li a:hover span { background-position: 0 -37px }
+#nav li a.active em { background-position: 0 -76px }
+#nav li a:hover span { background-position: 0 -38px }
 #nav li a:active span,
-#nav li a.active span { background-position: 0 -74px }
+#nav li a.active span { background-position: 0 -76px }
 /*
 #nav li a { background-position: -5px 0 }
 #nav li a:hover { background-position: -5px -37px }
@@ -180,7 +181,7 @@ a:hover {
 #nav-search {
 	float: right;
 	width: 175px;
-	height: 37px;
+	height: 38px;
 }
 #nav-search input {
 	float: left;
@@ -193,13 +194,13 @@ a:hover {
 }
 #nav-search input.nav-search-btn {
 	width: 34px;
-	height: 37px;
+	height: 38px;
 	background: url('../images/layout/search-right.png') no-repeat;
 	padding: 0;
 	text-indent: -5000px;
 }
-#nav-search input.nav-search-btn:hover { background-position: 0 -37px }
-#nav-search input.nav-search-btn:active { background-position: 0 -74px }
+#nav-search input.nav-search-btn:hover { background-position: 0 -38px }
+#nav-search input.nav-search-btn:active { background-position: 0 -76px }
 #nav-search input,
 #nav-search .overTxtLabel {
 	color: #595050;
@@ -224,7 +225,7 @@ h1 a.nocolor:link, h1 a.nocolor:visited, h2 a.nocolor:link, h2 a.nocolor:visited
 
 /* Buttons */
 .btn {
-	height: 32px;
+	height: 33px;
 	overflow: hidden;
 	cursor: pointer;
 	display: block;
@@ -240,16 +241,16 @@ h1 a.nocolor:link, h1 a.nocolor:visited, h2 a.nocolor:link, h2 a.nocolor:visited
 }
 .btn span {
 	display: block;
-	height: 32px;
+	height: 33px;
 	margin-left: 5px;
 	padding: 0 12px 0 7px;
 	line-height: 32px;
 	background: url('../images/layout/button-right.png') no-repeat 100% 0;
 }
-.btn:hover, .btn.hover { background-position: 0 -32px; color: #fff }
-.btn:active, .btn.active { background-position: 0 -64px; color: #fff }
-.btn:hover span, .btn.hover span { background-position: 100% -32px }
-.btn:active span, .btn.active span { background-position: 100% -64px }
+.btn:hover, .btn.hover { background-position: 0 -33px; color: #fff }
+.btn:active, .btn.active { background-position: 0 -66px; color: #fff }
+.btn:hover span, .btn.hover span { background-position: 100% -33px }
+.btn:active span, .btn.active span { background-position: 100% -66px }
 .btn:active span {
 	padding-top: 1px;
 }
