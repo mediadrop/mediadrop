@@ -421,15 +421,19 @@ a.btn.table-row:visited {
 .blue { text-shadow:  }
 .btn { text-shadow:  }
 
-#nav .btn {
+#nav .btn, .btn.nav {
 	background-image: url('../images/layout/btn-nav-left.png');
 	color: #b0bcc5;
 	font-size: 13px;
 	text-shadow: 0 -1px #000;
 }
-#nav .btn span {
+#nav .btn span, .btn.nav span {
 	background-image: url('../images/layout/btn-nav-right.png');
 }
+a.btn.nav:hover,
+a.btn.nav:active,
+a.btn.nav.active:link,
+a.btn.nav.active:visited,
 #nav a.btn:hover,
 #nav a.btn:active,
 #nav a.btn.active:link,

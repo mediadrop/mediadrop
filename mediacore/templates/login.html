@@ -31,6 +31,7 @@
 	<link href="${h.url_for('/admin/styles/login.css')}" media="screen" rel="stylesheet" type="text/css" />
 </head>
 <body>
+	<div id="wrapper">
 	<!--[if IE]>
 		<div id="ie-warning">
 			<strong>Internet Explorer is unsupported!</strong><br />
@@ -52,8 +53,9 @@
 					<input id="password" type="password" name="password" class="text" />
 				</li>
 			</ul>
-			<input id="submit-button" type="submit" value="Login" class="clickable" />
+			<button id="submit-button" type="submit" class="btn nav"><span>Login</span></button>
 		</form>
+	</div>
 	</div>
 </body>
 </html>

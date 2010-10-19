@@ -15,14 +15,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 body {
-	background: #efebde;
+	background: url('../images/login/bg.png');
 	text-align: center;
 }
+#wrapper {
+	background: url('../images/login/login-bg.jpg') no-repeat top center;
+	height: 600px;
+}
 #loginform {
-	background: url('../images/login/login.jpg') no-repeat;
-	width: 680px;
-	height: 339px;
-	margin: 100px auto 10px auto;
+	width: 906px;
+	height: 656px;
+	margin: 0 auto;
 	text-align: left;
 	position: relative;
 }
@@ -36,31 +39,28 @@ body {
 }
 #loginform input.text {
 	position: absolute;
-	left: 189px;
+	left: 239px;
 	background: transparent;
-	width: 410px;
-	height: 1.5em;
+	width: 408px;
+	height: 20px;
 	vertical-align: top;
 	padding: 8px 10px;
-	font-size: 24px;
-	line-height: 24px;
+	font-size: 18px;
+	line-height: 18px;
 	border: 0;
 	margin-top: 4px;
+	color: #727d96;
+	text-shadow: 0 1px #2c3443;
 }
 #loginform input.text:focus {
 	outline-style: none;
 }
-#login, #login-label { top: 99px; }
-#password, #password-label { top: 169px; }
+#login, #login-label { top: 375px; }
+#password, #password-label { top: 432px; }
 #submit-button {
 	position: absolute;
-	left: 506px;
-	top: 257px;
-	width: 113px;
-	height: 42px;
-	background: transparent;
-	text-indent: -5000px;
-	border: 0;
+	right: 238px;
+	top: 503px;
 }
 #ie-warning {
 	background: #ff0000;
