@@ -102,9 +102,9 @@ a:hover {
 #nav li a:link,
 #nav li a:visited {
 	display: block;
-	height: 37px;
+	height: 38px;
 	background: url('../images/layout/nav-btn-edge-inner.png') no-repeat -5px 0;
-	color: #9b9fa2;
+	color: #b0bcc5;
 	text-decoration: none;
 	font: bold 12px arial, helvetica, sans-serif;
 	-webkit-font-smoothing: antialiased;
