@@ -57,12 +57,12 @@
 				</div>
 			</div>
 			<ul id="nav">
-				<li><a class="btn${'menu-media-on' in body_class and ' active' or ''}" href="${h.url_for(controller='/admin/media')}"><span>Media</span></a></li>
-				<li><a class="btn${'menu-podcasts-on' in body_class and ' active' or ''}" href="${h.url_for(controller='/admin/podcasts')}"><span>Podcasts</span></a></li>
-				<li><a class="btn${'menu-comments-on' in body_class and ' active' or ''}" href="${h.url_for(controller='/admin/comments')}"><span>Comments</span></a></li>
-				<li><a class="btn${'menu-cattags-on' in body_class and ' active' or ''}" href="${h.url_for(controller='/admin/categories')}"><span>Categories <em>&amp;</em> Tags</span></a></li>
-				<li><a class="btn${'menu-users-on' in body_class and ' active' or ''}" href="${h.url_for(controller='/admin/users')}"><span>Users</span></a></li>
-				<li><a class="btn${'menu-settings-on' in body_class and ' active' or ''}" href="${h.url_for(controller='/admin/settings')}"><span>Settings</span></a></li>
+				<li><a class="btn nav${'menu-media-on' in body_class and ' active' or ''}" href="${h.url_for(controller='/admin/media')}"><span>Media</span></a></li>
+				<li><a class="btn nav${'menu-podcasts-on' in body_class and ' active' or ''}" href="${h.url_for(controller='/admin/podcasts')}"><span>Podcasts</span></a></li>
+				<li><a class="btn nav${'menu-comments-on' in body_class and ' active' or ''}" href="${h.url_for(controller='/admin/comments')}"><span>Comments</span></a></li>
+				<li><a class="btn nav${'menu-cattags-on' in body_class and ' active' or ''}" href="${h.url_for(controller='/admin/categories')}"><span>Categories <em>&amp;</em> Tags</span></a></li>
+				<li><a class="btn nav${'menu-users-on' in body_class and ' active' or ''}" href="${h.url_for(controller='/admin/users')}"><span>Users</span></a></li>
+				<li><a class="btn nav${'menu-settings-on' in body_class and ' active' or ''}" href="${h.url_for(controller='/admin/settings')}"><span>Settings</span></a></li>
 			</ul>
 		</div>
 		<div id="body" py:content="select('*|text()')" />

@@ -328,28 +328,36 @@ tr.thead-row td h3 {
 }
 
 
+/* Fix extra padding on button elements in firefox */
+button.btn::-moz-focus-inner {
+	border: 0;
+	padding: 0;
+}
+
+/* Standard button */
 .btn {
 	height: 33px;
-	overflow: hidden;
-	cursor: pointer;
 	display: block;
 	border: 0;
 	margin: 0;
 	padding: 0;
 	background: url('../images/layout/btn-grey-left.png') no-repeat 0 0;
-	color: #3c4d5a;
 	text-align: center;
 	text-decoration: none;
 	text-shadow: 0 1px #fff;
 	font: bold 14px arial, helvetica, sans-serif;
 	-webkit-font-smoothing: antialiased;
 }
+.btn,
 a.btn:link,
 a.btn:visited {
 	color: #3c4d5a;
 }
-.btn.unclickable:hover {
-	cursor: default;
+.btn:hover, .btn.hover {
+	text-decoration: none;
+}
+.btn:active span, .btn.active span {
+	padding-top: 1px
 }
 .btn span {
 	display: block;
@@ -359,6 +367,50 @@ a.btn:visited {
 	line-height: 32px;
 	background: url('../images/layout/btn-grey-right.png') no-repeat 100% 0;
 }
+.btn:hover, .btn.hover { background-position: 0 -33px }
+.btn:active, .btn.active { background-position: 0 -66px }
+.btn:hover span, .btn.hover span { background-position: 100% -33px }
+.btn:active span, .btn.active span { background-position: 100% -66px }
+
+/* Standard green button */
+.btn.green {
+	color: #fff;
+	text-shadow: 0 -1px #398400;
+	background-image: url('../images/layout/btn-green-left.png');
+}
+.btn.green span {
+	background-image: url('../images/layout/btn-green-right.png');
+}
+
+/* Standard blue button */
+.btn.blue {
+	color: #fff;
+	text-shadow: 0 -1px #2869c6;
+	background-image: url('../images/layout/btn-blue-left.png');
+}
+a.btn.blue:link,
+a.btn.blue:visited {
+	color: #fff;
+}
+.btn.blue span {
+	background-image: url('../images/layout/btn-blue-right.png');
+}
+
+/* Standard red button */
+.btn.red {
+	color: #fff;
+	text-shadow: 0 -1px #780000;
+	background-image: url('../images/layout/btn-red-left.png');
+}
+a.btn.red:link,
+a.btn.red:visited {
+	color: #fff;
+}
+.btn.red span {
+	background-image: url('../images/layout/btn-red-right.png');
+}
+
+/* Table head/foot buttons */
 .btn.inline {
 	height: 26px;
 	font-size: 12px;
@@ -374,6 +426,12 @@ a.btn:visited {
 	line-height: 26px;
 	background-image: url('../images/layout/btn-inline-right.png');
 }
+.btn.inline:hover, .btn.inline.hover { background-position: 0 -26px }
+.btn.inline:active, .btn.inline.active { background-position: 0 -52px }
+.btn.inline:hover span, .btn.inline.hover span { background-position: 100% -26px }
+.btn.inline:active span, .btn.inline.active span { background-position: 100% -52px }
+
+/* Inline table row buttons */
 .btn.table-row {
 	height: 19px;
 	font-size: 11px;
@@ -416,86 +474,39 @@ a.btn.table-row:visited {
 .btn.table-row.published span {
 	display: none;
 }
-.red { text-shadow:  }
-.green { text-shadow: 0  }
-.blue { text-shadow:  }
-.btn { text-shadow:  }
-
-#nav .btn, .btn.nav {
-	background-image: url('../images/layout/btn-nav-left.png');
-	color: #b0bcc5;
-	font-size: 13px;
-	text-shadow: 0 -1px #000;
-}
-#nav .btn span, .btn.nav span {
-	background-image: url('../images/layout/btn-nav-right.png');
-}
-a.btn.nav:hover,
-a.btn.nav:active,
-a.btn.nav.active:link,
-a.btn.nav.active:visited,
-#nav a.btn:hover,
-#nav a.btn:active,
-#nav a.btn.active:link,
-#nav a.btn.active:visited {
-	color: #fff;
-}
-.btn.green {
-	color: #fff;
-	text-shadow: 0 -1px #398400;
-	background-image: url('../images/layout/btn-green-left.png');
-}
-.btn.green span {
-	background-image: url('../images/layout/btn-green-right.png');
-}
-.btn.blue {
-	color: #fff;
-	text-shadow: 0 -1px #2869c6;
-	background-image: url('../images/layout/btn-blue-left.png');
-}
-a.btn.blue:link,
-a.btn.blue:visited {
-	color: #fff;
-}
-.btn.blue span {
-	background-image: url('../images/layout/btn-blue-right.png');
-}
-.btn.red {
-	color: #fff;
-	text-shadow: 0 -1px #780000;
-	background-image: url('../images/layout/btn-red-left.png');
-}
-a.btn.red:link,
-a.btn.red:visited {
-	color: #fff;
-}
-.btn.red span {
-	background-image: url('../images/layout/btn-red-right.png');
-}
-
-.btn:hover, .btn.hover { background-position: 0 -33px; text-decoration: none; }
-.btn:active, .btn.active { background-position: 0 -66px }
-.btn:hover span, .btn.hover span { background-position: 100% -33px }
-.btn:active span, .btn.active span { background-position: 100% -66px; padding-top: 1px }
-
-.btn.inline:hover, .btn.inline.hover { background-position: 0 -26px; text-decoration: none; }
-.btn.inline:active, .btn.inline.active { background-position: 0 -52px }
-.btn.inline:hover span, .btn.inline.hover span { background-position: 100% -26px }
-.btn.inline:active span, .btn.inline.active span { background-position: 100% -52px }
-.btn.table-row:hover, .btn.table-row.hover { background-position: 0 -19px; text-decoration: none; }
+.btn.table-row:hover, .btn.table-row.hover { background-position: 0 -19px }
 .btn.table-row:active, .btn.table-row.active { background-position: 0 -38px }
 .btn.table-row:hover span, .btn.table-row.hover span { background-position: 100% -19px }
 .btn.table-row:active span, .btn.table-row.active span { background-position: 100% -38px }
 
-#nav .btn.active span { padding-top: 0 }
-#nav .btn:active span { padding-top: 1px }
-
-/* Fix extra padding on button elements in firefox */
-button::-moz-focus-inner {
-	border: 0;
-	padding: 0;
+/* Top nav buttons */
+.btn.nav {
+	background-image: url('../images/layout/btn-nav-left.png');
+	font-size: 13px;
+	text-shadow: 0 -1px #000;
+}
+.btn.nav span {
+	background-image: url('../images/layout/btn-nav-right.png');
+}
+.btn.nav,
+a.btn.nav:link,
+a.btn.nav:visited {
+	color: #b0bcc5;
+}
+a.btn.nav:hover,
+a.btn.nav:active,
+a.btn.nav.active:link,
+a.btn.nav.active:visited {
+	color: #fff;
+}
+.btn.nav.active span {
+	padding-top: 0;
+}
+.btn.nav:active span {
+	padding-top: 1px;
 }
 
+/* Dropdown menus */
 .dropdown-wrapper {
 	position: relative;
 }
