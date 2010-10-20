@@ -592,7 +592,7 @@ button::-moz-focus-inner {
 }
 
 
-span.show-more, .pager {
+span.show-more {
 	font-weight: bold;
 	font-size: 14px;
 	color: #0e436f;
@@ -600,12 +600,37 @@ span.show-more, .pager {
 .pager {
 	float: right;
 }
-.pager-current.btn,
-.pager-current.btn span {
-	background: none !important;
-}
+.pager-current,
 .pager-link {
+	float: left;
 	margin-left: 5px;
+}
+.pager-next { margin-left: 10px }
+.pager-previous { margin-right: 5px }
+.pager-link,
+.pager-dotdot {
+	font-weight: normal;
+}
+.pager-next,
+.pager-previous {
+	font-weight: bold;
+}
+.pager-next.btn.inline span,
+.pager-previous.btn.inline span {
+	line-height: 25px;
+}
+.pager-link.btn.inline span,
+.pager-current.btn.inline span {
+	padding-left: 2px;
+	padding-right: 7px;
+}
+.pager-current.btn.inline.active span {
+	padding-top: 0;
+}
+.pager-dotdot {
+	float: left;
+	display: block;
+	padding: 5px 0 5px 5px;
 }
 
 span.show-more {

@@ -24,31 +24,26 @@
 			leftmost_page = max(paginator.first_page, paginator.page - radius);
 			rightmost_page = min(paginator.last_page, paginator.page + radius);
 		">
-			<a py:def="pagelink(page, text=None, strong=False)"
+			<a py:def="pagelink(page, text=None, extraclass='')"
 			   href="${h.url_for(page=page)}"
-			   class="pager-link underline-hover btn inline f-lft"><span style="padding:0 7px 0 2px"><strong py:strip="not strong">${text or page}</strong></span></a>
+			   class="pager-link underline-hover btn inline ${extraclass}"><span>${text or page}</span></a>
 			<tr>
 				<td class="box-foot right" colspan="${colspan}">
 					<div class="pager">
-						<span class="pager-left" />
-						<span class="pager-body">
-							<!--!<span class="pager-label">Page:</span>-->
-							<a py:if="paginator.page &gt; paginator.first_page" py:replace="pagelink(paginator.page - 1, '&lt;', True)" />
-							<py:if test="leftmost_page > paginator.first_page">
-								<a py:replace="pagelink(paginator.first_page)" />
-								<span py:if="leftmost_page - paginator.first_page > 1" class="pager-dotdot">..</span>
-							</py:if>
-							<py:for each="page in xrange(leftmost_page, rightmost_page + 1)" py:choose="">
-								<span py:when="paginator.page == page" class="pager-current btn inline f-lft"><span>${page}</span></span>
-								<a py:otherwise="" py:replace="pagelink(page)" />
-							</py:for>
-							<py:if test="paginator.last_page > rightmost_page">
-								<span py:if="paginator.last_page - rightmost_page > 1" class="pager-dotdot">..</span>
-								<a py:replace="pagelink(paginator.last_page)" />
-							</py:if>
-							<a py:if="paginator.page &lt; paginator.last_page" py:replace="pagelink(paginator.page + 1, '&gt;', True)" />
-						</span>
-						<span class="pager-right" />
+						<a py:if="paginator.page &gt; paginator.first_page" py:replace="pagelink(paginator.page - 1, '&laquo;', 'pager-previous')" />
+						<py:if test="leftmost_page > paginator.first_page">
+							<a py:replace="pagelink(paginator.first_page)" />
+							<span py:if="leftmost_page - paginator.first_page > 1" class="pager-dotdot">&#8230;</span>
+						</py:if>
+						<py:for each="page in xrange(leftmost_page, rightmost_page + 1)" py:choose="">
+							<span py:when="paginator.page == page" class="pager-current btn inline active unclickable"><span>${page}</span></span>
+							<a py:otherwise="" py:replace="pagelink(page)" />
+						</py:for>
+						<py:if test="paginator.last_page > rightmost_page">
+							<span py:if="paginator.last_page - rightmost_page > 1" class="pager-dotdot">&#8230;</span>
+							<a py:replace="pagelink(paginator.last_page)" />
+						</py:if>
+						<a py:if="paginator.page &lt; paginator.last_page" py:replace="pagelink(paginator.page + 1, '&raquo;', 'pager-next')" />
 					</div>
 				</td>
 			</tr>
