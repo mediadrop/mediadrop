@@ -44,7 +44,7 @@
 }
 .podcast-episodes {
 	float: right;
-	width: 255px;
+	width: 265px;
 	padding-left: 15px;
 	margin-bottom: 19px;
 }
@@ -72,6 +72,10 @@
 	bottom: 0;
 	left: 650px;
 }
+.feat-content .feat-vr {
+	margin: -5px 0;
+	padding: 5px 0;
+}
 .feat-vr {
 	background: url('../images/layout/feature-vr.png') repeat-y;
 }
@@ -81,7 +85,7 @@
 .podcast-box .feat-top .feat-vr,
 .podcast-box .feat-bottom .feat-vr {
 	background-position: 635px;
-	height: 15px;
+	height: 8px;
 }
 .podcast-box .feat-top {
 	padding-top: 1px;
