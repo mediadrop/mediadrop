@@ -25,32 +25,38 @@ TYPE, NAME, DATA, PRIMARY = 'type', 'name', 'data', 'primary'
 DEFAULT_ENGINES = [
     {
         TYPE: 'LocalFileStorage',
-        NAME: 'Default File Storage',
-        DATA: cPickle.dumps({}),
+        NAME: 'Local File Storage',
+        DATA: cPickle.dumps({}, cPickle.HIGHEST_PROTOCOL),
         PRIMARY: True,
+    },
+    {
+        TYPE: 'RemoteURLStorage',
+        NAME: 'Remote URLs',
+        DATA: cPickle.dumps({}, cPickle.HIGHEST_PROTOCOL),
+        PRIMARY: False,
     },
     {
         TYPE: 'YoutubeStorage',
         NAME: 'YouTube',
-        DATA: cPickle.dumps({}),
+        DATA: cPickle.dumps({}, cPickle.HIGHEST_PROTOCOL),
         PRIMARY: False,
     },
     {
         TYPE: 'VimeoStorage',
         NAME: 'Vimeo',
-        DATA: cPickle.dumps({}),
+        DATA: cPickle.dumps({}, cPickle.HIGHEST_PROTOCOL),
         PRIMARY: False,
     },
     {
         TYPE: 'GoogleVideoStorage',
         NAME: 'Google Video',
-        DATA: cPickle.dumps({}),
+        DATA: cPickle.dumps({}, cPickle.HIGHEST_PROTOCOL),
         PRIMARY: False,
     },
     {
-        TYPE: 'RemoteURLStorage',
-        NAME: 'Default URL Handler',
-        DATA: cPickle.dumps({}),
+        TYPE: 'BlipTVStorage',
+        NAME: 'BlipTV',
+        DATA: cPickle.dumps({}, cPickle.HIGHEST_PROTOCOL),
         PRIMARY: False,
     },
 ]
