@@ -1,6 +1,7 @@
 from datetime import datetime
 
 from sqlalchemy import *
+from sqlalchemy.exc import OperationalError
 from migrate import *
 
 metadata = MetaData()
@@ -82,7 +83,7 @@ comments = Table('comments', metadata,
     Column('author_ip', Integer, nullable=False),
     Column('body', UnicodeText, nullable=False),
     ForeignKeyConstraint(['media_id'], ['media.id'],
-        name='comments_media_fk1',
+        name='comments_ibfk_1',
         onupdate='CASCADE', ondelete='CASCADE'),
     mysql_engine='InnoDB',
     mysql_charset='utf8',
@@ -230,7 +231,24 @@ def upgrade(migrate_engine):
     for table in tables:
         for constraint in table.constraints:
             if isinstance(constraint, ForeignKeyConstraint):
-                constraint.drop()
+                if table is not comments:
+                    constraint.drop()
+                else:
+                    # Ugh. the comments table created by the original setup.sql
+                    # had an incorrectly named foreign key. Delete it manually.
+                    subtrans = connection.begin_nested()
+                    try:
+                        constraint.drop()
+                        subtrans.commit()
+                    except OperationalError, e:
+                        subtrans.rollback()
+                        if 'comments_ibfk_1' in str(e):
+                            connection.execute(
+                                'ALTER TABLE %s '
+                                'DROP FOREIGN KEY comments_media_fk1'
+                            % table.name)
+                        else:
+                            raise
     transaction.commit()
 
     # Re-assign the integer type the SQLAlchemy way, which is not UNSIGNED
