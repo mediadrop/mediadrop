@@ -1,3 +1,4 @@
+import cPickle
 from datetime import datetime
 
 from sqlalchemy import *
@@ -76,6 +77,7 @@ def combine_unique_ids(conn):
     engine_ids = fetch_engines(conn)
     local_engine_id = engine_ids[LOCAL_FILE_ENGINE]
     remote_engine_id = engine_ids[REMOTE_URL_ENGINE]
+    rtmp_server_uris = set()
     embed_engine_ids = dict(
         (container, engine_ids[engine_type])
         for container, engine_type in EMBED_ENGINES.iteritems()
@@ -109,38 +111,20 @@ def combine_unique_ids(conn):
                         file_name=embed,
                         container=None)
         elif rtmp_file_name:
+            rtmp_server_uris.add(rtmp_server_url)
             q = media_files.update()\
                 .where(media_files.c.id == file_id)\
-                .values(storage_id=get_rtmp_engine(conn, rtmp_server_url),
+                .values(storage_id=remote_engine_id,
                         file_name=rtmp_file_name)
         updates.append(q)
 
+    if rtmp_server_uris:
+        conn.execute(storage.update()\
+            .where(storage.c.id == remote_engine_id)\
+            .values(pickled_data={'rtmp_server_uris': list(rtmp_server_uris)}))
+
     for q in updates:
         conn.execute(q)
-
-def get_rtmp_engine(conn, server_uri, existing_engines={}):
-    # existing_engines is persisted for all func calls
-    if not existing_engines:
-        query = select(
-            [storage.c.id, storage.c.pickled_data],
-            storage.c.engine_type == u'RTMPRemoteURLStorage',
-        )
-        for storage_id, data in conn.execute(query):
-            existing_engines[data['rtmp_server_uri']] = storage_id
-
-    if server_uri in existing_engines:
-        storage_id = existing_engines[server_uri]
-    else:
-        query = storage.insert().values(
-            engine_type=u'RTMPRemoteURLStorage',
-            display_name=u'Unnamed RTMP Provider',
-            pickled_data={'rtmp_server_uri': server_uri},
-            is_primary=False,
-        )
-        result = conn.execute(query)
-        storage_id = result.inserted_primary_key[0]
-        existing_engines[server_uri] = storage_id
-    return storage_id
 
 def fetch_engines(conn):
     query = select([storage.c.engine_type, storage.c.id])
