@@ -14,13 +14,15 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import logging
+import simplejson
 
 from datetime import datetime
 
 from sqlalchemy import Column, sql, Table
 from sqlalchemy.orm import column_property, dynamic_loader, mapper
 from sqlalchemy.orm.interfaces import MapperExtension
-from sqlalchemy.types import Boolean, DateTime, Integer, Unicode, PickleType
+from sqlalchemy.types import (Boolean, DateTime, Integer, Text, TypeDecorator,
+    Unicode)
 
 from mediacore.lib.storage import StorageEngine
 from mediacore.model.media import MediaFile, MediaFileQuery, media_files
@@ -28,15 +30,24 @@ from mediacore.model.meta import DBSession, metadata
 
 log = logging.getLogger(__name__)
 
+class Json(TypeDecorator):
+    impl = Text
+
+    def process_bind_param(self, value, dialect, dumps=simplejson.dumps):
+        return dumps(value)
+
+    def process_result_value(self, value, dialect, loads=simplejson.loads):
+        return loads(value)
+
 storage = Table('storage', metadata,
     Column('id', Integer, primary_key=True, autoincrement=True),
     Column('engine_type', Unicode(30), nullable=False),
     Column('display_name', Unicode(100), nullable=False, unique=True),
-    Column('pickled_data', PickleType, nullable=False),
     Column('enabled', Boolean, nullable=False, default=True),
     Column('created_on', DateTime, nullable=False, default=datetime.now),
     Column('modified_on', DateTime, nullable=False, default=datetime.now,
                                                     onupdate=datetime.now),
+    Column('data', Json, nullable=False, default=dict),
     mysql_engine='InnoDB',
     mysql_charset='utf8',
 )
@@ -45,8 +56,7 @@ storage_mapper = mapper(
     StorageEngine, storage,
     polymorphic_on=storage.c.engine_type,
     properties={
-        # Rename the data attr since its automatically de-pickled by sqlalchemy
-        '_data': storage.c.pickled_data,
+        '_data': storage.c.data,
 
         # Avoid conflict with the abstract StorageEngine.engine_type property
         '_engine_type': storage.c.engine_type,
