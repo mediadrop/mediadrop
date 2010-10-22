@@ -89,7 +89,7 @@ class SettingsController(BaseSettingsController):
     @validate(api_form, error_handler=comments)
     def save_api(self, **kwargs):
         """Save :class:`~mediacore.forms.admin.settings.APIForm`."""
-        return self._save(api_form, 'api', **kwargs)
+        return self._save(api_form, 'api', values=kwargs)
 
     @expose('admin/settings/display.html')
     def display(self, **kwargs):
