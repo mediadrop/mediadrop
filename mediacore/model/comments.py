@@ -24,7 +24,7 @@ Comments come with two status flags:
 """
 from datetime import datetime
 from sqlalchemy import Table, ForeignKey, Column, sql
-from sqlalchemy.types import Unicode, UnicodeText, Integer, DateTime, Boolean, Float
+from sqlalchemy.types import BigInteger, Boolean, DateTime, Integer, Unicode, UnicodeText
 from sqlalchemy.orm import mapper, relation, backref, synonym, composite, column_property, validates, interfaces, Query
 
 from mediacore.model import AuthorWithIP
@@ -42,7 +42,7 @@ comments = Table('comments', metadata,
     Column('publishable', Boolean, default=False, nullable=False),
     Column('author_name', Unicode(50), nullable=False),
     Column('author_email', Unicode(255)),
-    Column('author_ip', Integer, nullable=False),
+    Column('author_ip', BigInteger, nullable=False),
     Column('body', UnicodeText, nullable=False),
     mysql_engine='InnoDB',
     mysql_charset='utf8',

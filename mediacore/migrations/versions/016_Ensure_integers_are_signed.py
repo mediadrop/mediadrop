@@ -256,7 +256,12 @@ def upgrade(migrate_engine):
     for table in tables:
         for column in table.columns:
             if isinstance(column.type, Integer):
-                column.alter(type=Integer)
+                if table is comments and column is comments.c.author_ip:
+                    # Ugh. 32 bit IP addresses only fit when UNSIGNED is used, which postgres doesn't even support.
+                    # Switching to a 64bit BIGINT for simplicity sake. IPv6 support will have to come later.
+                    column.alter(type=BigInteger)
+                else:
+                    column.alter(type=Integer)
     transaction.commit()
 
     # Recreate our foreign key constraints
@@ -268,4 +273,4 @@ def upgrade(migrate_engine):
     transaction.commit()
 
 def downgrade(migrate_engine):
-    pass
+    raise NotImplementedError
