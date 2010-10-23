@@ -168,15 +168,6 @@ class UploadForm(ListForm):
     fields = [
         boolean_radiobuttonlist('use_embed_thumbnails', label_text=_('Automatically fetch thumbnails from YouTube, Vimeo, etc.')),
         TextField('max_upload_size', label_text=_('Max. allowed upload file size in megabytes'), validator=MegaByteValidator(not_empty=True, min=0)),
-        ListFieldSet('remote_ftp', suppress_label=True, legend=_('Remote FTP Storage Settings (Optional)'), css_classes=['details_fieldset'], children=[
-            boolean_radiobuttonlist('ftp_storage', label_text=_('Enable Remote FTP Storage for Uploaded Files?')),
-            TextField('ftp_server', label_text=_('FTP Server Hostname')),
-            TextField('ftp_user', label_text=_('FTP Username')),
-            TextField('ftp_password', label_text=_('FTP Password')),
-            TextField('ftp_upload_directory', label_text=_('Subdirectory on server to upload to')),
-            TextField('ftp_download_url', label_text=_('HTTP URL to access remotely stored files')),
-            TextField('ftp_upload_integrity_retries', label_text=_('How many times should MediaCore try to verify the FTP upload before declaring it a failure?'), validator=Int()),
-        ]),
         ListFieldSet('legal_wording', suppress_label=True, legend=_('Legal Wording:'), css_classes=['details_fieldset'], children=[
             XHTMLTextArea('wording_user_uploads', label_text=_('User Uploads'), attrs=dict(rows=15, cols=25)),
         ]),
