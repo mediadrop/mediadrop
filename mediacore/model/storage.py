@@ -21,8 +21,8 @@ from datetime import datetime
 from sqlalchemy import Column, sql, Table
 from sqlalchemy.orm import column_property, dynamic_loader, mapper
 from sqlalchemy.orm.interfaces import MapperExtension
-from sqlalchemy.types import (Boolean, DateTime, Integer, Text, TypeDecorator,
-    Unicode)
+from sqlalchemy.types import (Boolean, DateTime, Integer, MutableType, Text,
+    TypeDecorator, Unicode)
 
 from mediacore.lib.storage import StorageEngine
 from mediacore.model.media import MediaFile, MediaFileQuery, media_files
@@ -30,7 +30,16 @@ from mediacore.model.meta import DBSession, metadata
 
 log = logging.getLogger(__name__)
 
-class Json(TypeDecorator):
+class JsonType(MutableType, TypeDecorator):
+    """
+    JSON Type Decorator
+
+    This converts JSON strings to python objects and vice-versa when
+    working with SQLAlchemy Tables. The resulting python objects are
+    mutable: SQLAlchemy will be aware of any changes you make within
+    them, and they're saved automatically.
+
+    """
     impl = Text
 
     def process_bind_param(self, value, dialect, dumps=simplejson.dumps):
@@ -38,6 +47,9 @@ class Json(TypeDecorator):
 
     def process_result_value(self, value, dialect, loads=simplejson.loads):
         return loads(value)
+
+    def copy_value(self, value, loads=simplejson.loads, dumps=simplejson.dumps):
+        return loads(dumps(value))
 
 storage = Table('storage', metadata,
     Column('id', Integer, primary_key=True, autoincrement=True),
@@ -47,7 +59,7 @@ storage = Table('storage', metadata,
     Column('created_on', DateTime, nullable=False, default=datetime.now),
     Column('modified_on', DateTime, nullable=False, default=datetime.now,
                                                     onupdate=datetime.now),
-    Column('data', Json, nullable=False, default=dict),
+    Column('data', JsonType, nullable=False, default=dict),
     mysql_engine='InnoDB',
     mysql_charset='utf8',
 )
