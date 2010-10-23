@@ -18,7 +18,10 @@ from pylons.i18n import N_ as _
 
 from mediacore.forms import ListFieldSet, TextField
 from mediacore.forms.admin.storage import StorageForm
-from mediacore.lib.storage.ftp import FTP_SERVER
+from mediacore.lib.storage.ftp import (FTP_SERVER,
+    FTP_USERNAME, FTP_PASSWORD,
+    FTP_UPLOAD_DIR, FTP_MAX_INTEGRITY_RETRIES,
+    HTTP_DOWNLOAD_URI, RTMP_SERVER_URI)
 
 class FTPStorageForm(StorageForm):
 
@@ -33,7 +36,7 @@ class FTPStorageForm(StorageForm):
                 TextField('upload_dir', label_text=_('Subdirectory on server to upload to')),
                 TextField('upload_integrity_retries', label_text=_('How many times should MediaCore try to verify the FTP upload before declaring it a failure?'), validator=Int()),
                 TextField('http_download_uri', label_text=_('HTTP URL to access remotely stored files')),
-                TextField('rtmp_download_uri', label_text=_('RTMP Server URL to stream remotely stored files (Optional)')),
+                TextField('rtmp_server_uri', label_text=_('RTMP Server URL to stream remotely stored files (Optional)')),
             ]
         ),
     ] + StorageForm.buttons
@@ -41,12 +44,18 @@ class FTPStorageForm(StorageForm):
     def display(self, value, **kwargs):
         """Display the form with default values from the engine param."""
         engine = kwargs['engine']
-        specifics = value.setdefault('specifics', {})
-        specifics.setdefault('path', engine._data.get('path', None))
-        specifics.setdefault('rtmp_server_uri', engine._data.get('rtmp_server_uri', None))
+        data = engine._data
+        ftp = value.setdefault('ftp', {})
+        ftp.setdefault('server', data.get(FTP_SERVER, None))
+        ftp.setdefault('user', data.get(FTP_USERNAME, None))
+        ftp.setdefault('password', data.get(FTP_PASSWORD, None))
+        ftp.setdefault('upload_dir', data.get(FTP_UPLOAD_DIR, None))
+        ftp.setdefault('upload_integrity_retries', data.get(FTP_MAX_INTEGRITY_RETRIES, None))
+        ftp.setdefault('http_download_uri', data.get(HTTP_DOWNLOAD_URI, None))
+        ftp.setdefault('rtmp_server_uri', data.get(RTMP_SERVER_URI, None))
         return StorageForm.display(self, value, **kwargs)
 
-    def save_engine_params(self, engine, specifics=None, **kwargs):
+    def save_engine_params(self, engine, **kwargs):
         """Map validated field values to engine data.
 
         Since form widgets may be nested or named differently than the keys
@@ -61,5 +70,12 @@ class FTPStorageForm(StorageForm):
             behaviour as with the @validate decorator.
 
         """
-        engine._data['path'] = specifics['path'] or None
-        engine._data['rtmp_server_uri'] = specifics['rtmp_server_uri'] or None
+        StorageForm.save_engine_params(self, engine, **kwargs)
+        ftp = kwargs['ftp']
+        engine._data[FTP_SERVER] = ftp['server']
+        engine._data[FTP_USERNAME] = ftp['user']
+        engine._data[FTP_PASSWORD] = ftp['password']
+        engine._data[FTP_UPLOAD_DIR] = ftp['upload_dir']
+        engine._data[FTP_MAX_INTEGRITY_RETRIES] = ftp['upload_integrity_retries']
+        engine._data[HTTP_DOWNLOAD_URI] = ftp['http_download_uri']
+        engine._data[RTMP_SERVER_URI] = ftp['rtmp_server_uri']
