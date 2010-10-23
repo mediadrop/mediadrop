@@ -140,8 +140,11 @@ class FTPStorage(FileStorageEngine):
 
         """
         url = os.path.join(self._data[HTTP_DOWNLOAD_URI], file.unique_id)
-        # TODO: Support RTMP
-        return [StorageURI(file, 'http', url, None)]
+        uris = [StorageURI(file, 'http', url, None)]
+        rtmp_server = self._data.get(RTMP_SERVER_URI, None)
+        if rtmp_server:
+            uris.append(StorageURI(file, 'rtmp', file.unique_id, rtmp_server))
+        return uris
 
     def _connect(self):
         """Open a connection to the FTP server."""
