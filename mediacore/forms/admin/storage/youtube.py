@@ -53,7 +53,7 @@ class YoutubeStorageForm(StorageForm):
             player.setdefault(x, player_data.get(x, False))
         return StorageForm.display(self, value, **kwargs)
 
-    def save_engine_params(self, engine, player=None, **kwargs):
+    def save_engine_params(self, engine, **kwargs):
         """Map validated field values to engine data.
 
         Since form widgets may be nested or named differently than the keys
@@ -68,6 +68,8 @@ class YoutubeStorageForm(StorageForm):
             behaviour as with the @validate decorator.
 
         """
+        StorageForm.save_engine_params(self, engine, **kwargs)
+        player = kwargs['player']
         engine._data['nocookie'] = player['nocookie']
         player_params = engine._data['player_params']
         for x in self.player_params:

@@ -45,7 +45,7 @@ class LocalFileStorageForm(StorageForm):
         specifics.setdefault('rtmp_server_uri', engine._data.get('rtmp_server_uri', None))
         return StorageForm.display(self, value, **kwargs)
 
-    def save_engine_params(self, engine, specifics=None, **kwargs):
+    def save_engine_params(self, engine, **kwargs):
         """Map validated field values to engine data.
 
         Since form widgets may be nested or named differently than the keys
@@ -60,5 +60,7 @@ class LocalFileStorageForm(StorageForm):
             behaviour as with the @validate decorator.
 
         """
+        StorageForm.save_engine_params(self, engine, **kwargs)
+        specifics = kwargs['specifics']
         engine._data['path'] = specifics['path'] or None
         engine._data['rtmp_server_uri'] = specifics['rtmp_server_uri'] or None

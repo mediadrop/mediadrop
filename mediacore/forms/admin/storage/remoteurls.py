@@ -96,6 +96,7 @@ class RemoteURLStorageForm(StorageForm):
             behaviour as with the @validate decorator.
 
         """
+        StorageForm.save_engine_params(self, engine, **kwargs)
         rtmp = kwargs.get('rtmp', {})
         rtmp_servers = rtmp.get('known_servers', ())
         engine._data['rtmp_server_uris'] = [x for x in rtmp_servers if x]

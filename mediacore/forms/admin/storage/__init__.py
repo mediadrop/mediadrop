@@ -50,12 +50,12 @@ class StorageForm(ListForm):
         SubmitButton('save',
             default=_('Save'),
             named_button=True,
-            css_classes=['btn', 'btn-save', 'green', 'f-rgt'],
+            css_classes=['btn', 'btn-save', 'blue', 'f-rgt'],
         ),
         SubmitButton('delete',
             default=_('Delete'),
             named_button=True,
-            css_classes=['btn', 'btn-delete', 'grey', 'f-lft'],
+            css_classes=['btn', 'btn-delete', 'f-lft'],
         ),
     ]
 
@@ -64,7 +64,7 @@ class StorageForm(ListForm):
         engine = kwargs['engine']
         general = value.setdefault('general', {})
         if not general.get('display_name', None):
-            general['display_name'] = engine.default_name
+            general['display_name'] = engine.display_name
         return ListForm.display(self, value, **kwargs)
 
     def save_engine_params(self, engine, general, **kwargs):
