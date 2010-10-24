@@ -55,6 +55,7 @@
 			<py:choose>
 				<h1 py:when="search" i18n:msg="search">Media that matches '${search}'</h1>
 				<h1 py:when="podcast_filter_title" i18n:msg="podcastFilterTitle">${podcast_filter_title} Episodes</h1>
+				<h1 py:when="media_filter" i18n:msg="filter">${media_filter.title()} Media</h1>
 				<h1 py:otherwise="">All Media</h1>
 			</py:choose>
 			<div class="f-rgt">
@@ -82,7 +83,7 @@
 								<li><span class="selected">All Media</span></li>
 								<li><a href="${h.url_for(filter='unreviewed')}">Unreviewed</a></li>
 								<li><a href="${h.url_for(filter='unencoded')}">Unencoded</a></li>
-								<li><a href="${h.url_for(filter='drafts')}">Drafts</a></li>
+								<li><a href="${h.url_for(filter='draft')}">Drafts</a></li>
 								<li><a href="${h.url_for(filter='published')}">Published</a></li>
 							</ol>
 						</div>

@@ -194,6 +194,17 @@ class MediaQuery(Query):
     def encoded(self, flag=True):
         return self.filter(Media.encoded == flag)
 
+    def drafts(self, flag=True):
+        drafts = sql.and_(
+            Media.publishable == False,
+            Media.reviewed == True,
+            Media.encoded == True,
+        )
+        if flag:
+            return self.filter(drafts)
+        else:
+            return self.filter(sql.not_(drafts))
+
     def published(self, flag=True):
         published = sql.and_(
             Media.reviewed == True,
