@@ -20,7 +20,7 @@ from pylons import app_globals
 from pylons.templating import pylons_globals
 from tw import forms
 from tw.api import JSLink, JSSource
-from tw.forms import FileField, ListFieldSet, TextArea as tw_TA, TextField as tw_TF
+from tw.forms import FileField, TextArea as tw_TA, TextField as tw_TF
 from tw.forms.validators import Email
 
 from mediacore.lib.helpers import clean_xhtml, decode_entities, line_break_xhtml, url_for
@@ -100,6 +100,9 @@ class TableForm(LeniantValidationMixin, GlobalMixin, forms.TableForm):
 
 class CheckBoxList(GlobalMixin, forms.CheckBoxList):
     pass
+
+class ListFieldSet(forms.ListFieldSet):
+    template = 'forms/fieldset.html'
 
 class XHTMLEntityValidator(FancyValidator):
     def _to_python(self, value, state=None):
