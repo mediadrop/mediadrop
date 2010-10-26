@@ -18,8 +18,8 @@ from types import NoneType
 
 # Module description following the guidelines at:
 # http://bayes.colorado.edu/PythonGuidelines.html#module_formatting
-__version__ = '0.8.2'
-__status__ = 'Production'
+__version__ = '0.9.0dev'
+__status__ = 'Alpha'
 __copyright__ = 'Copyright 2009-2010, Simple Station Inc.'
 __license__ = 'GPLv3'
 __email__ = 'info@simplestation.com'
