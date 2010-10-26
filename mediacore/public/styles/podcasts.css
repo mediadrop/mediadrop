@@ -89,5 +89,8 @@
 }
 .podcast-box .feat-top {
 	padding-top: 1px;
+}
+.podcast-box .feat-top,
+.podcast-box .feat-top .feat-vr {
 	height: 9px;
 }
