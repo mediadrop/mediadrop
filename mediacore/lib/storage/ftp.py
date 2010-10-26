@@ -23,7 +23,7 @@ from formencode import Invalid
 from pylons.i18n import N_
 
 from mediacore.lib.compat import sha1
-from mediacore.lib.storage import (default_file_name, StorageURI,
+from mediacore.lib.storage import (safe_file_name, StorageURI,
     FileStorageEngine, UnsuitableEngineError)
 
 log = logging.getLogger(__name__)
@@ -83,7 +83,7 @@ class FTPStorage(FileStorageEngine):
         :raises FTPUploadError: If storing the file fails.
 
         """
-        file_name = default_file_name(media_file)
+        file_name = safe_file_name(media_file, file.filename)
 
         file_url = os.path.join(self._data[HTTP_DOWNLOAD_URI], file_name)
         upload_dir = self._data[FTP_UPLOAD_DIR]

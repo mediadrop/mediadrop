@@ -527,11 +527,40 @@ def default_display_name(file=None, url=None):
         return file.filename
     return os.path.basename(url or '')
 
-def default_file_name(media_file):
-    media = media_file.media
-    file_name = '%d_%d_%s.%s' % (media.id, media_file.id, media.slug,
-                                 media_file.container)
-    return file_name
+_filename_filter = re.compile(r'[^a-z0-9_-]')
+
+def safe_file_name(media_file, hint=None):
+    """Return a safe filename for the given MediaFile.
+
+    The base path, extension and non-alphanumeric characters are
+    stripped from the filename hint so all that remains is what the
+    user named the file, to give some idea of what the file contains
+    when viewing the filesystem.
+
+    :param media_file: A :class:`~mediacore.model.media.MediaFile`
+        instance that has been flushed to the database.
+    :param hint: Optionally the filename provided by the user.
+    :returns: A filename with the MediaFile.id, a filtered hint
+        and the MediaFile.container.
+
+    """
+    if not isinstance(hint, basestring):
+        hint = u''
+    # Prevent malicious paths like /etc/passwd
+    hint = os.path.basename(hint)
+    # IE provides full file paths instead of names C:\path\to\file.mp4
+    hint = hint.rpartition('\\')[2]
+    hint, orig_ext = os.path.splitext(hint)
+    hint = hint.lower()
+    # Remove any non-alphanumeric characters
+    hint = _filename_filter.sub('', hint)
+    if hint:
+        hint = u'-%s' % hint
+    if media_file.container:
+        ext = u'.%s' % media_file.container
+    else:
+        ext = u''
+    return u'%d%s%s' % (media_file.id, hint, ext)
 
 from mediacore.lib.storage.localfiles import LocalFileStorage
 from mediacore.lib.storage.ftp import FTPStorage

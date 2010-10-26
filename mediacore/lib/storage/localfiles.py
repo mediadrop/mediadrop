@@ -23,7 +23,7 @@ from pylons.i18n import N_
 
 from mediacore.forms.admin.storage.localfiles import LocalFileStorageForm
 from mediacore.lib.helpers import delete_files, url_for
-from mediacore.lib.storage import (default_file_name, StorageURI,
+from mediacore.lib.storage import (safe_file_name, StorageURI,
     FileStorageEngine, UnsuitableEngineError)
 
 class LocalFileStorage(FileStorageEngine):
@@ -56,7 +56,7 @@ class LocalFileStorage(FileStorageEngine):
         :returns: The unique ID string. Return None if not generating it here.
 
         """
-        file_name = default_file_name(media_file)
+        file_name = safe_file_name(media_file, file.filename)
         file_path = self._get_path(file_name)
 
         temp_file = file.file
