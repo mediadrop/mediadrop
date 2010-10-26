@@ -748,3 +748,14 @@ def merge_dicts(dst, src):
                 stack.append((current_dst[key], current_src[key]))
             else:
                 current_dst[key] = current_src[key]
+
+def dict_merged_with_defaults(value, defaults):
+    """Return a new dict with the given values merged into the defaults.
+
+    This is shorthand that's useful when combining default values
+    for a tree of form fields and the user input.
+    """
+    new_value = {}
+    merge_dicts(new_value, defaults)
+    merge_dicts(new_value, value)
+    return new_value
