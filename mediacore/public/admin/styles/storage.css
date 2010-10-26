@@ -1,0 +1,51 @@
+.status-enabled,
+.status-disabled {
+	width: 16px;
+	height: 12px;
+	padding-left: 16px;
+	background-position: 0 -2px;
+}
+.status-enabled {
+	background-image: url('../images/icons/green.png');
+}
+.status-disabled {
+	background-image: url('../images/icons/grey.png');
+}
+
+#storage-table th#h-status,
+#storage-table td[headers='h-status'] {
+	padding-right: 0;
+}
+#storage-table td[headers='h-status'] {
+	text-align: center;
+	padding-top: 12px;
+}
+.storageform li {
+	margin: 10px 0;
+}
+.storageform legend {
+	font-weight: bold;
+	padding-bottom: 10px;
+	display: block;
+}
+.storageform label {
+	padding-bottom: 5px;
+	display: block;
+}
+.storageform .fieldhelp {
+	font-size: 12px;
+	padding-top: 2px;
+	color: #9B9B9B;
+	display: block;
+}
+.storageform #player li {
+	position: relative;
+}
+.storageform #player input {
+	position: absolute;
+	top: 3px;
+	left: 0;
+}
+.storageform #player label {
+	margin-left: 30px;
+}
