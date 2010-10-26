@@ -83,28 +83,3 @@ class StorageForm(ListForm):
 
         """
         engine.display_name = general['display_name']
-
-    def _nest_values_for_form(self, orig_values, form=None):
-        """Create a dict of setting values nested to match the form."""
-        if form is None:
-            form = self
-        form_values = {}
-        for field in form.c:
-            if isinstance(field, _ContainerMixin):
-                form_values[field._name] = self._nest_values_for_form(orig_values, form=field)
-            elif field._name in orig_values:
-                form_values[field._name] = orig_values[field._name]
-        return form_values
-
-    def _flatten_values_from_form(self, orig_values, form_values, form=None):
-        """Take a nested dict and return a flat dict of setting values."""
-        if form is None:
-            form = self
-        new_values = {}
-        for field in form.c:
-            if isinstance(field, _ContainerMixin):
-                x = self._flatten_values_from_form(orig_values, form_values[field._name], form=field)
-                new_values.update(x)
-            elif field._name in orig_values:
-                new_values[field._name] = form_values[field._name]
-        return new_values
