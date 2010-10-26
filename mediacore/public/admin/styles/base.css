@@ -287,28 +287,28 @@ table.box-content {
 }
 
 
-table {
+.box > table {
 	background: #fff;
 	width: 100%;
 	color: #3c4d5a;
 }
-tr td {
+.box > table tr td {
 	vertical-align: middle;
 	padding: 10px;
 	border-top: 1px solid #b3c4d0;
 }
 /* omit the top border for the first td in the table
  * allows for a missing thead and no tbody */
-table > tr:first-child > td,
-table > thead:first-child > tr:first-child td {
+.box > table > tr:first-child > td,
+.box > table > thead:first-child > tr:first-child td {
 	border-top: 0;
 }
 .box > table > *:first-child > tr:first-child > * {
 	border-top: 0;
 }
 /* thead/th is used for blue column labels */
-thead tr th,
-tr.thead-row td {
+.box > table > thead > tr > th,
+.box > table > tbody > tr.thead-row td {
 	background: #d0e9f7 url('../images/layout/table-head.png') repeat-x top;
 	color: #627789;
 	width: 100%;
@@ -321,7 +321,7 @@ tr.thead-row td {
 	padding: 10px;
 	white-space: nowrap;
 }
-tr.thead-row td h3 {
+.box > table > tbody > tr.thead-row td h3 {
 	padding-top: 3px;
 	font-size: 18px;
 	font-weight: bold;
