@@ -123,8 +123,11 @@ installation and virtual environment.
         Allow from all
     </Directory>
 
-    # Create exceptions for all static content
-    AliasMatch /my_media/(admin/)?(images|scripts|styles)(/?.*) /path/to/mediacore_install/mediacore/public/$1$2$3
+    # Create an exception for media and podcast image from your data directory
+    AliasMatch /my_media/images/(media|podcasts)(.*) /path/to/mediacore_install/data/images/$1$2
+
+    # Create an exception for all static mediacore content
+    AliasMatch /my_media/(admin/)?(images|scripts|styles)(.*) /path/to/mediacore_install/mediacore/public/$1$2$3
 
     # Make all the static content accessible
     <Directory /path/to/mediacore_install/mediacore/public/*>

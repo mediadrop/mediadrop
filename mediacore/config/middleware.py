@@ -22,6 +22,7 @@ from genshi.template import loader
 from genshi.template.plugin import MarkupTemplateEnginePlugin
 from paste.cascade import Cascade
 from paste.registry import RegistryManager
+from paste.urlmap import URLMap
 from paste.urlparser import StaticURLParser
 from paste.deploy.converters import asbool
 from paste.deploy.config import PrefixMiddleware
@@ -180,9 +181,21 @@ def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
     app = RegistryManager(app)
 
     if asbool(static_files):
-        # Serve static files
-        static_app = StaticURLParser(config['pylons.paths']['static_files'])
-        app = Cascade([static_app] + plugin_mgr.static_url_apps() + [app])
+        # Serve static files from our public directory
+        public_app = StaticURLParser(config['pylons.paths']['static_files'])
+
+        static_urlmap = URLMap()
+        # Serve static files from all plugins
+        for dir, path in plugin_mgr.public_paths().iteritems():
+            static_urlmap[dir] = StaticURLParser(path)
+
+        # Serve static media and podcast images from outside our public directory
+        for image_type in ('media', 'podcasts'):
+            dir = '/images/' + image_type
+            path = os.path.join(config['image_dir'], image_type)
+            static_urlmap[dir] = StaticURLParser(path)
+
+        app = Cascade([public_app, static_urlmap, app])
 
     app.config = config
     return app

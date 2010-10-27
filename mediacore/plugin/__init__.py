@@ -59,35 +59,16 @@ class PluginManager(object):
     def public_paths(self):
         """Return a dict of all 'public' folders in the loaded plugins.
 
-        :returns: A dict keyed by the plugin module name, the value being
-            the absolute path to the directory of public static files.
+        :returns: A dict keyed by the plugin public directory for use in
+            URLs, the value being the absolute path to the directory that
+            contains the static files.
         """
         paths = {}
         for name, plugin in self.plugins.iteritems():
             if plugin.public_path:
-                paths[name] = plugin.public_path
+                paths['/' + name + '/public'] = plugin.public_path
         log.debug('Public paths: %r', paths)
         return paths
-
-    def static_url_apps(self):
-        """Return apps to serve static files for all the plugins.
-
-        Static files for plugins are served out at this URL::
-
-            {plugin.name}/public/
-
-        By using a predefined subdirectory, it is possible to define Apache
-        Aliases to serve these files for improved performance.
-
-        :returns: A list of WSGI apps.
-        """
-        public_paths = self.public_paths()
-        if not public_paths:
-            return []
-        plugin_urls = URLMap()
-        for dirname, path in public_paths.iteritems():
-            plugin_urls['/' + dirname + '/public'] = StaticURLParser(path)
-        return [plugin_urls]
 
     def template_loaders(self):
         """Return genshi loaders for all the plugins that provide templates.
