@@ -13,7 +13,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from collections import defaultdict
+from itertools import chain
+
+from mediacore.lib.compat import defaultdict
 
 class AbstractMetaClass(type):
     """
@@ -49,8 +51,7 @@ class AbstractMetaClass(type):
                 cls_attr = getattr(cls, name, None)
                 if getattr(cls_attr, '_isabstract', False):
                     abstracts.add(name)
-        if abstracts:
-            AbstractMetaClass._abstracts[cls] = abstracts
+        AbstractMetaClass._abstracts[cls] = abstracts
         return cls
 
     def register(cls, subclass):
@@ -74,10 +75,14 @@ class AbstractMetaClass(type):
                 'Cannot register %r under %r because it contains abstract '
                 'methods/properties: %s' % (subclass, cls, ', '.join(missing))
             )
-        # Register the subclass for this abstract class and all its bases
-        for base in cls.__mro__:
+        # Register the subclass, calling observers all the way up the
+        # inheritance tree as we go.
+        for base in chain((subclass,), cls.__mro__):
             if base.__class__ is AbstractMetaClass:
-                AbstractMetaClass._registry[base].append(subclass)
+                if base is subclass:
+                    AbstractMetaClass._registry[base]
+                else:
+                    AbstractMetaClass._registry[base].append(subclass)
                 for observer in AbstractMetaClass._observers.get(base, ()):
                     observer(subclass)
 
@@ -130,7 +135,8 @@ class abstractproperty(property):
 def isabstract(x):
     """Return True if given an abstract class, method, or property."""
     if isinstance(x, AbstractMetaClass):
-        return bool(AbstractMetaClass._abstracts.get(x, ()))
+        return x in AbstractMetaClass._registry \
+            and not AbstractMetaClass._abstracts.get(x, ())
     elif isinstance(x, (abstractmethod, abstractproperty)):
         return x._isabstract
     else:
