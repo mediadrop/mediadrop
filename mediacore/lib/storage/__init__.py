@@ -23,7 +23,6 @@ from operator import attrgetter
 from shutil import copyfileobj
 from urllib2 import URLError, urlopen
 
-from formencode import Invalid
 from pylons import app_globals
 from pylons.i18n import _
 
@@ -390,7 +389,7 @@ def add_new_media_file(media, file=None, url=None):
     :param url: A remote URL string.
     :rtype: :class:`~mediacore.model.media.MediaFile`
     :returns: A newly created media file instance.
-    :raises formencode.Invalid: If the input file or URL cannot be
+    :raises StorageError: If the input file or URL cannot be
         stored with any of the registered storage engines.
 
     """
@@ -408,7 +407,7 @@ def add_new_media_file(media, file=None, url=None):
             log.debug('Engine %r unsuitable for %r/%r', engine, file, url)
             continue
     else:
-        raise Invalid(_('Unusable file or URL provided.'), None, None)
+        raise StorageError(_('Unusable file or URL provided.'), None, None)
 
     mf = MediaFile()
     mf.storage = engine
