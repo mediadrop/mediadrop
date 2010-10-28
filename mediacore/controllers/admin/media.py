@@ -342,16 +342,19 @@ class MediaController(BaseController):
 
 
     @expose('json')
-    @validate(edit_file_form)
     @observable(events.Admin.MediaController.edit_file)
     def edit_file(self, id, file_id, file_type=None, duration=None, delete=None, bitrate=None, width_height=None, **kwargs):
         """Save action for the :class:`~mediacore.forms.admin.media.EditFileForm`.
 
         Changes or delets a :class:`~mediacore.model.media.MediaFile`.
 
-        XXX: If the edit_file_form schema did not validate, we will be passed
-             the unvalidated keyword arguments. This is handled in the second
-             case in the if-elif-block below.
+        XXX: We do NOT use the @validate decorator due to complications with
+             partial validation. The JS sends only the value it wishes to
+             change, so we only want to validate that one value.
+             FancyValidator.if_missing seems to eat empty values and assign
+             them None, but there's an important difference to us between
+             None (no value from the user) and an empty value (the user
+             is clearing the value of a field).
 
         :param id: Media ID
         :type id: :class:`int`
@@ -370,40 +373,43 @@ class MediaController(BaseController):
         data = dict(success=False)
         file_id = int(file_id) # Just in case validation failed somewhere.
 
-        try:
-            file = [file for file in media.files if file.id == file_id][0]
-        except IndexError:
+        for file in media.files:
+            if file.id == file_id:
+                break
+        else:
             file = None
 
-        if file is None:
-            data['message'] = _('File "%s" does not exist.') % file_id
-        elif tmpl_context.form_errors:
-            # Catch the case where the form did not validate.
-            # Here, we choose to just display the first error, if there is one.
-            data['message'] = tmpl_context.form_errors.values()[0]
-        elif file_type:
-            file.type = file_type
-            data['success'] = True
-        elif duration is not None:
-            media.duration = duration
-            data['success'] = True
-            data['duration'] = helpers.duration_from_seconds(duration)
-        elif width_height is not None:
-            file.width, file.height = width_height
-            data['success'] = True
-        elif bitrate is not None:
-            file.bitrate = bitrate
-            data['success'] = True
-        elif delete:
-            storage = file.storage
-            unique_id = file.unique_id
-            DBSession.delete(file)
-            DBSession.flush()
-            storage.delete(unique_id)
-            media = fetch_row(Media, id)
-            data['success'] = True
-        else:
-            data['message'] = _('No action to perform.')
+        fields = edit_file_form.c
+        try:
+            if file is None:
+                data['message'] = _('File "%s" does not exist.') % file_id
+            elif file_type:
+                file.type = fields.file_type.validate(file_type)
+                data['success'] = True
+            elif duration is not None:
+                media.duration = duration = fields.duration.validate(duration)
+                data['success'] = True
+                data['duration'] = helpers.duration_from_seconds(media.duration)
+            elif width_height is not None:
+                width_height = fields.width_height.validate(width_height)
+                file.width, file.height = width_height or (0, 0)
+                data['success'] = True
+            elif bitrate is not None:
+                file.bitrate = fields.bitrate.validate(bitrate)
+                data['success'] = True
+            elif delete:
+                storage = file.storage
+                unique_id = file.unique_id
+                DBSession.delete(file)
+                DBSession.flush()
+                storage.delete(unique_id)
+                media = fetch_row(Media, id)
+                data['success'] = True
+            else:
+                data['message'] = _('No action to perform.')
+        except Invalid, e:
+            data['success'] = False
+            data['message'] = unicode(e)
 
         if data['success']:
             data['file_type'] = file.type
