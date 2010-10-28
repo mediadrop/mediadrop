@@ -35,11 +35,6 @@
 	</script>
 </head>
 <body class="menu-cattags-on">
-	<div class="center">
-		<a href="${h.url_for(controller='/admin/categories')}">Categories</a> |
-		<a href="${h.url_for(controller='/admin/tags')}" py:strip="">Tags</a>
-	</div>
-	<br/>
 	<div class="box">
 		<div class="box-head">
 			<h1>Tags</h1>
@@ -50,7 +45,6 @@
 			<thead>
 				<tr>
 					<th id="h-name" style="width:auto">Name</th>
-					<th id="h-slug" style="width:110px">Slug</th>
 					<th id="h-media_count" style="width:58px" class="center">Media</th>
 					<th style="width:63px"></th>
 				</tr>
@@ -76,7 +70,7 @@
 			<input py:for="field in ('name', 'slug')" type="hidden" name="${field}" value="" />
 			<p class="box-content">Are you sure you want to delete this tag?</p>
 			<div class="box-foot">
-				<button type="submit" name="delete" class="btn btn-delete f-rgt"><span>Delete</span></button>
+				<button type="submit" name="delete" class="btn red f-rgt"><span>Delete</span></button>
 			</div>
 		</form>
 	</div>

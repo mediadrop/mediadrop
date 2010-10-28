@@ -45,14 +45,6 @@
 	margin-bottom: 5px;
 }
 
-/* Categories and tags */
-#category-table .first-child td {
-	background: url('../images/layout/inset-shadow.png') repeat-x top;
-}
-#sbox-content #add-box .box-content,
-#sbox-content #edit-box .box-content {
-	padding-top: 0;
-}
 #generate_key{
 	font-size: 15px;
 	font-weight: bold;

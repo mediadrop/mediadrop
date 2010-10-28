@@ -19,13 +19,13 @@
       xmlns:xi="http://www.w3.org/2001/XInclude"
       py:strip="">
 
-	<py:def function="paginated_tfoot(paginator, colspan=1, radius=2, show_if_single_page=False)">
+	<py:def function="paginated_tfoot(paginator, colspan=1, radius=2, show_if_single_page=False, link_args={})">
 		<tfoot py:if="paginator.page_count > (not show_if_single_page and 1 or 0)" py:with="
 			leftmost_page = max(paginator.first_page, paginator.page - radius);
 			rightmost_page = min(paginator.last_page, paginator.page + radius);
 		">
 			<a py:def="pagelink(page, text=None, extraclass='')"
-			   href="${h.url_for(page=page)}"
+			   href="${h.url_for(page=page, **link_args)}"
 			   class="pager-link underline-hover btn inline ${extraclass}"><span>${text or page}</span></a>
 			<tr>
 				<td class="box-foot right" colspan="${colspan}">
