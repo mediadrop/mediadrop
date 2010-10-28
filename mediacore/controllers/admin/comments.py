@@ -37,7 +37,7 @@ search_form = SearchForm(action=url_for(controller='/admin/comments',
                                         action='index'))
 
 class CommentsController(BaseController):
-    allow_only = has_permission('admin')
+    allow_only = has_permission('edit')
 
     @expose_xhr('admin/comments/index.html',
                 'admin/comments/index-table.html')

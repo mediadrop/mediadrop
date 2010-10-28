@@ -33,7 +33,7 @@ category_form = CategoryForm()
 category_row_form = CategoryRowForm()
 
 class CategoriesController(BaseController):
-    allow_only = has_permission('admin')
+    allow_only = has_permission('edit')
 
     @expose('admin/categories/index.html')
     @observable(events.Admin.CategoriesController.index)

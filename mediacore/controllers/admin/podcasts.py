@@ -38,7 +38,7 @@ podcast_form = PodcastForm()
 thumb_form = ThumbForm()
 
 class PodcastsController(BaseController):
-    allow_only = has_permission('admin')
+    allow_only = has_permission('edit')
 
     @expose_xhr('admin/podcasts/index.html',
                 'admin/podcasts/index-table.html')

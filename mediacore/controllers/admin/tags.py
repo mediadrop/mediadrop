@@ -35,7 +35,7 @@ tag_form = TagForm()
 tag_row_form = TagRowForm()
 
 class TagsController(BaseController):
-    allow_only = has_permission('admin')
+    allow_only = has_permission('edit')
 
     @expose('admin/tags/index.html')
     @paginate('tags', items_per_page=25)

@@ -49,7 +49,7 @@ update_status_form = UpdateStatusForm()
 search_form = SearchForm(action=url_for(controller='/admin/media', action='index'))
 
 class MediaController(BaseController):
-    allow_only = has_permission('admin')
+    allow_only = has_permission('edit')
 
     @expose_xhr('admin/media/index.html', 'admin/media/index-table.html')
     @paginate('media', items_per_page=15)

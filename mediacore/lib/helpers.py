@@ -502,8 +502,18 @@ def is_admin():
     This method will need to be replaced when we improve our user
     access controls.
     """
-    groups = request.environ.get('repoze.who.identity', {}).get('groups', 0)
+    ident = request.environ.get('repoze.who.identity', {})
+    groups = ident.get('groups', 0)
     return groups and any(group.lower() == 'admins' for group in groups)
+
+def can_edit(item):
+    """Return True if the logged in user is a part of the Admins group.
+
+    NOTE: The item argument is provided for future use only.
+    """
+    ident = request.environ.get('repoze.who.identity', {})
+    perms = ident.get('permissions', 0)
+    return perms and any(perm.lower() == 'edit' for perm in perms)
 
 def gravatar_from_email(email, size):
     """Return the URL for a gravatar image matching the povided email address.

@@ -30,7 +30,7 @@ log = logging.getLogger(__name__)
 
 class IndexController(BaseController):
     """Admin dashboard actions"""
-    allow_only = has_permission('admin')
+    allow_only = has_permission('edit')
 
     @expose('admin/index.html')
     @observable(events.Admin.IndexController.index)
