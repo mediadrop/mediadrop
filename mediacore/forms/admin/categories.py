@@ -20,7 +20,7 @@ from tw.forms.validators import NotEmpty
 
 from mediacore.model.categories import Category
 from mediacore.lib import helpers
-from mediacore.forms import Form, ListForm, SubmitButton, TextField
+from mediacore.forms import Form, ListForm, ResetButton, SubmitButton, TextField
 from mediacore.plugin import events
 
 def option_tree(cats):
@@ -41,10 +41,11 @@ class CategoryForm(ListForm):
     _name = 'vf'
 
     class fields(WidgetsList):
-        save = SubmitButton(default=_('Save'), named_button=True, css_classes=['f-rgt', 'btn', 'blue', 'btn-save'])
         name = TextField(validator=TextField.validator(not_empty=True), label_text=_('Name'))
         slug = TextField(validator=NotEmpty, label_text=_('Slug'))
         parent_id = SingleSelectField(label_text=_('Parent Category'), options=category_options)
+        cancel = ResetButton(default=_('Cancel'), css_classes=['btn', 'f-lft', 'btn-cancel'])
+        save = SubmitButton(default=_('Save'), named_button=True, css_classes=['f-rgt', 'btn', 'blue', 'btn-save'])
 
     def post_init(self, *args, **kwargs):
         events.Admin.CategoryForm(self)

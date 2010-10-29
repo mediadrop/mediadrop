@@ -97,7 +97,7 @@ var CrudTable = new Class({
 		deleteModal: 'delete-box',
 		deleteModalOptions: {
 			ajax: true,
-			focus: 'delete',
+			focus: 'cancel',
 			extraData: {'delete': 1}
 		},
 	},
@@ -391,7 +391,7 @@ var BulkDelete = new Class({
 			confirmButtonText: 'Delete',
 			confirmButtonClass: 'btn red f-rgt',
 			cancelButtonText: 'Cancel',
-			cancelButtonClass: 'btn f-rgt',
+			cancelButtonClass: 'btn f-lft',
 			focus: 'cancel'
 		},
 		refresh: false,

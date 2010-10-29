@@ -58,7 +58,12 @@ var User = new Class({
 		var confirmMgr = new ConfirmMgr({
 			onConfirm: this.doConfirm.pass(this.deleteForm, this),
 			header: 'Confirm Delete',
-			msg: 'Are you sure you want to delete this user?'
+			msg: 'Are you sure you want to delete this user?',
+			confirmButtonText: 'Delete',
+			confirmButtonClass: 'btn red f-rgt',
+			cancelButtonText: 'Cancel',
+			cancelButtonClass: 'btn f-lft',
+			focus: 'cancel'
 		});
 		$(this.deleteForm.elements['delete']).addEvent('click', confirmMgr.openConfirmDialog.bind(confirmMgr));
 		return this;

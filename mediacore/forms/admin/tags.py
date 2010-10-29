@@ -17,7 +17,7 @@ from pylons.i18n import N_ as _
 from tw.forms import HiddenField
 from tw.forms.validators import NotEmpty
 
-from mediacore.forms import Form, ListForm, SubmitButton, TextField, XHTMLEntityValidator
+from mediacore.forms import Form, ListForm, SubmitButton, ResetButton, TextField, XHTMLEntityValidator
 from mediacore.lib.helpers import excess_whitespace
 from mediacore.plugin import events
 
@@ -38,9 +38,10 @@ class TagForm(ListForm):
     _name = 'vf'
 
     fields = [
-        SubmitButton('save', default=_('Save'), css_classes=['f-rgt', 'btn', 'blue', 'btn-save']),
         TextField('name', label_text=_('Name'), css_classes=['tag-name'], validator=TagNameValidator(not_empty=True)),
         TextField('slug', label_text=_('Slug'), css_classes=['tag-slug'], validator=NotEmpty),
+        ResetButton('cancel', default=_('Cancel'), css_classes=['btn', 'f-lft', 'btn-cancel']),
+        SubmitButton('save', default=_('Save'), css_classes=['f-rgt', 'btn', 'blue', 'btn-save']),
     ]
 
     def post_init(self, *args, **kwargs):

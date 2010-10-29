@@ -103,6 +103,8 @@ var ModalForm = new Class({
 			var slugField = $(this.form.elements['slug']);
 			slugifyField.addEvent('keyup', this._slugify.bindWithEvent(this, [slugField, slugifyField]));
 		}
+		var cancelBtn = this.form.getElement('button[type=reset]');
+		if (cancelBtn) cancelBtn.addEvent('click', this.close.bind(this));
 		return this.addEvent('complete', this._resetOnComplete.bind(this), true);
 	},
 
