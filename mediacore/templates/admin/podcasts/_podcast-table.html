@@ -59,7 +59,7 @@
 								<div py:strip="True"><strong>
 									<i18n:choose numeral="podcast.media_count" params="num">
 										<a i18n:singular="" href="${h.url_for(controller='admin/media', action='edit', id=podcast.media.first().id)}" class="view-episodes">View First Episode ${''}</a>
-										<a i18n:plural="" href="${h.url_for(controller='admin/media', podcast_filter=podcast.id, id=None)}" class="view-episodes">View All ${podcast.media_count} Episodes</a>
+										<a i18n:plural="" href="${h.url_for(controller='admin/media', podcast=podcast.slug, id=None)}" class="view-episodes">View All ${podcast.media_count} Episodes</a>
 									</i18n:choose></strong>
 								</div>
 							</div>
