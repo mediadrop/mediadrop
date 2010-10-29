@@ -268,8 +268,9 @@ var BulkTableManager = new Class({
 	Extends: TableManager,
 
 	attach: function(){
-		this.toggler = this.table.getElement('input.bulk-toggle')
-			.addEvent('click', this.onToggleCheckboxes.bind(this));
+		this.toggler = this.table.getElement('input.bulk-toggle');
+		if (!this.toggler) return;
+		this.toggler.addEvent('click', this.onToggleCheckboxes.bind(this));
 		this.table.addEvent('click:relay(input.bulk-checkbox)', this.onToggleCheckbox.bind(this));
 		var toggleOff = this.toggler.set.bind(this.toggler, ['checked', false]);
 		this.addEvents({
