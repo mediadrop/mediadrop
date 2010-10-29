@@ -90,14 +90,14 @@ class MediaController(BaseController):
 
         if not filter:
             pass
-        elif filter == 'published':
-             media = media.published()
         elif filter == 'unreviewed':
             media = media.reviewed(False)
         elif filter == 'unencoded':
-            media = media.encoded(False)
-        elif filter == 'draft':
+            media = media.reviewed().encoded(False)
+        elif filter == 'drafts':
             media = media.drafts()
+        elif filter == 'published':
+             media = media.published()
 
         podcast_filter_title = None
         if podcast_filter:

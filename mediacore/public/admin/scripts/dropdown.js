@@ -21,7 +21,7 @@ window.DropdownBase = new Class({
 	selectedLi: null,
 
 	initialize: function(button, content, options){
-		this.button = $(button);
+		this.button = $(button).store('Dropdown', this);
 		this.content = $(content);
 		this.contentTop = this.content.getPrevious('.dropdown-top');
 		this.contentBottom = this.content.getNext('.dropdown-bottom');
@@ -99,7 +99,9 @@ window.DropdownBase = new Class({
 			el = this.focusedLi;
 		}
 		if (this.selectedLi) this.selectedLi.removeClass('selected');
-		return this.selectedLi = el;
+		this.selectedLi = el;
+		this.fireEvent('change', [el]);
+		return el;
 	},
 
 	onBodyKeyDown: function(e){
@@ -178,8 +180,9 @@ window.DropdownSelect = new Class({
 		this.content = new Element('div', {'class': 'dropdown-content'});
 
 		var wrapper = new Element('div', {
+			'id': select.id ? select.id + '-dropdown' : null,
 			'class': 'dropdown-wrapper f-lft ' + select.name + '-dropdown',
-			'id': select.id ? select.id + '-dropdown' : null
+			'styles': select.style
 		}).adopt([
 			this.button,
 			new Element('div', {'class': 'dropdown-box'}).adopt([

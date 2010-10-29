@@ -45,7 +45,18 @@
 			var bulkReview = new BulkEdit(table, {
 				saveUrl: '${h.url_for(action='bulk', type='review')}'
 			});
-			$('bulk-review').addEvent('click', bulkReview.onClick.bind(bulkReview));
+			$$('bulk-review').addEvent('click', bulkReview.onClick.bind(bulkReview));
+
+			// XXX: This is a hack to set the selected filter on page load, instead of render time.
+			var dropdown = $$('filter-dropdown');
+			var selectedText = dropdown.getElement('li.selected span').get('text');
+			var button = dropdown.getElement('button.dropdown-toggle');
+			button.getElement('span').set('text', selectedText);
+			// XXX: There's a race condition here, but its a nonessential event.
+			var dd = button.retrieve('Dropdown', null);
+			if (dd) dd.addEvent('change', function(selected){
+				button.getElement('span').set('text', selected.get('text'));
+			});
 		});
 	</script>
 </head>
@@ -55,7 +66,10 @@
 			<py:choose>
 				<h1 py:when="search" i18n:msg="search">Media that matches '${search}'</h1>
 				<h1 py:when="podcast_filter_title" i18n:msg="podcastFilterTitle">${podcast_filter_title} Episodes</h1>
-				<h1 py:when="media_filter" i18n:msg="filter">${media_filter.title()} Media</h1>
+				<h1 py:when="media_filter == 'unreviewed'">Unreviewed Media</h1>
+				<h1 py:when="media_filter == 'unencoded'">Unencoded Media</h1>
+				<h1 py:when="media_filter == 'drafts'">Draft Media</h1>
+				<h1 py:when="media_filter == 'published'">Published Media</h1>
 				<h1 py:otherwise="">All Media</h1>
 			</py:choose>
 			<div class="f-rgt">
@@ -74,17 +88,27 @@
 						<div class="dropdown-bottom"><div /></div>
 					</div>
 				</div>
-				<div class="dropdown-wrapper f-lft" style="margin-right:10px;width:120px">
+				<div class="dropdown-wrapper f-lft" style="margin-right:10px;width:120px" id="filter-dropdown">
 					<button class="btn inline dropdown-toggle"><span>Filters</span></button>
 					<div class="dropdown-box">
 						<div class="dropdown-top"><div /></div>
 						<div class="dropdown-content">
 							<ol class="clearfix">
-								<li><span class="selected">All Media</span></li>
-								<li><a href="${h.url_for(filter='unreviewed')}">Unreviewed</a></li>
-								<li><a href="${h.url_for(filter='unencoded')}">Unencoded</a></li>
-								<li><a href="${h.url_for(filter='draft')}">Drafts</a></li>
-								<li><a href="${h.url_for(filter='published')}">Published</a></li>
+								<li py:with="filter = None" class="${media_filter == filter and 'selected' or None}">
+									<a href="${h.url_for(filter=filter)}" py:strip="filter == media_filter"><span py:strip="filter != media_filter">All Media</span></a>
+								</li>
+								<li py:with="filter = 'unreviewed'" class="${media_filter == filter and 'selected' or None}">
+									<a href="${h.url_for(filter=filter)}" py:strip="filter == media_filter"><span py:strip="filter != media_filter">Unreviewed</span></a>
+								</li>
+								<li py:with="filter = 'unencoded'" class="${media_filter == filter and 'selected' or None}">
+									<a href="${h.url_for(filter=filter)}" py:strip="filter == media_filter"><span py:strip="filter != media_filter">Unencoded</span></a>
+								</li>
+								<li py:with="filter = 'drafts'" class="${media_filter == filter and 'selected' or None}">
+									<a href="${h.url_for(filter=filter)}" py:strip="filter == media_filter"><span py:strip="filter != media_filter">Drafts</span></a>
+								</li>
+								<li py:with="filter = 'published'" class="${media_filter == filter and 'selected' or None}">
+									<a href="${h.url_for(filter=filter)}" py:strip="filter == media_filter"><span py:strip="filter != media_filter">Published</span></a>
+								</li>
 							</ol>
 						</div>
 						<div class="dropdown-bottom"><div /></div>
