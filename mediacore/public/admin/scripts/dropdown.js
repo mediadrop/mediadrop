@@ -93,7 +93,7 @@ window.DropdownBase = new Class({
 	select: function(e){
 		var el;
 		if ($type(e) == 'event') {
-			el = $(new Event(e).stop().target);
+			el = $(new Event(e).preventDefault().target);
 			if (el.get('tag') != 'li') el = el.getParent('li');
 		} else {
 			el = this.focusedLi;
@@ -108,14 +108,14 @@ window.DropdownBase = new Class({
 			case 'up':
 			case 'down':
 				this.focus(e.key);
-				e.stop();
+				e.preventDefault();
 				break;
 
 			case 'enter':
 				this.select();
 			case 'esc':
 				this.hide();
-				e.stop();
+				e.preventDefault();
 				break;
 		}
 	},
@@ -126,11 +126,11 @@ window.DropdownBase = new Class({
 			case 'up':
 			case 'down':
 				if (this.shown) return;
-				e.stop();
+				e.preventDefault();
 				this.show();
 				break;
 			case 'enter':
-				e.stop();
+				e.preventDefault();
 				if (this.shown) return this.select();
 				this.show();
 				break;
