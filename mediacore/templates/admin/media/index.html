@@ -96,20 +96,20 @@
 						<div class="dropdown-top"><div /></div>
 						<div class="dropdown-content">
 							<ol class="clearfix">
-								<li py:with="filter = None" class="${media_filter == filter and 'selected' or None}">
-									<a href="${h.url_for(filter=filter)}" py:strip="filter == media_filter"><span py:strip="filter != media_filter">All Media</span></a>
+								<li py:with="filter = None; selected = media_filter==filter" class="${selected and 'selected' or None}">
+									<a href="${h.url_for(filter=filter)}" py:strip="selected"><span py:strip="not selected">All Media</span></a>
 								</li>
-								<li py:with="filter = 'unreviewed'" class="${media_filter == filter and 'selected' or None}">
-									<a href="${h.url_for(filter=filter)}" py:strip="filter == media_filter"><span py:strip="filter != media_filter">Unreviewed</span></a>
+								<li py:with="filter = 'unreviewed'; selected = media_filter==filter" class="${selected and 'selected' or None}">
+									<a href="${h.url_for(filter=filter)}" py:strip="selected"><span py:strip="not selected">Unreviewed</span></a>
 								</li>
-								<li py:with="filter = 'unencoded'" class="${media_filter == filter and 'selected' or None}">
-									<a href="${h.url_for(filter=filter)}" py:strip="filter == media_filter"><span py:strip="filter != media_filter">Unencoded</span></a>
+								<li py:with="filter = 'unencoded'; selected = media_filter==filter" class="${selected and 'selected' or None}">
+									<a href="${h.url_for(filter=filter)}" py:strip="selected"><span py:strip="not selected">Unencoded</span></a>
 								</li>
-								<li py:with="filter = 'drafts'" class="${media_filter == filter and 'selected' or None}">
-									<a href="${h.url_for(filter=filter)}" py:strip="filter == media_filter"><span py:strip="filter != media_filter">Drafts</span></a>
+								<li py:with="filter = 'drafts'; selected = media_filter==filter" class="${selected and 'selected' or None}">
+									<a href="${h.url_for(filter=filter)}" py:strip="selected"><span py:strip="not selected">Drafts</span></a>
 								</li>
-								<li py:with="filter = 'published'" class="${media_filter == filter and 'selected' or None}">
-									<a href="${h.url_for(filter=filter)}" py:strip="filter == media_filter"><span py:strip="filter != media_filter">Published</span></a>
+								<li py:with="filter = 'published'; selected = media_filter==filter" class="${selected and 'selected' or None}">
+									<a href="${h.url_for(filter=filter)}" py:strip="selected"><span py:strip="not selected">Published</span></a>
 								</li>
 							</ol>
 						</div>
