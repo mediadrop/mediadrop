@@ -66,6 +66,10 @@ var TableManager = new Class({
 		return this.table;
 	},
 
+	isPaginated: function(){
+		return !!this.table.getElement('tfoot div.pager');
+	},
+
 	_getId: function(rowId){
 		return rowId.substr(this.options.prefix.length).toInt();
 	}
@@ -364,8 +368,6 @@ var BulkEdit = new Class({
 	onComplete: function(json){
 		if (json.rows) {
 			new Hash(json.rows).each(function(row, id){
-				console.log('updating ' + id);
-				console.log(row);
 				this.mgr.updateRow({id: id, row: row});
 			}, this);
 		}
@@ -388,14 +390,15 @@ var BulkDelete = new Class({
 			cancelButtonClass: 'btn f-rgt',
 			focus: 'cancel'
 		},
-		refresh: false
+		refresh: false,
+		refreshWhenPaginated: false
 	},
 
 	onComplete: function(json){
 		json.ids.each(function(id){
 			this.mgr.removeRow({id: id});
 		}, this);
-		if (this.options.refresh) window.location = window.location;
+		if (this.options.refresh || (this.options.refreshWhenPaginated && this.mgr.isPaginated())) window.location = window.location;
 		this.parent(json);
 	}
 

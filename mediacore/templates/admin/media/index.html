@@ -35,7 +35,7 @@
 			});
 			var bulkDelete = new BulkDelete(table, {
 				saveUrl: '${h.url_for(action='bulk', type='delete')}',
-				refresh: true
+				refreshWhenPaginated: true
 			});
 			$$('bulk-delete').addEvent('click', bulkDelete.onClick.bind(bulkDelete));
 			var bulkPublish = new BulkEdit(table, {
