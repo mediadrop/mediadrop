@@ -27,42 +27,6 @@ String.implement({
 });
 
 /**
- * Override Hash.toQueryString to make it work the same as Element.toQueryString when possible.
- * IE: {a: [1,2,3]} should be "a=1&a=2&a=3" not "a[0]=1&a[1]=2&a[2]=3"
- */
-Class.refactor(Hash, {
-
-	toQueryString: function(base){
-		var queryString = [];
-		Hash.each(this, function(value, key){
-			if (base) key = base + '[' + key + ']';
-			var result = [];
-			switch ($type(value)) {
-				case 'object': result = [Hash.toQueryString(value, key)]; break;
-				case 'array':
-					var containsComplexTypes = value.some(function(val){ return ['object', 'array'].contains($type(val)); });
-					if (containsComplexTypes) {
-						var qs = {};
-						value.each(function(val, i){
-							qs[i] = val;
-						});
-						result = [Hash.toQueryString(qs, key)];
-					} else {
-						value.each(function(val){
-							if (typeof val != 'undefined') result.push(key + '=' + encodeURIComponent(val));
-						});
-					}
-					break;
-				default: result = [key + '=' + encodeURIComponent(value)];
-			}
-			if (value != undefined) queryString.extend(result);
-		});
-		return queryString.join('&');
-	}
-
-});
-
-/**
  * <form> property that can get or set a hash of values.
  *
  * XXX: Element IDs should match field names, but only for checkbox/radio lists is this required.
