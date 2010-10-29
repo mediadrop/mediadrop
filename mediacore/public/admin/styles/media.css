@@ -55,7 +55,8 @@
 .status-unreviewed,
 .status-unencoded,
 .status-draft,
-.status-published {
+.status-published,
+.status-publishing {
 	padding-left: 22px;
 	background-repeat: no-repeat;
 	background-position: 0 50%
@@ -69,7 +70,8 @@
 .status-draft {
 	background-image: url('../images/icons/green.png');
 }
-.status-published {
+.status-published,
+.status-publishing {
 	background-image: url('../images/icons/blue.png');
 }
 

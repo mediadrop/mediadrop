@@ -50,17 +50,12 @@
 					    headers="h-publish_on"
 					/>
 					<td py:when="'created_on'" headers="h-created_on">${media.created_on.strftime('%b %d %Y')}</td>
-					<td py:when="'publish_status'" headers="h-status" py:choose="">
-						<div class="status-${media.status.lower()}">
-							<py:when test="not media.reviewed">Uploaded ${media.created_on and media.created_on.strftime('%b %d %Y').replace(h.datetime.now().strftime(' %Y'), '') or ''}</py:when>
-							<py:when test="not media.encoded">Encoding Pending</py:when>
-							<py:when test="not media.publishable">Draft</py:when>
-							<py:when test="not media.is_published">Publishing ${media.publish_on and media.publish_on.strftime('%b %d %Y').replace(h.datetime.now().strftime(' %Y'), '') or ''}</py:when>
-							<py:otherwise>${media.status} ${media.publish_on and media.publish_on.strftime('%b %d %Y').replace(h.datetime.now().strftime(' %Y'), '') or ''}</py:otherwise>
-						</div>
-					</td>
-					<td py:when="'status'" headers="h-status">
-						<div class="status-${media.status.lower()}">${media.status}</div>
+					<td py:when="'status'" headers="h-status" py:choose="">
+						<div py:when="not media.reviewed" class="status-unreviewed">Unreviewed</div>
+						<div py:when="not media.encoded" class="status-unencoded">Unencoded</div>
+						<div py:when="not media.publishable" class="status-draft">Draft</div>
+						<div py:when="media.is_published" class="status-published">Published</div>
+						<div py:otherwise="" class="status-publishing">Publishing...</div>
 					</td>
 					<td py:when="'title'" headers="h-title">
 						<a href="${h.url_for(controller='/admin/media', action='edit', id=media.id)}">${media.title}</a>
