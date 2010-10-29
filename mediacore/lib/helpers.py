@@ -439,7 +439,14 @@ def append_class_attr(attrs, class_name):
 
     """
     attrs = attrs_to_dict(attrs)
-    attrs['class'] = unicode(attrs.get('class', '') + ' ' + class_name).strip()
+    classes = attrs.get('class', None)
+    if not classes:
+        attrs['class'] = class_name
+        return attrs
+    class_list = classes.split(' ')
+    if class_name not in class_list:
+        classes.append(classes)
+        attrs['class'] = ' '.join(classes)
     return attrs
 
 excess_whitespace = re.compile('\s\s+', re.M)
