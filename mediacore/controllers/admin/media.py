@@ -623,14 +623,15 @@ class MediaController(BaseController):
         :type ids: ``unicode``
 
         """
-        if ids:
-            ids = ids.split(',')
-            if type == "delete":
-                media_items = Media.query.filter(Media.id.in_(ids))
-                for media in media_items:
-                    self._delete_media(media)
-                DBSession.commit()
-                success = True
+        if not ids:
+            ids = []
+        elif not isinstance(ids, list):
+            ids = [ids]
+
+        if type == 'delete':
+            for m in Media.query.filter(Media.id.in_(ids)):
+                self._delete_media(m)
+            success = True
         else:
             success = False
 
