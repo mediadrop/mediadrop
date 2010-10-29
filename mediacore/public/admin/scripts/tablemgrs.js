@@ -41,7 +41,6 @@ var TableManager = new Class({
 	initialize: function(table, opts){
 		this.table = $(table);
 		this.setOptions(opts);
-		this.attach();
 	},
 
 	insertRow: function(resp){
@@ -270,6 +269,11 @@ var CategoryTable = new Class({
 var BulkTableManager = new Class({
 
 	Extends: TableManager,
+
+	initialize: function(table, opts){
+		this.parent(table, opts);
+		this.attach();
+	},
 
 	attach: function(){
 		this.toggler = this.table.getElement('input.bulk-toggle');
