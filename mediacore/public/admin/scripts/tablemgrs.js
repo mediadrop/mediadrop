@@ -303,6 +303,9 @@ var BulkAction = new Class({
 	Implements: [Events, Options],
 
 	options: {
+	/*	onClick: $empty,
+		onConfirm: $empty,
+		onComplete: $empty, */
 		confirmMgr: false,
 		saveUrl: null,
 		saveData: {}
@@ -324,10 +327,13 @@ var BulkAction = new Class({
 	},
 
 	onConfirm: function(){
+		this.fireEvent('confirm');
 		this.sendRequest();
 	},
 
-	onComplete: function(json){},
+	onComplete: function(json){
+		this.fireEvent('complete', [json]);
+	},
 
 	onError: function(){
 		alert('An error occurred, please try again.');
@@ -362,6 +368,7 @@ var BulkEdit = new Class({
 				this.mgr.updateRow({id: id, row: row});
 			}, this);
 		}
+		this.parent(json);
 	}
 
 });
@@ -388,6 +395,7 @@ var BulkDelete = new Class({
 			this.mgr.removeRow({id: id});
 		}, this);
 		if (this.options.refresh) window.location = window.location;
+		this.parent(json);
 	}
 
 });
