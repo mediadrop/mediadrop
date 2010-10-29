@@ -183,26 +183,6 @@ class MediaController(BaseController):
             update_status_action = url_for(action='update_status'),
         )
 
-    def _delete_media(self, media):
-        # Collect everything we'll need to delete after updating the DB
-        files = []
-        file_storage = []
-        for file in media.files:
-            file_storage.append(file.storage)
-            # Detach the file from the session but retain the data
-            orm.make_transient(file)
-            files.append(file)
-        thumbs = thumb_paths(media).values()
-
-        # Delete it
-        DBSession.delete(media)
-        DBSession.flush()
-
-        # Delete all the files from their corresponding storage engines
-        for storage, file in izip(file_storage, files):
-            storage.delete(file.unique_id)
-        helpers.delete_files(thumbs, Media._thumb_dir)
-
     @expose_xhr()
     @validate_xhr(media_form, error_handler=edit)
     @observable(events.Admin.MediaController.save)
@@ -658,3 +638,23 @@ class MediaController(BaseController):
             success = success,
             ids = ids,
         )
+
+    def _delete_media(self, media):
+        # Collect everything we'll need to delete after updating the DB
+        files = []
+        file_storage = []
+        for file in media.files:
+            file_storage.append(file.storage)
+            # Detach the file from the session but retain the data
+            orm.make_transient(file)
+            files.append(file)
+        thumbs = thumb_paths(media).values()
+
+        # Delete it
+        DBSession.delete(media)
+        DBSession.flush()
+
+        # Delete all the files from their corresponding storage engines
+        for storage, file in izip(file_storage, files):
+            storage.delete(file.unique_id)
+        helpers.delete_files(thumbs, Media._thumb_dir)
