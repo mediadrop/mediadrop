@@ -350,6 +350,22 @@ var BulkAction = new Class({
 
 });
 
+var BulkEdit = new Class({
+
+	Extends: BulkAction,
+
+	onComplete: function(json){
+		if (json.rows) {
+			new Hash(json.rows).each(function(row, id){
+				console.log('updating ' + id);
+				console.log(row);
+				this.mgr.updateRow({id: id, row: row});
+			}, this);
+		}
+	}
+
+});
+
 var BulkDelete = new Class({
 
 	Extends: BulkAction,

@@ -38,6 +38,14 @@
 				refresh: true
 			});
 			$$('bulk-delete').addEvent('click', bulkDelete.onClick.bind(bulkDelete));
+			var bulkPublish = new BulkEdit(table, {
+				saveUrl: '${h.url_for(action='bulk', type='publish')}'
+			});
+			$('bulk-publish').addEvent('click', bulkPublish.onClick.bind(bulkPublish));
+			var bulkReview = new BulkEdit(table, {
+				saveUrl: '${h.url_for(action='bulk', type='review')}'
+			});
+			$('bulk-review').addEvent('click', bulkReview.onClick.bind(bulkReview));
 		});
 	</script>
 </head>
@@ -57,6 +65,7 @@
 						<div class="dropdown-top"><div /></div>
 						<div class="dropdown-content">
 							<ol class="clearfix">
+								<li id="bulk-review"><span>Review</span></li>
 								<li id="bulk-publish"><span>Publish</span></li>
 								<li id="bulk-delete"><span>Delete</span></li>
 							</ol>

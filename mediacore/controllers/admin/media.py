@@ -33,6 +33,7 @@ from mediacore.lib.base import BaseController
 from mediacore.lib.decorators import expose, expose_xhr, observable, paginate, validate, validate_xhr
 from mediacore.lib.helpers import redirect, url_for
 from mediacore.lib.storage import add_new_media_file
+from mediacore.lib.templating import render
 from mediacore.lib.thumbnails import thumb_path, thumb_paths, create_thumbs_for, create_default_thumbs_for, has_thumbs, has_default_thumbs
 from mediacore.model import Author, Category, Media, Podcast, Tag, fetch_row, get_available_slug
 from mediacore.model.meta import DBSession
@@ -586,13 +587,7 @@ class MediaController(BaseController):
         if status == 'unreviewed':
             media.reviewed = True
         elif status == 'draft':
-            media.publishable = True
-            media.publish_on = publish_on or datetime.now()
-            media.update_popularity()
-            # Remove the stub prefix if the user wants the default media title
-            if media.slug.startswith('_stub_'):
-                new_slug = get_available_slug(Media, media.slug[len('_stub_'):])
-                media.slug = new_slug
+            self._publish_media(media, publish_on)
         elif publish_on:
             media.publish_on = publish_on
             media.update_popularity()
@@ -613,7 +608,6 @@ class MediaController(BaseController):
         else:
             redirect(action='edit')
 
-
     @expose('json')
     def bulk(self, type=None, ids=None, **kwargs):
         """Perform bulk operations on media items
@@ -628,17 +622,47 @@ class MediaController(BaseController):
         elif not isinstance(ids, list):
             ids = [ids]
 
-        if type == 'delete':
-            for m in Media.query.filter(Media.id.in_(ids)):
+        media = Media.query.filter(Media.id.in_(ids)).all()
+        success = True
+        rows = None
+
+        def render_rows(media):
+            rows = {}
+            for m in media:
+                stream = render('admin/media/index-table.html', {'media': [m]})
+                rows[m.id] = unicode(stream.select('table/tbody/tr'))
+            return rows
+
+        if type == 'review':
+            for m in media:
+                m.reviewed = True
+            rows = render_rows(media)
+        elif type == 'publish':
+            for m in media:
+                m.reviewed = True
+                if m.encoded:
+                    self._publish_media(m)
+            rows = render_rows(media)
+        elif type == 'delete':
+            for m in media:
                 self._delete_media(m)
-            success = True
         else:
             success = False
 
         return dict(
             success = success,
             ids = ids,
+            rows = rows,
         )
+
+    def _publish_media(self, media, publish_on=None):
+        media.publishable = True
+        media.publish_on = publish_on or media.publish_on or datetime.now()
+        media.update_popularity()
+        # Remove the stub prefix if the user wants the default media title
+        if media.slug.startswith('_stub_'):
+            new_slug = get_available_slug(Media, media.slug[len('_stub_'):])
+            media.slug = new_slug
 
     def _delete_media(self, media):
         # Collect everything we'll need to delete after updating the DB
