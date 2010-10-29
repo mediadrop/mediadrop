@@ -82,7 +82,6 @@ body {
 	width: 950px;
 	margin: 0 auto;
 	text-align: left;
-	overflow: hidden;
 }
 #header {
 	height: 67px;
@@ -166,7 +165,6 @@ body {
 #body {
 	margin-top: 30px;
 	width: 100%;
-	overflow: hidden;
 }
 .column66,
 .rgt-column66 {
@@ -193,7 +191,6 @@ body {
 	border-bottom: 1px solid #b4bac3;
 	color: #3c4d5a;
 	position: relative;
-	overflow: hidden;
 	margin-bottom: 32px;
 }
 .box-head,

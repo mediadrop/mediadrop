@@ -44,7 +44,7 @@
 </head>
 
 <body py:match="body" py:with="attrs = h.attrs_to_dict(select('@*')); body_class = attrs.get('class', '').split(' ')" py:attrs="attrs">
-	<div id="container">
+	<div id="container" class="clearfix">
 		<div id="header" class="clearfix">
 			<div id="logo">
 				<h2><a id="logo-dropdown-toggle" href="${h.url_for(controller='/admin/index')}"><span>MediaCore</span></a></h2>
@@ -65,7 +65,7 @@
 				<li py:if="is_admin"><a class="btn nav${'menu-settings-on' in body_class and ' active' or ''}" href="${h.url_for(controller='/admin/settings')}"><span>Settings</span></a></li>
 			</ul>
 		</div>
-		<div id="body" py:content="select('*|text()')" />
+		<div id="body" class="clearfix" py:content="select('*|text()')" />
 	</div>
 	<div id="footer">
 		<p class="copyright">copyright 2009 simple station inc</p>
