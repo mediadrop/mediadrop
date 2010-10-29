@@ -27,7 +27,9 @@
 				</li>
 			</ul>
 		</td>
-		<td headers="h-media_count" class="center" py:content="category.media_count or 0" />
+		<td headers="h-media_count" class="center">
+			<a py:with="count = category.media_count" href="${h.url_for(controller='/admin/media', category=category.slug)}" py:strip="not count">${category.media_count or 0}</a>
+		</td>
 		<td headers="h-btns">
 			<form action="${h.url_for(action='save', id=category.id or 'new')}" method="post" class="edit-modal">
 				<div class="f-rgt">

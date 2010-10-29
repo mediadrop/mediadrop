@@ -55,7 +55,8 @@ class MediaController(BaseController):
     @expose_xhr('admin/media/index.html', 'admin/media/index-table.html')
     @paginate('media', items_per_page=15)
     @observable(events.Admin.MediaController.index)
-    def index(self, page=1, search=None, podcast_filter=None, filter=None, **kwargs):
+    def index(self, page=1, search=None, podcast_filter=None, filter=None,
+              category=None, tag=None, **kwargs):
         """List media with pagination and filtering.
 
         :param page: Page number, defaults to 1.
@@ -99,6 +100,13 @@ class MediaController(BaseController):
         elif filter == 'published':
              media = media.published()
 
+        if category:
+            category = fetch_row(Category, slug=category)
+            media = media.filter(Media.categories.contains(category))
+        if tag:
+            tag = fetch_row(Tag, slug=tag)
+            media = media.filter(Media.tags.contains(tag))
+
         podcast_filter_title = None
         if podcast_filter:
             podcast_filter = int(podcast_filter)
@@ -112,6 +120,8 @@ class MediaController(BaseController):
             search = search,
             search_form = search_form,
             media_filter = filter,
+            category = category,
+            tag = tag,
         )
 
 
