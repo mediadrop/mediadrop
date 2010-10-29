@@ -118,10 +118,10 @@ class CommentsController(BaseController):
                 that have changed.
 
         """
-        if id == 'bulk':
-            ids = ids.split(',')
-        else:
+        if id != 'bulk':
             ids = [id]
+        if not isinstance(ids, list):
+            ids = [ids]
 
         comments = Comment.query.filter(Comment.id.in_(ids)).all()
         publishable = status == 'approve'

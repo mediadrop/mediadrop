@@ -96,7 +96,7 @@ var Comment = new Class({
 	},
 
 	requestConfirmPublish: function(){
-		var confirmMgr = new ConfirmMgr({
+/*		var confirmMgr = new ConfirmMgr({
 			onConfirm: this.doConfirm.pass([this.publishLink.href, this.updatePublished.bind(this)], this),
 			header: 'Confirm Publish',
 			confirmButtonText: 'Publish',
@@ -104,7 +104,11 @@ var Comment = new Class({
 			cancelButtonText: 'Cancel',
 			msg: 'Are you sure you want to publish <strong>' + this.getAuthor() + '</strong>&#8217;s comment?'
 		});
-		this.publishLink.addEvent('click', confirmMgr.openConfirmDialog.bind(confirmMgr));
+		this.publishLink.addEvent('click', confirmMgr.openConfirmDialog.bind(confirmMgr));*/
+		this.publishLink.addEvent('click', function(e){
+			e = new Event(e).stop();
+			this.doConfirm(this.publishLink.href, this.updatePublished.bind(this));
+		}.bind(this));
 		return this;
 	},
 
@@ -129,7 +133,7 @@ var Comment = new Class({
 	updatePublished: function(){
 		this.row.removeClass('tr-white').addClass('tr-gray');
 		var unpublished = this.row.getElement('a.btn-inline-approve');
-		var published = new Element('span', {'class': 'btn unclickable btn-inline-approved f-lft', text: 'published'});
+		var published = new Element('span', {'class': 'btn table-row published unclickable btn-inline-approved f-lft', html: '<span>published</span>'});
 		published.replaces(unpublished);
 		return this;
 	},

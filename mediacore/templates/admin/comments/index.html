@@ -37,38 +37,30 @@
 	<script type="text/javascript">
 		window.addEvent('domready', function(){
 			var cm = new CommentMgr();
-			var DeleteAction = new BulkAction({
-				label: 'Delete',
-				saveUrl : '${h.url_for(action='save_status', status='trash', id='bulk')}',
-				confirmMgr: {
-					header: 'Confirm Delete',
-					msg: 'Are you sure you want to delete these comments?'
+			var table = new BulkTableManager('comment-table', {
+				prefix: 'comment-'
+			});
+
+			var bulkDelete = new BulkDelete(table, {
+				saveUrl: '${h.url_for(action='save_status', status='trash', id='bulk')}'
+			});
+			$$('bulk-delete').addEvent('click', bulkDelete.onClick.bind(bulkDelete));
+
+			var bulkPublish = new BulkEdit(table, {
+				saveUrl: '${h.url_for(action='save_status', status='approve', id='bulk')}',
+				onComplete: function(json){
+					$$splat(json.ids).each(function(id){
+						var row = table.table.getElementById(table.options.prefix + id);
+						row.getElement('input.bulk-checkbox').checked = false;
+						row.removeClass('tr-white').addClass('tr-gray');
+						var unpublished = row.getElement('a.btn-inline-approve');
+						if (!unpublished) return;
+						var published = new Element('span', {'class': 'btn table-row published unclickable btn-inline-approved f-lft', html: '<span>Published</span>'});
+						published.replaces(unpublished);
+					});
 				}
 			});
-			DeleteAction.addEvent("actionComplete",
-					function(id){this.mgr.removeRow({id:id})}
-			);
-			var ApproveAction = new BulkAction({
-				label: 'Approve',
-				saveUrl : '${h.url_for(action='save_status', status='approve', id='bulk')}',
-				confirmMgr: {
-					header: 'Confirm Approve',
-					msg: 'Are you sure you want to approve these comments?'
-				},
-			});
-			ApproveAction.addEvent('actionComplete', function(id){
-				var row = this.mgr.table.getElementById(this.mgr.options.prefix + id);
-				row.removeClass('tr-white').addClass('tr-gray');
-				var unpublished = row.getElement('a.btn-inline-approve');
-				var published = new Element('span', {'class': 'btn table-row published unclickable btn-inline-approved f-lft', html: '<span>Published</span>'});
-				published.replaces(unpublished);
-			});
-			table_options = {
-				bulkDivClass: 'bulk-control f-lft',
-				selectCol: 0,
-				prefix: 'comment-'
-			};
-			var commentBulkActions = new BulkTableManager('comment-table', 'bulk-actions', [ApproveAction, DeleteAction], table_options);
+			$('bulk-publish').addEvent('click', bulkPublish.onClick.bind(bulkPublish));
 		});
 	</script>
 </head>
@@ -88,9 +80,9 @@
 				<div class="dropdown-box">
 					<div class="dropdown-top"><div /></div>
 					<div class="dropdown-content">
-						<ol>
-							<li>Publish</li>
-							<li>Delete</li>
+						<ol class="clearfix">
+							<li id="bulk-publish"><span>Publish</span></li>
+							<li id="bulk-delete"><span>Delete</span></li>
 						</ol>
 					</div>
 					<div class="dropdown-bottom"><div /></div>
