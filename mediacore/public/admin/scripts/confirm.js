@@ -45,8 +45,12 @@ var ConfirmMgr = new Class({
 	},
 
 	openConfirmDialog: function(e){
-		e = new Event(e).stop();
-		var target = $(e.target);
+		if ($type(e) == 'event') {
+			e = new Event(e).stop();
+			var target = $(e.target);
+		} else {
+			var target = e;
+		}
 
 		// Set up the dialog box
 		var header = $type(this.options.header) == 'function' ? this.options.header(target) :this.options.header;
