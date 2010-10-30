@@ -128,26 +128,26 @@ def make_map(config, controller_scan=controller_scan):
         controller='admin/index',
         action='index')
 
-    map.connect('/admin/settings/categories',
+    map.connect('/admin/categories',
         controller='admin/categories',
         action='index')
-    map.connect('/admin/settings/categories/{id}/{action}',
+    map.connect('/admin/categories/{id}/{action}',
         controller='admin/categories',
         action='edit',
         requirements={'id': r'(\d+|new)'})
 
-    map.connect('/admin/settings/tags',
+    map.connect('/admin/tags',
         controller='admin/tags',
         action='index')
-    map.connect('/admin/settings/tags/{id}/{action}',
+    map.connect('/admin/tags/{id}/{action}',
         controller='admin/tags',
         action='edit',
         requirements={'id': r'(\d+|new)'})
 
-    map.connect('/admin/settings/users',
+    map.connect('/admin/users',
         controller='admin/users',
         action='index')
-    map.connect('/admin/settings/users/{id}/{action}',
+    map.connect('/admin/users/{id}/{action}',
         controller='admin/users',
         action='edit',
         requirements={'id': r'(\d+|new)'})
