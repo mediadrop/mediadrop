@@ -629,8 +629,7 @@ class MediaController(BaseController):
         """Perform bulk operations on media items
 
         :param type: The type of bulk action to perform (delete)
-        :param ids: A string of IDs separated by commas.
-        :type ids: ``unicode``
+        :param ids: A list of IDs.
 
         """
         if not ids:

@@ -27,10 +27,18 @@
 	<link href="${h.url_for('/admin/styles/forms.css')}" media="screen" rel="stylesheet" type="text/css" />
 	<script type="text/javascript" src="${h.url_for('/admin/scripts/forms.js')}"></script>
 	<script type="text/javascript" src="${h.url_for('/admin/scripts/modals.js')}"></script>
+	<script type="text/javascript" src="${h.url_for('/admin/scripts/confirm.js')}"></script>
 	<script type="text/javascript" src="${h.url_for('/admin/scripts/tablemgrs.js')}"></script>
 	<script type="text/javascript">
 		window.addEvent('domready', function(){
-			var tagtbl = new TagTable('tag-table');
+			var tagtbl = new TagTable('tag-table', {
+				addButton: 'add-tag-btn',
+				prefix: 'tag-'
+			});
+			var bulkDelete = new BulkDelete(tagtbl, {
+				saveUrl: '${h.url_for(action='bulk', type='delete')}'
+			});
+			$$('bulk-delete').addEvent('click', bulkDelete.onClick.bind(bulkDelete));
 		});
 	</script>
 </head>
@@ -38,12 +46,16 @@
 	<div class="box">
 		<div class="box-head">
 			<h1>Tags</h1>
-			<a id="add-btn" href="${h.url_for(action='edit', id='new')}" class="btn inline btn-add-tag"><span>Add Tag</span></a>
+			<div class="f-rgt">
+				<a id="add-tag-btn" href="${h.url_for(action='edit', id='new')}" class="btn inline btn-add-tag f-lft"><span>Add Tag</span></a>
+				<button id="bulk-delete" class="btn inline btn-add-tag f-lft" style="margin-left:10px"><span>Bulk Delete</span></button>
+			</div>
 			<!--!<span class="box-head-sec">${h.doc_link('admin/settings', 'tags')}</span>-->
 		</div>
 		<table cellpadding="0" cellspacing="0" id="tag-table">
 			<thead>
 				<tr>
+					<th id="h-bulk" style="width:20px"><input type="checkbox" class="bulk-toggle" /></th>
 					<th id="h-name" style="width:auto">Name</th>
 					<th id="h-media_count" style="width:58px" class="center">Media</th>
 					<th style="width:63px"></th>

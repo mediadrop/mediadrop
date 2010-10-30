@@ -130,3 +130,28 @@ class TagsController(BaseController):
             return data
         else:
             redirect(action='index', id=None)
+
+    @expose('json')
+    def bulk(self, type=None, ids=None, **kwargs):
+        """Perform bulk operations on media items
+
+        :param type: The type of bulk action to perform (delete)
+        :param ids: A list of IDs.
+
+        """
+        if not ids:
+            ids = []
+        elif not isinstance(ids, list):
+            ids = [ids]
+
+        success = True
+
+        if type == 'delete':
+            Tag.query.filter(Tag.id.in_(ids)).delete(False)
+        else:
+            success = False
+
+        return dict(
+            success = success,
+            ids = ids,
+        )

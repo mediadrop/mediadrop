@@ -18,6 +18,7 @@
       xmlns:xi="http://www.w3.org/2001/XInclude"
       py:strip="">
 	<tr id="tag-${tag.id}">
+		<td headers="h-bulk"><input type="checkbox" class="bulk-checkbox" /></td>
 		<td headers="h-name">${tag.name}</td>
 		<td headers="h-media_count" class="center">
 			<a py:with="count = tag.media_count" href="${h.url_for(controller='/admin/media', tag=tag.slug)}" py:strip="not count">${tag.media_count or 0}</a>

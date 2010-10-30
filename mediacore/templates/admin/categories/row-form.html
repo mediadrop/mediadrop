@@ -20,6 +20,7 @@
       py:with="li_types = ('disc', 'circle', 'square', 'circle')">
 	<tr id="cat-${category.id}" class="depth-${depth} ${first_child and depth > 0 and 'first-child' or None}"
 	    style="background-color: #${hex(int(255 * .95 ** depth))[2:] * 3}">
+		<td headers="h-bulk"><input type="checkbox" class="bulk-checkbox" /></td>
 		<td headers="h-name">
 			<ul style="margin-left: ${18 + depth * 25}px">
 				<li style="list-style-type: ${li_types[(depth-1) % len(li_types)]}">

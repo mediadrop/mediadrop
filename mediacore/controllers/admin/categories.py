@@ -160,3 +160,30 @@ class CategoriesController(BaseController):
             return data
         else:
             redirect(action='index', id=None)
+
+    @expose('json')
+    def bulk(self, type=None, ids=None, **kwargs):
+        """Perform bulk operations on media items
+
+        :param type: The type of bulk action to perform (delete)
+        :param ids: A list of IDs.
+
+        """
+        if not ids:
+            ids = []
+        elif not isinstance(ids, list):
+            ids = [ids]
+
+
+        if type == 'delete':
+            Category.query.filter(Category.id.in_(ids)).delete(False)
+            DBSession.commit()
+            success = True
+        else:
+            success = False
+
+        return dict(
+            success = success,
+            ids = ids,
+            parent_options = unicode(category_form.c['parent_id'].display()),
+        )
