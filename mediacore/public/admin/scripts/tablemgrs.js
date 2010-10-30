@@ -41,6 +41,8 @@ var TableManager = new Class({
 	initialize: function(table, opts){
 		this.table = $(table);
 		this.setOptions(opts);
+		this.init();
+		this.attach();
 	},
 
 	insertRow: function(resp){
@@ -75,12 +77,47 @@ var TableManager = new Class({
 
 });
 
-var CrudTable = new Class({
+var BulkTableManager = new Class({
 
 	Extends: TableManager,
 
+	attach: function(){
+		this.toggler = this.table.getElement('input.bulk-toggle');
+		if (!this.toggler) return;
+		this.toggler.addEvent('click', this.onToggleCheckboxes.bind(this));
+		this.table.addEvent('click:relay(input.bulk-checkbox)', this.onToggleCheckbox.bind(this));
+		var toggleOff = this.toggler.set.bind(this.toggler, ['checked', false]);
+		this.addEvents({
+			insertRow: toggleOff,
+			updateRow: toggleOff,
+			removeRow: toggleOff
+		});
+	},
+
+	getCheckedRows: function(){
+		return this.table.getElements('input.bulk-checkbox:checked').getParent('tr');
+	},
+
+	getCheckedIds: function(){
+		return this.getCheckedRows().get('id').map(this._getId, this);
+	},
+
+	onToggleCheckbox: function(e){
+		e = new Event(e);
+		if (!e.target.checked && this.toggler.checked) this.toggler.checked = false;
+	},
+
+	onToggleCheckboxes: function(e){
+		this.table.getElements('input.bulk-checkbox').set('checked', this.toggler.checked);
+	}
+
+});
+
+var CrudTable = new Class({
+
+	Extends: BulkTableManager,
+
 	options: {
-		prefix: 'tag-',
 		addButton: 'add-btn',
 		addModal: 'add-box',
 		addModalOptions: {
@@ -106,15 +143,14 @@ var CrudTable = new Class({
 	editModal: null,
 	deleteModal: null,
 
-	initialize: function(table, opts){
-		this.parent(table, opts);
+	init: function(){
 		this.addModal = new ModalForm(this.options.addModal, this.options.addModalOptions);
 		this.editModal = new ModalForm(this.options.editModal, this.options.editModalOptions);
 		this.deleteModal = new ModalForm(this.options.deleteModal, this.options.deleteModalOptions);
-		this.attach();
 	},
 
 	attach: function(){
+		this.parent();
 		$(this.options.addButton).addEvent('click', this.addModal.open.bind(this.addModal));
 		this.table.addEvents({
 			'click:relay(.btn-inline-edit)': this.editModal.open.bind(this.editModal),
@@ -266,47 +302,6 @@ var CategoryTable = new Class({
 
 });
 
-var BulkTableManager = new Class({
-
-	Extends: TableManager,
-
-	initialize: function(table, opts){
-		this.parent(table, opts);
-		this.attach();
-	},
-
-	attach: function(){
-		this.toggler = this.table.getElement('input.bulk-toggle');
-		if (!this.toggler) return;
-		this.toggler.addEvent('click', this.onToggleCheckboxes.bind(this));
-		this.table.addEvent('click:relay(input.bulk-checkbox)', this.onToggleCheckbox.bind(this));
-		var toggleOff = this.toggler.set.bind(this.toggler, ['checked', false]);
-		this.addEvents({
-			insertRow: toggleOff,
-			updateRow: toggleOff,
-			removeRow: toggleOff
-		});
-	},
-
-	getCheckedRows: function(){
-		return this.table.getElements('input.bulk-checkbox:checked').getParent('tr');
-	},
-
-	getCheckedIds: function(){
-		return this.getCheckedRows().get('id').map(this._getId, this);
-	},
-
-	onToggleCheckbox: function(e){
-		e = new Event(e);
-		if (!e.target.checked && this.toggler.checked) this.toggler.checked = false;
-	},
-
-	onToggleCheckboxes: function(e){
-		this.table.getElements('input.bulk-checkbox').set('checked', this.toggler.checked);
-	}
-
-});
-
 var BulkAction = new Class({
 
 	Implements: [Events, Options],
@@ -387,7 +382,7 @@ var BulkDelete = new Class({
 	options: {
 		confirmMgr: {
 			header: 'Confirm Delete',
-			msg: function(num){ return 'Are you sure you want to delete these ' + num + ' media items?'; },
+			msg: function(num){ return 'Are you sure you want to delete these ' + num + ' items?'; },
 			confirmButtonText: 'Delete',
 			confirmButtonClass: 'btn red f-rgt',
 			cancelButtonText: 'Cancel',
@@ -400,7 +395,7 @@ var BulkDelete = new Class({
 
 	onComplete: function(json){
 		json.ids.each(function(id){
-			this.mgr.removeRow({id: id});
+			this.mgr.removeRow($merge(json, {id: id}));
 		}, this);
 		if (this.options.refresh || (this.options.refreshWhenPaginated && this.mgr.isPaginated())) window.location = window.location;
 		this.parent(json);
