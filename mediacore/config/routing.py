@@ -167,8 +167,7 @@ def make_map(config, controller_scan=controller_scan):
 
     map.connect('/admin/media/bulk/{type}',
         controller='admin/media',
-        action='bulk',
-        requirements={'type': 'delete|publish'})
+        action='bulk')
 
     map.connect('/admin/media/merge_stubs',
         controller='admin/media',
