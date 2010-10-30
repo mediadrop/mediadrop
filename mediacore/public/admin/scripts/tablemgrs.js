@@ -45,6 +45,9 @@ var TableManager = new Class({
 		this.attach();
 	},
 
+	init: $empty,
+	attach: $empty,
+
 	insertRow: function(resp){
 		var row = Elements.from(resp.row).inject(this.table.getElement('tbody'), 'top');
 		this.fireEvent('insertRow', [row, resp]);
@@ -84,8 +87,8 @@ var BulkTableManager = new Class({
 	attach: function(){
 		this.toggler = this.table.getElement('input.bulk-toggle');
 		if (!this.toggler) return;
-		this.toggler.addEvent('click', this.onToggleCheckboxes.bind(this));
-		this.table.addEvent('click:relay(input.bulk-checkbox)', this.onToggleCheckbox.bind(this));
+		this.toggler.getParent('th').addEvent('click', this.onToggleCheckboxes.bind(this));
+		this.table.addEvent('click:relay(td[headers=h-bulk])', this.onToggleCheckbox.bind(this));
 		var toggleOff = this.toggler.set.bind(this.toggler, ['checked', false]);
 		this.addEvents({
 			insertRow: toggleOff,
@@ -103,12 +106,22 @@ var BulkTableManager = new Class({
 	},
 
 	onToggleCheckbox: function(e){
-		e = new Event(e);
-		if (!e.target.checked && this.toggler.checked) this.toggler.checked = false;
+		var target = this._toggleTarget(e);
+		if (!target.checked && this.toggler.checked) this.toggler.checked = false;
 	},
 
 	onToggleCheckboxes: function(e){
+		var target = this._toggleTarget(e);
 		this.table.getElements('input.bulk-checkbox').set('checked', this.toggler.checked);
+	},
+
+	_toggleTarget: function(e){
+		var target = $(new Event(e).target);
+		if (['td', 'th'].contains(target.get('tag'))) {
+			target = target.getElement('input');
+			target.checked = !target.checked;
+		}
+		return target;
 	}
 
 });
