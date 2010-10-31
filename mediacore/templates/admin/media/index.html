@@ -94,22 +94,26 @@
 					<button class="btn inline dropdown-toggle"><span>Filters</span></button>
 					<div class="dropdown-box">
 						<div class="dropdown-top"><div /></div>
-						<div class="dropdown-content">
+						<div class="dropdown-content" py:with="link_args=dict(
+							category=category and category.slug or None,
+							tag=tag and tag.slug or None,
+							podcast=podcast and podcast.slug or None,
+						)">
 							<ol class="clearfix">
 								<li py:with="filter = None; selected = media_filter==filter" class="${selected and 'selected' or None}">
-									<a href="${h.url_for(filter=filter)}" py:strip="selected"><span py:strip="not selected">All Media</span></a>
+									<a href="${h.url_for(filter=filter, **link_args)}" py:strip="selected"><span py:strip="not selected">All Media</span></a>
 								</li>
 								<li py:with="filter = 'unreviewed'; selected = media_filter==filter" class="${selected and 'selected' or None}">
-									<a href="${h.url_for(filter=filter)}" py:strip="selected"><span py:strip="not selected">Unreviewed</span></a>
+									<a href="${h.url_for(filter=filter, **link_args)}" py:strip="selected"><span py:strip="not selected">Unreviewed</span></a>
 								</li>
 								<li py:with="filter = 'unencoded'; selected = media_filter==filter" class="${selected and 'selected' or None}">
-									<a href="${h.url_for(filter=filter)}" py:strip="selected"><span py:strip="not selected">Unencoded</span></a>
+									<a href="${h.url_for(filter=filter, **link_args)}" py:strip="selected"><span py:strip="not selected">Unencoded</span></a>
 								</li>
 								<li py:with="filter = 'drafts'; selected = media_filter==filter" class="${selected and 'selected' or None}">
-									<a href="${h.url_for(filter=filter)}" py:strip="selected"><span py:strip="not selected">Drafts</span></a>
+									<a href="${h.url_for(filter=filter, **link_args)}" py:strip="selected"><span py:strip="not selected">Drafts</span></a>
 								</li>
 								<li py:with="filter = 'published'; selected = media_filter==filter" class="${selected and 'selected' or None}">
-									<a href="${h.url_for(filter=filter)}" py:strip="selected"><span py:strip="not selected">Published</span></a>
+									<a href="${h.url_for(filter=filter, **link_args)}" py:strip="selected"><span py:strip="not selected">Published</span></a>
 								</li>
 							</ol>
 						</div>
@@ -122,7 +126,15 @@
 				<!--!<span class="box-head-sec">${h.doc_link('admin/media', '')}</span>-->
 			</div>
 		</div>
-		<xi:include href="./index-table.html" py:with="media=media" />
+		<xi:include href="./index-table.html" py:with="
+			media=media;
+			pager_link_args=dict(
+				filter=media_filter,
+				category=category and category.slug or None,
+				tag=tag and tag.slug or None,
+				podcast=podcast and podcast.slug or None,
+			);
+		" />
 	</div>
 </body>
 </html>
