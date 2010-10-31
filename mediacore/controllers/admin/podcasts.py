@@ -95,7 +95,7 @@ class PodcastsController(BaseController):
             form_values.setdefault('author_name', user.display_name)
             form_values.setdefault('author_email', user.email_address)
             form_values.setdefault('feed', {}).setdefault('feed_url',
-                u'Save the media to get your feed URL')
+                u'Save the podcast to get your feed URL')
         else:
             explicit_values = {True: 'yes', False: 'clean', None: 'no'}
             form_values = dict(
