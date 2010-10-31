@@ -38,8 +38,8 @@
 			    py:if="getattr(field, 'type', None) not in ['submit', 'reset', 'file']"
 			    py:with="required=[None,' required'][int(field.is_required)];
 			             error=error_for(field);
-			             label_text = field.label_text;
-			             help_text = field.help_text;
+			             label_text = field.label_text and _(field.label_text) or None;
+			             help_text = field.help_text and _(field.help_text) or None;
 			             is_submit = getattr(field, 'type', None) == 'submit';"
 			    id="${field.id}-container"
 			    class="${i%2 and 'odd' or 'even'}${is_submit and ' submit' or None}"

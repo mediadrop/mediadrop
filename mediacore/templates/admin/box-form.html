@@ -33,8 +33,8 @@
 			<li py:for="i, field in enumerate(visible_fields)"
 			    py:with="required = (field.is_required and 'required') or None;
 			             error = error_for(field);
-			             label_text = field.label_text;
-			             help_text = field.help_text;"
+			             label_text = field.label_text and _(field.label_text) or None;
+			             help_text = field.help_text and _(field.help_text) or None;"
 			    id="${field.id}_container"
 			    py:attrs="h.append_class_attr(args_for(field).get('container_attrs') or field.container_attrs, 'clearfix')">
 				<div py:if="show_labels and label_text and not field.suppress_label"
