@@ -37,9 +37,9 @@ class RemoteURLStorage(StorageEngine):
 
     default_name = N_(u'Remote URLs')
 
-    second_to = [FileStorageEngine, EmbedStorageEngine]
-
     settings_form_class = RemoteURLStorageForm
+
+    try_after = [EmbedStorageEngine]
 
     is_singleton = True
 

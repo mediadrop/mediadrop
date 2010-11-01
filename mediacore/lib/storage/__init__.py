@@ -144,8 +144,6 @@ class StorageEngine(AbstractClass):
     default_name = abstractproperty()
     """A user-friendly display name that identifies this StorageEngine."""
 
-    second_to = []
-
     is_singleton = abstractproperty()
     """A flag that indicates whether this engine should be added only once."""
 
@@ -159,6 +157,22 @@ class StorageEngine(AbstractClass):
     this dict for documentation purposes, if nothing else. Down the
     road, we may validate data against this dict to ensure that only
     known keys are used.
+    """
+
+    try_before = []
+    """Storage Engines that should :meth:`parse` after this class has.
+
+    This is a list of StorageEngine class objects which is used to
+    perform a topological sort of engines. See :func:`sort_engines`
+    and :func:`add_new_media_file`.
+    """
+
+    try_after = []
+    """Storage Engines that should :meth:`parse` before this class has.
+
+    This is a list of StorageEngine class objects which is used to
+    perform a topological sort of engines. See :func:`sort_engines`
+    and :func:`add_new_media_file`.
     """
 
     def __init__(self, display_name=None, data=None):
@@ -337,7 +351,7 @@ class EmbedStorageEngine(StorageEngine):
 
     is_singleton = True
 
-    second_to = [FileStorageEngine]
+    try_after = [FileStorageEngine]
 
     url_pattern = abstractproperty()
     """A compiled pattern object that uses named groupings for matches."""
@@ -481,35 +495,45 @@ def sort_engines(engines):
     :param engines: Unsorted instances of :class:`StorageEngine`.
 
     """
-    # Partial ordering mapped from one child to all its parents.
+    # Partial ordering of engine classes, keys come before values.
     edges = defaultdict(set)
 
-    # Partial ordering is defined for classes, not instances, so this
-    # will map classes to their instances.
+    # Collection of engine instances grouped by their class.
     engine_objs = defaultdict(set)
 
+    # Find all edges between registered engine classes
     for engine in engines:
         engine_cls = engine.__class__
         engine_objs[engine_cls].add(engine)
-        for parent in engine.second_to:
-            if isabstract(parent):
-                edges[engine_cls].update(parent)
-            else:
-                edges[engine_cls].add(parent)
+        for edge_cls in engine.try_before:
+            edges[edge_cls].add(engine_cls)
+            for edge_cls_implementation in edge_cls:
+                edges[edge_cls_implementation].add(engine_cls)
+        for edge_cls in engine.try_after:
+            edges[engine_cls].add(edge_cls)
+            for edge_cls_implementation in edge_cls:
+                edges[engine_cls].add(edge_cls_implementation)
 
+    # Iterate over the engine classes
     todo = set(engine_objs.iterkeys())
     while todo:
+        # Pull out classes that have no unsatisfied edges
         output = set()
-        for node in list(todo):
-            if not todo.intersection(edges[node]):
-                output.add(node)
+        for engine_cls in todo:
+            if not todo.intersection(edges[engine_cls]):
+                output.add(engine_cls)
         if not output:
             raise RuntimeError('Circular dependency detected.')
         todo.difference_update(output)
 
-        # output is currently just class objects, grab the instances
-        output_engines = chain.from_iterable(engine_objs[x] for x in output)
-        for engine in sorted(output_engines, key=attrgetter('id')):
+        # Collect all the engine instances we'll be returning in this round,
+        # ordering them by ID to give consistent results each time we run this.
+        output_instances = []
+        for engine_cls in output:
+            output_instances.extend(engine_objs[engine_cls])
+        output_instances.sort(key=attrgetter('id'))
+
+        for engine in output_instances:
             yield engine
 
 def get_file_size(file):
@@ -562,10 +586,10 @@ def safe_file_name(media_file, hint=None):
     return u'%d%s%s' % (media_file.id, hint, ext)
 
 from mediacore.lib.storage.localfiles import LocalFileStorage
+from mediacore.lib.storage.remoteurls import RemoteURLStorage
 from mediacore.lib.storage.ftp import FTPStorage
 from mediacore.lib.storage.s3 import AmazonS3Storage
 from mediacore.lib.storage.youtube import YoutubeStorage
 from mediacore.lib.storage.vimeo import VimeoStorage
 from mediacore.lib.storage.bliptv import BlipTVStorage
 from mediacore.lib.storage.googlevideo import GoogleVideoStorage
-from mediacore.lib.storage.remoteurls import RemoteURLStorage
