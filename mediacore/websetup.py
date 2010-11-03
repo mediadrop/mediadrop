@@ -20,8 +20,9 @@ from mediacore.model import (DBSession, metadata, Media, MediaFile, Podcast,
     AuthorWithIP)
 
 log = logging.getLogger(__name__)
+here = os.path.dirname(__file__)
 
-migrate_repository = 'mediacore/migrations'
+migrate_repository = os.path.join(here, 'migrations')
 
 def setup_app(command, conf, vars):
     """Called by ``paster setup-app``.
