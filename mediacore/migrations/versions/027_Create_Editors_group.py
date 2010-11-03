@@ -55,7 +55,7 @@ def upgrade(migrate_engine):
     )).inserted_primary_key[0]
 
     editors_group_id = conn.execute(groups.insert().values(
-        group_name=u'Editors',
+        group_name=u'editors',
         display_name=u'Editors',
     )).inserted_primary_key[0]
 

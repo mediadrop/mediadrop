@@ -133,24 +133,36 @@ def add_default_data():
         s.value = value
         DBSession.add(s)
 
-    u = User()
-    u.user_name = u'admin'
-    u.display_name = u'Admin'
-    u.email_address = u'admin@somedomain.com'
-    u.password = u'admin'
-    DBSession.add(u)
+    admin_user = User()
+    admin_user.user_name = u'admin'
+    admin_user.display_name = u'Admin'
+    admin_user.email_address = u'admin@somedomain.com'
+    admin_user.password = u'admin'
+    DBSession.add(admin_user)
 
-    g = Group()
-    g.group_name = u'admins'
-    g.display_name = u'Admins'
-    g.users.append(u)
-    DBSession.add(g)
+    admin_group = Group()
+    admin_group.group_name = u'admins'
+    admin_group.display_name = u'Admins'
+    admin_group.users.append(admin_user)
+    DBSession.add(admin_group)
 
-    p = Permission()
-    p.permission_name = u'admin'
-    p.description = u'Grants access to the admin panel'
-    p.groups.append(g)
-    DBSession.add(p)
+    editor_group = Group()
+    editor_group.group_name = u'editors'
+    editor_group.display_name = u'Editors'
+    DBSession.add(editor_group)
+
+    admin_perm = Permission()
+    admin_perm.permission_name = u'admin'
+    admin_perm.description = u'Grants access to the admin panel'
+    admin_perm.groups.append(admin_group)
+    DBSession.add(admin_perm)
+
+    edit_perm = Permission()
+    edit_perm.permission_name = u'edit'
+    edit_perm.description = u'Grants access to edit site content'
+    edit_perm.groups.append(admin_group)
+    edit_perm.groups.append(editor_group)
+    DBSession.add(edit_perm)
 
     category = Category()
     category.name = u'Featured'
@@ -168,7 +180,7 @@ def add_default_data():
     podcast.subtitle = u'My very first podcast!'
     podcast.description = u"""<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>"""
     podcast.category = u'Technology'
-    podcast.author = Author(u.display_name, u.email_address)
+    podcast.author = Author(admin_user.display_name, admin_user.email_address)
     podcast.explicit = None
     podcast.copyright = u'Copyright 2009 Xyz'
     podcast.itunes_url = None
@@ -191,7 +203,7 @@ def add_default_data():
     media.subtitle = None
     media.description = u"""<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>"""
     media.description_plain = u"""Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."""
-    media.author = Author(u.display_name, u.email_address)
+    media.author = Author(admin_user.display_name, admin_user.email_address)
     media.categories.append(category)
     media.comments.append(comment)
     DBSession.add(media)
