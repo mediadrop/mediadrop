@@ -276,7 +276,6 @@ def append_class_attr(attrs, class_name):
         attrs['class'] = ' '.join(classes)
     return attrs
 
-excess_whitespace = re.compile('\s\s+', re.M)
 spaces_between_tags = re.compile('>\s+<', re.M)
 
 def embeddable_player(media):

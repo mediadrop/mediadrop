@@ -28,7 +28,6 @@ from sqlalchemy import Table, ForeignKey, Column, sql, func
 from sqlalchemy.types import Unicode, UnicodeText, Integer, DateTime, Boolean, Float
 from sqlalchemy.orm import mapper, relation, backref, synonym, interfaces, validates, column_property
 
-from mediacore.lib.helpers import excess_whitespace
 from mediacore.model import SLUG_LENGTH, slugify, _mtm_count_property
 from mediacore.model.meta import DBSession, metadata
 from mediacore.plugin import events
@@ -92,6 +91,8 @@ class TagList(list):
         return ', '.join([tag.name for tag in self.values()])
 
 mapper(Tag, tags, order_by=tags.c.name, extension=events.MapperObserver(events.Tag))
+
+excess_whitespace = re.compile('\s\s+', re.M)
 
 def extract_tags(string):
     """Convert a comma separated string into a list of tag names.

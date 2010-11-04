@@ -13,13 +13,16 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import re
+
 from pylons.i18n import N_ as _
 from tw.forms import HiddenField
 from tw.forms.validators import NotEmpty
 
 from mediacore.forms import Form, ListForm, SubmitButton, ResetButton, TextField, XHTMLEntityValidator
-from mediacore.lib.helpers import excess_whitespace
 from mediacore.plugin import events
+
+excess_whitespace = re.compile('\s\s+', re.M)
 
 class TagNameValidator(XHTMLEntityValidator):
     def _to_python(self, value, state=None):
