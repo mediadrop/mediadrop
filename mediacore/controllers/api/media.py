@@ -66,8 +66,9 @@ class MediaController(BaseController):
             Filter by 'audio' or 'video'. Defaults to any type.
 
         :param podcast:
-            A podcast slug to filter by. Use 0 to include
+            A podcast slug (or slugs) to filter by. Use 0 to include
             only non-podcast media or 1 to include any podcast media.
+            For multiple podcasts, separate the slugs with commas.
 
         :param tag:
             A tag slug to filter by.
@@ -176,8 +177,9 @@ class MediaController(BaseController):
             query = query.filter_by(type=type)
 
         if podcast:
-            podcast_query = DBSession.query(Podcast.id).filter_by(slug=podcast)
-            query = query.filter_by(podcast_id=podcast_query.scalar())
+            podcast_query = DBSession.query(Podcast.id)\
+                .filter(Podcast.slug.in_(podcast.split(',')))
+            query = query.filter(Media.podcast_id.in_(podcast_query))
 
         if tag:
             tag = fetch_row(Tag, slug=tag)
