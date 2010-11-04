@@ -22,9 +22,9 @@ from pylons import config
 from pylons.i18n import N_
 
 from mediacore.forms.admin.storage.localfiles import LocalFileStorageForm
-from mediacore.lib.helpers import delete_files, url_for
 from mediacore.lib.storage import (safe_file_name, StorageURI,
     FileStorageEngine, UnsuitableEngineError)
+from mediacore.lib.util import delete_files, url_for
 
 class LocalFileStorage(FileStorageEngine):
 

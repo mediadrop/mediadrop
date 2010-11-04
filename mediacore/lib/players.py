@@ -27,10 +27,10 @@ from pylons import app_globals
 from mediacore.lib.compat import any
 from mediacore.lib.decorators import memoize
 from mediacore.lib.filetypes import AUDIO, VIDEO, AUDIO_DESC, CAPTIONS
-from mediacore.lib.helpers import pick_uris, url_for
-from mediacore.lib.storage import StorageURI
 from mediacore.lib.templating import render
 from mediacore.lib.thumbnails import thumb_url
+from mediacore.lib.uri import StorageURI, pick_uris
+from mediacore.lib.util import merge_dicts, url_for
 from mediacore.plugin import events
 from mediacore.plugin.abc import AbstractClass, abstractmethod, abstractproperty
 from mediacore.plugin.events import observes

@@ -24,7 +24,7 @@ import shutil
 import time
 from datetime import datetime
 from urllib import quote, unquote, urlencode
-from urlparse import urlparse, urlsplit
+from urlparse import urlparse
 
 import genshi.core
 import pylons.templating
@@ -32,7 +32,7 @@ import pylons.test
 import simplejson as json
 import webob.exc
 
-from pylons import app_globals, config, request, response, url as pylons_url
+from pylons import app_globals, config, request, response
 from webhelpers import date, feedgenerator, html, number, misc, text, paginate, containers
 from webhelpers.html import tags
 from webhelpers.html.builder import literal
@@ -40,6 +40,9 @@ from webhelpers.html.converters import format_paragraphs
 
 from mediacore.lib.compat import any
 from mediacore.lib.thumbnails import thumb, thumb_url
+from mediacore.lib.uri import (best_link_uri, download_uri, file_path,
+    pick_uri, pick_uris, web_uri)
+from mediacore.lib.util import merge_dicts, redirect, url, url_for
 from mediacore.lib.xhtml import (clean_xhtml, decode_entities, encode_entities,
     excerpt_xhtml, line_break_xhtml, list_acceptable_xhtml, strip_xhtml,
     truncate_xhtml)
@@ -49,7 +52,7 @@ imports = [
     'encode_entities', 'excerpt_xhtml', 'feedgenerator', 'format_paragraphs',
     'html', 'line_break_xhtml', 'list_acceptable_xhtml', 'literal', 'misc',
     'number', 'paginate', 'quote', 'strip_xhtml', 'tags', 'text',
-    'truncate_xhtml', 'unquote', 'urlencode', 'urlparse',
+    'truncate_xhtml', 'unquote', 'urlencode', 'urlparse', 'url', 'url_for',
     'config', # is this appropriate to export here?
     'thumb_url', # XXX: imported from  mediacore.lib.thumbnails, for template use.
     'thumb', # XXX: imported from  mediacore.lib.thumbnails, for template use.
@@ -63,66 +66,9 @@ defined = [
     'pick_any_media_file', 'pick_podcast_media_file',
     'pretty_file_size', 'redirect',
     'store_transient_message', 'truncate',
-    'url', 'url_for', 'wrap_long_words',
+    'wrap_long_words',
 ]
 __all__ = imports + defined
-
-def url(*args, **kwargs):
-    """Compose a URL with :func:`pylons.url`, all arguments are passed."""
-    return _generate_url(pylons_url, *args, **kwargs)
-
-def url_for(*args, **kwargs):
-    """Compose a URL :func:`pylons.url.current`, all arguments are passed."""
-    return _generate_url(pylons_url.current, *args, **kwargs)
-
-# Mirror the behaviour you'd expect from pylons.url
-url.current = url_for
-
-def _generate_url(url_func, *args, **kwargs):
-    """Generate a URL using the given callable."""
-    # Convert unicode to str utf-8 for routes
-    def to_utf8(value):
-        if isinstance(value, unicode):
-            return value.encode('utf-8')
-        return value
-
-    if args:
-        args = [to_utf8(val) for val in args]
-    if kwargs:
-        kwargs = dict((key, to_utf8(val)) for key, val in kwargs.items())
-
-    # TODO: Rework templates so that we can avoid using .current, and use named
-    # routes, as described at http://routes.groovie.org/manual.html#generating-routes-based-on-the-current-url
-    # NOTE: pylons.url is a StackedObjectProxy wrapping the routes.url method.
-    url = url_func(*args, **kwargs)
-
-    # If the proxy_prefix config directive is set up, then we need to make sure
-    # that the SCRIPT_NAME is prepended to the URL. This SCRIPT_NAME prepending
-    # is necessary for mod_proxy'd deployments, and for FastCGI deployments.
-    # XXX: Leaking abstraction below. This code is tied closely to Routes 1.12
-    #      implementation of routes.util.URLGenerator.__call__()
-    # If the arguments given didn't describe a raw URL, then Routes 1.12 didn't
-    # prepend the SCRIPT_NAME automatically--we'll need to feed the new URL
-    # back to the routing method to prepend the SCRIPT_NAME.
-    prefix = config.get('proxy_prefix', None)
-    if prefix:
-        if args:
-            named_route = config['routes.map']._routenames.get(args[0])
-            protocol = urlparse(args[0]).scheme
-            static = not named_route and (args[0][0]=='/' or protocol)
-        else:
-            static = False
-            protocol = ''
-
-        if not static:
-            if kwargs.get('qualified', False):
-                offset = len(urlparse(url).scheme+"://")
-            else:
-                offset = 0
-            path_index = url.index('/', offset)
-            url = url[:path_index] + prefix + url[path_index:]
-
-    return url
 
 js_sources = {
     'mootools_more': '/scripts/third-party/mootools-1.2.4.4-more-yui-compressed.js',
@@ -137,16 +83,6 @@ def js(source):
     if config['debug'] and source in js_sources_debug:
         return url_for(js_sources_debug[source])
     return url_for(js_sources[source])
-
-
-def redirect(*args, **kwargs):
-    """Compose a URL using :func:`url_for` and raise a redirect.
-
-    :raises: :class:`webob.exc.HTTPFound`
-    """
-    url = url_for(*args, **kwargs)
-    found = webob.exc.HTTPFound(location=url)
-    raise found.exception
 
 def duration_from_seconds(total_sec, shortest=True):
     """Return the HH:MM:SS duration for a given number of seconds.
@@ -374,34 +310,6 @@ def pretty_file_size(size):
         size /= 1024.0
     return '%3.1f %s' % (size, 'PB')
 
-def delete_files(paths, subdir=None):
-    """Move the given files to the 'deleted' folder, or just delete them.
-
-    If the config contains a deleted_files_dir setting, then files are
-    moved there. If that setting does not exist, or is empty, then the
-    files will be deleted permanently instead.
-
-    :param paths: File paths to delete. These files do not necessarily
-        have to exist.
-    :type paths: list
-    :param subdir: A subdir within the configured deleted_files_dir to
-        move the given files to. If this folder does not yet exist, it
-        will be created.
-    :type subdir: str or ``None``
-
-    """
-    deleted_dir = config.get('deleted_files_dir', None)
-    if deleted_dir and subdir:
-        deleted_dir = os.path.join(deleted_dir, subdir)
-    if deleted_dir and not os.path.exists(deleted_dir):
-        os.mkdir(deleted_dir)
-    for path in paths:
-        if path and os.path.exists(path):
-            if deleted_dir:
-                shutil.move(path, deleted_dir)
-            else:
-                os.remove(path)
-
 def store_transient_message(cookie_name, text, time=None, path='/', **kwargs):
     """Store a JSON message dict in the named cookie.
 
@@ -470,96 +378,6 @@ def pick_any_media_file(media):
                 return uris[i]
     return None
 
-def pick_uris(uris, **kwargs):
-    """Return a subset of the given URIs whose attributes match the kwargs.
-
-    This function attempts to simplify the somewhat unwieldly process of
-    filtering a list of :class:`mediacore.lib.storage.StorageURI` instances
-    for a specific type, protocol, container, etc::
-
-        pick_uris(uris, scheme='rtmp', container='mp4', type='video')
-
-    :type uris: iterable or :class:`~mediacore.model.media.Media` or
-        :class:`~mediacore.model.media.MediaFile` instance
-    :params uris: A collection of :class:`~mediacore.lib.storage.StorageURI`
-        instances, including Media and MediaFile objects.
-    :param \*\*kwargs: Required attribute values. These attributes can be
-        on the `StorageURI` instance or, failing that, on the `StorageURI.file`
-        instance within it.
-    :rtype: list
-    :returns: A subset of the input `uris`.
-
-    """
-    if not isinstance(uris, (list, tuple)):
-        from mediacore.model.media import Media, MediaFile
-        if isinstance(uris, (Media, MediaFile)):
-            uris = uris.get_uris()
-    if not uris or not kwargs:
-        return uris
-    return [uri
-            for uri in uris
-            if all(getattr(uri, k) == v for k, v in kwargs.iteritems())]
-
-def pick_uri(uris, **kwargs):
-    """Return the first URL that meets the given criteria.
-
-    See: :func:`pick_uris`.
-
-    :returns: A :class:`mediacore.lib.storage.StorageURI` instance or None.
-    """
-    uris = pick_uris(uris, **kwargs)
-    if uris:
-        return uris[0]
-    return None
-
-def download_uri(uris):
-    """Pick out the best possible URI for downloading purposes.
-
-    :returns: A :class:`mediacore.lib.storage.StorageURI` instance or None.
-    """
-    uris = pick_uris(uris, scheme='download')\
-        or pick_uris(uris, scheme='http')
-    uris.sort(key=lambda uri: uri.file.size, reverse=True)
-    if uris:
-        return uris[0]
-    return None
-
-def web_uri(uris):
-    """Pick out the web link URI for viewing an embed in its original context.
-
-    :returns: A :class:`mediacore.lib.storage.StorageURI` instance or None.
-    """
-    return pick_uri(uris, scheme='www')\
-        or None
-
-def best_link_uri(uris):
-    """Pick out the best general purpose URI from those given.
-
-    :returns: A :class:`mediacore.lib.storage.StorageURI` instance or None.
-    """
-    return pick_uri(uris, scheme='download')\
-        or pick_uri(uris, scheme='http')\
-        or pick_uri(uris, scheme='www')\
-        or pick_uri(uris)\
-        or None
-
-def file_path(uris):
-    """Pick out the local file path from the given list of URIs.
-
-    Local file paths are passed around as urlencoded strings in
-    :class:`mediacore.lib.storage.StorageURI`. The form is:
-
-        file:///path/to/file
-
-    :rtype: `str` or `unicode` or `None`
-    :returns: Absolute /path/to/file
-    """
-    uris = pick_uris(uris, scheme='file')
-    if uris:
-        scheme, netloc, path, query, fragment = urlsplit(uris[0].file_uri)
-        return path
-    return None
-
 def doc_link(page=None, anchor='', text='Help', **kwargs):
     """Return a link (anchor element) to the documentation on the project site.
 
@@ -574,31 +392,3 @@ def doc_link(page=None, anchor='', text='Help', **kwargs):
     attrs_string = ' '.join(['%s="%s"' % (key, attrs[key]) for key in attrs])
     out = '<a %s>%s</a>' % (attrs_string, text)
     return literal(out)
-
-def merge_dicts(dst, src):
-    """Recursively merge two dictionaries.
-
-    Code adapted from Manuel Muradas' example at
-    http://code.activestate.com/recipes/499335-recursively-update-a-dictionary-without-hitting-py/
-    """
-    stack = [(dst, src)]
-    while stack:
-        current_dst, current_src = stack.pop()
-        for key in current_src:
-            if key in current_dst \
-            and isinstance(current_src[key], dict) \
-            and isinstance(current_dst[key], dict):
-                stack.append((current_dst[key], current_src[key]))
-            else:
-                current_dst[key] = current_src[key]
-
-def dict_merged_with_defaults(value, defaults):
-    """Return a new dict with the given values merged into the defaults.
-
-    This is shorthand that's useful when combining default values
-    for a tree of form fields and the user input.
-    """
-    new_value = {}
-    merge_dicts(new_value, defaults)
-    merge_dicts(new_value, value)
-    return new_value

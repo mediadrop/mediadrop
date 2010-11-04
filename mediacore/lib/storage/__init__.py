@@ -30,6 +30,8 @@ from mediacore.lib.decorators import memoize
 from mediacore.lib.filetypes import guess_container_format, guess_media_type
 from mediacore.lib.thumbnails import (create_thumbs_for, has_thumbs,
     has_default_thumbs, thumb_path)
+from mediacore.lib.uri import StorageURI, pick_uris, pick_uri
+#from mediacore.model import DBSession, MediaFile XXX: Import at EOF
 from mediacore.plugin.abc import (AbstractClass, abstractmethod,
     abstractproperty, isabstract)
 
@@ -46,91 +48,6 @@ class UnsuitableEngineError(StorageError):
 
 class CannotTranscode(StorageError):
     """Exception to indicate that StorageEngine.transcode can't or won't transcode a given file."""
-
-class StorageURI(object):
-    """
-    An access point for a :class:`mediacore.model.media.MediaFile`.
-
-    A single file may be accessed in several different ways. Each `StorageURI`
-    represents one such access point.
-
-    .. attribute:: file
-
-        The :class:`mediacore.model.media.MediaFile` this URI points to.
-
-    .. attribute:: scheme
-
-        The protocol, URI scheme, or other internally meaningful
-        string. Don't be fooled into thinking this is always going to be
-        the URI scheme (such as "rtmp://..") -- it may differ.
-
-        Some examples include:
-            * http
-            * rtmp
-            * youtube
-            * www
-
-    .. attribute:: file_uri
-
-        The file-specific portion of the URI. In the case of
-        HTTP URLs, for example, this will include the entire URL. Only
-        when the server must be defined separately does this not include
-        the entire URI.
-
-    .. attribute:: server_uri
-
-        An optional server URI. This is useful for RTMP
-        streaming servers and the like, where a streaming server must
-        be declared separately from the file.
-
-    """
-    __slots__ = ('file', 'scheme', 'file_uri', 'server_uri', '__weakref__')
-
-    def __init__(self, file, scheme, file_uri, server_uri=None):
-        self.file = file
-        self.scheme = scheme
-        self.file_uri = file_uri
-        self.server_uri = server_uri
-
-    def __str__(self):
-        """Return the best possible string representation of the URI.
-
-        NOTE: This string may not actually be usable for playing back
-              certain kinds of media. Be careful with RTMP URIs.
-
-        """
-        if self.server_uri is not None:
-            return os.path.join(self.server_uri, self.file_uri)
-        return self.file_uri
-
-    def __unicode__(self):
-        return unicode(self.__str__())
-
-    def __repr__(self):
-        return "<StorageURI '%s'>" % self.__str__()
-
-    def __getattr__(self, name):
-        """Return attributes from the file as if they were defined on the URI.
-
-        This method is called when an attribute lookup fails on this StorageURI
-        instance. Before throwing an AttributeError, we first try the lookup
-        on our :class:`~mediacore.model.media.MediaFile` instance.
-
-        For example::
-
-            self.scheme          # an attribute of this StorageURI
-            self.file.container  # clearly an attribute of the MediaFile
-            self.container       # the same attribute of the MediaFile
-
-        :param name: Attribute name
-        :raises AttributeError: If the lookup fails on the file.
-
-        """
-        if hasattr(self.file, name):
-            return getattr(self.file, name)
-        raise AttributeError('%r has no attribute %r, nor does the file '
-                             'it contains.' % (self.__class__.__name__, name))
-
 
 class StorageEngine(AbstractClass):
     """
