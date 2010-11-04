@@ -14,42 +14,20 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import logging
-import simplejson
 
 from datetime import datetime
 
 from sqlalchemy import Column, sql, Table
 from sqlalchemy.orm import column_property, dynamic_loader, mapper
 from sqlalchemy.orm.interfaces import MapperExtension
-from sqlalchemy.types import (Boolean, DateTime, Integer, MutableType, Text,
-    TypeDecorator, Unicode)
+from sqlalchemy.types import Boolean, DateTime, Integer, Unicode
 
 from mediacore.lib.storage import StorageEngine
+from mediacore.model import JsonType
 from mediacore.model.media import MediaFile, MediaFileQuery, media_files
 from mediacore.model.meta import DBSession, metadata
 
 log = logging.getLogger(__name__)
-
-class JsonType(MutableType, TypeDecorator):
-    """
-    JSON Type Decorator
-
-    This converts JSON strings to python objects and vice-versa when
-    working with SQLAlchemy Tables. The resulting python objects are
-    mutable: SQLAlchemy will be aware of any changes you make within
-    them, and they're saved automatically.
-
-    """
-    impl = Text
-
-    def process_bind_param(self, value, dialect, dumps=simplejson.dumps):
-        return dumps(value)
-
-    def process_result_value(self, value, dialect, loads=simplejson.loads):
-        return loads(value)
-
-    def copy_value(self, value, loads=simplejson.loads, dumps=simplejson.dumps):
-        return loads(dumps(value))
 
 storage = Table('storage', metadata,
     Column('id', Integer, primary_key=True, autoincrement=True),
