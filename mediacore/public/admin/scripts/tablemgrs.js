@@ -186,8 +186,7 @@ var CategoryTable = new Class({
 	options: {
 		prefix: 'cat-',
 		liStyles: ['disc', 'circle', 'square', 'circle'],
-		depthPattern: /depth-([0-9]+)/,
-		bgDepthFactor: .95
+		depthPattern: /depth-([0-9]+)/
 	},
 
 	attach: function(){
@@ -281,8 +280,11 @@ var CategoryTable = new Class({
 
 	setDepthStyling: function(row, depth){
 		row.swapClass('depth-' + this.getDepth(row), 'depth-' + depth);
-		var intensity = (255 * Math.pow(this.options.bgDepthFactor, depth)).toInt();
-		row.setStyle('background-color', [intensity, intensity, intensity].rgbToHex());
+		row.setStyle('background-color', [
+			(255 * Math.pow(0.915, depth)).toInt(),
+			(255 * Math.pow(0.945, depth)).toInt(),
+			(255 * Math.pow(0.955, depth)).toInt()
+		].rgbToHex());
 		var ul = row.getElement('td ul').setStyle('margin-left', (18 + 25 * depth) + 'px');
 		ul.getElement('li').setStyle('list-style-type', this.options.liStyles[(depth - 1) % this.options.liStyles.length]);
 		return row;
