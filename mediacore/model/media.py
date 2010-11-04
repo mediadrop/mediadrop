@@ -47,6 +47,7 @@ from pylons import app_globals
 from mediacore.lib import helpers
 from mediacore.lib.compat import any
 from mediacore.lib.filetypes import AUDIO, AUDIO_DESC, CAPTIONS, VIDEO, guess_mimetype
+from mediacore.lib.xhtml import line_break_xhtml, strip_xhtml
 from mediacore.model import SLUG_LENGTH, _mtm_count_property, _properties_dict_from_labels, MatchAgainstClause
 from mediacore.model.meta import DBSession, metadata
 from mediacore.model.authors import Author
@@ -567,14 +568,14 @@ class Media(object):
 
     @validates('description')
     def _validate_description(self, key, value):
-        self.description_plain = helpers.line_break_xhtml(
-            helpers.line_break_xhtml(value)
+        self.description_plain = line_break_xhtml(
+            line_break_xhtml(value)
         )
         return value
 
     @validates('description_plain')
     def _validate_description_plain(self, key, value):
-        return helpers.strip_xhtml(value, True)
+        return strip_xhtml(value, True)
 
     def get_uris(self):
         uris = []

@@ -24,7 +24,7 @@ from pylons.i18n import N_
 from mediacore import USER_AGENT
 from mediacore.lib.compat import max
 from mediacore.lib.filetypes import VIDEO
-from mediacore.lib.helpers import decode_entities
+from mediacore.lib.xhtml import decode_entities
 from mediacore.lib.storage import (EmbedStorageEngine, StorageURI,
     UnsuitableEngineError)
 

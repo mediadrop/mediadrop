@@ -26,7 +26,7 @@ from sqlalchemy.types import FLOAT, MutableType, Text, TypeDecorator
 from sqlalchemy.ext.compiler import compiles
 from unidecode import unidecode
 
-from mediacore.lib.htmlsanitizer import entities_to_unicode
+from mediacore.lib.xhtml.htmlsanitizer import entities_to_unicode
 from mediacore.model.meta import DBSession, metadata
 
 # maximum length of slug strings for all objects.

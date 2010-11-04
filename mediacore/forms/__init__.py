@@ -23,7 +23,8 @@ from tw.api import JSLink, JSSource
 from tw.forms import FileField, TextArea as tw_TA, TextField as tw_TF
 from tw.forms.validators import Email
 
-from mediacore.lib.helpers import clean_xhtml, decode_entities, line_break_xhtml, url_for
+from mediacore.lib.helpers import url_for
+from mediacore.lib.xhtml import clean_xhtml, decode_entities, line_break_xhtml
 from mediacore.plugin import events
 
 class LeniantValidationMixin(object):
