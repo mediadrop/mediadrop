@@ -88,16 +88,3 @@ for engine in StorageEngine:
 
 # Automatically add new engines as they're registered by plugins.
 StorageEngine.add_register_observer(add_engine_type)
-
-def fetch_engines():
-    """Return all engines ordered in descending priority.
-
-    :rtype: list
-    :returns: Instances of :class:`~mediacore.lib.storage.StorageEngine`
-        subclasses.
-
-    """
-    engines = DBSession.query(StorageEngine)\
-        .filter(StorageEngine.enabled == True)\
-        .all()
-    return engines

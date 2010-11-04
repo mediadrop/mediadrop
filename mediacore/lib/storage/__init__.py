@@ -323,10 +323,10 @@ def add_new_media_file(media, file=None, url=None):
         stored with any of the registered storage engines.
 
     """
-    from mediacore.model import DBSession, MediaFile
-    from mediacore.model.storage import fetch_engines
-
-    sorted_engines = list(sort_engines(fetch_engines()))
+    engines = DBSession.query(StorageEngine)\
+        .filter(StorageEngine.enabled == True)\
+        .all()
+    sorted_engines = list(sort_engines(engines))
 
     for engine in sorted_engines:
         try:
@@ -509,3 +509,4 @@ from mediacore.lib.storage.youtube import YoutubeStorage
 from mediacore.lib.storage.vimeo import VimeoStorage
 from mediacore.lib.storage.bliptv import BlipTVStorage
 from mediacore.lib.storage.googlevideo import GoogleVideoStorage
+from mediacore.model import DBSession, MediaFile
