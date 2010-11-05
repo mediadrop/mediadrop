@@ -16,8 +16,7 @@
 import logging
 import simplejson
 
-from itertools import ifilter, izip
-from operator import attrgetter, itemgetter
+from itertools import izip
 from urllib import urlencode
 
 from genshi.builder import Element
@@ -31,6 +30,7 @@ from mediacore.lib.templating import render
 from mediacore.lib.thumbnails import thumb_url
 from mediacore.lib.uri import StorageURI, pick_uris
 from mediacore.lib.util import merge_dicts, url_for
+#from mediacore.model.players import fetch_players XXX: Import at EOF
 from mediacore.plugin import events
 from mediacore.plugin.abc import AbstractClass, abstractmethod, abstractproperty
 from mediacore.plugin.events import observes
@@ -503,8 +503,8 @@ AbstractHTML5Player.register(HTML5Player)
 class iTunesPlayer(FileSupportMixin, AbstractPlayer):
     """
     A dummy iTunes Player that allows us to test if files :meth:`can_play`.
-    """
 
+    """
     name = 'itunes'
     logical_types = set(['podcast'])
     supported_containers = set(['mp3', 'mp4'])
@@ -515,288 +515,68 @@ class iTunesPlayer(FileSupportMixin, AbstractPlayer):
 
 ###############################################################################
 
-class AbstractPlayersManager(AbstractClass):
+def media_player(media, **kwargs):
+    """Instantiate and return the preferred player that can play this media.
+
+    We make no effort to pick the "best" player here, we simply return
+    the first player that *can* play any of the URIs associated with
+    the given media object. It's up to the user to declare their own
+    preferences wisely.
+
+    Player preferences are fetched from the database and the
+    :attr:`mediacore.model.players.c.data` dict is passed as kwargs to
+    :meth:`AbstractPlayer.__init__`.
+
+    :type media: :class:`mediacore.model.media.Media`
+    :param media: A media instance to play.
+    :param \*\*kwargs: Extra kwargs for :meth:`AbstractPlayer.__init__`.
+    :rtype: :class:`AbstractPlayer` or `None`
+    :returns: An instantiated player object. To render, you must
+        explicitly call :meth:`AbstractPlayer.render`.
     """
-    A class that decides what players to render, using what files, and how.
-    """
+    uris = media.get_uris()
 
-    name = abstractproperty()
-    """A unicode string name for the class, to be used in the settings UI."""
-
-    players = abstractproperty()
-    """A list of players ordered our preferential priority for them."""
-
-    uri_priority = [
-        ('type', [CAPTIONS, AUDIO_DESC, VIDEO, AUDIO]),
-        ('scheme', [RTMP, HTTP]),
-    ]
-    """The sort order for URIs, in decreasing importance."""
-
-    @memoize
-    def _optimized_uri_priority(self):
-        """Return dicts where values map to their numeric sort priority."""
-        return tuple(
-            (attr, dict((val, -i) for i, val in enumerate(reversed(vals))))
-            for attr, vals in reversed(self.uri_priority)
-        )
-
-    def sort_uris(self, uris):
-        """Return a new list of URIs ordered according to :attr:`uri_priority`.
-
-        Sorts the URIs repeatedly, starting at the bottom of `uri_priority` and
-        moving upwards. The priorities list given for each attribute is
-        converted to a dict, so that for every item n, we do a dict lookup
-        to find its sort priority.
-
-        :type uris: list or tuple
-        :param uris: Unorderded StorageURIs.
-        :returns: Ordered StorageURIs.
-
-        """
-        uris = list(uris)
-        uris.sort(key=lambda uri: uri.file.size, reverse=True)
-        for attr, priority_map in self._optimized_uri_priority():
-            # For each URI, lookup the value of this attr in the priority_map
-            # to find the sort key: a numeric priority with the highest
-            # priority items being the lowest negative integers.
-            uris.sort(key=lambda uri: priority_map.get(getattr(uri, attr), 1))
-        return uris
-
-    def pick_players(self, sorted_uris, media, kwargs):
-        """Initialize the unique players best able to play the given URIs.
-
-        Players are given priority based first on their ability to play
-        higher priority URIs, then by the preferred order as they were
-        originally given. This means that a Flash player may jump ahead
-        of an HTML5 player if the RTMP protocol is preferred over HTTP.
-
-        We attempt to instantiate only one player of each logical type.
-        In the simplest case, we want just one html5 player and one flash
-        player, but this logic could also handle other player types such
-        as java or silverlight. We make no assumptions about the types
-        here, we just instantiate the highest priority player for each
-        logical type provided by the able players.
-
-        :type sorted_uris: tuple
-        :param sorted_uris: StorageURIs, ordered by the priority we want them
-            to play in.
-        :type media: :class:`mediacore.model.media.Media`
-        :param media: The media object that is being rendered, to be passed
-            to all instantiated player objects.
-        :type kwargs: dict
-        :param kwargs: The options dict that is passed to the player class
-            at instantiation time.
-        :rtype list:
-        :returns: Instantiated player objects.
-
-        """
-        # Find all the players that can play any URI
-        able_players = []
-        for player_cls in self.players:
-            can_play = player_cls.can_play(sorted_uris)
-            if not any(can_play):
-                continue
-            # Grab all URIs that this player can play
-            uris = [uri for uri, plays in izip(sorted_uris, can_play) if plays]
-            # Find the index of the first URI that can play for sorting below
-            priority = ifilter(itemgetter(1), enumerate(can_play)).next()[0]
-            able_players.append((player_cls, uris, priority))
-
-        # Reorder those players by the priority of the first file they can play
-        able_players.sort(key=itemgetter(2))
-
-        players = []
-        covered_types = set()
-
-        # Instantiate the highest priority players for every logical type
-        for player_cls, player_uris, priority in able_players:
-            player_types = player_cls.logical_types
-            if player_types.difference(covered_types):
-                covered_types.update(player_types)
-                player = player_cls(media, player_uris, **kwargs)
-                players.append(player)
-
-        return players
-
-    def render(self, media, **kwargs):
-        """Return an XHTML literal with the player(s) of your choosing.
-
-        Implement :meth:`_render` to implement a custom render strategy.
-
-        :param \*\*kwargs: Any extra options that modify how the render
-            is done. All kwargs MUST be optional; provide sane defaults.
-        :rtype: :class:`genshi.core.Markup`
-        :returns: XHTML or javascript that will not be escaped by Genshi.
-
-        """
-        uris = self.sort_uris(media.get_uris())
-        players = self.pick_players(uris, media, kwargs)
-
-        if not players:
-            return None
-
-        output = self._render(*players)
-        if not output:
-            log.debug('No suitable render method found for: %r', players)
-            output = players[0].render()
-        return output
-
-    def _render(self, primary, *fallbacks):
-        """Pick a render strategy for this combination of players.
-
-        This method is intended to allow you to implement a client-side
-        fallback strategy, for when multiple players can be used.
-
-        If this method returns None, then :meth:`render` will simply
-        render the primary player and ignore all the rest.
-
-        :param \*players: Instantiated player objects.
-        :returns: Markup or None if no suitable strategy applies.
-
-        """
-        fallback = fallbacks and fallbacks[0] or None
-
-        # Render our HTML5+Flash player if it's available
-        vars = None
-        if isinstance(primary, AbstractHTML5Player) \
-        and (isinstance(fallback, AbstractFlashPlayer) or fallback is None):
-            vars = {'html5': primary,
-                    'flash': fallback,
-                    'prefer_flash': False}
-        elif isinstance(primary, AbstractFlashPlayer) \
-        and isinstance(fallback, AbstractHTML5Player):
-            vars = {'flash': primary,
-                    'html5': fallback,
-                    'prefer_flash': True}
-        if vars:
-            return render('players/html5_or_flash.html', vars)
-
-        # Alternately, try to render a plain Flash player
-        if isinstance(primary, (AbstractFlashPlayer, AbstractFlashEmbedPlayer)):
-            return render('players/flash_swiff.html', {'flash': primary})
-
+    # Find the first player that can play any uris
+    for player_cls, player_prefs in fetch_enabled_players():
+        can_play = player_cls.can_play(uris)
+        if any(can_play):
+            break
+    else:
         return None
 
-class BestPlayersManager(AbstractPlayersManager):
+    # Grab just the uris that the chosen player can play
+    playable_uris = [uri for uri, plays in izip(uris, can_play) if plays]
 
-    name = 'best'
+    # Create a new kwargs dict for the player object using the data dict
+    # from the database + the kwargs called here.
+    player_kwargs = {}
+    merge_dicts(player_kwargs, player_prefs, kwargs)
 
-    uri_priority = AbstractPlayersManager.uri_priority + [
-        ('container', list(AbstractHTML5Player.supported_containers))
-    ]
-
-    @property
-    @memoize
-    def players(self):
-        players_dict = dict((p.name, p) for p in AbstractPlayer)
-        settings = app_globals.settings
-        return [
-            players_dict[settings['html5_player']],
-            players_dict[settings['flash_player']],
-        ] + list(AbstractEmbedPlayer)
-
-AbstractPlayersManager.register(BestPlayersManager)
-
-class FlashPlayersManager(AbstractPlayersManager):
-
-    name = 'flash'
-
-    uri_priority = AbstractPlayersManager.uri_priority + [
-        ('container', list(AbstractFlashPlayer.supported_containers))
-    ]
-
-    @property
-    @memoize
-    def players(self):
-        players_dict = dict((p.name, p) for p in AbstractPlayer)
-        settings = app_globals.settings
-        return [
-            players_dict[settings['flash_player']],
-            players_dict[settings['html5_player']],
-        ] + list(AbstractEmbedPlayer)
-
-AbstractPlayersManager.register(FlashPlayersManager)
-
-class HTML5PlayersManager(AbstractPlayersManager):
-
-    name = 'html5'
-
-    @property
-    @memoize
-    def players(self):
-        players_dict = dict((p.name, p) for p in AbstractPlayer)
-        settings = app_globals.settings
-        return [
-            players_dict[settings['html5_player']],
-        ] + list(AbstractEmbedPlayer)
-
-AbstractPlayersManager.register(HTML5PlayersManager)
-
-###############################################################################
-
-def manager():
-    """Return the currently configured players manager.
-
-    Besides the first run, this only instantiates a new manager when the
-    player settings have changed.
-
-    :rtype: :class:`AbstractPlayersManager`
-    :returns: A cached players manager instance.
-    :raises PlayerError: If the player_type setting does not map to any
-        implementations of :class:`AbstractPlayersManager`.
-
-    """
-    cache = app_globals.cache.get_cache('players_manager', type='memory')
-    settings = app_globals.settings
-    name = settings['player_type']
-    key = (name, settings['flash_player'], settings['html5_player'])
-    def init_manager():
-        # Ensure we cleanup the old manager if the settings have just changed
-        cache.clear()
-        for manager in AbstractPlayersManager:
-            if manager.name == name:
-                log.debug('Initializing the players manager %r', manager)
-                return manager()
-        else:
-            raise PlayerError('Unrecognized player type, given %r', name)
-    return cache.get(createfunc=init_manager, key=key)
-
-def media_player(media, **kwargs):
-    return manager().render(media, **kwargs)
-
-def pick_any_media_file(media):
-    """Return a file playable in at least one browser, with the current
-    player_type setting, or None.
-
-    XXX: This method uses the
-         :ref:`~mediacore.lib.filetypes.pick_media_file_player` method and
-         comes with the same caveats.
-
-    :param media: A :class:`~mediacore.model.media.Media` instance.
-    :returns: A :class:`~mediacore.model.media.MediaFile` object or None
-    """
-    managerobj = manager()
-    uris = managerobj.sort_uris(media.get_uris())
-    for player in managerobj.players:
-        for i, plays in enumerate(player.can_play(uris)):
-            if plays:
-                return uris[i]
-    return None
+    return player_cls(media, playable_uris, **player_kwargs)
 
 def pick_podcast_media_file(media):
-    """Return the best choice of files to play.
-
-    XXX: This method uses the
-         :ref:`~mediacore.lib.filetypes.pick_media_file_player` method and
-         comes with the same caveats.
+    """Return a file playable in the most podcasting client: iTunes.
 
     :param media: A :class:`~mediacore.model.media.Media` instance.
     :returns: A :class:`~mediacore.model.media.MediaFile` object or None
     """
-    uris = manager().sort_uris(media.get_uris())
+    uris = media.get_uris()
     for i, plays in enumerate(iTunesPlayer.can_play(uris)):
         if plays:
             return uris[i]
+    return None
+
+def pick_any_media_file(media):
+    """Return a file playable in at least one of the configured players.
+
+    :param media: A :class:`~mediacore.model.media.Media` instance.
+    :returns: A :class:`~mediacore.model.media.MediaFile` object or None
+    """
+    uris = media.get_uris()
+    for player_cls, player_prefs in fetch_enabled_players():
+        for i, plays in enumerate(player_cls.can_play(uris)):
+            if plays:
+                return uris[i]
     return None
 
 def embed_iframe(media, width=400, height=225, frameborder=0, **kwargs):
@@ -816,3 +596,5 @@ def embed_iframe(media, width=400, height=225, frameborder=0, **kwargs):
     return tag
 
 embed_player = embed_iframe
+
+from mediacore.model.players import fetch_enabled_players

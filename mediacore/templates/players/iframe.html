@@ -26,6 +26,6 @@
 </head>
 
 <body py:if="error" py:content="error" />
-<body py:if="not error" py:content="h.media_player(media, **player_kwargs)" />
+<body py:if="not error" py:content="h.media_player(media, **player_kwargs).render()" />
 
 </html>

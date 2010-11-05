@@ -46,7 +46,7 @@
 					<div id="desc-excerpt" py:if="excerpt != fulltext" style="display:none"><p py:replace="Markup(excerpt)" /></div>
 				</py:with>
 			</div>
-			${h.media_player(media, width=560, height=315)}
+			${h.media_player(media, width=560, height=315).render()}
 			<table class="feat-meta" cellspacing="0">
 				<tr py:with="download_uri = h.download_uri(media)">
 					<td py:if="download_uri">
