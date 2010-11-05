@@ -65,7 +65,7 @@
 							</div>
 						</div>
 					</td>
-					<td py:with="embed_code = h.embed_iframe_code(media)">
+					<td py:with="embed_code = h.embed_iframe(media)">
 						<!--! FIXME: Don't render these elements when there's no embed_code.
 						             We only render because of the mess of js above that expects these elements. -->
 						<div id="embedthis" class="meta-wrapper" style="${not embed_code and 'display:none' or None}">

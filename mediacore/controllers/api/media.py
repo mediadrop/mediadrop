@@ -321,7 +321,7 @@ class MediaController(BaseController):
         )
 
         if include_embed:
-            info['embed'] = helpers.embeddable_player(media)
+            info['embed'] = unicode(helpers.embed_player(media))
 
         return info
 

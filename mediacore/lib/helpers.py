@@ -39,6 +39,8 @@ from webhelpers.html.builder import literal
 from webhelpers.html.converters import format_paragraphs
 
 from mediacore.lib.compat import any
+from mediacore.lib.players import (embed_player, embed_iframe, media_player,
+    pick_any_media_file, pick_podcast_media_file)
 from mediacore.lib.thumbnails import thumb, thumb_url
 from mediacore.lib.uri import (best_link_uri, download_uri, file_path,
     pick_uri, pick_uris, web_uri)
@@ -60,7 +62,7 @@ imports = [
 
 defined = [
     'append_class_attr', 'delete_files', 'doc_link',
-    'duration_from_seconds', 'duration_to_seconds', 'embeddable_player',
+    'duration_from_seconds', 'duration_to_seconds',
     'excess_whitespace', 'filter_library_controls',
     'get_featured_category', 'gravatar_from_email', 'is_admin', 'js',
     'pick_any_media_file', 'pick_podcast_media_file',
@@ -214,37 +216,6 @@ def append_class_attr(attrs, class_name):
 
 spaces_between_tags = re.compile('>\s+<', re.M)
 
-def embeddable_player(media):
-    """Return a string of XHTML for embedding our player on other sites.
-
-    All URLs include the domain (they're fully qualified).
-
-    Since this returns a plain string, it is automatically escaped by Genshi
-    when called in a template.
-
-    :param media: The item to embed
-    :type media: :class:`mediacore.model.media.Media` instance
-    :returns: Unicode XHTML
-    :rtype: :class:`webhelpers.html.builder.literal`
-
-    """
-    # FIXME: This doesn't do anything different than media_player, yet.
-    from mediacore.lib.players import manager
-    return manager().render(media)
-
-def embed_iframe_code(media, **kwargs):
-    """Return an <iframe> tag that loads our universal player.
-
-    :type media: :class:`mediacore.model.media.Media`
-    :param media: The media object that is being rendered, to be passed
-        to all instantiated player objects.
-    :rtype: :class:`genshi.builder.Element`
-    :returns: An iframe element stream.
-
-    """
-    from mediacore.lib.players import embed_iframe
-    return embed_iframe(media, **kwargs)
-
 def get_featured_category():
     from mediacore.model import Category
     feat_id = app_globals.settings['featured_category']
@@ -332,51 +303,6 @@ def store_transient_message(cookie_name, text, time=None, path='/', **kwargs):
     new_data = quote(json.dumps(msg))
     response.set_cookie(cookie_name, new_data, path=path)
     return msg
-
-def media_player(*args, **kwargs):
-    """Render the media player for the given media.
-
-    See :class:`mediacore.lib.players.AbstractPlayersManager`.
-    """
-    from mediacore.lib.players import manager
-    return manager().render(*args, **kwargs)
-
-def pick_podcast_media_file(media):
-    """Return the best choice of files to play.
-
-    XXX: This method uses the
-         :ref:`~mediacore.lib.filetypes.pick_media_file_player` method and
-         comes with the same caveats.
-
-    :param media: A :class:`~mediacore.model.media.Media` instance.
-    :returns: A :class:`~mediacore.model.media.MediaFile` object or None
-    """
-    from mediacore.lib.players import iTunesPlayer, manager
-    uris = manager().sort_uris(media.get_uris())
-    for i, plays in enumerate(iTunesPlayer.can_play(uris)):
-        if plays:
-            return uris[i]
-    return None
-
-def pick_any_media_file(media):
-    """Return a file playable in at least one browser, with the current
-    player_type setting, or None.
-
-    XXX: This method uses the
-         :ref:`~mediacore.lib.filetypes.pick_media_file_player` method and
-         comes with the same caveats.
-
-    :param media: A :class:`~mediacore.model.media.Media` instance.
-    :returns: A :class:`~mediacore.model.media.MediaFile` object or None
-    """
-    from mediacore.lib.players import manager
-    manager = manager()
-    uris = manager.sort_uris(media.get_uris())
-    for player in manager.players:
-        for i, plays in enumerate(player.can_play(uris)):
-            if plays:
-                return uris[i]
-    return None
 
 def doc_link(page=None, anchor='', text='Help', **kwargs):
     """Return a link (anchor element) to the documentation on the project site.

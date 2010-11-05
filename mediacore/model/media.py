@@ -44,9 +44,9 @@ from sqlalchemy.types import Boolean, DateTime, Integer, Unicode, UnicodeText
 
 from pylons import app_globals
 
-from mediacore.lib import helpers
 from mediacore.lib.compat import any
 from mediacore.lib.filetypes import AUDIO, AUDIO_DESC, CAPTIONS, VIDEO, guess_mimetype
+from mediacore.lib.players import pick_any_media_file, pick_podcast_media_file
 from mediacore.lib.xhtml import line_break_xhtml, strip_xhtml
 from mediacore.model import SLUG_LENGTH, _mtm_count_property, _properties_dict_from_labels, MatchAgainstClause
 from mediacore.model.meta import DBSession, metadata
@@ -488,11 +488,11 @@ class Media(object):
         # Test to see if we can find a workable file/player conbination
         # for the most common podcasting app w/ the POOREST format support
         if self.podcast_id \
-        and not helpers.pick_podcast_media_file(self):
+        and not pick_podcast_media_file(self):
             return False
         # Test to see if we can find a workable file/player conbination
         # for the browser w/ the BEST format support
-        if not helpers.pick_any_media_file(self):
+        if not pick_any_media_file(self):
             return False
         return True
 

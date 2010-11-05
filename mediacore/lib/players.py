@@ -761,6 +761,44 @@ def manager():
             raise PlayerError('Unrecognized player type, given %r', name)
     return cache.get(createfunc=init_manager, key=key)
 
+def media_player(media, **kwargs):
+    return manager().render(media, **kwargs)
+
+def pick_any_media_file(media):
+    """Return a file playable in at least one browser, with the current
+    player_type setting, or None.
+
+    XXX: This method uses the
+         :ref:`~mediacore.lib.filetypes.pick_media_file_player` method and
+         comes with the same caveats.
+
+    :param media: A :class:`~mediacore.model.media.Media` instance.
+    :returns: A :class:`~mediacore.model.media.MediaFile` object or None
+    """
+    managerobj = manager()
+    uris = managerobj.sort_uris(media.get_uris())
+    for player in managerobj.players:
+        for i, plays in enumerate(player.can_play(uris)):
+            if plays:
+                return uris[i]
+    return None
+
+def pick_podcast_media_file(media):
+    """Return the best choice of files to play.
+
+    XXX: This method uses the
+         :ref:`~mediacore.lib.filetypes.pick_media_file_player` method and
+         comes with the same caveats.
+
+    :param media: A :class:`~mediacore.model.media.Media` instance.
+    :returns: A :class:`~mediacore.model.media.MediaFile` object or None
+    """
+    uris = manager().sort_uris(media.get_uris())
+    for i, plays in enumerate(iTunesPlayer.can_play(uris)):
+        if plays:
+            return uris[i]
+    return None
+
 def embed_iframe(media, width=400, height=225, frameborder=0, **kwargs):
     """Return an <iframe> tag that loads our universal player.
 
@@ -776,3 +814,5 @@ def embed_iframe(media, width=400, height=225, frameborder=0, **kwargs):
     tag = Element('iframe', src=src, width=width, height=height,
                   frameborder=frameborder, **kwargs)
     return tag
+
+embed_player = embed_iframe
