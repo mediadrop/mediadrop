@@ -116,19 +116,20 @@ def delete_files(paths, subdir=None):
             else:
                 os.remove(path)
 
-def merge_dicts(dst, src):
-    """Recursively merge two dictionaries.
+def merge_dicts(dst, *srcs):
+    """Recursively merge two or more dictionaries.
 
     Code adapted from Manuel Muradas' example at
     http://code.activestate.com/recipes/499335-recursively-update-a-dictionary-without-hitting-py/
     """
-    stack = [(dst, src)]
-    while stack:
-        current_dst, current_src = stack.pop()
-        for key in current_src:
-            if key in current_dst \
-            and isinstance(current_src[key], dict) \
-            and isinstance(current_dst[key], dict):
-                stack.append((current_dst[key], current_src[key]))
-            else:
-                current_dst[key] = current_src[key]
+    for src in srcs:
+        stack = [(dst, src)]
+        while stack:
+            current_dst, current_src = stack.pop()
+            for key in current_src:
+                if key in current_dst \
+                and isinstance(current_src[key], dict) \
+                and isinstance(current_dst[key], dict):
+                    stack.append((current_dst[key], current_src[key]))
+                else:
+                    current_dst[key] = current_src[key]
