@@ -505,7 +505,7 @@ class iTunesPlayer(FileSupportMixin, AbstractPlayer):
     A dummy iTunes Player that allows us to test if files :meth:`can_play`.
     """
 
-    name = 'iTunes Player'
+    name = 'itunes'
     logical_types = set(['podcast'])
     supported_containers = set(['mp3', 'mp4'])
     supported_schemes = set([HTTP])
