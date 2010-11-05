@@ -26,17 +26,13 @@ from datetime import datetime
 from urllib import quote, unquote, urlencode
 from urlparse import urlparse
 
-import genshi.core
-import pylons.templating
-import pylons.test
-import simplejson as json
-import webob.exc
-
+from genshi.core import Stream
 from pylons import app_globals, config, request, response
 from webhelpers import date, feedgenerator, html, number, misc, text, paginate, containers
 from webhelpers.html import tags
 from webhelpers.html.builder import literal
 from webhelpers.html.converters import format_paragraphs
+from webob.exc import HTTPNotFound
 
 from mediacore.lib.compat import any
 from mediacore.lib.players import (embed_player, embed_iframe, media_player,
@@ -176,7 +172,7 @@ def attrs_to_dict(attrs):
     :returns: All attrs
     :rtype: ``dict``
     """
-    if isinstance(attrs, genshi.core.Stream):
+    if isinstance(attrs, Stream):
         attrs = list(attrs)
         attrs = attrs and attrs[0] or []
     if not isinstance(attrs, dict):
