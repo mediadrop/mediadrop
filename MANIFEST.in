@@ -1,40 +1,44 @@
+# MANIFEST.in lists all extra files for sdist to include in a distribution.
+
+# By default, because we specify no MANIFEST file, sdist will include
+# README.txt, all *.py files it finds, etc... For a full list, see:
+# http://docs.python.org/distutils/sourcedist.html#specifying-the-files-to-distribute
+
 include LICENSE.txt
 include development.ini
 include ez_setup.py
 include setup_triggers.sql
-include mediacore/config/deployment.ini_tmpl
+
+# Include the various data dirs, each containing a single file.
 include data/media/.htaccess
-include data/deleted/.htaccess
-include data/tmp/.htaccess
+include data/deleted/.dummy
+include data/python-egg-cache/.dummy
+include data/tmp/.dummy
+
+# Only include the default images, no others.
+recursive-exclude data/images/media *.*
+recursive-exclude data/images/podcasts *.*
+include data/images/media/new[sml].jpg
+include data/images/media/[1-4][sml].jpg
+include data/images/podcasts/new*.jpg
+include data/images/podcasts/1[sml].jpg
+
+# Include the docs, but not the doc/build dir.
 include doc/Makefile
 include doc/python.inv
-recursive-include batch-scripts *
-recursive-include deployment-scripts *
 recursive-include doc *.py
 recursive-include doc *.rst
-recursive-exclude doc/build *
-recursive-include mediacore/migrations *
-recursive-include mediacore/public *
-recursive-include mediacore/templates *
+prune doc/build
+
+# Include our deployment.ini template
+include mediacore/config/deployment.ini_tmpl
+
+# Include all files in these directories
+graft mediacore/migrations
+graft mediacore/public
+graft mediacore/templates
+
+# Always ignore scrap files
 recursive-exclude * *.pyc
 recursive-exclude * .*.swp
 recursive-exclude * .DS_Store
-recursive-exclude mediacore/public/images/media *.*
-include mediacore/public/images/media/new*.jpg
-include mediacore/public/images/media/1s.jpg
-include mediacore/public/images/media/1m.jpg
-include mediacore/public/images/media/1l.jpg
-include mediacore/public/images/media/2s.jpg
-include mediacore/public/images/media/2m.jpg
-include mediacore/public/images/media/2l.jpg
-include mediacore/public/images/media/3s.jpg
-include mediacore/public/images/media/3m.jpg
-include mediacore/public/images/media/3l.jpg
-include mediacore/public/images/media/4s.jpg
-include mediacore/public/images/media/4m.jpg
-include mediacore/public/images/media/4l.jpg
-recursive-exclude mediacore/public/images/podcasts *.*
-include mediacore/public/images/podcasts/new*.jpg
-include mediacore/public/images/podcasts/1s.jpg
-include mediacore/public/images/podcasts/1m.jpg
-include mediacore/public/images/podcasts/1l.jpg

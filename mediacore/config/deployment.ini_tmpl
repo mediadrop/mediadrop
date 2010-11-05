@@ -89,7 +89,10 @@ set debug = false
 keys = root
 
 [handlers]
-keys = console, wsgierrors, logfile
+keys = console, wsgierrors
+# To enable a mediacore-specific logfile, see the [handler_logfile] setting
+# below, and add 'logfile' to the list of keys, like so
+# keys = console, wsgierrors, logfile
 
 [formatters]
 keys = generic
@@ -115,7 +118,8 @@ level = NOTSET
 format = generic
 
 [handler_logfile]
-# Handler for logging to a dedicated logfile
+# Handler for logging to a dedicated logfile. To use this, see the [handlers]
+# section above; ensure the logfile you name is writeable by your server user.
 class = FileHandler
 args = ('/path/to/mediacore_install/data/deployment.log','a')
 level = NOTSET
