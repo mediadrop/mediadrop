@@ -32,7 +32,7 @@
 	      rel="alternate" type="application/rss+xml" title="Latest ${in_text}"
 	      href="${h.url_for(controller='/categories', action='feed', slug=c.category.name)}" />
 </head>
-<body>
+<body py:if="featured or popular or latest">
 	<h2><span class="uppercase">Featured</span> ${in_text}</h2>
 	<div id="category-feature" class="feat-box">
 		<div class="feat-top" />
