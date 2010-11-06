@@ -22,6 +22,7 @@ from urllib import urlencode
 from genshi.builder import Element
 from genshi.core import Markup
 from pylons import app_globals
+from pylons.i18n import N_
 
 from mediacore.lib.compat import any
 from mediacore.lib.decorators import memoize
@@ -50,7 +51,10 @@ class AbstractPlayer(AbstractClass):
     """
 
     name = abstractproperty()
-    """A unicode string name for the class, to be used in the settings UI."""
+    """A unicode string identifier for this class."""
+
+    display_name = abstractproperty()
+    """A unicode display name for the class, to be used in the settings UI."""
 
     logical_types = abstractproperty()
     """The `set` of playback methods this player implements.
@@ -217,9 +221,8 @@ class AbstractFlashPlayer(FileSupportMixin, FlashRenderMixin, AbstractPlayer):
     """
     Base Class for standard Flash Players.
 
-    This does not include flash players from other vendors (embed types),
-    but we may want to change that after the storage engine architecture
-    has been implemented.
+    This does not typically include flash players from other vendors
+    such as embed types.
 
     """
     logical_types = set(['flash'])
@@ -238,7 +241,11 @@ class FlowPlayer(AbstractFlashPlayer):
     """
     FlowPlayer (Flash)
     """
-    name = 'flowplayer'
+    name = u'flowplayer'
+    """A unicode string identifier for this class."""
+
+    display_name = N_(u'Flowplayer')
+    """A unicode display name for the class, to be used in the settings UI."""
 
     supported_schemes = set([HTTP])
 
@@ -289,7 +296,11 @@ class JWPlayer(AbstractFlashPlayer):
     """
     JWPlayer (Flash)
     """
-    name = 'jwplayer'
+    name = u'jwplayer'
+    """A unicode string identifier for this class."""
+
+    display_name = N_(u'JWPlayer')
+    """A unicode display name for the class, to be used in the settings UI."""
 
     supported_containers = AbstractFlashPlayer.supported_containers
 #    supported_containers.add('youtube')
@@ -365,6 +376,7 @@ AbstractFlashPlayer.register(JWPlayer)
 class AbstractEmbedPlayer(AbstractPlayer):
 
     scheme = abstractproperty()
+    """The `StorageURI.scheme` which uniquely identifies this embed type."""
 
     @classmethod
     def can_play(cls, uris):
@@ -386,7 +398,15 @@ class VimeoUniversalEmbedPlayer(AbstractEmbedPlayer):
     Vimeo Universal Player
     """
 
-    name = scheme = 'vimeo'
+    name = u'vimeo'
+    """A unicode string identifier for this class."""
+
+    display_name = N_(u'Vimeo')
+    """A unicode display name for the class, to be used in the settings UI."""
+
+    scheme = u'vimeo'
+    """The `StorageURI.scheme` which uniquely identifies this embed type."""
+
     logical_types = set(['flash', 'html5'])
 
     def render(self, **kwargs):
@@ -413,23 +433,46 @@ class AbstractFlashEmbedPlayer(FlashRenderMixin, AbstractEmbedPlayer):
 
 class YouTubeFlashPlayer(AbstractFlashEmbedPlayer):
 
-    name = scheme = 'youtube'
+    name = u'youtube'
+    """A unicode string identifier for this class."""
+
+    display_name = N_(u'YouTube')
+    """A unicode display name for the class, to be used in the settings UI."""
+
+    scheme = u'youtube'
+    """The `StorageURI.scheme` which uniquely identifies this embed type."""
+
     _height_diff = 25
-    is_youtube = True
 
 AbstractFlashEmbedPlayer.register(YouTubeFlashPlayer)
 
 
 class GoogleVideoFlashPlayer(AbstractFlashEmbedPlayer):
 
-    name = scheme = 'googlevideo'
+    name = u'googlevideo'
+    """A unicode string identifier for this class."""
+
+    display_name = N_(u'Google Video')
+    """A unicode display name for the class, to be used in the settings UI."""
+
+    scheme = u'googlevideo'
+    """The `StorageURI.scheme` which uniquely identifies this embed type."""
+
     _height_diff = 27
 
 AbstractFlashEmbedPlayer.register(GoogleVideoFlashPlayer)
 
 class BlipTVFlashPlayer(AbstractFlashEmbedPlayer):
 
-    name = scheme = 'bliptv'
+    name = u'bliptv'
+    """A unicode string identifier for this class."""
+
+    display_name = N_(u'BlipTV')
+    """A unicode display name for the class, to be used in the settings UI."""
+
+    scheme = u'bliptv'
+    """The `StorageURI.scheme` which uniquely identifies this embed type."""
+
 
 AbstractFlashEmbedPlayer.register(BlipTVFlashPlayer)
 
@@ -494,7 +537,11 @@ class HTML5Player(AbstractHTML5Player):
     and provide a custom HTML5 player.
 
     """
-    name = 'html5'
+    name = u'html5'
+    """A unicode string identifier for this class."""
+
+    display_name = N_(u'Plain HTML5 Player')
+    """A unicode display name for the class, to be used in the settings UI."""
 
 AbstractHTML5Player.register(HTML5Player)
 
@@ -505,7 +552,12 @@ class iTunesPlayer(FileSupportMixin, AbstractPlayer):
     A dummy iTunes Player that allows us to test if files :meth:`can_play`.
 
     """
-    name = 'itunes'
+    name = u'itunes'
+    """A unicode string identifier for this class."""
+
+    display_name = N_(u'iTunes Player')
+    """A unicode display name for the class, to be used in the settings UI."""
+
     logical_types = set(['podcast'])
     supported_containers = set(['mp3', 'mp4'])
     supported_schemes = set([HTTP])
