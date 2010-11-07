@@ -30,11 +30,14 @@ log = logging.getLogger(__name__)
 class LoginController(BaseController):
     @expose('login.html')
     @observable(events.LoginController.login)
-    def login(self, came_from=url_for(controller='admin', action='index'), **kwargs):
+    def login(self, came_from=None, **kwargs):
         login_counter = request.environ.get('repoze.who.logins', 0)
         if login_counter > 0:
             # TODO: display a 'wrong username/password' warning
             pass
+
+        if not came_from:
+            came_from = url_for(controller='admin', action='index', qualified=True)
 
         return dict(
             login_counter = str(login_counter),
@@ -63,22 +66,25 @@ class LoginController(BaseController):
 
     @expose()
     @observable(events.LoginController.post_login)
-    def post_login(self, came_from=url_for(controller='admin', action='index'), **kwargs):
-        if not request.identity:
+    def post_login(self, came_from=None, **kwargs):
+        if request.identity:
+            userid = request.identity['repoze.who.userid']
+        else:
             login_counter = request.environ['repoze.who.logins'] + 1
-            redirect(came_from)
 
-        userid = request.identity['repoze.who.userid']
-        redirect(came_from)
+        if came_from:
+            redirect(came_from)
+        else:
+            redirect(controller='admin', action='index')
 
     @expose()
     @observable(events.LoginController.post_logout)
     def post_logout(self, came_from=None, **kwargs):
-        redirect(url_for('/'))
+        redirect('/')
 
     def __call__(self, environ, start_response):
         """Invoke the Controller"""
-        # TGController.__call__ dispatches to the Controller method
+        # BaseController.__call__ dispatches to the Controller method
         # the request is routed to. This routing information is
         # available in environ['pylons.routes_dict']
         request.identity = request.environ.get('repoze.who.identity')
