@@ -56,13 +56,6 @@ class AbstractPlayer(AbstractClass):
     display_name = abstractproperty()
     """A unicode display name for the class, to be used in the settings UI."""
 
-    logical_types = abstractproperty()
-    """The `set` of playback methods this player implements.
-
-    The value of this is used only to differentiate it from other players,
-    so that we can choose a fallback player that implements a different method.
-    """
-
     @abstractmethod
     def can_play(cls, uris):
         """Test all the given URIs to see if they can be played by this player.
@@ -225,7 +218,6 @@ class AbstractFlashPlayer(FileSupportMixin, FlashRenderMixin, AbstractPlayer):
     such as embed types.
 
     """
-    logical_types = set(['flash'])
     supported_containers = set(['mp3', 'mp4', 'flv', 'flac'])
 
     @abstractmethod
@@ -407,8 +399,6 @@ class VimeoUniversalEmbedPlayer(AbstractEmbedPlayer):
     scheme = u'vimeo'
     """The `StorageURI.scheme` which uniquely identifies this embed type."""
 
-    logical_types = set(['flash', 'html5'])
-
     def render(self, **kwargs):
         uri = self.uris[0]
         tag = Element('iframe', src=uri, frameborder=0,
@@ -419,8 +409,6 @@ AbstractEmbedPlayer.register(VimeoUniversalEmbedPlayer)
 
 
 class AbstractFlashEmbedPlayer(FlashRenderMixin, AbstractEmbedPlayer):
-
-    logical_types = set(['flash'])
 
     def swf_url(self):
         """Return the flash player URL."""
@@ -488,7 +476,6 @@ class AbstractHTML5Player(FileSupportMixin, AbstractPlayer):
         - http://developer.apple.com/safari/library/documentation/AudioVideo/Conceptual/Using_HTML5_Audio_Video/Introduction/Introduction.html
 
     """
-    logical_types = set(['html5'])
     supported_containers = set(['mp3', 'mp4', 'ogg', 'webm', 'm3u8'])
     supported_schemes = set([HTTP])
 
@@ -558,7 +545,6 @@ class iTunesPlayer(FileSupportMixin, AbstractPlayer):
     display_name = N_(u'iTunes Player')
     """A unicode display name for the class, to be used in the settings UI."""
 
-    logical_types = set(['podcast'])
     supported_containers = set(['mp3', 'mp4'])
     supported_schemes = set([HTTP])
 
