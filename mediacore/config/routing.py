@@ -21,6 +21,12 @@ refer to the routes manual at http://routes.groovie.org/docs/
 from routes import Mapper
 from routes.util import controller_scan
 
+login_form_url = '/login'
+login_handler_url = '/login/submit'
+logout_handler_url = '/logout'
+post_login_url = '/login/continue'
+post_logout_url = '/logout/continue'
+
 def make_map(config, controller_scan=controller_scan):
     """Create, configure and return the routes Mapper"""
     map = Mapper(controller_scan=controller_scan,
@@ -110,14 +116,14 @@ def make_map(config, controller_scan=controller_scan):
     # Auth Routes #
     ###############
 
-    # XXX: These URLs are hardcoded into mediacore.lib.auth and
-    # mediacore.templates.login.html. These files are initialized before
-    # routing helper methods (ie pylons.url) are available.
-    map.connect('/login', controller='login', action='login')
-    map.connect('/login/submit', controller='login', action='login_handler')
-    map.connect('/login/continue', controller='login', action='post_login')
-    map.connect('/logout/continue', controller='login', action='post_logout')
-    map.connect('/logout', controller='login', action='logout_handler')
+    # XXX: These URLs are hardcoded into mediacore/templates/login.html
+    # This file is initialized by the auth middleware before routing helper
+    # methods (ie pylons.url) are available.
+    map.connect(login_form_url, controller='login', action='login')
+    map.connect(login_handler_url, controller='login', action='login_handler')
+    map.connect(logout_handler_url, controller='login', action='logout_handler')
+    map.connect(post_login_url, controller='login', action='post_login')
+    map.connect(post_logout_url, controller='login', action='post_logout')
 
 
     ################

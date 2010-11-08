@@ -23,6 +23,7 @@ from paste.request import parse_formvars
 from repoze.what.plugins.quickstart import setup_sql_auth
 from repoze.who.classifiers import default_request_classifier
 
+from mediacore.config.routing import login_form_url, login_handler_url, logout_handler_url, post_login_url, post_logout_url
 from mediacore.model.meta import DBSession
 from mediacore.model import Group, Permission, User
 
@@ -33,18 +34,18 @@ def add_auth(app, config):
     return setup_sql_auth(
         app, User, Group, Permission, DBSession,
 
-        # NOTE: all four URLs are defined in mediacore.config.routing
-        # XXX: The first two URLs are intercepted by the sql_auth middleware
-        login_handler = '/login/submit',
-        logout_handler = '/logout',
+        login_url = login_form_url,
+        # XXX: These two URLs are intercepted by the sql_auth middleware
+        login_handler = login_handler_url,
+        logout_handler = logout_handler_url,
 
         # You may optionally define a page where you want users to be
         # redirected to on login:
-        post_login_url = '/login/continue',
+        post_login_url = post_login_url,
 
         # You may optionally define a page where you want users to be
         # redirected to on logout:
-        post_logout_url = '/logout/continue',
+        post_logout_url = post_logout_url,
 
         # Hook into the auth process to read the session ID out of the POST
         # vars during flash upload requests.
