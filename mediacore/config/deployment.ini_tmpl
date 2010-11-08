@@ -30,10 +30,11 @@ sa_auth.cookie_secret = ${app_instance_secret}
 # e.g. if you want your tables to be named like 'mcore_media', you should set:
 # db_table_prefix = mcore
 
-# Fastcgi and mod_proxy settings.
-# Use these if you are hosting mediacore via FastCGI or behind a proxy.
-# e.g. if hosting mediacore via mod_rewrite or mod_proxy at the URL
-# yoursite.com/my_proxied_mediacore/, you should set:
+# mod_proxy settings (untested)
+# Use this if you are hosting mediacore behind a proxy.
+# e.g. If hosting mediacore via mod_proxy at the URL
+#      yoursite.com/my_proxied_mediacore/, such that all requests are passed
+#      through to a Paste server at localhost:8080/, you should set:
 # proxy_prefix = /my_proxied_mediacore
 
 # Method to use when servng static media files. On of:
