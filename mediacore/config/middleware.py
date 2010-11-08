@@ -59,6 +59,23 @@ class DBSessionRemoverMiddleware(object):
         finally:
             DBSession.remove()
 
+class FastCGIScriptStripperMiddleware(object):
+    """Strip the given fcgi_script_name from the end of environ['SCRIPT_NAME'].
+
+    Useful for the default FastCGI deployment, where mod_rewrite is used to
+    avoid having to put the .fcgi file name into the URL.
+    """
+    def __init__(self, app, fcgi_script_name='/mediacore.fcgi'):
+        self.app = app
+        self.fcgi_script_name = fcgi_script_name
+        self.cut = len(fcgi_script_name)
+
+    def __call__(self, environ, start_response):
+        script_name = environ.get('SCRIPT_NAME', '')
+        if script_name.endswith(self.fcgi_script_name):
+            environ['SCRIPT_NAME'] = script_name[:-self.cut]
+        return self.app(environ, start_response)
+
 def setup_tw_middleware(app, config):
     # Set up the TW middleware, as per errors and instructions at:
     # http://groups.google.com/group/toscawidgets-discuss/browse_thread/thread/c06950b8d1f62db9
@@ -155,6 +172,9 @@ def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
 
     # ToscaWidgets Middleware
     app = setup_tw_middleware(app, config)
+
+    # Strip the name of the .fcgi script, if using one, from the SCRIPT_NAME
+    app = FastCGIScriptStripperMiddleware(app)
 
     # If enabled, set up the proxy prefix for routing behind
     # fastcgi and mod_proxy based deployments.
