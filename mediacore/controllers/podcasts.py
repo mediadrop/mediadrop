@@ -21,7 +21,8 @@ import pylons.templating
 
 from mediacore.lib import helpers
 from mediacore.lib.base import BaseController
-from mediacore.lib.decorators import expose, expose_xhr, observable, paginate, validate
+from mediacore.lib.decorators import (beaker_cache, expose, expose_xhr,
+    observable, paginate, validate)
 from mediacore.lib.helpers import redirect
 from mediacore.model import Category, Media, Podcast, fetch_row
 from mediacore.model.meta import DBSession
@@ -106,6 +107,7 @@ class PodcastsController(BaseController):
             show = show,
         )
 
+    @beaker_cache(expire=60 * 20, query_args=True)
     @expose('podcasts/feed.xml')
     @observable(events.PodcastsController.feed)
     def feed(self, slug, **kwargs):
