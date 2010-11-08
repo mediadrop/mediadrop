@@ -534,10 +534,79 @@ AbstractHTML5Player.register(HTML5Player)
 
 ###############################################################################
 
+class HTML5PlusFlowPlayer(AbstractHTML5Player):
+    """HTML5 Player with fallback to FlowPlayer.
+
+    """
+    name = u'html5+flowplayer'
+    """A unicode string identifier for this class."""
+
+    display_name = N_(u'HTML5 + Flowplayer Fallback')
+    """A unicode display name for the class, to be used in the settings UI."""
+
+    supported_containers = HTML5Player.supported_containers \
+                         | FlowPlayer.supported_containers
+    supported_schemes = HTML5Player.supported_schemes \
+                      | FlowPlayer.supported_schemes
+
+    def __init__(self, media, uris, **kwargs):
+        self.html5 = None
+        self.flowplayer = None
+        html_uris = [u for u, p in izip(uris, HTML5Player.can_play(uris)) if p]
+        flow_uris = [u for u, p in izip(uris, FlowPlayer.can_play(uris)) if p]
+        if html_uris:
+            self.html5 = HTML5Player(media, html_uris, **kwargs)
+        if flow_uris:
+            self.flowplayer = FlowPlayer(media, flow_uris, **kwargs)
+
+    def render(self, **kwargs):
+        return render('players/html5_or_flash.html', {
+            'html5': self.html5,
+            'flash': self.flowplayer,
+            'prefer_flash': not self.html5,
+        })
+
+AbstractHTML5Player.register(HTML5PlusFlowPlayer)
+
+class HTML5PlusJWPlayer(AbstractHTML5Player):
+    """HTML5 Player with fallback to JWPlayer.
+
+    """
+    name = u'html5+jwplayer'
+    """A unicode string identifier for this class."""
+
+    display_name = N_(u'HTML5 + JWPlayer Fallback')
+    """A unicode display name for the class, to be used in the settings UI."""
+
+    supported_containers = HTML5Player.supported_containers \
+                         | JWPlayer.supported_containers
+    supported_schemes = HTML5Player.supported_schemes \
+                      | JWPlayer.supported_schemes
+
+    def __init__(self, media, uris, **kwargs):
+        self.html5 = None
+        self.jwplayer = None
+        html_uris = [u for u, p in izip(uris, HTML5Player.can_play(uris)) if p]
+        jw_uris = [u for u, p in izip(uris, JWPlayer.can_play(uris)) if p]
+        if html_uris:
+            self.html5 = HTML5Player(media, html_uris, **kwargs)
+        if jw_uris:
+            self.jwplayer = JWPlayer(media, jw_uris, **kwargs)
+
+    def render(self, **kwargs):
+        return render('players/html5_or_flash.html', {
+            'html5': self.html5,
+            'flash': self.jwplayer,
+            'prefer_flash': not self.html5,
+        })
+
+AbstractHTML5Player.register(HTML5PlusJWPlayer)
+
+###############################################################################
+
 class iTunesPlayer(FileSupportMixin, AbstractPlayer):
     """
     A dummy iTunes Player that allows us to test if files :meth:`can_play`.
-
     """
     name = u'itunes'
     """A unicode string identifier for this class."""
