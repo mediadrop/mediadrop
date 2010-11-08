@@ -5,6 +5,10 @@ Options +ExecCGI +FollowSymlinks
 AddHandler fastcgi-script .fcgi
 RewriteEngine On
 
+# Create rewrite rules for media and podcast images
+RewriteRule ^images/media/(.*)$ mediacore.fcgi/images/media/$1 [L]
+RewriteRule ^images/podcasts/(.*)$ mediacore.fcgi/images/podcasts/$1 [L]
+
 # Create rewrite rules for serving MediaCore's static content
 RewriteRule ^(admin/)?(styles|images|scripts)/(.*)$ public/$1$2/$3 [L]
 
