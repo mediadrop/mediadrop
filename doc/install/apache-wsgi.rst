@@ -37,35 +37,20 @@ stage you already have three, and the remaining ones are very easy to set up.
 
 Instructions
 ------------
-**NOTE 1:** The following instructions assume that you're deploying MediaCore
+**NOTE 1:** You should have already created a ``deployment.ini`` file and set
+the permissions on the ``data`` subdirectories as outlined in
+:ref:`production_deployments`
+
+**NOTE 2:** The following instructions assume that you're deploying MediaCore
 to ``http://yourdomain.com/my_media/``. To deploy mediacore to any other path,
 simply replace all references to ``/my_media`` below with your desired path.
 
-**NOTE 2:** We will not actually be creating a ``my_media`` directory, but we
+**NOTE 3:** We will not actually be creating a ``my_media`` directory, but we
 will use aliases in the Apache config to make sure that requests to
 ``http://yourdomain.com/my_media/`` are passed to MediaCore.
 
-First, create a temporary directory and a python cache directory for your
-deployment to use.
-
-.. sourcecode:: bash
-
-   cd /path/to/mediacore_install/data
-   mkdir tmp
-   mkdir python-egg-cache
-
-**Permissions:**
-Now is a good time to make sure that all of the apropriate files have the
-correct permissions. The following files/directories should be writeable by
-your apache user.
-(Depending on how your server is set up, the user name may be different).
-
-1. ``/path/to/mediacore_install/deployment-scripts/mod_wsgi/wsgi.pid``
-#. ``/path/to/mediacore_install/mediacore/public/images/podcasts/``
-#. ``/path/to/mediacore_install/mediacore/public/images/media/``
-#. all of the folders inside the ``/path/to/mediacore_install/data/``
-
-Second, you'll need to edit the paths in ``/path/to/mediacore_install/deployment-scripts/mod_wsgi/mediacore.wsgi``
+First, you'll need to edit the paths in
+``/path/to/mediacore_install/deployment-scripts/mod_wsgi/mediacore.wsgi``
 to point to your own mediacore installation and virtual environment. The
 **two (2)** lines you need to edit are at the top of the file, and look like
 this:
@@ -74,15 +59,6 @@ this:
 
    deployment_config = '/path/to/mediacore_install/deployment.ini'
    temp_dir = '/path/to/mediacore_install/data/tmp'
-
-Third, edit one line in ``/path/to/mediacore_install/deployment.ini``. Find
-the proxy_prefix line, uncomment it, and set the prefix to ``/my_media``. This
-will ensure that the URLs generated within the application point to the right
-place:
-
-.. sourcecode:: ini
-
-   proxy_prefix = /my_media
 
 Finally, you will need to add the following lines to your Apache configuration.
 Depending on your setup, you may want to add it to the main ``httpd.conf`` file,

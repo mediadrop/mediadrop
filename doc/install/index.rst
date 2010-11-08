@@ -238,6 +238,8 @@ via our `community forums <http://getmediacore.com/>`_.
 If this is your development machine, you're good to go.
 
 
+.. _production_deployments:
+
 Step 7: Production Deployments
 ------------------------------
 
@@ -257,6 +259,12 @@ people demand more in production environments.
 
    Then edit ``deployment.ini`` as you did for ``development.ini`` (e.g. set
    up the database config line).
+
+**Permissions:**
+   Usually, when deploying using a production server, the user that runs the
+   server will not be the user account that installs the software. You need
+   to ensure that your server user can write to all of the directories inside
+   ``/path/to/mediacore_installs/data``.
 
 **Production Server:**
    MediaCore is WSGI-based so there are many possible ways to deploy it.
