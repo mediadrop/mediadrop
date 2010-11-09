@@ -46,9 +46,14 @@ sitemaps = [
     ('disabled', _('Disable Sitemaps')),
 ]
 
+title_options = [
+    ('prepend', _('Prepend')),
+    ('append', _('Append')),
+]
+
 rich_text_editors = [
     ('plain', _('Plain <textarea> fields (0kB)')),
-    ('tinymce', literal('Enable <a href="http://tinymce.moxiecode.com">TinyMCE</a> for &lt;textarea&gt; fields that accept XHTML input. - <a href="http://wiki.moxiecode.com/index.php/TinyMCE:License">LGPL License</a> (281kB)')),
+    ('tinymce', literal('Enable <a href="http://tinymce.moxiecode.com">TinyMCE</a> for &lt;textarea&gt; fields accepting XHTML. <a href="http://wiki.moxiecode.com/index.php/TinyMCE:License">LGPL License</a> (281kB)')),
 ]
 
 def multi_settings_options(key):
@@ -213,6 +218,36 @@ class SiteMapsForm(ListForm):
                 ),
             ]
         ),
+        SubmitButton('save', default=_('Save'), css_classes=['btn', 'btn-save', 'blue', 'f-rgt']),
+        ResetButton('cancel', default=_('Cancel'), css_classes=['btn', 'btn-cancel']),
+    ]
+
+class GeneralForm(ListForm):
+    template = 'admin/box-form.html'
+    id = 'settings-form'
+    css_class = 'form'
+    submit_text = None
+    fields = [
+        ListFieldSet('general', suppress_label=True, legend=_('General Settings:'), css_classes=['details_fieldset'], children=[
+            TextField('general_site_name', maxlength=255,
+                label_text=_('Site Name')),
+            TextField('general_tag_line', maxlength=255,
+                label_text=_('Site Tag Line')),
+            SingleSelectField('general_site_title_display_order',
+                label_text=_('Display Site Name'),
+                options=title_options,
+            ),
+            SingleSelectField('featured_category',
+                label_text=_('Featured Category'),
+                options=category_options,
+                validator=Int(),
+            ),
+            RadioButtonList('rich_text_editor',
+                label_text=_('Rich Text Editing'),
+                options=rich_text_editors,
+                validator=OneOf([x[0] for x in rich_text_editors]),
+            ),
+        ]),
         SubmitButton('save', default=_('Save'), css_classes=['btn', 'btn-save', 'blue', 'f-rgt']),
         ResetButton('cancel', default=_('Cancel'), css_classes=['btn', 'btn-cancel']),
     ]
