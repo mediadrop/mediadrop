@@ -686,6 +686,35 @@ AbstractHTML5Player.register(HTML5PlusJWPlayer)
 
 ###############################################################################
 
+class SublimePlayer(AbstractHTML5Player):
+    """
+    Sublime Video Player with a builtin flash fallback
+    """
+    name = u'sublime'
+    """A unicode string identifier for this class."""
+
+    display_name = N_(u'Sublime Video Player')
+    """A unicode display name for the class, to be used in the settings UI."""
+
+    settings_form_class = player_forms.SublimePlayerPrefsForm
+    """An optional :class:`mediacore.forms.admin.players.PlayerPrefsForm`."""
+
+    default_data = {'script_tag': ''}
+    """An optional default data dictionary for user preferences."""
+
+    def html5_attrs(self):
+        attrs = super(SublimePlayer, self).html5_attrs()
+        attrs['class'] = (attrs.get('class', '') + ' sublime').strip()
+        return attrs
+
+    def render(self, **kwargs):
+        video_tag = super(SublimePlayer, self).render(**kwargs)
+        return video_tag + Markup(self.data['script_tag'])
+
+AbstractHTML5Player.register(SublimePlayer)
+
+###############################################################################
+
 class iTunesPlayer(FileSupportMixin, AbstractPlayer):
     """
     A dummy iTunes Player that allows us to test if files :meth:`can_play`.
