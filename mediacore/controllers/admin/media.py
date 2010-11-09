@@ -395,11 +395,9 @@ class MediaController(BaseController):
                 file.bitrate = fields.bitrate.validate(bitrate)
                 data['success'] = True
             elif delete:
-                storage = file.storage
-                unique_id = file.unique_id
+                file.storage.delete(file.unique_id)
                 DBSession.delete(file)
                 DBSession.flush()
-                storage.delete(unique_id)
                 media = fetch_row(Media, id)
                 data['success'] = True
             else:
@@ -680,21 +678,18 @@ class MediaController(BaseController):
             media.slug = new_slug
 
     def _delete_media(self, media):
-        # Collect everything we'll need to delete after updating the DB
-        files = []
-        file_storage = []
+        # FIXME: Ensure that if the first file is deleted from the file system,
+        #        then the second fails, the first file is deleted from the
+        #        and not not linking to a nonexistent file.
+        # Delete every file from the storage engine
         for file in media.files:
-            file_storage.append(file.storage)
-            # Detach the file from the session but retain the data
-            orm.make_transient(file)
-            files.append(file)
-        thumbs = thumb_paths(media).values()
-
-        # Delete it
+            file.storage.delete(file.unique_id)
+            # Remove this item from the DBSession so that the foreign key
+            # ON DELETE CASCADE can take effect.
+            DBSession.expunge(file)
+        # Delete the media
         DBSession.delete(media)
         DBSession.flush()
-
-        # Delete all the files from their corresponding storage engines
-        for storage, file in izip(file_storage, files):
-            storage.delete(file.unique_id)
+        # Cleanup the thumbnails
+        thumbs = thumb_paths(media).values()
         helpers.delete_files(thumbs, Media._thumb_dir)
