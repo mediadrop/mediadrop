@@ -190,6 +190,18 @@ class StorageEngine(AbstractClass):
 
         """
 
+    def postprocess(self, media_file):
+        """Perform additional post-processing after the save is complete.
+
+        This is called after :meth:`parse`, :meth:`store`, thumbnails
+        have been saved and the changes to database flushed.
+
+        :type media_file: :class:`~mediacore.model.media.MediaFile`
+        :param media_file: The associated media file object.
+        :returns: None
+
+        """
+
     def delete(self, unique_id):
         """Delete the stored file represented by the given unique ID.
 
@@ -391,6 +403,8 @@ def add_new_media_file(media, file=None, url=None):
             thumb_file.close()
 
     DBSession.flush()
+
+    engine.postprocess(mf)
 
     # Try to transcode the file.
     for engine in sorted_engines:
