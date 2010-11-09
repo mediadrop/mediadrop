@@ -26,7 +26,7 @@ var CommentMgr = new Class({
 		deleteLink: 'a.btn-inline-delete',
 		publishLink: 'a.btn-inline-approve',
 		bulkPublishBtnClass: 'btn btn-inline-approve f-lft',
-		bulkDeleteBtnClass: 'btn btn-inline-delete f-rgt',
+		bulkDeleteBtnClass: 'btn btn-inline-delete f-rgt'
 	},
 
 	bulkMgr: null,

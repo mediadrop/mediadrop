@@ -149,7 +149,7 @@ var CrudTable = new Class({
 			ajax: true,
 			focus: 'cancel',
 			extraData: {'delete': 1}
-		},
+		}
 	},
 
 	addModal: null,
