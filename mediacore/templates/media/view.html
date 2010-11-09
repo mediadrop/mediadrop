@@ -23,10 +23,10 @@
 <xi:include href="../comments/_list.html" />
 <xi:include href="../social/facebook.html" />
 <head>
-	<title>${media.title}</title>
+	<title>${h.page_title(media.title, media=media)}</title>
 	<link py:if="media.podcast" href="${h.url_for('/styles/podcasts.css')}" media="screen" rel="stylesheet" type="text/css" />
-	<meta name="description" content="${h.truncate(media.description_plain, 249)}" />
-	<meta name="keywords" content="${', '.join(tag.name for tag in media.tags[:15])}" />
+	<meta name="description" content="${h.meta_description(media=media)}" />
+	<meta name="keywords" content="${h.meta_keywords(media=media)}" />
 	<script type="text/javascript" src="${h.url_for('/scripts/media.js')}" />
 </head>
 <body class="${media.podcast and 'nav-podcasts-on' or 'nav-media-on'}">

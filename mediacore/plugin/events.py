@@ -298,3 +298,10 @@ Admin.ThumbForm = Event(['form'])
 
 plugin_settings_links = GeneratorEvent([])
 EncodeMediaFile = Event(['media_file'])
+page_title = FetchFirstResultEvent('default=None, category=None, \
+    media=None, podcast=None, upload=None, **kwargs')
+meta_keywords = FetchFirstResultEvent('category=None, media=None, \
+    podcast=None, upload=None, **kwargs')
+meta_description = FetchFirstResultEvent('category=None, media=None, \
+    podcast=None, upload=None, **kwargs')
+meta_robots_noindex = FetchFirstResultEvent('categories=None, rss=None, **kwargs')

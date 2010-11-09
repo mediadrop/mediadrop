@@ -19,6 +19,7 @@
      xmlns:py="http://genshi.edgewall.org/"
      xmlns:atom="http://www.w3.org/2005/Atom">
 	<channel>
+		<xhtml:meta py:strip="h.meta_robots_noindex(rss=True)" xmlns:xhtml="http://www.w3.org/1999/xhtml" name="robots" content="noindex" />
 		<title py:if="defined('title')" py:content="title" />
 		<link py:content="h.url_for(controller='/media', qualified=True)" />
 		<description py:if="defined('description')" py:content="description" />

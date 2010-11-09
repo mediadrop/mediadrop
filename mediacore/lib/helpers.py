@@ -42,6 +42,8 @@ from webhelpers.html.converters import format_paragraphs
 from mediacore.lib.compat import any
 from mediacore.lib.htmlsanitizer import Cleaner, entities_to_unicode as decode_entities, encode_xhtml_entities as encode_entities
 from mediacore.lib.thumbnails import thumb, thumb_url
+from mediacore.plugin.events import (meta_description, meta_keywords,
+    meta_robots_noindex, observes, page_title)
 
 imports = [
     'any', 'containers', 'date', 'decode_entities', 'encode_entities',
@@ -50,6 +52,8 @@ imports = [
     'config', # is this appropriate to export here?
     'thumb_url', # XXX: imported from  mediacore.lib.thumbnails, for template use.
     'thumb', # XXX: imported from  mediacore.lib.thumbnails, for template use.
+    'meta_description', 'meta_keywords', # XXX: imported from mediacore.plugin.events
+    'meta_robots_noindex', 'page_title' # XXX: imported from mediacore.plugin.events
 ]
 defined = [
     'append_class_attr', 'clean_xhtml', 'default_page_title',
@@ -759,3 +763,15 @@ def dict_merged_with_defaults(value, defaults):
     merge_dicts(new_value, defaults)
     merge_dicts(new_value, value)
     return new_value
+
+@observes(page_title)
+def default_page_title(default=None, **kwargs):
+    settings = app_globals.settings
+    title_order = settings.get('general_site_title_display_order', None)
+    site_name = settings.get('general_site_name', None)
+    if not title_order:
+        return '%s | %s' % (default, site_name)
+    elif title_order.lower() == 'append':
+        return '%s | %s' % (default, site_name)
+    else:
+        return '%s | %s' % (site_name, default)
