@@ -76,17 +76,19 @@
 				<h1 py:otherwise="" i18n:msg="search">Comments for ${h.text.truncate('%s' % media_filter_title, 25)}</h1>
 			</div>
 			<div class="dropdown-wrapper f-lft" style="margin-left:10px;width:130px">
-				<button class="btn inline dropdown-toggle"><span>Bulk Actions</span></button>
-				<div class="dropdown-box">
-					<div class="dropdown-top"><div /></div>
-					<div class="dropdown-content">
-						<ol class="clearfix">
-							<li id="bulk-publish"><span>Publish</span></li>
-							<li id="bulk-delete"><span>Delete</span></li>
-						</ol>
+				<div class="dropdown-position">
+					<div class="dropdown-box">
+						<div class="dropdown-top"><div /></div>
+						<div class="dropdown-content">
+							<ol class="clearfix">
+								<li id="bulk-publish"><span>Publish</span></li>
+								<li id="bulk-delete"><span>Delete</span></li>
+							</ol>
+						</div>
+						<div class="dropdown-bottom"><div /></div>
 					</div>
-					<div class="dropdown-bottom"><div /></div>
 				</div>
+				<button class="btn inline dropdown-toggle"><span>Bulk Actions</span></button>
 			</div>
 		</div>
 		<xi:include href="./index-table.html" py:with="comments=comments; edit_form=edit_form;" />

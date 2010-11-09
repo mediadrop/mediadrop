@@ -184,12 +184,14 @@ window.DropdownSelect = new Class({
 			'class': 'dropdown-wrapper f-lft ' + select.name + '-dropdown',
 			'styles': select.getStyles()
 		}).adopt([
-			this.button,
-			new Element('div', {'class': 'dropdown-box'}).adopt([
-				new Element('div', {'class': 'dropdown-top'}).grab(new Element('div')),
-				this.content,
-				new Element('div', {'class': 'dropdown-bottom'}).grab(new Element('div'))
-			])
+			new Element('div', {'class': 'dropdown-position'}).adopt([
+				new Element('div', {'class': 'dropdown-box'}).adopt([
+					new Element('div', {'class': 'dropdown-top'}).grab(new Element('div')),
+					this.content,
+					new Element('div', {'class': 'dropdown-bottom'}).grab(new Element('div'))
+				]),
+			]),
+			this.button
 		]);
 
 		// populate the dropdown

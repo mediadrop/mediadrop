@@ -504,7 +504,7 @@ a.btn.nav.active:visited {
 }
 
 /* Dropdown menus */
-.dropdown-wrapper {
+.dropdown-position {
 	position: relative;
 }
 .dropdown-toggle {
