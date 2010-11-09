@@ -174,7 +174,7 @@ window.DropdownSelect = new Class({
 	input: null,
 
 	initialize: function(select, options){
-		this.buttonText = new Element('strong', {text: select.options[select.selectedIndex].text});
+		this.buttonText = new Element('strong', {html: select.options[select.selectedIndex].text});
 		this.button = new Element('button', {'class': 'btn inline dropdown-toggle'})
 			.grab(new Element('span').grab(this.buttonText));
 		this.content = new Element('div', {'class': 'dropdown-content'});
@@ -197,7 +197,7 @@ window.DropdownSelect = new Class({
 		for (var i = 0, l = select.options.length; i < l; i++) {
 			var opt = select.options[i];
 			var li = new Element('li')
-				.grab(new Element('span', {text: opt.text}))
+				.grab(new Element('span', {html: opt.text}))
 				.store('DropdownSelect.value', opt.value);
 			if (opt.selected) this.selectedLi = li.addClass('selected');
 			list.grab(li);
