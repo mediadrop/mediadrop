@@ -19,7 +19,6 @@ import re
 
 from cStringIO import StringIO
 from operator import attrgetter
-from shutil import copyfileobj
 from urllib2 import URLError, urlopen
 
 from pylons import app_globals
@@ -30,7 +29,7 @@ from mediacore.lib.decorators import memoize
 from mediacore.lib.filetypes import guess_container_format, guess_media_type
 from mediacore.lib.thumbnails import (create_thumbs_for, has_thumbs,
     has_default_thumbs, thumb_path)
-from mediacore.lib.uri import StorageURI, pick_uris, pick_uri
+from mediacore.lib.uri import StorageURI
 #from mediacore.model import DBSession, MediaFile XXX: Import at EOF
 from mediacore.plugin.abc import (AbstractClass, abstractmethod,
     abstractproperty, isabstract)
