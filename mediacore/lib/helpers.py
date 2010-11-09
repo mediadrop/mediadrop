@@ -52,13 +52,13 @@ imports = [
     'thumb', # XXX: imported from  mediacore.lib.thumbnails, for template use.
 ]
 defined = [
-    'append_class_attr', 'clean_xhtml', 'delete_files', 'doc_link',
-    'duration_from_seconds', 'duration_to_seconds', 'embeddable_player',
-    'excerpt_xhtml', 'excess_whitespace', 'filter_library_controls',
-    'get_featured_category', 'gravatar_from_email', 'is_admin', 'js',
-    'line_break_xhtml', 'list_acceptable_xhtml',
+    'append_class_attr', 'clean_xhtml', 'default_page_title',
+    'delete_files', 'doc_link', 'duration_from_seconds', 'duration_to_seconds',
+    'embeddable_player', 'excerpt_xhtml', 'excess_whitespace',
+    'filter_library_controls', 'get_featured_category', 'gravatar_from_email',
+    'is_admin', 'js', 'line_break_xhtml', 'list_acceptable_xhtml',
     'pick_any_media_file', 'pick_podcast_media_file',
-    'pretty_file_size', 'redirect',
+    'pretty_file_size', 'redirect', 'sitemaps_enabled',
     'store_transient_message', 'strip_xhtml', 'truncate', 'truncate_xhtml',
     'url', 'url_for', 'wrap_long_words',
 ]

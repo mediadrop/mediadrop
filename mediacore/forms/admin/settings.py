@@ -41,6 +41,11 @@ player_types = [
     ('flash', _('Prefer the selected Flash player, but use the selected HTML5 player or embedded player if necessary')),
 ]
 
+sitemaps = [
+    ('enabled', _('Enable Sitemaps')),
+    ('disabled', _('Disable Sitemaps')),
+]
+
 rich_text_editors = [
     ('plain', _('Plain <textarea> fields (0kB)')),
     ('tinymce', literal('Enable <a href="http://tinymce.moxiecode.com">TinyMCE</a> for &lt;textarea&gt; fields that accept XHTML input. - <a href="http://wiki.moxiecode.com/index.php/TinyMCE:License">LGPL License</a> (281kB)')),
@@ -187,6 +192,27 @@ class AnalyticsForm(ListForm):
         ListFieldSet('google', suppress_label=True, legend=_('Google Analytics Details:'), css_classes=['details_fieldset'], children=[
             TextField('google_analytics_uacct', maxlength=255, label_text=_('Tracking Code')),
         ]),
+        SubmitButton('save', default=_('Save'), css_classes=['btn', 'btn-save', 'blue', 'f-rgt']),
+        ResetButton('cancel', default=_('Cancel'), css_classes=['btn', 'btn-cancel']),
+    ]
+
+class SiteMapsForm(ListForm):
+    template = 'admin/box-form.html'
+    id = 'settings-form'
+    css_class = 'form'
+    submit_text = None
+    fields = [
+        ListFieldSet('rss', suppress_label=True,
+            legend=_('Site Maps Settings:'),
+            css_classes=['details_fieldset'],
+            children=[
+                RadioButtonList('sitemaps_display',
+                    label_text=_('Site Maps'),
+                    options=sitemaps,
+                    validator=OneOf([x[0] for x in sitemaps]),
+                ),
+            ]
+        ),
         SubmitButton('save', default=_('Save'), css_classes=['btn', 'btn-save', 'blue', 'f-rgt']),
         ResetButton('cancel', default=_('Cancel'), css_classes=['btn', 'btn-cancel']),
     ]

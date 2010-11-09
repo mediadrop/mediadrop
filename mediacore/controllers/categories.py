@@ -112,6 +112,9 @@ class CategoriesController(BaseController):
         :param limit: the max number of results to return. Defaults to 30
 
         """
+        if app_globals.settings.get('sitemaps_display', None) != 'enabled':
+            redirect(url_for('/'))
+
         response.content_type = mimeparse.best_match(
             ['application/rss+xml', 'application/xml', 'text/xml'],
             request.environ.get('HTTP_ACCEPT', '*/*')

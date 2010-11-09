@@ -20,11 +20,11 @@ import logging
 import math
 
 from paste.util import mimeparse
-from pylons import request, response
+from pylons import app_globals, request, response
 
 from mediacore.lib.base import BaseController
 from mediacore.lib.decorators import expose, beaker_cache
-from mediacore.lib.helpers import url_for
+from mediacore.lib.helpers import redirect, url_for
 from mediacore.model import Media
 
 log = logging.getLogger(__name__)
@@ -49,6 +49,9 @@ class SitemapsController(BaseController):
         :type page: int
 
         """
+        if app_globals.settings.get('sitemaps_display', None) != 'enabled':
+            redirect(url_for('/'))
+
         response.content_type = mimeparse.best_match(
             ['application/xml', 'text/xml'],
             request.environ.get('HTTP_ACCEPT', '*/*')
@@ -83,6 +86,8 @@ class SitemapsController(BaseController):
     @expose('sitemaps/mrss.xml')
     def mrss(self, **kwargs):
         """Generate a media rss (mRSS) feed of all the sites media."""
+        if app_globals.settings.get('sitemaps_display', None) != 'enabled':
+            redirect(url_for('/'))
 
         response.content_type = mimeparse.best_match(
             ['application/rss+xml', 'application/xml', 'text/xml'],
@@ -100,6 +105,8 @@ class SitemapsController(BaseController):
     @expose('sitemaps/mrss.xml')
     def latest(self, limit=30, **kwargs):
         """Generate a media rss (mRSS) feed of all the sites media."""
+        if app_globals.settings.get('sitemaps_display', None) != 'enabled':
+            redirect(url_for('/'))
 
         response.content_type = mimeparse.best_match(
             ['application/rss+xml', 'application/xml', 'text/xml'],

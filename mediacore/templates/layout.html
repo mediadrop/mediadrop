@@ -23,15 +23,13 @@
 <?python feed_links = [] ?>
 
 <head py:match="head">
-	<title py:match="title" py:with="title = unicode(select('text()'))">
-		<py:if test="title">${Markup(title)} |</py:if>
-		MediaCore
-	</title>
-	<link py:match="link" py:attrs="select('@*')"><?python
-		attrs = h.attrs_to_dict(select('@*'))
-		if attrs['type'] == 'application/rss+xml':
-		    feed_links.append((attrs['href'], attrs['title']))
-	?></link>
+    <py:if test="g.settings.get('sitemaps_display', None) == 'enabled'">
+		<link py:match="link" py:attrs="select('@*')"><?python
+			attrs = h.attrs_to_dict(select('@*'))
+			if attrs['type'] == 'application/rss+xml':
+				feed_links.append((attrs['href'], attrs['title']))
+		?></link>
+    </py:if>
 	<meta py:replace="select('*')"/>
 </head>
 
