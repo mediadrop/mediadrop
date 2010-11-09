@@ -182,7 +182,7 @@ window.DropdownSelect = new Class({
 		var wrapper = new Element('div', {
 			'id': select.id ? select.id + '-dropdown' : null,
 			'class': 'dropdown-wrapper f-lft ' + select.name + '-dropdown',
-			'styles': select.style
+			'styles': select.getStyles()
 		}).adopt([
 			this.button,
 			new Element('div', {'class': 'dropdown-box'}).adopt([
