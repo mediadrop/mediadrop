@@ -16,6 +16,9 @@
 Library Utilities
 
 """
+import os
+import shutil
+
 from pylons import config, url as pylons_url
 from urlparse import urlparse
 from webob.exc import HTTPFound

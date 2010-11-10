@@ -16,7 +16,7 @@
 import filecmp
 import os
 import shutil
-import urllib2
+
 from PIL import Image
 # XXX: note that pylons.url is imported here. Make sure to only use it with
 #      absolute paths (ie. those starting with a /) to avoid differences in
@@ -114,6 +114,7 @@ class ThumbDict(dict):
     """Dict wrapper with convenient attribute access"""
 
     def __init__(self, url, dimensions):
+        dict.__init__(self)
         self['url'] = url
         self['x'], self['y'] = dimensions
 

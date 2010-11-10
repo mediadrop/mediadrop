@@ -14,17 +14,15 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import logging
-import os
 import warnings
 import simplejson
 
 import formencode
 import tw.forms
-import webob.exc
 
 from decorator import decorator
 from paste.deploy.converters import asbool
-from pylons import app_globals, config, request, response, tmpl_context
+from pylons import request, response, tmpl_context
 from pylons.decorators.cache import create_cache_key, _make_dict_from_args
 from pylons.decorators.util import get_pylons
 

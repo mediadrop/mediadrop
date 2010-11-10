@@ -359,10 +359,10 @@ class JWPlayer(AbstractFlashPlayer):
         if rtmp:
             plugins.append('rtmp')
         if audio_desc:
-            plugins.append('audiodescription');
+            plugins.append('audiodescription')
             vars['audiodescription.file'] = audio_desc[0].uri
         if captions:
-            plugins.append('captions');
+            plugins.append('captions')
             vars['captions.file'] = captions[0].uri
         if plugins:
             vars['plugins'] = ','.join(plugins)

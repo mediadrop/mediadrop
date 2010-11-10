@@ -16,15 +16,15 @@
 import logging
 import os
 
-from ftplib import FTP
-from urllib2 import URLError, urlopen
+from ftplib import FTP, all_errors as ftp_errors
+from urllib2 import HTTPError, urlopen
 
 from formencode import Invalid
 from pylons.i18n import N_
 
 from mediacore.lib.compat import sha1
-from mediacore.lib.storage import (safe_file_name, StorageURI,
-    FileStorageEngine, UnsuitableEngineError)
+from mediacore.lib.storage import safe_file_name, FileStorageEngine
+from mediacore.lib.uri import StorageURI
 
 log = logging.getLogger(__name__)
 
@@ -98,7 +98,7 @@ class FTPStorage(FileStorageEngine):
             # Raise a FTPUploadError if the file integrity check fails
             # TODO: Delete the file if the integrity check fails
             self._verify_upload_integrity(file, file_url)
-        except FTP.all_errors, e:
+        except ftp_errors, e:
             log.exception(e)
             msg = _('Could not upload the file from your FTP server: %s')\
                 % e.message
@@ -123,7 +123,7 @@ class FTPStorage(FileStorageEngine):
                 ftp.cwd(upload_dir)
             ftp.delete(unique_id)
             return True
-        except FTP.all_errors, e:
+        except ftp_errors, e:
             log.exception(e)
             return False
         finally:

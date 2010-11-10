@@ -18,7 +18,8 @@ import os.path
 
 from genshi import Markup, XML
 from genshi.output import XHTMLSerializer
-from genshi.template.loader import TemplateLoader, directory, TemplateNotFound
+from genshi.template.loader import (directory,
+    TemplateLoader as _TemplateLoader, TemplateNotFound)
 from pylons import app_globals
 from pylons.templating import pylons_globals
 
@@ -93,7 +94,8 @@ def render_stream(stream, method='auto', template_name=None):
     return Markup(stream.render(method=method, encoding=None))
 
 class XHTMLPlusSerializer(XHTMLSerializer):
-    """Produces XHTML text from an event stream.
+    """
+    XHTML+HTML5 Serializer that produces XHTML text from an event stream.
 
     This serializer is aware that <source/> tags are empty, which is
     required for it to be valid (working) HTML5 in some browsers.
@@ -101,7 +103,7 @@ class XHTMLPlusSerializer(XHTMLSerializer):
     """
     _EMPTY_ELEMS = frozenset(set(['source']) | XHTMLSerializer._EMPTY_ELEMS)
 
-class TemplateLoader(TemplateLoader):
+class TemplateLoader(_TemplateLoader):
     def load(self, filename, relative_to=None, cls=None, encoding=None):
         """Load the template with the given name.
 

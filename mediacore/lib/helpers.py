@@ -18,10 +18,10 @@ Consists of functions to typically be used within templates, but also
 available to Controllers. This module is available to templates as 'h'.
 """
 import hashlib
-import os
 import re
-import shutil
+import simplejson
 import time
+
 from datetime import datetime
 from urllib import quote, unquote, urlencode
 from urlparse import urlparse
@@ -32,7 +32,6 @@ from webhelpers import date, feedgenerator, html, number, misc, text, paginate, 
 from webhelpers.html import tags
 from webhelpers.html.builder import literal
 from webhelpers.html.converters import format_paragraphs
-from webob.exc import HTTPNotFound
 
 from mediacore.lib.compat import any
 from mediacore.lib.players import (embed_player, embed_iframe, media_player,
@@ -296,7 +295,7 @@ def store_transient_message(cookie_name, text, time=None, path='/', **kwargs):
     msg = kwargs
     msg['text'] = text
     msg['time'] = time or datetime.now().strftime('%H:%M, %B %d, %Y')
-    new_data = quote(json.dumps(msg))
+    new_data = quote(simplejson.dumps(msg))
     response.set_cookie(cookie_name, new_data, path=path)
     return msg
 

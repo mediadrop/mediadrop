@@ -26,8 +26,8 @@ from pylons.i18n import N_
 from mediacore.forms.admin.storage.youtube import YoutubeStorageForm
 from mediacore.lib.compat import max
 from mediacore.lib.filetypes import VIDEO
-from mediacore.lib.storage import (EmbedStorageEngine, StorageURI,
-    UnsuitableEngineError)
+from mediacore.lib.storage import EmbedStorageEngine
+from mediacore.lib.uri import StorageURI
 
 class YoutubeStorage(EmbedStorageEngine):
 
