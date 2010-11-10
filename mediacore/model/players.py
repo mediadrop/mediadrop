@@ -29,6 +29,7 @@ from sqlalchemy.orm import column_property, dynamic_loader, mapper
 from sqlalchemy.orm.interfaces import MapperExtension
 from sqlalchemy.types import Boolean, DateTime, Integer, Unicode
 
+from mediacore.lib.decorators import memoize
 from mediacore.lib.players import AbstractPlayer
 from mediacore.model import JsonType
 from mediacore.model.meta import DBSession, metadata
@@ -102,6 +103,14 @@ class PlayerPrefs(object):
         :returns: A i18n-ready string name.
         """
         return self.player_cls.display_name
+
+    @property
+    @memoize
+    def settings_form(self):
+        cls = self.player_cls
+        if cls and cls.settings_form_class:
+            return cls.settings_form_class()
+        return None
 
 mapper(
     PlayerPrefs, players,

@@ -24,6 +24,7 @@ from genshi.core import Markup
 from pylons import app_globals
 from pylons.i18n import N_
 
+from mediacore.forms.admin import players as player_forms
 from mediacore.lib.compat import any
 from mediacore.lib.decorators import memoize
 from mediacore.lib.filetypes import AUDIO, VIDEO, AUDIO_DESC, CAPTIONS
@@ -55,6 +56,9 @@ class AbstractPlayer(AbstractClass):
 
     display_name = abstractproperty()
     """A unicode display name for the class, to be used in the settings UI."""
+
+    settings_form_class = None
+    """An optional :class:`mediacore.forms.admin.players.PlayerPrefsForm`."""
 
     @abstractmethod
     def can_play(cls, uris):
