@@ -426,7 +426,7 @@ class AbstractFlashEmbedPlayer(FlashRenderMixin, AbstractEmbedPlayer):
         return {}
 
 
-class YouTubeFlashPlayer(AbstractFlashEmbedPlayer):
+class YoutubeFlashPlayer(AbstractFlashEmbedPlayer):
 
     name = u'youtube'
     """A unicode string identifier for this class."""
@@ -439,7 +439,7 @@ class YouTubeFlashPlayer(AbstractFlashEmbedPlayer):
 
     _height_diff = 25
 
-AbstractFlashEmbedPlayer.register(YouTubeFlashPlayer)
+AbstractFlashEmbedPlayer.register(YoutubeFlashPlayer)
 
 
 class GoogleVideoFlashPlayer(AbstractFlashEmbedPlayer):
@@ -525,7 +525,8 @@ class AbstractHTML5Player(FileSupportMixin, AbstractPlayer):
 
 
 class HTML5Player(AbstractHTML5Player):
-    """HTML5 Player Implementation.
+    """
+    HTML5 Player Implementation.
 
     Seperated from :class:`AbstractHTML5Player` to make it easier to subclass
     and provide a custom HTML5 player.
@@ -542,7 +543,8 @@ AbstractHTML5Player.register(HTML5Player)
 ###############################################################################
 
 class HTML5PlusFlowPlayer(AbstractHTML5Player):
-    """HTML5 Player with fallback to FlowPlayer.
+    """
+    HTML5 Player with fallback to FlowPlayer.
 
     """
     name = u'html5+flowplayer'
@@ -557,6 +559,7 @@ class HTML5PlusFlowPlayer(AbstractHTML5Player):
                       | FlowPlayer.supported_schemes
 
     def __init__(self, media, uris, **kwargs):
+        super(HTML5PlusFlowPlayer, self).__init__(media, uris, **kwargs)
         self.html5 = None
         self.flowplayer = None
         html_uris = [u for u, p in izip(uris, HTML5Player.can_play(uris)) if p]
@@ -570,13 +573,21 @@ class HTML5PlusFlowPlayer(AbstractHTML5Player):
         return render('players/html5_or_flash.html', {
             'html5': self.html5,
             'flash': self.flowplayer,
-            'prefer_flash': not self.html5,
+            'prefer_flash': self.prefer_flash and self.flowplayer,
         })
 
 AbstractHTML5Player.register(HTML5PlusFlowPlayer)
 
 class HTML5PlusJWPlayer(AbstractHTML5Player):
-    """HTML5 Player with fallback to JWPlayer.
+    """
+    HTML5 Player with fallback to JWPlayer.
+
+    .. note::
+
+        Although this class duplicates much of the functionality in
+        :class:`HTML5PlusFlowPlayer` we are not going to worry about
+        that since the soon-to-be-integrated JWPlayer 5.3 seamlessly
+        includes both an HTML5 and a Flash player.
 
     """
     name = u'html5+jwplayer'
@@ -591,6 +602,7 @@ class HTML5PlusJWPlayer(AbstractHTML5Player):
                       | JWPlayer.supported_schemes
 
     def __init__(self, media, uris, **kwargs):
+        super(HTML5PlusJWPlayer, self).__init__(media, uris, **kwargs)
         self.html5 = None
         self.jwplayer = None
         html_uris = [u for u, p in izip(uris, HTML5Player.can_play(uris)) if p]
