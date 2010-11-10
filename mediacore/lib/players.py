@@ -599,6 +599,9 @@ class HTML5PlusFlowPlayer(AbstractHTML5Player):
     display_name = N_(u'HTML5 + Flowplayer Fallback')
     """A unicode display name for the class, to be used in the settings UI."""
 
+    settings_form_class = player_forms.HTML5OrFlashPrefsForm
+    """An optional :class:`mediacore.forms.admin.players.PlayerPrefsForm`."""
+
     supported_containers = HTML5Player.supported_containers \
                          | FlowPlayer.supported_containers
     supported_schemes = HTML5Player.supported_schemes \
@@ -608,6 +611,7 @@ class HTML5PlusFlowPlayer(AbstractHTML5Player):
         super(HTML5PlusFlowPlayer, self).__init__(media, uris, **kwargs)
         self.html5 = None
         self.flowplayer = None
+        self.prefer_flash = self.data.get('prefer_flash', False)
         html_uris = [u for u, p in izip(uris, HTML5Player.can_play(uris)) if p]
         flow_uris = [u for u, p in izip(uris, FlowPlayer.can_play(uris)) if p]
         if html_uris:
@@ -642,6 +646,9 @@ class HTML5PlusJWPlayer(AbstractHTML5Player):
     display_name = N_(u'HTML5 + JWPlayer Fallback')
     """A unicode display name for the class, to be used in the settings UI."""
 
+    settings_form_class = player_forms.HTML5OrFlashPrefsForm
+    """An optional :class:`mediacore.forms.admin.players.PlayerPrefsForm`."""
+
     supported_containers = HTML5Player.supported_containers \
                          | JWPlayer.supported_containers
     supported_schemes = HTML5Player.supported_schemes \
@@ -651,6 +658,7 @@ class HTML5PlusJWPlayer(AbstractHTML5Player):
         super(HTML5PlusJWPlayer, self).__init__(media, uris, **kwargs)
         self.html5 = None
         self.jwplayer = None
+        self.prefer_flash = self.data.get('prefer_flash', False)
         html_uris = [u for u, p in izip(uris, HTML5Player.can_play(uris)) if p]
         jw_uris = [u for u, p in izip(uris, JWPlayer.can_play(uris)) if p]
         if html_uris:
@@ -662,7 +670,7 @@ class HTML5PlusJWPlayer(AbstractHTML5Player):
         return render('players/html5_or_flash.html', {
             'html5': self.html5,
             'flash': self.jwplayer,
-            'prefer_flash': not self.html5,
+            'prefer_flash': self.prefer_flash and self.jwplayer,
         })
 
 AbstractHTML5Player.register(HTML5PlusJWPlayer)

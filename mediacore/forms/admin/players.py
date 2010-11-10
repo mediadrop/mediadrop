@@ -15,12 +15,11 @@
 
 from pylons import request
 from pylons.i18n import N_ as _
-from tw.forms import PasswordField, SingleSelectField
+from tw.forms import PasswordField, RadioButtonList, SingleSelectField
 from tw.forms.fields import ContainerMixin as _ContainerMixin
-from tw.forms.validators import All, FancyValidator, FieldsMatch, Invalid, NotEmpty, PlainText, Schema
+from tw.forms.validators import All, FancyValidator, FieldsMatch, Invalid, NotEmpty, PlainText, Schema, StringBool
 
 from mediacore.forms import ListFieldSet, ListForm, SubmitButton, TextField
-from mediacore.lib.util import merge_dicts
 from mediacore.plugin import events
 from mediacore.plugin.abc import abstractmethod
 
@@ -79,6 +78,27 @@ class PlayerPrefsForm(ListForm):
             behaviour as with the @validate decorator.
 
         """
+
+class HTML5OrFlashPrefsForm(PlayerPrefsForm):
+    fields = [
+        RadioButtonList('prefer_flash',
+            options=(
+                (False, _('Yes, use the Flash Player when the device supports it.')),
+                (True, _('No, use the HTML5 Player when the device supports it.')),
+            ),
+            label_text=_('Prefer the Flash Player when possible'),
+            validator=StringBool,
+        ),
+    ] + PlayerPrefsForm.buttons
+
+    def display(self, value, **kwargs):
+        """Display the form with default values from the engine param."""
+        player = kwargs['player']
+        value.setdefault('prefer_flash', player.data.get('prefer_flash', False))
+        return PlayerPrefsForm.display(self, value, **kwargs)
+
+    def save_data(self, player, prefer_flash, **kwargs):
+        player.data['prefer_flash'] = prefer_flash
 
 class SublimePlayerPrefsForm(PlayerPrefsForm):
     fields = [
