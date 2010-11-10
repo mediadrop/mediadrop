@@ -61,15 +61,10 @@ players = Table('players', metadata,
     Column('data', JsonType, nullable=False, default=dict, doc=\
         """The user preferences for this player (if any).
 
-        This dictionary is passed as kwargs when
+        This dictionary is passed as `data` kwarg when
         :func:`mediacore.lib.players.media_player` instantiates the
         :class:`mediacore.lib.players.AbstractPlayer` class associated
         with this row.
-
-        .. note::
-
-            Whatever kwargs are passed to that function will override
-            the values from this dictionary, so be careful of conflicts.
 
         """),
 

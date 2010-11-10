@@ -30,7 +30,7 @@ from mediacore.lib.filetypes import AUDIO, VIDEO, AUDIO_DESC, CAPTIONS
 from mediacore.lib.templating import render
 from mediacore.lib.thumbnails import thumb_url
 from mediacore.lib.uri import StorageURI, pick_uris
-from mediacore.lib.util import merge_dicts, url_for
+from mediacore.lib.util import url_for
 #from mediacore.model.players import fetch_players XXX: Import at EOF
 from mediacore.plugin import events
 from mediacore.plugin.abc import AbstractClass, abstractmethod, abstractproperty
@@ -80,7 +80,7 @@ class AbstractPlayer(AbstractClass):
 
         """
 
-    def __init__(self, media, uris, width=400, height=225,
+    def __init__(self, media, uris, data=None, width=400, height=225,
                  autoplay=False, autobuffer=False, qualified=False, **kwargs):
         """Initialize the player with the media that it will be playing.
 
@@ -88,6 +88,8 @@ class AbstractPlayer(AbstractClass):
         :param media: The media object that will be rendered.
         :type uris: list
         :param uris: The StorageURIs this player has said it :meth:`can_play`.
+        :type data: dict or None
+        :param data: Optional player preferences from the database.
         :type elem_id: unicode, None, Default
         :param elem_id: The element ID to use when rendering. If left
             undefined, a sane default value is provided. Use None to disable.
@@ -95,6 +97,7 @@ class AbstractPlayer(AbstractClass):
         """
         self.media = media
         self.uris = uris
+        self.data = data or {}
         self.width = width
         self.height = height
         self.autoplay = autoplay
@@ -644,7 +647,7 @@ def media_player(media, **kwargs):
     uris = media.get_uris()
 
     # Find the first player that can play any uris
-    for player_cls, player_prefs in fetch_enabled_players():
+    for player_cls, player_data in fetch_enabled_players():
         can_play = player_cls.can_play(uris)
         if any(can_play):
             break
@@ -653,13 +656,8 @@ def media_player(media, **kwargs):
 
     # Grab just the uris that the chosen player can play
     playable_uris = [uri for uri, plays in izip(uris, can_play) if plays]
-
-    # Create a new kwargs dict for the player object using the data dict
-    # from the database + the kwargs called here.
-    player_kwargs = {}
-    merge_dicts(player_kwargs, player_prefs, kwargs)
-
-    return player_cls(media, playable_uris, **player_kwargs)
+    kwargs['data'] = player_data
+    return player_cls(media, playable_uris, **kwargs)
 
 def pick_podcast_media_file(media):
     """Return a file playable in the most podcasting client: iTunes.
@@ -680,7 +678,7 @@ def pick_any_media_file(media):
     :returns: A :class:`~mediacore.model.media.MediaFile` object or None
     """
     uris = media.get_uris()
-    for player_cls, player_prefs in fetch_enabled_players():
+    for player_cls, player_data in fetch_enabled_players():
         for i, plays in enumerate(player_cls.can_play(uris)):
             if plays:
                 return uris[i]
