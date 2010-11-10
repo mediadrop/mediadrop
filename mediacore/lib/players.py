@@ -21,28 +21,21 @@ from urllib import urlencode
 
 from genshi.builder import Element
 from genshi.core import Markup
-from pylons import app_globals
 from pylons.i18n import N_
 
 from mediacore.forms.admin import players as player_forms
 from mediacore.lib.compat import any
-from mediacore.lib.decorators import memoize
 from mediacore.lib.filetypes import AUDIO, VIDEO, AUDIO_DESC, CAPTIONS
 from mediacore.lib.templating import render
 from mediacore.lib.thumbnails import thumb_url
-from mediacore.lib.uri import StorageURI, pick_uris
+from mediacore.lib.uri import pick_uris
 from mediacore.lib.util import url_for
 #from mediacore.model.players import fetch_players XXX: Import at EOF
-from mediacore.plugin import events
 from mediacore.plugin.abc import AbstractClass, abstractmethod, abstractproperty
-from mediacore.plugin.events import observes
 
 log = logging.getLogger(__name__)
 
 HTTP, RTMP = 'http', 'rtmp'
-
-class PlayerError(Exception):
-    pass
 
 ###############################################################################
 
@@ -114,13 +107,21 @@ class AbstractPlayer(AbstractClass):
 
     @property
     def adjusted_width(self):
+        """Return the desired viewable width + any extra for the player."""
         return self.width + self._width_diff
 
     @property
     def adjusted_height(self):
+        """Return the desired viewable height + the height of the controls."""
         return self.height + self._height_diff
 
     def get_uris(self, **kwargs):
+        """Return a subset of the :attr:`uris` for this player.
+
+        This allows for easy filtering of URIs by feeding any number of
+        kwargs to this function. See :func:`mediacore.lib.uri.pick_uris`.
+
+        """
         return pick_uris(self.uris, **kwargs)
 
 ###############################################################################
@@ -373,7 +374,20 @@ AbstractFlashPlayer.register(JWPlayer)
 ###############################################################################
 
 class AbstractEmbedPlayer(AbstractPlayer):
+    """
+    Abstract Embed Player for third-party services like YouTube
 
+    Typically embed players will play only their own content, and that is
+    the only way such content can be played. Therefore each embed type has
+    been given its own :attr:`~mediacore.lib.uri.StorageURI.scheme` which
+    uniquely identifies it.
+
+    For example, :meth:`mediacore.lib.storage.YoutubeStorage.get_uris`
+    returns URIs with a scheme of `'youtube'`, and the special
+    :class:`YoutubePlayer` would overload :attr:`scheme` to also be
+    `'youtube'`. This would allow the Youtube player to play those URIs.
+
+    """
     scheme = abstractproperty()
     """The `StorageURI.scheme` which uniquely identifies this embed type."""
 
@@ -395,8 +409,13 @@ class AbstractEmbedPlayer(AbstractPlayer):
 class VimeoUniversalEmbedPlayer(AbstractEmbedPlayer):
     """
     Vimeo Universal Player
-    """
 
+    This simple player handles media with files that stored using
+    :class:`mediacore.lib.storage.VimeoStorage`.
+
+    This player has seamless HTML5 and Flash support.
+
+    """
     name = u'vimeo'
     """A unicode string identifier for this class."""
 
@@ -416,7 +435,14 @@ AbstractEmbedPlayer.register(VimeoUniversalEmbedPlayer)
 
 
 class AbstractFlashEmbedPlayer(FlashRenderMixin, AbstractEmbedPlayer):
+    """
+    Simple Abstract Flash Embed Player
 
+    Provides sane defaults for most flash-based embed players from
+    third-party vendors, which typically never need any flashvars
+    or special configuration.
+
+    """
     def swf_url(self):
         """Return the flash player URL."""
         return str(self.uris[0])
@@ -427,7 +453,13 @@ class AbstractFlashEmbedPlayer(FlashRenderMixin, AbstractEmbedPlayer):
 
 
 class YoutubeFlashPlayer(AbstractFlashEmbedPlayer):
+    """
+    YouTube Player
 
+    This simple player handles media with files that stored using
+    :class:`mediacore.lib.storage.YoutubeStorage`.
+
+    """
     name = u'youtube'
     """A unicode string identifier for this class."""
 
@@ -443,7 +475,13 @@ AbstractFlashEmbedPlayer.register(YoutubeFlashPlayer)
 
 
 class GoogleVideoFlashPlayer(AbstractFlashEmbedPlayer):
+    """
+    Google Video Player
 
+    This simple player handles media with files that stored using
+    :class:`mediacore.lib.storage.GoogleVideoStorage`.
+
+    """
     name = u'googlevideo'
     """A unicode string identifier for this class."""
 
@@ -457,8 +495,15 @@ class GoogleVideoFlashPlayer(AbstractFlashEmbedPlayer):
 
 AbstractFlashEmbedPlayer.register(GoogleVideoFlashPlayer)
 
-class BlipTVFlashPlayer(AbstractFlashEmbedPlayer):
 
+class BlipTVFlashPlayer(AbstractFlashEmbedPlayer):
+    """
+    BlipTV Player
+
+    This simple player handles media with files that stored using
+    :class:`mediacore.lib.storage.BlipTVStorage`.
+
+    """
     name = u'bliptv'
     """A unicode string identifier for this class."""
 
@@ -474,7 +519,8 @@ AbstractFlashEmbedPlayer.register(BlipTVFlashPlayer)
 ###############################################################################
 
 class AbstractHTML5Player(FileSupportMixin, AbstractPlayer):
-    """HTML5 <audio> / <video> tag.
+    """
+    HTML5 <audio> / <video> tag.
 
     References:
 
