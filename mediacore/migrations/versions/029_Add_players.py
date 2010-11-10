@@ -30,8 +30,7 @@ metadata = MetaData()
 
 players = Table('players', metadata,
     Column('id', Integer, primary_key=True, autoincrement=True),
-    Column('type', Unicode(30), nullable=False),
-    Column('display_name', Unicode(100), nullable=False, unique=True),
+    Column('name', Unicode(30), nullable=False),
     Column('enabled', Boolean, nullable=False, default=True),
     Column('priority', Integer, nullable=False, default=0),
     Column('created_on', DateTime, nullable=False, default=datetime.now),
