@@ -19,7 +19,7 @@ from tw.forms import PasswordField, RadioButtonList, SingleSelectField
 from tw.forms.fields import ContainerMixin as _ContainerMixin
 from tw.forms.validators import All, FancyValidator, FieldsMatch, Invalid, NotEmpty, PlainText, Schema, StringBool
 
-from mediacore.forms import ListFieldSet, ListForm, SubmitButton, TextField
+from mediacore.forms import ListFieldSet, ListForm, SubmitButton, ResetButton, TextField
 from mediacore.plugin import events
 from mediacore.plugin.abc import abstractmethod
 
@@ -52,10 +52,10 @@ class PlayerPrefsForm(ListForm):
             named_button=True,
             css_classes=['btn', 'btn-save', 'blue', 'f-rgt'],
         ),
-        SubmitButton('delete',
-            default=_('Delete'),
+        ResetButton('cancel',
+            default=_('Cancel'),
             named_button=True,
-            css_classes=['btn', 'btn-delete', 'f-lft'],
+            css_classes=['btn', 'f-lft'],
         ),
     ]
 

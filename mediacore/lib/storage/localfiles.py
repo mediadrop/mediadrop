@@ -22,7 +22,7 @@ from pylons import config
 from pylons.i18n import N_
 
 from mediacore.forms.admin.storage.localfiles import LocalFileStorageForm
-from mediacore.lib.storage import FileStorageEngine, safe_file_name
+from mediacore.lib.storage import safe_file_name, FileStorageEngine
 from mediacore.lib.uri import StorageURI
 from mediacore.lib.util import delete_files, url_for
 

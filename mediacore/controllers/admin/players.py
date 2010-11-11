@@ -23,6 +23,7 @@ from mediacore.lib import helpers
 from mediacore.lib.base import BaseController
 from mediacore.lib.decorators import expose, observable, paginate, validate
 from mediacore.lib.helpers import redirect, url_for
+from mediacore.lib.players import AbstractPlayer
 from mediacore.model import DBSession, fetch_row, PlayerPrefs
 from mediacore.plugin import events
 
@@ -44,6 +45,21 @@ class PlayersController(BaseController):
 
         """
         players = PlayerPrefs.query.all()
+
+        existing_db_names = set(p.name for p in players)
+        existing_cls_names = set(p.name for p in AbstractPlayer)
+
+        for name in existing_db_names.difference(existing_cls_names):
+            for i, p in enumerate(players):
+                if p.name == name:
+                    break
+            players.pop(i)
+
+        for name in existing_cls_names.difference(existing_db_names):
+            p = PlayerPrefs()
+            p.name = name
+            p.enabled = False
+            players.append(p)
 
         return {
             'players': players,

@@ -114,7 +114,11 @@ class PlayerPrefs(object):
 
 mapper(
     PlayerPrefs, players,
-    order_by=(players.c.priority, players.c.id.desc()),
+    order_by=(
+        players.c.enabled.desc(),
+        players.c.priority,
+        players.c.id.desc(),
+    ),
 )
 
 def fetch_enabled_players():
