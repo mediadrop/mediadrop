@@ -27,7 +27,6 @@
 	<link py:if="media.podcast" href="${h.url_for('/styles/podcasts.css')}" media="screen" rel="stylesheet" type="text/css" />
 	<meta name="description" content="${h.truncate(media.description_plain, 249)}" />
 	<meta name="keywords" content="${', '.join(tag.name for tag in media.tags[:15])}" />
-	<script type="text/javascript" src="${h.url_for('/scripts/media.js')}" />
 </head>
 <body class="${media.podcast and 'nav-podcasts-on' or 'nav-media-on'}">
 	<div id="media-box" class="mediacore-content feat-box">

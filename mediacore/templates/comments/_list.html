@@ -23,13 +23,6 @@
 		<head>
 			<meta py:replace="select('*')" />
 			<link href="${h.url_for('/styles/comments.css')}" media="screen" rel="stylesheet" type="text/css" />
-			<script type="text/javascript" src="${h.url_for('/scripts/comments.js')}"></script>
-			<script type="text/javascript">
-				window.addEvent('domready', function(){
-					var overTextMGR = new OverTextManager('${comment_form.id}');
-					displayCommentFlashMsg();
-				});
-			</script>
 		</head>
 	</py:match>
 
