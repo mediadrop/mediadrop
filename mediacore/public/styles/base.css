@@ -24,14 +24,7 @@ hr{border:0 #ccc solid;border-top-width:1px;clear:both;height:0}
 body, select, input, button, textarea {
 	font-family: 'Helvetica Neue', Helvetica, Arial, 'Liberation Sans', FreeSans, sans-serif;
 }
-body {
-	color: #637084;
-	background: #fff;
-}
-a:link,
-a:visited {
-	color: #0f7cb4;
-}
+
 a:hover {
 	text-decoration: none;
 }
@@ -61,13 +54,11 @@ a:hover {
 * html .clearfix { height: 1% }
 
 /* MediaCore default layout */
-#mediacore-logo {
-	background: url('../images/layout/logo.png') no-repeat left;
-	height: 28px;
+#mcore-logo {
 	width: 920px;
 	margin: 10px auto;
 }
-#mediacore-logo a {
+#mcore-logo a {
 	height: 0px;
 	padding-top: 28px;
 	padding-left: 10px;
@@ -85,13 +76,20 @@ a:hover {
 	margin: 0 auto;
 }
 
-/* Sectional nav */
+#mcore-custom-header {
+	margin: 10px auto;
+	width: 100%;
+}
+#mcore-custom-footer {
+	width: 100%;
+}
+
+/* Sectional Nav */
 #nav-box {
 	width: 920px;
 	padding: 14px 15px;
 	height: 38px;
 	margin: 0 auto 15px auto;
-	background: url('../images/layout/nav-box.png') no-repeat;
 }
 #nav {
 	width: 730px;
@@ -99,25 +97,6 @@ a:hover {
 }
 #nav li {
 	float: left;
-}
-#nav li a:link,
-#nav li a:visited {
-	display: block;
-	height: 38px;
-	background: url('../images/layout/nav-btn-edge-inner.png') no-repeat -5px 0;
-	color: #b0bcc5;
-	text-decoration: none;
-	font: bold 12px arial, helvetica, sans-serif;
-	-webkit-font-smoothing: antialiased;
-	text-shadow: 0 -1px #000;
-}
-#nav li a:hover,
-#nav li a:active,
-#nav li a.active {
-	color: #fff;
-}
-#nav li a:active span {
-	padding-top: 1px;
 }
 #nav li a span {
 	display: block;
@@ -127,17 +106,28 @@ a:hover {
 	margin-left: 5px;
 	padding: 0 10px;
 	font-size: 12px;
-	background: url('../images/layout/nav-btn-bg.png') repeat-x;
+}
+#nav li a:link,
+#nav li a:visited {
+	display: block;
+	height: 38px;
+	text-decoration: none;
+	font: bold 12px arial, helvetica, sans-serif;
+	-webkit-font-smoothing: antialiased;
 }
 #nav li a em {
 	display: block;
 	float: left;
 	width: 5px;
 	height: 38px;
-	background: url('../images/layout/nav-btn-edge-inner.png') no-repeat 0px 0;
 }
-#nav li.nav-left a { background-image: url('../images/layout/nav-btn-edge-outer.png') }
-#nav li.nav-right a em { background-image: url('../images/layout/nav-btn-edge-outer.png') }
+#nav li a:hover,
+#nav li a:active,
+#nav li a.active {
+}
+#nav li a:active span {
+	padding-top: 1px;
+}
 #nav li.f-rgt { float: right; }
 #nav li a { background-position: -5px 0 }
 #nav li a:hover { background-position: -5px -38px }
@@ -149,34 +139,6 @@ a:hover {
 #nav li a:hover span { background-position: 0 -38px }
 #nav li a:active span,
 #nav li a.active span { background-position: 0 -76px }
-/*
-#nav li a { background-position: -5px 0 }
-#nav li a:hover { background-position: -5px -37px }
-#nav li a:active,
-#nav li a.active { background-position: -5px -74px }
-#nav li a strong { background-position: 100% 0 }
-#nav li a:hover strong { background-position: 100% -37px }
-#nav li a:active strong,
-#nav li a.active strong { background-position: 100% -74px }
-#nav li a:hover strong span { background-position: 0 -37px }
-#nav li a:active strong span,
-#nav li a.active strong span { background-position: 0 -74px }
-#nav-explore a:link, #nav-explore a:visited { width: 90px; background-position: 0 0 }
-#nav-media a:link, #nav-media a:visited { width: 118px; background-position: -90px 0 }
-#nav-podcasts a:link, #nav-podcasts a:visited { width: 92px; background-position: -208px 0 }
-#nav-categories a:link, #nav-categories a:visited { width: 107px; background-position: -300px 0 }
-#nav-upload a:link, #nav-upload a:visited { width: 79px; background-position: -407px 0 }
-#nav-explore a:hover { background-position: 0 -39px }
-#nav-media a:hover { background-position: -90px -39px }
-#nav-podcasts a:hover { background-position: -208px -39px }
-#nav-categories a:hover { background-position: -300px -39px }
-#nav-upload a:hover { background-position: -407px -39px }
-#nav-explore a:active, .nav-explore-on #nav-explore a { background-position: 0 -78px }
-#nav-media a:active, .nav-media-on #nav-media a { background-position: -90px -78px }
-#nav-podcasts a:active, .nav-podcasts-on #nav-podcasts a { background-position: -208px -78px }
-#nav-categories a:active, .nav-categories-on #nav-categories a { background-position: -300px -78px }
-#nav-upload a:active, .nav-upload-on #nav-upload a { background-position: -407px -78px }
-*/
 #nav #nav-upload { float: right }
 
 #nav-search {
@@ -188,7 +150,6 @@ a:hover {
 	float: left;
 	width: 131px;
 	height: 15px;
-	background: url('../images/layout/search-left.png') no-repeat;
 	padding: 11px 0 11px 10px;
 	margin: 0;
 	border: 0;
@@ -196,10 +157,10 @@ a:hover {
 #nav-search input.nav-search-btn {
 	width: 34px;
 	height: 38px;
-	background: url('../images/layout/search-right.png') no-repeat;
 	padding: 0;
 	text-indent: -5000px;
 }
+
 #nav-search input.nav-search-btn:hover { background-position: 0 -38px }
 #nav-search input.nav-search-btn:active { background-position: 0 -76px }
 #nav-search input,
@@ -211,21 +172,18 @@ a:hover {
 /* Generic content styles */
 h1, h2, h3, h4, h5 {
 	font: bold 18px 'Trebuchet MS', sans-serif;
-	color: #3f3f3f;
 	margin-bottom: 10px;
 }
+
 .head-super {
 	font: normal 13px 'Helvetica Neue', Helvetica, Arial, 'Liberation Sans', FreeSans, sans-serif;
 	border-bottom: 1px solid #cdd2d5;
 	padding-bottom: 10px;
 	margin-bottom: 11px;
 }
-h1 a.nocolor:link, h1 a.nocolor:visited, h2 a.nocolor:link, h2 a.nocolor:visited, h3 a.nocolor:link, h3 a.nocolor:visited, h4 a.nocolor:link, h4 a.nocolor:visited, h5 a.nocolor:link, h5 a.nocolor:visited {
-	color: #494949;
-}
 
 /* Buttons */
-.btn {
+.mcore-btn {
 	height: 33px;
 	overflow: hidden;
 	cursor: pointer;
@@ -233,30 +191,22 @@ h1 a.nocolor:link, h1 a.nocolor:visited, h2 a.nocolor:link, h2 a.nocolor:visited
 	border: 0;
 	margin: 0;
 	padding: 0;
-	background: url('../images/layout/button-left.png') no-repeat;
-	color: #cdcdcd;
 	text-decoration: none;
 	font: bold 12px arial, helvetica, sans-serif;
 	-webkit-font-smoothing: antialiased;
-	text-shadow: 0 -1px #000;
 }
-a.btn:link,
-a.btn:visited {
-	color: #cdcdcd;
-}
-.btn span {
+.mcore-btn span {
 	display: block;
 	height: 33px;
 	margin-left: 5px;
 	padding: 0 12px 0 7px;
 	line-height: 32px;
-	background: url('../images/layout/button-right.png') no-repeat 100% 0;
 }
-.btn:hover, .btn.hover { background-position: 0 -33px; color: #fff }
-.btn:active, .btn.active { background-position: 0 -66px; color: #fff }
-.btn:hover span, .btn.hover span { background-position: 100% -33px }
-.btn:active span, .btn.active span { background-position: 100% -66px }
-.btn:active span {
+.mcore-btn:hover, .btn.hover { background-position: 0 -33px;}
+.mcore-btn:active, .btn.active { background-position: 0 -66px;}
+.mcore-btn:hover span, .btn.hover span { background-position: 100% -33px }
+.mcore-btn:active span, .btn.active span { background-position: 100% -66px }
+.mcre-btn:active span {
 	padding-top: 1px;
 }
 
@@ -268,13 +218,9 @@ button::-moz-focus-inner {
 
 /* Meta info/link text with an icon to its left */
 .meta {
-	color: #8b8f93;
 	padding-left: 16px;
 }
-a.meta:link,
-a.meta:visited {
-	color: #0F7CB4;
-}
+
 .meta-comments { background: url('../images/icons/comments.png') no-repeat left; }
 .meta-likes { background: url('../images/icons/likes.png') no-repeat left; }
 .meta-views { background: url('../images/icons/views.png') no-repeat left; }
@@ -288,12 +234,8 @@ a.meta:visited {
 .meta-video { background:url('../images/icons/video.png') no-repeat left; }
 .meta-go { background:url('../images/icons/go.png') no-repeat left; }
 
-a.meta-likes strong {
-	color: #0F7CB4;
-}
 a.meta-likes:link,
 a.meta-likes:visited {
-	color: #637084;
 	text-decoration: none;
 }
 a.meta-likes:hover strong,
@@ -381,7 +323,6 @@ table.feat-meta > tbody > tr:first-child > td {
 .feat-box .meta-comments,
 .feat-box .meta-likes,
 .feat-box .meta-views {
-	color: #637084;
 	margin-right: 10px;
 }
 
@@ -411,9 +352,6 @@ a:hover .grid-title,
 a:focus .grid-title {
 	text-decoration: underline;
 }
-a:visited .grid-title {
-	color: #55934a;
-}
 .grid-title,
 .grid-desc,
 .grid-meta {
@@ -424,7 +362,6 @@ a:visited .grid-title {
 .grid-desc {
 	line-height: 18px;
 	margin: 5px 0;
-	color: #637084;
 }
 
 .grid-meta {
@@ -604,7 +541,6 @@ a:visited .grid-title {
 	margin-right: 10px;
 }
 #library-controls li {
-	color: #4c4c4c;
 	font-weight: bold;
 }
 #library-controls a {

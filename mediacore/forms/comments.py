@@ -33,7 +33,7 @@ class PostCommentForm(ListForm):
         body = TextArea(validator=XHTMLValidator(not_empty=True),
             label_text=_('Comment'), attrs=dict(rows=5, cols=25))
         submit = SubmitButton(default=_('Submit Comment'),
-            css_class='btn btn-post-comment f-rgt')
+            css_class='mcore-btn btn-post-comment f-rgt')
 
     def post_init(self, *args, **kwargs):
         events.PostCommentForm(self)

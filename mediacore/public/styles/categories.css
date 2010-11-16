@@ -1,8 +1,3 @@
-#category-breadcrumb a:link,
-#category-breadcrumb a:visited {
-	color: #3f3f3f;
-}
-
 #categories-bar {
 	float: left;
 	width: 210px;
@@ -16,7 +11,6 @@
 .category-list small {
 	font-weight: normal;
 	font-size: 12px;
-	color: #8B8F93;
 }
 .subcategory-list {
 	font-size: 14px;

@@ -20,6 +20,7 @@
       xmlns:i18n="http://genshi.edgewall.org/i18n"
       xmlns:xi="http://www.w3.org/2001/XInclude">
 <xi:include href="../master.html" />
+
 <head>
 	<title>Explore</title>
 	<link rel="alternate" type="application/rss+xml" title="Sitemap XML"
@@ -94,12 +95,13 @@
 			<div class="feat-bottom" />
 		</div>
 		<div id="explore-popular" class="m-grid-column" style="margin-right:20px">
-			<h2><span class="uppercase">Featured</span></h2>
+			<py:if test="g.settings['appearance_enable_featured_items']">
+			<h2><span class="mcore-heading uppercase">Featured</span></h2>
 			<div class="feat-box">
 				<div class="feat-top" />
 				<div class="feat-content clearfix">
 					${h.media_player(featured, width=410, height=230)}
-					<h3><a class="underline-hover nocolor" href="${h.url_for(controller='/media', action='view', slug=featured.slug)}">${featured.title}</a></h3>
+					<h3><a class="underline-hover" href="${h.url_for(controller='/media', action='view', slug=featured.slug)}">${featured.title}</a></h3>
 					<div class="feat-meta">
 						<span class="meta meta-comments" title="Comments">
 							${featured.comment_count_published}
@@ -120,8 +122,9 @@
 				</div>
 				<div class="feat-bottom" />
 			</div>
+			</py:if>
 
-			<h2><a href="${h.url_for(action='index', show='popular')}" class="underline-hover uppercase nocolor">Most Popular</a></h2>
+			<h2><a href="${h.url_for(action='index', show='popular')}" class="underline-hover uppercase mcore-heading">Most Popular</a></h2>
 			<py:if test="popular">
 				<ul py:replace="media_grid(popular, thumb_size='m', desc_len=135)" />
 				<a class="see-more underline-hover" href="${h.url_for(action='index', show='popular')}">more of the Most Popular...</a>
@@ -137,7 +140,7 @@
 		</div>
 
 		<div py:if="latest" id="explore-latest" class="m-grid-column">
-			<h2><a href="${h.url_for(action='index', show='latest')}" class="underline-hover uppercase nocolor">Latest</a></h2>
+			<h2><a href="${h.url_for(action='index', show='latest')}" class="underline-hover uppercase mcore-heading">Latest</a></h2>
 			<ul py:replace="media_grid(latest, thumb_size='m', desc_len=135)" />
 			<a class="see-more underline-hover" href="${h.url_for(action='index', show='latest')}">more of the Latest...</a>
 		</div>
