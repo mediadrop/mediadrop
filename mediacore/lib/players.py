@@ -53,6 +53,9 @@ class AbstractPlayer(AbstractClass):
     settings_form_class = None
     """An optional :class:`mediacore.forms.admin.players.PlayerPrefsForm`."""
 
+    default_data = {}
+    """An optional default data dictionary for user preferences."""
+
     @abstractmethod
     def can_play(cls, uris):
         """Test all the given URIs to see if they can be played by this player.
@@ -602,6 +605,9 @@ class HTML5PlusFlowPlayer(AbstractHTML5Player):
     settings_form_class = player_forms.HTML5OrFlashPrefsForm
     """An optional :class:`mediacore.forms.admin.players.PlayerPrefsForm`."""
 
+    default_data = {'prefer_flash': False}
+    """An optional default data dictionary for user preferences."""
+
     supported_containers = HTML5Player.supported_containers \
                          | FlowPlayer.supported_containers
     supported_schemes = HTML5Player.supported_schemes \
@@ -648,6 +654,9 @@ class HTML5PlusJWPlayer(AbstractHTML5Player):
 
     settings_form_class = player_forms.HTML5OrFlashPrefsForm
     """An optional :class:`mediacore.forms.admin.players.PlayerPrefsForm`."""
+
+    default_data = {'prefer_flash': False}
+    """An optional default data dictionary for user preferences."""
 
     supported_containers = HTML5Player.supported_containers \
                          | JWPlayer.supported_containers
