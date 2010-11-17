@@ -101,6 +101,9 @@ class TableForm(LeniantValidationMixin, GlobalMixin, forms.TableForm):
 class CheckBoxList(GlobalMixin, forms.CheckBoxList):
     pass
 
+class FileField(GlobalMixin, FileField):
+    pass
+
 class ListFieldSet(forms.ListFieldSet):
     template = 'forms/fieldset.html'
 

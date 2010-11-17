@@ -14,13 +14,18 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import formencode
+
+from pylons import app_globals
 from pylons.i18n import N_ as _
-from tw.forms import RadioButtonList, SingleSelectField
+from tw.forms import CheckBox, RadioButtonList, SingleSelectField
 from tw.forms.fields import Button
-from tw.forms.validators import FancyValidator, Int, OneOf, StringBool
+from tw.forms.validators import (Bool, FancyValidator, FieldStorageUploadConverter,
+    Int, OneOf, Regex, StringBool)
 from webhelpers.html import literal
 
-from mediacore.forms import ListFieldSet, ListForm, ResetButton, SubmitButton, TextArea, TextField, XHTMLTextArea, email_validator, email_list_validator
+from mediacore.forms import (FileField, ListFieldSet, ListForm,
+    ResetButton, SubmitButton, TextArea, TextField, XHTMLTextArea,
+    email_validator, email_list_validator)
 from mediacore.forms.admin.categories import category_options
 from mediacore.plugin import events
 from mediacore.model import MultiSetting
@@ -45,6 +50,20 @@ rich_text_editors = [
     ('plain', _('Plain <textarea> fields (0kB)')),
     ('tinymce', literal('Enable <a href="http://tinymce.moxiecode.com">TinyMCE</a> for &lt;textarea&gt; fields that accept XHTML input. - <a href="http://wiki.moxiecode.com/index.php/TinyMCE:License">LGPL License</a> (281kB)')),
 ]
+
+# Appearance Settings #
+navbar_colors = [
+    ('brown', _('Brown')),
+    ('blue', _('Blue')),
+    ('green', _('Green')),
+    ('tan', _('Tan')),
+    ('white', _('White')),
+    ('purple', _('Purple')),
+    ('black', _('Black')),
+]
+
+hex_validation_regex = "^#\w{3,6}$"
+# End Appearance Settings #
 
 def multi_settings_options(key):
     settings = MultiSetting.query\
@@ -224,4 +243,99 @@ class APIForm(ListForm):
         ]),
         SubmitButton('save', default='Save', css_classes=['btn', 'btn-save', 'blue', 'f-rgt']),
         ResetButton('cancel', default='Cancel', css_classes=['btn', 'btn-cancel']),
+    ]
+
+class AppearanceForm(ListForm):
+    template = 'admin/box-form.html'
+    id = 'settings-form'
+    css_class = 'form'
+    submit_text = None
+    fields = [
+        ListFieldSet('general', suppress_label=True, legend=_('General'),
+            css_classes=['details_fieldset'],
+            children=[
+                FileField('appearance_logo', label_text=_('Logo'),
+                    validator=FieldStorageUploadConverter(not_empty=False,
+                        label_text=_('Upload Logo')),
+                    css_classes=[],
+                    default=lambda: app_globals.settings.get('appearance_logo', \
+                                                             'logo.png'),
+                    template='./admin/settings/appearance_input_field.html'),
+                FileField('appearance_background_image', label_text=_('Background Image'),
+                    validator=FieldStorageUploadConverter(not_empty=False,
+                        label_text=_('Upload Background')),
+                    css_classes=[],
+                    default=lambda: app_globals.settings.get('appearance_background_image', \
+                                                             'bg_image.png'),
+                    template='./admin/settings/appearance_input_field.html'),
+                TextField('appearance_background_color', maxlength=255,
+                    label_text=_('Background color'),
+                    validator=Regex(hex_validation_regex, strip=True)),
+                TextField('appearance_link_color', maxlength=255,
+                    label_text=_('Link color'),
+                    validator=Regex(hex_validation_regex, strip=True)),
+                TextField('appearance_visited_link_color', maxlength=255,
+                    label_text=_('Visited Link color'),
+                    validator=Regex(hex_validation_regex, strip=True)),
+                TextField('appearance_text_color', maxlength=255,
+                    validator=Regex(hex_validation_regex, strip=True),
+                    label_text=_('Text color')),
+                TextField('appearance_heading_color', maxlength=255,
+                    label_text=_('Heading color'),
+                    validator=Regex(hex_validation_regex, strip=True)),
+                SingleSelectField('appearance_navigation_bar_color',
+                    label_text=_('Navbar color'),
+                    options=navbar_colors),
+            ]
+        ),
+        ListFieldSet('options', suppress_label=True, legend=_('Options'),
+            css_classes=['details_fieldset'],
+            children=[
+                CheckBox('appearance_enable_cooliris',
+                    css_classes=['checkbox-left'],
+                    label_text=_('Enable Cooliris on the Explore Page'),
+                    validator=Bool(if_missing='')),
+                CheckBox('appearance_enable_featured_items',
+                    label_text=_('Enable Featured Items on the Explore Page'),
+                    css_classes=['checkbox-left'],
+                    validator=Bool(if_missing='')),
+                CheckBox('appearance_enable_podcast_tab',
+                    label_text=_('Enable Podcast Tab'),
+                    css_classes=['checkbox-left'],
+                    validator=Bool(if_missing='')),
+                CheckBox('appearance_enable_user_uploads',
+                    label_text=_('Enable User Uploads'),
+                    css_classes=['checkbox-left'],
+                    validator=Bool(if_missing='')),
+                CheckBox('appearance_enable_rich_text',
+                    label_text=_('Enable Rich Text Editor'),
+                    css_classes=['checkbox-left'],
+                    validator=Bool(if_missing='')),
+                CheckBox('appearance_display_logo',
+                    label_text=_('Display Logo'),
+                    css_classes=['checkbox-left'],
+                    validator=Bool(if_missing='')),
+                CheckBox('appearance_display_background_image',
+                    label_text=_('Display Background Image'),
+                    css_classes=['checkbox-left'],
+                    validator=Bool(if_missing='')),
+            ],
+            template='./admin/settings/appearance_list_fieldset.html',
+        ),
+        ListFieldSet('advanced', suppress_label=True, legend=_('Advanced'),
+            css_classes=['details_fieldset'],
+            children=[
+                TextArea('appearance_custom_css',
+                    label_text=_('Custom CSS'),
+                    attrs=dict(rows=15, cols=25)),
+                TextArea('appearance_custom_header_html',
+                    label_text=_('Custom Header HTML'),
+                    attrs=dict(rows=15, cols=25)),
+                TextArea('appearance_custom_footer_html',
+                    label_text=_('Custom Footer HTML'),
+                    attrs=dict(rows=15, cols=25)),
+            ],
+        ),
+        SubmitButton('save', default=_('Save'), css_classes=['btn', 'btn-save', 'blue', 'f-rgt']),
+        ResetButton('cancel', default=_('Cancel'), css_classes=['btn', 'btn-cancel']),
     ]

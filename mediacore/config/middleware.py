@@ -195,6 +195,11 @@ def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
             path = os.path.join(config['image_dir'], image_type)
             static_urlmap[dir] = StaticURLParser(path)
 
+        # Serve appearance directory outside of public as well
+        dir = '/appearance'
+        path = os.path.join(config['app_conf']['cache_dir'], 'appearance')
+        static_urlmap[dir] = StaticURLParser(path)
+
         app = Cascade([public_app, static_urlmap, app])
 
     app.config = config
