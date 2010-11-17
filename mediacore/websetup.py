@@ -13,11 +13,14 @@ from migrate.versioning.api import (drop_version_control, version_control,
 from migrate.versioning.exceptions import DatabaseAlreadyControlledError
 
 from mediacore.config.environment import load_environment
+from mediacore.lib.players import (YoutubeFlashPlayer,
+    VimeoUniversalEmbedPlayer,GoogleVideoFlashPlayer, BlipTVFlashPlayer,
+    HTML5Player, FlowPlayer, JWPlayer, HTML5PlusFlowPlayer, HTML5PlusJWPlayer)
 from mediacore.lib.storage import (BlipTVStorage, GoogleVideoStorage,
     LocalFileStorage, RemoteURLStorage, VimeoStorage, YoutubeStorage)
 from mediacore.model import (DBSession, metadata, Media, MediaFile, Podcast,
     User, Group, Permission, Tag, Category, Comment, Setting, Author,
-    AuthorWithIP)
+    AuthorWithIP, players)
 
 log = logging.getLogger(__name__)
 here = os.path.dirname(__file__)
@@ -106,9 +109,6 @@ def add_default_data():
         (u'popularity_decay_lifetime', u'36'),
         (u'rich_text_editor', u'tinymce'),
         (u'google_analytics_uacct', u''),
-        (u'flash_player', u'jwplayer'),
-        (u'html5_player', u'html5'),
-        (u'player_type', u'best'),
         (u'featured_category', u'1'),
         (u'max_upload_size', u'314572800'),
         (u'ftp_storage', u'false'),
@@ -220,6 +220,22 @@ def add_default_data():
     ]
     for engine in default_engines:
         DBSession.add(engine)
+
+    default_player = HTML5PlusJWPlayer
+    embed_players = [
+        YoutubeFlashPlayer,
+        VimeoUniversalEmbedPlayer,
+        GoogleVideoFlashPlayer,
+        BlipTVFlashPlayer,
+    ]
+    for priority, player_cls in enumerate([default_player] + embed_players):
+        DBSession.execute(players.insert().values(
+            name=player_cls.name,
+            enabled=True,
+            data=player_cls.default_data,
+            priority=priority,
+        ))
+
 
     import datetime
     instructional_media = [
