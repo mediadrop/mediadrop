@@ -18,7 +18,8 @@ import os.path
 
 from genshi import Markup, XML
 from genshi.output import XHTMLSerializer
-from genshi.template.loader import TemplateLoader, directory, TemplateNotFound
+from genshi.template import Template, NewTextTemplate
+from genshi.template.loader import directory, TemplateLoader, TemplateNotFound
 from pylons import app_globals
 from pylons.templating import pylons_globals
 
@@ -56,7 +57,11 @@ def render(template, tmpl_vars=None, method=None):
     tmpl_vars['plugin_templates'] = plugin_templates
 
     # Grab a template reference and apply the template context
-    tmpl = app_globals.genshi_loader.load(template)
+    if method == 'text':
+        tmpl = app_globals.genshi_loader.load(template, cls=NewTextTemplate)
+    else:
+        tmpl = app_globals.genshi_loader.load(template)
+
     stream = tmpl.generate(**tmpl_vars)
 
     if method is None:
