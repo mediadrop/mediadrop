@@ -61,6 +61,9 @@
 		</ul>
 	</py:def>
 
+	<!--! Display pagination controls.
+	      XXX: This depends on ugly global template vars to generate correct
+	           links for filtered media pages. See the inner py:def pagelink. -->
 	<py:def function="pager(paginator, radius=2, show_if_single_page=False)" py:with="
 		leftmost_page = max(paginator.first_page, paginator.page - radius);
 		rightmost_page = min(paginator.last_page, paginator.page + radius);
@@ -69,7 +72,7 @@
 		      We should be able to revert to it later, as it will likely perform better. -->
 		<div class="pager" py:if="paginator.page_count > (not show_if_single_page and 1 or 0)">
 			<a py:def="pagelink(page, text=None, strong=False)"
-			   href="${h.url_for(page=page, show=value_of('show'), q=value_of('search_query'))}"
+			   href="${h.url_for(page=page, show=value_of('show'), q=value_of('search_query'), tag=defined('tag') and hasattr(tag, 'slug') and tag.slug or None)}"
 			   class="pager-link underline-hover"><strong py:strip="not strong">${text or page}</strong></a>
 			<span class="pager-label">Page:</span>
 			<a py:if="paginator.page &gt; paginator.first_page" py:replace="pagelink(paginator.page - 1, 'Previous', True)" />
