@@ -207,6 +207,8 @@ class _Plugin(object):
         # Find controllers in the root plugin __init__.py
         controller_class = _controller_class_from_module(self.module, self.name)
         if controller_class:
+            class_name = controller_class.__module__ + '.' + controller_class.__name__
+            log.debug('Controller loaded; "%s" = %s' % (self.name, class_name))
             return {self.name: controller_class}
         controllers = {}
         # Search a controllers directory, standard pylons style
@@ -220,6 +222,8 @@ class _Plugin(object):
                 if mycontroller is None:
                     log.warn('Controller expected but not found in: %r', module)
                 controllers[self.name + '/' + name] = mycontroller
+                class_name = mycontroller.__module__ + '.' + mycontroller.__name__
+                log.debug('Controller loaded; "%s" = %s' % (self.name + '/' + name, class_name))
         return controllers
 
 def _controller_class_from_module(module, name):
