@@ -652,11 +652,11 @@ a:visited .grid-title {
 	font-family: 'Trebuchet MS', sans-serif;
 	font-weight: bold;
 }
-#desc-full,
-#desc-excerpt {
+.mcore-excerpt-fulltext,
+.mcore-excerpt {
 	overflow: hidden;
 }
-#desc-more {
+.mcore-excerpt-toggle {
 	color: #0F7CB4;
 	font-weight: bold;
 }

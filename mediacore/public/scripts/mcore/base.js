@@ -20,6 +20,7 @@ goog.provide('mcore.initPage');
 
 goog.require('goog.array');
 goog.require('goog.dom');
+goog.require('mcore.excerpts.Excerpt');
 goog.require('mcore.likes.LikeThis');
 
 
@@ -33,6 +34,17 @@ mcore.initPage = function() {
     var like = new mcore.likes.LikeThis();
     like.decorate(element);
   });
+
+  var mediaBox = goog.dom.getElement('media-box');
+  if (mediaBox) {
+    var excerpt = goog.dom.getElement('description-excerpt');
+    if (excerpt &&
+        goog.dom.getElementsByClass('mcore-excerpt', excerpt).length) {
+      var exc = new mcore.excerpts.Excerpt();
+      exc.decorate(excerpt);
+      exc.showExcerpt(true);
+    }
+  }
 };
 
 

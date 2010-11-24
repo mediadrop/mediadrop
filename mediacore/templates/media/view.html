@@ -40,10 +40,10 @@
 					<py:otherwise>(unpublished)</py:otherwise>
 					by ${media.author.name}
 				</div>
-				<py:with vars="fulltext = media.description or u''; excerpt = h.excerpt_xhtml(fulltext, 340)">
-					<div id="desc-full"><p py:replace="Markup(fulltext)" /></div>
-					<div id="desc-excerpt" py:if="excerpt != fulltext" style="display:none"><p py:replace="Markup(excerpt)" /></div>
-				</py:with>
+				<div id="description-excerpt" py:with="fulltext = media.description or u''; excerpt = h.excerpt_xhtml(fulltext, 340)">
+					<div class="mcore-excerpt-fulltext"><p py:replace="Markup(fulltext)" /></div>
+					<div class="mcore-excerpt" style="display:none" py:if="excerpt != fulltext"><p py:replace="Markup(excerpt)" /></div>
+				</div>
 			</div>
 			${h.media_player(media, width=560, height=315).render()}
 			<table class="feat-meta" cellspacing="0">
