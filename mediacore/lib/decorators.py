@@ -289,7 +289,7 @@ class validate(object):
         elif isinstance(self.validators, formencode.Schema):
             # A FormEncode Schema object - to_python converts the incoming
             # parameters to sanitized Python values
-            return v.to_python(params)
+            return self.validators.to_python(params)
 
         elif isinstance(self.validators, tw.forms.InputWidget) \
         or hasattr(self.validators, 'validate'):
