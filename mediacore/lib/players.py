@@ -615,19 +615,21 @@ class HTML5PlusFlowPlayer(AbstractHTML5Player):
 
     def __init__(self, media, uris, **kwargs):
         super(HTML5PlusFlowPlayer, self).__init__(media, uris, **kwargs)
-        self.html5 = None
         self.flowplayer = None
         self.prefer_flash = self.data.get('prefer_flash', False)
-        html_uris = [u for u, p in izip(uris, HTML5Player.can_play(uris)) if p]
+        self.uris = [u for u, p in izip(uris, AbstractHTML5Player.can_play(uris)) if p]
         flow_uris = [u for u, p in izip(uris, FlowPlayer.can_play(uris)) if p]
-        if html_uris:
-            self.html5 = HTML5Player(media, html_uris, **kwargs)
         if flow_uris:
             self.flowplayer = FlowPlayer(media, flow_uris, **kwargs)
 
     def render(self, **kwargs):
+        if self.uris:
+            html5_tag = super(HTML5PlusFlowPlayer, self).render(**kwargs)
+        else:
+            html5_tag = None
         return render('players/html5_or_flash.html', {
-            'html5': self.html5,
+            'player': self,
+            'html5': html5_tag,
             'flash': self.flowplayer,
             'prefer_flash': self.prefer_flash and self.flowplayer,
         })
@@ -665,19 +667,21 @@ class HTML5PlusJWPlayer(AbstractHTML5Player):
 
     def __init__(self, media, uris, **kwargs):
         super(HTML5PlusJWPlayer, self).__init__(media, uris, **kwargs)
-        self.html5 = None
         self.jwplayer = None
         self.prefer_flash = self.data.get('prefer_flash', False)
-        html_uris = [u for u, p in izip(uris, HTML5Player.can_play(uris)) if p]
+        self.uris = [u for u, p in izip(uris, AbstractHTML5Player.can_play(uris)) if p]
         jw_uris = [u for u, p in izip(uris, JWPlayer.can_play(uris)) if p]
-        if html_uris:
-            self.html5 = HTML5Player(media, html_uris, **kwargs)
         if jw_uris:
             self.jwplayer = JWPlayer(media, jw_uris, **kwargs)
 
     def render(self, **kwargs):
+        if self.uris:
+            html5_tag = super(HTML5PlusJWPlayer, self).render(**kwargs)
+        else:
+            html5_tag = None
         return render('players/html5_or_flash.html', {
-            'html5': self.html5,
+            'player': self,
+            'html5': html5_tag,
             'flash': self.jwplayer,
             'prefer_flash': self.prefer_flash and self.jwplayer,
         })

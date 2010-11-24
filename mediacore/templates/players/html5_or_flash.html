@@ -24,7 +24,7 @@
 	<xi:include py:for="tmpl in value_of('plugin_templates', ())" href="${tmpl}" />
 
 	<div id="player-container-${c.player_count}" py:with="error_text = _('Your browser is incapable of playing this media.')">
-		${html5 and html5.render()(error_text) or error_text}
+		${html5 and html5(error_text) or error_text}
 	</div>
 
 	<script type="text/javascript" src="${h.url_for('/scripts/player.js')}" />
