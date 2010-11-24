@@ -13,27 +13,13 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from pylons.i18n import N_ as _
-from tw.forms.validators import NotEmpty
-from tw.api import WidgetsList
+from formencode import Schema
+from pylons.i18n import N_
 
-from mediacore.forms import ListForm, SubmitButton, TextField, TextArea, XHTMLValidator, email_validator
-from mediacore.plugin import events
+from mediacore.forms import TextField, XHTMLValidator, email_validator
 
-class PostCommentForm(ListForm):
-    template = 'comments/post.html'
-    id = 'post-comment-form'
-    css_class = 'form'
-
-    class fields(WidgetsList):
-        name = TextField(validator=TextField.validator(not_empty=True, maxlength=50,
-            messages={'empty': _('Please enter your name!')}), label_text=_('Name'))
-        email = TextField(validator=email_validator(), maxlength=255,
-            label_text=_('Email Address (will never be published)'))
-        body = TextArea(validator=XHTMLValidator(not_empty=True),
-            label_text=_('Comment'), attrs=dict(rows=5, cols=25))
-        submit = SubmitButton(default=_('Submit Comment'),
-            css_class='btn btn-post-comment f-rgt')
-
-    def post_init(self, *args, **kwargs):
-        events.PostCommentForm(self)
+class PostCommentSchema(Schema):
+    name = TextField.validator(not_empty=True, maxlength=50,
+        messages={'empty': N_('Please enter your name!')})
+    email = email_validator()
+    body = XHTMLValidator(not_empty=True)

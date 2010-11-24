@@ -33,19 +33,21 @@ from sqlalchemy import orm, sql
 from webob.exc import HTTPNotAcceptable, HTTPNotFound
 
 from mediacore import USER_AGENT
-from mediacore.forms.comments import PostCommentForm
-from mediacore.lib import email, helpers
+from mediacore.forms.comments import PostCommentSchema
+from mediacore.lib import helpers
 from mediacore.lib.base import BaseController
-from mediacore.lib.decorators import expose, expose_xhr, observable, paginate, validate
+from mediacore.lib.decorators import expose, expose_xhr, observable, paginate, validate, validate_xhr
+from mediacore.lib.email import send_comment_notification
 from mediacore.lib.helpers import file_path, pick_uris, redirect, store_transient_message, url_for
 from mediacore.lib.players import JWPlayer
+from mediacore.lib.templating import render
 from mediacore.model import (DBSession, fetch_row, get_available_slug,
     Media, MediaFile, Comment, Tag, Category, Author, AuthorWithIP, Podcast)
 from mediacore.plugin import events
 
 log = logging.getLogger(__name__)
 
-post_comment_form = PostCommentForm()
+comment_schema = PostCommentSchema()
 
 class EmbedPlayerSchema(Schema):
     allow_extra_fields = True
@@ -231,8 +233,7 @@ class MediaController(BaseController):
             media = media,
             related_media = related[:6],
             comments = media.comments.published().all(),
-            comment_form = post_comment_form,
-            comment_form_action = url_for(action='comment', anchor=post_comment_form.id),
+            comment_form_action = url_for(action='comment'),
             comment_form_values = kwargs,
             mediacore_likes = mediacore_likes,
             facebook_likes = facebook_likes,
@@ -298,16 +299,30 @@ class MediaController(BaseController):
         else:
             redirect(action='view')
 
-    @expose()
-    @validate(post_comment_form, error_handler=view)
+    @expose_xhr()
+    @validate_xhr(comment_schema, error_handler=view)
     @observable(events.MediaController.comment)
-    def comment(self, slug, **values):
+    def comment(self, slug, name='', email=None, body='', **kwargs):
         """Post a comment from :class:`~mediacore.forms.comments.PostCommentForm`.
 
         :param slug: The media :attr:`~mediacore.model.media.Media.slug`
         :returns: Redirect to :meth:`view` page for media.
 
         """
+        def result(success, message, comment=None):
+            if request.is_xhr:
+                result = dict(success=success, message=message)
+                if comment:
+                    result['comment'] = render('comments/_list.html',
+                        {'comment_to_render': comment},
+                        method='xhtml')
+                return result
+            elif success:
+                return redirect(action='view')
+            else:
+                return self.view(slug, name=name, email=email, body=body,
+                                 **kwargs)
+
         akismet_key = app_globals.settings['akismet_key']
         if akismet_key:
             akismet = Akismet(agent=USER_AGENT)
@@ -315,42 +330,36 @@ class MediaController(BaseController):
             akismet.blog_url = app_globals.settings['akismet_url'] or \
                 url_for('/', qualified=True)
             akismet.verify_key()
-            data = {'comment_author': values['name'].encode('utf-8'),
+            data = {'comment_author': name.encode('utf-8'),
                     'user_ip': request.environ.get('REMOTE_ADDR'),
                     'user_agent': request.environ.get('HTTP_USER_AGENT', ''),
                     'referrer': request.environ.get('HTTP_REFERER',  'unknown'),
                     'HTTP_ACCEPT': request.environ.get('HTTP_ACCEPT')}
 
-            if akismet.comment_check(values['body'].encode('utf-8'), data):
-                text = 'Your comment appears to be spam and has been rejected.'
-                store_transient_message('comment_posted', text, success=False)
-                redirect(action='view', anchor='comment-flash')
+            if akismet.comment_check(body.encode('utf-8'), data):
+                return result(False, _(u'Your comment has been rejected.'))
 
         media = fetch_row(Media, slug=slug)
 
         c = Comment()
-        c.author = AuthorWithIP(
-            values['name'], values['email'], request.environ['REMOTE_ADDR']
-        )
+        c.author = AuthorWithIP(name, email, request.environ['REMOTE_ADDR'])
         c.subject = 'Re: %s' % media.title
-        c.body = values['body']
+        c.body = body
 
         require_review = asbool(app_globals.settings['req_comment_approval'])
-        if not require_review:
+        if require_review:
+            message = _('We will post it just as soon as a moderator approves it.')
+        else:
+            message = _('Your comment was posted successfully!')
             c.reviewed = True
             c.publishable = True
 
         media.comments.append(c)
-        email.send_comment_notification(media, c)
+        send_comment_notification(media, c)
 
-        if require_review:
-            title = 'Thanks for your comment!'
-            text = 'We will post it just as soon as a moderator approves it.'
-            store_transient_message('comment_posted', text, title=title,
-                success=True)
-            redirect(action='view', anchor='comment-flash')
-        else:
-            redirect(action='view', anchor='comment-%s' % c.id)
+        DBSession.flush()
+
+        return result(True, message, c)
 
     @expose()
     def serve(self, id, download=False, **kwargs):

@@ -26,44 +26,88 @@
 		</head>
 	</py:match>
 
-	<py:def function="comment_list(comments, form=None, action=None, values=None)">
+	<py:def function="comment_li(comment)">
+		<li class="comment">
+			<div class="comment-top-divot"></div>
+			<div class="comment-content clearfix">
+				<span class="avatar"><img src="${h.gravatar_from_email(comment.author.email, 70)}" width="70" height="70" alt="" /></span>
+				<cite>
+					<a href="#comment-${comment.id}" name="comment-${comment.id}" class="underline-hover" title="Permalink"
+					   py:with="datetime = comment.created_on.strftime('%B %d, %Y at %H:%M').replace(h.datetime.now().strftime(', %Y'), '')">
+						<strong>${comment.author.name}</strong><br />
+						<span class="comment-date" i18n:msg="datetime">said on ${datetime}&#8230;</span>
+					</a>
+				</cite>
+				<blockquote py:content="Markup(comment.body)" />
+			</div>
+			<div class="comment-bottom" />
+		</li>
+	</py:def>
+
+	<py:def function="comment_list(comments, action=None, values=None)">
 		<div class="comments">
 			<h2 class="comments-head">Comments</h2>
-			<py:choose test="len(comments)">
-				<div py:when="0" class="no-comments">
-					<div class="comment-top-divot" />
-					<div class="comment-content">No comments have been posted yet.</div>
-					<div class="comment-bottom" />
-				</div>
-				<ul py:otherwise="" class="comments-list">
-					<li py:for="comment in comments" class="comment">
-						<div class="comment-top-divot"></div>
-						<div class="comment-content clearfix">
-							<span class="avatar"><img src="${h.gravatar_from_email(comment.author.email, 70)}" width="70" height="70" alt="" /></span>
-							<cite>
-								<a href="#comment-${comment.id}" name="comment-${comment.id}" class="underline-hover" title="Permalink"
-								   py:with="datetime = comment.created_on.strftime('%B %d, %Y at %H:%M').replace(h.datetime.now().strftime(', %Y'), '')">
-									<strong>${comment.author.name}</strong><br />
-									<span class="comment-date" i18n:msg="datetime">said on ${datetime}&#8230;</span>
-								</a>
-							</cite>
-							<blockquote py:content="Markup(comment.body)" />
-						</div>
-						<div class="comment-bottom" />
-					</li>
-				</ul>
-			</py:choose>
+			<div py:if="not comments" class="no-comments" id="no-comments">
+				<div class="comment-top-divot" />
+				<div class="comment-content">No comments have been posted yet.</div>
+				<div class="comment-bottom" />
+			</div>
+			<ul class="comments-list" id="comments-list">
+				<py:for each="comment in comments">${comment_li(comment)}</py:for>
+			</ul>
 			<div id="comment-flash" class="no-comments" style="display:none">
 				<div class="comment-top" />
 				<div class="comment-content" />
 				<div class="comment-bottom" />
 			</div>
-			<py:if test="form">
+			<py:if test="action">
+				<form id="post-comment-form" action="${action}" method="post" class="required form">
 				<br />
 				<h3>Write a comment</h3>
-				${XML(form(values, action=action))}
+					<ul class="field-list" py:with="
+						values = values or {};
+						errors = tmpl_context.form_errors or {};
+					">
+						<li id="name-container" class="even" py:with="error = errors.get('name', None)">
+							<div py:if="error" class="form-error">${error}</div>
+							<div id="name-label" class="form-label">
+								<label for="name">Name</label>
+							</div>
+							<div class="form-field">
+								<input type="text" name="name" class="textfield required" id="name" value="${values.get('name', None)}" />
+							</div>
+						</li>
+						<li id="email-container" class="odd" py:with="error = errors.get('email', None)">
+							<div py:if="error" class="form-error">${error}</div>
+							<div id="email-label" class="form-label">
+								<label for="email">Email Address (will never be published)</label>
+							</div>
+							<div class="form-field">
+								<input type="text" name="email" class="textfield" id="email" value="${values.get('email', None)}" maxlength="255" />
+							</div>
+						</li>
+						<li id="body-container" class="even" py:with="error = errors.get('body', None)">
+							<div py:if="error" class="form-error">${error}</div>
+							<div id="body-label" class="form-label">
+								<label for="body">Comment</label>
+							</div>
+							<div class="form-field">
+								<textarea id="body" name="body" class="required textarea" rows="5" cols="25">${values.get('body', None)}</textarea>
+							</div>
+						</li>
+						<li id="submit-container" class="odd submit">
+							<div class="form-field">
+								<button type="submit" class="btn btn-post-comment f-rgt"><span>Submit Comment</span></button>
+							</div>
+						</li>
+					</ul>
+				</form>
 			</py:if>
 		</div>
 	</py:def>
+
+	<py:if test="value_of('comment_to_render', None)">
+		${comment_li(comment_to_render)}
+	</py:if>
 
 </html>
