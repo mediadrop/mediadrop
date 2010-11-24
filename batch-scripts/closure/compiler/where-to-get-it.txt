@@ -1,0 +1,3 @@
+Download and extract the compiler into this directory.
+
+http://closure-compiler.googlecode.com/files/compiler-latest.tar.gz

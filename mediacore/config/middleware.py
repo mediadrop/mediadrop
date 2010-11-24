@@ -216,6 +216,14 @@ def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
             path = os.path.join(config['image_dir'], image_type)
             static_urlmap[dir] = StaticURLParser(path)
 
+        # Check for the closure-library in the default location.
+        # We want to serve goog closure code for debugging uncompiled js.
+        if config['debug']:
+            goog_path = os.path.join(config['pylons.paths']['root'], '..',
+                'closure-library', 'closure', 'goog')
+            if os.path.exists(goog_path):
+                static_urlmap['/scripts/goog'] = StaticURLParser(goog_path)
+
         app = Cascade([public_app, static_urlmap, app])
 
     if asbool(config.get('enable_gzip', 'true')):

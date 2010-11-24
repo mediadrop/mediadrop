@@ -27,6 +27,14 @@
 <head py:match="head">
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<link href="${h.url_for('/styles/base.css')}" media="screen" rel="stylesheet" type="text/css" />
+	<py:choose test="h.config['debug'] and bool(h.request.params.get('debug', False))">
+		<py:when test="True">
+			<script type="text/javascript" src="${h.url_for('/scripts/goog/base.js')}"></script>
+			<script type="text/javascript" src="${h.url_for('/scripts/mcore/deps.js')}"></script>
+			<script type="text/javascript" src="${h.url_for('/scripts/mcore/base.js')}"></script>
+		</py:when>
+		<script py:otherwise="" type="text/javascript" src="${h.url_for('/scripts/mcore-compiled.js')}"></script>
+	</py:choose>
 	<meta py:replace="select('*')"/>
 </head>
 
@@ -44,6 +52,9 @@
 		</form>
 	</div>
 	<div py:replace="select('*|text()|comment()')" />
+	<script type="text/javascript">
+		mcore.initPage();
+	</script>
 </body>
 
 <!--! Optionally wrap the core MediaCore output in a layout -->
