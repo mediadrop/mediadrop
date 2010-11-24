@@ -20,6 +20,7 @@ goog.provide('mcore.initPage');
 
 goog.require('goog.array');
 goog.require('goog.dom');
+goog.require('mcore.comments.CommentForm');
 goog.require('mcore.excerpts.Excerpt');
 goog.require('mcore.likes.LikeThis');
 
@@ -37,6 +38,12 @@ mcore.initPage = function() {
 
   var mediaBox = goog.dom.getElement('media-box');
   if (mediaBox) {
+    var commentForm = goog.dom.getElement('post-comment-form');
+    if (commentForm) {
+      var cf = new mcore.comments.CommentForm();
+      cf.decorate(commentForm);
+    }
+
     var excerpt = goog.dom.getElement('description-excerpt');
     if (excerpt &&
         goog.dom.getElementsByClass('mcore-excerpt', excerpt).length) {
