@@ -23,6 +23,7 @@ goog.require('goog.dom');
 goog.require('mcore.comments.CommentForm');
 goog.require('mcore.excerpts.Excerpt');
 goog.require('mcore.likes.LikeThis');
+goog.require('mcore.players.initHtml5Player');
 
 
 /**
@@ -55,4 +56,44 @@ mcore.initPage = function() {
 };
 
 
+/**
+ * Decorate an HTML5 video or audio player and attach a fallback handler
+ * for when the browser does not support it.
+ * @param {Element|string} element A video or audio tag, or its ID.
+ * @param {Function|string=} opt_fallback Fallback HTML or a function to call.
+ * @param {Function|boolean=} opt_preferFallback Attempt the fallback first.
+ * @return {mcore.players.Html5Player|null} The new html5 player instance.
+ */
+mcore.initHtml5Player = function(element, opt_fallback,
+                                 opt_preferFallback) {
+  element = goog.dom.getElement(element);
+  if (goog.isNull(element)) {
+    return null;
+  }
+
+  var player = new mcore.players.Html5Player();
+
+  var fallback;
+  if (goog.isFunction(opt_fallback)) {
+    fallback = opt_fallback;
+  } else if (goog.isString(opt_fallback)) {
+    fallback = function(e) {
+      var mediaElement = player.getElement();
+      player.dispose();
+      element.innerHTML = opt_fallback;
+    };
+  }
+  if (fallback) {
+    goog.events.listen(player,
+        [mcore.players.EventType.NO_SUPPORT,
+         mcore.players.EventType.NO_SUPPORTED_SRC],
+        fallback);
+  }
+
+  player.decorate(goog.dom.getFirstElementChild(element));
+  return player;
+};
+
+
 goog.exportSymbol('mcore.initPage', mcore.initPage);
+goog.exportSymbol('mcore.initHtml5Player', mcore.initHtml5Player);

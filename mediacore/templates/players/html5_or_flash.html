@@ -23,17 +23,13 @@
 
 	<xi:include py:for="tmpl in value_of('plugin_templates', ())" href="${tmpl}" />
 
-	<div id="player-container-${c.player_count}" py:with="error_text = _('Your browser is incapable of playing this media.')">
+	<div id="${player.elem_id}" style="height:${player.adjusted_height}px" py:with="error_text = _('Your browser is incapable of playing this media.')">
 		${html5 and html5(error_text) or error_text}
 	</div>
 
-	<script type="text/javascript" src="${h.url_for('/scripts/player.js')}" />
 	<script type="text/javascript">
 		//<![CDATA[
-		var p = new MediaPlayer('player-container-${c.player_count}', {
-			swiff: ${flash and flash.render(method='swiff') or 'null'},
-			preferFlash: ${prefer_flash and 'true' or 'false'}
-		});
+		mcore.initHtml5Player('${player.elem_id}', ${flash and "'%s'" % flash.render() or "null"}, ${prefer_flash and 'true' or 'false'});
 		//]]>
 	</script>
 
