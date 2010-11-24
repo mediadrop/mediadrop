@@ -21,6 +21,7 @@ from genshi.filters.i18n import Translator
 from genshi.template import loader
 from genshi.template.plugin import MarkupTemplateEnginePlugin
 from paste.cascade import Cascade
+from paste.gzipper import make_gzip_middleware
 from paste.registry import RegistryManager
 from paste.urlmap import URLMap
 from paste.urlparser import StaticURLParser
@@ -216,6 +217,9 @@ def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
             static_urlmap[dir] = StaticURLParser(path)
 
         app = Cascade([public_app, static_urlmap, app])
+
+    if asbool(config.get('enable_gzip', 'true')):
+        app = make_gzip_middleware(app, global_conf)
 
     app.config = config
     return app
