@@ -54,9 +54,12 @@
 					<td>
 						<div id="sharethis" class="meta-wrapper">
 							<a class="meta meta-share underline-hover" title="Share this ${media.type} with friends" href="#"><strong>Share</strong></a>
-							<div class="meta-hover" py:with="current_url = h.url_for(qualified=True)">
-								<label>Permalink: <input type="text" value="${current_url}" readonly="readonly" /></label>
-								<ul>
+							<div id="sharethis-hover" class="meta-hover" py:with="current_url = h.url_for(qualified=True)">
+								<div class="meta-hover-top"></div>
+								<div class="meta-hover-content">
+									<label>Permalink: <input type="text" value="${current_url}" readonly="readonly" /></label>
+								</div>
+								<ul class="meta-hover-bottom">
 									<li class="share-email"><a title="Share by email" href="mailto:?subject=${media.title + ': ' + current_url}">email</a></li>
 									<li class="share-facebook"><a title="Share on Facebook" href="http://www.facebook.com/sharer.php?u=${current_url}">facebook</a></li>
 									<li class="share-twitter"><a title="Share on Twitter" href="http://twitter.com/home?status=${media.title + ': ' + current_url}">twitter</a></li>
@@ -65,12 +68,14 @@
 						</div>
 					</td>
 					<td py:with="embed_code = h.embed_iframe(media)">
-						<!--! FIXME: Don't render these elements when there's no embed_code.
-						             We only render because of the mess of js above that expects these elements. -->
-						<div id="embedthis" class="meta-wrapper" style="${not embed_code and 'display:none' or None}">
+						<div id="embedthis" class="meta-wrapper" py:if="embed_code">
 							<a class="meta meta-embed underline-hover" title="Embed on your site" href="#"><strong>Embed</strong></a>
-							<div class="meta-hover">
-								<label>Embeddable Player HTML: <input type="text" value="${unicode(embed_code)}" readonly="readonly" /></label>
+							<div id="embedthis-hover" class="meta-hover">
+								<div class="meta-hover-top"></div>
+								<div class="meta-hover-content">
+									<label>Embeddable Player HTML: <input type="text" value="${unicode(embed_code)}" readonly="readonly" /></label>
+								</div>
+								<div class="meta-hover-bottom"></div>
 							</div>
 						</div>
 					</td>

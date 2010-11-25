@@ -668,51 +668,58 @@ a:visited .grid-title {
 	position: relative;
 }
 .meta-hover {
-	width: 191px;
 	visibility: hidden;
 	position: absolute;
+	width: 193px;
 	top: 19px;
 	left: -64px;
 	z-index: 100;
 }
-#embedthis .meta-hover {
-	background: url('../images/layout/embed-box.png') no-repeat;
-	height: 79px;
+.meta-hover-top,
+.meta-hover-bottom {
+	background: url('../images/layout/meta-hover-top.png') no-repeat bottom;
+	height: 18px;
 }
-#sharethis .meta-hover {
-	background: url('../images/layout/share-box.png') no-repeat;
-	height: 110px;
+.meta-hover-bottom {
+	background: url('../images/layout/meta-hover-bottom.png') no-repeat top;
+}
+.meta-hover-content {
+	background: url('../images/layout/meta-hover-bg.png') repeat-y;
+	padding: 0 15px;
 }
 .meta-hover label {
-	width: 159px;
-	margin: 0 15px;
-	padding-top: 14px;
+	width: 162px;
 	display: block;
 	font-size: 12px;
+	line-height: 10px;
 	font-weight: bold;
 }
 .meta-hover input {
-	margin-top: 2px;
+	margin-top: 7px;
+	margin-bottom: -1px;
 	padding: 5px;
-	width: 150px;
+	width: 151px;
 	border: 1px solid #c6c6c6;
-	-moz-border-radius: 8px;
-	-webkit-border-radius: 8px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
 }
-.meta-hover ul {
+ul.meta-hover-bottom {
 	list-style: none;
+	background: url('../images/layout/meta-hover-share.png') no-repeat;
+	height: 39px;
+	margin: 0;
 }
 .meta-hover li a {
 	text-indent: -5000px;
 	width: 59px;
 	height: 29px;
-	position: absolute;
-	top: 72px;
+	margin-top: 1px;
 	display: block;
+	float: left;
 }
-.meta-hover li.share-email a { left: 6px }
-.meta-hover li.share-facebook a { left: 66px }
-.meta-hover li.share-twitter a { left: 126px }
+#sharethis-hover input { margin-bottom: 10px }
+#sharethis-hover .share-email a { margin-left: 6px }
+#sharethis-hover .share-facebook a { width: 66px }
 
 /* Forms */
 textarea {
