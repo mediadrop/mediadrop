@@ -575,14 +575,13 @@ a:visited .grid-title {
 #podcast-context .grid-meta span.meta-episodes span {
 	position: static;
 }
-#category-context,
-#tag-context {
-	margin-top: 10px;
+#category-context h3,
+#tag-context h3 {
+	margin-bottom: 5px;
 }
 .contextbox + .contextbox h3 {
 	border-top: 1px solid #cdd2d5;
 	padding-top: 10px;
-	margin-bottom: 5px;
 }
 #media-context.contextbox h3 {
 	border-top: 0;
