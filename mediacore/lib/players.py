@@ -437,6 +437,45 @@ class VimeoUniversalEmbedPlayer(AbstractEmbedPlayer):
 AbstractEmbedPlayer.register(VimeoUniversalEmbedPlayer)
 
 
+class DailyMotionEmbedPlayer(AbstractEmbedPlayer):
+    """
+    Daily Motion Universal Player
+
+    This simple player handles media with files that stored using
+    :class:`mediacore.lib.storage.DailyMotionStorage`.
+
+    This player has seamless HTML5 and Flash support.
+
+    """
+    name = u'dailymotion'
+    """A unicode string identifier for this class."""
+
+    display_name = N_(u'Daily Motion')
+    """A unicode display name for the class, to be used in the settings UI."""
+
+    scheme = u'dailymotion'
+    """The `StorageURI.scheme` which uniquely identifies this embed type."""
+
+    def render(self, **kwargs):
+        uri = self.uris[0]
+        data = urlencode({
+            'width': 560, # XXX: The native height for this width is 420
+            'theme': 'none',
+            'iframe': 1,
+            'autoPlay': 0,
+            'hideInfos': 1,
+            'additionalInfos': 1,
+            'foreground': '#F7FFFD',
+            'highlight': '#FFC300',
+            'background': '#171D1B',
+        })
+        tag = Element('iframe', src='%s?%s' % (uri, data), frameborder=0,
+                      width=self.adjusted_width, height=self.adjusted_height)
+        return tag
+
+AbstractEmbedPlayer.register(DailyMotionEmbedPlayer)
+
+
 class AbstractFlashEmbedPlayer(FlashRenderMixin, AbstractEmbedPlayer):
     """
     Simple Abstract Flash Embed Player
