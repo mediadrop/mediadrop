@@ -669,11 +669,11 @@ a:visited .grid-title {
 }
 .meta-hover {
 	width: 191px;
+	visibility: hidden;
 	position: absolute;
 	top: 19px;
 	left: -64px;
 	z-index: 100;
-	display: none;
 }
 #embedthis .meta-hover {
 	background: url('../images/layout/embed-box.png') no-repeat;

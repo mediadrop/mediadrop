@@ -24,6 +24,7 @@ goog.require('mcore.comments.CommentForm');
 goog.require('mcore.excerpts.Excerpt');
 goog.require('mcore.likes.LikeThis');
 goog.require('mcore.players.initHtml5Player');
+goog.require('mcore.popups.SimplePopup');
 
 
 /**
@@ -52,6 +53,14 @@ mcore.initPage = function() {
       exc.decorate(excerpt);
       exc.showExcerpt(true);
     }
+
+    var meta = goog.dom.getElementsByClass('meta-hover', mediaBox);
+    goog.array.forEach(meta, function(metaContent) {
+      var popup = new mcore.popups.SimplePopup(metaContent);
+      popup.setVisible(false);
+      var popupButton = goog.dom.getPreviousElementSibling(metaContent);
+      popup.attach(popupButton);
+    });
   }
 };
 
@@ -62,7 +71,7 @@ mcore.initPage = function() {
  * @param {Element|string} element A video or audio tag, or its ID.
  * @param {Function|string=} opt_fallback Fallback HTML or a function to call.
  * @param {Function|boolean=} opt_preferFallback Attempt the fallback first.
- * @return {mcore.players.Html5Player|null} The new html5 player instance.
+ * @return {?mcore.players.Html5Player} The new html5 player instance.
  */
 mcore.initHtml5Player = function(element, opt_fallback,
                                  opt_preferFallback) {
