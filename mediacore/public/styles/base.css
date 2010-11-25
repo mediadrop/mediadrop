@@ -533,8 +533,9 @@ a:visited .grid-title {
 	width: 315px;
 	margin-right: 10px;
 }
-#jwplayer {
-	margin-bottom: -4px;
+.mediacore-content object,
+.mediacore-content iframe {
+	display: block;
 }
 
 .contextbox {
