@@ -687,6 +687,7 @@ a:visited .grid-title {
 	background: url('../images/layout/meta-hover-bg.png') repeat-y;
 	padding: 0 15px;
 }
+
 .meta-hover label {
 	width: 162px;
 	display: block;
@@ -703,13 +704,31 @@ a:visited .grid-title {
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
 }
+.meta-hover-content ul {
+	margin: 0 0 0 16px;
+	font-size: 12px;
+	line-height: 14px;
+}
+.meta-hover-content li:first-child {
+	margin-top: 0;
+}
+.meta-hover-content li {
+	margin-top: 5px;
+}
+.meta-hover-content ul a {
+	display: block;
+	margin-left: -1px;
+}
 ul.meta-hover-bottom {
 	list-style: none;
 	background: url('../images/layout/meta-hover-share.png') no-repeat;
 	height: 39px;
 	margin: 0;
 }
-.meta-hover li a {
+#downloadthis .meta-hover {
+	left: -50px;
+}
+#sharethis-hover li a {
 	text-indent: -5000px;
 	width: 59px;
 	height: 29px;

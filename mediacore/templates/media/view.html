@@ -47,9 +47,22 @@
 			</div>
 			${h.media_player(media, width=560, height=315).render()}
 			<table class="feat-meta" cellspacing="0">
-				<tr py:with="download_uri = h.download_uri(media)">
-					<td py:if="download_uri">
-						<a class="meta meta-download underline-hover" href="${download_uri}"><strong>Download</strong></a>
+				<tr py:with="download_uris = sorted((uri for uri in (h.download_uri(file) for file in media.files) if uri), key=lambda uri: uri.file.size)">
+					<td py:if="download_uris">
+						<div id="downloadthis" class="meta-wrapper">
+							<a class="meta meta-download underline-hover" href="${download_uris[0]}"><strong>Download</strong></a>
+							<div py:if="len(download_uris) > 1" class="meta-hover">
+								<div class="meta-hover-top"></div>
+								<div class="meta-hover-content">
+									<ul>
+										<li py:for="uri in download_uris">
+											<a href="${uri}" class="underline-hover">${uri.file.display_name}</a>
+										</li>
+									</ul>
+								</div>
+								<div class="meta-hover-bottom"></div>
+							</div>
+						</div>
 					</td>
 					<td>
 						<div id="sharethis" class="meta-wrapper">
@@ -79,7 +92,7 @@
 							</div>
 						</div>
 					</td>
-					<td py:if="not download_uri">&nbsp;</td>
+					<td py:if="not download_uris">&nbsp;</td>
 				</tr>
 				<tr>
 					<td><span class="meta meta-comments" title="Comments">${media.comment_count_published}
