@@ -16,11 +16,13 @@
 Library Utilities
 
 """
+import math
 import os
 import shutil
-
-from pylons import config, url as pylons_url
+from datetime import datetime
 from urlparse import urlparse
+
+from pylons import app_globals, config, url as pylons_url
 from webob.exc import HTTPFound
 
 __all__ = ['merge_dicts', 'redirect', 'url', 'url_for']
@@ -136,3 +138,33 @@ def merge_dicts(dst, *srcs):
                     stack.append((current_dst[key], current_src[key]))
                 else:
                     current_dst[key] = current_src[key]
+
+def calculate_popularity(publish_date, score):
+    """Calculate how 'hot' an item is given its response since publication.
+
+    In our ranking algorithm, being base_life_hours newer is equivalent
+    to having log_base times more votes.
+
+    :type publish_date: datetime.datetime
+    :param publish_date: The date of publication. An older date reduces
+        the popularity score.
+    :param int score: The number of likes, dislikes or likes - dislikes.
+    :rtype: int
+    :returns: Popularity points.
+
+    """
+    settings = app_globals.settings
+    log_base = int(settings['popularity_decay_exponent'])
+    base_life = int(settings['popularity_decay_lifetime']) * 3600
+    # FIXME: The current algorithm assumes that the earliest publication
+    #        date is January 1, 2000.
+    if score > 0:
+        sign = 1
+    elif score < 0:
+        sign = -1
+    else:
+        sign = 0
+    delta = publish_date - datetime(2000, 1, 1) # since January 1, 2000
+    t = delta.days * 86400 + delta.seconds
+    popularity = math.log(max(abs(score), 1), log_base) + sign * t / base_life
+    return max(int(popularity), 0)

@@ -284,7 +284,7 @@ class MediaController(BaseController):
 
     @expose()
     @observable(events.MediaController.rate)
-    def rate(self, slug, **kwargs):
+    def rate(self, slug, up=None, down=None, **kwargs):
         """Say 'I like this' for the given media.
 
         :param slug: The media :attr:`~mediacore.model.media.Media.slug`
@@ -294,10 +294,14 @@ class MediaController(BaseController):
 
         """
         media = fetch_row(Media, slug=slug)
-        likes = media.increment_likes()
+
+        if up:
+            media.increment_likes()
+        elif down:
+            media.increment_dislikes()
 
         if request.is_xhr:
-            return unicode(likes)
+            return u''
         else:
             redirect(action='view')
 

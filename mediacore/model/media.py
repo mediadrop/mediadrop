@@ -47,6 +47,7 @@ from pylons import app_globals
 from mediacore.lib.compat import any
 from mediacore.lib.filetypes import AUDIO, AUDIO_DESC, CAPTIONS, VIDEO, guess_mimetype
 from mediacore.lib.players import pick_any_media_file, pick_podcast_media_file
+from mediacore.lib.util import calculate_popularity
 from mediacore.lib.xhtml import line_break_xhtml, strip_xhtml
 from mediacore.model import SLUG_LENGTH, _mtm_count_property, _properties_dict_from_labels, MatchAgainstClause
 from mediacore.model.meta import DBSession, metadata
@@ -126,8 +127,27 @@ media = Table('media', metadata,
     Column('likes', Integer, default=0, nullable=False, doc=\
         """The number of users who clicked 'i like this'."""),
 
+    Column('dislikes', Integer, default=0, nullable=False, doc=\
+        """The number of users who clicked 'i DONT like this'."""),
+
     Column('popularity_points', Integer, default=0, nullable=False, doc=\
-        """An integer score of how 'hot' this media is.
+        """An integer score of how 'hot' (likes - dislikes) this media is.
+
+        Newer items with some likes are favoured over older items with
+        more likes. In other words, ordering on this column will always
+        bring the newest most liked items to the top. `More info
+        <http://amix.dk/blog/post/19588>`_."""),
+
+    Column('popularity_likes', Integer, default=0, nullable=False, doc=\
+        """An integer score of how 'hot' liking this media is.
+
+        Newer items with some likes are favoured over older items with
+        more likes. In other words, ordering on this column will always
+        bring the newest most liked items to the top. `More info
+        <http://amix.dk/blog/post/19588>`_."""),
+
+    Column('popularity_dislikes', Integer, default=0, nullable=False, doc=\
+        """An integer score of how 'hot' disliking this media is.
 
         Newer items with some likes are favoured over older items with
         more likes. In other words, ordering on this column will always
@@ -479,30 +499,33 @@ class Media(object):
         return self.views
 
     def increment_likes(self):
+        self.likes += 1
         self.update_popularity()
-        # update the number of likes with an expression, to avoid concurrency
-        # issues associated with simultaneous writes.
-        likes = self.likes + 1
-        self.likes = media.c.likes + sql.text('1')
-        return likes
+        return self.likes
+
+    def increment_dislikes(self):
+        self.dislikes += 1
+        self.update_popularity()
+        return self.dislikes
 
     def update_popularity(self):
-        # FIXME: The current algorithm assumes that the earliest publication
-        #        date is January 1, 2000.
-
-        # In our ranking algorithm, being base_life_hours newer is equivalent
-        # to having log_base times more votes.
-        log_base = int(app_globals.settings['popularity_decay_exponent'])
-        base_life_hours = int(app_globals.settings['popularity_decay_lifetime'])
-
         if self.is_published:
-            base_life = base_life_hours * 3600
-            delta = self.publish_on - datetime(2000, 1, 1) # since January 1, 2000
-            t = delta.days * 86400 + delta.seconds
-            popularity = math.log(self.likes+1, log_base) + t/base_life
-            self.popularity_points = max(int(popularity), 0)
+            self.popularity_points = calculate_popularity(
+                self.publish_on,
+                self.likes - self.dislikes,
+            )
+            self.popularity_likes = calculate_popularity(
+                self.publish_on,
+                self.likes,
+            )
+            self.popularity_dislikes = calculate_popularity(
+                self.publish_on,
+                self.dislikes,
+            )
         else:
             self.popularity_points = 0
+            self.popularity_likes = 0
+            self.popularity_dislikes = 0
 
     @validates('description')
     def _validate_description(self, key, value):
