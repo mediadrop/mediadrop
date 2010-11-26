@@ -36,20 +36,59 @@ from mediacore.plugin import events
 
 
 podcasts = Table('podcasts', metadata,
-    Column('id', Integer, autoincrement=True, primary_key=True),
-    Column('slug', Unicode(SLUG_LENGTH), unique=True, nullable=False),
-    Column('created_on', DateTime, default=datetime.now, nullable=False),
-    Column('modified_on', DateTime, default=datetime.now, onupdate=datetime.now, nullable=False),
-    Column('title', Unicode(50), nullable=False),
+    Column('id', Integer, autoincrement=True, primary_key=True, doc=\
+        """The primary key ID."""),
+
+    Column('slug', Unicode(SLUG_LENGTH), unique=True, nullable=False, doc=\
+        """A unique URL-friendly permalink string for looking up this object.
+
+        Be sure to call :func:`mediacore.model.get_available_slug` to ensure
+        the slug is unique."""),
+
+    Column('created_on', DateTime, default=datetime.now, nullable=False, doc=\
+        """The date and time this player was first created."""),
+
+    Column('modified_on', DateTime, default=datetime.now, onupdate=datetime.now, nullable=False, doc=\
+        """The date and time this player was last modified."""),
+
+    Column('title', Unicode(50), nullable=False, doc=\
+        """Display title."""),
+
     Column('subtitle', Unicode(255)),
+
     Column('description', UnicodeText),
-    Column('category', Unicode(50)),
+
+    Column('category', Unicode(50), doc=\
+        """The `iTunes category <http://www.apple.com/itunes/podcasts/specs.html#categories>`_
+
+        Values with a ``>`` are parsed with special meaning. ``Arts > Design``
+        implies that this pertains to the Design subcategory of Arts, and the
+        feed markup reflects that."""),
+
     Column('author_name', Unicode(50), nullable=False),
     Column('author_email', Unicode(50), nullable=False),
-    Column('explicit', Boolean, default=None),
+
+    Column('explicit', Boolean, default=None, doc=\
+        """The `iTunes explicit <http://www.apple.com/itunes/podcasts/specs.html#explicit>`_
+        value.
+
+            * ``True`` means 'yes'
+            * ``None`` means no advisory displays, ie. 'no'
+            * ``False`` means 'clean'
+
+        """),
+
     Column('copyright', Unicode(50)),
-    Column('itunes_url', Unicode(80)),
-    Column('feedburner_url', Unicode(80)),
+    Column('itunes_url', Unicode(80), doc=\
+        """Optional iTunes subscribe URL."""),
+
+    Column('feedburner_url', Unicode(80), doc=\
+        """Optional Feedburner URL.
+
+        If set, requests for this podcast's feed will be forwarded to
+        this address -- unless, of course, the request is coming from
+        Feedburner."""),
+
     mysql_engine='InnoDB',
     mysql_charset='utf8',
 )
@@ -59,70 +98,7 @@ class Podcast(object):
     """
     Podcast Metadata
 
-    .. attribute:: id
-    .. attribute:: slug
-
-        A unique URL-friendly permalink string for looking up this object.
-
-    .. attribute:: created_on
-    .. attribute:: modified_on
-
-    .. attribute:: title
-    .. attribute:: subtitle
-    .. attribute:: description
-
-    .. attribute:: category
-
-        The `iTunes category <http://www.apple.com/itunes/podcasts/specs.html#categories>`_
-
-        Values with a ``>`` are parsed with special meaning. ``Arts > Design``
-        implies that this pertains to the Design subcategory of Arts, and the
-        feed markup reflects that.
-
-    .. attribute:: author
-
-        An instance of :class:`mediacore.model.authors.Author`.
-        Although not actually a relation, it is implemented as if it were.
-        This was decision was made to make it easier to integrate with
-        :class:`mediacore.model.auth.User` down the road.
-
-    .. attribute:: explicit
-
-        The `iTunes explicit <http://www.apple.com/itunes/podcasts/specs.html#explicit>`_
-        value.
-
-            * ``True`` means 'yes'
-            * ``None`` means no advisory displays, ie. 'no'
-            * ``False`` means 'clean'
-
-    .. attribute:: copyright
-
-    .. attribute:: itunes_url
-
-        Optional iTunes subscribe URL.
-
-    .. attribute:: feedburner_url
-
-        Optional Feedburner URL. If set, requests for this podcast's feed will
-        be forwarded to this address -- unless, of course, the request is
-        coming from Feedburner.
-
-    .. attribute:: media
-
-        A dynamic loader for :class:`mediacore.model.media.Media` episodes:
-        see :class:`mediacore.model.media.MediaQuery`.
-
-    .. attribute:: media_count
-
-        The number of :class:`mediacore.model.media.Media` episodes.
-
-    .. attribute:: media_count_published
-
-        The number of :class:`mediacore.model.media.Media` episodes that are
-        currently published.
-
     """
-
     query = DBSession.query_property()
 
     _thumb_dir = 'podcasts'
@@ -138,15 +114,24 @@ class Podcast(object):
 mapper(Podcast, podcasts, order_by=podcasts.c.title, extension=events.MapperObserver(events.Podcast), properties={
     'author': composite(Author,
         podcasts.c.author_name,
-        podcasts.c.author_email),
-    'media': dynamic_loader(Media, backref='podcast', query_class=MediaQuery, passive_deletes=True),
+        podcasts.c.author_email,
+        doc="""An instance of :class:`mediacore.model.authors.Author`.
+               Although not actually a relation, it is implemented as if it were.
+               This was decision was made to make it easier to integrate with
+               :class:`mediacore.model.auth.User` down the road."""),
+
+    'media': dynamic_loader(Media, backref='podcast', query_class=MediaQuery, passive_deletes=True, doc=\
+        """A query pre-filtered to media published under this podcast.
+        Returns :class:`mediacore.model.media.MediaQuery`."""),
+
     'media_count':
         column_property(
             sql.select(
                 [sql.func.count(media.c.id)],
                 media.c.podcast_id == podcasts.c.id,
             ).label('media_count'),
-            deferred=True
+            deferred=True,
+            doc="The total number of :class:`mediacore.model.media.Media` episodes."
         ),
     'media_count_published':
         column_property(
@@ -164,6 +149,7 @@ mapper(Podcast, podcasts, order_by=podcasts.c.title, extension=events.MapperObse
                     ),
                 )
             ).label('media_count_published'),
-            deferred=True
+            deferred=True,
+            doc="The number of :class:`mediacore.model.media.Media` episodes that are currently published."
         )
 })

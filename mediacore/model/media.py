@@ -58,29 +58,81 @@ from mediacore.plugin import events
 
 
 media = Table('media', metadata,
-    Column('id', Integer, autoincrement=True, primary_key=True),
-    Column('type', Unicode(8)),
-    Column('slug', Unicode(SLUG_LENGTH), unique=True, nullable=False),
-    Column('podcast_id', Integer, ForeignKey('podcasts.id', onupdate='CASCADE', ondelete='SET NULL')),
-    Column('reviewed', Boolean, default=False, nullable=False),
-    Column('encoded', Boolean, default=False, nullable=False),
-    Column('publishable', Boolean, default=False, nullable=False),
+    Column('id', Integer, autoincrement=True, primary_key=True, doc=\
+        """The primary key ID."""),
 
-    Column('created_on', DateTime, default=datetime.now, nullable=False),
-    Column('modified_on', DateTime, default=datetime.now, onupdate=datetime.now, nullable=False),
-    Column('publish_on', DateTime),
-    Column('publish_until', DateTime),
+    Column('type', Unicode(8), doc=\
+        """Indicates whether the media is to be considered audio or video.
 
-    Column('title', Unicode(255), nullable=False),
-    Column('subtitle', Unicode(255)),
-    Column('description', UnicodeText),
-    Column('description_plain', UnicodeText),
-    Column('notes', UnicodeText),
+        If this object has no files, the type is None.
+        See :meth:`Media.update_type` for details on how this is determined."""),
 
-    Column('duration', Integer, default=0, nullable=False),
-    Column('views', Integer, default=0, nullable=False),
-    Column('likes', Integer, default=0, nullable=False),
-    Column('popularity_points', Integer, default=0, nullable=False),
+    Column('slug', Unicode(SLUG_LENGTH), unique=True, nullable=False, doc=\
+        """A unique URL-friendly permalink string for looking up this object.
+
+        Be sure to call :func:`mediacore.model.get_available_slug` to ensure
+        the slug is unique."""),
+
+    Column('podcast_id', Integer, ForeignKey('podcasts.id', onupdate='CASCADE', ondelete='SET NULL'), doc=\
+        """The primary key of a podcast to publish this media under."""),
+
+    Column('reviewed', Boolean, default=False, nullable=False, doc=\
+        """A flag to indicate whether this file has passed review by an admin."""),
+
+    Column('encoded', Boolean, default=False, nullable=False, doc=\
+        """A flag to indicate whether this file is encoded in a web-ready state."""),
+
+    Column('publishable', Boolean, default=False, nullable=False, doc=\
+        """A flag to indicate if this media should be published in between its
+        publish_on and publish_until dates. If this is false, this is
+        considered to be in draft state and will not appear on the site."""),
+
+    Column('created_on', DateTime, default=datetime.now, nullable=False, doc=\
+        """The date and time this player was first created."""),
+
+    Column('modified_on', DateTime, default=datetime.now, onupdate=datetime.now, nullable=False, doc=\
+        """The date and time this player was last modified."""),
+
+    Column('publish_on', DateTime, doc=\
+        """A datetime range during which this object should be published.
+        The range may be open ended by leaving ``publish_until`` empty."""),
+
+    Column('publish_until', DateTime, doc=\
+        """A datetime range during which this object should be published.
+        The range may be open ended by leaving ``publish_until`` empty."""),
+
+    Column('title', Unicode(255), nullable=False, doc=\
+        """Display title."""),
+
+    Column('subtitle', Unicode(255), doc=\
+        """An optional subtitle intended mostly for podcast episodes.
+        If none is provided, the title is concatenated and used in its place."""),
+
+    Column('description', UnicodeText, doc=\
+        """A public-facing XHTML description. Should be a paragraph or more."""),
+
+    Column('description_plain', UnicodeText, doc=\
+        """A public-facing plaintext description. Should be a paragraph or more."""),
+
+    Column('notes', UnicodeText, doc=\
+        """Notes for administrative use -- never displayed publicly."""),
+
+    Column('duration', Integer, default=0, nullable=False, doc=\
+        """Play time in seconds."""),
+
+    Column('views', Integer, default=0, nullable=False, doc=\
+        """The number of times the public media page has been viewed."""),
+
+    Column('likes', Integer, default=0, nullable=False, doc=\
+        """The number of users who clicked 'i like this'."""),
+
+    Column('popularity_points', Integer, default=0, nullable=False, doc=\
+        """An integer score of how 'hot' this media is.
+
+        Newer items with some likes are favoured over older items with
+        more likes. In other words, ordering on this column will always
+        bring the newest most liked items to the top. `More info
+        <http://amix.dk/blog/post/19588>`_."""),
 
     Column('author_name', Unicode(50), nullable=False),
     Column('author_email', Unicode(255), nullable=False),
@@ -314,121 +366,7 @@ class Media(object):
     """
     Media metadata and a collection of related files.
 
-    **Primary Data**
-
-    .. attribute:: id
-
-    .. attribute:: slug
-
-        A unique URL-friendly permalink string for looking up this object.
-        Be sure to call :func:`mediacore.model.get_available_slug` to ensure
-        the slug is unique.
-
-    .. attribute:: type
-
-        Indicates whether the media is to be considered audio or video.
-
-        If this object has no files, the type is None.
-        See :meth:`Media.update_type` for details on how this is determined.
-
-    .. attribute:: reviewed
-
-        A flag to indicate whether this file has passed review by an admin.
-
-    .. attribute:: encoded
-
-        A flag to indicate whether this file is encoded in a web-ready state.
-
-    .. attribute:: publishable
-
-        A flag to indicate if this media should be published in between its
-        publish_on and publish_until dates. If this is false, this is
-        considered to be in draft state and will not appear on the site.
-
-    .. attribute:: created_on
-    .. attribute:: modified_on
-
-    .. attribute:: publish_on
-    .. attribute:: publish_until
-
-        A datetime range during which this object should be published.
-        The range may be open ended by leaving ``publish_until`` empty.
-
-    .. attribute:: title
-
-        Display title
-
-    .. attribute:: subtitle
-
-        An optional subtitle intended mostly for podcast episodes.
-        If none is provided, the title is concatenated and used in its place.
-
-    .. attribute:: description
-
-        A public-facing XHTML description. Should be a paragraph or more.
-
-    .. attribute:: description_plain
-
-        A public-facing plaintext description. Should be a paragraph or more.
-
-    .. attribute:: duration
-
-        Play time in seconds
-
-    .. attribute:: views
-
-        The number of times the public media page has been viewed
-
-    .. attribute:: likes
-
-        The number of users who clicked 'i like this'.
-
-    .. attribute:: notes
-
-        Notes for administrative use -- never displayed publicly.
-
-    .. attribute:: author
-
-        An instance of :class:`mediacore.model.authors.Author`.
-        Although not actually a relation, it is implemented as if it were.
-        This was decision was made to make it easier to integrate with
-        :class:`mediacore.model.auth.User` down the road.
-
-    **Relations**
-
-    .. attribute:: podcast_id
-    .. attribute:: podcast
-
-        An optional :class:`mediacore.model.podcasts.Podcast` to publish this object in.
-
-    .. attribute:: files
-
-        A list of :class:`MediaFile` instances.
-
-    .. attribute:: categories
-
-        A list of :class:`mediacore.model.categories.Category`.
-
-        See the :meth:`set_categories` helper.
-
-    .. attribute:: tags
-
-        A list of :class:`mediacore.model.tags.Tag`.
-
-        See the :meth:`set_tags` helper.
-
-    .. attribute:: comments
-
-        A dynamic loader for related comments,
-        see :class:`mediacore.model.comments.CommentQuery`.
-
-        .. todo:: Reimplement as a dynamic loader.
-
-    .. attribute:: comment_count
-    .. attribute:: comment_count_published
-
     """
-
     meta = association_proxy('_meta', 'value', creator=MediaMeta)
 
     query = DBSession.query_property(MediaQuery)
@@ -651,12 +589,17 @@ _media_mapper = mapper(
             Author,
             media.c.author_name,
             media.c.author_email,
+            doc="""An instance of :class:`mediacore.model.authors.Author`.
+                   Although not actually a relation, it is implemented as if it were.
+                   This was decision was made to make it easier to integrate with
+                   :class:`mediacore.model.auth.User` down the road."""
         ),
         'files': relation(
             MediaFile,
             backref='media',
             order_by=media_files.c.type.asc(),
             passive_deletes=True,
+            doc="""A list of :class:`MediaFile` instances."""
         ),
         'tags': relation(
             Tag,
@@ -664,6 +607,7 @@ _media_mapper = mapper(
             backref=backref('media', lazy='dynamic', query_class=MediaQuery),
             collection_class=TagList,
             passive_deletes=True,
+            doc="""A list of :class:`mediacore.model.tags.Tag`."""
         ),
         'categories': relation(
             Category,
@@ -671,6 +615,7 @@ _media_mapper = mapper(
             backref=backref('media', lazy='dynamic', query_class=MediaQuery),
             collection_class=CategoryList,
             passive_deletes=True,
+            doc="""A list of :class:`mediacore.model.categories.Category`."""
         ),
         '_meta': relation(
             MediaMeta,
@@ -682,6 +627,8 @@ _media_mapper = mapper(
             backref='media',
             query_class=CommentQuery,
             passive_deletes=True,
+            doc="""A query pre-filtered for associated comments.
+                   Returns :class:`mediacore.model.comments.CommentQuery`."""
         ),
         'comment_count': column_property(
             sql.select(
