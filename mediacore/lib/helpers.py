@@ -68,6 +68,7 @@ defined = [
     'pretty_file_size', 'redirect',
     'store_transient_message', 'truncate',
     'wrap_long_words',
+    'filter_vulgarity',
 ]
 __all__ = imports + defined
 
@@ -341,3 +342,20 @@ def default_media_meta_keywords(default=None, media=None, **kwargs):
     if media and media != 'all' and media.tags:
         return ', '.join(tag.name for tag in media.tags[:15])
     return None
+
+def filter_vulgarity(text):
+    """Return a sanitized version of the given string.
+
+    Words are defined in the Comments settings and are
+    replaced with *'s representing the length of the filtered word.
+
+    :param text: The string to be filtered.
+    :returns: The filtered string.
+    :rtype: string
+
+    """
+    settings = app_globals.settings
+    if settings.get('vulgarity_filtered_words', None):
+        for fw in settings['vulgarity_filtered_words'].split(','):
+            text = re.sub('(?i)%s' % fw, '*'*len(fw), text)
+    return text

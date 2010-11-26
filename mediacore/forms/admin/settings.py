@@ -18,7 +18,7 @@ import formencode
 from pylons import app_globals
 from pylons.i18n import N_ as _
 from tw.forms import CheckBox, RadioButtonList, SingleSelectField
-from tw.forms.fields import Button
+from tw.forms.fields import Button, CheckBox
 from tw.forms.validators import (Bool, FancyValidator, FieldStorageUploadConverter,
     Int, OneOf, Regex, StringBool)
 from webhelpers.html import literal
@@ -254,6 +254,11 @@ class CommentsForm(ListForm):
         ListFieldSet('akismet', suppress_label=True, legend=_('Akismet Anti-Spam Details:'), css_classes=['details_fieldset'], children=[
             TextField('akismet_key', label_text=_('Akismet Key')),
             TextField('akismet_url', label_text=_('Akismet URL')),
+        ]),
+        ListFieldSet('vulgarity', suppress_label=True, label_text=_('Vulgarity Filter Settings'), css_classes=['details_fieldset'], children=[
+            TextArea('vulgarity_filtered_words', label_text=_('Filtered Words'),
+                attrs=dict(rows=3, cols=15), help_text=_('Enter words to be filtered separated by a comma.')),
+            CheckBox('run_filter_now', label_text=_('Run Filter Now')),
         ]),
         SubmitButton('save', default=_('Save'), css_classes=['btn', 'btn-save', 'blue', 'f-rgt']),
         ResetButton('cancel', default=_('Cancel'), css_classes=['btn', 'btn-cancel']),

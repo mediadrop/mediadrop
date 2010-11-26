@@ -77,3 +77,12 @@
     width: 24px;
     height: 24px;
 }
+
+/* Vulgarity Filter */
+#vulgarity_container .fieldhelp {
+	margin-left: 120px;
+}
+#vulgarity_container .checkbox {
+	width: 472px;
+	margin: 5px 10px 5px 0;
+}

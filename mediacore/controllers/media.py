@@ -38,7 +38,8 @@ from mediacore.lib import helpers
 from mediacore.lib.base import BaseController
 from mediacore.lib.decorators import expose, expose_xhr, observable, paginate, validate, validate_xhr
 from mediacore.lib.email import send_comment_notification
-from mediacore.lib.helpers import file_path, pick_uris, redirect, store_transient_message, url_for
+from mediacore.lib.helpers import (file_path, filter_vulgarity, pick_uris,
+    redirect, store_transient_message, url_for)
 from mediacore.lib.players import JWPlayer
 from mediacore.lib.templating import render
 from mediacore.model import (DBSession, fetch_row, get_available_slug,
@@ -345,7 +346,7 @@ class MediaController(BaseController):
         c = Comment()
         c.author = AuthorWithIP(name, email, request.environ['REMOTE_ADDR'])
         c.subject = 'Re: %s' % media.title
-        c.body = body
+        c.body = filter_vulgarity(body)
 
         require_review = asbool(app_globals.settings['req_comment_approval'])
         if require_review:

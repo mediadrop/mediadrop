@@ -163,6 +163,7 @@ def add_default_data():
         (u'general_site_title_display_order', u'Prepend'),
         (u'sitemaps_display', u'enabled'),
         (u'rss_display', u'enabled'),
+        (u'vulgarity_filtered_words', u''),
     ]
     settings.extend(appearance_settings)
 

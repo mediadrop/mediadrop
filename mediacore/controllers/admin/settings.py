@@ -29,9 +29,9 @@ from mediacore.forms.admin.settings import (AppearanceForm, APIForm,
     PopularityForm, SiteMapsForm, UploadForm)
 from mediacore.lib.base import BaseSettingsController
 from mediacore.lib.decorators import expose, expose_xhr, paginate, validate
-from mediacore.lib.helpers import redirect, url_for
+from mediacore.lib.helpers import filter_vulgarity, redirect, url_for
 from mediacore.lib.templating import render
-from mediacore.model import Media, MultiSetting, Setting, fetch_row
+from mediacore.model import Comment, Media, MultiSetting, Setting, fetch_row
 from mediacore.model.meta import DBSession
 from mediacore.websetup import appearance_settings, generate_appearance_css
 
@@ -96,6 +96,11 @@ class SettingsController(BaseSettingsController):
     @validate(comments_form, error_handler=comments)
     def comments_save(self, **kwargs):
         """Save :class:`~mediacore.forms.admin.settings.CommentsForm`."""
+        if kwargs['vulgarity'].pop('run_filter_now'):
+            for comment in DBSession.query(Comment):
+                comment.body = filter_vulgarity(comment.body)
+                DBSession.add(comment)
+            DBSession.flush()
         return self._save(comments_form, 'comments', values=kwargs)
 
     @expose('admin/settings/api.html')
