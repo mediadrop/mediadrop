@@ -16,7 +16,9 @@
 import os
 import simplejson as json
 
+from paste.deploy.converters import asbool
 from pylons import app_globals, config, request, response, session, tmpl_context
+from pylons.controllers.util import abort
 
 from mediacore.forms.uploader import UploadForm
 from mediacore.lib import email
@@ -40,6 +42,11 @@ class UploadController(BaseController):
     """
     Media Upload Controller
     """
+
+    def __before__(self, *args, **kwargs):
+        if not asbool(app_globals.settings['appearance_enable_user_uploads']):
+            abort(404)
+        return BaseController.__before__(self, *args, **kwargs)
 
     @expose('upload/index.html')
     @observable(events.UploadController.index)
