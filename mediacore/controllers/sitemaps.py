@@ -24,7 +24,7 @@ from pylons import request, response
 
 from mediacore.lib.base import BaseController
 from mediacore.lib.decorators import expose, beaker_cache
-from mediacore.lib.helpers import url_for
+from mediacore.lib.helpers import url_for, get_featured_category
 from mediacore.model import Media
 
 log = logging.getLogger(__name__)
@@ -114,4 +114,24 @@ class SitemapsController(BaseController):
         return dict(
             media = media,
             title = 'Latest Media',
+        )
+
+    @beaker_cache(expire=60 * 60 * 4, query_args=True)
+    @expose('sitemaps/mrss.xml')
+    def featured(self, limit=30, **kwargs):
+        """Generate a media rss (mRSS) feed of the sites featured media."""
+
+        response.content_type = mimeparse.best_match(
+            ['application/rss+xml', 'application/xml', 'text/xml'],
+            request.environ.get('HTTP_ACCEPT', '*/*')
+        )
+
+        media = Media.query.in_category(get_featured_category())\
+            .order_by(Media.publish_on.desc())\
+            .limit(limit)\
+            .all()
+
+        return dict(
+            media = media,
+            title = 'Featured Media',
         )

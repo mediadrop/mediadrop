@@ -125,6 +125,7 @@ def add_default_data():
         (u'api_secret_key', random_string(20)),
         (u'api_media_max_results', u'50'),
         (u'api_tree_max_depth', u'10'),
+        (u'appearance_enable_cooliris', u'True'),
     ]
 
     for key, value in settings:

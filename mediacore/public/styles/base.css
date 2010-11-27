@@ -46,6 +46,7 @@ a:hover {
 }
 
 .clickable { cursor: pointer }
+.clickable:hover { cursor: pointer }
 .uppercase { text-transform: uppercase }
 .f-lft { float: left }
 .f-rgt { float: right }
@@ -764,4 +765,56 @@ textarea {
 #tag-directory li {
 	width: 50%;
 	float: left;
+}
+
+#cooliris-nav {
+	background: #cbd4d8;
+	width: 210px;
+	height: 324px;
+	float: left;
+	background: url('../images/layout/cooliris-left.png') no-repeat left;
+}
+#cooliris-latest,
+#cooliris-featured,
+#cooliris-categories {
+	padding: 10px 15px;
+	color: #484f5a;
+	font-weight: bold;
+	text-shadow: 0 1px #fff;
+	-webkit-font-smoothing: antialiased;
+}
+#cooliris-featured,
+#cooliris-categories {
+	background: url('../images/layout/cooliris-hr.png') no-repeat top;
+}
+#cats-wrapper div {
+	margin-top: 0 !important;
+	margin-bottom: 0 !important;
+}
+#cooliris-arrow {
+	background: url('../images/layout/cooliris-arrow.png') no-repeat 0 2px;
+	width: 13px;
+	height: 13px;
+	display: inline;
+}
+#cooliris-arrow.down {
+	background-position: 0 -11px;
+}
+#cats-wrapper {
+	margin-top: -5px;
+}
+#cooliris-nav #cats {
+	color: #727a88;
+	-webkit-font-smoothing: antialiased;
+	text-shadow: 0 1px #fff;
+}
+#cooliris-nav #cats li {
+	padding: 5px 30px;
+}
+#cooliris-wall {
+	background: #eef2f5;
+	width: 680px;
+	height: 324px;
+	float: left;
+	background: url('../images/layout/cooliris-right.png') no-repeat right;
 }

@@ -54,6 +54,9 @@ def make_map(config, controller_scan=controller_scan):
     map.connect('/latest.xml',
         controller='sitemaps',
         action='latest')
+    map.connect('/featured.xml',
+        controller='sitemaps',
+        action='featured')
     map.connect('/sitemap{page}.xml',
         controller='sitemaps',
         action='google',
