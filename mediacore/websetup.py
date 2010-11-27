@@ -128,8 +128,29 @@ def add_default_data():
         (u'api_tree_max_depth', u'10'),
         (u'general_site_name', u''),
         (u'general_tag_line', u''),
-        (u'sitemaps_display', u'enabled'),
         (u'general_site_title_display_order', u'Prepend'),
+        (u'sitemaps_display', u'enabled'),
+        (u'appearance_logo', u'logo.png'),
+        (u'appearance_background_image', u''),
+        (u'appearance_background_color', u'#fff'),
+        (u'appearance_link_color', u'#0f7cb4'),
+        (u'appearance_visited_link_color', u'#0f7cb4'),
+        (u'appearance_text_color', u'#637084'),
+        (u'appearance_navigation_bar_color', u'purple'),
+        (u'appearance_heading_color', u'#3f3f3f'),
+        (u'appearance_enable_cooliris', u'True'),
+        (u'appearance_enable_featured_items', u'True'),
+        (u'appearance_enable_podcast_tab', u'True'),
+        (u'appearance_enable_user_uploads', u'True'),
+        (u'appearance_enable_rich_text', u'True'),
+        (u'appearance_display_logo', u'True'),
+        (u'appearance_display_background_image', u'True'),
+        (u'appearance_custom_css', u''),
+        (u'appearance_custom_header_html', u''),
+        (u'appearance_custom_footer_html', u'<!--! If you remove this link, '   \
+            + 'please consider adding another link somewhere on your site. -->' \
+            + '<p>powered by <a href="http://getmediacore.com/"' \
+            + '>MediaCore Video Platform</a></p>'),
     ]
 
     for key, value in settings:

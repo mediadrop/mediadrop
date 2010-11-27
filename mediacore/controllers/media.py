@@ -161,6 +161,7 @@ class MediaController(BaseController):
             featured = featured,
             latest = latest,
             popular = popular,
+            categories = Category.query.populated_tree(),
         )
 
     @expose()
