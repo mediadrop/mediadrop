@@ -19,7 +19,9 @@ from pylons import app_globals, request, response, session, tmpl_context as c
 from repoze.what.predicates import has_permission
 from sqlalchemy import orm, sql
 
-from mediacore.forms.admin.settings import APIForm, AnalyticsForm, CommentsForm, DisplayForm, NotificationsForm, PopularityForm, UploadForm
+from mediacore.forms.admin.settings import (APIForm, AnalyticsForm,
+    CommentsForm, DisplayForm, GeneralForm, NotificationsForm,
+    PopularityForm, SiteMapsForm, UploadForm)
 from mediacore.lib.base import BaseSettingsController
 from mediacore.lib.decorators import expose, expose_xhr, paginate, validate
 from mediacore.lib.helpers import redirect, url_for
@@ -50,6 +52,12 @@ upload_form = UploadForm(
 analytics_form = AnalyticsForm(
     action=url_for(controller='/admin/settings', action='analytics_save'))
 
+general_form = GeneralForm(
+    action=url_for(controller='/admin/settings', action='general_save'))
+
+sitemaps_form = SiteMapsForm(
+    action=url_for(controller='/admin/settings', action='sitemaps_save'))
+
 class SettingsController(BaseSettingsController):
     """
     Dumb controller for display and saving basic settings forms.
@@ -59,7 +67,7 @@ class SettingsController(BaseSettingsController):
     """
     @expose()
     def index(self, **kwargs):
-        redirect(action='analytics')
+        redirect(action='general')
 
     @expose('admin/settings/notifications.html')
     def notifications(self, **kwargs):
@@ -147,3 +155,23 @@ class SettingsController(BaseSettingsController):
     def analytics_save(self, **kwargs):
         """Save :class:`~mediacore.forms.admin.settings.AnalyticsForm`."""
         return self._save(analytics_form, 'analytics', values=kwargs)
+
+    @expose('admin/settings/general.html')
+    def general(self, **kwargs):
+        return self._display(general_form, values=kwargs)
+
+    @expose()
+    @validate(general_form, error_handler=general)
+    def general_save(self, **kwargs):
+        """Save :class:`~mediacore.forms.admin.settings.GeneralForm`."""
+        return self._save(general_form, 'general', values=kwargs)
+
+    @expose('admin/settings/sitemaps.html')
+    def sitemaps(self, **kwargs):
+        return self._display(sitemaps_form, values=kwargs)
+
+    @expose()
+    @validate(sitemaps_form, error_handler=general)
+    def sitemaps_save(self, **kwargs):
+        """Save :class:`~mediacore.forms.admin.settings.SiteMapsForm`."""
+        return self._save(sitemaps_form, 'sitemaps', values=kwargs)

@@ -43,6 +43,8 @@ from mediacore.lib.util import merge_dicts, redirect, url, url_for
 from mediacore.lib.xhtml import (clean_xhtml, decode_entities, encode_entities,
     excerpt_xhtml, line_break_xhtml, list_acceptable_xhtml, strip_xhtml,
     truncate_xhtml)
+from mediacore.plugin.events import (meta_description, meta_keywords,
+    meta_robots_noindex, observes, page_title)
 
 imports = [
     'any', 'containers', 'clean_xhtml', 'date', 'decode_entities',
@@ -53,6 +55,8 @@ imports = [
     'config', # is this appropriate to export here?
     'thumb_url', # XXX: imported from  mediacore.lib.thumbnails, for template use.
     'thumb', # XXX: imported from  mediacore.lib.thumbnails, for template use.
+    'meta_description', 'meta_keywords', # XXX: imported from mediacore.plugin.events
+    'meta_robots_noindex', 'page_title' # XXX: imported from mediacore.plugin.events
 ]
 
 defined = [
@@ -313,3 +317,27 @@ def doc_link(page=None, anchor='', text='Help', **kwargs):
     attrs_string = ' '.join(['%s="%s"' % (key, attrs[key]) for key in attrs])
     out = '<a %s>%s</a>' % (attrs_string, text)
     return literal(out)
+
+@observes(page_title)
+def default_page_title(default=None, **kwargs):
+    settings = app_globals.settings
+    title_order = settings.get('general_site_title_display_order', None)
+    site_name = settings.get('general_site_name', None)
+    if not title_order:
+        return '%s | %s' % (default, site_name)
+    elif title_order.lower() == 'append':
+        return '%s | %s' % (default, site_name)
+    else:
+        return '%s | %s' % (site_name, default)
+
+@observes(meta_description)
+def default_media_meta_description(default=None, media=None, **kwargs):
+    if media is not None:
+        return truncate(media.description_plain, 249)
+    return None
+
+@observes(meta_keywords)
+def default_media_meta_keywords():
+    if media is not None:
+        return ', '.join(tag.name for tag in media.tags[:15])
+    return None
