@@ -775,3 +775,15 @@ def default_page_title(default=None, **kwargs):
         return '%s | %s' % (default, site_name)
     else:
         return '%s | %s' % (site_name, default)
+
+@observes(meta_description)
+def default_media_meta_description(default=None, media=None, **kwargs):
+    if media is not None:
+        return truncate(media.description_plain, 249)
+    return None
+
+@observes(meta_keywords)
+def default_media_meta_keywords():
+    if media is not None:
+        return ', '.join(tag.name for tag in media.tags[:15])
+    return None
