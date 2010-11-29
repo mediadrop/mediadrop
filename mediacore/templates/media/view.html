@@ -23,7 +23,7 @@
 <xi:include href="../comments/_list.html" />
 <xi:include href="../social/facebook.html" />
 <head>
-	<title>${h.page_title(media.title, media=media)}</title>
+	<title>${h.page_title(default=media.title, media=media)}</title>
 	<link py:if="media.podcast" href="${h.url_for('/styles/podcasts.css')}" media="screen" rel="stylesheet" type="text/css" />
 	<meta name="description" content="${h.meta_description(media=media)}" />
 	<meta name="keywords" content="${h.meta_keywords(media=media)}" />
