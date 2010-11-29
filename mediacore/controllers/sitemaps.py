@@ -21,6 +21,7 @@ import math
 
 from paste.util import mimeparse
 from pylons import app_globals, request, response
+from pylons.controllers.util import abort
 
 from mediacore.lib.base import BaseController
 from mediacore.lib.decorators import expose, beaker_cache
@@ -50,7 +51,7 @@ class SitemapsController(BaseController):
 
         """
         if app_globals.settings.get('sitemaps_display', None) != 'enabled':
-            redirect(url_for('/'))
+            abort(404)
 
         response.content_type = mimeparse.best_match(
             ['application/xml', 'text/xml'],
@@ -87,7 +88,7 @@ class SitemapsController(BaseController):
     def mrss(self, **kwargs):
         """Generate a media rss (mRSS) feed of all the sites media."""
         if app_globals.settings.get('sitemaps_display', None) != 'enabled':
-            redirect(url_for('/'))
+            abort(404)
 
         response.content_type = mimeparse.best_match(
             ['application/rss+xml', 'application/xml', 'text/xml'],
@@ -106,7 +107,7 @@ class SitemapsController(BaseController):
     def latest(self, limit=30, **kwargs):
         """Generate a media rss (mRSS) feed of all the sites media."""
         if app_globals.settings.get('sitemaps_display', None) != 'enabled':
-            redirect(url_for('/'))
+            abort(404)
 
         response.content_type = mimeparse.best_match(
             ['application/rss+xml', 'application/xml', 'text/xml'],
@@ -127,6 +128,8 @@ class SitemapsController(BaseController):
     @expose('sitemaps/mrss.xml')
     def featured(self, limit=30, **kwargs):
         """Generate a media rss (mRSS) feed of the sites featured media."""
+        if app_globals.settings.get('sitemaps_display', None) != 'enabled':
+            abort(404)
 
         response.content_type = mimeparse.best_match(
             ['application/rss+xml', 'application/xml', 'text/xml'],
