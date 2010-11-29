@@ -322,7 +322,7 @@ def doc_link(page=None, anchor='', text='Help', **kwargs):
 def default_page_title(default=None, **kwargs):
     settings = app_globals.settings
     title_order = settings.get('general_site_title_display_order', None)
-    site_name = settings.get('general_site_name', None)
+    site_name = settings.get('general_site_name', default)
     if not title_order:
         return '%s | %s' % (default, site_name)
     elif title_order.lower() == 'append':
