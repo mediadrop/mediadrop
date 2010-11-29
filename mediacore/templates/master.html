@@ -37,6 +37,16 @@
 		<script py:otherwise="" type="text/javascript" src="${h.url_for('/scripts/mcore-compiled.js')}"></script>
 	</py:choose>
 	<meta py:replace="select('*')"/>
+	<script py:if="g.settings.get('google_analytics_uacct', None)" type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', '${g.settings['google_analytics_uacct']}']);
+		_gaq.push(['_trackPageview']);
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
 </head>
 
 <body py:match="body" py:with="attrs = h.attrs_to_dict(select('@*')); body_class = attrs.get('class', '').split(' ');" py:attrs="h.append_class_attr(attrs, 'mcore-body')">
@@ -63,8 +73,5 @@
 
 <!--! Optionally wrap that in yet another template -->
 <xi:include py:if="c.external_template" href="${c.external_template}.html" />
-
-<!--! Make sure the google analytics code (if enabled) is appended at the very end of the body tag -->
-<xi:include py:if="g.settings.get('google_analytics_uacct', None)" href="analytics.html" />
 
 </html>
