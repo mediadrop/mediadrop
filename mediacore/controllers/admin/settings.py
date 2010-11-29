@@ -184,7 +184,7 @@ class SettingsController(BaseSettingsController):
             'white': {
                 'btn_text_color': '#5c5c5e',
                 'btn_text_shadow_color': '#fff',
-                'btn_text_hover_color': '4b4b4d'
+                'btn_text_hover_color': '#4b4b4d'
             },
             'tan': {
                 'btn_text_color': '#4a3430',
