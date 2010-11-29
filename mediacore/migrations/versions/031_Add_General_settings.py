@@ -2,7 +2,7 @@ from sqlalchemy import *
 from migrate import *
 
 SETTINGS = [
-    (u'general_site_name', u''),
+    (u'general_site_name', u'MediaCore'),
     (u'general_tag_line', u''),
     (u'general_site_title_display_order', u'Prepend'),
 ]

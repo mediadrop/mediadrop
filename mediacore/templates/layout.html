@@ -35,7 +35,7 @@
 
 <body py:match="body" py:attrs="select('@*')">
 	<div id="mcore-custom-header">${Markup(g.settings['appearance_custom_header_html'])}</div>
-	<h1 py:if="g.settings['appearance_display_logo']" id="mcore-logo"><a href="${h.url_for('/')}">MediaCore</a></h1>
+	<h1 py:if="g.settings['appearance_display_logo']" id="mcore-logo"><a href="${h.url_for('/')}">${g.settings['general_site_name']}</a></h1>
 
 	<div py:replace="select('*|text()|comment()')">Content is injected here</div>
 

@@ -55,6 +55,8 @@ a:hover {
 
 /* MediaCore default layout */
 #mcore-logo {
+	background: url('../images/layout/logo.png') no-repeat left;
+	height: 28px;
 	width: 920px;
 	margin: 10px auto;
 }
