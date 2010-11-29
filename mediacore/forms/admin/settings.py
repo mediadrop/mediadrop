@@ -115,42 +115,6 @@ class NotificationsForm(ListForm):
         ResetButton('cancel', default=_('Cancel'), css_classes=['btn', 'btn-cancel']),
     ]
 
-class DisplayForm(ListForm):
-    template = 'admin/box-form.html'
-    id = 'settings-form'
-    css_class = 'form'
-    submit_text = None
-
-    fields = [
-        RadioButtonList('rich_text_editor',
-            label_text=_('Rich Text Editing'),
-            options=rich_text_editors,
-            validator=OneOf([x[0] for x in rich_text_editors]),
-        ),
-        RadioButtonList('player_type',
-            label_text=_('Preferred Media Player Type for View Pages'),
-            options=player_types,
-            validator=OneOf([x[0] for x in player_types]),
-        ),
-        RadioButtonList('flash_player',
-            label_text=_('Preferred Flash Player'),
-            options=flash_players,
-            validator=OneOf([x[0] for x in flash_players]),
-        ),
-        RadioButtonList('html5_player',
-            label_text=_('Preferred HTML5 Player'),
-            options=html5_players,
-            validator=OneOf([x[0] for x in html5_players]),
-        ),
-        SingleSelectField('featured_category',
-            label_text=_('Featured Category'),
-            options=category_options,
-            validator=Int(),
-        ),
-        SubmitButton('save', default=_('Save'), css_classes=['btn', 'btn-save', 'blue', 'f-rgt']),
-        ResetButton('cancel', default=_('Cancel'), css_classes=['btn', 'btn-cancel']),
-    ]
-
 class PopularityForm(ListForm):
     template = 'admin/box-form.html'
     id = 'settings-form'

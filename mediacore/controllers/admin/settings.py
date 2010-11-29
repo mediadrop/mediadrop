@@ -25,8 +25,8 @@ from repoze.what.predicates import has_permission
 from sqlalchemy import orm, sql
 
 from mediacore.forms.admin.settings import (AppearanceForm, APIForm,
-    AnalyticsForm, CommentsForm, DisplayForm, GeneralForm,
-    NotificationsForm, PopularityForm, SiteMapsForm, UploadForm)
+    AnalyticsForm, CommentsForm, GeneralForm, NotificationsForm,
+    PopularityForm, SiteMapsForm, UploadForm)
 from mediacore.lib.base import BaseSettingsController
 from mediacore.lib.decorators import expose, expose_xhr, paginate, validate
 from mediacore.lib.helpers import redirect, url_for
@@ -46,9 +46,6 @@ comments_form = CommentsForm(
 
 api_form = APIForm(
     action=url_for(controller='/admin/settings', action='save_api'))
-
-display_form = DisplayForm(
-    action=url_for(controller='/admin/settings', action='display_save'))
 
 popularity_form = PopularityForm(
     action=url_for(controller='/admin/settings', action='popularity_save'))
@@ -108,25 +105,6 @@ class SettingsController(BaseSettingsController):
     def save_api(self, **kwargs):
         """Save :class:`~mediacore.forms.admin.settings.APIForm`."""
         return self._save(api_form, 'api', values=kwargs)
-
-    @expose('admin/settings/display.html')
-    def display(self, **kwargs):
-        return self._display(display_form, values=kwargs)
-
-    @expose()
-    @validate(display_form, error_handler=display)
-    def display_save(self, **kwargs):
-        """Save :class:`~mediacore.forms.admin.settings.DisplayForm`."""
-        player_type = c.settings['player_type'].value
-        self._save(display_form, values=kwargs)
-        # If the player_type changes, we must update the Media.encoded flag,
-        # since some things may play now and/or not play anymore with the
-        # new setting.
-        if player_type != c.settings['player_type'].value:
-            for m in Media.query.options(orm.eagerload('files')):
-                m.update_status()
-                DBSession.add(m)
-        redirect(action='display')
 
     @expose('admin/settings/popularity.html')
     def popularity(self, **kwargs):
