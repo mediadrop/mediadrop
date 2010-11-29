@@ -20,9 +20,10 @@ from beaker.middleware import SessionMiddleware
 from genshi.filters.i18n import Translator
 from genshi.template import loader
 from genshi.template.plugin import MarkupTemplateEnginePlugin
+from paste import gzipper
 from paste.cascade import Cascade
-from paste.gzipper import make_gzip_middleware
 from paste.registry import RegistryManager
+from paste.response import header_value, remove_header
 from paste.urlmap import URLMap
 from paste.urlparser import StaticURLParser
 from paste.deploy.converters import asbool
@@ -34,6 +35,7 @@ from routes.middleware import RoutesMiddleware
 from tw.core.view import EngineManager
 import tw.api
 
+from mediacore import monkeypatch_method
 from mediacore.config.environment import load_environment
 from mediacore.lib.auth import add_auth
 from mediacore.model.meta import DBSession
@@ -127,6 +129,34 @@ def setup_tw_middleware(app, config):
         'toscawidgets.framework.engines': tw_engines,
     })
     return app
+
+def setup_gzip_middleware(app, global_conf):
+    """Make paste.gzipper middleware with a monkeypatch to exempt SWFs.
+
+    Gzipping .swf files (application/x-shockwave-flash) provides no
+    extra compression and it also breaks Flowplayer 3.2.3, and
+    potentially others.
+
+    """
+    @monkeypatch_method(gzipper.GzipResponse)
+    def gzip_start_response(self, status, headers, exc_info=None):
+        self.headers = headers
+        ct = header_value(headers, 'content-type')
+        ce = header_value(headers, 'content-encoding')
+        self.compressible = False
+        # This statement is the only change in this monkeypatch:
+        if ct and (ct.startswith('text/') or ct.startswith('application/')) \
+            and 'zip' not in ct and ct != 'application/x-shockwave-flash':
+            self.compressible = True
+        if ce:
+            self.compressible = False
+        if self.compressible:
+            headers.append(('content-encoding', 'gzip'))
+        remove_header(headers, 'content-length')
+        self.headers = headers
+        self.status = status
+        return self.buffer.write
+    return gzipper.make_gzip_middleware(app, global_conf)
 
 def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
     """Create a Pylons WSGI application and return it
@@ -227,7 +257,7 @@ def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
         app = Cascade([public_app, static_urlmap, app])
 
     if asbool(config.get('enable_gzip', 'true')):
-        app = make_gzip_middleware(app, global_conf)
+        app = setup_gzip_middleware(app, global_conf)
 
     app.config = config
     return app
