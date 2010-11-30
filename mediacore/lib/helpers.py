@@ -205,8 +205,8 @@ def append_class_attr(attrs, class_name):
         return attrs
     class_list = classes.split(' ')
     if class_name not in class_list:
-        classes.append(classes)
-        attrs['class'] = ' '.join(classes)
+        class_list.append(class_name)
+        attrs['class'] = ' '.join(class_list)
     return attrs
 
 spaces_between_tags = re.compile('>\s+<', re.M)
