@@ -70,10 +70,13 @@ mcore.initPage = function() {
  * for when the browser does not support it.
  * @param {Element|string} element A video or audio tag, or its ID.
  * @param {Function|string=} opt_fallback Fallback HTML or a function to call.
+ * @param {number=} opt_fallbackHeight Fallback player height. We set this on
+ *     the player wrapper right before injecting the fallback player so that
+ *     the height does not collapse while the new player is loading.
  * @param {Function|boolean=} opt_preferFallback Attempt the fallback first.
  * @return {?mcore.players.Html5Player} The new html5 player instance.
  */
-mcore.initHtml5Player = function(element, opt_fallback,
+mcore.initHtml5Player = function(element, opt_fallback, opt_fallbackHeight,
                                  opt_preferFallback) {
   element = goog.dom.getElement(element);
   if (goog.isNull(element)) {
@@ -87,6 +90,9 @@ mcore.initHtml5Player = function(element, opt_fallback,
     fallback = opt_fallback;
   } else if (goog.isString(opt_fallback)) {
     fallback = function(e) {
+      if (opt_fallbackHeight) {
+        element.style.height = opt_fallbackHeight + 'px';
+      }
       var mediaElement = player.getElement();
       player.dispose();
       element.innerHTML = opt_fallback;
