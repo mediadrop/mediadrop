@@ -237,8 +237,12 @@ class SettingsController(BaseSettingsController):
 
         # Set vars to pass to our CSS template
         tmpl_vars = kwargs.copy()
-        tmpl_vars['logo_height'] = Image.open(os.path.join(appearance_dir, \
-            kwargs['general'].get('appearance_logo', 'logo.png'))).size[1]
+        general = kwargs['general']
+        if general.get('appearance_logo', None):
+            logo_path = os.path.join(appearance_dir, \
+                general['appearance_logo'])
+            tmpl_vars['logo_height'] = Image.open(logo_path).size[1]
+            tmpl_vars['logo_name'] = general['appearance_logo']
         navbar_color = kwargs['general'].get(
             'appearance_navigation_bar_color', 'purple')
         tmpl_vars['navbar_color'] = navbar_color

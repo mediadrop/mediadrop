@@ -2,7 +2,7 @@ from sqlalchemy import *
 from migrate import *
 
 SETTINGS = [
-    (u'appearance_logo', u'logo.png'),
+    (u'appearance_logo', u''),
     (u'appearance_background_image', u''),
     (u'appearance_background_color', u'#fff'),
     (u'appearance_link_color', u'#0f7cb4'),

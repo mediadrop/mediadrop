@@ -30,12 +30,13 @@ a.mcore-heading:visited {
 .mcore-heading {
 	color: ${general.get('appearance_heading_color', '#3f3f3f')};
 }
+{% if general.get('appearance_logo', None) %}\
 
 #mcore-logo {
-	background: url('${general.get('appearance_logo', 'logo.png')}') no-repeat left;
+	background: url('${logo_name}') no-repeat left;
 	height: ${logo_height}px;
 }
-
+{% end %}
 /* Sectional Nav */
 #nav li a:link,
 #nav li a:visited {

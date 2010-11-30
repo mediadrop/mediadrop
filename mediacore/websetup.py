@@ -130,7 +130,7 @@ def add_default_data():
         (u'general_tag_line', u''),
         (u'general_site_title_display_order', u'Prepend'),
         (u'sitemaps_display', u'enabled'),
-        (u'appearance_logo', u'logo.png'),
+        (u'appearance_logo', u''),
         (u'appearance_background_image', u''),
         (u'appearance_background_color', u'#fff'),
         (u'appearance_link_color', u'#0f7cb4'),
