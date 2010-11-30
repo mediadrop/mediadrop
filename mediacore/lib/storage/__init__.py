@@ -378,6 +378,8 @@ def add_new_media_file(media, file=None, url=None):
         media.duration = meta['duration']
     if not media.title:
         media.title = meta.get('title', None) or mf.display_name
+    if media.type is None:
+        media.type = mf.type
 
     if ('thumbnail_url' in meta or 'thumbnail_file' in meta) \
     and (not has_thumbs(media) or has_default_thumbs(media)):

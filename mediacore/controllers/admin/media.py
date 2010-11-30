@@ -314,6 +314,8 @@ class MediaController(BaseController):
         if id == 'new' and not has_thumbs(media):
             create_default_thumbs_for(media)
 
+        media.update_status()
+
         # Render some widgets so the XHTML can be injected into the page
         edit_form_xhtml = unicode(edit_file_form.display(
             action=url_for(action='edit_file', id=media.id),
