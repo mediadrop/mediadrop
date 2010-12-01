@@ -45,7 +45,7 @@
 					<div class="mcore-excerpt" style="display:none" py:if="excerpt != fulltext"><p py:replace="Markup(excerpt)" /></div>
 				</div>
 			</div>
-			${h.media_player(media, width=560, height=315).render()}
+			${h.media_player(media, width=560, height=315)}
 			<table class="feat-meta" cellspacing="0">
 				<tr py:with="download_uris = sorted((uri for uri in (h.download_uri(file) for file in media.files) if uri), key=lambda uri: uri.file.size)">
 					<td py:if="download_uris">

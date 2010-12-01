@@ -41,7 +41,7 @@
 				<h3><a class="underline-hover nocolor" href="${h.url_for(controller='/media', action='view', slug=featured.slug)}">${featured.title}</a></h3>
 				<p py:replace="Markup(h.truncate_xhtml(featured.description, 300))" />
 			</div>
-			${h.media_player(featured, width=400, height=225).render()}
+			${h.media_player(featured, width=400, height=225)}
 			<div class="feat-meta">
 				<span class="meta meta-comments" title="Comments">
 					${featured.comment_count_published}

@@ -777,7 +777,7 @@ class iTunesPlayer(FileSupportMixin, AbstractPlayer):
 ###############################################################################
 
 def media_player(media, **kwargs):
-    """Instantiate and return the preferred player that can play this media.
+    """Instantiate and render the preferred player that can play this media.
 
     We make no effort to pick the "best" player here, we simply return
     the first player that *can* play any of the URIs associated with
@@ -791,9 +791,8 @@ def media_player(media, **kwargs):
     :type media: :class:`mediacore.model.media.Media`
     :param media: A media instance to play.
     :param \*\*kwargs: Extra kwargs for :meth:`AbstractPlayer.__init__`.
-    :rtype: :class:`AbstractPlayer` or `None`
-    :returns: An instantiated player object. To render, you must
-        explicitly call :meth:`AbstractPlayer.render`.
+    :rtype: `str` or `None`
+    :returns: A rendered player.
     """
     uris = media.get_uris()
 
@@ -808,7 +807,8 @@ def media_player(media, **kwargs):
     # Grab just the uris that the chosen player can play
     playable_uris = [uri for uri, plays in izip(uris, can_play) if plays]
     kwargs['data'] = player_data
-    return player_cls(media, playable_uris, **kwargs)
+    player = player_cls(media, playable_uris, **kwargs)
+    return player.render()
 
 def pick_podcast_media_file(media):
     """Return a file playable in the most podcasting client: iTunes.
