@@ -33,6 +33,7 @@ from mediacore.lib.helpers import redirect, url_for
 from mediacore.lib.templating import render
 from mediacore.model import Media, MultiSetting, Setting, fetch_row
 from mediacore.model.meta import DBSession
+from mediacore.websetup import appearance_settings
 
 import logging
 
@@ -225,7 +226,6 @@ class SettingsController(BaseSettingsController):
 
         #Handle a reset to defaults request first
         if kwargs.get('reset', None):
-            from mediacore.websetup import appearance_settings
             tmpl_vars = {}
             for key, value in appearance_settings:
                 s = Setting.query.filter(Setting.key==key).first()
