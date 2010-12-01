@@ -257,10 +257,8 @@ class SettingsController(BaseSettingsController):
 
         # Set vars to pass to our CSS template
         general = kwargs['general']
-        tmpl_vars = {}
-        tmpl_vars.update(general)
-        tmpl_vars.update(kwargs['options'])
-        tmpl_vars.update(kwargs['advanced'])
+        tmpl_vars = self._flatten_settings_from_form(c.settings,
+            appearance_form, kwargs)
         if general.get('appearance_logo', None):
             logo_path = os.path.join(appearance_dir, \
                 general['appearance_logo'])
