@@ -6,31 +6,31 @@
 */
 
 .mcore-text {
-	color: ${general.get('appearance_text_color', '#637084')};
+	color: ${appearance_text_color};
 }
 
 .mcore-body {
-	color: ${general.get('appearance_text_color', '#637084')};
-	background: ${general.get('appearance_background_color', '#fff')}{% if options.get('appearance_display_background_image', None) and g.settings.get('appearance_background_image', None) %} url('/appearance/${general['appearance_background_image']}') fixed repeat{% end %};
+	color: ${appearance_text_color};
+	background: ${appearance_background_color}{% if appearance_display_background_image and g.settings.get('appearance_background_image', None) %} url('/appearance/${appearance_background_image}') fixed repeat{% end %};
 }
 
 a:link {
-	color: ${general.get('appearance_link_color', '#0f7cb4')};
+	color: ${appearance_link_color};
 }
 a:visited,
 .grid-title {
-	color: ${general.get('appearance_visited_link_color', '#0f7cb4')};
+	color: ${appearance_visited_link_color};
 }
 
 a.mcore-heading:link,
 a.mcore-heading:visited {
-	color: ${general.get('appearance_heading_color', '#3f3f3f')};
+	color: ${appearance_heading_color};
 }
 
 .mcore-heading {
-	color: ${general.get('appearance_heading_color', '#3f3f3f')};
+	color: ${appearance_heading_color};
 }
-{% if general.get('appearance_logo', None) %}\
+{% if appearance_logo %}\
 
 #mcore-logo {
 	background: url('${logo_name}') no-repeat left;
@@ -91,4 +91,4 @@ a.mcore-btn:visited {
 	color: ${uikit_colors['btn_text_color']};
 }
 
-${advanced.get('appearance_custom_css', None)}
+${appearance_custom_css}

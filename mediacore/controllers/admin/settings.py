@@ -65,6 +65,12 @@ sitemaps_form = SiteMapsForm(
 appearance_form = AppearanceForm(
     action=url_for(controller='/admin/settings', action='appearance_save'))
 
+def save_appearance_css(css_file=None, tmpl_vars=None, **kwargs):
+    css_file = open(css_file, 'w')
+    css_file.write(render('admin/settings/appearance_tmpl.css',
+        tmpl_vars, method='text'))
+    css_file.close()
+
 class SettingsController(BaseSettingsController):
     """
     Dumb controller for display and saving basic settings forms.
@@ -173,9 +179,8 @@ class SettingsController(BaseSettingsController):
     def appearance_save(self, **kwargs):
         """Save :class:`~mediacore.forms.admin.settings.appearanceForm`."""
         settings = app_globals.settings
-
-        accepted_extensions = ('.png', '.jpg', '.jpeg', '.gif')
         appearance_dir = os.path.join(config['cache.dir'], 'appearance')
+        accepted_extensions = ('.png', '.jpg', '.jpeg', '.gif')
         upload_field_filenames = [
             ('appearance_logo', 'logo'),
             ('appearance_background_image', 'bg_image'),
@@ -218,6 +223,21 @@ class SettingsController(BaseSettingsController):
             },
         }
 
+        #Handle a reset to defaults request first
+        if kwargs.get('reset', None):
+            from mediacore.websetup import appearance_settings
+            tmpl_vars = {}
+            for key, value in appearance_settings:
+                s = Setting.query.filter(Setting.key==key).first()
+                s.value = str(value)
+                tmpl_vars[str(key)] = s.value
+                DBSession.add(s)
+            tmpl_vars['uikit_colors'] = uikit_colors['purple']
+            tmpl_vars['navbar_color'] = 'purple'
+            css_file = os.path.join(appearance_dir, 'appearance.css')
+            save_appearance_css(css_file=css_file, tmpl_vars=tmpl_vars)
+            redirect(url_for(controller='admin/settings', action='appearance'))
+
         for field_name, file_name in upload_field_filenames:
             field = kwargs['general'].pop(field_name)
             if isinstance(field, FieldStorage):
@@ -236,20 +256,20 @@ class SettingsController(BaseSettingsController):
             kwargs['general'][field_name] = settings.get(field_name, '')
 
         # Set vars to pass to our CSS template
-        tmpl_vars = kwargs.copy()
         general = kwargs['general']
+        tmpl_vars = {}
+        tmpl_vars.update(general)
+        tmpl_vars.update(kwargs['options'])
+        tmpl_vars.update(kwargs['advanced'])
         if general.get('appearance_logo', None):
             logo_path = os.path.join(appearance_dir, \
                 general['appearance_logo'])
             tmpl_vars['logo_height'] = Image.open(logo_path).size[1]
             tmpl_vars['logo_name'] = general['appearance_logo']
-        navbar_color = kwargs['general'].get(
+        tmpl_vars['navbar_color'] = navbar_color = general.get(
             'appearance_navigation_bar_color', 'purple')
-        tmpl_vars['navbar_color'] = navbar_color
         tmpl_vars['uikit_colors'] = uikit_colors.get(navbar_color)
-        css_file = open(os.path.join(appearance_dir, 'appearance.css'), 'w')
-        css_file.write(render('admin/settings/appearance_tmpl.css',
-                              tmpl_vars, method='text'))
-        css_file.close()
+        css_file = os.path.join(appearance_dir, 'appearance.css')
+        save_appearance_css(css_file=css_file, tmpl_vars=tmpl_vars)
 
         return self._save(appearance_form, 'appearance', values=kwargs)
