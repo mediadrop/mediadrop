@@ -21,14 +21,14 @@
       xmlns:xi="http://www.w3.org/2001/XInclude">
 <xi:include href="./master.html" />
 <head>
-	<title>Display</title>
+	<title>General</title>
 	<link href="${h.url_for('/admin/styles/forms.css')}" media="screen" rel="stylesheet" type="text/css" />
 </head>
 <body>
 	<div class="box">
 		<div class="box-head">
-			<h1>Display</h1>
-			<span class="box-head-sec">${h.doc_link('admin/settings', 'display')}</span>
+			<h1>General</h1>
+			<span class="box-head-sec">${h.doc_link('admin/settings', 'general')}</span>
 		</div>
 		<form py:replace="XML(form(form_values))" />
 	</div>

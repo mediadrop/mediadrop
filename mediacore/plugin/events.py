@@ -15,6 +15,7 @@
 """
 Abstract events which plugins subscribe to and are called by the app.
 """
+from collections import deque
 import logging
 
 from sqlalchemy.orm.interfaces import MapperExtension
@@ -32,7 +33,7 @@ class Event(object):
     """
     def __init__(self, args):
         self.args = args and tuple(args) or None
-        self.observers = []
+        self.observers = deque()
 
     def __call__(self, *args, **kwargs):
         for observer in self.observers:
@@ -50,16 +51,31 @@ class GeneratorEvent(Event):
             for result in observer(*args, **kwargs):
                 yield result
 
+class FetchFirstResultEvent(Event):
+    """
+    An arbitrary event that return the first result from its observers
+    """
+    def __call__(self, *args, **kwargs):
+        for observer in self.observers:
+            result = observer(**kwargs)
+            if result is not None:
+                return result
+        return None
+
 class observes(object):
     """
     Register the decorated function as an observer of the given event.
     """
-    def __init__(self, *events):
+    def __init__(self, *events, **kwargs):
         self.events = events
+        self.appendleft = kwargs.get('appendleft', False)
 
     def __call__(self, func):
         for event in self.events:
-            event.observers.append(func)
+            if self.appendleft:
+                event.observers.appendleft(func)
+            else:
+                event.observers.append(func)
         return func
 
 class MapperObserver(MapperExtension):
@@ -282,3 +298,10 @@ Admin.ThumbForm = Event(['form'])
 
 plugin_settings_links = GeneratorEvent([])
 EncodeMediaFile = Event(['media_file'])
+page_title = FetchFirstResultEvent('default=None, category=None, \
+    media=None, podcast=None, upload=None, **kwargs')
+meta_keywords = FetchFirstResultEvent('category=None, media=None, \
+    podcast=None, upload=None, **kwargs')
+meta_description = FetchFirstResultEvent('category=None, media=None, \
+    podcast=None, upload=None, **kwargs')
+meta_robots_noindex = FetchFirstResultEvent('categories=None, rss=None, **kwargs')

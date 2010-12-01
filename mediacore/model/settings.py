@@ -97,7 +97,13 @@ def insert_settings(defaults):
     :returns: Any settings that have just been created.
     """
     inserted = []
+    existing_settings = set(x[0] for x in DBSession.query(Setting.key) \
+                                     .filter(Setting.key \
+                                     .in_(key for key, value in defaults)))
+
     for key, value in defaults:
+        if key in existing_settings:
+            continue
         transaction = DBSession.begin_nested()
         try:
             s = Setting(key, value)

@@ -24,7 +24,7 @@
 </head>
 <body class="nav-media-on">
 	<div class="mediacore-content">
-		<h3>All Tags</h3>
+		<h3 class="mcore-heading">All Tags</h3>
 		<ul id="tag-directory" class="clearfix">
 			<li py:for="tag in tags"><a href="${h.url_for(controller='/media', action='index', tag=tag.slug)}">${tag.name}</a> (${tag.media_count_published})</li>
 		</ul>

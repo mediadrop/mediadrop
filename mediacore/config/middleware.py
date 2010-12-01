@@ -246,7 +246,11 @@ def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
             path = os.path.join(config['image_dir'], image_type)
             static_urlmap[dir] = StaticURLParser(path)
 
-        # Check for the closure-library in the default location.
+        # Serve appearance directory outside of public as well
+        dir = '/appearance'
+        path = os.path.join(config['app_conf']['cache_dir'], 'appearance')
+        static_urlmap[dir] = StaticURLParser(path)
+
         # We want to serve goog closure code for debugging uncompiled js.
         if config['debug']:
             goog_path = os.path.join(config['pylons.paths']['root'], '..',

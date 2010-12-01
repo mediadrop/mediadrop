@@ -20,19 +20,21 @@
       xmlns:xi="http://www.w3.org/2001/XInclude">
 <xi:include href="../master.html" />
 <head>
-	<title>Podcasts</title>
+	<title>${h.page_title(default='Podcasts', podcast=c.podcast or 'all')}</title>
+	<meta name="keywords" content="${h.meta_keywords(podcast=c.podcast or 'all')}" />
+	<meta name="description" content="${h.meta_description(podcast=c.podcast or 'all')}" />
 	<link href="${h.url_for('/styles/podcasts.css')}" media="screen" rel="stylesheet" type="text/css" />
 </head>
 <body class="nav-podcasts-on">
 	<div class="mediacore-content podcasts-list">
-		<h2 class="uppercase">All Podcasts</h2>
+		<h2 class="uppercase mcore-heading">All Podcasts</h2>
 		<div py:for="podcast in podcasts" class="podcast-box feat-box">
 			<div class="feat-top"><div class="feat-vr" /></div>
 			<div class="feat-content">
 				<div class="feat-vr clearfix">
 					<a href="${h.url_for(action='view', slug=podcast.slug)}" class="thumb-wrap"><img src="${h.thumb_url(podcast, 'm')}" width="160" height="160" alt="${podcast.title}" /></a>
 					<div class="podcast-info">
-						<h3><a href="${h.url_for(action='view', slug=podcast.slug)}" class="underline-hover nocolor">${podcast.title}</a></h3>
+						<h3><a href="${h.url_for(action='view', slug=podcast.slug)}" class="underline-hover">${podcast.title}</a></h3>
 						<p py:replace="Markup(podcast.description)" />
 					</div>
 					<div class="podcast-meta">

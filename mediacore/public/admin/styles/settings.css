@@ -53,3 +53,27 @@
 #generate_key:hover {
 	text-decoration: none;
 }
+
+/* Appearance Tab Settings */
+#settings-form .checkbox-left {
+    width: 50px;
+    margin-top: 5px;
+}
+
+#settings-form .label_text_right {
+    width: 472px;
+}
+
+#general .textfield {
+    width: 250px;
+}
+
+#general .singleselectfield {
+    width: 260px;
+}
+
+#general .image-preview {
+    vertical-align: middle;
+    width: 24px;
+    height: 24px;
+}

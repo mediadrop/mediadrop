@@ -23,27 +23,27 @@
 <?python feed_links = [] ?>
 
 <head py:match="head">
-	<title py:match="title" py:with="title = unicode(select('text()'))">
-		<py:if test="title">${Markup(title)} |</py:if>
-		MediaCore
-	</title>
-	<link py:match="link" py:attrs="select('@*')"><?python
-		attrs = h.attrs_to_dict(select('@*'))
-		if attrs['type'] == 'application/rss+xml':
-		    feed_links.append((attrs['href'], attrs['title']))
-	?></link>
+    <py:if test="g.settings.get('sitemaps_display', None) == 'enabled'">
+		<link py:match="link" py:attrs="select('@*')"><?python
+			attrs = h.attrs_to_dict(select('@*'))
+			if attrs['type'] == 'application/rss+xml':
+				feed_links.append((attrs['href'], attrs['title']))
+		?></link>
+    </py:if>
 	<meta py:replace="select('*')"/>
 </head>
 
 <body py:match="body" py:attrs="select('@*')">
-	<h1 id="mediacore-logo"><a href="${h.url_for('/')}">MediaCore</a></h1>
+	<div id="mcore-custom-header">${Markup(g.settings['appearance_custom_header_html'])}</div>
+	<h1 py:if="g.settings['appearance_display_logo']" id="mcore-logo"><a href="${h.url_for('/')}">${g.settings['general_site_name']}</a></h1>
 
 	<div py:replace="select('*|text()|comment()')">Content is injected here</div>
 
 	<div id="mediacore-footer" class="mediacore-content clear">
 		<div py:if="c.paginators" py:replace="pager(c.paginators.values()[0])" />
-		<!--! If you remove this link, please consider adding another link somewhere on your site. -->
-		<p>powered by <a href="http://getmediacore.com/">MediaCore Video Platform</a></p>
+		<div id="mcore-custom-footer">
+			${Markup(g.settings.get('appearance_custom_footer_html', None))}
+		</div>
 		<div id="mediacore-feeds">
 			<h5>Feeds:</h5>
 			<ul>

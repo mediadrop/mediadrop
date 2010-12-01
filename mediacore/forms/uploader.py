@@ -58,7 +58,7 @@ class UploadForm(ListForm):
         description = XHTMLTextArea(validator=validators['description'], label_text=_('Description:'), attrs=dict(rows=5, cols=25))
         url = TextField(validator=validators['url'], label_text=_('Add a YouTube, Vimeo or Google Video URL:'), maxlength=255)
         file = FileField(validator=FieldStorageUploadConverter(if_missing=None, messages={'empty':_('Oops! You forgot to enter a file.')}), label_text=_('OR:'))
-        submit = SubmitButton(default=_('Submit'), css_classes=['btn', 'btn-submit'])
+        submit = SubmitButton(default=_('Submit'), css_classes=['mcore-btn', 'btn-submit'])
 
     def post_init(self, *args, **kwargs):
         events.UploadForm(self)

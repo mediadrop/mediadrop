@@ -20,24 +20,90 @@
       xmlns:i18n="http://genshi.edgewall.org/i18n"
       xmlns:xi="http://www.w3.org/2001/XInclude">
 <xi:include href="../master.html" />
+
 <head>
-	<title>Explore</title>
+	<title>${h.page_title(default='Explore', media='all')}</title>
+	<meta name="keywords" content="${h.meta_keywords(media='all')}" />
+	<meta name="description" content="${h.meta_description(media='all')}" />
 	<link rel="alternate" type="application/rss+xml" title="Sitemap XML"
 	      href="${h.url_for(controller='/sitemaps', action='google')}" />
 	<link rel="alternate" type="application/rss+xml" title="Sitemap RSS"
 	      href="${h.url_for(controller='/sitemaps', action='mrss')}" />
 	<link rel="alternate" type="application/rss+xml" title="Latest RSS"
 	      href="${h.url_for(controller='/sitemaps', action='latest')}" />
+
+	<script py:if="g.settings['appearance_enable_cooliris']" type="text/javascript">
+		//<![CDATA[
+		window.addEvent('domready', function(){
+			var coolirisSwf = new Swiff('http://apps.cooliris.com/embed/cooliris.swf', {
+				id: 'coolirisswf',
+				width: 680,
+				height: 323,
+				container: 'cooliris-wall',
+				params: {
+					wMode: 'transparent',
+					allowFullScreen: 'true',
+					allowScriptAccess: 'always'
+				},
+				vars: {
+					backgroundAlpha: 0,
+					cellBorder: 1,
+					feed: '${h.url_for(controller='sitemaps', action='latest')}',
+					intro: 'zoomIn',
+					numRows: 2,
+					showChrome: false,
+					showDescription: true,
+					showSearch: false,
+					showReflections: false,
+					style: 'light',
+					tilt: 5
+				}
+			});
+			var cooliris = {};
+
+			$$$('[id^=cooliris-nav]').each(function(nav){
+				nav.addEvent('click', function(){
+					var feed = nav.id.replace(/^cooliris-nav-/, '');
+					if (feed == 'featured'){
+						cooliris.embed.setFeedURL('${h.url_for(controller='/sitemaps', action='featured')}');
+					} else {
+						cooliris.embed.setFeedURL('${h.url_for(controller='/sitemaps', action='latest')}');
+					}
+				});
+			});
+			$('cats').slide('hide');
+		});
+		//]]>
+	</script>
 </head>
 <body class="nav-explore-on">
 	<div class="mediacore-content">
+		<div py:if="g.settings['appearance_enable_cooliris']" id="cooliris-box" class="feat-box">
+			<div class="feat-top" />
+			<div class="feat-content clearfix">
+				<div id="cooliris-nav">
+					<div id="cooliris-latest" class="clickable" onclick="cooliris.embed.setFeedURL('${h.url_for(controller='sitemaps', action='latest')}')">Latest</div>
+					<div id="cooliris-featured" class="clickable" onclick="cooliris.embed.setFeedURL('${h.url_for(controller='categories', action='feed', slug='featured')}')">Featured</div>
+					<div id="cooliris-categories" class="clickable" onclick="$('cooliris-arrow').toggleClass('down').toggleClass('up'); $('cats').slide('toggle')">Categories <span id="cooliris-arrow">&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
+					<div id="cats-wrapper">
+					<ul id="cats">
+						<li py:for="cat in categories" py:if="cat.slug != 'featured'" class="clickable" onclick="cooliris.embed.setFeedURL('${h.url_for(controller='categories', action='feed', slug=cat.slug)}')" py:content="cat.name" />
+					</ul>
+					</div>
+				</div>
+				<div id="cooliris-wall">
+				</div>
+			</div>
+			<div class="feat-bottom" />
+		</div>
 		<div id="explore-popular" class="m-grid-column" style="margin-right:20px">
-			<h2><span class="uppercase">Featured</span></h2>
+			<py:if test="g.settings['appearance_enable_featured_items']">
+			<h2><span class="mcore-heading uppercase">Featured</span></h2>
 			<div class="feat-box">
 				<div class="feat-top" />
 				<div class="feat-content clearfix">
 					${h.media_player(featured, width=410, height=230)}
-					<h3><a class="underline-hover nocolor" href="${h.url_for(controller='/media', action='view', slug=featured.slug)}">${featured.title}</a></h3>
+					<h3><a class="underline-hover" href="${h.url_for(controller='/media', action='view', slug=featured.slug)}">${featured.title}</a></h3>
 					<div class="feat-meta">
 						<span class="meta meta-comments" title="Comments">
 							${featured.comment_count_published}
@@ -58,8 +124,9 @@
 				</div>
 				<div class="feat-bottom" />
 			</div>
+			</py:if>
 
-			<h2><a href="${h.url_for(action='index', show='popular')}" class="underline-hover uppercase nocolor">Most Popular</a></h2>
+			<h2><a href="${h.url_for(action='index', show='popular')}" class="underline-hover uppercase mcore-heading">Most Popular</a></h2>
 			<py:if test="popular">
 				<ul py:replace="media_grid(popular, thumb_size='m', desc_len=135)" />
 				<a class="see-more underline-hover" href="${h.url_for(action='index', show='popular')}">more of the Most Popular...</a>
@@ -75,7 +142,7 @@
 		</div>
 
 		<div py:if="latest" id="explore-latest" class="m-grid-column">
-			<h2><a href="${h.url_for(action='index', show='latest')}" class="underline-hover uppercase nocolor">Latest</a></h2>
+			<h2><a href="${h.url_for(action='index', show='latest')}" class="underline-hover uppercase mcore-heading">Latest</a></h2>
 			<ul py:replace="media_grid(latest, thumb_size='m', desc_len=135)" />
 			<a class="see-more underline-hover" href="${h.url_for(action='index', show='latest')}">more of the Latest...</a>
 		</div>

@@ -1,0 +1,10 @@
+<div xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:py="http://genshi.edgewall.org/">
+    <input type="${type}"
+        name="${name}"
+        class="${css_class}"
+        id="${id}"
+        value="${value}"
+        py:attrs="attrs" />
+    <img py:if="g.settings.get(id.replace('general_', ''), None)" class="image-preview" src="/appearance/${value}" />
+</div>
