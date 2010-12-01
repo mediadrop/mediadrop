@@ -226,14 +226,11 @@ class SettingsController(BaseSettingsController):
 
         #Handle a reset to defaults request first
         if kwargs.get('reset', None):
-            tmpl_vars = {}
-            for key, value in appearance_settings:
-                s = Setting.query.filter(Setting.key==key).first()
-                s.value = str(value)
-                tmpl_vars[str(key)] = s.value
-                DBSession.add(s)
-            tmpl_vars['uikit_colors'] = uikit_colors['purple']
-            tmpl_vars['navbar_color'] = 'purple'
+            self._update_settings(dict(appearance_settings))
+            tmpl_vars = dict((k.encode('utf-8'), v) for k, v in appearance_settings)
+            tmpl_vars['uikit_colors'] = uikit_colors[
+                tmpl_vars['appearance_navigation_bar_color']]
+            tmpl_vars['navbar_color'] = tmpl_vars['appearance_navigation_bar_color']
             css_file = os.path.join(appearance_dir, 'appearance.css')
             save_appearance_css(css_file=css_file, tmpl_vars=tmpl_vars)
             redirect(url_for(controller='admin/settings', action='appearance'))
@@ -255,19 +252,16 @@ class SettingsController(BaseSettingsController):
             # Preserve existing setting
             kwargs['general'][field_name] = settings.get(field_name, '')
 
-        # Set vars to pass to our CSS template
-        general = kwargs['general']
         tmpl_vars = self._flatten_settings_from_form(c.settings,
             appearance_form, kwargs)
-        if general.get('appearance_logo', None):
+        if tmpl_vars.get('appearance_logo', None):
             logo_path = os.path.join(appearance_dir, \
-                general['appearance_logo'])
+                tmpl_vars['appearance_logo'])
             tmpl_vars['logo_height'] = Image.open(logo_path).size[1]
-            tmpl_vars['logo_name'] = general['appearance_logo']
-        tmpl_vars['navbar_color'] = navbar_color = general.get(
-            'appearance_navigation_bar_color', 'purple')
+            tmpl_vars['logo_name'] = tmpl_vars['appearance_logo']
+        tmpl_vars['navbar_color'] = navbar_color = \
+            tmpl_vars['appearance_navigation_bar_color']
         tmpl_vars['uikit_colors'] = uikit_colors.get(navbar_color)
         css_file = os.path.join(appearance_dir, 'appearance.css')
         save_appearance_css(css_file=css_file, tmpl_vars=tmpl_vars)
-
         return self._save(appearance_form, 'appearance', values=kwargs)
