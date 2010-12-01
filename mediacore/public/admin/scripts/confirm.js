@@ -124,3 +124,30 @@ var DeleteConfirmMgr = new Class({
 	}
 
 });
+
+var ResetConfirmMgr = new Class({
+
+	Extends: ConfirmMgr,
+
+	options: {
+		header: 'Confirm Reset',
+		msg: 'Are you sure you want to reset your settings to the default?',
+		confirmButtonText: 'Reset',
+		confirmButtonClass: 'btn red f-rgt',
+		cancelButtonText: 'Cancel',
+		cancelButtonClass: 'btn f-lft',
+		focus: 'cancel'
+	},
+
+	initialize: function(opts){
+		this.parent(opts);
+		this.addEvent('confirm', this.submitForm.bind(this));
+	},
+
+	submitForm: function(target){
+		var form = target.getParent('form');
+		form.set('action', form.get('action') + '?reset=1');
+		form.submit();
+	}
+
+});

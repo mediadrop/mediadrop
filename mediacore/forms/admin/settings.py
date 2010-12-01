@@ -362,5 +362,6 @@ class AppearanceForm(ListForm):
             ],
         ),
         SubmitButton('save', default=_('Save'), css_classes=['btn', 'btn-save', 'blue', 'f-rgt']),
-        ResetButton('cancel', default=_('Cancel'), css_classes=['btn', 'btn-cancel']),
+        SubmitButton('reset', default=_('Reset to Defaults'),
+            css_classes=['btn', 'btn-cancel', 'reset-confirm']),
     ]
