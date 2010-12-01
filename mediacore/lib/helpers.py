@@ -332,12 +332,12 @@ def default_page_title(default=None, **kwargs):
 
 @observes(meta_description)
 def default_media_meta_description(default=None, media=None, **kwargs):
-    if media is not None:
+    if media and media != 'all' and media.description_plain:
         return truncate(media.description_plain, 249)
     return None
 
 @observes(meta_keywords)
-def default_media_meta_keywords():
-    if media is not None:
+def default_media_meta_keywords(default=None, media=None, **kwargs):
+    if media and media != 'all' and media.tags:
         return ', '.join(tag.name for tag in media.tags[:15])
     return None
