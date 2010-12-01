@@ -41,10 +41,13 @@ class CategoriesController(BaseController):
         """Load all our category data before each request."""
         BaseController.__before__(self, *args, **kwargs)
 
-        c.categories = Category.query.order_by(Category.name).populated_tree()
+        c.categories = Category.query\
+            .order_by(Category.name)\
+            .options(orm.undefer('media_count_published'))\
+            .populated_tree()
 
-        counts = dict(DBSession.query(Category.id,
-                                      Category.media_count_published))
+        counts = dict((cat.id, cat.media_count_published)
+                      for cat, depth in c.categories.traverse())
         c.category_counts = counts.copy()
         for cat, depth in c.categories.traverse():
             count = counts[cat.id]
