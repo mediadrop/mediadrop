@@ -5,6 +5,7 @@ except ImportError:
     use_setuptools()
     from setuptools import setup, find_packages
 
+import sys
 from mediacore import __version__ as VERSION
 
 install_requires = [
@@ -33,10 +34,16 @@ install_requires = [
     'cElementTree >= 1, < 2',
     'gdata > 2, < 2.1',
     'unidecode',
-    'importlib',
     'decorator',
     'simplejson',
 ]
+
+if sys.version_info < (2, 7):
+    # importlib is included in Python 2.7
+    # however we can't do try/import/except because this might generate eggs
+    # with missing requires which can not be used in other environments
+    # see https://github.com/simplestation/mediacore/issues#issue/44
+    install_requires.append('importlib')
 
 # PIL has some weird packaging issues (because its been around forever).
 # If PIL is installed via MacPorts, setuptools tries to install again.
