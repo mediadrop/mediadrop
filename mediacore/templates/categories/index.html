@@ -23,7 +23,7 @@
 <xi:include href="./layout.html" />
 <xi:include href="../master.html" />
 <head>
-	<title>${h.page_title(default=c.category and c.category.name + ' | ' or 'Categories', category=c.category or 'all')}</title>
+	<title>${h.page_title(default=c.category and '%s | Categories' % c.category.name or 'Categories', category=c.category or 'all')}</title>
 	<meta name="keywords" content="${h.meta_keywords(category=c.category or 'all')}" />
 	<meta name="description" content="${h.meta_description(category=c.category or 'all')}" />
 	<meta py:strip="h.meta_robots_noindex(category=c.category or 'all')" name="robots" content="noindex,follow" />

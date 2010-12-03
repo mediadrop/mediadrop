@@ -22,7 +22,7 @@
 <xi:include href="./layout.html" />
 <xi:include href="../master.html" />
 <head>
-	<title>${c.category.name} | Categories</title>
+	<title>${h.page_title(default=c.category and '%s | Categories' % c.category.name or 'Categories', category=c.category or 'all')}</title>
 	<link href="${h.url_for('/styles/categories.css')}" media="screen" rel="stylesheet" type="text/css" />
 	<link py:if="order == 'latest'"
 	      rel="alternate" type="application/rss+xml" title="Latest media ${in_text}"
