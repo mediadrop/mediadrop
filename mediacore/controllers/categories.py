@@ -13,7 +13,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 from paste.util import mimeparse
-from pylons import config, request, response, session, tmpl_context as c
+from pylons import (app_globals, config, request, response, session,
+    tmpl_context as c)
 from sqlalchemy import orm, sql
 
 from mediacore.lib.base import BaseController
