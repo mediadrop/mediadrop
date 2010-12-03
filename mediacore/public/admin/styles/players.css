@@ -1,0 +1,33 @@
+.playerform li {
+	margin: 10px 0;
+}
+.playerform legend {
+	font-weight: bold;
+	padding-bottom: 10px;
+	display: block;
+}
+.playerform label {
+	display: block;
+	vertical-align: top;
+	padding-bottom: 5px;
+}
+
+.playerform #options label {
+	margin-left: 30px;
+}
+.playerform #options input  {
+	left: 0px;
+	position: absolute;
+	top: 3px;
+	vertical-align: top;
+}
+.playerform #options li {
+	position: relative;
+}
+
+.playerform .fieldhelp {
+	font-size: 12px;
+	padding-top: 2px;
+	color: #9B9B9B;
+	display: block;
+}

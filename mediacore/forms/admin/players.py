@@ -12,16 +12,19 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+import logging
 
 from pylons import request
 from pylons.i18n import N_ as _
-from tw.forms import PasswordField, RadioButtonList, SingleSelectField
+from tw.forms import CheckBox, PasswordField, RadioButtonList, SingleSelectField
 from tw.forms.fields import ContainerMixin as _ContainerMixin
 from tw.forms.validators import All, FancyValidator, FieldsMatch, Invalid, NotEmpty, PlainText, Schema, StringBool
 
 from mediacore.forms import ListFieldSet, ListForm, SubmitButton, ResetButton, TextField
 from mediacore.plugin import events
 from mediacore.plugin.abc import abstractmethod
+
+log = logging.getLogger(__name__)
 
 class PlayerPrefsForm(ListForm):
     template = 'admin/box-form.html'
@@ -118,3 +121,35 @@ class SublimePlayerPrefsForm(PlayerPrefsForm):
         player.data['script_tag'] = script_tag or None
         if not script_tag and player.enabled:
             player.enabled = False
+
+class YoutubeFlashPlayerPrefsForm(PlayerPrefsForm):
+    fields = [
+        ListFieldSet('options',
+            suppress_label=True,
+            legend=_('Player Options:'),
+            children=[
+                CheckBox('disablekb', label_text=_('Disable the player keyboard controls.')),
+                CheckBox('fs', label_text=_('Enable fullscreen.')),
+                CheckBox('hd', label_text=_('Enable high-def quality by default.')),
+                CheckBox('rel', label_text=_('Allow the player to load related videos once playback of the initial video starts. Related videos are displayed in the "genie menu" when the menu button is pressed.')),
+                CheckBox('showsearch', label_text=_('Show the search box when the video is minimized. The above option must be enabled for this to work.')),
+                CheckBox('showinfo', label_text=_('Display information like the video title and rating before the video starts playing.')),
+                CheckBox('nocookie', label_text=_('Enable privacy-enhanced mode.')),
+            ],
+        )
+    ] + PlayerPrefsForm.buttons
+
+    player_params = ('disabledkb', 'fs', 'hd', 'rel',
+                     'showsearch', 'showinfo', 'nocookie')
+
+    def display(self, value, **kwargs):
+        """Display the form with default values from the engine param."""
+        player = kwargs['player']
+        options = value.setdefault('options', {})
+        for x in self.player_params:
+            options.setdefault(x, player.data.get(x, ''))
+        return PlayerPrefsForm.display(self, value, **kwargs)
+
+    def save_data(self, player, options, **kwargs):
+        for x in self.player_params:
+            player.data[x] = options.get(x, '')

@@ -529,6 +529,19 @@ class YoutubeFlashPlayer(AbstractFlashEmbedPlayer):
     scheme = u'youtube'
     """The `StorageURI.scheme` which uniquely identifies this embed type."""
 
+    settings_form_class = player_forms.YoutubeFlashPlayerPrefsForm
+    """An optional :class:`mediacore.forms.admin.players.PlayerPrefsForm`."""
+
+    default_data = {
+        'disablekb': 0,
+        'fs': 1,
+        'hd': 0,
+        'rel': 0,
+        'showsearch': 1,
+        'showinfo': 0,
+        'nocookie': False,
+    }
+
     _height_diff = 25
 
 AbstractFlashEmbedPlayer.register(YoutubeFlashPlayer)

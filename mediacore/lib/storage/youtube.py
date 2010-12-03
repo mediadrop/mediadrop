@@ -43,18 +43,6 @@ class YoutubeStorage(EmbedStorageEngine):
     )
     """A compiled pattern object that uses named groupings for matches."""
 
-    _default_data = {
-        'player_params': {
-            'disablekb': 0,
-            'fs': 1,
-            'hd': 0,
-            'rel': 0,
-            'showsearch': 1,
-            'showinfo': 1,
-        },
-        'nocookie': False,
-    }
-
     def _parse(self, url, id):
         """Return metadata for the given URL that matches :attr:`url_pattern`.
 
