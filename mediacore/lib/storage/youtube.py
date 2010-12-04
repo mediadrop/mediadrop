@@ -23,7 +23,6 @@ import gdata.youtube.service
 
 from pylons.i18n import N_
 
-from mediacore.forms.admin.storage.youtube import YoutubeStorageForm
 from mediacore.lib.compat import max
 from mediacore.lib.filetypes import VIDEO
 from mediacore.lib.storage import EmbedStorageEngine
@@ -35,8 +34,6 @@ class YoutubeStorage(EmbedStorageEngine):
     """A uniquely identifying unicode string for the StorageEngine."""
 
     default_name = N_(u'YouTube')
-
-    settings_form_class = YoutubeStorageForm
 
     url_pattern = re.compile(
         r'^(http(s?)://)?(\w+\.)?youtube.com/watch\?(.*&)?v=(?P<id>[^&#]+)'
