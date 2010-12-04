@@ -44,7 +44,7 @@ class UploadController(BaseController):
     """
 
     def __before__(self, *args, **kwargs):
-        if not asbool(app_globals.settings['appearance_enable_user_uploads']):
+        if not app_globals.settings['appearance_enable_user_uploads']:
             abort(404)
         return BaseController.__before__(self, *args, **kwargs)
 
