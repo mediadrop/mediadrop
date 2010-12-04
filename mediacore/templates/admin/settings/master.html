@@ -40,11 +40,11 @@
 		<div class="box">
 			<h1 class="box-head">Settings</h1>
 			<ul class="box-content settings-menu" py:with="links = [
+				('General', h.url_for(controller='/admin/settings', action='general')),
 				('Analytics', h.url_for(controller='/admin/settings', action='analytics')),
 				('Appearance', h.url_for(controller='/admin/settings', action='appearance')),
 				('Comments', h.url_for(controller='/admin/settings', action='comments')),
 				('Data API', h.url_for(controller='/admin/settings', action='api')),
-				('General', h.url_for(controller='/admin/settings', action='general')),
 				('Notifications', h.url_for(controller='/admin/settings', action='notifications')),
 				('Players', h.url_for(controller='/admin/players')),
 				('Popularity', h.url_for(controller='/admin/settings', action='popularity')),
