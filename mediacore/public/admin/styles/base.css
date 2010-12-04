@@ -60,11 +60,11 @@ pre,code,kbd,samp,tt{font-family:monospace;*font-size:108%;line-height:100%}
 p {
 	margin: 0 0 1em 0;
 }
-a:link, a:visited, .link {
+a:link, a:visited, .link, .clickable, .link {
 	color: #3372a0;
 	text-decoration: none;
 }
-a:hover, a:active, .link:hover {
+a:hover, a:active, .link:hover, .clickable:hover, .link:hover {
 	color: #1380cf;
 	text-decoration: underline;
 }
