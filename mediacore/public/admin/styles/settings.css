@@ -56,8 +56,8 @@
 
 /* Appearance Tab Settings */
 #settings-form .checkbox-left {
-    width: 50px;
-    margin-top: 5px;
+    width: auto;
+    margin: 7px 10px;
 }
 
 #settings-form .label_text_right {
