@@ -50,6 +50,10 @@ sitemaps = [
     ('enabled', _('Enable Sitemaps')),
     ('disabled', _('Disable Sitemaps')),
 ]
+rss_feeds = [
+    ('enabled', _('Enable RSS Feeds')),
+    ('disabled', _('Disable RSS Feeds')),
+]
 
 title_options = [
     ('prepend', _('Prepend')),
@@ -191,13 +195,18 @@ class SiteMapsForm(ListForm):
     submit_text = None
     fields = [
         ListFieldSet('rss', suppress_label=True,
-            legend=_('Site Maps Settings:'),
+            legend=_('Site Maps and RSS Settings:'),
             css_classes=['details_fieldset'],
             children=[
                 RadioButtonList('sitemaps_display',
                     label_text=_('Site Maps'),
                     options=sitemaps,
                     validator=OneOf([x[0] for x in sitemaps]),
+                ),
+                RadioButtonList('rss_display',
+                    label_text=_('RSS Feeds'),
+                    options=rss_feeds,
+                    validator=OneOf([x[0] for x in rss_feeds]),
                 ),
             ]
         ),
