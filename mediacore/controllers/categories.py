@@ -15,6 +15,7 @@
 from paste.util import mimeparse
 from pylons import (app_globals, config, request, response, session,
     tmpl_context as c)
+from pylons.controllers.util import abort
 from sqlalchemy import orm, sql
 
 from mediacore.lib.base import BaseController
@@ -116,8 +117,8 @@ class CategoriesController(BaseController):
         :param limit: the max number of results to return. Defaults to 30
 
         """
-        if app_globals.settings.get('sitemaps_display', None) != 'enabled':
-            redirect(url_for('/'))
+        if app_globals.settings.get('rss_display', None) != 'enabled':
+            abort(404)
 
         response.content_type = mimeparse.best_match(
             ['application/rss+xml', 'application/xml', 'text/xml'],
