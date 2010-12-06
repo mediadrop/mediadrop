@@ -41,6 +41,10 @@ object, iframe, audio, video {
 	display: block;
 }
 
+.hidden {
+	display: none;
+}
+
 a:hover {
 	text-decoration: none;
 }
@@ -743,51 +747,54 @@ textarea {
 	float: left;
 }
 
-#cooliris-nav {
+.cooliris-nav {
 	background: #cbd4d8;
 	width: 210px;
 	height: 324px;
 	float: left;
+	overflow: hidden;
 	background: url('../images/layout/cooliris-left.png') no-repeat left;
 }
-#cooliris-latest,
-#cooliris-featured,
-#cooliris-categories {
+.cooliris-nav-content {
+	margin: 2px 0;
+	height: 321px;
+}
+.cooliris-latest,
+.cooliris-featured,
+.cooliris-cats-btn {
 	padding: 10px 15px;
 	color: #484f5a;
 	font-weight: bold;
 	text-shadow: 0 1px #fff;
 	-webkit-font-smoothing: antialiased;
 }
-#cooliris-featured,
-#cooliris-categories {
+.cooliris-featured,
+.cooliris-cats-btn {
 	background: url('../images/layout/cooliris-hr.png') no-repeat top;
 }
-#cats-wrapper div {
-	margin-top: 0 !important;
-	margin-bottom: 0 !important;
-}
-#cooliris-arrow {
+.cooliris-arrow {
 	background: url('../images/layout/cooliris-arrow.png') no-repeat 0 2px;
 	width: 13px;
 	height: 13px;
-	display: inline;
 }
-#cooliris-arrow.down {
+.cooliris-arrow.down {
 	background-position: 0 -11px;
 }
-#cats-wrapper {
-	margin-top: -5px;
-}
-#cooliris-nav #cats {
+.cooliris-nav .cooliris-cats {
 	color: #727a88;
 	-webkit-font-smoothing: antialiased;
 	text-shadow: 0 1px #fff;
+	margin-top: -10px;
 }
-#cooliris-nav #cats li {
-	padding: 5px 30px;
+.cooliris-nav .cooliris-cats li {
+	padding: 5px 0;
+	list-style: none;
 }
-#cooliris-wall {
+.cooliris-cats-btn:hover .cooliris-cats-text,
+.cooliris-nav .cooliris-feed:hover {
+	text-decoration: underline;
+}
+.cooliris-wall {
 	background: #eef2f5;
 	width: 680px;
 	height: 324px;

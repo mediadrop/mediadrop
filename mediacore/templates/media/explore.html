@@ -31,71 +31,49 @@
 	      href="${h.url_for(controller='/sitemaps', action='mrss')}" />
 	<link rel="alternate" type="application/rss+xml" title="Latest RSS"
 	      href="${h.url_for(controller='/sitemaps', action='latest')}" />
-
-	<script py:if="g.settings['appearance_enable_cooliris']" type="text/javascript">
-		//<![CDATA[
-		window.addEvent('domready', function(){
-			var coolirisSwf = new Swiff('http://apps.cooliris.com/embed/cooliris.swf', {
-				id: 'coolirisswf',
-				width: 680,
-				height: 323,
-				container: 'cooliris-wall',
-				params: {
-					wMode: 'transparent',
-					allowFullScreen: 'true',
-					allowScriptAccess: 'always'
-				},
-				vars: {
-					backgroundAlpha: 0,
-					cellBorder: 1,
-					feed: '${h.url_for(controller='sitemaps', action='latest')}',
-					intro: 'zoomIn',
-					numRows: 2,
-					showChrome: false,
-					showDescription: true,
-					showSearch: false,
-					showReflections: false,
-					style: 'light',
-					tilt: 5
-				}
-			});
-			var cooliris = {};
-
-			$$$('[id^=cooliris-nav]').each(function(nav){
-				nav.addEvent('click', function(){
-					var feed = nav.id.replace(/^cooliris-nav-/, '');
-					if (feed == 'featured'){
-						cooliris.embed.setFeedURL('${h.url_for(controller='/sitemaps', action='featured')}');
-					} else {
-						cooliris.embed.setFeedURL('${h.url_for(controller='/sitemaps', action='latest')}');
-					}
-				});
-			});
-			$('cats').slide('hide');
-		});
-		//]]>
-	</script>
 </head>
 <body class="nav-explore-on">
 	<div class="mediacore-content">
-		<div py:if="g.settings['appearance_enable_cooliris']" id="cooliris-box" class="feat-box">
+	<py:if test="g.settings['appearance_enable_cooliris']">
+		<div id="cooliris-box" class="feat-box">
 			<div class="feat-top" />
 			<div class="feat-content clearfix">
-				<div id="cooliris-nav">
-					<div id="cooliris-latest" class="clickable" onclick="cooliris.embed.setFeedURL('${h.url_for(controller='sitemaps', action='latest')}')">Latest</div>
-					<div id="cooliris-featured" class="clickable" onclick="cooliris.embed.setFeedURL('${h.url_for(controller='categories', action='feed', slug='featured')}')">Featured</div>
-					<div id="cooliris-categories" class="clickable" onclick="$('cooliris-arrow').toggleClass('down').toggleClass('up'); $('cats').slide('toggle')">Categories <span id="cooliris-arrow">&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
-					<div id="cats-wrapper">
-					<ul id="cats">
-						<li py:for="cat in categories" py:if="cat.slug != 'featured'" class="clickable" onclick="cooliris.embed.setFeedURL('${h.url_for(controller='categories', action='feed', slug=cat.slug)}')" py:content="cat.name" />
-					</ul>
+				<div class="cooliris-nav">
+					<div class="cooliris-nav-content">
+						<div class="cooliris-latest clickable cooliris-feed" data-feed="${h.url_for(controller='sitemaps', action='latest')}">Latest</div>
+						<div class="cooliris-featured clickable cooliris-feed" data-feed="${h.url_for(controller='categories', action='feed', slug='featured')}">Featured</div>
+						<div class="cooliris-cats-btn clickable"><span class="cooliris-cats-text">Categories</span> <span class="cooliris-arrow goog-inline-block" /></div>
+						<ul class="cooliris-cats hidden">
+							<li py:for="cat in categories"
+							    py:if="cat.slug != 'featured'"
+							    class="clickable cooliris-feed"
+							    data-feed="${h.url_for(controller='categories', action='feed', slug=cat.slug)}"
+							    py:content="cat.name" />
+						</ul>
 					</div>
 				</div>
-				<div id="cooliris-wall">
-				</div>
+				<div class="cooliris-wall"></div>
 			</div>
 			<div class="feat-bottom" />
 		</div>
+		<script type="text/javascript">
+			var cooliris = {};
+			var myCooliris = new mcore.Cooliris(680, 323, {
+				backgroundAlpha: 0,
+				cellBorder: 1,
+				feed: '${h.url_for(controller='sitemaps', action='latest')}',
+				intro: 'zoomIn',
+				numRows: 2,
+				showChrome: false,
+				showDescription: true,
+				showSearch: false,
+				showReflections: false,
+				style: 'light',
+				tilt: 5
+			});
+			setTimeout(myCooliris.decorate.apply(myCooliris, [document.getElementById('cooliris-box')]), 150);
+		</script>
+	</py:if>
 		<div id="explore-popular" class="m-grid-column" style="margin-right:20px">
 			<py:if test="g.settings['appearance_enable_featured_items']">
 			<h2><span class="mcore-heading uppercase">Featured</span></h2>
