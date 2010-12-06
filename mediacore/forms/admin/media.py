@@ -149,7 +149,7 @@ class MediaForm(ListForm):
         XHTMLTextArea('description', label_text=_('Description'), attrs=dict(rows=5, cols=25)),
         CategoryCheckBoxList('categories', label_text=_('Categories'), options=lambda: DBSession.query(Category.id, Category.name).all()),
         TextArea('tags', label_text=_('Tags'), attrs=dict(rows=3, cols=15), help_text=_(u'e.g.: puppies, great dane, adorable')),
-        TextArea('notes', label_text=_('Additional Notes'), attrs=dict(rows=3, cols=25), default=lambda: app_globals.settings['wording_additional_notes']),
+        TextArea('notes', label_text=_('Administrative Notes'), attrs=dict(rows=3, cols=25), default=lambda: app_globals.settings['wording_administrative_notes']),
         SubmitButton('save', default=_('Save'), named_button=True, css_classes=['btn', 'blue', 'f-rgt']),
         SubmitButton('delete', default=_('Delete'), named_button=True, css_classes=['btn', 'f-lft']),
     ]
