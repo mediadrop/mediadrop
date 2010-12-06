@@ -18,7 +18,6 @@
 goog.provide('mcore.net');
 goog.provide('mcore.net.FormXhrIo');
 
-goog.require('goog.debug.Logger');
 goog.require('goog.dom.forms');
 goog.require('goog.events.Event');
 goog.require('goog.events.EventTarget');
@@ -53,15 +52,6 @@ mcore.net.FormXhrIo = function(element, opt_xmlHttpFactory) {
   this.responseJson_ = undefined;
 };
 goog.inherits(mcore.net.FormXhrIo, goog.net.XhrIo);
-
-
-/**
- * A reference to the XhrIo logger
- * @type {goog.debug.Logger}
- * @private
- */
-mcore.net.FormXhrIo.prototype.logger_ =
-    goog.debug.Logger.getLogger('mcore.net.FormXhrIo');
 
 
 /**
