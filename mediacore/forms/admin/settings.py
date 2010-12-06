@@ -163,7 +163,6 @@ class UploadForm(ListForm):
     css_class = 'form'
     submit_text = None
     fields = [
-        boolean_radiobuttonlist('use_embed_thumbnails', label_text=_('Automatically fetch thumbnails from YouTube, Vimeo, etc.')),
         TextField('max_upload_size', label_text=_('Max. allowed upload file size in megabytes'), validator=MegaByteValidator(not_empty=True, min=0)),
         ListFieldSet('legal_wording', suppress_label=True, legend=_('Legal Wording:'), css_classes=['details_fieldset'], children=[
             XHTMLTextArea('wording_user_uploads', label_text=_('User Uploads'), attrs=dict(rows=15, cols=25)),
