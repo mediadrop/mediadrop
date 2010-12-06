@@ -300,6 +300,7 @@ class MediaController(BaseController):
             timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             media.title = u'Temporary stub %s' % timestamp
             media.slug = get_available_slug(Media, '_stub_' + timestamp)
+            media.reviewed = True
             DBSession.add(media)
             DBSession.flush()
         else:
