@@ -67,11 +67,11 @@
 .status-unencoded {
 	background-image: url('../images/icons/yellow.png');
 }
+.status-publishing,
 .status-draft {
 	background-image: url('../images/icons/green.png');
 }
-.status-published,
-.status-publishing {
+.status-published {
 	background-image: url('../images/icons/blue.png');
 }
 
