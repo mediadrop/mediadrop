@@ -20,6 +20,19 @@ html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abb
 body{font:13px/1.5 'Helvetica Neue', Helvetica, Arial,'Liberation Sans',FreeSans, sans-serif;}
 hr{border:0 #ccc solid;border-top-width:1px;clear:both;height:0}
 
+/* Google Closure Library crossbrowser inline-block */
+.goog-inline-block {
+	position: relative;
+	display: -moz-inline-box; /* Ignored by FF3 and later. */
+	display: inline-block;
+}
+* html .goog-inline-block {
+	display: inline;
+}
+*:first-child+html .goog-inline-block {
+	display: inline;
+}
+
 /* Base generic styles */
 body, select, input, button, textarea {
 	font-family: 'Helvetica Neue', Helvetica, Arial, 'Liberation Sans', FreeSans, sans-serif;
