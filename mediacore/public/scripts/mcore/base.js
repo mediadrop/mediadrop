@@ -105,7 +105,14 @@ mcore.initHtml5Player = function(element, opt_fallback, opt_fallbackHeight,
         fallback);
   }
 
-  player.decorate(goog.dom.getFirstElementChild(element));
+  // FIXME: We should immediately use the fallback when no html5 element is
+  //        present.
+  var html5Element = goog.dom.getFirstElementChild(element);
+  if (html5Element) {
+    player.decorate(html5Element);
+  } else if (goog.isString(opt_fallback)) {
+    element.innerHTML = opt_fallback;
+  }
   return player;
 };
 

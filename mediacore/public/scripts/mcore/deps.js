@@ -6,7 +6,7 @@ goog.addDependency('../mcore/deps.js', [], []);
 goog.addDependency('../mcore/excerpts.js', ['mcore.excerpts', 'mcore.excerpts.Excerpt'], ['goog.fx.dom.ResizeHeight', 'goog.style', 'goog.ui.Component']);
 goog.addDependency('../mcore/fx.js', ['mcore.fx', 'mcore.fx.SlideIntoView'], ['goog.fx.dom.ResizeHeight', 'goog.style']);
 goog.addDependency('../mcore/likes.js', ['mcore.likes', 'mcore.likes.LikeThis'], ['goog.dom', 'goog.events', 'goog.net.XhrIo', 'goog.string', 'goog.ui.Component']);
-goog.addDependency('../mcore/net.js', ['mcore.net', 'mcore.net.FormXhrIo'], ['goog.debug.Logger', 'goog.dom.forms', 'goog.events.Event', 'goog.events.EventTarget', 'goog.net.XhrIo']);
+goog.addDependency('../mcore/net.js', ['mcore.net', 'mcore.net.FormXhrIo'], ['goog.dom.forms', 'goog.events.Event', 'goog.events.EventTarget', 'goog.net.XhrIo']);
 goog.addDependency('../mcore/players/flash.js', ['mcore.players.FlashPlayer'], ['goog.ui.media.FlashObject', 'goog.userAgent.flash', 'mcore.players']);
 goog.addDependency('../mcore/players/html5.js', ['mcore.players.Html5Player', 'mcore.players.initHtml5Player'], ['goog.array', 'goog.dom', 'goog.events', 'goog.ui.Component', 'mcore.players']);
 goog.addDependency('../mcore/players/html5_test.js', [], ['goog.dom', 'goog.testing.ContinuationTestCase', 'goog.testing.jsunit', 'mcore.players', 'mcore.players.Html5Player']);
