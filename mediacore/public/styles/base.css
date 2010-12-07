@@ -758,6 +758,16 @@ textarea {
 .cooliris-nav-content {
 	margin: 2px 0;
 	height: 321px;
+	width: 99%;
+}
+.cooliris-nav-content::-webkit-scrollbar {
+	width: 10px;
+	-webkit-border-radius: 5px;
+}
+.cooliris-nav-content::-webkit-scrollbar-thumb {
+	background: #637084;
+	border: 1px solid #637084;
+	-webkit-border-radius: 5px;
 }
 .cooliris-latest,
 .cooliris-featured,
