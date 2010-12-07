@@ -17,9 +17,9 @@
       xmlns:py="http://genshi.edgewall.org/"
       xmlns:i18n="http://genshi.edgewall.org/i18n"
       xmlns:xi="http://www.w3.org/2001/XInclude"
-      py:strip="">
-
-	<?python c.player_count = int(getattr(c, 'player_count', 0) or 0) + 1; ?>
+      py:strip=""
+      py:with="flash_obj = flash and flash.render_flashobject();
+               html5_obj = html5 and 'new mcore.Html5Player()';">
 
 	<xi:include py:for="tmpl in value_of('plugin_templates', ())" href="${tmpl}" />
 
@@ -27,9 +27,14 @@
 		${html5 and html5(error_text) or error_text}
 	</div>
 
-	<script type="text/javascript">
+	<script py:if="flash_obj and html5_obj" type="text/javascript">
 		//<![CDATA[
-		mcore.initHtml5Player('${player.elem_id}', ${flash and "'%s'" % flash.render() or "null"}, ${flash and flash.adjusted_height or 'undefined'}, ${prefer_flash and 'true' or 'false'});
+		new mcore.MultiPlayer(${'[%s, %s]' % (prefer_flash and (flash_obj, html5_obj) or (html5_obj, flash_obj))}).decorate(document.getElementById('${player.elem_id}'));
+		//]]>
+	</script>
+	<script py:if="not flash_obj or not html5_obj" type="text/javascript">
+		//<![CDATA[
+		${html5_obj or flash_obj}.decorate(document.getElementById('${player.elem_id}'));
 		//]]>
 	</script>
 

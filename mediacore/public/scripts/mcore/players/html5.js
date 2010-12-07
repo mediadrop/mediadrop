@@ -16,14 +16,12 @@
  */
 
 goog.provide('mcore.players.Html5Player');
-goog.provide('mcore.players.initHtml5Player');
-
-goog.require('mcore.players');
 
 goog.require('goog.array');
 goog.require('goog.dom');
 goog.require('goog.events');
 goog.require('goog.ui.Component');
+goog.require('mcore.players');
 
 
 
@@ -129,6 +127,10 @@ mcore.players.Html5Player.prototype.createDom = function() {
 mcore.players.Html5Player.prototype.decorateInternal = function(element) {
   // Allow decoration by ID string
   element = this.dom_.getElement(element);
+  if (element.tagName.toLowerCase() != mcore.players.MediaType.VIDEO &&
+      element.tagName.toLowerCase() != mcore.players.MediaType.AUDIO) {
+    element = this.dom_.getFirstElementChild(element);
+  }
   goog.base(this, 'decorateInternal', element);
   this.testSupport();
 };
@@ -253,3 +255,12 @@ mcore.players.Html5Player.prototype.disposeInternal = function() {
   this.sources_ = undefined;
   goog.base(this, 'disposeInternal');
 };
+
+
+goog.exportSymbol('mcore.Html5Player', mcore.players.Html5Player);
+goog.exportSymbol('mcore.Html5Player.isSupported',
+    mcore.players.Html5Player.isSupported);
+goog.exportSymbol('mcore.Html5Player.prototype.decorate',
+    mcore.players.Html5Player.prototype.decorate);
+goog.exportSymbol('mcore.Html5Player.prototype.render',
+    mcore.players.Html5Player.prototype.render);
