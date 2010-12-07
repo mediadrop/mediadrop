@@ -170,11 +170,17 @@ class FlashRenderMixin(object):
 
         """
         if method is None:
-            return render('players/flash.html', dict(player=self))
+            return render('players/html5_or_flash.html', {
+                'player': self,
+                'flash': self,
+                'html5': None,
+            })
+
         if method is 'combined':
             object = self.render_object(**kwargs)
             kwargs['id'] = None
             return object(self.render_embed(**kwargs))
+
         renderer = {
             'embed': self.render_embed,
             'object': self.render_object,
@@ -637,6 +643,14 @@ class HTML5Player(AbstractHTML5Player):
 
     display_name = N_(u'Plain HTML5 Player')
     """A unicode display name for the class, to be used in the settings UI."""
+
+    def render(self):
+        html5_tag = super(HTML5PlusFlowPlayer, self).render(**kwargs)
+        return render('players/html5_or_flash.html', {
+            'player': self,
+            'html5': html5_tag,
+            'flash': None,
+        })
 
 AbstractHTML5Player.register(HTML5Player)
 
