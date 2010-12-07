@@ -18,35 +18,37 @@
 /**
  * @fileoverview Provides a similar interface for rendering Flash
  * players as for rendering Html5 players.
- *
- * XXX: This is currently not in use by MediaCore, but may be some
- *      time in the future.
  */
 
 goog.provide('mcore.players.FlashPlayer');
 
-goog.require('mcore.players');
 goog.require('goog.ui.media.FlashObject');
 goog.require('goog.userAgent.flash');
+goog.require('mcore.players');
 
 
 
 /**
- * Flash Player
+ * Flash Player.
+ *
+ * Renders a flash object in a cross-browser way.
+ *
  * @param {string} flashUrl The flash SWF URL.
- * @param {number|string=} width The width of the movie.
- * @param {number|string=} height The height of the movie.
+ * @param {number|string=} opt_width The width of the movie.
+ * @param {number|string=} opt_height The height of the movie.
  * @param {Object=} opt_flashVars Flash vars to add.
  * @param {goog.dom.DomHelper=} opt_domHelper An optional DomHelper.
  * @constructor
  * @extends {goog.ui.media.FlashObject}
  */
-mcore.players.FlashPlayer = function(flashUrl, opt_width, opt_height, opt_flashVars, opt_domHelper) {
+mcore.players.FlashPlayer = function(flashUrl, opt_width, opt_height,
+    opt_flashVars, opt_domHelper) {
   goog.base(this, flashUrl, opt_domHelper);
-  if (goog.isDef(opt_width) && goog.isDef(opt_height)) {
+  this.setRequiredVersion(mcore.players.FlashPlayer.REQUIRED_VERSION);
+  if (opt_width && opt_height) {
     this.setSize(opt_width, opt_height);
   }
-  if (goog.isDef(opt_flashVars)) {
+  if (opt_flashVars) {
     this.addFlashVars(opt_flashVars);
   }
 };
@@ -54,30 +56,71 @@ goog.inherits(mcore.players.FlashPlayer, goog.ui.media.FlashObject);
 
 
 /**
+ * The version of Flash that is required for playback of most video.
+ * @type {string}
+ */
+mcore.players.FlashPlayer.REQUIRED_VERSION = '9.0.115.0';
+
+
+/**
  * @return {boolean} True if the device supports Flash and the H264 codec.
  */
 mcore.players.FlashPlayer.isSupported = function() {
-  return goog.userAgent.flash.isVersion('9.0.115.0');
+  return goog.userAgent.flash.isVersion(
+      mcore.players.FlashPlayer.REQUIRED_VERSION);
 };
 
 
 /**
- * Renders the component.  If a parent element is supplied, the component's
- * element will be appended to it.  If there is no optional parent element and
- * the element doesn't have a parentNode then it will be appended to the
- * document body.
- *
- * If this component has a parent component, and the parent component is
- * not in the document already, then this will not call {@code enterDocument}
- * on this component.
- *
- * Throws an Error if the component is already rendered.
- *
- * @param {Element|string=} opt_parentElement Optional parent element to render
- *    the component into.
- * @return {mcore.players.FlashPlayer} This player
+ * Dispatch an event indicating flash is supported or it isn't.
  */
-mcore.players.FlashPlayer.prototype.render = function(element) {
-  element = this.dom_.getElement(element);
-  goog.base(this, 'render', element);
-}
+mcore.players.FlashPlayer.prototype.testSupport = function() {
+  if (mcore.players.FlashPlayer.isSupported()) {
+    this.dispatchEvent(mcore.players.EventType.CAN_PLAY);
+    return true;
+  }
+  this.dispatchEvent(mcore.players.EventType.NO_SUPPORT);
+  return false;
+};
+
+
+/**
+ * Renders the flash object or dispatches a not-supported event.
+ * @inheritDoc
+ */
+mcore.players.FlashPlayer.prototype.render = function(opt_parentElement) {
+  if (this.testSupport()) {
+    goog.base(this, 'render', opt_parentElement);
+  }
+};
+
+
+/**
+ * Renders the flash object or dispatches a not-supported event.
+ * @inheritDoc
+ */
+mcore.players.FlashPlayer.prototype.renderBefore = function(siblingElement) {
+  if (this.testSupport()) {
+    goog.base(this, 'renderBefore', siblingElement);
+  }
+};
+
+
+/**
+ * Decorate or dispatch a player not supported event.
+ * @inheritDoc
+ */
+mcore.players.FlashPlayer.prototype.decorate = function(element) {
+  if (this.testSupport()) {
+    goog.base(this, 'decorate', element);
+  }
+};
+
+
+goog.exportSymbol('mcore.FlashPlayer', mcore.players.FlashPlayer);
+goog.exportSymbol('mcore.FlashPlayer.isSupported',
+    mcore.players.FlashPlayer.isSupported);
+goog.exportSymbol('mcore.FlashPlayer.prototype.decorate',
+    mcore.players.FlashPlayer.prototype.decorate);
+goog.exportSymbol('mcore.FlashPlayer.prototype.render',
+    mcore.players.FlashPlayer.prototype.render);

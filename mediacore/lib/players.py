@@ -170,6 +170,8 @@ class FlashRenderMixin(object):
 
         """
         if method is None:
+            return render('players/flash.html', dict(player=self))
+        if method is 'combined':
             object = self.render_object(**kwargs)
             kwargs['id'] = None
             return object(self.render_embed(**kwargs))
@@ -177,6 +179,7 @@ class FlashRenderMixin(object):
             'embed': self.render_embed,
             'object': self.render_object,
             'swiff': self.render_swiff,
+            'flashobject': self.render_flashobject,
         }.get(method)
         return renderer(**kwargs)
 
@@ -218,6 +221,15 @@ class FlashRenderMixin(object):
         }
         params = simplejson.dumps(params)
         return Markup("new Swiff('%s', %s)" % (self.swf_url(), params))
+
+    def render_flashobject(self):
+        """Render the mediacore flash loader."""
+        return Markup("new mcore.FlashPlayer('%s', %d, %d, %s)" % (
+            self.swf_url(),
+            self.adjusted_width,
+            self.adjusted_height,
+            simplejson.dumps(self.flashvars()),
+        ))
 
 ###############################################################################
 

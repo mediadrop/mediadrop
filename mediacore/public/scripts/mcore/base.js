@@ -24,6 +24,7 @@ goog.require('mcore.Cooliris');
 goog.require('mcore.comments.CommentForm');
 goog.require('mcore.excerpts.Excerpt');
 goog.require('mcore.likes.LikeThis');
+goog.require('mcore.players.FlashPlayer');
 goog.require('mcore.players.initHtml5Player');
 goog.require('mcore.popups.SimplePopup');
 
