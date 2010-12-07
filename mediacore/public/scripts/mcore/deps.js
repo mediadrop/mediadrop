@@ -2,7 +2,7 @@
 // Please do not edit.
 goog.addDependency('../mcore/base.js', ['mcore', 'mcore.initPage'], ['goog.array', 'goog.dom', 'mcore.Cooliris', 'mcore.comments.CommentForm', 'mcore.excerpts.Excerpt', 'mcore.likes.LikeThis', 'mcore.players.FlashPlayer', 'mcore.players.Html5Player', 'mcore.players.MultiPlayer', 'mcore.popups.SimplePopup']);
 goog.addDependency('../mcore/comments.js', ['mcore.comments', 'mcore.comments.CommentForm'], ['goog.dom', 'goog.dom.classes', 'goog.dom.forms', 'goog.fx.dom.Fade', 'goog.style', 'goog.ui.Component', 'goog.ui.LabelInput', 'mcore.fx.SlideIntoView', 'mcore.net.FormXhrIo']);
-goog.addDependency('../mcore/cooliris.js', ['mcore.Cooliris'], ['goog.dom.classes', 'goog.events', 'goog.style', 'goog.ui.Component', 'goog.ui.media.FlashObject', 'mcore.fx.SlideIntoView']);
+goog.addDependency('../mcore/cooliris.js', ['mcore.Cooliris'], ['goog.dom.classes', 'goog.events', 'goog.style', 'goog.ui.Component', 'goog.ui.media.FlashObject', 'goog.userAgent.flash', 'mcore.fx.SlideIntoView']);
 goog.addDependency('../mcore/deps.js', [], []);
 goog.addDependency('../mcore/excerpts.js', ['mcore.excerpts', 'mcore.excerpts.Excerpt'], ['goog.fx.dom.ResizeHeight', 'goog.style', 'goog.ui.Component']);
 goog.addDependency('../mcore/fx.js', ['mcore.fx', 'mcore.fx.SlideIntoView'], ['goog.fx.dom.ResizeHeight', 'goog.style']);

@@ -22,6 +22,7 @@ goog.require('goog.events');
 goog.require('goog.style');
 goog.require('goog.ui.Component');
 goog.require('goog.ui.media.FlashObject');
+goog.require('goog.userAgent.flash');
 goog.require('mcore.fx.SlideIntoView');
 
 
@@ -53,7 +54,7 @@ mcore.Cooliris = function(width, height, flashVars) {
 
   /**
    * The currently displayed feed URL.
-   * @type {string}
+   * @type {string|null}
    * @private
    */
   this.feedUrl_ = flashVars['feed'];
@@ -66,6 +67,19 @@ goog.inherits(mcore.Cooliris, goog.ui.Component);
  * @type {string}
  */
 mcore.Cooliris.FLASH_URL = 'http://apps.cooliris.com/embed/cooliris.swf';
+
+
+/**
+ * Check that flash is installed before decorating and hide the element if not.
+ * @inheritDoc
+ * */
+mcore.Cooliris.prototype.decorate = function(element) {
+  if (goog.userAgent.flash.HAS_FLASH) {
+    goog.base(this, 'decorate', element);
+  } else {
+    element.style.display = 'none';
+  }
+};
 
 
 /**
@@ -184,6 +198,9 @@ mcore.Cooliris.prototype.disposeInternal = function() {
   this.cats_ = null;
   this.catsBtn_ = null;
   this.wall_ = null;
+  this.flashVars_ = null;
+  this.size_ = null;
+  this.feedUrl_ = null;
 };
 
 
