@@ -71,7 +71,7 @@
 				style: 'light',
 				tilt: 5
 			});
-			setTimeout(myCooliris.decorate.apply(myCooliris, [document.getElementById('cooliris-box')]), 150);
+			setTimeout(function(){ myCooliris.decorate(document.getElementById('cooliris-box')); }, 150);
 		</script>
 	</py:if>
 		<div id="explore-popular" class="m-grid-column" style="margin-right:20px">
