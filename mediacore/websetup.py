@@ -43,7 +43,6 @@ appearance_settings = [
     (u'appearance_enable_featured_items', u'True'),
     (u'appearance_enable_podcast_tab', u'True'),
     (u'appearance_enable_user_uploads', u'True'),
-    (u'appearance_enable_rich_text', u'True'),
     (u'appearance_display_logo', u'True'),
     (u'appearance_display_background_image', u'True'),
     (u'appearance_custom_css', u''),
