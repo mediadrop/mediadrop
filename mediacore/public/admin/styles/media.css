@@ -348,3 +348,7 @@ tr.error td[headers='thf-type'] {
 	color: #CCC;
 	text-decoration:none;
 }
+
+.hidden {
+	display: none;
+}

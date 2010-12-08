@@ -179,6 +179,11 @@ def attrs_to_dict(attrs):
     if isinstance(attrs, Stream):
         attrs = list(attrs)
         attrs = attrs and attrs[0] or []
+    if isinstance(attrs, object):
+        if getattr(attrs, '__call__', None):
+            attrs = attrs.__call__()
+        else:
+            attrs = dict(attrs or [])
     if not isinstance(attrs, dict):
         attrs = dict(attrs or ())
     return attrs

@@ -167,9 +167,6 @@ class UploadForm(ListForm):
         ListFieldSet('legal_wording', suppress_label=True, legend=_('Legal Wording:'), css_classes=['details_fieldset'], children=[
             XHTMLTextArea('wording_user_uploads', label_text=_('User Uploads'), attrs=dict(rows=15, cols=25)),
         ]),
-        ListFieldSet('default_wording', suppress_label=True, legend=_('Default Form Values:'), css_classes=['details_fieldset'], children=[
-            TextArea('wording_additional_notes', label_text=_('Additional Notes'), attrs=dict(rows=3, cols=25)),
-        ]),
         SubmitButton('save', default=_('Save'), css_classes=['btn', 'btn-save', 'blue', 'f-rgt']),
         ResetButton('cancel', default=_('Cancel'), css_classes=['btn', 'btn-cancel']),
     ]
@@ -238,6 +235,12 @@ class GeneralForm(ListForm):
                 options=rich_text_editors,
                 validator=OneOf([x[0] for x in rich_text_editors]),
             ),
+            ListFieldSet('default_wording', suppress_label=True, legend=_('Administrative notes on Media:'), css_classes=['details_fieldset'], children=[
+                CheckBox('wording_display_administrative_notes',
+                    label_text=_('Display notes'),
+                    validator=Bool(if_missing='')),
+                TextArea('wording_administrative_notes', label_text=_('Administrative Notes'), attrs=dict(rows=3, cols=25)),
+            ]),
         ]),
         SubmitButton('save', default=_('Save'), css_classes=['btn', 'btn-save', 'blue', 'f-rgt']),
         ResetButton('cancel', default=_('Cancel'), css_classes=['btn', 'btn-cancel']),
