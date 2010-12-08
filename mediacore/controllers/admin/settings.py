@@ -33,7 +33,7 @@ from mediacore.lib.helpers import redirect, url_for
 from mediacore.lib.templating import render
 from mediacore.model import Media, MultiSetting, Setting, fetch_row
 from mediacore.model.meta import DBSession
-from mediacore.websetup import appearance_settings
+from mediacore.websetup import appearance_settings, generate_appearance_css
 
 import logging
 
@@ -66,11 +66,6 @@ sitemaps_form = SiteMapsForm(
 appearance_form = AppearanceForm(
     action=url_for(controller='/admin/settings', action='appearance_save'))
 
-def save_appearance_css(css_file=None, tmpl_vars=None, **kwargs):
-    css_file = open(css_file, 'w')
-    css_file.write(render('admin/settings/appearance_tmpl.css',
-        tmpl_vars, method='text'))
-    css_file.close()
 
 class SettingsController(BaseSettingsController):
     """
@@ -180,60 +175,17 @@ class SettingsController(BaseSettingsController):
     def appearance_save(self, **kwargs):
         """Save :class:`~mediacore.forms.admin.settings.appearanceForm`."""
         settings = app_globals.settings
-        appearance_dir = os.path.join(config['cache.dir'], 'appearance')
         accepted_extensions = ('.png', '.jpg', '.jpeg', '.gif')
         upload_field_filenames = [
             ('appearance_logo', 'logo'),
             ('appearance_background_image', 'bg_image'),
         ]
-        uikit_colors = {
-            'white': {
-                'btn_text_color': '#5c5c5e',
-                'btn_text_shadow_color': '#fff',
-                'btn_text_hover_color': '#4b4b4d'
-            },
-            'tan': {
-                'btn_text_color': '#4a3430',
-                'btn_text_shadow_color': '#fff',
-                'btn_text_hover_color': '#4a3430'
-            },
-            'purple': {
-                'btn_text_color': '#b0bcc5',
-                'btn_text_shadow_color': '#000',
-                'btn_text_hover_color': '#fff'
-            },
-            'blue': {
-                'btn_text_color': '#fff',
-                'btn_text_shadow_color': '#2d6dd1',
-                'btn_text_hover_color': '#ddd'
-            },
-            'black': {
-                'btn_text_color': '#797c7f',
-                'btn_text_shadow_color': '#000',
-                'btn_text_hover_color': '#ddd'
-            },
-            'green': {
-                'btn_text_color': '#fff',
-                'btn_text_shadow_color': '#000',
-                'btn_text_hover_color': '#ddd'
-            },
-            'brown': {
-                'btn_text_color': '#fff',
-                'btn_text_shadow_color': '#000',
-                'btn_text_hover_color': '#ddd'
-            },
-        }
 
         #Handle a reset to defaults request first
         if kwargs.get('reset', None):
             self._update_settings(dict(appearance_settings))
-            tmpl_vars = dict((k.encode('utf-8'), v) for k, v in appearance_settings)
-            tmpl_vars['uikit_colors'] = uikit_colors[
-                tmpl_vars['appearance_navigation_bar_color']]
-            tmpl_vars['navbar_color'] = tmpl_vars['appearance_navigation_bar_color']
-            css_file = os.path.join(appearance_dir, 'appearance.css')
-            save_appearance_css(css_file=css_file, tmpl_vars=tmpl_vars)
-            redirect(url_for(controller='admin/settings', action='appearance'))
+            generate_appearance_css(config, appearance_settings)
+            return redirect(controller='admin/settings', action='appearance')
 
         for field_name, file_name in upload_field_filenames:
             field = kwargs['general'].pop(field_name)
@@ -252,16 +204,9 @@ class SettingsController(BaseSettingsController):
             # Preserve existing setting
             kwargs['general'][field_name] = settings.get(field_name, '')
 
-        tmpl_vars = self._flatten_settings_from_form(c.settings,
-            appearance_form, kwargs)
-        if tmpl_vars.get('appearance_logo', None):
-            logo_path = os.path.join(appearance_dir, \
-                tmpl_vars['appearance_logo'])
-            tmpl_vars['logo_height'] = Image.open(logo_path).size[1]
-            tmpl_vars['logo_name'] = tmpl_vars['appearance_logo']
-        tmpl_vars['navbar_color'] = navbar_color = \
-            tmpl_vars['appearance_navigation_bar_color']
-        tmpl_vars['uikit_colors'] = uikit_colors.get(navbar_color)
-        css_file = os.path.join(appearance_dir, 'appearance.css')
-        save_appearance_css(css_file=css_file, tmpl_vars=tmpl_vars)
-        return self._save(appearance_form, 'appearance', values=kwargs)
+        self._save(appearance_form, values=kwargs)
+        generate_appearance_css(
+            config,
+            [(key, setting.value) for key, setting in c.settings.iteritems()],
+        )
+        redirect(action='appearance')

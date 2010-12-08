@@ -6,6 +6,9 @@ import string
 
 import pylons
 import pylons.test
+
+from genshi.template import NewTextTemplate
+from genshi.template.loader import TemplateLoader
 from pylons.i18n import N_
 from sqlalchemy.orm import class_mapper
 from migrate.versioning.api import (drop_version_control, version_control,
@@ -114,6 +117,11 @@ def setup_app(command, conf, vars):
 
     # Save everything, along with the dummy data if applicable
     DBSession.commit()
+
+    log.info('Generating appearance.css from your current settings')
+    settings = DBSession.query(Setting.key, Setting.value)
+    generate_appearance_css(config, settings)
+
     log.info('Successfully setup')
 
 def random_string(length):
@@ -332,3 +340,75 @@ def add_default_data():
         media.encoded = True
         media.reviewed = True
         media.publishable = True
+
+uikit_colors = {
+    'white': {
+        'btn_text_color': '#5c5c5e',
+        'btn_text_shadow_color': '#fff',
+        'btn_text_hover_color': '#4b4b4d',
+    },
+    'tan': {
+        'btn_text_color': '#4a3430',
+        'btn_text_shadow_color': '#fff',
+        'btn_text_hover_color': '#4a3430',
+    },
+    'purple': {
+        'btn_text_color': '#b0bcc5',
+        'btn_text_shadow_color': '#000',
+        'btn_text_hover_color': '#fff',
+    },
+    'blue': {
+        'btn_text_color': '#fff',
+        'btn_text_shadow_color': '#2d6dd1',
+        'btn_text_hover_color': '#ddd',
+    },
+    'black': {
+        'btn_text_color': '#797c7f',
+        'btn_text_shadow_color': '#000',
+        'btn_text_hover_color': '#ddd',
+    },
+    'green': {
+        'btn_text_color': '#fff',
+        'btn_text_shadow_color': '#000',
+        'btn_text_hover_color': '#ddd',
+    },
+    'brown': {
+        'btn_text_color': '#fff',
+        'btn_text_shadow_color': '#000',
+        'btn_text_hover_color': '#ddd',
+    },
+}
+
+def generate_appearance_css(config, settings):
+    """Generate the custom appearance.css file, overwriting if it exists.
+
+    :param config: The config created by
+        :func:`mediacore.config.environment.load_environment`. This can
+        also be the config from the `pylons.config` stacked object proxy.
+    :param settings: A list of settings key-value tuples.
+
+    """
+    appearance_dir = os.path.join(config['cache.dir'], 'appearance')
+    css_path = os.path.join(appearance_dir, 'appearance.css')
+
+    vars = dict((str(k), str(v)) for k, v in settings)
+    vars['uikit_colors'] = uikit_colors[
+        vars['appearance_navigation_bar_color']]
+    vars['navbar_color'] = vars['appearance_navigation_bar_color']
+    if vars['appearance_logo']:
+        logo_path = os.path.join(appearance_dir, vars['appearance_logo'])
+        vars['logo_height'] = Image.open(logo_path).size[1]
+        vars['logo_name'] = vars['appearance_logo']
+
+    # Create a simple template loader instead of using
+    # mediacore.lib.templating.render because that function only works
+    # within the context of a request, when the pylons magic globals
+    # have been populated.
+    tmpl_loader = TemplateLoader([os.path.join(here, 'templates')])
+    tmpl = tmpl_loader.load('admin/settings/appearance_tmpl.css',
+                            cls=NewTextTemplate)
+    css = tmpl.generate(**vars).render('text')
+
+    css_file = open(css_path, 'w')
+    css_file.write(css)
+    css_file.close()
