@@ -65,7 +65,7 @@
 						<form action="${h.url_for(action='delete', id=engine.id)}" method="post" class="delete-engine-form">
 							<div class="f-rgt">
 								<a py:if="engine.settings_form" href="${h.url_for(action='edit', id=engine.id)}" class="btn table-row middle f-lft"><span>edit</span></a>
-								<button class="btn table-row delete btn-inline-delete" type="submit" name="delete"><span>Delete</span></button>
+								<button class="btn table-row delete btn-inline-delete f-lft" type="submit" name="delete"><span>Delete</span></button>
 							</div>
 						</form>
 					</td>
