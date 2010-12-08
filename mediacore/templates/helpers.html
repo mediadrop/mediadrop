@@ -68,7 +68,7 @@
 			   href="${h.url_for(page=page, show=value_of('show'), q=value_of('search_query'), tag=defined('tag') and hasattr(tag, 'slug') and tag.slug or None)}"
 			   class="pager-link underline-hover"><strong py:strip="not strong">${text or page}</strong></a>
 			<span class="pager-label">Page:</span>
-			<a py:if="paginator.page &gt; paginator.first_page" py:replace="pagelink(paginator.page - 1, 'Previous', True)" />
+			<a py:if="paginator.page &gt; paginator.first_page" py:replace="pagelink(paginator.page - 1, _('Previous'), True)" />
 			<py:if test="leftmost_page > paginator.first_page">
 				<a py:replace="pagelink(paginator.first_page)" />
 				<span py:if="leftmost_page - paginator.first_page > 1" class="pager-dotdot">..</span>
@@ -81,7 +81,7 @@
 				<span py:if="paginator.last_page - rightmost_page > 1" class="pager-dotdot">..</span>
 				<a py:replace="pagelink(paginator.last_page)" />
 			</py:if>
-			<a py:if="paginator.page &lt; paginator.last_page" py:replace="pagelink(paginator.page + 1, 'Next', True)" />
+			<a py:if="paginator.page &lt; paginator.last_page" py:replace="pagelink(paginator.page + 1, _('Next'), True)" />
 		</div>
 	</py:def>
 

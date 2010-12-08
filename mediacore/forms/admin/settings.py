@@ -274,13 +274,13 @@ class APIForm(ListForm):
     submit_text = None
 
     fields = [
-        boolean_radiobuttonlist('api_secret_key_required', label_text='Require a key to access the API'),
-        ListFieldSet('key', suppress_label=True, legend='API Key:', css_classes=['details_fieldset'], children=[
-            TextField('api_secret_key', label_text='Access Key'),
+        boolean_radiobuttonlist('api_secret_key_required', label_text=_('Require a key to access the API')),
+        ListFieldSet('key', suppress_label=True, legend=_('API Key:'), css_classes=['details_fieldset'], children=[
+            TextField('api_secret_key', label_text=_('Access Key')),
         ]),
-        ListFieldSet('prefs', suppress_label=True, legend='API Settings:', css_classes=['details_fieldset'], children=[
-            TextField('api_media_max_results', label_text='Max media results'),
-            TextField('api_tree_max_depth', label_text='Max tree depth'),
+        ListFieldSet('prefs', suppress_label=True, legend=_('API Settings:'), css_classes=['details_fieldset'], children=[
+            TextField('api_media_max_results', label_text=_('Max media results')),
+            TextField('api_tree_max_depth', label_text=_('Max tree depth')),
         ]),
         SubmitButton('save', default='Save', css_classes=['btn', 'btn-save', 'blue', 'f-rgt']),
         ResetButton('cancel', default='Cancel', css_classes=['btn', 'btn-cancel']),
