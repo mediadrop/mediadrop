@@ -354,8 +354,13 @@ def filter_vulgarity(text):
     :rtype: string
 
     """
-    settings = app_globals.settings
-    if settings.get('vulgarity_filtered_words', None):
-        for fw in settings['vulgarity_filtered_words'].split(','):
-            text = re.sub('(?i)%s' % fw, '*'*len(fw), text)
+    vulgar_words = app_globals.settings.get('vulgarity_filtered_words', None)
+    if vulgar_words:
+        words = (word.strip() for word in vulgar_words.split(','))
+        word_pattern = '|'.join(re.escape(word) for word in words if word)
+        word_expr = re.compile(word_pattern, re.IGNORECASE)
+        def word_replacer(matchobj):
+            word = matchobj.group(0)
+            return '*' * len(word)
+        text = word_expr.sub(word_replacer, text)
     return text
