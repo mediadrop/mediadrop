@@ -74,11 +74,14 @@ a:hover {
 * html .clearfix { height: 1% }
 
 /* MediaCore default layout */
+#mcore-site-title,
 #mcore-logo {
-	background: url('../images/layout/logo.png') no-repeat left;
 	height: 28px;
 	width: 920px;
 	margin: 10px auto;
+}
+#mcore-logo {
+	background: url('../images/layout/logo.png') no-repeat left;
 }
 #mcore-logo a {
 	height: 0px;

@@ -35,7 +35,18 @@
 
 <body py:match="body" py:attrs="select('@*')">
 	<div id="mcore-custom-header">${Markup(g.settings['appearance_custom_header_html'])}</div>
-	<h1 py:if="g.settings['appearance_display_logo']" id="mcore-logo"><a href="${h.url_for('/')}">${g.settings['general_site_name']}</a></h1>
+	<py:choose test="bool(g.settings.get('appearance_display_logo', '') and g.settings.get('appearance_logo', ''))">
+		<py:when test="1">
+			<h1 id="mcore-logo">
+				<a href="${h.url_for('/')}">${g.settings['general_site_name']}</a>
+			</h1>
+		</py:when>
+		<py:otherwise>
+			<h1 id="mcore-site-title">
+				<a class="mcore-link underline-hover" href="${h.url_for('/')}">${g.settings['general_site_name']} - ${g.settings['general_tag_line']}</a>
+			</h1>
+		</py:otherwise>
+	</py:choose>
 
 	<div py:replace="select('*|text()|comment()')">Content is injected here</div>
 
