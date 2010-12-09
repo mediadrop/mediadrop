@@ -344,6 +344,7 @@ class MediaController(BaseController):
         media = fetch_row(Media, slug=slug)
 
         c = Comment()
+        name = filter_vulgarity(name)
         c.author = AuthorWithIP(name, email, request.environ['REMOTE_ADDR'])
         c.subject = 'Re: %s' % media.title
         c.body = filter_vulgarity(body)
