@@ -406,8 +406,7 @@ def generate_appearance_css(config, settings):
     # within the context of a request, when the pylons magic globals
     # have been populated.
     tmpl_loader = TemplateLoader([os.path.join(here, 'templates')])
-    tmpl = tmpl_loader.load('admin/settings/appearance_tmpl.css',
-                            cls=NewTextTemplate)
+    tmpl = tmpl_loader.load('appearance.css', cls=NewTextTemplate)
     css = tmpl.generate(**vars).render('text')
 
     css_file = open(css_path, 'w')
