@@ -171,8 +171,12 @@ def attrs_to_dict(attrs):
 
         <link py:match="link" py:if="h.attrs_to_dict(select('@*'))['rel'] == 'alternate'">
 
+    XXX: There is an edge case where a function may be passed in as a result of using a lambda in a
+         Tosca Widgets form definition to generate a dynamic container_attr value.
+         In this rare case we are checking for a callable, and using that value.
+
     :param attrs: A collection of attrs
-    :type attrs: :class:`genshi.core.Stream`, :class:`genshi.core.Attrs`,
+    :type attrs: :class:`genshi.core.Stream`, :class:`genshi.core.Attrs`, :function:
         ``list`` of 2-tuples, ``dict``
     :returns: All attrs
     :rtype: ``dict``
@@ -180,11 +184,8 @@ def attrs_to_dict(attrs):
     if isinstance(attrs, Stream):
         attrs = list(attrs)
         attrs = attrs and attrs[0] or []
-    if isinstance(attrs, object):
-        if getattr(attrs, '__call__', None):
-            attrs = attrs.__call__()
-        else:
-            attrs = dict(attrs or [])
+    if callable(attrs):
+        attrs = attrs()
     if not isinstance(attrs, dict):
         attrs = dict(attrs or ())
     return attrs
