@@ -13,7 +13,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import logging
 import warnings
 import simplejson
 
@@ -25,13 +24,16 @@ from paste.deploy.converters import asbool
 from pylons import request, response, tmpl_context
 from pylons.decorators.cache import create_cache_key, _make_dict_from_args
 from pylons.decorators.util import get_pylons
+from webob.exc import HTTPOk, HTTPRedirection
 
 from mediacore.lib.paginate import paginate
 from mediacore.lib.templating import render
+from mediacore.model.meta import DBSession
 
-log = logging.getLogger(__name__)
-
-__all__ = ['expose', 'expose_xhr', 'paginate', 'validate', 'beaker_cache']
+__all__ = [
+    'autocommit', 'beaker_cache', 'expose',
+    'expose_xhr', 'paginate', 'validate',
+]
 
 # TODO: Rework all decorators to use the decorators module. By using it,
 #       the function signature of the original action method is preserved,
@@ -505,3 +507,19 @@ def memoize(func):
     """
     func.cache = {}
     return decorator(_memoize, func)
+
+def _autocommit(func, *args, **kwargs):
+    try:
+        result = func(*args, **kwargs)
+    except(HTTPOk, HTTPRedirection):
+        DBSession.commit()
+        raise
+    except:
+        DBSession.rollback()
+        raise
+    DBSession.commit()
+    return result
+
+def autocommit(func):
+    """Automatically handle database transactions for decorated controller actions"""
+    return decorator(_autocommit, func)
