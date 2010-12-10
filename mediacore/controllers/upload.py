@@ -178,7 +178,8 @@ class UploadController(BaseController):
         media_obj.title = title
         media_obj.slug = get_available_slug(Media, title)
         media_obj.description = description
-        media_obj.notes = app_globals.settings['wording_additional_notes']
+        if app_globals.settings['wording_display_administrative_notes']:
+            media_obj.notes = app_globals.settings['wording_administrative_notes']
         media_obj.set_tags(tags)
 
         # Give the Media object an ID.
