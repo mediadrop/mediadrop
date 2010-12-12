@@ -36,7 +36,7 @@ from mediacore import USER_AGENT
 from mediacore.forms.comments import PostCommentSchema
 from mediacore.lib import helpers
 from mediacore.lib.base import BaseController
-from mediacore.lib.decorators import expose, expose_xhr, observable, paginate, validate, validate_xhr
+from mediacore.lib.decorators import expose, expose_xhr, observable, paginate, validate, validate_xhr, autocommit
 from mediacore.lib.email import send_comment_notification
 from mediacore.lib.helpers import (file_path, filter_vulgarity, pick_uris,
     redirect, store_transient_message, url_for)
@@ -304,6 +304,7 @@ class MediaController(BaseController):
 
     @expose_xhr()
     @validate_xhr(comment_schema, error_handler=view)
+    @autocommit
     @observable(events.MediaController.comment)
     def comment(self, slug, name='', email=None, body='', **kwargs):
         """Post a comment from :class:`~mediacore.forms.comments.PostCommentForm`.

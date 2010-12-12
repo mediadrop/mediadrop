@@ -28,7 +28,8 @@ from mediacore.forms.admin.settings import (AppearanceForm, APIForm,
     AnalyticsForm, CommentsForm, GeneralForm, NotificationsForm,
     PopularityForm, SiteMapsForm, UploadForm)
 from mediacore.lib.base import BaseSettingsController
-from mediacore.lib.decorators import expose, expose_xhr, paginate, validate
+from mediacore.lib.decorators import (autocommit, expose, expose_xhr,
+    paginate, validate)
 from mediacore.lib.helpers import filter_vulgarity, redirect, url_for
 from mediacore.lib.templating import render
 from mediacore.model import Comment, Media, MultiSetting, Setting, fetch_row
@@ -119,6 +120,7 @@ class SettingsController(BaseSettingsController):
 
     @expose()
     @validate(popularity_form, error_handler=popularity)
+    @autocommit
     def popularity_save(self, **kwargs):
         """Save :class:`~mediacore.forms.admin.settings.PopularityForm`.
 

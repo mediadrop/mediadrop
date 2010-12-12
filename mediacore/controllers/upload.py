@@ -23,7 +23,8 @@ from pylons.controllers.util import abort
 from mediacore.forms.uploader import UploadForm
 from mediacore.lib import email
 from mediacore.lib.base import BaseController
-from mediacore.lib.decorators import expose, expose_xhr, observable, paginate, validate
+from mediacore.lib.decorators import (autocommit, expose, expose_xhr,
+    observable, paginate, validate)
 from mediacore.lib.helpers import redirect, url_for
 from mediacore.lib.storage import add_new_media_file
 from mediacore.lib.thumbnails import create_default_thumbs_for, has_thumbs
@@ -171,6 +172,7 @@ class UploadController(BaseController):
     def failure(self, **kwargs):
         return dict()
 
+    @autocommit
     def save_media_obj(self, name, email, title, description, tags, uploaded_file, url):
         # create our media object as a status-less placeholder initially
         media_obj = Media()

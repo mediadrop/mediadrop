@@ -21,7 +21,8 @@ import webob.exc
 from mediacore.forms.admin.users import UserForm
 from mediacore.lib import helpers
 from mediacore.lib.base import BaseController
-from mediacore.lib.decorators import expose, expose_xhr, observable, paginate, validate
+from mediacore.lib.decorators import (autocommit, expose, expose_xhr,
+    observable, paginate, validate)
 from mediacore.lib.helpers import redirect, url_for
 from mediacore.model import Group, User, fetch_row, get_available_slug
 from mediacore.model.meta import DBSession
@@ -99,6 +100,7 @@ class UsersController(BaseController):
 
     @expose()
     @validate(user_form, error_handler=edit)
+    @autocommit
     @observable(events.Admin.UsersController.save)
     def save(self, id, email_address, display_name, login_details,
              delete=None, **kwargs):
@@ -144,6 +146,7 @@ class UsersController(BaseController):
 
 
     @expose('json')
+    @autocommit
     @observable(events.Admin.UsersController.delete)
     def delete(self, id, **kwargs):
         """Delete a user.

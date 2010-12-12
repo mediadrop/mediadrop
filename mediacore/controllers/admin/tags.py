@@ -22,7 +22,8 @@ from sqlalchemy import orm, sql
 from mediacore.forms.admin.tags import TagForm, TagRowForm
 from mediacore.lib import helpers
 from mediacore.lib.base import BaseController
-from mediacore.lib.decorators import expose, expose_xhr, observable, paginate, validate
+from mediacore.lib.decorators import (autocommit, expose, expose_xhr,
+    observable, paginate, validate)
 from mediacore.lib.helpers import redirect, url_for
 from mediacore.model import Tag, fetch_row, get_available_slug
 from mediacore.model.meta import DBSession
@@ -88,6 +89,7 @@ class TagsController(BaseController):
 
     @expose('json')
     @validate(tag_form)
+    @autocommit
     @observable(events.Admin.TagsController.save)
     def save(self, id, delete=False, **kwargs):
         """Save changes or create a tag.
@@ -132,6 +134,7 @@ class TagsController(BaseController):
             redirect(action='index', id=None)
 
     @expose('json')
+    @autocommit
     def bulk(self, type=None, ids=None, **kwargs):
         """Perform bulk operations on media items
 

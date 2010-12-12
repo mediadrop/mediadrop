@@ -30,7 +30,8 @@ from mediacore.forms.admin import SearchForm, ThumbForm
 from mediacore.forms.admin.media import AddFileForm, EditFileForm, MediaForm, UpdateStatusForm
 from mediacore.lib import helpers
 from mediacore.lib.base import BaseController
-from mediacore.lib.decorators import expose, expose_xhr, observable, paginate, validate, validate_xhr
+from mediacore.lib.decorators import (autocommit, expose, expose_xhr,
+    observable, paginate, validate, validate_xhr)
 from mediacore.lib.helpers import redirect, url_for
 from mediacore.lib.storage import add_new_media_file
 from mediacore.lib.templating import render
@@ -202,6 +203,7 @@ class MediaController(BaseController):
 
     @expose_xhr()
     @validate_xhr(media_form, error_handler=edit)
+    @autocommit
     @observable(events.Admin.MediaController.save)
     def save(self, id, slug, title, author_name, author_email,
              description, notes, podcast, tags, categories,
@@ -260,6 +262,7 @@ class MediaController(BaseController):
 
     @expose('json')
     @validate(add_file_form)
+    @autocommit
     @observable(events.Admin.MediaController.add_file)
     def add_file(self, id, file=None, url=None, **kwargs):
         """Save action for the :class:`~mediacore.forms.admin.media.AddFileForm`.
@@ -342,6 +345,7 @@ class MediaController(BaseController):
 
 
     @expose('json')
+    @autocommit
     @observable(events.Admin.MediaController.edit_file)
     def edit_file(self, id, file_id, file_type=None, duration=None, delete=None, bitrate=None, width_height=None, **kwargs):
         """Save action for the :class:`~mediacore.forms.admin.media.EditFileForm`.
@@ -422,6 +426,7 @@ class MediaController(BaseController):
 
 
     @expose('json')
+    @autocommit
     def merge_stubs(self, orig_id, input_id, **kwargs):
         """Merge in a newly created media item.
 
@@ -511,6 +516,7 @@ class MediaController(BaseController):
 
     @expose('json')
     @validate(thumb_form, error_handler=edit)
+    @autocommit
     @observable(events.Admin.MediaController.save_thumb)
     def save_thumb(self, id, thumb, **kwargs):
         """Save a thumbnail uploaded with :class:`~mediacore.forms.admin.ThumbForm`.
@@ -574,6 +580,7 @@ class MediaController(BaseController):
 
     @expose('json')
     @validate(update_status_form, error_handler=edit)
+    @autocommit
     @observable(events.Admin.MediaController.update_status)
     def update_status(self, id, status=None, publish_on=None, **values):
         """Update the publish status for the given media.
@@ -671,6 +678,7 @@ class MediaController(BaseController):
             rows = rows,
         )
 
+    @autocommit
     def _publish_media(self, media, publish_on=None):
         media.publishable = True
         media.publish_on = publish_on or media.publish_on or datetime.now()
@@ -680,6 +688,7 @@ class MediaController(BaseController):
             new_slug = get_available_slug(Media, media.slug[len('_stub_'):])
             media.slug = new_slug
 
+    @autocommit
     def _delete_media(self, media):
         # FIXME: Ensure that if the first file is deleted from the file system,
         #        then the second fails, the first file is deleted from the

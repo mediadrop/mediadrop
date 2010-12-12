@@ -24,7 +24,8 @@ from mediacore.forms.admin import SearchForm, ThumbForm
 from mediacore.forms.admin.podcasts import PodcastForm
 from mediacore.lib import helpers
 from mediacore.lib.base import BaseController
-from mediacore.lib.decorators import expose, expose_xhr, observable, paginate, validate
+from mediacore.lib.decorators import (autocommit, expose, expose_xhr,
+    observable, paginate, validate)
 from mediacore.lib.helpers import redirect, url_for
 from mediacore.lib.thumbnails import thumb_paths, create_thumbs_for, create_default_thumbs_for
 from mediacore.model import Author, AuthorWithIP, Podcast, fetch_row, get_available_slug
@@ -130,6 +131,7 @@ class PodcastsController(BaseController):
 
     @expose()
     @validate(podcast_form, error_handler=edit)
+    @autocommit
     @observable(events.Admin.PodcastsController.save)
     def save(self, id, slug, title, subtitle, author_name, author_email,
              description, details, feed, delete=None, **kwargs):

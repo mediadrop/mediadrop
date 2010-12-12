@@ -21,7 +21,8 @@ from sqlalchemy import orm, sql
 
 from mediacore.lib import helpers
 from mediacore.lib.base import BaseController
-from mediacore.lib.decorators import expose, observable, paginate, validate
+from mediacore.lib.decorators import (autocommit, expose, observable,
+    paginate, validate)
 from mediacore.lib.helpers import redirect, url_for
 from mediacore.lib.players import AbstractPlayer
 from mediacore.model import DBSession, fetch_row, PlayerPrefs
@@ -85,6 +86,7 @@ class PlayersController(BaseController):
         }
 
     @expose()
+    @autocommit
     def save(self, id, **kwargs):
         player = fetch_row(PlayerPrefs, id)
         form = player.settings_form

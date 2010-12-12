@@ -21,7 +21,8 @@ from sqlalchemy import orm, sql
 
 from mediacore.lib import helpers
 from mediacore.lib.base import BaseController
-from mediacore.lib.decorators import expose, observable, paginate, validate
+from mediacore.lib.decorators import (autocommit, expose, observable,
+    paginate, validate)
 from mediacore.lib.helpers import redirect, url_for
 from mediacore.lib.storage import sort_engines, StorageEngine
 from mediacore.model import DBSession, fetch_row
@@ -88,6 +89,7 @@ class StorageController(BaseController):
         }
 
     @expose()
+    @autocommit
     def save(self, id, engine_type=None, **kwargs):
         if id == 'new':
             assert engine_type is not None, 'engine_type must be specified when saving a new StorageEngine.'
