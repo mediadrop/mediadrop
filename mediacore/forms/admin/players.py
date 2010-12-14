@@ -89,6 +89,7 @@ class HTML5OrFlashPrefsForm(PlayerPrefsForm):
                 (False, _('Yes, use the Flash Player when the device supports it.')),
                 (True, _('No, use the HTML5 Player when the device supports it.')),
             ),
+            css_classes=['options'],
             label_text=_('Prefer the Flash Player when possible'),
             validator=StringBool,
         ),
@@ -136,6 +137,7 @@ class YoutubeFlashPlayerPrefsForm(PlayerPrefsForm):
                 CheckBox('showinfo', label_text=_('Display information like the video title and rating before the video starts playing.')),
                 CheckBox('nocookie', label_text=_('Enable privacy-enhanced mode.')),
             ],
+            css_classes=['options'],
         )
     ] + PlayerPrefsForm.buttons
 
