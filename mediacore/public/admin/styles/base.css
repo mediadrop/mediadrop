@@ -736,3 +736,28 @@ input.submitbutton {
 	font-size :14px;
 	margin-top: 1px;
 }
+
+
+/* Styles for tables that include status columns,
+ * like the Storage Engine and Players index tables */
+.status-enabled,
+.status-disabled {
+	width: 16px;
+	height: 12px;
+	padding-left: 16px;
+	background-position: 0 -2px;
+}
+.status-enabled {
+	background-image: url('../images/icons/green.png');
+}
+.status-disabled {
+	background-image: url('../images/icons/grey.png');
+}
+.status-table th#h-status,
+.status-table td[headers='h-status'] {
+	padding-right: 0;
+}
+.status-table td[headers='h-status'] {
+	text-align: center;
+	padding-top: 12px;
+}
