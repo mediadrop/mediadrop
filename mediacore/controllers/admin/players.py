@@ -18,6 +18,7 @@ import logging
 from pylons import request, response, session, tmpl_context
 from repoze.what.predicates import has_permission
 from sqlalchemy import orm, sql
+from webob.exc import HTTPNotFound
 
 from mediacore.lib import helpers
 from mediacore.lib.base import BaseController
@@ -45,7 +46,7 @@ class PlayersController(BaseController):
                 instances for this page.
 
         """
-        players = PlayerPrefs.query.all()
+        players = PlayerPrefs.query.order_by(PlayerPrefs.priority).all()
 
         return {
             'players': players,
@@ -130,4 +131,30 @@ class PlayersController(BaseController):
         """
         player = fetch_row(PlayerPrefs, id)
         player.enabled = False
+        redirect(action='index', id=None)
+
+    @expose()
+    def reorder(self, id, direction, **kwargs):
+        """Reorder a PlayerPref.
+
+        :param id: Player ID.
+        :type id: ``int``
+        :returns: Redirect back to :meth:`index` after success.
+        """
+        if direction == 'up':
+            offset = -1
+        elif direction == 'down':
+            offset = 1
+        else:
+            return
+
+        player1 = fetch_row(PlayerPrefs, id)
+        new_priority = player1.priority + offset
+        try:
+            player2 = fetch_row(PlayerPrefs, priority=new_priority)
+            player2.priority = player1.priority
+            player1.priority = new_priority
+        except HTTPNotFound:
+            pass
+
         redirect(action='index', id=None)
