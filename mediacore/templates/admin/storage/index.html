@@ -25,12 +25,76 @@
 	<link href="${h.url_for('/admin/styles/squeezebox.css')}" media="screen" rel="stylesheet" type="text/css" />
 	<link href="${h.url_for('/admin/styles/storage.css')}" media="screen" rel="stylesheet" type="text/css" />
 	<script type="text/javascript" src="${h.url_for('/admin/scripts/modals.js')}"></script>
+	<script type="text/javascript" src="${h.url_for('/admin/scripts/confirm.js')}"></script>
 	<script type="text/javascript">
+		var msg_text = {
+			title: 'WARNING:',
+			list_title: 'Deleting this Storage Engine ({engineName}) will:',
+			delete_files: '<strong><em>Permanently delete</em></strong> all of the <strong><em>{numFiles} media files</em></strong> stored by this Storage Engine.',
+			erase_settings: 'Permanently erase its settings.',
+			disable: 'An alternative to deleting is <strong>disabling</strong>. Disabling a Storage Engine will simply prevent its use for files added from now on.',
+			sure: 'Are you sure you want to delete this Storage Engine?'
+		}
+
+		function getTR(target) {
+			// XXX: This is explicitly dependent on the structure of the table#storage-table below
+			return target.parentNode.parentNode.parentNode.parentNode;
+		}
+
+		function getTDs(target) {
+			return getTR(target).getElementsByTagName('td');
+		}
+
+		function getMsgText(target) {
+			var numFiles = getTDs(target)[3].get('text');
+			var engineName = getTDs(target)[1].get('text');
+
+			deleteMsg = [
+				'<h2>', msg_text.title, '</h2>',
+				'<p>', msg_text.list_title.replace('{engineName}', engineName.trim()), '</p>',
+				'<ul>',
+					'<li>', msg_text.erase_settings, '</li>',
+				'</ul>',
+				'<p>', msg_text.sure, '</p>',
+				'<p>', msg_text.disable, '</p>'
+				];
+
+			if (parseInt(numFiles) != 0) {
+				// Insert warning about the number of files that will be deleted.
+				deleteMsg.splice(7, 0,
+					'<li>',
+					msg_text.delete_files.replace('{numFiles}', numFiles),
+					'</li>'
+				)
+			}
+			return deleteMsg.join('');
+		}
+
 		window.addEvent('domready', function(){
 			var addModal = new Modal('add-box');
 			$('add-engine-btn').addEvent('click', function(e){
 				e = new Event(e).stop();
 				addModal.open();
+			});
+
+			var deleteConfirm = new DeleteConfirmMgr({msg: getMsgText});
+			deleteConfirm.openDialogHook = function(target, box, head, text, buttons, cancelButton, confirmButton) {
+				// XXX: This is explicitly dependent on the structure of the table#storage-table below
+				var id = getTR(target).get('id').substr(7);
+				var disableLink = "${h.url_for(action='disable', id='0')}".replace('0', id);
+				var disableButton = new Element('a', {
+					'class': 'btn f-rgt',
+					'style':'margin-left:20px',
+					'href': disableLink,
+					'html': '<span>Disable</span>'
+				}).inject(buttons);
+				// put the confirmbutton last in the XHTML, so that the disableButton floats to the right of it.
+				buttons.removeChild(confirmButton).inject(buttons);
+			}
+
+			var deleteButtons = $$$$('.delete-engine-form .delete')
+			deleteButtons.each(function(el) {
+				el.addEvent('click', deleteConfirm.openConfirmDialog.bind(deleteConfirm));
 			});
 		});
 	</script>
@@ -56,7 +120,7 @@
 				<tr py:if="len(engines) == 0">
 					<td>None Found</td>
 				</tr>
-				<tr py:for="engine in engines">
+				<tr py:for="engine in engines" id="engine-${engine.id}">
 					<td headers="h-status" py:with="enabled = engine.enabled and 'Enabled' or 'Disabled'">
 						<a href="${h.url_for(action=engine.enabled and 'disable' or 'enable', id=engine.id)}" class="status-${enabled.lower()}" title="${enabled}"></a>
 					</td>

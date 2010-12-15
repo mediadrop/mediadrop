@@ -66,6 +66,8 @@ var ConfirmMgr = new Class({
 		cancelButton.addEvent('click', this.cancel.pass(target, this));
 		confirmButton.addEvent('click', this.confirm.pass(target, this));
 
+		this.openDialogHook(target, box, head, text, buttons, cancelButton, confirmButton)
+
 		SqueezeBox.fromElement(box, {
 			size: {x: 630, y: 400},
 			handler: 'fittedAdopt',
@@ -85,6 +87,10 @@ var ConfirmMgr = new Class({
 				}
 			}.bind(this)
 		});
+	},
+
+	openDialogHook: function(box, head, text, buttons, cancelButton, confirmButton) {
+		// Only implemented in subclasses.
 	},
 
 	cancel: function(target){
