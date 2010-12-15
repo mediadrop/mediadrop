@@ -107,3 +107,27 @@ class PlayersController(BaseController):
         DBSession.flush()
         cleanup_players_table()
         redirect(action='index', id=None)
+
+    @expose()
+    def enable(self, id, **kwargs):
+        """Enable a PlayerPref.
+
+        :param id: Player ID.
+        :type id: ``int``
+        :returns: Redirect back to :meth:`index` after success.
+        """
+        player = fetch_row(PlayerPrefs, id)
+        player.enabled = True
+        redirect(action='index', id=None)
+
+    @expose()
+    def disable(self, id, **kwargs):
+        """Disable a PlayerPref.
+
+        :param id: Player ID.
+        :type id: ``int``
+        :returns: Redirect back to :meth:`index` after success.
+        """
+        player = fetch_row(PlayerPrefs, id)
+        player.enabled = False
+        redirect(action='index', id=None)

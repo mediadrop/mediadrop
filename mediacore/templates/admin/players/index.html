@@ -56,8 +56,12 @@
 					<td>None Found</td>
 				</tr>
 				<tr py:for="player in players">
-					<td headers="h-status" py:with="enabled = player.enabled and 'Enabled' or 'Disabled'"><span class="status-${enabled.lower()}" title="${enabled}" /></td>
-					<td headers="h-display_name"><a href="${h.url_for(action='edit', id=player.id)}" py:content="player.display_name" py:strip="not player.settings_form">Display Name</a></td>
+					<td headers="h-status" py:with="enabled = player.enabled and 'Enabled' or 'Disabled'">
+						<a href="${h.url_for(action=player.enabled and 'disable' or 'enable', id=player.id)}" class="status-${enabled.lower()}" title="${enabled}"></a>
+					</td>
+					<td headers="h-display_name">
+						<a href="${h.url_for(action='edit', id=player.id)}" py:content="player.display_name" py:strip="not player.settings_form">Display Name</a>
+					</td>
 					<td headers="h-priority" style="text-align:center">${player.enabled and str(player.priority) or '-'}</td>
 					<td headers="h-btns">
 						<div class="f-rgt">
