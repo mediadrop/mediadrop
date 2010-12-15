@@ -119,3 +119,27 @@ class StorageController(BaseController):
         :type id: ``int``
         :returns: Redirect back to :meth:`index` after successful delete.
         """
+
+    @expose()
+    def enable(self, id, **kwargs):
+        """Enable a StorageEngine.
+
+        :param id: Storage ID.
+        :type id: ``int``
+        :returns: Redirect back to :meth:`index` after success.
+        """
+        engine = fetch_row(StorageEngine, id)
+        engine.enabled = True
+        redirect(action='index', id=None)
+
+    @expose()
+    def disable(self, id, **kwargs):
+        """Disable a StorageEngine.
+
+        :param id: engine ID.
+        :type id: ``int``
+        :returns: Redirect back to :meth:`index` after success.
+        """
+        engine = fetch_row(StorageEngine, id)
+        engine.enabled = False
+        redirect(action='index', id=None)

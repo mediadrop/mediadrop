@@ -57,8 +57,12 @@
 					<td>None Found</td>
 				</tr>
 				<tr py:for="engine in engines">
-					<td headers="h-status" py:with="enabled = engine.enabled and 'Enabled' or 'Disabled'"><span class="status-${enabled.lower()}" title="${enabled}" /></td>
-					<td headers="h-display_name"><a href="${h.url_for(action='edit', id=engine.id)}" py:content="engine.display_name">Display Name</a></td>
+					<td headers="h-status" py:with="enabled = engine.enabled and 'Enabled' or 'Disabled'">
+						<a href="${h.url_for(action=engine.enabled and 'disable' or 'enable', id=engine.id)}" class="status-${enabled.lower()}" title="${enabled}"></a>
+					</td>
+					<td headers="h-display_name">
+						<a href="${h.url_for(action='edit', id=engine.id)}" py:content="engine.display_name" py:strip="not engine.settings_form">Display Name</a>
+					</td>
 					<td headers="h-file-size" style="text-align:right">${h.pretty_file_size(engine.file_size_sum)}</td>
 					<td headers="h-file-count" style="text-align:center">${engine.file_count}</td>
 					<td headers="h-btns">
