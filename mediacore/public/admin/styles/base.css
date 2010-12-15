@@ -773,3 +773,22 @@ input.submitbutton {
 	text-align: center;
 	padding-top: 12px;
 }
+
+.uparrow,
+.downarrow {
+	height: 0;
+	width: 0;
+	padding-top: 16px;
+	padding-left: 16px;
+	overflow: hidden;
+}
+.uparrow > span,
+.downarrow > span {
+	display: none;
+}
+.uparrow {
+	background-image: url('../images/icons/up.png');
+}
+.downarrow {
+	background-image: url('../images/icons/down.png');
+}

@@ -63,8 +63,8 @@
 						<a href="${h.url_for(action='edit', id=player.id)}" py:content="player.display_name" py:strip="not player.settings_form">Display Name</a>
 					</td>
 					<td headers="h-priority" style="text-align:center">
-						<a href="${h.url_for(action='reorder', id=player.id, direction='up')}">u</a>
-						<a href="${h.url_for(action='reorder', id=player.id, direction='down')}">d</a>
+						<a href="${h.url_for(action='reorder', id=player.id, direction='up')}" class="goog-inline-block uparrow">u</a>
+						<a href="${h.url_for(action='reorder', id=player.id, direction='down')}" class="goog-inline-block downarrow">d</a>
 					</td>
 					<td headers="h-btns">
 						<div class="f-rgt">
