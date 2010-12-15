@@ -116,7 +116,6 @@ class NotificationsForm(ListForm):
             TextField('email_send_from', validator=email_validator, label_text=_('Send Emails From'), maxlength=255),
         ]),
         SubmitButton('save', default=_('Save'), css_classes=['btn', 'btn-save', 'blue', 'f-rgt']),
-        ResetButton('cancel', default=_('Cancel'), css_classes=['btn', 'btn-cancel']),
     ]
 
 class PopularityForm(ListForm):
@@ -136,7 +135,6 @@ class PopularityForm(ListForm):
             ]
         ),
         SubmitButton('save', default=_('Save'), css_classes=['btn', 'btn-save', 'blue', 'f-rgt']),
-        ResetButton('cancel', default=_('Cancel'), css_classes=['btn', 'btn-cancel']),
     ]
 
 class MegaByteValidator(Int):
@@ -171,7 +169,6 @@ class UploadForm(ListForm):
             TextArea('wording_additional_notes', label_text=_('Additional Notes'), attrs=dict(rows=3, cols=25)),
         ]),
         SubmitButton('save', default=_('Save'), css_classes=['btn', 'btn-save', 'blue', 'f-rgt']),
-        ResetButton('cancel', default=_('Cancel'), css_classes=['btn', 'btn-cancel']),
     ]
 
 class AnalyticsForm(ListForm):
@@ -184,7 +181,6 @@ class AnalyticsForm(ListForm):
             TextField('google_analytics_uacct', maxlength=255, label_text=_('Tracking Code')),
         ]),
         SubmitButton('save', default=_('Save'), css_classes=['btn', 'btn-save', 'blue', 'f-rgt']),
-        ResetButton('cancel', default=_('Cancel'), css_classes=['btn', 'btn-cancel']),
     ]
 
 class SiteMapsForm(ListForm):
@@ -210,7 +206,6 @@ class SiteMapsForm(ListForm):
             ]
         ),
         SubmitButton('save', default=_('Save'), css_classes=['btn', 'btn-save', 'blue', 'f-rgt']),
-        ResetButton('cancel', default=_('Cancel'), css_classes=['btn', 'btn-cancel']),
     ]
 
 class GeneralForm(ListForm):
@@ -240,7 +235,6 @@ class GeneralForm(ListForm):
             ),
         ]),
         SubmitButton('save', default=_('Save'), css_classes=['btn', 'btn-save', 'blue', 'f-rgt']),
-        ResetButton('cancel', default=_('Cancel'), css_classes=['btn', 'btn-cancel']),
     ]
 
 class CommentsForm(ListForm):
@@ -261,7 +255,6 @@ class CommentsForm(ListForm):
             CheckBox('run_filter_now', label_text=_('Run Filter Now')),
         ]),
         SubmitButton('save', default=_('Save'), css_classes=['btn', 'btn-save', 'blue', 'f-rgt']),
-        ResetButton('cancel', default=_('Cancel'), css_classes=['btn', 'btn-cancel']),
     ]
 
 class APIForm(ListForm):
@@ -280,7 +273,6 @@ class APIForm(ListForm):
             TextField('api_tree_max_depth', label_text='Max tree depth'),
         ]),
         SubmitButton('save', default='Save', css_classes=['btn', 'btn-save', 'blue', 'f-rgt']),
-        ResetButton('cancel', default='Cancel', css_classes=['btn', 'btn-cancel']),
     ]
 
 class AppearanceForm(ListForm):

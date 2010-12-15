@@ -51,10 +51,6 @@ class StorageForm(ListForm):
             default=_('Save'),
             css_classes=['btn', 'btn-save', 'blue', 'f-rgt'],
         ),
-        SubmitButton('delete',
-            default=_('Delete'),
-            css_classes=['btn', 'btn-delete', 'f-lft'],
-        ),
     ]
 
     def display(self, value, **kwargs):
