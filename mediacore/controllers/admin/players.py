@@ -24,7 +24,8 @@ from mediacore.lib.base import BaseController
 from mediacore.lib.decorators import expose, observable, paginate, validate
 from mediacore.lib.helpers import redirect, url_for
 from mediacore.lib.players import AbstractPlayer
-from mediacore.model import DBSession, fetch_row, PlayerPrefs
+from mediacore.model import (DBSession, PlayerPrefs, fetch_row,
+    cleanup_players_table)
 from mediacore.plugin import events
 
 log = logging.getLogger(__name__)
@@ -87,11 +88,22 @@ class PlayersController(BaseController):
 
         return save(id, **kwargs)
 
-    @expose('json')
+    @expose()
     def delete(self, id, **kwargs):
-        """Delete a user.
+        """Delete a PlayerPref.
 
-        :param id: User ID.
+        After deleting the PlayerPref, cleans up the players table,
+        ensuring that each Player class is represented
+        If the deleted PlayerPref is the last example of that Player class,
+        creates a new, 'disabled', PlayerPref for that Player class with
+        the default settings.
+
+        :param id: Player ID.
         :type id: ``int``
         :returns: Redirect back to :meth:`index` after successful delete.
         """
+        player = fetch_row(PlayerPrefs, id)
+        DBSession.delete(player)
+        DBSession.flush()
+        cleanup_players_table()
+        redirect(action='index', id=None)
