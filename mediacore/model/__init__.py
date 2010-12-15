@@ -288,5 +288,5 @@ from mediacore.model.tags import Tag
 from mediacore.model.categories import Category
 from mediacore.model.media import Media, MediaFile
 from mediacore.model.podcasts import Podcast
-from mediacore.model.players import PlayerPrefs, players
+from mediacore.model.players import PlayerPrefs, players, cleanup_players_table
 from mediacore.model.storage import storage
