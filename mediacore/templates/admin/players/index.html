@@ -60,12 +60,12 @@
 					<td headers="h-display_name"><a href="${h.url_for(action='edit', id=player.id)}" py:content="player.display_name" py:strip="not player.settings_form">Display Name</a></td>
 					<td headers="h-priority" style="text-align:center">${player.enabled and str(player.priority) or '-'}</td>
 					<td headers="h-btns">
-						<form action="${h.url_for(action='delete', id=player.id)}" method="post" class="delete-player-form">
-							<div class="f-rgt">
-								<a py:if="player.settings_form" href="${h.url_for(action='edit', id=player.id)}" class="btn table-row middle f-lft"><span>edit</span></a>
-								<button class="btn table-row delete btn-inline-delete f-lft" type="submit" name="delete"><span>Delete</span></button>
-							</div>
-						</form>
+						<div class="f-rgt">
+							<a py:if="player.settings_form" href="${h.url_for(action='edit', id=player.id)}" class="btn table-row middle f-lft"><span>edit</span></a>
+							<form action="${h.url_for(action='delete', id=player.id)}" method="post" class="delete-player-form f-lft">
+								<button class="btn table-row delete" type="submit" name="delete"><span>Delete</span></button>
+							</form>
+						</div>
 					</td>
 				</tr>
 			</tbody>
