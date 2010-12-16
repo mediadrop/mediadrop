@@ -381,9 +381,14 @@ class MediaController(BaseController):
         """
         file = fetch_row(MediaFile, id=id)
 
-        file_path = helpers.file_path(file).encode('utf-8')
         file_type = file.mimetype.encode('utf-8')
         file_name = file.display_name.encode('utf-8')
+
+        file_path = helpers.file_path(file)
+        if file_path is None:
+            log.warn('No path exists for requested media file: %r', file)
+            raise HTTPNotFound()
+        file_path = file_path.encode('utf-8')
 
         if not os.path.exists(file_path):
             log.warn('No such file or directory: %r', file_path)
