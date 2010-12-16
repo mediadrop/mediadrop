@@ -477,8 +477,13 @@ a.btn.table-row:visited {
 	width: 27px;
 	background-image: url('../images/layout/btn-table-delete2.png');
 }
+.btn.table-row.delete-solo {
+	width: 26px;
+	background-image: url('../images/layout/btn-table-delete-rounded.png');
+}
 .btn.table-row.delete span,
 .btn.table-row.delete2 span,
+.btn.table-row.delete-solo span,
 .btn.table-row.publish span,
 .btn.table-row.published span {
 	display: none;
