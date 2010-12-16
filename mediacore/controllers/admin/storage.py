@@ -113,12 +113,19 @@ class StorageController(BaseController):
 
     @expose('json')
     def delete(self, id, **kwargs):
-        """Delete a user.
+        """Delete a StorageEngine.
 
-        :param id: User ID.
+        :param id: Storage ID.
         :type id: ``int``
         :returns: Redirect back to :meth:`index` after successful delete.
         """
+        engine = fetch_row(StorageEngine, id)
+        files = engine.files
+        for f in files:
+            engine.delete(f.unique_id)
+        DBSession.delete(engine)
+        redirect(action='index', id=None)
+
 
     @expose()
     def enable(self, id, **kwargs):
