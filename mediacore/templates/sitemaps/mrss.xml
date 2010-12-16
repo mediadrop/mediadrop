@@ -31,7 +31,7 @@
 			<pubDate py:content="item.publish_on.strftime('%a, %d %b %Y %H:%M:%S') + ' +0000'" />
 			<description py:content="item.description_plain" />
 			<media:thumbnail url="${h.thumb_url(item, 'l', qualified=True)}" />
-			<media:content py:attrs="dict(url=h.url_for(controller='/media', action='serve', id=file.id, container=file.container, slug=item.slug, qualified=True), duration=item.duration)"  />
+			<media:content py:attrs="dict(url=h.best_link_uri(file.get_uris()), duration=item.duration)"  />
 			<media:community>
 				<media:statistics views="${item.views}" />
 				<media:tags py:if="item.tags" py:content="', '.join(x.name for x in item.tags)" />
