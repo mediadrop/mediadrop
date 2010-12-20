@@ -21,7 +21,7 @@ from sqlalchemy import orm, sql
 from mediacore.lib.base import BaseController
 from mediacore.lib.decorators import (beaker_cache, expose, expose_xhr,
     observable, paginate, validate)
-from mediacore.lib.helpers import get_featured_category, redirect, url_for
+from mediacore.lib.helpers import redirect, url_for
 from mediacore.model import Category, Media, Podcast, fetch_row
 from mediacore.model.meta import DBSession
 from mediacore.plugin import events
@@ -74,21 +74,13 @@ class CategoriesController(BaseController):
 
         latest = media.order_by(Media.publish_on.desc())
         popular = media.order_by(Media.popularity_points.desc())
-        featured = None
 
-        featured_cat = get_featured_category()
-        if featured_cat:
-            featured = latest.in_category(featured_cat).first()
-        if not featured:
-            featured = popular.first()
-
-        latest = latest.exclude(featured)[:5]
-        popular = popular.exclude(latest, featured)[:5]
+        latest = latest[:5]
+        popular = popular.exclude(latest)[:5]
 
         return dict(
-            featured=featured,
-            latest=latest,
-            popular=popular,
+            latest = latest,
+            popular = popular,
         )
 
     @expose('categories/more.html')
