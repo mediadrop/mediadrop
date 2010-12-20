@@ -207,6 +207,8 @@ window.DropdownSelect = new Class({
 
 		var selectProps = select.getProperties('name', 'value', 'id', 'autocomplete', 'class');
 		this.input = new Element('input', {type: 'hidden'}).setProperties(selectProps);
+		this.input.store('Dropdown', this);
+		if (select.onchange) this.input.addEvent('change', select.onchange);
 
 		wrapper.inject(this.input.replaces(select), 'after');
 
@@ -219,6 +221,7 @@ window.DropdownSelect = new Class({
 		this.buttonText.set('text', li.get('text'));
 		this.input.value = li.retrieve('DropdownSelect.value');
 		this.hide();
+		this.input.fireEvent('change', {type: 'change', target: this.input});
 		this.fireEvent('change', [this.input.get('value'), this.input]);
 		return li;
 	}
