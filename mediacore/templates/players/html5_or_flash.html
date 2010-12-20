@@ -17,24 +17,17 @@
       xmlns:py="http://genshi.edgewall.org/"
       xmlns:i18n="http://genshi.edgewall.org/i18n"
       xmlns:xi="http://www.w3.org/2001/XInclude"
-      py:strip=""
-      py:with="flash_obj = flash and flash.render_flashobject();
-               html5_obj = html5 and 'new mcore.Html5Player()';">
+      py:strip="">
 
 	<xi:include py:for="tmpl in value_of('plugin_templates', ())" href="${tmpl}" />
 
-	<div id="${player.elem_id}" py:with="error_text = _('Your browser is incapable of playing this media.')">
-		${html5 and html5(error_text) or error_text}
+	<div id="${player.elem_id}">
+		${player.render_markup()}
 	</div>
 
-	<script py:if="flash_obj and html5_obj" type="text/javascript">
+	<script type="text/javascript">
 		//<![CDATA[
-		new mcore.MultiPlayer(${'[%s, %s]' % (prefer_flash and (flash_obj, html5_obj) or (html5_obj, flash_obj))}).decorate(document.getElementById('${player.elem_id}'));
-		//]]>
-	</script>
-	<script py:if="not flash_obj or not html5_obj" type="text/javascript">
-		//<![CDATA[
-		${html5_obj or flash_obj}.decorate(document.getElementById('${player.elem_id}'));
+		${player.render_js_player}.decorate(document.getElementById('${player.elem_id}'));
 		//]]>
 	</script>
 

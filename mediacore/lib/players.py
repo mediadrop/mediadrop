@@ -56,6 +56,13 @@ class AbstractPlayer(AbstractClass):
     default_data = {}
     """An optional default data dictionary for user preferences."""
 
+    supports_resizing = True
+    """A flag that allows us to mark the few players that can't be resized.
+
+    Setting this to False ensures that the resize (expand/shrink) controls will
+    not be shown in our player control bar.
+    """
+
     @abstractmethod
     def can_play(cls, uris):
         """Test all the given URIs to see if they can be played by this player.
@@ -70,13 +77,25 @@ class AbstractPlayer(AbstractClass):
         """
 
     @abstractmethod
-    def render(self, **kwargs):
-        """Render this player instance.
+    def render_markup(self):
+        """Render the XHTML markup for this player instance.
 
-        :param \*\*kwargs: Any extra options that modify how the render
-            is done. All kwargs MUST be optional; provide sane defaults.
-        :rtype: :class:`genshi.core.Markup`
-        :returns: XHTML or javascript that will not be escaped by Genshi.
+        :rtype: ``unicode`` or :class:`genshi.core.Markup`
+        :returns: XHTML that will not be escaped by Genshi.
+
+        """
+
+    @abstractmethod
+    def render_js_player(self):
+        """Render a javascript string to instantiate a javascript player.
+
+        Each player has a client-side component to provide a consistent
+        way of initializing and interacting with the player. For more
+        information see ``mediacore/public/scripts/mcore/players/``.
+
+        :rtype: ``unicode``
+        :returns: A javascript string which will evaluate to an instance
+            of a JS player class. For example: ``new mcore.Html5Player()``.
 
         """
 
@@ -159,25 +178,23 @@ class FlashRenderMixin(object):
     Mixin for rendering flash players. Used by embedtypes as well as flash.
     """
 
-    def render(self, method=None, **kwargs):
+    # TODO: Remove **kwargs from all render methods in this mixin.
+
+    def render_markup(self, method=None):
         """Render this player instance.
 
         :param method: Select whether you want an 'embed' tag, an
             'object' tag, or a 'swiff' javascript snippet. If left empty,
             returns XHTML <object><embed /></object> tags.
         :rtype: :class:`genshi.core.Markup`
-        :returns: XHTML or javascript that will not be escaped by Genshi.
+        :returns: XHTML that will not be escaped by Genshi.
 
         """
         if method is None:
-            return render('players/html5_or_flash.html', {
-                'player': self,
-                'flash': self,
-                'html5': None,
-            })
+            return None
 
         if method is 'combined':
-            object = self.render_object(**kwargs)
+            object = self.render_object()
             kwargs['id'] = None
             return object(self.render_embed(**kwargs))
 
@@ -185,7 +202,7 @@ class FlashRenderMixin(object):
             'embed': self.render_embed,
             'object': self.render_object,
             'swiff': self.render_swiff,
-            'flashobject': self.render_flashobject,
+            'jsplayer': self.render_js_player,
         }.get(method)
         return renderer(**kwargs)
 
@@ -228,8 +245,18 @@ class FlashRenderMixin(object):
         params = simplejson.dumps(params)
         return Markup("new Swiff('%s', %s)" % (self.swf_url(), params))
 
-    def render_flashobject(self):
-        """Render the mediacore flash loader."""
+    def render_js_player(self):
+        """Render a javascript string to instantiate a javascript player.
+
+        Each player has a client-side component to provide a consistent
+        way of initializing and interacting with the player. For more
+        information see ``mediacore/public/scripts/mcore/players/``.
+
+        :rtype: ``unicode``
+        :returns: A javascript string which will evaluate to an instance
+            of a JS player class. For example: ``new mcore.Html5Player()``.
+
+        """
         return Markup("new mcore.FlashPlayer('%s', %d, %d, %s)" % (
             self.swf_url(),
             self.adjusted_width,
@@ -406,7 +433,7 @@ class AbstractEmbedPlayer(AbstractPlayer):
     For example, :meth:`mediacore.lib.storage.YoutubeStorage.get_uris`
     returns URIs with a scheme of `'youtube'`, and the special
     :class:`YoutubePlayer` would overload :attr:`scheme` to also be
-    `'youtube'`. This would allow the Youtube player to play those URIs.
+    `'youtube'`. This would allow the Youtube player to play only those URIs.
 
     """
     scheme = abstractproperty()
@@ -426,8 +453,44 @@ class AbstractEmbedPlayer(AbstractPlayer):
         """
         return tuple(uri.scheme == cls.scheme for uri in uris)
 
+class AbstractIframeEmbedPlayer(AbstractEmbedPlayer):
+    """
+    Abstract Embed Player for services that provide an iframe player.
 
-class VimeoUniversalEmbedPlayer(AbstractEmbedPlayer):
+    """
+    def render_js_player(self):
+        """Render a javascript string to instantiate a javascript player.
+
+        Each player has a client-side component to provide a consistent
+        way of initializing and interacting with the player. For more
+        information see ``mediacore/public/scripts/mcore/players/``.
+
+        :rtype: ``unicode``
+        :returns: A javascript string which will evaluate to an instance
+            of a JS player class. For example: ``new mcore.Html5Player()``.
+
+        """
+        return Markup("new mcore.IframePlayer()")
+
+class AbstractFlashEmbedPlayer(FlashRenderMixin, AbstractEmbedPlayer):
+    """
+    Simple Abstract Flash Embed Player
+
+    Provides sane defaults for most flash-based embed players from
+    third-party vendors, which typically never need any flashvars
+    or special configuration.
+
+    """
+    def swf_url(self):
+        """Return the flash player URL."""
+        return str(self.uris[0])
+
+    def flashvars(self):
+        """Return a python dict of flashvars for this player."""
+        return {}
+
+
+class VimeoUniversalEmbedPlayer(AbstractIframeEmbedPlayer):
     """
     Vimeo Universal Player
 
@@ -446,16 +509,22 @@ class VimeoUniversalEmbedPlayer(AbstractEmbedPlayer):
     scheme = u'vimeo'
     """The `StorageURI.scheme` which uniquely identifies this embed type."""
 
-    def render(self, **kwargs):
+    def render_markup(self):
+        """Render the XHTML markup for this player instance.
+
+        :rtype: ``unicode`` or :class:`genshi.core.Markup`
+        :returns: XHTML that will not be escaped by Genshi.
+
+        """
         uri = self.uris[0]
         tag = Element('iframe', src=uri, frameborder=0,
                       width=self.adjusted_width, height=self.adjusted_height)
         return tag
 
-AbstractEmbedPlayer.register(VimeoUniversalEmbedPlayer)
+AbstractIframeEmbedPlayer.register(VimeoUniversalEmbedPlayer)
 
 
-class DailyMotionEmbedPlayer(AbstractEmbedPlayer):
+class DailyMotionEmbedPlayer(AbstractIframeEmbedPlayer):
     """
     Daily Motion Universal Player
 
@@ -474,7 +543,13 @@ class DailyMotionEmbedPlayer(AbstractEmbedPlayer):
     scheme = u'dailymotion'
     """The `StorageURI.scheme` which uniquely identifies this embed type."""
 
-    def render(self, **kwargs):
+    def render_markup(self):
+        """Render the XHTML markup for this player instance.
+
+        :rtype: ``unicode`` or :class:`genshi.core.Markup`
+        :returns: XHTML that will not be escaped by Genshi.
+
+        """
         uri = self.uris[0]
         data = urlencode({
             'width': 560, # XXX: The native height for this width is 420
@@ -491,25 +566,7 @@ class DailyMotionEmbedPlayer(AbstractEmbedPlayer):
                       width=self.adjusted_width, height=self.adjusted_height)
         return tag
 
-AbstractEmbedPlayer.register(DailyMotionEmbedPlayer)
-
-
-class AbstractFlashEmbedPlayer(FlashRenderMixin, AbstractEmbedPlayer):
-    """
-    Simple Abstract Flash Embed Player
-
-    Provides sane defaults for most flash-based embed players from
-    third-party vendors, which typically never need any flashvars
-    or special configuration.
-
-    """
-    def swf_url(self):
-        """Return the flash player URL."""
-        return str(self.uris[0])
-
-    def flashvars(self):
-        """Return a python dict of flashvars for this player."""
-        return {}
+AbstractIframeEmbedPlayer.register(DailyMotionEmbedPlayer)
 
 
 class YoutubeFlashPlayer(AbstractFlashEmbedPlayer):
@@ -629,7 +686,13 @@ class AbstractHTML5Player(FileSupportMixin, AbstractPlayer):
                                         qualified=self.qualified)
         return attrs
 
-    def render(self):
+    def render_markup(self):
+        """Render the XHTML markup for this player instance.
+
+        :rtype: ``unicode`` or :class:`genshi.core.Markup`
+        :returns: XHTML that will not be escaped by Genshi.
+
+        """
         attrs = self.html5_attrs()
         tag = Element(self.media.type, **attrs)
         for uri in self.uris:
@@ -641,6 +704,9 @@ class AbstractHTML5Player(FileSupportMixin, AbstractPlayer):
                 mimetype = uri.file.mimetype
             tag(Element('source', src=uri, type=mimetype))
         return tag
+
+    def render_js_player(self):
+        return Markup("new mcore.Html5Player()")
 
 
 class HTML5Player(AbstractHTML5Player):
@@ -656,14 +722,6 @@ class HTML5Player(AbstractHTML5Player):
 
     display_name = N_(u'Plain HTML5 Player')
     """A unicode display name for the class, to be used in the settings UI."""
-
-    def render(self):
-        html5_tag = super(HTML5PlusFlowPlayer, self).render(**kwargs)
-        return render('players/html5_or_flash.html', {
-            'player': self,
-            'html5': html5_tag,
-            'flash': None,
-        })
 
 AbstractHTML5Player.register(HTML5Player)
 
@@ -700,17 +758,26 @@ class HTML5PlusFlowPlayer(AbstractHTML5Player):
         if flow_uris:
             self.flowplayer = FlowPlayer(media, flow_uris, **kwargs)
 
-    def render(self, **kwargs):
+    def render_js_player(self):
+        flash = self.flowplayer and self.flowplayer.render_js_player()
+        html5 = self.uris and super(HTML5PlusFlowPlayer, self).render_js_player()
+        if html5 and flash:
+            return Markup("new mcore.MultiPlayer([%s, %s])" % \
+                (self.prefer_flash and (flash, html5) or (html5, flash)))
+        if html5 or flash:
+            return html5 or flash
+        return None
+
+    def render_markup(self):
+        """Render the XHTML markup for this player instance.
+
+        :rtype: ``unicode`` or :class:`genshi.core.Markup`
+        :returns: XHTML that will not be escaped by Genshi.
+
+        """
         if self.uris:
-            html5_tag = super(HTML5PlusFlowPlayer, self).render(**kwargs)
-        else:
-            html5_tag = None
-        return render('players/html5_or_flash.html', {
-            'player': self,
-            'html5': html5_tag,
-            'flash': self.flowplayer,
-            'prefer_flash': self.prefer_flash and self.flowplayer,
-        })
+            return super(HTML5PlusFlowPlayer, self).render_markup()
+        return None
 
 AbstractHTML5Player.register(HTML5PlusFlowPlayer)
 
@@ -752,17 +819,26 @@ class HTML5PlusJWPlayer(AbstractHTML5Player):
         if jw_uris:
             self.jwplayer = JWPlayer(media, jw_uris, **kwargs)
 
-    def render(self, **kwargs):
+    def render_js_player(self):
+        flash = self.jwplayer and self.jwplayer.render_js_player()
+        html5 = self.uris and super(HTML5PlusJWPlayer, self).render_js_player()
+        if html5 and flash:
+            return Markup("new mcore.MultiPlayer([%s, %s])" % \
+                self.prefer_flash and (flash, html5) or (html5, flash))
+        if html5 or flash:
+            return html5 or flash
+        return None
+
+    def render_markup(self):
+        """Render the XHTML markup for this player instance.
+
+        :rtype: ``unicode`` or :class:`genshi.core.Markup`
+        :returns: XHTML that will not be escaped by Genshi.
+
+        """
         if self.uris:
-            html5_tag = super(HTML5PlusJWPlayer, self).render(**kwargs)
-        else:
-            html5_tag = None
-        return render('players/html5_or_flash.html', {
-            'player': self,
-            'html5': html5_tag,
-            'flash': self.jwplayer,
-            'prefer_flash': self.prefer_flash and self.jwplayer,
-        })
+            return super(HTML5PlusJWPlayer, self).render_markup()
+        return None
 
 AbstractHTML5Player.register(HTML5PlusJWPlayer)
 
@@ -784,13 +860,26 @@ class SublimePlayer(AbstractHTML5Player):
     default_data = {'script_tag': ''}
     """An optional default data dictionary for user preferences."""
 
+    supports_resizing = False
+    """A flag that allows us to mark the few players that can't be resized.
+
+    Setting this to False ensures that the resize (expand/shrink) controls will
+    not be shown in our player control bar.
+    """
+
     def html5_attrs(self):
         attrs = super(SublimePlayer, self).html5_attrs()
         attrs['class'] = (attrs.get('class', '') + ' sublime').strip()
         return attrs
 
-    def render(self, **kwargs):
-        video_tag = super(SublimePlayer, self).render(**kwargs)
+    def render_markup(self):
+        """Render the XHTML markup for this player instance.
+
+        :rtype: ``unicode`` or :class:`genshi.core.Markup`
+        :returns: XHTML that will not be escaped by Genshi.
+
+        """
+        video_tag = super(SublimePlayer, self).render()
         return video_tag + Markup(self.data['script_tag'])
 
 AbstractHTML5Player.register(SublimePlayer)
@@ -810,12 +899,12 @@ class iTunesPlayer(FileSupportMixin, AbstractPlayer):
     supported_containers = set(['mp3', 'mp4'])
     supported_schemes = set([HTTP])
 
-    def render(self, **kwargs):
-        raise NotImplementedError('iTunesPlayer cannot be rendered.')
-
 ###############################################################################
 
-def media_player(media, **kwargs):
+def media_player(media, is_widescreen=False, show_like=True, show_dislike=True,
+                 show_download=False, show_embed=False, show_playerbar=True,
+                 show_popout=True, show_resize=False, show_share=True,
+                 js_init=None, **kwargs):
     """Instantiate and render the preferred player that can play this media.
 
     We make no effort to pick the "best" player here, we simply return
@@ -829,7 +918,16 @@ def media_player(media, **kwargs):
 
     :type media: :class:`mediacore.model.media.Media`
     :param media: A media instance to play.
+
+    :param js_init: Optional function to call after the javascript player
+        controller has been instantiated. Example of a function literal:
+        ``function(controller){ controller.setFillScreen(true); }``.
+        Any function reference can be used as long as it is defined
+        in all pages and accepts the JS player controller as its first
+        and only argument.
+
     :param \*\*kwargs: Extra kwargs for :meth:`AbstractPlayer.__init__`.
+
     :rtype: `str` or `None`
     :returns: A rendered player.
     """
@@ -847,7 +945,22 @@ def media_player(media, **kwargs):
     playable_uris = [uri for uri, plays in izip(uris, can_play) if plays]
     kwargs['data'] = player_data
     player = player_cls(media, playable_uris, **kwargs)
-    return player.render()
+
+    return render('players/html5_or_flash.html', {
+        'player': player,
+        'media': media,
+        'uris': uris,
+        'is_widescreen': is_widescreen,
+        'js_init': js_init,
+        'show_like': show_like,
+        'show_dislike': show_dislike,
+        'show_download': show_download,
+        'show_embed': show_embed,
+        'show_playerbar': show_playerbar,
+        'show_popout': show_popout,
+        'show_resize': show_resize and player.supports_resizing,
+        'show_share': show_share,
+    })
 
 def pick_podcast_media_file(media):
     """Return a file playable in the most podcasting client: iTunes.
