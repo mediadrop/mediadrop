@@ -46,9 +46,15 @@ goog.require('mcore.net.FormXhrIo');
  */
 mcore.comments.CommentForm = function(opt_domHelper) {
   goog.base(this, opt_domHelper);
-  this.fade_ = null;
 };
 goog.inherits(mcore.comments.CommentForm, goog.ui.Component);
+
+
+/**
+ * Fade effect used when the form is disabled while being submitted.
+ * @type {goog.fx.Animation}
+ */
+mcore.comments.CommentForm.prototype.fade_ = null;
 
 
 /**
@@ -167,6 +173,11 @@ mcore.comments.CommentForm.prototype.injectComment = function(element) {
   var noComments = this.dom_.getElement('no-comments');
   if (noComments) {
     this.dom_.removeNode(noComments);
+  }
+  var counter = this.dom_.getElement('mcore-comments-counter');
+  if (counter) {
+    var count = Number(this.dom_.getTextContent(counter)) + 1;
+    this.dom_.setTextContent(counter, String(count));
   }
   var list = this.dom_.getElement('comments-list');
   this.dom_.appendChild(list, element);

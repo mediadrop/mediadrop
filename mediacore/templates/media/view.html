@@ -60,7 +60,7 @@
 					<span id="mcore-likes-counter">${media.likes}</span> ${ungettext(u'like', u'likes', media.likes)}
 					<span class="meta-dislikes"><span id="mcore-dislikes-counter">${media.dislikes}</span> ${ungettext(u'dislike', u'dislikes', media.dislikes)}</span>
 				</div>
-				<div class="meta-comments f-lft">${media.comment_count_published} ${ungettext(u'comment', u'comments', media.comment_count_published)}</div>
+				<div class="meta-comments f-lft"><span id="mcore-comments-counter">${media.comment_count_published}</span> ${ungettext(u'comment', u'comments', media.comment_count_published)}</div>
 			</div>
 
 			${comment_list(comments, comment_form_action, comment_form_values)}
