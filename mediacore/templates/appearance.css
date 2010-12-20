@@ -1,12 +1,10 @@
 .mcore-text {
 	color: ${appearance_text_color};
 }
-
 .mcore-body {
 	color: ${appearance_text_color};
 	background: ${appearance_background_color}{% if appearance_display_background_image and appearance_background_image %} url('/appearance/${appearance_background_image}') fixed repeat{% end %};
 }
-
 a:link {
 	color: ${appearance_link_color};
 }
@@ -14,60 +12,53 @@ a:visited,
 .grid-title {
 	color: ${appearance_visited_link_color};
 }
-
 a.mcore-heading:link,
 a.mcore-heading:visited {
 	color: ${appearance_heading_color};
 }
-
 .mcore-heading {
 	color: ${appearance_heading_color};
 }
-{% if appearance_logo %}\
 
+{% if appearance_logo %}\
 #mcore-logo {
 	background: url('${logo_name}') no-repeat left;
 	height: ${logo_height}px;
 }
 {% end %}
+
 /* Sectional Nav */
-#nav li a:link,
-#nav li a:visited {
+a.mcore-nav-link:link,
+a.mcore-nav-link:visited {
 	color: ${uikit_colors['btn_text_color']};
 	text-shadow: 0 -1px ${uikit_colors['btn_text_shadow_color']};
 }
-#nav li a:hover,
-#nav li a:active,
-#nav li a.active {
+a.mcore-nav-link:hover,
+a.mcore-nav-link:active,
+a.mcore-nav-link.active {
 	color: ${uikit_colors['btn_text_hover_color']};
 }
-
-.mcore-nav-box{
+.mcore-nav-box {
 	background: url('../images/layout/uikit/${navbar_color}/nav-box.png') no-repeat;
 }
-
 .mcore-nav-link {
 	background: url('../images/layout/uikit/${navbar_color}/nav-btn-edge-inner.png') no-repeat -5px 0;
 }
-.mcore-nav-link span {
+.mcore-nav-link > span {
 	background: url('../images/layout/uikit/${navbar_color}/nav-btn-bg.png') repeat-x;
 }
-.mcore-nav-link em {
+.mcore-nav-link > em {
 	background: url('../images/layout/uikit/${navbar_color}/nav-btn-edge-inner.png') no-repeat 0px 0;
 }
-
 .mcore-nav-search {
 	background: url('../images/layout/uikit/${navbar_color}/search-left.png') no-repeat;
 }
 .mcore-nav-search-btn {
 	background: url('../images/layout/uikit/${navbar_color}/search-right.png') no-repeat;
 }
-
-.mcore-nav-left a {
+.mcore-nav-left .mcore-nav-link,
+.mcore-nav-right .mcore-nav-link > em {
     background-image: url('../images/layout/uikit/${navbar_color}/nav-btn-edge-outer.png');
-}
-.mcore-nav-right a em {
-	background-image: url('../images/layout/uikit/${navbar_color}/nav-btn-edge-outer.png');
 }
 
 .mcore-btn,
@@ -76,7 +67,7 @@ a.mcore-heading:visited {
 	background: url('../images/layout/uikit/${navbar_color}/button-left.png') no-repeat;
 	text-shadow: 0 -1px ${uikit_colors['btn_text_shadow_color']};
 }
-.mcore-btn span {
+.mcore-btn > span {
 	background: url('../images/layout/uikit/${navbar_color}/button-right.png') no-repeat 100% 0;
 }
 a.mcore-btn:link,

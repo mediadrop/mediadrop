@@ -51,7 +51,7 @@
 
 <body py:match="body" py:with="attrs = h.attrs_to_dict(select('@*')); body_class = attrs.get('class', '').split(' ');" py:attrs="h.append_class_attr(attrs, 'mcore-body')">
 	<div id="nav-box" class="mcore-nav-box">
-		<ul py:if="not c.nav_hide_main" id="nav">
+		<ul py:if="not c.nav_hide_main" class="mcore-nav">
 			<li class="mcore-nav-left"><a class="${'nav-explore-on' in body_class and 'active' or None} mcore-nav-link" href="${h.url_for(controller='/media', action='explore')}"><span>Explore</span><em /></a></li>
 			<li><a class="${'nav-media-on' in body_class and 'active' or None} mcore-nav-link" href="${h.url_for(controller='/media')}"><span>Media Library</span><em /></a></li>
 			<li><a py:if="g.settings['appearance_enable_podcast_tab']" class="${'nav-podcasts-on' in body_class and 'active' or None} mcore-nav-link" href="${h.url_for(controller='/podcasts')}"><span>Podcasts</span><em /></a></li>

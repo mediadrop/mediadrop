@@ -107,20 +107,28 @@ a:hover {
 }
 
 /* Sectional Nav */
-#nav-box {
+.mcore-nav-box {
 	width: 920px;
 	padding: 14px 15px;
 	height: 38px;
 	margin: 0 auto 15px auto;
 }
-#nav {
+.mcore-nav {
 	width: 730px;
 	float: left;
+	list-style: none !important;
 }
-#nav li {
+.mcore-nav > li {
 	float: left;
 }
-#nav li a span {
+.mcore-nav-link {
+	display: block;
+	height: 38px;
+	text-decoration: none;
+	font: bold 12px arial, helvetica, sans-serif;
+	-webkit-font-smoothing: antialiased;
+}
+.mcore-nav-link > span {
 	display: block;
 	height: 38px;
 	line-height: 37px;
@@ -129,36 +137,26 @@ a:hover {
 	padding: 0 10px;
 	font-size: 12px;
 }
-#nav li a:link,
-#nav li a:visited {
-	display: block;
-	height: 38px;
-	text-decoration: none;
-	font: bold 12px arial, helvetica, sans-serif;
-	-webkit-font-smoothing: antialiased;
+.mcore-nav-right .mcore-nav-link > span {
+	padding: 0 10px;
 }
-#nav li a em {
+.mcore-nav-link > em {
 	display: block;
 	float: left;
 	width: 5px;
 	height: 38px;
 }
-#nav li a:hover,
-#nav li a:active,
-#nav li a.active {
-}
-#nav li.f-rgt { float: right; }
-#nav li a { background-position: -5px 0 }
-#nav li a:hover { background-position: -5px -38px }
-#nav li a:active,
-#nav li a.active { background-position: -5px -76px }
-#nav li a:hover em { background-position: 0 -38px }
-#nav li a:active em,
-#nav li a.active em { background-position: 0 -76px }
-#nav li a:hover span { background-position: 0 -38px }
-#nav li a:active span,
-#nav li a.active span { background-position: 0 -76px }
-#nav #nav-upload { float: right }
+.mcore-nav li.f-rgt { float: right; }
+.mcore-nav-link { background-position: -5px 0 }
+a.mcore-nav-link:hover { background-position: -5px -38px }
+a.mcore-nav-link:active,
+a.mcore-nav-link.active { background-position: -5px -76px }
+a.mcore-nav-link:hover > em { background-position: 0 -38px }
+a.mcore-nav-link:active > em,
+a.mcore-nav-link.active > em { background-position: 0 -76px }
+a.mcore-nav-link:hover > span { background-position: 0 -38px }
+a.mcore-nav-link:active > span,
+a.mcore-nav-link.active > span { background-position: 0 -76px }
 
 #nav-search {
 	float: right;
@@ -214,17 +212,17 @@ h1, h2, h3, h4, h5 {
 	font: bold 12px arial, helvetica, sans-serif;
 	-webkit-font-smoothing: antialiased;
 }
-.mcore-btn span {
+.mcore-btn > span {
 	display: block;
 	height: 33px;
 	margin-left: 5px;
 	padding: 0 12px 0 7px;
 	line-height: 32px;
 }
-.mcore-btn:hover, .btn.hover { background-position: 0 -33px;}
-.mcore-btn:active, .btn.active { background-position: 0 -66px;}
-.mcore-btn:hover span, .btn.hover span { background-position: 100% -33px }
-.mcore-btn:active span, .btn.active span { background-position: 100% -66px }
+.mcore-btn:hover, .mcore-btn.hover { background-position: 0 -33px }
+.mcore-btn:active, .mcore-btn.active { background-position: 0 -66px }
+.mcore-btn:hover > span, .mcore-btn.hover > span { background-position: 100% -33px }
+.mcore-btn:active > span, .mcore-btn.active > span { background-position: 100% -66px }
 
 /* Fix extra padding on button elements in firefox */
 button::-moz-focus-inner {
