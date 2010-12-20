@@ -147,9 +147,6 @@ a:hover {
 #nav li a:active,
 #nav li a.active {
 }
-#nav li a:active span {
-	padding-top: 1px;
-}
 #nav li.f-rgt { float: right; }
 #nav li a { background-position: -5px 0 }
 #nav li a:hover { background-position: -5px -38px }
@@ -228,9 +225,6 @@ h1, h2, h3, h4, h5 {
 .mcore-btn:active, .btn.active { background-position: 0 -66px;}
 .mcore-btn:hover span, .btn.hover span { background-position: 100% -33px }
 .mcore-btn:active span, .btn.active span { background-position: 100% -66px }
-.mcre-btn:active span {
-	padding-top: 1px;
-}
 
 /* Fix extra padding on button elements in firefox */
 button::-moz-focus-inner {

@@ -353,9 +353,6 @@ a.btn:visited {
 .btn:hover, .btn.hover {
 	text-decoration: none;
 }
-.btn:active span, .btn.active span {
-	padding-top: 1px
-}
 .btn span {
 	display: block;
 	height: 33px;
@@ -495,12 +492,6 @@ a.btn.nav:active,
 a.btn.nav.active:link,
 a.btn.nav.active:visited {
 	color: #fff;
-}
-.btn.nav.active span {
-	padding-top: 0;
-}
-.btn.nav:active span {
-	padding-top: 1px;
 }
 
 /* Dropdown menus */
