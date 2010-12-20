@@ -163,8 +163,20 @@ for x in sorted(matched_files.keys()):
     print ""
     print "FILE:", x
     print "-----"
-    for num in line_nos:
-        todo_lines = get_lines(lines, num-1, x)
+    for i, num in enumerate(line_nos):
+        curr_line = line_nos[i]-1
+        next_line = None
+        if (i+1) < len(line_nos):
+            next_line = line_nos[i+1]-1
+
+        todo_lines = get_lines(lines, curr_line, x)
+
+        if next_line is not None:
+            # ensure that the current 'todo' item doesn't
+            # overlap with the next 'todo' item.
+            max_length = next_line - curr_line
+            todo_lines = todo_lines[:max_length]
+
         print "line:", num
         print "\n".join(todo_lines)
         print ""
