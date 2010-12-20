@@ -247,6 +247,33 @@ mcore.players.Html5Player.prototype.onCanPlay = function(e) {
 };
 
 
+/**
+ * Return the player element itself.
+ * @return {HTMLAudioElement|HTMLVideoElement} The HTML5 element.
+ */
+mcore.players.Html5Player.prototype.getContentElement =
+    goog.ui.Component.prototype.getElement;
+
+
+/**
+ * Resize the player element to the given dimensions.
+ * @param {string|number|goog.math.Size} w Width of the element, or a
+ *     size object.
+ * @param {string|number=} opt_h Height of the element. Required if w is not a
+ *     size object.
+ * @return {mcore.players.Html5Player} The player instance for chaining.
+ */
+mcore.players.Html5Player.prototype.setSize = mcore.players.setSize;
+
+
+/**
+ * Get the current player element dimensions.
+ * @return {!goog.math.Size} The player instance for chaining.
+ * @this {mcore.players.Html5Player}
+ */
+mcore.players.Html5Player.prototype.getSize = mcore.players.getSize;
+
+
 /** @inheritDoc */
 mcore.players.Html5Player.prototype.disposeInternal = function() {
   this.lastSrc_ = undefined;
@@ -260,7 +287,3 @@ mcore.players.Html5Player.prototype.disposeInternal = function() {
 goog.exportSymbol('mcore.Html5Player', mcore.players.Html5Player);
 goog.exportSymbol('mcore.Html5Player.isSupported',
     mcore.players.Html5Player.isSupported);
-goog.exportSymbol('mcore.Html5Player.prototype.decorate',
-    mcore.players.Html5Player.prototype.decorate);
-goog.exportSymbol('mcore.Html5Player.prototype.render',
-    mcore.players.Html5Player.prototype.render);

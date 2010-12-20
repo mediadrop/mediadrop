@@ -18,6 +18,7 @@
 goog.provide('mcore.players.MultiPlayer');
 
 goog.require('goog.array');
+goog.require('goog.math.Size');
 goog.require('goog.ui.Component');
 goog.require('mcore.players.EventType');
 
@@ -65,7 +66,7 @@ mcore.players.MultiPlayer.prototype.enterDocument = function() {
 
 /**
  * Swallow the event and rotate the player when an error event is thrown.
- * @param {goog.events.Event} e
+ * @param {goog.events.Event} e Error event.
  * @protected
  */
 mcore.players.MultiPlayer.prototype.handleErrorEvent = function(e) {
@@ -136,8 +137,41 @@ mcore.players.MultiPlayer.prototype.disposeInternal = function() {
 };
 
 
+/** @inheritDoc */
+mcore.players.MultiPlayer.prototype.getContentElement = function() {
+  if (this.getCurrentPlayer()) {
+    return this.getCurrentPlayer().getContentElement();
+  }
+};
+
+
+/**
+ * Resize the player element to the given dimensions.
+ * @param {string|number|goog.math.Size} w Width of the element, or a
+ *     size object.
+ * @param {string|number=} opt_h Height of the element. Required if w is not a
+ *     size object.
+ * @return {mcore.players.MultiPlayer} The player instance for chaining.
+ */
+mcore.players.MultiPlayer.prototype.setSize = function(w, opt_h) {
+  if (this.getCurrentPlayer()) {
+    this.getCurrentPlayer().setSize(w, opt_h);
+  }
+  return this;
+};
+
+
+/**
+ * Get the current player element dimensions.
+ * @return {!goog.math.Size|undefined} The player instance for chaining.
+ * @this {mcore.players.MultiPlayer}
+ */
+mcore.players.MultiPlayer.prototype.getSize = function() {
+  if (this.getCurrentPlayer()) {
+    return this.getCurrentPlayer().getSize();
+  }
+  return new goog.math.Size(0, 0);
+};
+
+
 goog.exportSymbol('mcore.MultiPlayer', mcore.players.MultiPlayer);
-goog.exportSymbol('mcore.MultiPlayer.prototype.decorate',
-    mcore.players.MultiPlayer.prototype.decorate);
-goog.exportSymbol('mcore.MultiPlayer.prototype.render',
-    mcore.players.MultiPlayer.prototype.render);

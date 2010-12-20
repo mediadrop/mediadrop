@@ -34,7 +34,8 @@ goog.require('mcore.players');
  * Renders a flash object in a cross-browser way.
  *
  * @param {string} flashUrl The flash SWF URL.
- * @param {number|string=} opt_width The width of the movie.
+ * @param {number|string|goog.math.Size=} opt_width The width or Size object
+ *     of the movie.
  * @param {number|string=} opt_height The height of the movie.
  * @param {Object=} opt_flashVars Flash vars to add.
  * @param {goog.dom.DomHelper=} opt_domHelper An optional DomHelper.
@@ -73,6 +74,7 @@ mcore.players.FlashPlayer.isSupported = function() {
 
 /**
  * Dispatch an event indicating flash is supported or it isn't.
+ * @return {boolean} Success.
  */
 mcore.players.FlashPlayer.prototype.testSupport = function() {
   if (mcore.players.FlashPlayer.isSupported()) {
@@ -115,6 +117,46 @@ mcore.players.FlashPlayer.prototype.decorate = function(element) {
     goog.base(this, 'decorate', element);
   }
 };
+
+
+/**
+ * Return the player element itself.
+ * @return {Element} The flash embed or object element.
+ */
+mcore.players.FlashPlayer.prototype.getContentElement =
+    goog.ui.media.FlashObject.prototype.getFlashElement;
+
+
+/**
+ * Resize the player element to the given dimensions.
+ * @param {string|number|goog.math.Size} w Width of the element, or a
+ *     size object.
+ * @param {string|number=} opt_h Height of the element. Required if w is not a
+ *     size object.
+ * @return {goog.ui.media.FlashObject} This player instance for chaining.
+ */
+mcore.players.FlashPlayer.prototype.setSize = function(w, opt_h) {
+  var h;
+  // Read Size objects to provide an interface consistent with other players.
+  if (w instanceof goog.math.Size) {
+    h = w.height;
+    w = w.width;
+  } else {
+    if (!goog.isDef(opt_h) || goog.isNull(w)) {
+      throw Error('missing width or height argument');
+    }
+    h = opt_h;
+  }
+  return goog.base(this, 'setSize', w, h);
+};
+
+
+/**
+ * Get the current player element dimensions.
+ * @return {!goog.math.Size} The player instance for chaining.
+ * @this {mcore.players.FlashPlayer}
+ */
+mcore.players.FlashPlayer.prototype.getSize = mcore.players.getSize;
 
 
 goog.exportSymbol('mcore.FlashPlayer', mcore.players.FlashPlayer);

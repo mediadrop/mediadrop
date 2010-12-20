@@ -15,15 +15,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-goog.require('mcore.players');
-goog.require('mcore.players.Html5Player');
+goog.require('goog.dom');
+goog.require('goog.json');
 
 goog.require('goog.testing.ContinuationTestCase');
 goog.require('goog.testing.jsunit');
 goog.require('goog.userAgent.flash');
 
-goog.require('goog.dom');
-goog.require('goog.json');
+goog.require('mcore.players');
+goog.require('mcore.players.Html5Player');
 
 var dom = goog.dom;
 var $ = dom.getElement;

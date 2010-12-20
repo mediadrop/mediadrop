@@ -15,13 +15,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-goog.require('mcore.players');
-goog.require('mcore.players.Html5Player');
-
-goog.require('goog.testing.ContinuationTestCase');
-goog.require('goog.testing.jsunit');
-
 goog.require('goog.dom');
+goog.require('goog.testing.ContinuationTestCase');
+
+goog.require('goog.testing.jsunit');
+goog.require('mcore.players');
+
+goog.require('mcore.players.Html5Player');
 
 var dom = goog.dom;
 
@@ -34,7 +34,7 @@ var assertHtmlEquivalent = function(expectedElement, observedElement) {
     var html = dom.getOuterHtml(expectedElement).replace(/>\s+</g, '><');
     var tags = html.split(/><\/?/g);
     var parts = [];
-    for (var i = 0; i < tags.length; i ++) {
+    for (var i = 0; i < tags.length; i++) {
       parts.push(tags[i].replace(/[><]/, '').split(' '));
     }
     return parts;
