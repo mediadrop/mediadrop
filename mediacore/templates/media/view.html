@@ -28,101 +28,45 @@
 	<meta name="description" content="${h.meta_description(media=media)}" />
 	<meta name="keywords" content="${h.meta_keywords(media=media)}" />
 </head>
-<body class="${media.podcast and 'nav-podcasts-on' or 'nav-media-on'}">
-	<div id="media-box" class="mediacore-content feat-box">
-		<div class="feat-top" />
-		<div class="feat-content clearfix">
-			<div class="feat-info">
-				<a href="${h.url_for(controller='/admin/media', action='edit', id=media.id)}" class="underline-hover f-rgt" py:if="h.can_edit(media)">Edit</a>
-				<h3>${media.title}</h3>
-				<div class="feat-date" py:choose="">
-					<py:when test="media.is_published" py:with="datetime = media.publish_on.strftime('%B %d, %Y').replace(h.datetime.now().strftime(', %Y'), '')">${datetime}</py:when>
-					<py:otherwise>(unpublished)</py:otherwise>
-					by ${media.author.name}
-				</div>
-				<div id="description-excerpt" py:with="fulltext = media.description or u''; excerpt = h.excerpt_xhtml(fulltext, 340)">
-					<div class="mcore-excerpt-fulltext"><p py:replace="Markup(fulltext)" /></div>
-					<div class="mcore-excerpt" style="display:none" py:if="excerpt != fulltext"><p py:replace="Markup(excerpt)" /></div>
-				</div>
+<body class="${media.podcast and 'nav-podcasts-on' or 'nav-media-on'}" py:with="is_widescreen = False">
+	<div id="media-wrapper" class="mediacore-content clearfix">
+
+		<div py:def="media_box(media)" id="media-box" class="feat-box media-${is_widescreen and 'wide' or 'norm'}">
+			<div class="feat-top" />
+			<div class="feat-content">
+				${h.media_player(media, show_download=True, show_embed=True, show_resize=True, is_widescreen=is_widescreen, **(is_widescreen and dict(width=890, height=500) or dict(width=560, height=315)))}
 			</div>
-			${h.media_player(media, width=560, height=315)}
-			<table class="feat-meta" cellspacing="0">
-				<tr py:with="download_uris = sorted((uri for uri in (h.download_uri(file) for file in media.files) if uri), key=lambda uri: uri.file.size)">
-					<td py:if="download_uris">
-						<div id="downloadthis" class="meta-wrapper">
-							<a class="meta meta-download underline-hover" href="${download_uris[0]}"><strong>Download</strong></a>
-							<div py:if="len(download_uris) > 1" class="meta-hover">
-								<div class="meta-hover-top"></div>
-								<div class="meta-hover-content">
-									<ul>
-										<li py:for="uri in download_uris">
-											<a href="${uri}" class="underline-hover">${uri.file.display_name}</a>
-										</li>
-									</ul>
-								</div>
-								<div class="meta-hover-bottom"></div>
-							</div>
-						</div>
-					</td>
-					<td>
-						<div id="sharethis" class="meta-wrapper">
-							<a class="meta meta-share underline-hover" title="Share this ${media.type} with friends" href="#"><strong>Share</strong></a>
-							<div id="sharethis-hover" class="meta-hover" py:with="current_url = h.url_for(qualified=True)">
-								<div class="meta-hover-top"></div>
-								<div class="meta-hover-content">
-									<label>Permalink: <input type="text" value="${current_url}" readonly="readonly" /></label>
-								</div>
-								<ul class="meta-hover-bottom">
-									<li class="share-email"><a title="Share by email" href="mailto:?subject=${media.title + ': ' + current_url}">email</a></li>
-									<li class="share-facebook"><a title="Share on Facebook" href="http://www.facebook.com/sharer.php?u=${current_url}">facebook</a></li>
-									<li class="share-twitter"><a title="Share on Twitter" href="http://twitter.com/home?status=${media.title + ': ' + current_url}">twitter</a></li>
-								</ul>
-							</div>
-						</div>
-					</td>
-					<td py:with="embed_code = h.embed_iframe(media)">
-						<div id="embedthis" class="meta-wrapper" py:if="embed_code">
-							<a class="meta meta-embed underline-hover" title="Embed on your site" href="#"><strong>Embed</strong></a>
-							<div id="embedthis-hover" class="meta-hover">
-								<div class="meta-hover-top"></div>
-								<div class="meta-hover-content">
-									<label>Embeddable Player HTML: <input type="text" value="${unicode(embed_code)}" readonly="readonly" /></label>
-								</div>
-								<div class="meta-hover-bottom"></div>
-							</div>
-						</div>
-					</td>
-					<td py:if="not download_uris">&nbsp;</td>
-				</tr>
-				<tr>
-					<td><span class="meta meta-comments" title="Comments">${media.comment_count_published}
-						<i18n:choose numeral="media.comment_count_published">
-							<span i18n:singular="">Comment</span>
-							<span i18n:plural="">Comments</span>
-						</i18n:choose>
-					</span></td>
-					<td py:if="mediacore_likes"><a class="meta meta-likes" href="${h.url_for(action='rate')}" id="likethis" title="Vote up">
-						${media.likes} <strong>Like this!</strong>
-					</a></td>
-					<td><span class="meta meta-views" title="Views">${media.views}
-						<i18n:choose numeral="media.views">
-							<span i18n:singular="">View</span>
-							<span i18n:plural="">Views</span>
-						</i18n:choose>
-					</span></td>
-					<td py:if="not mediacore_likes">&nbsp;</td>
-				</tr>
-				<tr py:if="facebook_likes">
-					<td colspan="3">${facebook_like('likethis')}</td>
-				</tr>
-			</table>
-
+			<div class="feat-bottom" />
 		</div>
-		<div class="feat-bottom" />
-	</div>
 
-	<div class="mediacore-content clearfix">
-		${comment_list(comments, comment_form_action, comment_form_values)}
+		<py:if test="is_widescreen">${media_box(media)}</py:if>
+		<div id="media-info">
+			<py:if test="not is_widescreen">${media_box(media)}</py:if>
+
+			<a href="${h.url_for(controller='/admin/media', action='edit', id=media.id)}" class="underline-hover f-rgt" py:if="h.can_edit(media)">Edit</a>
+			<h3 class="feat-title">${media.title}</h3>
+			<div class="feat-date" py:choose="">
+				<py:when test="media.is_published" py:with="datetime = media.publish_on.strftime('%B %d, %Y').replace(h.datetime.now().strftime(', %Y'), '')">${datetime}</py:when>
+				<py:otherwise>(unpublished)</py:otherwise>
+				by ${media.author.name}
+			</div>
+			<div id="description-excerpt" class="media-desc" py:with="fulltext = media.description or u''; excerpt = h.excerpt_xhtml(fulltext, 340)">
+				<div class="mcore-excerpt-fulltext"><p py:replace="Markup(fulltext)" /></div>
+				<div class="mcore-excerpt" style="display:none" py:if="excerpt != fulltext"><p py:replace="Markup(excerpt)" /></div>
+			</div>
+			<div class="feat-stats clearfix">
+				<div class="meta-views f-rgt">${media.views} ${ungettext(u'view', u'views', media.views)}</div>
+				<div class="meta-likes f-rgt">
+					<span id="mcore-likes-counter">${media.likes}</span> ${ungettext(u'like', u'likes', media.likes)}
+					<span class="meta-dislikes"><span id="mcore-dislikes-counter">${media.dislikes}</span> ${ungettext(u'dislike', u'dislikes', media.dislikes)}</span>
+				</div>
+				<div class="meta-comments f-lft">${media.comment_count_published} ${ungettext(u'comment', u'comments', media.comment_count_published)}</div>
+			</div>
+
+			${comment_list(comments, comment_form_action, comment_form_values)}
+		</div>
+
+	<div id="media-sidebar">
 
 		<py:if test="media.podcast">
 			<div id="podcast-context" class="contextbox" py:with="podcast = media.podcast">
@@ -171,6 +115,8 @@
 			<p py:if="media.tags">${tag_link(media.tags[0])}<py:for each="tag in media.tags[1:]">, ${tag_link(tag)}</py:for></p>
 			<p py:if="not media.tags" class="contextbox-none">This does not have any associated tags.</p>
 		</div>
+	</div>
+
 	</div>
 </body>
 </html>

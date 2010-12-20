@@ -15,11 +15,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 /* Comments List */
-.comments {
-	float: left;
-	margin-left: 15px;
-	width: 560px;
-}
 .comments-head {
 	position: absolute;
 	top: -5000px;

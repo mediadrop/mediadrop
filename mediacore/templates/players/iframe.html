@@ -22,10 +22,31 @@
 
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<script src="${h.js('mootools_core')}" type="text/javascript"></script>
+	<py:choose test="h.config['debug'] and bool(h.request.params.get('debug', False))">
+		<py:when test="True">
+			<script type="text/javascript" src="${h.url_for('/scripts/goog/base.js')}"></script>
+			<script type="text/javascript" src="${h.url_for('/scripts/mcore/deps.js')}"></script>
+			<script type="text/javascript" src="${h.url_for('/scripts/mcore/base.js')}"></script>
+		</py:when>
+		<script py:otherwise="" type="text/javascript" src="${h.url_for('/scripts/mcore-compiled.js')}"></script>
+	</py:choose>
+	<script py:if="g.settings.get('google_analytics_uacct', None)" type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', '${g.settings['google_analytics_uacct']}']);
+		_gaq.push(['_trackPageview']);
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+	<style type="text/css">
+		embed, object, iframe, audio, video {display: block}
+		body {background: #000; margin: 0; padding: 0}
+	</style>
 </head>
 
 <body py:if="error" py:content="error" />
-<body py:if="not error" py:content="h.media_player(media, **player_kwargs).render()" />
+<body py:if="not error" py:content="h.media_player(media, show_playerbar=False, js_init='function(ctrlr){ console.log(ctrlr);ctrlr.setFillScreen(true); }', **player_kwargs)" />
 
 </html>

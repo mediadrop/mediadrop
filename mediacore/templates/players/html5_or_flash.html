@@ -21,14 +21,63 @@
 
 	<xi:include py:for="tmpl in value_of('plugin_templates', ())" href="${tmpl}" />
 
-	<div id="${player.elem_id}">
-		${player.render_markup()}
+	<div id="${player.elem_id}" class="mcore-player">
+		<div class="mcore-playerbox">
+			${player.render_markup()}
+		</div>
+		<div py:if="show_playerbar" class="mcore-playerbar" py:with="
+			download_uris = show_download and sorted((uri for uri in (h.download_uri(file) for file in media.files) if uri), key=lambda uri: uri.file.size);
+			embed_code = show_embed and h.embed_iframe(media);
+		">
+			<ul class="mcore-nav">
+				<li py:if="show_like" class="mcore-nav-left"><a class="mcore-nav-link mcore-like" href="${h.url_for(controller='/media', action='rate', up=1, slug=media.slug)}" title="Like"><span><span class="mcore-btn-like">Like</span></span><em /></a></li>
+				<li py:if="show_dislike"><a class="mcore-nav-link mcore-dislike f-lft" href="${h.url_for(controller='/media', action='rate', down=1, slug=media.slug)}" title="Dislike"><span><span class="mcore-btn-dislike">Dislike</span></span><em /></a><span class="mcore-nav-link f-lft" style="width:5px" /></li>
+				<li py:if="show_popout" class="f-rgt mcore-nav-right"><a class="mcore-nav-link mcore-popout" href="${h.url_for(controller='/media', action='embed_player', slug=media.slug)}" title="Pop out a new player window"><span><span class="mcore-btn-popout">Pop Out</span></span><em /></a></li>
+				<li py:if="show_resize" class="f-rgt" py:with="expand = is_widescreen and 'shrink' or 'expand'"><a class="mcore-nav-link mcore-resizer" href="#" title="Expand"><span><span class="mcore-btn-${expand}">${expand.capitalize()}</span></span><em /></a></li>
+				<li py:if="show_share" class="f-rgt">
+					<a class="mcore-nav-link" href="#" title="Share"><span>Share</span><em /></a>
+					<div id="sharethis-hover" class="meta-hover" py:with="current_url = h.url_for(controller='/media', action='view', slug=media.slug, qualified=True)">
+						<div class="meta-hover-top"></div>
+						<div class="meta-hover-content">
+							<label>Permalink: <input type="text" value="${current_url}" readonly="readonly" /></label>
+						</div>
+						<ul class="meta-hover-bottom">
+							<li class="share-email"><a title="Share by email" href="mailto:?subject=${media.title + ': ' + current_url}">email</a></li>
+							<li class="share-facebook"><a title="Share on Facebook" href="http://www.facebook.com/sharer.php?u=${current_url}">facebook</a></li>
+							<li class="share-twitter"><a title="Share on Twitter" href="http://twitter.com/home?status=${media.title + ': ' + current_url}">twitter</a></li>
+						</ul>
+					</div>
+				</li>
+				<li py:if="embed_code" class="f-rgt">
+					<a class="mcore-nav-link" href="#" title="Embed"><span>Embed</span><em /></a>
+					<div id="embedthis-hover" class="meta-hover">
+						<div class="meta-hover-top"></div>
+						<div class="meta-hover-content">
+							<label>Embeddable Player HTML: <input type="text" value="${unicode(embed_code)}" readonly="readonly" /></label>
+						</div>
+						<div class="meta-hover-bottom"></div>
+					</div>
+				</li>
+				<li py:if="download_uris" class="f-rgt">
+					<a class="mcore-nav-link" href="${download_uris[0]}" title="Download"><span>Download</span><em /></a>
+					<div py:if="len(download_uris) > 1" class="meta-hover">
+						<div class="meta-hover-top"></div>
+						<div class="meta-hover-content">
+							<ul>
+								<li py:for="uri in download_uris">
+									<a href="${uri}" class="underline-hover">${uri.file.display_name}</a>
+								</li>
+							</ul>
+						</div>
+						<div class="meta-hover-bottom"></div>
+					</div>
+				</li>
+			</ul>
+		</div>
 	</div>
 
 	<script type="text/javascript">
-		//<![CDATA[
-		${player.render_js_player}.decorate(document.getElementById('${player.elem_id}'));
-		//]]>
+		mcore.initPlayerController('${player.elem_id}', ${player.render_js_player() or 'null'}, ${js_init or 'undefined'});
 	</script>
 
 </html>

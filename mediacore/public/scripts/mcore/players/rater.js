@@ -1,0 +1,124 @@
+/**
+ * This file is a part of MediaCore, Copyright 2010 Simple Station Inc.
+ *
+ * MediaCore is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * MediaCore is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+goog.provide('mcore.players.Rater');
+
+goog.require('goog.dom');
+goog.require('goog.events');
+goog.require('goog.net.XhrIo');
+goog.require('goog.string');
+goog.require('goog.ui.Component');
+
+
+
+/**
+ *
+ * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper.
+ * @constructor
+ * @extends {goog.events.EventTarget}
+ */
+mcore.players.Rater = function(opt_domHelper) {
+  goog.base(this);
+
+  /**
+   * DOM Helper.
+   * @type {goog.dom.DomHelper}
+   * @protected
+   * @suppress {underscore}
+   */
+  this.dom_ = opt_domHelper || goog.dom.getDomHelper();
+};
+goog.inherits(mcore.players.Rater, goog.events.EventTarget);
+
+
+/**
+ * XHR for logging the rating.
+ * @type {goog.net.XhrIo}
+ * @private
+ */
+mcore.players.Rater.prototype.xhr_;
+
+
+/**
+ * Handle the user clicking the like-this button.
+ * @param {string} url Submit URL for logging the rating.
+ */
+mcore.players.Rater.prototype.like = function(url) {
+  this.submitRating(url);
+  this.incrementDisplayCounter('mcore-likes-counter');
+};
+
+
+/**
+ * Handle the user clicking the dislike-this button.
+ * @param {string} url Submit URL for logging the rating.
+ */
+mcore.players.Rater.prototype.dislike = function(url) {
+  this.submitRating(url);
+  this.incrementDisplayCounter('mcore-dislikes-counter');
+};
+
+
+/**
+ * Submit a request that increments the likes or dislikes.
+ * @param {string} url Submit URL.
+ * @protected
+ */
+mcore.players.Rater.prototype.submitRating = function(url) {
+  this.xhr_ = new goog.net.XhrIo();
+  goog.events.listenOnce(this.xhr_,
+      goog.net.EventType.COMPLETE,
+      this.handleRatingComplete, false, this);
+  this.xhr_.send(url, undefined, undefined,
+      {'X-Requested-With': 'XMLHttpRequest'});
+};
+
+
+/**
+ * Cleanup the XHR on any result. We silently ignore the result because
+ * a missed like is not a major cause for concern.
+ * @param {!goog.events.Event} e XHR Event.
+ * @protected
+ */
+mcore.players.Rater.prototype.handleRatingComplete = function(e) {
+  goog.dispose(this.xhr_);
+};
+
+
+/**
+ * Increment the number inside the given element.
+ * NOTE: i18n: This may result in incorrect pluralization such as "1 likes".
+ * @param {Element|string} element A DOM element or string ID.
+ * @return {number|undefined} The new count or undefined if a non-existant
+ *     element ID was provided.
+ */
+mcore.players.Rater.prototype.incrementDisplayCounter = function(element) {
+  element = this.dom_.getElement(element);
+  if (element) {
+    var count = Number(this.dom_.getTextContent(element)) + 1;
+    this.dom_.setTextContent(element, String(count));
+    return count;
+  }
+};
+
+
+/** @inheritDoc */
+mcore.players.Rater.prototype.disposeInternal = function() {
+  goog.base(this, 'disposeInternal');
+  goog.dispose(this.xhr_);
+  delete this.xhr_;
+};

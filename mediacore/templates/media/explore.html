@@ -90,7 +90,7 @@
 								<span i18n:plural="">Comments</span>
 							</i18n:choose>
 						</span>
-						<a class="meta meta-likes" href="${h.url_for(controller='/media', action='rate', slug=featured.slug)}" id="likethis" title="Vote up">${featured.likes} <strong>Like this!</strong></a>
+						<span class="meta meta-likes"><span id="mcore-likes-counter">${featured.likes}</span> likes</span>
 						<span class="meta meta-views" title="Views">
 							${featured.views}
 							<i18n:choose numeral="featured.views">

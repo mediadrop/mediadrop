@@ -23,12 +23,11 @@ goog.require('goog.dom');
 goog.require('mcore.Cooliris');
 goog.require('mcore.comments.CommentForm');
 goog.require('mcore.excerpts.Excerpt');
-goog.require('mcore.likes.LikeThis');
+goog.require('mcore.players.Controller');
 goog.require('mcore.players.FlashPlayer');
 goog.require('mcore.players.Html5Player');
 goog.require('mcore.players.IframePlayer');
 goog.require('mcore.players.MultiPlayer');
-goog.require('mcore.popups.SimplePopup');
 
 
 /**
@@ -36,12 +35,6 @@ goog.require('mcore.popups.SimplePopup');
  * the document.
  */
 mcore.initPage = function() {
-  var likeButtons = goog.dom.getElementsByTagNameAndClass('a', 'meta-likes');
-  goog.array.forEach(likeButtons, function(element) {
-    var like = new mcore.likes.LikeThis();
-    like.decorate(element);
-  });
-
   var mediaBox = goog.dom.getElement('media-box');
   if (mediaBox) {
     var commentForm = goog.dom.getElement('post-comment-form');
@@ -57,14 +50,6 @@ mcore.initPage = function() {
       exc.decorate(excerpt);
       exc.showExcerpt(true);
     }
-
-    var meta = goog.dom.getElementsByClass('meta-hover', mediaBox);
-    goog.array.forEach(meta, function(metaContent) {
-      var popup = new mcore.popups.SimplePopup(metaContent);
-      popup.setVisible(false);
-      var popupButton = goog.dom.getPreviousElementSibling(metaContent);
-      popup.attach(popupButton);
-    });
   }
 };
 
