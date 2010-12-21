@@ -21,16 +21,23 @@ goog.require('goog.array');
 goog.require('goog.dom');
 goog.require('goog.events');
 goog.require('goog.ui.Component');
+goog.require('goog.userAgent.product');
 goog.require('mcore.players');
 
 
 
 /**
  * HTML5 Player.
+ *
  * Capable of rendering itself or decorating an existing HTMLMediaElement.
+ *
  * Provides a single NO_SUPPORTED_SRC event when all sources fail to play.
+ *
  * Provides a simple CAN_PLAY event, which fires once when we find a playable
  * source and enough of it is downloaded to begin playing.
+ *
+ * Attempts to workaround the shortcomings of <video> tag support on Android,
+ * but this is currently untested.
  *
  * @param {mcore.players.MediaType=} opt_mediaType Audio or video. Necessary
  *     only for rendering.
@@ -84,11 +91,16 @@ mcore.players.Html5Player.Source;
 
 
 /**
- * @return {boolean} True if the device supports HTML5 media elements.
+ * Feature test the browser to see if HTML5 audio or video is supported.
+ * Note that some devices (Android, for one) support video but not audio,
+ * so be mindful of which medium you're testing.
+ * @param {string=} opt_mediaType 'audio' or 'video'. Defaults to video.
+ * @return {boolean} True if the device supports the given media element.
  */
-mcore.players.Html5Player.isSupported = function() {
-  return goog.isDef(
-      goog.dom.createDom(mcore.players.MediaType.VIDEO).canPlayType);
+mcore.players.Html5Player.isSupported = function(opt_mediaType) {
+  var mediaType = opt_mediaType || mcore.players.MediaType.VIDEO;
+  var media = goog.dom.createElement(mediaType);
+  return goog.isDef(media.canPlayType);
 };
 
 
@@ -107,31 +119,53 @@ mcore.players.Html5Player.prototype.lastSrc_;
  */
 mcore.players.Html5Player.prototype.createDom = function() {
   goog.asserts.assertString(this.mediaType_);
+
   var element = this.dom_.createDom(this.mediaType_, this.mediaAttrs_);
   if (this.sources_) {
-    var source;
-    for (var i = 0; source = this.sources_[i]; i++) {
+    for (var source, i = 0; source = this.sources_[i]; i++) {
+      if (goog.userAgent.product.ANDROID) {
+        delete source['type'];
+      }
       this.dom_.append(element, this.dom_.createDom('source', source));
     }
   }
-  this.decorateInternal(element);
+
+  this.setElementInternal(element);
+  this.testSupport();
 };
 
 
 /**
  * Decorate an Html5 Audio or Video element and filter out unplayable sources.
- * Called by {@link decorate()} and also {@link render()}.
- * @param {Element|string} element Element or ID to decorate.
+ * @param {Element} element Element to decorate.
  * @protected
  */
 mcore.players.Html5Player.prototype.decorateInternal = function(element) {
-  // Allow decoration by ID string
-  element = this.dom_.getElement(element);
-  if (element.tagName.toLowerCase() != mcore.players.MediaType.VIDEO &&
-      element.tagName.toLowerCase() != mcore.players.MediaType.AUDIO) {
+  // Drill down until an <audio> or <video> tag is found
+  while (element &&
+         element.tagName.toLowerCase() != mcore.players.MediaType.VIDEO &&
+         element.tagName.toLowerCase() != mcore.players.MediaType.AUDIO) {
     element = this.dom_.getFirstElementChild(element);
   }
-  goog.base(this, 'decorateInternal', element);
+  if (!element) {
+    throw Error(goog.ui.Component.Error.DECORATE_INVALID);
+  }
+
+  this.mediaType_ = /** @type {mcore.players.MediaType} */
+      (element.tagName.toLowerCase());
+
+  // Workaround a broken HTMLMediaElement.canPlayType on Android devices,
+  // which always returns an empty string regardless of whether the type
+  // is supported.
+  if (goog.userAgent.product.ANDROID && !element.src) {
+    var sources = this.dom_.getElementsByTagNameAndClass('source',
+        undefined, element);
+    for (var source, i = 0; source = sources[i]; ++i) {
+      source.removeAttribute('type');
+    }
+  }
+
+  this.setElementInternal(element);
   this.testSupport();
 };
 
@@ -141,7 +175,7 @@ mcore.players.Html5Player.prototype.decorateInternal = function(element) {
  * of the given sources, otherwise attach events and wait for success/failure.
  */
 mcore.players.Html5Player.prototype.testSupport = function() {
-  if (mcore.players.Html5Player.isSupported()) {
+  if (mcore.players.Html5Player.isSupported(this.mediaType_)) {
     if (this.testSources()) {
       this.attachEvents();
     } else {
@@ -206,6 +240,13 @@ mcore.players.Html5Player.prototype.attachEvents = function() {
   handler.listenOnce(element,
                      mcore.players.EventType.CAN_PLAY,
                      this.handleCanPlay);
+
+  // On Android an extra event is needed to trigger playback
+  if (goog.userAgent.product.ANDROID) {
+    handler.listen(element,
+                   goog.events.EventType.CLICK,
+                   this.handleAndroidClick);
+  }
 };
 
 
@@ -246,6 +287,16 @@ mcore.players.Html5Player.prototype.handleError = function(e) {
  */
 mcore.players.Html5Player.prototype.handleCanPlay = function(e) {
   this.dispatchEvent(mcore.players.EventType.CAN_PLAY);
+};
+
+
+/**
+ * Begin playing the video when clicked to overcome Android shortcomings.
+ * @param {!goog.events.BrowserEvent} e Click event.
+ * @protected
+ */
+mcore.players.Html5Player.prototype.handleAndroidClick = function(e) {
+  this.getElement().play();
 };
 
 
