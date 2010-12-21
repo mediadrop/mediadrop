@@ -39,38 +39,38 @@ a.mcore-nav-link.active {
 	color: ${uikit_colors['btn_text_hover_color']};
 }
 .mcore-nav-box {
-	background: url('../images/layout/uikit/${navbar_color}/nav-box.png') no-repeat;
+	background: url('../images/ui-kit/${navbar_color}/nav-box.png') no-repeat;
 }
 .mcore-nav-link {
-	background: url('../images/layout/uikit/${navbar_color}/nav-btn-edge-inner.png') no-repeat -5px 0;
+	background: url('../images/ui-kit/${navbar_color}/nav-btn-edge-inner.png') no-repeat -5px 0;
 }
 .mcore-playerbar,
 .mcore-nav-link > span {
-	background: url('../images/layout/uikit/${navbar_color}/nav-btn-bg.png') repeat-x;
+	background: url('../images/ui-kit/${navbar_color}/nav-btn-bg.png') repeat-x;
 }
 .mcore-nav-link > em {
-	background: url('../images/layout/uikit/${navbar_color}/nav-btn-edge-inner.png') no-repeat 0px 0;
+	background: url('../images/ui-kit/${navbar_color}/nav-btn-edge-inner.png') no-repeat 0px 0;
 }
 .mcore-nav-search {
-	background: url('../images/layout/uikit/${navbar_color}/search-left.png') no-repeat;
+	background: url('../images/ui-kit/${navbar_color}/search-left.png') no-repeat;
 }
 .mcore-nav-search-btn {
-	background: url('../images/layout/uikit/${navbar_color}/search-right.png') no-repeat;
+	background: url('../images/ui-kit/${navbar_color}/search-right.png') no-repeat;
 }
 .mcore-nav-left .mcore-nav-link,
 .mcore-nav-right .mcore-nav-link > em {
-    background-image: url('../images/layout/uikit/${navbar_color}/nav-btn-edge-outer.png');
+    background-image: url('../images/ui-kit/${navbar_color}/nav-btn-edge-outer.png');
 }
 .mcore-playerbar .mcore-nav-left .mcore-nav-link,
 .mcore-playerbar .mcore-nav-right .mcore-nav-link > em {
-	background-image: url('../images/layout/uikit/${navbar_color}/nav-player-edge-outer.png');
+	background-image: url('../images/ui-kit/${navbar_color}/nav-player-edge-outer.png');
 }
 .mcore-btn-like,
 .mcore-btn-dislike,
 .mcore-btn-expand,
 .mcore-btn-shrink,
 .mcore-btn-popout {
-	background: url('../images/layout/uikit/${navbar_color}/nav-player-icons.png') no-repeat;
+	background: url('../images/ui-kit/${navbar_color}/nav-player-icons.png') no-repeat;
 }
 .mcore-btn-like { background-position: -67px 8px }
 .mcore-btn-dislike { background-position: -55px 0; width: 11px }
@@ -85,11 +85,11 @@ a:hover .mcore-btn-popout { background-position: -34px -18px }
 .mcore-btn,
 .mcore-btn:active {
 	color: ${uikit_colors['btn_text_color']};
-	background: url('../images/layout/uikit/${navbar_color}/button-left.png') no-repeat;
+	background: url('../images/ui-kit/${navbar_color}/button-left.png') no-repeat;
 	text-shadow: 0 -1px ${uikit_colors['btn_text_shadow_color']};
 }
 .mcore-btn > span {
-	background: url('../images/layout/uikit/${navbar_color}/button-right.png') no-repeat 100% 0;
+	background: url('../images/ui-kit/${navbar_color}/button-right.png') no-repeat 100% 0;
 }
 a.mcore-btn:link,
 a.mcore-btn:visited {
@@ -97,13 +97,13 @@ a.mcore-btn:visited {
 }
 
 .media-norm .feat-top {
-	background-image: url('../images/layout/uikit/${navbar_color}/media-view-top.png');
+	background-image: url('../images/ui-kit/${navbar_color}/media-view-top.png');
 }
 .media-norm .feat-bottom {
-	background-image: url('../images/layout/uikit/${navbar_color}/media-view-bottom.png');
+	background-image: url('../images/ui-kit/${navbar_color}/media-view-bottom.png');
 }
 .media-norm .feat-content {
-	background-image: url('../images/layout/uikit/${navbar_color}/media-view-bg.png');
+	background-image: url('../images/ui-kit/${navbar_color}/media-view-bg.png');
 }
 
 
