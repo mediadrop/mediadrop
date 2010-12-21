@@ -315,7 +315,7 @@ class MediaController(BaseController):
         :returns: Redirect to :meth:`view` page for media.
 
         """
-        def result(success, message, comment=None):
+        def result(success, message=None, comment=None):
             if request.is_xhr:
                 result = dict(success=success, message=message)
                 if comment:
@@ -348,25 +348,27 @@ class MediaController(BaseController):
         media = fetch_row(Media, slug=slug)
 
         c = Comment()
+
         name = filter_vulgarity(name)
         c.author = AuthorWithIP(name, email, request.environ['REMOTE_ADDR'])
         c.subject = 'Re: %s' % media.title
         c.body = filter_vulgarity(body)
 
         require_review = asbool(app_globals.settings['req_comment_approval'])
-        if require_review:
-            message = _('We will post it just as soon as a moderator approves it.')
-        else:
-            message = _('Your comment was posted successfully!')
+        if not require_review:
             c.reviewed = True
             c.publishable = True
 
         media.comments.append(c)
+        DBSession.flush()
         send_comment_notification(media, c)
 
-        DBSession.flush()
-
-        return result(True, message, c)
+        if require_review:
+            message = _('Thank you for your comment! We will post it just as '
+                        'soon as a moderator approves it.')
+            return result(True, message=message)
+        else:
+            return result(True, comment=c)
 
     @expose()
     def serve(self, id, download=False, **kwargs):
