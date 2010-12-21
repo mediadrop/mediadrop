@@ -17,31 +17,31 @@
 
 goog.require('goog.dom');
 goog.require('goog.json');
-
 goog.require('goog.testing.ContinuationTestCase');
 goog.require('goog.testing.PropertyReplacer');
 goog.require('goog.testing.jsunit');
 goog.require('goog.userAgent.flash');
+goog.require('goog.userAgent.product');
 
 goog.require('mcore.players');
-goog.require('mcore.players.Html5Player');
+goog.require('mcore.players.FlashPlayer');
 
 var dom = goog.dom;
 var $ = dom.getElement;
 var stubs;
-var FLOWPLAYER_URL;
+var FLOWPLAYER_URL = '../../third-party/flowplayer-3.2.3.swf';
+var YOUTUBE_URL = 'http://youtube.com/v/iDe4v318f64';
 
 var setUp = function() {
   stubs = new goog.testing.PropertyReplacer();
-  FLOWPLAYER_URL = '../../third-party/flowplayer-3.2.3.swf';
 };
 var tearDown = function() {
   stubs.reset();
 };
 
 var testRender = function() {
-  goog.userAgent.flash.HAS_FLASH = true;
-  goog.userAgent.flash.VERSION = '10';
+  stubs.replace(goog.userAgent.flash, 'HAS_FLASH', true);
+  stubs.replace(goog.userAgent.flash, 'VERSION', '10.0');
 
   var element = $('player-render-container');
   var player = new mcore.players.FlashPlayer(FLOWPLAYER_URL, 560, 315, {
@@ -72,8 +72,8 @@ var testRender = function() {
 
 
 var testDecorate = function() {
-  goog.userAgent.flash.HAS_FLASH = true;
-  goog.userAgent.flash.VERSION = '10';
+  stubs.replace(goog.userAgent.flash, 'HAS_FLASH', true);
+  stubs.replace(goog.userAgent.flash, 'VERSION', '10.0');
 
   var element = $('player-decorate-container');
   var player = new mcore.players.FlashPlayer(FLOWPLAYER_URL, 560, 315, {
@@ -104,8 +104,8 @@ var testDecorate = function() {
 
 
 var testNoFlashSupport = function() {
-  goog.userAgent.flash.HAS_FLASH = false;
-  goog.userAgent.flash.VERSION = '';
+  stubs.replace(goog.userAgent.flash, 'HAS_FLASH', false);
+  stubs.replace(goog.userAgent.flash, 'VERSION', '');
 
   var player = new mcore.players.FlashPlayer(FLOWPLAYER_URL, 560, 315, {
     'config': goog.json.serialize({
@@ -124,8 +124,8 @@ var testNoFlashSupport = function() {
 
 
 var testOldFlashVersion = function() {
-  goog.userAgent.flash.HAS_FLASH = true;
-  goog.userAgent.flash.VERSION = '7.0';
+  stubs.replace(goog.userAgent.flash, 'HAS_FLASH', true);
+  stubs.replace(goog.userAgent.flash, 'VERSION', '7.0');
 
   var player = new mcore.players.FlashPlayer(FLOWPLAYER_URL, 560, 315, {
     'config': goog.json.serialize({
