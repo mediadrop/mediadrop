@@ -95,8 +95,7 @@ class PodcastsController(BaseController):
 
         """
         podcast = fetch_row(Podcast, slug=slug)
-        episodes = podcast.media.published()\
-            .options(orm.undefer('comment_count_published'))
+        episodes = podcast.media.published()
 
         episodes, show = helpers.filter_library_controls(episodes, show)
 

@@ -66,8 +66,7 @@ class CategoriesController(BaseController):
     @expose('categories/index.html')
     @observable(events.CategoriesController.index)
     def index(self, slug=None, **kwargs):
-        media = Media.query.published()\
-            .options(orm.undefer('comment_count_published'))
+        media = Media.query.published()
 
         if c.category:
             media = media.in_category(c.category)
@@ -88,7 +87,6 @@ class CategoriesController(BaseController):
     @observable(events.CategoriesController.more)
     def more(self, slug, order, page=1, **kwargs):
         media = Media.query.published()\
-            .options(orm.undefer('comment_count_published'))\
             .in_category(c.category)
 
         if order == 'latest':

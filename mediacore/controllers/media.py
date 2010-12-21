@@ -95,8 +95,7 @@ class MediaController(BaseController):
                 The query the user searched for, if any
 
         """
-        media = Media.query.published()\
-            .options(orm.undefer('comment_count_published'))
+        media = Media.query.published()
 
         media, show = helpers.filter_library_controls(media, show)
 
@@ -142,8 +141,7 @@ class MediaController(BaseController):
                 Latest media
 
         """
-        media = Media.query.published()\
-            .options(orm.undefer('comment_count_published'))
+        media = Media.query.published()
 
         latest = media.order_by(Media.publish_on.desc())
         popular = media.order_by(Media.popularity_points.desc())
@@ -218,7 +216,6 @@ class MediaController(BaseController):
         if media.fulltext:
             search_terms = '%s %s' % (media.title, media.fulltext.tags)
             related = Media.query.published()\
-                .options(orm.undefer('comment_count_published'))\
                 .filter(Media.id != media.id)\
                 .search(search_terms, bool=False)
         else:

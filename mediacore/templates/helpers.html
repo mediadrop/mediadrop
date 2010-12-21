@@ -34,13 +34,6 @@
 					</span><br />
 					<span class="grid-desc mcore-text" py:content="h.truncate(m.description_plain, desc_len)">Description</span><br />
 					<span class="grid-meta mcore-text">
-						<span class="meta meta-comments" title="Comments">
-							${m.comment_count_published}
-							<i18n:choose numeral="m.comment_count_published">
-								<span i18n:singular="">Comment</span>
-								<span i18n:plural="">Comments</span>
-							</i18n:choose>
-						</span>
 						<span class="meta meta-likes" title="Likes">
 							${m.likes}
 							<i18n:choose numeral="m.likes">

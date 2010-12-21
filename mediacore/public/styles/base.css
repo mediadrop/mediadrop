@@ -381,7 +381,7 @@ a:focus .grid-title {
 .grid-meta {
 	display: block;
 }
-.grid-meta span span {
+.grid-meta .meta-likes > span {
 	position: absolute;
 	top: -5000px;
 	left: -5000px;
