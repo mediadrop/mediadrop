@@ -28,7 +28,7 @@
 	<meta name="description" content="${h.meta_description(media=media)}" />
 	<meta name="keywords" content="${h.meta_keywords(media=media)}" />
 </head>
-<body class="${media.podcast and 'nav-podcasts-on' or 'nav-media-on'}" py:with="is_widescreen = False">
+<body class="${media.podcast and 'nav-podcasts-on' or 'nav-media-on'}" py:with="is_widescreen = (g.settings['appearance_enable_widescreen_view'] == 'True')">
 	<div id="media-wrapper" class="mediacore-content clearfix">
 
 		<div py:def="media_box(media)" id="media-box" class="feat-box media-${is_widescreen and 'wide' or 'norm'}">
