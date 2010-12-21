@@ -20,6 +20,7 @@ goog.provide('mcore.initPage');
 
 goog.require('goog.array');
 goog.require('goog.dom');
+goog.require('goog.ui.LabelInput');
 goog.require('mcore.Cooliris');
 goog.require('mcore.comments.CommentForm');
 goog.require('mcore.excerpts.Excerpt');
@@ -35,6 +36,12 @@ goog.require('mcore.players.MultiPlayer');
  * the document.
  */
 mcore.initPage = function() {
+  var searchInput = goog.dom.getElement('nav-search-input');
+  if (searchInput) {
+    var searchLabel = new goog.ui.LabelInput(searchInput.alt);
+    searchLabel.decorate(searchInput);
+  }
+
   var mediaBox = goog.dom.getElement('media-box');
   if (mediaBox) {
     var commentForm = goog.dom.getElement('post-comment-form');
