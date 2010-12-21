@@ -100,6 +100,7 @@ mcore.comments.CommentForm.prototype.handleSubmit = function(e) {
   this.getHandler().listenOnce(xhr, goog.net.EventType.COMPLETE,
       this.handleSubmitComplete);
   xhr.send();
+  this.removeUserErrors();
   this.setFormEnabled(false);
 };
 
@@ -150,6 +151,7 @@ mcore.comments.CommentForm.prototype.setFormValues = function(values) {
  */
 mcore.comments.CommentForm.prototype.setFormEnabled = function(enable) {
   goog.dom.forms.setDisabled(this.getElement(), !enable);
+  goog.dispose(this.fade_);
   if (this.fade_) {
     this.fade_.dispose();
   }
@@ -194,13 +196,21 @@ mcore.comments.CommentForm.prototype.displayUserErrors = function(errors) {
   var form = this.getElement();
   for (var name in errors) {
     var field = form.elements[name];
-    var errorDiv = this.dom_.getPreviousElementSibling(field);
-    if (!errorDiv || !goog.dom.classes.has(errorDiv, 'field-error')) {
-      errorDiv = this.dom_.createDom('div', 'field-error');
-      this.dom_.insertSiblingBefore(errorDiv, field);
-    }
-    this.dom_.setTextContent(errorDiv, errors[name]);
+    var errorDiv = this.dom_.createDom('div', 'field-error', errors[name]);
+    this.dom_.insertSiblingBefore(errorDiv, field);
   }
+};
+
+
+/**
+ * Dispose of all user error messages.
+ */
+mcore.comments.CommentForm.prototype.removeUserErrors = function() {
+  var form = this.getElement();
+  var errorDivs = this.dom_.getElementsByClass('field-error', form);
+  goog.array.forEach(errorDivs, function(elem) {
+    this.dom_.removeNode(elem);
+  }, this);
 };
 
 
