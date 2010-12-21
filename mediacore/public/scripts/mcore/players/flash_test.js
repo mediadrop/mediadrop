@@ -143,6 +143,34 @@ var testOldFlashVersion = function() {
 };
 
 
+var testCanPlayYoutubeVideosOnIPhone = function() {
+  stubs.replace(goog.userAgent.flash, 'HAS_FLASH', false);
+  stubs.replace(goog.userAgent.flash, 'VERSION', '');
+  stubs.replace(goog.userAgent.product, 'IPHONE', true);
+
+  var player = new mcore.players.FlashPlayer(YOUTUBE_URL, 560, 315);
+
+  var canPlay = false;
+  goog.events.listenOnce(player, mcore.players.EventType.CAN_PLAY, function() {
+    canPlay = true;
+  });
+
+  waitForEvent(player, mcore.players.EventType.CAN_PLAY, function() {});
+  waitForCondition(
+    function() { return player.isLoaded(); },
+    function() {
+      assert('The CAN_PLAY event should fire.', canPlay);
+      assert('Tag must be <embed> for YouTube to work on iPhones.',
+             player.getContentElement().tagName == 'EMBED');
+      player.dispose();
+    },
+    100,
+    1500);
+
+  player.render();
+};
+
+
 var testCase = new goog.testing.ContinuationTestCase();
 testCase.autoDiscoverTests();
 G_testRunner.initialize(testCase);

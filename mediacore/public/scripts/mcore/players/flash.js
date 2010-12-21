@@ -24,6 +24,7 @@ goog.provide('mcore.players.FlashPlayer');
 
 goog.require('goog.ui.media.FlashObject');
 goog.require('goog.userAgent.flash');
+goog.require('goog.userAgent.product');
 goog.require('mcore.players');
 
 
@@ -45,7 +46,17 @@ goog.require('mcore.players');
 mcore.players.FlashPlayer = function(flashUrl, opt_width, opt_height,
     opt_flashVars, opt_domHelper) {
   goog.base(this, flashUrl, opt_domHelper);
+
+  /**
+   * The Flash SWF URL. Stored here because there is no public accesor
+   * for this in goog.ui.media.FlashObject.
+   * @type {string}
+   * @protected
+   */
+  this.flashUrl = flashUrl;
+
   this.setRequiredVersion(mcore.players.FlashPlayer.REQUIRED_VERSION);
+
   if (opt_width && opt_height) {
     this.setSize(opt_width, opt_height);
   }
@@ -77,12 +88,29 @@ mcore.players.FlashPlayer.isSupported = function() {
  * @return {boolean} Success.
  */
 mcore.players.FlashPlayer.prototype.testSupport = function() {
-  if (mcore.players.FlashPlayer.isSupported()) {
+  var isSupported = mcore.players.FlashPlayer.isSupported();
+  if (!isSupported && this.isYoutubeOnIPhone()) {
+    isSupported = true;
+    // Disable the flash version checking so that rendering will continue
+    this.setRequiredVersion(null);
+  }
+  if (isSupported) {
     this.dispatchEvent(mcore.players.EventType.CAN_PLAY);
     return true;
   }
   this.dispatchEvent(mcore.players.EventType.NO_SUPPORT);
   return false;
+};
+
+
+/**
+ * iPhones and iPads support YouTube videos when embedded with an <embed> tag.
+ * @return {boolean} True if the browser is an iDevice and the flash URL
+ *     is a YouTube Video.
+ */
+mcore.players.FlashPlayer.prototype.isYoutubeOnIPhone = function() {
+  return (goog.userAgent.product.IPHONE || goog.userAgent.product.IPAD) &&
+      /^https?:\/\/(\w+\.)?youtube\.com/.test(this.flashUrl);
 };
 
 
