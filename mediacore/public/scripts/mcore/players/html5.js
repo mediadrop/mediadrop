@@ -197,13 +197,15 @@ mcore.players.Html5Player.prototype.testSources = function() {
  * @protected
  */
 mcore.players.Html5Player.prototype.attachEvents = function() {
-  this.getHandler().listen(this.getElement(),
-                           goog.events.EventType.ERROR,
-                           this.onError,
-                           true /* fire in the capture phase (required) */);
-  this.getHandler().listenOnce(this.getElement(),
-                               mcore.players.EventType.CAN_PLAY,
-                               this.onCanPlay);
+  var element = this.getElement();
+  var handler = this.getHandler();
+  handler.listen(element,
+                 goog.events.EventType.ERROR,
+                 this.handleError,
+                 true /* fire in the capture phase (required) */);
+  handler.listenOnce(element,
+                     mcore.players.EventType.CAN_PLAY,
+                     this.handleCanPlay);
 };
 
 
@@ -219,7 +221,7 @@ mcore.players.Html5Player.prototype.attachEvents = function() {
  * @param {goog.events.Event} e The error event.
  * @protected
  */
-mcore.players.Html5Player.prototype.onError = function(e) {
+mcore.players.Html5Player.prototype.handleError = function(e) {
   e.stopPropagation();
   // TODO: Explicitly check the error code and handle:
   //        element.error.code == MEDIA_SRC_NOT_SUPPORTED,
@@ -242,7 +244,7 @@ mcore.players.Html5Player.prototype.onError = function(e) {
  * @param {goog.events.Event} e The canplay event.
  * @protected
  */
-mcore.players.Html5Player.prototype.onCanPlay = function(e) {
+mcore.players.Html5Player.prototype.handleCanPlay = function(e) {
   this.dispatchEvent(mcore.players.EventType.CAN_PLAY);
 };
 
