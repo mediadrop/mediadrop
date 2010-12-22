@@ -92,6 +92,7 @@ class PlayersController(BaseController):
         return save(id, **kwargs)
 
     @expose()
+    @autocommit
     def delete(self, id, **kwargs):
         """Delete a PlayerPref.
 
@@ -112,6 +113,7 @@ class PlayersController(BaseController):
         redirect(action='index', id=None)
 
     @expose()
+    @autocommit
     def enable(self, id, **kwargs):
         """Enable a PlayerPref.
 
@@ -124,6 +126,7 @@ class PlayersController(BaseController):
         redirect(action='index', id=None)
 
     @expose()
+    @autocommit
     def disable(self, id, **kwargs):
         """Disable a PlayerPref.
 
@@ -136,6 +139,7 @@ class PlayersController(BaseController):
         redirect(action='index', id=None)
 
     @expose()
+    @autocommit
     def reorder(self, id, direction, **kwargs):
         """Reorder a PlayerPref.
 

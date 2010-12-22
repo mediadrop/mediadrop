@@ -79,6 +79,7 @@ class UploadController(BaseController):
 
     @expose('json')
     @validate(upload_form)
+    @autocommit
     @observable(events.UploadController.submit_async)
     def submit_async(self, **kwargs):
         """Ajax form validation and/or submission.
@@ -145,6 +146,7 @@ class UploadController(BaseController):
 
     @expose()
     @validate(upload_form, error_handler=index)
+    @autocommit
     @observable(events.UploadController.submit)
     def submit(self, **kwargs):
         """
@@ -172,7 +174,6 @@ class UploadController(BaseController):
     def failure(self, **kwargs):
         return dict()
 
-    @autocommit
     def save_media_obj(self, name, email, title, description, tags, uploaded_file, url):
         # create our media object as a status-less placeholder initially
         media_obj = Media()

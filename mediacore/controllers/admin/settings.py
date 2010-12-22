@@ -85,6 +85,7 @@ class SettingsController(BaseSettingsController):
 
     @expose()
     @validate(notifications_form, error_handler=notifications)
+    @autocommit
     def notifications_save(self, **kwargs):
         """Save :class:`~mediacore.forms.admin.settings.NotificationsForm`."""
         return self._save(notifications_form, 'notifications', values=kwargs)
@@ -95,6 +96,7 @@ class SettingsController(BaseSettingsController):
 
     @expose()
     @validate(comments_form, error_handler=comments)
+    @autocommit
     def comments_save(self, **kwargs):
         """Save :class:`~mediacore.forms.admin.settings.CommentsForm`."""
         if kwargs['vulgarity'].pop('run_filter_now'):
@@ -110,6 +112,7 @@ class SettingsController(BaseSettingsController):
 
     @expose()
     @validate(api_form, error_handler=comments)
+    @autocommit
     def save_api(self, **kwargs):
         """Save :class:`~mediacore.forms.admin.settings.APIForm`."""
         return self._save(api_form, 'api', values=kwargs)
@@ -139,6 +142,7 @@ class SettingsController(BaseSettingsController):
 
     @expose()
     @validate(upload_form, error_handler=upload)
+    @autocommit
     def upload_save(self, **kwargs):
         """Save :class:`~mediacore.forms.admin.settings.UploadForm`."""
         return self._save(upload_form, 'upload', values=kwargs)
@@ -149,6 +153,7 @@ class SettingsController(BaseSettingsController):
 
     @expose()
     @validate(analytics_form, error_handler=analytics)
+    @autocommit
     def analytics_save(self, **kwargs):
         """Save :class:`~mediacore.forms.admin.settings.AnalyticsForm`."""
         return self._save(analytics_form, 'analytics', values=kwargs)
@@ -159,6 +164,7 @@ class SettingsController(BaseSettingsController):
 
     @expose()
     @validate(general_form, error_handler=general)
+    @autocommit
     def general_save(self, **kwargs):
         """Save :class:`~mediacore.forms.admin.settings.GeneralForm`."""
         return self._save(general_form, 'general', values=kwargs)
@@ -169,6 +175,7 @@ class SettingsController(BaseSettingsController):
 
     @expose()
     @validate(sitemaps_form, error_handler=general)
+    @autocommit
     def sitemaps_save(self, **kwargs):
         """Save :class:`~mediacore.forms.admin.settings.SiteMapsForm`."""
         return self._save(sitemaps_form, 'sitemaps', values=kwargs)
@@ -179,6 +186,7 @@ class SettingsController(BaseSettingsController):
 
     @expose()
     @validate(appearance_form, error_handler=appearance)
+    @autocommit
     def appearance_save(self, **kwargs):
         """Save :class:`~mediacore.forms.admin.settings.appearanceForm`."""
         settings = app_globals.settings

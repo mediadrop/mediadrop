@@ -122,6 +122,7 @@ class MediaController(BaseController):
 
     @expose('admin/media/edit.html')
     @validate(validators={'podcast': validators.Int()})
+    @autocommit
     @observable(events.Admin.MediaController.edit)
     def edit(self, id, **kwargs):
         """Display the media forms for editing or adding.
@@ -633,6 +634,7 @@ class MediaController(BaseController):
             redirect(action='edit')
 
     @expose('json')
+    @autocommit
     def bulk(self, type=None, ids=None, **kwargs):
         """Perform bulk operations on media items
 
@@ -678,7 +680,6 @@ class MediaController(BaseController):
             rows = rows,
         )
 
-    @autocommit
     def _publish_media(self, media, publish_on=None):
         media.publishable = True
         media.publish_on = publish_on or media.publish_on or datetime.now()
@@ -688,7 +689,6 @@ class MediaController(BaseController):
             new_slug = get_available_slug(Media, media.slug[len('_stub_'):])
             media.slug = new_slug
 
-    @autocommit
     def _delete_media(self, media):
         # FIXME: Ensure that if the first file is deleted from the file system,
         #        then the second fails, the first file is deleted from the

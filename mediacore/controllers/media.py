@@ -180,6 +180,7 @@ class MediaController(BaseController):
         redirect(action='view', slug=media.slug, podcast_slug=podcast_slug)
 
     @expose('media/view.html')
+    @autocommit
     @observable(events.MediaController.view)
     def view(self, slug, podcast_slug=None, **kwargs):
         """Display the media player, info and comments.
@@ -280,6 +281,7 @@ class MediaController(BaseController):
         )
 
     @expose()
+    @autocommit
     @observable(events.MediaController.rate)
     def rate(self, slug, up=None, down=None, **kwargs):
         """Say 'I like this' for the given media.

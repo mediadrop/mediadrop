@@ -63,6 +63,7 @@ class StorageController(BaseController):
         }
 
     @expose('admin/storage/edit.html')
+    @autocommit
     def edit(self, id, engine_type=None, **kwargs):
         """Display the :class:`~mediacore.lib.storage.StorageEngine` for editing or adding.
 
@@ -121,6 +122,7 @@ class StorageController(BaseController):
         return save_engine_params(id, **kwargs)
 
     @expose('json')
+    @autocommit
     def delete(self, id, **kwargs):
         """Delete a StorageEngine.
 
@@ -135,8 +137,8 @@ class StorageController(BaseController):
         DBSession.delete(engine)
         redirect(action='index', id=None)
 
-
     @expose()
+    @autocommit
     def enable(self, id, **kwargs):
         """Enable a StorageEngine.
 
@@ -149,6 +151,7 @@ class StorageController(BaseController):
         redirect(action='index', id=None)
 
     @expose()
+    @autocommit
     def disable(self, id, **kwargs):
         """Disable a StorageEngine.
 
