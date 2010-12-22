@@ -145,13 +145,13 @@
 		<h1 class="box-head">Add New Storage Engine</h1>
 		<div class="box-content">
 			<p>Please select what type of storage engine you would like to add:</p>
-			<ul>
+			<ul class="numbers">
 				<li py:for="engine in addable_engines">
 					<a href="${h.url_for(action='edit', id='new', engine_type=engine.engine_type)}">${engine.default_name}</a>
 				</li>
 			</ul>
 		</div>
-		<div class="box-foot" />
+		<div class="box-bottom" />
 	</div>
 </body>
 </html>
