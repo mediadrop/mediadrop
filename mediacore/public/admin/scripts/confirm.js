@@ -36,6 +36,7 @@ var ConfirmMgr = new Class({
 		header: 'Confirm',
 		msg: 'Are you sure?',
 		overlayOpacity: 0.4,
+		wrapParagraph: true,
 		focus: 'confirm'
 		//onConfirm: $empty (e.target)
 	},
@@ -55,16 +56,21 @@ var ConfirmMgr = new Class({
 		// Set up the dialog box
 		var header = $type(this.options.header) == 'function' ? this.options.header(target) :this.options.header;
 		var msg = $type(this.options.msg) == 'function' ? this.options.msg(target) : this.options.msg;
+		if (this.options.wrapParagraph) {
+			msg = '<p>' + msg + '</p>';
+		}
 
 		var box = new Element('div', {'class': 'box'});
 		var head = new Element('h1', {'class': 'box-head', html: header}).inject(box);
-		var text = new Element('p', {'class': 'box-content', html: msg}).inject(box);
+		var text = new Element('div', {'class': 'box-content', html: msg}).inject(box);
 		var buttons = new Element('div', {'class': 'box-foot'}).inject(box);
 		var cancelButton = new Element('button', {'class': this.options.cancelButtonClass, html: '<span>' + this.options.cancelButtonText + '</span>'}).inject(buttons);
 		var confirmButton = new Element('button', {'class': this.options.confirmButtonClass, html: '<span>' + this.options.confirmButtonText + '</span>'}).inject(buttons);
 
 		cancelButton.addEvent('click', this.cancel.pass(target, this));
 		confirmButton.addEvent('click', this.confirm.pass(target, this));
+
+		this.openDialogHook(target, box, head, text, buttons, cancelButton, confirmButton)
 
 		SqueezeBox.fromElement(box, {
 			size: {x: 630, y: 400},
@@ -85,6 +91,10 @@ var ConfirmMgr = new Class({
 				}
 			}.bind(this)
 		});
+	},
+
+	openDialogHook: function(box, head, text, buttons, cancelButton, confirmButton) {
+		// Only implemented in subclasses.
 	},
 
 	cancel: function(target){

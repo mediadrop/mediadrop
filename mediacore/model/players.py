@@ -147,3 +147,54 @@ def fetch_enabled_players():
             query_data.remove((name, data))
     log.warn('No registered players are configured in your database.')
     return []
+
+def cleanup_players_table(enabled=False):
+    """
+    Ensure that all available players are added to the database
+    and that players are prioritized in incrementally increasing order.
+
+    :param enabled: Should the default players be enabled upon creation?
+    :type enabled: bool
+    """
+    from mediacore.lib.players import (BlipTVFlashPlayer,
+        GoogleVideoFlashPlayer, HTML5PlusJWPlayer, VimeoUniversalEmbedPlayer,
+        YoutubeFlashPlayer)
+
+    # When adding players, prefer them in the following order:
+    default_players = [
+        HTML5PlusJWPlayer,
+        YoutubeFlashPlayer,
+        VimeoUniversalEmbedPlayer,
+        GoogleVideoFlashPlayer,
+        BlipTVFlashPlayer,
+    ]
+    unordered_players = [p for p in AbstractPlayer if p not in default_players]
+    all_players = default_players + unordered_players
+
+    # fetch the players that are already in the database
+    s = players.select().order_by('priority')
+    existing_players_query = DBSession.execute(s)
+    existing_player_rows = [p for p in existing_players_query]
+    existing_player_names = [p['name'] for p in existing_player_rows]
+
+    # Ensure all priorities are monotonically increasing from 1..n
+    priority = 0
+    for player_row in existing_player_rows:
+        priority += 1
+        if player_row['priority'] != priority:
+            u = players.update()\
+                       .where(players.c.id == player_row['id'])\
+                       .values(priority=priority)
+            DBSession.execute(u)
+
+    # Ensure that all available players are in the database
+    for player_cls in all_players:
+        if player_cls.name not in existing_player_names:
+            enable_player = enabled and player_cls in default_players
+            priority += 1
+            DBSession.execute(players.insert().values(
+                name=player_cls.name,
+                enabled=enable_player,
+                data=player_cls.default_data,
+                priority=priority,
+            ))

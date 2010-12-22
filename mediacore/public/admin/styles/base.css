@@ -34,6 +34,18 @@ select,input,button,textarea,button{font:99% arial,helvetica,clean,sans-serif}
 table{font-size:inherit;font:100%}
 pre,code,kbd,samp,tt{font-family:monospace;*font-size:108%;line-height:100%}
 
+/* Google Closure Library crossbrowser inline-block */
+.goog-inline-block {
+	position: relative;
+	display: -moz-inline-box; /* Ignored by FF3 and later. */
+	display: inline-block;
+}
+* html .goog-inline-block {
+	display: inline;
+}
+*:first-child+html .goog-inline-block {
+	display: inline;
+}
 
 /*Generic Styles*/
 .hidden { display: none; }
@@ -71,6 +83,17 @@ a:hover, a:active, .link:hover, .clickable:hover, .link:hover {
 h1 {
 	font-size: 18px;
 	text-shadow: 0 1px #fff;
+}
+
+ul.bullets > li,
+ol.bullets > li {
+	list-style: disc outside none;
+	margin-left: 16px;
+}
+ul.numbers > li,
+ol.numbers > li {
+	list-style: decimal outside none;
+	margin-left: 21px;
 }
 
 body {
@@ -462,8 +485,13 @@ a.btn.table-row:visited {
 	width: 27px;
 	background-image: url('../images/layout/btn-table-delete2.png');
 }
+.btn.table-row.delete-solo {
+	width: 26px;
+	background-image: url('../images/layout/btn-table-delete-rounded.png');
+}
 .btn.table-row.delete span,
 .btn.table-row.delete2 span,
+.btn.table-row.delete-solo span,
 .btn.table-row.publish span,
 .btn.table-row.published span {
 	display: none;
@@ -726,4 +754,48 @@ input.submitbutton {
 .bulk-control select {
 	font-size :14px;
 	margin-top: 1px;
+}
+
+
+/* Styles for tables that include status columns,
+ * like the Storage Engine and Players index tables */
+.status-enabled,
+.status-disabled {
+	width: 16px;
+	height: 12px;
+	padding-left: 16px;
+	background-position: 0 -2px;
+}
+.status-enabled {
+	background-image: url('../images/icons/green.png');
+}
+.status-disabled {
+	background-image: url('../images/icons/grey.png');
+}
+.status-table th#h-status,
+.status-table td[headers='h-status'] {
+	padding-right: 0;
+}
+.status-table td[headers='h-status'] {
+	text-align: center;
+	padding-top: 12px;
+}
+
+.uparrow,
+.downarrow {
+	height: 0;
+	width: 0;
+	padding-top: 16px;
+	padding-left: 16px;
+	overflow: hidden;
+}
+.uparrow > span,
+.downarrow > span {
+	display: none;
+}
+.uparrow {
+	background-image: url('../images/icons/up.png');
+}
+.downarrow {
+	background-image: url('../images/icons/down.png');
 }

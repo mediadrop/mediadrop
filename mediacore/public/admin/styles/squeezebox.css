@@ -115,7 +115,7 @@
 #sbox-content .box-content {
 	background: url('../images/layout/sbox-content.png') repeat-y;
 	width: 598px;
-	padding: 0 16px;
+	padding: 10px 16px;
 }
 #sbox-content .box-wide .box-content {
 	width: 798px;
@@ -127,14 +127,6 @@
 }
 #sbox-content .box-wide table.box-content {
 	width: 830px;
-}
-#sbox-content p.box-content {
-	margin: 0;
-	padding: 10px 26px;
-	width: 578px;
-}
-#sbox-content .box-wide p.box-content {
-	width: 780px;
 }
 #sbox-content .box-bottom {
 	height: 29px;
@@ -150,9 +142,37 @@
 	border: 0;
 	width: 580px;
 	height: 54px;
-	padding: 10px 25px;
+	padding: 8px 25px;
 }
 #sbox-content .box-wide .box-foot {
 	width: 780px;
 	background-image: url('../images/layout/sbox-wide-bottom-buttons.png');
+}
+
+/* Custom formatting for elements inside a modal dialogue */
+#sbox-content .box-content > ul.field-list {
+	margin: -10px 0;
+}
+#sbox-content .box-content p {
+	margin: 0;
+	padding: 0 10px 10px 10px;
+}
+#sbox-content .box-content h2 {
+	font-size: 16px;
+	margin: 10px;
+}
+#sbox-content .box-content .numbers,
+#sbox-content .box-content .bullets {
+	padding: 0 10px 10px 10px;
+}
+#sbox-content em {
+	color: #AC3D4A; /* XXX: This colour should be edited/approved by a designer */
+}
+#sbox-content .box-content > *:last-child {
+	margin-bottom: 0;
+	padding-bottom: 0;
+}
+#sbox-content .box-content > *:first-child {
+	margin-top: 0;
+	padding-top: 0;
 }

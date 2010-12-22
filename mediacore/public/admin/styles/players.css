@@ -12,17 +12,23 @@
 	padding-bottom: 5px;
 }
 
-.playerform #options label {
-	margin-left: 30px;
+.playerform .options label {
+	width: 576px;
+	float: right;
 }
-.playerform #options input  {
-	left: 0px;
-	position: absolute;
-	top: 3px;
-	vertical-align: top;
+.playerform .options input  {
+	width: auto;
+	float: left;
+	margin: 2px 0 0 5px;
 }
-.playerform #options li {
-	position: relative;
+.playerform .options li:after {
+	/* NB: This is the same as our 'clearfix' class
+	 *     in /public/styles/base.css */
+	content: ".";
+	display: block;
+	height: 0;
+	clear: both;
+	visibility: hidden;
 }
 
 .playerform .fieldhelp {

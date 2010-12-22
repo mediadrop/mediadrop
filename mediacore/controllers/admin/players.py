@@ -18,6 +18,7 @@ import logging
 from pylons import request, response, session, tmpl_context
 from repoze.what.predicates import has_permission
 from sqlalchemy import orm, sql
+from webob.exc import HTTPNotFound
 
 from mediacore.lib import helpers
 from mediacore.lib.base import BaseController
@@ -25,7 +26,8 @@ from mediacore.lib.decorators import (autocommit, expose, observable,
     paginate, validate)
 from mediacore.lib.helpers import redirect, url_for
 from mediacore.lib.players import AbstractPlayer
-from mediacore.model import DBSession, fetch_row, PlayerPrefs
+from mediacore.model import (DBSession, PlayerPrefs, fetch_row,
+    cleanup_players_table)
 from mediacore.plugin import events
 
 log = logging.getLogger(__name__)
@@ -45,22 +47,7 @@ class PlayersController(BaseController):
                 instances for this page.
 
         """
-        players = PlayerPrefs.query.all()
-
-        existing_db_names = set(p.name for p in players)
-        existing_cls_names = set(p.name for p in AbstractPlayer)
-
-        for name in existing_db_names.difference(existing_cls_names):
-            for i, p in enumerate(players):
-                if p.name == name:
-                    break
-            players.pop(i)
-
-        for name in existing_cls_names.difference(existing_db_names):
-            p = PlayerPrefs()
-            p.name = name
-            p.enabled = False
-            players.append(p)
+        players = PlayerPrefs.query.order_by(PlayerPrefs.priority).all()
 
         return {
             'players': players,
@@ -104,11 +91,72 @@ class PlayersController(BaseController):
 
         return save(id, **kwargs)
 
-    @expose('json')
+    @expose()
     def delete(self, id, **kwargs):
-        """Delete a user.
+        """Delete a PlayerPref.
 
-        :param id: User ID.
+        After deleting the PlayerPref, cleans up the players table,
+        ensuring that each Player class is represented
+        If the deleted PlayerPref is the last example of that Player class,
+        creates a new, 'disabled', PlayerPref for that Player class with
+        the default settings.
+
+        :param id: Player ID.
         :type id: ``int``
         :returns: Redirect back to :meth:`index` after successful delete.
         """
+        player = fetch_row(PlayerPrefs, id)
+        DBSession.delete(player)
+        DBSession.flush()
+        cleanup_players_table()
+        redirect(action='index', id=None)
+
+    @expose()
+    def enable(self, id, **kwargs):
+        """Enable a PlayerPref.
+
+        :param id: Player ID.
+        :type id: ``int``
+        :returns: Redirect back to :meth:`index` after success.
+        """
+        player = fetch_row(PlayerPrefs, id)
+        player.enabled = True
+        redirect(action='index', id=None)
+
+    @expose()
+    def disable(self, id, **kwargs):
+        """Disable a PlayerPref.
+
+        :param id: Player ID.
+        :type id: ``int``
+        :returns: Redirect back to :meth:`index` after success.
+        """
+        player = fetch_row(PlayerPrefs, id)
+        player.enabled = False
+        redirect(action='index', id=None)
+
+    @expose()
+    def reorder(self, id, direction, **kwargs):
+        """Reorder a PlayerPref.
+
+        :param id: Player ID.
+        :type id: ``int``
+        :returns: Redirect back to :meth:`index` after success.
+        """
+        if direction == 'up':
+            offset = -1
+        elif direction == 'down':
+            offset = 1
+        else:
+            return
+
+        player1 = fetch_row(PlayerPrefs, id)
+        new_priority = player1.priority + offset
+        try:
+            player2 = fetch_row(PlayerPrefs, priority=new_priority)
+            player2.priority = player1.priority
+            player1.priority = new_priority
+        except HTTPNotFound:
+            pass
+
+        redirect(action='index', id=None)

@@ -81,6 +81,13 @@ class StorageController(BaseController):
                 redirect(controller='/admin/storage', action='index')
             engine = engine_cls()
 
+            if not engine.settings_form:
+                # XXX: If this newly created storage engine has no settings,
+                #      just save it. This isn't RESTful (as edit is a GET
+                #      action), but it simplifies the creation process.
+                DBSession.add(engine)
+                redirect(controller='/admin/storage', action='index')
+
         return {
             'engine': engine,
             'form': engine.settings_form,
@@ -115,9 +122,40 @@ class StorageController(BaseController):
 
     @expose('json')
     def delete(self, id, **kwargs):
-        """Delete a user.
+        """Delete a StorageEngine.
 
-        :param id: User ID.
+        :param id: Storage ID.
         :type id: ``int``
         :returns: Redirect back to :meth:`index` after successful delete.
         """
+        engine = fetch_row(StorageEngine, id)
+        files = engine.files
+        for f in files:
+            engine.delete(f.unique_id)
+        DBSession.delete(engine)
+        redirect(action='index', id=None)
+
+
+    @expose()
+    def enable(self, id, **kwargs):
+        """Enable a StorageEngine.
+
+        :param id: Storage ID.
+        :type id: ``int``
+        :returns: Redirect back to :meth:`index` after success.
+        """
+        engine = fetch_row(StorageEngine, id)
+        engine.enabled = True
+        redirect(action='index', id=None)
+
+    @expose()
+    def disable(self, id, **kwargs):
+        """Disable a StorageEngine.
+
+        :param id: engine ID.
+        :type id: ``int``
+        :returns: Redirect back to :meth:`index` after success.
+        """
+        engine = fetch_row(StorageEngine, id)
+        engine.enabled = False
+        redirect(action='index', id=None)
