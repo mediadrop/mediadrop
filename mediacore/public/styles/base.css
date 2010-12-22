@@ -41,6 +41,15 @@ embed, object, iframe, audio, video {
 	display: block;
 }
 
+ul.bullets > li,
+ol.bullets > li {
+	list-style: disc outside none;
+}
+ul.numbers > li,
+ol.numbers > li {
+	list-style: decimal outside none;
+}
+
 .hidden {
 	display: none;
 }

@@ -85,6 +85,17 @@ h1 {
 	text-shadow: 0 1px #fff;
 }
 
+ul.bullets > li,
+ol.bullets > li {
+	list-style: disc outside none;
+	margin-left: 16px;
+}
+ul.numbers > li,
+ol.numbers > li {
+	list-style: decimal outside none;
+	margin-left: 21px;
+}
+
 body {
 	background: #e0e4ea url('../images/layout/body-bg.png') repeat-x top;
 	text-align: center;
