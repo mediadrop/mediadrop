@@ -80,6 +80,13 @@ class StorageController(BaseController):
                 redirect(controller='/admin/storage', action='index')
             engine = engine_cls()
 
+            if not engine.settings_form:
+                # XXX: If this newly created storage engine has no settings,
+                #      just save it. This isn't RESTful (as edit is a GET
+                #      action), but it simplifies the creation process.
+                DBSession.add(engine)
+                redirect(controller='/admin/storage', action='index')
+
         return {
             'engine': engine,
             'form': engine.settings_form,
