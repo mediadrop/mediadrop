@@ -85,11 +85,15 @@ a:hover {
 /* MediaCore default layout */
 #mcore-site-title,
 #mcore-logo {
-	height: 28px;
 	width: 920px;
 	margin: 10px auto;
 }
+#mcore-tagline {
+	margin-top: -10px;
+	font-size: 12px;
+}
 #mcore-logo {
+	height: 28px;
 	background: url('../images/layout/logo.png') no-repeat left;
 }
 #mcore-logo a {

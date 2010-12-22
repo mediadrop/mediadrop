@@ -35,17 +35,15 @@
 
 <body py:match="body" py:attrs="select('@*')">
 	<div id="mcore-custom-header">${Markup(g.settings['appearance_custom_header_html'])}</div>
-	<py:choose test="bool(g.settings.get('appearance_display_logo', '') and g.settings.get('appearance_logo', ''))">
-		<py:when test="1">
-			<h1 id="mcore-logo">
-				<a href="${h.url_for('/')}">${g.settings['general_site_name']}</a>
-			</h1>
-		</py:when>
-		<py:otherwise>
-			<h1 id="mcore-site-title">
-				<a class="mcore-link underline-hover" href="${h.url_for('/')}">${g.settings['general_site_name']} - ${g.settings['general_tag_line']}</a>
-			</h1>
-		</py:otherwise>
+
+	<py:choose test="g.settings['appearance_display_logo'] and g.settings['appearance_logo']">
+		<h1 py:when="True" id="mcore-logo">
+			<a href="${h.url_for('/')}">${g.settings['general_site_name']}</a>
+		</h1>
+		<div py:otherwise="" id="mcore-site-title" py:with="tagline = g.settings['general_tag_line']">
+			<h1><a class="mcore-link underline-hover" href="${h.url_for('/')}">${g.settings['general_site_name']}</a></h1>
+			<div id="mcore-tagline" py:if="tagline">${tagline}</div>
+		</div>
 	</py:choose>
 
 	<div py:replace="select('*|text()|comment()')">Content is injected here</div>
