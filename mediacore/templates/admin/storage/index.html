@@ -77,7 +77,7 @@
 				addModal.open();
 			});
 
-			var deleteConfirm = new DeleteConfirmMgr({msg: getMsgText});
+			var deleteConfirm = new DeleteConfirmMgr({msg: getMsgText, wrapParagraph: false});
 			deleteConfirm.openDialogHook = function(target, box, head, text, buttons, cancelButton, confirmButton) {
 				// XXX: This is explicitly dependent on the structure of the table#storage-table below
 				var id = getTR(target).get('id').substr(7);
