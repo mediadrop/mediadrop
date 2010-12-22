@@ -334,7 +334,7 @@ tr.error td[headers='thf-type'] {
 #add-media-btn a:active { background-position: 0 -68px }
 
 .btn-dash {
-	background:url("/admin/images/buttons/btn-dark-bg.png") repeat-x;
+	background:url("../images/buttons/btn-dark-bg.png") repeat-x;
 	border-bottom:none;
 	text-align:center;
 }
