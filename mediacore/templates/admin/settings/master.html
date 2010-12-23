@@ -39,21 +39,39 @@
 	">
 		<div class="box">
 			<h1 class="box-head">Settings</h1>
-			<ul class="box-content settings-menu" py:with="links = [
-				(_('General'), h.url_for(controller='/admin/settings', action='general')),
-				(_('Analytics'), h.url_for(controller='/admin/settings', action='analytics')),
-				(_('Appearance'), h.url_for(controller='/admin/settings', action='appearance')),
-				(_('Comments'), h.url_for(controller='/admin/settings', action='comments')),
-				(_('Data API'), h.url_for(controller='/admin/settings', action='api')),
-				(_('Notifications'), h.url_for(controller='/admin/settings', action='notifications')),
-				(_('Players'), h.url_for(controller='/admin/players')),
-				(_('Popularity'), h.url_for(controller='/admin/settings', action='popularity')),
-				(_('RSS and Sitemaps'), h.url_for(controller='/admin/settings', action='sitemaps')),
-				(_('Storage Engines'), h.url_for(controller='/admin/storage')),
-				(_('Upload'), h.url_for(controller='/admin/settings', action='upload')),
-			]">
-				<li py:for="text, link in links">
-					<a href="${link}" class="${current_url.startswith(link) and 'selected' or None}">${text}</a>
+			<ul class="box-content settings-menu">
+				<li py:with="link = h.url_for(controller='/admin/settings', action='general')">
+					<a href="${link}" class="${current_url.startswith(link) and 'selected' or None}">General</a>
+				</li>
+				<li py:with="link = h.url_for(controller='/admin/settings', action='analytics')">
+					<a href="${link}" class="${current_url.startswith(link) and 'selected' or None}">Analytics</a>
+				</li>
+				<li py:with="link = h.url_for(controller='/admin/settings', action='appearance')">
+					<a href="${link}" class="${current_url.startswith(link) and 'selected' or None}">Appearance</a>
+				</li>
+				<li py:with="link = h.url_for(controller='/admin/settings', action='comments')">
+					<a href="${link}" class="${current_url.startswith(link) and 'selected' or None}">Comments</a>
+				</li>
+				<li py:with="link = h.url_for(controller='/admin/settings', action='api')">
+					<a href="${link}" class="${current_url.startswith(link) and 'selected' or None}">Data API</a>
+				</li>
+				<li py:with="link = h.url_for(controller='/admin/settings', action='notifications')">
+					<a href="${link}" class="${current_url.startswith(link) and 'selected' or None}">Notifications</a>
+				</li>
+				<li py:with="link = h.url_for(controller='/admin/players')">
+					<a href="${link}" class="${current_url.startswith(link) and 'selected' or None}">Players</a>
+				</li>
+				<li py:with="link = h.url_for(controller='/admin/settings', action='popularity')">
+					<a href="${link}" class="${current_url.startswith(link) and 'selected' or None}">Popularity</a>
+				</li>
+				<li py:with="link = h.url_for(controller='/admin/settings', action='sitemaps')">
+					<a href="${link}" class="${current_url.startswith(link) and 'selected' or None}">RSS and Sitemaps</a>
+				</li>
+				<li py:with="link = h.url_for(controller='/admin/storage')">
+					<a href="${link}" class="${current_url.startswith(link) and 'selected' or None}">Storage Engines</a>
+				</li>
+				<li py:with="link = h.url_for(controller='/admin/settings', action='upload')">
+					<a href="${link}" class="${current_url.startswith(link) and 'selected' or None}">Upload</a>
 				</li>
 			</ul>
 		</div>
