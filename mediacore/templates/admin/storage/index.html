@@ -109,7 +109,7 @@
 	<div class="box">
 		<div class="box-head">
 			<h1>Storage Engines</h1>
-			<a id="add-engine-btn" href="${h.url_for(action='edit', id='new')}" class="btn inline f-rgt"><span>Add Engine</span></a>
+			<a id="add-engine-btn" href="${h.url_for(action='edit', id='new')}" class="btn inline f-rgt"><span>Add New Engine</span></a>
 			<!--!<span class="box-head-sec">${h.doc_link('admin/settings', 'storage')}</span>-->
 		</div>
 		<table cellpadding="0" cellspacing="0" id="storage-table" class="status-table">
@@ -137,7 +137,7 @@
 					<td headers="h-file-count" style="text-align:center">${engine.file_count}</td>
 					<td headers="h-btns">
 						<div class="f-rgt" py:with="show_edit = engine.settings_form is not None; delete_class = show_edit and 'delete' or 'delete-solo'">
-							<a py:if="show_edit" href="${h.url_for(action='edit', id=engine.id)}" class="btn table-row middle f-lft"><span>edit</span></a>
+							<a py:if="show_edit" href="${h.url_for(action='edit', id=engine.id)}" class="btn table-row middle f-lft"><span>Edit</span></a>
 							<form action="${h.url_for(action='delete', id=engine.id)}" method="post" class="delete-engine-form f-lft">
 								<button class="btn table-row ${delete_class}" type="submit" name="delete"><span>Delete</span></button>
 							</form>
@@ -148,7 +148,7 @@
 		</table>
 	</div>
 	<div id="add-box" class="box hidden">
-		<h1 class="box-head">Add New Storage Engine</h1>
+		<h1 class="box-head">Add New Engine</h1>
 		<div class="box-content">
 			<p>Please select what type of storage engine you would like to add:</p>
 			<ul class="numbers">

@@ -20,7 +20,7 @@
       xmlns:xi="http://www.w3.org/2001/XInclude">
 <xi:include href="./master.html" />
 <head>
-	<title>API Preferences</title>
+	<title>Data API</title>
 	<link href="${h.url_for('/admin/styles/forms.css')}" media="screen" rel="stylesheet" type="text/css" />
 	<script type="text/javascript">
 		var mcore_api_generate_text = '${_('Generate')}';
@@ -30,7 +30,7 @@
 <body>
 	<div class="box">
 		<div class="box-head">
-			<h1>API Preferences</h1>
+			<h1>Data API</h1>
 			<span class="box-head-sec">${h.doc_link('admin/settings', 'api')}</span>
 		</div>
 		<form py:replace="XML(form(form_values))" />

@@ -20,7 +20,7 @@
       xmlns:xi="http://www.w3.org/2001/XInclude">
 <xi:include href="../master.html" />
 <head>
-	<title>${podcast.title and _('Edit Podcast: %s') % podcast.title or _('New Podcast')}</title>
+	<title>${podcast.title and _('Edit Podcast') + ': ' + podcast.title or _('New Podcast')}</title>
 	<link href="${h.url_for('/admin/styles/forms.css')}" media="screen" rel="stylesheet" type="text/css" />
 	<link href="${h.url_for('/admin/styles/uploader.css')}" media="screen" rel="stylesheet" type="text/css" />
 	<link href="${h.url_for('/admin/styles/podcasts.css')}" media="screen" rel="stylesheet" type="text/css" />

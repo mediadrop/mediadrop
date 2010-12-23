@@ -76,7 +76,7 @@
 	</div>
 
 	<div id="add-box" class="box hidden">
-		<h1 class="box-head">Add New Tag</h1>
+		<h1 class="box-head">Add Tag</h1>
 		${tag_form(action=h.url_for(action='save', id='new'))}
 	</div>
 	<div id="edit-box" class="box hidden">
@@ -87,7 +87,7 @@
 		<h1 class="box-head">Delete Tag</h1>
 		<form>
 			<input py:for="field in ('name', 'slug')" type="hidden" name="${field}" value="" />
-			<p class="box-content">Are you sure you want to delete this tag?</p>
+			<p class="box-content">Are you sure you want to delete this?</p>
 			<div class="box-foot">
 				<button type="reset" name="cancel" class="btn f-lft"><span>Cancel</span></button>
 				<button type="submit" name="delete" class="btn red f-rgt"><span>Delete</span></button>

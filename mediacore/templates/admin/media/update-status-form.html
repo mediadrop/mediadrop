@@ -48,10 +48,10 @@
 			</py:when>
 			<py:when test="not media.reviewed">
 				<ol id="status-list">
-					<li class="status-list-inprogress">review pending</li>
-					<li class="status-list-${media.encoded and 'complete' or 'pending'}">${media.encoded and _('encoding complete') or _('encoding pending')}</li>
+					<li class="status-list-inprogress">Review Pending</li>
+					<li class="status-list-${media.encoded and 'complete' or 'pending'}">${media.encoded and _('Encoding Complete') or _('Encoding Pending')}</li>
 					<li class="status-list-pending" id="status-publish" title="Click to change the publish date">
-						publishing <span class="publish-date" py:content="publish_on or _('pending')" />
+						Publishing <span class="publish-date" py:content="publish_on or _('Pending')" />
 					</li>
 				</ol>
 				<div class="center" py:choose="">
@@ -64,20 +64,20 @@
 			</py:when>
 			<py:when test="not media.encoded">
 				<ol id="status-list">
-					<li class="status-list-complete">review complete</li>
-					<li class="status-list-inprogress">encoding pending</li>
+					<li class="status-list-complete">Review Complete</li>
+					<li class="status-list-inprogress">Encoding Pending</li>
 					<li class="status-list-pending" id="status-publish" title="Click to change the publish date">
-						publishing <span class="publish-date" py:content="publish_on or _('pending')" />
+						Publishing <span class="publish-date" py:content="publish_on or _('Pending')" />
 					</li>
 				</ol>
 				<div class="center" style="margin-top:10px">Encoding will be complete when an acceptable file is added.</div>
 			</py:when>
 			<py:when test="not media.publishable">
 				<ol id="status-list">
-					<li class="status-list-complete">review complete</li>
-					<li class="status-list-complete">encoding complete</li>
+					<li class="status-list-complete">Review Complete</li>
+					<li class="status-list-complete">Encoding Complete</li>
 					<li class="status-list-inprogress" id="status-publish" title="Click to change the publish date">
-						publishing <span class="publish-date" py:content="publish_on or _('pending')" />
+						Publishing <span class="publish-date" py:content="publish_on or _('Pending')" />
 					</li>
 				</ol>
 				<div class="center">
@@ -87,15 +87,14 @@
 			</py:when>
 			<py:when test="media.publishable">
 				<ol id="status-list">
-					<li class="status-list-complete">review complete</li>
-					<li class="status-list-complete">encoding complete</li>
+					<li class="status-list-complete">Review Complete</li>
+					<li class="status-list-complete">Encoding Complete</li>
 					<li class="status-list-complete" id="status-publish" title="Click to change the publish date">
-						${media.is_published and _('published') or _('publishing')}
-						<span class="publish-date" py:content="publish_on or _('pending')" />
+						${media.is_published and _('Published') or _('Publishing')}
+						<span class="publish-date" py:content="publish_on or _('Pending')" />
 					</li>
 				</ol>
 			</py:when>
-			<py:otherwise test="">Status error</py:otherwise>
 			<div py:if="defined('status_error') and status_error" py:content="status_error" class="center" />
 		</div>
 		<div id="update-status-error" class="box-error hidden" />
