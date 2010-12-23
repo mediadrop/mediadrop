@@ -16,9 +16,9 @@
 from pylons.i18n import N_, _
 from formencode.validators import URL
 from genshi.core import Markup
-from tw.forms import ListFieldSet, SingleSelectField
+from tw.forms import SingleSelectField
 from tw.forms.validators import NotEmpty
-from mediacore.forms import ListForm, SubmitButton, TextField, XHTMLTextArea, email_validator
+from mediacore.forms import ListForm, ListFieldSet, SubmitButton, TextField, XHTMLTextArea, email_validator
 from mediacore.plugin import events
 
 class PodcastForm(ListForm):
