@@ -14,7 +14,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from pylons import request
-from pylons.i18n import N_ as _
+from pylons.i18n import N_
 from tw.forms import PasswordField, SingleSelectField
 from tw.forms.fields import ContainerMixin as _ContainerMixin
 from tw.forms.validators import All, FancyValidator, FieldsMatch, Invalid, NotEmpty, PlainText, Schema
@@ -34,11 +34,11 @@ class StorageForm(ListForm):
 
     fields = [
         ListFieldSet('general',
-            legend=_('General Options:'),
+            legend=N_('General Options:'),
             suppress_label=True,
             children=[
                 TextField('display_name',
-                    label_text=_('Display Name'),
+                    label_text=N_('Display Name'),
                     validator=TextField.validator(not_empty=True),
                     maxlength=100,
                 ),
@@ -48,7 +48,7 @@ class StorageForm(ListForm):
 
     buttons = [
         SubmitButton('save',
-            default=_('Save'),
+            default=N_('Save'),
             css_classes=['btn', 'btn-save', 'blue', 'f-rgt'],
         ),
     ]

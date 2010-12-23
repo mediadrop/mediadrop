@@ -15,7 +15,7 @@
 import logging
 
 from pylons import request
-from pylons.i18n import N_ as _
+from pylons.i18n import N_, _
 from tw.forms import CheckBox, PasswordField, RadioButtonList, SingleSelectField
 from tw.forms.fields import ContainerMixin as _ContainerMixin
 from tw.forms.validators import All, FancyValidator, FieldsMatch, Invalid, NotEmpty, PlainText, Schema, StringBool
@@ -37,11 +37,11 @@ class PlayerPrefsForm(ListForm):
 
     fields = [
         ListFieldSet('general',
-            legend=_('General Options:'),
+            legend=N_('General Options:'),
             suppress_label=True,
             children=[
                 TextField('display_name',
-                    label_text=_('Display Name'),
+                    label_text=N_('Display Name'),
                     validator=TextField.validator(not_empty=True),
                     maxlength=100,
                 ),
@@ -51,12 +51,12 @@ class PlayerPrefsForm(ListForm):
 
     buttons = [
         SubmitButton('save',
-            default=_('Save'),
+            default=N_('Save'),
             named_button=True,
             css_classes=['btn', 'btn-save', 'blue', 'f-rgt'],
         ),
         ResetButton('cancel',
-            default=_('Cancel'),
+            default=N_('Cancel'),
             named_button=True,
             css_classes=['btn', 'f-lft'],
         ),
@@ -90,7 +90,7 @@ class HTML5OrFlashPrefsForm(PlayerPrefsForm):
                 (True, _('No, use the HTML5 Player when the device supports it.')),
             ),
             css_classes=['options'],
-            label_text=_('Prefer the Flash Player when possible'),
+            label_text=N_('Prefer the Flash Player when possible'),
             validator=StringBool,
         ),
     ] + PlayerPrefsForm.buttons
@@ -107,8 +107,8 @@ class HTML5OrFlashPrefsForm(PlayerPrefsForm):
 class SublimePlayerPrefsForm(PlayerPrefsForm):
     fields = [
         TextField('script_tag',
-            label_text=_('Script Tag'),
-            help_text=_('The unique script tag given for your site.'),
+            label_text=N_('Script Tag'),
+            help_text=N_('The unique script tag given for your site.'),
         ),
     ] + PlayerPrefsForm.buttons
 
@@ -127,15 +127,15 @@ class YoutubeFlashPlayerPrefsForm(PlayerPrefsForm):
     fields = [
         ListFieldSet('options',
             suppress_label=True,
-            legend=_('Player Options:'),
+            legend=N_('Player Options:'),
             children=[
-                CheckBox('disablekb', label_text=_('Disable the player keyboard controls.')),
-                CheckBox('fs', label_text=_('Enable fullscreen.')),
-                CheckBox('hd', label_text=_('Enable high-def quality by default.')),
-                CheckBox('rel', label_text=_('Allow the player to load related videos once playback of the initial video starts. Related videos are displayed in the "genie menu" when the menu button is pressed.')),
-                CheckBox('showsearch', label_text=_('Show the search box when the video is minimized. The above option must be enabled for this to work.')),
-                CheckBox('showinfo', label_text=_('Display information like the video title and rating before the video starts playing.')),
-                CheckBox('nocookie', label_text=_('Enable privacy-enhanced mode.')),
+                CheckBox('disablekb', label_text=N_('Disable the player keyboard controls.')),
+                CheckBox('fs', label_text=N_('Enable fullscreen.')),
+                CheckBox('hd', label_text=N_('Enable high-def quality by default.')),
+                CheckBox('rel', label_text=N_('Allow the player to load related videos once playback of the initial video starts. Related videos are displayed in the "genie menu" when the menu button is pressed.')),
+                CheckBox('showsearch', label_text=N_('Show the search box when the video is minimized. The above option must be enabled for this to work.')),
+                CheckBox('showinfo', label_text=N_('Display information like the video title and rating before the video starts playing.')),
+                CheckBox('nocookie', label_text=N_('Enable privacy-enhanced mode.')),
             ],
             css_classes=['options'],
         )

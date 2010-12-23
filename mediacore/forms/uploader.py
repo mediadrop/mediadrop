@@ -20,7 +20,7 @@ import os.path
 from tw.api import WidgetsList, CSSLink
 from tw.forms.validators import NotEmpty, FieldStorageUploadConverter
 from pylons import config
-from pylons.i18n import N_ as _
+from pylons.i18n import N_
 
 from mediacore.lib import helpers
 from mediacore.forms import ListForm, TextField, XHTMLTextArea, FileField, SubmitButton, email_validator
@@ -28,15 +28,15 @@ from mediacore.plugin import events
 
 validators = dict(
     description = XHTMLTextArea.validator(
-        messages = {'empty': _('At least give it a short description...')},
+        messages = {'empty': N_('At least give it a short description...')},
         not_empty = True,
     ),
     name = TextField.validator(
-        messages = {'empty': _("You've gotta have a name!")},
+        messages = {'empty': N_("You've gotta have a name!")},
         not_empty = True,
     ),
     title = TextField.validator(
-        messages = {'empty': _("You've gotta have a title!")},
+        messages = {'empty': N_("You've gotta have a title!")},
         not_empty = True,
     ),
     url = TextField.validator(
@@ -52,13 +52,13 @@ class UploadForm(ListForm):
     params = ['async_action']
 
     class fields(WidgetsList):
-        name = TextField(validator=validators['name'], label_text=_('Your Name:'), maxlength=50)
-        email = TextField(validator=email_validator(not_empty=True), label_text=_('Your Email:'), help_text=_('(will never be published)'), maxlength=255)
-        title = TextField(validator=validators['title'], label_text=_('Title:'), maxlength=255)
-        description = XHTMLTextArea(validator=validators['description'], label_text=_('Description:'), attrs=dict(rows=5, cols=25))
-        url = TextField(validator=validators['url'], label_text=_('Add a YouTube, Vimeo or Google Video URL:'), maxlength=255)
-        file = FileField(validator=FieldStorageUploadConverter(if_missing=None, messages={'empty':_('Oops! You forgot to enter a file.')}), label_text=_('OR:'))
-        submit = SubmitButton(default=_('Submit'), css_classes=['mcore-btn', 'btn-submit'])
+        name = TextField(validator=validators['name'], label_text=N_('Your Name:'), maxlength=50)
+        email = TextField(validator=email_validator(not_empty=True), label_text=N_('Your Email:'), help_text=N_('(will never be published)'), maxlength=255)
+        title = TextField(validator=validators['title'], label_text=N_('Title:'), maxlength=255)
+        description = XHTMLTextArea(validator=validators['description'], label_text=N_('Description:'), attrs=dict(rows=5, cols=25))
+        url = TextField(validator=validators['url'], label_text=N_('Add a YouTube, Vimeo or Google Video URL:'), maxlength=255)
+        file = FileField(validator=FieldStorageUploadConverter(if_missing=None, messages={'empty':N_('Oops! You forgot to enter a file.')}), label_text=N_('OR:'))
+        submit = SubmitButton(default=N_('Submit'), css_classes=['mcore-btn', 'btn-submit'])
 
     def post_init(self, *args, **kwargs):
         events.UploadForm(self)

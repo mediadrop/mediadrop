@@ -13,7 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from pylons.i18n import N_ as _
+from pylons.i18n import N_
 from tw.forms.validators import NotEmpty
 from tw.api import WidgetsList
 
@@ -26,9 +26,9 @@ class EditCommentForm(ListForm):
     css_class = 'edit-comment-form'
 
     class fields(WidgetsList):
-        body = TextArea(validator=NotEmpty, label_text=_('Comment'), attrs=dict(rows=5, cols=25))
-        submit = SubmitButton(default=_('Save'), css_classes=['btn', 'btn-save', 'blue', 'f-rgt'])
-        cancel = ResetButton(default=_('Cancel'), css_classes=['btn', 'btn-cancel'])
+        body = TextArea(validator=NotEmpty, label_text=N_('Comment'), attrs=dict(rows=5, cols=25))
+        submit = SubmitButton(default=N_('Save'), css_classes=['btn', 'btn-save', 'blue', 'f-rgt'])
+        cancel = ResetButton(default=N_('Cancel'), css_classes=['btn', 'btn-cancel'])
 
     def post_init(self, *args, **kwargs):
         events.Admin.EditCommentForm(self)

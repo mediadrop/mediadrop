@@ -13,7 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from pylons.i18n import N_ as _
+from pylons.i18n import N_
 from tw.forms.validators import FieldStorageUploadConverter
 
 from mediacore.forms import FileField, Form, ListForm, SubmitButton, TextField
@@ -24,7 +24,7 @@ class SearchForm(ListForm):
     id = 'nav-search'
     method = 'get'
     fields = [
-        TextField('search', label_text=_('SEARCH...')),
+        TextField('search', label_text=N_('SEARCH...')),
         SubmitButton('go', default='Go', css_classes=['clickable nav-search-btn']),
     ]
     submit_text = None
@@ -44,7 +44,7 @@ class ThumbForm(ListForm):
             validator = FieldStorageUploadConverter(
                 not_empty = True,
                 messages = {
-                    'empty': _('You forgot to select an image!')
+                    'empty': N_('You forgot to select an image!')
                 },
             )
         ),

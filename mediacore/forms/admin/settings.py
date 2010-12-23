@@ -16,7 +16,7 @@
 import formencode
 
 from pylons import app_globals
-from pylons.i18n import N_ as _
+from pylons.i18n import N_, _
 from tw.forms import CheckBox, RadioButtonList, SingleSelectField
 from tw.forms.fields import Button, CheckBox
 from tw.forms.validators import (Bool, FancyValidator, FieldStorageUploadConverter,
@@ -85,13 +85,13 @@ class NotificationsForm(ListForm):
     submit_text = None
 
     fields = [
-        ListFieldSet('email', suppress_label=True, legend=_('Email Notifications:'), css_classes=['details_fieldset'], children=[
-            TextField('email_media_uploaded', validator=email_list_validator, label_text=_('Media Uploaded'), maxlength=255),
-            TextField('email_comment_posted', validator=email_list_validator, label_text=_('Comment Posted'), maxlength=255),
-            TextField('email_support_requests', validator=email_list_validator, label_text=_('Support Requested'), maxlength=255),
-            TextField('email_send_from', validator=email_validator, label_text=_('Send Emails From'), maxlength=255),
+        ListFieldSet('email', suppress_label=True, legend=N_('Email Notifications:'), css_classes=['details_fieldset'], children=[
+            TextField('email_media_uploaded', validator=email_list_validator, label_text=N_('Media Uploaded'), maxlength=255),
+            TextField('email_comment_posted', validator=email_list_validator, label_text=N_('Comment Posted'), maxlength=255),
+            TextField('email_support_requests', validator=email_list_validator, label_text=N_('Support Requested'), maxlength=255),
+            TextField('email_send_from', validator=email_validator, label_text=N_('Send Emails From'), maxlength=255),
         ]),
-        SubmitButton('save', default=_('Save'), css_classes=['btn', 'btn-save', 'blue', 'f-rgt']),
+        SubmitButton('save', default=N_('Save'), css_classes=['btn', 'btn-save', 'blue', 'f-rgt']),
     ]
 
 class PopularityForm(ListForm):
@@ -104,13 +104,13 @@ class PopularityForm(ListForm):
         ListFieldSet('popularity',
             suppress_label=True,
             css_classes=['details_fieldset'],
-            legend=_('Popularity Algorithm Variables:'),
+            legend=N_('Popularity Algorithm Variables:'),
             children=[
-                TextField('popularity_decay_exponent', validator=Int(not_empty=True, min=1), label_text=_('Decay Exponent')),
-                TextField('popularity_decay_lifetime', validator=Int(not_empty=True, min=1), label_text=_('Decay Lifetime')),
+                TextField('popularity_decay_exponent', validator=Int(not_empty=True, min=1), label_text=N_('Decay Exponent')),
+                TextField('popularity_decay_lifetime', validator=Int(not_empty=True, min=1), label_text=N_('Decay Lifetime')),
             ]
         ),
-        SubmitButton('save', default=_('Save'), css_classes=['btn', 'btn-save', 'blue', 'f-rgt']),
+        SubmitButton('save', default=N_('Save'), css_classes=['btn', 'btn-save', 'blue', 'f-rgt']),
     ]
 
 class MegaByteValidator(Int):
@@ -137,11 +137,11 @@ class UploadForm(ListForm):
     css_class = 'form'
     submit_text = None
     fields = [
-        TextField('max_upload_size', label_text=_('Max. allowed upload file size in megabytes'), validator=MegaByteValidator(not_empty=True, min=0)),
-        ListFieldSet('legal_wording', suppress_label=True, legend=_('Legal Wording:'), css_classes=['details_fieldset'], children=[
-            XHTMLTextArea('wording_user_uploads', label_text=_('User Uploads'), attrs=dict(rows=15, cols=25)),
+        TextField('max_upload_size', label_text=N_('Max. allowed upload file size in megabytes'), validator=MegaByteValidator(not_empty=True, min=0)),
+        ListFieldSet('legal_wording', suppress_label=True, legend=N_('Legal Wording:'), css_classes=['details_fieldset'], children=[
+            XHTMLTextArea('wording_user_uploads', label_text=N_('User Uploads'), attrs=dict(rows=15, cols=25)),
         ]),
-        SubmitButton('save', default=_('Save'), css_classes=['btn', 'btn-save', 'blue', 'f-rgt']),
+        SubmitButton('save', default=N_('Save'), css_classes=['btn', 'btn-save', 'blue', 'f-rgt']),
     ]
 
 class AnalyticsForm(ListForm):
@@ -150,10 +150,10 @@ class AnalyticsForm(ListForm):
     css_class = 'form'
     submit_text = None
     fields = [
-        ListFieldSet('google', suppress_label=True, legend=_('Google Analytics Details:'), css_classes=['details_fieldset'], children=[
-            TextField('google_analytics_uacct', maxlength=255, label_text=_('Tracking Code')),
+        ListFieldSet('google', suppress_label=True, legend=N_('Google Analytics Details:'), css_classes=['details_fieldset'], children=[
+            TextField('google_analytics_uacct', maxlength=255, label_text=N_('Tracking Code')),
         ]),
-        SubmitButton('save', default=_('Save'), css_classes=['btn', 'btn-save', 'blue', 'f-rgt']),
+        SubmitButton('save', default=N_('Save'), css_classes=['btn', 'btn-save', 'blue', 'f-rgt']),
     ]
 
 class SiteMapsForm(ListForm):
@@ -163,22 +163,22 @@ class SiteMapsForm(ListForm):
     submit_text = None
     fields = [
         ListFieldSet('rss', suppress_label=True,
-            legend=_('Site Maps and RSS Settings:'),
+            legend='',
             css_classes=['details_fieldset'],
             children=[
                 RadioButtonList('sitemaps_display',
-                    label_text=_('Site Maps'),
-                    options=sitemaps,
-                    validator=OneOf([x[0] for x in sitemaps]),
+                    label_text=N_('Site Maps'),
+                    options=enable_disable,
+                    validator=enable_disable_validator,
                 ),
                 RadioButtonList('rss_display',
-                    label_text=_('RSS Feeds'),
-                    options=rss_feeds,
-                    validator=OneOf([x[0] for x in rss_feeds]),
+                    label_text=N_('RSS Feeds'),
+                    options=enable_disable,
+                    validator=enable_disable_validator,
                 ),
             ]
         ),
-        SubmitButton('save', default=_('Save'), css_classes=['btn', 'btn-save', 'blue', 'f-rgt']),
+        SubmitButton('save', default=N_('Save'), css_classes=['btn', 'btn-save', 'blue', 'f-rgt']),
     ]
 
 class GeneralForm(ListForm):
@@ -187,33 +187,33 @@ class GeneralForm(ListForm):
     css_class = 'form'
     submit_text = None
     fields = [
-        ListFieldSet('general', suppress_label=True, legend=_('General Settings:'), css_classes=['details_fieldset'], children=[
+        ListFieldSet('general', suppress_label=True, legend=N_('General Settings:'), css_classes=['details_fieldset'], children=[
             TextField('general_site_name', maxlength=255,
-                label_text=_('Site Name')),
+                label_text=N_('Site Name')),
             TextField('general_tag_line', maxlength=255,
-                label_text=_('Site Tag Line')),
+                label_text=N_('Site Tag Line')),
             SingleSelectField('general_site_title_display_order',
-                label_text=_('Display Site Name'),
+                label_text=N_('Display Site Name'),
                 options=title_options,
             ),
             SingleSelectField('featured_category',
-                label_text=_('Featured Category'),
+                label_text=N_('Featured Category'),
                 options=category_options,
                 validator=Int(),
             ),
             RadioButtonList('rich_text_editor',
-                label_text=_('Rich Text Editing'),
+                label_text=N_('Rich Text Editing'),
                 options=rich_text_editors,
-                validator=OneOf([x[0] for x in rich_text_editors]),
+                validator=OneOf([x[0] for x in rich_text_editors()]),
             ),
-            ListFieldSet('default_wording', suppress_label=True, legend=_('Administrative notes on Media:'), css_classes=['details_fieldset'], children=[
+            ListFieldSet('default_wording', suppress_label=True, legend=N_('Administrative notes on Media:'), css_classes=['details_fieldset'], children=[
                 CheckBox('wording_display_administrative_notes',
-                    label_text=_('Display notes'),
+                    label_text=N_('Display notes'),
                     validator=Bool(if_missing='')),
-                TextArea('wording_administrative_notes', label_text=_('Administrative Notes'), attrs=dict(rows=3, cols=25)),
+                TextArea('wording_administrative_notes', label_text=N_('Administrative Notes'), attrs=dict(rows=3, cols=25)),
             ]),
         ]),
-        SubmitButton('save', default=_('Save'), css_classes=['btn', 'btn-save', 'blue', 'f-rgt']),
+        SubmitButton('save', default=N_('Save'), css_classes=['btn', 'btn-save', 'blue', 'f-rgt']),
     ]
 
 class CommentsForm(ListForm):
@@ -223,17 +223,17 @@ class CommentsForm(ListForm):
     submit_text = None
 
     fields = [
-        boolean_radiobuttonlist('req_comment_approval', label_text=_('Require comments to be approved by an admin')),
-        ListFieldSet('akismet', suppress_label=True, legend=_('Akismet Anti-Spam Details:'), css_classes=['details_fieldset'], children=[
-            TextField('akismet_key', label_text=_('Akismet Key')),
-            TextField('akismet_url', label_text=_('Akismet URL')),
+        boolean_radiobuttonlist('req_comment_approval', label_text=N_('Require comments to be approved by an admin')),
+        ListFieldSet('akismet', suppress_label=True, legend=N_('Akismet Anti-Spam Details:'), css_classes=['details_fieldset'], children=[
+            TextField('akismet_key', label_text=N_('Akismet Key')),
+            TextField('akismet_url', label_text=N_('Akismet URL')),
         ]),
-        ListFieldSet('vulgarity', suppress_label=True, label_text=_('Vulgarity Filter Settings'), css_classes=['details_fieldset'], children=[
-            TextArea('vulgarity_filtered_words', label_text=_('Filtered Words'),
-                attrs=dict(rows=3, cols=15), help_text=_('Enter words to be filtered separated by a comma.')),
-            CheckBox('run_filter_now', label_text=_('Run Filter Now')),
+        ListFieldSet('vulgarity', suppress_label=True, label_text=N_('Vulgarity Filter Settings'), css_classes=['details_fieldset'], children=[
+            TextArea('vulgarity_filtered_words', label_text=N_('Filtered Words'),
+                attrs=dict(rows=3, cols=15), help_text=N_('Enter words to be filtered separated by a comma.')),
+            CheckBox('run_filter_now', label_text=N_('Run Filter Now')),
         ]),
-        SubmitButton('save', default=_('Save'), css_classes=['btn', 'btn-save', 'blue', 'f-rgt']),
+        SubmitButton('save', default=N_('Save'), css_classes=['btn', 'btn-save', 'blue', 'f-rgt']),
     ]
 
 class APIForm(ListForm):
@@ -243,13 +243,13 @@ class APIForm(ListForm):
     submit_text = None
 
     fields = [
-        boolean_radiobuttonlist('api_secret_key_required', label_text=_('Require a key to access the API')),
-        ListFieldSet('key', suppress_label=True, legend=_('API Key:'), css_classes=['details_fieldset'], children=[
-            TextField('api_secret_key', label_text=_('Access Key')),
+        boolean_radiobuttonlist('api_secret_key_required', label_text=N_('Require a key to access the API')),
+        ListFieldSet('key', suppress_label=True, legend=N_('API Key:'), css_classes=['details_fieldset'], children=[
+            TextField('api_secret_key', label_text=N_('Access Key')),
         ]),
-        ListFieldSet('prefs', suppress_label=True, legend=_('API Settings:'), css_classes=['details_fieldset'], children=[
-            TextField('api_media_max_results', label_text=_('Max media results')),
-            TextField('api_tree_max_depth', label_text=_('Max tree depth')),
+        ListFieldSet('prefs', suppress_label=True, legend=N_('API Settings:'), css_classes=['details_fieldset'], children=[
+            TextField('api_media_max_results', label_text=N_('Max media results')),
+            TextField('api_tree_max_depth', label_text=N_('Max tree depth')),
         ]),
         SubmitButton('save', default='Save', css_classes=['btn', 'btn-save', 'blue', 'f-rgt']),
     ]
@@ -260,92 +260,92 @@ class AppearanceForm(ListForm):
     css_class = 'form'
     submit_text = None
     fields = [
-        ListFieldSet('general', suppress_label=True, legend=_('General'),
+        ListFieldSet('general', suppress_label=True, legend=N_('General'),
             css_classes=['details_fieldset'],
             children=[
-                FileField('appearance_logo', label_text=_('Logo'),
+                FileField('appearance_logo', label_text=N_('Logo'),
                     validator=FieldStorageUploadConverter(not_empty=False,
-                        label_text=_('Upload Logo')),
+                        label_text=N_('Upload Logo')),
                     css_classes=[],
                     default=lambda: app_globals.settings.get('appearance_logo', \
                                                              'logo.png'),
                     template='./admin/settings/appearance_input_field.html'),
-                FileField('appearance_background_image', label_text=_('Background Image'),
+                FileField('appearance_background_image', label_text=N_('Background Image'),
                     validator=FieldStorageUploadConverter(not_empty=False,
-                        label_text=_('Upload Background')),
+                        label_text=N_('Upload Background')),
                     css_classes=[],
                     default=lambda: app_globals.settings.get('appearance_background_image', \
                                                              'bg_image.png'),
                     template='./admin/settings/appearance_input_field.html'),
                 TextField('appearance_background_color', maxlength=255,
-                    label_text=_('Background color'),
+                    label_text=N_('Background color'),
                     validator=Regex(hex_validation_regex, strip=True)),
                 TextField('appearance_link_color', maxlength=255,
-                    label_text=_('Link color'),
+                    label_text=N_('Link color'),
                     validator=Regex(hex_validation_regex, strip=True)),
                 TextField('appearance_visited_link_color', maxlength=255,
-                    label_text=_('Visited Link color'),
+                    label_text=N_('Visited Link color'),
                     validator=Regex(hex_validation_regex, strip=True)),
                 TextField('appearance_text_color', maxlength=255,
                     validator=Regex(hex_validation_regex, strip=True),
-                    label_text=_('Text color')),
+                    label_text=N_('Text color')),
                 TextField('appearance_heading_color', maxlength=255,
-                    label_text=_('Heading color'),
+                    label_text=N_('Heading color'),
                     validator=Regex(hex_validation_regex, strip=True)),
                 SingleSelectField('appearance_navigation_bar_color',
-                    label_text=_('Navbar color'),
+                    label_text=N_('Color Scheme'),
                     options=navbar_colors),
             ]
         ),
-        ListFieldSet('options', suppress_label=True, legend=_('Options'),
+        ListFieldSet('options', suppress_label=True, legend=N_('Options'),
             css_classes=['details_fieldset'],
             children=[
                 CheckBox('appearance_enable_cooliris',
                     css_classes=['checkbox-left'],
-                    label_text=_('Enable Cooliris on the Explore Page'),
+                    label_text=N_('Enable Cooliris on the Explore Page'),
                     validator=Bool(if_missing='')),
                 CheckBox('appearance_enable_featured_items',
-                    label_text=_('Enable Featured Items on the Explore Page'),
+                    label_text=N_('Enable Featured Items on the Explore Page'),
                     css_classes=['checkbox-left'],
                     validator=Bool(if_missing='')),
                 CheckBox('appearance_enable_podcast_tab',
-                    label_text=_('Enable Podcast Tab'),
+                    label_text=N_('Enable Podcast Tab'),
                     css_classes=['checkbox-left'],
                     validator=Bool(if_missing='')),
                 CheckBox('appearance_enable_user_uploads',
-                    label_text=_('Enable User Uploads'),
+                    label_text=N_('Enable User Uploads'),
                     css_classes=['checkbox-left'],
                     validator=Bool(if_missing='')),
                 CheckBox('appearance_enable_widescreen_view',
-                    label_text=_('Enable widescreen media player by default'),
+                    label_text=N_('Enable widescreen media player by default'),
                     css_classes=['checkbox-left'],
                     validator=Bool(if_missing='')),
                 CheckBox('appearance_display_logo',
-                    label_text=_('Display Logo'),
+                    label_text=N_('Display Logo'),
                     css_classes=['checkbox-left'],
                     validator=Bool(if_missing='')),
                 CheckBox('appearance_display_background_image',
-                    label_text=_('Display Background Image'),
+                    label_text=N_('Display Background Image'),
                     css_classes=['checkbox-left'],
                     validator=Bool(if_missing='')),
             ],
             template='./admin/settings/appearance_list_fieldset.html',
         ),
-        ListFieldSet('advanced', suppress_label=True, legend=_('Advanced'),
+        ListFieldSet('advanced', suppress_label=True, legend=N_('Advanced'),
             css_classes=['details_fieldset'],
             children=[
                 TextArea('appearance_custom_css',
-                    label_text=_('Custom CSS'),
+                    label_text=N_('Custom CSS'),
                     attrs=dict(rows=15, cols=25)),
                 TextArea('appearance_custom_header_html',
-                    label_text=_('Custom Header HTML'),
+                    label_text=N_('Custom Header HTML'),
                     attrs=dict(rows=15, cols=25)),
                 TextArea('appearance_custom_footer_html',
-                    label_text=_('Custom Footer HTML'),
+                    label_text=N_('Custom Footer HTML'),
                     attrs=dict(rows=15, cols=25)),
             ],
         ),
-        SubmitButton('save', default=_('Save'), css_classes=['btn', 'btn-save', 'blue', 'f-rgt']),
-        SubmitButton('reset', default=_('Reset to Defaults'),
+        SubmitButton('save', default=N_('Save'), css_classes=['btn', 'btn-save', 'blue', 'f-rgt']),
+        SubmitButton('reset', default=N_('Reset to Defaults'),
             css_classes=['btn', 'btn-cancel', 'reset-confirm']),
     ]

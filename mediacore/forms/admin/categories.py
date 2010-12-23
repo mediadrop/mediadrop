@@ -13,7 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from pylons.i18n import N_ as _
+from pylons.i18n import N_
 from tw.api import WidgetsList
 from tw.forms import CheckBoxList, HiddenField, SingleSelectField
 from tw.forms.validators import NotEmpty
@@ -41,11 +41,11 @@ class CategoryForm(ListForm):
     _name = 'vf'
 
     class fields(WidgetsList):
-        name = TextField(validator=TextField.validator(not_empty=True), label_text=_('Name'))
-        slug = TextField(validator=NotEmpty, label_text=_('Slug'))
-        parent_id = SingleSelectField(label_text=_('Parent Category'), options=category_options)
-        cancel = ResetButton(default=_('Cancel'), css_classes=['btn', 'f-lft', 'btn-cancel'])
-        save = SubmitButton(default=_('Save'), named_button=True, css_classes=['f-rgt', 'btn', 'blue', 'btn-save'])
+        name = TextField(validator=TextField.validator(not_empty=True), label_text=N_('Name'))
+        slug = TextField(validator=NotEmpty, label_text=N_('Slug'))
+        parent_id = SingleSelectField(label_text=N_('Parent Category'), options=category_options)
+        cancel = ResetButton(default=N_('Cancel'), css_classes=['btn', 'f-lft', 'btn-cancel'])
+        save = SubmitButton(default=N_('Save'), named_button=True, css_classes=['f-rgt', 'btn', 'blue', 'btn-save'])
 
     def post_init(self, *args, **kwargs):
         events.Admin.CategoryForm(self)
@@ -64,7 +64,7 @@ class CategoryRowForm(Form):
         name = HiddenField()
         slug = HiddenField()
         parent_id = HiddenField()
-        delete = SubmitButton(default=_('Delete'), css_classes=['btn', 'table-row', 'f-lft', 'delete', 'btn-inline-delete'])
+        delete = SubmitButton(default=N_('Delete'), css_classes=['btn', 'table-row', 'f-lft', 'delete', 'btn-inline-delete'])
 
     def post_init(self, *args, **kwargs):
         events.Admin.CategoryRowForm(self)

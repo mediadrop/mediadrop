@@ -13,7 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from pylons.i18n import N_ as _
+from pylons.i18n import N_
 
 from mediacore.forms import ListFieldSet, TextField
 from mediacore.forms.admin.storage import StorageForm
@@ -23,15 +23,15 @@ class LocalFileStorageForm(StorageForm):
     fields = StorageForm.fields + [
         ListFieldSet('specifics',
             suppress_label=True,
-            legend=_('Options specific to Local File Storage:'),
+            legend=N_('Options specific to Local File Storage:'),
             children=[
                 TextField('path',
-                    label_text=_('Path to store files under'),
-                    help_text=_('Defaults to the "data_dir" from your INI file.'),
+                    label_text=N_('Path to store files under'),
+                    help_text=N_('Defaults to the "data_dir" from your INI file.'),
                 ),
                 TextField('rtmp_server_uri',
-                    label_text=_('RTMP Server URL'),
-                    help_text=_('Files must be accessible under the same name as they are stored with locally.'),
+                    label_text=N_('RTMP Server URL'),
+                    help_text=N_('Files must be accessible under the same name as they are stored with locally.'),
                 ),
             ],
         )

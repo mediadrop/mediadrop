@@ -15,7 +15,7 @@
 
 from formencode import Invalid
 from formencode.validators import FancyValidator, Int
-from pylons.i18n import N_ as _
+from pylons.i18n import N_, _
 from tw.api import JSSource
 from tw.forms import FormFieldRepeater
 
@@ -56,7 +56,7 @@ class RemoteURLStorageForm(StorageForm):
 
     fields = StorageForm.fields + [
         ListFieldSet('rtmp',
-            legend=_('RTMP Servers:'),
+            legend=N_('RTMP Servers:'),
             suppress_label=True,
             children=[
                 # FIXME: Display errors from the RTMPURLValidator

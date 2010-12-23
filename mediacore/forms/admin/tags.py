@@ -15,7 +15,7 @@
 
 import re
 
-from pylons.i18n import N_ as _
+from pylons.i18n import N_
 from tw.forms import HiddenField
 from tw.forms.validators import NotEmpty
 
@@ -41,10 +41,10 @@ class TagForm(ListForm):
     _name = 'vf'
 
     fields = [
-        TextField('name', label_text=_('Name'), css_classes=['tag-name'], validator=TagNameValidator(not_empty=True)),
-        TextField('slug', label_text=_('Slug'), css_classes=['tag-slug'], validator=NotEmpty),
-        ResetButton('cancel', default=_('Cancel'), css_classes=['btn', 'f-lft', 'btn-cancel']),
-        SubmitButton('save', default=_('Save'), css_classes=['f-rgt', 'btn', 'blue', 'btn-save']),
+        TextField('name', label_text=N_('Name'), css_classes=['tag-name'], validator=TagNameValidator(not_empty=True)),
+        TextField('slug', label_text=N_('Slug'), css_classes=['tag-slug'], validator=NotEmpty),
+        ResetButton('cancel', default=N_('Cancel'), css_classes=['btn', 'f-lft', 'btn-cancel']),
+        SubmitButton('save', default=N_('Save'), css_classes=['f-rgt', 'btn', 'blue', 'btn-save']),
     ]
 
     def post_init(self, *args, **kwargs):
@@ -59,7 +59,7 @@ class TagRowForm(Form):
     fields = [
         HiddenField('name'),
         HiddenField('slug'),
-        SubmitButton('delete', default=_('Delete'), css_classes=['btn', 'table-row', 'f-lft', 'delete', 'btn-inline-delete']),
+        SubmitButton('delete', default=N_('Delete'), css_classes=['btn', 'table-row', 'f-lft', 'delete', 'btn-inline-delete']),
     ]
 
     def post_init(self, *args, **kwargs):

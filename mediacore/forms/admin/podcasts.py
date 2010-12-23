@@ -13,7 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from pylons.i18n import N_ as _
+from pylons.i18n import N_, _
 from formencode.validators import URL
 from genshi.core import Markup
 from tw.forms import ListFieldSet, SingleSelectField
@@ -106,24 +106,24 @@ class PodcastForm(ListForm):
     ]
 
     fields = [
-        TextField('slug', label_text=_('Permalink'), validator=NotEmpty, maxlength=50),
-        TextField('title', label_text=_('Title'), validator=TextField.validator(not_empty=True), maxlength=50),
-        TextField('subtitle', label_text=_('Subtitle'), maxlength=255),
-        TextField('author_name', label_text=_('Author Name'), validator=TextField.validator(not_empty=True), maxlength=50),
-        TextField('author_email', label_text=_('Author Email'), validator=email_validator(not_empty=True), maxlength=50),
-        XHTMLTextArea('description', label_text=_('Description'), attrs=dict(rows=5, cols=25)),
-        ListFieldSet('details', suppress_label=True, legend=_('Podcast Details:'), css_classes=['details_fieldset'], children=[
-            SingleSelectField('explicit', label_text=_('Explicit?'), options=explicit_options),
-            SingleSelectField('category', label_text=_('Category'), options=category_options),
-            TextField('copyright', label_text=_('Copyright'), maxlength=50),
+        TextField('slug', label_text=N_('Permalink'), validator=NotEmpty, maxlength=50),
+        TextField('title', label_text=N_('Title'), validator=TextField.validator(not_empty=True), maxlength=50),
+        TextField('subtitle', label_text=N_('Subtitle'), maxlength=255),
+        TextField('author_name', label_text=N_('Author Name'), validator=TextField.validator(not_empty=True), maxlength=50),
+        TextField('author_email', label_text=N_('Author Email'), validator=email_validator(not_empty=True), maxlength=50),
+        XHTMLTextArea('description', label_text=N_('Description'), attrs=dict(rows=5, cols=25)),
+        ListFieldSet('details', suppress_label=True, legend=N_('Podcast Details:'), css_classes=['details_fieldset'], children=[
+            SingleSelectField('explicit', label_text=N_('Explicit?'), options=explicit_options),
+            SingleSelectField('category', label_text=N_('Category'), options=category_options),
+            TextField('copyright', label_text=N_('Copyright'), maxlength=50),
         ]),
-        ListFieldSet('feed', suppress_label=True, legend=_('Advanced Options:'), css_classes=['details_fieldset'], children=[
-            TextField('feed_url', maxlength=50, label_text=_('Your Feed URL'), attrs={'readonly': True}),
-            TextField('itunes_url', validator=URL, label_text=_('iTunes URL'), help_text=Markup('<a href="https://phobos.apple.com/WebObjects/MZFinance.woa/wa/publishPodcast" target="_blank">Get an iTunes URL</a>'), maxlength=80),
-            TextField('feedburner_url', validator=URL, label_text=_('Feedburner URL'), help_text=Markup('<a href="http://feedburner.com/" target="_blank">Get a Feedburner URL</a>'), maxlength=80),
+        ListFieldSet('feed', suppress_label=True, legend=N_('Advanced Options:'), css_classes=['details_fieldset'], children=[
+            TextField('feed_url', maxlength=50, label_text=N_('Your Feed URL'), attrs={'readonly': True}),
+            TextField('itunes_url', validator=URL, label_text=N_('iTunes URL'), help_text=Markup('<a href="https://phobos.apple.com/WebObjects/MZFinance.woa/wa/publishPodcast" target="_blank">Get an iTunes URL</a>'), maxlength=80),
+            TextField('feedburner_url', validator=URL, label_text=N_('Feedburner URL'), help_text=Markup('<a href="http://feedburner.com/" target="_blank">Get a Feedburner URL</a>'), maxlength=80),
         ]),
-        SubmitButton('save', default=_('Save'), named_button=True, css_classes=['btn', 'blue', 'f-rgt']),
-        SubmitButton('delete', default=_('Delete'), named_button=True, css_classes=['btn']),
+        SubmitButton('save', default=N_('Save'), named_button=True, css_classes=['btn', 'blue', 'f-rgt']),
+        SubmitButton('delete', default=N_('Delete'), named_button=True, css_classes=['btn']),
     ]
 
     def post_init(self, *args, **kwargs):

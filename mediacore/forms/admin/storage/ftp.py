@@ -14,7 +14,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from formencode.validators import Int
-from pylons.i18n import N_ as _
+from pylons.i18n import N_
 
 from mediacore.forms import ListFieldSet, TextField
 from mediacore.forms.admin.storage import StorageForm
@@ -28,15 +28,15 @@ class FTPStorageForm(StorageForm):
     fields = StorageForm.fields + [
         ListFieldSet('ftp',
             suppress_label=True,
-            legend=_('FTP Server Details:'),
+            legend=N_('FTP Server Details:'),
             children=[
-                TextField('server', label_text=_('Server Hostname')),
-                TextField('user', label_text=_('Username')),
-                TextField('password', label_text=_('Password')),
-                TextField('upload_dir', label_text=_('Subdirectory on server to upload to')),
-                TextField('upload_integrity_retries', label_text=_('How many times should MediaCore try to verify the FTP upload before declaring it a failure?'), validator=Int()),
-                TextField('http_download_uri', label_text=_('HTTP URL to access remotely stored files')),
-                TextField('rtmp_server_uri', label_text=_('RTMP Server URL to stream remotely stored files (Optional)')),
+                TextField('server', label_text=N_('Server Hostname')),
+                TextField('user', label_text=N_('Username')),
+                TextField('password', label_text=N_('Password')),
+                TextField('upload_dir', label_text=N_('Subdirectory on server to upload to')),
+                TextField('upload_integrity_retries', label_text=N_('How many times should MediaCore try to verify the FTP upload before declaring it a failure?'), validator=Int()),
+                TextField('http_download_uri', label_text=N_('HTTP URL to access remotely stored files')),
+                TextField('rtmp_server_uri', label_text=N_('RTMP Server URL to stream remotely stored files (Optional)')),
             ]
         ),
     ] + StorageForm.buttons
