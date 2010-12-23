@@ -33,14 +33,33 @@
 	<script type="text/javascript" src="${h.url_for('/admin/scripts/uploader.js')}"></script>
 	<script type="text/javascript" src="${h.url_for('/admin/scripts/confirm.js')}" />
 	<script type="text/javascript">
+		MooTools.lang.set('en-US', 'FancyUpload', {
+			errors: {
+				httpStatus: '${_('Saving the file failed. Please try again')}',
+				securityError: '${_('Security error occured (%(text)s)') % dict(text='{text}')}',
+				ioError: '${_('Error caused a send or load operation to fail (%(text)s)') % dict(text='{text}')}'
+			},
+			validationErrors: {
+				duplicate: '${_('File has already been added, duplicates are not allowed')}',
+				sizeLimitMin: '${_('File is too small, the minimal file size is %(size)s') % dict(size='{fileSizeMin}')}',
+				sizeLimitMax: '${_('File is too large, the maximum file size is %(size)s') % dict(size='{fileSizeMax}')}',
+				fileListMax: '${_('File could not be added, amount of %(num)s files exceeded') % dict(num='{fileListMax}')}',
+				fileListSizeMax: '${_('File is too big, overall filesize of %(size)s exceeded') % dict(size='{fileListSizeMax}')}'
+			}
+		});
 		window.addEvent('domready', function(){
-			var slug = new BoxForm.Slug('slug', {slugify: 'title'});
+			var slug = new BoxForm.Slug('slug', {slugify: 'title', editText: '${_('Edit')}', hideText: '${_('Hide')}'});
 			if (${int(podcast.id is not None)}) slug.detachSlugifier();
 			$('feed_feed_url').addEvent('click', function(e){
 				e.target.select();
 			});
 
-			var deleteConfirm = new DeleteConfirmMgr({msg: 'Are you sure you want to delete this podcast?'});
+			var deleteConfirm = new DeleteConfirmMgr({
+				header: '${_('Confirm Delete')}',
+				msg: '${_('Are you sure you want to delete this?')}',
+				confirmButtonText: '${_('Delete')}',
+				cancelButtonText: '${_('Cancel')}'
+			});
 			$('delete').addEvent('click', deleteConfirm.openConfirmDialog.bind(deleteConfirm));
 
 			var thumbUploader = new ThumbUploader({
@@ -49,6 +68,7 @@
 				statusContainer: 'thumb-upload',
 				fxProgressBar: {url: '${h.url_for('/admin/images/progressbar/progress.png')}'},
 				uploadBtn: {'class': 'btn grey', styles: {width: '162px'}},
+				uploadBtnText: '${_('Upload image')}',
 				path: '${h.url_for('/scripts/third-party/Swiff.Uploader.swf')}',
 				verbose: false // debug
 			<py:if test="podcast.id is None">

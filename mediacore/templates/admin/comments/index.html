@@ -36,12 +36,27 @@
 	<script type="text/javascript" src="${h.url_for('/admin/scripts/comments.js')}"></script>
 	<script type="text/javascript">
 		window.addEvent('domready', function(){
-			var cm = new CommentMgr();
+			var cm = new CommentMgr({
+				editText: '${_('Edit Text')}',
+				editCancel: '${_('Cancel Edit')}',
+				deleteConfirmMgr: {
+					header: '${_('Confirm Delete')}',
+					confirmButtonText: '${_('Delete')}',
+					cancelButtonText: '${_('Cancel')}',
+					msg: function(author){ return "${_("Are you sure you want to delete %(name)s's comment?") % dict(name='"+author+"')}"; }
+				}
+			});
 			var table = new BulkTableManager('comment-table', {
 				prefix: 'comment-'
 			});
 
 			var bulkDelete = new BulkDelete(table, {
+				confirmMgr: {
+					header: '${_('Confirm Delete')}',
+					msg: function(num){ return '${_('Are you sure you want to delete these %(num)s items?') % dict(num="'+num+'")}'; },
+					confirmButtonText: '${_('Delete')}',
+					cancelButtonText: '${_('Cancel')}',
+				},
 				saveUrl: '${h.url_for(action='save_status', status='trash', id='bulk')}'
 			});
 			$$('bulk-delete').addEvent('click', bulkDelete.onClick.bind(bulkDelete));
@@ -55,7 +70,7 @@
 						row.removeClass('tr-white').addClass('tr-gray');
 						var unpublished = row.getElement('a.btn-inline-approve');
 						if (!unpublished) return;
-						var published = new Element('span', {'class': 'btn table-row published unclickable btn-inline-approved f-lft', html: '<span>Published</span>'});
+						var published = new Element('span', {'class': 'btn table-row published unclickable btn-inline-approved f-lft', html: '<span>${_('Published')}</span>'});
 						published.replaces(unpublished);
 					});
 				}

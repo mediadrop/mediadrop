@@ -11,7 +11,7 @@ generate_random_string = function(){
 }
 window.addEvent('domready', function() {
 	elem = $('key_api_secret_key');
-	var gen = new Element('a', {'href': '#', 'html': 'Generate', 'id':'generate_key'})
+	var gen = new Element('a', {'href': '#', 'text': mcore_api_generate_text, 'id':'generate_key'})
 			.addEvent('click',  generate_random_string, [elem]);
 	elem.set('styles',{'width': elem.getScrollSize().x-100});
 	gen.inject(elem, 'after');

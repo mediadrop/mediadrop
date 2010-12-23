@@ -196,7 +196,9 @@ var StatusForm = new Class({
 			timePicker: true,
 			allowEmpty: true,
 			format: '%b %d %Y @ %H:%M'
-		}
+		},
+		connectionErrorText: 'A connection problem occurred, try again.',
+		genericErrorText: 'An error has occurred, try again.'
 	},
 
 	form: null,
@@ -226,7 +228,7 @@ var StatusForm = new Class({
 			var submitOpts = $extend({url: this.form.action}, this.options.submitReq);
 			this.submitReq = new Request.JSON(submitOpts).addEvents({
 				success: this.statusSaved.bind(this),
-				failure: this._displayError.bind(this, ['A connection problem occurred, try again.'])
+				failure: this._displayError.bind(this, [this.options.connectionErrorText])
 			});
 		}
 		var data = this.form.toQueryString();
@@ -251,7 +253,7 @@ var StatusForm = new Class({
 
 	_displayError: function(msg){
 		var errorBox = $(this.options.error);
-		errorBox.set('html', msg || 'An error has occurred, try again.');
+		errorBox.set('html', msg || this.options.genericErrorText);
 		if (!errorBox.isDisplayed()) errorBox.slide('hide').show().slide('in');
 		errorBox.highlight();
 	},
@@ -318,7 +320,12 @@ var FileManager = new Class({
 		},
 		overtext: {
 			textOverride: '-'
-		}
+		},
+		addError: 'Failed to add this file. Please try again.',
+		saveError: 'Failed to save your change. Please try again.',
+		uploadingText: 'Uploading',
+		queuedText: 'Queued',
+		errorText: 'Error'
 	},
 
 	files: [],
@@ -434,7 +441,7 @@ var FileManager = new Class({
 		var req = new Request.JSON({
 			url: form.get('action'),
 			onSuccess: this.fileAdded.bindWithEvent(this, [row]),
-			onFailure: this._injectError.bind(this, [row, 'Failed to add this file. Please try again.'])
+			onFailure: this._injectError.bind(this, [row, this.options.addError])
 		});
 		req.addEvent('success', function(){
 			form.url.set('value', '').blur();
@@ -482,7 +489,7 @@ var FileManager = new Class({
 			url: this.options.editURL,
 			data: data,
 			onSuccess: this.fileEdited.bindWithEvent(this, [target]),
-			onFailure: this._injectError.bind(this, [row, 'Failed to save your change. Please try again.'])
+			onFailure: this._injectError.bind(this, [row, this.options.saveError])
 		}).send();
 	},
 
@@ -555,7 +562,7 @@ var FileManager = new Class({
 		file.ui.progress = new Element('span', {'class': 'f-rgt', text: '0%'});
 		var progressContainer = new Element('div', {'class': 'fmgr-upload-progress'})
 			.grab(file.ui.progress)
-			.grab(new Element('span', {text: 'Uploading'}));
+			.grab(new Element('span', {text: this.options.uploadingText}));
 		file.ui.type.empty().grab(progressContainer);
 	},
 
@@ -587,7 +594,7 @@ var FileManager = new Class({
 			duration: new Element('td', {headers: 'thf-duration', text: '-'}),
 			bitrate: new Element('td', {headers: 'thf-max-bitrate', text: '-'}),
 			'width-height': new Element('td', {headers: 'thf-width-height', text: '-'}),
-			type: new Element('td', {headers: 'thf-type', text: file.typeText || 'Queued'}),
+			type: new Element('td', {headers: 'thf-type', text: file.typeText || this.options.queuedText}),
 			del: new Element('td', {headers: 'thf-delete'}).grab(cancelBtn)
 		});
 		file.ui.row = new Element('tr', this.options.uploadQueueRow)
@@ -603,7 +610,7 @@ var FileManager = new Class({
 		var errorDiv = new Element('div', this.options.errorDiv);
 		row.store('fileError', errorDiv).getElement('td[headers="thf-name"]').grab(errorDiv);
 		var typeCol = row.getElement('td[headers="thf-type"]');
-		if (typeCol && !typeCol.getElement('select, input')) typeCol.set('text', 'Error');
+		if (typeCol && !typeCol.getElement('select, input')) typeCol.set('text', this.options.errorText);
 		row.className = 'error';
 		this.fireEvent('fileError', [row, msg]);
 		return errorDiv.set('html', msg);

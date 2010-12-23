@@ -28,7 +28,10 @@
 	<script type="text/javascript">
 		window.addEvent('domready', function(){
 			var deleteConfirm = new DeleteConfirmMgr({
-				msg: 'By deleting this player you will lose all settings related to it.<br/>Are you sure you want to delete this player?'
+				header: '${_('Confirm Delete')}',
+				msg: '${_('By deleting this player you will lose all settings related to it.')}<br />${_('Are you sure you want to delete this?')}',
+				confirmButtonText: '${_('Delete')}',
+				cancelButtonText: '${_('Cancel')}'
 			});
 			$$$$('.delete-player-form .delete').each(function(el) {
 				el.addEvent('click', deleteConfirm.openConfirmDialog.bind(deleteConfirm));

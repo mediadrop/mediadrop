@@ -223,6 +223,8 @@ BoxForm.Slug = new Class({
 	Binds: ['onChange', 'slugify', 'toggle'],
 
 	options: {
+		editText: 'Edit',
+		hideText: 'Hide',
 		slugify: '',
 		slugifyOn: 'change'
 	},
@@ -236,7 +238,7 @@ BoxForm.Slug = new Class({
 		this.indicator = new Element('span', {'class': 'slug-indicator'})
 			.inject(this.label, 'bottom');
 		this.label.appendText(' ');
-		this.toggleButton = new Element('span', {text: 'Hide', 'class': 'slug-toggle link'})
+		this.toggleButton = new Element('span', {text: this.options.editText, 'class': 'slug-toggle link'})
 			.inject(this.label, 'bottom')
 			.addEvent('click', this.toggle);
 		this.setOptions(opts);
@@ -258,13 +260,13 @@ BoxForm.Slug = new Class({
 		if (flag) {
 			this.container.removeClass('slug-minimized').addClass('slug-expanded');
 			this.field.set('type', 'text').select();
-			this.toggleButton.set('text', 'Hide');
+			this.toggleButton.set('text', this.options.hideText);
 			if (this.initialValue == null) this.initialValue = this.field.get('value');
 		} else {
 			this.container.addClass('slug-minimized').removeClass('slug-expanded');
 			this.field.set('type', 'hidden');
 			this.indicator.set('text', this.field.get('value'));
-			this.toggleButton.set('text', 'Edit');
+			this.toggleButton.set('text', this.options.editText);
 		}
 		this.shown = !!flag;
 		return this;

@@ -22,7 +22,16 @@ var UserMgr = new Class({
 
 	options:{
 		table: 'user-table',
-		deleteForm: 'form.delete-user-form'
+		deleteForm: 'form.delete-user-form',
+		deleteConfirmMgr: {
+			header: 'Confirm Delete',
+			msg: 'Are you sure you want to delete this user?',
+			confirmButtonText: 'Delete',
+			confirmButtonClass: 'btn red f-rgt',
+			cancelButtonText: 'Cancel',
+			cancelButtonClass: 'btn f-lft',
+			focus: 'cancel'
+		}
 	},
 
 	initialize: function(opts){
@@ -55,16 +64,8 @@ var User = new Class({
 	},
 
 	requestConfirmDelete: function(){
-		var confirmMgr = new ConfirmMgr({
-			onConfirm: this.doConfirm.pass(this.deleteForm, this),
-			header: 'Confirm Delete',
-			msg: 'Are you sure you want to delete this user?',
-			confirmButtonText: 'Delete',
-			confirmButtonClass: 'btn red f-rgt',
-			cancelButtonText: 'Cancel',
-			cancelButtonClass: 'btn f-lft',
-			focus: 'cancel'
-		});
+		var confirmMgr = new ConfirmMgr(this.options.deleteConfirmMgr)
+			.addEvent('confirm', this.doConfirm.pass(this.deleteForm, this));
 		$(this.deleteForm.elements['delete']).addEvent('click', confirmMgr.openConfirmDialog.bind(confirmMgr));
 		return this;
 	},

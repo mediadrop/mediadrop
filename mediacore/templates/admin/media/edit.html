@@ -52,9 +52,28 @@
 				regex: /^(\d+x){0,1}(\d+)?$/
 			}
 		});
+		MooTools.lang.set('en-US', 'FancyUpload', {
+			errors: {
+				httpStatus: '${_('Saving the file failed. Please try again')}',
+				securityError: '${_('Security error occured (%(text)s)') % dict(text='{text}')}',
+				ioError: '${_('Error caused a send or load operation to fail (%(text)s)') % dict(text='{text}')}'
+			},
+			validationErrors: {
+				duplicate: '${_('File has already been added, duplicates are not allowed')}',
+				sizeLimitMin: '${_('File is too small, the minimal file size is %(size)s') % dict(size='{fileSizeMin}')}',
+				sizeLimitMax: '${_('File is too large, the maximum file size is %(size)s') % dict(size='{fileSizeMax}')}',
+				fileListMax: '${_('File could not be added, amount of %(num)s files exceeded') % dict(num='{fileListMax}')}',
+				fileListSizeMax: '${_('File is too big, overall filesize of %(size)s exceeded') % dict(size='{fileListSizeMax}')}'
+			}
+		});
 		var fileMgr, mediaMgr; // Make the fileMgr and mediaMgr 'public'
 		window.addEvent('domready', function(){
-			var deleteConfirm = new DeleteConfirmMgr({msg: 'Are you sure you want to delete this?'});
+			var deleteConfirm = new DeleteConfirmMgr({
+				header: '${_('Confirm Delete')}',
+				msg: '${_('Are you sure you want to delete this?')}',
+				confirmButtonText: '${_('Delete')}',
+				cancelButtonText: '${_('Cancel')}'
+			});
 			$('delete').addEvent('click', deleteConfirm.openConfirmDialog.bind(deleteConfirm));
 
 			// Setup the flash uploader
@@ -63,6 +82,7 @@
 				target: 'thumb',
 				statusContainer: 'thumb-upload',
 				uploadBtn: {'class': 'btn grey'},
+				uploadBtnText: '${_('Upload image')}',
 				fxProgressBar: {url: '${h.url_for('/admin/images/progressbar/progress.png')}'},
 				path: '${h.url_for('/scripts/third-party/Swiff.Uploader.swf')}',
 				verbose: false // debug
@@ -71,16 +91,23 @@
 			// Setup the file manager (which hooks into the uploader)
 			fileMgr = new FileManager('fmgr', {
 				addForm: 'add-file-form',
+				deleteConfirmMsg: function(name){ return "${_('Are you sure you want to delete this file?')}\n\n" + name; },
 				editURL: '${h.url_for(action='edit_file')}',
 				uploader: {
 					target: 'file',
 					uploadBtn: {'class': 'btn grey f-rgt'},
+					uploadBtnText: '${_('Upload a file')}',
 					fxProgressBar: {url: '${h.url_for('/admin/images/progressbar/progress.png')}'},
 					path: '${h.url_for('/scripts/third-party/Swiff.Uploader.swf')}',
 					fileSizeMax: ${g.settings['max_upload_size']},
 					typeFilter: '*.*',
 					verbose: false // debug
-				}
+				},
+				addError: '${_('Failed to add this file. Please try again.')}',
+				saveError: '${_('Failed to save your change. Please try again.')}',
+				uploadingText: '${_('Uploading')}',
+				queuedText: '${_('Queued')}',
+				errorText: '${_('Error')}'
 			});
 			$('fmgr-open').addEvent('click', fileMgr.open.bind(fileMgr));
 			$('fmgr-close').addEvent('click', fileMgr.close.bind(fileMgr));
@@ -91,9 +118,17 @@
 
 			var publishStatus = new StatusForm({
 				form: 'update-status-form',
-				error: 'update-status-error'
+				error: 'update-status-error',
+				connectionErrorText: '${_('A connection problem occurred, try again.')}',
+				genericErrorText: '${_('An error has occurred, try again.')}'
 			});
-			var metaForm = new MediaMetaForm('media-form');
+			var metaForm = new MediaMetaForm('media-form', {
+				slug: {editText: '${_('Edit')}', hideText: '${_('Hide')}'},
+				spinner: {text: '${_('Saving')}'},
+				success: {text: '${_('Saved!')}'},
+				failure: {text: '${_('Saving failed. Please try again.')}'},
+				userError: {text: '${_('Please correct the highlighted errors and save again.')}'}
+			});
 			mediaMgr = new MediaManager({
 				metaForm: metaForm,
 				statusForm: publishStatus,

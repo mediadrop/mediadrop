@@ -28,7 +28,14 @@
 	<script type="text/javascript" src="${h.url_for('/admin/scripts/users.js')}"></script>
 	<script type="text/javascript">
 		window.addEvent('domready', function(){
-			var um = new UserMgr();
+			var um = new UserMgr({
+				deleteConfirmMgr: {
+					header: '${_('Confirm Delete')}',
+					confirmButtonText: '${_('Delete')}',
+					cancelButtonText: '${_('Cancel')}',
+					msg: '${_('Are you sure you want to delete this user?')}'
+				}
+			});
 		});
 	</script>
 </head>

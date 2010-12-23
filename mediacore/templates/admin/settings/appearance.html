@@ -29,7 +29,12 @@
 	<script type="text/javascript" src="${h.url_for('/admin/scripts/confirm.js')}"></script>
 	<script type="text/javascript">
 		window.addEvent('domready', function(){
-			var resetConfirm = new ResetConfirmMgr();
+			var resetConfirm = new ResetConfirmMgr({
+				header: '${_('Confirm Reset')}',
+				msg: '${_('Are you sure you want to reset your settings to the default?')}',
+				confirmButtonText: '${_('Reset to Defaults')}',
+				cancelButtonText: '${_('Cancel')}'
+			});
 			$('reset').addEvent('click', resetConfirm.openConfirmDialog.bind(resetConfirm));
 		});
 	</script>

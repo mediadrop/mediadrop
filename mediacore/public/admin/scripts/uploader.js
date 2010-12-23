@@ -19,7 +19,8 @@ var UploaderBase = new Class({
 	Extends: Swiff.Uploader,
 
 	options: {
-		uploadBtn: {html: '<span>Upload a file</span>', 'class': 'btn grey'},
+		uploadBtn: {'class': 'btn grey'},
+		uploadBtnText: 'Upload a file',
 		postAuthCookie: 'authtkt',
 		verbose: false,
 		queued: false,
@@ -75,7 +76,7 @@ var UploaderBase = new Class({
 	},
 
 	_createUploadBtn: function(){
-		return new Element('span', this.options.uploadBtn);
+		return new Element('span', this.options.uploadBtn).grab(new Element('span', {text: this.options.uploadBtnText}));
 	},
 
 	reposition: function(coords) {
@@ -240,10 +241,10 @@ var ThumbUploader = new Class({
 		fileSizeMax: 10 * 1024 * 1024,
 		typeFilter: '*.jpg; *.jpeg; *.gif; *.png',
 		uploadBtn: {
-			html: '<span>Upload image</span>',
 			'class': 'btn',
 			styles: {width: '130px', margin: '0 auto'}
-		}
+		},
+		uploadBtnText: 'Upload image'
 	},
 
 	initialize: function(options){

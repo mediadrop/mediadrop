@@ -21,17 +21,20 @@ var CommentMgr = new Class({
 	Implements: Options,
 
 	options:{
+		editText: 'Edit Text',
+		editCancel: 'Cancel Edit',
 		table: 'comment-table',
 		formSelector: 'form.edit-comment-form',
 		deleteLink: 'a.btn-inline-delete',
 		publishLink: 'a.btn-inline-approve',
 		bulkPublishBtnClass: 'btn btn-inline-approve f-lft',
-		bulkDeleteBtnClass: 'btn btn-inline-delete f-rgt'
+		bulkDeleteBtnClass: 'btn btn-inline-delete f-rgt',
+		deleteConfirmMgr: {}
 	},
 
 	bulkMgr: null,
 
-	initialize: function(bulkApproveAction, bulkDeleteAction, opts) {
+	initialize: function(opts) {
 		this.setOptions(opts);
 		this.processRows($(this.options.table).getElements('tbody > tr'));
 	},
@@ -85,7 +88,7 @@ var Comment = new Class({
 		var text = this.form.getElement('textarea').get('value');
 		this.body = new Element('blockquote', {html: text});
 		td.grab(this.body);
-		this.editLink = new Element('span', {'class': 'edit-text clickable', text: 'Edit Text'})
+		this.editLink = new Element('span', {'class': 'edit-text clickable', text: this.options.editText})
 			.addEvent('click', this.toggleForm.bind(this));
 		var span = td.getElement('div.comment-submitted').appendText(' | ').grab(this.editLink);
 		var cancelButton = this.form.getElement('button.btn-cancel');
@@ -113,14 +116,10 @@ var Comment = new Class({
 	},
 
 	requestConfirmDelete: function(){
-		var confirmMgr = new ConfirmMgr({
-			onConfirm: this.doConfirm.pass([this.deleteLink.href, this.updateDeleted.bind(this)], this),
-			header: 'Confirm Delete',
-			confirmButtonText: 'Delete',
-			cancelButtonText: 'Cancel',
-			focus: 'cancel',
-			msg: 'Are you sure you want to delete <strong>' + this.getAuthor() + '</strong>&#8217;s comment?'
-		});
+		var confirmMgr = new ConfirmMgr(this.options.deleteConfirmMgr)
+			.addEvent('confirm', this.doConfirm.pass([this.deleteLink.href, this.updateDeleted.bind(this)], this));
+		confirmMgr.options.msg = confirmMgr.options.msg(this.getAuthor());
+
 		this.deleteLink.addEvent('click', confirmMgr.openConfirmDialog.bind(confirmMgr));
 		return this;
 	},
@@ -152,11 +151,11 @@ var Comment = new Class({
 		if(this.formVisible){
 			this.body.setStyle('display', 'block');
 			this.form.setStyle('display', 'none');
-			this.editLink.set('text', 'Edit Text');
+			this.editLink.set('text', this.options.editText);
 		} else {
 			this.form.setStyle('display', 'block');
 			this.body.setStyle('display', 'none');
-			this.editLink.set('text', 'Cancel Edit');
+			this.editLink.set('text', this.options.editCancel);
 		}
 		this.formVisible = !this.formVisible;
 		return this;
