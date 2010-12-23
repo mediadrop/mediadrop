@@ -28,7 +28,7 @@ from urlparse import urlparse
 
 from genshi.core import Stream
 from pylons import app_globals, config, request, response
-from pylons.i18n import N_ as _
+from pylons.i18n import N_, _
 from webhelpers import date, feedgenerator, html, number, misc, text, paginate, containers
 from webhelpers.html import tags
 from webhelpers.html.builder import literal
@@ -311,7 +311,7 @@ def store_transient_message(cookie_name, text, time=None, path='/', **kwargs):
     response.set_cookie(cookie_name, new_data, path=path)
     return msg
 
-def doc_link(page=None, anchor='', text=_('Help'), **kwargs):
+def doc_link(page=None, anchor='', text=N_('Help'), **kwargs):
     """Return a link (anchor element) to the documentation on the project site.
 
     XXX: Target attribute is not XHTML compliant.
@@ -323,7 +323,7 @@ def doc_link(page=None, anchor='', text=_('Help'), **kwargs):
     if kwargs:
         attrs.update(kwargs)
     attrs_string = ' '.join(['%s="%s"' % (key, attrs[key]) for key in attrs])
-    out = '<a %s>%s</a>' % (attrs_string, text)
+    out = '<a %s>%s</a>' % (attrs_string, _(text))
     return literal(out)
 
 @observes(page_title)
