@@ -53,13 +53,7 @@ class PlayerPrefsForm(ListForm):
     buttons = [
         SubmitButton('save',
             default=N_('Save'),
-            named_button=True,
             css_classes=['btn', 'btn-save', 'blue', 'f-rgt'],
-        ),
-        ResetButton('cancel',
-            default=N_('Cancel'),
-            named_button=True,
-            css_classes=['btn', 'f-lft'],
         ),
     ]
 
