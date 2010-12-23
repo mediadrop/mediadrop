@@ -39,7 +39,7 @@ var UploadManager = new Class({
 			return new UploadField(this, value);
 		}, this);
 
-		this.submit = this.form.getElement('input[type=submit]');
+		this.submit = this.form.getElement('button[type=submit]');
 		this.form.addEvent('submit', this.onSubmit.bind(this));
 
 		var opts = {
@@ -167,7 +167,7 @@ var SwiffUploadManager = new Class({
 	uploadButton: null,
 	progressBar: null,
 	enabled: false,
-	
+
 	initialize: function(form, action, failurePage, baseUrl, typeFilter, browseButton, uploadButton, fileInfoDiv, statusDiv, messages, fileSizeMax) {
 		if (Browser.Platform.linux) {
 			// There's a bug in the flash player for linux that freezes the browser with swiff.uploader
@@ -196,7 +196,7 @@ var SwiffUploadManager = new Class({
 		this.fileInfoDiv.addClass('active');
 		this.statusDiv.addClass('active');
 
-		var submit = this.form.getElement('input[type=submit]');
+		var submit = this.form.getElement('button[type=submit]');
 		var finput = this.form.getElement('input[type=file]');
 
 		// Uploader instance
