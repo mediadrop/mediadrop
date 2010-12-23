@@ -59,7 +59,7 @@ def send(to_addr, from_addr, subject, body):
 
     to_addr = ", ".join(to_addr)
 
-    msg = _("To: %(to_addr)s\n"
+    msg = ("To: %(to_addr)s\n"
            "From: %(from_addr)s\n"
            "Subject: %(subject)s\n\n"
            "%(body)s\n") % locals()
