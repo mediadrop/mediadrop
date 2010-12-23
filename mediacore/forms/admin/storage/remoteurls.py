@@ -22,6 +22,9 @@ from tw.forms import FormFieldRepeater
 from mediacore.forms import ListFieldSet, TextField
 from mediacore.forms.admin.storage import StorageForm
 
+# FIXME: i18n: Use this below
+dummy_rtmp_server_add_text = N_('Add another URL')
+
 rtmp_server_js = JSSource("""
     window.addEvent('domready', function(){
         var fields = $('rtmp').getElement('li');

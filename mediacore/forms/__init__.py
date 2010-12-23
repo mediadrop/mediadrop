@@ -17,6 +17,7 @@ from BeautifulSoup import BeautifulStoneSoup
 from formencode import FancyValidator
 from formencode.api import Invalid
 from pylons import app_globals
+from pylons.i18n import N_
 from pylons.templating import pylons_globals
 from tw import forms
 from tw.api import JSLink, JSSource
@@ -215,8 +216,8 @@ tinyMCE.init({
         return TextArea.display(self, value, **kwargs)
 
 email_validator = Email(messages={
-    'badUsername': 'The portion of the email address before the @ is invalid',
-    'badDomain': 'The portion of this email address after the @ is invalid'
+    'badUsername': N_('The portion of the email address before the @ is invalid'),
+    'badDomain': N_('The portion of this email address after the @ is invalid')
 })
 
 class email_list_validator(FancyValidator):
