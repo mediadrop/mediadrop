@@ -23,7 +23,7 @@
 	</div>
 	<div class="url-or-file"><strong>OR</strong></div>
 	<div py:with="field = children['file']" class="file-container clearfix">
-		<label id="${field.id}-label" for="${field.id}">${field.label_text}:</label>
+		<label id="${field.id}-label" for="${field.id}">${_(field.label_text)}:</label>
 		<input py:replace="field.display(value_for(field), **args_for(field))" />
 	</div>
 	<py:for each="field in fields" py:with="error = error_for(field)">

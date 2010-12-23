@@ -20,7 +20,7 @@
       xmlns:xi="http://www.w3.org/2001/XInclude">
 <xi:include href="../master.html" />
 <head>
-	<title>${podcast.title and 'Edit Podcast: %s' % podcast.title or 'New Podcast'}</title>
+	<title>${podcast.title and _('Edit Podcast: %s') % podcast.title or _('New Podcast')}</title>
 	<link href="${h.url_for('/admin/styles/forms.css')}" media="screen" rel="stylesheet" type="text/css" />
 	<link href="${h.url_for('/admin/styles/uploader.css')}" media="screen" rel="stylesheet" type="text/css" />
 	<link href="${h.url_for('/admin/styles/podcasts.css')}" media="screen" rel="stylesheet" type="text/css" />
@@ -93,7 +93,7 @@
 		<div class="box">
 			<div class="box-head">
 				<small py:if="podcast.created_on" class="box-head-sec">Uploaded: ${podcast.created_on.strftime('%b %d %Y')}</small>
-				<h1>${podcast.title or 'New Podcast'}</h1>
+				<h1>${podcast.title or _('New Podcast')}</h1>
 			</div>
 			${XML(form(form_values, action=form_action))}
 		</div>
@@ -105,7 +105,7 @@
 					<a href="${h.url_for(controller='/podcasts', action='view', slug=podcast.slug)}"
 					   id="go-view-content" class="f-rgt"
 					   title="View this podcast where it is published"
-					   py:content="'View'" />
+					   py:content="_('View')" />
 				</div>
 				<h1>Thumbnail</h1>
 			</div>

@@ -49,15 +49,15 @@
 			<py:when test="not media.reviewed">
 				<ol id="status-list">
 					<li class="status-list-inprogress">review pending</li>
-					<li class="status-list-${status}" py:with="status = media.encoded and 'complete' or 'pending'">encoding ${status}</li>
+					<li class="status-list-${media.encoded and 'complete' or 'pending'}">${media.encoded and _('encoding complete') or _('encoding pending')}</li>
 					<li class="status-list-pending" id="status-publish" title="Click to change the publish date">
-						publishing <span class="publish-date" py:content="publish_on or 'pending'" />
+						publishing <span class="publish-date" py:content="publish_on or _('pending')" />
 					</li>
 				</ol>
 				<div class="center" py:choose="">
 					<py:when test="media.files">
 						${c.status('unreviewed')}
-						${c.update_button('Review Complete', id='update-status', css_class='btn green btn-review-complete')}
+						${c.update_button(_('Review Complete'), id='update-status', css_class='btn green btn-review-complete')}
 					</py:when>
 					<py:otherwise><div style="margin-top:10px">Review can only be completed after a file is added.</div></py:otherwise>
 				</div>
@@ -67,7 +67,7 @@
 					<li class="status-list-complete">review complete</li>
 					<li class="status-list-inprogress">encoding pending</li>
 					<li class="status-list-pending" id="status-publish" title="Click to change the publish date">
-						publishing <span class="publish-date" py:content="publish_on or 'pending'" />
+						publishing <span class="publish-date" py:content="publish_on or _('pending')" />
 					</li>
 				</ol>
 				<div class="center" style="margin-top:10px">Encoding will be complete when an acceptable file is added.</div>
@@ -77,12 +77,12 @@
 					<li class="status-list-complete">review complete</li>
 					<li class="status-list-complete">encoding complete</li>
 					<li class="status-list-inprogress" id="status-publish" title="Click to change the publish date">
-						publishing <span class="publish-date" py:content="publish_on or 'pending'" />
+						publishing <span class="publish-date" py:content="publish_on or _('pending')" />
 					</li>
 				</ol>
 				<div class="center">
 					${c.status('draft')}
-					${c.update_button('Publish Now', id='update-status', css_class='btn green btn-publish-now')}
+					${c.update_button(_('Publish Now'), id='update-status', css_class='btn green btn-publish-now')}
 				</div>
 			</py:when>
 			<py:when test="media.publishable">
@@ -90,8 +90,8 @@
 					<li class="status-list-complete">review complete</li>
 					<li class="status-list-complete">encoding complete</li>
 					<li class="status-list-complete" id="status-publish" title="Click to change the publish date">
-						${(media.is_published and 'published') or 'publishing'}
-						<span class="publish-date" py:content="publish_on or 'pending'" />
+						${media.is_published and _('published') or _('publishing')}
+						<span class="publish-date" py:content="publish_on or _('pending')" />
 					</li>
 				</ol>
 			</py:when>

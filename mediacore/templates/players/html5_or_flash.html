@@ -33,7 +33,7 @@
 				<li py:if="show_like" class="mcore-nav-left"><a class="mcore-nav-link mcore-like" href="${h.url_for(controller='/media', action='rate', up=1, slug=media.slug)}" title="Like"><span><span class="mcore-btn-like">Like</span></span><em /></a></li>
 				<li py:if="show_dislike"><a class="mcore-nav-link mcore-dislike f-lft" href="${h.url_for(controller='/media', action='rate', down=1, slug=media.slug)}" title="Dislike"><span><span class="mcore-btn-dislike">Dislike</span></span><em /></a><span class="mcore-nav-link f-lft" style="width:5px" /></li>
 				<li py:if="show_popout" class="f-rgt mcore-nav-right"><a class="mcore-nav-link mcore-popout" href="${h.url_for(controller='/media', action='embed_player', slug=media.slug)}" title="Pop out a new player window"><span><span class="mcore-btn-popout">Pop Out</span></span><em /></a></li>
-				<li py:if="show_resize" class="f-rgt" py:with="expand = is_widescreen and 'shrink' or 'expand'"><a class="mcore-nav-link mcore-resizer" href="#" title="Expand"><span><span class="mcore-btn-${expand}">${expand.capitalize()}</span></span><em /></a></li>
+				<li py:if="show_resize" class="f-rgt"><a class="mcore-nav-link mcore-resizer" href="#" title="${is_widescreen and _('Shrink') or _('Expand')}"><span><span class="mcore-btn-${is_widescreen and 'shrink' or 'expand'}">${is_widescreen and _('Shrink') or _('Expand')}</span></span><em /></a></li>
 				<li py:if="show_share" class="f-rgt">
 					<a class="mcore-nav-link" href="#" title="Share"><span>Share</span><em /></a>
 					<div id="sharethis-hover" class="meta-hover" py:with="current_url = h.url_for(controller='/media', action='view', slug=media.slug, qualified=True)">

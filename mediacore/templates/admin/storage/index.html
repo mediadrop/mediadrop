@@ -131,7 +131,7 @@
 						<a href="${h.url_for(action=engine.enabled and 'disable' or 'enable', id=engine.id)}" class="status-${enabled.lower()}" title="${enabled}"></a>
 					</td>
 					<td headers="h-display_name">
-						<a href="${h.url_for(action='edit', id=engine.id)}" py:content="engine.display_name" py:strip="not engine.settings_form">Display Name</a>
+						<a href="${h.url_for(action='edit', id=engine.id)}" py:content="_(engine.display_name)" py:strip="not engine.settings_form">Display Name</a>
 					</td>
 					<td headers="h-file-size" style="text-align:right">${h.pretty_file_size(engine.file_size_sum)}</td>
 					<td headers="h-file-count" style="text-align:center">${engine.file_count}</td>
@@ -153,7 +153,7 @@
 			<p>Please select what type of storage engine you would like to add:</p>
 			<ul class="numbers">
 				<li py:for="engine in addable_engines">
-					<a href="${h.url_for(action='edit', id='new', engine_type=engine.engine_type)}">${engine.default_name}</a>
+					<a href="${h.url_for(action='edit', id='new', engine_type=engine.engine_type)}">${_(engine.default_name)}</a>
 				</li>
 			</ul>
 		</div>

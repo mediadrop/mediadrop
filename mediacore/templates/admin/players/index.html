@@ -64,7 +64,7 @@
 						<a href="${h.url_for(action=player.enabled and 'disable' or 'enable', id=player.id)}" class="status-${enabled.lower()}" title="${enabled}"></a>
 					</td>
 					<td headers="h-display_name">
-						<a href="${h.url_for(action='edit', id=player.id)}" py:content="player.display_name" py:strip="not player.settings_form">Display Name</a>
+						<a href="${h.url_for(action='edit', id=player.id)}" py:content="_(player.display_name)" py:strip="not player.settings_form">Display Name</a>
 					</td>
 					<td headers="h-priority" style="text-align:center">
 						<a href="${h.url_for(action='reorder', id=player.id, direction='up')}" class="goog-inline-block uparrow">u</a>
