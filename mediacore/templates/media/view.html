@@ -48,7 +48,7 @@
 			<div class="feat-date" py:choose="">
 				<py:when test="media.is_published" py:with="datetime = media.publish_on.strftime('%B %d, %Y').replace(h.datetime.now().strftime(', %Y'), '')">${datetime}</py:when>
 				<py:otherwise>(unpublished)</py:otherwise>
-				by ${media.author.name}
+				<span i18n:msg="authorName">by ${media.author.name}</span>
 			</div>
 			<div id="description-excerpt" class="media-desc" py:with="fulltext = media.description or u''; excerpt = h.excerpt_xhtml(fulltext, 340)">
 				<div class="mcore-excerpt-fulltext"><p py:replace="Markup(fulltext)" /></div>

@@ -112,8 +112,8 @@
 			<div py:if="not popular" class="feat-box">
 				<div class="feat-top" />
 				<div class="feat-content clearfix">
-					As soon as there are more than 9 published videos in the library, the most popular videos will be listed here.
-					<py:if test="h.is_admin()">Why not <a href="${h.url_for(controller='/admin/media', action='edit', id='new')}">add</a> a few more?</py:if>
+					${_('As soon as there are more than %(num)s published videos in the library, the most popular videos will be listed here.') % dict(num=9)}
+					<a py:if="h.is_admin()" href="${h.url_for(controller='/admin/media', action='edit', id='new')}">Why not add a few more?</a>
 				</div>
 				<div class="feat-bottom"/>
 			</div>
