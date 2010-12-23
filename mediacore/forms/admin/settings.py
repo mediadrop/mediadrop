@@ -30,22 +30,6 @@ from mediacore.forms.admin.categories import category_options
 from mediacore.plugin import events
 from mediacore.model import MultiSetting
 
-flash_players = [
-    ('flowplayer', literal('<a href="http://flowplayer.org">FlowPlayer</a> - <a href="http://flowplayer.org/download/license_gpl.htm">GPL Licence</a> (137kB)')),
-    ('jwplayer', literal('<a href="http://longtailvideo.com">JWPlayer</a> - <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/">CC Non-Commercial Licence</a> (86kB)')),
-]
-html5_players = [
-    ('html5', literal('<a href="http://diveintohtml5.org/video.html">Plain &lt;video&gt; tag</a> (0kB)')),
-#    ('zencoder-video-js', literal('<a href="http://videojs.com/">Zencoder Video JS</a> - <a href="http://github.com/zencoder/video-js/blob/master/LICENSE.txt">LGPL License</a> (25kB) - Video only, supports SRT subtitles')),
-#    ('jwplayer-html5', literal('<a href="http://www.longtailvideo.com/support/jw-player/jw-player-for-html5/">JWPlayer for HTML5</a> - <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/">CC Non-Commercial Licence</a> (126kB)')),
-#    ('sublime', literal('<a href="http://jilion.com/sublime/video">Sublime</a> - not yet available')),
-]
-player_types = [
-    ('html5', _('Always use the selected HTML5 player')),
-    ('best', _('Prefer the selected HTML5 player, but use the selected Flash player or embedded player if necessary')),
-    ('flash', _('Prefer the selected Flash player, but use the selected HTML5 player or embedded player if necessary')),
-]
-
 sitemaps = [
     ('enabled', _('Enable Sitemaps')),
     ('disabled', _('Disable Sitemaps')),
