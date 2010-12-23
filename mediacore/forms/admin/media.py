@@ -104,13 +104,13 @@ class AddFileForm(ListForm):
     def post_init(self, *args, **kwargs):
         events.Admin.AddFileForm(self)
 
-file_type_options = [
+file_type_options = lambda: (
     (VIDEO, _('Video')),
     (AUDIO, _('Audio')),
     (AUDIO_DESC, _('Audio Description')),
     (CAPTIONS, _('Captions')),
-]
-file_types = [x[0] for x in file_type_options]
+)
+file_types = [x[0] for x in file_type_options()]
 file_type_validator = OneOf(file_types, if_missing=None)
 file_type_validator = None
 

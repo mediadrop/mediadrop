@@ -85,7 +85,7 @@ class PlayerPrefsForm(ListForm):
 class HTML5OrFlashPrefsForm(PlayerPrefsForm):
     fields = [
         RadioButtonList('prefer_flash',
-            options=(
+            options=lambda: (
                 (False, _('Yes, use the Flash Player when the device supports it.')),
                 (True, _('No, use the HTML5 Player when the device supports it.')),
             ),

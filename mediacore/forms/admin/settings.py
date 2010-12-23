@@ -21,7 +21,6 @@ from tw.forms import CheckBox, RadioButtonList, SingleSelectField
 from tw.forms.fields import Button, CheckBox
 from tw.forms.validators import (Bool, FancyValidator, FieldStorageUploadConverter,
     Int, OneOf, Regex, StringBool)
-from webhelpers.html import literal
 
 from mediacore.forms import (FileField, ListFieldSet, ListForm,
     ResetButton, SubmitButton, TextArea, TextField, XHTMLTextArea,
@@ -30,27 +29,20 @@ from mediacore.forms.admin.categories import category_options
 from mediacore.plugin import events
 from mediacore.model import MultiSetting
 
-sitemaps = [
-    ('enabled', _('Enable Sitemaps')),
-    ('disabled', _('Disable Sitemaps')),
-]
-rss_feeds = [
-    ('enabled', _('Enable RSS Feeds')),
-    ('disabled', _('Disable RSS Feeds')),
-]
-
-title_options = [
+enable_disable = lambda: (
+    ('enabled', _('Enable')),
+    ('disabled', _('Disable')),
+)
+enable_disable_validator = OneOf([x[0] for x in enable_disable()])
+title_options = lambda: (
     ('prepend', _('Prepend')),
     ('append', _('Append')),
-]
-
-rich_text_editors = [
+)
+rich_text_editors = lambda: (
     ('plain', _('Plain <textarea> fields (0kB)')),
-    ('tinymce', literal('Enable <a href="http://tinymce.moxiecode.com">TinyMCE</a> for &lt;textarea&gt; fields accepting XHTML. <a href="http://wiki.moxiecode.com/index.php/TinyMCE:License">LGPL License</a> (281kB)')),
-]
-
-# Appearance Settings #
-navbar_colors = [
+    ('tinymce', _('Enable TinyMCE for <textarea> fields accepting XHTML (281kB)')),
+)
+navbar_colors = lambda: (
     ('brown', _('Brown')),
     ('blue', _('Blue')),
     ('green', _('Green')),
@@ -58,7 +50,7 @@ navbar_colors = [
     ('white', _('White')),
     ('purple', _('Purple')),
     ('black', _('Black')),
-]
+)
 
 hex_validation_regex = "^#\w{3,6}$"
 # End Appearance Settings #
@@ -72,7 +64,7 @@ def multi_settings_options(key):
 def boolean_radiobuttonlist(name, **kwargs):
     return RadioButtonList(
         name,
-        options=(('true', _('Yes')), ('false', _('No'))),
+        options=lambda: (('true', _('Yes')), ('false', _('No'))),
         validator=OneOf(['true', 'false']),
         **kwargs
     )
@@ -81,7 +73,7 @@ def real_boolean_radiobuttonlist(name, **kwargs):
     # TODO: replace uses of boolean_radiobuttonlist with this, then scrap the old one.
     return RadioButtonList(
         name,
-        options=((True, _('Yes')), (False, _('No'))),
+        options=lambda: ((True, _('Yes')), (False, _('No'))),
         validator=StringBool,
         **kwargs
     )
