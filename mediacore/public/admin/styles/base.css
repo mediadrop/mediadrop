@@ -178,6 +178,7 @@ body {
 #nav {
 	float: right;
 	margin-top: 17px;
+	margin-left: -20px;
 }
 #nav li {
 	float: left;
