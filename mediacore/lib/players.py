@@ -824,7 +824,7 @@ class HTML5PlusJWPlayer(AbstractHTML5Player):
         html5 = self.uris and super(HTML5PlusJWPlayer, self).render_js_player()
         if html5 and flash:
             return Markup("new mcore.MultiPlayer([%s, %s])" % \
-                self.prefer_flash and (flash, html5) or (html5, flash))
+                (self.prefer_flash and (flash, html5) or (html5, flash)))
         if html5 or flash:
             return html5 or flash
         return None
