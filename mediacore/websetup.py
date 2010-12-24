@@ -119,7 +119,7 @@ def setup_app(command, conf, vars):
 
     log.info('Generating appearance.css from your current settings')
     settings = DBSession.query(Setting.key, Setting.value)
-    generate_appearance_css(config, settings)
+    generate_appearance_css(settings, cache_dir=conf['cache_dir'])
 
     log.info('Successfully setup')
 
@@ -364,16 +364,23 @@ uikit_colors = {
     },
 }
 
-def generate_appearance_css(config, settings):
+def generate_appearance_css(settings, cache_dir=None):
     """Generate the custom appearance.css file, overwriting if it exists.
 
-    :param config: The config created by
-        :func:`mediacore.config.environment.load_environment`. This can
-        also be the config from the `pylons.config` stacked object proxy.
     :param settings: A list of settings key-value tuples.
+    :param cache_dir: Path to the data directory. Optional if the
+        ``pylons.config`` Stacked Object Proxy is available (ie.
+        during the life of a request, but not during websetup or init).
+    :raises TypeError: If cache_dir is not provided and cannot be found.
+    :raises ValueError: If the cache_dir does not exist.
 
     """
-    appearance_dir = os.path.join(config['cache.dir'], 'appearance')
+    if cache_dir is None:
+        cache_dir = pylons.config['cache.dir']
+    if not os.path.exists(cache_dir):
+        raise ValueError('No valid cache dir provided.')
+
+    appearance_dir = os.path.join(cache_dir, 'appearance')
     css_path = os.path.join(appearance_dir, 'appearance.css')
 
     vars = dict((str(k), str(v))

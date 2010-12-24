@@ -199,7 +199,7 @@ class SettingsController(BaseSettingsController):
         #Handle a reset to defaults request first
         if kwargs.get('reset', None):
             self._update_settings(dict(appearance_settings))
-            generate_appearance_css(config, appearance_settings)
+            generate_appearance_css(appearance_settings)
             return redirect(controller='admin/settings', action='appearance')
 
         for field_name, file_name in upload_field_filenames:
@@ -221,7 +221,6 @@ class SettingsController(BaseSettingsController):
 
         self._save(appearance_form, values=kwargs)
         generate_appearance_css(
-            config,
             [(key, setting.value) for key, setting in c.settings.iteritems()],
         )
         redirect(action='appearance')
