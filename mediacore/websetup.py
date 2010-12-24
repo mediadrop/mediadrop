@@ -9,6 +9,7 @@ import pylons.test
 
 from genshi.template import NewTextTemplate
 from genshi.template.loader import TemplateLoader
+from PIL import Image
 from pylons.i18n import N_
 from sqlalchemy.orm import class_mapper
 from migrate.versioning.api import (drop_version_control, version_control,
@@ -374,14 +375,20 @@ def generate_appearance_css(config, settings):
     appearance_dir = os.path.join(config['cache.dir'], 'appearance')
     css_path = os.path.join(appearance_dir, 'appearance.css')
 
-    vars = dict((str(k), str(v)) for k, v in settings)
+    vars = dict((str(k), str(v))
+                for k, v in settings
+                if k.startswith('appearance_'))
     vars['uikit_colors'] = uikit_colors[
         vars['appearance_navigation_bar_color']]
     vars['navbar_color'] = vars['appearance_navigation_bar_color']
+
     if vars['appearance_logo']:
         logo_path = os.path.join(appearance_dir, vars['appearance_logo'])
-        vars['logo_height'] = Image.open(logo_path).size[1]
-        vars['logo_name'] = vars['appearance_logo']
+        if os.path.exists(logo_path):
+            vars['logo_height'] = Image.open(logo_path).size[1]
+            vars['logo_name'] = vars['appearance_logo']
+        else:
+            vars['appearance_logo'] = False
 
     # Create a simple template loader instead of using
     # mediacore.lib.templating.render because that function only works
