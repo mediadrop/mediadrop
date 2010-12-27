@@ -4,6 +4,10 @@ test_user = 'admin'
 test_password = 'admin'
 local = 'http://localhost%s'
 
+# TODO: Determine why test_voluntary_login_and_logout needs this value
+#       instead of simply localhost with no port, as with test_forced_login.
+local_with_port = 'http://localhost:80%s'
+
 class TestLoginController(TestController):
 
     def test_forced_login(self):
@@ -57,7 +61,7 @@ class TestLoginController(TestController):
         Voluntary logins should redirect to the main admin page on
         success. Logout should redirect to the main / page.
         """
-        admin_url = url(controller='admin', action='index')
+        admin_url = restricted_url = url(controller='admin', action='index')
         login_form_url = url(controller='login', action='login')
         post_login_url = url(controller='login', action='post_login')
         logout_handler_url = url(controller='login', action='logout_handler')
@@ -80,7 +84,7 @@ class TestLoginController(TestController):
         # and redirect to the initially requested page.
         post_login_handler_page = login_handler_page.follow(status=302)
 
-        assert post_login_handler_page.location == local % admin_url, \
+        assert post_login_handler_page.location == local_with_port % admin_url, \
             "Post-login handler is redirecting to %s, but %s was expected." % (
                 post_login_handler_page.location, local % restricted_url)
 
