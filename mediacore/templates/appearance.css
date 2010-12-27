@@ -106,5 +106,9 @@ a.mcore-btn:visited {
 	background-image: url('../images/ui-kit/${navbar_color}/media-view-bg.png');
 }
 
+#mcore-foot {
+	background-image: url('../images/ui-kit/${navbar_color}/footer-bg.png');
+}
+
 
 ${appearance_custom_css}

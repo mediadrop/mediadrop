@@ -104,22 +104,35 @@ a:hover {
 	overflow: hidden;
 	display: block;
 }
-#mediacore-footer {
-	margin: 10px auto 0 auto;
-	border-top: 1px solid #cdd2d5;
-	overflow: hidden;
+#mcore-foot {
+	background: url('../images/ui-kit/black/footer-bg.png') no-repeat;
+	width: 950px;
+	height: 47px;
+	color: #a9afb4;
+	font-weight: bold;
+	text-shadow: 0 1px #fff;
+	margin-bottom: 15px;
+}
+.mcore-foot-link:link,
+.mcore-foot-link:visited {
+	color: #a9afb4;
+}
+.mcore-foot-link:hover {
+	color: #0f7cb4;
+}
+#mcore-feeds .mcore-foot-link {
+	margin-right: 5px;
+}
+#mcore-credits,
+#mcore-feeds {
+	margin: 13px 15px;
+}
+#mcore-credits strong {
+	text-transform: uppercase;
 }
 .mediacore-content {
 	width: 920px;
 	margin: 0 auto;
-}
-
-#mcore-custom-header {
-	margin: 10px auto;
-	width: 100%;
-}
-#mcore-custom-footer {
-	width: 100%;
 }
 
 /* Sectional Nav */
@@ -669,10 +682,13 @@ a:focus .grid-title {
 }
 
 /* Feed links in footer */
-#mediacore-feeds h5 {
+#mcore-feeds {
+	float: left;
+}
+#mcore-feeds h5 {
 	display: none;
 }
-#mediacore-feeds li {
+#mcore-feeds li {
 	display: inline;
 	margin-right: 5px;
 	font-size: 12px;

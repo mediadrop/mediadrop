@@ -48,15 +48,19 @@
 
 	<div py:replace="select('*|text()|comment()')">Content is injected here</div>
 
-	<div id="mediacore-footer" class="mediacore-content clear">
-		<div py:if="c.paginators" py:replace="pager(c.paginators.values()[0])" />
-		<div id="mcore-custom-footer">
-		</div>
-		<div id="mediacore-feeds">
+	<div py:if="c.paginators" class="mediacore-content">
+		<div py:replace="pager(c.paginators.values()[0])" />
+	</div>
+
+	<div id="mcore-foot" class="mediacore-content clear">
+		<div id="mcore-feeds" class="f-lft">
 			<h5>Feeds:</h5>
 			<ul>
-				<li py:for="href, title in feed_links"><a href="${href}">${title}</a></li>
+				<li py:for="href, title in feed_links"><a href="${href}" class="mcore-foot-link underline-hover">${title}</a></li>
 			</ul>
+		</div>
+		<div id="mcore-credits" class="f-rgt">
+			<a href="http://getmediacore.com/" class="mcore-foot-link underline-hover"><strong>MediaCore</strong> <em>video platform</em></a>
 		</div>
 	</div>
 
