@@ -34,7 +34,7 @@
 </head>
 
 <body py:match="body" py:attrs="select('@*')">
-	<div id="mcore-custom-header">${Markup(g.settings['appearance_custom_header_html'])}</div>
+	${Markup(g.settings['appearance_custom_header_html'])}
 
 	<py:choose test="g.settings['appearance_display_logo'] and g.settings['appearance_logo']">
 		<h1 py:when="True" id="mcore-logo">
@@ -51,7 +51,6 @@
 	<div id="mediacore-footer" class="mediacore-content clear">
 		<div py:if="c.paginators" py:replace="pager(c.paginators.values()[0])" />
 		<div id="mcore-custom-footer">
-			${Markup(g.settings.get('appearance_custom_footer_html', None))}
 		</div>
 		<div id="mediacore-feeds">
 			<h5>Feeds:</h5>
@@ -60,6 +59,8 @@
 			</ul>
 		</div>
 	</div>
+
+	${Markup(g.settings['appearance_custom_footer_html'])}
 
 	<!--[if IE 6]>
 		<script type="text/javascript">
