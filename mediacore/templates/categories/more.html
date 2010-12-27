@@ -28,9 +28,9 @@
 	      rel="alternate" type="application/rss+xml" title="Latest media ${in_text}"
 	      href="${h.url_for(controller='/categories', action='feed', slug=c.category.name)}" />
 </head>
-<body py:if="media" py:with="in_text = c.category and ('in ' + c.category.name) or ''">
+<body py:with="in_text = c.category and ('in ' + c.category.name) or ''">
 	<h2><span class="uppercase mcore-heading">${order == 'latest' and 'Latest' or 'Most Popular'}</span> ${in_text}</h2>
 	<ul py:replace="media_grid(media, thumb_size='s', desc_len=90)" />
+	<div py:if="not media">There is no media in this category.</div>
 </body>
-<body py:if="not media">There is no media in this category.</body>
 </html>

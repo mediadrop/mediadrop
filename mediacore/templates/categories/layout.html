@@ -19,7 +19,9 @@
       xmlns:py="http://genshi.edgewall.org/"
       xmlns:xi="http://www.w3.org/2001/XInclude"
       py:strip="">
-<body py:match="body" py:attrs="select('@*')" class="nav-categories-on">
+<body py:match="body"
+      py:attrs="h.append_class_attr(select('@*'), c.category and 'mcore-cat-%s' % c.category.slug or 'mcore-cats')"
+      class="nav-categories-on">
 	<div class="mediacore-content">
 		<h2 id="category-breadcrumb" class="head-super" py:choose="">
 			<py:when test="c.category">

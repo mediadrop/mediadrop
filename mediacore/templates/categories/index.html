@@ -35,7 +35,7 @@
 	      rel="alternate" type="application/rss+xml" title="Latest ${in_text}"
 	      href="${h.url_for(controller='/categories', action='feed', slug=c.category.name)}" />
 </head>
-<body py:if="popular or latest">
+<body>
 	<div py:if="latest" id="category-latest" class="${popular and 's-grid-column' or None}" py:with="latest_url = in_text and h.url_for(action='more', order='latest') or h.url_for(controller='/media', show='latest')">
 		<h2><a href="${latest_url}" class="underline-hover"><span class="uppercase">Latest</span> ${in_text}</a></h2>
 		<ul py:replace="media_grid(latest, thumb_size='s', desc_len=90)" />
@@ -46,6 +46,6 @@
 		<ul py:replace="media_grid(popular, thumb_size='s', desc_len=90)" />
 		<a class="see-more underline-hover" href="${popular_url}">more of the Most Popular...</a>
 	</div>
+	<div py:if="not popular and not latest">There is no media in this category.</div>
 </body>
-<body py:if="not popular and not latest">There is no media in this category.</body>
 </html>
