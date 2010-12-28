@@ -23,4 +23,5 @@ and TurboGears2 developers should feel comfortable.
    models/index
    library/index
    templating
+   closure
 
