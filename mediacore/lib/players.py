@@ -231,20 +231,6 @@ class FlashRenderMixin(object):
         tag(Element('param', name='allowscriptaccess', value='always'))
         return tag
 
-    def render_swiff(self):
-        """Render a MooTools Swiff javascript snippet.
-
-        See: http://mootools.net/docs/core/Utilities/Swiff
-        """
-        params = {
-            'width': self.adjusted_width,
-            'height': self.adjusted_height,
-            'params': {'allowfullscreen': 'true'},
-            'vars': self.flashvars(),
-        }
-        params = simplejson.dumps(params)
-        return Markup("new Swiff('%s', %s)" % (self.swf_url(), params))
-
     def render_js_player(self):
         """Render a javascript string to instantiate a javascript player.
 
