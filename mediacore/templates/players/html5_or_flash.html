@@ -23,7 +23,7 @@
 
 	<div id="${player.elem_id}" class="mcore-player">
 		<div class="mcore-playerbox">
-			${player.render_markup()}
+			${player.render_markup(_(u'Your browser is incapable of playing this media.'))}
 		</div>
 		<div py:if="show_playerbar" class="mcore-playerbar" py:with="
 			download_uris = show_download and sorted((uri for uri in (h.download_uri(file) for file in media.files) if uri), key=lambda uri: uri.file.size);

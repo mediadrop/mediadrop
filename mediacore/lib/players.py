@@ -76,14 +76,16 @@ class AbstractPlayer(AbstractClass):
 
         """
 
-    @abstractmethod
-    def render_markup(self):
+    def render_markup(self, error_text=None):
         """Render the XHTML markup for this player instance.
 
+        :param error_text: Optional error text that should be included in
+            the final markup if appropriate for the player.
         :rtype: ``unicode`` or :class:`genshi.core.Markup`
         :returns: XHTML that will not be escaped by Genshi.
 
         """
+        return error_text or u''
 
     @abstractmethod
     def render_js_player(self):
@@ -178,17 +180,15 @@ class FlashRenderMixin(object):
     Mixin for rendering flash players. Used by embedtypes as well as flash.
     """
 
-    def render_markup(self):
-        return None
-
+    def render_object_embed(self, error_text=None):
         object_tag = self.render_object()
         orig_id = self.elem_id
         self.elem_id = None
-        embed_tag = self.render_embed()
+        embed_tag = self.render_embed(error_text)
         self.elem_id = orig_id
         return object_tag(embed_tag)
 
-    def render_embed(self):
+    def render_embed(self, error_text=None):
         swf_url = self.swf_url()
         flashvars = urlencode(self.flashvars())
 
@@ -196,9 +196,11 @@ class FlashRenderMixin(object):
                       allowfullscreen='true', allowscriptaccess='always',
                       width=self.adjusted_width, height=self.adjusted_height,
                       src=swf_url, flashvars=flashvars, id=elem_id)
+        if error_text:
+            tag(error_text)
         return tag
 
-    def render_object(self):
+    def render_object(self, error_text=None):
         swf_url = self.swf_url()
         flashvars = urlencode(self.flashvars())
 
@@ -209,6 +211,8 @@ class FlashRenderMixin(object):
         tag(Element('param', name='flashvars', value=flashvars))
         tag(Element('param', name='allowfullscreen', value='true'))
         tag(Element('param', name='allowscriptaccess', value='always'))
+        if error_text:
+            tag(error_text)
         return tag
 
     def render_js_player(self):
@@ -475,9 +479,11 @@ class VimeoUniversalEmbedPlayer(AbstractIframeEmbedPlayer):
     scheme = u'vimeo'
     """The `StorageURI.scheme` which uniquely identifies this embed type."""
 
-    def render_markup(self):
+    def render_markup(self, error_text=None):
         """Render the XHTML markup for this player instance.
 
+        :param error_text: Optional error text that should be included in
+            the final markup if appropriate for the player.
         :rtype: ``unicode`` or :class:`genshi.core.Markup`
         :returns: XHTML that will not be escaped by Genshi.
 
@@ -530,6 +536,8 @@ class DailyMotionEmbedPlayer(AbstractIframeEmbedPlayer):
         })
         tag = Element('iframe', src='%s?%s' % (uri, data), frameborder=0,
                       width=self.adjusted_width, height=self.adjusted_height)
+        if error_text:
+            tag(error_text)
         return tag
 
 AbstractIframeEmbedPlayer.register(DailyMotionEmbedPlayer)
@@ -652,9 +660,11 @@ class AbstractHTML5Player(FileSupportMixin, AbstractPlayer):
                                         qualified=self.qualified)
         return attrs
 
-    def render_markup(self):
+    def render_markup(self, error_text=None):
         """Render the XHTML markup for this player instance.
 
+        :param error_text: Optional error text that should be included in
+            the final markup if appropriate for the player.
         :rtype: ``unicode`` or :class:`genshi.core.Markup`
         :returns: XHTML that will not be escaped by Genshi.
 
@@ -669,6 +679,8 @@ class AbstractHTML5Player(FileSupportMixin, AbstractPlayer):
             else:
                 mimetype = uri.file.mimetype
             tag(Element('source', src=uri, type=mimetype))
+        if error_text:
+            tag(error_text)
         return tag
 
     def render_js_player(self):
@@ -734,16 +746,18 @@ class HTML5PlusFlowPlayer(AbstractHTML5Player):
             return html5 or flash
         return None
 
-    def render_markup(self):
+    def render_markup(self, error_text=None):
         """Render the XHTML markup for this player instance.
 
+        :param error_text: Optional error text that should be included in
+            the final markup if appropriate for the player.
         :rtype: ``unicode`` or :class:`genshi.core.Markup`
         :returns: XHTML that will not be escaped by Genshi.
 
         """
         if self.uris:
-            return super(HTML5PlusFlowPlayer, self).render_markup()
-        return None
+            return super(HTML5PlusFlowPlayer, self).render_markup(error_text)
+        return error_text or u''
 
 AbstractHTML5Player.register(HTML5PlusFlowPlayer)
 
@@ -795,16 +809,18 @@ class HTML5PlusJWPlayer(AbstractHTML5Player):
             return html5 or flash
         return None
 
-    def render_markup(self):
+    def render_markup(self, error_text=None):
         """Render the XHTML markup for this player instance.
 
+        :param error_text: Optional error text that should be included in
+            the final markup if appropriate for the player.
         :rtype: ``unicode`` or :class:`genshi.core.Markup`
         :returns: XHTML that will not be escaped by Genshi.
 
         """
         if self.uris:
-            return super(HTML5PlusJWPlayer, self).render_markup()
-        return None
+            return super(HTML5PlusJWPlayer, self).render_markup(error_text)
+        return error_text or u''
 
 AbstractHTML5Player.register(HTML5PlusJWPlayer)
 
@@ -838,14 +854,16 @@ class SublimePlayer(AbstractHTML5Player):
         attrs['class'] = (attrs.get('class', '') + ' sublime').strip()
         return attrs
 
-    def render_markup(self):
+    def render_markup(self, error_text=None):
         """Render the XHTML markup for this player instance.
 
+        :param error_text: Optional error text that should be included in
+            the final markup if appropriate for the player.
         :rtype: ``unicode`` or :class:`genshi.core.Markup`
         :returns: XHTML that will not be escaped by Genshi.
 
         """
-        video_tag = super(SublimePlayer, self).render_markup()
+        video_tag = super(SublimePlayer, self).render_markup(error_text)
         return video_tag + Markup(self.data['script_tag'])
 
 AbstractHTML5Player.register(SublimePlayer)
