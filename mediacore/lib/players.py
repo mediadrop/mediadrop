@@ -178,36 +178,17 @@ class FlashRenderMixin(object):
     Mixin for rendering flash players. Used by embedtypes as well as flash.
     """
 
-    # TODO: Remove **kwargs from all render methods in this mixin.
+    def render_markup(self):
+        return None
 
-    def render_markup(self, method=None):
-        """Render this player instance.
+        object_tag = self.render_object()
+        orig_id = self.elem_id
+        self.elem_id = None
+        embed_tag = self.render_embed()
+        self.elem_id = orig_id
+        return object_tag(embed_tag)
 
-        :param method: Select whether you want an 'embed' tag, an
-            'object' tag, or a 'swiff' javascript snippet. If left empty,
-            returns XHTML <object><embed /></object> tags.
-        :rtype: :class:`genshi.core.Markup`
-        :returns: XHTML that will not be escaped by Genshi.
-
-        """
-        if method is None:
-            return None
-
-        if method is 'combined':
-            object = self.render_object()
-            kwargs['id'] = None
-            return object(self.render_embed(**kwargs))
-
-        renderer = {
-            'embed': self.render_embed,
-            'object': self.render_object,
-            'swiff': self.render_swiff,
-            'jsplayer': self.render_js_player,
-        }.get(method)
-        return renderer(**kwargs)
-
-    def render_embed(self, **kwargs):
-        elem_id = kwargs.pop('id', self.elem_id)
+    def render_embed(self):
         swf_url = self.swf_url()
         flashvars = urlencode(self.flashvars())
 
@@ -217,8 +198,7 @@ class FlashRenderMixin(object):
                       src=swf_url, flashvars=flashvars, id=elem_id)
         return tag
 
-    def render_object(self, **kwargs):
-        elem_id = kwargs.pop('id', self.elem_id)
+    def render_object(self):
         swf_url = self.swf_url()
         flashvars = urlencode(self.flashvars())
 
