@@ -13,6 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import logging
 import warnings
 import simplejson
 
@@ -35,6 +36,8 @@ __all__ = [
     'autocommit', 'beaker_cache', 'expose',
     'expose_xhr', 'paginate', 'validate',
 ]
+
+log = logging.getLogger(__name__)
 
 # TODO: Rework all decorators to use the decorators module. By using it,
 #       the function signature of the original action method is preserved,
