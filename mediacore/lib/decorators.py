@@ -88,6 +88,8 @@ def _expose_wrapper(f, template):
                 msg = ("JSON responses with Array envelopes are susceptible "
                        "to cross-site data leak attacks, see "
                        "http://wiki.pylonshq.com/display/pylonsfaq/Warnings")
+                if config['debug']:
+                    raise TypeError(msg)
                 warnings.warn(msg, Warning, 2)
                 log.warning(msg)
             response.headers['Content-Type'] = 'application/json'
@@ -512,10 +514,12 @@ def memoize(func):
     func.cache = {}
     return decorator(_memoize, func)
 
-def _autocommit(func, *args, **kwargs):
+@decorator
+def autocommit(func, *args, **kwargs):
+    """Automatically handle database transactions for decorated controller actions"""
     try:
         result = func(*args, **kwargs)
-    except(HTTPOk, HTTPRedirection):
+    except (HTTPOk, HTTPRedirection):
         DBSession.commit()
         raise
     except:
@@ -523,7 +527,3 @@ def _autocommit(func, *args, **kwargs):
         raise
     DBSession.commit()
     return result
-
-def autocommit(func):
-    """Automatically handle database transactions for decorated controller actions"""
-    return decorator(_autocommit, func)
