@@ -36,7 +36,7 @@
 <body py:match="body" py:attrs="select('@*')">
 	${Markup(g.settings['appearance_custom_header_html'])}
 
-	<py:choose test="g.settings['appearance_display_logo'] and g.settings['appearance_logo']">
+	<py:choose test="bool(g.settings['appearance_display_logo'] and g.settings['appearance_logo'])">
 		<h1 py:when="True" id="mcore-logo">
 			<a href="${h.url_for('/')}">${g.settings['general_site_name']}</a>
 		</h1>
