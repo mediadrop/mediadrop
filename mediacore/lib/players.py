@@ -879,7 +879,7 @@ class SublimePlayer(AbstractHTML5Player):
         :returns: XHTML that will not be escaped by Genshi.
 
         """
-        video_tag = super(SublimePlayer, self).render()
+        video_tag = super(SublimePlayer, self).render_markup()
         return video_tag + Markup(self.data['script_tag'])
 
 AbstractHTML5Player.register(SublimePlayer)
