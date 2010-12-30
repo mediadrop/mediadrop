@@ -780,69 +780,6 @@ class HTML5PlusFlowPlayer(AbstractHTML5Player):
 
 AbstractHTML5Player.register(HTML5PlusFlowPlayer)
 
-class HTML5PlusJWPlayer(AbstractHTML5Player):
-    """
-    HTML5 Player with fallback to JWPlayer.
-
-    .. note::
-
-        Although this class duplicates much of the functionality in
-        :class:`HTML5PlusFlowPlayer` we are not going to worry about
-        that since the soon-to-be-integrated JWPlayer 5.3 seamlessly
-        includes both an HTML5 and a Flash player.
-
-    """
-    name = u'html5+jwplayer'
-    """A unicode string identifier for this class."""
-
-    display_name = N_(u'HTML5 + JWPlayer Fallback')
-    """A unicode display name for the class, to be used in the settings UI."""
-
-    settings_form_class = player_forms.HTML5OrFlashPrefsForm
-    """An optional :class:`mediacore.forms.admin.players.PlayerPrefsForm`."""
-
-    default_data = {'prefer_flash': False}
-    """An optional default data dictionary for user preferences."""
-
-    supported_containers = HTML5Player.supported_containers \
-                         | JWPlayer.supported_containers
-    supported_schemes = HTML5Player.supported_schemes \
-                      | JWPlayer.supported_schemes
-
-    def __init__(self, media, uris, **kwargs):
-        super(HTML5PlusJWPlayer, self).__init__(media, uris, **kwargs)
-        self.jwplayer = None
-        self.prefer_flash = self.data.get('prefer_flash', False)
-        self.uris = [u for u, p in izip(uris, AbstractHTML5Player.can_play(uris)) if p]
-        jw_uris = [u for u, p in izip(uris, JWPlayer.can_play(uris)) if p]
-        if jw_uris:
-            self.jwplayer = JWPlayer(media, jw_uris, **kwargs)
-
-    def render_js_player(self):
-        flash = self.jwplayer and self.jwplayer.render_js_player()
-        html5 = self.uris and super(HTML5PlusJWPlayer, self).render_js_player()
-        if html5 and flash:
-            return Markup("new mcore.MultiPlayer([%s, %s])" % \
-                (self.prefer_flash and (flash, html5) or (html5, flash)))
-        if html5 or flash:
-            return html5 or flash
-        return None
-
-    def render_markup(self, error_text=None):
-        """Render the XHTML markup for this player instance.
-
-        :param error_text: Optional error text that should be included in
-            the final markup if appropriate for the player.
-        :rtype: ``unicode`` or :class:`genshi.core.Markup`
-        :returns: XHTML that will not be escaped by Genshi.
-
-        """
-        if self.uris:
-            return super(HTML5PlusJWPlayer, self).render_markup(error_text)
-        return error_text or u''
-
-AbstractHTML5Player.register(HTML5PlusJWPlayer)
-
 ###############################################################################
 
 class SublimePlayer(AbstractHTML5Player):
