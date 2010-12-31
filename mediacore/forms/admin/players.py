@@ -21,6 +21,7 @@ from tw.forms.fields import ContainerMixin as _ContainerMixin
 from tw.forms.validators import All, FancyValidator, FieldsMatch, Invalid, NotEmpty, PlainText, Schema, StringBool
 
 from mediacore.forms import ListFieldSet, ListForm, SubmitButton, ResetButton, TextField
+from mediacore.lib.util import merge_dicts
 from mediacore.plugin import events
 from mediacore.plugin.abc import abstractmethod
 
@@ -135,23 +136,19 @@ class YoutubeFlashPlayerPrefsForm(PlayerPrefsForm):
                 CheckBox('rel', label_text=N_('Allow the player to load related videos once playback of the initial video starts. Related videos are displayed in the "genie menu" when the menu button is pressed.')),
                 CheckBox('showsearch', label_text=N_('Show the search box when the video is minimized. The above option must be enabled for this to work.')),
                 CheckBox('showinfo', label_text=N_('Display information like the video title and rating before the video starts playing.')),
-                CheckBox('nocookie', label_text=N_('Enable privacy-enhanced mode.')),
             ],
             css_classes=['options'],
         )
     ] + PlayerPrefsForm.buttons
 
-    player_params = ('disabledkb', 'fs', 'hd', 'rel',
-                     'showsearch', 'showinfo', 'nocookie')
-
     def display(self, value, **kwargs):
         """Display the form with default values from the engine param."""
         player = kwargs['player']
-        options = value.setdefault('options', {})
-        for x in self.player_params:
-            options.setdefault(x, player.data.get(x, ''))
-        return PlayerPrefsForm.display(self, value, **kwargs)
+        newvalue = {}
+        defaults = {'options': player.data}
+        merge_dicts(newvalue, defaults, value)
+        return PlayerPrefsForm.display(self, newvalue, **kwargs)
 
     def save_data(self, player, options, **kwargs):
-        for x in self.player_params:
-            player.data[x] = options.get(x, '')
+        for field, value in options.iteritems():
+            player.data[field] = int(value)

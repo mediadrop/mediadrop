@@ -16,8 +16,10 @@
 import logging
 import simplejson
 
+from cgi import parse_qsl
 from itertools import izip
 from urllib import urlencode
+from urlparse import urlsplit, urlunsplit
 
 from genshi.builder import Element
 from genshi.core import Markup
@@ -568,12 +570,27 @@ class YoutubeFlashPlayer(AbstractFlashEmbedPlayer):
         'fs': 1,
         'hd': 0,
         'rel': 0,
-        'showsearch': 1,
+        'showsearch': 0,
         'showinfo': 0,
-        'nocookie': False,
     }
 
     _height_diff = 25
+
+    def swf_url(self):
+        """Return the flash player URL."""
+        url = str(self.uris[0])
+        if '?' in url:
+            # Add in our query string params to the ones that are there
+            scheme, netloc, path, query, fragment = urlsplit(url)
+            query_dict = dict(parse_qsl(query))
+            query_dict.update(self.data)
+            query = urlencode(query_dict)
+            url = urlunsplit((scheme, netloc, path, query, fragment))
+        else:
+            # Shortcut for adding our query params when there aren't any yet
+            url += '?' + urlencode(self.data)
+        return url
+
 
 AbstractFlashEmbedPlayer.register(YoutubeFlashPlayer)
 
