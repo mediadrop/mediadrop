@@ -83,7 +83,7 @@ class SettingsController(BaseSettingsController):
     def notifications(self, **kwargs):
         return self._display(notifications_form, values=kwargs)
 
-    @expose()
+    @expose(request_method='POST')
     @validate(notifications_form, error_handler=notifications)
     @autocommit
     def notifications_save(self, **kwargs):
@@ -94,7 +94,7 @@ class SettingsController(BaseSettingsController):
     def comments(self, **kwargs):
         return self._display(comments_form, values=kwargs)
 
-    @expose()
+    @expose(request_method='POST')
     @validate(comments_form, error_handler=comments)
     @autocommit
     def comments_save(self, **kwargs):
@@ -110,7 +110,7 @@ class SettingsController(BaseSettingsController):
     def api(self, **kwargs):
         return self._display(api_form, values=kwargs)
 
-    @expose()
+    @expose(request_method='POST')
     @validate(api_form, error_handler=comments)
     @autocommit
     def save_api(self, **kwargs):
@@ -121,7 +121,7 @@ class SettingsController(BaseSettingsController):
     def popularity(self, **kwargs):
         return self._display(popularity_form, values=kwargs)
 
-    @expose()
+    @expose(request_method='POST')
     @validate(popularity_form, error_handler=popularity)
     @autocommit
     def popularity_save(self, **kwargs):
@@ -140,7 +140,7 @@ class SettingsController(BaseSettingsController):
     def upload(self, **kwargs):
         return self._display(upload_form, values=kwargs)
 
-    @expose()
+    @expose(request_method='POST')
     @validate(upload_form, error_handler=upload)
     @autocommit
     def upload_save(self, **kwargs):
@@ -151,7 +151,7 @@ class SettingsController(BaseSettingsController):
     def analytics(self, **kwargs):
         return self._display(analytics_form, values=kwargs)
 
-    @expose()
+    @expose(request_method='POST')
     @validate(analytics_form, error_handler=analytics)
     @autocommit
     def analytics_save(self, **kwargs):
@@ -162,7 +162,7 @@ class SettingsController(BaseSettingsController):
     def general(self, **kwargs):
         return self._display(general_form, values=kwargs)
 
-    @expose()
+    @expose(request_method='POST')
     @validate(general_form, error_handler=general)
     @autocommit
     def general_save(self, **kwargs):
@@ -173,7 +173,7 @@ class SettingsController(BaseSettingsController):
     def sitemaps(self, **kwargs):
         return self._display(sitemaps_form, values=kwargs)
 
-    @expose()
+    @expose(request_method='POST')
     @validate(sitemaps_form, error_handler=general)
     @autocommit
     def sitemaps_save(self, **kwargs):
@@ -184,7 +184,7 @@ class SettingsController(BaseSettingsController):
     def appearance(self, **kwargs):
         return self._display(appearance_form, values=kwargs)
 
-    @expose()
+    @expose(request_method='POST')
     @validate(appearance_form, error_handler=appearance)
     @autocommit
     def appearance_save(self, **kwargs):

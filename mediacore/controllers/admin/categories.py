@@ -94,7 +94,7 @@ class CategoriesController(BaseController):
             category_row_form = category_row_form,
         )
 
-    @expose('json')
+    @expose('json', request_method='POST')
     @validate(category_form)
     @autocommit
     @observable(events.Admin.CategoriesController.save)
@@ -163,7 +163,7 @@ class CategoriesController(BaseController):
         else:
             redirect(action='index', id=None)
 
-    @expose('json')
+    @expose('json', request_method='POST')
     @autocommit
     def bulk(self, type=None, ids=None, **kwargs):
         """Perform bulk operations on media items

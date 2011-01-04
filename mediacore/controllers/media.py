@@ -304,7 +304,7 @@ class MediaController(BaseController):
         else:
             redirect(action='view')
 
-    @expose_xhr()
+    @expose_xhr(request_method='POST')
     @validate_xhr(comment_schema, error_handler=view)
     @autocommit
     @observable(events.MediaController.comment)

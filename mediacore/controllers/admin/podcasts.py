@@ -129,7 +129,7 @@ class PodcastsController(BaseController):
         )
 
 
-    @expose()
+    @expose(request_method='POST')
     @validate(podcast_form, error_handler=edit)
     @autocommit
     @observable(events.Admin.PodcastsController.save)
@@ -175,7 +175,7 @@ class PodcastsController(BaseController):
         redirect(action='edit', id=podcast.id)
 
 
-    @expose('json')
+    @expose('json', request_method='POST')
     @validate(thumb_form, error_handler=edit)
     @observable(events.Admin.PodcastsController.save_thumb)
     def save_thumb(self, id, thumb, **values):

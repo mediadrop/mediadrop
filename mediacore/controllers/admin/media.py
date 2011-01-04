@@ -202,7 +202,7 @@ class MediaController(BaseController):
             update_status_action = url_for(action='update_status'),
         )
 
-    @expose_xhr()
+    @expose_xhr(request_method='POST')
     @validate_xhr(media_form, error_handler=edit)
     @autocommit
     @observable(events.Admin.MediaController.save)
@@ -261,7 +261,7 @@ class MediaController(BaseController):
             redirect(action='edit', id=media.id)
 
 
-    @expose('json')
+    @expose('json', request_method='POST')
     @validate(add_file_form)
     @autocommit
     @observable(events.Admin.MediaController.add_file)
@@ -345,7 +345,7 @@ class MediaController(BaseController):
         return data
 
 
-    @expose('json')
+    @expose('json', request_method='POST')
     @autocommit
     @observable(events.Admin.MediaController.edit_file)
     def edit_file(self, id, file_id, file_type=None, duration=None, delete=None, bitrate=None, width_height=None, **kwargs):
@@ -426,7 +426,7 @@ class MediaController(BaseController):
         return data
 
 
-    @expose('json')
+    @expose('json', request_method='POST')
     @autocommit
     def merge_stubs(self, orig_id, input_id, **kwargs):
         """Merge in a newly created media item.
@@ -515,7 +515,7 @@ class MediaController(BaseController):
         )
 
 
-    @expose('json')
+    @expose('json', request_method='POST')
     @validate(thumb_form, error_handler=edit)
     @autocommit
     @observable(events.Admin.MediaController.save_thumb)
@@ -579,7 +579,7 @@ class MediaController(BaseController):
         )
 
 
-    @expose('json')
+    @expose('json', request_method='POST')
     @validate(update_status_form, error_handler=edit)
     @autocommit
     @observable(events.Admin.MediaController.update_status)
@@ -633,7 +633,7 @@ class MediaController(BaseController):
         else:
             redirect(action='edit')
 
-    @expose('json')
+    @expose('json', request_method='POST')
     @autocommit
     def bulk(self, type=None, ids=None, **kwargs):
         """Perform bulk operations on media items

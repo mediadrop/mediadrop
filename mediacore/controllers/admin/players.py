@@ -72,7 +72,7 @@ class PlayersController(BaseController):
             'form_values': kwargs,
         }
 
-    @expose()
+    @expose(request_method='POST')
     @autocommit
     def save(self, id, **kwargs):
         player = fetch_row(PlayerPrefs, id)
@@ -91,7 +91,7 @@ class PlayersController(BaseController):
 
         return save(id, **kwargs)
 
-    @expose()
+    @expose(request_method='POST')
     @autocommit
     def delete(self, id, **kwargs):
         """Delete a PlayerPref.
@@ -112,7 +112,7 @@ class PlayersController(BaseController):
         cleanup_players_table()
         redirect(action='index', id=None)
 
-    @expose()
+    @expose(request_method='POST')
     @autocommit
     def enable(self, id, **kwargs):
         """Enable a PlayerPref.
@@ -125,7 +125,7 @@ class PlayersController(BaseController):
         player.enabled = True
         redirect(action='index', id=None)
 
-    @expose()
+    @expose(request_method='POST')
     @autocommit
     def disable(self, id, **kwargs):
         """Disable a PlayerPref.
@@ -138,7 +138,7 @@ class PlayersController(BaseController):
         player.enabled = False
         redirect(action='index', id=None)
 
-    @expose()
+    @expose(request_method='POST')
     @autocommit
     def reorder(self, id, direction, **kwargs):
         """Reorder a PlayerPref.

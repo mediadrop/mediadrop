@@ -87,7 +87,7 @@ class TagsController(BaseController):
             tag_form = tag_form,
         )
 
-    @expose('json')
+    @expose('json', request_method='POST')
     @validate(tag_form)
     @autocommit
     @observable(events.Admin.TagsController.save)
@@ -133,7 +133,7 @@ class TagsController(BaseController):
         else:
             redirect(action='index', id=None)
 
-    @expose('json')
+    @expose('json', request_method='POST')
     @autocommit
     def bulk(self, type=None, ids=None, **kwargs):
         """Perform bulk operations on media items

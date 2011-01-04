@@ -76,7 +76,7 @@ class ErrorController(BaseController):
             vars = dict(POST_request=unicode(original_request)[:2048]),
         )
 
-    @expose()
+    @expose(request_method='POST')
     @observable(events.ErrorController.report)
     def report(self, email='', description='', **kwargs):
         """Email a support request that's been submitted on :meth:`document`.

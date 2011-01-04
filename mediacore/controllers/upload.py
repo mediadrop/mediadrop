@@ -77,7 +77,7 @@ class UploadController(BaseController):
             form_values = kwargs,
         )
 
-    @expose('json')
+    @expose('json', request_method='POST')
     @validate(upload_form)
     @autocommit
     @observable(events.UploadController.submit_async)
@@ -144,7 +144,7 @@ class UploadController(BaseController):
 
         return data
 
-    @expose()
+    @expose(request_method='POST')
     @validate(upload_form, error_handler=index)
     @autocommit
     @observable(events.UploadController.submit)

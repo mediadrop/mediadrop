@@ -96,7 +96,7 @@ class StorageController(BaseController):
             'form_values': kwargs,
         }
 
-    @expose()
+    @expose(request_method='POST')
     @autocommit
     def save(self, id, engine_type=None, **kwargs):
         if id == 'new':
@@ -121,7 +121,7 @@ class StorageController(BaseController):
 
         return save_engine_params(id, **kwargs)
 
-    @expose('json')
+    @expose('json', request_method='POST')
     @autocommit
     def delete(self, id, **kwargs):
         """Delete a StorageEngine.
@@ -137,7 +137,7 @@ class StorageController(BaseController):
         DBSession.delete(engine)
         redirect(action='index', id=None)
 
-    @expose()
+    @expose(request_method='POST')
     @autocommit
     def enable(self, id, **kwargs):
         """Enable a StorageEngine.
@@ -150,7 +150,7 @@ class StorageController(BaseController):
         engine.enabled = True
         redirect(action='index', id=None)
 
-    @expose()
+    @expose(request_method='POST')
     @autocommit
     def disable(self, id, **kwargs):
         """Disable a StorageEngine.

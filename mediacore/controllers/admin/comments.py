@@ -97,7 +97,7 @@ class CommentsController(BaseController):
             search_form = search_form,
         )
 
-    @expose('json')
+    @expose('json', request_method='POST')
     @autocommit
     @observable(events.Admin.CommentsController.save_status)
     def save_status(self, id, status, ids=None, **kwargs):
@@ -140,7 +140,7 @@ class CommentsController(BaseController):
         else:
             redirect(action='index')
 
-    @expose('json')
+    @expose('json', request_method='POST')
     @autocommit
     @observable(events.Admin.CommentsController.save_edit)
     def save_edit(self, id, body, **kwargs):

@@ -98,7 +98,7 @@ class UsersController(BaseController):
         )
 
 
-    @expose()
+    @expose(request_method='POST')
     @validate(user_form, error_handler=edit)
     @autocommit
     @observable(events.Admin.UsersController.save)
@@ -145,7 +145,7 @@ class UsersController(BaseController):
         redirect(action='index', id=None)
 
 
-    @expose('json')
+    @expose('json', request_method='POST')
     @autocommit
     @observable(events.Admin.UsersController.delete)
     def delete(self, id, **kwargs):
