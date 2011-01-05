@@ -48,25 +48,18 @@ if sys.version_info < (2, 7):
 
 extra_arguments_for_setup = {}
 
-# optional dependency on babel - if it is not installed, you can not extract
-# new messages but MediaCore itself will still work...
-try:
-    import babel
-except ImportError:
-    pass
-else:
-    # extractors are declared separately so it is easier for 3rd party users
-    # to use them for other packages as well...
-    extractors = [
-        ('lib/unidecode/**', 'ignore', None),
-        ('tests/**', 'ignore', None),
-        ('**.py', 'python', None),
-        ('templates/**.html', 'genshi', {
-                'template_class': 'genshi.template.markup:MarkupTemplate'
-            }),
-        ('public/**', 'ignore', None),
-    ]
-    extra_arguments_for_setup['message_extractors'] = {'mediacore': extractors}
+# extractors are declared separately so it is easier for 3rd party users
+# to use them for other packages as well...
+extractors = [
+    ('lib/unidecode/**', 'ignore', None),
+    ('tests/**', 'ignore', None),
+    ('**.py', 'python', None),
+    ('templates/**.html', 'genshi', {
+            'template_class': 'genshi.template.markup:MarkupTemplate'
+        }),
+    ('public/**', 'ignore', None),
+]
+extra_arguments_for_setup['message_extractors'] = {'mediacore': extractors}
 
 setup(
     name='MediaCore',
