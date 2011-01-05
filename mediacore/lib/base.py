@@ -25,6 +25,7 @@ from paste.deploy.converters import asbool
 from pylons import app_globals, config, request, response, tmpl_context
 from pylons.controllers import WSGIController
 from pylons.controllers.util import abort
+from pylons.i18n import set_lang
 from repoze.what.plugins.pylonshq import ControllerProtector
 from repoze.what.predicates import has_permission, Predicate
 from tw.forms.fields import ContainerMixin as _ContainerMixin
@@ -87,6 +88,10 @@ class BareBonesController(WSGIController):
         # an HTTPNotFound exception.
         if not getattr(action_method, 'exposed', False):
             abort(status_code=404)
+        # Change the language from the default if necessary
+        lang = app_globals.settings['primary_language']
+        if lang:
+            set_lang(lang)
 
 class BaseController(BareBonesController):
     """

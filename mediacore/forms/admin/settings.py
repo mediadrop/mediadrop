@@ -13,10 +13,15 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import os
+
+from operator import itemgetter
+
 import formencode
 
-from pylons import app_globals
-from pylons.i18n import N_, _
+from babel.core import Locale
+from pylons import app_globals, config
+from pylons.i18n import N_, _, get_lang
 from tw.forms import CheckBox, RadioButtonList, SingleSelectField
 from tw.forms.fields import Button, CheckBox
 from tw.forms.validators import (Bool, FancyValidator, FieldStorageUploadConverter,
@@ -54,6 +59,22 @@ navbar_colors = lambda: (
 
 hex_validation_regex = "^#\w{3,6}$"
 # End Appearance Settings #
+
+def languages():
+    result = []
+    i18n_dir = os.path.join(config['here'], 'mediacore/i18n')
+    for name in os.listdir(i18n_dir):
+        mo_path = os.path.join(i18n_dir, name, 'LC_MESSAGES/mediacore.mo')
+        if os.path.exists(mo_path):
+            locale = Locale.parse(name)
+            lang = locale.languages[locale.language].capitalize()
+            if locale.territory:
+                lang += u' (%s)' % locale.territories[locale.territory]
+            result.append((name, lang))
+    result.sort(key=itemgetter(1))
+    # tw won't select english when primary_language is empty unless it's first
+    return [('', u'English')] + result
+
 
 def multi_settings_options(key):
     settings = MultiSetting.query\
@@ -196,9 +217,9 @@ class GeneralForm(ListForm):
                 label_text=N_('Display Site Name'),
                 options=title_options,
             ),
-            SingleSelectField('default_language',
-                label_text=N_('Default Language'),
-                options=[],
+            SingleSelectField('primary_language',
+                label_text=N_('Default Language'), # TODO v0.9.1: Change to 'Primary Language'
+                options=languages,
             ),
             SingleSelectField('featured_category',
                 label_text=N_('Featured Category'),

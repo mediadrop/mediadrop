@@ -21,6 +21,7 @@ from cgi import FieldStorage
 from formencode import Invalid
 from PIL import Image
 from pylons import app_globals, config, request, response, session, tmpl_context as c
+from pylons.i18n.translation import LanguageError, _get_translator
 from repoze.what.predicates import has_permission
 from sqlalchemy import orm, sql
 
@@ -167,6 +168,14 @@ class SettingsController(BaseSettingsController):
     @autocommit
     def general_save(self, **kwargs):
         """Save :class:`~mediacore.forms.admin.settings.GeneralForm`."""
+        # Ensure this translation actually works before saving it
+        lang = kwargs.get('primary_language', None)
+        if lang:
+            try:
+                _get_translator(lang)
+            except LanguageError:
+                # TODO: Show an error message on the language field
+                kwargs['primary_language'] = None
         return self._save(general_form, 'general', values=kwargs)
 
     @expose('admin/settings/sitemaps.html')
