@@ -63,6 +63,22 @@ mcore.players.Controller.SIZE_COOKIE_NAME = 'mcore-wide';
 
 
 /**
+ * A list of functions, each of which performing the call to
+ * controller.decorate() for a unique controller.
+ * @type{Array.<function()>}
+ */
+mcore.players.Controller.decorateQueue_ = [];
+
+
+/**
+ * Flag that indicates whether the page is loaded and the pageLoaded function
+ * has been called.
+ * @type {boolean}
+ */
+mcore.players.Controller.pageLoaded_ = false;
+
+
+/**
  * Popup instances for download, embed, share, etc.
  * @type {Array.<mcore.popups.SimplePopup>|undefined}
  * @private
@@ -428,25 +444,51 @@ mcore.players.Controller.prototype.disposeInternal = function() {
  * @param {function(mcore.players.Controller)=} opt_callback Optional callback
  *     to allow customization of the newly initialized controller before any
  *     action is taken.
- * @param {number=} opt_delay Optional delay before the controller decorates
- *     the page. Defaults to 25. A delay gives the UI thread an opportunity to
- *     take action elsewhere, reducing the perceived latency of this process.
  * @return {mcore.players.Controller} The new controller instance.
  */
-mcore.players.Controller.init = function(element, player, opt_callback,
-    opt_delay) {
+mcore.players.Controller.init = function(element, player, opt_callback) {
   element = goog.dom.getElement(element);
   var controller = new mcore.players.Controller(player);
-  var delay = goog.isDef(opt_delay) ? opt_delay : 25;
-  if (opt_callback) {
-    opt_callback(controller);
+  var decorateJob = function() {
+    var decorate = function() {
+      controller.decorate(element);
+      if (opt_callback) { opt_callback(controller); }
+    }
+    // Add a delay before the controller decorates the page in order to give
+    // the UI thread an opportunity to take action elsewhere, reducing the
+    // perceived latency of this process.
+    var delay = 25;
+    setTimeout(decorate, delay);
   }
-  setTimeout(function() {
-    controller.decorate(element);
-  }, delay);
+
+  if (mcore.players.Controller.pageLoaded_) {
+    // if the page is loaded, execute the job immediately
+    decorateJob();
+  } else {
+    // otherwise queue the job until the appropriate DOM elements are ready.
+    mcore.players.Controller.decorateQueue_.push(decorateJob);
+  }
+
   return controller;
 };
 
+
+/**
+ * Perform all queued decoration jobs.
+ * Call this after the entire 'media-box' DOM tree has been loaded.
+ */
+mcore.players.Controller.pageLoaded = function() {
+  // Do not execute more than once.
+  if (mcore.players.Controller.pageLoaded_) { return; }
+
+  var queue = mcore.players.Controller.decorateQueue_
+  for (var i=0; i<queue.length; i++) {
+    var decorateJob = queue[i];
+    decorateJob();
+  }
+  mcore.players.Controller.decorateQueue_ = [];
+  mcore.players.Controller.pageLoaded_ = true;
+}
 
 goog.exportSymbol('mcore.initPlayerController', mcore.players.Controller.init);
 goog.exportSymbol('mcore.PlayerController', mcore.players.Controller);

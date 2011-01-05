@@ -58,6 +58,8 @@ mcore.initPage = function() {
       exc.showExcerpt(true);
     }
   }
+
+  mcore.players.Controller.pageLoaded();
 };
 
 
