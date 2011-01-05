@@ -165,6 +165,7 @@ def add_default_data():
         (u'sitemaps_display', u'enabled'),
         (u'rss_display', u'enabled'),
         (u'vulgarity_filtered_words', u''),
+        (u'primary_language', u''),
     ]
     settings.extend(appearance_settings)
 
