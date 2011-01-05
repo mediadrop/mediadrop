@@ -29,6 +29,7 @@ install_requires = [
     'BeautifulSoup == 3.0.7a',
         # We monkeypatch this version of BeautifulSoup in mediacore.__init__
         # Patch pending: https://bugs.launchpad.net/beautifulsoup/+bug/397997
+    'PIL >= 1.1.6',
     'akismet == 0.2.0',
     'feedparser >= 4.1', # needed only for rss import script
     'cElementTree >= 1, < 2',
@@ -44,15 +45,6 @@ if sys.version_info < (2, 7):
     # with missing requires which can not be used in other environments
     # see https://github.com/simplestation/mediacore/issues#issue/44
     install_requires.append('importlib')
-
-# PIL has some weird packaging issues (because its been around forever).
-# If PIL is installed via MacPorts, setuptools tries to install again.
-# The original PIL 1.1.6 package won't install via setuptools so this
-# this setup script will install http://dist.repoze.org/PIL-1.1.6.tar.gz
-try:
-    import PIL
-except ImportError:
-    install_requires.append('PIL >= 1.1.6')
 
 extra_arguments_for_setup = {}
 
