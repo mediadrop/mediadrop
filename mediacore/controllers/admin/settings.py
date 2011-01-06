@@ -18,10 +18,10 @@ import shutil
 import tw.forms.fields
 
 from cgi import FieldStorage
+from babel.core import Locale
 from formencode import Invalid
 from PIL import Image
 from pylons import app_globals, config, request, response, session, tmpl_context as c
-from pylons.i18n.translation import LanguageError, _get_translator
 from repoze.what.predicates import has_permission
 from sqlalchemy import orm, sql
 
@@ -32,6 +32,7 @@ from mediacore.lib.base import BaseSettingsController
 from mediacore.lib.decorators import (autocommit, expose, expose_xhr,
     paginate, validate)
 from mediacore.lib.helpers import filter_vulgarity, redirect, url_for
+from mediacore.lib.i18n import LanguageError, Translator
 from mediacore.lib.templating import render
 from mediacore.model import Comment, Media, MultiSetting, Setting, fetch_row
 from mediacore.model.meta import DBSession
@@ -169,10 +170,12 @@ class SettingsController(BaseSettingsController):
     def general_save(self, **kwargs):
         """Save :class:`~mediacore.forms.admin.settings.GeneralForm`."""
         # Ensure this translation actually works before saving it
-        lang = kwargs.get('primary_language', None)
+        lang = kwargs.get('general', {}).get('primary_language')
         if lang:
+            locale = Locale.parse(lang)
+            t = Translator(locale, config['locale_dirs'])
             try:
-                _get_translator(lang)
+                t._load_domain('mediacore')
             except LanguageError:
                 # TODO: Show an error message on the language field
                 kwargs['primary_language'] = None

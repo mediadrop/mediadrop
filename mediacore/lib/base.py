@@ -21,16 +21,17 @@ import os
 import time
 import urllib2
 
+from babel.core import Locale
 from paste.deploy.converters import asbool
 from pylons import app_globals, config, request, response, tmpl_context
 from pylons.controllers import WSGIController
 from pylons.controllers.util import abort
-from pylons.i18n import set_lang
 from repoze.what.plugins.pylonshq import ControllerProtector
 from repoze.what.predicates import has_permission, Predicate
 from tw.forms.fields import ContainerMixin as _ContainerMixin
 
 from mediacore.lib import helpers
+from mediacore.lib.i18n import Translator
 from mediacore.model.meta import DBSession
 
 __all__ = [
@@ -88,10 +89,11 @@ class BareBonesController(WSGIController):
         # an HTTPNotFound exception.
         if not getattr(action_method, 'exposed', False):
             abort(status_code=404)
+
         # Change the language from the default if necessary
-        lang = app_globals.settings['primary_language']
-        if lang:
-            set_lang(lang)
+        locale = Locale.parse(app_globals.settings['primary_language'] or 'en')
+        translator = Translator(locale, config['locale_dirs'])
+        translator.install_pylons_global()
 
 class BaseController(BareBonesController):
     """

@@ -15,11 +15,10 @@
 """Pylons environment configuration"""
 import os
 import re
-from gettext import GNUTranslations
 
 from genshi.filters.i18n import Translator
+from pylons import translator
 from pylons.configuration import PylonsConfig
-from pylons.i18n.translation import ugettext, ungettext
 from sqlalchemy import engine_from_config
 
 import mediacore.lib.app_globals as app_globals
@@ -61,14 +60,14 @@ def load_environment(global_conf, app_conf):
     import pylons
     pylons.cache._push_object(config['pylons.app_globals'].cache)
 
-    class DummyTranslators(GNUTranslations):
-        ugettext = staticmethod(ugettext)
-        ungettext = staticmethod(ungettext)
+    config['locale_dirs'] = {
+        'mediacore': os.path.join(root, 'i18n'),
+    }
+    # TODO: add in plugin locale dirs... but don't allow overwrite
 
     def enable_i18n_for_template(template):
-        translations = Translator(DummyTranslators())
+        translations = Translator(translator)
         translations.setup(template)
-        template.filters.insert(0, translations)
 
     # Create the Genshi TemplateLoader
     config['pylons.app_globals'].genshi_loader = TemplateLoader(
