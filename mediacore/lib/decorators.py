@@ -25,7 +25,6 @@ from paste.deploy.converters import asbool
 from pylons import request, response, tmpl_context
 from pylons.decorators.cache import create_cache_key, _make_dict_from_args
 from pylons.decorators.util import get_pylons
-from pylons.i18n import _
 from webob.exc import HTTPMethodNotAllowed, HTTPOk, HTTPRedirection
 
 from mediacore.lib.paginate import paginate
@@ -261,7 +260,7 @@ class validate(object):
                 tmpl_context.form_errors['_the_form'] = field_value[0].strip()
                 continue
             # XXX: This doesn't support nested form fields
-            tmpl_context.form_errors[field_value[0]] = _(field_value[1].strip())
+            tmpl_context.form_errors[field_value[0]] = field_value[1].strip()
 
         # Set up the tmpl_context.form_values dict with the invalid values
         tmpl_context.form_values = exception.value
