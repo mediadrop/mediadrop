@@ -47,6 +47,6 @@
 </head>
 
 <body py:if="error" py:content="error" />
-<body py:if="not error" py:content="h.media_player(media, show_playerbar=False, js_init='function(ctrlr){ console.log(ctrlr);ctrlr.setFillScreen(true); }', **player_kwargs)" />
+<body py:if="not error" py:content="h.media_player(media, show_playerbar=False, js_init='function(ctrlr){ ctrlr.setFillScreen(true); }', **player_kwargs)" />
 
 </html>
