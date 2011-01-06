@@ -21,12 +21,43 @@ from genshi.output import XHTMLSerializer
 from genshi.template import Template, NewTextTemplate
 from genshi.template.loader import (directory,
     TemplateLoader as _TemplateLoader, TemplateNotFound)
-from pylons import app_globals
-from pylons.templating import pylons_globals
+from pylons import app_globals, config, request, response, tmpl_context, translator
+
+from mediacore.lib.i18n import N_
 
 __all__ = ['render', 'render_stream', 'TemplateLoader', 'XHTMLPlusSerializer']
 
 log = logging.getLogger(__name__)
+
+def tmpl_globals():
+    """Create and return a dictionary of global variables for all templates.
+
+    This function was adapted from :func:`pylons.templating.pylons_globals`
+    to better suite our needs. In particular we inject our own gettext
+    functions and get a performance boost from following the translator SOP
+    once here instead of on every gettext call.
+
+    """
+    conf = config._current_obj()
+    g = conf['pylons.app_globals']
+    c = tmpl_context._current_obj()
+    t = translator._current_obj()
+    return {
+        'config': conf,
+        'c': c,
+        'tmpl_context': c,
+        'g': g,
+        'app_globals': g,
+        'h': conf['pylons.h'],
+        'request': request._current_obj(),
+        'response': response, # don't eval the SOP because this is rarely used
+        'translator': t,
+        'ngettext': t.ngettext,
+        'ungettext': t.ungettext, # compat with standard pylons_globals()
+        '_': t.gettext,
+        'N_': N_,
+        'XML': XML,
+    }
 
 def render(template, tmpl_vars=None, method=None):
     """Generate a markup stream from the given template and vars.
@@ -46,10 +77,7 @@ def render(template, tmpl_vars=None, method=None):
     assert isinstance(tmpl_vars, dict), \
         'tmpl_vars must be a dict or None, given: %r' % tmpl_vars
 
-    # Steal a page from TurboGears' book:
-    # include the genshi XML helper for convenience in templates.
-    tmpl_vars.setdefault('XML', XML)
-    tmpl_vars.update(pylons_globals())
+    tmpl_vars.update(tmpl_globals())
 
     # Pass in all the plugin templates that will manipulate this template
     # The idea is that these paths should be <xi:include> somewhere in the
