@@ -22,7 +22,7 @@ import tw.forms
 
 from decorator import decorator
 from paste.deploy.converters import asbool
-from pylons import request, response, tmpl_context
+from pylons import request, response, tmpl_context, translator
 from pylons.decorators.cache import create_cache_key, _make_dict_from_args
 from pylons.decorators.util import get_pylons
 from webob.exc import HTTPMethodNotAllowed, HTTPOk, HTTPRedirection
@@ -295,7 +295,8 @@ class validate(object):
             errors = {}
             for field, validator in self.validators.iteritems():
                 try:
-                    new_params[field] = validator.to_python(params.get(field))
+                    new_params[field] = validator.to_python(params.get(field),
+                                                            ValidationState)
                 # catch individual validation errors into the errors dictionary
                 except formencode.api.Invalid, inv:
                     errors[field] = inv
@@ -311,7 +312,7 @@ class validate(object):
         elif isinstance(self.validators, formencode.Schema):
             # A FormEncode Schema object - to_python converts the incoming
             # parameters to sanitized Python values
-            return self.validators.to_python(params)
+            return self.validators.to_python(params, ValidationState)
 
         elif isinstance(self.validators, tw.forms.InputWidget) \
         or hasattr(self.validators, 'validate'):
@@ -320,7 +321,7 @@ class validate(object):
             # - OR -
             # An object with a "validate" method - call it with the parameters
             # This is a generic case for classes mimicking tw.forms.InputWidget
-            return self.validators.validate(params)
+            return self.validators.validate(params, ValidationState)
 
         # No validation was done. Just return the original params.
         return params
@@ -372,6 +373,45 @@ class validate_xhr(validate):
             return {'success': False, 'errors': tmpl_context.form_errors}
         else:
             return super(validate_xhr, self)._call_error_handler(args, kwargs)
+
+class ValidationState(object):
+    """A ``state`` for FormEncode validate API with a smart ``_`` hook.
+
+    This idea and explanation borrowed from Pylons, modified to work with
+    our custom Translator object.
+
+    The FormEncode library used by validate() decorator has some
+    provision for localizing error messages. In particular, it looks
+    for attribute ``_`` in the application-specific state object that
+    gets passed to every ``.to_python()`` call. If it is found, the
+    ``_`` is assumed to be a gettext-like function and is called to
+    localize error messages.
+
+    One complication is that FormEncode ships with localized error
+    messages for standard validators so the user may want to re-use
+    them instead of gathering and translating everything from scratch.
+    To allow this, we pass as ``_`` a function which looks up
+    translation both in application and formencode message catalogs.
+
+    """
+    @staticmethod
+    def _(msgid):
+        """Get a translated string from the mediacore or FormEncode domains.
+
+        This allows us to "merge" localized error messages from built-in
+        FormEncode's validators with application-specific validators.
+
+        :type msgid: ``str``
+        :param msgid: A byte string to retrieve translations for.
+        :rtype: ``unicode``
+        :returns: The translated string, or the original msgid if no
+            translation was found.
+        """
+        gettext = translator.gettext
+        trans = gettext(msgid)
+        if trans == msgid:
+            trans = gettext(msgid, domain='FormEncode')
+        return trans
 
 def beaker_cache(key="cache_default", expire="never", type=None,
                  query_args=False,

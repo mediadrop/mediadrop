@@ -16,6 +16,7 @@
 import os
 import re
 
+from formencode.api import get_localedir as get_formencode_localedir
 from genshi.filters.i18n import Translator
 from pylons import translator
 from pylons.configuration import PylonsConfig
@@ -62,6 +63,7 @@ def load_environment(global_conf, app_conf):
 
     config['locale_dirs'] = {
         'mediacore': os.path.join(root, 'i18n'),
+        'FormEncode': get_formencode_localedir(),
     }
     # TODO: add in plugin locale dirs... but don't allow overwrite
 
