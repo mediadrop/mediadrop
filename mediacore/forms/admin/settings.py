@@ -38,7 +38,7 @@ enable_disable = lambda: (
     ('enabled', _('Enable')),
     ('disabled', _('Disable')),
 )
-enable_disable_validator = OneOf([x[0] for x in enable_disable()])
+enable_disable_validator = OneOf(('enabled', 'disabled'))
 title_options = lambda: (
     ('prepend', _('Prepend')),
     ('append', _('Append')),
@@ -47,6 +47,7 @@ rich_text_editors = lambda: (
     ('plain', _('Plain <textarea> fields (0kB)')),
     ('tinymce', _('Enable TinyMCE for <textarea> fields accepting XHTML (281kB)')),
 )
+rich_text_editors_validator = OneOf(('plain', 'tinymce'))
 navbar_colors = lambda: (
     ('brown', _('Brown')),
     ('blue', _('Blue')),
@@ -229,7 +230,7 @@ class GeneralForm(ListForm):
             RadioButtonList('rich_text_editor',
                 label_text=N_('Rich Text Editing'),
                 options=rich_text_editors,
-                validator=OneOf([x[0] for x in rich_text_editors()]),
+                validator=rich_text_editors_validator,
             ),
             ListFieldSet('default_wording', suppress_label=True, legend=N_('Administrative notes on Media:'), css_classes=['details_fieldset'], children=[
                 CheckBox('wording_display_administrative_notes',
