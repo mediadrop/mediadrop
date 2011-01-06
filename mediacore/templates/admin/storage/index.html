@@ -28,12 +28,12 @@
 	<script type="text/javascript" src="${h.url_for('/admin/scripts/confirm.js')}"></script>
 	<script type="text/javascript">
 		var msg_text = {
-			title: '${_('WARNING:')}',
-			list_title: '${_('Deleting this Storage Engine (%(name)s) will:')}',
-			delete_files: '${_('Permanently delete all of the %(num)s media files stored by this Storage Engine.')}',
-			erase_settings: '${_('Permanently erase its settings.')}',
-			disable: '${_('An alternative to deleting is disabling. Disabling a Storage Engine will simply prevent its use for files added from now on.')}',
-			sure: '${_('Are you sure you want to delete this?')}'
+			title: '${_('WARNING:').replace("'", "\\'")}',
+			list_title: '${_('Deleting this Storage Engine (%(name)s) will:').replace("'", "\\'")}',
+			delete_files: '${_('Permanently delete all of the %(num)s media files stored by this Storage Engine.').replace("'", "\\'")}',
+			erase_settings: '${_('Permanently erase its settings.').replace("'", "\\'")}',
+			disable: '${_('An alternative to deleting is disabling. Disabling a Storage Engine will simply prevent its use for files added from now on.').replace("'", "\\'")}',
+			sure: '${_('Are you sure you want to delete this?').replace("'", "\\'")}'
 		}
 
 		function getTR(target) {
@@ -78,9 +78,9 @@
 			});
 
 			var deleteConfirm = new DeleteConfirmMgr({
-				header: '${_('Confirm Delete')}',
-				confirmButtonText: '${_('Delete')}',
-				cancelButtonText: '${_('Cancel')}',
+				header: '${_('Confirm Delete').replace("'", "\\'")}',
+				confirmButtonText: '${_('Delete').replace("'", "\\'")}',
+				cancelButtonText: '${_('Cancel').replace("'", "\\'")}',
 				msg: getMsgText,
 				wrapParagraph: false
 			});

@@ -30,10 +30,10 @@
 		window.addEvent('domready', function(){
 			var um = new UserMgr({
 				deleteConfirmMgr: {
-					header: '${_('Confirm Delete')}',
-					confirmButtonText: '${_('Delete')}',
-					cancelButtonText: '${_('Cancel')}',
-					msg: '${_('Are you sure you want to delete this user?')}'
+					header: '${_('Confirm Delete').replace("'", "\\'")}',
+					confirmButtonText: '${_('Delete').replace("'", "\\'")}',
+					cancelButtonText: '${_('Cancel').replace("'", "\\'")}',
+					msg: '${_('Are you sure you want to delete this user?').replace("'", "\\'")}'
 				}
 			});
 		});

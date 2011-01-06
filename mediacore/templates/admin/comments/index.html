@@ -37,12 +37,12 @@
 	<script type="text/javascript">
 		window.addEvent('domready', function(){
 			var cm = new CommentMgr({
-				editText: '${_('Edit Text')}',
-				editCancel: '${_('Cancel Edit')}',
+				editText: '${_('Edit Text').replace("'", "\\'")}',
+				editCancel: '${_('Cancel Edit').replace("'", "\\'")}',
 				deleteConfirmMgr: {
-					header: '${_('Confirm Delete')}',
-					confirmButtonText: '${_('Delete')}',
-					cancelButtonText: '${_('Cancel')}',
+					header: '${_('Confirm Delete').replace("'", "\\'")}',
+					confirmButtonText: '${_('Delete').replace("'", "\\'")}',
+					cancelButtonText: '${_('Cancel').replace("'", "\\'")}',
 					msg: function(author){ return "${_("Are you sure you want to delete %(name)s's comment?") % dict(name='"+author+"')}"; }
 				}
 			});
@@ -52,10 +52,10 @@
 
 			var bulkDelete = new BulkDelete(table, {
 				confirmMgr: {
-					header: '${_('Confirm Delete')}',
-					msg: function(num){ return '${_('Are you sure you want to delete these %(num)s items?') % dict(num="'+num+'")}'; },
-					confirmButtonText: '${_('Delete')}',
-					cancelButtonText: '${_('Cancel')}',
+					header: '${_('Confirm Delete').replace("'", "\\'")}',
+					msg: function(num){ return '${_('Are you sure you want to delete these %(num)s items?').replace("'", "\\'") % dict(num="'+num+'")}'; },
+					confirmButtonText: '${_('Delete').replace("'", "\\'")}',
+					cancelButtonText: '${_('Cancel').replace("'", "\\'")}',
 				},
 				saveUrl: '${h.url_for(action='save_status', status='trash', id='bulk')}'
 			});

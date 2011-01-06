@@ -23,7 +23,7 @@
 	<title>Data API</title>
 	<link href="${h.url_for('/admin/styles/forms.css')}" media="screen" rel="stylesheet" type="text/css" />
 	<script type="text/javascript">
-		var mcore_api_generate_text = '${_('Generate')}';
+		var mcore_api_generate_text = '${_('Generate').replace("'", "\\'")}';
 	</script>
 	<script type="text/javascript" src="${h.url_for('/admin/scripts/api.js')}" />
 </head>
