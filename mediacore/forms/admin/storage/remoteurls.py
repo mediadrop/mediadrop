@@ -15,12 +15,12 @@
 
 from formencode import Invalid
 from formencode.validators import FancyValidator, Int
-from pylons.i18n import N_, _
 from tw.api import JSSource
 from tw.forms import FormFieldRepeater
 
 from mediacore.forms import ListFieldSet, TextField
 from mediacore.forms.admin.storage import StorageForm
+from mediacore.lib.i18n import N_, _
 
 # FIXME: i18n: Use this below
 dummy_rtmp_server_add_text = N_('Add another URL')

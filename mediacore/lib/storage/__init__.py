@@ -22,11 +22,11 @@ from operator import attrgetter
 from urllib2 import URLError, urlopen
 
 from pylons import app_globals
-from pylons.i18n import _
 
 from mediacore.lib.compat import defaultdict
 from mediacore.lib.decorators import memoize
 from mediacore.lib.filetypes import guess_container_format, guess_media_type
+from mediacore.lib.i18n import _
 from mediacore.lib.thumbnails import (create_thumbs_for, has_thumbs,
     has_default_thumbs, thumb_path)
 from mediacore.lib.uri import StorageURI

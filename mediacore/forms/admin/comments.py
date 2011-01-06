@@ -13,11 +13,11 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from pylons.i18n import N_
 from tw.forms.validators import NotEmpty
 from tw.api import WidgetsList
 
 from mediacore.forms import ListForm, ResetButton, SubmitButton, TextArea
+from mediacore.lib.i18n import N_
 from mediacore.plugin import events
 
 class EditCommentForm(ListForm):

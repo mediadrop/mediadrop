@@ -16,7 +16,6 @@
 import formencode
 
 from pylons import app_globals
-from pylons.i18n import N_, _
 from tw.api import WidgetsList
 from formencode.validators import FancyValidator, URL
 from tw.forms import HiddenField, RadioButtonList, SingleSelectField
@@ -25,6 +24,7 @@ from tw.forms.validators import Int, StringBool, NotEmpty, DateTimeConverter, Fi
 
 from mediacore.lib import helpers
 from mediacore.lib.filetypes import AUDIO, AUDIO_DESC, CAPTIONS, VIDEO
+from mediacore.lib.i18n import N_, _
 from mediacore.forms import FileField, Form, ListFieldSet, ListForm, SubmitButton, TextArea, TextField, XHTMLTextArea, email_validator
 from mediacore.forms.admin.categories import CategoryCheckBoxList
 from mediacore.model import Category, DBSession, MediaFile, Podcast

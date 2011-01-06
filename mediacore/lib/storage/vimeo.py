@@ -19,10 +19,9 @@ import simplejson
 
 from urllib2 import Request, urlopen, URLError
 
-from pylons.i18n import N_
-
 from mediacore import USER_AGENT
 from mediacore.lib.filetypes import VIDEO
+from mediacore.lib.i18n import N_
 from mediacore.lib.storage import EmbedStorageEngine
 from mediacore.lib.uri import StorageURI
 

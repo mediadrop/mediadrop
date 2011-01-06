@@ -21,7 +21,6 @@ import formencode
 
 from babel.core import Locale
 from pylons import app_globals, config
-from pylons.i18n import N_, _, get_lang
 from tw.forms import CheckBox, RadioButtonList, SingleSelectField
 from tw.forms.fields import Button, CheckBox
 from tw.forms.validators import (Bool, FancyValidator, FieldStorageUploadConverter,
@@ -31,6 +30,7 @@ from mediacore.forms import (FileField, ListFieldSet, ListForm,
     ResetButton, SubmitButton, TextArea, TextField, XHTMLTextArea,
     email_validator, email_list_validator)
 from mediacore.forms.admin.categories import category_options
+from mediacore.lib.i18n import N_, _
 from mediacore.plugin import events
 from mediacore.model import MultiSetting
 

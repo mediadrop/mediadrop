@@ -27,7 +27,6 @@ from paste.deploy.converters import asbool
 from paste.fileapp import FileApp
 from paste.util import mimeparse
 from pylons import app_globals, config, request, response
-from pylons.i18n import _
 from pylons.controllers.util import forward
 from sqlalchemy import orm, sql
 from webob.exc import HTTPNotAcceptable, HTTPNotFound
@@ -40,6 +39,7 @@ from mediacore.lib.decorators import expose, expose_xhr, observable, paginate, v
 from mediacore.lib.email import send_comment_notification
 from mediacore.lib.helpers import (file_path, filter_vulgarity, pick_uris,
     redirect, store_transient_message, url_for)
+from mediacore.lib.i18n import _
 from mediacore.lib.players import JWPlayer
 from mediacore.lib.templating import render
 from mediacore.model import (DBSession, fetch_row, get_available_slug,

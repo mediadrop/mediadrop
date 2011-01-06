@@ -21,9 +21,8 @@ from urllib2 import Request, urlopen, URLError
 # FIXME: This does not exist in py2.4
 from xml.etree import ElementTree
 
-from pylons.i18n import N_
-
 from mediacore.lib.filetypes import VIDEO
+from mediacore.lib.i18n import N_
 from mediacore.lib.storage import EmbedStorageEngine
 from mediacore.lib.uri import StorageURI
 

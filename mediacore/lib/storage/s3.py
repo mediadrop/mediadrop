@@ -13,9 +13,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from pylons.i18n import N_
-
 from mediacore.lib.filetypes import guess_container_format, guess_media_type
+from mediacore.lib.i18n import N_
 from mediacore.lib.storage import (get_file_size, StorageURI, FileStorageEngine,
     UnsuitableEngineError)
 

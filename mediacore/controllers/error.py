@@ -13,13 +13,13 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from pylons.i18n import _
 from pylons import config, request
 
+from mediacore.lib import email as libemail
 from mediacore.lib.base import BaseController
 from mediacore.lib.decorators import expose, observable
 from mediacore.lib.helpers import redirect, clean_xhtml
-from mediacore.lib import email as libemail
+from mediacore.lib.i18n import _
 from mediacore.plugin import events
 
 class ErrorController(BaseController):

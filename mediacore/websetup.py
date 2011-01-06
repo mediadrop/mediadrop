@@ -10,13 +10,13 @@ import pylons.test
 from genshi.template import NewTextTemplate
 from genshi.template.loader import TemplateLoader
 from PIL import Image
-from pylons.i18n import N_
 from sqlalchemy.orm import class_mapper
 from migrate.versioning.api import (drop_version_control, version_control,
     version, upgrade)
 from migrate.versioning.exceptions import DatabaseAlreadyControlledError
 
 from mediacore.config.environment import load_environment
+from mediacore.lib.i18n import N_
 from mediacore.lib.storage import (BlipTVStorage, GoogleVideoStorage,
     LocalFileStorage, RemoteURLStorage, VimeoStorage, YoutubeStorage)
 from mediacore.model import (Author, AuthorWithIP, Category, Comment,

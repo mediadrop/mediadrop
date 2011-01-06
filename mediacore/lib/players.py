@@ -23,11 +23,11 @@ from urlparse import urlsplit, urlunsplit
 
 from genshi.builder import Element
 from genshi.core import Markup
-from pylons.i18n import N_
 
 from mediacore.forms.admin import players as player_forms
 from mediacore.lib.compat import any
 from mediacore.lib.filetypes import AUDIO, VIDEO, AUDIO_DESC, CAPTIONS
+from mediacore.lib.i18n import N_
 from mediacore.lib.templating import render
 from mediacore.lib.thumbnails import thumb_url
 from mediacore.lib.uri import pick_uris

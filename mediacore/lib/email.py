@@ -33,9 +33,9 @@ Email Helpers
 import smtplib
 
 from pylons import app_globals
-from pylons.i18n import _
 
 from mediacore.lib.helpers import line_break_xhtml, strip_xhtml, url_for
+from mediacore.lib.i18n import _
 
 def parse_email_string(string):
     """Take a comma separated string of emails and return a list."""

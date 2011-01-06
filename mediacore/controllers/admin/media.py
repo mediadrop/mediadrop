@@ -22,7 +22,6 @@ from itertools import izip
 
 from formencode import Invalid, validators
 from pylons import config, request, response, session, tmpl_context
-from pylons.i18n import _
 from repoze.what.predicates import has_permission
 from sqlalchemy import orm
 
@@ -33,6 +32,7 @@ from mediacore.lib.base import BaseController
 from mediacore.lib.decorators import (autocommit, expose, expose_xhr,
     observable, paginate, validate, validate_xhr)
 from mediacore.lib.helpers import redirect, url_for
+from mediacore.lib.i18n import _
 from mediacore.lib.storage import add_new_media_file
 from mediacore.lib.templating import render
 from mediacore.lib.thumbnails import thumb_path, thumb_paths, create_thumbs_for, create_default_thumbs_for, has_thumbs, has_default_thumbs

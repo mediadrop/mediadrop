@@ -14,10 +14,10 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from formencode.validators import Int
-from pylons.i18n import N_
 
 from mediacore.forms import ListFieldSet, TextField
 from mediacore.forms.admin.storage import StorageForm
+from mediacore.lib.i18n import N_
 from mediacore.lib.storage.ftp import (FTP_SERVER,
     FTP_USERNAME, FTP_PASSWORD,
     FTP_UPLOAD_DIR, FTP_MAX_INTEGRITY_RETRIES,

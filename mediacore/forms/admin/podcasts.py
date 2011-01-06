@@ -13,12 +13,13 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from pylons.i18n import N_, _
 from formencode.validators import URL
 from genshi.core import Markup
 from tw.forms import SingleSelectField
 from tw.forms.validators import NotEmpty
+
 from mediacore.forms import ListForm, ListFieldSet, SubmitButton, TextField, XHTMLTextArea, email_validator
+from mediacore.lib.i18n import N_, _
 from mediacore.plugin import events
 
 class PodcastForm(ListForm):

@@ -14,12 +14,12 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from pylons import request
-from pylons.i18n import N_
 from tw.forms import PasswordField, SingleSelectField
 from tw.forms.fields import ContainerMixin as _ContainerMixin
 from tw.forms.validators import All, FancyValidator, FieldsMatch, Invalid, NotEmpty, PlainText, Schema
 
 from mediacore.forms import ListFieldSet, ListForm, SubmitButton, TextField
+from mediacore.lib.i18n import N_
 from mediacore.plugin import events
 from mediacore.plugin.abc import abstractmethod
 

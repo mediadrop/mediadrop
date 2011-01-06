@@ -21,10 +21,9 @@ from urllib import urlencode
 import gdata.youtube
 import gdata.youtube.service
 
-from pylons.i18n import N_
-
 from mediacore.lib.compat import max
 from mediacore.lib.filetypes import VIDEO
+from mediacore.lib.i18n import N_
 from mediacore.lib.storage import EmbedStorageEngine
 from mediacore.lib.uri import StorageURI
 

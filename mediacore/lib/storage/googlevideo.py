@@ -18,12 +18,11 @@ import re
 
 from urllib2 import urlopen, URLError
 
-from pylons.i18n import N_
-
 from mediacore.lib.filetypes import VIDEO
-from mediacore.lib.xhtml import decode_entities
+from mediacore.lib.i18n import N_
 from mediacore.lib.storage import EmbedStorageEngine
 from mediacore.lib.uri import StorageURI
+from mediacore.lib.xhtml import decode_entities
 
 log = logging.getLogger(__name__)
 

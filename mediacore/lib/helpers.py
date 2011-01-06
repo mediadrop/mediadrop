@@ -28,13 +28,13 @@ from urlparse import urlparse
 
 from genshi.core import Stream
 from pylons import app_globals, config, request, response
-from pylons.i18n import N_, _
 from webhelpers import date, feedgenerator, html, number, misc, text, paginate, containers
 from webhelpers.html import tags
 from webhelpers.html.builder import literal
 from webhelpers.html.converters import format_paragraphs
 
 from mediacore.lib.compat import any
+from mediacore.lib.i18n import N_, _
 from mediacore.lib.players import (embed_player, embed_iframe, media_player,
     pick_any_media_file, pick_podcast_media_file)
 from mediacore.lib.thumbnails import thumb, thumb_url

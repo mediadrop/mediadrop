@@ -13,14 +13,14 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from pylons.i18n import N_
 from tw.api import WidgetsList
 from tw.forms import CheckBoxList, HiddenField, SingleSelectField
 from tw.forms.validators import NotEmpty
 
 from mediacore.model.categories import Category
-from mediacore.lib import helpers
 from mediacore.forms import Form, ListForm, ResetButton, SubmitButton, TextField
+from mediacore.lib import helpers
+from mediacore.lib.i18n import N_
 from mediacore.plugin import events
 
 def option_tree(cats):

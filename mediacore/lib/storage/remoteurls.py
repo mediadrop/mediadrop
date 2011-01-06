@@ -16,10 +16,9 @@
 import logging
 import os
 
-from pylons.i18n import N_
-
 from mediacore.forms.admin.storage.remoteurls import RemoteURLStorageForm
 from mediacore.lib.filetypes import guess_container_format, guess_media_type
+from mediacore.lib.i18n import N_
 from mediacore.lib.storage import (EmbedStorageEngine, StorageEngine,
     UnsuitableEngineError)
 from mediacore.lib.uri import StorageURI

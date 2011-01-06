@@ -13,10 +13,10 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from pylons.i18n import N_
 from tw.forms.validators import FieldStorageUploadConverter
 
 from mediacore.forms import FileField, Form, ListForm, SubmitButton, TextField
+from mediacore.lib.i18n import N_
 from mediacore.plugin import events
 
 class SearchForm(ListForm):

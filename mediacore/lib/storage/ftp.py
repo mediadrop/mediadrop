@@ -20,9 +20,9 @@ from ftplib import FTP, all_errors as ftp_errors
 from urllib2 import HTTPError, urlopen
 
 from formencode import Invalid
-from pylons.i18n import N_
 
 from mediacore.lib.compat import sha1
+from mediacore.lib.i18n import N_
 from mediacore.lib.storage import safe_file_name, FileStorageEngine
 from mediacore.lib.uri import StorageURI
 

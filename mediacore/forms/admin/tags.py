@@ -15,11 +15,11 @@
 
 import re
 
-from pylons.i18n import N_
 from tw.forms import HiddenField
 from tw.forms.validators import NotEmpty
 
 from mediacore.forms import Form, ListForm, SubmitButton, ResetButton, TextField, XHTMLEntityValidator
+from mediacore.lib.i18n import N_
 from mediacore.plugin import events
 
 excess_whitespace = re.compile('\s\s+', re.M)

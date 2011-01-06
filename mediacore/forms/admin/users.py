@@ -14,11 +14,11 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from pylons import request
-from pylons.i18n import N_, _
 from tw.forms import PasswordField, SingleSelectField
 from tw.forms.validators import All, FancyValidator, FieldsMatch, Invalid, NotEmpty, PlainText, Schema
 
 from mediacore.forms import ListFieldSet, ListForm, SubmitButton, TextField, email_validator
+from mediacore.lib.i18n import N_, _
 from mediacore.model import DBSession
 from mediacore.model.auth import Group, User
 from mediacore.plugin import events

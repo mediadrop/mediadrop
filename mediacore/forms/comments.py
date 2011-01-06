@@ -14,9 +14,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from formencode import Schema
-from pylons.i18n import N_
 
 from mediacore.forms import TextField, XHTMLValidator, email_validator
+from mediacore.lib.i18n import N_
 
 class PostCommentSchema(Schema):
     name = TextField.validator(not_empty=True, maxlength=50,
