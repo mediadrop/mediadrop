@@ -17,7 +17,6 @@
 import os
 
 from beaker.middleware import SessionMiddleware
-from genshi.filters.i18n import Translator
 from genshi.template import loader
 from genshi.template.plugin import MarkupTemplateEnginePlugin
 from paste import gzipper
@@ -28,7 +27,6 @@ from paste.urlmap import URLMap
 from paste.urlparser import StaticURLParser
 from paste.deploy.converters import asbool
 from paste.deploy.config import PrefixMiddleware
-from pylons.i18n.translation import lazy_ugettext, ugettext
 from pylons.middleware import ErrorHandler, StatusCodeRedirect
 from pylons.wsgiapp import PylonsApp
 from routes.middleware import RoutesMiddleware
@@ -80,12 +78,6 @@ class FastCGIScriptStripperMiddleware(object):
         return self.app(environ, start_response)
 
 def setup_tw_middleware(app, config):
-    # Set up the TW middleware, as per errors and instructions at:
-    # http://groups.google.com/group/toscawidgets-discuss/browse_thread/thread/c06950b8d1f62db9
-    # http://toscawidgets.org/documentation/ToscaWidgets/install/pylons_app.html
-    def enable_i18n_for_template(template):
-        template.filters.insert(0, Translator(ugettext))
-
     def filename_suffix_adder(inner_loader, suffix):
         def _add_suffix(filename):
             return inner_loader(filename + suffix)
@@ -93,8 +85,7 @@ def setup_tw_middleware(app, config):
 
     # Ensure that the toscawidgets template loader includes the search paths
     # from our main template loader.
-    tw_engine_options = {'genshi.loader_callback': enable_i18n_for_template}
-    tw_engines = EngineManager(extra_vars_func=None, options=tw_engine_options)
+    tw_engines = EngineManager(extra_vars_func=None)
     tw_engines['genshi'] = MarkupTemplateEnginePlugin()
     tw_engines['genshi'].loader = config['pylons.app_globals'].genshi_loader
 
@@ -125,7 +116,6 @@ def setup_tw_middleware(app, config):
     app = tw.api.make_middleware(app, {
         'toscawidgets.framework': 'pylons',
         'toscawidgets.framework.default_view': 'genshi',
-        'toscawidgets.framework.translator': lazy_ugettext,
         'toscawidgets.framework.engines': tw_engines,
     })
     return app
