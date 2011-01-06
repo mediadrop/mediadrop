@@ -112,7 +112,7 @@ file_type_options = lambda: (
     (AUDIO_DESC, _('Audio Description')),
     (CAPTIONS, _('Captions')),
 )
-file_types = [x[0] for x in file_type_options()]
+file_types = (VIDEO, AUDIO, AUDIO_DESC, CAPTIONS)
 file_type_validator = OneOf(file_types, if_missing=None)
 file_type_validator = None
 
