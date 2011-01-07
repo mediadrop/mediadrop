@@ -85,11 +85,11 @@ a:hover .mcore-btn-popout { background-position: -34px -18px }
 .mcore-btn,
 .mcore-btn:active {
 	color: ${uikit_colors['btn_text_color']};
-	background: url('../images/ui-kit/${navbar_color}/button-left.png') no-repeat;
+	background-image: url('../images/ui-kit/${navbar_color}/button-left.png');
 	text-shadow: 0 -1px ${uikit_colors['btn_text_shadow_color']};
 }
 .mcore-btn > span {
-	background: url('../images/ui-kit/${navbar_color}/button-right.png') no-repeat 100% 0;
+	background-image: url('../images/ui-kit/${navbar_color}/button-right.png');
 }
 a.mcore-btn:link,
 a.mcore-btn:visited {

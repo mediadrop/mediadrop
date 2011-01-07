@@ -240,6 +240,8 @@ h1, h2, h3, h4, h5 {
 	text-decoration: none;
 	font: bold 12px arial, helvetica, sans-serif;
 	-webkit-font-smoothing: antialiased;
+	background-repeat: no-repeat;
+	background-color: transparent;
 }
 .mcore-btn > span {
 	display: block;
@@ -247,6 +249,8 @@ h1, h2, h3, h4, h5 {
 	margin-left: 5px;
 	padding: 0 12px 0 7px;
 	line-height: 32px;
+	background-repeat: no-repeat;
+	background-position: 100% 0;
 }
 .mcore-btn:hover, .mcore-btn.hover { background-position: 0 -33px }
 .mcore-btn:active, .mcore-btn.active { background-position: 0 -66px }
