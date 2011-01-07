@@ -517,9 +517,11 @@ class DailyMotionEmbedPlayer(AbstractIframeEmbedPlayer):
     scheme = u'dailymotion'
     """The `StorageURI.scheme` which uniquely identifies this embed type."""
 
-    def render_markup(self):
+    def render_markup(self, error_text=None):
         """Render the XHTML markup for this player instance.
 
+        :param error_text: Optional error text that should be included in
+            the final markup if appropriate for the player.
         :rtype: ``unicode`` or :class:`genshi.core.Markup`
         :returns: XHTML that will not be escaped by Genshi.
 
