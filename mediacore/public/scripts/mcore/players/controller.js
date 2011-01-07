@@ -449,10 +449,10 @@ mcore.players.Controller.prototype.disposeInternal = function() {
 mcore.players.Controller.init = function(element, player, opt_callback) {
   element = goog.dom.getElement(element);
   var controller = new mcore.players.Controller(player);
+  if (opt_callback) { opt_callback(controller); }
   var decorateJob = function() {
     var decorate = function() {
       controller.decorate(element);
-      if (opt_callback) { opt_callback(controller); }
     }
     // Add a delay before the controller decorates the page in order to give
     // the UI thread an opportunity to take action elsewhere, reducing the

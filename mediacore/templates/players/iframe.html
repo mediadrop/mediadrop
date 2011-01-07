@@ -21,6 +21,7 @@
       xmlns:xi="http://www.w3.org/2001/XInclude">
 
 <head>
+	<title>${h.page_title(default=media.title, media=media)}</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<py:choose test="h.config['debug'] and bool(h.request.params.get('debug', False))">
 		<py:when test="True">
@@ -47,6 +48,12 @@
 </head>
 
 <body py:if="error" py:content="error" />
-<body py:if="not error" py:content="h.media_player(media, show_playerbar=False, js_init='function(ctrlr){ ctrlr.setFillScreen(true); }', **player_kwargs)" />
+<body py:if="not error">
+	${h.media_player(media, show_playerbar=False, js_init='function(ctrlr){ ctrlr.setFillScreen(true); }', **player_kwargs)}
+	<script type="text/javascript">
+		mcore.initPage();
+	</script>
+</body>
+
 
 </html>
