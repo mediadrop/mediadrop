@@ -15,6 +15,7 @@
 
 import filecmp
 import os
+import re
 import shutil
 
 from PIL import Image
@@ -192,6 +193,8 @@ def resize_thumb(img, size, filter=Image.ANTIALIAS):
 
     return img.resize(size, filter)
 
+_ext_filter = re.compile(r'^\.([a-z0-9]*)')
+
 def create_thumbs_for(item, image_file, image_filename):
     """Creates thumbnails in all sizes for a given Media or Podcast object.
 
@@ -217,14 +220,19 @@ def create_thumbs_for(item, image_file, image_filename):
             thumb_img = thumb_img.convert("RGB")
         thumb_img.save(path)
 
-    # Backup the original image just for kicks
-    backup_type = os.path.splitext(image_filename)[1].lower()[1:]
-    backup_path = thumb_path(item, 'orig', ext=backup_type)
-    backup_file = open(backup_path, 'w+b')
-    image_file.seek(0)
-    shutil.copyfileobj(image_file, backup_file)
-    image_file.close()
-    backup_file.close()
+    # Backup the original image, ensuring there's no odd chars in the ext.
+    # Thumbs from DailyMotion include an extra query string that needs to be
+    # stripped off here.
+    ext = os.path.splitext(image_filename)[1].lower()
+    ext_match = _ext_filter.match(ext)
+    if ext_match:
+        backup_type = ext_match.group(1)
+        backup_path = thumb_path(item, 'orig', ext=backup_type)
+        backup_file = open(backup_path, 'w+b')
+        image_file.seek(0)
+        shutil.copyfileobj(image_file, backup_file)
+        image_file.close()
+        backup_file.close()
 
 def create_default_thumbs_for(item):
     """Create copies of the default thumbs for the given item.
