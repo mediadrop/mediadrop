@@ -70,6 +70,18 @@ class PluginManager(object):
         log.debug('Public paths: %r', paths)
         return paths
 
+    def locale_dirs(self):
+        """Return a dict of all i18n locale dirs needed by the loaded plugins.
+
+        :returns: A dict whose keys are i18n domain names and values are the
+            path to the locale dir where messages can be loaded.
+        """
+        locale_dirs = {}
+        for plugin in self.plugins.itervalues():
+            if plugin.locale_dirs:
+                locale_dirs.update(plugin.locale_dirs)
+        return locale_dirs
+
     def template_loaders(self):
         """Return genshi loaders for all the plugins that provide templates.
 
@@ -185,17 +197,24 @@ class _Plugin(object):
 
     """
     def __init__(self, module, name, templates_path=None,
-                 public_path=None, controllers=None):
+                 public_path=None, controllers=None, locale_dirs=None):
         self.module = module
         self.modname = module.__name__
         self.name = name
         self.templates_path = templates_path or self._default_templates_path()
         self.public_path = public_path or self._default_public_path()
         self.controllers = controllers or self._default_controllers()
+        self.locale_dirs = self._default_locale_dirs()
 
     def _default_templates_path(self):
         if resource_exists(self.modname, 'templates'):
             return resource_filename(self.modname, 'templates')
+        return None
+
+    def _default_locale_dirs(self):
+        if resource_exists(self.modname, 'i18n'):
+            localedir = resource_filename(self.modname, 'i18n')
+            return {self.modname: localedir}
         return None
 
     def _default_public_path(self):

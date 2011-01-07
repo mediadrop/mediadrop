@@ -61,11 +61,11 @@ def load_environment(global_conf, app_conf):
     import pylons
     pylons.cache._push_object(config['pylons.app_globals'].cache)
 
-    config['locale_dirs'] = {
+    config['locale_dirs'] = plugin_mgr.locale_dirs()
+    config['locale_dirs'].update({
         'mediacore': os.path.join(root, 'i18n'),
         'FormEncode': get_formencode_localedir(),
-    }
-    # TODO: add in plugin locale dirs... but don't allow overwrite
+    })
 
     def enable_i18n_for_template(template):
         translations = Translator(translator)
