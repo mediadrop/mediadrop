@@ -168,9 +168,9 @@ def best_link_uri(uris):
 
     :returns: A :class:`mediacore.lib.storage.StorageURI` instance or None.
     """
-    return pick_uri(uris, scheme='download')\
+    return pick_uri(uris, scheme='www')\
+        or pick_uri(uris, scheme='download')\
         or pick_uri(uris, scheme='http')\
-        or pick_uri(uris, scheme='www')\
         or pick_uri(uris)\
         or None
 
