@@ -67,9 +67,7 @@
 
 	</div>
 	<div class="column33">
-		<a href="${h.url_for(controller='admin/media', action='new')}" class="btn blue" style="margin-bottom:32px">
-			<span>Add New Media</span>
-		</a>
+		<a href="${h.url_for(controller='admin/media', action='new')}" class="btn blue block" style="margin-bottom:32px"><span>Add New Media</span></a>
 
 		<div class="box" py:replace="comment_stats_box(h.url_for(controller='/admin/comments'), query=comments)" />
 
