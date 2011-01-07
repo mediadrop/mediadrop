@@ -110,5 +110,21 @@ a.mcore-btn:visited {
 	background-image: url('../images/ui-kit/${navbar_color}/footer-bg.png');
 }
 
+.feat-top { background-image: url('../images/ui-kit/${navbar_color}/feature-top.png') }
+.feat-bottom { background-image: url('../images/ui-kit/${navbar_color}/feature-bottom.png') }
+.feat-content { background-image: url('../images/ui-kit/${navbar_color}/feature-bg.png') }
+.m-grid-column .feat-top { background-image: url('../images/ui-kit/${navbar_color}/column-feature-top.png') }
+.m-grid-column .feat-bottom { background-image: url('../images/ui-kit/${navbar_color}/column-feature-bottom.png') }
+.m-grid-column .feat-content { background-image: url('../images/ui-kit/${navbar_color}/column-feature-bg.png') }
+/*.meta-hover-top { background-image: url('../images/ui-kit/${navbar_color}/meta-hover-top.png') }
+.meta-hover-bottom { background-image: url('../images/ui-kit/${navbar_color}/meta-hover-bottom.png') }
+.meta-hover-content { background-image: url('../images/ui-kit/${navbar_color}/meta-hover-bg.png') }*/
+.cooliris-nav { background: url('../images/ui-kit/${navbar_color}/cooliris-left.png') no-repeat left }
+.cooliris-wall { background: url('../images/ui-kit/${navbar_color}/cooliris-right.png') no-repeat right }
+.comment-top { background: url('../images/ui-kit/${navbar_color}/comment-top.png') no-repeat bottom }
+.comment-top-divot { background: url('../images/ui-kit/${navbar_color}/comment-top-divot.png') no-repeat bottom }
+.comment-content { background: url('../images/ui-kit/${navbar_color}/comment-bg.png') repeat-y }
+.comment-bottom { background: url('../images/ui-kit/${navbar_color}/comment-bottom.png') no-repeat }
+
 
 ${appearance_custom_css}

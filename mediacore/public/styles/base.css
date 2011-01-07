@@ -105,7 +105,7 @@ a:hover {
 	display: block;
 }
 #mcore-foot {
-	background: url('../images/ui-kit/black/footer-bg.png') no-repeat;
+	background-repeat: no-repeat;
 	width: 950px;
 	height: 47px;
 	color: #a9afb4;
@@ -294,14 +294,14 @@ a.meta-likes:active strong {
 .feat-bottom {
 	width: 920px;
 	height: 10px;
-	background: url('../images/layout/feature-top.png') no-repeat;
+	background-repeat: no-repeat;
 }
 .feat-bottom {
-	background: url('../images/layout/feature-bottom.png') no-repeat;
+	background-repeat: no-repeat;
 }
 .feat-content {
 	padding: 5px 15px;
-	background: url('../images/layout/feature-bg.png') repeat-y;
+	background-repeat: repeat-y;
 	position: relative;
 	width: 890px;
 }
@@ -473,15 +473,12 @@ a:focus .grid-title {
 	margin-bottom: 15px;
 }
 .m-grid-column .feat-top {
-	background-image: url('../images/layout/column-feature-top.png');
 	width: 440px;
 }
 .m-grid-column .feat-bottom {
-	background-image: url('../images/layout/column-feature-bottom.png');
 	width: 440px;
 }
 .m-grid-column .feat-content {
-	background-image: url('../images/layout/column-feature-bg.png');
 	width: 410px;
 }
 .m-grid-column .feat-box h3 {
@@ -848,7 +845,6 @@ textarea {
 	height: 324px;
 	float: left;
 	overflow: hidden;
-	background: url('../images/layout/cooliris-left.png') no-repeat left;
 }
 .cooliris-nav-content {
 	margin: 2px 0;
@@ -904,5 +900,4 @@ textarea {
 	width: 680px;
 	height: 324px;
 	float: left;
-	background: url('../images/layout/cooliris-right.png') no-repeat right;
 }

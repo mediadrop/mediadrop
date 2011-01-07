@@ -29,17 +29,11 @@
 .comment-top,
 .comment-bottom {
 	height: 10px;
-	background: url('../images/layout/comment-top.png') no-repeat bottom;
-}
-.comment-bottom {
-	background: url('../images/layout/comment-bottom.png') no-repeat;
 }
 .comment-top-divot {
 	height: 26px;
-	background: url('../images/layout/comment-top-divot.png') no-repeat bottom;
 }
 .comment-content {
-	background: url('../images/layout/comment-bg.png') repeat-y;
 	padding: 5px 15px;
 }
 
