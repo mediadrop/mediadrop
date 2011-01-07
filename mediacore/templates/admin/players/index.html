@@ -25,7 +25,7 @@
 	<link href="${h.url_for('/admin/styles/squeezebox.css')}" media="screen" rel="stylesheet" type="text/css" />
 	<link href="${h.url_for('/admin/styles/players.css')}" media="screen" rel="stylesheet" type="text/css" />
 	<script type="text/javascript" src="${h.url_for('/admin/scripts/confirm.js')}"></script>
-	<script type="text/javascript">
+	<script type="text/javascript"><![CDATA[
 		window.addEvent('domready', function(){
 			var deleteConfirm = new DeleteConfirmMgr({
 				header: '${_('Confirm Delete').replace("'", "\\'")}',
@@ -37,7 +37,7 @@
 				el.addEvent('click', deleteConfirm.openConfirmDialog.bind(deleteConfirm));
 			});
 		});
-	</script>
+	]]></script>
 </head>
 <body>
 	<div class="box">
@@ -60,21 +60,31 @@
 					<td>None Found</td>
 				</tr>
 				<tr py:for="player in players">
-					<td headers="h-status" py:with="enabled = player.enabled and 'Enabled' or 'Disabled'">
-						<a href="${h.url_for(action=player.enabled and 'disable' or 'enable', id=player.id)}" class="status-${enabled.lower()}" title="${enabled}"></a>
+					<td headers="h-status" py:with="enabled = player.enabled and _('Enabled (disable)') or _('Disabled (enable)')">
+						<form action="${h.url_for(action=player.enabled and 'disable' or 'enable', id=player.id)}" method="post">
+							<div>
+								<button class="${player.enabled and 'status-enabled' or 'status-disabled'}" type="submit" value="${enabled}" title="${enabled}">${enabled}</button>
+							</div>
+						</form>
 					</td>
 					<td headers="h-display_name">
 						<a href="${h.url_for(action='edit', id=player.id)}" py:content="_(player.display_name)" py:strip="not player.settings_form">Display Name</a>
 					</td>
 					<td headers="h-priority" style="text-align:center">
-						<a href="${h.url_for(action='reorder', id=player.id, direction='up')}" class="goog-inline-block uparrow">Up</a>
-						<a href="${h.url_for(action='reorder', id=player.id, direction='down')}" class="goog-inline-block downarrow">Down</a>
+						<form class="arrows" action="${h.url_for(action='reorder', id=player.id)}" method="post">
+							<div>
+								<button class="uparrow" type="submit" name="up">${_('Up')}</button>
+								<button class="downarrow" type="submit" name="down">${_('Down')}</button>
+							</div>
+						</form>
 					</td>
 					<td headers="h-btns">
 						<div class="f-rgt" py:with="show_edit = player.settings_form is not None; delete_class = show_edit and 'delete' or 'delete-solo'">
 							<a py:if="show_edit" href="${h.url_for(action='edit', id=player.id)}" class="btn table-row middle f-lft"><span>Edit</span></a>
 							<form action="${h.url_for(action='delete', id=player.id)}" method="post" class="delete-player-form f-lft">
-								<button class="btn table-row ${delete_class}" type="submit" name="delete"><span>Delete</span></button>
+								<div>
+									<button class="btn table-row ${delete_class}" type="submit" name="delete"><span>Delete</span></button>
+								</div>
 							</form>
 						</div>
 					</td>

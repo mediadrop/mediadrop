@@ -761,11 +761,18 @@ input.submitbutton {
 /* Styles for tables that include status columns,
  * like the Storage Engine and Players index tables */
 .status-enabled,
-.status-disabled {
-	width: 16px;
-	height: 12px;
+.status-disabled,
+.status-enabled:hover,
+.status-disabled:hover {
+	display: block;
+	width: 0;
+	height: 0;
+	padding-top: 16px;
 	padding-left: 16px;
-	background-position: 0 -2px;
+	margin: 0 auto;
+	overflow: hidden;
+	background-position: 0 0;
+	border: 0;
 }
 .status-enabled {
 	background-image: url('../images/icons/green.png');
@@ -782,17 +789,21 @@ input.submitbutton {
 	padding-top: 12px;
 }
 
+form.arrows {
+	height: 16px;
+}
 .uparrow,
-.downarrow {
+.downarrow,
+.uparrow:hover,
+.downarrow:hover {
+	display: inline-block;
 	height: 0;
 	width: 0;
 	padding-top: 16px;
 	padding-left: 16px;
 	overflow: hidden;
-}
-.uparrow > span,
-.downarrow > span {
-	display: none;
+	background-position: 0 0;
+	border: 0;
 }
 .uparrow {
 	background-image: url('../images/icons/up.png');
