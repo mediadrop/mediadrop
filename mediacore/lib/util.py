@@ -138,6 +138,7 @@ def merge_dicts(dst, *srcs):
                     stack.append((current_dst[key], current_src[key]))
                 else:
                     current_dst[key] = current_src[key]
+    return dst
 
 def calculate_popularity(publish_date, score):
     """Calculate how 'hot' an item is given its response since publication.
