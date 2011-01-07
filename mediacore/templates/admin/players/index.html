@@ -25,7 +25,8 @@
 	<link href="${h.url_for('/admin/styles/squeezebox.css')}" media="screen" rel="stylesheet" type="text/css" />
 	<link href="${h.url_for('/admin/styles/players.css')}" media="screen" rel="stylesheet" type="text/css" />
 	<script type="text/javascript" src="${h.url_for('/admin/scripts/confirm.js')}"></script>
-	<script type="text/javascript"><![CDATA[
+	<script type="text/javascript">
+		//<![CDATA[
 		window.addEvent('domready', function(){
 			var deleteConfirm = new DeleteConfirmMgr({
 				header: '${_('Confirm Delete').replace("'", "\\'")}',
@@ -37,7 +38,8 @@
 				el.addEvent('click', deleteConfirm.openConfirmDialog.bind(deleteConfirm));
 			});
 		});
-	]]></script>
+		//]]>
+	</script>
 </head>
 <body>
 	<div class="box">

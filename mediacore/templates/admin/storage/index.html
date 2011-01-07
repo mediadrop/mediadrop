@@ -26,7 +26,8 @@
 	<link href="${h.url_for('/admin/styles/storage.css')}" media="screen" rel="stylesheet" type="text/css" />
 	<script type="text/javascript" src="${h.url_for('/admin/scripts/modals.js')}"></script>
 	<script type="text/javascript" src="${h.url_for('/admin/scripts/confirm.js')}"></script>
-	<script type="text/javascript"><![CDATA[
+	<script type="text/javascript">
+		//<![CDATA[
 		var msg_text = {
 			title: '${_('WARNING:').replace("'", "\\'")}',
 			list_title: '${_('Deleting this Storage Engine (%(name)s) will:').replace("'", "\\'")}',
@@ -103,7 +104,8 @@
 				el.addEvent('click', deleteConfirm.openConfirmDialog.bind(deleteConfirm));
 			});
 		});
-	]]></script>
+		//]]>
+	</script>
 </head>
 <body>
 	<div class="box">
