@@ -61,27 +61,3 @@
 #category-content .grid-meta {
 	width: 195px;
 }
-
-/* Feature box size overrides */
-#category-feature .feat-top,
-#category-feature .feat-bottom {
-	width: 710px;
-	background: url('../images/layout/category-feature-top.png') no-repeat;
-}
-#category-feature .feat-bottom {
-	background: url('../images/layout/category-feature-bottom.png') no-repeat;
-}
-#category-feature .feat-content {
-	background: url('../images/layout/category-feature-bg.png') repeat-y;
-}
-#category-feature .feat-meta,
-#category-feature .feat-info {
-	width: 265px;
-}
-#category-feature .meta-comments span {
-	display: block;
-	overflow: hidden;
-	float: right;
-	height: 0;
-	width: 0;
-}
