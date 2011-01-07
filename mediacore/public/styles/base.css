@@ -594,20 +594,23 @@ a:focus .grid-title {
 	padding-top: 11px;
 }
 .contextbox .grid {
-	width: 328px;
+	width: 315px;
 }
 .contextbox .grid li {
-	width: 328px;
+	width: 315px;
 	height: 104px;
 	margin-right: 0;
 }
 .contextbox .grid li a {
 	height: 101px;
 }
+.contextbox .grid .grid-title {
+	white-space: nowrap;
+}
 .contextbox .grid .grid-title,
 .contextbox .grid .grid-desc,
 .contextbox .grid .grid-meta {
-	width: 186px;
+	width: 173px;
 }
 .contextbox-none {
 	font-style: italic;
