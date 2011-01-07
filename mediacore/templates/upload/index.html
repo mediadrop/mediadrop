@@ -29,13 +29,15 @@
 	<script type="text/javascript" src="${h.url_for('/scripts/third-party/Swiff.Uploader-yui-compressed.js')}"></script>
 	<script type="text/javascript" src="${h.url_for('/scripts/uploader.js')}"></script>
 	<script type="text/javascript">
+		//<![CDATA[
 		var UploadMGR = null;
 		var SwiffUploadMGR = null;
 		window.addEvent('domready', function() {
-			if (Browser.Engine.trident) return;
+			if (Browser.Engine.trident || Browser.Plugins.Flash.version < 9) return;
 			UploadMGR = new UploadManager('${upload_form.id}', '${upload_form.async_action}');
 			SwiffUploadMGR = new SwiffUploadManager('${upload_form.id}', '${upload_form.async_action}', '${h.url_for(action='failure')}', '${h.url_for('/')}', '*.*', 'browse-button', 'submit_btn', 'file-info', 'upload-status', {}, ${g.settings['max_upload_size']});
 		});
+		//]]>
 	</script>
 </head>
 <body class="nav-upload-on">
