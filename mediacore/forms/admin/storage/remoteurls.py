@@ -22,15 +22,20 @@ from mediacore.forms import ListFieldSet, TextField
 from mediacore.forms.admin.storage import StorageForm
 from mediacore.lib.i18n import N_, _
 
-# FIXME: i18n: Use this below
-dummy_rtmp_server_add_text = N_('Add another URL')
 
-rtmp_server_js = JSSource("""
+# Sure this could be abstracted into something more reusable.
+# But at this point there's no need. Refactor later if needed.
+class TranslateableRTMPServerJSSource(JSSource):
+    def render(self, *args, **kwargs):
+        src = JSSource.render(self, *args, **kwargs)
+        return src % {'add_url': _('Add another URL')}
+
+rtmp_server_js = TranslateableRTMPServerJSSource("""
     window.addEvent('domready', function(){
         var fields = $('rtmp').getElement('li');
         var addButton = new Element('span', {
             'class': 'add-another clickable',
-            'text': 'Add another URL'
+            'text': '%(add_url)s'
         });
         addButton.inject(fields, 'bottom').addEvent('click', function(){
             var lastInput = addButton.getPrevious();
