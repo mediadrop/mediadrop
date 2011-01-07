@@ -103,7 +103,6 @@ class Translator(object):
         :returns: The translated string, or the original msgid if no
             translation was found.
         """
-        log.debug('Calling gettext %r in %s', msgid, domain)
         if domain is None:
             domain = getattr(msgid, 'domain', 'mediacore')
         try:
@@ -127,7 +126,6 @@ class Translator(object):
         :returns: The translated string, or the original msgid if no
             translation was found.
         """
-        log.debug('Calling n gettext %r in %s', (singular, plural, n), domain)
         if domain is None:
             domain = getattr(singular, 'domain', 'mediacore')
         try:
