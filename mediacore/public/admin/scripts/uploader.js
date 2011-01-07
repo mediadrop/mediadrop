@@ -240,10 +240,7 @@ var ThumbUploader = new Class({
 		image: '',
 		fileSizeMax: 10 * 1024 * 1024,
 		typeFilter: '*.jpg; *.jpeg; *.gif; *.png',
-		uploadBtn: {
-			'class': 'btn',
-			styles: {width: '130px', margin: '0 auto'}
-		},
+		uploadBtn: {'class': 'btn block'},
 		uploadBtnText: 'Upload image'
 	},
 
