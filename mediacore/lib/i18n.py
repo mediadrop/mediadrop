@@ -19,8 +19,6 @@ from gettext import NullTranslations, translation as gettext_translation
 from pylons import request, translator
 from pylons.i18n.translation import lazify
 
-MEDIACORE_DOMAIN = 'mediacore'
-
 log = logging.getLogger(__name__)
 
 class LanguageError(Exception):
@@ -94,7 +92,7 @@ class Translator(object):
         self._domains[domain] = t
         return t
 
-    def gettext(self, msgid, domain=MEDIACORE_DOMAIN):
+    def gettext(self, msgid, domain=None):
         """Get the translated string for this msgid in the given domain.
 
         :type msgid: ``str``
@@ -106,13 +104,15 @@ class Translator(object):
             translation was found.
         """
         log.debug('Calling gettext %r in %s', msgid, domain)
+        if domain is None:
+            domain = getattr(msgid, 'domain', 'mediacore')
         try:
             t = self._domains[domain]
         except KeyError:
             t = self._load_domain(domain)
         return t.ugettext(msgid)
 
-    def ngettext(self, singular, plural, n, domain=MEDIACORE_DOMAIN):
+    def ngettext(self, singular, plural, n, domain=None):
         """Get the translated string for this msgid in the given domain.
 
         :type singular: ``str``
@@ -128,6 +128,8 @@ class Translator(object):
             translation was found.
         """
         log.debug('Calling n gettext %r in %s', (singular, plural, n), domain)
+        if domain is None:
+            domain = getattr(singular, 'domain', 'mediacore')
         try:
             t = self._domains[domain]
         except KeyError:
@@ -149,17 +151,41 @@ class Translator(object):
     dungettext = dngettext
 
 
-# Convenience functions that call the current translator
-def gettext(msgid, domain=MEDIACORE_DOMAIN):
+def gettext(msgid, domain=None):
     return translator.gettext(msgid, domain)
+_ = ugettext = gettext
 
-def ngettext(singular, plural, n, domain=MEDIACORE_DOMAIN):
+def ngettext(singular, plural, n, domain=None):
     return translator.ngettext(singular, plural, n, domain)
 
-_ = ugettext = gettext
-N_ = gettext_noop = lambda s: s
+
+class TranslateableUnicode(unicode):
+    """A special string that remembers what domain it belongs to."""
+    __slots__ = ('domain',)
+
+def gettext_noop(msgid, domain=None):
+    """Mark the given msgid for later translation.
+
+    Ordinarily this simply returns the original msgid unaltered. Babel's
+    message extractors recognize the form ``N_('xyz')`` and include 'xyz'
+    in the POT file so that it can be ready for translation when it is
+    finally passed through :func:`gettext`.
+
+    If the domain name is given, a slightly altered string is returned:
+    a special unicode string stores the domain stored as a property. The
+    domain is then retrieved by :func:`gettext` when translation occurs,
+    ensuring the translation comes from the correct domain.
+
+    """
+    if domain is not None:
+        msgid = TranslateableUnicode(msgid)
+        msgid.domain = domain
+    return msgid
+N_ = gettext_noop
+
 
 # Lazy functions that evaluate when cast to unicode or str.
 # These are not to be confused with N_ which returns the msgid unmodified.
+# AFAIK these aren't currently in use and may be removed.
 lazy_gettext = lazy_ugettext = lazify(gettext)
 lazy_ngettext = lazy_ungettext = lazify(ngettext)
