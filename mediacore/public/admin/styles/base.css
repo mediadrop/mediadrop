@@ -772,6 +772,7 @@ input.submitbutton {
 	margin: 0 auto;
 	overflow: hidden;
 	background-position: 0 0;
+	background-color: transparent;
 	border: 0;
 }
 .status-enabled {
