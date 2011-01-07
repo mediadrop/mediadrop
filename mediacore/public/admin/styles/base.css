@@ -468,7 +468,7 @@ a.btn.table-row:visited {
 .btn.table-row span {
 	height: 19px;
 	line-height: 18px;
-	padding: 0 7px 0 2px;
+	padding: 0 5px 0 3px;
 	text-shadow: 0 1px #fff;
 	background-image: url('../images/layout/btn-table-right.png');
 }
@@ -500,7 +500,8 @@ a.btn.table-row:visited {
 .btn.table-row.delete-solo span,
 .btn.table-row.publish span,
 .btn.table-row.published span {
-	display: none;
+	text-indent: -5000px;
+	background: none;
 }
 .btn.table-row:hover, .btn.table-row.hover { background-position: 0 -19px }
 .btn.table-row:active, .btn.table-row.active { background-position: 0 -38px }
@@ -817,4 +818,8 @@ form.arrows {
 }
 .downarrow {
 	background-image: url('../images/icons/down.png');
+}
+
+td[headers='h-btns'] {
+	white-space: nowrap;
 }

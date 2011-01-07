@@ -141,15 +141,10 @@
 					</td>
 					<td headers="h-file-size" style="text-align:right">${h.pretty_file_size(engine.file_size_sum)}</td>
 					<td headers="h-file-count" style="text-align:center">${engine.file_count}</td>
-					<td headers="h-btns">
-						<div class="f-rgt" py:with="show_edit = engine.settings_form is not None; delete_class = show_edit and 'delete' or 'delete-solo'">
-							<a py:if="show_edit" href="${h.url_for(action='edit', id=engine.id)}" class="btn table-row middle f-lft"><span>Edit</span></a>
-							<form action="${h.url_for(action='delete', id=engine.id)}" method="post" class="delete-engine-form f-lft">
-								<div>
-									<button class="btn table-row ${delete_class}" type="submit" name="delete"><span>Delete</span></button>
-								</div>
-							</form>
-						</div>
+					<td headers="h-btns" py:with="show_edit = engine.settings_form is not None; delete_class = show_edit and 'delete' or 'delete-solo'">
+						<form action="${h.url_for(action='delete', id=engine.id)}" method="post" class="delete-engine-form right">
+							<a py:if="show_edit" href="${h.url_for(action='edit', id=engine.id)}" class="btn table-row middle"><span>Edit</span></a><button class="btn table-row ${delete_class}" type="submit" name="delete"><span>Delete</span></button>
+						</form>
 					</td>
 				</tr>
 			</tbody>

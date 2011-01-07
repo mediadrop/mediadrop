@@ -25,14 +25,10 @@
 		</td>
 		<td headers="h-btns">
 			<form action="${h.url_for(controller='/admin/tags', action='save', id=tag.id or 'new')}" method="post" class="edit-modal">
-				<div class="f-rgt">
-					<input py:for="name in ('name', 'slug')"
-					       py:with="field = children[name]"
-					       py:replace="field.display(getattr(tag, name, None), **args_for(field))" />
-					<a href="${h.url_for(controller='/admin/tags', action='edit', id=tag.id)}" class="btn table-row middle btn-inline-edit f-lft"><span>Edit</span></a>
-					<input py:with="field = children['delete']"
-					       py:replace="field.display(value_for(field), **args_for(field))" />
-				</div>
+				<input py:for="name in ('name', 'slug')"
+					   py:with="field = children[name]"
+					   py:replace="field.display(getattr(tag, name, None), **args_for(field))" />
+				<a href="${h.url_for(controller='/admin/tags', action='edit', id=tag.id)}" class="btn table-row middle btn-inline-edit"><span>Edit</span></a><input py:with="field = children['delete']" py:replace="field.display(value_for(field), **args_for(field))" />
 			</form>
 		</td>
 	</tr>
