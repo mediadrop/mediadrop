@@ -89,7 +89,8 @@
 						<li id="body-container" class="even" py:with="error = errors.get('body', None)">
 							<div py:if="error" class="form-error">${error}</div>
 							<div id="body-label" class="form-label">
-								<label for="body">Comment</label>
+								<!--! XXX: This may not be a safe assumption for all languages... but for some reason 'Comment' alone doesn't translate here. -->
+								<label for="body">${ungettext('Comment', 'Comments', 1)}</label>
 							</div>
 							<div class="form-field">
 								<textarea id="body" name="body" class="required textarea" rows="5" cols="25">${values.get('body', None)}</textarea>
