@@ -108,7 +108,6 @@
 #fmgr td[headers='thf-delete'] {
 	padding-right: 10px;
 }
-
 #fmgr table .overTxtLabel,
 #fmgr td .textfield {
 	padding: 4px 5px;
@@ -162,6 +161,10 @@
 #fmgr tr .file-delete:hover {
 	opacity: 1;
 	cursor: pointer;
+}
+#sbox-content #fmgr .box-content {
+	padding-top: 0;
+	padding-bottom: 0;
 }
 
 
