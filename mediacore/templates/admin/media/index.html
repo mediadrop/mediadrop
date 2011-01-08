@@ -81,7 +81,7 @@
 				<h1 py:otherwise="">All Media</h1>
 			</py:choose>
 			<div class="f-rgt">
-				<a class="btn inline f-lft" href="${h.url_for(action='edit', id='new')}" style="margin-right:10px"><span>Add New Media</span></a>
+				<a class="btn inline block f-lft" href="${h.url_for(action='edit', id='new')}" style="margin-right:10px"><span>Add New Media</span></a>
 				<div class="dropdown-wrapper f-lft" style="margin-right:10px;width:130px">
 					<div class="dropdown-position">
 						<div class="dropdown-box">
@@ -96,7 +96,7 @@
 							<div class="dropdown-bottom"><div /></div>
 						</div>
 					</div>
-					<button class="btn inline dropdown-toggle"><span>Bulk Actions</span></button>
+					<button class="btn inline block dropdown-toggle"><span>Bulk Actions</span></button>
 				</div>
 				<div class="dropdown-wrapper f-lft" style="margin-right:10px;width:120px" id="filter-dropdown">
 					<div class="dropdown-position">
@@ -128,7 +128,7 @@
 							<div class="dropdown-bottom"><div /></div>
 						</div>
 					</div>
-					<button class="btn inline dropdown-toggle"><span>Filters</span></button>
+					<button class="btn inline block dropdown-toggle"><span>Filters</span></button>
 				</div>
 				<div id="quicksearch" class="f-lft">
 					${XML(search_form(dict(search=search)))}

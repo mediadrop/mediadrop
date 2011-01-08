@@ -501,6 +501,7 @@ a.btn.nav.active:visited {
 .dropdown-toggle span {
 	padding-right: 31px;
 	text-align: left;
+	overflow: hidden;
 }
 .dropdown-toggle strong {
 	font-weight: inherit;
