@@ -128,7 +128,6 @@ class MediaController(BaseController):
         )
 
     @expose('media/explore.html')
-    @paginate('media', items_per_page=20)
     @observable(events.MediaController.explore)
     def explore(self, page=1, **kwargs):
         """Display the most recent 15 media.
