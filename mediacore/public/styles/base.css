@@ -231,7 +231,7 @@ h1, h2, h3, h4, h5 {
 /* Buttons */
 .mcore-btn {
 	height: 33px;
-	overflow: hidden;
+	overflow: visible; /* IE7 */
 	cursor: pointer;
 	display: block;
 	border: 0;
@@ -251,6 +251,7 @@ h1, h2, h3, h4, h5 {
 	line-height: 32px;
 	background-repeat: no-repeat;
 	background-position: 100% 0;
+	white-space: nowrap; /* IE7 */
 }
 .mcore-btn:hover, .mcore-btn.hover { background-position: 0 -33px }
 .mcore-btn:active, .mcore-btn.active { background-position: 0 -66px }
