@@ -488,6 +488,10 @@ a.btn.table-row:visited {
 }
 .btn.table-row.delete-solo {
 	width: 26px;
+	/* TODO: Rename the 'delete-btn.png' slice from the PSD file to
+	 *       'btn-table-delete-rounded.png' for easier updating */
+	/* TODO: Fix the top sprite in this image to be darker, like the one
+	 *       in 'btn-table-delete.png' */
 	background-image: url('../images/layout/btn-table-delete-rounded.png');
 }
 .btn.table-row.delete span,
