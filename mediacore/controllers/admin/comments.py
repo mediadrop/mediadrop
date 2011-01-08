@@ -107,10 +107,10 @@ class CommentsController(BaseController):
             acting on a single comment, or ``"bulk"`` if we should refer to
             ``ids``.
         :type id: ``int`` or ``"bulk"``
-        :param ids: An optional string of IDs separated by commas.
-        :type ids: ``unicode`` or ``None``
         :param status: ``"approve"`` or ``"trash"`` depending on what action
             the user requests.
+        :param ids: An optional string of IDs separated by commas.
+        :type ids: ``unicode`` or ``None``
         :rtype: JSON dict
         :returns:
             success
@@ -125,8 +125,16 @@ class CommentsController(BaseController):
         if not isinstance(ids, list):
             ids = [ids]
 
+        if status == 'approve':
+            publishable = True
+        if status == 'trash':
+            publishable = False
+        else:
+            # XXX: This form should never be submitted without a valid status.
+            return ''
+
+
         comments = Comment.query.filter(Comment.id.in_(ids)).all()
-        publishable = status == 'approve'
 
         for comment in comments:
             comment.reviewed = True

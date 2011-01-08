@@ -24,40 +24,25 @@ var CommentMgr = new Class({
 		editText: 'Edit Text',
 		editCancel: 'Cancel Edit',
 		table: 'comment-table',
-		formSelector: 'form.edit-comment-form',
-		deleteLink: 'a.btn-inline-delete',
-		publishLink: 'a.btn-inline-approve',
-		bulkPublishBtnClass: 'btn btn-inline-approve f-lft',
-		bulkDeleteBtnClass: 'btn btn-inline-delete f-rgt',
+		editFormSelector: 'form.edit-comment-form',
+		statusFormSelector: 'form.comment-status-form',
+		deleteBtn: 'button.btn-inline-delete',
+		publishBtn: 'button.btn-inline-approve',
 		deleteConfirmMgr: {}
 	},
 
-	bulkMgr: null,
-
 	initialize: function(opts) {
 		this.setOptions(opts);
-		this.processRows($(this.options.table).getElements('tbody > tr'));
-	},
 
-	processRows: function(rows) {
-		$$(rows).each(function(row){
-			if(row.getChildren().length != 1)
-				var comment = new Comment(row, this.options);
-		}.bind(this));
-	},
+		var rows = $(this.options.table).getElements('tbody > tr');
+		var options = this.options;
 
-	_bulkSubmit: function(action, errorMsg) {
-		var r = new Request.HTML({url: action, onSuccess: function(){location.reload();}})
-			.send(new Hash({'ids': ''+this._getSelectedCommentIds()}).toQueryString());
-		return this;
-	},
-
-	_getSelectedCommentIds: function() {
-		return this.bulkMgr.getSelectedRows().map(function(row){
-			return row.get('id');
+		rows.each(function(row){
+			if(row.getChildren().length != 1){
+				var comment = new Comment(row, options);
+			}
 		});
 	}
-
 });
 
 var Comment = new Class({
@@ -66,74 +51,71 @@ var Comment = new Class({
 	options: null,
 
 	row: null,
-	publishLink: null,
-	deleteLink: null,
+	statusForm: null,
+	publishBtn: null,
+	deleteBtn: null,
 
-	form: null,
+	editForm: null,
 	body: null,
 	editLink: null,
-	formVisible: true,
+	editFormVisible: true,
 
 	initialize: function(row, options){
 		this.setOptions(options);
 		this.row = row;
-		this.publishLink = row.getElement(this.options.publishLink);
-		this.deleteLink = row.getElement(this.options.deleteLink);
-		this.form = row.getElement(this.options.formSelector);
+		this.publishBtn = row.getElement(this.options.publishBtn);
+		this.deleteBtn = row.getElement(this.options.deleteBtn);
+		this.statusForm = row.getElement(this.options.statusFormSelector);
+		this.editForm = row.getElement(this.options.editFormSelector);
 
-		if (this.publishLink != null) this.requestConfirmPublish();
-		if (this.deleteLink != null) this.requestConfirmDelete();
+		this.setupStatusForm();
+		this.setupEditForm();
 
-		var td = this.form.getParent();
-		var text = this.form.getElement('textarea').get('value');
+		setCommentInstance(row, this);
+	},
+
+	setupStatusForm: function() {
+		// Use AJAX (json) to intercept submission of the status form.
+
+		// Set up a confirm manager, and response handler for the delete button.
+		if (this.deleteBtn) {
+			var confirmMgr = new ConfirmMgr(this.options.deleteConfirmMgr);
+			confirmMgr.addEvent('confirm', this.saveStatusForm.pass([this.deleteBtn], this));
+			confirmMgr.options.msg = confirmMgr.options.msg(this.getAuthor());
+			this.deleteBtn.addEvent('click', confirmMgr.openConfirmDialog.bind(confirmMgr));
+		}
+
+		// Set up a response handler for the publish button.
+		if (this.publishBtn) {
+			this.publishBtn.addEvent('click', this.saveStatusForm.bind(this));
+		}
+	},
+
+	setupEditForm: function() {
+		var td = this.editForm.getParent();
+		var text = this.editForm.getElement('textarea').get('value');
 		this.body = new Element('blockquote', {html: text});
 		td.grab(this.body);
-		this.editLink = new Element('span', {'class': 'edit-text clickable', text: this.options.editText})
-			.addEvent('click', this.toggleForm.bind(this));
+		this.editLink = new Element('span', {'class': 'edit-text clickable', text: this.options.editText});
+		this.editLink.addEvent('click', this.toggleEditForm.bind(this));
 		var span = td.getElement('div.comment-submitted').appendText(' | ').grab(this.editLink);
-		var cancelButton = this.form.getElement('button.btn-cancel');
-		cancelButton.addEvent('click', this.toggleForm.bind(this));
+		var cancelButton = this.editForm.getElement('button.btn-cancel');
+		cancelButton.addEvent('click', this.toggleEditForm.bind(this));
 
-		this.form.addEvent('submit', this.saveEditForm.bind(this));
-		this.toggleForm();
-	},
-
-	requestConfirmPublish: function(){
-/*		var confirmMgr = new ConfirmMgr({
-			onConfirm: this.doConfirm.pass([this.publishLink.href, this.updatePublished.bind(this)], this),
-			header: 'Confirm Publish',
-			confirmButtonText: 'Publish',
-			confirmButtonClass: 'btn green f-rgt',
-			cancelButtonText: 'Cancel',
-			msg: 'Are you sure you want to publish <strong>' + this.getAuthor() + '</strong>&#8217;s comment?'
-		});
-		this.publishLink.addEvent('click', confirmMgr.openConfirmDialog.bind(confirmMgr));*/
-		this.publishLink.addEvent('click', function(e){
-			e = new Event(e).stop();
-			this.doConfirm(this.publishLink.href, this.updatePublished.bind(this));
-		}.bind(this));
-		return this;
-	},
-
-	requestConfirmDelete: function(){
-		var confirmMgr = new ConfirmMgr(this.options.deleteConfirmMgr)
-			.addEvent('confirm', this.doConfirm.pass([this.deleteLink.href, this.updateDeleted.bind(this)], this));
-		confirmMgr.options.msg = confirmMgr.options.msg(this.getAuthor());
-
-		this.deleteLink.addEvent('click', confirmMgr.openConfirmDialog.bind(confirmMgr));
-		return this;
-	},
-
-	doConfirm: function(href, successAction){
-		var r = new Request.HTML({url: href, onSuccess: successAction}).get();
-		return this;
+		this.editForm.addEvent('submit', this.saveEditForm.bind(this));
+		this.toggleEditForm();
 	},
 
 	updatePublished: function(){
 		this.row.removeClass('tr-white').addClass('tr-gray');
-		var unpublished = this.row.getElement('a.btn-inline-approve');
-		var published = new Element('span', {'class': 'btn table-row published unclickable btn-inline-approved f-lft', html: '<span>published</span>'});
-		published.replaces(unpublished);
+		if (this.publishBtn) {
+			var publishedBtn = new Element('span', {
+				'class': 'btn table-row published btn-inline-approve middle f-lft',
+				html: '<span></span>'
+			});
+			publishedBtn.replaces(this.publishBtn);
+			this.publishBtn = null;
+		}
 		return this;
 	},
 
@@ -147,27 +129,70 @@ var Comment = new Class({
 		return new String(author).trim();
 	},
 
-	toggleForm: function(){
-		if(this.formVisible){
+	toggleEditForm: function(){
+		if(this.editFormVisible){
 			this.body.setStyle('display', 'block');
-			this.form.setStyle('display', 'none');
+			this.editForm.setStyle('display', 'none');
 			this.editLink.set('text', this.options.editText);
 		} else {
-			this.form.setStyle('display', 'block');
+			this.editForm.setStyle('display', 'block');
 			this.body.setStyle('display', 'none');
 			this.editLink.set('text', this.options.editCancel);
 		}
-		this.formVisible = !this.formVisible;
+		this.editFormVisible = !this.editFormVisible;
 		return this;
 	},
 
 	saveEditForm: function(e){
-		this.form.fireEvent('beforeAjax');
-		this.toggleForm();
-		this.form.set('send', {onComplete: function(response) {
-			this.body.set('html', JSON.decode(response).body);
-		}.bind(this)});
-		this.form.send();
-		return false;
+		// Stop submission of the form
+		e = new Event(e).stop();
+
+		// Submit via ajax (json)
+		this.toggleEditForm();
+		this.editForm.set('send', {
+			onComplete: function(response) {
+				this.body.set('html', JSON.decode(response).body);
+			}.bind(this)
+		});
+		this.editForm.send();
+	},
+
+	saveStatusForm: function(e){
+		// Determine which button was used to submit the form:
+		if ($type(e) == 'event') {
+			e = new Event(e).stop();
+			var submitBtn = $(e.target);
+		} else {
+			var submitBtn = e;
+		}
+
+		// Choose the appropriate onSuccess action:
+		if (submitBtn == this.deleteBtn) {
+			var successAction = this.updateDeleted.bind(this);
+		} else if (submitBtn == this.publishBtn) {
+			var successAction = this.updatePublished.bind(this);
+		} else {
+			// If it's not a publish or delete request, this manager doesn't know
+			// how to deal with it.
+			return;
+		}
+
+		// Submit the form, including the information on which button was clicked.
+		var opts = {
+			data: {},
+			onSuccess: successAction,
+			url: this.statusForm.action,
+			method: this.statusForm.method
+		}
+		opts.data[submitBtn.name] = submitBtn.value;
+		var r = new Request.JSON(opts);
+		r.send()
 	}
 });
+
+function getCommentInstance(row) {
+	return row.commentInstance;
+}
+function setCommentInstance(row, comment) {
+	row.commentInstance = comment;
+}

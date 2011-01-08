@@ -177,11 +177,6 @@ def make_map(config, controller_scan=controller_scan):
         action='edit',
         requirements={'id': r'(\d+|new)'})
 
-    map.connect('/admin/comments/{id}/{status}',
-        controller='admin/comments',
-        action='save_status',
-        requirements={'status': 'approve|trash'})
-
     map.connect('/admin/media/bulk/{type}',
         controller='admin/media',
         action='bulk')
@@ -205,7 +200,7 @@ def make_map(config, controller_scan=controller_scan):
 
     map.connect('/{controller}/{id}/{action}',
         action='edit',
-        requirements={'controller': simple_admin_paths, 'id': r'(\d+|new)'})
+        requirements={'controller': simple_admin_paths, 'id': r'(\d+|new|bulk)'})
 
     map.connect('/{controller}/{action}',
         requirements={'controller': simple_admin_paths})

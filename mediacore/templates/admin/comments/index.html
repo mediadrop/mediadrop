@@ -67,11 +67,7 @@
 					$$splat(json.ids).each(function(id){
 						var row = table.table.getElementById(table.options.prefix + id);
 						row.getElement('input.bulk-checkbox').checked = false;
-						row.removeClass('tr-white').addClass('tr-gray');
-						var unpublished = row.getElement('a.btn-inline-approve');
-						if (!unpublished) return;
-						var published = new Element('span', {'class': 'btn table-row published unclickable btn-inline-approved f-lft', html: '<span>${_('Published')}</span>'});
-						published.replaces(unpublished);
+						getCommentInstance(row).updatePublished();
 					});
 				}
 			});
