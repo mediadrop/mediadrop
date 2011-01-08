@@ -39,6 +39,7 @@
 			<div class="feat-bottom" />
 		</div>
 
+	<div id="media-inner-wrapper">
 		<py:if test="is_widescreen">${media_box(media)}</py:if>
 		<div id="media-info">
 			<py:if test="not is_widescreen">${media_box(media)}</py:if>
@@ -65,6 +66,7 @@
 
 			${comment_list(comments, comment_form_action, comment_form_values)}
 		</div>
+	</div>
 
 	<div id="media-sidebar">
 

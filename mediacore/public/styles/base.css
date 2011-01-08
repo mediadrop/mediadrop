@@ -376,6 +376,7 @@ table.feat-meta > tbody > tr:first-child > td {
 /* Media grids */
 .grid {
 	width: 920px;
+	position: relative;
 }
 .grid li {
 	width: 440px;
@@ -383,7 +384,6 @@ table.feat-meta > tbody > tr:first-child > td {
 	float: left;
 	margin-right: 20px;
 	font: 12px Tahoma, sans-serif;
-	position: relative;
 }
 .grid li a {
 	display: block;
@@ -503,9 +503,6 @@ a:focus .grid-title {
 #media-player {
 	border: 1px solid #fff;
 }
-#media-wrapper {
-	position: relative;
-}
 #media-info {
 	width: 560px;
 	margin: 0 15px 15px 15px;
@@ -526,6 +523,16 @@ a:focus .grid-title {
 }
 .media-wide #media-info {
 	margin-top: 0;
+}
+
+/* Ensure the meta hover elements render above the sidebar grid in IE7 */
+#media-inner-wrapper {
+	position: relative;
+	z-index: 5;
+}
+#media-sidebar {
+	position: relative;
+	z-index: 4;
 }
 
 .mcore-playerbox {
@@ -716,9 +723,6 @@ a:focus .grid-title {
 	cursor: pointer;
 }
 
-.meta-wrapper {
-	position: relative;
-}
 .meta-hover {
 	visibility: hidden;
 	position: absolute;
@@ -726,7 +730,7 @@ a:focus .grid-title {
 	top: 33px;
 	left: 50%;
 	margin-left: -91px;
-	z-index: 100;
+	z-index: 1;
 }
 .meta-hover-top,
 .meta-hover-bottom {
