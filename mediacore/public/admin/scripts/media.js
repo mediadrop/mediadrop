@@ -466,7 +466,6 @@ var FileManager = new Class({
 	},
 
 	editFile: function(eOrTarget, el){
-		console.log('editfile');
 		if (el) var target = el;
 		else if ($type(eOrTarget) == 'event') var target = $(eOrTarget.target);
 		else var target = $(eOrTarget);
