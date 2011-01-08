@@ -48,10 +48,6 @@
 
 	<div py:replace="select('*|text()|comment()')">Content is injected here</div>
 
-	<div py:if="c.paginators" class="mediacore-content">
-		<div py:replace="pager(c.paginators.values()[0])" />
-	</div>
-
 	<div id="mcore-foot" class="mediacore-content clear">
 		<div id="mcore-feeds" class="f-lft">
 			<h5>Feeds:</h5>

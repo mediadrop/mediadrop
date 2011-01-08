@@ -55,6 +55,7 @@
 		</h4>
 		${library_controls(show, paginator=c.paginators.episodes)}
 		<ul py:replace="media_grid(episodes, thumb_size='m', desc_len=135)" />
+		<div py:replace="pager(c.paginators.episodes)" />
 	</div>
 </body>
 </html>
