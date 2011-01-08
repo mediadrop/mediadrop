@@ -35,18 +35,15 @@ table{font-size:inherit;font:100%}
 pre,code,kbd,samp,tt{font-family:monospace;*font-size:108%;line-height:100%}
 
 /* Google Closure Library crossbrowser inline-block */
-.goog-inline-block,
-.btn, .btn > span {
+.goog-inline-block {
 	position: relative;
 	display: -moz-inline-box; /* Ignored by FF3 and later. */
 	display: inline-block;
 }
-* html .goog-inline-block,
-* html .btn, * html .btn > span {
+* html .goog-inline-block {
 	display: inline;
 }
-*:first-child+html .goog-inline-block,
-*:first-child+html .btn, *:first-child+html .btn > span {
+*:first-child+html .goog-inline-block {
 	display: inline;
 }
 .block {
@@ -364,6 +361,7 @@ button.btn::-moz-focus-inner {
 /* Standard button */
 .btn {
 	height: 33px;
+	display: block;
 	border: 0;
 	margin: 0;
 	padding: 0;
@@ -542,7 +540,6 @@ a.btn.nav.active:visited {
 .dropdown-toggle span {
 	padding-right: 31px;
 	text-align: left;
-	overflow: hidden;
 }
 .dropdown-toggle strong {
 	font-weight: inherit;
