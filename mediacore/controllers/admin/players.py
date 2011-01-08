@@ -140,18 +140,19 @@ class PlayersController(BaseController):
 
     @expose(request_method='POST')
     @autocommit
-    def reorder(self, id, up=None, down=None, **kwargs):
+    def reorder(self, id, direction, **kwargs):
         """Reorder a PlayerPref.
-
-        Direction is determined by presence of the 'up' or 'down' POST vars.
 
         :param id: Player ID.
         :type id: ``int``
+        :param direction: ``"up"`` for higher priority, ``"down"`` for
+            lower priority
+        :type direction: ``unicode``
         :returns: Redirect back to :meth:`index` after success.
         """
-        if up is not None:
+        if direction == 'up':
             offset = -1
-        elif down is not None:
+        elif direction == 'down':
             offset = 1
         else:
             return

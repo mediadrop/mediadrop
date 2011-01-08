@@ -75,8 +75,8 @@
 					<td headers="h-priority" style="text-align:center">
 						<form class="arrows" action="${h.url_for(action='reorder', id=player.id)}" method="post">
 							<div>
-								<button class="uparrow" type="submit" name="up">${_('Up')}</button>
-								<button class="downarrow" type="submit" name="down">${_('Down')}</button>
+								<button class="uparrow" type="submit" name="direction" value="up">${_('Up')}</button>
+								<button class="downarrow" type="submit" name="direction" value="down">${_('Down')}</button>
 							</div>
 						</form>
 					</td>
