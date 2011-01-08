@@ -36,10 +36,8 @@ var UserMgr = new Class({
 
 	initialize: function(opts){
 		this.setOptions(opts);
-		this.processRows($(this.options.table).getElements('tbody > tr'));
-	},
 
-	processRows: function(rows) {
+		var rows = $(this.options.table).getElements('tbody > tr');
 		$$(rows).each(function(row){
 			if(row.getChildren().length != 1)
 				var user = new User(row, this.options);
