@@ -105,6 +105,8 @@ def get_ending(lines, begin, end, begin_line, begin_char, type):
 def get_lines(lines, line_no, filename):
     # FIRST, GET THE ENTIRE CONTAINING COMMENT BLOCK
     begin, end, begin_line, begin_char, type = get_beginning(lines, line_no, filename)
+    if (begin,end) == (None, None):
+        return None # false alarm, this isn't a comment at all!
     end_line, end_char = get_ending(lines, begin, end, begin_line, begin_char, type)
     lines = map(lambda line: line.strip(), lines[begin_line:end_line])
     # "lines" NOW HOLDS EVERY LINE IN THE CONTAINING COMMENT BLOCK
@@ -160,9 +162,7 @@ for x in sorted(matched_files.keys()):
     f = open(x)
     lines = f.readlines()
     f.close()
-    print ""
-    print "FILE:", x
-    print "-----"
+    output = ["\nFILE: %s\n-----" % x]
     for i, num in enumerate(line_nos):
         curr_line = line_nos[i]-1
         next_line = None
@@ -170,6 +170,8 @@ for x in sorted(matched_files.keys()):
             next_line = line_nos[i+1]-1
 
         todo_lines = get_lines(lines, curr_line, x)
+        if not todo_lines:
+            continue
 
         if next_line is not None:
             # ensure that the current 'todo' item doesn't
@@ -177,9 +179,11 @@ for x in sorted(matched_files.keys()):
             max_length = next_line - curr_line
             todo_lines = todo_lines[:max_length]
 
-        print "line:", num
-        print "\n".join(todo_lines)
-        print ""
+        output.append("line: %d\n%s\n" % (num, "\n".join(todo_lines)))
+
+    if len(output) > 1:
+        for chunk in output:
+            print chunk
 
 # Print our counts
 for k in counts:
