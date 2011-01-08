@@ -21,7 +21,7 @@
       xmlns:xi="http://www.w3.org/2001/XInclude">
 <xi:include href="../master.html" />
 <head>
-	<title>${search_query and _('Search: "%s"') % search_query or _('Media Library') }</title>
+	<title>${h.page_title(default=search_query and _('Search: "%s"') % search_query or _('Media Library')) }</title>
 	<link py:if="show == 'latest' and not (search_query or tag)"
 	      title="Latest" rel="alternate" type="application/rss+xml"
 	      href="${h.url_for(controller='/sitemaps', action='latest')}" />
