@@ -118,10 +118,10 @@ class PodcastForm(ListForm):
             SingleSelectField('category', label_text=N_('Category'), options=category_options),
             TextField('copyright', label_text=N_('Copyright'), maxlength=50),
         ]),
-        ListFieldSet('feed', suppress_label=True, legend=N_('Advanced Options:'), css_classes=['details_fieldset'], children=[
+        ListFieldSet('feed', suppress_label=True, legend=N_('Advanced Options:'), css_classes=['details_fieldset'], template='/admin/podcasts/feed_fieldset.html', children=[
             TextField('feed_url', maxlength=50, label_text=N_('Your Feed URL'), attrs={'readonly': True}),
-            TextField('itunes_url', validator=URL, label_text=N_('iTunes URL'), help_text=Markup('<a href="https://phobos.apple.com/WebObjects/MZFinance.woa/wa/publishPodcast" target="_blank">Get an iTunes URL</a>'), maxlength=80),
-            TextField('feedburner_url', validator=URL, label_text=N_('Feedburner URL'), help_text=Markup('<a href="http://feedburner.com/" target="_blank">Get a Feedburner URL</a>'), maxlength=80),
+            TextField('itunes_url', validator=URL, label_text=N_('iTunes URL'), maxlength=80),
+            TextField('feedburner_url', validator=URL, label_text=N_('Feedburner URL'), maxlength=80),
         ]),
         SubmitButton('save', default=N_('Save'), named_button=True, css_classes=['btn', 'blue', 'f-rgt']),
         SubmitButton('delete', default=N_('Delete'), named_button=True, css_classes=['btn']),
