@@ -81,7 +81,7 @@
 				<li><a py:strip="show == 'popular'" href="${h.url_for(show='popular', q=search_query, **kwargs)}" class="underline-hover">Most Popular</a></li>
 				<li><a py:strip="show == 'featured'" href="${h.url_for(show='featured', q=search_query, **kwargs)}" class="underline-hover">Featured</a></li>
 			</ul>
-			<div py:replace="pager(paginator)" />
+			<div class="f-rgt">Page ${paginator.page} of ${paginator.page_count}</div>
 		</div>
 	</py:def>
 
