@@ -34,44 +34,7 @@ select,input,button,textarea,button{font:99% arial,helvetica,clean,sans-serif}
 table{font-size:inherit;font:100%}
 pre,code,kbd,samp,tt{font-family:monospace;*font-size:108%;line-height:100%}
 
-/* Google Closure Library crossbrowser inline-block */
-.goog-inline-block {
-	position: relative;
-	display: -moz-inline-box; /* Ignored by FF3 and later. */
-	display: inline-block;
-}
-* html .goog-inline-block {
-	display: inline;
-}
-*:first-child+html .goog-inline-block {
-	display: inline;
-}
-.block {
-	display: block;
-}
-
-/*Generic Styles*/
-.hidden { display: none; }
-.left { text-align: left; }
-.center { text-align: center; }
-.right { text-align: right; }
-.f-lft { float: left; }
-.f-rgt { float: right; }
-.clear { clear: both }
-.clearfix:after {
-	content: ".";
-	display: block;
-	height: 0;
-	clear: both;
-	visibility: hidden;
-}
-* html .clearfix { height: 1% }
-.clickable, .link { cursor: pointer; }
-.unclickable { cursor: default; }
-.italic {
-	font-style: italic;
-	color: #adaba3;
-}
+/* Generic Styles */
 p {
 	margin: 0 0 1em 0;
 }
@@ -357,11 +320,9 @@ button.btn::-moz-focus-inner {
 	border: 0;
 	padding: 0;
 }
-
 /* Standard button */
 .btn {
 	height: 33px;
-	display: block;
 	border: 0;
 	margin: 0;
 	padding: 0;
@@ -816,4 +777,49 @@ form.arrows {
 
 td[headers='h-btns'] {
 	white-space: nowrap;
+}
+
+/* Classes to apply individual styles */
+.hidden { display: none; }
+.left { text-align: left; }
+.center { text-align: center; }
+.right { text-align: right; }
+.f-lft { float: left; }
+.f-rgt { float: right; }
+.clear { clear: both }
+.clearfix:after {
+	content: ".";
+	display: block;
+	height: 0;
+	clear: both;
+	visibility: hidden;
+}
+* html .clearfix { height: 1% }
+.clickable, .link, .btn, button { cursor: pointer; }
+.unclickable { cursor: default; }
+.italic {
+	font-style: italic;
+	color: #adaba3;
+}
+.block {
+	display: block;
+}
+
+/* Google Closure Library crossbrowser inline-block */
+.goog-inline-block,
+.btn {
+	position: relative;
+	display: -moz-inline-box; /* Ignored by FF3 and later. */
+	display: inline-block;
+}
+* html .goog-inline-block,
+* html .btn {
+	display: inline;
+}
+*:first-child+html .goog-inline-block,
+*:first-child+html .btn {
+	display: inline;
+}
+.block {
+	display: block;
 }

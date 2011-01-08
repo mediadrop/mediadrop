@@ -41,9 +41,9 @@
 				<td>
 					<form class="comment-status-form" action="${h.url_for(action='save_status', id=comment.id)}" method="post">
 						<div py:with="pub_class=''">
-							<span py:if="comment.reviewed" class="btn table-row published btn-inline-approve middle f-lft" title="This comment has already been approved for publishing"><span></span></span>
-							<button py:if="not comment.reviewed" class="btn table-row publish btn-inline-approve middle f-lft clickable" title="Approve this comment for publishing" name="status" value="approve"><span>Approve</span></button>
-							<button class="btn table-row delete btn-inline-delete f-lft clickable" title="Delete this comment" name="status" value="trash"><span>Trash</span></button>
+							<span py:if="comment.reviewed" class="btn table-row published btn-inline-approve middle f-lft unclickable" title="This comment has already been approved for publishing"><span></span></span>
+							<button py:if="not comment.reviewed" class="btn table-row publish btn-inline-approve middle f-lft" title="Approve this comment for publishing" name="status" value="approve"><span>Approve</span></button>
+							<button class="btn table-row delete btn-inline-delete f-lft" title="Delete this comment" name="status" value="trash"><span>Trash</span></button>
 						</div>
 					</form>
 				</td>

@@ -132,7 +132,7 @@
 					<td headers="h-status" py:with="enabled = engine.enabled and _('Enabled (disable)') or _('Disabled (enable)')">
 						<form action="${h.url_for(action=engine.enabled and 'disable' or 'enable', id=engine.id)}" method="post">
 							<div>
-								<button class="${engine.enabled and 'status-enabled' or 'status-disabled'}" type="submit" value="${enabled}" title="${enabled}">${enabled}</button>
+								<button class="${engine.enabled and 'status-enabled' or 'status-disabled'} clickable" type="submit" value="${enabled}" title="${enabled}">${enabled}</button>
 							</div>
 						</form>
 					</td>
