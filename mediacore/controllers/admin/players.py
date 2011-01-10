@@ -25,7 +25,7 @@ from mediacore.lib.base import BaseController
 from mediacore.lib.decorators import (autocommit, expose, observable,
     paginate, validate)
 from mediacore.lib.helpers import redirect, url_for
-from mediacore.lib.players import AbstractPlayer
+from mediacore.lib.players import AbstractPlayer, update_enabled_players
 from mediacore.model import (DBSession, PlayerPrefs, fetch_row,
     cleanup_players_table)
 from mediacore.plugin import events
@@ -123,6 +123,7 @@ class PlayersController(BaseController):
         """
         player = fetch_row(PlayerPrefs, id)
         player.enabled = True
+        update_enabled_players()
         redirect(action='index', id=None)
 
     @expose(request_method='POST')
@@ -136,6 +137,7 @@ class PlayersController(BaseController):
         """
         player = fetch_row(PlayerPrefs, id)
         player.enabled = False
+        update_enabled_players()
         redirect(action='index', id=None)
 
     @expose(request_method='POST')

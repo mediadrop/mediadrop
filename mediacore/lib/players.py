@@ -990,6 +990,18 @@ def pick_any_media_file(media):
                 return uris[i]
     return None
 
+def update_enabled_players():
+    """Ensure that the encoding status of all media is up to date with the new
+    set of enabled players.
+
+    The encoding status of Media objects is dependent on there being an
+    enabled player that supports that format. Call this method after changing
+    the set of enabled players, to ensure encoding statuses are up to date.
+    """
+    media = DBSession.query(Media)
+    for m in media:
+        m.update_status()
+
 def embed_iframe(media, width=400, height=225, frameborder=0, **kwargs):
     """Return an <iframe> tag that loads our universal player.
 
@@ -1009,3 +1021,4 @@ def embed_iframe(media, width=400, height=225, frameborder=0, **kwargs):
 embed_player = embed_iframe
 
 from mediacore.model.players import fetch_enabled_players
+from mediacore.model import DBSession, Media
