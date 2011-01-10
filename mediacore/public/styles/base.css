@@ -407,10 +407,12 @@ a:focus .grid-title {
 	float: right;
 	width: 297px;
 	overflow: hidden;
+	cursor: pointer;
 }
 .grid-desc {
 	line-height: 18px;
 	margin: 5px 0;
+	cursor: pointer;
 }
 
 .grid-meta {
