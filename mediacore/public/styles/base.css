@@ -81,6 +81,7 @@ a:hover {
 	visibility: hidden;
 }
 * html .clearfix { height: 1% }
+*:first-child+html .clearfix { display: inline-block }
 
 /* MediaCore default layout */
 #mcore-site-title,
