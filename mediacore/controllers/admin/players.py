@@ -97,10 +97,9 @@ class PlayersController(BaseController):
         """Delete a PlayerPref.
 
         After deleting the PlayerPref, cleans up the players table,
-        ensuring that each Player class is represented
-        If the deleted PlayerPref is the last example of that Player class,
-        creates a new, 'disabled', PlayerPref for that Player class with
-        the default settings.
+        ensuring that each Player class is represented--if the deleted
+        PlayerPref is the last example of that Player class, creates a new
+        disabled PlayerPref for that Player class with the default settings.
 
         :param id: Player ID.
         :type id: ``int``
