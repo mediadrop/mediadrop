@@ -21,6 +21,7 @@ goog.provide('mcore.comments.CommentForm');
 goog.require('goog.dom');
 goog.require('goog.dom.classes');
 goog.require('goog.dom.forms');
+goog.require('goog.dom.TagName');
 goog.require('goog.fx.dom.Fade');
 goog.require('goog.style');
 goog.require('goog.ui.Component');
@@ -59,21 +60,23 @@ mcore.comments.CommentForm.prototype.fade_ = null;
 
 /**
  * Replace <label> inputs with goog.ui.LabelInput.
- * @param {Element} element The form element to decorate.
+ * @param {Element} formElement The form element to decorate.
  */
-mcore.comments.CommentForm.prototype.decorateInternal = function(element) {
-  goog.base(this, 'decorateInternal', element);
+mcore.comments.CommentForm.prototype.decorateInternal = function(formElement) {
+  goog.base(this, 'decorateInternal', formElement);
   var labels = this.dom_.getElementsByTagNameAndClass('label', undefined,
-      element);
-  goog.array.forEach(labels, function(label) {
-    var labelText = this.dom_.getTextContent(label);
-    var labelDiv = label.parentNode;
-    var fieldDiv = this.dom_.getNextElementSibling(labelDiv);
-    var field = this.dom_.getFirstElementChild(fieldDiv);
-    var newLabel = new goog.ui.LabelInput(labelText);
-    this.addChild(newLabel);
-    newLabel.decorate(field);
-    this.dom_.removeNode(labelDiv);
+      formElement);
+  goog.array.forEach(formElement.elements, function(field) {
+    if (field.tagName == goog.dom.TagName.INPUT || field.tagName == goog.dom.TagName.TEXTAREA) {
+      var fieldDiv = field.parentNode;
+      var labelDiv = this.dom_.getPreviousElementSibling(fieldDiv);
+      var label = this.dom_.getFirstElementChild(labelDiv);
+      var labelText = this.dom_.getTextContent(label);
+      var newLabel = new goog.ui.LabelInput(labelText);
+      this.addChild(newLabel, false);
+      newLabel.decorate(field);
+      this.dom_.removeNode(labelDiv);
+    }
   }, this);
 };
 
@@ -99,7 +102,17 @@ mcore.comments.CommentForm.prototype.handleSubmit = function(e) {
   var xhr = new mcore.net.FormXhrIo(form);
   this.getHandler().listenOnce(xhr, goog.net.EventType.COMPLETE,
       this.handleSubmitComplete);
-  xhr.send();
+  // In most browsers the label is stripped out by a form on submit event,
+  // but for some reason that isn't working in IE7. We manually build the
+  // POST content using the goog.ui.LabelInput API to workaround this issue.
+  var dataSb = [];
+  this.forEachChild(function(labelInput) {
+    var key = labelInput.getElement().name;
+    var value = labelInput.getValue();
+    dataSb.push(encodeURIComponent(key) + '=' + encodeURIComponent(value));
+  });
+  var data = dataSb.join('&');
+  xhr.send(data);
   this.removeUserErrors();
   this.setFormEnabled(false);
 };

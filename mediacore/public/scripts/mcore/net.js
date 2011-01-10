@@ -60,12 +60,14 @@ goog.inherits(mcore.net.FormXhrIo, goog.net.XhrIo);
  * Our server depends on an 'X-Requested-With: XMLHttpRequest' header,
  * so we add it automatically here.
  *
+ * @param {string=} opt_data Post data.
  * @param {Object=} opt_headers Extra headers.
  */
-mcore.net.FormXhrIo.prototype.send = function(opt_headers) {
+mcore.net.FormXhrIo.prototype.send = function(opt_data, opt_headers) {
   var url = this.getElement().action;
   var method = (this.getElement().method || 'GET').toUpperCase();
-  var content = goog.dom.forms.getFormDataString(this.getElement());
+  var content = goog.isDef(opt_data) ? opt_data :
+      goog.dom.forms.getFormDataString(this.getElement());
   var headers = opt_headers || {};
   headers['X-Requested-With'] = 'XMLHttpRequest';
   goog.base(this, 'send', url, method, content, headers);
