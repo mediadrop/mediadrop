@@ -712,7 +712,8 @@ class JWPlayer(AbstractHTML5Player):
     display_name = N_(u'JWPlayer')
     """A unicode display name for the class, to be used in the settings UI."""
 
-    supported_containers = AbstractFlashPlayer.supported_containers
+    supported_containers = AbstractHTML5Player.supported_containers \
+                         | AbstractFlashPlayer.supported_containers
 #    supported_containers.add('youtube')
     supported_types = set([AUDIO, VIDEO, AUDIO_DESC, CAPTIONS])
     supported_schemes = set([HTTP, RTMP])
@@ -722,26 +723,33 @@ class JWPlayer(AbstractHTML5Player):
         VIDEO: 'video',
     }
 
-    # Height adjustment in pixels to accomodate the control bar and stay 16:9
-    _height_diff = 24
+    def __init__(self, *args, **kwargs):
+        super(AbstractHTML5Player, self).__init__(*args, **kwargs)
+        self.playerbox_id = '%s-box' % self.elem_id
 
-    def swf_url(self):
-        """Return the flash player URL."""
-        return url_for('/scripts/third-party/jw_player/player.swf',
-                       qualified=self.qualified)
-
-    def flashvars(self):
-        """Return a python dict of flashvars for this player."""
+    def playervars(self):
+        """Return a python dict of vars for this player."""
         youtube = self.get_uris(container='youtube')
         rtmp = self.get_uris(scheme=RTMP)
         http = self.get_uris(scheme=HTTP)
         audio_desc = self.get_uris(type=AUDIO_DESC)
         captions = self.get_uris(type=CAPTIONS)
 
+        flash_player_url = url_for('/scripts/third-party/jw_player/player.swf',
+                                   qualified=self.qualified)
+
         vars = {
             'image': thumb_url(self.media, 'l', qualified=self.qualified),
             'autostart': self.autoplay,
+            'height': self.adjusted_height,
+            'width': self.adjusted_width,
+            'players': [
+                {'type': 'html5'},
+                {'type': 'flash', 'src': flash_player_url},
+                {'type': 'download'},
+            ],
         }
+
         if youtube:
             vars['provider'] = 'youtube'
             vars['file'] = str(youtube[0])
@@ -778,6 +786,24 @@ class JWPlayer(AbstractHTML5Player):
             vars['plugins'] = ','.join(plugins)
 
         return vars
+
+    def render_js_player(self):
+        playervars = simplejson.dumps(self.playervars())
+        return Markup("new mcore.JWPlayer(%s)" % playervars)
+
+    def render_markup(self):
+        """Render the XHTML markup for this player instance.
+
+        :rtype: ``unicode`` or :class:`genshi.core.Markup`
+        :returns: XHTML that will not be escaped by Genshi.
+
+        """
+        js_url = url_for('/scripts/third-party/jw_player/jwplayer.js',
+                         qualified=self.qualified)
+        # XXX: The div element must have an ID attribute, or JWPlayer5.4 will
+        #      choke.
+        return Markup('<script type="text/javascript" src="%s"></script> \
+                      <div id="%s"></div>' % (js_url, self.playerbox_id))
 
 AbstractHTML5Player.register(JWPlayer)
 

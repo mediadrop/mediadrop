@@ -26,6 +26,7 @@ goog.require('mcore.comments.CommentForm');
 goog.require('mcore.excerpts.Excerpt');
 goog.require('mcore.players.Controller');
 goog.require('mcore.players.FlashPlayer');
+goog.require('mcore.players.JWPlayer');
 goog.require('mcore.players.Html5Player');
 goog.require('mcore.players.IframePlayer');
 goog.require('mcore.players.MultiPlayer');
