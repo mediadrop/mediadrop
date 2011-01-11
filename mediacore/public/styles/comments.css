@@ -81,11 +81,7 @@
 /* Post comment form */
 #post-comment-form textarea,
 #post-comment-form input[type='text'] {
-	-moz-border-radius: 15px;
-	-webkit-border-radius: 15px;
-	border: 5px solid #d9dee1;
-	padding: 5px 8px 6px 8px;
-	width: 535px;
+	width: 544px;
 	font-size: 13px;
 }
 #post-comment-form .form-field-wide textarea,

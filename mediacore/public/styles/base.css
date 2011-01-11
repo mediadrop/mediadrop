@@ -859,6 +859,14 @@ textarea {
 .form .form-field-wide {
 	position: relative;
 }
+.form textarea,
+.form input[type='text'] {
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	border: 2px solid #d9dee1;
+	padding: 5px 6px 6px 6px;
+	color: #637084;
+}
 .xhtml-description-helper p,
 .xhtml-description-helper li {
 	margin: 1em 0;
