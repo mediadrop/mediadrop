@@ -82,7 +82,7 @@
 							<span class="thumb-wrap">
 								<img py:with="thumb = h.thumb(podcast, 's')" src="${thumb.url}" width="${thumb.x}" height="${thumb.y}" alt="" />
 							</span>
-							<span class="grid-desc" py:content="h.truncate(h.strip_xhtml(podcast.description), 155)">Description</span><br />
+							<span class="grid-desc mcore-text" py:content="h.truncate(h.strip_xhtml(podcast.description), 145)">Description</span><br />
 							<span class="grid-meta">
 								<span class="meta meta-episodes" title="Podcast Episodes">
 									${podcast.media_count_published}
