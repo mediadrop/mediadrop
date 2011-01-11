@@ -45,7 +45,10 @@
 }
 .comment cite {
 	color: #2f3439;
-	font: italic bold 17px/16px Georgia, serif;
+	font-style: normal;
+	font-weight: bold;
+	font-size: 17px;
+	line-height: 16px;
 }
 .comment cite span {
 	color: #637084;

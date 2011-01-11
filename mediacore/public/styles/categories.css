@@ -3,7 +3,8 @@
 	width: 210px;
 }
 .category-list {
-	font: bold 16px 'Trebuchet MS', sans-serif;
+	font-weight: bold;
+	font-size: 16px;
 }
 .category-list li {
 	margin-bottom: 10px;

@@ -16,7 +16,6 @@
  */
 .column {
 	font-size: 16px;
-	font-family: 'Helvetica Neue', Helvetica, Arial, 'Liberation Sans', FreeSans, sans-serif;
 	margin: 0 auto;
 	width: 500px;
 }
@@ -43,8 +42,6 @@
 .column label,
 .column h1,
 .column h2 {
-	font-family: georgia, serif;
-	font-style: italic;
 	font-weight: bold;
 }
 .column label {

@@ -65,7 +65,9 @@
 .podcast-episodes li a:visited {
 	padding-left: 18px;
 	display: block;
-	font: bold 13px/18px 'Trebuchet MS', sans-serif;
+	font-weight: bold;
+	font-size: 13px;
+	line-height: 18px;
 }
 .podcast-box .meta-go {
 	position: absolute;

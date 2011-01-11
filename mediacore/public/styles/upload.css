@@ -131,7 +131,6 @@ div#upload-status.active span.text {
 	height: 75px;
 }
 .italic, div#rightbar em {
-	font-family: Georgia, serif;
 	font-style: italic;
 	font-weight: bold;
 	color: #494949;
