@@ -311,86 +311,6 @@ class FlowPlayer(AbstractFlashPlayer):
 
 AbstractFlashPlayer.register(FlowPlayer)
 
-
-class JWPlayer(AbstractFlashPlayer):
-    """
-    JWPlayer (Flash)
-    """
-    name = u'jwplayer'
-    """A unicode string identifier for this class."""
-
-    display_name = N_(u'JWPlayer')
-    """A unicode display name for the class, to be used in the settings UI."""
-
-    supported_containers = AbstractFlashPlayer.supported_containers
-#    supported_containers.add('youtube')
-    supported_types = set([AUDIO, VIDEO, AUDIO_DESC, CAPTIONS])
-    supported_schemes = set([HTTP, RTMP])
-
-    providers = {
-        AUDIO: 'sound',
-        VIDEO: 'video',
-    }
-
-    # Height adjustment in pixels to accomodate the control bar and stay 16:9
-    _height_diff = 24
-
-    def swf_url(self):
-        """Return the flash player URL."""
-        return url_for('/scripts/third-party/jw_player/player.swf',
-                       qualified=self.qualified)
-
-    def flashvars(self):
-        """Return a python dict of flashvars for this player."""
-        youtube = self.get_uris(container='youtube')
-        rtmp = self.get_uris(scheme=RTMP)
-        http = self.get_uris(scheme=HTTP)
-        audio_desc = self.get_uris(type=AUDIO_DESC)
-        captions = self.get_uris(type=CAPTIONS)
-
-        vars = {
-            'image': thumb_url(self.media, 'l', qualified=self.qualified),
-            'autostart': self.autoplay,
-        }
-        if youtube:
-            vars['provider'] = 'youtube'
-            vars['file'] = str(youtube[0])
-        elif rtmp:
-            if len(rtmp) > 1:
-                # For multiple RTMP bitrates, use Media RSS playlist
-                vars = {}
-                vars['playlistfile'] = url_for(
-                    controller='/media',
-                    action='jwplayer_rtmp_mrss',
-                    slug=self.media.slug,
-                )
-            else:
-                # For a single RTMP stream, use regular Flash vars.
-                rtmp_uri = rtmp[0]
-                vars['file'] = rtmp_uri.file_uri
-                vars['streamer'] = rtmp_uri.server_uri
-            vars['provider'] = 'rtmp'
-        else:
-            http_uri = http[0]
-            vars['provider'] = self.providers[http_uri.file.type]
-            vars['file'] = str(http_uri)
-
-        plugins = []
-        if rtmp:
-            plugins.append('rtmp')
-        if audio_desc:
-            plugins.append('audiodescription')
-            vars['audiodescription.file'] = audio_desc[0].uri
-        if captions:
-            plugins.append('captions')
-            vars['captions.file'] = captions[0].uri
-        if plugins:
-            vars['plugins'] = ','.join(plugins)
-
-        return vars
-
-AbstractFlashPlayer.register(JWPlayer)
-
 ###############################################################################
 
 class AbstractEmbedPlayer(AbstractPlayer):
@@ -779,6 +699,87 @@ class HTML5PlusFlowPlayer(AbstractHTML5Player):
         return error_text or u''
 
 AbstractHTML5Player.register(HTML5PlusFlowPlayer)
+
+###############################################################################
+
+class JWPlayer(AbstractHTML5Player):
+    """
+    JWPlayer (Flash)
+    """
+    name = u'jwplayer'
+    """A unicode string identifier for this class."""
+
+    display_name = N_(u'JWPlayer')
+    """A unicode display name for the class, to be used in the settings UI."""
+
+    supported_containers = AbstractFlashPlayer.supported_containers
+#    supported_containers.add('youtube')
+    supported_types = set([AUDIO, VIDEO, AUDIO_DESC, CAPTIONS])
+    supported_schemes = set([HTTP, RTMP])
+
+    providers = {
+        AUDIO: 'sound',
+        VIDEO: 'video',
+    }
+
+    # Height adjustment in pixels to accomodate the control bar and stay 16:9
+    _height_diff = 24
+
+    def swf_url(self):
+        """Return the flash player URL."""
+        return url_for('/scripts/third-party/jw_player/player.swf',
+                       qualified=self.qualified)
+
+    def flashvars(self):
+        """Return a python dict of flashvars for this player."""
+        youtube = self.get_uris(container='youtube')
+        rtmp = self.get_uris(scheme=RTMP)
+        http = self.get_uris(scheme=HTTP)
+        audio_desc = self.get_uris(type=AUDIO_DESC)
+        captions = self.get_uris(type=CAPTIONS)
+
+        vars = {
+            'image': thumb_url(self.media, 'l', qualified=self.qualified),
+            'autostart': self.autoplay,
+        }
+        if youtube:
+            vars['provider'] = 'youtube'
+            vars['file'] = str(youtube[0])
+        elif rtmp:
+            if len(rtmp) > 1:
+                # For multiple RTMP bitrates, use Media RSS playlist
+                vars = {}
+                vars['playlistfile'] = url_for(
+                    controller='/media',
+                    action='jwplayer_rtmp_mrss',
+                    slug=self.media.slug,
+                )
+            else:
+                # For a single RTMP stream, use regular Flash vars.
+                rtmp_uri = rtmp[0]
+                vars['file'] = rtmp_uri.file_uri
+                vars['streamer'] = rtmp_uri.server_uri
+            vars['provider'] = 'rtmp'
+        else:
+            http_uri = http[0]
+            vars['provider'] = self.providers[http_uri.file.type]
+            vars['file'] = str(http_uri)
+
+        plugins = []
+        if rtmp:
+            plugins.append('rtmp')
+        if audio_desc:
+            plugins.append('audiodescription')
+            vars['audiodescription.file'] = audio_desc[0].uri
+        if captions:
+            plugins.append('captions')
+            vars['captions.file'] = captions[0].uri
+        if plugins:
+            vars['plugins'] = ','.join(plugins)
+
+        return vars
+
+AbstractHTML5Player.register(JWPlayer)
 
 ###############################################################################
 
