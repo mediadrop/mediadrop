@@ -100,12 +100,13 @@ label .field_help {
 
 .thumb {
 	margin: 0 auto 10px auto;
-	border: 5px solid #989790;
-	-moz-border-radius: 5px;
-	-webkit-border-radius: 5px;
+	border: 1px solid #b4bac3;
+	width: 160px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	padding: 3px;
 }
 .thumb img {
-	border: 1px solid #fff;
 	display: block;
 }
 

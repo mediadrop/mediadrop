@@ -109,7 +109,7 @@
 				<h1>Thumbnail</h1>
 			</div>
 			<div class="box-content center">
-				<div class="thumb" py:with="thumb = h.thumb(podcast, 'm')" style="width:${thumb.x + 2}px">
+				<div class="thumb" py:with="thumb = h.thumb(podcast, 'm')">
 					<img id="thumb-img" alt="Thumb"
 					     src="${thumb.url}" width="${thumb.x}" height="${thumb.y}" />
 				</div>
