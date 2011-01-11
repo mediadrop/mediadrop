@@ -46,10 +46,7 @@ appearance_settings = [
     (u'appearance_display_background_image', u'True'),
     (u'appearance_custom_css', u''),
     (u'appearance_custom_header_html', u''),
-    (u'appearance_custom_footer_html', u'<!--! If you remove this link, '   \
-        + 'please consider adding another link somewhere on your site. -->' \
-        + '<p>powered by <a href="http://getmediacore.com/"' \
-        + '>MediaCore Video Platform</a></p>'),
+    (u'appearance_custom_footer_html', u''),
 ]
 
 def setup_app(command, conf, vars):
