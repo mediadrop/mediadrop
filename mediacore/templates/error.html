@@ -26,7 +26,6 @@
 </head>
 <body>
 	<div class="column">
-		<img src="${h.url_for('/images/layout/404.png')}" alt="This page has gone missing!" />
 		<h1>Whoopsadaisy!</h1>
 		<py:choose test="code">
 			<py:when test="404">
@@ -53,7 +52,7 @@
 				<label for="email">What were you looking for when you got the error?</label>
 				<textarea class="textarea" name="description" id="description" rows="8" cols="79" />
 			</div>
-			<div>
+			<div class="clearfix">
 				<button class="mcore-btn f-rgt" type="submit"><span>Submit Error Report</span></button>
 			</div>
 		</form>
