@@ -720,6 +720,8 @@ a:focus .grid-title {
 	overflow: hidden;
 }
 .mcore-excerpt-toggle {
+	font-size: 18px;
+	line-height: 12px;
 	color: #0F7CB4;
 	font-weight: bold;
 }

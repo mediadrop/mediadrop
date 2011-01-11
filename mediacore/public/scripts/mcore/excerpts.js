@@ -133,7 +133,7 @@ mcore.excerpts.Excerpt.prototype.showExcerpt = function(show) {
   this.excerpt.style.display = show ? 'block' : 'none';
   this.fulltext.style.display = show ? 'none' : 'block';
   this.injectToggle(show ? this.excerpt : this.fulltext);
-  this.dom_.setTextContent(this.toggleButton, show ? 'more' : 'less');
+  this.toggleButton.innerHTML = show ? '&raquo;' : '&laquo;';
   this.isExcerptShown = show;
 };
 
