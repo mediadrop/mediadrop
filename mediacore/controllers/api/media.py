@@ -363,15 +363,21 @@ class MediaController(BaseController):
 
     def _file_info(self, file, media):
         """Return a JSON-ready dict for the media file including links."""
-
-        return dict(
+        uris = []
+        info = dict(
             container = file.container,
             type = file.type,
             display_name = file.display_name,
             created = file.created_on.isoformat(),
             link = helpers.url_for(controller='/media', action='view',
                                    slug=media.slug, qualified=True),
-            content = helpers.url_for(controller='/media', action='serve',
-                                      id=file.id, container=file.container,
-                                      slug=media.slug, qualified=True),
+            uris = uris,
         )
+        for uri in file.get_uris():
+            uris.append({
+                'scheme': uri.scheme,
+                'uri': str(uri),
+                'server_uri': uri.server_uri,
+                'file_uri': uri.file_uri,
+            })
+        return info
