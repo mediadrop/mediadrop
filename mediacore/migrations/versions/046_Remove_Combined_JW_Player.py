@@ -20,15 +20,32 @@ data = '{"prefer_flash": false}'
 
 def upgrade(migrate_engine):
     metadata.bind = migrate_engine
-    query = players.delete().where(players.c.name==name)
-    migrate_engine.execute(query)
+    conn = migrate_engine.connect()
+
+    # Before we delete the html5+jwplayer row, we want to ensure that the
+    # standalone jwplayer will take the higher priority of the two.
+
+    # Get the existing enabled/disabled and priority settings for both players
+    query = select([players.c.name, players.c.enabled, players.c.priority])\
+        .where(players.c.name.in_([u'jwplayer', u'html5+jwplayer']))
+
+    # Create a dictionary where the enabled, most favored player (key)
+    # evaluates to be *less than* the other.
+    opts = dict((name, (not enabled, priority))
+                for name, enabled, priority
+                in conn.execute(query))
+
+    # If html5+jwplayer is enabled and jwplayer is not or if they share an
+    # enabled state and the html5+jwplayer is more preferred than jwplayer.
+    if opts[u'html5+jwplayer'] < opts[u'jwplayer']:
+        update_query = players.update()\
+            .where(players.c.name == u'jwplayer')\
+            .values(enabled=not opts[u'html5+jwplayer'][0], # un-negate above query
+                    priority=opts[u'html5+jwplayer'][1])
+        conn.execute(update_query)
+
+    delete_query = players.delete().where(players.c.name == u'html5+jwplayer')
+    conn.execute(delete_query)
 
 def downgrade(migrate_engine):
-    metadata.bind = migrate_engine
-    count_query = players.select()
-    all_players = migrate_engine.execute(count_query).fetchall()
-    next_priority = len(all_players) + 1
-
-    add_query = players.insert().values(
-            name=name, data=data, priority=next_priority)
-    migrate_engine.execute(add_query)
+    raise NotImplementedError()
