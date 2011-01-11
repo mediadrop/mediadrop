@@ -444,18 +444,18 @@ a:focus .grid-title {
 	display: block;
 	overflow: hidden;
 	position: relative;
-	width: 130px;
+	width: 128px;
 	float: left;
+	border: 1px solid #cdd2d5;
 }
-.thumb-wrap img {
+.thumb-wrap > img {
 	display: block;
-	border: 1px solid #b0b0b0;
 }
 .thumb-duration,
 .thumb-duration-right {
 	position: absolute;
 	height: 16px;
-	line-height: 16px;
+	line-height: 18px;
 	bottom: 3px;
 	right: 9px;
 	padding-left: 7px;
@@ -470,12 +470,19 @@ a:focus .grid-title {
 
 /* Overrides for full size thumbs */
 .m-grid .thumb-wrap {
-	width: 162px;
+	width: 160px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	padding: 3px;
+}
+.m-grid .thumb-duration,
+.m-grid .thumb-duration-right {
+	margin: 3px;
 }
 .m-grid .grid-title,
 .m-grid .grid-desc,
 .m-grid .grid-meta {
-	width: 263px;
+	width: 259px;
 }
 
 .m-grid-column,
@@ -512,7 +519,7 @@ a:focus .grid-title {
 .mcore-view-more {
 	position: relative;
 	margin-top: -10px;
-	width: 162px;
+	width: 168px;
 	clear: both;
 	float: left;
 }
