@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: MediaCore Video Platform\n"
 "Report-Msgid-Bugs-To: http://github.com/simplestation/mediacore/issues\n"
 "POT-Creation-Date: 2010-12-28 15:49-0800\n"
-"PO-Revision-Date: 2010-12-31 03:02+0000\n"
-"Last-Translator: Dimmus <dmitri.chudinov@gmail.com>\n"
+"PO-Revision-Date: 2011-01-11 23:18+0000\n"
+"Last-Translator: Webman <alex@susorov.ru>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -32,7 +32,7 @@ msgstr "Указаны неверные параметры плеера."
 
 #: mediacore/controllers/media.py:346
 msgid "Your comment has been rejected."
-msgstr "Ваш комментарий был откланен."
+msgstr "Ваш комментарий был отклонён."
 
 #: mediacore/controllers/media.py:367
 msgid "Thank you for your comment! We will post it just as soon as a moderator approves it."
@@ -58,11 +58,11 @@ msgstr "Неподдерживаемый тип изображения: %s"
 
 #: mediacore/forms/__init__.py:219
 msgid "The portion of the email address before the @ is invalid"
-msgstr "Часть почтового адреса перед @ не правильна"
+msgstr "Часть почтового адреса перед @ не верна"
 
 #: mediacore/forms/__init__.py:220
 msgid "The portion of this email address after the @ is invalid"
-msgstr "Часть почтового адреса после @ не правильна"
+msgstr "Часть почтового адреса после @ не верна"
 
 #: mediacore/forms/comments.py:23
 msgid "Please enter your name!"
@@ -86,7 +86,7 @@ msgstr "Ваше имя:"
 
 #: mediacore/forms/uploader.py:56
 msgid "Your Email:"
-msgstr "Ваш почтовый адрес:"
+msgstr "Ваш Email:"
 
 #: mediacore/forms/uploader.py:56
 msgid "(will never be published)"
@@ -797,7 +797,7 @@ msgstr "Подкаталог на сервере для загрузки"
 
 #: mediacore/forms/admin/storage/ftp.py:37
 msgid "How many times should MediaCore try to verify the FTP upload before declaring it a failure?"
-msgstr "Сколько раз MediaCore должен пытаться проверять закачку до объявления о его провале?"
+msgstr "Сколько раз MediaCore должен пытаться проверять закачку до объявления о провале?"
 
 #: mediacore/forms/admin/storage/ftp.py:38
 msgid "HTTP URL to access remotely stored files"
@@ -813,36 +813,36 @@ msgstr "Параметры специфичные для хранения лок
 
 #: mediacore/forms/admin/storage/localfiles.py:29
 msgid "Path to store files under"
-msgstr ""
+msgstr "Путь для хранения файлов"
 
 #: mediacore/forms/admin/storage/localfiles.py:30
 msgid "Defaults to the \"data_dir\" from your INI file."
-msgstr ""
+msgstr "Значение \"data_dir\" в INI файле."
 
 #: mediacore/forms/admin/storage/localfiles.py:33
 msgid "RTMP Server URL"
-msgstr ""
+msgstr "RTMP URL сервера"
 
 #: mediacore/forms/admin/storage/localfiles.py:34
 msgid "Files must be accessible under the same name as they are stored with locally."
-msgstr ""
+msgstr "Файлы должны быть доступны под теми же именами, что и в локальном хранилище."
 
 #: mediacore/forms/admin/storage/remoteurls.py:26
 msgid "Add another URL"
-msgstr ""
+msgstr "Добавить другой адрес"
 
 #: mediacore/forms/admin/storage/remoteurls.py:55
 msgid "RTMP server URLs must begin with rtmp://"
-msgstr ""
+msgstr "RTMP URL сервера должен начинаться с rtmp: / /"
 
 #: mediacore/forms/admin/storage/remoteurls.py:62
 msgid "RTMP Servers:"
-msgstr ""
+msgstr "RTMP сервера:"
 
 #: mediacore/lib/email.py:86
 #, python-format
 msgid "New %(type)s: %(title)s"
-msgstr ""
+msgstr "Новые %(type)s: %(title)s"
 
 #: mediacore/lib/email.py:87
 #, python-format
@@ -857,11 +857,20 @@ msgid ""
 "\n"
 "Description: %(clean_description)s\n"
 msgstr ""
+"Был загружен новый %(type)s файл!\n"
+"\n"
+"Заголовок: %(title)s\n"
+"\n"
+"Автор: %(author_name)s (%(author_email)s)\n"
+"\n"
+"Ссылка: %(edit_url)s\n"
+"\n"
+"Описание: %(clean_description)s\n"
 
 #: mediacore/lib/email.py:110
 #, python-format
 msgid "New Comment: %(comment_subject)s"
-msgstr ""
+msgstr "Новый комментарий: %(comment_subject)s"
 
 #: mediacore/lib/email.py:111
 #, python-format
@@ -873,11 +882,17 @@ msgid ""
 "\n"
 "Body: %(comment_body)s\n"
 msgstr ""
+"Был добавлен новый комментарий!\n"
+"\n"
+"Автор: %(author_name)s\n"
+"Ссылка: %(post_url)s\n"
+"\n"
+"Сообщение: %(comment_body)s\n"
 
 #: mediacore/lib/email.py:128
 #, python-format
 msgid "New Support Request: %(email)s"
-msgstr ""
+msgstr "Новый Запрос поддержки: %(email)s"
 
 #: mediacore/lib/email.py:129
 #, python-format
@@ -897,101 +912,115 @@ msgid ""
 "POST_VARS:\n"
 "%(post_vars)s\n"
 msgstr ""
+"Пользователь попросил помощи\n"
+"\n"
+"Email: %(email)s\n"
+"\n"
+"URL: %(url)s\n"
+"\n"
+"Описание: %(description)s\n"
+"\n"
+"GET_VARS:\n"
+"%(get_vars)s\n"
+"\n"
+"\n"
+"POST_VARS:\n"
+"%(post_vars)s\n"
 
 #: mediacore/lib/helpers.py:314
 msgid "Help"
-msgstr ""
+msgstr "Справка"
 
 #: mediacore/lib/players.py:295
 msgid "Flowplayer"
-msgstr ""
+msgstr "Плавающий плеер"
 
 #: mediacore/lib/players.py:350
 msgid "JWPlayer"
-msgstr ""
+msgstr "JWPlayer"
 
 #: mediacore/lib/players.py:506 mediacore/lib/storage/vimeo.py:36
 msgid "Vimeo"
-msgstr ""
+msgstr "Vimeo"
 
 #: mediacore/lib/players.py:540 mediacore/lib/storage/dailymotion.py:37
 msgid "Daily Motion"
-msgstr ""
+msgstr "Daily Motion"
 
 #: mediacore/lib/players.py:583 mediacore/lib/storage/youtube.py:36
 msgid "YouTube"
-msgstr ""
+msgstr "YouTube"
 
 #: mediacore/lib/players.py:618 mediacore/lib/storage/googlevideo.py:35
 msgid "Google Video"
-msgstr ""
+msgstr "Google Video"
 
 #: mediacore/lib/players.py:640 mediacore/lib/storage/bliptv.py:37
 msgid "BlipTV"
-msgstr ""
+msgstr "BlipTV"
 
 #: mediacore/lib/players.py:723
 msgid "Plain HTML5 Player"
-msgstr ""
+msgstr "Обычный плеер HTML5"
 
 #: mediacore/lib/players.py:738
 msgid "HTML5 + Flowplayer Fallback"
-msgstr ""
+msgstr "HTML5 + FlowPlayer"
 
 #: mediacore/lib/players.py:799
 msgid "HTML5 + JWPlayer Fallback"
-msgstr ""
+msgstr "HTML5 + JWPlayer"
 
 #: mediacore/lib/players.py:854
 msgid "Sublime Video Player"
-msgstr ""
+msgstr "Sublime Video Player"
 
 #: mediacore/lib/players.py:896
 msgid "iTunes Player"
-msgstr ""
+msgstr "iTunes плеер"
 
 #: mediacore/lib/storage/__init__.py:351
 msgid "Unusable file or URL provided."
-msgstr ""
+msgstr "Недопустимый файл или URL источника"
 
 #: mediacore/lib/storage/ftp.py:50
 msgid "FTP Storage"
-msgstr ""
+msgstr "FTP хранилище"
 
 #: mediacore/lib/storage/ftp.py:103
 #, python-format
 msgid "Could not upload the file from your FTP server: %s"
-msgstr ""
+msgstr "Невозможно загрузить файл на ваш FTP сервер: %s"
 
 #: mediacore/lib/storage/ftp.py:197
 msgid "The file transferred to your FTP server is corrupted. Please try again."
-msgstr ""
+msgstr "При загрузке файла на ваш FTP возникла ошибка. Попробуйте еще раз."
 
 #: mediacore/lib/storage/ftp.py:202
 #, python-format
 msgid "Could not download the file from your FTP server: %s"
-msgstr ""
+msgstr "Невозможно загрузить файл с вашего FTP-сервера: %s"
 
 #: mediacore/lib/storage/localfiles.py:34
 msgid "Local File Storage"
-msgstr ""
+msgstr "Локальное файловое хранилище"
 
 #: mediacore/lib/storage/remoteurls.py:37
 msgid "Remote URLs"
-msgstr ""
+msgstr "Удаленные URL"
 
 #: mediacore/lib/storage/s3.py:27
 msgid "Amazon S3"
-msgstr ""
+msgstr "Amazon S3"
 
 #: mediacore/templates/error.html:24
 #, python-format
 msgid "A %(code)s Error has Occurred"
-msgstr ""
+msgstr "Произошла ошибка: %(code)s"
 
 #: mediacore/templates/error.html:29
 msgid "This page has gone missing!"
-msgstr ""
+msgstr "Эта страница не найдена!"
 
 #: mediacore/templates/error.html:30
 msgid "Whoopsadaisy!"
@@ -999,39 +1028,39 @@ msgstr ""
 
 #: mediacore/templates/error.html:33
 msgid "We can't find this page. The page may have been moved or removed."
-msgstr ""
+msgstr "Мы не можем найти данную страницу. Возможно она была перемещена или удалена."
 
 #: mediacore/templates/error.html:34
 msgid "If you typed the address in, check the spelling."
-msgstr ""
+msgstr "Если вы вводили адрес сами, проверьте его на ошибки."
 
 #: mediacore/templates/error.html:39
 msgid "You have a few options:"
-msgstr ""
+msgstr "У вас есть несколько вариантов:"
 
 #: mediacore/templates/error.html:41
 msgid "Return to the [1:homepage]."
-msgstr ""
+msgstr "Вернутся на [1:главную]"
 
 #: mediacore/templates/error.html:42
 msgid "Return to the [1:media page]."
-msgstr ""
+msgstr "Вернутся на [1:страницу с видео]."
 
 #: mediacore/templates/error.html:43
 msgid "Fill out an error report below."
-msgstr ""
+msgstr "Заполнить отчет об ошибке в форме, что находится чуть ниже."
 
 #: mediacore/templates/error.html:49
 msgid "Email: (so we can contact you if we find it!)"
-msgstr ""
+msgstr "Email: (что бы мы могли связаться с вами, в случае необходимости!)"
 
 #: mediacore/templates/error.html:53
 msgid "What were you looking for when you got the error?"
-msgstr ""
+msgstr "Что вы делали, перед тем как увидели эту ошибку?"
 
 #: mediacore/templates/error.html:57
 msgid "Submit Error Report"
-msgstr ""
+msgstr "Отправить отчет об ошибке"
 
 #: mediacore/templates/helpers.html:37
 #: mediacore/templates/media/explore.html:87
@@ -1051,26 +1080,26 @@ msgstr[3] ""
 #: mediacore/templates/media/view.html:58
 msgid "View"
 msgid_plural "Views"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Просмотр"
+msgstr[1] "Просмотра"
+msgstr[2] "Просмотров"
+msgstr[3] "Просмотров"
 
 #: mediacore/templates/helpers.html:58
 msgid "Page:"
-msgstr ""
+msgstr "Страница:"
 
 #: mediacore/templates/helpers.html:59
 msgid "Previous"
-msgstr ""
+msgstr "Предыдущая"
 
 #: mediacore/templates/helpers.html:72
 msgid "Next"
-msgstr ""
+msgstr "Следующая"
 
 #: mediacore/templates/helpers.html:78
 msgid "Show:"
-msgstr ""
+msgstr "Показать:"
 
 #: mediacore/templates/helpers.html:80
 #: mediacore/templates/categories/index.html:31
@@ -1079,19 +1108,19 @@ msgstr ""
 #: mediacore/templates/media/explore.html:111
 #: mediacore/templates/media/index.html:25
 msgid "Latest"
-msgstr ""
+msgstr "Последние"
 
 #: mediacore/templates/helpers.html:81
 #: mediacore/templates/categories/index.html:45
 #: mediacore/templates/media/explore.html:95
 msgid "Most Popular"
-msgstr ""
+msgstr "Популярные"
 
 #: mediacore/templates/helpers.html:82
 #: mediacore/templates/media/explore.html:44
 #: mediacore/templates/media/explore.html:79
 msgid "Featured"
-msgstr ""
+msgstr "Самое популярное"
 
 #: mediacore/templates/helpers.html:90
 #, python-format
@@ -1100,58 +1129,58 @@ msgstr ""
 
 #: mediacore/templates/layout.html:57
 msgid "Feeds:"
-msgstr ""
+msgstr "Ленты:"
 
 #: mediacore/templates/layout.html:63 mediacore/templates/admin/master.html:31
 #: mediacore/templates/admin/master.html:50
 msgid "MediaCore"
-msgstr ""
+msgstr "MediaCore"
 
 #: mediacore/templates/layout.html:63
 msgid "video platform"
-msgstr ""
+msgstr "видео платформа"
 
 #: mediacore/templates/login.html:23
 msgid "Login to MediaCore"
-msgstr ""
+msgstr "Войти в MediaCore"
 
 #: mediacore/templates/login.html:45 mediacore/templates/login.html:56
 msgid "Login"
-msgstr ""
+msgstr "Вход"
 
 #: mediacore/templates/login.html:48
 msgid "Username:"
-msgstr ""
+msgstr "Имя пользователя:"
 
 #: mediacore/templates/login.html:52
 msgid "Password:"
-msgstr ""
+msgstr "Пароль:"
 
 #: mediacore/templates/master.html:55
 msgid "Explore"
-msgstr ""
+msgstr "Обзор"
 
 #: mediacore/templates/master.html:56 mediacore/templates/media/index.html:24
 msgid "Media Library"
-msgstr ""
+msgstr "Библиотека"
 
 #: mediacore/templates/master.html:57 mediacore/templates/admin/master.html:61
 #: mediacore/templates/admin/podcasts/index.html:24
 #: mediacore/templates/admin/podcasts/index.html:31
 msgid "Podcasts"
-msgstr ""
+msgstr "Подкасты"
 
 #: mediacore/templates/master.html:62
 msgid "Search"
-msgstr ""
+msgstr "Поиск"
 
 #: mediacore/templates/admin/helpers.html:66
 msgid "Moderate comments"
-msgstr ""
+msgstr "Модерировать комментарии"
 
 #: mediacore/templates/admin/helpers.html:68
 msgid "Moderate"
-msgstr ""
+msgstr "Модерировать"
 
 #: mediacore/templates/admin/helpers.html:69
 #: mediacore/templates/admin/master.html:62
@@ -1162,7 +1191,7 @@ msgstr ""
 #: mediacore/templates/admin/settings/master.html:53
 #: mediacore/templates/comments/_list.html:49
 msgid "Comments"
-msgstr ""
+msgstr "Комментарии"
 
 #: mediacore/templates/admin/helpers.html:81
 #: mediacore/templates/admin/comments/_comment-table.html:42
@@ -1171,7 +1200,7 @@ msgstr ""
 #: mediacore/templates/admin/media/index.html:124
 #: mediacore/templates/admin/media/update-status-form.html:93
 msgid "Published"
-msgstr ""
+msgstr "Опубликовано"
 
 #: mediacore/templates/admin/helpers.html:85
 #: mediacore/templates/admin/media/_media-table.html:54
@@ -1182,43 +1211,43 @@ msgstr ""
 #: mediacore/templates/admin/helpers.html:89
 #: mediacore/templates/admin/comments/_comment-table.html:44
 msgid "Trash"
-msgstr ""
+msgstr "Корзина"
 
 #: mediacore/templates/admin/index.html:24
 #: mediacore/templates/admin/master.html:53
 msgid "Dashboard"
-msgstr ""
+msgstr "Главная"
 
 #: mediacore/templates/admin/index.html:54
 msgid "Awaiting Review"
-msgstr ""
+msgstr "Ожидают обзора"
 
 #: mediacore/templates/admin/index.html:59
 msgid "Awaiting Encoding"
-msgstr ""
+msgstr "Ожидают конвертации"
 
 #: mediacore/templates/admin/index.html:64
 msgid "Awaiting Publishing"
-msgstr ""
+msgstr "Ожидают публикации"
 
 #: mediacore/templates/admin/index.html:71
 #: mediacore/templates/admin/media/edit.html:23
 #: mediacore/templates/admin/media/edit.html:153
 #: mediacore/templates/admin/media/index.html:84
 msgid "Add New Media"
-msgstr ""
+msgstr "Добавить новый файл"
 
 #: mediacore/templates/admin/index.html:77
 msgid "Recently Published"
-msgstr ""
+msgstr "Последнее опубликованное"
 
 #: mediacore/templates/admin/master.html:54
 msgid "View Site"
-msgstr ""
+msgstr "На сайт"
 
 #: mediacore/templates/admin/master.html:55
 msgid "Logout"
-msgstr ""
+msgstr "Выход"
 
 #: mediacore/templates/admin/master.html:60
 #: mediacore/templates/admin/categories/index.html:88
@@ -1226,22 +1255,22 @@ msgstr ""
 #: mediacore/templates/admin/media/index.html:25
 #: mediacore/templates/admin/tags/index.html:67
 msgid "Media"
-msgstr ""
+msgstr "Файлы"
 
 #: mediacore/templates/admin/master.html:64
 #: mediacore/templates/admin/users/index.html:24
 #: mediacore/templates/admin/users/index.html:45
 msgid "Users"
-msgstr ""
+msgstr "Пользователи"
 
 #: mediacore/templates/admin/master.html:65
 #: mediacore/templates/admin/settings/master.html:41
 msgid "Settings"
-msgstr ""
+msgstr "Настройки"
 
 #: mediacore/templates/admin/master.html:71
 msgid "copyright 2009 simple station inc"
-msgstr ""
+msgstr "copyright 2009 simple station inc"
 
 #: mediacore/templates/admin/categories/index.html:45
 #: mediacore/templates/admin/categories/index.html:62
@@ -1256,7 +1285,7 @@ msgstr ""
 #: mediacore/templates/admin/users/edit.html:32
 #: mediacore/templates/admin/users/index.html:33
 msgid "Confirm Delete"
-msgstr ""
+msgstr "Подтвердить удаление"
 
 #: mediacore/templates/admin/categories/index.html:46
 #: mediacore/templates/admin/categories/index.html:63
@@ -1265,47 +1294,47 @@ msgstr ""
 #: mediacore/templates/admin/tags/index.html:43
 #, python-format
 msgid "Are you sure you want to delete these %(num)s items?"
-msgstr ""
+msgstr "Вы уверены, что хотите удалить эти файлы: %(num)s"
 
 #: mediacore/templates/admin/categories/index.html:78
 #: mediacore/templates/admin/categories/index.html:130
 msgid "Add Category"
-msgstr ""
+msgstr "Добавить категорию"
 
 #: mediacore/templates/admin/categories/index.html:79
 #: mediacore/templates/admin/categories/index.html:108
 #: mediacore/templates/admin/tags/index.html:58
 msgid "Bulk Delete"
-msgstr ""
+msgstr "Массовое удаление"
 
 #: mediacore/templates/admin/categories/index.html:107
 #: mediacore/templates/admin/categories/index.html:150
 #: mediacore/templates/admin/tags/index.html:57
 #: mediacore/templates/admin/tags/index.html:79
 msgid "Add Tag"
-msgstr ""
+msgstr "Добавить тег"
 
 #: mediacore/templates/admin/categories/index.html:134
 msgid "Edit Category"
-msgstr ""
+msgstr "Изменить категорию"
 
 #: mediacore/templates/admin/categories/index.html:138
 msgid "Delete Category"
-msgstr ""
+msgstr "Удалить категорию"
 
 #: mediacore/templates/admin/categories/index.html:141
 msgid "Are you sure you want to delete this category [1:and ALL of its children]?"
-msgstr ""
+msgstr "Вы уверены, что хотите удалить эту категорию [1:и ВСЕ подкатегории]?"
 
 #: mediacore/templates/admin/categories/index.html:154
 #: mediacore/templates/admin/tags/index.html:83
 msgid "Edit Tag"
-msgstr ""
+msgstr "Изменить тег"
 
 #: mediacore/templates/admin/categories/index.html:158
 #: mediacore/templates/admin/tags/index.html:87
 msgid "Delete Tag"
-msgstr ""
+msgstr "Удалить тег"
 
 #: mediacore/templates/admin/categories/index.html:161
 #: mediacore/templates/admin/media/edit.html:73
@@ -1315,7 +1344,7 @@ msgstr ""
 #: mediacore/templates/admin/tags/index.html:90
 #: mediacore/templates/admin/users/edit.html:33
 msgid "Are you sure you want to delete this?"
-msgstr ""
+msgstr "Вы уверены, что хотите удалить это?"
 
 #: mediacore/templates/admin/categories/row-form.html:40
 #: mediacore/templates/admin/comments/_comment-table.html:61
@@ -1330,23 +1359,23 @@ msgstr ""
 #: mediacore/templates/media/view.html:46
 #: mediacore/templates/podcasts/view.html:41
 msgid "Edit"
-msgstr ""
+msgstr "Изменить"
 
 #: mediacore/templates/admin/comments/_comment-table.html:29
 #: mediacore/templates/admin/media/_media-table.html:32
 #: mediacore/templates/admin/players/index.html:52
 #: mediacore/templates/admin/storage/index.html:118
 msgid "Status"
-msgstr ""
+msgstr "Статус"
 
 #: mediacore/templates/admin/comments/_comment-table.html:30
 #: mediacore/templates/admin/media/_media-table.html:36
 msgid "Author"
-msgstr ""
+msgstr "Автор"
 
 #: mediacore/templates/admin/comments/_comment-table.html:32
 msgid "In Response to"
-msgstr ""
+msgstr "В ответ на"
 
 #: mediacore/templates/admin/comments/_comment-table.html:37
 #: mediacore/templates/admin/media/_media-table.html:43
@@ -1355,31 +1384,31 @@ msgstr ""
 #: mediacore/templates/admin/storage/index.html:127
 #: mediacore/templates/admin/users/index.html:60
 msgid "None Found"
-msgstr ""
+msgstr "Ничего не найдено"
 
 #: mediacore/templates/admin/comments/_comment-table.html:42
 msgid "This comment has already been approved for publishing"
-msgstr ""
+msgstr "Этот комментарий уже одобрен для публикации"
 
 #: mediacore/templates/admin/comments/_comment-table.html:43
 msgid "Approve this comment for publishing"
-msgstr ""
+msgstr "Утвердить этот комментарий для публикации"
 
 #: mediacore/templates/admin/comments/_comment-table.html:43
 msgid "Approve"
-msgstr ""
+msgstr "Утвердить"
 
 #: mediacore/templates/admin/comments/_comment-table.html:44
 msgid "Delete this comment"
-msgstr ""
+msgstr "Удалить этот комментарий"
 
 #: mediacore/templates/admin/comments/_comment-table.html:52
 msgid "Submitted on"
-msgstr ""
+msgstr "Опубликовано"
 
 #: mediacore/templates/admin/comments/_comment-table.html:59
 msgid "Go to the admin page for this item"
-msgstr ""
+msgstr "Перейдите в панель администрирования для этого"
 
 #: mediacore/templates/admin/comments/index.html:28
 #, python-format
@@ -1388,20 +1417,20 @@ msgstr ""
 
 #: mediacore/templates/admin/comments/index.html:28
 msgid "Comments for"
-msgstr ""
+msgstr "Комментарий к"
 
 #: mediacore/templates/admin/comments/index.html:40
 msgid "Edit Text"
-msgstr ""
+msgstr "Изменить текст"
 
 #: mediacore/templates/admin/comments/index.html:41
 msgid "Cancel Edit"
-msgstr ""
+msgstr "Отменить редактирование"
 
 #: mediacore/templates/admin/comments/index.html:46
 #, python-format
 msgid "Are you sure you want to delete %(name)s's comment?"
-msgstr ""
+msgstr "Вы уверены, что хотите удалить комментарий %(name)s?"
 
 #: mediacore/templates/admin/comments/index.html:89
 #, python-format
@@ -1410,63 +1439,63 @@ msgstr ""
 
 #: mediacore/templates/admin/comments/index.html:90
 msgid "All Comments"
-msgstr ""
+msgstr "Все комментарии"
 
 #: mediacore/templates/admin/comments/index.html:91
 #, python-format
 msgid "Comments for %(search)s"
-msgstr ""
+msgstr "Комментарии к %(search)s"
 
 #: mediacore/templates/admin/comments/index.html:99
 #: mediacore/templates/admin/media/index.html:92
 msgid "Publish"
-msgstr ""
+msgstr "Опубликовать"
 
 #: mediacore/templates/admin/comments/index.html:106
 #: mediacore/templates/admin/media/index.html:99
 msgid "Bulk Actions"
-msgstr ""
+msgstr "Массовые действия"
 
 #: mediacore/templates/admin/media/_media-table.html:29
 msgid "Publish Date"
-msgstr ""
+msgstr "Дата публикации"
 
 #: mediacore/templates/admin/media/_media-table.html:30
 msgid "Upload Date"
-msgstr ""
+msgstr "Дата загрузки"
 
 #: mediacore/templates/admin/media/_media-table.html:31
 #: mediacore/templates/admin/media/update-status-form.html:41
 msgid "Publish Status"
-msgstr ""
+msgstr "Статус публикации"
 
 #: mediacore/templates/admin/media/_media-table.html:34
 msgid "Number of Comments"
-msgstr ""
+msgstr "Количество комментариев"
 
 #: mediacore/templates/admin/media/_media-table.html:55
 #: mediacore/templates/admin/media/index.html:118
 msgid "Unencoded"
-msgstr ""
+msgstr "Не конвертированно"
 
 #: mediacore/templates/admin/media/_media-table.html:56
 msgid "Draft"
-msgstr ""
+msgstr "Черновик"
 
 #: mediacore/templates/admin/media/_media-table.html:58
 msgid "Publishing..."
-msgstr ""
+msgstr "Публикация..."
 
 #: mediacore/templates/admin/media/edit.html:57
 #: mediacore/templates/admin/podcasts/edit.html:38
 msgid "Saving the file failed. Please try again"
-msgstr ""
+msgstr "Ошибка при сохранении файла. Попробуйте еще раз."
 
 #: mediacore/templates/admin/media/edit.html:58
 #: mediacore/templates/admin/podcasts/edit.html:39
 #, python-format
 msgid "Security error occured (%(text)s)"
-msgstr ""
+msgstr "Ошибка безопасности: (%(text)s)"
 
 #: mediacore/templates/admin/media/edit.html:59
 #: mediacore/templates/admin/podcasts/edit.html:40
@@ -1477,19 +1506,19 @@ msgstr ""
 #: mediacore/templates/admin/media/edit.html:62
 #: mediacore/templates/admin/podcasts/edit.html:43
 msgid "File has already been added, duplicates are not allowed"
-msgstr ""
+msgstr "Такой файл уже существует. Дубликаты не разрешены."
 
 #: mediacore/templates/admin/media/edit.html:63
 #: mediacore/templates/admin/podcasts/edit.html:44
 #, python-format
 msgid "File is too small, the minimal file size is %(size)s"
-msgstr ""
+msgstr "Файл слишком маленький. Минимальный размер файла - %(size)s"
 
 #: mediacore/templates/admin/media/edit.html:64
 #: mediacore/templates/admin/podcasts/edit.html:45
 #, python-format
 msgid "File is too large, the maximum file size is %(size)s"
-msgstr ""
+msgstr "Файл слишком большой. Максимальный размер файла - %(size)s"
 
 #: mediacore/templates/admin/media/edit.html:65
 #: mediacore/templates/admin/podcasts/edit.html:46
@@ -1501,94 +1530,94 @@ msgstr ""
 #: mediacore/templates/admin/podcasts/edit.html:47
 #, python-format
 msgid "File is too big, overall filesize of %(size)s exceeded"
-msgstr ""
+msgstr "Файл слишком большой. Максимальный размер файла должен быть не более %(size)s"
 
 #: mediacore/templates/admin/media/edit.html:85
 #: mediacore/templates/admin/podcasts/edit.html:71
 msgid "Upload image"
-msgstr ""
+msgstr "Загрузить изображение"
 
 #: mediacore/templates/admin/media/edit.html:94
 msgid "Are you sure you want to delete this file?"
-msgstr ""
+msgstr "Вы уверены, что хотите удалить этот файл?"
 
 #: mediacore/templates/admin/media/edit.html:99
 msgid "Upload a file"
-msgstr ""
+msgstr "Загрузить файл"
 
 #: mediacore/templates/admin/media/edit.html:106
 msgid "Failed to add this file. Please try again."
-msgstr ""
+msgstr "Невозможно добавить этот файл. Попробуйте еще раз."
 
 #: mediacore/templates/admin/media/edit.html:107
 msgid "Failed to save your change. Please try again."
-msgstr ""
+msgstr "Не удалось сохранить изменения. Попробуйте еще раз."
 
 #: mediacore/templates/admin/media/edit.html:108
 msgid "Uploading"
-msgstr ""
+msgstr "Загрузка"
 
 #: mediacore/templates/admin/media/edit.html:109
 msgid "Queued"
-msgstr ""
+msgstr "В очереди"
 
 #: mediacore/templates/admin/media/edit.html:110
 msgid "Error"
-msgstr ""
+msgstr "Ошибка"
 
 #: mediacore/templates/admin/media/edit.html:122
 msgid "A connection problem occurred, try again."
-msgstr ""
+msgstr "Произошла ошибка подключения, попробуйте еще раз."
 
 #: mediacore/templates/admin/media/edit.html:123
 msgid "An error has occurred, try again."
-msgstr ""
+msgstr "Произошла ошибка, попробуйте еще раз."
 
 #: mediacore/templates/admin/media/edit.html:126
 #: mediacore/templates/admin/media/edit.html:211
 #: mediacore/templates/admin/podcasts/edit.html:51
 msgid "Hide"
-msgstr ""
+msgstr "Скрыть"
 
 #: mediacore/templates/admin/media/edit.html:127
 msgid "Saving"
-msgstr ""
+msgstr "Сохранение"
 
 #: mediacore/templates/admin/media/edit.html:128
 msgid "Saved!"
-msgstr ""
+msgstr "Сохранено!"
 
 #: mediacore/templates/admin/media/edit.html:129
 msgid "Saving failed. Please try again."
-msgstr ""
+msgstr "Сохранение не удалось. Попробуйте еще раз."
 
 #: mediacore/templates/admin/media/edit.html:130
 msgid "Please correct the highlighted errors and save again."
-msgstr ""
+msgstr "Пожалуйста исправьте отмеченные ошибки и сохраните еще раз."
 
 #: mediacore/templates/admin/media/edit.html:152
 #: mediacore/templates/admin/podcasts/edit.html:95
 msgid "Uploaded:"
-msgstr ""
+msgstr "Загружено:"
 
 #: mediacore/templates/admin/media/edit.html:163
 #: mediacore/templates/admin/storage/index.html:121
 msgid "Files"
-msgstr ""
+msgstr "Файлы"
 
 #: mediacore/templates/admin/media/edit.html:164
 msgid "Add & Manage"
-msgstr ""
+msgstr "Добавить & Изменить"
 
 #: mediacore/templates/admin/media/edit.html:167
 #: mediacore/templates/admin/media/file-edit-form.html:22
 msgid "View this file"
-msgstr ""
+msgstr "Просмотреть этот файл"
 
 #: mediacore/templates/admin/media/edit.html:181
 #: mediacore/templates/admin/podcasts/edit.html:110
 msgid "Thumbnail"
-msgstr ""
+msgstr "Миниатюра"
 
 #: mediacore/templates/admin/media/edit.html:184
 #: mediacore/templates/admin/podcasts/_podcast-table.html:39
@@ -1598,92 +1627,92 @@ msgstr ""
 
 #: mediacore/templates/admin/media/edit.html:208
 msgid "Manage Files"
-msgstr ""
+msgstr "Управление файлами"
 
 #: mediacore/templates/admin/media/edit.html:217
 msgid "File"
-msgstr ""
+msgstr "Файл"
 
 #: mediacore/templates/admin/media/edit.html:218
 msgid "Size"
-msgstr ""
+msgstr "Размер"
 
 #: mediacore/templates/admin/media/edit.html:219
 msgid "Duration"
-msgstr ""
+msgstr "Продолжительность"
 
 #: mediacore/templates/admin/media/edit.html:220
 msgid "Bitrate"
-msgstr ""
+msgstr "Битрейт"
 
 #: mediacore/templates/admin/media/edit.html:221
 msgid "Dimensions"
-msgstr ""
+msgstr "Размеры"
 
 #: mediacore/templates/admin/media/edit.html:222
 msgid "Type"
-msgstr ""
+msgstr "Тип"
 
 #: mediacore/templates/admin/media/file-add-form.html:24
 msgid "OR"
-msgstr ""
+msgstr "ИЛИ"
 
 #: mediacore/templates/admin/media/file-form.html:24
 msgid "or"
-msgstr ""
+msgstr "или"
 
 #: mediacore/templates/admin/media/index.html:73
 #, python-format
 msgid "Media that matches '%(search)s'"
-msgstr ""
+msgstr "Файлы, найденные по запросу '%(search)s'"
 
 #: mediacore/templates/admin/media/index.html:74
 #, python-format
 msgid "%(podcastTitle)s Episodes"
-msgstr ""
+msgstr "Выпуск %(podcastTitle)s"
 
 #: mediacore/templates/admin/media/index.html:75
 #, python-format
 msgid "Media in '%(categoryName)s'"
-msgstr ""
+msgstr "Файлы в '%(categoryName)s'"
 
 #: mediacore/templates/admin/media/index.html:76
 #, python-format
 msgid "Media tagged '%(tagName)s'"
-msgstr ""
+msgstr "Файлы с тегом '%(tagName)s'"
 
 #: mediacore/templates/admin/media/index.html:77
 msgid "Unreviewed Media"
-msgstr ""
+msgstr "Файлы без обзоров"
 
 #: mediacore/templates/admin/media/index.html:78
 msgid "Unencoded Media"
-msgstr ""
+msgstr "Не конвертированные файлы"
 
 #: mediacore/templates/admin/media/index.html:79
 msgid "Draft Media"
-msgstr ""
+msgstr "Черновики файлов"
 
 #: mediacore/templates/admin/media/index.html:80
 msgid "Published Media"
-msgstr ""
+msgstr "Опубликованные файлы"
 
 #: mediacore/templates/admin/media/index.html:81
 #: mediacore/templates/admin/media/index.html:112
 msgid "All Media"
-msgstr ""
+msgstr "Все файлы"
 
 #: mediacore/templates/admin/media/index.html:91
 msgid "Review"
-msgstr ""
+msgstr "Обзор"
 
 #: mediacore/templates/admin/media/index.html:121
 msgid "Drafts"
-msgstr ""
+msgstr "Черновики"
 
 #: mediacore/templates/admin/media/index.html:131
 msgid "Filters"
-msgstr ""
+msgstr "Фильтры"
 
 #: mediacore/templates/admin/media/update-status-form.html:27
 msgid "View this media where it is published"
@@ -1695,96 +1724,96 @@ msgstr ""
 
 #: mediacore/templates/admin/media/update-status-form.html:33
 msgid "Preview"
-msgstr ""
+msgstr "Предпросмотр"
 
 #: mediacore/templates/admin/media/update-status-form.html:47
 msgid "You must add a file and save before review can begin."
-msgstr ""
+msgstr "Вам необходимо добавить файл и сохранится, прежде чем будет продолжен обзор."
 
 #: mediacore/templates/admin/media/update-status-form.html:51
 msgid "Review Pending"
-msgstr ""
+msgstr "В ожидании обзора."
 
 #: mediacore/templates/admin/media/update-status-form.html:52
 #: mediacore/templates/admin/media/update-status-form.html:78
 #: mediacore/templates/admin/media/update-status-form.html:91
 msgid "Encoding Complete"
-msgstr ""
+msgstr "Кодирование завершено"
 
 #: mediacore/templates/admin/media/update-status-form.html:52
 #: mediacore/templates/admin/media/update-status-form.html:68
 msgid "Encoding Pending"
-msgstr ""
+msgstr "В ожидании кодирования"
 
 #: mediacore/templates/admin/media/update-status-form.html:53
 #: mediacore/templates/admin/media/update-status-form.html:69
 #: mediacore/templates/admin/media/update-status-form.html:79
 #: mediacore/templates/admin/media/update-status-form.html:92
 msgid "Click to change the publish date"
-msgstr ""
+msgstr "Нажмите для изменения даты публикации"
 
 #: mediacore/templates/admin/media/update-status-form.html:53
 #: mediacore/templates/admin/media/update-status-form.html:69
 #: mediacore/templates/admin/media/update-status-form.html:79
 #: mediacore/templates/admin/media/update-status-form.html:93
 msgid "Publishing"
-msgstr ""
+msgstr "Публикация"
 
 #: mediacore/templates/admin/media/update-status-form.html:54
 #: mediacore/templates/admin/media/update-status-form.html:70
 #: mediacore/templates/admin/media/update-status-form.html:80
 #: mediacore/templates/admin/media/update-status-form.html:94
 msgid "Pending"
-msgstr ""
+msgstr "В ожидании"
 
 #: mediacore/templates/admin/media/update-status-form.html:60
 #: mediacore/templates/admin/media/update-status-form.html:67
 #: mediacore/templates/admin/media/update-status-form.html:77
 #: mediacore/templates/admin/media/update-status-form.html:90
 msgid "Review Complete"
-msgstr ""
+msgstr "Обзор завершен."
 
 #: mediacore/templates/admin/media/update-status-form.html:62
 msgid "Review can only be completed after a file is added."
-msgstr ""
+msgstr "Обзор может быть завершен, только после добавления файла."
 
 #: mediacore/templates/admin/media/update-status-form.html:73
 msgid "Encoding will be complete when an acceptable file is added."
-msgstr ""
+msgstr "Конвертирование будет завершено, после добавления подходящего файла."
 
 #: mediacore/templates/admin/media/update-status-form.html:85
 msgid "Publish Now"
-msgstr ""
+msgstr "Опубликовать"
 
 #: mediacore/templates/admin/players/index.html:23
 #: mediacore/templates/admin/players/index.html:45
 #: mediacore/templates/admin/settings/master.html:62
 msgid "Players"
-msgstr ""
+msgstr "Плееры"
 
 #: mediacore/templates/admin/players/index.html:32
 msgid "By deleting this player you will lose all settings related to it."
-msgstr ""
+msgstr "Удаляя плеер, вы так же удалите все настройки связанные с ним."
 
 #: mediacore/templates/admin/players/index.html:54
 msgid "Priority"
-msgstr ""
+msgstr "Приоритет"
 
 #: mediacore/templates/admin/players/index.html:70
 msgid "Up"
-msgstr ""
+msgstr "Вверх"
 
 #: mediacore/templates/admin/players/index.html:71
 msgid "Down"
-msgstr ""
+msgstr "Вниз"
 
 #: mediacore/templates/admin/podcasts/_podcast-table.html:46
 msgid "Category:"
-msgstr ""
+msgstr "Категория:"
 
 #: mediacore/templates/admin/podcasts/_podcast-table.html:48
 msgid "Author:"
-msgstr ""
+msgstr "Автор:"
 
 #: mediacore/templates/admin/podcasts/_podcast-table.html:52
 msgid "Explicit"
@@ -1792,7 +1821,7 @@ msgstr ""
 
 #: mediacore/templates/admin/podcasts/_podcast-table.html:58
 msgid "Add episode"
-msgstr ""
+msgstr "Добавить эпизод"
 
 #: mediacore/templates/admin/podcasts/_podcast-table.html:60
 #, python-format
@@ -1805,12 +1834,12 @@ msgstr[3] ""
 
 #: mediacore/templates/admin/podcasts/edit.html:23
 msgid "Edit Podcast"
-msgstr ""
+msgstr "Изменить подкаст"
 
 #: mediacore/templates/admin/podcasts/edit.html:23
 #: mediacore/templates/admin/podcasts/edit.html:96
 msgid "New Podcast"
-msgstr ""
+msgstr "Новый подкаст"
 
 #: mediacore/templates/admin/podcasts/edit.html:105
 msgid "View this podcast where it is published"
@@ -1818,13 +1847,13 @@ msgstr ""
 
 #: mediacore/templates/admin/podcasts/index.html:32
 msgid "Add Podcast"
-msgstr ""
+msgstr "Добавить подкаст"
 
 #: mediacore/templates/admin/settings/analytics.html:24
 #: mediacore/templates/admin/settings/analytics.html:30
 #: mediacore/templates/admin/settings/master.html:47
 msgid "Analytics"
-msgstr ""
+msgstr "Аналитика"
 
 #: mediacore/templates/admin/settings/api.html:23
 #: mediacore/templates/admin/settings/api.html:33
@@ -1834,13 +1863,13 @@ msgstr ""
 
 #: mediacore/templates/admin/settings/api.html:26
 msgid "Generate"
-msgstr ""
+msgstr "Генерировать"
 
 #: mediacore/templates/admin/settings/appearance.html:24
 #: mediacore/templates/admin/settings/appearance.html:45
 #: mediacore/templates/admin/settings/master.html:50
 msgid "Appearance"
-msgstr ""
+msgstr "Внешний вид"
 
 #: mediacore/templates/admin/settings/appearance.html:33
 msgid "Confirm Reset"
@@ -1852,34 +1881,34 @@ msgstr ""
 
 #: mediacore/templates/admin/settings/master.html:59
 msgid "Notifications"
-msgstr ""
+msgstr "Уведомления"
 
 #: mediacore/templates/admin/settings/master.html:65
 #: mediacore/templates/admin/settings/popularity.html:23
 #: mediacore/templates/admin/settings/popularity.html:29
 msgid "Popularity"
-msgstr ""
+msgstr "Популярность"
 
 #: mediacore/templates/admin/settings/master.html:68
 #: mediacore/templates/admin/settings/sitemaps.html:24
 #: mediacore/templates/admin/settings/sitemaps.html:30
 msgid "RSS and Sitemaps"
-msgstr ""
+msgstr "RSS и карта сайта"
 
 #: mediacore/templates/admin/settings/master.html:71
 #: mediacore/templates/admin/storage/index.html:23
 #: mediacore/templates/admin/storage/index.html:111
 msgid "Storage Engines"
-msgstr ""
+msgstr "Механизмы хранения"
 
 #: mediacore/templates/admin/settings/master.html:79
 msgid "Plugins"
-msgstr ""
+msgstr "Плагины"
 
 #: mediacore/templates/admin/settings/notifications.html:23
 #: mediacore/templates/admin/settings/notifications.html:29
 msgid "Notification Emails"
-msgstr ""
+msgstr "Почтовые уведомления"
 
 #: mediacore/templates/admin/storage/edit.html:30
 msgid "New Storage Engine"
@@ -1887,7 +1916,7 @@ msgstr ""
 
 #: mediacore/templates/admin/storage/index.html:31
 msgid "WARNING:"
-msgstr ""
+msgstr "ВНИМАНИЕ:"
 
 #: mediacore/templates/admin/storage/index.html:32
 #, python-format
@@ -1905,7 +1934,7 @@ msgstr ""
 
 #: mediacore/templates/admin/storage/index.html:35
 msgid "An alternative to deleting is disabling. Disabling a Storage Engine will simply prevent its use for files added from now on."
-msgstr ""
+msgstr "Альтернативой удалению, служит отключение. Отключив хранилище вы исключите добавление на него новых файлов с данного момента времени."
 
 #: mediacore/templates/admin/storage/index.html:112
 #: mediacore/templates/admin/storage/index.html:151
@@ -1914,46 +1943,46 @@ msgstr ""
 
 #: mediacore/templates/admin/storage/index.html:120
 msgid "Disk Usage"
-msgstr ""
+msgstr "Заполнение диска"
 
 #: mediacore/templates/admin/storage/index.html:153
 msgid "Please select what type of storage engine you would like to add:"
-msgstr ""
+msgstr "Пожалуйста, выберите какой тип хранилища вы хотите добавить:"
 
 #: mediacore/templates/admin/users/edit.html:44
 msgid "New User"
-msgstr ""
+msgstr "Новый пользователь"
 
 #: mediacore/templates/admin/users/index.html:36
 msgid "Are you sure you want to delete this user?"
-msgstr ""
+msgstr "Вы уверены, что хотите удалить этого пользователя?"
 
 #: mediacore/templates/admin/users/index.html:46
 msgid "Add User"
-msgstr ""
+msgstr "Добавить пользователя"
 
 #: mediacore/templates/admin/users/index.html:53
 msgid "Email"
-msgstr ""
+msgstr "Email"
 
 #: mediacore/templates/categories/index.html:42
 #: mediacore/templates/media/explore.html:113
 msgid "more of the Latest..."
-msgstr ""
+msgstr "Далее..."
 
 #: mediacore/templates/categories/index.html:47
 #: mediacore/templates/media/explore.html:98
 msgid "more of the Most Popular..."
-msgstr ""
+msgstr "Далее..."
 
 #: mediacore/templates/categories/index.html:49
 #: mediacore/templates/categories/more.html:34
 msgid "There is no media in this category."
-msgstr ""
+msgstr "Нет файлов в этой категории."
 
 #: mediacore/templates/categories/layout.html:33
 msgid "Choose a Category:"
-msgstr ""
+msgstr "Выберите категорию:"
 
 #: mediacore/templates/comments/_list.html:38
 #, python-format
@@ -1962,40 +1991,40 @@ msgstr ""
 
 #: mediacore/templates/comments/_list.html:52
 msgid "No comments have been posted yet."
-msgstr ""
+msgstr "Нет комментариев."
 
 #: mediacore/templates/comments/_list.html:66
 msgid "Write a comment"
-msgstr ""
+msgstr "Написать комментарий"
 
 #: mediacore/templates/comments/_list.html:83
 msgid "Email Address (will never be published)"
-msgstr ""
+msgstr "Email адрес (никогда не публикуется)"
 
 #: mediacore/templates/comments/_list.html:100
 msgid "Submit Comment"
-msgstr ""
+msgstr "Отправить комментарий"
 
 #: mediacore/templates/media/explore.html:28
 msgid "Sitemap XML"
-msgstr ""
+msgstr "Карта сайта XML"
 
 #: mediacore/templates/media/explore.html:30
 msgid "Sitemap RSS"
-msgstr ""
+msgstr "Карта сайта RSS"
 
 #: mediacore/templates/media/explore.html:32
 msgid "Latest RSS"
-msgstr ""
+msgstr "Последние RSS"
 
 #: mediacore/templates/media/explore.html:103
 #, python-format
 msgid "As soon as there are more than %(num)s published videos in the library, the most popular videos will be listed here."
-msgstr ""
+msgstr "После того, как будет опубликовано больше %(num)s файлов в библиотеке, здесь будут показываться самые популярные. "
 
 #: mediacore/templates/media/explore.html:104
 msgid "Why not add a few more?"
-msgstr ""
+msgstr "Почему бы не добавить еще несколько?"
 
 #: mediacore/templates/media/explore.html:116
 msgid "There are no media items published yet!"
@@ -2004,7 +2033,7 @@ msgstr ""
 #: mediacore/templates/media/index.html:24
 #, python-format
 msgid "Search: \"%s\""
-msgstr ""
+msgstr "Поиск:  \"%s\""
 
 #: mediacore/templates/media/index.html:32
 #, python-format
@@ -2019,65 +2048,65 @@ msgstr ""
 #: mediacore/templates/media/index.html:34
 #, python-format
 msgid "All %(result_count)s Media"
-msgstr ""
+msgstr "Все %(result_count)s файлов"
 
 #: mediacore/templates/media/tags.html:27
 msgid "All Tags"
-msgstr ""
+msgstr "Все теги"
 
 #: mediacore/templates/media/view.html:50
 msgid "(unpublished)"
-msgstr ""
+msgstr "(не опубликовано)"
 
 #: mediacore/templates/media/view.html:51
 #, python-format
 msgid "by %(authorName)s"
-msgstr ""
+msgstr "от %(authorName)s"
 
 #: mediacore/templates/media/view.html:61
 #: mediacore/templates/players/html5_or_flash.html:34
 msgid "Dislike"
 msgid_plural "Dislikes"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Не нравится"
+msgstr[1] "Не нравится"
+msgstr[2] "Не нравится"
+msgstr[3] "Не нравится"
 
 #: mediacore/templates/media/view.html:73
 msgid "Related Podcast"
-msgstr ""
+msgstr "Похожие подкасты"
 
 #: mediacore/templates/media/view.html:83
 msgid "Podcast Episodes"
-msgstr ""
+msgstr "Эпизоды подкаста"
 
 #: mediacore/templates/media/view.html:86
 msgid "Episode"
 msgid_plural "Episodes"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Эпизод"
+msgstr[1] "Эпизода"
+msgstr[2] "Эпизодов"
+msgstr[3] "Эпизодов"
 
 #: mediacore/templates/media/view.html:100
 msgid "Related Media"
-msgstr ""
+msgstr "Похожие файлы"
 
 #: mediacore/templates/media/view.html:108
 msgid "This is not listed under any categories."
-msgstr ""
+msgstr "Это не представлено ни в одной категории."
 
 #: mediacore/templates/media/view.html:112
 msgid "See All Tags"
-msgstr ""
+msgstr "Смотреть все теги"
 
 #: mediacore/templates/media/view.html:116
 msgid "This does not have any associated tags."
-msgstr ""
+msgstr "Нет соответствующих тегов"
 
 #: mediacore/templates/players/html5_or_flash.html:35
 msgid "Pop out a new player window"
-msgstr ""
+msgstr "Открыть плеер в новом окне"
 
 #: mediacore/templates/players/html5_or_flash.html:35
 msgid "Pop Out"
@@ -2093,120 +2122,120 @@ msgstr ""
 
 #: mediacore/templates/players/html5_or_flash.html:38
 msgid "Share"
-msgstr ""
+msgstr "Поделится"
 
 #: mediacore/templates/players/html5_or_flash.html:42
 msgid "Permalink:"
-msgstr ""
+msgstr "Постоянная ссылка"
 
 #: mediacore/templates/players/html5_or_flash.html:45
 msgid "Share by email"
-msgstr ""
+msgstr "Отправить на почту"
 
 #: mediacore/templates/players/html5_or_flash.html:45
 msgid "Share by Email"
-msgstr ""
+msgstr "Отправить на почту"
 
 #: mediacore/templates/players/html5_or_flash.html:46
 msgid "Share on Facebook"
-msgstr ""
+msgstr "Отправить в Facebook"
 
 #: mediacore/templates/players/html5_or_flash.html:47
 msgid "Share on Twitter"
-msgstr ""
+msgstr "Отправить в Twitter"
 
 #: mediacore/templates/players/html5_or_flash.html:52
 msgid "Embed"
-msgstr ""
+msgstr "Встроить"
 
 #: mediacore/templates/players/html5_or_flash.html:56
 msgid "Embeddable Player HTML:"
-msgstr ""
+msgstr "Код для вставки на сайт"
 
 #: mediacore/templates/players/html5_or_flash.html:62
 msgid "Download"
-msgstr ""
+msgstr "Загрузить"
 
 #: mediacore/templates/players/none.html:24
 msgid "No suitable player found for this media."
-msgstr ""
+msgstr "Нет подходящего плеера для этого файла."
 
 #: mediacore/templates/podcasts/index.html:30
 msgid "All Podcasts"
-msgstr ""
+msgstr "Все подкасты"
 
 #: mediacore/templates/podcasts/index.html:41
 #: mediacore/templates/podcasts/view.html:45
 msgid "Add to iTunes"
-msgstr ""
+msgstr "Добавить в iTunes"
 
 #: mediacore/templates/podcasts/index.html:42
 #: mediacore/templates/podcasts/view.html:46
 msgid "Subscribe via RSS"
-msgstr ""
+msgstr "Подписаться на RSS"
 
 #: mediacore/templates/podcasts/index.html:45
 msgid "Latest Episodes"
-msgstr ""
+msgstr "Последние эпизоды"
 
 #: mediacore/templates/podcasts/index.html:52
 msgid "Browse all episodes"
-msgstr ""
+msgstr "Смотреть все эпизоды"
 
 #: mediacore/templates/podcasts/view.html:52
 #, python-format
 msgid "%(result_count)s Episodes"
 msgid_plural "All %(result_count)s Episodes"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "%(result_count)s Эпизод"
+msgstr[1] "%(result_count)s Эпизода"
+msgstr[2] "Все %(result_count)s эпизоды"
+msgstr[3] "%(result_count)s Эпизодов"
 
 #: mediacore/templates/upload/failure.html:24
 #: mediacore/templates/upload/success.html:24
 msgid "Upload Videos"
-msgstr ""
+msgstr "Загрузка видео"
 
 #: mediacore/templates/upload/failure.html:29
 msgid "Upload Error"
-msgstr ""
+msgstr "Ошибка загрузки"
 
 #: mediacore/templates/upload/failure.html:33
 msgid "During your upload, something went wrong, but don't worry. The engineers and gnomes have been automagically notified and we're already on our way to resolving your issue."
-msgstr ""
+msgstr "Во время вашей загрузки, что-то пошло не так. Но не волнуйтесь! Наши инженеры уже в курсе и работают над устранением проблемы."
 
 #: mediacore/templates/upload/failure.html:35
 msgid "Something you can check:"
-msgstr ""
+msgstr "То, что вы можете проверить:"
 
 #: mediacore/templates/upload/failure.html:37
 #, python-format
 msgid "Is the file under %(maxUploadSize)s Megabytes in size?"
-msgstr ""
+msgstr "Размер этого файла меньше чем %(maxUploadSize)s мегабайт?"
 
 #: mediacore/templates/upload/failure.html:40
 msgid "Try Uploading Again"
-msgstr ""
+msgstr "Попробуйте загрузить еще раз"
 
 #: mediacore/templates/upload/form.html:59
 msgid "Choose a file to upload"
-msgstr ""
+msgstr "Выберите файл для загрузки"
 
 #: mediacore/templates/upload/index.html:50
 msgid "Problems?"
-msgstr ""
+msgstr "Проблемы?"
 
 #: mediacore/templates/upload/index.html:51
 msgid "If you have problems uploading or have some questions, please email us at"
-msgstr ""
+msgstr "Если у вас возникли проблемы при загрузке или есть вопросы, пожалуйста, напишите нам по адресу"
 
 #: mediacore/templates/upload/success.html:30
 msgid "Upload Successful"
-msgstr ""
+msgstr "Загрузка завершена"
 
 #: mediacore/templates/upload/success.html:34
 msgid "Awesome, your upload was successful!"
-msgstr ""
+msgstr "Загрузка успешно завершена!"
 
 #: mediacore/templates/upload/success.html:35
 msgid "Your submission is awaiting review by a moderator and will be posted shortly."
@@ -2214,4 +2243,4 @@ msgstr ""
 
 #: mediacore/templates/upload/success.html:36
 msgid "You will be automatically redirected back to the [1:Media Library] in a few seconds. Hang tight."
-msgstr ""
+msgstr "Вы будете автоматически возвращены назад в [1:Библиотеку] через несколько секунд."

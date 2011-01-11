@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: MediaCore Video Platform\n"
 "Report-Msgid-Bugs-To: http://github.com/simplestation/mediacore/issues\n"
 "POT-Creation-Date: 2010-12-28 15:49-0800\n"
-"PO-Revision-Date: 2010-12-31 03:02+0000\n"
+"PO-Revision-Date: 2011-01-11 23:18+0000\n"
 "Last-Translator: bersace <bersace03@free.fr>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -102,7 +102,7 @@ msgstr "Description :"
 
 #: mediacore/forms/uploader.py:59
 msgid "Add a YouTube, Vimeo or Google Video URL:"
-msgstr "Ajoutez une URL de video YouTube, Vimeo ou Google Vidéo"
+msgstr "Ajoutez une URL de vidéo YouTube, Vimeo ou Google Vidéos"
 
 #: mediacore/forms/uploader.py:60
 msgid "Oops! You forgot to enter a file."
@@ -245,7 +245,7 @@ msgstr "Ajouter une URL"
 
 #: mediacore/forms/admin/media.py:103
 msgid "YouTube, Vimeo, Google Video, Amazon S3 or any other link"
-msgstr "YouTube, Vimeo, Google Vidéo, Amazon S3 ou tout autre lien"
+msgstr "YouTube, Vimeo, Google Vidéos, Amazon S3 ou tout autre lien"
 
 #: mediacore/forms/admin/media.py:110
 msgid "Video"
@@ -542,7 +542,7 @@ msgstr "Téléversements des utilisateurs"
 
 #: mediacore/forms/admin/settings.py:153
 msgid "Google Analytics Details:"
-msgstr "Infos Google Anaytics"
+msgstr "Infos Google Analytics"
 
 #: mediacore/forms/admin/settings.py:154
 msgid "Tracking Code"
@@ -586,7 +586,7 @@ msgstr "Editeur de texte enrichi"
 
 #: mediacore/forms/admin/settings.py:213
 msgid "Administrative notes on Media:"
-msgstr "Note administrative sur les media :"
+msgstr "Notes administratives sur les media :"
 
 #: mediacore/forms/admin/settings.py:215
 msgid "Display notes"
@@ -598,7 +598,7 @@ msgstr "Exiger la validation des commentaires par un administrateur"
 
 #: mediacore/forms/admin/settings.py:231
 msgid "Akismet Anti-Spam Details:"
-msgstr "Détails de l'anti-spam Akismet  :"
+msgstr "Détails de l'anti-spam Akismet :"
 
 #: mediacore/forms/admin/settings.py:232
 msgid "Akismet Key"
@@ -606,7 +606,7 @@ msgstr "Clef Askimet"
 
 #: mediacore/forms/admin/settings.py:233
 msgid "Akismet URL"
-msgstr "URL Askimet"
+msgstr "URL Akismet"
 
 #: mediacore/forms/admin/settings.py:235
 msgid "Vulgarity Filter Settings"
@@ -795,7 +795,7 @@ msgstr "Sous-répertoire serveur pour téléchargement"
 
 #: mediacore/forms/admin/storage/ftp.py:37
 msgid "How many times should MediaCore try to verify the FTP upload before declaring it a failure?"
-msgstr "Combien de fois souhaitez-vous que MediaCore vérifie le téléchargement FTP avant de déclarer un échec?"
+msgstr "Combien de fois souhaitez-vous que MediaCore vérifie le téléchargement FTP avant de déclarer un échec ?"
 
 #: mediacore/forms/admin/storage/ftp.py:38
 msgid "HTTP URL to access remotely stored files"
@@ -951,7 +951,7 @@ msgstr "YouTube "
 
 #: mediacore/lib/players.py:618 mediacore/lib/storage/googlevideo.py:35
 msgid "Google Video"
-msgstr "Google Vidéo "
+msgstr "Google Vidéos"
 
 #: mediacore/lib/players.py:640 mediacore/lib/storage/bliptv.py:37
 msgid "BlipTV"
@@ -1038,11 +1038,11 @@ msgstr "Vous avez quelques options :"
 
 #: mediacore/templates/error.html:41
 msgid "Return to the [1:homepage]."
-msgstr "Retour à [1:homepage]"
+msgstr "Retour à la [1:page d'accueil]"
 
 #: mediacore/templates/error.html:42
 msgid "Return to the [1:media page]."
-msgstr "Retour à [1:media page]"
+msgstr "Retour à la [1:bibliothèque]"
 
 #: mediacore/templates/error.html:43
 msgid "Fill out an error report below."
@@ -1156,7 +1156,7 @@ msgstr "Accueil"
 
 #: mediacore/templates/master.html:56 mediacore/templates/media/index.html:24
 msgid "Media Library"
-msgstr "Les vidéos"
+msgstr "Bibliothèque"
 
 #: mediacore/templates/master.html:57 mediacore/templates/admin/master.html:61
 #: mediacore/templates/admin/podcasts/index.html:24
@@ -1237,7 +1237,7 @@ msgstr "Récemment publié"
 
 #: mediacore/templates/admin/master.html:54
 msgid "View Site"
-msgstr "Vue site"
+msgstr "Voir le site"
 
 #: mediacore/templates/admin/master.html:55
 msgid "Logout"
@@ -1318,7 +1318,7 @@ msgstr "Supprimer catégorie"
 
 #: mediacore/templates/admin/categories/index.html:141
 msgid "Are you sure you want to delete this category [1:and ALL of its children]?"
-msgstr "Êtes-vous sûr de vouloir supprimer cette catégorie [1: et toutes ses sous-catégories] ? "
+msgstr "Êtes-vous sûr de vouloir supprimer cette catégorie [1: et TOUTES ses sous-catégories] ? "
 
 #: mediacore/templates/admin/categories/index.html:154
 #: mediacore/templates/admin/tags/index.html:83
@@ -1592,7 +1592,7 @@ msgstr "Veuillez corriger les erreurs surlignées et enregistrer à nouveau."
 #: mediacore/templates/admin/media/edit.html:152
 #: mediacore/templates/admin/podcasts/edit.html:95
 msgid "Uploaded:"
-msgstr "Mis en ligne : "
+msgstr "Téléversés : "
 
 #: mediacore/templates/admin/media/edit.html:163
 #: mediacore/templates/admin/storage/index.html:121
@@ -1821,7 +1821,7 @@ msgstr "Ajouter épisode"
 #, python-format
 msgid "View First Episode %(num)s"
 msgid_plural "View All %(num)s Episodes"
-msgstr[0] "Voir le premier épidose %(num)s "
+msgstr[0] "Voir le premier épisode %(num)s "
 msgstr[1] "Voir tous les épisodes %(num)s "
 
 #: mediacore/templates/admin/podcasts/edit.html:23
@@ -1918,7 +1918,7 @@ msgstr "Supprimer ce stockage (%(name)s) va :"
 #: mediacore/templates/admin/storage/index.html:33
 #, python-format
 msgid "Permanently delete all of the %(num)s media files stored by this Storage Engine."
-msgstr "Supprimer définitivement les %(num)s fichier media stocké dans ce stockage ?"
+msgstr "Supprimer définitivement les %(num)s fichiers media stockés dans ce stockage ?"
 
 #: mediacore/templates/admin/storage/index.html:34
 msgid "Permanently erase its settings."
@@ -2007,7 +2007,7 @@ msgstr "Sitemap RSS "
 
 #: mediacore/templates/media/explore.html:32
 msgid "Latest RSS"
-msgstr "Latest RSS"
+msgstr "RSS des plus récents"
 
 #: mediacore/templates/media/explore.html:103
 #, python-format
@@ -2030,17 +2030,17 @@ msgstr "Rechercher : \"%s\""
 #: mediacore/templates/media/index.html:32
 #, python-format
 msgid "Showing %(result_count)s results for '%(search_query)s'"
-msgstr "Montrer les résultats %(result_count)s pour '%(search_query)s'"
+msgstr "Voir les résultats %(result_count)s pour '%(search_query)s'"
 
 #: mediacore/templates/media/index.html:33
 #, python-format
 msgid "Showing %(result_count)s results tagged with '%(tag_name)s'"
-msgstr "Montrer les résultats %(result_count)s taggés avec '%(tag_name)s'"
+msgstr "Voir les résultats %(result_count)s taggés avec '%(tag_name)s'"
 
 #: mediacore/templates/media/index.html:34
 #, python-format
 msgid "All %(result_count)s Media"
-msgstr "Tous les contenus %(result_count)s"
+msgstr "Tous les %(result_count)s contenus"
 
 #: mediacore/templates/media/tags.html:27
 msgid "All Tags"
@@ -2217,7 +2217,7 @@ msgstr "Si vous avez des difficultés pour téléverser ou si vous avez des ques
 
 #: mediacore/templates/upload/success.html:30
 msgid "Upload Successful"
-msgstr "Téléchargement réussi"
+msgstr "Téléversement réussi"
 
 #: mediacore/templates/upload/success.html:34
 msgid "Awesome, your upload was successful!"
@@ -2229,4 +2229,4 @@ msgstr "Votre contribution est dans l’attente d'examination par un modérateur
 
 #: mediacore/templates/upload/success.html:36
 msgid "You will be automatically redirected back to the [1:Media Library] in a few seconds. Hang tight."
-msgstr "Vous allez être automatiquement redirigé vers la [1: Media Library] dans quelques secondes. Veuillez patienter."
+msgstr "Vous allez être automatiquement redirigé vers la [1:Bibliothèque] dans quelques secondes. Veuillez patienter."

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: MediaCore Video Platform\n"
 "Report-Msgid-Bugs-To: http://github.com/simplestation/mediacore/issues\n"
 "POT-Creation-Date: 2010-12-28 15:49-0800\n"
-"PO-Revision-Date: 2010-12-31 03:02+0000\n"
+"PO-Revision-Date: 2011-01-11 23:18+0000\n"
 "Last-Translator: finlander <jefinlander@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -20,11 +20,11 @@ msgstr ""
 
 #: mediacore/websetup.py:137
 msgid "Upload your media using the form below. We'll review it and get back to you."
-msgstr "Lähetä media-tiedosto alla olevalla lomakkeella. Katsomme sen, ja palaamme asiaan."
+msgstr "Lähetä mediatiedosto alla olevalla lomakkeella. Katsomme sen ja palaamme asiaan."
 
 #: mediacore/controllers/error.py:65
 msgid "We're sorry but we weren't able to process this request."
-msgstr "Pahoittelemme, mutta emme pystyneet käsittelemään  pyyntösi."
+msgstr "Pahoittelemme, mutta emme pystyneet käsittelemään  pyyntöäsi."
 
 #: mediacore/controllers/media.py:249
 msgid "Invalid player params provided."
@@ -36,12 +36,12 @@ msgstr "Kommenttisi on hylätty."
 
 #: mediacore/controllers/media.py:367
 msgid "Thank you for your comment! We will post it just as soon as a moderator approves it."
-msgstr "Kiitos kommentoida! Julkaisemme heti kun moderaattori hyväksyy."
+msgstr "Kiitos kommentistasi! Julkaisemme sen heti, kun moderaattori on sen hyväksynyt."
 
 #: mediacore/controllers/admin/media.py:390
 #, python-format
 msgid "File \"%s\" does not exist."
-msgstr "Tiedosto \"%s\" ei ole olemassa."
+msgstr "Tiedostoa \"%s\" ei ole olemassa."
 
 #: mediacore/controllers/admin/media.py:412
 msgid "No action to perform."
@@ -49,20 +49,20 @@ msgstr "Ei suorittavia toimenpiteitä."
 
 #: mediacore/controllers/admin/media.py:561
 msgid "Permission denied, cannot write file"
-msgstr "Lupa evätään, ei voi kirjoittaa tiedostoon."
+msgstr "Pääsy kielletty, tiedostoon ei voi kirjoittaa."
 
 #: mediacore/controllers/admin/media.py:563
 #, python-format
 msgid "Unsupport image type: %s"
-msgstr "Kelvoton kuvatyypi:%s"
+msgstr "Kuvan tiedostotyyppi ei ole kelvollinen:%s"
 
 #: mediacore/forms/__init__.py:219
 msgid "The portion of the email address before the @ is invalid"
-msgstr "sähköpostiosoitteen osa ennen \"@\" ei kelpaa"
+msgstr "Sähköpostiosoitteen @-merkkiä edeltävä osa ei kelpaa "
 
 #: mediacore/forms/__init__.py:220
 msgid "The portion of this email address after the @ is invalid"
-msgstr "sähköpostiosoitetta osa @ jälkeen,  ei kelpaa"
+msgstr "Sähköpostiosoitteen @-merkin jälkeinen osa ei kelpaa "
 
 #: mediacore/forms/comments.py:23
 msgid "Please enter your name!"
@@ -106,7 +106,7 @@ msgstr "Lisää YouTube, Vimeo tai Google Videon URL:"
 
 #: mediacore/forms/uploader.py:60
 msgid "Oops! You forgot to enter a file."
-msgstr "Oho! Unohdit kirjoittaa tiedostoon."
+msgstr "Oho! Unohdit lähettää tiedoston."
 
 #: mediacore/forms/uploader.py:60
 msgid "OR:"
@@ -118,11 +118,11 @@ msgstr "Lähetä"
 
 #: mediacore/forms/admin/__init__.py:27
 msgid "SEARCH..."
-msgstr "ETSI ..."
+msgstr "ETSI..."
 
 #: mediacore/forms/admin/__init__.py:47
 msgid "You forgot to select an image!"
-msgstr "Unohdit valita kuva!"
+msgstr "Unohdit valita kuvan!"
 
 #: mediacore/forms/admin/categories.py:44 mediacore/forms/admin/tags.py:44
 #: mediacore/templates/admin/categories/index.html:87
@@ -214,23 +214,23 @@ msgstr[1] "Kommentti"
 
 #: mediacore/forms/admin/media.py:41
 msgid "Bad duration formatting, use Hour:Min:Sec"
-msgstr "Väärä kestoformaatti, käyttää t: min: sek"
+msgstr "Väärä kestoformaatti, käytä tunti:min:sek"
 
 #: mediacore/forms/admin/media.py:69
 msgid "Value must be in the format wxh; e.g. 200x300"
-msgstr "Arvo muodossa leveys x korkeus, esim. 200x300"
+msgstr "Arvon tulee olla muotoa leveys x korkeus, esim. 200x300"
 
 #: mediacore/forms/admin/media.py:75
 msgid "Width must be a valid integer"
-msgstr "Leveys pitää olla täysi luku"
+msgstr "Leveyden  pitää olla kokonaisluku"
 
 #: mediacore/forms/admin/media.py:79
 msgid "Height must be a valid integer"
-msgstr "Korkeus pitää olla täysi luku"
+msgstr "Korkeuden pitää  pitää olla kokonaisluku"
 
 #: mediacore/forms/admin/media.py:101
 msgid "Select an encoded video or audio file on your computer"
-msgstr "Valitse videokuvaa tai äänitiedoston tietokoneelta"
+msgstr "Valitse video- tai äänitiedosto tietokoneeltasi"
 
 #: mediacore/forms/admin/media.py:101 mediacore/templates/master.html:59
 #: mediacore/templates/admin/settings/master.html:74
@@ -245,7 +245,7 @@ msgstr "Lisää URL"
 
 #: mediacore/forms/admin/media.py:103
 msgid "YouTube, Vimeo, Google Video, Amazon S3 or any other link"
-msgstr "YouTube, Vimeo, Google Video, Amazonin S3 tai muu yhteys"
+msgstr "YouTube, Vimeo, Google Video, Amazonin S3 tai jokin muu linkki"
 
 #: mediacore/forms/admin/media.py:110
 msgid "Video"
@@ -257,7 +257,7 @@ msgstr "Äänite"
 
 #: mediacore/forms/admin/media.py:112
 msgid "Audio Description"
-msgstr "Ääniten kuvaus"
+msgstr "Äänitiedoston kuvaus"
 
 #: mediacore/forms/admin/media.py:113
 msgid "Captions"
@@ -278,7 +278,7 @@ msgstr "Valinnainen"
 #: mediacore/forms/admin/media.py:147 mediacore/forms/admin/podcasts.py:109
 #: mediacore/templates/comments/_list.html:35
 msgid "Permalink"
-msgstr "Suoramalinkki"
+msgstr "Suoralinkki"
 
 #: mediacore/forms/admin/media.py:148 mediacore/forms/admin/podcasts.py:110
 #: mediacore/templates/admin/media/_media-table.html:33
@@ -325,7 +325,7 @@ msgstr "esim: pennut, tanskandoggi, suloinen"
 
 #: mediacore/forms/admin/media.py:155 mediacore/forms/admin/settings.py:217
 msgid "Administrative Notes"
-msgstr "Hallinnollinen muistinpano"
+msgstr "Admin-puolen muistinpanot"
 
 #: mediacore/forms/admin/players.py:40
 #: mediacore/forms/admin/storage/__init__.py:37
@@ -340,15 +340,15 @@ msgstr "Näyttönimi"
 
 #: mediacore/forms/admin/players.py:89
 msgid "Yes, use the Flash Player when the device supports it."
-msgstr "Kyllä, käytä Flash Player, jos laite tukee."
+msgstr "Kyllä, käytä Flash Playeriä, jos laite tukee sitä."
 
 #: mediacore/forms/admin/players.py:90
 msgid "No, use the HTML5 Player when the device supports it."
-msgstr "Käytä HTML5 Player kun laite tukee sitä."
+msgstr "Ei, käytä HTML5 Playeriä, jos laite tukee sitä."
 
 #: mediacore/forms/admin/players.py:93
 msgid "Prefer the Flash Player when possible"
-msgstr "Käytä Flash Player, jos mahdollista"
+msgstr "Käytä mieluummin Flash Playeriä jos mahdollista"
 
 #: mediacore/forms/admin/players.py:110
 msgid "Script Tag"
@@ -356,7 +356,7 @@ msgstr "Komentosarjatunnus"
 
 #: mediacore/forms/admin/players.py:111
 msgid "The unique script tag given for your site."
-msgstr "Sivuston ainutlaatuinen komentosarjatunnus."
+msgstr "Sivuston uniikki komentosarjatunnus."
 
 #: mediacore/forms/admin/players.py:130
 msgid "Player Options:"
@@ -364,7 +364,7 @@ msgstr "Player-vaihtoehdot:"
 
 #: mediacore/forms/admin/players.py:132
 msgid "Disable the player keyboard controls."
-msgstr "Poista player-näppäinohjaimet."
+msgstr "Poista playerin näppäinohjaimet."
 
 #: mediacore/forms/admin/players.py:133
 msgid "Enable fullscreen."
@@ -376,7 +376,7 @@ msgstr "HD-laatu oletuksena."
 
 #: mediacore/forms/admin/players.py:135
 msgid "Allow the player to load related videos once playback of the initial video starts. Related videos are displayed in the \"genie menu\" when the menu button is pressed."
-msgstr "Anna playerin näyttää aiheen liittyviä videoita, kun  alkuperäisen videon toisto alkaa. Liittyvät videot näkyvät \"genie menu\" kun painat MENU-painiketta."
+msgstr "Anna playerin näyttää aiheeseen liittyviä videoita, kun  alkuperäisen videon toisto alkaa. Nämä näkyvät kohdassa \"genie menu\" painettaessa menu-painiketta."
 
 #: mediacore/forms/admin/players.py:136
 msgid "Show the search box when the video is minimized. The above option must be enabled for this to work."
@@ -388,7 +388,7 @@ msgstr "Näytä videotiedot, kuten nimi ja luokitus ennen toiston alkamista."
 
 #: mediacore/forms/admin/players.py:138
 msgid "Enable privacy-enhanced mode."
-msgstr "Tehostetu-yksityisyys  tila."
+msgstr "Tehostettu yksityisyys-tila."
 
 #: mediacore/forms/admin/podcasts.py:35
 msgid "Parental Advisory"
@@ -409,7 +409,7 @@ msgstr "Podcastin tiedot:"
 
 #: mediacore/forms/admin/podcasts.py:116
 msgid "Explicit?"
-msgstr "Nimenomainen?"
+msgstr "Eksplisiittinen?"
 
 #: mediacore/forms/admin/podcasts.py:117
 msgid "Category"
@@ -454,15 +454,15 @@ msgstr "Liitä"
 
 #: mediacore/forms/admin/settings.py:42
 msgid "Plain <textarea> fields (0kB)"
-msgstr "Tavallinen <textarea> kentät (0Kb)"
+msgstr "Tavalliset <textarea> kentät (0Kb)"
 
 #: mediacore/forms/admin/settings.py:43
 msgid "Enable TinyMCE for <textarea> fields accepting XHTML (281kB)"
-msgstr "Käytä TinyMCE <textarea> kenttiä XHTML:n kanssa (281kB)"
+msgstr "Käytä TinyMCE-editoria niiden <textarea> kenttien kanssa,  jotka hyväksyvät XHTML:n  (281kB)"
 
 #: mediacore/forms/admin/settings.py:46
 msgid "Brown"
-msgstr "Tumma"
+msgstr "Ruskea"
 
 #: mediacore/forms/admin/settings.py:47
 msgid "Blue"
@@ -474,7 +474,7 @@ msgstr "Vihreä"
 
 #: mediacore/forms/admin/settings.py:49
 msgid "Tan"
-msgstr "Rusketus"
+msgstr "Vaaleanruskea"
 
 #: mediacore/forms/admin/settings.py:50
 msgid "White"
@@ -498,7 +498,7 @@ msgstr "Ei"
 
 #: mediacore/forms/admin/settings.py:88
 msgid "Email Notifications:"
-msgstr "Sähköposti Ilmoitukset:"
+msgstr "Sähköposti-Ilmoitukset:"
 
 #: mediacore/forms/admin/settings.py:89
 msgid "Media Uploaded"
@@ -506,7 +506,7 @@ msgstr "Media-tiedosto ladattu"
 
 #: mediacore/forms/admin/settings.py:90
 msgid "Comment Posted"
-msgstr "Kommentti lehetetty"
+msgstr "Kommentti lähetetty"
 
 #: mediacore/forms/admin/settings.py:91
 msgid "Support Requested"
@@ -518,7 +518,7 @@ msgstr "Lähetä sähköpostia"
 
 #: mediacore/forms/admin/settings.py:107
 msgid "Popularity Algorithm Variables:"
-msgstr "Suosio muuttuja-algoritmi :"
+msgstr "Suosituimmuus-algoritmin muuttujat:"
 
 #: mediacore/forms/admin/settings.py:109
 msgid "Decay Exponent"
@@ -526,15 +526,15 @@ msgstr "Kulutuseksponentti"
 
 #: mediacore/forms/admin/settings.py:110
 msgid "Decay Lifetime"
-msgstr "Kulutuselinikääri"
+msgstr "Kulutuselinikaari"
 
 #: mediacore/forms/admin/settings.py:140
 msgid "Max. allowed upload file size in megabytes"
-msgstr "Maks. sallittu ladatava tiedoston koko megatavuina"
+msgstr "Maks. sallittu ladatavan tiedoston koko megatavuina"
 
 #: mediacore/forms/admin/settings.py:141
 msgid "Legal Wording:"
-msgstr "Laillinen tiedotus:"
+msgstr "Sallittu kieliasu::"
 
 #: mediacore/forms/admin/settings.py:142
 msgid "User Uploads"
@@ -542,7 +542,7 @@ msgstr "Käyttäjän lataukset"
 
 #: mediacore/forms/admin/settings.py:153
 msgid "Google Analytics Details:"
-msgstr "Google Analytics:n tiedot:"
+msgstr "Google Analyticsin tiedot:"
 
 #: mediacore/forms/admin/settings.py:154
 msgid "Tracking Code"
@@ -550,7 +550,7 @@ msgstr "Seurantakoodi"
 
 #: mediacore/forms/admin/settings.py:170
 msgid "Site Maps"
-msgstr "Sivuston kartat"
+msgstr "Sivustokartat"
 
 #: mediacore/forms/admin/settings.py:175
 msgid "RSS Feeds"
@@ -566,7 +566,7 @@ msgstr "Sivuston nimi"
 
 #: mediacore/forms/admin/settings.py:194
 msgid "Site Tag Line"
-msgstr "Sivuston iskulause"
+msgstr "Sivuston asiasanat"
 
 #: mediacore/forms/admin/settings.py:196
 msgid "Display Site Name"
@@ -574,7 +574,7 @@ msgstr "Näytä sivuston nimi"
 
 #: mediacore/forms/admin/settings.py:200
 msgid "Default Language"
-msgstr "Oleteuskieli"
+msgstr "Oletuskieli"
 
 #: mediacore/forms/admin/settings.py:204
 msgid "Featured Category"
@@ -586,7 +586,7 @@ msgstr "Sisällön muokkaaminen"
 
 #: mediacore/forms/admin/settings.py:213
 msgid "Administrative notes on Media:"
-msgstr "Adminin muistiinpanoja videoista:"
+msgstr "Admin-puolen muistiinpanoja videoista:"
 
 #: mediacore/forms/admin/settings.py:215
 msgid "Display notes"
@@ -594,7 +594,7 @@ msgstr "Näytön vihjeet"
 
 #: mediacore/forms/admin/settings.py:230
 msgid "Require comments to be approved by an admin"
-msgstr "Admin on hyväksyttävä kommentit"
+msgstr "Pääkäyttäjän on hyväksyttävä kommentit"
 
 #: mediacore/forms/admin/settings.py:231
 msgid "Akismet Anti-Spam Details:"
@@ -610,7 +610,7 @@ msgstr "Akismetin URL"
 
 #: mediacore/forms/admin/settings.py:235
 msgid "Vulgarity Filter Settings"
-msgstr "Mauttomuus-filtterin asetukset"
+msgstr "Epäasiallisuus-filtterin asetukset"
 
 #: mediacore/forms/admin/settings.py:236
 msgid "Filtered Words"
@@ -634,7 +634,7 @@ msgstr "API:n avain"
 
 #: mediacore/forms/admin/settings.py:252
 msgid "Access Key"
-msgstr "Pääsy-avain"
+msgstr "Pääsyavain"
 
 #: mediacore/forms/admin/settings.py:254
 msgid "API Settings:"
@@ -642,7 +642,7 @@ msgstr "API:n asetukset"
 
 #: mediacore/forms/admin/settings.py:255
 msgid "Max media results"
-msgstr "Maks. media-tidostojen tulokset"
+msgstr "Media-tiedostojen tuloksien maksimimäärä"
 
 #: mediacore/forms/admin/settings.py:256
 msgid "Max tree depth"
@@ -677,7 +677,7 @@ msgstr "Taustaväri"
 
 #: mediacore/forms/admin/settings.py:288
 msgid "Link color"
-msgstr "Linkki väri"
+msgstr "Linkin väri"
 
 #: mediacore/forms/admin/settings.py:291
 msgid "Visited Link color"
@@ -717,7 +717,7 @@ msgstr "Käyttäjän lataus päälle"
 
 #: mediacore/forms/admin/settings.py:324
 msgid "Enable widescreen media player by default"
-msgstr "Laajakuva mediasoitin oletuksena"
+msgstr "Laajakuva-mediasoitin oletuksena"
 
 #: mediacore/forms/admin/settings.py:328
 msgid "Display Logo"
@@ -791,27 +791,27 @@ msgstr "Palvelimen nimi"
 
 #: mediacore/forms/admin/storage/ftp.py:36
 msgid "Subdirectory on server to upload to"
-msgstr "Alihakemisto johon ladataan"
+msgstr "Alihakemisto, johon ladataan"
 
 #: mediacore/forms/admin/storage/ftp.py:37
 msgid "How many times should MediaCore try to verify the FTP upload before declaring it a failure?"
-msgstr "Montako kertaa järjestelmä yrittää todentaa FTP-lataus ennen virheilmoitusta?"
+msgstr "Montako kertaa järjestelmä yrittää todentaa FTP-latauksen ennen virheilmoitusta?"
 
 #: mediacore/forms/admin/storage/ftp.py:38
 msgid "HTTP URL to access remotely stored files"
-msgstr "HTTP URL yhteys etä-tallennetuin tiedostoihin"
+msgstr "HTTP URL -yhteys etä-tallennettuihin tiedostoihin"
 
 #: mediacore/forms/admin/storage/ftp.py:39
 msgid "RTMP Server URL to stream remotely stored files (Optional)"
-msgstr "RTMP palvelimen URL etä-tallennetut tiedostojen toistamisen (valinnainen)"
+msgstr "RTMP palvelimen URL etä-tallennettujen tiedostojen toistamiseen (valinnainen)"
 
 #: mediacore/forms/admin/storage/localfiles.py:26
 msgid "Options specific to Local File Storage:"
-msgstr "Paikallinen tietovaraston asetukset:"
+msgstr "Paikallisen tietovaraston asetukset:"
 
 #: mediacore/forms/admin/storage/localfiles.py:29
 msgid "Path to store files under"
-msgstr "Tiedostojen tallennus polku"
+msgstr "Tiedostojen tallennuspolku"
 
 #: mediacore/forms/admin/storage/localfiles.py:30
 msgid "Defaults to the \"data_dir\" from your INI file."
@@ -819,11 +819,11 @@ msgstr "INI-tiedoston \"data_dir\" oletusarvot."
 
 #: mediacore/forms/admin/storage/localfiles.py:33
 msgid "RTMP Server URL"
-msgstr "RTMP Palvelimen URL"
+msgstr "RTMP-palvelimen URL"
 
 #: mediacore/forms/admin/storage/localfiles.py:34
 msgid "Files must be accessible under the same name as they are stored with locally."
-msgstr "Tiedostot pitää käyttää samaa nimeä millä ne on tallennettu paikallisesti."
+msgstr "Tiedostoissa pitää käyttää samaa nimeä, millä ne on tallennettu paikallisesti."
 
 #: mediacore/forms/admin/storage/remoteurls.py:26
 msgid "Add another URL"
@@ -831,11 +831,11 @@ msgstr "Lisää toinen URL"
 
 #: mediacore/forms/admin/storage/remoteurls.py:55
 msgid "RTMP server URLs must begin with rtmp://"
-msgstr "RTMP palvelimen URL-osoitteita pitää alkaa RTMP: / /"
+msgstr "RTMP-palvelimen URL-osoitteiden pitää alkaa rtmp: / /"
 
 #: mediacore/forms/admin/storage/remoteurls.py:62
 msgid "RTMP Servers:"
-msgstr "RTMP Palvelimet:"
+msgstr "RTMP-palvelimet:"
 
 #: mediacore/lib/email.py:86
 #, python-format
@@ -965,25 +965,25 @@ msgstr "iTunes-soitin"
 
 #: mediacore/lib/storage/__init__.py:351
 msgid "Unusable file or URL provided."
-msgstr "Kelvoton tiedosto tai URL-osoitteen."
+msgstr "Epäkelpo tiedosto tai URL-osoite."
 
 #: mediacore/lib/storage/ftp.py:50
 msgid "FTP Storage"
-msgstr "FTP Varasto"
+msgstr "FTP-varasto"
 
 #: mediacore/lib/storage/ftp.py:103
 #, python-format
 msgid "Could not upload the file from your FTP server: %s"
-msgstr "Tiedoston ei voi ladata FTP-palvelimelta:%s"
+msgstr "Tiedostoa ei voi ladata FTP-palvelimelta:%s"
 
 #: mediacore/lib/storage/ftp.py:197
 msgid "The file transferred to your FTP server is corrupted. Please try again."
-msgstr "FTP-palvelimelle siirrety tiedosto on vioittunut. Ole hyvä ja yritä uudelleen."
+msgstr "FTP-palvelimelle siirretty tiedosto on vioittunut. Yritä uudelleen."
 
 #: mediacore/lib/storage/ftp.py:202
 #, python-format
 msgid "Could not download the file from your FTP server: %s"
-msgstr "Ei voi ladata tiedoston FTP-palvelimelta:%s"
+msgstr "Ei voi ladata tiedostoa FTP-palvelimelta:%s"
 
 #: mediacore/lib/storage/localfiles.py:34
 msgid "Local File Storage"
@@ -991,7 +991,7 @@ msgstr "Paikallinen tiedostovarasto"
 
 #: mediacore/lib/storage/remoteurls.py:37
 msgid "Remote URLs"
-msgstr "Kauko URL"
+msgstr "Etä-URLit"
 
 #: mediacore/lib/storage/s3.py:27
 msgid "Amazon S3"
@@ -1000,7 +1000,7 @@ msgstr "Amazon S3"
 #: mediacore/templates/error.html:24
 #, python-format
 msgid "A %(code)s Error has Occurred"
-msgstr " %(code)s  Virhe"
+msgstr " %(code)s  Virhe tapahtui"
 
 #: mediacore/templates/error.html:29
 msgid "This page has gone missing!"
@@ -1008,7 +1008,7 @@ msgstr "Tämä sivu on kadonnut!"
 
 #: mediacore/templates/error.html:30
 msgid "Whoopsadaisy!"
-msgstr "Jumalauta!"
+msgstr "Hups!"
 
 #: mediacore/templates/error.html:33
 msgid "We can't find this page. The page may have been moved or removed."
@@ -1032,11 +1032,11 @@ msgstr "Palaa takaisin [1: media sivu]."
 
 #: mediacore/templates/error.html:43
 msgid "Fill out an error report below."
-msgstr "Täytä virheraportin."
+msgstr "Täytä virheraportti."
 
 #: mediacore/templates/error.html:49
 msgid "Email: (so we can contact you if we find it!)"
-msgstr "sähköposti: (jotta voimme ottaa sinuun yhteyttä!)"
+msgstr "Sähköposti: (jotta voimme ottaa sinuun yhteyttä!)"
 
 #: mediacore/templates/error.html:53
 msgid "What were you looking for when you got the error?"
@@ -1100,12 +1100,12 @@ msgstr "Suosituimmat"
 #: mediacore/templates/media/explore.html:44
 #: mediacore/templates/media/explore.html:79
 msgid "Featured"
-msgstr "Erityiset"
+msgstr "Kiinnostavimmat"
 
 #: mediacore/templates/helpers.html:90
 #, python-format
 msgid "The %(fieldName)s field accepts some HTML formatting: %(formattingList)s"
-msgstr " %(fieldName)s  kenttä hyväksyy joitakin HTML muotoiluja: %(formattingList)s "
+msgstr " %(fieldName)s  kenttä hyväksyy joitakin HTML-muotoiluja: %(formattingList)s "
 
 #: mediacore/templates/layout.html:57
 msgid "Feeds:"
@@ -1114,7 +1114,7 @@ msgstr "Syötteet:"
 #: mediacore/templates/layout.html:63 mediacore/templates/admin/master.html:31
 #: mediacore/templates/admin/master.html:50
 msgid "MediaCore"
-msgstr "videojärjestelmä"
+msgstr "Videojärjestelmä"
 
 #: mediacore/templates/layout.html:63
 msgid "video platform"
@@ -1196,19 +1196,19 @@ msgstr "Roskis"
 #: mediacore/templates/admin/index.html:24
 #: mediacore/templates/admin/master.html:53
 msgid "Dashboard"
-msgstr "Kojelauta"
+msgstr "Hallintapaneeli"
 
 #: mediacore/templates/admin/index.html:54
 msgid "Awaiting Review"
-msgstr "Odotetaan arvostelu"
+msgstr "Odotetaan arviointia"
 
 #: mediacore/templates/admin/index.html:59
 msgid "Awaiting Encoding"
-msgstr "Odotetaan koodaus"
+msgstr "Odotetaan koodausta"
 
 #: mediacore/templates/admin/index.html:64
 msgid "Awaiting Publishing"
-msgstr "Odotetaan julkaisu"
+msgstr "Odotetaan julkaisua"
 
 #: mediacore/templates/admin/index.html:71
 #: mediacore/templates/admin/media/edit.html:23
@@ -1219,7 +1219,7 @@ msgstr "Lisää uusi mediatiedosto"
 
 #: mediacore/templates/admin/index.html:77
 msgid "Recently Published"
-msgstr "Vasta julkaistut"
+msgstr "Åskettäin julkaistut"
 
 #: mediacore/templates/admin/master.html:54
 msgid "View Site"
@@ -1274,7 +1274,7 @@ msgstr "Vahvista poisto"
 #: mediacore/templates/admin/tags/index.html:43
 #, python-format
 msgid "Are you sure you want to delete these %(num)s items?"
-msgstr "Oletko varma, että haluat poistaa nämä %(num)s  kohteita?"
+msgstr "Oletko varma, että haluat poistaa nämä %(num)s  kohteet?"
 
 #: mediacore/templates/admin/categories/index.html:78
 #: mediacore/templates/admin/categories/index.html:130
@@ -1296,7 +1296,7 @@ msgstr "Lisää tunniste"
 
 #: mediacore/templates/admin/categories/index.html:134
 msgid "Edit Category"
-msgstr "Muokkaa kategoria"
+msgstr "Muokkaa kategoriaa"
 
 #: mediacore/templates/admin/categories/index.html:138
 msgid "Delete Category"
@@ -1304,12 +1304,12 @@ msgstr "Poista kategoria"
 
 #: mediacore/templates/admin/categories/index.html:141
 msgid "Are you sure you want to delete this category [1:and ALL of its children]?"
-msgstr "Oletko varma että haluat poistaa tämän kategorian [1: ja kaikki alimaiset]?"
+msgstr "Oletko varma, että haluat poistaa tämän kategorian [1: ja kaikki alimaiset]?"
 
 #: mediacore/templates/admin/categories/index.html:154
 #: mediacore/templates/admin/tags/index.html:83
 msgid "Edit Tag"
-msgstr "Muokkaa tunniste"
+msgstr "Muokkaa tunnistetta"
 
 #: mediacore/templates/admin/categories/index.html:158
 #: mediacore/templates/admin/tags/index.html:87
@@ -1388,7 +1388,7 @@ msgstr "Toimitettiin"
 
 #: mediacore/templates/admin/comments/_comment-table.html:59
 msgid "Go to the admin page for this item"
-msgstr "Siirry admin sivulle"
+msgstr "Siirry hallinta-sivulle"
 
 #: mediacore/templates/admin/comments/index.html:28
 #, python-format
@@ -1410,7 +1410,7 @@ msgstr "Peruuta muokkaus"
 #: mediacore/templates/admin/comments/index.html:46
 #, python-format
 msgid "Are you sure you want to delete %(name)s's comment?"
-msgstr "Haluat varmasti poistaa %(name)s  kommentti?"
+msgstr "Haluatko varmasti poistaa %(name)s  kommentin?"
 
 #: mediacore/templates/admin/comments/index.html:89
 #, python-format
@@ -1442,12 +1442,12 @@ msgstr "Julkaisupäivä"
 
 #: mediacore/templates/admin/media/_media-table.html:30
 msgid "Upload Date"
-msgstr "Lataus päivämäärä"
+msgstr "Latauspäivämäärä"
 
 #: mediacore/templates/admin/media/_media-table.html:31
 #: mediacore/templates/admin/media/update-status-form.html:41
 msgid "Publish Status"
-msgstr "Julkaisu tila"
+msgstr "Julkaisutila"
 
 #: mediacore/templates/admin/media/_media-table.html:34
 msgid "Number of Comments"
@@ -1504,13 +1504,13 @@ msgstr "Tiedosto on liian suuri, tiedoston maksimikoko on %(size)s "
 #: mediacore/templates/admin/podcasts/edit.html:46
 #, python-format
 msgid "File could not be added, amount of %(num)s files exceeded"
-msgstr "Tiedostoa ei voitu lisätä, tiedosto määrä%(num)s ylitti"
+msgstr "Tiedostoa ei voitu lisätä, tiedostojen määrä%(num)s ylittyi"
 
 #: mediacore/templates/admin/media/edit.html:66
 #: mediacore/templates/admin/podcasts/edit.html:47
 #, python-format
 msgid "File is too big, overall filesize of %(size)s exceeded"
-msgstr "Liian suuri tieosto, yleinen tiedostokoko  %(size)s on ylitettyy"
+msgstr "Liian suuri tieosto, yleinen tiedostokoko  %(size)s ylittyi"
 
 #: mediacore/templates/admin/media/edit.html:85
 #: mediacore/templates/admin/podcasts/edit.html:71
@@ -1527,15 +1527,15 @@ msgstr "Lataa tiedosto"
 
 #: mediacore/templates/admin/media/edit.html:106
 msgid "Failed to add this file. Please try again."
-msgstr " Tiedoston lisäys epäonnistui. Ole hyvä ja yritä uudelleen."
+msgstr " Tiedoston lisäys epäonnistui. Yritä uudelleen."
 
 #: mediacore/templates/admin/media/edit.html:107
 msgid "Failed to save your change. Please try again."
-msgstr "Tallentaminen epäonnistui. Ole hyvä ja yritä uudelleen."
+msgstr "Tallentaminen epäonnistui. Yritä uudelleen."
 
 #: mediacore/templates/admin/media/edit.html:108
 msgid "Uploading"
-msgstr "Lataan"
+msgstr "Ladataan"
 
 #: mediacore/templates/admin/media/edit.html:109
 msgid "Queued"
@@ -1547,7 +1547,7 @@ msgstr "Virhe"
 
 #: mediacore/templates/admin/media/edit.html:122
 msgid "A connection problem occurred, try again."
-msgstr "Yhteys kätkesi, yritä uudelleen."
+msgstr "Yhteys katkesi, yritä uudelleen."
 
 #: mediacore/templates/admin/media/edit.html:123
 msgid "An error has occurred, try again."
@@ -1607,7 +1607,7 @@ msgstr "Kuvake"
 
 #: mediacore/templates/admin/media/edit.html:208
 msgid "Manage Files"
-msgstr "Hallinnoi tiedostot"
+msgstr "Hallinnoi tiedostoja"
 
 #: mediacore/templates/admin/media/edit.html:217
 msgid "File"
@@ -1623,7 +1623,7 @@ msgstr "Kesto"
 
 #: mediacore/templates/admin/media/edit.html:220
 msgid "Bitrate"
-msgstr "Laatu"
+msgstr "Kuvan laatu"
 
 #: mediacore/templates/admin/media/edit.html:221
 msgid "Dimensions"
@@ -1667,11 +1667,11 @@ msgstr "Tarkastamattomat videot"
 
 #: mediacore/templates/admin/media/index.html:78
 msgid "Unencoded Media"
-msgstr "Koodaamattomat video"
+msgstr "Koodaamattomat videot"
 
 #: mediacore/templates/admin/media/index.html:79
 msgid "Draft Media"
-msgstr "Raaka video"
+msgstr "Käsittelemätön video"
 
 #: mediacore/templates/admin/media/index.html:80
 msgid "Published Media"
@@ -1696,11 +1696,11 @@ msgstr "Suodattimet"
 
 #: mediacore/templates/admin/media/update-status-form.html:27
 msgid "View this media where it is published"
-msgstr "Näytä tämä media kun se on julkaistu"
+msgstr "Näytä tämä media, kun se on julkaistu"
 
 #: mediacore/templates/admin/media/update-status-form.html:33
 msgid "View this media where it will be published"
-msgstr "Näytä tämä media kun se julkaistaan"
+msgstr "Näytä tämä media, kun se julkaistaan"
 
 #: mediacore/templates/admin/media/update-status-form.html:33
 msgid "Preview"
@@ -1708,7 +1708,7 @@ msgstr "Esikatselu"
 
 #: mediacore/templates/admin/media/update-status-form.html:47
 msgid "You must add a file and save before review can begin."
-msgstr "Sinun täytyy ladata ja tallentaa tiedoston, ennen tarkastelun aloittamista."
+msgstr "Sinun täytyy ladata ja tallentaa tiedosto ennen tarkastelun aloittamista."
 
 #: mediacore/templates/admin/media/update-status-form.html:51
 msgid "Review Pending"
@@ -1730,7 +1730,7 @@ msgstr "Koodaus vireillä"
 #: mediacore/templates/admin/media/update-status-form.html:79
 #: mediacore/templates/admin/media/update-status-form.html:92
 msgid "Click to change the publish date"
-msgstr "Klikkaa muuttaaksesi julkaisupäivä"
+msgstr "Klikkaa, jos haluat muuttaa julkaisupäivän"
 
 #: mediacore/templates/admin/media/update-status-form.html:53
 #: mediacore/templates/admin/media/update-status-form.html:69
@@ -1751,7 +1751,7 @@ msgstr "Vireillä"
 #: mediacore/templates/admin/media/update-status-form.html:77
 #: mediacore/templates/admin/media/update-status-form.html:90
 msgid "Review Complete"
-msgstr "Arvostelu suoritettu"
+msgstr "Arviointi suoritettu"
 
 #: mediacore/templates/admin/media/update-status-form.html:62
 msgid "Review can only be completed after a file is added."
@@ -1759,7 +1759,7 @@ msgstr "Tarkastelu voidaan toteuttaa vasta sitten, kun tiedosto on lisätty."
 
 #: mediacore/templates/admin/media/update-status-form.html:73
 msgid "Encoding will be complete when an acceptable file is added."
-msgstr "Koodaus suoritettaan, sitten kun kelvollinen tiedosto on lisätty."
+msgstr "Koodaus suoritetaan sitten, kun kelvollinen tiedosto on lisätty."
 
 #: mediacore/templates/admin/media/update-status-form.html:85
 msgid "Publish Now"
@@ -1769,11 +1769,11 @@ msgstr "Julkaise nyt"
 #: mediacore/templates/admin/players/index.html:45
 #: mediacore/templates/admin/settings/master.html:62
 msgid "Players"
-msgstr "Soitimet"
+msgstr "Soittimet"
 
 #: mediacore/templates/admin/players/index.html:32
 msgid "By deleting this player you will lose all settings related to it."
-msgstr "Poistamalla tämä soitin, menetät kaikki siihen liittyvät asetukset."
+msgstr "Poistamalla tämän soittimen, menetät kaikki siihen liittyvät asetukset."
 
 #: mediacore/templates/admin/players/index.html:54
 msgid "Priority"
@@ -1812,7 +1812,7 @@ msgstr[1] "Näytä ensimmäinen %(num)s  jakso"
 
 #: mediacore/templates/admin/podcasts/edit.html:23
 msgid "Edit Podcast"
-msgstr "Muokkaa podcasti"
+msgstr "Muokkaa podcastia"
 
 #: mediacore/templates/admin/podcasts/edit.html:23
 #: mediacore/templates/admin/podcasts/edit.html:96
@@ -1821,7 +1821,7 @@ msgstr "Uusi podcasti"
 
 #: mediacore/templates/admin/podcasts/edit.html:105
 msgid "View this podcast where it is published"
-msgstr "Näytä missä on julkaistu tämä podcasti"
+msgstr "Esikatsele podcasti"
 
 #: mediacore/templates/admin/podcasts/index.html:32
 msgid "Add Podcast"
@@ -1841,13 +1841,13 @@ msgstr "Data API"
 
 #: mediacore/templates/admin/settings/api.html:26
 msgid "Generate"
-msgstr "Tuottaa"
+msgstr "Generoi"
 
 #: mediacore/templates/admin/settings/appearance.html:24
 #: mediacore/templates/admin/settings/appearance.html:45
 #: mediacore/templates/admin/settings/master.html:50
 msgid "Appearance"
-msgstr "Ulkomuoto"
+msgstr "Ulkoasu"
 
 #: mediacore/templates/admin/settings/appearance.html:33
 msgid "Confirm Reset"
@@ -1855,7 +1855,7 @@ msgstr "Vahvista palautus"
 
 #: mediacore/templates/admin/settings/appearance.html:34
 msgid "Are you sure you want to reset your settings to the default?"
-msgstr "Oletko varma, että haluat palauttaa oletusasetuksiin?"
+msgstr "Oletko varma, että haluat palauttaa oletusasetukset?"
 
 #: mediacore/templates/admin/settings/master.html:59
 msgid "Notifications"
@@ -1877,7 +1877,7 @@ msgstr "RSS ja sivustokartat"
 #: mediacore/templates/admin/storage/index.html:23
 #: mediacore/templates/admin/storage/index.html:111
 msgid "Storage Engines"
-msgstr "Varastointi moottorit"
+msgstr "Varastointimoottorit"
 
 #: mediacore/templates/admin/settings/master.html:79
 msgid "Plugins"
@@ -1890,7 +1890,7 @@ msgstr "Ilmoitussähköpostit"
 
 #: mediacore/templates/admin/storage/edit.html:30
 msgid "New Storage Engine"
-msgstr "Uusi varastointi mootori"
+msgstr "Uusi varastointimootori"
 
 #: mediacore/templates/admin/storage/index.html:31
 msgid "WARNING:"
@@ -1899,7 +1899,7 @@ msgstr "VAROITUS:"
 #: mediacore/templates/admin/storage/index.html:32
 #, python-format
 msgid "Deleting this Storage Engine (%(name)s) will:"
-msgstr "Poistetaan tämän varastointi moottori (%(name)s):"
+msgstr "Poistetaan tämä varastointimoottori (%(name)s):"
 
 #: mediacore/templates/admin/storage/index.html:33
 #, python-format
@@ -1912,7 +1912,7 @@ msgstr "Poistaa asetuksia pysyvästi."
 
 #: mediacore/templates/admin/storage/index.html:35
 msgid "An alternative to deleting is disabling. Disabling a Storage Engine will simply prevent its use for files added from now on."
-msgstr "Tästä lähtien lisätyt tiedostojen poisto-toiminto on pois käytöstä. Varastointi moottori estää sen käyttö."
+msgstr "Vaihtoehto poistamiselle on ottaa pois käytöstä. Kun otat varastointimoottorin pois käytöstä, vaikutus kohdistuu vain tuleviin tiedostoihin."
 
 #: mediacore/templates/admin/storage/index.html:112
 #: mediacore/templates/admin/storage/index.html:151
@@ -1925,7 +1925,7 @@ msgstr "Levyn käyttö"
 
 #: mediacore/templates/admin/storage/index.html:153
 msgid "Please select what type of storage engine you would like to add:"
-msgstr "Valitse minkälaista varastointi moottori haluat lisätä:"
+msgstr "Valitse, minkälaisen varastointimoottorin haluat lisätä:"
 
 #: mediacore/templates/admin/users/edit.html:44
 msgid "New User"
@@ -1946,17 +1946,17 @@ msgstr "Sähköposti"
 #: mediacore/templates/categories/index.html:42
 #: mediacore/templates/media/explore.html:113
 msgid "more of the Latest..."
-msgstr "Lisä viimeisimmät ..."
+msgstr "Lisää viimeisimpiä..."
 
 #: mediacore/templates/categories/index.html:47
 #: mediacore/templates/media/explore.html:98
 msgid "more of the Most Popular..."
-msgstr "Lisä suosituimat ..."
+msgstr "Lisää suosituimpia..."
 
 #: mediacore/templates/categories/index.html:49
 #: mediacore/templates/categories/more.html:34
 msgid "There is no media in this category."
-msgstr "Ei ole media tässä kategoriassa."
+msgstr "Tässä kategoriassa ei ole yhtään mediaa."
 
 #: mediacore/templates/categories/layout.html:33
 msgid "Choose a Category:"
@@ -1998,15 +1998,15 @@ msgstr "Viimeisimmät RSS"
 #: mediacore/templates/media/explore.html:103
 #, python-format
 msgid "As soon as there are more than %(num)s published videos in the library, the most popular videos will be listed here."
-msgstr "Heti kun kirjastossa on julkaistu yli %(num)s videoita, suosituimmat videot lueteltu tässä."
+msgstr "Heti kun kirjastossa on julkaistu yli %(num)s videoita, suosituimmat videot on lueteltu tässä."
 
 #: mediacore/templates/media/explore.html:104
 msgid "Why not add a few more?"
-msgstr "Miksi ei lisätä muutaman?"
+msgstr "Miksi ei lisättäisi vielä muutama?"
 
 #: mediacore/templates/media/explore.html:116
 msgid "There are no media items published yet!"
-msgstr "Ei ole julkaistua mediaa vielä!"
+msgstr "Julkaistua mediaa ei ole vielä!"
 
 #: mediacore/templates/media/index.html:24
 #, python-format
@@ -2068,7 +2068,7 @@ msgstr "Vastaava media"
 
 #: mediacore/templates/media/view.html:108
 msgid "This is not listed under any categories."
-msgstr "Tämä ei ole listattu missään ryhmässä."
+msgstr "Tätä ei ole listattu missään ryhmässä."
 
 #: mediacore/templates/media/view.html:112
 msgid "See All Tags"
@@ -2076,23 +2076,23 @@ msgstr "Katso kaikki tunnisteet"
 
 #: mediacore/templates/media/view.html:116
 msgid "This does not have any associated tags."
-msgstr "Ei ole liitettyjä tunnisteitä."
+msgstr "Ei ole liitettyjä tunnisteita."
 
 #: mediacore/templates/players/html5_or_flash.html:35
 msgid "Pop out a new player window"
-msgstr "Tupsahtaa uusi player-ikkunaan"
+msgstr "Avautuu uuteen ikkunaan"
 
 #: mediacore/templates/players/html5_or_flash.html:35
 msgid "Pop Out"
-msgstr "Putkahtaa esiin"
+msgstr "Avautuu"
 
 #: mediacore/templates/players/html5_or_flash.html:36
 msgid "Shrink"
-msgstr "Kutistaa"
+msgstr "Kutista"
 
 #: mediacore/templates/players/html5_or_flash.html:36
 msgid "Expand"
-msgstr "Laajennaa"
+msgstr "Laajenna"
 
 #: mediacore/templates/players/html5_or_flash.html:38
 msgid "Share"
@@ -2120,11 +2120,11 @@ msgstr "Jaa Twitterissä"
 
 #: mediacore/templates/players/html5_or_flash.html:52
 msgid "Embed"
-msgstr "Upottaa"
+msgstr "Upota"
 
 #: mediacore/templates/players/html5_or_flash.html:56
 msgid "Embeddable Player HTML:"
-msgstr "Upotettava HTML-player:"
+msgstr "Upotettava HTML-koodi:"
 
 #: mediacore/templates/players/html5_or_flash.html:62
 msgid "Download"
@@ -2132,7 +2132,7 @@ msgstr "Lataa"
 
 #: mediacore/templates/players/none.html:24
 msgid "No suitable player found for this media."
-msgstr "Sopiva soitin ei löytynyt tälle medialle."
+msgstr "Sopivaa soitinta ei löytynyt tälle medialle."
 
 #: mediacore/templates/podcasts/index.html:30
 msgid "All Podcasts"
@@ -2146,7 +2146,7 @@ msgstr "Lisää iTunesiin"
 #: mediacore/templates/podcasts/index.html:42
 #: mediacore/templates/podcasts/view.html:46
 msgid "Subscribe via RSS"
-msgstr "Tilaa RSS-kautta"
+msgstr "Tilaa RSS-syötteen kautta"
 
 #: mediacore/templates/podcasts/index.html:45
 msgid "Latest Episodes"
@@ -2199,7 +2199,7 @@ msgstr "Ongelmia?"
 
 #: mediacore/templates/upload/index.html:51
 msgid "If you have problems uploading or have some questions, please email us at"
-msgstr "Jos sinulla on lataus ongelmia tai muuta kysyttävää, lähetä meille sähköpostia osoitteeseen"
+msgstr "Jos sinulla on latausongelmia tai muuta kysyttävää, lähetä meille sähköpostia osoitteeseen"
 
 #: mediacore/templates/upload/success.html:30
 msgid "Upload Successful"
@@ -2215,4 +2215,4 @@ msgstr "Lähetyksesi odottaa valvojan hyväksyntää."
 
 #: mediacore/templates/upload/success.html:36
 msgid "You will be automatically redirected back to the [1:Media Library] in a few seconds. Hang tight."
-msgstr "Sinut ohjataan automaattisesti takaisin [1: Mediakirjastoon] muutamassa sekunnissa. Pitäkää tiukasti kiinni."
+msgstr "Sinut ohjataan automaattisesti takaisin [1: Mediakirjastoon] muutamassa sekunnissa. Pidä tiukasti kiinni."
