@@ -32,6 +32,7 @@ goog.require('goog.asserts');
 goog.require('goog.dom');
 goog.require('goog.events');
 goog.require('goog.math');
+goog.require('goog.style');
 goog.require('goog.ui.Component');
 goog.require('goog.userAgent.product');
 goog.require('mcore.players');
@@ -84,8 +85,15 @@ mcore.players.JWPlayer.Source;
  * @protected
  */
 mcore.players.JWPlayer.prototype.createDom = function() {
-  /** XXX: Not implemented! */
-  throw Error(goog.ui.Component.Error.NOT_SUPPORTED);
+  var id = this.getId();
+  var inner = this.dom_.createDom('div', {id: id});
+  var outer = this.dom_.createDom('div', null, inner);
+  var body = this.dom_.getDocument().body;
+  goog.style.showElement(outer, false);
+  body.appendChild(outer);
+  this.decorateInternal(outer);
+  body.removeChild(outer);
+  goog.style.showElement(outer, true);
 };
 
 
@@ -97,13 +105,28 @@ mcore.players.JWPlayer.prototype.createDom = function() {
 mcore.players.JWPlayer.prototype.canDecorate = function(element) {
   if (!element) { return false; }
 
-  // The provided element must contain one <div>
+  // The provided element must contain one <div> element
   var divs = element.getElementsByTagName('div');
   if (divs.length != 1) { return false; }
 
-  // This element must have an 'id' attribute, or JWPlayer will break.
+  /**
+   * JWPlayer is stupid and cannot handle the decoration of elements that are
+   * not available via a call to window.document.getElement().
+   *
+   * This means that candidates for decoration must have an 'id' attribute and
+   * must be descendants of window.document.body
+   */
+
+  // The contained <div> element must have an 'id' attribute
   var contentElement = divs[0];
   if (contentElement.id == '') { return false; }
+
+  // The provided element must be a child of the main <body>
+  var body = this.dom_.getDocument().body;
+  var ancestralBody = goog.dom.getAncestor(element,
+      function(ancestor) { return ancestor == body; }
+  );
+  if (ancestralBody == null) { return false; }
 
   return true;
 };
