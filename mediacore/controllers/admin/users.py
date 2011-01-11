@@ -13,6 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+from decorator import decorator
 from pylons import request, response, session, tmpl_context
 from repoze.what.predicates import has_permission
 from sqlalchemy import orm, sql
@@ -29,6 +30,15 @@ from mediacore.model.meta import DBSession
 from mediacore.plugin import events
 
 user_form = UserForm()
+
+def redirect_if_not_POST(**redirect_kwargs):
+    """Protect the given function from non-POST requests using a redirect."""
+    def deco(func, *args, **kwargs):
+        if request.method != 'POST':
+            redirect(**redirect_kwargs)
+        return func(*args, **kwargs)
+    return decorator(deco)
+
 
 class UsersController(BaseController):
     """Admin user actions"""
@@ -98,7 +108,8 @@ class UsersController(BaseController):
         )
 
 
-    @expose(request_method='POST')
+    @expose()
+    @redirect_if_not_POST(action='index', id=None)
     @validate(user_form, error_handler=edit)
     @autocommit
     @observable(events.Admin.UsersController.save)
