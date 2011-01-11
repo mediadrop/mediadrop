@@ -95,6 +95,19 @@ a.mcore-btn:link,
 a.mcore-btn:visited {
 	color: ${uikit_colors['btn_text_color']};
 }
+.mcore-btn.mcore-btn-grey,
+.mcore-btn.mcore-btn-grey:active {
+	color: ${uikit_colors['btn_text_color']};
+	background-image: url('../images/ui-kit/${navbar_color}/btn-more-left.png');
+	text-shadow: 0 -1px #fff;
+}
+.mcore-btn.mcore-btn-grey > span {
+	background-image: url('../images/ui-kit/${navbar_color}/btn-more-right.png');
+}
+a.mcore-btn.mcore-btn-grey:link,
+a.mcore-btn.mcore-btn-grey:visited {
+	color: #000;
+}
 
 .media-norm .feat-top {
 	background-image: url('../images/ui-kit/${navbar_color}/media-view-top.png');

@@ -502,6 +502,19 @@ a:focus .grid-title {
 	float: right;
 	margin-right: -10px;
 }
+.mcore-view-more {
+	position: relative;
+	margin-top: -10px;
+	width: 162px;
+	clear: both;
+	float: left;
+}
+.mcore-view-more > span {
+	text-align: center;
+}
+.mcore-cats .mcore-view-more {
+	width: 130px;
+}
 
 /* Media details page */
 #media-player {

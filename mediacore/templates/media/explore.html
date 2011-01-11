@@ -95,7 +95,7 @@
 			<h2><a href="${h.url_for(action='index', show='popular')}" class="underline-hover uppercase mcore-heading">Most Popular</a></h2>
 			<py:if test="popular">
 				<ul py:replace="media_grid(popular, thumb_size='m', desc_len=135)" />
-				<a class="see-more underline-hover" href="${h.url_for(action='index', show='popular')}">more of the Most Popular...</a>
+				<a class="mcore-btn mcore-btn-grey mcore-view-more" href="${h.url_for(action='index', show='popular')}"><span>View More</span></a>
 			</py:if>
 			<div py:if="not popular" class="feat-box">
 				<div class="feat-top" />
@@ -110,7 +110,7 @@
 		<div py:if="latest" id="explore-latest" class="m-grid-column">
 			<h2><a href="${h.url_for(action='index', show='latest')}" class="underline-hover uppercase mcore-heading">Latest</a></h2>
 			<ul py:replace="media_grid(latest, thumb_size='m', desc_len=135)" />
-			<a class="see-more underline-hover" href="${h.url_for(action='index', show='latest')}">more of the Latest...</a>
+			<a class="mcore-btn mcore-btn-grey mcore-view-more" href="${h.url_for(action='index', show='latest')}"><span>View More</span></a>
 		</div>
 
 		<p py:if="not (featured or latest or popular)">
