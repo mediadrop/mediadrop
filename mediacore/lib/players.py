@@ -725,7 +725,14 @@ class JWPlayer(AbstractHTML5Player):
 
     def __init__(self, *args, **kwargs):
         super(AbstractHTML5Player, self).__init__(*args, **kwargs)
-        self.playerbox_id = '%s-box' % self.elem_id
+
+    def swf_url(self):
+        return url_for('/scripts/third-party/jw_player/player.swf',
+                       qualified=self.qualified)
+
+    def js_url(self):
+        return url_for('/scripts/third-party/jw_player/jwplayer.js',
+                       qualified=self.qualified)
 
     def playervars(self):
         """Return a python dict of vars for this player."""
@@ -735,8 +742,6 @@ class JWPlayer(AbstractHTML5Player):
         audio_desc = self.get_uris(type=AUDIO_DESC)
         captions = self.get_uris(type=CAPTIONS)
 
-        flash_player_url = url_for('/scripts/third-party/jw_player/player.swf',
-                                   qualified=self.qualified)
 
         vars = {
             'image': thumb_url(self.media, 'l', qualified=self.qualified),
@@ -745,7 +750,7 @@ class JWPlayer(AbstractHTML5Player):
             'width': self.adjusted_width,
             'players': [
                 {'type': 'html5'},
-                {'type': 'flash', 'src': flash_player_url},
+                {'type': 'flash', 'src': self.swf_url()},
                 {'type': 'download'},
             ],
         }
@@ -798,12 +803,8 @@ class JWPlayer(AbstractHTML5Player):
         :returns: XHTML that will not be escaped by Genshi.
 
         """
-        js_url = url_for('/scripts/third-party/jw_player/jwplayer.js',
-                         qualified=self.qualified)
-        # XXX: The div element must have an ID attribute, or JWPlayer5.4 will
-        #      choke.
-        return Markup('<script type="text/javascript" src="%s"></script> \
-                      <div id="%s"></div>' % (js_url, self.playerbox_id))
+        return Markup('<script type="text/javascript" src="%s"></script>' \
+                      % self.js_url())
 
 AbstractHTML5Player.register(JWPlayer)
 

@@ -41,10 +41,6 @@ goog.require('mcore.players');
 /**
  * JW Player.
  *
- * XXX: Capable only of decorating an existing <div> element when the the
- *      selected <div> element has, among its children, a single <div> tag with
- *      a non-empty 'id' attribute.
- *
  * @param {Object.<string, *>} jwplayerOpts An options object of the format
  *     expected by the jwplayer library. See:
  *     http://www.longtailvideo.com/support/jw-player/jw-player-for-flash-v5/12538/supported-player-embed-methods
@@ -65,6 +61,16 @@ mcore.players.JWPlayer = function(jwplayerOpts, opt_domHelper) {
 
   /**
    * The DOM component into which child components are to be rendered
+   * XXX: This element is initially created in decorateInternal(), but will be
+   *      further 'decorated' by the third-party jwplayer() initialiation.
+   *      The third-party code sometimes removes this element and replaces it
+   *      with a new element, copying over the original 'id' attribute. Because
+   *      the third-party code references this element only by its 'id'
+   *      attribute, it is important that this element has an 'id' attribute
+   *      and is a descendant of the main <body> element.
+   * XXX: When the third-party jwplayer code replaces this element, it does not
+   *      insert the new element in place, but appends it as the last child of
+   *      the original element's parent node.
    * @type {Element}
    * @private
    */
@@ -114,9 +120,7 @@ mcore.players.JWPlayer.Source;
  * @protected
  */
 mcore.players.JWPlayer.prototype.createDom = function() {
-  var id = this.getId();
-  var inner = this.dom_.createDom('div', {id: id});
-  var outer = this.dom_.createDom('div', null, inner);
+  var outer = this.dom_.createDom('div');
   var body = this.dom_.getDocument().body;
   goog.style.showElement(outer, false);
   body.appendChild(outer);
@@ -134,23 +138,9 @@ mcore.players.JWPlayer.prototype.createDom = function() {
 mcore.players.JWPlayer.prototype.canDecorate = function(element) {
   if (!element) { return false; }
 
-  // The provided element must contain one <div> element
-  var divs = element.getElementsByTagName('div');
-  if (divs.length != 1) { return false; }
-
-  /**
-   * JWPlayer is stupid and cannot handle the decoration of elements that are
-   * not available via a call to window.document.getElement().
-   *
-   * This means that candidates for decoration must have an 'id' attribute and
-   * must be descendants of window.document.body
-   */
-
-  // The contained <div> element must have an 'id' attribute
-  var contentElement = divs[0];
-  if (contentElement.id == '') { return false; }
-
-  // The provided element must be a child of the main <body>
+  // JWPlayer is stupid and can only work with elements that are available via
+  // the window.document.getElement() method. This leads to the constraint that
+  // candidates for decoration must be descendants of window.document.body
   var body = this.dom_.getDocument().body;
   var ancestralBody = goog.dom.getAncestor(element,
       function(ancestor) { return ancestor == body; }
@@ -162,7 +152,8 @@ mcore.players.JWPlayer.prototype.canDecorate = function(element) {
 
 
 /**
- * Decorate an Html5 Audio or Video element and filter out unplayable sources.
+ * Decorate a <div> element by inserting a child element and delegating control
+ * of that child element to the external jwplayer library.
  * @param {Element} element Element to decorate.
  * @protected
  */
@@ -170,8 +161,8 @@ mcore.players.JWPlayer.prototype.decorateInternal = function(element) {
   if (!this.canDecorate(element)) {
     throw Error(goog.ui.Component.Error.DECORATE_INVALID);
   }
-  var contentElement = element.getElementsByTagName('div')[0];
-  this.contentElementId_ = contentElement.id;
+  var contentElement = this.dom_.createDom('div', {id: this.getId()});
+  element.appendChild(contentElement);
 
   // ensure the containing element is immediately resized
   goog.style.setSize(element,
@@ -180,6 +171,7 @@ mcore.players.JWPlayer.prototype.decorateInternal = function(element) {
   this.jwplayer_ = jwplayer(contentElement);
   this.jwplayer_.setup(this.jwplayerOpts_)
 
+  this.contentElement_ = contentElement;
   this.setElementInternal(element);
 };
 
