@@ -51,25 +51,25 @@
 	">
 		<!--! This duplicates the behaviour of paginator.pager() since it has yet to be updated for Pylons .10.
 		      We should be able to revert to it later, as it will likely perform better. -->
-		<div class="pager" py:if="paginator.page_count > (not show_if_single_page and 1 or 0)">
+		<div class="mcore-pager clearfix" py:if="paginator.page_count > (not show_if_single_page and 1 or 0)">
 			<a py:def="pagelink(page, text=None, strong=False)"
 			   href="${h.url_for(page=page, show=value_of('show'), q=value_of('search_query'), tag=defined('tag') and hasattr(tag, 'slug') and tag.slug or None)}"
-			   class="pager-link underline-hover"><strong py:strip="not strong">${text or page}</strong></a>
-			<span class="pager-label">Page:</span>
-			<a py:if="paginator.page &gt; paginator.first_page" py:replace="pagelink(paginator.page - 1, _('Previous'), True)" />
+			   class="mcore-btn mcore-btn-grey mcore-pager-link"><span><strong py:strip="not strong">${text or page}</strong></span></a>
+			<span class="mcore-pager-label">Page:</span>
+			<a py:if="paginator.page &gt; paginator.first_page" py:replace="pagelink(paginator.page - 1, Markup('&laquo;'), True)" />
 			<py:if test="leftmost_page > paginator.first_page">
 				<a py:replace="pagelink(paginator.first_page)" />
-				<span py:if="leftmost_page - paginator.first_page > 1" class="pager-dotdot">..</span>
+				<span py:if="leftmost_page - paginator.first_page > 1" class="mcore-pager-dotdot">..</span>
 			</py:if>
 			<py:for each="page in xrange(leftmost_page, rightmost_page + 1)" py:choose="">
-				<span py:when="paginator.page == page" class="pager-current">${page}</span>
+				<span py:when="paginator.page == page" class="mcore-btn mcore-btn-grey active mcore-pager-current"><span><strong>${page}</strong></span></span>
 				<a py:otherwise="" py:replace="pagelink(page)" />
 			</py:for>
 			<py:if test="paginator.last_page > rightmost_page">
-				<span py:if="paginator.last_page - rightmost_page > 1" class="pager-dotdot">..</span>
+				<span py:if="paginator.last_page - rightmost_page > 1" class="mcore-pager-dotdot">..</span>
 				<a py:replace="pagelink(paginator.last_page)" />
 			</py:if>
-			<a py:if="paginator.page &lt; paginator.last_page" py:replace="pagelink(paginator.page + 1, _('Next'), True)" />
+			<a py:if="paginator.page &lt; paginator.last_page" py:replace="pagelink(paginator.page + 1, Markup('&raquo;'), True)" />
 		</div>
 	</py:def>
 

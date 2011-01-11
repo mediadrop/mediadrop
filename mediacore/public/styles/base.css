@@ -684,27 +684,38 @@ a:focus .grid-title {
 }
 
 /* Pagination */
-.pager {
+.mcore-pager {
 	font-size: 14px;
 	float: right;
 }
-.pager-label,
-.pager-link,
-.pager-current,
-.pager-dotdot {
-	padding: 5px 3px;
+.mcore-pager-label,
+.mcore-pager-dotdot {
+	padding: 6px 3px;
 	float: left;
 	display: block;
+	margin-left: 5px;
 }
-.pager-label {
+.mcore-pager-link,
+.mcore-pager-current {
+	margin-left: 5px;
+	font-weight: normal;
+	float: left;
+}
+.mcore-pager-current > span {
+	color: #000;
+}
+.mcore-pager strong {
+	font-weight: bold;
+}
+.mcore-pager-link > span {
+	padding: 0 10px 0 5px;
+}
+.mcore-pager-label {
 	color: #637084;
 	padding-left: 0;
 }
-#mediacore-footer .pager,
-#library-controls .pager {
+#library-controls .mcore-pager {
 	margin-right: -3px;
-}
-#library-controls .pager {
 	margin-top: -5px;
 }
 
