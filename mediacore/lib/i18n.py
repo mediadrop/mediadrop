@@ -103,6 +103,8 @@ class Translator(object):
         :returns: The translated string, or the original msgid if no
             translation was found.
         """
+        if not msgid:
+            return u''
         if domain is None:
             domain = getattr(msgid, 'domain', 'mediacore')
         try:
