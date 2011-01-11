@@ -23,7 +23,7 @@
       py:with="cat_class=c.category and 'mcore-cat-%s' % c.category.slug or 'mcore-cats'"
       py:attrs="h.append_class_attr(select('@*'), cat_class + ' nav-categories-on')"
 >
-	<div class="mediacore-content">
+	<div class="mediacore-content clearfix">
 		<h2 id="category-breadcrumb" class="head-super" py:choose="">
 			<py:when test="c.category">
 				<a class="uppercase underline-hover" href="${h.url_for(action='index', slug=None, order=None)}">Categories</a>
@@ -46,7 +46,7 @@
 		</div>
 		<div id="category-content" class="clearfix" py:content="select('*|text()')">Content is injected here</div>
 	</div>
-	<div py:if="c.paginators" class="mediacore-content clear">
+	<div py:if="c.paginators" class="mediacore-content clear clearfix">
 		<div py:replace="pager(c.paginators.media)" />
 	</div>
 </body>
