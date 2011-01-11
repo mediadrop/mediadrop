@@ -375,3 +375,23 @@ class AppearanceForm(ListForm):
         SubmitButton('reset', default=N_('Reset to Defaults'),
             css_classes=['btn', 'btn-cancel', 'reset-confirm']),
     ]
+
+class AdvertisingForm(ListForm):
+    template = 'admin/box-form.html'
+    id = 'settings-form'
+    css_class = 'form'
+    submit_text = None
+    fields = [
+        ListFieldSet('advanced', suppress_label=True, legend='',
+            css_classes=['details_fieldset'],
+            children=[
+                TextArea('advertising_banner_html',
+                    label_text=N_('Banner HTML'),
+                    attrs=dict(rows=15, cols=25)),
+                TextArea('advertising_sidebar_html',
+                    label_text=N_('Sidebar HTML'),
+                    attrs=dict(rows=15, cols=25)),
+            ],
+        ),
+        SubmitButton('save', default=N_('Save'), css_classes=['btn', 'btn-save', 'blue', 'f-rgt']),
+    ]

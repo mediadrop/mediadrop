@@ -43,6 +43,9 @@
 				<li py:with="link = h.url_for(controller='/admin/settings', action='general')">
 					<a href="${link}" class="${current_url.startswith(link) and 'selected' or None}">General</a>
 				</li>
+				<li py:with="link = h.url_for(controller='/admin/settings', action='advertising')">
+					<a href="${link}" class="${current_url.startswith(link) and 'selected' or None}">Advertising</a>
+				</li>
 				<li py:with="link = h.url_for(controller='/admin/settings', action='analytics')">
 					<a href="${link}" class="${current_url.startswith(link) and 'selected' or None}">Analytics</a>
 				</li>

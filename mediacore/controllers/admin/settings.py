@@ -25,8 +25,8 @@ from pylons import app_globals, config, request, response, session, tmpl_context
 from repoze.what.predicates import has_permission
 from sqlalchemy import orm, sql
 
-from mediacore.forms.admin.settings import (AppearanceForm, APIForm,
-    AnalyticsForm, CommentsForm, GeneralForm, NotificationsForm,
+from mediacore.forms.admin.settings import (AdvertisingForm, AppearanceForm,
+    APIForm, AnalyticsForm, CommentsForm, GeneralForm, NotificationsForm,
     PopularityForm, SiteMapsForm, UploadForm)
 from mediacore.lib.base import BaseSettingsController
 from mediacore.lib.decorators import (autocommit, expose, expose_xhr,
@@ -68,6 +68,9 @@ sitemaps_form = SiteMapsForm(
 
 appearance_form = AppearanceForm(
     action=url_for(controller='/admin/settings', action='appearance_save'))
+
+advertising_form = AdvertisingForm(
+    action=url_for(controller='/admin/settings', action='advertising_save'))
 
 
 class SettingsController(BaseSettingsController):
@@ -238,3 +241,14 @@ class SettingsController(BaseSettingsController):
             [(key, setting.value) for key, setting in c.settings.iteritems()],
         )
         redirect(action='appearance')
+
+    @expose('admin/settings/advertising.html')
+    def advertising(self, **kwargs):
+        return self._display(advertising_form, values=kwargs)
+
+    @expose(request_method='POST')
+    @validate(advertising_form, error_handler=general)
+    @autocommit
+    def advertising_save(self, **kwargs):
+        """Save :class:`~mediacore.forms.admin.settings.AdvertisingForm`."""
+        return self._save(advertising_form, 'advertising', values=kwargs)

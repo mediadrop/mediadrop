@@ -942,3 +942,14 @@ textarea {
 	height: 324px;
 	float: left;
 }
+
+#mcore-ad-banner {
+	text-align: center;
+	margin-bottom: 15px;
+}
+#mcore-ad-sidebar {
+	text-align: center;
+	float: right;
+	width: 315px;
+	margin-bottom: 15px;
+}

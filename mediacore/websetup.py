@@ -163,6 +163,8 @@ def add_default_data():
         (u'rss_display', u'enabled'),
         (u'vulgarity_filtered_words', u''),
         (u'primary_language', u''),
+        (u'advertising_banner_html', u''),
+        (u'advertising_sidebar_html', u''),
     ]
     settings.extend(appearance_settings)
 

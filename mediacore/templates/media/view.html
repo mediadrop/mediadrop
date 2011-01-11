@@ -68,7 +68,9 @@
 		</div>
 	</div>
 
-	<div id="media-sidebar">
+	<div id="media-sidebar" py:with="advertising_sidebar_html = g.settings['advertising_sidebar_html']">
+
+		<div py:if="advertising_sidebar_html" id="mcore-ad-sidebar" class="f-rgt" py:content="Markup(advertising_sidebar_html)" />
 
 		<py:if test="media.podcast">
 			<div id="podcast-context" class="contextbox" py:with="podcast = media.podcast">
