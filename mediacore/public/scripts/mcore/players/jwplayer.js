@@ -32,6 +32,7 @@ goog.require('goog.asserts');
 goog.require('goog.dom');
 goog.require('goog.events');
 goog.require('goog.math');
+goog.require('goog.object');
 goog.require('goog.style');
 goog.require('goog.ui.Component');
 goog.require('goog.userAgent.product');
@@ -68,6 +69,34 @@ mcore.players.JWPlayer = function(jwplayerOpts, opt_domHelper) {
    * @private
    */
   this.contentElement_ = null;
+
+  /**
+   * The ID string of the content element (see JWPlayer.contentElement_)
+   * @type {string|null}
+   * @private
+   */
+  this.contentElementId_ = null;
+
+  // We will add onReady and onError events to the player options
+  var newEvents = {
+    onReady: goog.bind(this.onJWPlayerReady, this),
+    onError: goog.bind(this.onJWPlayerError, this)
+  };
+  if (!goog.isDef(jwplayerOpts.events)) {
+    jwplayerOpts.events = {};
+  }
+  goog.object.forEach(newEvents, function(e) {
+    if (goog.isDef(jwplayerOpts.events[e])) {
+      var oldEvent = jwplayerOpts.events[e];
+      var newEvent = newEvents[e];
+      jwplayerOpts.events[e] = function() {
+        newEvent();
+        oldEvent();
+      };
+    } else {
+      jwplayerOpts.events[e] = newEvents[e];
+    }
+  });
 };
 goog.inherits(mcore.players.JWPlayer, goog.ui.Component);
 
@@ -142,6 +171,7 @@ mcore.players.JWPlayer.prototype.decorateInternal = function(element) {
     throw Error(goog.ui.Component.Error.DECORATE_INVALID);
   }
   var contentElement = element.getElementsByTagName('div')[0];
+  this.contentElementId_ = contentElement.id;
 
   // ensure the containing element is immediately resized
   goog.style.setSize(element,
@@ -149,7 +179,7 @@ mcore.players.JWPlayer.prototype.decorateInternal = function(element) {
 
   this.jwplayer_ = jwplayer(contentElement);
   this.jwplayer_.setup(this.jwplayerOpts_)
-  this.contentElement_ = contentElement;
+
   this.setElementInternal(element);
 };
 
@@ -168,6 +198,33 @@ mcore.players.JWPlayer.prototype.attachEvents = function() {
                      mcore.players.EventType.CAN_PLAY,
                      this.handleCanPlay);
 };
+
+
+/**
+ * Callback event for the JWPlayer library.
+ *
+ * Executed when the player is initialized. Does not necessarily mean that the
+ * player is able to play any of the available media files. Only means that the
+ * player has been rendered and can be interacted with.
+ */
+mcore.players.JWPlayer.prototype.onJWPlayerReady = function() {
+  // The jwplayer() instance may replace the contentElement that we pointed it
+  // to with another element having the same ID
+  this.contentElement_ = this.dom_.getElement(this.contentElementId_);
+  // TODO: Make use of this hook.
+}
+
+
+/**
+ * Callback event for the JWPlayer library.
+ *
+ * Executed when the initialized player is unable to play any of the available
+ * media files, or has otherwise encountered a playback error.
+ */
+mcore.players.JWPlayer.prototype.onJWPlayerError = function() {
+  // TODO: Make use of this hook.
+}
+
 
 /**
  * Fire a play event when the player successfully starts to play.
