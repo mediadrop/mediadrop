@@ -18,9 +18,7 @@ import re
 
 from urllib2 import Request, urlopen, URLError
 
-# FIXME: This does not exist in py2.4
-from xml.etree import ElementTree
-
+from mediacore.lib.compat import ElementTree
 from mediacore.lib.filetypes import VIDEO
 from mediacore.lib.i18n import N_
 from mediacore.lib.storage import EmbedStorageEngine
@@ -54,24 +52,23 @@ class BlipTVStorage(EmbedStorageEngine):
 
         try:
             temp_data = urlopen(req)
+            xmlstring = temp_data.read()
             try:
-                xmltree = ElementTree.parse(temp_data)
+                xmltree = ElementTree.fromstring(xmlstring)
             finally:
                 temp_data.close()
         except URLError, e:
             log.exception(e)
             raise
 
-        root = xmltree.getroot()
-        asset = root.find('payload/asset')
-        log.debug('xml %r', root)
+        asset = xmltree.find('payload/asset')
         meta = {'type': VIDEO}
         embed_lookup = asset.findtext('embedLookup')
         meta['unique_id'] = '%s %s' % (id, embed_lookup)
         meta['display_name'] = asset.findtext('title')
         meta['duration'] = int(asset.findtext('mediaList/media/duration') or 0) or None
-#        meta['bitrate'] = int(root.findtext('audiobitrate') or 0)\
-#                        + int(root.findtext('videobitrate') or 0) or None
+#        meta['bitrate'] = int(xmltree.findtext('audiobitrate') or 0)\
+#                        + int(xmltree.findtext('videobitrate') or 0) or None
         return meta
 
     def get_uris(self, file):

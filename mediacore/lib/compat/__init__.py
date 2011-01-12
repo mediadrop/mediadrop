@@ -14,6 +14,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 __all__ = [
+    'ElementTree',
     'all',
     'any',
     'chain',
@@ -249,3 +250,14 @@ except AttributeError:
             for element in it:
                 yield element
     chain.from_iterable = _chain_from_iterable
+
+try:
+    from xml.etree import cElementTree as ElementTree
+except ImportError:
+    try:
+        import cElementTree as ElementTree
+    except ImportError:
+        try:
+            from xml.etree import ElementTree
+        except ImportError:
+            from elementtree import ElementTree
