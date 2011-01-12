@@ -145,10 +145,23 @@ mcore.players.JWPlayer.prototype.canDecorate = function(element) {
  * @protected
  */
 mcore.players.JWPlayer.prototype.decorateInternal = function(element) {
-  var contentElement = this.dom_.createDom('div', {id: this.getId()});
-  element.appendChild(contentElement);
+  var contentElement = this.dom_.getFirstElementChild(element);
 
-  // ensure the containing element is immediately resized
+  // Create a div for the player to be injected into if there's no html5 tag
+  // to decorate.
+  if (contentElement.tagName != 'AUDIO' && contentElement.tagName != 'VIDEO') {
+    contentElement = this.dom_.createElement('div');
+    element.appendChild(contentElement);
+  }
+
+  // A unique ID is required by the JW embedder js.
+  if (!contentElement.id) {
+    contentElement.id = this.getId();
+  }
+
+  // Define the size of the player-box div so that it won't collapse while
+  // JWPlayer loads the flash player. This is important even when HTML5 is
+  // being decorated.
   goog.style.setSize(element,
       this.jwplayerOpts_.width, this.jwplayerOpts_.height);
 
