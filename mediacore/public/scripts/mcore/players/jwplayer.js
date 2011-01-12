@@ -27,10 +27,7 @@
 
 goog.provide('mcore.players.JWPlayer');
 
-goog.require('goog.array');
-goog.require('goog.asserts');
 goog.require('goog.dom');
-goog.require('goog.events');
 goog.require('goog.math');
 goog.require('goog.object');
 goog.require('goog.style');
@@ -108,13 +105,6 @@ goog.inherits(mcore.players.JWPlayer, goog.ui.Component);
 
 
 /**
- * Multiple media sources are specified as objects with these keys.
- * Only a 'src' is required.
- * @typedef {{src: string, type, media}}
- * */
-mcore.players.JWPlayer.Source;
-
-/**
  * Create a div element and decorate it with a jwplayer() instance.
  * Called by {@link render()}.
  * @protected
@@ -158,9 +148,6 @@ mcore.players.JWPlayer.prototype.canDecorate = function(element) {
  * @protected
  */
 mcore.players.JWPlayer.prototype.decorateInternal = function(element) {
-  if (!this.canDecorate(element)) {
-    throw Error(goog.ui.Component.Error.DECORATE_INVALID);
-  }
   var contentElement = this.dom_.createDom('div', {id: this.getId()});
   element.appendChild(contentElement);
 
@@ -169,26 +156,11 @@ mcore.players.JWPlayer.prototype.decorateInternal = function(element) {
       this.jwplayerOpts_.width, this.jwplayerOpts_.height);
 
   this.jwplayer_ = jwplayer(contentElement);
-  this.jwplayer_.setup(this.jwplayerOpts_)
+  this.jwplayer_.setup(this.jwplayerOpts_);
 
   this.contentElement_ = contentElement;
+  this.contentElementId_ = contentElement.id;
   this.setElementInternal(element);
-};
-
-
-/**
- * Attach event listeners.
- * To avoid a potential race condition by inserting the HTMLMediaElement into
- * the DOM prior to the error handler being in place, we are intentionally not
- * using {@link enterDocument} to attach these listeners.
- * @protected
- */
-mcore.players.JWPlayer.prototype.attachEvents = function() {
-  var element = this.getElement();
-  var handler = this.getHandler();
-  handler.listenOnce(element,
-                     mcore.players.EventType.CAN_PLAY,
-                     this.handleCanPlay);
 };
 
 
@@ -204,7 +176,7 @@ mcore.players.JWPlayer.prototype.onJWPlayerReady = function() {
   // to with another element having the same ID
   this.contentElement_ = this.dom_.getElement(this.contentElementId_);
   // TODO: Make use of this hook.
-}
+};
 
 
 /**
@@ -215,16 +187,6 @@ mcore.players.JWPlayer.prototype.onJWPlayerReady = function() {
  */
 mcore.players.JWPlayer.prototype.onJWPlayerError = function() {
   // TODO: Make use of this hook.
-}
-
-
-/**
- * Fire a play event when the player successfully starts to play.
- * @param {goog.events.Event} e The canplay event.
- * @protected
- */
-mcore.players.JWPlayer.prototype.handleCanPlay = function(e) {
-  this.dispatchEvent(mcore.players.EventType.CAN_PLAY);
 };
 
 
@@ -235,7 +197,7 @@ mcore.players.JWPlayer.prototype.handleCanPlay = function(e) {
  */
 mcore.players.JWPlayer.prototype.getContentElement = function() {
   return this.contentElement_;
-}
+};
 
 /**
  * Resize the player element to the given dimensions.
@@ -270,10 +232,9 @@ mcore.players.JWPlayer.prototype.setSize = function(w, opt_h) {
     // XXX: If the result of getWidth() is undefined, we assume the player is
     //      in the middle of initializing. If this is the case, an immediate
     //      call to resize() will be ignored. So we set a delayed retry.
-    var this_ = this;
-    setTimeout(function() {
-      this_.setSize(w, h);
-    }, 100);
+    goog.Timer.callOnce(function() {
+      this.setSize(w, h);
+    }, 100, this);
   }
   return this;
 };
