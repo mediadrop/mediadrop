@@ -47,13 +47,11 @@
 	</style>
 </head>
 
-<body py:if="error" py:content="error" />
-<body py:if="not error">
-	${h.media_player(media, show_playerbar=False, js_init='function(ctrlr){ ctrlr.setFillScreen(true); }', **player_kwargs)}
+<body>
+	${h.media_player(media, show_playerbar=False, js_init='function(ctrlr){ ctrlr.setFillScreen(true); }')}
 	<script type="text/javascript">
 		mcore.initPage();
 	</script>
 </body>
-
 
 </html>

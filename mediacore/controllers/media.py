@@ -22,7 +22,6 @@ import os.path
 from itertools import izip
 
 from akismet import Akismet
-from formencode import Invalid, Schema, validators
 from paste.deploy.converters import asbool
 from paste.fileapp import FileApp
 from paste.util import mimeparse
@@ -48,18 +47,6 @@ from mediacore.plugin import events
 log = logging.getLogger(__name__)
 
 comment_schema = PostCommentSchema()
-
-class EmbedPlayerSchema(Schema):
-    allow_extra_fields = True
-    filter_extra_fields = True
-    ignore_key_missing = True
-
-    width = validators.Int()
-    height = validators.Int()
-    autoplay = validators.Bool()
-    autobuffer = validators.Bool()
-
-embed_player_schema = EmbedPlayerSchema()
 
 class MediaController(BaseController):
     """
@@ -240,15 +227,8 @@ class MediaController(BaseController):
     @expose('players/iframe.html')
     @observable(events.MediaController.embed_player)
     def embed_player(self, slug, **kwargs):
-        try:
-            player_kwargs = embed_player_schema.to_python(kwargs)
-        except Invalid, e:
-            # TODO: Return the error messages from the formencode schema
-            return {'error': _('Invalid player params provided.')}
         return dict(
             media = fetch_row(Media, slug=slug),
-            player_kwargs = player_kwargs,
-            error = None,
         )
 
     @expose()
