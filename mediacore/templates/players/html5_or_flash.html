@@ -21,7 +21,7 @@
 
 	<xi:include py:for="tmpl in value_of('plugin_templates', ())" href="${tmpl}" />
 
-	<div id="${player.elem_id}" class="mcore-player">
+	<div id="${player.elem_id}-wrapper" class="mcore-player">
 		<div class="mcore-playerbox">
 			${player.render_markup()}
 		</div>
@@ -77,7 +77,7 @@
 	</div>
 
 	<script type="text/javascript">
-		mcore.initPlayerController('${player.elem_id}', ${player.render_js_player() or 'null'}, ${js_init or 'undefined'});
+		mcore.initPlayerController('${player.elem_id}-wrapper', ${player.render_js_player() or 'null'}, ${js_init or 'undefined'});
 	</script>
 
 </html>
