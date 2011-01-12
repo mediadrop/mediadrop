@@ -21,7 +21,7 @@ recursive-exclude data/images/media *.*
 recursive-exclude data/images/podcasts *.*
 include data/images/media/new[sml].jpg
 include data/images/media/[1-4][sml].jpg
-include data/images/podcasts/new*.jpg
+include data/images/podcasts/new[sml].jpg
 include data/images/podcasts/1[sml].jpg
 
 # Include the docs, but not the doc/build dir.
@@ -38,6 +38,7 @@ include mediacore/config/deployment.ini_tmpl
 graft mediacore/migrations
 graft mediacore/public
 graft mediacore/templates
+graft mediacore/i18n
 
 # Always ignore scrap files
 recursive-exclude * *.pyc
