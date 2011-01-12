@@ -256,6 +256,12 @@ class AbstractFlashPlayer(FileSupportMixin, FlashRenderMixin, AbstractPlayer):
     def swf_url(self):
         """Return the flash player URL."""
 
+class AbstractRTMPFlashPlayer(AbstractFlashPlayer):
+    """
+    Dummy Base Class for Flash Players that can stream over RTMP.
+
+    """
+    supported_schemes = set([HTTP, RTMP])
 
 class FlowPlayer(AbstractFlashPlayer):
     """
@@ -713,7 +719,7 @@ class JWPlayer(AbstractHTML5Player):
     """A unicode display name for the class, to be used in the settings UI."""
 
     supported_containers = AbstractHTML5Player.supported_containers \
-                         | AbstractFlashPlayer.supported_containers
+                         | AbstractRTMPFlashPlayer.supported_containers
 #    supported_containers.add('youtube')
     supported_types = set([AUDIO, VIDEO, AUDIO_DESC, CAPTIONS])
     supported_schemes = set([HTTP, RTMP])
@@ -723,8 +729,14 @@ class JWPlayer(AbstractHTML5Player):
         VIDEO: 'video',
     }
 
-    def __init__(self, *args, **kwargs):
-        super(AbstractHTML5Player, self).__init__(*args, **kwargs)
+    def __init__(self, media, uris, **kwargs):
+        html5_uris = [uri
+            for uri, p in izip(uris, AbstractHTML5Player.can_play(uris)) if p]
+        flash_uris = [uri
+            for uri, p in izip(uris, AbstractRTMPFlashPlayer.can_play(uris)) if p]
+        super(JWPlayer, self).__init__(media, html5_uris, **kwargs)
+        self.flash_uris = flash_uris
+        self.rtmp_uris = pick_uris(flash_uris, scheme=RTMP)
 
     def swf_url(self):
         return url_for('/scripts/third-party/jw_player/player.swf',
@@ -734,77 +746,97 @@ class JWPlayer(AbstractHTML5Player):
         return url_for('/scripts/third-party/jw_player/jwplayer.js',
                        qualified=self.qualified)
 
-    def playervars(self):
+    def player_vars(self):
         """Return a python dict of vars for this player."""
-        youtube = self.get_uris(container='youtube')
-        rtmp = self.get_uris(scheme=RTMP)
-        http = self.get_uris(scheme=HTTP)
-        audio_desc = self.get_uris(type=AUDIO_DESC)
-        captions = self.get_uris(type=CAPTIONS)
-
-
         vars = {
-            'image': thumb_url(self.media, 'l', qualified=self.qualified),
             'autostart': self.autoplay,
             'height': self.adjusted_height,
             'width': self.adjusted_width,
             'players': [
-                {'type': 'html5'},
+                # XXX: Currently flash *must* come first for the RTMP/HTTP logic.
                 {'type': 'flash', 'src': self.swf_url()},
+                {'type': 'html5'},
                 {'type': 'download'},
             ],
         }
-
-        if youtube:
-            vars['provider'] = 'youtube'
-            vars['file'] = str(youtube[0])
-        elif rtmp:
-            if len(rtmp) > 1:
-                # For multiple RTMP bitrates, use Media RSS playlist
-                vars = {}
-                vars['playlistfile'] = url_for(
-                    controller='/media',
-                    action='jwplayer_rtmp_mrss',
-                    slug=self.media.slug,
-                )
-            else:
-                # For a single RTMP stream, use regular Flash vars.
-                rtmp_uri = rtmp[0]
-                vars['file'] = rtmp_uri.file_uri
-                vars['streamer'] = rtmp_uri.server_uri
-            vars['provider'] = 'rtmp'
-        else:
-            http_uri = http[0]
-            vars['provider'] = self.providers[http_uri.file.type]
-            vars['file'] = str(http_uri)
-
-        plugins = []
-        if rtmp:
-            plugins.append('rtmp')
-        if audio_desc:
-            plugins.append('audiodescription')
-            vars['audiodescription.file'] = audio_desc[0].uri
-        if captions:
-            plugins.append('captions')
-            vars['captions.file'] = captions[0].uri
+        playlist = self.playlist()
+        plugins = self.plugins()
+        if playlist:
+            vars['playlist'] = playlist
         if plugins:
-            vars['plugins'] = ','.join(plugins)
-
+            vars['plugins'] = plugins
         return vars
 
-    def render_js_player(self):
-        playervars = simplejson.dumps(self.playervars())
-        return Markup("new mcore.JWPlayer(%s)" % playervars)
+    def playlist(self):
+        if self.uris:
+            return None
 
-    def render_markup(self):
+        if self.rtmp_uris:
+            return self.rtmp_playlist()
+
+        uri = self.flash_uris[0]
+        return [{
+            'image': thumb_url(self.media, 'l', qualified=self.qualified),
+            'file': str(uri),
+            'duration': self.media.duration,
+            'provider': self.providers[uri.file.type],
+        }]
+
+    def rtmp_playlist(self):
+        levels = []
+        item = {'streamer': self.rtmp_uris[0].server_uri,
+                'provider': 'rtmp',
+                'levels': levels,
+                'duration': self.media.duration}
+        # If no HTML5 uris exist, no <video> tag will be output, so we have to
+        # say which thumb image to use. Otherwise it's unnecessary bytes.
+        if not self.uris:
+            item['image'] = thumb_url(self.media, 'l', qualified=self.qualified)
+        for uri in self.rtmp_uris:
+            levels.append({
+                'file': uri.file_uri,
+                'bitrate': uri.file.bitrate,
+                'width': uri.file.width,
+            })
+        playlist = [item]
+        return playlist
+
+    def plugins(self):
+        plugins = {}
+        audio_desc = self.get_uris(type=AUDIO_DESC)
+        captions = self.get_uris(type=CAPTIONS)
+        if audio_desc:
+            plugins['audiodescription'] = {'file': audio_desc[0].uri}
+        if captions:
+            plugins['captions'] = {'file': captions[0].uri}
+        return plugins
+
+    def flash_override_playlist(self):
+        # Use this hook only when HTML5 and RTMP uris exist.
+        if self.uris and self.rtmp_uris:
+            return self.rtmp_playlist()
+
+    def render_js_player(self):
+        vars = simplejson.dumps(self.player_vars())
+        flash_playlist = simplejson.dumps(self.flash_override_playlist())
+        return Markup("new mcore.JWPlayer(%s, %s)" % (vars, flash_playlist))
+
+    def render_markup(self, error_text=None):
         """Render the XHTML markup for this player instance.
 
+        :param error_text: Optional error text that should be included in
+            the final markup if appropriate for the player.
         :rtype: ``unicode`` or :class:`genshi.core.Markup`
         :returns: XHTML that will not be escaped by Genshi.
 
         """
-        return Markup('<script type="text/javascript" src="%s"></script>' \
-                      % self.js_url())
+        if self.uris:
+            html5_tag = super(JWPlayer, self).render_markup(error_text)
+        else:
+            html5_tag = ''
+        script_tag = Markup(
+            '<script type="text/javascript" src="%s"></script>' % self.js_url())
+        return html5_tag + script_tag
 
 AbstractHTML5Player.register(JWPlayer)
 
