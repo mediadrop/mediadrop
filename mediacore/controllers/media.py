@@ -37,10 +37,9 @@ from mediacore.lib import helpers
 from mediacore.lib.base import BaseController
 from mediacore.lib.decorators import expose, expose_xhr, observable, paginate, validate, validate_xhr, autocommit
 from mediacore.lib.email import send_comment_notification
-from mediacore.lib.helpers import (file_path, filter_vulgarity, pick_uris,
-    redirect, store_transient_message, url_for)
+from mediacore.lib.helpers import (file_path, filter_vulgarity, redirect,
+    store_transient_message, url_for)
 from mediacore.lib.i18n import _
-from mediacore.lib.players import JWPlayer
 from mediacore.lib.templating import render
 from mediacore.model import (DBSession, fetch_row, get_available_slug,
     Media, MediaFile, Comment, Tag, Category, Author, AuthorWithIP, Podcast)
@@ -250,33 +249,6 @@ class MediaController(BaseController):
             media = fetch_row(Media, slug=slug),
             player_kwargs = player_kwargs,
             error = None,
-        )
-
-    @expose('media/jwplayer_rtmp_mrss.xml')
-    @observable(events.MediaController.jwplayer_rtmp_mrss)
-    def jwplayer_rtmp_mrss(self, slug, **kwargs):
-        """List the rtmp-playable files associated with this media item
-
-        :param slug: The :attr:`~mediacore.models.media.Media.slug` to lookup
-        :rtype dict:
-        :returns:
-            media
-                The :class:`~mediacore.model.media.Media` instance for display.
-            files
-                A list of :class:`~mediacore.model.media.MediaFile` instances to display.
-
-        """
-        media = fetch_row(Media, slug=slug)
-        rtmp_uris = pick_uris(media, scheme='rtmp')
-        can_play = JWPlayer.can_play(rtmp_uris)
-        uris = [uri for uri, plays in izip(rtmp_uris, can_play) if plays]
-
-        if not uris:
-            raise HTTPNotFound()
-        response.content_type = 'application/rss+xml'
-        return dict(
-            media = media,
-            uris = uris,
         )
 
     @expose()
