@@ -34,7 +34,6 @@ install_requires = [
         # this setup script installs http://dist.repoze.org/PIL-1.1.6.tar.gz
     'akismet == 0.2.0',
     'feedparser >= 4.1', # needed only for rss import script
-    'cElementTree >= 1, < 2',
     'gdata > 2, < 2.1',
     'unidecode',
     'decorator',
@@ -47,6 +46,11 @@ if sys.version_info < (2, 7):
     # with missing requires which can not be used in other environments
     # see https://github.com/simplestation/mediacore/issues#issue/44
     install_requires.append('importlib')
+
+if sys.version_info < (2, 5):
+    # These package comes bundled in Python >= 2.5 as xml.etree.cElementTree.
+    install_requires.append('elementtree == 1.2.6')
+    install_requires.append('cElementTree == 1.0.5')
 
 extra_arguments_for_setup = {}
 
