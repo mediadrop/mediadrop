@@ -35,3 +35,4 @@ jwplayer.prototype.getHeight = function(){};
 jwplayer.prototype.getWidth = function(){};
 jwplayer.prototype.resize = function(){};
 jwplayer.prototype.setup = function(){};
+jwplayer.prototype.load = function(){};

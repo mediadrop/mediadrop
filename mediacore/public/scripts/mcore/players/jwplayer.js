@@ -42,11 +42,14 @@ goog.require('mcore.players');
  *     expected by the jwplayer library. See:
  *     http://www.longtailvideo.com/support/jw-player/jw-player-for-flash-v5/12538/supported-player-embed-methods
  *     http://www.longtailvideo.com/support/jw-player/jw-player-for-flash-v5/12540/javascript-api-reference
+ * @param {Object=} opt_flashPlaylist Optional playlist override for when
+ *     the flash-based JWPlayer is available. Useful for providing RTMP
+ *     URLs to Flash and HTTP URLs for HTML5.
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper.
  * @constructor
  * @extends {goog.ui.Component}
  */
-mcore.players.JWPlayer = function(jwplayerOpts, opt_domHelper) {
+mcore.players.JWPlayer = function(jwplayerOpts, opt_flashPlaylist, opt_domHelper) {
   goog.base(this, opt_domHelper);
 
   /**
@@ -55,6 +58,15 @@ mcore.players.JWPlayer = function(jwplayerOpts, opt_domHelper) {
    * @private
    */
   this.jwplayerOpts_ = jwplayerOpts;
+
+  /**
+   * An optional playlist data structure for when the flash-based JWPlayer is
+   * available. Useful for providing RTMP URLs to Flash and HTTP URLs for
+   * devices that only support HTML5.
+   * @type {Object|undefined}
+   * @private
+   */
+  this.flashPlaylist_ = opt_flashPlaylist;
 
   /**
    * The DOM component into which child components are to be rendered
@@ -185,7 +197,13 @@ mcore.players.JWPlayer.prototype.handlePlayerReady = function() {
   // The jwplayer() instance may replace the contentElement that we pointed it
   // to with another element having the same ID
   this.contentElement_ = this.dom_.getElement(this.contentElementId_);
-  // TODO: Make use of this hook.
+
+  // If a flash-specific playlist was provided, switch to that if JWPlayer
+  // loaded the flash player instead of the HTML5 player.
+  if (this.flashPlaylist_ &&
+      this.contentElement_.tagName == goog.dom.TagName.OBJECT) {
+    this.jwplayer_.load(this.flashPlaylist_);
+  }
 };
 
 
