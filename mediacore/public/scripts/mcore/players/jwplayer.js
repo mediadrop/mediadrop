@@ -80,24 +80,21 @@ mcore.players.JWPlayer = function(jwplayerOpts, opt_domHelper) {
    */
   this.contentElementId_ = null;
 
-  // We will add onReady and onError events to the player options
+  // We will add our onReady and onError events to the player options
+  var events = jwplayerOpts['events'] = jwplayerOpts['events'] || {};
   var newEvents = {
-    onReady: goog.bind(this.onJWPlayerReady, this),
-    onError: goog.bind(this.onJWPlayerError, this)
+    'onReady': goog.bind(this.handlePlayerReady, this),
+    'onError': goog.bind(this.handlePlayerError, this)
   };
-  if (!goog.isDef(jwplayerOpts.events)) {
-    jwplayerOpts.events = {};
-  }
-  goog.object.forEach(newEvents, function(e) {
-    if (goog.isDef(jwplayerOpts.events[e])) {
-      var oldEvent = jwplayerOpts.events[e];
-      var newEvent = newEvents[e];
-      jwplayerOpts.events[e] = function() {
-        newEvent();
-        oldEvent();
+  goog.object.forEach(newEvents, function(listener, type) {
+    if (events[type]) {
+      var origListener = events[type];
+      events[type] = function() {
+        listener();
+        origListener();
       };
     } else {
-      jwplayerOpts.events[e] = newEvents[e];
+      events[type] = listener;
     }
   });
 };
@@ -171,7 +168,7 @@ mcore.players.JWPlayer.prototype.decorateInternal = function(element) {
  * player is able to play any of the available media files. Only means that the
  * player has been rendered and can be interacted with.
  */
-mcore.players.JWPlayer.prototype.onJWPlayerReady = function() {
+mcore.players.JWPlayer.prototype.handlePlayerReady = function() {
   // The jwplayer() instance may replace the contentElement that we pointed it
   // to with another element having the same ID
   this.contentElement_ = this.dom_.getElement(this.contentElementId_);
@@ -185,7 +182,7 @@ mcore.players.JWPlayer.prototype.onJWPlayerReady = function() {
  * Executed when the initialized player is unable to play any of the available
  * media files, or has otherwise encountered a playback error.
  */
-mcore.players.JWPlayer.prototype.onJWPlayerError = function() {
+mcore.players.JWPlayer.prototype.handlePlayerError = function() {
   // TODO: Make use of this hook.
 };
 
