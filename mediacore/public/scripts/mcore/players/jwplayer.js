@@ -196,7 +196,9 @@ mcore.players.JWPlayer.prototype.handlePlayerReady = function() {
  * media files, or has otherwise encountered a playback error.
  */
 mcore.players.JWPlayer.prototype.handlePlayerError = function() {
-  // TODO: Make use of this hook.
+  // FIXME: This event naming doesn't fit. We need to rethink all player
+  //        event names now that we've implemented a few different players.
+  this.dispatchEvent(mcore.players.EventType.NO_SUPPORT);
 };
 
 
