@@ -49,8 +49,8 @@ if sys.version_info < (2, 7):
 
 if sys.version_info < (2, 5):
     # These package comes bundled in Python >= 2.5 as xml.etree.cElementTree.
-    install_requires.append('elementtree == 1.2.6')
-    install_requires.append('cElementTree == 1.0.5')
+    install_requires.append('elementtree >= 1.2.6, < 1.3')
+    install_requires.append('cElementTree >= 1.0.5, < 1.1')
 
 extra_arguments_for_setup = {}
 
