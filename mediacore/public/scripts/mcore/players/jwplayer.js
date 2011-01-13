@@ -114,6 +114,13 @@ goog.inherits(mcore.players.JWPlayer, goog.ui.Component);
 
 
 /**
+ * JW Embedder Instance.
+ * @type {jwplayer.api.PlayerAPI|undefined}
+ */
+mcore.players.JWPlayer.prototype.jwplayer_;
+
+
+/**
  * Create a div element and decorate it with a jwplayer() instance.
  * Called by {@link render()}.
  * @protected
