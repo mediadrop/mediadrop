@@ -166,6 +166,8 @@ var Comment = new Class({
 			var submitBtn = e;
 		}
 
+		if (submitBtn.get('tag') != 'button') submitBtn = submitBtn.getParent('button');
+
 		// Choose the appropriate onSuccess action:
 		if (submitBtn == this.deleteBtn) {
 			var successAction = this.updateDeleted.bind(this);
@@ -174,7 +176,7 @@ var Comment = new Class({
 		} else {
 			// If it's not a publish or delete request, this manager doesn't know
 			// how to deal with it.
-			return;
+			throw Error('unrecognized submit button');
 		}
 
 		// Submit the form, including the information on which button was clicked.
