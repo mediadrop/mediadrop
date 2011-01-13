@@ -15,6 +15,7 @@
 
 import socket
 import struct
+from mediacore.lib.compat import inet_aton
 
 
 class Author(object):
@@ -49,7 +50,7 @@ def _pack_ip(ip_dot_str):
     """Convert an IP address string in dot notation to an 32-bit integer"""
     if not ip_dot_str:
         return None
-    return struct.unpack('!L', socket.inet_aton(str(ip_dot_str)))[0]
+    return struct.unpack('!L', inet_aton(str(ip_dot_str)))[0]
 
 def _unpack_ip(ip_int):
     """Convert an 32-bit integer IP to a dot-notated string"""

@@ -19,6 +19,7 @@ __all__ = [
     'any',
     'chain',
     'defaultdict',
+    'inet_aton',
     'max',
     'md5',
     'namedtuple',
@@ -267,3 +268,14 @@ except ImportError:
             from xml.etree import ElementTree
         except ImportError:
             from elementtree import ElementTree
+
+from socket import inet_aton as _inet_aton
+def inet_aton(ip_string):
+    # On some 64 bit platforms, with some versions of Python, socket.inet_aton
+    # returns the a full 64 bit register, rather than the 32 bit value.
+    # The result of this is that the returned bit string is right-padded with
+    # 32 bits (4 chars) of zeroes. See:
+    #     http://bugs.python.org/issue767150
+    #     http://bugs.python.org/issue1008086
+    # This wrapper ensures the result is always truncated to the first 32 bits.
+    return _inet_aton(ip_string)[:4]
