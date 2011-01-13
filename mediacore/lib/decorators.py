@@ -25,7 +25,7 @@ from paste.deploy.converters import asbool
 from pylons import request, response, tmpl_context, translator
 from pylons.decorators.cache import create_cache_key, _make_dict_from_args
 from pylons.decorators.util import get_pylons
-from webob.exc import HTTPMethodNotAllowed, HTTPOk, HTTPRedirection
+from webob.exc import HTTPException, HTTPMethodNotAllowed, WSGIHTTPException
 
 from mediacore.lib.paginate import paginate
 from mediacore.lib.templating import render
@@ -81,7 +81,7 @@ def _expose_wrapper(f, template, request_method=None):
 
     def wrapped_f(*args, **kwargs):
         if request_method and request_method != request.method:
-            raise HTTPMethodNotAllowed
+            raise HTTPMethodNotAllowed().exception
 
         result = f(*args, **kwargs)
         tmpl = template
@@ -573,8 +573,11 @@ def autocommit(func, *args, **kwargs):
     """Automatically handle database transactions for decorated controller actions"""
     try:
         result = func(*args, **kwargs)
-    except (HTTPOk, HTTPRedirection):
-        DBSession.commit()
+    except (HTTPException, WSGIHTTPException), e:
+        if 200 <= e.code < 400:
+            DBSession.commit()
+        else:
+            DBSession.rollback()
         raise
     except:
         DBSession.rollback()
