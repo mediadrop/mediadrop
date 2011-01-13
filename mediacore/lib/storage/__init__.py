@@ -519,7 +519,6 @@ def safe_file_name(media_file, hint=None):
 from mediacore.lib.storage.localfiles import LocalFileStorage
 from mediacore.lib.storage.remoteurls import RemoteURLStorage
 from mediacore.lib.storage.ftp import FTPStorage
-from mediacore.lib.storage.s3 import AmazonS3Storage
 from mediacore.lib.storage.youtube import YoutubeStorage
 from mediacore.lib.storage.vimeo import VimeoStorage
 from mediacore.lib.storage.bliptv import BlipTVStorage
