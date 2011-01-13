@@ -127,12 +127,11 @@ class CommentsController(BaseController):
 
         if status == 'approve':
             publishable = True
-        if status == 'trash':
+        elif status == 'trash':
             publishable = False
         else:
             # XXX: This form should never be submitted without a valid status.
-            return ''
-
+            raise AssertionError('Unexpected status: %r' % status)
 
         comments = Comment.query.filter(Comment.id.in_(ids)).all()
 
