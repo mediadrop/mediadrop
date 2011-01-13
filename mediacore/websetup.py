@@ -17,8 +17,9 @@ from migrate.versioning.exceptions import DatabaseAlreadyControlledError
 
 from mediacore.config.environment import load_environment
 from mediacore.lib.i18n import N_
-from mediacore.lib.storage import (BlipTVStorage, GoogleVideoStorage,
-    LocalFileStorage, RemoteURLStorage, VimeoStorage, YoutubeStorage)
+from mediacore.lib.storage import (BlipTVStorage, DailyMotionStorage,
+    GoogleVideoStorage, LocalFileStorage, RemoteURLStorage, VimeoStorage,
+    YoutubeStorage)
 from mediacore.model import (Author, AuthorWithIP, Category, Comment,
     DBSession, Group, Media, MediaFile, Permission, Podcast, Setting, Tag,
     User, metadata, cleanup_players_table)
@@ -256,6 +257,7 @@ def add_default_data():
         YoutubeStorage(),
         VimeoStorage(),
         BlipTVStorage(),
+        DailyMotionStorage(),
         GoogleVideoStorage(),
     ]
     for engine in default_engines:
