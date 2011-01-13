@@ -117,7 +117,7 @@ class RemoteURLStorage(StorageEngine):
                 log.warn('File %r has an invalidly formatted unique ID for RTMP.', file)
                 return []
             server_uri = uid[:sep_index]
-            file_uri = uid[sep_index + len(RTMP_URI_DIVIDER)]
+            file_uri = uid[sep_index + len(RTMP_URI_DIVIDER):]
             return [StorageURI(file, 'rtmp', file_uri, server_uri)]
         return [StorageURI(file, 'http', file.unique_id, None)]
 
