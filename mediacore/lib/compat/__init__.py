@@ -34,12 +34,12 @@ except ImportError:
 try:
     from hashlib import sha1
 except ImportError:
-    import sha as sha1
+    from sha import sha as sha1
 
 try:
     from hashlib import md5
 except ImportError:
-    import md5
+    from md5 import md5
 
 try:
     any = any
