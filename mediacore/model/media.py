@@ -443,12 +443,12 @@ class Media(object):
             return None
 
     def _update_encoding(self):
-        # Test to see if we can find a workable file/player conbination
+        # Test to see if we can find a workable file/player combination
         # for the most common podcasting app w/ the POOREST format support
         if self.podcast_id \
         and not pick_podcast_media_file(self):
             return False
-        # Test to see if we can find a workable file/player conbination
+        # Test to see if we can find a workable file/player combination
         # for the browser w/ the BEST format support
         if not pick_any_media_file(self):
             return False
