@@ -143,6 +143,15 @@ Step 5.2: Upgrade Database from MediaCore >= 0.8.2
    cd /path/to/MediaCore-NEW
    paster setup-app yourconf.ini
 
+
+Step 6: Update your Deployment Configuration
+--------------------------------------------
+
+If you already had MediaCore deployed using mod_wsgi (:ref:`install_apache-wsgi`)
+or mod_fastcgi (:ref:`install_apache-fastcgi`), you'll want to re-deploy using
+the new installation. In particular, take note of changes to the deployment
+configurations and required file permissions.
+
 Done!
 -----
 
