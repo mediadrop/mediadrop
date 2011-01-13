@@ -105,6 +105,9 @@ installation and virtual environment.
     # Create an exception for all static mediacore content
     AliasMatch /my_media/(admin/)?(images|scripts|styles)(.*) /path/to/mediacore_install/mediacore/public/$1$2$3
 
+    # Create an exception for your custom appearance css and images
+    Alias /my_media/appearance /path/to/mediacore_install/data/appearance
+
     # Make all the static content accessible
     <Directory /path/to/mediacore_install/mediacore/public/*>
         Order allow,deny
