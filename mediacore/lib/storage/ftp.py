@@ -98,13 +98,13 @@ class FTPStorage(FileStorageEngine):
             # Raise a FTPUploadError if the file integrity check fails
             # TODO: Delete the file if the integrity check fails
             self._verify_upload_integrity(file, file_url)
+            ftp.quit()
         except ftp_errors, e:
             log.exception(e)
+            ftp.quit()
             msg = _('Could not upload the file from your FTP server: %s')\
                 % e.message
             raise FTPUploadError(msg, None, None)
-        finally:
-            ftp.quit()
 
     def delete(self, unique_id):
         """Delete the stored file represented by the given unique ID.
@@ -122,12 +122,12 @@ class FTPStorage(FileStorageEngine):
             if upload_dir:
                 ftp.cwd(upload_dir)
             ftp.delete(unique_id)
+            ftp.quit()
             return True
         except ftp_errors, e:
             log.exception(e)
-            return False
-        finally:
             ftp.quit()
+            return False
 
     def get_uris(self, file):
         """Return a list of URIs from which the stored file can be accessed.
