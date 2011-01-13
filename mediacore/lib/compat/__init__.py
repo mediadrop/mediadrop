@@ -20,6 +20,7 @@ __all__ = [
     'chain',
     'defaultdict',
     'max',
+    'md5',
     'namedtuple',
     'sha1',
     'wraps',
@@ -34,6 +35,11 @@ try:
     from hashlib import sha1
 except ImportError:
     import sha as sha1
+
+try:
+    from hashlib import md5
+except ImportError:
+    import md5
 
 try:
     any = any

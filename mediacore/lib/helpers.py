@@ -17,7 +17,6 @@
 Consists of functions to typically be used within templates, but also
 available to Controllers. This module is available to templates as 'h'.
 """
-import hashlib
 import re
 import simplejson
 import time
@@ -33,7 +32,7 @@ from webhelpers.html import tags
 from webhelpers.html.builder import literal
 from webhelpers.html.converters import format_paragraphs
 
-from mediacore.lib.compat import any
+from mediacore.lib.compat import any, md5
 from mediacore.lib.i18n import N_, _
 from mediacore.lib.players import (embed_player, embed_iframe, media_player,
     pick_any_media_file, pick_podcast_media_file)
@@ -274,7 +273,7 @@ def gravatar_from_email(email, size):
         email = ''
     # Set your variables here
     gravatar_url = "http://www.gravatar.com/avatar/%s?size=%d" % \
-        (hashlib.md5(email).hexdigest(), size)
+        (md5(email).hexdigest(), size)
     return gravatar_url
 
 def pretty_file_size(size):
