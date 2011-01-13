@@ -164,6 +164,15 @@ mcore.players.JWPlayer.prototype.canDecorate = function(element) {
  * @protected
  */
 mcore.players.JWPlayer.prototype.decorateInternal = function(element) {
+  // JWPlayer 5.4 on iPhone produces this error in an infinite loop:
+  // TypeError: Result of expression 'v.getBoundingClientRect' [undefined] is not a function.
+  // Abort and hope that we were decorating an HTML5 element which will
+  // play properly on this device.
+  if (goog.userAgent.product.IPHONE || goog.userAgent.product.IPAD) {
+    this.dispatchEvent(mcore.players.EventType.NO_SUPPORT);
+    return;
+  }
+
   var contentElement = this.dom_.getFirstElementChild(element);
 
   // Create a div for the player to be injected into if there's no html5 tag
