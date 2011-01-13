@@ -503,7 +503,7 @@ def safe_file_name(media_file, hint=None):
     # Prevent malicious paths like /etc/passwd
     hint = os.path.basename(hint)
     # IE provides full file paths instead of names C:\path\to\file.mp4
-    hint = hint.rpartition('\\')[2]
+    hint = hint.split('\\')[-1]
     hint, orig_ext = os.path.splitext(hint)
     hint = hint.lower()
     # Remove any non-alphanumeric characters
