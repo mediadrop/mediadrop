@@ -59,7 +59,7 @@ class TagRowForm(Form):
     fields = [
         HiddenField('name'),
         HiddenField('slug'),
-        SubmitButton('delete', default=N_('Delete'), css_classes=['btn', 'table-row', 'f-lft', 'delete', 'btn-inline-delete']),
+        SubmitButton('delete', default=N_('Delete'), css_classes=['btn', 'table-row', 'delete', 'btn-inline-delete']),
     ]
 
     def post_init(self, *args, **kwargs):

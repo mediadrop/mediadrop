@@ -64,7 +64,7 @@ class CategoryRowForm(Form):
         name = HiddenField()
         slug = HiddenField()
         parent_id = HiddenField()
-        delete = SubmitButton(default=N_('Delete'), css_classes=['btn', 'table-row', 'f-lft', 'delete', 'btn-inline-delete'])
+        delete = SubmitButton(default=N_('Delete'), css_classes=['btn', 'table-row', 'delete', 'btn-inline-delete'])
 
     def post_init(self, *args, **kwargs):
         events.Admin.CategoryRowForm(self)
