@@ -330,7 +330,7 @@ class AbstractEmbedPlayer(AbstractPlayer):
 
     For example, :meth:`mediacore.lib.storage.YoutubeStorage.get_uris`
     returns URIs with a scheme of `'youtube'`, and the special
-    :class:`YoutubePlayer` would overload :attr:`scheme` to also be
+    :class:`YoutubeFlashPlayer` would overload :attr:`scheme` to also be
     `'youtube'`. This would allow the Youtube player to play only those URIs.
 
     """
