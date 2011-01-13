@@ -15,7 +15,7 @@ goog.addDependency('../mcore/players/flash_test.js', [], ['goog.dom', 'goog.json
 goog.addDependency('../mcore/players/html5.js', ['mcore.players.Html5Player'], ['goog.array', 'goog.dom', 'goog.events', 'goog.ui.Component', 'goog.userAgent.product', 'mcore.players']);
 goog.addDependency('../mcore/players/html5_test.js', [], ['goog.dom', 'goog.testing.ContinuationTestCase', 'goog.testing.jsunit', 'mcore.players', 'mcore.players.Html5Player']);
 goog.addDependency('../mcore/players/iframe.js', ['mcore.players.IframePlayer'], ['goog.dom.TagName', 'goog.ui.Component', 'mcore.players']);
-goog.addDependency('../mcore/players/jwplayer.js', ['mcore.players.JWPlayer'], ['goog.array', 'goog.asserts', 'goog.dom', 'goog.events', 'goog.math', 'goog.object', 'goog.style', 'goog.ui.Component', 'goog.userAgent.product', 'mcore.players']);
+goog.addDependency('../mcore/players/jwplayer.js', ['mcore.players.JWPlayer'], ['goog.dom', 'goog.math', 'goog.object', 'goog.style', 'goog.ui.Component', 'goog.userAgent.product', 'mcore.players']);
 goog.addDependency('../mcore/players/jwplayer_test.js', [], ['goog.dom', 'goog.json', 'goog.testing.ContinuationTestCase', 'goog.testing.PropertyReplacer', 'goog.testing.jsunit', 'goog.userAgent.flash', 'goog.userAgent.product', 'mcore.players', 'mcore.players.JWPlayer']);
 goog.addDependency('../mcore/players/multi.js', ['mcore.players.MultiPlayer'], ['goog.array', 'goog.math.Size', 'goog.ui.Component', 'mcore.players.EventType']);
 goog.addDependency('../mcore/players/multi_test.js', [], ['goog.dom', 'goog.json', 'goog.testing.ContinuationTestCase', 'goog.testing.jsunit', 'goog.userAgent.flash', 'mcore.players', 'mcore.players.Html5Player']);
