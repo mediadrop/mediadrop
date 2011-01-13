@@ -39,7 +39,7 @@
 
 		function getTR(target) {
 			// XXX: This is explicitly dependent on the structure of the table#storage-table below
-			return target.parentNode.parentNode.parentNode.parentNode;
+			return target.parentNode.parentNode.parentNode;
 		}
 
 		function getTDs(target) {
@@ -88,12 +88,19 @@
 			deleteConfirm.openDialogHook = function(target, box, head, text, buttons, cancelButton, confirmButton) {
 				// XXX: This is explicitly dependent on the structure of the table#storage-table below
 				var id = getTR(target).get('id').substr(7);
-				var disableLink = "${h.url_for(action='disable', id='0')}".replace('0', id);
+				var disableLink = "${h.url_for(action='disable', id=0)}".replace('0', id);
+				var disableForm = getTDs(target)[0].getElementsByTagName('form')[0];
+				var disable = function(e) {
+					disableForm.action = disableLink;
+					disableForm.submit();
+				}
 				var disableButton = new Element('a', {
 					'class': 'btn f-rgt',
 					'style':'margin-left:20px',
-					'href': disableLink,
-					'html': '<span>${_('Disable')}</span>'
+					'html': '<span>${_('Disable')}</span>',
+					'events': {
+						'click': disable
+					}
 				}).inject(buttons);
 				// put the confirmbutton last in the XHTML, so that the disableButton floats to the right of it.
 				buttons.removeChild(confirmButton).inject(buttons);
