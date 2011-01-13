@@ -17,6 +17,8 @@ import os
 
 from urlparse import urlsplit
 
+from mediacore.lib.compat import all
+
 class StorageURI(object):
     """
     An access point for a :class:`mediacore.model.media.MediaFile`.
