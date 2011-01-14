@@ -46,10 +46,10 @@
 				<py:for each="f in fields" py:choose="f">
 					<td py:when="'bulk'" headers="h-bulk"><input type="checkbox" class="bulk-checkbox" /></td>
 					<td py:when="'publish_on'"
-					    py:content="media.publish_on and media.publish_on.strftime('%b %d %Y').replace(h.datetime.now().strftime(' %Y'), '') or '-'"
+					    py:content="media.publish_on and h.format_date(media.publish_on) or '-'"
 					    headers="h-publish_on"
 					/>
-					<td py:when="'created_on'" headers="h-created_on">${media.created_on.strftime('%b %d %Y')}</td>
+					<td py:when="'created_on'" headers="h-created_on">${h.format_date(media.created_on)}</td>
 					<td py:when="'status'" headers="h-status" py:choose="">
 						<div py:when="not media.reviewed" class="status-unreviewed">Unreviewed</div>
 						<div py:when="not media.encoded" class="status-unencoded">Unencoded</div>

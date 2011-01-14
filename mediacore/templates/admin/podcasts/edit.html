@@ -91,7 +91,7 @@
 	<div class="column66">
 		<div class="box">
 			<div class="box-head">
-				<small py:if="podcast.created_on" class="box-head-sec">Uploaded: ${podcast.created_on.strftime('%b %d %Y')}</small>
+				<small py:if="podcast.created_on" class="box-head-sec">Uploaded: ${h.format_date(podcast.created_on)}</small>
 				<h1>${podcast.title or _('New Podcast')}</h1>
 			</div>
 			${XML(form(form_values, action=form_action))}

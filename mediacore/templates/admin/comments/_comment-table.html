@@ -53,7 +53,7 @@
 					<div class="comment-ip" py:content="comment.author.ip">Author IP</div>
 				</td>
 				<td>
-					<div class="comment-submitted">Submitted on ${comment.created_on.strftime('%b %d %Y')}</div>
+					<div class="comment-submitted">Submitted on ${h.format_date(comment.created_on)}</div>
 					${XML(edit_form(comment, action=h.url_for(action='save_edit', id=comment.id)))}
 				</td>
 				<td>

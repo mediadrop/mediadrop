@@ -33,7 +33,7 @@
 				<span class="avatar"><img src="${h.gravatar_from_email(comment.author.email, 70)}" width="70" height="70" alt="" /></span>
 				<cite>
 					<a href="#comment-${comment.id}" name="comment-${comment.id}" class="underline-hover" title="Permalink"
-					   py:with="datetime = comment.created_on.strftime('%B %d, %Y at %H:%M').replace(h.datetime.now().strftime(', %Y'), '')">
+					   py:with="datetime = h.format_datetime(comment.created_on)">
 						<strong>${comment.author.name}</strong><br />
 						<span class="comment-date" i18n:msg="datetime">said on ${datetime}&#8230;</span>
 					</a>

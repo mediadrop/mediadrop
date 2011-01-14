@@ -148,7 +148,7 @@
 
 		<div class="box">
 			<div class="box-head">
-				<small py:if="media.created_on" class="box-head-sec">Uploaded: ${media.created_on.strftime('%b %d %Y')}</small>
+				<small py:if="media.created_on" class="box-head-sec">Uploaded: ${h.format_date(media.created_on)}</small>
 				<h1 id="media-title">${media.title or _('Add New Media')}</h1>
 			</div>
 			<form py:replace="XML(media_form(media_values, action=media_action, child_args={'categories': {'category_tree': category_tree}}))" />
