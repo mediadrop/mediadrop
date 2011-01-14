@@ -60,6 +60,7 @@ class YoutubeStorage(EmbedStorageEngine):
             'unique_id': id,
             'duration': int(entry.media.duration.seconds),
             'display_name': unicode(entry.media.title.text, 'utf-8'),
+            'description': unicode(entry.media.description.text, 'utf-8'),
             'thumbnail_url': thumb.url,
             'type': VIDEO,
         }

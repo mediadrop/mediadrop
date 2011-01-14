@@ -66,6 +66,7 @@ class BlipTVStorage(EmbedStorageEngine):
         embed_lookup = asset.findtext('embedLookup')
         meta['unique_id'] = '%s %s' % (id, embed_lookup)
         meta['display_name'] = asset.findtext('title')
+        meta['description'] = asset.findtext('description')
         meta['duration'] = int(asset.findtext('mediaList/media/duration') or 0) or None
 #        meta['bitrate'] = int(xmltree.findtext('audiobitrate') or 0)\
 #                        + int(xmltree.findtext('videobitrate') or 0) or None

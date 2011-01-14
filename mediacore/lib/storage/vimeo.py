@@ -67,6 +67,7 @@ class VimeoStorage(EmbedStorageEngine):
 
         return {
             'unique_id': id,
+            'description': unicode(data.get('description', u'')),
             'duration': int(data.get('duration', 0)),
             'display_name': unicode(data.get('title', u'')),
             'thumbnail_url': data.get('thumbnail_large', None),
