@@ -25,7 +25,7 @@ from paste.deploy.converters import asbool
 from pylons import request, response, tmpl_context, translator
 from pylons.decorators.cache import create_cache_key, _make_dict_from_args
 from pylons.decorators.util import get_pylons
-from webob.exc import HTTPException, HTTPMethodNotAllowed, WSGIHTTPException
+from webob.exc import HTTPException, HTTPMethodNotAllowed
 
 from mediacore.lib.paginate import paginate
 from mediacore.lib.templating import render
@@ -573,7 +573,7 @@ def autocommit(func, *args, **kwargs):
     """Automatically handle database transactions for decorated controller actions"""
     try:
         result = func(*args, **kwargs)
-    except (HTTPException, WSGIHTTPException), e:
+    except HTTPException, e:
         if 200 <= e.code < 400:
             DBSession.commit()
         else:

@@ -151,7 +151,7 @@ class UsersController(BaseController):
             DBSession.commit()
             # repoze.who sees the Unauthorized response and clears the cookie,
             # forcing a fresh login with the new password
-            raise webob.exc.HTTPUnauthorized
+            raise webob.exc.HTTPUnauthorized().exception
 
         redirect(action='index', id=None)
 

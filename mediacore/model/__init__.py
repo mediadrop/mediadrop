@@ -100,7 +100,7 @@ def fetch_row(mapped_class, pk=None, extra_filter=None, **kwargs):
     try:
         return query.one()
     except NoResultFound:
-        raise webob.exc.HTTPNotFound
+        raise webob.exc.HTTPNotFound().exception
 
 
 # slugify regex's

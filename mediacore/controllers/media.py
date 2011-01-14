@@ -344,17 +344,17 @@ class MediaController(BaseController):
         file_path = helpers.file_path(file)
         if file_path is None:
             log.warn('No path exists for requested media file: %r', file)
-            raise HTTPNotFound()
+            raise HTTPNotFound().exception
         file_path = file_path.encode('utf-8')
 
         if not os.path.exists(file_path):
             log.warn('No such file or directory: %r', file_path)
-            raise HTTPNotFound()
+            raise HTTPNotFound().exception
 
         # Ensure the request accepts files with this container
         accept = request.environ.get('HTTP_ACCEPT', '*/*')
         if not mimeparse.best_match([file_type], accept):
-            raise HTTPNotAcceptable() # 406
+            raise HTTPNotAcceptable().exception # 406
 
         method = config.get('file_serve_method', None)
         headers = []

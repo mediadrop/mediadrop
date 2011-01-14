@@ -18,7 +18,7 @@ import logging
 from pylons import request, response, session, tmpl_context
 from repoze.what.predicates import has_permission
 from sqlalchemy import orm, sql
-from webob.exc import HTTPNotFound
+from webob.exc import HTTPException
 
 from mediacore.lib import helpers
 from mediacore.lib.base import BaseController
@@ -164,7 +164,8 @@ class PlayersController(BaseController):
             player2 = fetch_row(PlayerPrefs, priority=new_priority)
             player2.priority = player1.priority
             player1.priority = new_priority
-        except HTTPNotFound:
-            pass
+        except HTTPException, e:
+            if e.code != 404:
+                raise
 
         redirect(action='index', id=None)

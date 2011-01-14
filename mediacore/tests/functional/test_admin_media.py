@@ -314,8 +314,9 @@ class TestMediaController(TestController):
         try:
             media_2 = fetch_row(Media, media_2_id)
             raise Exception('Stub media object not properly deleted!')
-        except webob.exc.HTTPNotFound, e:
-            pass
+        except webob.exc.HTTPException, e:
+            if e.code != 404:
+                raise
 
         media_1 = fetch_row(Media, media_1_id)
         file_1 = media_1.files[0]
