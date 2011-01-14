@@ -68,30 +68,6 @@ mcore.players.JWPlayer = function(jwplayerOpts, opt_flashPlaylist, opt_domHelper
    */
   this.flashPlaylist_ = opt_flashPlaylist;
 
-  /**
-   * The DOM component into which child components are to be rendered
-   * XXX: This element is initially created in decorateInternal(), but will be
-   *      further 'decorated' by the third-party jwplayer() initialiation.
-   *      The third-party code sometimes removes this element and replaces it
-   *      with a new element, copying over the original 'id' attribute. Because
-   *      the third-party code references this element only by its 'id'
-   *      attribute, it is important that this element has an 'id' attribute
-   *      and is a descendant of the main <body> element.
-   * XXX: When the third-party jwplayer code replaces this element, it does not
-   *      insert the new element in place, but appends it as the last child of
-   *      the original element's parent node.
-   * @type {Element}
-   * @private
-   */
-  this.contentElement_ = null;
-
-  /**
-   * The ID string of the content element (see JWPlayer.contentElement_)
-   * @type {string|null}
-   * @private
-   */
-  this.contentElementId_ = null;
-
   // We will add our onReady and onError events to the player options
   var events = jwplayerOpts['events'] = jwplayerOpts['events'] || {};
   var newEvents = {
@@ -116,8 +92,18 @@ goog.inherits(mcore.players.JWPlayer, goog.ui.Component);
 /**
  * JW Embedder Instance.
  * @type {jwplayer.api.PlayerAPI|undefined}
+ * @private
  */
 mcore.players.JWPlayer.prototype.jwplayer_;
+
+
+/**
+ * A width and height to resize the player to once it's loaded.
+ * @type {Array.<number>|undefined}
+ * @private
+ */
+mcore.players.JWPlayer.prototype.pendingResize_;
+
 
 
 /**
@@ -196,8 +182,6 @@ mcore.players.JWPlayer.prototype.decorateInternal = function(element) {
   this.jwplayer_ = jwplayer(contentElement);
   this.jwplayer_.setup(this.jwplayerOpts_);
 
-  this.contentElement_ = contentElement;
-  this.contentElementId_ = contentElement.id;
   this.setElementInternal(element);
 };
 
@@ -210,14 +194,15 @@ mcore.players.JWPlayer.prototype.decorateInternal = function(element) {
  * player has been rendered and can be interacted with.
  */
 mcore.players.JWPlayer.prototype.handlePlayerReady = function() {
-  // The jwplayer() instance may replace the contentElement that we pointed it
-  // to with another element having the same ID
-  this.contentElement_ = this.dom_.getElement(this.contentElementId_);
+  if (this.pendingResize_) {
+    this.jwplayer_.resize(this.pendingResize_[0], this.pendingResize_[1]);
+    delete this.pendingResize_;
+  }
 
   // If a flash-specific playlist was provided, switch to that if JWPlayer
   // loaded the flash player instead of the HTML5 player.
   if (this.flashPlaylist_ &&
-      this.contentElement_.tagName == goog.dom.TagName.OBJECT) {
+      this.getContentElement().tagName == goog.dom.TagName.OBJECT) {
     this.jwplayer_.load(this.flashPlaylist_);
   }
 };
@@ -242,7 +227,10 @@ mcore.players.JWPlayer.prototype.handlePlayerError = function() {
  * @return {Element} Element to contain child elements (null if none).
  */
 mcore.players.JWPlayer.prototype.getContentElement = function() {
-  return this.contentElement_;
+  // JWPlayer always appends the flash object to the container.
+  // We must be careful to place the player object in the same position
+  // in case this behaviour changes.
+  return this.dom_.getLastElementChild(this.getElement());
 };
 
 /**
@@ -269,7 +257,8 @@ mcore.players.JWPlayer.prototype.setSize = function(w, opt_h) {
     throw Error('Provided width and height must be integers.');
   }
 
-  // ensure the containing element is immediately resized
+  // ensure the containing element is immediately resized. this is always
+  // necessary because we set a fixed size when constructing this component
   goog.style.setSize(this.getElement(), w, h);
 
   if (goog.isDef(this.jwplayer_.getWidth())) {
@@ -277,10 +266,10 @@ mcore.players.JWPlayer.prototype.setSize = function(w, opt_h) {
   } else {
     // XXX: If the result of getWidth() is undefined, we assume the player is
     //      in the middle of initializing. If this is the case, an immediate
-    //      call to resize() will be ignored. So we set a delayed retry.
-    goog.Timer.callOnce(function() {
-      this.setSize(w, h);
-    }, 100, this);
+    //      call to resize() will be ignored. So we delay until onReady, but
+    //      we can improve the situation by resizing the <object> immediately.
+    this.pendingResize_ = [w, h];
+    goog.style.setSize(this.getContentElement(), w, h);
   }
   return this;
 };
@@ -299,7 +288,6 @@ mcore.players.JWPlayer.prototype.getSize = function() {
 /** @inheritDoc */
 mcore.players.JWPlayer.prototype.disposeInternal = function() {
   // TODO: Is this nulling really necessary?
-  this.contentElement_ = null;
   this.jwplayerOpts_ = null;
   this.jwplayer_ = null;
   goog.base(this, 'disposeInternal');
