@@ -85,7 +85,7 @@ var MediaManager = new Class({
 		if (this.newID && this.newID != json.media_id) {
 			this.mergeMedia(json.media_id);
 		} else if ($defined(json.slug)) {
-			this.setStubData(json.title, json.slug, json.link);
+			this.setStubData(json.title, json.slug, json.link, json.description);
 			this.updateStatusForm(json.status_form);
 		}
 		this.thumbUploader.refreshThumb();
@@ -113,12 +113,13 @@ var MediaManager = new Class({
 		this.thumbUploader.refreshThumb();
 	},
 
-	setStubData: function(title, slug, link){
+	setStubData: function(title, slug, link, desc){
 		var slugObj = this.metaForm.slug;
 		if (!slugObj.field.value || slugObj.field.value.match(/^_stub_/)) {
 			slugObj.setSlug(slug);
 			this.metaForm.form.title.value = title;
 		}
+		if (desc) $(this.metaForm.form.description).set('fieldValue', desc);
 		this.updateTitle(title, link);
 	},
 

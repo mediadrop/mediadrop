@@ -338,6 +338,7 @@ class MediaController(BaseController):
             status_form = status_form_xhtml,
             title = media.title,
             slug = media.slug,
+            description = media.description,
             link = url_for(action='edit', id=media.id),
             duration = helpers.duration_from_seconds(media.duration),
         )

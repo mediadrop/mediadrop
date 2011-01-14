@@ -30,6 +30,7 @@ from mediacore.lib.i18n import _
 from mediacore.lib.thumbnails import (create_thumbs_for, has_thumbs,
     has_default_thumbs, thumb_path)
 from mediacore.lib.uri import StorageURI
+from mediacore.lib.xhtml import clean_xhtml
 #from mediacore.model import DBSession, MediaFile XXX: Import at EOF
 from mediacore.plugin.abc import (AbstractClass, abstractmethod,
     abstractproperty, isabstract)
@@ -376,6 +377,8 @@ def add_new_media_file(media, file=None, url=None):
 
     if not media.duration and meta.get('duration', 0):
         media.duration = meta['duration']
+    if not media.description and meta.get('description'):
+        media.description = clean_xhtml(meta['description'])
     if not media.title:
         media.title = meta.get('title', None) or mf.display_name
     if media.type is None:
