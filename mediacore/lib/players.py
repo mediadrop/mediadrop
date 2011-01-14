@@ -724,6 +724,9 @@ class JWPlayer(AbstractHTML5Player):
     supported_types = set([AUDIO, VIDEO, AUDIO_DESC, CAPTIONS])
     supported_schemes = set([HTTP, RTMP])
 
+    # Height adjustment in pixels to accomodate the control bar and stay 16:9
+    _height_diff = 24
+
     providers = {
         AUDIO: 'sound',
         VIDEO: 'video',
@@ -752,6 +755,7 @@ class JWPlayer(AbstractHTML5Player):
             'autostart': self.autoplay,
             'height': self.adjusted_height,
             'width': self.adjusted_width,
+            'controlbar': 'bottom',
             'players': [
                 # XXX: Currently flash *must* come first for the RTMP/HTTP logic.
                 {'type': 'flash', 'src': self.swf_url()},
