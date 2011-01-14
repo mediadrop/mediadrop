@@ -19,6 +19,10 @@ class Globals(object):
                                               expire=3600,
                                               type='memory')
 
+        # We'll store the primary translator here for sharing between requests
+        self.primary_language = None
+        self.primary_translator = None
+
     @property
     def settings(self):
         def fetch_settings():

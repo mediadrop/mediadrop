@@ -13,13 +13,15 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import logging
 from gettext import NullTranslations, translation as gettext_translation
 
+from babel.core import Locale
 from pylons import request, translator
 from pylons.i18n.translation import lazify
 
-log = logging.getLogger(__name__)
+
+MEDIACORE = 'mediacore'
+"""The primary MediaCore domain name."""
 
 class LanguageError(Exception):
     pass
@@ -35,19 +37,32 @@ class Translator(object):
     def __init__(self, locale, locale_dirs):
         """Initialize this translator for the given locale.
 
-        :type locale: :class:`babel.Locale`.
+        :type locale: :class:`babel.Locale` or ``str``.
         :param locale: The locale to load translations for.
         :type locale_dirs: dict
         :param locale_dirs: A mapping of translation domain names to the
             localedir where they can be found. See :func:`gettext.translation`
             for more details.
+        :raises DomainError: If no locale dir has been configured for this
+            domain and the fallback is off.
+        :raises LanguageError: If no translations could be found for this
+            locale in the 'mediacore' domain and the fallback is off.
         """
-        self.locale = locale
-        self._domains = {}
+        self.locale = locale = Locale.parse(locale)
+
+        # Save configuration required for loading translations
         self._locale_dirs = locale_dirs
+
+        # If the locale is pt_BR, look for both pt_BR and pt translations
         self._languages = [str(locale)]
         if locale.territory:
             self._languages.append(locale.language)
+
+        # Storage for all message catalogs keyed by their domain name
+        self._domains = {}
+
+        # Fetch the mediacore domain immediately & cache a direct ref for perf
+        self._mediacore = self._load_domain(MEDIACORE)
 
     def install_pylons_global(self):
         """Replace the current pylons.translator SOP with this instance.
@@ -58,7 +73,7 @@ class Translator(object):
         environ['pylons.pylons'].translator = self
         environ['paste.registry'].replace(translator, self)
 
-    def _load_domain(self, domain):
+    def _load_domain(self, domain, fallback=True):
         """Load the given domain from one of the pre-configured locale dirs.
 
         Returns a :class:`gettext.NullTranslations` instance if no
@@ -67,33 +82,35 @@ class Translator(object):
         of an error being raised.
 
         :param domain: A domain name.
+        :param fallback: An optional flag that, when True, returns a
+            :class:`gettext.NullTranslations` instance if no translations
+            file could be found for the given language(s).
         :rtype: :class:`gettext.GNUTranslations`
         :returns: The native python translator instance for this domain.
+        :raises DomainError: If no locale dir has been configured for this
+            domain and the fallback is off.
         :raises LanguageError: If no translations could be found for this
-            locale in the 'mediacore' domain.
+            domain in this locale and the fallback is off.
         """
         localedir = self._locale_dirs.get(domain, None)
-        if not localedir:
-            raise DomainError('No localedir specified for domain %r' % domain)
-        try:
-            t = gettext_translation(domain, localedir, self._languages)
-        except IOError:
-            msg = 'No %r translations found for %r at %r.' % \
-                (domain, self._languages, localedir)
-            if self._languages[0] == 'en':
-                t = NullTranslations()
-            elif domain != 'mediacore':
-                # This is a non-critical domain so we don't care if it can't
-                # be translated.
-                t = NullTranslations()
-                log.warn(msg)
-            else:
+        if localedir:
+            try:
+                t = gettext_translation(domain, localedir, self._languages,
+                                        fallback=fallback)
+            except IOError:
+                # This only occurs when fallback is false.
+                msg = 'No %r translations found for %r at %r.' % \
+                    (domain, self._languages, localedir)
                 raise LanguageError(msg)
+        elif fallback:
+            t = NullTranslations()
+        else:
+            raise DomainError('No localedir specified for domain %r' % domain)
         self._domains[domain] = t
         return t
 
     def gettext(self, msgid, domain=None):
-        """Get the translated string for this msgid in the given domain.
+        """Translate the given msgid in this translator's locale.
 
         :type msgid: ``str``
         :param msgid: A byte string to retrieve translations for.
@@ -105,16 +122,19 @@ class Translator(object):
         """
         if not msgid:
             return u''
-        if domain is None:
-            domain = getattr(msgid, 'domain', 'mediacore')
-        try:
-            t = self._domains[domain]
-        except KeyError:
-            t = self._load_domain(domain)
+        if domain is None and isinstance(msgid, _TranslateableUnicode):
+            domain = msgid.domain
+        if domain is None or domain == MEDIACORE:
+            t = self._mediacore
+        else:
+            try:
+                t = self._domains[domain]
+            except KeyError:
+                t = self._load_domain(domain)
         return t.ugettext(msgid)
 
     def ngettext(self, singular, plural, n, domain=None):
-        """Get the translated string for this msgid in the given domain.
+        """Pluralize the given number in this translator's locale.
 
         :type singular: ``str``
         :param singular: A byte string msgid for the singular form.
@@ -128,21 +148,26 @@ class Translator(object):
         :returns: The translated string, or the original msgid if no
             translation was found.
         """
-        if domain is None:
-            domain = getattr(singular, 'domain', 'mediacore')
-        try:
-            t = self._domains[domain]
-        except KeyError:
-            t = self._load_domain(domain)
+        if domain is None or domain == MEDIACORE:
+            t = self._mediacore
+        else:
+            try:
+                t = self._domains[domain]
+            except KeyError:
+                t = self._load_domain(domain)
         return t.ungettext(singular, plural, n)
 
     def dgettext(self, domain, msgid):
-        """Alternate syntax needed for :module:`genshi.filters.i18n`."""
-        return self.gettext(msgid, domain=domain)
+        """Alternate syntax needed for :module:`genshi.filters.i18n`.
+
+        This is only called when the ``i18n:domain`` directive is used."""
+        self.gettext(self, msgid, domain)
 
     def dngettext(self, domain, singular, plural, n):
-        """Alternate syntax needed for :module:`genshi.filters.i18n`."""
-        return self.ngettext(singular, plural, n, domain=domain)
+        """Alternate syntax needed for :module:`genshi.filters.i18n`.
+
+        This is only called when the ``i18n:domain`` directive is used."""
+        return self.ngettext(singular, plural, n, domain)
 
     # We always return unicode so these can be simple aliases
     ugettext = gettext
@@ -152,15 +177,47 @@ class Translator(object):
 
 
 def gettext(msgid, domain=None):
+    """Get the translated string for this msgid in the given domain.
+
+    :type msgid: ``str``
+    :param msgid: A byte string to retrieve translations for.
+    :type domain: ``str``
+    :param domain: An optional domain to use, if not 'mediacore'.
+    :rtype: ``unicode``
+    :returns: The translated string, or the original msgid if no
+        translation was found.
+    """
     return translator.gettext(msgid, domain)
 _ = ugettext = gettext
 
 def ngettext(singular, plural, n, domain=None):
+    """Pluralize the given number using the current translator.
+
+    This uses the ``pylons.translator`` SOP to access the translator
+    appropriate for the current request.
+
+    :type singular: ``str``
+    :param singular: A byte string msgid for the singular form.
+    :type plural: ``str``
+    :param plural: A byte string msgid for the plural form.
+    :type n: ``int``
+    :param n: The number of items.
+    :type domain: ``str``
+    :param domain: An optional domain to use, if not 'mediacore'.
+    :rtype: ``unicode``
+    :returns: The pluralized translation.
+    """
     return translator.ngettext(singular, plural, n, domain)
 
+class _TranslateableUnicode(unicode):
+    """A special string that remembers what domain it belongs to.
 
-class TranslateableUnicode(unicode):
-    """A special string that remembers what domain it belongs to."""
+    This class should not be constructed directly, use :func:`N_` instead.
+    If you do choose to call this class directly, be sure the domain
+    attribute is set, as the :class:`Translator` assumes it is defined
+    for performance reasons.
+
+    """
     __slots__ = ('domain',)
 
 def gettext_noop(msgid, domain=None):
@@ -178,7 +235,7 @@ def gettext_noop(msgid, domain=None):
 
     """
     if domain is not None:
-        msgid = TranslateableUnicode(msgid)
+        msgid = _TranslateableUnicode(msgid)
         msgid.domain = domain
     return msgid
 N_ = gettext_noop

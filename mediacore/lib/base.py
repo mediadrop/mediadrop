@@ -21,7 +21,6 @@ import os
 import time
 import urllib2
 
-from babel.core import Locale
 from paste.deploy.converters import asbool
 from pylons import app_globals, config, request, response, tmpl_context
 from pylons.controllers import WSGIController
@@ -83,6 +82,8 @@ class BareBonesController(WSGIController):
         NOTE: If this method is wrapped in an ActionProtector, all methods of
               the class will be protected it. See :meth:`__init__`.
         """
+        self.setup_translator()
+
         action_method = getattr(self, kwargs['action'], None)
         # The expose decorator sets the exposed attribute on controller
         # actions. If the method does not exist or is not exposed, raise
@@ -90,9 +91,17 @@ class BareBonesController(WSGIController):
         if not getattr(action_method, 'exposed', False):
             abort(status_code=404)
 
-        # Change the language from the default if necessary
-        locale = Locale.parse(app_globals.settings['primary_language'] or 'en')
-        translator = Translator(locale, config['locale_dirs'])
+    def setup_translator(self):
+        # Load the primary translator on first request and reactivate it for
+        # each subsequent request until the primary language is changed.
+        app_globs = app_globals._current_obj()
+        lang = app_globs.settings['primary_language'] or 'en'
+        if app_globs.primary_language == lang and app_globs.primary_translator:
+            translator = app_globs.primary_translator
+        else:
+            translator = Translator(lang, config['locale_dirs'])
+            app_globs.primary_translator = translator
+            app_globs.primary_language = lang
         translator.install_pylons_global()
 
 class BaseController(BareBonesController):
