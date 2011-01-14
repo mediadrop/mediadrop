@@ -18,31 +18,27 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:py="http://genshi.edgewall.org/"
       xmlns:xi="http://www.w3.org/2001/XInclude"
-      xmlns:i18n="http://genshi.edgewall.org/i18n"
-      py:with="in_text = c.category and ('in ' + c.category.name) or ''">
+      xmlns:i18n="http://genshi.edgewall.org/i18n">
 <xi:include href="./layout.html" />
 <xi:include href="../master.html" />
 <head>
-	<title>${h.page_title(default=c.category and '%s | Categories' % c.category.name or 'Categories', category=c.category or 'all')}</title>
+	<title>${h.page_title(default=c.category and '%s | %s' % (c.category.name, _('Categories')) or _('Categories'), category=c.category or 'all')}</title>
 	<meta name="keywords" content="${h.meta_keywords(category=c.category or 'all')}" />
 	<meta name="description" content="${h.meta_description(category=c.category or 'all')}" />
 	<meta py:strip="h.meta_robots_noindex(category=c.category or 'all')" name="robots" content="noindex,follow" />
 	<link href="${h.url_for('/styles/categories.css')}" media="screen" rel="stylesheet" type="text/css" />
-	<link py:if="not c.category"
-	      rel="alternate" type="application/rss+xml" title="Latest"
-	      href="${h.url_for(controller='/sitemaps', action='latest')}" />
 	<link py:if="c.category"
-	      rel="alternate" type="application/rss+xml" title="Latest ${in_text}"
+	      rel="alternate" type="application/rss+xml" title="${_('Latest media in %s') % c.category.name}"
 	      href="${h.url_for(controller='/categories', action='feed', slug=c.category.name)}" />
 </head>
 <body>
-	<div py:if="latest" id="category-latest" class="${popular and 's-grid-column' or None}" py:with="latest_url = in_text and h.url_for(action='more', order='latest') or h.url_for(controller='/media', show='latest')">
-		<h2><a href="${latest_url}" class="underline-hover"><span class="uppercase">Latest</span> ${in_text}</a></h2>
+	<div py:if="latest" id="category-latest" class="${popular and 's-grid-column' or None}" py:with="latest_url = c.category and h.url_for(action='more', order='latest') or h.url_for(controller='/media', show='latest')">
+		<h2><a href="${latest_url}" class="underline-hover uppercase">Latest</a></h2>
 		<ul py:replace="media_grid(latest, thumb_size='s', desc_len=90)" />
 		<a class="mcore-btn mcore-btn-grey mcore-view-more" href="${latest_url}"><span>View More</span></a>
 	</div>
-	<div py:if="popular" id="category-popular" class="s-grid-column" py:with="popular_url = in_text and h.url_for(action='more', order='popular') or h.url_for(controller='/media', show='popular')">
-		<h2><a href="${popular_url}" class="underline-hover"><span class="uppercase">Most Popular</span> ${in_text}</a></h2>
+	<div py:if="popular" id="category-popular" class="s-grid-column" py:with="popular_url = c.category and h.url_for(action='more', order='popular') or h.url_for(controller='/media', show='popular')">
+		<h2><a href="${popular_url}" class="underline-hover uppercase">Most Popular</a></h2>
 		<ul py:replace="media_grid(popular, thumb_size='s', desc_len=90)" />
 		<a class="mcore-btn mcore-btn-grey mcore-view-more" href="${popular_url}"><span>View More</span></a>
 	</div>

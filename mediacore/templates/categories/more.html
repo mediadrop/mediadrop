@@ -17,19 +17,18 @@
      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:py="http://genshi.edgewall.org/"
-      xmlns:xi="http://www.w3.org/2001/XInclude"
-      py:with="in_text = c.category and ('in ' + c.category.name) or ''">
+      xmlns:xi="http://www.w3.org/2001/XInclude">
 <xi:include href="./layout.html" />
 <xi:include href="../master.html" />
 <head>
-	<title>${h.page_title(default=c.category and '%s | Categories' % c.category.name or 'Categories', category=c.category or 'all')}</title>
+	<title>${h.page_title(default=c.category and '%s | %s' % (c.category.name, _('Categories')) or _('Categories'), category=c.category or 'all')}</title>
 	<link href="${h.url_for('/styles/categories.css')}" media="screen" rel="stylesheet" type="text/css" />
-	<link py:if="order == 'latest'"
-	      rel="alternate" type="application/rss+xml" title="Latest media ${in_text}"
+	<link py:if="c.category"
+	      rel="alternate" type="application/rss+xml" title="${_('Latest media in %s') % c.category.name}"
 	      href="${h.url_for(controller='/categories', action='feed', slug=c.category.name)}" />
 </head>
-<body py:with="in_text = c.category and ('in ' + c.category.name) or ''">
-	<h2><span class="uppercase mcore-heading">${order == 'latest' and 'Latest' or 'Most Popular'}</span> ${in_text}</h2>
+<body>
+	<h2><span class="uppercase mcore-heading">${order == 'latest' and _('Latest') or _('Most Popular')}</span></h2>
 	<ul py:replace="media_grid(media, thumb_size='s', desc_len=90)" />
 	<div py:if="not media">There is no media in this category.</div>
 </body>
