@@ -22,4 +22,4 @@ goog.addDependency('../mcore/players/multi_test.js', [], ['goog.dom', 'goog.json
 goog.addDependency('../mcore/players/players.js', ['mcore.players', 'mcore.players.EventType', 'mcore.players.MediaType'], ['goog.dom', 'goog.math.Size', 'goog.style']);
 goog.addDependency('../mcore/players/rater.js', ['mcore.players.Rater'], ['goog.dom', 'goog.events', 'goog.net.XhrIo', 'goog.string', 'goog.ui.Component']);
 goog.addDependency('../mcore/players/resizer.js', ['mcore.players.ColumnViewResizer', 'mcore.players.ResizerBase', 'mcore.players.WideViewResizer'], ['goog.dom.classes', 'goog.events.EventTarget', 'goog.style']);
-goog.addDependency('../mcore/popups.js', ['mcore.popups', 'mcore.popups.SimplePopup'], ['goog.dom', 'goog.ui.PopupBase']);
+goog.addDependency('../mcore/popups.js', ['mcore.popups', 'mcore.popups.SimplePopup'], ['goog.dom', 'goog.dom.TagName', 'goog.events', 'goog.ui.PopupBase']);
