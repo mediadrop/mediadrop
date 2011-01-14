@@ -181,7 +181,9 @@ mcore.players.Controller.prototype.decorateInternal = function(element) {
 mcore.players.Controller.prototype.enterDocument = function() {
   if (this.isFillScreen_) {
     this.player_.setSize(this.dom_.getViewportSize());
-  } else {
+  } else if (this.resizerBtn_) {
+    // Resize the player according to the user's saved preference IF the
+    // current player is actually resizeable.
     var sizePreference = goog.net.cookies.get(
         mcore.players.Controller.SIZE_COOKIE_NAME);
     if (goog.isDef(sizePreference)) {
