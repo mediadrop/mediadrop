@@ -82,7 +82,7 @@ class Translator(object):
                 (domain, self._languages, localedir)
             if self._languages[0] == 'en':
                 t = NullTranslations()
-            elif domain != MEDIACORE_DOMAIN:
+            elif domain != 'mediacore':
                 # This is a non-critical domain so we don't care if it can't
                 # be translated.
                 t = NullTranslations()
