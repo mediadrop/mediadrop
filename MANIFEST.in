@@ -31,6 +31,10 @@ recursive-include doc *.py
 recursive-include doc *.rst
 prune doc/build
 
+# Exclude all closure tools
+recursive-exclude closure-library *.*
+recursive-exclude batch-scripts/closure *.*
+
 # Include our deployment.ini template
 include mediacore/config/deployment.ini_tmpl
 
