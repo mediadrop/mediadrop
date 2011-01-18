@@ -249,6 +249,16 @@ class BaseSettingsController(BaseController):
         # until all the caches expire.
         if not request.environ.get('wsgi.multiprocess', False):
             app_globals.settings_cache.clear()
+        else:
+            # uWSGI provides an automagically included module
+            # that we can use to call a graceful restart of all
+            # the uwsgi processes.
+            # http://projects.unbit.it/uwsgi/wiki/uWSGIReload
+            try:
+                import uwsgi
+                uwsgi.reload()
+            except ImportError:
+                pass
 
     def _display(self, form, values=None, action=None):
         """Return the template variables for display of the form.
