@@ -213,6 +213,11 @@ def main(parser, options, args):
 
     d = feedparser.parse(options.uri)
 
+    # FIXME: This script relies on the v0.8.2 models.
+    #        It should be updated for v0.9.0
+    print "I'm sorry, but this RSS import script is out of date."
+    sys.exit(1)
+
     podcast = podcast_from_feed(d, tags=options.tags, save_files=options.save_files)
     DBSession.commit()
     print "Created podcast:", podcast
