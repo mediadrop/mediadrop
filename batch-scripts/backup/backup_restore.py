@@ -54,6 +54,7 @@ import select
 import shutil
 import commands
 import subprocess
+import urlparse
 from pylons import config
 from webob.exc import HTTPNotFound
 from mediacore.model.meta import DBSession
@@ -63,11 +64,39 @@ from mediacore.lib.thumbnails import thumb_paths
 from mediacore.lib.compat import any
 from mediacore.lib.uri import file_path
 
-database = 'mediacore'
-user = 'root'
-password = ''
-mysqldump_executable = 'mysqldump5'
-mysql_executable = 'mysql5'
+
+def is_executable(fpath):
+    return os.path.exists(fpath) and os.access(fpath, os.X_OK)
+
+def find_executable(names):
+    # Given a list of executable names, find the first one that is available
+    # as an executable file, on the path.
+    for name in names:
+        fpath, fname = os.path.split(name)
+        if fpath:
+            # The given name is absolute.
+            if is_executable(name):
+                return name
+        else:
+            # Try to find the name on the PATH
+            for path in os.environ["PATH"].split(os.pathsep):
+                exe_file = os.path.join(path, name)
+                if is_executable(exe_file):
+                    return exe_file
+
+    # Could not find it :(
+    return None
+
+
+# our database info
+db_url = config['sqlalchemy.url'].replace('mysql://', 'http://') # to trick urlparse
+db_info = urlparse.urlsplit(db_url)
+db_user = db_info.username
+db_pass = db_info.password
+db_info = urlparse.urlparse(db_url)
+db_name = db_info.path.strip('/')
+mysqldump_executable = find_executable(['mysqldump5', 'mysqldump'])
+mysql_executable = find_executable(['mysql5', 'mysql'])
 
 # The tables we want to save.
 tables = [
@@ -110,7 +139,7 @@ def poll_for_content(file_descriptor, timeout=0):
 
 def dump_backup_file(filename):
     dump_cmd = "%s --user=%s --password=%s --compact %s %s" % (
-        mysqldump_executable, user, password, database, " ".join(tables)
+        mysqldump_executable, db_user, db_pass, db_name, " ".join(tables)
     )
     perl_cmd = 'perl -p -e "s:\),\(:\),\\n\(:g"'
     exc_string = "%s | %s" % (dump_cmd, perl_cmd)
@@ -167,10 +196,10 @@ def restore_backup_file(filename):
     # Prepare the command to execute MySQL
     cmd_args = [
         mysql_executable,
-        "--user=%s" % user,
-        "--password=%s" % password,
+        "--user=%s" % db_user,
+        "--password=%s" % db_pass,
         "--force", # Don't quit if a syntax error is encountered
-        database,
+        db_name,
     ]
     print "Executing:"
     print "\t" + " ".join(cmd_args)
