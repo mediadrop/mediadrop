@@ -163,7 +163,7 @@ class Translator(object):
         """Alternate syntax needed for :module:`genshi.filters.i18n`.
 
         This is only called when the ``i18n:domain`` directive is used."""
-        self.gettext(self, msgid, domain)
+        return self.gettext(msgid, domain)
 
     def dngettext(self, domain, singular, plural, n):
         """Alternate syntax needed for :module:`genshi.filters.i18n`.
