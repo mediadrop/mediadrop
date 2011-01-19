@@ -11,9 +11,38 @@ DEBUG = False
 
 if __name__ == "__main__":
     cmd = LoadAppCommand(_script_name, _script_description)
-    cmd.parser.add_option('-d', '--dump', dest='dump_to', help='Dump the selected tables to OUTPUT_FILE', metavar='OUTPUT_FILE')
-    cmd.parser.add_option('-r', '--read', dest='read_from', help='Update the database from the dump in INPUT_FILE', metavar='INPUT_FILE')
-    cmd.parser.add_option('--debug', action='store_true', dest='debug', help='Write debug output to STDOUT.', default=False)
+    cmd.parser.add_option('--dump',
+        dest='dump_to',
+        help='Dump the selected tables to OUTPUT_FILE',
+        metavar='OUTPUT_FILE'
+    )
+    cmd.parser.add_option('--restore',
+        dest='read_from',
+        help='Update the database from the dump in INPUT_FILE',
+        metavar='INPUT_FILE'
+    )
+    cmd.parser.add_option('--dump-files',
+        dest='dump_files_dir',
+        help="Back up the your thumbnails and locally stored media files to "\
+             "DIR. DIR must be a directory that already exists. "\
+             "WARNING: this flag will delete any existing files from DIR "\
+             "before performing the backup!",
+        metavar='DIR'
+    )
+    cmd.parser.add_option('--restore-files',
+        dest='restore_files_dir',
+        help="Restore the dumped thumbnails and media files from DIR to "\
+             "MediaCore's configured storage locations. "\
+             "WARNING: this flag will delete all files from its destination "\
+             "directories before performing a restore!",
+        metavar='DIR'
+    )
+    cmd.parser.add_option('--debug',
+        action='store_true',
+        dest='debug',
+        help='Write debug output to STDOUT.',
+        default=False
+    )
     load_app(cmd)
     DEBUG = cmd.options.debug
 
@@ -31,22 +60,37 @@ from mediacore.model.meta import DBSession
 from mediacore.model import *
 from mediacore.lib import helpers
 from mediacore.lib.thumbnails import thumb_paths
+from mediacore.lib.compat import any
+from mediacore.lib.uri import file_path
 
 database = 'mediacore'
 user = 'root'
 password = ''
 mysqldump_executable = 'mysqldump5'
 mysql_executable = 'mysql5'
+
+# The tables we want to save.
 tables = [
-    'tags',
-    'settings',
-    'podcasts',
     'categories',
-    'media',
     'comments',
+    'groups',
+    'media',
+    'media_fulltext',
+    'permissions',
+    'players',
+    'podcasts',
+    'settings',
+    'settings_multi',
+    'storage',
+    'tags',
+    'users',
+    'groups_permissions',
     'media_categories',
     'media_files',
+    'media_files_meta',
+    'media_meta',
     'media_tags',
+    'users_groups',
 ]
 
 # Data directories:
@@ -55,16 +99,16 @@ p_img_dir = config['image_dir'] + os.sep + Podcast._thumb_dir
 media_dir = config['media_dir']
 deleted_dir = config.get('deleted_files_dir', '')
 if deleted_dir:
-    m_deleted_dir = deleted_dir + os.sep + 'media'
-    p_deleted_dir = deleted_dir + os.sep + 'podcasts'
+    m_deleted_dir = deleted_dir + os.sep + Media._thumb_dir
+    p_deleted_dir = deleted_dir + os.sep + Podcast._thumb_dir
 
 def poll_for_content(file_descriptor, timeout=0):
+    # return a bool: after waiting for timeout seconds,
+    #                does file_descriptor have anything waiting to be read?
     ready = select.select([file_descriptor], [], [], timeout)[0]
     return ready and ready[0] == file_descriptor
 
 def dump_backup_file(filename):
-    # The tables we want to save.
-    # In an order that will let them be created without Foreign Key problems.
     dump_cmd = "%s --user=%s --password=%s --compact %s %s" % (
         mysqldump_executable, user, password, database, " ".join(tables)
     )
@@ -146,6 +190,7 @@ def restore_backup_file(filename):
             print ""
         process.stdin.write(input)
         if poll_for_content(process.stderr, timeout=2):
+            # Has an error message been written to stderr after 2 seconds?
             raise Exception('Error occurred.')
 
         print "Committing changes..."
@@ -166,74 +211,146 @@ def restore_backup_file(filename):
 
     return status, output
 
+def empty_dir(dir):
+    # delete all non-hidden files from dir
+    files = [
+        dir + os.sep + f
+        for f in os.listdir(dir)
+        if not f.startswith('.')
+    ]
+    for path in files:
+        os.remove(path)
 
-def remove_unnecessary_files():
-    # Move all media files and thumbnail files into 'deleted' folder.
-    # XXX: don't run if deleted_dir is not set!
-    if not deleted_dir:
-        return
+def backup_files(dump_dir):
+    # Backup all files (media files, thumbs) referenced by an object in the DB
+    # to the provided dump_dir.
 
+    # TODO: display errors when file operations fail
+
+    if dump_dir == '/':
+        return 1, "Dump Files directory should never be the root directory, '/'"
+
+    # normalize dirname
+    dump_dir = dump_dir.rstrip(os.sep) + os.sep
+
+    # These are the directories we will write to.
+    media_thumb_dir = dump_dir + Media._thumb_dir
+    podcast_thumb_dir = dump_dir + Podcast._thumb_dir
+    media_files_dir = dump_dir + 'media_files'
+
+    # Initialize our default paths to backup
+    default_images = ['news.jpg', 'newm.jpg', 'newl.jpg']
+    media_thumbs = [m_img_dir+os.sep+img for img in default_images]
+    podcast_thumbs = [p_img_dir+os.sep+img for img in default_images]
+    media_files = []
+
+    # Add the media thumbs and media files
     for media in DBSession.query(Media).all():
-        file_paths = thumb_paths(media).values()
-        for f in media.files:
-            file_paths.append(f.file_path)
-        helpers.delete_files(file_paths, 'media')
+        file_paths = [file_path(f) for f in media.files]
+        media_files += [fp for fp in file_paths if fp]
+        media_thumbs += thumb_paths(media).values()
 
+    # Add the podcast thumbs
     for podcast in DBSession.query(Podcast).all():
-        file_paths = thumb_paths(podcast).values()
-        helpers.delete_files(file_paths, 'podcasts')
+        podcast_thumbs += thumb_paths(podcast).values()
 
+    # Ensure the necessary directories exist.
+    assert os.path.isdir(dump_dir)
+    for subdir in (media_thumb_dir, media_files_dir, podcast_thumb_dir):
+        if not os.path.exists(subdir):
+            os.mkdir(subdir)
+        assert os.path.isdir(subdir)
+        empty_dir(subdir)
 
-def restore_necessary_files():
-    # Restore the appropriate media files and thumbnail files
-    # for any media currently in the database.
-    # Use the python models to do this.
-    if not deleted_dir:
-        return
-
-    filename_pairs = []
-    for media in DBSession.query(Media).all():
-        for thumb in thumb_paths(media).values():
-            filename_pairs.append((
-                thumb.replace(m_img_dir, m_deleted_dir),
-                thumb
-            ))
-        for file in media.files:
-            if file.file_path:
-                filename_pairs.append((
-                    file.file_path.replace(media_dir, m_deleted_dir),
-                    file.file_path
-                ))
-    for podcast in DBSession.query(Podcast).all():
-        for thumb in thumb_paths(podcast).values():
-            filename_pairs.append((
-                thumb.replace(p_img_dir, p_deleted_dir),
-                thumb
-            ))
-
-    for src, dest in filename_pairs:
-        if os.path.exists(src):
+    # Copy over all of the files:
+    sources_dests = (
+        (media_thumbs, media_thumb_dir),
+        (media_files, media_files_dir),
+        (podcast_thumbs, podcast_thumb_dir),
+    )
+    for sources, dest_dir in sources_dests:
+        for src in sources:
             if DEBUG:
-                print "Moving %s to %s" % (src, dest)
-            shutil.move(src, dest)
+                print "Copying %s to %s%s" % (src, dest_dir, os.sep)
+            shutil.copy2(src, dest_dir)
+
+    return 0,'%d thumbnails and %d media files successfully backed up' %\
+            (len(media_thumbs) + len(podcast_thumbs), len(media_files))
+
+def restore_files(restore_dir):
+    # Restore all files from the provided restore_dir to their regular
+    # locations within MediaCore (probably in the ./data directory)
+
+    # TODO: display errors when file operations fail
+
+    # normalize dirname
+    restore_dir = restore_dir.rstrip(os.sep) + os.sep
+
+    # These are the directories we will read from.
+    media_thumb_dir = restore_dir + Media._thumb_dir
+    podcast_thumb_dir = restore_dir + Podcast._thumb_dir
+    media_files_dir = restore_dir + 'media_files'
+
+    # Ensure the necessary directories exist.
+    assert os.path.isdir(restore_dir)
+    for subdir in (media_thumb_dir, media_files_dir, podcast_thumb_dir):
+        assert os.path.isdir(subdir)
+
+    source_dest_dirs = (
+        (media_thumb_dir, m_img_dir),
+        (media_files_dir, media_dir),
+        (podcast_thumb_dir, p_img_dir),
+    )
+    counts = [0, 0, 0]
+    i = -1
+    for source_dir, dest_dir in source_dest_dirs:
+        i += 1
+        empty_dir(dest_dir)
+        for f in os.listdir(source_dir):
+            counts[i] += 1
+            src = source_dir + os.sep + f
+            dest = dest_dir + os.sep + f
+            if DEBUG:
+                print "Copying %s to %s" % (src, dest)
+            shutil.copy2(src, dest)
+
+    return 0,'%d thumbnails and %d media files successfully backed up' %\
+            (counts[0]+counts[2], counts[1])
 
 def main(parser, options):
+    status = 0
+    output = []
+
     if options.dump_to:
-        status, output = dump_backup_file(options.dump_to)
+        s, o = dump_backup_file(options.dump_to)
+        status += s
+        output.append(o.strip())
+        DBSession.commit() # Commit and start a new transaction
 
     if options.read_from:
-        remove_unnecessary_files()
-        status, output = restore_backup_file(options.read_from)
-        DBSession.commit() # Create a new transaction, to reload the tables for
-        restore_necessary_files()
+        s, o = restore_backup_file(options.read_from)
+        status += s
+        output.append(o.strip())
+        DBSession.commit() # Commit and start a new transaction
 
-    if not options.dump_to and not options.read_from:
+    if options.dump_files_dir:
+        s, o = backup_files(options.dump_files_dir)
+        status += s
+        output.append(o.strip())
+
+    if options.restore_files_dir:
+        s, o = restore_files(options.restore_files_dir)
+        status += s
+        output.append(o.strip())
+
+    if not any((options.dump_to, options.read_from,
+                options.dump_files_dir, options.restore_files_dir)):
         parser.print_help()
         print ""
-        status, output = 1, 'Incorrect or insufficient arguments provided.\n'
+        status, output = 1, ['Incorrect or insufficient arguments provided.\n']
 
     # print output and exit
-    sys.stdout.write(output.strip())
+    sys.stdout.write("\n---\n".join(output))
     print ""
     if status == 0:
         print "Operation completed successfully."
