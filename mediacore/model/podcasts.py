@@ -101,6 +101,8 @@ class Podcast(object):
     """
     query = DBSession.query_property()
 
+    # TODO: replace '_thumb_dir' with something more generic, like 'name',
+    #       so that its other uses throughout the code make more sense.
     _thumb_dir = 'podcasts'
 
     def __repr__(self):

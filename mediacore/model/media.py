@@ -391,6 +391,8 @@ class Media(object):
 
     query = DBSession.query_property(MediaQuery)
 
+    # TODO: replace '_thumb_dir' with something more generic, like 'name',
+    #       so that its other uses throughout the code make more sense.
     _thumb_dir = 'media'
 
     def __init__(self):
