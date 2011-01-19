@@ -138,7 +138,7 @@ def poll_for_content(file_descriptor, timeout=0):
     return ready and ready[0] == file_descriptor
 
 def dump_backup_file(filename):
-    dump_cmd = "%s --user=%s --password=%s --compact %s %s" % (
+    dump_cmd = '%s --user="%s" --password="%s" --compact %s %s' % (
         mysqldump_executable, db_user, db_pass, db_name, " ".join(tables)
     )
     perl_cmd = 'perl -p -e "s:\),\(:\),\\n\(:g"'
