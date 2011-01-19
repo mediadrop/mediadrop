@@ -16,7 +16,7 @@
 from gettext import NullTranslations, translation as gettext_translation
 
 from babel.core import Locale
-from babel.dates import (LC_TIME, format_date as _format_date,
+from babel.dates import (format_date as _format_date,
     format_datetime as _format_datetime, format_time as _format_time)
 from pylons import request, translator
 from pylons.i18n.translation import lazify
@@ -252,38 +252,40 @@ lazy_ngettext = lazy_ungettext = lazify(ngettext)
 def format_date(date=None, format='medium'):
     """Return a date formatted according to the given pattern.
 
+    This uses the locale of the current request's ``pylons.translator``.
+
     :param date: the ``date`` or ``datetime`` object; if `None`, the current
                  date is used
     :param format: one of "full", "long", "medium", or "short", or a custom
                    date/time pattern
-    :param locale: a `Locale` object or a locale identifier
     :rtype: `unicode`
     """
     return _format_date(date, format, translator.locale)
 
-def format_datetime(datetime=None, format='medium', tzinfo=None,
-                    locale=LC_TIME):
+def format_datetime(datetime=None, format='medium', tzinfo=None):
     """Return a date formatted according to the given pattern.
+
+    This uses the locale of the current request's ``pylons.translator``.
 
     :param datetime: the `datetime` object; if `None`, the current date and
                      time is used
     :param format: one of "full", "long", "medium", or "short", or a custom
                    date/time pattern
     :param tzinfo: the timezone to apply to the time for display
-    :param locale: a `Locale` object or a locale identifier
     :rtype: `unicode`
     """
     return _format_datetime(datetime, format, tzinfo, translator.locale)
 
-def format_time(time=None, format='medium', tzinfo=None, locale=LC_TIME):
+def format_time(time=None, format='medium', tzinfo=None):
     """Return a time formatted according to the given pattern.
+
+    This uses the locale of the current request's ``pylons.translator``.
 
     :param time: the ``time`` or ``datetime`` object; if `None`, the current
                  time in UTC is used
     :param format: one of "full", "long", "medium", or "short", or a custom
                    date/time pattern
     :param tzinfo: the time-zone to apply to the time for display
-    :param locale: a `Locale` object or a locale identifier
     :rtype: `unicode`
     """
     return _format_time(time, format, tzinfo, translator.locale)
