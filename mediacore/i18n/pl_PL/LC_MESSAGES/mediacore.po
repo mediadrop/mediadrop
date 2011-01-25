@@ -1,30 +1,26 @@
-# Polish (Poland) translations for MediaCore.
-# Copyright (C) 2010 ORGANIZATION
+# Translations template for MediaCore.
+# Copyright (C) 2011 ORGANIZATION
 # This file is distributed under the same license as the MediaCore project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
-#
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2011.
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: MediaCore Video Platform\n"
 "Report-Msgid-Bugs-To: http://github.com/simplestation/mediacore/issues\n"
-"POT-Creation-Date: 2010-12-28 15:49+0800\n"
-"PO-Revision-Date: 2011-01-21 15:28-0800\n"
+"POT-Creation-Date: 2011-01-21 15:28-0800\n"
+"PO-Revision-Date: 2011-01-25 20:06+0000\n"
 "Last-Translator: RadioErewan <radek@cdrom.pl>\n"
-"Language-Team: pl_PL <LL@li.org>\n"
-"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && "
-"(n%100<10 || n%100>=20) ? 1 : 2)\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: pl_PL\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
 "Generated-By: Babel 0.9.5\n"
 
 #: mediacore/websetup.py:136
-msgid ""
-"Upload your media using the form below. We'll review it and get back to "
-"you."
-msgstr ""
-"Załaduj twoje media używając poniższego formularza. Przejrzymy go i "
-"odezwiemy się do ciebie."
+msgid "Upload your media using the form below. We'll review it and get back to you."
+msgstr "Załaduj twoje media używając poniższego formularza. Przejrzymy go i odezwiemy się do ciebie."
 
 #: mediacore/controllers/error.py:65
 msgid "We're sorry but we weren't able to process this request."
@@ -35,12 +31,8 @@ msgid "Your comment has been rejected."
 msgstr "Twój komentarz został odrzucony."
 
 #: mediacore/controllers/media.py:318
-msgid ""
-"Thank you for your comment! We will post it just as soon as a moderator "
-"approves it."
-msgstr ""
-"Dziękujemy za komentarz! Opublikujemy go tak szybko, jak tylko moderator "
-"go zaakceptuje."
+msgid "Thank you for your comment! We will post it just as soon as a moderator approves it."
+msgstr "Dziękujemy za komentarz! Opublikujemy go tak szybko, jak tylko moderator go zaakceptuje."
 
 #: mediacore/controllers/admin/media.py:391
 #, python-format
@@ -377,30 +369,16 @@ msgid "Enable high-def quality by default."
 msgstr "Włącz domyślnie wysoką rozdzielczość/jakość. "
 
 #: mediacore/forms/admin/players.py:130
-msgid ""
-"Allow the player to load related videos once playback of the initial "
-"video starts. Related videos are displayed in the \"genie menu\" when the"
-" menu button is pressed."
-msgstr ""
-"Pozwól odtwarzaczowi załadować wideo powiązane po rozpoczęciu "
-"odtwarzania. Powiązane wideo są wyświetlane w \"genie menu\" kiedy "
-"przycisk menu jest wciśnięty."
+msgid "Allow the player to load related videos once playback of the initial video starts. Related videos are displayed in the \"genie menu\" when the menu button is pressed."
+msgstr "Pozwól odtwarzaczowi załadować wideo powiązane po rozpoczęciu odtwarzania. Powiązane wideo są wyświetlane w \"genie menu\" kiedy przycisk menu jest wciśnięty."
 
 #: mediacore/forms/admin/players.py:131
-msgid ""
-"Show the search box when the video is minimized. The above option must be"
-" enabled for this to work."
-msgstr ""
-"Pokaż pole wyszukiwania, kiedy wideo jest zminimalizowane. Powyższa opcja"
-" musi być włączona, aby to zadziałało."
+msgid "Show the search box when the video is minimized. The above option must be enabled for this to work."
+msgstr "Pokaż pole wyszukiwania, kiedy wideo jest zminimalizowane. Powyższa opcja musi być włączona, aby to zadziałało."
 
 #: mediacore/forms/admin/players.py:132
-msgid ""
-"Display information like the video title and rating before the video "
-"starts playing."
-msgstr ""
-"Wyświetl informacje takie jak tytuł czy ocena przed rozpoczęciem "
-"odtwarzania."
+msgid "Display information like the video title and rating before the video starts playing."
+msgstr "Wyświetl informacje takie jak tytuł czy ocena przed rozpoczęciem odtwarzania."
 
 #: mediacore/forms/admin/podcasts.py:36
 msgid "Parental Advisory"
@@ -421,7 +399,7 @@ msgstr "Szczegóły podcastu:"
 
 #: mediacore/forms/admin/podcasts.py:117
 msgid "Explicit?"
-msgstr "Szczegółowy?"
+msgstr "Klasyfikacja?"
 
 #: mediacore/forms/admin/podcasts.py:118
 msgid "Category"
@@ -494,7 +472,7 @@ msgstr "Biały"
 
 #: mediacore/forms/admin/settings.py:57
 msgid "Purple"
-msgstr "Szkarłatny"
+msgstr "Purpurowy"
 
 #: mediacore/forms/admin/settings.py:58
 msgid "Black"
@@ -762,11 +740,11 @@ msgstr "Przywróć domyślne"
 
 #: mediacore/forms/admin/settings.py:389
 msgid "Banner HTML"
-msgstr ""
+msgstr "HTML Bannera"
 
 #: mediacore/forms/admin/settings.py:392
 msgid "Sidebar HTML"
-msgstr ""
+msgstr "HTML paska bocznego"
 
 #: mediacore/forms/admin/users.py:36
 msgid "User name already exists"
@@ -814,12 +792,8 @@ msgid "Subdirectory on server to upload to"
 msgstr "Podkatalog na serwerze do którego ładować"
 
 #: mediacore/forms/admin/storage/ftp.py:37
-msgid ""
-"How many times should MediaCore try to verify the FTP upload before "
-"declaring it a failure?"
-msgstr ""
-"Ile razy MediaCore powinien próbować weryfikacje uploadu FTP przed "
-"zadeklarowaniem awarii?"
+msgid "How many times should MediaCore try to verify the FTP upload before declaring it a failure?"
+msgstr "Ile razy MediaCore powinien próbować weryfikacje uploadu FTP przed zadeklarowaniem awarii?"
 
 #: mediacore/forms/admin/storage/ftp.py:38
 msgid "HTTP URL to access remotely stored files"
@@ -846,9 +820,7 @@ msgid "RTMP Server URL"
 msgstr "URL serwera RTMP"
 
 #: mediacore/forms/admin/storage/localfiles.py:33
-msgid ""
-"Files must be accessible under the same name as they are stored with "
-"locally."
+msgid "Files must be accessible under the same name as they are stored with locally."
 msgstr "Pliki muszą mieć te same nazwy co ich odpowiedniki składowane lokalnie."
 
 #: mediacore/forms/admin/storage/remoteurls.py:31
@@ -1040,9 +1012,7 @@ msgstr "Kurka wodna!"
 
 #: mediacore/templates/error.html:32
 msgid "We can't find this page. The page may have been moved or removed."
-msgstr ""
-"Nie możemy odnaleźć tej strony. Strona mogła zostać przeniesiona lub "
-"usunięta."
+msgstr "Nie możemy odnaleźć tej strony. Strona mogła zostać przeniesiona lub usunięta."
 
 #: mediacore/templates/error.html:33
 msgid "If you typed the address in, check the spelling."
@@ -1066,9 +1036,7 @@ msgstr "Wypełnij poniższy raport o błędzie."
 
 #: mediacore/templates/error.html:48
 msgid "Email: (so we can contact you if we find it!)"
-msgstr ""
-"Email: (dzięki temu będziemy mogli się skontaktować, jeżeli go "
-"znajdziemy!)"
+msgstr "Email: (dzięki temu będziemy mogli się skontaktować, jeżeli go znajdziemy!)"
 
 #: mediacore/templates/error.html:52
 msgid "What were you looking for when you got the error?"
@@ -1084,9 +1052,9 @@ msgstr "Wyślij raport o błędzie"
 #: mediacore/templates/players/html5_or_flash.html:33
 msgid "Like"
 msgid_plural "Likes"
-msgstr[0] "Lubi"
-msgstr[1] "Lubi"
-msgstr[2] "Lubi"
+msgstr[0] "Lubi to"
+msgstr[1] "Lubi to"
+msgstr[2] "Lubię to"
 
 #: mediacore/templates/helpers.html:38
 #: mediacore/templates/admin/media/update-status-form.html:27
@@ -1130,29 +1098,25 @@ msgid "Featured"
 msgstr "Wyróżnione"
 
 #: mediacore/templates/helpers.html:84
-#, fuzzy
 msgid "Page"
-msgstr "Strona."
+msgstr "Strona"
 
 #: mediacore/templates/helpers.html:84
 msgid "of"
-msgstr ""
+msgstr "z"
 
 #: mediacore/templates/helpers.html:90
 #, python-format
 msgid "The %(fieldName)s field accepts some HTML formatting: %(formattingList)s"
-msgstr ""
-"Pole %(fieldName)s akceptuje niektóre formatowania HTML: "
-"%(formattingList)s"
+msgstr "Pole %(fieldName)s akceptuje niektóre formatowania HTML: %(formattingList)s"
 
 #: mediacore/templates/layout.html:54
 msgid "Feeds:"
 msgstr "Kanały:"
 
 #: mediacore/templates/layout.html:60
-#, fuzzy
 msgid "[1:MediaCore] [2:video platform]"
-msgstr "platforma wideo"
+msgstr "[1:MediaCore] [2:Platforma wideo]"
 
 #: mediacore/templates/login.html:23
 msgid "Login to MediaCore"
@@ -1244,7 +1208,7 @@ msgstr "Oczekujące na publikację"
 
 #: mediacore/templates/admin/index.html:71
 msgid "Get Started"
-msgstr ""
+msgstr "Rozpocznij"
 
 #: mediacore/templates/admin/index.html:73
 #: mediacore/templates/admin/media/edit.html:23
@@ -1289,9 +1253,8 @@ msgid "Settings"
 msgstr "Ustawienia"
 
 #: mediacore/templates/admin/master.html:68
-#, fuzzy
 msgid "© 2009-2011 Simple Station Inc."
-msgstr "copyright 2009 simple station inc"
+msgstr "© 2009-2011 Simple Station Inc."
 
 #: mediacore/templates/admin/categories/index.html:45
 #: mediacore/templates/admin/comments/index.html:43
@@ -1335,9 +1298,7 @@ msgstr "Usuń kategorię"
 
 #: mediacore/templates/admin/categories/index.html:96
 msgid "Are you sure you want to delete this category [1:and ALL of its children]?"
-msgstr ""
-"Jesteś pewny, że chcesz usunąć tą kategorię [1:i wszystkie jej "
-"podkategorie]?"
+msgstr "Jesteś pewny, że chcesz usunąć tą kategorię [1:i wszystkie jej podkategorie]?"
 
 #: mediacore/templates/admin/categories/row-form.html:39
 #: mediacore/templates/admin/comments/_comment-table.html:65
@@ -1494,9 +1455,7 @@ msgstr "Wystąpił błąd zabezpieczeń ( %(text)s )"
 #: mediacore/templates/admin/podcasts/edit.html:40
 #, python-format
 msgid "Error caused a send or load operation to fail (%(text)s)"
-msgstr ""
-"Błąd spowodował niepowodzenie operacji wysyłania lub ładowania ( %(text)s"
-" )"
+msgstr "Błąd spowodował niepowodzenie operacji wysyłania lub ładowania ( %(text)s )"
 
 #: mediacore/templates/admin/media/edit.html:62
 #: mediacore/templates/admin/podcasts/edit.html:43
@@ -1783,9 +1742,7 @@ msgstr "Recenzja może być zakończona po dodaniu pliku."
 
 #: mediacore/templates/admin/media/update-status-form.html:73
 msgid "Encoding will be complete when an acceptable file is added."
-msgstr ""
-"Kodowanie będzie zakończone, gdy zostanie dodany plik w akceptowalnym "
-"formacie."
+msgstr "Kodowanie będzie zakończone, gdy zostanie dodany plik w akceptowalnym formacie."
 
 #: mediacore/templates/admin/media/update-status-form.html:85
 msgid "Publish Now"
@@ -1833,9 +1790,9 @@ msgstr "Dodaj odcinek"
 #, python-format
 msgid "View First Episode %(num)s"
 msgid_plural "View All %(num)s Episodes"
-msgstr[0] "Zobacz pierwszy odcinek %(num)s"
-msgstr[1] "Zobacz kolejne odcinki %(num)s"
-msgstr[2] "Zobacz wszystkie odcinki %(num)s"
+msgstr[0] "Zobacz kolejne odcinki %(num)s"
+msgstr[1] "Zobacz wszystkie odcinki %(num)s"
+msgstr[2] "Zobacz pierwszy odcinek %(num)s"
 
 #: mediacore/templates/admin/podcasts/edit.html:23
 msgid "Edit Podcast"
@@ -1852,11 +1809,11 @@ msgstr "Zobacz ten podcast tam, gdzie jest opublikowany"
 
 #: mediacore/templates/admin/podcasts/feed_fieldset.html:30
 msgid "Get an iTunes URL"
-msgstr ""
+msgstr "Pobierz URL iTunes"
 
 #: mediacore/templates/admin/podcasts/feed_fieldset.html:31
 msgid "Get a Feedburner URL"
-msgstr ""
+msgstr "Pobierz URL Feedburnera"
 
 #: mediacore/templates/admin/podcasts/index.html:32
 msgid "Add Podcast"
@@ -1866,7 +1823,7 @@ msgstr "Dodaj Podcast"
 #: mediacore/templates/admin/settings/advertising.html:30
 #: mediacore/templates/admin/settings/master.html:47
 msgid "Advertising"
-msgstr ""
+msgstr "Reklama"
 
 #: mediacore/templates/admin/settings/analytics.html:24
 #: mediacore/templates/admin/settings/analytics.html:30
@@ -1944,24 +1901,16 @@ msgstr "Usunięcie tego silnika składowania ( %(name)s ) będzie:"
 
 #: mediacore/templates/admin/storage/index.html:34
 #, python-format
-msgid ""
-"Permanently delete all of the %(num)s media files stored by this Storage "
-"Engine."
-msgstr ""
-"Trwale usunie wszystkie %(num)s  pliki multimedialne zapisane za pomocą "
-"tego silnika składowania."
+msgid "Permanently delete all of the %(num)s media files stored by this Storage Engine."
+msgstr "Trwale usunie wszystkie %(num)s  pliki multimedialne zapisane za pomocą tego silnika składowania."
 
 #: mediacore/templates/admin/storage/index.html:35
 msgid "Permanently erase its settings."
 msgstr "Trwale usunie ustawienia."
 
 #: mediacore/templates/admin/storage/index.html:36
-msgid ""
-"An alternative to deleting is disabling. Disabling a Storage Engine will "
-"simply prevent its use for files added from now on."
-msgstr ""
-"Alternatywą dla usuwania jest wyłączenie. Wyłączenie silnika składowania "
-"po prostu zakaże jego używania dla plików dodanych od teraz."
+msgid "An alternative to deleting is disabling. Disabling a Storage Engine will simply prevent its use for files added from now on."
+msgstr "Alternatywą dla usuwania jest wyłączenie. Wyłączenie silnika składowania po prostu zakaże jego używania dla plików dodanych od teraz."
 
 #: mediacore/templates/admin/storage/index.html:121
 #: mediacore/templates/admin/storage/index.html:161
@@ -2009,14 +1958,14 @@ msgstr "Email"
 #: mediacore/templates/categories/more.html:26
 #, python-format
 msgid "Latest media in %s"
-msgstr ""
+msgstr "Ostatnie media w %s"
 
 #: mediacore/templates/categories/index.html:38
 #: mediacore/templates/categories/index.html:43
 #: mediacore/templates/media/explore.html:98
 #: mediacore/templates/media/explore.html:113
 msgid "View More"
-msgstr ""
+msgstr "Zobacz więcej"
 
 #: mediacore/templates/categories/index.html:45
 #: mediacore/templates/categories/more.html:33
@@ -2062,12 +2011,8 @@ msgstr "Aktualności RSS"
 
 #: mediacore/templates/media/explore.html:103
 #, python-format
-msgid ""
-"As soon as there are more than %(num)s published videos in the library, "
-"the most popular videos will be listed here."
-msgstr ""
-"Jak tylko będzie więcej niż %(num)s opublikowanych wideo w bibliotece, "
-"najbardziej popularne filmy zostaną tu wyświetlone."
+msgid "As soon as there are more than %(num)s published videos in the library, the most popular videos will be listed here."
+msgstr "Jak tylko będzie więcej niż %(num)s opublikowanych wideo w bibliotece, najbardziej popularne filmy zostaną tu wyświetlone."
 
 #: mediacore/templates/media/explore.html:104
 msgid "Why not add a few more?"
@@ -2114,9 +2059,9 @@ msgstr "przez %(authorName)s"
 #: mediacore/templates/players/html5_or_flash.html:34
 msgid "Dislike"
 msgid_plural "Dislikes"
-msgstr[0] "Nie lubia"
-msgstr[1] "Nie lubią"
-msgstr[2] "Nie lubi"
+msgstr[0] "Nie lubią tego"
+msgstr[1] "Nie lubią tego"
+msgstr[2] "Nie lubię tego"
 
 #: mediacore/templates/media/view.html:79
 msgid "Related Podcast"
@@ -2129,9 +2074,9 @@ msgstr "Odcinki podcastu"
 #: mediacore/templates/media/view.html:92
 msgid "Episode"
 msgid_plural "Episodes"
-msgstr[0] "Odcinek"
+msgstr[0] "Odcinki"
 msgstr[1] "Odcinki"
-msgstr[2] "Odcinki"
+msgstr[2] "Odcinek"
 
 #: mediacore/templates/media/view.html:106
 msgid "Related Media"
@@ -2227,9 +2172,9 @@ msgstr "Przeglądaj wszystkie odcinki"
 #, python-format
 msgid "%(result_count)s Episodes"
 msgid_plural "All %(result_count)s Episodes"
-msgstr[0] "Odcinki %(result_count)s "
+msgstr[0] "Wszystkie odcinki %(result_count)s"
 msgstr[1] "Wszystkie odcinki %(result_count)s"
-msgstr[2] "Wszystkie odcinki %(result_count)s"
+msgstr[2] "Odcinki %(result_count)s "
 
 #: mediacore/templates/upload/failure.html:24
 #: mediacore/templates/upload/success.html:24
@@ -2241,14 +2186,8 @@ msgid "Upload Error"
 msgstr "Błąd przesyłania"
 
 #: mediacore/templates/upload/failure.html:33
-msgid ""
-"During your upload, something went wrong, but don't worry. The engineers "
-"and gnomes have been automagically notified and we're already on our way "
-"to resolving your issue."
-msgstr ""
-"W momencie przesyłania coś poszło nie tak, ale nie martw się. "
-"Inżynierowie i gnomy, zostali automatycznie powiadomieni i jesteśmy już "
-"na prostej drodze do rozwiązania problemu."
+msgid "During your upload, something went wrong, but don't worry. The engineers and gnomes have been automagically notified and we're already on our way to resolving your issue."
+msgstr "W momencie przesyłania coś poszło nie tak, ale nie martw się. Inżynierowie i gnomy, zostali automatycznie powiadomieni i jesteśmy już na prostej drodze do rozwiązania problemu."
 
 #: mediacore/templates/upload/failure.html:35
 msgid "Something you can check:"
@@ -2273,9 +2212,7 @@ msgstr "Problemy?"
 
 #: mediacore/templates/upload/index.html:53
 msgid "If you have problems uploading or have some questions, please email us at"
-msgstr ""
-"Jeśli masz problemy z przesyłaniem plików lub masz jakieś pytania, napisz"
-" do nas"
+msgstr "Jeśli masz problemy z przesyłaniem plików lub masz jakieś pytania, napisz do nas"
 
 #: mediacore/templates/upload/success.html:30
 msgid "Upload Successful"
@@ -2286,48 +2223,9 @@ msgid "Awesome, your upload was successful!"
 msgstr "Doskonale, przesyłanie powiodło się!"
 
 #: mediacore/templates/upload/success.html:35
-msgid ""
-"Your submission is awaiting review by a moderator and will be posted "
-"shortly."
-msgstr ""
-"Twoja przesyłka oczekuje na sprawdzenie przez moderatora i zostanie "
-"opublikowana w najbliższym czasie."
+msgid "Your submission is awaiting review by a moderator and will be posted shortly."
+msgstr "Twoja przesyłka oczekuje na sprawdzenie przez moderatora i zostanie opublikowana w najbliższym czasie."
 
 #: mediacore/templates/upload/success.html:36
-msgid ""
-"You will be automatically redirected back to the [1:Media Library] in a "
-"few seconds. Hang tight."
-msgstr ""
-"Zostaniesz automatycznie przekierowany z powrotem do [1: Media Library] w"
-" kilka sekund. Trzymaj się mocno."
-
-#~ msgid "Invalid player params provided."
-#~ msgstr "Podano wadliwe parametry odtwarzacza."
-
-#~ msgid "Enable privacy-enhanced mode."
-#~ msgstr "Włącz tryb podwyższonej prywatności."
-
-#~ msgid "HTML5 + JWPlayer Fallback"
-#~ msgstr "HTML5 + zastępczo JWPlayer"
-
-#~ msgid "Amazon S3"
-#~ msgstr "Amazon S3"
-
-#~ msgid "This page has gone missing!"
-#~ msgstr "a strona się zgubiła!"
-
-#~ msgid "Previous"
-#~ msgstr "Poprzednia"
-
-#~ msgid "Next"
-#~ msgstr "Następny"
-
-#~ msgid "more of the Latest..."
-#~ msgstr "więcej najnowszych ..."
-
-#~ msgid "more of the Most Popular..."
-#~ msgstr "więcej z najbardziej popularnych ..."
-
-#~ msgid "No suitable player found for this media."
-#~ msgstr "Brak odpowiedniego odtwarzacza dla tego medium."
-
+msgid "You will be automatically redirected back to the [1:Media Library] in a few seconds. Hang tight."
+msgstr "Zostaniesz automatycznie przekierowany z powrotem do [1: Media Library] w kilka sekund. Trzymaj się mocno."
