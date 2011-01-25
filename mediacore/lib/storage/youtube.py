@@ -56,11 +56,16 @@ class YoutubeStorage(EmbedStorageEngine):
         entry = yt_service.GetYouTubeVideoEntry(video_id=id)
         thumb = max(entry.media.thumbnail, key=attrgetter('width'))
 
+        if entry.media.description.text:
+            description = unicode(entry.media.description.text, 'utf-8')
+        else:
+            description = None
+
         return {
             'unique_id': id,
             'duration': int(entry.media.duration.seconds),
             'display_name': unicode(entry.media.title.text, 'utf-8'),
-            'description': unicode(entry.media.description.text, 'utf-8'),
+            'description': description,
             'thumbnail_url': thumb.url,
             'type': VIDEO,
         }
