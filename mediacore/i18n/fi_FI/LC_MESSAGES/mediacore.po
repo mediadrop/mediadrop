@@ -1,14 +1,14 @@
 # Finnish (Finland) translations for MediaCore.
-# Copyright (C) 2010 ORGANIZATION
+# Copyright (C) 2011 ORGANIZATION
 # This file is distributed under the same license as the MediaCore project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2011.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: MediaCore Video Platform\n"
 "Report-Msgid-Bugs-To: http://github.com/simplestation/mediacore/issues\n"
-"POT-Creation-Date: 2010-12-28 15:49+0800\n"
-"PO-Revision-Date: 2011-01-21 15:28-0800\n"
+"POT-Creation-Date: 2011-01-21 15:28+0800\n"
+"PO-Revision-Date: 2011-01-26 13:14-0800\n"
 "Last-Translator: finlander <jefinlander@gmail.com>\n"
 "Language-Team: fi_FI <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
@@ -207,8 +207,8 @@ msgstr "Poista"
 #: mediacore/templates/media/view.html:66
 msgid "Comment"
 msgid_plural "Comments"
-msgstr[0] "Kommentit"
-msgstr[1] "Kommentti"
+msgstr[0] "Kommentti"
+msgstr[1] "Kommentit"
 
 #: mediacore/forms/admin/media.py:41
 msgid "Bad duration formatting, use Hour:Min:Sec"
@@ -760,11 +760,11 @@ msgstr "Nollaa oletusarvoihin"
 
 #: mediacore/forms/admin/settings.py:389
 msgid "Banner HTML"
-msgstr ""
+msgstr "Mainospalkin HTML"
 
 #: mediacore/forms/admin/settings.py:392
 msgid "Sidebar HTML"
-msgstr ""
+msgstr "Sivupalkin HTML"
 
 #: mediacore/forms/admin/users.py:36
 msgid "User name already exists"
@@ -1068,8 +1068,8 @@ msgstr "Lähetä virheraportti"
 #: mediacore/templates/players/html5_or_flash.html:33
 msgid "Like"
 msgid_plural "Likes"
-msgstr[0] "Tykkävät"
-msgstr[1] "Tykkää"
+msgstr[0] "Tykkää"
+msgstr[1] "Tykkävät"
 
 #: mediacore/templates/helpers.html:38
 #: mediacore/templates/admin/media/update-status-form.html:27
@@ -1078,8 +1078,8 @@ msgstr[1] "Tykkää"
 #: mediacore/templates/media/view.html:61
 msgid "View"
 msgid_plural "Views"
-msgstr[0] "Katsaukset"
-msgstr[1] "Katsaus"
+msgstr[0] "Katsaus"
+msgstr[1] "Katsaukset"
 
 #: mediacore/templates/helpers.html:58
 msgid "Page:"
@@ -1112,13 +1112,12 @@ msgid "Featured"
 msgstr "Kiinnostavimmat"
 
 #: mediacore/templates/helpers.html:84
-#, fuzzy
 msgid "Page"
-msgstr "Sivu:"
+msgstr "Sivu"
 
 #: mediacore/templates/helpers.html:84
 msgid "of"
-msgstr ""
+msgstr "-"
 
 #: mediacore/templates/helpers.html:90
 #, python-format
@@ -1132,9 +1131,8 @@ msgid "Feeds:"
 msgstr "Syötteet:"
 
 #: mediacore/templates/layout.html:60
-#, fuzzy
 msgid "[1:MediaCore] [2:video platform]"
-msgstr "Videoalusta"
+msgstr "[1:MediaCore]  [2:videoalusta]"
 
 #: mediacore/templates/login.html:23
 msgid "Login to MediaCore"
@@ -1226,7 +1224,7 @@ msgstr "Odotetaan julkaisua"
 
 #: mediacore/templates/admin/index.html:71
 msgid "Get Started"
-msgstr ""
+msgstr "Aloita"
 
 #: mediacore/templates/admin/index.html:73
 #: mediacore/templates/admin/media/edit.html:23
@@ -1271,9 +1269,8 @@ msgid "Settings"
 msgstr "Asetukset"
 
 #: mediacore/templates/admin/master.html:68
-#, fuzzy
 msgid "© 2009-2011 Simple Station Inc."
-msgstr "Tekijanoikeus 2009 simple station inc"
+msgstr "© 2009-2011 Simple Station Inc."
 
 #: mediacore/templates/admin/categories/index.html:45
 #: mediacore/templates/admin/comments/index.html:43
@@ -1811,8 +1808,8 @@ msgstr "Lisää episodi"
 #, python-format
 msgid "View First Episode %(num)s"
 msgid_plural "View All %(num)s Episodes"
-msgstr[0] "Näytä kaikki %(num)s  jaksot"
-msgstr[1] "Näytä ensimmäinen %(num)s  jakso"
+msgstr[0] "Näytä ensimmäinen %(num)s  jakso"
+msgstr[1] "Näytä kaikki %(num)s  jaksot"
 
 #: mediacore/templates/admin/podcasts/edit.html:23
 msgid "Edit Podcast"
@@ -1829,11 +1826,11 @@ msgstr "Esikatsele podcasti"
 
 #: mediacore/templates/admin/podcasts/feed_fieldset.html:30
 msgid "Get an iTunes URL"
-msgstr ""
+msgstr "iTunes URL"
 
 #: mediacore/templates/admin/podcasts/feed_fieldset.html:31
 msgid "Get a Feedburner URL"
-msgstr ""
+msgstr "Feedburner URL"
 
 #: mediacore/templates/admin/podcasts/index.html:32
 msgid "Add Podcast"
@@ -1843,7 +1840,7 @@ msgstr "Lisää podcasti"
 #: mediacore/templates/admin/settings/advertising.html:30
 #: mediacore/templates/admin/settings/master.html:47
 msgid "Advertising"
-msgstr ""
+msgstr "Mainonta"
 
 #: mediacore/templates/admin/settings/analytics.html:24
 #: mediacore/templates/admin/settings/analytics.html:30
@@ -1985,14 +1982,14 @@ msgstr "Sähköposti"
 #: mediacore/templates/categories/more.html:26
 #, python-format
 msgid "Latest media in %s"
-msgstr ""
+msgstr "Viimeisin mediatiedosto %s:ssa"
 
 #: mediacore/templates/categories/index.html:38
 #: mediacore/templates/categories/index.html:43
 #: mediacore/templates/media/explore.html:98
 #: mediacore/templates/media/explore.html:113
 msgid "View More"
-msgstr ""
+msgstr "Katso lisää"
 
 #: mediacore/templates/categories/index.html:45
 #: mediacore/templates/categories/more.html:33
@@ -2090,8 +2087,8 @@ msgstr "Tekijältä %(authorName)s "
 #: mediacore/templates/players/html5_or_flash.html:34
 msgid "Dislike"
 msgid_plural "Dislikes"
-msgstr[0] "Ei tykännyt"
-msgstr[1] "Ei tykätty"
+msgstr[0] "Ei tykätty"
+msgstr[1] "Ei tykännyt"
 
 #: mediacore/templates/media/view.html:79
 msgid "Related Podcast"
@@ -2104,8 +2101,8 @@ msgstr "Podcast-jaksoja"
 #: mediacore/templates/media/view.html:92
 msgid "Episode"
 msgid_plural "Episodes"
-msgstr[0] "Jaksot"
-msgstr[1] "Jakso"
+msgstr[0] "Jakso"
+msgstr[1] "Jaksot"
 
 #: mediacore/templates/media/view.html:106
 msgid "Related Media"
@@ -2201,8 +2198,8 @@ msgstr "Selaa kaikki jaksot"
 #, python-format
 msgid "%(result_count)s Episodes"
 msgid_plural "All %(result_count)s Episodes"
-msgstr[0] "Kaikki %(result_count)s jaksot"
-msgstr[1] "%(result_count)s  jaksot"
+msgstr[0] "%(result_count)s  jaksot"
+msgstr[1] "Kaikki %(result_count)s jaksot"
 
 #: mediacore/templates/upload/failure.html:24
 #: mediacore/templates/upload/success.html:24
@@ -2271,34 +2268,4 @@ msgid ""
 msgstr ""
 "Sinut ohjataan automaattisesti takaisin [1: Mediakirjastoon] muutamassa "
 "sekunnissa. Pidä tiukasti kiinni."
-
-#~ msgid "Invalid player params provided."
-#~ msgstr "Virheelliset player-parametrit."
-
-#~ msgid "Enable privacy-enhanced mode."
-#~ msgstr "Tehostettu yksityisyys-tila."
-
-#~ msgid "HTML5 + JWPlayer Fallback"
-#~ msgstr "HTML5 + JWPlayer varmistustila"
-
-#~ msgid "Amazon S3"
-#~ msgstr "Amazon S3"
-
-#~ msgid "This page has gone missing!"
-#~ msgstr "Tämä sivu on kadonnut!"
-
-#~ msgid "Previous"
-#~ msgstr "Edellinen"
-
-#~ msgid "Next"
-#~ msgstr "Seuraava"
-
-#~ msgid "more of the Latest..."
-#~ msgstr "Lisää viimeisimpiä..."
-
-#~ msgid "more of the Most Popular..."
-#~ msgstr "Lisää suosituimpia..."
-
-#~ msgid "No suitable player found for this media."
-#~ msgstr "Sopivaa soitinta ei löytynyt tälle medialle."
 

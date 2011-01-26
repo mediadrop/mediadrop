@@ -1,15 +1,15 @@
 # French translations for MediaCore.
-# Copyright (C) 2010 ORGANIZATION
+# Copyright (C) 2011 ORGANIZATION
 # This file is distributed under the same license as the MediaCore project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2011.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: MediaCore Video Platform\n"
 "Report-Msgid-Bugs-To: http://github.com/simplestation/mediacore/issues\n"
-"POT-Creation-Date: 2010-12-28 15:49+0800\n"
-"PO-Revision-Date: 2011-01-21 15:28-0800\n"
-"Last-Translator: bersace <bersace03@free.fr>\n"
+"POT-Creation-Date: 2011-01-21 15:28+0800\n"
+"PO-Revision-Date: 2011-01-26 13:14-0800\n"
+"Last-Translator: nicolas2k9 <nicolas2k9@gmail.com>\n"
 "Language-Team: fr <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n > 1)\n"
 "MIME-Version: 1.0\n"
@@ -57,15 +57,15 @@ msgstr "Permission refusée, impossible d'enregistrer le fichier"
 #: mediacore/controllers/admin/media.py:564
 #, python-format
 msgid "Unsupport image type: %s"
-msgstr "Type d’image non supporté : %s "
+msgstr "Type d’image non supporté : %s"
 
 #: mediacore/forms/__init__.py:219
 msgid "The portion of the email address before the @ is invalid"
-msgstr "La partie de l'adresse précédent le @ est invalide."
+msgstr "La partie de l'adresse email précédent le @ est invalide"
 
 #: mediacore/forms/__init__.py:220
 msgid "The portion of this email address after the @ is invalid"
-msgstr "La partie de l'adresse suivant le @ est invalide."
+msgstr "La partie de l'adresse email suivant le @ est invalide"
 
 #: mediacore/forms/comments.py:23
 msgid "Please enter your name!"
@@ -105,11 +105,11 @@ msgstr "Description :"
 
 #: mediacore/forms/uploader.py:59
 msgid "Add a YouTube, Vimeo or Google Video URL:"
-msgstr "Ajoutez une URL de vidéo YouTube, Vimeo ou Google Vidéos"
+msgstr "Ajoutez une URL de vidéo YouTube, Vimeo ou Google Vidéos :"
 
 #: mediacore/forms/uploader.py:60
 msgid "Oops! You forgot to enter a file."
-msgstr "Oups ! Vous avez oublié de donner un fichier. "
+msgstr "Oups ! Vous avez oublié de donner un fichier."
 
 #: mediacore/forms/uploader.py:60
 msgid "OR:"
@@ -224,11 +224,11 @@ msgstr "La largeur doit être un entier valide"
 
 #: mediacore/forms/admin/media.py:79
 msgid "Height must be a valid integer"
-msgstr " La hauteur doit être un entier valide "
+msgstr "La hauteur doit être un entier valide"
 
 #: mediacore/forms/admin/media.py:101
 msgid "Select an encoded video or audio file on your computer"
-msgstr "Sélectionnez dans votre ordinateur un fichier vidéo ou audio  encodé"
+msgstr "Sélectionnez dans votre ordinateur un fichier vidéo ou audio encodé"
 
 #: mediacore/forms/admin/media.py:101 mediacore/templates/master.html:63
 #: mediacore/templates/admin/settings/master.html:83
@@ -321,7 +321,7 @@ msgstr "Tags"
 
 #: mediacore/forms/admin/media.py:153
 msgid "e.g.: puppies, great dane, adorable"
-msgstr " par exemple : chiots, patte de chien, adorable "
+msgstr "par exemple : chiots, patte de chien, adorable"
 
 #: mediacore/forms/admin/media.py:155 mediacore/forms/admin/settings.py:239
 msgid "Administrative Notes"
@@ -352,7 +352,7 @@ msgstr "Préférer le player Flash quand c’est possible"
 
 #: mediacore/forms/admin/players.py:105
 msgid "Script Tag"
-msgstr " Tag script"
+msgstr "Tag script"
 
 #: mediacore/forms/admin/players.py:106
 msgid "The unique script tag given for your site."
@@ -382,7 +382,7 @@ msgid ""
 msgstr ""
 "Autoriser le lecteur à charger les vidéos similaires dès que la lecture "
 "de la vidéo initiale débute. Les vidéos similaires sont affichées dans le"
-" menu génie, lorsque le bouton menu est cliqué."
+" « menu génie », lorsque le bouton menu est cliqué."
 
 #: mediacore/forms/admin/players.py:131
 msgid ""
@@ -390,7 +390,7 @@ msgid ""
 " enabled for this to work."
 msgstr ""
 "Afficher la barre de recherche lorsque la vidéo est minimisée. L'option "
-"si dessus doit être activée pour que celle-ci fonctionne."
+"ci-dessus doit être activée pour que celle-ci fonctionne."
 
 #: mediacore/forms/admin/players.py:132
 msgid ""
@@ -431,7 +431,7 @@ msgstr "Droits"
 
 #: mediacore/forms/admin/podcasts.py:121
 msgid "Advanced Options:"
-msgstr "Options avancées  :"
+msgstr "Options avancées :"
 
 #: mediacore/forms/admin/podcasts.py:122
 msgid "Your Feed URL"
@@ -464,7 +464,7 @@ msgstr "Ajouter à la fin"
 
 #: mediacore/forms/admin/settings.py:47
 msgid "Plain <textarea> fields (0kB)"
-msgstr "Champs <textarea> bruts (0kB)"
+msgstr "Champs <textarea> bruts (0ko)"
 
 #: mediacore/forms/admin/settings.py:48
 msgid "Enable TinyMCE for <textarea> fields accepting XHTML (281kB)"
@@ -552,7 +552,7 @@ msgstr "Téléversements des utilisateurs"
 
 #: mediacore/forms/admin/settings.py:175
 msgid "Google Analytics Details:"
-msgstr "Infos Google Analytics"
+msgstr "Infos Google Analytics :"
 
 #: mediacore/forms/admin/settings.py:176
 msgid "Tracking Code"
@@ -580,7 +580,7 @@ msgstr "Sous-titre du site"
 
 #: mediacore/forms/admin/settings.py:218
 msgid "Display Site Name"
-msgstr "Nom du site"
+msgstr "Afficher nom du site"
 
 #: mediacore/forms/admin/settings.py:222
 msgid "Default Language"
@@ -612,7 +612,7 @@ msgstr "Détails de l'anti-spam Akismet :"
 
 #: mediacore/forms/admin/settings.py:254
 msgid "Akismet Key"
-msgstr "Clef Askimet"
+msgstr "Clé Akismet"
 
 #: mediacore/forms/admin/settings.py:255
 msgid "Akismet URL"
@@ -636,15 +636,15 @@ msgstr "Filtrer maintenant"
 
 #: mediacore/forms/admin/settings.py:272
 msgid "Require a key to access the API"
-msgstr "Requiert une clef pour accéder à l'API"
+msgstr "Requiert une clé pour accéder à l'API"
 
 #: mediacore/forms/admin/settings.py:273
 msgid "API Key:"
-msgstr "Clef de l'API :"
+msgstr "Clé de l'API :"
 
 #: mediacore/forms/admin/settings.py:274
 msgid "Access Key"
-msgstr "Clef d'accès"
+msgstr "Clé d'accès"
 
 #: mediacore/forms/admin/settings.py:276
 msgid "API Settings:"
@@ -656,7 +656,7 @@ msgstr "Maximum de média dans les résultats"
 
 #: mediacore/forms/admin/settings.py:278
 msgid "Max tree depth"
-msgstr "Profondeur maximum de l'arbre"
+msgstr "Profondeur maximale de l'arborescence"
 
 #: mediacore/forms/admin/settings.py:289
 #: mediacore/templates/admin/settings/general.html:24
@@ -760,11 +760,11 @@ msgstr "Réinitialiser aux valeurs par défaut"
 
 #: mediacore/forms/admin/settings.py:389
 msgid "Banner HTML"
-msgstr ""
+msgstr "Bannière HTML"
 
 #: mediacore/forms/admin/settings.py:392
 msgid "Sidebar HTML"
-msgstr ""
+msgstr "Barre latérale HTML"
 
 #: mediacore/forms/admin/users.py:36
 msgid "User name already exists"
@@ -780,7 +780,7 @@ msgstr "Détails Login :"
 
 #: mediacore/forms/admin/users.py:54
 msgid "Passwords do not match"
-msgstr "Le mot de passe ne correspond pas"
+msgstr "Les mots de passe ne correspondent pas"
 
 #: mediacore/forms/admin/users.py:56
 #: mediacore/templates/admin/users/index.html:54
@@ -801,7 +801,7 @@ msgstr "Confirmer mot de passe"
 
 #: mediacore/forms/admin/storage/ftp.py:31
 msgid "FTP Server Details:"
-msgstr "Infos serveur FTP"
+msgstr "Infos serveur FTP :"
 
 #: mediacore/forms/admin/storage/ftp.py:33
 msgid "Server Hostname"
@@ -809,15 +809,15 @@ msgstr "Nom d’hôte serveur"
 
 #: mediacore/forms/admin/storage/ftp.py:36
 msgid "Subdirectory on server to upload to"
-msgstr "Sous-répertoire serveur pour téléchargement"
+msgstr "Sous-répertoire serveur pour chargement"
 
 #: mediacore/forms/admin/storage/ftp.py:37
 msgid ""
 "How many times should MediaCore try to verify the FTP upload before "
 "declaring it a failure?"
 msgstr ""
-"Combien de fois souhaitez-vous que MediaCore vérifie le téléchargement "
-"FTP avant de déclarer un échec ?"
+"Combien de fois souhaitez-vous que MediaCore vérifie le chargement FTP "
+"avant de déclarer un échec ?"
 
 #: mediacore/forms/admin/storage/ftp.py:38
 msgid "HTTP URL to access remotely stored files"
@@ -829,7 +829,7 @@ msgstr "URL du serveur RTMP pour lire à distance les fichiers stockés (en opti
 
 #: mediacore/forms/admin/storage/localfiles.py:25
 msgid "Options specific to Local File Storage:"
-msgstr "Options spécifiques au Stockage local des fichiers"
+msgstr "Options spécifiques au Stockage local des fichiers :"
 
 #: mediacore/forms/admin/storage/localfiles.py:28
 msgid "Path to store files under"
@@ -857,7 +857,7 @@ msgstr "Ajouter une autre URL"
 
 #: mediacore/forms/admin/storage/remoteurls.py:60
 msgid "RTMP server URLs must begin with rtmp://"
-msgstr "Les URLs de serveur RTMP doivent commencer avec rtmp://"
+msgstr "Les URLs de serveur RTMP doivent commencer par rtmp://"
 
 #: mediacore/forms/admin/storage/remoteurls.py:67
 msgid "RTMP Servers:"
@@ -866,7 +866,7 @@ msgstr "Serveurs RTMP :"
 #: mediacore/lib/email.py:86
 #, python-format
 msgid "New %(type)s: %(title)s"
-msgstr "Nouveaux \"%(type)s : %(title)s"
+msgstr "Nouveaux %(type)s : %(title)s"
 
 #: mediacore/lib/email.py:87
 #, python-format
@@ -881,7 +881,7 @@ msgid ""
 "\n"
 "Description: %(clean_description)s\n"
 msgstr ""
-"Un nouveau fichier %(type)s a été téléchargé !\n"
+"Un nouveau fichier %(type)s a été téléversé !\n"
 "\n"
 "Titre : %(title)s\n"
 "\n"
@@ -957,11 +957,11 @@ msgstr "Aide"
 
 #: mediacore/lib/players.py:273
 msgid "Flowplayer"
-msgstr "Flowplayer "
+msgstr "Flowplayer"
 
 #: mediacore/lib/players.py:404 mediacore/lib/storage/vimeo.py:35
 msgid "Vimeo"
-msgstr "Vimeo "
+msgstr "Vimeo"
 
 #: mediacore/lib/players.py:440 mediacore/lib/storage/dailymotion.py:36
 msgid "Daily Motion"
@@ -969,7 +969,7 @@ msgstr "Dailymotion"
 
 #: mediacore/lib/players.py:487 mediacore/lib/storage/youtube.py:35
 msgid "YouTube"
-msgstr "YouTube "
+msgstr "YouTube"
 
 #: mediacore/lib/players.py:537 mediacore/lib/storage/googlevideo.py:34
 msgid "Google Video"
@@ -977,11 +977,11 @@ msgstr "Google Vidéos"
 
 #: mediacore/lib/players.py:559 mediacore/lib/storage/bliptv.py:34
 msgid "BlipTV"
-msgstr "BlipTV "
+msgstr "BlipTV"
 
 #: mediacore/lib/players.py:646
 msgid "Plain HTML5 Player"
-msgstr "Plain HTML5 Player "
+msgstr "Plain HTML5 Player"
 
 #: mediacore/lib/players.py:661
 msgid "HTML5 + Flowplayer Fallback"
@@ -989,15 +989,15 @@ msgstr "HTML5 + Flowplayer en repli"
 
 #: mediacore/lib/players.py:718
 msgid "JWPlayer"
-msgstr "JWPlayer "
+msgstr "JWPlayer"
 
 #: mediacore/lib/players.py:856
 msgid "Sublime Video Player"
-msgstr "Sublime Video Player "
+msgstr "Sublime Video Player"
 
 #: mediacore/lib/players.py:900
 msgid "iTunes Player"
-msgstr "iTunes Player "
+msgstr "iTunes Player"
 
 #: mediacore/lib/storage/__init__.py:352
 msgid "Unusable file or URL provided."
@@ -1010,7 +1010,7 @@ msgstr "Stockage FTP"
 #: mediacore/lib/storage/ftp.py:105
 #, python-format
 msgid "Could not upload the file from your FTP server: %s"
-msgstr "Impossible de charger le fichier depuis votre serveur FTP : %s "
+msgstr "Impossible de charger le fichier depuis votre serveur FTP : %s"
 
 #: mediacore/lib/storage/ftp.py:197
 msgid "The file transferred to your FTP server is corrupted. Please try again."
@@ -1019,7 +1019,7 @@ msgstr "Le fichier transféré à votre serveur FTP est corrompu. Merci de réé
 #: mediacore/lib/storage/ftp.py:202
 #, python-format
 msgid "Could not download the file from your FTP server: %s"
-msgstr "Impossible de télécharger le fichier depuis votre serveur FTP : %s "
+msgstr "Impossible de télécharger le fichier depuis votre serveur FTP : %s"
 
 #: mediacore/lib/storage/localfiles.py:34
 msgid "Local File Storage"
@@ -1126,27 +1126,25 @@ msgid "Featured"
 msgstr "À l’affiche"
 
 #: mediacore/templates/helpers.html:84
-#, fuzzy
 msgid "Page"
-msgstr "Page :"
+msgstr "Page"
 
 #: mediacore/templates/helpers.html:84
 msgid "of"
-msgstr ""
+msgstr "de"
 
 #: mediacore/templates/helpers.html:90
 #, python-format
 msgid "The %(fieldName)s field accepts some HTML formatting: %(formattingList)s"
-msgstr "Le champ %(fieldName)s accepte le format HTML : %(formattingList)s "
+msgstr "Le champ %(fieldName)s accepte certaines balises HTML : %(formattingList)s"
 
 #: mediacore/templates/layout.html:54
 msgid "Feeds:"
 msgstr "Flux :"
 
 #: mediacore/templates/layout.html:60
-#, fuzzy
 msgid "[1:MediaCore] [2:video platform]"
-msgstr "plateforme vidéo"
+msgstr "[1:MediaCore] [2:Plateforme vidéo]"
 
 #: mediacore/templates/login.html:23
 msgid "Login to MediaCore"
@@ -1238,14 +1236,14 @@ msgstr "Publication en attente"
 
 #: mediacore/templates/admin/index.html:71
 msgid "Get Started"
-msgstr ""
+msgstr "Démarrer"
 
 #: mediacore/templates/admin/index.html:73
 #: mediacore/templates/admin/media/edit.html:23
 #: mediacore/templates/admin/media/edit.html:152
 #: mediacore/templates/admin/media/index.html:84
 msgid "Add New Media"
-msgstr "Ajouter nouveau contenu"
+msgstr "Ajouter un nouveau contenu"
 
 #: mediacore/templates/admin/index.html:80
 msgid "Recently Published"
@@ -1283,9 +1281,8 @@ msgid "Settings"
 msgstr "Paramètres"
 
 #: mediacore/templates/admin/master.html:68
-#, fuzzy
 msgid "© 2009-2011 Simple Station Inc."
-msgstr " copyright 2009 simple station inc "
+msgstr "© 2009-2011 Simple Station Inc."
 
 #: mediacore/templates/admin/categories/index.html:45
 #: mediacore/templates/admin/comments/index.html:43
@@ -1307,7 +1304,7 @@ msgstr "Confirmer la suppression"
 #: mediacore/templates/admin/tags/index.html:43
 #, python-format
 msgid "Are you sure you want to delete these %(num)s items?"
-msgstr "Êtes-vous sûr de vouloir supprimer ces %(num)s items ?"
+msgstr "Êtes-vous sûr de vouloir supprimer ces %(num)s éléments ?"
 
 #: mediacore/templates/admin/categories/index.html:60
 #: mediacore/templates/admin/categories/index.html:85
@@ -1317,7 +1314,7 @@ msgstr "Ajouter catégorie"
 #: mediacore/templates/admin/categories/index.html:61
 #: mediacore/templates/admin/tags/index.html:58
 msgid "Bulk Delete"
-msgstr "Supprimer tout "
+msgstr "Supprimer tout"
 
 #: mediacore/templates/admin/categories/index.html:89
 msgid "Edit Category"
@@ -1331,7 +1328,7 @@ msgstr "Supprimer catégorie"
 msgid "Are you sure you want to delete this category [1:and ALL of its children]?"
 msgstr ""
 "Êtes-vous sûr de vouloir supprimer cette catégorie [1: et TOUTES ses "
-"sous-catégories] ? "
+"sous-catégories] ?"
 
 #: mediacore/templates/admin/categories/row-form.html:39
 #: mediacore/templates/admin/comments/_comment-table.html:65
@@ -1395,7 +1392,7 @@ msgstr "Soumis le"
 
 #: mediacore/templates/admin/comments/_comment-table.html:63
 msgid "Go to the admin page for this item"
-msgstr "Rendez-vous sur la page admin pour cet article"
+msgstr "Rendez-vous sur la page admin pour cet élément"
 
 #: mediacore/templates/admin/comments/index.html:28
 #, python-format
@@ -1667,7 +1664,7 @@ msgstr "Contenu correspondant à '%(search)s'"
 #: mediacore/templates/admin/media/index.html:74
 #, python-format
 msgid "%(podcastTitle)s Episodes"
-msgstr "Épisode de %(podcastTitle)s"
+msgstr "Épisodes de %(podcastTitle)s"
 
 #: mediacore/templates/admin/media/index.html:75
 #, python-format
@@ -1827,8 +1824,8 @@ msgstr "Ajouter épisode"
 #, python-format
 msgid "View First Episode %(num)s"
 msgid_plural "View All %(num)s Episodes"
-msgstr[0] "Voir le premier épisode %(num)s "
-msgstr[1] "Voir tous les épisodes %(num)s "
+msgstr[0] "Voir le premier épisode %(num)s"
+msgstr[1] "Voir tous les %(num)s épisodes"
 
 #: mediacore/templates/admin/podcasts/edit.html:23
 msgid "Edit Podcast"
@@ -1845,11 +1842,11 @@ msgstr "Voir ce podcast où il est publié"
 
 #: mediacore/templates/admin/podcasts/feed_fieldset.html:30
 msgid "Get an iTunes URL"
-msgstr ""
+msgstr "Obtenir une URL iTunes"
 
 #: mediacore/templates/admin/podcasts/feed_fieldset.html:31
 msgid "Get a Feedburner URL"
-msgstr ""
+msgstr "Obtenir une URL Feedburner"
 
 #: mediacore/templates/admin/podcasts/index.html:32
 msgid "Add Podcast"
@@ -1859,7 +1856,7 @@ msgstr "Ajouter un podcast"
 #: mediacore/templates/admin/settings/advertising.html:30
 #: mediacore/templates/admin/settings/master.html:47
 msgid "Advertising"
-msgstr ""
+msgstr "Publicité"
 
 #: mediacore/templates/admin/settings/analytics.html:24
 #: mediacore/templates/admin/settings/analytics.html:30
@@ -1935,7 +1932,7 @@ msgstr "ATTENTION :"
 #: mediacore/templates/admin/storage/index.html:33
 #, python-format
 msgid "Deleting this Storage Engine (%(name)s) will:"
-msgstr "Supprimer ce stockage (%(name)s) va :"
+msgstr "Supprimer ce moteur de stockage (%(name)s) va :"
 
 #: mediacore/templates/admin/storage/index.html:34
 #, python-format
@@ -1943,8 +1940,8 @@ msgid ""
 "Permanently delete all of the %(num)s media files stored by this Storage "
 "Engine."
 msgstr ""
-"Supprimer définitivement les %(num)s fichiers media stockés dans ce "
-"stockage ?"
+"Supprimer définitivement les %(num)s fichiers media stockés par ce moteur"
+" de stockage."
 
 #: mediacore/templates/admin/storage/index.html:35
 msgid "Permanently erase its settings."
@@ -1956,13 +1953,13 @@ msgid ""
 "simply prevent its use for files added from now on."
 msgstr ""
 "Une alternative à la suppression est la désactivation. Désactiver un "
-"stockage va simplement empêcher son utilisation pour les nouveaux "
-"fichiers."
+"moteur de stockage va simplement empêcher son utilisation pour les "
+"nouveaux fichiers."
 
 #: mediacore/templates/admin/storage/index.html:121
 #: mediacore/templates/admin/storage/index.html:161
 msgid "Add New Engine"
-msgstr "Ajouter un nouveau stockage."
+msgstr "Ajouter un nouveau stockage"
 
 #: mediacore/templates/admin/storage/index.html:129
 msgid "Disk Usage"
@@ -2007,14 +2004,14 @@ msgstr "Adresse électronique"
 #: mediacore/templates/categories/more.html:26
 #, python-format
 msgid "Latest media in %s"
-msgstr ""
+msgstr "Dernier contenu dans %s"
 
 #: mediacore/templates/categories/index.html:38
 #: mediacore/templates/categories/index.html:43
 #: mediacore/templates/media/explore.html:98
 #: mediacore/templates/media/explore.html:113
 msgid "View More"
-msgstr ""
+msgstr "En voir plus"
 
 #: mediacore/templates/categories/index.html:45
 #: mediacore/templates/categories/more.html:33
@@ -2048,11 +2045,11 @@ msgstr "Proposer un contenu"
 
 #: mediacore/templates/media/explore.html:28
 msgid "Sitemap XML"
-msgstr "Sitemap XML "
+msgstr "Sitemap XML"
 
 #: mediacore/templates/media/explore.html:30
 msgid "Sitemap RSS"
-msgstr "Sitemap RSS "
+msgstr "Sitemap RSS"
 
 #: mediacore/templates/media/explore.html:32
 msgid "Latest RSS"
@@ -2083,12 +2080,12 @@ msgstr "Rechercher : \"%s\""
 #: mediacore/templates/media/index.html:32
 #, python-format
 msgid "Showing %(result_count)s results for '%(search_query)s'"
-msgstr "Voir les résultats %(result_count)s pour '%(search_query)s'"
+msgstr "Voir les %(result_count)s résultats pour '%(search_query)s'"
 
 #: mediacore/templates/media/index.html:33
 #, python-format
 msgid "Showing %(result_count)s results tagged with '%(tag_name)s'"
-msgstr "Voir les résultats %(result_count)s taggés avec '%(tag_name)s'"
+msgstr "Voir les %(result_count)s résultats taggés avec '%(tag_name)s'"
 
 #: mediacore/templates/media/index.html:34
 #, python-format
@@ -2112,12 +2109,12 @@ msgstr "par %(authorName)s"
 #: mediacore/templates/players/html5_or_flash.html:34
 msgid "Dislike"
 msgid_plural "Dislikes"
-msgstr[0] "N'aiment pas"
-msgstr[1] "N'aime pas"
+msgstr[0] "N'aime pas"
+msgstr[1] "N'aiment pas"
 
 #: mediacore/templates/media/view.html:79
 msgid "Related Podcast"
-msgstr "Podcast similaires"
+msgstr "Podcast lié"
 
 #: mediacore/templates/media/view.html:89
 msgid "Podcast Episodes"
@@ -2131,7 +2128,7 @@ msgstr[1] "Épisodes"
 
 #: mediacore/templates/media/view.html:106
 msgid "Related Media"
-msgstr "Contenu lié"
+msgstr "Contenu similaire"
 
 #: mediacore/templates/media/view.html:114
 msgid "This is not listed under any categories."
@@ -2191,7 +2188,7 @@ msgstr "Embarquer"
 
 #: mediacore/templates/players/html5_or_flash.html:56
 msgid "Embeddable Player HTML:"
-msgstr "Lecteur HTML embarquable"
+msgstr "Lecteur HTML embarquable :"
 
 #: mediacore/templates/players/html5_or_flash.html:62
 msgid "Download"
@@ -2223,8 +2220,8 @@ msgstr "Parcourir tous les épisodes"
 #, python-format
 msgid "%(result_count)s Episodes"
 msgid_plural "All %(result_count)s Episodes"
-msgstr[0] "%(result_count)s épisodes "
-msgstr[1] "Tous les %(result_count)s épisodes "
+msgstr[0] "%(result_count)s épisodes"
+msgstr[1] "Tous les %(result_count)s épisodes"
 
 #: mediacore/templates/upload/failure.html:24
 #: mediacore/templates/upload/success.html:24
@@ -2279,7 +2276,7 @@ msgstr "Téléversement réussi"
 
 #: mediacore/templates/upload/success.html:34
 msgid "Awesome, your upload was successful!"
-msgstr "Parfait, votre téléchargement a réussi !"
+msgstr "Parfait, votre téléversement a réussi !"
 
 #: mediacore/templates/upload/success.html:35
 msgid ""
@@ -2296,34 +2293,4 @@ msgid ""
 msgstr ""
 "Vous allez être automatiquement redirigé vers la [1:Bibliothèque] dans "
 "quelques secondes. Veuillez patienter."
-
-#~ msgid "Invalid player params provided."
-#~ msgstr "Paramètres du lecteur incorrects."
-
-#~ msgid "Enable privacy-enhanced mode."
-#~ msgstr "Activer le mode renforcement de la vie privée."
-
-#~ msgid "HTML5 + JWPlayer Fallback"
-#~ msgstr "HTML5 + JWPlayer en repli"
-
-#~ msgid "Amazon S3"
-#~ msgstr "Amazon S3"
-
-#~ msgid "This page has gone missing!"
-#~ msgstr "Cette page a disparu !"
-
-#~ msgid "Previous"
-#~ msgstr "Précédent"
-
-#~ msgid "Next"
-#~ msgstr "Suivant"
-
-#~ msgid "more of the Latest..."
-#~ msgstr "plus de contenus parmi les plus récents…"
-
-#~ msgid "more of the Most Popular..."
-#~ msgstr "plus de contenus parmi les plus populaires…"
-
-#~ msgid "No suitable player found for this media."
-#~ msgstr "Aucun lecteur multimédia trouvé pour ce contenu."
 

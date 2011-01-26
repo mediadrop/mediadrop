@@ -1,15 +1,15 @@
 # Spanish (Bolivia) translations for MediaCore.
-# Copyright (C) 2010 ORGANIZATION
+# Copyright (C) 2011 ORGANIZATION
 # This file is distributed under the same license as the MediaCore project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2011.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: MediaCore Video Platform\n"
 "Report-Msgid-Bugs-To: http://github.com/simplestation/mediacore/issues\n"
-"POT-Creation-Date: 2010-12-28 15:49+0800\n"
-"PO-Revision-Date: 2011-01-21 15:28-0800\n"
-"Last-Translator: finlander <jefinlander@gmail.com>\n"
+"POT-Creation-Date: 2011-01-21 15:28+0800\n"
+"PO-Revision-Date: 2011-01-26 13:14-0800\n"
+"Last-Translator: febb <febb@piensa.com>\n"
 "Language-Team: es_BO <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 "MIME-Version: 1.0\n"
@@ -762,11 +762,11 @@ msgstr "Restablecer los valores predeterminados"
 
 #: mediacore/forms/admin/settings.py:389
 msgid "Banner HTML"
-msgstr ""
+msgstr "Banner HTML"
 
 #: mediacore/forms/admin/settings.py:392
 msgid "Sidebar HTML"
-msgstr ""
+msgstr "Barra lateral HTML"
 
 #: mediacore/forms/admin/users.py:36
 msgid "User name already exists"
@@ -1116,13 +1116,12 @@ msgid "Featured"
 msgstr "Relevantes"
 
 #: mediacore/templates/helpers.html:84
-#, fuzzy
 msgid "Page"
-msgstr "Página:"
+msgstr "Página"
 
 #: mediacore/templates/helpers.html:84
 msgid "of"
-msgstr ""
+msgstr "de"
 
 #: mediacore/templates/helpers.html:90
 #, python-format
@@ -1134,9 +1133,8 @@ msgid "Feeds:"
 msgstr "Subscripciones:"
 
 #: mediacore/templates/layout.html:60
-#, fuzzy
 msgid "[1:MediaCore] [2:video platform]"
-msgstr "Plataforma de vídeo"
+msgstr "[1: MediaCore] [2: plataforma de vídeo]"
 
 #: mediacore/templates/login.html:23
 msgid "Login to MediaCore"
@@ -1228,7 +1226,7 @@ msgstr "Esperando publicación"
 
 #: mediacore/templates/admin/index.html:71
 msgid "Get Started"
-msgstr ""
+msgstr "Empezar"
 
 #: mediacore/templates/admin/index.html:73
 #: mediacore/templates/admin/media/edit.html:23
@@ -1273,9 +1271,8 @@ msgid "Settings"
 msgstr "Configuración"
 
 #: mediacore/templates/admin/master.html:68
-#, fuzzy
 msgid "© 2009-2011 Simple Station Inc."
-msgstr "Derechos reservados 2009 simple station inc"
+msgstr "Derechos Reservados © 2009-2011 Simple Station Inc."
 
 #: mediacore/templates/admin/categories/index.html:45
 #: mediacore/templates/admin/comments/index.html:43
@@ -1833,11 +1830,11 @@ msgstr "Ver este podcast publicado"
 
 #: mediacore/templates/admin/podcasts/feed_fieldset.html:30
 msgid "Get an iTunes URL"
-msgstr ""
+msgstr "Obtener un URL de iTunes"
 
 #: mediacore/templates/admin/podcasts/feed_fieldset.html:31
 msgid "Get a Feedburner URL"
-msgstr ""
+msgstr "Obtener un URL de Feedburner"
 
 #: mediacore/templates/admin/podcasts/index.html:32
 msgid "Add Podcast"
@@ -1847,7 +1844,7 @@ msgstr "Añadir podcast"
 #: mediacore/templates/admin/settings/advertising.html:30
 #: mediacore/templates/admin/settings/master.html:47
 msgid "Advertising"
-msgstr ""
+msgstr "Publicidad"
 
 #: mediacore/templates/admin/settings/analytics.html:24
 #: mediacore/templates/admin/settings/analytics.html:30
@@ -1992,14 +1989,14 @@ msgstr "Correo electrónico"
 #: mediacore/templates/categories/more.html:26
 #, python-format
 msgid "Latest media in %s"
-msgstr ""
+msgstr "Ultimo material en%s"
 
 #: mediacore/templates/categories/index.html:38
 #: mediacore/templates/categories/index.html:43
 #: mediacore/templates/media/explore.html:98
 #: mediacore/templates/media/explore.html:113
 msgid "View More"
-msgstr ""
+msgstr "Ver más"
 
 #: mediacore/templates/categories/index.html:45
 #: mediacore/templates/categories/more.html:33
@@ -2276,34 +2273,4 @@ msgid ""
 "You will be automatically redirected back to the [1:Media Library] in a "
 "few seconds. Hang tight."
 msgstr "Lo dirigiremos de nuevo a la [1: Videoteca] en pocos segundos. Un momento."
-
-#~ msgid "Invalid player params provided."
-#~ msgstr "Parametros de Player no son válidos."
-
-#~ msgid "Enable privacy-enhanced mode."
-#~ msgstr "Activar el modo de privacidad mejorada."
-
-#~ msgid "HTML5 + JWPlayer Fallback"
-#~ msgstr "HTML5 + de reserva JWPlayer"
-
-#~ msgid "Amazon S3"
-#~ msgstr "Amazon S3"
-
-#~ msgid "This page has gone missing!"
-#~ msgstr "Esta página se ha perdido!"
-
-#~ msgid "Previous"
-#~ msgstr "Anterior"
-
-#~ msgid "Next"
-#~ msgstr "Siguiente"
-
-#~ msgid "more of the Latest..."
-#~ msgstr "más nuevo que ..."
-
-#~ msgid "more of the Most Popular..."
-#~ msgstr "Los más populares ..."
-
-#~ msgid "No suitable player found for this media."
-#~ msgstr "No hay un reproductor adecuado para este video."
 

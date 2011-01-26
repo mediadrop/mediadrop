@@ -1,14 +1,14 @@
 # Swedish (Sweden) translations for MediaCore.
-# Copyright (C) 2010 ORGANIZATION
+# Copyright (C) 2011 ORGANIZATION
 # This file is distributed under the same license as the MediaCore project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2011.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: MediaCore Video Platform\n"
 "Report-Msgid-Bugs-To: http://github.com/simplestation/mediacore/issues\n"
-"POT-Creation-Date: 2010-12-28 15:49+0800\n"
-"PO-Revision-Date: 2011-01-21 15:28-0800\n"
+"POT-Creation-Date: 2011-01-21 15:28+0800\n"
+"PO-Revision-Date: 2011-01-26 13:14-0800\n"
 "Last-Translator: finlander <jefinlander@gmail.com>\n"
 "Language-Team: sv_SE <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
@@ -758,11 +758,11 @@ msgstr "Återställ till standard"
 
 #: mediacore/forms/admin/settings.py:389
 msgid "Banner HTML"
-msgstr ""
+msgstr "Baner HTML"
 
 #: mediacore/forms/admin/settings.py:392
 msgid "Sidebar HTML"
-msgstr ""
+msgstr "Sidebar HTML"
 
 #: mediacore/forms/admin/users.py:36
 msgid "User name already exists"
@@ -1120,13 +1120,12 @@ msgid "Featured"
 msgstr "I blickfånget"
 
 #: mediacore/templates/helpers.html:84
-#, fuzzy
 msgid "Page"
-msgstr "Sida:"
+msgstr "Sida"
 
 #: mediacore/templates/helpers.html:84
 msgid "of"
-msgstr ""
+msgstr "av"
 
 #: mediacore/templates/helpers.html:90
 #, python-format
@@ -1140,9 +1139,8 @@ msgid "Feeds:"
 msgstr "Flöden:"
 
 #: mediacore/templates/layout.html:60
-#, fuzzy
 msgid "[1:MediaCore] [2:video platform]"
-msgstr "videoplattform"
+msgstr "[1: MediaCore] [2: video plattform]"
 
 #: mediacore/templates/login.html:23
 msgid "Login to MediaCore"
@@ -1234,7 +1232,7 @@ msgstr "Väntar på publicering"
 
 #: mediacore/templates/admin/index.html:71
 msgid "Get Started"
-msgstr ""
+msgstr "Kom igång"
 
 #: mediacore/templates/admin/index.html:73
 #: mediacore/templates/admin/media/edit.html:23
@@ -1279,9 +1277,8 @@ msgid "Settings"
 msgstr "Inställningar"
 
 #: mediacore/templates/admin/master.html:68
-#, fuzzy
 msgid "© 2009-2011 Simple Station Inc."
-msgstr "copyright 2009 simple station inc"
+msgstr "© 2009-2011 Simple Station Inc."
 
 #: mediacore/templates/admin/categories/index.html:45
 #: mediacore/templates/admin/comments/index.html:43
@@ -1837,11 +1834,11 @@ msgstr "Se detta podcast där den publiceras"
 
 #: mediacore/templates/admin/podcasts/feed_fieldset.html:30
 msgid "Get an iTunes URL"
-msgstr ""
+msgstr "Skaffa en iTunes URL"
 
 #: mediacore/templates/admin/podcasts/feed_fieldset.html:31
 msgid "Get a Feedburner URL"
-msgstr ""
+msgstr "Skaffa en Feedburner URL"
 
 #: mediacore/templates/admin/podcasts/index.html:32
 msgid "Add Podcast"
@@ -1851,7 +1848,7 @@ msgstr "Lägg till poddsändning"
 #: mediacore/templates/admin/settings/advertising.html:30
 #: mediacore/templates/admin/settings/master.html:47
 msgid "Advertising"
-msgstr ""
+msgstr "Reklam"
 
 #: mediacore/templates/admin/settings/analytics.html:24
 #: mediacore/templates/admin/settings/analytics.html:30
@@ -1997,14 +1994,14 @@ msgstr "E-post"
 #: mediacore/templates/categories/more.html:26
 #, python-format
 msgid "Latest media in %s"
-msgstr ""
+msgstr "Senaste medier i %s"
 
 #: mediacore/templates/categories/index.html:38
 #: mediacore/templates/categories/index.html:43
 #: mediacore/templates/media/explore.html:98
 #: mediacore/templates/media/explore.html:113
 msgid "View More"
-msgstr ""
+msgstr "Visa fler"
 
 #: mediacore/templates/categories/index.html:45
 #: mediacore/templates/categories/more.html:33
@@ -2285,34 +2282,4 @@ msgid ""
 msgstr ""
 "Du omdirigeras automatiskt tillbaka till [1: mediebiblioteket] i några "
 "sekunder. Hang tight."
-
-#~ msgid "Invalid player params provided."
-#~ msgstr "Ogiltig spelare params tillhandahålls."
-
-#~ msgid "Enable privacy-enhanced mode."
-#~ msgstr "Aktivera förhöjt integritetsläge"
-
-#~ msgid "HTML5 + JWPlayer Fallback"
-#~ msgstr "HTML5 + fall tillbaka på JWPlayer"
-
-#~ msgid "Amazon S3"
-#~ msgstr "Amazon S3"
-
-#~ msgid "This page has gone missing!"
-#~ msgstr "Denna sida saknas!"
-
-#~ msgid "Previous"
-#~ msgstr "Föregående"
-
-#~ msgid "Next"
-#~ msgstr "Nästa"
-
-#~ msgid "more of the Latest..."
-#~ msgstr "mer av det senaste..."
-
-#~ msgid "more of the Most Popular..."
-#~ msgstr "mer av det mest populära..."
-
-#~ msgid "No suitable player found for this media."
-#~ msgstr "Ingen lämplig uppspelare hittades för detta media."
 
