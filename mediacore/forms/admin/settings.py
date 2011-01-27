@@ -34,6 +34,19 @@ from mediacore.lib.i18n import N_, _, get_available_locales
 from mediacore.plugin import events
 from mediacore.model import MultiSetting
 
+comments_enable_disable = lambda: (
+    ('facebook', _('Facebook (Requires Facebook Application ID)')),
+    ('mediacore', _('MediaCore')),
+    ('disabled', _('Disable User Comments')),
+)
+comments_enable_validator = OneOf(('facebook', 'mediacore', 'disabled'))
+
+enable_disable = lambda: (
+    ('enabled', _('Enable')),
+    ('disabled', _('Disable')),
+)
+enable_disable_validator = OneOf(('enabled', 'disabled'))
+
 title_options = lambda: (
     ('prepend', _('Prepend')),
     ('append', _('Append')),
@@ -242,6 +255,15 @@ class CommentsForm(ListForm):
     submit_text = None
 
     fields = [
+       RadioButtonList('comments_engine',
+            label_text=N_('Comment Engine'),
+            options=comments_enable_disable,
+            validator=comments_enable_validator,
+        ),
+        ListFieldSet('facebook', suppress_label=True, legend=N_('Facebook Settings:'), css_classes=['details_fieldset'], children=[
+            TextField('facebook_appid', label_text=N_('Facebook App ID'),
+                help_text=N_('See: http://www.facebook.com/developers/createapp.php')),
+        ]),
         boolean_radiobuttonlist('req_comment_approval', label_text=N_('Require comments to be approved by an admin')),
         ListFieldSet('akismet', suppress_label=True, legend=N_('Akismet Anti-Spam Details:'), css_classes=['details_fieldset'], children=[
             TextField('akismet_key', label_text=N_('Akismet Key')),
