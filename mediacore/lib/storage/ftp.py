@@ -93,11 +93,11 @@ class FTPStorage(FileStorageEngine):
         try:
             if upload_dir:
                 ftp.cwd(upload_dir)
-            ftp.storbinary(stor_cmd, file)
+            ftp.storbinary(stor_cmd, file.file)
 
             # Raise a FTPUploadError if the file integrity check fails
             # TODO: Delete the file if the integrity check fails
-            self._verify_upload_integrity(file, file_url)
+            self._verify_upload_integrity(file.file, file_url)
             ftp.quit()
         except ftp_errors, e:
             log.exception(e)
@@ -105,6 +105,8 @@ class FTPStorage(FileStorageEngine):
             msg = _('Could not upload the file from your FTP server: %s')\
                 % e.message
             raise FTPUploadError(msg, None, None)
+
+        return file_name
 
     def delete(self, unique_id):
         """Delete the stored file represented by the given unique ID.
