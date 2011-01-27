@@ -1,6 +1,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:py="http://genshi.edgewall.org/"
       xmlns:xi="http://www.w3.org/2001/XInclude"
+      xmlns:fb="http://www.facebook.com/2008/fbml"
       py:strip="">
 
 <py:def function="facebook_like(id, url=None, show_faces=False, width=313, height=30)">
@@ -22,6 +23,22 @@
 		style="border:none; overflow:hidden; width:${width}px; height:${height}px;"
 		allowTransparency="true"
 	></iframe>
+</py:def>
+
+<py:def function="facebook_comment(appid=None, xid=None, **kwargs)">
+	<script>
+		window.fbAsyncInit = function() {
+			FB.init({
+				appId  : '${appid}',
+				status : true, // check login status
+				cookie : true, // enable cookies to allow the server to access the session
+				xfbml  : true  // parse XFBML
+			});
+		};
+	</script>
+	<div id="fb-root"></div>
+	<script src="http://connect.facebook.net/en_US/all.js#appId=${appid}&amp;amp;xfbml=1"></script>
+	<fb:comments xid="${xid}" numposts="10" simple="1" width="570" publish_feed="true" ></fb:comments>
 </py:def>
 
 </html>
