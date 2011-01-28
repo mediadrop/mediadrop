@@ -1,8 +1,8 @@
 .. _dev_api:
 
-===============
-Third-Party API
-===============
+========
+JSON API
+========
 
 .. module:: mediacore.controllers.media_api
 

@@ -1,8 +1,8 @@
 .. _dev_models_toplevel:
 
-=========
-Model API
-=========
+===============
+Database Models
+===============
 
 .. toctree::
 

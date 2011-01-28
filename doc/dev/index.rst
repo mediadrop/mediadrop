@@ -18,10 +18,10 @@ and TurboGears2 developers should feel comfortable.
 
 .. toctree::
 
-   contributing
+   api
+   templating
+   closure
    controllers/index
    models/index
    library/index
-   templating
-   closure
-
+   contributing

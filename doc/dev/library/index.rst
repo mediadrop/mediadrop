@@ -1,8 +1,8 @@
 .. _dev_lib_toplevel:
 
-=======
-Library
-=======
+=======================
+Miscellaneous Libraries
+=======================
 
 Base
 ----
