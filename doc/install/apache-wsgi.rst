@@ -65,7 +65,7 @@ Depending on your setup, you may want to add it to the main ``httpd.conf`` file,
 or inside a VirtualHost include.
 
 Make sure that you replace all references to ``/path/to/mediacore_install/``
-and ``/path/to/mediacore_env`` with the correct paths for your own MediaCore
+and ``/path/to/mediacore_env/`` with the correct paths for your own MediaCore
 installation and virtual environment.
 
 .. sourcecode:: apacheconf

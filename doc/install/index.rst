@@ -71,7 +71,7 @@ is--we'll need to point to it later.
 Now that you've activated the newly created virtual environment, any packages
 you install will only be accessible when you've activated the environment.
 
-**NOTE: Any time you want to work with mediacore, you should thus activate the
+**NOTE: Any time you want to work with MediaCore, you should thus activate the
 virtual environment as we just did in the line above.**
 
 
@@ -90,8 +90,8 @@ a. **For most users**, you should `download the latest official release of
    .. sourcecode:: bash
 
       # Unpack the downloaded distribution
-      tar xzvf MediaCore-0.8.2b.tar.gz
-      cd MediaCore-0.8.2b
+      tar xzvf MediaCore-0.9.0.tar.gz
+      cd MediaCore-0.9.0
 
       # Install!
       python2.5 setup.py develop
@@ -243,8 +243,8 @@ If this is your development machine, you're good to go.
 Step 7: Production Deployments
 ------------------------------
 
-The built-in Paste server does a great job for development, but usually
-people demand more in production environments.
+If you want to access MediaCore from other computers, you'll need to set up a
+production config.
 
 **Production Config:**
    On your production deployment, you'll want to disable debugging, set up unique
@@ -268,6 +268,8 @@ people demand more in production environments.
 
 **Production Server:**
    MediaCore is WSGI-based so there are many possible ways to deploy it.
+   The built in Paste server does a great job for development, but you
+   may want to run MediaCore from a more performant webserver.
    Below are two of the most popular methods:
 
 a. ``mod_fastcgi`` is simplest and will work with most shared hosting

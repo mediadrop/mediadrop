@@ -22,8 +22,8 @@ should be replaced with the paths to your MediaCore Virtual Environment
 directory and Installation directory, respectively.
 
 **NOTE 3:** `MediaCore-OLD` and `MediaCore-NEW` below should be replaced with
-the correct versions for your installation. For example, with `MediaCore-0.8.0`
-and `MediaCore-0.8.2`, respectively.
+the correct versions for your installation. For example, with `MediaCore-0.8.2`
+and `MediaCore-0.9.0`, respectively.
 
 
 Step 1: Re-Create Your Virtual Environment
@@ -58,6 +58,10 @@ your current MediaCore installation.
    # Unpack the downloaded distribution
    tar xzvf MediaCore-NEW.tar.gz
 
+   # You should now have a MediaCore-OLD directory and MediaCore-NEW directory
+   # inside your current directory. Check that this is the case:
+   ls
+
    # Install MediaCore and its dependencies into the new virtual environment
    cd MediaCore-NEW
    python2.5 setup.py develop
@@ -66,29 +70,47 @@ your current MediaCore installation.
 Step 3: Migrate Your Media Files and Thumbnails
 -----------------------------------------------
 
-Here we will move all of the relevant files in ``./data/``
-and ``./mediacore/public/images/podcasts/``
-and ``./mediacore/public/images/media/`` from your old installation directory
-to your new installation directory.
+Depending on the version you are upgrading from, this step is a little different:
 
-.. sourcecode:: bash
+a. If you are upgrading from MediaCore **0.8.2 or older**, you'll need to
+   move all of the relevant files in ``./data/`` and
+   ``./mediacore/public/images/podcasts/`` and
+   ``./mediacore/public/images/media/`` from your old installation directory
+   to your new installation directory.
 
-   # Navigate to the parent directory, where MediaCore-OLD and MediaCore-NEW
-   # both reside.
-   cd /path/to/MediaCore-OLD
-   cd ..
+   .. sourcecode:: bash
 
-   # Move over the old media files.
-   mv ./MediaCore-OLD/data/deleted ./MediaCore-NEW/data/
-   mv ./MediaCore-OLD/data/media ./MediaCore-NEW/data/
+      # Navigate to the parent directory, where MediaCore-OLD and MediaCore-NEW
+      # both reside.
+      cd /path/to/MediaCore-OLD
+      cd ..
 
-   # Ensure that the new default thumbnails are saved.
-   cp ./MediaCore-NEW/mediacore/public/images/podcasts/* ./MediaCore-OLD/mediacore/public/images/podcasts/
-   cp ./MediaCore-NEW/mediacore/public/images/media/* ./MediaCore-OLD/mediacore/public/images/media/
+      # Move over the old media files.
+      mv ./MediaCore-OLD/data/deleted ./MediaCore-NEW/data/
+      mv ./MediaCore-OLD/data/media ./MediaCore-NEW/data/
 
-   # Move over the old thumbnails.
-   mv ./MediaCore-OLD/mediacore/public/images/podcasts ./MediaCore-NEW/mediacore/public/images/
-   mv ./MediaCore-OLD/mediacore/public/images/media ./MediaCore-NEW/mediacore/public/images/
+      # Move over the old thumbnails.
+      mv ./MediaCore-OLD/mediacore/public/images/podcasts/[0-9]* ./MediaCore-NEW/data/images/podcasts/
+      mv ./MediaCore-OLD/mediacore/public/images/media/[0-9]* ./MediaCore-NEW/data/images/media/
+
+
+b. If you are upgrading from MediaCore **0.9.0 or newer**, you'll need to
+   move all of the relevant files in ``./data`` from your old installation
+   directory to your new installation directory.
+
+   .. sourcecode:: bash
+
+      # Navigate to the parent directory, where MediaCore-OLD and MediaCore-NEW
+      # both reside.
+      cd /path/to/MediaCore-OLD
+      cd ..
+
+      # Move over the old files
+      mv ./MediaCore-OLD/data/media/* ./MediaCore-NEW/data/deleted/
+      mv ./MediaCore-OLD/data/deleted/* ./MediaCore-NEW/data/deleted/
+      mv ./MediaCore-OLD/data/appearance/* ./MediaCore-NEW/data/appearance/
+      mv ./MediaCore-OLD/data/images/media/[0-9]* ./MediaCore-NEW/data/images/media/
+      mv ./MediaCore-OLD/data/images/podcasts/[0-9]* ./MediaCore-NEW/data/images/podcasts/
 
 
 Step 4: Create a New Config
@@ -114,34 +136,31 @@ Step 5: Upgrading Your Database
 This step is slightly different depending on which version you are upgrading
 from. See the individual commands below:
 
-Step 5.0: Upgrade Database from MediaCore 0.7.2
------------------------------------------------
+a.  Or, if you're upgrading from **0.7.2** (released January 2010):
 
-.. sourcecode:: bash
+   .. sourcecode:: bash
 
-   # Run the upgrade script to upgrade your database.
-   cd /path/to/MediaCore-NEW
-   python batch-scripts/upgrade/upgrade-from-v072.py yourconf.ini
-
-
-Step 5.1: Upgrade Database from MediaCore 0.8.0
------------------------------------------------
-
-.. sourcecode:: bash
-
-   # Run the upgrade script to upgrade your database.
-   cd /path/to/MediaCore-NEW
-   python batch-scripts/upgrade/upgrade-from-v080.py yourconf.ini
+      # Run the upgrade script to upgrade your database.
+      cd /path/to/MediaCore-NEW
+      python batch-scripts/upgrade/upgrade-from-v072.py yourconf.ini
 
 
-Step 5.2: Upgrade Database from MediaCore >= 0.8.2
---------------------------------------------------
+b.  Or, if you're upgrading from **0.8.0** (released May 2010):
 
-.. sourcecode:: bash
+   .. sourcecode:: bash
 
-   # Run the setup/upgrade script to upgrade your database.
-   cd /path/to/MediaCore-NEW
-   paster setup-app yourconf.ini
+      # Run the upgrade script to upgrade your database.
+      cd /path/to/MediaCore-NEW
+      python batch-scripts/upgrade/upgrade-from-v080.py yourconf.ini
+
+
+c.  If you're upgrading from **0.8.2, 0.9.0, or newer** (released after August 2010):
+
+   .. sourcecode:: bash
+
+      # Run the setup/upgrade script to upgrade your database.
+      cd /path/to/MediaCore-NEW
+      paster setup-app yourconf.ini
 
 
 Step 6: Update your Deployment Configuration

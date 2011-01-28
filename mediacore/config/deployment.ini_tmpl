@@ -49,7 +49,7 @@ file_serve_method = default
 # are able to enable gzip there instead.
 enable_gzip = true
 
-# Data paths
+# Data paths (your server user must be able to write to these paths!)
 cache_dir = %(here)s/data
 image_dir = %(here)s/data/images
 media_dir = %(here)s/data/media
