@@ -63,13 +63,11 @@ imports = [
 defined = [
     'append_class_attr', 'delete_files', 'doc_link',
     'duration_from_seconds', 'duration_to_seconds',
-    'filter_library_controls',
+    'filter_library_controls', 'filter_vulgarity',
     'get_featured_category', 'gravatar_from_email', 'is_admin', 'js',
     'pick_any_media_file', 'pick_podcast_media_file',
-    'pretty_file_size', 'redirect',
-    'store_transient_message', 'truncate',
-    'wrap_long_words',
-    'filter_vulgarity',
+    'pretty_file_size', 'redirect', 'store_transient_message',
+    'truncate', 'wrap_long_words',
 ]
 __all__ = imports + defined
 
