@@ -57,13 +57,13 @@ imports = [
     'thumb', # XXX: imported from  mediacore.lib.thumbnails, for template use.
     'meta_description', 'meta_keywords', # XXX: imported from mediacore.plugin.events
     'meta_robots_noindex', 'page_title', # XXX: imported from mediacore.plugin.events
-    'format_date, format_datetime, format_time',
+    'format_date', 'format_datetime', 'format_time',
 ]
 
 defined = [
     'append_class_attr', 'delete_files', 'doc_link',
     'duration_from_seconds', 'duration_to_seconds',
-    'excess_whitespace', 'filter_library_controls',
+    'filter_library_controls',
     'get_featured_category', 'gravatar_from_email', 'is_admin', 'js',
     'pick_any_media_file', 'pick_podcast_media_file',
     'pretty_file_size', 'redirect',
