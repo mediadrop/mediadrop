@@ -17,6 +17,9 @@ import os
 import shutil
 import tw.forms.fields
 
+import gdata.youtube
+import gdata.youtube.service
+
 from cgi import FieldStorage
 from babel.core import Locale
 from formencode import Invalid
@@ -26,20 +29,22 @@ from repoze.what.predicates import has_permission
 from sqlalchemy import orm, sql
 
 from mediacore.forms.admin.settings import (AdvertisingForm, AppearanceForm,
-    APIForm, AnalyticsForm, CommentsForm, GeneralForm, NotificationsForm,
-    PopularityForm, SiteMapsForm, UploadForm)
+    APIForm, AnalyticsForm, CommentsForm, GeneralForm, ImportVideosForm,
+    NotificationsForm, PopularityForm, SiteMapsForm, UploadForm)
 from mediacore.lib.base import BaseSettingsController
 from mediacore.lib.decorators import (autocommit, expose, expose_xhr,
     paginate, validate)
 from mediacore.lib.helpers import filter_vulgarity, redirect, url_for
 from mediacore.lib.i18n import LanguageError, Translator
+from mediacore.lib.storage import add_new_media_file, StorageError
 from mediacore.lib.templating import render
-from mediacore.model import Comment, Media, MultiSetting, Setting, fetch_row
+from mediacore.lib.thumbnails import create_default_thumbs_for, has_thumbs
+from mediacore.model import (Author, Category, Comment, Media, MultiSetting,
+    Setting, fetch_row, get_available_slug)
 from mediacore.model.meta import DBSession
 from mediacore.websetup import appearance_settings, generate_appearance_css
 
 import logging
-
 log = logging.getLogger(__name__)
 
 notifications_form = NotificationsForm(
@@ -71,6 +76,9 @@ appearance_form = AppearanceForm(
 
 advertising_form = AdvertisingForm(
     action=url_for(controller='/admin/settings', action='advertising_save'))
+
+importvideos_form = ImportVideosForm(
+    action=url_for(controller='/admin/settings', action='importvideos_save'))
 
 
 class SettingsController(BaseSettingsController):
@@ -258,3 +266,73 @@ class SettingsController(BaseSettingsController):
     def advertising_save(self, **kwargs):
         """Save :class:`~mediacore.forms.admin.settings.AdvertisingForm`."""
         return self._save(advertising_form, 'advertising', values=kwargs)
+
+    @expose('admin/settings/importvideos.html')
+    def importvideos(self, **kwargs):
+        category_tree = Category.query.order_by(Category.name).populated_tree()
+        return dict(
+            form = importvideos_form,
+            form_values = kwargs,
+            category_tree = category_tree,
+        )
+
+    @expose()
+    @validate(importvideos_form, error_handler=importvideos)
+    @autocommit
+    def importvideos_save(self, **kwargs):
+        """Save :class:`~mediacore.forms.admin.settings.ImportVideosForm`."""
+        channel_url = kwargs['youtube.channel_url']
+        def get_videos_from_feed(feed):
+            for entry in feed.entry:
+                # Occasionally, there are issues with a video in a feed
+                # not being available (region restrictions, etc)
+                # If this happens, just move along.
+                if not entry.media.player:
+                    log.debug('Video Feed Error: No player URL? %s' % entry)
+                    continue
+                video_url = unicode(entry.media.player.url)
+                categories =kwargs.get('youtube.categories', None)
+                tags = kwargs.get('youtube.tags', None)
+                media = fetch_row(Media, u'new')
+                user = request.environ['repoze.who.identity']['user']
+                media.author = Author(user.display_name, user.email_address)
+                media.reviewed = True
+                media.title = unicode(entry.media.title.text)
+                media.description = unicode(entry.media.description.text)
+                media.slug = get_available_slug(Media, media.title, media)
+
+                if tags:
+                    media.set_tags(unicode(tags))
+                if categories:
+                    media.set_categories(categories)
+                try:
+                    media_file = add_new_media_file(media,
+                        url=entry.media.player.url)
+                except StorageError, e:
+                    log.debug('Video Feed Error: Error storing video: %s' \
+                        % e.message)
+                    continue
+                if not has_thumbs(media):
+                    create_default_thumbs_for(media)
+                media.title = media_file.display_name
+                media.update_status()
+                DBSession.add(media)
+                DBSession.flush()
+
+        # Since we can only get 50 videos at a time, loop through when a "next"
+        # link is present in the returned feed from YouTube
+        getvideos = True
+        yt_service = gdata.youtube.service.YouTubeService()
+        uri = 'http://gdata.youtube.com/feeds/api/users/%s/uploads?max-results=50' \
+            % (channel_url)
+        while getvideos:
+            feed = yt_service.GetYouTubeVideoFeed(uri)
+            get_videos_from_feed(feed)
+            for link in feed.link:
+                if link.rel == 'next':
+                    uri = link.href
+                    break
+            else:
+                getvideos = False
+        # Redirect to the Media view page, when the import is complete
+        redirect(url_for(controller='admin/media', action='index'))
