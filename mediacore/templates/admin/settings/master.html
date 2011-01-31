@@ -61,6 +61,9 @@
 				<li py:with="link = h.url_for(controller='/admin/settings', action='api')">
 					<a href="${link}" class="${current_url.startswith(link) and 'selected' or None}">Data API</a>
 				</li>
+				<li py:with="link = h.url_for(controller='/admin/settings', action='importvideos')">
+					<a href="${link}" class="${current_url.startswith(link) and 'selected' or None}">Import Videos</a>
+				</li>
 				<li py:with="link = h.url_for(controller='/admin/settings', action='notifications')">
 					<a href="${link}" class="${current_url.startswith(link) and 'selected' or None}">Notifications</a>
 				</li>

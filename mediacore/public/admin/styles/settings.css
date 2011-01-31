@@ -104,3 +104,37 @@
 	float: left;
 	width: auto;
 }
+
+/* YouTube Import */
+#youtube .fieldhelp {
+	margin-left: 0px;
+}
+
+#youtube .fieldlabel {
+	font-weight: bold;
+}
+
+#settings-form #youtube_categories_container {
+	float: left;
+	width: 50%;
+}
+
+#settings-form .category-box {
+	border: 1px solid #b0bcc5;
+	-moz-border-radius: 9px;
+	padding: 6px 6px 5px 5px;
+}
+
+#settings-form #youtube_tags_container {
+	clear: none;
+	float: right;
+	width: 45%;
+}
+
+#settings-form #youtube_tags {
+	height: 150px;
+}
+
+#settings-form #youtube_tags {
+	width: 95%;
+}
