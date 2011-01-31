@@ -290,15 +290,15 @@ class SettingsController(BaseSettingsController):
                 if not entry.media.player:
                     log.debug('Video Feed Error: No player URL? %s' % entry)
                     continue
-                video_url = unicode(entry.media.player.url)
+                video_url = unicode(entry.media.player.url, "utf-8")
                 categories =kwargs.get('youtube.categories', None)
                 tags = kwargs.get('youtube.tags', None)
                 media = fetch_row(Media, u'new')
                 user = request.environ['repoze.who.identity']['user']
                 media.author = Author(user.display_name, user.email_address)
                 media.reviewed = True
-                media.title = unicode(entry.media.title.text)
-                media.description = unicode(entry.media.description.text)
+                media.title = unicode(entry.media.title.text, "utf-8")
+                media.description = unicode(entry.media.description.text, "utf-8")
                 media.slug = get_available_slug(Media, media.title, media)
 
                 if tags:
