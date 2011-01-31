@@ -296,6 +296,7 @@ Admin.ThumbForm = Event(['form'])
 ###############################################################################
 # Miscellaneous... may require refactoring
 
+media_types = GeneratorEvent([])
 plugin_settings_links = GeneratorEvent([])
 EncodeMediaFile = Event(['media_file'])
 page_title = FetchFirstResultEvent('default=None, category=None, \

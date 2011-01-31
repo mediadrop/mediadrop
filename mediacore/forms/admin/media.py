@@ -23,7 +23,7 @@ from tw.forms.core import DefaultValidator
 from tw.forms.validators import Int, StringBool, NotEmpty, DateTimeConverter, FieldStorageUploadConverter, OneOf
 
 from mediacore.lib import helpers
-from mediacore.lib.filetypes import AUDIO, AUDIO_DESC, CAPTIONS, VIDEO
+from mediacore.lib.filetypes import registered_media_types
 from mediacore.lib.i18n import N_, _
 from mediacore.forms import FileField, Form, ListFieldSet, ListForm, SubmitButton, TextArea, TextField, XHTMLTextArea, email_validator
 from mediacore.forms.admin.categories import CategoryCheckBoxList
@@ -93,6 +93,20 @@ class WXHValidator(FancyValidator):
         width, height = value
         return u"%dx%d" % (width, height)
 
+class OneOfGenerator(OneOf):
+    __unpackargs__ = ('generator',)
+    def validate_python(self, value, state):
+        if not value in self.generator():
+            if self.hideList:
+                raise Invalid(self.message('invalid', state), value, state)
+            else:
+                items = '; '.join(map(str, self.list))
+                raise Invalid(
+                    self.message('notIn', state, items=items, value=value),
+                    value,
+                    state
+                )
+
 class AddFileForm(ListForm):
     template = 'admin/media/file-add-form.html'
     id = 'add-file-form'
@@ -106,15 +120,9 @@ class AddFileForm(ListForm):
     def post_init(self, *args, **kwargs):
         events.Admin.AddFileForm(self)
 
-file_type_options = lambda: (
-    (VIDEO, _('Video')),
-    (AUDIO, _('Audio')),
-    (AUDIO_DESC, _('Audio Description')),
-    (CAPTIONS, _('Captions')),
-)
-file_types = (VIDEO, AUDIO, AUDIO_DESC, CAPTIONS)
-file_type_validator = OneOf(file_types, if_missing=None)
-file_type_validator = None
+file_type_options = lambda: registered_media_types()
+file_types = lambda: (id for id, name in registered_media_types())
+file_type_validator = OneOfGenerator(file_types, if_missing=None)
 
 class EditFileForm(ListForm):
     template = 'admin/media/file-edit-form.html'

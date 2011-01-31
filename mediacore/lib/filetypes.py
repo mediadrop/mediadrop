@@ -13,16 +13,32 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+from mediacore.lib.i18n import _
+from mediacore.plugin.events import (media_types as registered_media_types,
+    observes)
+
 __all__ = [
     'guess_container_format',
     'guess_media_type',
     'guess_mimetype',
+    'registered_media_types',
 ]
 
 AUDIO = u'audio'
 VIDEO = u'video'
 AUDIO_DESC = u'audio_desc'
 CAPTIONS = u'captions'
+
+@observes(registered_media_types)
+def register_default_types():
+    default_types = [
+        (VIDEO, _('Video')),
+        (AUDIO, _('Audio')),
+        (AUDIO_DESC, _('Audio Description')),
+        (CAPTIONS, _('Captions')),
+    ]
+    for t in default_types:
+        yield t
 
 # Mimetypes for all file extensions accepted by the front and backend uploaders
 #
