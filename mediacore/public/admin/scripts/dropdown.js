@@ -100,7 +100,6 @@ window.DropdownBase = new Class({
 		}
 		if (this.selectedLi) this.selectedLi.removeClass('selected');
 		this.selectedLi = el;
-		this.fireEvent('change', [el]);
 		return el;
 	},
 
@@ -147,6 +146,7 @@ window.Dropdown = new Class({
 
 	select: function(e){
 		var selected = this.parent(e);
+		this.fireEvent('change', [selected]);
 		var btn = selected.getElement('button');
 		if (btn) return btn.click();
 		var a = selected.getElement('a');
