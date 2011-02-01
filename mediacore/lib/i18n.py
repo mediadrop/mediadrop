@@ -13,6 +13,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import logging
+
 from gettext import NullTranslations, translation as gettext_translation
 
 from babel.core import Locale
@@ -21,6 +23,7 @@ from babel.dates import (format_date as _format_date,
 from pylons import request, translator
 from pylons.i18n.translation import lazify
 
+log = logging.getLogger(__name__)
 
 MEDIACORE = 'mediacore'
 """The primary MediaCore domain name."""
@@ -189,6 +192,11 @@ def gettext(msgid, domain=None):
     :returns: The translated string, or the original msgid if no
         translation was found.
     """
+    if not isinstance(translator, Translator):
+        log.warn('_, ugettext, or gettext called with msgid "%s" before '\
+                 'pylons.translator has been replaced with our custom version.'\
+                 % msgid)
+        return translator.gettext(msgid)
     return translator.gettext(msgid, domain)
 _ = ugettext = gettext
 
