@@ -59,7 +59,7 @@ class MediaController(BaseController):
     def index(self, type=None, podcast=None, tag=None, category=None, search=None,
               max_age=None, min_age=None, order=None, offset=0, limit=10,
               published_after=None, published_before=None, featured=False,
-              id=None, slug=None, include_embed=False, secret_key=None, format="json", **kwargs):
+              id=None, slug=None, include_embed=False, api_key=None, format="json", **kwargs):
         """Query for a list of media.
 
         :param type:
@@ -157,7 +157,7 @@ class MediaController(BaseController):
         """
 
         if asbool(app_globals.settings['api_secret_key_required']) \
-            and secret_key != app_globals.settings['api_secret_key']:
+            and api_key != app_globals.settings['api_secret_key']:
             return dict(error=AUTHERROR)
 
         if format not in ("json", "mrss"):
@@ -238,7 +238,7 @@ class MediaController(BaseController):
 
     @expose('json')
     @observable(events.API.MediaController.get)
-    def get(self, id=None, slug=None, secret_key=None, format="json", **kwargs):
+    def get(self, id=None, slug=None, api_key=None, format="json", **kwargs):
         """Expose info on a specific media item by ID or slug.
 
         :param id: A :attr:`mediacore.model.media.Media.id` for lookup
@@ -253,7 +253,7 @@ class MediaController(BaseController):
 
         """
         if asbool(app_globals.settings['api_secret_key_required']) \
-            and secret_key != app_globals.settings['api_secret_key']:
+            and api_key != app_globals.settings['api_secret_key']:
             return dict(error=AUTHERROR)
 
         if format not in ("json", "mrss"):
@@ -327,7 +327,7 @@ class MediaController(BaseController):
 
 
     @expose('json')
-    def files(self, id=None, slug=None, secret_key=None, **kwargs):
+    def files(self, id=None, slug=None, api_key=None, **kwargs):
         """List all files related to specific media.
 
         :param id: A :attr:`mediacore.model.media.Media.id` for lookup
@@ -342,7 +342,7 @@ class MediaController(BaseController):
 
         """
         if asbool(app_globals.settings['api_secret_key_required']) \
-            and secret_key != app_globals.settings['api_secret_key']:
+            and api_key != app_globals.settings['api_secret_key']:
             return dict(error='Authentication Error')
 
         query = Media.query.published()

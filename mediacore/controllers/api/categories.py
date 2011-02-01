@@ -45,7 +45,7 @@ class CategoriesController(BaseController):
     """
 
     @expose('json')
-    def index(self, order=None, offset=0, limit=10, secret_key=None, **kwargs):
+    def index(self, order=None, offset=0, limit=10, api_key=None, **kwargs):
         """Query for a flat list of categories.
 
         :param id: A :attr:`mediacore.model.media.Category.id` for lookup
@@ -83,7 +83,7 @@ class CategoriesController(BaseController):
 
         """
         if asbool(app_globals.settings['api_secret_key_required']) \
-            and secret_key != app_globals.settings['api_secret_key']:
+            and api_key != app_globals.settings['api_secret_key']:
             return dict(error='Authentication Error')
 
         if any(key in kwargs for key in ('id', 'slug', 'name')):
@@ -95,7 +95,7 @@ class CategoriesController(BaseController):
         return self._index_query(order, offset, limit, tree=False)
 
     @expose('json')
-    def tree(self, depth=10, secret_key=None, **kwargs):
+    def tree(self, depth=10, api_key=None, **kwargs):
         """Query for an expanded tree of categories.
 
         :param id: A :attr:`mediacore.model.media.Category.id` to lookup the parent node
@@ -117,7 +117,7 @@ class CategoriesController(BaseController):
 
         """
         if asbool(app_globals.settings['api_secret_key_required']) \
-            and secret_key != app_globals.settings['api_secret_key']:
+            and api_key != app_globals.settings['api_secret_key']:
             return dict(error='Authentication Error')
         if any(key in kwargs for key in ('id', 'slug', 'name')):
             kwargs['depth'] = depth
