@@ -20,13 +20,13 @@ Email Helpers
 
     Clean this module up and use genshi text templates.
 
-.. autofunc:: send
+.. autofunction:: send
 
-.. autofunc:: send_media_notification
+.. autofunction:: send_media_notification
 
-.. autofunc:: send_comment_notification
+.. autofunction:: send_comment_notification
 
-.. autofunc:: parse_email_string
+.. autofunction:: parse_email_string
 
 """
 
@@ -38,7 +38,10 @@ from mediacore.lib.helpers import line_break_xhtml, strip_xhtml, url_for
 from mediacore.lib.i18n import _
 
 def parse_email_string(string):
-    """Take a comma separated string of emails and return a list."""
+    """
+    Convert a string of comma separated email addresses to a list of
+    separate strings.
+    """
     if not string:
         elist = []
     elif ',' in string:
@@ -48,18 +51,28 @@ def parse_email_string(string):
         elist = [string]
     return elist
 
-def send(to_addr, from_addr, subject, body):
-    """Send an email!
+def send(to_addrs, from_addr, subject, body):
+    """A simple method to send a simple email.
 
-    Expects subject and body to be unicode strings.
+    :param to_addrs: Comma separated list of email addresses to send to.
+    :type to_addrs: unicode
+
+    :param from_addr: Email address to put in the 'from' field
+    :type from_addr: unicode
+
+    :param subject: Subject line of the email.
+    :type subject: unicode
+
+    :param body: Body text of the email, optionally marked up with HTML.
+    :type body: unicode
     """
     server = smtplib.SMTP('localhost')
     if isinstance(to_addr, basestring):
         to_addr = parse_email_string(to_addr)
 
-    to_addr = ", ".join(to_addr)
+    to_addrs = ", ".join(to_addrs)
 
-    msg = ("To: %(to_addr)s\n"
+    msg = ("To: %(to_addrs)s\n"
            "From: %(from_addr)s\n"
            "Subject: %(subject)s\n\n"
            "%(body)s\n") % locals()
@@ -69,6 +82,16 @@ def send(to_addr, from_addr, subject, body):
 
 
 def send_media_notification(media_obj):
+    """
+    Send a creation notification email that a new Media object has been
+    created.
+
+    Sends to the address configured in the 'email_media_uploaded' address,
+    if one has been created.
+
+    :param media_obj: The media object to send a notification about.
+    :type media_obj: :class:`~mediacore.model.media.Media` instance
+    """
     send_to = app_globals.settings['email_media_uploaded']
     if not send_to:
         # media notification emails are disabled!
@@ -98,6 +121,18 @@ Description: %(clean_description)s
     send(send_to, app_globals.settings['email_send_from'], subject, body)
 
 def send_comment_notification(media_obj, comment):
+    """
+    Helper method to send a email notification that a comment has been posted.
+
+    Sends to the address configured in the 'email_comment_posted' setting,
+    if it is configured.
+
+    :param media_obj: The media object to send a notification about.
+    :type media_obj: :class:`~mediacore.model.media.Media` instance
+
+    :param comment: The newly posted comment.
+    :type comment: :class:`~mediacore.model.comments.Comment` instance
+    """
     send_to = app_globals.settings['email_comment_posted']
     if not send_to:
         # Comment notification emails are disabled!
@@ -119,6 +154,28 @@ Body: %(comment_body)s
     send(send_to, app_globals.settings['email_send_from'], subject, body)
 
 def send_support_request(email, url, description, get_vars, post_vars):
+    """
+    Helper method to send a Support Request email in response to a server
+    error.
+
+    Sends to the address configured in the 'email_support_requests' setting,
+    if it is configured.
+
+    :param email: The requesting user's email address.
+    :type email: unicode
+
+    :param url: The url that the user requested assistance with.
+    :type url: unicode
+
+    :param description: The user's description of their problem.
+    :type description: unicode
+
+    :param get_vars: The GET variables sent with the failed request.
+    :type get_vars: dict of str -> str
+
+    :param post_vars: The POST variables sent with the failed request.
+    :type post_vars: dict of str -> str
+    """
     send_to = app_globals.settings['email_support_requests']
     if not send_to:
         return
