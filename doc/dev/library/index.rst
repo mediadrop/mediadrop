@@ -59,3 +59,11 @@ Miscellaneous/Display Helpers
    :members:
    :show-inheritance:
    :undoc-members:
+
+Email Helpers
+-------------
+
+.. automodule:: mediacore.lib.email
+   :members:
+   :show-inheritance:
+   :undoc-members:
