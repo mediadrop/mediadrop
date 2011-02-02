@@ -136,7 +136,7 @@ Step 5: Upgrading Your Database
 This step is slightly different depending on which version you are upgrading
 from. See the individual commands below:
 
-a.  Or, if you're upgrading from **0.7.2** (released January 2010):
+a.  If you're upgrading from **0.7.2** (released January 2010):
 
    .. sourcecode:: bash
 
@@ -154,7 +154,7 @@ b.  Or, if you're upgrading from **0.8.0** (released May 2010):
       python batch-scripts/upgrade/upgrade-from-v080.py yourconf.ini
 
 
-c.  If you're upgrading from **0.8.2, 0.9.0, or newer** (released after August 2010):
+c.  Or, if you're upgrading from **0.8.2, 0.9.0, or newer** (released after August 2010):
 
    .. sourcecode:: bash
 
