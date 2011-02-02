@@ -61,7 +61,7 @@ imports = [
 ]
 
 defined = [
-    'append_class_attr', 'delete_files', 'doc_link',
+    'append_class_attr', 'can_edit', 'delete_files', 'doc_link',
     'duration_from_seconds', 'duration_to_seconds',
     'filter_library_controls', 'filter_vulgarity',
     'get_featured_category', 'gravatar_from_email', 'is_admin', 'js',
@@ -244,17 +244,26 @@ def filter_library_controls(query, show='latest'):
 def is_admin():
     """Return True if the logged in user is a part of the Admins group.
 
-    This method will need to be replaced when we improve our user
+    TODO: This method will need to be replaced when we improve our user
     access controls.
+
+    :returns: Whether or not the current user is an Admin.
+    :rtype: bool
     """
     ident = request.environ.get('repoze.who.identity', {})
     groups = ident.get('groups', 0)
     return groups and any(group.lower() == 'admins' for group in groups)
 
 def can_edit(item):
-    """Return True if the logged in user is a part of the Admins group.
+    """Return True if the logged in user has the 'edit' permission.
 
-    NOTE: The item argument is provided for future use only.
+    :param item: When we improve our user access controls, this will be used
+                 to check edit permissions on a particular object.
+                 TODO: 'item' is currently an unimplemented argument.
+    :type item: unimplemented
+
+    :returns: Whether the current user has the 'edit' permission.
+    :rtype: bool
     """
     ident = request.environ.get('repoze.who.identity', {})
     perms = ident.get('permissions', 0)
@@ -352,11 +361,13 @@ def filter_vulgarity(text):
     """Return a sanitized version of the given string.
 
     Words are defined in the Comments settings and are
-    replaced with *'s representing the length of the filtered word.
+    replaced with \*'s representing the length of the filtered word.
 
     :param text: The string to be filtered.
+    :type text: str
+
     :returns: The filtered string.
-    :rtype: string
+    :rtype: str
 
     """
     vulgar_words = app_globals.settings.get('vulgarity_filtered_words', None)
