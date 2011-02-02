@@ -18,5 +18,4 @@ Mapped Classes
 Helpers
 -------
 
-.. autofunction:: create_media_stub
-
+Er, none here. TODO: finish this page.

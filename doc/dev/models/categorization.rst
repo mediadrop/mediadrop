@@ -25,5 +25,3 @@ Topics
 .. autoclass:: Category
    :members:
 
-.. autofunction:: fetch_categories
-
