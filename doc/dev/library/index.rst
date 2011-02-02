@@ -4,14 +4,29 @@
 Miscellaneous Libraries
 =======================
 
-Base
-----
+Base Controller Classes
+-----------------------
 
 .. automodule:: mediacore.lib.base
    :members:
    :show-inheritance:
+
+
+Templating Helpers
+------------------
+
+.. automodule:: mediacore.lib.templating
+   :members:
+   :show-inheritance:
    :undoc-members:
 
+Media Players
+-------------
+
+.. automodule:: mediacore.lib.players
+   :members:
+   :show-inheritance:
+   :undoc-members:
 
 Decorators
 ----------
@@ -20,16 +35,6 @@ Decorators
    :members:
    :show-inheritance:
    :undoc-members:
-
-
-Embed Types
------------
-
-.. automodule:: mediacore.lib.embedtypes
-   :members:
-   :show-inheritance:
-   :undoc-members:
-
 
 File Types
 ----------
@@ -47,8 +52,8 @@ Thumbnail Images
    :undoc-members:
 
 
-Helpers
--------
+Miscellaneous/Display Helpers
+-----------------------------
 
 .. automodule:: mediacore.lib.helpers
    :members:
