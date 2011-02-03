@@ -94,7 +94,7 @@
 				<small py:if="podcast.created_on" class="box-head-sec">Uploaded: ${h.format_date(podcast.created_on)}</small>
 				<h1>${podcast.title or _('New Podcast')}</h1>
 			</div>
-			${XML(form(form_values, action=form_action))}
+			${form(form_values, action=form_action)}
 		</div>
 	</div>
 	<div class="column33">
@@ -114,7 +114,7 @@
 					     src="${thumb.url}" width="${thumb.x}" height="${thumb.y}" />
 				</div>
 				<div class="center">
-					<form py:replace="XML(thumb_form(css_class='center', action=thumb_action))" />
+					<form py:replace="thumb_form(css_class='center', action=thumb_action)" />
 				</div>
 			</div>
 			<div id="thumb-upload" class="upload-status">

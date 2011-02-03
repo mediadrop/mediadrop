@@ -151,7 +151,7 @@
 				<small py:if="media.created_on" class="box-head-sec">Uploaded: ${h.format_date(media.created_on)}</small>
 				<h1 id="media-title">${media.title or _('Add New Media')}</h1>
 			</div>
-			<form py:replace="XML(media_form(media_values, action=media_action, child_args={'categories': {'category_tree': category_tree}}))" />
+			<form py:replace="media_form(media_values, action=media_action, child_args={'categories': {'category_tree': category_tree}})" />
 		</div>
 
 	</div>
@@ -184,7 +184,7 @@
 					     src="${thumb.url}" width="${thumb.x}" height="${thumb.y}" />
 				</div>
 				<div class="center">
-					<form py:replace="XML(thumb_form(css_class='center', action=thumb_action))" />
+					<form py:replace="thumb_form(css_class='center', action=thumb_action)" />
 				</div>
 			</div>
 			<div id="thumb-upload" class="upload-status">

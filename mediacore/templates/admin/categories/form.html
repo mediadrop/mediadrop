@@ -60,8 +60,8 @@
 		<span py:if="error and not error.error_dict" class="field-error" py:content="error" />
 	</div>
 	<div class="box-foot">
-		${XML(children['save'])}
-		${XML(children['cancel'])}
+		${children['save'].display()}
+		${children['cancel'].display()}
 	</div>
 </form>
 
