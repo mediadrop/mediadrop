@@ -304,6 +304,8 @@ class SettingsController(BaseSettingsController):
                 if tags:
                     media.set_tags(unicode(tags))
                 if categories:
+                    if not isinstance(categories, list):
+                        categories = [categories]
                     media.set_categories(categories)
                 try:
                     media_file = add_new_media_file(media,
