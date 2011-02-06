@@ -10,7 +10,6 @@ import pylons.test
 from genshi.template import NewTextTemplate
 from genshi.template.loader import TemplateLoader
 from PIL import Image
-from sqlalchemy.orm import class_mapper
 from migrate.versioning.api import (drop_version_control, version_control,
     version, upgrade)
 from migrate.versioning.exceptions import DatabaseAlreadyControlledError
@@ -21,7 +20,7 @@ from mediacore.lib.storage import (BlipTVStorage, DailyMotionStorage,
     GoogleVideoStorage, LocalFileStorage, RemoteURLStorage, VimeoStorage,
     YoutubeStorage)
 from mediacore.model import (Author, AuthorWithIP, Category, Comment,
-    DBSession, Group, Media, MediaFile, Permission, Podcast, Setting, Tag,
+    DBSession, Group, Media, MediaFile, Permission, Podcast, Setting,
     User, metadata, cleanup_players_table)
 
 log = logging.getLogger(__name__)
@@ -50,6 +49,13 @@ appearance_settings = [
     (u'appearance_custom_footer_html', u''),
     (u'appearance_display_mediacore_footer', u'True'),
     (u'appearance_display_mediacore_credits', u'True'),
+    (u'appearance_show_download', u'True'),
+    (u'appearance_show_share', u'True'),
+    (u'appearance_show_embed', u'True'),
+    (u'appearance_show_widescreen', u'True'),
+    (u'appearance_show_popout', u'True'),
+    (u'appearance_show_like', u'True'),
+    (u'appearance_show_dislike', u'True'),
 ]
 
 def setup_app(command, conf, vars):
