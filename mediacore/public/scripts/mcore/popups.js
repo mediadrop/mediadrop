@@ -20,6 +20,7 @@ goog.provide('mcore.popups.SimplePopup');
 
 goog.require('goog.dom');
 goog.require('goog.dom.TagName');
+goog.require('goog.dom.forms');
 goog.require('goog.events');
 goog.require('goog.ui.PopupBase');
 
@@ -91,8 +92,9 @@ mcore.popups.SimplePopup.prototype.onShow_ = function() {
       element);
 
   if (input) {
-    input.select();
+    goog.dom.forms.focusAndSelect(input);
   }
+
   for (var anchor, i = 0; anchor = anchors[i]; ++i) {
     if (!anchor.target && 'mailto:' != anchor.href.substr(0, 7)) {
       anchor.target = '_blank';
