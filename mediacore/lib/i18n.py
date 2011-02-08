@@ -14,6 +14,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import logging
+import os
 
 from gettext import NullTranslations, translation as gettext_translation
 
@@ -298,3 +299,14 @@ def format_time(time=None, format='medium', tzinfo=None):
     :rtype: `unicode`
     """
     return _format_time(time, format, tzinfo, translator.locale)
+
+def get_available_locales():
+    """Yield all the locale names for which we have translations.
+
+    Considers only the 'mediacore' domain, not plugins.
+    """
+    i18n_dir = os.path.join(config['here'], 'mediacore/i18n')
+    for name in os.listdir(i18n_dir):
+        mo_path = os.path.join(i18n_dir, name, 'LC_MESSAGES/mediacore.mo')
+        if os.path.exists(mo_path):
+            yield name

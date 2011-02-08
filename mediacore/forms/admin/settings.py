@@ -30,7 +30,7 @@ from mediacore.forms import (FileField, ListFieldSet, ListForm,
     ResetButton, SubmitButton, TextArea, TextField, XHTMLTextArea,
     email_validator, email_list_validator)
 from mediacore.forms.admin.categories import category_options
-from mediacore.lib.i18n import N_, _
+from mediacore.lib.i18n import N_, _, get_available_locales
 from mediacore.plugin import events
 from mediacore.model import MultiSetting
 
@@ -60,16 +60,15 @@ def languages():
     # Note the extra space between English and [en]. This makes it sort above
     # the other translations of english, but is invisible to the user.
     result = [('en', u'English  [en]')]
-    i18n_dir = os.path.join(config['here'], 'mediacore/i18n')
-    for name in os.listdir(i18n_dir):
-        mo_path = os.path.join(i18n_dir, name, 'LC_MESSAGES/mediacore.mo')
-        if os.path.exists(mo_path):
-            locale = Locale.parse(name)
-            lang = locale.languages[locale.language].capitalize()
-            if locale.territory:
-                lang += u' (%s)' % locale.territories[locale.territory]
-            lang += u' [%s]' % locale
-            result.append((name, lang))
+    for name in get_available_locales():
+        locale = Locale.parse(name)
+        lang = locale.languages[locale.language].capitalize()
+        if locale.territory:
+            lang += u' (%s)' % locale.territories[locale.territory]
+        else:
+            lang += u' '
+        lang += u' [%s]' % locale
+        result.append((name, lang))
     result.sort(key=itemgetter(1))
     return result
 
