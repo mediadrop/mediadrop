@@ -434,7 +434,7 @@ a:focus .grid-title {
 .grid-meta .meta-views {
 	float: left;
 	display: block;
-	width: 35px;
+	width: 30px;
 }
 .grid-meta .meta-views {
 	width: 105px;
@@ -461,6 +461,7 @@ a:focus .grid-title {
 	padding-left: 7px;
 	background: url('../images/layout/duration-left.png') no-repeat left;
 	color: #cacaca;
+	margin: 3px;
 }
 .thumb-duration-right {
 	width: 6px;
@@ -468,16 +469,15 @@ a:focus .grid-title {
 	background: url('../images/layout/duration-right.png') no-repeat right;
 }
 
-/* Overrides for full size thumbs */
-.m-grid .thumb-wrap {
-	width: 160px;
+.grid .thumb-wrap {
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	padding: 3px;
 }
-.m-grid .thumb-duration,
-.m-grid .thumb-duration-right {
-	margin: 3px;
+
+/* Overrides for full size thumbs */
+.m-grid .thumb-wrap {
+	width: 160px;
 }
 .m-grid .grid-title,
 .m-grid .grid-desc,
@@ -646,12 +646,11 @@ a:focus .grid-title {
 	height: 101px;
 }
 .contextbox .grid .grid-title {
-	white-space: nowrap;
 }
 .contextbox .grid .grid-title,
 .contextbox .grid .grid-desc,
 .contextbox .grid .grid-meta {
-	width: 173px;
+	width: 167px;
 }
 .contextbox-none {
 	font-style: italic;
