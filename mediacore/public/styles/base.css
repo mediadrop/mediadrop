@@ -646,6 +646,10 @@ a:focus .grid-title {
 	height: 101px;
 }
 .contextbox .grid .grid-title {
+	padding: 9px 0;
+}
+#podcast-context .grid-title {
+	padding-bottom: 0;
 }
 .contextbox .grid .grid-title,
 .contextbox .grid .grid-desc,

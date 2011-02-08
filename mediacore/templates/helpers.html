@@ -19,12 +19,14 @@
       xmlns:xi="http://www.w3.org/2001/XInclude"
       py:strip="">
 
-	<py:def function="media_grid(media, id=None, thumb_size='s', desc_len=90)"
+	<py:def function="media_grid(media, id=None, thumb_size='s', title_len=60, desc_len=95)"
 	        py:with="thumb_xy = config['thumb_sizes']['media'][thumb_size]">
 		<ul id="${id}" class="grid ${thumb_size}-grid">
-			<li py:for="m in media" py:with="title = h.strip_xhtml(m.title, True)">
+			<li py:for="m in media"
+			    py:with="title = h.strip_xhtml(m.title, True);
+			             m_desc_len = desc_len and (desc_len - min(len(m.title), title_len)) or 0">
 				<a href="${h.url_for(controller='/media', action='view', slug=m.slug)}" title="${title}">
-					<strong class="grid-title">${h.truncate(title, 50)}</strong>
+					<strong class="grid-title">${h.truncate(title, title_len)}</strong>
 					<span class="thumb-wrap">
 						<img src="${h.thumb_url(m, thumb_size)}" width="${thumb_xy[0]}" height="${thumb_xy[1]}" alt="" />
 						<py:if test="m.duration">
@@ -32,7 +34,7 @@
 							<span class="thumb-duration-right" />
 						</py:if>
 					</span><br />
-					<span class="grid-desc mcore-text" py:content="h.truncate(m.description_plain, desc_len)">Description</span><br />
+					<span py:if="m_desc_len > 0" class="grid-desc mcore-text" py:content="h.truncate(m.description_plain, m_desc_len)">Description</span><br py:if="m_desc_len > 0" />
 					<span class="grid-meta mcore-text">
 						<span class="meta meta-likes" title="${m.likes} ${ungettext('Like', 'Likes', m.likes)}">${m.likes} <span>${ungettext('Like', 'Likes', m.likes)}</span></span>
 						<span class="meta meta-views" title="${m.views} ${ungettext('View', 'Views', m.views)}">${m.views} <span>${ungettext('View', 'Views', m.views)}</span></span>

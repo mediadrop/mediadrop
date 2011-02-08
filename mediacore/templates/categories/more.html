@@ -29,7 +29,7 @@
 </head>
 <body>
 	<h2><span class="uppercase mcore-heading">${order == 'latest' and _('Latest') or _('Most Popular')}</span></h2>
-	<ul py:replace="media_grid(media, thumb_size='s', desc_len=90)" />
+	<ul py:replace="media_grid(media, thumb_size='s', desc_len=95)" />
 	<div py:if="not media">There is no media in this category.</div>
 </body>
 </html>

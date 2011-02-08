@@ -34,7 +34,7 @@
 			<py:otherwise><span class="uppercase mcore-heading" i18n:msg="result_count">All ${result_count} Media</span></py:otherwise>
 		</h3>
 		${library_controls(show, paginator=c.paginators.media, search_query=search_query, tag=tag and tag.slug or None)}
-		<ul py:replace="media_grid(media, id='library', thumb_size='m', desc_len=135)" />
+		<ul py:replace="media_grid(media, id='library', thumb_size='m', desc_len=145)" />
 	</div>
 	<div py:if="c.paginators" class="mediacore-content clearfix">
 		<div py:replace="pager(c.paginators.media)" />

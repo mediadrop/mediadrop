@@ -74,17 +74,17 @@
 
 		<div py:if="advertising_sidebar_html" id="mcore-ad-sidebar" class="f-rgt" py:content="Markup(advertising_sidebar_html)" />
 
-		<py:if test="media.podcast">
+		<py:if test="media.podcast" py:with="title_len = 50; desc_len = 120; m_desc_len = (desc_len - min(len(media.podcast.title), title_len)) or 0">
 			<div id="podcast-context" class="contextbox" py:with="podcast = media.podcast">
 				<h3 class="uppercase">Related Podcast</h3>
 				<ul class="grid s-grid">
 					<li>
 						<a href="${h.url_for(controller='/podcasts', action='view', slug=podcast.slug)}">
-							<span class="grid-title">${podcast.title}</span>
+							<span class="grid-title">${h.truncate(podcast.title, title_len)}</span>
 							<span class="thumb-wrap">
 								<img py:with="thumb = h.thumb(podcast, 's')" src="${thumb.url}" width="${thumb.x}" height="${thumb.y}" alt="" />
 							</span>
-							<span class="grid-desc mcore-text" py:content="h.truncate(h.strip_xhtml(podcast.description), 145)">Description</span><br />
+							<span class="grid-desc mcore-text" py:content="h.truncate(h.strip_xhtml(podcast.description), m_desc_len)">Description</span><br />
 							<span class="grid-meta">
 								<span class="meta meta-episodes" title="Podcast Episodes">
 									${podcast.media_count_published}
@@ -104,7 +104,7 @@
 
 		<div id="media-context" class="contextbox" py:if="related_media">
 			<h3 class="uppercase">Related Media</h3>
-			<ul py:replace="media_grid(related_media, thumb_size='s', desc_len=55)" />
+			<ul py:replace="media_grid(related_media, thumb_size='s', title_len=40, desc_len=0)" />
 		</div>
 
 		<div id="category-context" class="contextbox">
