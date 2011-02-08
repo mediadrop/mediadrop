@@ -39,7 +39,7 @@
 				<span class="thumb-wrap"><img src="${h.thumb_url(podcast, 'm')}" width="160" height="160" alt="${podcast.title}" /></span>
 				<div class="podcast-info">
 					<a href="${h.url_for(controller='/admin/podcasts', action='edit', id=podcast.id)}" class="underline-hover f-rgt" py:if="h.can_edit(podcast)">Edit</a>
-					<p py:replace="Markup(podcast.description)" />
+					<p py:if="podcast.description" py:replace="Markup(podcast.description)" />
 				</div>
 				<div class="podcast-meta">
 					<a py:if="podcast.itunes_url" class="meta meta-itunes underline-hover" href="${podcast.itunes_url or h.url_for(action='feed', slug=podcast.slug)}">Add to iTunes</a>
