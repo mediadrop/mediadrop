@@ -42,7 +42,7 @@ class TagForm(ListForm):
 
     fields = [
         TextField('name', label_text=N_('Name'), css_classes=['tag-name'], validator=TagNameValidator(not_empty=True)),
-        TextField('slug', label_text=N_('Slug'), css_classes=['tag-slug'], validator=NotEmpty),
+        TextField('slug', label_text=N_('Permalink'), css_classes=['tag-slug'], validator=NotEmpty),
         ResetButton('cancel', default=N_('Cancel'), css_classes=['btn', 'f-lft', 'btn-cancel']),
         SubmitButton('save', default=N_('Save'), css_classes=['f-rgt', 'btn', 'blue', 'btn-save']),
     ]

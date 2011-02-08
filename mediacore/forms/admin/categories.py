@@ -42,7 +42,7 @@ class CategoryForm(ListForm):
 
     class fields(WidgetsList):
         name = TextField(validator=TextField.validator(not_empty=True), label_text=N_('Name'))
-        slug = TextField(validator=NotEmpty, label_text=N_('Slug'))
+        slug = TextField(validator=NotEmpty, label_text=N_('Permalink'))
         parent_id = SingleSelectField(label_text=N_('Parent Category'), options=category_options)
         cancel = ResetButton(default=N_('Cancel'), css_classes=['btn', 'f-lft', 'btn-cancel'])
         save = SubmitButton(default=N_('Save'), named_button=True, css_classes=['f-rgt', 'btn', 'blue', 'btn-save'])
