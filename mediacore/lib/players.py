@@ -246,7 +246,7 @@ class AbstractFlashPlayer(FileSupportMixin, FlashRenderMixin, AbstractPlayer):
     such as embed types.
 
     """
-    supported_containers = set(['mp3', 'mp4', 'flv', 'flac'])
+    supported_containers = set(['mp3', 'mp4', 'flv', 'f4v', 'flac'])
 
     @abstractmethod
     def flashvars(self):
