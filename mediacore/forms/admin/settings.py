@@ -258,7 +258,6 @@ class CommentsForm(ListForm):
         ListFieldSet('vulgarity', suppress_label=True, label_text=N_('Vulgarity Filter Settings'), css_classes=['details_fieldset'], children=[
             TextArea('vulgarity_filtered_words', label_text=N_('Filtered Words'),
                 attrs=dict(rows=3, cols=15), help_text=N_('Enter words to be filtered separated by a comma.')),
-            CheckBox('run_filter_now', label_text=N_('Run Filter Now')),
         ]),
         SubmitButton('save', default=N_('Save'), css_classes=['btn', 'btn-save', 'blue', 'f-rgt']),
     ]

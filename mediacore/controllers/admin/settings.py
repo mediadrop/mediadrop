@@ -104,12 +104,16 @@ class SettingsController(BaseSettingsController):
     @autocommit
     def comments_save(self, **kwargs):
         """Save :class:`~mediacore.forms.admin.settings.CommentsForm`."""
-        if kwargs['vulgarity'].pop('run_filter_now'):
+        old_vulgarity_filter = c.settings['vulgarity_filtered_words'].value
+
+        self._save(comments_form, values=kwargs)
+
+        # Run the filter now if it has changed
+        if old_vulgarity_filter != c.settings['vulgarity_filtered_words'].value:
             for comment in DBSession.query(Comment):
                 comment.body = filter_vulgarity(comment.body)
-                DBSession.add(comment)
-            DBSession.flush()
-        return self._save(comments_form, 'comments', values=kwargs)
+
+        redirect(action='comments')
 
     @expose('admin/settings/api.html')
     def api(self, **kwargs):
