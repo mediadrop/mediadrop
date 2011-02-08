@@ -711,6 +711,10 @@ input.submitbutton {
 .comments-published td { color: #417F00; }
 .comments-unreviewed td { color: #e66f00; }
 .comments-trash td { color: #9b9b9b; }
+.bulk-toggle,
+.bulk-checkbox {
+	width: auto;
+}
 .bulk-control {
 	margin-top: 1px;
 	margin-left: 10px;
