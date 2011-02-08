@@ -34,11 +34,6 @@ from mediacore.lib.i18n import N_, _
 from mediacore.plugin import events
 from mediacore.model import MultiSetting
 
-enable_disable = lambda: (
-    ('enabled', _('Enable')),
-    ('disabled', _('Disable')),
-)
-enable_disable_validator = OneOf(('enabled', 'disabled'))
 title_options = lambda: (
     ('prepend', _('Prepend')),
     ('append', _('Append')),
@@ -188,16 +183,14 @@ class SiteMapsForm(ListForm):
             legend='',
             css_classes=['details_fieldset'],
             children=[
-                RadioButtonList('sitemaps_display',
+                CheckBox('sitemaps_display',
+                    css_classes=['checkbox-left'],
                     label_text=N_('Site Maps'),
-                    options=enable_disable,
-                    validator=enable_disable_validator,
-                ),
-                RadioButtonList('rss_display',
+                    validator=Bool(if_missing='')),
+                CheckBox('rss_display',
+                    css_classes=['checkbox-left'],
                     label_text=N_('RSS Feeds'),
-                    options=enable_disable,
-                    validator=enable_disable_validator,
-                ),
+                    validator=Bool(if_missing='')),
             ]
         ),
         SubmitButton('save', default=N_('Save'), css_classes=['btn', 'btn-save', 'blue', 'f-rgt']),

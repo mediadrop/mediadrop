@@ -24,7 +24,7 @@
 <?python feed_links = [] ?>
 
 <head py:match="head">
-    <py:if test="g.settings.get('sitemaps_display', None) == 'enabled'">
+    <py:if test="app_globals.settings['sitemaps_display'] == 'True'">
 		<link py:match="link" py:attrs="select('@*')"><?python
 			attrs = h.attrs_to_dict(select('@*'))
 			if attrs.get('type') == 'application/rss+xml':

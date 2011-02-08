@@ -50,7 +50,7 @@ class SitemapsController(BaseController):
         :type page: int
 
         """
-        if app_globals.settings.get('sitemaps_display', None) != 'enabled':
+        if app_globals.settings['sitemaps_display'] != 'True':
             abort(404)
 
         response.content_type = mimeparse.best_match(
@@ -87,7 +87,7 @@ class SitemapsController(BaseController):
     @expose('sitemaps/mrss.xml')
     def mrss(self, **kwargs):
         """Generate a media rss (mRSS) feed of all the sites media."""
-        if app_globals.settings.get('sitemaps_display', None) != 'enabled':
+        if app_globals.settings['sitemaps_display'] != 'True':
             abort(404)
 
         response.content_type = mimeparse.best_match(
@@ -106,7 +106,7 @@ class SitemapsController(BaseController):
     @expose('sitemaps/mrss.xml')
     def latest(self, limit=30, **kwargs):
         """Generate a media rss (mRSS) feed of all the sites media."""
-        if app_globals.settings.get('rss_display', None) != 'enabled':
+        if app_globals.settings['rss_display'] != 'True':
             abort(404)
 
         response.content_type = mimeparse.best_match(
@@ -128,7 +128,7 @@ class SitemapsController(BaseController):
     @expose('sitemaps/mrss.xml')
     def featured(self, limit=30, **kwargs):
         """Generate a media rss (mRSS) feed of the sites featured media."""
-        if app_globals.settings.get('rss_display', None) != 'enabled':
+        if app_globals.settings['rss_display'] != 'True':
             abort(404)
 
         response.content_type = mimeparse.best_match(
