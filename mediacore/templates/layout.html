@@ -45,14 +45,14 @@
 
 	<div py:replace="select('*|text()|comment()')">Content is injected here</div>
 
-	<div id="mcore-foot" class="mediacore-content clear">
+	<div py:if="g.settings['appearance_display_mediacore_footer']" id="mcore-foot" class="mediacore-content clear">
 		<div id="mcore-feeds" class="f-lft">
 			<h5>Feeds:</h5>
 			<ul>
 				<li py:for="href, title in feed_links"><a href="${href}" class="mcore-foot-link underline-hover">${title}</a></li>
 			</ul>
 		</div>
-		<div id="mcore-credits" class="f-rgt">
+		<div py:if="g.settings['appearance_display_mediacore_credits']" id="mcore-credits" class="f-rgt">
 			<a href="http://getmediacore.com/" class="mcore-foot-link underline-hover" i18n:msg=""><strong>MediaCore</strong> <em>video platform</em></a>
 		</div>
 	</div>
