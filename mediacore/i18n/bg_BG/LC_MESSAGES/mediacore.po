@@ -1,14 +1,14 @@
 # Bulgarian (Bulgaria) translations for MediaCore.
-# Copyright (C) 2010 ORGANIZATION
+# Copyright (C) 2011 ORGANIZATION
 # This file is distributed under the same license as the MediaCore project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2011.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: MediaCore Video Platform\n"
 "Report-Msgid-Bugs-To: http://github.com/simplestation/mediacore/issues\n"
-"POT-Creation-Date: 2010-12-28 15:49+0800\n"
-"PO-Revision-Date: 2011-01-21 15:28-0800\n"
+"POT-Creation-Date: 2011-01-21 15:28+0800\n"
+"PO-Revision-Date: 2011-02-09 12:53-0800\n"
 "Last-Translator: Arkov <l.arkov@gmail.com>\n"
 "Language-Team: bg_BG <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
@@ -22,20 +22,24 @@ msgid ""
 "Upload your media using the form below. We'll review it and get back to "
 "you."
 msgstr ""
+"Качи медиите като използваш формата по-долу. Ще го прегледаме и ще се "
+"свържем отново с теб."
 
 #: mediacore/controllers/error.py:65
 msgid "We're sorry but we weren't able to process this request."
-msgstr ""
+msgstr "Съжаляваме, но не успяхме да обработим тази заявка."
 
 #: mediacore/controllers/media.py:297
 msgid "Your comment has been rejected."
-msgstr "Вашият коментар е бил отхвърлен."
+msgstr "Kоментарът ти е бил отхвърлен."
 
 #: mediacore/controllers/media.py:318
 msgid ""
 "Thank you for your comment! We will post it just as soon as a moderator "
 "approves it."
 msgstr ""
+"Благодарим за твоя коментар! Ще го публикуваме, веднага след като наш "
+"модератор го одобри."
 
 #: mediacore/controllers/admin/media.py:391
 #, python-format
@@ -44,32 +48,32 @@ msgstr "Файлът \"%s\" не съществува."
 
 #: mediacore/controllers/admin/media.py:413
 msgid "No action to perform."
-msgstr ""
+msgstr "Няма действия за изпълнение."
 
 #: mediacore/controllers/admin/media.py:562
 msgid "Permission denied, cannot write file"
-msgstr ""
+msgstr "Отказан достъп, не мога да запиша файла"
 
 #: mediacore/controllers/admin/media.py:564
 #, python-format
 msgid "Unsupport image type: %s"
-msgstr ""
+msgstr "Неподържан формат за картинка: %s"
 
 #: mediacore/forms/__init__.py:219
 msgid "The portion of the email address before the @ is invalid"
-msgstr ""
+msgstr "Частта от имейл адреса преди @ е невалидна"
 
 #: mediacore/forms/__init__.py:220
 msgid "The portion of this email address after the @ is invalid"
-msgstr ""
+msgstr "Частта от имейл адреса след @ е невалидна"
 
 #: mediacore/forms/comments.py:23
 msgid "Please enter your name!"
-msgstr "Моля, въведете вашето име!"
+msgstr "Моля, въведи твоето име!"
 
 #: mediacore/forms/uploader.py:31
 msgid "At least give it a short description..."
-msgstr ""
+msgstr "Напиши поне кратко описание..."
 
 #: mediacore/forms/uploader.py:35
 msgid "You've gotta have a name!"
@@ -81,11 +85,11 @@ msgstr ""
 
 #: mediacore/forms/uploader.py:55
 msgid "Your Name:"
-msgstr "Вашето име:"
+msgstr "Твоето име:"
 
 #: mediacore/forms/uploader.py:56
 msgid "Your Email:"
-msgstr "Вашият имейл:"
+msgstr "Твоят имейл:"
 
 #: mediacore/forms/uploader.py:56
 msgid "(will never be published)"
@@ -203,8 +207,8 @@ msgstr "Изтрий"
 #: mediacore/templates/media/view.html:66
 msgid "Comment"
 msgid_plural "Comments"
-msgstr[0] "Коментара"
-msgstr[1] "Коментар"
+msgstr[0] "Коментар"
+msgstr[1] "Коментара"
 
 #: mediacore/forms/admin/media.py:41
 msgid "Bad duration formatting, use Hour:Min:Sec"
@@ -272,7 +276,7 @@ msgstr "По избор"
 #: mediacore/forms/admin/media.py:147 mediacore/forms/admin/podcasts.py:110
 #: mediacore/templates/comments/_list.html:35
 msgid "Permalink"
-msgstr ""
+msgstr "Постоянен линк"
 
 #: mediacore/forms/admin/media.py:148 mediacore/forms/admin/podcasts.py:111
 #: mediacore/templates/admin/media/_media-table.html:33
@@ -418,7 +422,7 @@ msgstr "Категория"
 
 #: mediacore/forms/admin/podcasts.py:119
 msgid "Copyright"
-msgstr ""
+msgstr "Запазени права"
 
 #: mediacore/forms/admin/podcasts.py:121
 msgid "Advanced Options:"
@@ -507,7 +511,7 @@ msgstr "Добавен"
 
 #: mediacore/forms/admin/settings.py:112
 msgid "Comment Posted"
-msgstr ""
+msgstr "Коментара е публикуван"
 
 #: mediacore/forms/admin/settings.py:113
 msgid "Support Requested"
@@ -543,7 +547,7 @@ msgstr ""
 
 #: mediacore/forms/admin/settings.py:175
 msgid "Google Analytics Details:"
-msgstr ""
+msgstr "Google Analytics детайли:"
 
 #: mediacore/forms/admin/settings.py:176
 msgid "Tracking Code"
@@ -551,35 +555,35 @@ msgstr ""
 
 #: mediacore/forms/admin/settings.py:192
 msgid "Site Maps"
-msgstr ""
+msgstr "Карти на сайта"
 
 #: mediacore/forms/admin/settings.py:197
 msgid "RSS Feeds"
-msgstr ""
+msgstr "RSS канали"
 
 #: mediacore/forms/admin/settings.py:212
 msgid "General Settings:"
-msgstr ""
+msgstr "Общи настройки:"
 
 #: mediacore/forms/admin/settings.py:214
 msgid "Site Name"
-msgstr ""
+msgstr "Име на сайта"
 
 #: mediacore/forms/admin/settings.py:216
 msgid "Site Tag Line"
-msgstr ""
+msgstr "Мото на сайта"
 
 #: mediacore/forms/admin/settings.py:218
 msgid "Display Site Name"
-msgstr ""
+msgstr "Покажи името на сайта"
 
 #: mediacore/forms/admin/settings.py:222
 msgid "Default Language"
-msgstr ""
+msgstr "Език по подразбиране"
 
 #: mediacore/forms/admin/settings.py:226
 msgid "Featured Category"
-msgstr ""
+msgstr "Препоръчана категория"
 
 #: mediacore/forms/admin/settings.py:231
 msgid "Rich Text Editing"
@@ -591,11 +595,11 @@ msgstr ""
 
 #: mediacore/forms/admin/settings.py:237
 msgid "Display notes"
-msgstr ""
+msgstr "Покажи бележки"
 
 #: mediacore/forms/admin/settings.py:252
 msgid "Require comments to be approved by an admin"
-msgstr ""
+msgstr "Изискай коментарите да бъдат одобрени от администратор."
 
 #: mediacore/forms/admin/settings.py:253
 msgid "Akismet Anti-Spam Details:"
@@ -615,15 +619,15 @@ msgstr ""
 
 #: mediacore/forms/admin/settings.py:258
 msgid "Filtered Words"
-msgstr ""
+msgstr "Филтрирани думи"
 
 #: mediacore/forms/admin/settings.py:259
 msgid "Enter words to be filtered separated by a comma."
-msgstr ""
+msgstr "Въведи думите, които да се филтрират, разделени със запетая."
 
 #: mediacore/forms/admin/settings.py:260
 msgid "Run Filter Now"
-msgstr ""
+msgstr "Пусни филтъра"
 
 #: mediacore/forms/admin/settings.py:272
 msgid "Require a key to access the API"
@@ -1084,9 +1088,8 @@ msgid "Featured"
 msgstr "Препоръчани"
 
 #: mediacore/templates/helpers.html:84
-#, fuzzy
 msgid "Page"
-msgstr "Страница:"
+msgstr ""
 
 #: mediacore/templates/helpers.html:84
 msgid "of"
@@ -1102,9 +1105,8 @@ msgid "Feeds:"
 msgstr ""
 
 #: mediacore/templates/layout.html:60
-#, fuzzy
 msgid "[1:MediaCore] [2:video platform]"
-msgstr "видео платформа"
+msgstr ""
 
 #: mediacore/templates/login.html:23
 msgid "Login to MediaCore"
@@ -2068,8 +2070,8 @@ msgstr ""
 #: mediacore/templates/media/view.html:92
 msgid "Episode"
 msgid_plural "Episodes"
-msgstr[0] "Епизоди"
-msgstr[1] "Епизод"
+msgstr[0] "Епизод"
+msgstr[1] "Епизоди"
 
 #: mediacore/templates/media/view.html:106
 msgid "Related Media"
@@ -2165,8 +2167,8 @@ msgstr "Преглед на всички епизоди"
 #, python-format
 msgid "%(result_count)s Episodes"
 msgid_plural "All %(result_count)s Episodes"
-msgstr[0] "Всички %(result_count)s епизоди"
-msgstr[1] "%(result_count)s епизод"
+msgstr[0] "%(result_count)s епизод"
+msgstr[1] "Всички %(result_count)s епизоди"
 
 #: mediacore/templates/upload/failure.html:24
 #: mediacore/templates/upload/success.html:24
@@ -2232,37 +2234,4 @@ msgid ""
 msgstr ""
 "Вие ще бъдете автоматично пренасочени обратно към [1:Media Library] в "
 "рамките на няколко секунди. Дръжте се."
-
-#~ msgid "Invalid player params provided."
-#~ msgstr ""
-
-#~ msgid "Enable privacy-enhanced mode."
-#~ msgstr ""
-
-#~ msgid "HTML5 + JWPlayer Fallback"
-#~ msgstr ""
-
-#~ msgid "Amazon S3"
-#~ msgstr "Amazon S3"
-
-#~ msgid "This page has gone missing!"
-#~ msgstr ""
-
-#~ msgid "Previous"
-#~ msgstr "Предишна"
-
-#~ msgid "Next"
-#~ msgstr "Следваща"
-
-#~ msgid "copyright 2009 simple station inc"
-#~ msgstr ""
-
-#~ msgid "more of the Latest..."
-#~ msgstr "още от най-новите..."
-
-#~ msgid "more of the Most Popular..."
-#~ msgstr "още от най-популярните ..."
-
-#~ msgid "No suitable player found for this media."
-#~ msgstr "Не е намерен подходящ плейър за тази медия."
 

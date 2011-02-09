@@ -1,4 +1,4 @@
-# Portuguese (Brazil) translations for MediaCore.
+# German (Switzerland) translations for MediaCore.
 # Copyright (C) 2011 ORGANIZATION
 # This file is distributed under the same license as the MediaCore project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2011.
@@ -9,9 +9,9 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://github.com/simplestation/mediacore/issues\n"
 "POT-Creation-Date: 2011-01-21 15:28+0800\n"
 "PO-Revision-Date: 2011-02-09 12:54-0800\n"
-"Last-Translator: lucianodefazio <lucianodefazio@gmail.com>\n"
-"Language-Team: pt_BR <LL@li.org>\n"
-"Plural-Forms: nplurals=2; plural=(n > 1)\n"
+"Last-Translator: pascal <pschrafl@gmx.ch>\n"
+"Language-Team: de_CH <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -22,110 +22,112 @@ msgid ""
 "Upload your media using the form below. We'll review it and get back to "
 "you."
 msgstr ""
-"Faça o upload de sua mídia através do formulário abaixo. Nós a "
-"revisaremos e lhe retornaremos sobre a publicação."
+"Laden sie ihre Mediendateien mit dem folgenden Formular auf den Server. "
+"Nach einer Prüfung werden Sie von uns verständigt."
 
 #: mediacore/controllers/error.py:65
 msgid "We're sorry but we weren't able to process this request."
-msgstr "Desculpe-nos, mas não foi possível processar esta requisição."
+msgstr "Leider konnten wir Ihren Prozess nicht erfolgreich abschliessen."
 
 #: mediacore/controllers/media.py:297
 msgid "Your comment has been rejected."
-msgstr "Seu comentário foi rejeitado."
+msgstr "Ihr Kommentar wurde abgewiesen."
 
 #: mediacore/controllers/media.py:318
 msgid ""
 "Thank you for your comment! We will post it just as soon as a moderator "
 "approves it."
 msgstr ""
-"Obrigado por seu comentário! Ele será publicado assim que um moderador "
-"revisá-lo."
+"Danke für Ihren Kommentar. Sobald ein Moderator ihn geprüft hat, wird er "
+"freigeschalten."
 
 #: mediacore/controllers/admin/media.py:391
 #, python-format
 msgid "File \"%s\" does not exist."
-msgstr "O arquivo \"%s\" não existe."
+msgstr "Die Datei \"%s\" existiert nicht."
 
 #: mediacore/controllers/admin/media.py:413
 msgid "No action to perform."
-msgstr "Nenhuma ação pendente."
+msgstr "Keine Aktion ausgewählt."
 
 #: mediacore/controllers/admin/media.py:562
 msgid "Permission denied, cannot write file"
-msgstr "Permissão negada, não foi possível gravar o arquivo."
+msgstr ""
+"Die Datei konnte nicht geschrieben werden, da die Zugriffsberechtigung "
+"verweigert wurde."
 
 #: mediacore/controllers/admin/media.py:564
 #, python-format
 msgid "Unsupport image type: %s"
-msgstr "Formato de imagem não suportado: %s"
+msgstr "Nicht unterstützter Bildtyp: %s"
 
 #: mediacore/forms/__init__.py:219
 msgid "The portion of the email address before the @ is invalid"
-msgstr "O trecho do endereço de e-mail antes de @ é inválido."
+msgstr "Die E-Mail-Adresse bevor dem @-Zeichen ist nicht gültig."
 
 #: mediacore/forms/__init__.py:220
 msgid "The portion of this email address after the @ is invalid"
-msgstr "O trecho do endereço de e-mail após @ é inválido."
+msgstr "Die E-Mail-Adresse nach dem @-Zeichen ist nicht gültig."
 
 #: mediacore/forms/comments.py:23
 msgid "Please enter your name!"
-msgstr "Por favor, informe seu nome!"
+msgstr "Bitte geben Sie Ihren Namen ein."
 
 #: mediacore/forms/uploader.py:31
 msgid "At least give it a short description..."
-msgstr "Preencha com uma breve descrição..."
+msgstr "Bitte geben Sie zumindest eine kurze Beschreibung ein..."
 
 #: mediacore/forms/uploader.py:35
 msgid "You've gotta have a name!"
-msgstr "Você precisa ter um nome!"
+msgstr "Sie müssen doch einen Namen haben!"
 
 #: mediacore/forms/uploader.py:39
 msgid "You've gotta have a title!"
-msgstr "Você precisa ter um título!"
+msgstr "Sie müssen einen Titel angeben!"
 
 #: mediacore/forms/uploader.py:55
 msgid "Your Name:"
-msgstr "Seu Nome:"
+msgstr "Ihr Name:"
 
 #: mediacore/forms/uploader.py:56
 msgid "Your Email:"
-msgstr "Seu Email:"
+msgstr "Ihre E-Mail-Adresse:"
 
 #: mediacore/forms/uploader.py:56
 msgid "(will never be published)"
-msgstr "(nunca será publicado)"
+msgstr "(wird niemals veröffentlicht)"
 
 #: mediacore/forms/uploader.py:57
 msgid "Title:"
-msgstr "Título:"
+msgstr "Titel:"
 
 #: mediacore/forms/uploader.py:58
 msgid "Description:"
-msgstr "Descrição:"
+msgstr "Beschreibung:"
 
 #: mediacore/forms/uploader.py:59
 msgid "Add a YouTube, Vimeo or Google Video URL:"
-msgstr "Adicione uma URL do Youtube, Vimeo ou Google Video"
+msgstr "Geben Sie eine YouTube-, Vimeo- oder Google Video-URL ein:"
 
 #: mediacore/forms/uploader.py:60
 msgid "Oops! You forgot to enter a file."
-msgstr "Opa! Você se esqueceu de adicionar um arquivo."
+msgstr "Ups! Sie haben vergessen, eine Datei auszuwählen."
 
 #: mediacore/forms/uploader.py:60
 msgid "OR:"
-msgstr "OU:"
+msgstr "ODER:"
 
 #: mediacore/forms/uploader.py:61
 msgid "Submit"
-msgstr "Enviar"
+msgstr "Abschicken"
 
 #: mediacore/forms/admin/__init__.py:27
 msgid "SEARCH..."
-msgstr "PESQUISAR..."
+msgstr "SUCHE..."
 
 #: mediacore/forms/admin/__init__.py:47
 msgid "You forgot to select an image!"
-msgstr "Você se esqueceu de selecionar uma imagem!"
+msgstr "Sie haben vergessen, ein Bild auszuwählen!"
 
 #: mediacore/forms/admin/categories.py:44 mediacore/forms/admin/tags.py:44
 #: mediacore/templates/admin/categories/index.html:69
@@ -134,15 +136,15 @@ msgstr "Você se esqueceu de selecionar uma imagem!"
 #: mediacore/templates/admin/tags/index.html:66
 #: mediacore/templates/comments/_list.html:74
 msgid "Name"
-msgstr "Nome"
+msgstr "Name"
 
 #: mediacore/forms/admin/categories.py:45 mediacore/forms/admin/tags.py:45
 msgid "Slug"
-msgstr "Identificador"
+msgstr "Slug"
 
 #: mediacore/forms/admin/categories.py:46
 msgid "Parent Category"
-msgstr "Categoria Similar"
+msgstr "Übergeordnete Kategorie"
 
 #: mediacore/forms/admin/categories.py:47 mediacore/forms/admin/comments.py:31
 #: mediacore/forms/admin/tags.py:46
@@ -161,7 +163,7 @@ msgstr "Categoria Similar"
 #: mediacore/templates/admin/users/edit.html:35
 #: mediacore/templates/admin/users/index.html:35
 msgid "Cancel"
-msgstr "Cancelar"
+msgstr "Abbrechen"
 
 #: mediacore/forms/admin/categories.py:48 mediacore/forms/admin/comments.py:30
 #: mediacore/forms/admin/media.py:159 mediacore/forms/admin/players.py:55
@@ -173,7 +175,7 @@ msgstr "Cancelar"
 #: mediacore/forms/admin/tags.py:47 mediacore/forms/admin/users.py:62
 #: mediacore/forms/admin/storage/__init__.py:51
 msgid "Save"
-msgstr "Salvar"
+msgstr "Speichern"
 
 #: mediacore/forms/admin/categories.py:67 mediacore/forms/admin/media.py:160
 #: mediacore/forms/admin/podcasts.py:127 mediacore/forms/admin/tags.py:62
@@ -197,7 +199,7 @@ msgstr "Salvar"
 #: mediacore/templates/admin/users/index.html:34
 #: mediacore/templates/admin/users/index.html:68
 msgid "Delete"
-msgstr "Excluir"
+msgstr "Löschen"
 
 #: mediacore/forms/admin/comments.py:29
 #: mediacore/templates/admin/helpers.html:74
@@ -207,93 +209,93 @@ msgstr "Excluir"
 #: mediacore/templates/media/view.html:66
 msgid "Comment"
 msgid_plural "Comments"
-msgstr[0] "Comentário"
-msgstr[1] "Comentários"
+msgstr[0] "Kommentar"
+msgstr[1] "Kommentare"
 
 #: mediacore/forms/admin/media.py:41
 msgid "Bad duration formatting, use Hour:Min:Sec"
-msgstr "Formato inválido, utilize Hora:Min:Seg"
+msgstr "Falsches Format für Dauer, verwenden Sie Stunde:Minute:Sekunde"
 
 #: mediacore/forms/admin/media.py:69
 msgid "Value must be in the format wxh; e.g. 200x300"
-msgstr "O valor precisa ser preenchido no no formato LxA; ex. 200x300"
+msgstr "Wert muss in der Form Breite x Höhe sein: z.B. 200x300"
 
 #: mediacore/forms/admin/media.py:75
 msgid "Width must be a valid integer"
-msgstr "A largura deve ser um número inteiro"
+msgstr "Breite muss ein gültiger ganzahliger Wert sein"
 
 #: mediacore/forms/admin/media.py:79
 msgid "Height must be a valid integer"
-msgstr "A altura deve ser um número inteiro"
+msgstr "Höhe muss ein gültiger ganzahliger Wert sein"
 
 #: mediacore/forms/admin/media.py:101
 msgid "Select an encoded video or audio file on your computer"
-msgstr "Selecione, em seu computador, um arquivo codificado de vídeo ou áudio"
+msgstr "Wählen Sie eine enkodierte Video- oder Audio-Datei auf Ihrem Computer aus"
 
 #: mediacore/forms/admin/media.py:101 mediacore/templates/master.html:63
 #: mediacore/templates/admin/settings/master.html:83
 #: mediacore/templates/admin/settings/upload.html:23
 #: mediacore/templates/admin/settings/upload.html:29
 msgid "Upload"
-msgstr "Upload"
+msgstr "Hochladen"
 
 #: mediacore/forms/admin/media.py:102
 msgid "Add URL"
-msgstr "Adicionar URL"
+msgstr "URL hinzufügen"
 
 #: mediacore/forms/admin/media.py:103
 msgid "YouTube, Vimeo, Google Video, Amazon S3 or any other link"
-msgstr "Youtube, Video, Google Video, Amazon S3 ou qualquer outro link"
+msgstr "Link zu YouTube, Vimeo, Google Video, Amazon S3 oder eine direkte URL"
 
 #: mediacore/forms/admin/media.py:110
 msgid "Video"
-msgstr "Vídeo"
+msgstr "Video"
 
 #: mediacore/forms/admin/media.py:111
 msgid "Audio"
-msgstr "Áudio"
+msgstr "Audio"
 
 #: mediacore/forms/admin/media.py:112
 msgid "Audio Description"
-msgstr "Descrição do Áudio"
+msgstr "Audio-Beschreibung"
 
 #: mediacore/forms/admin/media.py:113
 msgid "Captions"
-msgstr "Legendas"
+msgstr "Überschriften"
 
 #: mediacore/forms/admin/media.py:131
 msgid "Delete file"
-msgstr "Excluir arquivo"
+msgstr "Datei löschen"
 
 #: mediacore/forms/admin/media.py:146
 msgid "Include in the Podcast"
-msgstr "Incluir no Podcast"
+msgstr "In Podcast aufnehmen"
 
 #: mediacore/forms/admin/media.py:146
 msgid "Optional"
-msgstr "Opcional"
+msgstr "Optional"
 
 #: mediacore/forms/admin/media.py:147 mediacore/forms/admin/podcasts.py:110
 #: mediacore/templates/comments/_list.html:35
 msgid "Permalink"
-msgstr "Link Permanente"
+msgstr "Permalink"
 
 #: mediacore/forms/admin/media.py:148 mediacore/forms/admin/podcasts.py:111
 #: mediacore/templates/admin/media/_media-table.html:33
 msgid "Title"
-msgstr "Título"
+msgstr "Titel"
 
 #: mediacore/forms/admin/media.py:149 mediacore/forms/admin/podcasts.py:113
 msgid "Author Name"
-msgstr "Nome do Autor"
+msgstr "Name des Autors"
 
 #: mediacore/forms/admin/media.py:150 mediacore/forms/admin/podcasts.py:114
 msgid "Author Email"
-msgstr "Email do Autor"
+msgstr "E-Mail-Adresse des Autors"
 
 #: mediacore/forms/admin/media.py:151 mediacore/forms/admin/podcasts.py:115
 msgid "Description"
-msgstr "Descrição"
+msgstr "Beschreibung"
 
 #: mediacore/forms/admin/media.py:152 mediacore/templates/master.html:62
 #: mediacore/templates/admin/categories/edit.html:23
@@ -306,7 +308,7 @@ msgstr "Descrição"
 #: mediacore/templates/media/explore.html:45
 #: mediacore/templates/media/view.html:112
 msgid "Categories"
-msgstr "Categorias"
+msgstr "Kategorien"
 
 #: mediacore/forms/admin/media.py:153
 #: mediacore/templates/admin/media/_media-table.html:35
@@ -321,58 +323,58 @@ msgstr "Tags"
 
 #: mediacore/forms/admin/media.py:153
 msgid "e.g.: puppies, great dane, adorable"
-msgstr "ex.: filhotes, dinamarquês, adorável"
+msgstr "z.B.: Welpen, deutsche Dogge, hinreissend"
 
 #: mediacore/forms/admin/media.py:155 mediacore/forms/admin/settings.py:239
 msgid "Administrative Notes"
-msgstr "Funções Administrativas"
+msgstr "Administrative Notizen"
 
 #: mediacore/forms/admin/players.py:41
 #: mediacore/forms/admin/storage/__init__.py:37
 msgid "General Options:"
-msgstr "Opções Gerais"
+msgstr "Generelle Optionen:"
 
 #: mediacore/forms/admin/players.py:45 mediacore/forms/admin/users.py:48
 #: mediacore/forms/admin/storage/__init__.py:41
 #: mediacore/templates/admin/users/index.html:52
 msgid "Display Name"
-msgstr "Nome de Exibição"
+msgstr "Anzeige-Name"
 
 #: mediacore/forms/admin/players.py:84
 msgid "Yes, use the Flash Player when the device supports it."
-msgstr "Sim, use o Player em Flash quando o dispositivo suportá-lo."
+msgstr "Ja, verwende den Flash-Player, falls das Gerät es unterstützt."
 
 #: mediacore/forms/admin/players.py:85
 msgid "No, use the HTML5 Player when the device supports it."
-msgstr "Não, use o Player em HTML5 quando o dispositivo suportá-lo."
+msgstr "Nein, verwende den HTML5-Player, falls das Gerät es unterstützt."
 
 #: mediacore/forms/admin/players.py:88
 msgid "Prefer the Flash Player when possible"
-msgstr "Preferir o Flash Player quando possível"
+msgstr "Bevorzuge den Flash-Player wenn möglich"
 
 #: mediacore/forms/admin/players.py:105
 msgid "Script Tag"
-msgstr "Script Tag"
+msgstr "Script-Tag"
 
 #: mediacore/forms/admin/players.py:106
 msgid "The unique script tag given for your site."
-msgstr "O script tag único fornecido para seu site."
+msgstr "Das eindeutige Script-Tag für Ihre Seite"
 
 #: mediacore/forms/admin/players.py:125
 msgid "Player Options:"
-msgstr "Opções do Player:"
+msgstr "Player-Optionen:"
 
 #: mediacore/forms/admin/players.py:127
 msgid "Disable the player keyboard controls."
-msgstr "Desabilitar controle do player via teclado."
+msgstr "Deaktiviere die Player-Tastatursteuerung."
 
 #: mediacore/forms/admin/players.py:128
 msgid "Enable fullscreen."
-msgstr "Habilitar tela cheia."
+msgstr "Aktiviere die Vollbildanzeige"
 
 #: mediacore/forms/admin/players.py:129
 msgid "Enable high-def quality by default."
-msgstr "Habilitar qualidade de alta definição como padrão."
+msgstr "Verwende hohe Auflösungen als Standard."
 
 #: mediacore/forms/admin/players.py:130
 msgid ""
@@ -380,497 +382,495 @@ msgid ""
 "video starts. Related videos are displayed in the \"genie menu\" when the"
 " menu button is pressed."
 msgstr ""
-"Permite que o player carregue vídeos relacionados enquanto a reprodução "
-"do primeiro vídeo se inicia. Os vídeos relacionados são exibidos no "
-"\"genie menu\" quando o botão do menu é pressionado."
+"Erlaube dem Player, ähnliche Videos zu laden, nachdem das Abspielen des "
+"initialen Videos started. Ähnliche Videos werden im \"Genie-Menü\" "
+"angezeigt, wenn der Menü-Knopf geklickt wurde."
 
 #: mediacore/forms/admin/players.py:131
 msgid ""
 "Show the search box when the video is minimized. The above option must be"
 " enabled for this to work."
 msgstr ""
-"Exibir a caixa de pesquisa quando o vídeo é minimizado. Esta opção "
-"precisa estar habilitada para essa funcionalidade."
+"Zeige das Suchfeld an, wenn das Video minimiert wird. Die oben genannte "
+"Option muss aktiviert werden, damit es funktioniert."
 
 #: mediacore/forms/admin/players.py:132
 msgid ""
 "Display information like the video title and rating before the video "
 "starts playing."
 msgstr ""
-"Exibir informações como título e avaliação antes que o vídeo comece a ser"
-" exibido."
+"Zeige Informationen wie Titel des Videos und Bewertung an, bevor das "
+"Video abgespielt wird."
 
 #: mediacore/forms/admin/podcasts.py:36
 msgid "Parental Advisory"
-msgstr "Consultas Relacionadas"
+msgstr "Hinweis für Erziehungsberechtigte"
 
 #: mediacore/forms/admin/podcasts.py:37
 #: mediacore/templates/admin/podcasts/_podcast-table.html:53
 msgid "Clean"
-msgstr "Clean"
+msgstr "In Ordnung"
 
 #: mediacore/forms/admin/podcasts.py:112
 msgid "Subtitle"
-msgstr "Subtítulo"
+msgstr "Untertitel"
 
 #: mediacore/forms/admin/podcasts.py:116
 msgid "Podcast Details:"
-msgstr "Detalhes do Podcast"
+msgstr "Podcast Details:"
 
 #: mediacore/forms/admin/podcasts.py:117
 msgid "Explicit?"
-msgstr "Explícito?"
+msgstr "Anstössig?"
 
 #: mediacore/forms/admin/podcasts.py:118
 msgid "Category"
-msgstr "Categoria"
+msgstr "Kategorie"
 
 #: mediacore/forms/admin/podcasts.py:119
 msgid "Copyright"
-msgstr "Copyright"
+msgstr "Urheberrecht"
 
 #: mediacore/forms/admin/podcasts.py:121
 msgid "Advanced Options:"
-msgstr "Opções Avançadas:"
+msgstr "Erweiterte Optionen:"
 
 #: mediacore/forms/admin/podcasts.py:122
 msgid "Your Feed URL"
-msgstr "URL de seu Feed"
+msgstr "Ihre Feed-URL"
 
 #: mediacore/forms/admin/podcasts.py:123
 msgid "iTunes URL"
-msgstr "URL do iTunes"
+msgstr "iTunes-URL"
 
 #: mediacore/forms/admin/podcasts.py:124
 msgid "Feedburner URL"
-msgstr "URL do Feedburner"
+msgstr "Feedburner-URL"
 
 #: mediacore/forms/admin/settings.py:38
 msgid "Enable"
-msgstr "Habilitar"
+msgstr "Aktivieren"
 
 #: mediacore/forms/admin/settings.py:39
 #: mediacore/templates/admin/storage/index.html:100
 msgid "Disable"
-msgstr "Desabilitar"
+msgstr "Deaktivieren"
 
 #: mediacore/forms/admin/settings.py:43
 msgid "Prepend"
-msgstr "Acrescentar no Início"
+msgstr "Voranstellen"
 
 #: mediacore/forms/admin/settings.py:44
 msgid "Append"
-msgstr "Acrescentar no Final"
+msgstr "Anfügen"
 
 #: mediacore/forms/admin/settings.py:47
 msgid "Plain <textarea> fields (0kB)"
-msgstr "Texto plano <textarea> (0Kb)"
+msgstr "Einfache <textarea>-Felder (0kB)"
 
 #: mediacore/forms/admin/settings.py:48
 msgid "Enable TinyMCE for <textarea> fields accepting XHTML (281kB)"
-msgstr ""
-"Habilitar editor o TinyMCE para campos <textarea> que aceitem XHTML "
-"(281Kb)"
+msgstr "Aktivire TinyMCE für <textarea>-Fields mit XHTML-Unterstützung (281kB)"
 
 #: mediacore/forms/admin/settings.py:52
 msgid "Brown"
-msgstr "Marrom"
+msgstr "Braun"
 
 #: mediacore/forms/admin/settings.py:53
 msgid "Blue"
-msgstr "Azul"
+msgstr "Blau"
 
 #: mediacore/forms/admin/settings.py:54
 msgid "Green"
-msgstr "Verde"
+msgstr "Grün"
 
 #: mediacore/forms/admin/settings.py:55
 msgid "Tan"
-msgstr "Bronze"
+msgstr "hellbraun"
 
 #: mediacore/forms/admin/settings.py:56
 msgid "White"
-msgstr "Branco"
+msgstr "Weiß"
 
 #: mediacore/forms/admin/settings.py:57
 msgid "Purple"
-msgstr "Roxo"
+msgstr "Violett"
 
 #: mediacore/forms/admin/settings.py:58
 msgid "Black"
-msgstr "Preto"
+msgstr "Schwarz"
 
 #: mediacore/forms/admin/settings.py:89 mediacore/forms/admin/settings.py:98
 msgid "Yes"
-msgstr "Sim"
+msgstr "Ja"
 
 #: mediacore/forms/admin/settings.py:89 mediacore/forms/admin/settings.py:98
 msgid "No"
-msgstr "Não"
+msgstr "Nein"
 
 #: mediacore/forms/admin/settings.py:110
 msgid "Email Notifications:"
-msgstr "Email para Notificações:"
+msgstr "E-Mail-Benachrichtigungen:"
 
 #: mediacore/forms/admin/settings.py:111
 msgid "Media Uploaded"
-msgstr "Mídia Adicionada"
+msgstr "Mediendatei hochgeladen"
 
 #: mediacore/forms/admin/settings.py:112
 msgid "Comment Posted"
-msgstr "Comentário Enviado"
+msgstr "Kommentar abgeschickt"
 
 #: mediacore/forms/admin/settings.py:113
 msgid "Support Requested"
-msgstr "Solicitação de Suporte"
+msgstr "Hilfe erbeten"
 
 #: mediacore/forms/admin/settings.py:114
 msgid "Send Emails From"
-msgstr "Enviar Emails de"
+msgstr "Sende E-Mail von"
 
 #: mediacore/forms/admin/settings.py:129
 msgid "Popularity Algorithm Variables:"
-msgstr "Variáveis do Algoritmo de Popularidade"
+msgstr "Variablen für den Beliebtheitsalgorithmus:"
 
 #: mediacore/forms/admin/settings.py:131
 msgid "Decay Exponent"
-msgstr "Expoente de Decadência"
+msgstr "Verfallsexponent"
 
 #: mediacore/forms/admin/settings.py:132
 msgid "Decay Lifetime"
-msgstr "Expoente de Tempo de Vida"
+msgstr "Verfallslebensdauer"
 
 #: mediacore/forms/admin/settings.py:162
 msgid "Max. allowed upload file size in megabytes"
-msgstr "Tamanho máximo de arquivo, em megabytes"
+msgstr "Maximal erlaubte Dateigrösse in Megabyte"
 
 #: mediacore/forms/admin/settings.py:163
 msgid "Legal Wording:"
-msgstr "Texto Legal:"
+msgstr "Rechtliche Infos:"
 
 #: mediacore/forms/admin/settings.py:164
 msgid "User Uploads"
-msgstr "Uploads de Usuários"
+msgstr "Benutzer"
 
 #: mediacore/forms/admin/settings.py:175
 msgid "Google Analytics Details:"
-msgstr "Detalhes do Google Analytics:"
+msgstr "Google Analytics Details"
 
 #: mediacore/forms/admin/settings.py:176
 msgid "Tracking Code"
-msgstr "Código de Rastreamento"
+msgstr "Tracking-Code"
 
 #: mediacore/forms/admin/settings.py:192
 msgid "Site Maps"
-msgstr "Mapas do Site"
+msgstr "Seitenübersicht"
 
 #: mediacore/forms/admin/settings.py:197
 msgid "RSS Feeds"
-msgstr "Feeds RSS"
+msgstr "RSS-Feeds"
 
 #: mediacore/forms/admin/settings.py:212
 msgid "General Settings:"
-msgstr "Opções Gerais:"
+msgstr "Generelle Einstellungen:"
 
 #: mediacore/forms/admin/settings.py:214
 msgid "Site Name"
-msgstr "Nome do Site"
+msgstr "Seitenname"
 
 #: mediacore/forms/admin/settings.py:216
 msgid "Site Tag Line"
-msgstr "Linha de Tag do Site"
+msgstr "Slogan der Seite"
 
 #: mediacore/forms/admin/settings.py:218
 msgid "Display Site Name"
-msgstr "Nome de Exibição do Site"
+msgstr "Anzeige des Seitennamens"
 
 #: mediacore/forms/admin/settings.py:222
 msgid "Default Language"
-msgstr "Linguagem Padrão"
+msgstr "Standardsprache"
 
 #: mediacore/forms/admin/settings.py:226
 msgid "Featured Category"
-msgstr "Categoria em Destaque"
+msgstr "Empfohlene Kategorie"
 
 #: mediacore/forms/admin/settings.py:231
 msgid "Rich Text Editing"
-msgstr "Edição em Rich Text"
+msgstr "Texteingabe"
 
 #: mediacore/forms/admin/settings.py:235
 msgid "Administrative notes on Media:"
-msgstr "Anotações administrativas na Mídia:"
+msgstr "Administrative Anmerkungen zur Datei"
 
 #: mediacore/forms/admin/settings.py:237
 msgid "Display notes"
-msgstr "Exibir anotações"
+msgstr "Anzeige der Notizen"
 
 #: mediacore/forms/admin/settings.py:252
 msgid "Require comments to be approved by an admin"
-msgstr "Comentários precisam ser aprovados por um admin"
+msgstr "Kommentare müssen von einem Admin geprüft werden"
 
 #: mediacore/forms/admin/settings.py:253
 msgid "Akismet Anti-Spam Details:"
-msgstr "Detalhes do Akismet Anti-Spam:"
+msgstr "Akismet Anti-Spam-Details:"
 
 #: mediacore/forms/admin/settings.py:254
 msgid "Akismet Key"
-msgstr "Chave do Akismet"
+msgstr "Akismet Schlüssel"
 
 #: mediacore/forms/admin/settings.py:255
 msgid "Akismet URL"
-msgstr "URL do Akismet"
+msgstr "Akismet-URL"
 
 #: mediacore/forms/admin/settings.py:257
 msgid "Vulgarity Filter Settings"
-msgstr "Configuração do Filtro de Vulgaridades"
+msgstr "Filtereinstellungen für vulgäre Wörter"
 
 #: mediacore/forms/admin/settings.py:258
 msgid "Filtered Words"
-msgstr "Palavras Filtradas"
+msgstr "Gesperrte Wörter"
 
 #: mediacore/forms/admin/settings.py:259
 msgid "Enter words to be filtered separated by a comma."
-msgstr "Entre com as palavras a serem filtradas, separadas por vírgula."
+msgstr "Geben Sie die zu sperrenden Wörter durch Komma getrennt ein."
 
 #: mediacore/forms/admin/settings.py:260
 msgid "Run Filter Now"
-msgstr "Executar o Filtro agora"
+msgstr "Filter jetzt starten"
 
 #: mediacore/forms/admin/settings.py:272
 msgid "Require a key to access the API"
-msgstr "Requer uma chave para acesso à API?"
+msgstr "Schlüssel wird benötigt, um auf die API zuzugreifen"
 
 #: mediacore/forms/admin/settings.py:273
 msgid "API Key:"
-msgstr "Chave da API:"
+msgstr "API-Schlüssel:"
 
 #: mediacore/forms/admin/settings.py:274
 msgid "Access Key"
-msgstr "Chave de Acesso"
+msgstr "Zugriffsschlüssel"
 
 #: mediacore/forms/admin/settings.py:276
 msgid "API Settings:"
-msgstr "Configuração da API:"
+msgstr "API-Einstellungen:"
 
 #: mediacore/forms/admin/settings.py:277
 msgid "Max media results"
-msgstr "Resultado máximo das mídias"
+msgstr "Maximale Medien Ergebnisse"
 
 #: mediacore/forms/admin/settings.py:278
 msgid "Max tree depth"
-msgstr "Profundidade máxima da árvore"
+msgstr "Maximale Baumtiefe"
 
 #: mediacore/forms/admin/settings.py:289
 #: mediacore/templates/admin/settings/general.html:24
 #: mediacore/templates/admin/settings/general.html:30
 #: mediacore/templates/admin/settings/master.html:44
 msgid "General"
-msgstr "Geral"
+msgstr "Generell"
 
 #: mediacore/forms/admin/settings.py:292
 msgid "Logo"
-msgstr "Logotipo"
+msgstr "Logo"
 
 #: mediacore/forms/admin/settings.py:294
 msgid "Upload Logo"
-msgstr "Upload de Logotipo"
+msgstr "Logo hochladen"
 
 #: mediacore/forms/admin/settings.py:299
 msgid "Background Image"
-msgstr "Imagem de Fundo"
+msgstr "Hintergrundbild"
 
 #: mediacore/forms/admin/settings.py:301
 msgid "Upload Background"
-msgstr "Upload de Imagem de Fundo"
+msgstr "Hintergrundbild hochladen"
 
 #: mediacore/forms/admin/settings.py:307
 msgid "Background color"
-msgstr "Cor de fundo"
+msgstr "Hintergrundfarbe"
 
 #: mediacore/forms/admin/settings.py:310
 msgid "Link color"
-msgstr "Cor do link"
+msgstr "Linkfarbe"
 
 #: mediacore/forms/admin/settings.py:313
 msgid "Visited Link color"
-msgstr "Cor do link visitado"
+msgstr "Farbe für besuchte Links"
 
 #: mediacore/forms/admin/settings.py:317
 msgid "Text color"
-msgstr "Cor do texto"
+msgstr "Schriftfarbe"
 
 #: mediacore/forms/admin/settings.py:319
 msgid "Heading color"
-msgstr "Cor do cabeçalho"
+msgstr "Rubrikfarbe"
 
 #: mediacore/forms/admin/settings.py:322
 msgid "Color Scheme"
-msgstr "Esquema de cor"
+msgstr "Farbschema"
 
 #: mediacore/forms/admin/settings.py:326
 msgid "Options"
-msgstr "Opções"
+msgstr "Optionen"
 
 #: mediacore/forms/admin/settings.py:331
 msgid "Enable Cooliris on the Explore Page"
-msgstr "Habilitar Cooliris na Página Explorar"
+msgstr "Cooliris auf der Hauptseite aktivieren"
 
 #: mediacore/forms/admin/settings.py:334
 msgid "Enable Featured Items on the Explore Page"
-msgstr "Habilitar Ítens em Destaque na Página Explorar"
+msgstr "Aktivieren der empfohlenen Elemente auf der Hauptseite"
 
 #: mediacore/forms/admin/settings.py:338
 msgid "Enable Podcast Tab"
-msgstr "Habilitar Aba Poscast"
+msgstr "Aktivieren des Podcast-Reiters"
 
 #: mediacore/forms/admin/settings.py:342
 msgid "Enable User Uploads"
-msgstr "Habilitar Uploads para Usuários"
+msgstr "Benutzer-Uploads aktivieren"
 
 #: mediacore/forms/admin/settings.py:346
 msgid "Enable widescreen media player by default"
-msgstr "Habilitar formato widescreen como padrão do player"
+msgstr "Breitbild-Medienplayers als Standard aktivieren"
 
 #: mediacore/forms/admin/settings.py:350
 msgid "Display Logo"
-msgstr "Exibir Logotipo"
+msgstr "Logo anzeigen"
 
 #: mediacore/forms/admin/settings.py:354
 msgid "Display Background Image"
-msgstr "Exibir Imagem de Fundo"
+msgstr "Hintergrundbild anzeigen"
 
 #: mediacore/forms/admin/settings.py:360
 msgid "Advanced"
-msgstr "Avançado"
+msgstr "Erweitert"
 
 #: mediacore/forms/admin/settings.py:364
 msgid "Custom CSS"
-msgstr "CSS Personalizado"
+msgstr "Benutzerdefinierte CSS"
 
 #: mediacore/forms/admin/settings.py:367
 msgid "Custom Header HTML"
-msgstr "HTML Personalizado do Cabeçalho"
+msgstr "Benutzerdefiniertes Kopf-HTML"
 
 #: mediacore/forms/admin/settings.py:370
 msgid "Custom Footer HTML"
-msgstr "HTML Personalizado do Rodapé"
+msgstr "Benutzerdefiniertes Fuss-HTML"
 
 #: mediacore/forms/admin/settings.py:375
 #: mediacore/templates/admin/settings/appearance.html:35
 msgid "Reset to Defaults"
-msgstr "Restaurar Configuração Padrão"
+msgstr "Auf Standard zurücksetzen"
 
 #: mediacore/forms/admin/settings.py:389
 msgid "Banner HTML"
-msgstr "HTML do Banner"
+msgstr "Banner HTML"
 
 #: mediacore/forms/admin/settings.py:392
 msgid "Sidebar HTML"
-msgstr "HTML da Barra Lateral"
+msgstr "Sidebar HTML"
 
 #: mediacore/forms/admin/users.py:36
 msgid "User name already exists"
-msgstr "Nome de usuário já está em uso"
+msgstr "Benutzername ist schon vergeben"
 
 #: mediacore/forms/admin/users.py:49
 msgid "Email Address"
-msgstr "Endereço de Email"
+msgstr "E-Mail-Adresse"
 
 #: mediacore/forms/admin/users.py:50
 msgid "Login Details:"
-msgstr "Detalhes de Login:"
+msgstr "Login-Details:"
 
 #: mediacore/forms/admin/users.py:54
 msgid "Passwords do not match"
-msgstr "Senhas não correspondem entre si"
+msgstr "Passwörter stimmen nicht überein"
 
 #: mediacore/forms/admin/users.py:56
 #: mediacore/templates/admin/users/index.html:54
 msgid "Group"
-msgstr "Grupo"
+msgstr "Gruppe"
 
 #: mediacore/forms/admin/users.py:58 mediacore/forms/admin/storage/ftp.py:34
 msgid "Username"
-msgstr "Usuário"
+msgstr "Benutzername"
 
 #: mediacore/forms/admin/users.py:59 mediacore/forms/admin/storage/ftp.py:35
 msgid "Password"
-msgstr "Senha"
+msgstr "Passwort"
 
 #: mediacore/forms/admin/users.py:60
 msgid "Confirm password"
-msgstr "Confirmar Senha"
+msgstr "Passwortbestätigung"
 
 #: mediacore/forms/admin/storage/ftp.py:31
 msgid "FTP Server Details:"
-msgstr "Detalhes do Servidor FTP:"
+msgstr "FTP-Server-Einstellungen:"
 
 #: mediacore/forms/admin/storage/ftp.py:33
 msgid "Server Hostname"
-msgstr "HostName de Servidor"
+msgstr "Servername"
 
 #: mediacore/forms/admin/storage/ftp.py:36
 msgid "Subdirectory on server to upload to"
-msgstr "Subdiretório para upload no servidor"
+msgstr "Verzeichnis am Server zum Hochladen:"
 
 #: mediacore/forms/admin/storage/ftp.py:37
 msgid ""
 "How many times should MediaCore try to verify the FTP upload before "
 "declaring it a failure?"
 msgstr ""
-"Quantas vezes o MediaCore tentará se conectar ao servidor FTP antes de "
-"declarar falha na autenticação?"
+"Wie oft soll MediaCore versuchen den FTP-Upload durchzuführen, bevor ein "
+"Fehler ausgelöst wird?"
 
 #: mediacore/forms/admin/storage/ftp.py:38
 msgid "HTTP URL to access remotely stored files"
-msgstr "URL HTTP para acesso a arquivos armazenados remotamente"
+msgstr "HTTP-URL, um auf die entfernt gespeicherten Dateien zuzugreifen"
 
 #: mediacore/forms/admin/storage/ftp.py:39
 msgid "RTMP Server URL to stream remotely stored files (Optional)"
 msgstr ""
-"URL de Servidor RTMP para streaming de arquivos armazenados remotamente "
-"(opcional)"
+"RTMP-Server-URL, um die entfernt gespeicherten Dateien zu streamen "
+"(optional)"
 
 #: mediacore/forms/admin/storage/localfiles.py:25
 msgid "Options specific to Local File Storage:"
-msgstr "Opções específicas para Armazenamento Local de Arquivos:"
+msgstr "Einstellungen für die lokale Dateiablage:"
 
 #: mediacore/forms/admin/storage/localfiles.py:28
 msgid "Path to store files under"
-msgstr "Caminho para armazenamento de arquivos"
+msgstr "Pfad zur Dateiablage"
 
 #: mediacore/forms/admin/storage/localfiles.py:29
 msgid "Defaults to the \"data_dir\" from your INI file."
-msgstr "Padrão para o \"data_dir\" de seu arquivo INI."
+msgstr "Standardeinstellung ist \"data_dir\" aus der INI-Datei."
 
 #: mediacore/forms/admin/storage/localfiles.py:32
 msgid "RTMP Server URL"
-msgstr "URL do Servidor RTMP"
+msgstr "RTMP-Server-URL"
 
 #: mediacore/forms/admin/storage/localfiles.py:33
 msgid ""
 "Files must be accessible under the same name as they are stored with "
 "locally."
 msgstr ""
-"Os arquivos precisam estar acessíveis através dos mesmos nomes com os "
-"quais são armazenados localmente."
+"Dateien müssen unter dem selben Namen verfügbar sein, wie sie lokal "
+"gespeichert wurden"
 
 #: mediacore/forms/admin/storage/remoteurls.py:31
 msgid "Add another URL"
-msgstr "Adicionar outra URL"
+msgstr "Andere URL hinzufügen"
 
 #: mediacore/forms/admin/storage/remoteurls.py:60
 msgid "RTMP server URLs must begin with rtmp://"
-msgstr "URLs de servidores RTMP precisam começar com rtmp://"
+msgstr "RTMP-Server-URL muss mit rtmp:// beginnen"
 
 #: mediacore/forms/admin/storage/remoteurls.py:67
 msgid "RTMP Servers:"
-msgstr "Servidores RTMP:"
+msgstr "RTMP-Servers:"
 
 #: mediacore/lib/email.py:86
 #, python-format
 msgid "New %(type)s: %(title)s"
-msgstr "Novo %(type)s: %(title)s"
+msgstr "Neue %(type)s : %(title)s "
 
 #: mediacore/lib/email.py:87
 #, python-format
@@ -885,20 +885,20 @@ msgid ""
 "\n"
 "Description: %(clean_description)s\n"
 msgstr ""
-"Um novo arquivo %(type)s foi enviado!\n"
+"Eine neue %(type)s-Datei wurde hochgeladen!\n"
 "\n"
-"Título: %(title)s\n"
+"Titel: %(title)s\n"
 "\n"
 "Autor: %(author_name)s (%(author_email)s)\n"
 "\n"
-"Admin URL: %(edit_url)s\n"
+"Admin-URL: %(edit_url)s\n"
 "\n"
-"Descrição: %(clean_description)s\n"
+"Beschreibung: %(clean_description)s\n"
 
 #: mediacore/lib/email.py:110
 #, python-format
 msgid "New Comment: %(comment_subject)s"
-msgstr "Novo Comentário: %(comment_subject)s"
+msgstr "Neuer Kommentar: %(comment_subject)s"
 
 #: mediacore/lib/email.py:111
 #, python-format
@@ -910,17 +910,17 @@ msgid ""
 "\n"
 "Body: %(comment_body)s\n"
 msgstr ""
-"Um novo comentário foi enviado!\n"
+"Ein neuer Kommentar wurde geschrieben!\n"
 "\n"
 "Autor: %(author_name)s\n"
 "Post: %(post_url)s\n"
 "\n"
-"Texto: %(comment_body)s\n"
+"Text: %(comment_body)s\n"
 
 #: mediacore/lib/email.py:128
 #, python-format
 msgid "New Support Request: %(email)s"
-msgstr "Nova Solicitação de Suporte: %(email)s"
+msgstr "Neue Support-Anfrage %(email)s"
 
 #: mediacore/lib/email.py:129
 #, python-format
@@ -940,13 +940,13 @@ msgid ""
 "POST_VARS:\n"
 "%(post_vars)s\n"
 msgstr ""
-"Um usuário solicitou suporte\n"
+"Ein Benutzer hat um Hilfe gebeten\n"
 "\n"
-"Email: %(email)s\n"
+"E-Mail: %(email)s\n"
 "\n"
 "URL: %(url)s\n"
 "\n"
-"Descrição: %(description)s\n"
+"Beschreibung: %(description)s\n"
 "\n"
 "GET_VARS:\n"
 "%(get_vars)s\n"
@@ -957,7 +957,7 @@ msgstr ""
 
 #: mediacore/lib/helpers.py:314
 msgid "Help"
-msgstr "Ajuda"
+msgstr "Hilfe"
 
 #: mediacore/lib/players.py:273
 msgid "Flowplayer"
@@ -985,7 +985,7 @@ msgstr "BlipTV"
 
 #: mediacore/lib/players.py:646
 msgid "Plain HTML5 Player"
-msgstr "Player com HTML5 Plano"
+msgstr "Einfacher HTML5-Player"
 
 #: mediacore/lib/players.py:661
 msgid "HTML5 + Flowplayer Fallback"
@@ -997,88 +997,92 @@ msgstr "JWPlayer"
 
 #: mediacore/lib/players.py:856
 msgid "Sublime Video Player"
-msgstr "Sublime Video Player"
+msgstr "Sublime Video-Player"
 
 #: mediacore/lib/players.py:900
 msgid "iTunes Player"
-msgstr "iTunes Player"
+msgstr "iTunes-Player"
 
 #: mediacore/lib/storage/__init__.py:352
 msgid "Unusable file or URL provided."
-msgstr "O arquivo ou URL informados são inválidos."
+msgstr "Nicht verwendbare Datei oder URL angegeben."
 
 #: mediacore/lib/storage/ftp.py:50
 msgid "FTP Storage"
-msgstr "Armazenamento FTP"
+msgstr "FTP-Speicher"
 
 #: mediacore/lib/storage/ftp.py:105
 #, python-format
 msgid "Could not upload the file from your FTP server: %s"
-msgstr "Não foi possível fazer o upload a partir de seu servidor FTP: %s"
+msgstr "Konnte die Datei nicht auf den FTP-Server laden: %s"
 
 #: mediacore/lib/storage/ftp.py:197
 msgid "The file transferred to your FTP server is corrupted. Please try again."
 msgstr ""
-"O arquivo transferido para seu servidor FTP está corrompido. Por favor, "
-"tente novamente."
+"Die Datei, welche auf den FTP-Server geladen wurde, ist defekt. Bitte "
+"erneut versuchen."
 
 #: mediacore/lib/storage/ftp.py:202
 #, python-format
 msgid "Could not download the file from your FTP server: %s"
-msgstr "Não foi possível fazer o download de seu servidor FTP: %s"
+msgstr "Konnte die Datei nicht vom FTP-Server herunterladen: %s"
 
 #: mediacore/lib/storage/localfiles.py:34
 msgid "Local File Storage"
-msgstr "Armazenamento Local de Arquivos"
+msgstr "Lokale Dateiablage"
 
 #: mediacore/lib/storage/remoteurls.py:36
 msgid "Remote URLs"
-msgstr "URLs Remotas"
+msgstr "Entfernte URLs"
 
 #: mediacore/templates/error.html:24
 #, python-format
 msgid "A %(code)s Error has Occurred"
-msgstr "Houve um erro %(code)s"
+msgstr "Ein %(code)s Fehler ist aufgetreten"
 
 #: mediacore/templates/error.html:29
 msgid "Whoopsadaisy!"
-msgstr "Desculpe-nos."
+msgstr "Whoopsadaisy!"
 
 #: mediacore/templates/error.html:32
 msgid "We can't find this page. The page may have been moved or removed."
-msgstr "A página não foi localizada. Ela pode ter sido movida ou excluída."
+msgstr ""
+"Wir können diese Seite nicht finden. Die Seite könnte verschoben oder "
+"gelöscht worden sein."
 
 #: mediacore/templates/error.html:33
 msgid "If you typed the address in, check the spelling."
-msgstr "Se você digitou o endereço, verifique se está correto."
+msgstr ""
+"Falls Sie die Adresse selbst eingegeben haben, prüfen Sie bitte die "
+"Schreibweise."
 
 #: mediacore/templates/error.html:38
 msgid "You have a few options:"
-msgstr "Você tem algumas outras opções:"
+msgstr "Sie haben ein paar Optionen:"
 
 #: mediacore/templates/error.html:40
 msgid "Return to the [1:homepage]."
-msgstr "Retornar à [1:homepage]."
+msgstr "Zurück zur [1:homepage]."
 
 #: mediacore/templates/error.html:41
 msgid "Return to the [1:media page]."
-msgstr "Retornar à [1:media page]."
+msgstr "Zurück zur [1:media page]."
 
 #: mediacore/templates/error.html:42
 msgid "Fill out an error report below."
-msgstr "Reporte-nos este erro através do formulário abaixo."
+msgstr "Schreiben Sie unten einen Fehlerbericht."
 
 #: mediacore/templates/error.html:48
 msgid "Email: (so we can contact you if we find it!)"
-msgstr "Email: (para que possamos contactá-lo)"
+msgstr "E-Mail: (damit wir Sie kontaktieren können, falls wir den Fehler finden!)"
 
 #: mediacore/templates/error.html:52
 msgid "What were you looking for when you got the error?"
-msgstr "O que você estava procurando quando o erro ocorreu?"
+msgstr "Nach was haben Sie gesucht, als der Fehler auftrat?"
 
 #: mediacore/templates/error.html:56
 msgid "Submit Error Report"
-msgstr "Enviar Relatório de Erro"
+msgstr "Fehlerreport abschicken"
 
 #: mediacore/templates/helpers.html:37
 #: mediacore/templates/media/explore.html:87
@@ -1086,8 +1090,8 @@ msgstr "Enviar Relatório de Erro"
 #: mediacore/templates/players/html5_or_flash.html:33
 msgid "Like"
 msgid_plural "Likes"
-msgstr[0] "Gostou"
-msgstr[1] "Gostaram"
+msgstr[0] "Gefällt mir"
+msgstr[1] "Gefällt mir"
 
 #: mediacore/templates/helpers.html:38
 #: mediacore/templates/admin/media/update-status-form.html:27
@@ -1096,16 +1100,16 @@ msgstr[1] "Gostaram"
 #: mediacore/templates/media/view.html:61
 msgid "View"
 msgid_plural "Views"
-msgstr[0] "Visualização"
-msgstr[1] "Visualizações"
+msgstr[0] "Aufruf"
+msgstr[1] "Aufrufe"
 
 #: mediacore/templates/helpers.html:58
 msgid "Page:"
-msgstr "Página"
+msgstr "Seite:"
 
 #: mediacore/templates/helpers.html:78
 msgid "Show:"
-msgstr "Exibir:"
+msgstr "Anzeigen:"
 
 #: mediacore/templates/helpers.html:80
 #: mediacore/templates/categories/index.html:36
@@ -1114,33 +1118,33 @@ msgstr "Exibir:"
 #: mediacore/templates/media/explore.html:111
 #: mediacore/templates/media/index.html:25
 msgid "Latest"
-msgstr "Últimos"
+msgstr "Neueste"
 
 #: mediacore/templates/helpers.html:81
 #: mediacore/templates/categories/index.html:41
 #: mediacore/templates/categories/more.html:31
 #: mediacore/templates/media/explore.html:95
 msgid "Most Popular"
-msgstr "Mais Populares"
+msgstr "Beliebteste"
 
 #: mediacore/templates/helpers.html:82
 #: mediacore/templates/media/explore.html:44
 #: mediacore/templates/media/explore.html:79
 msgid "Featured"
-msgstr "Destaque"
+msgstr "Featured"
 
 #: mediacore/templates/helpers.html:84
 msgid "Page"
-msgstr "Página"
+msgstr "Seite"
 
 #: mediacore/templates/helpers.html:84
 msgid "of"
-msgstr "de"
+msgstr "von"
 
 #: mediacore/templates/helpers.html:90
 #, python-format
 msgid "The %(fieldName)s field accepts some HTML formatting: %(formattingList)s"
-msgstr "O campo %(fieldName)s aceita algumas formatações HTML: %(formattingList)s"
+msgstr "Das %(fieldName)s-Feld erlaubt HTML-Formatierung: %(formattingList)s"
 
 #: mediacore/templates/layout.html:54
 msgid "Feeds:"
@@ -1148,11 +1152,11 @@ msgstr "Feeds:"
 
 #: mediacore/templates/layout.html:60
 msgid "[1:MediaCore] [2:video platform]"
-msgstr "[1:MediaCore] [2:plataforma de vídeo]"
+msgstr "[1:MediaCore] [2:Video Plattform]"
 
 #: mediacore/templates/login.html:23
 msgid "Login to MediaCore"
-msgstr "Login no MediaCore"
+msgstr "In MediaCore einloggen"
 
 #: mediacore/templates/login.html:45 mediacore/templates/login.html:56
 msgid "Login"
@@ -1160,19 +1164,19 @@ msgstr "Login"
 
 #: mediacore/templates/login.html:48
 msgid "Username:"
-msgstr "Usuário:"
+msgstr "Benutzername:"
 
 #: mediacore/templates/login.html:52
 msgid "Password:"
-msgstr "Senha:"
+msgstr "Passwort:"
 
 #: mediacore/templates/master.html:59
 msgid "Explore"
-msgstr "Explorar"
+msgstr "Entdecken"
 
 #: mediacore/templates/master.html:60 mediacore/templates/media/index.html:24
 msgid "Media Library"
-msgstr "Catálogo de Mídias"
+msgstr "Medien-Bibliothek"
 
 #: mediacore/templates/master.html:61 mediacore/templates/admin/master.html:61
 #: mediacore/templates/admin/podcasts/index.html:24
@@ -1182,15 +1186,15 @@ msgstr "Podcasts"
 
 #: mediacore/templates/master.html:66
 msgid "Search"
-msgstr "Pesquisar"
+msgstr "Suche"
 
 #: mediacore/templates/admin/helpers.html:66
 msgid "Moderate comments"
-msgstr "Moderar comentários"
+msgstr "Kommentare moderieren"
 
 #: mediacore/templates/admin/helpers.html:68
 msgid "Moderate"
-msgstr "Moderação"
+msgstr "moderieren"
 
 #: mediacore/templates/admin/helpers.html:69
 #: mediacore/templates/admin/master.html:62
@@ -1201,57 +1205,57 @@ msgstr "Moderação"
 #: mediacore/templates/admin/settings/master.html:59
 #: mediacore/templates/comments/_list.html:49
 msgid "Comments"
-msgstr "Comentários"
+msgstr "Kommentare"
 
 #: mediacore/templates/admin/helpers.html:81
 #: mediacore/templates/admin/media/_media-table.html:57
 #: mediacore/templates/admin/media/index.html:124
 #: mediacore/templates/admin/media/update-status-form.html:93
 msgid "Published"
-msgstr "Publicado"
+msgstr "Veröffentlicht"
 
 #: mediacore/templates/admin/helpers.html:85
 #: mediacore/templates/admin/media/_media-table.html:54
 #: mediacore/templates/admin/media/index.html:115
 msgid "Unreviewed"
-msgstr "Não revisado"
+msgstr "Nicht geprüft"
 
 #: mediacore/templates/admin/helpers.html:89
 #: mediacore/templates/admin/comments/_comment-table.html:46
 msgid "Trash"
-msgstr "Lixo"
+msgstr "Mülleimer"
 
 #: mediacore/templates/admin/index.html:24
 #: mediacore/templates/admin/master.html:53
 msgid "Dashboard"
-msgstr "Painel"
+msgstr "Dashboard"
 
 #: mediacore/templates/admin/index.html:54
 msgid "Awaiting Review"
-msgstr "Aguardando Revisão"
+msgstr "Warte auf Überprüfung"
 
 #: mediacore/templates/admin/index.html:59
 msgid "Awaiting Encoding"
-msgstr "Aguardando Codificação"
+msgstr "Warte auf Kodierung"
 
 #: mediacore/templates/admin/index.html:64
 msgid "Awaiting Publishing"
-msgstr "Aguardando Publicação"
+msgstr "Warte auf Veröffentlichung"
 
 #: mediacore/templates/admin/index.html:71
 msgid "Get Started"
-msgstr "Para começar"
+msgstr "Legen Sie los"
 
 #: mediacore/templates/admin/index.html:73
 #: mediacore/templates/admin/media/edit.html:23
 #: mediacore/templates/admin/media/edit.html:152
 #: mediacore/templates/admin/media/index.html:84
 msgid "Add New Media"
-msgstr "Adicionar Nova Mídia"
+msgstr "Füge neue Medien hinzu"
 
 #: mediacore/templates/admin/index.html:80
 msgid "Recently Published"
-msgstr "Últimas Publicações"
+msgstr "Kürzlich veröffentlicht"
 
 #: mediacore/templates/admin/master.html:31
 #: mediacore/templates/admin/master.html:50
@@ -1260,29 +1264,29 @@ msgstr "MediaCore"
 
 #: mediacore/templates/admin/master.html:54
 msgid "View Site"
-msgstr "Visualizar Site"
+msgstr "Seite anzeigen"
 
 #: mediacore/templates/admin/master.html:55
 msgid "Logout"
-msgstr "Logout"
+msgstr "Ausloggen"
 
 #: mediacore/templates/admin/master.html:60
 #: mediacore/templates/admin/categories/index.html:70
 #: mediacore/templates/admin/media/index.html:25
 #: mediacore/templates/admin/tags/index.html:67
 msgid "Media"
-msgstr "Mídia"
+msgstr "Medien"
 
 #: mediacore/templates/admin/master.html:63
 #: mediacore/templates/admin/users/index.html:24
 #: mediacore/templates/admin/users/index.html:45
 msgid "Users"
-msgstr "Usuários"
+msgstr "Benutzer"
 
 #: mediacore/templates/admin/master.html:64
 #: mediacore/templates/admin/settings/master.html:41
 msgid "Settings"
-msgstr "Configurações"
+msgstr "Einstellungen"
 
 #: mediacore/templates/admin/master.html:68
 msgid "© 2009-2011 Simple Station Inc."
@@ -1300,7 +1304,7 @@ msgstr "© 2009-2011 Simple Station Inc."
 #: mediacore/templates/admin/users/edit.html:32
 #: mediacore/templates/admin/users/index.html:33
 msgid "Confirm Delete"
-msgstr "Confirmar Exclusão"
+msgstr "Löschen bestätigen"
 
 #: mediacore/templates/admin/categories/index.html:46
 #: mediacore/templates/admin/comments/index.html:56
@@ -1308,29 +1312,29 @@ msgstr "Confirmar Exclusão"
 #: mediacore/templates/admin/tags/index.html:43
 #, python-format
 msgid "Are you sure you want to delete these %(num)s items?"
-msgstr "Tem certeza que deseja excluir este(s) %(num)s item(ns)?"
+msgstr "Wollen sie diese %(num)s Elemente wirklich löschen?"
 
 #: mediacore/templates/admin/categories/index.html:60
 #: mediacore/templates/admin/categories/index.html:85
 msgid "Add Category"
-msgstr "Adicionar Categoria"
+msgstr "Kategorie hinzufügen"
 
 #: mediacore/templates/admin/categories/index.html:61
 #: mediacore/templates/admin/tags/index.html:58
 msgid "Bulk Delete"
-msgstr "Exclusão em Lote"
+msgstr "Massenlöschen"
 
 #: mediacore/templates/admin/categories/index.html:89
 msgid "Edit Category"
-msgstr "Editar Categoria"
+msgstr "Kategorie bearbeiten"
 
 #: mediacore/templates/admin/categories/index.html:93
 msgid "Delete Category"
-msgstr "Excluir Categoria"
+msgstr "Kategorie löschen"
 
 #: mediacore/templates/admin/categories/index.html:96
 msgid "Are you sure you want to delete this category [1:and ALL of its children]?"
-msgstr "Tem certeza que deseja excluir esta categoria [1:and ALL of its children]?"
+msgstr "Wollen sie wirklich diese Kategorie [1:und ALLE untergeordneten] löschen?"
 
 #: mediacore/templates/admin/categories/row-form.html:39
 #: mediacore/templates/admin/comments/_comment-table.html:65
@@ -1345,7 +1349,7 @@ msgstr "Tem certeza que deseja excluir esta categoria [1:and ALL of its children
 #: mediacore/templates/media/view.html:49
 #: mediacore/templates/podcasts/view.html:41
 msgid "Edit"
-msgstr "Editar"
+msgstr "Bearbeiten"
 
 #: mediacore/templates/admin/comments/_comment-table.html:29
 #: mediacore/templates/admin/media/_media-table.html:32
@@ -1361,7 +1365,7 @@ msgstr "Autor"
 
 #: mediacore/templates/admin/comments/_comment-table.html:32
 msgid "In Response to"
-msgstr "Em resposta a"
+msgstr "Als Antwort auf"
 
 #: mediacore/templates/admin/comments/_comment-table.html:37
 #: mediacore/templates/admin/media/_media-table.html:43
@@ -1370,157 +1374,155 @@ msgstr "Em resposta a"
 #: mediacore/templates/admin/storage/index.html:136
 #: mediacore/templates/admin/users/index.html:60
 msgid "None Found"
-msgstr "Nenhum resultado encontrado"
+msgstr "Nichts gefunden"
 
 #: mediacore/templates/admin/comments/_comment-table.html:44
 msgid "This comment has already been approved for publishing"
-msgstr "Este comentário já foi aprovado para publicação"
+msgstr "Dieser Kommentar wurde bereits zur Veröffentlichung freigegeben"
 
 #: mediacore/templates/admin/comments/_comment-table.html:45
 msgid "Approve this comment for publishing"
-msgstr "Aprove este comentário para publicação"
+msgstr "Diesen Kommentar zur Veröffentlichung freigeben"
 
 #: mediacore/templates/admin/comments/_comment-table.html:45
 msgid "Approve"
-msgstr "Aprovar"
+msgstr "Freigeben"
 
 #: mediacore/templates/admin/comments/_comment-table.html:46
 msgid "Delete this comment"
-msgstr "Excluir este comentário"
+msgstr "Lösche diesen Kommentar"
 
 #: mediacore/templates/admin/comments/_comment-table.html:56
 msgid "Submitted on"
-msgstr "Enviado em"
+msgstr "Abgeschickt am"
 
 #: mediacore/templates/admin/comments/_comment-table.html:63
 msgid "Go to the admin page for this item"
-msgstr "Vá à página de administração, para este item"
+msgstr "Gehen Sie zur Administrationsseite"
 
 #: mediacore/templates/admin/comments/index.html:28
 #, python-format
 msgid "Comments for %(media_filter_title)s"
-msgstr "Comentários para %(media_filter_title)s"
+msgstr "Kommentare für %(media_filter_title)s"
 
 #: mediacore/templates/admin/comments/index.html:28
 msgid "Comments for"
-msgstr "Comentários para"
+msgstr "Kommentare für"
 
 #: mediacore/templates/admin/comments/index.html:40
 msgid "Edit Text"
-msgstr "Editar Texto"
+msgstr "Text ändern"
 
 #: mediacore/templates/admin/comments/index.html:41
 msgid "Cancel Edit"
-msgstr "Cancelar Edição"
+msgstr "Änderung abbrechen"
 
 #: mediacore/templates/admin/comments/index.html:46
 #, python-format
 msgid "Are you sure you want to delete %(name)s's comment?"
-msgstr "Tem certeza que deseja excluir o(s) comentário(s) %(name)s?"
+msgstr "Wollen Sie wirklich den Kommentar von %(name)s löschen?"
 
 #: mediacore/templates/admin/comments/index.html:85
 #, python-format
 msgid "Comments that match '%(search)s'"
-msgstr "Comentários que correspondem a '%(search)s'"
+msgstr "Kommentare, welche '%(search)s' beinhalten"
 
 #: mediacore/templates/admin/comments/index.html:86
 msgid "All Comments"
-msgstr "Todos os comentários"
+msgstr "Alle Kommentare"
 
 #: mediacore/templates/admin/comments/index.html:87
 #, python-format
 msgid "Comments for %(search)s"
-msgstr "Comentários para %(search)s"
+msgstr "Kommentare für %(search)s"
 
 #: mediacore/templates/admin/comments/index.html:95
 #: mediacore/templates/admin/media/index.html:92
 msgid "Publish"
-msgstr "Publicar"
+msgstr "Veröffentlichen"
 
 #: mediacore/templates/admin/comments/index.html:102
 #: mediacore/templates/admin/media/index.html:99
 msgid "Bulk Actions"
-msgstr "Ações em Lote"
+msgstr "Massenänderungen"
 
 #: mediacore/templates/admin/media/_media-table.html:29
 msgid "Publish Date"
-msgstr "Data de Publicação"
+msgstr "Veröffentlichungsdatum"
 
 #: mediacore/templates/admin/media/_media-table.html:30
 msgid "Upload Date"
-msgstr "Data de Upload"
+msgstr "Upload-Datum"
 
 #: mediacore/templates/admin/media/_media-table.html:31
 #: mediacore/templates/admin/media/update-status-form.html:41
 msgid "Publish Status"
-msgstr "Status de Publicação"
+msgstr "Status der Veröffentlichung"
 
 #: mediacore/templates/admin/media/_media-table.html:34
 msgid "Number of Comments"
-msgstr "Número de Comentários"
+msgstr "Anzahl von Kommentaren"
 
 #: mediacore/templates/admin/media/_media-table.html:55
 #: mediacore/templates/admin/media/index.html:118
 msgid "Unencoded"
-msgstr "Não Codificado"
+msgstr "Uncodiert"
 
 #: mediacore/templates/admin/media/_media-table.html:56
 msgid "Draft"
-msgstr "Rascunho"
+msgstr "Entwurf"
 
 #: mediacore/templates/admin/media/_media-table.html:58
 msgid "Publishing..."
-msgstr "Publicando..."
+msgstr "Veröffentlichung..."
 
 #: mediacore/templates/admin/media/edit.html:57
 #: mediacore/templates/admin/podcasts/edit.html:38
 msgid "Saving the file failed. Please try again"
-msgstr "Errro ao salvar o arquivo. Tente novamente."
+msgstr "Speichern der Datei fehlgeschlagen. Bitte erneut versuchen."
 
 #: mediacore/templates/admin/media/edit.html:58
 #: mediacore/templates/admin/podcasts/edit.html:39
 #, python-format
 msgid "Security error occured (%(text)s)"
-msgstr "Houve um erro de segurança (%(text)s)"
+msgstr "Sicherheitsfehler aufgetreten (%(text)s)"
 
 #: mediacore/templates/admin/media/edit.html:59
 #: mediacore/templates/admin/podcasts/edit.html:40
 #, python-format
 msgid "Error caused a send or load operation to fail (%(text)s)"
-msgstr ""
-"Um erro ocasionou falha durante o processo de envio ou carregamento "
-"(%(text)s)"
+msgstr "Fehler beim Sende- oder Ladevorgang aufgetreten (%(text)s)"
 
 #: mediacore/templates/admin/media/edit.html:62
 #: mediacore/templates/admin/podcasts/edit.html:43
 msgid "File has already been added, duplicates are not allowed"
-msgstr "Arquivo já foi adicionado, duplicações não são permitidas"
+msgstr "Datei ist schon vorhanden, Duplikate sind nicht erlaubt"
 
 #: mediacore/templates/admin/media/edit.html:63
 #: mediacore/templates/admin/podcasts/edit.html:44
 #, python-format
 msgid "File is too small, the minimal file size is %(size)s"
-msgstr "Arquivo muito pequeno, o tamanho mínimo é %(size)s"
+msgstr "Datei zu klein, die Mindestgrösse ist %(size)s"
 
 #: mediacore/templates/admin/media/edit.html:64
 #: mediacore/templates/admin/podcasts/edit.html:45
 #, python-format
 msgid "File is too large, the maximum file size is %(size)s"
-msgstr "Arquivo muito grande, o tamanho máximo é %(size)s"
+msgstr "Datei ist zu groß, die Maximalgrösse ist %(size)s"
 
 #: mediacore/templates/admin/media/edit.html:65
 #: mediacore/templates/admin/podcasts/edit.html:46
 #, python-format
 msgid "File could not be added, amount of %(num)s files exceeded"
 msgstr ""
-"Arquivo não pôde ser adicionado, pois a quantidade máxima de arquivos "
-"%(num)s foi excedida"
+"Datei konnte nicht hinzugefügt werden, Anzahl von %(num)s wurde "
+"überschritten"
 
 #: mediacore/templates/admin/media/edit.html:66
 #: mediacore/templates/admin/podcasts/edit.html:47
 #, python-format
 msgid "File is too big, overall filesize of %(size)s exceeded"
-msgstr "Arquivo é muito grande, tamanho máximo %(size)s excedido"
+msgstr "Die Datei ist zu gross, gesamte Dateigrösse von%(size)s überschritten"
 
 #: mediacore/templates/admin/media/edit.html:73
 #: mediacore/templates/admin/players/index.html:33
@@ -1529,116 +1531,116 @@ msgstr "Arquivo é muito grande, tamanho máximo %(size)s excedido"
 #: mediacore/templates/admin/tags/index.html:90
 #: mediacore/templates/admin/users/edit.html:33
 msgid "Are you sure you want to delete this?"
-msgstr "Tem certeza que deseja excluir este item?"
+msgstr "Wollen Sie das wirklich löschen?"
 
 #: mediacore/templates/admin/media/edit.html:84
 #: mediacore/templates/admin/podcasts/edit.html:70
 msgid "Upload image"
-msgstr "Upload de imagem"
+msgstr "Bild hochladen"
 
 #: mediacore/templates/admin/media/edit.html:93
 msgid "Are you sure you want to delete this file?"
-msgstr "Tem certeza que deseja excluir este arquivo?"
+msgstr "Wollen Sie die Datei wirklich löschen?"
 
 #: mediacore/templates/admin/media/edit.html:98
 msgid "Upload a file"
-msgstr "Upload de arquivo"
+msgstr "Hochladen einer Datei"
 
 #: mediacore/templates/admin/media/edit.html:105
 msgid "Failed to add this file. Please try again."
-msgstr "Falha ao adicionar este arquivo. Tente novamente."
+msgstr "Das Hinzufügen der Datei ist fehlgeschlagen. Bitte erneut versuchen."
 
 #: mediacore/templates/admin/media/edit.html:106
 msgid "Failed to save your change. Please try again."
-msgstr "Falha ao salvar suas alterações. Tente novamente."
+msgstr "Fehler beim Speichern Ihrer Änderung. Bitte erneut versuchen."
 
 #: mediacore/templates/admin/media/edit.html:107
 msgid "Uploading"
-msgstr "Uploading"
+msgstr "Hochladen"
 
 #: mediacore/templates/admin/media/edit.html:108
 msgid "Queued"
-msgstr "Na Fila"
+msgstr "anstehend"
 
 #: mediacore/templates/admin/media/edit.html:109
 msgid "Error"
-msgstr "Erro"
+msgstr "Fehler"
 
 #: mediacore/templates/admin/media/edit.html:121
 msgid "A connection problem occurred, try again."
-msgstr "Houve um problema de conexão. Tente novamente."
+msgstr "Ein Verbindungsproblem ist aufgetreten, bitte erneut versuchen."
 
 #: mediacore/templates/admin/media/edit.html:122
 msgid "An error has occurred, try again."
-msgstr "Houve um erro. Tente novamente."
+msgstr "Ein Fehler ist aufgetreten, bitte erneut versuchen."
 
 #: mediacore/templates/admin/media/edit.html:125
 #: mediacore/templates/admin/media/edit.html:210
 #: mediacore/templates/admin/podcasts/edit.html:51
 msgid "Hide"
-msgstr "Ocultar"
+msgstr "Verstecken"
 
 #: mediacore/templates/admin/media/edit.html:126
 msgid "Saving"
-msgstr "Salvando"
+msgstr "Speichere"
 
 #: mediacore/templates/admin/media/edit.html:127
 msgid "Saved!"
-msgstr "Salvo!"
+msgstr "Gespeichert!"
 
 #: mediacore/templates/admin/media/edit.html:128
 msgid "Saving failed. Please try again."
-msgstr "Erro ao salvar. Tente novamente."
+msgstr "Speichern fehlgeschlagen. Bitte erneut versuchen."
 
 #: mediacore/templates/admin/media/edit.html:129
 msgid "Please correct the highlighted errors and save again."
-msgstr "Corrija os erros indicados e tente novamente"
+msgstr "Bitte den hervorgehobenen Fehler beheben und erneut versuchen."
 
 #: mediacore/templates/admin/media/edit.html:151
 #: mediacore/templates/admin/podcasts/edit.html:94
 msgid "Uploaded:"
-msgstr "Inclusão:"
+msgstr "Hochgeladen:"
 
 #: mediacore/templates/admin/media/edit.html:162
 #: mediacore/templates/admin/storage/index.html:130
 msgid "Files"
-msgstr "Arquivos"
+msgstr "Dateien"
 
 #: mediacore/templates/admin/media/edit.html:163
 msgid "Add & Manage"
-msgstr "Adicionar e Gerenciar"
+msgstr "Hinzufügen & Verwalten"
 
 #: mediacore/templates/admin/media/edit.html:166
 #: mediacore/templates/admin/media/file-edit-form.html:22
 msgid "View this file"
-msgstr "Visualizar este arquivo"
+msgstr "Diese Datei anzeigen"
 
 #: mediacore/templates/admin/media/edit.html:180
 #: mediacore/templates/admin/podcasts/edit.html:109
 msgid "Thumbnail"
-msgstr "Thumbnail"
+msgstr "Vorschaubild"
 
 #: mediacore/templates/admin/media/edit.html:183
 #: mediacore/templates/admin/podcasts/_podcast-table.html:39
 #: mediacore/templates/admin/podcasts/edit.html:113
 msgid "Thumb"
-msgstr "Thumb"
+msgstr "Vorschaubild"
 
 #: mediacore/templates/admin/media/edit.html:207
 msgid "Manage Files"
-msgstr "Gerenciar Arquivos"
+msgstr "Dateien verwalten"
 
 #: mediacore/templates/admin/media/edit.html:216
 msgid "File"
-msgstr "Arquivo"
+msgstr "Datei"
 
 #: mediacore/templates/admin/media/edit.html:217
 msgid "Size"
-msgstr "Tamanho"
+msgstr "Grösse"
 
 #: mediacore/templates/admin/media/edit.html:218
 msgid "Duration"
-msgstr "Duração"
+msgstr "Dauer"
 
 #: mediacore/templates/admin/media/edit.html:219
 msgid "Bitrate"
@@ -1646,169 +1648,177 @@ msgstr "Bitrate"
 
 #: mediacore/templates/admin/media/edit.html:220
 msgid "Dimensions"
-msgstr "Dimensões"
+msgstr "Dimensionen"
 
 #: mediacore/templates/admin/media/edit.html:221
 msgid "Type"
-msgstr "Tipo"
+msgstr "Typ"
 
 #: mediacore/templates/admin/media/file-add-form.html:24
 msgid "OR"
-msgstr "OU"
+msgstr "ODER"
 
 #: mediacore/templates/admin/media/file-form.html:24
 msgid "or"
-msgstr "ou"
+msgstr "oder"
 
 #: mediacore/templates/admin/media/index.html:73
 #, python-format
 msgid "Media that matches '%(search)s'"
-msgstr "Mídias correspondentes a '%(search)s'"
+msgstr "Medien zur Suche: '%(search)s'"
 
 #: mediacore/templates/admin/media/index.html:74
 #, python-format
 msgid "%(podcastTitle)s Episodes"
-msgstr "Episódios de %(podcastTitle)s"
+msgstr "%(podcastTitle)s Episoden"
 
 #: mediacore/templates/admin/media/index.html:75
 #, python-format
 msgid "Media in '%(categoryName)s'"
-msgstr "Mídias em '%(categoryName)s'"
+msgstr "Medien in '%(categoryName)s'"
 
 #: mediacore/templates/admin/media/index.html:76
 #, python-format
 msgid "Media tagged '%(tagName)s'"
-msgstr "Mídias classificadas como '%(tagName)s'"
+msgstr "Medien gekennzeichnet '%(tagName)s'"
 
 #: mediacore/templates/admin/media/index.html:77
 msgid "Unreviewed Media"
-msgstr "Mídias não revisadas"
+msgstr "Ungeprüfte Medien"
 
 #: mediacore/templates/admin/media/index.html:78
 msgid "Unencoded Media"
-msgstr "Mídias não codificadas"
+msgstr "Unkodierte Medien"
 
 #: mediacore/templates/admin/media/index.html:79
 msgid "Draft Media"
-msgstr "Mídias em Rascunho"
+msgstr "Entworfene Medien"
 
 #: mediacore/templates/admin/media/index.html:80
 msgid "Published Media"
-msgstr "Mídias Publicadas"
+msgstr "Veröffentlichte Medien"
 
 #: mediacore/templates/admin/media/index.html:81
 #: mediacore/templates/admin/media/index.html:112
 msgid "All Media"
-msgstr "Todos as Mídias"
+msgstr "Alle Medien"
 
 #: mediacore/templates/admin/media/index.html:91
 msgid "Review"
-msgstr "Revisar"
+msgstr "Überprüfung"
 
 #: mediacore/templates/admin/media/index.html:121
 msgid "Drafts"
-msgstr "Rascunhos"
+msgstr "Entwürfe"
 
 #: mediacore/templates/admin/media/index.html:131
 msgid "Filters"
-msgstr "Filtros"
+msgstr "Filter"
 
 #: mediacore/templates/admin/media/update-status-form.html:27
 msgid "View this media where it is published"
-msgstr "Visualizar esta mídia no local onde ela está publicada"
+msgstr "Zeige dieses Mediums, wo es veröffentlicht wurde"
 
 #: mediacore/templates/admin/media/update-status-form.html:33
 msgid "View this media where it will be published"
-msgstr "Visualizar esta mídia onde ela será publicada"
+msgstr "Anzeige des Mediums, wo es veröffentlicht würde"
 
 #: mediacore/templates/admin/media/update-status-form.html:33
 msgid "Preview"
-msgstr "Pré-visualização"
+msgstr "Vorschau"
 
 #: mediacore/templates/admin/media/update-status-form.html:47
 msgid "You must add a file and save before review can begin."
-msgstr "Você precisa adicionar um arquivo e salvá-lo antes de iniciar a revisão."
+msgstr ""
+"Sie müssen eine Datei hinzufügen und sichern, bevor die Überprüfung "
+"starten kann."
 
 #: mediacore/templates/admin/media/update-status-form.html:51
 msgid "Review Pending"
-msgstr "Revisão Pendente"
+msgstr "Überprüfung anstehend"
 
 #: mediacore/templates/admin/media/update-status-form.html:52
 #: mediacore/templates/admin/media/update-status-form.html:78
 #: mediacore/templates/admin/media/update-status-form.html:91
 msgid "Encoding Complete"
-msgstr "Codificação Completa"
+msgstr "Kodierung komplett"
 
 #: mediacore/templates/admin/media/update-status-form.html:52
 #: mediacore/templates/admin/media/update-status-form.html:68
 msgid "Encoding Pending"
-msgstr "Codificação Pendente"
+msgstr "Kodieren anstehend"
 
 #: mediacore/templates/admin/media/update-status-form.html:53
 #: mediacore/templates/admin/media/update-status-form.html:69
 #: mediacore/templates/admin/media/update-status-form.html:79
 #: mediacore/templates/admin/media/update-status-form.html:92
 msgid "Click to change the publish date"
-msgstr "Clique para alterar a data de publicação"
+msgstr "Klicken Sie, um das Veröffentlichungsdatum zu ändern"
 
 #: mediacore/templates/admin/media/update-status-form.html:53
 #: mediacore/templates/admin/media/update-status-form.html:69
 #: mediacore/templates/admin/media/update-status-form.html:79
 #: mediacore/templates/admin/media/update-status-form.html:93
 msgid "Publishing"
-msgstr "Publicação"
+msgstr "Veröffentlichung"
 
 #: mediacore/templates/admin/media/update-status-form.html:54
 #: mediacore/templates/admin/media/update-status-form.html:70
 #: mediacore/templates/admin/media/update-status-form.html:80
 #: mediacore/templates/admin/media/update-status-form.html:94
 msgid "Pending"
-msgstr "Pendente"
+msgstr "Wartend"
 
 #: mediacore/templates/admin/media/update-status-form.html:60
 #: mediacore/templates/admin/media/update-status-form.html:67
 #: mediacore/templates/admin/media/update-status-form.html:77
 #: mediacore/templates/admin/media/update-status-form.html:90
 msgid "Review Complete"
-msgstr "Revisão Concluída"
+msgstr "Review abgeschlossen"
 
 #: mediacore/templates/admin/media/update-status-form.html:62
 msgid "Review can only be completed after a file is added."
-msgstr "A revisão somente pode ser concluída após adicionar um arquivo"
+msgstr ""
+"Überprüfung kann nur abgeschlossen werden, wenn eine Datei hinzugefügt "
+"wurde."
 
 #: mediacore/templates/admin/media/update-status-form.html:73
 msgid "Encoding will be complete when an acceptable file is added."
-msgstr "A codificação será finalizada quando um arquivo suportado for adicionado."
+msgstr ""
+"Enkodierung ist abgeschlossen, sobald eine annehmbare Datei hinzugefügt "
+"wird."
 
 #: mediacore/templates/admin/media/update-status-form.html:85
 msgid "Publish Now"
-msgstr "Publicar Agora"
+msgstr "Jetzt veröffentlichen"
 
 #: mediacore/templates/admin/players/index.html:23
 #: mediacore/templates/admin/players/index.html:47
 #: mediacore/templates/admin/settings/master.html:68
 msgid "Players"
-msgstr "Players"
+msgstr "Player"
 
 #: mediacore/templates/admin/players/index.html:33
 msgid "By deleting this player you will lose all settings related to it."
-msgstr "Ao excluir este player, todas as suas configurações serão perdidas."
+msgstr ""
+"Wenn Sie diesen Player löschen, dann verlieren Sie alle zugehörigen "
+"Einstellungen."
 
 #: mediacore/templates/admin/players/index.html:56
 msgid "Priority"
-msgstr "Prioridade"
+msgstr "Priorität"
 
 #: mediacore/templates/admin/players/index.html:78
 msgid "Up"
-msgstr "Acima"
+msgstr "Hoch"
 
 #: mediacore/templates/admin/players/index.html:79
 msgid "Down"
-msgstr "Abaixo"
+msgstr "Runter"
 
 #: mediacore/templates/admin/podcasts/_podcast-table.html:46
 msgid "Category:"
-msgstr "Categoria:"
+msgstr "Kategorie:"
 
 #: mediacore/templates/admin/podcasts/_podcast-table.html:48
 msgid "Author:"
@@ -1816,123 +1826,123 @@ msgstr "Autor:"
 
 #: mediacore/templates/admin/podcasts/_podcast-table.html:52
 msgid "Explicit"
-msgstr "Explícito"
+msgstr "Anstössig"
 
 #: mediacore/templates/admin/podcasts/_podcast-table.html:58
 msgid "Add episode"
-msgstr "Adicionar episódio"
+msgstr "Episode hinzufügen"
 
 #: mediacore/templates/admin/podcasts/_podcast-table.html:60
 #, python-format
 msgid "View First Episode %(num)s"
 msgid_plural "View All %(num)s Episodes"
-msgstr[0] "Visualizar primeiro episódio %(num)s"
-msgstr[1] "Visualizar todos os %(num)s episódios "
+msgstr[0] "Zeige erste Episode %(num)s"
+msgstr[1] "Zeige alle %(num)s Episoden"
 
 #: mediacore/templates/admin/podcasts/edit.html:23
 msgid "Edit Podcast"
-msgstr "Editar Podcast"
+msgstr "Podcast ändern"
 
 #: mediacore/templates/admin/podcasts/edit.html:23
 #: mediacore/templates/admin/podcasts/edit.html:95
 msgid "New Podcast"
-msgstr "Novo Podcast"
+msgstr "Podcast hinzufügen"
 
 #: mediacore/templates/admin/podcasts/edit.html:104
 msgid "View this podcast where it is published"
-msgstr "Visualizar este podcast no local ele está publicado"
+msgstr "Anzeigen, wo der Podcast veröffentlich wird"
 
 #: mediacore/templates/admin/podcasts/feed_fieldset.html:30
 msgid "Get an iTunes URL"
-msgstr "Obter uma URL ITunes"
+msgstr "Hole eine iTunes URL"
 
 #: mediacore/templates/admin/podcasts/feed_fieldset.html:31
 msgid "Get a Feedburner URL"
-msgstr "Obter uma URL Feedburner"
+msgstr "Hole eine Feedburner URL"
 
 #: mediacore/templates/admin/podcasts/index.html:32
 msgid "Add Podcast"
-msgstr "Adicionar Podcast"
+msgstr "Podcast hinzufügen"
 
 #: mediacore/templates/admin/settings/advertising.html:24
 #: mediacore/templates/admin/settings/advertising.html:30
 #: mediacore/templates/admin/settings/master.html:47
 msgid "Advertising"
-msgstr "Publicidade"
+msgstr "Werbung"
 
 #: mediacore/templates/admin/settings/analytics.html:24
 #: mediacore/templates/admin/settings/analytics.html:30
 #: mediacore/templates/admin/settings/master.html:50
 msgid "Analytics"
-msgstr "Analytics"
+msgstr "Statistiken"
 
 #: mediacore/templates/admin/settings/api.html:23
 #: mediacore/templates/admin/settings/api.html:33
 #: mediacore/templates/admin/settings/master.html:62
 msgid "Data API"
-msgstr "API de Dados"
+msgstr "Data-API"
 
 #: mediacore/templates/admin/settings/api.html:26
 msgid "Generate"
-msgstr "Gerar"
+msgstr "Generieren"
 
 #: mediacore/templates/admin/settings/appearance.html:24
 #: mediacore/templates/admin/settings/appearance.html:45
 #: mediacore/templates/admin/settings/master.html:53
 msgid "Appearance"
-msgstr "Aparência"
+msgstr "Aussehen"
 
 #: mediacore/templates/admin/settings/appearance.html:33
 msgid "Confirm Reset"
-msgstr "Confirmar Reinicialização"
+msgstr "Zurücksetzen bestätigen"
 
 #: mediacore/templates/admin/settings/appearance.html:34
 msgid "Are you sure you want to reset your settings to the default?"
-msgstr "Tem certeza que deseja restaurar a configuração padrão?"
+msgstr "Wollen Sie wirklich die Einstellungen auf den Standard zurücksetzen?"
 
 #: mediacore/templates/admin/settings/master.html:65
 msgid "Notifications"
-msgstr "Notificações"
+msgstr "Benachrichtigungen"
 
 #: mediacore/templates/admin/settings/master.html:71
 #: mediacore/templates/admin/settings/popularity.html:23
 #: mediacore/templates/admin/settings/popularity.html:29
 msgid "Popularity"
-msgstr "Popularidade"
+msgstr "Beliebtheit"
 
 #: mediacore/templates/admin/settings/master.html:74
 #: mediacore/templates/admin/settings/sitemaps.html:24
 #: mediacore/templates/admin/settings/sitemaps.html:30
 msgid "RSS and Sitemaps"
-msgstr "RSS e Sitemaps"
+msgstr "RSS und Seitenbaum"
 
 #: mediacore/templates/admin/settings/master.html:77
 #: mediacore/templates/admin/storage/index.html:23
 #: mediacore/templates/admin/storage/index.html:120
 msgid "Storage Engines"
-msgstr "Mecanismos de Armazenamento"
+msgstr "Speicher-Einheit"
 
 #: mediacore/templates/admin/settings/master.html:88
 msgid "Plugins"
-msgstr "Plugins"
+msgstr "Erweitungsmodule"
 
 #: mediacore/templates/admin/settings/notifications.html:23
 #: mediacore/templates/admin/settings/notifications.html:29
 msgid "Notification Emails"
-msgstr "Emails de Notificação"
+msgstr "Benachrichtigungs-E-Mails"
 
 #: mediacore/templates/admin/storage/edit.html:30
 msgid "New Storage Engine"
-msgstr "Novo Mecanismo de Armazenamento"
+msgstr "Neue Speicher-Einheit"
 
 #: mediacore/templates/admin/storage/index.html:32
 msgid "WARNING:"
-msgstr "AVISO:"
+msgstr "WARNUNG:"
 
 #: mediacore/templates/admin/storage/index.html:33
 #, python-format
 msgid "Deleting this Storage Engine (%(name)s) will:"
-msgstr "A exclusão deste Mecanismo de Armazenamento (%(name)s) irá:"
+msgstr "Löschen der Speicher-Einheit (%(name)s) wird:"
 
 #: mediacore/templates/admin/storage/index.html:34
 #, python-format
@@ -1940,117 +1950,118 @@ msgid ""
 "Permanently delete all of the %(num)s media files stored by this Storage "
 "Engine."
 msgstr ""
-"Excluir permanentemente todos os %(num)s conteúdos de mídia armazenados "
-"neste Mecanismo."
+"Permanentes Löschen aller %(num)s Medien gespeichert in dieser Speicher-"
+"Einheit."
 
 #: mediacore/templates/admin/storage/index.html:35
 msgid "Permanently erase its settings."
-msgstr "Excluir permanentemente suas configurações."
+msgstr "Permanentes Löschen der Einstellungen."
 
 #: mediacore/templates/admin/storage/index.html:36
 msgid ""
 "An alternative to deleting is disabling. Disabling a Storage Engine will "
 "simply prevent its use for files added from now on."
 msgstr ""
-"Uma alternativa para a exclusão é possibilidade de desabilitar o "
-"Mecanismo. Isso impossibilitará a adição de novos conteúdos nele."
+"Als Alternative zum Löschen ist Deaktivieren möglich. Durch Deaktivieren "
+"wird nur die Nutzung der Dateien unmöglich, die Datei wird aber nicht "
+"gelöscht."
 
 #: mediacore/templates/admin/storage/index.html:121
 #: mediacore/templates/admin/storage/index.html:161
 msgid "Add New Engine"
-msgstr "Adicionar Novo Mecanismo"
+msgstr "Neue Einheit hinzufügen"
 
 #: mediacore/templates/admin/storage/index.html:129
 msgid "Disk Usage"
-msgstr "Uso de Disco"
+msgstr "Speicher Verbrauch"
 
 #: mediacore/templates/admin/storage/index.html:163
 msgid "Please select what type of storage engine you would like to add:"
-msgstr "Selecione o tipo de mecanismo de armazenamento que deseja adicionar:"
+msgstr "Bitte Type der Speicher-Einheit angeben, welche hinzugefügt werden soll:"
 
 #: mediacore/templates/admin/tags/index.html:57
 #: mediacore/templates/admin/tags/index.html:79
 msgid "Add Tag"
-msgstr "Adicionar Tag"
+msgstr "Tag hinzufügen"
 
 #: mediacore/templates/admin/tags/index.html:83
 msgid "Edit Tag"
-msgstr "Editar Tag"
+msgstr "Tag ändern"
 
 #: mediacore/templates/admin/tags/index.html:87
 msgid "Delete Tag"
-msgstr "Excluir Tag"
+msgstr "Tag löschen"
 
 #: mediacore/templates/admin/users/edit.html:44
 msgid "New User"
-msgstr "Novo Usuário"
+msgstr "Neuer Benutzer:"
 
 #: mediacore/templates/admin/users/index.html:36
 msgid "Are you sure you want to delete this user?"
-msgstr "Tem certeza que deseja excluir este usuário?"
+msgstr "Wollen Sie den Benutzer wirklich löschen?"
 
 #: mediacore/templates/admin/users/index.html:46
 msgid "Add User"
-msgstr "Adicionar Usuário"
+msgstr "Benutzer hinzufügen"
 
 #: mediacore/templates/admin/users/index.html:53
 msgid "Email"
-msgstr "Email"
+msgstr "E-Mail"
 
 #: mediacore/templates/categories/index.html:30
 #: mediacore/templates/categories/more.html:26
 #, python-format
 msgid "Latest media in %s"
-msgstr "Últimas mídias em %s"
+msgstr "Neuste Medien in %s"
 
 #: mediacore/templates/categories/index.html:38
 #: mediacore/templates/categories/index.html:43
 #: mediacore/templates/media/explore.html:98
 #: mediacore/templates/media/explore.html:113
 msgid "View More"
-msgstr "Ver mais..."
+msgstr "Zeige mehr"
 
 #: mediacore/templates/categories/index.html:45
 #: mediacore/templates/categories/more.html:33
 msgid "There is no media in this category."
-msgstr "Não há mídias nesta categoria."
+msgstr "Es gibt keine Medien in dieser Kategorie."
 
 #: mediacore/templates/categories/layout.html:34
 msgid "Choose a Category:"
-msgstr "Selecione uma categoria:"
+msgstr "Wählen Sie eine Kategorie:"
 
 #: mediacore/templates/comments/_list.html:38
 #, python-format
 msgid "said on %(datetime)s…"
-msgstr "disse em %(datetime)s…"
+msgstr "schrieb am %(datetime)s…"
 
 #: mediacore/templates/comments/_list.html:52
 msgid "No comments have been posted yet."
-msgstr "Nenhum comentário foi enviado."
+msgstr "Noch wurden keine Kommenare geschrieben."
 
 #: mediacore/templates/comments/_list.html:66
 msgid "Write a comment"
-msgstr "Escreva um comentário"
+msgstr "Schreiben Sie einen Kommentar"
 
 #: mediacore/templates/comments/_list.html:83
 msgid "Email Address (will never be published)"
-msgstr "Endereço de Email (não será publicado)"
+msgstr "E-Mail-Adresse (wird nie publiziert)"
 
 #: mediacore/templates/comments/_list.html:101
 msgid "Submit Comment"
-msgstr "Enviar Comentário"
+msgstr "Kommentar abschicken"
 
 #: mediacore/templates/media/explore.html:28
 msgid "Sitemap XML"
-msgstr "Sitemap XML"
+msgstr "Seitenbaum als XML"
 
 #: mediacore/templates/media/explore.html:30
 msgid "Sitemap RSS"
-msgstr "Sitemap RSS"
+msgstr "Seitenbaum als RSS"
 
 #: mediacore/templates/media/explore.html:32
 msgid "Latest RSS"
-msgstr "Últimos RSS's"
+msgstr "Neueste als RSS"
 
 #: mediacore/templates/media/explore.html:103
 #, python-format
@@ -2058,134 +2069,134 @@ msgid ""
 "As soon as there are more than %(num)s published videos in the library, "
 "the most popular videos will be listed here."
 msgstr ""
-"Assim que houver mais que %(num)s mídias publicadas, as mais populares "
-"serão listadas aqui."
+"Sobald mehr als %(num)s Videos in der Bibliothek veröffentlicht sind, "
+"werden die beliebtesten Videos hier aufgelistet."
 
 #: mediacore/templates/media/explore.html:104
 msgid "Why not add a few more?"
-msgstr "Por que não adicionar um pouco mais?"
+msgstr "Warum nicht ein paar mehr hinzufügen?"
 
 #: mediacore/templates/media/explore.html:116
 msgid "There are no media items published yet!"
-msgstr "Ainda não há nenhum item de mídia publicado!"
+msgstr "Bislang wurden keine Medien veröffentlicht!"
 
 #: mediacore/templates/media/index.html:24
 #, python-format
 msgid "Search: \"%s\""
-msgstr "Pesquisa: \"%s\""
+msgstr "Suche: \"%s\""
 
 #: mediacore/templates/media/index.html:32
 #, python-format
 msgid "Showing %(result_count)s results for '%(search_query)s'"
-msgstr "Exibindo %(result_count)s resultados para '%(search_query)s'"
+msgstr "Zeige %(result_count)s Ergebnisse für ' %(search_query)s '"
 
 #: mediacore/templates/media/index.html:33
 #, python-format
 msgid "Showing %(result_count)s results tagged with '%(tag_name)s'"
-msgstr "Exibindo %(result_count)s resultados classificados como '%(tag_name)s'"
+msgstr "Zeige %(result_count)s Ergebnisse gekennzeichnet mit '%(tag_name)s'"
 
 #: mediacore/templates/media/index.html:34
 #, python-format
 msgid "All %(result_count)s Media"
-msgstr "Todas as %(result_count)s Mídias"
+msgstr "Alle %(result_count)s Medien"
 
 #: mediacore/templates/media/tags.html:27
 msgid "All Tags"
-msgstr "Todas as Tags"
+msgstr "Alle Kennzeichen"
 
 #: mediacore/templates/media/view.html:53
 msgid "(unpublished)"
-msgstr "(não publicado)"
+msgstr "(nicht veröffentlicht)"
 
 #: mediacore/templates/media/view.html:54
 #, python-format
 msgid "by %(authorName)s"
-msgstr "por %(authorName)s"
+msgstr "von %(authorName)s "
 
 #: mediacore/templates/media/view.html:64
 #: mediacore/templates/players/html5_or_flash.html:34
 msgid "Dislike"
 msgid_plural "Dislikes"
-msgstr[0] "Não gostou"
-msgstr[1] "Não gostaram"
+msgstr[0] "Gefällt mir nicht"
+msgstr[1] "Gefällt mir nicht"
 
 #: mediacore/templates/media/view.html:79
 msgid "Related Podcast"
-msgstr "Podcasts Relacionados"
+msgstr "Verwandter Podcast"
 
 #: mediacore/templates/media/view.html:89
 msgid "Podcast Episodes"
-msgstr "Episódios do Podcast"
+msgstr "Podcast-Episoden"
 
 #: mediacore/templates/media/view.html:92
 msgid "Episode"
 msgid_plural "Episodes"
-msgstr[0] "Episódio"
-msgstr[1] "Episódios"
+msgstr[0] "Folgen"
+msgstr[1] "Folge"
 
 #: mediacore/templates/media/view.html:106
 msgid "Related Media"
-msgstr "Conteúdo Relacionado"
+msgstr "ähnliche Medien"
 
 #: mediacore/templates/media/view.html:114
 msgid "This is not listed under any categories."
-msgstr "Não está listado em nenhuma categoria."
+msgstr "Das ist unter keiner Kategorie gelistet."
 
 #: mediacore/templates/media/view.html:118
 msgid "See All Tags"
-msgstr "Visualizar todas as Tags"
+msgstr "Anzeige aller Kennzeichen"
 
 #: mediacore/templates/media/view.html:122
 msgid "This does not have any associated tags."
-msgstr "Não está associado a nenhuma tag."
+msgstr "Das hat keine Kennzeichen zugeordnet."
 
 #: mediacore/templates/players/html5_or_flash.html:35
 msgid "Pop out a new player window"
-msgstr "Abrir player em janela popup"
+msgstr "Pop-Up eines neuen Player-Fensters"
 
 #: mediacore/templates/players/html5_or_flash.html:35
 msgid "Pop Out"
-msgstr "Nova Janela"
+msgstr "Pop-Up"
 
 #: mediacore/templates/players/html5_or_flash.html:36
 msgid "Shrink"
-msgstr "Diminuir"
+msgstr "Verkleinern"
 
 #: mediacore/templates/players/html5_or_flash.html:36
 msgid "Expand"
-msgstr "Expandir"
+msgstr "Vergrössern"
 
 #: mediacore/templates/players/html5_or_flash.html:38
 msgid "Share"
-msgstr "Compartilhar"
+msgstr "Weitergeben"
 
 #: mediacore/templates/players/html5_or_flash.html:42
 msgid "Permalink:"
-msgstr "Link Permanente"
+msgstr "Permalink:"
 
 #: mediacore/templates/players/html5_or_flash.html:45
 msgid "Share by email"
-msgstr "Compartilhe por email"
+msgstr "Per E-Mail schicken"
 
 #: mediacore/templates/players/html5_or_flash.html:45
 msgid "Share by Email"
-msgstr "Compartilhe por Email"
+msgstr "Per E-Mail schicken"
 
 #: mediacore/templates/players/html5_or_flash.html:46
 msgid "Share on Facebook"
-msgstr "Compartilhe no Facebook"
+msgstr "An Facebook schicken"
 
 #: mediacore/templates/players/html5_or_flash.html:47
 msgid "Share on Twitter"
-msgstr "Compartilhe no Twitter"
+msgstr "An Twitter schicken"
 
 #: mediacore/templates/players/html5_or_flash.html:52
 msgid "Embed"
-msgstr "Incorporar"
+msgstr "Einbetten"
 
 #: mediacore/templates/players/html5_or_flash.html:56
 msgid "Embeddable Player HTML:"
-msgstr "Incorporar Player HTML:"
+msgstr "HTML zum Einbauen des Players"
 
 #: mediacore/templates/players/html5_or_flash.html:62
 msgid "Download"
@@ -2193,41 +2204,41 @@ msgstr "Download"
 
 #: mediacore/templates/podcasts/index.html:30
 msgid "All Podcasts"
-msgstr "Todos os Podcasts"
+msgstr "Alle Podcasts"
 
 #: mediacore/templates/podcasts/index.html:41
 #: mediacore/templates/podcasts/view.html:45
 msgid "Add to iTunes"
-msgstr "Adicionar ao iTunes"
+msgstr "Zu iTunes hinzufügen"
 
 #: mediacore/templates/podcasts/index.html:42
 #: mediacore/templates/podcasts/view.html:46
 msgid "Subscribe via RSS"
-msgstr "Subscrever via RSS"
+msgstr "RSS-Feed abonnieren"
 
 #: mediacore/templates/podcasts/index.html:45
 msgid "Latest Episodes"
-msgstr "Últimos Episódios"
+msgstr "Neueste Episoden"
 
 #: mediacore/templates/podcasts/index.html:52
 msgid "Browse all episodes"
-msgstr "Navegar em todos os episódios"
+msgstr "Alle Episoden durchsehen"
 
 #: mediacore/templates/podcasts/view.html:52
 #, python-format
 msgid "%(result_count)s Episodes"
 msgid_plural "All %(result_count)s Episodes"
-msgstr[0] "%(result_count)s Episódios"
-msgstr[1] "Todos os %(result_count)s Episódios"
+msgstr[0] "All %(result_count)s Folgen"
+msgstr[1] "%(result_count)s Folge"
 
 #: mediacore/templates/upload/failure.html:24
 #: mediacore/templates/upload/success.html:24
 msgid "Upload Videos"
-msgstr "Upload de Vídeos"
+msgstr "Videos hochladen"
 
 #: mediacore/templates/upload/failure.html:29
 msgid "Upload Error"
-msgstr "Erro no Upload"
+msgstr "Upload-Fehler"
 
 #: mediacore/templates/upload/failure.html:33
 msgid ""
@@ -2235,58 +2246,58 @@ msgid ""
 "and gnomes have been automagically notified and we're already on our way "
 "to resolving your issue."
 msgstr ""
-"Algo saiu errado durante o upload, mas não se preocupe. Os "
-"administradores serão automaticamente notificados e trabalharão para "
-"resolver o problema."
+"Während des Hochladens ist Fehler aufgetreten, aber machen Sie sich keine"
+" Sorgen. Die Betreiber wurden automagisch benachrichtigt und wir sind "
+"bereits dabei, Ihr Problem zu lösen."
 
 #: mediacore/templates/upload/failure.html:35
 msgid "Something you can check:"
-msgstr "Alguns itens que você pode verificar:"
+msgstr "Etwas, das Sie überprüfen können:"
 
 #: mediacore/templates/upload/failure.html:37
 #, python-format
 msgid "Is the file under %(maxUploadSize)s Megabytes in size?"
-msgstr "O arquivo é maior que %(maxUploadSize)s?"
+msgstr "Ist die Datei unter %(maxUploadSize)s MB gross?"
 
 #: mediacore/templates/upload/failure.html:40
 msgid "Try Uploading Again"
-msgstr "Tente fazer o upload novamente"
+msgstr "Versuchen Sie, es erneut hochzuladen"
 
 #: mediacore/templates/upload/form.html:59
 msgid "Choose a file to upload"
-msgstr "Selecione um arquivo para upload"
+msgstr "Datei zum Hochladen auswählen"
 
 #: mediacore/templates/upload/index.html:52
 msgid "Problems?"
-msgstr "Problemas?"
+msgstr "Probleme?"
 
 #: mediacore/templates/upload/index.html:53
 msgid "If you have problems uploading or have some questions, please email us at"
 msgstr ""
-"Se está enfrentando problemas durante o upload, por favor envie-nos um "
-"email"
+"Falls Sie Probleme beim Hochladen oder andere Fragen haben, schreiben Sie"
+" uns bitte eine E-Mail an"
 
 #: mediacore/templates/upload/success.html:30
 msgid "Upload Successful"
-msgstr "Upload realizado com sucesso"
+msgstr "Upload erfolgreich"
 
 #: mediacore/templates/upload/success.html:34
 msgid "Awesome, your upload was successful!"
-msgstr "O upload foi bem sucedido!"
+msgstr "Ihr Upload war erfolgreich!"
 
 #: mediacore/templates/upload/success.html:35
 msgid ""
 "Your submission is awaiting review by a moderator and will be posted "
 "shortly."
 msgstr ""
-"Sua submissão está aguardando revisão por um moderador e será publicada "
-"em breve."
+"Ihr Beitrag muss noch von einem Moderator geprüft werden und wird in "
+"Kürze veröffentlicht."
 
 #: mediacore/templates/upload/success.html:36
 msgid ""
 "You will be automatically redirected back to the [1:Media Library] in a "
 "few seconds. Hang tight."
 msgstr ""
-"Você será automaticamente redirecionado à [1:Media Library] em alguns "
-"segundos."
+"Sie werden in Kürze automatisch zur letzen Seite [1: Media Library] "
+"weitergeleitet werden in ein paar Sekunden. Bitte warten."
 

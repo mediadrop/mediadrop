@@ -1,15 +1,15 @@
 # German translations for MediaCore.
-# Copyright (C) 2010 ORGANIZATION
+# Copyright (C) 2011 ORGANIZATION
 # This file is distributed under the same license as the MediaCore project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2011.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: MediaCore Video Platform\n"
 "Report-Msgid-Bugs-To: http://github.com/simplestation/mediacore/issues\n"
-"POT-Creation-Date: 2010-12-28 15:49+0800\n"
-"PO-Revision-Date: 2011-01-21 15:28-0800\n"
-"Last-Translator: Felix Schwarz <felix.schwarz@oss.schwarz.eu>\n"
+"POT-Creation-Date: 2011-01-21 15:28+0800\n"
+"PO-Revision-Date: 2011-02-09 12:54-0800\n"
+"Last-Translator: fschwarz <felix.schwarz@oss.schwarz.eu>\n"
 "Language-Team: de <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 "MIME-Version: 1.0\n"
@@ -22,16 +22,16 @@ msgid ""
 "Upload your media using the form below. We'll review it and get back to "
 "you."
 msgstr ""
-"Laden sie ihre Mediendateien mit dem folgenden Formular auf den Server. "
+"Laden Sie Ihre Mediendateien mit dem folgenden Formular auf den Server. "
 "Nach einer Prüfung werden Sie von uns verständigt."
 
 #: mediacore/controllers/error.py:65
 msgid "We're sorry but we weren't able to process this request."
-msgstr "Leider konnten wir Ihren Prozess nicht erfolgreich abschließen."
+msgstr "Leider konnten wir Ihre Anfrage nicht verarbeiten."
 
 #: mediacore/controllers/media.py:297
 msgid "Your comment has been rejected."
-msgstr "Ihre Kommentar wurde abgewiesen."
+msgstr "Ihr Kommentar wurde abgewiesen."
 
 #: mediacore/controllers/media.py:318
 msgid ""
@@ -39,7 +39,7 @@ msgid ""
 "approves it."
 msgstr ""
 "Danke für Ihren Kommentar. Sobald ein Moderator ihn geprüft hat, wird er "
-"freigeschalten."
+"freigeschaltet."
 
 #: mediacore/controllers/admin/media.py:391
 #, python-format
@@ -63,7 +63,7 @@ msgstr "Nicht unterstützter Bildtyp: %s"
 
 #: mediacore/forms/__init__.py:219
 msgid "The portion of the email address before the @ is invalid"
-msgstr "Die E-Mail-Adresse bevor dem @-Zeichen ist nicht gültig."
+msgstr "Die E-Mail-Adresse vor dem @-Zeichen ist nicht gültig."
 
 #: mediacore/forms/__init__.py:220
 msgid "The portion of this email address after the @ is invalid"
@@ -550,7 +550,7 @@ msgstr "Rechtliche Infos:"
 
 #: mediacore/forms/admin/settings.py:164
 msgid "User Uploads"
-msgstr "Benutzer "
+msgstr "Benutzer"
 
 #: mediacore/forms/admin/settings.py:175
 msgid "Google Analytics Details:"
@@ -762,11 +762,11 @@ msgstr "Auf Standard zurücksetzen"
 
 #: mediacore/forms/admin/settings.py:389
 msgid "Banner HTML"
-msgstr ""
+msgstr "Banner HTML"
 
 #: mediacore/forms/admin/settings.py:392
 msgid "Sidebar HTML"
-msgstr ""
+msgstr "Sidebar HTML"
 
 #: mediacore/forms/admin/users.py:36
 msgid "User name already exists"
@@ -1134,13 +1134,12 @@ msgid "Featured"
 msgstr "Featured"
 
 #: mediacore/templates/helpers.html:84
-#, fuzzy
 msgid "Page"
-msgstr "Seite:"
+msgstr "Seite"
 
 #: mediacore/templates/helpers.html:84
 msgid "of"
-msgstr ""
+msgstr "von"
 
 #: mediacore/templates/helpers.html:90
 #, python-format
@@ -1152,9 +1151,8 @@ msgid "Feeds:"
 msgstr "Feeds:"
 
 #: mediacore/templates/layout.html:60
-#, fuzzy
 msgid "[1:MediaCore] [2:video platform]"
-msgstr "Video-Plattform"
+msgstr "[1:MediaCore] [2:Video Plattform]"
 
 #: mediacore/templates/login.html:23
 msgid "Login to MediaCore"
@@ -1246,7 +1244,7 @@ msgstr "Warte auf Veröffentlichung"
 
 #: mediacore/templates/admin/index.html:71
 msgid "Get Started"
-msgstr ""
+msgstr "Legen Sie los."
 
 #: mediacore/templates/admin/index.html:73
 #: mediacore/templates/admin/media/edit.html:23
@@ -1291,9 +1289,8 @@ msgid "Settings"
 msgstr "Einstellungen"
 
 #: mediacore/templates/admin/master.html:68
-#, fuzzy
 msgid "© 2009-2011 Simple Station Inc."
-msgstr "copyright 2009 simple station inc"
+msgstr "© 2009-2011 Simple Station Inc."
 
 #: mediacore/templates/admin/categories/index.html:45
 #: mediacore/templates/admin/comments/index.html:43
@@ -1857,11 +1854,11 @@ msgstr "Anzeigen, wo der Podcast veröffentlich wird"
 
 #: mediacore/templates/admin/podcasts/feed_fieldset.html:30
 msgid "Get an iTunes URL"
-msgstr ""
+msgstr "Hole eine iTunes URL"
 
 #: mediacore/templates/admin/podcasts/feed_fieldset.html:31
 msgid "Get a Feedburner URL"
-msgstr ""
+msgstr "Hole eine Feedburner URL"
 
 #: mediacore/templates/admin/podcasts/index.html:32
 msgid "Add Podcast"
@@ -1871,7 +1868,7 @@ msgstr "Podcast hinzufügen"
 #: mediacore/templates/admin/settings/advertising.html:30
 #: mediacore/templates/admin/settings/master.html:47
 msgid "Advertising"
-msgstr ""
+msgstr "Werbung"
 
 #: mediacore/templates/admin/settings/analytics.html:24
 #: mediacore/templates/admin/settings/analytics.html:30
@@ -2014,14 +2011,14 @@ msgstr "E-Mail"
 #: mediacore/templates/categories/more.html:26
 #, python-format
 msgid "Latest media in %s"
-msgstr ""
+msgstr "Neuste Medien in %s"
 
 #: mediacore/templates/categories/index.html:38
 #: mediacore/templates/categories/index.html:43
 #: mediacore/templates/media/explore.html:98
 #: mediacore/templates/media/explore.html:113
 msgid "View More"
-msgstr ""
+msgstr "Zeige mehr"
 
 #: mediacore/templates/categories/index.html:45
 #: mediacore/templates/categories/more.html:33
@@ -2302,34 +2299,4 @@ msgid ""
 msgstr ""
 "Sie werden in Kürze automatisch zur letzen Seite [1: Media Library] "
 "weitergeleitet werden in ein paar Sekunden. Bitte warten."
-
-#~ msgid "Invalid player params provided."
-#~ msgstr "Ungültige Abspielparameter angegeben."
-
-#~ msgid "Enable privacy-enhanced mode."
-#~ msgstr "Aktivieren des erweiterten Datenschutz-Modus."
-
-#~ msgid "HTML5 + JWPlayer Fallback"
-#~ msgstr ""
-
-#~ msgid "Amazon S3"
-#~ msgstr "Amazon S3"
-
-#~ msgid "This page has gone missing!"
-#~ msgstr "Diese Seite ist verschwunden!"
-
-#~ msgid "Previous"
-#~ msgstr "vorher"
-
-#~ msgid "Next"
-#~ msgstr "Nächster"
-
-#~ msgid "more of the Latest..."
-#~ msgstr "weitere neue..."
-
-#~ msgid "more of the Most Popular..."
-#~ msgstr "weitere beliebte..."
-
-#~ msgid "No suitable player found for this media."
-#~ msgstr "Kein passender Player gefunden für dieses Medium."
 
