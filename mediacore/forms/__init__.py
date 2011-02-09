@@ -17,7 +17,6 @@ from BeautifulSoup import BeautifulStoneSoup
 from formencode import FancyValidator
 from formencode.api import Invalid
 from pylons import app_globals
-from pylons.templating import pylons_globals
 from tw import forms
 from tw.api import JSLink, JSSource
 from tw.forms import FileField, TextArea as tw_TA, TextField as tw_TF
@@ -25,6 +24,7 @@ from tw.forms.validators import Email
 
 from mediacore.lib.i18n import N_
 from mediacore.lib.xhtml import clean_xhtml, decode_entities, line_break_xhtml
+from mediacore.lib.templating import tmpl_globals
 from mediacore.lib.util import url_for
 from mediacore.plugin import events
 
@@ -88,7 +88,7 @@ class GlobalMixin(object):
         # ['tmpl_context', 'translator', 'session', 'ungettext', 'response', '_',
         #  'c', 'app_globals', 'g', 'url', 'h', 'request', 'helpers', 'N_', 'tg',
         #  'config']
-        kw.update(pylons_globals())
+        kw.update(tmpl_globals())
         return forms.Widget.display(self, *args, **kw)
 
 class Form(LeniantValidationMixin, GlobalMixin, forms.Form):
