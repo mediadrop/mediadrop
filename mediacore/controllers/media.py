@@ -200,7 +200,11 @@ class MediaController(BaseController):
                 redirect(podcast_slug=media.podcast.slug)
 
         if media.fulltext:
-            search_terms = '%s %s' % (media.title, media.fulltext.tags)
+            search_terms = '%s %s %s' % (
+                media.title,
+                media.fulltext.tags,
+                media.fulltext.categories,
+            )
             related = Media.query.published()\
                 .filter(Media.id != media.id)\
                 .search(search_terms, bool=False)
