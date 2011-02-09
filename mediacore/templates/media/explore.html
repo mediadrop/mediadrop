@@ -43,7 +43,7 @@
 			<div class="feat-content clearfix">
 				<div class="cooliris-nav">
 					<div class="cooliris-nav-content">
-						<div class="cooliris-featured clickable cooliris-feed" data-feed="${h.url_for(controller='categories', action='feed', slug='featured')}">Featured</div>
+						<div class="cooliris-featured clickable cooliris-feed" data-feed="${h.url_for(controller='sitemaps', action='featured', skip=g.settings['appearance_enable_featured_items'] and 1 or 0)}">Featured</div>
 						<div class="cooliris-latest clickable cooliris-feed" data-feed="${h.url_for(controller='sitemaps', action='latest')}">Latest</div>
 						<div class="cooliris-cats-btn clickable"><span class="cooliris-cats-text">Categories</span> <span class="cooliris-arrow goog-inline-block" /></div>
 						<ul class="cooliris-cats hidden">
@@ -64,7 +64,7 @@
 			var myCooliris = new mcore.Cooliris(680, 323, {
 				backgroundAlpha: 0,
 				cellBorder: 1,
-				feed: '${h.url_for(controller='sitemaps', action='featured')}',
+				feed: '${h.url_for(controller='sitemaps', action='featured', skip=g.settings['appearance_enable_featured_items'] and 1 or 0)}',
 				intro: 'zoomIn',
 				numRows: 2,
 				showChrome: false,

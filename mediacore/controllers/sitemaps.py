@@ -104,7 +104,7 @@ class SitemapsController(BaseController):
 
     @beaker_cache(expire=60 * 3, query_args=True)
     @expose('sitemaps/mrss.xml')
-    def latest(self, limit=30, **kwargs):
+    def latest(self, limit=30, skip=0, **kwargs):
         """Generate a media rss (mRSS) feed of all the sites media."""
         if app_globals.settings['rss_display'] != 'True':
             abort(404)
@@ -116,8 +116,10 @@ class SitemapsController(BaseController):
 
         media = Media.query.published()\
             .order_by(Media.publish_on.desc())\
-            .limit(limit)\
-            .all()
+            .limit(limit)
+
+        if skip > 0:
+            media = media.offset(skip)
 
         return dict(
             media = media,
@@ -126,7 +128,7 @@ class SitemapsController(BaseController):
 
     @beaker_cache(expire=60 * 3, query_args=True)
     @expose('sitemaps/mrss.xml')
-    def featured(self, limit=30, **kwargs):
+    def featured(self, limit=30, skip=0, **kwargs):
         """Generate a media rss (mRSS) feed of the sites featured media."""
         if app_globals.settings['rss_display'] != 'True':
             abort(404)
@@ -138,8 +140,10 @@ class SitemapsController(BaseController):
 
         media = Media.query.in_category(get_featured_category())\
             .order_by(Media.publish_on.desc())\
-            .limit(limit)\
-            .all()
+            .limit(limit)
+
+        if skip > 0:
+            media = media.offset(skip)
 
         return dict(
             media = media,
