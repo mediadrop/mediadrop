@@ -124,40 +124,12 @@ class XHTMLValidator(FancyValidator):
         return clean_xhtml(value)
 
 class TextField(tw_TF):
-    """TextField widget.
-
-    The default validator converts any HTML entities into Unicode in the
-    submitted text.
-    """
-    validator = XHTMLEntityValidator
-
-    def __init__(self, *args, **kwargs):
-        """Initialize the widget.
-
-        If no validator is specified at instantiation time, instantiates
-        the default validator.
-        """
-        tw_TF.__init__(self, *args, **kwargs)
-        if 'validator' not in kwargs:
-            self.validator = self.validator()
+    """TextField widget with a good validator for its instances to use."""
+    validator = FancyValidator
 
 class TextArea(tw_TA):
-    """TextArea widget.
-
-    The default validator converts any HTML entities into Unicode in the
-    submitted text.
-    """
-    validator = XHTMLEntityValidator
-
-    def __init__(self, *args, **kwargs):
-        """Initialize the widget.
-
-        If no validator is specified at instantiation time, instantiates
-        the default validator.
-        """
-        tw_TA.__init__(self, *args, **kwargs)
-        if 'validator' not in kwargs:
-            self.validator = self.validator()
+    """TextArea widget with a good validator for its instances to use."""
+    validator = FancyValidator
 
 tiny_mce_condition = lambda: app_globals.settings['rich_text_editor'] == 'tinymce'
 

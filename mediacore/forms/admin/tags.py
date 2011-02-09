@@ -16,15 +16,15 @@
 import re
 
 from tw.forms import HiddenField
-from tw.forms.validators import NotEmpty
+from tw.forms.validators import FancyValidator, NotEmpty
 
-from mediacore.forms import Form, ListForm, SubmitButton, ResetButton, TextField, XHTMLEntityValidator
+from mediacore.forms import Form, ListForm, SubmitButton, ResetButton, TextField
 from mediacore.lib.i18n import N_
 from mediacore.plugin import events
 
 excess_whitespace = re.compile('\s\s+', re.M)
 
-class TagNameValidator(XHTMLEntityValidator):
+class TagNameValidator(FancyValidator):
     def _to_python(self, value, state=None):
         value = value.strip()
         value = excess_whitespace.sub(' ', value)
