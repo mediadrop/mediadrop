@@ -99,8 +99,8 @@ class CategoriesController(BaseController):
             order = order,
         )
 
-    @beaker_cache(expire=60 * 60 * 4, query_args=True)
-    @expose("sitemaps/mrss.xml")
+    @beaker_cache(expire=60 * 3, query_args=True)
+    @expose('sitemaps/mrss.xml')
     def feed(self, limit=30, **kwargs):
         """ Generate a media rss feed of the latest media
 

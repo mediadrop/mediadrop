@@ -124,7 +124,7 @@ class SitemapsController(BaseController):
             title = 'Latest Media',
         )
 
-    @beaker_cache(expire=60 * 60 * 4, query_args=True)
+    @beaker_cache(expire=60 * 3, query_args=True)
     @expose('sitemaps/mrss.xml')
     def featured(self, limit=30, **kwargs):
         """Generate a media rss (mRSS) feed of the sites featured media."""
