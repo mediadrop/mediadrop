@@ -18,10 +18,13 @@ Sitemaps Controller
 """
 import logging
 import math
+import os
 
+from paste.fileapp import FileApp
 from paste.util import mimeparse
-from pylons import app_globals, request, response
-from pylons.controllers.util import abort
+from pylons import app_globals, config, request, response
+from pylons.controllers.util import abort, forward
+from webob.exc import HTTPNotFound
 
 from mediacore.lib.base import BaseController
 from mediacore.lib.decorators import expose, beaker_cache
@@ -29,6 +32,10 @@ from mediacore.lib.helpers import get_featured_category, redirect, url_for
 from mediacore.model import Media
 
 log = logging.getLogger(__name__)
+
+# Global cache of the FileApp used to serve the crossdomain.xml file
+# when static_files is disabled and no Apache alias is configured.
+crossdomain_app = None
 
 class SitemapsController(BaseController):
     """
@@ -149,3 +156,26 @@ class SitemapsController(BaseController):
             media = media,
             title = 'Featured Media',
         )
+
+    @expose()
+    def crossdomain_xml(self, **kwargs):
+        """Serve the crossdomain XML file manually if static_files is disabled.
+
+        If someone forgets to add this Alias we might as well serve this file
+        for them and save everyone the trouble. This only works when MediaCore
+        is served out of the root of a domain and if Cooliris is enabled.
+        """
+        global crossdomain_app
+
+        if not app_globals.settings['appearance_enable_cooliris']:
+            # Ensure the cache is cleared if cooliris is suddenly disabled
+            if crossdomain_app:
+                crossdomain_app = None
+            raise HTTPNotFound().exception
+
+        if not crossdomain_app:
+            relpath = 'mediacore/public/crossdomain.xml'
+            abspath = os.path.join(config['here'], relpath)
+            crossdomain_app = FileApp(abspath)
+
+        return forward(crossdomain_app)

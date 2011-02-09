@@ -70,6 +70,9 @@ def make_map(config, controller_scan=controller_scan):
     map.connect('/mrss.xml',
         controller='sitemaps',
         action='mrss')
+    map.connect('/crossdomain.xml',
+        controller='sitemaps',
+        action='crossdomain_xml')
 
     # Categories
     map.connect('/categories/feed/{slug}.xml',
