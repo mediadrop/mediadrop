@@ -298,7 +298,9 @@ class SettingsController(BaseSettingsController):
                 media.author = Author(user.display_name, user.email_address)
                 media.reviewed = True
                 media.title = unicode(entry.media.title.text, "utf-8")
-                media.description = unicode(entry.media.description.text, "utf-8")
+                if entry.media.description.text:
+                    media.description = unicode(entry.media.description.text,
+                                                "utf-8")
                 media.slug = get_available_slug(Media, media.title, media)
 
                 if tags:
