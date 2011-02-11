@@ -25,6 +25,7 @@ goog.require('goog.dom.classes');
 goog.require('goog.events');
 goog.require('goog.net.cookies');
 goog.require('goog.ui.Component');
+goog.require('goog.Uri');
 goog.require('mcore.players.ColumnViewResizer');
 goog.require('mcore.players.Rater');
 goog.require('mcore.players.WideViewResizer');
@@ -216,12 +217,16 @@ mcore.players.Controller.prototype.decorateInternalPopup = function(elem) {
  */
 mcore.players.Controller.prototype.handlePopout = function(e) {
   e.preventDefault();
-  var target = this.dom_.getAncestorByTagNameAndClass(e.target,
-      goog.dom.TagName.A);
-  var size = goog.style.getSize(this.player_.getContentElement());
-  var windowOpts = 'menubar=no,location=yes,resizable=yes,scrollbars=no,' +
+
+  var size = this.player_.getSize();
+  var opts = 'menubar=no,location=yes,resizable=yes,scrollbars=no,' +
       'status=no,width=' + size.width + ',height=' + size.height;
-  window.open(target, this.getElement().id, windowOpts);
+  var target = this.dom_.getAncestorByTagNameAndClass(
+      e.target, goog.dom.TagName.A);
+  var targetUri = new goog.Uri(target.href);
+  targetUri.getQueryData().add('w', size.width).add('h', size.height);
+
+  this.dom_.getWindow().open(targetUri.toString(), this.getElement().id, opts);
 };
 
 

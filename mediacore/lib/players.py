@@ -103,7 +103,7 @@ class AbstractPlayer(AbstractClass):
 
         """
 
-    def __init__(self, media, uris, data=None, width=400, height=225,
+    def __init__(self, media, uris, data=None, width=None, height=None,
                  autoplay=False, autobuffer=False, qualified=False, **kwargs):
         """Initialize the player with the media that it will be playing.
 
@@ -121,8 +121,8 @@ class AbstractPlayer(AbstractClass):
         self.media = media
         self.uris = uris
         self.data = data or {}
-        self.width = width
-        self.height = height
+        self.width = width or 400
+        self.height = height or 225
         self.autoplay = autoplay
         self.autobuffer = autobuffer
         self.qualified = qualified

@@ -230,9 +230,11 @@ class MediaController(BaseController):
 
     @expose('players/iframe.html')
     @observable(events.MediaController.embed_player)
-    def embed_player(self, slug, **kwargs):
+    def embed_player(self, slug, w=None, h=None, **kwargs):
         return dict(
             media = fetch_row(Media, slug=slug),
+            width = w and int(w) or None,
+            height = h and int(h) or None,
         )
 
     @expose()
