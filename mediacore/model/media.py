@@ -309,9 +309,11 @@ class MediaQuery(Query):
         return self._search(search_cols, search, bool, order_by)
 
     def _search(self, search_cols, search, bool=False, order_by=True):
-        if self.session.connection().dialect.name != 'mysql':
-            # TODO: Use this fallback when triggers haven't been installed
-            return self.filter(Media.title.like(search))
+        # XXX: If full text searching is not enabled, we use a very
+        #      rudimentary fallback.
+        if not self._fulltext_enabled():
+            return self.filter(Media.title.like("%%%s%%" % search))
+
         filter = MatchAgainstClause(search_cols, search, bool)
         query = self.join(MediaFullText).filter(filter)
         if order_by:
@@ -325,9 +327,26 @@ class MediaQuery(Query):
                 query = query.order_by(relevance)
         return query
 
+    def _fulltext_enabled(self):
+        connection = self.session.connection()
+        if connection.dialect.name == 'mysql':
+            # use a fun trick to see if the media_fulltext table is being used
+            # thanks to this guy: http://data.agaric.com/node/2241#comment-544
+            select = sql.select('1').select_from(media_fulltext).limit(1)
+            result = connection.execute(select)
+            if result.scalar() is not None:
+                return True
+        return False
+
     def in_category(self, cat):
-        all_cats = [cat]
-        all_cats.extend(cat.descendants())
+        """Filter results to Media in the given category"""
+        return self.in_categories([cat])
+
+    def in_categories(self, cats):
+        """Filter results to Media in at least one of the given categories"""
+        all_cats = cats[:]
+        for cat in cats:
+            all_cats.extend(cat.descendants())
         all_ids = [c.id for c in all_cats]
         return self.filter(sql.exists(sql.select(
             [media_categories.c.media_id],
@@ -356,6 +375,21 @@ class MediaQuery(Query):
             return self.filter(sql.not_(Media.id.in_(ids)))
         else:
             return self
+
+    def related(self, media):
+        query = self.published().filter(Media.id != media.id)
+
+        # XXX: If full text searching is not enabled, we simply return media
+        #      in the same categories.
+        if not self._fulltext_enabled():
+            return query.in_categories(media.categories)
+
+        search_terms = '%s %s %s' % (
+            media.title,
+            media.fulltext.tags,
+            media.fulltext.categories,
+        )
+        return query.search(search_terms, bool=False)
 
 class Meta(object):
     """

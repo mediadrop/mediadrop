@@ -86,11 +86,8 @@ class MediaController(BaseController):
         media, show = helpers.filter_library_controls(media, show)
 
         if q:
-            search = media.search(q, bool=True)
-            if search.count():
-                media = search
-            else:
-                media = media.filter(Media.title.like("%%%s%%" % q))
+            media = media.search(q, bool=True)
+
         if tag:
             tag = fetch_row(Tag, slug=tag)
             media = media.filter(Media.tags.contains(tag))
@@ -199,18 +196,6 @@ class MediaController(BaseController):
             if url_for() != url_for(podcast_slug=media.podcast.slug):
                 redirect(podcast_slug=media.podcast.slug)
 
-        if media.fulltext:
-            search_terms = '%s %s %s' % (
-                media.title,
-                media.fulltext.tags,
-                media.fulltext.categories,
-            )
-            related = Media.query.published()\
-                .filter(Media.id != media.id)\
-                .search(search_terms, bool=False)
-        else:
-            related = []
-
         media.increment_views()
 
         # Which style of 'likes' links has the admin selected?
@@ -220,7 +205,7 @@ class MediaController(BaseController):
 
         return dict(
             media = media,
-            related_media = related[:6],
+            related_media = Media.query.related(media)[:6],
             comments = media.comments.published().all(),
             comment_form_action = url_for(action='comment'),
             comment_form_values = kwargs,
