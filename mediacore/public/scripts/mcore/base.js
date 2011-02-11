@@ -29,6 +29,7 @@ goog.require('mcore.players.FlashPlayer');
 goog.require('mcore.players.JWPlayer');
 goog.require('mcore.players.Html5Player');
 goog.require('mcore.players.IframePlayer');
+goog.require('mcore.players.SublimePlayer');
 goog.require('mcore.players.MultiPlayer');
 
 

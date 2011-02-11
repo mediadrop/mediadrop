@@ -874,6 +874,9 @@ class SublimePlayer(AbstractHTML5Player):
         attrs['class'] = (attrs.get('class', '') + ' sublime').strip()
         return attrs
 
+    def render_js_player(self):
+        return Markup('new mcore.SublimePlayer()')
+
     def render_markup(self, error_text=None):
         """Render the XHTML markup for this player instance.
 
