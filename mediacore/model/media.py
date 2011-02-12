@@ -389,7 +389,7 @@ class MediaQuery(Query):
             media.fulltext.tags,
             media.fulltext.categories,
         )
-        return query.search(search_terms, bool=False)
+        return query.search(search_terms, bool=True)
 
 class Meta(object):
     """
