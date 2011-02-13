@@ -45,16 +45,6 @@ Comments
    :undoc-members:
 
 
-Settings
---------
-
-.. automodule:: mediacore.controllers.admin.settings
-
-.. autoclass:: SettingsController
-   :members:
-   :undoc-members:
-
-
 User Management
 ---------------
 
@@ -65,12 +55,52 @@ User Management
    :undoc-members:
 
 
-Category Management
--------------------
+Settings - Audio/Video Players
+------------------------------
+
+.. automodule:: mediacore.controllers.admin.players
+
+.. autoclass:: PlayersController
+   :members:
+   :undoc-members:
+
+
+Settings - Storage Engines
+--------------------------
+
+.. automodule:: mediacore.controllers.admin.storage
+
+.. autoclass:: StorageController
+   :members:
+   :undoc-members:
+
+
+Settings - Categories
+---------------------
 
 .. automodule:: mediacore.controllers.admin.categories
 
 .. autoclass:: CategoriesController
+   :members:
+   :undoc-members:
+
+
+Settings - Tags
+---------------
+
+.. automodule:: mediacore.controllers.admin.tags
+
+.. autoclass:: TagsController
+   :members:
+   :undoc-members:
+
+
+Settings - Other
+----------------
+
+.. automodule:: mediacore.controllers.admin.settings
+
+.. autoclass:: SettingsController
    :members:
    :undoc-members:
 
