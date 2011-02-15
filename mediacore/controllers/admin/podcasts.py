@@ -28,7 +28,8 @@ from mediacore.lib.decorators import (autocommit, expose, expose_xhr,
     observable, paginate, validate)
 from mediacore.lib.helpers import redirect, url_for
 from mediacore.lib.i18n import _
-from mediacore.lib.thumbnails import thumb_paths, create_thumbs_for, create_default_thumbs_for
+from mediacore.lib.thumbnails import (create_default_thumbs_for,
+    create_thumbs_for, delete_thumbs)
 from mediacore.model import Author, AuthorWithIP, Podcast, fetch_row, get_available_slug
 from mediacore.model.meta import DBSession
 from mediacore.plugin import events
@@ -148,10 +149,9 @@ class PodcastsController(BaseController):
         podcast = fetch_row(Podcast, id)
 
         if delete:
-            file_paths = thumb_paths(podcast).values()
             DBSession.delete(podcast)
             DBSession.commit()
-            helpers.delete_files(file_paths, Podcast._thumb_dir)
+            delete_thumbs(podcast)
             redirect(action='index', id=None)
 
         if not slug:

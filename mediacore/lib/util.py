@@ -102,7 +102,7 @@ def delete_files(paths, subdir=None):
 
     :param paths: File paths to delete. These files do not necessarily
         have to exist.
-    :type paths: list
+    :type paths: iterable
     :param subdir: A subdir within the configured deleted_files_dir to
         move the given files to. If this folder does not yet exist, it
         will be created.

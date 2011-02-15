@@ -35,7 +35,7 @@ from mediacore.lib.helpers import redirect, url_for
 from mediacore.lib.i18n import _
 from mediacore.lib.storage import add_new_media_file
 from mediacore.lib.templating import render
-from mediacore.lib.thumbnails import thumb_path, thumb_paths, create_thumbs_for, create_default_thumbs_for, has_thumbs, has_default_thumbs
+from mediacore.lib.thumbnails import thumb_path, thumb_paths, create_thumbs_for, create_default_thumbs_for, has_thumbs, has_default_thumbs, delete_thumbs
 from mediacore.model import Author, Category, Media, Podcast, Tag, fetch_row, get_available_slug
 from mediacore.model.meta import DBSession
 from mediacore.plugin import events
@@ -704,5 +704,4 @@ class MediaController(BaseController):
         DBSession.delete(media)
         DBSession.flush()
         # Cleanup the thumbnails
-        thumbs = thumb_paths(media).values()
-        helpers.delete_files(thumbs, Media._thumb_dir)
+        delete_thumbs(media)
