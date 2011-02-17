@@ -81,8 +81,17 @@ def thumb_paths(item, **kwargs):
 
     """
     image_dir, item_id = _normalize_thumb_item(item)
-    return dict((key, thumb_path(item, key, **kwargs))
-                for key in config['thumb_sizes'][image_dir].iterkeys())
+    paths = dict((key, thumb_path(item, key, **kwargs))
+                 for key in config['thumb_sizes'][image_dir].iterkeys())
+    # We can only find the original image but examining the file system,
+    # so only return it if exists is True.
+    if kwargs.get('exists', False):
+        for extname in ('jpg', 'png'):
+            path = thumb_path(item, 'orig', **kwargs)
+            if path:
+                paths['orig'] = path
+                break
+    return paths
 
 def thumb_url(item, size, qualified=False, exists=False):
     """Get the thumbnail url for the given item and size.
@@ -108,8 +117,9 @@ def thumb_url(item, size, qualified=False, exists=False):
 
     image_dir, item_id = _normalize_thumb_item(item)
     image = '%s/%s%s.jpg' % (image_dir, item_id, size)
+    image_path = os.path.join(config['image_dir'], image)
 
-    if exists and not os.path.isfile(os.path.join(config['image_dir'], image)):
+    if exists and not os.path.isfile(image_path):
         return None
     return url_for('/images/%s' % image, qualified=qualified)
 
@@ -264,7 +274,7 @@ def delete_thumbs(item):
     :type item: ``tuple`` or mapped class instance
     """
     image_dir, item_id = _normalize_thumb_item(item)
-    thumbs = thumb_paths(item).itervalues()
+    thumbs = thumb_paths(item, exists=True).itervalues()
     delete_files(thumbs, image_dir)
 
 def has_thumbs(item):
