@@ -37,15 +37,16 @@ def upgrade(migrate_engine):
 
     # If html5+jwplayer is enabled and jwplayer is not or if they share an
     # enabled state and the html5+jwplayer is more preferred than jwplayer.
-    if opts[u'html5+jwplayer'] < opts[u'jwplayer']:
-        update_query = players.update()\
-            .where(players.c.name == u'jwplayer')\
-            .values(enabled=not opts[u'html5+jwplayer'][0], # un-negate above query
-                    priority=opts[u'html5+jwplayer'][1])
-        conn.execute(update_query)
+    if u'html5+jwplayer' in opts:
+        if opts[u'html5+jwplayer'] < opts[u'jwplayer']:
+            update_query = players.update()\
+                .where(players.c.name == u'jwplayer')\
+                .values(enabled=not opts[u'html5+jwplayer'][0], # un-negate above query
+                        priority=opts[u'html5+jwplayer'][1])
+            conn.execute(update_query)
 
-    delete_query = players.delete().where(players.c.name == u'html5+jwplayer')
-    conn.execute(delete_query)
+        delete_query = players.delete().where(players.c.name == u'html5+jwplayer')
+        conn.execute(delete_query)
 
 def downgrade(migrate_engine):
     raise NotImplementedError()
