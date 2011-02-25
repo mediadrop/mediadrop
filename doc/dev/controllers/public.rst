@@ -8,7 +8,7 @@ MediaCore provides a robust frontend, but if it does not suit your needs you
 can easily revise it or even completely replace it, while still maintaining the
 benefits of MediaCore's admin interface.
 
-A listing of the public-facing controller method is below.  See the
+A listing of the public-facing controller methods is below. See the
 `mediacore/config/routing.py` file for information on the URLs that point to
 these methods.
 

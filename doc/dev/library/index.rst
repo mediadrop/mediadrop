@@ -4,13 +4,10 @@
 Miscellaneous Libraries
 =======================
 
-[[[ Note to doc writers: Remember that this lib.helpers and lib.decorators (and
-probably others) import the important methods from other modules, so you don't
-need to explicitly include those other modules in the docs ]]]
-
-
-[[[ Note to self: you haven't done the storage or players properly. or anything
-in a subdir ]]]
+.. Note to doc writers: Remember that some of the modules in mediacore.lib
+.. import methods and classes from other modules, so you don't need to
+.. explicitly include many of those other modules in the docs.
+.. (e.g. look at the imports in mediacore.lib.helpers and mediacore.lib.decorators)
 
 
 Base Controller Classes
@@ -29,6 +26,7 @@ Templating Helpers
    :show-inheritance:
    :undoc-members:
 
+
 Media Players
 -------------
 
@@ -37,13 +35,16 @@ Media Players
    :show-inheritance:
    :undoc-members:
 
+
 Decorators
 ----------
+.. includes important parts of mediacore.lib.paginate
 
 .. automodule:: mediacore.lib.decorators
    :members:
    :show-inheritance:
    :undoc-members:
+
 
 File Types
 ----------
@@ -52,19 +53,11 @@ File Types
    :show-inheritance:
    :undoc-members:
 
+
 Thumbnail Images
 ----------------
 
 .. automodule:: mediacore.lib.thumbnails
-   :members:
-   :show-inheritance:
-   :undoc-members:
-
-
-Miscellaneous/Display Helpers
------------------------------
-
-.. automodule:: mediacore.lib.helpers
    :members:
    :show-inheritance:
    :undoc-members:
@@ -77,6 +70,12 @@ Email Helpers
    :show-inheritance:
    :undoc-members:
 
-Pagination Helpers
-------------------
-paginate.py ?
+
+
+Miscellaneous/Display Helpers
+-----------------------------
+
+.. automodule:: mediacore.lib.helpers
+   :members:
+   :show-inheritance:
+   :undoc-members:
