@@ -19,6 +19,7 @@ and TurboGears2 developers should feel comfortable.
 .. toctree::
 
    api
+   storage
    templating
    closure
    controllers/index
