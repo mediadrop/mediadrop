@@ -174,3 +174,101 @@ Examples:
       http://demo.getmediacore.com/api/categories/tree?slug=short-film&api_key=zPDyJXdjrPgmFxHC1xw
 
 .. automethod:: CategoriesController.tree
+
+
+Python Example
+--------------
+
+.. sourcecode:: python
+
+   import urllib
+   try:
+      import json # py26
+   except:
+      import simplejson as json # py25 and under
+
+   api_url = 'http://demo.getmediacore.com/api/media'
+   api_key = 'zPDyJXdjrPgmFxHC1xw'
+   excerpt_length = 180
+
+   def fetch_media_list(**kwargs):
+      kwargs['api_key'] = api_key
+      querystring = urllib.urlencode(kwargs)
+      f = urllib.urlopen(api_url + '?' + querystring)
+      return json.loads(f.read())
+
+   def truncate(text):
+      if len(text) > excerpt_length:
+         right = text[:excerpt_length].rindex(' ')
+         text = text[:right] + '&hellip;'
+      return text
+
+   result = fetch_media_list(
+      type='video',
+      published_after='2011-02-01 00:00:00',
+      limit=6
+   )
+   videos = result['media']
+
+   output = ["<h1>Previews:</h1>"]
+
+   for v in videos:
+      output.append(
+         '<div><a href="%s"><img src="%s" alt="%s"/>%s</a>%s</div>' % (
+            v['url'], v['thumbs']['s']['url'], v['title'], v['title'],
+            truncate(v['description_plain'])
+         )
+      )
+
+   print '\n'.join(output)
+
+
+PHP Example
+-----------
+
+.. sourcecode:: php
+
+   <?php
+      $media_api = 'http://demo.getmediacore.com/api/media';
+      $api_key = 'zPDyJXdjrPgmFxHC1xw';
+      $excerpt_length = 180;
+
+      function fetch_media_list($data) {
+         global $media_api, $api_key;
+
+         $data['api_key'] = $api_key;
+         $uri = $media_api . '?' . http_build_query($data);
+         return json_decode(file_get_contents($uri));
+      }
+
+      function truncate($text) {
+         global $excerpt_length;
+
+         if (strlen($text) > $excerpt_length) {
+            $left = 0;
+            $right = strrpos(substr($text, 0, $excerpt_length-1), ' ');
+            $text = substr($text, $left, $right) . '&hellip;';
+         }
+         return $text;
+      }
+
+      $result = fetch_media_list(array(
+         'type' => 'video',
+         'published_after' => '2011-02-01%2000:00:00',
+         'limit' => 6
+      ));
+      $videos = $result->media;
+   ?>
+
+   <h1>Previews:</h1>
+   <?php foreach ($videos as $video): ?>
+      <div>
+         <a href="<?php echo $video->url; ?>">
+            <img src="<?php echo $video->thumbs->s->url; ?>"
+                alt="<?php echo $video->title; ?>" />
+            <?php echo $video->title; ?>
+         </a>
+         <?php echo truncate($video->description_plain); ?>
+      </div>
+   <?php endforeach ?>
+
