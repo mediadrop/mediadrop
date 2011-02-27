@@ -82,9 +82,19 @@ class RemoteURLStorageForm(StorageForm):
 
     javascript = [rtmp_server_js]
 
-    def display(self, value, **kwargs):
-        """Display the form with default values from the engine param."""
-        engine = kwargs['engine']
+    def display(self, value, engine, **kwargs):
+        """Display the form with default values from the given StorageEngine.
+
+        If the value dict is not fully populated, populate any missing entries
+        with the values from the given StorageEngine's
+        :attr:`_data <mediacore.lib.storage.StorageEngine._data>` dict.
+
+        :param value: A (sparse) dict of values to populate the form with.
+        :type value: dict
+        :param engine: An instance of the storage engine implementation.
+        :type engine: :class:`mediacore.lib.storage.StorageEngine` subclass
+
+        """
         rtmp = value.setdefault('rtmp', {})
         rtmp.setdefault('known_servers', engine._data.get('rtmp_server_uris', ()))
         return StorageForm.display(self, value, **kwargs)
