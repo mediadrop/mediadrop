@@ -95,7 +95,7 @@ class AbstractPlayer(AbstractClass):
 
         Each player has a client-side component to provide a consistent
         way of initializing and interacting with the player. For more
-        information see ``mediacore/public/scripts/mcore/players/``.
+        information see :file:`mediacore/public/scripts/mcore/players/`.
 
         :rtype: ``unicode``
         :returns: A javascript string which will evaluate to an instance
