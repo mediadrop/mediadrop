@@ -57,9 +57,21 @@ class PlayerPrefsForm(ListForm):
         ),
     ]
 
-#    def display(self, value, **kwargs):
-#        """Display the form with default values from the engine param."""
-#        return ListForm.display(self, value, **kwargs)
+    def display(self, value, player, **kwargs):
+        """Display the form with default values from the given player.
+
+        If the value dict is not fully populated, populate any missing entries
+        with the values from the given player's
+        :attr:`_data <mediacore.model.player.PlayerPrefs._data>` dict.
+
+        :param value: A (sparse) dict of values to populate the form with.
+        :type value: dict
+        :param player: The player prefs mapped object to retrieve the default
+            values from.
+        :type player: :class:`mediacore.model.player.PlayerPrefs` subclass
+
+        """
+        return ListForm.display(self, value, **kwargs)
 
     def save_data(self, player, **kwargs):
         """Map validated field values to `PlayerPrefs.data`.
@@ -90,11 +102,9 @@ class HTML5OrFlashPrefsForm(PlayerPrefsForm):
         ),
     ] + PlayerPrefsForm.buttons
 
-    def display(self, value, **kwargs):
-        """Display the form with default values from the engine param."""
-        player = kwargs['player']
+    def display(self, value, player, **kwargs):
         value.setdefault('prefer_flash', player.data.get('prefer_flash', False))
-        return PlayerPrefsForm.display(self, value, **kwargs)
+        return PlayerPrefsForm.display(self, value, player, **kwargs)
 
     def save_data(self, player, prefer_flash, **kwargs):
         player.data['prefer_flash'] = prefer_flash
@@ -107,11 +117,9 @@ class SublimePlayerPrefsForm(PlayerPrefsForm):
         ),
     ] + PlayerPrefsForm.buttons
 
-    def display(self, value, **kwargs):
-        """Display the form with default values from the engine param."""
-        player = kwargs['player']
+    def display(self, value, player, **kwargs):
         value.setdefault('script_tag', player.data.get('script_tag', ''))
-        return PlayerPrefsForm.display(self, value, **kwargs)
+        return PlayerPrefsForm.display(self, value, player, **kwargs)
 
     def save_data(self, player, script_tag, **kwargs):
         player.data['script_tag'] = script_tag or None
@@ -135,13 +143,11 @@ class YoutubeFlashPlayerPrefsForm(PlayerPrefsForm):
         )
     ] + PlayerPrefsForm.buttons
 
-    def display(self, value, **kwargs):
-        """Display the form with default values from the engine param."""
-        player = kwargs['player']
+    def display(self, value, player, **kwargs):
         newvalue = {}
         defaults = {'options': player.data}
         merge_dicts(newvalue, defaults, value)
-        return PlayerPrefsForm.display(self, newvalue, **kwargs)
+        return PlayerPrefsForm.display(self, newvalue, player, **kwargs)
 
     def save_data(self, player, options, **kwargs):
         for field, value in options.iteritems():
