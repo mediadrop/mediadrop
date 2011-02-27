@@ -37,7 +37,7 @@ class VimeoStorage(EmbedStorageEngine):
     url_pattern = re.compile(r'^(http(s?)://)?(\w+\.)?vimeo.com/(?P<id>\d+)')
     """A compiled pattern object that uses named groupings for matches."""
 
-    def _parse(self, url, id):
+    def _parse(self, url, **kwargs):
         """Return metadata for the given URL that matches :attr:`url_pattern`.
 
         :type url: unicode
@@ -49,6 +49,7 @@ class VimeoStorage(EmbedStorageEngine):
         :returns: Any extracted metadata.
 
         """
+        id = kwargs['id']
         vimeo_data_url = 'http://vimeo.com/api/v2/video/%s.%s' % (id, 'json')
 
         # Vimeo API requires us to give a user-agent, to avoid 403 errors.

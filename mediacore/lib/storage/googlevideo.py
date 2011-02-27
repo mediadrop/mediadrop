@@ -42,7 +42,7 @@ class GoogleVideoStorage(EmbedStorageEngine):
     xml_duration = re.compile(r'duration="([^"]*)"')
     xhtml_title = re.compile(r'<title>([^<]*)</title>')
 
-    def _parse(self, url, id):
+    def _parse(self, url, **kwargs):
         """Return metadata for the given URL that matches :attr:`url_pattern`.
 
         :type url: unicode
@@ -54,6 +54,7 @@ class GoogleVideoStorage(EmbedStorageEngine):
         :returns: Any extracted metadata.
 
         """
+        id = kwargs['id']
         meta = {
             'unique_id': id,
             'type': VIDEO,

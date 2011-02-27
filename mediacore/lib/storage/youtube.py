@@ -39,7 +39,7 @@ class YoutubeStorage(EmbedStorageEngine):
     )
     """A compiled pattern object that uses named groupings for matches."""
 
-    def _parse(self, url, id):
+    def _parse(self, url, **kwargs):
         """Return metadata for the given URL that matches :attr:`url_pattern`.
 
         :type url: unicode
@@ -51,6 +51,8 @@ class YoutubeStorage(EmbedStorageEngine):
         :returns: Any extracted metadata.
 
         """
+        id = kwargs['id']
+
         yt_service = gdata.youtube.service.YouTubeService()
         yt_service.ssl = False
         entry = yt_service.GetYouTubeVideoEntry(video_id=id)

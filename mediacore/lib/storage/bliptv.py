@@ -36,7 +36,7 @@ class BlipTVStorage(EmbedStorageEngine):
     url_pattern = re.compile(r'^(http(s?)://)?(\w+\.)?blip.tv/file/(?P<id>\d+)')
     """A compiled pattern object that uses named groupings for matches."""
 
-    def _parse(self, url, id):
+    def _parse(self, url, **kwargs):
         """Return metadata for the given URL that matches :attr:`url_pattern`.
 
         :type url: unicode
@@ -48,6 +48,7 @@ class BlipTVStorage(EmbedStorageEngine):
         :returns: Any extracted metadata.
 
         """
+        id = kwargs['id']
         req = Request('http://blip.tv/file/%s?skin=api' % id)
 
         try:

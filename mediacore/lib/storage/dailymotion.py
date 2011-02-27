@@ -40,7 +40,7 @@ class DailyMotionStorage(EmbedStorageEngine):
     )
     """A compiled pattern object that uses named groupings for matches."""
 
-    def _parse(self, url, id):
+    def _parse(self, url, **kwargs):
         """Return metadata for the given URL that matches :attr:`url_pattern`.
 
         :type url: unicode
@@ -52,6 +52,7 @@ class DailyMotionStorage(EmbedStorageEngine):
         :returns: Any extracted metadata.
 
         """
+        id = kwargs['id']
         data_url = 'http://www.dailymotion.com/services/oembed?' + \
             urlencode({'format': 'json', 'url': url})
 
