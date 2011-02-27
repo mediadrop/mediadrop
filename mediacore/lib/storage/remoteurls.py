@@ -101,24 +101,24 @@ class RemoteURLStorage(StorageEngine):
             'unique_id': unique_id,
         }
 
-    def get_uris(self, file):
+    def get_uris(self, media_file):
         """Return a list of URIs from which the stored file can be accessed.
 
-        :type unique_id: unicode
-        :param unique_id: The identifying string for this file.
+        :type media_file: :class:`~mediacore.model.media.MediaFile`
+        :param media_file: The associated media file object.
         :rtype: list
         :returns: All :class:`StorageURI` tuples for this file.
 
         """
-        uid = file.unique_id
+        uid = media_file.unique_id
         if uid.startswith('rtmp://'):
             sep_index = uid.find(RTMP_URI_DIVIDER) # can raise ValueError
             if sep_index < 0:
-                log.warn('File %r has an invalidly formatted unique ID for RTMP.', file)
+                log.warn('File %r has an invalidly formatted unique ID for RTMP.', media_file)
                 return []
             server_uri = uid[:sep_index]
             file_uri = uid[sep_index + len(RTMP_URI_DIVIDER):]
-            return [StorageURI(file, 'rtmp', file_uri, server_uri)]
-        return [StorageURI(file, 'http', file.unique_id, None)]
+            return [StorageURI(media_file, 'rtmp', file_uri, server_uri)]
+        return [StorageURI(media_file, 'http', uid, None)]
 
 StorageEngine.register(RemoteURLStorage)

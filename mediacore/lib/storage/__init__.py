@@ -224,11 +224,12 @@ class StorageEngine(AbstractClass):
         :raises CannotTranscode: If this storage engine can't or won't transcode the file.
         :rtype: NoneType
         :returns: Nothing
+
         """
         raise CannotTranscode('This StorageEngine does not support transcoding.')
 
     @abstractmethod
-    def get_uris(self, file):
+    def get_uris(self, media_file):
         """Return a list of URIs from which the stored file can be accessed.
 
         :type media_file: :class:`~mediacore.model.media.MediaFile`

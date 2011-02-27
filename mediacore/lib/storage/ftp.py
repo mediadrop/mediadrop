@@ -131,21 +131,21 @@ class FTPStorage(FileStorageEngine):
             ftp.quit()
             return False
 
-    def get_uris(self, file):
+    def get_uris(self, media_file):
         """Return a list of URIs from which the stored file can be accessed.
 
-        :type unique_id: unicode
-        :param unique_id: The identifying string for this file.
-
+        :type media_file: :class:`~mediacore.model.media.MediaFile`
+        :param media_file: The associated media file object.
         :rtype: list
         :returns: All :class:`StorageURI` tuples for this file.
 
         """
-        url = os.path.join(self._data[HTTP_DOWNLOAD_URI], file.unique_id)
-        uris = [StorageURI(file, 'http', url, None)]
+        uid = media_file.unique_id
+        url = os.path.join(self._data[HTTP_DOWNLOAD_URI], uid)
+        uris = [StorageURI(media_file, 'http', url, None)]
         rtmp_server = self._data.get(RTMP_SERVER_URI, None)
         if rtmp_server:
-            uris.append(StorageURI(file, 'rtmp', file.unique_id, rtmp_server))
+            uris.append(StorageURI(media_file, 'rtmp', uid, rtmp_server))
         return uris
 
     def _connect(self):
