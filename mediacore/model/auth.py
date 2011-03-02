@@ -6,7 +6,7 @@ from sqlalchemy.types import Unicode, Integer, DateTime
 from sqlalchemy.orm import backref, mapper, relation, synonym
 
 from mediacore.model.meta import DBSession, metadata
-from mediacore.lib.compat import sha1
+from mediacore.lib.compat import any, sha1
 from mediacore.plugin import events
 
 users = Table('users', metadata,
@@ -75,6 +75,10 @@ class User(object):
         for g in self.groups:
             perms = perms | set(g.permissions)
         return perms
+
+    def has_permission(self, permission_name):
+        return any(perm.permission_name == permission_name
+                   for perm in self.permissions)
 
     @classmethod
     def by_email_address(cls, email):

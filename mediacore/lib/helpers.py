@@ -241,6 +241,15 @@ def filter_library_controls(query, show='latest'):
             query = query.in_category(featured_cat)
     return query, show
 
+def has_permission(permission_name):
+    """Return True if the logged in user has the given permission.
+
+    This always returns false if the given user is not logged in."""
+    user = request.environ.get('repoze.who.identity', {}).get('user', None)
+    if user:
+        return user.has_permission(permission_name)
+    return False
+
 def is_admin():
     """Return True if the logged in user is a part of the Admins group.
 
@@ -250,11 +259,9 @@ def is_admin():
     :returns: Whether or not the current user is an Admin.
     :rtype: bool
     """
-    ident = request.environ.get('repoze.who.identity', {})
-    groups = ident.get('groups', 0)
-    return groups and any(group.lower() == 'admins' for group in groups)
+    return has_permission('admin')
 
-def can_edit(item):
+def can_edit(item=None):
     """Return True if the logged in user has the 'edit' permission.
 
     :param item: When we improve our user access controls, this will be used
@@ -265,9 +272,7 @@ def can_edit(item):
     :returns: Whether the current user has the 'edit' permission.
     :rtype: bool
     """
-    ident = request.environ.get('repoze.who.identity', {})
-    perms = ident.get('permissions', 0)
-    return perms and any(perm.lower() == 'edit' for perm in perms)
+    return has_permission('edit')
 
 def gravatar_from_email(email, size):
     """Return the URL for a gravatar image matching the povided email address.
