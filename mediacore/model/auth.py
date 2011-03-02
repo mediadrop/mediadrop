@@ -135,6 +135,10 @@ class Group(object):
     """
     An ultra-simple group definition.
     """
+    def __init__(self, name=None, display_name=None):
+        self.group_name = name
+        self.display_name = display_name
+
     def __repr__(self):
         return '<Group: name=%s>' % self.group_name
 
@@ -145,6 +149,10 @@ class Permission(object):
     """
     A relationship that determines what each Group can do
     """
+    def __init__(self, name=None, desc=None):
+        self.permission_name = name
+        self.description = desc
+
     def __unicode__(self):
         return self.permission_name
 
