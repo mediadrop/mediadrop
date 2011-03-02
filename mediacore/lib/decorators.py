@@ -25,6 +25,8 @@ from paste.deploy.converters import asbool
 from pylons import request, response, tmpl_context, translator
 from pylons.decorators.cache import create_cache_key, _make_dict_from_args
 from pylons.decorators.util import get_pylons
+from repoze.what.plugins.pylonshq import ActionProtector
+from repoze.what.predicates import has_permission
 from webob.exc import HTTPException, HTTPMethodNotAllowed
 
 from mediacore.lib.paginate import paginate
@@ -67,13 +69,13 @@ def _get_func_attrs(f):
         result[x] = getattr(f, x, (None,))
     return result
 
-def _expose_wrapper(f, template, request_method=None):
+def _expose_wrapper(f, template, request_method=None, permission=None):
     """Returns a function that will render the passed in function according
     to the passed in template"""
     f.exposed = True
 
     # Shortcut for simple expose of strings
-    if template == 'string' and not request_method:
+    if template == 'string' and not request_method and not permission:
         return f
 
     if request_method:
@@ -118,9 +120,13 @@ def _expose_wrapper(f, template, request_method=None):
                 response.content_type = 'application/xhtml+xml'
 
         return render(tmpl, tmpl_vars=result, method='auto')
+
+    if permission:
+        wrapped_f = ActionProtector(has_permission(permission))(wrapped_f)
+
     return wrapped_f
 
-def expose(template='string', request_method=None):
+def expose(template='string', request_method=None, permission=None):
     """Simple expose decorator for controller actions.
 
     Transparently wraps a method in a function that will render the method's
@@ -152,13 +158,13 @@ def expose(template='string', request_method=None):
 
     """
     def wrap(f):
-        wrapped_f = _expose_wrapper(f, template, request_method)
+        wrapped_f = _expose_wrapper(f, template, request_method, permission)
         _copy_func_attrs(f, wrapped_f)
         return wrapped_f
     return wrap
 
 def expose_xhr(template_norm='string', template_xhr='json',
-               request_method=None):
+               request_method=None, permission=None):
     """
     Expose different templates for normal vs XMLHttpRequest requests.
 
@@ -172,8 +178,8 @@ def expose_xhr(template_norm='string', template_xhr='json',
                 return dict(items=get_items_list())
     """
     def wrap(f):
-        norm = _expose_wrapper(f, template_norm, request_method)
-        xhr = _expose_wrapper(f, template_xhr, request_method)
+        norm = _expose_wrapper(f, template_norm, request_method, permission)
+        xhr = _expose_wrapper(f, template_xhr, request_method, permission)
 
         def choose(*args, **kwargs):
             if request.is_xhr:
