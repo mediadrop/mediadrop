@@ -79,7 +79,7 @@ class SitemapsController(BaseController):
         else:
             links = [
                 url_for(controller='/', qualified=True),
-                url_for(controller='/media', show='poplular', qualified=True),
+                url_for(controller='/media', show='popular', qualified=True),
                 url_for(controller='/media', show='latest', qualified=True),
                 url_for(controller='/categories', qualified=True),
             ]
