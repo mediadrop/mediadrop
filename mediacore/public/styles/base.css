@@ -928,7 +928,6 @@ textarea {
 .cooliris-cats-btn {
 	padding: 10px 15px;
 	color: #484f5a;
-	font-weight: bold;
 	text-shadow: 0 1px #fff;
 	-webkit-font-smoothing: antialiased;
 }
@@ -963,6 +962,9 @@ textarea {
 	width: 680px;
 	height: 324px;
 	float: left;
+}
+.cooliris-feed-active {
+	font-weight: bold;
 }
 
 #mcore-ad-banner {

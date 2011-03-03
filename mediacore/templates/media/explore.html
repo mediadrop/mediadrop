@@ -43,13 +43,14 @@
 			<div class="feat-content clearfix">
 				<div class="cooliris-nav">
 					<div class="cooliris-nav-content">
-						<div class="cooliris-featured clickable cooliris-feed" data-feed="${h.url_for(controller='sitemaps', action='featured', skip=g.settings['appearance_enable_featured_items'] and 1 or 0)}">Featured</div>
-						<div class="cooliris-latest clickable cooliris-feed" data-feed="${h.url_for(controller='sitemaps', action='latest')}">Latest</div>
+						<div class="cooliris-featured clickable cooliris-feed featured" data-feed="${h.url_for(controller='sitemaps', action='featured', skip=g.settings['appearance_enable_featured_items'] and 1 or 0)}" id="cooliris-feed-featured">Featured</div>
+						<div class="cooliris-latest clickable cooliris-feed" data-feed="${h.url_for(controller='sitemaps', action='latest')}" id="cooliris-feed-latest">Latest</div>
 						<div class="cooliris-cats-btn clickable"><span class="cooliris-cats-text">Categories</span> <span class="cooliris-arrow goog-inline-block" /></div>
 						<ul class="cooliris-cats hidden">
 							<li py:for="cat in categories"
 							    py:if="cat.slug != 'featured'"
 							    class="clickable cooliris-feed"
+							    id="cooliris-feed-${cat.slug}"
 							    data-feed="${h.url_for(controller='categories', action='feed', slug=cat.slug)}"
 							    py:content="cat.name" />
 						</ul>
@@ -65,7 +66,7 @@
 				backgroundAlpha: 1,
 				cellBorder: 1,
 				feed: '${h.url_for(controller='sitemaps', action='featured', skip=g.settings['appearance_enable_featured_items'] and 1 or 0)}',
-				intro: 'zoomIn',
+				intro: 'scrollLeft',
 				numRows: 2,
 				showChrome: false,
 				showDescription: true,
@@ -73,7 +74,7 @@
 				showReflections: false,
 				style: 'light',
 				tilt: 5
-			});
+			}, 'cooliris-feed-featured');
 			setTimeout(function(){ myCooliris.decorate(document.getElementById('cooliris-box')); }, 150);
 		</script>
 	</py:if>
