@@ -3,7 +3,7 @@
 }
 .mcore-body {
 	color: ${appearance_text_color};
-	background: ${appearance_background_color}{% if appearance_display_background_image and appearance_background_image %} url('/appearance/${appearance_background_image}') fixed repeat{% end %};
+	background: ${appearance_background_color}{% if appearance_display_background_image and appearance_background_image %} url('/appearance/${appearance_background_image}') fixed {% if appearance_tile_background == 'true' %} repeat {% end %} {% if appearance_tile_background != 'true' %} no-repeat {% end %} {% end %};
 }
 a:link {
 	color: ${appearance_link_color};
