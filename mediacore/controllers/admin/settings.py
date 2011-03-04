@@ -17,6 +17,8 @@ import os
 import shutil
 import tw.forms.fields
 
+from datetime import datetime
+
 import gdata.youtube
 import gdata.youtube.service
 
@@ -281,9 +283,8 @@ class SettingsController(BaseSettingsController):
     @autocommit
     def importvideos_save(self, youtube, **kwargs):
         """Save :class:`~mediacore.forms.admin.settings.ImportVideosForm`."""
-        channel_url = youtube.get('youtube.channel_url', None)
-        auto_import = youtube.get('auto_publish', None)
-        log.info('Import YouTube Videos: %s %s' % (channel_url, auto_import))
+        channel_url = youtube.get('channel_url', None)
+        auto_publish = youtube.get('auto_publish', None)
         def get_videos_from_feed(feed):
             for entry in feed.entry:
                 # Occasionally, there are issues with a video in a feed
@@ -322,6 +323,13 @@ class SettingsController(BaseSettingsController):
                     create_default_thumbs_for(media)
                 media.title = media_file.display_name
                 media.update_status()
+                if auto_publish:
+                    media.reviewed = 1
+                    media.encoded = 1
+                    media.publishable = 1
+                    media.created_on = datetime.now()
+                    media.modified_on = datetime.now()
+                    media.publish_on = datetime.now()
                 DBSession.add(media)
                 DBSession.flush()
 
