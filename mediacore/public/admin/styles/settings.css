@@ -138,3 +138,9 @@
 #settings-form #youtube_tags {
 	width: 95%;
 }
+
+#youtube_auto_publish {
+	width: 50%;
+	vertical-align: bottom;
+	margin: 5px 10px 5px 0;
+}

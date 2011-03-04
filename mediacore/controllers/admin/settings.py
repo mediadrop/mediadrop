@@ -279,9 +279,11 @@ class SettingsController(BaseSettingsController):
     @expose()
     @validate(importvideos_form, error_handler=importvideos)
     @autocommit
-    def importvideos_save(self, **kwargs):
+    def importvideos_save(self, youtube, **kwargs):
         """Save :class:`~mediacore.forms.admin.settings.ImportVideosForm`."""
-        channel_url = kwargs['youtube.channel_url']
+        channel_url = youtube.get('youtube.channel_url', None)
+        auto_import = youtube.get('auto_publish', None)
+        log.info('Import YouTube Videos: %s %s' % (channel_url, auto_import))
         def get_videos_from_feed(feed):
             for entry in feed.entry:
                 # Occasionally, there are issues with a video in a feed
