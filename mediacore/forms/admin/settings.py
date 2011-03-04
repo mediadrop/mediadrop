@@ -210,8 +210,6 @@ class GeneralForm(ListForm):
         ListFieldSet('general', suppress_label=True, legend=N_('General Settings:'), css_classes=['details_fieldset'], children=[
             TextField('general_site_name', maxlength=255,
                 label_text=N_('Site Name')),
-            TextField('general_tag_line', maxlength=255,
-                label_text=N_('Site Tag Line')),
             SingleSelectField('general_site_title_display_order',
                 label_text=N_('Display Site Name'),
                 options=title_options,
