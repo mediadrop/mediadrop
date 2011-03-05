@@ -83,7 +83,7 @@
 			<h2><span class="mcore-heading uppercase">Featured</span></h2>
 			<div class="feat-box">
 				<div class="feat-top" />
-				<div class="feat-content clearfix">
+				<div py:if="featured" class="feat-content clearfix">
 					${h.media_player(featured, width=410, height=231)}
 					<h3><a class="underline-hover" href="${h.url_for(controller='/media', action='view', slug=featured.slug)}">${featured.title}</a></h3>
 					<div class="feat-meta">
