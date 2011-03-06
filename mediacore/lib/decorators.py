@@ -292,26 +292,16 @@ class validate(object):
         generating a form with given values and the validation failure
         messages.
         """
-        tmpl_context.validation_exception = exception
-        tmpl_context.form_errors = {}
-
-        # Most Invalid objects come back with a list of errors in the format:
-        # "fieldname1: error\nfieldname2: error"
-        error_list = exception.__str__().split('\n')
-
-        # Set up the tmpl_context.form_errors dict
-        for error in error_list:
-            field_value = error.split(':')
-            # if the error has no field associated with it,
-            # return the error as a global form error
-            if len(field_value) == 1:
-                tmpl_context.form_errors['_the_form'] = field_value[0].strip()
-                continue
-            # XXX: This doesn't support nested form fields
-            tmpl_context.form_errors[field_value[0]] = field_value[1].strip()
+        c = tmpl_context._current_obj()
+        c.validation_exception = exception
 
         # Set up the tmpl_context.form_values dict with the invalid values
-        tmpl_context.form_values = exception.value
+        c.form_values = exception.value
+
+        # Set up the tmpl_context.form_errors dict
+        c.form_errors = exception.unpack_errors()
+        if not isinstance(c.form_errors, dict):
+            c.form_errors = {'_the_form': c.form_errors}
 
         return self._call_error_handler(args, kwargs)
 
