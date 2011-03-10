@@ -62,3 +62,7 @@
 #category-content .grid-meta {
 	width: 189px;
 }
+
+#categories-bar .category-selected {
+	text-decoration: underline;
+}

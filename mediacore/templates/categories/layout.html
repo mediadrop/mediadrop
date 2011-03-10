@@ -37,8 +37,9 @@
 			<ul py:def="cat_list(cats, crumb, depth=0)" class="${depth >= 1 and 'sub' or ''}category-list">
 				<li py:for="cat in cats"
 				    py:if="tmpl_context.category_counts.get(cat.id, 0)"
-				    py:with="is_ancestor = crumb and crumb[0] == cat">
-					<a class="underline-hover ${is_ancestor and 'ancestor' or ''}" href="${h.url_for(action='index', slug=cat.slug, order=None)}">${cat.name} <small class="mcore-text">(${tmpl_context.category_counts[cat.id]})</small></a>
+				    py:with="is_ancestor = crumb and crumb[0] == cat;
+					         selected = c.category == cat">
+					<a class="underline-hover ${is_ancestor and 'ancestor' or ''} ${selected  and 'category-selected' or ''}" href="${h.url_for(action='index', slug=cat.slug, order=None)}">${cat.name} <small class="mcore-text">(${tmpl_context.category_counts[cat.id]})</small></a>
 					<ul py:if="is_ancestor" py:replace="cat_list(cat.children, crumb[1:], depth + 1)" />
 				</li>
 			</ul>
