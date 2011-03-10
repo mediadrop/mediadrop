@@ -27,6 +27,7 @@ from mediacore.lib.base import BaseController
 from mediacore.lib.decorators import (autocommit, expose, expose_xhr,
     observable, paginate, validate)
 from mediacore.lib.helpers import redirect, url_for
+from mediacore.lib.i18n import _
 from mediacore.lib.thumbnails import thumb_paths, create_thumbs_for, create_default_thumbs_for
 from mediacore.model import Author, AuthorWithIP, Podcast, fetch_row, get_available_slug
 from mediacore.model.meta import DBSession
@@ -96,7 +97,7 @@ class PodcastsController(BaseController):
             form_values.setdefault('author_name', user.display_name)
             form_values.setdefault('author_email', user.email_address)
             form_values.setdefault('feed', {}).setdefault('feed_url',
-                u'Save the podcast to get your feed URL')
+                _('Save the podcast to get your feed URL'))
         else:
             explicit_values = {True: 'yes', False: 'clean', None: 'no'}
             form_values = dict(
