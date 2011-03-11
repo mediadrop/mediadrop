@@ -522,12 +522,16 @@ a:focus .grid-title {
 	width: 168px;
 	clear: both;
 	float: left;
+	font-weight: normal;
 }
 .mcore-btn-more > span {
 	text-align: center;
 }
 .nav-categories-on .mcore-btn-more {
 	width: 130px;
+}
+#category-content .mcore-btn-more {
+	font-weight: normal;
 }
 
 /* Media details page */
