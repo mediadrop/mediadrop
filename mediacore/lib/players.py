@@ -719,7 +719,8 @@ class JWPlayer(AbstractHTML5Player):
     """A unicode display name for the class, to be used in the settings UI."""
 
     supported_containers = AbstractHTML5Player.supported_containers \
-                         | AbstractRTMPFlashPlayer.supported_containers
+                         | AbstractRTMPFlashPlayer.supported_containers \
+                         | set(['xml', 'srt'])
 #    supported_containers.add('youtube')
     supported_types = set([AUDIO, VIDEO, AUDIO_DESC, CAPTIONS])
     supported_schemes = set([HTTP, RTMP])
@@ -738,6 +739,7 @@ class JWPlayer(AbstractHTML5Player):
         flash_uris = [uri
             for uri, p in izip(uris, AbstractRTMPFlashPlayer.can_play(uris)) if p]
         super(JWPlayer, self).__init__(media, html5_uris, **kwargs)
+        self.all_uris = uris
         self.flash_uris = flash_uris
         self.rtmp_uris = pick_uris(flash_uris, scheme=RTMP)
 
@@ -807,12 +809,12 @@ class JWPlayer(AbstractHTML5Player):
 
     def plugins(self):
         plugins = {}
-        audio_desc = self.get_uris(type=AUDIO_DESC)
-        captions = self.get_uris(type=CAPTIONS)
+        audio_desc = pick_uris(self.all_uris, type=AUDIO_DESC)
+        captions = pick_uris(self.all_uris, type=CAPTIONS)
         if audio_desc:
-            plugins['audiodescription'] = {'file': audio_desc[0].uri}
+            plugins['audiodescription'] = {'file': str(audio_desc[0])}
         if captions:
-            plugins['captions'] = {'file': captions[0].uri}
+            plugins['captions'] = {'file': str(captions[0])}
         return plugins
 
     def flash_override_playlist(self):
