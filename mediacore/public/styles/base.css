@@ -516,17 +516,17 @@ a:focus .grid-title {
 	float: right;
 	margin-right: -10px;
 }
-.mcore-view-more {
+.mcore-btn-more {
 	position: relative;
 	margin-top: -10px;
 	width: 168px;
 	clear: both;
 	float: left;
 }
-.mcore-view-more > span {
+.mcore-btn-more > span {
 	text-align: center;
 }
-.nav-categories-on .mcore-view-more {
+.nav-categories-on .mcore-btn-more {
 	width: 130px;
 }
 

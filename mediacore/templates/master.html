@@ -18,7 +18,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:py="http://genshi.edgewall.org/"
       xmlns:xi="http://www.w3.org/2001/XInclude"
-      py:strip="">
+      py:strip=""
+	  lang="en">
 
 <xi:include href="./helpers.html" />
 <xi:include py:for="tmpl in g.plugin_mgr.match_templates('master.html')" href="${tmpl}" />
