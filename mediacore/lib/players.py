@@ -862,6 +862,9 @@ class SublimePlayer(AbstractHTML5Player):
     default_data = {'script_tag': ''}
     """An optional default data dictionary for user preferences."""
 
+    supported_types = set([VIDEO])
+    """Sublime does not support AUDIO at this time."""
+
     supports_resizing = False
     """A flag that allows us to mark the few players that can't be resized.
 
