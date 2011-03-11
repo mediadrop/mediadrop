@@ -269,7 +269,9 @@ mcore.players.JWPlayer.prototype.setSize = function(w, opt_h) {
     //      call to resize() will be ignored. So we delay until onReady, but
     //      we can improve the situation by resizing the <object> immediately.
     this.pendingResize_ = [w, h];
-    goog.style.setSize(this.getContentElement(), w, h);
+    var videoOrObjectTag = this.getContentElement();
+    videoOrObjectTag.width = w;
+    videoOrObjectTag.height = h;
   }
   return this;
 };
