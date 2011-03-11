@@ -168,10 +168,14 @@
 #sbox-content em {
 	color: #AC3D4A; /* XXX: This colour should be edited/approved by a designer */
 }
+
+/* XXX: This rule was causing our TextAreas to have pasting issues in Safari, and
+ *      Chrome. It has been removed, and so far no adverse effects are seen.
 #sbox-content .box-content > *:last-child {
 	margin-bottom: 0;
 	padding-bottom: 0;
 }
+*/
 #sbox-content .box-content > *:first-child {
 	margin-top: 0;
 	padding-top: 0;
