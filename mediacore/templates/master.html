@@ -18,8 +18,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:py="http://genshi.edgewall.org/"
       xmlns:xi="http://www.w3.org/2001/XInclude"
-      py:strip=""
-	  lang="en">
+      py:strip="">
 
 <xi:include href="./helpers.html" />
 <xi:include py:for="tmpl in g.plugin_mgr.match_templates('master.html')" href="${tmpl}" />
@@ -27,6 +26,7 @@
 
 <head py:match="head">
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="language" content="${translator.locale.territory and '%s-%s' % (translator.locale.language, translator.locale.territory.lower()) or translator.locale.language}" />
 	<link href="${h.url_for('/styles/base.css')}" media="screen" rel="stylesheet" type="text/css" />
 	<link href="${h.url_for('/appearance/appearance.css')}" media="screen" rel="stylesheet" type="text/css" />
 	<py:choose test="h.config['debug'] and bool(h.request.params.get('debug', False))">
