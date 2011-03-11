@@ -64,7 +64,7 @@
 			<li py:if="g.settings['appearance_enable_user_uploads']" class="mcore-nav-left mcore-nav-right f-rgt"><a class="${'nav-upload-on' in body_class and 'active' or None} mcore-nav-link" href="${h.url_for(controller='/upload')}"><span>Upload</span><em /></a></li>
 		</ul>
 		<form id="nav-search" method="get" action="${h.url_for(controller='/media', action='index')}">
-			<div><input type="text" class="mcore-nav-search" id="nav-search-input" name="q" value="${h.request.params.get('q')}" alt="Search" /><input type="submit" class="nav-search-btn clickable mcore-nav-search-btn" value="Search" /></div>
+			<div><label for="nav-search-input"></label><input type="text" class="mcore-nav-search" id="nav-search-input" name="q" value="${h.request.params.get('q')}" alt="Search" /><input type="submit" class="nav-search-btn clickable mcore-nav-search-btn" value="Search" /></div>
 		</form>
 	</div>
 	<div py:if="advertising_banner_html" id="mcore-ad-banner" class="mediacore-content" py:content="Markup(advertising_banner_html)" />
