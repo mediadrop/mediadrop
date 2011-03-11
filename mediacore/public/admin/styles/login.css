@@ -62,6 +62,13 @@ body {
 	right: 238px;
 	top: 503px;
 }
+#ie-warning-wrapper {
+	position: absolute;
+	top: 0;
+	left: 0;
+	text-align: center;
+	width: 100%;
+}
 #ie-warning {
 	background: #ff0000;
 	color: #ffd6d6;
