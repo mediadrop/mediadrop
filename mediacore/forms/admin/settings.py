@@ -57,7 +57,9 @@ hex_validation_regex = "^#\w{3,6}$"
 # End Appearance Settings #
 
 def languages():
-    result = []
+    # Note the extra space between English and [en]. This makes it sort above
+    # the other translations of english, but is invisible to the user.
+    result = [('en', u'English  [en]')]
     i18n_dir = os.path.join(config['here'], 'mediacore/i18n')
     for name in os.listdir(i18n_dir):
         mo_path = os.path.join(i18n_dir, name, 'LC_MESSAGES/mediacore.mo')
@@ -66,10 +68,10 @@ def languages():
             lang = locale.languages[locale.language].capitalize()
             if locale.territory:
                 lang += u' (%s)' % locale.territories[locale.territory]
+            lang += u' [%s]' % locale
             result.append((name, lang))
     result.sort(key=itemgetter(1))
-    # tw won't select english when primary_language is empty unless it's first
-    return [('', u'English')] + result
+    return result
 
 
 def multi_settings_options(key):

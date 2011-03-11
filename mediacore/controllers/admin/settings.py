@@ -169,6 +169,8 @@ class SettingsController(BaseSettingsController):
 
     @expose('admin/settings/general.html')
     def general(self, **kwargs):
+        if not c.settings['primary_language'].value:
+            kwargs.setdefault('general', {}).setdefault('primary_language', 'en')
         return self._display(general_form, values=kwargs)
 
     @expose(request_method='POST')
