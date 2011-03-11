@@ -226,7 +226,8 @@ mcore.players.Controller.prototype.handlePopout = function(e) {
   var targetUri = new goog.Uri(target.href);
   targetUri.getQueryData().add('w', size.width).add('h', size.height);
 
-  this.dom_.getWindow().open(targetUri.toString(), this.getElement().id, opts);
+
+  this.dom_.getWindow().open(targetUri.toString(), '_blank', opts);
 };
 
 
