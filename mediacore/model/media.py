@@ -386,8 +386,8 @@ class MediaQuery(Query):
 
         search_terms = '%s %s %s' % (
             media.title,
-            media.fulltext.tags,
-            media.fulltext.categories,
+            media.fulltext and media.fulltext.tags or '',
+            media.fulltext and media.fulltext.categories or '',
         )
         return query.search(search_terms, bool=True)
 
