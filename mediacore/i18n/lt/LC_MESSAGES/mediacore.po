@@ -1,0 +1,2290 @@
+# Lithuanian translations for MediaCore.
+# Copyright (C) 2011 ORGANIZATION
+# This file is distributed under the same license as the MediaCore project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2011.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: MediaCore Video Platform\n"
+"Report-Msgid-Bugs-To: http://github.com/simplestation/mediacore/issues\n"
+"POT-Creation-Date: 2011-01-21 15:28+0800\n"
+"PO-Revision-Date: 2011-03-11 15:56-0800\n"
+"Last-Translator: deniobe <rms200x@gmail.com>\n"
+"Language-Team: lt <LL@li.org>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"(n%100<10 || n%100>=20) ? 1 : 2)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 0.9.5\n"
+
+#: mediacore/websetup.py:136
+msgid ""
+"Upload your media using the form below. We'll review it and get back to "
+"you."
+msgstr ""
+"Įkelkite savo media failą į formą pateiktą žemiau. Failas bus pateiktas "
+"peržiūrai ir Jums apie tai praneš."
+
+#: mediacore/controllers/error.py:65
+msgid "We're sorry but we weren't able to process this request."
+msgstr "Atsiprašome, tačiau negalime įvykdyti Jūsų užklausos."
+
+#: mediacore/controllers/media.py:288
+msgid "Your comment has been rejected."
+msgstr "Jūsų komentaras atmestas."
+
+#: mediacore/controllers/media.py:309
+msgid ""
+"Thank you for your comment! We will post it just as soon as a moderator "
+"approves it."
+msgstr ""
+"Dėkojame už Jūsų komentarą! Jis bus rodomas kai tik moderatoriai jį "
+"patikrins."
+
+#: mediacore/controllers/admin/media.py:391
+#, python-format
+msgid "File \"%s\" does not exist."
+msgstr "Failas \"%s\" neegzistuoja."
+
+#: mediacore/controllers/admin/media.py:413
+msgid "No action to perform."
+msgstr "Nesiimta jokių veiksmų atlikimo."
+
+#: mediacore/controllers/admin/media.py:562
+msgid "Permission denied, cannot write file"
+msgstr "Leidimas nesuteiktas, negali įrašyti failo"
+
+#: mediacore/controllers/admin/media.py:564
+#, python-format
+msgid "Unsupport image type: %s"
+msgstr "Nepalaikomas paveikslėlio tipas: %s"
+
+#: mediacore/forms/__init__.py:191
+msgid "The portion of the email address before the @ is invalid"
+msgstr "Elektroninio pašto adreso dalis iki @ negalioja"
+
+#: mediacore/forms/__init__.py:192
+msgid "The portion of this email address after the @ is invalid"
+msgstr "Šio elektroninio pašto adreso dalis po @ yra neteisinga"
+
+#: mediacore/forms/comments.py:23
+msgid "Please enter your name!"
+msgstr "Prašome įvesti savo vardą!"
+
+#: mediacore/forms/uploader.py:31
+msgid "At least give it a short description..."
+msgstr "Bent įkelkite trumpą aprašymą..."
+
+#: mediacore/forms/uploader.py:35
+msgid "You've gotta have a name!"
+msgstr "Juk Jūs turite vardą!"
+
+#: mediacore/forms/uploader.py:39
+msgid "You've gotta have a title!"
+msgstr "Juk Jūs turite pavadinimą!"
+
+#: mediacore/forms/uploader.py:55
+msgid "Your Name:"
+msgstr "Jūsų vardas:"
+
+#: mediacore/forms/uploader.py:56
+msgid "Your Email:"
+msgstr "Jūsų el.paštas:"
+
+#: mediacore/forms/uploader.py:56
+msgid "(will never be published)"
+msgstr "(Niekada nebus skelbiamas)"
+
+#: mediacore/forms/uploader.py:57
+msgid "Title:"
+msgstr "Pavadinimas:"
+
+#: mediacore/forms/uploader.py:58
+msgid "Description:"
+msgstr "Aprašymas:"
+
+#: mediacore/forms/uploader.py:59
+msgid "Add a YouTube, Vimeo or Google Video URL:"
+msgstr "Pridėti \"YouTube\", Vimeo ar Google Video URL:"
+
+#: mediacore/forms/uploader.py:60
+msgid "Oops! You forgot to enter a file."
+msgstr "Oi! Pamiršote įkelti failą."
+
+#: mediacore/forms/uploader.py:60
+msgid "OR:"
+msgstr "ARBA:"
+
+#: mediacore/forms/uploader.py:61
+msgid "Submit"
+msgstr "Pateikti"
+
+#: mediacore/forms/admin/__init__.py:27
+msgid "SEARCH..."
+msgstr "Paieška ..."
+
+#: mediacore/forms/admin/__init__.py:47
+msgid "You forgot to select an image!"
+msgstr "Jūs pamiršote pasirinkti paveikslėlį!"
+
+#: mediacore/forms/admin/categories.py:44 mediacore/forms/admin/tags.py:44
+#: mediacore/templates/admin/categories/index.html:69
+#: mediacore/templates/admin/players/index.html:55
+#: mediacore/templates/admin/storage/index.html:128
+#: mediacore/templates/admin/tags/index.html:66
+#: mediacore/templates/comments/_list.html:74
+msgid "Name"
+msgstr "Vardas"
+
+#: mediacore/forms/admin/categories.py:45 mediacore/forms/admin/media.py:155
+#: mediacore/forms/admin/podcasts.py:110 mediacore/forms/admin/tags.py:45
+#: mediacore/templates/comments/_list.html:35
+msgid "Permalink"
+msgstr "Perma-nuoroda"
+
+#: mediacore/forms/admin/categories.py:46
+msgid "Parent Category"
+msgstr "Pagrindinė kategorija"
+
+#: mediacore/forms/admin/categories.py:47 mediacore/forms/admin/comments.py:31
+#: mediacore/forms/admin/tags.py:46
+#: mediacore/templates/admin/categories/index.html:48
+#: mediacore/templates/admin/categories/index.html:98
+#: mediacore/templates/admin/comments/index.html:45
+#: mediacore/templates/admin/comments/index.html:58
+#: mediacore/templates/admin/media/edit.html:75
+#: mediacore/templates/admin/media/index.html:43
+#: mediacore/templates/admin/players/index.html:35
+#: mediacore/templates/admin/podcasts/edit.html:61
+#: mediacore/templates/admin/settings/appearance.html:36
+#: mediacore/templates/admin/storage/index.html:84
+#: mediacore/templates/admin/tags/index.html:45
+#: mediacore/templates/admin/tags/index.html:92
+#: mediacore/templates/admin/users/edit.html:35
+#: mediacore/templates/admin/users/index.html:35
+msgid "Cancel"
+msgstr "Atšaukti"
+
+#: mediacore/forms/admin/categories.py:48 mediacore/forms/admin/comments.py:30
+#: mediacore/forms/admin/media.py:167 mediacore/forms/admin/players.py:55
+#: mediacore/forms/admin/podcasts.py:126 mediacore/forms/admin/settings.py:113
+#: mediacore/forms/admin/settings.py:132 mediacore/forms/admin/settings.py:163
+#: mediacore/forms/admin/settings.py:175 mediacore/forms/admin/settings.py:198
+#: mediacore/forms/admin/settings.py:238 mediacore/forms/admin/settings.py:257
+#: mediacore/forms/admin/settings.py:369 mediacore/forms/admin/settings.py:391
+#: mediacore/forms/admin/tags.py:47 mediacore/forms/admin/users.py:62
+#: mediacore/forms/admin/storage/__init__.py:51
+msgid "Save"
+msgstr "Išsaugoti"
+
+#: mediacore/forms/admin/categories.py:67 mediacore/forms/admin/media.py:168
+#: mediacore/forms/admin/podcasts.py:127 mediacore/forms/admin/tags.py:62
+#: mediacore/forms/admin/users.py:63
+#: mediacore/templates/admin/categories/index.html:47
+#: mediacore/templates/admin/categories/index.html:99
+#: mediacore/templates/admin/comments/index.html:44
+#: mediacore/templates/admin/comments/index.html:57
+#: mediacore/templates/admin/comments/index.html:96
+#: mediacore/templates/admin/media/edit.html:74
+#: mediacore/templates/admin/media/index.html:42
+#: mediacore/templates/admin/media/index.html:93
+#: mediacore/templates/admin/players/index.html:34
+#: mediacore/templates/admin/players/index.html:85
+#: mediacore/templates/admin/podcasts/edit.html:60
+#: mediacore/templates/admin/storage/index.html:83
+#: mediacore/templates/admin/storage/index.html:153
+#: mediacore/templates/admin/tags/index.html:44
+#: mediacore/templates/admin/tags/index.html:93
+#: mediacore/templates/admin/users/edit.html:34
+#: mediacore/templates/admin/users/index.html:34
+#: mediacore/templates/admin/users/index.html:68
+msgid "Delete"
+msgstr "Ištrinti"
+
+#: mediacore/forms/admin/comments.py:29
+#: mediacore/templates/admin/helpers.html:74
+#: mediacore/templates/admin/comments/_comment-table.html:31
+#: mediacore/templates/comments/_list.html:93
+#: mediacore/templates/media/explore.html:89
+#: mediacore/templates/media/view.html:66
+msgid "Comment"
+msgid_plural "Comments"
+msgstr[0] "Komentaras"
+msgstr[1] "Komentarai"
+msgstr[2] "Komentarų"
+
+#: mediacore/forms/admin/media.py:41
+msgid "Bad duration formatting, use Hour:Min:Sec"
+msgstr "Blogas trukmės formatas, naudokite Valanda:minutė:sekundė"
+
+#: mediacore/forms/admin/media.py:69
+msgid "Value must be in the format wxh; e.g. 200x300"
+msgstr "Reikšmė turi būti formatu wxh; pvz. 200x300"
+
+#: mediacore/forms/admin/media.py:75
+msgid "Width must be a valid integer"
+msgstr "Plotis turi būti galiojantis sveikasis skaičius"
+
+#: mediacore/forms/admin/media.py:79
+msgid "Height must be a valid integer"
+msgstr "Aukštis turi būti galiojantis sveikasis skaičius"
+
+#: mediacore/forms/admin/media.py:115
+msgid "Select an encoded video or audio file on your computer"
+msgstr "Pasirinkite vaizdo arba garso failą savo kompiuteryje"
+
+#: mediacore/forms/admin/media.py:115 mediacore/templates/master.html:63
+#: mediacore/templates/admin/settings/master.html:83
+#: mediacore/templates/admin/settings/upload.html:23
+#: mediacore/templates/admin/settings/upload.html:29
+msgid "Upload"
+msgstr "Įkelti"
+
+#: mediacore/forms/admin/media.py:116
+msgid "Add URL"
+msgstr "Pridėti URL"
+
+#: mediacore/forms/admin/media.py:117
+msgid "YouTube, Vimeo, Google Video, Amazon S3 or any other link"
+msgstr ""
+"\"YouTube\", Vimeo, \"Google Video\", \"Amazon S3 arba bet kuri kita "
+"nuoroda"
+
+#: mediacore/forms/admin/media.py:139
+msgid "Delete file"
+msgstr "Ištrinti failą"
+
+#: mediacore/forms/admin/media.py:154
+msgid "Include in the Podcast"
+msgstr "Įtraukti į Grojaraštį"
+
+#: mediacore/forms/admin/media.py:154
+msgid "Optional"
+msgstr "Neprivaloma"
+
+#: mediacore/forms/admin/media.py:156 mediacore/forms/admin/podcasts.py:111
+#: mediacore/templates/admin/media/_media-table.html:33
+msgid "Title"
+msgstr "Pavadinimas"
+
+#: mediacore/forms/admin/media.py:157 mediacore/forms/admin/podcasts.py:113
+msgid "Author Name"
+msgstr "Autoriaus vardas"
+
+#: mediacore/forms/admin/media.py:158 mediacore/forms/admin/podcasts.py:114
+msgid "Author Email"
+msgstr "Autorius el.paštas"
+
+#: mediacore/forms/admin/media.py:159 mediacore/forms/admin/podcasts.py:115
+msgid "Description"
+msgstr "Aprašymas"
+
+#: mediacore/forms/admin/media.py:160 mediacore/templates/master.html:62
+#: mediacore/templates/admin/categories/edit.html:23
+#: mediacore/templates/admin/categories/index.html:24
+#: mediacore/templates/admin/categories/index.html:58
+#: mediacore/templates/admin/settings/master.html:56
+#: mediacore/templates/categories/index.html:25
+#: mediacore/templates/categories/layout.html:29
+#: mediacore/templates/categories/more.html:24
+#: mediacore/templates/media/explore.html:48
+#: mediacore/templates/media/view.html:112
+msgid "Categories"
+msgstr "Kategorijos"
+
+#: mediacore/forms/admin/media.py:161
+#: mediacore/templates/admin/media/_media-table.html:35
+#: mediacore/templates/admin/settings/master.html:80
+#: mediacore/templates/admin/tags/edit.html:23
+#: mediacore/templates/admin/tags/index.html:24
+#: mediacore/templates/admin/tags/index.html:55
+#: mediacore/templates/media/tags.html:23
+#: mediacore/templates/media/view.html:119
+msgid "Tags"
+msgstr "Žymos"
+
+#: mediacore/forms/admin/media.py:161
+msgid "e.g.: puppies, great dane, adorable"
+msgstr "pvz: šuniukai, dogas, žavinga"
+
+#: mediacore/forms/admin/media.py:163
+msgid "Administrative Notes"
+msgstr "Administracinės pastabos"
+
+#: mediacore/forms/admin/players.py:41
+#: mediacore/forms/admin/storage/__init__.py:37
+msgid "General Options:"
+msgstr "Bendro pobūdžio nuostatos:"
+
+#: mediacore/forms/admin/players.py:45 mediacore/forms/admin/users.py:48
+#: mediacore/forms/admin/storage/__init__.py:41
+#: mediacore/templates/admin/users/index.html:52
+msgid "Display Name"
+msgstr "Rodomas vardas"
+
+#: mediacore/forms/admin/players.py:96
+msgid "Yes, use the Flash Player when the device supports it."
+msgstr "Taip, naudoti \"Flash\" grotuvą, kai prietaisas palaiko tai."
+
+#: mediacore/forms/admin/players.py:97
+msgid "No, use the HTML5 Player when the device supports it."
+msgstr "Ne, naudokite HTML5 grotuvą kai prietaisas palaiko tai."
+
+#: mediacore/forms/admin/players.py:100
+msgid "Prefer the Flash Player when possible"
+msgstr "Pageidaujamas Flash grotuvas, jei įmanoma"
+
+#: mediacore/forms/admin/players.py:115
+msgid "Script Tag"
+msgstr "Kodo žymuo"
+
+#: mediacore/forms/admin/players.py:116
+msgid "The unique script tag given for your site."
+msgstr "Unikali kodo žymė atsižvelgiant į jūsų svetainę."
+
+#: mediacore/forms/admin/players.py:133
+msgid "Player Options:"
+msgstr "Grotuvo nuostatos:"
+
+#: mediacore/forms/admin/players.py:135
+msgid "Disable the player keyboard controls."
+msgstr "Išjungti grotuvo kontrolę klaviatūros pagalba."
+
+#: mediacore/forms/admin/players.py:136
+msgid "Enable fullscreen."
+msgstr "Įjungti viso ekrano režimą."
+
+#: mediacore/forms/admin/players.py:137
+msgid "Enable high-def quality by default."
+msgstr "Įjungti aukštos kokybės vaizda pagal nutylėjimą."
+
+#: mediacore/forms/admin/players.py:138
+msgid ""
+"Allow the player to load related videos once playback of the initial "
+"video starts. Related videos are displayed in the \"genie menu\" when the"
+" menu button is pressed."
+msgstr ""
+"Leisti grotuvui įkrauti pradinius video kuomet pagrindinis įjungtas. "
+"Panašūs video publikuojami \"protingame meniu\" kuomet \"meniu\" nuoroda "
+"paspaudžiama."
+
+#: mediacore/forms/admin/players.py:139
+msgid ""
+"Show the search box when the video is minimized. The above option must be"
+" enabled for this to work."
+msgstr ""
+"Rodyti paieškos laukelį, kai vaizdo įrašas yra sumažinamas iki minimumo. "
+"Aukščiau pateikta nuostata turi būti aktyvuota, tam jog ši veiktų."
+
+#: mediacore/forms/admin/players.py:140
+msgid ""
+"Display information like the video title and rating before the video "
+"starts playing."
+msgstr ""
+"Rodyti informaciją, pavyzdžiui, vaizdo pavadinimas ir įvertinimas prieš "
+"pradedant video groti."
+
+#: mediacore/forms/admin/podcasts.py:36
+msgid "Parental Advisory"
+msgstr "Patarimas tėvams"
+
+#: mediacore/forms/admin/podcasts.py:37
+#: mediacore/templates/admin/podcasts/_podcast-table.html:53
+msgid "Clean"
+msgstr "Išvalyti"
+
+#: mediacore/forms/admin/podcasts.py:112
+msgid "Subtitle"
+msgstr "Paantraštė"
+
+#: mediacore/forms/admin/podcasts.py:116
+msgid "Podcast Details:"
+msgstr "Grojaraščio duomenys:"
+
+#: mediacore/forms/admin/podcasts.py:117
+msgid "Explicit?"
+msgstr "Aiškus?"
+
+#: mediacore/forms/admin/podcasts.py:118
+msgid "Category"
+msgstr "Kategorija"
+
+#: mediacore/forms/admin/podcasts.py:119
+msgid "Copyright"
+msgstr "Teisės priklauso"
+
+#: mediacore/forms/admin/podcasts.py:121
+msgid "Advanced Options:"
+msgstr "Sudėtingesni nustatymai:"
+
+#: mediacore/forms/admin/podcasts.py:122
+msgid "Your Feed URL"
+msgstr "Jūsų srauto URL adresas"
+
+#: mediacore/forms/admin/podcasts.py:123
+msgid "iTunes URL"
+msgstr "\"iTunes\" URL"
+
+#: mediacore/forms/admin/podcasts.py:124
+msgid "Feedburner URL"
+msgstr "Feedburner URL"
+
+#: mediacore/forms/admin/settings.py:38
+msgid "Prepend"
+msgstr "Pridėkite"
+
+#: mediacore/forms/admin/settings.py:39
+msgid "Append"
+msgstr "Pridėti"
+
+#: mediacore/forms/admin/settings.py:42
+msgid "Plain <textarea> fields (0kB)"
+msgstr "Tušti <textarea> laukeliai (0kB)"
+
+#: mediacore/forms/admin/settings.py:43
+msgid "Enable TinyMCE for <textarea> fields accepting XHTML (281kB)"
+msgstr "Įjungti TinyMCE skirta <textarea> laukeliai palaiko XHTML (281kB)"
+
+#: mediacore/forms/admin/settings.py:47
+msgid "Brown"
+msgstr "Ruda"
+
+#: mediacore/forms/admin/settings.py:48
+msgid "Blue"
+msgstr "Mėlyna"
+
+#: mediacore/forms/admin/settings.py:49
+msgid "Green"
+msgstr "Žalia"
+
+#: mediacore/forms/admin/settings.py:50
+msgid "Tan"
+msgstr "Gelsvai ruda"
+
+#: mediacore/forms/admin/settings.py:51
+msgid "White"
+msgstr "Balta"
+
+#: mediacore/forms/admin/settings.py:52
+msgid "Purple"
+msgstr "Violetinė"
+
+#: mediacore/forms/admin/settings.py:53
+msgid "Black"
+msgstr "Juoda"
+
+#: mediacore/forms/admin/settings.py:86 mediacore/forms/admin/settings.py:95
+msgid "Yes"
+msgstr "Taip"
+
+#: mediacore/forms/admin/settings.py:86 mediacore/forms/admin/settings.py:95
+msgid "No"
+msgstr "Ne"
+
+#: mediacore/forms/admin/settings.py:107
+msgid "Email Notifications:"
+msgstr "Perspėjimai el.paštu:"
+
+#: mediacore/forms/admin/settings.py:108
+msgid "Media Uploaded"
+msgstr "Media įkelta"
+
+#: mediacore/forms/admin/settings.py:109
+msgid "Comment Posted"
+msgstr "Komentaras paskelbtas"
+
+#: mediacore/forms/admin/settings.py:110
+msgid "Support Requested"
+msgstr "Paprašyta pagalbos"
+
+#: mediacore/forms/admin/settings.py:111
+msgid "Send Emails From"
+msgstr "Siųsti elektroninius laiškus iš"
+
+#: mediacore/forms/admin/settings.py:126
+msgid "Popularity Algorithm Variables:"
+msgstr "Populiarumo algoritmo reikšmės:"
+
+#: mediacore/forms/admin/settings.py:128
+msgid "Decay Exponent"
+msgstr "Decay Exponent"
+
+#: mediacore/forms/admin/settings.py:129
+msgid "Decay Lifetime"
+msgstr "Decay Lifetime"
+
+#: mediacore/forms/admin/settings.py:159
+msgid "Max. allowed upload file size in megabytes"
+msgstr "Maks. leidžiamas įkelti failo dydis megabaitais"
+
+#: mediacore/forms/admin/settings.py:160
+msgid "Legal Wording:"
+msgstr "Priimtini žodžiai:"
+
+#: mediacore/forms/admin/settings.py:161
+msgid "User Uploads"
+msgstr "Vartotojo įkėlimai"
+
+#: mediacore/forms/admin/settings.py:172
+msgid "Google Analytics Details:"
+msgstr "\"Google Analytics\" duomenys:"
+
+#: mediacore/forms/admin/settings.py:173
+msgid "Tracking Code"
+msgstr "Sekimo kodas"
+
+#: mediacore/forms/admin/settings.py:190
+msgid "Site Maps"
+msgstr "Svetainės Žemėlapiai"
+
+#: mediacore/forms/admin/settings.py:194
+msgid "RSS Feeds"
+msgstr "RSS srautai"
+
+#: mediacore/forms/admin/settings.py:207
+msgid "General Settings:"
+msgstr "Bendrieji nustatymai:"
+
+#: mediacore/forms/admin/settings.py:209
+msgid "Site Name"
+msgstr "Svetainės pavadinimas"
+
+#: mediacore/forms/admin/settings.py:211
+msgid "Site Tag Line"
+msgstr "Svetainės žymos linija"
+
+#: mediacore/forms/admin/settings.py:213
+msgid "Display Site Name"
+msgstr "Rodyti puslapio pavadinimą"
+
+#: mediacore/forms/admin/settings.py:217
+msgid "Default Language"
+msgstr "Numatytoji kalba"
+
+#: mediacore/forms/admin/settings.py:221
+msgid "Featured Category"
+msgstr "VIP kategorija"
+
+#: mediacore/forms/admin/settings.py:226
+msgid "Rich Text Editing"
+msgstr "Raiškiojo teksto redagavimas"
+
+#: mediacore/forms/admin/settings.py:248
+msgid "Require comments to be approved by an admin"
+msgstr "Reikalauti komentaro patvirtinimo iš administracijos"
+
+#: mediacore/forms/admin/settings.py:249
+msgid "Akismet Anti-Spam Details:"
+msgstr "Akismet \"Anti-Spam\" duomenys:"
+
+#: mediacore/forms/admin/settings.py:250
+msgid "Akismet Key"
+msgstr "Akismet raktas"
+
+#: mediacore/forms/admin/settings.py:251
+msgid "Akismet URL"
+msgstr "Akismet URL"
+
+#: mediacore/forms/admin/settings.py:253
+msgid "Vulgarity Filter Settings"
+msgstr "Vulgarumo filtro nustatymai"
+
+#: mediacore/forms/admin/settings.py:254
+msgid "Filtered Words"
+msgstr "Filtruojami žodžiai"
+
+#: mediacore/forms/admin/settings.py:255
+msgid "Enter words to be filtered separated by a comma."
+msgstr "Įveskite žodžius kurie bus filtruojami, atskirkite kableliais."
+
+#: mediacore/forms/admin/settings.py:267
+msgid "Require a key to access the API"
+msgstr "Reikalingas raktas į API"
+
+#: mediacore/forms/admin/settings.py:268
+msgid "API Key:"
+msgstr "API raktas:"
+
+#: mediacore/forms/admin/settings.py:269
+msgid "Access Key"
+msgstr "Prieigos raktas"
+
+#: mediacore/forms/admin/settings.py:271
+msgid "API Settings:"
+msgstr "API Nustatymai:"
+
+#: mediacore/forms/admin/settings.py:272
+msgid "Max media results"
+msgstr "Maks. video rezultatai"
+
+#: mediacore/forms/admin/settings.py:273
+msgid "Max tree depth"
+msgstr "Maks. meniu gylis"
+
+#: mediacore/forms/admin/settings.py:284
+#: mediacore/templates/admin/settings/general.html:24
+#: mediacore/templates/admin/settings/general.html:30
+#: mediacore/templates/admin/settings/master.html:44
+msgid "General"
+msgstr "Bendra"
+
+#: mediacore/forms/admin/settings.py:287
+msgid "Logo"
+msgstr "Logotipas"
+
+#: mediacore/forms/admin/settings.py:289
+msgid "Upload Logo"
+msgstr "Įkelti logotipą"
+
+#: mediacore/forms/admin/settings.py:294
+msgid "Background Image"
+msgstr "Fono paveikslėlis"
+
+#: mediacore/forms/admin/settings.py:296
+msgid "Upload Background"
+msgstr "Įkelti fono pavekslėlį"
+
+#: mediacore/forms/admin/settings.py:302
+msgid "Background color"
+msgstr "Fono spalva"
+
+#: mediacore/forms/admin/settings.py:305
+msgid "Link color"
+msgstr "Nuorodų spalva"
+
+#: mediacore/forms/admin/settings.py:308
+msgid "Visited Link color"
+msgstr "Aplankytos nuorodos spalva"
+
+#: mediacore/forms/admin/settings.py:312
+msgid "Text color"
+msgstr "Teksto spalva"
+
+#: mediacore/forms/admin/settings.py:314
+msgid "Heading color"
+msgstr "Antraštės spalva"
+
+#: mediacore/forms/admin/settings.py:317
+msgid "Color Scheme"
+msgstr "Spalvų schema"
+
+#: mediacore/forms/admin/settings.py:321
+msgid "Options"
+msgstr "Nustatymai"
+
+#: mediacore/forms/admin/settings.py:326
+msgid "Enable Cooliris on the Explore Page"
+msgstr "Įjungti Cooliris puslapio naršyme"
+
+#: mediacore/forms/admin/settings.py:329
+msgid "Enable Featured Items on the Explore Page"
+msgstr "Įjungti VIP video puslapio naršyme"
+
+#: mediacore/forms/admin/settings.py:333
+msgid "Enable Podcast Tab"
+msgstr "Įjungti grojaraščio skiltį"
+
+#: mediacore/forms/admin/settings.py:337
+msgid "Enable User Uploads"
+msgstr "Įjungti vartotojo įkėlimus"
+
+#: mediacore/forms/admin/settings.py:341
+msgid "Enable widescreen media player by default"
+msgstr "Įjungti plačiaekranį video leistuvą pagal nutylėjimą"
+
+#: mediacore/forms/admin/settings.py:345
+msgid "Display Logo"
+msgstr "Rodyti logotipą"
+
+#: mediacore/forms/admin/settings.py:349
+msgid "Display Background Image"
+msgstr "Rodyti fono paveikslėlį"
+
+#: mediacore/forms/admin/settings.py:355
+msgid "Advanced"
+msgstr "Pažengusiems"
+
+#: mediacore/forms/admin/settings.py:359
+msgid "Custom CSS"
+msgstr "Individualizuotas CSS"
+
+#: mediacore/forms/admin/settings.py:362
+msgid "Custom Header HTML"
+msgstr "Savos HTML antraštės"
+
+#: mediacore/forms/admin/settings.py:365
+msgid "Custom Footer HTML"
+msgstr "Savos HTML poraštės"
+
+#: mediacore/forms/admin/settings.py:370
+#: mediacore/templates/admin/settings/appearance.html:35
+msgid "Reset to Defaults"
+msgstr "Atstatyti numatytąsias"
+
+#: mediacore/forms/admin/settings.py:384
+msgid "Banner HTML"
+msgstr "HTML skydelis"
+
+#: mediacore/forms/admin/settings.py:387
+msgid "Sidebar HTML"
+msgstr "Šoninė HTML juosta"
+
+#: mediacore/forms/admin/users.py:36
+msgid "User name already exists"
+msgstr "Vartotojo vardas jau egzistuoja"
+
+#: mediacore/forms/admin/users.py:49
+msgid "Email Address"
+msgstr "El.pašto adresas"
+
+#: mediacore/forms/admin/users.py:50
+msgid "Login Details:"
+msgstr "Prisijungimo duomenys:"
+
+#: mediacore/forms/admin/users.py:54
+msgid "Passwords do not match"
+msgstr "Slaptažodžiai nesutampa"
+
+#: mediacore/forms/admin/users.py:56
+#: mediacore/templates/admin/users/index.html:54
+msgid "Group"
+msgstr "Grupė"
+
+#: mediacore/forms/admin/users.py:58 mediacore/forms/admin/storage/ftp.py:34
+msgid "Username"
+msgstr "Vartotojo vardas"
+
+#: mediacore/forms/admin/users.py:59 mediacore/forms/admin/storage/ftp.py:35
+msgid "Password"
+msgstr "Slaptažodis"
+
+#: mediacore/forms/admin/users.py:60
+msgid "Confirm password"
+msgstr "Pakartokite slaptažodį"
+
+#: mediacore/forms/admin/storage/ftp.py:31
+msgid "FTP Server Details:"
+msgstr "FTP serverio duomenys:"
+
+#: mediacore/forms/admin/storage/ftp.py:33
+msgid "Server Hostname"
+msgstr "Serverio adresas"
+
+#: mediacore/forms/admin/storage/ftp.py:36
+msgid "Subdirectory on server to upload to"
+msgstr "Pakatalogis serveryje skirtas įkėlimams"
+
+#: mediacore/forms/admin/storage/ftp.py:37
+msgid ""
+"How many times should MediaCore try to verify the FTP upload before "
+"declaring it a failure?"
+msgstr ""
+"Kiek kartų reikia MediaCore bandyti patikrinti FTP prieš pripažystant "
+"klaidą?"
+
+#: mediacore/forms/admin/storage/ftp.py:38
+msgid "HTTP URL to access remotely stored files"
+msgstr "HTTP URL nutolusiems failams pasiekti"
+
+#: mediacore/forms/admin/storage/ftp.py:39
+msgid "RTMP Server URL to stream remotely stored files (Optional)"
+msgstr "RTMP URL serverio nutolusioms transliacijoms (nebūtina)"
+
+#: mediacore/forms/admin/storage/localfiles.py:25
+msgid "Options specific to Local File Storage:"
+msgstr "Vietinių failų saugyklos nustatymai:"
+
+#: mediacore/forms/admin/storage/localfiles.py:28
+msgid "Path to store files under"
+msgstr "Aplankas skirtas išsaugoti failams"
+
+#: mediacore/forms/admin/storage/localfiles.py:29
+msgid "Defaults to the \"data_dir\" from your INI file."
+msgstr "Numatyta \"data_dir\" iš Jūsų INI failo."
+
+#: mediacore/forms/admin/storage/localfiles.py:32
+msgid "RTMP Server URL"
+msgstr "RTMP serverio URL "
+
+#: mediacore/forms/admin/storage/localfiles.py:33
+msgid ""
+"Files must be accessible under the same name as they are stored with "
+"locally."
+msgstr ""
+"Failai turi būti prieinami tuo pačiu pavadinimu, kaip jie yra saugomi "
+"lokaliai."
+
+#: mediacore/forms/admin/storage/remoteurls.py:31
+msgid "Add another URL"
+msgstr "Pridėti kitą URL"
+
+#: mediacore/forms/admin/storage/remoteurls.py:60
+msgid "RTMP server URLs must begin with rtmp://"
+msgstr "RTMP serverio URL turi prasidėti RTMP://"
+
+#: mediacore/forms/admin/storage/remoteurls.py:67
+msgid "RTMP Servers:"
+msgstr "RTMP serveriai:"
+
+#: mediacore/lib/email.py:109
+#, python-format
+msgid "New %(type)s: %(title)s"
+msgstr "Naujas %(type)s: %(title)s"
+
+#: mediacore/lib/email.py:110
+#, python-format
+msgid ""
+"A new %(type)s file has been uploaded!\n"
+"\n"
+"Title: %(title)s\n"
+"\n"
+"Author: %(author_name)s (%(author_email)s)\n"
+"\n"
+"Admin URL: %(edit_url)s\n"
+"\n"
+"Description: %(clean_description)s\n"
+msgstr ""
+"Naujas %(type)s failas įkeltas!\n"
+"\n"
+"Pavadinimas: %(title)s\n"
+"\n"
+"Autorius (-ė): %(author_name)s (%(author_email)s)\n"
+"\n"
+"Administravimo URL: %(edit_url)s\n"
+"\n"
+"Apibūdinimas: %(clean_description)s\n"
+
+#: mediacore/lib/email.py:145
+#, python-format
+msgid "New Comment: %(comment_subject)s"
+msgstr "Naujas komentaras: %(comment_subject)s"
+
+#: mediacore/lib/email.py:146
+#, python-format
+msgid ""
+"A new comment has been posted!\n"
+"\n"
+"Author: %(author_name)s\n"
+"Post: %(post_url)s\n"
+"\n"
+"Body: %(comment_body)s\n"
+msgstr ""
+"Naujas komentaras ką tik įkeltas!\n"
+"\n"
+"Autorius: %(author_name)s\n"
+"Komentaro adresas: %(post_url)s\n"
+"\n"
+"Žinutė komentare: %(comment_body)s\n"
+
+#: mediacore/lib/email.py:185
+#, python-format
+msgid "New Support Request: %(email)s"
+msgstr "Naujas pagalbos prašymas: %(email)s "
+
+#: mediacore/lib/email.py:186
+#, python-format
+msgid ""
+"A user has asked for support\n"
+"\n"
+"Email: %(email)s\n"
+"\n"
+"URL: %(url)s\n"
+"\n"
+"Description: %(description)s\n"
+"\n"
+"GET_VARS:\n"
+"%(get_vars)s\n"
+"\n"
+"\n"
+"POST_VARS:\n"
+"%(post_vars)s\n"
+msgstr ""
+"Vartotojas paprašė pagalbos\n"
+"\n"
+"El.paštas: %(email)s\n"
+"\n"
+"URL: %(url)s\n"
+"\n"
+"Apibūdinimas: %(description)s\n"
+"\n"
+"GET_VARS:\n"
+"%(get_vars)s\n"
+"\n"
+"\n"
+"POST_VARS:\n"
+"%(post_vars)s\n"
+
+#: mediacore/lib/filetypes.py:35
+msgid "Video"
+msgstr "Video"
+
+#: mediacore/lib/filetypes.py:36
+msgid "Audio"
+msgstr "Audio"
+
+#: mediacore/lib/filetypes.py:37
+msgid "Audio Description"
+msgstr "Audio aprašymas"
+
+#: mediacore/lib/filetypes.py:38
+msgid "Captions"
+msgstr "Gaudyklė"
+
+#: mediacore/lib/helpers.py:321
+msgid "Help"
+msgstr "Pagalba"
+
+#: mediacore/lib/players.py:273
+msgid "Flowplayer"
+msgstr "Flowplayer"
+
+#: mediacore/lib/players.py:404 mediacore/lib/storage/vimeo.py:35
+msgid "Vimeo"
+msgstr "Vimeo"
+
+#: mediacore/lib/players.py:440 mediacore/lib/storage/dailymotion.py:36
+msgid "Daily Motion"
+msgstr "Daily Motion"
+
+#: mediacore/lib/players.py:487 mediacore/lib/storage/youtube.py:35
+msgid "YouTube"
+msgstr "YouTube"
+
+#: mediacore/lib/players.py:537 mediacore/lib/storage/googlevideo.py:34
+msgid "Google Video"
+msgstr "Google Video"
+
+#: mediacore/lib/players.py:559 mediacore/lib/storage/bliptv.py:34
+msgid "BlipTV"
+msgstr "BlipTV"
+
+#: mediacore/lib/players.py:646
+msgid "Plain HTML5 Player"
+msgstr "Paprastas HTML5 grotuvas"
+
+#: mediacore/lib/players.py:661
+msgid "HTML5 + Flowplayer Fallback"
+msgstr "HTML5 + Flowplayer palaikymas"
+
+#: mediacore/lib/players.py:718
+msgid "JWPlayer"
+msgstr "JWPlayer"
+
+#: mediacore/lib/players.py:858
+msgid "Sublime Video Player"
+msgstr "Sublime Video grotuvas"
+
+#: mediacore/lib/players.py:908
+msgid "iTunes Player"
+msgstr "\"iTunes\" grotuvas"
+
+#: mediacore/lib/storage/__init__.py:353
+msgid "Unusable file or URL provided."
+msgstr "Nenaudojamas failas ar URL."
+
+#: mediacore/lib/storage/ftp.py:50
+msgid "FTP Storage"
+msgstr "FTP saugykla"
+
+#: mediacore/lib/storage/ftp.py:105
+#, python-format
+msgid "Could not upload the file from your FTP server: %s"
+msgstr "Nepavyko įkelti iš Jūsų FTP serverio failų: %s"
+
+#: mediacore/lib/storage/ftp.py:199
+msgid "The file transferred to your FTP server is corrupted. Please try again."
+msgstr "Bylos perduotos į jūsų FTP serverį yra sugadintos. Bandykite dar kartą."
+
+#: mediacore/lib/storage/ftp.py:204
+#, python-format
+msgid "Could not download the file from your FTP server: %s"
+msgstr "Nepavyko atsisiųsti failų iš Jūsų FTP serverio: %s"
+
+#: mediacore/lib/storage/localfiles.py:34
+msgid "Local File Storage"
+msgstr "Vietos failų saugykla"
+
+#: mediacore/lib/storage/remoteurls.py:36
+msgid "Remote URLs"
+msgstr "Nuotoliniai URL"
+
+#: mediacore/templates/error.html:24
+#, python-format
+msgid "A %(code)s Error has Occurred"
+msgstr "%(code)s Klaida"
+
+#: mediacore/templates/error.html:29
+msgid "Whoopsadaisy!"
+msgstr "Opapa!"
+
+#: mediacore/templates/error.html:32
+msgid "We can't find this page. The page may have been moved or removed."
+msgstr ""
+"Mes negalime rasti puslapio. Puslapis galėjo būti perkeltas arba "
+"pašalintas."
+
+#: mediacore/templates/error.html:33
+msgid "If you typed the address in, check the spelling."
+msgstr "Jeigu įvedėte adresą, patikrinti rašybą."
+
+#: mediacore/templates/error.html:38
+msgid "You have a few options:"
+msgstr "Jūs turite keletą galimybių:"
+
+#: mediacore/templates/error.html:40
+msgid "Return to the [1:homepage]."
+msgstr "Gryžti į [1:homepage]."
+
+#: mediacore/templates/error.html:41
+msgid "Return to the [1:media page]."
+msgstr "Gryžti į [1:media page]."
+
+#: mediacore/templates/error.html:42
+msgid "Fill out an error report below."
+msgstr "Užpildykite klaidos pranešimą žemiau."
+
+#: mediacore/templates/error.html:48
+msgid "Email: (so we can contact you if we find it!)"
+msgstr "El.paštas: (kad galėtume susisiekti su jumis, jeigumes rasime tai!)"
+
+#: mediacore/templates/error.html:52
+msgid "What were you looking for when you got the error?"
+msgstr "Ko Jūs ieškojote kai gavote klaidą?"
+
+#: mediacore/templates/error.html:56
+msgid "Submit Error Report"
+msgstr "Pateikti Klaidos pranešimą"
+
+#: mediacore/templates/helpers.html:39
+#: mediacore/templates/media/explore.html:90
+#: mediacore/templates/media/view.html:63
+#: mediacore/templates/players/html5_or_flash.html:33
+msgid "Like"
+msgid_plural "Likes"
+msgstr[0] "Patinka"
+msgstr[1] "Patinka"
+msgstr[2] "Patinka"
+
+#: mediacore/templates/helpers.html:40
+#: mediacore/templates/admin/media/update-status-form.html:27
+#: mediacore/templates/admin/podcasts/edit.html:104
+#: mediacore/templates/media/explore.html:91
+#: mediacore/templates/media/view.html:61
+msgid "View"
+msgid_plural "Views"
+msgstr[0] "Peržiūra"
+msgstr[1] "Peržiūros"
+msgstr[2] "Peržiūros"
+
+#: mediacore/templates/helpers.html:60
+msgid "Page:"
+msgstr "Puslapis:"
+
+#: mediacore/templates/helpers.html:80
+msgid "Show:"
+msgstr "Rodyti:"
+
+#: mediacore/templates/helpers.html:82
+#: mediacore/templates/categories/index.html:36
+#: mediacore/templates/categories/more.html:31
+#: mediacore/templates/media/explore.html:47
+#: mediacore/templates/media/explore.html:114
+msgid "Latest"
+msgstr "Naujausios"
+
+#: mediacore/templates/helpers.html:83
+#: mediacore/templates/categories/index.html:41
+#: mediacore/templates/categories/more.html:31
+#: mediacore/templates/media/explore.html:98
+msgid "Most Popular"
+msgstr "Populiariausi"
+
+#: mediacore/templates/helpers.html:84
+#: mediacore/templates/media/explore.html:46
+#: mediacore/templates/media/explore.html:82
+msgid "Featured"
+msgstr "VIP"
+
+#: mediacore/templates/helpers.html:86
+msgid "Page"
+msgstr "Puslapis"
+
+#: mediacore/templates/helpers.html:86
+msgid "of"
+msgstr "iš"
+
+#: mediacore/templates/helpers.html:92
+#, python-format
+msgid "The %(fieldName)s field accepts some HTML formatting: %(formattingList)s"
+msgstr "Šis laukelis %(fieldName)s palaiko HTML formatavimą: %(formattingList)s"
+
+#: mediacore/templates/layout.html:52
+msgid "Feeds:"
+msgstr "Kanalai:"
+
+#: mediacore/templates/layout.html:58
+msgid "[1:MediaCore] [2:video platform]"
+msgstr "[1:MediaCore] [2:video platform]"
+
+#: mediacore/templates/login.html:23
+msgid "Login to MediaCore"
+msgstr "Prisijunk prie MediaCore"
+
+#: mediacore/templates/login.html:47 mediacore/templates/login.html:58
+msgid "Login"
+msgstr "Prisijungti"
+
+#: mediacore/templates/login.html:50
+msgid "Username:"
+msgstr "Vartotojo vardas:"
+
+#: mediacore/templates/login.html:54
+msgid "Password:"
+msgstr "Slaptažodis:"
+
+#: mediacore/templates/master.html:59
+msgid "Explore"
+msgstr "Ištirti"
+
+#: mediacore/templates/master.html:60 mediacore/templates/media/index.html:24
+msgid "Media Library"
+msgstr "Video biblioteka"
+
+#: mediacore/templates/master.html:61 mediacore/templates/admin/master.html:61
+#: mediacore/templates/admin/podcasts/index.html:24
+#: mediacore/templates/admin/podcasts/index.html:31
+msgid "Podcasts"
+msgstr "Grojaraščiai"
+
+#: mediacore/templates/master.html:66
+msgid "Search"
+msgstr "Paieška"
+
+#: mediacore/templates/admin/helpers.html:66
+msgid "Moderate comments"
+msgstr "Tvarkyti komentarus"
+
+#: mediacore/templates/admin/helpers.html:68
+msgid "Moderate"
+msgstr "Tvakryti"
+
+#: mediacore/templates/admin/helpers.html:69
+#: mediacore/templates/admin/master.html:62
+#: mediacore/templates/admin/comments/index.html:27
+#: mediacore/templates/admin/media/_media-table.html:34
+#: mediacore/templates/admin/settings/comments.html:23
+#: mediacore/templates/admin/settings/comments.html:29
+#: mediacore/templates/admin/settings/master.html:59
+#: mediacore/templates/comments/_list.html:49
+msgid "Comments"
+msgstr "Komentarai"
+
+#: mediacore/templates/admin/helpers.html:81
+#: mediacore/templates/admin/media/_media-table.html:57
+#: mediacore/templates/admin/media/index.html:124
+#: mediacore/templates/admin/media/update-status-form.html:93
+msgid "Published"
+msgstr "Paskelbta"
+
+#: mediacore/templates/admin/helpers.html:85
+#: mediacore/templates/admin/media/_media-table.html:54
+#: mediacore/templates/admin/media/index.html:115
+msgid "Unreviewed"
+msgstr "Neperžiūrėta"
+
+#: mediacore/templates/admin/helpers.html:89
+#: mediacore/templates/admin/comments/_comment-table.html:46
+msgid "Trash"
+msgstr "Šiukšlės"
+
+#: mediacore/templates/admin/index.html:24
+#: mediacore/templates/admin/master.html:53
+msgid "Dashboard"
+msgstr "Darbalaukis"
+
+#: mediacore/templates/admin/index.html:54
+msgid "Awaiting Review"
+msgstr "Laukiama peržiūros"
+
+#: mediacore/templates/admin/index.html:59
+msgid "Awaiting Encoding"
+msgstr "Laukiama dekodavimo"
+
+#: mediacore/templates/admin/index.html:64
+msgid "Awaiting Publishing"
+msgstr "Laukiama paskelbimo"
+
+#: mediacore/templates/admin/index.html:71
+msgid "Get Started"
+msgstr "Pradėkite"
+
+#: mediacore/templates/admin/index.html:73
+#: mediacore/templates/admin/media/edit.html:23
+#: mediacore/templates/admin/media/edit.html:152
+#: mediacore/templates/admin/media/index.html:84
+msgid "Add New Media"
+msgstr "Pridėti naują video"
+
+#: mediacore/templates/admin/index.html:80
+msgid "Recently Published"
+msgstr "Neseniai paskelbta"
+
+#: mediacore/templates/admin/master.html:31
+#: mediacore/templates/admin/master.html:50
+msgid "MediaCore"
+msgstr "MediaCore"
+
+#: mediacore/templates/admin/master.html:54
+msgid "View Site"
+msgstr "Peržiūrėti Svetainę"
+
+#: mediacore/templates/admin/master.html:55
+msgid "Logout"
+msgstr "Atsijungti"
+
+#: mediacore/templates/admin/master.html:60
+#: mediacore/templates/admin/categories/index.html:70
+#: mediacore/templates/admin/media/index.html:25
+#: mediacore/templates/admin/tags/index.html:67
+msgid "Media"
+msgstr "Video"
+
+#: mediacore/templates/admin/master.html:63
+#: mediacore/templates/admin/users/index.html:24
+#: mediacore/templates/admin/users/index.html:45
+msgid "Users"
+msgstr "Vartotojai"
+
+#: mediacore/templates/admin/master.html:64
+#: mediacore/templates/admin/settings/master.html:41
+msgid "Settings"
+msgstr "Nustatymai"
+
+#: mediacore/templates/admin/master.html:68
+msgid "© 2009-2011 Simple Station Inc."
+msgstr "© 2009-2011 Simple Station Inc."
+
+#: mediacore/templates/admin/categories/index.html:45
+#: mediacore/templates/admin/comments/index.html:43
+#: mediacore/templates/admin/comments/index.html:55
+#: mediacore/templates/admin/media/edit.html:72
+#: mediacore/templates/admin/media/index.html:40
+#: mediacore/templates/admin/players/index.html:32
+#: mediacore/templates/admin/podcasts/edit.html:58
+#: mediacore/templates/admin/storage/index.html:82
+#: mediacore/templates/admin/tags/index.html:42
+#: mediacore/templates/admin/users/edit.html:32
+#: mediacore/templates/admin/users/index.html:33
+msgid "Confirm Delete"
+msgstr "Patvirtinti trynimą"
+
+#: mediacore/templates/admin/categories/index.html:46
+#: mediacore/templates/admin/comments/index.html:56
+#: mediacore/templates/admin/media/index.html:41
+#: mediacore/templates/admin/tags/index.html:43
+#, python-format
+msgid "Are you sure you want to delete these %(num)s items?"
+msgstr "Ar tikrai norite ištrinti šiuos %(num)s  įrašus?"
+
+#: mediacore/templates/admin/categories/index.html:60
+#: mediacore/templates/admin/categories/index.html:85
+msgid "Add Category"
+msgstr "Pridėti kategoriją"
+
+#: mediacore/templates/admin/categories/index.html:61
+#: mediacore/templates/admin/tags/index.html:58
+msgid "Bulk Delete"
+msgstr "Masinis trynimas"
+
+#: mediacore/templates/admin/categories/index.html:89
+msgid "Edit Category"
+msgstr "Redaguoti kategoriją"
+
+#: mediacore/templates/admin/categories/index.html:93
+msgid "Delete Category"
+msgstr "Ištrinti kategoriją"
+
+#: mediacore/templates/admin/categories/index.html:96
+msgid "Are you sure you want to delete this category [1:and ALL of its children]?"
+msgstr "Ar tikrai norite pašalinti šią kategorija [1:and ALL of its children]?"
+
+#: mediacore/templates/admin/categories/row-form.html:39
+#: mediacore/templates/admin/comments/_comment-table.html:65
+#: mediacore/templates/admin/media/edit.html:23
+#: mediacore/templates/admin/media/edit.html:125
+#: mediacore/templates/admin/players/index.html:85
+#: mediacore/templates/admin/podcasts/_podcast-table.html:32
+#: mediacore/templates/admin/podcasts/edit.html:51
+#: mediacore/templates/admin/storage/index.html:153
+#: mediacore/templates/admin/tags/row-form.html:31
+#: mediacore/templates/admin/users/index.html:68
+#: mediacore/templates/media/view.html:49
+#: mediacore/templates/podcasts/view.html:42
+msgid "Edit"
+msgstr "Redaguoti"
+
+#: mediacore/templates/admin/comments/_comment-table.html:29
+#: mediacore/templates/admin/media/_media-table.html:32
+#: mediacore/templates/admin/players/index.html:54
+#: mediacore/templates/admin/storage/index.html:127
+msgid "Status"
+msgstr "Būsena"
+
+#: mediacore/templates/admin/comments/_comment-table.html:30
+#: mediacore/templates/admin/media/_media-table.html:36
+msgid "Author"
+msgstr "Autorius"
+
+#: mediacore/templates/admin/comments/_comment-table.html:32
+msgid "In Response to"
+msgstr "Atsakant į"
+
+#: mediacore/templates/admin/comments/_comment-table.html:37
+#: mediacore/templates/admin/media/_media-table.html:43
+#: mediacore/templates/admin/players/index.html:62
+#: mediacore/templates/admin/podcasts/_podcast-table.html:27
+#: mediacore/templates/admin/storage/index.html:136
+#: mediacore/templates/admin/users/index.html:60
+msgid "None Found"
+msgstr "Nieko nėra"
+
+#: mediacore/templates/admin/comments/_comment-table.html:44
+msgid "This comment has already been approved for publishing"
+msgstr "Šis komentaras jau buvo patvirtintas paskelbimui"
+
+#: mediacore/templates/admin/comments/_comment-table.html:45
+msgid "Approve this comment for publishing"
+msgstr "Patvirtinti šį komentarą publikavimui"
+
+#: mediacore/templates/admin/comments/_comment-table.html:45
+msgid "Approve"
+msgstr "Patvirtinti"
+
+#: mediacore/templates/admin/comments/_comment-table.html:46
+msgid "Delete this comment"
+msgstr "Ištrinti šį komentarą"
+
+#: mediacore/templates/admin/comments/_comment-table.html:56
+msgid "Submitted on"
+msgstr "Pateikta"
+
+#: mediacore/templates/admin/comments/_comment-table.html:63
+msgid "Go to the admin page for this item"
+msgstr "Eiti į administratoriaus puslapį dėl šio įrašo"
+
+#: mediacore/templates/admin/comments/index.html:28
+#, python-format
+msgid "Comments for %(media_filter_title)s"
+msgstr "Komentarai %(media_filter_title)s "
+
+#: mediacore/templates/admin/comments/index.html:28
+msgid "Comments for"
+msgstr "Komentarai"
+
+#: mediacore/templates/admin/comments/index.html:40
+msgid "Edit Text"
+msgstr "Redaguoti tekstą"
+
+#: mediacore/templates/admin/comments/index.html:41
+msgid "Cancel Edit"
+msgstr "Atšaukti Redagavimą"
+
+#: mediacore/templates/admin/comments/index.html:46
+#, python-format
+msgid "Are you sure you want to delete %(name)s's comment?"
+msgstr "Ar tikrai norite ištrinti %(name)s  komentarą?"
+
+#: mediacore/templates/admin/comments/index.html:85
+#, python-format
+msgid "Comments that match '%(search)s'"
+msgstr "Komentarai, kurios atitinka  '%(search)s'"
+
+#: mediacore/templates/admin/comments/index.html:86
+msgid "All Comments"
+msgstr "Visi komentarai"
+
+#: mediacore/templates/admin/comments/index.html:87
+#, python-format
+msgid "Comments for %(search)s"
+msgstr "Komentarai %(search)s"
+
+#: mediacore/templates/admin/comments/index.html:95
+#: mediacore/templates/admin/media/index.html:92
+msgid "Publish"
+msgstr "Skelbti"
+
+#: mediacore/templates/admin/comments/index.html:102
+#: mediacore/templates/admin/media/index.html:99
+msgid "Bulk Actions"
+msgstr "Masiniai veiksmai"
+
+#: mediacore/templates/admin/media/_media-table.html:29
+msgid "Publish Date"
+msgstr "Paskelbimo data"
+
+#: mediacore/templates/admin/media/_media-table.html:30
+msgid "Upload Date"
+msgstr "Įkėlimo data"
+
+#: mediacore/templates/admin/media/_media-table.html:31
+#: mediacore/templates/admin/media/update-status-form.html:41
+msgid "Publish Status"
+msgstr "Paskelbimo būsena"
+
+#: mediacore/templates/admin/media/_media-table.html:34
+msgid "Number of Comments"
+msgstr "Komentarų skaičius"
+
+#: mediacore/templates/admin/media/_media-table.html:55
+#: mediacore/templates/admin/media/index.html:118
+msgid "Unencoded"
+msgstr "Nėra dekodavimo"
+
+#: mediacore/templates/admin/media/_media-table.html:56
+msgid "Draft"
+msgstr "Projektas"
+
+#: mediacore/templates/admin/media/_media-table.html:58
+msgid "Publishing..."
+msgstr "Skelbiama..."
+
+#: mediacore/templates/admin/media/edit.html:57
+#: mediacore/templates/admin/podcasts/edit.html:38
+msgid "Saving the file failed. Please try again"
+msgstr "Išsaugoti failo nepavyko. Bandykite dar kartą"
+
+#: mediacore/templates/admin/media/edit.html:58
+#: mediacore/templates/admin/podcasts/edit.html:39
+#, python-format
+msgid "Security error occured (%(text)s)"
+msgstr "Saugumo klaida (%(text)s)"
+
+#: mediacore/templates/admin/media/edit.html:59
+#: mediacore/templates/admin/podcasts/edit.html:40
+#, python-format
+msgid "Error caused a send or load operation to fail (%(text)s)"
+msgstr "Klaida išsiunčiant arba įkraunant (%(text)s)"
+
+#: mediacore/templates/admin/media/edit.html:62
+#: mediacore/templates/admin/podcasts/edit.html:43
+msgid "File has already been added, duplicates are not allowed"
+msgstr "Failas jau yra įdėtas, dublikatai neleidžiami"
+
+#: mediacore/templates/admin/media/edit.html:63
+#: mediacore/templates/admin/podcasts/edit.html:44
+#, python-format
+msgid "File is too small, the minimal file size is %(size)s"
+msgstr "Vaizdo failas yra per mažas, minimalus failo dydis yra %(size)s "
+
+#: mediacore/templates/admin/media/edit.html:64
+#: mediacore/templates/admin/podcasts/edit.html:45
+#, python-format
+msgid "File is too large, the maximum file size is %(size)s"
+msgstr "Vaizdo failas yra per didelis, maksimalus failo dydis yra %(size)s "
+
+#: mediacore/templates/admin/media/edit.html:65
+#: mediacore/templates/admin/podcasts/edit.html:46
+#, python-format
+msgid "File could not be added, amount of %(num)s files exceeded"
+msgstr "Failas negali būtiįkeltas, įkėlimo suma %(num)s  viršyta"
+
+#: mediacore/templates/admin/media/edit.html:66
+#: mediacore/templates/admin/podcasts/edit.html:47
+#, python-format
+msgid "File is too big, overall filesize of %(size)s exceeded"
+msgstr "Failas per didelis, dydžių suma %(size)s viršyta"
+
+#: mediacore/templates/admin/media/edit.html:73
+#: mediacore/templates/admin/players/index.html:33
+#: mediacore/templates/admin/podcasts/edit.html:59
+#: mediacore/templates/admin/storage/index.html:37
+#: mediacore/templates/admin/tags/index.html:90
+#: mediacore/templates/admin/users/edit.html:33
+msgid "Are you sure you want to delete this?"
+msgstr "Ar jūs tikrai norite ištrinti tai?"
+
+#: mediacore/templates/admin/media/edit.html:84
+#: mediacore/templates/admin/podcasts/edit.html:70
+msgid "Upload image"
+msgstr "Įkelti paveikslėlį"
+
+#: mediacore/templates/admin/media/edit.html:93
+msgid "Are you sure you want to delete this file?"
+msgstr "Ar jūs tikrai norite ištrinti šį failą?"
+
+#: mediacore/templates/admin/media/edit.html:98
+msgid "Upload a file"
+msgstr "Įkelti failą"
+
+#: mediacore/templates/admin/media/edit.html:105
+msgid "Failed to add this file. Please try again."
+msgstr "Nepavyko pridėti šio failo. Bandykite dar kartą."
+
+#: mediacore/templates/admin/media/edit.html:106
+msgid "Failed to save your change. Please try again."
+msgstr "Nepavyko išsaugoti Jūsų pakeitimų. Bandykite dar kartą."
+
+#: mediacore/templates/admin/media/edit.html:107
+msgid "Uploading"
+msgstr "Įkeliama"
+
+#: mediacore/templates/admin/media/edit.html:108
+msgid "Queued"
+msgstr "Eilėje"
+
+#: mediacore/templates/admin/media/edit.html:109
+msgid "Error"
+msgstr "Klaida"
+
+#: mediacore/templates/admin/media/edit.html:121
+msgid "A connection problem occurred, try again."
+msgstr "Ryšio problema, bandykite dar kartą."
+
+#: mediacore/templates/admin/media/edit.html:122
+msgid "An error has occurred, try again."
+msgstr "Įvyko klaida, bandykite dar kartą."
+
+#: mediacore/templates/admin/media/edit.html:125
+#: mediacore/templates/admin/media/edit.html:210
+#: mediacore/templates/admin/podcasts/edit.html:51
+msgid "Hide"
+msgstr "Slėpti"
+
+#: mediacore/templates/admin/media/edit.html:126
+msgid "Saving"
+msgstr "Išsaugoma"
+
+#: mediacore/templates/admin/media/edit.html:127
+msgid "Saved!"
+msgstr "Išsaugota!"
+
+#: mediacore/templates/admin/media/edit.html:128
+msgid "Saving failed. Please try again."
+msgstr "Išsaugoti nepavyko. Bandykite dar kartą."
+
+#: mediacore/templates/admin/media/edit.html:129
+msgid "Please correct the highlighted errors and save again."
+msgstr "Ištaisykite pabrėžtas klaidas ir išsaugokite dar kartą."
+
+#: mediacore/templates/admin/media/edit.html:151
+#: mediacore/templates/admin/podcasts/edit.html:94
+msgid "Uploaded:"
+msgstr "Įkelta:"
+
+#: mediacore/templates/admin/media/edit.html:162
+#: mediacore/templates/admin/storage/index.html:130
+msgid "Files"
+msgstr "Failai"
+
+#: mediacore/templates/admin/media/edit.html:163
+msgid "Add & Manage"
+msgstr "Pridėti ir tvarkyti"
+
+#: mediacore/templates/admin/media/edit.html:166
+#: mediacore/templates/admin/media/file-edit-form.html:22
+msgid "View this file"
+msgstr "Žiūrėti šį failą"
+
+#: mediacore/templates/admin/media/edit.html:180
+#: mediacore/templates/admin/podcasts/edit.html:109
+msgid "Thumbnail"
+msgstr "Miniatiūra"
+
+#: mediacore/templates/admin/media/edit.html:183
+#: mediacore/templates/admin/podcasts/_podcast-table.html:39
+#: mediacore/templates/admin/podcasts/edit.html:113
+msgid "Thumb"
+msgstr "Thumb"
+
+#: mediacore/templates/admin/media/edit.html:207
+msgid "Manage Files"
+msgstr "Tvarkyti failus"
+
+#: mediacore/templates/admin/media/edit.html:216
+msgid "File"
+msgstr "Failas"
+
+#: mediacore/templates/admin/media/edit.html:217
+msgid "Size"
+msgstr "Dydis"
+
+#: mediacore/templates/admin/media/edit.html:218
+msgid "Duration"
+msgstr "Trukmė"
+
+#: mediacore/templates/admin/media/edit.html:219
+msgid "Bitrate"
+msgstr "Vaizdo kokybė"
+
+#: mediacore/templates/admin/media/edit.html:220
+msgid "Dimensions"
+msgstr "Matmenys"
+
+#: mediacore/templates/admin/media/edit.html:221
+msgid "Type"
+msgstr "Tipas"
+
+#: mediacore/templates/admin/media/file-add-form.html:24
+msgid "OR"
+msgstr "ARBA"
+
+#: mediacore/templates/admin/media/file-form.html:24
+msgid "or"
+msgstr "arba"
+
+#: mediacore/templates/admin/media/index.html:73
+#, python-format
+msgid "Media that matches '%(search)s'"
+msgstr "Video kurie atitinka '%(search)s'"
+
+#: mediacore/templates/admin/media/index.html:74
+#, python-format
+msgid "%(podcastTitle)s Episodes"
+msgstr "%(podcastTitle)s Epizodai"
+
+#: mediacore/templates/admin/media/index.html:75
+#, python-format
+msgid "Media in '%(categoryName)s'"
+msgstr "Video '%(categoryName)s'"
+
+#: mediacore/templates/admin/media/index.html:76
+#, python-format
+msgid "Media tagged '%(tagName)s'"
+msgstr "Pažymėti video '%(tagName)s'"
+
+#: mediacore/templates/admin/media/index.html:77
+msgid "Unreviewed Media"
+msgstr "Neperžiūrėtį video"
+
+#: mediacore/templates/admin/media/index.html:78
+msgid "Unencoded Media"
+msgstr "Nedekoduoti video"
+
+#: mediacore/templates/admin/media/index.html:79
+msgid "Draft Media"
+msgstr "Planuojami video"
+
+#: mediacore/templates/admin/media/index.html:80
+msgid "Published Media"
+msgstr "Paskelbti video"
+
+#: mediacore/templates/admin/media/index.html:81
+#: mediacore/templates/admin/media/index.html:112
+msgid "All Media"
+msgstr "Visi video"
+
+#: mediacore/templates/admin/media/index.html:91
+msgid "Review"
+msgstr "Peržiūrėti"
+
+#: mediacore/templates/admin/media/index.html:121
+msgid "Drafts"
+msgstr "Projektai"
+
+#: mediacore/templates/admin/media/index.html:131
+msgid "Filters"
+msgstr "Filtrai"
+
+#: mediacore/templates/admin/media/update-status-form.html:27
+msgid "View this media where it is published"
+msgstr "Peržiūrėti šį video ten kur jis paskelbtas"
+
+#: mediacore/templates/admin/media/update-status-form.html:33
+msgid "View this media where it will be published"
+msgstr "Peržiūrėti šį video ten kur jis bus paskelbtas"
+
+#: mediacore/templates/admin/media/update-status-form.html:33
+msgid "Preview"
+msgstr "Peržiūrėti"
+
+#: mediacore/templates/admin/media/update-status-form.html:47
+msgid "You must add a file and save before review can begin."
+msgstr "Turite pridėti failą ir išsaugoti, prieš peržiūrai prasidedant."
+
+#: mediacore/templates/admin/media/update-status-form.html:51
+msgid "Review Pending"
+msgstr "Peržiūra eilėje"
+
+#: mediacore/templates/admin/media/update-status-form.html:52
+#: mediacore/templates/admin/media/update-status-form.html:78
+#: mediacore/templates/admin/media/update-status-form.html:91
+msgid "Encoding Complete"
+msgstr "Dekodavimas baigtas"
+
+#: mediacore/templates/admin/media/update-status-form.html:52
+#: mediacore/templates/admin/media/update-status-form.html:68
+msgid "Encoding Pending"
+msgstr "Dekodavimas eilėje"
+
+#: mediacore/templates/admin/media/update-status-form.html:53
+#: mediacore/templates/admin/media/update-status-form.html:69
+#: mediacore/templates/admin/media/update-status-form.html:79
+#: mediacore/templates/admin/media/update-status-form.html:92
+msgid "Click to change the publish date"
+msgstr "Spustelėkite norėdami pakeisti paskelbimo datą"
+
+#: mediacore/templates/admin/media/update-status-form.html:53
+#: mediacore/templates/admin/media/update-status-form.html:69
+#: mediacore/templates/admin/media/update-status-form.html:79
+#: mediacore/templates/admin/media/update-status-form.html:93
+msgid "Publishing"
+msgstr "Paskelbta"
+
+#: mediacore/templates/admin/media/update-status-form.html:54
+#: mediacore/templates/admin/media/update-status-form.html:70
+#: mediacore/templates/admin/media/update-status-form.html:80
+#: mediacore/templates/admin/media/update-status-form.html:94
+msgid "Pending"
+msgstr "Eilėje"
+
+#: mediacore/templates/admin/media/update-status-form.html:60
+#: mediacore/templates/admin/media/update-status-form.html:67
+#: mediacore/templates/admin/media/update-status-form.html:77
+#: mediacore/templates/admin/media/update-status-form.html:90
+msgid "Review Complete"
+msgstr "Peržiūra baigta"
+
+#: mediacore/templates/admin/media/update-status-form.html:62
+msgid "Review can only be completed after a file is added."
+msgstr "Peržiūra galima tik baigus įkelti video failą."
+
+#: mediacore/templates/admin/media/update-status-form.html:73
+msgid "Encoding will be complete when an acceptable file is added."
+msgstr "Dekodavimas bus baigtas, kai priimtinas failas bus pridėtas."
+
+#: mediacore/templates/admin/media/update-status-form.html:85
+msgid "Publish Now"
+msgstr "Publikuoti dabar"
+
+#: mediacore/templates/admin/players/index.html:23
+#: mediacore/templates/admin/players/index.html:47
+#: mediacore/templates/admin/settings/master.html:68
+msgid "Players"
+msgstr "Video leistuvai"
+
+#: mediacore/templates/admin/players/index.html:33
+msgid "By deleting this player you will lose all settings related to it."
+msgstr ""
+"Išbraukiant šis video leistuvą prarasite visus parametrus, susijusius su "
+"juo."
+
+#: mediacore/templates/admin/players/index.html:56
+msgid "Priority"
+msgstr "Prioritetas"
+
+#: mediacore/templates/admin/players/index.html:78
+msgid "Up"
+msgstr "Aukštyn"
+
+#: mediacore/templates/admin/players/index.html:79
+msgid "Down"
+msgstr "Žemyn"
+
+#: mediacore/templates/admin/podcasts/_podcast-table.html:46
+msgid "Category:"
+msgstr "Kategorija:"
+
+#: mediacore/templates/admin/podcasts/_podcast-table.html:48
+msgid "Author:"
+msgstr "Autorius:"
+
+#: mediacore/templates/admin/podcasts/_podcast-table.html:52
+msgid "Explicit"
+msgstr "Aiškus"
+
+#: mediacore/templates/admin/podcasts/_podcast-table.html:58
+msgid "Add episode"
+msgstr "Pridėti epizodą"
+
+#: mediacore/templates/admin/podcasts/_podcast-table.html:60
+#, python-format
+msgid "View First Episode %(num)s"
+msgid_plural "View All %(num)s Episodes"
+msgstr[0] "Peržiūrėti %(num)s epizodą"
+msgstr[1] "Peržiūrėti %(num)s epizodus"
+msgstr[2] "Peržiūrėti %(num)s epizodus"
+
+#: mediacore/templates/admin/podcasts/edit.html:23
+msgid "Edit Podcast"
+msgstr "Redaguoti grojaraštį"
+
+#: mediacore/templates/admin/podcasts/edit.html:23
+#: mediacore/templates/admin/podcasts/edit.html:95
+msgid "New Podcast"
+msgstr "Naujas grojaraštis"
+
+#: mediacore/templates/admin/podcasts/edit.html:104
+msgid "View this podcast where it is published"
+msgstr "Peržiūrėti šį grojaraštį ten kur jis publikuojamas"
+
+#: mediacore/templates/admin/podcasts/feed_fieldset.html:30
+msgid "Get an iTunes URL"
+msgstr "Gauti iTunes URL"
+
+#: mediacore/templates/admin/podcasts/feed_fieldset.html:31
+msgid "Get a Feedburner URL"
+msgstr "Gauti Feedburner URL"
+
+#: mediacore/templates/admin/podcasts/index.html:32
+msgid "Add Podcast"
+msgstr "Pridėti grojaraštį"
+
+#: mediacore/templates/admin/settings/advertising.html:24
+#: mediacore/templates/admin/settings/advertising.html:30
+#: mediacore/templates/admin/settings/master.html:47
+msgid "Advertising"
+msgstr "Reklama"
+
+#: mediacore/templates/admin/settings/analytics.html:24
+#: mediacore/templates/admin/settings/analytics.html:30
+#: mediacore/templates/admin/settings/master.html:50
+msgid "Analytics"
+msgstr "Google Analytics"
+
+#: mediacore/templates/admin/settings/api.html:23
+#: mediacore/templates/admin/settings/api.html:33
+#: mediacore/templates/admin/settings/master.html:62
+msgid "Data API"
+msgstr "Duomenų API"
+
+#: mediacore/templates/admin/settings/api.html:26
+msgid "Generate"
+msgstr "Generuoti"
+
+#: mediacore/templates/admin/settings/appearance.html:24
+#: mediacore/templates/admin/settings/appearance.html:45
+#: mediacore/templates/admin/settings/master.html:53
+msgid "Appearance"
+msgstr "Išvaizda"
+
+#: mediacore/templates/admin/settings/appearance.html:33
+msgid "Confirm Reset"
+msgstr "Patvirtinti nustatymą į numatytuosius"
+
+#: mediacore/templates/admin/settings/appearance.html:34
+msgid "Are you sure you want to reset your settings to the default?"
+msgstr "Ar jūs tikrai norite iš naujo nustatyti savo parametrus į numatytuosius?"
+
+#: mediacore/templates/admin/settings/master.html:65
+msgid "Notifications"
+msgstr "Pranešimai"
+
+#: mediacore/templates/admin/settings/master.html:71
+#: mediacore/templates/admin/settings/popularity.html:23
+#: mediacore/templates/admin/settings/popularity.html:29
+msgid "Popularity"
+msgstr "Populiarumas"
+
+#: mediacore/templates/admin/settings/master.html:74
+#: mediacore/templates/admin/settings/sitemaps.html:24
+#: mediacore/templates/admin/settings/sitemaps.html:30
+msgid "RSS and Sitemaps"
+msgstr "RSS ir tinklalapio žemėlapis"
+
+#: mediacore/templates/admin/settings/master.html:77
+#: mediacore/templates/admin/storage/index.html:23
+#: mediacore/templates/admin/storage/index.html:120
+msgid "Storage Engines"
+msgstr "Saugojimo būdai"
+
+#: mediacore/templates/admin/settings/master.html:88
+msgid "Plugins"
+msgstr "Įskiepiai"
+
+#: mediacore/templates/admin/settings/notifications.html:23
+#: mediacore/templates/admin/settings/notifications.html:29
+msgid "Notification Emails"
+msgstr "Pranešimo el.paštai"
+
+#: mediacore/templates/admin/storage/edit.html:30
+msgid "New Storage Engine"
+msgstr "Naujas Saugojimo būdas"
+
+#: mediacore/templates/admin/storage/index.html:32
+msgid "WARNING:"
+msgstr "ĮSPĖJIMAS:"
+
+#: mediacore/templates/admin/storage/index.html:33
+#, python-format
+msgid "Deleting this Storage Engine (%(name)s) will:"
+msgstr "Ištrinant šį saugojimo būdą (%(name)s) bus:"
+
+#: mediacore/templates/admin/storage/index.html:34
+#, python-format
+msgid ""
+"Permanently delete all of the %(num)s media files stored by this Storage "
+"Engine."
+msgstr ""
+"Visam laikui pašalinti visus %(num)s  video failus, saugomus pagal šį "
+"saugojimo būdą."
+
+#: mediacore/templates/admin/storage/index.html:35
+msgid "Permanently erase its settings."
+msgstr "Visam laikui ištrinti nustatymus."
+
+#: mediacore/templates/admin/storage/index.html:36
+msgid ""
+"An alternative to deleting is disabling. Disabling a Storage Engine will "
+"simply prevent its use for files added from now on."
+msgstr ""
+"Alternatyva ištrynimui yra išjungimas. Išjungus Saugojimo būdą tiesiog "
+"užkirsite kelią jo panaudojimui."
+
+#: mediacore/templates/admin/storage/index.html:100
+msgid "Disable"
+msgstr "Išjungti"
+
+#: mediacore/templates/admin/storage/index.html:121
+#: mediacore/templates/admin/storage/index.html:161
+msgid "Add New Engine"
+msgstr "Pridėti naują saugojimo būdą"
+
+#: mediacore/templates/admin/storage/index.html:129
+msgid "Disk Usage"
+msgstr "Disko naudojimas"
+
+#: mediacore/templates/admin/storage/index.html:163
+msgid "Please select what type of storage engine you would like to add:"
+msgstr "Pasirinkite, kokio tipo saugojimo būdą norėtumėte pridėti:"
+
+#: mediacore/templates/admin/tags/index.html:57
+#: mediacore/templates/admin/tags/index.html:79
+msgid "Add Tag"
+msgstr "Pridėti gairę"
+
+#: mediacore/templates/admin/tags/index.html:83
+msgid "Edit Tag"
+msgstr "Redaguoti Žymenis"
+
+#: mediacore/templates/admin/tags/index.html:87
+msgid "Delete Tag"
+msgstr "Ištrinti Žymenis"
+
+#: mediacore/templates/admin/users/edit.html:44
+msgid "New User"
+msgstr "Naujas vartotojas"
+
+#: mediacore/templates/admin/users/index.html:36
+msgid "Are you sure you want to delete this user?"
+msgstr "Ar tikrai norite pašalinti šį vartotoją?"
+
+#: mediacore/templates/admin/users/index.html:46
+msgid "Add User"
+msgstr "Pridėti Vartotoją"
+
+#: mediacore/templates/admin/users/index.html:53
+msgid "Email"
+msgstr "El.paštas"
+
+#: mediacore/templates/categories/index.html:30
+#: mediacore/templates/categories/more.html:26
+#, python-format
+msgid "Latest media in %s"
+msgstr "Paskutiniai video kategorijoje %s"
+
+#: mediacore/templates/categories/index.html:38
+#: mediacore/templates/categories/index.html:43
+#: mediacore/templates/media/explore.html:101
+#: mediacore/templates/media/explore.html:116
+msgid "View More"
+msgstr "Žiūrėti daugiau"
+
+#: mediacore/templates/categories/index.html:45
+#: mediacore/templates/categories/more.html:33
+msgid "There is no media in this category."
+msgstr "Nėra video šioje kategorijoje."
+
+#: mediacore/templates/categories/layout.html:34
+msgid "Choose a Category:"
+msgstr "Pasirinkite kategoriją:"
+
+#: mediacore/templates/comments/_list.html:38
+#, python-format
+msgid "said on %(datetime)s…"
+msgstr "pasisakė %(datetime)s..."
+
+#: mediacore/templates/comments/_list.html:52
+msgid "No comments have been posted yet."
+msgstr "Jokių komentarų nebuvo paskelbta."
+
+#: mediacore/templates/comments/_list.html:66
+msgid "Write a comment"
+msgstr "Rašyti komentarą"
+
+#: mediacore/templates/comments/_list.html:83
+msgid "Email Address (will never be published)"
+msgstr "El.pašto adresas (niekam nebus skelbiamas)"
+
+#: mediacore/templates/comments/_list.html:101
+msgid "Submit Comment"
+msgstr "Pridėti komentarą"
+
+#: mediacore/templates/media/explore.html:28
+msgid "Sitemap XML"
+msgstr "Svetainės žemėlapio XML"
+
+#: mediacore/templates/media/explore.html:31
+msgid "Sitemap RSS"
+msgstr "Svetainės žemėlapio RSS"
+
+#: mediacore/templates/media/explore.html:34
+#: mediacore/templates/media/index.html:25
+msgid "Latest RSS"
+msgstr "Paskutinės RSS naujienos"
+
+#: mediacore/templates/media/explore.html:106
+#, python-format
+msgid ""
+"As soon as there are more than %(num)s published videos in the library, "
+"the most popular videos will be listed here."
+msgstr ""
+"Kai tik bus daugiau nei %(num)s  paskelbtų vaizdo failų bibliotekoje, "
+"populiariausi video bus rodomi čia."
+
+#: mediacore/templates/media/explore.html:107
+msgid "Why not add a few more?"
+msgstr "Kodėl gi nepridėti dar kelis?"
+
+#: mediacore/templates/media/explore.html:119
+msgid "There are no media items published yet!"
+msgstr "Dar nėra paskelbtų video failų!"
+
+#: mediacore/templates/media/index.html:24
+#, python-format
+msgid "Search: \"%s\""
+msgstr "Ieškoti: \"%s\""
+
+#: mediacore/templates/media/index.html:32
+#, python-format
+msgid "Showing %(result_count)s results for '%(search_query)s'"
+msgstr ""
+"Rodomi (-as) %(result_count)s rezultatai (-as) užklausai "
+"'%(search_query)s'"
+
+#: mediacore/templates/media/index.html:33
+#, python-format
+msgid "Showing %(result_count)s results tagged with '%(tag_name)s'"
+msgstr "Rodomi (-as) %(result_count)s rezultatai pažymėti '%(tag_name)s'"
+
+#: mediacore/templates/media/index.html:34
+#, python-format
+msgid "All %(result_count)s Media"
+msgstr "%(result_count)s Video"
+
+#: mediacore/templates/media/tags.html:27
+msgid "All Tags"
+msgstr "Visos Žymės"
+
+#: mediacore/templates/media/view.html:53
+msgid "(unpublished)"
+msgstr "(Nepaskelbta)"
+
+#: mediacore/templates/media/view.html:54
+#, python-format
+msgid "by %(authorName)s"
+msgstr "autorius %(authorName)s "
+
+#: mediacore/templates/media/view.html:64
+#: mediacore/templates/players/html5_or_flash.html:34
+msgid "Dislike"
+msgid_plural "Dislikes"
+msgstr[0] "Nepatiko"
+msgstr[1] "Nepatiko"
+msgstr[2] "Nepatiko"
+
+#: mediacore/templates/media/view.html:79
+msgid "Related Podcast"
+msgstr "Susijusę grojaraščiai"
+
+#: mediacore/templates/media/view.html:89
+msgid "Podcast Episodes"
+msgstr "Grojaraščio epizodai"
+
+#: mediacore/templates/media/view.html:92
+msgid "Episode"
+msgid_plural "Episodes"
+msgstr[0] "Epizodas"
+msgstr[1] "Epizodai"
+msgstr[2] "Epizodų"
+
+#: mediacore/templates/media/view.html:106
+msgid "Related Media"
+msgstr "Panašūs video"
+
+#: mediacore/templates/media/view.html:114
+msgid "This is not listed under any categories."
+msgstr "To nėra jokioje kategorijoje"
+
+#: mediacore/templates/media/view.html:118
+msgid "See All Tags"
+msgstr "Žiūrėti visas žymes"
+
+#: mediacore/templates/media/view.html:122
+msgid "This does not have any associated tags."
+msgstr "Tai neturi jokių susijusių žymių"
+
+#: mediacore/templates/players/html5_or_flash.html:35
+msgid "Pop out a new player window"
+msgstr "Aktyvuoti naują langą su grotuvu"
+
+#: mediacore/templates/players/html5_or_flash.html:35
+msgid "Pop Out"
+msgstr "Atskiras grotuvas"
+
+#: mediacore/templates/players/html5_or_flash.html:36
+msgid "Shrink"
+msgstr "Sumažinti"
+
+#: mediacore/templates/players/html5_or_flash.html:36
+msgid "Expand"
+msgstr "Padidinti"
+
+#: mediacore/templates/players/html5_or_flash.html:38
+msgid "Share"
+msgstr "Dalintis"
+
+#: mediacore/templates/players/html5_or_flash.html:42
+msgid "Permalink:"
+msgstr "Nuolatinė nuoroda:"
+
+#: mediacore/templates/players/html5_or_flash.html:45
+msgid "Share by email"
+msgstr "Dalintis El.paštu"
+
+#: mediacore/templates/players/html5_or_flash.html:45
+msgid "Share by Email"
+msgstr "Dalintis El.paštu"
+
+#: mediacore/templates/players/html5_or_flash.html:46
+msgid "Share on Facebook"
+msgstr "Dalintis Facebook'e"
+
+#: mediacore/templates/players/html5_or_flash.html:47
+msgid "Share on Twitter"
+msgstr "Dalintis Twitter'yje"
+
+#: mediacore/templates/players/html5_or_flash.html:52
+msgid "Embed"
+msgstr "Įkrauti svetainėje"
+
+#: mediacore/templates/players/html5_or_flash.html:56
+msgid "Embeddable Player HTML:"
+msgstr "Įkraunamo grotuvo HTML:"
+
+#: mediacore/templates/players/html5_or_flash.html:62
+msgid "Download"
+msgstr "Parsisiųsti"
+
+#: mediacore/templates/podcasts/index.html:30
+msgid "All Podcasts"
+msgstr "Visi grojaraščiai"
+
+#: mediacore/templates/podcasts/index.html:41
+#: mediacore/templates/podcasts/view.html:46
+msgid "Add to iTunes"
+msgstr "Pridėti į iTunes"
+
+#: mediacore/templates/podcasts/index.html:42
+#: mediacore/templates/podcasts/view.html:47
+msgid "Subscribe via RSS"
+msgstr "Prenumeruoti naudojant RSS"
+
+#: mediacore/templates/podcasts/index.html:45
+msgid "Latest Episodes"
+msgstr "Naujausi epizodai"
+
+#: mediacore/templates/podcasts/index.html:52
+msgid "Browse all episodes"
+msgstr "Peržiūrėti visus epizodus"
+
+#: mediacore/templates/podcasts/view.html:53
+#, python-format
+msgid "%(result_count)s Episodes"
+msgid_plural "All %(result_count)s Episodes"
+msgstr[0] "%(result_count)s Epizodas"
+msgstr[1] "%(result_count)s Epizodai"
+msgstr[2] "%(result_count)s Epižodų"
+
+#: mediacore/templates/upload/failure.html:24
+#: mediacore/templates/upload/success.html:24
+msgid "Upload Videos"
+msgstr "Įkelti video"
+
+#: mediacore/templates/upload/failure.html:29
+msgid "Upload Error"
+msgstr "Įkėlimo klaida"
+
+#: mediacore/templates/upload/failure.html:33
+msgid ""
+"During your upload, something went wrong, but don't worry. The engineers "
+"and gnomes have been automagically notified and we're already on our way "
+"to resolving your issue."
+msgstr ""
+"Vykdant Jūsų įkėlimą, nutiko kažkas blogo, bet nesijaudinkit. Inžinieriai"
+" arba gnomai jau informuoti apie šią klaidą, netrukus ją pašalins."
+
+#: mediacore/templates/upload/failure.html:35
+msgid "Something you can check:"
+msgstr "Kaiką galite pažiūrėti:"
+
+#: mediacore/templates/upload/failure.html:37
+#, python-format
+msgid "Is the file under %(maxUploadSize)s Megabytes in size?"
+msgstr "Ar failo dydis neviršyja: %(maxUploadSize)s megabaitų?"
+
+#: mediacore/templates/upload/failure.html:40
+msgid "Try Uploading Again"
+msgstr "Bandykite dar kartą įkelti"
+
+#: mediacore/templates/upload/form.html:59
+msgid "Choose a file to upload"
+msgstr "Pasirinkite failą įkėlimui"
+
+#: mediacore/templates/upload/index.html:52
+msgid "Problems?"
+msgstr "Problemos?"
+
+#: mediacore/templates/upload/index.html:53
+msgid "If you have problems uploading or have some questions, please email us at"
+msgstr ""
+"Jei turite problemų su failų įkėlimu ar turite klausimų, rašykite mums "
+"adresu"
+
+#: mediacore/templates/upload/success.html:30
+msgid "Upload Successful"
+msgstr "Įkelta sėkmingai"
+
+#: mediacore/templates/upload/success.html:34
+msgid "Awesome, your upload was successful!"
+msgstr "Stulbinama, įkėlimas buvo sėkmingas!"
+
+#: mediacore/templates/upload/success.html:35
+msgid ""
+"Your submission is awaiting review by a moderator and will be posted "
+"shortly."
+msgstr "Jūsų įkėlimas laukia peržiūros ir netrukus bus paskelbtas."
+
+#: mediacore/templates/upload/success.html:36
+msgid ""
+"You will be automatically redirected back to the [1:Media Library] in a "
+"few seconds. Hang tight."
+msgstr ""
+"Jūs busitę automatiškai nukreipti [1:Media Library] per kelias sekundes. "
+"Laikykitės tvirtai."
+
+#~ msgid "Slug"
+#~ msgstr "Kategorija"
+
+#~ msgid "Enable"
+#~ msgstr "Įjungti"
+
+#~ msgid "Administrative notes on Media:"
+#~ msgstr "Administracinės pastabos video medžiagai:"
+
+#~ msgid "Display notes"
+#~ msgstr "Rodyti žymas"
+
+#~ msgid "Run Filter Now"
+#~ msgstr "Pradėti Filtruoti Dabar"
+

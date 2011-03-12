@@ -1,0 +1,2293 @@
+# Arabic translations for MediaCore.
+# Copyright (C) 2011 ORGANIZATION
+# This file is distributed under the same license as the MediaCore project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2011.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: MediaCore Video Platform\n"
+"Report-Msgid-Bugs-To: http://github.com/simplestation/mediacore/issues\n"
+"POT-Creation-Date: 2011-01-21 15:28+0800\n"
+"PO-Revision-Date: 2011-03-11 15:56-0800\n"
+"Last-Translator: sef <sef4sef@gmail.com>\n"
+"Language-Team: ar <LL@li.org>\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : "
+"n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 0.9.5\n"
+
+#: mediacore/websetup.py:136
+msgid ""
+"Upload your media using the form below. We'll review it and get back to "
+"you."
+msgstr ""
+".تحميل الفيلم الخاص بك باستخدام النموذج أدناه. سوف نقوم بمراجعته ونعود "
+"إليكم"
+
+#: mediacore/controllers/error.py:65
+msgid "We're sorry but we weren't able to process this request."
+msgstr ".نحن آسفون لكننا لم نتمكن من معالجة هذا الطلب"
+
+#: mediacore/controllers/media.py:288
+msgid "Your comment has been rejected."
+msgstr ".تم رفض التعليق"
+
+#: mediacore/controllers/media.py:309
+msgid ""
+"Thank you for your comment! We will post it just as soon as a moderator "
+"approves it."
+msgstr ".شكرا لك على التعليق! سيتم نشره حالما تتم مراجعته من مسؤول الموقع"
+
+#: mediacore/controllers/admin/media.py:391
+#, python-format
+msgid "File \"%s\" does not exist."
+msgstr ".\"%s\" لا وجود للملف"
+
+#: mediacore/controllers/admin/media.py:413
+msgid "No action to perform."
+msgstr "لايوجد إجراء بحاجة لتنفيذ."
+
+#: mediacore/controllers/admin/media.py:562
+msgid "Permission denied, cannot write file"
+msgstr "الإذن مرفوض، لا يمكن حفظ الملف"
+
+#: mediacore/controllers/admin/media.py:564
+#, python-format
+msgid "Unsupport image type: %s"
+msgstr "  %s :نوع الصورة غير صالح"
+
+#: mediacore/forms/__init__.py:191
+msgid "The portion of the email address before the @ is invalid"
+msgstr "جزء من عنوان البريد الإلكتروني قبل @ غير صالح"
+
+#: mediacore/forms/__init__.py:192
+msgid "The portion of this email address after the @ is invalid"
+msgstr "هذا الجزء من عنوان البريد الإلكتروني بعد @ غير صالح"
+
+#: mediacore/forms/comments.py:23
+msgid "Please enter your name!"
+msgstr "عذرا نرجو إدراج إسمك"
+
+#: mediacore/forms/uploader.py:31
+msgid "At least give it a short description..."
+msgstr "قم بإعطاء وصف قصير على الأقل"
+
+#: mediacore/forms/uploader.py:35
+msgid "You've gotta have a name!"
+msgstr "ألكَ إسم!"
+
+#: mediacore/forms/uploader.py:39
+msgid "You've gotta have a title!"
+msgstr "هل لديك عنوان!"
+
+#: mediacore/forms/uploader.py:55
+msgid "Your Name:"
+msgstr ":اسمك"
+
+#: mediacore/forms/uploader.py:56
+msgid "Your Email:"
+msgstr ":البريد الالكتروني"
+
+#: mediacore/forms/uploader.py:56
+msgid "(will never be published)"
+msgstr "(لن ينشر)"
+
+#: mediacore/forms/uploader.py:57
+msgid "Title:"
+msgstr ":العنوان"
+
+#: mediacore/forms/uploader.py:58
+msgid "Description:"
+msgstr ":الوصف"
+
+#: mediacore/forms/uploader.py:59
+msgid "Add a YouTube, Vimeo or Google Video URL:"
+msgstr ": youtube  أو Vimeo إضافة رابط فيديو من"
+
+#: mediacore/forms/uploader.py:60
+msgid "Oops! You forgot to enter a file."
+msgstr ".عفوا! نسيت إدخال ملف"
+
+#: mediacore/forms/uploader.py:60
+msgid "OR:"
+msgstr ":أو"
+
+#: mediacore/forms/uploader.py:61
+msgid "Submit"
+msgstr "إرسال"
+
+#: mediacore/forms/admin/__init__.py:27
+msgid "SEARCH..."
+msgstr "... البحث"
+
+#: mediacore/forms/admin/__init__.py:47
+msgid "You forgot to select an image!"
+msgstr "!نسيت اختيار صورة"
+
+#: mediacore/forms/admin/categories.py:44 mediacore/forms/admin/tags.py:44
+#: mediacore/templates/admin/categories/index.html:69
+#: mediacore/templates/admin/players/index.html:55
+#: mediacore/templates/admin/storage/index.html:128
+#: mediacore/templates/admin/tags/index.html:66
+#: mediacore/templates/comments/_list.html:74
+msgid "Name"
+msgstr "الاسم"
+
+#: mediacore/forms/admin/categories.py:45 mediacore/forms/admin/media.py:155
+#: mediacore/forms/admin/podcasts.py:110 mediacore/forms/admin/tags.py:45
+#: mediacore/templates/comments/_list.html:35
+msgid "Permalink"
+msgstr "الرابط الثابت"
+
+#: mediacore/forms/admin/categories.py:46
+msgid "Parent Category"
+msgstr "الفئة رئيسية"
+
+#: mediacore/forms/admin/categories.py:47 mediacore/forms/admin/comments.py:31
+#: mediacore/forms/admin/tags.py:46
+#: mediacore/templates/admin/categories/index.html:48
+#: mediacore/templates/admin/categories/index.html:98
+#: mediacore/templates/admin/comments/index.html:45
+#: mediacore/templates/admin/comments/index.html:58
+#: mediacore/templates/admin/media/edit.html:75
+#: mediacore/templates/admin/media/index.html:43
+#: mediacore/templates/admin/players/index.html:35
+#: mediacore/templates/admin/podcasts/edit.html:61
+#: mediacore/templates/admin/settings/appearance.html:36
+#: mediacore/templates/admin/storage/index.html:84
+#: mediacore/templates/admin/tags/index.html:45
+#: mediacore/templates/admin/tags/index.html:92
+#: mediacore/templates/admin/users/edit.html:35
+#: mediacore/templates/admin/users/index.html:35
+msgid "Cancel"
+msgstr "إلغاء"
+
+#: mediacore/forms/admin/categories.py:48 mediacore/forms/admin/comments.py:30
+#: mediacore/forms/admin/media.py:167 mediacore/forms/admin/players.py:55
+#: mediacore/forms/admin/podcasts.py:126 mediacore/forms/admin/settings.py:113
+#: mediacore/forms/admin/settings.py:132 mediacore/forms/admin/settings.py:163
+#: mediacore/forms/admin/settings.py:175 mediacore/forms/admin/settings.py:198
+#: mediacore/forms/admin/settings.py:238 mediacore/forms/admin/settings.py:257
+#: mediacore/forms/admin/settings.py:369 mediacore/forms/admin/settings.py:391
+#: mediacore/forms/admin/tags.py:47 mediacore/forms/admin/users.py:62
+#: mediacore/forms/admin/storage/__init__.py:51
+msgid "Save"
+msgstr "حفظ"
+
+#: mediacore/forms/admin/categories.py:67 mediacore/forms/admin/media.py:168
+#: mediacore/forms/admin/podcasts.py:127 mediacore/forms/admin/tags.py:62
+#: mediacore/forms/admin/users.py:63
+#: mediacore/templates/admin/categories/index.html:47
+#: mediacore/templates/admin/categories/index.html:99
+#: mediacore/templates/admin/comments/index.html:44
+#: mediacore/templates/admin/comments/index.html:57
+#: mediacore/templates/admin/comments/index.html:96
+#: mediacore/templates/admin/media/edit.html:74
+#: mediacore/templates/admin/media/index.html:42
+#: mediacore/templates/admin/media/index.html:93
+#: mediacore/templates/admin/players/index.html:34
+#: mediacore/templates/admin/players/index.html:85
+#: mediacore/templates/admin/podcasts/edit.html:60
+#: mediacore/templates/admin/storage/index.html:83
+#: mediacore/templates/admin/storage/index.html:153
+#: mediacore/templates/admin/tags/index.html:44
+#: mediacore/templates/admin/tags/index.html:93
+#: mediacore/templates/admin/users/edit.html:34
+#: mediacore/templates/admin/users/index.html:34
+#: mediacore/templates/admin/users/index.html:68
+msgid "Delete"
+msgstr "حذف"
+
+#: mediacore/forms/admin/comments.py:29
+#: mediacore/templates/admin/helpers.html:74
+#: mediacore/templates/admin/comments/_comment-table.html:31
+#: mediacore/templates/comments/_list.html:93
+#: mediacore/templates/media/explore.html:89
+#: mediacore/templates/media/view.html:66
+msgid "Comment"
+msgid_plural "Comments"
+msgstr[0] "لا تعليق"
+msgstr[1] "تعليق واحد"
+msgstr[2] "تعليقان"
+msgstr[3] "بعض التعليقات"
+msgstr[4] "تعليقات"
+msgstr[5] "تعليقات"
+
+#: mediacore/forms/admin/media.py:41
+msgid "Bad duration formatting, use Hour:Min:Sec"
+msgstr "تنسيق المدة خاطئ ، استخدم ساعة:دقيقة:ثانية"
+
+#: mediacore/forms/admin/media.py:69
+msgid "Value must be in the format wxh; e.g. 200x300"
+msgstr "يجب أن تكون القيمة على نسق العرض×الطول، مثال 200×300"
+
+#: mediacore/forms/admin/media.py:75
+msgid "Width must be a valid integer"
+msgstr "العرض يجب أن يكون رقما صحيحا"
+
+#: mediacore/forms/admin/media.py:79
+msgid "Height must be a valid integer"
+msgstr " الارتفاع يجب أن يكون رقما صحيحا"
+
+#: mediacore/forms/admin/media.py:115
+msgid "Select an encoded video or audio file on your computer"
+msgstr "قم باختيار ملف فيديو أو صوت مرمز من جهازك"
+
+#: mediacore/forms/admin/media.py:115 mediacore/templates/master.html:63
+#: mediacore/templates/admin/settings/master.html:83
+#: mediacore/templates/admin/settings/upload.html:23
+#: mediacore/templates/admin/settings/upload.html:29
+msgid "Upload"
+msgstr "تحميل"
+
+#: mediacore/forms/admin/media.py:116
+msgid "Add URL"
+msgstr "إضافة عنوان الموقع"
+
+#: mediacore/forms/admin/media.py:117
+msgid "YouTube, Vimeo, Google Video, Amazon S3 or any other link"
+msgstr "YouTube, Vimeo, Google Video, Amazon S3 أو أي رابط آخر"
+
+#: mediacore/forms/admin/media.py:139
+msgid "Delete file"
+msgstr "حذف ملف"
+
+#: mediacore/forms/admin/media.py:154
+msgid "Include in the Podcast"
+msgstr "إدراج في البودكاست"
+
+#: mediacore/forms/admin/media.py:154
+msgid "Optional"
+msgstr "اختياري"
+
+#: mediacore/forms/admin/media.py:156 mediacore/forms/admin/podcasts.py:111
+#: mediacore/templates/admin/media/_media-table.html:33
+msgid "Title"
+msgstr "العنوان"
+
+#: mediacore/forms/admin/media.py:157 mediacore/forms/admin/podcasts.py:113
+msgid "Author Name"
+msgstr "اسم المؤلف"
+
+#: mediacore/forms/admin/media.py:158 mediacore/forms/admin/podcasts.py:114
+msgid "Author Email"
+msgstr "بريد المؤلف الإلكتروني"
+
+#: mediacore/forms/admin/media.py:159 mediacore/forms/admin/podcasts.py:115
+msgid "Description"
+msgstr "الوصف"
+
+#: mediacore/forms/admin/media.py:160 mediacore/templates/master.html:62
+#: mediacore/templates/admin/categories/edit.html:23
+#: mediacore/templates/admin/categories/index.html:24
+#: mediacore/templates/admin/categories/index.html:58
+#: mediacore/templates/admin/settings/master.html:56
+#: mediacore/templates/categories/index.html:25
+#: mediacore/templates/categories/layout.html:29
+#: mediacore/templates/categories/more.html:24
+#: mediacore/templates/media/explore.html:48
+#: mediacore/templates/media/view.html:112
+msgid "Categories"
+msgstr "الفئات"
+
+#: mediacore/forms/admin/media.py:161
+#: mediacore/templates/admin/media/_media-table.html:35
+#: mediacore/templates/admin/settings/master.html:80
+#: mediacore/templates/admin/tags/edit.html:23
+#: mediacore/templates/admin/tags/index.html:24
+#: mediacore/templates/admin/tags/index.html:55
+#: mediacore/templates/media/tags.html:23
+#: mediacore/templates/media/view.html:119
+msgid "Tags"
+msgstr "الدالات"
+
+#: mediacore/forms/admin/media.py:161
+msgid "e.g.: puppies, great dane, adorable"
+msgstr "... مثل: جميل، مهضوم،"
+
+#: mediacore/forms/admin/media.py:163
+msgid "Administrative Notes"
+msgstr "ملاحظات إدارية"
+
+#: mediacore/forms/admin/players.py:41
+#: mediacore/forms/admin/storage/__init__.py:37
+msgid "General Options:"
+msgstr ":خيارات عامة"
+
+#: mediacore/forms/admin/players.py:45 mediacore/forms/admin/users.py:48
+#: mediacore/forms/admin/storage/__init__.py:41
+#: mediacore/templates/admin/users/index.html:52
+msgid "Display Name"
+msgstr "عرض الإسم"
+
+#: mediacore/forms/admin/players.py:96
+msgid "Yes, use the Flash Player when the device supports it."
+msgstr "نعم ، استخدم مشغل فلاش عندما يكون الجهاز داعما لذلك."
+
+#: mediacore/forms/admin/players.py:97
+msgid "No, use the HTML5 Player when the device supports it."
+msgstr "لا، استخدم مشغل HTML5  عندما يكون الجهاز داعما لذلك"
+
+#: mediacore/forms/admin/players.py:100
+msgid "Prefer the Flash Player when possible"
+msgstr "تفضيل مشغل فلاش عندما يكون ذلك ممكنا"
+
+#: mediacore/forms/admin/players.py:115
+msgid "Script Tag"
+msgstr "دالّة السكربت"
+
+#: mediacore/forms/admin/players.py:116
+msgid "The unique script tag given for your site."
+msgstr "سمة سكربت فريدة لموقعك"
+
+#: mediacore/forms/admin/players.py:133
+msgid "Player Options:"
+msgstr "خيارات المشغّل"
+
+#: mediacore/forms/admin/players.py:135
+msgid "Disable the player keyboard controls."
+msgstr "تعطيل أزرار التحكم الخصاصة بالمشغل."
+
+#: mediacore/forms/admin/players.py:136
+msgid "Enable fullscreen."
+msgstr ".تمكين ملء الشاشة"
+
+#: mediacore/forms/admin/players.py:137
+msgid "Enable high-def quality by default."
+msgstr "تمكين الجودة العالية افتراضيا"
+
+#: mediacore/forms/admin/players.py:138
+msgid ""
+"Allow the player to load related videos once playback of the initial "
+"video starts. Related videos are displayed in the \"genie menu\" when the"
+" menu button is pressed."
+msgstr ""
+"السماح للمشغل بتحميل ملفات فيديو عند بدء تشغيل الفيديو الابتدائي. ملفات "
+"الفيديو ذات العلاقة سيتم عرضها في \"قائمة المارد\" عند الضغط على زر "
+"القائمة"
+
+#: mediacore/forms/admin/players.py:139
+msgid ""
+"Show the search box when the video is minimized. The above option must be"
+" enabled for this to work."
+msgstr ""
+"إظهار مربع البحث عند تصغير الفيديو. يجب تمكين الخيار أعلاه للحصول على هذه"
+" الميزة."
+
+#: mediacore/forms/admin/players.py:140
+msgid ""
+"Display information like the video title and rating before the video "
+"starts playing."
+msgstr ".عرض معلومات مثل عنوان الفيديو و التصويت على الفيديو قبل أن يبدأ التشغيل"
+
+#: mediacore/forms/admin/podcasts.py:36
+msgid "Parental Advisory"
+msgstr "الأبوية الاستشارية"
+
+#: mediacore/forms/admin/podcasts.py:37
+#: mediacore/templates/admin/podcasts/_podcast-table.html:53
+msgid "Clean"
+msgstr "تنظيف"
+
+#: mediacore/forms/admin/podcasts.py:112
+msgid "Subtitle"
+msgstr "عنوان فرعي"
+
+#: mediacore/forms/admin/podcasts.py:116
+msgid "Podcast Details:"
+msgstr ":تفاصيل البودكاست"
+
+#: mediacore/forms/admin/podcasts.py:117
+msgid "Explicit?"
+msgstr "صريح؟"
+
+#: mediacore/forms/admin/podcasts.py:118
+msgid "Category"
+msgstr "الفئة"
+
+#: mediacore/forms/admin/podcasts.py:119
+msgid "Copyright"
+msgstr "حقوق النشر"
+
+#: mediacore/forms/admin/podcasts.py:121
+msgid "Advanced Options:"
+msgstr ":خيارات متقدمة"
+
+#: mediacore/forms/admin/podcasts.py:122
+msgid "Your Feed URL"
+msgstr "عنوان خلاصتك"
+
+#: mediacore/forms/admin/podcasts.py:123
+msgid "iTunes URL"
+msgstr "iTunes عنوان"
+
+#: mediacore/forms/admin/podcasts.py:124
+msgid "Feedburner URL"
+msgstr "عنوان فيدبيرنر "
+
+#: mediacore/forms/admin/settings.py:38
+msgid "Prepend"
+msgstr "إضافة إلى البداية"
+
+#: mediacore/forms/admin/settings.py:39
+msgid "Append"
+msgstr "إلحاق"
+
+#: mediacore/forms/admin/settings.py:42
+msgid "Plain <textarea> fields (0kB)"
+msgstr "Plain <textarea> fields (0kB)"
+
+#: mediacore/forms/admin/settings.py:43
+msgid "Enable TinyMCE for <textarea> fields accepting XHTML (281kB)"
+msgstr "Enable TinyMCE for <textarea> fields accepting XHTML (281kB)"
+
+#: mediacore/forms/admin/settings.py:47
+msgid "Brown"
+msgstr "بني"
+
+#: mediacore/forms/admin/settings.py:48
+msgid "Blue"
+msgstr "أزرق"
+
+#: mediacore/forms/admin/settings.py:49
+msgid "Green"
+msgstr "أخضر"
+
+#: mediacore/forms/admin/settings.py:50
+msgid "Tan"
+msgstr "أسمر"
+
+#: mediacore/forms/admin/settings.py:51
+msgid "White"
+msgstr "أبيض"
+
+#: mediacore/forms/admin/settings.py:52
+msgid "Purple"
+msgstr "أرجواني"
+
+#: mediacore/forms/admin/settings.py:53
+msgid "Black"
+msgstr "أسود"
+
+#: mediacore/forms/admin/settings.py:86 mediacore/forms/admin/settings.py:95
+msgid "Yes"
+msgstr "نعم"
+
+#: mediacore/forms/admin/settings.py:86 mediacore/forms/admin/settings.py:95
+msgid "No"
+msgstr "لا"
+
+#: mediacore/forms/admin/settings.py:107
+msgid "Email Notifications:"
+msgstr " :إشعارات بالبريد الإلكتروني"
+
+#: mediacore/forms/admin/settings.py:108
+msgid "Media Uploaded"
+msgstr "ملفات تم تحميلها"
+
+#: mediacore/forms/admin/settings.py:109
+msgid "Comment Posted"
+msgstr "تم نشر التعليق"
+
+#: mediacore/forms/admin/settings.py:110
+msgid "Support Requested"
+msgstr "الدعم المطلوب"
+
+#: mediacore/forms/admin/settings.py:111
+msgid "Send Emails From"
+msgstr "إرسال رسائل البريد الإلكتروني من"
+
+#: mediacore/forms/admin/settings.py:126
+msgid "Popularity Algorithm Variables:"
+msgstr "متغيرات الخوارزميات الشعبية :"
+
+#: mediacore/forms/admin/settings.py:128
+msgid "Decay Exponent"
+msgstr "اضمحلال الأس"
+
+#: mediacore/forms/admin/settings.py:129
+msgid "Decay Lifetime"
+msgstr "اضمحلال دائم"
+
+#: mediacore/forms/admin/settings.py:159
+msgid "Max. allowed upload file size in megabytes"
+msgstr "الحجم الأقصى بالميغابايت للملفات المرفوعة"
+
+#: mediacore/forms/admin/settings.py:160
+msgid "Legal Wording:"
+msgstr "الصياغة القانونية"
+
+#: mediacore/forms/admin/settings.py:161
+msgid "User Uploads"
+msgstr "ملفات المستخدم المرفوعة"
+
+#: mediacore/forms/admin/settings.py:172
+msgid "Google Analytics Details:"
+msgstr "تفاصيل تحليلات غوغل:"
+
+#: mediacore/forms/admin/settings.py:173
+msgid "Tracking Code"
+msgstr "شفرة تتبع"
+
+#: mediacore/forms/admin/settings.py:190
+msgid "Site Maps"
+msgstr "خريطة الموقع"
+
+#: mediacore/forms/admin/settings.py:194
+msgid "RSS Feeds"
+msgstr "آر إس إس"
+
+#: mediacore/forms/admin/settings.py:207
+msgid "General Settings:"
+msgstr ":الإعدادات العامة"
+
+#: mediacore/forms/admin/settings.py:209
+msgid "Site Name"
+msgstr "اسم الموقع"
+
+#: mediacore/forms/admin/settings.py:211
+msgid "Site Tag Line"
+msgstr "سطر دالّةالموقع"
+
+#: mediacore/forms/admin/settings.py:213
+msgid "Display Site Name"
+msgstr "عرض اسم الموقع"
+
+#: mediacore/forms/admin/settings.py:217
+msgid "Default Language"
+msgstr "اللغة الافتراضية"
+
+#: mediacore/forms/admin/settings.py:221
+msgid "Featured Category"
+msgstr "الفئة الظاهرة"
+
+#: mediacore/forms/admin/settings.py:226
+msgid "Rich Text Editing"
+msgstr "تحرير نص منسق"
+
+#: mediacore/forms/admin/settings.py:248
+msgid "Require comments to be approved by an admin"
+msgstr "تحتاج التعليقات لموافقة المسؤول"
+
+#: mediacore/forms/admin/settings.py:249
+msgid "Akismet Anti-Spam Details:"
+msgstr "تفاصيل أكيسمت مكافحة البريد المزعج :"
+
+#: mediacore/forms/admin/settings.py:250
+msgid "Akismet Key"
+msgstr "مفتاح أكيسميت"
+
+#: mediacore/forms/admin/settings.py:251
+msgid "Akismet URL"
+msgstr "رابط أكيسميت"
+
+#: mediacore/forms/admin/settings.py:253
+msgid "Vulgarity Filter Settings"
+msgstr "إعدادات تصفية الكلمات المبتذلة"
+
+#: mediacore/forms/admin/settings.py:254
+msgid "Filtered Words"
+msgstr "الكلمات التي تمت تصفيتها"
+
+#: mediacore/forms/admin/settings.py:255
+msgid "Enter words to be filtered separated by a comma."
+msgstr "قم بإدخال الكلمات التي يراد تصفيتها مفصولة بالفاصلة."
+
+#: mediacore/forms/admin/settings.py:267
+msgid "Require a key to access the API"
+msgstr "تحتاج مفتاح للوصول إلى واجهة برمجة التطبيقات"
+
+#: mediacore/forms/admin/settings.py:268
+msgid "API Key:"
+msgstr "مفتاح واجهة برمجة التطبيقات"
+
+#: mediacore/forms/admin/settings.py:269
+msgid "Access Key"
+msgstr "مفتاح الوصول"
+
+#: mediacore/forms/admin/settings.py:271
+msgid "API Settings:"
+msgstr "إعدادات واجهة برمجة التطبيقات:"
+
+#: mediacore/forms/admin/settings.py:272
+msgid "Max media results"
+msgstr "نتائج الوسائط القصوى"
+
+#: mediacore/forms/admin/settings.py:273
+msgid "Max tree depth"
+msgstr "عمق الشجرة الأقصى"
+
+#: mediacore/forms/admin/settings.py:284
+#: mediacore/templates/admin/settings/general.html:24
+#: mediacore/templates/admin/settings/general.html:30
+#: mediacore/templates/admin/settings/master.html:44
+msgid "General"
+msgstr "العام"
+
+#: mediacore/forms/admin/settings.py:287
+msgid "Logo"
+msgstr "الشعار"
+
+#: mediacore/forms/admin/settings.py:289
+msgid "Upload Logo"
+msgstr "تحميل الشعار"
+
+#: mediacore/forms/admin/settings.py:294
+msgid "Background Image"
+msgstr "صورة الخلفية"
+
+#: mediacore/forms/admin/settings.py:296
+msgid "Upload Background"
+msgstr "تحميل خلفية"
+
+#: mediacore/forms/admin/settings.py:302
+msgid "Background color"
+msgstr "لون الخلفية"
+
+#: mediacore/forms/admin/settings.py:305
+msgid "Link color"
+msgstr "لون الرابط"
+
+#: mediacore/forms/admin/settings.py:308
+msgid "Visited Link color"
+msgstr "لون الرابط الذي تمت زيارته"
+
+#: mediacore/forms/admin/settings.py:312
+msgid "Text color"
+msgstr "لون النص"
+
+#: mediacore/forms/admin/settings.py:314
+msgid "Heading color"
+msgstr "لون البند"
+
+#: mediacore/forms/admin/settings.py:317
+msgid "Color Scheme"
+msgstr "مخطط الألوان"
+
+#: mediacore/forms/admin/settings.py:321
+msgid "Options"
+msgstr "خيارات"
+
+#: mediacore/forms/admin/settings.py:326
+msgid "Enable Cooliris on the Explore Page"
+msgstr "تمكين كوليريس على صفحة الاستعراض"
+
+#: mediacore/forms/admin/settings.py:329
+msgid "Enable Featured Items on the Explore Page"
+msgstr "تمكين الملفات المميزة على صفحة الاستعراض"
+
+#: mediacore/forms/admin/settings.py:333
+msgid "Enable Podcast Tab"
+msgstr "تمكين عرض لسان البودكاست"
+
+#: mediacore/forms/admin/settings.py:337
+msgid "Enable User Uploads"
+msgstr "تمكين المستخدم من رفع الملفات"
+
+#: mediacore/forms/admin/settings.py:341
+msgid "Enable widescreen media player by default"
+msgstr "تمكين مشغل الوسائط في وضعية الشاشة العريضة افتراضيا"
+
+#: mediacore/forms/admin/settings.py:345
+msgid "Display Logo"
+msgstr "عرض الشعار"
+
+#: mediacore/forms/admin/settings.py:349
+msgid "Display Background Image"
+msgstr "عرض صورة الخلفية"
+
+#: mediacore/forms/admin/settings.py:355
+msgid "Advanced"
+msgstr "متقدم"
+
+#: mediacore/forms/admin/settings.py:359
+msgid "Custom CSS"
+msgstr "تخصيص سي إس إس "
+
+#: mediacore/forms/admin/settings.py:362
+msgid "Custom Header HTML"
+msgstr "تخصيص رأسية الإتش تي إم إل"
+
+#: mediacore/forms/admin/settings.py:365
+msgid "Custom Footer HTML"
+msgstr "تخصيص ذيل الإتش تي إم إل"
+
+#: mediacore/forms/admin/settings.py:370
+#: mediacore/templates/admin/settings/appearance.html:35
+msgid "Reset to Defaults"
+msgstr "إستعادة إلى الوضع الافتراضي"
+
+#: mediacore/forms/admin/settings.py:384
+msgid "Banner HTML"
+msgstr "Banner HTML"
+
+#: mediacore/forms/admin/settings.py:387
+msgid "Sidebar HTML"
+msgstr "Sidebar HTML"
+
+#: mediacore/forms/admin/users.py:36
+msgid "User name already exists"
+msgstr "إسم المستخدم موجود "
+
+#: mediacore/forms/admin/users.py:49
+msgid "Email Address"
+msgstr "البريد الالكتروني"
+
+#: mediacore/forms/admin/users.py:50
+msgid "Login Details:"
+msgstr "تفاصيل الدخول"
+
+#: mediacore/forms/admin/users.py:54
+msgid "Passwords do not match"
+msgstr "كلمات المرور غير متطابقة"
+
+#: mediacore/forms/admin/users.py:56
+#: mediacore/templates/admin/users/index.html:54
+msgid "Group"
+msgstr "مجموعة"
+
+#: mediacore/forms/admin/users.py:58 mediacore/forms/admin/storage/ftp.py:34
+msgid "Username"
+msgstr "اسم المستخدم"
+
+#: mediacore/forms/admin/users.py:59 mediacore/forms/admin/storage/ftp.py:35
+msgid "Password"
+msgstr "كلمة المرور"
+
+#: mediacore/forms/admin/users.py:60
+msgid "Confirm password"
+msgstr "توكيد كلمة المرور"
+
+#: mediacore/forms/admin/storage/ftp.py:31
+msgid "FTP Server Details:"
+msgstr "تفاصيل سيرفر الاف تي بي"
+
+#: mediacore/forms/admin/storage/ftp.py:33
+msgid "Server Hostname"
+msgstr "اسم السيرفر"
+
+#: mediacore/forms/admin/storage/ftp.py:36
+msgid "Subdirectory on server to upload to"
+msgstr "المجلد الفرعي على السيرفر الذي يجب الرفع إليه"
+
+#: mediacore/forms/admin/storage/ftp.py:37
+msgid ""
+"How many times should MediaCore try to verify the FTP upload before "
+"declaring it a failure?"
+msgstr ""
+"كم عدد المرات التي ينبغي لميديا كور تجربتها للتحقق من الرفع على الاف تي "
+"بي قبل إعلان حصول الخلل؟"
+
+#: mediacore/forms/admin/storage/ftp.py:38
+msgid "HTTP URL to access remotely stored files"
+msgstr "رابط النص المتشعب للوصول إلى الملفات المخزنة عن بعد"
+
+#: mediacore/forms/admin/storage/ftp.py:39
+msgid "RTMP Server URL to stream remotely stored files (Optional)"
+msgstr "RTMP Server URL to stream remotely stored files (Optional)"
+
+#: mediacore/forms/admin/storage/localfiles.py:25
+msgid "Options specific to Local File Storage:"
+msgstr "خيارات خاصة بتخزين الملفات محليا"
+
+#: mediacore/forms/admin/storage/localfiles.py:28
+msgid "Path to store files under"
+msgstr "مسار تخزين الملفات"
+
+#: mediacore/forms/admin/storage/localfiles.py:29
+msgid "Defaults to the \"data_dir\" from your INI file."
+msgstr "Defaults to the \"data_dir\" from your INI file."
+
+#: mediacore/forms/admin/storage/localfiles.py:32
+msgid "RTMP Server URL"
+msgstr "RTMP Server URL"
+
+#: mediacore/forms/admin/storage/localfiles.py:33
+msgid ""
+"Files must be accessible under the same name as they are stored with "
+"locally."
+msgstr "يجب أن تكون الملفات متاحة تحت نفس الإسم الذي تم تخزينها محليا به."
+
+#: mediacore/forms/admin/storage/remoteurls.py:31
+msgid "Add another URL"
+msgstr "إضافة عنوان رابط آخر"
+
+#: mediacore/forms/admin/storage/remoteurls.py:60
+msgid "RTMP server URLs must begin with rtmp://"
+msgstr "RTMP server URLs must begin with rtmp://"
+
+#: mediacore/forms/admin/storage/remoteurls.py:67
+msgid "RTMP Servers:"
+msgstr "RTMP Servers:"
+
+#: mediacore/lib/email.py:109
+#, python-format
+msgid "New %(type)s: %(title)s"
+msgstr "جديد %(type)s: %(title)s"
+
+#: mediacore/lib/email.py:110
+#, python-format
+msgid ""
+"A new %(type)s file has been uploaded!\n"
+"\n"
+"Title: %(title)s\n"
+"\n"
+"Author: %(author_name)s (%(author_email)s)\n"
+"\n"
+"Admin URL: %(edit_url)s\n"
+"\n"
+"Description: %(clean_description)s\n"
+msgstr ""
+"ملف جديد %(type)s تم رفع  \n"
+" \n"
+"العنوان: %(title)s \n"
+" \n"
+"المؤلف:%(author_name)s (%(author_email)s)\n"
+"\n"
+"رابط عنوان المدير:%(edit_url)s\n"
+"\n"
+"الوصف:%(clean_description)s"
+
+#: mediacore/lib/email.py:145
+#, python-format
+msgid "New Comment: %(comment_subject)s"
+msgstr "تعليق جديد:%(comment_subject)s"
+
+#: mediacore/lib/email.py:146
+#, python-format
+msgid ""
+"A new comment has been posted!\n"
+"\n"
+"Author: %(author_name)s\n"
+"Post: %(post_url)s\n"
+"\n"
+"Body: %(comment_body)s\n"
+msgstr ""
+"تم إرسال تعليق جديد \n"
+"\n"
+"المؤلف:%(author_name)s\n"
+"\n"
+"بريد%(post_url)s\n"
+"\n"
+"نص التعيق:%(comment_body)s\n"
+
+#: mediacore/lib/email.py:185
+#, python-format
+msgid "New Support Request: %(email)s"
+msgstr "طلب دعم جديد:%(email)s"
+
+#: mediacore/lib/email.py:186
+#, python-format
+msgid ""
+"A user has asked for support\n"
+"\n"
+"Email: %(email)s\n"
+"\n"
+"URL: %(url)s\n"
+"\n"
+"Description: %(description)s\n"
+"\n"
+"GET_VARS:\n"
+"%(get_vars)s\n"
+"\n"
+"\n"
+"POST_VARS:\n"
+"%(post_vars)s\n"
+msgstr ""
+"يطلب أحد المستخدمين المساعدة\n"
+"\n"
+"البريد الإلكتروني:%(email)s\n"
+"\n"
+"رابط العنوان:%(url)s\n"
+"\n"
+"الوصف:%(description)s\n"
+"\n"
+"GET_VARS:\n"
+"\n"
+"%(get_vars)s\n"
+"\n"
+"POST_VARS:\n"
+"\n"
+"%(post_vars)s\n"
+
+#: mediacore/lib/filetypes.py:35
+msgid "Video"
+msgstr "فيديو"
+
+#: mediacore/lib/filetypes.py:36
+msgid "Audio"
+msgstr "صوت"
+
+#: mediacore/lib/filetypes.py:37
+msgid "Audio Description"
+msgstr "وصف ملف الصوت"
+
+#: mediacore/lib/filetypes.py:38
+msgid "Captions"
+msgstr "شرح"
+
+#: mediacore/lib/helpers.py:321
+msgid "Help"
+msgstr "مساعدة"
+
+#: mediacore/lib/players.py:273
+msgid "Flowplayer"
+msgstr "Flowplayer"
+
+#: mediacore/lib/players.py:404 mediacore/lib/storage/vimeo.py:35
+msgid "Vimeo"
+msgstr "Vimeo"
+
+#: mediacore/lib/players.py:440 mediacore/lib/storage/dailymotion.py:36
+msgid "Daily Motion"
+msgstr "Daily Motion"
+
+#: mediacore/lib/players.py:487 mediacore/lib/storage/youtube.py:35
+msgid "YouTube"
+msgstr "YouTube"
+
+#: mediacore/lib/players.py:537 mediacore/lib/storage/googlevideo.py:34
+msgid "Google Video"
+msgstr "Google Video"
+
+#: mediacore/lib/players.py:559 mediacore/lib/storage/bliptv.py:34
+msgid "BlipTV"
+msgstr "BlipTV"
+
+#: mediacore/lib/players.py:646
+msgid "Plain HTML5 Player"
+msgstr "Plain HTML5 Player"
+
+#: mediacore/lib/players.py:661
+msgid "HTML5 + Flowplayer Fallback"
+msgstr "HTML5 + Flowplayer Fallback"
+
+#: mediacore/lib/players.py:718
+msgid "JWPlayer"
+msgstr "JWPlayer"
+
+#: mediacore/lib/players.py:858
+msgid "Sublime Video Player"
+msgstr "Sublime Video Player"
+
+#: mediacore/lib/players.py:908
+msgid "iTunes Player"
+msgstr "iTunes Player"
+
+#: mediacore/lib/storage/__init__.py:353
+msgid "Unusable file or URL provided."
+msgstr "ملف غير مستخدم أو أن رابط العنوان معطى"
+
+#: mediacore/lib/storage/ftp.py:50
+msgid "FTP Storage"
+msgstr "تخزين إف تي بي"
+
+#: mediacore/lib/storage/ftp.py:105
+#, python-format
+msgid "Could not upload the file from your FTP server: %s"
+msgstr "لا يمكن رفع الملف من سيرفر الاف تي بي:%s"
+
+#: mediacore/lib/storage/ftp.py:199
+msgid "The file transferred to your FTP server is corrupted. Please try again."
+msgstr "الملف المرفوع إلى سيرفر الاف تي بي معطوب. جرب مرة أخرى"
+
+#: mediacore/lib/storage/ftp.py:204
+#, python-format
+msgid "Could not download the file from your FTP server: %s"
+msgstr "لا يمكن تحميل الملف من سيرفر الاف تي بي:%s"
+
+#: mediacore/lib/storage/localfiles.py:34
+msgid "Local File Storage"
+msgstr "مخزن الملفات المحلي"
+
+#: mediacore/lib/storage/remoteurls.py:36
+msgid "Remote URLs"
+msgstr "عناوين المواقع البعيدة"
+
+#: mediacore/templates/error.html:24
+#, python-format
+msgid "A %(code)s Error has Occurred"
+msgstr "A %(code)s حصل خطأ"
+
+#: mediacore/templates/error.html:29
+msgid "Whoopsadaisy!"
+msgstr "هل من مناد على ديزي!"
+
+#: mediacore/templates/error.html:32
+msgid "We can't find this page. The page may have been moved or removed."
+msgstr "لا نستطيع الوصول إلى الصفحة. قد تكون الصفحة حذفت أو تم نقلها "
+
+#: mediacore/templates/error.html:33
+msgid "If you typed the address in, check the spelling."
+msgstr "تأكد من تهجئة العنوان عند كتابته"
+
+#: mediacore/templates/error.html:38
+msgid "You have a few options:"
+msgstr "لديك عدد قليل من الخيارات:"
+
+#: mediacore/templates/error.html:40
+msgid "Return to the [1:homepage]."
+msgstr "العودة إلى [1 : الصفحة الرئيسية]."
+
+#: mediacore/templates/error.html:41
+msgid "Return to the [1:media page]."
+msgstr "عودة إلى [1:صفحة الوسائط]."
+
+#: mediacore/templates/error.html:42
+msgid "Fill out an error report below."
+msgstr "املآ تقرير الخطأ في الأسفل"
+
+#: mediacore/templates/error.html:48
+msgid "Email: (so we can contact you if we find it!)"
+msgstr "البريد الالكتروني: (كي نتمكن من الاتصال بك عندما نجد المطلوب!)"
+
+#: mediacore/templates/error.html:52
+msgid "What were you looking for when you got the error?"
+msgstr "على ماذا كنت تبحث عندما حصل الخطأ؟"
+
+#: mediacore/templates/error.html:56
+msgid "Submit Error Report"
+msgstr "إرسال تقرير الخطأ"
+
+#: mediacore/templates/helpers.html:39
+#: mediacore/templates/media/explore.html:90
+#: mediacore/templates/media/view.html:63
+#: mediacore/templates/players/html5_or_flash.html:33
+msgid "Like"
+msgid_plural "Likes"
+msgstr[0] "لا تشابه"
+msgstr[1] "تشابه واحد"
+msgstr[2] "تشابهان"
+msgstr[3] "بعض التشابه"
+msgstr[4] "الكثير من المتشابهات"
+msgstr[5] "متشابهات"
+
+#: mediacore/templates/helpers.html:40
+#: mediacore/templates/admin/media/update-status-form.html:27
+#: mediacore/templates/admin/podcasts/edit.html:104
+#: mediacore/templates/media/explore.html:91
+#: mediacore/templates/media/view.html:61
+msgid "View"
+msgid_plural "Views"
+msgstr[0] "لا مشاهدات"
+msgstr[1] "مشاهدة واحدة"
+msgstr[2] "مشاهدتان"
+msgstr[3] "بعض المشاهدات"
+msgstr[4] "مشاهدات كثيرة"
+msgstr[5] "المشاهدات"
+
+#: mediacore/templates/helpers.html:60
+msgid "Page:"
+msgstr "صفحة"
+
+#: mediacore/templates/helpers.html:80
+msgid "Show:"
+msgstr "عرض"
+
+#: mediacore/templates/helpers.html:82
+#: mediacore/templates/categories/index.html:36
+#: mediacore/templates/categories/more.html:31
+#: mediacore/templates/media/explore.html:47
+#: mediacore/templates/media/explore.html:114
+msgid "Latest"
+msgstr "الأخير"
+
+#: mediacore/templates/helpers.html:83
+#: mediacore/templates/categories/index.html:41
+#: mediacore/templates/categories/more.html:31
+#: mediacore/templates/media/explore.html:98
+msgid "Most Popular"
+msgstr "الأكثر شعبية"
+
+#: mediacore/templates/helpers.html:84
+#: mediacore/templates/media/explore.html:46
+#: mediacore/templates/media/explore.html:82
+msgid "Featured"
+msgstr "متميز"
+
+#: mediacore/templates/helpers.html:86
+msgid "Page"
+msgstr "صفحة"
+
+#: mediacore/templates/helpers.html:86
+msgid "of"
+msgstr "من"
+
+#: mediacore/templates/helpers.html:92
+#, python-format
+msgid "The %(fieldName)s field accepts some HTML formatting: %(formattingList)s"
+msgstr "The %(fieldName)s field accepts some HTML formatting: %(formattingList)s"
+
+#: mediacore/templates/layout.html:52
+msgid "Feeds:"
+msgstr "تغدية"
+
+#: mediacore/templates/layout.html:58
+msgid "[1:MediaCore] [2:video platform]"
+msgstr "[1:MediaCore] [2:video platform]"
+
+#: mediacore/templates/login.html:23
+msgid "Login to MediaCore"
+msgstr "تسجيل الدخول إلى ميديا كور"
+
+#: mediacore/templates/login.html:47 mediacore/templates/login.html:58
+msgid "Login"
+msgstr "تسجيل الدخول"
+
+#: mediacore/templates/login.html:50
+msgid "Username:"
+msgstr "اسم المستخدم"
+
+#: mediacore/templates/login.html:54
+msgid "Password:"
+msgstr "كلمة المرور"
+
+#: mediacore/templates/master.html:59
+msgid "Explore"
+msgstr "استعراض"
+
+#: mediacore/templates/master.html:60 mediacore/templates/media/index.html:24
+msgid "Media Library"
+msgstr "مكتبة الوسائط"
+
+#: mediacore/templates/master.html:61 mediacore/templates/admin/master.html:61
+#: mediacore/templates/admin/podcasts/index.html:24
+#: mediacore/templates/admin/podcasts/index.html:31
+msgid "Podcasts"
+msgstr "البودكاست"
+
+#: mediacore/templates/master.html:66
+msgid "Search"
+msgstr "بحث"
+
+#: mediacore/templates/admin/helpers.html:66
+msgid "Moderate comments"
+msgstr "مراجعة التعليقات"
+
+#: mediacore/templates/admin/helpers.html:68
+msgid "Moderate"
+msgstr "مراجعة"
+
+#: mediacore/templates/admin/helpers.html:69
+#: mediacore/templates/admin/master.html:62
+#: mediacore/templates/admin/comments/index.html:27
+#: mediacore/templates/admin/media/_media-table.html:34
+#: mediacore/templates/admin/settings/comments.html:23
+#: mediacore/templates/admin/settings/comments.html:29
+#: mediacore/templates/admin/settings/master.html:59
+#: mediacore/templates/comments/_list.html:49
+msgid "Comments"
+msgstr "تعليقات"
+
+#: mediacore/templates/admin/helpers.html:81
+#: mediacore/templates/admin/media/_media-table.html:57
+#: mediacore/templates/admin/media/index.html:124
+#: mediacore/templates/admin/media/update-status-form.html:93
+msgid "Published"
+msgstr "منشور"
+
+#: mediacore/templates/admin/helpers.html:85
+#: mediacore/templates/admin/media/_media-table.html:54
+#: mediacore/templates/admin/media/index.html:115
+msgid "Unreviewed"
+msgstr "لم يشاهد"
+
+#: mediacore/templates/admin/helpers.html:89
+#: mediacore/templates/admin/comments/_comment-table.html:46
+msgid "Trash"
+msgstr "المهملات"
+
+#: mediacore/templates/admin/index.html:24
+#: mediacore/templates/admin/master.html:53
+msgid "Dashboard"
+msgstr "لوحة الإدارة"
+
+#: mediacore/templates/admin/index.html:54
+msgid "Awaiting Review"
+msgstr "في انتظار المراجعة"
+
+#: mediacore/templates/admin/index.html:59
+msgid "Awaiting Encoding"
+msgstr "في انتظار الترميز"
+
+#: mediacore/templates/admin/index.html:64
+msgid "Awaiting Publishing"
+msgstr "في انتظار النشر"
+
+#: mediacore/templates/admin/index.html:71
+msgid "Get Started"
+msgstr "البدء"
+
+#: mediacore/templates/admin/index.html:73
+#: mediacore/templates/admin/media/edit.html:23
+#: mediacore/templates/admin/media/edit.html:152
+#: mediacore/templates/admin/media/index.html:84
+msgid "Add New Media"
+msgstr "إضافة وسائط جديدة"
+
+#: mediacore/templates/admin/index.html:80
+msgid "Recently Published"
+msgstr "نشرت في الآونة الأخيرة"
+
+#: mediacore/templates/admin/master.html:31
+#: mediacore/templates/admin/master.html:50
+msgid "MediaCore"
+msgstr "ميديا كور"
+
+#: mediacore/templates/admin/master.html:54
+msgid "View Site"
+msgstr "مشاهدة الموقع"
+
+#: mediacore/templates/admin/master.html:55
+msgid "Logout"
+msgstr "خروج"
+
+#: mediacore/templates/admin/master.html:60
+#: mediacore/templates/admin/categories/index.html:70
+#: mediacore/templates/admin/media/index.html:25
+#: mediacore/templates/admin/tags/index.html:67
+msgid "Media"
+msgstr "وسائط"
+
+#: mediacore/templates/admin/master.html:63
+#: mediacore/templates/admin/users/index.html:24
+#: mediacore/templates/admin/users/index.html:45
+msgid "Users"
+msgstr "مستخدمون"
+
+#: mediacore/templates/admin/master.html:64
+#: mediacore/templates/admin/settings/master.html:41
+msgid "Settings"
+msgstr "الإعدادات"
+
+#: mediacore/templates/admin/master.html:68
+msgid "© 2009-2011 Simple Station Inc."
+msgstr "© 2009-2011 Simple Station Inc."
+
+#: mediacore/templates/admin/categories/index.html:45
+#: mediacore/templates/admin/comments/index.html:43
+#: mediacore/templates/admin/comments/index.html:55
+#: mediacore/templates/admin/media/edit.html:72
+#: mediacore/templates/admin/media/index.html:40
+#: mediacore/templates/admin/players/index.html:32
+#: mediacore/templates/admin/podcasts/edit.html:58
+#: mediacore/templates/admin/storage/index.html:82
+#: mediacore/templates/admin/tags/index.html:42
+#: mediacore/templates/admin/users/edit.html:32
+#: mediacore/templates/admin/users/index.html:33
+msgid "Confirm Delete"
+msgstr "توكيد الحذف"
+
+#: mediacore/templates/admin/categories/index.html:46
+#: mediacore/templates/admin/comments/index.html:56
+#: mediacore/templates/admin/media/index.html:41
+#: mediacore/templates/admin/tags/index.html:43
+#, python-format
+msgid "Are you sure you want to delete these %(num)s items?"
+msgstr "هل أنت متأكد من حذف %(num)s؟"
+
+#: mediacore/templates/admin/categories/index.html:60
+#: mediacore/templates/admin/categories/index.html:85
+msgid "Add Category"
+msgstr "إضافة فئة"
+
+#: mediacore/templates/admin/categories/index.html:61
+#: mediacore/templates/admin/tags/index.html:58
+msgid "Bulk Delete"
+msgstr "حذف الأغلبية"
+
+#: mediacore/templates/admin/categories/index.html:89
+msgid "Edit Category"
+msgstr "تحرير فئة"
+
+#: mediacore/templates/admin/categories/index.html:93
+msgid "Delete Category"
+msgstr "حذف فئة"
+
+#: mediacore/templates/admin/categories/index.html:96
+msgid "Are you sure you want to delete this category [1:and ALL of its children]?"
+msgstr "هل أنت متأكد من حذف هذه الفئة [1:وكل فروعها]؟"
+
+#: mediacore/templates/admin/categories/row-form.html:39
+#: mediacore/templates/admin/comments/_comment-table.html:65
+#: mediacore/templates/admin/media/edit.html:23
+#: mediacore/templates/admin/media/edit.html:125
+#: mediacore/templates/admin/players/index.html:85
+#: mediacore/templates/admin/podcasts/_podcast-table.html:32
+#: mediacore/templates/admin/podcasts/edit.html:51
+#: mediacore/templates/admin/storage/index.html:153
+#: mediacore/templates/admin/tags/row-form.html:31
+#: mediacore/templates/admin/users/index.html:68
+#: mediacore/templates/media/view.html:49
+#: mediacore/templates/podcasts/view.html:42
+msgid "Edit"
+msgstr "تحرير"
+
+#: mediacore/templates/admin/comments/_comment-table.html:29
+#: mediacore/templates/admin/media/_media-table.html:32
+#: mediacore/templates/admin/players/index.html:54
+#: mediacore/templates/admin/storage/index.html:127
+msgid "Status"
+msgstr "الحالة"
+
+#: mediacore/templates/admin/comments/_comment-table.html:30
+#: mediacore/templates/admin/media/_media-table.html:36
+msgid "Author"
+msgstr "المؤلف"
+
+#: mediacore/templates/admin/comments/_comment-table.html:32
+msgid "In Response to"
+msgstr "في الرد على"
+
+#: mediacore/templates/admin/comments/_comment-table.html:37
+#: mediacore/templates/admin/media/_media-table.html:43
+#: mediacore/templates/admin/players/index.html:62
+#: mediacore/templates/admin/podcasts/_podcast-table.html:27
+#: mediacore/templates/admin/storage/index.html:136
+#: mediacore/templates/admin/users/index.html:60
+msgid "None Found"
+msgstr "لا شيء موجود"
+
+#: mediacore/templates/admin/comments/_comment-table.html:44
+msgid "This comment has already been approved for publishing"
+msgstr "سبق  أن تمت الموافقة على التعليق ونشره"
+
+#: mediacore/templates/admin/comments/_comment-table.html:45
+msgid "Approve this comment for publishing"
+msgstr "وافق على هذا التعليق للنشر"
+
+#: mediacore/templates/admin/comments/_comment-table.html:45
+msgid "Approve"
+msgstr "الموافقة على"
+
+#: mediacore/templates/admin/comments/_comment-table.html:46
+msgid "Delete this comment"
+msgstr "حذف هذا التعليق"
+
+#: mediacore/templates/admin/comments/_comment-table.html:56
+msgid "Submitted on"
+msgstr "أرسل على"
+
+#: mediacore/templates/admin/comments/_comment-table.html:63
+msgid "Go to the admin page for this item"
+msgstr "الذهاب إلى صفحة المدير لهذا البند"
+
+#: mediacore/templates/admin/comments/index.html:28
+#, python-format
+msgid "Comments for %(media_filter_title)s"
+msgstr "تعليقات على %(media_filter_title)s"
+
+#: mediacore/templates/admin/comments/index.html:28
+msgid "Comments for"
+msgstr "تعليقات على"
+
+#: mediacore/templates/admin/comments/index.html:40
+msgid "Edit Text"
+msgstr "تحرير نص"
+
+#: mediacore/templates/admin/comments/index.html:41
+msgid "Cancel Edit"
+msgstr "إلغاء التحرير"
+
+#: mediacore/templates/admin/comments/index.html:46
+#, python-format
+msgid "Are you sure you want to delete %(name)s's comment?"
+msgstr "هل أنت متأكد من حذف التعليق %(name)s's؟"
+
+#: mediacore/templates/admin/comments/index.html:85
+#, python-format
+msgid "Comments that match '%(search)s'"
+msgstr "التعليقات المتطابقة مع '%(search)s'"
+
+#: mediacore/templates/admin/comments/index.html:86
+msgid "All Comments"
+msgstr "جميع التعليقات"
+
+#: mediacore/templates/admin/comments/index.html:87
+#, python-format
+msgid "Comments for %(search)s"
+msgstr "التعليقات على %(search)s"
+
+#: mediacore/templates/admin/comments/index.html:95
+#: mediacore/templates/admin/media/index.html:92
+msgid "Publish"
+msgstr "نشر"
+
+#: mediacore/templates/admin/comments/index.html:102
+#: mediacore/templates/admin/media/index.html:99
+msgid "Bulk Actions"
+msgstr "جملة من الإجراءات"
+
+#: mediacore/templates/admin/media/_media-table.html:29
+msgid "Publish Date"
+msgstr "تاريخ النشر"
+
+#: mediacore/templates/admin/media/_media-table.html:30
+msgid "Upload Date"
+msgstr "تاريخ الرفع"
+
+#: mediacore/templates/admin/media/_media-table.html:31
+#: mediacore/templates/admin/media/update-status-form.html:41
+msgid "Publish Status"
+msgstr "حالة النشر"
+
+#: mediacore/templates/admin/media/_media-table.html:34
+msgid "Number of Comments"
+msgstr "عدد التعليقات"
+
+#: mediacore/templates/admin/media/_media-table.html:55
+#: mediacore/templates/admin/media/index.html:118
+msgid "Unencoded"
+msgstr "غير مرمّز"
+
+#: mediacore/templates/admin/media/_media-table.html:56
+msgid "Draft"
+msgstr "مشروع"
+
+#: mediacore/templates/admin/media/_media-table.html:58
+msgid "Publishing..."
+msgstr "قيد النشر..."
+
+#: mediacore/templates/admin/media/edit.html:57
+#: mediacore/templates/admin/podcasts/edit.html:38
+msgid "Saving the file failed. Please try again"
+msgstr "تخزين الملف لم ينجح، جرب مرة أخرى"
+
+#: mediacore/templates/admin/media/edit.html:58
+#: mediacore/templates/admin/podcasts/edit.html:39
+#, python-format
+msgid "Security error occured (%(text)s)"
+msgstr "حدث خطأ أمني (%(text)s)"
+
+#: mediacore/templates/admin/media/edit.html:59
+#: mediacore/templates/admin/podcasts/edit.html:40
+#, python-format
+msgid "Error caused a send or load operation to fail (%(text)s)"
+msgstr "حدث خطأ أدى إلى عدم إتمام الإرسال أو عملية الرفع  (%(text)s)"
+
+#: mediacore/templates/admin/media/edit.html:62
+#: mediacore/templates/admin/podcasts/edit.html:43
+msgid "File has already been added, duplicates are not allowed"
+msgstr "تم رفع الملف فعلا، لا يسمح برفع نفس النسخة."
+
+#: mediacore/templates/admin/media/edit.html:63
+#: mediacore/templates/admin/podcasts/edit.html:44
+#, python-format
+msgid "File is too small, the minimal file size is %(size)s"
+msgstr "الملف صغير جدا، الحد الأدنى لحجم الملف هو %(size)s"
+
+#: mediacore/templates/admin/media/edit.html:64
+#: mediacore/templates/admin/podcasts/edit.html:45
+#, python-format
+msgid "File is too large, the maximum file size is %(size)s"
+msgstr "حجم الملف كبير جدا، الحد الأقصى لحجم الملف هو%(size)s "
+
+#: mediacore/templates/admin/media/edit.html:65
+#: mediacore/templates/admin/podcasts/edit.html:46
+#, python-format
+msgid "File could not be added, amount of %(num)s files exceeded"
+msgstr "لا يمكن إضافة الملف، لقد تخطيت العدد %(num)s من الملفات المسموح به"
+
+#: mediacore/templates/admin/media/edit.html:66
+#: mediacore/templates/admin/podcasts/edit.html:47
+#, python-format
+msgid "File is too big, overall filesize of %(size)s exceeded"
+msgstr "الملف كبير جدا، تخطيت الحجم المسموح وهو %(size)s"
+
+#: mediacore/templates/admin/media/edit.html:73
+#: mediacore/templates/admin/players/index.html:33
+#: mediacore/templates/admin/podcasts/edit.html:59
+#: mediacore/templates/admin/storage/index.html:37
+#: mediacore/templates/admin/tags/index.html:90
+#: mediacore/templates/admin/users/edit.html:33
+msgid "Are you sure you want to delete this?"
+msgstr "هل أنت متأكد من حذف هذا؟"
+
+#: mediacore/templates/admin/media/edit.html:84
+#: mediacore/templates/admin/podcasts/edit.html:70
+msgid "Upload image"
+msgstr "رفع صورة"
+
+#: mediacore/templates/admin/media/edit.html:93
+msgid "Are you sure you want to delete this file?"
+msgstr "هل أنت متأكد من حذف هذا الملف؟"
+
+#: mediacore/templates/admin/media/edit.html:98
+msgid "Upload a file"
+msgstr "رفع ملف"
+
+#: mediacore/templates/admin/media/edit.html:105
+msgid "Failed to add this file. Please try again."
+msgstr "لم يتم رفع الملف. يرجى المحاولة مرة أخرى"
+
+#: mediacore/templates/admin/media/edit.html:106
+msgid "Failed to save your change. Please try again."
+msgstr "لم يتم حفظ تغييراتك. يرجى المحاولة مرة أخرى"
+
+#: mediacore/templates/admin/media/edit.html:107
+msgid "Uploading"
+msgstr "رفع"
+
+#: mediacore/templates/admin/media/edit.html:108
+msgid "Queued"
+msgstr "قائمة الانتظار"
+
+#: mediacore/templates/admin/media/edit.html:109
+msgid "Error"
+msgstr "خطأ"
+
+#: mediacore/templates/admin/media/edit.html:121
+msgid "A connection problem occurred, try again."
+msgstr "حدثت مشكلة في الاتصال ، حاول مرة أخرى."
+
+#: mediacore/templates/admin/media/edit.html:122
+msgid "An error has occurred, try again."
+msgstr "لقد حدث خطأ ، حاول مرة أخرى."
+
+#: mediacore/templates/admin/media/edit.html:125
+#: mediacore/templates/admin/media/edit.html:210
+#: mediacore/templates/admin/podcasts/edit.html:51
+msgid "Hide"
+msgstr "إخفاء"
+
+#: mediacore/templates/admin/media/edit.html:126
+msgid "Saving"
+msgstr "حفظ"
+
+#: mediacore/templates/admin/media/edit.html:127
+msgid "Saved!"
+msgstr "محفوظ!"
+
+#: mediacore/templates/admin/media/edit.html:128
+msgid "Saving failed. Please try again."
+msgstr "فشلت عملية الحفظ. حاول مرة أخرى"
+
+#: mediacore/templates/admin/media/edit.html:129
+msgid "Please correct the highlighted errors and save again."
+msgstr "الرجاء تصحيح الأخطاء البارزة والحفظ مرة أخرى."
+
+#: mediacore/templates/admin/media/edit.html:151
+#: mediacore/templates/admin/podcasts/edit.html:94
+msgid "Uploaded:"
+msgstr "تم الرفع"
+
+#: mediacore/templates/admin/media/edit.html:162
+#: mediacore/templates/admin/storage/index.html:130
+msgid "Files"
+msgstr "ملفات"
+
+#: mediacore/templates/admin/media/edit.html:163
+msgid "Add & Manage"
+msgstr "إضافة وإدارة"
+
+#: mediacore/templates/admin/media/edit.html:166
+#: mediacore/templates/admin/media/file-edit-form.html:22
+msgid "View this file"
+msgstr "معاينة هذا الملف"
+
+#: mediacore/templates/admin/media/edit.html:180
+#: mediacore/templates/admin/podcasts/edit.html:109
+msgid "Thumbnail"
+msgstr "تصغير"
+
+#: mediacore/templates/admin/media/edit.html:183
+#: mediacore/templates/admin/podcasts/_podcast-table.html:39
+#: mediacore/templates/admin/podcasts/edit.html:113
+msgid "Thumb"
+msgstr "ظفر"
+
+#: mediacore/templates/admin/media/edit.html:207
+msgid "Manage Files"
+msgstr "إدارة الملفات"
+
+#: mediacore/templates/admin/media/edit.html:216
+msgid "File"
+msgstr "ملف"
+
+#: mediacore/templates/admin/media/edit.html:217
+msgid "Size"
+msgstr "حجم"
+
+#: mediacore/templates/admin/media/edit.html:218
+msgid "Duration"
+msgstr "المدة"
+
+#: mediacore/templates/admin/media/edit.html:219
+msgid "Bitrate"
+msgstr "Bitrate"
+
+#: mediacore/templates/admin/media/edit.html:220
+msgid "Dimensions"
+msgstr "أبعاد"
+
+#: mediacore/templates/admin/media/edit.html:221
+msgid "Type"
+msgstr "نوع"
+
+#: mediacore/templates/admin/media/file-add-form.html:24
+msgid "OR"
+msgstr "أو"
+
+#: mediacore/templates/admin/media/file-form.html:24
+msgid "or"
+msgstr "أو"
+
+#: mediacore/templates/admin/media/index.html:73
+#, python-format
+msgid "Media that matches '%(search)s'"
+msgstr "الوسائط التي تتطابق مع:'%(search)s'"
+
+#: mediacore/templates/admin/media/index.html:74
+#, python-format
+msgid "%(podcastTitle)s Episodes"
+msgstr "حلقات%(podcastTitle)s"
+
+#: mediacore/templates/admin/media/index.html:75
+#, python-format
+msgid "Media in '%(categoryName)s'"
+msgstr "الوسائط في '%(categoryName)s'"
+
+#: mediacore/templates/admin/media/index.html:76
+#, python-format
+msgid "Media tagged '%(tagName)s'"
+msgstr "الوسائط المرتبطة  داليّا'%(tagName)s'"
+
+#: mediacore/templates/admin/media/index.html:77
+msgid "Unreviewed Media"
+msgstr "وسائط لم تتم مراجعتها"
+
+#: mediacore/templates/admin/media/index.html:78
+msgid "Unencoded Media"
+msgstr "وسائط لم يتم ترميزها"
+
+#: mediacore/templates/admin/media/index.html:79
+msgid "Draft Media"
+msgstr "مشروع وسائط"
+
+#: mediacore/templates/admin/media/index.html:80
+msgid "Published Media"
+msgstr "وسائط منشورة"
+
+#: mediacore/templates/admin/media/index.html:81
+#: mediacore/templates/admin/media/index.html:112
+msgid "All Media"
+msgstr "جميع الوسائط"
+
+#: mediacore/templates/admin/media/index.html:91
+msgid "Review"
+msgstr "استعراض"
+
+#: mediacore/templates/admin/media/index.html:121
+msgid "Drafts"
+msgstr "المسودات"
+
+#: mediacore/templates/admin/media/index.html:131
+msgid "Filters"
+msgstr "مرشحات"
+
+#: mediacore/templates/admin/media/update-status-form.html:27
+msgid "View this media where it is published"
+msgstr "عرض هذه الوسائط حيث تم نشرها"
+
+#: mediacore/templates/admin/media/update-status-form.html:33
+msgid "View this media where it will be published"
+msgstr "عرض هذه الوسائط حيث سيتم نشرها"
+
+#: mediacore/templates/admin/media/update-status-form.html:33
+msgid "Preview"
+msgstr "معاينة"
+
+#: mediacore/templates/admin/media/update-status-form.html:47
+msgid "You must add a file and save before review can begin."
+msgstr "يجب إضافة الملفات وحفظها قبل أن تبدأ المراجعة."
+
+#: mediacore/templates/admin/media/update-status-form.html:51
+msgid "Review Pending"
+msgstr "في انتظار المراجعة"
+
+#: mediacore/templates/admin/media/update-status-form.html:52
+#: mediacore/templates/admin/media/update-status-form.html:78
+#: mediacore/templates/admin/media/update-status-form.html:91
+msgid "Encoding Complete"
+msgstr "اكتمال الترميز"
+
+#: mediacore/templates/admin/media/update-status-form.html:52
+#: mediacore/templates/admin/media/update-status-form.html:68
+msgid "Encoding Pending"
+msgstr "ترميز معلّق"
+
+#: mediacore/templates/admin/media/update-status-form.html:53
+#: mediacore/templates/admin/media/update-status-form.html:69
+#: mediacore/templates/admin/media/update-status-form.html:79
+#: mediacore/templates/admin/media/update-status-form.html:92
+msgid "Click to change the publish date"
+msgstr "انقر هنا لتغيير تاريخ النشر"
+
+#: mediacore/templates/admin/media/update-status-form.html:53
+#: mediacore/templates/admin/media/update-status-form.html:69
+#: mediacore/templates/admin/media/update-status-form.html:79
+#: mediacore/templates/admin/media/update-status-form.html:93
+msgid "Publishing"
+msgstr "نشر"
+
+#: mediacore/templates/admin/media/update-status-form.html:54
+#: mediacore/templates/admin/media/update-status-form.html:70
+#: mediacore/templates/admin/media/update-status-form.html:80
+#: mediacore/templates/admin/media/update-status-form.html:94
+msgid "Pending"
+msgstr "في الانتظار"
+
+#: mediacore/templates/admin/media/update-status-form.html:60
+#: mediacore/templates/admin/media/update-status-form.html:67
+#: mediacore/templates/admin/media/update-status-form.html:77
+#: mediacore/templates/admin/media/update-status-form.html:90
+msgid "Review Complete"
+msgstr "اكتمل الاستعراض"
+
+#: mediacore/templates/admin/media/update-status-form.html:62
+msgid "Review can only be completed after a file is added."
+msgstr "يكتمل الاستعراض بعد أن يضاف الملف فقط"
+
+#: mediacore/templates/admin/media/update-status-form.html:73
+msgid "Encoding will be complete when an acceptable file is added."
+msgstr "يكتمل الترمز عندما يتم إضافة ملف مناسب"
+
+#: mediacore/templates/admin/media/update-status-form.html:85
+msgid "Publish Now"
+msgstr "النشر الآن"
+
+#: mediacore/templates/admin/players/index.html:23
+#: mediacore/templates/admin/players/index.html:47
+#: mediacore/templates/admin/settings/master.html:68
+msgid "Players"
+msgstr "مشغلات"
+
+#: mediacore/templates/admin/players/index.html:33
+msgid "By deleting this player you will lose all settings related to it."
+msgstr "بحذف هذا المشغل سوف تفقد كل الاعدادات المتعلقة به"
+
+#: mediacore/templates/admin/players/index.html:56
+msgid "Priority"
+msgstr "الأولوية"
+
+#: mediacore/templates/admin/players/index.html:78
+msgid "Up"
+msgstr "فوق"
+
+#: mediacore/templates/admin/players/index.html:79
+msgid "Down"
+msgstr "تحت"
+
+#: mediacore/templates/admin/podcasts/_podcast-table.html:46
+msgid "Category:"
+msgstr "فئة"
+
+#: mediacore/templates/admin/podcasts/_podcast-table.html:48
+msgid "Author:"
+msgstr "المؤلف:"
+
+#: mediacore/templates/admin/podcasts/_podcast-table.html:52
+msgid "Explicit"
+msgstr "صريح"
+
+#: mediacore/templates/admin/podcasts/_podcast-table.html:58
+msgid "Add episode"
+msgstr "إضافة حلقة"
+
+#: mediacore/templates/admin/podcasts/_podcast-table.html:60
+#, python-format
+msgid "View First Episode %(num)s"
+msgid_plural "View All %(num)s Episodes"
+msgstr[0] "عرض الحلقة الأولى من %(num)s"
+msgstr[1] "عرض حلقة واحدة من%(num)s"
+msgstr[2] "عرض حلقتين من %(num)s"
+msgstr[3] "عرض بعض الحلقات من %(num)s"
+msgstr[4] "عرض عدد من الحلقات من %(num)s"
+msgstr[5] "عرض كل الحلقات من %(num)s"
+
+#: mediacore/templates/admin/podcasts/edit.html:23
+msgid "Edit Podcast"
+msgstr "تحرير البودكاست"
+
+#: mediacore/templates/admin/podcasts/edit.html:23
+#: mediacore/templates/admin/podcasts/edit.html:95
+msgid "New Podcast"
+msgstr "بودكاست جديد"
+
+#: mediacore/templates/admin/podcasts/edit.html:104
+msgid "View this podcast where it is published"
+msgstr "عرض هذا البودكاست حيث تم نشره"
+
+#: mediacore/templates/admin/podcasts/feed_fieldset.html:30
+msgid "Get an iTunes URL"
+msgstr "إحضار رابط آي تيونز"
+
+#: mediacore/templates/admin/podcasts/feed_fieldset.html:31
+msgid "Get a Feedburner URL"
+msgstr "إحضار رابط فيدبيرنر"
+
+#: mediacore/templates/admin/podcasts/index.html:32
+msgid "Add Podcast"
+msgstr "إضافة بودكاست"
+
+#: mediacore/templates/admin/settings/advertising.html:24
+#: mediacore/templates/admin/settings/advertising.html:30
+#: mediacore/templates/admin/settings/master.html:47
+msgid "Advertising"
+msgstr "الإعلانات"
+
+#: mediacore/templates/admin/settings/analytics.html:24
+#: mediacore/templates/admin/settings/analytics.html:30
+#: mediacore/templates/admin/settings/master.html:50
+msgid "Analytics"
+msgstr "تحليلات"
+
+#: mediacore/templates/admin/settings/api.html:23
+#: mediacore/templates/admin/settings/api.html:33
+#: mediacore/templates/admin/settings/master.html:62
+msgid "Data API"
+msgstr "بيانات واجهة برمجة التطبيقات"
+
+#: mediacore/templates/admin/settings/api.html:26
+msgid "Generate"
+msgstr "توليد"
+
+#: mediacore/templates/admin/settings/appearance.html:24
+#: mediacore/templates/admin/settings/appearance.html:45
+#: mediacore/templates/admin/settings/master.html:53
+msgid "Appearance"
+msgstr "المظهر"
+
+#: mediacore/templates/admin/settings/appearance.html:33
+msgid "Confirm Reset"
+msgstr "توكيد إعادة التعيين"
+
+#: mediacore/templates/admin/settings/appearance.html:34
+msgid "Are you sure you want to reset your settings to the default?"
+msgstr "هل أنت متأكد من أنك تريد إستعادة الإعدادات الافتراضية؟"
+
+#: mediacore/templates/admin/settings/master.html:65
+msgid "Notifications"
+msgstr "الإخطارات"
+
+#: mediacore/templates/admin/settings/master.html:71
+#: mediacore/templates/admin/settings/popularity.html:23
+#: mediacore/templates/admin/settings/popularity.html:29
+msgid "Popularity"
+msgstr "مقدار الشعبية"
+
+#: mediacore/templates/admin/settings/master.html:74
+#: mediacore/templates/admin/settings/sitemaps.html:24
+#: mediacore/templates/admin/settings/sitemaps.html:30
+msgid "RSS and Sitemaps"
+msgstr "آر إس إس وخريطة الموقع"
+
+#: mediacore/templates/admin/settings/master.html:77
+#: mediacore/templates/admin/storage/index.html:23
+#: mediacore/templates/admin/storage/index.html:120
+msgid "Storage Engines"
+msgstr "محركات التخزين"
+
+#: mediacore/templates/admin/settings/master.html:88
+msgid "Plugins"
+msgstr "الإضافات"
+
+#: mediacore/templates/admin/settings/notifications.html:23
+#: mediacore/templates/admin/settings/notifications.html:29
+msgid "Notification Emails"
+msgstr "الإشعار عبر رسائل البريد الإلكتروني"
+
+#: mediacore/templates/admin/storage/edit.html:30
+msgid "New Storage Engine"
+msgstr "محرك تخزين جديد"
+
+#: mediacore/templates/admin/storage/index.html:32
+msgid "WARNING:"
+msgstr "تحذير:"
+
+#: mediacore/templates/admin/storage/index.html:33
+#, python-format
+msgid "Deleting this Storage Engine (%(name)s) will:"
+msgstr "حذف محرك التخزين هذا (%(name)s) سوف:"
+
+#: mediacore/templates/admin/storage/index.html:34
+#, python-format
+msgid ""
+"Permanently delete all of the %(num)s media files stored by this Storage "
+"Engine."
+msgstr "حذف نهائي لكل %(num)s ملفات الوسائط على محرك التخزين"
+
+#: mediacore/templates/admin/storage/index.html:35
+msgid "Permanently erase its settings."
+msgstr "محو إعداداته بشكل دائم."
+
+#: mediacore/templates/admin/storage/index.html:36
+msgid ""
+"An alternative to deleting is disabling. Disabling a Storage Engine will "
+"simply prevent its use for files added from now on."
+msgstr ""
+"التعطيل هو بديل عن الحذف. تعطيل محرك التخزين سوف يمنع ببساطة من إستخدامه "
+"لإضافة ملفات من الآن فصاعدا عليه"
+
+#: mediacore/templates/admin/storage/index.html:100
+msgid "Disable"
+msgstr "تعطيل"
+
+#: mediacore/templates/admin/storage/index.html:121
+#: mediacore/templates/admin/storage/index.html:161
+msgid "Add New Engine"
+msgstr "إضافة محرك جديد"
+
+#: mediacore/templates/admin/storage/index.html:129
+msgid "Disk Usage"
+msgstr "استخدام القرص"
+
+#: mediacore/templates/admin/storage/index.html:163
+msgid "Please select what type of storage engine you would like to add:"
+msgstr "الرجاء تحديد نوع محرك التخزين الذي تريد إضافته :"
+
+#: mediacore/templates/admin/tags/index.html:57
+#: mediacore/templates/admin/tags/index.html:79
+msgid "Add Tag"
+msgstr "إضافة دالاّت"
+
+#: mediacore/templates/admin/tags/index.html:83
+msgid "Edit Tag"
+msgstr "تحرير السمة"
+
+#: mediacore/templates/admin/tags/index.html:87
+msgid "Delete Tag"
+msgstr "حذف الدّالة"
+
+#: mediacore/templates/admin/users/edit.html:44
+msgid "New User"
+msgstr "مستخدم جديد"
+
+#: mediacore/templates/admin/users/index.html:36
+msgid "Are you sure you want to delete this user?"
+msgstr "هل أنت متأكد أنك تريد حذف هذا المستخدم؟"
+
+#: mediacore/templates/admin/users/index.html:46
+msgid "Add User"
+msgstr "إضافة مستخدم"
+
+#: mediacore/templates/admin/users/index.html:53
+msgid "Email"
+msgstr "البريد الإلكتروني"
+
+#: mediacore/templates/categories/index.html:30
+#: mediacore/templates/categories/more.html:26
+#, python-format
+msgid "Latest media in %s"
+msgstr "الوسائط  الأحدث%s"
+
+#: mediacore/templates/categories/index.html:38
+#: mediacore/templates/categories/index.html:43
+#: mediacore/templates/media/explore.html:101
+#: mediacore/templates/media/explore.html:116
+msgid "View More"
+msgstr "المزيد"
+
+#: mediacore/templates/categories/index.html:45
+#: mediacore/templates/categories/more.html:33
+msgid "There is no media in this category."
+msgstr "لا يوجد وسائط في هذه الفئة"
+
+#: mediacore/templates/categories/layout.html:34
+msgid "Choose a Category:"
+msgstr "اختر فئة"
+
+#: mediacore/templates/comments/_list.html:38
+#, python-format
+msgid "said on %(datetime)s…"
+msgstr "قيل في %(datetime)s…"
+
+#: mediacore/templates/comments/_list.html:52
+msgid "No comments have been posted yet."
+msgstr "لم يتم إرسال تعليقات بعد."
+
+#: mediacore/templates/comments/_list.html:66
+msgid "Write a comment"
+msgstr "كتابة تعليق"
+
+#: mediacore/templates/comments/_list.html:83
+msgid "Email Address (will never be published)"
+msgstr "عنوان البريد الإلكتروني (لن ينشر)"
+
+#: mediacore/templates/comments/_list.html:101
+msgid "Submit Comment"
+msgstr "إرسال تعليق"
+
+#: mediacore/templates/media/explore.html:28
+msgid "Sitemap XML"
+msgstr "خريطة الموقع إكس إم إل"
+
+#: mediacore/templates/media/explore.html:31
+msgid "Sitemap RSS"
+msgstr "خريطة الموقع آر إس إس"
+
+#: mediacore/templates/media/explore.html:34
+#: mediacore/templates/media/index.html:25
+msgid "Latest RSS"
+msgstr "أحدث آر إس إس"
+
+#: mediacore/templates/media/explore.html:106
+#, python-format
+msgid ""
+"As soon as there are more than %(num)s published videos in the library, "
+"the most popular videos will be listed here."
+msgstr ""
+"بمجرد توفر عدد أكثر من %(num)s  من الوسائط المنشورة في المكتبة، فإن "
+"الوسائط الأكثر شعبية ستتم فهرستها هنا"
+
+#: mediacore/templates/media/explore.html:107
+msgid "Why not add a few more?"
+msgstr "لماذا لا تضيف أكثر قليلا؟"
+
+#: mediacore/templates/media/explore.html:119
+msgid "There are no media items published yet!"
+msgstr "لا يوجد أي عنصر وسائط منشور لحد الآن!"
+
+#: mediacore/templates/media/index.html:24
+#, python-format
+msgid "Search: \"%s\""
+msgstr "بحث:\"%s\""
+
+#: mediacore/templates/media/index.html:32
+#, python-format
+msgid "Showing %(result_count)s results for '%(search_query)s'"
+msgstr "إظهار %(result_count)s من نتائج '%(search_query)s'"
+
+#: mediacore/templates/media/index.html:33
+#, python-format
+msgid "Showing %(result_count)s results tagged with '%(tag_name)s'"
+msgstr "عرض %(result_count)s نتائج بدلالة '%(tag_name)s'"
+
+#: mediacore/templates/media/index.html:34
+#, python-format
+msgid "All %(result_count)s Media"
+msgstr "كل الـ %(result_count)s من الوسائط"
+
+#: mediacore/templates/media/tags.html:27
+msgid "All Tags"
+msgstr "كل الدالات"
+
+#: mediacore/templates/media/view.html:53
+msgid "(unpublished)"
+msgstr "(غير منشور)"
+
+#: mediacore/templates/media/view.html:54
+#, python-format
+msgid "by %(authorName)s"
+msgstr "بواسطة %(authorName)s"
+
+#: mediacore/templates/media/view.html:64
+#: mediacore/templates/players/html5_or_flash.html:34
+msgid "Dislike"
+msgid_plural "Dislikes"
+msgstr[0] "لا يوجد ما تكره"
+msgstr[1] "مكروه واحد"
+msgstr[2] "مكروهان"
+msgstr[3] "بعض المكروهات"
+msgstr[4] "عدد من المكروهات"
+msgstr[5] "مكروهات"
+
+#: mediacore/templates/media/view.html:79
+msgid "Related Podcast"
+msgstr "بودكاست ذو علاقة"
+
+#: mediacore/templates/media/view.html:89
+msgid "Podcast Episodes"
+msgstr "حلقات بودكاست"
+
+#: mediacore/templates/media/view.html:92
+msgid "Episode"
+msgid_plural "Episodes"
+msgstr[0] "لا يوجد حلقات"
+msgstr[1] "حلقة واحدة"
+msgstr[2] "حلقاتان"
+msgstr[3] "بعض الحلقات"
+msgstr[4] "عدد من الحلقات"
+msgstr[5] "حلقات"
+
+#: mediacore/templates/media/view.html:106
+msgid "Related Media"
+msgstr "وسائط ذات علاقة"
+
+#: mediacore/templates/media/view.html:114
+msgid "This is not listed under any categories."
+msgstr "هذا غير مدرج تحت أي فئة"
+
+#: mediacore/templates/media/view.html:118
+msgid "See All Tags"
+msgstr "رؤية كافة الدالات"
+
+#: mediacore/templates/media/view.html:122
+msgid "This does not have any associated tags."
+msgstr "هذا ليس لديه أية دالات مرتبطة به."
+
+#: mediacore/templates/players/html5_or_flash.html:35
+msgid "Pop out a new player window"
+msgstr "تشغيل نافذة خارجية للمشغل"
+
+#: mediacore/templates/players/html5_or_flash.html:35
+msgid "Pop Out"
+msgstr "تشغيل خارجي"
+
+#: mediacore/templates/players/html5_or_flash.html:36
+msgid "Shrink"
+msgstr "انكماش"
+
+#: mediacore/templates/players/html5_or_flash.html:36
+msgid "Expand"
+msgstr "توسيع"
+
+#: mediacore/templates/players/html5_or_flash.html:38
+msgid "Share"
+msgstr "مشاركة"
+
+#: mediacore/templates/players/html5_or_flash.html:42
+msgid "Permalink:"
+msgstr "رابط ثابت:"
+
+#: mediacore/templates/players/html5_or_flash.html:45
+msgid "Share by email"
+msgstr "مشاركة بالبريد الإلكتروني"
+
+#: mediacore/templates/players/html5_or_flash.html:45
+msgid "Share by Email"
+msgstr "مشاركة بالبريد الإلكتروني"
+
+#: mediacore/templates/players/html5_or_flash.html:46
+msgid "Share on Facebook"
+msgstr "مشاركة على الفيس بوك"
+
+#: mediacore/templates/players/html5_or_flash.html:47
+msgid "Share on Twitter"
+msgstr "مشاركة على تويتر"
+
+#: mediacore/templates/players/html5_or_flash.html:52
+msgid "Embed"
+msgstr "تضمين"
+
+#: mediacore/templates/players/html5_or_flash.html:56
+msgid "Embeddable Player HTML:"
+msgstr "تضمين مشغل إتش تي إم إل"
+
+#: mediacore/templates/players/html5_or_flash.html:62
+msgid "Download"
+msgstr "تحميل"
+
+#: mediacore/templates/podcasts/index.html:30
+msgid "All Podcasts"
+msgstr "كل البودكاست"
+
+#: mediacore/templates/podcasts/index.html:41
+#: mediacore/templates/podcasts/view.html:46
+msgid "Add to iTunes"
+msgstr "إضافة إلى آي تيون"
+
+#: mediacore/templates/podcasts/index.html:42
+#: mediacore/templates/podcasts/view.html:47
+msgid "Subscribe via RSS"
+msgstr "اشتراك بواسطة آر إس إس"
+
+#: mediacore/templates/podcasts/index.html:45
+msgid "Latest Episodes"
+msgstr "الحلقات الأحدث"
+
+#: mediacore/templates/podcasts/index.html:52
+msgid "Browse all episodes"
+msgstr "استعراض كل الحلقات"
+
+#: mediacore/templates/podcasts/view.html:53
+#, python-format
+msgid "%(result_count)s Episodes"
+msgid_plural "All %(result_count)s Episodes"
+msgstr[0] "لا يوجد أي حلقات من %(result_count)s"
+msgstr[1] "حلقة واحدة من  %(result_count)s"
+msgstr[2] "حلقتان من %(result_count)s"
+msgstr[3] "بعض الحلقات من %(result_count)s"
+msgstr[4] "عدد من الحلقات من %(result_count)s"
+msgstr[5] "كل الحلقات من %(result_count)s"
+
+#: mediacore/templates/upload/failure.html:24
+#: mediacore/templates/upload/success.html:24
+msgid "Upload Videos"
+msgstr "رفع فيديو"
+
+#: mediacore/templates/upload/failure.html:29
+msgid "Upload Error"
+msgstr "خطأ في الرفع"
+
+#: mediacore/templates/upload/failure.html:33
+msgid ""
+"During your upload, something went wrong, but don't worry. The engineers "
+"and gnomes have been automagically notified and we're already on our way "
+"to resolving your issue."
+msgstr ""
+"حدث خطأ أثناء الرفع، ولكن لا تقلق. فقد تم إخطار الفريق التقني وهم في "
+"طريقهم لحل مشكلتكم"
+
+#: mediacore/templates/upload/failure.html:35
+msgid "Something you can check:"
+msgstr "يمكنك إختيار شيء:"
+
+#: mediacore/templates/upload/failure.html:37
+#, python-format
+msgid "Is the file under %(maxUploadSize)s Megabytes in size?"
+msgstr "هل الملف بحجم %(maxUploadSize)s ميغا بايت؟"
+
+#: mediacore/templates/upload/failure.html:40
+msgid "Try Uploading Again"
+msgstr "حاول الرفع مرة أخرى"
+
+#: mediacore/templates/upload/form.html:59
+msgid "Choose a file to upload"
+msgstr "اختر ملفا لرفعه"
+
+#: mediacore/templates/upload/index.html:52
+msgid "Problems?"
+msgstr "توجد مشاكل؟"
+
+#: mediacore/templates/upload/index.html:53
+msgid "If you have problems uploading or have some questions, please email us at"
+msgstr "إتصل بنا إذا واجهت مشاكل في الرفع أو كانت لديك أسئلة "
+
+#: mediacore/templates/upload/success.html:30
+msgid "Upload Successful"
+msgstr "نجحت عملية الرفع"
+
+#: mediacore/templates/upload/success.html:34
+msgid "Awesome, your upload was successful!"
+msgstr "ممتاز، تمت عملية الرفع بنجاح"
+
+#: mediacore/templates/upload/success.html:35
+msgid ""
+"Your submission is awaiting review by a moderator and will be posted "
+"shortly."
+msgstr "سيتم معاينة ما قمت بإرساله من قبل المشرف لينشر قريبا."
+
+#: mediacore/templates/upload/success.html:36
+msgid ""
+"You will be automatically redirected back to the [1:Media Library] in a "
+"few seconds. Hang tight."
+msgstr "سيتم نقلك آليا إلى [1:Media Library] خلال ثوان... نرجو الانتظار"
+
+#~ msgid "Slug"
+#~ msgstr "المُعرّف"
+
+#~ msgid "Enable"
+#~ msgstr "تمكين"
+
+#~ msgid "Administrative notes on Media:"
+#~ msgstr "ملاحظات إدارية على الوسائط"
+
+#~ msgid "Display notes"
+#~ msgstr "عرض الملاحظات"
+
+#~ msgid "Run Filter Now"
+#~ msgstr "تشغيل التصفية الآن"
+

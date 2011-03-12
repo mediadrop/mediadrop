@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: MediaCore Video Platform\n"
 "Report-Msgid-Bugs-To: http://github.com/simplestation/mediacore/issues\n"
 "POT-Creation-Date: 2011-01-21 15:28+0800\n"
-"PO-Revision-Date: 2011-01-26 13:14-0800\n"
+"PO-Revision-Date: 2011-03-11 15:56-0800\n"
 "Last-Translator: Sean <sean@bravoflix.com>\n"
 "Language-Team: zh_CN <LL@li.org>\n"
 "Plural-Forms: nplurals=1; plural=0\n"
@@ -27,11 +27,11 @@ msgstr "上传您的媒体使用下面的表格。我们将回顾一下然后送
 msgid "We're sorry but we weren't able to process this request."
 msgstr "很抱歉，我们无法处理此请求。"
 
-#: mediacore/controllers/media.py:297
+#: mediacore/controllers/media.py:288
 msgid "Your comment has been rejected."
 msgstr "您的评论已被拒绝。"
 
-#: mediacore/controllers/media.py:318
+#: mediacore/controllers/media.py:309
 msgid ""
 "Thank you for your comment! We will post it just as soon as a moderator "
 "approves it."
@@ -55,11 +55,11 @@ msgstr "许可被拒绝，无法写入文件"
 msgid "Unsupport image type: %s"
 msgstr "不支持的图像类型: %s"
 
-#: mediacore/forms/__init__.py:219
+#: mediacore/forms/__init__.py:191
 msgid "The portion of the email address before the @ is invalid"
 msgstr "该电子邮件地址的一部分@之前是无效的"
 
-#: mediacore/forms/__init__.py:220
+#: mediacore/forms/__init__.py:192
 msgid "The portion of this email address after the @ is invalid"
 msgstr "这封电子邮件的地址@之后的部分是无效的"
 
@@ -132,9 +132,11 @@ msgstr "你忘了选择一个形象！"
 msgid "Name"
 msgstr "名称"
 
-#: mediacore/forms/admin/categories.py:45 mediacore/forms/admin/tags.py:45
-msgid "Slug"
-msgstr "蛞蝓"
+#: mediacore/forms/admin/categories.py:45 mediacore/forms/admin/media.py:155
+#: mediacore/forms/admin/podcasts.py:110 mediacore/forms/admin/tags.py:45
+#: mediacore/templates/comments/_list.html:35
+msgid "Permalink"
+msgstr "一篇"
 
 #: mediacore/forms/admin/categories.py:46
 msgid "Parent Category"
@@ -160,18 +162,18 @@ msgid "Cancel"
 msgstr "取消"
 
 #: mediacore/forms/admin/categories.py:48 mediacore/forms/admin/comments.py:30
-#: mediacore/forms/admin/media.py:159 mediacore/forms/admin/players.py:55
-#: mediacore/forms/admin/podcasts.py:126 mediacore/forms/admin/settings.py:116
-#: mediacore/forms/admin/settings.py:135 mediacore/forms/admin/settings.py:166
-#: mediacore/forms/admin/settings.py:178 mediacore/forms/admin/settings.py:203
-#: mediacore/forms/admin/settings.py:242 mediacore/forms/admin/settings.py:262
-#: mediacore/forms/admin/settings.py:374 mediacore/forms/admin/settings.py:396
+#: mediacore/forms/admin/media.py:167 mediacore/forms/admin/players.py:55
+#: mediacore/forms/admin/podcasts.py:126 mediacore/forms/admin/settings.py:113
+#: mediacore/forms/admin/settings.py:132 mediacore/forms/admin/settings.py:163
+#: mediacore/forms/admin/settings.py:175 mediacore/forms/admin/settings.py:198
+#: mediacore/forms/admin/settings.py:238 mediacore/forms/admin/settings.py:257
+#: mediacore/forms/admin/settings.py:369 mediacore/forms/admin/settings.py:391
 #: mediacore/forms/admin/tags.py:47 mediacore/forms/admin/users.py:62
 #: mediacore/forms/admin/storage/__init__.py:51
 msgid "Save"
 msgstr "保存"
 
-#: mediacore/forms/admin/categories.py:67 mediacore/forms/admin/media.py:160
+#: mediacore/forms/admin/categories.py:67 mediacore/forms/admin/media.py:168
 #: mediacore/forms/admin/podcasts.py:127 mediacore/forms/admin/tags.py:62
 #: mediacore/forms/admin/users.py:63
 #: mediacore/templates/admin/categories/index.html:47
@@ -199,7 +201,7 @@ msgstr "删除"
 #: mediacore/templates/admin/helpers.html:74
 #: mediacore/templates/admin/comments/_comment-table.html:31
 #: mediacore/templates/comments/_list.html:93
-#: mediacore/templates/media/explore.html:86
+#: mediacore/templates/media/explore.html:89
 #: mediacore/templates/media/view.html:66
 msgid "Comment"
 msgid_plural "Comments"
@@ -225,76 +227,55 @@ msgstr "宽度必须是一个有效的整数"
 msgid "Height must be a valid integer"
 msgstr "高度必须是一个有效的整数"
 
-#: mediacore/forms/admin/media.py:101
+#: mediacore/forms/admin/media.py:115
 msgid "Select an encoded video or audio file on your computer"
 msgstr "选择在您的计算机编码的视频或音频文件"
 
-#: mediacore/forms/admin/media.py:101 mediacore/templates/master.html:63
+#: mediacore/forms/admin/media.py:115 mediacore/templates/master.html:63
 #: mediacore/templates/admin/settings/master.html:83
 #: mediacore/templates/admin/settings/upload.html:23
 #: mediacore/templates/admin/settings/upload.html:29
 msgid "Upload"
 msgstr "上传"
 
-#: mediacore/forms/admin/media.py:102
+#: mediacore/forms/admin/media.py:116
 msgid "Add URL"
 msgstr "添加网址"
 
-#: mediacore/forms/admin/media.py:103
+#: mediacore/forms/admin/media.py:117
 msgid "YouTube, Vimeo, Google Video, Amazon S3 or any other link"
 msgstr "Tudou，Youku，56.com, Amazon S3 或任何其他连结"
 
-#: mediacore/forms/admin/media.py:110
-msgid "Video"
-msgstr "视频"
-
-#: mediacore/forms/admin/media.py:111
-msgid "Audio"
-msgstr "音频"
-
-#: mediacore/forms/admin/media.py:112
-msgid "Audio Description"
-msgstr "音频描述"
-
-#: mediacore/forms/admin/media.py:113
-msgid "Captions"
-msgstr "标题"
-
-#: mediacore/forms/admin/media.py:131
+#: mediacore/forms/admin/media.py:139
 msgid "Delete file"
 msgstr "删除文件"
 
-#: mediacore/forms/admin/media.py:146
+#: mediacore/forms/admin/media.py:154
 msgid "Include in the Podcast"
 msgstr "包括在播客"
 
-#: mediacore/forms/admin/media.py:146
+#: mediacore/forms/admin/media.py:154
 msgid "Optional"
 msgstr "可选"
 
-#: mediacore/forms/admin/media.py:147 mediacore/forms/admin/podcasts.py:110
-#: mediacore/templates/comments/_list.html:35
-msgid "Permalink"
-msgstr "一篇"
-
-#: mediacore/forms/admin/media.py:148 mediacore/forms/admin/podcasts.py:111
+#: mediacore/forms/admin/media.py:156 mediacore/forms/admin/podcasts.py:111
 #: mediacore/templates/admin/media/_media-table.html:33
 msgid "Title"
 msgstr "称号"
 
-#: mediacore/forms/admin/media.py:149 mediacore/forms/admin/podcasts.py:113
+#: mediacore/forms/admin/media.py:157 mediacore/forms/admin/podcasts.py:113
 msgid "Author Name"
 msgstr "作者名称"
 
-#: mediacore/forms/admin/media.py:150 mediacore/forms/admin/podcasts.py:114
+#: mediacore/forms/admin/media.py:158 mediacore/forms/admin/podcasts.py:114
 msgid "Author Email"
 msgstr "作者的电子邮件"
 
-#: mediacore/forms/admin/media.py:151 mediacore/forms/admin/podcasts.py:115
+#: mediacore/forms/admin/media.py:159 mediacore/forms/admin/podcasts.py:115
 msgid "Description"
 msgstr "说明"
 
-#: mediacore/forms/admin/media.py:152 mediacore/templates/master.html:62
+#: mediacore/forms/admin/media.py:160 mediacore/templates/master.html:62
 #: mediacore/templates/admin/categories/edit.html:23
 #: mediacore/templates/admin/categories/index.html:24
 #: mediacore/templates/admin/categories/index.html:58
@@ -302,12 +283,12 @@ msgstr "说明"
 #: mediacore/templates/categories/index.html:25
 #: mediacore/templates/categories/layout.html:29
 #: mediacore/templates/categories/more.html:24
-#: mediacore/templates/media/explore.html:45
+#: mediacore/templates/media/explore.html:48
 #: mediacore/templates/media/view.html:112
 msgid "Categories"
 msgstr "分类"
 
-#: mediacore/forms/admin/media.py:153
+#: mediacore/forms/admin/media.py:161
 #: mediacore/templates/admin/media/_media-table.html:35
 #: mediacore/templates/admin/settings/master.html:80
 #: mediacore/templates/admin/tags/edit.html:23
@@ -318,11 +299,11 @@ msgstr "分类"
 msgid "Tags"
 msgstr "标签"
 
-#: mediacore/forms/admin/media.py:153
+#: mediacore/forms/admin/media.py:161
 msgid "e.g.: puppies, great dane, adorable"
 msgstr "例如：小狗，大丹犬，可爱"
 
-#: mediacore/forms/admin/media.py:155 mediacore/forms/admin/settings.py:239
+#: mediacore/forms/admin/media.py:163
 msgid "Administrative Notes"
 msgstr "行政债券"
 
@@ -337,56 +318,56 @@ msgstr "一般选项："
 msgid "Display Name"
 msgstr "显示名称"
 
-#: mediacore/forms/admin/players.py:84
+#: mediacore/forms/admin/players.py:96
 msgid "Yes, use the Flash Player when the device supports it."
 msgstr "是的，使用Flash Player时，该设备支持它。"
 
-#: mediacore/forms/admin/players.py:85
+#: mediacore/forms/admin/players.py:97
 msgid "No, use the HTML5 Player when the device supports it."
 msgstr "不，使用HTML5的球员时，该设备支持它。"
 
-#: mediacore/forms/admin/players.py:88
+#: mediacore/forms/admin/players.py:100
 msgid "Prefer the Flash Player when possible"
 msgstr "喜欢的Flash Player时，可能"
 
-#: mediacore/forms/admin/players.py:105
+#: mediacore/forms/admin/players.py:115
 msgid "Script Tag"
 msgstr "脚本标记"
 
-#: mediacore/forms/admin/players.py:106
+#: mediacore/forms/admin/players.py:116
 msgid "The unique script tag given for your site."
 msgstr "独特的脚本标记为您的网站。"
 
-#: mediacore/forms/admin/players.py:125
+#: mediacore/forms/admin/players.py:133
 msgid "Player Options:"
 msgstr "播放器选项："
 
-#: mediacore/forms/admin/players.py:127
+#: mediacore/forms/admin/players.py:135
 msgid "Disable the player keyboard controls."
 msgstr "禁用键盘控制的球员。"
 
-#: mediacore/forms/admin/players.py:128
+#: mediacore/forms/admin/players.py:136
 msgid "Enable fullscreen."
 msgstr "启用全屏。"
 
-#: mediacore/forms/admin/players.py:129
+#: mediacore/forms/admin/players.py:137
 msgid "Enable high-def quality by default."
 msgstr "默认启用高清晰质量。"
 
-#: mediacore/forms/admin/players.py:130
+#: mediacore/forms/admin/players.py:138
 msgid ""
 "Allow the player to load related videos once playback of the initial "
 "video starts. Related videos are displayed in the \"genie menu\" when the"
 " menu button is pressed."
 msgstr "让玩家一次加载的初始视频开始播放相关的影片。相关的视频显示在“精灵菜单”菜单时，按下按钮。"
 
-#: mediacore/forms/admin/players.py:131
+#: mediacore/forms/admin/players.py:139
 msgid ""
 "Show the search box when the video is minimized. The above option must be"
 " enabled for this to work."
 msgstr "显示搜索表单域当视频播放器最小化。上面必须选择启用此功能。"
 
-#: mediacore/forms/admin/players.py:132
+#: mediacore/forms/admin/players.py:140
 msgid ""
 "Display information like the video title and rating before the video "
 "starts playing."
@@ -438,323 +419,302 @@ msgid "Feedburner URL"
 msgstr "Feedburner的网址"
 
 #: mediacore/forms/admin/settings.py:38
-msgid "Enable"
-msgstr "启用"
-
-#: mediacore/forms/admin/settings.py:39
-#: mediacore/templates/admin/storage/index.html:100
-msgid "Disable"
-msgstr "禁用"
-
-#: mediacore/forms/admin/settings.py:43
 msgid "Prepend"
 msgstr "前置"
 
-#: mediacore/forms/admin/settings.py:44
+#: mediacore/forms/admin/settings.py:39
 msgid "Append"
 msgstr "附加"
 
-#: mediacore/forms/admin/settings.py:47
+#: mediacore/forms/admin/settings.py:42
 msgid "Plain <textarea> fields (0kB)"
 msgstr "<用纯文本区> (0kB)"
 
-#: mediacore/forms/admin/settings.py:48
+#: mediacore/forms/admin/settings.py:43
 msgid "Enable TinyMCE for <textarea> fields accepting XHTML (281kB)"
 msgstr "启用TinyMCE的在XHTML<textarea> (281kB)"
 
-#: mediacore/forms/admin/settings.py:52
+#: mediacore/forms/admin/settings.py:47
 msgid "Brown"
 msgstr "布朗"
 
-#: mediacore/forms/admin/settings.py:53
+#: mediacore/forms/admin/settings.py:48
 msgid "Blue"
 msgstr "蓝"
 
-#: mediacore/forms/admin/settings.py:54
+#: mediacore/forms/admin/settings.py:49
 msgid "Green"
 msgstr "绿"
 
-#: mediacore/forms/admin/settings.py:55
+#: mediacore/forms/admin/settings.py:50
 msgid "Tan"
 msgstr "黄褐色"
 
-#: mediacore/forms/admin/settings.py:56
+#: mediacore/forms/admin/settings.py:51
 msgid "White"
 msgstr "白"
 
-#: mediacore/forms/admin/settings.py:57
+#: mediacore/forms/admin/settings.py:52
 msgid "Purple"
 msgstr "紫"
 
-#: mediacore/forms/admin/settings.py:58
+#: mediacore/forms/admin/settings.py:53
 msgid "Black"
 msgstr "黑色"
 
-#: mediacore/forms/admin/settings.py:89 mediacore/forms/admin/settings.py:98
+#: mediacore/forms/admin/settings.py:86 mediacore/forms/admin/settings.py:95
 msgid "Yes"
 msgstr "是的"
 
-#: mediacore/forms/admin/settings.py:89 mediacore/forms/admin/settings.py:98
+#: mediacore/forms/admin/settings.py:86 mediacore/forms/admin/settings.py:95
 msgid "No"
 msgstr "无"
 
-#: mediacore/forms/admin/settings.py:110
+#: mediacore/forms/admin/settings.py:107
 msgid "Email Notifications:"
 msgstr "电子邮件通知："
 
-#: mediacore/forms/admin/settings.py:111
+#: mediacore/forms/admin/settings.py:108
 msgid "Media Uploaded"
 msgstr "媒体上传"
 
-#: mediacore/forms/admin/settings.py:112
+#: mediacore/forms/admin/settings.py:109
 msgid "Comment Posted"
 msgstr "发表评论"
 
-#: mediacore/forms/admin/settings.py:113
+#: mediacore/forms/admin/settings.py:110
 msgid "Support Requested"
 msgstr "支持请求"
 
-#: mediacore/forms/admin/settings.py:114
+#: mediacore/forms/admin/settings.py:111
 msgid "Send Emails From"
 msgstr "从发送电子邮件"
 
-#: mediacore/forms/admin/settings.py:129
+#: mediacore/forms/admin/settings.py:126
 msgid "Popularity Algorithm Variables:"
 msgstr "算法变量来衡量容流行:"
 
-#: mediacore/forms/admin/settings.py:131
+#: mediacore/forms/admin/settings.py:128
 msgid "Decay Exponent"
 msgstr "衰减指数"
 
-#: mediacore/forms/admin/settings.py:132
+#: mediacore/forms/admin/settings.py:129
 msgid "Decay Lifetime"
 msgstr "衰减寿命"
 
-#: mediacore/forms/admin/settings.py:162
+#: mediacore/forms/admin/settings.py:159
 msgid "Max. allowed upload file size in megabytes"
 msgstr "最大允许上传文件大小（MB）"
 
-#: mediacore/forms/admin/settings.py:163
+#: mediacore/forms/admin/settings.py:160
 msgid "Legal Wording:"
 msgstr "法律措辞："
 
-#: mediacore/forms/admin/settings.py:164
+#: mediacore/forms/admin/settings.py:161
 msgid "User Uploads"
 msgstr "用户上传"
 
-#: mediacore/forms/admin/settings.py:175
+#: mediacore/forms/admin/settings.py:172
 msgid "Google Analytics Details:"
 msgstr "谷歌分析详细信息："
 
-#: mediacore/forms/admin/settings.py:176
+#: mediacore/forms/admin/settings.py:173
 msgid "Tracking Code"
 msgstr "跟踪代码"
 
-#: mediacore/forms/admin/settings.py:192
+#: mediacore/forms/admin/settings.py:190
 msgid "Site Maps"
 msgstr "网站地图"
 
-#: mediacore/forms/admin/settings.py:197
+#: mediacore/forms/admin/settings.py:194
 msgid "RSS Feeds"
 msgstr "关于RSS"
 
-#: mediacore/forms/admin/settings.py:212
+#: mediacore/forms/admin/settings.py:207
 msgid "General Settings:"
 msgstr "常规设置："
 
-#: mediacore/forms/admin/settings.py:214
+#: mediacore/forms/admin/settings.py:209
 msgid "Site Name"
 msgstr "网站名称"
 
-#: mediacore/forms/admin/settings.py:216
+#: mediacore/forms/admin/settings.py:211
 msgid "Site Tag Line"
 msgstr "有关网站的特殊短口头禅"
 
-#: mediacore/forms/admin/settings.py:218
+#: mediacore/forms/admin/settings.py:213
 msgid "Display Site Name"
 msgstr "显示站点名称"
 
-#: mediacore/forms/admin/settings.py:222
+#: mediacore/forms/admin/settings.py:217
 msgid "Default Language"
 msgstr "默认语言"
 
-#: mediacore/forms/admin/settings.py:226
+#: mediacore/forms/admin/settings.py:221
 msgid "Featured Category"
 msgstr "精选类别"
 
-#: mediacore/forms/admin/settings.py:231
+#: mediacore/forms/admin/settings.py:226
 msgid "Rich Text Editing"
 msgstr "富文本编辑"
 
-#: mediacore/forms/admin/settings.py:235
-msgid "Administrative notes on Media:"
-msgstr "管理事项--注意在媒体:"
-
-#: mediacore/forms/admin/settings.py:237
-msgid "Display notes"
-msgstr "显示笔记"
-
-#: mediacore/forms/admin/settings.py:252
+#: mediacore/forms/admin/settings.py:248
 msgid "Require comments to be approved by an admin"
 msgstr "意见必须由管理员批准"
 
-#: mediacore/forms/admin/settings.py:253
+#: mediacore/forms/admin/settings.py:249
 msgid "Akismet Anti-Spam Details:"
 msgstr "在反垃圾邮件保护的详细提供被Akismet。"
 
-#: mediacore/forms/admin/settings.py:254
+#: mediacore/forms/admin/settings.py:250
 msgid "Akismet Key"
 msgstr "Akismet键"
 
-#: mediacore/forms/admin/settings.py:255
+#: mediacore/forms/admin/settings.py:251
 msgid "Akismet URL"
 msgstr "Akismet网址"
 
-#: mediacore/forms/admin/settings.py:257
+#: mediacore/forms/admin/settings.py:253
 msgid "Vulgarity Filter Settings"
 msgstr "设置过滤器为粗言秽语"
 
-#: mediacore/forms/admin/settings.py:258
+#: mediacore/forms/admin/settings.py:254
 msgid "Filtered Words"
 msgstr "禁用词"
 
-#: mediacore/forms/admin/settings.py:259
+#: mediacore/forms/admin/settings.py:255
 msgid "Enter words to be filtered separated by a comma."
 msgstr "输入字词来进行过滤用逗号分隔。"
 
-#: mediacore/forms/admin/settings.py:260
-msgid "Run Filter Now"
-msgstr "运行过滤器现在"
-
-#: mediacore/forms/admin/settings.py:272
+#: mediacore/forms/admin/settings.py:267
 msgid "Require a key to access the API"
 msgstr "需要一个键进入应用程序编程接口（API）"
 
-#: mediacore/forms/admin/settings.py:273
+#: mediacore/forms/admin/settings.py:268
 msgid "API Key:"
 msgstr "API密钥"
 
-#: mediacore/forms/admin/settings.py:274
+#: mediacore/forms/admin/settings.py:269
 msgid "Access Key"
 msgstr "访问键"
 
-#: mediacore/forms/admin/settings.py:276
+#: mediacore/forms/admin/settings.py:271
 msgid "API Settings:"
 msgstr "API设置："
 
-#: mediacore/forms/admin/settings.py:277
+#: mediacore/forms/admin/settings.py:272
 msgid "Max media results"
 msgstr "最大的媒体结果"
 
-#: mediacore/forms/admin/settings.py:278
+#: mediacore/forms/admin/settings.py:273
 msgid "Max tree depth"
 msgstr "最大目录树的深度"
 
-#: mediacore/forms/admin/settings.py:289
+#: mediacore/forms/admin/settings.py:284
 #: mediacore/templates/admin/settings/general.html:24
 #: mediacore/templates/admin/settings/general.html:30
 #: mediacore/templates/admin/settings/master.html:44
 msgid "General"
 msgstr "一般"
 
-#: mediacore/forms/admin/settings.py:292
+#: mediacore/forms/admin/settings.py:287
 msgid "Logo"
 msgstr "徽标"
 
-#: mediacore/forms/admin/settings.py:294
+#: mediacore/forms/admin/settings.py:289
 msgid "Upload Logo"
 msgstr "上传徽标"
 
-#: mediacore/forms/admin/settings.py:299
+#: mediacore/forms/admin/settings.py:294
 msgid "Background Image"
 msgstr "背景图片"
 
-#: mediacore/forms/admin/settings.py:301
+#: mediacore/forms/admin/settings.py:296
 msgid "Upload Background"
 msgstr "上传背景"
 
-#: mediacore/forms/admin/settings.py:307
+#: mediacore/forms/admin/settings.py:302
 msgid "Background color"
 msgstr "背景颜色"
 
-#: mediacore/forms/admin/settings.py:310
+#: mediacore/forms/admin/settings.py:305
 msgid "Link color"
 msgstr "链接颜色"
 
-#: mediacore/forms/admin/settings.py:313
+#: mediacore/forms/admin/settings.py:308
 msgid "Visited Link color"
 msgstr "访问链接的颜色"
 
-#: mediacore/forms/admin/settings.py:317
+#: mediacore/forms/admin/settings.py:312
 msgid "Text color"
 msgstr "文字颜色"
 
-#: mediacore/forms/admin/settings.py:319
+#: mediacore/forms/admin/settings.py:314
 msgid "Heading color"
 msgstr "标题颜色"
 
-#: mediacore/forms/admin/settings.py:322
+#: mediacore/forms/admin/settings.py:317
 msgid "Color Scheme"
 msgstr "配色方案"
 
-#: mediacore/forms/admin/settings.py:326
+#: mediacore/forms/admin/settings.py:321
 msgid "Options"
 msgstr "选项"
 
-#: mediacore/forms/admin/settings.py:331
+#: mediacore/forms/admin/settings.py:326
 msgid "Enable Cooliris on the Explore Page"
 msgstr "Cooliris启用的探索页面上"
 
-#: mediacore/forms/admin/settings.py:334
+#: mediacore/forms/admin/settings.py:329
 msgid "Enable Featured Items on the Explore Page"
 msgstr "启用精选探索网页上的项目"
 
-#: mediacore/forms/admin/settings.py:338
+#: mediacore/forms/admin/settings.py:333
 msgid "Enable Podcast Tab"
 msgstr "启用播客标签"
 
-#: mediacore/forms/admin/settings.py:342
+#: mediacore/forms/admin/settings.py:337
 msgid "Enable User Uploads"
 msgstr "允许用户上传"
 
-#: mediacore/forms/admin/settings.py:346
+#: mediacore/forms/admin/settings.py:341
 msgid "Enable widescreen media player by default"
 msgstr "启用默认情况下，宽屏幕媒体播放器"
 
-#: mediacore/forms/admin/settings.py:350
+#: mediacore/forms/admin/settings.py:345
 msgid "Display Logo"
 msgstr "显示徽标"
 
-#: mediacore/forms/admin/settings.py:354
+#: mediacore/forms/admin/settings.py:349
 msgid "Display Background Image"
 msgstr "显示背景图片"
 
-#: mediacore/forms/admin/settings.py:360
+#: mediacore/forms/admin/settings.py:355
 msgid "Advanced"
 msgstr "进阶"
 
-#: mediacore/forms/admin/settings.py:364
+#: mediacore/forms/admin/settings.py:359
 msgid "Custom CSS"
 msgstr "自定义CSS"
 
-#: mediacore/forms/admin/settings.py:367
+#: mediacore/forms/admin/settings.py:362
 msgid "Custom Header HTML"
 msgstr "自定义页眉的HTML"
 
-#: mediacore/forms/admin/settings.py:370
+#: mediacore/forms/admin/settings.py:365
 msgid "Custom Footer HTML"
 msgstr "自定义页脚的HTML"
 
-#: mediacore/forms/admin/settings.py:375
+#: mediacore/forms/admin/settings.py:370
 #: mediacore/templates/admin/settings/appearance.html:35
 msgid "Reset to Defaults"
 msgstr "重置为默认值"
 
-#: mediacore/forms/admin/settings.py:389
+#: mediacore/forms/admin/settings.py:384
 msgid "Banner HTML"
 msgstr "旗帜的HTML"
 
-#: mediacore/forms/admin/settings.py:392
+#: mediacore/forms/admin/settings.py:387
 msgid "Sidebar HTML"
 msgstr "补充工具栏HTML"
 
@@ -851,12 +811,12 @@ msgstr "RTMP的服务器网址写rtmp：/ /"
 msgid "RTMP Servers:"
 msgstr "RTMP的服务器："
 
-#: mediacore/lib/email.py:86
+#: mediacore/lib/email.py:109
 #, python-format
 msgid "New %(type)s: %(title)s"
 msgstr "新的 %(type)s: %(title)s"
 
-#: mediacore/lib/email.py:87
+#: mediacore/lib/email.py:110
 #, python-format
 msgid ""
 "A new %(type)s file has been uploaded!\n"
@@ -879,12 +839,12 @@ msgstr ""
 "\n"
 "说明：%(clean_description)s\n"
 
-#: mediacore/lib/email.py:110
+#: mediacore/lib/email.py:145
 #, python-format
 msgid "New Comment: %(comment_subject)s"
 msgstr "新评论：%(comment_subject)s"
 
-#: mediacore/lib/email.py:111
+#: mediacore/lib/email.py:146
 #, python-format
 msgid ""
 "A new comment has been posted!\n"
@@ -902,12 +862,12 @@ msgstr ""
 "\n"
 "团体：%(comment_body)s\n"
 
-#: mediacore/lib/email.py:128
+#: mediacore/lib/email.py:185
 #, python-format
 msgid "New Support Request: %(email)s"
 msgstr "新的支持请求：%(email)s"
 
-#: mediacore/lib/email.py:129
+#: mediacore/lib/email.py:186
 #, python-format
 msgid ""
 "A user has asked for support\n"
@@ -940,7 +900,23 @@ msgstr ""
 "POST_VARS： \n"
 "%(post_vars)s\n"
 
-#: mediacore/lib/helpers.py:314
+#: mediacore/lib/filetypes.py:35
+msgid "Video"
+msgstr "视频"
+
+#: mediacore/lib/filetypes.py:36
+msgid "Audio"
+msgstr "音频"
+
+#: mediacore/lib/filetypes.py:37
+msgid "Audio Description"
+msgstr "音频描述"
+
+#: mediacore/lib/filetypes.py:38
+msgid "Captions"
+msgstr "标题"
+
+#: mediacore/lib/helpers.py:321
 msgid "Help"
 msgstr "帮助"
 
@@ -980,15 +956,15 @@ msgstr "HTML5的+ Flowplayer视频播放器的后备"
 msgid "JWPlayer"
 msgstr "JWPlayer视频播放器"
 
-#: mediacore/lib/players.py:856
+#: mediacore/lib/players.py:858
 msgid "Sublime Video Player"
 msgstr "Sublime视频播放器"
 
-#: mediacore/lib/players.py:900
+#: mediacore/lib/players.py:908
 msgid "iTunes Player"
 msgstr "iTunes播放器"
 
-#: mediacore/lib/storage/__init__.py:352
+#: mediacore/lib/storage/__init__.py:353
 msgid "Unusable file or URL provided."
 msgstr "无法使用文件或网址提供。"
 
@@ -1001,11 +977,11 @@ msgstr "FTP的存储"
 msgid "Could not upload the file from your FTP server: %s"
 msgstr "无法从FTP上传服务器文件：%s"
 
-#: mediacore/lib/storage/ftp.py:197
+#: mediacore/lib/storage/ftp.py:199
 msgid "The file transferred to your FTP server is corrupted. Please try again."
 msgstr "转移到你的FTP服务器件已损坏。请再试一次。"
 
-#: mediacore/lib/storage/ftp.py:202
+#: mediacore/lib/storage/ftp.py:204
 #, python-format
 msgid "Could not download the file from your FTP server: %s"
 msgstr "无法从FTP服务器下载的文件：%s"
@@ -1041,7 +1017,7 @@ msgstr "您有几种选择："
 
 #: mediacore/templates/error.html:40
 msgid "Return to the [1:homepage]."
-msgstr "返回[1：homepage]。"
+msgstr "返回[1:homepage]。"
 
 #: mediacore/templates/error.html:41
 msgid "Return to the [1:media page]."
@@ -1063,8 +1039,8 @@ msgstr "你在找什么，当你得到了错误？"
 msgid "Submit Error Report"
 msgstr "提交错误报告"
 
-#: mediacore/templates/helpers.html:37
-#: mediacore/templates/media/explore.html:87
+#: mediacore/templates/helpers.html:39
+#: mediacore/templates/media/explore.html:90
 #: mediacore/templates/media/view.html:63
 #: mediacore/templates/players/html5_or_flash.html:33
 msgid "Like"
@@ -1074,10 +1050,10 @@ msgstr[0] ""
 "\n"
 "喜欢"
 
-#: mediacore/templates/helpers.html:38
+#: mediacore/templates/helpers.html:40
 #: mediacore/templates/admin/media/update-status-form.html:27
 #: mediacore/templates/admin/podcasts/edit.html:104
-#: mediacore/templates/media/explore.html:88
+#: mediacore/templates/media/explore.html:91
 #: mediacore/templates/media/view.html:61
 msgid "View"
 msgid_plural "Views"
@@ -1086,70 +1062,69 @@ msgstr[0] ""
 "\n"
 "点击"
 
-#: mediacore/templates/helpers.html:58
+#: mediacore/templates/helpers.html:60
 msgid "Page:"
 msgstr "页："
 
-#: mediacore/templates/helpers.html:78
+#: mediacore/templates/helpers.html:80
 msgid "Show:"
 msgstr "显示："
 
-#: mediacore/templates/helpers.html:80
+#: mediacore/templates/helpers.html:82
 #: mediacore/templates/categories/index.html:36
 #: mediacore/templates/categories/more.html:31
-#: mediacore/templates/media/explore.html:43
-#: mediacore/templates/media/explore.html:111
-#: mediacore/templates/media/index.html:25
+#: mediacore/templates/media/explore.html:47
+#: mediacore/templates/media/explore.html:114
 msgid "Latest"
 msgstr "最新"
 
-#: mediacore/templates/helpers.html:81
+#: mediacore/templates/helpers.html:83
 #: mediacore/templates/categories/index.html:41
 #: mediacore/templates/categories/more.html:31
-#: mediacore/templates/media/explore.html:95
+#: mediacore/templates/media/explore.html:98
 msgid "Most Popular"
 msgstr "最受欢迎"
 
-#: mediacore/templates/helpers.html:82
-#: mediacore/templates/media/explore.html:44
-#: mediacore/templates/media/explore.html:79
+#: mediacore/templates/helpers.html:84
+#: mediacore/templates/media/explore.html:46
+#: mediacore/templates/media/explore.html:82
 msgid "Featured"
 msgstr "精选"
 
-#: mediacore/templates/helpers.html:84
+#: mediacore/templates/helpers.html:86
 msgid "Page"
 msgstr "页面"
 
-#: mediacore/templates/helpers.html:84
+#: mediacore/templates/helpers.html:86
 msgid "of"
 msgstr "于"
 
-#: mediacore/templates/helpers.html:90
+#: mediacore/templates/helpers.html:92
 #, python-format
 msgid "The %(fieldName)s field accepts some HTML formatting: %(formattingList)s"
 msgstr "%(fieldName)s 场接受某些HTML格式：%(formattingList)s"
 
-#: mediacore/templates/layout.html:54
+#: mediacore/templates/layout.html:52
 msgid "Feeds:"
 msgstr "RSS:"
 
-#: mediacore/templates/layout.html:60
+#: mediacore/templates/layout.html:58
 msgid "[1:MediaCore] [2:video platform]"
-msgstr "[1：MediaCore] [2：视频平台]"
+msgstr "[1:MediaCore] [2:视频平台]"
 
 #: mediacore/templates/login.html:23
 msgid "Login to MediaCore"
 msgstr "登录到MediaCore"
 
-#: mediacore/templates/login.html:45 mediacore/templates/login.html:56
+#: mediacore/templates/login.html:47 mediacore/templates/login.html:58
 msgid "Login"
 msgstr "登录"
 
-#: mediacore/templates/login.html:48
+#: mediacore/templates/login.html:50
 msgid "Username:"
 msgstr "用户名："
 
-#: mediacore/templates/login.html:52
+#: mediacore/templates/login.html:54
 msgid "Password:"
 msgstr "密码："
 
@@ -1330,7 +1305,7 @@ msgstr "你确定要删除这个分类 [1and ALL of its children]？"
 #: mediacore/templates/admin/tags/row-form.html:31
 #: mediacore/templates/admin/users/index.html:68
 #: mediacore/templates/media/view.html:49
-#: mediacore/templates/podcasts/view.html:41
+#: mediacore/templates/podcasts/view.html:42
 msgid "Edit"
 msgstr "编辑"
 
@@ -1933,6 +1908,10 @@ msgid ""
 "simply prevent its use for files added from now on."
 msgstr "删去的另一种方法是禁用。禁用存储引擎将简单地防止其使用添加的文件，从现在做起。"
 
+#: mediacore/templates/admin/storage/index.html:100
+msgid "Disable"
+msgstr "禁用"
+
 #: mediacore/templates/admin/storage/index.html:121
 #: mediacore/templates/admin/storage/index.html:161
 msgid "Add New Engine"
@@ -1983,8 +1962,8 @@ msgstr "最新的媒体中 %s"
 
 #: mediacore/templates/categories/index.html:38
 #: mediacore/templates/categories/index.html:43
-#: mediacore/templates/media/explore.html:98
-#: mediacore/templates/media/explore.html:113
+#: mediacore/templates/media/explore.html:101
+#: mediacore/templates/media/explore.html:116
 msgid "View More"
 msgstr "查看更多"
 
@@ -2022,26 +2001,27 @@ msgstr "提交评论"
 msgid "Sitemap XML"
 msgstr "网站地图XML"
 
-#: mediacore/templates/media/explore.html:30
+#: mediacore/templates/media/explore.html:31
 msgid "Sitemap RSS"
 msgstr "网站的RSS"
 
-#: mediacore/templates/media/explore.html:32
+#: mediacore/templates/media/explore.html:34
+#: mediacore/templates/media/index.html:25
 msgid "Latest RSS"
 msgstr "最新的RSS"
 
-#: mediacore/templates/media/explore.html:103
+#: mediacore/templates/media/explore.html:106
 #, python-format
 msgid ""
 "As soon as there are more than %(num)s published videos in the library, "
 "the most popular videos will be listed here."
 msgstr "只要有超过 %(num)s 公布的在库中的影片，最受欢迎的影片将在这里列出。"
 
-#: mediacore/templates/media/explore.html:104
+#: mediacore/templates/media/explore.html:107
 msgid "Why not add a few more?"
 msgstr "为什么不增加一些呢？"
 
-#: mediacore/templates/media/explore.html:116
+#: mediacore/templates/media/explore.html:119
 msgid "There are no media items published yet!"
 msgstr "没有媒体刊登了项目！"
 
@@ -2172,12 +2152,12 @@ msgid "All Podcasts"
 msgstr "所有播客"
 
 #: mediacore/templates/podcasts/index.html:41
-#: mediacore/templates/podcasts/view.html:45
+#: mediacore/templates/podcasts/view.html:46
 msgid "Add to iTunes"
 msgstr "添加到iTunes"
 
 #: mediacore/templates/podcasts/index.html:42
-#: mediacore/templates/podcasts/view.html:46
+#: mediacore/templates/podcasts/view.html:47
 msgid "Subscribe via RSS"
 msgstr "通过RSS订阅"
 
@@ -2189,7 +2169,7 @@ msgstr "最新剧集"
 msgid "Browse all episodes"
 msgstr "浏览所有插曲"
 
-#: mediacore/templates/podcasts/view.html:52
+#: mediacore/templates/podcasts/view.html:53
 #, python-format
 msgid "%(result_count)s Episodes"
 msgid_plural "All %(result_count)s Episodes"
@@ -2254,5 +2234,20 @@ msgstr "您的提交，正在等待版主审核，并将于短期内发布。"
 msgid ""
 "You will be automatically redirected back to the [1:Media Library] in a "
 "few seconds. Hang tight."
-msgstr "您将被自动重定向回[1：媒体库]在几秒钟。杭紧。"
+msgstr "您将被自动重定向回[1:媒体库]在几秒钟。杭紧。"
+
+#~ msgid "Slug"
+#~ msgstr "蛞蝓"
+
+#~ msgid "Enable"
+#~ msgstr "启用"
+
+#~ msgid "Administrative notes on Media:"
+#~ msgstr "管理事项--注意在媒体:"
+
+#~ msgid "Display notes"
+#~ msgstr "显示笔记"
+
+#~ msgid "Run Filter Now"
+#~ msgstr "运行过滤器现在"
 
