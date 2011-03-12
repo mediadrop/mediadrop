@@ -87,16 +87,3 @@
 	width: 472px;
 	margin: 5px 10px 5px 0;
 }
-
-
-#options_appearance_tile_background li {
-	display: block;
-	text-align: left;
-	padding: 0 120px 0;
-}
-
-#options_appearance_display_background_image_container {
-	margin-bottom: 0;
-	padding-bottom: 0;
-}
-

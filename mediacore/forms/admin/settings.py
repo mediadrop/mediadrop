@@ -53,11 +53,6 @@ navbar_colors = lambda: (
     ('black', _('Black')),
 )
 
-tile_background = lambda: (
-    ('true', _('Tile Background Image')),
-    ('false', _('Don\'t Tile Background Image')),
-)
-
 hex_validation_regex = "^#\w{3,6}$"
 # End Appearance Settings #
 
@@ -352,12 +347,6 @@ class AppearanceForm(ListForm):
                     label_text=N_('Display Background Image'),
                     css_classes=['checkbox-left'],
                     validator=Bool(if_missing='')),
-                RadioButtonList('appearance_tile_background',
-                    label_text='',
-                    suppress_label=True,
-                    options=tile_background,
-                    validator=OneOf(['true', 'false']),
-                ),
             ],
             template='./admin/settings/appearance_list_fieldset.html',
         ),

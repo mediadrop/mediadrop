@@ -48,7 +48,6 @@ appearance_settings = [
     (u'appearance_custom_css', u''),
     (u'appearance_custom_header_html', u''),
     (u'appearance_custom_footer_html', u''),
-    (u'appearance_tile_background', u'false'),
 ]
 
 def setup_app(command, conf, vars):
