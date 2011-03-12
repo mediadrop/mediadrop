@@ -26,7 +26,7 @@ from urllib import quote, unquote, urlencode
 from urlparse import urlparse
 
 from genshi.core import Stream
-from pylons import app_globals, config, request, response
+from pylons import app_globals, config, request, response, translator
 from webhelpers import date, feedgenerator, html, number, misc, text, paginate, containers
 from webhelpers.html import tags
 from webhelpers.html.builder import literal
@@ -61,7 +61,7 @@ imports = [
 ]
 
 defined = [
-    'append_class_attr', 'delete_files', 'doc_link',
+    'append_class_attr', 'best_translation', 'delete_files', 'doc_link',
     'duration_from_seconds', 'duration_to_seconds',
     'filter_library_controls', 'filter_vulgarity',
     'get_featured_category', 'gravatar_from_email', 'is_admin', 'js',
@@ -369,3 +369,20 @@ def filter_vulgarity(text):
             return '*' * len(word)
         text = word_expr.sub(word_replacer, text)
     return text
+
+def best_translation(a, b):
+    """Return the best translation given a preferred and a fallback string.
+
+    If we have a translation for our preferred string 'a' or if we are using
+    English, return 'a'. Otherwise, return a translation for the fallback string 'b'.
+
+    :param a: The preferred string to translate.
+    :param b: The fallback string to translate.
+    :returns: The best translation
+    :rtype: string
+    """
+    translated_a = _(a)
+    if a != translated_a or translator.locale.language == 'en':
+        return translated_a
+    else:
+        return _(b)
