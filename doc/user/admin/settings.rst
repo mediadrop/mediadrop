@@ -116,6 +116,7 @@ Flash or HTML5 player, if possible.
 
 When choosing which media file to display, the following criteria are applied
 (in order of importance):
+
    1. Video will be preferred over Audio
    2. Files that will play in the preferred player get priority.
    3. Embedded files (YouTube/Vimeo/etc.) get priority.
