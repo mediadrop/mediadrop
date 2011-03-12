@@ -79,9 +79,13 @@ table.field-list .err {
 table.field-list .noerr {
 	background: url('../images/uploader/check.png') no-repeat right center;
 }
+div#browse-button {
+	display: none;
+}
 div#browse-button.active,
 div#browse-button.enabled,
 div#browse-button.browse-button-hover {
+	display: block;
 	float: left;
 	width: 202px;
 	height: 34px;
