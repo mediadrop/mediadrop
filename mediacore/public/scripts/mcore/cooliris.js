@@ -32,10 +32,12 @@ goog.require('mcore.fx.SlideIntoView');
  * @param {number} width Flash object width.
  * @param {number} height Flash object height.
  * @param {Object} flashVars Cooliris config vars.
+ * @param {Element|string} opt_activeFeedButton Feed button to highlight
+ *     initially, if any.
  * @constructor
  * @extends {goog.ui.Component}
  */
-mcore.Cooliris = function(width, height, flashVars, activeFeedID) {
+mcore.Cooliris = function(width, height, flashVars, opt_activeFeedButton) {
   goog.base(this);
 
   /**
@@ -59,18 +61,9 @@ mcore.Cooliris = function(width, height, flashVars, activeFeedID) {
    */
   this.feedUrl_ = flashVars['feed'];
 
-  /**
-   * The current selected feed element
-   * @type {Element}
-   * @private
-   */
-  if (activeFeedID) {
-    this.activeFeedButton_ = this.dom_.getElement(activeFeedID);
-    this.setActiveFeed(activeFeedID)
-  } else {
-    this.activeFeedButton_ = this.dom_.getElement('cooliris-feed-featured');
+  if (opt_activeFeedButton) {
+    this.setActiveFeed(opt_activeFeedButton);
   }
-
 };
 goog.inherits(mcore.Cooliris, goog.ui.Component);
 
@@ -81,16 +74,31 @@ goog.inherits(mcore.Cooliris, goog.ui.Component);
  */
 mcore.Cooliris.FLASH_URL = 'http://apps.cooliris.com/embed/cooliris.swf';
 
+
+/**
+ * The current selected feed element
+ * @type {Element}
+ * @private
+ */
+mcore.Cooliris.prototype.activeFeedButton_ = null;
+
+
 /**
  * Hilight the currently selected CoolIris feed
- * @param {!string} activeFeedID ID of feed to hilight
+ * @param {string|Element} activeFeedID ID of feed to hilight.
  * @protected
  */
 mcore.Cooliris.prototype.setActiveFeed = function(activeFeedID) {
-    var active = this.dom_.getElement(activeFeedID);
+  if (this.activeFeedButton_) {
+    goog.dom.classes.remove(this.activeFeedButton_, 'cooliris-feed-active');
+  }
+  var active = this.dom_.getElement(activeFeedID);
+  if (active) {
     goog.dom.classes.add(active, 'cooliris-feed-active');
-    this.activeFeedButton_ = active;
-}
+  }
+  this.activeFeedButton_ = active;
+};
+
 
 /**
  * Check that flash is installed before decorating and hide the element if not.
@@ -173,9 +181,6 @@ mcore.Cooliris.prototype.handleNavClick_ = function(e) {
     if (feed && feed != this.feedUrl_) {
       goog.global['cooliris']['embed']['setFeedURL'](feed);
       this.feedUrl_ = feed;
-      if (this.activeFeedButton_) {
-        goog.dom.classes.remove(this.activeFeedButton_, 'cooliris-feed-active');
-      }
       this.setActiveFeed(btn.id);
     }
   }
