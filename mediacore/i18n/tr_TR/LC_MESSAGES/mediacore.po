@@ -44,7 +44,7 @@ msgstr ""
 #: mediacore/controllers/admin/media.py:391
 #, python-format
 msgid "File \"%s\" does not exist."
-msgstr "\"%s\" isimli dosya bulunamadı.\n"
+msgstr "\"%s\" isimli dosya bulunamadı."
 
 #: mediacore/controllers/admin/media.py:413
 msgid "No action to perform."
@@ -209,10 +209,7 @@ msgstr "Sil"
 #: mediacore/templates/media/view.html:66
 msgid "Comment"
 msgid_plural "Comments"
-msgstr[0] ""
-"one: Yorum\n"
-"\n"
-"other: Yorumlar"
+msgstr[0] "Yorum"
 
 #: mediacore/forms/admin/media.py:41
 msgid "Bad duration formatting, use Hour:Min:Sec"
@@ -998,7 +995,7 @@ msgstr "[1:Anasayfa] geri dön."
 
 #: mediacore/templates/error.html:41
 msgid "Return to the [1:media page]."
-msgstr "[ 1:Medya sayfası] geri dön."
+msgstr "[1:Medya sayfası] geri dön."
 
 #: mediacore/templates/error.html:42
 msgid "Fill out an error report below."
@@ -1022,10 +1019,7 @@ msgstr "Hata Raporu Gönder"
 #: mediacore/templates/players/html5_or_flash.html:33
 msgid "Like"
 msgid_plural "Likes"
-msgstr[0] ""
-"one: Beğeni\n"
-"\n"
-"other: Beğeni"
+msgstr[0] "Beğeni"
 
 #: mediacore/templates/helpers.html:40
 #: mediacore/templates/admin/media/update-status-form.html:27
@@ -1034,10 +1028,7 @@ msgstr[0] ""
 #: mediacore/templates/media/view.html:61
 msgid "View"
 msgid_plural "Views"
-msgstr[0] ""
-"one: Görüntüleme\n"
-"\n"
-"other: Görüntüleme"
+msgstr[0] "Görüntüleme"
 
 #: mediacore/templates/helpers.html:60
 msgid "Page:"
@@ -1087,7 +1078,7 @@ msgstr "Feedler:"
 
 #: mediacore/templates/layout.html:58
 msgid "[1:MediaCore] [2:video platform]"
-msgstr "[1: MediaCore] [2 video platformu]"
+msgstr "[1:MediaCore] [2:video platformu]"
 
 #: mediacore/templates/login.html:23
 msgid "Login to MediaCore"
