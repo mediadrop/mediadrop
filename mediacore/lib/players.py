@@ -500,6 +500,7 @@ class YoutubeFlashPlayer(AbstractFlashEmbedPlayer):
         'rel': 0,
         'showsearch': 0,
         'showinfo': 0,
+        'autohide': 0,
     }
 
     _height_diff = 25

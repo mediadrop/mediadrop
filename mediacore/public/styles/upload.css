@@ -17,7 +17,7 @@
 form#upload-form, div#bottombar {
 	width: 690px;
 	float: left;
-	margin-bottom: 0.5em;
+	margin-bottom: 1.0em;
 }
 
 .xhtml-description-helper {

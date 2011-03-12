@@ -39,9 +39,7 @@
 		<h1 py:when="True" id="mcore-logo">
 			<a href="${h.url_for('/')}">${g.settings['general_site_name']}</a>
 		</h1>
-		<div py:otherwise="" id="mcore-site-title" py:with="tagline = g.settings['general_tag_line']">
-			<h1><a class="mcore-link underline-hover" href="${h.url_for('/')}">${g.settings['general_site_name']}</a></h1>
-			<div id="mcore-tagline" py:if="tagline">${tagline}</div>
+		<div py:otherwise="" id="mcore-site-title">
 		</div>
 	</py:choose>
 

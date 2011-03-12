@@ -53,6 +53,11 @@ navbar_colors = lambda: (
     ('black', _('Black')),
 )
 
+tile_background = lambda: (
+    ('true', _('Tile Background Image')),
+    ('false', _('Don\'t Tile Background Image')),
+)
+
 hex_validation_regex = "^#\w{3,6}$"
 # End Appearance Settings #
 
@@ -207,8 +212,6 @@ class GeneralForm(ListForm):
         ListFieldSet('general', suppress_label=True, legend=N_('General Settings:'), css_classes=['details_fieldset'], children=[
             TextField('general_site_name', maxlength=255,
                 label_text=N_('Site Name')),
-            TextField('general_tag_line', maxlength=255,
-                label_text=N_('Site Tag Line')),
             SingleSelectField('general_site_title_display_order',
                 label_text=N_('Display Site Name'),
                 options=title_options,
@@ -349,6 +352,12 @@ class AppearanceForm(ListForm):
                     label_text=N_('Display Background Image'),
                     css_classes=['checkbox-left'],
                     validator=Bool(if_missing='')),
+                RadioButtonList('appearance_tile_background',
+                    label_text='',
+                    suppress_label=True,
+                    options=tile_background,
+                    validator=OneOf(['true', 'false']),
+                ),
             ],
             template='./admin/settings/appearance_list_fieldset.html',
         ),

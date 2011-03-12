@@ -48,6 +48,7 @@ appearance_settings = [
     (u'appearance_custom_css', u''),
     (u'appearance_custom_header_html', u''),
     (u'appearance_custom_footer_html', u''),
+    (u'appearance_tile_background', u'false'),
 ]
 
 def setup_app(command, conf, vars):
@@ -158,7 +159,6 @@ def add_default_data():
         (u'api_media_max_results', u'50'),
         (u'api_tree_max_depth', u'10'),
         (u'general_site_name', u'MediaCore'),
-        (u'general_tag_line', u''),
         (u'general_site_title_display_order', u'Prepend'),
         (u'sitemaps_display', u'True'),
         (u'rss_display', u'True'),
