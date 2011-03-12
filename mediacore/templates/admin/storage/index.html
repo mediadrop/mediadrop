@@ -38,8 +38,7 @@
 		}
 
 		function getTR(target) {
-			// XXX: This is explicitly dependent on the structure of the table#storage-table below
-			return target.parentNode.parentNode.parentNode;
+			return target.getParent('tr');
 		}
 
 		function getTDs(target) {
