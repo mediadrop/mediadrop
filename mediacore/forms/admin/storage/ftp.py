@@ -63,7 +63,7 @@ class FTPStorageForm(StorageForm):
         ftp.setdefault('upload_integrity_retries', data.get(FTP_MAX_INTEGRITY_RETRIES, None))
         ftp.setdefault('http_download_uri', data.get(HTTP_DOWNLOAD_URI, None))
         ftp.setdefault('rtmp_server_uri', data.get(RTMP_SERVER_URI, None))
-        return StorageForm.display(self, value, **kwargs)
+        return StorageForm.display(self, value, engine, **kwargs)
 
     def save_engine_params(self, engine, **kwargs):
         """Map validated field values to engine data.

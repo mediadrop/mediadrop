@@ -97,7 +97,7 @@ class RemoteURLStorageForm(StorageForm):
         """
         rtmp = value.setdefault('rtmp', {})
         rtmp.setdefault('known_servers', engine._data.get('rtmp_server_uris', ()))
-        return StorageForm.display(self, value, **kwargs)
+        return StorageForm.display(self, value, engine, **kwargs)
 
     def save_engine_params(self, engine, **kwargs):
         """Map validated field values to engine data.

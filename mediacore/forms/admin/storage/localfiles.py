@@ -52,7 +52,7 @@ class LocalFileStorageForm(StorageForm):
         specifics = value.setdefault('specifics', {})
         specifics.setdefault('path', engine._data.get('path', None))
         specifics.setdefault('rtmp_server_uri', engine._data.get('rtmp_server_uri', None))
-        return StorageForm.display(self, value, **kwargs)
+        return StorageForm.display(self, value, engine, **kwargs)
 
     def save_engine_params(self, engine, **kwargs):
         """Map validated field values to engine data.
