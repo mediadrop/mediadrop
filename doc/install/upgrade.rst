@@ -25,6 +25,11 @@ directory and Installation directory, respectively.
 the correct versions for your installation. For example, with `MediaCore-0.8.2`
 and `MediaCore-0.9.0`, respectively.
 
+**NOTE 4:** If you're a developer type, and you're tracking the latest changes
+using git, you'll want to run `paster setup-app development.ini` after fetching
+any new changes. This will ensure that your custom appearance css and your
+Players table are up to date.
+
 
 Step 1: Re-Create Your Virtual Environment
 ------------------------------------------

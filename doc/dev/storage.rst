@@ -4,19 +4,21 @@
 Media Storage API
 =================
 
-MediaCore was designed with the knowledge that different users would have
-different storage needs. By default, MediaCore supports hosting media files on
-third-party services (like blip.tv, Dailymotion, Google video, Vimeo, YouTube)
-or via any direct HTTP, HTTPS, or RTMP url to a media file. MediaCore also
-supports, out of the box, automatically transferring uploaded media files to a
-remote FTP server, if that FTP server makes the files available at an HTTP url.
-And, of course, MediaCore supports locally storing uploaded files on your
-server.
+There are many, many ways to host media on the Internet. MediaCore supports a
+bunch of them right out-of-the-box, but we wanted to make it simple to add
+support for new methods.
 
-While this breadth of options is designed to match the majority of needs, it is
-far from a complete list of storage possibilities. As such, we have designed
-the storage system in MediaCore to be easily extensible, so that other options
-can be added with as little trouble as possible.
+By default, MediaCore supports hosting media files:
+
+* on third-party services (like blip.tv, Dailymotion, Google video, Vimeo, YouTube)
+* via any direct HTTP, HTTPS, or RTMP url to a media file
+* locally, by serving uploaded files via the same webserver as MediaCore
+
+MediaCore can also automatically transfer uploaded media files to a
+remote FTP server, if that FTP server makes the files available at an HTTP url.
+
+All of these options are implemented using MediaCore's Storage Engine API.
+This API is designed to make it simple for new storage methods to be added.
 
 The Storage Engine system is located in :mod:`mediacore.lib.storage` and the
 API is defined by the abstract class
