@@ -569,6 +569,7 @@ a:focus .grid-title {
 #media-sidebar {
 	position: relative;
 	z-index: 4;
+	float: right;
 }
 
 .mcore-playerbox {
