@@ -158,11 +158,11 @@ def add_default_data():
         (u'api_media_max_results', u'50'),
         (u'api_tree_max_depth', u'10'),
         (u'general_site_name', u'MediaCore'),
-        (u'general_site_title_display_order', u'Prepend'),
+        (u'general_site_title_display_order', u'prepend'),
         (u'sitemaps_display', u'True'),
         (u'rss_display', u'True'),
         (u'vulgarity_filtered_words', u''),
-        (u'primary_language', u''),
+        (u'primary_language', u'en'),
         (u'advertising_banner_html', u''),
         (u'advertising_sidebar_html', u''),
     ]
