@@ -170,9 +170,9 @@ var MediaMetaForm = new Class({
 	initialize: function(el, opts){
 		this.parent(el, opts);
 		var podSelect = $(this.form.elements['podcast']);
-/*		if (podSelect.options.length <= 1) {
+		if ((podSelect.type == 'hidden' && $$('#podcast-dropdown ol li').length <= 1) || (podSelect.options && podSelect.options.length <= 1)) {
 			podSelect.getParent('li').hide();
-		}*/
+		}
 		this.notesArea = new DynamicTextarea(this.form.elements['notes']);
 		var desc = $(this.form.elements['description']);
 		if (!desc.hasClass('tinymcearea')) {
