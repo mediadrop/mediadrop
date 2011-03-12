@@ -1029,7 +1029,7 @@ msgstr "لديك عدد قليل من الخيارات:"
 
 #: mediacore/templates/error.html:40
 msgid "Return to the [1:homepage]."
-msgstr "العودة إلى [1 : الصفحة الرئيسية]."
+msgstr "العودة إلى [1:الصفحة الرئيسية]."
 
 #: mediacore/templates/error.html:41
 msgid "Return to the [1:media page]."
