@@ -146,9 +146,9 @@ mcore.players.ColumnViewResizer.prototype.setExpanded = function(expanded) {
 
   var container = this.dom_.getElement('media-box');
   var sidebar = this.dom_.getElement('media-sidebar');
-  var padding = this.expanded ? goog.style.getSize(container).height + 15 : 0;
+  var margin = this.expanded ? goog.style.getSize(container).height + 15 : 0;
 
-  sidebar.style.paddingTop = padding + 'px';
+  sidebar.style.marginTop = margin + 'px';
   goog.dom.classes.enable(container, 'media-norm', !this.expanded);
   goog.dom.classes.enable(container, 'media-wide', this.expanded);
 };
