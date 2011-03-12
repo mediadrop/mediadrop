@@ -14,7 +14,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import sys
-from types import NoneType
 
 # Module description following the guidelines at:
 # http://bayes.colorado.edu/PythonGuidelines.html#module_formatting
