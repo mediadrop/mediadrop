@@ -179,6 +179,10 @@ Examples:
 Python Example
 --------------
 
+The following Python code fetches the first 6 videos published in February,
+2011, and outputs a simple HTML snippet with a thumbnail, title, link, and
+short description of each video.
+
 .. sourcecode:: python
 
    import urllib
@@ -225,6 +229,10 @@ Python Example
 
 PHP Example
 -----------
+
+The following PHP code fetches the first 6 videos published in February,
+2011, and outputs a simple HTML snippet with a thumbnail, title, link, and
+short description of each video.
 
 .. sourcecode:: php
 
