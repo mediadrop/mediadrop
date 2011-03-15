@@ -111,7 +111,7 @@ b. If you are upgrading from MediaCore **0.9.0 or newer**, you'll need to
       cd ..
 
       # Move over the old files
-      mv ./MediaCore-OLD/data/media/* ./MediaCore-NEW/data/deleted/
+      mv ./MediaCore-OLD/data/media/* ./MediaCore-NEW/data/media/
       mv ./MediaCore-OLD/data/deleted/* ./MediaCore-NEW/data/deleted/
       mv ./MediaCore-OLD/data/appearance/* ./MediaCore-NEW/data/appearance/
       mv ./MediaCore-OLD/data/images/media/[0-9]* ./MediaCore-NEW/data/images/media/
