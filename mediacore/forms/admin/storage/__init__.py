@@ -69,7 +69,7 @@ class StorageForm(ListForm):
         general = value.setdefault('general', {})
         if not general.get('display_name', None):
             general['display_name'] = engine.display_name
-        return ListForm.display(self, value, **kwargs)
+        return ListForm.display(self, value, engine=engine, **kwargs)
 
     def save_engine_params(self, engine, general, **kwargs):
         """Map validated field values to engine data.
