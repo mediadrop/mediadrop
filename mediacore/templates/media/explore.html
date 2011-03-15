@@ -79,11 +79,11 @@
 		</script>
 	</py:if>
 		<div id="explore-popular" class="m-grid-column" style="margin-right:20px">
-			<py:if test="g.settings['appearance_enable_featured_items']">
+			<py:if test="featured and g.settings['appearance_enable_featured_items']">
 			<h2><span class="mcore-heading uppercase">Featured</span></h2>
 			<div class="feat-box">
 				<div class="feat-top" />
-				<div py:if="featured" class="feat-content clearfix">
+				<div class="feat-content clearfix">
 					${h.media_player(featured, width=410, height=231)}
 					<h3><a class="underline-hover" href="${h.url_for(controller='/media', action='view', slug=featured.slug)}">${featured.title}</a></h3>
 					<div class="feat-meta">
@@ -116,10 +116,6 @@
 			<ul py:replace="media_grid(latest, thumb_size='m', desc_len=135)" />
 			<a class="mcore-btn mcore-btn-grey mcore-btn-more" href="${h.url_for(action='index', show='latest')}"><span>${h.best_translation(N_('More new media'), N_('View More'))}</span></a>
 		</div>
-
-		<p py:if="not (featured or latest or popular)">
-			There are no media items published yet!
-		</p>
 	</div>
 </body>
 </html>
