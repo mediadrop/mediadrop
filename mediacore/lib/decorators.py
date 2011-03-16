@@ -576,17 +576,70 @@ def memoize(func):
 
 @decorator
 def autocommit(func, *args, **kwargs):
-    """Automatically handle database transactions for decorated controller actions"""
+    """Handle database transactions for the decorated controller actions.
+
+    This decorator supports firing callbacks immediately after the
+    transaction is committed or rolled back. This is useful when some
+    external process needs to be called to process some new data, since
+    it should only be called once that data is readable by new transactions.
+
+    .. note:: If your callback makes modifications to the database, you must
+        manually handle the transaction, or apply the @autocommit decorator
+        to the callback itself.
+
+    On the ingress, two attributes are added to the :class:`webob.Request`:
+
+        ``request.commit_callbacks``
+            A list of callback functions that should be called immediately
+            after the DBSession has been committed by this decorator.
+
+        ``request.rollback_callbacks``
+            A list of callback functions that should be called immediately
+            after the DBSession has been rolled back by this decorator.
+
+    On the egress, we determine which callbacks should be called, remove
+    the above attributes from the request, and then call the appropriate
+    callbacks.
+
+    """
+    req = request._current_obj()
+    req.commit_callbacks = []
+    req.rollback_callbacks = []
     try:
         result = func(*args, **kwargs)
     except HTTPException, e:
         if 200 <= e.code < 400:
-            DBSession.commit()
+            _autocommit_commit(req)
         else:
-            DBSession.rollback()
+            _autocommit_rollback(req)
         raise
     except:
-        DBSession.rollback()
+        _autocommit_rollback(req)
         raise
-    DBSession.commit()
-    return result
+    else:
+        _autocommit_commit(req)
+        return result
+
+def _autocommit_commit(req):
+    try:
+        DBSession.commit()
+    except:
+        _autocommit_rollback(req)
+        raise
+    else:
+        _autocommit_fire_callbacks(req, req.commit_callbacks)
+
+def _autocommit_rollback(req):
+    DBSession.rollback()
+    _autocommit_fire_callbacks(req, req.rollback_callbacks)
+
+def _autocommit_fire_callbacks(req, callbacks):
+    # Clear the callback lists from the request so doing crazy things
+    # like applying the autocommit decorator to an autocommit callback won't
+    # conflict.
+    del req.commit_callbacks
+    del req.rollback_callbacks
+    if callbacks:
+        log.debug('@autocommit firing these callbacks: %r', callbacks)
+        for cb in callbacks:
+            cb()
