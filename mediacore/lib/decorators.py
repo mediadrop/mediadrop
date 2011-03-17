@@ -88,11 +88,11 @@ def _expose_wrapper(f, template, request_method=None, permission=None):
         result = f(*args, **kwargs)
         tmpl = template
 
-        if tmpl == 'string':
-            return result
-
         if hasattr(request, 'override_template'):
             tmpl = request.override_template
+
+        if tmpl == 'string':
+            return result
 
         if tmpl == 'json':
             if isinstance(result, (list, tuple)):
