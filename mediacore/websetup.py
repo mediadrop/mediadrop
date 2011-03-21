@@ -297,7 +297,7 @@ def add_default_data():
     ]
 
     name = u'MediaCore Team'
-    email = u'info@simplestation.com'
+    email = u'info@mediacore.com'
     for slug, title, desc, desc_plain, publish_on, duration, url, type_, container in instructional_media:
         media = Media()
         media.author = Author(name, email)

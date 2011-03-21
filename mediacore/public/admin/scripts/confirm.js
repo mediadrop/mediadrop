@@ -20,7 +20,7 @@
  * @requires   mootools-1.2-core.js
  * @requires   squeezebox.js
  *
- * @author     Mel Wright <mel@simplestation.com>
+ * @author     Mel Wright <mel@mediacore.com>
  * @version    $Id$
  * @copyright  Copyright (c) 2009, Simple Station Inc.
  */

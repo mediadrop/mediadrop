@@ -20,7 +20,7 @@ SQLAlchemy ORM definitions for:
 
 * :class:`Podcast`
 
-.. moduleauthor:: Nathan Wright <nathan@simplestation.com>
+.. moduleauthor:: Nathan Wright <nathan@mediacore.com>
 
 """
 from datetime import datetime

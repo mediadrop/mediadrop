@@ -33,7 +33,7 @@ String.implement({
  *      Add a prefix for all IDs by: $('my-form').store('fieldPrefix', 'my-form-')
  *      You can always avoid all this by calling Element.get('fieldValue') directly on your fields.
  *
- * @author Nathan Wright <nathan@simplestation.com>
+ * @author Nathan Wright <nathan@mediacore.com>
  */
 Element.Properties.formValues = {
 
@@ -72,7 +72,7 @@ Element.Properties.formValues = {
  * <input/textarea/select> and <ul/ol> checkbox/radio value property.
  * Gets and sets scalar and list values, depending on the field type.
  *
- * @author Nathan Wright <nathan@simplestation.com>
+ * @author Nathan Wright <nathan@mediacore.com>
  */
 (function(){
 

@@ -44,7 +44,7 @@ if sys.version_info < (2, 7):
     # importlib is included in Python 2.7
     # however we can't do try/import/except because this might generate eggs
     # with missing requires which can not be used in other environments
-    # see https://github.com/simplestation/mediacore/issues#issue/44
+    # see https://github.com/mediacore/mediacore/issues#issue/44
     install_requires.append('importlib')
 
 if sys.version_info < (2, 5):

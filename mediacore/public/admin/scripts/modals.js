@@ -18,7 +18,7 @@
 /**
  * A Popup Form
  *
- * @author Nathan Wright <nathan@simplestation.com>
+ * @author Nathan Wright <nathan@mediacore.com>
  */
 
 var Modal = new Class({

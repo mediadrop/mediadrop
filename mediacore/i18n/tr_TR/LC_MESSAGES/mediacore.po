@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MediaCore Video Platform\n"
-"Report-Msgid-Bugs-To: http://github.com/simplestation/mediacore/issues\n"
+"Report-Msgid-Bugs-To: http://github.com/mediacore/mediacore/issues\n"
 "POT-Creation-Date: 2011-01-21 15:28+0800\n"
 "PO-Revision-Date: 2011-03-11 15:56-0800\n"
 "Last-Translator: dugurca <dugurca@gmail.com>\n"

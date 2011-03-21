@@ -23,7 +23,7 @@
  *  - Element.Shortcuts
  *  - Selectors
  *
- * @author Nathan Wright <nathan@simplestation.com>
+ * @author Nathan Wright <nathan@mediacore.com>
  */
 var TableManager = new Class({
 

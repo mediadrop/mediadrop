@@ -24,7 +24,7 @@ SQLAlchemy ORM definitions for:
 Additionally, :class:`Media` may be considered at podcast episode if it
 belongs to a :class:`mediacore.model.podcasts.Podcast`.
 
-.. moduleauthor:: Nathan Wright <nathan@simplestation.com>
+.. moduleauthor:: Nathan Wright <nathan@mediacore.com>
 
 """
 
