@@ -440,6 +440,7 @@ a.btn.table-row:visited {
 }
 .btn.table-row.published {
 	width: 28px;
+	background-image: url('../images/layout/btn-table-published.png');
 }
 .btn.table-row.delete {
 	width: 26px;
@@ -455,7 +456,8 @@ a.btn.table-row:visited {
 }
 .btn.table-row.delete span,
 .btn.table-row.delete-solo span,
-.btn.table-row.publish span {
+.btn.table-row.publish span,
+.btn.table-row.published span {
 	text-indent: -5000px;
 	background: none;
 }
