@@ -67,8 +67,8 @@ def send(to_addrs, from_addr, subject, body):
     :type body: unicode
     """
     server = smtplib.SMTP('localhost')
-    if isinstance(to_addr, basestring):
-        to_addr = parse_email_string(to_addr)
+    if isinstance(to_addrs, basestring):
+        to_addrs = parse_email_string(to_addrs)
 
     to_addrs = ", ".join(to_addrs)
 
@@ -77,7 +77,7 @@ def send(to_addrs, from_addr, subject, body):
            "Subject: %(subject)s\n\n"
            "%(body)s\n") % locals()
 
-    server.sendmail(from_addr, to_addr, msg.encode('utf-8'))
+    server.sendmail(from_addr, to_addrs, msg.encode('utf-8'))
     server.quit()
 
 
