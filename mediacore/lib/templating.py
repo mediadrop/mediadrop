@@ -18,7 +18,7 @@ import os.path
 
 from genshi import Markup, XML
 from genshi.output import XHTMLSerializer
-from genshi.template import Template, NewTextTemplate
+from genshi.template import Template, TemplateError, NewTextTemplate
 from genshi.template.loader import (directory,
     TemplateLoader as _TemplateLoader, TemplateNotFound)
 from pylons import app_globals, config, request, response, tmpl_context, translator
