@@ -13,15 +13,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-__all__ = ['EmbedURLValidator', 'UploadForm']
+from tw.api import WidgetsList
+from tw.forms.validators import FieldStorageUploadConverter
 
-import os.path
-
-from tw.api import WidgetsList, CSSLink
-from tw.forms.validators import NotEmpty, FieldStorageUploadConverter
-from pylons import config
-
-from mediacore.lib import helpers
 from mediacore.lib.i18n import N_
 from mediacore.forms import ListForm, TextField, XHTMLTextArea, FileField, SubmitButton, email_validator
 from mediacore.plugin import events

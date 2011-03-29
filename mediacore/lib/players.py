@@ -197,7 +197,7 @@ class FlashRenderMixin(object):
         tag = Element('embed', type='application/x-shockwave-flash',
                       allowfullscreen='true', allowscriptaccess='always',
                       width=self.adjusted_width, height=self.adjusted_height,
-                      src=swf_url, flashvars=flashvars, id=elem_id)
+                      src=swf_url, flashvars=flashvars, id=self.elem_id)
         if error_text:
             tag(error_text)
         return tag
@@ -208,7 +208,7 @@ class FlashRenderMixin(object):
 
         tag = Element('object', type='application/x-shockwave-flash',
                       width=self.adjusted_width, height=self.adjusted_height,
-                      data=swf_url, id=elem_id)
+                      data=swf_url, id=self.elem_id)
         tag(Element('param', name='movie', value=swf_url))
         tag(Element('param', name='flashvars', value=flashvars))
         tag(Element('param', name='allowfullscreen', value='true'))

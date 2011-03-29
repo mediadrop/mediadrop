@@ -13,21 +13,20 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import formencode
 
 from pylons import app_globals
 from tw.api import WidgetsList
+from formencode import Invalid
 from formencode.validators import FancyValidator, URL
-from tw.forms import HiddenField, RadioButtonList, SingleSelectField
-from tw.forms.core import DefaultValidator
-from tw.forms.validators import Int, StringBool, NotEmpty, DateTimeConverter, FieldStorageUploadConverter, OneOf
+from tw.forms import HiddenField, SingleSelectField
+from tw.forms.validators import Int, DateTimeConverter, FieldStorageUploadConverter, OneOf
 
 from mediacore.lib import helpers
 from mediacore.lib.filetypes import registered_media_types
 from mediacore.lib.i18n import N_, _
-from mediacore.forms import FileField, Form, ListFieldSet, ListForm, SubmitButton, TextArea, TextField, XHTMLTextArea, email_validator
+from mediacore.forms import FileField, Form, ListForm, SubmitButton, TextArea, TextField, XHTMLTextArea, email_validator
 from mediacore.forms.admin.categories import CategoryCheckBoxList
-from mediacore.model import Category, DBSession, MediaFile, Podcast
+from mediacore.model import Category, DBSession, Podcast
 from mediacore.plugin import events
 
 class DurationValidator(FancyValidator):
@@ -41,7 +40,7 @@ class DurationValidator(FancyValidator):
             msg = _('Bad duration formatting, use Hour:Min:Sec')
             # Colons have special meaning in error messages
             msg.replace(':', '&#058;')
-            raise formencode.Invalid(msg, value, state)
+            raise Invalid(msg, value, state)
 
     def _from_python(self, value, state):
         return helpers.duration_from_seconds(value)
@@ -65,7 +64,7 @@ class WXHValidator(FancyValidator):
         try:
             width, height = value.split('x')
         except ValueError, e:
-            raise formencode.Invalid(
+            raise Invalid(
                 _('Value must be in the format wxh; e.g. 200x300'),
                 value, state)
         errors = []
@@ -78,7 +77,7 @@ class WXHValidator(FancyValidator):
         except ValueError, e:
             errors.append(_('Height must be a valid integer'))
         if errors:
-            raise formencode.Invalid(u'; '.join(errors), value, state)
+            raise Invalid(u'; '.join(errors), value, state)
 
         if (width, height) == (0, 0):
             return (None, None)

@@ -14,7 +14,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from formencode import Invalid
-from formencode.validators import FancyValidator, Int
+from formencode.validators import FancyValidator
 from tw.api import JSSource
 from tw.forms import FormFieldRepeater
 
