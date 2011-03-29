@@ -48,7 +48,8 @@ a.mcore-nav-link.active {
 .mcore-nav-link > span {
 	background: url('../images/ui-kit/${navbar_color}/nav-btn-bg.png') repeat-x;
 }
-.mcore-nav-link > em {
+.mcore-nav-link > em,
+.mcore-nav-link-sep {
 	background: url('../images/ui-kit/${navbar_color}/nav-btn-edge-inner.png') no-repeat 0px 0;
 }
 .mcore-nav-search {

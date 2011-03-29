@@ -152,7 +152,8 @@ a:hover {
 .mcore-nav > li {
 	float: left;
 }
-.mcore-nav-link {
+.mcore-nav-link,
+.mcore-nav-link-sep {
 	display: block;
 	height: 38px;
 	text-decoration: none;
@@ -581,6 +582,17 @@ a:focus .grid-title {
 }
 .mcore-playerbar .mcore-nav {
 	width: 100%;
+}
+.mcore-playerbar li {
+	position: relative;
+}
+.mcore-playerbar .mcore-nav-link-sep {
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 5px;
+	margin-right: -5px;
+	background-position: -5px 0;
 }
 .mcore-playerbar > .mcore-nav > li {
 	position: relative;

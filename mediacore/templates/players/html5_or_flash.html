@@ -17,7 +17,17 @@
       xmlns:py="http://genshi.edgewall.org/"
       xmlns:i18n="http://genshi.edgewall.org/i18n"
       xmlns:xi="http://www.w3.org/2001/XInclude"
-      py:strip="">
+      py:strip=""
+      py:with="download_uris = show_download and sorted((uri for uri in (h.download_uri(file) for file in media.files) if uri), key=lambda uri: uri.file.size);
+               embed_code = show_embed and h.embed_iframe(media);
+               show_like = g.settings['appearance_show_like'] and show_like;
+               show_dislike = g.settings['appearance_show_dislike'] and show_dislike;
+               show_popout = g.settings['appearance_show_popout'] and show_popout;
+               show_resize = g.settings['appearance_show_widescreen'] and show_resize;
+               show_share = g.settings['appearance_show_share'] and show_share;
+               show_embed = g.settings['appearance_show_embed'] and show_embed and embed_code;
+               show_download = g.settings['appearance_show_download'] and show_download and download_uris;
+               show_playerbar = show_playerbar and (show_like or show_dislike or show_popout or show_resize or show_share or show_embed or show_download);">
 
 	<xi:include py:for="tmpl in value_of('plugin_templates', ())" href="${tmpl}" />
 
@@ -25,16 +35,15 @@
 		<div class="mcore-playerbox">
 			${player.render_markup()}
 		</div>
-		<div py:if="show_playerbar" class="mcore-playerbar" py:with="
-			download_uris = show_download and sorted((uri for uri in (h.download_uri(file) for file in media.files) if uri), key=lambda uri: uri.file.size);
-			embed_code = show_embed and h.embed_iframe(media);
-		">
+		<div py:if="show_playerbar" class="mcore-playerbar">
 			<ul class="mcore-nav">
-				<li py:if="show_like" class="mcore-nav-left"><a class="mcore-nav-link mcore-like" href="${h.url_for(controller='/media', action='rate', up=1, slug=media.slug)}" title="${ungettext('Like', 'Likes', 1)}"><span><span class="mcore-btn-like">${ungettext('Like', 'Likes', 1)}</span></span><em /></a></li>
-				<li py:if="show_dislike"><a class="mcore-nav-link mcore-dislike f-lft" href="${h.url_for(controller='/media', action='rate', down=1, slug=media.slug)}" title="${ungettext('Dislike', 'Dislikes', 1)}"><span><span class="mcore-btn-dislike">${ungettext('Dislike', 'Dislikes', 1)}</span></span><em /></a><span class="mcore-nav-link f-lft" style="width:5px" /></li>
+				<li py:if="show_like" class="mcore-nav-left"><a class="mcore-nav-link mcore-like" href="${h.url_for(controller='/media', action='rate', up=1, slug=media.slug)}" title="${ungettext('Like', 'Likes', 1)}"><span><span class="mcore-btn-like">${ungettext('Like', 'Likes', 1)}</span></span><em /></a><span class="mcore-nav-link-sep" py:if="not show_dislike" /></li>
+				<li py:if="show_dislike" class="${not show_like and 'mcore-nav-left' or None}"><a class="mcore-nav-link mcore-dislike f-lft" href="${h.url_for(controller='/media', action='rate', down=1, slug=media.slug)}" title="${ungettext('Dislike', 'Dislikes', 1)}"><span><span class="mcore-btn-dislike">${ungettext('Dislike', 'Dislikes', 1)}</span></span><em /></a><span class="mcore-nav-link-sep" /></li>
+				<li py:if="not show_like and not show_dislike" class="mcore-nav-left"><span class="mcore-nav-link"><span></span></span></li>
+
 				<li py:if="show_popout" class="f-rgt mcore-nav-right"><a class="mcore-nav-link mcore-popout" href="${h.url_for(controller='/media', action='embed_player', slug=media.slug)}" title="Pop out a new player window"><span><span class="mcore-btn-popout">Pop Out</span></span><em /></a></li>
-				<li py:if="show_resize" class="f-rgt"><a class="mcore-nav-link mcore-resizer" href="#" title="${is_widescreen and _('Shrink') or _('Expand')}"><span><span class="mcore-btn-${is_widescreen and 'shrink' or 'expand'}">${is_widescreen and _('Shrink') or _('Expand')}</span></span><em /></a></li>
-				<li py:if="show_share" class="f-rgt">
+				<li py:if="show_resize" class="f-rgt ${not show_popout and 'mcore-nav-right' or None}"><a class="mcore-nav-link mcore-resizer" href="#" title="${is_widescreen and _('Shrink') or _('Expand')}"><span><span class="mcore-btn-${is_widescreen and 'shrink' or 'expand'}">${is_widescreen and _('Shrink') or _('Expand')}</span></span><em /></a></li>
+				<li py:if="show_share" class="f-rgt ${not (show_popout or show_resize) and 'mcore-nav-right' or None}">
 					<a class="mcore-nav-link" href="#" title="Share"><span>Share</span><em /></a>
 					<div id="sharethis-hover" class="meta-hover" py:with="current_url = h.url_for(controller='/media', action='view', slug=media.slug, qualified=True)">
 						<div class="meta-hover-top"></div>
@@ -48,7 +57,7 @@
 						</ul>
 					</div>
 				</li>
-				<li py:if="embed_code" class="f-rgt">
+				<li py:if="show_embed" class="f-rgt ${not (show_popout or show_resize or show_share) and 'mcore-nav-right' or None}">
 					<a class="mcore-nav-link" href="#" title="Embed"><span>Embed</span><em /></a>
 					<div id="embedthis-hover" class="meta-hover">
 						<div class="meta-hover-top"></div>
@@ -58,7 +67,7 @@
 						<div class="meta-hover-bottom"></div>
 					</div>
 				</li>
-				<li py:if="download_uris" class="f-rgt">
+				<li py:if="show_download" class="f-rgt ${not (show_popout or show_resize or show_share or show_embed) and 'mcore-nav-right' or None}">
 					<a class="mcore-nav-link" href="${download_uris[0]}" title="Download"><span>Download</span><em /></a>
 					<div py:if="len(download_uris) > 1" class="meta-hover">
 						<div class="meta-hover-top"></div>
