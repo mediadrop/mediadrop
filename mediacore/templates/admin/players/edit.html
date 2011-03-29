@@ -27,7 +27,7 @@
 <body>
 	<div class="box">
 		<div class="box-head">
-			<h1>${player.display_name}</h1>
+			<h1>${_(player.display_name)}</h1>
 		</div>
 		<form py:if="form" py:replace="Markup(form(form_values, player=player, action=form_action))" />
 	</div>
