@@ -385,7 +385,7 @@ def generate_appearance_css(settings, cache_dir=None):
     appearance_dir = os.path.join(cache_dir, 'appearance')
     css_path = os.path.join(appearance_dir, 'appearance.css')
 
-    vars = dict((str(k), str(v))
+    vars = dict((k.encode('utf-8'), v.encode('utf-8'))
                 for k, v in settings
                 if k.startswith('appearance_'))
     vars['uikit_colors'] = uikit_colors[
