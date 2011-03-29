@@ -22,7 +22,7 @@ from tw.api import JSLink, JSSource
 from tw.forms import FileField, TextArea as tw_TA, TextField as tw_TF
 from tw.forms.validators import Email
 
-from mediacore.lib.i18n import N_
+from mediacore.lib.i18n import N_, _
 from mediacore.lib.xhtml import clean_xhtml, decode_entities, line_break_xhtml
 from mediacore.lib.templating import tmpl_globals
 from mediacore.lib.util import url_for
@@ -176,6 +176,11 @@ tinyMCE.init({
 
     def display(self, value=None, **kwargs):
         if value:
+            # XXX: First, try to translate this string. This is necessary for
+            #      the "Legal Wording" section of the Upload settings. The
+            #      default string was extracted correctly but not translated.
+            value = _(value)
+
             value = line_break_xhtml(value)
 
         # Enable the rich text editor, if dictated by the settings:
