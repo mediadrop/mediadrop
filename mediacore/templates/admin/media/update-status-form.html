@@ -26,8 +26,7 @@
 						<py:when test="1">
 							<a href="${h.url_for(controller='/media', action='view', slug=media.slug)}"
 							   id="go-view-content"
-							   title="View this media where it is published"
-							   py:content="_('View')" />
+							   title="View this media where it is published">${ngettext('View', 'Views', 1)}</a>
 						</py:when>
 						<py:when test="0">
 							<a href="${h.url_for(controller='/media', action='view', slug=media.slug)}"
