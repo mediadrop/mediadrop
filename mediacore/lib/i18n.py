@@ -305,7 +305,7 @@ def get_available_locales():
 
     Considers only the 'mediacore' domain, not plugins.
     """
-    i18n_dir = os.path.join(config['here'], 'mediacore/i18n')
+    i18n_dir = os.path.join(config['pylons.paths']['root'], 'i18n')
     for name in os.listdir(i18n_dir):
         mo_path = os.path.join(i18n_dir, name, 'LC_MESSAGES/mediacore.mo')
         if os.path.exists(mo_path):
