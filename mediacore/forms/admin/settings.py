@@ -35,11 +35,11 @@ from mediacore.plugin import events
 from mediacore.model import MultiSetting
 
 comments_enable_disable = lambda: (
-    ('facebook', _('Facebook (Requires Facebook Application ID)')),
-    ('mediacore', _('MediaCore')),
-    ('disabled', _('Disable User Comments')),
+    ('mediacore', _("Built-in comments")),
+    ('facebook', _('Facebook comments (requires a Facebook application ID)')),
+    ('disabled', _('Disable comments')),
 )
-comments_enable_validator = OneOf(('facebook', 'mediacore', 'disabled'))
+comments_enable_validator = OneOf(('mediacore', 'facebook', 'disabled'))
 
 enable_disable = lambda: (
     ('enabled', _('Enable')),
@@ -260,18 +260,22 @@ class CommentsForm(ListForm):
             options=comments_enable_disable,
             validator=comments_enable_validator,
         ),
-        ListFieldSet('facebook', suppress_label=True, legend=N_('Facebook Settings:'), css_classes=['details_fieldset'], children=[
-            TextField('facebook_appid', label_text=N_('Facebook App ID'),
-                help_text=N_('See: http://www.facebook.com/developers/createapp.php')),
-        ]),
-        boolean_radiobuttonlist('req_comment_approval', label_text=N_('Require comments to be approved by an admin')),
-        ListFieldSet('akismet', suppress_label=True, legend=N_('Akismet Anti-Spam Details:'), css_classes=['details_fieldset'], children=[
+        ListFieldSet('builtin', suppress_label=True, legend=N_('Built-in Comments:'), css_classes=['details_fieldset'], children=[
+
+            CheckBox('req_comment_approval',
+                label_text=N_('Moderation'),
+                help_text=N_('Require comments to be approved by an admin'),
+                css_classes=['checkbox-inline-help'],
+                validator=Bool(if_missing='')),
             TextField('akismet_key', label_text=N_('Akismet Key')),
             TextField('akismet_url', label_text=N_('Akismet URL')),
-        ]),
-        ListFieldSet('vulgarity', suppress_label=True, label_text=N_('Vulgarity Filter Settings'), css_classes=['details_fieldset'], children=[
             TextArea('vulgarity_filtered_words', label_text=N_('Filtered Words'),
-                attrs=dict(rows=3, cols=15), help_text=N_('Enter words to be filtered separated by a comma.')),
+                attrs=dict(rows=3, cols=15),
+                help_text=N_('Enter words to be filtered separated by a comma.')),
+        ]),
+        ListFieldSet('facebook', suppress_label=True, legend=N_('Facebook Comments:'), css_classes=['details_fieldset'], children=[
+            TextField('facebook_appid', label_text=N_('Application ID'),
+                help_text=N_('See: http://www.facebook.com/developers/createapp.php')),
         ]),
         SubmitButton('save', default=N_('Save'), css_classes=['btn', 'btn-save', 'blue', 'f-rgt']),
     ]

@@ -88,7 +88,19 @@
 	margin: 5px 10px 5px 0;
 }
 
-/* Faceboo Settings */
-#facebook .fieldhelp {
+/* Comments Settings */
+#settings-form .details_fieldset .fieldhelp {
 	margin: 5px 120px 0;
+	color: #9b9b9b;
+}
+#settings-form .checkbox-inline-help {
+	width: auto;
+	float: left;
+	margin: 7px 0 3px 0;
+}
+#settings-form .checkbox-inline-help + .fieldhelp {
+	color: #3C4D5A;
+	margin: 5px 5px 5px 7px;
+	float: left;
+	width: auto;
 }
