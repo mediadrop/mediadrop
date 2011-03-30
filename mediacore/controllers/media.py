@@ -362,8 +362,14 @@ class MediaController(BaseController):
             response.body = ''
 
         elif method == 'nginx_redirect':
-            raise NotImplementedError, 'This is only a placeholder'
-            response.headers['X-Accel-Redirect'] = '../relative/path'
+            # Requires NGINX server configuration:
+            # NGINX must have a location block configured that matches
+            # the __mediacore_serve__ path below. It should also be
+            # configured as an "internal" location to prevent people from
+            # surfing directly to it.
+            # For more information see: http://wiki.nginx.org/XSendfile
+            redirect_filename = '/__mediacore_serve__/%s-%s' % (id, file_name)
+            response.headers['X-Accel-Redirect'] = redirect_filename.lower()
 
         else:
             app = FileApp(file_path, headers, content_type=file_type)
