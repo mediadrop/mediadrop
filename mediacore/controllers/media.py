@@ -22,7 +22,6 @@ import os.path
 from itertools import izip
 
 from akismet import Akismet
-from paste.deploy.converters import asbool
 from paste.fileapp import FileApp
 from paste.util import mimeparse
 from pylons import app_globals, config, request, response
@@ -296,7 +295,7 @@ class MediaController(BaseController):
         c.subject = 'Re: %s' % media.title
         c.body = filter_vulgarity(body)
 
-        require_review = asbool(app_globals.settings['req_comment_approval'])
+        require_review = app_globals.settings['req_comment_approval']
         if not require_review:
             c.reviewed = True
             c.publishable = True

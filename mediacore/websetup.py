@@ -159,7 +159,7 @@ def add_default_data():
         (u'ftp_upload_integrity_retries', u'10'),
         (u'akismet_key', u''),
         (u'akismet_url', u''),
-        (u'req_comment_approval', u'false'),
+        (u'req_comment_approval', u''),
         (u'use_embed_thumbnails', u'true'),
         (u'api_secret_key_required', u'true'),
         (u'api_secret_key', random_string(20)),
