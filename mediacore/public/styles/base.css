@@ -636,10 +636,12 @@ a:focus .grid-title {
 .feat-stats > .meta-views {
 	padding-left: 15px;
 }
-.feat-stats .meta-dislikes {
+.feat-stats > .meta-dislikes {
 	color: #81858b;
-	margin-right: 15px;
 	margin-left: 3px;
+}
+.feat-stats > .meta-views {
+	margin-left: 15px;
 }
 
 .contextbox {
