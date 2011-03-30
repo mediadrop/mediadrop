@@ -20,7 +20,7 @@
       py:strip="">
 
 	<py:def function="media_grid(media, id=None, thumb_size='s', title_len=60, desc_len=95)"
-	        py:with="thumb_xy = config['thumb_sizes']['media'][thumb_size]">
+	        py:with="thumb_xy = config['thumb_sizes']['media'][thumb_size]; show_like = g.settings['appearance_show_like'];">
 		<ul id="${id}" class="grid ${thumb_size}-grid">
 			<li py:for="m in media"
 			    py:with="title = h.strip_xhtml(m.title, True);
@@ -36,7 +36,7 @@
 					</span><br />
 					<span py:if="m_desc_len > 0" class="grid-desc mcore-text" py:content="h.truncate(m.description_plain, m_desc_len)">Description</span><br py:if="m_desc_len > 0" />
 					<span class="grid-meta mcore-text">
-						<span class="meta meta-likes" title="${m.likes} ${ungettext('Like', 'Likes', m.likes)}">${m.likes} <span>${ungettext('Like', 'Likes', m.likes)}</span></span>
+						<span py:if="show_like" class="meta meta-likes" title="${m.likes} ${ungettext('Like', 'Likes', m.likes)}">${m.likes} <span>${ungettext('Like', 'Likes', m.likes)}</span></span>
 						<span class="meta meta-views" title="${m.views} ${ungettext('View', 'Views', m.views)}">${m.views} <span>${ungettext('View', 'Views', m.views)}</span></span>
 					</span>
 				</a>

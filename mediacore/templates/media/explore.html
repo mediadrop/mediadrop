@@ -88,7 +88,7 @@
 					<h3><a class="underline-hover" href="${h.url_for(controller='/media', action='view', slug=featured.slug)}">${featured.title}</a></h3>
 					<div class="feat-meta">
 						<span class="meta meta-comments">${featured.comment_count_published} ${ungettext('Comment', 'Comments', featured.comment_count_published)}</span>
-						<span class="meta meta-likes"><span id="mcore-likes-counter">${featured.likes}</span> ${ungettext('Like', 'Likes', featured.likes)}</span>
+						<span py:if="g.settings['appearance_show_like']" class="meta meta-likes"><span id="mcore-likes-counter">${featured.likes}</span> ${ungettext('Like', 'Likes', featured.likes)}</span>
 						<span class="meta meta-views">${featured.views} ${ungettext('View', 'Views', featured.views)}</span>
 					</div>
 				</div>

@@ -59,8 +59,8 @@
 			</div>
 			<div class="feat-stats clearfix">
 				<div class="meta-views f-rgt">${media.views} ${ungettext('View', 'Views', media.views)}</div>
-				<div class="meta-likes f-rgt">
-					<span id="mcore-likes-counter">${media.likes}</span> ${ungettext('Like', 'Likes', media.likes)}
+				<div py:if="g.settings['appearance_show_like'] or g.settings['appearance_show_dislike']" class="meta-likes f-rgt">
+					<span py:if="g.settings['appearance_show_like']" id="mcore-likes-counter">${media.likes}</span> ${ungettext('Like', 'Likes', media.likes)}
 					<span py:if="g.settings['appearance_show_dislike']" class="meta-dislikes"><span id="mcore-dislikes-counter">${media.dislikes}</span> ${ungettext('Dislike', 'Dislikes', media.dislikes)}</span>
 				</div>
 				<div class="meta-comments f-lft"><span id="mcore-comments-counter">${media.comment_count_published}</span> ${ungettext('Comment', 'Comments', media.comment_count_published)}</div>
