@@ -270,7 +270,7 @@ production config.
    MediaCore is WSGI-based so there are many possible ways to deploy it.
    The built in Paste server does a great job for development, but you
    may want to run MediaCore from a more performant webserver.
-   Below are two of the most popular methods:
+   Below are three methods you can use to deploy MediaCore:
 
 a. ``mod_fastcgi`` is simplest and will work with most shared hosting
    environments, so long as the server has ``mod_fastcgi`` installed.
@@ -284,5 +284,12 @@ b. ``mod_wsgi`` requires root access on your server, but can be tuned
 
    .. toctree::
 
-      apache-wsgi
+       apache-wsgi
+
+c. ``uwsgi`` requires root access on your server, but provides significant
+   performance benefits including page speed and reduced memory usage.
+
+    .. toctree::
+
+       nginx-uwsgi
 
