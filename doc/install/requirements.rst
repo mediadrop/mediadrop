@@ -78,6 +78,95 @@ Virtualenv as below.
    # install the necessary libraries for creating thumbnails
    sudo apt-get install libjpeg-dev libjpeg62 libjpeg62-dev zlib1g-dev libfreetype6 libfreetype6-dev
 
+Step 1.2: First Requirements on CentOS/RHEL 5.x
+-----------------------------------------------
+
+Depending on how you configured your CentOS Distro at install time you may need
+to install the following packages:
+  * GCC
+  * make
+  * autoconf
+  * automake
+
+Just to be safe, run the following command to install any missing packages.
+Don't worry if you have some packages installed already as running the command
+will only install the ones you need, and will leave the existing ones alone.
+
+.. sourcecode:: bash
+
+   # install the necessary libraries for compiling
+   sudo yum install gcc make autoconf automake
+
+System Libraries
+
+You will also need to make sure certain system libraries are installed.
+Running the following command will install any libraries that are missing.
+
+.. sourcecode:: bash
+
+    # install any missing system libraries
+    sudo yum install libjpeg libjpeg-devel zlib zlib-devel freetype freetype-devel
+
+MySQL Requirements
+
+If you already have a working MySQL installation you are going to use, then feel
+free to skip this section. Otherwise you will need to install MySQL. You can
+install MySQL any way that you like, but we recommend a yum installation as it
+will keep things consistent and easier to maintain.
+
+You'll need to install the MySQL client, server and development libraries:
+
+.. sourcecode:: bash
+
+    # install MySQL server, client and libraries
+    sudo yum install MySQL-client MySQL-server MySQL-devel
+
+MySQL should now be installed, and by default configured to start when your
+system starts. To verify this, you can run the following comand:
+
+.. sourcecode:: bash
+
+    # verify MySQL is configured to survive reboots
+    sudo chkconfig --list mysql
+
+You should see the output from chkconfig similar to this:
+
+.. sourcecode:: bash
+
+    # sample output from chkconfig --list mysql
+    mysql        0:off        1:off        2:off        3:on        4:on        5:on        6:off
+
+If you don't see this output you will need to install the MySQL control script,
+and add MySQL to chkconfig:
+
+.. sourcecode:: bash
+
+    # copy default MySQL control script into init.d
+    sudo cp /usr/share/mysql/mysql.server /etc/rc.d/init.d/mysql
+
+    # add MySQL with chkconfig
+    sudo chkconfig --add mysql
+
+    # enable MySQL for runlevels 3,4,5 with chkconfig
+    sudo chkconfig --levels 345 mysql on
+
+At this point you should be all set to start your MySQL server:
+
+.. sourcecode:: bash
+
+    # start MySQL via service
+    sudo service mysql start
+
+    or
+
+    # start mysql via mysqld_safe
+    sudo mysqld_safe &
+
+Python Requirements
+
+MediaCore supports Python versions 2.4 and up. CentOS/RHEL 5.x ships with
+Python 2.4, so you should be OK with the system default as a base for your
+operations.
 
 Step 2: Installing Setuptools
 -----------------------------
