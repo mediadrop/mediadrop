@@ -236,8 +236,8 @@ todo_include_todos = True
 
 
 intersphinx_mapping = {
-    'http://www.python.org/doc/2.5.4/': 'python.inv',
-    'http://www.sqlalchemy.org/docs/05/': None,
+    'http://docs.python.org/2.6/': None,
+    'http://www.sqlalchemy.org/docs/': None,
     'http://routes.groovie.org/': None,
     'http://www.pylonshq.com/docs/en/0.9.7/': None,
     'http://toscawidgets.org/documentation/tw.forms/': None,
