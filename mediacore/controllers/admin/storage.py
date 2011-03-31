@@ -63,7 +63,6 @@ class StorageController(BaseController):
         }
 
     @expose('admin/storage/edit.html')
-    @autocommit
     def edit(self, id, engine_type=None, **kwargs):
         """Display the :class:`~mediacore.lib.storage.StorageEngine` for editing or adding.
 
@@ -73,21 +72,7 @@ class StorageController(BaseController):
         :returns:
 
         """
-        if id != 'new':
-            engine = fetch_row(StorageEngine, id)
-        else:
-            types = dict((cls.engine_type, cls) for cls in StorageEngine)
-            engine_cls = types.get(engine_type, None)
-            if not engine_cls:
-                redirect(controller='/admin/storage', action='index')
-            engine = engine_cls()
-
-            if not engine.settings_form:
-                # XXX: If this newly created storage engine has no settings,
-                #      just save it. This isn't RESTful (as edit is a GET
-                #      action), but it simplifies the creation process.
-                DBSession.add(engine)
-                redirect(controller='/admin/storage', action='index')
+        engine = self.fetch_engine(id, engine_type)
 
         return {
             'engine': engine,
@@ -101,11 +86,8 @@ class StorageController(BaseController):
     def save(self, id, engine_type=None, **kwargs):
         if id == 'new':
             assert engine_type is not None, 'engine_type must be specified when saving a new StorageEngine.'
-            engine_class = [x for x in StorageEngine if x.engine_type == engine_type][0]
-        else:
-            engine_class = StorageEngine
 
-        engine = fetch_row(engine_class, id)
+        engine = self.fetch_engine(id, engine_type)
         form = engine.settings_form
 
         if id == 'new':
@@ -120,6 +102,17 @@ class StorageController(BaseController):
             redirect(controller='/admin/storage', action='index')
 
         return save_engine_params(id, **kwargs)
+
+    def fetch_engine(self, id, engine_type=None):
+        if id != 'new':
+            engine = fetch_row(StorageEngine, id)
+        else:
+            types = dict((cls.engine_type, cls) for cls in StorageEngine)
+            engine_cls = types.get(engine_type, None)
+            if not engine_cls:
+                redirect(controller='/admin/storage', action='index')
+            engine = engine_cls()
+        return engine
 
     @expose('json', request_method='POST')
     @autocommit
