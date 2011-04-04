@@ -28,7 +28,7 @@ from paste.urlparser import StaticURLParser
 from paste.deploy.converters import asbool
 from paste.deploy.config import PrefixMiddleware
 from pylons.middleware import ErrorHandler, StatusCodeRedirect
-from pylons.wsgiapp import PylonsApp
+from pylons.wsgiapp import PylonsApp as _PylonsApp
 from routes.middleware import RoutesMiddleware
 from tw.core.view import EngineManager
 import tw.api
@@ -37,6 +37,20 @@ from mediacore import monkeypatch_method
 from mediacore.config.environment import load_environment
 from mediacore.lib.auth import add_auth
 from mediacore.model.meta import DBSession
+
+class PylonsApp(_PylonsApp):
+    """
+    Subclass PylonsApp to set our settings on the request.
+
+    The settings are cached in ``app_globals.settings`` but it's best to
+    check the cache once, then make them accessible as a simple dict for
+    the remainder of the request, instead of hitting the cache repeatedly.
+
+    """
+    def register_globals(self, environ):
+        _PylonsApp.register_globals(self, environ)
+        request = environ['pylons.pylons'].request
+        request.settings = self.globals.settings
 
 def setup_prefix_middleware(app, global_conf, proxy_prefix):
     """Add prefix middleware.
