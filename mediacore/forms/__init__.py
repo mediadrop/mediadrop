@@ -16,7 +16,7 @@
 from BeautifulSoup import BeautifulStoneSoup
 from formencode import FancyValidator
 from formencode.api import Invalid
-from pylons import app_globals
+from pylons import app_globals, request
 from tw import forms
 from tw.api import JSLink, JSSource
 from tw.forms import FileField, TextArea as tw_TA, TextField as tw_TF
@@ -131,7 +131,7 @@ class TextArea(tw_TA):
     """TextArea widget with a good validator for its instances to use."""
     validator = FancyValidator
 
-tiny_mce_condition = lambda: app_globals.settings['rich_text_editor'] == 'tinymce'
+tiny_mce_condition = lambda: request.settings['rich_text_editor'] == 'tinymce'
 
 class XHTMLTextArea(TextArea):
     validator = XHTMLValidator

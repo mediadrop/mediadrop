@@ -20,7 +20,7 @@ from operator import itemgetter
 import formencode
 
 from babel.core import Locale
-from pylons import app_globals, config
+from pylons import app_globals, config, request
 from tw.forms import CheckBox, RadioButtonList, SingleSelectField
 from tw.forms.fields import Button, CheckBox
 from tw.forms.validators import (Bool, FancyValidator, FieldStorageUploadConverter,
@@ -311,14 +311,14 @@ class AppearanceForm(ListForm):
                     validator=FieldStorageUploadConverter(not_empty=False,
                         label_text=N_('Upload Logo')),
                     css_classes=[],
-                    default=lambda: app_globals.settings.get('appearance_logo', \
+                    default=lambda: request.settings.get('appearance_logo', \
                                                              'logo.png'),
                     template='./admin/settings/appearance_input_field.html'),
                 FileField('appearance_background_image', label_text=N_('Background Image'),
                     validator=FieldStorageUploadConverter(not_empty=False,
                         label_text=N_('Upload Background')),
                     css_classes=[],
-                    default=lambda: app_globals.settings.get('appearance_background_image', \
+                    default=lambda: request.settings.get('appearance_background_image', \
                                                              'bg_image.png'),
                     template='./admin/settings/appearance_input_field.html'),
                 TextField('appearance_background_color', maxlength=255,

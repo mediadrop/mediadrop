@@ -22,7 +22,7 @@
 <xi:include href="../master.html" />
 <head>
 	<title>${h.page_title(default=search_query and _('Search: "%s"') % search_query or _('Media Library')) }</title>
-	<link py:if="show == 'latest' and not (search_query or tag) and g.settings['rss_display'] == 'True'"
+	<link py:if="show == 'latest' and not (search_query or tag) and settings['rss_display'] == 'True'"
 	      title="Latest RSS" rel="alternate" type="application/rss+xml"
 	      href="${h.url_for(controller='/sitemaps', action='latest')}" />
 </head>

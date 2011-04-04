@@ -32,7 +32,7 @@ Email Helpers
 
 import smtplib
 
-from pylons import app_globals
+from pylons import app_globals, request
 
 from mediacore.lib.helpers import line_break_xhtml, strip_xhtml, url_for
 from mediacore.lib.i18n import _
@@ -92,7 +92,7 @@ def send_media_notification(media_obj):
     :param media_obj: The media object to send a notification about.
     :type media_obj: :class:`~mediacore.model.media.Media` instance
     """
-    send_to = app_globals.settings['email_media_uploaded']
+    send_to = request.settings['email_media_uploaded']
     if not send_to:
         # media notification emails are disabled!
         return
@@ -118,7 +118,7 @@ Admin URL: %(edit_url)s
 Description: %(clean_description)s
 """) % locals()
 
-    send(send_to, app_globals.settings['email_send_from'], subject, body)
+    send(send_to, request.settings['email_send_from'], subject, body)
 
 def send_comment_notification(media_obj, comment):
     """
@@ -133,7 +133,7 @@ def send_comment_notification(media_obj, comment):
     :param comment: The newly posted comment.
     :type comment: :class:`~mediacore.model.comments.Comment` instance
     """
-    send_to = app_globals.settings['email_comment_posted']
+    send_to = request.settings['email_comment_posted']
     if not send_to:
         # Comment notification emails are disabled!
         return
@@ -151,7 +151,7 @@ Post: %(post_url)s
 Body: %(comment_body)s
 """) % locals()
 
-    send(send_to, app_globals.settings['email_send_from'], subject, body)
+    send(send_to, request.settings['email_send_from'], subject, body)
 
 def send_support_request(email, url, description, get_vars, post_vars):
     """
@@ -176,7 +176,7 @@ def send_support_request(email, url, description, get_vars, post_vars):
     :param post_vars: The POST variables sent with the failed request.
     :type post_vars: dict of str -> str
     """
-    send_to = app_globals.settings['email_support_requests']
+    send_to = request.settings['email_support_requests']
     if not send_to:
         return
 
@@ -199,4 +199,4 @@ POST_VARS:
 %(post_vars)s
 """) % locals()
 
-    send(send_to, app_globals.settings['email_send_from'], subject, body)
+    send(send_to, request.settings['email_send_from'], subject, body)

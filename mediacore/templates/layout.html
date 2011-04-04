@@ -33,11 +33,11 @@
 </head>
 
 <body py:match="body" py:attrs="select('@*')">
-	${Markup(g.settings['appearance_custom_header_html'])}
+	${Markup(settings['appearance_custom_header_html'])}
 
-	<py:choose test="bool(g.settings['appearance_display_logo'] and g.settings['appearance_logo'])">
+	<py:choose test="bool(settings['appearance_display_logo'] and settings['appearance_logo'])">
 		<h1 py:when="True" id="mcore-logo">
-			<a href="${h.url_for('/')}">${g.settings['general_site_name']}</a>
+			<a href="${h.url_for('/')}">${settings['general_site_name']}</a>
 		</h1>
 		<div py:otherwise="" id="mcore-site-title">
 		</div>
@@ -45,19 +45,19 @@
 
 	<div py:replace="select('*|text()|comment()')">Content is injected here</div>
 
-	<div py:if="g.settings['appearance_display_mediacore_footer']" id="mcore-foot" class="mediacore-content clear">
+	<div py:if="settings['appearance_display_mediacore_footer']" id="mcore-foot" class="mediacore-content clear">
 		<div id="mcore-feeds" class="f-lft">
 			<h5>Feeds:</h5>
 			<ul>
 				<li py:for="href, title in feed_links"><a href="${href}" class="mcore-foot-link underline-hover">${title}</a></li>
 			</ul>
 		</div>
-		<div py:if="g.settings['appearance_display_mediacore_credits']" id="mcore-credits" class="f-rgt">
+		<div py:if="settings['appearance_display_mediacore_credits']" id="mcore-credits" class="f-rgt">
 			<a href="http://getmediacore.com/" class="mcore-foot-link underline-hover" i18n:msg=""><strong>MediaCore</strong> <em>video platform</em></a>
 		</div>
 	</div>
 
-	${Markup(g.settings['appearance_custom_footer_html'])}
+	${Markup(settings['appearance_custom_footer_html'])}
 
 	<!--[if IE 6]>
 		<script type="text/javascript">

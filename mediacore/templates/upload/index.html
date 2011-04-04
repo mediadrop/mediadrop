@@ -35,7 +35,7 @@
 		window.addEvent('domready', function() {
 			if (Browser.Engine.trident || Browser.Plugins.Flash.version < 9) return;
 			UploadMGR = new UploadManager('${upload_form.id}', '${upload_form.async_action}');
-			SwiffUploadMGR = new SwiffUploadManager('${upload_form.id}', '${upload_form.async_action}', '${h.url_for(action='failure')}', '${h.url_for('/')}', '*.*', 'browse-button', 'submit_btn', 'file-info', 'upload-status', {}, ${g.settings['max_upload_size']});
+			SwiffUploadMGR = new SwiffUploadManager('${upload_form.id}', '${upload_form.async_action}', '${h.url_for(action='failure')}', '${h.url_for('/')}', '*.*', 'browse-button', 'submit_btn', 'file-info', 'upload-status', {}, ${settings['max_upload_size']});
 		});
 		//]]>
 	</script>

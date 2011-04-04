@@ -14,7 +14,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-from pylons import app_globals
+from pylons import app_globals, request
 from tw.api import WidgetsList
 from formencode import Invalid
 from formencode.validators import FancyValidator, URL
@@ -161,8 +161,8 @@ class MediaForm(ListForm):
         TextArea('notes',
             label_text=N_('Administrative Notes'),
             attrs=dict(rows=3, cols=25),
-            container_attrs = lambda: ({'class': 'hidden'}, {})[bool(app_globals.settings.get('wording_display_administrative_notes', ''))],
-            default=lambda: app_globals.settings['wording_administrative_notes']),
+            container_attrs = lambda: ({'class': 'hidden'}, {})[bool(request.settings.get('wording_display_administrative_notes', ''))],
+            default=lambda: request.settings['wording_administrative_notes']),
         SubmitButton('save', default=N_('Save'), named_button=True, css_classes=['btn', 'blue', 'f-rgt']),
         SubmitButton('delete', default=N_('Delete'), named_button=True, css_classes=['btn', 'f-lft']),
     ]

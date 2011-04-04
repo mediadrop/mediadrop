@@ -42,7 +42,7 @@ class PylonsApp(_PylonsApp):
     """
     Subclass PylonsApp to set our settings on the request.
 
-    The settings are cached in ``app_globals.settings`` but it's best to
+    The settings are cached in ``request.settings`` but it's best to
     check the cache once, then make them accessible as a simple dict for
     the remainder of the request, instead of hitting the cache repeatedly.
 

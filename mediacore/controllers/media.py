@@ -270,11 +270,11 @@ class MediaController(BaseController):
                 return self.view(slug, name=name, email=email, body=body,
                                  **kwargs)
 
-        akismet_key = app_globals.settings['akismet_key']
+        akismet_key = request.settings['akismet_key']
         if akismet_key:
             akismet = Akismet(agent=USER_AGENT)
             akismet.key = akismet_key
-            akismet.blog_url = app_globals.settings['akismet_url'] or \
+            akismet.blog_url = request.settings['akismet_url'] or \
                 url_for('/', qualified=True)
             akismet.verify_key()
             data = {'comment_author': name.encode('utf-8'),
@@ -295,7 +295,7 @@ class MediaController(BaseController):
         c.subject = 'Re: %s' % media.title
         c.body = filter_vulgarity(body)
 
-        require_review = app_globals.settings['req_comment_approval']
+        require_review = request.settings['req_comment_approval']
         if not require_review:
             c.reviewed = True
             c.publishable = True

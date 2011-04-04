@@ -210,7 +210,7 @@ class SettingsController(BaseSettingsController):
     @autocommit
     def appearance_save(self, **kwargs):
         """Save :class:`~mediacore.forms.admin.settings.appearanceForm`."""
-        settings = app_globals.settings
+        settings = request.settings
         accepted_extensions = ('.png', '.jpg', '.jpeg', '.gif')
         upload_field_filenames = [
             ('appearance_logo', 'logo'),

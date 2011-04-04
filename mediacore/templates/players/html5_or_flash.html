@@ -20,13 +20,13 @@
       py:strip=""
       py:with="download_uris = show_download and sorted((uri for uri in (h.download_uri(file) for file in media.files) if uri), key=lambda uri: uri.file.size);
                embed_code = show_embed and h.embed_iframe(media);
-               show_like = g.settings['appearance_show_like'] and show_like;
-               show_dislike = g.settings['appearance_show_dislike'] and show_dislike;
-               show_popout = g.settings['appearance_show_popout'] and show_popout;
-               show_resize = g.settings['appearance_show_widescreen'] and show_resize;
-               show_share = g.settings['appearance_show_share'] and show_share;
-               show_embed = g.settings['appearance_show_embed'] and show_embed and embed_code;
-               show_download = g.settings['appearance_show_download'] and show_download and download_uris;
+               show_like = settings['appearance_show_like'] and show_like;
+               show_dislike = settings['appearance_show_dislike'] and show_dislike;
+               show_popout = settings['appearance_show_popout'] and show_popout;
+               show_resize = settings['appearance_show_widescreen'] and show_resize;
+               show_share = settings['appearance_show_share'] and show_share;
+               show_embed = settings['appearance_show_embed'] and show_embed and embed_code;
+               show_download = settings['appearance_show_download'] and show_download and download_uris;
                show_playerbar = show_playerbar and (show_like or show_dislike or show_popout or show_resize or show_share or show_embed or show_download);">
 
 	<xi:include py:for="tmpl in value_of('plugin_templates', ())" href="${tmpl}" />

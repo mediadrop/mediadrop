@@ -154,7 +154,7 @@ def calculate_popularity(publish_date, score):
     :returns: Popularity points.
 
     """
-    settings = app_globals.settings
+    settings = request.settings
     log_base = int(settings['popularity_decay_exponent'])
     base_life = int(settings['popularity_decay_lifetime']) * 3600
     # FIXME: The current algorithm assumes that the earliest publication

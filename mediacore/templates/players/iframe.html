@@ -31,9 +31,9 @@
 		</py:when>
 		<script py:otherwise="" type="text/javascript" src="${h.url_for('/scripts/mcore-compiled.js')}"></script>
 	</py:choose>
-	<script py:if="g.settings.get('google_analytics_uacct', None)" type="text/javascript">
+	<script py:if="settings.get('google_analytics_uacct', None)" type="text/javascript">
 		var _gaq = _gaq || [];
-		_gaq.push(['_setAccount', '${g.settings['google_analytics_uacct']}']);
+		_gaq.push(['_setAccount', '${settings['google_analytics_uacct']}']);
 		_gaq.push(['_trackPageview']);
 		(function() {
 			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;

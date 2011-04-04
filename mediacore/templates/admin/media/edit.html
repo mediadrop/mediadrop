@@ -98,7 +98,7 @@
 					uploadBtnText: '${_('Upload a file').replace("'", "\\'")}',
 					fxProgressBar: {url: '${h.url_for('/admin/images/progressbar/progress.png')}'},
 					path: '${h.url_for('/scripts/third-party/Swiff.Uploader.swf')}',
-					fileSizeMax: ${g.settings['max_upload_size']},
+					fileSizeMax: ${settings['max_upload_size']},
 					typeFilter: '*.*',
 					verbose: false // debug
 				},

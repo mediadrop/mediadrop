@@ -6,5 +6,5 @@
         id="${id}"
         value="${value}"
         py:attrs="attrs" />
-    <img py:if="g.settings.get(id.replace('general_', ''), None)" class="image-preview" src="/appearance/${value}" />
+    <img py:if="settings.get(id.replace('general_', ''), None)" class="image-preview" src="/appearance/${value}" />
 </div>

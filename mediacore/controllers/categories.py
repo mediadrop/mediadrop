@@ -107,7 +107,7 @@ class CategoriesController(BaseController):
         :param limit: the max number of results to return. Defaults to 30
 
         """
-        if app_globals.settings['rss_display'] != 'True':
+        if request.settings['rss_display'] != 'True':
             abort(404)
 
         response.content_type = mimeparse.best_match(

@@ -223,7 +223,7 @@ spaces_between_tags = re.compile('>\s+<', re.M)
 
 def get_featured_category():
     from mediacore.model import Category
-    feat_id = app_globals.settings['featured_category']
+    feat_id = request.settings['featured_category']
     if not feat_id:
         return None
     feat_id = int(feat_id)
@@ -340,7 +340,7 @@ def doc_link(page=None, anchor='', text=N_('Help'), **kwargs):
 
 @observes(page_title)
 def default_page_title(default=None, **kwargs):
-    settings = app_globals.settings
+    settings = request.settings
     title_order = settings.get('general_site_title_display_order', None)
     site_name = settings.get('general_site_name', default)
     if not title_order:
@@ -375,7 +375,7 @@ def filter_vulgarity(text):
     :rtype: str
 
     """
-    vulgar_words = app_globals.settings.get('vulgarity_filtered_words', None)
+    vulgar_words = request.settings.get('vulgarity_filtered_words', None)
     if vulgar_words:
         words = (word.strip() for word in vulgar_words.split(','))
         word_pattern = '|'.join(re.escape(word) for word in words if word)

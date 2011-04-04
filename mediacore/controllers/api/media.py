@@ -117,7 +117,7 @@ class MediaController(BaseController):
         :param limit:
             Number of results to return in each query. Defaults to 10.
             The maximum allowed value defaults to 50 and is set via
-            :attr:`app_globals.settings['api_media_max_results']`.
+            :attr:`request.settings['api_media_max_results']`.
         :type limit: int
 
         :param featured:
@@ -163,8 +163,8 @@ class MediaController(BaseController):
 
         """
 
-        if asbool(app_globals.settings['api_secret_key_required']) \
-            and api_key != app_globals.settings['api_secret_key']:
+        if asbool(request.settings['api_secret_key_required']) \
+            and api_key != request.settings['api_secret_key']:
             return dict(error=AUTHERROR)
 
         if format not in ("json", "mrss"):
@@ -226,7 +226,7 @@ class MediaController(BaseController):
 
         # Rudimentary pagination support
         start = int(offset)
-        end = start + min(int(limit), int(app_globals.settings['api_media_max_results']))
+        end = start + min(int(limit), int(request.settings['api_media_max_results']))
 
         if format == "mrss":
             request.override_template = "sitemaps/mrss.xml"
@@ -263,8 +263,8 @@ class MediaController(BaseController):
             method.
 
         """
-        if asbool(app_globals.settings['api_secret_key_required']) \
-            and api_key != app_globals.settings['api_secret_key']:
+        if asbool(request.settings['api_secret_key_required']) \
+            and api_key != request.settings['api_secret_key']:
             return dict(error=AUTHERROR)
 
         if format not in ("json", "mrss"):
@@ -423,8 +423,8 @@ class MediaController(BaseController):
                 method.
 
         """
-        if asbool(app_globals.settings['api_secret_key_required']) \
-            and api_key != app_globals.settings['api_secret_key']:
+        if asbool(request.settings['api_secret_key_required']) \
+            and api_key != request.settings['api_secret_key']:
             return dict(error='Authentication Error')
 
         query = Media.query.published()

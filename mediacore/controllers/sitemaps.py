@@ -57,7 +57,7 @@ class SitemapsController(BaseController):
         :type page: int
 
         """
-        if app_globals.settings['sitemaps_display'] != 'True':
+        if request.settings['sitemaps_display'] != 'True':
             abort(404)
 
         response.content_type = mimeparse.best_match(
@@ -94,7 +94,7 @@ class SitemapsController(BaseController):
     @expose('sitemaps/mrss.xml')
     def mrss(self, **kwargs):
         """Generate a media rss (mRSS) feed of all the sites media."""
-        if app_globals.settings['sitemaps_display'] != 'True':
+        if request.settings['sitemaps_display'] != 'True':
             abort(404)
 
         response.content_type = mimeparse.best_match(
@@ -113,7 +113,7 @@ class SitemapsController(BaseController):
     @expose('sitemaps/mrss.xml')
     def latest(self, limit=30, skip=0, **kwargs):
         """Generate a media rss (mRSS) feed of all the sites media."""
-        if app_globals.settings['rss_display'] != 'True':
+        if request.settings['rss_display'] != 'True':
             abort(404)
 
         response.content_type = mimeparse.best_match(
@@ -137,7 +137,7 @@ class SitemapsController(BaseController):
     @expose('sitemaps/mrss.xml')
     def featured(self, limit=30, skip=0, **kwargs):
         """Generate a media rss (mRSS) feed of the sites featured media."""
-        if app_globals.settings['rss_display'] != 'True':
+        if request.settings['rss_display'] != 'True':
             abort(404)
 
         response.content_type = mimeparse.best_match(
@@ -167,7 +167,7 @@ class SitemapsController(BaseController):
         """
         global crossdomain_app
 
-        if not app_globals.settings['appearance_enable_cooliris']:
+        if not request.settings['appearance_enable_cooliris']:
             # Ensure the cache is cleared if cooliris is suddenly disabled
             if crossdomain_app:
                 crossdomain_app = None

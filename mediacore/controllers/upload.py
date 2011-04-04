@@ -45,7 +45,7 @@ class UploadController(BaseController):
     """
 
     def __before__(self, *args, **kwargs):
-        if not app_globals.settings['appearance_enable_user_uploads']:
+        if not request.settings['appearance_enable_user_uploads']:
             abort(404)
         return BaseController.__before__(self, *args, **kwargs)
 
@@ -66,12 +66,12 @@ class UploadController(BaseController):
                 ``dict`` form values, if any
 
         """
-        support_emails = app_globals.settings['email_support_requests']
+        support_emails = request.settings['email_support_requests']
         support_emails = email.parse_email_string(support_emails)
         support_email = support_emails and support_emails[0] or None
 
         return dict(
-            legal_wording = app_globals.settings['wording_user_uploads'],
+            legal_wording = request.settings['wording_user_uploads'],
             support_email = support_email,
             upload_form = upload_form,
             form_values = kwargs,
@@ -181,8 +181,8 @@ class UploadController(BaseController):
         media_obj.title = title
         media_obj.slug = get_available_slug(Media, title)
         media_obj.description = description
-        if app_globals.settings['wording_display_administrative_notes']:
-            media_obj.notes = app_globals.settings['wording_administrative_notes']
+        if request.settings['wording_display_administrative_notes']:
+            media_obj.notes = request.settings['wording_administrative_notes']
         media_obj.set_tags(tags)
 
         # Give the Media object an ID.

@@ -17,7 +17,7 @@ import logging
 from datetime import datetime, timedelta
 
 from paste.util.converters import asbool
-from pylons import app_globals
+from pylons import app_globals, request
 from sqlalchemy import orm
 
 from mediacore.controllers.api import APIException, get_order_by
@@ -75,7 +75,7 @@ class CategoriesController(BaseController):
         :param limit:
             Number of results to return in each query. Defaults to 10.
             The maximum allowed value defaults to 50 and is set via
-            :attr:`app_globals.settings['api_media_max_results']`.
+            :attr:`request.settings['api_media_max_results']`.
         :type limit: int
 
         :param api_key:
@@ -94,8 +94,8 @@ class CategoriesController(BaseController):
                 of the number of matched items and the requested limit.
 
         """
-        if asbool(app_globals.settings['api_secret_key_required']) \
-            and api_key != app_globals.settings['api_secret_key']:
+        if asbool(request.settings['api_secret_key_required']) \
+            and api_key != request.settings['api_secret_key']:
             return dict(error='Authentication Error')
 
         if any(key in kwargs for key in ('id', 'slug', 'name')):
@@ -120,7 +120,7 @@ class CategoriesController(BaseController):
         :param depth:
             Number of level deep in children to expand. Defaults to 10.
             The maximum allowed value defaults to 10 and is set via
-            :attr:`app_globals.settings['api_tree_max_depth']`.
+            :attr:`request.settings['api_tree_max_depth']`.
         :type limit: int
         :param api_key:
             The api access key if required in settings
@@ -140,8 +140,8 @@ class CategoriesController(BaseController):
                 within the hierarchy.
 
         """
-        if asbool(app_globals.settings['api_secret_key_required']) \
-            and api_key != app_globals.settings['api_secret_key']:
+        if asbool(request.settings['api_secret_key_required']) \
+            and api_key != request.settings['api_secret_key']:
             return dict(error='Authentication Error')
         if any(key in kwargs for key in ('id', 'slug', 'name')):
             kwargs['depth'] = depth
@@ -163,8 +163,8 @@ class CategoriesController(BaseController):
         query = query.order_by(get_order_by(order, order_columns))
 
         start = int(offset)
-        limit = min(int(limit), int(app_globals.settings['api_media_max_results']))
-        depth = min(int(depth), int(app_globals.settings['api_tree_max_depth']))
+        limit = min(int(limit), int(request.settings['api_media_max_results']))
+        depth = min(int(depth), int(request.settings['api_tree_max_depth']))
 
         # get the total of all the matches
         count = query.count()
@@ -180,7 +180,7 @@ class CategoriesController(BaseController):
     def _get_query(self, id=None, name=None, slug=None, tree=False, depth=10, **kwargs):
         """Query for a specific category item by ID, name or slug and optionally expand the children of this category."""
         query = Category.query
-        depth = min(int(depth), int(app_globals.settings['api_tree_max_depth']))
+        depth = min(int(depth), int(request.settings['api_tree_max_depth']))
 
         if id:
             query = query.filter_by(id=id)

@@ -23,7 +23,7 @@
 <head>
 	<title>${h.page_title(default=c.category and '%s | %s' % (c.category.name, _('Categories')) or _('Categories'), category=c.category or 'all')}</title>
 	<link href="${h.url_for('/styles/categories.css')}" media="screen" rel="stylesheet" type="text/css" />
-	<link py:if="c.category and g.settings['rss_display'] == 'True'"
+	<link py:if="c.category and settings['rss_display'] == 'True'"
 	      rel="alternate" type="application/rss+xml" title="${_('Latest media in %s') % c.category.name}"
 	      href="${h.url_for(controller='/categories', action='feed', slug=c.category.name)}" />
 </head>

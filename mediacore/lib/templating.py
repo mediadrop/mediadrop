@@ -42,6 +42,7 @@ def tmpl_globals():
     g = conf['pylons.app_globals']
     c = tmpl_context._current_obj()
     t = translator._current_obj()
+    req = request._current_obj()
     return {
         'config': conf,
         'c': c,
@@ -49,7 +50,8 @@ def tmpl_globals():
         'g': g,
         'app_globals': g,
         'h': conf['pylons.h'],
-        'request': request._current_obj(),
+        'request': req,
+        'settings': req.settings,
         'response': response, # don't eval the SOP because this is rarely used
         'translator': t,
         'ngettext': t.ngettext,
