@@ -209,7 +209,7 @@ def _mtm_count_property(label, assoc_table,
     """
     where_clauses = []
     for assoc_column in assoc_table.primary_key:
-        fk = assoc_column.foreign_keys[0]
+        fk = tuple(assoc_column.foreign_keys)[0]
         where_clauses.append(fk.column == assoc_column)
     if isinstance(where, list):
         where_clauses.extend(where)
