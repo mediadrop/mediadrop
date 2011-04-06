@@ -58,7 +58,7 @@
 			</div>
 			<ul id="nav" py:with="is_admin = h.is_admin()">
 				<li><a class="btn nav${'menu-media-on' in body_class and ' active' or ''}" href="${h.url_for(controller='/admin/media')}"><span>Media</span></a></li>
-				<li><a class="btn nav${'menu-podcasts-on' in body_class and ' active' or ''}" href="${h.url_for(controller='/admin/podcasts')}"><span>Podcasts</span></a></li>
+				<li py:if="settings['appearance_enable_podcast_tab']"><a class="btn nav${'menu-podcasts-on' in body_class and ' active' or ''}" href="${h.url_for(controller='/admin/podcasts')}"><span>Podcasts</span></a></li>
 				<li py:if="settings['comments_engine'] == 'mediacore'"><a class="btn nav${'menu-comments-on' in body_class and ' active' or ''}" href="${h.url_for(controller='/admin/comments')}"><span>Comments</span></a></li>
 				<li py:if="is_admin"><a class="btn nav${'menu-users-on' in body_class and ' active' or ''}" href="${h.url_for(controller='/admin/users')}"><span>Users</span></a></li>
 				<li py:if="is_admin"><a class="btn nav${'menu-settings-on' in body_class and ' active' or ''}" href="${h.url_for(controller='/admin/settings')}"><span>Settings</span></a></li>
