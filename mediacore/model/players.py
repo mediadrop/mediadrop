@@ -157,8 +157,8 @@ def cleanup_players_table(enabled=False):
     :type enabled: bool
     """
     from mediacore.lib.players import (BlipTVFlashPlayer,
-        GoogleVideoFlashPlayer, JWPlayer, VimeoUniversalEmbedPlayer,
-        YoutubeFlashPlayer)
+        DailyMotionEmbedPlayer, GoogleVideoFlashPlayer, JWPlayer,
+        VimeoUniversalEmbedPlayer, YoutubeFlashPlayer)
 
     # When adding players, prefer them in the following order:
     default_players = [
@@ -167,6 +167,7 @@ def cleanup_players_table(enabled=False):
         VimeoUniversalEmbedPlayer,
         GoogleVideoFlashPlayer,
         BlipTVFlashPlayer,
+        DailyMotionEmbedPlayer,
     ]
     unordered_players = [p for p in AbstractPlayer if p not in default_players]
     all_players = default_players + unordered_players

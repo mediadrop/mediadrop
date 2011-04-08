@@ -259,6 +259,9 @@ def add_default_data():
     media.comments.append(comment)
     DBSession.add(media)
 
+    #XXX The list of default players is actually defined in model.players
+    # and should at some point be moved here to avoid inconsistency
+    # between the default storage engines and default players.
     remote_url_storage = RemoteURLStorage()
     default_engines = [
         LocalFileStorage(),
