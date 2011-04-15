@@ -49,7 +49,7 @@ directory of your website, the process is very simple: Instead of putting the
 files into ``/path/to/document_root/my_media``, like in the instructions below,
 put them into whichever directory (inside your docroot) you want to serve from.
 
-**NOTE 3:** If deploying mediacore inide an existing directory, you must make
+**NOTE 3:** If deploying mediacore inside an existing directory, you must make
 sure that the mediacore .htaccess file doesn't overwrite any existing
 .htaccess file in that directory--you'll have to copy the contents over to the
 existing .htaccess file if there is one, and make sure that the contents of
