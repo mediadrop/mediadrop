@@ -194,10 +194,11 @@ def gettext(msgid, domain=None):
         translation was found.
     """
     translator_obj = translator._current_obj()
-    if not isinstance(translator_obj, Translator) and config['debug']:
-        log.warn('_, ugettext, or gettext called with msgid "%s" before '\
-                 'pylons.translator has been replaced with our custom version.'\
-                 % msgid)
+    if not isinstance(translator_obj, Translator):
+        if config['debug']:
+            log.warn('_, ugettext, or gettext called with msgid "%s" before '\
+                     'pylons.translator has been replaced with our custom '\
+                     'version.' % msgid)
         return translator_obj.gettext(msgid)
     return translator_obj.gettext(msgid, domain)
 _ = ugettext = gettext
