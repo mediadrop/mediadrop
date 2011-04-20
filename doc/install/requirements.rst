@@ -203,6 +203,9 @@ setuptools 0.6c9 or higher for python2.5 using that package manager go ahead:
    # Or on Mac OS X (with MacPorts):
    sudo port -v install py25-setuptools
 
+   # For example, on CentOS/RHEL/Fedora
+   sudo yum install python-setuptools
+
 Otherwise, download the setuptools installer and install manually:
 
 .. sourcecode:: bash
@@ -248,6 +251,9 @@ setuptools 0.6c9 or higher for python2.5 using that package manager go ahead:
 
    # Or on Mac OS X (with MacPorts):
    sudo port -v install py25-virtualenv
+   
+   # On Fedora or (with Fedora EPEL activated) CentOS/RHEL
+   sudo yum install python-virtualenv
 
 Otherwise, install virtualenv via setuptools:
 
