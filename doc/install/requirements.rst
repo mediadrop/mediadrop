@@ -119,7 +119,7 @@ You'll need to install the MySQL client, server and development libraries:
 .. sourcecode:: bash
 
     # install MySQL server, client and libraries
-    sudo yum install MySQL-client MySQL-server MySQL-devel
+    sudo yum install mysql mysql-server mysql-devel
 
 MySQL should now be installed, and by default configured to start when your
 system starts. To verify this, you can run the following comand:
