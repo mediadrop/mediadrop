@@ -91,7 +91,7 @@ directory from your mediacore installation:
    # Create a symlink to the data directory
    ln -sf /path/to/mediacore_install/data ./my_media/data
 
-Finally, you'll need to edit the paths in ``my_media/mediacore.fcgi`` to point
+Fourth, you'll need to edit the paths in ``my_media/mediacore.fcgi`` to point
 to your own mediacore installation and virtual environment. The **four (4)**
 lines you need to edit are at the top of the file, and look like this:
 
@@ -101,6 +101,16 @@ lines you need to edit are at the top of the file, and look like this:
    python_egg_cache = '/path/to/mediacore_install/data/python-egg-cache'
    deployment_config = '/path/to/mediacore_install/deployment.ini'
    temp_dir = '/path/to/mediacore_install/data/tmp'
+
+Finally, you need to configure mod_fcgid for large uploads (this step is not 
+necessary for mod_fastcgi). Please add this line to your Apache configuration 
+(the ``.htaccess`` file is not enough for this to work!)
+
+.. sourcecode:: bash
+
+    # set the max upload size to 300 MB (number is the size in bytes)
+    FcgidMaxRequestLen 314572800
+
 
 Testing Installation
 --------------------
