@@ -77,8 +77,8 @@ into the new ``my_media`` directory (this includes ``.htaccess``,
    mkdir my_media
 
    # Copy the deployment files
-   cp /path/to/mediacore/install/deployment-scripts/mod_fastcgi/* ./my_media/
-   cp /path/to/mediacore/install/deployment-scripts/mod_fastcgi/.htaccess ./my_media/
+   cp /path/to/mediacore_install/deployment-scripts/mod_fastcgi/* ./my_media/
+   cp /path/to/mediacore_install/deployment-scripts/mod_fastcgi/.htaccess ./my_media/
 
 Third, create symbolic links (symlinks) to the ``public`` and the ``data`` 
 directory from your mediacore installation:
@@ -86,10 +86,10 @@ directory from your mediacore installation:
 .. sourcecode:: bash
 
    # Create a symlink to the public directory
-   ln -sf /path/to/mediacore/install/mediacore/public ./my_media/public
+   ln -sf /path/to/mediacore_install/mediacore/public ./my_media/public
 
    # Create a symlink to the data directory
-   ln -sf /path/to/mediacore/install/data ./my_media/data
+   ln -sf /path/to/mediacore_install/data ./my_media/data
 
 Finally, you'll need to edit the paths in ``my_media/mediacore.fcgi`` to point
 to your own mediacore installation and virtual environment. The **four (4)**
