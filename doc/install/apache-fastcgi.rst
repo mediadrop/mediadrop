@@ -1,16 +1,17 @@
 .. _install_apache-fastcgi:
 
 ===============================
-Apache & mod_fastcgi Deployment
+Apache & mod_fcgid Deployment
 ===============================
 
-The Apache/mod_fastcgi setup is intended as an easy way for users with shared
+The Apache/mod_fcgid setup is intended as an easy way for users with shared
 hosting environments to use python webapps. It adds some overhead over the
 :ref:`install_apache-wsgi`, so if you administrate your own server, you may
 want to use that instead.
 
-This tutorial assumes that you already have Apache and mod_fastcgi installed
-and working. If you're unsure, check with your hosting provider.
+This tutorial assumes that you already have Apache and mod_fcgid installed
+and working (mod_fastcgi works as well). If you're unsure, check with your 
+hosting provider.
 
 Components
 ----------
@@ -21,7 +22,7 @@ stage you already have three, and the remaining ones are very easy to set up.
 ``Apache``
    the web server
 
-``mod_fastcgi``
+``mod_fcgid`` or (unmaintained) ``mod_fastcgi``
    Apache module that lets Apache run FastCGI scripts
 
 ``.htaccess``
@@ -79,13 +80,16 @@ into the new ``my_media`` directory (this includes ``.htaccess``,
    cp /path/to/mediacore/install/deployment-scripts/mod_fastcgi/* ./my_media/
    cp /path/to/mediacore/install/deployment-scripts/mod_fastcgi/.htaccess ./my_media/
 
-Third, create a symbolic link (symlink) to the ``public`` directory from your
-mediacore installation:
+Third, create symbolic links (symlinks) to the ``public`` and the ``data`` 
+directory from your mediacore installation:
 
 .. sourcecode:: bash
 
    # Create a symlink to the public directory
    ln -sf /path/to/mediacore/install/mediacore/public ./my_media/public
+
+   # Create a symlink to the data directory
+   ln -sf /path/to/mediacore/install/data ./my_media/data
 
 Finally, you'll need to edit the paths in ``my_media/mediacore.fcgi`` to point
 to your own mediacore installation and virtual environment. The **four (4)**
