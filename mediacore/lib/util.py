@@ -22,7 +22,7 @@ import shutil
 from datetime import datetime
 from urlparse import urlparse
 
-from pylons import app_globals, config, url as pylons_url
+from pylons import app_globals, config, request, url as pylons_url
 from webob.exc import HTTPFound
 
 __all__ = ['merge_dicts', 'redirect', 'url', 'url_for']
