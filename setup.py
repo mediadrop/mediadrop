@@ -15,7 +15,7 @@ install_requires = [
     'SQLAlchemy >= 0.6.4',
     'sqlalchemy-migrate == 0.6',
     'Genshi == 0.6',
-    'Babel == 0.9.5',
+    'Babel == 0.9.6',
     'Routes == 1.12.3',
     'repoze.who == 1.0.18',
     'repoze.what-pylons == 1.0',
