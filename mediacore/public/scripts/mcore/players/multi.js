@@ -139,9 +139,8 @@ mcore.players.MultiPlayer.prototype.disposeInternal = function() {
 
 /** @inheritDoc */
 mcore.players.MultiPlayer.prototype.getContentElement = function() {
-  if (this.getCurrentPlayer()) {
-    return this.getCurrentPlayer().getContentElement();
-  }
+  return this.getCurrentPlayer() ?
+      this.getCurrentPlayer().getContentElement() : null;
 };
 
 
