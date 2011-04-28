@@ -19,9 +19,9 @@ Auth-related helpers
 Provides a custom request classifier for repoze.who to allow for Flash uploads.
 """
 
-from paste.request import parse_formvars
 from repoze.what.plugins.quickstart import setup_sql_auth
 from repoze.who.classifiers import default_request_classifier
+from webob.request import Request
 
 from mediacore.config.routing import login_form_url, login_handler_url, logout_handler_url, post_login_url, post_logout_url
 from mediacore.model.meta import DBSession
@@ -76,12 +76,13 @@ def classifier_for_flash_uploads(environ):
     if classification == 'browser' \
     and environ['REQUEST_METHOD'] == 'POST' \
     and 'Flash' in environ.get('HTTP_USER_AGENT', ''):
+        session_key = environ['repoze.who.plugins']['cookie'].cookie_name
+        # Construct a temporary request object since this is called before
+        # pylons.request is populated. Re-instantiation later comes cheap.
+        request = Request(environ)
         try:
-            session_key = environ['repoze.who.plugins']['cookie'].cookie_name
-            session_id = parse_formvars(environ)[session_key]
+            session_id = request.str_POST[session_key]
             environ['HTTP_COOKIE'] = '%s=%s' % (session_key, session_id)
-            del environ['paste.cookies']
-            del environ['paste.cookies.dict']
-        except (KeyError, AttributeError):
+        except KeyError:
             pass
     return classification
