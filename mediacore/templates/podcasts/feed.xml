@@ -104,6 +104,15 @@
 					lang = 'en',
 				)" />
 			</py:with>
+
+			<image py:with="thumb = h.thumb(media, 's', qualified=True)">
+				<url py:content="thumb.url" />
+				<title py:content="media.title" />
+				<width py:content="thumb.x" />
+				<height py:content="thumb.y" />
+			</image>
+			<itunes:image href="${h.thumb_url(media, 'l', qualified=True)}" />
+			<!--! iTunes image should be square and 600x600 or larger -->
 		</item>
 
 	</channel>
