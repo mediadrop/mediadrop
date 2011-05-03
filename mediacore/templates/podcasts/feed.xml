@@ -89,7 +89,7 @@
 			                 url="${thumb.url}" width="${thumb.x}" height="${thumb.y}" />
 			<py:with vars="file = h.pick_podcast_media_file(media)">
 				<enclosure py:if="file" py:attrs="dict(
-					h.best_link_uri(file.get_uris()),
+					url = h.best_link_uri(file.get_uris()),
 					length = file.size or None,
 					type = file.mimetype,
 				)" />
