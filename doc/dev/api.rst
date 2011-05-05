@@ -130,9 +130,9 @@ Querying Categories
 
 MediaCore provides two methods of listing categories:
 :meth:`index <mediacore.controllers.api.categories.CategoriesController.index>`
-for listing all categories in a flat list
+for listing all categories in a flat list, and 
 :meth:`tree <mediacore.controllers.api.categories.CategoriesController.tree>`
-for listing all categories in what in the hierarchy tree.
+for listing all categories in the hierarchy tree.
 
 Both of these methods make use of the **category_info** dicts provided by the
 private
