@@ -10,7 +10,7 @@ hosting environments to use python webapps. It adds some overhead over the
 want to use that instead.
 
 This tutorial assumes that you already have Apache and mod_fcgid installed
-and working (mod_fastcgi works as well). If you're unsure, check with your 
+and working (mod_fastcgi works as well). If you're unsure, check with your
 hosting provider.
 
 Components
@@ -80,7 +80,7 @@ into the new ``my_media`` directory (this includes ``.htaccess``,
    cp /path/to/mediacore_install/deployment-scripts/mod_fastcgi/* ./my_media/
    cp /path/to/mediacore_install/deployment-scripts/mod_fastcgi/.htaccess ./my_media/
 
-Third, create symbolic links (symlinks) to the ``public`` and the ``data`` 
+Third, create symbolic links (symlinks) to the ``public`` and the ``data``
 directory from your mediacore installation:
 
 .. sourcecode:: bash
@@ -102,8 +102,8 @@ lines you need to edit are at the top of the file, and look like this:
    deployment_config = '/path/to/mediacore_install/deployment.ini'
    temp_dir = '/path/to/mediacore_install/data/tmp'
 
-Finally, you need to configure mod_fcgid for large uploads (this step is not 
-necessary for mod_fastcgi). Please add this line to your Apache configuration 
+Finally, you need to configure mod_fcgid for large uploads (this step is not
+necessary for mod_fastcgi). Please add this line to your Apache configuration
 (the ``.htaccess`` file is not enough for this to work!)
 
 .. sourcecode:: bash

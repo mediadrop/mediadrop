@@ -1,4 +1,4 @@
-* Python 2.4.x or newer
+* Python 2.4.x to 2.7.x
 * MySQL 5.0.x or newer
 * `GCC <http://en.wikipedia.org/wiki/GNU_Compiler_Collection>`_  must be
   installed and available on your ``$PATH`` for certain required Python

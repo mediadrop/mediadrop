@@ -14,6 +14,7 @@ Contents
 
    install/requirements
    install/index
+   install/troubleshooting
    install/upgrade
    user/index
    dev/index

@@ -9,8 +9,12 @@ This page has examples of how to install them on a few different platforms.
 
 .. include:: requirements-list.rst
 
-Step 1.0: First Requirements on OS X
-------------------------------------
+Although Python versions 2.4 to 2.7 are supported, the examples in this guide
+will use python 2.7 whenever a version must be specified.
+
+
+Step 1a: First Requirements in Mac OS X
+---------------------------------------
 
 You will need to have GCC installed for some of MediaCore's dependencies
 to install correctly. For Mac OS X users, that means installing
@@ -31,7 +35,7 @@ After you have Xcode installed, You can install MacPorts by downloading the
 dmg disk image from `MacPorts install page <http://www.macports.org/install.php>`_
 and running the contained installer.
 
-To install MySQL 5 and Python 2.5 once MacPorts is installed, open up a
+To install MySQL 5 and Python 2.7 once MacPorts is installed, open up a
 terminal (like Terminal.app or iTerm.app) and enter the following commands:
 
 .. sourcecode:: bash
@@ -44,8 +48,11 @@ terminal (like Terminal.app or iTerm.app) and enter the following commands:
     # executables will be on your $PATH.)
     source ~/.profile
 
-    # Install MySQL5 and Python2.5
-    sudo port install mysql5-server python25
+    # Install MySQL5 and Python2.7
+    sudo port install mysql5-server python27
+
+    # Make Python2.7 the default version
+    sudo pythonselect 2.7
 
     # Initialize the newly installed MySQL server
     sudo /opt/local/lib/mysql5/bin/mysql_install_db --user=mysql
@@ -62,24 +69,27 @@ terminal (like Terminal.app or iTerm.app) and enter the following commands:
     # Put a link to mysql client for consistency in naming with other platforms
     sudo ln -s /opt/local/bin/mysql5 /opt/local/bin/mysql
 
-Step 1.1: First Requirements on Ubuntu 9.04
--------------------------------------------
+Now you can proceed with :ref:`installing_setuptools`.
 
-You're in luck! GCC and mysql-server-5.0 are installed by default on Ubuntu
-9.04. You'll just have to install mysql-client and python2.5 (and their
-respective libraries). Then you can proceed with installing Setuptools and
-Virtualenv as below.
+
+Step 1b: First Requirements in Ubuntu 10.04+
+--------------------------------------------
+
+GCC is installed by default on Ubuntu. You'll just have to install mysql and
+python (and their respective libraries).
 
 .. sourcecode:: bash
 
-   # install the mysql client and python2.5
-   sudo apt-get install mysql-client-5.1 libmysqlclient15off python2.5-dev python2.5-doc
+   # install the mysql client and python-dev
+   sudo apt-get install mysql-server mysql-client libmysqlclient-dev python-dev python-doc
 
    # install the necessary libraries for creating thumbnails
    sudo apt-get install libjpeg-dev libjpeg62 libjpeg62-dev zlib1g-dev libfreetype6 libfreetype6-dev
 
-Step 1.2: First Requirements on CentOS/RHEL 5.x
------------------------------------------------
+Now you can proceed with :ref:`installing_setuptools`.
+
+Step 1c: First Requirements in CentOS/RHEL 5.x
+----------------------------------------------
 
 Depending on how you configured your CentOS Distro at install time you may need
 to install the following packages:
@@ -168,69 +178,40 @@ MediaCore supports Python versions 2.4 and up. CentOS/RHEL 5.x ships with
 Python 2.4, so you should be OK with the system default as a base for your
 operations.
 
+Now you can proceed with installing Setuptools and Virtualenv as below.
+
+
+.. _installing_setuptools:
+
 Step 2: Installing Setuptools
 -----------------------------
 
 The Python setuptools package is what we'll use to automate the rest of the
 installation of Python packages.
 
-First, check that you have setuptools installed for Python2.5:
+In the main mediacore package drectory is an install script to get setuptools
+for you.
 
 .. sourcecode:: bash
 
-   # Check if you have setuptools installed:
-   python2.5 -c 'import setuptools'
-
-If you get no error, you can skip the rest of this step; setuptools is already
-installed!
-
-If you get an error like the following, you'll need to install setuptools first:
-
-.. sourcecode:: text
-
-   Traceback (most recent call last):
-     File "<string>", line 1, in <module>
-   ImportError: No module named setuptools
-
-If you're using a system with a package manager and you know how to install
-setuptools 0.6c9 or higher for python2.5 using that package manager go ahead:
-
-.. sourcecode:: bash
-
-   # For example, on Ubuntu 9.04
-   sudo apt-get install python-setuptools
-
-   # Or on Mac OS X (with MacPorts):
-   sudo port -v install py25-setuptools
-
-   # For example, on CentOS/RHEL/Fedora
-   sudo yum install python-setuptools
-
-Otherwise, download the setuptools installer and install manually:
-
-.. sourcecode:: bash
-
-   # Download the Setuptools installer
-   wget http://pypi.python.org/packages/2.5/s/setuptools/setuptools-0.6c11-py2.5.egg
-
-   # Install setuptools
-   sudo sh setuptools-0.6c11-py2.5.egg
+   # Run the setuptools install script in your mediacore directory:
+   sudo python ez_setup.py
 
 
 Step 3: Installing Virtualenv
 -----------------------------
 
-First, check if you have virtualenv installed.
+First, check if you have virtualenv installed:
 
 .. sourcecode:: bash
 
    # Check if you have virtualenv installed:
-   python2.5 -c 'import virtualenv'
+   python -c 'import virtualenv'
 
 If you get no error, you can skip the rest of this step; virtualenv is already
 installed!
 
-If you get an error like the following, you'll need to install virtualenv.
+If you get an error like the following, you'll need to install virtualenv:
 
 .. sourcecode:: text
 
@@ -238,26 +219,9 @@ If you get an error like the following, you'll need to install virtualenv.
      File "<string>", line 1, in <module>
    ImportError: No module named virtualenv
 
-If you're using a system with a package manager and you know how to install
-setuptools 0.6c9 or higher for python2.5 using that package manager go ahead:
+If an error was displayed, install virtualenv as follows:
 
 .. sourcecode:: bash
 
-   # For example, on Ubuntu 9.04, you must install python-virtualenv, then
-   # create a custom virtualenv-2.5 script to use with python2.5
-   sudo apt-get install python-virtualenv
-   sudo cp /usr/bin/virtualenv /usr/bin/virtualenv-2.5
-   sudo sh -c "sed 's:#\!/usr/bin/python$:#\!/usr/bin/python2.5:' /usr/bin/virtualenv > /usr/bin/virtualenv-2.5"
-
-   # Or on Mac OS X (with MacPorts):
-   sudo port -v install py25-virtualenv
-   
-   # On Fedora or (with Fedora EPEL activated) CentOS/RHEL
-   sudo yum install python-virtualenv
-
-Otherwise, install virtualenv via setuptools:
-
-.. sourcecode:: bash
-
-   # Install virtualenv via setuptools.
-   sudo easy_install-2.5 virtualenv
+   # Install virtualenv via setuptools:
+   sudo easy_install virtualenv

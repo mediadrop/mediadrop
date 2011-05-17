@@ -19,6 +19,7 @@ like ``cd``, ``ls``, ``mkdir``, ``tar``, ``sudo``, etc. For a quick refresher
 check out this `introduction to \*nix command shells
 <http://vic.gedris.org/Manual-ShellIntro/1.2/ShellIntro.pdf>`_.
 
+
 Step 0: Requirements
 --------------------
 
@@ -62,7 +63,7 @@ is--we'll need to point to it later.
 .. sourcecode:: bash
 
    # Create a new virtual environment:
-   virtualenv-2.5 --no-site-packages mediacore_env
+   virtualenv --no-site-packages mediacore_env
 
    # Now, activate that virtual environment:
    source mediacore_env/bin/activate
@@ -94,7 +95,7 @@ a. **For most users**, you should `download the latest official release of
       cd MediaCore-0.9.0
 
       # Install!
-      python2.5 setup.py develop
+      python setup.py develop
 
 b. **For developers**, or users that are very familiar with Git
    version control, we have a `public Git repository
@@ -110,7 +111,9 @@ b. **For developers**, or users that are very familiar with Git
       cd mediacore
 
       # Install!
-      python2.5 setup.py develop
+      python setup.py develop
+
+**Note:** If running 'python setup.py develop' crashes, you might be having this problem: :ref:`install_trouble_ppc`
 
 
 Step 3: Create the Database
