@@ -176,8 +176,12 @@ class MediaController(BaseController):
         :returns:
             media
                 The :class:`~mediacore.model.media.Media` instance for display.
-            comment_form
-                The :class:`~mediacore.forms.comments.PostCommentForm` instance.
+            related_media
+                A list of :class:`~mediacore.model.media.Media` instances that
+                rank as topically related to the given media item.
+            comments
+                A list of :class:`~mediacore.model.comments.Comment` instances
+                associated with the selected media item.
             comment_form_action
                 ``str`` comment form action
             comment_form_values
@@ -197,19 +201,14 @@ class MediaController(BaseController):
 
         media.increment_views()
 
-        # Which style of 'likes' links has the admin selected?
-        # TODO: Add settings to control these options.
-        mediacore_likes = True
-        facebook_likes = False
-
+        # TODO: finish implementation of different 'likes' buttons
+        #       e.g. the default one, plus a setting to use facebook.
         return dict(
             media = media,
             related_media = Media.query.related(media)[:6],
             comments = media.comments.published().all(),
             comment_form_action = url_for(action='comment'),
             comment_form_values = kwargs,
-            mediacore_likes = mediacore_likes,
-            facebook_likes = facebook_likes,
         )
 
     @expose('players/iframe.html')
