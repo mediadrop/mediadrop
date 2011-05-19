@@ -28,7 +28,8 @@ class TagNameValidator(FancyValidator):
     def _to_python(self, value, state=None):
         value = value.strip()
         value = excess_whitespace.sub(' ', value)
-        value = super(TagNameValidator, self)._to_python(value, state)
+        if super(TagNameValidator, self)._to_python:
+            value = super(TagNameValidator, self)._to_python(value, state)
         return value
 
 class TagForm(ListForm):
