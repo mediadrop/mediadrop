@@ -189,8 +189,22 @@ Step 2: Installing Setuptools
 The Python setuptools package is what we'll use to automate the rest of the
 installation of Python packages.
 
-In the main mediacore package drectory is an install script to get setuptools
-for you.
+If you're using a package manager to handle your Python installation, you can
+use your package manager to install setuptools (0.6c9 or higher), like so:
+
+.. sourcecode:: bash
+
+   # For example, on Ubuntu 9.04:
+   sudo apt-get install python-setuptools
+
+   # Or on Mac OS X (with MacPorts):
+   sudo port -v install py27-setuptools
+
+   # Or on CentOS/RHEL/Fedora:
+   sudo yum install python-setuptools
+
+Otherwise, in the main mediacore package directory, there is an install script
+to get setuptools for you.
 
 .. sourcecode:: bash
 
@@ -219,7 +233,25 @@ If you get an error like the following, you'll need to install virtualenv:
      File "<string>", line 1, in <module>
    ImportError: No module named virtualenv
 
-If an error was displayed, install virtualenv as follows:
+If you're using a package manager to handle your Python installation, you can
+use your package manager to install virtualenv, like so:
+
+.. sourcecode:: bash
+
+   # For example, on Ubuntu 9.04:
+   sudo apt-get install python-virtualenv
+
+   # Or on Mac OS X (with MacPorts):
+   # NOTE: While other options will install a script named simply 'virtualenv',
+   #       macports will install a script named 'virtualenv-2.7'.
+   #       If you install this way, remember to use 'virtualenv-2.7' instead of
+   #       'virtualenv' in any commands below.
+   sudo port -v install py27-virtualenv
+
+   # Or on CentOS/RHEL/Fedora:
+   sudo yum install python-virtualenv
+
+Otherwise, you can get setuptools to automatically install virtualenv for you:
 
 .. sourcecode:: bash
 
