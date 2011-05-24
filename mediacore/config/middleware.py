@@ -50,7 +50,16 @@ class PylonsApp(_PylonsApp):
     def register_globals(self, environ):
         _PylonsApp.register_globals(self, environ)
         request = environ['pylons.pylons'].request
-        request.settings = self.globals.settings
+
+        if environ['PATH_INFO'] == '/_test_vars':
+            # This is a dummy request, probably used inside a test or to build
+            # documentation, so we're not guaranteed to have a database
+            # connection with which to get the settings.
+            request.settings = {
+                'intentionally_empty': 'see mediacore.config.middleware',
+            }
+        else:
+            request.settings = self.globals.settings
 
 def setup_prefix_middleware(app, global_conf, proxy_prefix):
     """Add prefix middleware.
