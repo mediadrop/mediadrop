@@ -144,10 +144,10 @@ mapper(Podcast, podcasts, order_by=podcasts.c.title, extension=events.MapperObse
                     media.c.reviewed == True,
                     media.c.encoded == True,
                     media.c.publishable == True,
-                    media.c.publish_on <= datetime.now(),
+                    media.c.publish_on <= sql.func.current_timestamp(),
                     sql.or_(
                         media.c.publish_until == None,
-                        media.c.publish_until >= datetime.now()
+                        media.c.publish_until >= sql.func.current_timestamp(),
                     ),
                 )
             ).label('media_count_published'),

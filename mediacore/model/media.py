@@ -716,10 +716,10 @@ _tags_mapper.add_properties(_properties_dict_from_labels(
         media.c.reviewed == True,
         media.c.encoded == True,
         media.c.publishable == True,
-        media.c.publish_on <= datetime.now(),
+        media.c.publish_on <= sql.func.current_timestamp(),
         sql.or_(
             media.c.publish_until == None,
-            media.c.publish_until >= datetime.now(),
+            media.c.publish_until >= sql.func.current_timestamp(),
         ),
     ]),
 ))
@@ -732,10 +732,10 @@ _categories_mapper.add_properties(_properties_dict_from_labels(
         media.c.reviewed == True,
         media.c.encoded == True,
         media.c.publishable == True,
-        media.c.publish_on <= datetime.now(),
+        media.c.publish_on <= sql.func.current_timestamp(),
         sql.or_(
             media.c.publish_until == None,
-            media.c.publish_until >= datetime.now(),
+            media.c.publish_until >= sql.func.current_timestamp(),
         ),
     ]),
 ))
