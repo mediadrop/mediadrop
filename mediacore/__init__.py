@@ -99,6 +99,16 @@ try:
             return other is self
         else:
             return unicode(self) == unicode(other)
+
+    # Disable the webob.request.AdhocAttrMixin.
+    # We want to be able to set and get attributes very quickly, and they
+    # do not need to be persisted between new request instances.
+    from pylons.controllers.util import Request
+    from webob.request import BaseRequest
+    Request.__setattr__ = BaseRequest.__setattr__
+    Request.__getattr__ = BaseRequest.__getattribute__
+    Request.__delattr__ = BaseRequest.__delattr__
+    Request._setattr_stacklevel = BaseRequest._setattr_stacklevel
 except ImportError:
     # When setup.py install is called, these monkeypatches will fail.
     # For now we'll just silently allow this to proceed.
