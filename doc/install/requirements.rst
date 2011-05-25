@@ -194,7 +194,7 @@ use your package manager to install setuptools (0.6c9 or higher), like so:
 
 .. sourcecode:: bash
 
-   # For example, on Ubuntu 9.04:
+   # For example, on Ubuntu 10.04:
    sudo apt-get install python-setuptools
 
    # Or on Mac OS X (with MacPorts):
@@ -238,7 +238,7 @@ use your package manager to install virtualenv, like so:
 
 .. sourcecode:: bash
 
-   # For example, on Ubuntu 9.04:
+   # For example, on Ubuntu 10.04:
    sudo apt-get install python-virtualenv
 
    # Or on Mac OS X (with MacPorts):
