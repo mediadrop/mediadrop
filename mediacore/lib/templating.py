@@ -25,7 +25,12 @@ from pylons import app_globals, config, request, response, tmpl_context, transla
 
 from mediacore.lib.i18n import N_
 
-__all__ = ['render', 'render_stream', 'TemplateLoader', 'XHTMLPlusSerializer']
+__all__ = [
+    'TemplateLoader',
+    'XHTMLPlusSerializer',
+    'render',
+    'render_stream',
+]
 
 log = logging.getLogger(__name__)
 

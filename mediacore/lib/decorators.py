@@ -35,8 +35,16 @@ from mediacore.lib.templating import render
 from mediacore.model.meta import DBSession
 
 __all__ = [
-    'autocommit', 'beaker_cache', 'expose',
-    'expose_xhr', 'paginate', 'validate',
+    'ValidationState',
+    'autocommit',
+    'beaker_cache',
+    'expose',
+    'expose_xhr',
+    'memoize',
+    'observable',
+    'paginate',
+    'validate',
+    'validate_xhr',
 ]
 
 log = logging.getLogger(__name__)

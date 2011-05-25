@@ -1,6 +1,5 @@
 """Paster Command Subclasses for use in utilities."""
 
-__all__ = ['LoadAppCommand', 'load_app']
 import os
 import sys
 
@@ -11,6 +10,11 @@ from paste.deploy import loadapp, appconfig
 from paste.script.command import Command, BadCommand
 
 import pylons
+
+__all__ = [
+    'LoadAppCommand',
+    'load_app',
+]
 
 class LoadAppCommand(Command):
     """Load the app and all associated StackedObjectProxies.

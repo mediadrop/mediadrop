@@ -46,30 +46,68 @@ from mediacore.lib.xhtml import (clean_xhtml, decode_entities, encode_entities,
 from mediacore.plugin.events import (meta_description, meta_keywords,
     meta_robots_noindex, observes, page_title)
 
-imports = [
-    'any', 'containers', 'clean_xhtml', 'date', 'decode_entities',
-    'encode_entities', 'excerpt_xhtml', 'feedgenerator', 'format_paragraphs',
-    'html', 'line_break_xhtml', 'list_acceptable_xhtml', 'literal', 'misc',
-    'number', 'paginate', 'quote', 'strip_xhtml', 'tags', 'text',
-    'truncate_xhtml', 'unquote', 'urlencode', 'urlparse', 'url', 'url_for',
+__all__ = [
+    # Imports that should be exported:
+    'any',
+    'clean_xhtml',
     'config', # is this appropriate to export here?
-    'thumb_url', # XXX: imported from  mediacore.lib.thumbnails, for template use.
+    'containers',
+    'date',
+    'decode_entities',
+    'encode_entities',
+    'excerpt_xhtml',
+    'feedgenerator',
+    'format_date',
+    'format_datetime',
+    'format_paragraphs',
+    'format_time',
+    'html',
+    'line_break_xhtml',
+    'list_acceptable_xhtml',
+    'literal',
+    'meta_description',
+    'meta_keywords', # XXX: imported from mediacore.plugin.events
+    'meta_robots_noindex',
+    'misc',
+    'number',
+    'page_title', # XXX: imported from mediacore.plugin.events
+    'paginate',
+    'quote',
+    'strip_xhtml',
+    'tags',
+    'text',
     'thumb', # XXX: imported from  mediacore.lib.thumbnails, for template use.
-    'meta_description', 'meta_keywords', # XXX: imported from mediacore.plugin.events
-    'meta_robots_noindex', 'page_title', # XXX: imported from mediacore.plugin.events
-    'format_date', 'format_datetime', 'format_time',
-]
+    'thumb_url', # XXX: imported from  mediacore.lib.thumbnails, for template use.
+    'truncate_xhtml',
+    'unquote',
+    'url',
+    'url_for',
+    'urlencode',
+    'urlparse',
 
-defined = [
-    'append_class_attr', 'best_translation', 'can_edit', 'delete_files',
-    'doc_link', 'duration_from_seconds', 'duration_to_seconds',
-    'filter_library_controls', 'filter_vulgarity',
-    'get_featured_category', 'gravatar_from_email', 'is_admin', 'js',
-    'pick_any_media_file', 'pick_podcast_media_file',
-    'pretty_file_size', 'redirect', 'store_transient_message',
-    'truncate', 'wrap_long_words',
+    # Locally defined functions that should be exported:
+    'append_class_attr',
+    'best_translation',
+    'can_edit',
+    'delete_files',
+    'doc_link',
+    'duration_from_seconds',
+    'duration_to_seconds',
+    'filter_library_controls',
+    'filter_vulgarity',
+    'get_featured_category',
+    'gravatar_from_email',
+    'is_admin',
+    'js',
+    'pick_any_media_file',
+    'pick_podcast_media_file',
+    'pretty_file_size',
+    'redirect',
+    'store_transient_message',
+    'truncate',
+    'wrap_long_words',
 ]
-__all__ = imports + defined
+__all__.sort()
 
 js_sources = {
     'mootools_more': '/scripts/third-party/mootools-1.2.4.4-more-yui-compressed.js',

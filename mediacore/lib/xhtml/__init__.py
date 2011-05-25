@@ -26,8 +26,13 @@ from mediacore.lib.xhtml.htmlsanitizer import (Cleaner,
     encode_xhtml_entities as encode_entities)
 
 __all__ = [
-    'clean_xhtml', 'decode_entities', 'encode_entities', 'excerpt_xhtml',
-    'line_break_xhtml', 'list_acceptable_xhtml', 'strip_xhtml',
+    'clean_xhtml',
+    'decode_entities',
+    'encode_entities',
+    'excerpt_xhtml',
+    'line_break_xhtml',
+    'list_acceptable_xhtml',
+    'strip_xhtml',
     'truncate_xhtml',
 ]
 
