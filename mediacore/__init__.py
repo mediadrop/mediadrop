@@ -108,7 +108,12 @@ try:
     Request.__setattr__ = BaseRequest.__setattr__
     Request.__getattr__ = BaseRequest.__getattribute__
     Request.__delattr__ = BaseRequest.__delattr__
-    Request._setattr_stacklevel = BaseRequest._setattr_stacklevel
+    try:
+        Request._setattr_stacklevel = BaseRequest._setattr_stacklevel
+    except AttributeError:
+        # Don't fail if we've been running v0.9.0 and thus haven't
+        # updated to Web0b 1.0.7 yet
+        pass
 except ImportError:
     # When setup.py install is called, these monkeypatches will fail.
     # For now we'll just silently allow this to proceed.
