@@ -42,7 +42,7 @@ Step 1: Re-Create Your Virtual Environment
    rm -rf mediacore_env
 
    # Create a new virtual environment:
-   virtualenv-2.5 --no-site-packages mediacore_env
+   virtualenv --no-site-packages mediacore_env
 
    # Now, activate that virtual environment
    source mediacore_env/bin/activate
@@ -69,7 +69,7 @@ your current MediaCore installation.
 
    # Install MediaCore and its dependencies into the new virtual environment
    cd MediaCore-NEW
-   python2.5 setup.py develop
+   python setup.py develop
 
 
 Step 3: Migrate Your Media Files and Thumbnails
