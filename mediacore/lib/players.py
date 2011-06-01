@@ -772,6 +772,12 @@ class JWPlayer(AbstractHTML5Player):
             vars['playlist'] = playlist
         if plugins:
             vars['plugins'] = plugins
+
+        # Playlists have 'image's and <video> elements have provide 'poster's,
+        # but <audio> elements have no 'poster' attribute. Set an image via JS:
+        if self.media.type == AUDIO and not playlist:
+            vars['image'] = thumb_url(self.media, 'l', qualified=self.qualified)
+
         return vars
 
     def playlist(self):
