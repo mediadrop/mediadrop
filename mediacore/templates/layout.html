@@ -29,7 +29,7 @@
 		if attrs.get('type') == 'application/rss+xml':
 			feed_links.append((attrs['href'], attrs['title']))
 	?></link>
-	<meta py:replace="select('*')"/>
+	<meta py:replace="select('*|text()')"/>
 </head>
 
 <body py:match="body" py:attrs="select('@*')">
