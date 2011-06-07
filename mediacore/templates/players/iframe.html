@@ -20,6 +20,8 @@
       xmlns:i18n="http://genshi.edgewall.org/i18n"
       xmlns:xi="http://www.w3.org/2001/XInclude">
 
+<xi:include py:for="tmpl in value_of('plugin_templates', ())" href="${tmpl}" />
+
 <head>
 	<title>${h.page_title(default=media.title, media=media)}</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
