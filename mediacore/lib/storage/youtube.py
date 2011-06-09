@@ -59,7 +59,13 @@ class YoutubeStorage(EmbedStorageEngine):
         yt_service = gdata.youtube.service.YouTubeService()
         yt_service.ssl = False
         entry = yt_service.GetYouTubeVideoEntry(video_id=id)
-        thumb = max(entry.media.thumbnail, key=attrgetter('width'))
+
+        try:
+            thumb = max(entry.media.thumbnail, key=attrgetter('width')).url
+        except ValueError:
+            # At least one video has been found to return no thumbnails.
+            # Try adding this later http://www.youtube.com/watch?v=AQTYoRpCXwg
+            thumb = None
 
         if entry.media.description.text:
             description = unicode(entry.media.description.text, 'utf-8')
@@ -71,7 +77,7 @@ class YoutubeStorage(EmbedStorageEngine):
             'duration': int(entry.media.duration.seconds),
             'display_name': unicode(entry.media.title.text, 'utf-8'),
             'description': description,
-            'thumbnail_url': thumb.url,
+            'thumbnail_url': thumb,
             'type': VIDEO,
         }
 
