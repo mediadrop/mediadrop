@@ -33,10 +33,10 @@ class BlipTVStorage(EmbedStorageEngine):
 
     default_name = N_(u'BlipTV')
 
-    url_pattern = re.compile(r'^(http(s?)://)?(\w+\.)?blip.tv/file/(?P<id>\d+)')
+    url_pattern = re.compile(r'^(http(s?)://)?(\w+\.)?blip.tv/(?P<id>.+)')
     """A compiled pattern object that uses named groupings for matches."""
 
-    def _parse(self, url, **kwargs):
+    def _parse(self, url, id, **kwargs):
         """Return metadata for the given URL that matches :attr:`url_pattern`.
 
         :type url: unicode
@@ -48,8 +48,12 @@ class BlipTVStorage(EmbedStorageEngine):
         :returns: Any extracted metadata.
 
         """
-        id = kwargs['id']
-        req = Request('http://blip.tv/file/%s?skin=api' % id)
+        if '?' in url:
+            url += '&skin=api'
+        else:
+            url += '?skin=api'
+
+        req = Request(url)
 
         try:
             temp_data = urlopen(req)
@@ -84,7 +88,13 @@ class BlipTVStorage(EmbedStorageEngine):
         """
         web_id, embed_lookup = media_file.unique_id.split(' ')
         play_url = 'http://blip.tv/play/%s' % embed_lookup
-        web_url = 'http://blip.tv/file/%s' % web_id
+
+        # Old blip.tv URLs had a numeric ID in the URL, now they're wordy.
+        try:
+            web_url = 'http://blip.tv/file/%s' % int(web_id, 10)
+        except ValueError:
+            web_url = 'http://blip.tv/%s' % web_id
+
         return [
             StorageURI(media_file, 'bliptv', play_url, None),
             StorageURI(media_file, 'www', web_url, None),
