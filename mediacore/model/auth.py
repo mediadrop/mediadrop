@@ -63,7 +63,7 @@ class User(object):
     query = DBSession.query_property()
 
     def __repr__(self):
-        return '<User: email="%s", display name="%s">' % (
+        return '<User: email=%r, display name=%r>' % (
                 self.email_address, self.display_name)
 
     def __unicode__(self):
@@ -140,7 +140,7 @@ class Group(object):
         self.display_name = display_name
 
     def __repr__(self):
-        return '<Group: name=%s>' % self.group_name
+        return '<Group: name=%r>' % self.group_name
 
     def __unicode__(self):
         return self.group_name

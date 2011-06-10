@@ -129,7 +129,7 @@ class Category(object):
         self.slug = slug or name or None
 
     def __repr__(self):
-        return '<Category: %s>' % repr(self.name)
+        return '<Category: %r>' % self.name
 
     def __unicode__(self):
         return self.name

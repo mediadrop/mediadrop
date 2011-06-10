@@ -91,7 +91,7 @@ class Comment(object):
     query = DBSession.query_property(CommentQuery)
 
     def __repr__(self):
-        return '<Comment: %s subject="%s">' % (self.id, self.subject)
+        return '<Comment: %r subject=%r>' % (self.id, self.subject)
 
     def __unicode__(self):
         return self.subject

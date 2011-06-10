@@ -61,7 +61,7 @@ class Setting(object):
         self.value = value or None
 
     def __repr__(self):
-        return '<Setting: %s = %s>' % (self.key, self.value)
+        return '<Setting: %s = %r>' % (self.key, self.value)
 
     def __unicode__(self):
         return self.value
@@ -77,7 +77,7 @@ class MultiSetting(object):
         self.value = value or None
 
     def __repr__(self):
-        return '<MultiSetting: %s = %s>' % (self.key, self.value)
+        return '<MultiSetting: %s = %r>' % (self.key, self.value)
 
     def __unicode__(self):
         return self.value

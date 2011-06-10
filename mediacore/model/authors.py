@@ -43,7 +43,7 @@ class Author(object):
         return not self.__eq__(other)
 
     def __repr__(self):
-        return '<Author: "%s">' % self.name
+        return '<Author: %r>' % self.name
 
 
 def _pack_ip(ip_dot_str):
@@ -76,7 +76,7 @@ class AuthorWithIP(Author):
         return False
 
     def __repr__(self):
-        return '<Author: "%s" %s>' % (self.name, self.ip)
+        return '<Author: %r %s>' % (self.name, self.ip)
 
     def _get_ip(self):
         return getattr(self, '_ip', None)

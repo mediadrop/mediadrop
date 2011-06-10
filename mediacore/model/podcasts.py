@@ -106,7 +106,7 @@ class Podcast(object):
     _thumb_dir = 'podcasts'
 
     def __repr__(self):
-        return '<Podcast: %s>' % self.slug
+        return '<Podcast: %r>' % self.slug
 
     @validates('slug')
     def validate_slug(self, key, slug):

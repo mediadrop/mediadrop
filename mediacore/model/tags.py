@@ -67,7 +67,7 @@ class Tag(object):
         self.slug = slug or name or None
 
     def __repr__(self):
-        return '<Tag: %s>' % self.name
+        return '<Tag: %r>' % self.name
 
     def __unicode__(self):
         return self.name

@@ -434,7 +434,7 @@ class Media(object):
             self.author = Author()
 
     def __repr__(self):
-        return '<Media: %s>' % self.slug
+        return '<Media: %r>' % self.slug
 
     def set_tags(self, tags):
         """Set the tags relations of this media, creating them as needed.
@@ -592,7 +592,7 @@ class MediaFile(object):
     query = DBSession.query_property(MediaFileQuery)
 
     def __repr__(self):
-        return '<MediaFile: %s %s unique_id=%s>' \
+        return '<MediaFile: %r %r unique_id=%r>' \
             % (self.type, self.storage.display_name, self.unique_id)
 
     @property
