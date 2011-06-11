@@ -36,7 +36,7 @@ class DailyMotionStorage(EmbedStorageEngine):
     default_name = N_(u'Daily Motion')
 
     url_pattern = re.compile(
-        r'^(http(s?)://)?(\w+\.)?dailymotion.com/video/(?P<id>[^_\?&#]+)_'
+        r'^(http(s?)://)?(\w+\.)?dailymotion.(\w+.?\w*)/video/(?P<id>[^_\?&#]+)_'
     )
     """A compiled pattern object that uses named groupings for matches."""
 
@@ -53,6 +53,8 @@ class DailyMotionStorage(EmbedStorageEngine):
 
         """
         id = kwargs['id']
+        # Ensure the video uses the .com TLD for the API request.
+        url = 'http://www.dailymotion.com/video/%s' % id
         data_url = 'http://www.dailymotion.com/services/oembed?' + \
             urlencode({'format': 'json', 'url': url})
 
