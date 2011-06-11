@@ -32,7 +32,7 @@ Email Helpers
 
 import smtplib
 
-from pylons import app_globals, request
+from pylons import request
 
 from mediacore.lib.helpers import line_break_xhtml, strip_xhtml, url_for
 from mediacore.lib.i18n import _
@@ -98,7 +98,7 @@ def send_media_notification(media_obj):
         return
 
     edit_url = url_for(controller='/admin/media', action='edit',
-                       id=media_obj.id, qualified=True),
+                       id=media_obj.id, qualified=True)
 
     clean_description = strip_xhtml(line_break_xhtml(line_break_xhtml(media_obj.description)))
 
@@ -140,7 +140,7 @@ def send_comment_notification(media_obj, comment):
 
     author_name = media_obj.author.name
     comment_subject = comment.subject
-    post_url = url_for(controller='/media', action='view', slug=media_obj.slug, qualified=True),
+    post_url = url_for(controller='/media', action='view', slug=media_obj.slug, qualified=True)
     comment_body = strip_xhtml(line_break_xhtml(line_break_xhtml(comment.body)))
     subject = _('New Comment: %(comment_subject)s') % locals()
     body = _("""A new comment has been posted!
@@ -180,7 +180,7 @@ def send_support_request(email, url, description, get_vars, post_vars):
     if not send_to:
         return
 
-    get_vars = "\n\n  ".join([x + " :  " + get_vars[x] for x in get_vars]),
+    get_vars = "\n\n  ".join(x + " :  " + get_vars[x] for x in get_vars)
     post_vars = "\n\n  ".join([x + " :  " + post_vars[x] for x in post_vars])
     subject = _('New Support Request: %(email)s') % locals()
     body = _("""A user has asked for support
