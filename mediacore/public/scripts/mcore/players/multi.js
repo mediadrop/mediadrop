@@ -30,6 +30,9 @@ mcore.players.MultiPlayer = function(players, opt_domHelper) {
    * @protected
    */
   this.players = players;
+  for (var i=0; i<this.players.length; i++) {
+    mcore.players.Controller.mapCompiledMethodNamesToUncompiled(this.players[i]);
+  }
 };
 goog.inherits(mcore.players.MultiPlayer, goog.ui.Component);
 

@@ -41,6 +41,13 @@ mcore.players.Controller = function(player, opt_domHelper) {
    */
   this.player_ = player;
   
+  mcore.players.Controller.mapCompiledMethodNamesToUncompiled(player);
+  var domHelper = player.getDomHelper();
+  domHelper.getElement = domHelper.getElement || domHelper["getElement"];
+};
+goog.inherits(mcore.players.Controller, goog.ui.Component);
+
+mcore.players.Controller.mapCompiledMethodNamesToUncompiled = function(player) {
   /* 
     support player code which is not compiled together with MediaCore's closure 
     code (plugin code, possibly also written with another JS framework).
@@ -59,12 +66,10 @@ mcore.players.Controller = function(player, opt_domHelper) {
   player.getFlashElement = player.getFlashElement || player["getFlashElement"];
   player.getSize = player.getSize || player["getSize"];
   player.setSize = player.setSize || player["setSize"];
-  
-  var domHelper = player.getDomHelper();
-  domHelper.getElement = domHelper.getElement || domHelper["getElement"];
-};
-goog.inherits(mcore.players.Controller, goog.ui.Component);
-
+  player.dispose = player.dispose || player["dispose"];
+  player.setParentEventTarget = player.setParentEventTarget || player["setParentEventTarget"];
+  player.addEventListener = player.addEventListener || player["addEventListener"];
+}
 
 /**
  * The cookie name to store the user's preference for regular or the
