@@ -34,9 +34,12 @@ class YoutubeStorage(EmbedStorageEngine):
 
     default_name = N_(u'YouTube')
 
-    url_pattern = re.compile(
-        r'^(http(s?)://)?(\w+\.)?youtube.com/watch\?(.*&)?v=(?P<id>[^&#]+)'
-    )
+    url_pattern = re.compile(r'''
+        ^(http(s?)://)?                         # http:// or https://
+        (youtu\.be/                             # youtu.be short url OR:
+        |(\w+\.)?youtube\.com/watch\?(.*&)?v=)  # www.youtube.com/watch?v=
+        (?P<id>[^&#]+)                          # video unique ID
+    ''', re.VERBOSE)
     """A compiled pattern object that uses named groupings for matches."""
 
     def _parse(self, url, **kwargs):
