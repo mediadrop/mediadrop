@@ -294,7 +294,7 @@ class SettingsController(BaseSettingsController):
                     log.debug('Video Feed Error: No player URL? %s' % entry)
                     continue
                 video_url = unicode(entry.media.player.url, "utf-8")
-                categories =kwargs.get('youtube.categories', None)
+                categories = kwargs.get('youtube.categories', None)
                 tags = kwargs.get('youtube.tags', None)
                 media = fetch_row(Media, u'new')
                 user = request.environ['repoze.who.identity']['user']
@@ -314,7 +314,7 @@ class SettingsController(BaseSettingsController):
                     media.set_categories(categories)
                 try:
                     media_file = add_new_media_file(media,
-                        url=entry.media.player.url)
+                        url=video_url)
                 except StorageError, e:
                     log.debug('Video Feed Error: Error storing video: %s' \
                         % e.message)
