@@ -38,10 +38,10 @@ from mediacore.lib.decorators import (autocommit, expose, expose_xhr,
     paginate, validate)
 from mediacore.lib.helpers import filter_vulgarity, redirect, url_for
 from mediacore.lib.i18n import LanguageError, Translator
-from mediacore.lib.storage import add_new_media_file, StorageError
+from mediacore.lib.storage import add_new_media_file, StorageError, UnsuitableEngineError, YoutubeStorage
 from mediacore.lib.templating import render
 from mediacore.lib.thumbnails import create_default_thumbs_for, has_thumbs
-from mediacore.model import (Author, Category, Comment, Media, MultiSetting,
+from mediacore.model import (Author, Category, Comment, Media, MediaFile, MultiSetting,
     Setting, fetch_row, get_available_slug)
 from mediacore.model.meta import DBSession
 from mediacore.websetup import appearance_settings, generate_appearance_css
@@ -285,6 +285,20 @@ class SettingsController(BaseSettingsController):
         """Save :class:`~mediacore.forms.admin.settings.ImportVideosForm`."""
         channel_url = youtube.get('channel_url', None)
         auto_publish = youtube.get('auto_publish', None)
+        def extract_id_from_youtube_link(player_url):
+            try:
+                video_properties = YoutubeStorage().parse(url=player_url)
+            except UnsuitableEngineError:
+                log.debug('Cannot parse YouTube URL: %s' % player_url)
+                return None
+            return video_properties.get('unique_id')
+
+        def video_already_has_media_file(player_url):
+            unique_id = extract_id_from_youtube_link(player_url)
+            if unique_id is None:
+                return False
+            return 0 != MediaFile.query.filter(MediaFile.unique_id==unique_id).count()
+
         def get_videos_from_feed(feed):
             for entry in feed.entry:
                 # Occasionally, there are issues with a video in a feed
@@ -294,6 +308,8 @@ class SettingsController(BaseSettingsController):
                     log.debug('Video Feed Error: No player URL? %s' % entry)
                     continue
                 video_url = unicode(entry.media.player.url, "utf-8")
+                if video_already_has_media_file(video_url):
+                    continue
                 categories = kwargs.get('youtube.categories', None)
                 tags = kwargs.get('youtube.tags', None)
                 media = fetch_row(Media, u'new')
