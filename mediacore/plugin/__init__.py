@@ -99,7 +99,7 @@ class PluginManager(object):
         loaders = {}
         for name, plugin in self.plugins.iteritems():
             if plugin.templates_path:
-                loaders[name] = plugin.templates_path
+                loaders[name + '/'] = plugin.templates_path
         if loaders:
             log.debug('Template loaders: %r', loaders)
             return [loader.prefixed(**loaders)]
