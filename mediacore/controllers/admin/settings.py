@@ -285,12 +285,12 @@ class SettingsController(BaseSettingsController):
         """Save :class:`~mediacore.forms.admin.settings.ImportVideosForm`."""
         auto_publish = youtube.get('auto_publish', None)
         def extract_id_from_youtube_link(player_url):
-            try:
-                video_properties = YoutubeStorage().parse(url=player_url)
-            except UnsuitableEngineError:
+            match = YoutubeStorage.url_pattern.match(player_url)
+            if match is None:
                 log.debug('Cannot parse YouTube URL: %s' % player_url)
                 return None
-            return video_properties.get('unique_id')
+            video_properties = match.groupdict()
+            return video_properties.get('id')
 
         def video_already_has_media_file(player_url):
             unique_id = extract_id_from_youtube_link(player_url)
