@@ -21,6 +21,7 @@ from datetime import datetime
 
 import gdata.youtube
 import gdata.youtube.service
+from gdata.service import RequestError
 
 from cgi import FieldStorage
 from babel.core import Locale
@@ -331,8 +332,8 @@ class SettingsController(BaseSettingsController):
                     media_file = add_new_media_file(media,
                         url=video_url)
                 except StorageError, e:
-                    log.debug('Video Feed Error: Error storing video: %s' \
-                        % e.message)
+                    log.debug('Video Feed Error: Error storing video: %s at %s' \
+                        % e.message, video_url)
                     continue
                 if not has_thumbs(media):
                     create_default_thumbs_for(media)
@@ -367,7 +368,16 @@ class SettingsController(BaseSettingsController):
             
         channel_names = youtube.get('channel_names', "")
         channel_names = channel_names.replace(',', ' ').split()
-        for channel_name in channel_names:
-            import_videos_from_channel(channel_name, auto_publish)
+        try:
+            for channel_name in channel_names:
+                import_videos_from_channel(channel_name, auto_publish)
+        except RequestError, request_error:
+            if request_error.message['status'] != 403:
+                raise
+            c.form_errors['_the_form'] = "You have exceeded the traffic quota allowed by YouTube. " + \
+                                         "While some of the videos have been saved, not all of them were imported correctly. " + \
+                                         "Please wait a few minutes and run the import again in to continue."
+            return self.importvideos(youtube=youtube, **kwargs)
+        
         # Redirect to the Media view page, when the import is complete
         redirect(url_for(controller='admin/media', action='index'))

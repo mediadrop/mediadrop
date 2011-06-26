@@ -31,6 +31,11 @@
 			<h1>Import Videos</h1>
 			<span class="box-head-sec">${h.doc_link('admin/settings', 'upload')}</span>
 		</div>
+		<div class="form-save-error"
+			py:if="'_the_form' in tmpl_context.form_errors"
+			py:content="tmpl_context.form_errors['_the_form']">
+			Display import errors
+		</div>
 		<form py:replace="XML(form(form_values, child_args={'youtube.categories': {'category_tree': category_tree}}))" />
 	</div>
 </body>
