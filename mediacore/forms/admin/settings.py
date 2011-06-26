@@ -465,9 +465,9 @@ class ImportVideosForm(ListForm):
         ListFieldSet('youtube', suppress_label=True, legend=N_('YouTube Channel Import'),
             css_classes=['details_fieldset'],
             children = [
-                TextField('channel_url', maxlength=255,
-                    label_text=N_('Channel Name'),
-                    help_text=N_('Please enter only the channel/user name, not the full URL. Please be aware that it may take several minutes for the import to complete. When all videos have been imported, you will be returned to the Media page to manage your new videos.'),
+                TextArea('channel_names', attrs=dict(rows=3, cols=20),
+                    label_text=N_('Channel Name(s)'),
+                    help_text=N_('One ore more channel names (separated by commas) to import. Please enter only the channel/user name, not the full URL. Please be aware that it may take several minutes for the import to complete. When all videos have been imported, you will be returned to the Media page to manage your new videos.'),
                     validator=NotEmpty),
                 CheckBox('auto_publish',
                     label_text=N_('Publish Videos'),

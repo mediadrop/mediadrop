@@ -283,7 +283,6 @@ class SettingsController(BaseSettingsController):
     @autocommit
     def importvideos_save(self, youtube, **kwargs):
         """Save :class:`~mediacore.forms.admin.settings.ImportVideosForm`."""
-        channel_url = youtube.get('channel_url', None)
         auto_publish = youtube.get('auto_publish', None)
         def extract_id_from_youtube_link(player_url):
             try:
@@ -348,21 +347,27 @@ class SettingsController(BaseSettingsController):
                     media.publish_on = datetime.now()
                 DBSession.add(media)
                 DBSession.flush()
-
-        # Since we can only get 50 videos at a time, loop through when a "next"
-        # link is present in the returned feed from YouTube
-        getvideos = True
-        yt_service = gdata.youtube.service.YouTubeService()
-        uri = 'http://gdata.youtube.com/feeds/api/users/%s/uploads?max-results=50' \
-            % (channel_url)
-        while getvideos:
-            feed = yt_service.GetYouTubeVideoFeed(uri)
-            get_videos_from_feed(feed)
-            for link in feed.link:
-                if link.rel == 'next':
-                    uri = link.href
-                    break
-            else:
-                getvideos = False
+        
+        def import_videos_from_channel(channel_name, auto_publish):
+            # Since we can only get 50 videos at a time, loop through when a "next"
+            # link is present in the returned feed from YouTube
+            getvideos = True
+            yt_service = gdata.youtube.service.YouTubeService()
+            uri = 'http://gdata.youtube.com/feeds/api/users/%s/uploads?max-results=50' \
+                % (channel_name)
+            while getvideos:
+                feed = yt_service.GetYouTubeVideoFeed(uri)
+                get_videos_from_feed(feed)
+                for link in feed.link:
+                    if link.rel == 'next':
+                        uri = link.href
+                        break
+                else:
+                    getvideos = False
+            
+        channel_names = youtube.get('channel_names', "")
+        channel_names = channel_names.replace(',', ' ').split()
+        for channel_name in channel_names:
+            import_videos_from_channel(channel_name, auto_publish)
         # Redirect to the Media view page, when the import is complete
         redirect(url_for(controller='admin/media', action='index'))
