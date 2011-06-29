@@ -26,7 +26,7 @@ non-mission-critical options which can be edited via the admin UI.
 
 """
 from sqlalchemy import Table, ForeignKey, Column
-from sqlalchemy.exc import IntegrityError
+from sqlalchemy.exc import IntegrityError, ProgrammingError
 from sqlalchemy.types import Unicode, UnicodeText, Integer, Boolean, Float
 from sqlalchemy.orm import mapper, relation, backref, synonym, interfaces, validates
 from urlparse import urlparse
@@ -97,10 +97,18 @@ def insert_settings(defaults):
     :returns: Any settings that have just been created.
     """
     inserted = []
-    existing_settings = set(x[0] for x in DBSession.query(Setting.key) \
-                                     .filter(Setting.key \
-                                     .in_(key for key, value in defaults)))
-
+    try:
+        settings_query = DBSession.query(Setting.key)\
+            .filter(Setting.key.in_([key for key, value in defaults]))
+        existing_settings = set(x[0] for x in settings_query)
+    except ProgrammingError:
+        # If we are running paster setup-app on a fresh database with a
+        # plugin which tries to use this function every time the
+        # Environment.loaded event fires, the settings table will not
+        # exist and this exception will be thrown, but its safe to ignore.
+        # The settings will be created the next time the event fires,
+        # which will likely be the first time the app server starts up.
+        return inserted
     for key, value in defaults:
         if key in existing_settings:
             continue
