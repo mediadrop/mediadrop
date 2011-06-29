@@ -62,20 +62,30 @@ class YoutubeStorage(EmbedStorageEngine):
 
         try:
             thumb = max(entry.media.thumbnail, key=attrgetter('width')).url
-        except ValueError:
+        except (AttributeError, ValueError, TypeError):
             # At least one video has been found to return no thumbnails.
             # Try adding this later http://www.youtube.com/watch?v=AQTYoRpCXwg
             thumb = None
 
-        if entry.media.description.text:
-            description = unicode(entry.media.description.text, 'utf-8')
-        else:
+        # Some videos at some times do not return a complete response, and these
+        # attributes are missing. We can just ignore this.
+        try:
+            description = unicode(entry.media.description.text, 'utf-8') or None
+        except AttributeError:
             description = None
+        try:
+            title = unicode(entry.media.title.text, 'utf-8')
+        except (AttributeError, ValueError, TypeError, UnicodeDecodeError):
+            title = None
+        try:
+            duration = int(entry.media.duration.seconds)
+        except (AttributeError, ValueError, TypeError):
+            duration = None
 
         return {
             'unique_id': id,
-            'duration': int(entry.media.duration.seconds),
-            'display_name': unicode(entry.media.title.text, 'utf-8'),
+            'duration': duration,
+            'display_name': title,
             'description': description,
             'thumbnail_url': thumb,
             'type': VIDEO,
