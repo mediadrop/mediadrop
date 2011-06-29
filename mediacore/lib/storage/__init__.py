@@ -43,6 +43,11 @@ log = logging.getLogger(__name__)
 class StorageError(Exception):
     """Base class for all storage exceptions."""
 
+class UserStorageError(StorageError):
+    """A storage error that occurs due to the user input.
+
+    The message will be displayed to the user."""
+
 class UnsuitableEngineError(StorageError):
     """Error to indicate that StorageEngine.parse can't parse its input."""
 

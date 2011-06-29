@@ -18,13 +18,14 @@ import re
 from operator import attrgetter
 from urllib import urlencode
 
+import gdata.service
 import gdata.youtube
 import gdata.youtube.service
 
 from mediacore.lib.compat import max
 from mediacore.lib.filetypes import VIDEO
-from mediacore.lib.i18n import N_
-from mediacore.lib.storage import EmbedStorageEngine
+from mediacore.lib.i18n import N_, _
+from mediacore.lib.storage import EmbedStorageEngine, UserStorageError
 from mediacore.lib.uri import StorageURI
 
 class YoutubeStorage(EmbedStorageEngine):
@@ -58,7 +59,16 @@ class YoutubeStorage(EmbedStorageEngine):
 
         yt_service = gdata.youtube.service.YouTubeService()
         yt_service.ssl = False
-        entry = yt_service.GetYouTubeVideoEntry(video_id=id)
+
+        try:
+            entry = yt_service.GetYouTubeVideoEntry(video_id=id)
+        except gdata.service.RequestError, e:
+            if e['status'] == 403 and e['body'] == 'Private video':
+                raise UserStorageError(
+                    _('This video is private and cannot be embedded.'))
+            elif e['status'] == 400 and e['body'] == 'Invalid id':
+                raise UserStorageError(
+                    _('Invalid YouTube URL. This video does not exist.'))
 
         try:
             thumb = max(entry.media.thumbnail, key=attrgetter('width')).url
