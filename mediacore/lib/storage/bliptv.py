@@ -20,8 +20,8 @@ from urllib2 import Request, urlopen, URLError
 
 from mediacore.lib.compat import ElementTree
 from mediacore.lib.filetypes import VIDEO
-from mediacore.lib.i18n import N_
-from mediacore.lib.storage import EmbedStorageEngine
+from mediacore.lib.i18n import N_, _
+from mediacore.lib.storage import EmbedStorageEngine, UserStorageError
 from mediacore.lib.uri import StorageURI
 
 log = logging.getLogger(__name__)
@@ -60,6 +60,9 @@ class BlipTVStorage(EmbedStorageEngine):
             xmlstring = temp_data.read()
             try:
                 xmltree = ElementTree.fromstring(xmlstring)
+            except SyntaxError:
+                raise UserStorageError(
+                    _('Invalid BlipTV URL. This video does not exist.'))
             finally:
                 temp_data.close()
         except URLError, e:
