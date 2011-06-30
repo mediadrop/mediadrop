@@ -213,10 +213,12 @@ class PodcastsController(BaseController):
         except IOError, e:
             success = False
             if e.errno == 13:
-                message = 'Permission denied, cannot write file'
+                message = _('Permission denied, cannot write file')
             elif e.message == 'cannot identify image file':
-                message = 'Unsupport image type: %s' \
+                message = _('Unsupport image type: %s') \
                     % os.path.splitext(thumb.filename)[1].lstrip('.')
+            elif e.message == 'cannot read interlaced PNG files':
+                message = _('Interlaced PNGs are not supported.')
             else:
                 raise
 
