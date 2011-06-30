@@ -24,6 +24,7 @@ tags. This means you can tag all you want!
 import re
 
 from datetime import datetime
+from itertools import izip
 from sqlalchemy import Table, ForeignKey, Column, sql, func
 from sqlalchemy.types import Unicode, UnicodeText, Integer, DateTime, Boolean, Float
 from sqlalchemy.orm import mapper, relation, backref, synonym, interfaces, validates, column_property
@@ -132,10 +133,16 @@ def fetch_and_create_tags(tag_names):
     results = TagList()
     lower_names = [name.lower() for name in tag_names]
     slugs = [slugify(name) for name in lower_names]
-    matches = Tag.query.filter(sql.or_(func.lower(Tag.name).in_(lower_names),
-                                       Tag.slug.in_(slugs)))
-    for tag in matches:
-        results.append(tag)
+
+    # Grab all the tags that exist already, whether its the name or slug
+    # that matches. Slugs can be changed by the tag settings UI so we can't
+    # rely on each tag name evaluating to the same slug every time.
+    results = Tag.query.filter(sql.or_(func.lower(Tag.name).in_(lower_names),
+                                       Tag.slug.in_(slugs))).all()
+
+    # Filter out any tag names that already exist (case insensitive), and
+    # any tag names evaluate to slugs that already exist.
+    for tag in results:
         # Remove the match from our three lists until its completely gone
         while True:
             try:
@@ -148,9 +155,17 @@ def fetch_and_create_tags(tag_names):
                 slugs.pop(index)
             except ValueError:
                 break
+
+    # Any remaining tag names need to be created.
     if tag_names:
-        new_tags = [{'name': n, 'slug': s} for n, s in zip(tag_names, slugs)]
+        # We may still have multiple tag names which evaluate to the same slug.
+        # Load it into a dict so that duplicates are overwritten.
+        uniques = dict((slug, name) for slug, name in izip(slugs, tag_names))
+        # Do a bulk insert to create the tag rows.
+        new_tags = [{'name': n, 'slug': s} for s, n in uniques.iteritems()]
         DBSession.execute(tags.insert(), new_tags)
         DBSession.flush()
-        results += Tag.query.filter(Tag.slug.in_(slugs)).all()
+        # Query for our newly created rows and append them to our result set.
+        results += Tag.query.filter(Tag.slug.in_(uniques.keys())).all()
+
     return results
