@@ -22,8 +22,8 @@ from urllib2 import Request, urlopen, URLError
 
 from mediacore import USER_AGENT
 from mediacore.lib.filetypes import VIDEO
-from mediacore.lib.i18n import N_
-from mediacore.lib.storage import EmbedStorageEngine
+from mediacore.lib.i18n import N_, _
+from mediacore.lib.storage import EmbedStorageEngine, UserStorageError
 from mediacore.lib.uri import StorageURI
 
 log = logging.getLogger(__name__)
@@ -64,7 +64,11 @@ class DailyMotionStorage(EmbedStorageEngine):
         try:
             temp_data = urlopen(req)
             try:
-                data = simplejson.load(temp_data)
+                data_string = temp_data.read()
+                if data_string == 'This video cannot be embeded.':
+                    raise UserStorageError(
+                        _('This DailyMotion video does not allow embedding.'))
+                data = simplejson.loads(data_string)
             finally:
                 temp_data.close()
         except URLError, e:
