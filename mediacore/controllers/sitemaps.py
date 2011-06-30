@@ -146,6 +146,7 @@ class SitemapsController(BaseController):
         )
 
         media = Media.query.in_category(get_featured_category())\
+            .published()\
             .order_by(Media.publish_on.desc())\
             .limit(limit)
 
