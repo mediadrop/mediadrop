@@ -18,9 +18,9 @@ import os
 
 from mediacore.forms.admin.storage.remoteurls import RemoteURLStorageForm
 from mediacore.lib.filetypes import guess_container_format, guess_media_type
-from mediacore.lib.i18n import N_
+from mediacore.lib.i18n import N_, _
 from mediacore.lib.storage import (EmbedStorageEngine, StorageEngine,
-    UnsuitableEngineError)
+    UnsuitableEngineError, UserStorageError)
 from mediacore.lib.uri import StorageURI
 
 log = logging.getLogger(__name__)
@@ -77,7 +77,10 @@ class RemoteURLStorage(StorageEngine):
                         file_uri = url[len(server_uri.rstrip('/') + '/'):]
                         break
                 else:
-                    raise UnsuitableEngineError
+                    raise UserStorageError(
+                        _('This RTMP server has not been configured. Add it '
+                          'by going to Settings > Storage Engines > '
+                          'Remote URLs.'))
             unique_id = ''.join((server_uri, RTMP_URI_DIVIDER, file_uri))
         else:
             unique_id = url
