@@ -23,3 +23,44 @@ to the MediaCore development team with his code contributions, documentation,
 and insights.
 
 Thanks Felix!
+
+
+====================
+Ecoding Installation
+====================
+
+Pre Requisites: Please make sure you have installed the Encoding plugin and
+created a cloud on `pandastream.com <http://pandastream.com/>`_ with
+your Panda Stream account.
+
+
+**1. Create MediaCore Storage Engine**
+
+Login into your MediaCore admin panel, and go to Settings > Storage Engines.
+Click Add New engine > Panda Transcoding and Storage. You can also select which
+encoding profiles you want to include.
+
+
+**2. Panda Storage Engine Fields**
+
+Display Name, recommended to leave it as it is.
+
+
+**3. Panda Account Details**
+
+- Cloud ID
+        Login to your PandaStream account, and at the dashboard click on your cloud.
+        On the Cloud dashboard, you'll see the name of your cloud and the ID. This ID
+        is what you are after for this field.
+
+- Access Key / Secret Key
+        This is your PandaStream API Access Key. Login into PandaStream, and click
+        on API Access.
+
+
+**4. Amazon S3 Info**
+
+You need an S3 bucket to save your videos to. Enter the name of your Bucket
+when creating your Panda Stream Encoding Cloud. You can also enter any
+CloudFront domains you may have as well. After saving this information you
+can then go back and select what you want.
