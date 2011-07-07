@@ -13,6 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import logging
+from formencode.validators import Int
 
 from pylons import request
 from tw.forms import CheckBox, PasswordField, RadioButtonList, SingleSelectField
@@ -132,13 +133,39 @@ class YoutubeFlashPlayerPrefsForm(PlayerPrefsForm):
             suppress_label=True,
             legend=N_('Player Options:'),
             children=[
+                RadioButtonList('version',
+                    options=lambda: (
+                        (2, _('Use the deprecated AS2 player.')),
+                        (3, _('Use the AS3 player.')),
+                    ),
+                    label_text=N_("YouTube player version"),
+                    validator=Int,
+                ),
+                RadioButtonList('iv_load_policy',
+                    options=lambda: (
+                        (1, _('Show video annotations by default.')),
+                        (3, _('Hide video annotations by default.')),
+                    ),
+                    label_text=N_("Video annotations"),
+                    validator=Int,
+                ),
                 CheckBox('disablekb', label_text=N_('Disable the player keyboard controls.')),
+                CheckBox('autoplay', label_text=N_('Autoplay the video video when the player loads.')),
+                CheckBox('modestbranding', label_text=N_('Do not show a YouTube logo in the player controls'), help_text=N_("Supported by AS3 only.")),
                 CheckBox('fs', label_text=N_('Enable fullscreen.')),
-                CheckBox('hd', label_text=N_('Enable high-def quality by default.')),
-                CheckBox('rel', label_text=N_('Allow the player to load related videos once playback of the initial video starts. Related videos are displayed in the "genie menu" when the menu button is pressed.')),
-                CheckBox('showsearch', label_text=N_('Show the search box when the video is minimized. The above option must be enabled for this to work.')),
+                CheckBox('hd', label_text=N_('Enable high-def quality by default.'), help_text=N_("The AS3 player will automatically play the version of the video that is appropriate for your player's size.")),
+                CheckBox('rel', label_text=N_('Load related videos once playback of the initial video starts. Related videos are displayed in the "genie menu" when the menu button is pressed.')),
+                CheckBox('showsearch', label_text=N_('Show the search box when the video is minimized. The related videos option must be enabled for this to work.')),
                 CheckBox('showinfo', label_text=N_('Display information like the video title and rating before the video starts playing.')),
-                CheckBox('autohide', label_text=N_('Autohide the controls after a video starts playing.')),
+                RadioButtonList('autohide',
+                    options=lambda: (
+                        (0, _('Always show player controls.')),
+                        (1, _('Autohide all player controls after a video starts playing.')),
+                        (2, _('Autohide only the progress bar after a video starts playing.')),
+                    ),
+                    label_text=N_("Player control hiding"),
+                    validator=Int,
+                ),
             ],
             css_classes=['options'],
         )

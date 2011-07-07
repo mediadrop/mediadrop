@@ -12,10 +12,15 @@
 	padding-bottom: 5px;
 }
 
+.playerform .options .fieldhelp,
 .playerform .options label {
 	width: 576px;
 	float: right;
 }
+.playerform .options ul {
+    clear: both;
+}
+
 .playerform .options input  {
 	width: auto;
 	float: left;

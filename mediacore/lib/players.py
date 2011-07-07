@@ -494,15 +494,18 @@ class YoutubeFlashPlayer(AbstractFlashEmbedPlayer):
     """An optional :class:`mediacore.forms.admin.players.PlayerPrefsForm`."""
 
     default_data = {
+        'version': 3,
         'disablekb': 0,
+        'autohide': 2,
+        'autoplay': 0,
+        'iv_load_policy': 1,
+        'modestbranding': 1,
         'fs': 1,
         'hd': 0,
+        'showinfo': 0,
         'rel': 0,
         'showsearch': 0,
-        'showinfo': 0,
-        'autohide': 0,
     }
-
     _height_diff = 25
 
     def swf_url(self):
