@@ -42,6 +42,7 @@ from mediacore.lib.i18n import LanguageError, Translator
 from mediacore.lib.storage import add_new_media_file, StorageError, UnsuitableEngineError, YoutubeStorage
 from mediacore.lib.templating import render
 from mediacore.lib.thumbnails import create_default_thumbs_for, has_thumbs
+from mediacore.lib.xhtml import clean_xhtml
 from mediacore.model import (Author, Category, Comment, Media, MediaFile, MultiSetting,
     Setting, fetch_row, get_available_slug)
 from mediacore.model.meta import DBSession
@@ -318,8 +319,9 @@ class SettingsController(BaseSettingsController):
                 media.reviewed = True
                 media.title = unicode(entry.media.title.text, "utf-8")
                 if entry.media.description.text:
-                    media.description = unicode(entry.media.description.text,
+                    encoded_description = unicode(entry.media.description.text,
                                                 "utf-8")
+                    media.description = clean_xhtml(encoded_description)
                 media.slug = get_available_slug(Media, media.title, media)
 
                 if tags:
