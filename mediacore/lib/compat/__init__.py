@@ -23,6 +23,7 @@ __all__ = [
     'max',
     'md5',
     'namedtuple',
+    'SEEK_END',
     'sha1',
     'wraps',
 ]
@@ -59,6 +60,13 @@ except NameError:
             if not element:
                 return False
         return True
+
+try:
+    import os
+    # os.SEEK_* constants were added in Python 2.5
+    SEEK_END = os.SEEK_END
+except AttributeError:
+    SEEK_END = 2
 
 try:
     max([1], key=lambda x:x)

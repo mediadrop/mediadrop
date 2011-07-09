@@ -23,7 +23,7 @@ from urllib2 import URLError, urlopen
 
 from pylons import app_globals
 
-from mediacore.lib.compat import defaultdict
+from mediacore.lib.compat import defaultdict, SEEK_END
 from mediacore.lib.decorators import memoize
 from mediacore.lib.filetypes import guess_container_format, guess_media_type
 from mediacore.lib.i18n import _
@@ -480,7 +480,7 @@ def get_file_size(file):
     if hasattr(file, 'fileno'):
         size = os.fstat(file.fileno())[6]
     else:
-        file.seek(0, os.SEEK_END)
+        file.seek(0, SEEK_END)
         size = file.tell()
         file.seek(0)
     return size
