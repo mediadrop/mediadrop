@@ -326,7 +326,7 @@ mcore.players.Controller.prototype.getRater = function() {
 /**
  * Set your own custom rater if you've dramatically altered the layout
  * of the media view page, and ours doesn't work for you.
- * @param {mcore.players.Rater} rater A sublcass with your play() method.
+ * @param {mcore.players.Rater} rater A subclass with your play() method.
  * @return {mcore.players.Controller} The controller instance for chaining.
  */
 mcore.players.Controller.prototype.setRater = function(rater) {
