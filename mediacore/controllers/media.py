@@ -27,6 +27,7 @@ from paste.util import mimeparse
 from pylons import app_globals, config, request, response
 from pylons.controllers.util import forward
 from sqlalchemy import orm, sql
+from sqlalchemy.exc import OperationalError
 from webob.exc import HTTPNotAcceptable, HTTPNotFound
 
 from mediacore import USER_AGENT
@@ -161,7 +162,6 @@ class MediaController(BaseController):
         redirect(action='view', slug=media.slug, podcast_slug=podcast_slug)
 
     @expose('media/view.html')
-    @autocommit
     @observable(events.MediaController.view)
     def view(self, slug, podcast_slug=None, **kwargs):
         """Display the media player, info and comments.
@@ -199,7 +199,11 @@ class MediaController(BaseController):
             if url_for() != url_for(podcast_slug=media.podcast.slug):
                 redirect(podcast_slug=media.podcast.slug)
 
-        media.increment_views()
+        try:
+            media.increment_views()
+            DBSession.commit()
+        except OperationalError:
+            DBSession.rollback()
 
         # TODO: finish implementation of different 'likes' buttons
         #       e.g. the default one, plus a setting to use facebook.
