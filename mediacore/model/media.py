@@ -509,25 +509,9 @@ class Media(object):
             self.views += 1
             return self.views
 
-        # Don't raise an exception should concurrency problems occur.
-        # Views will not actually be incremented in this case, but thats
-        # relatively unimportant compared to rendering the page for the user.
-        # We may be able to remove this after we improve our triggers to not
-        # issue an UPDATE on media_fulltext unless one of its columns are
-        # actually changed. Even when just media.views is updated, all the
-        # columns in the corresponding media_fulltext row are updated, and
-        # media_fulltext's MyISAM engine must lock the whole table to do so.
-        transaction = DBSession.begin_nested()
-        try:
-            DBSession.query(self.__class__)\
-                .filter(self.__class__.id == self.id)\
-                .update({self.__class__.views: self.__class__.views + 1})
-            transaction.commit()
-        except OperationalError, e:
-            transaction.rollback()
-            # (OperationalError) (1205, 'Lock wait timeout exceeded, try restarting the transaction')
-            if not '1205' in e.message:
-                raise
+        DBSession.execute(media.update()\
+            .values(views=media.c.views + 1)\
+            .where(media.c.id == self.id))
 
         # Increment the views by one for the rest of the request,
         # but don't allow the ORM to increment the views too.
