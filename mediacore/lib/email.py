@@ -32,7 +32,7 @@ Email Helpers
 
 import smtplib
 
-from pylons import request
+from pylons import config, request
 
 from mediacore.lib.helpers import line_break_xhtml, strip_xhtml, url_for
 from mediacore.lib.i18n import _
@@ -66,7 +66,8 @@ def send(to_addrs, from_addr, subject, body):
     :param body: Body text of the email, optionally marked up with HTML.
     :type body: unicode
     """
-    server = smtplib.SMTP('localhost')
+    smtp_server = config.get('smtp_server', 'localhost')
+    server = smtplib.SMTP(smtp_server)
     if isinstance(to_addrs, basestring):
         to_addrs = parse_email_string(to_addrs)
 
@@ -76,6 +77,11 @@ def send(to_addrs, from_addr, subject, body):
            "From: %(from_addr)s\n"
            "Subject: %(subject)s\n\n"
            "%(body)s\n") % locals()
+
+    smtp_username = config.get('smtp_username')
+    smtp_password = config.get('smtp_password')
+    if smtp_username and smtp_password:
+        server.login(smtp_username, smtp_password)
 
     server.sendmail(from_addr, to_addrs, msg.encode('utf-8'))
     server.quit()
