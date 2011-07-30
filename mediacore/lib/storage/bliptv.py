@@ -59,12 +59,14 @@ class BlipTVStorage(EmbedStorageEngine):
             temp_data = urlopen(req)
             xmlstring = temp_data.read()
             try:
-                xmltree = ElementTree.fromstring(xmlstring)
+                try:
+                    xmltree = ElementTree.fromstring(xmlstring)
+                except:
+                    temp_data.close()
+                    raise
             except SyntaxError:
                 raise UserStorageError(
                     _('Invalid BlipTV URL. This video does not exist.'))
-            finally:
-                temp_data.close()
         except URLError, e:
             log.exception(e)
             raise
