@@ -81,7 +81,7 @@ class YoutubeStorage(EmbedStorageEngine):
         # attributes are missing. We can just ignore this.
         try:
             description = unicode(entry.media.description.text, 'utf-8') or None
-        except AttributeError:
+        except (AttributeError, ValueError, TypeError, UnicodeDecodeError):
             description = None
         try:
             title = unicode(entry.media.title.text, 'utf-8')
