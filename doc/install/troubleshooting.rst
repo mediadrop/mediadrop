@@ -48,3 +48,9 @@ support in Python. Simply run:
    export ARCHFLAGS='-arch i386 -arch x86_64'
 
 Now try your command again.
+
+Running setup.py fails on Fedora
+--------------------------------
+
+Fedora users have reported that the 'tk-devel' package must be installed before
+installing MediaCore, or setup.py will fail.
