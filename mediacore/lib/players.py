@@ -1032,6 +1032,10 @@ def embed_iframe(media, width=400, height=225, frameborder=0, **kwargs):
                   qualified=True)
     tag = Element('iframe', src=src, width=width, height=height,
                   frameborder=frameborder, **kwargs)
+    # some software is known not to work with self-closing iframe tags 
+    # ('<iframe ... />'). Several WordPress instances are affected as well as
+    # TWiki http://opensource.mediacore.com/community/topic/embed-iframe-closing-tag
+    tag.append('')
     return tag
 
 embed_player = embed_iframe
