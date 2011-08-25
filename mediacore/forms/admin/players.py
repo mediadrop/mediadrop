@@ -138,7 +138,7 @@ class YoutubeFlashPlayerPrefsForm(PlayerPrefsForm):
                 CheckBox('rel', label_text=N_('Allow the player to load related videos once playback of the initial video starts. Related videos are displayed in the "genie menu" when the menu button is pressed.')),
                 CheckBox('showsearch', label_text=N_('Show the search box when the video is minimized. The above option must be enabled for this to work.')),
                 CheckBox('showinfo', label_text=N_('Display information like the video title and rating before the video starts playing.')),
-                CheckBox('autohide', label_text=N_('Autohide the controls after a video starts playng.')),
+                CheckBox('autohide', label_text=N_('Autohide the controls after a video starts playing.')),
             ],
             css_classes=['options'],
         )
