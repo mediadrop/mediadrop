@@ -21,7 +21,7 @@
 	</url>
 	<py:for each="item in media" py:with="uri = h.best_link_uri(item.get_uris())">
 	<url py:if="uri" py:with="file = uri.file">
-		<loc py:content="h.url_for(controller='/media', action='view', id=file.id, slug=item.slug, qualified=True)" />
+		<loc py:content="h.url_for(controller='/media', action='view', slug=item.slug, qualified=True)" />
 		<video:video>
 			<video:content_loc py:content="uri" />
 			<video:thumbnail_loc py:content="h.thumb_url(item, 'l', qualified=True)" />
