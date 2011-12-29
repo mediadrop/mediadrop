@@ -9,6 +9,7 @@ from operator import itemgetter
 import formencode
 
 from babel.core import Locale
+from formencode.schema import Schema
 from pylons import app_globals, config, request
 from tw.forms import CheckBox, RadioButtonList, SingleSelectField
 from tw.forms.fields import Button, CheckBox
@@ -181,6 +182,10 @@ class SiteMapsForm(ListForm):
     id = 'settings-form'
     css_class = 'form'
     submit_text = None
+    
+    # workaround so that both checkboxes can be unchecked at the same time
+    validator = Schema(if_key_missing='')
+    
     fields = [
         ListFieldSet('rss', suppress_label=True,
             legend='',
