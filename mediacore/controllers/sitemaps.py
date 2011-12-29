@@ -49,10 +49,8 @@ class SitemapsController(BaseController):
         if request.settings['sitemaps_display'] != 'True':
             abort(404)
 
-        response.content_type = mimeparse.best_match(
-            ['application/xml', 'text/xml'],
-            request.environ.get('HTTP_ACCEPT', '*/*')
-        )
+        response.content_type = \
+            self._content_type_for_response(['application/xml', 'text/xml'])
 
         media = Media.query.published()
 
@@ -86,10 +84,9 @@ class SitemapsController(BaseController):
         if request.settings['sitemaps_display'] != 'True':
             abort(404)
 
-        response.content_type = mimeparse.best_match(
-            ['application/rss+xml', 'application/xml', 'text/xml'],
-            request.environ.get('HTTP_ACCEPT', '*/*')
-        )
+
+        response.content_type = self._content_type_for_response(
+            ['application/rss+xml', 'application/xml', 'text/xml'])
 
         media = Media.query.published()
 
@@ -105,10 +102,8 @@ class SitemapsController(BaseController):
         if request.settings['rss_display'] != 'True':
             abort(404)
 
-        response.content_type = mimeparse.best_match(
-            ['application/rss+xml', 'application/xml', 'text/xml'],
-            request.environ.get('HTTP_ACCEPT', '*/*')
-        )
+        response.content_type = self._content_type_for_response(
+            ['application/rss+xml', 'application/xml', 'text/xml'])
 
         media = Media.query.published()\
             .order_by(Media.publish_on.desc())\
@@ -129,10 +124,8 @@ class SitemapsController(BaseController):
         if request.settings['rss_display'] != 'True':
             abort(404)
 
-        response.content_type = mimeparse.best_match(
-            ['application/rss+xml', 'application/xml', 'text/xml'],
-            request.environ.get('HTTP_ACCEPT', '*/*')
-        )
+        response.content_type = self._content_type_for_response(
+            ['application/rss+xml', 'application/xml', 'text/xml'])
 
         media = Media.query.in_category(get_featured_category())\
             .published()\
@@ -146,6 +139,19 @@ class SitemapsController(BaseController):
             media = media,
             title = 'Featured Media',
         )
+    
+    def _content_type_for_response(self, available_formats):
+        content_type = mimeparse.best_match(
+            available_formats,
+            request.environ.get('HTTP_ACCEPT', '*/*')
+        )
+        # force a content-type: if the user agent did not specify any acceptable
+        # content types (e.g. just 'text/html' like some bots) we still need to
+        # set a content type, otherwise the WebOb will generate an exception
+        # AttributeError: You cannot access Response.unicode_body unless charset
+        # is set if user agents can not deal with xml, well, not our problem - 
+        # in the end they requested a 'sitemap.xml' (or something similar)
+        return content_type or available_formats[0]
 
     @expose()
     def crossdomain_xml(self, **kwargs):
