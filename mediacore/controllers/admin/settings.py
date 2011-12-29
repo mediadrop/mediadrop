@@ -196,7 +196,7 @@ class SettingsController(BaseSettingsController):
         return self._display(sitemaps_form, values=kwargs)
 
     @expose(request_method='POST')
-    @validate(sitemaps_form, error_handler=general)
+    @validate(sitemaps_form, error_handler=sitemaps)
     @autocommit
     def sitemaps_save(self, **kwargs):
         """Save :class:`~mediacore.forms.admin.settings.SiteMapsForm`."""
