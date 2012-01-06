@@ -4,7 +4,7 @@
 User Guide
 ==========
 
-MediaCore aims to make the repetitive tasks of publishing audio and video
+MediaCore CE aims to make the repetitive tasks of publishing audio and video
 simple and easy. Once you familiarize yourself with the basic concepts and
 workflows you'll be good to go!
 

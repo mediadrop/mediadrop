@@ -16,7 +16,7 @@ hosting provider.
 Components
 ----------
 The following six components are involved in getting web requests through to
-mediacore with this setup. Don't worry if this sounds like a lot! By this
+MediaCore CE with this setup. Don't worry if this sounds like a lot! By this
 stage you already have three, and the remaining ones are very easy to set up.
 
 ``Apache``
@@ -29,10 +29,10 @@ stage you already have three, and the remaining ones are very easy to set up.
    tells Apache which requests to send to our FastCGI script
 
 ``mediacore.fcgi``
-   the FastCGI script, uses flup to run mediacore
+   the FastCGI script, uses flup to run MediaCore CE
 
 ``flup``
-   provides a WSGI interface for mediacore to get data from Apache
+   provides a WSGI interface for MediaCore CE to get data from Apache
 
 ``mediacore``
    the reason we're here!
@@ -43,14 +43,14 @@ Instructions
 the permissions on the ``data`` subdirectories as outlined in
 :ref:`production_deployments`
 
-**NOTE 2:** The following instructions assume that you're deploying MediaCore
-to ``http://yourdomain.com/my_media/``. To deploy mediacore to any other
+**NOTE 2:** The following instructions assume that you're deploying MediaCore CE
+to ``http://yourdomain.com/my_media/``. To deploy MediaCore CE to any other
 directory of your website, the process is very simple: Instead of putting the
 files into ``/path/to/document_root/my_media``, like in the instructions below,
 put them into whichever directory (inside your docroot) you want to serve from.
 
-**NOTE 3:** If deploying mediacore inside an existing directory, you must make
-sure that the mediacore .htaccess file doesn't overwrite any existing
+**NOTE 3:** If deploying MediaCore CE inside an existing directory, you must make
+sure that the MediaCore CE .htaccess file doesn't overwrite any existing
 .htaccess file in that directory--you'll have to copy the contents over to the
 existing .htaccess file if there is one, and make sure that the contents of
 the two files make sense together.
@@ -81,7 +81,7 @@ into the new ``my_media`` directory (this includes ``.htaccess``,
    cp /path/to/mediacore_install/deployment-scripts/mod_fastcgi/.htaccess ./my_media/
 
 Third, create symbolic links (symlinks) to the ``public`` and the ``data``
-directory from your mediacore installation:
+directory from your MediaCore CE installation:
 
 .. sourcecode:: bash
 
@@ -92,7 +92,7 @@ directory from your mediacore installation:
    ln -sf /path/to/mediacore_install/data ./my_media/data
 
 Fourth, you'll need to edit the paths in ``my_media/mediacore.fcgi`` to point
-to your own mediacore installation and virtual environment. The **four (4)**
+to your own MediaCore CE installation and virtual environment. The **four (4)**
 lines you need to edit are at the top of the file, and look like this:
 
 .. sourcecode:: python
@@ -115,15 +115,15 @@ necessary for mod_fastcgi). Please add this line to your Apache configuration
 Testing Installation
 --------------------
 Our first step after deployment is to test the app. To get FastCGI to run
-MediaCore for the first time, point your browser to ``http://yourdomain/my_media``
+MediaCore CE for the first time, point your browser to ``http://yourdomain/my_media``
 
-If you don't see MediaCore make sure you've followed all of the instructions above!
+If you don't see MediaCore CE make sure you've followed all of the instructions above!
 
 Performance Enhancements
 ------------------------
-By default, all files are served through MediaCore. The configuration above
+By default, all files are served through MediaCore CE. The configuration above
 ensures that Apache will serve all static files (.css, .js, and images)
-directly, but MediaCore will still check for static files before serving any
+directly, but MediaCore CE will still check for static files before serving any
 page. There are two speedups we can enable here.
 
 First, edit one line in ``/path/to/mediacore_install/deployment.ini``. Find
@@ -134,7 +134,7 @@ the static_files line, and set it to false.
    static_files = false
 
 The second speedup is only available if you have mod_xsendfile installed and
-enabled in Apache. MediaCore can take advantage of mod_xsendfile and have
+enabled in Apache. MediaCore CE can take advantage of mod_xsendfile and have
 Apache serve all media files (.mp3, .mp4, etc.) directly. To enable this, edit
 another line in ``/path/to/mediacore_install/deployment.ini``. Find the
 files_serve_method line, and set it to apache_xsendfile.
@@ -143,10 +143,10 @@ files_serve_method line, and set it to apache_xsendfile.
 
    files_serve_method = apache_xsendfile
 
-Editing MediaCore
------------------
-If you make any changes to your MediaCore installation while Apache is running
-(eg. if you upgrade MediaCore or make any customizations), you'll need to make
+Editing MediaCore CE
+--------------------
+If you make any changes to your MediaCore CE installation while Apache is running
+(eg. if you upgrade MediaCore CE or make any customizations), you'll need to make
 sure that mod_fastcgi recognizes those changes.
 
 The easiest way to do this is to 'touch' the .fcgi script. This will modify the
@@ -159,5 +159,5 @@ updated and will read and re-load it.
    cd /path/to/document_root
    cd my_media
 
-   # Force a refresh of the mediacore code
+   # Force a refresh of the MediaCore CE code
    touch mediacore.fcgi

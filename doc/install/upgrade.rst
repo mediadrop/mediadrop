@@ -1,24 +1,24 @@
 .. _install_upgrade:
 
-===================
-Upgrading MediaCore
-===================
+======================
+Upgrading MediaCore CE
+======================
 
-Upgrading MediaCore is now relatively straightforward:
+Upgrading MediaCore CE is now relatively straightforward:
 
 1. Make a new Virtual Environment
-2. Download and unpack the new version of MediaCore
-3. Move all your old media files and thumbnails into the new MediaCore
+2. Download and unpack the new version of MediaCore CE
+3. Move all your old media files and thumbnails into the new MediaCore CE
    directory
-4. Set up your .ini config files in the new MediaCore directory
+4. Set up your .ini config files in the new MediaCore CE directory
 5. Upgrade your database (now completely automated!)
 
 **NOTE 1:** `yourconf.ini` below should be replaced to refer to `development.ini`
 or `deployment.ini`, depending on which one you have set up for your current
-MediaCore installation.
+MediaCore CE installation.
 
 **NOTE 2:** `/path/to/mediacore_env` and `/path/to/MediaCore-OLD` below
-should be replaced with the paths to your MediaCore Virtual Environment
+should be replaced with the paths to your MediaCore CE Virtual Environment
 directory and Installation directory, respectively.
 
 **NOTE 3:** `MediaCore-OLD` and `MediaCore-NEW` below should be replaced with
@@ -47,11 +47,11 @@ Step 1: Re-Create Your Virtual Environment
    # Now, activate that virtual environment
    source mediacore_env/bin/activate
 
-Step 2: Install The New MediaCore Files
----------------------------------------
-`Download the latest official release of Mediacore
+Step 2: Install The New MediaCore CE Files
+------------------------------------------
+`Download the latest official release of MediaCore CE
 <http://getmediacore.com/download>`_ from our site, then unpack it beside
-your current MediaCore installation.
+your current MediaCore CE installation.
 
 .. sourcecode:: bash
 
@@ -77,7 +77,7 @@ Step 3: Migrate Your Media Files and Thumbnails
 
 Depending on the version you are upgrading from, this step is a little different:
 
-a. If you are upgrading from MediaCore **0.8.2 or older**, you'll need to
+a. If you are upgrading from MediaCore CE **0.8.2 or older**, you'll need to
    move all of the relevant files in ``./data/`` and
    ``./mediacore/public/images/podcasts/`` and
    ``./mediacore/public/images/media/`` from your old installation directory
@@ -99,7 +99,7 @@ a. If you are upgrading from MediaCore **0.8.2 or older**, you'll need to
       mv ./MediaCore-OLD/mediacore/public/images/media/[0-9]* ./MediaCore-NEW/data/images/media/
 
 
-b. If you are upgrading from MediaCore **0.9.0 or newer**, you'll need to
+b. If you are upgrading from MediaCore CE **0.9.0 or newer**, you'll need to
    move all of the relevant files in ``./data`` from your old installation
    directory to your new installation directory.
 
@@ -129,7 +129,7 @@ that looks something like:
 
    sqlalchemy.url = mysql://mediacore_user:mysecretpassword@localhost/mediacore?charset=utf8&use_unicode=0
 
-If you are running MediaCore via a deployment method described the installation
+If you are running MediaCore CE via a deployment method described the installation
 docs, this is the point where you will also want to re-create your
 `deployment.ini` and update your WSGI or FastCGI script, replacing all
 references to `/path/to/MediaCore-OLD` with `/path/to/MediaCore-NEW`.
@@ -171,7 +171,7 @@ c.  Or, if you're upgrading from **0.8.2, 0.9.0, or newer** (released after Augu
 Step 6: Update your Deployment Configuration
 --------------------------------------------
 
-If you already had MediaCore deployed using mod_wsgi (:ref:`install_apache-wsgi`)
+If you already had MediaCore CE deployed using mod_wsgi (:ref:`install_apache-wsgi`)
 or mod_fastcgi (:ref:`install_apache-fastcgi`), you'll want to re-deploy using
 the new installation. In particular, take note of changes to the deployment
 configurations and required file permissions.
@@ -179,4 +179,4 @@ configurations and required file permissions.
 Done!
 -----
 
-Your migration to the latest MediaCore is now complete.
+Your migration to the latest MediaCore CE is now complete.

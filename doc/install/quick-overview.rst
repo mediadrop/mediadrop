@@ -5,13 +5,13 @@ Quick Installation Overview
 ===========================
 
 If you're already familiar with installing Pylons apps, here's a
-six-step run-down of how to install MediaCore.
+six-step run-down of how to install MediaCore CE.
 
 If you're not already familiar with the process, head to the main
 :ref:`install_toplevel` page for a more detailed description of the process.
 
 1. Create and activate a new ``virtualenv``.
-2. Run ``python setup.py develop`` to install MediaCore and its
+2. Run ``python setup.py develop`` to install MediaCore CE and its
    dependencies.
 3. For production, run ``paster make-config mediacore deployment.ini``
    and to create a unique ``deployment.ini`` config. On development

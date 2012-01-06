@@ -1,9 +1,9 @@
 .. _toplevel:
 
-MediaCore Documentation
+MediaCore CE Documentation
 ========================
 
-MediaCore is a media-oriented content manager.
+MediaCore CE is a media-oriented content manager.
 
 
 Contents

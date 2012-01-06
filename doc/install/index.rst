@@ -4,7 +4,7 @@
 Installation
 ============
 
-This is a full walkthrough of how to get MediaCore running.
+This is a full walkthrough of how to get MediaCore CE running.
 
 Experienced `Pylons <http://pylonshq.com/>`_
 users can check out the :ref:`install_overview` page for a (very) condensed
@@ -23,12 +23,12 @@ check out this `introduction to \*nix command shells
 Step 0: Requirements
 --------------------
 
-MediaCore runs on \*nix operating systems. We've tested CentOS and
+MediaCore CE runs on \*nix operating systems. We've tested CentOS and
 Mac OS X, but any Linux or BSD based OS should work just fine.
 
-If you run Windows and want to try MediaCore, you have two options:
+If you run Windows and want to try MediaCore CE, you have two options:
 
-* If you're an experienced developer, try your hand at translating MediaCore
+* If you're an experienced developer, try your hand at translating MediaCore CE
   and its installation process to a Windows environment. It's probably not
   that different. We'd love to hear how you did it.
 * Find a cheap web host that offers Apache, FastCGI, and SSH support, and
@@ -53,7 +53,7 @@ If you haven't heard of them, `Virtual Environments <http://pypi.python.org/pypi
 are a way to keep installations of multiple Python applications from
 interfering with each other.
 
-This means you can install MediaCore and all of its dependencies without
+This means you can install MediaCore CE and all of its dependencies without
 worrying about overwriting any existing versions of Python libraries.
 
 The following command will create a folder named ``mediacore_env`` in the
@@ -72,21 +72,21 @@ is--we'll need to point to it later.
 Now that you've activated the newly created virtual environment, any packages
 you install will only be accessible when you've activated the environment.
 
-**NOTE: Any time you want to work with MediaCore, you should thus activate the
+**NOTE: Any time you want to work with MediaCore CE, you should thus activate the
 virtual environment as we just did in the line above.**
 
 
-Step 2: Install MediaCore
+Step 2: Install MediaCore CE
 -------------------------
-There are two main ways to get MediaCore:
+There are two main ways to get MediaCore CE:
 
 a. **For most users**, you should `download the latest official release of
-   Mediacore <http://getmediacore.com/download>`_ from our site.
+   Mediacore CE <http://getmediacore.com/download>`_ from our site.
 
-   Once you've downloaded MediaCore, it's time to unpack it and install.
+   Once you've downloaded MediaCore CE, it's time to unpack it and install.
 
    ``setup.py`` will download and install all the necessary dependencies
-   for MediaCore into your virtual environment:
+   for MediaCore CE into your virtual environment:
 
    .. sourcecode:: bash
 
@@ -119,7 +119,7 @@ b. **For developers**, or users that are very familiar with Git
 Step 3: Create the Database
 ---------------------------
 
-Here we will create a database for MediaCore in MySQL. You can
+Here we will create a database for MediaCore CE in MySQL. You can
 use phpMyAdmin, CocoaMySQL, `cPanel
 <http://www.siteground.com/tutorials/php-mysql/mysql_database_user.htm>`_, the
 `mysql command line interface
@@ -210,7 +210,7 @@ triggers that enable fulltext searching, import ``setup_triggers.sql`` like so:
    # Import fulltext search database triggers
    mysql -u root mediacore < setup_triggers.sql
 
-**NOTE:** If you do not import ``setup_triggers.sql``, MediaCore's search
+**NOTE:** If you do not import ``setup_triggers.sql``, MediaCore CE's search
 will always return no results. You can easily disable this feature in your
 installation by removing the search form from
 ``/path/to/mediacore_install/mediacore/templates/nav.html``.
@@ -221,7 +221,7 @@ MySQL's root account.
 Step 6: Launch the Built-in Server
 ----------------------------------
 
-Now that MediaCore itself is installed and the basics are configured,
+Now that MediaCore CE itself is installed and the basics are configured,
 we can test it out using the Paste server. It's bundled with Pylons
 so you have it already, simply run:
 
@@ -234,7 +234,7 @@ the admin at http://localhost:8080/admin/ with **username: admin, password:
 admin**. (Remember to `change your password
 <http://localhost:8080/admin/settings/users/1>`_!)
 
-If this produces errors then MediaCore or one of its dependencies is not
+If this produces errors then MediaCore CE or one of its dependencies is not
 setup correctly. Please feel free to ask questions and submit solutions
 via our `community forums <http://getmediacore.com/>`_.
 
@@ -246,7 +246,7 @@ If this is your development machine, you're good to go.
 Step 7: Production Deployments
 ------------------------------
 
-If you want to access MediaCore from other computers, you'll need to set up a
+If you want to access MediaCore CE from other computers, you'll need to set up a
 production config.
 
 **Production Config:**
@@ -258,7 +258,7 @@ production config.
    .. sourcecode:: bash
 
       # To create deployment.ini in your current dir:
-      paster make-config MediaCore deployment.ini
+      paster make-config MediaCore CE deployment.ini
 
    Then edit ``deployment.ini`` as you did for ``development.ini`` (e.g. set
    up the database config line).
@@ -270,10 +270,10 @@ production config.
    ``/path/to/mediacore_installs/data``.
 
 **Production Server:**
-   MediaCore is WSGI-based so there are many possible ways to deploy it.
+   MediaCore CE is WSGI-based so there are many possible ways to deploy it.
    The built in Paste server does a great job for development, but you
-   may want to run MediaCore from a more performant webserver.
-   Below are three methods you can use to deploy MediaCore:
+   may want to run MediaCore CE from a more performant webserver.
+   Below are three methods you can use to deploy MediaCore CE:
 
 a. ``mod_fastcgi`` is simplest and will work with most shared hosting
    environments, so long as the server has ``mod_fastcgi`` installed.

@@ -4,16 +4,16 @@
 Media Players API
 =================
 
-MediaCore was designed to make it straightfowrad to fully integrate new
+MediaCore CE was designed to make it straightfowrad to fully integrate new
 audio/video players into the display system.
 
-While MediaCore supports 9 Flash and/or HTML5 players out of the box (including
+While MediaCore CE supports 9 Flash and/or HTML5 players out of the box (including
 the popular JWPlayer, Flowplayer, and Sublime Video Players, as well as several
 players customized to display embedded material from third-party websites), we
 recognize that some users may want to incorporate different players.
 
 To this end, we have designed the playback system around a well-defined API.
-All of MediaCore's default players implement this API.
+All of MediaCore CE's default players implement this API.
 
 
 .. automodule:: mediacore.lib.players
@@ -48,7 +48,7 @@ dict if they also provide a subclass of
 :meth:`display <mediacore.forms.admin.players.PlayerPrefsForm.display>` and
 :meth:`save_data <mediacore.forms.admin.players.PlayerPrefsForm.save_data>`
 methods can map the form values to and from the data dict. Players that
-do this will have links, in MediaCore's admin backend, to a page where an admin
+do this will have links, in MediaCore CE's admin backend, to a page where an admin
 can use the rendered form to edit the Player instance. An example of a player
 that has this feature is :class:`mediacore.lib.players.YoutubeFlashPlayer`.
 
@@ -75,7 +75,7 @@ See the players in :file:`mediacore/lib/players.py` for examples.
 Implementation - JavaScript
 ---------------------------
 
-Developers should familiarize themselves with MediaCore's :ref:`dev_closure`
+Developers should familiarize themselves with MediaCore CE's :ref:`dev_closure`
 guide and the library class
 `goog.ui.Component <http://code.google.com/p/closure-library/wiki/IntroToComponents>`_.
 

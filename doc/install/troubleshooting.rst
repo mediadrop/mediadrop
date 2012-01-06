@@ -53,4 +53,4 @@ Running setup.py fails on Fedora
 --------------------------------
 
 Fedora users have reported that the 'tk-devel' package must be installed before
-installing MediaCore, or setup.py will fail.
+installing MediaCore CE, or setup.py will fail.

@@ -17,7 +17,7 @@ verbose, but very complete: `mod_wsgi main site
 Components
 ----------
 The following five components are involved in getting web requests through to
-mediacore with this setup. Don't worry if this sounds like a lot! By this
+MediaCore CE with this setup. Don't worry if this sounds like a lot! By this
 stage you already have three, and the remaining ones are very easy to set up.
 
 ``Apache``
@@ -30,7 +30,7 @@ stage you already have three, and the remaining ones are very easy to set up.
    Your apache configuration; tells mod_wsgi how to run your app
 
 ``mediacore.wsgi``
-   The script that runs mediacore as a WSGI application
+   The script that runs MediaCore CE as a WSGI application
 
 ``mediacore``
    the reason we're here!
@@ -41,17 +41,17 @@ Instructions
 the permissions on the ``data`` subdirectories as outlined in
 :ref:`production_deployments`
 
-**NOTE 2:** The following instructions assume that you're deploying MediaCore
-to ``http://yourdomain.com/my_media/``. To deploy mediacore to any other path,
+**NOTE 2:** The following instructions assume that you're deploying MediaCore CE
+to ``http://yourdomain.com/my_media/``. To deploy MediaCore CE to any other path,
 simply replace all references to ``/my_media`` below with your desired path.
 
 **NOTE 3:** We will not actually be creating a ``my_media`` directory, but we
 will use aliases in the Apache config to make sure that requests to
-``http://yourdomain.com/my_media/`` are passed to MediaCore.
+``http://yourdomain.com/my_media/`` are passed to MediaCore CE.
 
 First, you'll need to edit the paths in
 ``/path/to/mediacore_install/deployment-scripts/mod_wsgi/mediacore.wsgi``
-to point to your own mediacore installation and virtual environment. The
+to point to your own MediaCore CE installation and virtual environment. The
 **two (2)** lines you need to edit are at the top of the file, and look like
 this:
 
@@ -65,7 +65,7 @@ Depending on your setup, you may want to add it to the main ``httpd.conf`` file,
 or inside a VirtualHost include.
 
 Make sure that you replace all references to ``/path/to/mediacore_install/``
-and ``/path/to/mediacore_env/`` with the correct paths for your own MediaCore
+and ``/path/to/mediacore_env/`` with the correct paths for your own MediaCore CE
 installation and virtual environment.
 
 .. sourcecode:: apacheconf
@@ -117,7 +117,7 @@ installation and virtual environment.
 
 Performance Enhancements
 ------------------------
-By default, all files are served through MediaCore. The configuration above
+By default, all files are served through MediaCore CE. The configuration above
 ensures that Apache will serve all static files (.css, .js, and images)
 directly, but MediaCore will still check for static files before serving any
 page. There are two speedups we can enable here.
@@ -130,7 +130,7 @@ the static_files line, and set it to false.
    static_files = false
 
 The second speedup is only available if you have mod_xsendfile installed and
-enabled in Apache. MediaCore can take advantage of mod_xsendfile and have
+enabled in Apache. MediaCore CE can take advantage of mod_xsendfile and have
 Apache serve all media files (.mp3, .mp4, etc.) directly. To enable this, edit
 another line in ``/path/to/mediacore_install/deployment.ini``. Find the
 files_serve_method line, and set it to apache_xsendfile.
@@ -139,10 +139,10 @@ files_serve_method line, and set it to apache_xsendfile.
 
    files_serve_method = apache_xsendfile
 
-Editing MediaCore
------------------
-If you make any changes to your MediaCore installation while Apache is running
-(eg. if you upgrade MediaCore or make any customizations), you'll need to make
+Editing MediaCore CE
+--------------------
+If you make any changes to your MediaCore CE installation while Apache is running
+(eg. if you upgrade MediaCore CE or make any customizations), you'll need to make
 sure that mod_wsgi recognizes those changes.
 
 The easiest way to do this is to 'touch' the .wsgi script. This will modify the
@@ -155,5 +155,5 @@ updated and will read and re-load it.
    cd /path/to/mediacore_install
    cd deployment-scripts/mod_wsgi
 
-   # Force a refresh of the mediacore code
+   # Force a refresh of the MediaCore CE code
    touch mediacore.wsgi

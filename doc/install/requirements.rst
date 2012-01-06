@@ -4,7 +4,7 @@
 Preliminary Requirements Installation
 =====================================
 
-MediaCore is dependent on a number of packages being available on your system.
+MediaCore CE is dependent on a number of packages being available on your system.
 This page has examples of how to install them on a few different platforms.
 
 .. include:: requirements-list.rst
@@ -16,7 +16,7 @@ will use python 2.7 whenever a version must be specified.
 Step 1a: First Requirements in Mac OS X
 ---------------------------------------
 
-You will need to have GCC installed for some of MediaCore's dependencies
+You will need to have GCC installed for some of MediaCore CE's dependencies
 to install correctly. For Mac OS X users, that means installing
 `Xcode <http://developer.apple.com/tools/xcode/>`_.
 
@@ -174,7 +174,7 @@ At this point you should be all set to start your MySQL server:
 
 Python Requirements
 
-MediaCore supports Python versions 2.4 and up. CentOS/RHEL 5.x ships with
+MediaCore CE supports Python versions 2.4 and up. CentOS/RHEL 5.x ships with
 Python 2.4, so you should be OK with the system default as a base for your
 operations.
 
@@ -203,12 +203,12 @@ use your package manager to install setuptools (0.6c9 or higher), like so:
    # Or on CentOS/RHEL/Fedora:
    sudo yum install python-setuptools
 
-Otherwise, in the main mediacore package directory, there is an install script
+Otherwise, in the main MediaCore CE package directory, there is an install script
 to get setuptools for you.
 
 .. sourcecode:: bash
 
-   # Run the setuptools install script in your mediacore directory:
+   # Run the setuptools install script in your MediaCore CE directory:
    sudo python ez_setup.py
 
 
