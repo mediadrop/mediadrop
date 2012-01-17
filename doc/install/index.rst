@@ -99,7 +99,7 @@ a. **For most users**, you should `download the latest official release of
 
 b. **For developers**, or users that are very familiar with Git
    version control, we have a `public Git repository
-   <http://github.com/mediacore/mediacore/>`_. Git is great because
+   <http://github.com/mediacore/mediacore-community/>`_. Git is great because
    it makes it easy to stay right up-to-date with bugfixes as they're made, and
    you can contribute changes back by `creating your own fork in GitHub
    <http://help.github.com/forking/>`_.
@@ -107,7 +107,7 @@ b. **For developers**, or users that are very familiar with Git
    .. sourcecode:: bash
 
       # Download and install via Git
-      git clone git://github.com/mediacore/mediacore.git
+      git clone git://github.com/mediacore/mediacore-community.git
       cd mediacore
 
       # Install!

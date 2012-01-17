@@ -11,7 +11,7 @@ The simplest way to give back to MediaCore CE is to report bugs as you find
 them!
 
 Please post issues to our `issue tracker on Github
-<http://github.com/mediacore/mediacore/issues>`_.
+<http://github.com/mediacore/mediacore-community/issues>`_.
 
 You can always post to our `community forums
 <http://getmediacore.com/community>`_ if you aren't sure if its a bug or
@@ -58,7 +58,7 @@ Submitting Patches
 ------------------
 
 Generally we request that you create an issue in our `issue tracker
-<http://github.com/mediacore/mediacore/issues>`_ for any patch
+<http://github.com/mediacore/mediacore-community/issues>`_ for any patch
 you'd like to submit. It helps us stay organized in the long run.
 
 Our Git repository is hosted over at `Github <http://github.com/>`_ and
@@ -75,7 +75,7 @@ bugfixes and smaller features, where only one person is working on it.
 .. sourcecode:: bash
 
     # Getting a copy of our git repository (if you haven't already):
-    $ git clone git://github.com/mediacore/mediacore.git
+    $ git clone git://github.com/mediacore/mediacore-community.git
 
     # Create a new branch and switch to it:
     $ git checkout -b your_local_branch
@@ -95,7 +95,7 @@ create a patch for submission:
     $ git format-patch --stdout origin/master.. > your_patch
 
 Attach the ``your_patch`` file to an `issue
-<http://github.com/mediacore/mediacore/issues>`_ describing the
+<http://github.com/mediacore/mediacore-community/issues>`_ describing the
 problem and the fix.
 
 
