@@ -13,3 +13,4 @@ dist
 env
 test.ini
 .pydev*
+batch-scripts/closure/compiler/*
