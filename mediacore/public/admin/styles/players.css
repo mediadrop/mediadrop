@@ -12,6 +12,15 @@
 	padding-bottom: 5px;
 }
 
+.playerform .field_list > li > .container-list-label {
+    /* same as ".form .form_label label" from forms.css */
+    color: #3C4D5A;
+    font-size: 108%;
+    font-weight: bold;
+    
+    float: none;    
+}
+
 .playerform .options .fieldhelp,
 .playerform .options label {
 	width: 576px;
@@ -24,7 +33,7 @@
 .playerform .options input  {
 	width: auto;
 	float: left;
-	margin: 2px 0 0 5px;
+	margin: 2px 10px 0 5px;
 }
 .playerform .options li:after {
 	/* NB: This is the same as our 'clearfix' class

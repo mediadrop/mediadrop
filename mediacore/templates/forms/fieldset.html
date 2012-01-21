@@ -24,10 +24,11 @@
             py:with="required=[None,' required'][int(field.is_required)];
                      error=error_for(field);
                      label_text = field.label_text and _(field.label_text) or None;
+                     css_label_classes = hasattr(field, 'css_label_classes') and ' '.join(getattr(field, 'css_label_classes')) or '';
                      help_text = field.help_text and _(field.help_text) or None;" >
 
             <label py:if="show_labels and label_text and not field.suppress_label" id="${field.id}_label" for="${field.id}"
-                   class="fieldlabel${required}" py:content="label_text" />
+                   class="fieldlabel${required} ${css_label_classes}" py:content="label_text" />
             ${field.display(value_for(field), **args_for(field))}
             <span py:if="help_text and not hover_help" class="fieldhelp" py:content="help_text" />
             <span py:if="show_children_errors and error and not field.show_error" class="fielderror" py:content="error" />
