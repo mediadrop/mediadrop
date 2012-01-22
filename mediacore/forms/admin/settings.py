@@ -462,7 +462,7 @@ class ImportVideosForm(ListForm):
     css_class = 'form'
     submit_text = None
     fields = [
-        ListFieldSet('youtube', suppress_label=True, legend=N_('YouTube Channel Import'),
+        ListFieldSet('youtube', suppress_label=True, legend='',
             css_classes=['details_fieldset'],
             children = [
                 TextArea('channel_names', attrs=dict(rows=3, cols=20),
@@ -471,8 +471,10 @@ class ImportVideosForm(ListForm):
                     validator=NotEmpty),
                 CheckBox('auto_publish',
                     label_text=N_('Publish Videos'),
-                    help_text=N_('When this is selected, videos are published automatically when they are imported. Otherwise the videos will be added, but will be waiting review before being published.')),
-                CategoryCheckBoxList('categories', label_text=N_('Categories'), options=lambda: DBSession.query(Category.id, Category.name).all()),
+                    help_text=N_('When this is selected, videos are published automatically when they are imported. Otherwise the videos will be added, but will be waiting for review before being published.')),
+                CategoryCheckBoxList('categories', 
+                    label_text=N_('Categories'), 
+                    options=lambda: DBSession.query(Category.id, Category.name).all()),
                 TextArea('tags', label_text=N_('Tags'), attrs=dict(rows=3, cols=15), help_text=N_(u'e.g.: puppies, great dane, adorable')),
                 SubmitButton('save', default=N_('Import'), css_classes=['btn', 'btn-save', 'blue', 'f-rgt']),
             ]
