@@ -114,6 +114,11 @@
 	font-weight: bold;
 }
 
+#settings-form #youtube_auto_publish {
+    /* Chrome 16 centers the checkbox otherwise, Firefox 9 works fine even without this */
+    width: 20px;
+}
+
 #settings-form #youtube_categories_container {
 	float: left;
 	width: 50%;
@@ -129,6 +134,10 @@
 	clear: none;
 	float: right;
 	width: 45%;
+}
+
+#settings-form #youtube_tags_container .fieldhelp {
+    margin: 0;
 }
 
 #settings-form #youtube_tags {
