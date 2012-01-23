@@ -29,7 +29,7 @@
 	<meta name="language" content="${translator.locale.territory and '%s-%s' % (translator.locale.language, translator.locale.territory.lower()) or translator.locale.language}" />
 	<link href="${h.url_for('/styles/base.css')}" media="screen" rel="stylesheet" type="text/css" />
 	<link href="${h.url_for('/appearance/appearance.css')}" media="screen" rel="stylesheet" type="text/css" />
-	<py:choose test="h.config['debug'] and bool(h.request.params.get('debug', False))">
+	<py:choose test="bool(h.request.params.get('debug', False))">
 		<py:when test="True">
 			<script type="text/javascript" src="${h.url_for('/scripts/goog/base.js')}"></script>
 			<script type="text/javascript" src="${h.url_for('/scripts/mcore/deps.js')}"></script>
