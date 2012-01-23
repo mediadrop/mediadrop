@@ -25,7 +25,7 @@ from akismet import Akismet
 from paste.fileapp import FileApp
 from paste.util import mimeparse
 from pylons import app_globals, config, request, response
-from pylons.controllers.util import forward
+from pylons.controllers.util import abort, forward
 from sqlalchemy import orm, sql
 from sqlalchemy.exc import OperationalError
 from webob.exc import HTTPNotAcceptable, HTTPNotFound
@@ -239,8 +239,12 @@ class MediaController(BaseController):
         media = fetch_row(Media, slug=slug)
 
         if up:
+            if not request.settings['appearance_show_like']:
+                abort(status_code=403)
             media.increment_likes()
         elif down:
+            if not request.settings['appearance_show_dislike']:
+                abort(status_code=403)
             media.increment_dislikes()
 
         if request.is_xhr:
