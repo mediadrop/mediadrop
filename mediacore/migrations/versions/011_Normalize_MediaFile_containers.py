@@ -1,3 +1,7 @@
+# This file is a part of MediaCore CE, Copyright 2009-2012 MediaCore Inc.
+# The source code contained in this file is licensed under the GPL.
+# See LICENSE.txt in the main project directory, for more information.
+
 """
 A script to standardize file containers to their preferred container formats.
 

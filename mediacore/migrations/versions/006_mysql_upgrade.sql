@@ -1,3 +1,9 @@
+/* 
+# This file is a part of MediaCore CE, Copyright 2009-2012 MediaCore Inc.
+# The source code contained in this file is licensed under the GPL.
+# See LICENSE.txt in the main project directory, for more information.
+*/
+
 /* Rename topics to categories */
 /* part 2 of 2 */
 RENAME TABLE `media_topics` TO `media_categories`;

@@ -1,3 +1,9 @@
+/*
+# This file is a part of MediaCore CE, Copyright 2009-2012 MediaCore Inc.
+# The source code contained in this file is licensed under the GPL.
+# See LICENSE.txt in the main project directory, for more information.
+*/
+
 /* Remove the comments.status column, in favour of 'reviewed' and 'publishible' columns. */
 ALTER TABLE `comments`
 	ADD COLUMN `reviewed` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0 AFTER `status`,

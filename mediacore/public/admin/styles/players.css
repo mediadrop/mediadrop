@@ -1,3 +1,9 @@
+/**
+ * This file is a part of MediaCore CE, Copyright 2009-2012 MediaCore Inc.
+ * The source code contained in this file is licensed under the GPL.
+ * See LICENSE.txt in the main project directory, for more information.
+ **/
+
 .playerform li {
 	margin: 10px 0;
 }
@@ -17,8 +23,8 @@
     color: #3C4D5A;
     font-size: 108%;
     font-weight: bold;
-    
-    float: none;    
+
+    float: none;
 }
 
 .playerform .options .fieldhelp,

@@ -1,3 +1,7 @@
+# This file is a part of MediaCore CE, Copyright 2009-2012 MediaCore Inc.
+# The source code contained in this file is licensed under the GPL.
+# See LICENSE.txt in the main project directory, for more information.
+
 # This migration needs to be run again because websetup.py was not updated
 # to reflect migration 042_Empty_custom_footer_xhtml.py until now.
 
