@@ -6,7 +6,7 @@ import sys
 
 # Module description following the guidelines at:
 # http://bayes.colorado.edu/PythonGuidelines.html#module_formatting
-__version__ = '0.9.1'
+__version__ = '0.9.2dev'
 __status__ = 'Beta'
 __copyright__ = 'Copyright 2009-2010, Simple Station Inc.'
 __license__ = 'GPLv3'
