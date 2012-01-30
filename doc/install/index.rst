@@ -77,7 +77,7 @@ virtual environment as we just did in the line above.**
 
 
 Step 2: Install MediaCore CE
--------------------------
+----------------------------
 There are two main ways to get MediaCore CE:
 
 a. **For most users**, you should `download the latest official release of

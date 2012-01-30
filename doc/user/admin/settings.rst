@@ -104,11 +104,9 @@ A useable HTML5 player will be found if:
    2. there is a media file associated with the media object that
       the user's browser is capable of playing natively.
 
-A list of which formats Flash supports can be found
-`here <http://kb2.adobe.com/cps/402/kb402866.html>`_.
+Adobe published a list of which `formats Flash supports <http://kb2.adobe.com/cps/402/kb402866.html>`_.
 
-A list of which browsers support which formats natively can be found
-`here <http://diveintohtml5.com/video.html#what-works>`_.
+For HTML5 there is also a list of `which browsers support which formats <http://diveintohtml5.com/video.html#what-works>`_ natively.
 
 In the case that an embedded video (YouTube/Vimeo/etc.) the appropriate media
 file for a media object, that video will be displayed within the selected

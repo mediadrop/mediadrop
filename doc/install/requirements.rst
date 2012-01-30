@@ -93,6 +93,7 @@ Step 1c: First Requirements in CentOS/RHEL 5.x
 
 Depending on how you configured your CentOS Distro at install time you may need
 to install the following packages:
+
   * GCC
   * make
   * autoconf
