@@ -258,7 +258,7 @@ production config.
    .. sourcecode:: bash
 
       # To create deployment.ini in your current dir:
-      paster make-config MediaCore CE deployment.ini
+      paster make-config MediaCore deployment.ini
 
    Then edit ``deployment.ini`` as you did for ``development.ini`` (e.g. set
    up the database config line).
