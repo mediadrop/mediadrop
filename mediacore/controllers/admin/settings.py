@@ -14,9 +14,7 @@ from gdata.service import RequestError
 
 from cgi import FieldStorage
 from babel.core import Locale
-from formencode import Invalid
-from PIL import Image
-from pylons import app_globals, config, request, response, session, tmpl_context as c
+from pylons import config, request, response, session, tmpl_context as c
 from repoze.what.predicates import has_permission
 from sqlalchemy import orm, sql
 
@@ -28,8 +26,7 @@ from mediacore.lib.decorators import (autocommit, expose, expose_xhr,
     paginate, validate)
 from mediacore.lib.helpers import filter_vulgarity, redirect, url_for
 from mediacore.lib.i18n import LanguageError, Translator
-from mediacore.lib.storage import add_new_media_file, StorageError, UnsuitableEngineError, YoutubeStorage
-from mediacore.lib.templating import render
+from mediacore.lib.storage import add_new_media_file, StorageError, YoutubeStorage
 from mediacore.lib.thumbnails import create_default_thumbs_for, has_thumbs
 from mediacore.lib.xhtml import clean_xhtml
 from mediacore.model import (Author, Category, Comment, Media, MediaFile, MultiSetting,

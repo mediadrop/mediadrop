@@ -3,10 +3,9 @@
 # See LICENSE.txt in the main project directory, for more information.
 
 from paste.util import mimeparse
-from pylons import config, request, response, session, tmpl_context
+from pylons import request, response
 from repoze.what.predicates import has_permission
 from sqlalchemy import orm, sql
-import pylons.templating
 
 from mediacore.lib import helpers
 from mediacore.lib.base import BaseController
