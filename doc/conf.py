@@ -75,7 +75,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'MediaCore'
-copyright = u'2009, Simple Station Inc.'
+copyright = u'2009-2012, MediaCore Inc.'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -210,7 +210,7 @@ htmlhelp_basename = 'MediaCoredoc'
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
   ('index', 'MediaCore.tex', u'MediaCore Documentation',
-   u'Simple Station Inc.', 'manual'),
+   u'MediaCore Inc.', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of

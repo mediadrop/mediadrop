@@ -72,8 +72,8 @@ setup(
     name='MediaCore',
     version=VERSION,
     description='A audio, video and podcast publication platform.',
-    author='Simple Station Inc.',
-    author_email='info@simplestation.com',
+    author='MediaCore Inc.',
+    author_email='info@mediacore.com',
     url='http://mediacorecommunity.org/',
     classifiers=[
         'Development Status :: 4 - Beta',
