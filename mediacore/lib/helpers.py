@@ -367,7 +367,7 @@ def doc_link(page=None, anchor='', text=N_('Help'), **kwargs):
     XXX: Target attribute is not XHTML compliant.
     """
     attrs = {
-        'href': 'http://getmediacore.com/docs/user/%s.html#%s' % (page, anchor),
+        'href': 'http://mediacorecommunity.org/docs/user/%s.html#%s' % (page, anchor),
         'target': '_blank',
     }
     if kwargs:

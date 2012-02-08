@@ -461,25 +461,25 @@ class MediaController(BaseController):
                     scheme (unicode)
                         The
                         :attr:`scheme <mediacore.lib.uri.StorageUri.scheme>`
-                        (e.g. 'http' in the URI 'http://getmediacore.com/docs/',
-                        'rtmp' in the URI 'rtmp://getmediacore.com/docs/', or
+                        (e.g. 'http' in the URI 'http://mediacorecommunity.org/docs/',
+                        'rtmp' in the URI 'rtmp://mediacorecommunity.org/docs/', or
                         'file' in the URI 'file:///some/local/file.mp4')
                     server (unicode)
                         The
                         :attr:`server name <mediacore.lib.uri.StorageUri.server_uri>`
-                        (e.g. 'getmediacore.com' in the URI
-                        'http://getmediacore.com/docs')
+                        (e.g. 'mediacorecommunity.org' in the URI
+                        'http://mediacorecommunity.org/docs')
                     file (unicode)
                         The
                         :attr:`file path <mediacore.lib.uri.StorageUri.file_uri>`
                         part of the URI.  (e.g. 'docs' in the URI
-                        'http://getmediacore.com/docs')
+                        'http://mediacorecommunity.org/docs')
                     uri (unicode)
                         The full URI string (minus scheme) built from the
                         server_uri and file_uri.
                         See :attr:`mediacore.lib.uri.StorageUri.__str__`.
-                        (e.g. 'getmediacore.com/docs' in the URI
-                        'http://getmediacore.com/docs')
+                        (e.g. 'mediacorecommunity.org/docs' in the URI
+                        'http://mediacorecommunity.org/docs')
 
         """
         uris = []

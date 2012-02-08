@@ -11,7 +11,7 @@ __status__ = 'Beta'
 __copyright__ = 'Copyright 2009-2010, Simple Station Inc.'
 __license__ = 'GPLv3'
 __email__ = 'info@mediacore.com'
-__maintainer__ = 'http://getmediacore.com/'
+__maintainer__ = 'http://mediacorecommunity.org/'
 __all__ = ['__version__', 'debug', 'ipython']
 
 USER_AGENT = 'MediaCore/%s' % __version__

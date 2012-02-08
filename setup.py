@@ -74,7 +74,7 @@ setup(
     description='A audio, video and podcast publication platform.',
     author='Simple Station Inc.',
     author_email='info@simplestation.com',
-    url='http://getmediacore.com/',
+    url='http://mediacorecommunity.org/',
     classifiers=[
         'Development Status :: 4 - Beta',
         'License :: OSI Approved :: GNU General Public License (GPL)',
