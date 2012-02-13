@@ -79,7 +79,8 @@
 
 /* Comments Settings */
 #settings-form .details_fieldset .fieldhelp {
-	margin: 5px 120px 0;
+	margin-left: 120px;
+	margin-top: 5px;
 	color: #9b9b9b;
 }
 #settings-form .checkbox-inline-help {

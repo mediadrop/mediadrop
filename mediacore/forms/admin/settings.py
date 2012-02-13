@@ -423,6 +423,13 @@ class AppearanceForm(ListForm):
                 TextArea('appearance_custom_footer_html',
                     label_text=N_('Custom Footer HTML'),
                     attrs=dict(rows=15, cols=25)),
+                TextArea('appearance_custom_head_tags',
+                    label_text=N_('Custom <head> Tags'),
+                    help_text=N_('These HTML tags are inserted into the HTML '
+                        '<head> section. Bad input can cause ugly rendering of '
+                        'your site. You can always restore your page by '
+                        'the box above.'),
+                    attrs=dict(rows=15, cols=25)),
             ],
         ),
         SubmitButton('save', default=N_('Save'), css_classes=['btn', 'btn-save', 'blue', 'f-rgt']),

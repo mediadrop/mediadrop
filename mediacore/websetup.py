@@ -51,6 +51,7 @@ appearance_settings = [
     (u'appearance_custom_css', u''),
     (u'appearance_custom_header_html', u''),
     (u'appearance_custom_footer_html', u''),
+    (u'appearance_custom_head_tags', u''),
     (u'appearance_display_mediacore_footer', u'True'),
     (u'appearance_display_mediacore_credits', u'True'),
     (u'appearance_show_download', u'True'),
