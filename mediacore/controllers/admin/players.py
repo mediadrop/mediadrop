@@ -14,7 +14,7 @@ from mediacore.lib.base import BaseController
 from mediacore.lib.decorators import (autocommit, expose, observable,
     paginate, validate)
 from mediacore.lib.helpers import redirect, url_for
-from mediacore.lib.players import AbstractPlayer, update_enabled_players
+from mediacore.lib.players import update_enabled_players
 from mediacore.model import (DBSession, PlayerPrefs, fetch_row,
     cleanup_players_table)
 from mediacore.plugin import events
