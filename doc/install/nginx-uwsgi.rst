@@ -158,19 +158,19 @@ configuration and will probably suit most use cases:
         root /home/mediacore/mediacore/mediacore/public;
 
         # And now we define the rest of our static locations below
-        location ~*/(appearance)/ {
+        location ~* ^/(appearance)/ {
                 root /home/mediacore/mediacore/data ;
                 break;
         }
 
         # All media and podcast images
-        location ~*(/images\/media|images\/podcasts) {
+        location ~* ^(/images\/media|images\/podcasts) {
                 root /home/mediacore/mediacore/data ;
                 break;
         }
 
         # Our standard public file paths
-        location ~*/(styles|scripts|images)/ {
+        location ~* ^/(styles|scripts|images)/ {
                 expires max;
                 add_header Cache-Control "public";
                 break;
