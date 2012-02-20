@@ -334,6 +334,9 @@ class MediaQuery(Query):
 
     def in_categories(self, cats):
         """Filter results to Media in at least one of the given categories"""
+        if len(cats) == 0:
+            # SQLAlchemy complains about an empty IN-predicate
+            return self.filter(media_categories.c.media_id == -1)
         all_cats = cats[:]
         for cat in cats:
             all_cats.extend(cat.descendants())
