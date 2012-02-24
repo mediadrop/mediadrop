@@ -1,22 +1,26 @@
 # Russian (Russia) translations for MediaCore.
 # Copyright (C) 2011 ORGANIZATION
 # This file is distributed under the same license as the MediaCore project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2011.
 #
+# Translators:
+# Dimmus <dmitri.chudinov@gmail.com>, 2011.
+# GadgetGuru <info@gadgetguru.co.il>, 2011.
+# Webman <alex@susorov.ru>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: MediaCore Video Platform\n"
-"Report-Msgid-Bugs-To: http://github.com/mediacore/mediacore/issues\n"
-"POT-Creation-Date: 2011-01-21 15:28+0800\n"
-"PO-Revision-Date: 2011-03-11 15:56-0800\n"
+"Report-Msgid-Bugs-To: http://github.com/mediacore/mediacore-"
+"community/issues\n"
+"POT-Creation-Date: 2011-01-21 15:28-0800\n"
+"PO-Revision-Date: 2011-03-22 15:06+0000\n"
 "Last-Translator: Dimmus <dmitri.chudinov@gmail.com>\n"
 "Language-Team: ru_RU <LL@li.org>\n"
-"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 0.9.5\n"
+"Generated-By: Babel 0.9.6\n"
 
 #: mediacore/websetup.py:136
 msgid ""
@@ -30,11 +34,11 @@ msgstr ""
 msgid "We're sorry but we weren't able to process this request."
 msgstr "Извините, но мы не смогли обработать ваш запрос"
 
-#: mediacore/controllers/media.py:288
+#: mediacore/controllers/media.py:297
 msgid "Your comment has been rejected."
 msgstr "Ваш комментарий был отклонён."
 
-#: mediacore/controllers/media.py:309
+#: mediacore/controllers/media.py:318
 msgid ""
 "Thank you for your comment! We will post it just as soon as a moderator "
 "approves it."
@@ -60,11 +64,11 @@ msgstr "Доступ запрещен. Вы не сможете записать
 msgid "Unsupport image type: %s"
 msgstr "Неподдерживаемый тип изображения: %s"
 
-#: mediacore/forms/__init__.py:191
+#: mediacore/forms/__init__.py:219
 msgid "The portion of the email address before the @ is invalid"
 msgstr "Часть почтового адреса перед @ не верна"
 
-#: mediacore/forms/__init__.py:192
+#: mediacore/forms/__init__.py:220
 msgid "The portion of this email address after the @ is invalid"
 msgstr "Часть почтового адреса после @ не верна"
 
@@ -135,13 +139,13 @@ msgstr "Вы забыли выбрать изображение!"
 #: mediacore/templates/admin/tags/index.html:66
 #: mediacore/templates/comments/_list.html:74
 msgid "Name"
-msgstr "Имя"
+msgstr ""
+"\n"
+"Имя\n"
 
-#: mediacore/forms/admin/categories.py:45 mediacore/forms/admin/media.py:155
-#: mediacore/forms/admin/podcasts.py:110 mediacore/forms/admin/tags.py:45
-#: mediacore/templates/comments/_list.html:35
-msgid "Permalink"
-msgstr "Ссылка"
+#: mediacore/forms/admin/categories.py:45 mediacore/forms/admin/tags.py:45
+msgid "Slug"
+msgstr "Лентяй"
 
 #: mediacore/forms/admin/categories.py:46
 msgid "Parent Category"
@@ -167,18 +171,18 @@ msgid "Cancel"
 msgstr "Отменить"
 
 #: mediacore/forms/admin/categories.py:48 mediacore/forms/admin/comments.py:30
-#: mediacore/forms/admin/media.py:167 mediacore/forms/admin/players.py:55
-#: mediacore/forms/admin/podcasts.py:126 mediacore/forms/admin/settings.py:113
-#: mediacore/forms/admin/settings.py:132 mediacore/forms/admin/settings.py:163
-#: mediacore/forms/admin/settings.py:175 mediacore/forms/admin/settings.py:198
-#: mediacore/forms/admin/settings.py:238 mediacore/forms/admin/settings.py:257
-#: mediacore/forms/admin/settings.py:369 mediacore/forms/admin/settings.py:391
+#: mediacore/forms/admin/media.py:159 mediacore/forms/admin/players.py:55
+#: mediacore/forms/admin/podcasts.py:126 mediacore/forms/admin/settings.py:116
+#: mediacore/forms/admin/settings.py:135 mediacore/forms/admin/settings.py:166
+#: mediacore/forms/admin/settings.py:178 mediacore/forms/admin/settings.py:203
+#: mediacore/forms/admin/settings.py:242 mediacore/forms/admin/settings.py:262
+#: mediacore/forms/admin/settings.py:374 mediacore/forms/admin/settings.py:396
 #: mediacore/forms/admin/tags.py:47 mediacore/forms/admin/users.py:62
 #: mediacore/forms/admin/storage/__init__.py:51
 msgid "Save"
 msgstr "Сохранить"
 
-#: mediacore/forms/admin/categories.py:67 mediacore/forms/admin/media.py:168
+#: mediacore/forms/admin/categories.py:67 mediacore/forms/admin/media.py:160
 #: mediacore/forms/admin/podcasts.py:127 mediacore/forms/admin/tags.py:62
 #: mediacore/forms/admin/users.py:63
 #: mediacore/templates/admin/categories/index.html:47
@@ -206,14 +210,13 @@ msgstr "Удалить"
 #: mediacore/templates/admin/helpers.html:74
 #: mediacore/templates/admin/comments/_comment-table.html:31
 #: mediacore/templates/comments/_list.html:93
-#: mediacore/templates/media/explore.html:89
+#: mediacore/templates/media/explore.html:86
 #: mediacore/templates/media/view.html:66
 msgid "Comment"
 msgid_plural "Comments"
 msgstr[0] "Комментарий"
 msgstr[1] "Комментариев"
-msgstr[2] "Комментариев"
-msgstr[3] "Комментарии"
+msgstr[2] "Комментарии"
 
 #: mediacore/forms/admin/media.py:41
 msgid "Bad duration formatting, use Hour:Min:Sec"
@@ -231,55 +234,76 @@ msgstr "Ширина должна иметь целочисленное знач
 msgid "Height must be a valid integer"
 msgstr "Высота должна иметь целочисленное значение"
 
-#: mediacore/forms/admin/media.py:115
+#: mediacore/forms/admin/media.py:101
 msgid "Select an encoded video or audio file on your computer"
 msgstr "Выберите видео или аудио файл на вашем компьютере"
 
-#: mediacore/forms/admin/media.py:115 mediacore/templates/master.html:63
+#: mediacore/forms/admin/media.py:101 mediacore/templates/master.html:63
 #: mediacore/templates/admin/settings/master.html:83
 #: mediacore/templates/admin/settings/upload.html:23
 #: mediacore/templates/admin/settings/upload.html:29
 msgid "Upload"
 msgstr "Загрузить"
 
-#: mediacore/forms/admin/media.py:116
+#: mediacore/forms/admin/media.py:102
 msgid "Add URL"
 msgstr "Добавить URL"
 
-#: mediacore/forms/admin/media.py:117
+#: mediacore/forms/admin/media.py:103
 msgid "YouTube, Vimeo, Google Video, Amazon S3 or any other link"
 msgstr "YouTube, Vimeo, Google Video, Amazon S3 или любая другая ссылка"
 
-#: mediacore/forms/admin/media.py:139
+#: mediacore/forms/admin/media.py:110
+msgid "Video"
+msgstr "Видео"
+
+#: mediacore/forms/admin/media.py:111
+msgid "Audio"
+msgstr "Аудио"
+
+#: mediacore/forms/admin/media.py:112
+msgid "Audio Description"
+msgstr "Описание аудио"
+
+#: mediacore/forms/admin/media.py:113
+msgid "Captions"
+msgstr "Подписи"
+
+#: mediacore/forms/admin/media.py:131
 msgid "Delete file"
 msgstr "Удалить файл"
 
-#: mediacore/forms/admin/media.py:154
+#: mediacore/forms/admin/media.py:146
 msgid "Include in the Podcast"
 msgstr "Включить в подкаст"
 
-#: mediacore/forms/admin/media.py:154
+#: mediacore/forms/admin/media.py:146
 msgid "Optional"
 msgstr "По желанию"
 
-#: mediacore/forms/admin/media.py:156 mediacore/forms/admin/podcasts.py:111
+#: mediacore/forms/admin/media.py:147 mediacore/forms/admin/podcasts.py:110
+#: mediacore/templates/comments/_list.html:35
+msgid "Permalink"
+msgstr "Ссылка"
+
+#: mediacore/forms/admin/media.py:148 mediacore/forms/admin/podcasts.py:111
 #: mediacore/templates/admin/media/_media-table.html:33
 msgid "Title"
 msgstr "Заголовок"
 
-#: mediacore/forms/admin/media.py:157 mediacore/forms/admin/podcasts.py:113
+#: mediacore/forms/admin/media.py:149 mediacore/forms/admin/podcasts.py:113
 msgid "Author Name"
 msgstr "Имя автора"
 
-#: mediacore/forms/admin/media.py:158 mediacore/forms/admin/podcasts.py:114
+#: mediacore/forms/admin/media.py:150 mediacore/forms/admin/podcasts.py:114
 msgid "Author Email"
 msgstr "Эл. почта автора"
 
-#: mediacore/forms/admin/media.py:159 mediacore/forms/admin/podcasts.py:115
+#: mediacore/forms/admin/media.py:151 mediacore/forms/admin/podcasts.py:115
 msgid "Description"
 msgstr "Описание"
 
-#: mediacore/forms/admin/media.py:160 mediacore/templates/master.html:62
+#: mediacore/forms/admin/media.py:152 mediacore/templates/master.html:62
 #: mediacore/templates/admin/categories/edit.html:23
 #: mediacore/templates/admin/categories/index.html:24
 #: mediacore/templates/admin/categories/index.html:58
@@ -287,12 +311,12 @@ msgstr "Описание"
 #: mediacore/templates/categories/index.html:25
 #: mediacore/templates/categories/layout.html:29
 #: mediacore/templates/categories/more.html:24
-#: mediacore/templates/media/explore.html:48
+#: mediacore/templates/media/explore.html:45
 #: mediacore/templates/media/view.html:112
 msgid "Categories"
 msgstr "Категории"
 
-#: mediacore/forms/admin/media.py:161
+#: mediacore/forms/admin/media.py:153
 #: mediacore/templates/admin/media/_media-table.html:35
 #: mediacore/templates/admin/settings/master.html:80
 #: mediacore/templates/admin/tags/edit.html:23
@@ -303,11 +327,11 @@ msgstr "Категории"
 msgid "Tags"
 msgstr "Теги"
 
-#: mediacore/forms/admin/media.py:161
+#: mediacore/forms/admin/media.py:153
 msgid "e.g.: puppies, great dane, adorable"
 msgstr "например, щеночки, большой дейн, восхитительный"
 
-#: mediacore/forms/admin/media.py:163
+#: mediacore/forms/admin/media.py:155 mediacore/forms/admin/settings.py:239
 msgid "Administrative Notes"
 msgstr "Отметки администратора"
 
@@ -322,43 +346,43 @@ msgstr "Основные опции:"
 msgid "Display Name"
 msgstr "Отображаемое имя"
 
-#: mediacore/forms/admin/players.py:96
+#: mediacore/forms/admin/players.py:84
 msgid "Yes, use the Flash Player when the device supports it."
 msgstr "Да, использовать Flash плеер, если устройство его поддерживает."
 
-#: mediacore/forms/admin/players.py:97
+#: mediacore/forms/admin/players.py:85
 msgid "No, use the HTML5 Player when the device supports it."
 msgstr "Нет, использовать HTML5 плеер, если устройство его поддерживает."
 
-#: mediacore/forms/admin/players.py:100
+#: mediacore/forms/admin/players.py:88
 msgid "Prefer the Flash Player when possible"
 msgstr "По возможности предпочитать Flash плеер"
 
-#: mediacore/forms/admin/players.py:115
+#: mediacore/forms/admin/players.py:105
 msgid "Script Tag"
 msgstr "Тег скрипта"
 
-#: mediacore/forms/admin/players.py:116
+#: mediacore/forms/admin/players.py:106
 msgid "The unique script tag given for your site."
 msgstr "Уникальный тег скрипта, данный вашему сайту."
 
-#: mediacore/forms/admin/players.py:133
+#: mediacore/forms/admin/players.py:125
 msgid "Player Options:"
 msgstr "Опции плеера:"
 
-#: mediacore/forms/admin/players.py:135
+#: mediacore/forms/admin/players.py:127
 msgid "Disable the player keyboard controls."
 msgstr "Отключить управление плеером с клавиатуры."
 
-#: mediacore/forms/admin/players.py:136
+#: mediacore/forms/admin/players.py:128
 msgid "Enable fullscreen."
 msgstr "Включить во весь экран."
 
-#: mediacore/forms/admin/players.py:137
+#: mediacore/forms/admin/players.py:129
 msgid "Enable high-def quality by default."
 msgstr "По умолчанию включить HD качество."
 
-#: mediacore/forms/admin/players.py:138
+#: mediacore/forms/admin/players.py:130
 msgid ""
 "Allow the player to load related videos once playback of the initial "
 "video starts. Related videos are displayed in the \"genie menu\" when the"
@@ -368,7 +392,7 @@ msgstr ""
 "первоначальное. Связанное видео отображается в \"джин меню\" при нажатии "
 "кнопки меню."
 
-#: mediacore/forms/admin/players.py:139
+#: mediacore/forms/admin/players.py:131
 msgid ""
 "Show the search box when the video is minimized. The above option must be"
 " enabled for this to work."
@@ -376,7 +400,7 @@ msgstr ""
 "Показывать панель поиска при свернутом видео. Для корректной работы "
 "должна быть включена опция выше."
 
-#: mediacore/forms/admin/players.py:140
+#: mediacore/forms/admin/players.py:132
 msgid ""
 "Display information like the video title and rating before the video "
 "starts playing."
@@ -430,302 +454,323 @@ msgid "Feedburner URL"
 msgstr "Feedburner URL"
 
 #: mediacore/forms/admin/settings.py:38
+msgid "Enable"
+msgstr "Включить"
+
+#: mediacore/forms/admin/settings.py:39
+#: mediacore/templates/admin/storage/index.html:100
+msgid "Disable"
+msgstr "Выключить"
+
+#: mediacore/forms/admin/settings.py:43
 msgid "Prepend"
 msgstr "В конец"
 
-#: mediacore/forms/admin/settings.py:39
+#: mediacore/forms/admin/settings.py:44
 msgid "Append"
 msgstr "В начало"
 
-#: mediacore/forms/admin/settings.py:42
+#: mediacore/forms/admin/settings.py:47
 msgid "Plain <textarea> fields (0kB)"
 msgstr "Открытые <textarea> поля (0kB)"
 
-#: mediacore/forms/admin/settings.py:43
+#: mediacore/forms/admin/settings.py:48
 msgid "Enable TinyMCE for <textarea> fields accepting XHTML (281kB)"
 msgstr "Включить TinyMCE для <textarea> полей, принимающих  XHTML (281kB)"
 
-#: mediacore/forms/admin/settings.py:47
+#: mediacore/forms/admin/settings.py:52
 msgid "Brown"
 msgstr "Коричневый"
 
-#: mediacore/forms/admin/settings.py:48
+#: mediacore/forms/admin/settings.py:53
 msgid "Blue"
 msgstr "Синий"
 
-#: mediacore/forms/admin/settings.py:49
+#: mediacore/forms/admin/settings.py:54
 msgid "Green"
 msgstr "Зеленый"
 
-#: mediacore/forms/admin/settings.py:50
+#: mediacore/forms/admin/settings.py:55
 msgid "Tan"
 msgstr "Жёлто-коричневый"
 
-#: mediacore/forms/admin/settings.py:51
+#: mediacore/forms/admin/settings.py:56
 msgid "White"
 msgstr "Белый"
 
-#: mediacore/forms/admin/settings.py:52
+#: mediacore/forms/admin/settings.py:57
 msgid "Purple"
 msgstr "Пурпурный"
 
-#: mediacore/forms/admin/settings.py:53
+#: mediacore/forms/admin/settings.py:58
 msgid "Black"
 msgstr "Черный"
 
-#: mediacore/forms/admin/settings.py:86 mediacore/forms/admin/settings.py:95
+#: mediacore/forms/admin/settings.py:89 mediacore/forms/admin/settings.py:98
 msgid "Yes"
 msgstr "Да"
 
-#: mediacore/forms/admin/settings.py:86 mediacore/forms/admin/settings.py:95
+#: mediacore/forms/admin/settings.py:89 mediacore/forms/admin/settings.py:98
 msgid "No"
 msgstr "Нет"
 
-#: mediacore/forms/admin/settings.py:107
+#: mediacore/forms/admin/settings.py:110
 msgid "Email Notifications:"
 msgstr "Уведомления по электронной почте:"
 
-#: mediacore/forms/admin/settings.py:108
+#: mediacore/forms/admin/settings.py:111
 msgid "Media Uploaded"
 msgstr "Медиафайл загружен"
 
-#: mediacore/forms/admin/settings.py:109
+#: mediacore/forms/admin/settings.py:112
 msgid "Comment Posted"
 msgstr "Комментарий опубликован"
 
-#: mediacore/forms/admin/settings.py:110
+#: mediacore/forms/admin/settings.py:113
 msgid "Support Requested"
 msgstr "Запрошена поддержка"
 
-#: mediacore/forms/admin/settings.py:111
+#: mediacore/forms/admin/settings.py:114
 msgid "Send Emails From"
 msgstr "Отправить сообщения электронной почты из"
 
-#: mediacore/forms/admin/settings.py:126
+#: mediacore/forms/admin/settings.py:129
 msgid "Popularity Algorithm Variables:"
 msgstr "Переменные алгоритма популярности:"
 
-#: mediacore/forms/admin/settings.py:128
+#: mediacore/forms/admin/settings.py:131
 msgid "Decay Exponent"
 msgstr "Экспонента затухания"
 
-#: mediacore/forms/admin/settings.py:129
+#: mediacore/forms/admin/settings.py:132
 msgid "Decay Lifetime"
 msgstr "Затухание жизни"
 
-#: mediacore/forms/admin/settings.py:159
+#: mediacore/forms/admin/settings.py:162
 msgid "Max. allowed upload file size in megabytes"
 msgstr "Макс. допустимый размер загружаемого файла в мегабайтах"
 
-#: mediacore/forms/admin/settings.py:160
+#: mediacore/forms/admin/settings.py:163
 msgid "Legal Wording:"
 msgstr "Правовая формулировка:"
 
-#: mediacore/forms/admin/settings.py:161
+#: mediacore/forms/admin/settings.py:164
 msgid "User Uploads"
 msgstr "Пользовательские загрузки"
 
-#: mediacore/forms/admin/settings.py:172
+#: mediacore/forms/admin/settings.py:175
 msgid "Google Analytics Details:"
 msgstr "Информация от Google Analytics:"
 
-#: mediacore/forms/admin/settings.py:173
+#: mediacore/forms/admin/settings.py:176
 msgid "Tracking Code"
 msgstr "Код отслеживания"
 
-#: mediacore/forms/admin/settings.py:190
+#: mediacore/forms/admin/settings.py:192
 msgid "Site Maps"
 msgstr "Карты сайта"
 
-#: mediacore/forms/admin/settings.py:194
+#: mediacore/forms/admin/settings.py:197
 msgid "RSS Feeds"
 msgstr "RSS-каналы"
 
-#: mediacore/forms/admin/settings.py:207
+#: mediacore/forms/admin/settings.py:212
 msgid "General Settings:"
 msgstr "Общие настройки:"
 
-#: mediacore/forms/admin/settings.py:209
+#: mediacore/forms/admin/settings.py:214
 msgid "Site Name"
 msgstr "Название сайта"
 
-#: mediacore/forms/admin/settings.py:211
+#: mediacore/forms/admin/settings.py:216
 msgid "Site Tag Line"
 msgstr "Строка тегов сайта"
 
-#: mediacore/forms/admin/settings.py:213
+#: mediacore/forms/admin/settings.py:218
 msgid "Display Site Name"
 msgstr "Отобразить название сайта"
 
-#: mediacore/forms/admin/settings.py:217
+#: mediacore/forms/admin/settings.py:222
 msgid "Default Language"
 msgstr "Язык по умолчанию"
 
-#: mediacore/forms/admin/settings.py:221
+#: mediacore/forms/admin/settings.py:226
 msgid "Featured Category"
 msgstr "Популярные категории"
 
-#: mediacore/forms/admin/settings.py:226
+#: mediacore/forms/admin/settings.py:231
 msgid "Rich Text Editing"
 msgstr "Расширенное редактирование текста"
 
-#: mediacore/forms/admin/settings.py:248
+#: mediacore/forms/admin/settings.py:235
+msgid "Administrative notes on Media:"
+msgstr "Административные заметки о медиа:"
+
+#: mediacore/forms/admin/settings.py:237
+msgid "Display notes"
+msgstr "Показать заметки"
+
+#: mediacore/forms/admin/settings.py:252
 msgid "Require comments to be approved by an admin"
 msgstr "Требовать, чтобы комментарии подтверждались администратором"
 
-#: mediacore/forms/admin/settings.py:249
+#: mediacore/forms/admin/settings.py:253
 msgid "Akismet Anti-Spam Details:"
 msgstr "Информация об Akismet Anti-Spam:"
 
-#: mediacore/forms/admin/settings.py:250
+#: mediacore/forms/admin/settings.py:254
 msgid "Akismet Key"
 msgstr "Ключ Akismet"
 
-#: mediacore/forms/admin/settings.py:251
+#: mediacore/forms/admin/settings.py:255
 msgid "Akismet URL"
 msgstr "Akismet URL"
 
-#: mediacore/forms/admin/settings.py:253
+#: mediacore/forms/admin/settings.py:257
 msgid "Vulgarity Filter Settings"
 msgstr "Настройки фильтра пошлости"
 
-#: mediacore/forms/admin/settings.py:254
+#: mediacore/forms/admin/settings.py:258
 msgid "Filtered Words"
 msgstr "Отфильтрованные слова"
 
-#: mediacore/forms/admin/settings.py:255
+#: mediacore/forms/admin/settings.py:259
 msgid "Enter words to be filtered separated by a comma."
 msgstr "Введите фильтруемые слова, разделенные запятыми."
 
-#: mediacore/forms/admin/settings.py:267
+#: mediacore/forms/admin/settings.py:260
+msgid "Run Filter Now"
+msgstr "Отфильтровать прямо сейчас"
+
+#: mediacore/forms/admin/settings.py:272
 msgid "Require a key to access the API"
 msgstr "Требовать ключ для доступа к API"
 
-#: mediacore/forms/admin/settings.py:268
+#: mediacore/forms/admin/settings.py:273
 msgid "API Key:"
 msgstr "Ключ API:"
 
-#: mediacore/forms/admin/settings.py:269
+#: mediacore/forms/admin/settings.py:274
 msgid "Access Key"
 msgstr "Ключ доступа"
 
-#: mediacore/forms/admin/settings.py:271
+#: mediacore/forms/admin/settings.py:276
 msgid "API Settings:"
 msgstr "Настройки API:"
 
-#: mediacore/forms/admin/settings.py:272
+#: mediacore/forms/admin/settings.py:277
 msgid "Max media results"
 msgstr "Максимальное число результатов"
 
-#: mediacore/forms/admin/settings.py:273
+#: mediacore/forms/admin/settings.py:278
 msgid "Max tree depth"
 msgstr "Максимальная глубина дерева"
 
-#: mediacore/forms/admin/settings.py:284
+#: mediacore/forms/admin/settings.py:289
 #: mediacore/templates/admin/settings/general.html:24
 #: mediacore/templates/admin/settings/general.html:30
 #: mediacore/templates/admin/settings/master.html:44
 msgid "General"
 msgstr "Основная"
 
-#: mediacore/forms/admin/settings.py:287
+#: mediacore/forms/admin/settings.py:292
 msgid "Logo"
 msgstr "Логотип"
 
-#: mediacore/forms/admin/settings.py:289
+#: mediacore/forms/admin/settings.py:294
 msgid "Upload Logo"
 msgstr "Загрузить логотип"
 
-#: mediacore/forms/admin/settings.py:294
+#: mediacore/forms/admin/settings.py:299
 msgid "Background Image"
 msgstr "Фоновое изображение"
 
-#: mediacore/forms/admin/settings.py:296
+#: mediacore/forms/admin/settings.py:301
 msgid "Upload Background"
 msgstr "Загрузить фоновое изображение"
 
-#: mediacore/forms/admin/settings.py:302
+#: mediacore/forms/admin/settings.py:307
 msgid "Background color"
 msgstr "Цвет фона"
 
-#: mediacore/forms/admin/settings.py:305
+#: mediacore/forms/admin/settings.py:310
 msgid "Link color"
 msgstr "Цвет ссылок"
 
-#: mediacore/forms/admin/settings.py:308
+#: mediacore/forms/admin/settings.py:313
 msgid "Visited Link color"
 msgstr "Цвет посещенной ссылки"
 
-#: mediacore/forms/admin/settings.py:312
+#: mediacore/forms/admin/settings.py:317
 msgid "Text color"
 msgstr "Цвет текста"
 
-#: mediacore/forms/admin/settings.py:314
+#: mediacore/forms/admin/settings.py:319
 msgid "Heading color"
 msgstr "Цвет заголовка"
 
-#: mediacore/forms/admin/settings.py:317
+#: mediacore/forms/admin/settings.py:322
 msgid "Color Scheme"
 msgstr "Цветовая схема"
 
-#: mediacore/forms/admin/settings.py:321
+#: mediacore/forms/admin/settings.py:326
 msgid "Options"
 msgstr "Опции"
 
-#: mediacore/forms/admin/settings.py:326
+#: mediacore/forms/admin/settings.py:331
 msgid "Enable Cooliris on the Explore Page"
 msgstr "Включить Cooliris на просматриваемой странице"
 
-#: mediacore/forms/admin/settings.py:329
+#: mediacore/forms/admin/settings.py:334
 msgid "Enable Featured Items on the Explore Page"
 msgstr "Включить популярные элементы на просматриваемой странице"
 
-#: mediacore/forms/admin/settings.py:333
+#: mediacore/forms/admin/settings.py:338
 msgid "Enable Podcast Tab"
 msgstr "Включить вкладку Подкаст"
 
-#: mediacore/forms/admin/settings.py:337
+#: mediacore/forms/admin/settings.py:342
 msgid "Enable User Uploads"
 msgstr "Разрешить загрузки для пользователей"
 
-#: mediacore/forms/admin/settings.py:341
+#: mediacore/forms/admin/settings.py:346
 msgid "Enable widescreen media player by default"
 msgstr "Включить широкоформатный мультимедийный проигрыватель по умолчанию"
 
-#: mediacore/forms/admin/settings.py:345
+#: mediacore/forms/admin/settings.py:350
 msgid "Display Logo"
 msgstr "Показать логотип"
 
-#: mediacore/forms/admin/settings.py:349
+#: mediacore/forms/admin/settings.py:354
 msgid "Display Background Image"
 msgstr "Показать фоновое изображение"
 
-#: mediacore/forms/admin/settings.py:355
+#: mediacore/forms/admin/settings.py:360
 msgid "Advanced"
 msgstr "Расширенный"
 
-#: mediacore/forms/admin/settings.py:359
+#: mediacore/forms/admin/settings.py:364
 msgid "Custom CSS"
 msgstr "Пользовательский CSS"
 
-#: mediacore/forms/admin/settings.py:362
+#: mediacore/forms/admin/settings.py:367
 msgid "Custom Header HTML"
 msgstr "Пользовательский заголовок HTML"
 
-#: mediacore/forms/admin/settings.py:365
+#: mediacore/forms/admin/settings.py:370
 msgid "Custom Footer HTML"
 msgstr "Создать нижний колонтитул HTML"
 
-#: mediacore/forms/admin/settings.py:370
+#: mediacore/forms/admin/settings.py:375
 #: mediacore/templates/admin/settings/appearance.html:35
 msgid "Reset to Defaults"
 msgstr "Восстановить значения по умолчанию"
 
-#: mediacore/forms/admin/settings.py:384
+#: mediacore/forms/admin/settings.py:389
 msgid "Banner HTML"
 msgstr "Баннер HTML"
 
-#: mediacore/forms/admin/settings.py:387
+#: mediacore/forms/admin/settings.py:392
 msgid "Sidebar HTML"
 msgstr "Боковая панель HTML"
 
@@ -826,12 +871,12 @@ msgstr "RTMP URL сервера должен начинаться с rtmp: / /"
 msgid "RTMP Servers:"
 msgstr "RTMP сервера:"
 
-#: mediacore/lib/email.py:109
+#: mediacore/lib/email.py:86
 #, python-format
 msgid "New %(type)s: %(title)s"
 msgstr "Новые %(type)s: %(title)s"
 
-#: mediacore/lib/email.py:110
+#: mediacore/lib/email.py:87
 #, python-format
 msgid ""
 "A new %(type)s file has been uploaded!\n"
@@ -854,12 +899,12 @@ msgstr ""
 "\n"
 "Описание: %(clean_description)s\n"
 
-#: mediacore/lib/email.py:145
+#: mediacore/lib/email.py:110
 #, python-format
 msgid "New Comment: %(comment_subject)s"
 msgstr "Новый комментарий: %(comment_subject)s"
 
-#: mediacore/lib/email.py:146
+#: mediacore/lib/email.py:111
 #, python-format
 msgid ""
 "A new comment has been posted!\n"
@@ -876,12 +921,12 @@ msgstr ""
 "\n"
 "Сообщение: %(comment_body)s\n"
 
-#: mediacore/lib/email.py:185
+#: mediacore/lib/email.py:128
 #, python-format
 msgid "New Support Request: %(email)s"
 msgstr "Новый Запрос поддержки: %(email)s"
 
-#: mediacore/lib/email.py:186
+#: mediacore/lib/email.py:129
 #, python-format
 msgid ""
 "A user has asked for support\n"
@@ -914,23 +959,7 @@ msgstr ""
 "POST_VARS:\n"
 "%(post_vars)s\n"
 
-#: mediacore/lib/filetypes.py:35
-msgid "Video"
-msgstr "Видео"
-
-#: mediacore/lib/filetypes.py:36
-msgid "Audio"
-msgstr "Аудио"
-
-#: mediacore/lib/filetypes.py:37
-msgid "Audio Description"
-msgstr "Описание аудио"
-
-#: mediacore/lib/filetypes.py:38
-msgid "Captions"
-msgstr "Подписи"
-
-#: mediacore/lib/helpers.py:321
+#: mediacore/lib/helpers.py:314
 msgid "Help"
 msgstr "Справка"
 
@@ -970,15 +999,15 @@ msgstr "HTML5 + FlowPlayer"
 msgid "JWPlayer"
 msgstr "JWPlayer"
 
-#: mediacore/lib/players.py:858
+#: mediacore/lib/players.py:856
 msgid "Sublime Video Player"
 msgstr "Sublime Video Player"
 
-#: mediacore/lib/players.py:908
+#: mediacore/lib/players.py:900
 msgid "iTunes Player"
 msgstr "iTunes плеер"
 
-#: mediacore/lib/storage/__init__.py:353
+#: mediacore/lib/storage/__init__.py:352
 msgid "Unusable file or URL provided."
 msgstr "Недопустимый файл или URL источника"
 
@@ -991,11 +1020,11 @@ msgstr "FTP хранилище"
 msgid "Could not upload the file from your FTP server: %s"
 msgstr "Невозможно загрузить файл на ваш FTP сервер: %s"
 
-#: mediacore/lib/storage/ftp.py:199
+#: mediacore/lib/storage/ftp.py:197
 msgid "The file transferred to your FTP server is corrupted. Please try again."
 msgstr "При загрузке файла на ваш FTP возникла ошибка. Попробуйте еще раз."
 
-#: mediacore/lib/storage/ftp.py:204
+#: mediacore/lib/storage/ftp.py:202
 #, python-format
 msgid "Could not download the file from your FTP server: %s"
 msgstr "Невозможно загрузить файл с вашего FTP-сервера: %s"
@@ -1055,78 +1084,77 @@ msgstr "Что вы делали, перед тем как увидели эту
 msgid "Submit Error Report"
 msgstr "Отправить отчет об ошибке"
 
-#: mediacore/templates/helpers.html:39
-#: mediacore/templates/media/explore.html:90
+#: mediacore/templates/helpers.html:37
+#: mediacore/templates/media/explore.html:87
 #: mediacore/templates/media/view.html:63
 #: mediacore/templates/players/html5_or_flash.html:33
 msgid "Like"
 msgid_plural "Likes"
 msgstr[0] "Ромашка"
 msgstr[1] "Ромашек"
-msgstr[2] "Ромашек"
-msgstr[3] "Ромашки"
+msgstr[2] "Ромашки"
 
-#: mediacore/templates/helpers.html:40
+#: mediacore/templates/helpers.html:38
 #: mediacore/templates/admin/media/update-status-form.html:27
 #: mediacore/templates/admin/podcasts/edit.html:104
-#: mediacore/templates/media/explore.html:91
+#: mediacore/templates/media/explore.html:88
 #: mediacore/templates/media/view.html:61
 msgid "View"
 msgid_plural "Views"
 msgstr[0] "Просмотр"
 msgstr[1] "Просмотра"
 msgstr[2] "Просмотров"
-msgstr[3] "Просмотров"
 
-#: mediacore/templates/helpers.html:60
+#: mediacore/templates/helpers.html:58
 msgid "Page:"
 msgstr "Страница:"
 
-#: mediacore/templates/helpers.html:80
+#: mediacore/templates/helpers.html:78
 msgid "Show:"
 msgstr "Показать:"
 
-#: mediacore/templates/helpers.html:82
+#: mediacore/templates/helpers.html:80
 #: mediacore/templates/categories/index.html:36
 #: mediacore/templates/categories/more.html:31
-#: mediacore/templates/media/explore.html:47
-#: mediacore/templates/media/explore.html:114
+#: mediacore/templates/media/explore.html:43
+#: mediacore/templates/media/explore.html:111
+#: mediacore/templates/media/index.html:25
 msgid "Latest"
 msgstr "Последние"
 
-#: mediacore/templates/helpers.html:83
+#: mediacore/templates/helpers.html:81
 #: mediacore/templates/categories/index.html:41
 #: mediacore/templates/categories/more.html:31
-#: mediacore/templates/media/explore.html:98
+#: mediacore/templates/media/explore.html:95
 msgid "Most Popular"
 msgstr "Популярные"
 
-#: mediacore/templates/helpers.html:84
-#: mediacore/templates/media/explore.html:46
-#: mediacore/templates/media/explore.html:82
+#: mediacore/templates/helpers.html:82
+#: mediacore/templates/media/explore.html:44
+#: mediacore/templates/media/explore.html:79
 msgid "Featured"
 msgstr "Самое популярное"
 
-#: mediacore/templates/helpers.html:86
+#: mediacore/templates/helpers.html:84
 msgid "Page"
 msgstr "Страница"
 
-#: mediacore/templates/helpers.html:86
+#: mediacore/templates/helpers.html:84
 msgid "of"
 msgstr "из"
 
-#: mediacore/templates/helpers.html:92
+#: mediacore/templates/helpers.html:90
 #, python-format
 msgid "The %(fieldName)s field accepts some HTML formatting: %(formattingList)s"
 msgstr ""
 "Поле %(fieldName)s принимает некоторые элементы форматирования HTML: "
 "%(formattingList)s"
 
-#: mediacore/templates/layout.html:52
+#: mediacore/templates/layout.html:54
 msgid "Feeds:"
 msgstr "Ленты:"
 
-#: mediacore/templates/layout.html:58
+#: mediacore/templates/layout.html:60
 msgid "[1:MediaCore] [2:video platform]"
 msgstr "[1:MediaCore] [2:video platform]"
 
@@ -1134,15 +1162,15 @@ msgstr "[1:MediaCore] [2:video platform]"
 msgid "Login to MediaCore"
 msgstr "Войти в MediaCore"
 
-#: mediacore/templates/login.html:47 mediacore/templates/login.html:58
+#: mediacore/templates/login.html:45 mediacore/templates/login.html:56
 msgid "Login"
 msgstr "Вход"
 
-#: mediacore/templates/login.html:50
+#: mediacore/templates/login.html:48
 msgid "Username:"
 msgstr "Имя пользователя:"
 
-#: mediacore/templates/login.html:54
+#: mediacore/templates/login.html:52
 msgid "Password:"
 msgstr "Пароль:"
 
@@ -1323,7 +1351,7 @@ msgstr "Вы уверены, что хотите удалить эту кате�
 #: mediacore/templates/admin/tags/row-form.html:31
 #: mediacore/templates/admin/users/index.html:68
 #: mediacore/templates/media/view.html:49
-#: mediacore/templates/podcasts/view.html:42
+#: mediacore/templates/podcasts/view.html:41
 msgid "Edit"
 msgstr "Изменить"
 
@@ -1808,8 +1836,7 @@ msgid "View First Episode %(num)s"
 msgid_plural "View All %(num)s Episodes"
 msgstr[0] "Показать первый эпизод %(num)s"
 msgstr[1] "Показать все %(num)s эпизодов"
-msgstr[2] "Показать все %(num)s эпизодов"
-msgstr[3] "Показать все %(num)s эпизоды"
+msgstr[2] "Показать все %(num)s эпизоды"
 
 #: mediacore/templates/admin/podcasts/edit.html:23
 msgid "Edit Podcast"
@@ -1937,10 +1964,6 @@ msgstr ""
 "Альтернативой удалению, служит отключение. Отключив хранилище вы "
 "исключите добавление на него новых файлов с данного момента времени."
 
-#: mediacore/templates/admin/storage/index.html:100
-msgid "Disable"
-msgstr "Выключить"
-
 #: mediacore/templates/admin/storage/index.html:121
 #: mediacore/templates/admin/storage/index.html:161
 msgid "Add New Engine"
@@ -1991,8 +2014,8 @@ msgstr "Новинки в %s"
 
 #: mediacore/templates/categories/index.html:38
 #: mediacore/templates/categories/index.html:43
-#: mediacore/templates/media/explore.html:101
-#: mediacore/templates/media/explore.html:116
+#: mediacore/templates/media/explore.html:98
+#: mediacore/templates/media/explore.html:113
 msgid "View More"
 msgstr "Показать ещё"
 
@@ -2030,16 +2053,15 @@ msgstr "Отправить комментарий"
 msgid "Sitemap XML"
 msgstr "Карта сайта XML"
 
-#: mediacore/templates/media/explore.html:31
+#: mediacore/templates/media/explore.html:30
 msgid "Sitemap RSS"
 msgstr "Карта сайта RSS"
 
-#: mediacore/templates/media/explore.html:34
-#: mediacore/templates/media/index.html:25
+#: mediacore/templates/media/explore.html:32
 msgid "Latest RSS"
 msgstr "Последние RSS"
 
-#: mediacore/templates/media/explore.html:106
+#: mediacore/templates/media/explore.html:103
 #, python-format
 msgid ""
 "As soon as there are more than %(num)s published videos in the library, "
@@ -2048,11 +2070,11 @@ msgstr ""
 "После того, как будет опубликовано больше %(num)s файлов в библиотеке, "
 "здесь будут показываться самые популярные. "
 
-#: mediacore/templates/media/explore.html:107
+#: mediacore/templates/media/explore.html:104
 msgid "Why not add a few more?"
 msgstr "Почему бы не добавить еще несколько?"
 
-#: mediacore/templates/media/explore.html:119
+#: mediacore/templates/media/explore.html:116
 msgid "There are no media items published yet!"
 msgstr "Еще нет опубликованных мультимедийных объектов!"
 
@@ -2096,7 +2118,6 @@ msgid_plural "Dislikes"
 msgstr[0] "Не нравится"
 msgstr[1] "Не нравится"
 msgstr[2] "Не нравится"
-msgstr[3] "Не нравится"
 
 #: mediacore/templates/media/view.html:79
 msgid "Related Podcast"
@@ -2112,7 +2133,6 @@ msgid_plural "Episodes"
 msgstr[0] "Эпизод"
 msgstr[1] "Эпизода"
 msgstr[2] "Эпизодов"
-msgstr[3] "Эпизодов"
 
 #: mediacore/templates/media/view.html:106
 msgid "Related Media"
@@ -2187,12 +2207,12 @@ msgid "All Podcasts"
 msgstr "Все подкасты"
 
 #: mediacore/templates/podcasts/index.html:41
-#: mediacore/templates/podcasts/view.html:46
+#: mediacore/templates/podcasts/view.html:45
 msgid "Add to iTunes"
 msgstr "Добавить в iTunes"
 
 #: mediacore/templates/podcasts/index.html:42
-#: mediacore/templates/podcasts/view.html:47
+#: mediacore/templates/podcasts/view.html:46
 msgid "Subscribe via RSS"
 msgstr "Подписаться на RSS"
 
@@ -2204,14 +2224,13 @@ msgstr "Последние эпизоды"
 msgid "Browse all episodes"
 msgstr "Смотреть все эпизоды"
 
-#: mediacore/templates/podcasts/view.html:53
+#: mediacore/templates/podcasts/view.html:52
 #, python-format
 msgid "%(result_count)s Episodes"
 msgid_plural "All %(result_count)s Episodes"
 msgstr[0] "%(result_count)s Эпизод"
 msgstr[1] "%(result_count)s Эпизода"
-msgstr[2] "%(result_count)s Эпизодов"
-msgstr[3] "Все %(result_count)s эпизоды"
+msgstr[2] "Все %(result_count)s эпизоды"
 
 #: mediacore/templates/upload/failure.html:24
 #: mediacore/templates/upload/success.html:24
@@ -2281,19 +2300,4 @@ msgid ""
 msgstr ""
 "Вы будете автоматически возвращены назад в [1:Библиотеку] через несколько"
 " секунд."
-
-#~ msgid "Slug"
-#~ msgstr "Лентяй"
-
-#~ msgid "Enable"
-#~ msgstr "Включить"
-
-#~ msgid "Administrative notes on Media:"
-#~ msgstr "Административные заметки о медиа:"
-
-#~ msgid "Display notes"
-#~ msgstr "Показать заметки"
-
-#~ msgid "Run Filter Now"
-#~ msgstr "Отфильтровать прямо сейчас"
 
