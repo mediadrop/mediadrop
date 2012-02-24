@@ -135,9 +135,7 @@ msgstr "你忘了选择一个图片！"
 #: mediacore/templates/admin/tags/index.html:66
 #: mediacore/templates/comments/_list.html:74
 msgid "Name"
-msgstr ""
-"\n"
-"名称\n"
+msgstr "名称"
 
 #: mediacore/forms/admin/categories.py:45 mediacore/forms/admin/tags.py:45
 msgid "Slug"

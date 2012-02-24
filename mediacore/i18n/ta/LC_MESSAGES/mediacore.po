@@ -138,9 +138,7 @@ msgstr "புகைப்படம் ஒன்றை இணைக்க மற
 #: mediacore/templates/admin/tags/index.html:66
 #: mediacore/templates/comments/_list.html:74
 msgid "Name"
-msgstr ""
-"\n"
-"பெயர்\n"
+msgstr "பெயர்"
 
 #: mediacore/forms/admin/categories.py:45 mediacore/forms/admin/tags.py:45
 msgid "Slug"

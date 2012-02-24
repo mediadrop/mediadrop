@@ -138,9 +138,7 @@ msgstr "Olvidaste seleccionar una imagen!"
 #: mediacore/templates/admin/tags/index.html:66
 #: mediacore/templates/comments/_list.html:74
 msgid "Name"
-msgstr ""
-"\n"
-"Nombre\n"
+msgstr "Nombre"
 
 #: mediacore/forms/admin/categories.py:45 mediacore/forms/admin/tags.py:45
 msgid "Slug"

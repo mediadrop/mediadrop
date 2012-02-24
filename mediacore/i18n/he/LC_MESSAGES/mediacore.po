@@ -134,8 +134,6 @@ msgstr "שכחת לבחור תמונה !"
 #: mediacore/templates/comments/_list.html:74
 msgid "Name"
 msgstr ""
-"\n"
-"שם\n"
 
 #: mediacore/forms/admin/categories.py:45 mediacore/forms/admin/tags.py:45
 msgid "Slug"
