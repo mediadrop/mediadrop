@@ -7,7 +7,6 @@
 *.pyc
 *.tmproj
 *.egg-info
-*.egg-info
 dist
 *.egg
 env
