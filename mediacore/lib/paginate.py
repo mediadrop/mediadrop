@@ -43,6 +43,29 @@ class Bunch(dict):
         except KeyError:
             raise AttributeError(name)
 
+# The following method is taken from TG2.0.3 (tg/util.py).
+def get_partial_dict(prefix, dictionary):
+    """Given a dictionary and a prefix, return a Bunch, with just items
+    that start with prefix
+
+    The returned dictionary will have 'prefix.' stripped so:
+
+    get_partial_dict('prefix', {'prefix.xyz':1, 'prefix.zyx':2, 'xy':3})
+
+    would return:
+
+    {'xyz':1,'zyx':2}
+    """
+
+    match = prefix + "."
+
+    new_dict = Bunch([(key.lstrip(match), dictionary[key])
+                       for key in dictionary.iterkeys()
+                       if key.startswith(match)])
+    if new_dict:
+        return new_dict
+    else:
+        raise AttributeError
 
 # FIXME: The following function is taken from TG2.0.3. Find a way to replace it.
 # This is not an ideal solution, but avoids the immediate need to rewrite the
