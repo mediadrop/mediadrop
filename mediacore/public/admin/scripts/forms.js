@@ -10,7 +10,7 @@ String.implement({
 		return this.toString().trim().tidy().standardize().toLowerCase()
 			.replace(/\s+/g,'-')
 			.replace(/&(\#x?[0-9a-f]{2,6}|[a-z]{2,10});/g, '') // strip xhtml entities, they should be entered as unicode anyway
-			.replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue') // some common german chars
+			.replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue').replace(/ß/g, 'ss') // some common german chars
 			.replace(/[^a-z0-9\-]/g,'');
 	}
 
