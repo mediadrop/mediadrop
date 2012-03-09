@@ -19,6 +19,10 @@ from mediacore.plugin import events
 
 class LeniantValidationMixin(object):
     validator = forms.validators.Schema(
+        # workaround to prevent an error if no checkbox is checked in a list
+        # of checkboxes (e.g. sitemaps form, category association for media)
+        # http://groups.google.com/group/toscawidgets-discuss/msg/36261a59e6745591
+        if_key_missing='',
         # TODO: See if this is necessary now that we've stripped turbogears out.
         allow_extra_fields=True, # Allow extra kwargs that tg likes to pass: pylons, start_request, environ...
     )

@@ -183,9 +183,6 @@ class SiteMapsForm(ListForm):
     css_class = 'form'
     submit_text = None
     
-    # workaround so that both checkboxes can be unchecked at the same time
-    validator = Schema(if_key_missing='')
-    
     fields = [
         ListFieldSet('rss', suppress_label=True,
             legend='',
