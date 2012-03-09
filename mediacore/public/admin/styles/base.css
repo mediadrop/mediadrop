@@ -640,6 +640,11 @@ textarea {
 input[type="radio"] {
 	width: 15px;
 }
+/* in Chrome 17 checkboxes in a simple CheckBoxList in the admin would 
+ * otherwise span two lines because of 'width: 100%' for 'input' above. */
+input[type="checkbox"] {
+	width: auto;
+}
 input.filefield { width: auto; }
 input:focus, textarea:focus {
 	background-color: #e8f3fa;
