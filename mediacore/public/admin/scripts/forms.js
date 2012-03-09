@@ -188,6 +188,19 @@ var BoxForm = new Class({
 
 	injectError: function(msg, name){
 		var label = this.form.getElement('label[for=' + name + ']');
+		if (label === null) {
+		    /* This may happen if an element has it's label suppressed (e.g.
+		     * a container widget). Not to highlight the error is not nice but
+		     * at least the users is notified about the error right next to the
+		     * 'save' button (as opposed to an endless spinner and a usually 
+		     * invisible JS exception).
+		     * Also this situation should not appear in stock MediaCore but only
+		     * with optional plugins.
+		     */
+		    if (window.console !== undefined)
+		        console.log('unable to display error message "' + msg + '" for field "' + name + '"');
+	        return;
+		}
 		var el = new Element('span', {'class': 'field_error', text: msg}).inject(label, 'after');
 		var field = this.form.getElementById(name).highlight();
 	},
