@@ -15,6 +15,7 @@ from urllib import quote, unquote, urlencode
 from urlparse import urlparse
 
 from genshi.core import Stream
+from paste.util import mimeparse
 from pylons import app_globals, config, request, response, translator
 from webhelpers import date, feedgenerator, html, number, misc, text, paginate, containers
 from webhelpers.html import tags
@@ -41,6 +42,7 @@ __all__ = [
     'clean_xhtml',
     'config', # is this appropriate to export here?
     'containers',
+    'content_type_for_response',
     'date',
     'decode_entities',
     'encode_entities',
@@ -154,6 +156,20 @@ def duration_to_seconds(duration):
     except ValueError:
         total = time.strptime(duration, '%M:%S')
     return total.tm_hour * 60 * 60 + total.tm_min * 60 + total.tm_sec
+
+def content_type_for_response(available_formats):
+    content_type = mimeparse.best_match(
+        available_formats,
+        request.environ.get('HTTP_ACCEPT', '*/*')
+    )
+    # force a content-type: if the user agent did not specify any acceptable
+    # content types (e.g. just 'text/html' like some bots) we still need to
+    # set a content type, otherwise the WebOb will generate an exception
+    # AttributeError: You cannot access Response.unicode_body unless charset
+    # the only alternative to forcing a "bad" content type would be not to 
+    # deliver any content at all - however most bots are just faulty and they
+    # requested something like 'sitemap.xml'.
+    return content_type or available_formats[0]
 
 def truncate(string, size, whole_word=True):
     """Truncate a plaintext string to roughly a given size (full words).

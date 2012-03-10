@@ -10,14 +10,14 @@ import math
 import os
 
 from paste.fileapp import FileApp
-from paste.util import mimeparse
 from pylons import app_globals, config, request, response
 from pylons.controllers.util import abort, forward
 from webob.exc import HTTPNotFound
 
 from mediacore.lib.base import BaseController
 from mediacore.lib.decorators import expose, beaker_cache
-from mediacore.lib.helpers import get_featured_category, redirect, url_for
+from mediacore.lib.helpers import (content_type_for_response, 
+    get_featured_category, redirect, url_for)
 from mediacore.model import Media
 
 log = logging.getLogger(__name__)
@@ -50,7 +50,7 @@ class SitemapsController(BaseController):
             abort(404)
 
         response.content_type = \
-            self._content_type_for_response(['application/xml', 'text/xml'])
+            content_type_for_response(['application/xml', 'text/xml'])
 
         media = Media.query.published()
 
@@ -85,7 +85,7 @@ class SitemapsController(BaseController):
             abort(404)
 
 
-        response.content_type = self._content_type_for_response(
+        response.content_type = content_type_for_response(
             ['application/rss+xml', 'application/xml', 'text/xml'])
 
         media = Media.query.published()
@@ -102,7 +102,7 @@ class SitemapsController(BaseController):
         if request.settings['rss_display'] != 'True':
             abort(404)
 
-        response.content_type = self._content_type_for_response(
+        response.content_type = content_type_for_response(
             ['application/rss+xml', 'application/xml', 'text/xml'])
 
         media = Media.query.published()\
@@ -124,7 +124,7 @@ class SitemapsController(BaseController):
         if request.settings['rss_display'] != 'True':
             abort(404)
 
-        response.content_type = self._content_type_for_response(
+        response.content_type = content_type_for_response(
             ['application/rss+xml', 'application/xml', 'text/xml'])
 
         media = Media.query.in_category(get_featured_category())\
@@ -139,19 +139,6 @@ class SitemapsController(BaseController):
             media = media,
             title = 'Featured Media',
         )
-    
-    def _content_type_for_response(self, available_formats):
-        content_type = mimeparse.best_match(
-            available_formats,
-            request.environ.get('HTTP_ACCEPT', '*/*')
-        )
-        # force a content-type: if the user agent did not specify any acceptable
-        # content types (e.g. just 'text/html' like some bots) we still need to
-        # set a content type, otherwise the WebOb will generate an exception
-        # AttributeError: You cannot access Response.unicode_body unless charset
-        # is set if user agents can not deal with xml, well, not our problem - 
-        # in the end they requested a 'sitemap.xml' (or something similar)
-        return content_type or available_formats[0]
 
     @expose()
     def crossdomain_xml(self, **kwargs):
