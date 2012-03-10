@@ -302,7 +302,7 @@ def can_edit(item=None):
     return has_permission('edit')
 
 def gravatar_from_email(email, size):
-    """Return the URL for a gravatar image matching the povided email address.
+    """Return the URL for a gravatar image matching the provided email address.
 
     :param email: the email address
     :type email: string or unicode or None
