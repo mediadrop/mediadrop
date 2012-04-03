@@ -66,11 +66,11 @@ class SubmitButton(forms.SubmitButton):
     that are submitted without a submit button. The value for unclicked
     submit buttons will simply be C{None}.
     """
-    validator = forms.validators.UnicodeString(if_missing=None)
+    validator = forms.validators.UnicodeString(if_missing=None, if_empty=None)
     template = 'forms/button.html'
 
 class ResetButton(forms.ResetButton):
-    validator = forms.validators.UnicodeString(if_missing=None)
+    validator = forms.validators.UnicodeString(if_missing=None, if_empty=None)
     template = 'forms/button.html'
 
 class GlobalMixin(object):
