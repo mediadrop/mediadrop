@@ -66,10 +66,15 @@ class SubmitButton(forms.SubmitButton):
     that are submitted without a submit button. The value for unclicked
     submit buttons will simply be C{None}.
     """
+    # if_missing/if_empty=None is important so the button text is displayed
+    # correctly in case the form is displayed with errors (in which case the 
+    # request parameters contain an empty ('') value for submit button and
+    # ToscaWidgets will only use the default text if the value is None).
     validator = forms.validators.UnicodeString(if_missing=None, if_empty=None)
     template = 'forms/button.html'
 
 class ResetButton(forms.ResetButton):
+    # see SubmitButton for background on if_missing/if_empty
     validator = forms.validators.UnicodeString(if_missing=None, if_empty=None)
     template = 'forms/button.html'
 
