@@ -101,7 +101,7 @@ class MediaController(BaseController):
 
     @expose('media/explore.html')
     @observable(events.MediaController.explore)
-    def explore(self, page=1, **kwargs):
+    def explore(self, **kwargs):
         """Display the most recent 15 media.
 
         :rtype: Dict

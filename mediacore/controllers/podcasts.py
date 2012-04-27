@@ -28,15 +28,9 @@ class PodcastsController(BaseController):
 
     @expose('podcasts/index.html')
     @observable(events.PodcastsController.index)
-    def index(self, page=1, **kwargs):
+    def index(self, **kwargs):
         """List podcasts and podcast media.
 
-        Our custom paginate decorator allows us to have fewer podcast episodes
-        display on the first page than on the rest with the ``items_first_page``
-        param. See :class:`mediacore.lib.custompaginate.CustomPage`.
-
-        :param page: Page number, defaults to 1.
-        :type page: int
         :rtype: dict
         :returns:
             podcasts

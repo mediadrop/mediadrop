@@ -6,7 +6,6 @@ import inspect
 import warnings
 
 from pylons import request, tmpl_context
-from webhelpers import paginate as _paginate
 from webhelpers.paginate import get_wrapper
 from webob.multidict import MultiDict
 from webhelpers.paginate import Page
