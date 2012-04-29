@@ -894,14 +894,6 @@ textarea {
 	font-weight: bold;
 }
 
-/* Zencoder VideoJS HTML5 Player overrides */
-.feat-content .vjs-controls {
-	margin: 0;
-}
-.feat-content .vjs-progress-holder {
-	margin: 7px 1px 0px 5px;
-}
-
 /* Tag listing page */
 #tag-directory {
 	clear: both;
