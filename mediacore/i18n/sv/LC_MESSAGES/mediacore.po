@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: MediaCore Video Platform\n"
 "Report-Msgid-Bugs-To: http://github.com/mediacore/mediacore-"
 "community/issues\n"
-"POT-Creation-Date: 2011-01-21 15:28-0800\n"
+"POT-Creation-Date: 2012-02-24 11:38+0100\n"
 "PO-Revision-Date: 2011-03-22 15:06+0000\n"
 "Last-Translator: Jan-Erik Finlander <janerik.finlander@gmail.com>\n"
 "Language-Team: sv <LL@li.org>\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 0.9.6\n"
 
-#: mediacore/websetup.py:136
+#: mediacore/websetup.py:149
 msgid ""
 "Upload your media using the form below. We'll review it and get back to "
 "you."
@@ -28,15 +28,15 @@ msgstr ""
 "Skicka upp ditt media med hjälp av formuläret nedan. Vi kommer sedan att "
 "granska det och återkomma till dig."
 
-#: mediacore/controllers/error.py:65
+#: mediacore/controllers/error.py:54
 msgid "We're sorry but we weren't able to process this request."
 msgstr "Tyvärr, vi kunde inte behandla denna begäran."
 
-#: mediacore/controllers/media.py:297
+#: mediacore/controllers/media.py:283
 msgid "Your comment has been rejected."
 msgstr "Din kommentar har inte godkänts."
 
-#: mediacore/controllers/media.py:318
+#: mediacore/controllers/media.py:304
 msgid ""
 "Thank you for your comment! We will post it just as soon as a moderator "
 "approves it."
@@ -44,312 +44,305 @@ msgstr ""
 "Tack för din kommentar! Vi kommer att publicera den så fort en moderator "
 "har godkänt den."
 
-#: mediacore/controllers/admin/media.py:391
+#: mediacore/controllers/admin/media.py:380
 #, python-format
 msgid "File \"%s\" does not exist."
 msgstr "Filen \"%s\" finns inte."
 
-#: mediacore/controllers/admin/media.py:413
+#: mediacore/controllers/admin/media.py:402
 msgid "No action to perform."
 msgstr "Ingen åtgärd att genomföra."
 
-#: mediacore/controllers/admin/media.py:562
+#: mediacore/controllers/admin/media.py:551
+#: mediacore/controllers/admin/podcasts.py:205
 msgid "Permission denied, cannot write file"
 msgstr "Åtkomst nekas. Kan inte skriva filen"
 
-#: mediacore/controllers/admin/media.py:564
+#: mediacore/controllers/admin/media.py:553
+#: mediacore/controllers/admin/podcasts.py:207
 #, python-format
 msgid "Unsupport image type: %s"
 msgstr "Bildtypen stöds inte: %s"
 
-#: mediacore/forms/__init__.py:219
+#: mediacore/controllers/admin/media.py:556
+#: mediacore/controllers/admin/podcasts.py:210
+msgid "Interlaced PNGs are not supported."
+msgstr ""
+
+#: mediacore/controllers/admin/podcasts.py:90
+msgid "Save the podcast to get your feed URL"
+msgstr ""
+
+#: mediacore/forms/__init__.py:185
 msgid "The portion of the email address before the @ is invalid"
 msgstr "Den del av e-postadressen som är före @ är ogiltig"
 
-#: mediacore/forms/__init__.py:220
+#: mediacore/forms/__init__.py:186
 msgid "The portion of this email address after the @ is invalid"
 msgstr "Den del av e-postadressen som är efter @ är ogiltig"
 
-#: mediacore/forms/comments.py:23
+#: mediacore/forms/comments.py:12
 msgid "Please enter your name!"
 msgstr "Ange ditt namn!"
 
-#: mediacore/forms/uploader.py:31
+#: mediacore/forms/uploader.py:14
 msgid "At least give it a short description..."
 msgstr "Ge den i alla fall en kort beskrivning..."
 
-#: mediacore/forms/uploader.py:35
+#: mediacore/forms/uploader.py:18
 msgid "You've gotta have a name!"
 msgstr "Du måste ange ett namn!"
 
-#: mediacore/forms/uploader.py:39
+#: mediacore/forms/uploader.py:22
 msgid "You've gotta have a title!"
 msgstr "Du måste ange en titel!"
 
-#: mediacore/forms/uploader.py:55
+#: mediacore/forms/uploader.py:38
 msgid "Your Name:"
 msgstr "Ditt namn:"
 
-#: mediacore/forms/uploader.py:56
+#: mediacore/forms/uploader.py:39
 msgid "Your Email:"
 msgstr "Din e-postadress:"
 
-#: mediacore/forms/uploader.py:56
+#: mediacore/forms/uploader.py:39
 msgid "(will never be published)"
 msgstr "(kommer inte att publiceras)"
 
-#: mediacore/forms/uploader.py:57
+#: mediacore/forms/uploader.py:40
 msgid "Title:"
 msgstr "Titel:"
 
-#: mediacore/forms/uploader.py:58
+#: mediacore/forms/uploader.py:41
 msgid "Description:"
 msgstr "Beskrivning:"
 
-#: mediacore/forms/uploader.py:59
+#: mediacore/forms/uploader.py:42
 msgid "Add a YouTube, Vimeo or Google Video URL:"
 msgstr "Lägg till en YouTube, Vimeo eller Google Video URL:"
 
-#: mediacore/forms/uploader.py:60
+#: mediacore/forms/uploader.py:43
 msgid "Oops! You forgot to enter a file."
 msgstr "Oops! Du glömde att ange en fil."
 
-#: mediacore/forms/uploader.py:60
+#: mediacore/forms/uploader.py:43
 msgid "OR:"
 msgstr "ELLER:"
 
-#: mediacore/forms/uploader.py:61
+#: mediacore/forms/uploader.py:44
 msgid "Submit"
 msgstr "Skicka"
 
-#: mediacore/forms/admin/__init__.py:27
+#: mediacore/forms/admin/__init__.py:16
 msgid "SEARCH..."
 msgstr "SÖK..."
 
-#: mediacore/forms/admin/__init__.py:47
+#: mediacore/forms/admin/__init__.py:36
 msgid "You forgot to select an image!"
 msgstr "Du glömde att välja en bild!"
 
-#: mediacore/forms/admin/categories.py:44 mediacore/forms/admin/tags.py:44
-#: mediacore/templates/admin/categories/index.html:69
-#: mediacore/templates/admin/players/index.html:55
-#: mediacore/templates/admin/storage/index.html:128
-#: mediacore/templates/admin/tags/index.html:66
-#: mediacore/templates/comments/_list.html:74
+#: mediacore/forms/admin/categories.py:33 mediacore/forms/admin/tags.py:34
+#: mediacore/templates/admin/categories/index.html:59
+#: mediacore/templates/admin/players/index.html:45
+#: mediacore/templates/admin/storage/index.html:117
+#: mediacore/templates/admin/tags/index.html:56
+#: mediacore/templates/comments/_list.html:64
 msgid "Name"
 msgstr "Namn"
 
-#: mediacore/forms/admin/categories.py:45 mediacore/forms/admin/tags.py:45
-msgid "Slug"
-msgstr "Kort länk"
+#: mediacore/forms/admin/categories.py:34 mediacore/forms/admin/media.py:143
+#: mediacore/forms/admin/podcasts.py:99 mediacore/forms/admin/tags.py:35
+#: mediacore/templates/comments/_list.html:25
+msgid "Permalink"
+msgstr "Permalänk"
 
-#: mediacore/forms/admin/categories.py:46
+#: mediacore/forms/admin/categories.py:35
 msgid "Parent Category"
 msgstr "Föräldrakategori"
 
-#: mediacore/forms/admin/categories.py:47 mediacore/forms/admin/comments.py:31
-#: mediacore/forms/admin/tags.py:46
-#: mediacore/templates/admin/categories/index.html:48
-#: mediacore/templates/admin/categories/index.html:98
-#: mediacore/templates/admin/comments/index.html:45
-#: mediacore/templates/admin/comments/index.html:58
-#: mediacore/templates/admin/media/edit.html:75
-#: mediacore/templates/admin/media/index.html:43
-#: mediacore/templates/admin/players/index.html:35
-#: mediacore/templates/admin/podcasts/edit.html:61
-#: mediacore/templates/admin/settings/appearance.html:36
-#: mediacore/templates/admin/storage/index.html:84
-#: mediacore/templates/admin/tags/index.html:45
-#: mediacore/templates/admin/tags/index.html:92
-#: mediacore/templates/admin/users/edit.html:35
-#: mediacore/templates/admin/users/index.html:35
+#: mediacore/forms/admin/categories.py:36 mediacore/forms/admin/comments.py:20
+#: mediacore/forms/admin/tags.py:36
+#: mediacore/templates/admin/categories/index.html:38
+#: mediacore/templates/admin/categories/index.html:88
+#: mediacore/templates/admin/comments/index.html:35
+#: mediacore/templates/admin/comments/index.html:48
+#: mediacore/templates/admin/media/edit.html:65
+#: mediacore/templates/admin/media/index.html:33
+#: mediacore/templates/admin/players/index.html:25
+#: mediacore/templates/admin/podcasts/edit.html:51
+#: mediacore/templates/admin/settings/appearance.html:26
+#: mediacore/templates/admin/storage/index.html:73
+#: mediacore/templates/admin/tags/index.html:35
+#: mediacore/templates/admin/tags/index.html:82
+#: mediacore/templates/admin/users/edit.html:25
+#: mediacore/templates/admin/users/index.html:25
 msgid "Cancel"
 msgstr "Avbryt"
 
-#: mediacore/forms/admin/categories.py:48 mediacore/forms/admin/comments.py:30
-#: mediacore/forms/admin/media.py:159 mediacore/forms/admin/players.py:55
-#: mediacore/forms/admin/podcasts.py:126 mediacore/forms/admin/settings.py:116
-#: mediacore/forms/admin/settings.py:135 mediacore/forms/admin/settings.py:166
-#: mediacore/forms/admin/settings.py:178 mediacore/forms/admin/settings.py:203
-#: mediacore/forms/admin/settings.py:242 mediacore/forms/admin/settings.py:262
-#: mediacore/forms/admin/settings.py:374 mediacore/forms/admin/settings.py:396
-#: mediacore/forms/admin/tags.py:47 mediacore/forms/admin/users.py:62
-#: mediacore/forms/admin/storage/__init__.py:51
+#: mediacore/forms/admin/categories.py:37 mediacore/forms/admin/comments.py:19
+#: mediacore/forms/admin/media.py:155 mediacore/forms/admin/players.py:45
+#: mediacore/forms/admin/podcasts.py:115 mediacore/forms/admin/settings.py:115
+#: mediacore/forms/admin/settings.py:134 mediacore/forms/admin/settings.py:165
+#: mediacore/forms/admin/settings.py:177 mediacore/forms/admin/settings.py:204
+#: mediacore/forms/admin/settings.py:242 mediacore/forms/admin/settings.py:274
+#: mediacore/forms/admin/settings.py:435 mediacore/forms/admin/settings.py:457
+#: mediacore/forms/admin/tags.py:37 mediacore/forms/admin/users.py:51
+#: mediacore/forms/admin/storage/__init__.py:40
 msgid "Save"
 msgstr "Spara"
 
-#: mediacore/forms/admin/categories.py:67 mediacore/forms/admin/media.py:160
-#: mediacore/forms/admin/podcasts.py:127 mediacore/forms/admin/tags.py:62
-#: mediacore/forms/admin/users.py:63
-#: mediacore/templates/admin/categories/index.html:47
-#: mediacore/templates/admin/categories/index.html:99
-#: mediacore/templates/admin/comments/index.html:44
-#: mediacore/templates/admin/comments/index.html:57
-#: mediacore/templates/admin/comments/index.html:96
-#: mediacore/templates/admin/media/edit.html:74
-#: mediacore/templates/admin/media/index.html:42
-#: mediacore/templates/admin/media/index.html:93
-#: mediacore/templates/admin/players/index.html:34
-#: mediacore/templates/admin/players/index.html:85
-#: mediacore/templates/admin/podcasts/edit.html:60
-#: mediacore/templates/admin/storage/index.html:83
-#: mediacore/templates/admin/storage/index.html:153
-#: mediacore/templates/admin/tags/index.html:44
-#: mediacore/templates/admin/tags/index.html:93
-#: mediacore/templates/admin/users/edit.html:34
-#: mediacore/templates/admin/users/index.html:34
-#: mediacore/templates/admin/users/index.html:68
+#: mediacore/forms/admin/categories.py:56 mediacore/forms/admin/media.py:156
+#: mediacore/forms/admin/podcasts.py:116 mediacore/forms/admin/tags.py:52
+#: mediacore/forms/admin/users.py:52
+#: mediacore/templates/admin/categories/index.html:37
+#: mediacore/templates/admin/categories/index.html:89
+#: mediacore/templates/admin/comments/index.html:34
+#: mediacore/templates/admin/comments/index.html:47
+#: mediacore/templates/admin/comments/index.html:86
+#: mediacore/templates/admin/media/edit.html:64
+#: mediacore/templates/admin/media/index.html:32
+#: mediacore/templates/admin/media/index.html:83
+#: mediacore/templates/admin/players/index.html:24
+#: mediacore/templates/admin/players/index.html:75
+#: mediacore/templates/admin/podcasts/edit.html:50
+#: mediacore/templates/admin/storage/index.html:72
+#: mediacore/templates/admin/storage/index.html:142
+#: mediacore/templates/admin/tags/index.html:34
+#: mediacore/templates/admin/tags/index.html:83
+#: mediacore/templates/admin/users/edit.html:24
+#: mediacore/templates/admin/users/index.html:24
+#: mediacore/templates/admin/users/index.html:58
 msgid "Delete"
 msgstr "Ta bort"
 
-#: mediacore/forms/admin/comments.py:29
-#: mediacore/templates/admin/helpers.html:74
-#: mediacore/templates/admin/comments/_comment-table.html:31
-#: mediacore/templates/comments/_list.html:93
-#: mediacore/templates/media/explore.html:86
-#: mediacore/templates/media/view.html:66
+#: mediacore/forms/admin/comments.py:18
+#: mediacore/templates/admin/helpers.html:64
+#: mediacore/templates/admin/comments/_comment-table.html:21
+#: mediacore/templates/comments/_list.html:83
+#: mediacore/templates/media/explore.html:80
+#: mediacore/templates/media/view.html:58
 msgid "Comment"
 msgid_plural "Comments"
 msgstr[0] "Kommentar"
 msgstr[1] "Kommentarer"
 
-#: mediacore/forms/admin/media.py:41
+#: mediacore/forms/admin/media.py:29
 msgid "Bad duration formatting, use Hour:Min:Sec"
 msgstr "Felaktig formatering av speltiden, använd Timme:Min:Sek"
 
-#: mediacore/forms/admin/media.py:69
+#: mediacore/forms/admin/media.py:57
 msgid "Value must be in the format wxh; e.g. 200x300"
 msgstr "Värdet måste vara i formatet bxh; t.ex. 200x300"
 
-#: mediacore/forms/admin/media.py:75
+#: mediacore/forms/admin/media.py:63
 msgid "Width must be a valid integer"
 msgstr "Bredden måste vara ett giltigt heltal"
 
-#: mediacore/forms/admin/media.py:79
+#: mediacore/forms/admin/media.py:67
 msgid "Height must be a valid integer"
 msgstr "Höjden måste vara ett giltigt heltal"
 
-#: mediacore/forms/admin/media.py:101
+#: mediacore/forms/admin/media.py:103
 msgid "Select an encoded video or audio file on your computer"
 msgstr "Välj en kodad video eller ljudfil på din dator"
 
-#: mediacore/forms/admin/media.py:101 mediacore/templates/master.html:63
-#: mediacore/templates/admin/settings/master.html:83
-#: mediacore/templates/admin/settings/upload.html:23
-#: mediacore/templates/admin/settings/upload.html:29
+#: mediacore/forms/admin/media.py:103 mediacore/templates/master.html:57
+#: mediacore/templates/admin/settings/master.html:76
+#: mediacore/templates/admin/settings/upload.html:13
+#: mediacore/templates/admin/settings/upload.html:19
 msgid "Upload"
 msgstr "Skicka upp"
 
-#: mediacore/forms/admin/media.py:102
+#: mediacore/forms/admin/media.py:104
 msgid "Add URL"
 msgstr "Lägg till URL"
 
-#: mediacore/forms/admin/media.py:103
+#: mediacore/forms/admin/media.py:105
 msgid "YouTube, Vimeo, Google Video, Amazon S3 or any other link"
 msgstr "YouTube, Vimeo, Google Video, Amazon S3 eller någon annan länk"
 
-#: mediacore/forms/admin/media.py:110
-msgid "Video"
-msgstr "Video"
-
-#: mediacore/forms/admin/media.py:111
-msgid "Audio"
-msgstr "Ljud"
-
-#: mediacore/forms/admin/media.py:112
-msgid "Audio Description"
-msgstr "Ljudbeskrivning"
-
-#: mediacore/forms/admin/media.py:113
-msgid "Captions"
-msgstr "Undertexter"
-
-#: mediacore/forms/admin/media.py:131
+#: mediacore/forms/admin/media.py:127
 msgid "Delete file"
 msgstr "Ta bort fil"
 
-#: mediacore/forms/admin/media.py:146
+#: mediacore/forms/admin/media.py:142
 msgid "Include in the Podcast"
 msgstr "Inkludera i poddsändningen"
 
-#: mediacore/forms/admin/media.py:146
+#: mediacore/forms/admin/media.py:142
 msgid "Optional"
 msgstr "Valfritt"
 
-#: mediacore/forms/admin/media.py:147 mediacore/forms/admin/podcasts.py:110
-#: mediacore/templates/comments/_list.html:35
-msgid "Permalink"
-msgstr "Permalänk"
-
-#: mediacore/forms/admin/media.py:148 mediacore/forms/admin/podcasts.py:111
-#: mediacore/templates/admin/media/_media-table.html:33
+#: mediacore/forms/admin/media.py:144 mediacore/forms/admin/podcasts.py:100
+#: mediacore/templates/admin/media/_media-table.html:23
 msgid "Title"
 msgstr "Titel"
 
-#: mediacore/forms/admin/media.py:149 mediacore/forms/admin/podcasts.py:113
+#: mediacore/forms/admin/media.py:145 mediacore/forms/admin/podcasts.py:102
 msgid "Author Name"
 msgstr "Upphovsmannens namn"
 
-#: mediacore/forms/admin/media.py:150 mediacore/forms/admin/podcasts.py:114
+#: mediacore/forms/admin/media.py:146 mediacore/forms/admin/podcasts.py:103
 msgid "Author Email"
 msgstr "Upphovsmannens e-postadress"
 
-#: mediacore/forms/admin/media.py:151 mediacore/forms/admin/podcasts.py:115
+#: mediacore/forms/admin/media.py:147 mediacore/forms/admin/podcasts.py:104
 msgid "Description"
 msgstr "Beskrivning"
 
-#: mediacore/forms/admin/media.py:152 mediacore/templates/master.html:62
-#: mediacore/templates/admin/categories/edit.html:23
-#: mediacore/templates/admin/categories/index.html:24
-#: mediacore/templates/admin/categories/index.html:58
-#: mediacore/templates/admin/settings/master.html:56
-#: mediacore/templates/categories/index.html:25
-#: mediacore/templates/categories/layout.html:29
-#: mediacore/templates/categories/more.html:24
-#: mediacore/templates/media/explore.html:45
-#: mediacore/templates/media/view.html:112
+#: mediacore/forms/admin/media.py:148 mediacore/forms/admin/settings.py:477
+#: mediacore/templates/master.html:56
+#: mediacore/templates/admin/categories/edit.html:13
+#: mediacore/templates/admin/categories/index.html:14
+#: mediacore/templates/admin/categories/index.html:48
+#: mediacore/templates/admin/settings/master.html:46
+#: mediacore/templates/categories/index.html:15
+#: mediacore/templates/categories/layout.html:19
+#: mediacore/templates/categories/more.html:14
+#: mediacore/templates/media/explore.html:38
+#: mediacore/templates/media/view.html:111
 msgid "Categories"
 msgstr "Kategorier"
 
-#: mediacore/forms/admin/media.py:153
-#: mediacore/templates/admin/media/_media-table.html:35
-#: mediacore/templates/admin/settings/master.html:80
-#: mediacore/templates/admin/tags/edit.html:23
-#: mediacore/templates/admin/tags/index.html:24
-#: mediacore/templates/admin/tags/index.html:55
-#: mediacore/templates/media/tags.html:23
-#: mediacore/templates/media/view.html:119
+#: mediacore/forms/admin/media.py:149 mediacore/forms/admin/settings.py:479
+#: mediacore/templates/admin/media/_media-table.html:25
+#: mediacore/templates/admin/settings/master.html:73
+#: mediacore/templates/admin/tags/edit.html:13
+#: mediacore/templates/admin/tags/index.html:14
+#: mediacore/templates/admin/tags/index.html:45
+#: mediacore/templates/media/tags.html:13
+#: mediacore/templates/media/view.html:118
 msgid "Tags"
 msgstr "Taggar"
 
-#: mediacore/forms/admin/media.py:153
+#: mediacore/forms/admin/media.py:149 mediacore/forms/admin/settings.py:479
 msgid "e.g.: puppies, great dane, adorable"
 msgstr "t.ex.: hundvalpar, danois, underbara"
 
-#: mediacore/forms/admin/media.py:155 mediacore/forms/admin/settings.py:239
+#: mediacore/forms/admin/media.py:151
 msgid "Administrative Notes"
 msgstr "Administrativa anteckningar"
 
-#: mediacore/forms/admin/players.py:41
-#: mediacore/forms/admin/storage/__init__.py:37
+#: mediacore/forms/admin/players.py:31
+#: mediacore/forms/admin/storage/__init__.py:26
 msgid "General Options:"
 msgstr "Allmänna alternativ:"
 
-#: mediacore/forms/admin/players.py:45 mediacore/forms/admin/users.py:48
-#: mediacore/forms/admin/storage/__init__.py:41
-#: mediacore/templates/admin/users/index.html:52
+#: mediacore/forms/admin/players.py:35 mediacore/forms/admin/users.py:37
+#: mediacore/forms/admin/storage/__init__.py:30
+#: mediacore/templates/admin/users/index.html:42
 msgid "Display Name"
 msgstr "Visningsnamn"
 
-#: mediacore/forms/admin/players.py:84
+#: mediacore/forms/admin/players.py:86
 msgid "Yes, use the Flash Player when the device supports it."
 msgstr "Ja, använd Flash Player om enheten har stöd för den."
 
-#: mediacore/forms/admin/players.py:85
+#: mediacore/forms/admin/players.py:87
 msgid "No, use the HTML5 Player when the device supports it."
 msgstr "Nej, använd HTML5-uppspelaren om enheten har stöd för den."
 
-#: mediacore/forms/admin/players.py:88
+#: mediacore/forms/admin/players.py:90
 msgid "Prefer the Flash Player when possible"
 msgstr "Föredra Flash Player om möjligt"
 
@@ -361,458 +354,617 @@ msgstr "Skripttagg"
 msgid "The unique script tag given for your site."
 msgstr "Den unika skripttagg ges för din webbplats."
 
-#: mediacore/forms/admin/players.py:125
+#: mediacore/forms/admin/players.py:123
 msgid "Player Options:"
 msgstr "Uppspelningsalternativ:"
 
 #: mediacore/forms/admin/players.py:127
+msgid "Use the deprecated AS2 player."
+msgstr ""
+
+#: mediacore/forms/admin/players.py:128
+msgid "Use the AS3 player."
+msgstr ""
+
+#: mediacore/forms/admin/players.py:131
+msgid "YouTube player version"
+msgstr ""
+
+#: mediacore/forms/admin/players.py:136
+msgid "Show video annotations by default."
+msgstr ""
+
+#: mediacore/forms/admin/players.py:137
+msgid "Hide video annotations by default."
+msgstr ""
+
+#: mediacore/forms/admin/players.py:140
+msgid "Video annotations"
+msgstr ""
+
+#: mediacore/forms/admin/players.py:143
 msgid "Disable the player keyboard controls."
 msgstr "Inaktivera uppspelarens tangentbordskontroller."
 
-#: mediacore/forms/admin/players.py:128
+#: mediacore/forms/admin/players.py:144
+msgid "Autoplay the video video when the player loads."
+msgstr ""
+
+#: mediacore/forms/admin/players.py:145
+msgid "Do not show a YouTube logo in the player controls"
+msgstr ""
+
+#: mediacore/forms/admin/players.py:145
+msgid "Supported by AS3 only."
+msgstr ""
+
+#: mediacore/forms/admin/players.py:146
 msgid "Enable fullscreen."
 msgstr "Aktivera helskärm."
 
-#: mediacore/forms/admin/players.py:129
+#: mediacore/forms/admin/players.py:147
 msgid "Enable high-def quality by default."
 msgstr "Aktivera hög kvalitet som standard."
 
-#: mediacore/forms/admin/players.py:130
+#: mediacore/forms/admin/players.py:147
 msgid ""
-"Allow the player to load related videos once playback of the initial "
-"video starts. Related videos are displayed in the \"genie menu\" when the"
-" menu button is pressed."
+"The AS3 player will automatically play the version of the video that is "
+"appropriate for your player's size."
+msgstr ""
+
+#: mediacore/forms/admin/players.py:148
+#, fuzzy
+msgid ""
+"Load related videos once playback of the initial video starts. Related "
+"videos are displayed in the \"genie menu\" when the menu button is "
+"pressed."
 msgstr ""
 "Tillåter spelaren att ladda relaterade videor gång uppspelning av den "
 "ursprungliga videon startar. Relaterade videor visas i \"Genie menyn\" "
 "när menyn knappen trycks in."
 
-#: mediacore/forms/admin/players.py:131
+#: mediacore/forms/admin/players.py:149
+#, fuzzy
 msgid ""
-"Show the search box when the video is minimized. The above option must be"
-" enabled for this to work."
+"Show the search box when the video is minimized. The related videos "
+"option must be enabled for this to work."
 msgstr ""
 "Visa sökrutan när videon minimeras. Ovanstående alternativ måste vara "
 "aktiverat för att denna ska fungera."
 
-#: mediacore/forms/admin/players.py:132
+#: mediacore/forms/admin/players.py:150
 msgid ""
 "Display information like the video title and rating before the video "
 "starts playing."
 msgstr "Visa information som videotiteln och betyg innan videon börjar spelas."
 
-#: mediacore/forms/admin/podcasts.py:36
+#: mediacore/forms/admin/players.py:153
+#, fuzzy
+msgid "Always show player controls."
+msgstr "Inaktivera uppspelarens tangentbordskontroller."
+
+#: mediacore/forms/admin/players.py:154
+msgid "Autohide all player controls after a video starts playing."
+msgstr ""
+
+#: mediacore/forms/admin/players.py:155
+msgid "Autohide only the progress bar after a video starts playing."
+msgstr ""
+
+#: mediacore/forms/admin/players.py:158
+msgid "Player control hiding"
+msgstr ""
+
+#: mediacore/forms/admin/podcasts.py:25
 msgid "Parental Advisory"
 msgstr "Föräldrarnas varning"
 
-#: mediacore/forms/admin/podcasts.py:37
-#: mediacore/templates/admin/podcasts/_podcast-table.html:53
+#: mediacore/forms/admin/podcasts.py:26
+#: mediacore/templates/admin/podcasts/_podcast-table.html:43
 msgid "Clean"
 msgstr "Töm"
 
-#: mediacore/forms/admin/podcasts.py:112
+#: mediacore/forms/admin/podcasts.py:101
 msgid "Subtitle"
 msgstr "Undertext"
 
-#: mediacore/forms/admin/podcasts.py:116
+#: mediacore/forms/admin/podcasts.py:105
 msgid "Podcast Details:"
 msgstr "Podcast Detaljer:"
 
-#: mediacore/forms/admin/podcasts.py:117
+#: mediacore/forms/admin/podcasts.py:106
 msgid "Explicit?"
 msgstr "Klar?"
 
-#: mediacore/forms/admin/podcasts.py:118
+#: mediacore/forms/admin/podcasts.py:107
 msgid "Category"
 msgstr "Kategori"
 
-#: mediacore/forms/admin/podcasts.py:119
+#: mediacore/forms/admin/podcasts.py:108
 msgid "Copyright"
 msgstr "Upphovsrätt"
 
-#: mediacore/forms/admin/podcasts.py:121
+#: mediacore/forms/admin/podcasts.py:110
 msgid "Advanced Options:"
 msgstr "Avancerade alternativ:"
 
-#: mediacore/forms/admin/podcasts.py:122
+#: mediacore/forms/admin/podcasts.py:111
 msgid "Your Feed URL"
 msgstr "Din URL feed"
 
-#: mediacore/forms/admin/podcasts.py:123
+#: mediacore/forms/admin/podcasts.py:112
 msgid "iTunes URL"
 msgstr "iTunes URL"
 
-#: mediacore/forms/admin/podcasts.py:124
+#: mediacore/forms/admin/podcasts.py:113
 msgid "Feedburner URL"
 msgstr "Feedburner URL"
 
-#: mediacore/forms/admin/settings.py:38
+#: mediacore/forms/admin/settings.py:28
+#, fuzzy
+msgid "Built-in comments"
+msgstr "Skicka in kommentar"
+
+#: mediacore/forms/admin/settings.py:29
+msgid "Facebook comments (requires a Facebook application ID)"
+msgstr ""
+
+#: mediacore/forms/admin/settings.py:30
+#, fuzzy
+msgid "Disable comments"
+msgstr "Moderera kommentarer"
+
+#: mediacore/forms/admin/settings.py:35
 msgid "Enable"
 msgstr "Aktivera"
 
-#: mediacore/forms/admin/settings.py:39
-#: mediacore/templates/admin/storage/index.html:100
+#: mediacore/forms/admin/settings.py:36
+#: mediacore/templates/admin/storage/index.html:89
 msgid "Disable"
 msgstr "Inaktivera"
 
-#: mediacore/forms/admin/settings.py:43
+#: mediacore/forms/admin/settings.py:41
 msgid "Prepend"
 msgstr "Införing"
 
-#: mediacore/forms/admin/settings.py:44
+#: mediacore/forms/admin/settings.py:42
 msgid "Append"
 msgstr "Lägg"
 
-#: mediacore/forms/admin/settings.py:47
+#: mediacore/forms/admin/settings.py:45
 msgid "Plain <textarea> fields (0kB)"
 msgstr "Klartext<textarea>(0kb)"
 
-#: mediacore/forms/admin/settings.py:48
+#: mediacore/forms/admin/settings.py:46
 msgid "Enable TinyMCE for <textarea> fields accepting XHTML (281kB)"
 msgstr "Aktivera TinyMCE för <textarea> fält accepterar XHTML (281kB)"
 
-#: mediacore/forms/admin/settings.py:52
+#: mediacore/forms/admin/settings.py:50
 msgid "Brown"
 msgstr "Brun"
 
-#: mediacore/forms/admin/settings.py:53
+#: mediacore/forms/admin/settings.py:51
 msgid "Blue"
 msgstr "Blå"
 
-#: mediacore/forms/admin/settings.py:54
+#: mediacore/forms/admin/settings.py:52
 msgid "Green"
 msgstr "Grön"
 
-#: mediacore/forms/admin/settings.py:55
+#: mediacore/forms/admin/settings.py:53
 msgid "Tan"
 msgstr "Gulbrunt"
 
-#: mediacore/forms/admin/settings.py:56
+#: mediacore/forms/admin/settings.py:54
 msgid "White"
 msgstr "Vit"
 
-#: mediacore/forms/admin/settings.py:57
+#: mediacore/forms/admin/settings.py:55
 msgid "Purple"
 msgstr "Lila"
 
-#: mediacore/forms/admin/settings.py:58
+#: mediacore/forms/admin/settings.py:56
 msgid "Black"
 msgstr "Svart"
 
-#: mediacore/forms/admin/settings.py:89 mediacore/forms/admin/settings.py:98
+#: mediacore/forms/admin/settings.py:88 mediacore/forms/admin/settings.py:97
 msgid "Yes"
 msgstr "Ja"
 
-#: mediacore/forms/admin/settings.py:89 mediacore/forms/admin/settings.py:98
+#: mediacore/forms/admin/settings.py:88 mediacore/forms/admin/settings.py:97
 msgid "No"
 msgstr "Nej"
 
-#: mediacore/forms/admin/settings.py:110
+#: mediacore/forms/admin/settings.py:109
 msgid "Email Notifications:"
 msgstr "E-postnotifieringar:"
 
-#: mediacore/forms/admin/settings.py:111
+#: mediacore/forms/admin/settings.py:110
 msgid "Media Uploaded"
 msgstr "Media Uppladdad"
 
-#: mediacore/forms/admin/settings.py:112
+#: mediacore/forms/admin/settings.py:111
 msgid "Comment Posted"
 msgstr "Kommentar Inlagd"
 
-#: mediacore/forms/admin/settings.py:113
+#: mediacore/forms/admin/settings.py:112
 msgid "Support Requested"
 msgstr "Stöd som söks"
 
-#: mediacore/forms/admin/settings.py:114
+#: mediacore/forms/admin/settings.py:113
 msgid "Send Emails From"
 msgstr "Skicka e-post från"
 
-#: mediacore/forms/admin/settings.py:129
+#: mediacore/forms/admin/settings.py:128
 msgid "Popularity Algorithm Variables:"
 msgstr "Popularitet Algoritm Variabler:"
 
-#: mediacore/forms/admin/settings.py:131
+#: mediacore/forms/admin/settings.py:130
 msgid "Decay Exponent"
 msgstr "Dekadens exponent"
 
-#: mediacore/forms/admin/settings.py:132
+#: mediacore/forms/admin/settings.py:131
 msgid "Decay Lifetime"
 msgstr "dekadens livstid"
 
-#: mediacore/forms/admin/settings.py:162
+#: mediacore/forms/admin/settings.py:161
 msgid "Max. allowed upload file size in megabytes"
 msgstr "Max. tillåts ladda upp filstorleken i megabyte"
 
-#: mediacore/forms/admin/settings.py:163
+#: mediacore/forms/admin/settings.py:162
 msgid "Legal Wording:"
 msgstr "Rättsliga innebörd"
 
-#: mediacore/forms/admin/settings.py:164
+#: mediacore/forms/admin/settings.py:163
 msgid "User Uploads"
 msgstr "Användare Uppladdningar"
 
-#: mediacore/forms/admin/settings.py:175
+#: mediacore/forms/admin/settings.py:174
 msgid "Google Analytics Details:"
 msgstr "Google Analytics Detaljer:"
 
-#: mediacore/forms/admin/settings.py:176
+#: mediacore/forms/admin/settings.py:175
 msgid "Tracking Code"
 msgstr "Spårningskod"
 
-#: mediacore/forms/admin/settings.py:192
+#: mediacore/forms/admin/settings.py:196
 msgid "Site Maps"
 msgstr "Webbplats kartor"
 
-#: mediacore/forms/admin/settings.py:197
+#: mediacore/forms/admin/settings.py:200
 msgid "RSS Feeds"
 msgstr "RSS-feeds"
 
-#: mediacore/forms/admin/settings.py:212
+#: mediacore/forms/admin/settings.py:213
 msgid "General Settings:"
 msgstr "Allmänna inställningar:"
 
-#: mediacore/forms/admin/settings.py:214
+#: mediacore/forms/admin/settings.py:215
 msgid "Site Name"
 msgstr "Webbplatsens namn"
 
-#: mediacore/forms/admin/settings.py:216
-msgid "Site Tag Line"
-msgstr "Site slogan"
-
-#: mediacore/forms/admin/settings.py:218
+#: mediacore/forms/admin/settings.py:217
 msgid "Display Site Name"
 msgstr "Visa webbplatsens namn"
 
-#: mediacore/forms/admin/settings.py:222
+#: mediacore/forms/admin/settings.py:221
 msgid "Default Language"
 msgstr "Standardspråk"
 
-#: mediacore/forms/admin/settings.py:226
+#: mediacore/forms/admin/settings.py:225
 msgid "Featured Category"
 msgstr "Dagens Kategori"
 
-#: mediacore/forms/admin/settings.py:231
+#: mediacore/forms/admin/settings.py:230
 msgid "Rich Text Editing"
 msgstr "Av redigering"
 
-#: mediacore/forms/admin/settings.py:235
-msgid "Administrative notes on Media:"
-msgstr "Administrativa anteckningar om Media:"
+#: mediacore/forms/admin/settings.py:253
+msgid "Comment Engine"
+msgstr ""
 
-#: mediacore/forms/admin/settings.py:237
-msgid "Display notes"
-msgstr "Visa anteckningar"
+#: mediacore/forms/admin/settings.py:257
+#, fuzzy
+msgid "Built-in Comments:"
+msgstr "Skicka in kommentar"
 
-#: mediacore/forms/admin/settings.py:252
+#: mediacore/forms/admin/settings.py:260
+#, fuzzy
+msgid "Moderation"
+msgstr "Moderera"
+
+#: mediacore/forms/admin/settings.py:261
 msgid "Require comments to be approved by an admin"
 msgstr "Kräv att kommentarer godkänns av en administratör"
 
-#: mediacore/forms/admin/settings.py:253
-msgid "Akismet Anti-Spam Details:"
-msgstr "Akismet Anti-Spam Detaljer:"
-
-#: mediacore/forms/admin/settings.py:254
+#: mediacore/forms/admin/settings.py:264
 msgid "Akismet Key"
 msgstr "Akismet-nyckel"
 
-#: mediacore/forms/admin/settings.py:255
+#: mediacore/forms/admin/settings.py:265
 msgid "Akismet URL"
 msgstr "Akismet URL"
 
-#: mediacore/forms/admin/settings.py:257
-msgid "Vulgarity Filter Settings"
-msgstr "Inställningar för vulgärfilter"
-
-#: mediacore/forms/admin/settings.py:258
+#: mediacore/forms/admin/settings.py:266
 msgid "Filtered Words"
 msgstr "Filtrerade ord"
 
-#: mediacore/forms/admin/settings.py:259
+#: mediacore/forms/admin/settings.py:268
 msgid "Enter words to be filtered separated by a comma."
 msgstr "Ange ord som ska filtreras. Separera dem med kommatecken."
 
-#: mediacore/forms/admin/settings.py:260
-msgid "Run Filter Now"
-msgstr "Kör filter nu"
+#: mediacore/forms/admin/settings.py:270
+msgid "Facebook Comments:"
+msgstr ""
+
+#: mediacore/forms/admin/settings.py:271
+msgid "Application ID"
+msgstr ""
 
 #: mediacore/forms/admin/settings.py:272
+msgid "See: http://www.facebook.com/developers/createapp.php"
+msgstr ""
+
+#: mediacore/forms/admin/settings.py:284
 msgid "Require a key to access the API"
 msgstr "Kräv en nyckel för att komma åt API"
 
-#: mediacore/forms/admin/settings.py:273
+#: mediacore/forms/admin/settings.py:285
 msgid "API Key:"
 msgstr "API-nyckel:"
 
-#: mediacore/forms/admin/settings.py:274
+#: mediacore/forms/admin/settings.py:286
 msgid "Access Key"
 msgstr "Åtkomstnyckel"
 
-#: mediacore/forms/admin/settings.py:276
+#: mediacore/forms/admin/settings.py:288
 msgid "API Settings:"
 msgstr "API-inställningar:"
 
-#: mediacore/forms/admin/settings.py:277
+#: mediacore/forms/admin/settings.py:289
 msgid "Max media results"
 msgstr "Maximalt antal mediaresultat"
 
-#: mediacore/forms/admin/settings.py:278
+#: mediacore/forms/admin/settings.py:290
 msgid "Max tree depth"
 msgstr "Maximalt träddjup"
 
-#: mediacore/forms/admin/settings.py:289
-#: mediacore/templates/admin/settings/general.html:24
-#: mediacore/templates/admin/settings/general.html:30
-#: mediacore/templates/admin/settings/master.html:44
+#: mediacore/forms/admin/settings.py:301
+#: mediacore/templates/admin/settings/general.html:14
+#: mediacore/templates/admin/settings/general.html:20
+#: mediacore/templates/admin/settings/master.html:34
 msgid "General"
 msgstr "Allmänt"
 
-#: mediacore/forms/admin/settings.py:292
+#: mediacore/forms/admin/settings.py:304
 msgid "Logo"
 msgstr "Logotyp"
 
-#: mediacore/forms/admin/settings.py:294
+#: mediacore/forms/admin/settings.py:306
 msgid "Upload Logo"
 msgstr "Skicka upp logotyp"
 
-#: mediacore/forms/admin/settings.py:299
+#: mediacore/forms/admin/settings.py:311
 msgid "Background Image"
 msgstr "Bakgrundsbild"
 
-#: mediacore/forms/admin/settings.py:301
+#: mediacore/forms/admin/settings.py:313
 msgid "Upload Background"
 msgstr "Skicka upp bakgrund"
 
-#: mediacore/forms/admin/settings.py:307
+#: mediacore/forms/admin/settings.py:319
 msgid "Background color"
 msgstr "Bakgrundsfärg"
 
-#: mediacore/forms/admin/settings.py:310
+#: mediacore/forms/admin/settings.py:322
 msgid "Link color"
 msgstr "Länkfärg"
 
-#: mediacore/forms/admin/settings.py:313
+#: mediacore/forms/admin/settings.py:325
 msgid "Visited Link color"
 msgstr "Färg för besökta länkar"
 
-#: mediacore/forms/admin/settings.py:317
+#: mediacore/forms/admin/settings.py:329
 msgid "Text color"
 msgstr "Textfärg"
 
-#: mediacore/forms/admin/settings.py:319
+#: mediacore/forms/admin/settings.py:331
 msgid "Heading color"
 msgstr "Rubrikfärg"
 
-#: mediacore/forms/admin/settings.py:322
+#: mediacore/forms/admin/settings.py:334
 msgid "Color Scheme"
 msgstr "Färgschema"
 
-#: mediacore/forms/admin/settings.py:326
+#: mediacore/forms/admin/settings.py:338
 msgid "Options"
 msgstr "Alternativ"
 
-#: mediacore/forms/admin/settings.py:331
+#: mediacore/forms/admin/settings.py:343
 msgid "Enable Cooliris on the Explore Page"
 msgstr "Aktivera Cooliris på Utforska-sidan"
 
-#: mediacore/forms/admin/settings.py:334
+#: mediacore/forms/admin/settings.py:346
 msgid "Enable Featured Items on the Explore Page"
 msgstr "Aktivera Utvalda objekt på sidan Utforska"
 
-#: mediacore/forms/admin/settings.py:338
+#: mediacore/forms/admin/settings.py:350
 msgid "Enable Podcast Tab"
 msgstr "Aktivera poddsändningsfliken"
 
-#: mediacore/forms/admin/settings.py:342
+#: mediacore/forms/admin/settings.py:354
 msgid "Enable User Uploads"
 msgstr "Aktivera insändningar från användare"
 
-#: mediacore/forms/admin/settings.py:346
+#: mediacore/forms/admin/settings.py:358
 msgid "Enable widescreen media player by default"
 msgstr "Aktivera mediaspelare i bredbild som standard"
 
-#: mediacore/forms/admin/settings.py:350
+#: mediacore/forms/admin/settings.py:362
 msgid "Display Logo"
 msgstr "Visa logotyp"
 
-#: mediacore/forms/admin/settings.py:354
+#: mediacore/forms/admin/settings.py:366
 msgid "Display Background Image"
 msgstr "Visa bakgrundsbild"
 
-#: mediacore/forms/admin/settings.py:360
+#: mediacore/forms/admin/settings.py:370
+msgid "Display MediaCore Footer"
+msgstr ""
+
+#: mediacore/forms/admin/settings.py:374
+msgid "Display MediaCore Credits in Footer"
+msgstr ""
+
+#: mediacore/forms/admin/settings.py:380
+#, fuzzy
+msgid "Player Menu Options"
+msgstr "Uppspelningsalternativ:"
+
+#: mediacore/forms/admin/settings.py:385
+msgid "Enable Download button on player menu bar."
+msgstr ""
+
+#: mediacore/forms/admin/settings.py:389
+msgid "Enable Share button on player menu bar."
+msgstr ""
+
+#: mediacore/forms/admin/settings.py:393
+msgid "Enable Embed button on player menu bar."
+msgstr ""
+
+#: mediacore/forms/admin/settings.py:397
+#, fuzzy
+msgid "Enable Widescreen toggle button on player menu bar."
+msgstr "Aktivera mediaspelare i bredbild som standard"
+
+#: mediacore/forms/admin/settings.py:401
+msgid "Enable Popout button on player menu bar."
+msgstr ""
+
+#: mediacore/forms/admin/settings.py:405
+msgid "Enable Like button on player menu bar."
+msgstr ""
+
+#: mediacore/forms/admin/settings.py:409
+msgid "Enable Dislike button on player menu bar."
+msgstr ""
+
+#: mediacore/forms/admin/settings.py:414
 msgid "Advanced"
 msgstr "Avancerat"
 
-#: mediacore/forms/admin/settings.py:364
+#: mediacore/forms/admin/settings.py:418
 msgid "Custom CSS"
 msgstr "Anpassad CSS"
 
-#: mediacore/forms/admin/settings.py:367
+#: mediacore/forms/admin/settings.py:421
 msgid "Custom Header HTML"
 msgstr "Anpassat HTML-sidhuvud"
 
-#: mediacore/forms/admin/settings.py:370
+#: mediacore/forms/admin/settings.py:424
 msgid "Custom Footer HTML"
 msgstr "Anpassad HTML-sidfot"
 
-#: mediacore/forms/admin/settings.py:375
-#: mediacore/templates/admin/settings/appearance.html:35
+#: mediacore/forms/admin/settings.py:427
+msgid "Custom <head> Tags"
+msgstr ""
+
+#: mediacore/forms/admin/settings.py:428
+msgid ""
+"These HTML tags are inserted into the HTML <head> section. Bad input can "
+"cause ugly rendering of your site. You can always restore your page by "
+"the box above."
+msgstr ""
+
+#: mediacore/forms/admin/settings.py:436
+#: mediacore/templates/admin/settings/appearance.html:25
 msgid "Reset to Defaults"
 msgstr "Återställ till standard"
 
-#: mediacore/forms/admin/settings.py:389
+#: mediacore/forms/admin/settings.py:450
 msgid "Banner HTML"
 msgstr "Baner HTML"
 
-#: mediacore/forms/admin/settings.py:392
+#: mediacore/forms/admin/settings.py:453
 msgid "Sidebar HTML"
 msgstr "Sidebar HTML"
 
-#: mediacore/forms/admin/users.py:36
+#: mediacore/forms/admin/settings.py:470
+msgid "Channel Name(s)"
+msgstr ""
+
+#: mediacore/forms/admin/settings.py:471
+msgid ""
+"One ore more channel names (separated by commas) to import. Please enter "
+"only the channel/user name, not the full URL. Please be aware that it may"
+" take several minutes for the import to complete. When all videos have "
+"been imported, you will be returned to the Media page to manage your new "
+"videos."
+msgstr ""
+
+#: mediacore/forms/admin/settings.py:474
+#, fuzzy
+msgid "Publish Videos"
+msgstr "Publicera nu"
+
+#: mediacore/forms/admin/settings.py:475
+msgid ""
+"When this is selected, videos are published automatically when they are "
+"imported. Otherwise the videos will be added, but will be waiting for "
+"review before being published."
+msgstr ""
+
+#: mediacore/forms/admin/settings.py:480
+msgid "Import"
+msgstr ""
+
+#: mediacore/forms/admin/users.py:25
 msgid "User name already exists"
 msgstr "Användarnamnet finns redan"
 
-#: mediacore/forms/admin/users.py:49
+#: mediacore/forms/admin/users.py:38
 msgid "Email Address"
 msgstr "E-postadress"
 
-#: mediacore/forms/admin/users.py:50
+#: mediacore/forms/admin/users.py:39
 msgid "Login Details:"
 msgstr "Inloggningsuppgifter:"
 
-#: mediacore/forms/admin/users.py:54
+#: mediacore/forms/admin/users.py:43
 msgid "Passwords do not match"
 msgstr "Lösenorden stämmer inte överens"
 
-#: mediacore/forms/admin/users.py:56
-#: mediacore/templates/admin/users/index.html:54
+#: mediacore/forms/admin/users.py:45
+#: mediacore/templates/admin/users/index.html:44
 msgid "Group"
 msgstr "Grupp"
 
-#: mediacore/forms/admin/users.py:58 mediacore/forms/admin/storage/ftp.py:34
+#: mediacore/forms/admin/users.py:47 mediacore/forms/admin/storage/ftp.py:23
 msgid "Username"
 msgstr "Användarnamn"
 
-#: mediacore/forms/admin/users.py:59 mediacore/forms/admin/storage/ftp.py:35
+#: mediacore/forms/admin/users.py:48 mediacore/forms/admin/storage/ftp.py:24
 msgid "Password"
 msgstr "Lösenord"
 
-#: mediacore/forms/admin/users.py:60
+#: mediacore/forms/admin/users.py:49
 msgid "Confirm password"
 msgstr "Bekräfta lösenordet"
 
-#: mediacore/forms/admin/storage/ftp.py:31
+#: mediacore/forms/admin/storage/ftp.py:20
 msgid "FTP Server Details:"
 msgstr "Uppgifter för FTP-server:"
 
-#: mediacore/forms/admin/storage/ftp.py:33
+#: mediacore/forms/admin/storage/ftp.py:22
 msgid "Server Hostname"
 msgstr "Serverns värdnamn"
 
-#: mediacore/forms/admin/storage/ftp.py:36
+#: mediacore/forms/admin/storage/ftp.py:25
 msgid "Subdirectory on server to upload to"
 msgstr "Underkatalog på servern att skicka upp till"
 
-#: mediacore/forms/admin/storage/ftp.py:37
+#: mediacore/forms/admin/storage/ftp.py:26
 msgid ""
 "How many times should MediaCore try to verify the FTP upload before "
 "declaring it a failure?"
@@ -820,54 +972,54 @@ msgstr ""
 "Hur många gånger ska MediaCore försöka verifiera FTP-uppladdning innan "
 "den förklarar det ett misslyckande?"
 
-#: mediacore/forms/admin/storage/ftp.py:38
+#: mediacore/forms/admin/storage/ftp.py:27
 msgid "HTTP URL to access remotely stored files"
 msgstr "HTTP URL till åtkomst på distans lagrade filer"
 
-#: mediacore/forms/admin/storage/ftp.py:39
+#: mediacore/forms/admin/storage/ftp.py:28
 msgid "RTMP Server URL to stream remotely stored files (Optional)"
 msgstr "RTMP Server URL att strömma fjärrlagra filer (valfritt)"
 
-#: mediacore/forms/admin/storage/localfiles.py:25
+#: mediacore/forms/admin/storage/localfiles.py:14
 msgid "Options specific to Local File Storage:"
 msgstr "Specifika för lokal fillagring:"
 
-#: mediacore/forms/admin/storage/localfiles.py:28
+#: mediacore/forms/admin/storage/localfiles.py:17
 msgid "Path to store files under"
 msgstr "Sökväg att lagra filer under"
 
-#: mediacore/forms/admin/storage/localfiles.py:29
+#: mediacore/forms/admin/storage/localfiles.py:18
 msgid "Defaults to the \"data_dir\" from your INI file."
 msgstr "Normalvärde \"data_dir\" från din INI fil."
 
-#: mediacore/forms/admin/storage/localfiles.py:32
+#: mediacore/forms/admin/storage/localfiles.py:21
 msgid "RTMP Server URL"
 msgstr "RTMP Servare URL"
 
-#: mediacore/forms/admin/storage/localfiles.py:33
+#: mediacore/forms/admin/storage/localfiles.py:22
 msgid ""
 "Files must be accessible under the same name as they are stored with "
 "locally."
 msgstr "Filer måste vara tillgängliga under samma namn som de lagras med lokalt."
 
-#: mediacore/forms/admin/storage/remoteurls.py:31
+#: mediacore/forms/admin/storage/remoteurls.py:20
 msgid "Add another URL"
 msgstr "Lägg till en annan URL"
 
-#: mediacore/forms/admin/storage/remoteurls.py:60
+#: mediacore/forms/admin/storage/remoteurls.py:49
 msgid "RTMP server URLs must begin with rtmp://"
 msgstr "RTMP server URL måste börja med rtmp: / /"
 
-#: mediacore/forms/admin/storage/remoteurls.py:67
+#: mediacore/forms/admin/storage/remoteurls.py:56
 msgid "RTMP Servers:"
 msgstr "RTMP-servrar:"
 
-#: mediacore/lib/email.py:86
+#: mediacore/lib/email.py:104
 #, python-format
 msgid "New %(type)s: %(title)s"
 msgstr "Ny %(type)s: %(title)s"
 
-#: mediacore/lib/email.py:87
+#: mediacore/lib/email.py:105
 #, python-format
 msgid ""
 "A new %(type)s file has been uploaded!\n"
@@ -890,12 +1042,12 @@ msgstr ""
 "\n"
 "Beskrivning: %(clean_description)s\n"
 
-#: mediacore/lib/email.py:110
+#: mediacore/lib/email.py:140
 #, python-format
 msgid "New Comment: %(comment_subject)s"
 msgstr "Ny kommentar: %(comment_subject)s"
 
-#: mediacore/lib/email.py:111
+#: mediacore/lib/email.py:141
 #, python-format
 msgid ""
 "A new comment has been posted!\n"
@@ -912,12 +1064,12 @@ msgstr ""
 "\n"
 "Meddelande: %(comment_body)s\n"
 
-#: mediacore/lib/email.py:128
+#: mediacore/lib/email.py:180
 #, python-format
 msgid "New Support Request: %(email)s"
 msgstr "Ny supportbegäran: %(email)s"
 
-#: mediacore/lib/email.py:129
+#: mediacore/lib/email.py:181
 #, python-format
 msgid ""
 "A user has asked for support\n"
@@ -950,986 +1102,1030 @@ msgstr ""
 "POST_VARS:\n"
 "%(post_vars)s\n"
 
-#: mediacore/lib/helpers.py:314
+#: mediacore/lib/filetypes.py:24
+msgid "Video"
+msgstr "Video"
+
+#: mediacore/lib/filetypes.py:25
+msgid "Audio"
+msgstr "Ljud"
+
+#: mediacore/lib/filetypes.py:26
+msgid "Audio Description"
+msgstr "Ljudbeskrivning"
+
+#: mediacore/lib/filetypes.py:27
+msgid "Captions"
+msgstr "Undertexter"
+
+#: mediacore/lib/helpers.py:353
 msgid "Help"
 msgstr "Hjälp"
 
-#: mediacore/lib/players.py:273
+#: mediacore/lib/players.py:262
 msgid "Flowplayer"
 msgstr "Flowplayer"
 
-#: mediacore/lib/players.py:404 mediacore/lib/storage/vimeo.py:35
+#: mediacore/lib/players.py:393 mediacore/lib/storage/vimeo.py:24
 msgid "Vimeo"
 msgstr "Vimeo"
 
-#: mediacore/lib/players.py:440 mediacore/lib/storage/dailymotion.py:36
+#: mediacore/lib/players.py:429 mediacore/lib/storage/dailymotion.py:25
 msgid "Daily Motion"
 msgstr "Daily Motion"
 
-#: mediacore/lib/players.py:487 mediacore/lib/storage/youtube.py:35
+#: mediacore/lib/players.py:476 mediacore/lib/storage/youtube.py:25
 msgid "YouTube"
 msgstr "YouTube"
 
-#: mediacore/lib/players.py:537 mediacore/lib/storage/googlevideo.py:34
+#: mediacore/lib/players.py:530 mediacore/lib/storage/googlevideo.py:23
 msgid "Google Video"
 msgstr "Google Video"
 
-#: mediacore/lib/players.py:559 mediacore/lib/storage/bliptv.py:34
+#: mediacore/lib/players.py:552 mediacore/lib/storage/bliptv.py:23
 msgid "BlipTV"
 msgstr "BlipTV"
 
-#: mediacore/lib/players.py:646
+#: mediacore/lib/players.py:639
 msgid "Plain HTML5 Player"
 msgstr "Vanlig HTML5-uppspelare"
 
-#: mediacore/lib/players.py:661
+#: mediacore/lib/players.py:654
 msgid "HTML5 + Flowplayer Fallback"
 msgstr "HTML5 + fall tillbaka på Flowplayer"
 
-#: mediacore/lib/players.py:718
+#: mediacore/lib/players.py:711
 msgid "JWPlayer"
 msgstr "JWPlayer"
 
-#: mediacore/lib/players.py:856
+#: mediacore/lib/players.py:857
 msgid "Sublime Video Player"
 msgstr "Videospelaren Sublime"
 
-#: mediacore/lib/players.py:900
+#: mediacore/lib/players.py:907
 msgid "iTunes Player"
 msgstr "iTunes-spelaren"
 
-#: mediacore/lib/storage/__init__.py:352
+#: mediacore/lib/storage/__init__.py:347
 msgid "Unusable file or URL provided."
 msgstr "Oanvändbar fil eller URL anges."
 
-#: mediacore/lib/storage/ftp.py:50
+#: mediacore/lib/storage/bliptv.py:58
+msgid "Invalid BlipTV URL. This video does not exist."
+msgstr ""
+
+#: mediacore/lib/storage/dailymotion.py:59
+msgid "This DailyMotion video does not allow embedding."
+msgstr ""
+
+#: mediacore/lib/storage/ftp.py:40
 msgid "FTP Storage"
 msgstr "FTP-lagring"
 
-#: mediacore/lib/storage/ftp.py:105
+#: mediacore/lib/storage/ftp.py:95
 #, python-format
 msgid "Could not upload the file from your FTP server: %s"
 msgstr "Kunde inte skicka upp filen från din FTP-server: %s"
 
-#: mediacore/lib/storage/ftp.py:197
+#: mediacore/lib/storage/ftp.py:189
 msgid "The file transferred to your FTP server is corrupted. Please try again."
 msgstr "Filen som överförts till din FTP-server är skadad. Försök igen."
 
-#: mediacore/lib/storage/ftp.py:202
+#: mediacore/lib/storage/ftp.py:194
 #, python-format
 msgid "Could not download the file from your FTP server: %s"
 msgstr "Kunde inte hämta filen från din FTP-server: %s"
 
-#: mediacore/lib/storage/localfiles.py:34
+#: mediacore/lib/storage/localfiles.py:23
 msgid "Local File Storage"
 msgstr "Lokal fillagring"
 
-#: mediacore/lib/storage/remoteurls.py:36
+#: mediacore/lib/storage/remoteurls.py:25
 msgid "Remote URLs"
 msgstr "Fjärrkontroll URL"
 
-#: mediacore/templates/error.html:24
+#: mediacore/lib/storage/remoteurls.py:70
+msgid ""
+"This RTMP server has not been configured. Add it by going to Settings > "
+"Storage Engines > Remote URLs."
+msgstr ""
+
+#: mediacore/lib/storage/youtube.py:57
+msgid "This video is private and cannot be embedded."
+msgstr ""
+
+#: mediacore/lib/storage/youtube.py:60
+msgid "Invalid YouTube URL. This video does not exist."
+msgstr ""
+
+#: mediacore/templates/error.html:14
 #, python-format
 msgid "A %(code)s Error has Occurred"
 msgstr "Ett %(code)s-fel har inträffat"
 
-#: mediacore/templates/error.html:29
+#: mediacore/templates/error.html:19
 msgid "Whoopsadaisy!"
 msgstr "Hoppsan!"
 
-#: mediacore/templates/error.html:32
+#: mediacore/templates/error.html:22
 msgid "We can't find this page. The page may have been moved or removed."
 msgstr "Vi kan inte hitta denna sida. Sidan kan ha flyttats eller tagits bort."
 
-#: mediacore/templates/error.html:33
+#: mediacore/templates/error.html:23
 msgid "If you typed the address in, check the spelling."
 msgstr "Kontrollera stavningen om du matade in adressen manuellt."
 
-#: mediacore/templates/error.html:38
+#: mediacore/templates/error.html:28
 msgid "You have a few options:"
 msgstr "Du har ett par alternativ:"
 
-#: mediacore/templates/error.html:40
+#: mediacore/templates/error.html:30
 msgid "Return to the [1:homepage]."
 msgstr "Återvänd till [1:första sida]."
 
-#: mediacore/templates/error.html:41
+#: mediacore/templates/error.html:31
 msgid "Return to the [1:media page]."
 msgstr "Återvänd till [1:mediasidan]."
 
-#: mediacore/templates/error.html:42
+#: mediacore/templates/error.html:32
 msgid "Fill out an error report below."
 msgstr "Fyll i en felrapport nedan."
 
-#: mediacore/templates/error.html:48
+#: mediacore/templates/error.html:38
 msgid "Email: (so we can contact you if we find it!)"
 msgstr "E-postadress: (så att vi kan kontakta dig om problemet!)"
 
-#: mediacore/templates/error.html:52
+#: mediacore/templates/error.html:42
 msgid "What were you looking for when you got the error?"
 msgstr "Vad letade du efter när du fick detta fel?"
 
-#: mediacore/templates/error.html:56
+#: mediacore/templates/error.html:46
 msgid "Submit Error Report"
 msgstr "Skicka in felrapport"
 
-#: mediacore/templates/helpers.html:37
-#: mediacore/templates/media/explore.html:87
-#: mediacore/templates/media/view.html:63
-#: mediacore/templates/players/html5_or_flash.html:33
+#: mediacore/templates/helpers.html:29
+#: mediacore/templates/media/explore.html:81
+#: mediacore/templates/media/view.html:55
+#: mediacore/templates/players/html5_or_flash.html:31
 msgid "Like"
 msgid_plural "Likes"
 msgstr[0] "person gillar"
 msgstr[1] "personer gillar"
 
-#: mediacore/templates/helpers.html:38
-#: mediacore/templates/admin/media/update-status-form.html:27
-#: mediacore/templates/admin/podcasts/edit.html:104
-#: mediacore/templates/media/explore.html:88
-#: mediacore/templates/media/view.html:61
+#: mediacore/templates/helpers.html:30
+#: mediacore/templates/admin/media/update-status-form.html:19
+#: mediacore/templates/admin/podcasts/edit.html:94
+#: mediacore/templates/media/explore.html:82
+#: mediacore/templates/media/view.html:53
 msgid "View"
 msgid_plural "Views"
 msgstr[0] "Visning"
 msgstr[1] "Visningar"
 
-#: mediacore/templates/helpers.html:58
+#: mediacore/templates/helpers.html:50
 msgid "Page:"
 msgstr "Sida:"
 
-#: mediacore/templates/helpers.html:78
+#: mediacore/templates/helpers.html:70
 msgid "Show:"
 msgstr "Visa:"
 
-#: mediacore/templates/helpers.html:80
-#: mediacore/templates/categories/index.html:36
-#: mediacore/templates/categories/more.html:31
-#: mediacore/templates/media/explore.html:43
-#: mediacore/templates/media/explore.html:111
-#: mediacore/templates/media/index.html:25
+#: mediacore/templates/helpers.html:72
+#: mediacore/templates/categories/index.html:26
+#: mediacore/templates/categories/more.html:21
+#: mediacore/templates/media/explore.html:37
+#: mediacore/templates/media/explore.html:105
 msgid "Latest"
 msgstr "Senaste"
 
-#: mediacore/templates/helpers.html:81
-#: mediacore/templates/categories/index.html:41
-#: mediacore/templates/categories/more.html:31
-#: mediacore/templates/media/explore.html:95
+#: mediacore/templates/helpers.html:73
+#: mediacore/templates/categories/index.html:31
+#: mediacore/templates/categories/more.html:21
+#: mediacore/templates/media/explore.html:89
 msgid "Most Popular"
 msgstr "Mest populära"
 
-#: mediacore/templates/helpers.html:82
-#: mediacore/templates/media/explore.html:44
-#: mediacore/templates/media/explore.html:79
+#: mediacore/templates/helpers.html:74
+#: mediacore/templates/media/explore.html:36
+#: mediacore/templates/media/explore.html:73
 msgid "Featured"
 msgstr "I blickfånget"
 
-#: mediacore/templates/helpers.html:84
+#: mediacore/templates/helpers.html:76
 msgid "Page"
 msgstr "Sida"
 
-#: mediacore/templates/helpers.html:84
+#: mediacore/templates/helpers.html:76
 msgid "of"
 msgstr "av"
 
-#: mediacore/templates/helpers.html:90
+#: mediacore/templates/helpers.html:82
 #, python-format
 msgid "The %(fieldName)s field accepts some HTML formatting: %(formattingList)s"
 msgstr ""
 "Den %(fieldName)s  område beredd att ta en HTML-formatering: "
 "%(formattingList)s "
 
-#: mediacore/templates/layout.html:54
+#: mediacore/templates/layout.html:40
 msgid "Feeds:"
 msgstr "Flöden:"
 
-#: mediacore/templates/layout.html:60
+#: mediacore/templates/layout.html:46
 msgid "[1:MediaCore] [2:video platform]"
 msgstr "[1: MediaCore] [2: video plattform]"
 
-#: mediacore/templates/login.html:23
+#: mediacore/templates/login.html:13
 msgid "Login to MediaCore"
 msgstr "Logga in på MediaCore"
 
-#: mediacore/templates/login.html:45 mediacore/templates/login.html:56
+#: mediacore/templates/login.html:37 mediacore/templates/login.html:48
 msgid "Login"
 msgstr "Logga in"
 
-#: mediacore/templates/login.html:48
+#: mediacore/templates/login.html:40
 msgid "Username:"
 msgstr "Användarnamn:"
 
-#: mediacore/templates/login.html:52
+#: mediacore/templates/login.html:44
 msgid "Password:"
 msgstr "Lösenord:"
 
-#: mediacore/templates/master.html:59
+#: mediacore/templates/master.html:53
 msgid "Explore"
 msgstr "Utforska"
 
-#: mediacore/templates/master.html:60 mediacore/templates/media/index.html:24
+#: mediacore/templates/master.html:54 mediacore/templates/media/index.html:14
 msgid "Media Library"
 msgstr "Mediabibliotek"
 
-#: mediacore/templates/master.html:61 mediacore/templates/admin/master.html:61
-#: mediacore/templates/admin/podcasts/index.html:24
-#: mediacore/templates/admin/podcasts/index.html:31
+#: mediacore/templates/master.html:55 mediacore/templates/admin/master.html:51
+#: mediacore/templates/admin/podcasts/index.html:14
+#: mediacore/templates/admin/podcasts/index.html:21
 msgid "Podcasts"
 msgstr "Poddsändningar"
 
-#: mediacore/templates/master.html:66
+#: mediacore/templates/master.html:60
 msgid "Search"
 msgstr "Sök"
 
-#: mediacore/templates/admin/helpers.html:66
+#: mediacore/templates/admin/helpers.html:56
 msgid "Moderate comments"
 msgstr "Moderera kommentarer"
 
-#: mediacore/templates/admin/helpers.html:68
+#: mediacore/templates/admin/helpers.html:58
 msgid "Moderate"
 msgstr "Moderera"
 
-#: mediacore/templates/admin/helpers.html:69
-#: mediacore/templates/admin/master.html:62
-#: mediacore/templates/admin/comments/index.html:27
-#: mediacore/templates/admin/media/_media-table.html:34
-#: mediacore/templates/admin/settings/comments.html:23
-#: mediacore/templates/admin/settings/comments.html:29
-#: mediacore/templates/admin/settings/master.html:59
-#: mediacore/templates/comments/_list.html:49
+#: mediacore/templates/admin/helpers.html:59
+#: mediacore/templates/admin/master.html:52
+#: mediacore/templates/admin/comments/index.html:17
+#: mediacore/templates/admin/media/_media-table.html:24
+#: mediacore/templates/admin/settings/comments.html:13
+#: mediacore/templates/admin/settings/comments.html:19
+#: mediacore/templates/admin/settings/master.html:49
+#: mediacore/templates/comments/_list.html:39
 msgid "Comments"
 msgstr "Kommentarer"
 
-#: mediacore/templates/admin/helpers.html:81
-#: mediacore/templates/admin/media/_media-table.html:57
-#: mediacore/templates/admin/media/index.html:124
-#: mediacore/templates/admin/media/update-status-form.html:93
+#: mediacore/templates/admin/helpers.html:71
+#: mediacore/templates/admin/media/_media-table.html:47
+#: mediacore/templates/admin/media/index.html:114
+#: mediacore/templates/admin/media/update-status-form.html:82
 msgid "Published"
 msgstr "Publicerad"
 
-#: mediacore/templates/admin/helpers.html:85
-#: mediacore/templates/admin/media/_media-table.html:54
-#: mediacore/templates/admin/media/index.html:115
+#: mediacore/templates/admin/helpers.html:75
+#: mediacore/templates/admin/media/_media-table.html:44
+#: mediacore/templates/admin/media/index.html:105
 msgid "Unreviewed"
 msgstr "Ej granskad"
 
-#: mediacore/templates/admin/helpers.html:89
-#: mediacore/templates/admin/comments/_comment-table.html:46
+#: mediacore/templates/admin/helpers.html:79
+#: mediacore/templates/admin/comments/_comment-table.html:36
 msgid "Trash"
 msgstr "Papperskorg"
 
-#: mediacore/templates/admin/index.html:24
-#: mediacore/templates/admin/master.html:53
+#: mediacore/templates/admin/index.html:14
+#: mediacore/templates/admin/master.html:43
 msgid "Dashboard"
 msgstr "Instrumentbräda"
 
-#: mediacore/templates/admin/index.html:54
+#: mediacore/templates/admin/index.html:44
 msgid "Awaiting Review"
 msgstr "Väntar på granskning"
 
-#: mediacore/templates/admin/index.html:59
+#: mediacore/templates/admin/index.html:49
 msgid "Awaiting Encoding"
 msgstr "Väntar på kodning"
 
-#: mediacore/templates/admin/index.html:64
+#: mediacore/templates/admin/index.html:54
 msgid "Awaiting Publishing"
 msgstr "Väntar på publicering"
 
-#: mediacore/templates/admin/index.html:71
+#: mediacore/templates/admin/index.html:61
 msgid "Get Started"
 msgstr "Kom igång"
 
-#: mediacore/templates/admin/index.html:73
-#: mediacore/templates/admin/media/edit.html:23
-#: mediacore/templates/admin/media/edit.html:152
-#: mediacore/templates/admin/media/index.html:84
+#: mediacore/templates/admin/index.html:63
+#: mediacore/templates/admin/media/edit.html:13
+#: mediacore/templates/admin/media/edit.html:142
+#: mediacore/templates/admin/media/index.html:74
 msgid "Add New Media"
 msgstr "Lägg till nytt media"
 
-#: mediacore/templates/admin/index.html:80
+#: mediacore/templates/admin/index.html:70
 msgid "Recently Published"
 msgstr "Senaste publicerade"
 
-#: mediacore/templates/admin/master.html:31
-#: mediacore/templates/admin/master.html:50
+#: mediacore/templates/admin/master.html:21
+#: mediacore/templates/admin/master.html:40
 msgid "MediaCore"
 msgstr "MediaCore"
 
-#: mediacore/templates/admin/master.html:54
+#: mediacore/templates/admin/master.html:44
 msgid "View Site"
 msgstr "Visa webbplats"
 
-#: mediacore/templates/admin/master.html:55
+#: mediacore/templates/admin/master.html:45
 msgid "Logout"
 msgstr "Logga ut"
 
-#: mediacore/templates/admin/master.html:60
-#: mediacore/templates/admin/categories/index.html:70
-#: mediacore/templates/admin/media/index.html:25
-#: mediacore/templates/admin/tags/index.html:67
+#: mediacore/templates/admin/master.html:50
+#: mediacore/templates/admin/categories/index.html:60
+#: mediacore/templates/admin/media/index.html:15
+#: mediacore/templates/admin/tags/index.html:57
 msgid "Media"
 msgstr "Media"
 
-#: mediacore/templates/admin/master.html:63
-#: mediacore/templates/admin/users/index.html:24
-#: mediacore/templates/admin/users/index.html:45
+#: mediacore/templates/admin/master.html:53
+#: mediacore/templates/admin/users/index.html:14
+#: mediacore/templates/admin/users/index.html:35
 msgid "Users"
 msgstr "Användare"
 
-#: mediacore/templates/admin/master.html:64
-#: mediacore/templates/admin/settings/master.html:41
+#: mediacore/templates/admin/master.html:54
+#: mediacore/templates/admin/settings/master.html:31
 msgid "Settings"
 msgstr "Inställningar"
 
-#: mediacore/templates/admin/master.html:68
-msgid "© 2009-2011 Simple Station Inc."
+#: mediacore/templates/admin/master.html:58
+#, fuzzy
+msgid "© 2009-2012 MediaCore Inc."
 msgstr "© 2009-2011 Simple Station Inc."
 
-#: mediacore/templates/admin/categories/index.html:45
-#: mediacore/templates/admin/comments/index.html:43
-#: mediacore/templates/admin/comments/index.html:55
-#: mediacore/templates/admin/media/edit.html:72
-#: mediacore/templates/admin/media/index.html:40
-#: mediacore/templates/admin/players/index.html:32
-#: mediacore/templates/admin/podcasts/edit.html:58
-#: mediacore/templates/admin/storage/index.html:82
-#: mediacore/templates/admin/tags/index.html:42
-#: mediacore/templates/admin/users/edit.html:32
-#: mediacore/templates/admin/users/index.html:33
+#: mediacore/templates/admin/categories/index.html:35
+#: mediacore/templates/admin/comments/index.html:33
+#: mediacore/templates/admin/comments/index.html:45
+#: mediacore/templates/admin/media/edit.html:62
+#: mediacore/templates/admin/media/index.html:30
+#: mediacore/templates/admin/players/index.html:22
+#: mediacore/templates/admin/podcasts/edit.html:48
+#: mediacore/templates/admin/storage/index.html:71
+#: mediacore/templates/admin/tags/index.html:32
+#: mediacore/templates/admin/users/edit.html:22
+#: mediacore/templates/admin/users/index.html:23
 msgid "Confirm Delete"
 msgstr "Bekräfta borttagning"
 
-#: mediacore/templates/admin/categories/index.html:46
-#: mediacore/templates/admin/comments/index.html:56
-#: mediacore/templates/admin/media/index.html:41
-#: mediacore/templates/admin/tags/index.html:43
+#: mediacore/templates/admin/categories/index.html:36
+#: mediacore/templates/admin/comments/index.html:46
+#: mediacore/templates/admin/media/index.html:31
+#: mediacore/templates/admin/tags/index.html:33
 #, python-format
 msgid "Are you sure you want to delete these %(num)s items?"
 msgstr "Är du säker på att du vill ta bort dessa %(num)s objekt?"
 
-#: mediacore/templates/admin/categories/index.html:60
-#: mediacore/templates/admin/categories/index.html:85
+#: mediacore/templates/admin/categories/index.html:50
+#: mediacore/templates/admin/categories/index.html:75
 msgid "Add Category"
 msgstr "Lägg till kategori"
 
-#: mediacore/templates/admin/categories/index.html:61
-#: mediacore/templates/admin/tags/index.html:58
+#: mediacore/templates/admin/categories/index.html:51
+#: mediacore/templates/admin/tags/index.html:48
 msgid "Bulk Delete"
 msgstr "Ta bort flera"
 
-#: mediacore/templates/admin/categories/index.html:89
+#: mediacore/templates/admin/categories/index.html:79
 msgid "Edit Category"
 msgstr "Redigera kategori"
 
-#: mediacore/templates/admin/categories/index.html:93
+#: mediacore/templates/admin/categories/index.html:83
 msgid "Delete Category"
 msgstr "Ta bort kategori"
 
-#: mediacore/templates/admin/categories/index.html:96
+#: mediacore/templates/admin/categories/index.html:86
 msgid "Are you sure you want to delete this category [1:and ALL of its children]?"
 msgstr "Är du säker på att du vill ta bort denna kategori [1:och ALLA dess barn]?"
 
-#: mediacore/templates/admin/categories/row-form.html:39
-#: mediacore/templates/admin/comments/_comment-table.html:65
-#: mediacore/templates/admin/media/edit.html:23
-#: mediacore/templates/admin/media/edit.html:125
-#: mediacore/templates/admin/players/index.html:85
-#: mediacore/templates/admin/podcasts/_podcast-table.html:32
-#: mediacore/templates/admin/podcasts/edit.html:51
-#: mediacore/templates/admin/storage/index.html:153
-#: mediacore/templates/admin/tags/row-form.html:31
-#: mediacore/templates/admin/users/index.html:68
-#: mediacore/templates/media/view.html:49
-#: mediacore/templates/podcasts/view.html:41
+#: mediacore/templates/admin/categories/row-form.html:29
+#: mediacore/templates/admin/comments/_comment-table.html:55
+#: mediacore/templates/admin/media/edit.html:13
+#: mediacore/templates/admin/media/edit.html:115
+#: mediacore/templates/admin/players/index.html:75
+#: mediacore/templates/admin/podcasts/_podcast-table.html:22
+#: mediacore/templates/admin/podcasts/edit.html:41
+#: mediacore/templates/admin/storage/index.html:142
+#: mediacore/templates/admin/tags/row-form.html:21
+#: mediacore/templates/admin/users/index.html:58
+#: mediacore/templates/media/view.html:41
+#: mediacore/templates/podcasts/view.html:32
 msgid "Edit"
 msgstr "Redigera"
 
-#: mediacore/templates/admin/comments/_comment-table.html:29
-#: mediacore/templates/admin/media/_media-table.html:32
-#: mediacore/templates/admin/players/index.html:54
-#: mediacore/templates/admin/storage/index.html:127
+#: mediacore/templates/admin/comments/_comment-table.html:19
+#: mediacore/templates/admin/media/_media-table.html:22
+#: mediacore/templates/admin/players/index.html:44
+#: mediacore/templates/admin/storage/index.html:116
 msgid "Status"
 msgstr "Status"
 
-#: mediacore/templates/admin/comments/_comment-table.html:30
-#: mediacore/templates/admin/media/_media-table.html:36
+#: mediacore/templates/admin/comments/_comment-table.html:20
+#: mediacore/templates/admin/media/_media-table.html:26
 msgid "Author"
 msgstr "Upphovsman"
 
-#: mediacore/templates/admin/comments/_comment-table.html:32
+#: mediacore/templates/admin/comments/_comment-table.html:22
 msgid "In Response to"
 msgstr "Som svar på"
 
-#: mediacore/templates/admin/comments/_comment-table.html:37
-#: mediacore/templates/admin/media/_media-table.html:43
-#: mediacore/templates/admin/players/index.html:62
-#: mediacore/templates/admin/podcasts/_podcast-table.html:27
-#: mediacore/templates/admin/storage/index.html:136
-#: mediacore/templates/admin/users/index.html:60
+#: mediacore/templates/admin/comments/_comment-table.html:27
+#: mediacore/templates/admin/media/_media-table.html:33
+#: mediacore/templates/admin/players/index.html:52
+#: mediacore/templates/admin/podcasts/_podcast-table.html:17
+#: mediacore/templates/admin/storage/index.html:125
+#: mediacore/templates/admin/users/index.html:50
 msgid "None Found"
 msgstr "Ingen hittades"
 
-#: mediacore/templates/admin/comments/_comment-table.html:44
+#: mediacore/templates/admin/comments/_comment-table.html:34
 msgid "This comment has already been approved for publishing"
 msgstr "Denna kommentar har redan godkänts för publicering"
 
-#: mediacore/templates/admin/comments/_comment-table.html:45
+#: mediacore/templates/admin/comments/_comment-table.html:35
 msgid "Approve this comment for publishing"
 msgstr "Godkänn denna kommentar för publicering"
 
-#: mediacore/templates/admin/comments/_comment-table.html:45
+#: mediacore/templates/admin/comments/_comment-table.html:35
 msgid "Approve"
 msgstr "Godkänn"
 
-#: mediacore/templates/admin/comments/_comment-table.html:46
+#: mediacore/templates/admin/comments/_comment-table.html:36
 msgid "Delete this comment"
 msgstr "Ta bort denna kommentar"
 
-#: mediacore/templates/admin/comments/_comment-table.html:56
+#: mediacore/templates/admin/comments/_comment-table.html:46
 msgid "Submitted on"
 msgstr "Skickades in den"
 
-#: mediacore/templates/admin/comments/_comment-table.html:63
+#: mediacore/templates/admin/comments/_comment-table.html:53
 msgid "Go to the admin page for this item"
 msgstr "Gå till administratörssidan för detta objekt"
 
-#: mediacore/templates/admin/comments/index.html:28
+#: mediacore/templates/admin/comments/index.html:18
 #, python-format
 msgid "Comments for %(media_filter_title)s"
 msgstr "Kommentarer för %(media_filter_title)s"
 
-#: mediacore/templates/admin/comments/index.html:28
+#: mediacore/templates/admin/comments/index.html:18
 msgid "Comments for"
 msgstr "Kommentarer för"
 
-#: mediacore/templates/admin/comments/index.html:40
+#: mediacore/templates/admin/comments/index.html:30
 msgid "Edit Text"
 msgstr "Redigera text"
 
-#: mediacore/templates/admin/comments/index.html:41
+#: mediacore/templates/admin/comments/index.html:31
 msgid "Cancel Edit"
 msgstr "Avbryt redigering"
 
-#: mediacore/templates/admin/comments/index.html:46
+#: mediacore/templates/admin/comments/index.html:36
 #, python-format
 msgid "Are you sure you want to delete %(name)s's comment?"
 msgstr "Är du säker på att du vill ta bort kommentaren från %(name)s?"
 
-#: mediacore/templates/admin/comments/index.html:85
+#: mediacore/templates/admin/comments/index.html:75
 #, python-format
 msgid "Comments that match '%(search)s'"
 msgstr "Kommentarer som matchar \"%(search)s\""
 
-#: mediacore/templates/admin/comments/index.html:86
+#: mediacore/templates/admin/comments/index.html:76
 msgid "All Comments"
 msgstr "Alla kommentarer"
 
-#: mediacore/templates/admin/comments/index.html:87
+#: mediacore/templates/admin/comments/index.html:77
 #, python-format
 msgid "Comments for %(search)s"
 msgstr "Kommentarer för %(search)s"
 
-#: mediacore/templates/admin/comments/index.html:95
-#: mediacore/templates/admin/media/index.html:92
+#: mediacore/templates/admin/comments/index.html:85
+#: mediacore/templates/admin/media/index.html:82
 msgid "Publish"
 msgstr "Publicera"
 
-#: mediacore/templates/admin/comments/index.html:102
-#: mediacore/templates/admin/media/index.html:99
+#: mediacore/templates/admin/comments/index.html:92
+#: mediacore/templates/admin/media/index.html:89
 msgid "Bulk Actions"
 msgstr "Massåtgärder"
 
-#: mediacore/templates/admin/media/_media-table.html:29
+#: mediacore/templates/admin/media/_media-table.html:19
 msgid "Publish Date"
 msgstr "Publiceringsdatum"
 
-#: mediacore/templates/admin/media/_media-table.html:30
+#: mediacore/templates/admin/media/_media-table.html:20
 msgid "Upload Date"
 msgstr "Ladda upp Datum"
 
-#: mediacore/templates/admin/media/_media-table.html:31
-#: mediacore/templates/admin/media/update-status-form.html:41
+#: mediacore/templates/admin/media/_media-table.html:21
+#: mediacore/templates/admin/media/update-status-form.html:30
 msgid "Publish Status"
 msgstr "Publicera Status"
 
-#: mediacore/templates/admin/media/_media-table.html:34
+#: mediacore/templates/admin/media/_media-table.html:24
 msgid "Number of Comments"
 msgstr "Antal kommentarer"
 
-#: mediacore/templates/admin/media/_media-table.html:55
-#: mediacore/templates/admin/media/index.html:118
+#: mediacore/templates/admin/media/_media-table.html:45
+#: mediacore/templates/admin/media/index.html:108
 msgid "Unencoded"
 msgstr "Okodad"
 
-#: mediacore/templates/admin/media/_media-table.html:56
+#: mediacore/templates/admin/media/_media-table.html:46
 msgid "Draft"
 msgstr "Utkast"
 
-#: mediacore/templates/admin/media/_media-table.html:58
+#: mediacore/templates/admin/media/_media-table.html:48
 msgid "Publishing..."
 msgstr "Publicerar..."
 
-#: mediacore/templates/admin/media/edit.html:57
-#: mediacore/templates/admin/podcasts/edit.html:38
+#: mediacore/templates/admin/media/edit.html:47
+#: mediacore/templates/admin/podcasts/edit.html:28
 msgid "Saving the file failed. Please try again"
 msgstr "Spara filen misslyckades. Försök igen"
 
-#: mediacore/templates/admin/media/edit.html:58
-#: mediacore/templates/admin/podcasts/edit.html:39
+#: mediacore/templates/admin/media/edit.html:48
+#: mediacore/templates/admin/podcasts/edit.html:29
 #, python-format
 msgid "Security error occured (%(text)s)"
 msgstr "Säkerhet fel uppstod ( %(text)s )"
 
-#: mediacore/templates/admin/media/edit.html:59
-#: mediacore/templates/admin/podcasts/edit.html:40
+#: mediacore/templates/admin/media/edit.html:49
+#: mediacore/templates/admin/podcasts/edit.html:30
 #, python-format
 msgid "Error caused a send or load operation to fail (%(text)s)"
 msgstr "Fel orsakade skicka eller misslyckad inläsningsåtgärd ( %(text)s )"
 
-#: mediacore/templates/admin/media/edit.html:62
-#: mediacore/templates/admin/podcasts/edit.html:43
+#: mediacore/templates/admin/media/edit.html:52
+#: mediacore/templates/admin/podcasts/edit.html:33
 msgid "File has already been added, duplicates are not allowed"
 msgstr "Fil har redan lagts till, dubbletter är inte tillåtna"
 
-#: mediacore/templates/admin/media/edit.html:63
-#: mediacore/templates/admin/podcasts/edit.html:44
+#: mediacore/templates/admin/media/edit.html:53
+#: mediacore/templates/admin/podcasts/edit.html:34
 #, python-format
 msgid "File is too small, the minimal file size is %(size)s"
 msgstr "Filen är för liten, är det minsta filstorleken %(size)s "
 
-#: mediacore/templates/admin/media/edit.html:64
-#: mediacore/templates/admin/podcasts/edit.html:45
+#: mediacore/templates/admin/media/edit.html:54
+#: mediacore/templates/admin/podcasts/edit.html:35
 #, python-format
 msgid "File is too large, the maximum file size is %(size)s"
 msgstr "Filen är för stor, den maximala filstorleken %(size)s "
 
-#: mediacore/templates/admin/media/edit.html:65
-#: mediacore/templates/admin/podcasts/edit.html:46
+#: mediacore/templates/admin/media/edit.html:55
+#: mediacore/templates/admin/podcasts/edit.html:36
 #, python-format
 msgid "File could not be added, amount of %(num)s files exceeded"
 msgstr "Filen inte kunde läggas till, mängden %(num)s  filer översteg"
 
-#: mediacore/templates/admin/media/edit.html:66
-#: mediacore/templates/admin/podcasts/edit.html:47
+#: mediacore/templates/admin/media/edit.html:56
+#: mediacore/templates/admin/podcasts/edit.html:37
 #, python-format
 msgid "File is too big, overall filesize of %(size)s exceeded"
 msgstr "Filen är för stor, övergripande filstorleken på %(size)s  överskrids"
 
-#: mediacore/templates/admin/media/edit.html:73
-#: mediacore/templates/admin/players/index.html:33
-#: mediacore/templates/admin/podcasts/edit.html:59
-#: mediacore/templates/admin/storage/index.html:37
-#: mediacore/templates/admin/tags/index.html:90
-#: mediacore/templates/admin/users/edit.html:33
+#: mediacore/templates/admin/media/edit.html:63
+#: mediacore/templates/admin/players/index.html:23
+#: mediacore/templates/admin/podcasts/edit.html:49
+#: mediacore/templates/admin/storage/index.html:27
+#: mediacore/templates/admin/tags/index.html:80
+#: mediacore/templates/admin/users/edit.html:23
 msgid "Are you sure you want to delete this?"
 msgstr "Är du säker på att du vill ta bort dessa?"
 
-#: mediacore/templates/admin/media/edit.html:84
-#: mediacore/templates/admin/podcasts/edit.html:70
+#: mediacore/templates/admin/media/edit.html:74
+#: mediacore/templates/admin/podcasts/edit.html:60
 msgid "Upload image"
 msgstr "Skicka upp bild"
 
-#: mediacore/templates/admin/media/edit.html:93
+#: mediacore/templates/admin/media/edit.html:83
 msgid "Are you sure you want to delete this file?"
 msgstr "Är du säker på att du vill ta bort denna fil?"
 
-#: mediacore/templates/admin/media/edit.html:98
+#: mediacore/templates/admin/media/edit.html:88
 msgid "Upload a file"
 msgstr "Skicka upp en fil"
 
-#: mediacore/templates/admin/media/edit.html:105
+#: mediacore/templates/admin/media/edit.html:95
 msgid "Failed to add this file. Please try again."
 msgstr "Misslyckades med att lägga till den här filen. Försök igen."
 
-#: mediacore/templates/admin/media/edit.html:106
+#: mediacore/templates/admin/media/edit.html:96
 msgid "Failed to save your change. Please try again."
 msgstr "Misslyckades med att spara ändringen. Försök igen."
 
-#: mediacore/templates/admin/media/edit.html:107
+#: mediacore/templates/admin/media/edit.html:97
 msgid "Uploading"
 msgstr "Ladda upp"
 
-#: mediacore/templates/admin/media/edit.html:108
+#: mediacore/templates/admin/media/edit.html:98
 msgid "Queued"
 msgstr "Kö"
 
-#: mediacore/templates/admin/media/edit.html:109
+#: mediacore/templates/admin/media/edit.html:99
 msgid "Error"
 msgstr "Fel"
 
-#: mediacore/templates/admin/media/edit.html:121
+#: mediacore/templates/admin/media/edit.html:111
 msgid "A connection problem occurred, try again."
 msgstr "En anslutning problem uppstod, försök igen."
 
-#: mediacore/templates/admin/media/edit.html:122
+#: mediacore/templates/admin/media/edit.html:112
 msgid "An error has occurred, try again."
 msgstr "Ett fel har inträffat, försök igen."
 
-#: mediacore/templates/admin/media/edit.html:125
-#: mediacore/templates/admin/media/edit.html:210
-#: mediacore/templates/admin/podcasts/edit.html:51
+#: mediacore/templates/admin/media/edit.html:115
+#: mediacore/templates/admin/media/edit.html:200
+#: mediacore/templates/admin/podcasts/edit.html:41
 msgid "Hide"
 msgstr "Dölj"
 
-#: mediacore/templates/admin/media/edit.html:126
+#: mediacore/templates/admin/media/edit.html:116
 msgid "Saving"
 msgstr "Sparar"
 
-#: mediacore/templates/admin/media/edit.html:127
+#: mediacore/templates/admin/media/edit.html:117
 msgid "Saved!"
 msgstr "Sparad!"
 
-#: mediacore/templates/admin/media/edit.html:128
+#: mediacore/templates/admin/media/edit.html:118
 msgid "Saving failed. Please try again."
 msgstr "Misslyckades med att spara. Försök igen."
 
-#: mediacore/templates/admin/media/edit.html:129
+#: mediacore/templates/admin/media/edit.html:119
 msgid "Please correct the highlighted errors and save again."
 msgstr "Korrigera färgmarkerade fel och spara igen."
 
-#: mediacore/templates/admin/media/edit.html:151
-#: mediacore/templates/admin/podcasts/edit.html:94
+#: mediacore/templates/admin/media/edit.html:141
+#: mediacore/templates/admin/podcasts/edit.html:84
 msgid "Uploaded:"
 msgstr "Skickat upp:"
 
-#: mediacore/templates/admin/media/edit.html:162
-#: mediacore/templates/admin/storage/index.html:130
+#: mediacore/templates/admin/media/edit.html:152
+#: mediacore/templates/admin/storage/index.html:119
 msgid "Files"
 msgstr "Filer"
 
-#: mediacore/templates/admin/media/edit.html:163
+#: mediacore/templates/admin/media/edit.html:153
 msgid "Add & Manage"
 msgstr "Lägg till och hantera"
 
-#: mediacore/templates/admin/media/edit.html:166
-#: mediacore/templates/admin/media/file-edit-form.html:22
+#: mediacore/templates/admin/media/edit.html:156
+#: mediacore/templates/admin/media/file-edit-form.html:12
 msgid "View this file"
 msgstr "Visa denna fil"
 
-#: mediacore/templates/admin/media/edit.html:180
-#: mediacore/templates/admin/podcasts/edit.html:109
+#: mediacore/templates/admin/media/edit.html:170
+#: mediacore/templates/admin/podcasts/edit.html:99
 msgid "Thumbnail"
 msgstr "Miniatyrbild"
 
-#: mediacore/templates/admin/media/edit.html:183
-#: mediacore/templates/admin/podcasts/_podcast-table.html:39
-#: mediacore/templates/admin/podcasts/edit.html:113
+#: mediacore/templates/admin/media/edit.html:173
+#: mediacore/templates/admin/podcasts/_podcast-table.html:29
+#: mediacore/templates/admin/podcasts/edit.html:103
 msgid "Thumb"
 msgstr "Miniatyr"
 
-#: mediacore/templates/admin/media/edit.html:207
+#: mediacore/templates/admin/media/edit.html:197
 msgid "Manage Files"
 msgstr "Hantera filer"
 
-#: mediacore/templates/admin/media/edit.html:216
+#: mediacore/templates/admin/media/edit.html:206
 msgid "File"
 msgstr "Fil"
 
-#: mediacore/templates/admin/media/edit.html:217
+#: mediacore/templates/admin/media/edit.html:207
 msgid "Size"
 msgstr "Storlek"
 
-#: mediacore/templates/admin/media/edit.html:218
+#: mediacore/templates/admin/media/edit.html:208
 msgid "Duration"
 msgstr "Speltid"
 
-#: mediacore/templates/admin/media/edit.html:219
+#: mediacore/templates/admin/media/edit.html:209
 msgid "Bitrate"
 msgstr "Bitfrekvens"
 
-#: mediacore/templates/admin/media/edit.html:220
+#: mediacore/templates/admin/media/edit.html:210
 msgid "Dimensions"
 msgstr "Dimensioner"
 
-#: mediacore/templates/admin/media/edit.html:221
+#: mediacore/templates/admin/media/edit.html:211
 msgid "Type"
 msgstr "Typ"
 
-#: mediacore/templates/admin/media/file-add-form.html:24
+#: mediacore/templates/admin/media/file-add-form.html:14
 msgid "OR"
 msgstr "ELLER"
 
-#: mediacore/templates/admin/media/file-form.html:24
+#: mediacore/templates/admin/media/file-form.html:14
 msgid "or"
 msgstr "eller"
 
-#: mediacore/templates/admin/media/index.html:73
+#: mediacore/templates/admin/media/index.html:63
 #, python-format
 msgid "Media that matches '%(search)s'"
 msgstr "Media som matchar \"%(search)s\""
 
-#: mediacore/templates/admin/media/index.html:74
+#: mediacore/templates/admin/media/index.html:64
 #, python-format
 msgid "%(podcastTitle)s Episodes"
 msgstr "Avsnitt av %(podcastTitle)s"
 
-#: mediacore/templates/admin/media/index.html:75
+#: mediacore/templates/admin/media/index.html:65
 #, python-format
 msgid "Media in '%(categoryName)s'"
 msgstr "Media i \"%(categoryName)s\""
 
-#: mediacore/templates/admin/media/index.html:76
+#: mediacore/templates/admin/media/index.html:66
 #, python-format
 msgid "Media tagged '%(tagName)s'"
 msgstr "Media taggade med \"%(tagName)s\""
 
-#: mediacore/templates/admin/media/index.html:77
+#: mediacore/templates/admin/media/index.html:67
 msgid "Unreviewed Media"
 msgstr "Ej granskade media"
 
-#: mediacore/templates/admin/media/index.html:78
+#: mediacore/templates/admin/media/index.html:68
 msgid "Unencoded Media"
 msgstr "Ej kodade media"
 
-#: mediacore/templates/admin/media/index.html:79
+#: mediacore/templates/admin/media/index.html:69
 msgid "Draft Media"
 msgstr "Förslag Media"
 
-#: mediacore/templates/admin/media/index.html:80
+#: mediacore/templates/admin/media/index.html:70
 msgid "Published Media"
 msgstr "Publicerade media"
 
-#: mediacore/templates/admin/media/index.html:81
-#: mediacore/templates/admin/media/index.html:112
+#: mediacore/templates/admin/media/index.html:71
+#: mediacore/templates/admin/media/index.html:102
 msgid "All Media"
 msgstr "Allt media"
 
-#: mediacore/templates/admin/media/index.html:91
+#: mediacore/templates/admin/media/index.html:81
 msgid "Review"
 msgstr "Granska"
 
-#: mediacore/templates/admin/media/index.html:121
+#: mediacore/templates/admin/media/index.html:111
 msgid "Drafts"
 msgstr "Utkast"
 
-#: mediacore/templates/admin/media/index.html:131
+#: mediacore/templates/admin/media/index.html:121
 msgid "Filters"
 msgstr "Filter"
 
-#: mediacore/templates/admin/media/update-status-form.html:27
+#: mediacore/templates/admin/media/update-status-form.html:17
 msgid "View this media where it is published"
 msgstr "Visa detta media var det har publicerats"
 
-#: mediacore/templates/admin/media/update-status-form.html:33
+#: mediacore/templates/admin/media/update-status-form.html:22
 msgid "View this media where it will be published"
 msgstr "Visa detta media var det kommer att publiceras"
 
-#: mediacore/templates/admin/media/update-status-form.html:33
+#: mediacore/templates/admin/media/update-status-form.html:22
 msgid "Preview"
 msgstr "Förhandsvisa"
 
-#: mediacore/templates/admin/media/update-status-form.html:47
+#: mediacore/templates/admin/media/update-status-form.html:36
 msgid "You must add a file and save before review can begin."
 msgstr "Du måste lägga till en fil och spara den innan granskningen kan påbörjas."
 
-#: mediacore/templates/admin/media/update-status-form.html:51
+#: mediacore/templates/admin/media/update-status-form.html:40
 msgid "Review Pending"
 msgstr "Väntar på granskning"
 
-#: mediacore/templates/admin/media/update-status-form.html:52
-#: mediacore/templates/admin/media/update-status-form.html:78
-#: mediacore/templates/admin/media/update-status-form.html:91
+#: mediacore/templates/admin/media/update-status-form.html:41
+#: mediacore/templates/admin/media/update-status-form.html:67
+#: mediacore/templates/admin/media/update-status-form.html:80
 msgid "Encoding Complete"
 msgstr "Kodningen är färdig"
 
-#: mediacore/templates/admin/media/update-status-form.html:52
-#: mediacore/templates/admin/media/update-status-form.html:68
+#: mediacore/templates/admin/media/update-status-form.html:41
+#: mediacore/templates/admin/media/update-status-form.html:57
 msgid "Encoding Pending"
 msgstr "Väntar på kodning"
 
-#: mediacore/templates/admin/media/update-status-form.html:53
-#: mediacore/templates/admin/media/update-status-form.html:69
-#: mediacore/templates/admin/media/update-status-form.html:79
-#: mediacore/templates/admin/media/update-status-form.html:92
+#: mediacore/templates/admin/media/update-status-form.html:42
+#: mediacore/templates/admin/media/update-status-form.html:58
+#: mediacore/templates/admin/media/update-status-form.html:68
+#: mediacore/templates/admin/media/update-status-form.html:81
 msgid "Click to change the publish date"
 msgstr "Klicka för att ändra publiceringsdatum"
 
-#: mediacore/templates/admin/media/update-status-form.html:53
-#: mediacore/templates/admin/media/update-status-form.html:69
-#: mediacore/templates/admin/media/update-status-form.html:79
-#: mediacore/templates/admin/media/update-status-form.html:93
+#: mediacore/templates/admin/media/update-status-form.html:42
+#: mediacore/templates/admin/media/update-status-form.html:58
+#: mediacore/templates/admin/media/update-status-form.html:68
+#: mediacore/templates/admin/media/update-status-form.html:82
 msgid "Publishing"
 msgstr "Publicerar"
 
-#: mediacore/templates/admin/media/update-status-form.html:54
-#: mediacore/templates/admin/media/update-status-form.html:70
-#: mediacore/templates/admin/media/update-status-form.html:80
-#: mediacore/templates/admin/media/update-status-form.html:94
+#: mediacore/templates/admin/media/update-status-form.html:43
+#: mediacore/templates/admin/media/update-status-form.html:59
+#: mediacore/templates/admin/media/update-status-form.html:69
+#: mediacore/templates/admin/media/update-status-form.html:83
 msgid "Pending"
 msgstr "Väntar"
 
-#: mediacore/templates/admin/media/update-status-form.html:60
-#: mediacore/templates/admin/media/update-status-form.html:67
-#: mediacore/templates/admin/media/update-status-form.html:77
-#: mediacore/templates/admin/media/update-status-form.html:90
+#: mediacore/templates/admin/media/update-status-form.html:49
+#: mediacore/templates/admin/media/update-status-form.html:56
+#: mediacore/templates/admin/media/update-status-form.html:66
+#: mediacore/templates/admin/media/update-status-form.html:79
 msgid "Review Complete"
 msgstr "Granskningen är färdig"
 
-#: mediacore/templates/admin/media/update-status-form.html:62
+#: mediacore/templates/admin/media/update-status-form.html:51
 msgid "Review can only be completed after a file is added."
 msgstr "Granskning har endast färdigställas efter att en fil har lagts till."
 
-#: mediacore/templates/admin/media/update-status-form.html:73
+#: mediacore/templates/admin/media/update-status-form.html:62
 msgid "Encoding will be complete when an acceptable file is added."
 msgstr "Kodningen kommer att färdigställas när en lämplig fil har lagts till."
 
-#: mediacore/templates/admin/media/update-status-form.html:85
+#: mediacore/templates/admin/media/update-status-form.html:74
 msgid "Publish Now"
 msgstr "Publicera nu"
 
-#: mediacore/templates/admin/players/index.html:23
-#: mediacore/templates/admin/players/index.html:47
-#: mediacore/templates/admin/settings/master.html:68
+#: mediacore/templates/admin/players/index.html:13
+#: mediacore/templates/admin/players/index.html:37
+#: mediacore/templates/admin/settings/master.html:61
 msgid "Players"
 msgstr "Uppspelare"
 
-#: mediacore/templates/admin/players/index.html:33
+#: mediacore/templates/admin/players/index.html:23
 msgid "By deleting this player you will lose all settings related to it."
 msgstr ""
 "Genom att ta bort den här spelaren kommer du att förlora alla "
 "inställningar för det."
 
-#: mediacore/templates/admin/players/index.html:56
+#: mediacore/templates/admin/players/index.html:46
 msgid "Priority"
 msgstr "Prioritet"
 
-#: mediacore/templates/admin/players/index.html:78
+#: mediacore/templates/admin/players/index.html:68
 msgid "Up"
 msgstr "Upp"
 
-#: mediacore/templates/admin/players/index.html:79
+#: mediacore/templates/admin/players/index.html:69
 msgid "Down"
 msgstr "Ned"
 
-#: mediacore/templates/admin/podcasts/_podcast-table.html:46
+#: mediacore/templates/admin/podcasts/_podcast-table.html:36
 msgid "Category:"
 msgstr "Kategori:"
 
-#: mediacore/templates/admin/podcasts/_podcast-table.html:48
+#: mediacore/templates/admin/podcasts/_podcast-table.html:38
 msgid "Author:"
 msgstr "Upphovsman:"
 
-#: mediacore/templates/admin/podcasts/_podcast-table.html:52
+#: mediacore/templates/admin/podcasts/_podcast-table.html:42
 msgid "Explicit"
 msgstr "Explicit"
 
-#: mediacore/templates/admin/podcasts/_podcast-table.html:58
+#: mediacore/templates/admin/podcasts/_podcast-table.html:48
 msgid "Add episode"
 msgstr "Lägg till avsnitt"
 
-#: mediacore/templates/admin/podcasts/_podcast-table.html:60
+#: mediacore/templates/admin/podcasts/_podcast-table.html:50
 #, python-format
 msgid "View First Episode %(num)s"
 msgid_plural "View All %(num)s Episodes"
 msgstr[0] "Visa första avsnittet %(num)s"
 msgstr[1] "Visa alla %(num)s avsnitt"
 
-#: mediacore/templates/admin/podcasts/edit.html:23
+#: mediacore/templates/admin/podcasts/edit.html:13
 msgid "Edit Podcast"
 msgstr "Redigera poddsändning"
 
-#: mediacore/templates/admin/podcasts/edit.html:23
-#: mediacore/templates/admin/podcasts/edit.html:95
+#: mediacore/templates/admin/podcasts/edit.html:13
+#: mediacore/templates/admin/podcasts/edit.html:85
 msgid "New Podcast"
 msgstr "Ny poddsändning"
 
-#: mediacore/templates/admin/podcasts/edit.html:104
+#: mediacore/templates/admin/podcasts/edit.html:94
 msgid "View this podcast where it is published"
 msgstr "Se detta podcast där den publiceras"
 
-#: mediacore/templates/admin/podcasts/feed_fieldset.html:30
+#: mediacore/templates/admin/podcasts/feed_fieldset.html:36
 msgid "Get an iTunes URL"
 msgstr "Skaffa en iTunes URL"
 
-#: mediacore/templates/admin/podcasts/feed_fieldset.html:31
+#: mediacore/templates/admin/podcasts/feed_fieldset.html:37
 msgid "Get a Feedburner URL"
 msgstr "Skaffa en Feedburner URL"
 
-#: mediacore/templates/admin/podcasts/index.html:32
+#: mediacore/templates/admin/podcasts/index.html:22
 msgid "Add Podcast"
 msgstr "Lägg till poddsändning"
 
-#: mediacore/templates/admin/settings/advertising.html:24
-#: mediacore/templates/admin/settings/advertising.html:30
-#: mediacore/templates/admin/settings/master.html:47
+#: mediacore/templates/admin/settings/advertising.html:14
+#: mediacore/templates/admin/settings/advertising.html:20
+#: mediacore/templates/admin/settings/master.html:37
 msgid "Advertising"
 msgstr "Reklam"
 
-#: mediacore/templates/admin/settings/analytics.html:24
-#: mediacore/templates/admin/settings/analytics.html:30
-#: mediacore/templates/admin/settings/master.html:50
+#: mediacore/templates/admin/settings/analytics.html:14
+#: mediacore/templates/admin/settings/analytics.html:20
+#: mediacore/templates/admin/settings/master.html:40
 msgid "Analytics"
 msgstr "Analyser"
 
+#: mediacore/templates/admin/settings/api.html:13
 #: mediacore/templates/admin/settings/api.html:23
-#: mediacore/templates/admin/settings/api.html:33
-#: mediacore/templates/admin/settings/master.html:62
+#: mediacore/templates/admin/settings/master.html:52
 msgid "Data API"
 msgstr "Data API"
 
-#: mediacore/templates/admin/settings/api.html:26
+#: mediacore/templates/admin/settings/api.html:16
 msgid "Generate"
 msgstr "Generera"
 
-#: mediacore/templates/admin/settings/appearance.html:24
-#: mediacore/templates/admin/settings/appearance.html:45
-#: mediacore/templates/admin/settings/master.html:53
+#: mediacore/templates/admin/settings/appearance.html:14
+#: mediacore/templates/admin/settings/appearance.html:35
+#: mediacore/templates/admin/settings/master.html:43
 msgid "Appearance"
 msgstr "Utseende"
 
-#: mediacore/templates/admin/settings/appearance.html:33
+#: mediacore/templates/admin/settings/appearance.html:23
 msgid "Confirm Reset"
 msgstr "Bekräfta Återställ"
 
-#: mediacore/templates/admin/settings/appearance.html:34
+#: mediacore/templates/admin/settings/appearance.html:24
 msgid "Are you sure you want to reset your settings to the default?"
 msgstr ""
 "Är du säker på att du vill återställa dina inställningar till "
 "standardvärden?"
 
-#: mediacore/templates/admin/settings/master.html:65
+#: mediacore/templates/admin/settings/importvideos.html:13
+#: mediacore/templates/admin/settings/importvideos.html:21
+#: mediacore/templates/admin/settings/master.html:55
+msgid "YouTube Channel Import"
+msgstr ""
+
+#: mediacore/templates/admin/settings/master.html:58
 msgid "Notifications"
 msgstr "Notifieringar"
 
-#: mediacore/templates/admin/settings/master.html:71
-#: mediacore/templates/admin/settings/popularity.html:23
-#: mediacore/templates/admin/settings/popularity.html:29
+#: mediacore/templates/admin/settings/master.html:64
+#: mediacore/templates/admin/settings/popularity.html:13
+#: mediacore/templates/admin/settings/popularity.html:19
 msgid "Popularity"
 msgstr "Popularitet"
 
-#: mediacore/templates/admin/settings/master.html:74
-#: mediacore/templates/admin/settings/sitemaps.html:24
-#: mediacore/templates/admin/settings/sitemaps.html:30
+#: mediacore/templates/admin/settings/master.html:67
+#: mediacore/templates/admin/settings/sitemaps.html:14
+#: mediacore/templates/admin/settings/sitemaps.html:20
 msgid "RSS and Sitemaps"
 msgstr "RSS och webbplatskartor"
 
-#: mediacore/templates/admin/settings/master.html:77
-#: mediacore/templates/admin/storage/index.html:23
-#: mediacore/templates/admin/storage/index.html:120
+#: mediacore/templates/admin/settings/master.html:70
+#: mediacore/templates/admin/storage/index.html:13
+#: mediacore/templates/admin/storage/index.html:109
 msgid "Storage Engines"
 msgstr "Lagringsmotorer"
 
-#: mediacore/templates/admin/settings/master.html:88
+#: mediacore/templates/admin/settings/master.html:81
 msgid "Plugins"
 msgstr "Insticksmoduler"
 
-#: mediacore/templates/admin/settings/notifications.html:23
-#: mediacore/templates/admin/settings/notifications.html:29
+#: mediacore/templates/admin/settings/notifications.html:13
+#: mediacore/templates/admin/settings/notifications.html:19
 msgid "Notification Emails"
 msgstr "E-postnotifieringar"
 
-#: mediacore/templates/admin/storage/edit.html:30
+#: mediacore/templates/admin/storage/edit.html:20
 msgid "New Storage Engine"
 msgstr "Ny lagingsmotor"
 
-#: mediacore/templates/admin/storage/index.html:32
+#: mediacore/templates/admin/storage/index.html:22
 msgid "WARNING:"
 msgstr "VARNING:"
 
-#: mediacore/templates/admin/storage/index.html:33
+#: mediacore/templates/admin/storage/index.html:23
 #, python-format
 msgid "Deleting this Storage Engine (%(name)s) will:"
 msgstr "Ta bort denna Lagring Motor ( %(name)s ) kommer:"
 
-#: mediacore/templates/admin/storage/index.html:34
+#: mediacore/templates/admin/storage/index.html:24
 #, python-format
 msgid ""
 "Permanently delete all of the %(num)s media files stored by this Storage "
@@ -1938,11 +2134,11 @@ msgstr ""
 "Permanent ta bort alla %(num)s  mediefiler som lagras av denna Lagring "
 "Motor."
 
-#: mediacore/templates/admin/storage/index.html:35
+#: mediacore/templates/admin/storage/index.html:25
 msgid "Permanently erase its settings."
 msgstr "Permanent radera dess inställningar."
 
-#: mediacore/templates/admin/storage/index.html:36
+#: mediacore/templates/admin/storage/index.html:26
 msgid ""
 "An alternative to deleting is disabling. Disabling a Storage Engine will "
 "simply prevent its use for files added from now on."
@@ -1951,104 +2147,116 @@ msgstr ""
 "Motor helt enkelt kommer att hindra dess användning för filer la från och"
 " med nu."
 
-#: mediacore/templates/admin/storage/index.html:121
-#: mediacore/templates/admin/storage/index.html:161
+#: mediacore/templates/admin/storage/index.html:110
+#: mediacore/templates/admin/storage/index.html:150
 msgid "Add New Engine"
 msgstr "Lägg till ny Lagring Motor"
 
-#: mediacore/templates/admin/storage/index.html:129
+#: mediacore/templates/admin/storage/index.html:118
 msgid "Disk Usage"
 msgstr "Diskanvändning"
 
-#: mediacore/templates/admin/storage/index.html:163
+#: mediacore/templates/admin/storage/index.html:152
 msgid "Please select what type of storage engine you would like to add:"
 msgstr "Välj vilken typ av lagring motor du skulle vilja tillägga:"
 
-#: mediacore/templates/admin/tags/index.html:57
-#: mediacore/templates/admin/tags/index.html:79
+#: mediacore/templates/admin/tags/index.html:47
+#: mediacore/templates/admin/tags/index.html:69
 msgid "Add Tag"
 msgstr "Lägg till tagg"
 
-#: mediacore/templates/admin/tags/index.html:83
+#: mediacore/templates/admin/tags/index.html:73
 msgid "Edit Tag"
 msgstr "Redigera tagg"
 
-#: mediacore/templates/admin/tags/index.html:87
+#: mediacore/templates/admin/tags/index.html:77
 msgid "Delete Tag"
 msgstr "Ta bort tagg"
 
-#: mediacore/templates/admin/users/edit.html:44
+#: mediacore/templates/admin/users/edit.html:34
 msgid "New User"
 msgstr "Ny användare"
 
-#: mediacore/templates/admin/users/index.html:36
+#: mediacore/templates/admin/users/index.html:26
 msgid "Are you sure you want to delete this user?"
 msgstr "Är du säker på att du vill ta bort denna användare?"
 
-#: mediacore/templates/admin/users/index.html:46
+#: mediacore/templates/admin/users/index.html:36
 msgid "Add User"
 msgstr "Lägg till användare"
 
-#: mediacore/templates/admin/users/index.html:53
+#: mediacore/templates/admin/users/index.html:43
 msgid "Email"
 msgstr "E-post"
 
-#: mediacore/templates/categories/index.html:30
-#: mediacore/templates/categories/more.html:26
+#: mediacore/templates/categories/index.html:20
+#: mediacore/templates/categories/more.html:16
 #, python-format
 msgid "Latest media in %s"
 msgstr "Senaste medier i %s"
 
-#: mediacore/templates/categories/index.html:38
-#: mediacore/templates/categories/index.html:43
-#: mediacore/templates/media/explore.html:98
-#: mediacore/templates/media/explore.html:113
+#: mediacore/templates/categories/index.html:28
+#: mediacore/templates/media/explore.html:107
+#, fuzzy
+msgid "More new media"
+msgstr "Ej granskade media"
+
+#: mediacore/templates/categories/index.html:28
+#: mediacore/templates/categories/index.html:33
+#: mediacore/templates/media/explore.html:92
+#: mediacore/templates/media/explore.html:107
 msgid "View More"
 msgstr "Visa fler"
 
-#: mediacore/templates/categories/index.html:45
-#: mediacore/templates/categories/more.html:33
+#: mediacore/templates/categories/index.html:33
+#: mediacore/templates/media/explore.html:92
+msgid "More popular media"
+msgstr ""
+
+#: mediacore/templates/categories/index.html:35
+#: mediacore/templates/categories/more.html:23
 msgid "There is no media in this category."
 msgstr "Det finns inget media i denna kategori."
 
-#: mediacore/templates/categories/layout.html:34
+#: mediacore/templates/categories/layout.html:24
 msgid "Choose a Category:"
 msgstr "Välj en kategori:"
 
-#: mediacore/templates/comments/_list.html:38
+#: mediacore/templates/comments/_list.html:28
 #, python-format
 msgid "said on %(datetime)s…"
 msgstr "sade detta den %(datetime)s…"
 
-#: mediacore/templates/comments/_list.html:52
+#: mediacore/templates/comments/_list.html:42
 msgid "No comments have been posted yet."
 msgstr "Inga kommentarer har postats än."
 
-#: mediacore/templates/comments/_list.html:66
+#: mediacore/templates/comments/_list.html:56
 msgid "Write a comment"
 msgstr "Skriv en kommentar"
 
-#: mediacore/templates/comments/_list.html:83
+#: mediacore/templates/comments/_list.html:73
 msgid "Email Address (will never be published)"
 msgstr "E-postadress (kommer aldrig att publiceras)"
 
-#: mediacore/templates/comments/_list.html:101
+#: mediacore/templates/comments/_list.html:91
 msgid "Submit Comment"
 msgstr "Skicka in kommentar"
 
-#: mediacore/templates/media/explore.html:28
+#: mediacore/templates/media/explore.html:18
 msgid "Sitemap XML"
 msgstr "Sidkarta XML"
 
-#: mediacore/templates/media/explore.html:30
+#: mediacore/templates/media/explore.html:21
 msgid "Sitemap RSS"
 msgstr "Sidkarta RSS"
 
-#: mediacore/templates/media/explore.html:32
+#: mediacore/templates/media/explore.html:24
+#: mediacore/templates/media/index.html:15
 msgid "Latest RSS"
 msgstr "Senaste RSS"
 
-#: mediacore/templates/media/explore.html:103
+#: mediacore/templates/media/explore.html:97
 #, python-format
 msgid ""
 "As soon as there are more than %(num)s published videos in the library, "
@@ -2057,81 +2265,77 @@ msgstr ""
 "Så fort det finns mer än %(num)s  publicerade videoklipp i biblioteket, "
 "de mest populära videorna kommer att visas här."
 
-#: mediacore/templates/media/explore.html:104
+#: mediacore/templates/media/explore.html:98
 msgid "Why not add a few more?"
 msgstr "Varför inte ta och lägga till några fler?"
 
-#: mediacore/templates/media/explore.html:116
-msgid "There are no media items published yet!"
-msgstr "Det finns inga mediaobjekt publicerade än!"
-
-#: mediacore/templates/media/index.html:24
+#: mediacore/templates/media/index.html:14
 #, python-format
 msgid "Search: \"%s\""
 msgstr "Sök: \"%s\""
 
-#: mediacore/templates/media/index.html:32
+#: mediacore/templates/media/index.html:22
 #, python-format
 msgid "Showing %(result_count)s results for '%(search_query)s'"
 msgstr "Visar %(result_count)s resultat för \"%(search_query)s\""
 
-#: mediacore/templates/media/index.html:33
+#: mediacore/templates/media/index.html:23
 #, python-format
 msgid "Showing %(result_count)s results tagged with '%(tag_name)s'"
 msgstr "Visar %(result_count)s resultat taggade med \"%(tag_name)s\""
 
-#: mediacore/templates/media/index.html:34
+#: mediacore/templates/media/index.html:24
 #, python-format
 msgid "All %(result_count)s Media"
 msgstr "Alla %(result_count)s media"
 
-#: mediacore/templates/media/tags.html:27
+#: mediacore/templates/media/tags.html:17
 msgid "All Tags"
 msgstr "Alla taggar"
 
-#: mediacore/templates/media/view.html:53
+#: mediacore/templates/media/view.html:45
 msgid "(unpublished)"
 msgstr "(ej publicerad)"
 
-#: mediacore/templates/media/view.html:54
+#: mediacore/templates/media/view.html:46
 #, python-format
 msgid "by %(authorName)s"
 msgstr "av %(authorName)s"
 
-#: mediacore/templates/media/view.html:64
-#: mediacore/templates/players/html5_or_flash.html:34
+#: mediacore/templates/media/view.html:56
+#: mediacore/templates/players/html5_or_flash.html:32
 msgid "Dislike"
 msgid_plural "Dislikes"
 msgstr[0] "person gillar inte"
 msgstr[1] "personer gillar inte"
 
-#: mediacore/templates/media/view.html:79
+#: mediacore/templates/media/view.html:78
 msgid "Related Podcast"
 msgstr "Relaterad poddsändning"
 
-#: mediacore/templates/media/view.html:89
+#: mediacore/templates/media/view.html:88
 msgid "Podcast Episodes"
 msgstr "Poddsändningsavsnitt"
 
-#: mediacore/templates/media/view.html:92
+#: mediacore/templates/media/view.html:91
 msgid "Episode"
 msgid_plural "Episodes"
 msgstr[0] "Avsnitt"
 msgstr[1] "Avsnitt"
 
-#: mediacore/templates/media/view.html:106
+#: mediacore/templates/media/view.html:105
 msgid "Related Media"
 msgstr "Relaterad media"
 
-#: mediacore/templates/media/view.html:114
+#: mediacore/templates/media/view.html:113
 msgid "This is not listed under any categories."
 msgstr "Denna är inte listad under några kategorier."
 
-#: mediacore/templates/media/view.html:118
+#: mediacore/templates/media/view.html:117
 msgid "See All Tags"
 msgstr "Se alla taggar"
 
-#: mediacore/templates/media/view.html:122
+#: mediacore/templates/media/view.html:121
 msgid "This does not have any associated tags."
 msgstr "Denna har inte några associerade taggar."
 
@@ -2187,45 +2391,45 @@ msgstr "Inbäddningsbar spelare HTML:"
 msgid "Download"
 msgstr "Hämta ner"
 
-#: mediacore/templates/podcasts/index.html:30
+#: mediacore/templates/podcasts/index.html:20
 msgid "All Podcasts"
 msgstr "Alla poddsändningar"
 
-#: mediacore/templates/podcasts/index.html:41
-#: mediacore/templates/podcasts/view.html:45
+#: mediacore/templates/podcasts/index.html:31
+#: mediacore/templates/podcasts/view.html:36
 msgid "Add to iTunes"
 msgstr "Lägg till i iTunes"
 
-#: mediacore/templates/podcasts/index.html:42
-#: mediacore/templates/podcasts/view.html:46
+#: mediacore/templates/podcasts/index.html:32
+#: mediacore/templates/podcasts/view.html:37
 msgid "Subscribe via RSS"
 msgstr "Prenumerera via RSS"
 
-#: mediacore/templates/podcasts/index.html:45
+#: mediacore/templates/podcasts/index.html:35
 msgid "Latest Episodes"
 msgstr "Senaste avsnitten"
 
-#: mediacore/templates/podcasts/index.html:52
+#: mediacore/templates/podcasts/index.html:42
 msgid "Browse all episodes"
 msgstr "Bläddra bland alla avsnitt"
 
-#: mediacore/templates/podcasts/view.html:52
+#: mediacore/templates/podcasts/view.html:43
 #, python-format
 msgid "%(result_count)s Episodes"
 msgid_plural "All %(result_count)s Episodes"
 msgstr[0] "%(result_count)s avsnitt"
 msgstr[1] "Alla %(result_count)s avsnitt"
 
-#: mediacore/templates/upload/failure.html:24
-#: mediacore/templates/upload/success.html:24
+#: mediacore/templates/upload/failure.html:14
+#: mediacore/templates/upload/success.html:14
 msgid "Upload Videos"
 msgstr "Skicka upp videor"
 
-#: mediacore/templates/upload/failure.html:29
+#: mediacore/templates/upload/failure.html:19
 msgid "Upload Error"
 msgstr "Fel vid insändning"
 
-#: mediacore/templates/upload/failure.html:33
+#: mediacore/templates/upload/failure.html:23
 msgid ""
 "During your upload, something went wrong, but don't worry. The engineers "
 "and gnomes have been automagically notified and we're already on our way "
@@ -2235,42 +2439,42 @@ msgstr ""
 "ingenjörer och tomtar har automagiskt anmälts och vi är redan på väg att "
 "lösa ditt problem."
 
-#: mediacore/templates/upload/failure.html:35
+#: mediacore/templates/upload/failure.html:25
 msgid "Something you can check:"
 msgstr "Ett par saker som du kan kontrollera:"
 
-#: mediacore/templates/upload/failure.html:37
+#: mediacore/templates/upload/failure.html:27
 #, python-format
 msgid "Is the file under %(maxUploadSize)s Megabytes in size?"
 msgstr "Är filen under %(maxUploadSize)s megabyte i storlek?"
 
-#: mediacore/templates/upload/failure.html:40
+#: mediacore/templates/upload/failure.html:30
 msgid "Try Uploading Again"
 msgstr "Försök att skicka upp igen"
 
-#: mediacore/templates/upload/form.html:59
+#: mediacore/templates/upload/form.html:49
 msgid "Choose a file to upload"
 msgstr "Välj en fil att skicka upp"
 
-#: mediacore/templates/upload/index.html:52
+#: mediacore/templates/upload/index.html:42
 msgid "Problems?"
 msgstr "Svårigheterna?"
 
-#: mediacore/templates/upload/index.html:53
+#: mediacore/templates/upload/index.html:43
 msgid "If you have problems uploading or have some questions, please email us at"
 msgstr ""
 "Om du har problem att ladda upp eller har några frågor, vänligen maila "
 "oss på"
 
-#: mediacore/templates/upload/success.html:30
+#: mediacore/templates/upload/success.html:20
 msgid "Upload Successful"
 msgstr "Insändningen lyckades"
 
-#: mediacore/templates/upload/success.html:34
+#: mediacore/templates/upload/success.html:24
 msgid "Awesome, your upload was successful!"
 msgstr "Grattis! Din insändning lyckades"
 
-#: mediacore/templates/upload/success.html:35
+#: mediacore/templates/upload/success.html:25
 msgid ""
 "Your submission is awaiting review by a moderator and will be posted "
 "shortly."
@@ -2278,11 +2482,35 @@ msgstr ""
 "Din insändning väntar på granskning av en moderator och kommer att "
 "publiceras inom kort."
 
-#: mediacore/templates/upload/success.html:36
+#: mediacore/templates/upload/success.html:26
 msgid ""
 "You will be automatically redirected back to the [1:Media Library] in a "
 "few seconds. Hang tight."
 msgstr ""
 "Du omdirigeras automatiskt tillbaka till [1: mediebiblioteket] i några "
 "sekunder. Hang tight."
+
+#~ msgid "Slug"
+#~ msgstr "Kort länk"
+
+#~ msgid "Site Tag Line"
+#~ msgstr "Site slogan"
+
+#~ msgid "Administrative notes on Media:"
+#~ msgstr "Administrativa anteckningar om Media:"
+
+#~ msgid "Display notes"
+#~ msgstr "Visa anteckningar"
+
+#~ msgid "Akismet Anti-Spam Details:"
+#~ msgstr "Akismet Anti-Spam Detaljer:"
+
+#~ msgid "Vulgarity Filter Settings"
+#~ msgstr "Inställningar för vulgärfilter"
+
+#~ msgid "Run Filter Now"
+#~ msgstr "Kör filter nu"
+
+#~ msgid "There are no media items published yet!"
+#~ msgstr "Det finns inga mediaobjekt publicerade än!"
 
