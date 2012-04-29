@@ -266,7 +266,7 @@ class FlowPlayer(AbstractFlashPlayer):
 
     def swf_url(self):
         """Return the flash player URL."""
-        return url_for('/scripts/third-party/flowplayer-3.2.3.swf',
+        return url_for('/scripts/third-party/flowplayer-3.2.10.swf',
                        qualified=self.qualified)
 
     def flashvars(self):

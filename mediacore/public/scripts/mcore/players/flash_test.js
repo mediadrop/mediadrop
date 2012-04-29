@@ -18,7 +18,7 @@ goog.require('mcore.players.FlashPlayer');
 var dom = goog.dom;
 var $ = dom.getElement;
 var stubs;
-var FLOWPLAYER_URL = '../../third-party/flowplayer-3.2.3.swf';
+var FLOWPLAYER_URL = '../../third-party/flowplayer-3.2.10.swf';
 var YOUTUBE_URL = 'http://youtube.com/v/iDe4v318f64';
 
 var setUp = function() {
