@@ -266,7 +266,7 @@ class CommentsForm(ListForm):
         ]),
         ListFieldSet('facebook', suppress_label=True, legend=N_('Facebook Comments:'), css_classes=['details_fieldset'], children=[
             TextField('facebook_appid', label_text=N_('Application ID'),
-                help_text=N_('See: http://www.facebook.com/developers/createapp.php')),
+                help_text=N_('See: https://developers.facebook.com/apps')),
         ]),
         SubmitButton('save', default=N_('Save'), css_classes=['btn', 'btn-save', 'blue', 'f-rgt']),
     ]
