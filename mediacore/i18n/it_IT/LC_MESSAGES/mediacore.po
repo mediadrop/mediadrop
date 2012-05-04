@@ -695,7 +695,7 @@ msgstr "Mostra logo"
 
 #: mediacore/forms/admin/settings.py:349
 msgid "Display Background Image"
-msgstr "Immagine si sfondo"
+msgstr "Immagine di sfondo"
 
 #: mediacore/forms/admin/settings.py:355
 msgid "Advanced"
