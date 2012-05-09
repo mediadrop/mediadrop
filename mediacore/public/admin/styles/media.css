@@ -5,10 +5,10 @@
  **/
 
 /* Statuses */
-#status-list {
+.status-list {
 	margin: 3px 5px;
 }
-#status-list li {
+.status-list li {
 	padding-left: 20px;
 	margin: 3px 0;
 	font-size: 108%;
@@ -34,12 +34,23 @@
 	color: #417F00;
 	border: 0;
 }
-#status-publish .publish-date {
+#status-publish .publish-date,
+#status-expiry .expiry-date {
 	color: #3372A0;
 	text-transform: none;
 }
-#status-publish:hover .publish-date {
+#status-publish:hover .publish-date,
+#status-expiry:hover .expiry-date {
 	text-decoration: underline;
+}
+.status-list.media-expiry {
+    border-top: 1px solid #B3C4D0;
+    margin: 10px 5px 3px;
+}
+/* need two selectors to overwrite ".status-list li" above */
+.status-list .status-list-expiry {
+	background: url('../images/icons/expiry.png') no-repeat;
+	margin-top: 10px;
 }
 
 .status-unreviewed,

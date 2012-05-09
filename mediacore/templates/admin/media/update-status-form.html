@@ -29,14 +29,17 @@ See LICENSE.txt in the main project directory, for more information.
 			</span>
 			<h1>Publish Status</h1>
 		</div>
-		<div class="box-content" py:choose="" py:with="publish_on=(media.publish_on and media.publish_on.strftime('%b %d %Y @ %H:%M')) or None">
+		<div class="box-content" py:choose="" 
+		    py:with="publish_on=(media.publish_on and media.publish_on.strftime('%b %d %Y @ %H:%M')) or None;
+		        publish_until = (media.publish_until and media.publish_until.strftime('%b %d %Y @ %H:%M')) or None;">
 			<input py:replace="c.publish_on(publish_on)" />
 			<input type="hidden" name="is_published" value="${int(media.is_published)}" />
+			<input py:replace="c.publish_until(publish_until)" />
 			<py:when test="media.id is None">
 				<div class="center">You must add a file and save before review can begin.</div>
 			</py:when>
 			<py:when test="not media.reviewed">
-				<ol id="status-list">
+				<ol class="status-list">
 					<li class="status-list-inprogress">Review Pending</li>
 					<li class="status-list-${media.encoded and 'complete' or 'pending'}">${media.encoded and _('Encoding Complete') or _('Encoding Pending')}</li>
 					<li class="status-list-pending" id="status-publish" title="Click to change the publish date">
@@ -52,7 +55,7 @@ See LICENSE.txt in the main project directory, for more information.
 				</div>
 			</py:when>
 			<py:when test="not media.encoded">
-				<ol id="status-list">
+				<ol class="status-list">
 					<li class="status-list-complete">Review Complete</li>
 					<li class="status-list-inprogress">Encoding Pending</li>
 					<li class="status-list-pending" id="status-publish" title="Click to change the publish date">
@@ -62,7 +65,7 @@ See LICENSE.txt in the main project directory, for more information.
 				<div class="center" style="margin-top:10px">Encoding will be complete when an acceptable file is added.</div>
 			</py:when>
 			<py:when test="not media.publishable">
-				<ol id="status-list">
+				<ol class="status-list">
 					<li class="status-list-complete">Review Complete</li>
 					<li class="status-list-complete">Encoding Complete</li>
 					<li class="status-list-inprogress" id="status-publish" title="Click to change the publish date">
@@ -75,7 +78,7 @@ See LICENSE.txt in the main project directory, for more information.
 				</div>
 			</py:when>
 			<py:when test="media.publishable">
-				<ol id="status-list">
+				<ol class="status-list">
 					<li class="status-list-complete">Review Complete</li>
 					<li class="status-list-complete">Encoding Complete</li>
 					<li class="status-list-complete" id="status-publish" title="Click to change the publish date">
@@ -84,6 +87,11 @@ See LICENSE.txt in the main project directory, for more information.
 					</li>
 				</ol>
 			</py:when>
+            <ol class="status-list media-expiry">
+                <li class="status-list-expiry" id="status-expiry" title="Click to change the expiration date">
+                    Expires <span class="expiry-date" py:content="publish_until or _('never')" />
+                </li>
+            </ol>
 			<div py:if="defined('status_error') and status_error" py:content="status_error" class="center" />
 		</div>
 		<div id="update-status-error" class="box-error hidden" />

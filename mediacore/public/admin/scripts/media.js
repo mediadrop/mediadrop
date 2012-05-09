@@ -180,9 +180,11 @@ var StatusForm = new Class({
 		form: '',
 		error: '',
 		submitReq: {noCache: true},
-		pickerField: 'publish_on',
+		publishPickerField: 'publish_on',
+		publishToggleOn: 'status-publish',
+		expiryPickerField: 'publish_until',
+		expiryToggleOn: 'status-expiry',
 		pickerOptions: {
-			toggle: 'status-publish',
 			yearPicker: false,
 			timePicker: true,
 			allowEmpty: true,
@@ -195,22 +197,41 @@ var StatusForm = new Class({
 	form: null,
 	submitReq: null,
 	publishDatePicker: null,
+	expiryDatePicker: null,
 
 	initialize: function(opts){
 		this.setOptions(opts);
 		this.form = $(this.options.form).addEvent('submit', this.saveStatus.bind(this));
-		this.attachDatePicker();
+		this.attachDatePickers();
 	},
-
-	attachDatePicker: function(){
-		var toggle = $(this.options.pickerOptions.toggle);
-		if (!toggle) return;
-		if (this.publishDatePicker == null) {
-			this.publishDatePicker = new DatePicker(this.options.pickerField, this.options.pickerOptions)
-				.addEvent('select', this.changePublishDate.bind(this));
-		} else {
-			this.publishDatePicker.attach(this.options.pickerField, toggle);
-		}
+    
+    attachDatePickers: function() {
+        this.attachPublishDatePicker();
+        this.attachExpiryDatePicker();
+    },
+    
+	attachPublishDatePicker: function() {
+	    var toggleID = this.options.publishToggleOn;
+	    this.publishDatePicker = this.attachDatePicker(this.publishDatePicker, 
+	        this.options.publishPickerField, toggleID, this.changePublishDate);
+	},
+	
+	attachExpiryDatePicker: function() {
+	    var toggleID = this.options.expiryToggleOn;
+	    this.expiryDatePicker = this.attachDatePicker(this.expiryDatePicker, 
+	        this.options.expiryPickerField, toggleID, this.changeExpiryDate);
+	},
+	
+	attachDatePicker: function(picker, pickerFieldName, toggleID, selectCallback){
+		var toggle = $(toggleID);
+		if (!toggle) 
+		    return picker;
+	    if (picker === null) {
+	        this.options.pickerOptions.toggle = toggleID;
+	        return new DatePicker(pickerFieldName, this.options.pickerOptions)
+				.addEvent('select', selectCallback.bind(this))
+	    }
+	    return picker.attach(pickerFieldName, toggle);
 	},
 
 	saveStatus: function(e){
@@ -238,7 +259,7 @@ var StatusForm = new Class({
 		}
 		var formContents = $(form).getChildren();
 		this.form.empty().adopt(formContents);
-		this.attachDatePicker();
+		this.attachDatePickers();
 		this.fireEvent('update', [this.form, json]);
 	},
 
@@ -259,6 +280,18 @@ var StatusForm = new Class({
 		}).send(new Hash({
 			publish_on: publishDate,
 			update_button: 'Change publish date'
+		}).toQueryString());
+	},
+	
+	changeExpiryDate: function(d) {
+		var expiryDate = d.format(this.options.pickerOptions.format);
+		$(this.expiryDatePicker.options.toggle).getFirst().set('text', expiryDate);
+		
+		var r = new Request.JSON({
+			url: this.form.get('action')
+		}).send(new Hash({
+			publish_until: expiryDate,
+			update_button: 'Change expiry date'
 		}).toQueryString());
 	},
 

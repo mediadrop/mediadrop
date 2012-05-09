@@ -575,7 +575,7 @@ class MediaController(BaseController):
     @validate(update_status_form, error_handler=edit)
     @autocommit
     @observable(events.Admin.MediaController.update_status)
-    def update_status(self, id, status=None, publish_on=None, **values):
+    def update_status(self, id, status=None, publish_on=None, publish_until=None, **values):
         """Update the publish status for the given media.
 
         :param id: Media ID
@@ -586,6 +586,9 @@ class MediaController(BaseController):
         :param publish_on: A date to set to
             :attr:`~mediacore.model.media.Media.publish_on`
         :type publish_on: :class:`datetime.datetime` or ``None``
+        :param publish_until: A date to set to
+            :attr:`~mediacore.model.media.Media.publish_until`
+        :type publish_until: :class:`datetime.datetime` or ``None``
         :rtype: JSON dict
         :returns:
             success
@@ -608,6 +611,8 @@ class MediaController(BaseController):
         elif publish_on:
             media.publish_on = publish_on
             media.update_popularity()
+        elif publish_until:
+            media.publish_until = publish_until
 
         # Verify the change is valid by re-determining the status
         media.update_status()
