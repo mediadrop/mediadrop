@@ -129,12 +129,20 @@ body {
 #logo-dropdown li:first-child a { background-position: -1px -42px; height: 36px; line-height: 36px }
 #logo-dropdown li:first-child a:hover { background-position: -1px -1px }
 
-.copyright {
-	text-align: right;
+
+#admin-footer {
 	color: #95a0b9;
 	font-size: 11px;
 	padding-bottom: 0;
 	margin-bottom: 0;
+}
+
+.mcore-version {
+    float: left;
+}
+
+.copyright {
+	text-align: right;
 }
 
 /* Main Menu */

@@ -90,6 +90,7 @@ __all__ = [
     'gravatar_from_email',
     'is_admin',
     'js',
+    'mediacore_version',
     'pick_any_media_file',
     'pick_podcast_media_file',
     'pretty_file_size',
@@ -113,6 +114,10 @@ def js(source):
     if config['debug'] and source in js_sources_debug:
         return url_for(js_sources_debug[source])
     return url_for(js_sources[source])
+
+def mediacore_version():
+    import mediacore
+    return mediacore.__version__
 
 def duration_from_seconds(total_sec, shortest=True):
     """Return the HH:MM:SS duration for a given number of seconds.
