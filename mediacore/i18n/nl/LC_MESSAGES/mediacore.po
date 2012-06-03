@@ -1,5 +1,5 @@
 # Dutch translations for MediaCore.
-# Copyright (C) 2011 ORGANIZATION
+# Copyright (C) 2012 ORGANIZATION
 # This file is distributed under the same license as the MediaCore project.
 #
 # Translators:
@@ -11,7 +11,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://github.com/mediacore/mediacore-"
 "community/issues\n"
 "POT-Creation-Date: 2012-02-24 11:38+0100\n"
-"PO-Revision-Date: 2011-03-27 19:05+0000\n"
+"PO-Revision-Date: 2012-02-24 11:17+0000\n"
 "Last-Translator: fins <deviant@404blog.net>\n"
 "Language-Team: nl <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
@@ -805,9 +805,8 @@ msgid "Display MediaCore Credits in Footer"
 msgstr ""
 
 #: mediacore/forms/admin/settings.py:380
-#, fuzzy
 msgid "Player Menu Options"
-msgstr "Speler Opties:"
+msgstr ""
 
 #: mediacore/forms/admin/settings.py:385
 msgid "Enable Download button on player menu bar."
@@ -2421,44 +2420,6 @@ msgid ""
 "few seconds. Hang tight."
 msgstr ""
 
-#~ msgid "Slug"
-#~ msgstr "Slug"
-
-#~ msgid ""
-#~ "Allow the player to load related "
-#~ "videos once playback of the initial "
-#~ "video starts. Related videos are "
-#~ "displayed in the \"genie menu\" when "
-#~ "the menu button is pressed."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Show the search box when the video"
-#~ " is minimized. The above option must"
-#~ " be enabled for this to work."
-#~ msgstr ""
-
-#~ msgid "Site Tag Line"
-#~ msgstr ""
-
-#~ msgid "Administrative notes on Media:"
-#~ msgstr ""
-
-#~ msgid "Display notes"
-#~ msgstr ""
-
-#~ msgid "Akismet Anti-Spam Details:"
-#~ msgstr ""
-
-#~ msgid "Vulgarity Filter Settings"
-#~ msgstr ""
-
-#~ msgid "Run Filter Now"
-#~ msgstr ""
-
-#~ msgid "© 2009-2011 Simple Station Inc."
-#~ msgstr ""
-
-#~ msgid "There are no media items published yet!"
-#~ msgstr ""
+"
+msgstr ""
 

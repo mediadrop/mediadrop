@@ -1,5 +1,5 @@
 # Thai translations for MediaCore.
-# Copyright (C) 2011 ORGANIZATION
+# Copyright (C) 2012 ORGANIZATION
 # This file is distributed under the same license as the MediaCore project.
 #
 # Translators:
@@ -10,7 +10,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://github.com/mediacore/mediacore-"
 "community/issues\n"
 "POT-Creation-Date: 2012-02-24 11:38+0100\n"
-"PO-Revision-Date: 2011-03-22 15:06+0000\n"
+"PO-Revision-Date: 2012-02-24 11:18+0000\n"
 "Last-Translator: zdk <nx2zdk@gmail.com>\n"
 "Language-Team: th <LL@li.org>\n"
 "Plural-Forms: nplurals=1; plural=0\n"
@@ -409,23 +409,17 @@ msgid ""
 msgstr ""
 
 #: mediacore/forms/admin/players.py:148
-#, fuzzy
 msgid ""
 "Load related videos once playback of the initial video starts. Related "
 "videos are displayed in the \"genie menu\" when the menu button is "
 "pressed."
 msgstr ""
-"อนุญาตให้ player โหลดวิดีโอที่เกี่ยวข้องกับการเล่นวิดีโอครั้งแรกเริ่ม "
-"วิดีโอที่เกี่ยวข้องจะปรากฏในเมนู \"genie menu\" เมื่อกดปุ่มเมนู"
 
 #: mediacore/forms/admin/players.py:149
-#, fuzzy
 msgid ""
 "Show the search box when the video is minimized. The related videos "
 "option must be enabled for this to work."
 msgstr ""
-"แสดงกล่องค้นหาเมื่อวิดีโอลดเล็ก "
-"ตัวเลือกข้างต้นจะต้องเปิดการใช้งานสำหรับการทำงาน"
 
 #: mediacore/forms/admin/players.py:150
 msgid ""
@@ -434,9 +428,8 @@ msgid ""
 msgstr "แสดงข้อมูล เช่น ชื่อภาพ และ ให้คะแนนก่อนที่วิดีโอจะเริ่มเล่น"
 
 #: mediacore/forms/admin/players.py:153
-#, fuzzy
 msgid "Always show player controls."
-msgstr "ปิดการใช้งานผ่านตัวควบคุมผ่านแป้นพิมพ์ของ player"
+msgstr ""
 
 #: mediacore/forms/admin/players.py:154
 msgid "Autohide all player controls after a video starts playing."
@@ -496,18 +489,16 @@ msgid "Feedburner URL"
 msgstr "Feedburner URL "
 
 #: mediacore/forms/admin/settings.py:28
-#, fuzzy
 msgid "Built-in comments"
-msgstr "ส่งความคิดเห็น"
+msgstr ""
 
 #: mediacore/forms/admin/settings.py:29
 msgid "Facebook comments (requires a Facebook application ID)"
 msgstr ""
 
 #: mediacore/forms/admin/settings.py:30
-#, fuzzy
 msgid "Disable comments"
-msgstr "ดูแลความคิดเห็น"
+msgstr ""
 
 #: mediacore/forms/admin/settings.py:35
 msgid "Enable"
@@ -659,14 +650,12 @@ msgid "Comment Engine"
 msgstr ""
 
 #: mediacore/forms/admin/settings.py:257
-#, fuzzy
 msgid "Built-in Comments:"
-msgstr "ส่งความคิดเห็น"
+msgstr ""
 
 #: mediacore/forms/admin/settings.py:260
-#, fuzzy
 msgid "Moderation"
-msgstr "Moderate"
+msgstr ""
 
 #: mediacore/forms/admin/settings.py:261
 msgid "Require comments to be approved by an admin"
@@ -812,9 +801,8 @@ msgid "Display MediaCore Credits in Footer"
 msgstr ""
 
 #: mediacore/forms/admin/settings.py:380
-#, fuzzy
 msgid "Player Menu Options"
-msgstr "ตัวเลือก Player :"
+msgstr ""
 
 #: mediacore/forms/admin/settings.py:385
 msgid "Enable Download button on player menu bar."
@@ -829,9 +817,8 @@ msgid "Enable Embed button on player menu bar."
 msgstr ""
 
 #: mediacore/forms/admin/settings.py:397
-#, fuzzy
 msgid "Enable Widescreen toggle button on player menu bar."
-msgstr "เปิดใช้งาน media player แบบไวด์สกรีนเป็นค่าเริ่มต้น"
+msgstr ""
 
 #: mediacore/forms/admin/settings.py:401
 msgid "Enable Popout button on player menu bar."
@@ -899,9 +886,8 @@ msgid ""
 msgstr ""
 
 #: mediacore/forms/admin/settings.py:474
-#, fuzzy
 msgid "Publish Videos"
-msgstr "เผยแพร่เดี๋ยวนี้"
+msgstr ""
 
 #: mediacore/forms/admin/settings.py:475
 msgid ""
@@ -1446,9 +1432,8 @@ msgid "Settings"
 msgstr "การตั้งค่า"
 
 #: mediacore/templates/admin/master.html:58
-#, fuzzy
 msgid "© 2009-2012 MediaCore Inc."
-msgstr "© 2009-2011 Simple Station Inc."
+msgstr ""
 
 #: mediacore/templates/admin/categories/index.html:35
 #: mediacore/templates/admin/comments/index.html:33
@@ -2166,9 +2151,8 @@ msgstr "สื่อล่าสุดใน %s"
 
 #: mediacore/templates/categories/index.html:28
 #: mediacore/templates/media/explore.html:107
-#, fuzzy
 msgid "More new media"
-msgstr "สื่อที่ยังไม่ได้ตรวจสอบ"
+msgstr ""
 
 #: mediacore/templates/categories/index.html:28
 #: mediacore/templates/categories/index.html:33
@@ -2451,27 +2435,5 @@ msgstr ""
 "คุณจะได้รับการเปลี่ยนเส้นทางโดยอัตโนมัติกลับไป [1 : Media Library] "
 "ในไม่กี่วินาที  กรุณารอสักครู่"
 
-#~ msgid "Slug"
-#~ msgstr "Slug"
-
-#~ msgid "Site Tag Line"
-#~ msgstr "Tag Line เว็บไซต์"
-
-#~ msgid "Administrative notes on Media:"
-#~ msgstr "บันทึกการจัดการสื่อ:"
-
-#~ msgid "Display notes"
-#~ msgstr "บันทึกการแสดงผล"
-
-#~ msgid "Akismet Anti-Spam Details:"
-#~ msgstr "รายละเอียด Akismet Anti - Spam :"
-
-#~ msgid "Vulgarity Filter Settings"
-#~ msgstr "การตั้งค่ากรองคำหยาบ"
-
-#~ msgid "Run Filter Now"
-#~ msgstr "รันตัวกรองเดี๋ยวนี้"
-
-#~ msgid "There are no media items published yet!"
-#~ msgstr "ไม่มีรายการสื่อที่ถูกเผยแพร่"
+��ครู่"
 

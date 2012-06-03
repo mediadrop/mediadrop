@@ -1,5 +1,5 @@
 # Italian (Italy) translations for MediaCore.
-# Copyright (C) 2011 ORGANIZATION
+# Copyright (C) 2012 ORGANIZATION
 # This file is distributed under the same license as the MediaCore project.
 #
 # Translators:
@@ -11,7 +11,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://github.com/mediacore/mediacore-"
 "community/issues\n"
 "POT-Creation-Date: 2012-02-24 11:38+0100\n"
-"PO-Revision-Date: 2011-03-22 15:06+0000\n"
+"PO-Revision-Date: 2012-02-24 11:17+0000\n"
 "Last-Translator: Jan-Erik Finlander <janerik.finlander@gmail.com>\n"
 "Language-Team: it_IT <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
@@ -413,24 +413,17 @@ msgid ""
 msgstr ""
 
 #: mediacore/forms/admin/players.py:148
-#, fuzzy
 msgid ""
 "Load related videos once playback of the initial video starts. Related "
 "videos are displayed in the \"genie menu\" when the menu button is "
 "pressed."
 msgstr ""
-"Consentono al visualizzatore di caricare i video correlati, una volta "
-"avviata la riproduzione del video iniziale. Video correlati vengono "
-"visualizzati nel menu \"genio\" quando il pulsante del menu è premuto."
 
 #: mediacore/forms/admin/players.py:149
-#, fuzzy
 msgid ""
 "Show the search box when the video is minimized. The related videos "
 "option must be enabled for this to work."
 msgstr ""
-"Mostra la casella di ricerca quando il video è ridotto al minimo. "
-"L'opzione precedente deve essere abilitata per far funzionare questa."
 
 #: mediacore/forms/admin/players.py:150
 msgid ""
@@ -441,9 +434,8 @@ msgstr ""
 "prima che il video venga riprodotto."
 
 #: mediacore/forms/admin/players.py:153
-#, fuzzy
 msgid "Always show player controls."
-msgstr "Disabilita la  tastiera di controllo del visualizzatore."
+msgstr ""
 
 #: mediacore/forms/admin/players.py:154
 msgid "Autohide all player controls after a video starts playing."
@@ -503,18 +495,16 @@ msgid "Feedburner URL"
 msgstr "Feedburner URL"
 
 #: mediacore/forms/admin/settings.py:28
-#, fuzzy
 msgid "Built-in comments"
-msgstr "Sottometti un commento"
+msgstr ""
 
 #: mediacore/forms/admin/settings.py:29
 msgid "Facebook comments (requires a Facebook application ID)"
 msgstr ""
 
 #: mediacore/forms/admin/settings.py:30
-#, fuzzy
 msgid "Disable comments"
-msgstr "Modera commenti"
+msgstr ""
 
 #: mediacore/forms/admin/settings.py:35
 msgid "Enable"
@@ -666,14 +656,12 @@ msgid "Comment Engine"
 msgstr ""
 
 #: mediacore/forms/admin/settings.py:257
-#, fuzzy
 msgid "Built-in Comments:"
-msgstr "Sottometti un commento"
+msgstr ""
 
 #: mediacore/forms/admin/settings.py:260
-#, fuzzy
 msgid "Moderation"
-msgstr "Moderata"
+msgstr ""
 
 #: mediacore/forms/admin/settings.py:261
 msgid "Require comments to be approved by an admin"
@@ -819,9 +807,8 @@ msgid "Display MediaCore Credits in Footer"
 msgstr ""
 
 #: mediacore/forms/admin/settings.py:380
-#, fuzzy
 msgid "Player Menu Options"
-msgstr "Opzioni del visualizzatore:"
+msgstr ""
 
 #: mediacore/forms/admin/settings.py:385
 msgid "Enable Download button on player menu bar."
@@ -836,9 +823,8 @@ msgid "Enable Embed button on player menu bar."
 msgstr ""
 
 #: mediacore/forms/admin/settings.py:397
-#, fuzzy
 msgid "Enable Widescreen toggle button on player menu bar."
-msgstr "Abilita il visualizzatore widescreen di default"
+msgstr ""
 
 #: mediacore/forms/admin/settings.py:401
 msgid "Enable Popout button on player menu bar."
@@ -906,9 +892,8 @@ msgid ""
 msgstr ""
 
 #: mediacore/forms/admin/settings.py:474
-#, fuzzy
 msgid "Publish Videos"
-msgstr "Pubblica ora"
+msgstr ""
 
 #: mediacore/forms/admin/settings.py:475
 msgid ""
@@ -1477,9 +1462,8 @@ msgid "Settings"
 msgstr "Impostazioni"
 
 #: mediacore/templates/admin/master.html:58
-#, fuzzy
 msgid "© 2009-2012 MediaCore Inc."
-msgstr "© 2009-2011 Simple Station Inc."
+msgstr ""
 
 #: mediacore/templates/admin/categories/index.html:35
 #: mediacore/templates/admin/comments/index.html:33
@@ -2209,9 +2193,8 @@ msgstr "Ultimi media in %s"
 
 #: mediacore/templates/categories/index.html:28
 #: mediacore/templates/media/explore.html:107
-#, fuzzy
 msgid "More new media"
-msgstr "Media non Recensito"
+msgstr ""
 
 #: mediacore/templates/categories/index.html:28
 #: mediacore/templates/categories/index.html:33
@@ -2501,28 +2484,4 @@ msgid ""
 msgstr ""
 "Sarai automaticamente reindirizzato alla [1:Media Library] in pochi "
 "secondi. Attendere prego."
-
-#~ msgid "Slug"
-#~ msgstr "Esempio"
-
-#~ msgid "Site Tag Line"
-#~ msgstr "Linea dei Tag del Sito"
-
-#~ msgid "Administrative notes on Media:"
-#~ msgstr "Note amministrative sul media"
-
-#~ msgid "Display notes"
-#~ msgstr "Mostra note"
-
-#~ msgid "Akismet Anti-Spam Details:"
-#~ msgstr "Dettagli Akismet Anti-Spam:"
-
-#~ msgid "Vulgarity Filter Settings"
-#~ msgstr "Impostazioni del filtro volgarità"
-
-#~ msgid "Run Filter Now"
-#~ msgstr "Esegui Filtro Ora"
-
-#~ msgid "There are no media items published yet!"
-#~ msgstr "Non ci sono ancora elementi multimediali pubblicati!"
 

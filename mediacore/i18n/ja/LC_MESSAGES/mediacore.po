@@ -1,5 +1,5 @@
 # Japanese translations for MediaCore.
-# Copyright (C) 2011 ORGANIZATION
+# Copyright (C) 2012 ORGANIZATION
 # This file is distributed under the same license as the MediaCore project.
 #
 # Translators:
@@ -11,7 +11,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://github.com/mediacore/mediacore-"
 "community/issues\n"
 "POT-Creation-Date: 2012-02-24 11:38+0100\n"
-"PO-Revision-Date: 2011-08-17 02:12+0000\n"
+"PO-Revision-Date: 2012-02-24 11:19+0000\n"
 "Last-Translator: yorosiku <yorosiku@goo.jp>\n"
 "Language-Team: ja <LL@li.org>\n"
 "Plural-Forms: nplurals=1; plural=0\n"
@@ -411,21 +411,17 @@ msgid ""
 msgstr ""
 
 #: mediacore/forms/admin/players.py:148
-#, fuzzy
 msgid ""
 "Load related videos once playback of the initial video starts. Related "
 "videos are displayed in the \"genie menu\" when the menu button is "
 "pressed."
 msgstr ""
-"最初のメディアの再生が開始されるとプレイヤーが関連メディアを読み込むことができます。 "
-"関連メディアは、一般設定で表示されているメニューボタンが押されたとき。"
 
 #: mediacore/forms/admin/players.py:149
-#, fuzzy
 msgid ""
 "Show the search box when the video is minimized. The related videos "
 "option must be enabled for this to work."
-msgstr "ビデオを最小化したときに検索ボックスを表示する。このオプションが機能するために有効にする必要があります。"
+msgstr ""
 
 #: mediacore/forms/admin/players.py:150
 msgid ""
@@ -434,9 +430,8 @@ msgid ""
 msgstr "ビデオの再生を開始する前にビデオのタイトルや評価などの情報を表示します。"
 
 #: mediacore/forms/admin/players.py:153
-#, fuzzy
 msgid "Always show player controls."
-msgstr "プレーヤコントロールを無効にします。"
+msgstr ""
 
 #: mediacore/forms/admin/players.py:154
 msgid "Autohide all player controls after a video starts playing."
@@ -496,18 +491,16 @@ msgid "Feedburner URL"
 msgstr "Feedburner URL"
 
 #: mediacore/forms/admin/settings.py:28
-#, fuzzy
 msgid "Built-in comments"
-msgstr "コメント投稿"
+msgstr ""
 
 #: mediacore/forms/admin/settings.py:29
 msgid "Facebook comments (requires a Facebook application ID)"
 msgstr ""
 
 #: mediacore/forms/admin/settings.py:30
-#, fuzzy
 msgid "Disable comments"
-msgstr "認証待ちコメント"
+msgstr ""
 
 #: mediacore/forms/admin/settings.py:35
 msgid "Enable"
@@ -659,14 +652,12 @@ msgid "Comment Engine"
 msgstr ""
 
 #: mediacore/forms/admin/settings.py:257
-#, fuzzy
 msgid "Built-in Comments:"
-msgstr "コメント投稿"
+msgstr ""
 
 #: mediacore/forms/admin/settings.py:260
-#, fuzzy
 msgid "Moderation"
-msgstr "編集"
+msgstr ""
 
 #: mediacore/forms/admin/settings.py:261
 msgid "Require comments to be approved by an admin"
@@ -812,9 +803,8 @@ msgid "Display MediaCore Credits in Footer"
 msgstr ""
 
 #: mediacore/forms/admin/settings.py:380
-#, fuzzy
 msgid "Player Menu Options"
-msgstr "Playerのオプション："
+msgstr ""
 
 #: mediacore/forms/admin/settings.py:385
 msgid "Enable Download button on player menu bar."
@@ -829,9 +819,8 @@ msgid "Enable Embed button on player menu bar."
 msgstr ""
 
 #: mediacore/forms/admin/settings.py:397
-#, fuzzy
 msgid "Enable Widescreen toggle button on player menu bar."
-msgstr "ワイドスクリーン有効"
+msgstr ""
 
 #: mediacore/forms/admin/settings.py:401
 msgid "Enable Popout button on player menu bar."
@@ -899,9 +888,8 @@ msgid ""
 msgstr ""
 
 #: mediacore/forms/admin/settings.py:474
-#, fuzzy
 msgid "Publish Videos"
-msgstr "すぐに公開"
+msgstr ""
 
 #: mediacore/forms/admin/settings.py:475
 msgid ""
@@ -1458,9 +1446,8 @@ msgid "Settings"
 msgstr "設定"
 
 #: mediacore/templates/admin/master.html:58
-#, fuzzy
 msgid "© 2009-2012 MediaCore Inc."
-msgstr "© 2009-2011 Simple Station Inc."
+msgstr ""
 
 #: mediacore/templates/admin/categories/index.html:35
 #: mediacore/templates/admin/comments/index.html:33
@@ -2180,9 +2167,8 @@ msgstr "最新メディア%s"
 
 #: mediacore/templates/categories/index.html:28
 #: mediacore/templates/media/explore.html:107
-#, fuzzy
 msgid "More new media"
-msgstr "未認証メディア"
+msgstr ""
 
 #: mediacore/templates/categories/index.html:28
 #: mediacore/templates/categories/index.html:33
@@ -2459,27 +2445,5 @@ msgid ""
 "few seconds. Hang tight."
 msgstr "少しお待ちください。[1:Media Library]へリダイレクトされます"
 
-#~ msgid "Slug"
-#~ msgstr "Slug"
-
-#~ msgid "Site Tag Line"
-#~ msgstr "Site Tag Line"
-
-#~ msgid "Administrative notes on Media:"
-#~ msgstr "Administrative notes on Media:"
-
-#~ msgid "Display notes"
-#~ msgstr "Display notes"
-
-#~ msgid "Akismet Anti-Spam Details:"
-#~ msgstr "Akismet Anti-Spam 詳細:"
-
-#~ msgid "Vulgarity Filter Settings"
-#~ msgstr "禁止フィルタ設定"
-
-#~ msgid "Run Filter Now"
-#~ msgstr "すぐにフィルタを有効にする"
-
-#~ msgid "There are no media items published yet!"
-#~ msgstr "公開メディアがありません!"
+�れます"
 

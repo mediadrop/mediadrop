@@ -1,5 +1,5 @@
 # Tamil translations for MediaCore.
-# Copyright (C) 2011 ORGANIZATION
+# Copyright (C) 2012 ORGANIZATION
 # This file is distributed under the same license as the MediaCore project.
 #
 # Translators:
@@ -10,7 +10,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://github.com/mediacore/mediacore-"
 "community/issues\n"
 "POT-Creation-Date: 2012-02-24 11:38+0100\n"
-"PO-Revision-Date: 2011-03-22 15:06+0000\n"
+"PO-Revision-Date: 2012-02-24 11:18+0000\n"
 "Last-Translator: Siddharth Jeevagan <siddharth.jeevagan@gmail.com>\n"
 "Language-Team: ta <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
@@ -2420,45 +2420,4 @@ msgid ""
 "You will be automatically redirected back to the [1:Media Library] in a "
 "few seconds. Hang tight."
 msgstr ""
-
-#~ msgid "Slug"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Allow the player to load related "
-#~ "videos once playback of the initial "
-#~ "video starts. Related videos are "
-#~ "displayed in the \"genie menu\" when "
-#~ "the menu button is pressed."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Show the search box when the video"
-#~ " is minimized. The above option must"
-#~ " be enabled for this to work."
-#~ msgstr ""
-
-#~ msgid "Site Tag Line"
-#~ msgstr ""
-
-#~ msgid "Administrative notes on Media:"
-#~ msgstr ""
-
-#~ msgid "Display notes"
-#~ msgstr ""
-
-#~ msgid "Akismet Anti-Spam Details:"
-#~ msgstr ""
-
-#~ msgid "Vulgarity Filter Settings"
-#~ msgstr "தகாத வார்த்தை / ஆபாசமான பொருள்களை வடிகட்டும் செயற்பாடு "
-
-#~ msgid "Run Filter Now"
-#~ msgstr ""
-
-#~ msgid "© 2009-2011 Simple Station Inc."
-#~ msgstr ""
-
-#~ msgid "There are no media items published yet!"
-#~ msgstr ""
 

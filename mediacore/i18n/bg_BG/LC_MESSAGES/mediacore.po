@@ -1,5 +1,5 @@
 # Bulgarian (Bulgaria) translations for MediaCore.
-# Copyright (C) 2011 ORGANIZATION
+# Copyright (C) 2012 ORGANIZATION
 # This file is distributed under the same license as the MediaCore project.
 #
 # Translators:
@@ -10,7 +10,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://github.com/mediacore/mediacore-"
 "community/issues\n"
 "POT-Creation-Date: 2012-02-24 11:38+0100\n"
-"PO-Revision-Date: 2011-03-22 15:06+0000\n"
+"PO-Revision-Date: 2012-02-24 11:19+0000\n"
 "Last-Translator: Lyudmil Arkov <l.arkov@gmail.com>\n"
 "Language-Team: bg_BG <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
@@ -494,18 +494,16 @@ msgid "Feedburner URL"
 msgstr ""
 
 #: mediacore/forms/admin/settings.py:28
-#, fuzzy
 msgid "Built-in comments"
-msgstr "Добави коментар"
+msgstr ""
 
 #: mediacore/forms/admin/settings.py:29
 msgid "Facebook comments (requires a Facebook application ID)"
 msgstr ""
 
 #: mediacore/forms/admin/settings.py:30
-#, fuzzy
 msgid "Disable comments"
-msgstr "Модериране на коментари"
+msgstr ""
 
 #: mediacore/forms/admin/settings.py:35
 msgid "Enable"
@@ -657,14 +655,12 @@ msgid "Comment Engine"
 msgstr ""
 
 #: mediacore/forms/admin/settings.py:257
-#, fuzzy
 msgid "Built-in Comments:"
-msgstr "Добави коментар"
+msgstr ""
 
 #: mediacore/forms/admin/settings.py:260
-#, fuzzy
 msgid "Moderation"
-msgstr "Модериране"
+msgstr ""
 
 #: mediacore/forms/admin/settings.py:261
 msgid "Require comments to be approved by an admin"
@@ -810,9 +806,8 @@ msgid "Display MediaCore Credits in Footer"
 msgstr ""
 
 #: mediacore/forms/admin/settings.py:380
-#, fuzzy
 msgid "Player Menu Options"
-msgstr "Опции на плейъра:"
+msgstr ""
 
 #: mediacore/forms/admin/settings.py:385
 msgid "Enable Download button on player menu bar."
@@ -896,9 +891,8 @@ msgid ""
 msgstr ""
 
 #: mediacore/forms/admin/settings.py:474
-#, fuzzy
 msgid "Publish Videos"
-msgstr "Публикувай сега"
+msgstr ""
 
 #: mediacore/forms/admin/settings.py:475
 msgid ""
@@ -2435,44 +2429,5 @@ msgstr ""
 "Вие ще бъдете автоматично пренасочени обратно към [1:Media Library] в "
 "рамките на няколко секунди. Дръжте се."
 
-#~ msgid "Slug"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Allow the player to load related "
-#~ "videos once playback of the initial "
-#~ "video starts. Related videos are "
-#~ "displayed in the \"genie menu\" when "
-#~ "the menu button is pressed."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Show the search box when the video"
-#~ " is minimized. The above option must"
-#~ " be enabled for this to work."
-#~ msgstr ""
-
-#~ msgid "Site Tag Line"
-#~ msgstr "Мото на сайта"
-
-#~ msgid "Administrative notes on Media:"
-#~ msgstr ""
-
-#~ msgid "Display notes"
-#~ msgstr "Покажи бележки"
-
-#~ msgid "Akismet Anti-Spam Details:"
-#~ msgstr ""
-
-#~ msgid "Vulgarity Filter Settings"
-#~ msgstr ""
-
-#~ msgid "Run Filter Now"
-#~ msgstr "Пусни филтъра"
-
-#~ msgid "© 2009-2011 Simple Station Inc."
-#~ msgstr ""
-
-#~ msgid "There are no media items published yet!"
-#~ msgstr ""
+е."
 

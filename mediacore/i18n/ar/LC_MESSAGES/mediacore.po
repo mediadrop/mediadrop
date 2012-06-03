@@ -1,5 +1,5 @@
 # Arabic translations for MediaCore.
-# Copyright (C) 2011 ORGANIZATION
+# Copyright (C) 2012 ORGANIZATION
 # This file is distributed under the same license as the MediaCore project.
 #
 # Translators:
@@ -11,7 +11,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://github.com/mediacore/mediacore-"
 "community/issues\n"
 "POT-Creation-Date: 2012-02-24 11:38+0100\n"
-"PO-Revision-Date: 2011-03-23 21:16+0000\n"
+"PO-Revision-Date: 2012-02-24 11:17+0000\n"
 "Last-Translator: sef <sef4sef@gmail.com>\n"
 "Language-Team: ar <LL@li.org>\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : "
@@ -416,24 +416,17 @@ msgid ""
 msgstr ""
 
 #: mediacore/forms/admin/players.py:148
-#, fuzzy
 msgid ""
 "Load related videos once playback of the initial video starts. Related "
 "videos are displayed in the \"genie menu\" when the menu button is "
 "pressed."
 msgstr ""
-"السماح للمشغل بتحميل ملفات فيديو عند بدء تشغيل الفيديو الابتدائي. ملفات "
-"الفيديو ذات العلاقة سيتم عرضها في \"قائمة المارد\" عند الضغط على زر "
-"القائمة"
 
 #: mediacore/forms/admin/players.py:149
-#, fuzzy
 msgid ""
 "Show the search box when the video is minimized. The related videos "
 "option must be enabled for this to work."
 msgstr ""
-"إظهار مربع البحث عند تصغير الفيديو. يجب تمكين الخيار أعلاه للحصول على هذه"
-" الميزة."
 
 #: mediacore/forms/admin/players.py:150
 msgid ""
@@ -442,9 +435,8 @@ msgid ""
 msgstr ".عرض معلومات مثل عنوان الفيديو و التصويت على الفيديو قبل أن يبدأ التشغيل"
 
 #: mediacore/forms/admin/players.py:153
-#, fuzzy
 msgid "Always show player controls."
-msgstr "تعطيل أزرار التحكم الخصاصة بالمشغل."
+msgstr ""
 
 #: mediacore/forms/admin/players.py:154
 msgid "Autohide all player controls after a video starts playing."
@@ -504,18 +496,16 @@ msgid "Feedburner URL"
 msgstr "عنوان فيدبيرنر "
 
 #: mediacore/forms/admin/settings.py:28
-#, fuzzy
 msgid "Built-in comments"
-msgstr "إرسال تعليق"
+msgstr ""
 
 #: mediacore/forms/admin/settings.py:29
 msgid "Facebook comments (requires a Facebook application ID)"
 msgstr ""
 
 #: mediacore/forms/admin/settings.py:30
-#, fuzzy
 msgid "Disable comments"
-msgstr "مراجعة التعليقات"
+msgstr ""
 
 #: mediacore/forms/admin/settings.py:35
 msgid "Enable"
@@ -667,14 +657,12 @@ msgid "Comment Engine"
 msgstr ""
 
 #: mediacore/forms/admin/settings.py:257
-#, fuzzy
 msgid "Built-in Comments:"
-msgstr "إرسال تعليق"
+msgstr ""
 
 #: mediacore/forms/admin/settings.py:260
-#, fuzzy
 msgid "Moderation"
-msgstr "مراجعة"
+msgstr ""
 
 #: mediacore/forms/admin/settings.py:261
 msgid "Require comments to be approved by an admin"
@@ -820,9 +808,8 @@ msgid "Display MediaCore Credits in Footer"
 msgstr ""
 
 #: mediacore/forms/admin/settings.py:380
-#, fuzzy
 msgid "Player Menu Options"
-msgstr "خيارات المشغّل"
+msgstr ""
 
 #: mediacore/forms/admin/settings.py:385
 msgid "Enable Download button on player menu bar."
@@ -837,9 +824,8 @@ msgid "Enable Embed button on player menu bar."
 msgstr ""
 
 #: mediacore/forms/admin/settings.py:397
-#, fuzzy
 msgid "Enable Widescreen toggle button on player menu bar."
-msgstr "تمكين مشغل الوسائط في وضعية الشاشة العريضة افتراضيا"
+msgstr ""
 
 #: mediacore/forms/admin/settings.py:401
 msgid "Enable Popout button on player menu bar."
@@ -907,9 +893,8 @@ msgid ""
 msgstr ""
 
 #: mediacore/forms/admin/settings.py:474
-#, fuzzy
 msgid "Publish Videos"
-msgstr "النشر الآن"
+msgstr ""
 
 #: mediacore/forms/admin/settings.py:475
 msgid ""
@@ -1480,9 +1465,8 @@ msgid "Settings"
 msgstr "الإعدادات"
 
 #: mediacore/templates/admin/master.html:58
-#, fuzzy
 msgid "© 2009-2012 MediaCore Inc."
-msgstr "© 2009-2011 Simple Station Inc."
+msgstr ""
 
 #: mediacore/templates/admin/categories/index.html:35
 #: mediacore/templates/admin/comments/index.html:33
@@ -2205,9 +2189,8 @@ msgstr "الوسائط  الأحدث%s"
 
 #: mediacore/templates/categories/index.html:28
 #: mediacore/templates/media/explore.html:107
-#, fuzzy
 msgid "More new media"
-msgstr "وسائط لم تتم مراجعتها"
+msgstr ""
 
 #: mediacore/templates/categories/index.html:28
 #: mediacore/templates/categories/index.html:33
@@ -2503,27 +2486,5 @@ msgid ""
 "few seconds. Hang tight."
 msgstr "سيتم نقلك آليا إلى [1:Media Library] خلال ثوان... نرجو الانتظار"
 
-#~ msgid "Slug"
-#~ msgstr "المُعرّف"
-
-#~ msgid "Site Tag Line"
-#~ msgstr "سطر دالّةالموقع"
-
-#~ msgid "Administrative notes on Media:"
-#~ msgstr "ملاحظات إدارية على الوسائط"
-
-#~ msgid "Display notes"
-#~ msgstr "عرض الملاحظات"
-
-#~ msgid "Akismet Anti-Spam Details:"
-#~ msgstr "تفاصيل أكيسمت مكافحة البريد المزعج :"
-
-#~ msgid "Vulgarity Filter Settings"
-#~ msgstr "إعدادات تصفية الكلمات المبتذلة"
-
-#~ msgid "Run Filter Now"
-#~ msgstr "تشغيل التصفية الآن"
-
-#~ msgid "There are no media items published yet!"
-#~ msgstr "لا يوجد أي عنصر وسائط منشور لحد الآن!"
+�انتظار"
 

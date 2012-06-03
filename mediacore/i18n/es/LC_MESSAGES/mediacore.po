@@ -1,9 +1,10 @@
 # Spanish translations for MediaCore.
-# Copyright (C) 2011 ORGANIZATION
+# Copyright (C) 2012 ORGANIZATION
 # This file is distributed under the same license as the MediaCore project.
 #
 # Translators:
 # Jan-Erik Finlander <jefinlander@gmail.com>, 2011.
+# Julio  <>, 2012.
 # rubenl <ruben-lozano@hotmail.es>, 2011.
 msgid ""
 msgstr ""
@@ -11,7 +12,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://github.com/mediacore/mediacore-"
 "community/issues\n"
 "POT-Creation-Date: 2012-02-24 11:38+0100\n"
-"PO-Revision-Date: 2011-04-28 06:36+0000\n"
+"PO-Revision-Date: 2012-04-19 10:46+0000\n"
 "Last-Translator: Jan-Erik Finlander <janerik.finlander@gmail.com>\n"
 "Language-Team: es <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
@@ -67,11 +68,11 @@ msgstr "Tipo de imagen inadecuado:%s"
 #: mediacore/controllers/admin/media.py:556
 #: mediacore/controllers/admin/podcasts.py:210
 msgid "Interlaced PNGs are not supported."
-msgstr ""
+msgstr "No se soportan los PNG entrelazados"
 
 #: mediacore/controllers/admin/podcasts.py:90
 msgid "Save the podcast to get your feed URL"
-msgstr ""
+msgstr "Guarde el podcast para obtener la URL del feed"
 
 #: mediacore/forms/__init__.py:185
 msgid "The portion of the email address before the @ is invalid"
@@ -362,27 +363,27 @@ msgstr "Opciones de reproductor:"
 
 #: mediacore/forms/admin/players.py:127
 msgid "Use the deprecated AS2 player."
-msgstr ""
+msgstr "Usar el reproductor obsoleto AS2"
 
 #: mediacore/forms/admin/players.py:128
 msgid "Use the AS3 player."
-msgstr ""
+msgstr "Usar el reproductor AS3"
 
 #: mediacore/forms/admin/players.py:131
 msgid "YouTube player version"
-msgstr ""
+msgstr "Versión del reproductor Youtube"
 
 #: mediacore/forms/admin/players.py:136
 msgid "Show video annotations by default."
-msgstr ""
+msgstr "Mostrar por defecto las anotaciones en el vídeo"
 
 #: mediacore/forms/admin/players.py:137
 msgid "Hide video annotations by default."
-msgstr ""
+msgstr "Ocultar por defecto las anotaciones en el vídeo"
 
 #: mediacore/forms/admin/players.py:140
 msgid "Video annotations"
-msgstr ""
+msgstr "Anotaciones en el vídeo"
 
 #: mediacore/forms/admin/players.py:143
 msgid "Disable the player keyboard controls."
@@ -390,15 +391,15 @@ msgstr "Desactivar los controles del reproductor."
 
 #: mediacore/forms/admin/players.py:144
 msgid "Autoplay the video video when the player loads."
-msgstr ""
+msgstr "Reproducir automáticamente el vídeo cuando el reproductor cargue"
 
 #: mediacore/forms/admin/players.py:145
 msgid "Do not show a YouTube logo in the player controls"
-msgstr ""
+msgstr "No mostrar el logo de Youtube en los controles del reproductor"
 
 #: mediacore/forms/admin/players.py:145
 msgid "Supported by AS3 only."
-msgstr ""
+msgstr "Soportado sólo por AS3"
 
 #: mediacore/forms/admin/players.py:146
 msgid "Enable fullscreen."
@@ -413,26 +414,26 @@ msgid ""
 "The AS3 player will automatically play the version of the video that is "
 "appropriate for your player's size."
 msgstr ""
+"El reproductor AS3 reproducirá automáticamente la versión del vídeo más "
+"apropiada para el tamaño de su reproductor"
 
 #: mediacore/forms/admin/players.py:148
-#, fuzzy
 msgid ""
 "Load related videos once playback of the initial video starts. Related "
 "videos are displayed in the \"genie menu\" when the menu button is "
 "pressed."
 msgstr ""
-"Permita que el reproductor cargue vídeos relacionados cuando inicie la "
-"reproducción del vídeo inicial. Los vídeos relacionados se mostrarán en "
-"el \"menú genie \" presionando el botón del menú."
+"Cargar vídeos relacionados una vez la reproducción del vídeo inicial "
+"comienza. Los vídeos relacionados se muestran en el menú una vez el botón"
+" de menú se ha presionado."
 
 #: mediacore/forms/admin/players.py:149
-#, fuzzy
 msgid ""
 "Show the search box when the video is minimized. The related videos "
 "option must be enabled for this to work."
 msgstr ""
-"Mostrar el cuadro de búsqueda cuando el vídeo está minimizado. Esta "
-"opción debe estar habilitada para que esto funcione."
+"Mostrar la caja de búsqueda cuando se minimiza el vídeo. La opción de "
+"vídeos relacionados debe estar habilitada para que esto funcione."
 
 #: mediacore/forms/admin/players.py:150
 msgid ""
@@ -443,21 +444,24 @@ msgstr ""
 "reproducirse."
 
 #: mediacore/forms/admin/players.py:153
-#, fuzzy
 msgid "Always show player controls."
-msgstr "Desactivar los controles del reproductor."
+msgstr "Mostrar siempre los controles del reproductor."
 
 #: mediacore/forms/admin/players.py:154
 msgid "Autohide all player controls after a video starts playing."
 msgstr ""
+"Esconder automáticamente los controles del reproductor cuando el vídeo "
+"comience a reproducirse."
 
 #: mediacore/forms/admin/players.py:155
 msgid "Autohide only the progress bar after a video starts playing."
 msgstr ""
+"Esconder sólo la barra de progreso cuando el vídeo comience a "
+"reproducirse."
 
 #: mediacore/forms/admin/players.py:158
 msgid "Player control hiding"
-msgstr ""
+msgstr "Escondido de los controles del reproductor"
 
 #: mediacore/forms/admin/podcasts.py:25
 msgid "Parental Advisory"
@@ -505,18 +509,16 @@ msgid "Feedburner URL"
 msgstr "URL de Feedburner"
 
 #: mediacore/forms/admin/settings.py:28
-#, fuzzy
 msgid "Built-in comments"
-msgstr "Enviar comentario"
+msgstr "Comentarios incorporados"
 
 #: mediacore/forms/admin/settings.py:29
 msgid "Facebook comments (requires a Facebook application ID)"
-msgstr ""
+msgstr "Comentarios de Facebook (requieren una ID de aplicación de Facebook)"
 
 #: mediacore/forms/admin/settings.py:30
-#, fuzzy
 msgid "Disable comments"
-msgstr "Moderar comentarios"
+msgstr "Desactivar los comentarios"
 
 #: mediacore/forms/admin/settings.py:35
 msgid "Enable"
@@ -665,17 +667,15 @@ msgstr "Edición de contenidos"
 
 #: mediacore/forms/admin/settings.py:253
 msgid "Comment Engine"
-msgstr ""
+msgstr "Motor de comentarios"
 
 #: mediacore/forms/admin/settings.py:257
-#, fuzzy
 msgid "Built-in Comments:"
-msgstr "Enviar comentario"
+msgstr "Comentarios incorporados:"
 
 #: mediacore/forms/admin/settings.py:260
-#, fuzzy
 msgid "Moderation"
-msgstr "Moderar"
+msgstr "Moderación"
 
 #: mediacore/forms/admin/settings.py:261
 msgid "Require comments to be approved by an admin"
@@ -699,15 +699,15 @@ msgstr "Ingrese las palabras a filtrarse, separadas por una coma."
 
 #: mediacore/forms/admin/settings.py:270
 msgid "Facebook Comments:"
-msgstr ""
+msgstr "Comentarios de Facebook"
 
 #: mediacore/forms/admin/settings.py:271
 msgid "Application ID"
-msgstr ""
+msgstr "ID de aplicación"
 
 #: mediacore/forms/admin/settings.py:272
 msgid "See: http://www.facebook.com/developers/createapp.php"
-msgstr ""
+msgstr "Ver: http://www.facebook.com/developers/createapp.php"
 
 #: mediacore/forms/admin/settings.py:284
 msgid "Require a key to access the API"
@@ -814,45 +814,43 @@ msgstr "Mostrar la imagen de fondo"
 
 #: mediacore/forms/admin/settings.py:370
 msgid "Display MediaCore Footer"
-msgstr ""
+msgstr "Mostrar el pie de página de Mediacore"
 
 #: mediacore/forms/admin/settings.py:374
 msgid "Display MediaCore Credits in Footer"
-msgstr ""
+msgstr "Mostrar los créditos de Mediacore en el pie de página"
 
 #: mediacore/forms/admin/settings.py:380
-#, fuzzy
 msgid "Player Menu Options"
-msgstr "Opciones de reproductor:"
+msgstr "Opciones del menú del reproductor"
 
 #: mediacore/forms/admin/settings.py:385
 msgid "Enable Download button on player menu bar."
-msgstr ""
+msgstr "Habilitar un botón de descarga en la barra de menú del reproductor."
 
 #: mediacore/forms/admin/settings.py:389
 msgid "Enable Share button on player menu bar."
-msgstr ""
+msgstr "Habilitar un botón de compartir en la barra de menú del reproductor."
 
 #: mediacore/forms/admin/settings.py:393
 msgid "Enable Embed button on player menu bar."
-msgstr ""
+msgstr "Habilitar un botón de insertar en la barra de menú del reproductor."
 
 #: mediacore/forms/admin/settings.py:397
-#, fuzzy
 msgid "Enable Widescreen toggle button on player menu bar."
-msgstr "Activar reproductor multimedia de pantalla ancha de forma predeterminada"
+msgstr "Habilitar un botón de agrandar en la barra de menú del reproductor."
 
 #: mediacore/forms/admin/settings.py:401
 msgid "Enable Popout button on player menu bar."
-msgstr ""
+msgstr "Habilitar un botón de \"popout\" en la barra de menú del reproductor."
 
 #: mediacore/forms/admin/settings.py:405
 msgid "Enable Like button on player menu bar."
-msgstr ""
+msgstr "Habilitar un botón de \"Me gusta\" en la barra de menú del reproductor."
 
 #: mediacore/forms/admin/settings.py:409
 msgid "Enable Dislike button on player menu bar."
-msgstr ""
+msgstr "Habilitar un botón de \"No me gusta\" en la barra de menú del reproductor."
 
 #: mediacore/forms/admin/settings.py:414
 msgid "Advanced"
@@ -872,7 +870,7 @@ msgstr "HTML pie de página personalizada"
 
 #: mediacore/forms/admin/settings.py:427
 msgid "Custom <head> Tags"
-msgstr ""
+msgstr "Etiquetas <head> propias"
 
 #: mediacore/forms/admin/settings.py:428
 msgid ""
@@ -880,6 +878,9 @@ msgid ""
 "cause ugly rendering of your site. You can always restore your page by "
 "the box above."
 msgstr ""
+"Estas etiquetas HTML serán insertadas en la sección <head>. Una entrada "
+"incorrecta podrá causar un renderizado no atractivo de su sitio. Siempre "
+"podrá restaurar su página mediante la caja superior."
 
 #: mediacore/forms/admin/settings.py:436
 #: mediacore/templates/admin/settings/appearance.html:25
@@ -896,7 +897,7 @@ msgstr "Barra lateral HTML"
 
 #: mediacore/forms/admin/settings.py:470
 msgid "Channel Name(s)"
-msgstr ""
+msgstr "Nombre(s) de canal"
 
 #: mediacore/forms/admin/settings.py:471
 msgid ""
@@ -906,11 +907,15 @@ msgid ""
 "been imported, you will be returned to the Media page to manage your new "
 "videos."
 msgstr ""
+"Uno o más nombres de canales a importar (separados por comas). Por favor,"
+" introduzca sólo el nombre de canal/usuario, no la URL completa. Tenga en"
+" cuenta que puede demorar varios minutos la importación completa. Cuando "
+"se hayan importado todos los vídeos, será devuelto a la página de Medios "
+"para manejar sus nuevos vídeos."
 
 #: mediacore/forms/admin/settings.py:474
-#, fuzzy
 msgid "Publish Videos"
-msgstr "Publicar ahora"
+msgstr "Publicar vídeos"
 
 #: mediacore/forms/admin/settings.py:475
 msgid ""
@@ -918,10 +923,13 @@ msgid ""
 "imported. Otherwise the videos will be added, but will be waiting for "
 "review before being published."
 msgstr ""
+"Cuando se selecciona esto, los vídeos son publicados automáticamente "
+"cuando son importados. De otro modo los vídeos serán añadidos, pero "
+"esperarán revisión antes de ser publicados."
 
 #: mediacore/forms/admin/settings.py:480
 msgid "Import"
-msgstr ""
+msgstr "Importar"
 
 #: mediacore/forms/admin/users.py:25
 msgid "User name already exists"
@@ -1166,11 +1174,11 @@ msgstr "Archivo o URL inusable."
 
 #: mediacore/lib/storage/bliptv.py:58
 msgid "Invalid BlipTV URL. This video does not exist."
-msgstr ""
+msgstr "URL de BlipTV inválida. Este vídeo no existe."
 
 #: mediacore/lib/storage/dailymotion.py:59
 msgid "This DailyMotion video does not allow embedding."
-msgstr ""
+msgstr "Este vídeo de DailyMotion no soporta ser insertado."
 
 #: mediacore/lib/storage/ftp.py:40
 msgid "FTP Storage"
@@ -1205,14 +1213,16 @@ msgid ""
 "This RTMP server has not been configured. Add it by going to Settings > "
 "Storage Engines > Remote URLs."
 msgstr ""
+"El servidor RTMP no ha sido configurado. Añádalo yendo a Configuración > "
+"Almacenaje > Motores > URLs remotas"
 
 #: mediacore/lib/storage/youtube.py:57
 msgid "This video is private and cannot be embedded."
-msgstr ""
+msgstr "Este vídeo es privado y no puede ser insertado."
 
 #: mediacore/lib/storage/youtube.py:60
 msgid "Invalid YouTube URL. This video does not exist."
-msgstr ""
+msgstr "URL de Youtube inválida. Este vídeo no existe."
 
 #: mediacore/templates/error.html:14
 #, python-format
@@ -1463,9 +1473,8 @@ msgid "Settings"
 msgstr "Configuración"
 
 #: mediacore/templates/admin/master.html:58
-#, fuzzy
 msgid "© 2009-2012 MediaCore Inc."
-msgstr "© 2009-2011 Estación simple Inc."
+msgstr "© 2009-2012 MediaCore Inc."
 
 #: mediacore/templates/admin/categories/index.html:35
 #: mediacore/templates/admin/comments/index.html:33
@@ -2073,7 +2082,7 @@ msgstr ""
 #: mediacore/templates/admin/settings/importvideos.html:21
 #: mediacore/templates/admin/settings/master.html:55
 msgid "YouTube Channel Import"
-msgstr ""
+msgstr "Importar Canal de Youtube"
 
 #: mediacore/templates/admin/settings/master.html:58
 msgid "Notifications"
@@ -2190,9 +2199,8 @@ msgstr "Ultimo material en%s"
 
 #: mediacore/templates/categories/index.html:28
 #: mediacore/templates/media/explore.html:107
-#, fuzzy
 msgid "More new media"
-msgstr "Videos sin revisar"
+msgstr "Más medios nuevos"
 
 #: mediacore/templates/categories/index.html:28
 #: mediacore/templates/categories/index.html:33
@@ -2204,7 +2212,7 @@ msgstr "Ver más"
 #: mediacore/templates/categories/index.html:33
 #: mediacore/templates/media/explore.html:92
 msgid "More popular media"
-msgstr ""
+msgstr "Más medios populares"
 
 #: mediacore/templates/categories/index.html:35
 #: mediacore/templates/categories/more.html:23
@@ -2480,28 +2488,4 @@ msgid ""
 msgstr ""
 "Usted será redirigido de nuevo a la [1: Videoteca] en pocos segundos. Un "
 "momento."
-
-#~ msgid "Slug"
-#~ msgstr "Conexión"
-
-#~ msgid "Site Tag Line"
-#~ msgstr "Eslogan del sitio "
-
-#~ msgid "Administrative notes on Media:"
-#~ msgstr "Notas del administrador de videos:"
-
-#~ msgid "Display notes"
-#~ msgstr "Mostrar notas"
-
-#~ msgid "Akismet Anti-Spam Details:"
-#~ msgstr "Detalles del anti-spam Akismet:"
-
-#~ msgid "Vulgarity Filter Settings"
-#~ msgstr "Configuración del filtro de vulgaridad "
-
-#~ msgid "Run Filter Now"
-#~ msgstr "Filtrar ahora"
-
-#~ msgid "There are no media items published yet!"
-#~ msgstr "Aún no hay publicaciones"
 

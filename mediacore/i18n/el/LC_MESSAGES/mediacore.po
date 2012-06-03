@@ -1,5 +1,5 @@
 # Greek translations for MediaCore.
-# Copyright (C) 2011 ORGANIZATION
+# Copyright (C) 2012 ORGANIZATION
 # This file is distributed under the same license as the MediaCore project.
 #
 # Translators:
@@ -11,7 +11,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://github.com/mediacore/mediacore-"
 "community/issues\n"
 "POT-Creation-Date: 2012-02-24 11:38+0100\n"
-"PO-Revision-Date: 2011-06-03 05:32+0000\n"
+"PO-Revision-Date: 2012-02-24 11:09+0000\n"
 "Last-Translator: rospi <flow.cfu@gmail.com>\n"
 "Language-Team: el <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
@@ -413,24 +413,17 @@ msgid ""
 msgstr ""
 
 #: mediacore/forms/admin/players.py:148
-#, fuzzy
 msgid ""
 "Load related videos once playback of the initial video starts. Related "
 "videos are displayed in the \"genie menu\" when the menu button is "
 "pressed."
 msgstr ""
-"Επιτρέπει στον player να φορτώσει σχετικά βίντεο μόλις αρχίσει η "
-"αναπαραγωγή του αρχικού βίντεο. Τα σχετικά βίντεο εμφανίζονται στο "
-"\"genie menu\" μόλις πατηθεί το κουμπί του μενού."
 
 #: mediacore/forms/admin/players.py:149
-#, fuzzy
 msgid ""
 "Show the search box when the video is minimized. The related videos "
 "option must be enabled for this to work."
 msgstr ""
-"Εμφάνιση της αναζήτησης όταν ελαχιστοποιηθεί το βίντεο. Η παραπάνω "
-"επιλογή πρέπει να ενεργοποιηθεί για να δουλέψει αυτό."
 
 #: mediacore/forms/admin/players.py:150
 msgid ""
@@ -441,9 +434,8 @@ msgstr ""
 "αρχίσει να παίζει."
 
 #: mediacore/forms/admin/players.py:153
-#, fuzzy
 msgid "Always show player controls."
-msgstr "Απενεργοποίηση του ελέγχου του player μέσω πληκτρολογίου."
+msgstr ""
 
 #: mediacore/forms/admin/players.py:154
 msgid "Autohide all player controls after a video starts playing."
@@ -817,9 +809,8 @@ msgid "Display MediaCore Credits in Footer"
 msgstr ""
 
 #: mediacore/forms/admin/settings.py:380
-#, fuzzy
 msgid "Player Menu Options"
-msgstr "Επιλογές player:"
+msgstr ""
 
 #: mediacore/forms/admin/settings.py:385
 msgid "Enable Download button on player menu bar."
@@ -834,9 +825,8 @@ msgid "Enable Embed button on player menu bar."
 msgstr ""
 
 #: mediacore/forms/admin/settings.py:397
-#, fuzzy
 msgid "Enable Widescreen toggle button on player menu bar."
-msgstr "Ενεργοποίηση widescreen αναπαραγωγής πολυμέσων από προεπιλογή"
+msgstr ""
 
 #: mediacore/forms/admin/settings.py:401
 msgid "Enable Popout button on player menu bar."
@@ -2436,30 +2426,6 @@ msgid ""
 "few seconds. Hang tight."
 msgstr ""
 
-#~ msgid "Slug"
-#~ msgstr "Slug"
-
-#~ msgid "Site Tag Line"
-#~ msgstr "Ετικέτες Site "
-
-#~ msgid "Administrative notes on Media:"
-#~ msgstr "Σημειώσεις διαχειριστή για τα αρχεία media:"
-
-#~ msgid "Display notes"
-#~ msgstr "Εμφάνιση σημειώσεων"
-
-#~ msgid "Akismet Anti-Spam Details:"
-#~ msgstr "Λεπτομέρειες Akismet Anti-Spam"
-
-#~ msgid "Vulgarity Filter Settings"
-#~ msgstr "Ρυθμίσεις φίλτρου Χυδαιότητας"
-
-#~ msgid "Run Filter Now"
-#~ msgstr "Εκτέλεση Φίλτρου Τώρα"
-
-#~ msgid "© 2009-2011 Simple Station Inc."
-#~ msgstr ""
-
-#~ msgid "There are no media items published yet!"
-#~ msgstr ""
+"
+msgstr ""
 

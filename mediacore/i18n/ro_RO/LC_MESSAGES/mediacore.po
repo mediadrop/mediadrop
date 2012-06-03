@@ -1,18 +1,19 @@
 # Romanian (Romania) translations for MediaCore.
-# Copyright (C) 2011 ORGANIZATION
+# Copyright (C) 2012 ORGANIZATION
 # This file is distributed under the same license as the MediaCore project.
 #
 # Translators:
 # Catalin Ionescu <contact@joomlapic.com>, 2011.
 # ogi <ogi@ogi.ro>, 2011.
 # SpeedyWizard <speedy.wizard@gmail.com>, 2011.
+# <zbeniamin@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: MediaCore Video Platform\n"
 "Report-Msgid-Bugs-To: http://github.com/mediacore/mediacore-"
 "community/issues\n"
 "POT-Creation-Date: 2012-02-24 11:38+0100\n"
-"PO-Revision-Date: 2011-05-06 14:30+0000\n"
+"PO-Revision-Date: 2012-04-19 05:16+0000\n"
 "Last-Translator: Catalin Ionescu <contact@joomlapic.com>\n"
 "Language-Team: ro_RO <LL@li.org>\n"
 "Plural-Forms: nplurals=3; "
@@ -27,8 +28,8 @@ msgid ""
 "Upload your media using the form below. We'll review it and get back to "
 "you."
 msgstr ""
-"Incărcaţi fişierul, utilizînd formularul alăturat. Noi îl vom revizui şi "
-"îl vom publica."
+"Incărcaţi fişierul utilizînd formularul alăturat. Noi îl vom revizui şi "
+"te vom contacta."
 
 #: mediacore/controllers/error.py:54
 msgid "We're sorry but we weren't able to process this request."
@@ -49,7 +50,7 @@ msgstr ""
 #: mediacore/controllers/admin/media.py:380
 #, python-format
 msgid "File \"%s\" does not exist."
-msgstr "Fişierul \"%s\" nu există"
+msgstr "Fişierul \"%s\" nu există."
 
 #: mediacore/controllers/admin/media.py:402
 msgid "No action to perform."
@@ -69,11 +70,11 @@ msgstr "Tipul imaginii nesuportat: %s"
 #: mediacore/controllers/admin/media.py:556
 #: mediacore/controllers/admin/podcasts.py:210
 msgid "Interlaced PNGs are not supported."
-msgstr ""
+msgstr "Fișierele PNG Interlaced nu sunt suportate. "
 
 #: mediacore/controllers/admin/podcasts.py:90
 msgid "Save the podcast to get your feed URL"
-msgstr ""
+msgstr "Salveazã podcast-ul întâi pentru a genera link-ul feed-ului"
 
 #: mediacore/forms/__init__.py:185
 msgid "The portion of the email address before the @ is invalid"
@@ -137,7 +138,7 @@ msgstr "Adaugă"
 
 #: mediacore/forms/admin/__init__.py:16
 msgid "SEARCH..."
-msgstr "Caută..."
+msgstr "CAUTÃ..."
 
 #: mediacore/forms/admin/__init__.py:36
 msgid "You forgot to select an image!"
@@ -235,7 +236,7 @@ msgstr "Formatare incorectă de durată, utilizaţi Ore:Minute:Secunde"
 
 #: mediacore/forms/admin/media.py:57
 msgid "Value must be in the format wxh; e.g. 200x300"
-msgstr "Valoarea trebuie să fie de forma înălţimexlăţime, spre exemplu 200x300"
+msgstr "Valoarea trebuie să fie de forma lăţime x înălţime, spre exemplu 200x300"
 
 #: mediacore/forms/admin/media.py:63
 msgid "Width must be a valid integer"
@@ -320,7 +321,7 @@ msgstr "Tag-uri"
 
 #: mediacore/forms/admin/media.py:149 mediacore/forms/admin/settings.py:479
 msgid "e.g.: puppies, great dane, adorable"
-msgstr "spre exemplu: păpuşi, danez superb, adorabil"
+msgstr "spre exemplu: caţeluşi, danez superb, adorabil"
 
 #: mediacore/forms/admin/media.py:151
 msgid "Administrative Notes"
@@ -339,15 +340,15 @@ msgstr "Numele afişat"
 
 #: mediacore/forms/admin/players.py:86
 msgid "Yes, use the Flash Player when the device supports it."
-msgstr "Da, folosiţi Flash Player atunci cînd dispozitivul îl suportă."
+msgstr "Da, foloseşte Flash Player atunci cînd dispozitivul îl suportă."
 
 #: mediacore/forms/admin/players.py:87
 msgid "No, use the HTML5 Player when the device supports it."
-msgstr "Nu, folosiţi HTML5 Player atunci cînd dispozitivul îl suportă."
+msgstr "Nu, foloseşte HTML5 Player atunci cînd dispozitivul îl suportă."
 
 #: mediacore/forms/admin/players.py:90
 msgid "Prefer the Flash Player when possible"
-msgstr "Preferă Flash Plazer cînd e posibil."
+msgstr "Preferă Flash Player cînd e posibil."
 
 #: mediacore/forms/admin/players.py:105
 msgid "Script Tag"
@@ -363,27 +364,27 @@ msgstr "Opţiunile player-ului:"
 
 #: mediacore/forms/admin/players.py:127
 msgid "Use the deprecated AS2 player."
-msgstr ""
+msgstr "Folosește player-ul depreciat AS2."
 
 #: mediacore/forms/admin/players.py:128
 msgid "Use the AS3 player."
-msgstr ""
+msgstr "Folosește player-ul AS3."
 
 #: mediacore/forms/admin/players.py:131
 msgid "YouTube player version"
-msgstr ""
+msgstr "Versiune player YouTube"
 
 #: mediacore/forms/admin/players.py:136
 msgid "Show video annotations by default."
-msgstr ""
+msgstr "Afișeazã adnotãrile video implicit."
 
 #: mediacore/forms/admin/players.py:137
 msgid "Hide video annotations by default."
-msgstr ""
+msgstr "Ascunde adnotãrile video implicit."
 
 #: mediacore/forms/admin/players.py:140
 msgid "Video annotations"
-msgstr ""
+msgstr "Adnotãri video"
 
 #: mediacore/forms/admin/players.py:143
 msgid "Disable the player keyboard controls."
@@ -391,19 +392,19 @@ msgstr "Dezactivează comenzile de la tastatură a player-ului"
 
 #: mediacore/forms/admin/players.py:144
 msgid "Autoplay the video video when the player loads."
-msgstr ""
+msgstr "Pornește clipul automat cãnd player-ul s-a incãrcat."
 
 #: mediacore/forms/admin/players.py:145
 msgid "Do not show a YouTube logo in the player controls"
-msgstr ""
+msgstr "Ascunde logo-ul YouTube în interfața player-ului."
 
 #: mediacore/forms/admin/players.py:145
 msgid "Supported by AS3 only."
-msgstr ""
+msgstr "Posibil doar cu AS3. "
 
 #: mediacore/forms/admin/players.py:146
 msgid "Enable fullscreen."
-msgstr "Activează regimul fullscreen."
+msgstr "Permite vizionare în regim fullscreen."
 
 #: mediacore/forms/admin/players.py:147
 msgid "Enable high-def quality by default."
@@ -414,26 +415,25 @@ msgid ""
 "The AS3 player will automatically play the version of the video that is "
 "appropriate for your player's size."
 msgstr ""
+"Player-ul AS3 va rula automat versiunea clipului potrivitã pentru mãrimea"
+" player-ului tãu."
 
 #: mediacore/forms/admin/players.py:148
-#, fuzzy
 msgid ""
 "Load related videos once playback of the initial video starts. Related "
 "videos are displayed in the \"genie menu\" when the menu button is "
 "pressed."
 msgstr ""
-"Permite player-ului să încarce clipurile video asociate o dată ce s-a "
-"început rularea clipului video iniţial. Video clipurile asociate sînt "
-"afişate în \"genie meniu\" cînd butonul meniului este apăsat."
+"Pregãtește clipuri similare imediat ce clipul inițial porneste. Aceste "
+"clipuri similare sunt afișate când butonul \"menu\" este apãsat."
 
 #: mediacore/forms/admin/players.py:149
-#, fuzzy
 msgid ""
 "Show the search box when the video is minimized. The related videos "
 "option must be enabled for this to work."
 msgstr ""
-"Arată caseta de căutare cînd clipul video este minimizat. Opţiunea de mai"
-" jos trebuie să fie activată pentru ca aceasta să lucreze."
+"Afișeazã cãsuța de cãutare când clipul este micșorat. Opțiunea pentru "
+"clipuri similare trebuie sã fie activã pentru ca aceasta sã funcționeze."
 
 #: mediacore/forms/admin/players.py:150
 msgid ""
@@ -441,28 +441,27 @@ msgid ""
 "starts playing."
 msgstr ""
 "Afişează informaţia ca titlul video clipului şi rating-ul său înainte ca "
-"video clipul să înceapă rularea.C"
+"video clipul să înceapă rularea."
 
 #: mediacore/forms/admin/players.py:153
-#, fuzzy
 msgid "Always show player controls."
-msgstr "Dezactivează comenzile de la tastatură a player-ului"
+msgstr "Afișeazã butoanele de control al player-ului tot timpul."
 
 #: mediacore/forms/admin/players.py:154
 msgid "Autohide all player controls after a video starts playing."
-msgstr ""
+msgstr "Asunde butoanele de control al player-ului dupã ce clipul pornește."
 
 #: mediacore/forms/admin/players.py:155
 msgid "Autohide only the progress bar after a video starts playing."
-msgstr ""
+msgstr "Ascunde doar bara de progresie dupã ce clipul pornește."
 
 #: mediacore/forms/admin/players.py:158
 msgid "Player control hiding"
-msgstr ""
+msgstr "Ascunderea butoanelor de control al player-ului"
 
 #: mediacore/forms/admin/podcasts.py:25
 msgid "Parental Advisory"
-msgstr "Consultativ parental"
+msgstr "Acordul părinţilor"
 
 #: mediacore/forms/admin/podcasts.py:26
 #: mediacore/templates/admin/podcasts/_podcast-table.html:43
@@ -487,7 +486,7 @@ msgstr "Categorie"
 
 #: mediacore/forms/admin/podcasts.py:108
 msgid "Copyright"
-msgstr "Drepturi de copiere"
+msgstr "Drepturi de autor"
 
 #: mediacore/forms/admin/podcasts.py:110
 msgid "Advanced Options:"
@@ -507,15 +506,15 @@ msgstr "Feedburner URL"
 
 #: mediacore/forms/admin/settings.py:28
 msgid "Built-in comments"
-msgstr ""
+msgstr "Motor comentarii inclus"
 
 #: mediacore/forms/admin/settings.py:29
 msgid "Facebook comments (requires a Facebook application ID)"
-msgstr ""
+msgstr "Motor comentarii Facebook (necesitã un ID de aplicație Facebook)"
 
 #: mediacore/forms/admin/settings.py:30
 msgid "Disable comments"
-msgstr ""
+msgstr "Dezactiveazã motor comentarii"
 
 #: mediacore/forms/admin/settings.py:35
 msgid "Enable"
@@ -524,7 +523,7 @@ msgstr "Activează"
 #: mediacore/forms/admin/settings.py:36
 #: mediacore/templates/admin/storage/index.html:89
 msgid "Disable"
-msgstr "Deactivează"
+msgstr "Dezactivează"
 
 #: mediacore/forms/admin/settings.py:41
 msgid "Prepend"
@@ -556,7 +555,7 @@ msgstr "Verde"
 
 #: mediacore/forms/admin/settings.py:53
 msgid "Tan"
-msgstr "Bronză"
+msgstr "Cafeniu"
 
 #: mediacore/forms/admin/settings.py:54
 msgid "White"
@@ -564,7 +563,7 @@ msgstr "Alb"
 
 #: mediacore/forms/admin/settings.py:55
 msgid "Purple"
-msgstr "Indigo"
+msgstr "Violet"
 
 #: mediacore/forms/admin/settings.py:56
 msgid "Black"
@@ -620,7 +619,7 @@ msgstr "Formulare acceptabilă:"
 
 #: mediacore/forms/admin/settings.py:163
 msgid "User Uploads"
-msgstr "Încărcările de către utilizator:"
+msgstr "Încărcările de către utilizator"
 
 #: mediacore/forms/admin/settings.py:174
 msgid "Google Analytics Details:"
@@ -664,15 +663,15 @@ msgstr "Editarea Rich Text"
 
 #: mediacore/forms/admin/settings.py:253
 msgid "Comment Engine"
-msgstr ""
+msgstr "Motor Comentarii"
 
 #: mediacore/forms/admin/settings.py:257
 msgid "Built-in Comments:"
-msgstr ""
+msgstr "Motor comentarii inclus:"
 
 #: mediacore/forms/admin/settings.py:260
 msgid "Moderation"
-msgstr ""
+msgstr "Moderare"
 
 #: mediacore/forms/admin/settings.py:261
 msgid "Require comments to be approved by an admin"
@@ -692,21 +691,19 @@ msgstr "Cuvintele filtrate"
 
 #: mediacore/forms/admin/settings.py:268
 msgid "Enter words to be filtered separated by a comma."
-msgstr ""
-"Introduceţi cuvintele, care trebuie să fie filtrate, separate prin "
-"virgulă."
+msgstr "Introduceţi cuvintele care trebuie să fie filtrate, separate prin virgulă."
 
 #: mediacore/forms/admin/settings.py:270
 msgid "Facebook Comments:"
-msgstr ""
+msgstr "Comentarii Facebook:"
 
 #: mediacore/forms/admin/settings.py:271
 msgid "Application ID"
-msgstr ""
+msgstr "ID-ul Aplicației"
 
 #: mediacore/forms/admin/settings.py:272
 msgid "See: http://www.facebook.com/developers/createapp.php"
-msgstr ""
+msgstr "Vezi: http://www.facebook.com/developers/createapp.php"
 
 #: mediacore/forms/admin/settings.py:284
 msgid "Require a key to access the API"
@@ -726,7 +723,7 @@ msgstr "Setările API:"
 
 #: mediacore/forms/admin/settings.py:289
 msgid "Max media results"
-msgstr ""
+msgstr "Numãr maxim de rezultate media"
 
 #: mediacore/forms/admin/settings.py:290
 msgid "Max tree depth"
@@ -761,7 +758,7 @@ msgstr "Culoarea fundalului"
 
 #: mediacore/forms/admin/settings.py:322
 msgid "Link color"
-msgstr "Culoarea link-ului"
+msgstr "Culoare link"
 
 #: mediacore/forms/admin/settings.py:325
 msgid "Visited Link color"
@@ -773,11 +770,11 @@ msgstr "Cloare text"
 
 #: mediacore/forms/admin/settings.py:331
 msgid "Heading color"
-msgstr "Culoarea heading-ului"
+msgstr "Culoare Titluri"
 
 #: mediacore/forms/admin/settings.py:334
 msgid "Color Scheme"
-msgstr "Schema culorilor"
+msgstr "Temã de culori"
 
 #: mediacore/forms/admin/settings.py:338
 msgid "Options"
@@ -801,7 +798,7 @@ msgstr "Activează încărcările de către utilizatori"
 
 #: mediacore/forms/admin/settings.py:358
 msgid "Enable widescreen media player by default"
-msgstr "Activează implicit widescreen media player."
+msgstr "Activează implicit widescreen media player"
 
 #: mediacore/forms/admin/settings.py:362
 msgid "Display Logo"
@@ -813,33 +810,31 @@ msgstr "Afişează imaginea de pe fundal"
 
 #: mediacore/forms/admin/settings.py:370
 msgid "Display MediaCore Footer"
-msgstr ""
+msgstr "Afișeazã footer-ul MediaCore"
 
 #: mediacore/forms/admin/settings.py:374
 msgid "Display MediaCore Credits in Footer"
-msgstr ""
+msgstr "Afișeazã acreditãri MediaCore in footer"
 
 #: mediacore/forms/admin/settings.py:380
-#, fuzzy
 msgid "Player Menu Options"
-msgstr "Opţiunile player-ului:"
+msgstr "Opțiuni de meniu al player-ului"
 
 #: mediacore/forms/admin/settings.py:385
 msgid "Enable Download button on player menu bar."
-msgstr ""
+msgstr "Afișeazã butonul de descãrcare pe bara de meniu al player-ului."
 
 #: mediacore/forms/admin/settings.py:389
 msgid "Enable Share button on player menu bar."
-msgstr ""
+msgstr "Afișeazã butonul Share pe bara de meniu al player-ului."
 
 #: mediacore/forms/admin/settings.py:393
 msgid "Enable Embed button on player menu bar."
 msgstr ""
 
 #: mediacore/forms/admin/settings.py:397
-#, fuzzy
 msgid "Enable Widescreen toggle button on player menu bar."
-msgstr "Activează implicit widescreen media player."
+msgstr ""
 
 #: mediacore/forms/admin/settings.py:401
 msgid "Enable Popout button on player menu bar."
@@ -931,7 +926,7 @@ msgstr "Adresa e-mail"
 
 #: mediacore/forms/admin/users.py:39
 msgid "Login Details:"
-msgstr "Detaliile de autentificare"
+msgstr "Detaliile de autentificare:"
 
 #: mediacore/forms/admin/users.py:43
 msgid "Passwords do not match"
@@ -944,7 +939,7 @@ msgstr "Grupul"
 
 #: mediacore/forms/admin/users.py:47 mediacore/forms/admin/storage/ftp.py:23
 msgid "Username"
-msgstr "Numele de utilizator"
+msgstr "Pseudonim"
 
 #: mediacore/forms/admin/users.py:48 mediacore/forms/admin/storage/ftp.py:24
 msgid "Password"
@@ -964,25 +959,25 @@ msgstr "Numele de host al server-ului"
 
 #: mediacore/forms/admin/storage/ftp.py:25
 msgid "Subdirectory on server to upload to"
-msgstr "Subdirectoriul pe server, în care trebuie să fie făcută încărcarea"
+msgstr "Subdirectorul pe server, în care se face încărcarea"
 
 #: mediacore/forms/admin/storage/ftp.py:26
 msgid ""
 "How many times should MediaCore try to verify the FTP upload before "
 "declaring it a failure?"
 msgstr ""
-"De cîte ori MediaCore trebuie să încerce să verifice încărcarea FTP "
-"înainte ca să o declare nereuşită?"
+"De cîte ori să verifice MediaCore încărcarea FTP înainte ca să o declare "
+"nereuşită?"
 
 #: mediacore/forms/admin/storage/ftp.py:27
 msgid "HTTP URL to access remotely stored files"
-msgstr "HTTP URL pentru a accesa fişierele stocate la distanţă"
+msgstr "Link HTTP pentru a accesa fişierele stocate pe alt server"
 
 #: mediacore/forms/admin/storage/ftp.py:28
 msgid "RTMP Server URL to stream remotely stored files (Optional)"
 msgstr ""
-"RTMP URL al server-ului pentru a face streaming la fişierele stocate la "
-"distanţă (opţional)"
+"Link RTMP al server-ului de streaming pentru fişiere stocate pe alt "
+"server (opţional)"
 
 #: mediacore/forms/admin/storage/localfiles.py:14
 msgid "Options specific to Local File Storage:"
@@ -994,7 +989,7 @@ msgstr "Calea pentru stocarea fişierelor"
 
 #: mediacore/forms/admin/storage/localfiles.py:18
 msgid "Defaults to the \"data_dir\" from your INI file."
-msgstr "Implicit corespunde variabilei \"data_dir\" din fişierul INI al Dvs."
+msgstr "Corespunde implicit variabilei \"data_dir\" din fişierul INI al Dvs."
 
 #: mediacore/forms/admin/storage/localfiles.py:21
 msgid "RTMP Server URL"
@@ -1008,7 +1003,7 @@ msgstr ""
 
 #: mediacore/forms/admin/storage/remoteurls.py:20
 msgid "Add another URL"
-msgstr "Adauga alta adresa URL"
+msgstr "Adauga încã un link"
 
 #: mediacore/forms/admin/storage/remoteurls.py:49
 msgid "RTMP server URLs must begin with rtmp://"
@@ -1052,14 +1047,12 @@ msgid ""
 "\n"
 "Body: %(comment_body)s\n"
 msgstr ""
-"Un nou comentariu adaugat(\n"
-")\n"
-"Autor: %(author_name)s(\n"
-")\n"
-"URL: %(post_url)s(\n"
-")\n"
-"Body: %(comment_body)s(\n"
-")\n"
+"Un nou comentariu a fost adãugat!\n"
+"\n"
+"Autor: %(author_name)s\n"
+"Link: %(post_url)s\n"
+"\n"
+"Comentariu: %(comment_body)s\n"
 
 #: mediacore/lib/email.py:180
 #, python-format
@@ -1095,7 +1088,7 @@ msgstr "Audio"
 
 #: mediacore/lib/filetypes.py:26
 msgid "Audio Description"
-msgstr "Descrierea audio"
+msgstr "Descriere audio"
 
 #: mediacore/lib/filetypes.py:27
 msgid "Captions"
@@ -2454,31 +2447,4 @@ msgid ""
 "You will be automatically redirected back to the [1:Media Library] in a "
 "few seconds. Hang tight."
 msgstr ""
-
-#~ msgid "Slug"
-#~ msgstr "Link prescurtat:"
-
-#~ msgid "Site Tag Line"
-#~ msgstr "Linia de tag-uri a site-ului"
-
-#~ msgid "Administrative notes on Media:"
-#~ msgstr "Notiţe administrative asupra fişierelor media"
-
-#~ msgid "Display notes"
-#~ msgstr "Afişează notiţe"
-
-#~ msgid "Akismet Anti-Spam Details:"
-#~ msgstr "Detaliile Akismet Anti-Spam:"
-
-#~ msgid "Vulgarity Filter Settings"
-#~ msgstr "Setările filtrului de vulgaritate"
-
-#~ msgid "Run Filter Now"
-#~ msgstr "Porneşte filtrul acum"
-
-#~ msgid "© 2009-2011 Simple Station Inc."
-#~ msgstr ""
-
-#~ msgid "There are no media items published yet!"
-#~ msgstr ""
 

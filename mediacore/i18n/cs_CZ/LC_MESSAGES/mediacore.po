@@ -1,5 +1,5 @@
 # Czech (Czech Republic) translations for MediaCore.
-# Copyright (C) 2011 ORGANIZATION
+# Copyright (C) 2012 ORGANIZATION
 # This file is distributed under the same license as the MediaCore project.
 #
 # Translators:
@@ -12,7 +12,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://github.com/mediacore/mediacore-"
 "community/issues\n"
 "POT-Creation-Date: 2012-02-24 11:38+0100\n"
-"PO-Revision-Date: 2011-03-22 15:06+0000\n"
+"PO-Revision-Date: 2012-02-24 11:18+0000\n"
 "Last-Translator: richensa <richensa@gmail.com>\n"
 "Language-Team: cs_CZ <LL@li.org>\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2\n"
@@ -415,24 +415,17 @@ msgid ""
 msgstr ""
 
 #: mediacore/forms/admin/players.py:148
-#, fuzzy
 msgid ""
 "Load related videos once playback of the initial video starts. Related "
 "videos are displayed in the \"genie menu\" when the menu button is "
 "pressed."
 msgstr ""
-"Povolit přehrávači nahrát související videa hned jak první video začne "
-"hrát. Související videa jsou zobrazena v \"genie menu\", když stisknete "
-"tlačítko menu."
 
 #: mediacore/forms/admin/players.py:149
-#, fuzzy
 msgid ""
 "Show the search box when the video is minimized. The related videos "
 "option must be enabled for this to work."
 msgstr ""
-"Zobrazit pole pro vyhledávání, když je video minimalizováno. Výše uvedená"
-" možnost musí být povolena."
 
 #: mediacore/forms/admin/players.py:150
 msgid ""
@@ -443,9 +436,8 @@ msgstr ""
 "spustí."
 
 #: mediacore/forms/admin/players.py:153
-#, fuzzy
 msgid "Always show player controls."
-msgstr "Vypnout ovládání přehrávače klávesnicí."
+msgstr ""
 
 #: mediacore/forms/admin/players.py:154
 msgid "Autohide all player controls after a video starts playing."
@@ -505,18 +497,16 @@ msgid "Feedburner URL"
 msgstr "FeedBurner URL"
 
 #: mediacore/forms/admin/settings.py:28
-#, fuzzy
 msgid "Built-in comments"
-msgstr "Odeslat komentář"
+msgstr ""
 
 #: mediacore/forms/admin/settings.py:29
 msgid "Facebook comments (requires a Facebook application ID)"
 msgstr ""
 
 #: mediacore/forms/admin/settings.py:30
-#, fuzzy
 msgid "Disable comments"
-msgstr "Moderovat komentáře"
+msgstr ""
 
 #: mediacore/forms/admin/settings.py:35
 msgid "Enable"
@@ -670,14 +660,12 @@ msgid "Comment Engine"
 msgstr ""
 
 #: mediacore/forms/admin/settings.py:257
-#, fuzzy
 msgid "Built-in Comments:"
-msgstr "Odeslat komentář"
+msgstr ""
 
 #: mediacore/forms/admin/settings.py:260
-#, fuzzy
 msgid "Moderation"
-msgstr "Moderovat "
+msgstr ""
 
 #: mediacore/forms/admin/settings.py:261
 msgid "Require comments to be approved by an admin"
@@ -823,9 +811,8 @@ msgid "Display MediaCore Credits in Footer"
 msgstr ""
 
 #: mediacore/forms/admin/settings.py:380
-#, fuzzy
 msgid "Player Menu Options"
-msgstr "Možnosti přehrávače:"
+msgstr ""
 
 #: mediacore/forms/admin/settings.py:385
 msgid "Enable Download button on player menu bar."
@@ -840,9 +827,8 @@ msgid "Enable Embed button on player menu bar."
 msgstr ""
 
 #: mediacore/forms/admin/settings.py:397
-#, fuzzy
 msgid "Enable Widescreen toggle button on player menu bar."
-msgstr "Povolit širokoúhlý multimediální přehrávač ve výchozím nastavení"
+msgstr ""
 
 #: mediacore/forms/admin/settings.py:401
 msgid "Enable Popout button on player menu bar."
@@ -910,9 +896,8 @@ msgid ""
 msgstr ""
 
 #: mediacore/forms/admin/settings.py:474
-#, fuzzy
 msgid "Publish Videos"
-msgstr "Zveřejnit nyní"
+msgstr ""
 
 #: mediacore/forms/admin/settings.py:475
 msgid ""
@@ -1446,9 +1431,8 @@ msgid "Settings"
 msgstr "Nastavení"
 
 #: mediacore/templates/admin/master.html:58
-#, fuzzy
 msgid "© 2009-2012 MediaCore Inc."
-msgstr "© 2009-2011 Simple Station Inc."
+msgstr ""
 
 #: mediacore/templates/admin/categories/index.html:35
 #: mediacore/templates/admin/comments/index.html:33
@@ -2172,9 +2156,8 @@ msgstr "Nejnovější videa v %s "
 
 #: mediacore/templates/categories/index.html:28
 #: mediacore/templates/media/explore.html:107
-#, fuzzy
 msgid "More new media"
-msgstr "Nehodnocené video"
+msgstr ""
 
 #: mediacore/templates/categories/index.html:28
 #: mediacore/templates/categories/index.html:33
@@ -2463,27 +2446,5 @@ msgstr ""
 "Budete automaticky přesměrováni zpět do [1: Knihovna médií] během "
 "několika vteřin. Vydržte."
 
-#~ msgid "Slug"
-#~ msgstr "Slug"
-
-#~ msgid "Site Tag Line"
-#~ msgstr "Místo Tag Line"
-
-#~ msgid "Administrative notes on Media:"
-#~ msgstr "Administrační poznámky k videím:"
-
-#~ msgid "Display notes"
-#~ msgstr "Zobrazit poznámky"
-
-#~ msgid "Akismet Anti-Spam Details:"
-#~ msgstr "Podrobnosti Akismet Anti-Spam:"
-
-#~ msgid "Vulgarity Filter Settings"
-#~ msgstr "Nastavení filtru vulgarit"
-
-#~ msgid "Run Filter Now"
-#~ msgstr "Spustit filtr nyní"
-
-#~ msgid "There are no media items published yet!"
-#~ msgstr "Zatím ještě nebyla zveřejněna žádná videa!"
+držte."
 

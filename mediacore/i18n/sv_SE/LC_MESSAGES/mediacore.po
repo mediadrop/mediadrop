@@ -1,5 +1,5 @@
 # Swedish (Sweden) translations for MediaCore.
-# Copyright (C) 2011 ORGANIZATION
+# Copyright (C) 2012 ORGANIZATION
 # This file is distributed under the same license as the MediaCore project.
 #
 # Translators:
@@ -10,7 +10,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://github.com/mediacore/mediacore-"
 "community/issues\n"
 "POT-Creation-Date: 2012-02-24 11:38+0100\n"
-"PO-Revision-Date: 2011-03-22 15:06+0000\n"
+"PO-Revision-Date: 2012-02-24 11:19+0000\n"
 "Last-Translator: Jan-Erik Finlander <janerik.finlander@gmail.com>\n"
 "Language-Team: sv_SE <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
@@ -412,24 +412,17 @@ msgid ""
 msgstr ""
 
 #: mediacore/forms/admin/players.py:148
-#, fuzzy
 msgid ""
 "Load related videos once playback of the initial video starts. Related "
 "videos are displayed in the \"genie menu\" when the menu button is "
 "pressed."
 msgstr ""
-"Tillåter spelaren att ladda relaterade videor gång uppspelning av den "
-"ursprungliga videon startar. Relaterade videor visas i \"Genie menyn\" "
-"när menyn knappen trycks in."
 
 #: mediacore/forms/admin/players.py:149
-#, fuzzy
 msgid ""
 "Show the search box when the video is minimized. The related videos "
 "option must be enabled for this to work."
 msgstr ""
-"Visa sökrutan när videon minimeras. Ovanstående alternativ måste vara "
-"aktiverat för att denna ska fungera."
 
 #: mediacore/forms/admin/players.py:150
 msgid ""
@@ -438,9 +431,8 @@ msgid ""
 msgstr "Visa information som videotiteln och betyg innan videon börjar spelas."
 
 #: mediacore/forms/admin/players.py:153
-#, fuzzy
 msgid "Always show player controls."
-msgstr "Inaktivera uppspelarens tangentbordskontroller."
+msgstr ""
 
 #: mediacore/forms/admin/players.py:154
 msgid "Autohide all player controls after a video starts playing."
@@ -500,18 +492,16 @@ msgid "Feedburner URL"
 msgstr "Feedburner URL"
 
 #: mediacore/forms/admin/settings.py:28
-#, fuzzy
 msgid "Built-in comments"
-msgstr "Skicka in kommentar"
+msgstr ""
 
 #: mediacore/forms/admin/settings.py:29
 msgid "Facebook comments (requires a Facebook application ID)"
 msgstr ""
 
 #: mediacore/forms/admin/settings.py:30
-#, fuzzy
 msgid "Disable comments"
-msgstr "Moderera kommentarer"
+msgstr ""
 
 #: mediacore/forms/admin/settings.py:35
 msgid "Enable"
@@ -663,14 +653,12 @@ msgid "Comment Engine"
 msgstr ""
 
 #: mediacore/forms/admin/settings.py:257
-#, fuzzy
 msgid "Built-in Comments:"
-msgstr "Skicka in kommentar"
+msgstr ""
 
 #: mediacore/forms/admin/settings.py:260
-#, fuzzy
 msgid "Moderation"
-msgstr "Moderera"
+msgstr ""
 
 #: mediacore/forms/admin/settings.py:261
 msgid "Require comments to be approved by an admin"
@@ -816,9 +804,8 @@ msgid "Display MediaCore Credits in Footer"
 msgstr ""
 
 #: mediacore/forms/admin/settings.py:380
-#, fuzzy
 msgid "Player Menu Options"
-msgstr "Uppspelningsalternativ:"
+msgstr ""
 
 #: mediacore/forms/admin/settings.py:385
 msgid "Enable Download button on player menu bar."
@@ -833,9 +820,8 @@ msgid "Enable Embed button on player menu bar."
 msgstr ""
 
 #: mediacore/forms/admin/settings.py:397
-#, fuzzy
 msgid "Enable Widescreen toggle button on player menu bar."
-msgstr "Aktivera mediaspelare i bredbild som standard"
+msgstr ""
 
 #: mediacore/forms/admin/settings.py:401
 msgid "Enable Popout button on player menu bar."
@@ -903,9 +889,8 @@ msgid ""
 msgstr ""
 
 #: mediacore/forms/admin/settings.py:474
-#, fuzzy
 msgid "Publish Videos"
-msgstr "Publicera nu"
+msgstr ""
 
 #: mediacore/forms/admin/settings.py:475
 msgid ""
@@ -1468,9 +1453,8 @@ msgid "Settings"
 msgstr "Inställningar"
 
 #: mediacore/templates/admin/master.html:58
-#, fuzzy
 msgid "© 2009-2012 MediaCore Inc."
-msgstr "© 2009-2011 Simple Station Inc."
+msgstr ""
 
 #: mediacore/templates/admin/categories/index.html:35
 #: mediacore/templates/admin/comments/index.html:33
@@ -2196,9 +2180,8 @@ msgstr "Senaste medier i %s"
 
 #: mediacore/templates/categories/index.html:28
 #: mediacore/templates/media/explore.html:107
-#, fuzzy
 msgid "More new media"
-msgstr "Ej granskade media"
+msgstr ""
 
 #: mediacore/templates/categories/index.html:28
 #: mediacore/templates/categories/index.html:33
@@ -2488,28 +2471,4 @@ msgid ""
 msgstr ""
 "Du omdirigeras automatiskt tillbaka till [1: mediebiblioteket] i några "
 "sekunder. Hang tight."
-
-#~ msgid "Slug"
-#~ msgstr "Kort länk"
-
-#~ msgid "Site Tag Line"
-#~ msgstr "Site slogan"
-
-#~ msgid "Administrative notes on Media:"
-#~ msgstr "Administrativa anteckningar om Media:"
-
-#~ msgid "Display notes"
-#~ msgstr "Visa anteckningar"
-
-#~ msgid "Akismet Anti-Spam Details:"
-#~ msgstr "Akismet Anti-Spam Detaljer:"
-
-#~ msgid "Vulgarity Filter Settings"
-#~ msgstr "Inställningar för vulgärfilter"
-
-#~ msgid "Run Filter Now"
-#~ msgstr "Kör filter nu"
-
-#~ msgid "There are no media items published yet!"
-#~ msgstr "Det finns inga mediaobjekt publicerade än!"
 
