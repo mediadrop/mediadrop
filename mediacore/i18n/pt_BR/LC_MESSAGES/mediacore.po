@@ -2480,6 +2480,3 @@ msgid ""
 msgstr ""
 "Você será automaticamente redirecionado à [1:Media Library] em alguns "
 "segundos."
-
-s."
-

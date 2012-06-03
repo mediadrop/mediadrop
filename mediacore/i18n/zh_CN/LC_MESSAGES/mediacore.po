@@ -2460,6 +2460,3 @@ msgid ""
 "You will be automatically redirected back to the [1:Media Library] in a "
 "few seconds. Hang tight."
 msgstr "您将在几秒钟内自动重定向回[1:媒体库]。稍安毋躁。"
-
-�安毋躁。"
-

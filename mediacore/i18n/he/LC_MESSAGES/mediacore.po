@@ -2452,6 +2452,3 @@ msgid ""
 "You will be automatically redirected back to the [1:Media Library] in a "
 "few seconds. Hang tight."
 msgstr "תועבר באופן אוטומטי לספרית המדיה בעוד מספר שניות. תחזיק חזק"
-
-חזק"
-

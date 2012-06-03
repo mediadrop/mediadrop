@@ -2445,5 +2445,3 @@ msgid ""
 "few seconds. Hang tight."
 msgstr "少しお待ちください。[1:Media Library]へリダイレクトされます"
 
-�れます"
-

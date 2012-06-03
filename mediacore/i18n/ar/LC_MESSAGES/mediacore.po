@@ -2485,6 +2485,3 @@ msgid ""
 "You will be automatically redirected back to the [1:Media Library] in a "
 "few seconds. Hang tight."
 msgstr "سيتم نقلك آليا إلى [1:Media Library] خلال ثوان... نرجو الانتظار"
-
-�انتظار"
-
