@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: MediaCore Video Platform\n"
 "Report-Msgid-Bugs-To: http://github.com/mediacore/mediacore-"
 "community/issues\n"
-"POT-Creation-Date: 2012-02-24 11:38+0100\n"
+"POT-Creation-Date: 2012-06-04 10:07+0200\n"
 "PO-Revision-Date: 2012-03-29 12:00+0000\n"
 "Last-Translator: romanstorozhuk <roman.storozhuk@gmail.com>\n"
 "Language-Team: uk_UA <LL@li.org>\n"
@@ -77,11 +77,11 @@ msgstr "Черезрядкові зображення формату PNG не п
 msgid "Save the podcast to get your feed URL"
 msgstr "Збережіть подкаст для отримання URL Вашого веб-каналу."
 
-#: mediacore/forms/__init__.py:185
+#: mediacore/forms/__init__.py:194
 msgid "The portion of the email address before the @ is invalid"
 msgstr "Частина email адреси перед @ не є вірною."
 
-#: mediacore/forms/__init__.py:186
+#: mediacore/forms/__init__.py:195
 msgid "The portion of this email address after the @ is invalid"
 msgstr "Частина email адреси після @ не є вірною."
 
@@ -170,7 +170,7 @@ msgstr "Батьківська категорія"
 #: mediacore/templates/admin/categories/index.html:88
 #: mediacore/templates/admin/comments/index.html:35
 #: mediacore/templates/admin/comments/index.html:48
-#: mediacore/templates/admin/media/edit.html:65
+#: mediacore/templates/admin/media/edit.html:77
 #: mediacore/templates/admin/media/index.html:33
 #: mediacore/templates/admin/players/index.html:25
 #: mediacore/templates/admin/podcasts/edit.html:51
@@ -187,9 +187,9 @@ msgstr "Скасувати"
 #: mediacore/forms/admin/media.py:155 mediacore/forms/admin/players.py:45
 #: mediacore/forms/admin/podcasts.py:115 mediacore/forms/admin/settings.py:115
 #: mediacore/forms/admin/settings.py:134 mediacore/forms/admin/settings.py:165
-#: mediacore/forms/admin/settings.py:177 mediacore/forms/admin/settings.py:204
-#: mediacore/forms/admin/settings.py:242 mediacore/forms/admin/settings.py:274
-#: mediacore/forms/admin/settings.py:435 mediacore/forms/admin/settings.py:457
+#: mediacore/forms/admin/settings.py:177 mediacore/forms/admin/settings.py:201
+#: mediacore/forms/admin/settings.py:239 mediacore/forms/admin/settings.py:271
+#: mediacore/forms/admin/settings.py:432 mediacore/forms/admin/settings.py:454
 #: mediacore/forms/admin/tags.py:37 mediacore/forms/admin/users.py:51
 #: mediacore/forms/admin/storage/__init__.py:40
 msgid "Save"
@@ -203,7 +203,7 @@ msgstr "Зберегти"
 #: mediacore/templates/admin/comments/index.html:34
 #: mediacore/templates/admin/comments/index.html:47
 #: mediacore/templates/admin/comments/index.html:86
-#: mediacore/templates/admin/media/edit.html:64
+#: mediacore/templates/admin/media/edit.html:76
 #: mediacore/templates/admin/media/index.html:32
 #: mediacore/templates/admin/media/index.html:83
 #: mediacore/templates/admin/players/index.html:24
@@ -295,7 +295,7 @@ msgstr "Email автора"
 msgid "Description"
 msgstr "Опис"
 
-#: mediacore/forms/admin/media.py:148 mediacore/forms/admin/settings.py:477
+#: mediacore/forms/admin/media.py:148 mediacore/forms/admin/settings.py:474
 #: mediacore/templates/master.html:56
 #: mediacore/templates/admin/categories/edit.html:13
 #: mediacore/templates/admin/categories/index.html:14
@@ -309,7 +309,7 @@ msgstr "Опис"
 msgid "Categories"
 msgstr "Категорії"
 
-#: mediacore/forms/admin/media.py:149 mediacore/forms/admin/settings.py:479
+#: mediacore/forms/admin/media.py:149 mediacore/forms/admin/settings.py:476
 #: mediacore/templates/admin/media/_media-table.html:25
 #: mediacore/templates/admin/settings/master.html:73
 #: mediacore/templates/admin/tags/edit.html:13
@@ -320,7 +320,7 @@ msgstr "Категорії"
 msgid "Tags"
 msgstr "Теги"
 
-#: mediacore/forms/admin/media.py:149 mediacore/forms/admin/settings.py:479
+#: mediacore/forms/admin/media.py:149 mediacore/forms/admin/settings.py:476
 msgid "e.g.: puppies, great dane, adorable"
 msgstr "наприклад, цуценята, датський дог, чудовий"
 
@@ -635,246 +635,246 @@ msgstr "Дані Google Analytics:"
 msgid "Tracking Code"
 msgstr "Код відстеження"
 
-#: mediacore/forms/admin/settings.py:196
+#: mediacore/forms/admin/settings.py:193
 msgid "Site Maps"
 msgstr "Мапа сайту"
 
-#: mediacore/forms/admin/settings.py:200
+#: mediacore/forms/admin/settings.py:197
 msgid "RSS Feeds"
 msgstr "RSS канали"
 
-#: mediacore/forms/admin/settings.py:213
+#: mediacore/forms/admin/settings.py:210
 msgid "General Settings:"
 msgstr "Загальні налаштування:"
 
-#: mediacore/forms/admin/settings.py:215
+#: mediacore/forms/admin/settings.py:212
 msgid "Site Name"
 msgstr "Назва сайту"
 
-#: mediacore/forms/admin/settings.py:217
+#: mediacore/forms/admin/settings.py:214
 msgid "Display Site Name"
 msgstr "Відобразити назву сайту"
 
-#: mediacore/forms/admin/settings.py:221
+#: mediacore/forms/admin/settings.py:218
 msgid "Default Language"
 msgstr "Стандартна мова"
 
-#: mediacore/forms/admin/settings.py:225
+#: mediacore/forms/admin/settings.py:222
 msgid "Featured Category"
 msgstr "Популярні категорії"
 
-#: mediacore/forms/admin/settings.py:230
+#: mediacore/forms/admin/settings.py:227
 msgid "Rich Text Editing"
 msgstr "Розширене редагування тексту"
 
-#: mediacore/forms/admin/settings.py:253
+#: mediacore/forms/admin/settings.py:250
 msgid "Comment Engine"
 msgstr "Засіб обробки коментарів"
 
-#: mediacore/forms/admin/settings.py:257
+#: mediacore/forms/admin/settings.py:254
 msgid "Built-in Comments:"
 msgstr "Вбудовані коментарі:"
 
-#: mediacore/forms/admin/settings.py:260
+#: mediacore/forms/admin/settings.py:257
 msgid "Moderation"
 msgstr "Модерація"
 
-#: mediacore/forms/admin/settings.py:261
+#: mediacore/forms/admin/settings.py:258
 msgid "Require comments to be approved by an admin"
 msgstr "Вимагати, щоб коментарі схвалювалися адміністратором"
 
-#: mediacore/forms/admin/settings.py:264
+#: mediacore/forms/admin/settings.py:261
 msgid "Akismet Key"
 msgstr "Ключ Akismet"
 
-#: mediacore/forms/admin/settings.py:265
+#: mediacore/forms/admin/settings.py:262
 msgid "Akismet URL"
 msgstr "Akismet URL"
 
-#: mediacore/forms/admin/settings.py:266
+#: mediacore/forms/admin/settings.py:263
 msgid "Filtered Words"
 msgstr "Відфільтровані слова"
 
-#: mediacore/forms/admin/settings.py:268
+#: mediacore/forms/admin/settings.py:265
 msgid "Enter words to be filtered separated by a comma."
 msgstr "Введіть через кому слова для фільтрації."
 
-#: mediacore/forms/admin/settings.py:270
+#: mediacore/forms/admin/settings.py:267
 msgid "Facebook Comments:"
 msgstr "Коментарі Facebook:"
 
-#: mediacore/forms/admin/settings.py:271
+#: mediacore/forms/admin/settings.py:268
 msgid "Application ID"
 msgstr "Application ID"
 
-#: mediacore/forms/admin/settings.py:272
+#: mediacore/forms/admin/settings.py:269
 msgid "See: http://www.facebook.com/developers/createapp.php"
 msgstr "Див.: http://www.facebook.com/developers/createapp.php"
 
-#: mediacore/forms/admin/settings.py:284
+#: mediacore/forms/admin/settings.py:281
 msgid "Require a key to access the API"
 msgstr "Вимагати ключ для доступу до API"
 
-#: mediacore/forms/admin/settings.py:285
+#: mediacore/forms/admin/settings.py:282
 msgid "API Key:"
 msgstr "Ключ API:"
 
-#: mediacore/forms/admin/settings.py:286
+#: mediacore/forms/admin/settings.py:283
 msgid "Access Key"
 msgstr "Ключ доступу"
 
-#: mediacore/forms/admin/settings.py:288
+#: mediacore/forms/admin/settings.py:285
 msgid "API Settings:"
 msgstr "Налаштування API:"
 
-#: mediacore/forms/admin/settings.py:289
+#: mediacore/forms/admin/settings.py:286
 msgid "Max media results"
 msgstr "Максимальна кількість результатів"
 
-#: mediacore/forms/admin/settings.py:290
+#: mediacore/forms/admin/settings.py:287
 msgid "Max tree depth"
 msgstr "Максимальна глибина дерева"
 
-#: mediacore/forms/admin/settings.py:301
+#: mediacore/forms/admin/settings.py:298
 #: mediacore/templates/admin/settings/general.html:14
 #: mediacore/templates/admin/settings/general.html:20
 #: mediacore/templates/admin/settings/master.html:34
 msgid "General"
 msgstr "Загальні"
 
-#: mediacore/forms/admin/settings.py:304
+#: mediacore/forms/admin/settings.py:301
 msgid "Logo"
 msgstr "Лого"
 
-#: mediacore/forms/admin/settings.py:306
+#: mediacore/forms/admin/settings.py:303
 msgid "Upload Logo"
 msgstr "Вивантажити лого"
 
-#: mediacore/forms/admin/settings.py:311
+#: mediacore/forms/admin/settings.py:308
 msgid "Background Image"
 msgstr "Фонове зображення"
 
-#: mediacore/forms/admin/settings.py:313
+#: mediacore/forms/admin/settings.py:310
 msgid "Upload Background"
 msgstr "Вивантажити фонове зображення"
 
-#: mediacore/forms/admin/settings.py:319
+#: mediacore/forms/admin/settings.py:316
 msgid "Background color"
 msgstr "Колір фону"
 
-#: mediacore/forms/admin/settings.py:322
+#: mediacore/forms/admin/settings.py:319
 msgid "Link color"
 msgstr "Колір посиланнь"
 
-#: mediacore/forms/admin/settings.py:325
+#: mediacore/forms/admin/settings.py:322
 msgid "Visited Link color"
 msgstr "Колір відвіданого посилання"
 
-#: mediacore/forms/admin/settings.py:329
+#: mediacore/forms/admin/settings.py:326
 msgid "Text color"
 msgstr "Колір тексту"
 
-#: mediacore/forms/admin/settings.py:331
+#: mediacore/forms/admin/settings.py:328
 msgid "Heading color"
 msgstr "Колір заголовка"
 
-#: mediacore/forms/admin/settings.py:334
+#: mediacore/forms/admin/settings.py:331
 msgid "Color Scheme"
 msgstr "Кольорова схема"
 
-#: mediacore/forms/admin/settings.py:338
+#: mediacore/forms/admin/settings.py:335
 msgid "Options"
 msgstr "Налаштування"
 
-#: mediacore/forms/admin/settings.py:343
+#: mediacore/forms/admin/settings.py:340
 msgid "Enable Cooliris on the Explore Page"
 msgstr "Увімкнути Cooliris на Сторінці огляду"
 
-#: mediacore/forms/admin/settings.py:346
+#: mediacore/forms/admin/settings.py:343
 msgid "Enable Featured Items on the Explore Page"
 msgstr "Увімкнути популярні рубрики на Сторінці огляду"
 
-#: mediacore/forms/admin/settings.py:350
+#: mediacore/forms/admin/settings.py:347
 msgid "Enable Podcast Tab"
 msgstr "Увімкнути вкладку Подкаст"
 
-#: mediacore/forms/admin/settings.py:354
+#: mediacore/forms/admin/settings.py:351
 msgid "Enable User Uploads"
 msgstr "Дозволити вивантаження для корістувачів"
 
-#: mediacore/forms/admin/settings.py:358
+#: mediacore/forms/admin/settings.py:355
 msgid "Enable widescreen media player by default"
 msgstr "Увімкнути стандартно широкоформатний мультимедійний програвач"
 
-#: mediacore/forms/admin/settings.py:362
+#: mediacore/forms/admin/settings.py:359
 msgid "Display Logo"
 msgstr "Показати лого"
 
-#: mediacore/forms/admin/settings.py:366
+#: mediacore/forms/admin/settings.py:363
 msgid "Display Background Image"
 msgstr "Показати фонове зображення"
 
-#: mediacore/forms/admin/settings.py:370
+#: mediacore/forms/admin/settings.py:367
 msgid "Display MediaCore Footer"
 msgstr "Відобразити нижній колонтитул сторінки MediaCore"
 
-#: mediacore/forms/admin/settings.py:374
+#: mediacore/forms/admin/settings.py:371
 msgid "Display MediaCore Credits in Footer"
 msgstr "Представляти MediaCore у нижньому колонтитулі сторінки"
 
-#: mediacore/forms/admin/settings.py:380
+#: mediacore/forms/admin/settings.py:377
 msgid "Player Menu Options"
 msgstr "Налаштування меню програвача"
 
-#: mediacore/forms/admin/settings.py:385
+#: mediacore/forms/admin/settings.py:382
 msgid "Enable Download button on player menu bar."
 msgstr "Увімкнути кнопку \"Завантажити\" у рядку меню програвача."
 
-#: mediacore/forms/admin/settings.py:389
+#: mediacore/forms/admin/settings.py:386
 msgid "Enable Share button on player menu bar."
 msgstr "Увімкнути кнопку \"Поділитися\" у рядку меню програвача."
 
-#: mediacore/forms/admin/settings.py:393
+#: mediacore/forms/admin/settings.py:390
 msgid "Enable Embed button on player menu bar."
 msgstr "Увімкнути кнопку \"Вставити\" у рядку меню програвача."
 
-#: mediacore/forms/admin/settings.py:397
+#: mediacore/forms/admin/settings.py:394
 msgid "Enable Widescreen toggle button on player menu bar."
 msgstr "Увімкнути кнопку широкоекранного режиму у рядку меню програвача."
 
-#: mediacore/forms/admin/settings.py:401
+#: mediacore/forms/admin/settings.py:398
 msgid "Enable Popout button on player menu bar."
 msgstr "Увімкнути кнопку спливаючого вікна у рядку меню програвача."
 
-#: mediacore/forms/admin/settings.py:405
+#: mediacore/forms/admin/settings.py:402
 msgid "Enable Like button on player menu bar."
 msgstr "Увімкнути кнопку \"Подобається\" у рядку меню програвача."
 
-#: mediacore/forms/admin/settings.py:409
+#: mediacore/forms/admin/settings.py:406
 msgid "Enable Dislike button on player menu bar."
 msgstr "Увімкнути кнопку \"Не подобається\" у рядку меню програвача."
 
-#: mediacore/forms/admin/settings.py:414
+#: mediacore/forms/admin/settings.py:411
 msgid "Advanced"
 msgstr "Розширені"
 
-#: mediacore/forms/admin/settings.py:418
+#: mediacore/forms/admin/settings.py:415
 msgid "Custom CSS"
 msgstr "CSS користувача"
 
-#: mediacore/forms/admin/settings.py:421
+#: mediacore/forms/admin/settings.py:418
 msgid "Custom Header HTML"
 msgstr "HTML заголовок користувача"
 
-#: mediacore/forms/admin/settings.py:424
+#: mediacore/forms/admin/settings.py:421
 msgid "Custom Footer HTML"
 msgstr "Нижній HTML колонтитул користувача"
 
-#: mediacore/forms/admin/settings.py:427
+#: mediacore/forms/admin/settings.py:424
 msgid "Custom <head> Tags"
 msgstr "Теги <head> користувача"
 
-#: mediacore/forms/admin/settings.py:428
+#: mediacore/forms/admin/settings.py:425
 msgid ""
 "These HTML tags are inserted into the HTML <head> section. Bad input can "
 "cause ugly rendering of your site. You can always restore your page by "
@@ -884,24 +884,24 @@ msgstr ""
 "спричинити поганий вигляд Вашого сайту. Ви завжди маєте можливість "
 "відновити первинний стан Вашої сторінки за допомогою форми вище."
 
-#: mediacore/forms/admin/settings.py:436
+#: mediacore/forms/admin/settings.py:433
 #: mediacore/templates/admin/settings/appearance.html:25
 msgid "Reset to Defaults"
 msgstr "Відновити стандартні параметри"
 
-#: mediacore/forms/admin/settings.py:450
+#: mediacore/forms/admin/settings.py:447
 msgid "Banner HTML"
 msgstr "Банер HTML"
 
-#: mediacore/forms/admin/settings.py:453
+#: mediacore/forms/admin/settings.py:450
 msgid "Sidebar HTML"
 msgstr "Бічна панель HTML"
 
-#: mediacore/forms/admin/settings.py:470
+#: mediacore/forms/admin/settings.py:467
 msgid "Channel Name(s)"
 msgstr "Назва(-и) каналу"
 
-#: mediacore/forms/admin/settings.py:471
+#: mediacore/forms/admin/settings.py:468
 msgid ""
 "One ore more channel names (separated by commas) to import. Please enter "
 "only the channel/user name, not the full URL. Please be aware that it may"
@@ -915,11 +915,11 @@ msgstr ""
 "Коли всі відео будуть імпортовані, Ви повернитесь на сторінку \"Медіа\" "
 "для керування Вашими новими відео."
 
-#: mediacore/forms/admin/settings.py:474
+#: mediacore/forms/admin/settings.py:471
 msgid "Publish Videos"
 msgstr "Опублікувати відео"
 
-#: mediacore/forms/admin/settings.py:475
+#: mediacore/forms/admin/settings.py:472
 msgid ""
 "When this is selected, videos are published automatically when they are "
 "imported. Otherwise the videos will be added, but will be waiting for "
@@ -929,7 +929,7 @@ msgstr ""
 "після імпорту. У іншому випадку відео будуть додані, але чекатимуть на "
 "рецензію перед публікацією."
 
-#: mediacore/forms/admin/settings.py:480
+#: mediacore/forms/admin/settings.py:477
 msgid "Import"
 msgstr "Імпортувати"
 
@@ -1134,7 +1134,7 @@ msgstr "Опис аудіо"
 msgid "Captions"
 msgstr "Підписи"
 
-#: mediacore/lib/helpers.py:353
+#: mediacore/lib/helpers.py:374
 msgid "Help"
 msgstr "Довідка"
 
@@ -1412,7 +1412,7 @@ msgstr "Коментарі"
 #: mediacore/templates/admin/helpers.html:71
 #: mediacore/templates/admin/media/_media-table.html:47
 #: mediacore/templates/admin/media/index.html:114
-#: mediacore/templates/admin/media/update-status-form.html:82
+#: mediacore/templates/admin/media/update-status-form.html:85
 msgid "Published"
 msgstr "Опубліковане"
 
@@ -1450,7 +1450,7 @@ msgstr "Початок роботи"
 
 #: mediacore/templates/admin/index.html:63
 #: mediacore/templates/admin/media/edit.html:13
-#: mediacore/templates/admin/media/edit.html:142
+#: mediacore/templates/admin/media/edit.html:154
 #: mediacore/templates/admin/media/index.html:74
 msgid "Add New Media"
 msgstr "Додати новий файл"
@@ -1490,14 +1490,19 @@ msgstr "Користувачі"
 msgid "Settings"
 msgstr "Налаштування"
 
-#: mediacore/templates/admin/master.html:58
+#: mediacore/templates/admin/master.html:60
+#, fuzzy
+msgid "MediaCore CE"
+msgstr "MediaCore"
+
+#: mediacore/templates/admin/master.html:61
 msgid "© 2009-2012 MediaCore Inc."
 msgstr "© 2009-2012 Корпорація MediaCore"
 
 #: mediacore/templates/admin/categories/index.html:35
 #: mediacore/templates/admin/comments/index.html:33
 #: mediacore/templates/admin/comments/index.html:45
-#: mediacore/templates/admin/media/edit.html:62
+#: mediacore/templates/admin/media/edit.html:74
 #: mediacore/templates/admin/media/index.html:30
 #: mediacore/templates/admin/players/index.html:22
 #: mediacore/templates/admin/podcasts/edit.html:48
@@ -1541,7 +1546,7 @@ msgstr "Ви впевненні, що бажаєте видалити цю ка�
 #: mediacore/templates/admin/categories/row-form.html:29
 #: mediacore/templates/admin/comments/_comment-table.html:55
 #: mediacore/templates/admin/media/edit.html:13
-#: mediacore/templates/admin/media/edit.html:115
+#: mediacore/templates/admin/media/edit.html:127
 #: mediacore/templates/admin/players/index.html:75
 #: mediacore/templates/admin/podcasts/_podcast-table.html:22
 #: mediacore/templates/admin/podcasts/edit.html:41
@@ -1678,41 +1683,41 @@ msgstr "Чернетка"
 msgid "Publishing..."
 msgstr "Публікація..."
 
-#: mediacore/templates/admin/media/edit.html:47
+#: mediacore/templates/admin/media/edit.html:59
 #: mediacore/templates/admin/podcasts/edit.html:28
 msgid "Saving the file failed. Please try again"
 msgstr "Помилка при збереженні файлу. Спробуйте ще раз."
 
-#: mediacore/templates/admin/media/edit.html:48
+#: mediacore/templates/admin/media/edit.html:60
 #: mediacore/templates/admin/podcasts/edit.html:29
 #, python-format
 msgid "Security error occured (%(text)s)"
 msgstr "Помилка безпеки: (%(text)s)"
 
-#: mediacore/templates/admin/media/edit.html:49
+#: mediacore/templates/admin/media/edit.html:61
 #: mediacore/templates/admin/podcasts/edit.html:30
 #, python-format
 msgid "Error caused a send or load operation to fail (%(text)s)"
 msgstr "Помилка призвела до збою операцій відправки або завантаження (%(text)s)"
 
-#: mediacore/templates/admin/media/edit.html:52
+#: mediacore/templates/admin/media/edit.html:64
 #: mediacore/templates/admin/podcasts/edit.html:33
 msgid "File has already been added, duplicates are not allowed"
 msgstr "Такий файл уже існує. Дублікати не дозволені."
 
-#: mediacore/templates/admin/media/edit.html:53
+#: mediacore/templates/admin/media/edit.html:65
 #: mediacore/templates/admin/podcasts/edit.html:34
 #, python-format
 msgid "File is too small, the minimal file size is %(size)s"
 msgstr "Файл занадто малий. Мінімальний розмір файлу - %(size)s"
 
-#: mediacore/templates/admin/media/edit.html:54
+#: mediacore/templates/admin/media/edit.html:66
 #: mediacore/templates/admin/podcasts/edit.html:35
 #, python-format
 msgid "File is too large, the maximum file size is %(size)s"
 msgstr "Файл занадто великий. Максимальний розмір файлу - %(size)s"
 
-#: mediacore/templates/admin/media/edit.html:55
+#: mediacore/templates/admin/media/edit.html:67
 #: mediacore/templates/admin/podcasts/edit.html:36
 #, python-format
 msgid "File could not be added, amount of %(num)s files exceeded"
@@ -1720,13 +1725,13 @@ msgstr ""
 "Файл не може бути доданий, перевищена максимальна кількість файлів: "
 "%(num)s"
 
-#: mediacore/templates/admin/media/edit.html:56
+#: mediacore/templates/admin/media/edit.html:68
 #: mediacore/templates/admin/podcasts/edit.html:37
 #, python-format
 msgid "File is too big, overall filesize of %(size)s exceeded"
 msgstr "Файл занадто великий. Перевищено максимальний розмір файлу %(size)s"
 
-#: mediacore/templates/admin/media/edit.html:63
+#: mediacore/templates/admin/media/edit.html:75
 #: mediacore/templates/admin/players/index.html:23
 #: mediacore/templates/admin/podcasts/edit.html:49
 #: mediacore/templates/admin/storage/index.html:27
@@ -1735,124 +1740,124 @@ msgstr "Файл занадто великий. Перевищено макси�
 msgid "Are you sure you want to delete this?"
 msgstr "Ви впевнені, шо бажаєте це видалити?"
 
-#: mediacore/templates/admin/media/edit.html:74
+#: mediacore/templates/admin/media/edit.html:86
 #: mediacore/templates/admin/podcasts/edit.html:60
 msgid "Upload image"
 msgstr "Вивантажити зображення"
 
-#: mediacore/templates/admin/media/edit.html:83
+#: mediacore/templates/admin/media/edit.html:95
 msgid "Are you sure you want to delete this file?"
 msgstr "Ви впевнені, що бажаєте видалити цей файл?"
 
-#: mediacore/templates/admin/media/edit.html:88
+#: mediacore/templates/admin/media/edit.html:100
 msgid "Upload a file"
 msgstr "Вивантажити файл"
 
-#: mediacore/templates/admin/media/edit.html:95
+#: mediacore/templates/admin/media/edit.html:107
 msgid "Failed to add this file. Please try again."
 msgstr "Неможливо додати цей файл. Спробуйте ще раз."
 
-#: mediacore/templates/admin/media/edit.html:96
+#: mediacore/templates/admin/media/edit.html:108
 msgid "Failed to save your change. Please try again."
 msgstr "Не вдалося зберегти Ваші зміни. Спробуйте ще раз."
 
-#: mediacore/templates/admin/media/edit.html:97
+#: mediacore/templates/admin/media/edit.html:109
 msgid "Uploading"
 msgstr "Вивантажую"
 
-#: mediacore/templates/admin/media/edit.html:98
+#: mediacore/templates/admin/media/edit.html:110
 msgid "Queued"
 msgstr "У черзі"
 
-#: mediacore/templates/admin/media/edit.html:99
+#: mediacore/templates/admin/media/edit.html:111
 msgid "Error"
 msgstr "Помилка"
 
-#: mediacore/templates/admin/media/edit.html:111
+#: mediacore/templates/admin/media/edit.html:123
 msgid "A connection problem occurred, try again."
 msgstr "Виникла помилка підключення, спробуйте ще раз."
 
-#: mediacore/templates/admin/media/edit.html:112
+#: mediacore/templates/admin/media/edit.html:124
 msgid "An error has occurred, try again."
 msgstr "Виникла помилка, спробуйте ще раз."
 
-#: mediacore/templates/admin/media/edit.html:115
-#: mediacore/templates/admin/media/edit.html:200
+#: mediacore/templates/admin/media/edit.html:127
+#: mediacore/templates/admin/media/edit.html:212
 #: mediacore/templates/admin/podcasts/edit.html:41
 msgid "Hide"
 msgstr "Сховати"
 
-#: mediacore/templates/admin/media/edit.html:116
+#: mediacore/templates/admin/media/edit.html:128
 msgid "Saving"
 msgstr "Збереження"
 
-#: mediacore/templates/admin/media/edit.html:117
+#: mediacore/templates/admin/media/edit.html:129
 msgid "Saved!"
 msgstr "Збережено!"
 
-#: mediacore/templates/admin/media/edit.html:118
+#: mediacore/templates/admin/media/edit.html:130
 msgid "Saving failed. Please try again."
 msgstr "Зберегти не вдалося. Спробуйте ще раз."
 
-#: mediacore/templates/admin/media/edit.html:119
+#: mediacore/templates/admin/media/edit.html:131
 msgid "Please correct the highlighted errors and save again."
 msgstr "Будь ласка, виправте позначені помилки та збережіть ще раз."
 
-#: mediacore/templates/admin/media/edit.html:141
+#: mediacore/templates/admin/media/edit.html:153
 #: mediacore/templates/admin/podcasts/edit.html:84
 msgid "Uploaded:"
 msgstr "Вивантажено:"
 
-#: mediacore/templates/admin/media/edit.html:152
+#: mediacore/templates/admin/media/edit.html:164
 #: mediacore/templates/admin/storage/index.html:119
 msgid "Files"
 msgstr "Файли"
 
-#: mediacore/templates/admin/media/edit.html:153
+#: mediacore/templates/admin/media/edit.html:165
 msgid "Add & Manage"
 msgstr "Додати та/або змінити"
 
-#: mediacore/templates/admin/media/edit.html:156
+#: mediacore/templates/admin/media/edit.html:168
 #: mediacore/templates/admin/media/file-edit-form.html:12
 msgid "View this file"
 msgstr "Подивитись цей файл"
 
-#: mediacore/templates/admin/media/edit.html:170
+#: mediacore/templates/admin/media/edit.html:182
 #: mediacore/templates/admin/podcasts/edit.html:99
 msgid "Thumbnail"
 msgstr "Мініатюра"
 
-#: mediacore/templates/admin/media/edit.html:173
+#: mediacore/templates/admin/media/edit.html:185
 #: mediacore/templates/admin/podcasts/_podcast-table.html:29
 #: mediacore/templates/admin/podcasts/edit.html:103
 msgid "Thumb"
 msgstr "Ескіз"
 
-#: mediacore/templates/admin/media/edit.html:197
+#: mediacore/templates/admin/media/edit.html:209
 msgid "Manage Files"
 msgstr "Керування файлами"
 
-#: mediacore/templates/admin/media/edit.html:206
+#: mediacore/templates/admin/media/edit.html:218
 msgid "File"
 msgstr "Файл"
 
-#: mediacore/templates/admin/media/edit.html:207
+#: mediacore/templates/admin/media/edit.html:219
 msgid "Size"
 msgstr "Розмір"
 
-#: mediacore/templates/admin/media/edit.html:208
+#: mediacore/templates/admin/media/edit.html:220
 msgid "Duration"
 msgstr "Тривалість"
 
-#: mediacore/templates/admin/media/edit.html:209
+#: mediacore/templates/admin/media/edit.html:221
 msgid "Bitrate"
 msgstr "Бітрейт"
 
-#: mediacore/templates/admin/media/edit.html:210
+#: mediacore/templates/admin/media/edit.html:222
 msgid "Dimensions"
 msgstr "Розміри"
 
-#: mediacore/templates/admin/media/edit.html:211
+#: mediacore/templates/admin/media/edit.html:223
 msgid "Type"
 msgstr "Тип"
 
@@ -1929,66 +1934,79 @@ msgstr "Продивитись медіа там, де воно буде опу�
 msgid "Preview"
 msgstr "Попередній перегляд"
 
-#: mediacore/templates/admin/media/update-status-form.html:36
+#: mediacore/templates/admin/media/update-status-form.html:39
 msgid "You must add a file and save before review can begin."
 msgstr ""
 "Вам необхідно додати файл та зберегти перед тим, як буде продовжено "
 "рецензування."
 
-#: mediacore/templates/admin/media/update-status-form.html:40
+#: mediacore/templates/admin/media/update-status-form.html:43
 msgid "Review Pending"
 msgstr "В очікуванні перевірки."
 
-#: mediacore/templates/admin/media/update-status-form.html:41
-#: mediacore/templates/admin/media/update-status-form.html:67
-#: mediacore/templates/admin/media/update-status-form.html:80
+#: mediacore/templates/admin/media/update-status-form.html:44
+#: mediacore/templates/admin/media/update-status-form.html:70
+#: mediacore/templates/admin/media/update-status-form.html:83
 msgid "Encoding Complete"
 msgstr "Конвертація завершена"
 
-#: mediacore/templates/admin/media/update-status-form.html:41
-#: mediacore/templates/admin/media/update-status-form.html:57
+#: mediacore/templates/admin/media/update-status-form.html:44
+#: mediacore/templates/admin/media/update-status-form.html:60
 msgid "Encoding Pending"
 msgstr "В очікуванні конвертації"
 
-#: mediacore/templates/admin/media/update-status-form.html:42
-#: mediacore/templates/admin/media/update-status-form.html:58
-#: mediacore/templates/admin/media/update-status-form.html:68
-#: mediacore/templates/admin/media/update-status-form.html:81
+#: mediacore/templates/admin/media/update-status-form.html:45
+#: mediacore/templates/admin/media/update-status-form.html:61
+#: mediacore/templates/admin/media/update-status-form.html:71
+#: mediacore/templates/admin/media/update-status-form.html:84
 msgid "Click to change the publish date"
 msgstr "Натисніть для зміни дати публікації"
 
-#: mediacore/templates/admin/media/update-status-form.html:42
-#: mediacore/templates/admin/media/update-status-form.html:58
-#: mediacore/templates/admin/media/update-status-form.html:68
-#: mediacore/templates/admin/media/update-status-form.html:82
+#: mediacore/templates/admin/media/update-status-form.html:45
+#: mediacore/templates/admin/media/update-status-form.html:61
+#: mediacore/templates/admin/media/update-status-form.html:71
+#: mediacore/templates/admin/media/update-status-form.html:85
 msgid "Publishing"
 msgstr "Публікація"
 
-#: mediacore/templates/admin/media/update-status-form.html:43
-#: mediacore/templates/admin/media/update-status-form.html:59
-#: mediacore/templates/admin/media/update-status-form.html:69
-#: mediacore/templates/admin/media/update-status-form.html:83
+#: mediacore/templates/admin/media/update-status-form.html:46
+#: mediacore/templates/admin/media/update-status-form.html:62
+#: mediacore/templates/admin/media/update-status-form.html:72
+#: mediacore/templates/admin/media/update-status-form.html:86
 msgid "Pending"
 msgstr "В очікуванні"
 
-#: mediacore/templates/admin/media/update-status-form.html:49
-#: mediacore/templates/admin/media/update-status-form.html:56
-#: mediacore/templates/admin/media/update-status-form.html:66
-#: mediacore/templates/admin/media/update-status-form.html:79
+#: mediacore/templates/admin/media/update-status-form.html:52
+#: mediacore/templates/admin/media/update-status-form.html:59
+#: mediacore/templates/admin/media/update-status-form.html:69
+#: mediacore/templates/admin/media/update-status-form.html:82
 msgid "Review Complete"
 msgstr "Перевірка завершена"
 
-#: mediacore/templates/admin/media/update-status-form.html:51
+#: mediacore/templates/admin/media/update-status-form.html:54
 msgid "Review can only be completed after a file is added."
 msgstr "Перевірка може бути завершена, тільки після додавання файлу."
 
-#: mediacore/templates/admin/media/update-status-form.html:62
+#: mediacore/templates/admin/media/update-status-form.html:65
 msgid "Encoding will be complete when an acceptable file is added."
 msgstr "Конвертація буде завершена після додавання належного файлу."
 
-#: mediacore/templates/admin/media/update-status-form.html:74
+#: mediacore/templates/admin/media/update-status-form.html:77
 msgid "Publish Now"
 msgstr "Опублікувати"
+
+#: mediacore/templates/admin/media/update-status-form.html:91
+#, fuzzy
+msgid "Click to change the expiration date"
+msgstr "Натисніть для зміни дати публікації"
+
+#: mediacore/templates/admin/media/update-status-form.html:91
+msgid "Expires"
+msgstr ""
+
+#: mediacore/templates/admin/media/update-status-form.html:92
+msgid "never"
+msgstr ""
 
 #: mediacore/templates/admin/players/index.html:13
 #: mediacore/templates/admin/players/index.html:37

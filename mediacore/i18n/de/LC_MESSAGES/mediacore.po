@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: MediaCore Video Platform\n"
 "Report-Msgid-Bugs-To: http://github.com/mediacore/mediacore-"
 "community/issues\n"
-"POT-Creation-Date: 2012-02-24 11:38+0100\n"
+"POT-Creation-Date: 2012-06-04 10:07+0200\n"
 "PO-Revision-Date: 2012-02-24 11:18+0000\n"
 "Last-Translator: fschwarz <felix.schwarz@oss.schwarz.eu>\n"
 "Language-Team: de <LL@li.org>\n"
@@ -77,11 +77,11 @@ msgstr ""
 msgid "Save the podcast to get your feed URL"
 msgstr ""
 
-#: mediacore/forms/__init__.py:185
+#: mediacore/forms/__init__.py:194
 msgid "The portion of the email address before the @ is invalid"
 msgstr "Die E-Mail-Adresse vor dem @-Zeichen ist nicht gültig."
 
-#: mediacore/forms/__init__.py:186
+#: mediacore/forms/__init__.py:195
 msgid "The portion of this email address after the @ is invalid"
 msgstr "Die E-Mail-Adresse nach dem @-Zeichen ist nicht gültig."
 
@@ -170,7 +170,7 @@ msgstr "Übergeordnete Kategorie"
 #: mediacore/templates/admin/categories/index.html:88
 #: mediacore/templates/admin/comments/index.html:35
 #: mediacore/templates/admin/comments/index.html:48
-#: mediacore/templates/admin/media/edit.html:65
+#: mediacore/templates/admin/media/edit.html:77
 #: mediacore/templates/admin/media/index.html:33
 #: mediacore/templates/admin/players/index.html:25
 #: mediacore/templates/admin/podcasts/edit.html:51
@@ -187,9 +187,9 @@ msgstr "Abbrechen"
 #: mediacore/forms/admin/media.py:155 mediacore/forms/admin/players.py:45
 #: mediacore/forms/admin/podcasts.py:115 mediacore/forms/admin/settings.py:115
 #: mediacore/forms/admin/settings.py:134 mediacore/forms/admin/settings.py:165
-#: mediacore/forms/admin/settings.py:177 mediacore/forms/admin/settings.py:204
-#: mediacore/forms/admin/settings.py:242 mediacore/forms/admin/settings.py:274
-#: mediacore/forms/admin/settings.py:435 mediacore/forms/admin/settings.py:457
+#: mediacore/forms/admin/settings.py:177 mediacore/forms/admin/settings.py:201
+#: mediacore/forms/admin/settings.py:239 mediacore/forms/admin/settings.py:271
+#: mediacore/forms/admin/settings.py:432 mediacore/forms/admin/settings.py:454
 #: mediacore/forms/admin/tags.py:37 mediacore/forms/admin/users.py:51
 #: mediacore/forms/admin/storage/__init__.py:40
 msgid "Save"
@@ -203,7 +203,7 @@ msgstr "Speichern"
 #: mediacore/templates/admin/comments/index.html:34
 #: mediacore/templates/admin/comments/index.html:47
 #: mediacore/templates/admin/comments/index.html:86
-#: mediacore/templates/admin/media/edit.html:64
+#: mediacore/templates/admin/media/edit.html:76
 #: mediacore/templates/admin/media/index.html:32
 #: mediacore/templates/admin/media/index.html:83
 #: mediacore/templates/admin/players/index.html:24
@@ -294,7 +294,7 @@ msgstr "E-Mail-Adresse des Autors"
 msgid "Description"
 msgstr "Beschreibung"
 
-#: mediacore/forms/admin/media.py:148 mediacore/forms/admin/settings.py:477
+#: mediacore/forms/admin/media.py:148 mediacore/forms/admin/settings.py:474
 #: mediacore/templates/master.html:56
 #: mediacore/templates/admin/categories/edit.html:13
 #: mediacore/templates/admin/categories/index.html:14
@@ -308,7 +308,7 @@ msgstr "Beschreibung"
 msgid "Categories"
 msgstr "Kategorien"
 
-#: mediacore/forms/admin/media.py:149 mediacore/forms/admin/settings.py:479
+#: mediacore/forms/admin/media.py:149 mediacore/forms/admin/settings.py:476
 #: mediacore/templates/admin/media/_media-table.html:25
 #: mediacore/templates/admin/settings/master.html:73
 #: mediacore/templates/admin/tags/edit.html:13
@@ -319,7 +319,7 @@ msgstr "Kategorien"
 msgid "Tags"
 msgstr "Tags"
 
-#: mediacore/forms/admin/media.py:149 mediacore/forms/admin/settings.py:479
+#: mediacore/forms/admin/media.py:149 mediacore/forms/admin/settings.py:476
 msgid "e.g.: puppies, great dane, adorable"
 msgstr "z.B.: Welpen, deutsche Dogge, hinreißend"
 
@@ -623,270 +623,270 @@ msgstr "Google Analytics Details"
 msgid "Tracking Code"
 msgstr "Tracking-Code"
 
-#: mediacore/forms/admin/settings.py:196
+#: mediacore/forms/admin/settings.py:193
 msgid "Site Maps"
 msgstr "Seitenübersicht"
 
-#: mediacore/forms/admin/settings.py:200
+#: mediacore/forms/admin/settings.py:197
 msgid "RSS Feeds"
 msgstr "RSS-Feeds"
 
-#: mediacore/forms/admin/settings.py:213
+#: mediacore/forms/admin/settings.py:210
 msgid "General Settings:"
 msgstr "Generelle Einstellungen:"
 
-#: mediacore/forms/admin/settings.py:215
+#: mediacore/forms/admin/settings.py:212
 msgid "Site Name"
 msgstr "Seitenname"
 
-#: mediacore/forms/admin/settings.py:217
+#: mediacore/forms/admin/settings.py:214
 msgid "Display Site Name"
 msgstr "Anzeige des Seitennamens"
 
-#: mediacore/forms/admin/settings.py:221
+#: mediacore/forms/admin/settings.py:218
 msgid "Default Language"
 msgstr "Standardsprache"
 
-#: mediacore/forms/admin/settings.py:225
+#: mediacore/forms/admin/settings.py:222
 msgid "Featured Category"
 msgstr "Empfohlene Kategorie"
 
-#: mediacore/forms/admin/settings.py:230
+#: mediacore/forms/admin/settings.py:227
 msgid "Rich Text Editing"
 msgstr "Texteingabe"
 
-#: mediacore/forms/admin/settings.py:253
+#: mediacore/forms/admin/settings.py:250
 msgid "Comment Engine"
 msgstr ""
 
-#: mediacore/forms/admin/settings.py:257
+#: mediacore/forms/admin/settings.py:254
 msgid "Built-in Comments:"
 msgstr ""
 
-#: mediacore/forms/admin/settings.py:260
+#: mediacore/forms/admin/settings.py:257
 msgid "Moderation"
 msgstr ""
 
-#: mediacore/forms/admin/settings.py:261
+#: mediacore/forms/admin/settings.py:258
 msgid "Require comments to be approved by an admin"
 msgstr "Kommentare müssen von einem Admin geprüft werden"
 
-#: mediacore/forms/admin/settings.py:264
+#: mediacore/forms/admin/settings.py:261
 msgid "Akismet Key"
 msgstr "Akismet Schlüssel"
 
-#: mediacore/forms/admin/settings.py:265
+#: mediacore/forms/admin/settings.py:262
 msgid "Akismet URL"
 msgstr "Akismet-URL"
 
-#: mediacore/forms/admin/settings.py:266
+#: mediacore/forms/admin/settings.py:263
 msgid "Filtered Words"
 msgstr "Gesperrte Wörter"
 
-#: mediacore/forms/admin/settings.py:268
+#: mediacore/forms/admin/settings.py:265
 msgid "Enter words to be filtered separated by a comma."
 msgstr "Geben Sie die zu sperrenden Wörter durch Komma getrennt ein."
 
-#: mediacore/forms/admin/settings.py:270
+#: mediacore/forms/admin/settings.py:267
 msgid "Facebook Comments:"
 msgstr ""
 
-#: mediacore/forms/admin/settings.py:271
+#: mediacore/forms/admin/settings.py:268
 msgid "Application ID"
 msgstr ""
 
-#: mediacore/forms/admin/settings.py:272
+#: mediacore/forms/admin/settings.py:269
 msgid "See: http://www.facebook.com/developers/createapp.php"
 msgstr ""
 
-#: mediacore/forms/admin/settings.py:284
+#: mediacore/forms/admin/settings.py:281
 msgid "Require a key to access the API"
 msgstr "Schlüssel wird benötigt, um auf die API zuzugreifen"
 
-#: mediacore/forms/admin/settings.py:285
+#: mediacore/forms/admin/settings.py:282
 msgid "API Key:"
 msgstr "API-Schlüssel:"
 
-#: mediacore/forms/admin/settings.py:286
+#: mediacore/forms/admin/settings.py:283
 msgid "Access Key"
 msgstr "Zugriffsschlüssel"
 
-#: mediacore/forms/admin/settings.py:288
+#: mediacore/forms/admin/settings.py:285
 msgid "API Settings:"
 msgstr "API-Einstellungen:"
 
-#: mediacore/forms/admin/settings.py:289
+#: mediacore/forms/admin/settings.py:286
 msgid "Max media results"
 msgstr "Maximale Medien Ergebnisse"
 
-#: mediacore/forms/admin/settings.py:290
+#: mediacore/forms/admin/settings.py:287
 msgid "Max tree depth"
 msgstr "Maximale Baumtiefe"
 
-#: mediacore/forms/admin/settings.py:301
+#: mediacore/forms/admin/settings.py:298
 #: mediacore/templates/admin/settings/general.html:14
 #: mediacore/templates/admin/settings/general.html:20
 #: mediacore/templates/admin/settings/master.html:34
 msgid "General"
 msgstr "Generell"
 
-#: mediacore/forms/admin/settings.py:304
+#: mediacore/forms/admin/settings.py:301
 msgid "Logo"
 msgstr "Logo"
 
-#: mediacore/forms/admin/settings.py:306
+#: mediacore/forms/admin/settings.py:303
 msgid "Upload Logo"
 msgstr "Logo hochladen"
 
-#: mediacore/forms/admin/settings.py:311
+#: mediacore/forms/admin/settings.py:308
 msgid "Background Image"
 msgstr "Hintergrundbild"
 
-#: mediacore/forms/admin/settings.py:313
+#: mediacore/forms/admin/settings.py:310
 msgid "Upload Background"
 msgstr "Hintergrundbild hochladen"
 
-#: mediacore/forms/admin/settings.py:319
+#: mediacore/forms/admin/settings.py:316
 msgid "Background color"
 msgstr "Hintergrundfarbe"
 
-#: mediacore/forms/admin/settings.py:322
+#: mediacore/forms/admin/settings.py:319
 msgid "Link color"
 msgstr "Linkfarbe"
 
-#: mediacore/forms/admin/settings.py:325
+#: mediacore/forms/admin/settings.py:322
 msgid "Visited Link color"
 msgstr "Farbe für besuchte Links"
 
-#: mediacore/forms/admin/settings.py:329
+#: mediacore/forms/admin/settings.py:326
 msgid "Text color"
 msgstr "Schriftfarbe"
 
-#: mediacore/forms/admin/settings.py:331
+#: mediacore/forms/admin/settings.py:328
 msgid "Heading color"
 msgstr "Rubrikfarbe"
 
-#: mediacore/forms/admin/settings.py:334
+#: mediacore/forms/admin/settings.py:331
 msgid "Color Scheme"
 msgstr "Farbschema"
 
-#: mediacore/forms/admin/settings.py:338
+#: mediacore/forms/admin/settings.py:335
 msgid "Options"
 msgstr "Optionen"
 
-#: mediacore/forms/admin/settings.py:343
+#: mediacore/forms/admin/settings.py:340
 msgid "Enable Cooliris on the Explore Page"
 msgstr "Cooliris auf der Hauptseite aktivieren"
 
-#: mediacore/forms/admin/settings.py:346
+#: mediacore/forms/admin/settings.py:343
 msgid "Enable Featured Items on the Explore Page"
 msgstr "Aktivieren der empfohlenen Elemente auf der Hauptseite"
 
-#: mediacore/forms/admin/settings.py:350
+#: mediacore/forms/admin/settings.py:347
 msgid "Enable Podcast Tab"
 msgstr "Aktivieren des Podcast-Reiters"
 
-#: mediacore/forms/admin/settings.py:354
+#: mediacore/forms/admin/settings.py:351
 msgid "Enable User Uploads"
 msgstr "Benutzer-Uploads aktivieren"
 
-#: mediacore/forms/admin/settings.py:358
+#: mediacore/forms/admin/settings.py:355
 msgid "Enable widescreen media player by default"
 msgstr "Aktiveren des Breitbild-Medienplayers als Standard"
 
-#: mediacore/forms/admin/settings.py:362
+#: mediacore/forms/admin/settings.py:359
 msgid "Display Logo"
 msgstr "Logo anzeigen"
 
-#: mediacore/forms/admin/settings.py:366
+#: mediacore/forms/admin/settings.py:363
 msgid "Display Background Image"
 msgstr "Hintergrundbild anzeigen"
 
-#: mediacore/forms/admin/settings.py:370
+#: mediacore/forms/admin/settings.py:367
 msgid "Display MediaCore Footer"
 msgstr ""
 
-#: mediacore/forms/admin/settings.py:374
+#: mediacore/forms/admin/settings.py:371
 msgid "Display MediaCore Credits in Footer"
 msgstr ""
 
-#: mediacore/forms/admin/settings.py:380
+#: mediacore/forms/admin/settings.py:377
 msgid "Player Menu Options"
 msgstr ""
 
-#: mediacore/forms/admin/settings.py:385
+#: mediacore/forms/admin/settings.py:382
 msgid "Enable Download button on player menu bar."
 msgstr ""
 
-#: mediacore/forms/admin/settings.py:389
+#: mediacore/forms/admin/settings.py:386
 msgid "Enable Share button on player menu bar."
 msgstr ""
 
-#: mediacore/forms/admin/settings.py:393
+#: mediacore/forms/admin/settings.py:390
 msgid "Enable Embed button on player menu bar."
 msgstr ""
 
-#: mediacore/forms/admin/settings.py:397
+#: mediacore/forms/admin/settings.py:394
 msgid "Enable Widescreen toggle button on player menu bar."
 msgstr ""
 
-#: mediacore/forms/admin/settings.py:401
+#: mediacore/forms/admin/settings.py:398
 msgid "Enable Popout button on player menu bar."
 msgstr ""
 
-#: mediacore/forms/admin/settings.py:405
+#: mediacore/forms/admin/settings.py:402
 msgid "Enable Like button on player menu bar."
 msgstr ""
 
-#: mediacore/forms/admin/settings.py:409
+#: mediacore/forms/admin/settings.py:406
 msgid "Enable Dislike button on player menu bar."
 msgstr ""
 
-#: mediacore/forms/admin/settings.py:414
+#: mediacore/forms/admin/settings.py:411
 msgid "Advanced"
 msgstr "Erweitert"
 
-#: mediacore/forms/admin/settings.py:418
+#: mediacore/forms/admin/settings.py:415
 msgid "Custom CSS"
 msgstr "Benutzerdefinierte CSS"
 
-#: mediacore/forms/admin/settings.py:421
+#: mediacore/forms/admin/settings.py:418
 msgid "Custom Header HTML"
 msgstr "Benutzerdefiniertes Kopf-HTML"
 
-#: mediacore/forms/admin/settings.py:424
+#: mediacore/forms/admin/settings.py:421
 msgid "Custom Footer HTML"
 msgstr "Benutzerdefiniertes Fuß-HTML"
 
-#: mediacore/forms/admin/settings.py:427
+#: mediacore/forms/admin/settings.py:424
 msgid "Custom <head> Tags"
 msgstr ""
 
-#: mediacore/forms/admin/settings.py:428
+#: mediacore/forms/admin/settings.py:425
 msgid ""
 "These HTML tags are inserted into the HTML <head> section. Bad input can "
 "cause ugly rendering of your site. You can always restore your page by "
 "the box above."
 msgstr ""
 
-#: mediacore/forms/admin/settings.py:436
+#: mediacore/forms/admin/settings.py:433
 #: mediacore/templates/admin/settings/appearance.html:25
 msgid "Reset to Defaults"
 msgstr "Auf Standard zurücksetzen"
 
-#: mediacore/forms/admin/settings.py:450
+#: mediacore/forms/admin/settings.py:447
 msgid "Banner HTML"
 msgstr "Banner HTML"
 
-#: mediacore/forms/admin/settings.py:453
+#: mediacore/forms/admin/settings.py:450
 msgid "Sidebar HTML"
 msgstr "Sidebar HTML"
 
-#: mediacore/forms/admin/settings.py:470
+#: mediacore/forms/admin/settings.py:467
 msgid "Channel Name(s)"
 msgstr ""
 
-#: mediacore/forms/admin/settings.py:471
+#: mediacore/forms/admin/settings.py:468
 msgid ""
 "One ore more channel names (separated by commas) to import. Please enter "
 "only the channel/user name, not the full URL. Please be aware that it may"
@@ -895,18 +895,18 @@ msgid ""
 "videos."
 msgstr ""
 
-#: mediacore/forms/admin/settings.py:474
+#: mediacore/forms/admin/settings.py:471
 msgid "Publish Videos"
 msgstr ""
 
-#: mediacore/forms/admin/settings.py:475
+#: mediacore/forms/admin/settings.py:472
 msgid ""
 "When this is selected, videos are published automatically when they are "
 "imported. Otherwise the videos will be added, but will be waiting for "
 "review before being published."
 msgstr ""
 
-#: mediacore/forms/admin/settings.py:480
+#: mediacore/forms/admin/settings.py:477
 msgid "Import"
 msgstr ""
 
@@ -1113,7 +1113,7 @@ msgstr "Audio-Beschreibung"
 msgid "Captions"
 msgstr "Überschriften"
 
-#: mediacore/lib/helpers.py:353
+#: mediacore/lib/helpers.py:374
 msgid "Help"
 msgstr "Hilfe"
 
@@ -1389,7 +1389,7 @@ msgstr "Kommentare"
 #: mediacore/templates/admin/helpers.html:71
 #: mediacore/templates/admin/media/_media-table.html:47
 #: mediacore/templates/admin/media/index.html:114
-#: mediacore/templates/admin/media/update-status-form.html:82
+#: mediacore/templates/admin/media/update-status-form.html:85
 msgid "Published"
 msgstr "Veröffentlicht"
 
@@ -1427,7 +1427,7 @@ msgstr "Legen Sie los."
 
 #: mediacore/templates/admin/index.html:63
 #: mediacore/templates/admin/media/edit.html:13
-#: mediacore/templates/admin/media/edit.html:142
+#: mediacore/templates/admin/media/edit.html:154
 #: mediacore/templates/admin/media/index.html:74
 msgid "Add New Media"
 msgstr "Füge neue Medien hinzu"
@@ -1467,14 +1467,19 @@ msgstr "Benutzer"
 msgid "Settings"
 msgstr "Einstellungen"
 
-#: mediacore/templates/admin/master.html:58
+#: mediacore/templates/admin/master.html:60
+#, fuzzy
+msgid "MediaCore CE"
+msgstr "MediaCore"
+
+#: mediacore/templates/admin/master.html:61
 msgid "© 2009-2012 MediaCore Inc."
 msgstr ""
 
 #: mediacore/templates/admin/categories/index.html:35
 #: mediacore/templates/admin/comments/index.html:33
 #: mediacore/templates/admin/comments/index.html:45
-#: mediacore/templates/admin/media/edit.html:62
+#: mediacore/templates/admin/media/edit.html:74
 #: mediacore/templates/admin/media/index.html:30
 #: mediacore/templates/admin/players/index.html:22
 #: mediacore/templates/admin/podcasts/edit.html:48
@@ -1518,7 +1523,7 @@ msgstr "Wollen sie wirklich diese Kategorie [1:und ALLE untergeordneten] lösche
 #: mediacore/templates/admin/categories/row-form.html:29
 #: mediacore/templates/admin/comments/_comment-table.html:55
 #: mediacore/templates/admin/media/edit.html:13
-#: mediacore/templates/admin/media/edit.html:115
+#: mediacore/templates/admin/media/edit.html:127
 #: mediacore/templates/admin/players/index.html:75
 #: mediacore/templates/admin/podcasts/_podcast-table.html:22
 #: mediacore/templates/admin/podcasts/edit.html:41
@@ -1655,41 +1660,41 @@ msgstr "Entwurf"
 msgid "Publishing..."
 msgstr "Veröffentlichung..."
 
-#: mediacore/templates/admin/media/edit.html:47
+#: mediacore/templates/admin/media/edit.html:59
 #: mediacore/templates/admin/podcasts/edit.html:28
 msgid "Saving the file failed. Please try again"
 msgstr "Speichern der Datei fehlgeschlagen. Bitte erneut versuchen."
 
-#: mediacore/templates/admin/media/edit.html:48
+#: mediacore/templates/admin/media/edit.html:60
 #: mediacore/templates/admin/podcasts/edit.html:29
 #, python-format
 msgid "Security error occured (%(text)s)"
 msgstr "Sicherheitsfehler aufgetreten (%(text)s)"
 
-#: mediacore/templates/admin/media/edit.html:49
+#: mediacore/templates/admin/media/edit.html:61
 #: mediacore/templates/admin/podcasts/edit.html:30
 #, python-format
 msgid "Error caused a send or load operation to fail (%(text)s)"
 msgstr "Fehler beim Sende- oder Ladevorgang aufgetreten (%(text)s)"
 
-#: mediacore/templates/admin/media/edit.html:52
+#: mediacore/templates/admin/media/edit.html:64
 #: mediacore/templates/admin/podcasts/edit.html:33
 msgid "File has already been added, duplicates are not allowed"
 msgstr "Datei ist schon vorhanden, Duplikate sind nicht erlaubt"
 
-#: mediacore/templates/admin/media/edit.html:53
+#: mediacore/templates/admin/media/edit.html:65
 #: mediacore/templates/admin/podcasts/edit.html:34
 #, python-format
 msgid "File is too small, the minimal file size is %(size)s"
 msgstr "Datei zu klein, die Mindestgröße ist %(size)s"
 
-#: mediacore/templates/admin/media/edit.html:54
+#: mediacore/templates/admin/media/edit.html:66
 #: mediacore/templates/admin/podcasts/edit.html:35
 #, python-format
 msgid "File is too large, the maximum file size is %(size)s"
 msgstr "Datei ist zu groß, die Maximalgröße ist %(size)s"
 
-#: mediacore/templates/admin/media/edit.html:55
+#: mediacore/templates/admin/media/edit.html:67
 #: mediacore/templates/admin/podcasts/edit.html:36
 #, python-format
 msgid "File could not be added, amount of %(num)s files exceeded"
@@ -1697,13 +1702,13 @@ msgstr ""
 "Datei konnte nicht hinzugefügt werden, Anzahl von %(num)s wurde "
 "überschritten"
 
-#: mediacore/templates/admin/media/edit.html:56
+#: mediacore/templates/admin/media/edit.html:68
 #: mediacore/templates/admin/podcasts/edit.html:37
 #, python-format
 msgid "File is too big, overall filesize of %(size)s exceeded"
 msgstr "Die Datei ist zu groß, gesamte Dateigröße von%(size)s überschritten"
 
-#: mediacore/templates/admin/media/edit.html:63
+#: mediacore/templates/admin/media/edit.html:75
 #: mediacore/templates/admin/players/index.html:23
 #: mediacore/templates/admin/podcasts/edit.html:49
 #: mediacore/templates/admin/storage/index.html:27
@@ -1712,124 +1717,124 @@ msgstr "Die Datei ist zu groß, gesamte Dateigröße von%(size)s überschritten"
 msgid "Are you sure you want to delete this?"
 msgstr "Wollen Sie das wirklich löschen?"
 
-#: mediacore/templates/admin/media/edit.html:74
+#: mediacore/templates/admin/media/edit.html:86
 #: mediacore/templates/admin/podcasts/edit.html:60
 msgid "Upload image"
 msgstr "Bild hochladen"
 
-#: mediacore/templates/admin/media/edit.html:83
+#: mediacore/templates/admin/media/edit.html:95
 msgid "Are you sure you want to delete this file?"
 msgstr "Wollen Sie die Datei wirklich löschen?"
 
-#: mediacore/templates/admin/media/edit.html:88
+#: mediacore/templates/admin/media/edit.html:100
 msgid "Upload a file"
 msgstr "Hochladen einer Datei"
 
-#: mediacore/templates/admin/media/edit.html:95
+#: mediacore/templates/admin/media/edit.html:107
 msgid "Failed to add this file. Please try again."
 msgstr "Das Hinzufügen der Datei ist fehlgeschlagen. Bitte erneut versuchen."
 
-#: mediacore/templates/admin/media/edit.html:96
+#: mediacore/templates/admin/media/edit.html:108
 msgid "Failed to save your change. Please try again."
 msgstr "Fehler beim Speichern Ihrer Änderung. Bitte erneut versuchen."
 
-#: mediacore/templates/admin/media/edit.html:97
+#: mediacore/templates/admin/media/edit.html:109
 msgid "Uploading"
 msgstr "Hochladen"
 
-#: mediacore/templates/admin/media/edit.html:98
+#: mediacore/templates/admin/media/edit.html:110
 msgid "Queued"
 msgstr "anstehend"
 
-#: mediacore/templates/admin/media/edit.html:99
+#: mediacore/templates/admin/media/edit.html:111
 msgid "Error"
 msgstr "Fehler"
 
-#: mediacore/templates/admin/media/edit.html:111
+#: mediacore/templates/admin/media/edit.html:123
 msgid "A connection problem occurred, try again."
 msgstr "Ein Verbindungsproblem ist aufgetreten, bitte erneut versuchen."
 
-#: mediacore/templates/admin/media/edit.html:112
+#: mediacore/templates/admin/media/edit.html:124
 msgid "An error has occurred, try again."
 msgstr "Ein Fehler ist aufgetreten, bitte erneut versuchen."
 
-#: mediacore/templates/admin/media/edit.html:115
-#: mediacore/templates/admin/media/edit.html:200
+#: mediacore/templates/admin/media/edit.html:127
+#: mediacore/templates/admin/media/edit.html:212
 #: mediacore/templates/admin/podcasts/edit.html:41
 msgid "Hide"
 msgstr "Verstecken"
 
-#: mediacore/templates/admin/media/edit.html:116
+#: mediacore/templates/admin/media/edit.html:128
 msgid "Saving"
 msgstr "Speichere"
 
-#: mediacore/templates/admin/media/edit.html:117
+#: mediacore/templates/admin/media/edit.html:129
 msgid "Saved!"
 msgstr "Gespeichert!"
 
-#: mediacore/templates/admin/media/edit.html:118
+#: mediacore/templates/admin/media/edit.html:130
 msgid "Saving failed. Please try again."
 msgstr "Speichern fehlgeschlagen. Bitte erneut versuchen."
 
-#: mediacore/templates/admin/media/edit.html:119
+#: mediacore/templates/admin/media/edit.html:131
 msgid "Please correct the highlighted errors and save again."
 msgstr "Bitte den hervorgehobenen Fehler beheben und erneut versuchen."
 
-#: mediacore/templates/admin/media/edit.html:141
+#: mediacore/templates/admin/media/edit.html:153
 #: mediacore/templates/admin/podcasts/edit.html:84
 msgid "Uploaded:"
 msgstr "Hochgeladen:"
 
-#: mediacore/templates/admin/media/edit.html:152
+#: mediacore/templates/admin/media/edit.html:164
 #: mediacore/templates/admin/storage/index.html:119
 msgid "Files"
 msgstr "Dateien"
 
-#: mediacore/templates/admin/media/edit.html:153
+#: mediacore/templates/admin/media/edit.html:165
 msgid "Add & Manage"
 msgstr "Hinzufügen & Verwalten"
 
-#: mediacore/templates/admin/media/edit.html:156
+#: mediacore/templates/admin/media/edit.html:168
 #: mediacore/templates/admin/media/file-edit-form.html:12
 msgid "View this file"
 msgstr "Diese Datei anzeigen"
 
-#: mediacore/templates/admin/media/edit.html:170
+#: mediacore/templates/admin/media/edit.html:182
 #: mediacore/templates/admin/podcasts/edit.html:99
 msgid "Thumbnail"
 msgstr "Vorschaubild"
 
-#: mediacore/templates/admin/media/edit.html:173
+#: mediacore/templates/admin/media/edit.html:185
 #: mediacore/templates/admin/podcasts/_podcast-table.html:29
 #: mediacore/templates/admin/podcasts/edit.html:103
 msgid "Thumb"
 msgstr "Vorschaubild"
 
-#: mediacore/templates/admin/media/edit.html:197
+#: mediacore/templates/admin/media/edit.html:209
 msgid "Manage Files"
 msgstr "Dateien verwalten"
 
-#: mediacore/templates/admin/media/edit.html:206
+#: mediacore/templates/admin/media/edit.html:218
 msgid "File"
 msgstr "Datei"
 
-#: mediacore/templates/admin/media/edit.html:207
+#: mediacore/templates/admin/media/edit.html:219
 msgid "Size"
 msgstr "Größe"
 
-#: mediacore/templates/admin/media/edit.html:208
+#: mediacore/templates/admin/media/edit.html:220
 msgid "Duration"
 msgstr "Dauer"
 
-#: mediacore/templates/admin/media/edit.html:209
+#: mediacore/templates/admin/media/edit.html:221
 msgid "Bitrate"
 msgstr "Bitrate"
 
-#: mediacore/templates/admin/media/edit.html:210
+#: mediacore/templates/admin/media/edit.html:222
 msgid "Dimensions"
 msgstr "Dimensionen"
 
-#: mediacore/templates/admin/media/edit.html:211
+#: mediacore/templates/admin/media/edit.html:223
 msgid "Type"
 msgstr "Typ"
 
@@ -1906,70 +1911,83 @@ msgstr "Anzeige des Mediums, wo es veröffentlicht würde"
 msgid "Preview"
 msgstr "Vorschau"
 
-#: mediacore/templates/admin/media/update-status-form.html:36
+#: mediacore/templates/admin/media/update-status-form.html:39
 msgid "You must add a file and save before review can begin."
 msgstr ""
 "Sie müssen eine Datei hinzufügen und sichern, bevor die Überprüfung "
 "starten kann."
 
-#: mediacore/templates/admin/media/update-status-form.html:40
+#: mediacore/templates/admin/media/update-status-form.html:43
 msgid "Review Pending"
 msgstr "Überprüfung anstehend"
 
-#: mediacore/templates/admin/media/update-status-form.html:41
-#: mediacore/templates/admin/media/update-status-form.html:67
-#: mediacore/templates/admin/media/update-status-form.html:80
+#: mediacore/templates/admin/media/update-status-form.html:44
+#: mediacore/templates/admin/media/update-status-form.html:70
+#: mediacore/templates/admin/media/update-status-form.html:83
 msgid "Encoding Complete"
 msgstr "Kodierung komplett"
 
-#: mediacore/templates/admin/media/update-status-form.html:41
-#: mediacore/templates/admin/media/update-status-form.html:57
+#: mediacore/templates/admin/media/update-status-form.html:44
+#: mediacore/templates/admin/media/update-status-form.html:60
 msgid "Encoding Pending"
 msgstr "Kodieren anstehend"
 
-#: mediacore/templates/admin/media/update-status-form.html:42
-#: mediacore/templates/admin/media/update-status-form.html:58
-#: mediacore/templates/admin/media/update-status-form.html:68
-#: mediacore/templates/admin/media/update-status-form.html:81
+#: mediacore/templates/admin/media/update-status-form.html:45
+#: mediacore/templates/admin/media/update-status-form.html:61
+#: mediacore/templates/admin/media/update-status-form.html:71
+#: mediacore/templates/admin/media/update-status-form.html:84
 msgid "Click to change the publish date"
 msgstr "Klicken Sie, um das Veröffentlichungsdatum zu ändern"
 
-#: mediacore/templates/admin/media/update-status-form.html:42
-#: mediacore/templates/admin/media/update-status-form.html:58
-#: mediacore/templates/admin/media/update-status-form.html:68
-#: mediacore/templates/admin/media/update-status-form.html:82
+#: mediacore/templates/admin/media/update-status-form.html:45
+#: mediacore/templates/admin/media/update-status-form.html:61
+#: mediacore/templates/admin/media/update-status-form.html:71
+#: mediacore/templates/admin/media/update-status-form.html:85
 msgid "Publishing"
 msgstr "Veröffentlichung"
 
-#: mediacore/templates/admin/media/update-status-form.html:43
-#: mediacore/templates/admin/media/update-status-form.html:59
-#: mediacore/templates/admin/media/update-status-form.html:69
-#: mediacore/templates/admin/media/update-status-form.html:83
+#: mediacore/templates/admin/media/update-status-form.html:46
+#: mediacore/templates/admin/media/update-status-form.html:62
+#: mediacore/templates/admin/media/update-status-form.html:72
+#: mediacore/templates/admin/media/update-status-form.html:86
 msgid "Pending"
 msgstr "Wartend"
 
-#: mediacore/templates/admin/media/update-status-form.html:49
-#: mediacore/templates/admin/media/update-status-form.html:56
-#: mediacore/templates/admin/media/update-status-form.html:66
-#: mediacore/templates/admin/media/update-status-form.html:79
+#: mediacore/templates/admin/media/update-status-form.html:52
+#: mediacore/templates/admin/media/update-status-form.html:59
+#: mediacore/templates/admin/media/update-status-form.html:69
+#: mediacore/templates/admin/media/update-status-form.html:82
 msgid "Review Complete"
 msgstr "Review abgeschlossen"
 
-#: mediacore/templates/admin/media/update-status-form.html:51
+#: mediacore/templates/admin/media/update-status-form.html:54
 msgid "Review can only be completed after a file is added."
 msgstr ""
 "Überprüfung kann nur abgeschlossen werden, wenn eine Datei hinzugefügt "
 "wurde."
 
-#: mediacore/templates/admin/media/update-status-form.html:62
+#: mediacore/templates/admin/media/update-status-form.html:65
 msgid "Encoding will be complete when an acceptable file is added."
 msgstr ""
 "Enkodierung ist abgeschlossen, sobald eine annehmbare Datei hinzugefügt "
 "wird."
 
-#: mediacore/templates/admin/media/update-status-form.html:74
+#: mediacore/templates/admin/media/update-status-form.html:77
 msgid "Publish Now"
 msgstr "Jetzt veröffentlichen"
+
+#: mediacore/templates/admin/media/update-status-form.html:91
+#, fuzzy
+msgid "Click to change the expiration date"
+msgstr "Klicken Sie, um das Veröffentlichungsdatum zu ändern"
+
+#: mediacore/templates/admin/media/update-status-form.html:91
+msgid "Expires"
+msgstr ""
+
+#: mediacore/templates/admin/media/update-status-form.html:92
+msgid "never"
+msgstr ""
 
 #: mediacore/templates/admin/players/index.html:13
 #: mediacore/templates/admin/players/index.html:37
