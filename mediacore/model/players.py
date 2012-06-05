@@ -91,7 +91,10 @@ class PlayerPrefs(object):
         :rtype: unicode
         :returns: A i18n-ready string name.
         """
-        return self.player_cls.display_name
+        try:
+            return self.player_cls.display_name
+        except AttributeError:
+            return '(unregistered %s)' % self.name
 
     @property
     @memoize
