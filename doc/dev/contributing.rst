@@ -14,7 +14,7 @@ Please post issues to our `issue tracker on Github
 <http://github.com/mediacore/mediacore-community/issues>`_.
 
 You can always post to our `community forums
-<http://getmediacore.com/community>`_ if you aren't sure if its a bug or
+<http://mediacorecommunity.org/community>`_ if you aren't sure if its a bug or
 not.
 
 

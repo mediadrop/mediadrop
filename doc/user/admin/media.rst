@@ -5,7 +5,7 @@ Media Management Admin Interface
 ================================
 
 A good first resource for media management is the
-`MediaCore CE Workflow Video <http://getmediacore.com/media/workflow-in-mediacore>`_.
+`MediaCore CE Workflow Video <http://getmediacore.com/files/tutorial-workflow-in-mediacore.mp4>`_.
 
 
 Files

@@ -50,7 +50,7 @@ Step 1: Re-Create Your Virtual Environment
 Step 2: Install The New MediaCore CE Files
 ------------------------------------------
 `Download the latest official release of MediaCore CE
-<http://getmediacore.com/download>`_ from our site, then unpack it beside
+<http://mediacorecommunity.org/download>`_ from our site, then unpack it beside
 your current MediaCore CE installation.
 
 .. sourcecode:: bash
@@ -58,7 +58,7 @@ your current MediaCore CE installation.
    # Download the latest distribution beside the current installation
    cd /path/to/MediaCore-OLD
    cd ..
-   wget http://getmediacore.com/files/MediaCore-NEW.tar.gz
+   wget http://mediacorecommunity.org/files/MediaCore-NEW.tar.gz
 
    # Unpack the downloaded distribution
    tar xzvf MediaCore-NEW.tar.gz

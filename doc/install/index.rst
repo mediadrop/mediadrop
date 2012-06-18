@@ -81,7 +81,7 @@ Step 2: Install MediaCore CE
 There are two main ways to get MediaCore CE:
 
 a. **For most users**, you should `download the latest official release of
-   Mediacore CE <http://getmediacore.com/download>`_ from our site.
+   Mediacore CE <http://mediacorecommunity.org/download>`_ from our site.
 
    Once you've downloaded MediaCore CE, it's time to unpack it and install.
 
@@ -236,7 +236,7 @@ admin**. (Remember to `change your password
 
 If this produces errors then MediaCore CE or one of its dependencies is not
 setup correctly. Please feel free to ask questions and submit solutions
-via our `community forums <http://getmediacore.com/>`_.
+via our `community forums <http://mediacorecommunity.org/community>`_.
 
 If this is your development machine, you're good to go.
 
