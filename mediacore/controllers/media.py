@@ -364,8 +364,9 @@ class MediaController(BaseController):
             # configured as an "internal" location to prevent people from
             # surfing directly to it.
             # For more information see: http://wiki.nginx.org/XSendfile
-            redirect_filename = '/__mediacore_serve__/%s-%s' % (id, file_name)
-            response.headers['X-Accel-Redirect'] = redirect_filename.lower()
+            redirect_filename = '/__mediacore_serve__/%s' % os.path.basename(file_path)
+            response.headers['X-Accel-Redirect'] = redirect_filename
+
 
         else:
             app = FileApp(file_path, headers, content_type=file_type)
