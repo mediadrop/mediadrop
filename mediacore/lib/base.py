@@ -72,6 +72,7 @@ class BareBonesController(WSGIController):
               the class will be protected it. See :meth:`__init__`.
         """
         self.setup_translator()
+        response.scripts = []
 
         action_method = getattr(self, kwargs['action'], None)
         # The expose decorator sets the exposed attribute on controller

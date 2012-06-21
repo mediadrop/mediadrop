@@ -27,6 +27,9 @@ See LICENSE.txt in the main project directory, for more information.
 		</py:when>
 		<script py:otherwise="" type="text/javascript" src="${h.url_for('/scripts/mcore-compiled.js')}"></script>
 	</py:choose>
+	<py:for each="script in h.response.scripts">
+		${Markup(script)}
+	</py:for>
 	<py:if test="settings['appearance_custom_head_tags']">
 		${Markup(settings['appearance_custom_head_tags'])}
 	</py:if>
