@@ -73,6 +73,7 @@ class BareBonesController(WSGIController):
         """
         self.setup_translator()
         response.scripts = []
+        response.facebook = None
 
         action_method = getattr(self, kwargs['action'], None)
         # The expose decorator sets the exposed attribute on controller

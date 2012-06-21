@@ -32,19 +32,6 @@ See LICENSE.txt in the main project directory, for more information.
 </py:def>
 
 <py:def function="facebook_comment(appid=None, xid=None, **kwargs)">
-	<script>
-		window.fbAsyncInit = function() {
-			FB.init({
-				appId  : '${appid}',
-				status : true, // check login status
-				cookie : true, // enable cookies to allow the server to access the session
-				xfbml  : true  // parse XFBML
-			});
-		};
-	</script>
-	<div id="fb-root"></div>
-	<!--! protocol-relative URL, uses HTTPS if the MediaCore page uses HTTPS -->
-	<script src="//connect.facebook.net/en_US/all.js"></script>
 	<fb:comments xid="${xid}" numposts="10" simple="1" width="570" publish_feed="true" ></fb:comments>
 </py:def>
 

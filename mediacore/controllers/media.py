@@ -28,6 +28,7 @@ from mediacore.lib.email import send_comment_notification
 from mediacore.lib.helpers import (file_path, filter_vulgarity, redirect,
     store_transient_message, url_for)
 from mediacore.lib.i18n import _
+from mediacore.lib.services import Facebook
 from mediacore.lib.templating import render
 from mediacore.model import (DBSession, fetch_row, get_available_slug,
     Media, MediaFile, Comment, Tag, Category, Author, AuthorWithIP, Podcast)
@@ -193,6 +194,9 @@ class MediaController(BaseController):
             DBSession.commit()
         except OperationalError:
             DBSession.rollback()
+
+        if request.settings['comments_engine'] == 'facebook':
+            response.facebook = Facebook(request.settings['facebook_appid'])
 
         # TODO: finish implementation of different 'likes' buttons
         #       e.g. the default one, plus a setting to use facebook.
