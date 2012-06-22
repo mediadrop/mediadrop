@@ -60,7 +60,7 @@ See LICENSE.txt in the main project directory, for more information.
 
 			<py:choose test="comments_engine">
 				<py:when test="'facebook'">
-					${facebook_comment(appid=settings['facebook_appid'], xid=media.id)}
+					${facebook_comment(xid=media.id)}
 				</py:when>
 				<py:when test="'mediacore'">
 					${comment_list(comments, comment_form_action, comment_form_values)}
