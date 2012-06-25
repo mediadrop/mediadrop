@@ -16,12 +16,22 @@ from webob.exc import HTTPFound
 
 __all__ = [
     'calculate_popularity',
+    'current_url',
     'delete_files',
     'merge_dicts',
     'redirect',
     'url',
     'url_for',
 ]
+
+def current_url(with_qs=True, qualified=True):
+    # url_for() returns the current URL in most cases however when the error
+    # controller is triggered it will return '<host>/error/document' instead of
+    # the url shown in the address bar
+    # This method will always return the current url
+    original_request = request.environ.get('pylons.original_request') or request
+    request_path = with_qs and original_request.path_qs or original_request.path
+    return url_for(request_path, qualified=qualified)
 
 def url(*args, **kwargs):
     """Compose a URL with :func:`pylons.url`, all arguments are passed."""
