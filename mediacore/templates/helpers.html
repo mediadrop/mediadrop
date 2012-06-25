@@ -10,7 +10,8 @@ See LICENSE.txt in the main project directory, for more information.
       py:strip="">
 
 	<py:def function="media_grid(media, id=None, thumb_size='s', title_len=60, desc_len=95)"
-	        py:with="thumb_xy = config['thumb_sizes']['media'][thumb_size]; show_like = settings['appearance_show_like'];">
+	        py:with="thumb_xy = config['thumb_sizes']['media'][thumb_size]; 
+	                 show_like = settings['appearance_show_like'] and settings.get('likes') != 'facebook';">
 		<ul id="${id}" class="grid ${thumb_size}-grid">
 			<li py:for="m in media"
 			    py:with="title = h.strip_xhtml(m.title, True);

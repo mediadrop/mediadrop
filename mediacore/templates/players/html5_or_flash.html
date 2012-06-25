@@ -28,10 +28,19 @@ See LICENSE.txt in the main project directory, for more information.
 		</div>
 		<div py:if="show_playerbar" class="mcore-playerbar">
 			<ul class="mcore-nav">
-				<li py:if="show_like" class="mcore-nav-left"><a class="mcore-nav-link mcore-like" href="${h.url_for(controller='/media', action='rate', up=1, slug=media.slug)}" title="${ungettext('Like', 'Likes', 1)}"><span><span class="mcore-btn-like">${ungettext('Like', 'Likes', 1)}</span></span><em /></a><span class="mcore-nav-link-sep" py:if="not show_dislike" /></li>
-				<li py:if="show_dislike" class="${not show_like and 'mcore-nav-left' or None}"><a class="mcore-nav-link mcore-dislike f-lft" href="${h.url_for(controller='/media', action='rate', down=1, slug=media.slug)}" title="${ungettext('Dislike', 'Dislikes', 1)}"><span><span class="mcore-btn-dislike">${ungettext('Dislike', 'Dislikes', 1)}</span></span><em /></a><span class="mcore-nav-link-sep" /></li>
-				<li py:if="not show_like and not show_dislike" class="mcore-nav-left"><span class="mcore-nav-link"><span></span></span></li>
-
+				<py:choose test="settings.get('likes')">
+					<py:when test="'facebook'">
+						<xi:include href="../comments/facebook.html" />
+						<li class="mcore-nav-left">
+							<a class="mcore-nav-link"><span class="mcore-btn-fb-like">${facebook_like(h.current_url(with_qs=False, qualified=True), width=90)}</span><em /></a><span class="mcore-nav-link-sep" />
+						</li>
+					</py:when>
+					<py:otherwise>
+						<li py:if="show_like" class="mcore-nav-left"><a class="mcore-nav-link mcore-like" href="${h.url_for(controller='/media', action='rate', up=1, slug=media.slug)}" title="${ungettext('Like', 'Likes', 1)}"><span><span class="mcore-btn-like">${ungettext('Like', 'Likes', 1)}</span></span><em /></a><span class="mcore-nav-link-sep" py:if="not show_dislike" /></li>
+						<li py:if="show_dislike" class="${not show_like and 'mcore-nav-left' or None}"><a class="mcore-nav-link mcore-dislike f-lft" href="${h.url_for(controller='/media', action='rate', down=1, slug=media.slug)}" title="${ungettext('Dislike', 'Dislikes', 1)}"><span><span class="mcore-btn-dislike">${ungettext('Dislike', 'Dislikes', 1)}</span></span><em /></a><span class="mcore-nav-link-sep" /></li>
+						<li py:if="not show_like and not show_dislike" class="mcore-nav-left"><span class="mcore-nav-link"><span></span></span></li>
+					</py:otherwise>
+				</py:choose>
 				<li py:if="show_popout" class="f-rgt mcore-nav-right"><a class="mcore-nav-link mcore-popout" href="${h.url_for(controller='/media', action='embed_player', slug=media.slug)}" title="Pop out a new player window"><span><span class="mcore-btn-popout">Pop Out</span></span><em /></a></li>
 				<li py:if="show_resize" class="f-rgt ${not show_popout and 'mcore-nav-right' or None}"><a class="mcore-nav-link mcore-resizer" href="#" title="${is_widescreen and _('Shrink') or _('Expand')}"><span><span class="mcore-btn-${is_widescreen and 'shrink' or 'expand'}">${is_widescreen and _('Shrink') or _('Expand')}</span></span><em /></a></li>
 				<li py:if="show_share" class="f-rgt ${not (show_popout or show_resize) and 'mcore-nav-right' or None}">

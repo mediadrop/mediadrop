@@ -51,7 +51,7 @@ See LICENSE.txt in the main project directory, for more information.
 			</div>
 			<div class="feat-stats clearfix">
 				<div class="meta-views f-rgt">${h.format_decimal(media.views)} ${ungettext('View', 'Views', media.views)}</div>
-				<div py:if="settings['appearance_show_like'] or settings['appearance_show_dislike']" class="meta-likes f-rgt">
+				<div py:if="settings.get('likes') != 'facebook' and (settings['appearance_show_like'] or settings['appearance_show_dislike'])" class="meta-likes f-rgt">
 					<span py:if="settings['appearance_show_like']" id="mcore-likes-counter">${h.format_decimal(media.likes)}</span> ${ungettext('Like', 'Likes', media.likes)}
 					<span py:if="settings['appearance_show_dislike']" class="meta-dislikes"><span id="mcore-dislikes-counter">${h.format_decimal(media.dislikes)}</span> ${ungettext('Dislike', 'Dislikes', media.dislikes)}</span>
 				</div>

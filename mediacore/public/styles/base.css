@@ -592,6 +592,9 @@ a:focus .grid-title {
 .mcore-playerbar .mcore-nav-right {
 	margin-right: -10px;
 }
+.mcore-nav-link > .mcore-btn-fb-like > *{
+    padding-top: 3px;
+}
 .mcore-btn-like {
 	padding-left: 18px;
 	display: block;
