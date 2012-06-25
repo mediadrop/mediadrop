@@ -31,8 +31,22 @@ See LICENSE.txt in the main project directory, for more information.
 	></iframe>
 </py:def>
 
-<py:def function="facebook_comment(xid=None)">
-	<fb:comments xid="${xid}" numposts="10" simple="1" width="570" publish_feed="true" ></fb:comments>
+<py:def function="facebook_comment(media=None)"
+    py:with="use_xid = media.meta.get('facebook-comment-xid')">
+    <py:choose>
+        <py:when test="use_xid">
+	        <fb:comments xid="${media.meta['facebook-comment-xid']}" 
+	            numposts="10" simple="1" width="570" publish_feed="true">
+            </fb:comments>
+        </py:when>
+        <py:otherwise>
+            <div class="fb-comments" 
+                data-href="${h.current_url(qualified=True, with_qs=False)}" 
+                data-num-posts="10" 
+                data-width="570">
+            </div>
+        </py:otherwise>
+    </py:choose>
 </py:def>
 
 </html>
