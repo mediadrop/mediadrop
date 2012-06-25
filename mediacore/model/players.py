@@ -19,6 +19,7 @@ from sqlalchemy.orm.interfaces import MapperExtension
 from sqlalchemy.types import Boolean, DateTime, Integer, Unicode
 
 from mediacore.lib.decorators import memoize
+from mediacore.lib.i18n import _
 from mediacore.lib.players import AbstractPlayer
 from mediacore.model import JsonType
 from mediacore.model.meta import DBSession, metadata
@@ -86,15 +87,18 @@ class PlayerPrefs(object):
         """Return the user-friendly display name for this player class.
 
         This string is expected to be i18n-ready. Simply wrap it in a
-        call to :func:`pylons.i18n._`.
+        call to :func:`mediacore.lib.i18n._`.
 
         :rtype: unicode
         :returns: A i18n-ready string name.
         """
-        try:
-            return self.player_cls.display_name
-        except AttributeError:
-            return '(unregistered %s)' % self.name
+        if self.player_cls is None:
+            # do not break the admin interface (admin/settings/players) if the
+            # player is still in the database but the actual player class is not
+            # available anymore (this can happen especially for players provided
+            # by external plugins.
+            return _(u'%s (broken)') % self.name
+        return self.player_cls.display_name
 
     @property
     @memoize
