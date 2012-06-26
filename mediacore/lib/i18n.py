@@ -10,6 +10,7 @@ from gettext import NullTranslations, translation as gettext_translation
 from babel.core import Locale
 from babel.dates import (format_date as _format_date,
     format_datetime as _format_datetime, format_time as _format_time)
+from babel.util import LOCALTZ
 from pylons import config, request, translator
 from pylons.i18n.translation import lazify
 
@@ -274,6 +275,8 @@ def format_datetime(datetime=None, format='medium', tzinfo=None):
     :param tzinfo: the timezone to apply to the time for display
     :rtype: `unicode`
     """
+    if datetime and (datetime.tzinfo is None):
+        datetime = datetime.replace(tzinfo=LOCALTZ)
     return _format_datetime(datetime, format, tzinfo, translator.locale)
 
 def format_time(time=None, format='medium', tzinfo=None):
@@ -288,6 +291,8 @@ def format_time(time=None, format='medium', tzinfo=None):
     :param tzinfo: the time-zone to apply to the time for display
     :rtype: `unicode`
     """
+    if time and (time.tzinfo is None):
+        time = time.replace(tzinfo=LOCALTZ)
     return _format_time(time, format, tzinfo, translator.locale)
 
 def get_available_locales():
