@@ -14,7 +14,6 @@ See LICENSE.txt in the main project directory, for more information.
 <xi:include href="../master.html" />
 <xi:include href="../comments/_list.html" py:if="comments_engine == 'mediacore'" />
 <xi:include href="../comments/facebook.html" py:if="comments_engine == 'facebook'" />
-<xi:include py:for="tmpl in value_of('plugin_templates', ())" href="${tmpl}" />
 <head>
 	<title>${h.page_title(default=media.title, media=media)}</title>
 	<link py:if="media.podcast" href="${h.url_for('/styles/podcasts.css')}" media="screen" rel="stylesheet" type="text/css" />
