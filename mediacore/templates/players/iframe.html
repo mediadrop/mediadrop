@@ -23,6 +23,7 @@ See LICENSE.txt in the main project directory, for more information.
 		</py:when>
 		<script py:otherwise="" type="text/javascript" src="${h.url_for('/scripts/mcore-compiled.js')}"></script>
 	</py:choose>
+	${Markup(h.response.scripts.render())}
 	<script py:if="settings.get('google_analytics_uacct', None)" type="text/javascript">
 		var _gaq = _gaq || [];
 		_gaq.push(['_setAccount', '${settings['google_analytics_uacct']}']);
