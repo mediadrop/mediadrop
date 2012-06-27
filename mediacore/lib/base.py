@@ -20,6 +20,7 @@ from tw.forms.fields import ContainerMixin as _ContainerMixin
 
 from mediacore.lib import helpers
 from mediacore.lib.i18n import Translator
+from mediacore.lib.js_delivery import Scripts
 from mediacore.model.meta import DBSession
 
 __all__ = [
@@ -72,7 +73,7 @@ class BareBonesController(WSGIController):
               the class will be protected it. See :meth:`__init__`.
         """
         self.setup_translator()
-        response.scripts = []
+        response.scripts = Scripts()
         response.facebook = None
 
         action_method = getattr(self, kwargs['action'], None)
