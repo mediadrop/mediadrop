@@ -41,7 +41,7 @@ See LICENSE.txt in the main project directory, for more information.
         </py:when>
         <py:otherwise>
             <div class="fb-comments" 
-                data-href="${h.current_url(qualified=True, with_qs=False)}" 
+                data-href="${h.url_for_media(media, qualified=True)}" 
                 data-num-posts="10" 
                 data-width="570">
             </div>

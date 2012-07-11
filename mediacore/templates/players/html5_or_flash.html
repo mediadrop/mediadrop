@@ -32,7 +32,7 @@ See LICENSE.txt in the main project directory, for more information.
 					<py:when test="'facebook'">
 						<xi:include href="../comments/facebook.html" />
 						<li class="mcore-nav-left">
-							<a class="mcore-nav-link"><span class="mcore-btn-fb-like">${facebook_like(h.current_url(with_qs=False, qualified=True), width=90)}</span><em /></a><span class="mcore-nav-link-sep" />
+							<a class="mcore-nav-link"><span class="mcore-btn-fb-like">${facebook_like(h.url_for_media(media, qualified=True), width=90)}</span><em /></a><span class="mcore-nav-link-sep" />
 						</li>
 					</py:when>
 					<py:otherwise>
