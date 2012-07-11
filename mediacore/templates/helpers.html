@@ -15,7 +15,7 @@ See LICENSE.txt in the main project directory, for more information.
 			<li py:for="m in media"
 			    py:with="title = h.strip_xhtml(m.title, True);
 			             m_desc_len = desc_len and (desc_len - min(len(m.title), title_len)) or 0">
-				<a href="${h.url_for(controller='/media', action='view', slug=m.slug)}" title="${title}">
+				<a href="${h.url_for_media(m)}" title="${title}">
 					<strong class="grid-title">${h.truncate(title, title_len)}</strong>
 					<span class="thumb-wrap">
 						<img src="${h.thumb_url(m, thumb_size)}" width="${thumb_xy[0]}" height="${thumb_xy[1]}" alt="" />

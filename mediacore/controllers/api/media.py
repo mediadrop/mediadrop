@@ -13,7 +13,7 @@ from mediacore.controllers.api import APIException, get_order_by
 from mediacore.lib import helpers
 from mediacore.lib.base import BaseController
 from mediacore.lib.decorators import expose, expose_xhr, observable, paginate, validate
-from mediacore.lib.helpers import get_featured_category, url_for
+from mediacore.lib.helpers import get_featured_category, url_for, url_for_media
 from mediacore.lib.thumbnails import thumb
 from mediacore.model import Category, Media, Podcast, Tag, fetch_row, get_available_slug
 from mediacore.model.meta import DBSession
@@ -352,8 +352,7 @@ class MediaController(BaseController):
             media_url = url_for(controller='/media', action='view', slug=media.slug,
                                 podcast_slug=media.podcast.slug, qualified=True)
         else:
-            media_url = url_for(controller="/media", action="view", slug=media.slug,
-                                qualified=True)
+            media_url = url_for_media(media, qualified=True)
 
         if media.podcast_id is None:
             podcast_slug = None
@@ -488,8 +487,7 @@ class MediaController(BaseController):
             type = file.type,
             display_name = file.display_name,
             created = file.created_on.isoformat(),
-            url = helpers.url_for(controller='/media', action='view',
-                                   slug=media.slug, qualified=True),
+            url = url_for_media(media, qualified=True),
             uris = uris,
         )
         for uri in file.get_uris():

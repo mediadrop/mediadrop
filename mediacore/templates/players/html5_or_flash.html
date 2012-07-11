@@ -36,7 +36,7 @@ See LICENSE.txt in the main project directory, for more information.
 				<li py:if="show_resize" class="f-rgt ${not show_popout and 'mcore-nav-right' or None}"><a class="mcore-nav-link mcore-resizer" href="#" title="${is_widescreen and _('Shrink') or _('Expand')}"><span><span class="mcore-btn-${is_widescreen and 'shrink' or 'expand'}">${is_widescreen and _('Shrink') or _('Expand')}</span></span><em /></a></li>
 				<li py:if="show_share" class="f-rgt ${not (show_popout or show_resize) and 'mcore-nav-right' or None}">
 					<a class="mcore-nav-link" href="#" title="Share"><span>Share</span><em /></a>
-					<div id="sharethis-hover" class="meta-hover" py:with="current_url = h.url_for(controller='/media', action='view', slug=media.slug, qualified=True)">
+					<div id="sharethis-hover" class="meta-hover" py:with="current_url = h.url_for_media(media, qualified=True)">
 						<div class="meta-hover-top"></div>
 						<div class="meta-hover-content">
 							<label>Permalink: <input type="text" value="${current_url}" readonly="readonly" /></label>

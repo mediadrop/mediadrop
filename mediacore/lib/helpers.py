@@ -30,7 +30,7 @@ from mediacore.lib.thumbnails import thumb, thumb_url
 from mediacore.lib.uri import (best_link_uri, download_uri, file_path,
     pick_uri, pick_uris, web_uri)
 from mediacore.lib.util import (current_url, delete_files, merge_dicts, 
-    redirect, url, url_for)
+    redirect, url, url_for, url_for_media)
 from mediacore.lib.xhtml import (clean_xhtml, decode_entities, encode_entities,
     excerpt_xhtml, line_break_xhtml, list_acceptable_xhtml, strip_xhtml,
     truncate_xhtml)
@@ -75,6 +75,7 @@ __all__ = [
     'unquote',
     'url',
     'url_for',
+    'url_for_media',
     'urlencode',
     'urlparse',
 

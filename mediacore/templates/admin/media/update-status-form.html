@@ -14,12 +14,12 @@ See LICENSE.txt in the main project directory, for more information.
 				<py:if test="media.slug">
 					<py:choose test="media.is_published">
 						<py:when test="1">
-							<a href="${h.url_for(controller='/media', action='view', slug=media.slug)}"
+							<a href="${h.url_for_media(media)}"
 							   id="go-view-content"
 							   title="View this media where it is published">${ngettext('View', 'Views', 1)}</a>
 						</py:when>
 						<py:when test="0">
-							<a href="${h.url_for(controller='/media', action='view', slug=media.slug)}"
+							<a href="${h.url_for_media(media)}"
 							   id="go-view-content"
 							   title="View this media where it will be published"
 							   py:content="_('Preview')" />

@@ -15,7 +15,7 @@
 		<description py:if="defined('description')" py:content="description" />
 		<atom:link href="${h.url_for(qualified=True)}" rel="self" type="application/rss+xml" />
 		<py:for each="item in media" py:with="uri = h.best_link_uri(item.get_uris())">
-		<item py:if="uri" py:with="file = uri.file; link = h.url_for(controller='/media', action='view', slug=item.slug, qualified=True)">
+		<item py:if="uri" py:with="file = uri.file; link = h.url_for_media(item, qualified=True)">
 			<title py:content="item.title" />
 			<link py:content="link" />
 			<guid py:content="link" />

@@ -22,6 +22,7 @@ __all__ = [
     'redirect',
     'url',
     'url_for',
+    'url_for_media',
 ]
 
 def current_url(with_qs=True, qualified=True):
@@ -43,6 +44,10 @@ def url_for(*args, **kwargs):
 
 # Mirror the behaviour you'd expect from pylons.url
 url.current = url_for
+
+def url_for_media(media, qualified=False):
+    """Return the canonical URL for that media ('/media/view')."""
+    return url_for(controller='/media', action='view', slug=media.slug, qualified=qualified)
 
 def _generate_url(url_func, *args, **kwargs):
     """Generate a URL using the given callable."""
