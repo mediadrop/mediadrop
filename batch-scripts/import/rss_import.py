@@ -24,7 +24,11 @@ if __name__ == "__main__":
 
 # BEGIN SCRIPT & SCRIPT SPECIFIC IMPORTS
 import sys
-import feedparser
+try:
+    import feedparser
+except ImportError:
+    print 'please install the "feedparser" module'
+    sys.exit(1)
 import re
 import urllib2
 import urlparse

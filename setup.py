@@ -34,7 +34,6 @@ install_requires = [
         # The original PIL 1.1.6 package won't install via setuptools so this
         # this setup script installs http://dist.repoze.org/PIL-1.1.6.tar.gz
     'akismet == 0.2.0',
-    'feedparser >= 4.1', # needed only for rss import script
     'gdata > 2, < 2.1',
     'unidecode',
     'decorator',
