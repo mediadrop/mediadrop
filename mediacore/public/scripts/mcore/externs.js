@@ -18,7 +18,7 @@
 
 /**
  * The main jwplayer library access point.
- * From scripts/third-party/jw_player/jwplayer.js
+ * From scripts/third-party/jw_player/jwplayer.min.js
  * @param {Element|string|number=} opt_playerElement The DOM element, ID,
  *     or player index to construct or retrieve the player API for.
  * @return {jwplayer.api.PlayerAPI}

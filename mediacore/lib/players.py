@@ -741,7 +741,7 @@ class JWPlayer(AbstractHTML5Player):
                        qualified=self.qualified)
 
     def js_url(self):
-        return url_for('/scripts/third-party/jw_player/jwplayer.js',
+        return url_for('/scripts/third-party/jw_player/jwplayer.min.js',
                        qualified=self.qualified)
 
     def player_vars(self):
