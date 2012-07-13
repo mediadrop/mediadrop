@@ -1403,7 +1403,7 @@ jwplayer.source = document.createElement("source");/**
 	function parseMediaElement(domElement, attributes) {
 		attributes = getAttributeList('media', attributes);
 		var sources = [];
-		var sourceTags = jwplayer.utils.selectors("source", domElement);
+		var sourceTags = jwplayer.utils.selectors("source", domElement.parentNode);
 		for (var i in sourceTags) {
 			if (!isNaN(i)){
 				sources.push(parseSourceElement(sourceTags[i]));					
