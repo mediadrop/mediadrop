@@ -49,16 +49,23 @@ See LICENSE.txt in the main project directory, for more information.
 
 	${Markup(settings['appearance_custom_footer_html'])}
 
+	
+    <script type="text/javascript">
+        window.mediacore = window.mediacore || {}
+        mediacore.ie6update = mediacore.ie6update || {}
+        mediacore.ie6update.scripts = "${h.url_for('/scripts/third-party/ie6update')}";
+        mediacore.ie6update.images = "${h.url_for('/images/third-party/ie6update/')}";
+    </script>
 	<!--[if IE 6]>
 		<script type="text/javascript">
 			// Load jQuery if not already loaded
 			if (typeof jQuery == 'undefined') {
-				document.write('<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></'+'script>');
+				document.write('<script type="text/javascript" src="'+mediacore.ie6update.scripts+'/jquery-1.7.2.min.js"></'+'script>');
 				var __noconflict = true;
 			}
-			var IE6UPDATE_OPTIONS = {icons_path: 'http://static.ie6update.com/hosted/ie6update/images/'}
+			var IE6UPDATE_OPTIONS = {icons_path: mediacore.ie6update.images};
+			document.write('<script type="text/javascript" src="'+mediacore.ie6update.scripts+'/ie6update.js"></'+'script>');
 		</script>
-		<script type="text/javascript" src="http://static.ie6update.com/hosted/ie6update/ie6update.js"></script>
 	<![endif]-->
 </body>
 
