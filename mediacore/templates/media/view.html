@@ -50,10 +50,10 @@ See LICENSE.txt in the main project directory, for more information.
 				<div class="mcore-excerpt" style="display:none" py:if="excerpt != fulltext"><p py:replace="Markup(excerpt)" /></div>
 			</div>
 			<div class="feat-stats clearfix">
-				<div class="meta-views f-rgt">${media.views} ${ungettext('View', 'Views', media.views)}</div>
+				<div class="meta-views f-rgt">${h.format_decimal(media.views)} ${ungettext('View', 'Views', media.views)}</div>
 				<div py:if="settings['appearance_show_like'] or settings['appearance_show_dislike']" class="meta-likes f-rgt">
-					<span py:if="settings['appearance_show_like']" id="mcore-likes-counter">${media.likes}</span> ${ungettext('Like', 'Likes', media.likes)}
-					<span py:if="settings['appearance_show_dislike']" class="meta-dislikes"><span id="mcore-dislikes-counter">${media.dislikes}</span> ${ungettext('Dislike', 'Dislikes', media.dislikes)}</span>
+					<span py:if="settings['appearance_show_like']" id="mcore-likes-counter">${h.format_decimal(media.likes)}</span> ${ungettext('Like', 'Likes', media.likes)}
+					<span py:if="settings['appearance_show_dislike']" class="meta-dislikes"><span id="mcore-dislikes-counter">${h.format_decimal(media.dislikes)}</span> ${ungettext('Dislike', 'Dislikes', media.dislikes)}</span>
 				</div>
 				<div py:if="comments_engine == 'mediacore'" class="meta-comments f-lft"><span id="mcore-comments-counter">${media.comment_count_published}</span> ${ungettext('Comment', 'Comments', media.comment_count_published)}</div>
 			</div>

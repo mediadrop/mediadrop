@@ -78,8 +78,8 @@ See LICENSE.txt in the main project directory, for more information.
 					<h3><a class="underline-hover" href="${h.url_for_media(featured)}">${featured.title}</a></h3>
 					<div class="feat-meta">
 						<span class="meta meta-comments">${featured.comment_count_published} ${ungettext('Comment', 'Comments', featured.comment_count_published)}</span>
-						<span py:if="settings['appearance_show_like']" class="meta meta-likes"><span id="mcore-likes-counter">${featured.likes}</span> ${ungettext('Like', 'Likes', featured.likes)}</span>
-						<span class="meta meta-views">${featured.views} ${ungettext('View', 'Views', featured.views)}</span>
+						<span py:if="settings['appearance_show_like']" class="meta meta-likes"><span id="mcore-likes-counter">${h.format_decimal(featured.likes)}</span> ${ungettext('Like', 'Likes', featured.likes)}</span>
+						<span class="meta meta-views">${h.format_decimal(featured.views)} ${ungettext('View', 'Views', featured.views)}</span>
 					</div>
 				</div>
 				<div class="feat-bottom" />
