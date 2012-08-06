@@ -10,9 +10,14 @@ from gettext import NullTranslations, translation as gettext_translation
 from babel.core import Locale
 from babel.dates import (format_date as _format_date,
     format_datetime as _format_datetime, format_time as _format_time)
+from babel.numbers import format_decimal as _format_decimal
 from babel.util import LOCALTZ
 from pylons import config, request, translator
 from pylons.i18n.translation import lazify
+
+
+__all__ = ['_', 'N_', 'format_date', 'format_datetime', 'format_number', 
+    'format_time']
 
 log = logging.getLogger(__name__)
 
@@ -278,6 +283,16 @@ def format_datetime(datetime=None, format='medium', tzinfo=None):
     if datetime and (datetime.tzinfo is None):
         datetime = datetime.replace(tzinfo=LOCALTZ)
     return _format_datetime(datetime, format, tzinfo, translator.locale)
+
+def format_decimal(number):
+    """Return a formatted number (using the correct decimal mark).
+
+    This uses the locale of the current request's ``pylons.translator``.
+
+    :param number: the ``int``, ``float`` or ``decimal`` object
+    :rtype: `unicode`
+    """
+    return _format_decimal(number, locale=translator.locale)
 
 def format_time(time=None, format='medium', tzinfo=None):
     """Return a time formatted according to the given pattern.

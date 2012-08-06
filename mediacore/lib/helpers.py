@@ -23,7 +23,8 @@ from webhelpers.html.builder import literal
 from webhelpers.html.converters import format_paragraphs
 
 from mediacore.lib.compat import any, md5
-from mediacore.lib.i18n import N_, _, format_date, format_datetime, format_time
+from mediacore.lib.i18n import (N_, _, format_date, format_datetime, 
+    format_decimal, format_time)
 from mediacore.lib.players import (embed_player, embed_iframe, media_player,
     pick_any_media_file, pick_podcast_media_file)
 from mediacore.lib.thumbnails import thumb, thumb_url
@@ -52,6 +53,7 @@ __all__ = [
     'feedgenerator',
     'format_date',
     'format_datetime',
+    'format_decimal',
     'format_paragraphs',
     'format_time',
     'html',
