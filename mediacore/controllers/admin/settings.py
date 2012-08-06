@@ -6,10 +6,6 @@ import os
 import shutil
 import tw.forms.fields
 
-from datetime import datetime
-
-import gdata.youtube
-import gdata.youtube.service
 from gdata.service import RequestError
 
 from cgi import FieldStorage
@@ -26,11 +22,8 @@ from mediacore.lib.decorators import (autocommit, expose, expose_xhr,
     paginate, validate)
 from mediacore.lib.helpers import filter_vulgarity, redirect, url_for
 from mediacore.lib.i18n import LanguageError, Translator
-from mediacore.lib.storage import add_new_media_file, StorageError, YoutubeStorage
-from mediacore.lib.thumbnails import create_default_thumbs_for, has_thumbs
-from mediacore.lib.xhtml import clean_xhtml
-from mediacore.model import (Author, Category, Comment, Media, MediaFile, MultiSetting,
-    Setting, fetch_row, get_available_slug)
+from mediacore.lib.services import YouTubeImporter
+from mediacore.model import Category, Comment, Media, MultiSetting, Setting
 from mediacore.model.meta import DBSession
 from mediacore.websetup import appearance_settings, generate_appearance_css
 
@@ -272,99 +265,23 @@ class SettingsController(BaseSettingsController):
     def importvideos_save(self, youtube, **kwargs):
         """Save :class:`~mediacore.forms.admin.settings.ImportVideosForm`."""
         auto_publish = youtube.get('auto_publish', None)
-        def extract_id_from_youtube_link(player_url):
-            match = YoutubeStorage.url_pattern.match(player_url)
-            if match is None:
-                log.debug('Cannot parse YouTube URL: %s' % player_url)
-                return None
-            video_properties = match.groupdict()
-            return video_properties.get('id')
-
-        def video_already_has_media_file(player_url):
-            unique_id = extract_id_from_youtube_link(player_url)
-            if unique_id is None:
-                return False
-            return 0 != MediaFile.query.filter(MediaFile.unique_id==unique_id).count()
-
-        def get_videos_from_feed(feed):
-            for entry in feed.entry:
-                # Occasionally, there are issues with a video in a feed
-                # not being available (region restrictions, etc)
-                # If this happens, just move along.
-                if not entry.media.player:
-                    log.debug('Video Feed Error: No player URL? %s' % entry)
-                    continue
-                video_url = unicode(entry.media.player.url, "utf-8")
-                if video_already_has_media_file(video_url):
-                    continue
-                categories = kwargs.get('youtube.categories', None)
-                tags = kwargs.get('youtube.tags', None)
-                media = fetch_row(Media, u'new')
-                user = request.environ['repoze.who.identity']['user']
-                media.author = Author(user.display_name, user.email_address)
-                media.reviewed = True
-                media.title = unicode(entry.media.title.text, "utf-8")
-                if entry.media.description.text:
-                    encoded_description = unicode(entry.media.description.text,
-                                                "utf-8")
-                    media.description = clean_xhtml(encoded_description)
-                media.slug = get_available_slug(Media, media.title, media)
-
-                if tags:
-                    media.set_tags(unicode(tags))
-                if categories:
-                    if not isinstance(categories, list):
-                        categories = [categories]
-                    media.set_categories(categories)
-                try:
-                    media_file = add_new_media_file(media,
-                        url=video_url)
-                except StorageError, e:
-                    log.debug('Video Feed Error: Error storing video: %s at %s' \
-                        % e.message, video_url)
-                    continue
-                if not has_thumbs(media):
-                    create_default_thumbs_for(media)
-                media.title = media_file.display_name
-                media.update_status()
-                if auto_publish:
-                    media.reviewed = 1
-                    media.encoded = 1
-                    media.publishable = 1
-                    media.created_on = datetime.now()
-                    media.modified_on = datetime.now()
-                    media.publish_on = datetime.now()
-                DBSession.add(media)
-                DBSession.flush()
-
-        def import_videos_from_channel(channel_name, auto_publish):
-            # Since we can only get 50 videos at a time, loop through when a "next"
-            # link is present in the returned feed from YouTube
-            getvideos = True
-            yt_service = gdata.youtube.service.YouTubeService()
-            uri = 'http://gdata.youtube.com/feeds/api/users/%s/uploads?max-results=50' \
-                % (channel_name)
-            while getvideos:
-                feed = yt_service.GetYouTubeVideoFeed(uri)
-                get_videos_from_feed(feed)
-                for link in feed.link:
-                    if link.rel == 'next':
-                        uri = link.href
-                        break
-                else:
-                    getvideos = False
-            
-        channel_names = youtube.get('channel_names', "")
-        channel_names = channel_names.replace(',', ' ').split()
+        tags = kwargs.get('youtube.tags')
+        categories = kwargs.get('youtube.categories')
+        user = request.environ['repoze.who.identity']['user']
+        
+        channel_names = youtube.get('channel_names', '').replace(',', ' ').split()
+        importer = YouTubeImporter(auto_publish, user, tags, categories)
         try:
             for channel_name in channel_names:
-                import_videos_from_channel(channel_name, auto_publish)
+                importer.import_videos_from_channel(channel_name)
         except RequestError, request_error:
             if request_error.message['status'] != 403:
                 raise
-            c.form_errors['_the_form'] = "You have exceeded the traffic quota allowed by YouTube. " + \
-                                         "While some of the videos have been saved, not all of them were imported correctly. " + \
-                                         "Please wait a few minutes and run the import again in to continue."
+            error_message = _(u'''You have exceeded the traffic quota allowed 
+by YouTube. While some of the videos have been saved, not all of them were 
+imported correctly. Please wait a few minutes and run the import again in to 
+continue.''')
+            c.form_errors['_the_form'] = error_message
             return self.importvideos(youtube=youtube, **kwargs)
         
         # Redirect to the Media view page, when the import is complete
