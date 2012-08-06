@@ -63,7 +63,10 @@ See LICENSE.txt in the main project directory, for more information.
 				document.write('<script type="text/javascript" src="'+mediacore.ie6update.scripts+'/jquery-1.7.2.min.js"></'+'script>');
 				var __noconflict = true;
 			}
-			var IE6UPDATE_OPTIONS = {icons_path: mediacore.ie6update.images};
+			var IE6UPDATE_OPTIONS = {
+			    icons_path: mediacore.ie6update.images,
+			    message: 'Your version of Internet Explorer is not supported by this site. Click here to update... '
+		    };
 			document.write('<script type="text/javascript" src="'+mediacore.ie6update.scripts+'/ie6update.js"></'+'script>');
 		</script>
 	<![endif]-->
