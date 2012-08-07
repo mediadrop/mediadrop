@@ -3,18 +3,16 @@
 # See LICENSE.txt in the main project directory, for more information.
 
 from decorator import decorator
-from pylons import request, response, session, tmpl_context
+from pylons import request, tmpl_context
 from repoze.what.predicates import has_permission
-from sqlalchemy import orm, sql
 import webob.exc
 
 from mediacore.forms.admin.users import UserForm
-from mediacore.lib import helpers
 from mediacore.lib.base import BaseController
 from mediacore.lib.decorators import (autocommit, expose, expose_xhr,
     observable, paginate, validate)
 from mediacore.lib.helpers import redirect, url_for
-from mediacore.model import Group, User, fetch_row, get_available_slug
+from mediacore.model import Group, User, fetch_row
 from mediacore.model.meta import DBSession
 from mediacore.plugin import events
 

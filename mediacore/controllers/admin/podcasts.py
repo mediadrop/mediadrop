@@ -3,15 +3,13 @@
 # See LICENSE.txt in the main project directory, for more information.
 
 import os.path
-import shutil
 
-from pylons import config, request, response, session, tmpl_context
+from pylons import request, tmpl_context
 from repoze.what.predicates import has_permission
-from sqlalchemy import orm, sql
+from sqlalchemy import orm
 
-from mediacore.forms.admin import SearchForm, ThumbForm
+from mediacore.forms.admin import ThumbForm
 from mediacore.forms.admin.podcasts import PodcastForm
-from mediacore.lib import helpers
 from mediacore.lib.base import BaseController
 from mediacore.lib.decorators import (autocommit, expose, expose_xhr,
     observable, paginate, validate)
@@ -19,7 +17,7 @@ from mediacore.lib.helpers import redirect, url_for
 from mediacore.lib.i18n import _
 from mediacore.lib.thumbnails import (create_default_thumbs_for,
     create_thumbs_for, delete_thumbs)
-from mediacore.model import Author, AuthorWithIP, Podcast, fetch_row, get_available_slug
+from mediacore.model import Author, Podcast, fetch_row, get_available_slug
 from mediacore.model.meta import DBSession
 from mediacore.plugin import events
 

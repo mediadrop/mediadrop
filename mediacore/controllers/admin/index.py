@@ -4,14 +4,11 @@
 
 import webhelpers.paginate
 
-from pylons import request, response, session, tmpl_context
 from repoze.what.predicates import has_permission
 
 from mediacore.lib.base import BaseController
-from mediacore.lib.decorators import expose, expose_xhr, observable, paginate, validate
-from mediacore.lib.helpers import redirect, url_for
-from mediacore.model import Comment, Media, fetch_row
-from mediacore.model.meta import DBSession
+from mediacore.lib.decorators import expose, observable
+from mediacore.model import Comment, Media
 from mediacore.plugin import events
 
 import logging

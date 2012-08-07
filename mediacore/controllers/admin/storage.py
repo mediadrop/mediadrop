@@ -4,18 +4,15 @@
 
 import logging
 
-from pylons import request, response, session, tmpl_context
+from pylons import tmpl_context
 from repoze.what.predicates import has_permission
-from sqlalchemy import orm, sql
+from sqlalchemy import orm
 
-from mediacore.lib import helpers
 from mediacore.lib.base import BaseController
-from mediacore.lib.decorators import (autocommit, expose, observable,
-    paginate, validate)
+from mediacore.lib.decorators import autocommit, expose, validate
 from mediacore.lib.helpers import redirect, url_for
 from mediacore.lib.storage import sort_engines, StorageEngine
 from mediacore.model import DBSession, fetch_row
-from mediacore.plugin import events
 
 log = logging.getLogger(__name__)
 

@@ -4,26 +4,22 @@
 
 import os
 import shutil
-import tw.forms.fields
 
 from gdata.service import RequestError
 
 from cgi import FieldStorage
 from babel.core import Locale
-from pylons import config, request, response, session, tmpl_context as c
-from repoze.what.predicates import has_permission
-from sqlalchemy import orm, sql
+from pylons import config, request, tmpl_context as c
 
 from mediacore.forms.admin.settings import (AdvertisingForm, AppearanceForm,
     APIForm, AnalyticsForm, CommentsForm, GeneralForm, ImportVideosForm,
     NotificationsForm, PopularityForm, SiteMapsForm, UploadForm)
 from mediacore.lib.base import BaseSettingsController
-from mediacore.lib.decorators import (autocommit, expose, expose_xhr,
-    paginate, validate)
+from mediacore.lib.decorators import autocommit, expose, validate
 from mediacore.lib.helpers import filter_vulgarity, redirect, url_for
 from mediacore.lib.i18n import LanguageError, Translator, _
 from mediacore.lib.services import YouTubeImporter
-from mediacore.model import Category, Comment, Media, MultiSetting, Setting
+from mediacore.model import Category, Comment, Media
 from mediacore.model.meta import DBSession
 from mediacore.websetup import appearance_settings, generate_appearance_css
 

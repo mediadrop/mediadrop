@@ -5,17 +5,17 @@
 """
 Comment Moderation Controller
 """
-from pylons import request, response, session, tmpl_context
+from pylons import request
 from repoze.what.predicates import has_permission
-from sqlalchemy import orm, sql
+from sqlalchemy import orm
 
 from mediacore.forms.admin import SearchForm
 from mediacore.forms.admin.comments import EditCommentForm
 from mediacore.lib.base import BaseController
 from mediacore.lib.decorators import (autocommit, expose, expose_xhr,
-    observable, paginate, validate)
+    observable, paginate)
 from mediacore.lib.helpers import redirect, url_for
-from mediacore.model import Comment, Media, fetch_row, get_available_slug
+from mediacore.model import Comment, Media, fetch_row
 from mediacore.model.meta import DBSession
 from mediacore.plugin import events
 

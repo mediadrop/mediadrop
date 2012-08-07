@@ -2,15 +2,14 @@
 # The source code contained in this file is licensed under the GPL.
 # See LICENSE.txt in the main project directory, for more information.
 
-from pylons import request, response, session, tmpl_context
+from pylons import request, tmpl_context
 from repoze.what.predicates import has_permission
-from sqlalchemy import orm, sql
+from sqlalchemy import orm
 
 from mediacore.forms.admin.categories import CategoryForm, CategoryRowForm
-from mediacore.forms.admin.tags import TagForm, TagRowForm
 from mediacore.lib.base import BaseController
-from mediacore.lib.decorators import (autocommit, expose, expose_xhr,
-    observable, paginate, validate)
+from mediacore.lib.decorators import (autocommit, expose, observable, paginate, 
+    validate)
 from mediacore.lib.helpers import redirect, url_for
 from mediacore.model import Category, fetch_row, get_available_slug
 from mediacore.model.meta import DBSession
