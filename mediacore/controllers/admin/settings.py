@@ -21,7 +21,7 @@ from mediacore.lib.base import BaseSettingsController
 from mediacore.lib.decorators import (autocommit, expose, expose_xhr,
     paginate, validate)
 from mediacore.lib.helpers import filter_vulgarity, redirect, url_for
-from mediacore.lib.i18n import LanguageError, Translator
+from mediacore.lib.i18n import LanguageError, Translator, _
 from mediacore.lib.services import YouTubeImporter
 from mediacore.model import Category, Comment, Media, MultiSetting, Setting
 from mediacore.model.meta import DBSession
@@ -279,7 +279,7 @@ class SettingsController(BaseSettingsController):
                 raise
             error_message = _(u'''You have exceeded the traffic quota allowed 
 by YouTube. While some of the videos have been saved, not all of them were 
-imported correctly. Please wait a few minutes and run the import again in to 
+imported correctly. Please wait a few minutes and run the import again to 
 continue.''')
             c.form_errors['_the_form'] = error_message
             return self.importvideos(youtube=youtube, **kwargs)
