@@ -494,6 +494,7 @@ class YoutubeFlashPlayer(AbstractIframeEmbedPlayer):
         'showinfo': 0,
         'rel': 0,
         'showsearch': 0,
+        'wmode': 0,
     }
     _height_diff = 25
 
@@ -508,7 +509,15 @@ class YoutubeFlashPlayer(AbstractIframeEmbedPlayer):
         """
         uri = self.uris[0]
         
-        data_qs = urlencode(self.data)
+        data = self.data.copy()
+        wmode = data.pop('wmode', 0)
+        if wmode:
+            # 'wmode' is subject to a lot of myths and half-true statements, 
+            # these are the best resources I could find:
+            # http://stackoverflow.com/questions/886864/differences-between-using-wmode-transparent-opaque-or-window-for-an-embed
+            # http://kb2.adobe.com/cps/127/tn_12701.html#main_Using_Window_Mode__wmode__values_
+            data['wmode'] = 'opaque'
+        data_qs = urlencode(data)
         tag = Element('iframe', src='%s?%s' % (uri, data_qs), frameborder=0,
                       width=self.adjusted_width, height=self.adjusted_height,
                       allowfullscreen='allowfullscreen')

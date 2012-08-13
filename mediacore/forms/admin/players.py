@@ -153,6 +153,8 @@ class YoutubeFlashPlayerPrefsForm(PlayerPrefsForm):
                 CheckBox('showsearch', label_text=N_('Show the search box when the video is minimized. The related videos option must be enabled for this to work.'),
                     help_text=N_('AS2 player only')),
                 CheckBox('showinfo', label_text=N_('Display information like the video title and uploader before the video starts playing.')),
+                CheckBox('wmode', label_text=N_('Enable window-less mode (wmode)'), 
+                    help_text=N_('wmode allows HTML/CSS elements to be placed over the actual Flash video but requires more CPU power.')),
                 RadioButtonList('autohide',
                     options=lambda: (
                         (0, _('Always show player controls.')),
