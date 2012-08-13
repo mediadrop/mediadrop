@@ -142,7 +142,7 @@ class YoutubeFlashPlayerPrefsForm(PlayerPrefsForm):
                 ),
                 CheckBox('disablekb', label_text=N_('Disable the player keyboard controls.'),
                     help_text=N_('Not supported by HTML5 player.')),
-                CheckBox('autoplay', label_text=N_('Autoplay the video video when the player loads.')),
+                CheckBox('autoplay', label_text=N_('Autoplay the video when the player loads.')),
                 CheckBox('modestbranding', label_text=N_('Do not show YouTube logo in the player controls'), 
                     help_text=N_('Not supported by AS2 player.')),
                 CheckBox('fs', label_text=N_('Display fullscreen button.'),
