@@ -27,7 +27,8 @@ class YoutubeStorage(EmbedStorageEngine):
     url_pattern = re.compile(r'''
         ^(http(s?)://)?                         # http:// or https://
         (youtu\.be/                             # youtu.be short url OR:
-        |(\w+\.)?youtube\.com/watch\?(.*&)?v=)  # www.youtube.com/watch?v=
+        |(\w+\.)?youtube\.com/watch\?(.*&)?v=   # www.youtube.com/watch?v= OR
+        |(\w+\.)?youtube\.com/embed/)           # www.youtube.com/embed/ OR
         (?P<id>[^&#]+)                          # video unique ID
     ''', re.VERBOSE)
     """A compiled pattern object that uses named groupings for matches."""
