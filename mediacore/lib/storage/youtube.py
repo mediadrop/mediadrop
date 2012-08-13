@@ -14,7 +14,7 @@ import gdata.youtube.service
 from mediacore.lib.compat import max
 from mediacore.lib.filetypes import VIDEO
 from mediacore.lib.i18n import N_, _
-from mediacore.lib.storage import EmbedStorageEngine, UserStorageError
+from mediacore.lib.storage.api import EmbedStorageEngine, UserStorageError
 from mediacore.lib.uri import StorageURI
 
 class YoutubeStorage(EmbedStorageEngine):

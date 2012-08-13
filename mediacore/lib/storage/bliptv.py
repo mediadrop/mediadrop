@@ -10,7 +10,7 @@ from urllib2 import Request, urlopen, URLError
 from mediacore.lib.compat import ElementTree
 from mediacore.lib.filetypes import VIDEO
 from mediacore.lib.i18n import N_, _
-from mediacore.lib.storage import EmbedStorageEngine, UserStorageError
+from mediacore.lib.storage.api import EmbedStorageEngine, UserStorageError
 from mediacore.lib.uri import StorageURI
 
 log = logging.getLogger(__name__)

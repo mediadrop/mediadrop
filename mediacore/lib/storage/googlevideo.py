@@ -9,7 +9,7 @@ from urllib2 import urlopen, URLError
 
 from mediacore.lib.filetypes import VIDEO
 from mediacore.lib.i18n import N_
-from mediacore.lib.storage import EmbedStorageEngine
+from mediacore.lib.storage.api import EmbedStorageEngine
 from mediacore.lib.uri import StorageURI
 from mediacore.lib.xhtml import decode_entities
 

@@ -8,7 +8,7 @@ import os
 from mediacore.forms.admin.storage.remoteurls import RemoteURLStorageForm
 from mediacore.lib.filetypes import guess_container_format, guess_media_type
 from mediacore.lib.i18n import N_, _
-from mediacore.lib.storage import (EmbedStorageEngine, StorageEngine,
+from mediacore.lib.storage.api import (EmbedStorageEngine, StorageEngine,
     UnsuitableEngineError, UserStorageError)
 from mediacore.lib.uri import StorageURI
 

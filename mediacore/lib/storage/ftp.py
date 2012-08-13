@@ -13,7 +13,7 @@ from formencode import Invalid
 
 from mediacore.lib.compat import sha1
 from mediacore.lib.i18n import N_, _
-from mediacore.lib.storage import safe_file_name, FileStorageEngine
+from mediacore.lib.storage.api import FileStorageEngine, safe_file_name
 from mediacore.lib.uri import StorageURI
 
 log = logging.getLogger(__name__)
