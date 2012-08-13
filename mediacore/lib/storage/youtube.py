@@ -102,7 +102,7 @@ class YoutubeStorage(EmbedStorageEngine):
         """
         params = self._data.get('player_params', {})
         params = dict((k, int(v)) for k, v in params.iteritems())
-        play_url = 'http://youtube%s.com/v/%s?%s' % (
+        play_url = 'http://youtube%s.com/embed/%s?%s' % (
             self._data.get('nocookie', False) and '-nocookie' or '',
             media_file.unique_id,
             urlencode(params, True),
