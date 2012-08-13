@@ -462,7 +462,7 @@ class DailyMotionEmbedPlayer(AbstractIframeEmbedPlayer):
 AbstractIframeEmbedPlayer.register(DailyMotionEmbedPlayer)
 
 
-class YoutubeFlashPlayer(AbstractFlashEmbedPlayer):
+class YoutubeFlashPlayer(AbstractIframeEmbedPlayer):
     """
     YouTube Player
 
@@ -497,23 +497,27 @@ class YoutubeFlashPlayer(AbstractFlashEmbedPlayer):
     }
     _height_diff = 25
 
-    def swf_url(self):
-        """Return the flash player URL."""
-        url = str(self.uris[0])
-        if '?' in url:
-            # Add in our query string params to the ones that are there
-            scheme, netloc, path, query, fragment = urlsplit(url)
-            query_dict = dict(parse_qsl(query))
-            query_dict.update(self.data)
-            query = urlencode(query_dict)
-            url = urlunsplit((scheme, netloc, path, query, fragment))
-        else:
-            # Shortcut for adding our query params when there aren't any yet
-            url += '?' + urlencode(self.data)
-        return url
+    def render_markup(self, error_text=None):
+        """Render the XHTML markup for this player instance.
+
+        :param error_text: Optional error text that should be included in
+            the final markup if appropriate for the player.
+        :rtype: ``unicode`` or :class:`genshi.core.Markup`
+        :returns: XHTML that will not be escaped by Genshi.
+
+        """
+        uri = self.uris[0]
+        
+        data_qs = urlencode(self.data)
+        tag = Element('iframe', src='%s?%s' % (uri, data_qs), frameborder=0,
+                      width=self.adjusted_width, height=self.adjusted_height,
+                      allowfullscreen='allowfullscreen')
+        if error_text:
+            tag(error_text)
+        return tag
 
 
-AbstractFlashEmbedPlayer.register(YoutubeFlashPlayer)
+AbstractIframeEmbedPlayer.register(YoutubeFlashPlayer)
 
 
 class GoogleVideoFlashPlayer(AbstractFlashEmbedPlayer):
