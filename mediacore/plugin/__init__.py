@@ -202,7 +202,7 @@ class _Plugin(object):
     def _default_locale_dirs(self):
         if resource_exists(self.modname, 'i18n'):
             localedir = resource_filename(self.modname, 'i18n')
-            return {self.modname: localedir}
+            return {self.name: localedir}
         return None
 
     def _default_public_path(self):
