@@ -3,5 +3,4 @@
 # See LICENSE.txt in the main project directory, for more information.
 
 from mediacore.lib.services.facebook import *
-from mediacore.lib.services.youtube import *
 

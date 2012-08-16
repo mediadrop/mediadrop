@@ -11,18 +11,18 @@ import formencode
 from babel.core import Locale
 from formencode.schema import Schema
 from pylons import app_globals, config, request
-from tw.forms import CheckBox, RadioButtonList, SingleSelectField
+from tw.forms import RadioButtonList, SingleSelectField
 from tw.forms.fields import Button, CheckBox
 from tw.forms.validators import (Bool, FancyValidator, FieldStorageUploadConverter,
-    Int, NotEmpty, OneOf, Regex, StringBool)
+    Int, OneOf, Regex, StringBool)
 
 from mediacore.forms import (FileField, ListFieldSet, ListForm,
     ResetButton, SubmitButton, TextArea, TextField, XHTMLTextArea,
     email_validator, email_list_validator)
-from mediacore.forms.admin.categories import category_options, CategoryCheckBoxList
+from mediacore.forms.admin.categories import category_options
 from mediacore.lib.i18n import N_, _, get_available_locales
 from mediacore.plugin import events
-from mediacore.model import Category, DBSession, MultiSetting
+from mediacore.model import MultiSetting
 
 comments_enable_disable = lambda: (
     ('mediacore', _("Built-in comments")),
@@ -454,27 +454,4 @@ class AdvertisingForm(ListForm):
         SubmitButton('save', default=N_('Save'), css_classes=['btn', 'btn-save', 'blue', 'f-rgt']),
     ]
 
-class ImportVideosForm(ListForm):
-    template = 'admin/box-form.html'
-    id = 'settings-form'
-    css_class = 'form'
-    submit_text = None
-    fields = [
-        ListFieldSet('youtube', suppress_label=True, legend='',
-            css_classes=['details_fieldset'],
-            children = [
-                TextArea('channel_names', attrs=dict(rows=3, cols=20),
-                    label_text=N_('Channel Name(s)'),
-                    help_text=N_('One ore more channel names (separated by commas) to import. Please enter only the channel/user name, not the full URL. Please be aware that it may take several minutes for the import to complete. When all videos have been imported, you will be returned to the Media page to manage your new videos.'),
-                    validator=NotEmpty),
-                CheckBox('auto_publish',
-                    label_text=N_('Publish Videos'),
-                    help_text=N_('When this is selected, videos are published automatically when they are imported. Otherwise the videos will be added, but will be waiting for review before being published.')),
-                CategoryCheckBoxList('categories',
-                    label_text=N_('Categories'),
-                    options=lambda: DBSession.query(Category.id, Category.name).all()),
-                TextArea('tags', label_text=N_('Tags'), attrs=dict(rows=3, cols=15), help_text=N_(u'e.g.: puppies, great dane, adorable')),
-                SubmitButton('save', default=N_('Import'), css_classes=['btn', 'btn-save', 'blue', 'f-rgt']),
-            ]
-        )
-    ]
+

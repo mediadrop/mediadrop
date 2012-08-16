@@ -5,21 +5,18 @@
 import os
 import shutil
 
-from gdata.service import RequestError
-
 from cgi import FieldStorage
 from babel.core import Locale
 from pylons import config, request, tmpl_context as c
 
 from mediacore.forms.admin.settings import (AdvertisingForm, AppearanceForm,
-    APIForm, AnalyticsForm, CommentsForm, GeneralForm, ImportVideosForm,
+    APIForm, AnalyticsForm, CommentsForm, GeneralForm,
     NotificationsForm, PopularityForm, SiteMapsForm, UploadForm)
 from mediacore.lib.base import BaseSettingsController
 from mediacore.lib.decorators import autocommit, expose, validate
 from mediacore.lib.helpers import filter_vulgarity, redirect, url_for
-from mediacore.lib.i18n import LanguageError, Translator, _
-from mediacore.lib.services import YouTubeImporter
-from mediacore.model import Category, Comment, Media
+from mediacore.lib.i18n import LanguageError, Translator
+from mediacore.model import Comment, Media
 from mediacore.model.meta import DBSession
 from mediacore.websetup import appearance_settings, generate_appearance_css
 
@@ -55,9 +52,6 @@ appearance_form = AppearanceForm(
 
 advertising_form = AdvertisingForm(
     action=url_for(controller='/admin/settings', action='advertising_save'))
-
-importvideos_form = ImportVideosForm(
-    action=url_for(controller='/admin/settings', action='importvideos_save'))
 
 
 class SettingsController(BaseSettingsController):
@@ -245,40 +239,3 @@ class SettingsController(BaseSettingsController):
     def advertising_save(self, **kwargs):
         """Save :class:`~mediacore.forms.admin.settings.AdvertisingForm`."""
         return self._save(advertising_form, 'advertising', values=kwargs)
-
-    @expose('admin/settings/importvideos.html')
-    def importvideos(self, **kwargs):
-        category_tree = Category.query.order_by(Category.name).populated_tree()
-        return dict(
-            form = importvideos_form,
-            form_values = kwargs,
-            category_tree = category_tree,
-        )
-
-    @expose()
-    @validate(importvideos_form, error_handler=importvideos)
-    @autocommit
-    def importvideos_save(self, youtube, **kwargs):
-        """Save :class:`~mediacore.forms.admin.settings.ImportVideosForm`."""
-        auto_publish = youtube.get('auto_publish', None)
-        tags = kwargs.get('youtube.tags')
-        categories = kwargs.get('youtube.categories')
-        user = request.environ['repoze.who.identity']['user']
-        
-        channel_names = youtube.get('channel_names', '').replace(',', ' ').split()
-        importer = YouTubeImporter(auto_publish, user, tags, categories)
-        try:
-            for channel_name in channel_names:
-                importer.import_videos_from_channel(channel_name)
-        except RequestError, request_error:
-            if request_error.message['status'] != 403:
-                raise
-            error_message = _(u'''You have exceeded the traffic quota allowed 
-by YouTube. While some of the videos have been saved, not all of them were 
-imported correctly. Please wait a few minutes and run the import again to 
-continue.''')
-            c.form_errors['_the_form'] = error_message
-            return self.importvideos(youtube=youtube, **kwargs)
-        
-        # Redirect to the Media view page, when the import is complete
-        redirect(url_for(controller='admin/media', action='index'))
