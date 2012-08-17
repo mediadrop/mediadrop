@@ -60,6 +60,7 @@ class YoutubeStorage(EmbedStorageEngine):
             elif e['status'] == 400 and e['body'] == 'Invalid id':
                 raise UserStorageError(
                     _('Invalid YouTube URL. This video does not exist.'))
+            raise UserStorageError(_('YouTube Error: %s') % e['body'])
 
         try:
             thumb = max(entry.media.thumbnail, key=attrgetter('width')).url
