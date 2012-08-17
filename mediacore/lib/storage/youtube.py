@@ -52,7 +52,8 @@ class YoutubeStorage(EmbedStorageEngine):
 
         try:
             entry = yt_service.GetYouTubeVideoEntry(video_id=id)
-        except gdata.service.RequestError, e:
+        except gdata.service.RequestError, request_error:
+            e = request_error.args[0]
             if e['status'] == 403 and e['body'] == 'Private video':
                 raise UserStorageError(
                     _('This video is private and cannot be embedded.'))
