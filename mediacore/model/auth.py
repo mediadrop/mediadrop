@@ -95,8 +95,6 @@ class User(object):
 
     def _set_password(self, password):
         """Hash password on the fly."""
-        hashed_password = password
-
         if isinstance(password, unicode):
             password_8bit = password.encode('UTF-8')
         else:
