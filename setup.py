@@ -94,10 +94,6 @@ setup(
         'Pylons',
     ],
 
-    test_suite='nose.collector',
-    tests_require=[
-        'WebTest',
-        ],
 
     packages=find_packages(exclude=['ez_setup']),
     include_package_data=True,
