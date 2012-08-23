@@ -106,7 +106,7 @@ class User(object):
         hash.update(password_8bit + salt.hexdigest())
         hashed_password = salt.hexdigest() + hash.hexdigest()
 
-        # make sure the hased password is an UTF-8 object at the end of the
+        # make sure the hashed password is an UTF-8 object at the end of the
         # process because SQLAlchemy _wants_ a unicode object for Unicode columns
         if not isinstance(hashed_password, unicode):
             hashed_password = hashed_password.decode('UTF-8')
