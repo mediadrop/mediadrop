@@ -6,7 +6,7 @@ from datetime import datetime
 
 from sqlalchemy import Table, ForeignKey, Column
 from sqlalchemy.types import Unicode, Integer, DateTime
-from sqlalchemy.orm import backref, mapper, relation, synonym
+from sqlalchemy.orm import mapper, relation, synonym
 
 from mediacore.model.meta import DBSession, metadata
 from mediacore.lib.compat import any, sha1
