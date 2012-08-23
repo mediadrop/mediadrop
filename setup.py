@@ -94,6 +94,7 @@ setup(
         'Pylons',
     ],
 
+    test_suite='mediacore.lib.test.suite',
 
     packages=find_packages(exclude=['ez_setup']),
     include_package_data=True,
