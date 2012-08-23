@@ -4,7 +4,7 @@
 """
 Abstract events which plugins subscribe to and are called by the app.
 """
-from collections import deque
+from collections import deque, Iterable
 import logging
 
 from sqlalchemy.orm.interfaces import MapperExtension
@@ -37,8 +37,15 @@ class GeneratorEvent(Event):
     """
     def __call__(self, *args, **kwargs):
         for observer in self.observers:
-            for result in observer(*args, **kwargs):
+            result = observer(*args, **kwargs)
+            is_list_like = isinstance(result, Iterable) \
+                           and not isinstance(result, basestring)
+            if is_list_like:
+                for item in result:
+                    yield item
+            else:
                 yield result
+
 
 class FetchFirstResultEvent(Event):
     """
