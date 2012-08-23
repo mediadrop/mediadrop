@@ -53,7 +53,7 @@ class FetchFirstResultEvent(Event):
     """
     def __call__(self, *args, **kwargs):
         for observer in self.observers:
-            result = observer(**kwargs)
+            result = observer(*args, **kwargs)
             if result is not None:
                 return result
         return None
