@@ -102,9 +102,9 @@ class User(object):
 
         salt = sha1()
         salt.update(os.urandom(60))
-        hash = sha1()
-        hash.update(password_8bit + salt.hexdigest())
-        hashed_password = salt.hexdigest() + hash.hexdigest()
+        hash_ = sha1()
+        hash_.update(password_8bit + salt.hexdigest())
+        hashed_password = salt.hexdigest() + hash_.hexdigest()
 
         # make sure the hashed password is an UTF-8 object at the end of the
         # process because SQLAlchemy _wants_ a unicode object for Unicode columns
