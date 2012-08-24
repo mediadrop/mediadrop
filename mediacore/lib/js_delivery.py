@@ -46,7 +46,7 @@ class InlineJS(object):
         return 'InlineJS(%r, key=%r)' % (self.code, self.key)
     
     def __eq__(self, other):
-        # extremly simple equality check: two InlineJS instances are equal if 
+        # extremely simple equality check: two InlineJS instances are equal if 
         # the code is exactly the same! No trimming of whitespaces or any other
         # analysis is done.
         if not hasattr(other, 'code'):
