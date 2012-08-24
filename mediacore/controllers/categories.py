@@ -2,17 +2,14 @@
 # The source code contained in this file is licensed under the GPL.
 # See LICENSE.txt in the main project directory, for more information.
 
-from pylons import (app_globals, config, request, response, session,
-    tmpl_context as c)
+from pylons import request, response, tmpl_context as c
 from pylons.controllers.util import abort
-from sqlalchemy import orm, sql
+from sqlalchemy import orm
 
 from mediacore.lib.base import BaseController
-from mediacore.lib.decorators import (beaker_cache, expose, expose_xhr,
-    observable, paginate, validate)
-from mediacore.lib.helpers import content_type_for_response, redirect, url_for
-from mediacore.model import Category, Media, Podcast, fetch_row
-from mediacore.model.meta import DBSession
+from mediacore.lib.decorators import beaker_cache, expose, observable, paginate
+from mediacore.lib.helpers import content_type_for_response
+from mediacore.model import Category, Media, fetch_row
 from mediacore.plugin import events
 
 import logging

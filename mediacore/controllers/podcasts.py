@@ -3,16 +3,14 @@
 # See LICENSE.txt in the main project directory, for more information.
 
 from pylons import request, response
-from repoze.what.predicates import has_permission
-from sqlalchemy import orm, sql
+from sqlalchemy import orm
 
 from mediacore.lib import helpers
 from mediacore.lib.base import BaseController
-from mediacore.lib.decorators import (beaker_cache, expose, expose_xhr,
-    observable, paginate, validate)
+from mediacore.lib.decorators import (beaker_cache, expose, observable, 
+    paginate)
 from mediacore.lib.helpers import content_type_for_response, redirect
-from mediacore.model import Category, Media, Podcast, fetch_row
-from mediacore.model.meta import DBSession
+from mediacore.model import Media, Podcast, fetch_row
 from mediacore.plugin import events
 
 import logging

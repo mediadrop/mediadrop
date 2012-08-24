@@ -69,7 +69,7 @@ class Scripts(object):
     
     def add(self, script):
         if script in self.scripts:
-            if not hasattr(script, 'async'):    
+            if not hasattr(script, 'async'):
                 return
             # in case the same script is added twice and only one should be 
             # loaded asynchronously, use the non-async variant to be on the safe

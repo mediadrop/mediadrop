@@ -2,18 +2,15 @@
 # The source code contained in this file is licensed under the GPL.
 # See LICENSE.txt in the main project directory, for more information.
 
-import os
 import simplejson as json
 
-from paste.deploy.converters import asbool
-from pylons import app_globals, config, request, response, session, tmpl_context
+from pylons import request, tmpl_context
 from pylons.controllers.util import abort
 
 from mediacore.forms.uploader import UploadForm
 from mediacore.lib import email
 from mediacore.lib.base import BaseController
-from mediacore.lib.decorators import (autocommit, expose, expose_xhr,
-    observable, paginate, validate)
+from mediacore.lib.decorators import autocommit, expose, observable, validate
 from mediacore.lib.helpers import redirect, url_for
 from mediacore.lib.storage import add_new_media_file
 from mediacore.lib.thumbnails import create_default_thumbs_for, has_thumbs

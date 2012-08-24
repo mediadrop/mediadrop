@@ -10,14 +10,14 @@ import math
 import os
 
 from paste.fileapp import FileApp
-from pylons import app_globals, config, request, response
+from pylons import config, request, response
 from pylons.controllers.util import abort, forward
 from webob.exc import HTTPNotFound
 
 from mediacore.lib.base import BaseController
 from mediacore.lib.decorators import expose, beaker_cache
 from mediacore.lib.helpers import (content_type_for_response, 
-    get_featured_category, redirect, url_for)
+    get_featured_category, url_for)
 from mediacore.model import Media
 
 log = logging.getLogger(__name__)

@@ -2,8 +2,6 @@
 # The source code contained in this file is licensed under the GPL.
 # See LICENSE.txt in the main project directory, for more information.
 
-from pylons import config, request
-
 from mediacore.lib import email as libemail
 from mediacore.lib.base import BaseController
 from mediacore.lib.decorators import expose, observable

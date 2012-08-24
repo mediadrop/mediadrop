@@ -8,12 +8,10 @@ Publicly Facing Media Controllers
 import logging
 import os.path
 
-from itertools import izip
-
 from akismet import Akismet
 from paste.fileapp import FileApp
 from paste.util import mimeparse
-from pylons import app_globals, config, request, response
+from pylons import config, request, response
 from pylons.controllers.util import abort, forward
 from sqlalchemy import orm, sql
 from sqlalchemy.exc import OperationalError
@@ -23,15 +21,14 @@ from mediacore import USER_AGENT
 from mediacore.forms.comments import PostCommentSchema
 from mediacore.lib import helpers
 from mediacore.lib.base import BaseController
-from mediacore.lib.decorators import expose, expose_xhr, observable, paginate, validate, validate_xhr, autocommit
+from mediacore.lib.decorators import expose, expose_xhr, observable, paginate, validate_xhr, autocommit
 from mediacore.lib.email import send_comment_notification
-from mediacore.lib.helpers import (file_path, filter_vulgarity, redirect,
-    store_transient_message, url_for)
+from mediacore.lib.helpers import filter_vulgarity, redirect, url_for
 from mediacore.lib.i18n import _
 from mediacore.lib.services import Facebook
 from mediacore.lib.templating import render
-from mediacore.model import (DBSession, fetch_row, get_available_slug,
-    Media, MediaFile, Comment, Tag, Category, Author, AuthorWithIP, Podcast)
+from mediacore.model import (DBSession, fetch_row, Media, MediaFile, Comment, 
+    Tag, Category, AuthorWithIP, Podcast)
 from mediacore.plugin import events
 
 log = logging.getLogger(__name__)
