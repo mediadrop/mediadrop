@@ -4,7 +4,7 @@
 """
 Abstract events which plugins subscribe to and are called by the app.
 """
-from collections import deque, Iterable
+from collections import deque
 import logging
 
 from sqlalchemy.orm.interfaces import MapperExtension
@@ -41,12 +41,19 @@ class GeneratorEvent(Event):
     """
     An arbitrary event that yields all results from all observers.
     """
+    def is_list_like(self, value):
+        if isinstance(value, basestring):
+            return False
+        try:
+            iter(value)
+        except TypeError:
+            return False
+        return True
+    
     def __call__(self, *args, **kwargs):
         for observer in self.observers:
             result = observer(*args, **kwargs)
-            is_list_like = isinstance(result, Iterable) \
-                           and not isinstance(result, basestring)
-            if is_list_like:
+            if self.is_list_like():
                 for item in result:
                     yield item
             else:
