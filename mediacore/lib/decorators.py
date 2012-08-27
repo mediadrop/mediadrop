@@ -21,7 +21,6 @@ from webob.exc import HTTPException, HTTPMethodNotAllowed
 
 from mediacore.lib.paginate import paginate
 from mediacore.lib.templating import render
-from mediacore.model.meta import DBSession
 
 __all__ = [
     'ValidationState',
@@ -611,6 +610,7 @@ def autocommit(func, *args, **kwargs):
         return result
 
 def _autocommit_commit(req):
+    from mediacore.model.meta import DBSession
     try:
         DBSession.commit()
     except:
@@ -620,6 +620,7 @@ def _autocommit_commit(req):
         _autocommit_fire_callbacks(req, req.commit_callbacks)
 
 def _autocommit_rollback(req):
+    from mediacore.model.meta import DBSession
     DBSession.rollback()
     _autocommit_fire_callbacks(req, req.rollback_callbacks)
 
