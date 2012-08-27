@@ -2,7 +2,6 @@
 # The source code contained in this file is licensed under the GPL.
 # See LICENSE.txt in the main project directory, for more information.
 
-from decorator import decorator
 from pylons import request, tmpl_context
 from repoze.what.predicates import has_permission
 import webob.exc
@@ -17,14 +16,6 @@ from mediacore.model.meta import DBSession
 from mediacore.plugin import events
 
 user_form = UserForm()
-
-def redirect_if_not_POST(**redirect_kwargs):
-    """Protect the given function from non-POST requests using a redirect."""
-    def deco(func, *args, **kwargs):
-        if request.method != 'POST':
-            redirect(**redirect_kwargs)
-        return func(*args, **kwargs)
-    return decorator(deco)
 
 
 class UsersController(BaseController):
@@ -95,8 +86,7 @@ class UsersController(BaseController):
         )
 
 
-    @expose()
-    @redirect_if_not_POST(action='index', id=None)
+    @expose(request_method='POST')
     @validate(user_form, error_handler=edit)
     @autocommit
     @observable(events.Admin.UsersController.save)
