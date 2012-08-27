@@ -18,9 +18,8 @@ class Event(object):
         >>> e = Event()
         >>> e.observers.append(lambda x: x)
         >>> e('x')
-
     """
-    def __init__(self, args):
+    def __init__(self, args=()):
         self.args = args and tuple(args) or None
         self.observers = deque()
 
