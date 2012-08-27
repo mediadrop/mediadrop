@@ -27,6 +27,26 @@ class ObservableDecoratorTest(PythonicTestCase):
         result = decorated_function('foo', bar=True)
         assert_equals({'args': ['foo'], 'kwargs': {'bar': True}, 'probe': True},
                       result)
+    
+    def test_can_call_observers_before_executing_decorated_message(self):
+        event = Event([])
+        observes(event)(self.probe)
+        def guard_probe(*args, **kwargs):
+            assert_not_contains('probe', kwargs)
+            kwargs['guard_probe'] = True
+            return (args, kwargs)
+        observes(event, run_before=True)(guard_probe)
+        
+        def function(*args, **kwargs):
+            return {'args': list(args), 'kwargs': kwargs}
+        decorated_function = observable(event)(function)
+        
+        expected = {
+            'args': ['foo'], 
+            'kwargs': {'bar': True, 'guard_probe': True}, 
+            'probe': True
+        }
+        assert_equals(expected, decorated_function('foo', bar=True))
 
 
 import unittest

@@ -536,8 +536,10 @@ def observable(event):
     :returns: A decorator function.
     """
     def wrapper(func, *args, **kwargs):
+        for observer in event.pre_observers:
+            args, kwargs = observer(*args, **kwargs)
         result = func(*args, **kwargs)
-        for observer in event.observers:
+        for observer in event.post_observers:
             result = observer(**result)
         return result
     return decorator(wrapper)

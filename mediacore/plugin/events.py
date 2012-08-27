@@ -21,7 +21,12 @@ class Event(object):
     """
     def __init__(self, args=()):
         self.args = args and tuple(args) or None
-        self.observers = deque()
+        self.pre_observers = deque()
+        self.post_observers = deque()
+    
+    @property
+    def observers(self):
+        return tuple(self.pre_observers) + tuple(self.post_observers)
 
     def __call__(self, *args, **kwargs):
         # This is helpful for events which are triggered explicitly in the code
@@ -66,13 +71,18 @@ class observes(object):
     def __init__(self, *events, **kwargs):
         self.events = events
         self.appendleft = kwargs.get('appendleft', False)
+        self.run_before = kwargs.get('run_before', False)
 
     def __call__(self, func):
         for event in self.events:
+            observers = event.post_observers
+            if self.run_before:
+                observers = event.pre_observers
+            
             if self.appendleft:
-                event.observers.appendleft(func)
+                observers.appendleft(func)
             else:
-                event.observers.append(func)
+                observers.append(func)
         return func
 
 class MapperObserver(MapperExtension):

@@ -11,33 +11,34 @@ from mediacore.plugin.events import Event, FetchFirstResultEvent, GeneratorEvent
 
 class EventTest(PythonicTestCase):
     def setUp(self):
-        self.observer_was_called = False
+        self.observers_called = 0
+        self.event = Event()
     
     def probe(self):
-        self.observer_was_called = True
+        self.observers_called += 1
     
     def test_can_notify_all_observers(self):
-        event = Event([])
-        event.observers.append(self.probe)
+        self.event.post_observers.append(self.probe)
+        self.event.pre_observers.append(self.probe)
         
-        assert_false(self.observer_was_called)
-        event()
-        assert_true(self.observer_was_called)
+        assert_equals(0, self.observers_called)
+        self.event()
+        assert_equals(2, self.observers_called)
 
 
 class FetchFirstResultEventTest(PythonicTestCase):
     def test_returns_first_non_null_result(self):
         event = FetchFirstResultEvent([])
-        event.observers.append(lambda: None)
-        event.observers.append(lambda: 1)
-        event.observers.append(lambda: 2)
+        event.post_observers.append(lambda: None)
+        event.post_observers.append(lambda: 1)
+        event.post_observers.append(lambda: 2)
         
         assert_equals(1, event())
     
     def test_passes_all_event_parameters_to_observers(self):
         event = FetchFirstResultEvent([])
-        event.observers.append(lambda foo, bar=None: foo)
-        event.observers.append(lambda foo, bar=None: bar or foo)
+        event.post_observers.append(lambda foo, bar=None: foo)
+        event.post_observers.append(lambda foo, bar=None: bar or foo)
         
         assert_equals(4, event(4))
         assert_equals(6, event(None, bar=6))
@@ -46,17 +47,17 @@ class FetchFirstResultEventTest(PythonicTestCase):
 class GeneratorEventTest(PythonicTestCase):
     def test_can_unroll_lists(self):
         event = GeneratorEvent([])
-        event.observers.append(lambda: [1, 2, 3])
-        event.observers.append(lambda: ('a', 'b'))
+        event.post_observers.append(lambda: [1, 2, 3])
+        event.post_observers.append(lambda: ('a', 'b'))
         
         assert_equals([1, 2, 3, 'a', 'b'], list(event()))
     
     def test_can_return_non_iterable_items(self):
         event = GeneratorEvent([])
-        event.observers.append(lambda: [1, ])
-        event.observers.append(lambda: None)
-        event.observers.append(lambda: 5)
-        event.observers.append(lambda: 'some value')
+        event.post_observers.append(lambda: [1, ])
+        event.post_observers.append(lambda: None)
+        event.post_observers.append(lambda: 5)
+        event.post_observers.append(lambda: 'some value')
         
         assert_equals([1, None, 5, 'some value'], list(event()))
 
