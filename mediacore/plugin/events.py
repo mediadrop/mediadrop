@@ -25,6 +25,8 @@ class Event(object):
         self.observers = deque()
 
     def __call__(self, *args, **kwargs):
+        # This is helpful for events which are triggered explicitly in the code
+        # (e.g. Environment.loaded)
         for observer in self.observers:
             observer(*args, **kwargs)
 

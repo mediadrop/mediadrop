@@ -6,7 +6,23 @@
 
 from mediacore.lib.test.pythonic_testcase import *
 
-from mediacore.plugin.events import FetchFirstResultEvent, GeneratorEvent
+from mediacore.plugin.events import Event, FetchFirstResultEvent, GeneratorEvent
+
+
+class EventTest(PythonicTestCase):
+    def setUp(self):
+        self.observer_was_called = False
+    
+    def probe(self):
+        self.observer_was_called = True
+    
+    def test_can_notify_all_observers(self):
+        event = Event([])
+        event.observers.append(self.probe)
+        
+        assert_false(self.observer_was_called)
+        event()
+        assert_true(self.observer_was_called)
 
 
 class FetchFirstResultEventTest(PythonicTestCase):
@@ -49,6 +65,7 @@ class GeneratorEventTest(PythonicTestCase):
 import unittest
 def suite():
     suite = unittest.TestSuite()
+    suite.addTest(unittest.makeSuite(EventTest))
     suite.addTest(unittest.makeSuite(FetchFirstResultEventTest))
     suite.addTest(unittest.makeSuite(GeneratorEventTest))
     return suite
