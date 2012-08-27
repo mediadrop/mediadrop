@@ -70,8 +70,11 @@ class observes(object):
     """
     def __init__(self, *events, **kwargs):
         self.events = events
-        self.appendleft = kwargs.get('appendleft', False)
-        self.run_before = kwargs.get('run_before', False)
+        self.appendleft = kwargs.pop('appendleft', False)
+        self.run_before = kwargs.pop('run_before', False)
+        if kwargs:
+            first_key = list(kwargs)[0]
+            raise TypeError('TypeError: observes() got an unexpected keyword argument %r' % first_key)
 
     def __call__(self, func):
         for event in self.events:

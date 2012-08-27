@@ -11,6 +11,11 @@ from mediacore.plugin.events import Event, observes
 
 class ObserveDecoratorTest(PythonicTestCase):
     
+    def test_catches_unknown_keyword_parameters_in_constructor(self):
+        e = assert_raises(TypeError, lambda: observes(Event(), invalid=True))
+        assert_equals("TypeError: observes() got an unexpected keyword argument 'invalid'",
+                      e.args[0])
+    
     def probe(self, result):
         pass
     
