@@ -86,7 +86,7 @@ class MediaController(BaseController):
         elif filter == 'drafts':
             media = media.drafts()
         elif filter == 'published':
-             media = media.published()
+            media = media.published()
 
         if category:
             category = fetch_row(Category, slug=category)
