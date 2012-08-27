@@ -53,7 +53,7 @@ class GeneratorEvent(Event):
     def __call__(self, *args, **kwargs):
         for observer in self.observers:
             result = observer(*args, **kwargs)
-            if self.is_list_like():
+            if self.is_list_like(result):
                 for item in result:
                     yield item
             else:
