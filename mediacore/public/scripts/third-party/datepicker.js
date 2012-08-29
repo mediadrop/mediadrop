@@ -278,6 +278,12 @@ var DatePicker = new Class({
 			left: inputCoords.left + this.options.positionOffset.x,
 			top: inputCoords.top + inputCoords.height + this.options.positionOffset.y
 		};
+		var maxTopPosition = (window.innerHeight + window.pageYOffset) - (135+2*14) - 10;
+		if (position.top > maxTopPosition)
+		    // in case the picker should appear at the end of the page, move it up
+		    // otherwise it might happen that the picker is displayed in strange places
+		    // e.g. at the top of the page
+		    position.top = maxTopPosition;
 		this.fireEvent('show');
 
 		this.today = new Date();
