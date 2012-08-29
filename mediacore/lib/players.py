@@ -957,6 +957,7 @@ def media_player(media, is_widescreen=False, show_like=True, show_dislike=True,
     """
     uris = media.get_uris()
 
+    from mediacore.model.players import fetch_enabled_players
     # Find the first player that can play any uris
     for player_cls, player_data in fetch_enabled_players():
         can_play = player_cls.can_play(uris)
@@ -1005,6 +1006,7 @@ def pick_any_media_file(media):
     :returns: A :class:`~mediacore.model.media.MediaFile` object or None
     """
     uris = media.get_uris()
+    from mediacore.model.players import fetch_enabled_players
     for player_cls, player_data in fetch_enabled_players():
         for i, plays in enumerate(player_cls.can_play(uris)):
             if plays:
@@ -1019,6 +1021,7 @@ def update_enabled_players():
     enabled player that supports that format. Call this method after changing
     the set of enabled players, to ensure encoding statuses are up to date.
     """
+    from mediacore.model import DBSession, Media
     media = DBSession.query(Media)
     for m in media:
         m.update_status()
@@ -1044,6 +1047,3 @@ def embed_iframe(media, width=400, height=225, frameborder=0, **kwargs):
     return tag
 
 embed_player = embed_iframe
-
-from mediacore.model.players import fetch_enabled_players
-from mediacore.model import DBSession, Media
