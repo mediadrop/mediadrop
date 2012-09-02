@@ -18,6 +18,7 @@ See LICENSE.txt in the main project directory, for more information.
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<meta name="language" content="${translator.locale.territory and '%s-%s' % (translator.locale.language, translator.locale.territory.lower()) or translator.locale.language}" />
 	<link href="${h.url_for('/styles/base.css')}" media="screen" rel="stylesheet" type="text/css" />
+	${Markup(h.response.stylesheets.render())}
 	<link href="${h.url_for('/appearance/appearance.css')}" media="screen" rel="stylesheet" type="text/css" />
 	<py:choose test="bool(h.request.params.get('debug', False))">
 		<py:when test="True">

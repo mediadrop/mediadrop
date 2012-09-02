@@ -19,6 +19,7 @@ from repoze.what.predicates import has_permission, Predicate
 from tw.forms.fields import ContainerMixin as _ContainerMixin
 
 from mediacore.lib import helpers
+from mediacore.lib.css_delivery import StyleSheets
 from mediacore.lib.i18n import Translator
 from mediacore.lib.js_delivery import Scripts
 from mediacore.model.meta import DBSession
@@ -74,6 +75,7 @@ class BareBonesController(WSGIController):
         """
         self.setup_translator()
         response.scripts = Scripts()
+        response.stylesheets = StyleSheets()
         response.facebook = None
 
         action_method = getattr(self, kwargs['action'], None)

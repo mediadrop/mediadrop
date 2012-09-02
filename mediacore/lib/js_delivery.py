@@ -63,13 +63,56 @@ class SearchResult(object):
         self.index = index
 
 
-class Scripts(object):
+class ResourcesCollection(object):
     def __init__(self, *args):
-        self.scripts = list(args)
+        self._resources = list(args)
     
+    def replace_resource_with_key(self, new_resource):
+        result = self._find_resource_with_key(new_resource.key)
+        if result is None:
+            raise AssertionError('No script with key %r' % new_resource.key)
+        self._resources[result.index] = new_resource
+    
+    def render(self):
+        markup = u''
+        for resource in self._resources:
+            markup = markup + unicode(resource)
+        return markup
+    
+    def __len__(self):
+        return len(self._resources)
+    
+    # --- internal api ---------------------------------------------------------
+    
+    def _get(self, resource):
+        result = self._find_resource(resource)
+        if result is not None:
+            return result
+        raise AssertionError('Resource %r not found' % resource)
+    
+    def _get_by_key(self, key):
+        result = self._find_resource_with_key(key)
+        if result is not None:
+            return result
+        raise AssertionError('No script with key %r' % key)
+    
+    def _find_resource(self, a_resource):
+        for i, resource in enumerate(self._resources):
+            if resource == a_resource:
+                return SearchResult(resource, i)
+        return None
+    
+    def _find_resource_with_key(self, key):
+        for i, resource in enumerate(self._resources):
+            if resource.key == key:
+                return SearchResult(resource, i)
+        return None
+
+
+class Scripts(ResourcesCollection):    
     def add(self, script):
-        if script in self.scripts:
-            if not hasattr(script, 'async'):
+        if script in self._resources:
+            if not hasattr(script, 'async'):    
                 return
             # in case the same script is added twice and only one should be 
             # loaded asynchronously, use the non-async variant to be on the safe
@@ -77,46 +120,13 @@ class Scripts(object):
             older_script = self._get(script).item
             older_script.async = older_script.async and script.async
             return
-        self.scripts.append(script)
+        self._resources.append(script)
     
-    def replace_script_with_key(self, new_script):
-        result = self._find_script_with_key(new_script.key)
-        if result is None:
-            raise AssertionError('No script with key %r' % new_script.key)
-        self.scripts[result.index] = new_script
+    # --- some interface polishing ---------------------------------------------
+    @property
+    def scripts(self):
+        return self._resources
     
-    def render(self):
-        markup = u''
-        for script in self.scripts:
-            markup = markup + unicode(script)
-        return markup
-    
-    def __len__(self):
-        return len(self.scripts)
-    
-    # --- internal api ---------------------------------------------------------
-    
-    def _get(self, a_script):
-        result = self._find_script(a_script)
-        if result is not None:
-            return result
-        raise AssertionError('Script %r not found' % a_script)
-    
-    def _get_by_key(self, key):
-        result = self._find_script_with_key(key)
-        if result is not None:
-            return result
-        raise AssertionError('No script with key %r' % key)
-    
-    def _find_script(self, a_script):
-        for i, script in enumerate(self.scripts):
-            if script == a_script:
-                return SearchResult(script, i)
-        return None
-    
-    def _find_script_with_key(self, key):
-        for i, script in enumerate(self.scripts):
-            if script.key == key:
-                return SearchResult(script, i)
-        return None
+    def replace_script_with_key(self, script):
+        self.replace_resource_with_key(script)
 
