@@ -13,6 +13,8 @@ from mediacore.lib.test.pythonic_testcase import *
 class StyleSheetTest(PythonicTestCase):
     def test_repr(self):
         assert_equals("StyleSheet('/foo.css', key=None)", repr(StyleSheet('/foo.css')))
+        assert_equals("StyleSheet('/foo.css', key=None, media='screen')", 
+                      repr(StyleSheet('/foo.css', media='screen')))
     
     def test_can_tell_if_another_script_is_equal(self):
         first = StyleSheet('/foo.css')
@@ -20,15 +22,21 @@ class StyleSheetTest(PythonicTestCase):
         assert_equals(first, first)
         assert_equals(first, second)
         assert_equals(second, first)
+        assert_equals(StyleSheet('/foo.css', media='screen'), 
+                      StyleSheet('/foo.css', media='screen'))
     
     def test_can_tell_that_another_script_is_not_equal(self):
         first = StyleSheet('/foo.css')
         assert_not_equals(first, StyleSheet('/bar.css'))
         assert_not_equals(first, None)
+        assert_not_equals(StyleSheet('/foo.css', media='screen'), 
+                          StyleSheet('/foo.css', media='print'))
     
     def test_can_render_as_html(self):
         assert_equals('<link href="/foo.css" rel="stylesheet" type="text/css"></link>',
                       unicode(StyleSheet('/foo.css')))
+        assert_equals('<link href="/foo.css" rel="stylesheet" type="text/css" media="screen"></link>',
+                      unicode(StyleSheet('/foo.css', media='screen')))
 
 
 class StyleSheetsTest(PythonicTestCase):

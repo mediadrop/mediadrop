@@ -11,20 +11,27 @@ from mediacore.lib.js_delivery import ResourcesCollection
 __all__ = ['StyleSheet', 'StyleSheets']
 
 class StyleSheet(object):
-    def __init__(self, url, key=None):
+    def __init__(self, url, key=None, media=None):
         self.url = url
         self.key = key
+        self.media = media
     
     def __unicode__(self):
-        return '<link href="%s" rel="stylesheet" type="text/css"></link>' % self.url
+        template = '<link href="%s" rel="stylesheet" type="text/css"%s></link>'
+        media = self.media and (' media="%s"' % self.media) or ''
+        return template % (self.url, media)
     
     def __repr__(self):
-        return 'StyleSheet(%r, key=%r)' % (self.url, self.key)
+        template = 'StyleSheet(%r, key=%r%s)'
+        media = self.media and (', media=%r' % self.media) or ''
+        return template % (self.url, self.key, media)
     
     def __eq__(self, other):
-        if not hasattr(other, 'url'):
+        if (not hasattr(other, 'url')) or (self.url != other.url):
             return False
-        return self.url == other.url
+        if (not hasattr(other, 'media')) or (self.media != other.media):
+            return False
+        return True
     
     def __ne__(self, other):
         return not (self == other)
