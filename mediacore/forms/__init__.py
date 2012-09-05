@@ -104,7 +104,7 @@ class CheckBoxList(GlobalMixin, forms.CheckBoxList):
 class FileField(GlobalMixin, FileField):
     pass
 
-class ListFieldSet(forms.ListFieldSet):
+class ListFieldSet(LeniantValidationMixin, forms.ListFieldSet):
     template = 'forms/fieldset.html'
 
 class XHTMLEntityValidator(FancyValidator):
