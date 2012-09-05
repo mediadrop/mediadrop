@@ -11,6 +11,9 @@ from mediacore.lib.test.pythonic_testcase import *
 
 
 class StyleSheetTest(PythonicTestCase):
+    def test_repr(self):
+        assert_equals("StyleSheet('/foo.css', key=None)", repr(StyleSheet('/foo.css')))
+    
     def test_can_tell_if_another_script_is_equal(self):
         first = StyleSheet('/foo.css')
         second = StyleSheet('/foo.css')
