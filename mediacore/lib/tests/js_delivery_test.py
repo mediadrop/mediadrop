@@ -22,6 +22,12 @@ class ScriptTest(PythonicTestCase):
         first = Script('/foo.js')
         assert_not_equals(first, Script('/bar.js'))
         assert_not_equals(first, None)
+    
+    def test_can_render_as_html(self):
+        assert_equals('<script src="/foo.js" type="text/javascript"></script>',
+                      Script('/foo.js', async=False).render())
+        assert_equals('<script src="/foo.js" async="async" type="text/javascript"></script>',
+                      Script('/foo.js', async=True).render())
 
 
 class InlineJSTest(PythonicTestCase):
@@ -37,6 +43,10 @@ class InlineJSTest(PythonicTestCase):
         assert_not_equals(first, InlineJS('var a = null;'))
         assert_not_equals(first, InlineJS('var a  =  null;'))
         assert_not_equals(first, None)
+    
+    def test_can_render_as_html(self):
+        assert_equals('<script type="text/javascript">var a = 42;</script>',
+                      InlineJS('var a = 42;').render())
 
 
 class ScriptsTest(PythonicTestCase):
@@ -87,7 +97,7 @@ class ScriptsTest(PythonicTestCase):
         scripts = Scripts()
         scripts.add(foo_script)
         scripts.add(bar_script)
-        assert_equals(unicode(foo_script)+unicode(bar_script), scripts.render())
+        assert_equals(foo_script.render()+bar_script.render(), scripts.render())
 
 
 

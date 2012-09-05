@@ -16,10 +16,13 @@ class StyleSheet(object):
         self.key = key
         self.media = media
     
-    def __unicode__(self):
+    def render(self):
         template = '<link href="%s" rel="stylesheet" type="text/css"%s></link>'
         media = self.media and (' media="%s"' % self.media) or ''
         return template % (self.url, media)
+    
+    def __unicode__(self):
+        return self.render()
     
     def __repr__(self):
         template = 'StyleSheet(%r, key=%r%s)'

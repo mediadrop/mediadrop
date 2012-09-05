@@ -15,9 +15,12 @@ class Script(object):
         self.async = async
         self.key = key
     
-    def __unicode__(self):
+    def render(self):
         async = self.async and ' async="async"' or ''
         return '<script src="%s"%s type="text/javascript"></script>' % (self.url, async)
+    
+    def __unicode__(self):
+        return self.render()
     
     def __repr__(self):
         return 'Script(%r, async=%r, key=%r)' % (self.url, self.async, self.key)
@@ -39,8 +42,11 @@ class InlineJS(object):
         self.code = code
         self.key = key
     
-    def __unicode__(self):
+    def render(self):
         return '<script type="text/javascript">%s</script>' % self.code
+    
+    def __unicode__(self):
+        return self.render()
     
     def __repr__(self):
         return 'InlineJS(%r, key=%r)' % (self.code, self.key)
@@ -76,7 +82,7 @@ class ResourcesCollection(object):
     def render(self):
         markup = u''
         for resource in self._resources:
-            markup = markup + unicode(resource)
+            markup = markup + resource.render()
         return markup
     
     def __len__(self):

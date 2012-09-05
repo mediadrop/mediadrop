@@ -34,9 +34,9 @@ class StyleSheetTest(PythonicTestCase):
     
     def test_can_render_as_html(self):
         assert_equals('<link href="/foo.css" rel="stylesheet" type="text/css"></link>',
-                      unicode(StyleSheet('/foo.css')))
+                      StyleSheet('/foo.css').render())
         assert_equals('<link href="/foo.css" rel="stylesheet" type="text/css" media="screen"></link>',
-                      unicode(StyleSheet('/foo.css', media='screen')))
+                      StyleSheet('/foo.css', media='screen').render())
 
 
 class StyleSheetsTest(PythonicTestCase):
