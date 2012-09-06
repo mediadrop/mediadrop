@@ -56,7 +56,7 @@ class ScriptsTest(PythonicTestCase):
         scripts.add(Script('/foo.js'))
         assert_length(1, scripts)
 
-    def test_can_scripts_during_instantiation(self):
+    def test_can_add_scripts_during_instantiation(self):
         scripts = Scripts(Script('/foo.js'), Script('/bar.js'))
         assert_length(2, scripts)
 

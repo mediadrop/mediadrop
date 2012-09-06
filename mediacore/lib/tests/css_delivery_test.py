@@ -46,7 +46,7 @@ class StyleSheetsTest(PythonicTestCase):
         stylesheets.add(StyleSheet('/foo.css'))
         assert_length(1, stylesheets)
 
-    def test_can_stylesheets_during_instantiation(self):
+    def test_can_add_stylesheets_during_instantiation(self):
         stylesheets = StyleSheets(StyleSheet('/foo.css'), StyleSheet('/bar.css'))
         assert_length(2, stylesheets)
 
