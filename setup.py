@@ -30,9 +30,7 @@ install_requires = [
     'BeautifulSoup == 3.0.7a',
         # We monkeypatch this version of BeautifulSoup in mediacore.__init__
         # Patch pending: https://bugs.launchpad.net/beautifulsoup/+bug/397997
-    'PIL == 1.1.6',
-        # The original PIL 1.1.6 package won't install via setuptools so this
-        # this setup script installs http://dist.repoze.org/PIL-1.1.6.tar.gz
+    'Pillow',
     'akismet == 0.2.0',
     'gdata > 2, < 2.1',
     'unidecode',
