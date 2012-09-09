@@ -37,17 +37,19 @@ class UserForm(ListForm):
         TextField('display_name', label_text=N_('Display Name'), validator=TextField.validator(not_empty=True), maxlength=255),
         TextField('email_address', label_text=N_('Email Address'), validator=email_validator(not_empty=True), maxlength=255),
         ListFieldSet('login_details', suppress_label=True, legend=N_('Login Details:'),
-                     css_classes=['details_fieldset'],
-                     validator = Schema(chained_validators=[FieldsMatch('password',
-                                                                        'confirm_password',
-                                                                        messages={'invalidNoMatch': N_("Passwords do not match"),})]),
-                     children=[
-            CheckBoxList('groups', label_text=N_('Groups'), 
-                options=lambda: DBSession.query(Group.group_id, Group.display_name).all()),
-            TextField('user_name', label_text=N_('Username'), maxlength=16, validator=All(PlainText(), UniqueUsername(not_empty=True))),
-            PasswordField('password', label_text=N_('Password'), validators=NotEmpty, maxlength=80, attrs={'autocomplete': 'off'}),
-            PasswordField('confirm_password', label_text=N_('Confirm password'), validators=NotEmpty, maxlength=80, attrs={'autocomplete': 'off'}),
-        ]),
+            css_classes=['details_fieldset'],
+            validator = Schema(chained_validators=[
+                FieldsMatch('password', 'confirm_password',
+                messages={'invalidNoMatch': N_("Passwords do not match"),})]
+            ),
+            children=[
+                CheckBoxList('groups', label_text=N_('Groups'), 
+                    options=lambda: DBSession.query(Group.group_id, Group.display_name).all()),
+                TextField('user_name', label_text=N_('Username'), maxlength=16, validator=All(PlainText(), UniqueUsername(not_empty=True))),
+                PasswordField('password', label_text=N_('Password'), validators=NotEmpty, maxlength=80, attrs={'autocomplete': 'off'}),
+                PasswordField('confirm_password', label_text=N_('Confirm password'), validators=NotEmpty, maxlength=80, attrs={'autocomplete': 'off'}),
+            ]
+        ),
         SubmitButton('save', default=N_('Save'), named_button=True, css_classes=['btn', 'btn-save', 'blue', 'f-rgt']),
         SubmitButton('delete', default=N_('Delete'), named_button=True, css_classes=['btn', 'btn-delete']),
     ]
