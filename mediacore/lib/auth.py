@@ -1,54 +1,66 @@
 # This file is a part of MediaCore CE, Copyright 2009-2012 MediaCore Inc.
 # The source code contained in this file is licensed under the GPL.
 # See LICENSE.txt in the main project directory, for more information.
-
 """
 Auth-related helpers
 
 Provides a custom request classifier for repoze.who to allow for Flash uploads.
 """
 
-from repoze.what.plugins.quickstart import setup_sql_auth
-from repoze.who.classifiers import default_request_classifier
+from repoze.what.middleware import setup_auth
+from repoze.what.plugins.sql.adapters import (SqlGroupsAdapter, 
+    SqlPermissionsAdapter)
+from repoze.who.classifiers import (default_request_classifier, 
+    default_challenge_decider)
+from repoze.who.plugins.auth_tkt import AuthTktCookiePlugin
+from repoze.who.plugins.friendlyform import FriendlyFormPlugin
+from repoze.who.plugins.sa import (SQLAlchemyAuthenticatorPlugin, 
+    SQLAlchemyUserMDPlugin)
 from webob.request import Request
 
-from mediacore.config.routing import login_form_url, login_handler_url, logout_handler_url, post_login_url, post_logout_url
+from mediacore.config.routing import (login_form_url, login_handler_url, 
+    logout_handler_url, post_login_url, post_logout_url)
 from mediacore.model.meta import DBSession
 from mediacore.model import Group, Permission, User
 
 __all__ = ['add_auth', 'classifier_for_flash_uploads']
 
+
+def who_config(config):
+    auth_by_username = SQLAlchemyAuthenticatorPlugin(User, DBSession)
+
+    form = FriendlyFormPlugin(
+        login_form_url,
+        login_handler_url,
+        post_login_url,
+        logout_handler_url,
+        post_logout_url,
+        rememberer_name='cookie',
+        charset='iso-8859-1',
+    )
+    cookie_secret = config['sa_auth.cookie_secret']
+    cookie = AuthTktCookiePlugin(cookie_secret, cookie_name='authtkt')
+
+    sql_user_md = SQLAlchemyUserMDPlugin(User, DBSession)
+
+    who_args = {
+        'authenticators': [
+            ('auth_by_username', auth_by_username)
+        ],
+        'challenge_decider': default_challenge_decider,
+        'challengers': [('form', form)],
+        'classifier': classifier_for_flash_uploads,
+        'identifiers': [('main_identifier', form), ('cookie', cookie)],
+        'mdproviders': [('sql_user_md', sql_user_md)],
+    }
+    return who_args
+
+
 def add_auth(app, config):
     """Add authentication and authorization middleware to the ``app``."""
-    return setup_sql_auth(
-        app, User, Group, Permission, DBSession,
-
-        login_url = login_form_url,
-        # XXX: These two URLs are intercepted by the sql_auth middleware
-        login_handler = login_handler_url,
-        logout_handler = logout_handler_url,
-
-        # You may optionally define a page where you want users to be
-        # redirected to on login:
-        post_login_url = post_login_url,
-
-        # You may optionally define a page where you want users to be
-        # redirected to on logout:
-        post_logout_url = post_logout_url,
-
-        # Hook into the auth process to read the session ID out of the POST
-        # vars during flash upload requests.
-        classifier = classifier_for_flash_uploads,
-
-        # override this if you would like to provide a different who plugin for
-        # managing login and logout of your application
-        form_plugin = None,
-
-        # The salt used to encrypt auth cookie data. This value must be unique
-        # to each deployment so it comes from the INI config file and is
-        # randomly generated when you run paster make-config
-        cookie_secret = config['sa_auth.cookie_secret']
-    )
+    groups_adapters = {'sql_auth': SqlGroupsAdapter(Group, User, DBSession)}
+    permission_adapters = {'sql_auth': SqlPermissionsAdapter(Permission, Group, DBSession)}
+    return setup_auth(app, groups_adapters, permission_adapters, **who_config(config))
 
 
 def classifier_for_flash_uploads(environ):

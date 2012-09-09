@@ -199,7 +199,7 @@ def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
 
     # CUSTOM MIDDLEWARE HERE (filtered by error handling middlewares)
 
-    # Set up repoze.what-quickstart authentication:
+    # Set up repoze.what authentication:
     # http://wiki.pylonshq.com/display/pylonscookbook/Authorization+with+repoze.what
     app = add_auth(app, config)
 
