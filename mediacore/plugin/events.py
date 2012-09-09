@@ -174,6 +174,12 @@ class Admin(object):
         save = Event(['**kwargs'])
         delete = Event(['**kwargs'])
 
+    class GroupsController(object):
+        index = Event(['**kwargs'])
+        edit = Event(['**kwargs'])
+        save = Event(['**kwargs'])
+        delete = Event(['**kwargs'])
+
 class API(object):
     class MediaController(object):
         index = Event(['**kwargs'])
@@ -306,6 +312,7 @@ Admin.SearchForm = Event(['form'])
 Admin.PodcastForm = Event(['form'])
 Admin.PodcastFilterForm = Event(['form'])
 Admin.UserForm = Event(['form'])
+Admin.GroupForm = Event(['form'])
 Admin.TagForm = Event(['form'])
 Admin.TagRowForm = Event(['form'])
 Admin.ThumbForm = Event(['form'])

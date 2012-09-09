@@ -1,0 +1,22 @@
+/**
+ * This file is a part of MediaCore CE, Copyright 2009-2012 MediaCore Inc.
+ * The source code contained in this file is licensed under the GPL.
+ * See LICENSE.txt in the main project directory, for more information.
+ **/
+
+.menu-groups-on #group-table #h-display_name {
+    width: 40%;
+}
+
+.menu-groups-on #group-table #h-btns {
+    width: auto;
+}
+
+#group-form #display_name_container,
+#group-form #group_name_container {
+	clear: none;
+	float: left;
+	width: 50%;
+}
+
+
