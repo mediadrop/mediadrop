@@ -69,7 +69,12 @@ def who_config(config):
         charset='iso-8859-1',
     )
     cookie_secret = config['sa_auth.cookie_secret']
-    cookie = MediaCoreCookiePlugin(cookie_secret, cookie_name='authtkt')
+    seconds_30_days = 30*24*60*60 # session expires after 30 days
+    cookie = MediaCoreCookiePlugin(cookie_secret, 
+        cookie_name='authtkt', 
+        timeout=seconds_30_days, # session expires after 30 days
+        reissue_time=seconds_30_days/2, # reissue cookie after 15 days
+    )
 
     sql_user_md = SQLAlchemyUserMDPlugin(User, DBSession)
     sql_user_md.translations['user_name'] = 'user_id'
