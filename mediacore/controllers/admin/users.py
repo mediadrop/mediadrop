@@ -69,11 +69,14 @@ class UsersController(BaseController):
             user_values['login_details.password'] = None
             user_values['login_details.confirm_password'] = None
         else:
+            group_ids = None
+            if user.groups:
+                group_ids = map(lambda group: group.group_id, user.groups)
             user_values = dict(
                 display_name = user.display_name,
                 email_address = user.email_address,
                 login_details = dict(
-                    group = user.groups and user.groups[0].group_id or None,
+                    groups = group_ids,
                     user_name = user.user_name,
                 ),
             )
@@ -113,9 +116,9 @@ class UsersController(BaseController):
         if password is not None and password != '':
             user.password = password
 
-        if login_details['group']:
-            group = fetch_row(Group, login_details['group'])
-            user.groups = [group]
+        if login_details['groups']:
+            query = DBSession.query(Group).filter(Group.group_id.in_(login_details['groups']))
+            user.groups = list(query.all())
         else:
             user.groups = []
 

@@ -3,7 +3,7 @@
 # See LICENSE.txt in the main project directory, for more information.
 
 from pylons import request
-from tw.forms import PasswordField, SingleSelectField
+from tw.forms import CheckBoxList, PasswordField, SingleSelectField
 from tw.forms.validators import All, FancyValidator, FieldsMatch, Invalid, NotEmpty, PlainText, Schema
 
 from mediacore.forms import ListFieldSet, ListForm, SubmitButton, TextField, email_validator
@@ -42,7 +42,7 @@ class UserForm(ListForm):
                                                                         'confirm_password',
                                                                         messages={'invalidNoMatch': N_("Passwords do not match"),})]),
                      children=[
-            SingleSelectField('group', label_text=N_('Group'),
+            CheckBoxList('groups', label_text=N_('Groups'), 
                 options=lambda: DBSession.query(Group.group_id, Group.display_name).all()),
             TextField('user_name', label_text=N_('Username'), maxlength=16, validator=All(PlainText(), UniqueUsername(not_empty=True))),
             PasswordField('password', label_text=N_('Password'), validators=NotEmpty, maxlength=80, attrs={'autocomplete': 'off'}),
