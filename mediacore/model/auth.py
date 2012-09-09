@@ -156,6 +156,9 @@ class Permission(object):
 
     def __unicode__(self):
         return self.permission_name
+    
+    def __repr__(self):
+        return '<Permission: name=%r>' % self.permission_name
 
 
 mapper(
