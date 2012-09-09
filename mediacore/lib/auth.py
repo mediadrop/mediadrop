@@ -7,6 +7,8 @@ Auth-related helpers
 Provides a custom request classifier for repoze.who to allow for Flash uploads.
 """
 
+import re
+
 from repoze.what.middleware import setup_auth
 from repoze.what.plugins.sql.adapters import (SqlGroupsAdapter, 
     SqlPermissionsAdapter)
@@ -26,9 +28,37 @@ from mediacore.model import Group, Permission, User
 __all__ = ['add_auth', 'classifier_for_flash_uploads']
 
 
-def who_config(config):
-    auth_by_username = SQLAlchemyAuthenticatorPlugin(User, DBSession)
+class MediaCoreAuthenticatorPlugin(SQLAlchemyAuthenticatorPlugin):
+    def authenticate(self, environ, identity):
+        login = super(MediaCoreAuthenticatorPlugin, self).authenticate(environ, identity)
+        if login is None:
+            return None
+        user = self.get_user(login)
+        # The return value of this method is used to identify the user later on.
+        # As the username can be changed, that's not really secure and may 
+        # lead to confusion (users is logged out unexpectedly, best case) or 
+        # account take-over (impersonation, worst case).
+        # The user ID is considered constant and likely the best choice here.
+        return user.user_id
 
+
+class MediaCoreCookiePlugin(AuthTktCookiePlugin):
+    def __init__(self, secret, **kwargs):
+        if kwargs.get('userid_checker') is not None:
+            raise TypeError("__init__() got an unexpected keyword argument 'userid_checker'")
+        kwargs['userid_checker'] = self._check_userid
+        super(MediaCoreCookiePlugin, self).__init__(secret, **kwargs)
+    
+    def _check_userid(self, user_id):
+        # only accept numeric user_ids. In MediaCore < 1.0 the cookie contained
+        # the user name, so invalidate all these old sessions.
+        if re.search('[^0-9]', user_id):
+            return False
+        return True
+
+def who_config(config):
+    auth_by_username = MediaCoreAuthenticatorPlugin(User, DBSession)
+    
     form = FriendlyFormPlugin(
         login_form_url,
         login_handler_url,
@@ -39,9 +69,10 @@ def who_config(config):
         charset='iso-8859-1',
     )
     cookie_secret = config['sa_auth.cookie_secret']
-    cookie = AuthTktCookiePlugin(cookie_secret, cookie_name='authtkt')
+    cookie = MediaCoreCookiePlugin(cookie_secret, cookie_name='authtkt')
 
     sql_user_md = SQLAlchemyUserMDPlugin(User, DBSession)
+    sql_user_md.translations['user_name'] = 'user_id'
 
     who_args = {
         'authenticators': [
@@ -58,9 +89,11 @@ def who_config(config):
 
 def add_auth(app, config):
     """Add authentication and authorization middleware to the ``app``."""
-    groups_adapters = {'sql_auth': SqlGroupsAdapter(Group, User, DBSession)}
-    permission_adapters = {'sql_auth': SqlPermissionsAdapter(Permission, Group, DBSession)}
-    return setup_auth(app, groups_adapters, permission_adapters, **who_config(config))
+    groups_adapter = SqlGroupsAdapter(Group, User, DBSession)
+    groups_adapter.translations['item_name'] = 'user_id'
+    permission_adapter = SqlPermissionsAdapter(Permission, Group, DBSession)
+    return setup_auth(app, {'sql_groups': groups_adapter}, 
+        {'sql_permissions': permission_adapter}, **who_config(config))
 
 
 def classifier_for_flash_uploads(environ):
