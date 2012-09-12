@@ -228,13 +228,6 @@ class GeneralForm(ListForm):
                 options=rich_text_editors,
                 validator=rich_text_editors_validator,
             ),
-# NOTE: Commented out, pending removal in v0.9.1 if no one complains its gone.
-#            ListFieldSet('default_wording', suppress_label=True, legend=N_('Administrative notes on Media:'), css_classes=['details_fieldset'], children=[
-#                CheckBox('wording_display_administrative_notes',
-#                    label_text=N_('Display notes'),
-#                    validator=Bool(if_missing='')),
-#                TextArea('wording_administrative_notes', label_text=N_('Administrative Notes'), attrs=dict(rows=3, cols=25)),
-#            ]),
         ]),
         SubmitButton('save', default=N_('Save'), css_classes=['btn', 'btn-save', 'blue', 'f-rgt']),
     ]
