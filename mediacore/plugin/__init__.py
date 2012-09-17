@@ -37,8 +37,12 @@ class PluginManager(object):
         self.plugins = {}
         self._match_templates = {}
 
+        # all plugins are enabled by default (for compatibility with MediaCore < 0.9)
+        enabled_plugins = re.split('\s*,\s*', config.get('plugins', '*'))
         for epoint in iter_entry_points('mediacore.plugin'):
-            # TODO: Check the config to see if this plugin should be enabled.
+            if (epoint.name not in enabled_plugins) and ('*' not in enabled_plugins):
+                log.debug('Skipping plugin %s: not enabled' % epoint.name)
+                continue
             module = epoint.load()
             plugin_class = getattr(module, '__plugin__', _Plugin)
             self.plugins[epoint.name] = plugin_class(module, epoint.name)
