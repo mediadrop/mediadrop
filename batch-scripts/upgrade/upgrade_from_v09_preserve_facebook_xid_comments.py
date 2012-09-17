@@ -73,7 +73,7 @@ class DummyProgressBar(object):
         sys.stdout.flush()
 
 try:
-    from progressbar import ProgressBar1
+    from progressbar import ProgressBar
 except ImportError:
     ProgressBar = DummyProgressBar
     print 'Install the progressbar module for nice progress reporting'
