@@ -25,6 +25,7 @@ import urllib
 
 from pylons import app_globals
 import simplejson as json
+from sqlalchemy.orm import joinedload
 
 
 class FacebookAPI(object):
@@ -90,14 +91,17 @@ def main(parser, options, args):
     app_secret = options.app_secret
     fb = FacebookAPI(app_id, app_secret)
     
-    from mediacore.model import Media
-    all_media = Media.query.all()
+    from mediacore.model import DBSession, Media
+    # eager loading of 'meta' to speed up later check.
+    all_media = Media.query.options(joinedload('_meta')).all()
     
     print 'Checking all media for existing Facebook comments'
     progress = ProgressBar(maxval=len(all_media)).start()
     for i, media in enumerate(all_media):
-        has_comments = fb.has_xid_comments(media)
         progress.update(i+1)
+        if 'facebook-comment-xid' not in media.meta:
+            continue
+        has_comments = fb.has_xid_comments(media)
         if not has_comments:
             continue
         media.meta['facebook-comment-xid'] = str(media.id)
