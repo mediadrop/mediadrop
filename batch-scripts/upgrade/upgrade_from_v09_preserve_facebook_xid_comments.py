@@ -47,7 +47,7 @@ class FacebookAPI(object):
         self._token = content.split('access_token=', 1)[1]
         return self._token
     
-    def has_xid_comments(self, media):
+    def number_xid_comments(self, media):
         token = self.access_token()
         graph_url = 'https://graph.facebook.com/fql?q=select+text+from+comment+where+is_private=0+and+xid=%(xid)d&access_token=%(access_token)s'
         content = self._request(graph_url, xid=media.id, access_token=self.access_token())
@@ -56,7 +56,10 @@ class FacebookAPI(object):
             error = comments_data['error']
             print 'Media %d - %s: %s (code %s)' % (media.id, error['type'], error['message'], error['code'])
             sys.exit(2)
-        return len(comments_data['data']) > 0
+        return comments_data['data']
+    
+    def has_xid_comments(self, media):
+        return self.number_xid_comments(media) > 0
 
 class DummyProgressBar(object):
     def __init__(self, maxval=None):
@@ -101,8 +104,7 @@ def main(parser, options, args):
         progress.update(i+1)
         if 'facebook-comment-xid' not in media.meta:
             continue
-        has_comments = fb.has_xid_comments(media)
-        if not has_comments:
+        if not fb.has_xid_comments(media):
             continue
         media.meta[u'facebook-comment-xid'] = unicode(media.id)
         DBSession.add(media)
