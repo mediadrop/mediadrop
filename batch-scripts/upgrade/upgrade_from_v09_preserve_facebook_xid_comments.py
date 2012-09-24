@@ -104,7 +104,7 @@ def main(parser, options, args):
         has_comments = fb.has_xid_comments(media)
         if not has_comments:
             continue
-        media.meta['facebook-comment-xid'] = str(media.id)
+        media.meta[u'facebook-comment-xid'] = unicode(media.id)
         DBSession.add(media)
         DBSession.commit()
 
