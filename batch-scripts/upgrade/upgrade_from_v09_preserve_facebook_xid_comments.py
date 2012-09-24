@@ -48,7 +48,7 @@ class FacebookAPI(object):
     
     def has_xid_comments(self, media):
         token = self.access_token()
-        graph_url = 'https://graph.facebook.com/fql?q=select+text+from+comment+where+xid=%(xid)d&access_token=%(access_token)s'
+        graph_url = 'https://graph.facebook.com/fql?q=select+text+from+comment+where+is_private=0+and+xid=%(xid)d&access_token=%(access_token)s'
         content = self._request(graph_url, xid=media.id, access_token=self.access_token())
         comments_data = json.loads(content)
         if 'error' in comments_data:
