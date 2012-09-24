@@ -101,6 +101,9 @@ def main(parser, options, args):
         if not has_comments:
             continue
         media.meta['facebook-comment-xid'] = str(media.id)
+        DBSession.add(media)
+        DBSession.commit()
+
     progress.finish()
 
 if __name__ == "__main__":
