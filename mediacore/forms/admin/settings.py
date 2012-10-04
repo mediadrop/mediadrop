@@ -2,27 +2,20 @@
 # The source code contained in this file is licensed under the GPL.
 # See LICENSE.txt in the main project directory, for more information.
 
-import os
-
 from operator import itemgetter
 
-import formencode
-
 from babel.core import Locale
-from formencode.schema import Schema
-from pylons import app_globals, config, request
+from pylons import request
 from tw.forms import RadioButtonList, SingleSelectField
-from tw.forms.fields import Button, CheckBox
-from tw.forms.validators import (Bool, FancyValidator, FieldStorageUploadConverter,
+from tw.forms.fields import CheckBox
+from tw.forms.validators import (Bool, FieldStorageUploadConverter,
     Int, OneOf, Regex, StringBool)
 
 from mediacore.forms import (FileField, ListFieldSet, ListForm,
-    ResetButton, SubmitButton, TextArea, TextField, XHTMLTextArea,
+    SubmitButton, TextArea, TextField, XHTMLTextArea,
     email_validator, email_list_validator)
 from mediacore.forms.admin.categories import category_options
 from mediacore.lib.i18n import N_, _, get_available_locales
-from mediacore.plugin import events
-from mediacore.model import MultiSetting
 
 comments_enable_disable = lambda: (
     ('mediacore', _("Built-in comments")),
@@ -30,12 +23,6 @@ comments_enable_disable = lambda: (
     ('disabled', _('Disable comments')),
 )
 comments_enable_validator = OneOf(('mediacore', 'facebook', 'disabled'))
-
-enable_disable = lambda: (
-    ('enabled', _('Enable')),
-    ('disabled', _('Disable')),
-)
-enable_disable_validator = OneOf(('enabled', 'disabled'))
 
 title_options = lambda: (
     ('prepend', _('Prepend')),
@@ -76,22 +63,7 @@ def languages():
     return result
 
 
-def multi_settings_options(key):
-    settings = MultiSetting.query\
-        .filter(MultiSetting.key==key)\
-        .all()
-    return [(s.id, s.value) for s in settings]
-
 def boolean_radiobuttonlist(name, **kwargs):
-    return RadioButtonList(
-        name,
-        options=lambda: (('true', _('Yes')), ('false', _('No'))),
-        validator=OneOf(['true', 'false']),
-        **kwargs
-    )
-
-def real_boolean_radiobuttonlist(name, **kwargs):
-    # TODO: replace uses of boolean_radiobuttonlist with this, then scrap the old one.
     return RadioButtonList(
         name,
         options=lambda: ((True, _('Yes')), (False, _('No'))),
