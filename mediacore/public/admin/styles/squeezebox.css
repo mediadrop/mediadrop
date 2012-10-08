@@ -104,8 +104,10 @@
 }
 #sbox-content .box-content {
 	background: url('../images/layout/sbox-content.png') repeat-y;
-	width: 598px;
-	padding: 10px 16px;
+	width: 580px;
+	padding: 10px 25px;
+	/* tags delete confirmation*/
+	margin-bottom: 0;
 }
 #sbox-content .box-wide .box-content {
 	width: 798px;
