@@ -4,16 +4,12 @@
 import logging
 from formencode.validators import Int
 
-from pylons import request
-from tw.forms import CheckBox, PasswordField, RadioButtonList, SingleSelectField
-from tw.forms.fields import ContainerMixin as _ContainerMixin
-from tw.forms.validators import All, FancyValidator, FieldsMatch, Invalid, NotEmpty, PlainText, Schema, StringBool
+from tw.forms import CheckBox, RadioButtonList
+from tw.forms.validators import StringBool
 
-from mediacore.forms import ListFieldSet, ListForm, SubmitButton, ResetButton, TextField
+from mediacore.forms import ListFieldSet, ListForm, SubmitButton, TextField
 from mediacore.lib.i18n import N_, _
 from mediacore.lib.util import merge_dicts
-from mediacore.plugin import events
-from mediacore.plugin.abc import abstractmethod
 
 log = logging.getLogger(__name__)
 
