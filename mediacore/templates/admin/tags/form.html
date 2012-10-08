@@ -11,7 +11,8 @@ See LICENSE.txt in the main project directory, for more information.
       action="${action}"
       method="${method}"
       class="${css_class}"
-      py:attrs="attrs">
+      py:attrs="attrs"
+      py:with="buttons = [f for f in children if getattr(f, 'type', None) in ('button', 'submit', 'reset', 'image')];">
 	<div class="box-content">
 		<div class="field-error" py:if="error and show_error" py:content="error" />
 		<div py:if="hidden_fields">
@@ -49,9 +50,10 @@ See LICENSE.txt in the main project directory, for more information.
 		</ul>
 		<span py:if="error and not error.error_dict" class="field-error" py:content="error" />
 	</div>
-	<div class="box-foot">
-		${children['save'].display()}
-		${children['cancel'].display()}
+	<div class="box-foot" py:if="buttons">
+		<py:for each="field in buttons">
+			<button py:replace="field.display()" />
+		</py:for>
 	</div>
 </form>
 
