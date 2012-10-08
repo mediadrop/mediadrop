@@ -2,15 +2,8 @@
 # The source code contained in this file is licensed under the GPL.
 # See LICENSE.txt in the main project directory, for more information.
 
-from pylons import request
-from tw.forms import PasswordField, SingleSelectField
-from tw.forms.fields import ContainerMixin as _ContainerMixin
-from tw.forms.validators import All, FancyValidator, FieldsMatch, Invalid, NotEmpty, PlainText, Schema
-
 from mediacore.forms import ListFieldSet, ListForm, SubmitButton, TextField
 from mediacore.lib.i18n import N_
-from mediacore.plugin import events
-from mediacore.plugin.abc import abstractmethod
 
 class StorageForm(ListForm):
     template = 'admin/box-form.html'
