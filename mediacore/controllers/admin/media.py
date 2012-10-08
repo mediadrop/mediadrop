@@ -340,7 +340,7 @@ class MediaController(BaseController):
     def edit_file(self, id, file_id, file_type=None, duration=None, delete=None, bitrate=None, width_height=None, **kwargs):
         """Save action for the :class:`~mediacore.forms.admin.media.EditFileForm`.
 
-        Changes or delets a :class:`~mediacore.model.media.MediaFile`.
+        Changes or deletes a :class:`~mediacore.model.media.MediaFile`.
 
         XXX: We do NOT use the @validate decorator due to complications with
              partial validation. The JS sends only the value it wishes to
@@ -688,7 +688,7 @@ class MediaController(BaseController):
     def _delete_media(self, media):
         # FIXME: Ensure that if the first file is deleted from the file system,
         #        then the second fails, the first file is deleted from the
-        #        and not not linking to a nonexistent file.
+        #        file system and not linking to a nonexistent file.
         # Delete every file from the storage engine
         for file in media.files:
             file.storage.delete(file.unique_id)
