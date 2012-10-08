@@ -22,7 +22,7 @@ class TagNameValidator(FancyValidator):
         return value
 
 class TagForm(ListForm):
-    template = 'admin/tags/form.html'
+    template = 'admin/tags_and_categories_form.html'
     id = None
     css_classes = ['form', 'tag-form']
     submit_text = None

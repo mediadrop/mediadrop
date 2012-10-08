@@ -21,7 +21,7 @@ def category_options():
     return option_tree(Category.query.order_by(Category.name.asc()).populated_tree())
 
 class CategoryForm(ListForm):
-    template = 'admin/categories/form.html'
+    template = 'admin/tags_and_categories_form.html'
     id = None
     css_classes = ['category-form', 'form']
     submit_text = None
