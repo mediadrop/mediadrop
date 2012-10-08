@@ -7,10 +7,9 @@ Media Admin Controller
 """
 import os
 from datetime import datetime
-from itertools import izip
 
 from formencode import Invalid, validators
-from pylons import config, request, response, session, tmpl_context
+from pylons import request, tmpl_context
 from repoze.what.predicates import has_permission
 from sqlalchemy import orm
 
