@@ -2,11 +2,12 @@
 # The source code contained in this file is licensed under the GPL.
 # See LICENSE.txt in the main project directory, for more information.
 """Pylons environment configuration"""
+
 import os
-import re
 
 from formencode.api import get_localedir as get_formencode_localedir
 from genshi.filters.i18n import Translator
+import pylons
 from pylons import translator
 from pylons.configuration import PylonsConfig
 from sqlalchemy import engine_from_config
@@ -15,10 +16,8 @@ import mediacore.lib.app_globals as app_globals
 import mediacore.lib.helpers
 
 from mediacore.config.routing import make_map
-from mediacore.lib.auth import classifier_for_flash_uploads
 from mediacore.lib.templating import TemplateLoader
 from mediacore.model import Media, Podcast, init_model
-from mediacore.model.meta import DBSession
 from mediacore.plugin import PluginManager, events
 
 def load_environment(global_conf, app_conf):
@@ -47,7 +46,6 @@ def load_environment(global_conf, app_conf):
     config['pylons.h'] = mediacore.lib.helpers
 
     # Setup cache object as early as possible
-    import pylons
     pylons.cache._push_object(config['pylons.app_globals'].cache)
 
     config['locale_dirs'] = plugin_mgr.locale_dirs()
