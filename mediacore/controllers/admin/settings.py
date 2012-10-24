@@ -121,6 +121,13 @@ class SettingsController(BaseSettingsController):
         values.
         """
         self._save(popularity_form, values=kwargs)
+        # ".util.calculate_popularity()" uses the popularity settings from
+        # the request.settings which are only updated when a new request
+        # comes in.
+        # update the settings manually so the popularity is actually updated
+        # correctly.
+        for key in ('popularity_decay_exponent', 'popularity_decay_lifetime'):
+            request.settings[key] = kwargs['popularity.'+key]
         for m in Media.query:
             m.update_popularity()
             DBSession.add(m)
