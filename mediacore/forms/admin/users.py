@@ -3,7 +3,7 @@
 # See LICENSE.txt in the main project directory, for more information.
 
 from pylons import request
-from tw.forms import CheckBoxList, PasswordField, SingleSelectField
+from tw.forms import CheckBoxList, PasswordField
 from tw.forms.validators import All, FancyValidator, FieldsMatch, Invalid, NotEmpty, PlainText, Schema
 
 from mediacore.forms import ListFieldSet, ListForm, SubmitButton, TextField, email_validator
