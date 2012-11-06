@@ -2,6 +2,7 @@
 # The source code contained in this file is licensed under the GPL.
 # See LICENSE.txt in the main project directory, for more information.
 
+from formencode import validators
 from pylons import request, response, tmpl_context as c
 from pylons.controllers.util import abort
 from sqlalchemy import orm
@@ -86,6 +87,7 @@ class CategoriesController(BaseController):
 
     @beaker_cache(expire=60 * 3, query_args=True)
     @expose('sitemaps/mrss.xml')
+    @validate(validators={'limit': validators.Int(if_empty=30, if_missing=30, if_invalid=30)})
     def feed(self, limit=30, **kwargs):
         """ Generate a media rss feed of the latest media
 

@@ -9,13 +9,14 @@ import logging
 import math
 import os
 
+from formencode import validators
 from paste.fileapp import FileApp
 from pylons import config, request, response
 from pylons.controllers.util import abort, forward
 from webob.exc import HTTPNotFound
 
 from mediacore.lib.base import BaseController
-from mediacore.lib.decorators import expose, beaker_cache
+from mediacore.lib.decorators import expose, beaker_cache, validate
 from mediacore.lib.helpers import (content_type_for_response, 
     get_featured_category, url_for)
 from mediacore.model import Media
@@ -33,6 +34,10 @@ class SitemapsController(BaseController):
 
     @beaker_cache(expire=60 * 60 * 4, query_args=True)
     @expose('sitemaps/google.xml')
+    @validate(validators={
+        'page': validators.Int(if_empty=None, if_missing=None, if_invalid=None), 
+        'limit': validators.Int(if_empty=10000, if_missing=10000, if_invalid=10000)
+    })
     def google(self, page=None, limit=10000, **kwargs):
         """Generate a sitemap which contains googles Video Sitemap information.
 
@@ -97,6 +102,10 @@ class SitemapsController(BaseController):
 
     @beaker_cache(expire=60 * 3, query_args=True)
     @expose('sitemaps/mrss.xml')
+    @validate(validators={
+        'limit': validators.Int(if_empty=30, if_missing=30, if_invalid=30), 
+        'skip': validators.Int(if_empty=0, if_missing=0, if_invalid=0)
+    })
     def latest(self, limit=30, skip=0, **kwargs):
         """Generate a media rss (mRSS) feed of all the sites media."""
         if request.settings['rss_display'] != 'True':
@@ -119,6 +128,10 @@ class SitemapsController(BaseController):
 
     @beaker_cache(expire=60 * 3, query_args=True)
     @expose('sitemaps/mrss.xml')
+    @validate(validators={
+        'limit': validators.Int(if_empty=30, if_missing=30, if_invalid=30), 
+        'skip': validators.Int(if_empty=0, if_missing=0, if_invalid=0)
+    })
     def featured(self, limit=30, skip=0, **kwargs):
         """Generate a media rss (mRSS) feed of the sites featured media."""
         if request.settings['rss_display'] != 'True':
