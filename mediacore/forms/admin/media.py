@@ -3,7 +3,7 @@
 # See LICENSE.txt in the main project directory, for more information.
 
 
-from pylons import app_globals, request
+from pylons import request
 from tw.api import WidgetsList
 from formencode import Invalid
 from formencode.validators import FancyValidator, URL
