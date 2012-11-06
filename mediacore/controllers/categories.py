@@ -2,7 +2,6 @@
 # The source code contained in this file is licensed under the GPL.
 # See LICENSE.txt in the main project directory, for more information.
 
-from formencode import validators
 from pylons import request, response, tmpl_context as c
 from pylons.controllers.util import abort
 from sqlalchemy import orm
@@ -12,6 +11,7 @@ from mediacore.lib.decorators import beaker_cache, expose, observable, paginate
 from mediacore.lib.helpers import content_type_for_response
 from mediacore.model import Category, Media, fetch_row
 from mediacore.plugin import events
+from mediacore.validation import LimitFeedItemsValidator
 
 import logging
 log = logging.getLogger(__name__)
@@ -87,8 +87,8 @@ class CategoriesController(BaseController):
 
     @beaker_cache(expire=60 * 3, query_args=True)
     @expose('sitemaps/mrss.xml')
-    @validate(validators={'limit': validators.Int(if_empty=30, if_missing=30, if_invalid=30)})
-    def feed(self, limit=30, **kwargs):
+    @validate(validators={'limit': LimitFeedItemsValidator()})
+    def feed(self, limit=None, **kwargs):
         """ Generate a media rss feed of the latest media
 
         :param limit: the max number of results to return. Defaults to 30
@@ -105,7 +105,9 @@ class CategoriesController(BaseController):
         if c.category:
             media = media.in_category(c.category)
 
-        media = media.order_by(Media.publish_on.desc()).limit(limit)
+        media = media.order_by(Media.publish_on.desc())
+        if limit is not None:
+            media = media.limit(limit)
 
         return dict(
             media = media,

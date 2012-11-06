@@ -19,6 +19,7 @@ class DBTestCase(PythonicTestCase):
     def setUp(self):
         super(DBTestCase, self).setUp()
         global_config = {
+            'plugins': '',
 #            'debug': 'true', 
 #            'error_email_from': 'paste@localhost', 
 #            '__file__': '.../standalone.ini', 

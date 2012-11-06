@@ -12,6 +12,7 @@ from mediacore.lib.decorators import (beaker_cache, expose, observable,
 from mediacore.lib.helpers import content_type_for_response, redirect
 from mediacore.model import Media, Podcast, fetch_row
 from mediacore.plugin import events
+from mediacore.validation import LimitFeedItemsValidator
 
 import logging
 log = logging.getLogger(__name__)
@@ -87,8 +88,9 @@ class PodcastsController(BaseController):
 
     @beaker_cache(expire=60 * 20, query_args=True)
     @expose('podcasts/feed.xml')
+    @validate(validators={'limit': LimitFeedItemsValidator()})
     @observable(events.PodcastsController.feed)
-    def feed(self, slug, **kwargs):
+    def feed(self, slug, limit=None, **kwargs):
         """Serve the feed as RSS 2.0.
 
         If :attr:`~mediacore.model.podcasts.Podcast.feedburner_url` is
@@ -119,7 +121,9 @@ class PodcastsController(BaseController):
             ['application/rss+xml', 'application/xml', 'text/xml'])
 
         episodes = podcast.media.published()\
-            .order_by(Media.publish_on.desc())[:25]
+            .order_by(Media.publish_on.desc())
+        if limit is not None:
+            episodes = episodes.limit(limit)
 
         return dict(
             podcast = podcast,

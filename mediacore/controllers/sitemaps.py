@@ -20,12 +20,14 @@ from mediacore.lib.decorators import expose, beaker_cache, validate
 from mediacore.lib.helpers import (content_type_for_response, 
     get_featured_category, url_for)
 from mediacore.model import Media
+from mediacore.validation import LimitFeedItemsValidator
 
 log = logging.getLogger(__name__)
 
 # Global cache of the FileApp used to serve the crossdomain.xml file
 # when static_files is disabled and no Apache alias is configured.
 crossdomain_app = None
+
 
 class SitemapsController(BaseController):
     """
@@ -103,10 +105,10 @@ class SitemapsController(BaseController):
     @beaker_cache(expire=60 * 3, query_args=True)
     @expose('sitemaps/mrss.xml')
     @validate(validators={
-        'limit': validators.Int(if_empty=30, if_missing=30, if_invalid=30), 
+        'limit': LimitFeedItemsValidator(),
         'skip': validators.Int(if_empty=0, if_missing=0, if_invalid=0)
     })
-    def latest(self, limit=30, skip=0, **kwargs):
+    def latest(self, limit=None, skip=0, **kwargs):
         """Generate a media rss (mRSS) feed of all the sites media."""
         if request.settings['rss_display'] != 'True':
             abort(404)
@@ -115,8 +117,9 @@ class SitemapsController(BaseController):
             ['application/rss+xml', 'application/xml', 'text/xml'])
 
         media = Media.query.published()\
-            .order_by(Media.publish_on.desc())\
-            .limit(limit)
+            .order_by(Media.publish_on.desc())
+        if limit is not None:
+            media = media.limit(limit)
 
         if skip > 0:
             media = media.offset(skip)
@@ -129,10 +132,10 @@ class SitemapsController(BaseController):
     @beaker_cache(expire=60 * 3, query_args=True)
     @expose('sitemaps/mrss.xml')
     @validate(validators={
-        'limit': validators.Int(if_empty=30, if_missing=30, if_invalid=30), 
+        'limit': LimitFeedItemsValidator(),
         'skip': validators.Int(if_empty=0, if_missing=0, if_invalid=0)
     })
-    def featured(self, limit=30, skip=0, **kwargs):
+    def featured(self, limit=None, skip=0, **kwargs):
         """Generate a media rss (mRSS) feed of the sites featured media."""
         if request.settings['rss_display'] != 'True':
             abort(404)
@@ -142,8 +145,9 @@ class SitemapsController(BaseController):
 
         media = Media.query.in_category(get_featured_category())\
             .published()\
-            .order_by(Media.publish_on.desc())\
-            .limit(limit)
+            .order_by(Media.publish_on.desc())
+        if limit is not None:
+            media = media.limit(limit)
 
         if skip > 0:
             media = media.offset(skip)
