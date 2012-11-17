@@ -13,7 +13,7 @@ install_requires = [
     'Pylons == 0.10',
     'WebOb == 1.0.7',
     'WebHelpers == 1.0',
-    'SQLAlchemy == 0.6.8',
+    'SQLAlchemy >= 0.7', # event listener infrastructure
     'sqlalchemy-migrate == 0.6',
     'Genshi == 0.6',
     'Babel == 0.9.6',
