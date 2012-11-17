@@ -22,6 +22,7 @@ port = 8080
 sqlalchemy.url = mysql://username:pass@localhost/dbname?charset=utf8&use_unicode=0
 sqlalchemy.echo = False
 sqlalchemy.pool_recycle = 3600
+db.check_for_leaked_connections = False
 
 # Session salts.
 beaker.session.secret = ${app_instance_secret}

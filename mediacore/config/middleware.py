@@ -1,9 +1,11 @@
 # This file is a part of MediaCore CE, Copyright 2009-2012 MediaCore Inc.
 # The source code contained in this file is licensed under the GPL.
 # See LICENSE.txt in the main project directory, for more information.
-
 """Pylons middleware initialization"""
+
+import logging
 import os
+import threading
 
 from beaker.middleware import SessionMiddleware
 from genshi.template import loader
@@ -19,6 +21,8 @@ from paste.deploy.config import PrefixMiddleware
 from pylons.middleware import ErrorHandler, StatusCodeRedirect
 from pylons.wsgiapp import PylonsApp as _PylonsApp
 from routes.middleware import RoutesMiddleware
+import sqlalchemy
+from sqlalchemy.pool import Pool
 from tw.core.view import EngineManager
 import tw.api
 
@@ -26,6 +30,8 @@ from mediacore import monkeypatch_method
 from mediacore.config.environment import load_environment
 from mediacore.lib.auth import add_auth
 from mediacore.model.meta import DBSession
+
+log = logging.getLogger(__name__)
 
 class PylonsApp(_PylonsApp):
     """
@@ -132,6 +138,49 @@ def setup_tw_middleware(app, config):
     })
     return app
 
+class DBSanityCheckingMiddleware(object):
+    def __init__(self, app, check_for_leaked_connections=False):
+        self.app = app
+        self._thread_local = threading.local()
+        if check_for_leaked_connections:
+            sqlalchemy.event.listen(Pool, 'checkout', self.on_connection_checkout)
+            sqlalchemy.event.listen(Pool, 'checkin', self.on_connection_checkin)
+    
+    def __call__(self, environ, start_response):
+        try:
+            return self.app(environ, start_response)
+        finally:
+            leaked_connections = len(self.connections)
+            if leaked_connections > 0:
+                msg = 'DB connection leakage detected: ' + \
+                    '%d db connection(s) not returned to the pool' % leaked_connections
+                log.error(msg)
+                self.connections.clear()
+    
+    @property
+    def connections(self):
+        if not hasattr(self._thread_local, 'connections'):
+            self._thread_local.connections = dict()
+        return self._thread_local.connections
+    
+    def on_connection_checkout(self, dbapi_connection, connection_record, connection_proxy):
+        self.connections[id(dbapi_connection)] = True
+    
+    def on_connection_checkin(self, dbapi_connection, connection_record):
+        connection_id = id(dbapi_connection)
+        # connections might be returned *after* this middleware called 
+        # 'self.connections.clear()', we should not break in that case...
+        if connection_id in self.connections:
+            del self.connections[connection_id]
+
+
+def setup_db_sanity_checks(app, config):
+    check_for_leaked_connections = asbool(config.get('db.check_for_leaked_connections', False))
+    if not check_for_leaked_connections:
+        return app
+    
+    return DBSanityCheckingMiddleware(app, check_for_leaked_connections=check_for_leaked_connections)
+
 def setup_gzip_middleware(app, global_conf):
     """Make paste.gzipper middleware with a monkeypatch to exempt SWFs.
 
@@ -232,6 +281,8 @@ def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
 
     # Establish the Registry for this application
     app = RegistryManager(app)
+
+    app = setup_db_sanity_checks(app, config)
 
     if asbool(static_files):
         # Serve static files from our public directory
