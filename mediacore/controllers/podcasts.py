@@ -8,7 +8,7 @@ from sqlalchemy import orm
 from mediacore.lib import helpers
 from mediacore.lib.base import BaseController
 from mediacore.lib.decorators import (beaker_cache, expose, observable, 
-    paginate)
+    paginate, validate)
 from mediacore.lib.helpers import content_type_for_response, redirect
 from mediacore.model import Media, Podcast, fetch_row
 from mediacore.plugin import events
@@ -86,9 +86,9 @@ class PodcastsController(BaseController):
             show = show,
         )
 
-    @beaker_cache(expire=60 * 20, query_args=True)
-    @expose('podcasts/feed.xml')
     @validate(validators={'limit': LimitFeedItemsValidator()})
+    @beaker_cache(expire=60 * 20)
+    @expose('podcasts/feed.xml')
     @observable(events.PodcastsController.feed)
     def feed(self, slug, limit=None, **kwargs):
         """Serve the feed as RSS 2.0.

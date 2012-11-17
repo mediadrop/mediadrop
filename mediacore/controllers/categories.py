@@ -7,7 +7,8 @@ from pylons.controllers.util import abort
 from sqlalchemy import orm
 
 from mediacore.lib.base import BaseController
-from mediacore.lib.decorators import beaker_cache, expose, observable, paginate
+from mediacore.lib.decorators import (beaker_cache, expose, observable, 
+    paginate, validate)
 from mediacore.lib.helpers import content_type_for_response
 from mediacore.model import Category, Media, fetch_row
 from mediacore.plugin import events
@@ -85,9 +86,9 @@ class CategoriesController(BaseController):
             order = order,
         )
 
+    @validate(validators={'limit': LimitFeedItemsValidator()})
     @beaker_cache(expire=60 * 3, query_args=True)
     @expose('sitemaps/mrss.xml')
-    @validate(validators={'limit': LimitFeedItemsValidator()})
     def feed(self, limit=None, **kwargs):
         """ Generate a media rss feed of the latest media
 
