@@ -188,6 +188,10 @@ class API(object):
 class CategoriesController(object):
     index = Event(['**kwargs'])
     more = Event(['**kwargs'])
+    # feed observers (if they are not marked as "run_before=True") must support
+    # pure string output (from beaker cache) instead of a dict with template
+    # variables.
+    feed = Event(['limit', '**kwargs'])
 
 class ErrorController(object):
     document = Event(['**kwargs'])
@@ -213,6 +217,14 @@ class PodcastsController(object):
     index = Event(['**kwargs'])
     view = Event(['**kwargs'])
     feed = Event(['**kwargs'])
+
+class SitemapsController(object):
+    # observers (if they are not marked as "run_before=True") must support pure 
+    # string output (from beaker cache) instead of a dict with template variables.
+    google = Event(['page', 'limit', '**kwargs'])
+    mrss = Event(['**kwargs'])
+    latest = Event(['limit', 'skip', '**kwargs'])
+    featured = Event(['limit', 'skip', '**kwargs'])
 
 class UploadController(object):
     index = Event(['**kwargs'])

@@ -15,8 +15,9 @@ from pylons import config, request, response
 from pylons.controllers.util import abort, forward
 from webob.exc import HTTPNotFound
 
+from mediacore.plugin import events
 from mediacore.lib.base import BaseController
-from mediacore.lib.decorators import expose, beaker_cache, validate
+from mediacore.lib.decorators import expose, beaker_cache, observable, validate
 from mediacore.lib.helpers import (content_type_for_response, 
     get_featured_category, url_for)
 from mediacore.model import Media
@@ -40,6 +41,7 @@ class SitemapsController(BaseController):
     })
     @beaker_cache(expire=60 * 60 * 4)
     @expose('sitemaps/google.xml')
+    @observable(events.SitemapsController.google)
     def google(self, page=None, limit=10000, **kwargs):
         """Generate a sitemap which contains googles Video Sitemap information.
 
@@ -86,6 +88,7 @@ class SitemapsController(BaseController):
 
     @beaker_cache(expire=60 * 60, query_args=True)
     @expose('sitemaps/mrss.xml')
+    @observable(events.SitemapsController.mrss)
     def mrss(self, **kwargs):
         """Generate a media rss (mRSS) feed of all the sites media."""
         if request.settings['sitemaps_display'] != 'True':
@@ -108,6 +111,7 @@ class SitemapsController(BaseController):
     })
     @beaker_cache(expire=60 * 3)
     @expose('sitemaps/mrss.xml')
+    @observable(events.SitemapsController.latest)
     def latest(self, limit=None, skip=0, **kwargs):
         """Generate a media rss (mRSS) feed of all the sites media."""
         if request.settings['rss_display'] != 'True':
@@ -135,6 +139,7 @@ class SitemapsController(BaseController):
     })
     @beaker_cache(expire=60 * 3)
     @expose('sitemaps/mrss.xml')
+    @observable(events.SitemapsController.featured)
     def featured(self, limit=None, skip=0, **kwargs):
         """Generate a media rss (mRSS) feed of the sites featured media."""
         if request.settings['rss_display'] != 'True':

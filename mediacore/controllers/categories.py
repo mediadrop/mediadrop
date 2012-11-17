@@ -89,6 +89,7 @@ class CategoriesController(BaseController):
     @validate(validators={'limit': LimitFeedItemsValidator()})
     @beaker_cache(expire=60 * 3, query_args=True)
     @expose('sitemaps/mrss.xml')
+    @observable(events.CategoriesController.feed)
     def feed(self, limit=None, **kwargs):
         """ Generate a media rss feed of the latest media
 
