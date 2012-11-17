@@ -23,6 +23,7 @@ from pylons.wsgiapp import PylonsApp as _PylonsApp
 from routes.middleware import RoutesMiddleware
 import sqlalchemy
 from sqlalchemy.pool import Pool
+from sqlalchemy.exc import DisconnectionError
 from tw.core.view import EngineManager
 import tw.api
 
@@ -139,11 +140,15 @@ def setup_tw_middleware(app, config):
     return app
 
 class DBSanityCheckingMiddleware(object):
-    def __init__(self, app, check_for_leaked_connections=False):
+    def __init__(self, app, check_for_leaked_connections=False, 
+                 enable_pessimistic_disconnect_handling=False):
         self.app = app
         self._thread_local = threading.local()
-        if check_for_leaked_connections:
+        self.is_leak_check_enabled = check_for_leaked_connections
+        self.is_alive_check_enabled = enable_pessimistic_disconnect_handling
+        if self.is_leak_check_enabled or self.is_alive_check_enabled:
             sqlalchemy.event.listen(Pool, 'checkout', self.on_connection_checkout)
+        if self.is_leak_check_enabled:
             sqlalchemy.event.listen(Pool, 'checkin', self.on_connection_checkin)
     
     def __call__(self, environ, start_response):
@@ -163,8 +168,48 @@ class DBSanityCheckingMiddleware(object):
             self._thread_local.connections = dict()
         return self._thread_local.connections
     
+    def check_for_live_db_connection(self, dbapi_connection):
+        # Try to check that the current DB connection is usable for DB queries
+        # by issuing a trivial SQL query. It can happen because the user set 
+        # the 'sqlalchemy.pool_recycle' time too high or simply because the 
+        # MySQL server was restarted in the mean time.
+        # Without this check a user would get an internal server error and the
+        # connection would be reset by the DBSessionRemoverMiddleware at the  
+        # end of that request.
+        # This functionality below will prevent the initial "internal server 
+        # error".
+        #
+        # This approach is controversial between DB experts. A good blog post
+        # (with an even better discussion highlighting pros and cons) is
+        # http://www.mysqlperformanceblog.com/2010/05/05/checking-for-a-live-database-connection-considered-harmful/
+        #
+        # In MediaCore the check is only done once per request (skipped for 
+        # static files) so it should be relatively light on the DB server.
+        # Also the check can be disabled using the setting 
+        # 'sqlalchemy.check_connection_before_request = false'.
+        #
+        # possible optimization: check each connection only once per minute or so,
+        # store last check time in private attribute of connection object.
+        
+        # code stolen from SQLAlchemy's 'Pessimistic Disconnect Handling' docs
+        cursor = dbapi_connection.cursor()
+        try:
+            cursor.execute('SELECT 1')
+        except:
+            msg = u'received broken db connection from pool, resetting db session. ' + \
+                u'If you see this error regularly and you use MySQL please check ' + \
+                u'your "sqlalchemy.pool_recycle" setting (usually it is too high).'
+            log.warning(msg)
+            # The pool will try to connect again up to three times before 
+            # raising an exception itself.
+            raise DisconnectionError()
+        cursor.close()
+    
     def on_connection_checkout(self, dbapi_connection, connection_record, connection_proxy):
-        self.connections[id(dbapi_connection)] = True
+        if self.is_alive_check_enabled:
+            self.check_for_live_db_connection(dbapi_connection)
+        if self.is_leak_check_enabled:
+            self.connections[id(dbapi_connection)] = True
     
     def on_connection_checkin(self, dbapi_connection, connection_record):
         connection_id = id(dbapi_connection)
@@ -176,10 +221,12 @@ class DBSanityCheckingMiddleware(object):
 
 def setup_db_sanity_checks(app, config):
     check_for_leaked_connections = asbool(config.get('db.check_for_leaked_connections', False))
-    if not check_for_leaked_connections:
+    enable_pessimistic_disconnect_handling = asbool(config.get('db.enable_pessimistic_disconnect_handling', False))
+    if (not check_for_leaked_connections) and (not enable_pessimistic_disconnect_handling):
         return app
     
-    return DBSanityCheckingMiddleware(app, check_for_leaked_connections=check_for_leaked_connections)
+    return DBSanityCheckingMiddleware(app, check_for_leaked_connections=check_for_leaked_connections,
+                                      enable_pessimistic_disconnect_handling=enable_pessimistic_disconnect_handling)
 
 def setup_gzip_middleware(app, global_conf):
     """Make paste.gzipper middleware with a monkeypatch to exempt SWFs.
