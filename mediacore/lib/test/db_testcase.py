@@ -68,8 +68,13 @@ class DBTestCase(PythonicTestCase):
     
     def _tear_down_pylons(self):
         pylons.cache._pop_object()
-        pylons.app_globals.settings_cache.clear()
-        pylons.app_globals._pop_object()
+        try:
+            pylons.app_globals.settings_cache.clear()
+            pylons.app_globals._pop_object()
+        except TypeError:
+            # The test might have not set up any app_globals
+            # No object (name: app_globals) has been registered for this thread
+            pass
         config.pop_process_config()
         DBSession.registry.clear()
 
