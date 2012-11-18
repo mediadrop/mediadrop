@@ -8,13 +8,12 @@ from datetime import datetime
 
 from sqlalchemy import Column, sql, Table
 from sqlalchemy.orm import column_property, dynamic_loader, mapper
-from sqlalchemy.orm.interfaces import MapperExtension
 from sqlalchemy.types import Boolean, DateTime, Integer, Unicode
 
 from mediacore.lib.storage import StorageEngine
 from mediacore.model import JsonType
 from mediacore.model.media import MediaFile, MediaFileQuery, media_files
-from mediacore.model.meta import DBSession, metadata
+from mediacore.model.meta import metadata
 
 log = logging.getLogger(__name__)
 
