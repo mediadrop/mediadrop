@@ -309,6 +309,13 @@ class EmbedStorageEngine(StorageEngine):
 
         """
 
+def enabled_engines():
+    from mediacore.model import DBSession
+    engines = DBSession.query(StorageEngine)\
+        .filter(StorageEngine.enabled == True)\
+        .all()
+    return list(sort_engines(engines))
+
 def add_new_media_file(media, file=None, url=None):
     """Create a MediaFile instance from the given file or URL.
 
@@ -326,12 +333,7 @@ def add_new_media_file(media, file=None, url=None):
         stored with any of the registered storage engines.
 
     """
-    from mediacore.model import DBSession, MediaFile
-    engines = DBSession.query(StorageEngine)\
-        .filter(StorageEngine.enabled == True)\
-        .all()
-    sorted_engines = list(sort_engines(engines))
-
+    sorted_engines = enabled_engines()
     for engine in sorted_engines:
         try:
             meta = engine.parse(file=file, url=url)
@@ -343,6 +345,7 @@ def add_new_media_file(media, file=None, url=None):
     else:
         raise StorageError(_('Unusable file or URL provided.'), None, None)
 
+    from mediacore.model import DBSession, MediaFile
     mf = MediaFile()
     mf.storage = engine
     mf.media = media
