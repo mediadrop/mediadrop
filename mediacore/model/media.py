@@ -17,13 +17,9 @@ belongs to a :class:`mediacore.model.podcasts.Podcast`.
 
 """
 
-import math
-import os.path
-
 from datetime import datetime
 
 from sqlalchemy import Table, ForeignKey, Column, sql
-from sqlalchemy.exc import OperationalError
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.orm import (attributes, backref, class_mapper, column_property,
     composite, dynamic_loader, mapper, Query, relation, validates)
@@ -31,19 +27,17 @@ from sqlalchemy.orm.collections import attribute_mapped_collection
 from sqlalchemy.schema import DDL
 from sqlalchemy.types import Boolean, DateTime, Integer, Unicode, UnicodeText
 
-from pylons import app_globals
-
 from mediacore.lib.compat import any
-from mediacore.lib.filetypes import AUDIO, AUDIO_DESC, CAPTIONS, VIDEO, guess_mimetype
+from mediacore.lib.filetypes import AUDIO, AUDIO_DESC, VIDEO, guess_mimetype
 from mediacore.lib.players import pick_any_media_file, pick_podcast_media_file
 from mediacore.lib.util import calculate_popularity
 from mediacore.lib.xhtml import line_break_xhtml, strip_xhtml
 from mediacore.model import SLUG_LENGTH, _mtm_count_property, _properties_dict_from_labels, MatchAgainstClause
 from mediacore.model.meta import DBSession, metadata
 from mediacore.model.authors import Author
-from mediacore.model.categories import Category, CategoryList, categories
+from mediacore.model.categories import Category, CategoryList
 from mediacore.model.comments import Comment, CommentQuery, comments
-from mediacore.model.tags import Tag, TagList, tags, extract_tags, fetch_and_create_tags
+from mediacore.model.tags import Tag, TagList, extract_tags, fetch_and_create_tags
 from mediacore.plugin import events
 
 
