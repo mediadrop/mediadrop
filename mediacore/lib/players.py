@@ -2,16 +2,13 @@
 # The source code contained in this file is licensed under the GPL.
 # See LICENSE.txt in the main project directory, for more information.
 
-import logging
-import simplejson
-
-from cgi import parse_qsl
 from itertools import izip
+import logging
 from urllib import urlencode
-from urlparse import urlsplit, urlunsplit
 
 from genshi.builder import Element
 from genshi.core import Markup
+import simplejson
 
 from mediacore.forms.admin import players as player_forms
 from mediacore.lib.compat import any

@@ -9,13 +9,12 @@ preferences for, and the relative priority of, the different players
 that MediaCore should try to play media with.
 
 """
-import logging
 
+import logging
 from datetime import datetime
 
 from sqlalchemy import Column, sql, Table
-from sqlalchemy.orm import column_property, dynamic_loader, mapper
-from sqlalchemy.orm.interfaces import MapperExtension
+from sqlalchemy.orm import mapper
 from sqlalchemy.types import Boolean, DateTime, Integer, Unicode
 
 from mediacore.lib.decorators import memoize
