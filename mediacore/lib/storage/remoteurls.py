@@ -76,7 +76,7 @@ class RemoteURLStorage(StorageEngine):
 
         filename = os.path.basename(url)
         name, ext = os.path.splitext(filename)
-        ext = ext.lstrip('.').lower()
+        ext = unicode(ext).lstrip('.').lower()
 
         container = guess_container_format(ext)
 
