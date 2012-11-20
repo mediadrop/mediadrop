@@ -38,10 +38,12 @@ from unittest import TestCase
 
 __all__ = ['assert_almost_equals', 'assert_callable', 'assert_contains', 
            'assert_dict_contains', 'assert_equals', 'assert_false', 'assert_falseish',
+           'assert_greater',
            'assert_isinstance', 'assert_is_empty', 'assert_is_not_empty', 
            'assert_length', 'assert_none', 
            'assert_not_contains', 'assert_not_none', 'assert_not_equals', 
-           'assert_raises', 'assert_true', 'assert_trueish', 'PythonicTestCase', ]
+           'assert_raises', 'assert_smaller', 'assert_true', 'assert_trueish', 
+           'create_spy', 'PythonicTestCase', ]
 
 
 def assert_raises(exception, callable, message=None):
@@ -164,7 +166,6 @@ def assert_callable(value, message=None):
     if message is None:
         raise AssertionError(default_message)
     raise AssertionError(default_message + ': ' + message)
-    
 
 def assert_isinstance(value, klass, message=None):
     if isinstance(value, klass):
@@ -179,6 +180,68 @@ def assert_isinstance(value, klass, message=None):
         raise AssertionError(default_message)
     raise AssertionError(default_message + ': ' + message)
 
+def assert_smaller(smaller, greater, message=None):
+    if smaller < greater:
+        return
+    default_message = '%s >= %s' % (repr(smaller), repr(greater))
+    if message is None:
+        raise AssertionError(default_message)
+    raise AssertionError(default_message + ': ' + message)
+
+def assert_greater(greater, smaller, message=None):
+    if greater > smaller:
+        return
+    default_message = '%s <= %s' % (repr(greater), repr(smaller))
+    if message is None:
+        raise AssertionError(default_message)
+    raise AssertionError(default_message + ': ' + message)
+
+def create_spy(name=None):
+    class Spy(object):
+        def __init__(self, name=None):
+            self.name = name
+            self.reset()
+        
+        # pretend to be a python method / function
+        @property
+        def func_name(self):
+            return self.name
+        
+        def __str__(self):
+            if self.was_called:
+                return "<Spy(%s) was called with args: %s kwargs: %s>" \
+                    % (self.name, self.args, self.kwargs)
+            else:
+                return "<Spy(%s) was not called yet>" % self.name
+        
+        def reset(self):
+            self.args = None
+            self.kwargs = None
+            self.was_called = False
+            self.return_value = None
+        
+        def __call__(self, *args, **kwargs):
+            self.args = args
+            self.kwargs = kwargs
+            self.was_called = True
+            return self.return_value
+        
+        def and_return(self, value):
+            self.return_value = value
+            return self
+        
+        def assert_was_called_with(self, *args, **kwargs):
+            assert_true(self.was_called, message=str(self))
+            assert_equals(args, self.args, message=str(self))
+            assert_equals(kwargs, self.kwargs, message=str(self))
+        
+        def assert_was_called(self):
+            assert_true(self.was_called, message=str(self))
+            
+        def assert_was_not_called(self):
+            assert_false(self.was_called, message=str(self))
+    
+    return Spy(name=name)
 
 
 class PythonicTestCase(TestCase):
@@ -187,6 +250,5 @@ class PythonicTestCase(TestCase):
             return globals()[name]
         return getattr(super(PythonicTestCase, self), name)
 
-# smaller_than
-# greater_than
+# is_callable
 
