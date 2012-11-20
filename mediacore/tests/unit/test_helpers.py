@@ -5,15 +5,26 @@
 import pylons
 from mediacore.tests import *
 from mediacore.lib.compat import sha1
-from mediacore.lib.players import pick_media_file_player
-from mediacore.lib.mediafiles import add_new_media_file, save_media_obj
+from mediacore.lib.storage import add_new_media_file
 from mediacore.lib.thumbnails import thumb_path
 from mediacore.lib.helpers import clean_xhtml, line_break_xhtml
-from mediacore.model import DBSession
+from mediacore.model import Author, DBSession, Media
 from sqlalchemy.exc import SQLAlchemyError
 
 expected_text = "Expected:\n\"\"\"%s\"\"\"\n\nBut Got:\n\"\"\"%s\"\"\"\n"
 results_text = "This:\n\"\"\"%s\"\"\"\n\nShould have been the same as:\n\"\"\"%s\"\"\"\n"
+
+
+def save_media_obj(author_name, author_email, title, description, tags, file, url):
+    media = Media()
+    media.author = Author(author_name, author_email)
+    media.title = title
+    media.description = description
+    media.tags = tags
+    add_new_media_file(media, file=file, url=url)
+    DBSession.add(media)
+    DBSession.commit()
+    return media
 
 class TestHelpers(TestController):
     def __init__(self, *args, **kwargs):

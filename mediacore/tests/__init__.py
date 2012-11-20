@@ -29,11 +29,12 @@ __all__ = [
 ]
 
 # Invoke websetup with the current config file
-SetupCommand('setup-app').run([pylons.test.pylonsapp.config['__file__']])
+#SetupCommand('setup-app').run([pylons.test.pylonsapp.config['__file__']])
 
 environ = {}
 
 class TestController(TestCase):
+    __test__ = False
 
     def __init__(self, *args, **kwargs):
         wsgiapp = pylons.test.pylonsapp
