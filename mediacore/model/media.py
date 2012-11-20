@@ -32,7 +32,8 @@ from mediacore.lib.filetypes import AUDIO, AUDIO_DESC, VIDEO, guess_mimetype
 from mediacore.lib.players import pick_any_media_file, pick_podcast_media_file
 from mediacore.lib.util import calculate_popularity
 from mediacore.lib.xhtml import line_break_xhtml, strip_xhtml
-from mediacore.model import SLUG_LENGTH, _mtm_count_property, _properties_dict_from_labels, MatchAgainstClause
+from mediacore.model import (get_available_slug, SLUG_LENGTH, 
+    _mtm_count_property, _properties_dict_from_labels, MatchAgainstClause)
 from mediacore.model.meta import DBSession, metadata
 from mediacore.model.authors import Author
 from mediacore.model.categories import Category, CategoryList
@@ -422,6 +423,24 @@ class Media(object):
 
     def __repr__(self):
         return '<Media: %r>' % self.slug
+
+    @classmethod
+    def example(cls, **kwargs):
+        media = Media()
+        defaults = dict(
+            title=u'Foo Media',
+            author=Author(u'Joe', u'joe@site.example'),
+            
+            type = VIDEO,
+        )
+        defaults.update(kwargs)
+        defaults.setdefault('slug', get_available_slug(Media, defaults['title']))
+        for key, value in defaults.items():
+            assert hasattr(media, key)
+            setattr(media, key, value)
+        DBSession.add(media)
+        DBSession.flush()
+        return media
 
     def set_tags(self, tags):
         """Set the tags relations of this media, creating them as needed.
