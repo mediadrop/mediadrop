@@ -144,6 +144,7 @@ class CategoriesController(BaseController):
 
     @expose('json', request_method='POST')
     @autocommit
+    @observable(events.Admin.CategoriesController.bulk)
     def bulk(self, type=None, ids=None, **kwargs):
         """Perform bulk operations on media items
 

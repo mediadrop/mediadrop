@@ -11,6 +11,7 @@ from mediacore.lib.storage.ftp import (FTP_SERVER,
     FTP_USERNAME, FTP_PASSWORD,
     FTP_UPLOAD_DIR, FTP_MAX_INTEGRITY_RETRIES,
     HTTP_DOWNLOAD_URI, RTMP_SERVER_URI)
+from mediacore.plugin import events
 
 class FTPStorageForm(StorageForm):
 
@@ -29,6 +30,9 @@ class FTPStorageForm(StorageForm):
             ]
         ),
     ] + StorageForm.buttons
+
+    def post_init(self, *args, **kwargs):
+        events.Admin.Storage.FTPStorageForm(self)
 
     def display(self, value, engine, **kwargs):
         """Display the form with default values from the given StorageEngine.

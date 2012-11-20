@@ -121,6 +121,7 @@ class TagsController(BaseController):
 
     @expose('json', request_method='POST')
     @autocommit
+    @observable(events.Admin.TagsController.bulk)
     def bulk(self, type=None, ids=None, **kwargs):
         """Perform bulk operations on media items
 

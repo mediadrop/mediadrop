@@ -13,11 +13,12 @@ from mediacore.forms.admin.settings import (AdvertisingForm, AppearanceForm,
     APIForm, AnalyticsForm, CommentsForm, GeneralForm,
     NotificationsForm, PopularityForm, SiteMapsForm, UploadForm)
 from mediacore.lib.base import BaseSettingsController
-from mediacore.lib.decorators import autocommit, expose, validate
+from mediacore.lib.decorators import autocommit, expose, observable, validate
 from mediacore.lib.helpers import filter_vulgarity, redirect, url_for
 from mediacore.lib.i18n import LanguageError, Translator
 from mediacore.model import Comment, Media
 from mediacore.model.meta import DBSession
+from mediacore.plugin import events
 from mediacore.websetup import appearance_settings, generate_appearance_css
 
 import logging
@@ -72,6 +73,7 @@ class SettingsController(BaseSettingsController):
     @expose(request_method='POST')
     @validate(notifications_form, error_handler=notifications)
     @autocommit
+    @observable(events.Admin.SettingsController.notifications_save)
     def notifications_save(self, **kwargs):
         """Save :class:`~mediacore.forms.admin.settings.NotificationsForm`."""
         return self._save(notifications_form, 'notifications', values=kwargs)
@@ -83,6 +85,7 @@ class SettingsController(BaseSettingsController):
     @expose(request_method='POST')
     @validate(comments_form, error_handler=comments)
     @autocommit
+    @observable(events.Admin.SettingsController.comments_save)
     def comments_save(self, **kwargs):
         """Save :class:`~mediacore.forms.admin.settings.CommentsForm`."""
         old_vulgarity_filter = c.settings['vulgarity_filtered_words'].value
@@ -103,6 +106,7 @@ class SettingsController(BaseSettingsController):
     @expose(request_method='POST')
     @validate(api_form, error_handler=comments)
     @autocommit
+    @observable(events.Admin.SettingsController.save_api)
     def save_api(self, **kwargs):
         """Save :class:`~mediacore.forms.admin.settings.APIForm`."""
         return self._save(api_form, 'api', values=kwargs)
@@ -114,6 +118,7 @@ class SettingsController(BaseSettingsController):
     @expose(request_method='POST')
     @validate(popularity_form, error_handler=popularity)
     @autocommit
+    @observable(events.Admin.SettingsController.popularity_save)
     def popularity_save(self, **kwargs):
         """Save :class:`~mediacore.forms.admin.settings.PopularityForm`.
 
@@ -140,6 +145,7 @@ class SettingsController(BaseSettingsController):
     @expose(request_method='POST')
     @validate(upload_form, error_handler=upload)
     @autocommit
+    @observable(events.Admin.SettingsController.upload_save)
     def upload_save(self, **kwargs):
         """Save :class:`~mediacore.forms.admin.settings.UploadForm`."""
         return self._save(upload_form, 'upload', values=kwargs)
@@ -151,6 +157,7 @@ class SettingsController(BaseSettingsController):
     @expose(request_method='POST')
     @validate(analytics_form, error_handler=analytics)
     @autocommit
+    @observable(events.Admin.SettingsController.analytics_save)
     def analytics_save(self, **kwargs):
         """Save :class:`~mediacore.forms.admin.settings.AnalyticsForm`."""
         return self._save(analytics_form, 'analytics', values=kwargs)
@@ -164,6 +171,7 @@ class SettingsController(BaseSettingsController):
     @expose(request_method='POST')
     @validate(general_form, error_handler=general)
     @autocommit
+    @observable(events.Admin.SettingsController.general_save)
     def general_save(self, **kwargs):
         """Save :class:`~mediacore.forms.admin.settings.GeneralForm`."""
         # Ensure this translation actually works before saving it
@@ -185,6 +193,7 @@ class SettingsController(BaseSettingsController):
     @expose(request_method='POST')
     @validate(sitemaps_form, error_handler=sitemaps)
     @autocommit
+    @observable(events.Admin.SettingsController.sitemaps_save)
     def sitemaps_save(self, **kwargs):
         """Save :class:`~mediacore.forms.admin.settings.SiteMapsForm`."""
         return self._save(sitemaps_form, 'sitemaps', values=kwargs)
@@ -196,6 +205,7 @@ class SettingsController(BaseSettingsController):
     @expose(request_method='POST')
     @validate(appearance_form, error_handler=appearance)
     @autocommit
+    @observable(events.Admin.SettingsController.appearance_save)
     def appearance_save(self, **kwargs):
         """Save :class:`~mediacore.forms.admin.settings.appearanceForm`."""
         settings = request.settings
@@ -243,6 +253,7 @@ class SettingsController(BaseSettingsController):
     @expose(request_method='POST')
     @validate(advertising_form, error_handler=general)
     @autocommit
+    @observable(events.Admin.SettingsController.advertising_save)
     def advertising_save(self, **kwargs):
         """Save :class:`~mediacore.forms.admin.settings.AdvertisingForm`."""
         return self._save(advertising_form, 'advertising', values=kwargs)

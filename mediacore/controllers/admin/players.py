@@ -9,11 +9,12 @@ from repoze.what.predicates import has_permission
 from webob.exc import HTTPException
 
 from mediacore.lib.base import BaseController
-from mediacore.lib.decorators import (autocommit, expose, validate)
+from mediacore.lib.decorators import autocommit, expose, observable, validate
 from mediacore.lib.helpers import redirect, url_for
 from mediacore.lib.players import update_enabled_players
 from mediacore.model import (DBSession, PlayerPrefs, fetch_row,
     cleanup_players_table)
+from mediacore.plugin import events
 
 log = logging.getLogger(__name__)
 
@@ -22,6 +23,7 @@ class PlayersController(BaseController):
     allow_only = has_permission('admin')
 
     @expose('admin/players/index.html')
+    @observable(events.Admin.PlayersController.index)
     def index(self, **kwargs):
         """List players.
 
@@ -39,6 +41,7 @@ class PlayersController(BaseController):
         }
 
     @expose('admin/players/edit.html')
+    @observable(events.Admin.PlayersController.edit)
     def edit(self, id, name=None, **kwargs):
         """Display the :class:`~mediacore.model.players.PlayerPrefs` for editing or adding.
 
@@ -78,6 +81,7 @@ class PlayersController(BaseController):
 
     @expose(request_method='POST')
     @autocommit
+    @observable(events.Admin.PlayersController.delete)
     def delete(self, id, **kwargs):
         """Delete a PlayerPref.
 
@@ -98,6 +102,7 @@ class PlayersController(BaseController):
 
     @expose(request_method='POST')
     @autocommit
+    @observable(events.Admin.PlayersController.enable)
     def enable(self, id, **kwargs):
         """Enable a PlayerPref.
 
@@ -112,6 +117,7 @@ class PlayersController(BaseController):
 
     @expose(request_method='POST')
     @autocommit
+    @observable(events.Admin.PlayersController.disable)
     def disable(self, id, **kwargs):
         """Disable a PlayerPref.
 
@@ -126,6 +132,7 @@ class PlayersController(BaseController):
 
     @expose(request_method='POST')
     @autocommit
+    @observable(events.Admin.PlayersController.reorder)
     def reorder(self, id, direction, **kwargs):
         """Reorder a PlayerPref.
 

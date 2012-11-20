@@ -135,6 +135,7 @@ class Admin(object):
 
     class CategoriesController(object):
         index = Event(['**kwargs'])
+        bulk = Event(['**kwargs'])
         edit = Event(['**kwargs'])
         save = Event(['**kwargs'])
 
@@ -148,6 +149,7 @@ class Admin(object):
         media_table = Event(['**kwargs'])
 
     class MediaController(object):
+        bulk = Event(['type=None, ids=None, **kwargs'])
         index = Event(['**kwargs'])
         edit = Event(['**kwargs'])
         save = Event(['**kwargs'])
@@ -167,6 +169,7 @@ class Admin(object):
         index = Event(['**kwargs'])
         edit = Event(['**kwargs'])
         save = Event(['**kwargs'])
+        bulk = Event(['**kwargs'])
 
     class UsersController(object):
         index = Event(['**kwargs'])
@@ -179,6 +182,57 @@ class Admin(object):
         edit = Event(['**kwargs'])
         save = Event(['**kwargs'])
         delete = Event(['**kwargs'])
+    
+    class Players(object):
+        HTML5OrFlashPrefsForm = Event(['form'])
+        SublimePlayerPrefsForm = Event(['form'])
+        YoutubeFlashPlayerPrefsForm = Event(['form'])
+    
+    class PlayersController(object):
+        delete = Event(['**kwargs'])
+        disable = Event(['**kwargs'])
+        edit = Event(['**kwargs'])
+        enable = Event(['**kwargs'])
+        index = Event(['**kwargs'])
+        reorder = Event(['**kwargs'])
+    
+    class Settings(object):
+        AdvertisingForm = Event(['form'])
+        AnalyticsForm = Event(['form'])
+        APIForm = Event(['form'])
+        AppearanceForm = Event(['form'])
+        CommentsForm = Event(['form'])
+        GeneralForm = Event(['form'])
+        NotificationsForm = Event(['form'])
+        PopularityForm = Event(['form'])
+        SiteMapsForm = Event(['form'])
+        UploadForm = Event(['form'])
+    
+    class SettingsController(object):
+        advertising_save = Event(['**kwargs'])
+        analytics_save = Event(['**kwargs'])
+        appearance_save = Event(['**kwargs'])
+        comments_save = Event(['**kwargs'])
+        general_save = Event(['**kwargs'])
+        notifications_save = Event(['**kwargs'])
+        popularity_save = Event(['**kwargs'])
+        # probably this event will be renamed to 'api_save' in a future version
+        save_api = Event(['**kwargs'])
+        sitemaps_save = Event(['**kwargs'])
+        upload_save = Event(['**kwargs'])
+    
+    class Storage(object):
+        LocalFileStorageForm = Event(['form'])
+        FTPStorageForm = Event(['form'])
+        RemoteURLStorageForm = Event(['form'])
+    
+    class StorageController(object):
+        delete = Event(['**kwargs'])
+        disable = Event(['**kwargs'])
+        edit = Event(['**kwargs'])
+        enable = Event(['**kwargs'])
+        index = Event(['**kwargs'])
+
 
 class API(object):
     class MediaController(object):

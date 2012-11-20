@@ -10,6 +10,7 @@ from tw.forms import FormFieldRepeater
 from mediacore.forms import ListFieldSet, TextField
 from mediacore.forms.admin.storage import StorageForm
 from mediacore.lib.i18n import N_, _
+from mediacore.plugin import events
 
 
 # Sure this could be abstracted into something more reusable.
@@ -68,6 +69,9 @@ class RemoteURLStorageForm(StorageForm):
             ],
         )
     ] + StorageForm.buttons
+
+    def post_init(self, *args, **kwargs):
+        events.Admin.Storage.RemoteURLStorageForm(self)
 
     javascript = [rtmp_server_js]
 

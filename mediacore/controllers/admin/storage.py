@@ -9,10 +9,11 @@ from repoze.what.predicates import has_permission
 from sqlalchemy import orm
 
 from mediacore.lib.base import BaseController
-from mediacore.lib.decorators import autocommit, expose, validate
+from mediacore.lib.decorators import autocommit, expose, observable, validate
 from mediacore.lib.helpers import redirect, url_for
 from mediacore.lib.storage import sort_engines, StorageEngine
 from mediacore.model import DBSession, fetch_row
+from mediacore.plugin import events
 
 log = logging.getLogger(__name__)
 
@@ -21,6 +22,7 @@ class StorageController(BaseController):
     allow_only = has_permission('admin')
 
     @expose('admin/storage/index.html')
+    @observable(events.Admin.StorageController.index)
     def index(self, page=1, **kwargs):
         """List storage engines with pagination.
 
@@ -49,6 +51,7 @@ class StorageController(BaseController):
         }
 
     @expose('admin/storage/edit.html')
+    @observable(events.Admin.StorageController.edit)
     def edit(self, id, engine_type=None, **kwargs):
         """Display the :class:`~mediacore.lib.storage.StorageEngine` for editing or adding.
 
@@ -102,6 +105,7 @@ class StorageController(BaseController):
 
     @expose('json', request_method='POST')
     @autocommit
+    @observable(events.Admin.StorageController.delete)
     def delete(self, id, **kwargs):
         """Delete a StorageEngine.
 
@@ -118,6 +122,7 @@ class StorageController(BaseController):
 
     @expose(request_method='POST')
     @autocommit
+    @observable(events.Admin.StorageController.enable)
     def enable(self, id, **kwargs):
         """Enable a StorageEngine.
 
@@ -131,6 +136,7 @@ class StorageController(BaseController):
 
     @expose(request_method='POST')
     @autocommit
+    @observable(events.Admin.StorageController.disable)
     def disable(self, id, **kwargs):
         """Disable a StorageEngine.
 

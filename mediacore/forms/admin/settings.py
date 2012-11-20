@@ -16,6 +16,7 @@ from mediacore.forms import (FileField, ListFieldSet, ListForm,
     email_validator, email_list_validator)
 from mediacore.forms.admin.categories import category_options
 from mediacore.lib.i18n import N_, _, get_available_locales
+from mediacore.plugin import events
 
 comments_enable_disable = lambda: (
     ('mediacore', _("Built-in comments")),
@@ -87,6 +88,10 @@ class NotificationsForm(ListForm):
         SubmitButton('save', default=N_('Save'), css_classes=['btn', 'btn-save', 'blue', 'f-rgt']),
     ]
 
+    def post_init(self, *args, **kwargs):
+        events.Admin.Settings.NotificationsForm(self)
+
+
 class PopularityForm(ListForm):
     template = 'admin/box-form.html'
     id = 'settings-form'
@@ -105,6 +110,9 @@ class PopularityForm(ListForm):
         ),
         SubmitButton('save', default=N_('Save'), css_classes=['btn', 'btn-save', 'blue', 'f-rgt']),
     ]
+
+    def post_init(self, *args, **kwargs):
+        events.Admin.Settings.PopularityForm(self)
 
 class MegaByteValidator(Int):
     """
@@ -137,6 +145,9 @@ class UploadForm(ListForm):
         SubmitButton('save', default=N_('Save'), css_classes=['btn', 'btn-save', 'blue', 'f-rgt']),
     ]
 
+    def post_init(self, *args, **kwargs):
+        events.Admin.Settings.UploadForm(self)
+
 class AnalyticsForm(ListForm):
     template = 'admin/box-form.html'
     id = 'settings-form'
@@ -148,6 +159,9 @@ class AnalyticsForm(ListForm):
         ]),
         SubmitButton('save', default=N_('Save'), css_classes=['btn', 'btn-save', 'blue', 'f-rgt']),
     ]
+
+    def post_init(self, *args, **kwargs):
+        events.Admin.Settings.AnalyticsForm(self)
 
 class SiteMapsForm(ListForm):
     template = 'admin/box-form.html'
@@ -172,6 +186,9 @@ class SiteMapsForm(ListForm):
         ),
         SubmitButton('save', default=N_('Save'), css_classes=['btn', 'btn-save', 'blue', 'f-rgt']),
     ]
+
+    def post_init(self, *args, **kwargs):
+        events.Admin.Settings.SiteMapsForm(self)
 
 class GeneralForm(ListForm):
     template = 'admin/box-form.html'
@@ -203,6 +220,9 @@ class GeneralForm(ListForm):
         ]),
         SubmitButton('save', default=N_('Save'), css_classes=['btn', 'btn-save', 'blue', 'f-rgt']),
     ]
+
+    def post_init(self, *args, **kwargs):
+        events.Admin.Settings.GeneralForm(self)
 
 class CommentsForm(ListForm):
     template = 'admin/box-form.html'
@@ -236,6 +256,9 @@ class CommentsForm(ListForm):
         SubmitButton('save', default=N_('Save'), css_classes=['btn', 'btn-save', 'blue', 'f-rgt']),
     ]
 
+    def post_init(self, *args, **kwargs):
+        events.Admin.Settings.CommentsForm(self)
+
 class APIForm(ListForm):
     template = 'admin/box-form.html'
     id = 'settings-form'
@@ -253,6 +276,9 @@ class APIForm(ListForm):
         ]),
         SubmitButton('save', default='Save', css_classes=['btn', 'btn-save', 'blue', 'f-rgt']),
     ]
+
+    def post_init(self, *args, **kwargs):
+        events.Admin.Settings.APIForm(self)
 
 class AppearanceForm(ListForm):
     template = 'admin/box-form.html'
@@ -399,6 +425,9 @@ class AppearanceForm(ListForm):
             css_classes=['btn', 'btn-cancel', 'reset-confirm']),
     ]
 
+    def post_init(self, *args, **kwargs):
+        events.Admin.Settings.AppearanceForm(self)
+
 class AdvertisingForm(ListForm):
     template = 'admin/box-form.html'
     id = 'settings-form'
@@ -418,5 +447,8 @@ class AdvertisingForm(ListForm):
         ),
         SubmitButton('save', default=N_('Save'), css_classes=['btn', 'btn-save', 'blue', 'f-rgt']),
     ]
+
+    def post_init(self, *args, **kwargs):
+        events.Admin.Settings.AdvertisingForm(self)
 
 

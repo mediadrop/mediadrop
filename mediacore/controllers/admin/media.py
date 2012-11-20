@@ -417,6 +417,7 @@ class MediaController(BaseController):
 
     @expose('json', request_method='POST')
     @autocommit
+    @observable(events.Admin.MediaController.merge_stubs)
     def merge_stubs(self, orig_id, input_id, **kwargs):
         """Merge in a newly created media item.
 
@@ -631,6 +632,7 @@ class MediaController(BaseController):
 
     @expose('json', request_method='POST')
     @autocommit
+    @observable(events.Admin.MediaController.bulk)
     def bulk(self, type=None, ids=None, **kwargs):
         """Perform bulk operations on media items
 

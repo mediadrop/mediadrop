@@ -10,6 +10,7 @@ from tw.forms.validators import StringBool
 from mediacore.forms import ListFieldSet, ListForm, SubmitButton, TextField
 from mediacore.lib.i18n import N_, _
 from mediacore.lib.util import merge_dicts
+from mediacore.plugin import events
 
 log = logging.getLogger(__name__)
 
@@ -88,6 +89,9 @@ class HTML5OrFlashPrefsForm(PlayerPrefsForm):
         ),
     ] + PlayerPrefsForm.buttons
 
+    def post_init(self, *args, **kwargs):
+        events.Admin.Players.HTML5OrFlashPrefsForm(self)
+
     def display(self, value, player, **kwargs):
         value.setdefault('prefer_flash', player.data.get('prefer_flash', False))
         return PlayerPrefsForm.display(self, value, player, **kwargs)
@@ -102,6 +106,9 @@ class SublimePlayerPrefsForm(PlayerPrefsForm):
             help_text=N_('The unique script tag given for your site.'),
         ),
     ] + PlayerPrefsForm.buttons
+
+    def post_init(self, *args, **kwargs):
+        events.Admin.Players.SublimePlayerPrefsForm(self)
 
     def display(self, value, player, **kwargs):
         value.setdefault('script_tag', player.data.get('script_tag', ''))
@@ -165,6 +172,9 @@ class YoutubeFlashPlayerPrefsForm(PlayerPrefsForm):
             css_classes=['options'],
         )
     ] + PlayerPrefsForm.buttons
+
+    def post_init(self, *args, **kwargs):
+        events.Admin.Players.YoutubeFlashPlayerPrefsForm(self)
 
     def display(self, value, player, **kwargs):
         newvalue = {}
