@@ -13,7 +13,7 @@ from mediacore.lib.test.request_mixin import RequestMixin
 
 
 def suite():
-    from mediacore.plugin.tests import events_test, observes_test
+    from mediacore.plugin.tests import abstract_class_registration_test, events_test, observes_test
     from mediacore.lib.tests import (css_delivery_test, js_delivery_test, 
         observable_test)
     from mediacore.validation.tests import limit_feed_items_validator_test
@@ -21,6 +21,7 @@ def suite():
     # do not export 'unittest' via '*' import from this module
     import unittest
     suite = unittest.TestSuite()
+    suite.addTest(abstract_class_registration_test.suite())
     suite.addTest(css_delivery_test.suite())
     suite.addTest(events_test.suite())
     suite.addTest(limit_feed_items_validator_test.suite())
