@@ -2,6 +2,7 @@
 # The source code contained in this file is licensed under the GPL.
 # See LICENSE.txt in the main project directory, for more information.
 
+from datetime import datetime
 from itertools import izip
 import logging
 from urllib import urlencode
@@ -9,6 +10,7 @@ from urllib import urlencode
 from genshi.builder import Element
 from genshi.core import Markup
 import simplejson
+from sqlalchemy import sql
 
 from mediacore.forms.admin import players as player_forms
 from mediacore.lib.compat import any
@@ -135,6 +137,27 @@ class AbstractPlayer(AbstractClass):
 
         """
         return pick_uris(self.uris, **kwargs)
+    
+    @classmethod
+    def inject_in_db(cls, enable_player=False):
+        from mediacore.model import DBSession
+        from mediacore.model.players import players as players_table, PlayerPrefs
+        
+        prefs = PlayerPrefs()
+        prefs.name = cls.name
+        prefs.enabled = enable_player
+        # didn't get direct SQL expression to work with SQLAlchemy
+        # player_table = sql.func.max(player_table.c.priority)
+        query = sql.select([sql.func.max(players_table.c.priority)])
+        max_priority = DBSession.execute(query).first()[0]
+        if max_priority is None:
+            max_priority = -1
+        prefs.priority = max_priority + 1
+        prefs.created_on = datetime.now()
+        prefs.modified_on = datetime.now()
+        prefs.data = cls.default_data
+        DBSession.add(prefs)
+        DBSession.commit()
 
 ###############################################################################
 
