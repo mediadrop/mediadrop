@@ -542,8 +542,15 @@ class YoutubePlayer(AbstractIframeEmbedPlayer):
             frameborder=0,
             width=self.adjusted_width,
             height=self.adjusted_height,
-            allowfullscreen='',
         )
+        if bool(data.get('fs')):
+            iframe_attrs.update(dict(
+                allowfullscreen='',
+                # non-standard attributes, required to enable YouTube's HTML5 
+                # full-screen capabilities
+                mozallowfullscreen='',
+                webkitallowfullscreen='',
+            ))
         tag = Element('iframe', src='%s?%s' % (uri, data_qs), **iframe_attrs)
         if error_text:
             tag(error_text)
