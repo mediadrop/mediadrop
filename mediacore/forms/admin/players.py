@@ -119,7 +119,7 @@ class SublimePlayerPrefsForm(PlayerPrefsForm):
         if not script_tag and player.enabled:
             player.enabled = False
 
-class YoutubeFlashPlayerPrefsForm(PlayerPrefsForm):
+class YoutubePlayerPrefsForm(PlayerPrefsForm):
     fields = [
         ListFieldSet('options',
             suppress_label=True,

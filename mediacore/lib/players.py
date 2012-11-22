@@ -339,7 +339,7 @@ class AbstractEmbedPlayer(AbstractPlayer):
 
     For example, :meth:`mediacore.lib.storage.YoutubeStorage.get_uris`
     returns URIs with a scheme of `'youtube'`, and the special
-    :class:`YoutubeFlashPlayer` would overload :attr:`scheme` to also be
+    :class:`YoutubePlayer` would overload :attr:`scheme` to also be
     `'youtube'`. This would allow the Youtube player to play only those URIs.
 
     """
@@ -482,7 +482,7 @@ class DailyMotionEmbedPlayer(AbstractIframeEmbedPlayer):
 AbstractIframeEmbedPlayer.register(DailyMotionEmbedPlayer)
 
 
-class YoutubeFlashPlayer(AbstractIframeEmbedPlayer):
+class YoutubePlayer(AbstractIframeEmbedPlayer):
     """
     YouTube Player
 
@@ -499,7 +499,7 @@ class YoutubeFlashPlayer(AbstractIframeEmbedPlayer):
     scheme = u'youtube'
     """The `StorageURI.scheme` which uniquely identifies this embed type."""
 
-    settings_form_class = player_forms.YoutubeFlashPlayerPrefsForm
+    settings_form_class = player_forms.YoutubePlayerPrefsForm
     """An optional :class:`mediacore.forms.admin.players.PlayerPrefsForm`."""
 
     default_data = {
@@ -538,15 +538,19 @@ class YoutubeFlashPlayer(AbstractIframeEmbedPlayer):
             # http://kb2.adobe.com/cps/127/tn_12701.html#main_Using_Window_Mode__wmode__values_
             data['wmode'] = 'opaque'
         data_qs = urlencode(data)
-        tag = Element('iframe', src='%s?%s' % (uri, data_qs), frameborder=0,
-                      width=self.adjusted_width, height=self.adjusted_height,
-                      allowfullscreen='allowfullscreen')
+        iframe_attrs = dict(
+            frameborder=0,
+            width=self.adjusted_width,
+            height=self.adjusted_height,
+            allowfullscreen='',
+        )
+        tag = Element('iframe', src='%s?%s' % (uri, data_qs), **iframe_attrs)
         if error_text:
             tag(error_text)
         return tag
 
 
-AbstractIframeEmbedPlayer.register(YoutubeFlashPlayer)
+AbstractIframeEmbedPlayer.register(YoutubePlayer)
 
 
 class GoogleVideoFlashPlayer(AbstractFlashEmbedPlayer):
