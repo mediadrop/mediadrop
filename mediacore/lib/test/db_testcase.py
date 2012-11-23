@@ -28,17 +28,17 @@ class DBTestCase(PythonicTestCase):
         }
         local_config = {
             'sqlalchemy.url': 'sqlite://', 
+            'layout_template': 'layout', 
+            'external_template': 'false', 
 #            'full_stack': 'true', 
 #            'image_dir': '.../data/images', 
 #            'enable_gzip': 'true', 
 #            'static_files': 'true', 
-#            'external_template': 'false', 
 #            'sqlalchemy.echo': 'False', 
 #            'file_serve_method': 'default', 
 #            'app_instance_uuid': '', str(uuid.uuid4())
 #            'media_dir': '.../data/media', 
 #            'sqlalchemy.pool_recycle': '3600', 
-#            'layout_template': 'layout', 
 #            'sa_auth.cookie_secret': 'superdupersecret', 
 #            'cache_dir': '.../data', 
 #            'external_template_url': 'http://some/valid_genshi_template.html', 
