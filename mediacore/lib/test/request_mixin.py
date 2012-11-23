@@ -11,9 +11,17 @@ import pylons
 from pylons.controllers.util import Request, Response
 from pylons.util import ContextObj
 from routes.util import URLGenerator
+from webob.request import environ_from_url
 
 from mediacore.lib.i18n import Translator
 
+
+def create_wsgi_environ(url, request_method, request_body=None):
+        wsgi_environ = environ_from_url(url)
+        wsgi_environ.update({
+            'REQUEST_METHOD': request_method,
+        })
+        return wsgi_environ
 
 class RequestMixin(object):
     def init_fake_request(self, server_name='mediacore.example', language='en'):
@@ -21,15 +29,15 @@ class RequestMixin(object):
         translator = Translator(language, app_globals.plugin_mgr.locale_dirs())
         pylons.translator._push_object(translator)
         pylons.app_globals._push_object(app_globals)
-
-        request = Request({}, charset='utf-8')
+        
+        wsgi_environ = create_wsgi_environ('http://%s' % server_name, method.upper())
+        request = Request(wsgi_environ, charset='utf-8')
         request.language = language
         request.settings = app_globals.settings
         pylons.request._push_object(request)
         response = Response(content_type='application/xml', charset='utf-8')
         pylons.response._push_object(response)
         
-        wsgi_environ = {'HTTP_HOST': server_name}
         session = SessionObject(wsgi_environ)
         pylons.session._push_object(session)
 
