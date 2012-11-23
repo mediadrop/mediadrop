@@ -196,38 +196,25 @@ def add_default_data():
     admin_user.password = u'admin'
     DBSession.add(admin_user)
 
-    admin_group = Group()
-    admin_group.group_name = u'admins'
-    admin_group.display_name = u'Admins'
+    admin_group = Group(name=u'admins', display_name=u'Admins')
     admin_group.users.append(admin_user)
     DBSession.add(admin_group)
 
-    editor_group = Group()
-    editor_group.group_name = u'editors'
-    editor_group.display_name = u'Editors'
+    editor_group = Group(name=u'editors', display_name=u'Editors')
     DBSession.add(editor_group)
 
-    admin_perm = Permission()
-    admin_perm.permission_name = u'admin'
-    admin_perm.description = u'Grants access to the admin panel'
-    admin_perm.groups.append(admin_group)
+    admin_perm = Permission(name=u'admin', groups=[admin_group], 
+        description=u'Grants access to the admin panel')
     DBSession.add(admin_perm)
 
-    edit_perm = Permission()
-    edit_perm.permission_name = u'edit'
-    edit_perm.description = u'Grants access to edit site content'
-    edit_perm.groups.append(admin_group)
-    edit_perm.groups.append(editor_group)
+    edit_perm = Permission(name=u'edit', groups=[admin_group, editor_group], 
+        description=u'Grants access to edit site content')
     DBSession.add(edit_perm)
 
-    category = Category()
-    category.name = u'Featured'
-    category.slug = u'featured'
+    category = Category(name=u'Featured', slug=u'featured')
     DBSession.add(category)
 
-    category2 = Category()
-    category2.name = u'Instructional'
-    category2.slug = u'instructional'
+    category2 = Category(name=u'Instructional', slug=u'instructional')
     DBSession.add(category2)
 
     podcast = Podcast()
