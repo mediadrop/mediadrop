@@ -150,9 +150,11 @@ class Permission(object):
     """
     A relationship that determines what each Group can do
     """
-    def __init__(self, name=None, desc=None):
+    def __init__(self, name=None, description=None, groups=None):
         self.permission_name = name
-        self.description = desc
+        self.description = description
+        if groups is not None:
+            self.groups = groups
 
     def __unicode__(self):
         return self.permission_name
