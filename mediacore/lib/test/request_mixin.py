@@ -6,6 +6,9 @@
 #
 # Copyright (c) 2012 Felix Schwarz <felix.schwarz@oss.schwarz.eu>
 
+from cStringIO import StringIO
+import urllib
+
 from beaker.session import SessionObject
 import pylons
 from pylons.controllers.util import Request, Response
@@ -21,16 +24,31 @@ def create_wsgi_environ(url, request_method, request_body=None):
         wsgi_environ.update({
             'REQUEST_METHOD': request_method,
         })
+        if request_body:
+            if hasattr(request_body, 'items'):
+                # support parameters as dict
+                request_body = request_body.items()
+            if not isinstance(request_body, basestring):
+                request_body = urllib.urlencode(request_body)
+            wsgi_environ.update({
+                'wsgi.input': StringIO(request_body),
+                'CONTENT_LENGTH': str(len(request_body)),
+                'CONTENT_TYPE': 'application/x-www-form-urlencoded',
+            })
         return wsgi_environ
 
 class RequestMixin(object):
-    def init_fake_request(self, server_name='mediacore.example', language='en'):
+    def init_fake_request(self, server_name='mediacore.example', language='en', 
+            method='GET', post_vars=None):
         app_globals = self.pylons_config['pylons.app_globals']
         translator = Translator(language, app_globals.plugin_mgr.locale_dirs())
         pylons.translator._push_object(translator)
         pylons.app_globals._push_object(app_globals)
         
-        wsgi_environ = create_wsgi_environ('http://%s' % server_name, method.upper())
+        if post_vars and method.upper() != 'POST':
+            raise ValueError('You must not specify post_vars for request method %r' % method)
+        wsgi_environ = create_wsgi_environ('http://%s' % server_name, 
+            method.upper(), request_body=post_vars)
         request = Request(wsgi_environ, charset='utf-8')
         request.language = language
         request.settings = app_globals.settings
