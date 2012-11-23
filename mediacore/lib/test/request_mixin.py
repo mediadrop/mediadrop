@@ -37,6 +37,7 @@ class RequestMixin(object):
         pylons.url._push_object(routes_url)
 
         pylons.tmpl_context._push_object(ContextObj())
+        return request
     
     def remove_globals(self):
         for global_ in (pylons.request, pylons.response, pylons.session, 
