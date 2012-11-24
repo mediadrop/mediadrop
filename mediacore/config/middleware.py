@@ -96,7 +96,7 @@ class FastCGIScriptStripperMiddleware(object):
             environ['SCRIPT_NAME'] = script_name[:-self.cut]
         return self.app(environ, start_response)
 
-def setup_tw_middleware(app, config):
+def create_tw_engine_manager(app_globals):
     def filename_suffix_adder(inner_loader, suffix):
         def _add_suffix(filename):
             return inner_loader(filename + suffix)
@@ -106,7 +106,7 @@ def setup_tw_middleware(app, config):
     # from our main template loader.
     tw_engines = EngineManager(extra_vars_func=None)
     tw_engines['genshi'] = MarkupTemplateEnginePlugin()
-    tw_engines['genshi'].loader = config['pylons.app_globals'].genshi_loader
+    tw_engines['genshi'].loader = app_globals.genshi_loader
 
     # Disable the built-in package name template resolution.
     tw_engines['genshi'].use_package_naming = False
@@ -131,11 +131,14 @@ def setup_tw_middleware(app, config):
 
     # Add this path to our global loader
     tw_engines['genshi'].loader.search_path.append(tw_loader)
+    return tw_engines
 
+def setup_tw_middleware(app, config):
+    app_globals = config['pylons.app_globals']
     app = tw.api.make_middleware(app, {
         'toscawidgets.framework': 'pylons',
         'toscawidgets.framework.default_view': 'genshi',
-        'toscawidgets.framework.engines': tw_engines,
+        'toscawidgets.framework.engines': create_tw_engine_manager(app_globals),
     })
     return app
 

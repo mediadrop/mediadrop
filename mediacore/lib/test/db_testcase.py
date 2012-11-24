@@ -29,9 +29,10 @@ class DBTestCase(PythonicTestCase):
         local_config = {
             'sqlalchemy.url': 'sqlite://', 
             'layout_template': 'layout', 
-            'external_template': 'false', 
+            'external_template': 'false',
+            'image_dir': '%(here)s/data/images', 
+            
 #            'full_stack': 'true', 
-#            'image_dir': '.../data/images', 
 #            'enable_gzip': 'true', 
 #            'static_files': 'true', 
 #            'sqlalchemy.echo': 'False', 
@@ -41,10 +42,7 @@ class DBTestCase(PythonicTestCase):
 #            'sqlalchemy.pool_recycle': '3600', 
 #            'sa_auth.cookie_secret': 'superdupersecret', 
 #            'cache_dir': '.../data', 
-#            'external_template_url': 'http://some/valid_genshi_template.html', 
-#            'external_template_timeout': '600', 
 #            'beaker.session.key': 'mediacore', 
-#            'external_template_name': 'external', 
 #            'beaker.session.secret': 'superdupersecret'
         }
 

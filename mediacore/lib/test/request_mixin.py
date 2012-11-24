@@ -10,13 +10,16 @@ from cStringIO import StringIO
 import urllib
 
 from beaker.session import SessionObject
+from paste.registry import Registry
 import pylons
 from pylons.controllers.util import Request, Response
 from pylons.util import ContextObj
 from routes.util import URLGenerator
+import tw
+from tw.mods.pylonshf import PylonsHostFramework
 from webob.request import environ_from_url
 
-from mediacore.lib.i18n import Translator
+from mediacore.config.middleware import create_tw_engine_manager
 
 
 def create_wsgi_environ(url, request_method, request_body=None):
@@ -41,8 +44,6 @@ class RequestMixin(object):
     def init_fake_request(self, server_name='mediacore.example', language='en', 
             method='GET', post_vars=None):
         app_globals = self.pylons_config['pylons.app_globals']
-        translator = Translator(language, app_globals.plugin_mgr.locale_dirs())
-        pylons.translator._push_object(translator)
         pylons.app_globals._push_object(app_globals)
         
         if post_vars and method.upper() != 'POST':
@@ -63,10 +64,28 @@ class RequestMixin(object):
         pylons.url._push_object(routes_url)
 
         pylons.tmpl_context._push_object(ContextObj())
+        # some parts of Pylons (e.g. Pylons.controllers.core.WSGIController)
+        # use the '.c' alias instead.
+        pylons.c = pylons.tmpl_context
+        
+        paste_registry = Registry()
+        paste_registry.prepare()
+        engines = create_tw_engine_manager(app_globals)
+        host_framework = PylonsHostFramework(engines=engines)
+        paste_registry.register(tw.framework, host_framework)
+        
+        wsgi_environ.update({
+            'pylons.pylons': pylons,
+            'paste.registry': paste_registry,
+        })
         return request
     
     def remove_globals(self):
         for global_ in (pylons.request, pylons.response, pylons.session, 
                         pylons.tmpl_context, pylons.translator, pylons.url,):
-            global_._pop_object()
+            try:
+                global_._pop_object()
+            except AssertionError:
+                # AssertionError: No object has been registered for this thread
+                pass
 
