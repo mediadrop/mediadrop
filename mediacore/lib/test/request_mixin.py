@@ -80,6 +80,15 @@ class RequestMixin(object):
         })
         return request
     
+    def set_authenticated_user(self, user, wsgi_environ=None):
+        if wsgi_environ is None:
+            wsgi_environ = pylons.request.environ
+        identity = wsgi_environ.setdefault('repoze.who.identity', {})
+        identity['user'] = user
+        
+        credentials = wsgi_environ.setdefault('repoze.what.credentials', {})
+        credentials['permissions'] = [unicode(perm) for perm in user.permissions]
+    
     def remove_globals(self):
         for global_ in (pylons.request, pylons.response, pylons.session, 
                         pylons.tmpl_context, pylons.translator, pylons.url,):
