@@ -6,7 +6,7 @@
 #
 # Copyright (c) 2012 Felix Schwarz (www.schwarz.eu)
 
-from mediacore.lib.commands import LoadAppCommand, load_app
+from mediacore.lib.cli_commands import LoadAppCommand, load_app
 
 _script_name = "Database Upgrade Script for v0.9.x users with Facebook comments"
 _script_description = """Use this script to preserve your existing Facebook

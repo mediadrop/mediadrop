@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from mediacore.lib.commands import LoadAppCommand, load_app
+from mediacore.lib.cli_commands import LoadAppCommand, load_app
 
 _script_name = "Database Upgrade Script for former v0.7.2 users"
 _script_description = """Use this script to upgrade your v0.7.2 database to the latest version.

@@ -1,6 +1,6 @@
 #!/usr/bin/env python2.5
 # -*- coding: utf-8 -*-
-from mediacore.lib.commands import LoadAppCommand, load_app
+from mediacore.lib.cli_commands import LoadAppCommand, load_app
 
 _script_name = "RSS Podcast Importer Script"
 _script_description = """Use this script to create new MediaCore podcasts from RSS feeds.
