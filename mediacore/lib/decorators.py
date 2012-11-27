@@ -249,7 +249,7 @@ class validate(object):
       form
         Pass in a ToscaWidget based form with validators
 
-    The first positional parameter can either be a dictonary of validators,
+    The first positional parameter can either be a dictionary of validators,
     a FormEncode schema validator, or a callable which acts like a FormEncode
     validator.
     """
