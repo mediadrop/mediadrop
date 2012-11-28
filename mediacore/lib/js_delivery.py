@@ -128,6 +128,10 @@ class Scripts(ResourcesCollection):
             return
         self._resources.append(script)
     
+    def add_all(self, *scripts):
+        for script in scripts:
+            self.add(script)
+    
     # --- some interface polishing ---------------------------------------------
     @property
     def scripts(self):

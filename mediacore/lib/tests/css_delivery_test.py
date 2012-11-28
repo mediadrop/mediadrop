@@ -41,10 +41,15 @@ class StyleSheetTest(PythonicTestCase):
 
 class StyleSheetsTest(PythonicTestCase):
     # --- add stylesheets ----------------------------------------------------------
-    def test_can_add_a_script(self):
+    def test_can_add_a_stylesheet(self):
         stylesheets = StyleSheets()
         stylesheets.add(StyleSheet('/foo.css'))
         assert_length(1, stylesheets)
+    
+    def test_can_multiple_stylesheets(self):
+        scripts = StyleSheets()
+        scripts.add_all(StyleSheet('/foo.css'), StyleSheet('/bar.css'))
+        assert_length(2, scripts)
 
     def test_can_add_stylesheets_during_instantiation(self):
         stylesheets = StyleSheets(StyleSheet('/foo.css'), StyleSheet('/bar.css'))

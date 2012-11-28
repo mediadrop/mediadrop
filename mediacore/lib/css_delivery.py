@@ -46,6 +46,10 @@ class StyleSheets(ResourcesCollection):
             return
         self._resources.append(stylesheet)
     
+    def add_all(self, *stylesheets):
+        for stylesheet in stylesheets:
+            self.add(stylesheet)
+    
     # --- some interface polishing ---------------------------------------------
     @property
     def stylesheets(self):
