@@ -550,7 +550,7 @@ class MediaController(BaseController):
             if e.errno == 13:
                 message = _('Permission denied, cannot write file')
             elif e.message == 'cannot identify image file':
-                message = _('Unsupport image type: %s') \
+                message = _('Unsupported image type: %s') \
                     % os.path.splitext(thumb.filename)[1].lstrip('.')
             elif e.message == 'cannot read interlaced PNG files':
                 message = _('Interlaced PNGs are not supported.')
