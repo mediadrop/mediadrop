@@ -20,6 +20,7 @@ from tw.mods.pylonshf import PylonsHostFramework
 from webob.request import environ_from_url
 
 from mediacore.config.middleware import create_tw_engine_manager
+from mediacore.lib.paginate import Bunch
 
 
 # -----------------------------------------------------------------------------
@@ -114,7 +115,9 @@ class RequestMixin(object):
         routes_url = URLGenerator(self.pylons_config['routes.map'], wsgi_environ)
         pylons.url._push_object(routes_url)
 
-        pylons.tmpl_context._push_object(ContextObj())
+        tmpl_context = ContextObj()
+        tmpl_context.paginators = Bunch()
+        pylons.tmpl_context._push_object(tmpl_context)
         # some parts of Pylons (e.g. Pylons.controllers.core.WSGIController)
         # use the '.c' alias instead.
         pylons.c = pylons.tmpl_context
