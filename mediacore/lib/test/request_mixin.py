@@ -22,23 +22,74 @@ from webob.request import environ_from_url
 from mediacore.config.middleware import create_tw_engine_manager
 
 
+# -----------------------------------------------------------------------------
+# unfortunately neither Python 2.4 nor any existing MediaCore dependencies come 
+# with reusable methods to create a HTTP request body so I build a very basic 
+# implementation myself. 
+# The code is only used for unit tests so it doesn't have to be rock solid.
+WWW_FORM_URLENCODED = 'application/x-www-form-urlencoded'
+
+def encode_multipart_formdata(fields, files):
+    lines = []
+    BOUNDARY = '---some_random_boundary-string$'
+    for key, value in fields:
+        lines.extend([
+            '--%s' % BOUNDARY,
+            'Content-Disposition: form-data; name="%s"' % key,
+            '',
+            str(value)
+        ])
+    for key, file_ in files:
+        if hasattr(file_, 'filename'):
+            filename = file_.filename
+        else:
+            filename = file_.name
+        lines.extend([
+            '--%s' % BOUNDARY,
+            'Content-Disposition: form-data; name="%s"; filename="%s"' % (key, filename),
+            'Content-Type: application/octet-stream',
+            '',
+            file_.read()
+        ])
+    
+    body = '\r\n'.join(lines)
+    content_type = 'multipart/form-data; boundary=%s' % BOUNDARY
+    return content_type, body
+
+
+def build_http_body(data, force_multipart=False):
+    if isinstance(data, basestring):
+        return WWW_FORM_URLENCODED, data
+    if hasattr(data, 'items'):
+        data = data.items()
+    
+    fields = []
+    files = []
+    for key, value in data:
+        if hasattr(value, 'read') and (hasattr(value, 'name') or hasattr(value, 'filename')):
+            files.append((key, value))
+        else:
+            fields.append((key, value))
+    if (not force_multipart) and len(files) == 0:
+        return WWW_FORM_URLENCODED, urllib.urlencode(data)
+    
+    return encode_multipart_formdata(fields, files)
+# -----------------------------------------------------------------------------
+
 def create_wsgi_environ(url, request_method, request_body=None):
         wsgi_environ = environ_from_url(url)
         wsgi_environ.update({
             'REQUEST_METHOD': request_method,
         })
         if request_body:
-            if hasattr(request_body, 'items'):
-                # support parameters as dict
-                request_body = request_body.items()
-            if not isinstance(request_body, basestring):
-                request_body = urllib.urlencode(request_body)
+            content_type, request_body = build_http_body(request_body)
             wsgi_environ.update({
                 'wsgi.input': StringIO(request_body),
                 'CONTENT_LENGTH': str(len(request_body)),
-                'CONTENT_TYPE': 'application/x-www-form-urlencoded',
+                'CONTENT_TYPE': content_type,
             })
         return wsgi_environ
+
 
 class RequestMixin(object):
     def init_fake_request(self, server_name='mediacore.example', language='en', 
