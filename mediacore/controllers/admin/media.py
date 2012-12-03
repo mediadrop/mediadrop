@@ -107,6 +107,9 @@ class MediaController(BaseController):
             podcast = podcast,
         )
 
+    def json_error(self, *args, **kwargs):
+        validation_exception = tmpl_context._current_obj().validation_exception
+        return dict(success=False, message=validation_exception.msg)
 
     @expose('admin/media/edit.html')
     @validate(validators={'podcast': validators.Int()})
@@ -250,7 +253,7 @@ class MediaController(BaseController):
 
 
     @expose('json', request_method='POST')
-    @validate(add_file_form)
+    @validate(add_file_form, error_handler=json_error)
     @autocommit
     @observable(events.Admin.MediaController.add_file)
     def add_file(self, id, file=None, url=None, **kwargs):
