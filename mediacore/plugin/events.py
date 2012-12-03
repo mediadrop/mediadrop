@@ -297,6 +297,10 @@ class Media(object):
     after_insert = Event(['instance'])
     before_update = Event(['instance'])
     after_update = Event(['instance'])
+    
+    # event is triggered when the encoding status changes from 'not encoded' to
+    # 'encoded'
+    encoding_done = Event(['instance'])
 
 class MediaFile(object):
     before_delete = Event(['instance'])

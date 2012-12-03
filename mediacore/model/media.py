@@ -468,8 +468,11 @@ class Media(object):
         Call this after modifying any files belonging to this item.
 
         """
+        was_encoded = self.encoded
         self.type = self._update_type()
         self.encoded = self._update_encoding()
+        if self.encoded and not was_encoded:
+            events.Media.encoding_done(self)
 
     def _update_type(self):
         """Update the type of this Media object.
@@ -487,8 +490,7 @@ class Media(object):
     def _update_encoding(self):
         # Test to see if we can find a workable file/player combination
         # for the most common podcasting app w/ the POOREST format support
-        if self.podcast_id \
-        and not pick_podcast_media_file(self):
+        if self.podcast_id and not pick_podcast_media_file(self):
             return False
         # Test to see if we can find a workable file/player combination
         # for the browser w/ the BEST format support
