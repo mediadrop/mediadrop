@@ -24,6 +24,13 @@ sqlalchemy.echo = False
 sqlalchemy.pool_recycle = 3600
 db.check_for_leaked_connections = False
 
+# Plugins which should be enabled for this MediaCore instance (by default all
+# plugins are enabled)
+# To enable only specific plugins just add them as comma-separated list, e.g.:
+#    plugins = editviews, panda, seo
+# To disable all plugins, use 'plugins = '
+plugins = *
+
 # Session salts.
 beaker.session.secret = ${app_instance_secret}
 sa_auth.cookie_secret = ${app_instance_secret}
