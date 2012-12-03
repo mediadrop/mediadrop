@@ -26,7 +26,7 @@ class DBTestCase(PythonicTestCase):
 #            'here': '...', 
 #            'smtp_server': 'localhost'
         }
-        local_config = {
+        app_config = {
             'sqlalchemy.url': 'sqlite://', 
             'layout_template': 'layout', 
             'external_template': 'false',
@@ -45,9 +45,8 @@ class DBTestCase(PythonicTestCase):
 #            'beaker.session.key': 'mediacore', 
 #            'beaker.session.secret': 'superdupersecret'
         }
-
-        self.pylons_config = load_environment(global_config, local_config)
         
+        self.pylons_config = load_environment(global_config, app_config)
         metadata.create_all(bind=DBSession.bind, checkfirst=True)
         add_default_data()
         
