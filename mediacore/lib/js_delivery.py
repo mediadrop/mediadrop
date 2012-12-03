@@ -115,10 +115,10 @@ class ResourcesCollection(object):
         return None
 
 
-class Scripts(ResourcesCollection):    
+class Scripts(ResourcesCollection):
     def add(self, script):
         if script in self._resources:
-            if not hasattr(script, 'async'):    
+            if not hasattr(script, 'async'):
                 return
             # in case the same script is added twice and only one should be 
             # loaded asynchronously, use the non-async variant to be on the safe
