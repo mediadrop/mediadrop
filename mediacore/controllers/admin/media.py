@@ -509,7 +509,7 @@ class MediaController(BaseController):
 
 
     @expose('json', request_method='POST')
-    @validate(thumb_form, error_handler=edit)
+    @validate(thumb_form, error_handler=json_error)
     @autocommit
     @observable(events.Admin.MediaController.save_thumb)
     def save_thumb(self, id, thumb, **kwargs):
