@@ -381,7 +381,7 @@ class MediaController(BaseController):
                 file.type = fields.file_type.validate(file_type)
                 data['success'] = True
             elif duration is not None:
-                media.duration = duration = fields.duration.validate(duration)
+                media.duration = fields.duration.validate(duration)
                 data['success'] = True
                 data['duration'] = helpers.duration_from_seconds(media.duration)
             elif width_height is not None:
