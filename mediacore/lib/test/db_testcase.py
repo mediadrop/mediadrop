@@ -6,6 +6,10 @@
 #
 # Copyright (c) 2012 Felix Schwarz <felix.schwarz@oss.schwarz.eu>
 
+import os
+import shutil
+import tempfile
+
 import pylons
 from pylons.configuration import config
 
@@ -21,6 +25,7 @@ class DBTestCase(PythonicTestCase):
     
     def setUp(self):
         super(DBTestCase, self).setUp()
+        self.env_dir = self._create_environment_folders()
         global_config = {
 #            'debug': 'true', 
 #            'error_email_from': 'paste@localhost', 
@@ -33,7 +38,8 @@ class DBTestCase(PythonicTestCase):
             'sqlalchemy.url': 'sqlite://', 
             'layout_template': 'layout', 
             'external_template': 'false',
-            'image_dir': '%(here)s/data/images', 
+            'image_dir': os.path.join(self.env_dir, 'images'), 
+            'media_dir': os.path.join(self.env_dir, 'media'), 
             
 #            'full_stack': 'true', 
 #            'enable_gzip': 'true', 
@@ -52,14 +58,23 @@ class DBTestCase(PythonicTestCase):
         self.pylons_config = load_environment(global_config, app_config)
         metadata.create_all(bind=DBSession.bind, checkfirst=True)
         add_default_data()
-        
         DBSession.commit()
         
         config.push_process_config(self.pylons_config)
     
+    def _create_environment_folders(self):
+        j = lambda *args: os.path.join(*args)
+        
+        env_dir = tempfile.mkdtemp()
+        for name in ('appearance', 'images', j('images', 'media'), 'media', ):
+            dirname = j(env_dir, name)
+            os.mkdir(dirname)
+        return env_dir
+    
     def tearDown(self):
         self._tear_down_db()
         self._tear_down_pylons()
+        shutil.rmtree(self.env_dir)
         super(DBTestCase, self).tearDown()
     
     def _tear_down_db(self):
