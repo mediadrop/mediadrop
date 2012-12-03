@@ -3,7 +3,6 @@
 # See LICENSE.txt in the main project directory, for more information.
 
 from formencode.validators import URL
-from genshi.core import Markup
 from tw.forms import SingleSelectField
 from tw.forms.validators import NotEmpty
 
@@ -16,7 +15,9 @@ class PodcastForm(ListForm):
     id = 'podcast-form'
     css_class = 'form'
     submit_text = None
-
+    
+    event = events.Admin.PodcastForm
+    
     # required to support multiple named buttons to differentiate between Save & Delete?
     _name = 'vf'
 
@@ -115,6 +116,3 @@ class PodcastForm(ListForm):
         SubmitButton('save', default=N_('Save'), named_button=True, css_classes=['btn', 'blue', 'f-rgt']),
         SubmitButton('delete', default=N_('Delete'), named_button=True, css_classes=['btn']),
     ]
-
-    def post_init(self, *args, **kwargs):
-        events.Admin.PodcastForm(self)

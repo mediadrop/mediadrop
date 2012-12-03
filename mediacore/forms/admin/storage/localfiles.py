@@ -8,6 +8,7 @@ from mediacore.lib.i18n import N_
 from mediacore.plugin import events
 
 class LocalFileStorageForm(StorageForm):
+    event = events.Admin.Storage.LocalFileStorageForm
 
     fields = StorageForm.fields + [
         ListFieldSet('specifics',
@@ -26,8 +27,6 @@ class LocalFileStorageForm(StorageForm):
         )
     ] + StorageForm.buttons
 
-    def post_init(self, *args, **kwargs):
-        events.Admin.Storage.LocalFileStorageForm(self)
 
     def display(self, value, engine, **kwargs):
         """Display the form with default values from the given StorageEngine.

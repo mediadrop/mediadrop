@@ -13,11 +13,11 @@ class EditCommentForm(ListForm):
     template = 'admin/comments/edit.html'
     id = None
     css_class = 'edit-comment-form'
-
+    
+    event = events.Admin.EditCommentForm
+    
     class fields(WidgetsList):
         body = TextArea(validator=NotEmpty, label_text=N_('Comment'), attrs=dict(rows=5, cols=25))
         submit = SubmitButton(default=N_('Save'), css_classes=['btn', 'btn-save', 'blue', 'f-rgt'])
         cancel = ResetButton(default=N_('Cancel'), css_classes=['btn', 'btn-cancel'])
 
-    def post_init(self, *args, **kwargs):
-        events.Admin.EditCommentForm(self)

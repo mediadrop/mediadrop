@@ -32,7 +32,9 @@ class UserForm(ListForm):
     submit_text = None
     show_children_errors = True
     _name = 'user-form' # TODO: Figure out why this is required??
-
+    
+    event = events.Admin.UserForm
+    
     fields = [
         TextField('display_name', label_text=N_('Display Name'), validator=TextField.validator(not_empty=True), maxlength=255),
         TextField('email_address', label_text=N_('Email Address'), validator=email_validator(not_empty=True), maxlength=255),
@@ -53,6 +55,3 @@ class UserForm(ListForm):
         SubmitButton('save', default=N_('Save'), named_button=True, css_classes=['btn', 'btn-save', 'blue', 'f-rgt']),
         SubmitButton('delete', default=N_('Delete'), named_button=True, css_classes=['btn', 'btn-delete']),
     ]
-
-    def post_init(self, *args, **kwargs):
-        events.Admin.UserForm(self)

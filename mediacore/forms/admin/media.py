@@ -99,14 +99,14 @@ class AddFileForm(ListForm):
     template = 'admin/media/file-add-form.html'
     id = 'add-file-form'
     submit_text = None
+    
+    event = events.Admin.AddFileForm
+    
     fields = [
         FileField('file', label_text=N_('Select an encoded video or audio file on your computer'), validator=FieldStorageUploadConverter(not_empty=False, label_text=N_('Upload'))),
         SubmitButton('add_url', default=N_('Add URL'), named_button=True, css_class='btn grey btn-add-url f-rgt'),
         TextField('url', validator=URL, suppress_label=True, attrs=lambda: {'title': _('YouTube, Vimeo, Google Video, Amazon S3 or any other link')}, maxlength=255),
     ]
-
-    def post_init(self, *args, **kwargs):
-        events.Admin.AddFileForm(self)
 
 file_type_options = lambda: registered_media_types()
 file_types = lambda: (id for id, name in registered_media_types())
@@ -117,7 +117,9 @@ class EditFileForm(ListForm):
     submit_text = None
     _name = 'fileeditform'
     params = ['file']
-
+    
+    event = events.Admin.EditFileForm
+    
     class fields(WidgetsList):
         file_id = TextField(validator=Int())
         file_type = SingleSelectField(validator=file_type_validator, options=file_type_options, attrs={'id': None, 'autocomplete': 'off'})
@@ -125,9 +127,6 @@ class EditFileForm(ListForm):
         width_height = TextField(validator=WXHValidator, attrs={'id': None, 'autocomplete': 'off'})
         bitrate = TextField(validator=Int, attrs={'id': None, 'autocomplete': 'off'})
         delete = SubmitButton(default=N_('Delete file'), named_button=True, css_class='file-delete', attrs={'id': None})
-
-    def post_init(self, *args, **kwargs):
-        events.Admin.EditFileForm(self)
 
 
 class MediaForm(ListForm):
@@ -137,7 +136,9 @@ class MediaForm(ListForm):
     submit_text = None
     show_children_errors = True
     _name = 'media-form' # TODO: Figure out why this is required??
-
+    
+    event = events.Admin.MediaForm
+    
     fields = [
         SingleSelectField('podcast', label_text=N_('Include in the Podcast'), css_classes=['dropdown-select'], help_text=N_('Optional'), options=lambda: [(None, None)] + DBSession.query(Podcast.id, Podcast.title).all()),
         TextField('slug', label_text=N_('Permalink'), maxlength=50),
@@ -156,9 +157,6 @@ class MediaForm(ListForm):
         SubmitButton('delete', default=N_('Delete'), named_button=True, css_classes=['btn', 'f-lft']),
     ]
 
-    def post_init(self, *args, **kwargs):
-        events.Admin.MediaForm(self)
-
 
 class UpdateStatusForm(Form):
     template = 'admin/media/update-status-form.html'
@@ -168,6 +166,8 @@ class UpdateStatusForm(Form):
     params = ['media']
     media = None
     _name = 'usf'
+    
+    event = events.Admin.UpdateStatusForm
 
     class fields(WidgetsList):
         # TODO: handle format with babel localization
@@ -175,6 +175,3 @@ class UpdateStatusForm(Form):
         publish_until = HiddenField(validator=DateTimeConverter(format='%b %d %Y @ %H:%M'))
         status = HiddenField(validator=None)
         update_button = SubmitButton()
-
-    def post_init(self, *args, **kwargs):
-        events.Admin.UpdateStatusForm(self)

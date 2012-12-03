@@ -25,6 +25,8 @@ class CategoryForm(ListForm):
     id = None
     css_classes = ['category-form', 'form']
     submit_text = None
+    
+    event = events.Admin.CategoryForm
 
     # required to support multiple named buttons to differentiate between Save & Delete?
     _name = 'vf'
@@ -36,9 +38,6 @@ class CategoryForm(ListForm):
         cancel = ResetButton(default=N_('Cancel'), css_classes=['btn', 'f-lft', 'btn-cancel'])
         save = SubmitButton(default=N_('Save'), named_button=True, css_classes=['f-rgt', 'btn', 'blue', 'btn-save'])
 
-    def post_init(self, *args, **kwargs):
-        events.Admin.CategoryForm(self)
-
 class CategoryCheckBoxList(CheckBoxList):
     params = ['category_tree']
     template = 'admin/categories/selection_list.html'
@@ -48,12 +47,11 @@ class CategoryRowForm(Form):
     id = None
     submit_text = None
     params = ['category', 'depth', 'first_child']
+    
+    event = events.Admin.CategoryRowForm
 
     class fields(WidgetsList):
         name = HiddenField()
         slug = HiddenField()
         parent_id = HiddenField()
         delete = SubmitButton(default=N_('Delete'), css_classes=['btn', 'table-row', 'delete', 'btn-inline-delete'])
-
-    def post_init(self, *args, **kwargs):
-        events.Admin.CategoryRowForm(self)

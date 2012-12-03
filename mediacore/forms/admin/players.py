@@ -88,9 +88,8 @@ class HTML5OrFlashPrefsForm(PlayerPrefsForm):
             validator=StringBool,
         ),
     ] + PlayerPrefsForm.buttons
-
-    def post_init(self, *args, **kwargs):
-        events.Admin.Players.HTML5OrFlashPrefsForm(self)
+    
+    event = events.Admin.Players.HTML5OrFlashPrefsForm
 
     def display(self, value, player, **kwargs):
         value.setdefault('prefer_flash', player.data.get('prefer_flash', False))
@@ -100,15 +99,14 @@ class HTML5OrFlashPrefsForm(PlayerPrefsForm):
         player.data['prefer_flash'] = prefer_flash
 
 class SublimePlayerPrefsForm(PlayerPrefsForm):
+    event = events.Admin.Players.SublimePlayerPrefsForm
+    
     fields = [
         TextField('script_tag',
             label_text=N_('Script Tag'),
             help_text=N_('The unique script tag given for your site.'),
         ),
     ] + PlayerPrefsForm.buttons
-
-    def post_init(self, *args, **kwargs):
-        events.Admin.Players.SublimePlayerPrefsForm(self)
 
     def display(self, value, player, **kwargs):
         value.setdefault('script_tag', player.data.get('script_tag', ''))
@@ -120,6 +118,8 @@ class SublimePlayerPrefsForm(PlayerPrefsForm):
             player.enabled = False
 
 class YoutubePlayerPrefsForm(PlayerPrefsForm):
+    event = events.Admin.Players.YoutubeFlashPlayerPrefsForm
+    
     fields = [
         ListFieldSet('options',
             suppress_label=True,
@@ -171,9 +171,6 @@ class YoutubePlayerPrefsForm(PlayerPrefsForm):
             css_classes=['options'],
         )
     ] + PlayerPrefsForm.buttons
-
-    def post_init(self, *args, **kwargs):
-        events.Admin.Players.YoutubeFlashPlayerPrefsForm(self)
 
     def display(self, value, player, **kwargs):
         newvalue = {}

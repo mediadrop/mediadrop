@@ -26,6 +26,8 @@ class TagForm(ListForm):
     id = None
     css_classes = ['form', 'tag-form']
     submit_text = None
+    
+    event = events.Admin.TagForm
 
     # required to support multiple named buttons to differentiate between Save & Delete?
     _name = 'vf'
@@ -37,20 +39,16 @@ class TagForm(ListForm):
         SubmitButton('save', default=N_('Save'), css_classes=['f-rgt', 'btn', 'blue', 'btn-save']),
     ]
 
-    def post_init(self, *args, **kwargs):
-        events.Admin.TagForm(self)
-
 class TagRowForm(Form):
     template = 'admin/tags/row-form.html'
     id = None
     submit_text = None
     params = ['tag']
+    
+    event = events.Admin.TagRowForm
 
     fields = [
         HiddenField('name'),
         HiddenField('slug'),
         SubmitButton('delete', default=N_('Delete'), css_classes=['btn', 'table-row', 'delete', 'btn-inline-delete']),
     ]
-
-    def post_init(self, *args, **kwargs):
-        events.Admin.TagRowForm(self)

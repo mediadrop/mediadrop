@@ -31,13 +31,12 @@ class GroupForm(ListForm):
     submit_text = None
     show_children_errors = True
     
+    event = events.Admin.GroupForm
+    
     fields = [
         TextField('display_name', label_text=N_('Display Name'), validator=TextField.validator(not_empty=True), maxlength=255),
         TextField('group_name', label_text=N_('Groupname'), validator=All(PlainText(not_empty=True), UniqueGroupname()), maxlength=16),
         SubmitButton('save', default=N_('Save'), named_button=True, css_classes=['btn', 'btn-save', 'blue', 'f-rgt']),
         SubmitButton('delete', default=N_('Delete'), named_button=True, css_classes=['btn', 'btn-delete']),
     ]
-
-    def post_init(self, *args, **kwargs):
-        events.Admin.GroupForm(self)
 

@@ -51,6 +51,7 @@ class RTMPURLValidator(FancyValidator):
                       value, state)
 
 class RemoteURLStorageForm(StorageForm):
+    event = events.Admin.Storage.RemoteURLStorageForm
 
     fields = StorageForm.fields + [
         ListFieldSet('rtmp',
@@ -69,9 +70,6 @@ class RemoteURLStorageForm(StorageForm):
             ],
         )
     ] + StorageForm.buttons
-
-    def post_init(self, *args, **kwargs):
-        events.Admin.Storage.RemoteURLStorageForm(self)
 
     javascript = [rtmp_server_js]
 

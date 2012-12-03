@@ -17,16 +17,17 @@ class SearchForm(ListForm):
         SubmitButton('go', default='Go', css_classes=['clickable nav-search-btn']),
     ]
     submit_text = None
-
-    def post_init(self, *args, **kwargs):
-        events.Admin.SearchForm(self)
+    
+    event = events.Admin.SearchForm
 
 class ThumbForm(ListForm):
     template = 'admin/thumb-form.html'
     id = 'thumb-form'
     css_class = 'form'
     submit_text = None
-
+    
+    event = events.Admin.ThumbForm
+    
     fields = [
         FileField(
             'thumb',
@@ -40,6 +41,3 @@ class ThumbForm(ListForm):
 # TODO: Put this submit button back in, and update the javascript to remove it.
 #        SubmitButton('save', default='Save', css_classes=['btn', 'btn-save', 'f-rgt']),
     ]
-
-    def post_init(self, *args, **kwargs):
-        events.Admin.ThumbForm(self)

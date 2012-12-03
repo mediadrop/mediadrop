@@ -77,7 +77,9 @@ class NotificationsForm(ListForm):
     id = 'settings-form'
     css_class = 'form'
     submit_text = None
-
+    
+    event = events.Admin.Settings.NotificationsForm
+    
     fields = [
         ListFieldSet('email', suppress_label=True, legend=N_('Email Notifications:'), css_classes=['details_fieldset'], children=[
             TextField('email_media_uploaded', validator=email_list_validator, label_text=N_('Media Uploaded'), maxlength=255),
@@ -88,16 +90,15 @@ class NotificationsForm(ListForm):
         SubmitButton('save', default=N_('Save'), css_classes=['btn', 'btn-save', 'blue', 'f-rgt']),
     ]
 
-    def post_init(self, *args, **kwargs):
-        events.Admin.Settings.NotificationsForm(self)
-
 
 class PopularityForm(ListForm):
     template = 'admin/box-form.html'
     id = 'settings-form'
     css_class = 'form'
     submit_text = None
-
+    
+    event = events.Admin.Settings.PopularityForm
+    
     fields = [
         ListFieldSet('popularity',
             suppress_label=True,
@@ -110,9 +111,6 @@ class PopularityForm(ListForm):
         ),
         SubmitButton('save', default=N_('Save'), css_classes=['btn', 'btn-save', 'blue', 'f-rgt']),
     ]
-
-    def post_init(self, *args, **kwargs):
-        events.Admin.Settings.PopularityForm(self)
 
 class MegaByteValidator(Int):
     """
@@ -137,6 +135,9 @@ class UploadForm(ListForm):
     id = 'settings-form'
     css_class = 'form'
     submit_text = None
+    
+    event = events.Admin.Settings.UploadForm
+    
     fields = [
         TextField('max_upload_size', label_text=N_('Max. allowed upload file size in megabytes'), validator=MegaByteValidator(not_empty=True, min=0)),
         ListFieldSet('legal_wording', suppress_label=True, legend=N_('Legal Wording:'), css_classes=['details_fieldset'], children=[
@@ -145,14 +146,14 @@ class UploadForm(ListForm):
         SubmitButton('save', default=N_('Save'), css_classes=['btn', 'btn-save', 'blue', 'f-rgt']),
     ]
 
-    def post_init(self, *args, **kwargs):
-        events.Admin.Settings.UploadForm(self)
-
 class AnalyticsForm(ListForm):
     template = 'admin/box-form.html'
     id = 'settings-form'
     css_class = 'form'
     submit_text = None
+    
+    event = events.Admin.Settings.AnalyticsForm
+    
     fields = [
         ListFieldSet('google', suppress_label=True, legend=N_('Google Analytics Details:'), css_classes=['details_fieldset'], children=[
             TextField('google_analytics_uacct', maxlength=255, label_text=N_('Tracking Code')),
@@ -160,14 +161,13 @@ class AnalyticsForm(ListForm):
         SubmitButton('save', default=N_('Save'), css_classes=['btn', 'btn-save', 'blue', 'f-rgt']),
     ]
 
-    def post_init(self, *args, **kwargs):
-        events.Admin.Settings.AnalyticsForm(self)
-
 class SiteMapsForm(ListForm):
     template = 'admin/box-form.html'
     id = 'settings-form'
     css_class = 'form'
     submit_text = None
+    
+    event = events.Admin.Settings.SiteMapsForm
     
     fields = [
         ListFieldSet('rss', suppress_label=True,
@@ -187,14 +187,14 @@ class SiteMapsForm(ListForm):
         SubmitButton('save', default=N_('Save'), css_classes=['btn', 'btn-save', 'blue', 'f-rgt']),
     ]
 
-    def post_init(self, *args, **kwargs):
-        events.Admin.Settings.SiteMapsForm(self)
-
 class GeneralForm(ListForm):
     template = 'admin/box-form.html'
     id = 'settings-form'
     css_class = 'form'
     submit_text = None
+    
+    event = events.Admin.Settings.GeneralForm
+    
     fields = [
         ListFieldSet('general', suppress_label=True, legend=N_('General Settings:'), css_classes=['details_fieldset'], children=[
             TextField('general_site_name', maxlength=255,
@@ -221,15 +221,14 @@ class GeneralForm(ListForm):
         SubmitButton('save', default=N_('Save'), css_classes=['btn', 'btn-save', 'blue', 'f-rgt']),
     ]
 
-    def post_init(self, *args, **kwargs):
-        events.Admin.Settings.GeneralForm(self)
-
 class CommentsForm(ListForm):
     template = 'admin/box-form.html'
     id = 'settings-form'
     css_class = 'form'
     submit_text = None
-
+    
+    event = events.Admin.Settings.CommentsForm
+    
     fields = [
        RadioButtonList('comments_engine',
             label_text=N_('Comment Engine'),
@@ -256,15 +255,14 @@ class CommentsForm(ListForm):
         SubmitButton('save', default=N_('Save'), css_classes=['btn', 'btn-save', 'blue', 'f-rgt']),
     ]
 
-    def post_init(self, *args, **kwargs):
-        events.Admin.Settings.CommentsForm(self)
-
 class APIForm(ListForm):
     template = 'admin/box-form.html'
     id = 'settings-form'
     css_class = 'form'
     submit_text = None
-
+    
+    event = events.Admin.Settings.APIForm
+    
     fields = [
         boolean_radiobuttonlist('api_secret_key_required', label_text=N_('Require a key to access the API')),
         ListFieldSet('key', suppress_label=True, legend=N_('API Key:'), css_classes=['details_fieldset'], children=[
@@ -277,14 +275,14 @@ class APIForm(ListForm):
         SubmitButton('save', default='Save', css_classes=['btn', 'btn-save', 'blue', 'f-rgt']),
     ]
 
-    def post_init(self, *args, **kwargs):
-        events.Admin.Settings.APIForm(self)
-
 class AppearanceForm(ListForm):
     template = 'admin/box-form.html'
     id = 'settings-form'
     css_class = 'form'
     submit_text = None
+    
+    event = events.Admin.Settings.AppearanceForm
+    
     fields = [
         ListFieldSet('general', suppress_label=True, legend=N_('General'),
             css_classes=['details_fieldset'],
@@ -425,14 +423,14 @@ class AppearanceForm(ListForm):
             css_classes=['btn', 'btn-cancel', 'reset-confirm']),
     ]
 
-    def post_init(self, *args, **kwargs):
-        events.Admin.Settings.AppearanceForm(self)
-
 class AdvertisingForm(ListForm):
     template = 'admin/box-form.html'
     id = 'settings-form'
     css_class = 'form'
     submit_text = None
+    
+    event = events.Admin.Settings.AdvertisingForm
+    
     fields = [
         ListFieldSet('advanced', suppress_label=True, legend='',
             css_classes=['details_fieldset'],
@@ -447,8 +445,5 @@ class AdvertisingForm(ListForm):
         ),
         SubmitButton('save', default=N_('Save'), css_classes=['btn', 'btn-save', 'blue', 'f-rgt']),
     ]
-
-    def post_init(self, *args, **kwargs):
-        events.Admin.Settings.AdvertisingForm(self)
 
 

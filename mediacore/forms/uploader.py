@@ -33,7 +33,9 @@ class UploadForm(ListForm):
     css_class = 'form'
     show_children_errors = False
     params = ['async_action']
-
+    
+    events = events.UploadForm
+    
     class fields(WidgetsList):
         name = TextField(validator=validators['name'], label_text=N_('Your Name:'), maxlength=50)
         email = TextField(validator=email_validator(not_empty=True), label_text=N_('Your Email:'), help_text=N_('(will never be published)'), maxlength=255)
@@ -42,6 +44,3 @@ class UploadForm(ListForm):
         url = TextField(validator=validators['url'], label_text=N_('Add a YouTube, Vimeo or Google Video URL:'), maxlength=255)
         file = FileField(validator=FieldStorageUploadConverter(if_missing=None, messages={'empty':N_('Oops! You forgot to enter a file.')}), label_text=N_('OR:'))
         submit = SubmitButton(default=N_('Submit'), css_classes=['mcore-btn', 'btn-submit'])
-
-    def post_init(self, *args, **kwargs):
-        events.UploadForm(self)

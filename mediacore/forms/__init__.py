@@ -17,8 +17,9 @@ from mediacore.lib.templating import tmpl_globals
 from mediacore.lib.util import url_for
 from mediacore.plugin import events
 
-class LeniantValidationMixin(object):
-    validator = forms.validators.Schema(
+
+def leniant_schema():
+    return forms.validators.Schema(
         # workaround to prevent an error if no checkbox is checked in a list
         # of checkboxes (e.g. sitemaps form, category association for media)
         # http://groups.google.com/group/toscawidgets-discuss/msg/36261a59e6745591
@@ -26,6 +27,19 @@ class LeniantValidationMixin(object):
         # TODO: See if this is necessary now that we've stripped turbogears out.
         allow_extra_fields=True, # Allow extra kwargs that tg likes to pass: pylons, start_request, environ...
     )
+
+class LeniantValidationMixin(object):
+    validator = None
+    event = None
+    
+    def post_init(self, *args, **kwargs):
+        # we need to ensure that each form instance gets its own Schema instance
+        # so it is safe for plugins to change class-level variables (e.g.
+        # adding chained validators)
+        self.validator = leniant_schema()
+        
+        if getattr(self, 'event', None):
+            self.event(self)
 
 class LinkifyMixin(object):
     """
