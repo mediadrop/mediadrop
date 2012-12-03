@@ -16,10 +16,12 @@ from mediacore.websetup import add_default_data
 
 
 class DBTestCase(PythonicTestCase):
+    
+    enabled_plugins = ''
+    
     def setUp(self):
         super(DBTestCase, self).setUp()
         global_config = {
-            'plugins': '',
 #            'debug': 'true', 
 #            'error_email_from': 'paste@localhost', 
 #            '__file__': '.../standalone.ini', 
@@ -27,6 +29,7 @@ class DBTestCase(PythonicTestCase):
 #            'smtp_server': 'localhost'
         }
         app_config = {
+            'plugins': self.enabled_plugins,
             'sqlalchemy.url': 'sqlite://', 
             'layout_template': 'layout', 
             'external_template': 'false',
