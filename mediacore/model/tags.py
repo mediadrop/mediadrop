@@ -1,24 +1,22 @@
 # This file is a part of MediaCore CE, Copyright 2009-2012 MediaCore Inc.
 # The source code contained in this file is licensed under the GPL.
 # See LICENSE.txt in the main project directory, for more information.
-
 """
 Tag-based Categorization
 
 Content can be labelled in an ad-hoc fashion with tags. Typically tags will
 be displayed on the frontend using a 'tag cloud', rather than listing all
 tags. This means you can tag all you want!
-
 """
+
 import re
 
-from datetime import datetime
 from itertools import izip
-from sqlalchemy import Table, ForeignKey, Column, sql, func
-from sqlalchemy.types import Unicode, UnicodeText, Integer, DateTime, Boolean, Float
-from sqlalchemy.orm import mapper, relation, backref, synonym, interfaces, validates, column_property
+from sqlalchemy import Table, Column, sql, func
+from sqlalchemy.types import Unicode, Integer
+from sqlalchemy.orm import mapper, validates
 
-from mediacore.model import SLUG_LENGTH, slugify, _mtm_count_property
+from mediacore.model import SLUG_LENGTH, slugify
 from mediacore.model.meta import DBSession, metadata
 from mediacore.plugin import events
 
@@ -119,7 +117,6 @@ def fetch_and_create_tags(tag_names):
     :rtype: :class:`TagList` instance
 
     """
-    results = TagList()
     lower_names = [name.lower() for name in tag_names]
     slugs = [slugify(name) for name in lower_names]
 
