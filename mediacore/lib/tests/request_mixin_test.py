@@ -42,3 +42,13 @@ class EncodeMultipartFormdataTest(PythonicTestCase):
         fake_fp = AttrDict(name='foo.txt', read=lambda: 'foobar')
         results = self.encode_and_parse([('file', fake_fp)])
         assert_equals(dict(file='foobar'), results)
+
+import unittest
+def suite():
+    suite = unittest.TestSuite()
+    suite.addTest(unittest.makeSuite(EncodeMultipartFormdataTest))
+    return suite
+
+if __name__ == '__main__':
+    unittest.main(defaultTest='suite')
+
