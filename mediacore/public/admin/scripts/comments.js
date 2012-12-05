@@ -89,7 +89,8 @@ var Comment = new Class({
 		this.editLink.addEvent('click', this.toggleEditForm.bind(this));
 		var span = td.getElement('div.comment-submitted').appendText(' | ').grab(this.editLink);
 		var cancelButton = this.editForm.getElement('button.btn-cancel');
-		cancelButton.addEvent('click', this.toggleEditForm.bind(this));
+		if (cancelButton)
+			cancelButton.addEvent('click', this.toggleEditForm.bind(this));
 
 		this.editForm.addEvent('submit', this.saveEditForm.bind(this));
 		this.toggleEditForm();
