@@ -25,8 +25,8 @@ from mediacore.config.routing import (login_form_url, login_handler_url,
 from mediacore.model.meta import DBSession
 from mediacore.model import Group, Permission, User
 
-__all__ = ['add_auth', 'classifier_for_flash_uploads']
 
+__all__ = ['add_auth', 'classifier_for_flash_uploads']
 
 class MediaCoreAuthenticatorPlugin(SQLAlchemyAuthenticatorPlugin):
     def authenticate(self, environ, identity):
