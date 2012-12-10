@@ -14,11 +14,10 @@ from paste.deploy.converters import asbool
 from pylons import app_globals, config, request, response, tmpl_context
 from pylons.controllers import WSGIController
 from pylons.controllers.util import abort
-from repoze.what.plugins.pylonshq import ControllerProtector
-from repoze.what.predicates import has_permission, Predicate
 from tw.forms.fields import ContainerMixin as _ContainerMixin
 
 from mediacore.lib import helpers
+from mediacore.lib.auth import ControllerProtector, has_permission, Predicate
 from mediacore.lib.css_delivery import StyleSheets
 from mediacore.lib.i18n import Translator
 from mediacore.lib.js_delivery import Scripts
@@ -77,6 +76,7 @@ class BareBonesController(WSGIController):
         response.scripts = Scripts()
         response.stylesheets = StyleSheets()
         response.facebook = None
+        request.perm = request.environ['mediacore.perm']
 
         action_method = getattr(self, kwargs['action'], None)
         # The expose decorator sets the exposed attribute on controller

@@ -298,8 +298,7 @@ def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
 
     # CUSTOM MIDDLEWARE HERE (filtered by error handling middlewares)
 
-    # Set up repoze.what authentication:
-    # http://wiki.pylonshq.com/display/pylonscookbook/Authorization+with+repoze.what
+    # add repoze.who middleware with our own authorization library
     app = add_auth(app, config)
 
     # ToscaWidgets Middleware

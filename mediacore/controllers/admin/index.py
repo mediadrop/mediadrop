@@ -4,8 +4,7 @@
 
 import webhelpers.paginate
 
-from repoze.what.predicates import has_permission
-
+from mediacore.lib.auth import has_permission
 from mediacore.lib.base import BaseController
 from mediacore.lib.decorators import expose, observable
 from mediacore.model import Comment, Media

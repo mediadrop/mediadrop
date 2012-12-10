@@ -21,8 +21,6 @@ install_requires = [
     'repoze.who == 1.0.18',
     'repoze.who-friendlyform',
     'repoze.who.plugins.sa',
-    'repoze.what-pylons == 1.0',
-    'repoze.what.plugins.sql',
     'Paste == 1.7.4',
     'PasteDeploy == 1.3.3',
     'PasteScript == 1.7.3',

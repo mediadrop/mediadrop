@@ -3,10 +3,10 @@
 # See LICENSE.txt in the main project directory, for more information.
 
 from pylons import request, tmpl_context
-from repoze.what.predicates import has_permission
 import webob.exc
 
 from mediacore.forms.admin.users import UserForm
+from mediacore.lib.auth import has_permission
 from mediacore.lib.base import BaseController
 from mediacore.lib.decorators import (autocommit, expose, expose_xhr,
     observable, paginate, validate)
@@ -125,8 +125,7 @@ class UsersController(BaseController):
         DBSession.add(user)
 
         # Check if we're changing the logged in user's own password
-        logged_in_user = request.environ['repoze.who.identity']['user']
-        if user.user_id == logged_in_user.user_id \
+        if user.user_id == request.perm.user.user_id \
         and password is not None and password != '':
             DBSession.commit()
             # repoze.who sees the Unauthorized response and clears the cookie,

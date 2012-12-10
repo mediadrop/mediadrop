@@ -3,9 +3,9 @@
 # See LICENSE.txt in the main project directory, for more information.
 
 from pylons import request, tmpl_context
-from repoze.what.predicates import has_permission
 
 from mediacore.forms.admin.groups import GroupForm
+from mediacore.lib.auth import has_permission
 from mediacore.lib.base import BaseController
 from mediacore.lib.decorators import (autocommit, expose, observable, paginate, validate)
 from mediacore.lib.helpers import redirect, url_for

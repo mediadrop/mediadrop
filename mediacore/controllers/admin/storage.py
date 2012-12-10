@@ -5,9 +5,9 @@
 import logging
 
 from pylons import tmpl_context
-from repoze.what.predicates import has_permission
 from sqlalchemy import orm
 
+from mediacore.lib.auth import has_permission
 from mediacore.lib.base import BaseController
 from mediacore.lib.decorators import autocommit, expose, observable, validate
 from mediacore.lib.helpers import redirect, url_for

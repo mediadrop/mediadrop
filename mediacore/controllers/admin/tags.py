@@ -3,10 +3,10 @@
 # See LICENSE.txt in the main project directory, for more information.
 
 from pylons import request, tmpl_context
-from repoze.what.predicates import has_permission
 from sqlalchemy import orm
 
 from mediacore.forms.admin.tags import TagForm, TagRowForm
+from mediacore.lib.auth import has_permission
 from mediacore.lib.base import BaseController
 from mediacore.lib.decorators import (autocommit, expose, observable, paginate, 
     validate)

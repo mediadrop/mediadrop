@@ -15,8 +15,6 @@ from paste.deploy.converters import asbool
 from pylons import config, request, response, tmpl_context, translator
 from pylons.decorators.cache import create_cache_key, _make_dict_from_args
 from pylons.decorators.util import get_pylons
-from repoze.what.plugins.pylonshq import ActionProtector
-from repoze.what.predicates import has_permission
 from webob.exc import HTTPException, HTTPMethodNotAllowed
 
 from mediacore.lib.paginate import paginate
@@ -119,7 +117,8 @@ def _expose_wrapper(f, template, request_method=None, permission=None):
         return render(tmpl, tmpl_vars=result, method='auto')
 
     if permission:
-        wrapped_f = ActionProtector(has_permission(permission))(wrapped_f)
+        from mediacore.lib.auth import FunctionProtector, has_permission
+        wrapped_f = FunctionProtector(has_permission(permission)).wrap(wrapped_f)
 
     return wrapped_f
 

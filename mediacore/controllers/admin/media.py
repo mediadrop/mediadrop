@@ -10,12 +10,12 @@ from datetime import datetime
 
 from formencode import Invalid, validators
 from pylons import request, tmpl_context
-from repoze.what.predicates import has_permission
 from sqlalchemy import orm
 
 from mediacore.forms.admin import SearchForm, ThumbForm
 from mediacore.forms.admin.media import AddFileForm, EditFileForm, MediaForm, UpdateStatusForm
 from mediacore.lib import helpers
+from mediacore.lib.auth import has_permission
 from mediacore.lib.base import BaseController
 from mediacore.lib.decorators import (autocommit, expose, expose_xhr,
     observable, paginate, validate, validate_xhr)
@@ -156,7 +156,7 @@ class MediaController(BaseController):
         if tmpl_context.action == 'save' or id == 'new':
             # Use the values from error_handler or GET for new podcast media
             media_values = kwargs
-            user = request.environ['repoze.who.identity']['user']
+            user = request.perm.user
             media_values.setdefault('author_name', user.display_name)
             media_values.setdefault('author_email', user.email_address)
         else:
@@ -289,7 +289,7 @@ class MediaController(BaseController):
         """
         if id == 'new':
             media = Media()
-            user = request.environ['repoze.who.identity']['user']
+            user = request.perm.user
             media.author = Author(user.display_name, user.email_address)
             # Create a temp stub until we can set it to something meaningful
             timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
@@ -532,7 +532,7 @@ class MediaController(BaseController):
         """
         if id == 'new':
             media = Media()
-            user = request.environ['repoze.who.identity']['user']
+            user = req.perm.user
             media.author = Author(user.display_name, user.email_address)
             media.title = os.path.basename(thumb.filename)
             media.slug = get_available_slug(Media, '_stub_' + media.title)

@@ -11,8 +11,11 @@ from cStringIO import StringIO
 import re
 
 from mediacore.lib.attribute_dict import AttrDict
+from mediacore.lib.helpers import has_permission
+from mediacore.lib.test.db_testcase import DBTestCase
 from mediacore.lib.test.pythonic_testcase import *
-from mediacore.lib.test.request_mixin import build_http_body
+from mediacore.lib.test.request_mixin import build_http_body, RequestMixin
+from mediacore.model import DBSession, User
 
 
 class EncodeMultipartFormdataTest(PythonicTestCase):
@@ -43,10 +46,22 @@ class EncodeMultipartFormdataTest(PythonicTestCase):
         results = self.encode_and_parse([('file', fake_fp)])
         assert_equals(dict(file='foobar'), results)
 
+
+class FakeRequestWithAuthorizationTest(DBTestCase, RequestMixin):
+    def test_can_fake_logged_in_user(self):
+        admin = DBSession.query(User).filter(User.user_name==u'admin').one()
+        assert_true(admin.has_permission(u'admin'))
+        self.init_fake_request()
+        self.set_authenticated_user(admin)
+        
+        assert_true(has_permission(u'admin'))
+
+
 import unittest
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(EncodeMultipartFormdataTest))
+    suite.addTest(unittest.makeSuite(FakeRequestWithAuthorizationTest))
     return suite
 
 if __name__ == '__main__':

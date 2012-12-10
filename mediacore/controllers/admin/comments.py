@@ -6,11 +6,11 @@ Comment Moderation Controller
 """
 
 from pylons import request
-from repoze.what.predicates import has_permission
 from sqlalchemy import orm
 
 from mediacore.forms.admin import SearchForm
 from mediacore.forms.admin.comments import EditCommentForm
+from mediacore.lib.auth import has_permission
 from mediacore.lib.base import BaseController
 from mediacore.lib.decorators import (autocommit, expose, expose_xhr,
     observable, paginate)

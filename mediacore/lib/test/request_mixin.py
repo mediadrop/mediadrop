@@ -20,6 +20,7 @@ from tw.mods.pylonshf import PylonsHostFramework
 from webob.request import environ_from_url
 
 from mediacore.config.middleware import create_tw_engine_manager
+from mediacore.lib.auth.permission_system import MediaCorePermissionSystem
 from mediacore.lib.paginate import Bunch
 
 
@@ -137,11 +138,15 @@ class RequestMixin(object):
     def set_authenticated_user(self, user, wsgi_environ=None):
         if wsgi_environ is None:
             wsgi_environ = pylons.request.environ
-        identity = wsgi_environ.setdefault('repoze.who.identity', {})
-        identity['user'] = user
         
-        credentials = wsgi_environ.setdefault('repoze.what.credentials', {})
-        credentials['permissions'] = [unicode(perm) for perm in user.permissions]
+        identity = wsgi_environ.setdefault('repoze.who.identity', {})
+        identity.update({
+            'user': user,
+            'repoze.who.userid': user.user_id,
+        })
+        perm = MediaCorePermissionSystem.permissions_for_request(wsgi_environ)
+        wsgi_environ['mediacore.perm'] = perm
+        pylons.request.perm = perm
     
     def remove_globals(self):
         for global_ in (pylons.request, pylons.response, pylons.session, 

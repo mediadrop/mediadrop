@@ -2,14 +2,14 @@
 # The source code contained in this file is licensed under the GPL.
 # See LICENSE.txt in the main project directory, for more information.
 
-import os.path
+import os
 
 from pylons import request, tmpl_context
-from repoze.what.predicates import has_permission
 from sqlalchemy import orm
 
 from mediacore.forms.admin import ThumbForm
 from mediacore.forms.admin.podcasts import PodcastForm
+from mediacore.lib.auth import has_permission
 from mediacore.lib.base import BaseController
 from mediacore.lib.decorators import (autocommit, expose, expose_xhr,
     observable, paginate, validate)
@@ -81,7 +81,7 @@ class PodcastsController(BaseController):
 
         if tmpl_context.action == 'save' or id == 'new':
             form_values = kwargs
-            user = request.environ['repoze.who.identity']['user']
+            user = request.perm.user
             form_values.setdefault('author_name', user.display_name)
             form_values.setdefault('author_email', user.email_address)
             form_values.setdefault('feed', {}).setdefault('feed_url',

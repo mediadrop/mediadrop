@@ -22,6 +22,7 @@ from webhelpers.html import tags
 from webhelpers.html.builder import literal
 from webhelpers.html.converters import format_paragraphs
 
+from mediacore.lib.auth import viewable_media
 from mediacore.lib.compat import any, md5
 from mediacore.lib.i18n import (N_, _, format_date, format_datetime, 
     format_decimal, format_time)
@@ -80,6 +81,7 @@ __all__ = [
     'url_for_media',
     'urlencode',
     'urlparse',
+    'viewable_media',
 
     # Locally defined functions that should be exported:
     'append_class_attr',
@@ -298,10 +300,7 @@ def has_permission(permission_name):
     """Return True if the logged in user has the given permission.
 
     This always returns false if the given user is not logged in."""
-    user = request.environ.get('repoze.who.identity', {}).get('user', None)
-    if user:
-        return user.has_permission(permission_name)
-    return False
+    return request.perm.contains_permission(permission_name)
 
 def is_admin():
     """Return True if the logged in user is a part of the Admins group.

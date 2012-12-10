@@ -161,6 +161,19 @@ class Permission(object):
     
     def __repr__(self):
         return '<Permission: name=%r>' % self.permission_name
+    
+    @classmethod
+    def example(cls, **kwargs):
+        defaults = dict(
+            name=u'foo',
+            description = u'foo permission',
+            groups = None,
+        )
+        defaults.update(kwargs)
+        permission = Permission(**defaults)
+        DBSession.add(permission)
+        DBSession.flush()
+        return permission
 
 
 mapper(

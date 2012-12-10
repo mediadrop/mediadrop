@@ -257,3 +257,4 @@ class SettingsController(BaseSettingsController):
     def advertising_save(self, **kwargs):
         """Save :class:`~mediacore.forms.admin.settings.AdvertisingForm`."""
         return self._save(advertising_form, 'advertising', values=kwargs)
+

@@ -27,6 +27,7 @@ from sqlalchemy.orm.collections import attribute_mapped_collection
 from sqlalchemy.schema import DDL
 from sqlalchemy.types import Boolean, DateTime, Integer, Unicode, UnicodeText
 
+from mediacore.lib.auth import Resource
 from mediacore.lib.compat import any
 from mediacore.lib.filetypes import AUDIO, AUDIO_DESC, VIDEO, guess_mimetype
 from mediacore.lib.players import pick_any_media_file, pick_podcast_media_file
@@ -505,6 +506,10 @@ class Media(object):
         return self.publishable and self.reviewed and self.encoded\
            and (self.publish_on is not None and self.publish_on <= datetime.now())\
            and (self.publish_until is None or self.publish_until >= datetime.now())
+
+    @property
+    def resource(self):
+        return Resource('media', self.id, media=self)
 
     def increment_views(self):
         """Increment the number of views in the database.
