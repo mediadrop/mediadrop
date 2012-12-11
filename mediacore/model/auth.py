@@ -132,10 +132,14 @@ class User(object):
         hashed_pass.update(password + self.password[:40])
         return self.password[40:] == hashed_pass.hexdigest()
 
+
 class Group(object):
     """
     An ultra-simple group definition.
     """
+
+    query = DBSession.query_property()
+
     def __init__(self, name=None, display_name=None):
         self.group_name = name
         self.display_name = display_name
@@ -145,6 +149,11 @@ class Group(object):
 
     def __unicode__(self):
         return self.group_name
+
+    @classmethod
+    def by_name(cls, name):
+        return cls.query.filter(cls.group_name == name).first()
+
 
 class Permission(object):
     """

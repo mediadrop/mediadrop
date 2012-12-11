@@ -203,6 +203,12 @@ def add_default_data():
     editor_group = Group(name=u'editors', display_name=u'Editors')
     DBSession.add(editor_group)
 
+    anonymous_group = Group(name=u'anonymous', display_name=u'Everyone (including guests)')
+    DBSession.add(anonymous_group)
+
+    authenticated_group = Group(name=u'authenticated', display_name=u'Logged in users')
+    DBSession.add(authenticated_group)
+
     admin_perm = Permission(name=u'admin', groups=[admin_group], 
         description=u'Grants access to the admin panel')
     DBSession.add(admin_perm)

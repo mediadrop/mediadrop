@@ -32,9 +32,11 @@ class InsufficientPermissionsError(Exception):
 
 class UserPermissions(object):
     
-    def __init__(self, user, permission_system):
+    def __init__(self, user, permission_system, groups=None):
         self.user = user
-        self.groups = set(user.groups)
+        if groups is None:
+            groups = user.groups
+        self.groups = set(groups)
         self.permission_system = permission_system
         self.data = {}
     

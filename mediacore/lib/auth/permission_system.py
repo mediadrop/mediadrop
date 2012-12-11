@@ -8,8 +8,7 @@ from pylons.controllers.util import abort
 
 from mediacore.lib.auth.api import PermissionSystem, UserPermissions
 from mediacore.lib.auth.query_result_proxy import QueryResultProxy
-from mediacore.model import DBSession, User
-
+from mediacore.model import DBSession, Group, User
 from mediacore.plugin.abc import AbstractClass, abstractmethod
 
 
@@ -32,13 +31,6 @@ class PermissionPolicies(AbstractClass):
         if policy_names == ['']:
             policy_names = ['GroupBasedPermissionsPolicy']
         return map(policy_from_name, policy_names)
-    
-    @classmethod
-    def _policy_from_name(cls, policy_name):
-        for policy in cls:
-            if policy.__name__ == policy_name:
-                return policy()
-        raise AssertionError('No such policy: %s' % repr(policy_name))
 
 
 class MediaCorePermissionSystem(PermissionSystem):
@@ -50,6 +42,7 @@ class MediaCorePermissionSystem(PermissionSystem):
     def permissions_for_request(cls, environ, config):
         identity = environ.get('repoze.who.identity', {})
         user_id = identity.get('repoze.who.userid')
+        user = None
         if user_id is not None:
             user = DBSession.query(User).filter(User.user_id==user_id).first()
         return cls.permissions_for_user(user, config)
@@ -61,8 +54,12 @@ class MediaCorePermissionSystem(PermissionSystem):
             user.display_name = u'Anonymous User'
             user.user_name = u'anonymous'
             user.email_address = 'invalid@mediacore.example'
-            user.groups = []
-        return UserPermissions(user, cls(config))
+            anonymous_group = Group.by_name(u'anonymous')
+            groups = filter(None, [anonymous_group])
+        else:
+            authenticated_group = Group.by_name(u'authenticated')
+            groups = list(user.groups) + filter(None, [authenticated_group])
+        return UserPermissions(user, cls(config), groups=groups)
     
     def filter_restricted_items(self, query, permission_name, perm):
         can_access_item = \
