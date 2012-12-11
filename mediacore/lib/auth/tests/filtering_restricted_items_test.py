@@ -3,7 +3,8 @@
 # See LICENSE.txt in the main project directory, for more information.
 
 from mediacore.lib.auth.api import IPermissionPolicy, UserPermissions
-from mediacore.lib.auth.permission_system import MediaCorePermissionSystem
+from mediacore.lib.auth.group_based_policy import GroupBasedPermissionsPolicy
+from mediacore.lib.auth.permission_system import MediaCorePermissionSystem, PermissionPolicies
 from mediacore.lib.test.db_testcase import DBTestCase
 from mediacore.lib.test.pythonic_testcase import *
 from mediacore.model import DBSession, Media, User
@@ -13,14 +14,20 @@ class FilteringRestrictedItemsTest(DBTestCase):
     def setUp(self):
         super(FilteringRestrictedItemsTest, self).setUp()
         
+        # without explicit re-registration of the default policy unit tests 
+        # failed when running 'python setup.py test'
+        self._register_default_policy()
         # get rid of default media
         Media.query.delete()
         self.private_media = Media.example(slug=u'private')
         self.public_media = Media.example(slug=u'public')
-        self.permission_system = MediaCorePermissionSystem()
+        self.permission_system = MediaCorePermissionSystem(self.pylons_config)
         self.media_query = Media.query
         user = self._create_user_without_groups()
         self.perm = UserPermissions(user, self.permission_system)
+    
+    def _register_default_policy(self):
+        PermissionPolicies.register(GroupBasedPermissionsPolicy)
     
     def _create_user_without_groups(self):
         user = User()

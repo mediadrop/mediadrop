@@ -144,7 +144,7 @@ class RequestMixin(object):
             'user': user,
             'repoze.who.userid': user.user_id,
         })
-        perm = MediaCorePermissionSystem.permissions_for_request(wsgi_environ)
+        perm = MediaCorePermissionSystem.permissions_for_request(wsgi_environ, self.pylons_config)
         wsgi_environ['mediacore.perm'] = perm
         pylons.request.perm = perm
     

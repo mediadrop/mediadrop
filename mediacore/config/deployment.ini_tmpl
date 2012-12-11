@@ -31,6 +31,12 @@ db.check_for_leaked_connections = False
 # To disable all plugins, use 'plugins = '
 plugins = *
 
+# Permission policies to restrict admin/media access. By default all 
+# permissions are bound to groups and a user can either view all media or none.
+# custom plugins can implement more fine-grained policies (e.g. restrict view
+# access to media in a specific category)
+permission_policies = GroupBasedPermissionsPolicy
+
 # Session salts.
 beaker.session.secret = ${app_instance_secret}
 sa_auth.cookie_secret = ${app_instance_secret}

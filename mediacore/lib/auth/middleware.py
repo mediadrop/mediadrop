@@ -95,17 +95,19 @@ def authentication_middleware(app, config):
 
 
 class AuthorizationMiddleware(object):
-    def __init__(self, app):
+    def __init__(self, app, config):
         self.app = app
+        self.config = config
     
     def __call__(self, environ, start_response):
         environ['mediacore.perm'] = \
-            MediaCorePermissionSystem.permissions_for_request(environ)
+            MediaCorePermissionSystem.permissions_for_request(environ, self.config)
         return self.app(environ, start_response)
 
 
 def add_auth(app, config):
-    return authentication_middleware(AuthorizationMiddleware(app), config)
+    authorization_app = AuthorizationMiddleware(app, config)
+    return authentication_middleware(authorization_app, config)
 
 
 def classifier_for_flash_uploads(environ):

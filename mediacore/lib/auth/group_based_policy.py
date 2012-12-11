@@ -3,6 +3,7 @@
 # See LICENSE.txt in the main project directory, for more information.
 
 from mediacore.lib.auth.api import IPermissionPolicy
+from mediacore.lib.auth.permission_system import PermissionPolicies
 from mediacore.model import DBSession, Permission
 
 
@@ -29,3 +30,5 @@ class GroupBasedPermissionsPolicy(IPermissionPolicy):
             return True
         # there may be other policies still which can permit the access...
         return None
+
+PermissionPolicies.register(GroupBasedPermissionsPolicy)
