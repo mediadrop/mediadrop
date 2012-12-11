@@ -11,5 +11,5 @@ __all__ = ['viewable_media']
 
 def viewable_media(query):
     permission_system = MediaCorePermissionSystem(config)
-    return permission_system.filter_restricted_items(query, 'MEDIA_VIEW', request.perm)
+    return permission_system.filter_restricted_items(query, u'view', request.perm)
 

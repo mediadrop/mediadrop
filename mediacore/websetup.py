@@ -216,6 +216,11 @@ def add_default_data():
     edit_perm = Permission(name=u'edit', groups=[admin_group, editor_group], 
         description=u'Grants access to edit site content')
     DBSession.add(edit_perm)
+    
+    view_perm = Permission(name=u'view', 
+        groups=[admin_group, anonymous_group, editor_group], 
+        description=u'View published media')
+    DBSession.add(view_perm)
 
     category = Category(name=u'Featured', slug=u'featured')
     DBSession.add(category)

@@ -2,10 +2,10 @@
 # The source code contained in this file is licensed under the GPL.
 # See LICENSE.txt in the main project directory, for more information.
 
+from mediacore.lib.auth.group_based_policy import GroupBasedPermissionsPolicy
 from mediacore.lib.test.pythonic_testcase import *
 from mediacore.lib.test.db_testcase import DBTestCase
-from mediacore.lib.auth.group_based_policy import GroupBasedPermissionsPolicy
-from mediacore.model.auth import Permission
+from mediacore.model import Permission
 
 
 class GroupBasedPermissionsPolicyTest(DBTestCase):

@@ -23,7 +23,8 @@ from mediacore.lib import helpers
 from mediacore.lib.base import BaseController
 from mediacore.lib.decorators import expose, expose_xhr, observable, paginate, validate_xhr, autocommit
 from mediacore.lib.email import send_comment_notification
-from mediacore.lib.helpers import filter_vulgarity, redirect, url_for
+from mediacore.lib.helpers import (filter_vulgarity, redirect, url_for, 
+    viewable_media)
 from mediacore.lib.i18n import _
 from mediacore.lib.services import Facebook
 from mediacore.lib.templating import render
@@ -79,6 +80,7 @@ class MediaController(BaseController):
             tag = fetch_row(Tag, slug=tag)
             media = media.filter(Media.tags.contains(tag))
 
+        media = viewable_media(media)
         return dict(
             media = media,
             result_count = media.count(),
@@ -114,16 +116,16 @@ class MediaController(BaseController):
 
         latest = media.order_by(Media.publish_on.desc())
         popular = media.order_by(Media.popularity_points.desc())
-        featured = None
 
+        featured = None
         featured_cat = helpers.get_featured_category()
         if featured_cat:
-            featured = latest.in_category(featured_cat).first()
+            featured = viewable_media(latest.in_category(featured_cat)).first()
         if not featured:
-            featured = popular.first()
+            featured = viewable_media(popular).first()
 
-        latest = latest.exclude(featured)[:8]
-        popular = popular.exclude(featured, latest)[:5]
+        latest = viewable_media(latest.exclude(featured))[:8]
+        popular = viewable_media(popular.exclude(featured, latest))[:5]
 
         return dict(
             featured = featured,
@@ -137,9 +139,9 @@ class MediaController(BaseController):
         """Redirect to a randomly selected media item."""
         # TODO: Implement something more efficient than ORDER BY RAND().
         #       This method does a full table scan every time.
-        media = Media.query.published()\
-            .order_by(sql.func.random())\
-            .first()
+        random_query = Media.query.published().order_by(sql.func.random())
+        media = viewable_media(random_query).first()
+
         if media is None:
             redirect(action='explore')
         if media.podcast_id:
@@ -180,6 +182,7 @@ class MediaController(BaseController):
 
         """
         media = fetch_row(Media, slug=slug)
+        request.perm.assert_permission(u'view', media.resource)
 
         if media.podcast_id is not None:
             # Always view podcast media from a URL that shows the context of the podcast
@@ -195,11 +198,12 @@ class MediaController(BaseController):
         if request.settings['comments_engine'] == 'facebook':
             response.facebook = Facebook(request.settings['facebook_appid'])
 
+        related_media = viewable_media(Media.query.related(media))[:6]
         # TODO: finish implementation of different 'likes' buttons
         #       e.g. the default one, plus a setting to use facebook.
         return dict(
             media = media,
-            related_media = Media.query.related(media)[:6],
+            related_media = related_media,
             comments = media.comments.published().all(),
             comment_form_action = url_for(action='comment'),
             comment_form_values = kwargs,
@@ -208,8 +212,10 @@ class MediaController(BaseController):
     @expose('players/iframe.html')
     @observable(events.MediaController.embed_player)
     def embed_player(self, slug, w=None, h=None, **kwargs):
+        media = fetch_row(Media, slug=slug)
+        request.perm.assert_permission(u'view', media.resource)
         return dict(
-            media = fetch_row(Media, slug=slug),
+            media = media,
             width = w and int(w) or None,
             height = h and int(h) or None,
         )
@@ -227,6 +233,7 @@ class MediaController(BaseController):
 
         """
         media = fetch_row(Media, slug=slug)
+        request.perm.assert_permission(u'view', media.resource)
 
         if up:
             if not request.settings['appearance_show_like']:
@@ -284,6 +291,7 @@ class MediaController(BaseController):
                 return result(False, _(u'Your comment has been rejected.'))
 
         media = fetch_row(Media, slug=slug)
+        request.perm.assert_permission(u'view', media.resource)
 
         c = Comment()
 
@@ -324,6 +332,7 @@ class MediaController(BaseController):
 
         """
         file = fetch_row(MediaFile, id=id)
+        request.perm.assert_permission(u'view', file.media.resource)
 
         file_type = file.mimetype.encode('utf-8')
         file_name = file.display_name.encode('utf-8')

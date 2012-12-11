@@ -9,7 +9,7 @@ from sqlalchemy import orm
 from mediacore.lib.base import BaseController
 from mediacore.lib.decorators import (beaker_cache, expose, observable, 
     paginate, validate)
-from mediacore.lib.helpers import content_type_for_response
+from mediacore.lib.helpers import content_type_for_response, viewable_media
 from mediacore.model import Category, Media, fetch_row
 from mediacore.plugin import events
 from mediacore.validation import LimitFeedItemsValidator
@@ -61,8 +61,8 @@ class CategoriesController(BaseController):
         latest = media.order_by(Media.publish_on.desc())
         popular = media.order_by(Media.popularity_points.desc())
 
-        latest = latest[:5]
-        popular = popular.exclude(latest)[:5]
+        latest = viewable_media(latest)[:5]
+        popular = viewable_media(popular.exclude(latest))[:5]
 
         return dict(
             latest = latest,
@@ -82,7 +82,7 @@ class CategoriesController(BaseController):
             media = media.order_by(Media.popularity_points.desc())
 
         return dict(
-            media = media,
+            media = viewable_media(media),
             order = order,
         )
 
@@ -107,9 +107,8 @@ class CategoriesController(BaseController):
         if c.category:
             media = media.in_category(c.category)
 
-        media = media.order_by(Media.publish_on.desc())
-        if limit is not None:
-            media = media.limit(limit)
+        media_query = media.order_by(Media.publish_on.desc())
+        media = viewable_media(media_query).limit(limit)
 
         return dict(
             media = media,

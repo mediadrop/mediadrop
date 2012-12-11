@@ -15,6 +15,7 @@ from mediacore.plugin import events
 from mediacore.validation import LimitFeedItemsValidator
 
 import logging
+from mediacore.lib.auth.util import viewable_media
 log = logging.getLogger(__name__)
 
 class PodcastsController(BaseController):
@@ -45,8 +46,8 @@ class PodcastsController(BaseController):
 
         podcast_episodes = {}
         for podcast in podcasts:
-            podcast_episodes[podcast] = podcast.media.published()\
-                .order_by(Media.publish_on.desc())[:4]
+            episode_query = podcast.media.published().order_by(Media.publish_on.desc())
+            podcast_episodes[podcast] = viewable_media(episode_query)[:4]
 
         return dict(
             podcasts = podcasts,
@@ -79,6 +80,7 @@ class PodcastsController(BaseController):
 
         episodes, show = helpers.filter_library_controls(episodes, show)
 
+        episodes = viewable_media(episodes)
         return dict(
             podcast = podcast,
             episodes = episodes,
@@ -120,8 +122,8 @@ class PodcastsController(BaseController):
         response.content_type = content_type_for_response(
             ['application/rss+xml', 'application/xml', 'text/xml'])
 
-        episodes = podcast.media.published()\
-            .order_by(Media.publish_on.desc())
+        episode_query = podcast.media.published().order_by(Media.publish_on.desc())
+        episodes = viewable_media(episode_query)
         if limit is not None:
             episodes = episodes.limit(limit)
 

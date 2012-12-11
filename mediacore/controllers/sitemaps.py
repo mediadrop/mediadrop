@@ -19,7 +19,7 @@ from mediacore.plugin import events
 from mediacore.lib.base import BaseController
 from mediacore.lib.decorators import expose, beaker_cache, observable, validate
 from mediacore.lib.helpers import (content_type_for_response, 
-    get_featured_category, url_for)
+    get_featured_category, url_for, viewable_media)
 from mediacore.model import Media
 from mediacore.validation import LimitFeedItemsValidator
 
@@ -61,7 +61,7 @@ class SitemapsController(BaseController):
         response.content_type = \
             content_type_for_response(['application/xml', 'text/xml'])
 
-        media = Media.query.published()
+        media = viewable_media(Media.query.published())
 
         if page is None:
             if media.count() > limit:
@@ -98,7 +98,7 @@ class SitemapsController(BaseController):
         response.content_type = content_type_for_response(
             ['application/rss+xml', 'application/xml', 'text/xml'])
 
-        media = Media.query.published()
+        media = viewable_media(Media.query.published())
 
         return dict(
             media = media,
@@ -120,10 +120,8 @@ class SitemapsController(BaseController):
         response.content_type = content_type_for_response(
             ['application/rss+xml', 'application/xml', 'text/xml'])
 
-        media = Media.query.published()\
-            .order_by(Media.publish_on.desc())
-        if limit is not None:
-            media = media.limit(limit)
+        media_query = Media.query.published().order_by(Media.publish_on.desc())
+        media = viewable_media(media_query).limit(limit)
 
         if skip > 0:
             media = media.offset(skip)
@@ -148,11 +146,10 @@ class SitemapsController(BaseController):
         response.content_type = content_type_for_response(
             ['application/rss+xml', 'application/xml', 'text/xml'])
 
-        media = Media.query.in_category(get_featured_category())\
+        media_query = Media.query.in_category(get_featured_category())\
             .published()\
             .order_by(Media.publish_on.desc())
-        if limit is not None:
-            media = media.limit(limit)
+        media = viewable_media(media_query).limit(limit)
 
         if skip > 0:
             media = media.offset(skip)
