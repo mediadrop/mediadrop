@@ -30,5 +30,14 @@ class GroupBasedPermissionsPolicy(IPermissionPolicy):
             return True
         # there may be other policies still which can permit the access...
         return None
+    
+    def can_apply_access_restrictions_to_query(self, query, permission):
+        return True
+    
+    def access_condition_for_query(self, query, permission, perm):
+        if perm.contains_permission(permission):
+            return True
+        return None
 
 PermissionPolicies.register(GroupBasedPermissionsPolicy)
+

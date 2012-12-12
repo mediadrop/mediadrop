@@ -15,7 +15,7 @@ from mediacore.lib.test.request_mixin import RequestMixin
 def suite():
     from mediacore.lib.auth.tests import (filtering_restricted_items_test, 
         group_based_permissions_policy_test, permission_system_test, 
-        query_result_proxy_test)
+        query_result_proxy_test, static_query_test)
     from mediacore.lib.tests import (css_delivery_test, js_delivery_test, 
         observable_test, request_mixin_test)
     from mediacore.lib.storage.tests import youtube_storage_test
@@ -41,6 +41,7 @@ def suite():
     suite.addTest(observable_test.suite())
     suite.addTest(query_result_proxy_test.suite())
     suite.addTest(request_mixin_test.suite())
+    suite.addTest(static_query_test.suite())
     suite.addTest(youtube_storage_test.suite())
     return suite
 

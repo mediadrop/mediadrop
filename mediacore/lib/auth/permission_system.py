@@ -5,9 +5,10 @@
 import re
 
 from pylons.controllers.util import abort
+from sqlalchemy import or_
 
 from mediacore.lib.auth.api import PermissionSystem, UserPermissions
-from mediacore.lib.auth.query_result_proxy import QueryResultProxy
+from mediacore.lib.auth.query_result_proxy import QueryResultProxy, StaticQuery
 from mediacore.model import DBSession, Group, User
 from mediacore.plugin.abc import AbstractClass, abstractmethod
 
@@ -17,6 +18,14 @@ __all__ = ['MediaCorePermissionSystem', 'PermissionPolicies']
 class PermissionPolicies(AbstractClass):
     @abstractmethod
     def permits(self, permission, perm, resource):
+        pass
+    
+    @abstractmethod
+    def can_apply_access_restrictions_to_query(self, query, permission):
+        pass
+    
+    @abstractmethod
+    def access_condition_for_query(self, query, permission, perm):
         pass
     
     @classmethod
@@ -62,10 +71,43 @@ class MediaCorePermissionSystem(PermissionSystem):
         return UserPermissions(user, cls(config), groups=groups)
     
     def filter_restricted_items(self, query, permission_name, perm):
+        if self._can_apply_access_restrictions_to_query(query, permission_name):
+            return self._apply_access_restrictions_to_query(query, permission_name, perm)
+        
         can_access_item = \
             lambda item: perm.contains_permission(permission_name, item.resource)
         return QueryResultProxy(query, filter_=can_access_item)
     
     def raise_error(self, permission, resource):
         abort(404)
+    # --- private API ---------------------------------------------------------
+    
+    def _can_apply_access_restrictions_to_query(self, query, permission_name):
+        for policy in self.policies_for_permission(permission_name):
+            if not policy.can_apply_access_restrictions_to_query(query, permission_name):
+                return False
+        return True
+    
+    def _apply_access_restrictions_to_query(self, query, permission_name, perm):
+        conditions = []
+        for policy in self.policies_for_permission(permission_name):
+            result = policy.access_condition_for_query(query, permission_name, perm)
+            if result == True:
+                return QueryResultProxy(query)
+            elif result == False:
+                return StaticQuery([])
+            elif result is None:
+                continue
+            
+            condition = result
+            if isinstance(result, tuple):
+                condition, query = result
+            conditions.append(condition)
+        
+        if len(conditions) == 0:
+            # if there is no condition which can possibly allow the access, 
+            # we should not return any items
+            return StaticQuery([])
+        restricted_query = query.distinct().filter(or_(*conditions))
+        return QueryResultProxy(restricted_query)
 

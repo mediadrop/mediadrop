@@ -2,10 +2,12 @@
 # The source code contained in this file is licensed under the GPL.
 # See LICENSE.txt in the main project directory, for more information.
 
+from mediacore.lib.auth.api import UserPermissions
 from mediacore.lib.auth.group_based_policy import GroupBasedPermissionsPolicy
+from mediacore.lib.auth.permission_system import MediaCorePermissionSystem
 from mediacore.lib.test.pythonic_testcase import *
 from mediacore.lib.test.db_testcase import DBTestCase
-from mediacore.model import Permission
+from mediacore.model import DBSession, Media, Permission, User
 
 
 class GroupBasedPermissionsPolicyTest(DBTestCase):
@@ -19,6 +21,31 @@ class GroupBasedPermissionsPolicyTest(DBTestCase):
         assert_contains(u'edit', self.policy.permissions)
         assert_contains(u'admin', self.policy.permissions)
         assert_contains(u'custom', self.policy.permissions)
+    
+    def perm(self):
+        system = MediaCorePermissionSystem(self.pylons_config)
+        system.policies = [self.policy]
+        
+        user = DBSession.query(User).filter(User.user_name == u'admin').one()
+        return UserPermissions(user, system)
+    
+    def test_can_restrict_queries(self):
+        query = Media.query
+        permission = u'view'
+        perm = self.perm()
+        
+        assert_true(self.policy.can_apply_access_restrictions_to_query(query, permission))
+        assert_true(self.policy.access_condition_for_query(query, permission, perm))
+    
+    def test_can_restrict_query_if_user_does_not_have_the_required_permission(self):
+        query = Media.query
+        permission = u'view'
+        perm = self.perm()
+        view_permission = DBSession.query(Permission).filter(Permission.permission_name == permission).one()
+        view_permission.groups = []
+        DBSession.flush()
+        
+        assert_none(self.policy.access_condition_for_query(query, permission, perm))
 
 
 import unittest

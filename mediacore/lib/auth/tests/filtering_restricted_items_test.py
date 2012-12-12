@@ -49,6 +49,92 @@ class FilteringRestrictedItemsTest(DBTestCase):
         assert_equals(1, results.count())
         assert_equals(self.public_media, list(results)[0])
     
+    # --- tests with access filtering -----------------------------------------
+    def test_can_add_filter_criteria_to_base_query(self):
+        self.permission_system.policies = [
+            self._fake_view_policy_with_query_conditions()
+        ]
+        results = self._media_query_results(u'view')
+        assert_equals(1, results.count())
+        assert_equals(self.private_media, list(results)[0])
+        
+        assert_equals(0, self._media_query_results(u'unknown').count())
+    
+    def test_only_adds_filter_criteria_to_query_if_all_policies_agree(self):
+        self.permission_system.policies = [
+            self._fake_view_policy_with_query_conditions(),
+            self._fake_view_policy(lambda media: (u'public' in media.slug))
+        ]
+        results = self._media_query_results(u'view')
+        assert_equals(1, results.count())
+        assert_equals(self.public_media, list(results)[0])
+    
+    def test_policies_can_return_true_as_a_shortcut_to_prevent_further_result_filtering(self):
+        class FakePolicy(IPermissionPolicy):
+            permissions = (u'view', )
+            
+            def can_apply_access_restrictions_to_query(self, query, permission):
+                return True
+            
+            def access_condition_for_query(self, query, permission, perm):
+                return True
+        self.permission_system.policies = [FakePolicy()]
+        
+        results = self._media_query_results(u'view')
+        assert_equals(2, results.count())
+    
+    def test_policies_can_return_false_to_suppress_all_items(self):
+        class FakePolicy(IPermissionPolicy):
+            permissions = (u'view', )
+            
+            def can_apply_access_restrictions_to_query(self, query, permission):
+                return True
+            
+            def access_condition_for_query(self, query, permission, perm):
+                return False
+        self.permission_system.policies = [FakePolicy()]
+        
+        results = self._media_query_results(u'view')
+        assert_equals(0, results.count())
+    
+    def test_policies_can_return_none_as_access_condition(self):
+        class FakePolicy(IPermissionPolicy):
+            permissions = (u'view', )
+            
+            def can_apply_access_restrictions_to_query(self, query, permission):
+                return True
+            
+            def access_condition_for_query(self, query, permission, perm):
+                return None
+        
+        self.permission_system.policies = [FakePolicy()]
+        results = self._media_query_results(u'view')
+        assert_equals(0, results.count())
+        
+        self.permission_system.policies = [
+            FakePolicy(), 
+            self._fake_view_policy_with_query_conditions()
+        ]
+        results = self._media_query_results(u'view')
+        assert_equals(1, results.count())
+    
+    def test_policies_can_return_query_and_condition(self):
+        test_self = self
+        class FakePolicy(IPermissionPolicy):
+            permissions = (u'view', )
+            
+            def can_apply_access_restrictions_to_query(self, query, permission):
+                return True
+            
+            def access_condition_for_query(self, query, permission, perm):
+                query = query.filter(Media.id == test_self.private_media.id)
+                return None, query
+        self.permission_system.policies = [FakePolicy()]
+        
+        results = self._media_query_results(u'view')
+        assert_equals(1, results.count())
+        assert_equals(self.private_media, results.first())
+    
     # --- helpers -------------------------------------------------------------
     
     def _media_query_results(self, permission):
@@ -62,6 +148,21 @@ class FilteringRestrictedItemsTest(DBTestCase):
                 media = resource.data['media']
                 return condition(media)
         return FakeViewPolicy()
+    
+    def _fake_view_policy_with_query_conditions(self):
+        test_self = self
+        class FakePolicy(IPermissionPolicy):
+            permissions = (u'view', )
+            
+            def permits(self, permission, user_permissions, resource):
+                return (resource.data['media'].id == test_self.public_media.id)
+            
+            def can_apply_access_restrictions_to_query(self, query, permission):
+                return True
+            
+            def access_condition_for_query(self, query, permission, perm):
+                return (Media.id == test_self.private_media.id)
+        return FakePolicy()
 
 
 import unittest

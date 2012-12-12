@@ -22,6 +22,12 @@ class IPermissionPolicy(object):
     
     def permits(self, permission, user_permissions, resource):
         return None
+    
+    def can_apply_access_restrictions_to_query(self, query, permission):
+        return False
+    
+    def access_condition_for_query(self, query, permission, perm):
+        return None
 
 
 class InsufficientPermissionsError(Exception):

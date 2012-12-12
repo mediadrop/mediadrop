@@ -7,7 +7,7 @@
 # Copyright (c) 2012 Felix Schwarz <felix.schwarz@oss.schwarz.eu>
 
 
-__all__ = ['QueryResultProxy']
+__all__ = ['QueryResultProxy', 'StaticQuery']
 
 class QueryResultProxy(object):
     def __init__(self, query, start=0, filter_=None, default_fetch=10):
@@ -131,4 +131,68 @@ class QueryResultProxy(object):
         self._items_retrieved = n
         return self
 
+
+class StaticQuery(object):
+    def __init__(self, items):
+        self._all_items = items
+        self._items = None
+        
+        self._items_returned = 0
+        self._offset = 0
+        self._limit = None
+    
+    @property
+    def items(self):
+        if self._items is not None:
+            return self._items[self._items_returned:]
+        self._items = self._items_in_query()
+        return self._items
+    
+    def _items_in_query(self):
+        if self._limit is None:
+            last_index = len(self._all_items)
+        else:
+            last_index = self._offset + self._limit
+        return self._all_items[self._offset:last_index]
+    
+    # --- iteration -----------------------------------------------------------
+    def __iter__(self):
+        return self
+    
+    def next(self):
+        if len(self.items) == 0:
+            raise StopIteration
+        first_item = self.items[0]
+        self._items_returned += 1
+        return first_item
+    
+    def __len__(self):
+        return len(self._items_in_query())
+    count = __len__
+    
+    def __getitem__(self, key):
+        return self.items[key]
+    
+    # --- query methods -------------------------------------------------------
+    def offset(self, n):
+        assert self._items_returned == 0
+        self._offset = n
+        return self
+    
+    def limit(self, n):
+        assert self._items_returned == 0
+        self._limit = n
+        return self
+    
+    def all(self):
+        assert self._items_returned == 0
+        items = self.items
+        self._items_returned += len(items)
+        return items
+    
+    def first(self):
+        try:
+            return self.next()
+        except StopIteration:
+            return None
 
