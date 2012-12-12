@@ -21,3 +21,7 @@
 #login_details_group {
 	width: 300px;
 }
+
+#user-form #login_details_groups li {
+    margin-left: 130px;
+}

@@ -4,7 +4,7 @@
 import os
 from datetime import datetime
 
-from sqlalchemy import Table, ForeignKey, Column
+from sqlalchemy import Table, ForeignKey, Column, not_
 from sqlalchemy.types import Unicode, Integer, DateTime
 from sqlalchemy.orm import mapper, relation, synonym
 
@@ -149,6 +149,14 @@ class Group(object):
 
     def __unicode__(self):
         return self.group_name
+    
+    @classmethod
+    def custom_groups(cls, *columns):
+        query_object = columns or (Group, )
+        return DBSession.query(*query_object).\
+            filter(
+                not_(Group.group_name.in_([u'anonymous', u'authenticated']))
+            )
 
     @classmethod
     def by_name(cls, name):

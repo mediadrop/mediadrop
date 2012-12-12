@@ -9,7 +9,7 @@ from mediacore.lib.auth import has_permission
 from mediacore.lib.base import BaseController
 from mediacore.lib.decorators import (autocommit, expose, observable, paginate, validate)
 from mediacore.lib.helpers import redirect, url_for
-from mediacore.model import Group, fetch_row
+from mediacore.model import fetch_row, Group, Permission
 from mediacore.model.meta import DBSession
 from mediacore.plugin import events
 
@@ -65,9 +65,11 @@ class GroupsController(BaseController):
             # Use the values from error_handler or GET for new groups
             group_values = kwargs
         else:
+            permission_ids = map(lambda permission: permission.permission_id, group.permissions)
             group_values = dict(
                 display_name = group.display_name,
                 group_name = group.group_name,
+                permissions = permission_ids
             )
 
         return dict(
@@ -82,7 +84,7 @@ class GroupsController(BaseController):
     @validate(group_form, error_handler=edit)
     @autocommit
     @observable(events.Admin.GroupsController.save)
-    def save(self, id, display_name, group_name, delete=None, **kwargs):
+    def save(self, id, display_name, group_name, permissions, delete=None, **kwargs):
         """Save changes or create a new :class:`~mediacore.model.auth.Group` instance.
 
         :param id: Group ID. If ``"new"`` a new group is created.
@@ -98,7 +100,11 @@ class GroupsController(BaseController):
         
         group.display_name = display_name
         group.group_name = group_name
-
+        if permissions:
+            query = DBSession.query(Permission).filter(Permission.permission_id.in_(permissions))
+            group.permissions = list(query.all())
+        else:
+            group.permissions = []
         DBSession.add(group)
 
         redirect(action='index', id=None)

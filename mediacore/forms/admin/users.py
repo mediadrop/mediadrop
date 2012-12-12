@@ -46,7 +46,7 @@ class UserForm(ListForm):
             ),
             children=[
                 CheckBoxList('groups', label_text=N_('Groups'), 
-                    options=lambda: DBSession.query(Group.group_id, Group.display_name).all()),
+                    options=lambda: Group.custom_groups(Group.group_id, Group.display_name).all()),
                 TextField('user_name', label_text=N_('Username'), maxlength=16, validator=All(PlainText(), UniqueUsername(not_empty=True))),
                 PasswordField('password', label_text=N_('Password'), validators=NotEmpty, maxlength=80, attrs={'autocomplete': 'off'}),
                 PasswordField('confirm_password', label_text=N_('Confirm password'), validators=NotEmpty, maxlength=80, attrs={'autocomplete': 'off'}),

@@ -3,12 +3,13 @@
 # See LICENSE.txt in the main project directory, for more information.
 
 from pylons import request
+from tw.forms import CheckBoxList
 from tw.forms.validators import All, FancyValidator, Invalid, PlainText
 
 from mediacore.forms import ListForm, SubmitButton, TextField
 from mediacore.lib.i18n import N_, _
 from mediacore.model import DBSession
-from mediacore.model.auth import Group
+from mediacore.model.auth import Group, Permission
 from mediacore.plugin import events
 
 
@@ -36,6 +37,10 @@ class GroupForm(ListForm):
     fields = [
         TextField('display_name', label_text=N_('Display Name'), validator=TextField.validator(not_empty=True), maxlength=255),
         TextField('group_name', label_text=N_('Groupname'), validator=All(PlainText(not_empty=True), UniqueGroupname()), maxlength=16),
+        CheckBoxList('permissions', label_text=N_('Group Permissions'), 
+            css_classes=['details_fieldset'],
+            options=lambda: DBSession.query(Permission.permission_id, Permission.description).all()
+        ),
         SubmitButton('save', default=N_('Save'), named_button=True, css_classes=['btn', 'btn-save', 'blue', 'f-rgt']),
         SubmitButton('delete', default=N_('Delete'), named_button=True, css_classes=['btn', 'btn-delete']),
     ]
