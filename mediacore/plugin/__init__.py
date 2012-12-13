@@ -221,6 +221,7 @@ class _Plugin(object):
             class_name = controller_class.__module__ + '.' + controller_class.__name__
             log.debug('Controller loaded; "%s" = %s' % (self.name, class_name))
             return {self.name: controller_class}
+
         # Search a controllers directory, standard pylons style
         if not resource_exists(self.modname, 'controllers'):
             return {}
@@ -232,7 +233,8 @@ class _Plugin(object):
             module = import_module(module_name)
             mycontroller = _controller_class_from_module(module, name)
             if mycontroller is None:
-                log.warn('Controller expected but not found in: %r', module)
+                log.warn('Controller %r expected but not found in: %r', name, module)
+                continue
             controllers[self.name + '/' + name] = mycontroller
             class_name = mycontroller.__module__ + '.' + mycontroller.__name__
             log.debug('Controller loaded; "%s" = %s' % (self.name + '/' + name, class_name))
