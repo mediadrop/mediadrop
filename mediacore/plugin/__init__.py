@@ -9,6 +9,7 @@ from genshi.template import loader
 from importlib import import_module
 from paste.urlmap import URLMap
 from paste.urlparser import StaticURLParser
+import pkg_resources
 from pkg_resources import iter_entry_points, resource_exists, resource_filename
 from pylons.util import class_name_from_module_name
 from pylons.wsgiapp import PylonsApp
@@ -193,10 +194,19 @@ class _Plugin(object):
         self.module = module
         self.modname = module.__name__
         self.name = name
+        self.package_name = self._package_name()
         self.templates_path = templates_path or self._default_templates_path()
         self.public_path = public_path or self._default_public_path()
         self.controllers = controllers or self._default_controllers()
         self.locale_dirs = self._default_locale_dirs()
+
+    def _package_name(self):
+        pkg_provider = pkg_resources.get_provider(self.modname)
+        module_path = self.modname.replace('.', os.sep)
+        is_package = pkg_provider.module_path.endswith(module_path)
+        if is_package:
+            return self.modname
+        return self.modname.rsplit('.', 1)[0]
 
     def _default_templates_path(self):
         if resource_exists(self.modname, 'templates'):
@@ -223,12 +233,12 @@ class _Plugin(object):
             return {self.name: controller_class}
 
         # Search a controllers directory, standard pylons style
-        if not resource_exists(self.modname, 'controllers'):
+        if not resource_exists(self.package_name, 'controllers'):
             return {}
         controllers = {}
-        directory = resource_filename(self.modname, 'controllers')
+        directory = resource_filename(self.package_name, 'controllers')
         for name in controller_scan(directory):
-            module_name = '.'.join([self.modname, 'controllers',
+            module_name = '.'.join([self.package_name, 'controllers',
                                     name.replace('/', '.')])
             module = import_module(module_name)
             mycontroller = _controller_class_from_module(module, name)
