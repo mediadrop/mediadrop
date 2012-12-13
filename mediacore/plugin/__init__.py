@@ -221,20 +221,21 @@ class _Plugin(object):
             class_name = controller_class.__module__ + '.' + controller_class.__name__
             log.debug('Controller loaded; "%s" = %s' % (self.name, class_name))
             return {self.name: controller_class}
-        controllers = {}
         # Search a controllers directory, standard pylons style
-        if resource_exists(self.modname, 'controllers'):
-            directory = resource_filename(self.modname, 'controllers')
-            for name in controller_scan(directory):
-                module_name = '.'.join([self.modname, 'controllers',
-                                        name.replace('/', '.')])
-                module = import_module(module_name)
-                mycontroller = _controller_class_from_module(module, name)
-                if mycontroller is None:
-                    log.warn('Controller expected but not found in: %r', module)
-                controllers[self.name + '/' + name] = mycontroller
-                class_name = mycontroller.__module__ + '.' + mycontroller.__name__
-                log.debug('Controller loaded; "%s" = %s' % (self.name + '/' + name, class_name))
+        if not resource_exists(self.modname, 'controllers'):
+            return {}
+        controllers = {}
+        directory = resource_filename(self.modname, 'controllers')
+        for name in controller_scan(directory):
+            module_name = '.'.join([self.modname, 'controllers',
+                                    name.replace('/', '.')])
+            module = import_module(module_name)
+            mycontroller = _controller_class_from_module(module, name)
+            if mycontroller is None:
+                log.warn('Controller expected but not found in: %r', module)
+            controllers[self.name + '/' + name] = mycontroller
+            class_name = mycontroller.__module__ + '.' + mycontroller.__name__
+            log.debug('Controller loaded; "%s" = %s' % (self.name + '/' + name, class_name))
         return controllers
 
 def _controller_class_from_module(module, name):
