@@ -222,6 +222,19 @@ def add_default_data():
         description=u'View published media')
     DBSession.add(view_perm)
 
+    upload_perm = Permission(name=u'upload', 
+        groups=[admin_group, anonymous_group, editor_group], 
+        description=u'Can upload new media')
+    DBSession.add(upload_perm)
+    media_upload_perm = Permission()
+    media_upload_perm.permission_name = u'MEDIA_UPLOAD'
+    media_upload_perm.description = u'Grants the ability to upload new media'
+    media_upload_perm.groups.append(admin_group)
+    media_upload_perm.groups.append(editor_group)
+    media_upload_perm.groups.append(anonymous_group)
+    DBSession.add(edit_perm)
+
+
     category = Category(name=u'Featured', slug=u'featured')
     DBSession.add(category)
 

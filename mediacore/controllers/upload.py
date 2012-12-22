@@ -33,7 +33,11 @@ class UploadController(BaseController):
     def __before__(self, *args, **kwargs):
         if not request.settings['appearance_enable_user_uploads']:
             abort(404)
-        return BaseController.__before__(self, *args, **kwargs)
+        result = BaseController.__before__(self, *args, **kwargs)
+        # BareBonesController will set request.perm
+        if not request.perm.contains_permission('upload'):
+            abort(404)
+        return result
 
     @expose('upload/index.html')
     @observable(events.UploadController.index)
