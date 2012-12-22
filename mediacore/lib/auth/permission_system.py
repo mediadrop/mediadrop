@@ -66,8 +66,8 @@ class MediaCorePermissionSystem(PermissionSystem):
             anonymous_group = Group.by_name(u'anonymous')
             groups = filter(None, [anonymous_group])
         else:
-            authenticated_group = Group.by_name(u'authenticated')
-            groups = list(user.groups) + filter(None, [authenticated_group])
+            meta_groups = Group.query.filter(Group.group_name.in_([u'anonymous', u'authenticated']))
+            groups = list(user.groups) + list(meta_groups)
         return UserPermissions(user, cls(config), groups=groups)
     
     def filter_restricted_items(self, query, permission_name, perm):
