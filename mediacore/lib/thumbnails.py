@@ -219,7 +219,7 @@ def create_thumbs_for(item, image_file, image_filename):
         thumb_img = resize_thumb(img, xy)
         if thumb_img.mode != "RGB":
             thumb_img = thumb_img.convert("RGB")
-        thumb_img.save(path)
+        thumb_img.save(path, quality=90)
 
     # Backup the original image, ensuring there's no odd chars in the ext.
     # Thumbs from DailyMotion include an extra query string that needs to be
