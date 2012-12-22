@@ -93,6 +93,23 @@ class User(object):
         # TODO: Move this function to User.query
         return DBSession.query(cls).filter(cls.user_name==username).first()
 
+    @classmethod
+    def example(cls, **kwargs):
+        user = User()
+        defaults = dict(
+            user_name = u'joe',
+            email_address = u'joe@site.example',
+            display_name = u'Joe Smith',
+            created = datetime.now(),
+        )
+        defaults.update(kwargs)
+        for key, value in defaults.items():
+            setattr(user, key, value)
+        
+        DBSession.add(user)
+        DBSession.flush()
+        return user
+
     def _set_password(self, password):
         """Hash password on the fly."""
         if isinstance(password, unicode):
