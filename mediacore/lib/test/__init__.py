@@ -16,8 +16,8 @@ def suite():
     from mediacore.lib.auth.tests import (filtering_restricted_items_test, 
         group_based_permissions_policy_test, mediacore_permission_system_test,
         permission_system_test, query_result_proxy_test, static_query_test)
-    from mediacore.lib.tests import (css_delivery_test, js_delivery_test, 
-        observable_test, request_mixin_test)
+    from mediacore.lib.tests import (css_delivery_test, helpers_test, 
+        js_delivery_test, observable_test, request_mixin_test)
     from mediacore.lib.storage.tests import youtube_storage_test
     from mediacore.model.tests import (media_example_test, media_test, 
         user_example_test)
@@ -33,6 +33,7 @@ def suite():
     suite.addTest(events_test.suite())
     suite.addTest(filtering_restricted_items_test.suite())
     suite.addTest(group_based_permissions_policy_test.suite())
+    suite.addTest(helpers_test.suite())
     suite.addTest(limit_feed_items_validator_test.suite())
     suite.addTest(media_test.suite())
     suite.addTest(media_example_test.suite())

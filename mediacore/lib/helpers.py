@@ -395,6 +395,8 @@ def default_page_title(default=None, **kwargs):
     settings = request.settings
     title_order = settings.get('general_site_title_display_order', None)
     site_name = settings.get('general_site_name', default)
+    if not default:
+        return site_name
     if not title_order:
         return '%s | %s' % (default, site_name)
     elif title_order.lower() == 'append':
