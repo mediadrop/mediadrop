@@ -152,7 +152,8 @@ class RequestMixin(object):
         for global_ in (pylons.request, pylons.response, pylons.session, 
                         pylons.tmpl_context, pylons.translator, pylons.url,):
             try:
-                global_._pop_object()
+                if hasattr(global_, '_pop_object'):
+                    global_._pop_object()
             except AssertionError:
                 # AssertionError: No object has been registered for this thread
                 pass
