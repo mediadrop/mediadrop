@@ -10,25 +10,8 @@ See LICENSE.txt in the main project directory, for more information.
       xmlns:fb="http://www.facebook.com/2008/fbml"
       py:strip="">
 
-<py:def function="facebook_like(id, url=None, show_faces=False, width=313, height=30)">
-	<?python
-	href = (url and h.url_for(controller=url, qualified=True)) or h.url_for(qualified=True)
-	like_url = dict(
-		href = h.quote(href),
-		layout = 'standard',
-		show_faces = (show_faces and 'true') or 'false',
-		action = 'like',
-		colorscheme = 'light',
-	)
-	?>
-	<iframe
-		id="${id}"
-		src="http://www.facebook.com/plugins/like.php?${h.urlencode(like_url)}"
-		scrolling="no"
-		frameborder="0"
-		style="border:none; overflow:hidden; width:${width}px; height:${height}px;"
-		allowTransparency="true"
-	></iframe>
+<py:def function="facebook_like(url=None, show_faces=False, width=313)">
+    <fb:like href="${url}" layout="button_count" send="false" width="${width}" show_faces="${show_faces}"></fb:like>
 </py:def>
 
 <py:def function="facebook_comment(media=None, width=570)"
