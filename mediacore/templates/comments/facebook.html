@@ -11,7 +11,12 @@ See LICENSE.txt in the main project directory, for more information.
       py:strip="">
 
 <py:def function="facebook_like(url=None, show_faces=False, width=313)">
-    <fb:like href="${url}" layout="button_count" send="false" width="${width}" show_faces="${show_faces}"></fb:like>
+    <div class="fb-like"
+        data-href="${url}"
+        data-send="false"
+        data-width="${width}"
+        data-show-faces="${str(show_faces).lower()}">
+    </div>
 </py:def>
 
 <py:def function="facebook_comment(media=None, width=570)"
