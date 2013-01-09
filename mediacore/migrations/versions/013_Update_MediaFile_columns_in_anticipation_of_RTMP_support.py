@@ -32,7 +32,7 @@ def upgrade(migrate_engine):
     # Rename the existing 'url' column to 'http_url'
     media_files = Table('media_files', metadata,
         Column('url', Unicode(255)),
-        useexisting=True
+        extend_existing=True
     )
     metadata.bind = migrate_engine
     url_col = media_files.c.url
@@ -44,7 +44,7 @@ def downgrade(migrate_engine):
     # Rename the existing 'http_url' column to 'url'.
     media_files = Table('media_files', metadata,
         Column('http_url', Unicode(255)),
-        useexisting=True
+        extend_existing=True
     )
     metadata.bind = migrate_engine
     url_col = media_files.c.http_url
