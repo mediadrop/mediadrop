@@ -14,7 +14,7 @@ install_requires = [
     'WebOb == 1.0.7',
     'WebHelpers == 1.0',
     'SQLAlchemy >= 0.7', # event listener infrastructure
-    'sqlalchemy-migrate == 0.6',
+    'sqlalchemy-migrate >= 0.7', # 0.6 is not compatible with SQLAlchemy >= 0.7
     'Genshi == 0.6',
     'Babel == 0.9.6',
     'Routes == 1.12.3',

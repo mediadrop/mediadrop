@@ -28,7 +28,7 @@ if __name__ == "__main__":
 # BEGIN SCRIPT & SCRIPT SPECIFIC IMPORTS
 import sys
 from migrate.versioning.api import version_control, version, upgrade
-from migrate.versioning.exceptions import DatabaseAlreadyControlledError
+from migrate.exceptions import DatabaseAlreadyControlledError
 from pylons import config
 
 initial_version = 0
