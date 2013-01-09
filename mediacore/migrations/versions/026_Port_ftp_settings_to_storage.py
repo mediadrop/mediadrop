@@ -64,7 +64,8 @@ def upgrade(migrate_engine):
         ftp_settings[key] = value
 
     # If the ftp settings have changed, copy them to a storage engine
-    if ftp_settings['ftp_server'] != 'ftp.someserver.com':
+    ftp_server = ftp_settings.get('ftp_server')
+    if ftp_server and (ftp_server != 'ftp.someserver.com'):
         display_name = ftp_settings['ftp_server']
         if not display_name.startswith('ftp'):
             display_name = u'FTP: %s' % display_name
