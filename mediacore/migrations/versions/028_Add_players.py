@@ -81,15 +81,15 @@ settings = Table('settings', metadata,
 )
 
 DEFAULT_PLAYERS = [
-    ('youtube', True, {}),
-    ('vimeo', True, {}),
-    ('googlevideo', True, {}),
-    ('bliptv', True, {}),
-    ('html5', None, {}),
-    ('jwplayer', None, {}),
-    ('html5+jwplayer', None, {'prefer_flash': False}),
-    ('html5+flowplayer', None, {'prefer_flash': False}),
-    ('flowplayer', None, {}),
+    (u'youtube', True, {}),
+    (u'vimeo', True, {}),
+    (u'googlevideo', True, {}),
+    (u'bliptv', True, {}),
+    (u'html5', None, {}),
+    (u'jwplayer', None, {}),
+    (u'html5+jwplayer', None, {'prefer_flash': False}),
+    (u'html5+flowplayer', None, {'prefer_flash': False}),
+    (u'flowplayer', None, {}),
 ]
 
 def upgrade(migrate_engine):
@@ -105,9 +105,9 @@ def upgrade(migrate_engine):
     # Grab the current player settings so we can setup the players table
     # to match the users preferences.
     settings_keys = settings.c.key.in_([
-        'player_type',
-        'flash_player',
-        'html5_player',
+        u'player_type',
+        u'flash_player',
+        u'html5_player',
     ])
     settings_query = select([settings.c.key, settings.c.value]).where(settings_keys)
     settings_dict = dict(conn.execute(settings_query).fetchall())

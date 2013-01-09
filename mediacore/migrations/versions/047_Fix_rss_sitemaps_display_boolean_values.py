@@ -19,15 +19,15 @@ def upgrade(migrate_engine):
     metadata.bind = migrate_engine
     conn = migrate_engine.connect()
 
-    for setting_key in ('rss_display', 'sitemaps_display'):
+    for setting_key in (u'rss_display', u'sitemaps_display'):
         query = select([settings.c.value]).\
             where(settings.c.key == setting_key)
         value = conn.execute(query).scalar()
 
         if value == 'enabled':
-            new_value = 'True'
+            new_value = u'True'
         else:
-            new_value = ''
+            new_value = u''
 
         update = settings.update()\
             .where(settings.c.key == setting_key)\
