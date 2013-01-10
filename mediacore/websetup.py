@@ -16,7 +16,7 @@ from genshi.template.loader import TemplateLoader
 from PIL import Image
 from migrate.versioning.api import (drop_version_control, version_control,
     version, upgrade)
-from migrate.versioning.exceptions import DatabaseAlreadyControlledError
+from migrate.exceptions import DatabaseAlreadyControlledError
 
 from mediacore.config.environment import load_environment
 from mediacore.lib.i18n import N_
