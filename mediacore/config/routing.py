@@ -112,7 +112,7 @@ def make_map(config, controller_scan=controller_scan):
     # Auth Routes #
     ###############
 
-    # XXX: These URLs are hardcoded into mediacore/templates/login.html
+    # XXX: These URLs are also hardcoded at the top of this file
     # This file is initialized by the auth middleware before routing helper
     # methods (ie pylons.url) are available.
     map.connect(login_form_url, controller='login', action='login')
