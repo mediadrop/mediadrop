@@ -1,36 +1,49 @@
 # This file is a part of MediaCore CE, Copyright 2009-2012 MediaCore Inc.
 # The source code contained in this file is licensed under the GPL.
 # See LICENSE.txt in the main project directory, for more information.
+#
+# Copyright (c) 2012 Felix Schwarz (www.schwarz.eu)
 
-# FIXME: This is a big one: We actually need to implement auth still, with the new pylons framework.
+from formencode import Invalid
+from pylons import request, tmpl_context
 
-from pylons import request, response, session, tmpl_context
-from pylons.controllers.util import abort, redirect
-
+from mediacore.forms.login import LoginForm
 from mediacore.lib.base import BaseController
 from mediacore.lib.helpers import redirect, url_for
-from mediacore.lib.decorators import expose, expose_xhr, observable, validate, paginate
-from mediacore.model import fetch_row, Podcast, Media, Category
+from mediacore.lib.i18n import _
+from mediacore.lib.decorators import expose, observable
 from mediacore.plugin import events
 
 import logging
 log = logging.getLogger(__name__)
 
+login_form = LoginForm()
+
 class LoginController(BaseController):
     @expose('login.html')
     @observable(events.LoginController.login)
     def login(self, came_from=None, **kwargs):
-        login_counter = request.environ.get('repoze.who.logins', 0)
-        if login_counter > 0:
-            # TODO: display a 'wrong username/password' warning
-            pass
-
-        if not came_from:
-            came_from = url_for(controller='admin', action='index', qualified=True)
-
+        if request.environ.get('repoze.who.identity'):
+            redirect(came_from or '/')
+        
+        # the friendlyform plugin requires that these values are set in the
+        # query string
+        form_url = url_for('/login/submit', 
+            came_from=(came_from or '').encode('utf-8'), 
+            __logins=str(self._is_failed_login()))
+        
+        login_errors = None
+        if self._is_failed_login():
+            login_errors = Invalid('dummy', None, {}, error_dict={
+                '_form': Invalid(_('Invalid email/username or password.'), None, {}),
+                'login': Invalid('dummy', None, {}),
+                'password': Invalid('dummy', None, {}),
+            })
         return dict(
-            login_counter = str(login_counter),
-            came_from = came_from,
+            login_form = login_form,
+            form_action = form_url,
+            form_values = kwargs,
+            login_errors = login_errors,
         )
 
     @expose()
@@ -56,21 +69,31 @@ class LoginController(BaseController):
     @expose()
     @observable(events.LoginController.post_login)
     def post_login(self, came_from=None, **kwargs):
-        if request.identity:
-            userid = request.identity['repoze.who.userid']
-        else:
-            login_counter = request.environ['repoze.who.logins'] + 1
-
-        if came_from:
-            redirect(came_from)
-        else:
-            redirect(controller='admin', action='index')
+        if not request.identity:
+            # The FriendlyForm plugin will always issue a redirect to 
+            # /login/continue (post login url) even for failed logins.
+            # If 'came_from' is a protected page (i.e. /admin) we could just 
+            # redirect there and the login form will be displayed again with
+            # our login error message.
+            # However if the user tried to login from the front page, this 
+            # mechanism doesn't work so go to the login method directly here.
+            self._increase_number_of_failed_logins()
+            return self.login(came_from=came_from)
+        redirect(came_from or url_for('/admin'))
 
     @expose()
     @observable(events.LoginController.post_logout)
     def post_logout(self, came_from=None, **kwargs):
         redirect('/')
 
+    def _is_failed_login(self):
+        # repoze.who.logins will always be an integer even if the HTTP login 
+        # counter variable contained a non-digit string
+        return (request.environ.get('repoze.who.logins', 0) > 0)
+    
+    def _increase_number_of_failed_logins(self):
+        request.environ['repoze.who.logins'] += 1
+    
     def __call__(self, environ, start_response):
         """Invoke the Controller"""
         # BaseController.__call__ dispatches to the Controller method

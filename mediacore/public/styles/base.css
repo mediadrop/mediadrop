@@ -882,7 +882,8 @@ textarea {
 	position: relative;
 }
 .form textarea,
-.form input[type='text'] {
+.form input[type='text'],
+.form input[type='password'] {
 	-moz-border-radius: 10px;
 	-webkit-border-radius: 10px;
 	border: 2px solid #d9dee1;

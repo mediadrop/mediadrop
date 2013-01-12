@@ -1,0 +1,55 @@
+<!--!
+This file is a part of MediaCore CE, Copyright 2009-2012 MediaCore Inc.
+The source code contained in this file is licensed under the GPL.
+See LICENSE.txt in the main project directory, for more information.
+-->
+<form xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      action="${action}" method="${method}" name="${name}"
+      id="${id}" class="${css_class}" py:attrs="attrs"
+      py:with="visible_fields = [f for f in fields if getattr(f, 'type', None) not in ('button', 'submit', 'reset', 'image')];
+               buttons = [f for f in fields if getattr(f, 'type', None) in ('button', 'submit', 'reset', 'image')];">
+    <div class="box-content">
+        <!--! Display all the hidden fields -->
+        <py:for each="field in hidden_fields"
+                py:with="error = error_for(field)">
+            <input py:replace="field.display(value_for(field), **args_for(field))" />
+            <div py:if="show_children_errors and error and not field.show_error"
+                 class="field_error" py:content="error" />
+        </py:for>
+        
+        <div class="form-error" py:if="error_for('_form')">
+            ${error_for('_form')}
+        </div>
+        
+        <div py:for="i, field in enumerate(visible_fields)"
+             py:with="required = (field.is_required and 'required') or None;
+                      error = error_for(field);
+                      label_text = field.label_text and _(field.label_text) or None;
+                      help_text = field.help_text and _(field.help_text) or None;"
+             id="${field.id}_container"
+             py:attrs="h.append_class_attr(args_for(field).get('container_attrs') or field.container_attrs, 'clearfix')">
+            
+            <div class="label_container">
+                <label 
+                    py:if="show_labels and label_text and not field.suppress_label"
+                    id="${field.id}_label" class="form_label"
+                    for="${field.id}">${label_text}: <span py:if="help_text" class="field_help">(${help_text})</span></label>
+            </div>
+             
+            <div class="form_field clearfix" >
+                <div class="field_error" py:if="show_children_errors and error and not field.show_error" py:content="error"/>
+                <span py:content="field.display(value_for(field), **args_for(field))" py:strip="True">
+                    Field goes here
+                </span>
+            </div>
+        </div>
+    </div>
+        
+    <!--! Display all our buttons in the box footer -->
+    <div py:if="buttons" class="box-foot clearfix">
+        <py:for each="field in buttons">
+            <button py:replace="field.display(value_for(field), **args_for(field))" />
+        </py:for>
+    </div>
+</form>

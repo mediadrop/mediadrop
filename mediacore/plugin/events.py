@@ -371,6 +371,7 @@ class User(object):
 
 PostCommentForm = Event(['form'])
 UploadForm = Event(['form'])
+LoginForm = Event(['form'])
 Admin.CategoryForm = Event(['form'])
 Admin.CategoryRowForm = Event(['form'])
 Admin.EditCommentForm = Event(['form'])

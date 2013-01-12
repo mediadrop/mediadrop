@@ -10,18 +10,20 @@ See LICENSE.txt in the main project directory, for more information.
       xmlns:xi="http://www.w3.org/2001/XInclude">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<title>Login to MediaCore</title>
-	<script src="${h.js('mootools_core')}" type="text/javascript"></script>
-	<script type="text/javascript">
-		window.addEvent('load', function(){
-			$('login').focus();
-		});
-	</script>
-	<link href="${h.url_for('/admin/styles/base.css')}" media="screen" rel="stylesheet" type="text/css" />
-	<link href="${h.url_for('/admin/styles/login.css')}" media="screen" rel="stylesheet" type="text/css" />
+	<title>Log in to ${h.page_title()}</title>
+	<link href="${h.url_for('/styles/base.css')}" media="screen" rel="stylesheet" type="text/css" />
+	<link href="${h.url_for('/styles/login.css')}" media="screen" rel="stylesheet" type="text/css" />
+	<link href="${h.url_for('/appearance/appearance.css')}" media="screen" rel="stylesheet" type="text/css" />
 </head>
-<body>
-	<div id="wrapper">
+<body class="mcore-body mcore-login">
+    <div class="logo-container"
+        py:with="show_logo = bool(settings['appearance_display_logo'] and settings['appearance_logo'])">
+        <h1 id="${show_logo and 'mcore-logo' or 'mcore-site-title'}">
+	        <a href="${h.url_for('/')}">${settings['general_site_name']}</a>
+        </h1>
+    </div>
+
+    <div id="login-page">
 	<!--[if IE]>
 		<div id="ie-warning-wrapper">
 			<div id="ie-warning">
@@ -31,23 +33,10 @@ See LICENSE.txt in the main project directory, for more information.
 			</div>
 		</div>
 	<![endif]-->
-	<div id="loginform">
-		<form action="${h.url_for('/login/submit', came_from=came_from.encode('utf-8'), __logins=login_counter.encode('utf-8'))}"
-		      method="post" class="loginfields">
-			<h2><span>Login</span></h2>
-			<ul>
-				<li>
-					<label id="login-label" for="login">Username:</label>
-					<input id="login" type="text" name="login" class="text" />
-				</li>
-				<li>
-					<label id="password-label" for="password">Password:</label>
-					<input id="password" type="password" name="password" class="text" />
-				</li>
-			</ul>
-			<button id="submit-button" type="submit" class="btn nav"><span>Login</span></button>
-		</form>
-	</div>
+	    <div class="box">
+            <h1 class="box-head">Log in</h1>
+            ${login_form(form_values, action=form_action, error=login_errors)}		
+    	</div>
 	</div>
 </body>
 </html>
