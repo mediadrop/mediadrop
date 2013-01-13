@@ -35,13 +35,14 @@ a.mcore-heading:visited {
 
 /* Sectional Nav */
 a.mcore-nav-link:link,
-a.mcore-nav-link:visited {
+a.mcore-nav-link:visited,
+.mcore-nav-link .mcore-navbar-text {
 	color: ${uikit_colors['btn_text_color']};
 	text-shadow: 0 -1px ${uikit_colors['btn_text_shadow_color']};
 }
-a.mcore-nav-link:hover,
-a.mcore-nav-link:active,
-a.mcore-nav-link.active {
+.mcore-nav-link:hover,
+.mcore-nav-link:active,
+.mcore-nav-link.active {
 	color: ${uikit_colors['btn_text_hover_color']};
 }
 .mcore-nav-box {

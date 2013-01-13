@@ -170,15 +170,15 @@ a:hover {
 }
 .mcore-nav li.f-rgt { float: right; }
 .mcore-nav-link { background-position: -5px 0 }
-a.mcore-nav-link:hover { background-position: -5px -38px }
-a.mcore-nav-link:active,
-a.mcore-nav-link.active { background-position: -5px -76px }
-a.mcore-nav-link:hover > em { background-position: 0 -38px }
-a.mcore-nav-link:active > em,
-a.mcore-nav-link.active > em { background-position: 0 -76px }
-a.mcore-nav-link:hover > span { background-position: 0 -38px }
-a.mcore-nav-link:active > span,
-a.mcore-nav-link.active > span { background-position: 0 -76px }
+.mcore-nav-link:hover { background-position: -5px -38px }
+.mcore-nav-link:active,
+.mcore-nav-link.active { background-position: -5px -76px }
+.mcore-nav-link:hover > em { background-position: 0 -38px }
+.mcore-nav-link:active > em,
+.mcore-nav-link.active > em { background-position: 0 -76px }
+.mcore-nav-link:hover > span { background-position: 0 -38px }
+.mcore-nav-link:active > span,
+.mcore-nav-link.active > span { background-position: 0 -76px }
 
 #nav-search {
 	float: right;
@@ -599,6 +599,15 @@ a:focus .grid-title {
 	padding-left: 18px;
 	display: block;
 }
+
+/* IE 9 renders the dislike button with more than 11px so parts of the other 
+   icons in the sprite image are visible. overflow hidden will hide these 
+   extra parts. Of course Firefox and Chrome work without that IE workaround... */
+.mcore-dislike form {
+	overflow: hidden;
+	width: 11px;
+}
+
 .mcore-btn-dislike,
 .mcore-btn-expand,
 .mcore-btn-shrink,
@@ -981,4 +990,16 @@ textarea {
 	float: right;
 	width: 315px;
 	margin-bottom: 15px;
+}
+
+.mcore-btn-img {
+    border: none;
+    height: 26px;
+}
+
+.mcore-nav-link form {
+    float: left;
+}
+.mcore-cursor-pointer {
+    cursor: pointer;
 }

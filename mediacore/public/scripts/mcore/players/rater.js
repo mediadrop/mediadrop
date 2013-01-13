@@ -46,8 +46,8 @@ mcore.players.Rater.prototype.xhr_;
  * Handle the user clicking the like-this button.
  * @param {string} url Submit URL for logging the rating.
  */
-mcore.players.Rater.prototype.like = function(url) {
-  this.submitRating(url);
+mcore.players.Rater.prototype.like = function(url, parameters) {
+  this.submitRating(url, parameters);
   this.incrementDisplayCounter('mcore-likes-counter');
 };
 
@@ -56,8 +56,8 @@ mcore.players.Rater.prototype.like = function(url) {
  * Handle the user clicking the dislike-this button.
  * @param {string} url Submit URL for logging the rating.
  */
-mcore.players.Rater.prototype.dislike = function(url) {
-  this.submitRating(url);
+mcore.players.Rater.prototype.dislike = function(url, parameters) {
+  this.submitRating(url, parameters);
   this.incrementDisplayCounter('mcore-dislikes-counter');
 };
 
@@ -67,13 +67,13 @@ mcore.players.Rater.prototype.dislike = function(url) {
  * @param {string} url Submit URL.
  * @protected
  */
-mcore.players.Rater.prototype.submitRating = function(url) {
+mcore.players.Rater.prototype.submitRating = function(url, parameters) {
   this.xhr_ = new goog.net.XhrIo();
   goog.events.listenOnce(this.xhr_,
       goog.net.EventType.COMPLETE,
       this.handleRatingComplete, false, this);
-  this.xhr_.send(url, undefined, undefined,
-      {'X-Requested-With': 'XMLHttpRequest'});
+  var data = goog.Uri.QueryData.createFromMap(new goog.structs.Map(parameters));
+  this.xhr_.send(url, 'POST', data.toString(), {'X-Requested-With': 'XMLHttpRequest'});
 };
 
 

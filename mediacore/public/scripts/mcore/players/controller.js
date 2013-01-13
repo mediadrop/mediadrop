@@ -286,9 +286,12 @@ mcore.players.Controller.prototype.refreshResizeButton = function() {
  */
 mcore.players.Controller.prototype.handleLike = function(e) {
   e.preventDefault();
-  var target = this.dom_.getAncestorByTagNameAndClass(e.target,
-      goog.dom.TagName.A);
-  this.getRater().like(target.href);
+  
+  /* casting to Node to shut up the  closure compiler */
+  var form = this.dom_.findNode(/** @type {Node} */ (this.likeBtn_), function(node) {
+      return node.tagName == goog.dom.TagName.FORM;
+  });
+  this.getRater().like(form.action, {'up': 1});
   this.disableLikeDislikeButtons();
 };
 
@@ -300,9 +303,11 @@ mcore.players.Controller.prototype.handleLike = function(e) {
  */
 mcore.players.Controller.prototype.handleDislike = function(e) {
   e.preventDefault();
-  var target = this.dom_.getAncestorByTagNameAndClass(e.target,
-      goog.dom.TagName.A);
-  this.getRater().dislike(target.href);
+  /* casting to Node to shut up the  closure compiler */
+  var form = this.dom_.findNode(/** @type {Node} */ (this.dislikeBtn_), function(node) {
+      return node.tagName == goog.dom.TagName.FORM;
+  });
+  this.getRater().dislike(form.action, {'down': 1});
   this.disableLikeDislikeButtons();
 };
 
@@ -316,9 +321,11 @@ mcore.players.Controller.prototype.disableLikeDislikeButtons = function() {
     if (anchor) {
       // Attempt to grey out the button icon and text
       var iconElem = this.dom_.getFirstElementChild(anchor);
-      iconElem = iconElem ? this.dom_.getFirstElementChild(iconElem) : null;
-      if (iconElem) {
-        goog.style.setOpacity(iconElem, 0.5);
+      if ( ! iconElem)
+        return;
+      for (var i=0; i<iconElem.children.length; i++) {
+         var child = iconElem.children[i];
+         goog.style.setOpacity(child, 0.5);
       }
       var div = this.dom_.createDom(goog.dom.TagName.DIV, anchor.className,
           anchor.childNodes);

@@ -220,7 +220,7 @@ class MediaController(BaseController):
             height = h and int(h) or None,
         )
 
-    @expose()
+    @expose(request_method="POST")
     @autocommit
     @observable(events.MediaController.rate)
     def rate(self, slug, up=None, down=None, **kwargs):
