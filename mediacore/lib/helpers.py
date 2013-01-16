@@ -110,11 +110,11 @@ __all__.sort()
 
 js_sources = {
     'mootools_more': '/scripts/third-party/mootools-1.2.4.4-more-yui-compressed.js',
-    'mootools_core': 'http://ajax.googleapis.com/ajax/libs/mootools/1.2.5/mootools-yui-compressed.js',
+    'mootools_core': '/scripts/third-party/mootools-1.2.6-core-2013-01-16.min.js',
 }
 js_sources_debug = {
     'mootools_more': '/scripts/third-party/mootools-1.2.4.4-more.js',
-    'mootools_core': '/scripts/third-party/mootools-1.2.5-core.js',
+    'mootools_core': '/scripts/third-party/mootools-1.2.6-core-2013-01-16.js',
 }
 
 def js(source):
