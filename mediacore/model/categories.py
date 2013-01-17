@@ -2,10 +2,9 @@
 # The source code contained in this file is licensed under the GPL.
 # See LICENSE.txt in the main project directory, for more information.
 
-from datetime import datetime
-from sqlalchemy import Table, ForeignKey, Column, sql
-from sqlalchemy.types import Unicode, UnicodeText, Integer, DateTime, Boolean, Float
-from sqlalchemy.orm import mapper, relation, backref, synonym, interfaces, validates, Query
+from sqlalchemy import Table, ForeignKey, Column
+from sqlalchemy.types import Unicode, Integer
+from sqlalchemy.orm import mapper, relation, backref, validates, Query
 from sqlalchemy.orm.attributes import set_committed_value
 
 from mediacore.lib.compat import defaultdict
@@ -87,7 +86,7 @@ class CategoryQuery(Query):
     """Iterate over all categories and nested children in depth-first order."""
 
     def all(self):
-       return CategoryList(self)
+        return CategoryList(self)
 
     def roots(self):
         """Filter for just root, parentless categories."""
