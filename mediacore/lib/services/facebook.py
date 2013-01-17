@@ -26,10 +26,10 @@ class Facebook(object):
         self.app_id = app_id
         self.scripts = Scripts(
             FacebookSDKScript(self.app_id), 
+            # '//' is a protocol-relative URL, uses HTTPS if the page uses HTTPS
             Script('//connect.facebook.net/en_US/all.js', async=True)
         )
     
     def init_code(self):
-        # '//' is a protocol-relative URL, uses HTTPS if the page uses HTTPS
         return u'<div id="fb-root"></div>' + self.scripts.render()
 
