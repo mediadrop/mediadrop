@@ -166,10 +166,13 @@ class Category(object):
         return len(self.ancestors())
 
 
-mapper(Category, categories, order_by=categories.c.name, extension=events.MapperObserver(events.Category), properties={
-    'children': relation(Category,
-        backref=backref('parent', remote_side=[categories.c.id]),
-        order_by=categories.c.name.asc(),
-        collection_class=CategoryList,
-        join_depth=2),
-})
+mapper(Category, categories,
+    order_by=categories.c.name,
+    extension=events.MapperObserver(events.Category),
+    properties={
+        'children': relation(Category,
+            backref=backref('parent', remote_side=[categories.c.id]),
+            order_by=categories.c.name.asc(),
+            collection_class=CategoryList,
+            join_depth=2),
+    })
