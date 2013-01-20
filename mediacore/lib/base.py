@@ -21,7 +21,7 @@ from mediacore.lib.auth import ControllerProtector, has_permission, Predicate
 from mediacore.lib.css_delivery import StyleSheets
 from mediacore.lib.i18n import Translator
 from mediacore.lib.js_delivery import Scripts
-from mediacore.model.meta import DBSession
+from mediacore.model import DBSession, Setting
 
 __all__ = [
     'BareBonesController',
@@ -227,7 +227,10 @@ class BaseSettingsController(BaseController):
     def _update_settings(self, values):
         """Modify the settings associated with the given dictionary."""
         for name, value in values.iteritems():
-            setting = tmpl_context.settings[name]
+            if name in tmpl_context.settings:
+                setting = tmpl_context.settings[name]
+            else:
+                setting = Setting(key=name, value=value)
             if value is None:
                 value = u''
             else:
@@ -281,6 +284,9 @@ class BaseSettingsController(BaseController):
         if redirect_action:
             helpers.redirect(action=redirect_action)
 
+    def _is_button(self, field):
+        return getattr(field, 'type', None) in ('button', 'submit', 'reset', 'image')
+
     def _nest_settings_for_form(self, settings, form):
         """Create a dict of setting values nested to match the form."""
         form_values = {}
@@ -301,6 +307,6 @@ class BaseSettingsController(BaseController):
                 setting_values.update(self._flatten_settings_from_form(
                     settings, field, form_values[field._name]
                 ))
-            elif field._name in settings:
+            elif not self._is_button(field):
                 setting_values[field._name] = form_values[field._name]
         return setting_values
