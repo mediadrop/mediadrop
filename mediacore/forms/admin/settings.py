@@ -184,6 +184,19 @@ class SiteMapsForm(ListForm):
                     validator=Bool(if_missing='')),
             ]
         ),
+        ListFieldSet('feeds',
+            suppress_label=True,
+            css_classes=['details_fieldset'],
+            legend=N_('RSS Feed Defaults:'),
+            children=[
+                TextField(u'default_feed_results', validator=Int(not_empty=True, min=1, if_missing=30), 
+                    label_text=N_(u'number of items'),
+                    help_text=N_(u'The number of items in the feed can be overriden per request '
+                                 U'if you add "?limit=X" to the feed URL. If the "limit" parameter '
+                                 u'is absent, the default above is used.'),
+                ),
+            ]
+        ),
         SubmitButton('save', default=N_('Save'), css_classes=['btn', 'btn-save', 'blue', 'f-rgt']),
     ]
 
