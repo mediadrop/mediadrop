@@ -14,7 +14,7 @@ import time
 import urllib2
 
 from paste.deploy.converters import asbool
-from pylons import app_globals, config, request, response, tmpl_context
+from pylons import app_globals, config, request, tmpl_context
 from pylons.controllers import WSGIController
 from pylons.controllers.util import abort
 from tw.forms.fields import ContainerMixin as _ContainerMixin
