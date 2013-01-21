@@ -75,7 +75,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'MediaCore'
-copyright = u'2009-2012, MediaCore Inc., Felix Schwarz and other contributors'
+copyright = u'2009-2013, MediaCore Inc., Felix Schwarz and other contributors'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
