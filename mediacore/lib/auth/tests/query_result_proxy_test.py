@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
-# This file is a part of MediaCore CE, Copyright 2009-2012 MediaCore Inc.
-# The source code in this file is dual licensed under the MIT license or the 
-# GPL version 3 or (at your option) any later version.
+# This file is a part of MediaCore CE (http://www.mediacorecommunity.org),
+# Copyright 2009-2012 MediaCore Inc., Felix Schwarz and other contributors.
+# For the exact contribution history, see the git revision log.
+# The source code in this file is is dual licensed under the MIT license or
+# the GPLv3 or (at your option) any later version.
 # See LICENSE.txt in the main project directory, for more information.
-#
-# Copyright (c) 2012 Felix Schwarz <felix.schwarz@oss.schwarz.eu>
 
 from sqlalchemy import Column, Integer, String
 from sqlalchemy import asc, create_engine

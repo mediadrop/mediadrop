@@ -1,8 +1,11 @@
 /**
- * This file is a part of MediaCore CE, Copyright 2009-2012 MediaCore Inc.
- * The source code contained in this file is licensed under the GPL.
+ * This file is a part of MediaCore CE (http://www.mediacorecommunity.org),
+ * Copyright 2009-2012 MediaCore Inc., Felix Schwarz and other contributors.
+ * For the exact contribution history, see the git revision log.
+ * The source code contained in this file is licensed under the GPLv3 or
+ * (at your option) any later version.
  * See LICENSE.txt in the main project directory, for more information.
- */
+ **/
 /*960.gs Resets*/
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 /*960.gs Typography*/

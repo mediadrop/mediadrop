@@ -1,5 +1,8 @@
-# This file is a part of MediaCore CE, Copyright 2009-2012 MediaCore Inc.
-# The source code contained in this file is licensed under the GPL.
+# This file is a part of MediaCore CE (http://www.mediacorecommunity.org),
+# Copyright 2009-2012 MediaCore Inc., Felix Schwarz and other contributors.
+# For the exact contribution history, see the git revision log.
+# The source code contained in this file is licensed under the GPLv3 or
+# (at your option) any later version.
 # See LICENSE.txt in the main project directory, for more information.
 
 import sys
@@ -8,7 +11,7 @@ import sys
 # http://bayes.colorado.edu/PythonGuidelines.html#module_formatting
 __version__ = '0.9.9dev'
 __status__ = 'Beta'
-__copyright__ = 'Copyright 2009-2012, MediaCore Inc.'
+__copyright__ = 'Copyright 2009-2012, MediaCore Inc., Felix Schwarz and other contributors.'
 __license__ = 'GPLv3'
 __email__ = 'info@mediacore.com'
 __maintainer__ = 'http://mediacorecommunity.org/'
