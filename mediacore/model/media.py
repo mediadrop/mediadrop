@@ -22,7 +22,7 @@ belongs to a :class:`mediacore.model.podcasts.Podcast`.
 
 from datetime import datetime
 
-from sqlalchemy import Table, ForeignKey, Column, sql
+from sqlalchemy import Table, ForeignKey, Column, event, sql
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.orm import (attributes, backref, class_mapper, column_property,
     composite, dynamic_loader, mapper, Query, relation, validates)
@@ -245,7 +245,11 @@ def _setup_mysql_fulltext_indexes():
             'name': name,
             'cols': ', '.join(col.name for col in cols)
         }
-        DDL(sql, on='mysql').execute_at('after-create', media_fulltext)
+        event.listen(
+            media_fulltext,
+            u'after_create',
+            DDL(sql).execute_if(dialect=u'mysql')
+        )
 _setup_mysql_fulltext_indexes()
 
 class MediaQuery(Query):
