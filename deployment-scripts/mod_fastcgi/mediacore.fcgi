@@ -11,6 +11,9 @@ os.environ['PYTHON_EGG_CACHE'] = python_egg_cache
 os.environ['TMPDIR'] = temp_dir
 
 if __name__ == '__main__':
+    from paste.script.util.logging_config import fileConfig
+    fileConfig(deployment_config)
+    
     from paste.deploy import loadapp
     app = loadapp('config:'+deployment_config)
 
