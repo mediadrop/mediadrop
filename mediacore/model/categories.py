@@ -11,7 +11,7 @@ from sqlalchemy.orm import mapper, relation, backref, validates, Query
 from sqlalchemy.orm.attributes import set_committed_value
 
 from mediacore.lib.compat import defaultdict
-from mediacore.model import SLUG_LENGTH, slugify
+from mediacore.model import get_available_slug, SLUG_LENGTH, slugify
 from mediacore.model.meta import DBSession, metadata
 from mediacore.plugin import events
 
@@ -124,6 +124,24 @@ class Category(object):
 
     def __unicode__(self):
         return self.name
+
+    @classmethod
+    def example(cls, **kwargs):
+        category = Category()
+        defaults = dict(
+            name=u'Foo',
+            parent_id=0
+        )
+        defaults.update(kwargs)
+        defaults.setdefault('slug', get_available_slug(Category, defaults['name']))
+
+        for key, value in defaults.items():
+            assert hasattr(category, key)
+            setattr(category, key, value)
+
+        DBSession.add(category)
+        DBSession.flush()
+        return category
 
     @validates('slug')
     def validate_slug(self, key, slug):
