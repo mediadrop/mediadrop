@@ -20,8 +20,8 @@ def suite():
     from mediacore.lib.tests import (css_delivery_test, helpers_test, 
         js_delivery_test, observable_test, request_mixin_test)
     from mediacore.lib.storage.tests import youtube_storage_test
-    from mediacore.model.tests import (media_example_test, media_test, 
-        user_example_test)
+    from mediacore.model.tests import (category_example_test, media_example_test, 
+        media_test, user_example_test)
     from mediacore.plugin.tests import abstract_class_registration_test, events_test, observes_test
     
     from mediacore.validation.tests import limit_feed_items_validator_test
@@ -30,6 +30,7 @@ def suite():
     import unittest
     suite = unittest.TestSuite()
     suite.addTest(abstract_class_registration_test.suite())
+    suite.addTest(category_example_test.suite())
     suite.addTest(css_delivery_test.suite())
     suite.addTest(events_test.suite())
     suite.addTest(filtering_restricted_items_test.suite())
