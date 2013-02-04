@@ -277,6 +277,7 @@ class MediaController(BaseController):
                 return self.view(slug, name=name, email=email, body=body,
                                  **kwargs)
 
+        if request.settings['comments_engine'] == 'disabled': abort(404)
         akismet_key = request.settings['akismet_key']
         if akismet_key:
             akismet = Akismet(agent=USER_AGENT)
