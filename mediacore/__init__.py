@@ -30,17 +30,12 @@ def ipython():
     This only works with the Pylons paster server, and obviously ipython
     must be installed as well. Usage::
 
-        mediacore.ipython()()
+        from mediacore import ipython
+        ipython()()
 
     """
-    from IPython.Shell import IPShellEmbed
-    args = ['-pdb', '-pi1', 'In <\\#>: ', '-pi2', '   .\\D.: ',
-            '-po', 'Out<\\#>: ', '-nosep']
-    return IPShellEmbed(
-        args,
-        banner='Entering IPython.  Press Ctrl-D to exit.',
-        exit_msg='Leaving Interpreter, back to Pylons.'
-    )
+    import IPython
+    return IPython.embed
 
 def monkeypatch_method(cls):
     """MonkeyPatching decorator
