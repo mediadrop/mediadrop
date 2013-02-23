@@ -17,3 +17,7 @@ from mediacore.lib.storage.bliptv import BlipTVStorage
 from mediacore.lib.storage.googlevideo import GoogleVideoStorage
 from mediacore.lib.storage.dailymotion import DailyMotionStorage
 
+# provide a unified API, everything storage-related should be available from
+# this module
+from mediacore.lib.uri import StorageURI
+
