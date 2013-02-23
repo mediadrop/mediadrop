@@ -20,9 +20,11 @@ import tw
 from tw.mods.pylonshf import PylonsHostFramework
 from webob.request import environ_from_url
 
+import mediacore
 from mediacore.config.environment import load_environment
 from mediacore.config.middleware import create_tw_engine_manager
 from mediacore.lib.paginate import Bunch
+from mediacore.lib.i18n import Translator
 from mediacore.model.meta import DBSession, metadata
 
 
@@ -151,6 +153,11 @@ def fake_request(pylons_config, server_name='mediacore.example', language='en',
     engines = create_tw_engine_manager(app_globals)
     host_framework = PylonsHostFramework(engines=engines)
     paste_registry.register(tw.framework, host_framework)
+    
+    mediacore_i18n_path = os.path.join(os.path.dirname(mediacore.__file__), 'i18n')
+    translator = Translator(language, dict(mediacore=mediacore_i18n_path))
+    pylons.translator._push_object(translator)
+    paste_registry.replace(pylons.translator, translator)
     
     wsgi_environ.update({
         'pylons.pylons': pylons,
