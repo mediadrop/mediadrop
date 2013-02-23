@@ -10,7 +10,8 @@
 
 from mediacore.lib.test.db_testcase import DBTestCase
 from mediacore.lib.test.pythonic_testcase import *
-from mediacore.lib.test.request_mixin import RequestMixin
+from mediacore.lib.test.request_mixin import *
+from mediacore.lib.test.support import *
 
 
 def suite():

@@ -14,7 +14,7 @@ from mediacore.lib.attribute_dict import AttrDict
 from mediacore.lib.helpers import has_permission
 from mediacore.lib.test.db_testcase import DBTestCase
 from mediacore.lib.test.pythonic_testcase import *
-from mediacore.lib.test.request_mixin import build_http_body, RequestMixin
+from mediacore.lib.test import build_http_body, RequestMixin
 from mediacore.model import DBSession, User
 
 

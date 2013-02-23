@@ -13,8 +13,8 @@ import tempfile
 import pylons
 from pylons.configuration import config
 
-from mediacore.config.environment import load_environment
 from mediacore.lib.test.pythonic_testcase import *
+from mediacore.lib.test.support import setup_environment_and_database
 from mediacore.model.meta import DBSession, metadata
 from mediacore.websetup import add_default_data
 
@@ -26,37 +26,8 @@ class DBTestCase(PythonicTestCase):
     def setUp(self):
         super(DBTestCase, self).setUp()
         self.env_dir = self._create_environment_folders()
-        global_config = {
-#            'debug': 'true', 
-#            'error_email_from': 'paste@localhost', 
-#            '__file__': '.../standalone.ini', 
-#            'here': '...', 
-#            'smtp_server': 'localhost'
-        }
-        app_config = {
-            'plugins': self.enabled_plugins,
-            'sqlalchemy.url': 'sqlite://', 
-            'layout_template': 'layout', 
-            'external_template': 'false',
-            'image_dir': os.path.join(self.env_dir, 'images'), 
-            'media_dir': os.path.join(self.env_dir, 'media'), 
-            
-#            'full_stack': 'true', 
-#            'enable_gzip': 'true', 
-#            'static_files': 'true', 
-#            'sqlalchemy.echo': 'False', 
-#            'file_serve_method': 'default', 
-#            'app_instance_uuid': '', str(uuid.uuid4())
-#            'media_dir': '.../data/media', 
-#            'sqlalchemy.pool_recycle': '3600', 
-#            'sa_auth.cookie_secret': 'superdupersecret', 
-#            'cache_dir': '.../data', 
-#            'beaker.session.key': 'mediacore', 
-#            'beaker.session.secret': 'superdupersecret'
-        }
-        
-        self.pylons_config = load_environment(global_config, app_config)
-        metadata.create_all(bind=DBSession.bind, checkfirst=True)
+        self.pylons_config = setup_environment_and_database(self.env_dir, 
+            enabled_plugins=self.enabled_plugins)
         add_default_data()
         DBSession.commit()
         
