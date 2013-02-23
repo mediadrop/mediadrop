@@ -25,26 +25,10 @@ import mediacore
 # -- Environment Setup -----------------------------------------------------
 # We need a proper request environment to be able to properly import
 # controllers and forms for the sake of autodoc.
-from os import path
-from paste import fixture, deploy, registry
+from mediacore.lib.test import fake_request, setup_environment_and_database
 
-# Load the WSGI app
-config = 'development.ini'
-config_path = path.join(path.dirname(__file__), '..', config)
-app = deploy.loadapp('config:%s' % config_path)
-test_app = fixture.TestApp(app)
-
-# Query the test app to setup the environment
-response = test_app.get('/_test_vars')
-request_id = int(response.body)
-
-# Disable restoration during test_app requests
-test_app.pre_request_hook = lambda self: registry.restorer.restoration_end()
-test_app.post_request_hook = lambda self: registry.restorer.restoration_begin(request_id)
-
-# Restore the state of the Pylons special objects (StackedObjectProxies)
-registry.restorer.restoration_begin(request_id)
-
+pylons_config = setup_environment_and_database()
+request = fake_request(pylons_config)
 
 # -- General configuration -----------------------------------------------------
 
