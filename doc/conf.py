@@ -222,8 +222,8 @@ todo_include_todos = True
 intersphinx_mapping = {
     'http://docs.python.org/2.6/': None,
     'http://www.sqlalchemy.org/docs/': None,
-    'http://routes.groovie.org/': None,
-    'http://www.pylonshq.com/docs/en/0.9.7/': None,
+    'http://routes.readthedocs.org/en/latest/': None,
+    'http://docs.pylonsproject.org/projects/pylons-webframework/en/latest/': None,
     'http://toscawidgets.org/documentation/tw.forms/': None,
     'http://toscawidgets.org/documentation/ToscaWidgets/': None,
 }
