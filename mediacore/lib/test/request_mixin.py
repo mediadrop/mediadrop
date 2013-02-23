@@ -93,47 +93,51 @@ def create_wsgi_environ(url, request_method, request_body=None):
         return wsgi_environ
 
 
+def fake_request(pylons_config, server_name='mediacore.example', language='en', 
+                 method='GET', post_vars=None):
+    app_globals = pylons_config['pylons.app_globals']
+    pylons.app_globals._push_object(app_globals)
+    
+    if post_vars and method.upper() != 'POST':
+        raise ValueError('You must not specify post_vars for request method %r' % method)
+    wsgi_environ = create_wsgi_environ('http://%s' % server_name, 
+        method.upper(), request_body=post_vars)
+    request = Request(wsgi_environ, charset='utf-8')
+    request.language = language
+    request.settings = app_globals.settings
+    pylons.request._push_object(request)
+    response = Response(content_type='application/xml', charset='utf-8')
+    pylons.response._push_object(response)
+    
+    session = SessionObject(wsgi_environ)
+    pylons.session._push_object(session)
+
+    routes_url = URLGenerator(pylons_config['routes.map'], wsgi_environ)
+    pylons.url._push_object(routes_url)
+
+    tmpl_context = ContextObj()
+    tmpl_context.paginators = Bunch()
+    pylons.tmpl_context._push_object(tmpl_context)
+    # some parts of Pylons (e.g. Pylons.controllers.core.WSGIController)
+    # use the '.c' alias instead.
+    pylons.c = pylons.tmpl_context
+    
+    paste_registry = Registry()
+    paste_registry.prepare()
+    engines = create_tw_engine_manager(app_globals)
+    host_framework = PylonsHostFramework(engines=engines)
+    paste_registry.register(tw.framework, host_framework)
+    
+    wsgi_environ.update({
+        'pylons.pylons': pylons,
+        'paste.registry': paste_registry,
+    })
+    return request
+
+
 class RequestMixin(object):
-    def init_fake_request(self, server_name='mediacore.example', language='en', 
-            method='GET', post_vars=None):
-        app_globals = self.pylons_config['pylons.app_globals']
-        pylons.app_globals._push_object(app_globals)
-        
-        if post_vars and method.upper() != 'POST':
-            raise ValueError('You must not specify post_vars for request method %r' % method)
-        wsgi_environ = create_wsgi_environ('http://%s' % server_name, 
-            method.upper(), request_body=post_vars)
-        request = Request(wsgi_environ, charset='utf-8')
-        request.language = language
-        request.settings = app_globals.settings
-        pylons.request._push_object(request)
-        response = Response(content_type='application/xml', charset='utf-8')
-        pylons.response._push_object(response)
-        
-        session = SessionObject(wsgi_environ)
-        pylons.session._push_object(session)
-
-        routes_url = URLGenerator(self.pylons_config['routes.map'], wsgi_environ)
-        pylons.url._push_object(routes_url)
-
-        tmpl_context = ContextObj()
-        tmpl_context.paginators = Bunch()
-        pylons.tmpl_context._push_object(tmpl_context)
-        # some parts of Pylons (e.g. Pylons.controllers.core.WSGIController)
-        # use the '.c' alias instead.
-        pylons.c = pylons.tmpl_context
-        
-        paste_registry = Registry()
-        paste_registry.prepare()
-        engines = create_tw_engine_manager(app_globals)
-        host_framework = PylonsHostFramework(engines=engines)
-        paste_registry.register(tw.framework, host_framework)
-        
-        wsgi_environ.update({
-            'pylons.pylons': pylons,
-            'paste.registry': paste_registry,
-        })
-        return request
+    def init_fake_request(self, **kwargs):
+        return fake_request(self.pylons_config, **kwargs)
     
     def set_authenticated_user(self, user, wsgi_environ=None):
         if wsgi_environ is None:
