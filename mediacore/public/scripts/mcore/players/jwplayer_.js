@@ -172,8 +172,7 @@ mcore.players.JWPlayer.prototype.decorateInternal = function(element) {
   goog.style.setSize(element,
       this.jwplayerOpts_.width, this.jwplayerOpts_.height);
 
-  this.jwplayer_ = jwplayer(contentElement);
-  this.jwplayer_.setup(this.jwplayerOpts_);
+  this.jwplayer_ = jwplayer(contentElement).setup(this.jwplayerOpts_);
 
   this.setElementInternal(element);
 };
