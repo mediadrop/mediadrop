@@ -15,6 +15,7 @@ from mediacore.lib.test.support import *
 
 
 def suite():
+    from mediacore.controllers.tests import login_test
     from mediacore.lib.auth.tests import (filtering_restricted_items_test, 
         group_based_permissions_policy_test, mediacore_permission_system_test,
         permission_system_test, query_result_proxy_test, static_query_test)
@@ -39,6 +40,7 @@ def suite():
     suite.addTest(group_example_test.suite())
     suite.addTest(helpers_test.suite())
     suite.addTest(limit_feed_items_validator_test.suite())
+    suite.addTest(login_test.suite())
     suite.addTest(media_test.suite())
     suite.addTest(media_example_test.suite())
     suite.addTest(mediacore_permission_system_test.suite())

@@ -80,7 +80,12 @@ class LoginController(BaseController):
             # mechanism doesn't work so go to the login method directly here.
             self._increase_number_of_failed_logins()
             return self.login(came_from=came_from)
-        redirect(came_from or url_for('/admin'))
+        
+        if came_from:
+            redirect(came_from)
+        if request.perm.contains_permission(u'edit') or request.perm.contains_permission(u'admin'):
+            redirect(url_for('/admin'))
+        redirect(url_for('/'))
 
     @expose()
     @observable(events.LoginController.post_logout)
