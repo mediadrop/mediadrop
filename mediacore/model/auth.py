@@ -181,6 +181,18 @@ class Group(object):
     @classmethod
     def by_name(cls, name):
         return cls.query.filter(cls.group_name == name).first()
+    
+    @classmethod
+    def example(cls, **kwargs):
+        defaults = dict(
+            name = u'baz_users',
+            display_name = u'Baz Users',
+        )
+        defaults.update(kwargs)
+        group = Group(**defaults)
+        DBSession.add(group)
+        DBSession.flush()
+        return group
 
 
 class Permission(object):
