@@ -11,7 +11,7 @@ import os
 import urllib
 
 from beaker.session import SessionObject
-from paste.registry import Registry
+from paste.registry import Registry, StackedObjectProxy
 import pylons
 from pylons.controllers.util import Request, Response
 from pylons.util import ContextObj
@@ -156,7 +156,10 @@ def fake_request(pylons_config, server_name='mediacore.example', language='en',
     
     mediacore_i18n_path = os.path.join(os.path.dirname(mediacore.__file__), 'i18n')
     translator = Translator(language, dict(mediacore=mediacore_i18n_path))
-    pylons.translator._push_object(translator)
+    # not sure why but sometimes pylons.translator is not a StackedObjectProxy
+    # but just a regular Translator.
+    if not hasattr(pylons.translator, '_push_object'):
+        pylons.translator = StackedObjectProxy()
     paste_registry.replace(pylons.translator, translator)
     
     wsgi_environ.update({
