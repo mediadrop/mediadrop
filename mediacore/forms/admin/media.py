@@ -9,7 +9,7 @@
 from pylons import request
 from tw.api import WidgetsList
 from formencode import Invalid
-from formencode.validators import FancyValidator, URL
+from formencode.validators import FancyValidator
 from tw.forms import HiddenField, SingleSelectField
 from tw.forms.validators import Int, DateTimeConverter, FieldStorageUploadConverter, OneOf
 
@@ -20,6 +20,7 @@ from mediacore.forms import FileField, Form, ListForm, SubmitButton, TextArea, T
 from mediacore.forms.admin.categories import CategoryCheckBoxList
 from mediacore.model import Category, DBSession, Podcast
 from mediacore.plugin import events
+from mediacore.validation import URIValidator
 
 class DurationValidator(FancyValidator):
     """
@@ -108,7 +109,7 @@ class AddFileForm(ListForm):
     fields = [
         FileField('file', label_text=N_('Select an encoded video or audio file on your computer'), validator=FieldStorageUploadConverter(not_empty=False, label_text=N_('Upload'))),
         SubmitButton('add_url', default=N_('Add URL'), named_button=True, css_class='btn grey btn-add-url f-rgt'),
-        TextField('url', validator=URL, suppress_label=True, attrs=lambda: {'title': _('YouTube, Vimeo, Google Video, Amazon S3 or any other link')}, maxlength=255),
+        TextField('url', validator=URIValidator, suppress_label=True, attrs=lambda: {'title': _('YouTube, Vimeo, Google Video, Amazon S3 or any other link')}, maxlength=255),
     ]
 
 file_type_options = lambda: registered_media_types()

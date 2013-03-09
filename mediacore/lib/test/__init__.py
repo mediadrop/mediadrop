@@ -26,7 +26,8 @@ def suite():
         media_example_test, media_test, user_example_test)
     from mediacore.plugin.tests import abstract_class_registration_test, events_test, observes_test
     
-    from mediacore.validation.tests import limit_feed_items_validator_test
+    from mediacore.validation.tests import (limit_feed_items_validator_test, 
+        uri_validator_test)
     
     # do not export 'unittest' via '*' import from this module
     import unittest
@@ -51,6 +52,7 @@ def suite():
     suite.addTest(query_result_proxy_test.suite())
     suite.addTest(request_mixin_test.suite())
     suite.addTest(static_query_test.suite())
+    suite.addTest(uri_validator_test.suite())
     suite.addTest(user_example_test.suite())
     suite.addTest(youtube_storage_test.suite())
     return suite
