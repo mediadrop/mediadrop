@@ -17,11 +17,6 @@ from mediacore.lib.i18n import _
 __all__ = ['URIValidator']
 
 class URIValidator(UnicodeString):
-    
-    messages = {
-        'bad_url': u'Unknown URL',
-    }
-    
     def raise_error_bad_url(self, value, state):
         msg = _('That is not a valid URL.')
         raise Invalid(msg, value, state)
@@ -33,6 +28,10 @@ class URIValidator(UnicodeString):
             self.raise_error_bad_url(value, state)
         scheme = splitted_url[0] # '.scheme' in Python 2.5+
         netloc = splitted_url[1] # '.netloc' in Python 2.5+
-        if (scheme == '') or (netloc == ''):
+        path = splitted_url[2] # '.path' in Python 2.5+
+        # Python 2.4 does not fill netloc when parsing urls with unknown
+        # schemes (e.g. 'rtmp://')
+        netloc_given = (len(netloc) > 0) or (path.startswith('//') and path != '//')
+        if (scheme == '') or not netloc_given:
             self.raise_error_bad_url(value, state)
 

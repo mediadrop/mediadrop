@@ -42,6 +42,9 @@ class URIValidatorTest(DBTestCase, RequestMixin):
     def test_rejects_invalid_url(self):
         self.assert_invalid(u'invalid')
         self.assert_invalid(u'http://?foo=bar')
+        # important to check details of the Python 2.4 urlsplit workaround
+        self.assert_invalid(u'rtmp://')
+        self.assert_invalid(u'rtmp:')
 
 
 def suite():
