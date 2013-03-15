@@ -1,3 +1,5 @@
+:orphan:
+
 .. _install_nginx-uwsgi:
 
 ========================
@@ -55,11 +57,11 @@ the permissions on the ``data`` subdirectories as outlined in
 :ref:`production_deployments`
 
 **NOTE 2:** The following instructions assume that you’re deploying MediaCore CE
-to your own domain at ``http://yourdomain.com`` and that your MediaCore CE
+to your own domain at ``http://site.example`` and that your MediaCore CE
 installation is configured like this:
 
-``MediaCore CE Virtual Environment > /home/mediacore/mediacore_env``
-``MediaCore CE App > /home/mediacore/mediacore``
+``MediaCore CE Virtual Environment > /path/to/venv``
+``MediaCore CE Source Code > /path/to/mediacore_install``
 
 uWSGI Configuration
 -------------------
@@ -76,7 +78,7 @@ more detail below:
     socket = /tmp/uwsgi-mediacore.sock
     master = true
     processes = 5
-    home = /home/mediacore/mediacore_env
+    home = /path/to/venv
     daemonize = /var/log/uwsgi.log
 
 ``socket:`` uWSGI will create a unix socket at this location on your system
@@ -102,7 +104,7 @@ uWSGI and point to your ini file like this:
 .. sourcecode:: bash
 
     # launch uWSGI and serve with settings from your config file
-    sudo uwsgi --ini-paste /path/to/your/mediacore/deployment.ini
+    sudo uwsgi --ini-paste /path/to/deployment.ini
 
 If everything went well uWSGI will now be listening on the unix socket you
 specified above. Of course you still need to tell NGINX how to talk to uWSGI so
@@ -155,17 +157,17 @@ configuration and will probably suit most use cases:
         # See the NGINX docs on Location  regex matching for more details:
         # http://wiki.nginx.org/HttpCoreModule#location
 
-        root /home/mediacore/mediacore/mediacore/public;
+        root /path/to/mediacore_install/mediacore/public;
 
         # And now we define the rest of our static locations below
         location ~* ^/(appearance)/ {
-                root /home/mediacore/mediacore/data ;
+                root /path/to/data ;
                 break;
         }
 
         # All media and podcast images
         location ~* ^(/images\/media|images\/podcasts) {
-                root /home/mediacore/mediacore/data ;
+                root /path/to/data ;
                 break;
         }
 
@@ -183,7 +185,7 @@ configuration and will probably suit most use cases:
         # Note: We define this as an "internal" location to prevent it from
         # being served directly to end users.
         location /__mediacore_serve__ {
-                alias /home/mediacore/mediacore/data/media;
+                alias /path/to/data/media;
                 internal;
         }
 
@@ -202,10 +204,6 @@ configuration and will probably suit most use cases:
 
 At this point you can start your NGINX server and test out your app!
 
-.. sourcecode:: bash
-
-    # launch NGINX
-    sudo /path/to/nginx/sbin/nginx
 
 Performance Enhancements
 ------------------------
@@ -214,7 +212,7 @@ ensures that NGINX will serve all static files (.css, .js, and images) directly,
 but MediaCore CE will still check for static files before serving any page. There
 are two speedups we can enable here.
 
-First, edit one line in ``/path/to/mediacore_install/deployment.ini``.
+First, edit one line in ``/path/to/deployment.ini``.
 Find the static_files line, and set it to false.
 
 .. sourcecode:: ini
@@ -224,7 +222,7 @@ Find the static_files line, and set it to false.
 
 The second speedup will allow MediaCore CE to take advantage of NGINX XSendfile
 and have NGINX serve all media files (.mp3, .mp4, etc.) directly. To enable
-this, edit another line in ``/path/to/mediacore_install/deployment.ini``.
+this, edit another line in ``/path/to/deployment.ini``.
 Find the files_serve_method line, and set it to nginx_redirect.
 
 .. sourcecode:: ini

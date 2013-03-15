@@ -4,7 +4,7 @@
 Developer Guide
 ===============
 
-MediaCore CE is developed on top of Pylons 0.10rc1, but borrows some ideas from
+MediaCore CE is developed on top of Pylons 0.10, but borrows some ideas from
 TurboGears 2.0 (esp. see the decorators in mediacore.lib.decorators, and the
 form widgets). Pylons conventions are generally followed, so experienced Pylons
 and TurboGears2 developers should feel comfortable.

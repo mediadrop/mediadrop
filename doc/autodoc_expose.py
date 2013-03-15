@@ -1,5 +1,5 @@
 """
-Sphinx autodoc extension that reads @expose deco in controllers
+Sphinx autodoc extension that reads @expose decorator in controllers
 
 """
 import mediacore

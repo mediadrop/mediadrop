@@ -1,5 +1,5 @@
-deployment_config = '/path/to/mediacore_install/deployment.ini'
-temp_dir = '/path/to/mediacore_install/data/tmp'
+deployment_config = '/path/to/deployment.ini'
+temp_dir = '/path/to/data/tmp'
 
 # NOTE: Before running MediaCore, you will need to update the two paths
 #       above to point to the appropriate locations for your installation.

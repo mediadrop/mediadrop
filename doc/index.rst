@@ -12,9 +12,7 @@ Contents
 .. toctree::
    :maxdepth: 3
 
-   install/requirements
    install/index
-   install/troubleshooting
    install/upgrade
    user/index
    dev/index

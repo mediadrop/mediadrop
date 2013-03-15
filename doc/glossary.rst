@@ -12,7 +12,7 @@ Glossary
         See :class:`mediacore.model.media.Media` for the definition in code.
 
     slug
-        A unique, search-engine-friendly identifer for an item. It is made up
+        A unique, search-engine-friendly identifier for an item. It is made up
         of purely alphanumeric characters and hyphens.
 
     status
