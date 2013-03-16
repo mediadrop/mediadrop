@@ -36,6 +36,12 @@ a.mcore-heading:visited {
 }
 {% end %}
 
+{% if appearance_display_logo %}\
+.mcore-login-box {
+    margin-top: -5px;
+}
+{% end %}
+
 /* Sectional Nav */
 a.mcore-nav-link:link,
 a.mcore-nav-link:visited,

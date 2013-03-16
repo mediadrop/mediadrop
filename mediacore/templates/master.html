@@ -53,6 +53,24 @@ See LICENSE.txt in the main project directory, for more information.
 	body_class = attrs.get('class', '').split(' ');
 	advertising_banner_html = settings['advertising_banner_html'];
 ">
+
+    <div class="mcore-login-box clearfix">
+        <div class="mcore-login-bar">
+            <py:choose>
+                <py:when test="request.perm.user and (request.perm.user.user_name != u'anonymous')">
+                    <span>
+                        ${request.perm.user.display_name} | <a href="${h.url_for('/logout')}">Logout</a>
+                    </span>
+                </py:when>
+                <py:otherwise>
+                    <span>
+                        <a href="${h.url_for('/login', came_from=h.current_url())}">Login</a>
+                    </span>
+                </py:otherwise>
+            </py:choose>
+        </div>
+    </div>
+
 	<div id="nav-box" class="mcore-nav-box">
 		<ul py:if="not c.nav_hide_main" class="mcore-nav">
 			<li class="mcore-nav-left"><a class="${'nav-explore-on' in body_class and 'active' or None} mcore-nav-link" href="${h.url_for(controller='/media', action='explore')}"><span>Explore</span><em /></a></li>

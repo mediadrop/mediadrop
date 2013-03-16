@@ -79,7 +79,7 @@ a:hover {
 #mcore-site-title,
 #mcore-logo {
 	width: 920px;
-	margin: 10px auto;
+	margin: 10px auto 0px;
 }
 #mcore-tagline {
 	margin-top: -10px;
@@ -127,6 +127,33 @@ a:hover {
 .mediacore-content {
 	width: 920px;
 	margin: 0 auto;
+}
+
+/* Login bar */
+.mcore-login-box {
+    width: 920px;       /* same as .mediacore-content */
+    position: relative;
+    
+    /* don't reserve any space, we use relative/absolute positioning with negative margins anyway */
+    height: 0px;
+    
+    /* ensure that 'login' link is visible if there is no head html/site
+     * title - setting will be overriden by appearance.css if logo should be
+     * displayed */
+    margin-top: 20px;
+    
+    margin-bottom: 5px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.mcore-login-bar {
+    /* get the login bar completely out of the flow so it never messes up with the navbar */
+    position: absolute;
+    top: -15px;
+    right: 0px;
+    
+    float: right;
 }
 
 /* Sectional Nav */
