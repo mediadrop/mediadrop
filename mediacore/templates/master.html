@@ -54,7 +54,7 @@ See LICENSE.txt in the main project directory, for more information.
 	advertising_banner_html = settings['advertising_banner_html'];
 ">
 
-    <div class="mcore-login-box clearfix">
+    <div class="mcore-login-box clearfix" py:if="settings['appearance_display_login']">
         <div class="mcore-login-bar">
             <py:choose>
                 <py:when test="request.perm.user and (request.perm.user.user_name != u'anonymous')">
