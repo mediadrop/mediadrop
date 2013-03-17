@@ -59,7 +59,11 @@ See LICENSE.txt in the main project directory, for more information.
             <py:choose>
                 <py:when test="request.perm.user and (request.perm.user.user_name != u'anonymous')">
                     <span>
-                        ${request.perm.user.display_name} | <a href="${h.url_for('/logout')}">Logout</a>
+                        ${request.perm.user.display_name} | 
+                        <span py:if="h.has_permission('admin') or h.has_permission('edit')">
+                            <a href="${h.url_for('/admin')}">Admin</a> | 
+                        </span>
+                        <a href="${h.url_for('/logout')}">Logout</a>
                     </span>
                 </py:when>
                 <py:otherwise>
