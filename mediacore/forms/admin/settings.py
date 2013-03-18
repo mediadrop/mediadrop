@@ -343,6 +343,9 @@ class AppearanceForm(ListForm):
                 CheckBox('appearance_enable_cooliris',
                     css_classes=['checkbox-left'],
                     label_text=N_('Enable Cooliris on the Explore Page'),
+                    help_text=N_('Cooliris support is deprecated and will be ' + \
+                        'removed in the next major version of MediaCore CE ' + \
+                        'unless someone is interested in maintaining it.'),
                     validator=Bool(if_missing='')),
                 CheckBox(u'appearance_display_login',
                     css_classes=['checkbox-left'],

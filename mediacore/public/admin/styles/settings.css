@@ -21,6 +21,11 @@
 	color: #417F00;
 }
 
+#settings-form .details_fieldset label+.fieldhelp {
+    margin-top: 0px;
+    margin-left: 125px;
+}
+
 /* Emails and Wording Config Forms */
 #settings-form .details_fieldset .fieldlabel {
 	width: 110px;
@@ -85,6 +90,7 @@
 	margin-left: 120px;
 	margin-top: 5px;
 	color: #9b9b9b;
+	text-align: left;
 }
 #settings-form .checkbox-inline-help {
 	width: auto;

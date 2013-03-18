@@ -43,7 +43,7 @@ appearance_settings = [
     (u'appearance_text_color', u'#637084'),
     (u'appearance_navigation_bar_color', u'purple'),
     (u'appearance_heading_color', u'#3f3f3f'),
-    (u'appearance_enable_cooliris', u'True'),
+    (u'appearance_enable_cooliris', u'False'),
     (u'appearance_display_login', u'False'),
     (u'appearance_enable_featured_items', u'True'),
     (u'appearance_enable_podcast_tab', u'True'),
