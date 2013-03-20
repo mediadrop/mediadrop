@@ -188,7 +188,7 @@ Upload
 
 *Thumbnails:*
 
-When adding media that is being hosted on YouTube, Vimeo, or Google Video,
+When adding media that is being hosted on YouTube, Vimeo, or a similar platform,
 MediaCore CE will automatically fetch the Title and Duration of the media item
 from the appropriate website. Furthermore, MediaCore CE can be configured to
 automatically fetch the thumbnail images from these services, in the event
