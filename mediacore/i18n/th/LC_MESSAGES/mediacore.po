@@ -10,7 +10,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://github.com/mediacore/mediacore-"
 "community/issues\n"
 "POT-Creation-Date: 2012-06-04 10:07+0200\n"
-"PO-Revision-Date: 2012-02-24 11:18+0000\n"
+"PO-Revision-Date: 2012-06-04 08:35+0000\n"
 "Last-Translator: zdk <nx2zdk@gmail.com>\n"
 "Language-Team: th <LL@li.org>\n"
 "Plural-Forms: nplurals=1; plural=0\n"
@@ -1432,9 +1432,8 @@ msgid "Settings"
 msgstr "การตั้งค่า"
 
 #: mediacore/templates/admin/master.html:60
-#, fuzzy
 msgid "MediaCore CE"
-msgstr "MediaCore"
+msgstr ""
 
 #: mediacore/templates/admin/master.html:61
 msgid "© 2009-2012 MediaCore Inc."
@@ -1933,9 +1932,8 @@ msgid "Publish Now"
 msgstr "เผยแพร่เดี๋ยวนี้"
 
 #: mediacore/templates/admin/media/update-status-form.html:91
-#, fuzzy
 msgid "Click to change the expiration date"
-msgstr "คลิกเพื่อเปลี่ยนวันที่เผยแพร่"
+msgstr ""
 
 #: mediacore/templates/admin/media/update-status-form.html:91
 msgid "Expires"

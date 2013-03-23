@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the MediaCore project.
 #
 # Translators:
+# <appukonrad@gmail.com>, 2012.
 # charlesh <karel@silencio.cz>, 2011.
 # kovacm <michal@logici.cz>, 2011.
 # richensa <richensa@gmail.com>, 2011.
@@ -12,7 +13,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://github.com/mediacore/mediacore-"
 "community/issues\n"
 "POT-Creation-Date: 2012-06-04 10:07+0200\n"
-"PO-Revision-Date: 2012-02-24 11:18+0000\n"
+"PO-Revision-Date: 2012-10-09 09:27+0000\n"
 "Last-Translator: richensa <richensa@gmail.com>\n"
 "Language-Team: cs_CZ <LL@li.org>\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2\n"
@@ -68,7 +69,7 @@ msgstr "Nepodporovaný typ obrázku: %s"
 #: mediacore/controllers/admin/media.py:556
 #: mediacore/controllers/admin/podcasts.py:210
 msgid "Interlaced PNGs are not supported."
-msgstr ""
+msgstr "Prokládané PNG nejsou podporovány."
 
 #: mediacore/controllers/admin/podcasts.py:90
 msgid "Save the podcast to get your feed URL"
@@ -362,27 +363,27 @@ msgstr "Možnosti přehrávače:"
 
 #: mediacore/forms/admin/players.py:127
 msgid "Use the deprecated AS2 player."
-msgstr ""
+msgstr "Pomocí zastaralého přehrávače AS2."
 
 #: mediacore/forms/admin/players.py:128
 msgid "Use the AS3 player."
-msgstr ""
+msgstr "Pomocí přehrávače AS3."
 
 #: mediacore/forms/admin/players.py:131
 msgid "YouTube player version"
-msgstr ""
+msgstr "Verze YouTube přehravače"
 
 #: mediacore/forms/admin/players.py:136
 msgid "Show video annotations by default."
-msgstr ""
+msgstr "Zobrazit poznámky k videu ve výchozím nastavení."
 
 #: mediacore/forms/admin/players.py:137
 msgid "Hide video annotations by default."
-msgstr ""
+msgstr "Skrýt poznámky k videu ve výchozím nastavení."
 
 #: mediacore/forms/admin/players.py:140
 msgid "Video annotations"
-msgstr ""
+msgstr "Poznámky k videu "
 
 #: mediacore/forms/admin/players.py:143
 msgid "Disable the player keyboard controls."
@@ -394,11 +395,11 @@ msgstr ""
 
 #: mediacore/forms/admin/players.py:145
 msgid "Do not show a YouTube logo in the player controls"
-msgstr ""
+msgstr "Nezobrazovat logo YouTube v ovládacích prvcích přehrávače"
 
 #: mediacore/forms/admin/players.py:145
 msgid "Supported by AS3 only."
-msgstr ""
+msgstr "Podporováno pouze AS3."
 
 #: mediacore/forms/admin/players.py:146
 msgid "Enable fullscreen."
@@ -437,15 +438,17 @@ msgstr ""
 
 #: mediacore/forms/admin/players.py:153
 msgid "Always show player controls."
-msgstr ""
+msgstr "Vždy zobrazit ovládací prvky přehrávače."
 
 #: mediacore/forms/admin/players.py:154
 msgid "Autohide all player controls after a video starts playing."
 msgstr ""
+"Automaticky skrýt všechny ovládací prvky přehrávače po spuštění "
+"přehrávání."
 
 #: mediacore/forms/admin/players.py:155
 msgid "Autohide only the progress bar after a video starts playing."
-msgstr ""
+msgstr "Automaticky skrýt jen ukazatel průběhu po spuštění přehrávání.."
 
 #: mediacore/forms/admin/players.py:158
 msgid "Player control hiding"
@@ -498,15 +501,15 @@ msgstr "FeedBurner URL"
 
 #: mediacore/forms/admin/settings.py:28
 msgid "Built-in comments"
-msgstr ""
+msgstr "Vestavěné komentáře"
 
 #: mediacore/forms/admin/settings.py:29
 msgid "Facebook comments (requires a Facebook application ID)"
-msgstr ""
+msgstr "Facebook komentáře (vyžaduje aplikaci Facebook ID)"
 
 #: mediacore/forms/admin/settings.py:30
 msgid "Disable comments"
-msgstr ""
+msgstr "Zakázat komentáře"
 
 #: mediacore/forms/admin/settings.py:35
 msgid "Enable"
@@ -661,11 +664,11 @@ msgstr ""
 
 #: mediacore/forms/admin/settings.py:254
 msgid "Built-in Comments:"
-msgstr ""
+msgstr "Vestavěné komentáře:"
 
 #: mediacore/forms/admin/settings.py:257
 msgid "Moderation"
-msgstr ""
+msgstr "Moderování"
 
 #: mediacore/forms/admin/settings.py:258
 msgid "Require comments to be approved by an admin"
@@ -689,15 +692,15 @@ msgstr "Slova, která mají být filtrována, oddělujte čárkou."
 
 #: mediacore/forms/admin/settings.py:267
 msgid "Facebook Comments:"
-msgstr ""
+msgstr "Facebook komentáře:"
 
 #: mediacore/forms/admin/settings.py:268
 msgid "Application ID"
-msgstr ""
+msgstr "ID palikace"
 
 #: mediacore/forms/admin/settings.py:269
 msgid "See: http://www.facebook.com/developers/createapp.php"
-msgstr ""
+msgstr "Viz: http://www.facebook.com/developers/createapp.php"
 
 #: mediacore/forms/admin/settings.py:281
 msgid "Require a key to access the API"
@@ -804,7 +807,7 @@ msgstr "Zobrazit obrázek na pozadí"
 
 #: mediacore/forms/admin/settings.py:367
 msgid "Display MediaCore Footer"
-msgstr ""
+msgstr "Zobrazit MediaCore zápatí"
 
 #: mediacore/forms/admin/settings.py:371
 msgid "Display MediaCore Credits in Footer"
@@ -908,7 +911,7 @@ msgstr ""
 
 #: mediacore/forms/admin/settings.py:477
 msgid "Import"
-msgstr ""
+msgstr "Import"
 
 #: mediacore/forms/admin/users.py:25
 msgid "User name already exists"
@@ -1134,7 +1137,7 @@ msgstr "Nepoužitelný soubor nebo URL."
 
 #: mediacore/lib/storage/bliptv.py:58
 msgid "Invalid BlipTV URL. This video does not exist."
-msgstr ""
+msgstr "Neplatné URL BlipTV. Toto video neexistuje."
 
 #: mediacore/lib/storage/dailymotion.py:59
 msgid "This DailyMotion video does not allow embedding."
@@ -1156,7 +1159,7 @@ msgstr "Soubor převeden na server FTP je poškozený. Zkuste to prosím znovu."
 #: mediacore/lib/storage/ftp.py:194
 #, python-format
 msgid "Could not download the file from your FTP server: %s"
-msgstr ""
+msgstr "Nelze stáhnout soubor z vašeho FTP serveru: %s"
 
 #: mediacore/lib/storage/localfiles.py:23
 msgid "Local File Storage"
@@ -1174,11 +1177,11 @@ msgstr ""
 
 #: mediacore/lib/storage/youtube.py:57
 msgid "This video is private and cannot be embedded."
-msgstr ""
+msgstr "Toto video je soukromé a nelze ho vložit."
 
 #: mediacore/lib/storage/youtube.py:60
 msgid "Invalid YouTube URL. This video does not exist."
-msgstr ""
+msgstr "Neplatné URL YouTube. Toto video neexistuje."
 
 #: mediacore/templates/error.html:14
 #, python-format
@@ -1431,13 +1434,12 @@ msgid "Settings"
 msgstr "Nastavení"
 
 #: mediacore/templates/admin/master.html:60
-#, fuzzy
 msgid "MediaCore CE"
-msgstr "MediaCore"
+msgstr "MediaCore CE"
 
 #: mediacore/templates/admin/master.html:61
 msgid "© 2009-2012 MediaCore Inc."
-msgstr ""
+msgstr "© 2009-2012 MediaCore Inc."
 
 #: mediacore/templates/admin/categories/index.html:35
 #: mediacore/templates/admin/comments/index.html:33
@@ -1934,17 +1936,16 @@ msgid "Publish Now"
 msgstr "Zveřejnit nyní"
 
 #: mediacore/templates/admin/media/update-status-form.html:91
-#, fuzzy
 msgid "Click to change the expiration date"
-msgstr "Klikněte pro změnu datumu zveřejnění"
+msgstr "Klikněte pro změnu datumu konce platnosti"
 
 #: mediacore/templates/admin/media/update-status-form.html:91
 msgid "Expires"
-msgstr ""
+msgstr "Konec platnosti"
 
 #: mediacore/templates/admin/media/update-status-form.html:92
 msgid "never"
-msgstr ""
+msgstr "nikdy"
 
 #: mediacore/templates/admin/players/index.html:13
 #: mediacore/templates/admin/players/index.html:37
@@ -2258,12 +2259,12 @@ msgstr ""
 #: mediacore/templates/media/index.html:23
 #, python-format
 msgid "Showing %(result_count)s results tagged with '%(tag_name)s'"
-msgstr ""
+msgstr "Ukázat %(result_count)s výsledky oštítkované '%(tag_name)s'"
 
 #: mediacore/templates/media/index.html:24
 #, python-format
 msgid "All %(result_count)s Media"
-msgstr ""
+msgstr "Všechny %(result_count)s Média"
 
 #: mediacore/templates/media/tags.html:17
 msgid "All Tags"
@@ -2276,7 +2277,7 @@ msgstr "(nezveřejněné)"
 #: mediacore/templates/media/view.html:46
 #, python-format
 msgid "by %(authorName)s"
-msgstr ""
+msgstr "od %(authorName)s"
 
 #: mediacore/templates/media/view.html:56
 #: mediacore/templates/players/html5_or_flash.html:32

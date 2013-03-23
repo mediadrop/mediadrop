@@ -13,7 +13,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://github.com/mediacore/mediacore-"
 "community/issues\n"
 "POT-Creation-Date: 2012-06-04 10:07+0200\n"
-"PO-Revision-Date: 2012-04-23 10:58+0000\n"
+"PO-Revision-Date: 2012-06-04 08:35+0000\n"
 "Last-Translator: skycenter <enteha90@yahoo.com>\n"
 "Language-Team: fa_IR <LL@li.org>\n"
 "Plural-Forms: nplurals=1; plural=0\n"
@@ -1418,9 +1418,8 @@ msgid "Settings"
 msgstr "تنظیمات"
 
 #: mediacore/templates/admin/master.html:60
-#, fuzzy
 msgid "MediaCore CE"
-msgstr "mediacore"
+msgstr ""
 
 #: mediacore/templates/admin/master.html:61
 msgid "© 2009-2012 MediaCore Inc."

@@ -6,15 +6,16 @@
 # algobyte <algobyte@hotmail.com>, 2011.
 # Jan-Erik Finlander <jefinlander@gmail.com>, 2011.
 # Marco Mariani <birbag@gmail.com>, 2012.
+# algobyte <algobyte@hotmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: MediaCore Video Platform\n"
 "Report-Msgid-Bugs-To: http://github.com/mediacore/mediacore-"
 "community/issues\n"
 "POT-Creation-Date: 2012-06-04 10:07+0200\n"
-"PO-Revision-Date: 2012-02-24 11:17+0000\n"
+"PO-Revision-Date: 2012-11-30 20:29+0000\n"
 "Last-Translator: Marco Mariani <birbag@gmail.com>\n"
-"Language-Team: it_IT <LL@li.org>\n"
+"Language-Team: it <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -923,7 +924,7 @@ msgstr ""
 
 #: mediacore/forms/admin/settings.py:477
 msgid "Import"
-msgstr ""
+msgstr "Importa"
 
 #: mediacore/forms/admin/users.py:25
 msgid "User name already exists"
@@ -1009,7 +1010,7 @@ msgid ""
 "Files must be accessible under the same name as they are stored with "
 "locally."
 msgstr ""
-"I file devono essere accessibili con lo stesso nome  quando sono "
+"I file devono essere accessibili con lo stesso nome quando sono "
 "memorizzati localmente."
 
 #: mediacore/forms/admin/storage/remoteurls.py:20
@@ -1994,11 +1995,11 @@ msgstr "Premi per cambiare la data di scadenza"
 
 #: mediacore/templates/admin/media/update-status-form.html:91
 msgid "Expires"
-msgstr ""
+msgstr "Scaduto"
 
 #: mediacore/templates/admin/media/update-status-form.html:92
 msgid "never"
-msgstr ""
+msgstr "mai"
 
 #: mediacore/templates/admin/players/index.html:13
 #: mediacore/templates/admin/players/index.html:37
