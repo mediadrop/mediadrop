@@ -36,7 +36,7 @@ class LoginController(BaseController):
         login_errors = None
         if self._is_failed_login():
             login_errors = Invalid('dummy', None, {}, error_dict={
-                '_form': Invalid(_('Invalid email/username or password.'), None, {}),
+                '_form': Invalid(_('Invalid username or password.'), None, {}),
                 'login': Invalid('dummy', None, {}),
                 'password': Invalid('dummy', None, {}),
             })
