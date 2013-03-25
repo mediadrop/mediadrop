@@ -1,5 +1,5 @@
 # Dutch translations for MediaCore.
-# Copyright (C) 2012 ORGANIZATION
+# Copyright (C) 2013 ORGANIZATION
 # This file is distributed under the same license as the MediaCore project.
 #
 # Translators:
@@ -11,7 +11,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://github.com/mediacore/mediacore-"
 "community/issues\n"
 "POT-Creation-Date: 2013-03-23 23:09+0100\n"
-"PO-Revision-Date: 2012-06-04 08:35+0000\n"
+"PO-Revision-Date: 2013-03-24 08:14+0000\n"
 "Last-Translator: fins <deviant@404blog.net>\n"
 "Language-Team: nl <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
@@ -140,9 +140,8 @@ msgid "Description:"
 msgstr "Beschrijving:"
 
 #: mediacore/forms/uploader.py:47
-#, fuzzy
 msgid "Add a YouTube, Vimeo or Amazon S3 link:"
-msgstr "Voeg een YouTube, Vimeo of Google Video URL:"
+msgstr ""
 
 #: mediacore/forms/uploader.py:48
 msgid "Oops! You forgot to enter a file."
@@ -307,9 +306,8 @@ msgid "Add URL"
 msgstr "URL toevoegen"
 
 #: mediacore/forms/admin/media.py:112
-#, fuzzy
 msgid "YouTube, Vimeo, Amazon S3 or any other link"
-msgstr "YouTube, Vimeo, Google Video, Amazon S3 of een andere link"
+msgstr ""
 
 #: mediacore/forms/admin/media.py:133
 msgid "Delete file"
@@ -2505,88 +2503,4 @@ msgstr ""
 #: mediacore/validation/uri_validator.py:21
 msgid "That is not a valid URL."
 msgstr ""
-
-#~ msgid "Use the AS3 player."
-#~ msgstr ""
-
-#~ msgid "Autoplay the video video when the player loads."
-#~ msgstr ""
-
-#~ msgid "Do not show a YouTube logo in the player controls"
-#~ msgstr ""
-
-#~ msgid "Supported by AS3 only."
-#~ msgstr ""
-
-#~ msgid "Enable fullscreen."
-#~ msgstr "Fullscreen weergeven"
-
-#~ msgid ""
-#~ "The AS3 player will automatically play"
-#~ " the version of the video that "
-#~ "is appropriate for your player's size."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Load related videos once playback of "
-#~ "the initial video starts. Related videos"
-#~ " are displayed in the \"genie menu\""
-#~ " when the menu button is pressed."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Display information like the video title"
-#~ " and rating before the video starts"
-#~ " playing."
-#~ msgstr ""
-
-#~ msgid "Enable"
-#~ msgstr ""
-
-#~ msgid "See: http://www.facebook.com/developers/createapp.php"
-#~ msgstr ""
-
-#~ msgid "Channel Name(s)"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "One ore more channel names (separated"
-#~ " by commas) to import. Please enter"
-#~ " only the channel/user name, not the"
-#~ " full URL. Please be aware that "
-#~ "it may take several minutes for "
-#~ "the import to complete. When all "
-#~ "videos have been imported, you will "
-#~ "be returned to the Media page to"
-#~ " manage your new videos."
-#~ msgstr ""
-
-#~ msgid "Publish Videos"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "When this is selected, videos are "
-#~ "published automatically when they are "
-#~ "imported. Otherwise the videos will be"
-#~ " added, but will be waiting for "
-#~ "review before being published."
-#~ msgstr ""
-
-#~ msgid "Import"
-#~ msgstr ""
-
-#~ msgid "Login to MediaCore"
-#~ msgstr ""
-
-#~ msgid "Username:"
-#~ msgstr "Gebruikersnaam"
-
-#~ msgid "Password:"
-#~ msgstr "Paswoord"
-
-#~ msgid "© 2009-2012 MediaCore Inc."
-#~ msgstr ""
-
-#~ msgid "YouTube Channel Import"
-#~ msgstr ""
 

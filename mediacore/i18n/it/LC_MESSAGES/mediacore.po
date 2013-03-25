@@ -1,19 +1,18 @@
 # Italian translations for MediaCore.
-# Copyright (C) 2012 ORGANIZATION
+# Copyright (C) 2013 ORGANIZATION
 # This file is distributed under the same license as the MediaCore project.
 #
 # Translators:
-# algobyte <algobyte@hotmail.com>, 2011.
+# algobyte <algobyte@hotmail.com>, 2011-2012.
 # Jan-Erik Finlander <jefinlander@gmail.com>, 2011.
 # Marco Mariani <birbag@gmail.com>, 2012.
-# algobyte <algobyte@hotmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: MediaCore Video Platform\n"
 "Report-Msgid-Bugs-To: http://github.com/mediacore/mediacore-"
 "community/issues\n"
 "POT-Creation-Date: 2013-03-23 23:09+0100\n"
-"PO-Revision-Date: 2012-11-30 20:29+0000\n"
+"PO-Revision-Date: 2013-03-24 12:56+0000\n"
 "Last-Translator: Marco Mariani <birbag@gmail.com>\n"
 "Language-Team: it <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
@@ -65,9 +64,9 @@ msgid "Permission denied, cannot write file"
 msgstr "Permesso negato, non posso scrivere il file"
 
 #: mediacore/controllers/admin/media.py:559
-#, fuzzy, python-format
+#, python-format
 msgid "Unsupported image type: %s"
-msgstr "Tipo di immagine non supportato: %s"
+msgstr ""
 
 #: mediacore/controllers/admin/media.py:562
 #: mediacore/controllers/admin/podcasts.py:211
@@ -142,9 +141,8 @@ msgid "Description:"
 msgstr "Descrizione:"
 
 #: mediacore/forms/uploader.py:47
-#, fuzzy
 msgid "Add a YouTube, Vimeo or Amazon S3 link:"
-msgstr "Aggiungi un url a YouTube, Vimeo o Google Video:"
+msgstr ""
 
 #: mediacore/forms/uploader.py:48
 msgid "Oops! You forgot to enter a file."
@@ -258,9 +256,8 @@ msgstr[0] "Commento"
 msgstr[1] "Commenti"
 
 #: mediacore/forms/admin/groups.py:28
-#, fuzzy
 msgid "Group name already exists"
-msgstr "Nome utente esistente"
+msgstr ""
 
 #: mediacore/forms/admin/groups.py:41 mediacore/forms/admin/players.py:35
 #: mediacore/forms/admin/users.py:42
@@ -310,9 +307,8 @@ msgid "Add URL"
 msgstr "Aggiungi URL"
 
 #: mediacore/forms/admin/media.py:112
-#, fuzzy
 msgid "YouTube, Vimeo, Amazon S3 or any other link"
-msgstr "YouTube, Vimeo, Google Video, Amazon S3 o qualunque altro link"
+msgstr ""
 
 #: mediacore/forms/admin/media.py:133
 msgid "Delete file"
@@ -409,9 +405,8 @@ msgid "Use the deprecated AS2 player."
 msgstr "Usa il player AS2 (deprecato)"
 
 #: mediacore/forms/admin/players.py:134
-#, fuzzy
 msgid "Use the AS3/HTML5 player."
-msgstr "Usa il player AS3"
+msgstr ""
 
 #: mediacore/forms/admin/players.py:137
 msgid "YouTube player version"
@@ -434,24 +429,20 @@ msgid "Disable the player keyboard controls."
 msgstr "Disabilita la tastiera di controllo del visualizzatore."
 
 #: mediacore/forms/admin/players.py:150
-#, fuzzy
 msgid "Not supported by HTML5 player."
-msgstr "Supportato solo da AS3."
+msgstr ""
 
 #: mediacore/forms/admin/players.py:151
-#, fuzzy
 msgid "Autoplay the video when the player loads."
-msgstr "Avvia automaticamente il video al caricamento del player."
+msgstr ""
 
 #: mediacore/forms/admin/players.py:152
-#, fuzzy
 msgid "Do not show YouTube logo in the player controls"
-msgstr "Non visualizzare il logo YouTube nei controlli del player"
+msgstr ""
 
 #: mediacore/forms/admin/players.py:153
-#, fuzzy
 msgid "Not supported by AS2 player."
-msgstr "Supportato solo da AS3."
+msgstr ""
 
 #: mediacore/forms/admin/players.py:154
 msgid "Display fullscreen button."
@@ -481,18 +472,14 @@ msgstr ""
 "questa funzioni, deve essere attiva anche l'opzione 'video correlati'."
 
 #: mediacore/forms/admin/players.py:159
-#, fuzzy
 msgid "AS2 player only"
-msgstr "Mostra sempre i controlli del player."
+msgstr ""
 
 #: mediacore/forms/admin/players.py:160
-#, fuzzy
 msgid ""
 "Display information like the video title and uploader before the video "
 "starts playing."
 msgstr ""
-"Visualizzare le informazioni come il titolo del video e la valutazione "
-"prima che il video venga riprodotto."
 
 #: mediacore/forms/admin/players.py:161
 msgid "Enable window-less mode (wmode)"
@@ -694,9 +681,8 @@ msgid "RSS Feed Defaults:"
 msgstr ""
 
 #: mediacore/forms/admin/settings.py:196
-#, fuzzy
 msgid "number of items"
-msgstr "Numero di commenti"
+msgstr ""
 
 #: mediacore/forms/admin/settings.py:197
 msgid ""
@@ -988,9 +974,8 @@ msgstr "La password non corrisponde"
 #: mediacore/forms/admin/users.py:51 mediacore/templates/admin/master.html:59
 #: mediacore/templates/admin/groups/index.html:17
 #: mediacore/templates/admin/groups/index.html:41
-#, fuzzy
 msgid "Groups"
-msgstr "Gruppo"
+msgstr ""
 
 #: mediacore/forms/admin/users.py:55
 msgid "Confirm password"
@@ -1402,9 +1387,8 @@ msgid "Log in to"
 msgstr ""
 
 #: mediacore/templates/login.html:40
-#, fuzzy
 msgid "Log in"
-msgstr "Login"
+msgstr ""
 
 #: mediacore/templates/master.html:64
 msgid "Admin"
@@ -1533,9 +1517,8 @@ msgid "MediaCore CE"
 msgstr "MediaCore CE"
 
 #: mediacore/templates/admin/master.html:67
-#, fuzzy
 msgid "© 2009-2013 MediaCore Inc. and contributors"
-msgstr "© 2009-2012 MediaCore Inc."
+msgstr ""
 
 #: mediacore/templates/admin/categories/index.html:38
 #: mediacore/templates/admin/comments/index.html:36
@@ -1712,9 +1695,8 @@ msgid "New Group"
 msgstr ""
 
 #: mediacore/templates/admin/groups/index.html:32
-#, fuzzy
 msgid "Are you sure you want to delete this group?"
-msgstr "Sei sicuro di volerlo cancellare?"
+msgstr ""
 
 #: mediacore/templates/admin/groups/index.html:42
 msgid "Add Group"
@@ -2592,88 +2574,4 @@ msgstr ""
 #: mediacore/validation/uri_validator.py:21
 msgid "That is not a valid URL."
 msgstr ""
-
-#~ msgid "Enable fullscreen."
-#~ msgstr "Abilita pieno schermo"
-
-#~ msgid ""
-#~ "The AS3 player will automatically play"
-#~ " the version of the video that "
-#~ "is appropriate for your player's size."
-#~ msgstr ""
-#~ "Il player AS3 visualizzerà la versione del video più \"\n"
-#~ "\"appropriata alla dimensione del tuo player."
-
-#~ msgid ""
-#~ "Load related videos once playback of "
-#~ "the initial video starts. Related videos"
-#~ " are displayed in the \"genie menu\""
-#~ " when the menu button is pressed."
-#~ msgstr ""
-#~ "Carica i video correlati, una volta "
-#~ "avviata la riproduzione del video "
-#~ "iniziale. I video correlati vengono "
-#~ "visualizzati nel menu \"genio\" quando "
-#~ "il pulsante del menu è premuto."
-
-#~ msgid "Enable"
-#~ msgstr "Abilita"
-
-#~ msgid "See: http://www.facebook.com/developers/createapp.php"
-#~ msgstr "Vedi: http://www.facebook.com/developers/createapp.php"
-
-#~ msgid "Channel Name(s)"
-#~ msgstr "Nome/i del canale/i"
-
-#~ msgid ""
-#~ "One ore more channel names (separated"
-#~ " by commas) to import. Please enter"
-#~ " only the channel/user name, not the"
-#~ " full URL. Please be aware that "
-#~ "it may take several minutes for "
-#~ "the import to complete. When all "
-#~ "videos have been imported, you will "
-#~ "be returned to the Media page to"
-#~ " manage your new videos."
-#~ msgstr ""
-#~ "Uno o più nomi di canale (separati"
-#~ " da virgola) da importare. Inserisci "
-#~ "solamente il nome del canale/utente, non"
-#~ " l'URL completo. Nota che possono "
-#~ "essere necessari alcuni minuti, perché "
-#~ "l'importazione sia completata. Al termine "
-#~ "dell'operazione, sarai inviato alla pagina "
-#~ "Media per gestire i tuoi nuovi "
-#~ "video."
-
-#~ msgid "Publish Videos"
-#~ msgstr "Pubblica Video"
-
-#~ msgid ""
-#~ "When this is selected, videos are "
-#~ "published automatically when they are "
-#~ "imported. Otherwise the videos will be"
-#~ " added, but will be waiting for "
-#~ "review before being published."
-#~ msgstr ""
-#~ "Se è selezionato, i video saranno "
-#~ "pubblicati automaticamente dopo l'importazione. "
-#~ "Altrimenti i video saranno aggiunti, ma"
-#~ " dovranno attendere la revisione per "
-#~ "essere pubblicati."
-
-#~ msgid "Import"
-#~ msgstr "Importa"
-
-#~ msgid "Login to MediaCore"
-#~ msgstr "Accedi per MediaCore"
-
-#~ msgid "Username:"
-#~ msgstr "Nome utente:"
-
-#~ msgid "Password:"
-#~ msgstr "Password:"
-
-#~ msgid "YouTube Channel Import"
-#~ msgstr "Importazione Canali YouTube"
 

@@ -1,5 +1,5 @@
 # Czech (Czech Republic) translations for MediaCore.
-# Copyright (C) 2012 ORGANIZATION
+# Copyright (C) 2013 ORGANIZATION
 # This file is distributed under the same license as the MediaCore project.
 #
 # Translators:
@@ -13,7 +13,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://github.com/mediacore/mediacore-"
 "community/issues\n"
 "POT-Creation-Date: 2013-03-23 23:09+0100\n"
-"PO-Revision-Date: 2012-10-09 09:27+0000\n"
+"PO-Revision-Date: 2013-03-24 08:14+0000\n"
 "Last-Translator: richensa <richensa@gmail.com>\n"
 "Language-Team: cs_CZ <LL@li.org>\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2\n"
@@ -65,9 +65,9 @@ msgid "Permission denied, cannot write file"
 msgstr "Nedostatečná oprávnění, soubor nelze zapsat"
 
 #: mediacore/controllers/admin/media.py:559
-#, fuzzy, python-format
+#, python-format
 msgid "Unsupported image type: %s"
-msgstr "Nepodporovaný typ obrázku: %s"
+msgstr ""
 
 #: mediacore/controllers/admin/media.py:562
 #: mediacore/controllers/admin/podcasts.py:211
@@ -142,9 +142,8 @@ msgid "Description:"
 msgstr "Popis:"
 
 #: mediacore/forms/uploader.py:47
-#, fuzzy
 msgid "Add a YouTube, Vimeo or Amazon S3 link:"
-msgstr "Přidat YouTube, Vimeo nebo Google Video URL:"
+msgstr ""
 
 #: mediacore/forms/uploader.py:48
 msgid "Oops! You forgot to enter a file."
@@ -259,9 +258,8 @@ msgstr[1] "Komentářů"
 msgstr[2] "Komentáře"
 
 #: mediacore/forms/admin/groups.py:28
-#, fuzzy
 msgid "Group name already exists"
-msgstr "Uživatelské jméno již existuje"
+msgstr ""
 
 #: mediacore/forms/admin/groups.py:41 mediacore/forms/admin/players.py:35
 #: mediacore/forms/admin/users.py:42
@@ -311,9 +309,8 @@ msgid "Add URL"
 msgstr "Přidejte URL"
 
 #: mediacore/forms/admin/media.py:112
-#, fuzzy
 msgid "YouTube, Vimeo, Amazon S3 or any other link"
-msgstr "YouTube, Vimeo, Google Video, Amazon S3 nebo jakýkoliv jiný odkaz"
+msgstr ""
 
 #: mediacore/forms/admin/media.py:133
 msgid "Delete file"
@@ -410,9 +407,8 @@ msgid "Use the deprecated AS2 player."
 msgstr "Pomocí zastaralého přehrávače AS2."
 
 #: mediacore/forms/admin/players.py:134
-#, fuzzy
 msgid "Use the AS3/HTML5 player."
-msgstr "Pomocí přehrávače AS3."
+msgstr ""
 
 #: mediacore/forms/admin/players.py:137
 msgid "YouTube player version"
@@ -435,23 +431,20 @@ msgid "Disable the player keyboard controls."
 msgstr "Vypnout ovládání přehrávače klávesnicí."
 
 #: mediacore/forms/admin/players.py:150
-#, fuzzy
 msgid "Not supported by HTML5 player."
-msgstr "Podporováno pouze AS3."
+msgstr ""
 
 #: mediacore/forms/admin/players.py:151
 msgid "Autoplay the video when the player loads."
 msgstr ""
 
 #: mediacore/forms/admin/players.py:152
-#, fuzzy
 msgid "Do not show YouTube logo in the player controls"
-msgstr "Nezobrazovat logo YouTube v ovládacích prvcích přehrávače"
+msgstr ""
 
 #: mediacore/forms/admin/players.py:153
-#, fuzzy
 msgid "Not supported by AS2 player."
-msgstr "Podporováno pouze AS3."
+msgstr ""
 
 #: mediacore/forms/admin/players.py:154
 msgid "Display fullscreen button."
@@ -479,18 +472,14 @@ msgid ""
 msgstr ""
 
 #: mediacore/forms/admin/players.py:159
-#, fuzzy
 msgid "AS2 player only"
-msgstr "Vždy zobrazit ovládací prvky přehrávače."
+msgstr ""
 
 #: mediacore/forms/admin/players.py:160
-#, fuzzy
 msgid ""
 "Display information like the video title and uploader before the video "
 "starts playing."
 msgstr ""
-"Zobrazit informace jako je název videa a hodnocení dříve, než se video "
-"spustí."
 
 #: mediacore/forms/admin/players.py:161
 msgid "Enable window-less mode (wmode)"
@@ -696,9 +685,8 @@ msgid "RSS Feed Defaults:"
 msgstr ""
 
 #: mediacore/forms/admin/settings.py:196
-#, fuzzy
 msgid "number of items"
-msgstr "Počet komentářů"
+msgstr ""
 
 #: mediacore/forms/admin/settings.py:197
 msgid ""
@@ -987,9 +975,8 @@ msgstr "Hesla se neshodují"
 #: mediacore/forms/admin/users.py:51 mediacore/templates/admin/master.html:59
 #: mediacore/templates/admin/groups/index.html:17
 #: mediacore/templates/admin/groups/index.html:41
-#, fuzzy
 msgid "Groups"
-msgstr "Skupina"
+msgstr ""
 
 #: mediacore/forms/admin/users.py:55
 msgid "Confirm password"
@@ -1364,9 +1351,8 @@ msgid "Log in to"
 msgstr ""
 
 #: mediacore/templates/login.html:40
-#, fuzzy
 msgid "Log in"
-msgstr "Přihlásit se"
+msgstr ""
 
 #: mediacore/templates/master.html:64
 msgid "Admin"
@@ -1495,9 +1481,8 @@ msgid "MediaCore CE"
 msgstr "MediaCore CE"
 
 #: mediacore/templates/admin/master.html:67
-#, fuzzy
 msgid "© 2009-2013 MediaCore Inc. and contributors"
-msgstr "© 2009-2012 MediaCore Inc."
+msgstr ""
 
 #: mediacore/templates/admin/categories/index.html:38
 #: mediacore/templates/admin/comments/index.html:36
@@ -1674,9 +1659,8 @@ msgid "New Group"
 msgstr ""
 
 #: mediacore/templates/admin/groups/index.html:32
-#, fuzzy
 msgid "Are you sure you want to delete this group?"
-msgstr "Jste si jisti, že chcete toto hodnocení smazat?"
+msgstr ""
 
 #: mediacore/templates/admin/groups/index.html:42
 msgid "Add Group"
@@ -2546,70 +2530,4 @@ msgstr ""
 #: mediacore/validation/uri_validator.py:21
 msgid "That is not a valid URL."
 msgstr ""
-
-#~ msgid "Autoplay the video video when the player loads."
-#~ msgstr ""
-
-#~ msgid "Enable fullscreen."
-#~ msgstr "Povolit plnou obrazovku."
-
-#~ msgid ""
-#~ "The AS3 player will automatically play"
-#~ " the version of the video that "
-#~ "is appropriate for your player's size."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Load related videos once playback of "
-#~ "the initial video starts. Related videos"
-#~ " are displayed in the \"genie menu\""
-#~ " when the menu button is pressed."
-#~ msgstr ""
-
-#~ msgid "Enable"
-#~ msgstr "Povolit"
-
-#~ msgid "See: http://www.facebook.com/developers/createapp.php"
-#~ msgstr "Viz: http://www.facebook.com/developers/createapp.php"
-
-#~ msgid "Channel Name(s)"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "One ore more channel names (separated"
-#~ " by commas) to import. Please enter"
-#~ " only the channel/user name, not the"
-#~ " full URL. Please be aware that "
-#~ "it may take several minutes for "
-#~ "the import to complete. When all "
-#~ "videos have been imported, you will "
-#~ "be returned to the Media page to"
-#~ " manage your new videos."
-#~ msgstr ""
-
-#~ msgid "Publish Videos"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "When this is selected, videos are "
-#~ "published automatically when they are "
-#~ "imported. Otherwise the videos will be"
-#~ " added, but will be waiting for "
-#~ "review before being published."
-#~ msgstr ""
-
-#~ msgid "Import"
-#~ msgstr "Import"
-
-#~ msgid "Login to MediaCore"
-#~ msgstr "Přihlásit se do MediaCore"
-
-#~ msgid "Username:"
-#~ msgstr "Uživatelské jméno:"
-
-#~ msgid "Password:"
-#~ msgstr "Heslo:"
-
-#~ msgid "YouTube Channel Import"
-#~ msgstr ""
 
