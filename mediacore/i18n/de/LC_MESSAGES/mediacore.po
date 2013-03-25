@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: MediaCore Video Platform\n"
 "Report-Msgid-Bugs-To: http://github.com/mediacore/mediacore-"
 "community/issues\n"
-"POT-Creation-Date: 2013-03-23 23:09+0100\n"
+"POT-Creation-Date: 2013-03-25 17:58+0100\n"
 "PO-Revision-Date: 2013-03-25 17:57+0000\n"
 "Last-Translator: fschwarz <felix.schwarz@oss.schwarz.eu>\n"
 "Language-Team: de <LL@li.org>\n"
@@ -35,7 +35,7 @@ msgid "We're sorry but we weren't able to process this request."
 msgstr "Leider konnten wir Ihre Anfrage nicht verarbeiten."
 
 #: mediacore/controllers/login.py:39
-msgid "Invalid email/username or password."
+msgid "Invalid username or password."
 msgstr ""
 
 #: mediacore/controllers/media.py:296
@@ -481,8 +481,8 @@ msgid ""
 "Display information like the video title and uploader before the video "
 "starts playing."
 msgstr ""
-"Zeige Informationen wie Titel des Videos und Uploader an, bevor das "
-"Video abgespielt wird."
+"Zeige Informationen wie Titel des Videos und Uploader an, bevor das Video"
+" abgespielt wird."
 
 #: mediacore/forms/admin/players.py:161
 msgid "Enable window-less mode (wmode)"

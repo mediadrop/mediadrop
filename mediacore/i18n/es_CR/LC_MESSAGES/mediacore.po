@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: MediaCore Video Platform\n"
 "Report-Msgid-Bugs-To: http://github.com/mediacore/mediacore-"
 "community/issues\n"
-"POT-Creation-Date: 2013-03-23 23:09+0100\n"
+"POT-Creation-Date: 2013-03-25 17:58+0100\n"
 "PO-Revision-Date: 2012-06-04 08:35+0000\n"
 "Last-Translator: Jan-Erik Finlander <janerik.finlander@gmail.com>\n"
 "Language-Team: es_CR <LL@li.org>\n"
@@ -32,7 +32,7 @@ msgid "We're sorry but we weren't able to process this request."
 msgstr "Lo sentimos, pero no fue posible procesar esta solicitud."
 
 #: mediacore/controllers/login.py:39
-msgid "Invalid email/username or password."
+msgid "Invalid username or password."
 msgstr ""
 
 #: mediacore/controllers/media.py:296

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MediaCore 0.9.9dev\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-03-23 23:09+0100\n"
+"POT-Creation-Date: 2013-03-25 17:58+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,7 +26,7 @@ msgid "We're sorry but we weren't able to process this request."
 msgstr ""
 
 #: mediacore/controllers/login.py:39
-msgid "Invalid email/username or password."
+msgid "Invalid username or password."
 msgstr ""
 
 #: mediacore/controllers/media.py:296
