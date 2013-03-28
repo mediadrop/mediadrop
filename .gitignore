@@ -16,3 +16,4 @@ batch-scripts/closure/compiler/*
 closure-library
 mediacore/public/scripts/goog
 wiki
+build
