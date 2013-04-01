@@ -3,7 +3,6 @@
 # This file is distributed under the same license as the MediaCore project.
 #
 # Translators:
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2011.
 # Luciano  <lucianodefazio@gmail.com>, 2011.
 # natedub <nathan@simplestation.com>, 2011.
 msgid ""
