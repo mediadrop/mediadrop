@@ -1,5 +1,3 @@
-:orphan:
-
 Mac OS X
 ----------------------------------------------
 
@@ -24,16 +22,15 @@ compiler. You can check your system by using the which command:
 
 .. sourcecode:: bash
 
-    which gcc
+    which cc
 
-The which command is recommended at many steps in this tutorial to ensure that you
-have installed the needed tool, and in this case checks to see if we have the 
-compiler ready. No output after hitting return means it's not installed; output
-indicates that it is installed and tells us exactly where it is in our system.
+This checks to see if we have the compiler ready. No output after hitting return 
+means it's not installed; output indicates that it is installed and tells us 
+exactly where it is in our system.
 
 Now that you've got XCode installed, we need to set up python. Every Mac does come
 with an Apple-provided system version, but it is safest and best practice to not
-use this and instead install a new version. There are a few ways of doing this, but
+use this and instead install a fresh version. There are a few ways of doing this, but
 for our purposes it is best to do so with Homebrew.
 
 Install `Homebrew <http://mxcl.github.com/homebrew/>`_ by following the instructions
@@ -49,34 +46,15 @@ Let's get a new fresh version of Python:
 
     brew install python
 
-After this install occurs you will want to confirm that the command line has access
-to this new python and is not using Apple's system python:
+After this install occurs it's best if we grab the location of this new python so we
+can be assured that we use it for the remainder of this tutorial:
 
 .. sourcecode:: bash
 
-    which python   # should NOT be /usr/bin/python
+    brewpython=`brew ls python | grep 'python$' | grep -v 'Frameworks' | sed 's/\/python$//'`
 
-If you are still getting the system python, you will need to set the PATH variable
-manually so that we can start using the new python. To do that, we have to figure 
-out the directory that the new python is in. Another brew command will help us do that:
-
-.. sourcecode:: bash
-
-    brew ls python
-
-That will print out all the directories where brew installed something. We need the
-"main" binary folder, which is probably something like "/usr/local/Cellar/python/2.7.3/bin". 
-Once we have that location, let's put it at the beginning of the PATH variable with the 
-following command:
-
-.. sourcecode:: bash
-
-    PATH=/usr/local/Cellar/python/2.7.3/bin:${PATH}
-
-Putting this command in the terminal will only work for the current session. To get it working 
-for all future sessions, you'll need to make further adjustments, which is beyond the scope of 
-this tutorial. However, it may be as simple as putting that command above as the last line in
-your ~/.bash_profile file.
+This above command looks convoluted but all it does is set the variable pathtobrewpython to the 
+location of brew's python, which we'll use in the following section.
 
 Now that we have Xcode and Python installed, now we need to get the necessary system libraries:
 
@@ -109,28 +87,21 @@ mysql server running, which brew doesn't do for you, but it does tell you how:
 Python libraries and tools
 """"""""""""""""""""""""""""""""""""""""
 
-Before installing MediaCore you need also virtualenv. Virtualenv will manage any
+Before installing MediaCore we also need virtualenv. Virtualenv will manage any
 future software that MediaCore needs to ensure that it does not conflict with any 
 other software, similar to sandboxing. Since we used Homebrew to install our python,
-we have available to us a command that can install virtualenv for us:
+and remembering have we've set up the variable "brewpython", we can do this:
 
 .. sourcecode:: bash
 
-  pip install virtualenv
-
-Check that it's installed properly:
-
-.. sourcecode:: bash
-
-	which virtualenv   # if no output it hasn't installed properly
- 
+  $brewpython/pip install virtualenv
 
 Now we need to create a "virtual environment" (see :ref:`install_setup_virtualenv`) 
 with the following command:
 
 .. sourcecode:: bash
 
-    virtualenv.py --no-site-packages /path/to/virtual_environment
+    virtualenv.py --no-site-packages --python="$pathtobrewpython" /path/to/virtual_environment
 
 Finally, we can activate this virutal environment, which we'll have to do when we're
 working with mediacore, with the following command:
