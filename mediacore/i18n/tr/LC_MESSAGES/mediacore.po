@@ -1,9 +1,9 @@
-# Turkish (Turkey) translations for MediaCore.
+# Turkish translations for MediaCore.
 # Copyright (C) 2013 ORGANIZATION
 # This file is distributed under the same license as the MediaCore project.
 #
 # Translators:
-# Caner Başaran <basaran.caner@gmail.com>, 2012.
+# Caner Başaran <basaran.caner@gmail.com>, 2012-2013.
 # dugurca <dugurca@gmail.com>, 2011.
 # natedub <nathan@simplestation.com>, 2011.
 # <sakaryarap@live.com>, 2011.
@@ -13,10 +13,10 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://github.com/mediacore/mediacore-"
 "community/issues\n"
 "POT-Creation-Date: 2013-03-25 17:58+0100\n"
-"PO-Revision-Date: 2013-03-24 08:14+0000\n"
+"PO-Revision-Date: 2013-04-01 23:15+0000\n"
 "Last-Translator: Caner Başaran <basaran.caner@gmail.com>\n"
 "Language-Team: tr <LL@li.org>\n"
-"Plural-Forms: nplurals=1; plural=0\n"
+"Plural-Forms: nplurals=2; plural=(n > 1)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -36,7 +36,7 @@ msgstr "Üzgünüz, fakat bu işlemi gerçekleştiremedik."
 
 #: mediacore/controllers/login.py:39
 msgid "Invalid username or password."
-msgstr ""
+msgstr "Geçersiz kullanıcı adı ya da parola."
 
 #: mediacore/controllers/media.py:296
 msgid "Your comment has been rejected."
@@ -67,7 +67,7 @@ msgstr "İzin verilmedi, kaydedilmiyor."
 #: mediacore/controllers/admin/media.py:559
 #, python-format
 msgid "Unsupported image type: %s"
-msgstr ""
+msgstr "Desteklenmeyen resim tipi: %s"
 
 #: mediacore/controllers/admin/media.py:562
 #: mediacore/controllers/admin/podcasts.py:211
@@ -143,7 +143,7 @@ msgstr "Açıklama:"
 
 #: mediacore/forms/uploader.py:47
 msgid "Add a YouTube, Vimeo or Amazon S3 link:"
-msgstr ""
+msgstr "Bir YouTube, Vimeo ya da Amazon S3 bağlantı ekle:"
 
 #: mediacore/forms/uploader.py:48
 msgid "Oops! You forgot to enter a file."
@@ -254,10 +254,11 @@ msgstr "Sil"
 msgid "Comment"
 msgid_plural "Comments"
 msgstr[0] "Yorum"
+msgstr[1] "Yorumlar"
 
 #: mediacore/forms/admin/groups.py:28
 msgid "Group name already exists"
-msgstr ""
+msgstr "Grup adı zaten var"
 
 #: mediacore/forms/admin/groups.py:41 mediacore/forms/admin/players.py:35
 #: mediacore/forms/admin/users.py:42
@@ -269,11 +270,11 @@ msgstr "Adı göster"
 
 #: mediacore/forms/admin/groups.py:42
 msgid "Groupname"
-msgstr ""
+msgstr "GrupAdı"
 
 #: mediacore/forms/admin/groups.py:43
 msgid "Group Permissions"
-msgstr ""
+msgstr "Grup İzinleri"
 
 #: mediacore/forms/admin/media.py:33
 msgid "Bad duration formatting, use Hour:Min:Sec"
@@ -308,7 +309,7 @@ msgstr "Link ekle"
 
 #: mediacore/forms/admin/media.py:112
 msgid "YouTube, Vimeo, Amazon S3 or any other link"
-msgstr ""
+msgstr "YouTube, Vimeo, Amazon S3 ya da herhangi bir diğer bağlantı"
 
 #: mediacore/forms/admin/media.py:133
 msgid "Delete file"
@@ -430,23 +431,23 @@ msgstr "Oyuncu klavye kontrollerini devre dışı bırak"
 
 #: mediacore/forms/admin/players.py:150
 msgid "Not supported by HTML5 player."
-msgstr ""
+msgstr "HTML5 oynatıcı desteklememekte."
 
 #: mediacore/forms/admin/players.py:151
 msgid "Autoplay the video when the player loads."
-msgstr ""
+msgstr "Oynatıcı yüklendiğinde videoyu otomatik başlat."
 
 #: mediacore/forms/admin/players.py:152
 msgid "Do not show YouTube logo in the player controls"
-msgstr ""
+msgstr "Oynatıcıda YouTube logosu gösterme"
 
 #: mediacore/forms/admin/players.py:153
 msgid "Not supported by AS2 player."
-msgstr ""
+msgstr "AS2 oynatıcı desteklememekte."
 
 #: mediacore/forms/admin/players.py:154
 msgid "Display fullscreen button."
-msgstr ""
+msgstr "TamEkran düğmesini göster."
 
 #: mediacore/forms/admin/players.py:155
 msgid "Enable high-def quality by default."
@@ -461,7 +462,7 @@ msgstr ""
 
 #: mediacore/forms/admin/players.py:157
 msgid "Display related videos after playback of the initial video ends."
-msgstr ""
+msgstr "Video bittiğinde benzer videoları göster."
 
 #: mediacore/forms/admin/players.py:158
 msgid ""
@@ -473,17 +474,17 @@ msgstr ""
 
 #: mediacore/forms/admin/players.py:159
 msgid "AS2 player only"
-msgstr ""
+msgstr "Sadece AS2 oynatıcısı"
 
 #: mediacore/forms/admin/players.py:160
 msgid ""
 "Display information like the video title and uploader before the video "
 "starts playing."
-msgstr ""
+msgstr "Video başlamadan önce video başlığı ve yükleyici gibi bilgileri göster."
 
 #: mediacore/forms/admin/players.py:161
 msgid "Enable window-less mode (wmode)"
-msgstr ""
+msgstr "Penceresiz kipi (wmode) etkinleştir"
 
 #: mediacore/forms/admin/players.py:162
 msgid ""
@@ -558,11 +559,11 @@ msgstr ""
 
 #: mediacore/forms/admin/settings.py:26
 msgid "Facebook comments (requires a Facebook application ID)"
-msgstr ""
+msgstr "Facebook yorumları (Facebook üyeliği gerektirir)"
 
 #: mediacore/forms/admin/settings.py:27
 msgid "Disable comments"
-msgstr ""
+msgstr "Yorumları devre dışı bırak"
 
 #: mediacore/forms/admin/settings.py:32
 msgid "Prepend"
@@ -682,7 +683,7 @@ msgstr ""
 
 #: mediacore/forms/admin/settings.py:196
 msgid "number of items"
-msgstr ""
+msgstr "öğe sayısı"
 
 #: mediacore/forms/admin/settings.py:197
 msgid ""
@@ -717,7 +718,7 @@ msgstr "Zengin Metin Düzenleme"
 
 #: mediacore/forms/admin/settings.py:250
 msgid "Comment Engine"
-msgstr ""
+msgstr "Yorum Motorları"
 
 #: mediacore/forms/admin/settings.py:254
 msgid "Built-in Comments:"
@@ -753,11 +754,11 @@ msgstr "Facebook Yorumları:"
 
 #: mediacore/forms/admin/settings.py:268
 msgid "Application ID"
-msgstr ""
+msgstr "Uygulama Kimliği ID"
 
 #: mediacore/forms/admin/settings.py:269
 msgid "See: https://developers.facebook.com/apps"
-msgstr ""
+msgstr "Bkz: https://developers.facebook.com/apps"
 
 #: mediacore/forms/admin/settings.py:283
 msgid "Require a key to access the API"
@@ -846,7 +847,7 @@ msgstr ""
 
 #: mediacore/forms/admin/settings.py:352
 msgid "Display login link for all users"
-msgstr ""
+msgstr "Tüm kullanıcılar için giriş bağlantısı göster"
 
 #: mediacore/forms/admin/settings.py:355
 msgid "Enable Featured Items on the Explore Page"
@@ -874,43 +875,43 @@ msgstr "Arka Plan resmini göster"
 
 #: mediacore/forms/admin/settings.py:379
 msgid "Display MediaCore Footer"
-msgstr ""
+msgstr "MadiaCore Sayfa Altbilgisi Göster"
 
 #: mediacore/forms/admin/settings.py:383
 msgid "Display MediaCore Credits in Footer"
-msgstr ""
+msgstr "MediaCore Sayfa Altbilgisinde Tanıtma Yazısı Göster"
 
 #: mediacore/forms/admin/settings.py:389
 msgid "Player Menu Options"
-msgstr ""
+msgstr "Oynatıcı Menü Seçenekleri"
 
 #: mediacore/forms/admin/settings.py:394
 msgid "Enable Download button on player menu bar."
-msgstr ""
+msgstr "Oynatıcı menü çubuğunda İndir düğmesini etkinleştir."
 
 #: mediacore/forms/admin/settings.py:398
 msgid "Enable Share button on player menu bar."
-msgstr ""
+msgstr "Oynatıcı menü çubuğunda Paylaş düğmesini etkinleştir."
 
 #: mediacore/forms/admin/settings.py:402
 msgid "Enable Embed button on player menu bar."
-msgstr ""
+msgstr "Oynatıcı menü çubuğunda Sitene Ekle düğmesini etkinleştir."
 
 #: mediacore/forms/admin/settings.py:406
 msgid "Enable Widescreen toggle button on player menu bar."
-msgstr ""
+msgstr "Oynatıcı menü çubuğunda GenişEkrana Çevir düğmesini etkinleştir."
 
 #: mediacore/forms/admin/settings.py:410
 msgid "Enable Popout button on player menu bar."
-msgstr ""
+msgstr "Oynatıcı menü çubuğunda Popout düğmesini etkinleştir."
 
 #: mediacore/forms/admin/settings.py:414
 msgid "Enable Like button on player menu bar."
-msgstr ""
+msgstr "Oynatıcı menü çubuğunda Beğen düğmesini etkinleştir."
 
 #: mediacore/forms/admin/settings.py:418
 msgid "Enable Dislike button on player menu bar."
-msgstr ""
+msgstr "Oynatıcı menü çubuğunda Beğenme düğmesini etkinleştir."
 
 #: mediacore/forms/admin/settings.py:423
 msgid "Advanced"
@@ -938,6 +939,9 @@ msgid ""
 "cause ugly rendering of your site. You can always restore your page by "
 "the box above."
 msgstr ""
+"Bu HTML etiketleri HTML <head> bölümüne eklenir. Yanlış girişler "
+"sitenizin kötü görünmesine neden olabilir. Her zaman yukarıdaki kutuyla "
+"sayfanızı geri yükleyebilirsiniz."
 
 #: mediacore/forms/admin/settings.py:445
 #: mediacore/templates/admin/settings/appearance.html:28
@@ -966,17 +970,17 @@ msgstr "Giriş Detayları:"
 
 #: mediacore/forms/admin/users.py:48
 msgid "Passwords do not match"
-msgstr "Şifreler eşleşmiyor"
+msgstr "Parolalar eşleşmiyor"
 
 #: mediacore/forms/admin/users.py:51 mediacore/templates/admin/master.html:59
 #: mediacore/templates/admin/groups/index.html:17
 #: mediacore/templates/admin/groups/index.html:41
 msgid "Groups"
-msgstr ""
+msgstr "Gruplar"
 
 #: mediacore/forms/admin/users.py:55
 msgid "Confirm password"
-msgstr "Şifreyi onaylayın"
+msgstr "Parolayı onaylayın"
 
 #: mediacore/forms/admin/storage/ftp.py:25
 msgid "FTP Server Details:"
@@ -1196,11 +1200,11 @@ msgstr "Kullanışsız dosya veya adres verildi."
 
 #: mediacore/lib/storage/bliptv.py:61
 msgid "Invalid BlipTV URL. This video does not exist."
-msgstr ""
+msgstr "Geçersiz BlipTV bağlantısı. Bu video mevcut değil."
 
 #: mediacore/lib/storage/dailymotion.py:62
 msgid "This DailyMotion video does not allow embedding."
-msgstr ""
+msgstr "Bu DailyMotion videosuna gömme izni vermemekte."
 
 #: mediacore/lib/storage/ftp.py:43
 msgid "FTP Storage"
@@ -1233,19 +1237,21 @@ msgid ""
 "This RTMP server has not been configured. Add it by going to Settings > "
 "Storage Engines > Remote URLs."
 msgstr ""
+"Bu RTMP sunucusu yapılandırılmamış. Ayarlar > Depolama Motorları > "
+"Uzaktan URL'lere giderek ekleyin."
 
 #: mediacore/lib/storage/youtube.py:62
 msgid "This video is private and cannot be embedded."
-msgstr ""
+msgstr "Bu video özel ve bu nedenle gömülemez."
 
 #: mediacore/lib/storage/youtube.py:65
 msgid "Invalid YouTube URL. This video does not exist."
-msgstr ""
+msgstr "Geçersiz YouTube bağlantısı. Bu video mevcut değil."
 
 #: mediacore/lib/storage/youtube.py:66
 #, python-format
 msgid "YouTube Error: %s"
-msgstr ""
+msgstr "YouTube Hata: %s"
 
 #: mediacore/model/players.py:102
 #, python-format
@@ -1305,6 +1311,7 @@ msgstr "Hata Raporu Gönder"
 msgid "Like"
 msgid_plural "Likes"
 msgstr[0] "Beğeni"
+msgstr[1] "Beğeni"
 
 #: mediacore/templates/helpers.html:34
 #: mediacore/templates/admin/media/update-status-form.html:22
@@ -1313,7 +1320,8 @@ msgstr[0] "Beğeni"
 #: mediacore/templates/media/view.html:56
 msgid "View"
 msgid_plural "Views"
-msgstr[0] "Görüntüleme"
+msgstr[0] "İzlenme"
+msgstr[1] "İzlenme"
 
 #: mediacore/templates/helpers.html:54
 msgid "Page:"
@@ -1373,11 +1381,11 @@ msgstr ""
 
 #: mediacore/templates/login.html:40
 msgid "Log in"
-msgstr ""
+msgstr "Giriş"
 
 #: mediacore/templates/master.html:64
 msgid "Admin"
-msgstr ""
+msgstr "Yönetici"
 
 #: mediacore/templates/master.html:66 mediacore/templates/admin/master.html:50
 msgid "Logout"
@@ -1499,11 +1507,11 @@ msgstr "Ayarlar"
 
 #: mediacore/templates/admin/master.html:66
 msgid "MediaCore CE"
-msgstr ""
+msgstr "MediaCore"
 
 #: mediacore/templates/admin/master.html:67
 msgid "© 2009-2013 MediaCore Inc. and contributors"
-msgstr ""
+msgstr "© 2009-2013 MediaCore Şirketi ve Katkıda bulunanlar"
 
 #: mediacore/templates/admin/categories/index.html:38
 #: mediacore/templates/admin/comments/index.html:36
@@ -1675,15 +1683,15 @@ msgstr "Bunu silmek istediğinizden emin misiniz?"
 
 #: mediacore/templates/admin/groups/edit.html:37
 msgid "New Group"
-msgstr ""
+msgstr "Yeni Grup"
 
 #: mediacore/templates/admin/groups/index.html:32
 msgid "Are you sure you want to delete this group?"
-msgstr ""
+msgstr "Bu grubu silmek istediğinizden emin misiniz?"
 
 #: mediacore/templates/admin/groups/index.html:42
 msgid "Add Group"
-msgstr ""
+msgstr "Grup Ekle"
 
 #: mediacore/templates/admin/media/_media-table.html:22
 msgid "Publish Date"
@@ -2016,7 +2024,7 @@ msgstr "Şimdi Yayınla"
 
 #: mediacore/templates/admin/media/update-status-form.html:94
 msgid "Click to change the expiration date"
-msgstr ""
+msgstr "Bitiş tarihini değiştirmek için tıkla"
 
 #: mediacore/templates/admin/media/update-status-form.html:94
 msgid "Expires"
@@ -2068,7 +2076,8 @@ msgstr "Bölüm Ekle"
 #, python-format
 msgid "View First Episode %(num)s"
 msgid_plural "View All %(num)s Episodes"
-msgstr[0] "%(num)s Bölümü Görüntüle"
+msgstr[0] "İlk %(num)s Bölümü İzle"
+msgstr[1] "Tüm %(num)s Bölümü İzle"
 
 #: mediacore/templates/admin/podcasts/edit.html:16
 msgid "Edit Podcast"
@@ -2362,7 +2371,8 @@ msgstr "%(authorName)s tarafından"
 #: mediacore/templates/players/html5_or_flash.html:61
 msgid "Dislike"
 msgid_plural "Dislikes"
-msgstr[0] "Beğenilmeme"
+msgstr[0] ""
+msgstr[1] ""
 
 #: mediacore/templates/media/view.html:81
 msgid "Related Podcast"
@@ -2376,6 +2386,7 @@ msgstr "Podcast Bölümleri"
 msgid "Episode"
 msgid_plural "Episodes"
 msgstr[0] "Bölüm"
+msgstr[1] "Bölümler"
 
 #: mediacore/templates/media/view.html:108
 msgid "Related Media"
@@ -2471,7 +2482,8 @@ msgstr "Tüm bölümlere bak"
 #, python-format
 msgid "%(result_count)s Episodes"
 msgid_plural "All %(result_count)s Episodes"
-msgstr[0] "Tüm %(result_count)s Bölümleri"
+msgstr[0] ""
+msgstr[1] ""
 
 #: mediacore/templates/upload/failure.html:17
 #: mediacore/templates/upload/success.html:17
@@ -2541,5 +2553,5 @@ msgstr "Birazdan otomatik olarak [1:Medya Kütüphanesi]'ne yönleneceksiniz."
 
 #: mediacore/validation/uri_validator.py:21
 msgid "That is not a valid URL."
-msgstr ""
+msgstr "Bu geçerli bir URL bağlantı değil."
 
