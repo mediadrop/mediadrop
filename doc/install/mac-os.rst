@@ -101,7 +101,7 @@ with the following command:
 
 .. sourcecode:: bash
 
-    virtualenv.py --no-site-packages --python="$pathtobrewpython" /path/to/virtual_environment
+    virtualenv --no-site-packages --python="$brewpython"/python /path/to/virtual_environment
 
 Finally, we can activate this virutal environment, which we'll have to do when we're
 working with mediacore, with the following command:
