@@ -76,8 +76,8 @@ to use their MySQL server if you already have one.
     brew install mysql
 
 As with all brew commands, it print out some useful information that we may need
-to get the installed software to work as expected. Mediacore will actually need the
-mysql server running, which brew doesn't do for you, but it does tell you how:
+to get the installed software to work as expected. MediaCore will actually need the
+MySQL server running, which brew doesn't do for you, but it does tell you how:
 
 .. sourcecode:: bash
 
@@ -104,7 +104,7 @@ with the following command:
     virtualenv --no-site-packages --python="$BREWPYTHON"/python /path/to/virtual_environment
 
 Finally, we can activate this virutal environment, which we'll have to do when we're
-working with mediacore, with the following command:
+working with MediaCore, with the following command:
 
 .. sourcecode:: bash
 
