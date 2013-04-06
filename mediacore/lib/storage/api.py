@@ -23,7 +23,10 @@ from mediacore.lib.xhtml import clean_xhtml
 from mediacore.plugin.abc import (AbstractClass, abstractmethod,
     abstractproperty)
 
-__all__ = ['add_new_media_file']
+__all__ = ['add_new_media_file', 'sort_engines', 'CannotTranscode', 
+    'FileStorageEngine', 'StorageError', 'StorageEngine', 
+    'UnsuitableEngineError', 'UserStorageError',
+]
 
 log = logging.getLogger(__name__)
 

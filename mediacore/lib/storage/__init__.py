@@ -5,8 +5,7 @@
 # (at your option) any later version.
 # See LICENSE.txt in the main project directory, for more information.
 
-from mediacore.lib.storage.api import (add_new_media_file, sort_engines,
-    StorageError, StorageEngine)
+from mediacore.lib.storage.api import *
 
 from mediacore.lib.storage.localfiles import LocalFileStorage
 from mediacore.lib.storage.remoteurls import RemoteURLStorage
