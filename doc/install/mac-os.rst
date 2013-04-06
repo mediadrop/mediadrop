@@ -51,9 +51,9 @@ can be assured that we use it for the remainder of this tutorial:
 
 .. sourcecode:: bash
 
-    brewpython=`brew ls python | grep 'python$' | grep -v 'Frameworks' | sed 's/\/python$//'`
+    BREWPYTHON=`brew ls python | grep 'python$' | grep -v 'Frameworks' | sed 's/\/python$//'`
 
-This above command looks convoluted but all it does is set the variable brewpython to the 
+This above command looks convoluted but all it does is set the variable "BREWPYTHON" to the 
 location of brew's python, which we'll use in the following section.
 
 Now that we have Xcode and Python installed, now we need to get the necessary system libraries:
@@ -90,18 +90,18 @@ Python libraries and tools
 Before installing MediaCore we also need virtualenv. Virtualenv will manage any
 future software that MediaCore needs to ensure that it does not conflict with any 
 other software, similar to sandboxing. Since we used Homebrew to install our python,
-and remembering have we've set up the variable "brewpython", we can do this:
+and remembering have we've set up the variable "BREWPYTHON", we can do this:
 
 .. sourcecode:: bash
 
-  $brewpython/pip install virtualenv
+  $BREWPYTHON/pip install virtualenv
 
 Now we need to create a "virtual environment" (see :ref:`install_setup_virtualenv`) 
 with the following command:
 
 .. sourcecode:: bash
 
-    virtualenv --no-site-packages --python="$brewpython"/python /path/to/virtual_environment
+    virtualenv --no-site-packages --python="$BREWPYTHON"/python /path/to/virtual_environment
 
 Finally, we can activate this virutal environment, which we'll have to do when we're
 working with mediacore, with the following command:
