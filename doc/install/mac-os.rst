@@ -53,7 +53,7 @@ can be assured that we use it for the remainder of this tutorial:
 
     brewpython=`brew ls python | grep 'python$' | grep -v 'Frameworks' | sed 's/\/python$//'`
 
-This above command looks convoluted but all it does is set the variable pathtobrewpython to the 
+This above command looks convoluted but all it does is set the variable brewpython to the 
 location of brew's python, which we'll use in the following section.
 
 Now that we have Xcode and Python installed, now we need to get the necessary system libraries:
