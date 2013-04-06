@@ -1,8 +1,9 @@
-# Slovak (Slovakia) translations for MediaCore.
+# Slovak translations for MediaCore.
 # Copyright (C) 2013 ORGANIZATION
 # This file is distributed under the same license as the MediaCore project.
 #
 # Translators:
+# <jarjav@gmail.com>, 2013.
 # jarjav <jarjav@gmail.com>, 2011.
 # <vladoportos@gmail.com>, 2011.
 msgid ""
@@ -11,8 +12,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://github.com/mediacore/mediacore-"
 "community/issues\n"
 "POT-Creation-Date: 2013-03-25 17:58+0100\n"
-"PO-Revision-Date: 2013-03-24 08:14+0000\n"
-"Last-Translator: vladoportos <vladoportos@gmail.com>\n"
+"PO-Revision-Date: 2013-04-05 19:29+0000\n"
+"Last-Translator: jarjav <jarjav@gmail.com>\n"
 "Language-Team: sk <LL@li.org>\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2\n"
 "MIME-Version: 1.0\n"
@@ -34,11 +35,11 @@ msgstr "Je nám ľúto, ale neboli sme schopní spracovať túto požiadavku."
 
 #: mediacore/controllers/login.py:39
 msgid "Invalid username or password."
-msgstr ""
+msgstr "Neplatné užívateľské meno alebo heslo."
 
 #: mediacore/controllers/media.py:296
 msgid "Your comment has been rejected."
-msgstr "Váš komentár bol odmietnutý."
+msgstr "Váš komentár bol zamietnutý."
 
 #: mediacore/controllers/media.py:318
 msgid ""
@@ -257,7 +258,7 @@ msgstr[2] "Komentárov"
 
 #: mediacore/forms/admin/groups.py:28
 msgid "Group name already exists"
-msgstr ""
+msgstr "Názov skupiny už existuje"
 
 #: mediacore/forms/admin/groups.py:41 mediacore/forms/admin/players.py:35
 #: mediacore/forms/admin/users.py:42
@@ -269,11 +270,11 @@ msgstr "Zobraz meno"
 
 #: mediacore/forms/admin/groups.py:42
 msgid "Groupname"
-msgstr ""
+msgstr "Názov skupiny"
 
 #: mediacore/forms/admin/groups.py:43
 msgid "Group Permissions"
-msgstr ""
+msgstr "Oprávnenia skupiny"
 
 #: mediacore/forms/admin/media.py:33
 msgid "Bad duration formatting, use Hour:Min:Sec"
@@ -422,7 +423,7 @@ msgstr ""
 
 #: mediacore/forms/admin/players.py:146
 msgid "Video annotations"
-msgstr ""
+msgstr "Poznámky k videu:"
 
 #: mediacore/forms/admin/players.py:149
 msgid "Disable the player keyboard controls."
@@ -552,15 +553,15 @@ msgstr "FeedBurner URL"
 
 #: mediacore/forms/admin/settings.py:25
 msgid "Built-in comments"
-msgstr ""
+msgstr "Vstavané komentáre"
 
 #: mediacore/forms/admin/settings.py:26
 msgid "Facebook comments (requires a Facebook application ID)"
-msgstr ""
+msgstr "Facebook komentáre (vyžaduje ID Facebook aplikácie)"
 
 #: mediacore/forms/admin/settings.py:27
 msgid "Disable comments"
-msgstr ""
+msgstr "Zakázať komentáre:"
 
 #: mediacore/forms/admin/settings.py:32
 msgid "Prepend"
@@ -680,7 +681,7 @@ msgstr ""
 
 #: mediacore/forms/admin/settings.py:196
 msgid "number of items"
-msgstr ""
+msgstr "počet častí"
 
 #: mediacore/forms/admin/settings.py:197
 msgid ""
@@ -719,7 +720,7 @@ msgstr ""
 
 #: mediacore/forms/admin/settings.py:254
 msgid "Built-in Comments:"
-msgstr ""
+msgstr "Vstavané komentáre:"
 
 #: mediacore/forms/admin/settings.py:257
 msgid "Moderation"
@@ -747,15 +748,15 @@ msgstr "Zadajte slová ktoré majú byť filtrované oddelené čiarkou."
 
 #: mediacore/forms/admin/settings.py:267
 msgid "Facebook Comments:"
-msgstr ""
+msgstr "Faceboook komentáre:"
 
 #: mediacore/forms/admin/settings.py:268
 msgid "Application ID"
-msgstr ""
+msgstr "ID aplikácie"
 
 #: mediacore/forms/admin/settings.py:269
 msgid "See: https://developers.facebook.com/apps"
-msgstr ""
+msgstr "Pozri: https://developers.facebook.com/apps"
 
 #: mediacore/forms/admin/settings.py:283
 msgid "Require a key to access the API"
@@ -970,7 +971,7 @@ msgstr "Heslá sa nezhodujú"
 #: mediacore/templates/admin/groups/index.html:17
 #: mediacore/templates/admin/groups/index.html:41
 msgid "Groups"
-msgstr ""
+msgstr "Skupiny"
 
 #: mediacore/forms/admin/users.py:55
 msgid "Confirm password"
@@ -1235,21 +1236,21 @@ msgstr ""
 
 #: mediacore/lib/storage/youtube.py:62
 msgid "This video is private and cannot be embedded."
-msgstr ""
+msgstr "Toto video je súkromné ​​a nemôže byť vložené."
 
 #: mediacore/lib/storage/youtube.py:65
 msgid "Invalid YouTube URL. This video does not exist."
-msgstr ""
+msgstr "Neplatná URL adresa na YouTube. Toto video neexistuje."
 
 #: mediacore/lib/storage/youtube.py:66
 #, python-format
 msgid "YouTube Error: %s"
-msgstr ""
+msgstr "YouTube chyba: %s"
 
 #: mediacore/model/players.py:102
 #, python-format
 msgid "%s (broken)"
-msgstr ""
+msgstr "%s (poškodené)"
 
 #: mediacore/templates/error.html:17
 #, python-format
@@ -1370,15 +1371,15 @@ msgstr "[1:MediaCore] [2:video platform]"
 
 #: mediacore/templates/login.html:16
 msgid "Log in to"
-msgstr ""
+msgstr "Prihlásiť sa do"
 
 #: mediacore/templates/login.html:40
 msgid "Log in"
-msgstr ""
+msgstr "Prihlásiť sa"
 
 #: mediacore/templates/master.html:64
 msgid "Admin"
-msgstr ""
+msgstr "Administrátor"
 
 #: mediacore/templates/master.html:66 mediacore/templates/admin/master.html:50
 msgid "Logout"
@@ -1500,11 +1501,11 @@ msgstr "Nastavenia"
 
 #: mediacore/templates/admin/master.html:66
 msgid "MediaCore CE"
-msgstr ""
+msgstr "MediaCore CE"
 
 #: mediacore/templates/admin/master.html:67
 msgid "© 2009-2013 MediaCore Inc. and contributors"
-msgstr ""
+msgstr "© 2009-2013 MediaCore Inc. a prispievatelia"
 
 #: mediacore/templates/admin/categories/index.html:38
 #: mediacore/templates/admin/comments/index.html:36
@@ -1676,15 +1677,15 @@ msgstr "Ste si istí, že to chcete zmazať?"
 
 #: mediacore/templates/admin/groups/edit.html:37
 msgid "New Group"
-msgstr ""
+msgstr "Nová skupina"
 
 #: mediacore/templates/admin/groups/index.html:32
 msgid "Are you sure you want to delete this group?"
-msgstr ""
+msgstr "Ste si istí, že chcete zmazať túto skupinu?"
 
 #: mediacore/templates/admin/groups/index.html:42
 msgid "Add Group"
-msgstr ""
+msgstr "Pridať skupinu"
 
 #: mediacore/templates/admin/media/_media-table.html:22
 msgid "Publish Date"
@@ -2021,11 +2022,11 @@ msgstr ""
 
 #: mediacore/templates/admin/media/update-status-form.html:94
 msgid "Expires"
-msgstr ""
+msgstr "končí"
 
 #: mediacore/templates/admin/media/update-status-form.html:95
 msgid "never"
-msgstr ""
+msgstr "nikdy"
 
 #: mediacore/templates/admin/players/index.html:16
 #: mediacore/templates/admin/players/index.html:40
@@ -2552,5 +2553,5 @@ msgstr ""
 
 #: mediacore/validation/uri_validator.py:21
 msgid "That is not a valid URL."
-msgstr ""
+msgstr "To nie je platná URL."
 
