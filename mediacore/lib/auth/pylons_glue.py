@@ -45,6 +45,10 @@ class FunctionProtector(object):
             abort(401)
         return decorator(_wrap, function)
     
+    # using the FunctionProtector as a decorator (e.g. in the panda plugin)
+    def __call__(self, action_):
+        return self.wrap(action_)
+
 
 class ControllerProtector(object):
     def __init__(self, predicate):
