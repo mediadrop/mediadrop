@@ -73,7 +73,7 @@ from our site, then unpack it beside your current MediaCore CE installation.
 
    # Download the latest distribution beside the current installation
    cd /path/to/mediacore-old/..
-   wget http://mediacorecommunity.org/files/mediacore-new.tar.gz
+   wget http://mediacorecommunity.org/releases/mediacore-new.tar.gz
 
    # Unpack the downloaded distribution
    tar xzvf mediacore-new.tar.gz
