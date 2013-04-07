@@ -36,7 +36,7 @@ a.mcore-heading:visited {
 }
 {% end %}
 
-{% if appearance_display_logo %}\
+{% if appearance_display_logo and appearance_logo %}\
 .mcore-login-box {
     margin-top: -5px;
 }
