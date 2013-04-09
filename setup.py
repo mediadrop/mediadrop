@@ -15,7 +15,7 @@ install_requires = [
     'WebHelpers == 1.0',
     'SQLAlchemy >= 0.7', # event listener infrastructure
     'sqlalchemy-migrate >= 0.7', # 0.6 is not compatible with SQLAlchemy >= 0.7
-    'Genshi == 0.6',
+    'Genshi >= 0.6', # i18n improvements in Genshi
     'Babel == 0.9.6',
     'Routes == 1.12.3',
     'repoze.who == 1.0.18',
