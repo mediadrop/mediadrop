@@ -401,7 +401,8 @@ class MediaController(BaseController):
                 file.storage.delete(file.unique_id)
                 DBSession.delete(file)
                 DBSession.flush()
-                media = fetch_row(Media, id)
+                # media.files must be updated to reflect the file deletion above
+                DBSession.refresh(media)
                 data['success'] = True
             else:
                 data['message'] = _('No action to perform.')
