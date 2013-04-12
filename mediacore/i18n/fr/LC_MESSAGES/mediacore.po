@@ -6,14 +6,15 @@
 # Étienne BERSAC <bersace03@free.fr>, 2011.
 # natedub <nathan@simplestation.com>, 2011.
 # Nicolas  <nicolas2k9@gmail.com>, 2011.
+# Quentin THEURET <quentin@theuret.net>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: MediaCore Video Platform\n"
 "Report-Msgid-Bugs-To: http://github.com/mediacore/mediacore-"
 "community/issues\n"
 "POT-Creation-Date: 2013-03-25 17:58+0100\n"
-"PO-Revision-Date: 2013-03-24 08:14+0000\n"
-"Last-Translator: Nicolas <nicolas2k9@gmail.com>\n"
+"PO-Revision-Date: 2013-04-12 11:36+0000\n"
+"Last-Translator: Quentin THEURET <quentin@theuret.net>\n"
 "Language-Team: fr <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n > 1)\n"
 "MIME-Version: 1.0\n"
@@ -35,7 +36,7 @@ msgstr "Nous sommes désolés, nous n’avons pas pu répondre à cette requête
 
 #: mediacore/controllers/login.py:39
 msgid "Invalid username or password."
-msgstr ""
+msgstr "Nom d'utilisateur et mot de passe invalide."
 
 #: mediacore/controllers/media.py:296
 msgid "Your comment has been rejected."
@@ -66,16 +67,16 @@ msgstr "Permission refusée, impossible d'enregistrer le fichier"
 #: mediacore/controllers/admin/media.py:559
 #, python-format
 msgid "Unsupported image type: %s"
-msgstr ""
+msgstr "Type d’image non supporté : %s"
 
 #: mediacore/controllers/admin/media.py:562
 #: mediacore/controllers/admin/podcasts.py:211
 msgid "Interlaced PNGs are not supported."
-msgstr ""
+msgstr "Les PNG entrelacés ne sont pas supportés."
 
 #: mediacore/controllers/admin/podcasts.py:91
 msgid "Save the podcast to get your feed URL"
-msgstr ""
+msgstr "Enregistrer le podcast pour avoir l'URL du flux"
 
 #: mediacore/controllers/admin/podcasts.py:208
 #, python-format
@@ -142,7 +143,7 @@ msgstr "Description :"
 
 #: mediacore/forms/uploader.py:47
 msgid "Add a YouTube, Vimeo or Amazon S3 link:"
-msgstr ""
+msgstr "Ajoutez un lien YouTube, Viméo ou Amazon S3 :"
 
 #: mediacore/forms/uploader.py:48
 msgid "Oops! You forgot to enter a file."
@@ -257,7 +258,7 @@ msgstr[1] "Commentaires"
 
 #: mediacore/forms/admin/groups.py:28
 msgid "Group name already exists"
-msgstr ""
+msgstr "Le nom du groupe existe déja"
 
 #: mediacore/forms/admin/groups.py:41 mediacore/forms/admin/players.py:35
 #: mediacore/forms/admin/users.py:42
@@ -269,11 +270,11 @@ msgstr "Nom affiché "
 
 #: mediacore/forms/admin/groups.py:42
 msgid "Groupname"
-msgstr ""
+msgstr "Non du groupe"
 
 #: mediacore/forms/admin/groups.py:43
 msgid "Group Permissions"
-msgstr ""
+msgstr "Permissions du groupe"
 
 #: mediacore/forms/admin/media.py:33
 msgid "Bad duration formatting, use Hour:Min:Sec"
@@ -308,7 +309,7 @@ msgstr "Ajouter une URL"
 
 #: mediacore/forms/admin/media.py:112
 msgid "YouTube, Vimeo, Amazon S3 or any other link"
-msgstr ""
+msgstr "YouTube, Vimeo, Amazon S3 ou tout autre lien"
 
 #: mediacore/forms/admin/media.py:133
 msgid "Delete file"
@@ -402,27 +403,27 @@ msgstr "Options du lecteur :"
 
 #: mediacore/forms/admin/players.py:133
 msgid "Use the deprecated AS2 player."
-msgstr ""
+msgstr "Utilisation du lecteur obsolète AS2"
 
 #: mediacore/forms/admin/players.py:134
 msgid "Use the AS3/HTML5 player."
-msgstr ""
+msgstr "Utilisez le lecteur AS/HTML5"
 
 #: mediacore/forms/admin/players.py:137
 msgid "YouTube player version"
-msgstr ""
+msgstr "Version du lecteur YouTube"
 
 #: mediacore/forms/admin/players.py:142
 msgid "Show video annotations by default."
-msgstr ""
+msgstr "Voir par défaut les annotations de la vidéo."
 
 #: mediacore/forms/admin/players.py:143
 msgid "Hide video annotations by default."
-msgstr ""
+msgstr "Cacher par défaut les annotation de la vidéo."
 
 #: mediacore/forms/admin/players.py:146
 msgid "Video annotations"
-msgstr ""
+msgstr "Annotations de la vidéo"
 
 #: mediacore/forms/admin/players.py:149
 msgid "Disable the player keyboard controls."
@@ -430,23 +431,23 @@ msgstr "Désactiver le clavier de contrôle du lecteur."
 
 #: mediacore/forms/admin/players.py:150
 msgid "Not supported by HTML5 player."
-msgstr ""
+msgstr "Non supportée par le lecteur HTML5."
 
 #: mediacore/forms/admin/players.py:151
 msgid "Autoplay the video when the player loads."
-msgstr ""
+msgstr "Lire automatiquement la vidéo quand le lecteur la charge."
 
 #: mediacore/forms/admin/players.py:152
 msgid "Do not show YouTube logo in the player controls"
-msgstr ""
+msgstr "Ne pas afficher le logo YouTube dans les contrôles du lecteur"
 
 #: mediacore/forms/admin/players.py:153
 msgid "Not supported by AS2 player."
-msgstr ""
+msgstr "Non supportée par le lecteur AS2."
 
 #: mediacore/forms/admin/players.py:154
 msgid "Display fullscreen button."
-msgstr ""
+msgstr "Afficher le bouton 'Plein Écran'."
 
 #: mediacore/forms/admin/players.py:155
 msgid "Enable high-def quality by default."
@@ -468,16 +469,20 @@ msgid ""
 "Show the search box when the video is minimized. The related videos "
 "option must be enabled for this to work."
 msgstr ""
+"Afficher la boîte de recherche quand la vidéo est minimisée. L'option des"
+" vidéos liées doit être activée pour que cela fonctionne."
 
 #: mediacore/forms/admin/players.py:159
 msgid "AS2 player only"
-msgstr ""
+msgstr "Lecteur AS2 uniquement"
 
 #: mediacore/forms/admin/players.py:160
 msgid ""
 "Display information like the video title and uploader before the video "
 "starts playing."
 msgstr ""
+"Afficher les informations telles que le titre de la vidéo et le "
+"téléverseur avant le démarrage de la lecture."
 
 #: mediacore/forms/admin/players.py:161
 msgid "Enable window-less mode (wmode)"
@@ -491,19 +496,23 @@ msgstr ""
 
 #: mediacore/forms/admin/players.py:165
 msgid "Always show player controls."
-msgstr ""
+msgstr "Toujours afficher les contrôles du lecteur."
 
 #: mediacore/forms/admin/players.py:166
 msgid "Autohide all player controls after a video starts playing."
 msgstr ""
+"Cacher automatiquement les contrôles du lecteur après le démarrage de la "
+"lecture d'une vidéo."
 
 #: mediacore/forms/admin/players.py:167
 msgid "Autohide only the progress bar after a video starts playing."
 msgstr ""
+"Cacher automatiquement et uniquement la barre de progression après le "
+"démarrage de la lecture d'une vidéo."
 
 #: mediacore/forms/admin/players.py:170
 msgid "Player control hiding"
-msgstr ""
+msgstr "Cacher les contrôles du lecteur"
 
 #: mediacore/forms/admin/podcasts.py:29
 msgid "Parental Advisory"
@@ -552,15 +561,15 @@ msgstr "URL Feedburner"
 
 #: mediacore/forms/admin/settings.py:25
 msgid "Built-in comments"
-msgstr ""
+msgstr "Écrire un commentaire"
 
 #: mediacore/forms/admin/settings.py:26
 msgid "Facebook comments (requires a Facebook application ID)"
-msgstr ""
+msgstr "Commentaires Facebook (requiert un ID d'application Facebook)"
 
 #: mediacore/forms/admin/settings.py:27
 msgid "Disable comments"
-msgstr ""
+msgstr "Désactiver les commentaires"
 
 #: mediacore/forms/admin/settings.py:32
 msgid "Prepend"
@@ -676,11 +685,11 @@ msgstr "Flux RSS"
 
 #: mediacore/forms/admin/settings.py:193
 msgid "RSS Feed Defaults:"
-msgstr ""
+msgstr "Flux RSS par défaut :"
 
 #: mediacore/forms/admin/settings.py:196
 msgid "number of items"
-msgstr ""
+msgstr "nombre d'éléments"
 
 #: mediacore/forms/admin/settings.py:197
 msgid ""
@@ -715,15 +724,15 @@ msgstr "Editeur de texte enrichi"
 
 #: mediacore/forms/admin/settings.py:250
 msgid "Comment Engine"
-msgstr ""
+msgstr "Moteur de commentaires"
 
 #: mediacore/forms/admin/settings.py:254
 msgid "Built-in Comments:"
-msgstr ""
+msgstr "Commentaires intégrés"
 
 #: mediacore/forms/admin/settings.py:257
 msgid "Moderation"
-msgstr ""
+msgstr "Modération"
 
 #: mediacore/forms/admin/settings.py:258
 msgid "Require comments to be approved by an admin"
@@ -747,15 +756,15 @@ msgstr "Entrez les mots à filtrer séparés par une virgule."
 
 #: mediacore/forms/admin/settings.py:267
 msgid "Facebook Comments:"
-msgstr ""
+msgstr "Commentaires Facebook :"
 
 #: mediacore/forms/admin/settings.py:268
 msgid "Application ID"
-msgstr ""
+msgstr "ID de l'application"
 
 #: mediacore/forms/admin/settings.py:269
 msgid "See: https://developers.facebook.com/apps"
-msgstr ""
+msgstr "Voir : https://developers.facebook.com/apps"
 
 #: mediacore/forms/admin/settings.py:283
 msgid "Require a key to access the API"
@@ -844,7 +853,7 @@ msgstr ""
 
 #: mediacore/forms/admin/settings.py:352
 msgid "Display login link for all users"
-msgstr ""
+msgstr "Afficher le lien de connexion pour tous les utilisateurs"
 
 #: mediacore/forms/admin/settings.py:355
 msgid "Enable Featured Items on the Explore Page"
@@ -872,31 +881,33 @@ msgstr "Afficher l'image de fond"
 
 #: mediacore/forms/admin/settings.py:379
 msgid "Display MediaCore Footer"
-msgstr ""
+msgstr "Afficher le pied-de-page de MediaCore"
 
 #: mediacore/forms/admin/settings.py:383
 msgid "Display MediaCore Credits in Footer"
-msgstr ""
+msgstr "Afficher les crédits de MediaCore dans le pied-de-page"
 
 #: mediacore/forms/admin/settings.py:389
 msgid "Player Menu Options"
-msgstr ""
+msgstr "Options du menu du lecteur"
 
 #: mediacore/forms/admin/settings.py:394
 msgid "Enable Download button on player menu bar."
-msgstr ""
+msgstr "Activer le bouton de téléchargement dans la barre de menu du lecteur."
 
 #: mediacore/forms/admin/settings.py:398
 msgid "Enable Share button on player menu bar."
-msgstr ""
+msgstr "Activer le bouton de partage de la barre de menu du lecteur."
 
 #: mediacore/forms/admin/settings.py:402
 msgid "Enable Embed button on player menu bar."
-msgstr ""
+msgstr "Activer le bouton d'incrustation de la barre de menu du lecteur."
 
 #: mediacore/forms/admin/settings.py:406
 msgid "Enable Widescreen toggle button on player menu bar."
 msgstr ""
+"Activer le bouton de passage en mode 'Écran large' dans la barre de menu "
+"du lecteur."
 
 #: mediacore/forms/admin/settings.py:410
 msgid "Enable Popout button on player menu bar."
@@ -904,11 +915,11 @@ msgstr ""
 
 #: mediacore/forms/admin/settings.py:414
 msgid "Enable Like button on player menu bar."
-msgstr ""
+msgstr "Activer le bouton \"J'aime\" dans la barre de menu du lecteur."
 
 #: mediacore/forms/admin/settings.py:418
 msgid "Enable Dislike button on player menu bar."
-msgstr ""
+msgstr "Activer le bouton \"Je n'aime pas\" dans la barre de menu du lecteur."
 
 #: mediacore/forms/admin/settings.py:423
 msgid "Advanced"
@@ -928,7 +939,7 @@ msgstr "Pied de page HTML personnalisé"
 
 #: mediacore/forms/admin/settings.py:436
 msgid "Custom <head> Tags"
-msgstr ""
+msgstr "Étiquettes <head> personnalisées"
 
 #: mediacore/forms/admin/settings.py:437
 msgid ""
@@ -936,6 +947,9 @@ msgid ""
 "cause ugly rendering of your site. You can always restore your page by "
 "the box above."
 msgstr ""
+"Cette étiquette HTML a été insérée dans la section <head> du HTML. Une "
+"mauvaise valeur peut causer un rendu bizarre de votre site. Vous pouvez "
+"toujours restaurer la page avec la boîte ci-dessus."
 
 #: mediacore/forms/admin/settings.py:445
 #: mediacore/templates/admin/settings/appearance.html:28
@@ -970,7 +984,7 @@ msgstr "Les mots de passe ne correspondent pas"
 #: mediacore/templates/admin/groups/index.html:17
 #: mediacore/templates/admin/groups/index.html:41
 msgid "Groups"
-msgstr ""
+msgstr "Groupes"
 
 #: mediacore/forms/admin/users.py:55
 msgid "Confirm password"
@@ -1198,11 +1212,11 @@ msgstr "Fichier ou URL fournie inutilisable."
 
 #: mediacore/lib/storage/bliptv.py:61
 msgid "Invalid BlipTV URL. This video does not exist."
-msgstr ""
+msgstr "URL Blip TV invalide. Cette vidéo n'existe pas."
 
 #: mediacore/lib/storage/dailymotion.py:62
 msgid "This DailyMotion video does not allow embedding."
-msgstr ""
+msgstr "Cette vidéo DailyMotion n'autorise pas l'incrustation."
 
 #: mediacore/lib/storage/ftp.py:43
 msgid "FTP Storage"
@@ -1235,24 +1249,26 @@ msgid ""
 "This RTMP server has not been configured. Add it by going to Settings > "
 "Storage Engines > Remote URLs."
 msgstr ""
+"Ce serveur RTMP n'a pas été configuré. Ajouter-le en passant par "
+"Paramètres > Moteur de stockabge > URL distantes."
 
 #: mediacore/lib/storage/youtube.py:62
 msgid "This video is private and cannot be embedded."
-msgstr ""
+msgstr "Cette vidéo est privée et ne peut être incrustée."
 
 #: mediacore/lib/storage/youtube.py:65
 msgid "Invalid YouTube URL. This video does not exist."
-msgstr ""
+msgstr "URL YouTube invalide. Cette vidéo n'existe pas."
 
 #: mediacore/lib/storage/youtube.py:66
 #, python-format
 msgid "YouTube Error: %s"
-msgstr ""
+msgstr "Erreur YouTube : %s"
 
 #: mediacore/model/players.py:102
 #, python-format
 msgid "%s (broken)"
-msgstr ""
+msgstr "%s (cassé)"
 
 #: mediacore/templates/error.html:17
 #, python-format
@@ -1373,15 +1389,15 @@ msgstr "[1:MediaCore] [2:Plateforme vidéo]"
 
 #: mediacore/templates/login.html:16
 msgid "Log in to"
-msgstr ""
+msgstr "Se connecter à"
 
 #: mediacore/templates/login.html:40
 msgid "Log in"
-msgstr ""
+msgstr "Se connecter"
 
 #: mediacore/templates/master.html:64
 msgid "Admin"
-msgstr ""
+msgstr "Admin"
 
 #: mediacore/templates/master.html:66 mediacore/templates/admin/master.html:50
 msgid "Logout"
@@ -1503,11 +1519,11 @@ msgstr "Paramètres"
 
 #: mediacore/templates/admin/master.html:66
 msgid "MediaCore CE"
-msgstr ""
+msgstr "MediaCore CE"
 
 #: mediacore/templates/admin/master.html:67
 msgid "© 2009-2013 MediaCore Inc. and contributors"
-msgstr ""
+msgstr "© 2009-2013 MediaCore Inc. et les contributeurs"
 
 #: mediacore/templates/admin/categories/index.html:38
 #: mediacore/templates/admin/comments/index.html:36
@@ -1681,15 +1697,15 @@ msgstr "Êtes-vous sûr de vouloir supprimer ceci ?"
 
 #: mediacore/templates/admin/groups/edit.html:37
 msgid "New Group"
-msgstr ""
+msgstr "Nouveau groupe"
 
 #: mediacore/templates/admin/groups/index.html:32
 msgid "Are you sure you want to delete this group?"
-msgstr ""
+msgstr "Êtes-vous sûr de vouloir supprimer ce groupe ?"
 
 #: mediacore/templates/admin/groups/index.html:42
 msgid "Add Group"
-msgstr ""
+msgstr "Ajouter un groupe"
 
 #: mediacore/templates/admin/media/_media-table.html:22
 msgid "Publish Date"
@@ -2026,15 +2042,15 @@ msgstr "Publier maintenant"
 
 #: mediacore/templates/admin/media/update-status-form.html:94
 msgid "Click to change the expiration date"
-msgstr ""
+msgstr "Cliquez pour changer la date d'expiration"
 
 #: mediacore/templates/admin/media/update-status-form.html:94
 msgid "Expires"
-msgstr ""
+msgstr "Expire"
 
 #: mediacore/templates/admin/media/update-status-form.html:95
 msgid "never"
-msgstr ""
+msgstr "jamais"
 
 #: mediacore/templates/admin/players/index.html:16
 #: mediacore/templates/admin/players/index.html:40
@@ -2271,7 +2287,7 @@ msgstr "Dernier contenu dans %s"
 #: mediacore/templates/categories/index.html:31
 #: mediacore/templates/media/explore.html:111
 msgid "More new media"
-msgstr ""
+msgstr "Plus de nouveaux médias"
 
 #: mediacore/templates/categories/index.html:31
 #: mediacore/templates/categories/index.html:36
@@ -2283,7 +2299,7 @@ msgstr "En voir plus"
 #: mediacore/templates/categories/index.html:36
 #: mediacore/templates/media/explore.html:96
 msgid "More popular media"
-msgstr ""
+msgstr "Plus de médias populaires"
 
 #: mediacore/templates/categories/index.html:38
 #: mediacore/templates/categories/more.html:26
@@ -2565,5 +2581,5 @@ msgstr ""
 
 #: mediacore/validation/uri_validator.py:21
 msgid "That is not a valid URL."
-msgstr ""
+msgstr "Ceci n'est pas une URL valide"
 
