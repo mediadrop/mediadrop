@@ -6,6 +6,8 @@
 # the GPLv3 or (at your option) any later version.
 # See LICENSE.txt in the main project directory, for more information.
 
+import re
+
 from mediacore.lib.js_delivery import InlineJS, Script, Scripts
 from mediacore.lib.test.pythonic_testcase import *
 
@@ -37,6 +39,7 @@ class InlineJSTest(PythonicTestCase):
         assert_equals(first, first)
         assert_equals(first, second)
         assert_equals(second, first)
+        assert_equals(first, InlineJS('var a = %(a)s;', params=dict(a=42)))
     
     def test_can_tell_that_another_inlinescript_is_not_equal(self):
         first = InlineJS('var a = 42;')
@@ -47,6 +50,47 @@ class InlineJSTest(PythonicTestCase):
     def test_can_render_as_html(self):
         assert_equals('<script type="text/javascript">var a = 42;</script>',
                       InlineJS('var a = 42;').render())
+    
+    def _js_code(self, script):
+        match = re.search('^<script[^>]*?>(.*)</script>$', script.render())
+        return match.group(1)
+    
+    def test_can_treat_js_as_template_and_inject_specified_parameters(self):
+        script = InlineJS('var a = %(a)d;', params=dict(a=42))
+        assert_equals('var a = 42;', self._js_code(script))
+    
+    def test_can_escape_string_parameters(self):
+        script = InlineJS('var a = %(a)s;', params=dict(a='<script>'))
+        assert_equals('var a = "\u003cscript\u003e";', self._js_code(script))
+    
+    def test_can_escape_list_parameter(self):
+        script = InlineJS('var a = %(a)s;', params=dict(a=['<script>', 'b']))
+        assert_equals('var a = ["\u003cscript\u003e", "b"];', self._js_code(script))
+        
+        script = InlineJS('var a = %(a)s;', params=dict(a=('<script>', 'b')))
+        assert_equals('var a = ["\u003cscript\u003e", "b"];', self._js_code(script))
+    
+    def test_can_escape_dict_parameter(self):
+        script = InlineJS('var a = %(a)s;', params=dict(a={'foo': '<script>'}))
+        assert_equals('var a = {"foo": "\u003cscript\u003e"};', self._js_code(script))
+    
+    def test_does_not_escape_numbers(self):
+        script = InlineJS('var a=%(a)d, b=%(b)s, c=%(c)0.2f;',
+            params=dict(a=21, b=10l, c=1.5))
+        assert_equals('var a=21, b=10, c=1.50;', self._js_code(script))
+    
+    def test_can_convert_simple_parameters(self):
+        script = InlineJS('var a=%(a)s, b=%(b)s, c=%(c)s;',
+          params=dict(a=True, b=False, c=None))
+        assert_equals('var a=true, b=false, c=null;', self._js_code(script))
+    
+    def test_can_escape_nested_parameters_correctly(self):
+        script = InlineJS('var a = %(a)s;', params=dict(a=[True, dict(b=12, c=["foo"])]))
+        assert_equals('var a = [true, {"c": ["foo"], "b": 12}];', self._js_code(script))
+     
+    def test_raise_exception_for_unknown_parameters(self):
+        script = InlineJS('var a = %(a)s;', params=dict(a=complex(2,3)))
+        assert_raises(ValueError, script.render)
 
 
 class ScriptsTest(PythonicTestCase):
