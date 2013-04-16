@@ -306,28 +306,28 @@ def has_permission(permission_name):
     return request.perm.contains_permission(permission_name)
 
 def is_admin():
-    """Return True if the logged in user is a part of the Admins group.
+    """Return True if the logged in user has the "admin" permission.
 
-    TODO: This method will need to be replaced when we improve our user
-    access controls.
+    For a default install a user has the "admin" permission if he is a member
+    of the "admins" group.
 
-    :returns: Whether or not the current user is an Admin.
+    :returns: Whether or not the current user has "admin" permission.
     :rtype: bool
     """
-    return has_permission('admin')
+    return has_permission(u'admin')
 
 def can_edit(item=None):
-    """Return True if the logged in user has the 'edit' permission.
+    """Return True if the logged in user has the "edit" permission.
 
-    :param item: When we improve our user access controls, this will be used
-                 to check edit permissions on a particular object.
-                 TODO: 'item' is currently an unimplemented argument.
+    For a default install this is true for all members of the "admins" group.
+
+    :param item: unused parameter (deprecated)
     :type item: unimplemented
 
-    :returns: Whether the current user has the 'edit' permission.
+    :returns: Whether or not the current user has "edit" permission.
     :rtype: bool
     """
-    return has_permission('edit')
+    return has_permission(u'edit')
 
 def gravatar_from_email(email, size):
     """Return the URL for a gravatar image matching the provided email address.
