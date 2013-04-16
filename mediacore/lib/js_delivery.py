@@ -6,6 +6,12 @@
 # the GPLv3 or (at your option) any later version.
 # See LICENSE.txt in the main project directory, for more information.
 
+from decimal import Decimal
+
+import simplejson
+from simplejson.encoder import JSONEncoderForHTML
+from sqlalchemy.orm.properties import NoneType
+
 __all__ = ['InlineJS', 'Script', 'Scripts']
 
 
@@ -38,12 +44,39 @@ class Script(object):
 
 
 class InlineJS(object):
-    def __init__(self, code, key=None):
+    def __init__(self, code, key=None, params=None):
         self.code = code
         self.key = key
+        self.params = params
+    
+    def as_safe_json(self, s):
+        return simplejson.dumps(s, cls=JSONEncoderForHTML)
+    
+    def _escaped_parameters(self, params):
+        escaped_params = dict()
+        for key, value in params.items():
+            if isinstance(value, (bool, NoneType)):
+                # this condition must come first because "1 == True" in Python
+                # but "1 !== true" in JavaScript and the "int" check below
+                # would pass True unmodified
+                escaped_params[key] = self.as_safe_json(value)
+            elif isinstance(value, (int, long, float)):
+                # use these numeric values directly as format string
+                # parameters - they are mapped to JS types perfectly and don't
+                # need any escaping.
+                escaped_params[key] = value
+            elif isinstance(value, (basestring, dict, tuple, list, Decimal)):
+                escaped_params[key] = self.as_safe_json(value)
+            else:
+                klassname = value.__class__.__name__
+                raise ValueError('unknown type %s' % klassname)
+        return escaped_params
     
     def render(self):
-        return '<script type="text/javascript">%s</script>' % self.code
+        js = self.code
+        if self.params is not None:
+            js = self.code % self._escaped_parameters(self.params)
+        return '<script type="text/javascript">%s</script>' % js
     
     def __unicode__(self):
         return self.render()
@@ -55,9 +88,9 @@ class InlineJS(object):
         # extremely simple equality check: two InlineJS instances are equal if 
         # the code is exactly the same! No trimming of whitespaces or any other
         # analysis is done.
-        if not hasattr(other, 'code'):
+        if not hasattr(other, 'render'):
             return False
-        return self.code == other.code
+        return self.render() == other.render()
     
     def __ne__(self, other):
         return not (self == other)
