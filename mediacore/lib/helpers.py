@@ -12,6 +12,7 @@ available to Controllers. This module is available to templates as 'h'.
 import re
 import simplejson
 import time
+import warnings
 
 from datetime import datetime
 from urllib import quote, unquote, urlencode
@@ -327,6 +328,9 @@ def can_edit(item=None):
     :returns: Whether or not the current user has "edit" permission.
     :rtype: bool
     """
+    if item is not None:
+        warnings.warn(u'"item" parameter for can_edit() is deprecated', 
+          DeprecationWarning, stacklevel=2)
     return has_permission(u'edit')
 
 def gravatar_from_email(email, size):
