@@ -439,7 +439,7 @@ class Media(object):
             title=u'Foo Media',
             author=Author(u'Joe', u'joe@site.example'),
             
-            type = VIDEO,
+            type = None,
         )
         defaults.update(kwargs)
         defaults.setdefault('slug', get_available_slug(Media, defaults['title']))

@@ -5,7 +5,6 @@
 # (at your option) any later version.
 # See LICENSE.txt in the main project directory, for more information.
 
-from mediacore.lib.filetypes import VIDEO
 from mediacore.model import Author, Media
 from mediacore.lib.test.db_testcase import DBTestCase
 from mediacore.lib.test.pythonic_testcase import *
@@ -22,7 +21,7 @@ class MediaExampleTest(DBTestCase):
         assert_equals(Author(u'Joe', u'joe@site.example'), media.author)
         assert_length(0, media.files)
         
-        assert_equals(VIDEO, media.type)
+        assert_none(media.type)
         assert_none(media.podcast_id)
         
         assert_false(media.publishable)
