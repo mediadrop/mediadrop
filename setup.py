@@ -9,6 +9,7 @@ import sys
 from mediacore import __version__ as VERSION
 
 install_requires = [
+    'ddt',
     'WebTest == 1.2',
     'Pylons == 0.10',
     'WebOb == 1.0.7',
