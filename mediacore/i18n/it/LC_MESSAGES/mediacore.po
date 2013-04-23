@@ -35,7 +35,7 @@ msgstr "Siamo spiacenti ma non è stato possibile processare la richiesta."
 
 #: mediacore/controllers/login.py:39
 msgid "Invalid username or password."
-msgstr ""
+msgstr "Utente o Password errati"
 
 #: mediacore/controllers/media.py:296
 msgid "Your comment has been rejected."
@@ -66,7 +66,7 @@ msgstr "Permesso negato, non posso scrivere il file"
 #: mediacore/controllers/admin/media.py:559
 #, python-format
 msgid "Unsupported image type: %s"
-msgstr ""
+msgstr "Tipo di immagine non supportato: %s"
 
 #: mediacore/controllers/admin/media.py:562
 #: mediacore/controllers/admin/podcasts.py:211
@@ -75,7 +75,7 @@ msgstr "I PNG interlacciati non sono supportati."
 
 #: mediacore/controllers/admin/podcasts.py:91
 msgid "Save the podcast to get your feed URL"
-msgstr "Salva il podcast per avere l'URL del feed"
+msgstr "Salva il podcast per ottenere l'URL del feed"
 
 #: mediacore/controllers/admin/podcasts.py:208
 #, python-format
@@ -84,11 +84,11 @@ msgstr "Tipo di immagine non supportato: %s"
 
 #: mediacore/forms/__init__.py:211
 msgid "The portion of the email address before the @ is invalid"
-msgstr "La parte di email prima della @ non è valida"
+msgstr "La parte dell'indirizzo email prima della @ non è valida"
 
 #: mediacore/forms/__init__.py:212
 msgid "The portion of this email address after the @ is invalid"
-msgstr "La parte di email dopo la @ non è valida"
+msgstr "La parte dell'indirizzo email dopo la @ non è valida"
 
 #: mediacore/forms/comments.py:15
 msgid "Please enter your name!"
@@ -130,7 +130,7 @@ msgstr "Il tuo email:"
 
 #: mediacore/forms/uploader.py:44
 msgid "(will never be published)"
-msgstr "(non sarà pubblicato)"
+msgstr "(non sarà mai pubblicato)"
 
 #: mediacore/forms/uploader.py:45
 msgid "Title:"
@@ -142,11 +142,11 @@ msgstr "Descrizione:"
 
 #: mediacore/forms/uploader.py:47
 msgid "Add a YouTube, Vimeo or Amazon S3 link:"
-msgstr ""
+msgstr "Inserisci un link YouTube, Vimeo o Amazon S3: "
 
 #: mediacore/forms/uploader.py:48
 msgid "Oops! You forgot to enter a file."
-msgstr "Oops! Ti sei dimenticato di inserire un file."
+msgstr "Oops! Hai dimenticato di inserire un file."
 
 #: mediacore/forms/uploader.py:48
 msgid "OR:"
@@ -154,7 +154,7 @@ msgstr "O:"
 
 #: mediacore/forms/uploader.py:49
 msgid "Submit"
-msgstr "Invia:"
+msgstr "Invia"
 
 #: mediacore/forms/admin/__init__.py:19
 msgid "SEARCH..."
@@ -181,7 +181,7 @@ msgstr "Link permanente"
 
 #: mediacore/forms/admin/categories.py:40
 msgid "Parent Category"
-msgstr "Categoria parente"
+msgstr "Categoria Superiore"
 
 #: mediacore/forms/admin/categories.py:41 mediacore/forms/admin/comments.py:25
 #: mediacore/forms/admin/tags.py:41
@@ -257,7 +257,7 @@ msgstr[1] "Commenti"
 
 #: mediacore/forms/admin/groups.py:28
 msgid "Group name already exists"
-msgstr ""
+msgstr "Il nome del gruppo esiste già"
 
 #: mediacore/forms/admin/groups.py:41 mediacore/forms/admin/players.py:35
 #: mediacore/forms/admin/users.py:42
@@ -269,11 +269,11 @@ msgstr "Visualizza Nome"
 
 #: mediacore/forms/admin/groups.py:42
 msgid "Groupname"
-msgstr ""
+msgstr "Nome del gruppo"
 
 #: mediacore/forms/admin/groups.py:43
 msgid "Group Permissions"
-msgstr ""
+msgstr "Permessi del gruppo"
 
 #: mediacore/forms/admin/media.py:33
 msgid "Bad duration formatting, use Hour:Min:Sec"
@@ -308,7 +308,7 @@ msgstr "Aggiungi URL"
 
 #: mediacore/forms/admin/media.py:112
 msgid "YouTube, Vimeo, Amazon S3 or any other link"
-msgstr ""
+msgstr "YouTube, Vimeo, Amazon S3 o qualunque altro link"
 
 #: mediacore/forms/admin/media.py:133
 msgid "Delete file"
@@ -316,7 +316,7 @@ msgstr "Cancella file"
 
 #: mediacore/forms/admin/media.py:147
 msgid "Include in the Podcast"
-msgstr "Includi in un Podcast"
+msgstr "Includi nel Podcast"
 
 #: mediacore/forms/admin/media.py:147
 msgid "Optional"
@@ -386,7 +386,7 @@ msgstr "No, utilizza il Visualizzatore HTML5 quando il dispositivo lo supporta."
 
 #: mediacore/forms/admin/players.py:90
 msgid "Prefer the Flash Player when possible"
-msgstr "Preferisce il Visualizzatore flash quando possibile"
+msgstr "Preferisci il Visualizzatore flash quando possibile"
 
 #: mediacore/forms/admin/players.py:109
 msgid "Script Tag"
@@ -406,7 +406,7 @@ msgstr "Usa il player AS2 (deprecato)"
 
 #: mediacore/forms/admin/players.py:134
 msgid "Use the AS3/HTML5 player."
-msgstr ""
+msgstr "Usa il player AS3/HTML5."
 
 #: mediacore/forms/admin/players.py:137
 msgid "YouTube player version"
@@ -426,27 +426,27 @@ msgstr "Annotazioni del video"
 
 #: mediacore/forms/admin/players.py:149
 msgid "Disable the player keyboard controls."
-msgstr "Disabilita la tastiera di controllo del visualizzatore."
+msgstr "Disabilita i controlli da tastiera del visualizzatore."
 
 #: mediacore/forms/admin/players.py:150
 msgid "Not supported by HTML5 player."
-msgstr ""
+msgstr "Non supportato dal player HTML5."
 
 #: mediacore/forms/admin/players.py:151
 msgid "Autoplay the video when the player loads."
-msgstr ""
+msgstr "Riproduzione automatica del video al caricamento del player."
 
 #: mediacore/forms/admin/players.py:152
 msgid "Do not show YouTube logo in the player controls"
-msgstr ""
+msgstr "Non mostrare il logo YouTube nei controlli del player"
 
 #: mediacore/forms/admin/players.py:153
 msgid "Not supported by AS2 player."
-msgstr ""
+msgstr "Non supportato dal player AS2."
 
 #: mediacore/forms/admin/players.py:154
 msgid "Display fullscreen button."
-msgstr ""
+msgstr "Mostra il bottone per la visualizzazione fullscreen."
 
 #: mediacore/forms/admin/players.py:155
 msgid "Enable high-def quality by default."
@@ -457,11 +457,12 @@ msgid ""
 "Applies only for the AS2 player, the AS3 player will choose the most "
 "appropriate version of the video version (e.g. considering the user's "
 "bandwidth)"
-msgstr ""
+msgstr "Applicabile solo per il player AS2, il player AS3 sceglierà la versione"
+"più appropriata del video (es. considerando la banda dell'utente)"
 
 #: mediacore/forms/admin/players.py:157
 msgid "Display related videos after playback of the initial video ends."
-msgstr ""
+msgstr "Mostra i video correlati dopo la fine della riproduzione del video iniziale."
 
 #: mediacore/forms/admin/players.py:158
 msgid ""
@@ -473,23 +474,24 @@ msgstr ""
 
 #: mediacore/forms/admin/players.py:159
 msgid "AS2 player only"
-msgstr ""
+msgstr "Solo player AS2"
 
 #: mediacore/forms/admin/players.py:160
 msgid ""
 "Display information like the video title and uploader before the video "
 "starts playing."
-msgstr ""
-
+msgstr "Mostra informazioni come il titolo e l'autore prima che il video "
+"inizi la riproduzione."
 #: mediacore/forms/admin/players.py:161
 msgid "Enable window-less mode (wmode)"
-msgstr ""
+msgstr "Abilita modalità senza finestra (wmode)"
 
 #: mediacore/forms/admin/players.py:162
 msgid ""
 "wmode allows HTML/CSS elements to be placed over the actual Flash video "
 "but requires more CPU power."
-msgstr ""
+msgstr "wmode permette il posizionamento di elementi HTML/CSS sopra il video Flash "
+"ma richiede più potenza di CPU"
 
 #: mediacore/forms/admin/players.py:165
 msgid "Always show player controls."
@@ -678,11 +680,11 @@ msgstr "Feed RSS"
 
 #: mediacore/forms/admin/settings.py:193
 msgid "RSS Feed Defaults:"
-msgstr ""
+msgstr "Defaults dei feed RSS:"
 
 #: mediacore/forms/admin/settings.py:196
 msgid "number of items"
-msgstr ""
+msgstr "numero degli oggetti"
 
 #: mediacore/forms/admin/settings.py:197
 msgid ""
