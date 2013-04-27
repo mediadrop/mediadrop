@@ -120,13 +120,13 @@ def create_wsgi_environ(url, request_method, request_body=None):
 
 
 def fake_request(pylons_config, server_name='mediacore.example', language='en', 
-                 method='GET', post_vars=None):
+                 method='GET', request_uri='/', post_vars=None):
     app_globals = pylons_config['pylons.app_globals']
     pylons.app_globals._push_object(app_globals)
     
     if post_vars and method.upper() != 'POST':
         raise ValueError('You must not specify post_vars for request method %r' % method)
-    wsgi_environ = create_wsgi_environ('http://%s' % server_name, 
+    wsgi_environ = create_wsgi_environ('http://%s%s' % (server_name, request_uri),
         method.upper(), request_body=post_vars)
     request = Request(wsgi_environ, charset='utf-8')
     request.language = language

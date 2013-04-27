@@ -29,13 +29,25 @@ __all__ = [
 ]
 
 def current_url(with_qs=True, qualified=True):
-    # url_for() returns the current URL in most cases however when the error
-    # controller is triggered it will return '<host>/error/document' instead of
-    # the url shown in the address bar
-    # This method will always return the current url
-    original_request = request.environ.get('pylons.original_request') or request
-    request_path = with_qs and original_request.path_qs or original_request.path
-    return url_for(request_path, qualified=qualified)
+    """This method returns the "current" (as in "url as request by the user")
+    url.
+    
+    The default "url_for()" returns the current URL in most cases however when
+    the error controller is triggered "url_for()" will return the url of the
+    error document ('<host>/error/document') instead of the url requested by the
+    user."""
+    original_request = request.environ.get('pylons.original_request')
+    if original_request:
+        request_ = original_request
+        url_generator = original_request.environ.get('routes.url')
+        url = url_generator.current(qualified=qualified)
+    else:
+        request_ = request
+        url = url_for(qualified=qualified)
+    query_string = request_.environ.get('QUERY_STRING')
+    if with_qs and query_string:
+        return url + '?' + query_string
+    return url
 
 def url(*args, **kwargs):
     """Compose a URL with :func:`pylons.url`, all arguments are passed."""
@@ -66,7 +78,7 @@ def _generate_url(url_func, *args, **kwargs):
         kwargs = dict((key, to_utf8(val)) for key, val in kwargs.iteritems())
 
     # TODO: Rework templates so that we can avoid using .current, and use named
-    # routes, as described at http://routes.groovie.org/manual.html#generating-routes-based-on-the-current-url
+    # routes, as described at http://routes.readthedocs.org/en/latest/generating.html#generating-routes-based-on-the-current-url
     # NOTE: pylons.url is a StackedObjectProxy wrapping the routes.url method.
     url = url_func(*args, **kwargs)
 
