@@ -13,7 +13,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://github.com/mediacore/mediacore-"
 "community/issues\n"
 "POT-Creation-Date: 2013-03-25 17:58+0100\n"
-"PO-Revision-Date: 2013-03-25 17:57+0000\n"
+"PO-Revision-Date: 2013-04-30 12:36+0200\n"
 "Last-Translator: fschwarz <felix.schwarz@oss.schwarz.eu>\n"
 "Language-Team: de <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
@@ -36,11 +36,11 @@ msgstr "Leider konnten wir Ihre Anfrage nicht verarbeiten."
 
 #: mediacore/controllers/login.py:39
 msgid "Invalid username or password."
-msgstr ""
+msgstr "Nutzername oder Passwort fehlerhaft."
 
 #: mediacore/controllers/media.py:296
 msgid "Your comment has been rejected."
-msgstr "Ihr Kommentar wurde abgewiesen."
+msgstr "Ihr Kommentar wurde zurückgewiesen."
 
 #: mediacore/controllers/media.py:318
 msgid ""
@@ -74,11 +74,11 @@ msgstr "Nicht unterstützter Bildtyp: %s"
 #: mediacore/controllers/admin/media.py:562
 #: mediacore/controllers/admin/podcasts.py:211
 msgid "Interlaced PNGs are not supported."
-msgstr ""
+msgstr "\"Interlaced\" PNG-Dateien werden nicht unterstützt."
 
 #: mediacore/controllers/admin/podcasts.py:91
 msgid "Save the podcast to get your feed URL"
-msgstr ""
+msgstr "Bitte speichern Sie den Podcast, um Ihre Feed-URL zu erhalten."
 
 #: mediacore/controllers/admin/podcasts.py:208
 #, python-format
@@ -272,11 +272,11 @@ msgstr "Anzeige-Name"
 
 #: mediacore/forms/admin/groups.py:42
 msgid "Groupname"
-msgstr ""
+msgstr "Gruppenname"
 
 #: mediacore/forms/admin/groups.py:43
 msgid "Group Permissions"
-msgstr ""
+msgstr "Gruppen-Rechte"
 
 #: mediacore/forms/admin/media.py:33
 msgid "Bad duration formatting, use Hour:Min:Sec"
@@ -405,27 +405,27 @@ msgstr "Player-Optionen:"
 
 #: mediacore/forms/admin/players.py:133
 msgid "Use the deprecated AS2 player."
-msgstr ""
+msgstr "Veralteten AS2-Player verwenden."
 
 #: mediacore/forms/admin/players.py:134
 msgid "Use the AS3/HTML5 player."
-msgstr ""
+msgstr "AS3/HTML5-Player verwenden."
 
 #: mediacore/forms/admin/players.py:137
 msgid "YouTube player version"
-msgstr ""
+msgstr "Version des YouTube-Players"
 
 #: mediacore/forms/admin/players.py:142
 msgid "Show video annotations by default."
-msgstr ""
+msgstr "Videoanmerkungen standardmäßig anzeigen"
 
 #: mediacore/forms/admin/players.py:143
 msgid "Hide video annotations by default."
-msgstr ""
+msgstr "Videoanmerkungen standardmäßig verbergen"
 
 #: mediacore/forms/admin/players.py:146
 msgid "Video annotations"
-msgstr ""
+msgstr "Videoanmerkungen"
 
 #: mediacore/forms/admin/players.py:149
 msgid "Disable the player keyboard controls."
@@ -433,27 +433,27 @@ msgstr "Deaktiviere die Player-Tastatursteuerung."
 
 #: mediacore/forms/admin/players.py:150
 msgid "Not supported by HTML5 player."
-msgstr ""
+msgstr "wird vom HTML5-Player nicht unterstützt"
 
 #: mediacore/forms/admin/players.py:151
 msgid "Autoplay the video when the player loads."
-msgstr ""
+msgstr "Video automatisch abspielen, sobald der Player geladen wurde."
 
 #: mediacore/forms/admin/players.py:152
 msgid "Do not show YouTube logo in the player controls"
-msgstr ""
+msgstr "Kein YouTube-Logo in den Player-Kontrollelementen anzeigen"
 
 #: mediacore/forms/admin/players.py:153
 msgid "Not supported by AS2 player."
-msgstr ""
+msgstr "wird vom AS2-Player nicht unterstützt"
 
 #: mediacore/forms/admin/players.py:154
 msgid "Display fullscreen button."
-msgstr ""
+msgstr "Vollbild-Option anzeigen"
 
 #: mediacore/forms/admin/players.py:155
 msgid "Enable high-def quality by default."
-msgstr "Verwende hohe Auflösungen als Standard."
+msgstr "Verwende HD-Qualität als Standard."
 
 #: mediacore/forms/admin/players.py:156
 msgid ""
@@ -461,20 +461,25 @@ msgid ""
 "appropriate version of the video version (e.g. considering the user's "
 "bandwidth)"
 msgstr ""
+"Diese Option wird nur vom AS2-Player verwendet. Der AS3-Player wählt "
+"automatisch die am besten passende Version des Videos (z.B. unter "
+"Berücksichtigung der zur Verfügung stehenden Bandbreite)."
 
 #: mediacore/forms/admin/players.py:157
 msgid "Display related videos after playback of the initial video ends."
-msgstr ""
+msgstr "Ähnliche Videos anzeigen nachdem das Video abgespielt wurde."
 
 #: mediacore/forms/admin/players.py:158
 msgid ""
 "Show the search box when the video is minimized. The related videos "
 "option must be enabled for this to work."
 msgstr ""
+"Suchfeld anzeigen, wenn das Video minimiert ist. Dies funktioniert nur, wenn "
+"nach dem Abspielen ähnliche Videos angezeigt werden."
 
 #: mediacore/forms/admin/players.py:159
 msgid "AS2 player only"
-msgstr ""
+msgstr "nur für den AS2-Player"
 
 #: mediacore/forms/admin/players.py:160
 msgid ""
@@ -486,29 +491,31 @@ msgstr ""
 
 #: mediacore/forms/admin/players.py:161
 msgid "Enable window-less mode (wmode)"
-msgstr ""
+msgstr "\"window-less mode\" (wmode) aktivieren"
 
 #: mediacore/forms/admin/players.py:162
 msgid ""
 "wmode allows HTML/CSS elements to be placed over the actual Flash video "
 "but requires more CPU power."
 msgstr ""
+"wmode erlaubt es, HTML/CSS-Elemente über dem eigentliche Flash-Video zu "
+"positionieren, erfordert aber mehr Rechenleistung."
 
 #: mediacore/forms/admin/players.py:165
 msgid "Always show player controls."
-msgstr ""
+msgstr "Player-Kontrollelemente permanent anzeigen."
 
 #: mediacore/forms/admin/players.py:166
 msgid "Autohide all player controls after a video starts playing."
-msgstr ""
+msgstr "Alle Player-Kontrollelemente beim Abspielen des Videos verbergen."
 
 #: mediacore/forms/admin/players.py:167
 msgid "Autohide only the progress bar after a video starts playing."
-msgstr ""
+msgstr "Nur den Fortschrittsbalken beim Abspielen des Videos verbergen."
 
 #: mediacore/forms/admin/players.py:170
 msgid "Player control hiding"
-msgstr ""
+msgstr "Verbergen der Kontrollelemente"
 
 #: mediacore/forms/admin/podcasts.py:29
 msgid "Parental Advisory"
@@ -557,15 +564,15 @@ msgstr "Feedburner-URL"
 
 #: mediacore/forms/admin/settings.py:25
 msgid "Built-in comments"
-msgstr ""
+msgstr "MediaCore-eigene Kommentare"
 
 #: mediacore/forms/admin/settings.py:26
 msgid "Facebook comments (requires a Facebook application ID)"
-msgstr ""
+msgstr "Facebook-Kommentare (benötigt eine Facebook \"application ID\")"
 
 #: mediacore/forms/admin/settings.py:27
 msgid "Disable comments"
-msgstr ""
+msgstr "Kommentare deaktivieren"
 
 #: mediacore/forms/admin/settings.py:32
 msgid "Prepend"
@@ -681,11 +688,11 @@ msgstr "RSS-Feeds"
 
 #: mediacore/forms/admin/settings.py:193
 msgid "RSS Feed Defaults:"
-msgstr ""
+msgstr "Standardeinstellungen für RSS-Feeds:"
 
 #: mediacore/forms/admin/settings.py:196
 msgid "number of items"
-msgstr ""
+msgstr "Anzahl Einträge"
 
 #: mediacore/forms/admin/settings.py:197
 msgid ""
@@ -693,6 +700,9 @@ msgid ""
 "\"?limit=X\" to the feed URL. If the \"limit\" parameter is absent, the "
 "default above is used."
 msgstr ""
+"Die Anzahl von Einträgen im Feed kann pro Anfrage überschrieben werden, indem "
+"Sie \"?limit=X\" an die Feed-URL anhängen. Falls der \"limit\"-Parameter "
+"fehlt, wird die obige Standardeinstellung verwendet."
 
 #: mediacore/forms/admin/settings.py:215
 msgid "General Settings:"
@@ -720,15 +730,15 @@ msgstr "Texteingabe"
 
 #: mediacore/forms/admin/settings.py:250
 msgid "Comment Engine"
-msgstr ""
+msgstr "Kommentare"
 
 #: mediacore/forms/admin/settings.py:254
 msgid "Built-in Comments:"
-msgstr ""
+msgstr "MediaCore-eigene Kommentare"
 
 #: mediacore/forms/admin/settings.py:257
 msgid "Moderation"
-msgstr ""
+msgstr "Moderation"
 
 #: mediacore/forms/admin/settings.py:258
 msgid "Require comments to be approved by an admin"
@@ -752,15 +762,15 @@ msgstr "Geben Sie die zu sperrenden Wörter durch Komma getrennt ein."
 
 #: mediacore/forms/admin/settings.py:267
 msgid "Facebook Comments:"
-msgstr ""
+msgstr "Facebook-Kommentare"
 
 #: mediacore/forms/admin/settings.py:268
 msgid "Application ID"
-msgstr ""
+msgstr "Application ID"
 
 #: mediacore/forms/admin/settings.py:269
 msgid "See: https://developers.facebook.com/apps"
-msgstr ""
+msgstr "siehe https://developers.facebook.com/apps"
 
 #: mediacore/forms/admin/settings.py:283
 msgid "Require a key to access the API"
@@ -845,11 +855,13 @@ msgstr "Cooliris auf der Hauptseite aktivieren"
 msgid ""
 "Cooliris support is deprecated and will be removed in the next major "
 "version of MediaCore CE unless someone is interested in maintaining it."
-msgstr ""
+msgstr "Die Unterstützung für Cooliris wird in der nächsten Version von "
+"MediaCore CE entfernt, sofern sich kein Freiwilliger für die laufende Pflege "
+"findet."
 
 #: mediacore/forms/admin/settings.py:352
 msgid "Display login link for all users"
-msgstr ""
+msgstr "Login-Link für alle Nutzer anzeigen"
 
 #: mediacore/forms/admin/settings.py:355
 msgid "Enable Featured Items on the Explore Page"
@@ -877,43 +889,43 @@ msgstr "Hintergrundbild anzeigen"
 
 #: mediacore/forms/admin/settings.py:379
 msgid "Display MediaCore Footer"
-msgstr ""
+msgstr "MediaCore-Fußzeile anzeigen"
 
 #: mediacore/forms/admin/settings.py:383
 msgid "Display MediaCore Credits in Footer"
-msgstr ""
+msgstr "Hinweis auf MediaCore in der Fußzeile anzeigen"
 
 #: mediacore/forms/admin/settings.py:389
 msgid "Player Menu Options"
-msgstr ""
+msgstr "Optionen für die Player-Menüzeile"
 
 #: mediacore/forms/admin/settings.py:394
 msgid "Enable Download button on player menu bar."
-msgstr ""
+msgstr "Download anzeigen"
 
 #: mediacore/forms/admin/settings.py:398
 msgid "Enable Share button on player menu bar."
-msgstr ""
+msgstr "Teilen-Knopf anzeigen."
 
 #: mediacore/forms/admin/settings.py:402
 msgid "Enable Embed button on player menu bar."
-msgstr ""
+msgstr "Einbetten-Knopf anzeigen."
 
 #: mediacore/forms/admin/settings.py:406
 msgid "Enable Widescreen toggle button on player menu bar."
-msgstr ""
+msgstr "\"Auf Breitbild umschalten\"-Knopf anzeigen."
 
 #: mediacore/forms/admin/settings.py:410
 msgid "Enable Popout button on player menu bar."
-msgstr ""
+msgstr "\"Popout\"-Knopf anzeigen."
 
 #: mediacore/forms/admin/settings.py:414
 msgid "Enable Like button on player menu bar."
-msgstr ""
+msgstr "\"Gefällt mir\"-Knopf anzeigen."
 
 #: mediacore/forms/admin/settings.py:418
 msgid "Enable Dislike button on player menu bar."
-msgstr ""
+msgstr "\"Gefällt nicht\"-Knopf anzeigen."
 
 #: mediacore/forms/admin/settings.py:423
 msgid "Advanced"
@@ -933,7 +945,7 @@ msgstr "Benutzerdefiniertes Fuß-HTML"
 
 #: mediacore/forms/admin/settings.py:436
 msgid "Custom <head> Tags"
-msgstr ""
+msgstr "Benutzerdefinierte <head>-Tags"
 
 #: mediacore/forms/admin/settings.py:437
 msgid ""
@@ -941,6 +953,10 @@ msgid ""
 "cause ugly rendering of your site. You can always restore your page by "
 "the box above."
 msgstr ""
+"Diese HTML-Tags werden in den HTML <head>-Abschnitt eingebettet. Ungültige "
+"Eingaben können zu einer fehlerhaften Seitendarstellung führen. Sie können "
+"Ihre Seite jederzeit wieder funktionsfähig machen, indem Sie die obige Box "
+"leeren."
 
 #: mediacore/forms/admin/settings.py:445
 #: mediacore/templates/admin/settings/appearance.html:28
@@ -949,11 +965,11 @@ msgstr "Auf Standard zurücksetzen"
 
 #: mediacore/forms/admin/settings.py:462
 msgid "Banner HTML"
-msgstr "Banner HTML"
+msgstr "Banner-HTML"
 
 #: mediacore/forms/admin/settings.py:465
 msgid "Sidebar HTML"
-msgstr "Sidebar HTML"
+msgstr "Sidebar-HTML"
 
 #: mediacore/forms/admin/users.py:28
 msgid "User name already exists"
@@ -1003,12 +1019,12 @@ msgstr ""
 
 #: mediacore/forms/admin/storage/ftp.py:32
 msgid "HTTP URL to access remotely stored files"
-msgstr "HTTP-URL, um auf die entfernt gespeicherten Dateien zuzugreifen"
+msgstr "HTTP-URL, um auf extern gespeicherte Dateien zuzugreifen"
 
 #: mediacore/forms/admin/storage/ftp.py:33
 msgid "RTMP Server URL to stream remotely stored files (Optional)"
 msgstr ""
-"RTMP-Server-URL, um die entfernt gespeicherten Dateien zu streamen "
+"RTMP-Server-URL, um die extern gespeicherten Dateien zu streamen "
 "(optional)"
 
 #: mediacore/forms/admin/storage/localfiles.py:19
@@ -1045,7 +1061,7 @@ msgstr "RTMP-Server-URL muss mit rtmp:// beginnen"
 
 #: mediacore/forms/admin/storage/remoteurls.py:61
 msgid "RTMP Servers:"
-msgstr "RTMP-Servers:"
+msgstr "RTMP-Server:"
 
 #: mediacore/lib/email.py:108
 #, python-format
@@ -1205,11 +1221,11 @@ msgstr "Nicht verwendbare Datei oder URL angegeben."
 
 #: mediacore/lib/storage/bliptv.py:61
 msgid "Invalid BlipTV URL. This video does not exist."
-msgstr ""
+msgstr "Ungültige BlipTV-URL. Dieses Video existiert nicht."
 
 #: mediacore/lib/storage/dailymotion.py:62
 msgid "This DailyMotion video does not allow embedding."
-msgstr ""
+msgstr "Dieses DailyMotion-Vidoe darf nicht eingebettet werden."
 
 #: mediacore/lib/storage/ftp.py:43
 msgid "FTP Storage"
@@ -1237,31 +1253,33 @@ msgstr "Lokale Dateiablage"
 
 #: mediacore/lib/storage/remoteurls.py:28
 msgid "Remote URLs"
-msgstr "Entfernte URLs"
+msgstr "Externe URLs"
 
 #: mediacore/lib/storage/remoteurls.py:73
 msgid ""
 "This RTMP server has not been configured. Add it by going to Settings > "
 "Storage Engines > Remote URLs."
 msgstr ""
+"Dieser RTMP-Server wurde noch nicht konfiguriert. Die nötigen Einstellungen "
+"können Sie unter Einstellungen > Speicher-Einheit > Externe URLs vornehmen."
 
 #: mediacore/lib/storage/youtube.py:62
 msgid "This video is private and cannot be embedded."
-msgstr ""
+msgstr "Dieses Video ist privat und kann nicht eingebettet werden."
 
 #: mediacore/lib/storage/youtube.py:65
 msgid "Invalid YouTube URL. This video does not exist."
-msgstr ""
+msgstr "Ungültige YouTube-URL. Dieses Video existiert nicht."
 
 #: mediacore/lib/storage/youtube.py:66
 #, python-format
 msgid "YouTube Error: %s"
-msgstr ""
+msgstr "YouTube-Fehler: %s"
 
 #: mediacore/model/players.py:102
 #, python-format
 msgid "%s (broken)"
-msgstr ""
+msgstr "%s (broken)"
 
 #: mediacore/templates/error.html:17
 #, python-format
@@ -1310,7 +1328,7 @@ msgstr "Nach was haben Sie gesucht, als der Fehler auftrat?"
 
 #: mediacore/templates/error.html:49
 msgid "Submit Error Report"
-msgstr "Fehlerreport abschicken"
+msgstr "Fehlerbericht abschicken"
 
 #: mediacore/templates/helpers.html:33
 #: mediacore/templates/media/explore.html:85
@@ -1384,15 +1402,15 @@ msgstr "[1:MediaCore] [2:Video Plattform]"
 
 #: mediacore/templates/login.html:16
 msgid "Log in to"
-msgstr ""
+msgstr "Einloggen bei"
 
 #: mediacore/templates/login.html:40
 msgid "Log in"
-msgstr ""
+msgstr "Einloggen"
 
 #: mediacore/templates/master.html:64
 msgid "Admin"
-msgstr ""
+msgstr "Verwaltung"
 
 #: mediacore/templates/master.html:66 mediacore/templates/admin/master.html:50
 msgid "Logout"
@@ -1514,11 +1532,11 @@ msgstr "Einstellungen"
 
 #: mediacore/templates/admin/master.html:66
 msgid "MediaCore CE"
-msgstr ""
+msgstr "MediaCore CE"
 
 #: mediacore/templates/admin/master.html:67
 msgid "© 2009-2013 MediaCore Inc. and contributors"
-msgstr ""
+msgstr "© 2009-2013 MediaCore Inc. und andere"
 
 #: mediacore/templates/admin/categories/index.html:38
 #: mediacore/templates/admin/comments/index.html:36
@@ -1690,7 +1708,7 @@ msgstr "Wollen Sie das wirklich löschen?"
 
 #: mediacore/templates/admin/groups/edit.html:37
 msgid "New Group"
-msgstr ""
+msgstr "Neue Gruppe"
 
 #: mediacore/templates/admin/groups/index.html:32
 msgid "Are you sure you want to delete this group?"
@@ -2039,15 +2057,15 @@ msgstr "Jetzt veröffentlichen"
 
 #: mediacore/templates/admin/media/update-status-form.html:94
 msgid "Click to change the expiration date"
-msgstr ""
+msgstr "Ablaufdatum ändern"
 
 #: mediacore/templates/admin/media/update-status-form.html:94
 msgid "Expires"
-msgstr ""
+msgstr "Läuft ab"
 
 #: mediacore/templates/admin/media/update-status-form.html:95
 msgid "never"
-msgstr ""
+msgstr "nie"
 
 #: mediacore/templates/admin/players/index.html:16
 #: mediacore/templates/admin/players/index.html:40
@@ -2177,7 +2195,7 @@ msgstr "RSS und Seitenbaum"
 #: mediacore/templates/admin/storage/index.html:16
 #: mediacore/templates/admin/storage/index.html:112
 msgid "Storage Engines"
-msgstr "Speicher-Einheit"
+msgstr "Speicher-Einheiten"
 
 #: mediacore/templates/admin/settings/master.html:81
 msgid "Plugins"
@@ -2281,7 +2299,7 @@ msgstr "Neuste Medien in %s"
 #: mediacore/templates/categories/index.html:31
 #: mediacore/templates/media/explore.html:111
 msgid "More new media"
-msgstr ""
+msgstr "weitere neue Medien"
 
 #: mediacore/templates/categories/index.html:31
 #: mediacore/templates/categories/index.html:36
@@ -2293,7 +2311,7 @@ msgstr "Zeige mehr"
 #: mediacore/templates/categories/index.html:36
 #: mediacore/templates/media/explore.html:96
 msgid "More popular media"
-msgstr ""
+msgstr "weitere populäre Medien"
 
 #: mediacore/templates/categories/index.html:38
 #: mediacore/templates/categories/more.html:26
@@ -2388,8 +2406,8 @@ msgstr "von %(authorName)s "
 #: mediacore/templates/players/html5_or_flash.html:61
 msgid "Dislike"
 msgid_plural "Dislikes"
-msgstr[0] "Abneigungen"
-msgstr[1] "Abneigung"
+msgstr[0] "Gefällt nicht"
+msgstr[1] "Gefällt nicht"
 
 #: mediacore/templates/media/view.html:81
 msgid "Related Podcast"
