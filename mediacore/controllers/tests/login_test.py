@@ -51,27 +51,34 @@ class LoginControllerTest(ControllerTestCase):
         assert_false(perm.contains_permission(u'admin'))
         
         response = self.call_post_login(user)
-        redirect_path = urlparse.urlsplit(response.location)[2] # .path in 2.5+
-        assert_equals('/', redirect_path)
+        assert_equals('http://server.example:80/', response.location)
     
     def test_admins_are_redirect_to_admin_area_after_login(self):
         admin = self._create_user_with_admin_permission_only()
         
         response = self.call_post_login(admin)
-        redirect_path = urlparse.urlsplit(response.location)[2] # .path in 2.5+
-        assert_equals('/admin', redirect_path)
+        assert_equals('http://server.example:80/admin', response.location)
     
     def test_editors_are_redirect_to_admin_area_after_login(self):
         editor = self._create_user_with_edit_permission_only()
         
         response = self.call_post_login(editor)
-        redirect_path = urlparse.urlsplit(response.location)[2] # .path in 2.5+
-        assert_equals('/admin', redirect_path)
+        assert_equals('http://server.example:80/admin', response.location)
+    
+    def test_uses_correct_redirect_url_if_mediacore_is_mounted_in_subdirectory(self):
+        user = User.example()
+        
+        request = self.init_fake_request(server_name='server.example', request_uri='/mymedia/login/post_login')
+        request.environ['SCRIPT_NAME'] = 'my_media'
+        
+        response = self.call_post_login(user, request=request)
+        assert_equals('http://server.example:80/my_media/', response.location)
     
     # - helpers ---------------------------------------------------------------
     
-    def call_post_login(self, user):
-        request = self.init_fake_request(method='GET')
+    def call_post_login(self, user, request=None):
+        if request is None:
+            request = self.init_fake_request(method='GET', server_name='server.example')
         self.set_authenticated_user(user)
         
         request.environ['pylons.routes_dict'] = dict(
