@@ -188,7 +188,7 @@
 	font-size: 14px;
 }
 #fmgr #file-label {
-	width: 590px;
+	width: 540px;
 }
 #fmgr #url {
 	color: #3c4d5a;
@@ -219,7 +219,7 @@
 }
 #fmgr #file-label {
 	padding: 6px 6px 5px 0;
-	text-align: center;
+
 }
 #fmgr .btn-upload-file {
 	float: right;
