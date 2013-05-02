@@ -65,6 +65,14 @@ class CurrentURLTest(DBTestCase, RequestMixin):
         request.environ['SCRIPT_NAME'] = 'my_media'
         self._inject_url_generator_for_request(request)
         assert_equals('my_media/media/view', current_url(qualified=False))
+    
+    def test_proxy_deployment(self):
+        self.pylons_config['proxy_prefix'] = '/proxy'
+        request = self.init_fake_request(server_name='server.example', request_uri='/media/view')
+        request.environ['SCRIPT_NAME'] = '/proxy'
+        self._inject_url_generator_for_request(request)
+        
+        assert_equals('/proxy/media/view', current_url(qualified=False))
 
 
 import unittest

@@ -91,7 +91,8 @@ def _generate_url(url_func, *args, **kwargs):
     # prepend the SCRIPT_NAME automatically--we'll need to feed the new URL
     # back to the routing method to prepend the SCRIPT_NAME.
     prefix = config.get('proxy_prefix', None)
-    if prefix:
+    script_name = request.environ.get('SCRIPT_NAME', None)
+    if prefix and (prefix != script_name):
         if args:
             named_route = config['routes.map']._routenames.get(args[0])
             protocol = urlparse(args[0]).scheme
