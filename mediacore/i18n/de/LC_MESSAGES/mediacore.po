@@ -13,7 +13,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://github.com/mediacore/mediacore-"
 "community/issues\n"
 "POT-Creation-Date: 2013-03-25 17:58+0100\n"
-"PO-Revision-Date: 2013-04-30 12:36+0200\n"
+"PO-Revision-Date: 2013-05-02 20:44+0200\n"
 "Last-Translator: fschwarz <felix.schwarz@oss.schwarz.eu>\n"
 "Language-Team: de <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
@@ -296,7 +296,7 @@ msgstr "Höhe muss ein gültiger ganzahliger Wert sein"
 
 #: mediacore/forms/admin/media.py:110
 msgid "Select an encoded video or audio file on your computer"
-msgstr "Wählen Sie eine enkodierte Video- oder Audio-Datei auf Ihrem Computer aus"
+msgstr "Wählen Sie eine Video- oder Audio-Datei auf Ihrem Computer aus"
 
 #: mediacore/forms/admin/media.py:110 mediacore/templates/master.html:85
 #: mediacore/templates/admin/settings/master.html:76
@@ -307,7 +307,7 @@ msgstr "Hochladen"
 
 #: mediacore/forms/admin/media.py:111
 msgid "Add URL"
-msgstr "URL hinzufügen"
+msgstr "Hinzufügen"
 
 #: mediacore/forms/admin/media.py:112
 msgid "YouTube, Vimeo, Amazon S3 or any other link"
@@ -377,7 +377,7 @@ msgstr "Administrative Notizen"
 #: mediacore/forms/admin/players.py:31
 #: mediacore/forms/admin/storage/__init__.py:22
 msgid "General Options:"
-msgstr "Generelle Optionen:"
+msgstr "Allgemeine Optionen:"
 
 #: mediacore/forms/admin/players.py:86
 msgid "Yes, use the Flash Player when the device supports it."
@@ -672,7 +672,7 @@ msgstr "Benutzer"
 
 #: mediacore/forms/admin/settings.py:161
 msgid "Google Analytics Details:"
-msgstr "Google Analytics Details"
+msgstr "Google Analytics"
 
 #: mediacore/forms/admin/settings.py:162
 msgid "Tracking Code"
@@ -680,7 +680,7 @@ msgstr "Tracking-Code"
 
 #: mediacore/forms/admin/settings.py:182
 msgid "Site Maps"
-msgstr "Seitenübersicht"
+msgstr "Seitenübersichten (sitemaps)"
 
 #: mediacore/forms/admin/settings.py:186
 msgid "RSS Feeds"
@@ -706,7 +706,7 @@ msgstr ""
 
 #: mediacore/forms/admin/settings.py:215
 msgid "General Settings:"
-msgstr "Generelle Einstellungen:"
+msgstr "Allgemeine Einstellungen:"
 
 #: mediacore/forms/admin/settings.py:217
 msgid "Site Name"
@@ -801,7 +801,7 @@ msgstr "Maximale Baumtiefe"
 #: mediacore/templates/admin/settings/general.html:23
 #: mediacore/templates/admin/settings/master.html:37
 msgid "General"
-msgstr "Generell"
+msgstr "Allgemein"
 
 #: mediacore/forms/admin/settings.py:306
 msgid "Logo"
@@ -855,7 +855,8 @@ msgstr "Cooliris auf der Hauptseite aktivieren"
 msgid ""
 "Cooliris support is deprecated and will be removed in the next major "
 "version of MediaCore CE unless someone is interested in maintaining it."
-msgstr "Die Unterstützung für Cooliris wird in der nächsten Version von "
+msgstr ""
+"Die Unterstützung für Cooliris wird in der nächsten Version von "
 "MediaCore CE entfernt, sofern sich kein Freiwilliger für die laufende Pflege "
 "findet."
 
@@ -1738,7 +1739,7 @@ msgstr "Anzahl von Kommentaren"
 #: mediacore/templates/admin/media/_media-table.html:48
 #: mediacore/templates/admin/media/index.html:111
 msgid "Unencoded"
-msgstr "Uncodiert"
+msgstr "Unkodiert"
 
 #: mediacore/templates/admin/media/_media-table.html:49
 msgid "Draft"
@@ -1807,7 +1808,7 @@ msgstr "Wollen Sie die Datei wirklich löschen?"
 
 #: mediacore/templates/admin/media/edit.html:107
 msgid "Upload a file"
-msgstr "Hochladen einer Datei"
+msgstr "Datei hochladen"
 
 #: mediacore/templates/admin/media/edit.html:114
 msgid "Failed to add this file. Please try again."
@@ -1841,7 +1842,7 @@ msgstr "Ein Fehler ist aufgetreten, bitte erneut versuchen."
 #: mediacore/templates/admin/media/edit.html:219
 #: mediacore/templates/admin/podcasts/edit.html:44
 msgid "Hide"
-msgstr "Verstecken"
+msgstr "Ausblenden"
 
 #: mediacore/templates/admin/media/edit.html:135
 msgid "Saving"
@@ -2189,7 +2190,7 @@ msgstr "Beliebtheit"
 #: mediacore/templates/admin/settings/sitemaps.html:17
 #: mediacore/templates/admin/settings/sitemaps.html:23
 msgid "RSS and Sitemaps"
-msgstr "RSS und Seitenbaum"
+msgstr "RSS und Seitenübersichten"
 
 #: mediacore/templates/admin/settings/master.html:70
 #: mediacore/templates/admin/storage/index.html:16
@@ -2345,11 +2346,11 @@ msgstr "Kommentar abschicken"
 
 #: mediacore/templates/media/explore.html:22
 msgid "Sitemap XML"
-msgstr "Seitenbaum als XML"
+msgstr "Seitenübersicht als XML"
 
 #: mediacore/templates/media/explore.html:25
 msgid "Sitemap RSS"
-msgstr "Seitenbaum als RSS"
+msgstr "Seitenübersicht als RSS"
 
 #: mediacore/templates/media/explore.html:28
 #: mediacore/templates/media/index.html:18
