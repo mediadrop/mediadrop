@@ -28,7 +28,7 @@ This checks to see if we have the compiler ready. No output after hitting return
 means it's not installed; output indicates that it is installed and tells us 
 exactly where it is in our system.
 
-Now that you've got XCode installed, we need to set up python. Every Mac does come
+Now that you've got XCode installed, we need to set up Python. Every Mac does come
 with an Apple-provided system version, but it is safest and best practice to not
 use this and instead install a fresh version. There are a few ways of doing this, but
 for our purposes it is best to do so with Homebrew.
@@ -89,7 +89,7 @@ Python libraries and tools
 
 Before installing MediaCore we also need virtualenv. Virtualenv will manage any
 future software that MediaCore needs to ensure that it does not conflict with any 
-other software, similar to sandboxing. Since we used Homebrew to install our python,
+other software, similar to sandboxing. Since we used Homebrew to install our Python,
 and remembering have we've set up the variable "BREWPYTHON", we can do this:
 
 .. sourcecode:: bash
@@ -101,14 +101,14 @@ with the following command:
 
 .. sourcecode:: bash
 
-    virtualenv --no-site-packages --python="$BREWPYTHON"/python /path/to/virtual_environment
+    /usr/local/share/python/virtualenv --no-site-packages  /path/to/venv
 
-Finally, we can activate this virutal environment, which we'll have to do when we're
+Finally, we can activate this virtual environment, which we'll have to do when we're
 working with MediaCore, with the following command:
 
 .. sourcecode:: bash
 
-    source /path/to/virtual_environment/bin/activate
+    source /path/to/venv/bin/activate
 
 The command line prompt will change to indicate that you are now within a virtual
 environment, and you can continue the installation process.
