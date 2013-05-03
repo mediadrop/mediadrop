@@ -14,7 +14,7 @@ from beaker.session import SessionObject
 from paste.registry import Registry, StackedObjectProxy
 import pylons
 from pylons.controllers.util import Request, Response
-from pylons.util import ContextObj
+from pylons.util import AttribSafeContextObj, ContextObj
 from routes.util import URLGenerator
 import tw
 from tw.mods.pylonshf import PylonsHostFramework
@@ -141,7 +141,8 @@ def fake_request(pylons_config, server_name='mediacore.example', language='en',
     routes_url = URLGenerator(pylons_config['routes.map'], wsgi_environ)
     pylons.url._push_object(routes_url)
 
-    tmpl_context = ContextObj()
+    # TODO: Use ContextObj() for Pylons 0.10
+    tmpl_context = AttribSafeContextObj()
     tmpl_context.paginators = Bunch()
     pylons.tmpl_context._push_object(tmpl_context)
     # some parts of Pylons (e.g. Pylons.controllers.core.WSGIController)
