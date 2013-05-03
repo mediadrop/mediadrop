@@ -9,7 +9,7 @@ import sys
 
 # Module description following the guidelines at:
 # http://bayes.colorado.edu/PythonGuidelines.html#module_formatting
-__version__ = '0.10.0b1'
+__version__ = '0.11dev'
 __status__ = 'Beta'
 __copyright__ = 'Copyright 2009-2013, MediaCore Inc., Felix Schwarz and other contributors.'
 __license__ = 'GPLv3'
