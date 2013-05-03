@@ -24,7 +24,7 @@ install_requires = [
     'Paste == 1.7.4',
     'PasteDeploy == 1.3.3',
     'PasteScript == 1.7.3',
-    'ToscaWidgets == 0.9.9',
+    'ToscaWidgets >= 0.9.12', # 0.9.9 is not compatible with Pylons 1.0
     'tw.forms == 0.9.9',
     'MySQL-python >= 1.2.2',
     'BeautifulSoup == 3.0.7a',
