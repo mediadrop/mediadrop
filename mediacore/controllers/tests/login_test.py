@@ -6,42 +6,14 @@
 # (at your option) any later version.
 # See LICENSE.txt in the main project directory, for more information.
 
-import urlparse
-
 from pylons import config
-from webob.exc import HTTPFound
 
 from mediacore.controllers.login import LoginController
+from mediacore.lib.auth.permission_system import MediaCorePermissionSystem
+from mediacore.lib.test import ControllerTestCase
 from mediacore.lib.test.pythonic_testcase import *
 from mediacore.model import DBSession, Group, User, Permission
-from mediacore.lib.auth.permission_system import MediaCorePermissionSystem
-from mediacore.lib.test.request_mixin import RequestMixin
-from mediacore.lib.test.db_testcase import DBTestCase
 
-import pylons
-from pylons.controllers.util import Response
-class ControllerTestCase(DBTestCase, RequestMixin):
-    def call_controller(self, controller_class, request):
-        controller = controller_class()
-        controller._py_object = pylons
-        
-        response_info = dict()
-        def fake_start_response(status, headers, exc_info=None):
-            response_info['status'] = status
-            response_info['headerlist'] = headers
-        response_body_lines = controller(request.environ, fake_start_response)
-        response = Response(body='\n'.join(response_body_lines), **response_info)
-        return response
-    
-    def assert_redirect(self, call_controller):
-        try:
-            response = call_controller()
-        except Exception, e:
-            if not isinstance(e, HTTPFound):
-                raise
-            response = e
-        assert_equals(302, response.status_int)
-        return response
 
 class LoginControllerTest(ControllerTestCase):
     def test_non_editors_are_redirect_to_home_page_after_login(self):
@@ -78,13 +50,9 @@ class LoginControllerTest(ControllerTestCase):
     
     def call_post_login(self, user, request=None):
         if request is None:
-            request = self.init_fake_request(method='GET', server_name='server.example')
+            request = self.init_fake_request(method='GET', 
+                server_name='server.example', request_uri='/login/post_login')
         self.set_authenticated_user(user)
-        
-        request.environ['pylons.routes_dict'] = dict(
-            action='post_login',
-            controller=u'login',
-        )
         response = self.assert_redirect(lambda: self.call_controller(LoginController, request))
         return response
     

@@ -8,6 +8,7 @@
 # See LICENSE.txt in the main project directory, for more information.
 
 
+from mediacore.lib.test.controller_testcase import *
 from mediacore.lib.test.db_testcase import DBTestCase
 from mediacore.lib.test.pythonic_testcase import *
 from mediacore.lib.test.request_mixin import *
