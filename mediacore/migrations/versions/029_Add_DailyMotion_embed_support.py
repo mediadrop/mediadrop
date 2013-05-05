@@ -5,36 +5,63 @@
 # (at your option) any later version.
 # See LICENSE.txt in the main project directory, for more information.
 
-import logging
-import simplejson
+import collections
 from datetime import datetime
+import logging
 
-from sqlalchemy import *
-from sqlalchemy.types import MutableType, Text, TypeDecorator
 from migrate import *
+import simplejson
+from sqlalchemy import *
+from sqlalchemy.ext.mutable import Mutable
+from sqlalchemy.types import Text, TypeDecorator
 
 log = logging.getLogger(__name__)
 
-class JsonType(MutableType, TypeDecorator):
-    """
-    JSON Type Decorator
+# ---- copied from the SQLAlchemy 0.8.1 manual ---------------------------------
+class JSONEncodedDict(TypeDecorator):
+    "Represents an immutable structure as a json-encoded string."
 
-    This converts JSON strings to python objects and vice-versa when
-    working with SQLAlchemy Tables. The resulting python objects are
-    mutable: SQLAlchemy will be aware of any changes you make within
-    them, and they're saved automatically.
-
-    """
     impl = Text
 
-    def process_bind_param(self, value, dialect, dumps=simplejson.dumps):
-        return dumps(value)
+    def process_bind_param(self, value, dialect):
+        if value is not None:
+            value = simplejson.dumps(value)
+        return value
 
-    def process_result_value(self, value, dialect, loads=simplejson.loads):
-        return loads(value)
+    def process_result_value(self, value, dialect):
+        if value is not None:
+            value = simplejson.loads(value)
+        return value
 
-    def copy_value(self, value, loads=simplejson.loads, dumps=simplejson.dumps):
-        return loads(dumps(value))
+
+class MutableDict(Mutable, dict):
+    @classmethod
+    def coerce(cls, key, value):
+        "Convert plain dictionaries to MutableDict."
+
+        if not isinstance(value, MutableDict):
+            if isinstance(value, dict):
+                return MutableDict(value)
+
+            # this call will raise ValueError
+            return Mutable.coerce(key, value)
+        else:
+            return value
+
+    def __setitem__(self, key, value):
+        "Detect dictionary set events and emit change events."
+
+        dict.__setitem__(self, key, value)
+        self.changed()
+
+    def __delitem__(self, key):
+        "Detect dictionary del events and emit change events."
+
+        dict.__delitem__(self, key)
+        self.changed()
+
+JSONType = MutableDict.as_mutable(JSONEncodedDict)
+# -----------------------------------------------------------------------------
 
 metadata = MetaData()
 

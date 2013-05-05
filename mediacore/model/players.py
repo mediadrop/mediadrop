@@ -23,8 +23,8 @@ from sqlalchemy.types import Boolean, DateTime, Integer, Unicode
 from mediacore.lib.decorators import memoize
 from mediacore.lib.i18n import _
 from mediacore.lib.players import AbstractPlayer
-from mediacore.model import JsonType
 from mediacore.model.meta import DBSession, metadata
+from mediacore.model.util import JSONType
 
 log = logging.getLogger(__name__)
 
@@ -51,7 +51,7 @@ players = Table('players', metadata,
                                                     onupdate=datetime.now, doc=\
         """The date and time this player was last modified."""),
 
-    Column('data', JsonType, nullable=False, default=dict, doc=\
+    Column('data', JSONType, nullable=False, default=dict, doc=\
         """The user preferences for this player (if any).
 
         This dictionary is passed as `data` kwarg when
