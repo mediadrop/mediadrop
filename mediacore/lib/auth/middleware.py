@@ -70,7 +70,7 @@ def who_args(config):
         logout_handler_url,
         post_logout_url,
         rememberer_name='cookie',
-        charset='iso-8859-1',
+        charset='utf-8',
     )
     cookie_secret = config['sa_auth.cookie_secret']
     seconds_30_days = 30*24*60*60 # session expires after 30 days

@@ -11,7 +11,10 @@ from mediacore import __version__ as VERSION
 install_requires = [
     'ddt',
     'Pylons == 0.10',
-    'WebOb == 1.0.7',
+    # WebOb 1.2.x raises an error if we use "request.str_params" (as we did in
+    # MediaCore 0.10/WebOb 1.0.7) but the non-deprecated attribute was only
+    # added in WebOb 1.1 so we need that as baseline.
+    'WebOb >= 1.1',
     'WebHelpers == 1.0',
     # 0.7: event listener infrastructure
     # migrate does not yet support 0.8

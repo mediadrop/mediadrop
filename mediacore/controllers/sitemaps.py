@@ -176,7 +176,7 @@ class SitemapsController(BaseController):
             # Ensure the cache is cleared if cooliris is suddenly disabled
             if crossdomain_app:
                 crossdomain_app = None
-            raise HTTPNotFound().exception
+            raise HTTPNotFound()
 
         if not crossdomain_app:
             relpath = 'mediacore/public/crossdomain.xml'

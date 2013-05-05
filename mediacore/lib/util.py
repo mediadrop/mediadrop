@@ -117,8 +117,7 @@ def redirect(*args, **kwargs):
     :raises: :class:`webob.exc.HTTPFound`
     """
     url = url_for(*args, **kwargs)
-    found = HTTPFound(location=url)
-    raise found.exception
+    raise HTTPFound(location=url)
 
 def delete_files(paths, subdir=None):
     """Move the given files to the 'deleted' folder, or just delete them.
