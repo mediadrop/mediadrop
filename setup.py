@@ -13,7 +13,9 @@ install_requires = [
     'Pylons == 0.10',
     'WebOb == 1.0.7',
     'WebHelpers == 1.0',
-    'SQLAlchemy >= 0.7', # event listener infrastructure
+    # 0.7: event listener infrastructure
+    # migrate does not yet support 0.8
+    'SQLAlchemy >= 0.7, < 0.8',
     'sqlalchemy-migrate >= 0.7', # 0.6 is not compatible with SQLAlchemy >= 0.7
     'Genshi >= 0.6', # i18n improvements in Genshi
     'Babel == 0.9.6',
