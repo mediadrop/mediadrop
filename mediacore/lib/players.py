@@ -1020,7 +1020,7 @@ def media_player(media, is_widescreen=False, show_like=True, show_dislike=True,
         'show_embed': show_embed,
         'show_playerbar': show_playerbar,
         'show_popout': show_popout,
-        'show_resize': show_resize and player.supports_resizing,
+        'show_resize': show_resize and (player and player.supports_resizing),
         'show_share': show_share,
     })
 

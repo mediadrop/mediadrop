@@ -25,7 +25,7 @@ See LICENSE.txt in the main project directory, for more information.
 
 	<xi:include py:for="tmpl in value_of('plugin_templates', ())" href="${tmpl}" />
 
-	<div id="${player.elem_id}-wrapper" class="mcore-player">
+	<div py:if="player" id="${player.elem_id}-wrapper" class="mcore-player">
 		<div class="mcore-playerbox">
 			${player.render_markup()}
 		</div>
@@ -111,7 +111,7 @@ See LICENSE.txt in the main project directory, for more information.
 		</div>
 	</div>
 
-	<script type="text/javascript">
+	<script type="text/javascript" py:if="player">
 		mcore.initPlayerController('${player.elem_id}-wrapper', ${player.render_js_player() or 'null'}, ${js_init or 'undefined'});
 	</script>
 

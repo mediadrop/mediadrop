@@ -10,7 +10,7 @@ from mediacore import __version__ as VERSION
 
 install_requires = [
     'ddt',
-    'Pylons == 0.10',
+    'Pylons >= 1.0',
     # WebOb 1.2.x raises an error if we use "request.str_params" (as we did in
     # MediaCore 0.10/WebOb 1.0.7) but the non-deprecated attribute was only
     # added in WebOb 1.1 so we need that as baseline.
@@ -26,9 +26,14 @@ install_requires = [
     'repoze.who == 1.0.18',
     'repoze.who-friendlyform',
     'repoze.who.plugins.sa',
-    'Paste == 1.7.4',
-    'PasteDeploy == 1.3.3',
-    'PasteScript == 1.7.3',
+    # actually any recent Paste* version should work fine. However I experienced
+    # venv update problems when there was no version specified because of
+    # setuptools' simplistic dependency resolution, e.g.
+    # "error: Installed distribution Paste 1.7.4 conflicts with requirement Paste>=1.7.5.1"
+    # just use the minimum versions for Pylons 1.0:
+    'Paste >= 1.7.5.1',
+    'PasteDeploy',
+    'PasteScript >= 1.7.4.2',
     'ToscaWidgets >= 0.9.12', # 0.9.9 is not compatible with Pylons 1.0
     'tw.forms == 0.9.9',
     'MySQL-python >= 1.2.2',

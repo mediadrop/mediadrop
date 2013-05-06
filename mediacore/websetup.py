@@ -409,7 +409,7 @@ def generate_appearance_css(settings, cache_dir=None):
 
     """
     if cache_dir is None:
-        cache_dir = pylons.config['cache.dir']
+        cache_dir = pylons.config['pylons.cache_dir']
     if not os.path.exists(cache_dir):
         raise ValueError('No valid cache dir provided.')
 
