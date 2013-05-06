@@ -1,5 +1,5 @@
 [main]
-host = https://www.transifex.net
+host = https://www.transifex.com
 
 [mediacore.mediacore-ce-091p]
 file_filter = mediacore/i18n/<lang>/LC_MESSAGES/mediacore.po
