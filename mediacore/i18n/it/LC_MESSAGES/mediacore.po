@@ -6,6 +6,7 @@
 # algobyte <algobyte@hotmail.com>, 2011-2012.
 # Jan-Erik Finlander <jefinlander@gmail.com>, 2011.
 # Marco Mariani <birbag@gmail.com>, 2012.
+# Valerio Minetti <valerio.minetti@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: MediaCore Video Platform\n"
@@ -13,7 +14,7 @@ msgstr ""
 "community/issues\n"
 "POT-Creation-Date: 2013-03-25 17:58+0100\n"
 "PO-Revision-Date: 2013-03-24 12:56+0000\n"
-"Last-Translator: Marco Mariani <birbag@gmail.com>\n"
+"Last-Translator: Valerio Minetti <valerio.minetti@gmail.com>\n"
 "Language-Team: it <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 "MIME-Version: 1.0\n"
