@@ -3,17 +3,17 @@
 # This file is distributed under the same license as the MediaCore project.
 #
 # Translators:
-# Caner Başaran <basaran.caner@gmail.com>, 2012-2013.
-# dugurca <dugurca@gmail.com>, 2011.
-# natedub <nathan@simplestation.com>, 2011.
-# <sakaryarap@live.com>, 2011.
+# Caner Başaran <basaran.caner@gmail.com>, 2012-2013
+# dugurca <dugurca@gmail.com>, 2011
+# natedub <nathan@simplestation.com>, 2011
+# Tufan <sakaryarap@live.com>, 2011
 msgid ""
 msgstr ""
 "Project-Id-Version: MediaCore Video Platform\n"
 "Report-Msgid-Bugs-To: http://github.com/mediacore/mediacore-"
 "community/issues\n"
 "POT-Creation-Date: 2013-03-25 17:58+0100\n"
-"PO-Revision-Date: 2013-04-01 23:15+0000\n"
+"PO-Revision-Date: 2013-05-06 23:32+0000\n"
 "Last-Translator: Caner Başaran <basaran.caner@gmail.com>\n"
 "Language-Team: tr <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n > 1)\n"
@@ -76,7 +76,7 @@ msgstr "Taramalı PNG dosyaları desteklenmiyor."
 
 #: mediacore/controllers/admin/podcasts.py:91
 msgid "Save the podcast to get your feed URL"
-msgstr ""
+msgstr "Besleme adresinize almak için podcast i kaydet"
 
 #: mediacore/controllers/admin/podcasts.py:208
 #, python-format
@@ -403,11 +403,11 @@ msgstr "Oynatıcı Özellikleri"
 
 #: mediacore/forms/admin/players.py:133
 msgid "Use the deprecated AS2 player."
-msgstr ""
+msgstr "Desteklenmeyen AS2 oynatıcı kullan."
 
 #: mediacore/forms/admin/players.py:134
 msgid "Use the AS3/HTML5 player."
-msgstr ""
+msgstr "AS3/HTML5 oynatıcı kullan."
 
 #: mediacore/forms/admin/players.py:137
 msgid "YouTube player version"
@@ -459,6 +459,8 @@ msgid ""
 "appropriate version of the video version (e.g. considering the user's "
 "bandwidth)"
 msgstr ""
+"Sadece AS2 ve AS3 oynatıcılar için en uygun videoyu kullanıcının bant "
+"genişliği dikkate alarak seç özelliğini uygula (örneğin)"
 
 #: mediacore/forms/admin/players.py:157
 msgid "Display related videos after playback of the initial video ends."
@@ -491,6 +493,8 @@ msgid ""
 "wmode allows HTML/CSS elements to be placed over the actual Flash video "
 "but requires more CPU power."
 msgstr ""
+"wmode HTML/CSS elemanlarını gerçek Flash video üzerine yerleştirilmesini "
+"sağlar, ancak daha fazla işlemci gücü gerektirir."
 
 #: mediacore/forms/admin/players.py:165
 msgid "Always show player controls."
@@ -506,7 +510,7 @@ msgstr "Video başladıktan sonra sadece ilerleme çubuğunu gizle."
 
 #: mediacore/forms/admin/players.py:170
 msgid "Player control hiding"
-msgstr ""
+msgstr "Oynatıcı kontrol gizleme"
 
 #: mediacore/forms/admin/podcasts.py:29
 msgid "Parental Advisory"
@@ -555,7 +559,7 @@ msgstr "Feedburner Adresi"
 
 #: mediacore/forms/admin/settings.py:25
 msgid "Built-in comments"
-msgstr ""
+msgstr "Yerleşik yorumlar"
 
 #: mediacore/forms/admin/settings.py:26
 msgid "Facebook comments (requires a Facebook application ID)"
@@ -679,7 +683,7 @@ msgstr "RSS"
 
 #: mediacore/forms/admin/settings.py:193
 msgid "RSS Feed Defaults:"
-msgstr ""
+msgstr "RSS Besleme Varsayılanları:"
 
 #: mediacore/forms/admin/settings.py:196
 msgid "number of items"
@@ -691,6 +695,9 @@ msgid ""
 "\"?limit=X\" to the feed URL. If the \"limit\" parameter is absent, the "
 "default above is used."
 msgstr ""
+"Eğer besleme URL ine \"?limit=X\" eklerseniz, isteklerde varsayılan "
+"besleme öğe sayısı yerine kullanılacak. Eğer \"limit\" parametresi boş "
+"olursa, varsayılan kullanılacak."
 
 #: mediacore/forms/admin/settings.py:215
 msgid "General Settings:"
@@ -722,11 +729,11 @@ msgstr "Yorum Motorları"
 
 #: mediacore/forms/admin/settings.py:254
 msgid "Built-in Comments:"
-msgstr ""
+msgstr "Yerleşik Yorumlar:"
 
 #: mediacore/forms/admin/settings.py:257
 msgid "Moderation"
-msgstr ""
+msgstr "Özdenetim"
 
 #: mediacore/forms/admin/settings.py:258
 msgid "Require comments to be approved by an admin"
@@ -844,6 +851,8 @@ msgid ""
 "Cooliris support is deprecated and will be removed in the next major "
 "version of MediaCore CE unless someone is interested in maintaining it."
 msgstr ""
+"Cooliris desteği kullanım dışı ve birisi bakımı ile ilgilenmez ise bir "
+"sonraki ana sürümde kaldırılacak."
 
 #: mediacore/forms/admin/settings.py:352
 msgid "Display login link for all users"
@@ -911,7 +920,7 @@ msgstr "Oynatıcı menü çubuğunda Beğen düğmesini etkinleştir."
 
 #: mediacore/forms/admin/settings.py:418
 msgid "Enable Dislike button on player menu bar."
-msgstr "Oynatıcı menü çubuğunda Beğenme düğmesini etkinleştir."
+msgstr "Oynatıcı menü çubuğunda Beğenilmeme düğmesini etkinleştir."
 
 #: mediacore/forms/admin/settings.py:423
 msgid "Advanced"
@@ -931,7 +940,7 @@ msgstr "Özel Altbilgi HTML"
 
 #: mediacore/forms/admin/settings.py:436
 msgid "Custom <head> Tags"
-msgstr ""
+msgstr "Özel <head> Etiketler"
 
 #: mediacore/forms/admin/settings.py:437
 msgid ""
@@ -1256,7 +1265,7 @@ msgstr "YouTube Hata: %s"
 #: mediacore/model/players.py:102
 #, python-format
 msgid "%s (broken)"
-msgstr ""
+msgstr "%s (bozuk)"
 
 #: mediacore/templates/error.html:17
 #, python-format
@@ -1344,7 +1353,7 @@ msgstr "En son"
 #: mediacore/templates/categories/more.html:24
 #: mediacore/templates/media/explore.html:93
 msgid "Most Popular"
-msgstr "En popüler"
+msgstr "En Popüler"
 
 #: mediacore/templates/helpers.html:78
 #: mediacore/templates/media/explore.html:40
@@ -1377,7 +1386,7 @@ msgstr "[1:MediaCore] [2:video platformu]"
 
 #: mediacore/templates/login.html:16
 msgid "Log in to"
-msgstr ""
+msgstr "İle giriş"
 
 #: mediacore/templates/login.html:40
 msgid "Log in"
@@ -2028,11 +2037,11 @@ msgstr "Bitiş tarihini değiştirmek için tıkla"
 
 #: mediacore/templates/admin/media/update-status-form.html:94
 msgid "Expires"
-msgstr ""
+msgstr "Süre Bitimi"
 
 #: mediacore/templates/admin/media/update-status-form.html:95
 msgid "never"
-msgstr ""
+msgstr "hiçbir zaman"
 
 #: mediacore/templates/admin/players/index.html:16
 #: mediacore/templates/admin/players/index.html:40
@@ -2264,7 +2273,7 @@ msgstr "%s teki son dosya"
 #: mediacore/templates/categories/index.html:31
 #: mediacore/templates/media/explore.html:111
 msgid "More new media"
-msgstr ""
+msgstr "Daha fazla yeni medya"
 
 #: mediacore/templates/categories/index.html:31
 #: mediacore/templates/categories/index.html:36
@@ -2276,7 +2285,7 @@ msgstr "Daha fazla görüntüle"
 #: mediacore/templates/categories/index.html:36
 #: mediacore/templates/media/explore.html:96
 msgid "More popular media"
-msgstr ""
+msgstr "Daha fazla popüler medya"
 
 #: mediacore/templates/categories/index.html:38
 #: mediacore/templates/categories/more.html:26
@@ -2371,8 +2380,8 @@ msgstr "%(authorName)s tarafından"
 #: mediacore/templates/players/html5_or_flash.html:61
 msgid "Dislike"
 msgid_plural "Dislikes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Beğenilmeyen"
+msgstr[1] "Beğenilmeyenler"
 
 #: mediacore/templates/media/view.html:81
 msgid "Related Podcast"
@@ -2482,8 +2491,8 @@ msgstr "Tüm bölümlere bak"
 #, python-format
 msgid "%(result_count)s Episodes"
 msgid_plural "All %(result_count)s Episodes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%(result_count)s Bölüm"
+msgstr[1] "%(result_count)s Tüm Bölümler"
 
 #: mediacore/templates/upload/failure.html:17
 #: mediacore/templates/upload/success.html:17
