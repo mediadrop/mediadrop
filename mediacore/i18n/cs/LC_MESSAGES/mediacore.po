@@ -1,20 +1,20 @@
-# Czech (Czech Republic) translations for MediaCore.
+# Czech translations for MediaCore.
 # Copyright (C) 2013 ORGANIZATION
 # This file is distributed under the same license as the MediaCore project.
 #
 # Translators:
-# <appukonrad@gmail.com>, 2012.
-# charlesh <karel@silencio.cz>, 2011.
-# kovacm <michal@logici.cz>, 2011.
-# richensa <richensa@gmail.com>, 2011.
+# jui <appukonrad@gmail.com>, 2012-2013
+# charlesh <karel@silencio.cz>, 2011
+# kovacm <michal@logici.cz>, 2011
+# richensa <richensa@gmail.com>, 2011
 msgid ""
 msgstr ""
 "Project-Id-Version: MediaCore Video Platform\n"
 "Report-Msgid-Bugs-To: http://github.com/mediacore/mediacore-"
 "community/issues\n"
 "POT-Creation-Date: 2013-03-25 17:58+0100\n"
-"PO-Revision-Date: 2013-03-24 08:14+0000\n"
-"Last-Translator: richensa <richensa@gmail.com>\n"
+"PO-Revision-Date: 2013-05-07 06:55+0000\n"
+"Last-Translator: jui <appukonrad@gmail.com>\n"
 "Language-Team: cs <LL@li.org>\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2\n"
 "MIME-Version: 1.0\n"
@@ -36,7 +36,7 @@ msgstr "Je nám líto, ale nebyli jsme schopni zpracovat tento požadavek."
 
 #: mediacore/controllers/login.py:39
 msgid "Invalid username or password."
-msgstr ""
+msgstr "Neplatné uživatelské jméne, nebo heslo."
 
 #: mediacore/controllers/media.py:296
 msgid "Your comment has been rejected."
@@ -408,7 +408,7 @@ msgstr "Pomocí zastaralého přehrávače AS2."
 
 #: mediacore/forms/admin/players.py:134
 msgid "Use the AS3/HTML5 player."
-msgstr ""
+msgstr "Použít AS3/HTML5 přehrávač."
 
 #: mediacore/forms/admin/players.py:137
 msgid "YouTube player version"
@@ -432,7 +432,7 @@ msgstr "Vypnout ovládání přehrávače klávesnicí."
 
 #: mediacore/forms/admin/players.py:150
 msgid "Not supported by HTML5 player."
-msgstr ""
+msgstr "Nepodporováno HTML5 přehrávačem."
 
 #: mediacore/forms/admin/players.py:151
 msgid "Autoplay the video when the player loads."
@@ -444,7 +444,7 @@ msgstr ""
 
 #: mediacore/forms/admin/players.py:153
 msgid "Not supported by AS2 player."
-msgstr ""
+msgstr "Nepodporováno AS2 přehrávačem."
 
 #: mediacore/forms/admin/players.py:154
 msgid "Display fullscreen button."
@@ -473,7 +473,7 @@ msgstr ""
 
 #: mediacore/forms/admin/players.py:159
 msgid "AS2 player only"
-msgstr ""
+msgstr "Pouze AS2 přehrávač"
 
 #: mediacore/forms/admin/players.py:160
 msgid ""
@@ -686,7 +686,7 @@ msgstr ""
 
 #: mediacore/forms/admin/settings.py:196
 msgid "number of items"
-msgstr ""
+msgstr "počet položek"
 
 #: mediacore/forms/admin/settings.py:197
 msgid ""
@@ -761,7 +761,7 @@ msgstr "ID palikace"
 
 #: mediacore/forms/admin/settings.py:269
 msgid "See: https://developers.facebook.com/apps"
-msgstr ""
+msgstr "Podívejte se na : https://developers.facebook.com/apps"
 
 #: mediacore/forms/admin/settings.py:283
 msgid "Require a key to access the API"
@@ -890,11 +890,11 @@ msgstr ""
 
 #: mediacore/forms/admin/settings.py:394
 msgid "Enable Download button on player menu bar."
-msgstr ""
+msgstr "Povolit v menu přehrávače tlačítko Stáhnout."
 
 #: mediacore/forms/admin/settings.py:398
 msgid "Enable Share button on player menu bar."
-msgstr ""
+msgstr "Povolit v menu přehrávače tlačítko Sdílet."
 
 #: mediacore/forms/admin/settings.py:402
 msgid "Enable Embed button on player menu bar."
@@ -976,7 +976,7 @@ msgstr "Hesla se neshodují"
 #: mediacore/templates/admin/groups/index.html:17
 #: mediacore/templates/admin/groups/index.html:41
 msgid "Groups"
-msgstr ""
+msgstr "Skupiny"
 
 #: mediacore/forms/admin/users.py:55
 msgid "Confirm password"
@@ -1066,7 +1066,7 @@ msgstr ""
 #: mediacore/lib/email.py:144
 #, python-format
 msgid "New Comment: %(comment_subject)s"
-msgstr ""
+msgstr "Nový komentář: %(comment_subject)s"
 
 #: mediacore/lib/email.py:145
 #, python-format
@@ -1078,11 +1078,17 @@ msgid ""
 "\n"
 "Body: %(comment_body)s\n"
 msgstr ""
+"Nový komentář byl odeslán!\n"
+"\n"
+"Autor: %(author_name)s\n"
+"Příspěvek: %(post_url)s\n"
+"\n"
+"Tělo: %(comment_body)s\n"
 
 #: mediacore/lib/email.py:184
 #, python-format
 msgid "New Support Request: %(email)s"
-msgstr ""
+msgstr "Nový požadavek na podporu: %(email)s"
 
 #: mediacore/lib/email.py:185
 #, python-format
@@ -1102,6 +1108,20 @@ msgid ""
 "POST_VARS:\n"
 "%(post_vars)s\n"
 msgstr ""
+"Užavatel se dotázal podpory\n"
+"\n"
+"Email: %(email)s\n"
+"\n"
+"URL: %(url)s\n"
+"\n"
+"Popis: %(description)s\n"
+"\n"
+"GET_VARS:\n"
+"%(get_vars)s\n"
+"\n"
+"\n"
+"POST_VARS:\n"
+"%(post_vars)s\n"
 
 #: mediacore/lib/filetypes.py:27
 msgid "Video"
@@ -1210,6 +1230,8 @@ msgid ""
 "This RTMP server has not been configured. Add it by going to Settings > "
 "Storage Engines > Remote URLs."
 msgstr ""
+"Tento RTMP server není nakonfigurován.  Přidáte pomocí přechodu do "
+"Nastavení > Storage Engine > vzdálené URL."
 
 #: mediacore/lib/storage/youtube.py:62
 msgid "This video is private and cannot be embedded."
@@ -1222,12 +1244,12 @@ msgstr "Neplatné URL YouTube. Toto video neexistuje."
 #: mediacore/lib/storage/youtube.py:66
 #, python-format
 msgid "YouTube Error: %s"
-msgstr ""
+msgstr "Chyba YouTube: %s"
 
 #: mediacore/model/players.py:102
 #, python-format
 msgid "%s (broken)"
-msgstr ""
+msgstr "%s (rozbité)"
 
 #: mediacore/templates/error.html:17
 #, python-format
@@ -1348,15 +1370,15 @@ msgstr "[1: MediaCore] [2: video platforma]"
 
 #: mediacore/templates/login.html:16
 msgid "Log in to"
-msgstr ""
+msgstr "Přihlásit se do"
 
 #: mediacore/templates/login.html:40
 msgid "Log in"
-msgstr ""
+msgstr "Přihlásit se"
 
 #: mediacore/templates/master.html:64
 msgid "Admin"
-msgstr ""
+msgstr "Admin"
 
 #: mediacore/templates/master.html:66 mediacore/templates/admin/master.html:50
 msgid "Logout"
@@ -1482,7 +1504,7 @@ msgstr "MediaCore CE"
 
 #: mediacore/templates/admin/master.html:67
 msgid "© 2009-2013 MediaCore Inc. and contributors"
-msgstr ""
+msgstr "© 2009-2013 MediaCore Inc. a přispěvatelé"
 
 #: mediacore/templates/admin/categories/index.html:38
 #: mediacore/templates/admin/comments/index.html:36
@@ -1656,15 +1678,15 @@ msgstr "Jste si jisti, že chcete toto hodnocení smazat?"
 
 #: mediacore/templates/admin/groups/edit.html:37
 msgid "New Group"
-msgstr ""
+msgstr "Nová skupina"
 
 #: mediacore/templates/admin/groups/index.html:32
 msgid "Are you sure you want to delete this group?"
-msgstr ""
+msgstr "Jste si jisti, že chcete smazat tuto skupinu?"
 
 #: mediacore/templates/admin/groups/index.html:42
 msgid "Add Group"
-msgstr ""
+msgstr "Přidat skupinu"
 
 #: mediacore/templates/admin/media/_media-table.html:22
 msgid "Publish Date"
@@ -2529,5 +2551,5 @@ msgstr ""
 
 #: mediacore/validation/uri_validator.py:21
 msgid "That is not a valid URL."
-msgstr ""
+msgstr "Toto není platná URL."
 
