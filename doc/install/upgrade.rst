@@ -18,19 +18,23 @@ Upgrading MediaCore CE is relatively straightforward:
 5. Upgrade your database (completely automated)
 6. Check your deployment scripts and post-upgrade cleanup
 
-**NOTE 1:** `yourconf.ini` below should be replaced to refer to `development.ini`
+**NOTE 1:** We only support upgrades from version 0.9.0 and newer (any release 
+after March 2011). If you are running an ancient version such as 0.8 please 
+upgrade to 0.9.0 first (follow the upgrade steps in the 0.9 docs).
+
+**NOTE 2:** `yourconf.ini` below should be replaced to refer to `development.ini`
 or `deployment.ini`, depending on which one you have set up for your current
 MediaCore CE installation.
 
-**NOTE 2:** `/path/to/venv` and `/path/to/mediacore-old` below
+**NOTE 3:** `/path/to/venv` and `/path/to/mediacore-old` below
 should be replaced with the paths to your MediaCore CE Virtual Environment
 directory and Installation directory, respectively.
 
-**NOTE 3:** `mediacore-old` and `mediacore-new` below should be replaced with
+**NOTE 4:** `mediacore-old` and `mediacore-new` below should be replaced with
 the correct versions for your installation. For example, with `MediaCore-0.9.4`
 and `MediaCore-0.10.0`, respectively.
 
-**NOTE 4:** If you're a developer type, and you're tracking the latest changes
+**NOTE 5:** If you're a developer type, and you're tracking the latest changes
 using git, you'll want to run `paster setup-app development.ini` after fetching
 any new changes. This will ensure that your custom appearance css and your
 Players table are up to date.
@@ -39,7 +43,8 @@ Step 1: Re-Create your Virtual Environment
 ------------------------------------------
 
 If you perform only a minor upgrade (e.g. MediaCore CE 0.10.0 to 0.10.1) you 
-can skip this step.
+can usually skip this step as we try not to change the database in a minor 
+release.
 
 .. sourcecode:: bash
 
@@ -111,29 +116,6 @@ b. If are upgrading from MediaCore CE **0.9.0 or newer**, you'll need to
       mv ./mediacore-old/data .
       mv ./mediacore-old/production.ini .
 
-c. If you are upgrading from MediaCore CE **0.8.2 or older**, you'll need to
-   move all of the relevant files in ``./data/`` and
-   ``./mediacore/public/images/podcasts/`` and
-   ``./mediacore/public/images/media/`` from your old installation directory.
-   The new data folder should be in the same directory as (but not inside 
-   of) ``mediacore-new``.
-
-   .. sourcecode:: bash
-
-      # Navigate to the parent directory, where mediacore-old and mediacore-new
-      # both reside.
-      cd /path/to/mediacore-old
-      cd ..
-
-      # Move over the old media files.
-      mkdir ./data
-      mv ./mediacore-old/data/deleted ./data/
-      mv ./mediacore-old/data/media ./data/
-
-      # Move over the old thumbnails.
-      mv ./mediacore-old/mediacore/public/images/podcasts/[0-9]* ./data/images/podcasts/
-      mv ./mediacore-old/mediacore/public/images/media/[0-9]* ./data/images/media/
-
 
 Step 4: Update your configuration
 ---------------------------------
@@ -142,8 +124,7 @@ If you perform only a minor upgrade (e.g. MediaCore CE 0.10.0 to 0.10.1) you
 can skip this step.
 
 For major upgrades it is a good idea to create a new `deployment.ini` to check
-for new configuration settings. If you upgrade from MediaCore CE 0.8.1 (or 
-older) this is actually required.
+for new configuration settings.
 
 .. sourcecode:: bash
 
@@ -162,32 +143,13 @@ looks something like):
 Step 5: Upgrade your database
 -----------------------------
 
-This step is slightly different depending on which version you are upgrading
-from. See the individual commands below:
-
-a.  If you're upgrading from **0.8.2, 0.9.0, or newer** (released after August 2010):
+Upgrading the database is a simple and straightforward step:
 
    .. sourcecode:: bash
 
       # Run the setup/upgrade script to upgrade your database.
       cd /path/to/mediacore-new
       paster setup-app yourconf.ini
-
-b.  Or, if you're upgrading from **0.8.0, 0.8.1** (released May 2010):
-
-   .. sourcecode:: bash
-
-      # Run the upgrade script to upgrade your database.
-      cd /path/to/mediacore-new
-      python batch-scripts/upgrade/upgrade-from-v080.py yourconf.ini
-
-c.  Or, if you're upgrading from **0.7.2** (released January 2010):
-
-   .. sourcecode:: bash
-
-      # Run the upgrade script to upgrade your database.
-      cd /path/to/mediacore-new
-      python batch-scripts/upgrade/upgrade-from-v072.py yourconf.ini
 
 
 Step 6: Check your deployment scripts and post-upgrade cleanup

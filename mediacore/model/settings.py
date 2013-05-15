@@ -81,7 +81,7 @@ def insert_settings(defaults):
     """Insert the given setting if they don't exist yet.
 
     XXX: Does not include any support for MultiSetting. This approach
-         won't work for that. We'll need to use sqlalchemy-migrate.
+         won't work for that. We'll need to use a migration script.
 
     :type defaults: list
     :param defaults: Key and value pairs

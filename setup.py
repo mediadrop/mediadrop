@@ -16,10 +16,12 @@ install_requires = [
     # added in WebOb 1.1 so we need that as baseline.
     'WebOb >= 1.1',
     'WebHelpers == 1.0',
-    # 0.7: event listener infrastructure
-    # migrate does not yet support 0.8
-    'SQLAlchemy >= 0.7, < 0.8',
-    'sqlalchemy-migrate >= 0.7', # 0.6 is not compatible with SQLAlchemy >= 0.7
+    # 0.7: event listener infrastructure, alembic 0.5 requires at least 0.7.3
+    # we need to change our class_mappers for 0.8 support
+    'SQLAlchemy >= 0.7.3, < 0.8',
+    # theoretically every alembic since 0.4 should work (which added the 
+    # alembic.config.Config class) but MediaCore is only tested with 0.5+
+    'alembic >= 0.4',
     'Genshi >= 0.6', # i18n improvements in Genshi
     'Babel == 0.9.6',
     'Routes == 1.12.3',

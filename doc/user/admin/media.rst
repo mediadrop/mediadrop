@@ -38,9 +38,6 @@ Users can upload `Timed Text <http://www.w3.org/TR/ttaf1-dfxp/>`_ .xml files to
 be used for closed captioning. This works in much the same way as audio
 descriptions.
 
-NOTE: File extensions are important to MediaCore CE 0.8.2 and below. In MediaCore CE
-0.8.2, Codecs and Container formats are deduced from the file extension.
-
 
 Status
 ------

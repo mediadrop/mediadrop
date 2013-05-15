@@ -4,35 +4,31 @@
 # The source code contained in this file is licensed under the GPLv3 or
 # (at your option) any later version.
 # See LICENSE.txt in the main project directory, for more information.
-
 """Setup the MediaCore application"""
+
 import logging
-import os.path
+import os
 import random
 import string
 
 import pylons
-import pylons.test
 
 from genshi.template import NewTextTemplate
 from genshi.template.loader import TemplateLoader
 from PIL import Image
-from migrate.versioning.api import (drop_version_control, version_control,
-    version, upgrade)
-from migrate.exceptions import DatabaseAlreadyControlledError
 
 from mediacore.config.environment import load_environment
 from mediacore.lib.i18n import N_
 from mediacore.lib.storage import (BlipTVStorage, DailyMotionStorage,
     LocalFileStorage, RemoteURLStorage, VimeoStorage, YoutubeStorage)
+from mediacore.migrations.util import AlembicMigrations
+
 from mediacore.model import (Author, AuthorWithIP, Category, Comment,
     DBSession, Group, Media, MediaFile, Permission, Podcast, Setting,
     User, metadata, cleanup_players_table)
 
 log = logging.getLogger(__name__)
 here = os.path.dirname(__file__)
-
-migrate_repository = os.path.join(here, 'migrations')
 
 appearance_settings = [
     (u'appearance_logo', u''),
@@ -66,6 +62,7 @@ appearance_settings = [
     (u'appearance_show_dislike', u'True'),
 ]
 
+
 def setup_app(command, conf, vars):
     """Called by ``paster setup-app``.
 
@@ -95,37 +92,33 @@ def setup_app(command, conf, vars):
          script yourself.
 
     """
-    if pylons.test.pylonsapp:
-        # NOTE: This extra filename check may be unnecessary, the example it is
-        # from did not check for pylons.test.pylonsapp. Leaving it in for now
-        # to make it harder for someone to accidentally delete their database.
-        filename = os.path.split(conf.filename)[-1]
-        if filename == 'test.ini':
-            log.info('Dropping existing tables...')
-            metadata.drop_all(checkfirst=True)
-            drop_version_control(conf.local_conf['sqlalchemy.url'],
-                                 migrate_repository)
-    else:
-        # Don't reload the app if it was loaded under the testing environment
-        config = load_environment(conf.global_conf, conf.local_conf)
-
-    # Create the migrate_version table if it doesn't exist.
-    # If the table doesn't exist, we assume the schema was just setup
-    # by this script and therefore must be the latest version.
-    latest_version = version(migrate_repository)
-    try:
-        version_control(conf.local_conf['sqlalchemy.url'],
-                        migrate_repository,
-                        version=latest_version)
-    except DatabaseAlreadyControlledError:
-        log.info('Running any new migrations, if there are any')
-        upgrade(conf.local_conf['sqlalchemy.url'],
-                migrate_repository,
-                version=latest_version)
-    else:
-        log.info('Initializing new database with version %r' % latest_version)
+    config = load_environment(conf.global_conf, conf.local_conf)
+    alembic_migrations = AlembicMigrations.from_config(conf, log=log)
+    
+    engine = metadata.bind
+    db_connection = engine.connect()
+    # simplistic check to see if MediaCore tables are present, just check for
+    # the media_files table and assume that all other tables are there as well
+    from mediacore.model.media import media_files
+    mediacore_tables_exist = engine.dialect.has_table(db_connection, media_files.name)
+    
+    run_migrations = True
+    if not mediacore_tables_exist:
+        head_revision = alembic_migrations.head_revision()
+        log.info('Initializing new database with version %r' % head_revision)
         metadata.create_all(bind=DBSession.bind, checkfirst=True)
+        alembic_migrations.stamp(head_revision)
+        run_migrations = False
         add_default_data()
+    elif not alembic_migrations.migrate_table_exists():
+        log.error('No migration table found, probably your MediaCore install '
+            'is too old (< 0.9?). Please upgrade to MediaCore CE 0.9 first.')
+        raise AssertionError('no migration table found')
+    elif not alembic_migrations.alembic_table_exists():
+        alembic_revision = alembic_migrations.map_migrate_version()
+        alembic_migrations.stamp(alembic_revision)
+    if run_migrations:
+        alembic_migrations.run()
 
     cleanup_players_table(enabled=True)
 
