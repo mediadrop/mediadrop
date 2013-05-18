@@ -3,9 +3,9 @@
 # This file is distributed under the same license as the MediaCore project.
 #
 # Translators:
-# algobyte <algobyte@hotmail.com>, 2011-2012.
-# Jan-Erik Finlander <jefinlander@gmail.com>, 2011.
-# Marco Mariani <birbag@gmail.com>, 2012.
+# algobyte <algobyte@hotmail.com>, 2011-2012
+# Jan-Erik Finlander <jefinlander@gmail.com>, 2011
+# Marco Mariani <birbag@gmail.com>, 2012
 # Valerio Minetti <valerio.minetti@gmail.com>, 2013
 msgid ""
 msgstr ""
@@ -13,7 +13,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://github.com/mediacore/mediacore-"
 "community/issues\n"
 "POT-Creation-Date: 2013-03-25 17:58+0100\n"
-"PO-Revision-Date: 2013-03-24 12:56+0000\n"
+"PO-Revision-Date: 2013-05-17 12:33+0000\n"
 "Last-Translator: Valerio Minetti <valerio.minetti@gmail.com>\n"
 "Language-Team: it <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
@@ -458,12 +458,15 @@ msgid ""
 "Applies only for the AS2 player, the AS3 player will choose the most "
 "appropriate version of the video version (e.g. considering the user's "
 "bandwidth)"
-msgstr "Applicabile solo per il player AS2, il player AS3 sceglierà la versione"
-"più appropriata del video (es. considerando la banda dell'utente)"
+msgstr ""
+"Applicabile solo per il player AS2, il player AS3 sceglierà la "
+"versionepiù appropriata del video (es. considerando la banda dell'utente)"
 
 #: mediacore/forms/admin/players.py:157
 msgid "Display related videos after playback of the initial video ends."
-msgstr "Mostra i video correlati dopo la fine della riproduzione del video iniziale."
+msgstr ""
+"Mostra i video correlati dopo la fine della riproduzione del video "
+"iniziale."
 
 #: mediacore/forms/admin/players.py:158
 msgid ""
@@ -481,8 +484,10 @@ msgstr "Solo player AS2"
 msgid ""
 "Display information like the video title and uploader before the video "
 "starts playing."
-msgstr "Mostra informazioni come il titolo e l'autore prima che il video "
-"inizi la riproduzione."
+msgstr ""
+"Mostra informazioni come il titolo e l'autore prima che il video inizi la"
+" riproduzione."
+
 #: mediacore/forms/admin/players.py:161
 msgid "Enable window-less mode (wmode)"
 msgstr "Abilita modalità senza finestra (wmode)"
@@ -491,8 +496,9 @@ msgstr "Abilita modalità senza finestra (wmode)"
 msgid ""
 "wmode allows HTML/CSS elements to be placed over the actual Flash video "
 "but requires more CPU power."
-msgstr "wmode permette il posizionamento di elementi HTML/CSS sopra il video Flash "
-"ma richiede più potenza di CPU"
+msgstr ""
+"wmode permette il posizionamento di elementi HTML/CSS sopra il video "
+"Flash ma richiede più potenza di CPU"
 
 #: mediacore/forms/admin/players.py:165
 msgid "Always show player controls."
@@ -693,6 +699,9 @@ msgid ""
 "\"?limit=X\" to the feed URL. If the \"limit\" parameter is absent, the "
 "default above is used."
 msgstr ""
+"Il numero di elementi nel feed può essere cambiato in ogni richiesta "
+"aggiungendo \"?limit=X\"  all'URL del feed. Se il parametro \"limit\" è "
+"assente, il valore di default sopra indicato verrà utilizzato."
 
 #: mediacore/forms/admin/settings.py:215
 msgid "General Settings:"
@@ -760,7 +769,7 @@ msgstr "ID Aplicazione"
 
 #: mediacore/forms/admin/settings.py:269
 msgid "See: https://developers.facebook.com/apps"
-msgstr ""
+msgstr "Vedi: https://developers.facebook.com/apps"
 
 #: mediacore/forms/admin/settings.py:283
 msgid "Require a key to access the API"
@@ -846,10 +855,13 @@ msgid ""
 "Cooliris support is deprecated and will be removed in the next major "
 "version of MediaCore CE unless someone is interested in maintaining it."
 msgstr ""
+"Il supporto per Cooliris è deprecato e sarà rimosso nella prossima "
+"versione major di MediaCore CE a meno che qualcuno non sia interessato a "
+"mantenerlo."
 
 #: mediacore/forms/admin/settings.py:352
 msgid "Display login link for all users"
-msgstr ""
+msgstr "Mostra il link di login per tutti gli utenti"
 
 #: mediacore/forms/admin/settings.py:355
 msgid "Enable Featured Items on the Explore Page"
@@ -978,7 +990,7 @@ msgstr "La password non corrisponde"
 #: mediacore/templates/admin/groups/index.html:17
 #: mediacore/templates/admin/groups/index.html:41
 msgid "Groups"
-msgstr ""
+msgstr "Gruppi"
 
 #: mediacore/forms/admin/users.py:55
 msgid "Confirm password"
@@ -1259,12 +1271,12 @@ msgstr "URL di YouTube non valido. Il video non esiste."
 #: mediacore/lib/storage/youtube.py:66
 #, python-format
 msgid "YouTube Error: %s"
-msgstr ""
+msgstr "Errore YouTube: %s"
 
 #: mediacore/model/players.py:102
 #, python-format
 msgid "%s (broken)"
-msgstr ""
+msgstr "%s (danneggiato)"
 
 #: mediacore/templates/error.html:17
 #, python-format
@@ -1387,15 +1399,15 @@ msgstr "[1:MediaCore] [2:video piattaforma]"
 
 #: mediacore/templates/login.html:16
 msgid "Log in to"
-msgstr ""
+msgstr "Collegati a"
 
 #: mediacore/templates/login.html:40
 msgid "Log in"
-msgstr ""
+msgstr "Collegati"
 
 #: mediacore/templates/master.html:64
 msgid "Admin"
-msgstr ""
+msgstr "Admin"
 
 #: mediacore/templates/master.html:66 mediacore/templates/admin/master.html:50
 msgid "Logout"
@@ -1521,7 +1533,7 @@ msgstr "MediaCore CE"
 
 #: mediacore/templates/admin/master.html:67
 msgid "© 2009-2013 MediaCore Inc. and contributors"
-msgstr ""
+msgstr "© 2009-2013 MediaCore Inc. e contributori"
 
 #: mediacore/templates/admin/categories/index.html:38
 #: mediacore/templates/admin/comments/index.html:36
@@ -1695,15 +1707,15 @@ msgstr "Sei sicuro di volerlo cancellare?"
 
 #: mediacore/templates/admin/groups/edit.html:37
 msgid "New Group"
-msgstr ""
+msgstr "Nuovo gruppo"
 
 #: mediacore/templates/admin/groups/index.html:32
 msgid "Are you sure you want to delete this group?"
-msgstr ""
+msgstr "Sei sicuro di voler cancellare questo gruppo?"
 
 #: mediacore/templates/admin/groups/index.html:42
 msgid "Add Group"
-msgstr ""
+msgstr "Aggiungi Gruppo"
 
 #: mediacore/templates/admin/media/_media-table.html:22
 msgid "Publish Date"
@@ -2576,5 +2588,5 @@ msgstr ""
 
 #: mediacore/validation/uri_validator.py:21
 msgid "That is not a valid URL."
-msgstr ""
+msgstr "Questa non è un' URL valida."
 
