@@ -169,7 +169,7 @@ def paginate(name, items_per_page=10, use_prefix=False, items_first_page=None):
             res = f(*args, **kwargs)
             if isinstance(res, dict) and name in res:
                 additional_parameters = MultiDict()
-                for key, value in request.str_params.iteritems():
+                for key, value in request.params.iteritems():
                     if key not in own_parameters:
                         additional_parameters.add(key, value)
 

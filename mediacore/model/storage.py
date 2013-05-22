@@ -14,9 +14,9 @@ from sqlalchemy.orm import column_property, dynamic_loader, mapper
 from sqlalchemy.types import Boolean, DateTime, Integer, Unicode
 
 from mediacore.lib.storage import StorageEngine
-from mediacore.model import JsonType
 from mediacore.model.media import MediaFile, MediaFileQuery, media_files
 from mediacore.model.meta import metadata
+from mediacore.model.util import JSONType
 
 log = logging.getLogger(__name__)
 
@@ -28,7 +28,7 @@ storage = Table('storage', metadata,
     Column('created_on', DateTime, nullable=False, default=datetime.now),
     Column('modified_on', DateTime, nullable=False, default=datetime.now,
                                                     onupdate=datetime.now),
-    Column('data', JsonType, nullable=False, default=dict),
+    Column('data', JSONType, nullable=False, default=dict),
     mysql_engine='InnoDB',
     mysql_charset='utf8',
 )

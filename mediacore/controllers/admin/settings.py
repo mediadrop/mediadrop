@@ -224,7 +224,7 @@ class SettingsController(BaseSettingsController):
             generate_appearance_css(appearance_settings)
             return redirect(controller='admin/settings', action='appearance')
 
-        appearance_dir = os.path.join(config['cache.dir'], 'appearance')
+        appearance_dir = os.path.join(config['pylons.cache_dir'], 'appearance')
 
         for field_name, file_name in upload_field_filenames:
             field = kwargs['general'].pop(field_name)

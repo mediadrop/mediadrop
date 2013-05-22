@@ -492,8 +492,7 @@ class Media(object):
             return VIDEO
         elif any(file.type == AUDIO for file in self.files):
             return AUDIO
-        else:
-            return None
+        return None
 
     def _update_encoding(self):
         # Test to see if we can find a workable file/player combination

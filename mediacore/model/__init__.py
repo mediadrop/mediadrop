@@ -7,14 +7,13 @@
 """The application's model objects"""
 
 import re
-import simplejson
 
 import webob.exc
 from sqlalchemy import sql, orm
 from sqlalchemy.orm import class_mapper
 from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.sql.expression import bindparam, ClauseList, ColumnElement
-from sqlalchemy.types import FLOAT, MutableType, Text, TypeDecorator
+from sqlalchemy.types import FLOAT
 from sqlalchemy.ext.compiler import compiles
 from unidecode import unidecode
 
@@ -238,26 +237,6 @@ def _compile_fulltext_mysql(element, compiler, **kwargs):
         'bool_mode': element.bool and ' IN BOOLEAN MODE' or ''
     }
 
-class JsonType(MutableType, TypeDecorator):
-    """
-    JSON Type Decorator
-
-    This converts JSON strings to python objects and vice-versa when
-    working with SQLAlchemy Tables. The resulting python objects are
-    mutable: SQLAlchemy will be aware of any changes you make within
-    them, and they're saved automatically.
-
-    """
-    impl = Text
-
-    def process_bind_param(self, value, dialect, dumps=simplejson.dumps):
-        return dumps(value)
-
-    def process_result_value(self, value, dialect, loads=simplejson.loads):
-        return loads(value)
-
-    def copy_value(self, value, loads=simplejson.loads, dumps=simplejson.dumps):
-        return loads(dumps(value))
 
 __all__ = [
     'DBSession',

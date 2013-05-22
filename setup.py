@@ -9,24 +9,34 @@ import sys
 from mediacore import __version__ as VERSION
 
 install_requires = [
-    'WebTest == 1.2',
-    'Pylons == 0.10',
-    'WebOb == 1.0.7',
+    'ddt',
+    'Pylons >= 1.0',
+    # WebOb 1.2.x raises an error if we use "request.str_params" (as we did in
+    # MediaCore 0.10/WebOb 1.0.7) but the non-deprecated attribute was only
+    # added in WebOb 1.1 so we need that as baseline.
+    'WebOb >= 1.1',
     'WebHelpers == 1.0',
-    # 0.7: event listener infrastructure
-    # migrate does not yet support 0.8
-    'SQLAlchemy >= 0.7, < 0.8',
-    'sqlalchemy-migrate >= 0.7', # 0.6 is not compatible with SQLAlchemy >= 0.7
+    # 0.7: event listener infrastructure, alembic 0.5 requires at least 0.7.3
+    # we need to change our class_mappers for 0.8 support
+    'SQLAlchemy >= 0.7.3, < 0.8',
+    # theoretically every alembic since 0.4 should work (which added the 
+    # alembic.config.Config class) but MediaCore is only tested with 0.5+
+    'alembic >= 0.4',
     'Genshi >= 0.6', # i18n improvements in Genshi
     'Babel == 0.9.6',
     'Routes == 1.12.3',
     'repoze.who == 1.0.18',
     'repoze.who-friendlyform',
     'repoze.who.plugins.sa',
-    'Paste == 1.7.4',
-    'PasteDeploy == 1.3.3',
-    'PasteScript == 1.7.3',
-    'ToscaWidgets == 0.9.9',
+    # actually any recent Paste* version should work fine. However I experienced
+    # venv update problems when there was no version specified because of
+    # setuptools' simplistic dependency resolution, e.g.
+    # "error: Installed distribution Paste 1.7.4 conflicts with requirement Paste>=1.7.5.1"
+    # just use the minimum versions for Pylons 1.0:
+    'Paste >= 1.7.5.1',
+    'PasteDeploy',
+    'PasteScript >= 1.7.4.2',
+    'ToscaWidgets >= 0.9.12', # 0.9.9 is not compatible with Pylons 1.0
     'tw.forms == 0.9.9',
     'MySQL-python >= 1.2.2',
     'BeautifulSoup == 3.0.7a',
@@ -47,10 +57,9 @@ if sys.version_info < (2, 7):
     # see https://github.com/mediacore/mediacore-community/issues#issue/44
     install_requires.append('importlib')
 
-if sys.version_info < (2, 5):
-    # These package comes bundled in Python >= 2.5 as xml.etree.cElementTree.
-    install_requires.append('elementtree >= 1.2.6, < 1.3')
-    install_requires.append('cElementTree >= 1.0.5, < 1.1')
+if sys.version_info < (2, 6):
+    print 'MediaCore CE requires Python 2.6 or 2.7.'
+    sys.exit(1)
 
 extra_arguments_for_setup = {}
 

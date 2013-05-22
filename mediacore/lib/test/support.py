@@ -141,7 +141,8 @@ def fake_request(pylons_config, server_name='mediacore.example', language='en',
     routes_url = URLGenerator(pylons_config['routes.map'], wsgi_environ)
     pylons.url._push_object(routes_url)
 
-    # TODO: Use ContextObj() for Pylons 0.10
+    # Use ContextObj() when we get rid of 'pylons.strict_tmpl_context=False' in
+    # mediacore.lib.environment
     tmpl_context = AttribSafeContextObj()
     tmpl_context.paginators = Bunch()
     pylons.tmpl_context._push_object(tmpl_context)
