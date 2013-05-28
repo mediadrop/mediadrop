@@ -18,7 +18,7 @@ from sqlalchemy import engine_from_config
 import mediacore.lib.app_globals as app_globals
 import mediacore.lib.helpers
 
-from mediacore.config.routing import make_map
+from mediacore.config.routing import create_mapper, add_routes
 from mediacore.lib.templating import TemplateLoader
 from mediacore.model import Media, Podcast, init_model
 from mediacore.plugin import PluginManager, events
@@ -40,8 +40,10 @@ def load_environment(global_conf, app_conf):
     # Initialize the plugin manager to load all active plugins
     plugin_mgr = PluginManager(config)
 
-    mapper = make_map(config, plugin_mgr.controller_scan)
-    events.Environment.routes(mapper)
+    mapper = create_mapper(config, plugin_mgr.controller_scan)
+    events.Environment.before_route_setup(mapper)
+    add_routes(mapper)
+    events.Environment.after_route_setup(mapper)
     config['routes.map'] = mapper
     config['pylons.app_globals'] = app_globals.Globals(config)
     config['pylons.app_globals'].plugin_mgr = plugin_mgr

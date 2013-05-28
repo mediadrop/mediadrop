@@ -20,14 +20,16 @@ logout_handler_url = '/logout'
 post_login_url = '/login/continue'
 post_logout_url = '/logout/continue'
 
-def make_map(config, controller_scan=controller_scan):
+def create_mapper(config, controller_scan=controller_scan):
     """Create, configure and return the routes Mapper"""
     map = Mapper(controller_scan=controller_scan,
                  directory=config['pylons.paths']['controllers'],
                  always_scan=config['debug'])
     map.explicit = False
     map.minimization = True # TODO: Rework routes so we can set this to False
+    return map
 
+def add_routes(map):
     #################
     # Public Routes #
     #################

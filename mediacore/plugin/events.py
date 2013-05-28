@@ -127,6 +127,11 @@ class MapperObserver(MapperExtension):
 # Application Setup
 
 class Environment(object):
+    before_route_setup = Event(['mapper'])
+    after_route_setup = Event(['mapper'])
+    # TODO: deprecation warning
+    routes = after_route_setup
+    
     routes = Event(['mapper'])
     init_model = Event([])
     loaded = Event(['config'])

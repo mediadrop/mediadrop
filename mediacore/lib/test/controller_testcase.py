@@ -13,7 +13,7 @@ import pylons
 from pylons.controllers.util import Response
 from webob.exc import HTTPFound
 
-from mediacore.config.routing import make_map
+from mediacore.config.routing import add_routes, create_mapper
 from mediacore.lib.test.request_mixin import RequestMixin
 from mediacore.lib.test.db_testcase import DBTestCase
 from mediacore.lib.test.pythonic_testcase import *
@@ -48,7 +48,7 @@ class ControllerTestCase(DBTestCase, RequestMixin):
         return response
     
     def _inject_url_generator_for_request(self, request):
-        url_mapper = make_map(self.pylons_config)
+        url_mapper = add_routes(create_mapper(self.pylons_config))
         url_generator = URLGenerator(url_mapper, request.environ)
         
         match = re.search('^.*?/([^/]+)(?:/([^/]+))?$', request.environ['PATH_INFO'])

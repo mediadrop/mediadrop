@@ -10,7 +10,7 @@ import re
 from pylons.controllers.util import Request
 from routes.util import URLGenerator
 
-from mediacore.config.routing import make_map
+from mediacore.config.routing import add_routes, create_mapper
 from mediacore.lib.test.db_testcase import DBTestCase
 from mediacore.lib.test.pythonic_testcase import *
 from mediacore.lib.test.request_mixin import RequestMixin
@@ -26,7 +26,7 @@ class CurrentURLTest(DBTestCase, RequestMixin):
         assert_equals('http://server.example:80/media/view', current_url(qualified=True))
     
     def _inject_url_generator_for_request(self, request):
-        url_mapper = make_map(self.pylons_config)
+        url_mapper = add_routes(create_mapper(self.pylons_config))
         url_generator = URLGenerator(url_mapper, request.environ)
         
         match = re.search('^.*?/([^/]+)(?:/([^/]+))?$', request.environ['PATH_INFO'])
