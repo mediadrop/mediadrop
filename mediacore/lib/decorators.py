@@ -471,8 +471,9 @@ def beaker_cache(key="cache_default", expire="never", type=None,
             key_dict = kwargs.copy()
             key_dict.update(_make_dict_from_args(func, args))
 
-            ## FIXME: if we can stop there variables from being passed to the controller
-            # action then we can use the stock beaker_cache.
+            ## FIXME: if we can stop there variables from being passed to the
+            # controller action (also the Genshi Markup/pickle problem is
+            # fixed, see below) then we can use the stock beaker_cache.
             # Remove some system variables that can cause issues while generating cache keys
             [key_dict.pop(x, None) for x in ("pylons", "start_response", "environ")]
 
@@ -511,6 +512,11 @@ def beaker_cache(key="cache_default", expire="never", type=None,
             log.debug("Creating new cache copy with key: %s, type: %s",
                       cache_key, type)
             result = func(*args, **kwargs)
+            # This is one of the two changes to the stock beaker_cache
+            # decorator
+            if hasattr(result, '__html__'):
+                # Genshi Markup object, can not be pickled
+                result = unicode(result.__html__())
             glob_response = pylons.response
             headers = glob_response.headerlist
             status = glob_response.status
