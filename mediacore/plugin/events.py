@@ -130,6 +130,15 @@ class Environment(object):
     routes = Event(['mapper'])
     init_model = Event([])
     loaded = Event(['config'])
+    
+    # fires when a new database was initialized (tables created)
+    database_initialized = Event([])
+    
+    # an existing database was migrated to a newer DB schema
+    database_migrated = Event([])
+    
+    # the environment has been loaded, the database is ready to use
+    database_ready = Event([])
 
 ###############################################################################
 # Controllers

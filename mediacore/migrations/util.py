@@ -88,6 +88,14 @@ class AlembicMigrations(object):
             self.log.error('Unknown DB version %s. Can not upgrade to alembic' % db_migrate_version)
         raise AssertionError('unsupported DB migration version.')
     
+    def is_db_scheme_current(self):
+        if not self.alembic_table_exists():
+            return False
+        self.context.configure(connection=metadata.bind.connect(), transactional_ddl=True)
+        migration_context = self.context.get_context()
+        db_needs_upgrade = self.head_revision() != migration_context.get_current_revision()
+        return not db_needs_upgrade
+    
     def head_revision(self):
         return self.context.get_head_revision()
     

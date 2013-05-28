@@ -33,7 +33,9 @@ import tw.api
 from mediacore import monkeypatch_method
 from mediacore.config.environment import load_environment
 from mediacore.lib.auth import add_auth
-from mediacore.model.meta import DBSession
+from mediacore.migrations.util import AlembicMigrations
+from mediacore.model import DBSession
+from mediacore.plugin import events
 
 log = logging.getLogger(__name__)
 
@@ -287,6 +289,11 @@ def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
     """
     # Configure the Pylons environment
     config = load_environment(global_conf, app_conf)
+    alembic_migrations = AlembicMigrations.from_config(config, log=log)
+    if alembic_migrations.is_db_scheme_current():
+        events.Environment.database_ready()
+    else:
+        log.warn('Running with an outdated database scheme. Please upgrade your database.')
     plugin_mgr = config['pylons.app_globals'].plugin_mgr
 
     # The Pylons WSGI app

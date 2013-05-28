@@ -22,6 +22,7 @@ from mediacore.lib.i18n import N_
 from mediacore.lib.storage import (BlipTVStorage, DailyMotionStorage,
     LocalFileStorage, RemoteURLStorage, VimeoStorage, YoutubeStorage)
 from mediacore.migrations.util import AlembicMigrations
+from mediacore.plugin import events
 
 from mediacore.model import (Author, AuthorWithIP, Category, Comment,
     DBSession, Group, Media, MediaFile, Permission, Podcast, Setting,
@@ -110,6 +111,7 @@ def setup_app(command, conf, vars):
         alembic_migrations.stamp(head_revision)
         run_migrations = False
         add_default_data()
+        events.Environment.database_initialized()
     elif not alembic_migrations.migrate_table_exists():
         log.error('No migration table found, probably your MediaCore install '
             'is too old (< 0.9?). Please upgrade to MediaCore CE 0.9 first.')
@@ -119,11 +121,13 @@ def setup_app(command, conf, vars):
         alembic_migrations.stamp(alembic_revision)
     if run_migrations:
         alembic_migrations.run()
+        events.Environment.database_migrated()
 
     cleanup_players_table(enabled=True)
 
     # Save everything, along with the dummy data if applicable
     DBSession.commit()
+    events.Environment.database_ready()
 
     log.info('Generating appearance.css from your current settings')
     settings = DBSession.query(Setting.key, Setting.value)
