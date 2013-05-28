@@ -12,6 +12,9 @@ import logging
 
 from sqlalchemy.orm.interfaces import MapperExtension
 
+
+__all__ = ['Event', 'GeneratorEvent', 'FetchFirstResultEvent', 'observes']
+
 log = logging.getLogger(__name__)
 
 class Event(object):
