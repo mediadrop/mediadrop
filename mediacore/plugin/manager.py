@@ -49,10 +49,13 @@ class PluginManager(object):
             if (epoint.name not in enabled_plugins) and ('*' not in enabled_plugins):
                 log.debug('Skipping plugin %s: not enabled' % epoint.name)
                 continue
-            module = epoint.load()
-            plugin_class = getattr(module, '__plugin__', MediaCorePlugin)
-            self.plugins[epoint.name] = plugin_class(module, epoint.name)
+            self.plugins[epoint.name] = self.plugin_from_entry_point(epoint)
             log.debug('Plugin loaded: %r', epoint)
+
+    def plugin_from_entry_point(self, epoint):
+        module = epoint.load()
+        plugin_class = getattr(module, '__plugin__', MediaCorePlugin)
+        return plugin_class(module, epoint.name)
 
     def public_paths(self):
         """Return a dict of all 'public' folders in the loaded plugins.
