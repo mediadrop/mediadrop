@@ -33,7 +33,7 @@ import tw.api
 from mediacore import monkeypatch_method
 from mediacore.config.environment import load_environment
 from mediacore.lib.auth import add_auth
-from mediacore.migrations.util import AlembicMigrations
+from mediacore.migrations.util import MediaCoreMigrator
 from mediacore.model import DBSession
 from mediacore.plugin import events
 
@@ -289,7 +289,7 @@ def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
     """
     # Configure the Pylons environment
     config = load_environment(global_conf, app_conf)
-    alembic_migrations = AlembicMigrations.from_config(config, log=log)
+    alembic_migrations = MediaCoreMigrator.from_config(config, log=log)
     if alembic_migrations.is_db_scheme_current():
         events.Environment.database_ready()
     else:

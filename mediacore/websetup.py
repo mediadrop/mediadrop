@@ -21,7 +21,7 @@ from mediacore.config.environment import load_environment
 from mediacore.lib.i18n import N_
 from mediacore.lib.storage import (BlipTVStorage, DailyMotionStorage,
     LocalFileStorage, RemoteURLStorage, VimeoStorage, YoutubeStorage)
-from mediacore.migrations.util import AlembicMigrations
+from mediacore.migrations.util import MediaCoreMigrator
 from mediacore.plugin import events
 
 from mediacore.model import (Author, AuthorWithIP, Category, Comment,
@@ -94,7 +94,7 @@ def setup_app(command, conf, vars):
 
     """
     config = load_environment(conf.global_conf, conf.local_conf)
-    alembic_migrations = AlembicMigrations.from_config(conf, log=log)
+    mediacore_migrator = MediaCoreMigrator.from_config(conf, log=log)
     
     engine = metadata.bind
     db_connection = engine.connect()
@@ -105,26 +105,26 @@ def setup_app(command, conf, vars):
     
     run_migrations = True
     if not mediacore_tables_exist:
-        head_revision = alembic_migrations.head_revision()
+        head_revision = mediacore_migrator.head_revision()
         log.info('Initializing new database with version %r' % head_revision)
         metadata.create_all(bind=DBSession.bind, checkfirst=True)
-        alembic_migrations.stamp(head_revision)
+        mediacore_migrator.init_db(revision=head_revision)
         run_migrations = False
         add_default_data()
         events.Environment.database_initialized()
-    elif not alembic_migrations.migrate_table_exists():
+    elif not mediacore_migrator.migrate_table_exists():
         log.error('No migration table found, probably your MediaCore install '
             'is too old (< 0.9?). Please upgrade to MediaCore CE 0.9 first.')
         raise AssertionError('no migration table found')
-    elif not alembic_migrations.alembic_table_exists():
-        alembic_revision = alembic_migrations.map_migrate_version()
-        alembic_migrations.stamp(alembic_revision)
+    elif not mediacore_migrator.alembic_table_exists():
+        alembic_revision = mediacore_migrator.map_migrate_version()
+        mediacore_migrator.stamp(alembic_revision)
     if run_migrations:
-        alembic_migrations.run()
+        mediacore_migrator.migrate_db()
         events.Environment.database_migrated()
-
+    
     cleanup_players_table(enabled=True)
-
+    
     # Save everything, along with the dummy data if applicable
     DBSession.commit()
     events.Environment.database_ready()
