@@ -19,6 +19,7 @@ __all__ = ['MediaCorePlugin']
 
 log = logging.getLogger(__name__)
 
+
 class MediaCorePlugin(object):
     """
     Plugin Metadata
@@ -40,6 +41,10 @@ class MediaCorePlugin(object):
         self.public_path = public_path or self._default_public_path()
         self.controllers = controllers or self._default_controllers()
         self.locale_dirs = self._default_locale_dirs()
+        # migrations.util imports model and that causes all kind of recursive
+        # import trouble with mediacore.plugin (events)
+        from mediacore.migrations import PluginDBMigrator
+        self.migrator_class = PluginDBMigrator
 
     def _package_name(self):
         pkg_provider = pkg_resources.get_provider(self.modname)
@@ -90,6 +95,10 @@ class MediaCorePlugin(object):
             class_name = mycontroller.__module__ + '.' + mycontroller.__name__
             log.debug('Controller loaded; "%s" = %s' % (self.name + '/' + name, class_name))
         return controllers
+
+    def contains_migrations(self):
+        return (resource_exists(self.package_name, 'migrations') and 
+            not resource_exists(self.package_name+'.migrations', 'alembic.ini'))
 
 def _controller_class_from_module(module, name):
     c = getattr(module, '__controller__', None)

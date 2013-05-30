@@ -94,6 +94,7 @@ def setup_app(command, conf, vars):
 
     """
     config = load_environment(conf.global_conf, conf.local_conf)
+    plugin_manager = config['pylons.app_globals'].plugin_mgr
     mediacore_migrator = MediaCoreMigrator.from_config(conf, log=log)
     
     engine = metadata.bind
@@ -111,6 +112,8 @@ def setup_app(command, conf, vars):
         mediacore_migrator.init_db(revision=head_revision)
         run_migrations = False
         add_default_data()
+        for migrator in plugin_manager.migrators():
+            migrator.init_db()
         events.Environment.database_initialized()
     elif not mediacore_migrator.migrate_table_exists():
         log.error('No migration table found, probably your MediaCore install '
@@ -121,6 +124,8 @@ def setup_app(command, conf, vars):
         mediacore_migrator.stamp(alembic_revision)
     if run_migrations:
         mediacore_migrator.migrate_db()
+        for migrator in plugin_manager.migrators():
+            migrator.migrate_db()
         events.Environment.database_migrated()
     
     cleanup_players_table(enabled=True)

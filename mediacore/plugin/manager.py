@@ -21,6 +21,7 @@ __all__ = ['PluginManager']
 
 log = logging.getLogger(__name__)
 
+
 class PluginManager(object):
     """
     Plugin Loading and Management
@@ -131,6 +132,13 @@ class PluginManager(object):
                 and os.path.exists(os.path.join(templates_path, template)):
                     matches.append(os.path.sep + os.path.join(name, template))
         return matches
+
+    def migrators(self):
+        for plugin in self.plugins.itervalues():
+            migrator_class = getattr(plugin, 'migrator_class')
+            if plugin.contains_migrations():
+                migrator = migrator_class.from_config(plugin, self.config, log=log)
+                yield migrator
 
     def controller_classes(self):
         """Return a dict of controller classes that plugins have defined.

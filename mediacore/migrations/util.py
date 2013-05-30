@@ -14,7 +14,7 @@ from sqlalchemy import Column, Integer, Table, Unicode, UnicodeText
 
 from mediacore.model import metadata, DBSession
 
-__all__ = ['MediaCoreMigrator']
+__all__ = ['MediaCoreMigrator', 'PluginDBMigrator']
 
 migrate_to_alembic_mapping = {
     49: None,
@@ -43,9 +43,10 @@ def prefix_table_name(conf, table_name):
 
 
 class AlembicMigrator(object):
-    def __init__(self, context=None, log=None):
+    def __init__(self, context=None, log=None, plugin_name=None):
         self.context = context
         self.log = log or logging.getLogger(__name__)
+        self.plugin_name = plugin_name
     
     @classmethod
     def init_environment_context(cls, conf):
@@ -88,7 +89,10 @@ class AlembicMigrator(object):
         return self._table_exists(table_name)
     
     def migrate_db(self):
-        self.log.info('Running any new migrations, if there are any')
+        target = 'MediaCore CE'
+        if self.plugin_name:
+            target = self.plugin_name + ' plugin'
+        self.log.info('Running any new migrations for %s, if there are any' % target)
         self.context.configure(connection=metadata.bind.connect(), transactional_ddl=True)
         with self.context:
             self.context.run_migrations()
@@ -156,3 +160,19 @@ class MediaCoreMigrator(AlembicMigrator):
     def migrate_table_exists(self):
         return self._table_exists('migrate_version')
 
+
+class PluginDBMigrator(AlembicMigrator):
+    @classmethod
+    def from_config(cls, plugin, conf, **kwargs):
+        config = {
+            'alembic.version_table': plugin.name+'_migrations',
+            'alembic.script_location': '%s:%s' % (plugin.package_name, 'migrations'),
+            'sqlalchemy.url': conf['sqlalchemy.url'],
+        }
+        context = cls.init_environment_context(config)
+        return PluginDBMigrator(context=context, plugin_name=plugin.name, **kwargs)
+    
+    def init_db(self):
+        # stub for now, later on we could have a simplified method to initialize
+        # a new database
+        self.migrate_db()
