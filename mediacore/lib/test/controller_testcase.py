@@ -34,7 +34,16 @@ class ControllerTestCase(DBTestCase, RequestMixin):
             response_info['status'] = status
             response_info['headerlist'] = headers
         response_body_lines = controller(request.environ, fake_start_response)
-        response = Response(body='\n'.join(response_body_lines), **response_info)
+        
+        template_vars = None
+        if isinstance(response_body_lines, dict):
+            template_vars = response_body_lines
+            body = None
+        else:
+            body = '\n'.join(response_body_lines)
+        response = Response(body=body, **response_info)
+        if template_vars:
+            response.template_vars = template_vars
         return response
     
     def assert_redirect(self, call_controller):
