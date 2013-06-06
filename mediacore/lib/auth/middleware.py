@@ -132,9 +132,9 @@ def classifier_for_flash_uploads(environ):
         # pylons.request is populated. Re-instantiation later comes cheap.
         request = Request(environ)
         try:
-            session_id = request.str_POST[session_key]
+            session_id = str(request.POST[session_key])
             environ['HTTP_COOKIE'] = '%s=%s' % (session_key, session_id)
-        except KeyError:
+        except (KeyError, UnicodeEncodeError):
             pass
     return classification
 
