@@ -41,7 +41,7 @@ class LoginControllerTest(ControllerTestCase):
         user = User.example()
         
         request = self.init_fake_request(server_name='server.example',
-            request_uri='/mymedia/login/post_login')
+            request_uri='/login/post_login')
         request.environ['SCRIPT_NAME'] = 'my_media'
         
         response = self.call_post_login(user, request=request)
