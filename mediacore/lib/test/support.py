@@ -119,6 +119,17 @@ def create_wsgi_environ(url, request_method, request_body=None):
         return wsgi_environ
 
 
+def setup_translator(language='en', registry=None):
+    mediacore_i18n_path = os.path.join(os.path.dirname(mediacore.__file__), 'i18n')
+    translator = Translator(language, dict(mediacore=mediacore_i18n_path))
+    # not sure why but sometimes pylons.translator is not a StackedObjectProxy
+    # but just a regular Translator.
+    if not hasattr(pylons.translator, '_push_object'):
+        pylons.translator = StackedObjectProxy()
+    if registry is None:
+        registry = pylons.request.environ['paste.registry']
+    registry.replace(pylons.translator, translator)
+
 def fake_request(pylons_config, server_name='mediacore.example', language='en', 
                  method='GET', request_uri='/', post_vars=None):
     app_globals = pylons_config['pylons.app_globals']
@@ -155,14 +166,7 @@ def fake_request(pylons_config, server_name='mediacore.example', language='en',
     engines = create_tw_engine_manager(app_globals)
     host_framework = PylonsHostFramework(engines=engines)
     paste_registry.register(tw.framework, host_framework)
-    
-    mediacore_i18n_path = os.path.join(os.path.dirname(mediacore.__file__), 'i18n')
-    translator = Translator(language, dict(mediacore=mediacore_i18n_path))
-    # not sure why but sometimes pylons.translator is not a StackedObjectProxy
-    # but just a regular Translator.
-    if not hasattr(pylons.translator, '_push_object'):
-        pylons.translator = StackedObjectProxy()
-    paste_registry.replace(pylons.translator, translator)
+    setup_translator(language=language, registry=paste_registry)
     
     wsgi_environ.update({
         'pylons.pylons': pylons,
