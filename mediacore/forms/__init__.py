@@ -39,7 +39,8 @@ class LeniantValidationMixin(object):
         # we need to ensure that each form instance gets its own Schema instance
         # so it is safe for plugins to change class-level variables (e.g.
         # adding chained validators)
-        self.validator = leniant_schema()
+        if not self.validator:
+            self.validator = leniant_schema()
         
         if getattr(self, 'event', None):
             self.event(self)
