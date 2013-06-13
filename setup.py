@@ -8,8 +8,15 @@ except ImportError:
 import sys
 from mediacore import __version__ as VERSION
 
+# setuptools' dependency resolution is often too simplistic. If we install
+# MediaCore into an existing virtualenv we often face the problem that
+# setuptools does not upgrade the components (even though some dependencies
+# like Pylons actually require a newer version). Therefore often we add a
+# specific minimum version even though that's not really a requirement by
+# MediaCore (rather an a Pylons requirement).
 install_requires = [
     'ddt',
+    'formencode >= 1.2.4', # (version required by Pylons 1.0)
     'Pylons >= 1.0',
     # WebOb 1.2.x raises an error if we use "request.str_params" (as we did in
     # MediaCore 0.10/WebOb 1.0.7) but the non-deprecated attribute was only
@@ -28,13 +35,8 @@ install_requires = [
     'repoze.who == 1.0.18',
     'repoze.who-friendlyform',
     'repoze.who.plugins.sa',
-    # actually any recent Paste* version should work fine. However I experienced
-    # venv update problems when there was no version specified because of
-    # setuptools' simplistic dependency resolution, e.g.
-    # "error: Installed distribution Paste 1.7.4 conflicts with requirement Paste>=1.7.5.1"
-    # just use the minimum versions for Pylons 1.0:
-    'Paste >= 1.7.5.1',
-    'PasteDeploy',
+    'Paste >= 1.7.5.1', # (version required by Pylons 1.0)
+    'PasteDeploy >= 1.5',  # (version required by Pylons 1.0)
     'PasteScript >= 1.7.4.2',
     'ToscaWidgets >= 0.9.12', # 0.9.9 is not compatible with Pylons 1.0
     'tw.forms == 0.9.9',
@@ -46,8 +48,8 @@ install_requires = [
     'akismet == 0.2.0',
     'gdata > 2, < 2.1',
     'unidecode',
-    'decorator',
-    'simplejson',
+    'decorator >= 3.3.2', # (version required by Pylons 1.0)
+    'simplejson >= 2.2.1', # (version required by Pylons 1.0)
 ]
 
 if sys.version_info < (2, 7):
