@@ -40,11 +40,11 @@ def setup_environment_and_database(env_dir=None, enabled_plugins=''):
     env_dir = env_dir or '/invalid'
     app_config = {
         'plugins': enabled_plugins,
-        'sqlalchemy.url': 'sqlite://', 
-        'layout_template': 'layout', 
+        'sqlalchemy.url': 'sqlite://',
+        'layout_template': 'layout',
         'external_template': 'false',
-        'image_dir': os.path.join(env_dir, 'images'), 
-        'media_dir': os.path.join(env_dir, 'media'), 
+        'image_dir': os.path.join(env_dir, 'images'),
+        'media_dir': os.path.join(env_dir, 'media'),
     }
     pylons_config = load_environment(global_config, app_config)
     metadata.create_all(bind=DBSession.bind, checkfirst=True)

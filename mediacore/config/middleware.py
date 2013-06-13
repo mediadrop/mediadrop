@@ -178,22 +178,22 @@ class DBSanityCheckingMiddleware(object):
     
     def check_for_live_db_connection(self, dbapi_connection):
         # Try to check that the current DB connection is usable for DB queries
-        # by issuing a trivial SQL query. It can happen because the user set 
-        # the 'sqlalchemy.pool_recycle' time too high or simply because the 
+        # by issuing a trivial SQL query. It can happen because the user set
+        # the 'sqlalchemy.pool_recycle' time too high or simply because the
         # MySQL server was restarted in the mean time.
         # Without this check a user would get an internal server error and the
-        # connection would be reset by the DBSessionRemoverMiddleware at the  
+        # connection would be reset by the DBSessionRemoverMiddleware at the
         # end of that request.
-        # This functionality below will prevent the initial "internal server 
+        # This functionality below will prevent the initial "internal server
         # error".
         #
         # This approach is controversial between DB experts. A good blog post
         # (with an even better discussion highlighting pros and cons) is
         # http://www.mysqlperformanceblog.com/2010/05/05/checking-for-a-live-database-connection-considered-harmful/
         #
-        # In MediaCore the check is only done once per request (skipped for 
+        # In MediaCore the check is only done once per request (skipped for
         # static files) so it should be relatively light on the DB server.
-        # Also the check can be disabled using the setting 
+        # Also the check can be disabled using the setting
         # 'sqlalchemy.check_connection_before_request = false'.
         #
         # possible optimization: check each connection only once per minute or so,
@@ -221,7 +221,7 @@ class DBSanityCheckingMiddleware(object):
     
     def on_connection_checkin(self, dbapi_connection, connection_record):
         connection_id = id(dbapi_connection)
-        # connections might be returned *after* this middleware called 
+        # connections might be returned *after* this middleware called
         # 'self.connections.clear()', we should not break in that case...
         if connection_id in self.connections:
             del self.connections[connection_id]
