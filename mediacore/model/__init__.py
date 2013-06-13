@@ -124,7 +124,7 @@ def slugify(string):
 
     return string[:SLUG_LENGTH]
 
-def get_available_slug(mapped_class, string, ignore=None):
+def get_available_slug(mapped_class, string, ignore=None, slug_attr='slug', slug_length=SLUG_LENGTH):
     """Return a unique slug based on the provided string.
 
     Works by appending an int in sequence starting with 2:
@@ -149,11 +149,11 @@ def get_available_slug(mapped_class, string, ignore=None):
     new_slug = slug = slugify(string)
     appendix = 2
     while DBSession.query(mapped_class.id)\
-            .filter(mapped_class.slug == new_slug)\
+            .filter(getattr(mapped_class, slug_attr) == new_slug)\
             .filter(mapped_class.id != ignore)\
             .first():
         str_appendix = u'-%s' % appendix
-        max_substr_len = SLUG_LENGTH - len(str_appendix)
+        max_substr_len = slug_length - len(str_appendix)
         new_slug = slug[:max_substr_len] + str_appendix
         appendix += 1
 
