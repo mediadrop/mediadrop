@@ -6,8 +6,6 @@
 # (at your option) any later version.
 # See LICENSE.txt in the main project directory, for more information.
 
-import re
-
 from routes.util import URLGenerator
 import pylons
 from pylons.controllers.util import Response
@@ -42,8 +40,7 @@ class ControllerTestCase(DBTestCase, RequestMixin):
         else:
             body = '\n'.join(response_body_lines)
         response = Response(body=body, **response_info)
-        if template_vars:
-            response.template_vars = template_vars
+        response.template_vars = template_vars
         return response
     
     def assert_redirect(self, call_controller):
@@ -57,23 +54,14 @@ class ControllerTestCase(DBTestCase, RequestMixin):
         return response
     
     def _inject_url_generator_for_request(self, request):
-        url_mapper = make_map(self.pylons_config)
+        url_mapper = self.pylons_config['routes.map']
         url_generator = URLGenerator(url_mapper, request.environ)
         
-        match = re.search('^.*?/([^/]+)(?:/([^/]+))?$', request.environ['PATH_INFO'])
-        controller = match.group(1)
-        action = match.group(2) or 'index'
-        
+        routes_dict = url_mapper.match(environ=request.environ)
         request.environ.update({
             'routes.url': url_generator,
-            'wsgiorg.routing_args': (
-                url_generator,
-                dict(controller=controller, action=action),
-            ),
-            'pylons.routes_dict': dict(
-                controller=controller,
-                action=action
-            ),
+            'wsgiorg.routing_args': (url_generator, routes_dict),
+            'pylons.routes_dict': routes_dict,
         })
         return url_generator
 
