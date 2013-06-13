@@ -16,7 +16,7 @@ class UserExampleTest(DBTestCase):
     def test_can_create_example_user(self):
         user = User.example()
         
-        assert_not_none(user.user_id)
+        assert_not_none(user.id)
         assert_equals(u'joe', user.user_name)
         assert_equals(u'Joe Smith', user.display_name)
         assert_equals(u'joe@site.example', user.email_address)

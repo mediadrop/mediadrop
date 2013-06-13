@@ -34,7 +34,7 @@ class MediaCoreAuthenticatorPlugin(SQLAlchemyAuthenticatorPlugin):
         # lead to confusion (user is logged out unexpectedly, best case) or 
         # account take-over (impersonation, worst case).
         # The user ID is considered constant and likely the best choice here.
-        return user.user_id
+        return user.id
     
     @classmethod
     def by_attribute(cls, attribute_name=None):

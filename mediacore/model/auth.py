@@ -229,6 +229,7 @@ mapper(
     User, users,
     extension=events.MapperObserver(events.User),
     properties={
+        'id': users.c.user_id,
         'password': synonym('_password', map_column=True),
     },
 )

@@ -28,7 +28,7 @@ class RequestMixin(object):
             identity = wsgi_environ.setdefault('repoze.who.identity', {})
             identity.update({
                 'user': user,
-                'repoze.who.userid': user.user_id,
+                'repoze.who.userid': user.id,
             })
         perm = MediaCorePermissionSystem.permissions_for_request(wsgi_environ, self.pylons_config)
         wsgi_environ['mediacore.perm'] = perm

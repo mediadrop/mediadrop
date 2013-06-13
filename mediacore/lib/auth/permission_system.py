@@ -56,7 +56,7 @@ class MediaCorePermissionSystem(PermissionSystem):
         user_id = identity.get('repoze.who.userid')
         user = None
         if user_id is not None:
-            user = DBSession.query(User).filter(User.user_id==user_id).first()
+            user = DBSession.query(User).filter(User.id==user_id).first()
         return cls.permissions_for_user(user, config)
     
     @classmethod

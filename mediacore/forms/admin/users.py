@@ -22,7 +22,7 @@ class UniqueUsername(FancyValidator):
 
         query = DBSession.query(User).filter_by(user_name=value)
         if id != 'new':
-            query = query.filter(User.user_id != id)
+            query = query.filter(User.id != id)
 
         if query.count() != 0:
             raise Invalid(_('User name already exists'), value, state)

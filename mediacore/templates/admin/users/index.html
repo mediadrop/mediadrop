@@ -53,12 +53,12 @@ See LICENSE.txt in the main project directory, for more information.
 					<td>None Found</td>
 				</tr>
 				<tr py:for="user in users">
-					<td headers="h-display_name"><a href="${h.url_for(action='edit', id=user.user_id)}" py:content="user.display_name">Display Name</a></td>
+					<td headers="h-display_name"><a href="${h.url_for(action='edit', id=user.id)}" py:content="user.display_name">Display Name</a></td>
 					<td headers="h-email"><a href="mailto:${user.email_address}" py:content="user.email_address">email address</a></td>
 					<td headers="h-group" py:content="user.groups and user.groups[0].display_name or None">group</td>
 					<td headers="h-btns">
-						<form action="${h.url_for(action='delete', id=user.user_id)}" method="post" class="delete-user-form right">
-							<a href="${h.url_for(action='edit', id=user.user_id)}" class="btn table-row middle btn-inline-edit"><span>Edit</span></a><button class="btn table-row delete btn-inline-delete" type="submit" name="delete"><span>Delete</span></button>
+						<form action="${h.url_for(action='delete', id=user.id)}" method="post" class="delete-user-form right">
+							<a href="${h.url_for(action='edit', id=user.id)}" class="btn table-row middle btn-inline-edit"><span>Edit</span></a><button class="btn table-row delete btn-inline-delete" type="submit" name="delete"><span>Delete</span></button>
 						</form>
 					</td>
 				</tr>

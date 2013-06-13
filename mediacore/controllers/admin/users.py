@@ -128,7 +128,7 @@ class UsersController(BaseController):
         DBSession.add(user)
 
         # Check if we're changing the logged in user's own password
-        if user.user_id == request.perm.user.user_id \
+        if user.id == request.perm.user.id \
         and password is not None and password != '':
             DBSession.commit()
             # repoze.who sees the Unauthorized response and clears the cookie,
