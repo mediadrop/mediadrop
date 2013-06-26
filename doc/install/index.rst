@@ -239,7 +239,7 @@ of via this Pylons command:
 
 .. sourcecode:: bash
 
-   paster setup-app development.ini
+   paster setup-app deployment.ini
 
 If you want to enable simple fulltext searching, you will need to have access 
 to the root account for your MySQL database. Some shared hosts don't allow 
