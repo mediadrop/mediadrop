@@ -22,8 +22,14 @@ See LICENSE.txt in the main project directory, for more information.
 	<link py:if="media.podcast" href="${h.url_for('/styles/podcasts.css')}" media="screen" rel="stylesheet" type="text/css" />
 	<meta name="description" content="${h.meta_description(media=media)}" />
 	<meta name="keywords" content="${h.meta_keywords(media=media)}" />
-	<!--! Expose the video thumbnail for facebook and potentially others to scrape. Is qualified necessary? -->
-	<link rel="image_src" href="${h.thumb_url(media, 'm', qualified=True)}" />
+
+	<meta property="og:title" content="${h.page_title(default=media.title, media=media)}"/>
+	<meta property="og:url" content="${h.url_for_media(media, qualified=True)}"/>
+	<meta property="og:description" content="${h.meta_description(media=media)}"/>
+	<meta property="og:site_name" content="${h.page_title()}"/>
+	<meta property="og:image" content="${h.thumb_url(media, 'l', qualified=True)}"/>
+
+	<link rel="image_src" href="${h.thumb_url(media, 'l', qualified=True)}" />
 </head>
 <body class="${media.podcast and 'nav-podcasts-on' or 'nav-media-on'}" py:with="is_widescreen = (settings['appearance_enable_widescreen_view'] == 'True')">
 	<div id="media-wrapper" class="mediacore-content clearfix">
