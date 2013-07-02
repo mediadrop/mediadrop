@@ -3,19 +3,21 @@
 # This file is distributed under the same license as the MediaCore project.
 #
 # Translators:
-# <busyhd@126.com>, 2011.
-# grantchen <grantchen.t@gmail.com>, 2011.
-# natedub <nathan@simplestation.com>, 2011.
-# Sean <sean@bravoflix.com>, 2011.
+# kdumporg <acheng@kdump.cn>, 2013
+# acheng <busyhd@126.com>, 2011
+# grantchen <grantchen.t@gmail.com>, 2011
+# natedub <nathan@simplestation.com>, 2011
+# Sean <sean@bravoflix.com>, 2011
 msgid ""
 msgstr ""
 "Project-Id-Version: MediaCore Video Platform\n"
 "Report-Msgid-Bugs-To: http://github.com/mediacore/mediacore-"
 "community/issues\n"
 "POT-Creation-Date: 2013-03-25 17:58+0100\n"
-"PO-Revision-Date: 2013-03-24 08:14+0000\n"
-"Last-Translator: Sean <sean@bravoflix.com>\n"
-"Language-Team: zh_CN <LL@li.org>\n"
+"PO-Revision-Date: 2013-06-11 08:27+0000\n"
+"Last-Translator: kdumporg <acheng@kdump.cn>\n"
+"Language-Team: Chinese (China) "
+"(http://www.transifex.com/projects/p/mediacore/language/zh_CN/)\n"
 "Plural-Forms: nplurals=1; plural=0\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -34,7 +36,7 @@ msgstr "很抱歉，我们无法处理此请求。"
 
 #: mediacore/controllers/login.py:39
 msgid "Invalid username or password."
-msgstr ""
+msgstr "用户名或密码无效。"
 
 #: mediacore/controllers/media.py:296
 msgid "Your comment has been rejected."
@@ -63,16 +65,16 @@ msgstr "权限不足，无法写入文件"
 #: mediacore/controllers/admin/media.py:559
 #, python-format
 msgid "Unsupported image type: %s"
-msgstr ""
+msgstr "不支持的图像类型: %s"
 
 #: mediacore/controllers/admin/media.py:562
 #: mediacore/controllers/admin/podcasts.py:211
 msgid "Interlaced PNGs are not supported."
-msgstr ""
+msgstr "不支持隔行扫描的PNG格式"
 
 #: mediacore/controllers/admin/podcasts.py:91
 msgid "Save the podcast to get your feed URL"
-msgstr ""
+msgstr "保存后可获得博客feed URL"
 
 #: mediacore/controllers/admin/podcasts.py:208
 #, python-format
@@ -139,7 +141,7 @@ msgstr "说明："
 
 #: mediacore/forms/uploader.py:47
 msgid "Add a YouTube, Vimeo or Amazon S3 link:"
-msgstr ""
+msgstr "添加一个YouTube，Vimeo或Amazon S3链接："
 
 #: mediacore/forms/uploader.py:48
 msgid "Oops! You forgot to enter a file."
@@ -257,7 +259,7 @@ msgstr[0] ""
 
 #: mediacore/forms/admin/groups.py:28
 msgid "Group name already exists"
-msgstr ""
+msgstr "组名称已存在"
 
 #: mediacore/forms/admin/groups.py:41 mediacore/forms/admin/players.py:35
 #: mediacore/forms/admin/users.py:42
@@ -269,11 +271,11 @@ msgstr "显示名称"
 
 #: mediacore/forms/admin/groups.py:42
 msgid "Groupname"
-msgstr ""
+msgstr "组名称"
 
 #: mediacore/forms/admin/groups.py:43
 msgid "Group Permissions"
-msgstr ""
+msgstr "组权限"
 
 #: mediacore/forms/admin/media.py:33
 msgid "Bad duration formatting, use Hour:Min:Sec"
@@ -308,7 +310,7 @@ msgstr "添加网址"
 
 #: mediacore/forms/admin/media.py:112
 msgid "YouTube, Vimeo, Amazon S3 or any other link"
-msgstr ""
+msgstr "YouTube，Vimeo，Amazon S3 或任何其他链接"
 
 #: mediacore/forms/admin/media.py:133
 msgid "Delete file"
@@ -402,27 +404,27 @@ msgstr "播放器选项："
 
 #: mediacore/forms/admin/players.py:133
 msgid "Use the deprecated AS2 player."
-msgstr ""
+msgstr "使用淘汰的AS2播放器"
 
 #: mediacore/forms/admin/players.py:134
 msgid "Use the AS3/HTML5 player."
-msgstr ""
+msgstr "使用AS3/HTML5播放器"
 
 #: mediacore/forms/admin/players.py:137
 msgid "YouTube player version"
-msgstr ""
+msgstr "YouTube播放器版本"
 
 #: mediacore/forms/admin/players.py:142
 msgid "Show video annotations by default."
-msgstr ""
+msgstr "默认显示视频注释"
 
 #: mediacore/forms/admin/players.py:143
 msgid "Hide video annotations by default."
-msgstr ""
+msgstr "默认隐藏视频注释"
 
 #: mediacore/forms/admin/players.py:146
 msgid "Video annotations"
-msgstr ""
+msgstr "视频注释"
 
 #: mediacore/forms/admin/players.py:149
 msgid "Disable the player keyboard controls."
@@ -430,23 +432,23 @@ msgstr "禁用播放器键盘控制。"
 
 #: mediacore/forms/admin/players.py:150
 msgid "Not supported by HTML5 player."
-msgstr ""
+msgstr "HTML5播放器不支持"
 
 #: mediacore/forms/admin/players.py:151
 msgid "Autoplay the video when the player loads."
-msgstr ""
+msgstr "播放器加载时自动播放视频"
 
 #: mediacore/forms/admin/players.py:152
 msgid "Do not show YouTube logo in the player controls"
-msgstr ""
+msgstr "播放器按钮中不显示YouTube标识"
 
 #: mediacore/forms/admin/players.py:153
 msgid "Not supported by AS2 player."
-msgstr ""
+msgstr "AS2播放器不支持。"
 
 #: mediacore/forms/admin/players.py:154
 msgid "Display fullscreen button."
-msgstr ""
+msgstr "显示全屏按钮。"
 
 #: mediacore/forms/admin/players.py:155
 msgid "Enable high-def quality by default."
@@ -457,53 +459,53 @@ msgid ""
 "Applies only for the AS2 player, the AS3 player will choose the most "
 "appropriate version of the video version (e.g. considering the user's "
 "bandwidth)"
-msgstr ""
+msgstr "只适用于AS2播放器。AS3播放器会选择视频的最适合版本（如根据用户的带宽）"
 
 #: mediacore/forms/admin/players.py:157
 msgid "Display related videos after playback of the initial video ends."
-msgstr ""
+msgstr "视频结束后显示相关视频"
 
 #: mediacore/forms/admin/players.py:158
 msgid ""
 "Show the search box when the video is minimized. The related videos "
 "option must be enabled for this to work."
-msgstr ""
+msgstr "当视频最小化时显示搜索表单。要使用此功能，必须先启用相关视频选项。"
 
 #: mediacore/forms/admin/players.py:159
 msgid "AS2 player only"
-msgstr ""
+msgstr "只用于AS2播放器"
 
 #: mediacore/forms/admin/players.py:160
 msgid ""
 "Display information like the video title and uploader before the video "
 "starts playing."
-msgstr ""
+msgstr "视频开始播放前显示标题和上传者等信息"
 
 #: mediacore/forms/admin/players.py:161
 msgid "Enable window-less mode (wmode)"
-msgstr ""
+msgstr "启用无窗口模式(wmode)"
 
 #: mediacore/forms/admin/players.py:162
 msgid ""
 "wmode allows HTML/CSS elements to be placed over the actual Flash video "
 "but requires more CPU power."
-msgstr ""
+msgstr "wmode允许HTML/CSS元素置于实际的Flash视频之上但会消耗更多CPU资源。"
 
 #: mediacore/forms/admin/players.py:165
 msgid "Always show player controls."
-msgstr ""
+msgstr "总是显示播放器按钮"
 
 #: mediacore/forms/admin/players.py:166
 msgid "Autohide all player controls after a video starts playing."
-msgstr ""
+msgstr "视频开始播放后自动隐藏播放器按钮"
 
 #: mediacore/forms/admin/players.py:167
 msgid "Autohide only the progress bar after a video starts playing."
-msgstr ""
+msgstr "视频开始播放后只自动隐藏进度条"
 
 #: mediacore/forms/admin/players.py:170
 msgid "Player control hiding"
-msgstr ""
+msgstr "隐藏播放器控件"
 
 #: mediacore/forms/admin/podcasts.py:29
 msgid "Parental Advisory"
@@ -552,15 +554,15 @@ msgstr "Feedburner的网址"
 
 #: mediacore/forms/admin/settings.py:25
 msgid "Built-in comments"
-msgstr ""
+msgstr "自带评论"
 
 #: mediacore/forms/admin/settings.py:26
 msgid "Facebook comments (requires a Facebook application ID)"
-msgstr ""
+msgstr "Facebook评论(需要Facebook应用ID)"
 
 #: mediacore/forms/admin/settings.py:27
 msgid "Disable comments"
-msgstr ""
+msgstr "禁用评论"
 
 #: mediacore/forms/admin/settings.py:32
 msgid "Prepend"
@@ -676,18 +678,18 @@ msgstr "关于RSS"
 
 #: mediacore/forms/admin/settings.py:193
 msgid "RSS Feed Defaults:"
-msgstr ""
+msgstr "RSS Feed默认值:"
 
 #: mediacore/forms/admin/settings.py:196
 msgid "number of items"
-msgstr ""
+msgstr "条目数量"
 
 #: mediacore/forms/admin/settings.py:197
 msgid ""
 "The number of items in the feed can be overriden per request if you add "
 "\"?limit=X\" to the feed URL. If the \"limit\" parameter is absent, the "
 "default above is used."
-msgstr ""
+msgstr "通过在feed链接中添加\"?limit=X\"，条目数量可在每个请求中更改。如果这个limit参数不存在，则使用上面的默认值。"
 
 #: mediacore/forms/admin/settings.py:215
 msgid "General Settings:"
@@ -715,15 +717,15 @@ msgstr "富文本编辑"
 
 #: mediacore/forms/admin/settings.py:250
 msgid "Comment Engine"
-msgstr ""
+msgstr "评论引擎"
 
 #: mediacore/forms/admin/settings.py:254
 msgid "Built-in Comments:"
-msgstr ""
+msgstr "自带评论:"
 
 #: mediacore/forms/admin/settings.py:257
 msgid "Moderation"
-msgstr ""
+msgstr "审核"
 
 #: mediacore/forms/admin/settings.py:258
 msgid "Require comments to be approved by an admin"
@@ -747,15 +749,15 @@ msgstr "输入需要进行过滤的短语，用（英文）逗号分隔。"
 
 #: mediacore/forms/admin/settings.py:267
 msgid "Facebook Comments:"
-msgstr ""
+msgstr "Facebook评论:"
 
 #: mediacore/forms/admin/settings.py:268
 msgid "Application ID"
-msgstr ""
+msgstr "应用ID"
 
 #: mediacore/forms/admin/settings.py:269
 msgid "See: https://developers.facebook.com/apps"
-msgstr ""
+msgstr "参考：https://developers.facebook.com/apps"
 
 #: mediacore/forms/admin/settings.py:283
 msgid "Require a key to access the API"
@@ -840,11 +842,11 @@ msgstr "探索页面上启用Cooliris"
 msgid ""
 "Cooliris support is deprecated and will be removed in the next major "
 "version of MediaCore CE unless someone is interested in maintaining it."
-msgstr ""
+msgstr "Cooliris支持已废止并在下个MediaCore社区版中删除，除非有人愿意继续维护它。"
 
 #: mediacore/forms/admin/settings.py:352
 msgid "Display login link for all users"
-msgstr ""
+msgstr "为所有用户显示登录链接"
 
 #: mediacore/forms/admin/settings.py:355
 msgid "Enable Featured Items on the Explore Page"
@@ -872,43 +874,43 @@ msgstr "显示背景图片"
 
 #: mediacore/forms/admin/settings.py:379
 msgid "Display MediaCore Footer"
-msgstr ""
+msgstr "显示MediaCore页脚"
 
 #: mediacore/forms/admin/settings.py:383
 msgid "Display MediaCore Credits in Footer"
-msgstr ""
+msgstr "在页脚显示MediaCore"
 
 #: mediacore/forms/admin/settings.py:389
 msgid "Player Menu Options"
-msgstr ""
+msgstr "播放器菜单选项"
 
 #: mediacore/forms/admin/settings.py:394
 msgid "Enable Download button on player menu bar."
-msgstr ""
+msgstr "在播放器菜单上启用下载按钮"
 
 #: mediacore/forms/admin/settings.py:398
 msgid "Enable Share button on player menu bar."
-msgstr ""
+msgstr "在播放器菜单上启用分享按钮"
 
 #: mediacore/forms/admin/settings.py:402
 msgid "Enable Embed button on player menu bar."
-msgstr ""
+msgstr "在播放器菜单上显示嵌入按钮"
 
 #: mediacore/forms/admin/settings.py:406
 msgid "Enable Widescreen toggle button on player menu bar."
-msgstr ""
+msgstr "在播放器菜单上启用切换宽屏按钮"
 
 #: mediacore/forms/admin/settings.py:410
 msgid "Enable Popout button on player menu bar."
-msgstr ""
+msgstr "在播放器菜单上启用弹出按钮"
 
 #: mediacore/forms/admin/settings.py:414
 msgid "Enable Like button on player menu bar."
-msgstr ""
+msgstr "在播放器菜单上启用喜欢按钮"
 
 #: mediacore/forms/admin/settings.py:418
 msgid "Enable Dislike button on player menu bar."
-msgstr ""
+msgstr "在播放器菜单上启用不喜欢按钮"
 
 #: mediacore/forms/admin/settings.py:423
 msgid "Advanced"
@@ -928,14 +930,14 @@ msgstr "自定义页脚的HTML"
 
 #: mediacore/forms/admin/settings.py:436
 msgid "Custom <head> Tags"
-msgstr ""
+msgstr "自定义<head>标签"
 
 #: mediacore/forms/admin/settings.py:437
 msgid ""
 "These HTML tags are inserted into the HTML <head> section. Bad input can "
 "cause ugly rendering of your site. You can always restore your page by "
 "the box above."
-msgstr ""
+msgstr "这些HTML标签将会被插入到HTML的<head>部分。如果标签有问题的话会导致页面显示错乱。上面的勾选框可以将页面恢复至默认状态。"
 
 #: mediacore/forms/admin/settings.py:445
 #: mediacore/templates/admin/settings/appearance.html:28
@@ -970,7 +972,7 @@ msgstr "密码不匹配"
 #: mediacore/templates/admin/groups/index.html:17
 #: mediacore/templates/admin/groups/index.html:41
 msgid "Groups"
-msgstr ""
+msgstr "组"
 
 #: mediacore/forms/admin/users.py:55
 msgid "Confirm password"
@@ -1195,11 +1197,11 @@ msgstr "文件或网址无法使用"
 
 #: mediacore/lib/storage/bliptv.py:61
 msgid "Invalid BlipTV URL. This video does not exist."
-msgstr ""
+msgstr "无效的BlipTV链接。视频不存在。"
 
 #: mediacore/lib/storage/dailymotion.py:62
 msgid "This DailyMotion video does not allow embedding."
-msgstr ""
+msgstr "此DailyMotion视频不允许嵌入。"
 
 #: mediacore/lib/storage/ftp.py:43
 msgid "FTP Storage"
@@ -1231,25 +1233,25 @@ msgstr "远程网址"
 msgid ""
 "This RTMP server has not been configured. Add it by going to Settings > "
 "Storage Engines > Remote URLs."
-msgstr ""
+msgstr "此RTMP服务器尚未配置。你可以通过 配置>存储引擎>远程URL来添加。"
 
 #: mediacore/lib/storage/youtube.py:62
 msgid "This video is private and cannot be embedded."
-msgstr ""
+msgstr "此视频为私有，无法嵌入。"
 
 #: mediacore/lib/storage/youtube.py:65
 msgid "Invalid YouTube URL. This video does not exist."
-msgstr ""
+msgstr "无效的YouTube链接。此视频不存在。"
 
 #: mediacore/lib/storage/youtube.py:66
 #, python-format
 msgid "YouTube Error: %s"
-msgstr ""
+msgstr "YouTube错误：%s"
 
 #: mediacore/model/players.py:102
 #, python-format
 msgid "%s (broken)"
-msgstr ""
+msgstr "%s (异常)"
 
 #: mediacore/templates/error.html:17
 #, python-format
@@ -1372,15 +1374,15 @@ msgstr "[1:MediaCore] [2:视频平台]"
 
 #: mediacore/templates/login.html:16
 msgid "Log in to"
-msgstr ""
+msgstr "登录到"
 
 #: mediacore/templates/login.html:40
 msgid "Log in"
-msgstr ""
+msgstr "登录"
 
 #: mediacore/templates/master.html:64
 msgid "Admin"
-msgstr ""
+msgstr "管理员"
 
 #: mediacore/templates/master.html:66 mediacore/templates/admin/master.html:50
 msgid "Logout"
@@ -1502,11 +1504,11 @@ msgstr "设置"
 
 #: mediacore/templates/admin/master.html:66
 msgid "MediaCore CE"
-msgstr ""
+msgstr "MediaCore社区版"
 
 #: mediacore/templates/admin/master.html:67
 msgid "© 2009-2013 MediaCore Inc. and contributors"
-msgstr ""
+msgstr "© 2009-2013 MediaCore Inc. 及 contributors"
 
 #: mediacore/templates/admin/categories/index.html:38
 #: mediacore/templates/admin/comments/index.html:36
@@ -1678,15 +1680,15 @@ msgstr "你确定要删除它？"
 
 #: mediacore/templates/admin/groups/edit.html:37
 msgid "New Group"
-msgstr ""
+msgstr "新建组"
 
 #: mediacore/templates/admin/groups/index.html:32
 msgid "Are you sure you want to delete this group?"
-msgstr ""
+msgstr "确定要删除这个组吗？"
 
 #: mediacore/templates/admin/groups/index.html:42
 msgid "Add Group"
-msgstr ""
+msgstr "添加组"
 
 #: mediacore/templates/admin/media/_media-table.html:22
 msgid "Publish Date"
@@ -2019,15 +2021,15 @@ msgstr "立即发布"
 
 #: mediacore/templates/admin/media/update-status-form.html:94
 msgid "Click to change the expiration date"
-msgstr ""
+msgstr "点击更改过期日期"
 
 #: mediacore/templates/admin/media/update-status-form.html:94
 msgid "Expires"
-msgstr ""
+msgstr "过期"
 
 #: mediacore/templates/admin/media/update-status-form.html:95
 msgid "never"
-msgstr ""
+msgstr "从不"
 
 #: mediacore/templates/admin/players/index.html:16
 #: mediacore/templates/admin/players/index.html:40
@@ -2256,7 +2258,7 @@ msgstr "%s中最新的媒体"
 #: mediacore/templates/categories/index.html:31
 #: mediacore/templates/media/explore.html:111
 msgid "More new media"
-msgstr ""
+msgstr "更多新视频"
 
 #: mediacore/templates/categories/index.html:31
 #: mediacore/templates/categories/index.html:36
@@ -2268,7 +2270,7 @@ msgstr "查看更多"
 #: mediacore/templates/categories/index.html:36
 #: mediacore/templates/media/explore.html:96
 msgid "More popular media"
-msgstr ""
+msgstr "更多最受欢迎视频"
 
 #: mediacore/templates/categories/index.html:38
 #: mediacore/templates/categories/more.html:26
@@ -2543,5 +2545,5 @@ msgstr "您将在几秒钟内自动重定向回[1:媒体库]。稍安毋躁。"
 
 #: mediacore/validation/uri_validator.py:21
 msgid "That is not a valid URL."
-msgstr ""
+msgstr "此URL无效。"
 
