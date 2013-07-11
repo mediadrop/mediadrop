@@ -10,7 +10,7 @@ import logging
 from alembic.config import Config
 from alembic.environment import EnvironmentContext
 from alembic.script import ScriptDirectory
-from sqlalchemy import Column, Integer, Table, Unicode, UnicodeText
+from sqlalchemy import Column, Integer, MetaData, Table, Unicode, UnicodeText
 
 from mediacore.model import metadata, DBSession
 
@@ -27,7 +27,9 @@ migrate_to_alembic_mapping = {
     56: u'30bb0d88d139',
     57: u'3b2f74a50399',
 }
-migrate_table = Table('migrate_version', metadata,
+
+fake_meta = MetaData()
+migrate_table = Table('migrate_version', fake_meta,
     Column('repository_id', Unicode(250), autoincrement=True, primary_key=True),
     Column('repository_path', UnicodeText, nullable=True),
     Column('version', Integer, nullable=True),
