@@ -128,7 +128,7 @@ class BaseController(BareBonesController):
         tmpl_context.external_template = None
 
         # FIXME: This external template is only ever updated on server startup
-        if asbool(config['external_template']):
+        if asbool(config.get('external_template')):
             tmpl_name = config['external_template_name']
             tmpl_url = config['external_template_url']
             timeout = config['external_template_timeout']
