@@ -12,8 +12,10 @@ if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
 db_url = config.get_main_option("sqlalchemy.url")
-
-version_table_name = config.get_main_option('version_table')
+version_table_name = config.get_main_option('version_table') or None
+configure_opts = dict()
+if version_table_name:
+    configure_opts['version_table'] = version_table_name
 
 def run_migrations_offline():
     """Run migrations in 'offline' mode.
@@ -27,7 +29,7 @@ def run_migrations_offline():
     script output.
 
     """
-    context.configure(url=db_url, version_table=version_table_name)
+    context.configure(url=db_url, **configure_opts)
     with context.begin_transaction():
         context.run_migrations()
 
@@ -44,7 +46,7 @@ def run_migrations_online():
                 poolclass=pool.NullPool)
 
     connection = engine.connect()
-    context.configure(connection=connection, version_table=version_table_name)
+    context.configure(connection=connection, **configure_opts)
 
     try:
         with context.begin_transaction():
