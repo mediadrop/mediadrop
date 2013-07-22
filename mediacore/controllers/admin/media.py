@@ -536,7 +536,7 @@ class MediaController(BaseController):
         """
         if id == 'new':
             media = Media()
-            user = req.perm.user
+            user = request.perm.user
             media.author = Author(user.display_name, user.email_address)
             media.title = os.path.basename(thumb.filename)
             media.slug = get_available_slug(Media, '_stub_' + media.title)
