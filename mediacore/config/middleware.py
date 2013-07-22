@@ -321,12 +321,20 @@ def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
         # Handle Python exceptions
         app = ErrorHandler(app, global_conf, **config['pylons.errorware'])
 
+        # by default Apache uses  a global alias for "/error" in the httpd.conf
+        # which means that users can not send error reports through MediaCore's
+        # error page (because that POSTs to /error/report).
+        # To make things worse Apache (at least up to 2.4) has no "unalias"
+        # functionality. So we work around the issue by using the "/errors"
+        # prefix (extra "s" at the end)
+        error_path = '/errors/document'
         # Display error documents for 401, 403, 404 status codes (and
         # 500 when debug is disabled)
         if asbool(config['debug']):
-            app = StatusCodeRedirect(app)
+            app = StatusCodeRedirect(app, path=error_path)
         else:
-            app = StatusCodeRedirect(app, [400, 401, 403, 404, 500])
+            app = StatusCodeRedirect(app, errors=(400, 401, 403, 404, 500),
+                                     path=error_path)
 
     # Cleanup the DBSession only after errors are handled
     app = DBSessionRemoverMiddleware(app)

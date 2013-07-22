@@ -35,7 +35,7 @@ See LICENSE.txt in the main project directory, for more information.
 			<li>Fill out an error report below.</li>
 		</ol>
 
-		<form action="${h.url_for(controller='error', action='report')}" method="post" class="form">
+		<form action="${h.url_for(controller='errors', action='report')}" method="post" class="form">
 			<input py:for="x in vars" id="${x}" name="${x}" value="${vars[x]}" type="hidden" />
 			<div>
 				<label for="email">Email: (so we can contact you if we find it!)</label>

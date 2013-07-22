@@ -12,7 +12,7 @@ from mediacore.lib.helpers import redirect, clean_xhtml
 from mediacore.lib.i18n import _
 from mediacore.plugin import events
 
-class ErrorController(BaseController):
+class ErrorsController(BaseController):
     """Generates error documents as and when they are required.
 
     The ErrorDocuments middleware forwards to ErrorController when error
