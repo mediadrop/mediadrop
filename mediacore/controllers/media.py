@@ -88,6 +88,10 @@ class MediaController(BaseController):
                 response.feed_links.extend([
                     (url_for(controller='/sitemaps', action='latest'), u'Latest RSS'),
                 ])
+            elif show == 'featured':
+                response.feed_links.extend([
+                    (url_for(controller='/sitemaps', action='featured'), u'Featured RSS'),
+                ])
 
         media = viewable_media(media)
         return dict(
