@@ -14,17 +14,6 @@ See LICENSE.txt in the main project directory, for more information.
       xmlns:xi="http://www.w3.org/2001/XInclude"
       py:strip="">
 
-<?python feed_links = [] ?>
-
-<head py:match="head">
-	<link py:match="link" py:attrs="select('@*')"><?python
-		attrs = h.attrs_to_dict(select('@*'))
-		if attrs.get('type') == 'application/rss+xml':
-			feed_links.append((attrs['href'], attrs['title']))
-	?></link>
-	<meta py:replace="select('*|text()')"/>
-</head>
-
 <body py:match="body" py:attrs="select('@*')">
 	${Markup(settings['appearance_custom_header_html'])}
 
@@ -42,7 +31,7 @@ See LICENSE.txt in the main project directory, for more information.
 		<div id="mcore-feeds" class="f-lft">
 			<h5>Feeds:</h5>
 			<ul>
-				<li py:for="href, title in feed_links"><a href="${href}" class="mcore-foot-link underline-hover">${title}</a></li>
+				<li py:for="href, title in response.feed_links"><a href="${href}" class="mcore-foot-link underline-hover">${title}</a></li>
 			</ul>
 		</div>
 		<div py:if="settings['appearance_display_mediacore_credits']" id="mcore-credits" class="f-rgt">

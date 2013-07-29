@@ -129,6 +129,15 @@ class MediaController(BaseController):
 
         latest = viewable_media(latest.exclude(featured))[:8]
         popular = viewable_media(popular.exclude(featured, latest))[:5]
+        if request.settings['sitemaps_display'] == 'True':
+            response.feed_links.extend([
+                (url_for(controller='/sitemaps', action='google'), u'Sitemap XML'),
+                (url_for(controller='/sitemaps', action='mrss'), u'Sitemap RSS'),
+            ])
+        if request.settings['rss_display'] == 'True':
+            response.feed_links.extend([
+                (url_for(controller='/sitemaps', action='latest'), u'Latest RSS'),
+            ])
 
         return dict(
             featured = featured,

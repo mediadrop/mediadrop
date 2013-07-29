@@ -20,9 +20,6 @@ See LICENSE.txt in the main project directory, for more information.
 	<meta name="description" content="${h.meta_description(category=c.category or 'all')}" />
 	<meta py:strip="h.meta_robots_noindex(category=c.category or 'all')" name="robots" content="noindex,follow" />
 	<link href="${h.url_for('/styles/categories.css')}" media="screen" rel="stylesheet" type="text/css" />
-	<link py:if="c.category"
-	      rel="alternate" type="application/rss+xml" title="${_('Latest media in %s') % c.category.name}"
-	      href="${h.url_for(controller='/categories', action='feed', slug=c.category.slug)}" />
 </head>
 <body>
 	<div py:if="latest" id="category-latest" class="${popular and 's-grid-column' or None}" py:with="latest_url = c.category and h.url_for(action='more', order='latest') or h.url_for(controller='/media', show='latest')">

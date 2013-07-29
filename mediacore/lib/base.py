@@ -78,6 +78,7 @@ class BareBonesController(WSGIController):
         self.setup_translator()
         response.scripts = Scripts()
         response.stylesheets = StyleSheets()
+        response.feed_links = []
         response.facebook = None
         request.perm = request.environ['mediacore.perm']
 
