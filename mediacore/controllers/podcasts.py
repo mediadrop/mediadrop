@@ -8,6 +8,7 @@
 from pylons import request, response
 from sqlalchemy import orm
 
+from mediacore.lib.auth.util import viewable_media
 from mediacore.lib import helpers
 from mediacore.lib.base import BaseController
 from mediacore.lib.decorators import (beaker_cache, expose, observable, 
@@ -18,7 +19,6 @@ from mediacore.plugin import events
 from mediacore.validation import LimitFeedItemsValidator
 
 import logging
-from mediacore.lib.auth.util import viewable_media
 log = logging.getLogger(__name__)
 
 class PodcastsController(BaseController):
