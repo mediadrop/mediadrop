@@ -12,7 +12,7 @@ from mediacore.lib import helpers
 from mediacore.lib.base import BaseController
 from mediacore.lib.decorators import (beaker_cache, expose, observable, 
     paginate, validate)
-from mediacore.lib.helpers import content_type_for_response, redirect
+from mediacore.lib.helpers import content_type_for_response, url_for, redirect
 from mediacore.model import Media, Podcast, fetch_row
 from mediacore.plugin import events
 from mediacore.validation import LimitFeedItemsValidator
@@ -84,6 +84,12 @@ class PodcastsController(BaseController):
         episodes, show = helpers.filter_library_controls(episodes, show)
 
         episodes = viewable_media(episodes)
+        
+        if request.settings['rss_display'] == 'True':
+            response.feed_links.append(
+               (url_for(action='feed'), podcast.title)
+            )
+
         return dict(
             podcast = podcast,
             episodes = episodes,

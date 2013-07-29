@@ -19,15 +19,6 @@ See LICENSE.txt in the main project directory, for more information.
 	<title>${h.page_title(default='Explore', media='all')}</title>
 	<meta name="keywords" content="${h.meta_keywords(media='all') or 'MediaCore'}" />
 	<meta name="description" content="${h.meta_description(media='all') or 'MediaCore Video CMS'}" />
-	<link py:if="settings['sitemaps_display'] == 'True'"
-	      rel="alternate" type="application/rss+xml" title="Sitemap XML"
-	      href="${h.url_for(controller='/sitemaps', action='google')}" />
-	<link py:if="settings['sitemaps_display'] == 'True'"
-	      rel="alternate" type="application/rss+xml" title="Sitemap RSS"
-	      href="${h.url_for(controller='/sitemaps', action='mrss')}" />
-	<link py:if="settings['rss_display'] == 'True'"
-	      rel="alternate" type="application/rss+xml" title="Latest RSS"
-	      href="${h.url_for(controller='/sitemaps', action='latest')}" />
 </head>
 <body class="nav-explore-on">
 	<div class="mediacore-content clearfix">

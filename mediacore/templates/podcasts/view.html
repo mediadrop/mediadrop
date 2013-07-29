@@ -19,10 +19,6 @@ See LICENSE.txt in the main project directory, for more information.
 	<meta name="keywords" content="${h.meta_keywords(podcast=c.podcast or 'all')}" />
 	<meta name="description" content="${h.meta_description(podcast=c.podcast or 'all')}" />
 	<link href="${h.url_for('/styles/podcasts.css')}" media="screen" rel="stylesheet" type="text/css" />
-	<link py:if="settings['rss_display'] == 'True'"
-	      type="application/rss+xml" rel="alternate"
-	      href="${h.url_for(action='feed')}"
-	      title="${podcast.title}" />
 </head>
 <body class="nav-podcasts-on">
 	<div class="mediacore-content clearfix">
