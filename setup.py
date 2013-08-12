@@ -100,6 +100,7 @@ setup(
         ],
 
     install_requires=install_requires,
+    setup_requires=install_requires,
     paster_plugins=[
         'PasteScript',
         'Pylons',
