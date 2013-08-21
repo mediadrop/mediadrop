@@ -282,8 +282,7 @@ class BaseSettingsController(BaseController):
 
     def _save(self, form, redirect_action=None, values=None):
         """Save the values from the passed in form instance."""
-        values = self._flatten_settings_from_form(tmpl_context.settings,
-                                                  form, values)
+        values = self._flatten_settings_from_form(form, values)
         self._update_settings(values)
         if redirect_action:
             helpers.redirect(action=redirect_action)
@@ -303,13 +302,13 @@ class BaseSettingsController(BaseController):
                 form_values[field._name] = settings[field._name].value
         return form_values
 
-    def _flatten_settings_from_form(self, settings, form, form_values):
+    def _flatten_settings_from_form(self, form, form_values):
         """Take a nested dict and return a flat dict of setting values."""
         setting_values = {}
         for field in form.c:
             if isinstance(field, _ContainerMixin):
                 setting_values.update(self._flatten_settings_from_form(
-                    settings, field, form_values[field._name]
+                    field, form_values[field._name]
                 ))
             elif not self._is_button(field):
                 setting_values[field._name] = form_values[field._name]
