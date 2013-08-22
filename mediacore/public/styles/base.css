@@ -1033,3 +1033,20 @@ textarea {
 .mcore-cursor-pointer {
     cursor: pointer;
 }
+
+.mcore-alerts {
+	width: 920px;
+	margin: 10px auto 30px auto;
+	border-radius: 4px;
+	font-weight: bold;
+	
+	padding: 10px;
+	line-height: 1;
+}
+
+.mcore-warnings {
+	color: #644405;
+	background-color: #FBDCA0;
+	border: 1px solid #F6B83F;
+	text-align: center;
+}

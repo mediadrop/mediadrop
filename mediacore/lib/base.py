@@ -80,6 +80,7 @@ class BareBonesController(WSGIController):
         response.stylesheets = StyleSheets()
         response.feed_links = []
         response.facebook = None
+        response.warnings = []
         request.perm = request.environ['mediacore.perm']
 
         action_method = getattr(self, kwargs['action'], None)

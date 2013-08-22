@@ -95,6 +95,9 @@ See LICENSE.txt in the main project directory, for more information.
 		</form>
 	</div>
 	<div py:if="advertising_banner_html" id="mcore-ad-banner" class="mediacore-content" py:content="Markup(advertising_banner_html)" />
+	<div class="mcore-warnings mcore-alerts" py:if="response.warnings">
+		<div py:for="warning in response.warnings" class="mcore-warning">${warning}</div>
+	</div>
 	<div py:replace="select('*|text()|comment()')" />
 	<script type="text/javascript">
 		mcore.initPage();
