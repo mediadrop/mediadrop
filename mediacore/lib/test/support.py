@@ -119,9 +119,12 @@ def create_wsgi_environ(url, request_method, request_body=None):
         return wsgi_environ
 
 
-def setup_translator(language='en', registry=None):
-    mediacore_i18n_path = os.path.join(os.path.dirname(mediacore.__file__), 'i18n')
-    translator = Translator(language, dict(mediacore=mediacore_i18n_path))
+def setup_translator(language='en', registry=None, locale_dirs=None):
+    if not locale_dirs:
+        mediacore_i18n_path = os.path.join(os.path.dirname(mediacore.__file__), 'i18n')
+        locale_dirs = {'mediacore': mediacore_i18n_path}
+    translator = Translator(language, locale_dirs=locale_dirs)
+    
     # not sure why but sometimes pylons.translator is not a StackedObjectProxy
     # but just a regular Translator.
     if not hasattr(pylons.translator, '_push_object'):
@@ -166,7 +169,8 @@ def fake_request(pylons_config, server_name='mediacore.example', language='en',
     engines = create_tw_engine_manager(app_globals)
     host_framework = PylonsHostFramework(engines=engines)
     paste_registry.register(tw.framework, host_framework)
-    setup_translator(language=language, registry=paste_registry)
+    setup_translator(language=language, registry=paste_registry,
+        locale_dirs=pylons_config.get('locale_dirs'))
     
     wsgi_environ.update({
         'pylons.pylons': pylons,
