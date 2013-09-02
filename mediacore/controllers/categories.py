@@ -13,6 +13,7 @@ from mediacore.lib.base import BaseController
 from mediacore.lib.decorators import (beaker_cache, expose, observable, 
     paginate, validate)
 from mediacore.lib.helpers import content_type_for_response, url_for, viewable_media
+from mediacore.lib.i18n import _
 from mediacore.model import Category, Media, fetch_row
 from mediacore.plugin import events
 from mediacore.validation import LimitFeedItemsValidator
