@@ -76,7 +76,13 @@ extractors = [
         }),
     ('public/**', 'ignore', None),
 ]
-extra_arguments_for_setup['message_extractors'] = {'mediacore': extractors}
+is_babel_available = True
+try:
+    import babel
+except ImportError:
+    is_babel_available = False
+if is_babel_available:
+    extra_arguments_for_setup['message_extractors'] = {'mediacore': extractors}
 
 setup(
     name='MediaCore',
