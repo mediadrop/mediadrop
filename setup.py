@@ -14,7 +14,10 @@ from mediacore import __version__ as VERSION
 # like Pylons actually require a newer version). Therefore often we add a
 # specific minimum version even though that's not really a requirement by
 # MediaCore (rather an a Pylons requirement).
-install_requires = [
+setup_requires = [
+    'PasteScript >= 1.7.4.2', # paster_plugins=
+]
+install_requires = setup_requires + [
     'ddt',
     'formencode >= 1.2.4', # (version required by Pylons 1.0)
     'Pylons >= 1.0',
@@ -37,7 +40,6 @@ install_requires = [
     'repoze.who.plugins.sa',
     'Paste >= 1.7.5.1', # (version required by Pylons 1.0)
     'PasteDeploy >= 1.5',  # (version required by Pylons 1.0)
-    'PasteScript >= 1.7.4.2',
     'ToscaWidgets >= 0.9.12', # 0.9.9 is not compatible with Pylons 1.0
     'tw.forms == 0.9.9',
     'MySQL-python >= 1.2.2',
@@ -105,8 +107,8 @@ setup(
         'Intended Audience :: System Administrators',
         ],
 
+    setup_requires=setup_requires,
     install_requires=install_requires,
-    setup_requires=install_requires,
     paster_plugins=[
         'PasteScript',
         'Pylons',
