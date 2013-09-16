@@ -117,7 +117,9 @@ class CategoriesController(BaseController):
             media = media.in_category(c.category)
 
         media_query = media.order_by(Media.publish_on.desc())
-        media = viewable_media(media_query).limit(limit)
+        media = viewable_media(media_query)
+        if limit is not None:
+            media = media.limit(limit)
 
         return dict(
             media = media,

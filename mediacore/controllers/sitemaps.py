@@ -124,7 +124,9 @@ class SitemapsController(BaseController):
             ['application/rss+xml', 'application/xml', 'text/xml'])
 
         media_query = Media.query.published().order_by(Media.publish_on.desc())
-        media = viewable_media(media_query).limit(limit)
+        media = viewable_media(media_query)
+        if limit is not None:
+            media = media.limit(limit)
 
         if skip > 0:
             media = media.offset(skip)
@@ -152,7 +154,9 @@ class SitemapsController(BaseController):
         media_query = Media.query.in_category(get_featured_category())\
             .published()\
             .order_by(Media.publish_on.desc())
-        media = viewable_media(media_query).limit(limit)
+        media = viewable_media(media_query)
+        if limit is not None:
+            media = media.limit(limit)
 
         if skip > 0:
             media = media.offset(skip)
