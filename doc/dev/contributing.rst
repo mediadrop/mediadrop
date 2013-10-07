@@ -1,13 +1,13 @@
 .. _dev_contributing:
 
 ============================
-Contributing to MediaCore CE
+Contributing to MediaDrop
 ============================
 
 Reporting Bugs
 --------------
 
-The simplest way to give back to MediaCore CE is to report bugs as you find
+The simplest way to give back to MediaDrop is to report bugs as you find
 them!
 
 Please post issues to our `issue tracker on Github
@@ -35,15 +35,15 @@ which is an extension of
 `reStructuredText <http://en.wikipedia.org/wiki/ReStructuredText>`_.
 
 To build the documentation you must have Sphinx and Pygments installed. They
-were probably installed when you first installed MediaCore CE, but just in case,
+were probably installed when you first installed MediaDrop, but just in case,
 here's how to install them. (This example assumes that you're using a
-``virtualenv`` called ``mediacore_env``, as outlined in the :ref:`install
+``virtualenv`` called ``mediadrop_env``, as outlined in the :ref:`install
 instructions <install_toplevel>`.)
 
 .. sourcecode:: bash
 
     # As always, don't forget to work in your virtualenv
-    $ source mediacore_env/bin/activate
+    $ source mediadrop_env/bin/activate
     $ easy_install Sphinx Pygments
 
     # Build the HTML docs with sphinx

@@ -4,7 +4,7 @@
 Installation
 ************
 
-This is a full walkthrough of how to get MediaCore CE running.
+This is a full walkthrough of how to get MediaDrop running.
 
 Experienced `Pylons <http://pylonshq.com/>`_
 users can check out the :ref:`install_overview` page for a (very) condensed
@@ -22,12 +22,12 @@ check out this `introduction to \*nix command shells
 Step 0: Requirements
 ====================
 
-MediaCore CE runs on \*nix operating systems. We've tested CentOS and
+MediaDrop runs on \*nix operating systems. We've tested CentOS and
 Mac OS X, but any Linux or BSD-based OS should work just fine.
 
-If you run Windows and want to try MediaCore CE, you have two options:
+If you run Windows and want to try MediaDrop, you have two options:
 
-- If you're an experienced developer, try your hand at translating MediaCore CE
+- If you're an experienced developer, try your hand at translating MediaDrop
   and its installation process to a Windows environment. It's probably not
   that different. We'd love to hear how you did it.
 - Find a cheap web host that offers Apache, FastCGI, and SSH support, and
@@ -45,7 +45,7 @@ If you run Windows and want to try MediaCore CE, you have two options:
 * `setuptools <http://pypi.python.org/pypi/setuptools>`_
 * `virtualenv <http://pypi.python.ort/pypi/virtualenv>`_
 
-MediaCore CE works with MySQL and PostgreSQL but so far MySQL-based setups have
+MediaDrop works with MySQL and PostgreSQL but so far MySQL-based setups have
 way more popularity (and some features like the DB-based full-text search are
 not yet available for PostgreSQL). Therefore the following install docs assume
 you want to work with a MySQL database. If you're going with PostgreSQL you 
@@ -64,7 +64,7 @@ package versions so self-compiling will not solve the problem!
 
 
 Below you can find detailed install instructions for some of the most popular 
-operating systems. However MediaCore CE will run on other platforms as well
+operating systems. However MediaDrop will run on other platforms as well
 as long as you have a working compiler and the necessary development headers.
 
 .. toctree::
@@ -118,7 +118,7 @@ Step 1: Setup a Python Virtual Environment
 
 If you haven't heard of them, `Virtual Environments <http://pypi.python.org/pypi/virtualenv>`_
 are a way to keep installations of multiple Python applications from
-interfering with each other. This means you can install MediaCore CE and all of 
+interfering with each other. This means you can install MediaDrop and all of 
 its dependencies without worrying about overwriting any existing versions of 
 Python libraries.
 
@@ -137,21 +137,21 @@ we'll need to point to it later.
 Now that you've activated the newly created virtual environment, any packages
 you install will only be accessible when you've activated the environment.
 
-**NOTE: Any time you want to work with MediaCore CE, you should thus activate the
+**NOTE: Any time you want to work with MediaDrop, you should thus activate the
 virtual environment as we just did in the line above.**
 
 
-Step 2: Install MediaCore CE
+Step 2: Install MediaDrop
 ============================
 
-There are two main ways to get MediaCore CE:
+There are two main ways to get MediaDrop:
 
-a. You can `download the latest official release of MediaCore CE <http://mediacorecommunity.org/download>`_ from our site.
+a. You can `download the latest official release of MediaDrop <http://mediacorecommunity.org/download>`_ from our site.
 
-   Once you've downloaded MediaCore CE, it's time to unpack it and install.
+   Once you've downloaded MediaDrop, it's time to unpack it and install.
 
    ``setup.py`` will download and install all the necessary dependencies
-   for MediaCore CE into your virtual environment:
+   for MediaDrop into your virtual environment:
 
    .. sourcecode:: bash
 
@@ -251,7 +251,7 @@ enable fulltext searching, import ``setup_triggers.sql`` like so:
    # Import fulltext search database triggers
    mysql -u root mediacore < MediaCore-0.10.0/setup_triggers.sql
 
-**NOTE:** If you do not import ``setup_triggers.sql``, MediaCore CE's search
+**NOTE:** If you do not import ``setup_triggers.sql``, MediaDrop's search
 will only search for exact matches in the media title (e.g. searching for 
 "smith live" will find not find a media named "Joe Smith: live performance").
 In a future release, we plan to release optional plugins to use 
@@ -261,7 +261,7 @@ a database-independent search engine.
 Step 5: Launch the Built-in Server
 ==================================
 
-Now that MediaCore CE itself is installed and the basics are configured,
+Now that MediaDrop itself is installed and the basics are configured,
 we can test it out using the Paste server. It's bundled with Pylons
 so you have it already, simply run:
 
@@ -274,7 +274,7 @@ the admin at http://localhost:8080/admin/ with **username: admin, password:
 admin**. (Remember to `change your password
 <http://localhost:8080/admin/settings/users/1>`_!)
 
-If this produces errors then MediaCore CE or one of its dependencies is not
+If this produces errors then MediaDrop or one of its dependencies is not
 setup correctly. Please feel free to ask questions and submit solutions
 via our `community forums <http://mediacorecommunity.org/community>`_.
 
@@ -286,16 +286,16 @@ If this is your development machine, you're good to go.
 Step 6: Production Deployments
 ==============================
 
-MediaCore CE is WSGI-based so there are many possible ways to deploy it.
+MediaDrop is WSGI-based so there are many possible ways to deploy it.
 The built in Paste server does a great job for development, but you may want 
-to run MediaCore CE from a more performant webserver. Below are three methods 
-you can use to deploy MediaCore CE:
+to run MediaDrop from a more performant webserver. Below are three methods 
+you can use to deploy MediaDrop:
 
 - :doc:`Apache/mod_fcgid <apache-fastcgi>` (FastCGI) is simplest and will work 
   with most shared hosting environments, so long as the server has 
   ``mod_fcgid`` installed.
 - :doc:`Apache/mod_wsgi <apache-wsgi>` is preferred way of deploying Python 
-  applications like MediaCore CE and can be tuned for better performance than 
+  applications like MediaDrop and can be tuned for better performance than 
   ``mod_fastcgi``.
 - :doc:`nginx / uwsgi <nginx-uwsgi>` is an expert option which can provide significant 
   performance benefits when serving static files.

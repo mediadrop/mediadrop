@@ -7,7 +7,7 @@ Quick Installation Overview
 ===========================
 
 If you're already familiar with installing Pylons apps, here's a
-quick run-down of how to install MediaCore CE.
+quick run-down of how to install MediaDrop.
 
 If you're not already familiar with the process, head to the main
 :ref:`install_toplevel` page for a more detailed description of the process.
@@ -15,7 +15,7 @@ If you're not already familiar with the process, head to the main
 #. Ensure that you have development headers for MySQL, libjpeg, zlib, 
    freetype, and Python installed.
 #. Create and activate a new ``virtualenv``.
-#. Run ``python setup.py develop`` to install MediaCore CE and its
+#. Run ``python setup.py develop`` to install MediaDrop and its
    dependencies.
 #. For production, run ``paster make-config mediacore deployment.ini``
    and to create a unique ``deployment.ini`` config. On development

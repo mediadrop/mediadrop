@@ -4,11 +4,11 @@
 JSON API
 ========
 
-MediaCore CE provides a simple API for grabbing media info. A GET request to any
+MediaDrop provides a simple API for grabbing media info. A GET request to any
 of the public methods on this page will return a JSON object with the returned
 information.
 
-MediaCore CE's controllers render JSON objects by preparing what we call a
+MediaDrop's controllers render JSON objects by preparing what we call a
 JSON-ready dict. In these dicts, all keys are Python's unicode type and all
 values are of a type in the table below. There there is a 1-1 mapping between
 Python types and JavaScript types:
@@ -25,10 +25,10 @@ Python types and JavaScript types:
    None    null
    ======= ==========
 
-**API KEYS**: It is up to the administrator of a MediaCore CE site to allow or
+**API KEYS**: It is up to the administrator of a MediaDrop site to allow or
 disallow public access to that site's API. To this end, an administrator can
 choose to require an API Key be sent with every API request. This key is
-configurable in MediaCore CE's *Admin -> Settings -> Data API* page.
+configurable in MediaDrop's *Admin -> Settings -> Data API* page.
 
 
 .. automodule:: mediacore.controllers.api.media
@@ -37,7 +37,7 @@ Querying Media Items
 --------------------
 
 
-MediaCore CE provides a
+MediaDrop provides a
 :meth:`get <mediacore.controllers.api.media.MediaController.get>`
 method for returning information about an individual media item (given an
 *id* or *slug*) and an
@@ -89,7 +89,7 @@ Examples:
 Querying Media Files
 --------------------
 
-MediaCore CE provides a
+MediaDrop provides a
 :meth:`files <mediacore.controllers.api.media.MediaController.files>`
 method for returning information about the
 :class:`mediacore.model.media.MediaFile` instances associated with a given
@@ -128,7 +128,7 @@ Examples:
 Querying Categories
 -------------------
 
-MediaCore CE provides two methods of listing categories:
+MediaDrop provides two methods of listing categories:
 :meth:`index <mediacore.controllers.api.categories.CategoriesController.index>`
 for listing all categories in a flat list, and
 :meth:`tree <mediacore.controllers.api.categories.CategoriesController.tree>`

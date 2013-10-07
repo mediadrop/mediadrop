@@ -5,7 +5,7 @@ Javascript Development with Closure Tools
 =========================================
 
 This is an introductory guide to developing and building Javascript for
-MediaCore CE.
+MediaDrop.
 
 Beginning with v0.9, all new javascript development will be based on `Closure
 Tools` instead of the Mootools framework.  Currently we're using two main
@@ -35,7 +35,7 @@ Getting Closure Tools
 ---------------------
 
 First off, you'll need to get Closure Library.  Checkout the official SVN
-repository into your root MediaCore CE directory:
+repository into your root MediaDrop directory:
 
 .. sourcecode:: bash
 
@@ -69,7 +69,7 @@ effect, it obfuscates the code.  This makes it extremely difficult to trace
 compiled code, so it's important for developers to be able to run the
 uncompiled source code when necessary.
 
-MediaCore CE comes with a javascript debug mode built-in.  When enabled, all
+MediaDrop comes with a javascript debug mode built-in.  When enabled, all
 javascript is loaded in its original source form.  Simply append
 ``?debug=true`` to any URL to enable debug mode for that request.
 
@@ -90,7 +90,7 @@ and their ramifications.
 Working in Debug Mode
 ---------------------
 
-MediaCore CE contains a special debug mode which triggers uncompiled source files
+MediaDrop contains a special debug mode which triggers uncompiled source files
 be loaded instead of a single pre-compiled and obfuscated file.  Enable it by
 appending ``?debug=true`` to any MediaCore URL.
 
@@ -226,7 +226,7 @@ errors and fixing them:
 .. sourcecode:: bash
 
     # Install the python scripts into your mediacore virtualenv
-    $ source mediacore_env/bin/activate
+    $ source mediadrop_env/bin/activate
     $ easy_install http://closure-linter.googlecode.com/files/closure_linter-latest.tar.gz
 
     # Lint one file:

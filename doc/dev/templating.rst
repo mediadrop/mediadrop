@@ -14,9 +14,9 @@ Hierarchy and Layouts
 
 Each template that controllers call for rendering is wrapped by a ``master``
 template and a ``layout`` template. ``master`` adds some CSS and JS necessary
-for MediaCore CE to work, and generally you shouldn't need to change it.
+for MediaDrop to work, and generally you shouldn't need to change it.
 ``layout``, however, is there for changing so you can easily wrap the output of
-MediaCore CE in your own site's layout.
+MediaDrop in your own site's layout.
 
 
 Template Variables
