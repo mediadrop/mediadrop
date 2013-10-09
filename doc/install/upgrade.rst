@@ -59,8 +59,8 @@ release.
    # Now, activate that virtual environment
    source venv/bin/activate
 
-**NOTE 1:** Before MediaCore 0.10 the virtualenv folder was named 
-'mediadrop_env' in the documentation.
+**NOTE 1:** Before MediaDrop 0.10 (aka MediaCore CE 0.10) the virtualenv folder was named 
+'mediacore_env' in the documentation.
 
 **NOTE 2:** If you kept your virtualenv inside the MediaDrop source code 
 directory (as recommended in the docs before version 0.10) please create the 
@@ -71,7 +71,7 @@ before creating the new virtualenv).
 Step 2: Install the new MediaDrop Files
 ------------------------------------------
 
-`Download the latest official release of MediaDrop <http://mediadrop/download>`_ 
+`Download the latest official release of MediaDrop <http://mediadrop.net/download>`_ 
 from our site, then unpack it beside your current MediaDrop installation.
 
 .. sourcecode:: bash
@@ -137,7 +137,7 @@ looks something like):
 
 .. sourcecode:: ini
 
-   sqlalchemy.url = mysql://mediacore_user:mysecretpassword@localhost/mediacore?charset=utf8&use_unicode=0
+   sqlalchemy.url = mysql://mediadrop_user:mysecretpassword@localhost/mediadrop?charset=utf8&use_unicode=0
 
 
 Step 5: Upgrade your database

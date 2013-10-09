@@ -4,7 +4,7 @@
 Media Players API
 =================
 
-MediaDrop was designed to make it straightfoward to fully integrate new
+MediaDrop was designed to make it straightforward to fully integrate new
 audio/video players into the display system.
 
 While MediaDrop supports 9 Flash and/or HTML5 players out of the box (including
