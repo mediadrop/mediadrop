@@ -1,7 +1,7 @@
 Mac OS X
 ----------------------------------------------
 
-Installing MediaCore CE on a Mac is a bit more complicated than doing so on 
+Installing MediaDrop on a Mac is a bit more complicated than doing so on 
 Linux because Mac OS does not come with all the required packages. However once
 it is working you can run MediaCore on Mac just fine.
 

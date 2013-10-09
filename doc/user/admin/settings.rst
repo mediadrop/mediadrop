@@ -15,7 +15,7 @@ Leave the tracking code blank to disable Google Analytics.
 
 Categories
 ----------
-Categories, in MediaCore CE, are created by the admins to represent whatever
+Categories, in MediaDrop, are created by the admins to represent whatever
 categorization scheme they wish to employ.
 
 Like Tags, Categories are considered when searching for media and when
@@ -78,15 +78,15 @@ Audio and Video can be played via Flash in some browsers if Flash
 supports the container format and codecs used in the media file, and if the
 browser, in turn, supports Flash.
 
-MediaCore CE has a built in list of which browsers support Flash, which containers
+MediaDrop has a built in list of which browsers support Flash, which containers
 and codecs Flash supports, and which containers and codecs are supported by
 which browsers through HTML5.
 
-MediaCore CE also has built in logic that will guess the container format and
+MediaDrop also has built in logic that will guess the container format and
 applicable codecs for a given media file based on its filename.
 
 Together, this means that if you have multiple audio or video files attatched
-to a Media object, MediaCore CE can take into account the capabilities of your
+to a Media object, MediaDrop can take into account the capabilities of your
 users' browsers, the available files, and your (the admin's) player
 preferences, and serve the best combination of files and players to each
 user, individually.
@@ -124,7 +124,7 @@ Regardless of what the "Preferred Media Player Type" setting is, if the chosen
 setting will yield no useable player for a particular user's browser, an
 error message will be displayed to the user in place of the media object.
 The exception to this is if the media object has an embedded
-(YouTube/Vimeo/etc.) media file, in which case MediaCore CE will attempt to
+(YouTube/Vimeo/etc.) media file, in which case MediaDrop will attempt to
 render this embedded file, rather than display an error, leaving it up to the
 embedded player to display an error if necessary.
 
@@ -141,7 +141,7 @@ The 'Send Emails From' field must be a valid email address.
 
 Popularity
 ----------
-MediaCore CE uses a popularity ranking algorithm similar to Reddit's. The
+MediaDrop uses a popularity ranking algorithm similar to Reddit's. The
 popularity of a Media item can be described by the equation:
 
 .. sourcecode:: text
@@ -189,16 +189,16 @@ Upload
 *Thumbnails:*
 
 When adding media that is being hosted on YouTube, Vimeo, or a similar platform,
-MediaCore CE will automatically fetch the Title and Duration of the media item
-from the appropriate website. Furthermore, MediaCore CE can be configured to
+MediaDrop will automatically fetch the Title and Duration of the media item
+from the appropriate website. Furthermore, MediaDrop can be configured to
 automatically fetch the thumbnail images from these services, in the event
 that you have not already specified a thumbnail image for the Media item.
 
 *Remote Storage:*
 
-MediaCore CE has built-in support for FTP transfers, so that you can
+MediaDrop has built-in support for FTP transfers, so that you can
 automatically store your media on an FTP server, while allowing your users to
-perform their uploads through MediaCore CE.
+perform their uploads through MediaDrop.
 
 In addition to the FTP server address, subdirectory,  username, and password,
 you will have to configure the HTTP URL from which the media files can later
@@ -208,12 +208,12 @@ For example, it is a common setup to upload to a "public_files" directory on an
 FTP server at "ftp.myhost.com" and then have the files be accessible through a
 URL like "http://myhost.com/myuser/".
 
-In this release of MediaCore CE, only remote HTTP hosting is available: RTMP is
+In this release of MediaDrop, only remote HTTP hosting is available: RTMP is
 unsupported.
 
 
 Users
 -----
 
-MediaCore CE's users interface is pretty simple right now. You can add any number
+MediaDrop's users interface is pretty simple right now. You can add any number
 of administrator users you like.

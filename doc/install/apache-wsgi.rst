@@ -19,7 +19,7 @@ verbose, but very complete: `mod_wsgi main site
 Components
 ----------
 The following five components are involved in getting web requests through to
-MediaCore CE with this setup. Don't worry if this sounds like a lot! By this
+MediaDrop with this setup. Don't worry if this sounds like a lot! By this
 stage you already have three, and the remaining ones are very easy to set up.
 
 ``Apache``
@@ -32,7 +32,7 @@ stage you already have three, and the remaining ones are very easy to set up.
    Your apache configuration; tells mod_wsgi how to run your app
 
 ``mediacore.wsgi``
-   The script that runs MediaCore CE as a WSGI application
+   The script that runs MediaDrop as a WSGI application
 
 ``mediacore``
    The reason we're here!
@@ -43,19 +43,19 @@ Instructions
 the permissions on the ``data`` subdirectories as outlined in
 :ref:`production_deployments`
 
-**NOTE 2:** The following instructions assume that you're deploying MediaCore CE
-to ``http://site.example/my_media/``. To deploy MediaCore CE to any other path,
+**NOTE 2:** The following instructions assume that you're deploying MediaDrop
+to ``http://site.example/my_media/``. To deploy MediaDrop to any other path,
 simply replace all references to ``/my_media`` below with your desired path.
-If MediaCore CE should run at the URL root (no subdirectory), just remove the
+If MediaDrop should run at the URL root (no subdirectory), just remove the
 references to ``/my_media`` entirely.
 
 **NOTE 3:** We will not actually be creating a ``my_media`` directory, but we
 will use aliases in the Apache config to make sure that requests to
-``http://site.example/my_media/`` are passed to MediaCore CE.
+``http://site.example/my_media/`` are passed to MediaDrop.
 
 First, copy the ``mediacore.wsgi`` file from ``/path/to/mediacore_install/deployment-scripts/mod_wsgi/mediacore.wsgi``
 to the directory where your ``deployment.ini`` is. Then edit the paths in the
-wsgi file to point to your own MediaCore CE installation and virtual environment. The
+wsgi file to point to your own MediaDrop installation and virtual environment. The
 **two** lines you need to edit are at the top of the file, and look like
 this:
 
@@ -69,7 +69,7 @@ Depending on your setup, you may want to add it to the main ``httpd.conf`` file,
 or inside a VirtualHost include.
 
 Make sure that you replace all references to ``/path/to/mediacore_install/``
-and ``/path/to/venv/`` with the correct paths for your own MediaCore CE
+and ``/path/to/venv/`` with the correct paths for your own MediaDrop
 source code and virtual environment.
 
 .. literalinclude:: ../../deployment-scripts/mod_wsgi/apache-config.sample
@@ -77,7 +77,7 @@ source code and virtual environment.
 
 Performance Enhancements
 ------------------------
-By default, all files are served through MediaCore CE. The configuration above
+By default, all files are served through MediaDrop. The configuration above
 ensures that Apache will serve all static files (.css, .js, and images)
 directly, but MediaCore will still check for static files before serving any
 page. There are two speedups we can enable here.
@@ -90,7 +90,7 @@ the static_files line, and set it to false.
    static_files = false
 
 The second speedup is only available if you have mod_xsendfile installed and
-enabled in Apache. MediaCore CE can take advantage of mod_xsendfile and have
+enabled in Apache. MediaDrop can take advantage of mod_xsendfile and have
 Apache serve all media files (.mp3, .mp4, etc.) directly. To enable this, edit
 another line in ``/path/to/deployment.ini``. Find the
 files_serve_method line, and set it to apache_xsendfile.
@@ -100,10 +100,10 @@ files_serve_method line, and set it to apache_xsendfile.
    files_serve_method = apache_xsendfile
 
 
-Changing the MediaCore CE Source Code
+Changing the MediaDrop Source Code
 -------------------------------------
-If you make any changes to your MediaCore CE installation while Apache is running
-(eg. if you upgrade MediaCore CE or make any customizations), you'll need to make
+If you make any changes to your MediaDrop installation while Apache is running
+(eg. if you upgrade MediaDrop or make any customizations), you'll need to make
 sure that mod_wsgi recognizes those changes.
 
 The easiest way to do this is to 'touch' the .wsgi script. This will modify the
@@ -115,6 +115,6 @@ updated and will read and re-load it.
    # Navigate to the directory where your modified mediacore.wsgi is
    cd /path/to/...
    
-   # Force a refresh of the MediaCore CE code
+   # Force a refresh of the MediaDrop code
    touch mediacore.wsgi
 

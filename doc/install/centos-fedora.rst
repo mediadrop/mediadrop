@@ -3,10 +3,10 @@
 RHEL/CentOS and Fedora
 ----------------------------------------------
 
-RHEL (+ clones like CentOS) is the preferred platform for running MediaCore CE
+RHEL (+ clones like CentOS) is the preferred platform for running MediaDrop
 because of its long-term support and high-quality packages.
 
-MediaCore CE runs on RHEL 5 and 6 as well as any support version of Fedora.
+MediaDrop runs on RHEL 5 and 6 as well as any support version of Fedora.
 
 MySQL server
 """"""""""""""""""""""""""""""""""""""""
@@ -55,7 +55,7 @@ RHEL/CentOS 5 and Python 2.4
 
 Please note that you need virtualenv < 1.8 if you plan to use Python 2.4 (RHEL 5).
 
-RHEL 5.x comes with Python 2.4. While MediaCore CE 0.10 still works with 
+RHEL 5.x comes with Python 2.4. While MediaDrop 0.10 still works with 
 Python 2.4 support for that old version of Python (released initially in 
 November 2004) will be dropped eventually. Also some plugins might not work 
 with 2.4.
