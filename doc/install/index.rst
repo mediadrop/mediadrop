@@ -164,7 +164,7 @@ a. You can `download the latest official release of MediaDrop <http://mediacorec
       cd ..
 
 b. **For developers and power users** we recommend using the source code 
-   directly from our `public git repository <http://github.com/mediacore/mediacore-community/>`_.
+   directly from our `public git repository <https://github.com/mediadrop/mediadrop/>`_.
    A git deployment makes it easy to track local changes and experienced 
    developers can also stay right up-to-date with bugfixes as they're made.
 
