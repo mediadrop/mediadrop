@@ -1,5 +1,5 @@
-# .htaccess file for installation of MediaCore with Apache/FastCGI
-# See installation instructions at http://getmediacore.com/docs/install/apache-fastcgi.html
+# .htaccess file for installation of MediaDrop with Apache/FastCGI
+# See installation instructions at http://mediadrop.net/docs/install/apache-fastcgi.html
 
 <IfModule mod_fcgid.c>
     AddHandler fcgid-script .fcgi
@@ -14,10 +14,10 @@ RewriteEngine On
 RewriteRule ^images/(media|podcasts)(.*) data/images/$1$2 [L]
 RewriteRule ^appearance/(.*) data/appearance/$1 [L]
 
-# Create rewrite rules for serving MediaCore's static content
+# Create rewrite rules for serving MediaDrop's static content
 RewriteRule ^(admin/)?(styles|images|scripts)/(.*)$ public/$1$2/$3 [L]
 
-# Create rewrite rules for pointing mediacore requests to fastcgi script
+# Create rewrite rules for pointing MediaDrop requests to fastcgi script
 RewriteRule ^mediacore\.fcgi(/.*)$  - [L]
 # If the file requested doesn't exist on the filesystem, redirect to mediacore.fcgi
 RewriteCond %{REQUEST_FILENAME} !-f

@@ -1079,7 +1079,7 @@ def embed_iframe(media, width=400, height=225, frameborder=0, **kwargs):
                   frameborder=frameborder, **kwargs)
     # some software is known not to work with self-closing iframe tags 
     # ('<iframe ... />'). Several WordPress instances are affected as well as
-    # TWiki http://opensource.mediacore.com/community/topic/embed-iframe-closing-tag
+    # TWiki http://mediadrop.net/community/topic/embed-iframe-closing-tag
     tag.append('')
     return tag
 

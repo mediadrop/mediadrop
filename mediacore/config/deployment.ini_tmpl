@@ -6,7 +6,7 @@
 # See LICENSE.txt in the main project directory, for more information.
 
 #
-# MediaCore - Pylons configuration
+# MediaDrop - Pylons configuration
 #
 # The %(here)s variable will be replaced with the parent directory of this file
 #
@@ -27,7 +27,7 @@ sqlalchemy.echo = False
 sqlalchemy.pool_recycle = 3600
 db.check_for_leaked_connections = False
 
-# Plugins which should be enabled for this MediaCore instance (by default all
+# Plugins which should be enabled for this MediaDrop instance (by default all
 # plugins are enabled)
 # To enable only specific plugins just add them as comma-separated list, e.g.:
 #    plugins = editviews, panda, seo
@@ -45,32 +45,32 @@ beaker.session.secret = ${app_instance_secret}
 sa_auth.cookie_secret = ${app_instance_secret}
 
 # Specify an optional prefix for table names.
-# Use this if you want to put mediacore in the same database as another app.
+# Use this if you want to put MediaDrop in the same database as another app.
 # XXX: If you use this setting and you want to enable search, you'll have to
 #      manually edit the table names in setup_triggers.sql to use this prefix.
 # e.g. if you want your tables to be named like 'mcore_media', you should set:
 # db_table_prefix = mcore
 
 # mod_proxy settings
-# Use this if you are hosting mediacore behind a proxy.
-# e.g. If hosting mediacore via mod_proxy at the URL
-#      yoursite.com/my_proxied_mediacore/, such that all requests are passed
+# Use this if you are hosting MediaDrop behind a proxy.
+# e.g. If hosting MediaDrop via mod_proxy at the URL
+#      yoursite.com/my_proxied_drop/, such that all requests are passed
 #      through to a Paste server at localhost:8080/, you should set:
-# proxy_prefix = /my_proxied_mediacore
+# proxy_prefix = /my_proxied_mediadrop
 
 # Method to use when servng static media files. On of:
 #   apache_xsendfile - requires Apache 2.x and mod_xsendfile
 #   nginx_redirect - requires nginx and the creation of an internal location
 #                    block with an alias from the path __mediacore_serve__ to
-#                    your /path/to/mediacore/data/media directory.
+#                    your /path/to/mediadrop/data/media directory.
 #                    See the full docs below for an example:
-#                    http://mediacore.com/docs/install/nginx-uwsgi.html
+#                    http://mediadrop.net/docs/install/nginx-uwsgi.html
 #   default - uses environ['wsgi.file_wrapper'] if it's provided by the server,
 #             otherwise a pure-python file iterator returns the file in chunks
 file_serve_method = default
 
 # Enable automatic gzip compresson for all html/css/js/json responses.
-# Keep this enabled unless you're serving MediaCore via Apache and you
+# Keep this enabled unless you're serving MediaDrop via Apache and you
 # are able to enable gzip there instead.
 enable_gzip = true
 
@@ -89,7 +89,7 @@ media_dir = %(here)s/data/media
 #beaker.cache.data_dir = %(here)s/data/cache
 #beaker.session.data_dir = %(here)s/data/sessions
 
-# Specify the layout template name to wrap core mediacore output in
+# Specify the layout template name to wrap core MediaDrop output in
 layout_template = layout
 
 # Defines an external genshi template to wrap the output (including layout) in
@@ -121,7 +121,7 @@ keys = root
 
 [handlers]
 keys = console, wsgierrors
-# To enable a mediacore-specific logfile, see the [handler_logfile] setting
+# To enable a MediaDrop-specific logfile, see the [handler_logfile] setting
 # below, and add 'logfile' to the list of keys, like so
 # keys = console, wsgierrors, logfile
 
@@ -152,7 +152,7 @@ format = generic
 # Handler for logging to a dedicated logfile. To use this, see the [handlers]
 # section above; ensure the logfile you name is writeable by your server user.
 class = FileHandler
-args = ('/path/to/mediacore_install/data/deployment.log','a')
+args = ('/path/to/data/deployment.log','a')
 level = NOTSET
 formatter = generic
 

@@ -44,7 +44,7 @@ if sys.version_info < (2, 7):
     # importlib is included in Python 2.7
     # however we can't do try/import/except because this might generate eggs
     # with missing requires which can not be used in other environments
-    # see https://github.com/mediacore/mediacore-community/issues#issue/44
+    # see https://github.com/mediadrop/mediadrop/pull/44#issuecomment-573242
     install_requires.append('importlib')
 
 if sys.version_info < (2, 5):
@@ -71,9 +71,9 @@ setup(
     name='MediaCore',
     version=VERSION,
     description='A audio, video and podcast publication platform.',
-    author='MediaCore Inc.',
-    author_email='info@mediacore.com',
-    url='http://mediacorecommunity.org/',
+    author='MediaDrop contributors.',
+    author_email='info@mediadrop.net',
+    url='http://mediadrop.net',
     classifiers=[
         'Development Status :: 4 - Beta',
         'License :: OSI Approved :: GNU General Public License (GPL)',

@@ -23,8 +23,8 @@ See LICENSE.txt in the main project directory, for more information.
 <head py:match="head">
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title py:match="title" py:with="title = select('text()')">
-		<py:if test="title and title != 'MediaCore'">${Markup(title)} |</py:if>
-		MediaCore
+		<py:if test="title and title != 'MediaDrop'">${Markup(title)} |</py:if>
+		MediaDrop
 	</title>
 	<!--[if lt IE 8]>
 	<script src="http://ie7-js.googlecode.com/svn/version/2.0(beta3)/IE8.js" type="text/javascript"></script>
@@ -44,7 +44,7 @@ See LICENSE.txt in the main project directory, for more information.
 	<div id="container" class="clearfix">
 		<div id="header" class="clearfix">
 			<div id="logo">
-				<h2><a id="logo-dropdown-toggle" href="${h.url_for(controller='/admin/index')}"><span>MediaCore</span></a></h2>
+				<h2><a id="logo-dropdown-toggle" href="${h.url_for(controller='/admin/index')}"><span>MediaDrop</span></a></h2>
 				<div class="dropdown-box">
 					<ul id="logo-dropdown">
 						<li><a href="${h.url_for(controller='/admin/index')}">Dashboard</a></li>
@@ -65,8 +65,8 @@ See LICENSE.txt in the main project directory, for more information.
 		<div id="body" class="clearfix" py:content="select('*|text()')" />
 		
 		<div id="admin-footer">
-		    <div class="mcore-version">MediaCore CE ${h.mediacore_version()}</div>
-		    <p class="copyright">&copy; 2009-2013 MediaCore Inc. and contributors</p>
+		    <div class="mcore-version">MediaDrop ${h.mediacore_version()}</div>
+		    <p class="copyright">&copy; 2009-2013 MediaDrop contributors</p>
 		</div>
 	</div>
 </body>

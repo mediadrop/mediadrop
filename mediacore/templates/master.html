@@ -102,7 +102,7 @@ See LICENSE.txt in the main project directory, for more information.
 	<py:if test="h.response.facebook">${Markup(h.response.facebook.init_code())}</py:if>
 </body>
 
-<!--! Optionally wrap the core MediaCore output in a layout -->
+<!--! Optionally wrap the core MediaDrop output in a layout -->
 <xi:include py:if="c.layout_template" href="${c.layout_template}.html" />
 
 <!--! Optionally wrap that in yet another template -->
