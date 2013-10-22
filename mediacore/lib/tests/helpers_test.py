@@ -21,7 +21,7 @@ class DefaultPageTitleTest(DBTestCase, RequestMixin):
         # mediacore.lib.helpers imports 'pylons.request' on class load time
         # so we import the symbol locally after we injected a fake request
         from mediacore.lib.helpers import default_page_title
-        assert_equals('MediaCore', default_page_title())
+        assert_equals('MediaDrop', default_page_title())
 
 
 import unittest
