@@ -1,4 +1,4 @@
-MediaCore CE contains three separately licensed components:
+MediaDrop contains three separately licensed components:
 
 Unless an exception is explicitly stated, the source code, compiled code, image
 files, and other assets, are distributed under the GPL: you can redistribute it
@@ -12,7 +12,7 @@ modules are distributed according to individual license terms, either described
 in a comment at the top of the source code file, or in a LICENSE.txt file
 inside the containing directory.
 
-Exception 2: MediaCore's own front-facing client-side scripts. This includes
+Exception 2: MediaDrop's own front-facing client-side scripts. This includes
 all files in "mediacore/public/scripts/" and its subdirectories, excluding
 those described in Exception 1. These files are released under a more
 permissive MIT style license, to allow for GPL-incompatible third-party modules
