@@ -53,7 +53,7 @@ references to ``/my_media`` entirely.
 will use aliases in the Apache config to make sure that requests to
 ``http://site.example/my_media/`` are passed to MediaDrop.
 
-First, copy the ``mediacore.wsgi`` file from ``/path/to/mediacore_install/deployment-scripts/mod_wsgi/mediacore.wsgi``
+First, copy the ``mediacore.wsgi`` file from ``/path/to/mediadrop_install/deployment-scripts/mod_wsgi/mediacore.wsgi``
 to the directory where your ``deployment.ini`` is. Then edit the paths in the
 wsgi file to point to your own MediaDrop installation and virtual environment. The
 **two** lines you need to edit are at the top of the file, and look like
@@ -68,7 +68,7 @@ Finally, you will need to add the following lines to your Apache configuration.
 Depending on your setup, you may want to add it to the main ``httpd.conf`` file,
 or inside a VirtualHost include.
 
-Make sure that you replace all references to ``/path/to/mediacore_install/``
+Make sure that you replace all references to ``/path/to/mediadrop_install/``
 and ``/path/to/venv/`` with the correct paths for your own MediaDrop
 source code and virtual environment.
 
@@ -79,7 +79,7 @@ Performance Enhancements
 ------------------------
 By default, all files are served through MediaDrop. The configuration above
 ensures that Apache will serve all static files (.css, .js, and images)
-directly, but MediaCore will still check for static files before serving any
+directly, but MediaDrop will still check for static files before serving any
 page. There are two speedups we can enable here.
 
 First, edit one line in ``/path/to/deployment.ini``. Find

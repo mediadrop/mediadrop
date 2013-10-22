@@ -3,7 +3,7 @@ Mac OS X
 
 Installing MediaDrop on a Mac is a bit more complicated than doing so on 
 Linux because Mac OS does not come with all the required packages. However once
-it is working you can run MediaCore on Mac just fine.
+it is working you can run MediaDrop on Mac just fine.
 
 The following documentation was tested with a client version of Mac OS X 10.8 
 (Mountain Lion). 
@@ -76,7 +76,7 @@ to use their MySQL server if you already have one.
     brew install mysql
 
 As with all brew commands, it print out some useful information that we may need
-to get the installed software to work as expected. MediaCore will actually need the
+to get the installed software to work as expected. MediaDrop will actually need the
 MySQL server running, which brew doesn't do for you, but it does tell you how:
 
 .. sourcecode:: bash
@@ -87,8 +87,8 @@ MySQL server running, which brew doesn't do for you, but it does tell you how:
 Python libraries and tools
 """"""""""""""""""""""""""""""""""""""""
 
-Before installing MediaCore we also need virtualenv. Virtualenv will manage any
-future software that MediaCore needs to ensure that it does not conflict with any 
+Before installing MediaDrop we also need virtualenv. Virtualenv will manage any
+future software that MediaDrop needs to ensure that it does not conflict with any 
 other software, similar to sandboxing. Since we used Homebrew to install our Python,
 and remembering have we've set up the variable "BREWPYTHON", we can do this:
 
@@ -104,7 +104,7 @@ with the following command:
     /usr/local/share/python/virtualenv --no-site-packages  /path/to/venv
 
 Finally, we can activate this virtual environment, which we'll have to do when we're
-working with MediaCore, with the following command:
+working with MediaDrop, with the following command:
 
 .. sourcecode:: bash
 

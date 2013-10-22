@@ -4,7 +4,7 @@
 Media Players API
 =================
 
-MediaDrop was designed to make it straightfowrad to fully integrate new
+MediaDrop was designed to make it straightfoward to fully integrate new
 audio/video players into the display system.
 
 While MediaDrop supports 9 Flash and/or HTML5 players out of the box (including
@@ -85,7 +85,7 @@ It is this class that is instantiated using the code produced by
 :meth:`render_js_player <AbstractPlayer.render_js_player>`.
 
 This managing class inherits from :obj:`goog.ui.Component`.
-It must implement the MediaCore-specific :meth:`getSize` and :meth:`setSize`.
+It must implement the MediaDrop-specific :meth:`getSize` and :meth:`setSize`.
 
 See the files in :file:`mediacore/public/scripts/mcore/players/` for examples.
 

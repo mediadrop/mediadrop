@@ -34,7 +34,7 @@ created a cloud on `pandastream.com <http://pandastream.com/>`_ with
 your Panda Stream account.
 
 
-**1. Create MediaCore Storage Engine**
+**1. Create MediaDrop Storage Engine**
 
 Login into your MediaDrop admin panel, and go to Settings > Storage Engines.
 Click Add New engine > Panda Transcoding and Storage. You can also select which

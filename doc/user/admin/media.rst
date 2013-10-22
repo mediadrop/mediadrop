@@ -5,7 +5,7 @@ Media Management Admin Interface
 ================================
 
 A good first resource for media management is the
-`MediaCore CE Workflow Video <http://getmediacore.com/files/tutorial-workflow-in-mediacore.mp4>`_.
+`MediaCore CE Workflow Video <http://static.mediadrop.net/files/videos/tutorial-workflow-in-mediacore.mp4>`_.
 
 
 Files
@@ -38,8 +38,9 @@ Users can upload `Timed Text <http://www.w3.org/TR/ttaf1-dfxp/>`_ .xml files to
 be used for closed captioning. This works in much the same way as audio
 descriptions.
 
-NOTE: File extensions are important to MediaCore CE 0.8.2 and below. In MediaCore CE
-0.8.2, Codecs and Container formats are deduced from the file extension.
+NOTE: File extensions are important to MediaCore CE 0.8.2 and below. In 
+MediaDrop and MediaCore CE >= 0.8.2, Codecs and Container formats are deduced
+from the file extension.
 
 
 Status

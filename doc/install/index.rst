@@ -78,7 +78,7 @@ as long as you have a working compiler and the necessary development headers.
 Database
 -----------------------------------------
 
-Later on your MediaCore install needs a database so it can store data. As 
+Later on your MediaDrop install needs a database so it can store data. As 
 mentioned before this documentation uses a MySQL database though PostgreSQL 
 should work as well.
 
@@ -100,11 +100,11 @@ web server. Usually a place below ``/var/www`` is a good choice.
 
 Ideally the folder is not below the default docroot (often called ``html`` or 
 ``httpdocs``) but right next to it (sometimes called ``shareddata``). This 
-ensures that the web server will never reveal your actual MediaCore source code 
+ensures that the web server will never reveal your actual MediaDrop source code 
 or the configuration files to web users in case of a configuration error.
 
 After step 3 you should have a directory which contains the folders ``data``,
-``MediaCore-0.10.0`` (or whatever you named the directory with the MediaCore 
+``MediaCore-0.10.0`` (or whatever you named the directory with the MediaDrop 
 source code), and ``venv`` as well as the ``production.ini`` file.
 
 
@@ -146,7 +146,7 @@ Step 2: Install MediaDrop
 
 There are two main ways to get MediaDrop:
 
-a. You can `download the latest official release of MediaDrop <http://mediacorecommunity.org/download>`_ from our site.
+a. You can `download the latest official release of MediaDrop <http://mediadrop.net/download>`_ from our site.
 
    Once you've downloaded MediaDrop, it's time to unpack it and install.
 
@@ -171,12 +171,12 @@ b. **For developers and power users** we recommend using the source code
    .. sourcecode:: bash
 
       # Download and install via Git
-      git clone git://github.com/mediacore/mediacore-community.git mediacore-git
-      cd mediacore-git
+      git clone git://github.com/mediadrop/mediadrop.git mediadrop-git
+      cd mediadrop-git
       
       # now you have the latest development version. For a production deployment
       # you should switch to a release version, e.g.
-      git checkout v0.10.0
+      git checkout v0.10.2
 
       # Install!
       python setup.py develop
@@ -187,7 +187,7 @@ Step 3: Basic Configuration File
 ================================
 
 Next we generate a configuration file named ``deployment.ini`` which contains
-basic MediaCore settings.
+basic MediaDrop settings.
 
    .. sourcecode:: bash
 
@@ -210,7 +210,7 @@ password, and database name. For example:
 
 .. sourcecode:: ini
 
-   sqlalchemy.url = mysql://mediacore_user:mysecretpassword@localhost/mediacore?charset=utf8&use_unicode=0
+   sqlalchemy.url = mysql://mediadrop_user:mysecretpassword@localhost/mediadrop?charset=utf8&use_unicode=0
 
 
 Developers should also set ``debug = true`` in the config file but be aware that
@@ -223,7 +223,7 @@ Step 4: Load Initial Data
 =============================
 
 First we need to set up the directory which contains all the file content. Copy
-the ``data`` folder from your MediaCore source code next to the 
+the ``data`` folder from your MediaDrop source code next to the 
 ``production.ini`` file.
 
 .. sourcecode:: bash
@@ -231,7 +231,7 @@ the ``data`` folder from your MediaCore source code next to the
    cp -a MediaCore-0.10.0/data .
 
 **NOTE:** For uploads to work, the data directory must be writable by the user
-running MediaCore.
+running MediaDrop.
 
 
 The creation of all database tables and addition of initial data is taken care 
@@ -249,7 +249,7 @@ enable fulltext searching, import ``setup_triggers.sql`` like so:
 .. sourcecode:: bash
 
    # Import fulltext search database triggers
-   mysql -u root mediacore < MediaCore-0.10.0/setup_triggers.sql
+   mysql -u root mediadrop < MediaCore-0.10.0/setup_triggers.sql
 
 **NOTE:** If you do not import ``setup_triggers.sql``, MediaDrop's search
 will only search for exact matches in the media title (e.g. searching for 
@@ -276,7 +276,7 @@ admin**. (Remember to `change your password
 
 If this produces errors then MediaDrop or one of its dependencies is not
 setup correctly. Please feel free to ask questions and submit solutions
-via our `community forums <http://mediacorecommunity.org/community>`_.
+via our `community forums <http://mediadrop.net/community/>`_.
 
 If this is your development machine, you're good to go.
 
