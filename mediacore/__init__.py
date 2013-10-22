@@ -13,15 +13,15 @@ __version__ = '0.11dev'
 __status__ = 'Beta'
 __copyright__ = 'Copyright 2009-2013, MediaCore Inc., Felix Schwarz and other contributors.'
 __license__ = 'GPLv3'
-__email__ = 'info@mediacore.com'
-__maintainer__ = 'http://mediacorecommunity.org/'
+__email__ = 'info@mediadrop.net'
+__maintainer__ = 'http://mediadrop.net'
 __all__ = ['__version__', 'debug', 'ipython']
 
-USER_AGENT = 'MediaCore/%s' % __version__
+USER_AGENT = 'MediaDrop/%s' % __version__
 
 def debug(*args):
     """Print to stderr, for debuging"""
-    print >> sys.stderr, "MediaCore DEBUG", args
+    print >> sys.stderr, "MediaDrop DEBUG", args
     return None
 
 def ipython():
@@ -55,7 +55,7 @@ try:
     def add_slash(self, environ, start_response):
         """Monkey-patch overridden method.
 
-        MediaCore doesn't use any public directory listings, or index.html
+        MediaDrop doesn't use any public directory listings, or index.html
         files, so there's no reason to issue a redirect to normalize folder
         requests to have a trailing slash, as all of these URLs will 404
         either way.
