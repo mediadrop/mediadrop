@@ -11,7 +11,7 @@ The simplest way to give back to MediaDrop is to report bugs as you find
 them!
 
 Please post issues to our `issue tracker on Github
-<http://github.com/mediacore/mediacore-community/issues>`_.
+<https://github.com/mediadrop/mediadrop/issues>`_.
 
 You can always post to our `community forums
 <http://mediacorecommunity.org/community>`_ if you aren't sure if its a bug or
@@ -58,7 +58,7 @@ Submitting Patches
 ------------------
 
 Generally we request that you create an issue in our `issue tracker
-<http://github.com/mediacore/mediacore-community/issues>`_ for any patch
+<https://github.com/mediadrop/mediadrop/issues>`_ for any patch
 you'd like to submit. It helps us stay organized in the long run.
 
 Our Git repository is hosted over at `Github <http://github.com/>`_ and
@@ -95,7 +95,7 @@ create a patch for submission:
     $ git format-patch --stdout origin/master.. > your_patch
 
 Attach the ``your_patch`` file to an `issue
-<http://github.com/mediacore/mediacore-community/issues>`_ describing the
+<https://github.com/mediadrop/mediadrop/issues>`_ describing the
 problem and the fix.
 
 
