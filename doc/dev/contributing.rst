@@ -13,8 +13,7 @@ them!
 Please post issues to our `issue tracker on Github
 <https://github.com/mediadrop/mediadrop/issues>`_.
 
-You can always post to our `community forums
-<http://mediacorecommunity.org/community>`_ if you aren't sure if its a bug or
+You can always post to our `community forums <http://mediadrop.net/community/>`_ if you aren't sure if its a bug or
 not.
 
 
@@ -75,7 +74,7 @@ bugfixes and smaller features, where only one person is working on it.
 .. sourcecode:: bash
 
     # Getting a copy of our git repository (if you haven't already):
-    $ git clone git://github.com/mediacore/mediacore-community.git
+    $ git clone git://github.com/mediadrop/mediadrop.git
 
     # Create a new branch and switch to it:
     $ git checkout -b your_local_branch

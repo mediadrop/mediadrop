@@ -39,7 +39,7 @@ repository into your root MediaDrop directory:
 
 .. sourcecode:: bash
 
-    $ cd MediaCore
+    $ cd MediaDrop
     $ svn checkout http://closure-library.googlecode.com/svn/trunk/ closure-library
 
 Next, you'll need to `download the latest version of Closure Compiler
@@ -63,7 +63,7 @@ extract it into place:
 Development Workflow
 --------------------
 
-Ordinarily all MediaCore javascript that is loaded is pre-compiled.  This is
+Ordinarily all MediaDrop javascript that is loaded is pre-compiled.  This is
 ideal for file size and run-time performance on the client, but as a side
 effect, it obfuscates the code.  This makes it extremely difficult to trace
 compiled code, so it's important for developers to be able to run the
@@ -92,7 +92,7 @@ Working in Debug Mode
 
 MediaDrop contains a special debug mode which triggers uncompiled source files
 be loaded instead of a single pre-compiled and obfuscated file.  Enable it by
-appending ``?debug=true`` to any MediaCore URL.
+appending ``?debug=true`` to any MediaDrop URL.
 
 In debug mode, there are three files that are initially loaded.  Any additional
 files that they depend on are loaded at run time, which we'll explain in more
@@ -157,16 +157,16 @@ script:
 Compiling Your Javascript
 -------------------------
 
-MediaCore and Closure Library both share a very verbose coding style that spans
+MediaDrop and Closure Library both share a very verbose coding style that spans
 a large number of source files; Closure Compiler concatenates all relevant
 source files, strips out dead code and optimizes everything that remains.
 
-MediaCore makes use of the most advanced optimizations offered by the compiler,
+MediaDrop makes use of the most advanced optimizations offered by the compiler,
 which imposes some `restrictions that you should be aware of
 <http://code.google.com/closure/compiler/docs/api-tutorial3.html#dangers>`_.
 If compiling your code introduces a bug, review the compiler documentation.
 
-MediaCore makes use of all the strict type checking offered by the compiler.
+MediaDrop makes use of all the strict type checking offered by the compiler.
 You should enter complete `JSDoc type annotations
 <http://code.google.com/closure/compiler/docs/js-for-compiler.html>`_ as much
 as possible, to improve the utility of these checks.  This has already proven
@@ -190,7 +190,7 @@ This produces a single file: ``mcore-compiled.js``.
 Conventions and Guidelines
 --------------------------
 
-MediaCore attempts to adhere the conventions of the Closure Library.  This
+MediaDrop attempts to adhere the conventions of the Closure Library.  This
 includes their coding style and design principles as much as possible.
 
 The best way to get up to speed on Closure development is to read `Closure:
@@ -225,7 +225,7 @@ errors and fixing them:
 
 .. sourcecode:: bash
 
-    # Install the python scripts into your mediacore virtualenv
+    # Install the python scripts into your MediaDrop virtualenv
     $ source mediadrop_env/bin/activate
     $ easy_install http://closure-linter.googlecode.com/files/closure_linter-latest.tar.gz
 

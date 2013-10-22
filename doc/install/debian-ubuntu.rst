@@ -18,7 +18,7 @@ packages:
     sudo apt-get install mysql-server mysql-client 
 
 Please note that you need to secure your install, grant a MySQL user with 
-sufficient privileges and create a new database for MediaCore. However these
+sufficient privileges and create a new database for MediaDrop. However these
 procedures are out of scope for this documentation.
 
 
