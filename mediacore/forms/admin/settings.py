@@ -344,7 +344,7 @@ class AppearanceForm(ListForm):
                     css_classes=['checkbox-left'],
                     label_text=N_('Enable Cooliris on the Explore Page'),
                     help_text=N_('Cooliris support is deprecated and will be ' + \
-                        'removed in the next major version of MediaCore CE ' + \
+                        'removed in the next major version of MediaDrop ' + \
                         'unless someone is interested in maintaining it.'),
                     validator=Bool(if_missing='')),
                 CheckBox(u'appearance_display_login',
@@ -376,11 +376,11 @@ class AppearanceForm(ListForm):
                     css_classes=['checkbox-left'],
                     validator=Bool(if_missing='')),
                 CheckBox('appearance_display_mediacore_footer',
-                    label_text=N_('Display MediaCore Footer'),
+                    label_text=N_('Display MediaDrop Footer'),
                     css_classes=['checkbox-left'],
                     validator=Bool(if_missing='')),
                 CheckBox('appearance_display_mediacore_credits',
-                    label_text=N_('Display MediaCore Credits in Footer'),
+                    label_text=N_('Display MediaDrop Credits in Footer'),
                     css_classes=['checkbox-left'],
                     validator=Bool(if_missing='')),
             ],

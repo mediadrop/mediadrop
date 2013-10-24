@@ -28,7 +28,7 @@ class FTPStorageForm(StorageForm):
                 TextField('user', label_text=N_('Username')),
                 TextField('password', label_text=N_('Password')),
                 TextField('upload_dir', label_text=N_('Subdirectory on server to upload to')),
-                TextField('upload_integrity_retries', label_text=N_('How many times should MediaCore try to verify the FTP upload before declaring it a failure?'), validator=Int()),
+                TextField('upload_integrity_retries', label_text=N_('How many times should MediaDrop try to verify the FTP upload before declaring it a failure?'), validator=Int()),
                 TextField('http_download_uri', label_text=N_('HTTP URL to access remotely stored files')),
                 TextField('rtmp_server_uri', label_text=N_('RTMP Server URL to stream remotely stored files (Optional)')),
             ]
