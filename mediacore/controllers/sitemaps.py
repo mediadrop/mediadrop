@@ -167,7 +167,7 @@ class SitemapsController(BaseController):
         """Serve the crossdomain XML file manually if static_files is disabled.
 
         If someone forgets to add this Alias we might as well serve this file
-        for them and save everyone the trouble. This only works when MediaCore
+        for them and save everyone the trouble. This only works when MediaDrop
         is served out of the root of a domain and if Cooliris is enabled.
         """
         global crossdomain_app

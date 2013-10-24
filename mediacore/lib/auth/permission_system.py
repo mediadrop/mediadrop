@@ -65,7 +65,7 @@ class MediaCorePermissionSystem(PermissionSystem):
             user = User()
             user.display_name = u'Anonymous User'
             user.user_name = u'anonymous'
-            user.email_address = 'invalid@mediacore.example'
+            user.email_address = 'invalid@mediadrop.example'
             anonymous_group = Group.by_name(u'anonymous')
             groups = filter(None, [anonymous_group])
         else:

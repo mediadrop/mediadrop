@@ -35,7 +35,7 @@ class FilteringRestrictedItemsTest(DBTestCase):
     def _create_user_without_groups(self):
         user = User()
         user.user_name = u'joe'
-        user.email_address = u'joe@mediacore.example'
+        user.email_address = u'joe@mediadrop.example'
         user.display_name = u'Joe'
         user.groups = []
         DBSession.add(user)

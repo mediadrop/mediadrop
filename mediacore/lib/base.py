@@ -56,7 +56,7 @@ class BareBonesController(WSGIController):
         override this method to customize the arguments your controller
         actions are called with.
 
-        For MediaCore, we extend this to include all GET and POST params.
+        For MediaDrop, we extend this to include all GET and POST params.
 
         NOTE: If the action does not define \*\*kwargs, then only the kwargs
               that it defines will be passed to it when it is called.

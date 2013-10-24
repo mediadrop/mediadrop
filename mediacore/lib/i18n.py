@@ -25,7 +25,7 @@ __all__ = ['_', 'N_', 'format_date', 'format_datetime', 'format_number',
 log = logging.getLogger(__name__)
 
 MEDIACORE = 'mediacore'
-"""The primary MediaCore domain name."""
+"""The primary MediaDrop domain name."""
 
 class LanguageError(Exception):
     pass

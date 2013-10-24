@@ -189,7 +189,7 @@ class DBSanityCheckingMiddleware(object):
         # (with an even better discussion highlighting pros and cons) is
         # http://www.mysqlperformanceblog.com/2010/05/05/checking-for-a-live-database-connection-considered-harmful/
         #
-        # In MediaCore the check is only done once per request (skipped for 
+        # In MediaDrop the check is only done once per request (skipped for
         # static files) so it should be relatively light on the DB server.
         # Also the check can be disabled using the setting 
         # 'sqlalchemy.check_connection_before_request = false'.
@@ -322,7 +322,7 @@ def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
         app = ErrorHandler(app, global_conf, **config['pylons.errorware'])
 
         # by default Apache uses  a global alias for "/error" in the httpd.conf
-        # which means that users can not send error reports through MediaCore's
+        # which means that users can not send error reports through MediaDrop's
         # error page (because that POSTs to /error/report).
         # To make things worse Apache (at least up to 2.4) has no "unalias"
         # functionality. So we work around the issue by using the "/errors"

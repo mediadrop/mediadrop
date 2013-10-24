@@ -51,7 +51,7 @@ def setup_environment_and_database(env_dir=None, enabled_plugins=''):
     return pylons_config
 
 # -----------------------------------------------------------------------------
-# unfortunately neither Python 2.4 nor any existing MediaCore dependencies come 
+# unfortunately neither Python 2.4 nor any existing MediaDrop dependencies come
 # with reusable methods to create a HTTP request body so I build a very basic 
 # implementation myself. 
 # The code is only used for unit tests so it doesn't have to be rock solid.
@@ -119,7 +119,7 @@ def create_wsgi_environ(url, request_method, request_body=None):
         return wsgi_environ
 
 
-def fake_request(pylons_config, server_name='mediacore.example', language='en', 
+def fake_request(pylons_config, server_name='mediadrop.example', language='en',
                  method='GET', request_uri='/', post_vars=None):
     app_globals = pylons_config['pylons.app_globals']
     pylons.app_globals._push_object(app_globals)

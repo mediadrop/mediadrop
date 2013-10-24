@@ -73,7 +73,7 @@ class UploadControllerTest(ControllerTestCase):
         request = self.init_fake_request(method='POST', request_uri='/upload/submit', 
             post_vars=self._upload_parameters())
         response = self.assert_redirect(lambda: self._upload(request))
-        assert_equals('http://mediacore.example/upload/success', response.location)
+        assert_equals('http://mediadrop.example/upload/success', response.location)
         self._assert_succesful_media_upload()
 
 
