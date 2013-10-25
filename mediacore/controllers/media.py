@@ -86,11 +86,11 @@ class MediaController(BaseController):
         if (request.settings['rss_display'] == 'True') and (not (q or tag)):
             if show == 'latest':
                 response.feed_links.extend([
-                    (url_for(controller='/sitemaps', action='latest'), u'Latest RSS'),
+                    (url_for(controller='/sitemaps', action='latest'), _(u'Latest RSS')),
                 ])
             elif show == 'featured':
                 response.feed_links.extend([
-                    (url_for(controller='/sitemaps', action='featured'), u'Featured RSS'),
+                    (url_for(controller='/sitemaps', action='featured'), _(u'Featured RSS')),
                 ])
 
         media = viewable_media(media)
@@ -141,12 +141,12 @@ class MediaController(BaseController):
         popular = viewable_media(popular.exclude(featured, latest))[:5]
         if request.settings['sitemaps_display'] == 'True':
             response.feed_links.extend([
-                (url_for(controller='/sitemaps', action='google'), u'Sitemap XML'),
-                (url_for(controller='/sitemaps', action='mrss'), u'Sitemap RSS'),
+                (url_for(controller='/sitemaps', action='google'), _(u'Sitemap XML')),
+                (url_for(controller='/sitemaps', action='mrss'), _(u'Sitemap RSS')),
             ])
         if request.settings['rss_display'] == 'True':
             response.feed_links.extend([
-                (url_for(controller='/sitemaps', action='latest'), u'Latest RSS'),
+                (url_for(controller='/sitemaps', action='latest'), _(u'Latest RSS')),
             ])
 
         return dict(
