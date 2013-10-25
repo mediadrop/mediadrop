@@ -47,7 +47,7 @@ See LICENSE.txt in the main project directory, for more information.
 		<div id="media-info">
 			<py:if test="not is_widescreen">${media_box(media)}</py:if>
 
-			<a href="${h.url_for(controller='/admin/media', action='edit', id=media.id)}" class="underline-hover f-rgt" py:if="h.can_edit(media)">Edit</a>
+			<a href="${h.url_for(controller='/admin/media', action='edit', id=media.id)}" class="underline-hover f-rgt" py:if="h.can_edit()">Edit</a>
 			<h3 class="feat-title">${media.title}</h3>
 			<div class="feat-date" py:choose="">
 				<py:when test="media.is_published" py:with="datetime = h.format_date(media.publish_on, 'long')">${datetime}</py:when>

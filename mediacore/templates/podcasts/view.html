@@ -28,7 +28,7 @@ See LICENSE.txt in the main project directory, for more information.
 			<div class="feat-content clearfix">
 				<span class="thumb-wrap"><img src="${h.thumb_url(podcast, 'm')}" width="160" height="160" alt="${podcast.title}" /></span>
 				<div class="podcast-info">
-					<a href="${h.url_for(controller='/admin/podcasts', action='edit', id=podcast.id)}" class="underline-hover f-rgt" py:if="h.can_edit(podcast)">Edit</a>
+					<a href="${h.url_for(controller='/admin/podcasts', action='edit', id=podcast.id)}" class="underline-hover f-rgt" py:if="h.can_edit()">Edit</a>
 					<p py:if="podcast.description" py:replace="Markup(podcast.description)" />
 				</div>
 				<div class="podcast-meta">
