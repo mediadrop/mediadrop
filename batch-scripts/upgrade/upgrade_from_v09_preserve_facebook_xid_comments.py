@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# This file is a part of MediaDrop, Copyright 2009-2013 MediaCore Inc.
+# This file is a part of MediaDrop, Copyright 2009-2013 MediaDrop contributors
 # The source code contained in this file is licensed under the GPL.
 # See LICENSE.txt in the main project directory, for more information.
 #
