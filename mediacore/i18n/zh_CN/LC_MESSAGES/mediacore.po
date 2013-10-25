@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: MediaCore Video Platform\n"
 "Report-Msgid-Bugs-To: http://github.com/mediacore/mediacore-"
 "community/issues\n"
-"POT-Creation-Date: 2013-03-25 17:58+0100\n"
+"POT-Creation-Date: 2013-10-25 12:04+0200\n"
 "PO-Revision-Date: 2013-06-11 08:27+0000\n"
 "Last-Translator: kdumporg <acheng@kdump.cn>\n"
 "Language-Team: Chinese (China) "
@@ -24,13 +24,19 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 0.9.6\n"
 
-#: mediacore/websetup.py:152
+#: mediacore/websetup.py:153
 msgid ""
 "Upload your media using the form below. We'll review it and get back to "
 "you."
 msgstr "使用下面的表格上传您的媒体。我们将审核一下然后再联系你。"
 
-#: mediacore/controllers/error.py:55
+#: mediacore/controllers/categories.py:67
+#: mediacore/templates/categories/more.html:19
+#, python-format
+msgid "Latest media in %s"
+msgstr "%s中最新的媒体"
+
+#: mediacore/controllers/errors.py:55
 msgid "We're sorry but we weren't able to process this request."
 msgstr "很抱歉，我们无法处理此请求。"
 
@@ -38,11 +44,29 @@ msgstr "很抱歉，我们无法处理此请求。"
 msgid "Invalid username or password."
 msgstr "用户名或密码无效。"
 
-#: mediacore/controllers/media.py:296
+#: mediacore/controllers/media.py:89 mediacore/controllers/media.py:149
+#: mediacore/templates/media/index.html:18
+msgid "Latest RSS"
+msgstr "最新的RSS"
+
+#: mediacore/controllers/media.py:93
+#, fuzzy
+msgid "Featured RSS"
+msgstr "精选"
+
+#: mediacore/controllers/media.py:144
+msgid "Sitemap XML"
+msgstr "网站地图XML"
+
+#: mediacore/controllers/media.py:145
+msgid "Sitemap RSS"
+msgstr "网站的RSS"
+
+#: mediacore/controllers/media.py:315
 msgid "Your comment has been rejected."
 msgstr "您的评论已被拒绝。"
 
-#: mediacore/controllers/media.py:318
+#: mediacore/controllers/media.py:337
 msgid ""
 "Thank you for your comment! We will post it just as soon as a moderator "
 "approves it."
@@ -53,21 +77,21 @@ msgstr "感谢您发表评论！版主批准后我们将第一时间发布。"
 msgid "File \"%s\" does not exist."
 msgstr "%s 文件不存在。"
 
-#: mediacore/controllers/admin/media.py:407
+#: mediacore/controllers/admin/media.py:408
 msgid "No action to perform."
 msgstr "没有需要执行的操作。"
 
-#: mediacore/controllers/admin/media.py:557
+#: mediacore/controllers/admin/media.py:558
 #: mediacore/controllers/admin/podcasts.py:206
 msgid "Permission denied, cannot write file"
 msgstr "权限不足，无法写入文件"
 
-#: mediacore/controllers/admin/media.py:559
+#: mediacore/controllers/admin/media.py:560
 #, python-format
 msgid "Unsupported image type: %s"
 msgstr "不支持的图像类型: %s"
 
-#: mediacore/controllers/admin/media.py:562
+#: mediacore/controllers/admin/media.py:563
 #: mediacore/controllers/admin/podcasts.py:211
 msgid "Interlaced PNGs are not supported."
 msgstr "不支持隔行扫描的PNG格式"
@@ -81,11 +105,11 @@ msgstr "保存后可获得博客feed URL"
 msgid "Unsupport image type: %s"
 msgstr "不支持的图像类型: %s"
 
-#: mediacore/forms/__init__.py:211
+#: mediacore/forms/__init__.py:212
 msgid "The portion of the email address before the @ is invalid"
 msgstr "该电子邮件地址@之前的部分是无效的"
 
-#: mediacore/forms/__init__.py:212
+#: mediacore/forms/__init__.py:213
 msgid "The portion of this email address after the @ is invalid"
 msgstr "该电子邮件地址@之后的部分是无效的"
 
@@ -103,7 +127,7 @@ msgstr "用户名"
 msgid "Password"
 msgstr "密码"
 
-#: mediacore/forms/login.py:38 mediacore/templates/master.html:71
+#: mediacore/forms/login.py:38 mediacore/templates/master.html:77
 msgid "Login"
 msgstr "登录"
 
@@ -247,8 +271,8 @@ msgstr "删除"
 #: mediacore/templates/admin/helpers.html:67
 #: mediacore/templates/admin/comments/_comment-table.html:24
 #: mediacore/templates/comments/_list.html:86
-#: mediacore/templates/media/explore.html:84
-#: mediacore/templates/media/view.html:61
+#: mediacore/templates/media/explore.html:75
+#: mediacore/templates/media/view.html:67
 msgid "Comment"
 msgid_plural "Comments"
 msgstr[0] ""
@@ -297,8 +321,8 @@ msgstr "高度必须是一个有效的整数"
 msgid "Select an encoded video or audio file on your computer"
 msgstr "选择您的计算机上编码过的视频或音频文件"
 
-#: mediacore/forms/admin/media.py:110 mediacore/templates/master.html:85
-#: mediacore/templates/admin/settings/master.html:76
+#: mediacore/forms/admin/media.py:110 mediacore/templates/master.html:91
+#: mediacore/templates/admin/settings/master.html:78
 #: mediacore/templates/admin/settings/upload.html:16
 #: mediacore/templates/admin/settings/upload.html:22
 msgid "Upload"
@@ -341,27 +365,27 @@ msgstr "作者的电子邮件"
 msgid "Description"
 msgstr "说明"
 
-#: mediacore/forms/admin/media.py:153 mediacore/templates/master.html:83
+#: mediacore/forms/admin/media.py:153 mediacore/templates/master.html:89
 #: mediacore/templates/admin/categories/edit.html:16
 #: mediacore/templates/admin/categories/index.html:17
 #: mediacore/templates/admin/categories/index.html:51
-#: mediacore/templates/admin/settings/master.html:49
+#: mediacore/templates/admin/settings/master.html:51
 #: mediacore/templates/categories/index.html:18
 #: mediacore/templates/categories/layout.html:22
 #: mediacore/templates/categories/more.html:17
-#: mediacore/templates/media/explore.html:42
-#: mediacore/templates/media/view.html:114
+#: mediacore/templates/media/explore.html:33
+#: mediacore/templates/media/view.html:120
 msgid "Categories"
 msgstr "分类"
 
 #: mediacore/forms/admin/media.py:154
 #: mediacore/templates/admin/media/_media-table.html:28
-#: mediacore/templates/admin/settings/master.html:73
+#: mediacore/templates/admin/settings/master.html:75
 #: mediacore/templates/admin/tags/edit.html:16
 #: mediacore/templates/admin/tags/index.html:17
 #: mediacore/templates/admin/tags/index.html:48
 #: mediacore/templates/media/tags.html:16
-#: mediacore/templates/media/view.html:121
+#: mediacore/templates/media/view.html:127
 msgid "Tags"
 msgstr "标签"
 
@@ -786,7 +810,7 @@ msgstr "最大目录树的深度"
 #: mediacore/forms/admin/settings.py:303
 #: mediacore/templates/admin/settings/general.html:17
 #: mediacore/templates/admin/settings/general.html:23
-#: mediacore/templates/admin/settings/master.html:37
+#: mediacore/templates/admin/settings/master.html:39
 msgid "General"
 msgstr "一般"
 
@@ -841,7 +865,7 @@ msgstr "探索页面上启用Cooliris"
 #: mediacore/forms/admin/settings.py:346
 msgid ""
 "Cooliris support is deprecated and will be removed in the next major "
-"version of MediaCore CE unless someone is interested in maintaining it."
+"version of MediaDrop unless someone is interested in maintaining it."
 msgstr "Cooliris支持已废止并在下个MediaCore社区版中删除，除非有人愿意继续维护它。"
 
 #: mediacore/forms/admin/settings.py:352
@@ -873,12 +897,12 @@ msgid "Display Background Image"
 msgstr "显示背景图片"
 
 #: mediacore/forms/admin/settings.py:379
-msgid "Display MediaCore Footer"
-msgstr "显示MediaCore页脚"
+msgid "Display MediaDrop Footer"
+msgstr "显示MediaDrop页脚"
 
 #: mediacore/forms/admin/settings.py:383
-msgid "Display MediaCore Credits in Footer"
-msgstr "在页脚显示MediaCore"
+msgid "Display MediaDrop Credits in Footer"
+msgstr "在页脚显示MediaDrop"
 
 #: mediacore/forms/admin/settings.py:389
 msgid "Player Menu Options"
@@ -968,7 +992,7 @@ msgstr "登录详细信息："
 msgid "Passwords do not match"
 msgstr "密码不匹配"
 
-#: mediacore/forms/admin/users.py:51 mediacore/templates/admin/master.html:59
+#: mediacore/forms/admin/users.py:51 mediacore/templates/admin/master.html:61
 #: mediacore/templates/admin/groups/index.html:17
 #: mediacore/templates/admin/groups/index.html:41
 msgid "Groups"
@@ -992,7 +1016,7 @@ msgstr "服务器上的子目录名称"
 
 #: mediacore/forms/admin/storage/ftp.py:31
 msgid ""
-"How many times should MediaCore try to verify the FTP upload before "
+"How many times should MediaDrop try to verify the FTP upload before "
 "declaring it a failure?"
 msgstr "FTP上传失败检验次数"
 
@@ -1143,7 +1167,7 @@ msgstr "音频描述"
 msgid "Captions"
 msgstr "标题"
 
-#: mediacore/lib/helpers.py:381
+#: mediacore/lib/helpers.py:385
 msgid "Help"
 msgstr "帮助"
 
@@ -1191,7 +1215,7 @@ msgstr "Sublime播放器"
 msgid "iTunes Player"
 msgstr "iTunes播放器"
 
-#: mediacore/lib/storage/api.py:349
+#: mediacore/lib/storage/api.py:352
 msgid "Unusable file or URL provided."
 msgstr "文件或网址无法使用"
 
@@ -1299,8 +1323,8 @@ msgid "Submit Error Report"
 msgstr "提交错误报告"
 
 #: mediacore/templates/helpers.html:33
-#: mediacore/templates/media/explore.html:85
-#: mediacore/templates/media/view.html:58
+#: mediacore/templates/media/explore.html:76
+#: mediacore/templates/media/view.html:64
 #: mediacore/templates/players/html5_or_flash.html:47
 #: mediacore/templates/players/html5_or_flash.html:49
 msgid "Like"
@@ -1313,8 +1337,8 @@ msgstr[0] ""
 #: mediacore/templates/helpers.html:34
 #: mediacore/templates/admin/media/update-status-form.html:22
 #: mediacore/templates/admin/podcasts/edit.html:97
-#: mediacore/templates/media/explore.html:86
-#: mediacore/templates/media/view.html:56
+#: mediacore/templates/media/explore.html:77
+#: mediacore/templates/media/view.html:62
 msgid "View"
 msgid_plural "Views"
 msgstr[0] ""
@@ -1331,23 +1355,23 @@ msgid "Show:"
 msgstr "显示："
 
 #: mediacore/templates/helpers.html:76
-#: mediacore/templates/categories/index.html:29
+#: mediacore/templates/categories/index.html:26
 #: mediacore/templates/categories/more.html:24
-#: mediacore/templates/media/explore.html:41
-#: mediacore/templates/media/explore.html:109
+#: mediacore/templates/media/explore.html:32
+#: mediacore/templates/media/explore.html:100
 msgid "Latest"
 msgstr "最新"
 
 #: mediacore/templates/helpers.html:77
-#: mediacore/templates/categories/index.html:34
+#: mediacore/templates/categories/index.html:31
 #: mediacore/templates/categories/more.html:24
-#: mediacore/templates/media/explore.html:93
+#: mediacore/templates/media/explore.html:84
 msgid "Most Popular"
 msgstr "最受欢迎"
 
 #: mediacore/templates/helpers.html:78
-#: mediacore/templates/media/explore.html:40
-#: mediacore/templates/media/explore.html:77
+#: mediacore/templates/media/explore.html:31
+#: mediacore/templates/media/explore.html:68
 msgid "Featured"
 msgstr "精选"
 
@@ -1364,13 +1388,13 @@ msgstr "于"
 msgid "The %(fieldName)s field accepts some HTML formatting: %(formattingList)s"
 msgstr "%(fieldName)s 字段接受某些HTML格式：%(formattingList)s"
 
-#: mediacore/templates/layout.html:43
+#: mediacore/templates/layout.html:33
 msgid "Feeds:"
 msgstr "RSS:"
 
-#: mediacore/templates/layout.html:49
-msgid "[1:MediaCore] [2:video platform]"
-msgstr "[1:MediaCore] [2:视频平台]"
+#: mediacore/templates/layout.html:39
+msgid "[1:MediaDrop] [2:video platform]"
+msgstr "[1:MediaDrop] [2:视频平台]"
 
 #: mediacore/templates/login.html:16
 msgid "Log in to"
@@ -1380,29 +1404,29 @@ msgstr "登录到"
 msgid "Log in"
 msgstr "登录"
 
-#: mediacore/templates/master.html:64
+#: mediacore/templates/master.html:70
 msgid "Admin"
 msgstr "管理员"
 
-#: mediacore/templates/master.html:66 mediacore/templates/admin/master.html:50
+#: mediacore/templates/master.html:72 mediacore/templates/admin/master.html:52
 msgid "Logout"
 msgstr "注销"
 
-#: mediacore/templates/master.html:80
+#: mediacore/templates/master.html:86
 msgid "Explore"
 msgstr "浏览"
 
-#: mediacore/templates/master.html:81 mediacore/templates/media/index.html:17
+#: mediacore/templates/master.html:87 mediacore/templates/media/index.html:17
 msgid "Media Library"
 msgstr "媒体库"
 
-#: mediacore/templates/master.html:82 mediacore/templates/admin/master.html:56
+#: mediacore/templates/master.html:88 mediacore/templates/admin/master.html:58
 #: mediacore/templates/admin/podcasts/index.html:17
 #: mediacore/templates/admin/podcasts/index.html:24
 msgid "Podcasts"
 msgstr "播客"
 
-#: mediacore/templates/master.html:88
+#: mediacore/templates/master.html:94
 msgid "Search"
 msgstr "搜索"
 
@@ -1415,12 +1439,12 @@ msgid "Moderate"
 msgstr "审核"
 
 #: mediacore/templates/admin/helpers.html:62
-#: mediacore/templates/admin/master.html:57
+#: mediacore/templates/admin/master.html:59
 #: mediacore/templates/admin/comments/index.html:20
 #: mediacore/templates/admin/media/_media-table.html:27
 #: mediacore/templates/admin/settings/comments.html:16
 #: mediacore/templates/admin/settings/comments.html:22
-#: mediacore/templates/admin/settings/master.html:52
+#: mediacore/templates/admin/settings/master.html:54
 #: mediacore/templates/comments/_list.html:42
 msgid "Comments"
 msgstr "评论"
@@ -1444,7 +1468,7 @@ msgid "Trash"
 msgstr "垃圾箱"
 
 #: mediacore/templates/admin/index.html:17
-#: mediacore/templates/admin/master.html:48
+#: mediacore/templates/admin/master.html:50
 msgid "Dashboard"
 msgstr "控制面板"
 
@@ -1475,39 +1499,37 @@ msgstr "添加新媒体"
 msgid "Recently Published"
 msgstr "新近出版"
 
-#: mediacore/templates/admin/master.html:24
-#: mediacore/templates/admin/master.html:45
-msgid "MediaCore"
-msgstr "MediaCore"
+#: mediacore/templates/admin/master.html:26
+#: mediacore/templates/admin/master.html:47
+#: mediacore/templates/admin/master.html:68
+msgid "MediaDrop"
+msgstr "MediaDrop"
 
-#: mediacore/templates/admin/master.html:49
+#: mediacore/templates/admin/master.html:51
 msgid "View Site"
 msgstr "查看网站"
 
-#: mediacore/templates/admin/master.html:55
+#: mediacore/templates/admin/master.html:57
 #: mediacore/templates/admin/categories/index.html:63
 #: mediacore/templates/admin/media/index.html:18
 #: mediacore/templates/admin/tags/index.html:60
 msgid "Media"
 msgstr "媒体"
 
-#: mediacore/templates/admin/master.html:58
+#: mediacore/templates/admin/master.html:60
 #: mediacore/templates/admin/users/index.html:17
 #: mediacore/templates/admin/users/index.html:38
 msgid "Users"
 msgstr "用户"
 
-#: mediacore/templates/admin/master.html:60
-#: mediacore/templates/admin/settings/master.html:34
+#: mediacore/templates/admin/master.html:62
+#: mediacore/templates/admin/settings/master.html:36
 msgid "Settings"
 msgstr "设置"
 
-#: mediacore/templates/admin/master.html:66
-msgid "MediaCore CE"
-msgstr "MediaCore社区版"
-
-#: mediacore/templates/admin/master.html:67
-msgid "© 2009-2013 MediaCore Inc. and contributors"
+#: mediacore/templates/admin/master.html:69
+#, fuzzy
+msgid "© 2009-2013 MediaDrop contributors"
 msgstr "© 2009-2013 MediaCore Inc. 及 contributors"
 
 #: mediacore/templates/admin/categories/index.html:38
@@ -1567,8 +1589,8 @@ msgstr "你确定要删除这个分类 [1:以及所有子类]？"
 #: mediacore/templates/admin/storage/index.html:145
 #: mediacore/templates/admin/tags/row-form.html:24
 #: mediacore/templates/admin/users/index.html:61
-#: mediacore/templates/media/view.html:44
-#: mediacore/templates/podcasts/view.html:35
+#: mediacore/templates/media/view.html:50
+#: mediacore/templates/podcasts/view.html:31
 msgid "Edit"
 msgstr "编辑"
 
@@ -2033,7 +2055,7 @@ msgstr "从不"
 
 #: mediacore/templates/admin/players/index.html:16
 #: mediacore/templates/admin/players/index.html:40
-#: mediacore/templates/admin/settings/master.html:61
+#: mediacore/templates/admin/settings/master.html:63
 msgid "Players"
 msgstr "视频播放器"
 
@@ -2104,19 +2126,19 @@ msgstr "添加播客"
 
 #: mediacore/templates/admin/settings/advertising.html:17
 #: mediacore/templates/admin/settings/advertising.html:23
-#: mediacore/templates/admin/settings/master.html:40
+#: mediacore/templates/admin/settings/master.html:42
 msgid "Advertising"
 msgstr "广告"
 
 #: mediacore/templates/admin/settings/analytics.html:17
 #: mediacore/templates/admin/settings/analytics.html:23
-#: mediacore/templates/admin/settings/master.html:43
+#: mediacore/templates/admin/settings/master.html:45
 msgid "Analytics"
 msgstr "分析"
 
 #: mediacore/templates/admin/settings/api.html:16
 #: mediacore/templates/admin/settings/api.html:26
-#: mediacore/templates/admin/settings/master.html:55
+#: mediacore/templates/admin/settings/master.html:57
 msgid "Data API"
 msgstr "数据API"
 
@@ -2126,7 +2148,7 @@ msgstr "生成"
 
 #: mediacore/templates/admin/settings/appearance.html:17
 #: mediacore/templates/admin/settings/appearance.html:38
-#: mediacore/templates/admin/settings/master.html:46
+#: mediacore/templates/admin/settings/master.html:48
 msgid "Appearance"
 msgstr "外观"
 
@@ -2138,29 +2160,29 @@ msgstr "确认复位"
 msgid "Are you sure you want to reset your settings to the default?"
 msgstr "你确定要重置为默认设置？"
 
-#: mediacore/templates/admin/settings/master.html:58
+#: mediacore/templates/admin/settings/master.html:60
 msgid "Notifications"
 msgstr "通知"
 
-#: mediacore/templates/admin/settings/master.html:64
+#: mediacore/templates/admin/settings/master.html:66
 #: mediacore/templates/admin/settings/popularity.html:16
 #: mediacore/templates/admin/settings/popularity.html:22
 msgid "Popularity"
 msgstr "热门"
 
-#: mediacore/templates/admin/settings/master.html:67
+#: mediacore/templates/admin/settings/master.html:69
 #: mediacore/templates/admin/settings/sitemaps.html:17
 #: mediacore/templates/admin/settings/sitemaps.html:23
 msgid "RSS and Sitemaps"
 msgstr "RSS和站点地图"
 
-#: mediacore/templates/admin/settings/master.html:70
+#: mediacore/templates/admin/settings/master.html:72
 #: mediacore/templates/admin/storage/index.html:16
 #: mediacore/templates/admin/storage/index.html:112
 msgid "Storage Engines"
 msgstr "存储引擎"
 
-#: mediacore/templates/admin/settings/master.html:81
+#: mediacore/templates/admin/settings/master.html:83
 msgid "Plugins"
 msgstr "插件"
 
@@ -2249,30 +2271,24 @@ msgstr "电邮"
 msgid "Group"
 msgstr "组"
 
-#: mediacore/templates/categories/index.html:23
-#: mediacore/templates/categories/more.html:19
-#, python-format
-msgid "Latest media in %s"
-msgstr "%s中最新的媒体"
-
-#: mediacore/templates/categories/index.html:31
-#: mediacore/templates/media/explore.html:111
+#: mediacore/templates/categories/index.html:28
+#: mediacore/templates/media/explore.html:102
 msgid "More new media"
 msgstr "更多新视频"
 
-#: mediacore/templates/categories/index.html:31
-#: mediacore/templates/categories/index.html:36
-#: mediacore/templates/media/explore.html:96
-#: mediacore/templates/media/explore.html:111
+#: mediacore/templates/categories/index.html:28
+#: mediacore/templates/categories/index.html:33
+#: mediacore/templates/media/explore.html:87
+#: mediacore/templates/media/explore.html:102
 msgid "View More"
 msgstr "查看更多"
 
-#: mediacore/templates/categories/index.html:36
-#: mediacore/templates/media/explore.html:96
+#: mediacore/templates/categories/index.html:33
+#: mediacore/templates/media/explore.html:87
 msgid "More popular media"
 msgstr "更多最受欢迎视频"
 
-#: mediacore/templates/categories/index.html:38
+#: mediacore/templates/categories/index.html:35
 #: mediacore/templates/categories/more.html:26
 msgid "There is no media in this category."
 msgstr "有没有媒体在这一类。"
@@ -2302,27 +2318,14 @@ msgstr "电邮地址(不会对外发布)"
 msgid "Submit Comment"
 msgstr "提交评论"
 
-#: mediacore/templates/media/explore.html:22
-msgid "Sitemap XML"
-msgstr "网站地图XML"
-
-#: mediacore/templates/media/explore.html:25
-msgid "Sitemap RSS"
-msgstr "网站的RSS"
-
-#: mediacore/templates/media/explore.html:28
-#: mediacore/templates/media/index.html:18
-msgid "Latest RSS"
-msgstr "最新的RSS"
-
-#: mediacore/templates/media/explore.html:101
+#: mediacore/templates/media/explore.html:92
 #, python-format
 msgid ""
 "As soon as there are more than %(num)s published videos in the library, "
 "the most popular videos will be listed here."
 msgstr "只要有超过 %(num)s 公布的在库中的影片，最受欢迎的影片将在这里列出。"
 
-#: mediacore/templates/media/explore.html:102
+#: mediacore/templates/media/explore.html:93
 msgid "Why not add a few more?"
 msgstr "为什么不再增加一些呢？"
 
@@ -2352,16 +2355,16 @@ msgstr "所有 %(result_count)s 的媒体"
 msgid "All Tags"
 msgstr "所有标签"
 
-#: mediacore/templates/media/view.html:48
+#: mediacore/templates/media/view.html:54
 msgid "(unpublished)"
 msgstr "(未发布)"
 
-#: mediacore/templates/media/view.html:49
+#: mediacore/templates/media/view.html:55
 #, python-format
 msgid "by %(authorName)s"
 msgstr "按作者 %(authorName)s"
 
-#: mediacore/templates/media/view.html:59
+#: mediacore/templates/media/view.html:65
 #: mediacore/templates/players/html5_or_flash.html:61
 msgid "Dislike"
 msgid_plural "Dislikes"
@@ -2369,34 +2372,34 @@ msgstr[0] ""
 "one: 不喜欢\n"
 "other: 不喜欢"
 
-#: mediacore/templates/media/view.html:81
+#: mediacore/templates/media/view.html:87
 msgid "Related Podcast"
 msgstr "相关的播客"
 
-#: mediacore/templates/media/view.html:91
+#: mediacore/templates/media/view.html:97
 msgid "Podcast Episodes"
 msgstr "播客剧集"
 
-#: mediacore/templates/media/view.html:94
+#: mediacore/templates/media/view.html:100
 msgid "Episode"
 msgid_plural "Episodes"
 msgstr[0] ""
 "one: 集\n"
 "other: 集"
 
-#: mediacore/templates/media/view.html:108
+#: mediacore/templates/media/view.html:114
 msgid "Related Media"
 msgstr "相关媒体"
 
-#: mediacore/templates/media/view.html:116
+#: mediacore/templates/media/view.html:122
 msgid "This is not listed under any categories."
 msgstr "此媒体没有加入任何分类。"
 
-#: mediacore/templates/media/view.html:120
+#: mediacore/templates/media/view.html:126
 msgid "See All Tags"
 msgstr "查看所有标签"
 
-#: mediacore/templates/media/view.html:124
+#: mediacore/templates/media/view.html:130
 msgid "This does not have any associated tags."
 msgstr "此媒体没有任何关联的标签。"
 
@@ -2457,12 +2460,12 @@ msgid "All Podcasts"
 msgstr "所有播客"
 
 #: mediacore/templates/podcasts/index.html:34
-#: mediacore/templates/podcasts/view.html:39
+#: mediacore/templates/podcasts/view.html:35
 msgid "Add to iTunes"
 msgstr "添加到iTunes"
 
 #: mediacore/templates/podcasts/index.html:35
-#: mediacore/templates/podcasts/view.html:40
+#: mediacore/templates/podcasts/view.html:36
 msgid "Subscribe via RSS"
 msgstr "通过RSS订阅"
 
@@ -2474,7 +2477,7 @@ msgstr "最新剧集"
 msgid "Browse all episodes"
 msgstr "浏览所有剧集"
 
-#: mediacore/templates/podcasts/view.html:46
+#: mediacore/templates/podcasts/view.html:42
 #, python-format
 msgid "%(result_count)s Episodes"
 msgid_plural "All %(result_count)s Episodes"

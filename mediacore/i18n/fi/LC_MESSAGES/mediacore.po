@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: MediaCore Video Platform\n"
 "Report-Msgid-Bugs-To: http://github.com/mediacore/mediacore-"
 "community/issues\n"
-"POT-Creation-Date: 2013-03-25 17:58+0100\n"
+"POT-Creation-Date: 2013-10-25 12:04+0200\n"
 "PO-Revision-Date: 2013-03-24 08:14+0000\n"
 "Last-Translator: Jan-Erik Finlander <janerik.finlander@gmail.com>\n"
 "Language-Team: fi <LL@li.org>\n"
@@ -20,13 +20,19 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 0.9.6\n"
 
-#: mediacore/websetup.py:152
+#: mediacore/websetup.py:153
 msgid ""
 "Upload your media using the form below. We'll review it and get back to "
 "you."
 msgstr "Lähetä media alla olevalla lomakkeella. Luemme sen, ja palaamme asiaan."
 
-#: mediacore/controllers/error.py:55
+#: mediacore/controllers/categories.py:67
+#: mediacore/templates/categories/more.html:19
+#, python-format
+msgid "Latest media in %s"
+msgstr "Viimeisin mediatiedosto %s:ssa"
+
+#: mediacore/controllers/errors.py:55
 msgid "We're sorry but we weren't able to process this request."
 msgstr "Pahoittelemme, mutta emme pystyneet käsittelemään  pyyntöäsi."
 
@@ -34,11 +40,29 @@ msgstr "Pahoittelemme, mutta emme pystyneet käsittelemään  pyyntöäsi."
 msgid "Invalid username or password."
 msgstr ""
 
-#: mediacore/controllers/media.py:296
+#: mediacore/controllers/media.py:89 mediacore/controllers/media.py:149
+#: mediacore/templates/media/index.html:18
+msgid "Latest RSS"
+msgstr "Viimeisimmät RSS"
+
+#: mediacore/controllers/media.py:93
+#, fuzzy
+msgid "Featured RSS"
+msgstr "Kiinnostavimmat"
+
+#: mediacore/controllers/media.py:144
+msgid "Sitemap XML"
+msgstr "XML-sivukartta "
+
+#: mediacore/controllers/media.py:145
+msgid "Sitemap RSS"
+msgstr "RSS-sivukartta "
+
+#: mediacore/controllers/media.py:315
 msgid "Your comment has been rejected."
 msgstr "Kommenttisi on hylätty."
 
-#: mediacore/controllers/media.py:318
+#: mediacore/controllers/media.py:337
 msgid ""
 "Thank you for your comment! We will post it just as soon as a moderator "
 "approves it."
@@ -51,21 +75,21 @@ msgstr ""
 msgid "File \"%s\" does not exist."
 msgstr "Tiedostoa \"%s\" ei ole olemassa."
 
-#: mediacore/controllers/admin/media.py:407
+#: mediacore/controllers/admin/media.py:408
 msgid "No action to perform."
 msgstr "Ei suorittavia toimenpiteitä."
 
-#: mediacore/controllers/admin/media.py:557
+#: mediacore/controllers/admin/media.py:558
 #: mediacore/controllers/admin/podcasts.py:206
 msgid "Permission denied, cannot write file"
 msgstr "Pääsy kielletty, tiedostoon ei voi kirjoittaa."
 
-#: mediacore/controllers/admin/media.py:559
+#: mediacore/controllers/admin/media.py:560
 #, python-format
 msgid "Unsupported image type: %s"
 msgstr ""
 
-#: mediacore/controllers/admin/media.py:562
+#: mediacore/controllers/admin/media.py:563
 #: mediacore/controllers/admin/podcasts.py:211
 msgid "Interlaced PNGs are not supported."
 msgstr ""
@@ -79,11 +103,11 @@ msgstr ""
 msgid "Unsupport image type: %s"
 msgstr "Kuvan tiedostotyyppi ei ole kelvollinen:%s"
 
-#: mediacore/forms/__init__.py:211
+#: mediacore/forms/__init__.py:212
 msgid "The portion of the email address before the @ is invalid"
 msgstr "Sähköpostiosoitteen @-merkkiä edeltävä osa ei kelpaa "
 
-#: mediacore/forms/__init__.py:212
+#: mediacore/forms/__init__.py:213
 msgid "The portion of this email address after the @ is invalid"
 msgstr "Sähköpostiosoitteen @-merkin jälkeinen osa ei kelpaa "
 
@@ -101,7 +125,7 @@ msgstr "Käyttäjänimi"
 msgid "Password"
 msgstr "Salasana"
 
-#: mediacore/forms/login.py:38 mediacore/templates/master.html:71
+#: mediacore/forms/login.py:38 mediacore/templates/master.html:77
 msgid "Login"
 msgstr "Kirjaudu"
 
@@ -245,8 +269,8 @@ msgstr "Poista"
 #: mediacore/templates/admin/helpers.html:67
 #: mediacore/templates/admin/comments/_comment-table.html:24
 #: mediacore/templates/comments/_list.html:86
-#: mediacore/templates/media/explore.html:84
-#: mediacore/templates/media/view.html:61
+#: mediacore/templates/media/explore.html:75
+#: mediacore/templates/media/view.html:67
 msgid "Comment"
 msgid_plural "Comments"
 msgstr[0] "Kommentti"
@@ -292,8 +316,8 @@ msgstr "Korkeuden pitää  pitää olla kokonaisluku"
 msgid "Select an encoded video or audio file on your computer"
 msgstr "Valitse video- tai äänitiedosto tietokoneeltasi"
 
-#: mediacore/forms/admin/media.py:110 mediacore/templates/master.html:85
-#: mediacore/templates/admin/settings/master.html:76
+#: mediacore/forms/admin/media.py:110 mediacore/templates/master.html:91
+#: mediacore/templates/admin/settings/master.html:78
 #: mediacore/templates/admin/settings/upload.html:16
 #: mediacore/templates/admin/settings/upload.html:22
 msgid "Upload"
@@ -336,27 +360,27 @@ msgstr "Kirjoittajan sähköposti"
 msgid "Description"
 msgstr "Kuvaus"
 
-#: mediacore/forms/admin/media.py:153 mediacore/templates/master.html:83
+#: mediacore/forms/admin/media.py:153 mediacore/templates/master.html:89
 #: mediacore/templates/admin/categories/edit.html:16
 #: mediacore/templates/admin/categories/index.html:17
 #: mediacore/templates/admin/categories/index.html:51
-#: mediacore/templates/admin/settings/master.html:49
+#: mediacore/templates/admin/settings/master.html:51
 #: mediacore/templates/categories/index.html:18
 #: mediacore/templates/categories/layout.html:22
 #: mediacore/templates/categories/more.html:17
-#: mediacore/templates/media/explore.html:42
-#: mediacore/templates/media/view.html:114
+#: mediacore/templates/media/explore.html:33
+#: mediacore/templates/media/view.html:120
 msgid "Categories"
 msgstr "Kategoriat"
 
 #: mediacore/forms/admin/media.py:154
 #: mediacore/templates/admin/media/_media-table.html:28
-#: mediacore/templates/admin/settings/master.html:73
+#: mediacore/templates/admin/settings/master.html:75
 #: mediacore/templates/admin/tags/edit.html:16
 #: mediacore/templates/admin/tags/index.html:17
 #: mediacore/templates/admin/tags/index.html:48
 #: mediacore/templates/media/tags.html:16
-#: mediacore/templates/media/view.html:121
+#: mediacore/templates/media/view.html:127
 msgid "Tags"
 msgstr "Tunnisteet"
 
@@ -783,7 +807,7 @@ msgstr "Maks. hakemiston syvyys"
 #: mediacore/forms/admin/settings.py:303
 #: mediacore/templates/admin/settings/general.html:17
 #: mediacore/templates/admin/settings/general.html:23
-#: mediacore/templates/admin/settings/master.html:37
+#: mediacore/templates/admin/settings/master.html:39
 msgid "General"
 msgstr "Yleinen"
 
@@ -838,7 +862,7 @@ msgstr "Aktivoi väripaletti"
 #: mediacore/forms/admin/settings.py:346
 msgid ""
 "Cooliris support is deprecated and will be removed in the next major "
-"version of MediaCore CE unless someone is interested in maintaining it."
+"version of MediaDrop unless someone is interested in maintaining it."
 msgstr ""
 
 #: mediacore/forms/admin/settings.py:352
@@ -870,11 +894,11 @@ msgid "Display Background Image"
 msgstr "Näytä taustakuva"
 
 #: mediacore/forms/admin/settings.py:379
-msgid "Display MediaCore Footer"
+msgid "Display MediaDrop Footer"
 msgstr ""
 
 #: mediacore/forms/admin/settings.py:383
-msgid "Display MediaCore Credits in Footer"
+msgid "Display MediaDrop Credits in Footer"
 msgstr ""
 
 #: mediacore/forms/admin/settings.py:389
@@ -965,7 +989,7 @@ msgstr "Kirjautumisen tiedot:"
 msgid "Passwords do not match"
 msgstr "Salasanat eivät täsmää"
 
-#: mediacore/forms/admin/users.py:51 mediacore/templates/admin/master.html:59
+#: mediacore/forms/admin/users.py:51 mediacore/templates/admin/master.html:61
 #: mediacore/templates/admin/groups/index.html:17
 #: mediacore/templates/admin/groups/index.html:41
 msgid "Groups"
@@ -989,7 +1013,7 @@ msgstr "Alihakemisto, johon ladataan"
 
 #: mediacore/forms/admin/storage/ftp.py:31
 msgid ""
-"How many times should MediaCore try to verify the FTP upload before "
+"How many times should MediaDrop try to verify the FTP upload before "
 "declaring it a failure?"
 msgstr ""
 "Montako kertaa järjestelmä yrittää todentaa FTP-latauksen ennen "
@@ -1131,7 +1155,7 @@ msgstr "Äänitiedoston kuvaus"
 msgid "Captions"
 msgstr "Kuvatekstit"
 
-#: mediacore/lib/helpers.py:381
+#: mediacore/lib/helpers.py:385
 msgid "Help"
 msgstr "Ohjeet"
 
@@ -1179,7 +1203,7 @@ msgstr "Sublime videosoitin"
 msgid "iTunes Player"
 msgstr "iTunes-soitin"
 
-#: mediacore/lib/storage/api.py:349
+#: mediacore/lib/storage/api.py:352
 msgid "Unusable file or URL provided."
 msgstr "Epäkelpo tiedosto tai URL-osoite."
 
@@ -1287,8 +1311,8 @@ msgid "Submit Error Report"
 msgstr "Lähetä virheraportti"
 
 #: mediacore/templates/helpers.html:33
-#: mediacore/templates/media/explore.html:85
-#: mediacore/templates/media/view.html:58
+#: mediacore/templates/media/explore.html:76
+#: mediacore/templates/media/view.html:64
 #: mediacore/templates/players/html5_or_flash.html:47
 #: mediacore/templates/players/html5_or_flash.html:49
 msgid "Like"
@@ -1299,8 +1323,8 @@ msgstr[1] "Tykkävät"
 #: mediacore/templates/helpers.html:34
 #: mediacore/templates/admin/media/update-status-form.html:22
 #: mediacore/templates/admin/podcasts/edit.html:97
-#: mediacore/templates/media/explore.html:86
-#: mediacore/templates/media/view.html:56
+#: mediacore/templates/media/explore.html:77
+#: mediacore/templates/media/view.html:62
 msgid "View"
 msgid_plural "Views"
 msgstr[0] "Katsaus"
@@ -1315,23 +1339,23 @@ msgid "Show:"
 msgstr "Näytä:"
 
 #: mediacore/templates/helpers.html:76
-#: mediacore/templates/categories/index.html:29
+#: mediacore/templates/categories/index.html:26
 #: mediacore/templates/categories/more.html:24
-#: mediacore/templates/media/explore.html:41
-#: mediacore/templates/media/explore.html:109
+#: mediacore/templates/media/explore.html:32
+#: mediacore/templates/media/explore.html:100
 msgid "Latest"
 msgstr "Uusimmat"
 
 #: mediacore/templates/helpers.html:77
-#: mediacore/templates/categories/index.html:34
+#: mediacore/templates/categories/index.html:31
 #: mediacore/templates/categories/more.html:24
-#: mediacore/templates/media/explore.html:93
+#: mediacore/templates/media/explore.html:84
 msgid "Most Popular"
 msgstr "Suosituimmat"
 
 #: mediacore/templates/helpers.html:78
-#: mediacore/templates/media/explore.html:40
-#: mediacore/templates/media/explore.html:77
+#: mediacore/templates/media/explore.html:31
+#: mediacore/templates/media/explore.html:68
 msgid "Featured"
 msgstr "Kiinnostavimmat"
 
@@ -1350,13 +1374,13 @@ msgstr ""
 " %(fieldName)s  kenttä hyväksyy joitakin HTML-muotoiluja: "
 "%(formattingList)s "
 
-#: mediacore/templates/layout.html:43
+#: mediacore/templates/layout.html:33
 msgid "Feeds:"
 msgstr "Syötteet:"
 
-#: mediacore/templates/layout.html:49
-msgid "[1:MediaCore] [2:video platform]"
-msgstr "[1:MediaCore]  [2:videoalusta]"
+#: mediacore/templates/layout.html:39
+msgid "[1:MediaDrop] [2:video platform]"
+msgstr "[1:MediaDrop]  [2:videoalusta]"
 
 #: mediacore/templates/login.html:16
 msgid "Log in to"
@@ -1366,29 +1390,29 @@ msgstr ""
 msgid "Log in"
 msgstr ""
 
-#: mediacore/templates/master.html:64
+#: mediacore/templates/master.html:70
 msgid "Admin"
 msgstr ""
 
-#: mediacore/templates/master.html:66 mediacore/templates/admin/master.html:50
+#: mediacore/templates/master.html:72 mediacore/templates/admin/master.html:52
 msgid "Logout"
 msgstr "Kirjaudu ulos"
 
-#: mediacore/templates/master.html:80
+#: mediacore/templates/master.html:86
 msgid "Explore"
 msgstr "Tutki"
 
-#: mediacore/templates/master.html:81 mediacore/templates/media/index.html:17
+#: mediacore/templates/master.html:87 mediacore/templates/media/index.html:17
 msgid "Media Library"
 msgstr "Mediakirjasto"
 
-#: mediacore/templates/master.html:82 mediacore/templates/admin/master.html:56
+#: mediacore/templates/master.html:88 mediacore/templates/admin/master.html:58
 #: mediacore/templates/admin/podcasts/index.html:17
 #: mediacore/templates/admin/podcasts/index.html:24
 msgid "Podcasts"
 msgstr "Podcastit"
 
-#: mediacore/templates/master.html:88
+#: mediacore/templates/master.html:94
 msgid "Search"
 msgstr "Etsi"
 
@@ -1401,12 +1425,12 @@ msgid "Moderate"
 msgstr "Moderoi"
 
 #: mediacore/templates/admin/helpers.html:62
-#: mediacore/templates/admin/master.html:57
+#: mediacore/templates/admin/master.html:59
 #: mediacore/templates/admin/comments/index.html:20
 #: mediacore/templates/admin/media/_media-table.html:27
 #: mediacore/templates/admin/settings/comments.html:16
 #: mediacore/templates/admin/settings/comments.html:22
-#: mediacore/templates/admin/settings/master.html:52
+#: mediacore/templates/admin/settings/master.html:54
 #: mediacore/templates/comments/_list.html:42
 msgid "Comments"
 msgstr "Kommentit"
@@ -1430,7 +1454,7 @@ msgid "Trash"
 msgstr "Roskis"
 
 #: mediacore/templates/admin/index.html:17
-#: mediacore/templates/admin/master.html:48
+#: mediacore/templates/admin/master.html:50
 msgid "Dashboard"
 msgstr "Hallintapaneeli"
 
@@ -1461,39 +1485,36 @@ msgstr "Lisää uusi mediatiedosto"
 msgid "Recently Published"
 msgstr "Åskettäin julkaistut"
 
-#: mediacore/templates/admin/master.html:24
-#: mediacore/templates/admin/master.html:45
-msgid "MediaCore"
-msgstr "Videojärjestelmä"
+#: mediacore/templates/admin/master.html:26
+#: mediacore/templates/admin/master.html:47
+#: mediacore/templates/admin/master.html:68
+msgid "MediaDrop"
+msgstr "MediaDrop"
 
-#: mediacore/templates/admin/master.html:49
+#: mediacore/templates/admin/master.html:51
 msgid "View Site"
 msgstr "Katsele sivusto"
 
-#: mediacore/templates/admin/master.html:55
+#: mediacore/templates/admin/master.html:57
 #: mediacore/templates/admin/categories/index.html:63
 #: mediacore/templates/admin/media/index.html:18
 #: mediacore/templates/admin/tags/index.html:60
 msgid "Media"
 msgstr "Mediatiedosto"
 
-#: mediacore/templates/admin/master.html:58
+#: mediacore/templates/admin/master.html:60
 #: mediacore/templates/admin/users/index.html:17
 #: mediacore/templates/admin/users/index.html:38
 msgid "Users"
 msgstr "Käyttäjät"
 
-#: mediacore/templates/admin/master.html:60
-#: mediacore/templates/admin/settings/master.html:34
+#: mediacore/templates/admin/master.html:62
+#: mediacore/templates/admin/settings/master.html:36
 msgid "Settings"
 msgstr "Asetukset"
 
-#: mediacore/templates/admin/master.html:66
-msgid "MediaCore CE"
-msgstr ""
-
-#: mediacore/templates/admin/master.html:67
-msgid "© 2009-2013 MediaCore Inc. and contributors"
+#: mediacore/templates/admin/master.html:69
+msgid "© 2009-2013 MediaDrop contributors"
 msgstr ""
 
 #: mediacore/templates/admin/categories/index.html:38
@@ -1555,8 +1576,8 @@ msgstr ""
 #: mediacore/templates/admin/storage/index.html:145
 #: mediacore/templates/admin/tags/row-form.html:24
 #: mediacore/templates/admin/users/index.html:61
-#: mediacore/templates/media/view.html:44
-#: mediacore/templates/podcasts/view.html:35
+#: mediacore/templates/media/view.html:50
+#: mediacore/templates/podcasts/view.html:31
 msgid "Edit"
 msgstr "Muokkaa"
 
@@ -2021,7 +2042,7 @@ msgstr ""
 
 #: mediacore/templates/admin/players/index.html:16
 #: mediacore/templates/admin/players/index.html:40
-#: mediacore/templates/admin/settings/master.html:61
+#: mediacore/templates/admin/settings/master.html:63
 msgid "Players"
 msgstr "Soittimet"
 
@@ -2091,19 +2112,19 @@ msgstr "Lisää podcasti"
 
 #: mediacore/templates/admin/settings/advertising.html:17
 #: mediacore/templates/admin/settings/advertising.html:23
-#: mediacore/templates/admin/settings/master.html:40
+#: mediacore/templates/admin/settings/master.html:42
 msgid "Advertising"
 msgstr "Mainonta"
 
 #: mediacore/templates/admin/settings/analytics.html:17
 #: mediacore/templates/admin/settings/analytics.html:23
-#: mediacore/templates/admin/settings/master.html:43
+#: mediacore/templates/admin/settings/master.html:45
 msgid "Analytics"
 msgstr "Tilastot"
 
 #: mediacore/templates/admin/settings/api.html:16
 #: mediacore/templates/admin/settings/api.html:26
-#: mediacore/templates/admin/settings/master.html:55
+#: mediacore/templates/admin/settings/master.html:57
 msgid "Data API"
 msgstr "Data API"
 
@@ -2113,7 +2134,7 @@ msgstr "Generoi"
 
 #: mediacore/templates/admin/settings/appearance.html:17
 #: mediacore/templates/admin/settings/appearance.html:38
-#: mediacore/templates/admin/settings/master.html:46
+#: mediacore/templates/admin/settings/master.html:48
 msgid "Appearance"
 msgstr "Ulkoasu"
 
@@ -2125,29 +2146,29 @@ msgstr "Vahvista palautus"
 msgid "Are you sure you want to reset your settings to the default?"
 msgstr "Oletko varma, että haluat palauttaa oletusasetukset?"
 
-#: mediacore/templates/admin/settings/master.html:58
+#: mediacore/templates/admin/settings/master.html:60
 msgid "Notifications"
 msgstr "Ilmoitukset"
 
-#: mediacore/templates/admin/settings/master.html:64
+#: mediacore/templates/admin/settings/master.html:66
 #: mediacore/templates/admin/settings/popularity.html:16
 #: mediacore/templates/admin/settings/popularity.html:22
 msgid "Popularity"
 msgstr "Suosio"
 
-#: mediacore/templates/admin/settings/master.html:67
+#: mediacore/templates/admin/settings/master.html:69
 #: mediacore/templates/admin/settings/sitemaps.html:17
 #: mediacore/templates/admin/settings/sitemaps.html:23
 msgid "RSS and Sitemaps"
 msgstr "RSS ja sivustokartat"
 
-#: mediacore/templates/admin/settings/master.html:70
+#: mediacore/templates/admin/settings/master.html:72
 #: mediacore/templates/admin/storage/index.html:16
 #: mediacore/templates/admin/storage/index.html:112
 msgid "Storage Engines"
 msgstr "Varastointimoottorit"
 
-#: mediacore/templates/admin/settings/master.html:81
+#: mediacore/templates/admin/settings/master.html:83
 msgid "Plugins"
 msgstr "Laajennukset"
 
@@ -2239,30 +2260,24 @@ msgstr "Sähköposti"
 msgid "Group"
 msgstr "Ryhmä"
 
-#: mediacore/templates/categories/index.html:23
-#: mediacore/templates/categories/more.html:19
-#, python-format
-msgid "Latest media in %s"
-msgstr "Viimeisin mediatiedosto %s:ssa"
-
-#: mediacore/templates/categories/index.html:31
-#: mediacore/templates/media/explore.html:111
+#: mediacore/templates/categories/index.html:28
+#: mediacore/templates/media/explore.html:102
 msgid "More new media"
 msgstr ""
 
-#: mediacore/templates/categories/index.html:31
-#: mediacore/templates/categories/index.html:36
-#: mediacore/templates/media/explore.html:96
-#: mediacore/templates/media/explore.html:111
+#: mediacore/templates/categories/index.html:28
+#: mediacore/templates/categories/index.html:33
+#: mediacore/templates/media/explore.html:87
+#: mediacore/templates/media/explore.html:102
 msgid "View More"
 msgstr "Katso lisää"
 
-#: mediacore/templates/categories/index.html:36
-#: mediacore/templates/media/explore.html:96
+#: mediacore/templates/categories/index.html:33
+#: mediacore/templates/media/explore.html:87
 msgid "More popular media"
 msgstr ""
 
-#: mediacore/templates/categories/index.html:38
+#: mediacore/templates/categories/index.html:35
 #: mediacore/templates/categories/more.html:26
 msgid "There is no media in this category."
 msgstr "Tässä kategoriassa ei ole yhtään mediaa."
@@ -2292,20 +2307,7 @@ msgstr "Sähköpostiosoite (ei julkaista)"
 msgid "Submit Comment"
 msgstr "Lähetä kommentti"
 
-#: mediacore/templates/media/explore.html:22
-msgid "Sitemap XML"
-msgstr "XML-sivukartta "
-
-#: mediacore/templates/media/explore.html:25
-msgid "Sitemap RSS"
-msgstr "RSS-sivukartta "
-
-#: mediacore/templates/media/explore.html:28
-#: mediacore/templates/media/index.html:18
-msgid "Latest RSS"
-msgstr "Viimeisimmät RSS"
-
-#: mediacore/templates/media/explore.html:101
+#: mediacore/templates/media/explore.html:92
 #, python-format
 msgid ""
 "As soon as there are more than %(num)s published videos in the library, "
@@ -2314,7 +2316,7 @@ msgstr ""
 "Heti kun kirjastossa on julkaistu yli %(num)s videoita, suosituimmat "
 "videot on lueteltu tässä."
 
-#: mediacore/templates/media/explore.html:102
+#: mediacore/templates/media/explore.html:93
 msgid "Why not add a few more?"
 msgstr "Miksi ei lisättäisi vielä muutama?"
 
@@ -2342,49 +2344,49 @@ msgstr "Kaikki %(result_count)s  media"
 msgid "All Tags"
 msgstr "Kaikki tunnisteet"
 
-#: mediacore/templates/media/view.html:48
+#: mediacore/templates/media/view.html:54
 msgid "(unpublished)"
 msgstr "(Julkaisematon)"
 
-#: mediacore/templates/media/view.html:49
+#: mediacore/templates/media/view.html:55
 #, python-format
 msgid "by %(authorName)s"
 msgstr "Tekijältä %(authorName)s "
 
-#: mediacore/templates/media/view.html:59
+#: mediacore/templates/media/view.html:65
 #: mediacore/templates/players/html5_or_flash.html:61
 msgid "Dislike"
 msgid_plural "Dislikes"
 msgstr[0] "Ei tykätty"
 msgstr[1] "Ei tykännyt"
 
-#: mediacore/templates/media/view.html:81
+#: mediacore/templates/media/view.html:87
 msgid "Related Podcast"
 msgstr "Vastaavat podcastit"
 
-#: mediacore/templates/media/view.html:91
+#: mediacore/templates/media/view.html:97
 msgid "Podcast Episodes"
 msgstr "Podcast-jaksoja"
 
-#: mediacore/templates/media/view.html:94
+#: mediacore/templates/media/view.html:100
 msgid "Episode"
 msgid_plural "Episodes"
 msgstr[0] "Jakso"
 msgstr[1] "Jaksot"
 
-#: mediacore/templates/media/view.html:108
+#: mediacore/templates/media/view.html:114
 msgid "Related Media"
 msgstr "Vastaava media"
 
-#: mediacore/templates/media/view.html:116
+#: mediacore/templates/media/view.html:122
 msgid "This is not listed under any categories."
 msgstr "Tätä ei ole listattu missään ryhmässä."
 
-#: mediacore/templates/media/view.html:120
+#: mediacore/templates/media/view.html:126
 msgid "See All Tags"
 msgstr "Katso kaikki tunnisteet"
 
-#: mediacore/templates/media/view.html:124
+#: mediacore/templates/media/view.html:130
 msgid "This does not have any associated tags."
 msgstr "Ei ole liitettyjä tunnisteita."
 
@@ -2445,12 +2447,12 @@ msgid "All Podcasts"
 msgstr "Kaikki podcastit"
 
 #: mediacore/templates/podcasts/index.html:34
-#: mediacore/templates/podcasts/view.html:39
+#: mediacore/templates/podcasts/view.html:35
 msgid "Add to iTunes"
 msgstr "Lisää iTunesiin"
 
 #: mediacore/templates/podcasts/index.html:35
-#: mediacore/templates/podcasts/view.html:40
+#: mediacore/templates/podcasts/view.html:36
 msgid "Subscribe via RSS"
 msgstr "Tilaa RSS-syötteen kautta"
 
@@ -2462,7 +2464,7 @@ msgstr "Uusimmat jaksot"
 msgid "Browse all episodes"
 msgstr "Selaa kaikki jaksot"
 
-#: mediacore/templates/podcasts/view.html:46
+#: mediacore/templates/podcasts/view.html:42
 #, python-format
 msgid "%(result_count)s Episodes"
 msgid_plural "All %(result_count)s Episodes"
@@ -2540,4 +2542,7 @@ msgstr ""
 #: mediacore/validation/uri_validator.py:21
 msgid "That is not a valid URL."
 msgstr ""
+
+#~ msgid "© 2009-2013 MediaCore Inc. and contributors"
+#~ msgstr ""
 
