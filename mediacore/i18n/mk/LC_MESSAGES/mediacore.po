@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: MediaCore Video Platform\n"
 "Report-Msgid-Bugs-To: http://github.com/mediacore/mediacore-"
 "community/issues\n"
-"POT-Creation-Date: 2013-03-25 17:58+0100\n"
+"POT-Creation-Date: 2013-10-25 10:35+0200\n"
 "PO-Revision-Date: 2013-03-24 08:14+0000\n"
 "Last-Translator: Jan-Erik Finlander <janerik.finlander@gmail.com>\n"
 "Language-Team: mk <LL@li.org>\n"
@@ -29,7 +29,13 @@ msgstr ""
 "Испратите вашите медиуми со користење на формата подолу. Ние ќе ги "
 "разгледааме и ќе ви ги вратиме."
 
-#: mediacore/controllers/error.py:55
+#: mediacore/controllers/categories.py:67
+#: mediacore/templates/categories/more.html:19
+#, python-format
+msgid "Latest media in %s"
+msgstr "Последен медиумите во %s"
+
+#: mediacore/controllers/errors.py:55
 msgid "We're sorry but we weren't able to process this request."
 msgstr "Жалам, но не бевме во можност да го процесираме ова барање."
 
@@ -37,11 +43,29 @@ msgstr "Жалам, но не бевме во можност да го проц�
 msgid "Invalid username or password."
 msgstr ""
 
-#: mediacore/controllers/media.py:296
+#: mediacore/controllers/media.py:89 mediacore/controllers/media.py:149
+#: mediacore/templates/media/index.html:18
+msgid "Latest RSS"
+msgstr "Најновите RSS"
+
+#: mediacore/controllers/media.py:93
+#, fuzzy
+msgid "Featured RSS"
+msgstr "Избрана Категорија"
+
+#: mediacore/controllers/media.py:144
+msgid "Sitemap XML"
+msgstr "Мапа на сајтот XML"
+
+#: mediacore/controllers/media.py:145
+msgid "Sitemap RSS"
+msgstr "Мапа на сајтот RSS"
+
+#: mediacore/controllers/media.py:315
 msgid "Your comment has been rejected."
 msgstr "Вашиот коментар беше одбиен."
 
-#: mediacore/controllers/media.py:318
+#: mediacore/controllers/media.py:337
 msgid ""
 "Thank you for your comment! We will post it just as soon as a moderator "
 "approves it."
@@ -54,21 +78,21 @@ msgstr ""
 msgid "File \"%s\" does not exist."
 msgstr "Датотека \"%s\" не постои."
 
-#: mediacore/controllers/admin/media.py:407
+#: mediacore/controllers/admin/media.py:408
 msgid "No action to perform."
 msgstr "Нема акција да се изврши."
 
-#: mediacore/controllers/admin/media.py:557
+#: mediacore/controllers/admin/media.py:558
 #: mediacore/controllers/admin/podcasts.py:206
 msgid "Permission denied, cannot write file"
 msgstr "Пристапот е одбиен, не може да ја запишам датотеката"
 
-#: mediacore/controllers/admin/media.py:559
+#: mediacore/controllers/admin/media.py:560
 #, python-format
 msgid "Unsupported image type: %s"
 msgstr ""
 
-#: mediacore/controllers/admin/media.py:562
+#: mediacore/controllers/admin/media.py:563
 #: mediacore/controllers/admin/podcasts.py:211
 msgid "Interlaced PNGs are not supported."
 msgstr ""
@@ -104,7 +128,7 @@ msgstr ""
 msgid "Password"
 msgstr ""
 
-#: mediacore/forms/login.py:38 mediacore/templates/master.html:71
+#: mediacore/forms/login.py:38 mediacore/templates/master.html:77
 msgid "Login"
 msgstr ""
 
@@ -248,8 +272,8 @@ msgstr "Бриши"
 #: mediacore/templates/admin/helpers.html:67
 #: mediacore/templates/admin/comments/_comment-table.html:24
 #: mediacore/templates/comments/_list.html:86
-#: mediacore/templates/media/explore.html:84
-#: mediacore/templates/media/view.html:61
+#: mediacore/templates/media/explore.html:75
+#: mediacore/templates/media/view.html:67
 msgid "Comment"
 msgid_plural "Comments"
 msgstr[0] "Коментари"
@@ -295,8 +319,8 @@ msgstr "Висина мора да биде валиден број"
 msgid "Select an encoded video or audio file on your computer"
 msgstr "Изберете енкодирани видео или аудио фајл на Вашиот компјутер"
 
-#: mediacore/forms/admin/media.py:110 mediacore/templates/master.html:85
-#: mediacore/templates/admin/settings/master.html:76
+#: mediacore/forms/admin/media.py:110 mediacore/templates/master.html:91
+#: mediacore/templates/admin/settings/master.html:78
 #: mediacore/templates/admin/settings/upload.html:16
 #: mediacore/templates/admin/settings/upload.html:22
 msgid "Upload"
@@ -339,27 +363,27 @@ msgstr "Автор Е-пошта"
 msgid "Description"
 msgstr "Опис"
 
-#: mediacore/forms/admin/media.py:153 mediacore/templates/master.html:83
+#: mediacore/forms/admin/media.py:153 mediacore/templates/master.html:89
 #: mediacore/templates/admin/categories/edit.html:16
 #: mediacore/templates/admin/categories/index.html:17
 #: mediacore/templates/admin/categories/index.html:51
-#: mediacore/templates/admin/settings/master.html:49
+#: mediacore/templates/admin/settings/master.html:51
 #: mediacore/templates/categories/index.html:18
 #: mediacore/templates/categories/layout.html:22
 #: mediacore/templates/categories/more.html:17
-#: mediacore/templates/media/explore.html:42
-#: mediacore/templates/media/view.html:114
+#: mediacore/templates/media/explore.html:33
+#: mediacore/templates/media/view.html:120
 msgid "Categories"
 msgstr "Категории"
 
 #: mediacore/forms/admin/media.py:154
 #: mediacore/templates/admin/media/_media-table.html:28
-#: mediacore/templates/admin/settings/master.html:73
+#: mediacore/templates/admin/settings/master.html:75
 #: mediacore/templates/admin/tags/edit.html:16
 #: mediacore/templates/admin/tags/index.html:17
 #: mediacore/templates/admin/tags/index.html:48
 #: mediacore/templates/media/tags.html:16
-#: mediacore/templates/media/view.html:121
+#: mediacore/templates/media/view.html:127
 msgid "Tags"
 msgstr "Тагови"
 
@@ -786,7 +810,7 @@ msgstr ""
 #: mediacore/forms/admin/settings.py:303
 #: mediacore/templates/admin/settings/general.html:17
 #: mediacore/templates/admin/settings/general.html:23
-#: mediacore/templates/admin/settings/master.html:37
+#: mediacore/templates/admin/settings/master.html:39
 msgid "General"
 msgstr "Генерално"
 
@@ -841,7 +865,7 @@ msgstr ""
 #: mediacore/forms/admin/settings.py:346
 msgid ""
 "Cooliris support is deprecated and will be removed in the next major "
-"version of MediaCore CE unless someone is interested in maintaining it."
+"version of MediaDrop unless someone is interested in maintaining it."
 msgstr ""
 
 #: mediacore/forms/admin/settings.py:352
@@ -873,11 +897,11 @@ msgid "Display Background Image"
 msgstr ""
 
 #: mediacore/forms/admin/settings.py:379
-msgid "Display MediaCore Footer"
+msgid "Display MediaDrop Footer"
 msgstr ""
 
 #: mediacore/forms/admin/settings.py:383
-msgid "Display MediaCore Credits in Footer"
+msgid "Display MediaDrop Credits in Footer"
 msgstr ""
 
 #: mediacore/forms/admin/settings.py:389
@@ -968,7 +992,7 @@ msgstr ""
 msgid "Passwords do not match"
 msgstr ""
 
-#: mediacore/forms/admin/users.py:51 mediacore/templates/admin/master.html:59
+#: mediacore/forms/admin/users.py:51 mediacore/templates/admin/master.html:61
 #: mediacore/templates/admin/groups/index.html:17
 #: mediacore/templates/admin/groups/index.html:41
 msgid "Groups"
@@ -992,7 +1016,7 @@ msgstr ""
 
 #: mediacore/forms/admin/storage/ftp.py:31
 msgid ""
-"How many times should MediaCore try to verify the FTP upload before "
+"How many times should MediaDrop try to verify the FTP upload before "
 "declaring it a failure?"
 msgstr ""
 
@@ -1113,7 +1137,7 @@ msgstr "Аудио Опис"
 msgid "Captions"
 msgstr "Легенда"
 
-#: mediacore/lib/helpers.py:381
+#: mediacore/lib/helpers.py:385
 msgid "Help"
 msgstr ""
 
@@ -1161,7 +1185,7 @@ msgstr ""
 msgid "iTunes Player"
 msgstr ""
 
-#: mediacore/lib/storage/api.py:349
+#: mediacore/lib/storage/api.py:352
 msgid "Unusable file or URL provided."
 msgstr ""
 
@@ -1269,8 +1293,8 @@ msgid "Submit Error Report"
 msgstr ""
 
 #: mediacore/templates/helpers.html:33
-#: mediacore/templates/media/explore.html:85
-#: mediacore/templates/media/view.html:58
+#: mediacore/templates/media/explore.html:76
+#: mediacore/templates/media/view.html:64
 #: mediacore/templates/players/html5_or_flash.html:47
 #: mediacore/templates/players/html5_or_flash.html:49
 msgid "Like"
@@ -1281,8 +1305,8 @@ msgstr[1] ""
 #: mediacore/templates/helpers.html:34
 #: mediacore/templates/admin/media/update-status-form.html:22
 #: mediacore/templates/admin/podcasts/edit.html:97
-#: mediacore/templates/media/explore.html:86
-#: mediacore/templates/media/view.html:56
+#: mediacore/templates/media/explore.html:77
+#: mediacore/templates/media/view.html:62
 msgid "View"
 msgid_plural "Views"
 msgstr[0] ""
@@ -1297,23 +1321,23 @@ msgid "Show:"
 msgstr ""
 
 #: mediacore/templates/helpers.html:76
-#: mediacore/templates/categories/index.html:29
+#: mediacore/templates/categories/index.html:26
 #: mediacore/templates/categories/more.html:24
-#: mediacore/templates/media/explore.html:41
-#: mediacore/templates/media/explore.html:109
+#: mediacore/templates/media/explore.html:32
+#: mediacore/templates/media/explore.html:100
 msgid "Latest"
 msgstr ""
 
 #: mediacore/templates/helpers.html:77
-#: mediacore/templates/categories/index.html:34
+#: mediacore/templates/categories/index.html:31
 #: mediacore/templates/categories/more.html:24
-#: mediacore/templates/media/explore.html:93
+#: mediacore/templates/media/explore.html:84
 msgid "Most Popular"
 msgstr ""
 
 #: mediacore/templates/helpers.html:78
-#: mediacore/templates/media/explore.html:40
-#: mediacore/templates/media/explore.html:77
+#: mediacore/templates/media/explore.html:31
+#: mediacore/templates/media/explore.html:68
 msgid "Featured"
 msgstr ""
 
@@ -1330,13 +1354,13 @@ msgstr "на"
 msgid "The %(fieldName)s field accepts some HTML formatting: %(formattingList)s"
 msgstr ""
 
-#: mediacore/templates/layout.html:43
+#: mediacore/templates/layout.html:33
 msgid "Feeds:"
 msgstr ""
 
-#: mediacore/templates/layout.html:49
-msgid "[1:MediaCore] [2:video platform]"
-msgstr "[1: MediaCore] [2: видео платформа]"
+#: mediacore/templates/layout.html:39
+msgid "[1:MediaDrop] [2:video platform]"
+msgstr "[1: MediaDrop] [2: видео платформа]"
 
 #: mediacore/templates/login.html:16
 msgid "Log in to"
@@ -1346,29 +1370,29 @@ msgstr ""
 msgid "Log in"
 msgstr ""
 
-#: mediacore/templates/master.html:64
+#: mediacore/templates/master.html:70
 msgid "Admin"
 msgstr ""
 
-#: mediacore/templates/master.html:66 mediacore/templates/admin/master.html:50
+#: mediacore/templates/master.html:72 mediacore/templates/admin/master.html:52
 msgid "Logout"
 msgstr ""
 
-#: mediacore/templates/master.html:80
+#: mediacore/templates/master.html:86
 msgid "Explore"
 msgstr ""
 
-#: mediacore/templates/master.html:81 mediacore/templates/media/index.html:17
+#: mediacore/templates/master.html:87 mediacore/templates/media/index.html:17
 msgid "Media Library"
 msgstr ""
 
-#: mediacore/templates/master.html:82 mediacore/templates/admin/master.html:56
+#: mediacore/templates/master.html:88 mediacore/templates/admin/master.html:58
 #: mediacore/templates/admin/podcasts/index.html:17
 #: mediacore/templates/admin/podcasts/index.html:24
 msgid "Podcasts"
 msgstr ""
 
-#: mediacore/templates/master.html:88
+#: mediacore/templates/master.html:94
 msgid "Search"
 msgstr "Пребарување"
 
@@ -1381,12 +1405,12 @@ msgid "Moderate"
 msgstr ""
 
 #: mediacore/templates/admin/helpers.html:62
-#: mediacore/templates/admin/master.html:57
+#: mediacore/templates/admin/master.html:59
 #: mediacore/templates/admin/comments/index.html:20
 #: mediacore/templates/admin/media/_media-table.html:27
 #: mediacore/templates/admin/settings/comments.html:16
 #: mediacore/templates/admin/settings/comments.html:22
-#: mediacore/templates/admin/settings/master.html:52
+#: mediacore/templates/admin/settings/master.html:54
 #: mediacore/templates/comments/_list.html:42
 msgid "Comments"
 msgstr "Коментари"
@@ -1410,7 +1434,7 @@ msgid "Trash"
 msgstr ""
 
 #: mediacore/templates/admin/index.html:17
-#: mediacore/templates/admin/master.html:48
+#: mediacore/templates/admin/master.html:50
 msgid "Dashboard"
 msgstr ""
 
@@ -1441,39 +1465,36 @@ msgstr ""
 msgid "Recently Published"
 msgstr ""
 
-#: mediacore/templates/admin/master.html:24
-#: mediacore/templates/admin/master.html:45
-msgid "MediaCore"
-msgstr ""
+#: mediacore/templates/admin/master.html:26
+#: mediacore/templates/admin/master.html:47
+#: mediacore/templates/admin/master.html:68
+msgid "MediaDrop"
+msgstr "MediaDrop"
 
-#: mediacore/templates/admin/master.html:49
+#: mediacore/templates/admin/master.html:51
 msgid "View Site"
 msgstr ""
 
-#: mediacore/templates/admin/master.html:55
+#: mediacore/templates/admin/master.html:57
 #: mediacore/templates/admin/categories/index.html:63
 #: mediacore/templates/admin/media/index.html:18
 #: mediacore/templates/admin/tags/index.html:60
 msgid "Media"
 msgstr ""
 
-#: mediacore/templates/admin/master.html:58
+#: mediacore/templates/admin/master.html:60
 #: mediacore/templates/admin/users/index.html:17
 #: mediacore/templates/admin/users/index.html:38
 msgid "Users"
 msgstr ""
 
-#: mediacore/templates/admin/master.html:60
-#: mediacore/templates/admin/settings/master.html:34
+#: mediacore/templates/admin/master.html:62
+#: mediacore/templates/admin/settings/master.html:36
 msgid "Settings"
 msgstr ""
 
-#: mediacore/templates/admin/master.html:66
-msgid "MediaCore CE"
-msgstr ""
-
-#: mediacore/templates/admin/master.html:67
-msgid "© 2009-2013 MediaCore Inc. and contributors"
+#: mediacore/templates/admin/master.html:69
+msgid "© 2009-2013 MediaDrop contributors"
 msgstr ""
 
 #: mediacore/templates/admin/categories/index.html:38
@@ -1533,8 +1554,8 @@ msgstr ""
 #: mediacore/templates/admin/storage/index.html:145
 #: mediacore/templates/admin/tags/row-form.html:24
 #: mediacore/templates/admin/users/index.html:61
-#: mediacore/templates/media/view.html:44
-#: mediacore/templates/podcasts/view.html:35
+#: mediacore/templates/media/view.html:50
+#: mediacore/templates/podcasts/view.html:31
 msgid "Edit"
 msgstr ""
 
@@ -1999,7 +2020,7 @@ msgstr ""
 
 #: mediacore/templates/admin/players/index.html:16
 #: mediacore/templates/admin/players/index.html:40
-#: mediacore/templates/admin/settings/master.html:61
+#: mediacore/templates/admin/settings/master.html:63
 msgid "Players"
 msgstr ""
 
@@ -2069,19 +2090,19 @@ msgstr ""
 
 #: mediacore/templates/admin/settings/advertising.html:17
 #: mediacore/templates/admin/settings/advertising.html:23
-#: mediacore/templates/admin/settings/master.html:40
+#: mediacore/templates/admin/settings/master.html:42
 msgid "Advertising"
 msgstr "Реклама"
 
 #: mediacore/templates/admin/settings/analytics.html:17
 #: mediacore/templates/admin/settings/analytics.html:23
-#: mediacore/templates/admin/settings/master.html:43
+#: mediacore/templates/admin/settings/master.html:45
 msgid "Analytics"
 msgstr ""
 
 #: mediacore/templates/admin/settings/api.html:16
 #: mediacore/templates/admin/settings/api.html:26
-#: mediacore/templates/admin/settings/master.html:55
+#: mediacore/templates/admin/settings/master.html:57
 msgid "Data API"
 msgstr ""
 
@@ -2091,7 +2112,7 @@ msgstr ""
 
 #: mediacore/templates/admin/settings/appearance.html:17
 #: mediacore/templates/admin/settings/appearance.html:38
-#: mediacore/templates/admin/settings/master.html:46
+#: mediacore/templates/admin/settings/master.html:48
 msgid "Appearance"
 msgstr ""
 
@@ -2103,29 +2124,29 @@ msgstr ""
 msgid "Are you sure you want to reset your settings to the default?"
 msgstr ""
 
-#: mediacore/templates/admin/settings/master.html:58
+#: mediacore/templates/admin/settings/master.html:60
 msgid "Notifications"
 msgstr ""
 
-#: mediacore/templates/admin/settings/master.html:64
+#: mediacore/templates/admin/settings/master.html:66
 #: mediacore/templates/admin/settings/popularity.html:16
 #: mediacore/templates/admin/settings/popularity.html:22
 msgid "Popularity"
 msgstr "Популарност"
 
-#: mediacore/templates/admin/settings/master.html:67
+#: mediacore/templates/admin/settings/master.html:69
 #: mediacore/templates/admin/settings/sitemaps.html:17
 #: mediacore/templates/admin/settings/sitemaps.html:23
 msgid "RSS and Sitemaps"
 msgstr "RSS и Sitemaps"
 
-#: mediacore/templates/admin/settings/master.html:70
+#: mediacore/templates/admin/settings/master.html:72
 #: mediacore/templates/admin/storage/index.html:16
 #: mediacore/templates/admin/storage/index.html:112
 msgid "Storage Engines"
 msgstr "Складирање Мотори"
 
-#: mediacore/templates/admin/settings/master.html:81
+#: mediacore/templates/admin/settings/master.html:83
 msgid "Plugins"
 msgstr "Додатоци"
 
@@ -2214,30 +2235,24 @@ msgstr "E-mail"
 msgid "Group"
 msgstr ""
 
-#: mediacore/templates/categories/index.html:23
-#: mediacore/templates/categories/more.html:19
-#, python-format
-msgid "Latest media in %s"
-msgstr "Последен медиумите во %s"
-
-#: mediacore/templates/categories/index.html:31
-#: mediacore/templates/media/explore.html:111
+#: mediacore/templates/categories/index.html:28
+#: mediacore/templates/media/explore.html:102
 msgid "More new media"
 msgstr ""
 
-#: mediacore/templates/categories/index.html:31
-#: mediacore/templates/categories/index.html:36
-#: mediacore/templates/media/explore.html:96
-#: mediacore/templates/media/explore.html:111
+#: mediacore/templates/categories/index.html:28
+#: mediacore/templates/categories/index.html:33
+#: mediacore/templates/media/explore.html:87
+#: mediacore/templates/media/explore.html:102
 msgid "View More"
 msgstr "Повеќе..."
 
-#: mediacore/templates/categories/index.html:36
-#: mediacore/templates/media/explore.html:96
+#: mediacore/templates/categories/index.html:33
+#: mediacore/templates/media/explore.html:87
 msgid "More popular media"
 msgstr ""
 
-#: mediacore/templates/categories/index.html:38
+#: mediacore/templates/categories/index.html:35
 #: mediacore/templates/categories/more.html:26
 msgid "There is no media in this category."
 msgstr "Не постои медиум во оваа категорија."
@@ -2267,27 +2282,14 @@ msgstr "Email адреса (никогаш нема да биде објавен
 msgid "Submit Comment"
 msgstr "Поднеси коментар"
 
-#: mediacore/templates/media/explore.html:22
-msgid "Sitemap XML"
-msgstr "Мапа на сајтот XML"
-
-#: mediacore/templates/media/explore.html:25
-msgid "Sitemap RSS"
-msgstr "Мапа на сајтот RSS"
-
-#: mediacore/templates/media/explore.html:28
-#: mediacore/templates/media/index.html:18
-msgid "Latest RSS"
-msgstr "Најновите RSS"
-
-#: mediacore/templates/media/explore.html:101
+#: mediacore/templates/media/explore.html:92
 #, python-format
 msgid ""
 "As soon as there are more than %(num)s published videos in the library, "
 "the most popular videos will be listed here."
 msgstr ""
 
-#: mediacore/templates/media/explore.html:102
+#: mediacore/templates/media/explore.html:93
 msgid "Why not add a few more?"
 msgstr "Зошто не додадете уште неколку?"
 
@@ -2315,49 +2317,49 @@ msgstr ""
 msgid "All Tags"
 msgstr "Сите Тагови"
 
-#: mediacore/templates/media/view.html:48
+#: mediacore/templates/media/view.html:54
 msgid "(unpublished)"
 msgstr "(Необјавени)"
 
-#: mediacore/templates/media/view.html:49
+#: mediacore/templates/media/view.html:55
 #, python-format
 msgid "by %(authorName)s"
 msgstr ""
 
-#: mediacore/templates/media/view.html:59
+#: mediacore/templates/media/view.html:65
 #: mediacore/templates/players/html5_or_flash.html:61
 msgid "Dislike"
 msgid_plural "Dislikes"
 msgstr[0] "Не и се допаѓа"
 msgstr[1] "Не и се допаѓа"
 
-#: mediacore/templates/media/view.html:81
+#: mediacore/templates/media/view.html:87
 msgid "Related Podcast"
 msgstr "Поврзани епизоди"
 
-#: mediacore/templates/media/view.html:91
+#: mediacore/templates/media/view.html:97
 msgid "Podcast Episodes"
 msgstr "Епизодите"
 
-#: mediacore/templates/media/view.html:94
+#: mediacore/templates/media/view.html:100
 msgid "Episode"
 msgid_plural "Episodes"
 msgstr[0] "Една Епизоди"
 msgstr[1] "Останати Епизоди"
 
-#: mediacore/templates/media/view.html:108
+#: mediacore/templates/media/view.html:114
 msgid "Related Media"
 msgstr "Поврзани медиуми"
 
-#: mediacore/templates/media/view.html:116
+#: mediacore/templates/media/view.html:122
 msgid "This is not listed under any categories."
 msgstr "Ова не е наведена под некоја категорија."
 
-#: mediacore/templates/media/view.html:120
+#: mediacore/templates/media/view.html:126
 msgid "See All Tags"
 msgstr "Види ги сите Тагови"
 
-#: mediacore/templates/media/view.html:124
+#: mediacore/templates/media/view.html:130
 msgid "This does not have any associated tags."
 msgstr "Ова не се сите поврзани тагови."
 
@@ -2418,12 +2420,12 @@ msgid "All Podcasts"
 msgstr "Сите Подкасти"
 
 #: mediacore/templates/podcasts/index.html:34
-#: mediacore/templates/podcasts/view.html:39
+#: mediacore/templates/podcasts/view.html:35
 msgid "Add to iTunes"
 msgstr "Додади на iTunes"
 
 #: mediacore/templates/podcasts/index.html:35
-#: mediacore/templates/podcasts/view.html:40
+#: mediacore/templates/podcasts/view.html:36
 msgid "Subscribe via RSS"
 msgstr "Регистрирајте се преку RSS"
 
@@ -2435,7 +2437,7 @@ msgstr "Последни Епизоди"
 msgid "Browse all episodes"
 msgstr "Преглед на сите епизоди"
 
-#: mediacore/templates/podcasts/view.html:46
+#: mediacore/templates/podcasts/view.html:42
 #, python-format
 msgid "%(result_count)s Episodes"
 msgid_plural "All %(result_count)s Episodes"

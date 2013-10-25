@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: MediaCore Video Platform\n"
 "Report-Msgid-Bugs-To: http://github.com/mediacore/mediacore-"
 "community/issues\n"
-"POT-Creation-Date: 2013-03-25 17:58+0100\n"
+"POT-Creation-Date: 2013-10-25 10:35+0200\n"
 "PO-Revision-Date: 2013-03-24 08:14+0000\n"
 "Last-Translator: yorosiku <yorosiku@goo.jp>\n"
 "Language-Team: ja <LL@li.org>\n"
@@ -26,7 +26,13 @@ msgid ""
 "you."
 msgstr "以下のフォームを使ってメディアをアップロードして下さい。承認後公開されます。"
 
-#: mediacore/controllers/error.py:55
+#: mediacore/controllers/categories.py:67
+#: mediacore/templates/categories/more.html:19
+#, python-format
+msgid "Latest media in %s"
+msgstr "最新メディア%s"
+
+#: mediacore/controllers/errors.py:55
 msgid "We're sorry but we weren't able to process this request."
 msgstr "処理中にエラーが発生しました。"
 
@@ -34,11 +40,29 @@ msgstr "処理中にエラーが発生しました。"
 msgid "Invalid username or password."
 msgstr ""
 
-#: mediacore/controllers/media.py:296
+#: mediacore/controllers/media.py:89 mediacore/controllers/media.py:149
+#: mediacore/templates/media/index.html:18
+msgid "Latest RSS"
+msgstr "Latest RSS"
+
+#: mediacore/controllers/media.py:93
+#, fuzzy
+msgid "Featured RSS"
+msgstr "おすすめ"
+
+#: mediacore/controllers/media.py:144
+msgid "Sitemap XML"
+msgstr "Sitemap XML"
+
+#: mediacore/controllers/media.py:145
+msgid "Sitemap RSS"
+msgstr "Sitemap RSS"
+
+#: mediacore/controllers/media.py:315
 msgid "Your comment has been rejected."
 msgstr "あなたのコメントは拒否されています。"
 
-#: mediacore/controllers/media.py:318
+#: mediacore/controllers/media.py:337
 msgid ""
 "Thank you for your comment! We will post it just as soon as a moderator "
 "approves it."
@@ -49,21 +73,21 @@ msgstr "コメントありがとうございました！我々は、直後に司
 msgid "File \"%s\" does not exist."
 msgstr "ファイル \"%s\" がありません。"
 
-#: mediacore/controllers/admin/media.py:407
+#: mediacore/controllers/admin/media.py:408
 msgid "No action to perform."
 msgstr "実行できませんでした。"
 
-#: mediacore/controllers/admin/media.py:557
+#: mediacore/controllers/admin/media.py:558
 #: mediacore/controllers/admin/podcasts.py:206
 msgid "Permission denied, cannot write file"
 msgstr "書き込みできませんでした。パーミッション設定を変えて下さい。"
 
-#: mediacore/controllers/admin/media.py:559
+#: mediacore/controllers/admin/media.py:560
 #, python-format
 msgid "Unsupported image type: %s"
 msgstr ""
 
-#: mediacore/controllers/admin/media.py:562
+#: mediacore/controllers/admin/media.py:563
 #: mediacore/controllers/admin/podcasts.py:211
 msgid "Interlaced PNGs are not supported."
 msgstr ""
@@ -99,7 +123,7 @@ msgstr "ユーザー名"
 msgid "Password"
 msgstr "パスワード"
 
-#: mediacore/forms/login.py:38 mediacore/templates/master.html:71
+#: mediacore/forms/login.py:38 mediacore/templates/master.html:77
 msgid "Login"
 msgstr "ログイン"
 
@@ -243,8 +267,8 @@ msgstr "削除"
 #: mediacore/templates/admin/helpers.html:67
 #: mediacore/templates/admin/comments/_comment-table.html:24
 #: mediacore/templates/comments/_list.html:86
-#: mediacore/templates/media/explore.html:84
-#: mediacore/templates/media/view.html:61
+#: mediacore/templates/media/explore.html:75
+#: mediacore/templates/media/view.html:67
 msgid "Comment"
 msgid_plural "Comments"
 msgstr[0] ""
@@ -292,8 +316,8 @@ msgstr "縦幅が規定値ではありません。"
 msgid "Select an encoded video or audio file on your computer"
 msgstr "メディア、音楽ファイルを指定して下さい。"
 
-#: mediacore/forms/admin/media.py:110 mediacore/templates/master.html:85
-#: mediacore/templates/admin/settings/master.html:76
+#: mediacore/forms/admin/media.py:110 mediacore/templates/master.html:91
+#: mediacore/templates/admin/settings/master.html:78
 #: mediacore/templates/admin/settings/upload.html:16
 #: mediacore/templates/admin/settings/upload.html:22
 msgid "Upload"
@@ -336,27 +360,27 @@ msgstr "投稿者のメール"
 msgid "Description"
 msgstr "説明"
 
-#: mediacore/forms/admin/media.py:153 mediacore/templates/master.html:83
+#: mediacore/forms/admin/media.py:153 mediacore/templates/master.html:89
 #: mediacore/templates/admin/categories/edit.html:16
 #: mediacore/templates/admin/categories/index.html:17
 #: mediacore/templates/admin/categories/index.html:51
-#: mediacore/templates/admin/settings/master.html:49
+#: mediacore/templates/admin/settings/master.html:51
 #: mediacore/templates/categories/index.html:18
 #: mediacore/templates/categories/layout.html:22
 #: mediacore/templates/categories/more.html:17
-#: mediacore/templates/media/explore.html:42
-#: mediacore/templates/media/view.html:114
+#: mediacore/templates/media/explore.html:33
+#: mediacore/templates/media/view.html:120
 msgid "Categories"
 msgstr "カテゴリー"
 
 #: mediacore/forms/admin/media.py:154
 #: mediacore/templates/admin/media/_media-table.html:28
-#: mediacore/templates/admin/settings/master.html:73
+#: mediacore/templates/admin/settings/master.html:75
 #: mediacore/templates/admin/tags/edit.html:16
 #: mediacore/templates/admin/tags/index.html:17
 #: mediacore/templates/admin/tags/index.html:48
 #: mediacore/templates/media/tags.html:16
-#: mediacore/templates/media/view.html:121
+#: mediacore/templates/media/view.html:127
 msgid "Tags"
 msgstr "タグ"
 
@@ -781,7 +805,7 @@ msgstr "最大ツリー数"
 #: mediacore/forms/admin/settings.py:303
 #: mediacore/templates/admin/settings/general.html:17
 #: mediacore/templates/admin/settings/general.html:23
-#: mediacore/templates/admin/settings/master.html:37
+#: mediacore/templates/admin/settings/master.html:39
 msgid "General"
 msgstr "全般"
 
@@ -836,7 +860,7 @@ msgstr "ポップアップページ有効"
 #: mediacore/forms/admin/settings.py:346
 msgid ""
 "Cooliris support is deprecated and will be removed in the next major "
-"version of MediaCore CE unless someone is interested in maintaining it."
+"version of MediaDrop unless someone is interested in maintaining it."
 msgstr ""
 
 #: mediacore/forms/admin/settings.py:352
@@ -868,11 +892,11 @@ msgid "Display Background Image"
 msgstr "背景画像有効"
 
 #: mediacore/forms/admin/settings.py:379
-msgid "Display MediaCore Footer"
+msgid "Display MediaDrop Footer"
 msgstr ""
 
 #: mediacore/forms/admin/settings.py:383
-msgid "Display MediaCore Credits in Footer"
+msgid "Display MediaDrop Credits in Footer"
 msgstr ""
 
 #: mediacore/forms/admin/settings.py:389
@@ -963,7 +987,7 @@ msgstr "ログイン詳細:"
 msgid "Passwords do not match"
 msgstr "パスワードが一致しません。再入力してください。"
 
-#: mediacore/forms/admin/users.py:51 mediacore/templates/admin/master.html:59
+#: mediacore/forms/admin/users.py:51 mediacore/templates/admin/master.html:61
 #: mediacore/templates/admin/groups/index.html:17
 #: mediacore/templates/admin/groups/index.html:41
 msgid "Groups"
@@ -987,7 +1011,7 @@ msgstr "アップロードディレクトリー"
 
 #: mediacore/forms/admin/storage/ftp.py:31
 msgid ""
-"How many times should MediaCore try to verify the FTP upload before "
+"How many times should MediaDrop try to verify the FTP upload before "
 "declaring it a failure?"
 msgstr "FTPアップロードの再アクセス回数"
 
@@ -1137,7 +1161,7 @@ msgstr "オーディオ概要"
 msgid "Captions"
 msgstr "キャプション"
 
-#: mediacore/lib/helpers.py:381
+#: mediacore/lib/helpers.py:385
 msgid "Help"
 msgstr "ヘルプ"
 
@@ -1185,7 +1209,7 @@ msgstr "Sublime Video Player"
 msgid "iTunes Player"
 msgstr "iTunes Player"
 
-#: mediacore/lib/storage/api.py:349
+#: mediacore/lib/storage/api.py:352
 msgid "Unusable file or URL provided."
 msgstr "使用できないファイル、URL"
 
@@ -1293,8 +1317,8 @@ msgid "Submit Error Report"
 msgstr "エラーリポート報告"
 
 #: mediacore/templates/helpers.html:33
-#: mediacore/templates/media/explore.html:85
-#: mediacore/templates/media/view.html:58
+#: mediacore/templates/media/explore.html:76
+#: mediacore/templates/media/view.html:64
 #: mediacore/templates/players/html5_or_flash.html:47
 #: mediacore/templates/players/html5_or_flash.html:49
 msgid "Like"
@@ -1304,8 +1328,8 @@ msgstr[0] "高評価"
 #: mediacore/templates/helpers.html:34
 #: mediacore/templates/admin/media/update-status-form.html:22
 #: mediacore/templates/admin/podcasts/edit.html:97
-#: mediacore/templates/media/explore.html:86
-#: mediacore/templates/media/view.html:56
+#: mediacore/templates/media/explore.html:77
+#: mediacore/templates/media/view.html:62
 msgid "View"
 msgid_plural "Views"
 msgstr[0] "見る"
@@ -1319,23 +1343,23 @@ msgid "Show:"
 msgstr "表示:"
 
 #: mediacore/templates/helpers.html:76
-#: mediacore/templates/categories/index.html:29
+#: mediacore/templates/categories/index.html:26
 #: mediacore/templates/categories/more.html:24
-#: mediacore/templates/media/explore.html:41
-#: mediacore/templates/media/explore.html:109
+#: mediacore/templates/media/explore.html:32
+#: mediacore/templates/media/explore.html:100
 msgid "Latest"
 msgstr "最新メディア"
 
 #: mediacore/templates/helpers.html:77
-#: mediacore/templates/categories/index.html:34
+#: mediacore/templates/categories/index.html:31
 #: mediacore/templates/categories/more.html:24
-#: mediacore/templates/media/explore.html:93
+#: mediacore/templates/media/explore.html:84
 msgid "Most Popular"
 msgstr "人気メディア"
 
 #: mediacore/templates/helpers.html:78
-#: mediacore/templates/media/explore.html:40
-#: mediacore/templates/media/explore.html:77
+#: mediacore/templates/media/explore.html:31
+#: mediacore/templates/media/explore.html:68
 msgid "Featured"
 msgstr "おすすめ"
 
@@ -1352,13 +1376,13 @@ msgstr "of"
 msgid "The %(fieldName)s field accepts some HTML formatting: %(formattingList)s"
 msgstr "この%(fieldName)sテキストエリアでは次のタグが使用可能です: %(formattingList)s"
 
-#: mediacore/templates/layout.html:43
+#: mediacore/templates/layout.html:33
 msgid "Feeds:"
 msgstr "フィード:"
 
-#: mediacore/templates/layout.html:49
-msgid "[1:MediaCore] [2:video platform]"
-msgstr "[1:MediaCore] [2:video platform]"
+#: mediacore/templates/layout.html:39
+msgid "[1:MediaDrop] [2:video platform]"
+msgstr "[1:MediaDrop] [2:video platform]"
 
 #: mediacore/templates/login.html:16
 msgid "Log in to"
@@ -1368,29 +1392,29 @@ msgstr ""
 msgid "Log in"
 msgstr ""
 
-#: mediacore/templates/master.html:64
+#: mediacore/templates/master.html:70
 msgid "Admin"
 msgstr ""
 
-#: mediacore/templates/master.html:66 mediacore/templates/admin/master.html:50
+#: mediacore/templates/master.html:72 mediacore/templates/admin/master.html:52
 msgid "Logout"
 msgstr "ログアウト"
 
-#: mediacore/templates/master.html:80
+#: mediacore/templates/master.html:86
 msgid "Explore"
 msgstr "トップ"
 
-#: mediacore/templates/master.html:81 mediacore/templates/media/index.html:17
+#: mediacore/templates/master.html:87 mediacore/templates/media/index.html:17
 msgid "Media Library"
 msgstr "ライブラリ"
 
-#: mediacore/templates/master.html:82 mediacore/templates/admin/master.html:56
+#: mediacore/templates/master.html:88 mediacore/templates/admin/master.html:58
 #: mediacore/templates/admin/podcasts/index.html:17
 #: mediacore/templates/admin/podcasts/index.html:24
 msgid "Podcasts"
 msgstr "共有"
 
-#: mediacore/templates/master.html:88
+#: mediacore/templates/master.html:94
 msgid "Search"
 msgstr "検索"
 
@@ -1403,12 +1427,12 @@ msgid "Moderate"
 msgstr "編集"
 
 #: mediacore/templates/admin/helpers.html:62
-#: mediacore/templates/admin/master.html:57
+#: mediacore/templates/admin/master.html:59
 #: mediacore/templates/admin/comments/index.html:20
 #: mediacore/templates/admin/media/_media-table.html:27
 #: mediacore/templates/admin/settings/comments.html:16
 #: mediacore/templates/admin/settings/comments.html:22
-#: mediacore/templates/admin/settings/master.html:52
+#: mediacore/templates/admin/settings/master.html:54
 #: mediacore/templates/comments/_list.html:42
 msgid "Comments"
 msgstr "コメント"
@@ -1432,7 +1456,7 @@ msgid "Trash"
 msgstr "ゴミ箱"
 
 #: mediacore/templates/admin/index.html:17
-#: mediacore/templates/admin/master.html:48
+#: mediacore/templates/admin/master.html:50
 msgid "Dashboard"
 msgstr "ダッシュボード"
 
@@ -1463,39 +1487,36 @@ msgstr "メディアの追加"
 msgid "Recently Published"
 msgstr "最新投稿"
 
-#: mediacore/templates/admin/master.html:24
-#: mediacore/templates/admin/master.html:45
-msgid "MediaCore"
-msgstr "MediaCore"
+#: mediacore/templates/admin/master.html:26
+#: mediacore/templates/admin/master.html:47
+#: mediacore/templates/admin/master.html:68
+msgid "MediaDrop"
+msgstr "MediaDrop"
 
-#: mediacore/templates/admin/master.html:49
+#: mediacore/templates/admin/master.html:51
 msgid "View Site"
 msgstr "サイトを見る"
 
-#: mediacore/templates/admin/master.html:55
+#: mediacore/templates/admin/master.html:57
 #: mediacore/templates/admin/categories/index.html:63
 #: mediacore/templates/admin/media/index.html:18
 #: mediacore/templates/admin/tags/index.html:60
 msgid "Media"
 msgstr "メディア"
 
-#: mediacore/templates/admin/master.html:58
+#: mediacore/templates/admin/master.html:60
 #: mediacore/templates/admin/users/index.html:17
 #: mediacore/templates/admin/users/index.html:38
 msgid "Users"
 msgstr "ユーザー"
 
-#: mediacore/templates/admin/master.html:60
-#: mediacore/templates/admin/settings/master.html:34
+#: mediacore/templates/admin/master.html:62
+#: mediacore/templates/admin/settings/master.html:36
 msgid "Settings"
 msgstr "設定"
 
-#: mediacore/templates/admin/master.html:66
-msgid "MediaCore CE"
-msgstr ""
-
-#: mediacore/templates/admin/master.html:67
-msgid "© 2009-2013 MediaCore Inc. and contributors"
+#: mediacore/templates/admin/master.html:69
+msgid "© 2009-2013 MediaDrop contributors"
 msgstr ""
 
 #: mediacore/templates/admin/categories/index.html:38
@@ -1555,8 +1576,8 @@ msgstr "このカテゴリを削除してよろしいですか [1:and ALL of its
 #: mediacore/templates/admin/storage/index.html:145
 #: mediacore/templates/admin/tags/row-form.html:24
 #: mediacore/templates/admin/users/index.html:61
-#: mediacore/templates/media/view.html:44
-#: mediacore/templates/podcasts/view.html:35
+#: mediacore/templates/media/view.html:50
+#: mediacore/templates/podcasts/view.html:31
 msgid "Edit"
 msgstr "編集"
 
@@ -2021,7 +2042,7 @@ msgstr ""
 
 #: mediacore/templates/admin/players/index.html:16
 #: mediacore/templates/admin/players/index.html:40
-#: mediacore/templates/admin/settings/master.html:61
+#: mediacore/templates/admin/settings/master.html:63
 msgid "Players"
 msgstr "Players"
 
@@ -2090,19 +2111,19 @@ msgstr "共有を追加"
 
 #: mediacore/templates/admin/settings/advertising.html:17
 #: mediacore/templates/admin/settings/advertising.html:23
-#: mediacore/templates/admin/settings/master.html:40
+#: mediacore/templates/admin/settings/master.html:42
 msgid "Advertising"
 msgstr "広告"
 
 #: mediacore/templates/admin/settings/analytics.html:17
 #: mediacore/templates/admin/settings/analytics.html:23
-#: mediacore/templates/admin/settings/master.html:43
+#: mediacore/templates/admin/settings/master.html:45
 msgid "Analytics"
 msgstr "Analytics"
 
 #: mediacore/templates/admin/settings/api.html:16
 #: mediacore/templates/admin/settings/api.html:26
-#: mediacore/templates/admin/settings/master.html:55
+#: mediacore/templates/admin/settings/master.html:57
 msgid "Data API"
 msgstr "Data API"
 
@@ -2112,7 +2133,7 @@ msgstr "自動生成"
 
 #: mediacore/templates/admin/settings/appearance.html:17
 #: mediacore/templates/admin/settings/appearance.html:38
-#: mediacore/templates/admin/settings/master.html:46
+#: mediacore/templates/admin/settings/master.html:48
 msgid "Appearance"
 msgstr "外観"
 
@@ -2124,29 +2145,29 @@ msgstr "確認リセット"
 msgid "Are you sure you want to reset your settings to the default?"
 msgstr "すべてのオプションがデフォルト設定に戻ります。本当に設定をリセットしてもよろしいですか？"
 
-#: mediacore/templates/admin/settings/master.html:58
+#: mediacore/templates/admin/settings/master.html:60
 msgid "Notifications"
 msgstr "メール通知"
 
-#: mediacore/templates/admin/settings/master.html:64
+#: mediacore/templates/admin/settings/master.html:66
 #: mediacore/templates/admin/settings/popularity.html:16
 #: mediacore/templates/admin/settings/popularity.html:22
 msgid "Popularity"
 msgstr "人気"
 
-#: mediacore/templates/admin/settings/master.html:67
+#: mediacore/templates/admin/settings/master.html:69
 #: mediacore/templates/admin/settings/sitemaps.html:17
 #: mediacore/templates/admin/settings/sitemaps.html:23
 msgid "RSS and Sitemaps"
 msgstr "RSS・サイトマップ"
 
-#: mediacore/templates/admin/settings/master.html:70
+#: mediacore/templates/admin/settings/master.html:72
 #: mediacore/templates/admin/storage/index.html:16
 #: mediacore/templates/admin/storage/index.html:112
 msgid "Storage Engines"
 msgstr "ストレージエンジン"
 
-#: mediacore/templates/admin/settings/master.html:81
+#: mediacore/templates/admin/settings/master.html:83
 msgid "Plugins"
 msgstr "プラグイン"
 
@@ -2239,30 +2260,24 @@ msgstr "メール"
 msgid "Group"
 msgstr "グループ"
 
-#: mediacore/templates/categories/index.html:23
-#: mediacore/templates/categories/more.html:19
-#, python-format
-msgid "Latest media in %s"
-msgstr "最新メディア%s"
-
-#: mediacore/templates/categories/index.html:31
-#: mediacore/templates/media/explore.html:111
+#: mediacore/templates/categories/index.html:28
+#: mediacore/templates/media/explore.html:102
 msgid "More new media"
 msgstr ""
 
-#: mediacore/templates/categories/index.html:31
-#: mediacore/templates/categories/index.html:36
-#: mediacore/templates/media/explore.html:96
-#: mediacore/templates/media/explore.html:111
+#: mediacore/templates/categories/index.html:28
+#: mediacore/templates/categories/index.html:33
+#: mediacore/templates/media/explore.html:87
+#: mediacore/templates/media/explore.html:102
 msgid "View More"
 msgstr "続きを見る"
 
-#: mediacore/templates/categories/index.html:36
-#: mediacore/templates/media/explore.html:96
+#: mediacore/templates/categories/index.html:33
+#: mediacore/templates/media/explore.html:87
 msgid "More popular media"
 msgstr ""
 
-#: mediacore/templates/categories/index.html:38
+#: mediacore/templates/categories/index.html:35
 #: mediacore/templates/categories/more.html:26
 msgid "There is no media in this category."
 msgstr "このカテゴリにメディアはありません"
@@ -2292,27 +2307,14 @@ msgstr "メールアドレス (非公開)"
 msgid "Submit Comment"
 msgstr "コメント投稿"
 
-#: mediacore/templates/media/explore.html:22
-msgid "Sitemap XML"
-msgstr "Sitemap XML"
-
-#: mediacore/templates/media/explore.html:25
-msgid "Sitemap RSS"
-msgstr "Sitemap RSS"
-
-#: mediacore/templates/media/explore.html:28
-#: mediacore/templates/media/index.html:18
-msgid "Latest RSS"
-msgstr "Latest RSS"
-
-#: mediacore/templates/media/explore.html:101
+#: mediacore/templates/media/explore.html:92
 #, python-format
 msgid ""
 "As soon as there are more than %(num)s published videos in the library, "
 "the most popular videos will be listed here."
 msgstr "公開動画%(num)s件の中から、もっとも人気の動画が表示されます。"
 
-#: mediacore/templates/media/explore.html:102
+#: mediacore/templates/media/explore.html:93
 msgid "Why not add a few more?"
 msgstr "もう少し追加しませんか?"
 
@@ -2340,47 +2342,47 @@ msgstr "All %(result_count)s Media"
 msgid "All Tags"
 msgstr "すべてのタグ"
 
-#: mediacore/templates/media/view.html:48
+#: mediacore/templates/media/view.html:54
 msgid "(unpublished)"
 msgstr "(未公開)"
 
-#: mediacore/templates/media/view.html:49
+#: mediacore/templates/media/view.html:55
 #, python-format
 msgid "by %(authorName)s"
 msgstr "by %(authorName)s"
 
-#: mediacore/templates/media/view.html:59
+#: mediacore/templates/media/view.html:65
 #: mediacore/templates/players/html5_or_flash.html:61
 msgid "Dislike"
 msgid_plural "Dislikes"
 msgstr[0] "低評価"
 
-#: mediacore/templates/media/view.html:81
+#: mediacore/templates/media/view.html:87
 msgid "Related Podcast"
 msgstr "共有関連"
 
-#: mediacore/templates/media/view.html:91
+#: mediacore/templates/media/view.html:97
 msgid "Podcast Episodes"
 msgstr "共有エピソード"
 
-#: mediacore/templates/media/view.html:94
+#: mediacore/templates/media/view.html:100
 msgid "Episode"
 msgid_plural "Episodes"
 msgstr[0] "エピソード"
 
-#: mediacore/templates/media/view.html:108
+#: mediacore/templates/media/view.html:114
 msgid "Related Media"
 msgstr "関連メディア"
 
-#: mediacore/templates/media/view.html:116
+#: mediacore/templates/media/view.html:122
 msgid "This is not listed under any categories."
 msgstr "これは、任意のカテゴリの下にリストされていません"
 
-#: mediacore/templates/media/view.html:120
+#: mediacore/templates/media/view.html:126
 msgid "See All Tags"
 msgstr "すべてのタグを参照する"
 
-#: mediacore/templates/media/view.html:124
+#: mediacore/templates/media/view.html:130
 msgid "This does not have any associated tags."
 msgstr "関連付けられたタグはありません"
 
@@ -2441,12 +2443,12 @@ msgid "All Podcasts"
 msgstr "全共有"
 
 #: mediacore/templates/podcasts/index.html:34
-#: mediacore/templates/podcasts/view.html:39
+#: mediacore/templates/podcasts/view.html:35
 msgid "Add to iTunes"
 msgstr "iTunesに追加"
 
 #: mediacore/templates/podcasts/index.html:35
-#: mediacore/templates/podcasts/view.html:40
+#: mediacore/templates/podcasts/view.html:36
 msgid "Subscribe via RSS"
 msgstr "更新情報をRSSフィードで購読"
 
@@ -2458,7 +2460,7 @@ msgstr "最新のエピソード"
 msgid "Browse all episodes"
 msgstr "全てのエピソードを表示"
 
-#: mediacore/templates/podcasts/view.html:46
+#: mediacore/templates/podcasts/view.html:42
 #, python-format
 msgid "%(result_count)s Episodes"
 msgid_plural "All %(result_count)s Episodes"
