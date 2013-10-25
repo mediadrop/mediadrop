@@ -866,7 +866,7 @@ msgstr "探索页面上启用Cooliris"
 msgid ""
 "Cooliris support is deprecated and will be removed in the next major "
 "version of MediaDrop unless someone is interested in maintaining it."
-msgstr "Cooliris支持已废止并在下个MediaCore社区版中删除，除非有人愿意继续维护它。"
+msgstr "Cooliris支持已废止并在下个MediaDrop社区版中删除，除非有人愿意继续维护它。"
 
 #: mediacore/forms/admin/settings.py:352
 msgid "Display login link for all users"

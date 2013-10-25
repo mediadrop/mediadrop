@@ -904,11 +904,11 @@ msgstr "Mostrar la imagen de fondo"
 
 #: mediacore/forms/admin/settings.py:379
 msgid "Display MediaDrop Footer"
-msgstr "Mostrar el pie de página de Mediacore"
+msgstr "Mostrar el pie de página de MediaDrop"
 
 #: mediacore/forms/admin/settings.py:383
 msgid "Display MediaDrop Credits in Footer"
-msgstr "Mostrar los créditos de Mediacore en el pie de página"
+msgstr "Mostrar los créditos de MediaDrop en el pie de página"
 
 #: mediacore/forms/admin/settings.py:389
 msgid "Player Menu Options"

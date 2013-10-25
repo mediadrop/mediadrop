@@ -1014,7 +1014,7 @@ msgid ""
 "How many times should MediaDrop try to verify the FTP upload before "
 "declaring it a failure?"
 msgstr ""
-"Antall ganger som Mediacore forsøker å verifisere FTP-opplasting før den "
+"Antall ganger som MediaDrop forsøker å verifisere FTP-opplasting før den "
 "sies å være mislykket?HTTP URL"
 
 #: mediacore/forms/admin/storage/ftp.py:32
