@@ -588,7 +588,7 @@ msgstr "Feedburner-URL"
 
 #: mediacore/forms/admin/settings.py:25
 msgid "Built-in comments"
-msgstr "MediaCore-eigene Kommentare"
+msgstr "MediaDrop-eigene Kommentare"
 
 #: mediacore/forms/admin/settings.py:26
 msgid "Facebook comments (requires a Facebook application ID)"
@@ -758,7 +758,7 @@ msgstr "Kommentare"
 
 #: mediacore/forms/admin/settings.py:254
 msgid "Built-in Comments:"
-msgstr "MediaCore-eigene Kommentare"
+msgstr "MediaDrop-eigene Kommentare"
 
 #: mediacore/forms/admin/settings.py:257
 msgid "Moderation"
