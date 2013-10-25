@@ -1,6 +1,6 @@
 # Persian (Iran) translations for MediaDrop.
 # Copyright (C) 2013 ORGANIZATION
-# This file is distributed under the same license as the MediaCore project.
+# This file is distributed under the same license as the MediaDrop.
 #
 # Translators:
 # <enteha90@yahoo.com>, 2011.

@@ -118,7 +118,7 @@ if __name__ == "__main__":
         '--app-secret',
         action='store',
         dest='app_secret',
-        help='Facebook app_secret for the app_id stored in MediaCore',
+        help='Facebook app_secret for the app_id stored in MediaDrop',
     )
     load_app(cmd)
     if len(cmd.args) < 1:

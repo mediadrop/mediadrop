@@ -3,7 +3,7 @@
 from mediacore.lib.cli_commands import LoadAppCommand, load_app
 
 _script_name = "Batch Script Template"
-_script_description = """Use this script as a model for creating new batch scripts for MediaCore."""
+_script_description = """Use this script as a model for creating new batch scripts for MediaDrop."""
 DEBUG = False
 
 if __name__ == "__main__":

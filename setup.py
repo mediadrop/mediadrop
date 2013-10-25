@@ -9,11 +9,11 @@ import sys
 from mediacore import __version__ as VERSION
 
 # setuptools' dependency resolution is often too simplistic. If we install
-# MediaCore into an existing virtualenv we often face the problem that
+# MediaDrop into an existing virtualenv we often face the problem that
 # setuptools does not upgrade the components (even though some dependencies
 # like Pylons actually require a newer version). Therefore often we add a
 # specific minimum version even though that's not really a requirement by
-# MediaCore (rather an a Pylons requirement).
+# MediaDrop (rather an a Pylons requirement).
 setup_requires = [
     'PasteScript >= 1.7.4.2', # paster_plugins=
 ]
@@ -22,7 +22,7 @@ install_requires = setup_requires + [
     'formencode >= 1.2.4', # (version required by Pylons 1.0)
     'Pylons >= 1.0',
     # WebOb 1.2.x raises an error if we use "request.str_params" (as we did in
-    # MediaCore 0.10/WebOb 1.0.7) but the non-deprecated attribute was only
+    # MediaDrop 0.10/WebOb 1.0.7) but the non-deprecated attribute was only
     # added in WebOb 1.1 so we need that as baseline.
     'WebOb >= 1.1',
     'WebHelpers == 1.0',
@@ -30,7 +30,7 @@ install_requires = setup_requires + [
     # we need to change our class_mappers for 0.8 support
     'SQLAlchemy >= 0.7.3, < 0.8',
     # theoretically every alembic since 0.4 should work (which added the 
-    # alembic.config.Config class) but MediaCore is only tested with 0.5+
+    # alembic.config.Config class) but MediaDrop is only tested with 0.5+
     'alembic >= 0.4',
     'Genshi >= 0.6', # i18n improvements in Genshi
     'Babel >= 0.9.6',
@@ -62,7 +62,7 @@ if sys.version_info < (2, 7):
     install_requires.append('importlib')
 
 if sys.version_info < (2, 6):
-    print 'MediaCore CE requires Python 2.6 or 2.7.'
+    print 'MediaDrop requires Python 2.6 or 2.7.'
     sys.exit(1)
 
 extra_arguments_for_setup = {}
