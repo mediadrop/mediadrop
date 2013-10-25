@@ -1542,7 +1542,7 @@ msgstr "Ayarlar"
 #: mediacore/templates/admin/master.html:69
 #, fuzzy
 msgid "© 2009-2013 MediaDrop contributors"
-msgstr "© 2009-2013 MediaCore Şirketi ve Katkıda bulunanlar"
+msgstr "© 2009-2013 MediaDrop Katkıda bulunanlar"
 
 #: mediacore/templates/admin/categories/index.html:38
 #: mediacore/templates/admin/comments/index.html:36
