@@ -908,7 +908,7 @@ msgstr "Arka Plan resmini göster"
 
 #: mediacore/forms/admin/settings.py:379
 msgid "Display MediaDrop Footer"
-msgstr "MadiaCore Sayfa Altbilgisi Göster"
+msgstr "MediaDrop Sayfa Altbilgisi Göster"
 
 #: mediacore/forms/admin/settings.py:383
 msgid "Display MediaDrop Credits in Footer"
@@ -1031,7 +1031,7 @@ msgstr "sunucuda Alt dizin yüklemek için"
 msgid ""
 "How many times should MediaDrop try to verify the FTP upload before "
 "declaring it a failure?"
-msgstr "Mediacore FTP yüklemesini kaç kere denesin?"
+msgstr "MediaDrop FTP yüklemesini kaç kere denesin?"
 
 #: mediacore/forms/admin/storage/ftp.py:32
 msgid "HTTP URL to access remotely stored files"
