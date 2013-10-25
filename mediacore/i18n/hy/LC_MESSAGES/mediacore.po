@@ -1,4 +1,4 @@
-# Armenian (Armenia) translations for MediaCore.
+# Armenian (Armenia) translations for MediaDrop.
 # Copyright (C) 2013 ORGANIZATION
 # This file is distributed under the same license as the MediaCore project.
 #

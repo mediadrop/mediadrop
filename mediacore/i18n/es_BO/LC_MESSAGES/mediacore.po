@@ -1,4 +1,4 @@
-# Spanish (Bolivia) translations for MediaCore.
+# Spanish (Bolivia) translations for MediaDrop.
 # Copyright (C) 2013 ORGANIZATION
 # This file is distributed under the same license as the MediaCore project.
 #
