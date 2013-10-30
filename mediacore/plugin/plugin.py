@@ -80,6 +80,7 @@ class MediaCorePlugin(object):
 
         # Search a controllers directory, standard pylons style
         if not resource_exists(self.package_name, 'controllers'):
+            log.debug('no controllers found for %r plugin.' % self.name)
             return {}
         controllers = {}
         directory = resource_filename(self.package_name, 'controllers')
