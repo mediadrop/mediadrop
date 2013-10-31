@@ -6,6 +6,7 @@
 # Jan-Erik Finlander <jefinlander@gmail.com>, 2011.
 # stefanikolic <stefanikolic@yahoo.com>, 2011.
 # <stefanikolic@yahoo.com>, 2011.
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: MediaCore Video Platform\n"

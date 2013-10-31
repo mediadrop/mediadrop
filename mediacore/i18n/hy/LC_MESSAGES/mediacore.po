@@ -5,6 +5,7 @@
 # Translators:
 # <svchost.exe@bk.ru>, 2011.
 # <texeltexel2012@gmail.com>, 2011.
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: MediaCore Video Platform\n"

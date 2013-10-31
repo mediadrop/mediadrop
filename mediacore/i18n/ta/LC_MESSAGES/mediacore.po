@@ -4,6 +4,7 @@
 #
 # Translators:
 # Siddharth Jeevagan <siddharth.jeevagan@gmail.com>, 2011.
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: MediaCore Video Platform\n"

@@ -5,6 +5,7 @@
 # Translators:
 # famagusta <xxxfam@gmail.com>, 2011.
 # <flow.cfu@gmail.com>, 2011.
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: MediaCore Video Platform\n"
