@@ -296,7 +296,7 @@ class MediaController(BaseController):
                 return self.view(slug, name=name, email=email, body=body,
                                  **kwargs)
 
-        if request.settings['comments_engine'] != 'mediacore':
+        if request.settings['comments_engine'] != 'builtin':
             abort(404)
         akismet_key = request.settings['akismet_key']
         if akismet_key:

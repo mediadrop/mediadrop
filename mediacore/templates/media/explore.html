@@ -72,7 +72,7 @@ See LICENSE.txt in the main project directory, for more information.
 					${h.media_player(featured, width=410, height=231)}
 					<h3><a class="underline-hover" href="${h.url_for_media(featured)}">${featured.title}</a></h3>
 					<div class="feat-meta">
-						<span py:if="settings['comments_engine'] == 'mediacore'" class="meta meta-comments">${featured.comment_count_published} ${ungettext('Comment', 'Comments', featured.comment_count_published)}</span>
+						<span py:if="settings['comments_engine'] == 'builtin'" class="meta meta-comments">${featured.comment_count_published} ${ungettext('Comment', 'Comments', featured.comment_count_published)}</span>
 						<span py:if="settings['appearance_show_like'] and settings.get('likes') != 'facebook'" class="meta meta-likes"><span id="mcore-likes-counter">${h.format_decimal(featured.likes)}</span> ${ungettext('Like', 'Likes', featured.likes)}</span>
 						<span class="meta meta-views">${h.format_decimal(featured.views)} ${ungettext('View', 'Views', featured.views)}</span>
 					</div>

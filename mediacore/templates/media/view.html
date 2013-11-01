@@ -15,7 +15,7 @@ See LICENSE.txt in the main project directory, for more information.
       xmlns:xi="http://www.w3.org/2001/XInclude"
       py:with="comments_engine = settings['comments_engine']">
 <xi:include href="../master.html" />
-<xi:include href="../comments/_list.html" py:if="comments_engine == 'mediacore'" />
+<xi:include href="../comments/_list.html" py:if="comments_engine == 'builtin'" />
 <xi:include href="../comments/facebook.html" py:if="comments_engine == 'facebook'" />
 <head>
 	<title>${h.page_title(default=media.title, media=media)}</title>
@@ -64,14 +64,14 @@ See LICENSE.txt in the main project directory, for more information.
 					<span py:if="settings['appearance_show_like']" id="mcore-likes-counter">${h.format_decimal(media.likes)}</span> ${ungettext('Like', 'Likes', media.likes)}
 					<span py:if="settings['appearance_show_dislike']" class="meta-dislikes"><span id="mcore-dislikes-counter">${h.format_decimal(media.dislikes)}</span> ${ungettext('Dislike', 'Dislikes', media.dislikes)}</span>
 				</div>
-				<div py:if="comments_engine == 'mediacore'" class="meta-comments f-lft"><span id="mcore-comments-counter">${media.comment_count_published}</span> ${ungettext('Comment', 'Comments', media.comment_count_published)}</div>
+				<div py:if="comments_engine == 'builtin'" class="meta-comments f-lft"><span id="mcore-comments-counter">${media.comment_count_published}</span> ${ungettext('Comment', 'Comments', media.comment_count_published)}</div>
 			</div>
 
 			<py:choose test="comments_engine">
 				<py:when test="'facebook'">
 					${facebook_comment(media=media)}
 				</py:when>
-				<py:when test="'mediacore'">
+				<py:when test="'builtin'">
 					${comment_list(comments, comment_form_action, comment_form_values)}
 				</py:when>
 			</py:choose>

@@ -22,11 +22,11 @@ from mediacore.lib.i18n import N_, _, get_available_locales
 from mediacore.plugin import events
 
 comments_enable_disable = lambda: (
-    ('mediacore', _("Built-in comments")),
+    ('builtin', _("Built-in comments")),
     ('facebook', _('Facebook comments (requires a Facebook application ID)')),
     ('disabled', _('Disable comments')),
 )
-comments_enable_validator = OneOf(('mediacore', 'facebook', 'disabled'))
+comments_enable_validator = OneOf(('builtin', 'facebook', 'disabled'))
 
 title_options = lambda: (
     ('prepend', _('Prepend')),

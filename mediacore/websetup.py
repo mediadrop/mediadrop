@@ -182,7 +182,7 @@ def add_default_data():
         (u'primary_language', u'en'),
         (u'advertising_banner_html', u''),
         (u'advertising_sidebar_html', u''),
-        (u'comments_engine', u'mediacore'),
+        (u'comments_engine', u'builtin'),
         (u'facebook_appid', u''),
     ]
     settings.extend(appearance_settings)
