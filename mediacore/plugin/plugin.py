@@ -15,12 +15,12 @@ from pylons.util import class_name_from_module_name
 from routes.util import controller_scan
 
 
-__all__ = ['MediaCorePlugin']
+__all__ = ['MediaDropPlugin']
 
 log = logging.getLogger(__name__)
 
 
-class MediaCorePlugin(object):
+class MediaDropPlugin(object):
     """
     Plugin Metadata
 

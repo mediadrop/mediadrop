@@ -7,12 +7,12 @@
 
 from pylons import config, request
 
-from mediacore.lib.auth.permission_system import MediaCorePermissionSystem
+from mediacore.lib.auth.permission_system import MediaDropPermissionSystem
 
 
 __all__ = ['viewable_media']
 
 def viewable_media(query):
-    permission_system = MediaCorePermissionSystem(config)
+    permission_system = MediaDropPermissionSystem(config)
     return permission_system.filter_restricted_items(query, u'view', request.perm)
 

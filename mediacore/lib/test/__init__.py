@@ -18,7 +18,7 @@ from mediacore.lib.test.support import *
 def suite():
     from mediacore.controllers.tests import login_test, upload_test
     from mediacore.lib.auth.tests import (filtering_restricted_items_test, 
-        group_based_permissions_policy_test, mediacore_permission_system_test,
+        group_based_permissions_policy_test, mediadrop_permission_system_test,
         permission_system_test, query_result_proxy_test, static_query_test)
     from mediacore.lib.tests import (css_delivery_test, current_url_test,
         helpers_test, js_delivery_test, observable_test, request_mixin_test,
@@ -48,7 +48,7 @@ def suite():
     suite.addTest(media_example_test.suite())
     suite.addTest(media_status_test.suite())
     suite.addTest(media_test.suite())
-    suite.addTest(mediacore_permission_system_test.suite())
+    suite.addTest(mediadrop_permission_system_test.suite())
     suite.addTest(permission_system_test.suite())
     suite.addTest(observes_test.suite())
     suite.addTest(js_delivery_test.suite())

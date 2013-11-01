@@ -8,7 +8,7 @@
 
 import pylons
 
-from mediacore.lib.auth.permission_system import MediaCorePermissionSystem
+from mediacore.lib.auth.permission_system import MediaDropPermissionSystem
 from mediacore.lib.test.support import fake_request
 
 
@@ -30,7 +30,7 @@ class RequestMixin(object):
                 'user': user,
                 'repoze.who.userid': user.id,
             })
-        perm = MediaCorePermissionSystem.permissions_for_request(wsgi_environ, self.pylons_config)
+        perm = MediaDropPermissionSystem.permissions_for_request(wsgi_environ, self.pylons_config)
         wsgi_environ['mediacore.perm'] = perm
         pylons.request.perm = perm
     

@@ -14,7 +14,7 @@ from sqlalchemy import Column, Integer, MetaData, Table, Unicode, UnicodeText
 
 from mediacore.model import metadata, DBSession
 
-__all__ = ['MediaCoreMigrator', 'PluginDBMigrator']
+__all__ = ['MediaDropMigrator', 'PluginDBMigrator']
 
 migrate_to_alembic_mapping = {
     49: None,
@@ -91,7 +91,7 @@ class AlembicMigrator(object):
         return self._table_exists(table_name)
     
     def migrate_db(self):
-        target = 'MediaCore CE'
+        target = 'MediaDrop'
         if self.plugin_name:
             target = self.plugin_name + ' plugin'
         self.log.info('Running any new migrations for %s, if there are any' % target)
@@ -106,7 +106,7 @@ class AlembicMigrator(object):
     # mostly copied from alembic 0.5.0
     # The problem in alembic.command.stamp() is that it builds a new 
     # EnvironmentContext which does not have any ability to configure the
-    # version table name and MediaCore uses a custom table name.
+    # version table name and MediaDrop uses a custom table name.
     def stamp(self, revision):
         """'stamp' the revision table with the given revision; don't
         run any migrations."""
@@ -133,7 +133,7 @@ class AlembicMigrator(object):
     # --------------------------------------------------------------------------
 
 
-class MediaCoreMigrator(AlembicMigrator):
+class MediaDropMigrator(AlembicMigrator):
     @classmethod
     def from_config(cls, conf, **kwargs):
         context = cls.init_environment_context(conf)
@@ -150,7 +150,7 @@ class MediaCoreMigrator(AlembicMigrator):
         
         earliest_upgradable_version = sorted(migrate_to_alembic_mapping)[0]
         if db_migrate_version < earliest_upgradable_version:
-            error_msg = ('Upgrading from such an old version of MediaCore is not '
+            error_msg = ('Upgrading from such an old version of MediaDrop is not '
                 'supported. Your database is at version %d but upgrades are only '
                 'supported from MediaCore CE 0.9.0 (DB version %d). Please upgrade '
                 '0.9.0 first.')

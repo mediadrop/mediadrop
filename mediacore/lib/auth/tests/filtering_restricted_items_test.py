@@ -7,7 +7,7 @@
 
 from mediacore.lib.auth.api import IPermissionPolicy, UserPermissions
 from mediacore.lib.auth.group_based_policy import GroupBasedPermissionsPolicy
-from mediacore.lib.auth.permission_system import MediaCorePermissionSystem, PermissionPolicies
+from mediacore.lib.auth.permission_system import MediaDropPermissionSystem, PermissionPolicies
 from mediacore.lib.test.db_testcase import DBTestCase
 from mediacore.lib.test.pythonic_testcase import *
 from mediacore.model import DBSession, Media, User
@@ -24,7 +24,7 @@ class FilteringRestrictedItemsTest(DBTestCase):
         Media.query.delete()
         self.private_media = Media.example(slug=u'private')
         self.public_media = Media.example(slug=u'public')
-        self.permission_system = MediaCorePermissionSystem(self.pylons_config)
+        self.permission_system = MediaDropPermissionSystem(self.pylons_config)
         self.media_query = Media.query
         user = self._create_user_without_groups()
         self.perm = UserPermissions(user, self.permission_system)

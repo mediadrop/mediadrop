@@ -9,7 +9,7 @@
 from pylons import config
 
 from mediacore.controllers.login import LoginController
-from mediacore.lib.auth.permission_system import MediaCorePermissionSystem
+from mediacore.lib.auth.permission_system import MediaDropPermissionSystem
 from mediacore.lib.test import ControllerTestCase
 from mediacore.lib.test.pythonic_testcase import *
 from mediacore.model import DBSession, Group, User, Permission
@@ -18,7 +18,7 @@ from mediacore.model import DBSession, Group, User, Permission
 class LoginControllerTest(ControllerTestCase):
     def test_non_editors_are_redirect_to_home_page_after_login(self):
         user = User.example()
-        perm = MediaCorePermissionSystem.permissions_for_user(user, config)
+        perm = MediaDropPermissionSystem.permissions_for_user(user, config)
         assert_false(perm.contains_permission(u'edit'))
         assert_false(perm.contains_permission(u'admin'))
         
@@ -66,14 +66,14 @@ class LoginControllerTest(ControllerTestCase):
         admin_perm.groups.append(second_admin_group)
         admin = User.example(groups=[second_admin_group])
         DBSession.commit()
-        perm = MediaCorePermissionSystem.permissions_for_user(admin, config)
+        perm = MediaDropPermissionSystem.permissions_for_user(admin, config)
         assert_true(perm.contains_permission(u'admin'))
         assert_false(perm.contains_permission(u'edit'))
         return admin
     
     def _create_user_with_edit_permission_only(self):
         editor = User.example(groups=[self.editor_group()])
-        perm = MediaCorePermissionSystem.permissions_for_user(editor, config)
+        perm = MediaDropPermissionSystem.permissions_for_user(editor, config)
         assert_true(perm.contains_permission(u'edit'))
         assert_false(perm.contains_permission(u'admin'))
         return editor

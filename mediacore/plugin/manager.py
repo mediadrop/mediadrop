@@ -14,7 +14,7 @@ from pkg_resources import iter_entry_points
 from pylons.wsgiapp import PylonsApp
 from routes.util import controller_scan
 
-from mediacore.plugin.plugin import MediaCorePlugin
+from mediacore.plugin.plugin import MediaDropPlugin
 
 
 __all__ = ['PluginManager']
@@ -54,7 +54,7 @@ class PluginManager(object):
 
     def plugin_from_entry_point(self, epoint):
         module = epoint.load()
-        plugin_class = getattr(module, '__plugin__', MediaCorePlugin)
+        plugin_class = getattr(module, '__plugin__', MediaDropPlugin)
         return plugin_class(module, epoint.name)
 
     def public_paths(self):

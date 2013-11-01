@@ -16,7 +16,7 @@ from mediacore.model import DBSession, Group, User
 from mediacore.plugin.abc import AbstractClass, abstractmethod
 
 
-__all__ = ['MediaCorePermissionSystem', 'PermissionPolicies']
+__all__ = ['MediaDropPermissionSystem', 'PermissionPolicies']
 
 class PermissionPolicies(AbstractClass):
     @abstractmethod
@@ -45,10 +45,10 @@ class PermissionPolicies(AbstractClass):
         return map(policy_from_name, policy_names)
 
 
-class MediaCorePermissionSystem(PermissionSystem):
+class MediaDropPermissionSystem(PermissionSystem):
     def __init__(self, config):
         policies = PermissionPolicies.configured_policies(config)
-        super(MediaCorePermissionSystem, self).__init__(policies)
+        super(MediaDropPermissionSystem, self).__init__(policies)
     
     @classmethod
     def permissions_for_request(cls, environ, config):

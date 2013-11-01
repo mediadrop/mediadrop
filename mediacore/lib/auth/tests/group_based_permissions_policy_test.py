@@ -7,7 +7,7 @@
 
 from mediacore.lib.auth.api import UserPermissions
 from mediacore.lib.auth.group_based_policy import GroupBasedPermissionsPolicy
-from mediacore.lib.auth.permission_system import MediaCorePermissionSystem
+from mediacore.lib.auth.permission_system import MediaDropPermissionSystem
 from mediacore.lib.test.pythonic_testcase import *
 from mediacore.lib.test.db_testcase import DBTestCase
 from mediacore.model import DBSession, Media, Permission, User
@@ -26,7 +26,7 @@ class GroupBasedPermissionsPolicyTest(DBTestCase):
         assert_contains(u'custom', self.policy.permissions)
     
     def perm(self):
-        system = MediaCorePermissionSystem(self.pylons_config)
+        system = MediaDropPermissionSystem(self.pylons_config)
         system.policies = [self.policy]
         
         user = DBSession.query(User).filter(User.user_name == u'admin').one()

@@ -17,15 +17,15 @@ from webob.request import Request
 from mediacore.config.routing import login_form_url, login_handler_url, \
     logout_handler_url, post_login_url, post_logout_url
 
-from mediacore.lib.auth.permission_system import MediaCorePermissionSystem
+from mediacore.lib.auth.permission_system import MediaDropPermissionSystem
 
 
 
 __all__ = ['add_auth', 'classifier_for_flash_uploads']
 
-class MediaCoreAuthenticatorPlugin(SQLAlchemyAuthenticatorPlugin):
+class MediaDropAuthenticatorPlugin(SQLAlchemyAuthenticatorPlugin):
     def authenticate(self, environ, identity):
-        login = super(MediaCoreAuthenticatorPlugin, self).authenticate(environ, identity)
+        login = super(MediaDropAuthenticatorPlugin, self).authenticate(environ, identity)
         if login is None:
             return None
         user = self.get_user(login)
@@ -39,18 +39,18 @@ class MediaCoreAuthenticatorPlugin(SQLAlchemyAuthenticatorPlugin):
     @classmethod
     def by_attribute(cls, attribute_name=None):
         from mediacore.model import DBSession, User
-        authenticator = MediaCoreAuthenticatorPlugin(User, DBSession)
+        authenticator = MediaDropAuthenticatorPlugin(User, DBSession)
         if attribute_name:
             authenticator.translations['user_name'] = attribute_name
         return authenticator
 
 
-class MediaCoreCookiePlugin(AuthTktCookiePlugin):
+class MediaDropCookiePlugin(AuthTktCookiePlugin):
     def __init__(self, secret, **kwargs):
         if kwargs.get('userid_checker') is not None:
             raise TypeError("__init__() got an unexpected keyword argument 'userid_checker'")
         kwargs['userid_checker'] = self._check_userid
-        super(MediaCoreCookiePlugin, self).__init__(secret, **kwargs)
+        super(MediaDropCookiePlugin, self).__init__(secret, **kwargs)
     
     def _check_userid(self, user_id):
         # only accept numeric user_ids. In MediaCore < 0.10 the cookie contained
@@ -61,7 +61,7 @@ class MediaCoreCookiePlugin(AuthTktCookiePlugin):
 
 
 def who_args(config):
-    auth_by_username = MediaCoreAuthenticatorPlugin.by_attribute('user_name')
+    auth_by_username = MediaDropAuthenticatorPlugin.by_attribute('user_name')
     
     form = FriendlyFormPlugin(
         login_form_url,
@@ -74,7 +74,7 @@ def who_args(config):
     )
     cookie_secret = config['sa_auth.cookie_secret']
     seconds_30_days = 30*24*60*60 # session expires after 30 days
-    cookie = MediaCoreCookiePlugin(cookie_secret, 
+    cookie = MediaDropCookiePlugin(cookie_secret, 
         cookie_name='authtkt', 
         timeout=seconds_30_days, # session expires after 30 days
         reissue_time=seconds_30_days/2, # reissue cookie after 15 days
@@ -104,7 +104,7 @@ class AuthorizationMiddleware(object):
     
     def __call__(self, environ, start_response):
         environ['mediacore.perm'] = \
-            MediaCorePermissionSystem.permissions_for_request(environ, self.config)
+            MediaDropPermissionSystem.permissions_for_request(environ, self.config)
         return self.app(environ, start_response)
 
 

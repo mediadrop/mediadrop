@@ -20,7 +20,7 @@ from mediacore.config.environment import load_environment
 from mediacore.lib.i18n import N_
 from mediacore.lib.storage import (BlipTVStorage, DailyMotionStorage,
     LocalFileStorage, RemoteURLStorage, VimeoStorage, YoutubeStorage)
-from mediacore.migrations.util import MediaCoreMigrator
+from mediacore.migrations.util import MediaDropMigrator
 from mediacore.plugin import events
 
 from mediacore.model import (Author, AuthorWithIP, Category, Comment,
@@ -94,35 +94,35 @@ def setup_app(command, conf, vars):
     """
     config = load_environment(conf.global_conf, conf.local_conf)
     plugin_manager = config['pylons.app_globals'].plugin_mgr
-    mediacore_migrator = MediaCoreMigrator.from_config(conf, log=log)
+    mediadrop_migrator = MediaDropMigrator.from_config(conf, log=log)
     
     engine = metadata.bind
     db_connection = engine.connect()
     # simplistic check to see if MediaCore tables are present, just check for
     # the media_files table and assume that all other tables are there as well
     from mediacore.model.media import media_files
-    mediacore_tables_exist = engine.dialect.has_table(db_connection, media_files.name)
+    mediadrop_tables_exist = engine.dialect.has_table(db_connection, media_files.name)
     
     run_migrations = True
-    if not mediacore_tables_exist:
-        head_revision = mediacore_migrator.head_revision()
+    if not mediadrop_tables_exist:
+        head_revision = mediadrop_migrator.head_revision()
         log.info('Initializing new database with version %r' % head_revision)
         metadata.create_all(bind=DBSession.bind, checkfirst=True)
-        mediacore_migrator.init_db(revision=head_revision)
+        mediadrop_migrator.init_db(revision=head_revision)
         run_migrations = False
         add_default_data()
         for migrator in plugin_manager.migrators():
             migrator.init_db()
         events.Environment.database_initialized()
-    elif not mediacore_migrator.migrate_table_exists():
+    elif not mediadrop_migrator.migrate_table_exists():
         log.error('No migration table found, probably your MediaCore install '
             'is too old (< 0.9?). Please upgrade to MediaCore CE 0.9 first.')
         raise AssertionError('no migration table found')
-    elif not mediacore_migrator.alembic_table_exists():
-        alembic_revision = mediacore_migrator.map_migrate_version()
-        mediacore_migrator.stamp(alembic_revision)
+    elif not mediadrop_migrator.alembic_table_exists():
+        alembic_revision = mediadrop_migrator.map_migrate_version()
+        mediadrop_migrator.stamp(alembic_revision)
     if run_migrations:
-        mediacore_migrator.migrate_db()
+        mediadrop_migrator.migrate_db()
         for migrator in plugin_manager.migrators():
             migrator.migrate_db()
         events.Environment.database_migrated()
