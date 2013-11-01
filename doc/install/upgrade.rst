@@ -32,7 +32,7 @@ directory and Installation directory, respectively.
 
 **NOTE 4:** `mediadrop-old` and `mediadrop-new` below should be replaced with
 the correct versions for your installation. For example, with `MediaCore-0.9.4`
-and `MediaCore-0.10.0`, respectively.
+and `MediaDrop-0.11.0`, respectively.
 
 **NOTE 5:** If you're a developer type, and you're tracking the latest changes
 using git, you'll want to run `paster setup-app development.ini` after fetching
@@ -42,7 +42,7 @@ Players table are up to date.
 Step 1: Re-Create your Virtual Environment
 ------------------------------------------
 
-If you perform only a minor upgrade (e.g. MediaDrop 0.10.0 to 0.10.1) you 
+If you perform only a minor upgrade (e.g. MediaDrop 0.11.0 to 0.11.1) you
 can usually skip this step as we try not to change the database in a minor 
 release.
 
@@ -129,7 +129,7 @@ for new configuration settings.
 .. sourcecode:: bash
 
     cp yourconf.ini yourconf-old.ini
-    paster make-config MediaCore deployment.ini
+    paster make-config MediaDrop deployment.ini
 
 Copying over any modifications you made to the old one. At the very least, 
 this means you should be copying over the database configuration (a line that 

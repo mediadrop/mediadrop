@@ -104,7 +104,7 @@ ensures that the web server will never reveal your actual MediaDrop source code
 or the configuration files to web users in case of a configuration error.
 
 After step 3 you should have a directory which contains the folders ``data``,
-``MediaCore-0.10.0`` (or whatever you named the directory with the MediaDrop 
+``MediaDrop-0.11.0`` (or whatever you named the directory with the MediaDrop
 source code), and ``venv`` as well as the ``production.ini`` file.
 
 
@@ -156,8 +156,8 @@ a. You can `download the latest official release of MediaDrop <http://mediadrop.
    .. sourcecode:: bash
 
       # Unpack the downloaded distribution
-      tar xzvf MediaCore-0.10.0.tar.gz
-      cd MediaCore-0.10.0
+      tar xzvf MediaDrop-0.11.0.tar.gz
+      cd MediaDrop-0.11.0
 
       # Install!
       python setup.py develop
@@ -192,7 +192,7 @@ basic MediaDrop settings.
    .. sourcecode:: bash
 
       # To create deployment.ini in your current dir:
-      paster make-config MediaCore deployment.ini
+      paster make-config MediaDrop deployment.ini
 
 Open up ``deployment.ini`` and have a look through. The default settings
 should get you started. The only line that needs to be edited right away is
@@ -228,7 +228,7 @@ the ``data`` folder from your MediaDrop source code next to the
 
 .. sourcecode:: bash
 
-   cp -a MediaCore-0.10.0/data .
+   cp -a MediaDrop-0.11.0/data .
 
 **NOTE:** For uploads to work, the data directory must be writable by the user
 running MediaDrop.
@@ -249,7 +249,7 @@ enable fulltext searching, import ``setup_triggers.sql`` like so:
 .. sourcecode:: bash
 
    # Import fulltext search database triggers
-   mysql -u root mediadrop < MediaCore-0.10.0/setup_triggers.sql
+   mysql -u root mediadrop < MediaDrop-0.11.0/setup_triggers.sql
 
 **NOTE:** If you do not import ``setup_triggers.sql``, MediaDrop's search
 will only search for exact matches in the media title (e.g. searching for 

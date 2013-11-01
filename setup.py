@@ -87,7 +87,7 @@ if is_babel_available:
     extra_arguments_for_setup['message_extractors'] = {'mediacore': extractors}
 
 setup(
-    name='MediaCore',
+    name='MediaDrop',
     version=VERSION,
     description='A audio, video and podcast publication platform.',
     author='MediaDrop contributors.',
