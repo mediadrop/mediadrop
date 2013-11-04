@@ -61,14 +61,14 @@ sa_auth.cookie_secret = ${app_instance_secret}
 # Method to use when servng static media files. On of:
 #   apache_xsendfile - requires Apache 2.x and mod_xsendfile
 #   nginx_redirect - requires nginx and the creation of an internal location
-#                    block with an alias from the path __mediacore_serve__ to
+#                    block with an alias from the path __mediadrop_serve__ to
 #                    your /path/to/mediadrop/data/media directory.
 #                    See the full docs below for an example:
 #                    http://mediadrop.net/docs/install/nginx-uwsgi.html
 #   default - uses environ['wsgi.file_wrapper'] if it's provided by the server,
 #             otherwise a pure-python file iterator returns the file in chunks
 file_serve_method = default
-# nginx_serve_path = __mediacore_serve__
+# nginx_serve_path = __mediadrop_serve__
 
 # Enable automatic gzip compresson for all html/css/js/json responses.
 # Keep this enabled unless you're serving MediaDrop via Apache and you

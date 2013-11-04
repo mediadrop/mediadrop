@@ -180,10 +180,10 @@ configuration and will probably suit most use cases:
 
         # Configure NGINX XSendfile.
         # We use an alias here instead of root so the path info
-        # __mediacore_serve__ is stripped off.
-        # Note: "__mediacore_serve__" is just the default prefix and can be
+        # __mediadrop_serve__ is stripped off.
+        # Note: "__mediadrop_serve__" is just the default prefix and can be
         # configured using the option "nginx_serve_path" in your deployment.ini.
-        # Note: __mediacore_serve__ should point to the path where MediaDrop
+        # Note: __mediadrop_serve__ should point to the path where MediaDrop
         # stores its media files.
         # Note: We define this as an "internal" location to prevent it from
         # being served directly to end users.
