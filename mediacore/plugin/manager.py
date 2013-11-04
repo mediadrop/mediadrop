@@ -45,12 +45,23 @@ class PluginManager(object):
 
         # all plugins are enabled by default (for compatibility with MediaCore < 0.10)
         enabled_plugins = re.split('\s*,\s*', config.get('plugins', '*'))
-        for epoint in iter_entry_points('mediacore.plugin'):
-            if (epoint.name not in enabled_plugins) and ('*' not in enabled_plugins):
-                log.debug('Skipping plugin %s: not enabled' % epoint.name)
+        mediadrop_epoints = self._discover_plugins('mediacore.plugin')
+        self.plugins = self._initialize_enabled_plugins(mediadrop_epoints, enabled_plugins)
+
+    def _discover_plugins(self, entry_point_name):
+        for epoint in iter_entry_points(entry_point_name):
+            yield epoint
+
+    def _initialize_enabled_plugins(self, entry_points, enabled_plugins):
+        plugins = dict()
+        for epoint in entry_points:
+            plugin_id = epoint.name
+            if (plugin_id not in enabled_plugins) and ('*' not in enabled_plugins):
+                log.debug('Skipping plugin %s: not enabled' % plugin_id)
                 continue
-            self.plugins[epoint.name] = self.plugin_from_entry_point(epoint)
+            plugins[plugin_id] = self.plugin_from_entry_point(epoint)
             log.debug('Plugin loaded: %r', epoint)
+        return plugins
 
     def plugin_from_entry_point(self, epoint):
         module = epoint.load()
