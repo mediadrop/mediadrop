@@ -43,7 +43,7 @@ class PluginManager(object):
         self.plugins = {}
         self._match_templates = {}
 
-        # all plugins are enabled by default (for compatibility with MediaCore < 0.9)
+        # all plugins are enabled by default (for compatibility with MediaCore < 0.10)
         enabled_plugins = re.split('\s*,\s*', config.get('plugins', '*'))
         for epoint in iter_entry_points('mediacore.plugin'):
             if (epoint.name not in enabled_plugins) and ('*' not in enabled_plugins):
