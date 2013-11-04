@@ -31,7 +31,7 @@ class RequestMixin(object):
                 'repoze.who.userid': user.id,
             })
         perm = MediaDropPermissionSystem.permissions_for_request(wsgi_environ, self.pylons_config)
-        wsgi_environ['mediacore.perm'] = perm
+        wsgi_environ['mediadrop.perm'] = perm
         pylons.request.perm = perm
     
     def remove_globals(self):

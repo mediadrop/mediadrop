@@ -81,7 +81,7 @@ class BareBonesController(WSGIController):
         response.feed_links = []
         response.facebook = None
         response.warnings = []
-        request.perm = request.environ['mediacore.perm']
+        request.perm = request.environ['mediadrop.perm']
 
         action_method = getattr(self, kwargs['action'], None)
         # The expose decorator sets the exposed attribute on controller

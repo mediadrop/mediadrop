@@ -28,7 +28,7 @@ class has_permission(Predicate):
         environ = request.environ
         # potentially wrapping the BaseController which sets up request.perm,
         # therefore we have to get the perm object from the environ
-        return environ['mediacore.perm'].contains_permission(self.permission_name)
+        return environ['mediadrop.perm'].contains_permission(self.permission_name)
 
 
 class FunctionProtector(object):

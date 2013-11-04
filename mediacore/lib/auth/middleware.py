@@ -103,7 +103,7 @@ class AuthorizationMiddleware(object):
         self.config = config
     
     def __call__(self, environ, start_response):
-        environ['mediacore.perm'] = \
+        environ['mediadrop.perm'] = \
             MediaDropPermissionSystem.permissions_for_request(environ, self.config)
         return self.app(environ, start_response)
 
