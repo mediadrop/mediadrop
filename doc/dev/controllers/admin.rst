@@ -8,7 +8,7 @@ Admin Controllers
 Dashboard
 ---------
 
-.. automodule:: mediacore.controllers.admin.index
+.. automodule:: mediadrop.controllers.admin.index
 
 .. autoclass:: IndexController
    :members:
@@ -18,7 +18,7 @@ Dashboard
 Media
 -----
 
-.. automodule:: mediacore.controllers.admin.media
+.. automodule:: mediadrop.controllers.admin.media
 
 .. autoclass:: MediaController
    :members:
@@ -28,7 +28,7 @@ Media
 Podcasts
 --------
 
-.. automodule:: mediacore.controllers.admin.podcasts
+.. automodule:: mediadrop.controllers.admin.podcasts
 
 .. autoclass:: PodcastsController
    :members:
@@ -38,7 +38,7 @@ Podcasts
 Comments
 --------
 
-.. automodule:: mediacore.controllers.admin.comments
+.. automodule:: mediadrop.controllers.admin.comments
 
 .. autoclass:: CommentsController
    :members:
@@ -48,7 +48,7 @@ Comments
 User Management
 ---------------
 
-.. automodule:: mediacore.controllers.admin.users
+.. automodule:: mediadrop.controllers.admin.users
 
 .. autoclass:: UsersController
    :members:
@@ -58,7 +58,7 @@ User Management
 Settings - Audio/Video Players
 ------------------------------
 
-.. automodule:: mediacore.controllers.admin.players
+.. automodule:: mediadrop.controllers.admin.players
 
 .. autoclass:: PlayersController
    :members:
@@ -68,7 +68,7 @@ Settings - Audio/Video Players
 Settings - Storage Engines
 --------------------------
 
-.. automodule:: mediacore.controllers.admin.storage
+.. automodule:: mediadrop.controllers.admin.storage
 
 .. autoclass:: StorageController
    :members:
@@ -78,7 +78,7 @@ Settings - Storage Engines
 Settings - Categories
 ---------------------
 
-.. automodule:: mediacore.controllers.admin.categories
+.. automodule:: mediadrop.controllers.admin.categories
 
 .. autoclass:: CategoriesController
    :members:
@@ -88,7 +88,7 @@ Settings - Categories
 Settings - Tags
 ---------------
 
-.. automodule:: mediacore.controllers.admin.tags
+.. automodule:: mediadrop.controllers.admin.tags
 
 .. autoclass:: TagsController
    :members:
@@ -98,7 +98,7 @@ Settings - Tags
 Settings - Other
 ----------------
 
-.. automodule:: mediacore.controllers.admin.settings
+.. automodule:: mediadrop.controllers.admin.settings
 
 .. autoclass:: SettingsController
    :members:

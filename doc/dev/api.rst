@@ -31,22 +31,22 @@ choose to require an API Key be sent with every API request. This key is
 configurable in MediaDrop's *Admin -> Settings -> Data API* page.
 
 
-.. automodule:: mediacore.controllers.api.media
+.. automodule:: mediadrop.controllers.api.media
 
 Querying Media Items
 --------------------
 
 
 MediaDrop provides a
-:meth:`get <mediacore.controllers.api.media.MediaController.get>`
+:meth:`get <mediadrop.controllers.api.media.MediaController.get>`
 method for returning information about an individual media item (given an
 *id* or *slug*) and an
-:meth:`index <mediacore.controllers.api.media.MediaController.index>`
+:meth:`index <mediadrop.controllers.api.media.MediaController.index>`
 method for returning information on a list of  media items that match
 specified criteria.
 
 Both of these methods make use of the **media_info** dicts provided by the
-private :meth:`_info <mediacore.controllers.api.media.MediaController._info>`
+private :meth:`_info <mediadrop.controllers.api.media.MediaController._info>`
 method.
 
 .. automethod:: MediaController._info
@@ -54,9 +54,9 @@ method.
 Single Media Items
 ~~~~~~~~~~~~~~~~~~
 
-If you know the :attr:`id <mediacore.model.media.Media.id>` or
-:attr:`slug <mediacore.model.media.Media.slug>` of a single media item you want to
-query, use the :meth:`get <mediacore.controllers.api.media.MediaController.get>`
+If you know the :attr:`id <mediadrop.model.media.Media.id>` or
+:attr:`slug <mediadrop.model.media.Media.slug>` of a single media item you want to
+query, use the :meth:`get <mediadrop.controllers.api.media.MediaController.get>`
 method (available by default at **/api/media/get**).
 
 Examples:
@@ -73,7 +73,7 @@ Lists of Media Items
 ~~~~~~~~~~~~~~~~~~~~
 
 To return a filtered list of media info, use the
-:meth:`index <mediacore.controllers.api.media.MediaController.index>`
+:meth:`index <mediadrop.controllers.api.media.MediaController.index>`
 method (available by default at **/api/media**).
 
 Examples:
@@ -90,13 +90,13 @@ Querying Media Files
 --------------------
 
 MediaDrop provides a
-:meth:`files <mediacore.controllers.api.media.MediaController.files>`
+:meth:`files <mediadrop.controllers.api.media.MediaController.files>`
 method for returning information about the
-:class:`mediacore.model.media.MediaFile` instances associated with a given
-:class:`mediacore.model.media.Media` instance.
+:class:`mediadrop.model.media.MediaFile` instances associated with a given
+:class:`mediadrop.model.media.Media` instance.
 
 This method makes use of the **file_info** dicts provided by the private
-:meth:`_file_info <mediacore.controllers.api.media.MediaController._file_info>`
+:meth:`_file_info <mediadrop.controllers.api.media.MediaController._file_info>`
 method.
 
 .. automethod:: MediaController._file_info
@@ -105,11 +105,11 @@ method.
 Lists of Media Files
 ~~~~~~~~~~~~~~~~~~~~
 
-When you know the :attr:`id <mediacore.model.media.Media.id>` or
-:attr:`slug <mediacore.model.media.Media.slug>` of a single
-:class:`media <mediacore.model.media.Media>`
+When you know the :attr:`id <mediadrop.model.media.Media.id>` or
+:attr:`slug <mediadrop.model.media.Media.slug>` of a single
+:class:`media <mediadrop.model.media.Media>`
 instance that you want to get the file info for,
-:meth:`files <mediacore.controllers.api.media.MediaController.files>`
+:meth:`files <mediadrop.controllers.api.media.MediaController.files>`
 method (available by default at **/api/media/files**).
 
 Examples:
@@ -123,20 +123,20 @@ Examples:
 
 
 
-.. automodule:: mediacore.controllers.api.categories
+.. automodule:: mediadrop.controllers.api.categories
 
 Querying Categories
 -------------------
 
 MediaDrop provides two methods of listing categories:
-:meth:`index <mediacore.controllers.api.categories.CategoriesController.index>`
+:meth:`index <mediadrop.controllers.api.categories.CategoriesController.index>`
 for listing all categories in a flat list, and
-:meth:`tree <mediacore.controllers.api.categories.CategoriesController.tree>`
+:meth:`tree <mediadrop.controllers.api.categories.CategoriesController.tree>`
 for listing all categories in the hierarchy tree.
 
 Both of these methods make use of the **category_info** dicts provided by the
 private
-:meth:`_info <mediacore.controllers.api.categories.CategoriesController._info>`
+:meth:`_info <mediadrop.controllers.api.categories.CategoriesController._info>`
 method.
 
 .. automethod:: CategoriesController._info
@@ -146,7 +146,7 @@ Lists of Categories
 ~~~~~~~~~~~~~~~~~~~
 
 To query a flat list of categories, use the
-:meth:`index <mediacore.controllers.api.categories.CategoriesController.index>`
+:meth:`index <mediadrop.controllers.api.categories.CategoriesController.index>`
 method (available by default at **/api/categories**).
 
 Examples:
@@ -163,7 +163,7 @@ Hierarchies of Categories
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To query a hierarchy of categories, use the
-:meth:`tree <mediacore.controllers.api.categories.CategoriesController.tree>`
+:meth:`tree <mediadrop.controllers.api.categories.CategoriesController.tree>`
 method (available by default at **/api/categories/tree**).
 
 Examples:

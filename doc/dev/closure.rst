@@ -56,7 +56,7 @@ extract it into place:
 
     The shell scripts detailed below require the library and compiler
     to be accessible at these locations.  If you'd like to store them
-    elsewhere, you'll have to edit ``mediacore/config/middleware.py`` and
+    elsewhere, you'll have to edit ``mediadrop/config/middleware.py`` and
     the shell scripts at ``batch-scripts/closure/``.
 
 

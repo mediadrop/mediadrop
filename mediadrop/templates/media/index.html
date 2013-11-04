@@ -1,0 +1,36 @@
+<!--!
+This file is a part of MediaDrop (http://www.mediadrop.net),
+Copyright 2009-2013 MediaDrop contributors
+For the exact contribution history, see the git revision log.
+The source code contained in this file is licensed under the GPLv3 or
+(at your option) any later version.
+See LICENSE.txt in the main project directory, for more information.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      xmlns:i18n="http://genshi.edgewall.org/i18n"
+      xmlns:xi="http://www.w3.org/2001/XInclude">
+<xi:include href="../master.html" />
+<head>
+	<title>${h.page_title(default=search_query and _('Search: "%s"') % search_query or _('Media Library')) }</title>
+	<link py:if="show == 'latest' and not (search_query or tag) and settings['rss_display'] == 'True'"
+	      title="Latest RSS" rel="alternate" type="application/rss+xml"
+	      href="${h.url_for(controller='/sitemaps', action='latest')}" />
+</head>
+<body class="nav-media-on">
+	<div class="mediadrop-content">
+		<h3 py:choose="">
+			<py:when test="search_query"><span i18n:msg="result_count, search_query" class="mcore-heading">Showing ${result_count} results for '${search_query}'</span></py:when>
+			<py:when test="tag"><span i18n:msg="result_count, tag_name" class="mcore-heading">Showing ${result_count} results tagged with '${tag.name}'</span></py:when>
+			<py:otherwise><span class="uppercase mcore-heading" i18n:msg="result_count">All ${result_count} Media</span></py:otherwise>
+		</h3>
+		${library_controls(show, paginator=c.paginators.media, search_query=search_query, tag=tag and tag.slug or None)}
+		<ul py:replace="media_grid(media, id='library', thumb_size='m', desc_len=145)" />
+	</div>
+	<div py:if="c.paginators" class="mediadrop-content clearfix">
+		<div py:replace="pager(c.paginators.media)" />
+	</div>
+</body>
+</html>

@@ -13,15 +13,15 @@ grep_cmd = """grep -ERn "%s" """ % ("|".join(keywords))
 files_and_dirs = [
     'batch-scripts',
     'deployment-scripts',
-    'mediacore',
+    'mediadrop',
     'plugins',
     'setup*',
 ]
 exclude_files_and_dirs = [
     'batch-scripts/find_todos.py',
-    'mediacore/public/scripts/third-party/',
-    'mediacore/lib/xhtml/htmlsanitizer.py',
-    'mediacore/public/scripts/mcore-compiled.js',
+    'mediadrop/public/scripts/third-party/',
+    'mediadrop/lib/xhtml/htmlsanitizer.py',
+    'mediadrop/public/scripts/mcore-compiled.js',
 ]
 
 IN, MULT = 1, 2

@@ -1,0 +1,136 @@
+<!--!
+This file is a part of MediaDrop (http://www.mediadrop.net),
+Copyright 2009-2013 MediaDrop contributors
+For the exact contribution history, see the git revision log.
+The source code contained in this file is licensed under the GPLv3 or
+(at your option) any later version.
+See LICENSE.txt in the main project directory, for more information.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      xmlns:i18n="http://genshi.edgewall.org/i18n"
+      xmlns:fb="http://www.facebook.com/2008/fbml"
+      xmlns:xi="http://www.w3.org/2001/XInclude"
+      py:with="comments_engine = settings['comments_engine']">
+<xi:include href="../master.html" />
+<xi:include href="../comments/_list.html" py:if="comments_engine == 'builtin'" />
+<xi:include href="../comments/facebook.html" py:if="comments_engine == 'facebook'" />
+<head>
+	<title>${h.page_title(default=media.title, media=media)}</title>
+	<link py:if="media.podcast" href="${h.url_for('/styles/podcasts.css')}" media="screen" rel="stylesheet" type="text/css" />
+	<meta name="description" content="${h.meta_description(media=media)}" />
+	<meta name="keywords" content="${h.meta_keywords(media=media)}" />
+
+	<meta property="og:title" content="${h.page_title(default=media.title, media=media)}"/>
+	<meta property="og:url" content="${h.url_for_media(media, qualified=True)}"/>
+	<meta property="og:description" content="${h.meta_description(media=media)}"/>
+	<meta property="og:site_name" content="${h.page_title()}"/>
+	<meta property="og:image" content="${h.thumb_url(media, 'l', qualified=True)}"/>
+
+	<link rel="image_src" href="${h.thumb_url(media, 'l', qualified=True)}" />
+</head>
+<body class="${media.podcast and 'nav-podcasts-on' or 'nav-media-on'}" py:with="is_widescreen = (settings['appearance_enable_widescreen_view'] == 'True')">
+	<div id="media-wrapper" class="mediadrop-content clearfix">
+
+		<div py:def="media_box(media)" id="media-box" class="feat-box media-${is_widescreen and 'wide' or 'norm'}">
+			<div class="feat-top" />
+			<div class="feat-content">
+				${h.media_player(media, show_download=True, show_embed=True, show_resize=True, is_widescreen=is_widescreen, **(is_widescreen and dict(width=890, height=500) or dict(width=560, height=315)))}
+			</div>
+			<div class="feat-bottom" />
+		</div>
+
+	<div id="media-inner-wrapper">
+		<py:if test="is_widescreen">${media_box(media)}</py:if>
+		<div id="media-info">
+			<py:if test="not is_widescreen">${media_box(media)}</py:if>
+
+			<a href="${h.url_for(controller='/admin/media', action='edit', id=media.id)}" class="underline-hover f-rgt" py:if="h.can_edit()">Edit</a>
+			<h3 class="feat-title">${media.title}</h3>
+			<div class="feat-date" py:choose="">
+				<py:when test="media.is_published" py:with="datetime = h.format_date(media.publish_on, 'long')">${datetime}</py:when>
+				<py:otherwise>(unpublished)</py:otherwise>
+				<span i18n:msg="authorName">by ${media.author.name}</span>
+			</div>
+			<div id="description-excerpt" class="media-desc" py:with="fulltext = media.description or u''; excerpt = h.excerpt_xhtml(fulltext, 340)">
+				<div class="mcore-excerpt-fulltext"><p py:replace="Markup(fulltext)" /></div>
+				<div class="mcore-excerpt" style="display:none" py:if="excerpt != fulltext"><p py:replace="Markup(excerpt)" /></div>
+			</div>
+			<div class="feat-stats clearfix">
+				<div class="meta-views f-rgt">${h.format_decimal(media.views)} ${ungettext('View', 'Views', media.views)}</div>
+				<div py:if="settings.get('likes') != 'facebook' and (settings['appearance_show_like'] or settings['appearance_show_dislike'])" class="meta-likes f-rgt">
+					<span py:if="settings['appearance_show_like']" id="mcore-likes-counter">${h.format_decimal(media.likes)}</span> ${ungettext('Like', 'Likes', media.likes)}
+					<span py:if="settings['appearance_show_dislike']" class="meta-dislikes"><span id="mcore-dislikes-counter">${h.format_decimal(media.dislikes)}</span> ${ungettext('Dislike', 'Dislikes', media.dislikes)}</span>
+				</div>
+				<div py:if="comments_engine == 'builtin'" class="meta-comments f-lft"><span id="mcore-comments-counter">${media.comment_count_published}</span> ${ungettext('Comment', 'Comments', media.comment_count_published)}</div>
+			</div>
+
+			<py:choose test="comments_engine">
+				<py:when test="'facebook'">
+					${facebook_comment(media=media)}
+				</py:when>
+				<py:when test="'builtin'">
+					${comment_list(comments, comment_form_action, comment_form_values)}
+				</py:when>
+			</py:choose>
+		</div>
+	</div>
+
+	<div id="media-sidebar" py:with="advertising_sidebar_html = settings['advertising_sidebar_html']">
+
+		<div py:if="advertising_sidebar_html" id="mcore-ad-sidebar" class="f-rgt" py:content="Markup(advertising_sidebar_html)" />
+
+		<py:if test="media.podcast" py:with="title_len = 50; desc_len = 120; m_desc_len = (desc_len - min(len(media.podcast.title), title_len)) or 0">
+			<div id="podcast-context" class="contextbox" py:with="podcast = media.podcast">
+				<h3 class="uppercase">Related Podcast</h3>
+				<ul class="grid s-grid">
+					<li>
+						<a href="${h.url_for(controller='/podcasts', action='view', slug=podcast.slug)}">
+							<span class="grid-title">${h.truncate(podcast.title, title_len)}</span>
+							<span class="thumb-wrap">
+								<img py:with="thumb = h.thumb(podcast, 's')" src="${thumb.url}" width="${thumb.x}" height="${thumb.y}" alt="" />
+							</span>
+							<span class="grid-desc mcore-text" py:content="h.truncate(h.strip_xhtml(podcast.description), m_desc_len)">Description</span><br />
+							<span class="grid-meta">
+								<span class="meta meta-episodes" title="Podcast Episodes">
+									${podcast.media_count_published}
+									<span>
+										<i18n:choose numeral="podcast.media_count_published">
+											<span i18n:singular="">Episode</span>
+											<span i18n:plural="">Episodes</span>
+										</i18n:choose>
+									</span>
+								</span>
+							</span>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</py:if>
+
+		<div id="media-context" class="contextbox" py:if="related_media">
+			<h3 class="uppercase">Related Media</h3>
+			<ul py:replace="media_grid(related_media, thumb_size='s', title_len=40, desc_len=0)" />
+		</div>
+
+		<div id="category-context" class="contextbox">
+			<a py:def="cat_link(cat)" href="${h.url_for(controller='/categories', slug=cat.slug)}" class="underline-hover">${cat.name}</a>
+			<h3 class="uppercase">Categories</h3>
+			<p py:if="media.categories">${cat_link(media.categories[0])}<py:for each="cat in media.categories[1:]">, ${cat_link(cat)}</py:for></p>
+			<p py:if="not media.categories" class="contextbox-none">This is not listed under any categories.</p>
+		</div>
+
+		<div id="tag-context" class="contextbox">
+			<a class="subhead underline-hover" href="${h.url_for(controller='/media', action='tags')}">See All Tags</a>
+			<h3 class="uppercase">Tags</h3>
+			<a py:def="tag_link(tag)" href="${h.url_for(controller='/media', action='index', tag=tag.slug)}" class="underline-hover">${tag.name}</a>
+			<p py:if="media.tags">${tag_link(media.tags[0])}<py:for each="tag in media.tags[1:]">, ${tag_link(tag)}</py:for></p>
+			<p py:if="not media.tags" class="contextbox-none">This does not have any associated tags.</p>
+		</div>
+	</div>
+
+	</div>
+</body>
+</html>

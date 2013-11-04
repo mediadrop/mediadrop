@@ -18,8 +18,8 @@ RewriteRule ^appearance/(.*) data/appearance/$1 [L]
 RewriteRule ^(admin/)?(styles|images|scripts)/(.*)$ public/$1$2/$3 [L]
 
 # Create rewrite rules for pointing MediaDrop requests to fastcgi script
-RewriteRule ^mediacore\.fcgi(/.*)$  - [L]
-# If the file requested doesn't exist on the filesystem, redirect to mediacore.fcgi
+RewriteRule ^mediadrop.fcgi(/.*)$  - [L]
+# If the file requested doesn't exist on the filesystem, redirect to mediadrop.fcgi
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^(.*)$ mediacore.fcgi/$1 [L]
+RewriteRule ^(.*)$ mediadrop.fcgi/$1 [L]
 

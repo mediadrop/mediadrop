@@ -1,0 +1,2552 @@
+# Chinese (China) translations for MediaDrop.
+# Copyright (C) 2013 ORGANIZATION
+# This file is distributed under the same license as the MediaDrop.
+#
+# Translators:
+# kdumporg <acheng@kdump.cn>, 2013
+# acheng <busyhd@126.com>, 2011
+# grantchen <grantchen.t@gmail.com>, 2011
+# natedub <nathan@simplestation.com>, 2011
+# Sean <sean@bravoflix.com>, 2011
+msgid ""
+msgstr ""
+"Project-Id-Version: MediaCore Video Platform\n"
+"Report-Msgid-Bugs-To: http://github.com/mediadrop/mediadrop-"
+"community/issues\n"
+"POT-Creation-Date: 2013-10-25 12:04+0200\n"
+"PO-Revision-Date: 2013-06-11 08:27+0000\n"
+"Last-Translator: kdumporg <acheng@kdump.cn>\n"
+"Language-Team: Chinese (China) "
+"(http://www.transifex.com/projects/p/mediadrop/language/zh_CN/)\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 0.9.6\n"
+
+#: mediadrop/websetup.py:153
+msgid ""
+"Upload your media using the form below. We'll review it and get back to "
+"you."
+msgstr "使用下面的表格上传您的媒体。我们将审核一下然后再联系你。"
+
+#: mediadrop/controllers/categories.py:67
+#: mediadrop/templates/categories/more.html:19
+#, python-format
+msgid "Latest media in %s"
+msgstr "%s中最新的媒体"
+
+#: mediadrop/controllers/errors.py:55
+msgid "We're sorry but we weren't able to process this request."
+msgstr "很抱歉，我们无法处理此请求。"
+
+#: mediadrop/controllers/login.py:39
+msgid "Invalid username or password."
+msgstr "用户名或密码无效。"
+
+#: mediadrop/controllers/media.py:89 mediadrop/controllers/media.py:149
+#: mediadrop/templates/media/index.html:18
+msgid "Latest RSS"
+msgstr "最新的RSS"
+
+#: mediadrop/controllers/media.py:93
+#, fuzzy
+msgid "Featured RSS"
+msgstr "精选"
+
+#: mediadrop/controllers/media.py:144
+msgid "Sitemap XML"
+msgstr "网站地图XML"
+
+#: mediadrop/controllers/media.py:145
+msgid "Sitemap RSS"
+msgstr "网站的RSS"
+
+#: mediadrop/controllers/media.py:315
+msgid "Your comment has been rejected."
+msgstr "您的评论已被拒绝。"
+
+#: mediadrop/controllers/media.py:337
+msgid ""
+"Thank you for your comment! We will post it just as soon as a moderator "
+"approves it."
+msgstr "感谢您发表评论！版主批准后我们将第一时间发布。"
+
+#: mediadrop/controllers/admin/media.py:385
+#, python-format
+msgid "File \"%s\" does not exist."
+msgstr "%s 文件不存在。"
+
+#: mediadrop/controllers/admin/media.py:408
+msgid "No action to perform."
+msgstr "没有需要执行的操作。"
+
+#: mediadrop/controllers/admin/media.py:558
+#: mediadrop/controllers/admin/podcasts.py:206
+msgid "Permission denied, cannot write file"
+msgstr "权限不足，无法写入文件"
+
+#: mediadrop/controllers/admin/media.py:560
+#, python-format
+msgid "Unsupported image type: %s"
+msgstr "不支持的图像类型: %s"
+
+#: mediadrop/controllers/admin/media.py:563
+#: mediadrop/controllers/admin/podcasts.py:211
+msgid "Interlaced PNGs are not supported."
+msgstr "不支持隔行扫描的PNG格式"
+
+#: mediadrop/controllers/admin/podcasts.py:91
+msgid "Save the podcast to get your feed URL"
+msgstr "保存后可获得博客feed URL"
+
+#: mediadrop/controllers/admin/podcasts.py:208
+#, python-format
+msgid "Unsupport image type: %s"
+msgstr "不支持的图像类型: %s"
+
+#: mediadrop/forms/__init__.py:212
+msgid "The portion of the email address before the @ is invalid"
+msgstr "该电子邮件地址@之前的部分是无效的"
+
+#: mediadrop/forms/__init__.py:213
+msgid "The portion of this email address after the @ is invalid"
+msgstr "该电子邮件地址@之后的部分是无效的"
+
+#: mediadrop/forms/comments.py:15
+msgid "Please enter your name!"
+msgstr "请输入你的名字！"
+
+#: mediadrop/forms/login.py:33 mediadrop/forms/admin/users.py:53
+#: mediadrop/forms/admin/storage/ftp.py:28
+msgid "Username"
+msgstr "用户名"
+
+#: mediadrop/forms/login.py:36 mediadrop/forms/admin/users.py:54
+#: mediadrop/forms/admin/storage/ftp.py:29
+msgid "Password"
+msgstr "密码"
+
+#: mediadrop/forms/login.py:38 mediadrop/templates/master.html:77
+msgid "Login"
+msgstr "登录"
+
+#: mediadrop/forms/uploader.py:17
+msgid "At least give it a short description..."
+msgstr "至少给它一个简短的描述..."
+
+#: mediadrop/forms/uploader.py:21
+msgid "You've gotta have a name!"
+msgstr "必须输入一个名字！"
+
+#: mediadrop/forms/uploader.py:25
+msgid "You've gotta have a title!"
+msgstr "必须有一个标题！"
+
+#: mediadrop/forms/uploader.py:43
+msgid "Your Name:"
+msgstr "您的姓名："
+
+#: mediadrop/forms/uploader.py:44
+msgid "Your Email:"
+msgstr "您的邮箱："
+
+#: mediadrop/forms/uploader.py:44
+msgid "(will never be published)"
+msgstr "(将不会被对外公布)"
+
+#: mediadrop/forms/uploader.py:45
+msgid "Title:"
+msgstr "标题："
+
+#: mediadrop/forms/uploader.py:46
+msgid "Description:"
+msgstr "说明："
+
+#: mediadrop/forms/uploader.py:47
+msgid "Add a YouTube, Vimeo or Amazon S3 link:"
+msgstr "添加一个YouTube，Vimeo或Amazon S3链接："
+
+#: mediadrop/forms/uploader.py:48
+msgid "Oops! You forgot to enter a file."
+msgstr "哎呀！你忘了输入文件。"
+
+#: mediadrop/forms/uploader.py:48
+msgid "OR:"
+msgstr "或："
+
+#: mediadrop/forms/uploader.py:49
+msgid "Submit"
+msgstr "提交"
+
+#: mediadrop/forms/admin/__init__.py:19
+msgid "SEARCH..."
+msgstr "搜索..."
+
+#: mediadrop/forms/admin/__init__.py:40
+msgid "You forgot to select an image!"
+msgstr "你忘了选择一个图片！"
+
+#: mediadrop/forms/admin/categories.py:38 mediadrop/forms/admin/tags.py:39
+#: mediadrop/templates/admin/categories/index.html:62
+#: mediadrop/templates/admin/players/index.html:48
+#: mediadrop/templates/admin/storage/index.html:120
+#: mediadrop/templates/admin/tags/index.html:59
+#: mediadrop/templates/comments/_list.html:67
+msgid "Name"
+msgstr "名称"
+
+#: mediadrop/forms/admin/categories.py:39 mediadrop/forms/admin/media.py:148
+#: mediadrop/forms/admin/podcasts.py:103 mediadrop/forms/admin/tags.py:40
+#: mediadrop/templates/comments/_list.html:28
+msgid "Permalink"
+msgstr "简洁链接"
+
+#: mediadrop/forms/admin/categories.py:40
+msgid "Parent Category"
+msgstr "上级分类"
+
+#: mediadrop/forms/admin/categories.py:41 mediadrop/forms/admin/comments.py:25
+#: mediadrop/forms/admin/tags.py:41
+#: mediadrop/templates/admin/categories/index.html:41
+#: mediadrop/templates/admin/categories/index.html:91
+#: mediadrop/templates/admin/comments/index.html:38
+#: mediadrop/templates/admin/comments/index.html:51
+#: mediadrop/templates/admin/groups/edit.html:28
+#: mediadrop/templates/admin/groups/index.html:31
+#: mediadrop/templates/admin/media/edit.html:80
+#: mediadrop/templates/admin/media/index.html:36
+#: mediadrop/templates/admin/players/index.html:28
+#: mediadrop/templates/admin/podcasts/edit.html:54
+#: mediadrop/templates/admin/settings/appearance.html:29
+#: mediadrop/templates/admin/storage/index.html:76
+#: mediadrop/templates/admin/tags/index.html:38
+#: mediadrop/templates/admin/tags/index.html:85
+#: mediadrop/templates/admin/users/edit.html:28
+#: mediadrop/templates/admin/users/index.html:28
+msgid "Cancel"
+msgstr "取消"
+
+#: mediadrop/forms/admin/categories.py:42 mediadrop/forms/admin/comments.py:24
+#: mediadrop/forms/admin/groups.py:47 mediadrop/forms/admin/media.py:160
+#: mediadrop/forms/admin/players.py:45 mediadrop/forms/admin/podcasts.py:119
+#: mediadrop/forms/admin/settings.py:93 mediadrop/forms/admin/settings.py:115
+#: mediadrop/forms/admin/settings.py:149 mediadrop/forms/admin/settings.py:164
+#: mediadrop/forms/admin/settings.py:203 mediadrop/forms/admin/settings.py:237
+#: mediadrop/forms/admin/settings.py:271 mediadrop/forms/admin/settings.py:444
+#: mediadrop/forms/admin/settings.py:469 mediadrop/forms/admin/tags.py:42
+#: mediadrop/forms/admin/users.py:58
+#: mediadrop/forms/admin/storage/__init__.py:36
+msgid "Save"
+msgstr "保存"
+
+#: mediadrop/forms/admin/categories.py:60 mediadrop/forms/admin/groups.py:48
+#: mediadrop/forms/admin/media.py:161 mediadrop/forms/admin/podcasts.py:120
+#: mediadrop/forms/admin/tags.py:56 mediadrop/forms/admin/users.py:59
+#: mediadrop/templates/admin/categories/index.html:40
+#: mediadrop/templates/admin/categories/index.html:92
+#: mediadrop/templates/admin/comments/index.html:37
+#: mediadrop/templates/admin/comments/index.html:50
+#: mediadrop/templates/admin/comments/index.html:89
+#: mediadrop/templates/admin/groups/edit.html:27
+#: mediadrop/templates/admin/groups/index.html:30
+#: mediadrop/templates/admin/groups/index.html:59
+#: mediadrop/templates/admin/media/edit.html:79
+#: mediadrop/templates/admin/media/index.html:35
+#: mediadrop/templates/admin/media/index.html:86
+#: mediadrop/templates/admin/players/index.html:27
+#: mediadrop/templates/admin/players/index.html:78
+#: mediadrop/templates/admin/podcasts/edit.html:53
+#: mediadrop/templates/admin/storage/index.html:75
+#: mediadrop/templates/admin/storage/index.html:145
+#: mediadrop/templates/admin/tags/index.html:37
+#: mediadrop/templates/admin/tags/index.html:86
+#: mediadrop/templates/admin/users/edit.html:27
+#: mediadrop/templates/admin/users/index.html:27
+#: mediadrop/templates/admin/users/index.html:61
+msgid "Delete"
+msgstr "删除"
+
+#: mediadrop/forms/admin/comments.py:23
+#: mediadrop/templates/admin/helpers.html:67
+#: mediadrop/templates/admin/comments/_comment-table.html:24
+#: mediadrop/templates/comments/_list.html:86
+#: mediadrop/templates/media/explore.html:75
+#: mediadrop/templates/media/view.html:67
+msgid "Comment"
+msgid_plural "Comments"
+msgstr[0] ""
+"评论\n"
+"\n"
+"\n"
+"评论"
+
+#: mediadrop/forms/admin/groups.py:28
+msgid "Group name already exists"
+msgstr "组名称已存在"
+
+#: mediadrop/forms/admin/groups.py:41 mediadrop/forms/admin/players.py:35
+#: mediadrop/forms/admin/users.py:42
+#: mediadrop/forms/admin/storage/__init__.py:26
+#: mediadrop/templates/admin/groups/index.html:47
+#: mediadrop/templates/admin/users/index.html:45
+msgid "Display Name"
+msgstr "显示名称"
+
+#: mediadrop/forms/admin/groups.py:42
+msgid "Groupname"
+msgstr "组名称"
+
+#: mediadrop/forms/admin/groups.py:43
+msgid "Group Permissions"
+msgstr "组权限"
+
+#: mediadrop/forms/admin/media.py:33
+msgid "Bad duration formatting, use Hour:Min:Sec"
+msgstr "时间格式错误，使用小时：分：秒"
+
+#: mediadrop/forms/admin/media.py:61
+msgid "Value must be in the format wxh; e.g. 200x300"
+msgstr "必须使用格式宽x高，如200x300"
+
+#: mediadrop/forms/admin/media.py:67
+msgid "Width must be a valid integer"
+msgstr "宽度必须是一个有效的整数"
+
+#: mediadrop/forms/admin/media.py:71
+msgid "Height must be a valid integer"
+msgstr "高度必须是一个有效的整数"
+
+#: mediadrop/forms/admin/media.py:110
+msgid "Select an encoded video or audio file on your computer"
+msgstr "选择您的计算机上编码过的视频或音频文件"
+
+#: mediadrop/forms/admin/media.py:110 mediadrop/templates/master.html:91
+#: mediadrop/templates/admin/settings/master.html:78
+#: mediadrop/templates/admin/settings/upload.html:16
+#: mediadrop/templates/admin/settings/upload.html:22
+msgid "Upload"
+msgstr "上传"
+
+#: mediadrop/forms/admin/media.py:111
+msgid "Add URL"
+msgstr "添加网址"
+
+#: mediadrop/forms/admin/media.py:112
+msgid "YouTube, Vimeo, Amazon S3 or any other link"
+msgstr "YouTube，Vimeo，Amazon S3 或任何其他链接"
+
+#: mediadrop/forms/admin/media.py:133
+msgid "Delete file"
+msgstr "删除文件"
+
+#: mediadrop/forms/admin/media.py:147
+msgid "Include in the Podcast"
+msgstr "加入到播客"
+
+#: mediadrop/forms/admin/media.py:147
+msgid "Optional"
+msgstr "可选"
+
+#: mediadrop/forms/admin/media.py:149 mediadrop/forms/admin/podcasts.py:104
+#: mediadrop/templates/admin/media/_media-table.html:26
+msgid "Title"
+msgstr "标题"
+
+#: mediadrop/forms/admin/media.py:150 mediadrop/forms/admin/podcasts.py:106
+msgid "Author Name"
+msgstr "作者名称"
+
+#: mediadrop/forms/admin/media.py:151 mediadrop/forms/admin/podcasts.py:107
+msgid "Author Email"
+msgstr "作者的电子邮件"
+
+#: mediadrop/forms/admin/media.py:152 mediadrop/forms/admin/podcasts.py:108
+msgid "Description"
+msgstr "说明"
+
+#: mediadrop/forms/admin/media.py:153 mediadrop/templates/master.html:89
+#: mediadrop/templates/admin/categories/edit.html:16
+#: mediadrop/templates/admin/categories/index.html:17
+#: mediadrop/templates/admin/categories/index.html:51
+#: mediadrop/templates/admin/settings/master.html:51
+#: mediadrop/templates/categories/index.html:18
+#: mediadrop/templates/categories/layout.html:22
+#: mediadrop/templates/categories/more.html:17
+#: mediadrop/templates/media/explore.html:33
+#: mediadrop/templates/media/view.html:120
+msgid "Categories"
+msgstr "分类"
+
+#: mediadrop/forms/admin/media.py:154
+#: mediadrop/templates/admin/media/_media-table.html:28
+#: mediadrop/templates/admin/settings/master.html:75
+#: mediadrop/templates/admin/tags/edit.html:16
+#: mediadrop/templates/admin/tags/index.html:17
+#: mediadrop/templates/admin/tags/index.html:48
+#: mediadrop/templates/media/tags.html:16
+#: mediadrop/templates/media/view.html:127
+msgid "Tags"
+msgstr "标签"
+
+#: mediadrop/forms/admin/media.py:154
+msgid "e.g.: puppies, great dane, adorable"
+msgstr "例如：小狗，大丹犬，可爱"
+
+#: mediadrop/forms/admin/media.py:156
+msgid "Administrative Notes"
+msgstr "注脚"
+
+#: mediadrop/forms/admin/players.py:31
+#: mediadrop/forms/admin/storage/__init__.py:22
+msgid "General Options:"
+msgstr "一般选项："
+
+#: mediadrop/forms/admin/players.py:86
+msgid "Yes, use the Flash Player when the device supports it."
+msgstr "是的，当设备支持时使用Flash播放器"
+
+#: mediadrop/forms/admin/players.py:87
+msgid "No, use the HTML5 Player when the device supports it."
+msgstr "不，当设备支持时使用HTML5播放器"
+
+#: mediadrop/forms/admin/players.py:90
+msgid "Prefer the Flash Player when possible"
+msgstr "可能时Flash播放器优先"
+
+#: mediadrop/forms/admin/players.py:109
+msgid "Script Tag"
+msgstr "脚本标记"
+
+#: mediadrop/forms/admin/players.py:110
+msgid "The unique script tag given for your site."
+msgstr "用于您的网站的唯一的脚本标记。"
+
+#: mediadrop/forms/admin/players.py:129
+msgid "Player Options:"
+msgstr "播放器选项："
+
+#: mediadrop/forms/admin/players.py:133
+msgid "Use the deprecated AS2 player."
+msgstr "使用淘汰的AS2播放器"
+
+#: mediadrop/forms/admin/players.py:134
+msgid "Use the AS3/HTML5 player."
+msgstr "使用AS3/HTML5播放器"
+
+#: mediadrop/forms/admin/players.py:137
+msgid "YouTube player version"
+msgstr "YouTube播放器版本"
+
+#: mediadrop/forms/admin/players.py:142
+msgid "Show video annotations by default."
+msgstr "默认显示视频注释"
+
+#: mediadrop/forms/admin/players.py:143
+msgid "Hide video annotations by default."
+msgstr "默认隐藏视频注释"
+
+#: mediadrop/forms/admin/players.py:146
+msgid "Video annotations"
+msgstr "视频注释"
+
+#: mediadrop/forms/admin/players.py:149
+msgid "Disable the player keyboard controls."
+msgstr "禁用播放器键盘控制。"
+
+#: mediadrop/forms/admin/players.py:150
+msgid "Not supported by HTML5 player."
+msgstr "HTML5播放器不支持"
+
+#: mediadrop/forms/admin/players.py:151
+msgid "Autoplay the video when the player loads."
+msgstr "播放器加载时自动播放视频"
+
+#: mediadrop/forms/admin/players.py:152
+msgid "Do not show YouTube logo in the player controls"
+msgstr "播放器按钮中不显示YouTube标识"
+
+#: mediadrop/forms/admin/players.py:153
+msgid "Not supported by AS2 player."
+msgstr "AS2播放器不支持。"
+
+#: mediadrop/forms/admin/players.py:154
+msgid "Display fullscreen button."
+msgstr "显示全屏按钮。"
+
+#: mediadrop/forms/admin/players.py:155
+msgid "Enable high-def quality by default."
+msgstr "默认启用高清。"
+
+#: mediadrop/forms/admin/players.py:156
+msgid ""
+"Applies only for the AS2 player, the AS3 player will choose the most "
+"appropriate version of the video version (e.g. considering the user's "
+"bandwidth)"
+msgstr "只适用于AS2播放器。AS3播放器会选择视频的最适合版本（如根据用户的带宽）"
+
+#: mediadrop/forms/admin/players.py:157
+msgid "Display related videos after playback of the initial video ends."
+msgstr "视频结束后显示相关视频"
+
+#: mediadrop/forms/admin/players.py:158
+msgid ""
+"Show the search box when the video is minimized. The related videos "
+"option must be enabled for this to work."
+msgstr "当视频最小化时显示搜索表单。要使用此功能，必须先启用相关视频选项。"
+
+#: mediadrop/forms/admin/players.py:159
+msgid "AS2 player only"
+msgstr "只用于AS2播放器"
+
+#: mediadrop/forms/admin/players.py:160
+msgid ""
+"Display information like the video title and uploader before the video "
+"starts playing."
+msgstr "视频开始播放前显示标题和上传者等信息"
+
+#: mediadrop/forms/admin/players.py:161
+msgid "Enable window-less mode (wmode)"
+msgstr "启用无窗口模式(wmode)"
+
+#: mediadrop/forms/admin/players.py:162
+msgid ""
+"wmode allows HTML/CSS elements to be placed over the actual Flash video "
+"but requires more CPU power."
+msgstr "wmode允许HTML/CSS元素置于实际的Flash视频之上但会消耗更多CPU资源。"
+
+#: mediadrop/forms/admin/players.py:165
+msgid "Always show player controls."
+msgstr "总是显示播放器按钮"
+
+#: mediadrop/forms/admin/players.py:166
+msgid "Autohide all player controls after a video starts playing."
+msgstr "视频开始播放后自动隐藏播放器按钮"
+
+#: mediadrop/forms/admin/players.py:167
+msgid "Autohide only the progress bar after a video starts playing."
+msgstr "视频开始播放后只自动隐藏进度条"
+
+#: mediadrop/forms/admin/players.py:170
+msgid "Player control hiding"
+msgstr "隐藏播放器控件"
+
+#: mediadrop/forms/admin/podcasts.py:29
+msgid "Parental Advisory"
+msgstr "家长建议"
+
+#: mediadrop/forms/admin/podcasts.py:30
+#: mediadrop/templates/admin/podcasts/_podcast-table.html:46
+msgid "Clean"
+msgstr "清理"
+
+#: mediadrop/forms/admin/podcasts.py:105
+msgid "Subtitle"
+msgstr "字幕"
+
+#: mediadrop/forms/admin/podcasts.py:109
+msgid "Podcast Details:"
+msgstr "播客内容："
+
+#: mediadrop/forms/admin/podcasts.py:110
+msgid "Explicit?"
+msgstr "内容是否不适合未成年人？"
+
+#: mediadrop/forms/admin/podcasts.py:111
+msgid "Category"
+msgstr "分类"
+
+#: mediadrop/forms/admin/podcasts.py:112
+msgid "Copyright"
+msgstr "版权"
+
+#: mediadrop/forms/admin/podcasts.py:114
+msgid "Advanced Options:"
+msgstr "高级选项："
+
+#: mediadrop/forms/admin/podcasts.py:115
+msgid "Your Feed URL"
+msgstr "您的Feed网址"
+
+#: mediadrop/forms/admin/podcasts.py:116
+msgid "iTunes URL"
+msgstr "iTunes的网址"
+
+#: mediadrop/forms/admin/podcasts.py:117
+msgid "Feedburner URL"
+msgstr "Feedburner的网址"
+
+#: mediadrop/forms/admin/settings.py:25
+msgid "Built-in comments"
+msgstr "自带评论"
+
+#: mediadrop/forms/admin/settings.py:26
+msgid "Facebook comments (requires a Facebook application ID)"
+msgstr "Facebook评论(需要Facebook应用ID)"
+
+#: mediadrop/forms/admin/settings.py:27
+msgid "Disable comments"
+msgstr "禁用评论"
+
+#: mediadrop/forms/admin/settings.py:32
+msgid "Prepend"
+msgstr "前置"
+
+#: mediadrop/forms/admin/settings.py:33
+msgid "Append"
+msgstr "附加"
+
+#: mediadrop/forms/admin/settings.py:36
+msgid "Plain <textarea> fields (0kB)"
+msgstr "纯文本<textarea>标签 (0kB)"
+
+#: mediadrop/forms/admin/settings.py:37
+msgid "Enable TinyMCE for <textarea> fields accepting XHTML (281kB)"
+msgstr "对接受XHTML的<textarea>启用TinyMCE (281kB)"
+
+#: mediadrop/forms/admin/settings.py:41
+msgid "Brown"
+msgstr "棕色"
+
+#: mediadrop/forms/admin/settings.py:42
+msgid "Blue"
+msgstr "蓝色"
+
+#: mediadrop/forms/admin/settings.py:43
+msgid "Green"
+msgstr "绿色"
+
+#: mediadrop/forms/admin/settings.py:44
+msgid "Tan"
+msgstr "黄褐色"
+
+#: mediadrop/forms/admin/settings.py:45
+msgid "White"
+msgstr "白色"
+
+#: mediadrop/forms/admin/settings.py:46
+msgid "Purple"
+msgstr "紫色"
+
+#: mediadrop/forms/admin/settings.py:47
+msgid "Black"
+msgstr "黑色"
+
+#: mediadrop/forms/admin/settings.py:73
+msgid "Yes"
+msgstr "是"
+
+#: mediadrop/forms/admin/settings.py:73
+msgid "No"
+msgstr "无"
+
+#: mediadrop/forms/admin/settings.py:87
+msgid "Email Notifications:"
+msgstr "电子邮件通知："
+
+#: mediadrop/forms/admin/settings.py:88
+msgid "Media Uploaded"
+msgstr "已上传媒体"
+
+#: mediadrop/forms/admin/settings.py:89
+msgid "Comment Posted"
+msgstr "已发表评论"
+
+#: mediadrop/forms/admin/settings.py:90
+msgid "Support Requested"
+msgstr "支持请求"
+
+#: mediadrop/forms/admin/settings.py:91
+msgid "Send Emails From"
+msgstr "发送邮件地址"
+
+#: mediadrop/forms/admin/settings.py:109
+msgid "Popularity Algorithm Variables:"
+msgstr "流行度算法变量:"
+
+#: mediadrop/forms/admin/settings.py:111
+msgid "Decay Exponent"
+msgstr "衰减指数"
+
+#: mediadrop/forms/admin/settings.py:112
+msgid "Decay Lifetime"
+msgstr "衰减时间"
+
+#: mediadrop/forms/admin/settings.py:145
+msgid "Max. allowed upload file size in megabytes"
+msgstr "最大允许上传文件大小（MB）"
+
+#: mediadrop/forms/admin/settings.py:146
+msgid "Legal Wording:"
+msgstr "法律措辞："
+
+#: mediadrop/forms/admin/settings.py:147
+msgid "User Uploads"
+msgstr "用户上传"
+
+#: mediadrop/forms/admin/settings.py:161
+msgid "Google Analytics Details:"
+msgstr "谷歌分析代码："
+
+#: mediadrop/forms/admin/settings.py:162
+msgid "Tracking Code"
+msgstr "跟踪代码"
+
+#: mediadrop/forms/admin/settings.py:182
+msgid "Site Maps"
+msgstr "网站地图"
+
+#: mediadrop/forms/admin/settings.py:186
+msgid "RSS Feeds"
+msgstr "关于RSS"
+
+#: mediadrop/forms/admin/settings.py:193
+msgid "RSS Feed Defaults:"
+msgstr "RSS Feed默认值:"
+
+#: mediadrop/forms/admin/settings.py:196
+msgid "number of items"
+msgstr "条目数量"
+
+#: mediadrop/forms/admin/settings.py:197
+msgid ""
+"The number of items in the feed can be overriden per request if you add "
+"\"?limit=X\" to the feed URL. If the \"limit\" parameter is absent, the "
+"default above is used."
+msgstr "通过在feed链接中添加\"?limit=X\"，条目数量可在每个请求中更改。如果这个limit参数不存在，则使用上面的默认值。"
+
+#: mediadrop/forms/admin/settings.py:215
+msgid "General Settings:"
+msgstr "常规设置："
+
+#: mediadrop/forms/admin/settings.py:217
+msgid "Site Name"
+msgstr "网站名称"
+
+#: mediadrop/forms/admin/settings.py:219
+msgid "Display Site Name"
+msgstr "显示站点名称"
+
+#: mediadrop/forms/admin/settings.py:223
+msgid "Default Language"
+msgstr "默认语言"
+
+#: mediadrop/forms/admin/settings.py:227
+msgid "Featured Category"
+msgstr "精选类别"
+
+#: mediadrop/forms/admin/settings.py:232
+msgid "Rich Text Editing"
+msgstr "富文本编辑"
+
+#: mediadrop/forms/admin/settings.py:250
+msgid "Comment Engine"
+msgstr "评论引擎"
+
+#: mediadrop/forms/admin/settings.py:254
+msgid "Built-in Comments:"
+msgstr "自带评论:"
+
+#: mediadrop/forms/admin/settings.py:257
+msgid "Moderation"
+msgstr "审核"
+
+#: mediadrop/forms/admin/settings.py:258
+msgid "Require comments to be approved by an admin"
+msgstr "评论必须由管理员批准"
+
+#: mediadrop/forms/admin/settings.py:261
+msgid "Akismet Key"
+msgstr "Akismet密钥"
+
+#: mediadrop/forms/admin/settings.py:262
+msgid "Akismet URL"
+msgstr "Akismet网址"
+
+#: mediadrop/forms/admin/settings.py:263
+msgid "Filtered Words"
+msgstr "禁用词"
+
+#: mediadrop/forms/admin/settings.py:265
+msgid "Enter words to be filtered separated by a comma."
+msgstr "输入需要进行过滤的短语，用（英文）逗号分隔。"
+
+#: mediadrop/forms/admin/settings.py:267
+msgid "Facebook Comments:"
+msgstr "Facebook评论:"
+
+#: mediadrop/forms/admin/settings.py:268
+msgid "Application ID"
+msgstr "应用ID"
+
+#: mediadrop/forms/admin/settings.py:269
+msgid "See: https://developers.facebook.com/apps"
+msgstr "参考：https://developers.facebook.com/apps"
+
+#: mediadrop/forms/admin/settings.py:283
+msgid "Require a key to access the API"
+msgstr "需要API访问密钥"
+
+#: mediadrop/forms/admin/settings.py:284
+msgid "API Key:"
+msgstr "API密钥"
+
+#: mediadrop/forms/admin/settings.py:285
+msgid "Access Key"
+msgstr "访问密钥"
+
+#: mediadrop/forms/admin/settings.py:287
+msgid "API Settings:"
+msgstr "API设置："
+
+#: mediadrop/forms/admin/settings.py:288
+msgid "Max media results"
+msgstr "最大的媒体结果"
+
+#: mediadrop/forms/admin/settings.py:289
+msgid "Max tree depth"
+msgstr "最大目录树的深度"
+
+#: mediadrop/forms/admin/settings.py:303
+#: mediadrop/templates/admin/settings/general.html:17
+#: mediadrop/templates/admin/settings/general.html:23
+#: mediadrop/templates/admin/settings/master.html:39
+msgid "General"
+msgstr "一般"
+
+#: mediadrop/forms/admin/settings.py:306
+msgid "Logo"
+msgstr "徽标"
+
+#: mediadrop/forms/admin/settings.py:308
+msgid "Upload Logo"
+msgstr "上传徽标"
+
+#: mediadrop/forms/admin/settings.py:313
+msgid "Background Image"
+msgstr "背景图片"
+
+#: mediadrop/forms/admin/settings.py:315
+msgid "Upload Background"
+msgstr "上传背景"
+
+#: mediadrop/forms/admin/settings.py:321
+msgid "Background color"
+msgstr "背景颜色"
+
+#: mediadrop/forms/admin/settings.py:324
+msgid "Link color"
+msgstr "链接颜色"
+
+#: mediadrop/forms/admin/settings.py:327
+msgid "Visited Link color"
+msgstr "访问链接的颜色"
+
+#: mediadrop/forms/admin/settings.py:331
+msgid "Text color"
+msgstr "文字颜色"
+
+#: mediadrop/forms/admin/settings.py:333
+msgid "Heading color"
+msgstr "标题颜色"
+
+#: mediadrop/forms/admin/settings.py:336
+msgid "Color Scheme"
+msgstr "配色方案"
+
+#: mediadrop/forms/admin/settings.py:340
+msgid "Options"
+msgstr "选项"
+
+#: mediadrop/forms/admin/settings.py:345
+msgid "Enable Cooliris on the Explore Page"
+msgstr "探索页面上启用Cooliris"
+
+#: mediadrop/forms/admin/settings.py:346
+msgid ""
+"Cooliris support is deprecated and will be removed in the next major "
+"version of MediaDrop unless someone is interested in maintaining it."
+msgstr "Cooliris支持已废止并在下个MediaDrop社区版中删除，除非有人愿意继续维护它。"
+
+#: mediadrop/forms/admin/settings.py:352
+msgid "Display login link for all users"
+msgstr "为所有用户显示登录链接"
+
+#: mediadrop/forms/admin/settings.py:355
+msgid "Enable Featured Items on the Explore Page"
+msgstr "探索页面上启用精选的项目"
+
+#: mediadrop/forms/admin/settings.py:359
+msgid "Enable Podcast Tab"
+msgstr "启用播客标签"
+
+#: mediadrop/forms/admin/settings.py:363
+msgid "Enable User Uploads"
+msgstr "允许用户上传"
+
+#: mediadrop/forms/admin/settings.py:367
+msgid "Enable widescreen media player by default"
+msgstr "默认启用宽屏媒体播放器"
+
+#: mediadrop/forms/admin/settings.py:371
+msgid "Display Logo"
+msgstr "显示徽标"
+
+#: mediadrop/forms/admin/settings.py:375
+msgid "Display Background Image"
+msgstr "显示背景图片"
+
+#: mediadrop/forms/admin/settings.py:379
+msgid "Display MediaDrop Footer"
+msgstr "显示MediaDrop页脚"
+
+#: mediadrop/forms/admin/settings.py:383
+msgid "Display MediaDrop Credits in Footer"
+msgstr "在页脚显示MediaDrop"
+
+#: mediadrop/forms/admin/settings.py:389
+msgid "Player Menu Options"
+msgstr "播放器菜单选项"
+
+#: mediadrop/forms/admin/settings.py:394
+msgid "Enable Download button on player menu bar."
+msgstr "在播放器菜单上启用下载按钮"
+
+#: mediadrop/forms/admin/settings.py:398
+msgid "Enable Share button on player menu bar."
+msgstr "在播放器菜单上启用分享按钮"
+
+#: mediadrop/forms/admin/settings.py:402
+msgid "Enable Embed button on player menu bar."
+msgstr "在播放器菜单上显示嵌入按钮"
+
+#: mediadrop/forms/admin/settings.py:406
+msgid "Enable Widescreen toggle button on player menu bar."
+msgstr "在播放器菜单上启用切换宽屏按钮"
+
+#: mediadrop/forms/admin/settings.py:410
+msgid "Enable Popout button on player menu bar."
+msgstr "在播放器菜单上启用弹出按钮"
+
+#: mediadrop/forms/admin/settings.py:414
+msgid "Enable Like button on player menu bar."
+msgstr "在播放器菜单上启用喜欢按钮"
+
+#: mediadrop/forms/admin/settings.py:418
+msgid "Enable Dislike button on player menu bar."
+msgstr "在播放器菜单上启用不喜欢按钮"
+
+#: mediadrop/forms/admin/settings.py:423
+msgid "Advanced"
+msgstr "高级"
+
+#: mediadrop/forms/admin/settings.py:427
+msgid "Custom CSS"
+msgstr "自定义CSS"
+
+#: mediadrop/forms/admin/settings.py:430
+msgid "Custom Header HTML"
+msgstr "自定义页眉的HTML"
+
+#: mediadrop/forms/admin/settings.py:433
+msgid "Custom Footer HTML"
+msgstr "自定义页脚的HTML"
+
+#: mediadrop/forms/admin/settings.py:436
+msgid "Custom <head> Tags"
+msgstr "自定义<head>标签"
+
+#: mediadrop/forms/admin/settings.py:437
+msgid ""
+"These HTML tags are inserted into the HTML <head> section. Bad input can "
+"cause ugly rendering of your site. You can always restore your page by "
+"the box above."
+msgstr "这些HTML标签将会被插入到HTML的<head>部分。如果标签有问题的话会导致页面显示错乱。上面的勾选框可以将页面恢复至默认状态。"
+
+#: mediadrop/forms/admin/settings.py:445
+#: mediadrop/templates/admin/settings/appearance.html:28
+msgid "Reset to Defaults"
+msgstr "重置为默认值"
+
+#: mediadrop/forms/admin/settings.py:462
+msgid "Banner HTML"
+msgstr "横幅的HTML"
+
+#: mediadrop/forms/admin/settings.py:465
+msgid "Sidebar HTML"
+msgstr "边栏HTML"
+
+#: mediadrop/forms/admin/users.py:28
+msgid "User name already exists"
+msgstr "用户名已存在"
+
+#: mediadrop/forms/admin/users.py:43
+msgid "Email Address"
+msgstr "电邮地址"
+
+#: mediadrop/forms/admin/users.py:44
+msgid "Login Details:"
+msgstr "登录详细信息："
+
+#: mediadrop/forms/admin/users.py:48
+msgid "Passwords do not match"
+msgstr "密码不匹配"
+
+#: mediadrop/forms/admin/users.py:51 mediadrop/templates/admin/master.html:61
+#: mediadrop/templates/admin/groups/index.html:17
+#: mediadrop/templates/admin/groups/index.html:41
+msgid "Groups"
+msgstr "组"
+
+#: mediadrop/forms/admin/users.py:55
+msgid "Confirm password"
+msgstr "确认密码"
+
+#: mediadrop/forms/admin/storage/ftp.py:25
+msgid "FTP Server Details:"
+msgstr "FTP服务器详细信息："
+
+#: mediadrop/forms/admin/storage/ftp.py:27
+msgid "Server Hostname"
+msgstr "服务器主机名"
+
+#: mediadrop/forms/admin/storage/ftp.py:30
+msgid "Subdirectory on server to upload to"
+msgstr "服务器上的子目录名称"
+
+#: mediadrop/forms/admin/storage/ftp.py:31
+msgid ""
+"How many times should MediaDrop try to verify the FTP upload before "
+"declaring it a failure?"
+msgstr "FTP上传失败检验次数"
+
+#: mediadrop/forms/admin/storage/ftp.py:32
+msgid "HTTP URL to access remotely stored files"
+msgstr "远程存储文件的URL"
+
+#: mediadrop/forms/admin/storage/ftp.py:33
+msgid "RTMP Server URL to stream remotely stored files (Optional)"
+msgstr "远程存储文件的RMTP URL (可选)"
+
+#: mediadrop/forms/admin/storage/localfiles.py:19
+msgid "Options specific to Local File Storage:"
+msgstr "本地文件存储选项："
+
+#: mediadrop/forms/admin/storage/localfiles.py:22
+msgid "Path to store files under"
+msgstr "文件存储路径"
+
+#: mediadrop/forms/admin/storage/localfiles.py:23
+msgid "Defaults to the \"data_dir\" from your INI file."
+msgstr "默认值为你的INI文件中的“data_dir”。"
+
+#: mediadrop/forms/admin/storage/localfiles.py:26
+msgid "RTMP Server URL"
+msgstr "RTMP服务器网址"
+
+#: mediadrop/forms/admin/storage/localfiles.py:27
+msgid ""
+"Files must be accessible under the same name as they are stored with "
+"locally."
+msgstr "本地存储文件必须使用相同名访问。"
+
+#: mediadrop/forms/admin/storage/remoteurls.py:24
+msgid "Add another URL"
+msgstr "添加其他网址"
+
+#: mediadrop/forms/admin/storage/remoteurls.py:53
+msgid "RTMP server URLs must begin with rtmp://"
+msgstr "RTMP的服务器网址写rtmp://"
+
+#: mediadrop/forms/admin/storage/remoteurls.py:61
+msgid "RTMP Servers:"
+msgstr "RTMP服务器："
+
+#: mediadrop/lib/email.py:108
+#, python-format
+msgid "New %(type)s: %(title)s"
+msgstr "新的 %(type)s: %(title)s"
+
+#: mediadrop/lib/email.py:109
+#, python-format
+msgid ""
+"A new %(type)s file has been uploaded!\n"
+"\n"
+"Title: %(title)s\n"
+"\n"
+"Author: %(author_name)s (%(author_email)s)\n"
+"\n"
+"Admin URL: %(edit_url)s\n"
+"\n"
+"Description: %(clean_description)s\n"
+msgstr ""
+"一个新的 %(type)s 的文件已上传！\n"
+"\n"
+"标题：%(title)s \n"
+"\n"
+"作者：%(author_name)s (%(author_email)s)\n"
+"\n"
+"管理网址：%(edit_url)s\n"
+"\n"
+"说明：%(clean_description)s\n"
+
+#: mediadrop/lib/email.py:144
+#, python-format
+msgid "New Comment: %(comment_subject)s"
+msgstr "新评论：%(comment_subject)s"
+
+#: mediadrop/lib/email.py:145
+#, python-format
+msgid ""
+"A new comment has been posted!\n"
+"\n"
+"Author: %(author_name)s\n"
+"Post: %(post_url)s\n"
+"\n"
+"Body: %(comment_body)s\n"
+msgstr ""
+"一个新的评论已发布！\n"
+"\n"
+"作者：%(author_name)s\n"
+"\n"
+"链接：%(post_url)s\n"
+"\n"
+"内容：%(comment_body)s\n"
+
+#: mediadrop/lib/email.py:184
+#, python-format
+msgid "New Support Request: %(email)s"
+msgstr "新的支持请求：%(email)s"
+
+#: mediadrop/lib/email.py:185
+#, python-format
+msgid ""
+"A user has asked for support\n"
+"\n"
+"Email: %(email)s\n"
+"\n"
+"URL: %(url)s\n"
+"\n"
+"Description: %(description)s\n"
+"\n"
+"GET_VARS:\n"
+"%(get_vars)s\n"
+"\n"
+"\n"
+"POST_VARS:\n"
+"%(post_vars)s\n"
+msgstr ""
+"用户要求提供支持 \n"
+"\n"
+"电子邮件：%(email)s\n"
+"\n"
+"网址：%(url)s\n"
+"\n"
+"说明：%(description)s\n"
+"\n"
+"GET_VARS： \n"
+"%(get_vars)s\n"
+"\n"
+"\n"
+"POST_VARS： \n"
+"%(post_vars)s\n"
+
+#: mediadrop/lib/filetypes.py:27
+msgid "Video"
+msgstr "视频"
+
+#: mediadrop/lib/filetypes.py:28
+msgid "Audio"
+msgstr "音频"
+
+#: mediadrop/lib/filetypes.py:29
+msgid "Audio Description"
+msgstr "音频描述"
+
+#: mediadrop/lib/filetypes.py:30
+msgid "Captions"
+msgstr "标题"
+
+#: mediadrop/lib/helpers.py:385
+msgid "Help"
+msgstr "帮助"
+
+#: mediadrop/lib/players.py:285
+msgid "Flowplayer"
+msgstr "Flowplayer播放器"
+
+#: mediadrop/lib/players.py:416 mediadrop/lib/storage/vimeo.py:27
+msgid "Vimeo"
+msgstr "vimeo"
+
+#: mediadrop/lib/players.py:452 mediadrop/lib/storage/dailymotion.py:28
+msgid "Daily Motion"
+msgstr "Daily Motion"
+
+#: mediadrop/lib/players.py:499 mediadrop/lib/storage/youtube.py:28
+msgid "YouTube"
+msgstr "youtube"
+
+#: mediadrop/lib/players.py:577 mediadrop/lib/storage/googlevideo.py:26
+msgid "Google Video"
+msgstr "Google Video"
+
+#: mediadrop/lib/players.py:599 mediadrop/lib/storage/bliptv.py:26
+msgid "BlipTV"
+msgstr "BlipTV"
+
+#: mediadrop/lib/players.py:686
+msgid "Plain HTML5 Player"
+msgstr "HTML5播放器"
+
+#: mediadrop/lib/players.py:701
+msgid "HTML5 + Flowplayer Fallback"
+msgstr "HTML5+Flowplayer（备用）"
+
+#: mediadrop/lib/players.py:758
+msgid "JWPlayer"
+msgstr "JWPlayer播放器"
+
+#: mediadrop/lib/players.py:904
+msgid "Sublime Video Player"
+msgstr "Sublime播放器"
+
+#: mediadrop/lib/players.py:954
+msgid "iTunes Player"
+msgstr "iTunes播放器"
+
+#: mediadrop/lib/storage/api.py:352
+msgid "Unusable file or URL provided."
+msgstr "文件或网址无法使用"
+
+#: mediadrop/lib/storage/bliptv.py:61
+msgid "Invalid BlipTV URL. This video does not exist."
+msgstr "无效的BlipTV链接。视频不存在。"
+
+#: mediadrop/lib/storage/dailymotion.py:62
+msgid "This DailyMotion video does not allow embedding."
+msgstr "此DailyMotion视频不允许嵌入。"
+
+#: mediadrop/lib/storage/ftp.py:43
+msgid "FTP Storage"
+msgstr "FTP存储"
+
+#: mediadrop/lib/storage/ftp.py:98
+#, python-format
+msgid "Could not upload the file from your FTP server: %s"
+msgstr "无法从FTP服务器上传文件：%s"
+
+#: mediadrop/lib/storage/ftp.py:192
+msgid "The file transferred to your FTP server is corrupted. Please try again."
+msgstr "上传到FTP服务器的文件已损坏。请再试一次。"
+
+#: mediadrop/lib/storage/ftp.py:197
+#, python-format
+msgid "Could not download the file from your FTP server: %s"
+msgstr "无法从FTP服务器下载文件：%s"
+
+#: mediadrop/lib/storage/localfiles.py:26
+msgid "Local File Storage"
+msgstr "本地文件存储"
+
+#: mediadrop/lib/storage/remoteurls.py:28
+msgid "Remote URLs"
+msgstr "远程网址"
+
+#: mediadrop/lib/storage/remoteurls.py:73
+msgid ""
+"This RTMP server has not been configured. Add it by going to Settings > "
+"Storage Engines > Remote URLs."
+msgstr "此RTMP服务器尚未配置。你可以通过 配置>存储引擎>远程URL来添加。"
+
+#: mediadrop/lib/storage/youtube.py:62
+msgid "This video is private and cannot be embedded."
+msgstr "此视频为私有，无法嵌入。"
+
+#: mediadrop/lib/storage/youtube.py:65
+msgid "Invalid YouTube URL. This video does not exist."
+msgstr "无效的YouTube链接。此视频不存在。"
+
+#: mediadrop/lib/storage/youtube.py:66
+#, python-format
+msgid "YouTube Error: %s"
+msgstr "YouTube错误：%s"
+
+#: mediadrop/model/players.py:102
+#, python-format
+msgid "%s (broken)"
+msgstr "%s (异常)"
+
+#: mediadrop/templates/error.html:17
+#, python-format
+msgid "A %(code)s Error has Occurred"
+msgstr "%(code)s错误发生"
+
+#: mediadrop/templates/error.html:22
+msgid "Whoopsadaisy!"
+msgstr "哇！一个错误！"
+
+#: mediadrop/templates/error.html:25
+msgid "We can't find this page. The page may have been moved or removed."
+msgstr "我们无法找到这个网页。该网页可能已被移动或删除。"
+
+#: mediadrop/templates/error.html:26
+msgid "If you typed the address in, check the spelling."
+msgstr "检查地址的拼写。"
+
+#: mediadrop/templates/error.html:31
+msgid "You have a few options:"
+msgstr "您有几种选择："
+
+#: mediadrop/templates/error.html:33
+msgid "Return to the [1:homepage]."
+msgstr "返回[1:homepage]。"
+
+#: mediadrop/templates/error.html:34
+msgid "Return to the [1:media page]."
+msgstr "返回 [1:media page]."
+
+#: mediadrop/templates/error.html:35
+msgid "Fill out an error report below."
+msgstr "填写错误报告"
+
+#: mediadrop/templates/error.html:41
+msgid "Email: (so we can contact you if we find it!)"
+msgstr "电子邮件：(我们可以联系你，如果我们找到它!)"
+
+#: mediadrop/templates/error.html:45
+msgid "What were you looking for when you got the error?"
+msgstr "发生此错误时你在找什么？"
+
+#: mediadrop/templates/error.html:49
+msgid "Submit Error Report"
+msgstr "提交错误报告"
+
+#: mediadrop/templates/helpers.html:33
+#: mediadrop/templates/media/explore.html:76
+#: mediadrop/templates/media/view.html:64
+#: mediadrop/templates/players/html5_or_flash.html:47
+#: mediadrop/templates/players/html5_or_flash.html:49
+msgid "Like"
+msgid_plural "Likes"
+msgstr[0] ""
+"one:  喜欢\n"
+"\n"
+"other: 喜欢"
+
+#: mediadrop/templates/helpers.html:34
+#: mediadrop/templates/admin/media/update-status-form.html:22
+#: mediadrop/templates/admin/podcasts/edit.html:97
+#: mediadrop/templates/media/explore.html:77
+#: mediadrop/templates/media/view.html:62
+msgid "View"
+msgid_plural "Views"
+msgstr[0] ""
+"one: 点击\n"
+"\n"
+"other: 点击"
+
+#: mediadrop/templates/helpers.html:54
+msgid "Page:"
+msgstr "页："
+
+#: mediadrop/templates/helpers.html:74
+msgid "Show:"
+msgstr "显示："
+
+#: mediadrop/templates/helpers.html:76
+#: mediadrop/templates/categories/index.html:26
+#: mediadrop/templates/categories/more.html:24
+#: mediadrop/templates/media/explore.html:32
+#: mediadrop/templates/media/explore.html:100
+msgid "Latest"
+msgstr "最新"
+
+#: mediadrop/templates/helpers.html:77
+#: mediadrop/templates/categories/index.html:31
+#: mediadrop/templates/categories/more.html:24
+#: mediadrop/templates/media/explore.html:84
+msgid "Most Popular"
+msgstr "最受欢迎"
+
+#: mediadrop/templates/helpers.html:78
+#: mediadrop/templates/media/explore.html:31
+#: mediadrop/templates/media/explore.html:68
+msgid "Featured"
+msgstr "精选"
+
+#: mediadrop/templates/helpers.html:80
+msgid "Page"
+msgstr "页面"
+
+#: mediadrop/templates/helpers.html:80
+msgid "of"
+msgstr "于"
+
+#: mediadrop/templates/helpers.html:86
+#, python-format
+msgid "The %(fieldName)s field accepts some HTML formatting: %(formattingList)s"
+msgstr "%(fieldName)s 字段接受某些HTML格式：%(formattingList)s"
+
+#: mediadrop/templates/layout.html:33
+msgid "Feeds:"
+msgstr "RSS:"
+
+#: mediadrop/templates/layout.html:39
+msgid "[1:MediaDrop] [2:video platform]"
+msgstr "[1:MediaDrop] [2:视频平台]"
+
+#: mediadrop/templates/login.html:16
+msgid "Log in to"
+msgstr "登录到"
+
+#: mediadrop/templates/login.html:40
+msgid "Log in"
+msgstr "登录"
+
+#: mediadrop/templates/master.html:70
+msgid "Admin"
+msgstr "管理员"
+
+#: mediadrop/templates/master.html:72 mediadrop/templates/admin/master.html:52
+msgid "Logout"
+msgstr "注销"
+
+#: mediadrop/templates/master.html:86
+msgid "Explore"
+msgstr "浏览"
+
+#: mediadrop/templates/master.html:87 mediadrop/templates/media/index.html:17
+msgid "Media Library"
+msgstr "媒体库"
+
+#: mediadrop/templates/master.html:88 mediadrop/templates/admin/master.html:58
+#: mediadrop/templates/admin/podcasts/index.html:17
+#: mediadrop/templates/admin/podcasts/index.html:24
+msgid "Podcasts"
+msgstr "播客"
+
+#: mediadrop/templates/master.html:94
+msgid "Search"
+msgstr "搜索"
+
+#: mediadrop/templates/admin/helpers.html:59
+msgid "Moderate comments"
+msgstr "审核的评论"
+
+#: mediadrop/templates/admin/helpers.html:61
+msgid "Moderate"
+msgstr "审核"
+
+#: mediadrop/templates/admin/helpers.html:62
+#: mediadrop/templates/admin/master.html:59
+#: mediadrop/templates/admin/comments/index.html:20
+#: mediadrop/templates/admin/media/_media-table.html:27
+#: mediadrop/templates/admin/settings/comments.html:16
+#: mediadrop/templates/admin/settings/comments.html:22
+#: mediadrop/templates/admin/settings/master.html:54
+#: mediadrop/templates/comments/_list.html:42
+msgid "Comments"
+msgstr "评论"
+
+#: mediadrop/templates/admin/helpers.html:74
+#: mediadrop/templates/admin/media/_media-table.html:50
+#: mediadrop/templates/admin/media/index.html:117
+#: mediadrop/templates/admin/media/update-status-form.html:88
+msgid "Published"
+msgstr "发布"
+
+#: mediadrop/templates/admin/helpers.html:78
+#: mediadrop/templates/admin/media/_media-table.html:47
+#: mediadrop/templates/admin/media/index.html:108
+msgid "Unreviewed"
+msgstr "未经审核"
+
+#: mediadrop/templates/admin/helpers.html:82
+#: mediadrop/templates/admin/comments/_comment-table.html:39
+msgid "Trash"
+msgstr "垃圾箱"
+
+#: mediadrop/templates/admin/index.html:17
+#: mediadrop/templates/admin/master.html:50
+msgid "Dashboard"
+msgstr "控制面板"
+
+#: mediadrop/templates/admin/index.html:47
+msgid "Awaiting Review"
+msgstr "等待审查队列"
+
+#: mediadrop/templates/admin/index.html:52
+msgid "Awaiting Encoding"
+msgstr "等待编码队列"
+
+#: mediadrop/templates/admin/index.html:57
+msgid "Awaiting Publishing"
+msgstr "等待出版队列"
+
+#: mediadrop/templates/admin/index.html:64
+msgid "Get Started"
+msgstr "开始"
+
+#: mediadrop/templates/admin/index.html:66
+#: mediadrop/templates/admin/media/edit.html:16
+#: mediadrop/templates/admin/media/edit.html:161
+#: mediadrop/templates/admin/media/index.html:77
+msgid "Add New Media"
+msgstr "添加新媒体"
+
+#: mediadrop/templates/admin/index.html:73
+msgid "Recently Published"
+msgstr "新近出版"
+
+#: mediadrop/templates/admin/master.html:26
+#: mediadrop/templates/admin/master.html:47
+#: mediadrop/templates/admin/master.html:68
+msgid "MediaDrop"
+msgstr "MediaDrop"
+
+#: mediadrop/templates/admin/master.html:51
+msgid "View Site"
+msgstr "查看网站"
+
+#: mediadrop/templates/admin/master.html:57
+#: mediadrop/templates/admin/categories/index.html:63
+#: mediadrop/templates/admin/media/index.html:18
+#: mediadrop/templates/admin/tags/index.html:60
+msgid "Media"
+msgstr "媒体"
+
+#: mediadrop/templates/admin/master.html:60
+#: mediadrop/templates/admin/users/index.html:17
+#: mediadrop/templates/admin/users/index.html:38
+msgid "Users"
+msgstr "用户"
+
+#: mediadrop/templates/admin/master.html:62
+#: mediadrop/templates/admin/settings/master.html:36
+msgid "Settings"
+msgstr "设置"
+
+#: mediadrop/templates/admin/master.html:69
+#, fuzzy
+msgid "© 2009-2013 MediaDrop contributors"
+msgstr "© 2009-2013 MediaCore Inc. 及 contributors"
+
+#: mediadrop/templates/admin/categories/index.html:38
+#: mediadrop/templates/admin/comments/index.html:36
+#: mediadrop/templates/admin/comments/index.html:48
+#: mediadrop/templates/admin/groups/edit.html:25
+#: mediadrop/templates/admin/groups/index.html:29
+#: mediadrop/templates/admin/media/edit.html:77
+#: mediadrop/templates/admin/media/index.html:33
+#: mediadrop/templates/admin/players/index.html:25
+#: mediadrop/templates/admin/podcasts/edit.html:51
+#: mediadrop/templates/admin/storage/index.html:74
+#: mediadrop/templates/admin/tags/index.html:35
+#: mediadrop/templates/admin/users/edit.html:25
+#: mediadrop/templates/admin/users/index.html:26
+msgid "Confirm Delete"
+msgstr "确认删除"
+
+#: mediadrop/templates/admin/categories/index.html:39
+#: mediadrop/templates/admin/comments/index.html:49
+#: mediadrop/templates/admin/media/index.html:34
+#: mediadrop/templates/admin/tags/index.html:36
+#, python-format
+msgid "Are you sure you want to delete these %(num)s items?"
+msgstr "你确定要删除这 %(num)s 的项目？"
+
+#: mediadrop/templates/admin/categories/index.html:53
+#: mediadrop/templates/admin/categories/index.html:78
+msgid "Add Category"
+msgstr "添加分类"
+
+#: mediadrop/templates/admin/categories/index.html:54
+#: mediadrop/templates/admin/tags/index.html:51
+msgid "Bulk Delete"
+msgstr "批量删除"
+
+#: mediadrop/templates/admin/categories/index.html:82
+msgid "Edit Category"
+msgstr "编辑类别"
+
+#: mediadrop/templates/admin/categories/index.html:86
+msgid "Delete Category"
+msgstr "删除类别"
+
+#: mediadrop/templates/admin/categories/index.html:89
+msgid "Are you sure you want to delete this category [1:and ALL of its children]?"
+msgstr "你确定要删除这个分类 [1:以及所有子类]？"
+
+#: mediadrop/templates/admin/categories/row-form.html:33
+#: mediadrop/templates/admin/comments/_comment-table.html:58
+#: mediadrop/templates/admin/groups/index.html:59
+#: mediadrop/templates/admin/media/edit.html:16
+#: mediadrop/templates/admin/media/edit.html:134
+#: mediadrop/templates/admin/players/index.html:78
+#: mediadrop/templates/admin/podcasts/_podcast-table.html:25
+#: mediadrop/templates/admin/podcasts/edit.html:44
+#: mediadrop/templates/admin/storage/index.html:145
+#: mediadrop/templates/admin/tags/row-form.html:24
+#: mediadrop/templates/admin/users/index.html:61
+#: mediadrop/templates/media/view.html:50
+#: mediadrop/templates/podcasts/view.html:31
+msgid "Edit"
+msgstr "编辑"
+
+#: mediadrop/templates/admin/comments/_comment-table.html:22
+#: mediadrop/templates/admin/media/_media-table.html:25
+#: mediadrop/templates/admin/players/index.html:47
+#: mediadrop/templates/admin/storage/index.html:119
+msgid "Status"
+msgstr "状态"
+
+#: mediadrop/templates/admin/comments/_comment-table.html:23
+#: mediadrop/templates/admin/media/_media-table.html:29
+msgid "Author"
+msgstr "作者"
+
+#: mediadrop/templates/admin/comments/_comment-table.html:25
+msgid "In Response to"
+msgstr "在响应"
+
+#: mediadrop/templates/admin/comments/_comment-table.html:30
+#: mediadrop/templates/admin/groups/index.html:53
+#: mediadrop/templates/admin/media/_media-table.html:36
+#: mediadrop/templates/admin/players/index.html:55
+#: mediadrop/templates/admin/podcasts/_podcast-table.html:20
+#: mediadrop/templates/admin/storage/index.html:128
+#: mediadrop/templates/admin/users/index.html:53
+msgid "None Found"
+msgstr "无发现"
+
+#: mediadrop/templates/admin/comments/_comment-table.html:37
+msgid "This comment has already been approved for publishing"
+msgstr "该评论已被批准发布"
+
+#: mediadrop/templates/admin/comments/_comment-table.html:38
+msgid "Approve this comment for publishing"
+msgstr "批准此评论"
+
+#: mediadrop/templates/admin/comments/_comment-table.html:38
+msgid "Approve"
+msgstr "批准"
+
+#: mediadrop/templates/admin/comments/_comment-table.html:39
+msgid "Delete this comment"
+msgstr "删除这条评论"
+
+#: mediadrop/templates/admin/comments/_comment-table.html:49
+msgid "Submitted on"
+msgstr "提交"
+
+#: mediadrop/templates/admin/comments/_comment-table.html:56
+msgid "Go to the admin page for this item"
+msgstr "转到此项目的管理页面"
+
+#: mediadrop/templates/admin/comments/index.html:21
+#, python-format
+msgid "Comments for %(media_filter_title)s"
+msgstr "评论关于 %(media_filter_title)s "
+
+#: mediadrop/templates/admin/comments/index.html:21
+msgid "Comments for"
+msgstr "评论的媒体"
+
+#: mediadrop/templates/admin/comments/index.html:33
+msgid "Edit Text"
+msgstr "编辑文字"
+
+#: mediadrop/templates/admin/comments/index.html:34
+msgid "Cancel Edit"
+msgstr "取消编辑"
+
+#: mediadrop/templates/admin/comments/index.html:39
+#, python-format
+msgid "Are you sure you want to delete %(name)s's comment?"
+msgstr "你确定要删除%(name)s 的评论？"
+
+#: mediadrop/templates/admin/comments/index.html:78
+#, python-format
+msgid "Comments that match '%(search)s'"
+msgstr "匹配 '%(search)s' 的评论"
+
+#: mediadrop/templates/admin/comments/index.html:79
+msgid "All Comments"
+msgstr "所有评论"
+
+#: mediadrop/templates/admin/comments/index.html:80
+#, python-format
+msgid "Comments for %(search)s"
+msgstr "为％点评%(search)s）秒"
+
+#: mediadrop/templates/admin/comments/index.html:88
+#: mediadrop/templates/admin/media/index.html:85
+msgid "Publish"
+msgstr "发布"
+
+#: mediadrop/templates/admin/comments/index.html:95
+#: mediadrop/templates/admin/media/index.html:92
+msgid "Bulk Actions"
+msgstr "批量操作"
+
+#: mediadrop/templates/admin/groups/edit.html:26
+#: mediadrop/templates/admin/media/edit.html:78
+#: mediadrop/templates/admin/players/index.html:26
+#: mediadrop/templates/admin/podcasts/edit.html:52
+#: mediadrop/templates/admin/storage/index.html:30
+#: mediadrop/templates/admin/tags/index.html:83
+#: mediadrop/templates/admin/users/edit.html:26
+msgid "Are you sure you want to delete this?"
+msgstr "你确定要删除它？"
+
+#: mediadrop/templates/admin/groups/edit.html:37
+msgid "New Group"
+msgstr "新建组"
+
+#: mediadrop/templates/admin/groups/index.html:32
+msgid "Are you sure you want to delete this group?"
+msgstr "确定要删除这个组吗？"
+
+#: mediadrop/templates/admin/groups/index.html:42
+msgid "Add Group"
+msgstr "添加组"
+
+#: mediadrop/templates/admin/media/_media-table.html:22
+msgid "Publish Date"
+msgstr "发布日期"
+
+#: mediadrop/templates/admin/media/_media-table.html:23
+msgid "Upload Date"
+msgstr "上载日期"
+
+#: mediadrop/templates/admin/media/_media-table.html:24
+#: mediadrop/templates/admin/media/update-status-form.html:33
+msgid "Publish Status"
+msgstr "发布状态"
+
+#: mediadrop/templates/admin/media/_media-table.html:27
+msgid "Number of Comments"
+msgstr "评论数量"
+
+#: mediadrop/templates/admin/media/_media-table.html:48
+#: mediadrop/templates/admin/media/index.html:111
+msgid "Unencoded"
+msgstr "未编码"
+
+#: mediadrop/templates/admin/media/_media-table.html:49
+msgid "Draft"
+msgstr "草案"
+
+#: mediadrop/templates/admin/media/_media-table.html:51
+msgid "Publishing..."
+msgstr "正在发布..."
+
+#: mediadrop/templates/admin/media/edit.html:62
+#: mediadrop/templates/admin/podcasts/edit.html:31
+msgid "Saving the file failed. Please try again"
+msgstr "保存文件失败。请再试一次"
+
+#: mediadrop/templates/admin/media/edit.html:63
+#: mediadrop/templates/admin/podcasts/edit.html:32
+#, python-format
+msgid "Security error occured (%(text)s)"
+msgstr "发生安全错误 (%(text)s)"
+
+#: mediadrop/templates/admin/media/edit.html:64
+#: mediadrop/templates/admin/podcasts/edit.html:33
+#, python-format
+msgid "Error caused a send or load operation to fail (%(text)s)"
+msgstr "错误导致发送或加载操作失败 (%(text)s)"
+
+#: mediadrop/templates/admin/media/edit.html:67
+#: mediadrop/templates/admin/podcasts/edit.html:36
+msgid "File has already been added, duplicates are not allowed"
+msgstr "文件已经被添加，不允许重复"
+
+#: mediadrop/templates/admin/media/edit.html:68
+#: mediadrop/templates/admin/podcasts/edit.html:37
+#, python-format
+msgid "File is too small, the minimal file size is %(size)s"
+msgstr "文件过小，最小的文件大小是 %(size)s"
+
+#: mediadrop/templates/admin/media/edit.html:69
+#: mediadrop/templates/admin/podcasts/edit.html:38
+#, python-format
+msgid "File is too large, the maximum file size is %(size)s"
+msgstr "文件过大，最大文件大小是 %(size)s"
+
+#: mediadrop/templates/admin/media/edit.html:70
+#: mediadrop/templates/admin/podcasts/edit.html:39
+#, python-format
+msgid "File could not be added, amount of %(num)s files exceeded"
+msgstr "文件不能被添加，文件总数已超过%(num)s "
+
+#: mediadrop/templates/admin/media/edit.html:71
+#: mediadrop/templates/admin/podcasts/edit.html:40
+#, python-format
+msgid "File is too big, overall filesize of %(size)s exceeded"
+msgstr "文件总大小过大，已超过 %(size)s "
+
+#: mediadrop/templates/admin/media/edit.html:93
+#: mediadrop/templates/admin/podcasts/edit.html:63
+msgid "Upload image"
+msgstr "上传图片"
+
+#: mediadrop/templates/admin/media/edit.html:102
+msgid "Are you sure you want to delete this file?"
+msgstr "你确定要删除这个文件吗？"
+
+#: mediadrop/templates/admin/media/edit.html:107
+msgid "Upload a file"
+msgstr "上传文件"
+
+#: mediadrop/templates/admin/media/edit.html:114
+msgid "Failed to add this file. Please try again."
+msgstr "没有这个文件。请再试一次。"
+
+#: mediadrop/templates/admin/media/edit.html:115
+msgid "Failed to save your change. Please try again."
+msgstr "无法保存更改。请再试一次。"
+
+#: mediadrop/templates/admin/media/edit.html:116
+msgid "Uploading"
+msgstr "上传中"
+
+#: mediadrop/templates/admin/media/edit.html:117
+msgid "Queued"
+msgstr "排队"
+
+#: mediadrop/templates/admin/media/edit.html:118
+msgid "Error"
+msgstr "错误"
+
+#: mediadrop/templates/admin/media/edit.html:130
+msgid "A connection problem occurred, try again."
+msgstr "出现一个连接问题，再试一次。"
+
+#: mediadrop/templates/admin/media/edit.html:131
+msgid "An error has occurred, try again."
+msgstr "发生了错误，再试一次。"
+
+#: mediadrop/templates/admin/media/edit.html:134
+#: mediadrop/templates/admin/media/edit.html:219
+#: mediadrop/templates/admin/podcasts/edit.html:44
+msgid "Hide"
+msgstr "隐藏"
+
+#: mediadrop/templates/admin/media/edit.html:135
+msgid "Saving"
+msgstr "保存中"
+
+#: mediadrop/templates/admin/media/edit.html:136
+msgid "Saved!"
+msgstr "已保存！"
+
+#: mediadrop/templates/admin/media/edit.html:137
+msgid "Saving failed. Please try again."
+msgstr "保存失败。请再试一次。"
+
+#: mediadrop/templates/admin/media/edit.html:138
+msgid "Please correct the highlighted errors and save again."
+msgstr "请更正错误，并再次保存。"
+
+#: mediadrop/templates/admin/media/edit.html:160
+#: mediadrop/templates/admin/podcasts/edit.html:87
+msgid "Uploaded:"
+msgstr "上传时间："
+
+#: mediadrop/templates/admin/media/edit.html:171
+#: mediadrop/templates/admin/storage/index.html:122
+msgid "Files"
+msgstr "文件"
+
+#: mediadrop/templates/admin/media/edit.html:172
+msgid "Add & Manage"
+msgstr "添加和管理"
+
+#: mediadrop/templates/admin/media/edit.html:175
+#: mediadrop/templates/admin/media/file-edit-form.html:15
+msgid "View this file"
+msgstr "查看此文件"
+
+#: mediadrop/templates/admin/media/edit.html:189
+#: mediadrop/templates/admin/podcasts/edit.html:102
+msgid "Thumbnail"
+msgstr "缩略图"
+
+#: mediadrop/templates/admin/media/edit.html:192
+#: mediadrop/templates/admin/podcasts/_podcast-table.html:32
+#: mediadrop/templates/admin/podcasts/edit.html:106
+msgid "Thumb"
+msgstr "缩略图"
+
+#: mediadrop/templates/admin/media/edit.html:216
+msgid "Manage Files"
+msgstr "管理文件"
+
+#: mediadrop/templates/admin/media/edit.html:225
+msgid "File"
+msgstr "文件"
+
+#: mediadrop/templates/admin/media/edit.html:226
+msgid "Size"
+msgstr "尺寸"
+
+#: mediadrop/templates/admin/media/edit.html:227
+msgid "Duration"
+msgstr "时间"
+
+#: mediadrop/templates/admin/media/edit.html:228
+msgid "Bitrate"
+msgstr "比特率"
+
+#: mediadrop/templates/admin/media/edit.html:229
+msgid "Dimensions"
+msgstr "尺寸"
+
+#: mediadrop/templates/admin/media/edit.html:230
+msgid "Type"
+msgstr "类型"
+
+#: mediadrop/templates/admin/media/file-add-form.html:17
+msgid "OR"
+msgstr "或"
+
+#: mediadrop/templates/admin/media/file-form.html:17
+msgid "or"
+msgstr "或"
+
+#: mediadrop/templates/admin/media/index.html:66
+#, python-format
+msgid "Media that matches '%(search)s'"
+msgstr "媒体匹配 '%(search)s'  "
+
+#: mediadrop/templates/admin/media/index.html:67
+#, python-format
+msgid "%(podcastTitle)s Episodes"
+msgstr "%(podcastTitle)s 的集"
+
+#: mediadrop/templates/admin/media/index.html:68
+#, python-format
+msgid "Media in '%(categoryName)s'"
+msgstr " '%(categoryName)s'类媒体"
+
+#: mediadrop/templates/admin/media/index.html:69
+#, python-format
+msgid "Media tagged '%(tagName)s'"
+msgstr "媒体标签 '%(tagName)s'"
+
+#: mediadrop/templates/admin/media/index.html:70
+msgid "Unreviewed Media"
+msgstr "尚未审查媒体"
+
+#: mediadrop/templates/admin/media/index.html:71
+msgid "Unencoded Media"
+msgstr "尚未编码的媒体"
+
+#: mediadrop/templates/admin/media/index.html:72
+msgid "Draft Media"
+msgstr "媒体草案"
+
+#: mediadrop/templates/admin/media/index.html:73
+msgid "Published Media"
+msgstr "已发布媒体"
+
+#: mediadrop/templates/admin/media/index.html:74
+#: mediadrop/templates/admin/media/index.html:105
+msgid "All Media"
+msgstr "所有媒体"
+
+#: mediadrop/templates/admin/media/index.html:84
+msgid "Review"
+msgstr "审核"
+
+#: mediadrop/templates/admin/media/index.html:114
+msgid "Drafts"
+msgstr "草稿"
+
+#: mediadrop/templates/admin/media/index.html:124
+msgid "Filters"
+msgstr "过滤器"
+
+#: mediadrop/templates/admin/media/update-status-form.html:20
+msgid "View this media where it is published"
+msgstr "查看这地方媒体发布"
+
+#: mediadrop/templates/admin/media/update-status-form.html:25
+msgid "View this media where it will be published"
+msgstr "查看这地方媒体将公布"
+
+#: mediadrop/templates/admin/media/update-status-form.html:25
+msgid "Preview"
+msgstr "预览"
+
+#: mediadrop/templates/admin/media/update-status-form.html:42
+msgid "You must add a file and save before review can begin."
+msgstr "您必须添加一个文件并保存，然后才能开始审查。"
+
+#: mediadrop/templates/admin/media/update-status-form.html:46
+msgid "Review Pending"
+msgstr "审核待审批"
+
+#: mediadrop/templates/admin/media/update-status-form.html:47
+#: mediadrop/templates/admin/media/update-status-form.html:73
+#: mediadrop/templates/admin/media/update-status-form.html:86
+msgid "Encoding Complete"
+msgstr "编码完成"
+
+#: mediadrop/templates/admin/media/update-status-form.html:47
+#: mediadrop/templates/admin/media/update-status-form.html:63
+msgid "Encoding Pending"
+msgstr "等待编码"
+
+#: mediadrop/templates/admin/media/update-status-form.html:48
+#: mediadrop/templates/admin/media/update-status-form.html:64
+#: mediadrop/templates/admin/media/update-status-form.html:74
+#: mediadrop/templates/admin/media/update-status-form.html:87
+msgid "Click to change the publish date"
+msgstr "点击这里更改发布日期"
+
+#: mediadrop/templates/admin/media/update-status-form.html:48
+#: mediadrop/templates/admin/media/update-status-form.html:64
+#: mediadrop/templates/admin/media/update-status-form.html:74
+#: mediadrop/templates/admin/media/update-status-form.html:88
+msgid "Publishing"
+msgstr "发布中"
+
+#: mediadrop/templates/admin/media/update-status-form.html:49
+#: mediadrop/templates/admin/media/update-status-form.html:65
+#: mediadrop/templates/admin/media/update-status-form.html:75
+#: mediadrop/templates/admin/media/update-status-form.html:89
+msgid "Pending"
+msgstr "等待"
+
+#: mediadrop/templates/admin/media/update-status-form.html:55
+#: mediadrop/templates/admin/media/update-status-form.html:62
+#: mediadrop/templates/admin/media/update-status-form.html:72
+#: mediadrop/templates/admin/media/update-status-form.html:85
+msgid "Review Complete"
+msgstr "审核完成"
+
+#: mediadrop/templates/admin/media/update-status-form.html:57
+msgid "Review can only be completed after a file is added."
+msgstr "必须先添加文件才能审核."
+
+#: mediadrop/templates/admin/media/update-status-form.html:68
+msgid "Encoding will be complete when an acceptable file is added."
+msgstr "当添加可接受类型的文件后编码将自动完成"
+
+#: mediadrop/templates/admin/media/update-status-form.html:80
+msgid "Publish Now"
+msgstr "立即发布"
+
+#: mediadrop/templates/admin/media/update-status-form.html:94
+msgid "Click to change the expiration date"
+msgstr "点击更改过期日期"
+
+#: mediadrop/templates/admin/media/update-status-form.html:94
+msgid "Expires"
+msgstr "过期"
+
+#: mediadrop/templates/admin/media/update-status-form.html:95
+msgid "never"
+msgstr "从不"
+
+#: mediadrop/templates/admin/players/index.html:16
+#: mediadrop/templates/admin/players/index.html:40
+#: mediadrop/templates/admin/settings/master.html:63
+msgid "Players"
+msgstr "视频播放器"
+
+#: mediadrop/templates/admin/players/index.html:26
+msgid "By deleting this player you will lose all settings related to it."
+msgstr "删除此播放器，你将失去有关的所有设置。"
+
+#: mediadrop/templates/admin/players/index.html:49
+msgid "Priority"
+msgstr "优先级"
+
+#: mediadrop/templates/admin/players/index.html:71
+msgid "Up"
+msgstr "上"
+
+#: mediadrop/templates/admin/players/index.html:72
+msgid "Down"
+msgstr "下"
+
+#: mediadrop/templates/admin/podcasts/_podcast-table.html:39
+msgid "Category:"
+msgstr "分类："
+
+#: mediadrop/templates/admin/podcasts/_podcast-table.html:41
+msgid "Author:"
+msgstr "作者："
+
+#: mediadrop/templates/admin/podcasts/_podcast-table.html:45
+msgid "Explicit"
+msgstr "不适当"
+
+#: mediadrop/templates/admin/podcasts/_podcast-table.html:51
+msgid "Add episode"
+msgstr "新增一集"
+
+#: mediadrop/templates/admin/podcasts/_podcast-table.html:53
+#, python-format
+msgid "View First Episode %(num)s"
+msgid_plural "View All %(num)s Episodes"
+msgstr[0] ""
+"one: 查看第一集%(num)s\n"
+"other: 查看所有%(num)s 集"
+
+#: mediadrop/templates/admin/podcasts/edit.html:16
+msgid "Edit Podcast"
+msgstr "编辑播客"
+
+#: mediadrop/templates/admin/podcasts/edit.html:16
+#: mediadrop/templates/admin/podcasts/edit.html:88
+msgid "New Podcast"
+msgstr "新的播客"
+
+#: mediadrop/templates/admin/podcasts/edit.html:97
+msgid "View this podcast where it is published"
+msgstr "在此播客发布的地方查看"
+
+#: mediadrop/templates/admin/podcasts/feed_fieldset.html:39
+msgid "Get an iTunes URL"
+msgstr "获取iTunes网址"
+
+#: mediadrop/templates/admin/podcasts/feed_fieldset.html:40
+msgid "Get a Feedburner URL"
+msgstr "获取Feedburner网址"
+
+#: mediadrop/templates/admin/podcasts/index.html:25
+msgid "Add Podcast"
+msgstr "添加播客"
+
+#: mediadrop/templates/admin/settings/advertising.html:17
+#: mediadrop/templates/admin/settings/advertising.html:23
+#: mediadrop/templates/admin/settings/master.html:42
+msgid "Advertising"
+msgstr "广告"
+
+#: mediadrop/templates/admin/settings/analytics.html:17
+#: mediadrop/templates/admin/settings/analytics.html:23
+#: mediadrop/templates/admin/settings/master.html:45
+msgid "Analytics"
+msgstr "分析"
+
+#: mediadrop/templates/admin/settings/api.html:16
+#: mediadrop/templates/admin/settings/api.html:26
+#: mediadrop/templates/admin/settings/master.html:57
+msgid "Data API"
+msgstr "数据API"
+
+#: mediadrop/templates/admin/settings/api.html:19
+msgid "Generate"
+msgstr "生成"
+
+#: mediadrop/templates/admin/settings/appearance.html:17
+#: mediadrop/templates/admin/settings/appearance.html:38
+#: mediadrop/templates/admin/settings/master.html:48
+msgid "Appearance"
+msgstr "外观"
+
+#: mediadrop/templates/admin/settings/appearance.html:26
+msgid "Confirm Reset"
+msgstr "确认复位"
+
+#: mediadrop/templates/admin/settings/appearance.html:27
+msgid "Are you sure you want to reset your settings to the default?"
+msgstr "你确定要重置为默认设置？"
+
+#: mediadrop/templates/admin/settings/master.html:60
+msgid "Notifications"
+msgstr "通知"
+
+#: mediadrop/templates/admin/settings/master.html:66
+#: mediadrop/templates/admin/settings/popularity.html:16
+#: mediadrop/templates/admin/settings/popularity.html:22
+msgid "Popularity"
+msgstr "热门"
+
+#: mediadrop/templates/admin/settings/master.html:69
+#: mediadrop/templates/admin/settings/sitemaps.html:17
+#: mediadrop/templates/admin/settings/sitemaps.html:23
+msgid "RSS and Sitemaps"
+msgstr "RSS和站点地图"
+
+#: mediadrop/templates/admin/settings/master.html:72
+#: mediadrop/templates/admin/storage/index.html:16
+#: mediadrop/templates/admin/storage/index.html:112
+msgid "Storage Engines"
+msgstr "存储引擎"
+
+#: mediadrop/templates/admin/settings/master.html:83
+msgid "Plugins"
+msgstr "插件"
+
+#: mediadrop/templates/admin/settings/notifications.html:16
+#: mediadrop/templates/admin/settings/notifications.html:22
+msgid "Notification Emails"
+msgstr "通知电子邮件"
+
+#: mediadrop/templates/admin/storage/edit.html:23
+msgid "New Storage Engine"
+msgstr "新的存储引擎"
+
+#: mediadrop/templates/admin/storage/index.html:25
+msgid "WARNING:"
+msgstr "警告："
+
+#: mediadrop/templates/admin/storage/index.html:26
+#, python-format
+msgid "Deleting this Storage Engine (%(name)s) will:"
+msgstr "删除该存储引擎 (%(name)s) 将："
+
+#: mediadrop/templates/admin/storage/index.html:27
+#, python-format
+msgid ""
+"Permanently delete all of the %(num)s media files stored by this Storage "
+"Engine."
+msgstr "永久删除此引擎中 %(num)s 个媒体文件。"
+
+#: mediadrop/templates/admin/storage/index.html:28
+msgid "Permanently erase its settings."
+msgstr "永久删除其设置。"
+
+#: mediadrop/templates/admin/storage/index.html:29
+msgid ""
+"An alternative to deleting is disabling. Disabling a Storage Engine will "
+"simply prevent its use for files added from now on."
+msgstr "一种替代方法是禁用。禁用某一存储引擎后新加的文件将不会再存放于此引擎中"
+
+#: mediadrop/templates/admin/storage/index.html:92
+msgid "Disable"
+msgstr "禁用"
+
+#: mediadrop/templates/admin/storage/index.html:113
+#: mediadrop/templates/admin/storage/index.html:153
+msgid "Add New Engine"
+msgstr "添加新引擎"
+
+#: mediadrop/templates/admin/storage/index.html:121
+msgid "Disk Usage"
+msgstr "磁盘使用"
+
+#: mediadrop/templates/admin/storage/index.html:155
+msgid "Please select what type of storage engine you would like to add:"
+msgstr "请选择新加存储引擎类型："
+
+#: mediadrop/templates/admin/tags/index.html:50
+#: mediadrop/templates/admin/tags/index.html:72
+msgid "Add Tag"
+msgstr "添加标签"
+
+#: mediadrop/templates/admin/tags/index.html:76
+msgid "Edit Tag"
+msgstr "编辑标记"
+
+#: mediadrop/templates/admin/tags/index.html:80
+msgid "Delete Tag"
+msgstr "删除标签"
+
+#: mediadrop/templates/admin/users/edit.html:37
+msgid "New User"
+msgstr "新用户"
+
+#: mediadrop/templates/admin/users/index.html:29
+msgid "Are you sure you want to delete this user?"
+msgstr "你确定要删除此用户？"
+
+#: mediadrop/templates/admin/users/index.html:39
+msgid "Add User"
+msgstr "添加用户"
+
+#: mediadrop/templates/admin/users/index.html:46
+msgid "Email"
+msgstr "电邮"
+
+#: mediadrop/templates/admin/users/index.html:47
+msgid "Group"
+msgstr "组"
+
+#: mediadrop/templates/categories/index.html:28
+#: mediadrop/templates/media/explore.html:102
+msgid "More new media"
+msgstr "更多新视频"
+
+#: mediadrop/templates/categories/index.html:28
+#: mediadrop/templates/categories/index.html:33
+#: mediadrop/templates/media/explore.html:87
+#: mediadrop/templates/media/explore.html:102
+msgid "View More"
+msgstr "查看更多"
+
+#: mediadrop/templates/categories/index.html:33
+#: mediadrop/templates/media/explore.html:87
+msgid "More popular media"
+msgstr "更多最受欢迎视频"
+
+#: mediadrop/templates/categories/index.html:35
+#: mediadrop/templates/categories/more.html:26
+msgid "There is no media in this category."
+msgstr "有没有媒体在这一类。"
+
+#: mediadrop/templates/categories/layout.html:27
+msgid "Choose a Category:"
+msgstr "选择一个类别："
+
+#: mediadrop/templates/comments/_list.html:31
+#, python-format
+msgid "said on %(datetime)s…"
+msgstr "在说 %(datetime)s 的..."
+
+#: mediadrop/templates/comments/_list.html:45
+msgid "No comments have been posted yet."
+msgstr "没有已发布的评论。"
+
+#: mediadrop/templates/comments/_list.html:59
+msgid "Write a comment"
+msgstr "写评论"
+
+#: mediadrop/templates/comments/_list.html:76
+msgid "Email Address (will never be published)"
+msgstr "电邮地址(不会对外发布)"
+
+#: mediadrop/templates/comments/_list.html:94
+msgid "Submit Comment"
+msgstr "提交评论"
+
+#: mediadrop/templates/media/explore.html:92
+#, python-format
+msgid ""
+"As soon as there are more than %(num)s published videos in the library, "
+"the most popular videos will be listed here."
+msgstr "只要有超过 %(num)s 公布的在库中的影片，最受欢迎的影片将在这里列出。"
+
+#: mediadrop/templates/media/explore.html:93
+msgid "Why not add a few more?"
+msgstr "为什么不再增加一些呢？"
+
+#: mediadrop/templates/media/index.html:17
+#, python-format
+msgid "Search: \"%s\""
+msgstr "搜索：\"%s\""
+
+#: mediadrop/templates/media/index.html:25
+#, python-format
+msgid "Showing %(result_count)s results for '%(search_query)s'"
+msgstr "显示关于  '%(search_query)s'的%(result_count)s 结果"
+
+#: mediadrop/templates/media/index.html:26
+#, python-format
+msgid "Showing %(result_count)s results tagged with '%(tag_name)s'"
+msgstr ""
+"显示 %(result_count)s 的结果将与 '%(tag_name)s' 的\n"
+"详细的建议"
+
+#: mediadrop/templates/media/index.html:27
+#, python-format
+msgid "All %(result_count)s Media"
+msgstr "所有 %(result_count)s 的媒体"
+
+#: mediadrop/templates/media/tags.html:20
+msgid "All Tags"
+msgstr "所有标签"
+
+#: mediadrop/templates/media/view.html:54
+msgid "(unpublished)"
+msgstr "(未发布)"
+
+#: mediadrop/templates/media/view.html:55
+#, python-format
+msgid "by %(authorName)s"
+msgstr "按作者 %(authorName)s"
+
+#: mediadrop/templates/media/view.html:65
+#: mediadrop/templates/players/html5_or_flash.html:61
+msgid "Dislike"
+msgid_plural "Dislikes"
+msgstr[0] ""
+"one: 不喜欢\n"
+"other: 不喜欢"
+
+#: mediadrop/templates/media/view.html:87
+msgid "Related Podcast"
+msgstr "相关的播客"
+
+#: mediadrop/templates/media/view.html:97
+msgid "Podcast Episodes"
+msgstr "播客剧集"
+
+#: mediadrop/templates/media/view.html:100
+msgid "Episode"
+msgid_plural "Episodes"
+msgstr[0] ""
+"one: 集\n"
+"other: 集"
+
+#: mediadrop/templates/media/view.html:114
+msgid "Related Media"
+msgstr "相关媒体"
+
+#: mediadrop/templates/media/view.html:122
+msgid "This is not listed under any categories."
+msgstr "此媒体没有加入任何分类。"
+
+#: mediadrop/templates/media/view.html:126
+msgid "See All Tags"
+msgstr "查看所有标签"
+
+#: mediadrop/templates/media/view.html:130
+msgid "This does not have any associated tags."
+msgstr "此媒体没有任何关联的标签。"
+
+#: mediadrop/templates/players/html5_or_flash.html:70
+msgid "Pop out a new player window"
+msgstr "弹出一个新的播放器窗口"
+
+#: mediadrop/templates/players/html5_or_flash.html:70
+msgid "Pop Out"
+msgstr "弹出"
+
+#: mediadrop/templates/players/html5_or_flash.html:71
+msgid "Shrink"
+msgstr "收缩"
+
+#: mediadrop/templates/players/html5_or_flash.html:71
+msgid "Expand"
+msgstr "展开"
+
+#: mediadrop/templates/players/html5_or_flash.html:73
+msgid "Share"
+msgstr "分享"
+
+#: mediadrop/templates/players/html5_or_flash.html:77
+msgid "Permalink:"
+msgstr "固定链接："
+
+#: mediadrop/templates/players/html5_or_flash.html:80
+msgid "Share by email"
+msgstr "通过电子邮件分享"
+
+#: mediadrop/templates/players/html5_or_flash.html:80
+msgid "Share by Email"
+msgstr "通过电子邮件分享"
+
+#: mediadrop/templates/players/html5_or_flash.html:81
+msgid "Share on Facebook"
+msgstr "在Facebook上分享"
+
+#: mediadrop/templates/players/html5_or_flash.html:82
+msgid "Share on Twitter"
+msgstr "在Twitter上分享"
+
+#: mediadrop/templates/players/html5_or_flash.html:87
+msgid "Embed"
+msgstr "嵌入"
+
+#: mediadrop/templates/players/html5_or_flash.html:91
+msgid "Embeddable Player HTML:"
+msgstr "嵌入式播放器的HTML："
+
+#: mediadrop/templates/players/html5_or_flash.html:97
+msgid "Download"
+msgstr "下载"
+
+#: mediadrop/templates/podcasts/index.html:23
+msgid "All Podcasts"
+msgstr "所有播客"
+
+#: mediadrop/templates/podcasts/index.html:34
+#: mediadrop/templates/podcasts/view.html:35
+msgid "Add to iTunes"
+msgstr "添加到iTunes"
+
+#: mediadrop/templates/podcasts/index.html:35
+#: mediadrop/templates/podcasts/view.html:36
+msgid "Subscribe via RSS"
+msgstr "通过RSS订阅"
+
+#: mediadrop/templates/podcasts/index.html:38
+msgid "Latest Episodes"
+msgstr "最新剧集"
+
+#: mediadrop/templates/podcasts/index.html:45
+msgid "Browse all episodes"
+msgstr "浏览所有剧集"
+
+#: mediadrop/templates/podcasts/view.html:42
+#, python-format
+msgid "%(result_count)s Episodes"
+msgid_plural "All %(result_count)s Episodes"
+msgstr[0] ""
+"one:  %(result_count)s 剧集\n"
+"other: 所有 %(result_count)s 剧集"
+
+#: mediadrop/templates/upload/failure.html:17
+#: mediadrop/templates/upload/success.html:17
+msgid "Upload Videos"
+msgstr "上传影片"
+
+#: mediadrop/templates/upload/failure.html:22
+msgid "Upload Error"
+msgstr "上传错误"
+
+#: mediadrop/templates/upload/failure.html:26
+msgid ""
+"During your upload, something went wrong, but don't worry. The engineers "
+"and gnomes have been automagically notified and we're already on our way "
+"to resolving your issue."
+msgstr "在上传过程中出现了错误，但不要担心。工程师和gnome已自动获得通知，我们正在解决您的问题。"
+
+#: mediadrop/templates/upload/failure.html:28
+msgid "Something you can check:"
+msgstr "有些事情，你可以检查："
+
+#: mediadrop/templates/upload/failure.html:30
+#, python-format
+msgid "Is the file under %(maxUploadSize)s Megabytes in size?"
+msgstr "文件是否小于 %(maxUploadSize)s MB？"
+
+#: mediadrop/templates/upload/failure.html:33
+msgid "Try Uploading Again"
+msgstr "尝试重新上载"
+
+#: mediadrop/templates/upload/form.html:52
+msgid "Choose a file to upload"
+msgstr "选择要上传的文件"
+
+#: mediadrop/templates/upload/index.html:45
+msgid "Problems?"
+msgstr "有问题？"
+
+#: mediadrop/templates/upload/index.html:46
+msgid "If you have problems uploading or have some questions, please email us at"
+msgstr "如果你有问题上传或有问题，请发送电子邮件至"
+
+#: mediadrop/templates/upload/success.html:23
+msgid "Upload Successful"
+msgstr "上传成功"
+
+#: mediadrop/templates/upload/success.html:27
+msgid "Awesome, your upload was successful!"
+msgstr "真棒，你上传成功了！"
+
+#: mediadrop/templates/upload/success.html:28
+msgid ""
+"Your submission is awaiting review by a moderator and will be posted "
+"shortly."
+msgstr "您的提交，正在等待版主审核，并将于短期内发布。"
+
+#: mediadrop/templates/upload/success.html:29
+msgid ""
+"You will be automatically redirected back to the [1:Media Library] in a "
+"few seconds. Hang tight."
+msgstr "您将在几秒钟内自动重定向回[1:媒体库]。稍安毋躁。"
+
+#: mediadrop/validation/uri_validator.py:21
+msgid "That is not a valid URL."
+msgstr "此URL无效。"
+

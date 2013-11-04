@@ -1,0 +1,74 @@
+<!--!
+This file is a part of MediaDrop (http://www.mediadrop.net),
+Copyright 2009-2013 MediaDrop contributors
+For the exact contribution history, see the git revision log.
+The source code contained in this file is licensed under the GPLv3 or
+(at your option) any later version.
+See LICENSE.txt in the main project directory, for more information.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:i18n="http://genshi.edgewall.org/i18n"
+      xmlns:py="http://genshi.edgewall.org/"
+      xmlns:xi="http://www.w3.org/2001/XInclude"
+      i18n:domain="mediadrop"
+      py:strip="">
+
+<xi:include href="../helpers.html" />
+<xi:include href="./helpers.html" />
+<xi:include py:for="tmpl in g.plugin_mgr.match_templates('/admin/master.html')" href="${tmpl}" />
+<xi:include py:for="tmpl in value_of('plugin_templates', ())" href="${tmpl}" />
+
+<head py:match="head">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title py:match="title" py:with="title = select('text()')">
+		<py:if test="title and title != 'MediaDrop'">${Markup(title)} |</py:if>
+		MediaDrop
+	</title>
+	<!--[if lt IE 8]>
+	<script src="http://ie7-js.googlecode.com/svn/version/2.0(beta3)/IE8.js" type="text/javascript"></script>
+	<![endif]-->
+	<script src="${h.js('mootools_core')}" type="text/javascript"></script>
+	<script src="${h.js('mootools_more')}" type="text/javascript"></script>
+	<script src="${h.url_for('/admin/scripts/global.js')}" type="text/javascript"></script>
+	<script src="${h.url_for('/admin/scripts/dropdown.js')}" type="text/javascript"></script>
+	${Markup(h.response.scripts.render())}
+	<link href="${h.url_for('/admin/styles/base.css')}" media="screen" rel="stylesheet" type="text/css" />
+	${Markup(h.response.stylesheets.render())}
+	<link href="${h.url_for('/images/favicon.ico')}" rel="shortcut icon" />
+	<meta py:replace="select('*')"/>
+</head>
+
+<body py:match="body" py:with="attrs = h.attrs_to_dict(select('@*')); body_class = attrs.get('class', '').split(' ')" py:attrs="attrs">
+	<div id="container" class="clearfix">
+		<div id="header" class="clearfix">
+			<div id="logo">
+				<h2><a id="logo-dropdown-toggle" href="${h.url_for(controller='/admin/index')}"><span>MediaDrop</span></a></h2>
+				<div class="dropdown-box">
+					<ul id="logo-dropdown">
+						<li><a href="${h.url_for(controller='/admin/index')}">Dashboard</a></li>
+						<li><a href="${h.url_for(controller='/media', action='explore')}">View Site</a></li>
+						<li><a href="${h.url_for(controller='/login', action='logout_handler')}" id="logout">Logout</a></li>
+					</ul>
+				</div>
+			</div>
+			<ul id="nav" py:with="is_admin = h.is_admin()">
+				<li><a class="btn nav${'menu-media-on' in body_class and ' active' or ''}" href="${h.url_for(controller='/admin/media')}"><span>Media</span></a></li>
+				<li py:if="settings['appearance_enable_podcast_tab']"><a class="btn nav${'menu-podcasts-on' in body_class and ' active' or ''}" href="${h.url_for(controller='/admin/podcasts')}"><span>Podcasts</span></a></li>
+				<li py:if="settings['comments_engine'] == 'builtin'"><a class="btn nav${'menu-comments-on' in body_class and ' active' or ''}" href="${h.url_for(controller='/admin/comments')}"><span>Comments</span></a></li>
+				<li py:if="is_admin"><a class="btn nav${'menu-users-on' in body_class and ' active' or ''}" href="${h.url_for(controller='/admin/users')}"><span>Users</span></a></li>
+				<li py:if="is_admin"><a class="btn nav${'menu-groups-on' in body_class and ' active' or ''}" href="${h.url_for(controller='/admin/groups')}"><span>Groups</span></a></li>
+				<li py:if="is_admin"><a class="btn nav${'menu-settings-on' in body_class and ' active' or ''}" href="${h.url_for(controller='/admin/settings')}"><span>Settings</span></a></li>
+			</ul>
+		</div>
+		<div id="body" class="clearfix" py:content="select('*|text()')" />
+		
+		<div id="admin-footer">
+		    <div class="mcore-version">MediaDrop ${h.mediadrop_version()}</div>
+		    <p class="copyright">&copy; 2009-2013 MediaDrop contributors</p>
+		</div>
+	</div>
+</body>
+
+</html>

@@ -1,0 +1,53 @@
+<!--!
+This file is a part of MediaDrop (http://www.mediadrop.net),
+Copyright 2009-2013 MediaDrop contributors
+For the exact contribution history, see the git revision log.
+The source code contained in this file is licensed under the GPLv3 or
+(at your option) any later version.
+See LICENSE.txt in the main project directory, for more information.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      xmlns:xi="http://www.w3.org/2001/XInclude">
+<xi:include href="../master.html" />
+<head>
+	<title>${h.page_title(default='Upload Videos', upload='all')}</title>
+	<meta name="keywords" content="${h.meta_keywords(upload=True)}" />
+	<meta name="description" content="${h.meta_description(upload='all')}" />
+	<link href="${h.url_for('/styles/upload.css')}" media="screen" rel="stylesheet" type="text/css" />
+	<script src="${h.js('mootools_core')}" type="text/javascript"></script>
+	<script src="${h.js('mootools_more')}" type="text/javascript"></script>
+	<script type="text/javascript" src="${h.url_for('/scripts/third-party/Swiff.Uploader-yui-compressed.js')}"></script>
+	<script type="text/javascript" src="${h.url_for('/scripts/uploader.js')}"></script>
+	<script type="text/javascript">
+		//<![CDATA[
+		var UploadMGR = null;
+		var SwiffUploadMGR = null;
+		window.addEvent('domready', function() {
+			if (Browser.Engine.trident || Browser.Plugins.Flash.version < 9) return;
+			UploadMGR = new UploadManager('${upload_form.id}', '${upload_form.async_action}');
+			SwiffUploadMGR = new SwiffUploadManager('${upload_form.id}', '${upload_form.async_action}', '${h.url_for(action='failure')}', '${h.url_for('/')}', '*.*', 'browse-button', 'submit_btn', 'file-info', 'upload-status', {}, ${settings['max_upload_size']});
+		});
+		//]]>
+	</script>
+</head>
+<body class="nav-upload-on">
+	<div class="mediadrop-content">
+		<div id="upload-wording" class="feat-box" py:if="legal_wording">
+			<div class="feat-top" />
+			<div class="feat-content" py:content="Markup(_(legal_wording))">Legal Wording</div>
+			<div class="feat-bottom" />
+		</div>
+		<div id="rightbar">
+			<div py:if="support_email">
+				<em>Problems?</em>
+				<p>If you have problems uploading or have some questions, please email us at <a href="mailto:${support_email}" py:content="support_email">Support Email</a></p>
+			</div>
+			<div id="upload-status"><span class="percent" /><span class="text" /></div>
+		</div>
+		${upload_form(form_values)}
+	</div>
+</body>
+</html>

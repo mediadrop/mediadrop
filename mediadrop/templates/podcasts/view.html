@@ -1,0 +1,51 @@
+<!--!
+This file is a part of MediaDrop (http://www.mediadrop.net),
+Copyright 2009-2013 MediaDrop contributors
+For the exact contribution history, see the git revision log.
+The source code contained in this file is licensed under the GPLv3 or
+(at your option) any later version.
+See LICENSE.txt in the main project directory, for more information.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      xmlns:i18n="http://genshi.edgewall.org/i18n"
+      xmlns:xi="http://www.w3.org/2001/XInclude">
+<xi:include href="../master.html" />
+<head>
+
+	<title>${h.page_title(default='Podcasts', podcast=c.podcast or 'all')}</title>
+	<meta name="keywords" content="${h.meta_keywords(podcast=c.podcast or 'all')}" />
+	<meta name="description" content="${h.meta_description(podcast=c.podcast or 'all')}" />
+	<link href="${h.url_for('/styles/podcasts.css')}" media="screen" rel="stylesheet" type="text/css" />
+</head>
+<body class="nav-podcasts-on">
+	<div class="mediadrop-content clearfix">
+		<h3 class="mcore-heading">${podcast.title}</h3>
+		<div class="podcast-box feat-box">
+			<div class="feat-top" />
+			<div class="feat-content clearfix">
+				<span class="thumb-wrap"><img src="${h.thumb_url(podcast, 'm')}" width="160" height="160" alt="${podcast.title}" /></span>
+				<div class="podcast-info">
+					<a href="${h.url_for(controller='/admin/podcasts', action='edit', id=podcast.id)}" class="underline-hover f-rgt" py:if="h.can_edit()">Edit</a>
+					<p py:if="podcast.description" py:replace="Markup(podcast.description)" />
+				</div>
+				<div class="podcast-meta">
+					<a py:if="podcast.itunes_url" class="meta meta-itunes underline-hover" href="${podcast.itunes_url or h.url_for(action='feed', slug=podcast.slug)}">Add to iTunes</a>
+					<a class="meta meta-rss underline-hover" href="${h.url_for(action='feed', slug=podcast.slug)}">Subscribe via RSS</a>
+				</div>
+			</div>
+			<div class="feat-bottom" />
+		</div>
+
+		<h4 i18n:choose="result_count; result_count" class="uppercase">
+			<i18n:singular>${result_count} Episodes</i18n:singular>
+			<i18n:plural>All ${result_count} Episodes</i18n:plural>
+		</h4>
+		${library_controls(show, paginator=c.paginators.episodes)}
+		<ul py:replace="media_grid(episodes, thumb_size='m', desc_len=145)" />
+		<div py:replace="pager(c.paginators.episodes)" />
+	</div>
+</body>
+</html>

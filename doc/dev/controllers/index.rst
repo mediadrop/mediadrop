@@ -4,7 +4,7 @@
 Controllers
 ===========
 
-.. automodule:: mediacore.controllers
+.. automodule:: mediadrop.controllers
 
 .. toctree::
 

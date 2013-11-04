@@ -36,13 +36,13 @@ recursive-exclude closure-library *.*
 recursive-exclude batch-scripts/closure *.*
 
 # Include our deployment.ini template
-include mediacore/config/deployment.ini_tmpl
+include mediadrop/config/deployment.ini_tmpl
 
 # Include all files in these directories
-graft mediacore/migrations
-graft mediacore/public
-graft mediacore/templates
-graft mediacore/i18n
+graft mediadrop/migrations
+graft mediadrop/public
+graft mediadrop/templates
+graft mediadrop/i18n
 
 # Always ignore scrap files
 recursive-exclude * *.pyc

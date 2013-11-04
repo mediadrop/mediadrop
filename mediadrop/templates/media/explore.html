@@ -1,0 +1,106 @@
+<!--!
+This file is a part of MediaDrop (http://www.mediadrop.net),
+Copyright 2009-2013 MediaDrop contributors
+For the exact contribution history, see the git revision log.
+The source code contained in this file is licensed under the GPLv3 or
+(at your option) any later version.
+See LICENSE.txt in the main project directory, for more information.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:fb="http://www.facebook.com/2008/fbml"
+      xmlns:py="http://genshi.edgewall.org/"
+      xmlns:i18n="http://genshi.edgewall.org/i18n"
+      xmlns:xi="http://www.w3.org/2001/XInclude">
+<xi:include href="../master.html" />
+
+<head>
+	<title>${h.page_title(default='Explore', media='all')}</title>
+	<meta name="keywords" content="${h.meta_keywords(media='all') or 'MediaDrop'}" />
+	<meta name="description" content="${h.meta_description(media='all') or 'MediaDrop Video CMS'}" />
+</head>
+<body class="nav-explore-on">
+	<div class="mediadrop-content clearfix">
+	<py:if test="settings['appearance_enable_cooliris']">
+		<div id="cooliris-box" class="feat-box">
+			<div class="feat-top" />
+			<div class="feat-content clearfix">
+				<div class="cooliris-nav">
+					<div class="cooliris-nav-content">
+						<div class="cooliris-featured clickable cooliris-feed featured" data-feed="${h.url_for(controller='sitemaps', action='featured', skip=settings['appearance_enable_featured_items'] and 1 or 0)}" id="cooliris-feed-featured">Featured</div>
+						<div class="cooliris-latest clickable cooliris-feed" data-feed="${h.url_for(controller='sitemaps', action='latest')}" id="cooliris-feed-latest">Latest</div>
+						<div class="cooliris-cats-btn clickable"><span class="cooliris-cats-text">Categories</span> <span class="cooliris-arrow goog-inline-block" /></div>
+						<ul class="cooliris-cats hidden">
+							<li py:for="cat in categories"
+							    py:if="cat.slug != 'featured'"
+							    class="clickable cooliris-feed"
+							    id="cooliris-feed-${cat.slug}"
+							    data-feed="${h.url_for(controller='categories', action='feed', slug=cat.slug)}"
+							    py:content="cat.name" />
+						</ul>
+					</div>
+				</div>
+				<div class="cooliris-wall"></div>
+			</div>
+			<div class="feat-bottom" />
+		</div>
+		<script type="text/javascript">
+			var cooliris = {};
+			var myCooliris = new mcore.Cooliris(680, 323, {
+				backgroundAlpha: 1,
+				cellBorder: 1,
+				feed: '${h.url_for(controller='sitemaps', action='featured', skip=settings['appearance_enable_featured_items'] and 1 or 0)}',
+				intro: 'scrollLeft',
+				numRows: 2,
+				showChrome: false,
+				showDescription: true,
+				showSearch: false,
+				showReflections: false,
+				style: 'light',
+				tilt: 5
+			}, 'cooliris-feed-featured');
+			setTimeout(function(){ myCooliris.decorate(document.getElementById('cooliris-box')); }, 150);
+		</script>
+	</py:if>
+		<div id="explore-popular" class="m-grid-column" style="margin-right:20px">
+			<py:if test="featured and settings['appearance_enable_featured_items']">
+			<h2><span class="mcore-heading uppercase">Featured</span></h2>
+			<div class="feat-box">
+				<div class="feat-top" />
+				<div class="feat-content clearfix">
+					${h.media_player(featured, width=410, height=231)}
+					<h3><a class="underline-hover" href="${h.url_for_media(featured)}">${featured.title}</a></h3>
+					<div class="feat-meta">
+						<span py:if="settings['comments_engine'] == 'builtin'" class="meta meta-comments">${featured.comment_count_published} ${ungettext('Comment', 'Comments', featured.comment_count_published)}</span>
+						<span py:if="settings['appearance_show_like'] and settings.get('likes') != 'facebook'" class="meta meta-likes"><span id="mcore-likes-counter">${h.format_decimal(featured.likes)}</span> ${ungettext('Like', 'Likes', featured.likes)}</span>
+						<span class="meta meta-views">${h.format_decimal(featured.views)} ${ungettext('View', 'Views', featured.views)}</span>
+					</div>
+				</div>
+				<div class="feat-bottom" />
+			</div>
+			</py:if>
+
+			<h2><a href="${h.url_for(action='index', show='popular')}" class="underline-hover uppercase mcore-heading">Most Popular</a></h2>
+			<py:if test="popular">
+				<ul py:replace="media_grid(popular, thumb_size='m', desc_len=135)" />
+				<a class="mcore-btn mcore-btn-grey mcore-btn-more" href="${h.url_for(action='index', show='popular')}"><span>${h.best_translation(N_('More popular media'), N_('View More'))}</span></a>
+			</py:if>
+			<div py:if="not popular" class="feat-box">
+				<div class="feat-top" />
+				<div class="feat-content clearfix">
+					${_('As soon as there are more than %(num)s published videos in the library, the most popular videos will be listed here.') % dict(num=9)}
+					<a py:if="h.is_admin()" href="${h.url_for(controller='/admin/media', action='edit', id='new')}">Why not add a few more?</a>
+				</div>
+				<div class="feat-bottom"/>
+			</div>
+		</div>
+
+		<div py:if="latest" id="explore-latest" class="m-grid-column">
+			<h2><a href="${h.url_for(action='index', show='latest')}" class="underline-hover uppercase mcore-heading">Latest</a></h2>
+			<ul py:replace="media_grid(latest, thumb_size='m', desc_len=135)" />
+			<a class="mcore-btn mcore-btn-grey mcore-btn-more" href="${h.url_for(action='index', show='latest')}"><span>${h.best_translation(N_('More new media'), N_('View More'))}</span></a>
+		</div>
+	</div>
+</body>
+</html>

@@ -4,7 +4,7 @@
 Podcasts
 ========
 
-.. automodule:: mediacore.model.podcasts
+.. automodule:: mediadrop.model.podcasts
 
 Mapped Classes
 --------------

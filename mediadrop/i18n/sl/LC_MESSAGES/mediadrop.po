@@ -1,0 +1,2571 @@
+# Slovenian translations for MediaDrop.
+# Copyright (C) 2013 ORGANIZATION
+# This file is distributed under the same license as the MediaDrop.
+#
+# Translators:
+# brodul <brodul@gmx.com>, 2011.
+# iElectric <domen@dev.si>, 2011.
+# natedub <nathan@simplestation.com>, 2011.
+# uskudnik <urban.skudnik@gmail.com>, 2011.
+msgid ""
+msgstr ""
+"Project-Id-Version: MediaCore Video Platform\n"
+"Report-Msgid-Bugs-To: http://github.com/mediadrop/mediadrop-"
+"community/issues\n"
+"POT-Creation-Date: 2013-10-25 12:04+0200\n"
+"PO-Revision-Date: 2013-03-24 08:14+0000\n"
+"Last-Translator: uskudnik <urban.skudnik@gmail.com>\n"
+"Language-Team: sl <LL@li.org>\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 "
+"|| n%100==4 ? 2 : 3)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 0.9.6\n"
+
+#: mediadrop/websetup.py:153
+msgid ""
+"Upload your media using the form below. We'll review it and get back to "
+"you."
+msgstr "Naloži tvoj najljubši posnetek. Pregledali ga bomo in te obvestili o tem."
+
+#: mediadrop/controllers/categories.py:67
+#: mediadrop/templates/categories/more.html:19
+#, python-format
+msgid "Latest media in %s"
+msgstr "Zadnji posnetki v %s"
+
+#: mediadrop/controllers/errors.py:55
+msgid "We're sorry but we weren't able to process this request."
+msgstr "Se opravičujemo, ampak poizvedba ni uspela."
+
+#: mediadrop/controllers/login.py:39
+msgid "Invalid username or password."
+msgstr ""
+
+#: mediadrop/controllers/media.py:89 mediadrop/controllers/media.py:149
+#: mediadrop/templates/media/index.html:18
+msgid "Latest RSS"
+msgstr "Zadnji RSS"
+
+#: mediadrop/controllers/media.py:93
+#, fuzzy
+msgid "Featured RSS"
+msgstr "Izbrani"
+
+#: mediadrop/controllers/media.py:144
+msgid "Sitemap XML"
+msgstr "XML zemljevida strani"
+
+#: mediadrop/controllers/media.py:145
+msgid "Sitemap RSS"
+msgstr "RSS zemljevida strani"
+
+#: mediadrop/controllers/media.py:315
+msgid "Your comment has been rejected."
+msgstr "Tvoj komentar je bil zavrnjen."
+
+#: mediadrop/controllers/media.py:337
+msgid ""
+"Thank you for your comment! We will post it just as soon as a moderator "
+"approves it."
+msgstr "Hvala za komentar! Objavljen bo takoj, ko ga moderator odobri."
+
+#: mediadrop/controllers/admin/media.py:385
+#, python-format
+msgid "File \"%s\" does not exist."
+msgstr "Datoteka \"%s\" ne obstaja."
+
+#: mediadrop/controllers/admin/media.py:408
+msgid "No action to perform."
+msgstr "Ne vem kaj naj počnem."
+
+#: mediadrop/controllers/admin/media.py:558
+#: mediadrop/controllers/admin/podcasts.py:206
+msgid "Permission denied, cannot write file"
+msgstr "Nimam pravic za pisanje v datoteko"
+
+#: mediadrop/controllers/admin/media.py:560
+#, python-format
+msgid "Unsupported image type: %s"
+msgstr ""
+
+#: mediadrop/controllers/admin/media.py:563
+#: mediadrop/controllers/admin/podcasts.py:211
+msgid "Interlaced PNGs are not supported."
+msgstr ""
+
+#: mediadrop/controllers/admin/podcasts.py:91
+msgid "Save the podcast to get your feed URL"
+msgstr ""
+
+#: mediadrop/controllers/admin/podcasts.py:208
+#, python-format
+msgid "Unsupport image type: %s"
+msgstr "Nepodprt tip slike: %s"
+
+#: mediadrop/forms/__init__.py:212
+msgid "The portion of the email address before the @ is invalid"
+msgstr "Del za @ pri e-pošti je nepravilen"
+
+#: mediadrop/forms/__init__.py:213
+msgid "The portion of this email address after the @ is invalid"
+msgstr "Del e-poštnega naslova za @ je nepravilen"
+
+#: mediadrop/forms/comments.py:15
+msgid "Please enter your name!"
+msgstr "Prosimo vnesite ime!"
+
+#: mediadrop/forms/login.py:33 mediadrop/forms/admin/users.py:53
+#: mediadrop/forms/admin/storage/ftp.py:28
+msgid "Username"
+msgstr "Uporabniško ime:"
+
+#: mediadrop/forms/login.py:36 mediadrop/forms/admin/users.py:54
+#: mediadrop/forms/admin/storage/ftp.py:29
+msgid "Password"
+msgstr "Geslo"
+
+#: mediadrop/forms/login.py:38 mediadrop/templates/master.html:77
+msgid "Login"
+msgstr "Prijava"
+
+#: mediadrop/forms/uploader.py:17
+msgid "At least give it a short description..."
+msgstr "Podaj vsaj kratek opis..."
+
+#: mediadrop/forms/uploader.py:21
+msgid "You've gotta have a name!"
+msgstr "Brez imena te ne moremo poznati!"
+
+#: mediadrop/forms/uploader.py:25
+msgid "You've gotta have a title!"
+msgstr "Posnetek moraš poimenovati!"
+
+#: mediadrop/forms/uploader.py:43
+msgid "Your Name:"
+msgstr "Tvoje ime:"
+
+#: mediadrop/forms/uploader.py:44
+msgid "Your Email:"
+msgstr "Tvoja e-pošta:"
+
+#: mediadrop/forms/uploader.py:44
+msgid "(will never be published)"
+msgstr "(nikoli ne bo objavljena)"
+
+#: mediadrop/forms/uploader.py:45
+msgid "Title:"
+msgstr "Naslov:"
+
+#: mediadrop/forms/uploader.py:46
+msgid "Description:"
+msgstr "Opis:"
+
+#: mediadrop/forms/uploader.py:47
+msgid "Add a YouTube, Vimeo or Amazon S3 link:"
+msgstr ""
+
+#: mediadrop/forms/uploader.py:48
+msgid "Oops! You forgot to enter a file."
+msgstr "Ups! Pozabil si vnesti datoteko."
+
+#: mediadrop/forms/uploader.py:48
+msgid "OR:"
+msgstr "ALI:"
+
+#: mediadrop/forms/uploader.py:49
+msgid "Submit"
+msgstr "Naloži"
+
+#: mediadrop/forms/admin/__init__.py:19
+msgid "SEARCH..."
+msgstr "Išči..."
+
+#: mediadrop/forms/admin/__init__.py:40
+msgid "You forgot to select an image!"
+msgstr "Pozabil si izbrati sliko!"
+
+#: mediadrop/forms/admin/categories.py:38 mediadrop/forms/admin/tags.py:39
+#: mediadrop/templates/admin/categories/index.html:62
+#: mediadrop/templates/admin/players/index.html:48
+#: mediadrop/templates/admin/storage/index.html:120
+#: mediadrop/templates/admin/tags/index.html:59
+#: mediadrop/templates/comments/_list.html:67
+msgid "Name"
+msgstr "Ime"
+
+#: mediadrop/forms/admin/categories.py:39 mediadrop/forms/admin/media.py:148
+#: mediadrop/forms/admin/podcasts.py:103 mediadrop/forms/admin/tags.py:40
+#: mediadrop/templates/comments/_list.html:28
+msgid "Permalink"
+msgstr "Povezava"
+
+#: mediadrop/forms/admin/categories.py:40
+msgid "Parent Category"
+msgstr "Nadkategorija"
+
+#: mediadrop/forms/admin/categories.py:41 mediadrop/forms/admin/comments.py:25
+#: mediadrop/forms/admin/tags.py:41
+#: mediadrop/templates/admin/categories/index.html:41
+#: mediadrop/templates/admin/categories/index.html:91
+#: mediadrop/templates/admin/comments/index.html:38
+#: mediadrop/templates/admin/comments/index.html:51
+#: mediadrop/templates/admin/groups/edit.html:28
+#: mediadrop/templates/admin/groups/index.html:31
+#: mediadrop/templates/admin/media/edit.html:80
+#: mediadrop/templates/admin/media/index.html:36
+#: mediadrop/templates/admin/players/index.html:28
+#: mediadrop/templates/admin/podcasts/edit.html:54
+#: mediadrop/templates/admin/settings/appearance.html:29
+#: mediadrop/templates/admin/storage/index.html:76
+#: mediadrop/templates/admin/tags/index.html:38
+#: mediadrop/templates/admin/tags/index.html:85
+#: mediadrop/templates/admin/users/edit.html:28
+#: mediadrop/templates/admin/users/index.html:28
+msgid "Cancel"
+msgstr "Prekini"
+
+#: mediadrop/forms/admin/categories.py:42 mediadrop/forms/admin/comments.py:24
+#: mediadrop/forms/admin/groups.py:47 mediadrop/forms/admin/media.py:160
+#: mediadrop/forms/admin/players.py:45 mediadrop/forms/admin/podcasts.py:119
+#: mediadrop/forms/admin/settings.py:93 mediadrop/forms/admin/settings.py:115
+#: mediadrop/forms/admin/settings.py:149 mediadrop/forms/admin/settings.py:164
+#: mediadrop/forms/admin/settings.py:203 mediadrop/forms/admin/settings.py:237
+#: mediadrop/forms/admin/settings.py:271 mediadrop/forms/admin/settings.py:444
+#: mediadrop/forms/admin/settings.py:469 mediadrop/forms/admin/tags.py:42
+#: mediadrop/forms/admin/users.py:58
+#: mediadrop/forms/admin/storage/__init__.py:36
+msgid "Save"
+msgstr "Shrani"
+
+#: mediadrop/forms/admin/categories.py:60 mediadrop/forms/admin/groups.py:48
+#: mediadrop/forms/admin/media.py:161 mediadrop/forms/admin/podcasts.py:120
+#: mediadrop/forms/admin/tags.py:56 mediadrop/forms/admin/users.py:59
+#: mediadrop/templates/admin/categories/index.html:40
+#: mediadrop/templates/admin/categories/index.html:92
+#: mediadrop/templates/admin/comments/index.html:37
+#: mediadrop/templates/admin/comments/index.html:50
+#: mediadrop/templates/admin/comments/index.html:89
+#: mediadrop/templates/admin/groups/edit.html:27
+#: mediadrop/templates/admin/groups/index.html:30
+#: mediadrop/templates/admin/groups/index.html:59
+#: mediadrop/templates/admin/media/edit.html:79
+#: mediadrop/templates/admin/media/index.html:35
+#: mediadrop/templates/admin/media/index.html:86
+#: mediadrop/templates/admin/players/index.html:27
+#: mediadrop/templates/admin/players/index.html:78
+#: mediadrop/templates/admin/podcasts/edit.html:53
+#: mediadrop/templates/admin/storage/index.html:75
+#: mediadrop/templates/admin/storage/index.html:145
+#: mediadrop/templates/admin/tags/index.html:37
+#: mediadrop/templates/admin/tags/index.html:86
+#: mediadrop/templates/admin/users/edit.html:27
+#: mediadrop/templates/admin/users/index.html:27
+#: mediadrop/templates/admin/users/index.html:61
+msgid "Delete"
+msgstr "Izbriši"
+
+#: mediadrop/forms/admin/comments.py:23
+#: mediadrop/templates/admin/helpers.html:67
+#: mediadrop/templates/admin/comments/_comment-table.html:24
+#: mediadrop/templates/comments/_list.html:86
+#: mediadrop/templates/media/explore.html:75
+#: mediadrop/templates/media/view.html:67
+msgid "Comment"
+msgid_plural "Comments"
+msgstr[0] "Komentar"
+msgstr[1] "Komentarja"
+msgstr[2] "Komentarji"
+msgstr[3] "Komentarjev"
+
+#: mediadrop/forms/admin/groups.py:28
+msgid "Group name already exists"
+msgstr ""
+
+#: mediadrop/forms/admin/groups.py:41 mediadrop/forms/admin/players.py:35
+#: mediadrop/forms/admin/users.py:42
+#: mediadrop/forms/admin/storage/__init__.py:26
+#: mediadrop/templates/admin/groups/index.html:47
+#: mediadrop/templates/admin/users/index.html:45
+msgid "Display Name"
+msgstr "Prikazano ime"
+
+#: mediadrop/forms/admin/groups.py:42
+msgid "Groupname"
+msgstr ""
+
+#: mediadrop/forms/admin/groups.py:43
+msgid "Group Permissions"
+msgstr ""
+
+#: mediadrop/forms/admin/media.py:33
+msgid "Bad duration formatting, use Hour:Min:Sec"
+msgstr "Napačna oblika časa trajanja, uporabi Ura:Min:Sek"
+
+#: mediadrop/forms/admin/media.py:61
+msgid "Value must be in the format wxh; e.g. 200x300"
+msgstr "Vrednost mora biti v formatu wxh, npr. 200x300"
+
+#: mediadrop/forms/admin/media.py:67
+msgid "Width must be a valid integer"
+msgstr "Dolžina mora biti številka."
+
+#: mediadrop/forms/admin/media.py:71
+msgid "Height must be a valid integer"
+msgstr "Vižina mora biti številka."
+
+#: mediadrop/forms/admin/media.py:110
+msgid "Select an encoded video or audio file on your computer"
+msgstr "Izberi video ali zvočni posnetek na svojem računalniku"
+
+#: mediadrop/forms/admin/media.py:110 mediadrop/templates/master.html:91
+#: mediadrop/templates/admin/settings/master.html:78
+#: mediadrop/templates/admin/settings/upload.html:16
+#: mediadrop/templates/admin/settings/upload.html:22
+msgid "Upload"
+msgstr "Naloži"
+
+#: mediadrop/forms/admin/media.py:111
+msgid "Add URL"
+msgstr "Dodaj URL"
+
+#: mediadrop/forms/admin/media.py:112
+msgid "YouTube, Vimeo, Amazon S3 or any other link"
+msgstr ""
+
+#: mediadrop/forms/admin/media.py:133
+msgid "Delete file"
+msgstr "Izbriši datoteko"
+
+#: mediadrop/forms/admin/media.py:147
+msgid "Include in the Podcast"
+msgstr "Vključi v podcast"
+
+#: mediadrop/forms/admin/media.py:147
+msgid "Optional"
+msgstr "Opcijsko"
+
+#: mediadrop/forms/admin/media.py:149 mediadrop/forms/admin/podcasts.py:104
+#: mediadrop/templates/admin/media/_media-table.html:26
+msgid "Title"
+msgstr "Naslov"
+
+#: mediadrop/forms/admin/media.py:150 mediadrop/forms/admin/podcasts.py:106
+msgid "Author Name"
+msgstr "Ime avtorja"
+
+#: mediadrop/forms/admin/media.py:151 mediadrop/forms/admin/podcasts.py:107
+msgid "Author Email"
+msgstr "Avtorjeva E-pošta"
+
+#: mediadrop/forms/admin/media.py:152 mediadrop/forms/admin/podcasts.py:108
+msgid "Description"
+msgstr "Opis"
+
+#: mediadrop/forms/admin/media.py:153 mediadrop/templates/master.html:89
+#: mediadrop/templates/admin/categories/edit.html:16
+#: mediadrop/templates/admin/categories/index.html:17
+#: mediadrop/templates/admin/categories/index.html:51
+#: mediadrop/templates/admin/settings/master.html:51
+#: mediadrop/templates/categories/index.html:18
+#: mediadrop/templates/categories/layout.html:22
+#: mediadrop/templates/categories/more.html:17
+#: mediadrop/templates/media/explore.html:33
+#: mediadrop/templates/media/view.html:120
+msgid "Categories"
+msgstr "Kategorije"
+
+#: mediadrop/forms/admin/media.py:154
+#: mediadrop/templates/admin/media/_media-table.html:28
+#: mediadrop/templates/admin/settings/master.html:75
+#: mediadrop/templates/admin/tags/edit.html:16
+#: mediadrop/templates/admin/tags/index.html:17
+#: mediadrop/templates/admin/tags/index.html:48
+#: mediadrop/templates/media/tags.html:16
+#: mediadrop/templates/media/view.html:127
+msgid "Tags"
+msgstr "Oznake"
+
+#: mediadrop/forms/admin/media.py:154
+msgid "e.g.: puppies, great dane, adorable"
+msgstr "npr.: kužki, Nemška doga, prikupno"
+
+#: mediadrop/forms/admin/media.py:156
+msgid "Administrative Notes"
+msgstr "Opombe administratorja"
+
+#: mediadrop/forms/admin/players.py:31
+#: mediadrop/forms/admin/storage/__init__.py:22
+msgid "General Options:"
+msgstr "Glavne nastavitve:"
+
+#: mediadrop/forms/admin/players.py:86
+msgid "Yes, use the Flash Player when the device supports it."
+msgstr "Da, uporabi Flash predvajalnik, če ga naprava podpira."
+
+#: mediadrop/forms/admin/players.py:87
+msgid "No, use the HTML5 Player when the device supports it."
+msgstr "Ne, uporabi HTML5 predvajalnik, če ga naprava podpira."
+
+#: mediadrop/forms/admin/players.py:90
+msgid "Prefer the Flash Player when possible"
+msgstr "Uporabi Flash predvajalnlik, če je le mogoče"
+
+#: mediadrop/forms/admin/players.py:109
+msgid "Script Tag"
+msgstr "Script značka"
+
+#: mediadrop/forms/admin/players.py:110
+msgid "The unique script tag given for your site."
+msgstr "Unikaten script tag za tvojo stran."
+
+#: mediadrop/forms/admin/players.py:129
+msgid "Player Options:"
+msgstr "Nastavitve predvajalnika:"
+
+#: mediadrop/forms/admin/players.py:133
+msgid "Use the deprecated AS2 player."
+msgstr ""
+
+#: mediadrop/forms/admin/players.py:134
+msgid "Use the AS3/HTML5 player."
+msgstr ""
+
+#: mediadrop/forms/admin/players.py:137
+msgid "YouTube player version"
+msgstr ""
+
+#: mediadrop/forms/admin/players.py:142
+msgid "Show video annotations by default."
+msgstr ""
+
+#: mediadrop/forms/admin/players.py:143
+msgid "Hide video annotations by default."
+msgstr ""
+
+#: mediadrop/forms/admin/players.py:146
+msgid "Video annotations"
+msgstr ""
+
+#: mediadrop/forms/admin/players.py:149
+msgid "Disable the player keyboard controls."
+msgstr "Onemogoči bližnjice na tipkovnici"
+
+#: mediadrop/forms/admin/players.py:150
+msgid "Not supported by HTML5 player."
+msgstr ""
+
+#: mediadrop/forms/admin/players.py:151
+msgid "Autoplay the video when the player loads."
+msgstr ""
+
+#: mediadrop/forms/admin/players.py:152
+msgid "Do not show YouTube logo in the player controls"
+msgstr ""
+
+#: mediadrop/forms/admin/players.py:153
+msgid "Not supported by AS2 player."
+msgstr ""
+
+#: mediadrop/forms/admin/players.py:154
+msgid "Display fullscreen button."
+msgstr ""
+
+#: mediadrop/forms/admin/players.py:155
+msgid "Enable high-def quality by default."
+msgstr "Nastavi visoko kvaliteto kot privzeto."
+
+#: mediadrop/forms/admin/players.py:156
+msgid ""
+"Applies only for the AS2 player, the AS3 player will choose the most "
+"appropriate version of the video version (e.g. considering the user's "
+"bandwidth)"
+msgstr ""
+
+#: mediadrop/forms/admin/players.py:157
+msgid "Display related videos after playback of the initial video ends."
+msgstr ""
+
+#: mediadrop/forms/admin/players.py:158
+msgid ""
+"Show the search box when the video is minimized. The related videos "
+"option must be enabled for this to work."
+msgstr ""
+
+#: mediadrop/forms/admin/players.py:159
+msgid "AS2 player only"
+msgstr ""
+
+#: mediadrop/forms/admin/players.py:160
+msgid ""
+"Display information like the video title and uploader before the video "
+"starts playing."
+msgstr ""
+
+#: mediadrop/forms/admin/players.py:161
+msgid "Enable window-less mode (wmode)"
+msgstr ""
+
+#: mediadrop/forms/admin/players.py:162
+msgid ""
+"wmode allows HTML/CSS elements to be placed over the actual Flash video "
+"but requires more CPU power."
+msgstr ""
+
+#: mediadrop/forms/admin/players.py:165
+msgid "Always show player controls."
+msgstr ""
+
+#: mediadrop/forms/admin/players.py:166
+msgid "Autohide all player controls after a video starts playing."
+msgstr ""
+
+#: mediadrop/forms/admin/players.py:167
+msgid "Autohide only the progress bar after a video starts playing."
+msgstr ""
+
+#: mediadrop/forms/admin/players.py:170
+msgid "Player control hiding"
+msgstr ""
+
+#: mediadrop/forms/admin/podcasts.py:29
+msgid "Parental Advisory"
+msgstr "Starševsko opozorilo"
+
+#: mediadrop/forms/admin/podcasts.py:30
+#: mediadrop/templates/admin/podcasts/_podcast-table.html:46
+msgid "Clean"
+msgstr "Počisti:"
+
+#: mediadrop/forms/admin/podcasts.py:105
+msgid "Subtitle"
+msgstr "Podnapis"
+
+#: mediadrop/forms/admin/podcasts.py:109
+msgid "Podcast Details:"
+msgstr "Podrobnosti podcasta:"
+
+#: mediadrop/forms/admin/podcasts.py:110
+msgid "Explicit?"
+msgstr "Sporno?"
+
+#: mediadrop/forms/admin/podcasts.py:111
+msgid "Category"
+msgstr "Kategorija"
+
+#: mediadrop/forms/admin/podcasts.py:112
+msgid "Copyright"
+msgstr "Pravice"
+
+#: mediadrop/forms/admin/podcasts.py:114
+msgid "Advanced Options:"
+msgstr "Napredne nastavitve"
+
+#: mediadrop/forms/admin/podcasts.py:115
+msgid "Your Feed URL"
+msgstr "URL tvojega vira"
+
+#: mediadrop/forms/admin/podcasts.py:116
+msgid "iTunes URL"
+msgstr "iTunes URL"
+
+#: mediadrop/forms/admin/podcasts.py:117
+msgid "Feedburner URL"
+msgstr "Feedburner URL"
+
+#: mediadrop/forms/admin/settings.py:25
+msgid "Built-in comments"
+msgstr ""
+
+#: mediadrop/forms/admin/settings.py:26
+msgid "Facebook comments (requires a Facebook application ID)"
+msgstr ""
+
+#: mediadrop/forms/admin/settings.py:27
+msgid "Disable comments"
+msgstr ""
+
+#: mediadrop/forms/admin/settings.py:32
+msgid "Prepend"
+msgstr "Dodaj na začetek"
+
+#: mediadrop/forms/admin/settings.py:33
+msgid "Append"
+msgstr "Dodaj na konec"
+
+#: mediadrop/forms/admin/settings.py:36
+msgid "Plain <textarea> fields (0kB)"
+msgstr "Osnovna <textarea> polja (0kB)"
+
+#: mediadrop/forms/admin/settings.py:37
+msgid "Enable TinyMCE for <textarea> fields accepting XHTML (281kB)"
+msgstr "Omogoči TinyMCE za polja <textarea>, ki podpirajo XHTML (281 kB)"
+
+#: mediadrop/forms/admin/settings.py:41
+msgid "Brown"
+msgstr "Rjava"
+
+#: mediadrop/forms/admin/settings.py:42
+msgid "Blue"
+msgstr "Modra"
+
+#: mediadrop/forms/admin/settings.py:43
+msgid "Green"
+msgstr "Zelena"
+
+#: mediadrop/forms/admin/settings.py:44
+msgid "Tan"
+msgstr "Kožna"
+
+#: mediadrop/forms/admin/settings.py:45
+msgid "White"
+msgstr "Bela"
+
+#: mediadrop/forms/admin/settings.py:46
+msgid "Purple"
+msgstr "Vijolčna"
+
+#: mediadrop/forms/admin/settings.py:47
+msgid "Black"
+msgstr "Črna"
+
+#: mediadrop/forms/admin/settings.py:73
+msgid "Yes"
+msgstr "Da"
+
+#: mediadrop/forms/admin/settings.py:73
+msgid "No"
+msgstr "Ne"
+
+#: mediadrop/forms/admin/settings.py:87
+msgid "Email Notifications:"
+msgstr "E-poštna obvestila:"
+
+#: mediadrop/forms/admin/settings.py:88
+msgid "Media Uploaded"
+msgstr "Video naložen"
+
+#: mediadrop/forms/admin/settings.py:89
+msgid "Comment Posted"
+msgstr "Komentar poslan"
+
+#: mediadrop/forms/admin/settings.py:90
+msgid "Support Requested"
+msgstr "Pomoč je zahtevana"
+
+#: mediadrop/forms/admin/settings.py:91
+msgid "Send Emails From"
+msgstr "Pošlji e-pošto iz naslova"
+
+#: mediadrop/forms/admin/settings.py:109
+msgid "Popularity Algorithm Variables:"
+msgstr "Spremenljivke za algoritem popularnosti:"
+
+#: mediadrop/forms/admin/settings.py:111
+msgid "Decay Exponent"
+msgstr "Razpadni eksponent"
+
+#: mediadrop/forms/admin/settings.py:112
+msgid "Decay Lifetime"
+msgstr "Življenska doba razpada"
+
+#: mediadrop/forms/admin/settings.py:145
+msgid "Max. allowed upload file size in megabytes"
+msgstr "Dovoljena velikost datoteke v megabajtih"
+
+#: mediadrop/forms/admin/settings.py:146
+msgid "Legal Wording:"
+msgstr "Pravniško besedilo:"
+
+#: mediadrop/forms/admin/settings.py:147
+msgid "User Uploads"
+msgstr "Uporabnikove naložene datoteke"
+
+#: mediadrop/forms/admin/settings.py:161
+msgid "Google Analytics Details:"
+msgstr "Google Analytics podrobnosti:"
+
+#: mediadrop/forms/admin/settings.py:162
+msgid "Tracking Code"
+msgstr "Sledenje kodi"
+
+#: mediadrop/forms/admin/settings.py:182
+msgid "Site Maps"
+msgstr "Zemljevid strani"
+
+#: mediadrop/forms/admin/settings.py:186
+msgid "RSS Feeds"
+msgstr "RSS viri"
+
+#: mediadrop/forms/admin/settings.py:193
+msgid "RSS Feed Defaults:"
+msgstr ""
+
+#: mediadrop/forms/admin/settings.py:196
+msgid "number of items"
+msgstr ""
+
+#: mediadrop/forms/admin/settings.py:197
+msgid ""
+"The number of items in the feed can be overriden per request if you add "
+"\"?limit=X\" to the feed URL. If the \"limit\" parameter is absent, the "
+"default above is used."
+msgstr ""
+
+#: mediadrop/forms/admin/settings.py:215
+msgid "General Settings:"
+msgstr "Splošne nastavitve"
+
+#: mediadrop/forms/admin/settings.py:217
+msgid "Site Name"
+msgstr "Ime Strani"
+
+#: mediadrop/forms/admin/settings.py:219
+msgid "Display Site Name"
+msgstr "Prikaži ime strani"
+
+#: mediadrop/forms/admin/settings.py:223
+msgid "Default Language"
+msgstr "Privzet jezik"
+
+#: mediadrop/forms/admin/settings.py:227
+msgid "Featured Category"
+msgstr "Predstavljena kategorija"
+
+#: mediadrop/forms/admin/settings.py:232
+msgid "Rich Text Editing"
+msgstr "Obogateno urejanje besedila"
+
+#: mediadrop/forms/admin/settings.py:250
+msgid "Comment Engine"
+msgstr ""
+
+#: mediadrop/forms/admin/settings.py:254
+msgid "Built-in Comments:"
+msgstr ""
+
+#: mediadrop/forms/admin/settings.py:257
+msgid "Moderation"
+msgstr ""
+
+#: mediadrop/forms/admin/settings.py:258
+msgid "Require comments to be approved by an admin"
+msgstr "Zahtevaj, da mora komentarje odobriti administrator"
+
+#: mediadrop/forms/admin/settings.py:261
+msgid "Akismet Key"
+msgstr "Akismet ključ"
+
+#: mediadrop/forms/admin/settings.py:262
+msgid "Akismet URL"
+msgstr "Akismet URL"
+
+#: mediadrop/forms/admin/settings.py:263
+msgid "Filtered Words"
+msgstr "Filtrirane Besede"
+
+#: mediadrop/forms/admin/settings.py:265
+msgid "Enter words to be filtered separated by a comma."
+msgstr "Besede, ki jih želite filtrirati, ločite z vejico."
+
+#: mediadrop/forms/admin/settings.py:267
+msgid "Facebook Comments:"
+msgstr ""
+
+#: mediadrop/forms/admin/settings.py:268
+msgid "Application ID"
+msgstr ""
+
+#: mediadrop/forms/admin/settings.py:269
+msgid "See: https://developers.facebook.com/apps"
+msgstr ""
+
+#: mediadrop/forms/admin/settings.py:283
+msgid "Require a key to access the API"
+msgstr "Zahtevaj ključ za dostop do API-ja"
+
+#: mediadrop/forms/admin/settings.py:284
+msgid "API Key:"
+msgstr "API ključ:"
+
+#: mediadrop/forms/admin/settings.py:285
+msgid "Access Key"
+msgstr "Dostopni ključ"
+
+#: mediadrop/forms/admin/settings.py:287
+msgid "API Settings:"
+msgstr "API nastavitve:"
+
+#: mediadrop/forms/admin/settings.py:288
+msgid "Max media results"
+msgstr "Največje število video rezultatov"
+
+#: mediadrop/forms/admin/settings.py:289
+msgid "Max tree depth"
+msgstr "Največja globina drevesa"
+
+#: mediadrop/forms/admin/settings.py:303
+#: mediadrop/templates/admin/settings/general.html:17
+#: mediadrop/templates/admin/settings/general.html:23
+#: mediadrop/templates/admin/settings/master.html:39
+msgid "General"
+msgstr "Splošno"
+
+#: mediadrop/forms/admin/settings.py:306
+msgid "Logo"
+msgstr "Logotip"
+
+#: mediadrop/forms/admin/settings.py:308
+msgid "Upload Logo"
+msgstr "Naloži logotip"
+
+#: mediadrop/forms/admin/settings.py:313
+msgid "Background Image"
+msgstr "Slika ozadja"
+
+#: mediadrop/forms/admin/settings.py:315
+msgid "Upload Background"
+msgstr "Naloži ozadje"
+
+#: mediadrop/forms/admin/settings.py:321
+msgid "Background color"
+msgstr "Barva ozadja"
+
+#: mediadrop/forms/admin/settings.py:324
+msgid "Link color"
+msgstr "Barva povezav"
+
+#: mediadrop/forms/admin/settings.py:327
+msgid "Visited Link color"
+msgstr "Barva obiskanih povezav"
+
+#: mediadrop/forms/admin/settings.py:331
+msgid "Text color"
+msgstr "Barva teksta"
+
+#: mediadrop/forms/admin/settings.py:333
+msgid "Heading color"
+msgstr "Barva naslova"
+
+#: mediadrop/forms/admin/settings.py:336
+msgid "Color Scheme"
+msgstr "Barvna shema"
+
+#: mediadrop/forms/admin/settings.py:340
+msgid "Options"
+msgstr "Nastavitve"
+
+#: mediadrop/forms/admin/settings.py:345
+msgid "Enable Cooliris on the Explore Page"
+msgstr "Omogoči Cooliris na raziskovalni strani"
+
+#: mediadrop/forms/admin/settings.py:346
+msgid ""
+"Cooliris support is deprecated and will be removed in the next major "
+"version of MediaDrop unless someone is interested in maintaining it."
+msgstr ""
+
+#: mediadrop/forms/admin/settings.py:352
+msgid "Display login link for all users"
+msgstr ""
+
+#: mediadrop/forms/admin/settings.py:355
+msgid "Enable Featured Items on the Explore Page"
+msgstr "Omogoči izpostavljene elemente na raziskovalni strani"
+
+#: mediadrop/forms/admin/settings.py:359
+msgid "Enable Podcast Tab"
+msgstr "Omogoči Podcast zavihek"
+
+#: mediadrop/forms/admin/settings.py:363
+msgid "Enable User Uploads"
+msgstr "Omogoči nalaganje uporabnikom"
+
+#: mediadrop/forms/admin/settings.py:367
+msgid "Enable widescreen media player by default"
+msgstr "Omogoči širokozaslonski način predvajalnika kot privzeto"
+
+#: mediadrop/forms/admin/settings.py:371
+msgid "Display Logo"
+msgstr "Prikaži logotip"
+
+#: mediadrop/forms/admin/settings.py:375
+msgid "Display Background Image"
+msgstr "Prikaži sliko za ozadje"
+
+#: mediadrop/forms/admin/settings.py:379
+msgid "Display MediaDrop Footer"
+msgstr ""
+
+#: mediadrop/forms/admin/settings.py:383
+msgid "Display MediaDrop Credits in Footer"
+msgstr ""
+
+#: mediadrop/forms/admin/settings.py:389
+msgid "Player Menu Options"
+msgstr ""
+
+#: mediadrop/forms/admin/settings.py:394
+msgid "Enable Download button on player menu bar."
+msgstr ""
+
+#: mediadrop/forms/admin/settings.py:398
+msgid "Enable Share button on player menu bar."
+msgstr ""
+
+#: mediadrop/forms/admin/settings.py:402
+msgid "Enable Embed button on player menu bar."
+msgstr ""
+
+#: mediadrop/forms/admin/settings.py:406
+msgid "Enable Widescreen toggle button on player menu bar."
+msgstr ""
+
+#: mediadrop/forms/admin/settings.py:410
+msgid "Enable Popout button on player menu bar."
+msgstr ""
+
+#: mediadrop/forms/admin/settings.py:414
+msgid "Enable Like button on player menu bar."
+msgstr ""
+
+#: mediadrop/forms/admin/settings.py:418
+msgid "Enable Dislike button on player menu bar."
+msgstr ""
+
+#: mediadrop/forms/admin/settings.py:423
+msgid "Advanced"
+msgstr "Napredno"
+
+#: mediadrop/forms/admin/settings.py:427
+msgid "Custom CSS"
+msgstr "Dodaten CSS"
+
+#: mediadrop/forms/admin/settings.py:430
+msgid "Custom Header HTML"
+msgstr "Dodaten HTML header"
+
+#: mediadrop/forms/admin/settings.py:433
+msgid "Custom Footer HTML"
+msgstr "Dodaten HTML footer"
+
+#: mediadrop/forms/admin/settings.py:436
+msgid "Custom <head> Tags"
+msgstr ""
+
+#: mediadrop/forms/admin/settings.py:437
+msgid ""
+"These HTML tags are inserted into the HTML <head> section. Bad input can "
+"cause ugly rendering of your site. You can always restore your page by "
+"the box above."
+msgstr ""
+
+#: mediadrop/forms/admin/settings.py:445
+#: mediadrop/templates/admin/settings/appearance.html:28
+msgid "Reset to Defaults"
+msgstr "Ponastavi na privzeto"
+
+#: mediadrop/forms/admin/settings.py:462
+msgid "Banner HTML"
+msgstr "HTML pasice"
+
+#: mediadrop/forms/admin/settings.py:465
+msgid "Sidebar HTML"
+msgstr "HTML stranske orodne vrstice"
+
+#: mediadrop/forms/admin/users.py:28
+msgid "User name already exists"
+msgstr "Uporabnik že obstaja"
+
+#: mediadrop/forms/admin/users.py:43
+msgid "Email Address"
+msgstr "E-pošta"
+
+#: mediadrop/forms/admin/users.py:44
+msgid "Login Details:"
+msgstr "Vpisni podatki"
+
+#: mediadrop/forms/admin/users.py:48
+msgid "Passwords do not match"
+msgstr "Gesli se ne ujemata"
+
+#: mediadrop/forms/admin/users.py:51 mediadrop/templates/admin/master.html:61
+#: mediadrop/templates/admin/groups/index.html:17
+#: mediadrop/templates/admin/groups/index.html:41
+msgid "Groups"
+msgstr ""
+
+#: mediadrop/forms/admin/users.py:55
+msgid "Confirm password"
+msgstr "Potrdi geslo"
+
+#: mediadrop/forms/admin/storage/ftp.py:25
+msgid "FTP Server Details:"
+msgstr "podrobnosti FTP strežnika:"
+
+#: mediadrop/forms/admin/storage/ftp.py:27
+msgid "Server Hostname"
+msgstr "Hostname strežnika"
+
+#: mediadrop/forms/admin/storage/ftp.py:30
+msgid "Subdirectory on server to upload to"
+msgstr "Podmapa na strežniku za nalaganje"
+
+#: mediadrop/forms/admin/storage/ftp.py:31
+msgid ""
+"How many times should MediaDrop try to verify the FTP upload before "
+"declaring it a failure?"
+msgstr ""
+"Kolikokrat naj MediaDrop poskusi preveriti s FTP naloženo datoteko preden"
+" jo označi kot neuspešno naloženo?"
+
+#: mediadrop/forms/admin/storage/ftp.py:32
+msgid "HTTP URL to access remotely stored files"
+msgstr "HTTP URL naslov za dostop do oddaljeno shranjenih datotek"
+
+#: mediadrop/forms/admin/storage/ftp.py:33
+msgid "RTMP Server URL to stream remotely stored files (Optional)"
+msgstr "RTMP URL strežnika za pretok oddaljeno shranjenih datotek (opcijsko)"
+
+#: mediadrop/forms/admin/storage/localfiles.py:19
+msgid "Options specific to Local File Storage:"
+msgstr "Opcije specifične za lokalno shrambo:"
+
+#: mediadrop/forms/admin/storage/localfiles.py:22
+msgid "Path to store files under"
+msgstr "Pot, kjer bodo datoteke shranjene"
+
+#: mediadrop/forms/admin/storage/localfiles.py:23
+msgid "Defaults to the \"data_dir\" from your INI file."
+msgstr "Privzame \"data_dir\" iz vaše INI datoteke."
+
+#: mediadrop/forms/admin/storage/localfiles.py:26
+msgid "RTMP Server URL"
+msgstr "URL RTMP Strežnika"
+
+#: mediadrop/forms/admin/storage/localfiles.py:27
+msgid ""
+"Files must be accessible under the same name as they are stored with "
+"locally."
+msgstr "Datoteke morajo biti dostopne pod enakim imenom kot so shranjene lokalno."
+
+#: mediadrop/forms/admin/storage/remoteurls.py:24
+msgid "Add another URL"
+msgstr "Dodatni URL"
+
+#: mediadrop/forms/admin/storage/remoteurls.py:53
+msgid "RTMP server URLs must begin with rtmp://"
+msgstr "URL RTMP Strežnika se mora začeti z rtmp://"
+
+#: mediadrop/forms/admin/storage/remoteurls.py:61
+msgid "RTMP Servers:"
+msgstr "RTMP strežniki:"
+
+#: mediadrop/lib/email.py:108
+#, python-format
+msgid "New %(type)s: %(title)s"
+msgstr "Nov %(type)s: %(title)s"
+
+#: mediadrop/lib/email.py:109
+#, python-format
+msgid ""
+"A new %(type)s file has been uploaded!\n"
+"\n"
+"Title: %(title)s\n"
+"\n"
+"Author: %(author_name)s (%(author_email)s)\n"
+"\n"
+"Admin URL: %(edit_url)s\n"
+"\n"
+"Description: %(clean_description)s\n"
+msgstr ""
+"Nova %(type)s datoteka je bila naložena!\n"
+"\n"
+"Naslov: %(title)s\n"
+"\n"
+"Avtor: %(author_name)s (%(author_email)s)\n"
+"\n"
+"Uredi: %(edit_url)s\n"
+"\n"
+"Opis: %(clean_description)s\n"
+
+#: mediadrop/lib/email.py:144
+#, python-format
+msgid "New Comment: %(comment_subject)s"
+msgstr "Nov komentar: %(comment_subject)s"
+
+#: mediadrop/lib/email.py:145
+#, python-format
+msgid ""
+"A new comment has been posted!\n"
+"\n"
+"Author: %(author_name)s\n"
+"Post: %(post_url)s\n"
+"\n"
+"Body: %(comment_body)s\n"
+msgstr ""
+"Nov komentar je bil objavljen!\n"
+"\n"
+"Avtor: %(author_name)s\n"
+"Objava: %(post_url)s\n"
+"\n"
+"Vsebina: %(comment_body)s\n"
+
+#: mediadrop/lib/email.py:184
+#, python-format
+msgid "New Support Request: %(email)s"
+msgstr "Nove zahteve za pomoč: %(email)s"
+
+#: mediadrop/lib/email.py:185
+#, python-format
+msgid ""
+"A user has asked for support\n"
+"\n"
+"Email: %(email)s\n"
+"\n"
+"URL: %(url)s\n"
+"\n"
+"Description: %(description)s\n"
+"\n"
+"GET_VARS:\n"
+"%(get_vars)s\n"
+"\n"
+"\n"
+"POST_VARS:\n"
+"%(post_vars)s\n"
+msgstr ""
+"Uporabnik je prosil za podporo\n"
+"\n"
+"Elektronska pošta: %(email)s\n"
+"\n"
+"URL: %(url)s\n"
+"\n"
+"Opis: %(description)s\n"
+"\n"
+"GET_VARS:\n"
+"%(get_vars)s\n"
+"\n"
+"\n"
+"POST_VARS:\n"
+"%(post_vars)s\n"
+
+#: mediadrop/lib/filetypes.py:27
+msgid "Video"
+msgstr "Video"
+
+#: mediadrop/lib/filetypes.py:28
+msgid "Audio"
+msgstr "Zvočni posnetek"
+
+#: mediadrop/lib/filetypes.py:29
+msgid "Audio Description"
+msgstr "Opis zvočnega posnetka"
+
+#: mediadrop/lib/filetypes.py:30
+msgid "Captions"
+msgstr "Naslovi"
+
+#: mediadrop/lib/helpers.py:385
+msgid "Help"
+msgstr "Pomoč"
+
+#: mediadrop/lib/players.py:285
+msgid "Flowplayer"
+msgstr "Flowplayer"
+
+#: mediadrop/lib/players.py:416 mediadrop/lib/storage/vimeo.py:27
+msgid "Vimeo"
+msgstr "Vimeo"
+
+#: mediadrop/lib/players.py:452 mediadrop/lib/storage/dailymotion.py:28
+msgid "Daily Motion"
+msgstr "Daily Motion"
+
+#: mediadrop/lib/players.py:499 mediadrop/lib/storage/youtube.py:28
+msgid "YouTube"
+msgstr "YouTube"
+
+#: mediadrop/lib/players.py:577 mediadrop/lib/storage/googlevideo.py:26
+msgid "Google Video"
+msgstr "Google Video"
+
+#: mediadrop/lib/players.py:599 mediadrop/lib/storage/bliptv.py:26
+msgid "BlipTV"
+msgstr "BlipTV"
+
+#: mediadrop/lib/players.py:686
+msgid "Plain HTML5 Player"
+msgstr "Osnovni HTML5 predvajalnik"
+
+#: mediadrop/lib/players.py:701
+msgid "HTML5 + Flowplayer Fallback"
+msgstr "HTML5 + Flowplayer za rezervo"
+
+#: mediadrop/lib/players.py:758
+msgid "JWPlayer"
+msgstr "JWPlayer"
+
+#: mediadrop/lib/players.py:904
+msgid "Sublime Video Player"
+msgstr "Sublime Video predvajalnik"
+
+#: mediadrop/lib/players.py:954
+msgid "iTunes Player"
+msgstr "iTunes predvajalnik"
+
+#: mediadrop/lib/storage/api.py:352
+msgid "Unusable file or URL provided."
+msgstr "Neuporabna datoteka ali podan URL."
+
+#: mediadrop/lib/storage/bliptv.py:61
+msgid "Invalid BlipTV URL. This video does not exist."
+msgstr ""
+
+#: mediadrop/lib/storage/dailymotion.py:62
+msgid "This DailyMotion video does not allow embedding."
+msgstr ""
+
+#: mediadrop/lib/storage/ftp.py:43
+msgid "FTP Storage"
+msgstr "FTP pomnilnik"
+
+#: mediadrop/lib/storage/ftp.py:98
+#, python-format
+msgid "Could not upload the file from your FTP server: %s"
+msgstr "Neuspel prenos datoteke iz vašega FTP strežnika: %s"
+
+#: mediadrop/lib/storage/ftp.py:192
+msgid "The file transferred to your FTP server is corrupted. Please try again."
+msgstr ""
+"Datoteka, prenešena na vaš FTP strežnik je pokvarjena. Prosimo, poskusite"
+" znova."
+
+#: mediadrop/lib/storage/ftp.py:197
+#, python-format
+msgid "Could not download the file from your FTP server: %s"
+msgstr "Datoteke ni bilo mogoče prenesti iz FTP strežnika: %s"
+
+#: mediadrop/lib/storage/localfiles.py:26
+msgid "Local File Storage"
+msgstr "Lokalna shramba"
+
+#: mediadrop/lib/storage/remoteurls.py:28
+msgid "Remote URLs"
+msgstr "Oddaljeni URL-ji"
+
+#: mediadrop/lib/storage/remoteurls.py:73
+msgid ""
+"This RTMP server has not been configured. Add it by going to Settings > "
+"Storage Engines > Remote URLs."
+msgstr ""
+
+#: mediadrop/lib/storage/youtube.py:62
+msgid "This video is private and cannot be embedded."
+msgstr ""
+
+#: mediadrop/lib/storage/youtube.py:65
+msgid "Invalid YouTube URL. This video does not exist."
+msgstr ""
+
+#: mediadrop/lib/storage/youtube.py:66
+#, python-format
+msgid "YouTube Error: %s"
+msgstr ""
+
+#: mediadrop/model/players.py:102
+#, python-format
+msgid "%s (broken)"
+msgstr ""
+
+#: mediadrop/templates/error.html:17
+#, python-format
+msgid "A %(code)s Error has Occurred"
+msgstr "Prišlo je do napake: %(code)s"
+
+#: mediadrop/templates/error.html:22
+msgid "Whoopsadaisy!"
+msgstr "Opsasa!"
+
+#: mediadrop/templates/error.html:25
+msgid "We can't find this page. The page may have been moved or removed."
+msgstr "Ta stran ne obstaja. Morda smo jo prestavili na drug naslov ali izbrisali."
+
+#: mediadrop/templates/error.html:26
+msgid "If you typed the address in, check the spelling."
+msgstr "Preveri črkovanje naslova."
+
+#: mediadrop/templates/error.html:31
+msgid "You have a few options:"
+msgstr "Imaš naslednje možnosti:"
+
+#: mediadrop/templates/error.html:33
+msgid "Return to the [1:homepage]."
+msgstr "Vrni se na [1:homepage]."
+
+#: mediadrop/templates/error.html:34
+msgid "Return to the [1:media page]."
+msgstr "Vrni se na [1:stran s posnetki]"
+
+#: mediadrop/templates/error.html:35
+msgid "Fill out an error report below."
+msgstr "Izpolni poročilo o napaki."
+
+#: mediadrop/templates/error.html:41
+msgid "Email: (so we can contact you if we find it!)"
+msgstr "E-pošta: (kamor ti pošljemo e-pošto, če najdemo)"
+
+#: mediadrop/templates/error.html:45
+msgid "What were you looking for when you got the error?"
+msgstr "Kaj si iskal, ko si dobil napako?"
+
+#: mediadrop/templates/error.html:49
+msgid "Submit Error Report"
+msgstr "Prijavi napako"
+
+#: mediadrop/templates/helpers.html:33
+#: mediadrop/templates/media/explore.html:76
+#: mediadrop/templates/media/view.html:64
+#: mediadrop/templates/players/html5_or_flash.html:47
+#: mediadrop/templates/players/html5_or_flash.html:49
+msgid "Like"
+msgid_plural "Likes"
+msgstr[0] "Všeč mi je"
+msgstr[1] "Všeč jima je"
+msgstr[2] "Všeč jim je"
+msgstr[3] "Všeč jim je"
+
+#: mediadrop/templates/helpers.html:34
+#: mediadrop/templates/admin/media/update-status-form.html:22
+#: mediadrop/templates/admin/podcasts/edit.html:97
+#: mediadrop/templates/media/explore.html:77
+#: mediadrop/templates/media/view.html:62
+msgid "View"
+msgid_plural "Views"
+msgstr[0] "Ogled"
+msgstr[1] "Ogleda"
+msgstr[2] "Ogledi"
+msgstr[3] "Ogledov"
+
+#: mediadrop/templates/helpers.html:54
+msgid "Page:"
+msgstr "Stran:"
+
+#: mediadrop/templates/helpers.html:74
+msgid "Show:"
+msgstr "Pokaži:"
+
+#: mediadrop/templates/helpers.html:76
+#: mediadrop/templates/categories/index.html:26
+#: mediadrop/templates/categories/more.html:24
+#: mediadrop/templates/media/explore.html:32
+#: mediadrop/templates/media/explore.html:100
+msgid "Latest"
+msgstr "Zadnji"
+
+#: mediadrop/templates/helpers.html:77
+#: mediadrop/templates/categories/index.html:31
+#: mediadrop/templates/categories/more.html:24
+#: mediadrop/templates/media/explore.html:84
+msgid "Most Popular"
+msgstr "Najbolj popularni"
+
+#: mediadrop/templates/helpers.html:78
+#: mediadrop/templates/media/explore.html:31
+#: mediadrop/templates/media/explore.html:68
+msgid "Featured"
+msgstr "Izbrani"
+
+#: mediadrop/templates/helpers.html:80
+msgid "Page"
+msgstr "Stran"
+
+#: mediadrop/templates/helpers.html:80
+msgid "of"
+msgstr "od"
+
+#: mediadrop/templates/helpers.html:86
+#, python-format
+msgid "The %(fieldName)s field accepts some HTML formatting: %(formattingList)s"
+msgstr "Polje %(fieldName)s podpira HTML sintakso: %(formattingList)s"
+
+#: mediadrop/templates/layout.html:33
+msgid "Feeds:"
+msgstr "Viri:"
+
+#: mediadrop/templates/layout.html:39
+msgid "[1:MediaDrop] [2:video platform]"
+msgstr "[1:MediaDrop] [2:Video platforma]"
+
+#: mediadrop/templates/login.html:16
+msgid "Log in to"
+msgstr ""
+
+#: mediadrop/templates/login.html:40
+msgid "Log in"
+msgstr ""
+
+#: mediadrop/templates/master.html:70
+msgid "Admin"
+msgstr ""
+
+#: mediadrop/templates/master.html:72 mediadrop/templates/admin/master.html:52
+msgid "Logout"
+msgstr "Odjava"
+
+#: mediadrop/templates/master.html:86
+msgid "Explore"
+msgstr "Razišči"
+
+#: mediadrop/templates/master.html:87 mediadrop/templates/media/index.html:17
+msgid "Media Library"
+msgstr "Media Library"
+
+#: mediadrop/templates/master.html:88 mediadrop/templates/admin/master.html:58
+#: mediadrop/templates/admin/podcasts/index.html:17
+#: mediadrop/templates/admin/podcasts/index.html:24
+msgid "Podcasts"
+msgstr "Podcasti"
+
+#: mediadrop/templates/master.html:94
+msgid "Search"
+msgstr "Išči"
+
+#: mediadrop/templates/admin/helpers.html:59
+msgid "Moderate comments"
+msgstr "Komentarje je potrebno moderirati"
+
+#: mediadrop/templates/admin/helpers.html:61
+msgid "Moderate"
+msgstr "Moderiraj"
+
+#: mediadrop/templates/admin/helpers.html:62
+#: mediadrop/templates/admin/master.html:59
+#: mediadrop/templates/admin/comments/index.html:20
+#: mediadrop/templates/admin/media/_media-table.html:27
+#: mediadrop/templates/admin/settings/comments.html:16
+#: mediadrop/templates/admin/settings/comments.html:22
+#: mediadrop/templates/admin/settings/master.html:54
+#: mediadrop/templates/comments/_list.html:42
+msgid "Comments"
+msgstr "Komentarji"
+
+#: mediadrop/templates/admin/helpers.html:74
+#: mediadrop/templates/admin/media/_media-table.html:50
+#: mediadrop/templates/admin/media/index.html:117
+#: mediadrop/templates/admin/media/update-status-form.html:88
+msgid "Published"
+msgstr "Objavljeno"
+
+#: mediadrop/templates/admin/helpers.html:78
+#: mediadrop/templates/admin/media/_media-table.html:47
+#: mediadrop/templates/admin/media/index.html:108
+msgid "Unreviewed"
+msgstr "Nepreverjeno"
+
+#: mediadrop/templates/admin/helpers.html:82
+#: mediadrop/templates/admin/comments/_comment-table.html:39
+msgid "Trash"
+msgstr "Koš"
+
+#: mediadrop/templates/admin/index.html:17
+#: mediadrop/templates/admin/master.html:50
+msgid "Dashboard"
+msgstr "Tabla"
+
+#: mediadrop/templates/admin/index.html:47
+msgid "Awaiting Review"
+msgstr "Čaka na pregled"
+
+#: mediadrop/templates/admin/index.html:52
+msgid "Awaiting Encoding"
+msgstr "Čaka na zakodiranje"
+
+#: mediadrop/templates/admin/index.html:57
+msgid "Awaiting Publishing"
+msgstr "Čaka na objavo"
+
+#: mediadrop/templates/admin/index.html:64
+msgid "Get Started"
+msgstr "Začni"
+
+#: mediadrop/templates/admin/index.html:66
+#: mediadrop/templates/admin/media/edit.html:16
+#: mediadrop/templates/admin/media/edit.html:161
+#: mediadrop/templates/admin/media/index.html:77
+msgid "Add New Media"
+msgstr "Dodaj nov posnetek"
+
+#: mediadrop/templates/admin/index.html:73
+msgid "Recently Published"
+msgstr "Nedavno objavljeni"
+
+#: mediadrop/templates/admin/master.html:26
+#: mediadrop/templates/admin/master.html:47
+#: mediadrop/templates/admin/master.html:68
+msgid "MediaDrop"
+msgstr "MediaDrop"
+
+#: mediadrop/templates/admin/master.html:51
+msgid "View Site"
+msgstr "Poglej stran"
+
+#: mediadrop/templates/admin/master.html:57
+#: mediadrop/templates/admin/categories/index.html:63
+#: mediadrop/templates/admin/media/index.html:18
+#: mediadrop/templates/admin/tags/index.html:60
+msgid "Media"
+msgstr "Stran posnetka"
+
+#: mediadrop/templates/admin/master.html:60
+#: mediadrop/templates/admin/users/index.html:17
+#: mediadrop/templates/admin/users/index.html:38
+msgid "Users"
+msgstr "Uporabniki"
+
+#: mediadrop/templates/admin/master.html:62
+#: mediadrop/templates/admin/settings/master.html:36
+msgid "Settings"
+msgstr "Nastavitve"
+
+#: mediadrop/templates/admin/master.html:69
+msgid "© 2009-2013 MediaDrop contributors"
+msgstr ""
+
+#: mediadrop/templates/admin/categories/index.html:38
+#: mediadrop/templates/admin/comments/index.html:36
+#: mediadrop/templates/admin/comments/index.html:48
+#: mediadrop/templates/admin/groups/edit.html:25
+#: mediadrop/templates/admin/groups/index.html:29
+#: mediadrop/templates/admin/media/edit.html:77
+#: mediadrop/templates/admin/media/index.html:33
+#: mediadrop/templates/admin/players/index.html:25
+#: mediadrop/templates/admin/podcasts/edit.html:51
+#: mediadrop/templates/admin/storage/index.html:74
+#: mediadrop/templates/admin/tags/index.html:35
+#: mediadrop/templates/admin/users/edit.html:25
+#: mediadrop/templates/admin/users/index.html:26
+msgid "Confirm Delete"
+msgstr "Potrdi izbris"
+
+#: mediadrop/templates/admin/categories/index.html:39
+#: mediadrop/templates/admin/comments/index.html:49
+#: mediadrop/templates/admin/media/index.html:34
+#: mediadrop/templates/admin/tags/index.html:36
+#, python-format
+msgid "Are you sure you want to delete these %(num)s items?"
+msgstr "Ali ste prepričani, da želite izbrisati %(num)s?"
+
+#: mediadrop/templates/admin/categories/index.html:53
+#: mediadrop/templates/admin/categories/index.html:78
+msgid "Add Category"
+msgstr "Dodaj kategorijo"
+
+#: mediadrop/templates/admin/categories/index.html:54
+#: mediadrop/templates/admin/tags/index.html:51
+msgid "Bulk Delete"
+msgstr "Množično brisanje"
+
+#: mediadrop/templates/admin/categories/index.html:82
+msgid "Edit Category"
+msgstr "Uredi kategorijo"
+
+#: mediadrop/templates/admin/categories/index.html:86
+msgid "Delete Category"
+msgstr "Izbriši kategorijo"
+
+#: mediadrop/templates/admin/categories/index.html:89
+msgid "Are you sure you want to delete this category [1:and ALL of its children]?"
+msgstr "Si prepričan, da želiš pobrisati kategorijo [1:in VSO njeno vsebino]?"
+
+#: mediadrop/templates/admin/categories/row-form.html:33
+#: mediadrop/templates/admin/comments/_comment-table.html:58
+#: mediadrop/templates/admin/groups/index.html:59
+#: mediadrop/templates/admin/media/edit.html:16
+#: mediadrop/templates/admin/media/edit.html:134
+#: mediadrop/templates/admin/players/index.html:78
+#: mediadrop/templates/admin/podcasts/_podcast-table.html:25
+#: mediadrop/templates/admin/podcasts/edit.html:44
+#: mediadrop/templates/admin/storage/index.html:145
+#: mediadrop/templates/admin/tags/row-form.html:24
+#: mediadrop/templates/admin/users/index.html:61
+#: mediadrop/templates/media/view.html:50
+#: mediadrop/templates/podcasts/view.html:31
+msgid "Edit"
+msgstr "Uredi"
+
+#: mediadrop/templates/admin/comments/_comment-table.html:22
+#: mediadrop/templates/admin/media/_media-table.html:25
+#: mediadrop/templates/admin/players/index.html:47
+#: mediadrop/templates/admin/storage/index.html:119
+msgid "Status"
+msgstr "Stanje"
+
+#: mediadrop/templates/admin/comments/_comment-table.html:23
+#: mediadrop/templates/admin/media/_media-table.html:29
+msgid "Author"
+msgstr "Avtor"
+
+#: mediadrop/templates/admin/comments/_comment-table.html:25
+msgid "In Response to"
+msgstr "Odgovor na"
+
+#: mediadrop/templates/admin/comments/_comment-table.html:30
+#: mediadrop/templates/admin/groups/index.html:53
+#: mediadrop/templates/admin/media/_media-table.html:36
+#: mediadrop/templates/admin/players/index.html:55
+#: mediadrop/templates/admin/podcasts/_podcast-table.html:20
+#: mediadrop/templates/admin/storage/index.html:128
+#: mediadrop/templates/admin/users/index.html:53
+msgid "None Found"
+msgstr "Ni zadetkov"
+
+#: mediadrop/templates/admin/comments/_comment-table.html:37
+msgid "This comment has already been approved for publishing"
+msgstr "Komentar je že bil odobren za objavo"
+
+#: mediadrop/templates/admin/comments/_comment-table.html:38
+msgid "Approve this comment for publishing"
+msgstr "Odobri komentar za objavo"
+
+#: mediadrop/templates/admin/comments/_comment-table.html:38
+msgid "Approve"
+msgstr "Odobri"
+
+#: mediadrop/templates/admin/comments/_comment-table.html:39
+msgid "Delete this comment"
+msgstr "Izbriši komentar"
+
+#: mediadrop/templates/admin/comments/_comment-table.html:49
+msgid "Submitted on"
+msgstr "Napisano dne"
+
+#: mediadrop/templates/admin/comments/_comment-table.html:56
+msgid "Go to the admin page for this item"
+msgstr "Pojdi na admin stran za ta komentar"
+
+#: mediadrop/templates/admin/comments/index.html:21
+#, python-format
+msgid "Comments for %(media_filter_title)s"
+msgstr "Komentarji za %(media_filter_title)s"
+
+#: mediadrop/templates/admin/comments/index.html:21
+msgid "Comments for"
+msgstr "Komentarji"
+
+#: mediadrop/templates/admin/comments/index.html:33
+msgid "Edit Text"
+msgstr "Uredi tekst"
+
+#: mediadrop/templates/admin/comments/index.html:34
+msgid "Cancel Edit"
+msgstr "Prekliči urejanje"
+
+#: mediadrop/templates/admin/comments/index.html:39
+#, python-format
+msgid "Are you sure you want to delete %(name)s's comment?"
+msgstr "Si prepričan, da želiš pobrisati komentar od %(name)s?"
+
+#: mediadrop/templates/admin/comments/index.html:78
+#, python-format
+msgid "Comments that match '%(search)s'"
+msgstr "Komentarji, ki se ujemajo z '%(search)s'"
+
+#: mediadrop/templates/admin/comments/index.html:79
+msgid "All Comments"
+msgstr "Vsi komentarji"
+
+#: mediadrop/templates/admin/comments/index.html:80
+#, python-format
+msgid "Comments for %(search)s"
+msgstr "Komentarji za %(search)s"
+
+#: mediadrop/templates/admin/comments/index.html:88
+#: mediadrop/templates/admin/media/index.html:85
+msgid "Publish"
+msgstr "Objavi"
+
+#: mediadrop/templates/admin/comments/index.html:95
+#: mediadrop/templates/admin/media/index.html:92
+msgid "Bulk Actions"
+msgstr "Hitra opravila"
+
+#: mediadrop/templates/admin/groups/edit.html:26
+#: mediadrop/templates/admin/media/edit.html:78
+#: mediadrop/templates/admin/players/index.html:26
+#: mediadrop/templates/admin/podcasts/edit.html:52
+#: mediadrop/templates/admin/storage/index.html:30
+#: mediadrop/templates/admin/tags/index.html:83
+#: mediadrop/templates/admin/users/edit.html:26
+msgid "Are you sure you want to delete this?"
+msgstr "Si prepričan, da želiš izbrisati?"
+
+#: mediadrop/templates/admin/groups/edit.html:37
+msgid "New Group"
+msgstr ""
+
+#: mediadrop/templates/admin/groups/index.html:32
+msgid "Are you sure you want to delete this group?"
+msgstr ""
+
+#: mediadrop/templates/admin/groups/index.html:42
+msgid "Add Group"
+msgstr ""
+
+#: mediadrop/templates/admin/media/_media-table.html:22
+msgid "Publish Date"
+msgstr "Objavljeno dne"
+
+#: mediadrop/templates/admin/media/_media-table.html:23
+msgid "Upload Date"
+msgstr "Naloženo dne"
+
+#: mediadrop/templates/admin/media/_media-table.html:24
+#: mediadrop/templates/admin/media/update-status-form.html:33
+msgid "Publish Status"
+msgstr "Stanje objave"
+
+#: mediadrop/templates/admin/media/_media-table.html:27
+msgid "Number of Comments"
+msgstr "Število komentarjev"
+
+#: mediadrop/templates/admin/media/_media-table.html:48
+#: mediadrop/templates/admin/media/index.html:111
+msgid "Unencoded"
+msgstr "Neprekodirani"
+
+#: mediadrop/templates/admin/media/_media-table.html:49
+msgid "Draft"
+msgstr "Osnutek"
+
+#: mediadrop/templates/admin/media/_media-table.html:51
+msgid "Publishing..."
+msgstr "Objavljam..."
+
+#: mediadrop/templates/admin/media/edit.html:62
+#: mediadrop/templates/admin/podcasts/edit.html:31
+msgid "Saving the file failed. Please try again"
+msgstr "Shranjevanje datoteke ni uspelo. Poskusi znova."
+
+#: mediadrop/templates/admin/media/edit.html:63
+#: mediadrop/templates/admin/podcasts/edit.html:32
+#, python-format
+msgid "Security error occured (%(text)s)"
+msgstr "Varnostna napaka (%(text)s)"
+
+#: mediadrop/templates/admin/media/edit.html:64
+#: mediadrop/templates/admin/podcasts/edit.html:33
+#, python-format
+msgid "Error caused a send or load operation to fail (%(text)s)"
+msgstr ""
+"Napaka je povzročila, da pošiljani ali nalaganje ni bilo uspešno "
+"(%(text)s)"
+
+#: mediadrop/templates/admin/media/edit.html:67
+#: mediadrop/templates/admin/podcasts/edit.html:36
+msgid "File has already been added, duplicates are not allowed"
+msgstr "Datoteka je že bila dodana, duplikati niso dovoljeni"
+
+#: mediadrop/templates/admin/media/edit.html:68
+#: mediadrop/templates/admin/podcasts/edit.html:37
+#, python-format
+msgid "File is too small, the minimal file size is %(size)s"
+msgstr "Datoteka je premajhna - najmanjša dovoljena velikost je %(size)s"
+
+#: mediadrop/templates/admin/media/edit.html:69
+#: mediadrop/templates/admin/podcasts/edit.html:38
+#, python-format
+msgid "File is too large, the maximum file size is %(size)s"
+msgstr "Datoteka je prevelika - največja dovoljena velikost je %(size)s"
+
+#: mediadrop/templates/admin/media/edit.html:70
+#: mediadrop/templates/admin/podcasts/edit.html:39
+#, python-format
+msgid "File could not be added, amount of %(num)s files exceeded"
+msgstr "Dodajanje datoteke ni uspelo, ker lahko naložite samo %(num)s datotek"
+
+#: mediadrop/templates/admin/media/edit.html:71
+#: mediadrop/templates/admin/podcasts/edit.html:40
+#, python-format
+msgid "File is too big, overall filesize of %(size)s exceeded"
+msgstr "Datoteka je prevelika, največja dovoljena velikost je %(size)s"
+
+#: mediadrop/templates/admin/media/edit.html:93
+#: mediadrop/templates/admin/podcasts/edit.html:63
+msgid "Upload image"
+msgstr "Naloži sliko"
+
+#: mediadrop/templates/admin/media/edit.html:102
+msgid "Are you sure you want to delete this file?"
+msgstr "Si prepričan, da želiš pobrisati to datoteko?"
+
+#: mediadrop/templates/admin/media/edit.html:107
+msgid "Upload a file"
+msgstr "Naloži datoteko"
+
+#: mediadrop/templates/admin/media/edit.html:114
+msgid "Failed to add this file. Please try again."
+msgstr "Dodajanje datoteke ni uspelo. Poskusi znova."
+
+#: mediadrop/templates/admin/media/edit.html:115
+msgid "Failed to save your change. Please try again."
+msgstr "Napaka pri shranjevanju sprememb. Poskusi znova."
+
+#: mediadrop/templates/admin/media/edit.html:116
+msgid "Uploading"
+msgstr "Nalagam"
+
+#: mediadrop/templates/admin/media/edit.html:117
+msgid "Queued"
+msgstr "V vrsti"
+
+#: mediadrop/templates/admin/media/edit.html:118
+msgid "Error"
+msgstr "Napaka"
+
+#: mediadrop/templates/admin/media/edit.html:130
+msgid "A connection problem occurred, try again."
+msgstr "Problem z povezavo, poskusi znova."
+
+#: mediadrop/templates/admin/media/edit.html:131
+msgid "An error has occurred, try again."
+msgstr "Prišlo je do napake, poskusi znova."
+
+#: mediadrop/templates/admin/media/edit.html:134
+#: mediadrop/templates/admin/media/edit.html:219
+#: mediadrop/templates/admin/podcasts/edit.html:44
+msgid "Hide"
+msgstr "Skrij"
+
+#: mediadrop/templates/admin/media/edit.html:135
+msgid "Saving"
+msgstr "Shranjujem"
+
+#: mediadrop/templates/admin/media/edit.html:136
+msgid "Saved!"
+msgstr "Shranjeno"
+
+#: mediadrop/templates/admin/media/edit.html:137
+msgid "Saving failed. Please try again."
+msgstr "Shranjevanje ni uspelo. Poskusi znova."
+
+#: mediadrop/templates/admin/media/edit.html:138
+msgid "Please correct the highlighted errors and save again."
+msgstr "Prosimo, popravite označene napake in ponovno shranite."
+
+#: mediadrop/templates/admin/media/edit.html:160
+#: mediadrop/templates/admin/podcasts/edit.html:87
+msgid "Uploaded:"
+msgstr "Naloženo:"
+
+#: mediadrop/templates/admin/media/edit.html:171
+#: mediadrop/templates/admin/storage/index.html:122
+msgid "Files"
+msgstr "Datoteke"
+
+#: mediadrop/templates/admin/media/edit.html:172
+msgid "Add & Manage"
+msgstr "Dodaj / Uredi"
+
+#: mediadrop/templates/admin/media/edit.html:175
+#: mediadrop/templates/admin/media/file-edit-form.html:15
+msgid "View this file"
+msgstr "Poglej datoteko"
+
+#: mediadrop/templates/admin/media/edit.html:189
+#: mediadrop/templates/admin/podcasts/edit.html:102
+msgid "Thumbnail"
+msgstr "Predogledna sličica"
+
+#: mediadrop/templates/admin/media/edit.html:192
+#: mediadrop/templates/admin/podcasts/_podcast-table.html:32
+#: mediadrop/templates/admin/podcasts/edit.html:106
+msgid "Thumb"
+msgstr "Sličica"
+
+#: mediadrop/templates/admin/media/edit.html:216
+msgid "Manage Files"
+msgstr "Upravljaj datoteke"
+
+#: mediadrop/templates/admin/media/edit.html:225
+msgid "File"
+msgstr "Datoteka"
+
+#: mediadrop/templates/admin/media/edit.html:226
+msgid "Size"
+msgstr "Velikost"
+
+#: mediadrop/templates/admin/media/edit.html:227
+msgid "Duration"
+msgstr "Dolžina"
+
+#: mediadrop/templates/admin/media/edit.html:228
+msgid "Bitrate"
+msgstr "Bitrate"
+
+#: mediadrop/templates/admin/media/edit.html:229
+msgid "Dimensions"
+msgstr "Dimenzije"
+
+#: mediadrop/templates/admin/media/edit.html:230
+msgid "Type"
+msgstr "Tip"
+
+#: mediadrop/templates/admin/media/file-add-form.html:17
+msgid "OR"
+msgstr "ALI"
+
+#: mediadrop/templates/admin/media/file-form.html:17
+msgid "or"
+msgstr "ali"
+
+#: mediadrop/templates/admin/media/index.html:66
+#, python-format
+msgid "Media that matches '%(search)s'"
+msgstr "Posnetki, ki se ujemajo z '%(search)s'"
+
+#: mediadrop/templates/admin/media/index.html:67
+#, python-format
+msgid "%(podcastTitle)s Episodes"
+msgstr "%(podcastTitle)s epizode"
+
+#: mediadrop/templates/admin/media/index.html:68
+#, python-format
+msgid "Media in '%(categoryName)s'"
+msgstr "Posnetki v '%(categoryName)s'"
+
+#: mediadrop/templates/admin/media/index.html:69
+#, python-format
+msgid "Media tagged '%(tagName)s'"
+msgstr "Posnetki označeni z '%(tagName)s'"
+
+#: mediadrop/templates/admin/media/index.html:70
+msgid "Unreviewed Media"
+msgstr "Nepregledani posnetki"
+
+#: mediadrop/templates/admin/media/index.html:71
+msgid "Unencoded Media"
+msgstr "Nekodirana vsebina"
+
+#: mediadrop/templates/admin/media/index.html:72
+msgid "Draft Media"
+msgstr "Osnutek vsebine"
+
+#: mediadrop/templates/admin/media/index.html:73
+msgid "Published Media"
+msgstr "Objavljeni posnetki"
+
+#: mediadrop/templates/admin/media/index.html:74
+#: mediadrop/templates/admin/media/index.html:105
+msgid "All Media"
+msgstr "Vsi posnetki"
+
+#: mediadrop/templates/admin/media/index.html:84
+msgid "Review"
+msgstr "Pregled"
+
+#: mediadrop/templates/admin/media/index.html:114
+msgid "Drafts"
+msgstr "Osnutki"
+
+#: mediadrop/templates/admin/media/index.html:124
+msgid "Filters"
+msgstr "Filtri"
+
+#: mediadrop/templates/admin/media/update-status-form.html:20
+msgid "View this media where it is published"
+msgstr "Poglej si to vsebino, kjer je objavljena"
+
+#: mediadrop/templates/admin/media/update-status-form.html:25
+msgid "View this media where it will be published"
+msgstr "Poglej posnetek, kjer bo objavljen"
+
+#: mediadrop/templates/admin/media/update-status-form.html:25
+msgid "Preview"
+msgstr "Predogled"
+
+#: mediadrop/templates/admin/media/update-status-form.html:42
+msgid "You must add a file and save before review can begin."
+msgstr "Preden lahko začnemo s preverjanjem, moraš datoteko dodati in shraniti."
+
+#: mediadrop/templates/admin/media/update-status-form.html:46
+msgid "Review Pending"
+msgstr "Čaka na pregled"
+
+#: mediadrop/templates/admin/media/update-status-form.html:47
+#: mediadrop/templates/admin/media/update-status-form.html:73
+#: mediadrop/templates/admin/media/update-status-form.html:86
+msgid "Encoding Complete"
+msgstr "Kodiranje končano"
+
+#: mediadrop/templates/admin/media/update-status-form.html:47
+#: mediadrop/templates/admin/media/update-status-form.html:63
+msgid "Encoding Pending"
+msgstr "Čakajoč kodiranje"
+
+#: mediadrop/templates/admin/media/update-status-form.html:48
+#: mediadrop/templates/admin/media/update-status-form.html:64
+#: mediadrop/templates/admin/media/update-status-form.html:74
+#: mediadrop/templates/admin/media/update-status-form.html:87
+msgid "Click to change the publish date"
+msgstr "Klikni in spremeni datum objave"
+
+#: mediadrop/templates/admin/media/update-status-form.html:48
+#: mediadrop/templates/admin/media/update-status-form.html:64
+#: mediadrop/templates/admin/media/update-status-form.html:74
+#: mediadrop/templates/admin/media/update-status-form.html:88
+msgid "Publishing"
+msgstr "Objavljam"
+
+#: mediadrop/templates/admin/media/update-status-form.html:49
+#: mediadrop/templates/admin/media/update-status-form.html:65
+#: mediadrop/templates/admin/media/update-status-form.html:75
+#: mediadrop/templates/admin/media/update-status-form.html:89
+msgid "Pending"
+msgstr "Čaka na preverjanje"
+
+#: mediadrop/templates/admin/media/update-status-form.html:55
+#: mediadrop/templates/admin/media/update-status-form.html:62
+#: mediadrop/templates/admin/media/update-status-form.html:72
+#: mediadrop/templates/admin/media/update-status-form.html:85
+msgid "Review Complete"
+msgstr "Pregled končan"
+
+#: mediadrop/templates/admin/media/update-status-form.html:57
+msgid "Review can only be completed after a file is added."
+msgstr "Pregled je lahko dokončan šele ko je datoteka dodana."
+
+#: mediadrop/templates/admin/media/update-status-form.html:68
+msgid "Encoding will be complete when an acceptable file is added."
+msgstr "Zakodiranje se bo zaključilo, ko dodana sprejemljiva datoteka."
+
+#: mediadrop/templates/admin/media/update-status-form.html:80
+msgid "Publish Now"
+msgstr "Objavi zdaj"
+
+#: mediadrop/templates/admin/media/update-status-form.html:94
+msgid "Click to change the expiration date"
+msgstr ""
+
+#: mediadrop/templates/admin/media/update-status-form.html:94
+msgid "Expires"
+msgstr ""
+
+#: mediadrop/templates/admin/media/update-status-form.html:95
+msgid "never"
+msgstr ""
+
+#: mediadrop/templates/admin/players/index.html:16
+#: mediadrop/templates/admin/players/index.html:40
+#: mediadrop/templates/admin/settings/master.html:63
+msgid "Players"
+msgstr "Predvajalniki"
+
+#: mediadrop/templates/admin/players/index.html:26
+msgid "By deleting this player you will lose all settings related to it."
+msgstr "Z pobrisom predvajalnika se zgubijo tudi vse nastavitve povezanje z njim."
+
+#: mediadrop/templates/admin/players/index.html:49
+msgid "Priority"
+msgstr "Prioriteta"
+
+#: mediadrop/templates/admin/players/index.html:71
+msgid "Up"
+msgstr "Gor"
+
+#: mediadrop/templates/admin/players/index.html:72
+msgid "Down"
+msgstr "Dol"
+
+#: mediadrop/templates/admin/podcasts/_podcast-table.html:39
+msgid "Category:"
+msgstr "Kategorija:"
+
+#: mediadrop/templates/admin/podcasts/_podcast-table.html:41
+msgid "Author:"
+msgstr "Avtor:"
+
+#: mediadrop/templates/admin/podcasts/_podcast-table.html:45
+msgid "Explicit"
+msgstr "Izrecna vsebina"
+
+#: mediadrop/templates/admin/podcasts/_podcast-table.html:51
+msgid "Add episode"
+msgstr "Dodaj epizodo"
+
+#: mediadrop/templates/admin/podcasts/_podcast-table.html:53
+#, python-format
+msgid "View First Episode %(num)s"
+msgid_plural "View All %(num)s Episodes"
+msgstr[0] "Poglej %(num)s epizodo"
+msgstr[1] "Poglej %(num)s epizodi"
+msgstr[2] "Poglej %(num)s epizode"
+msgstr[3] "Poglej %(num)s epizode"
+
+#: mediadrop/templates/admin/podcasts/edit.html:16
+msgid "Edit Podcast"
+msgstr "Uredi Podcast"
+
+#: mediadrop/templates/admin/podcasts/edit.html:16
+#: mediadrop/templates/admin/podcasts/edit.html:88
+msgid "New Podcast"
+msgstr "Nov podcast"
+
+#: mediadrop/templates/admin/podcasts/edit.html:97
+msgid "View this podcast where it is published"
+msgstr "Poglej podcast, kjer je objavljen"
+
+#: mediadrop/templates/admin/podcasts/feed_fieldset.html:39
+msgid "Get an iTunes URL"
+msgstr "Pridobi iTunes URL"
+
+#: mediadrop/templates/admin/podcasts/feed_fieldset.html:40
+msgid "Get a Feedburner URL"
+msgstr "Pridobi Feedburner URL"
+
+#: mediadrop/templates/admin/podcasts/index.html:25
+msgid "Add Podcast"
+msgstr "Dodaj podcast"
+
+#: mediadrop/templates/admin/settings/advertising.html:17
+#: mediadrop/templates/admin/settings/advertising.html:23
+#: mediadrop/templates/admin/settings/master.html:42
+msgid "Advertising"
+msgstr "Oglaševanje"
+
+#: mediadrop/templates/admin/settings/analytics.html:17
+#: mediadrop/templates/admin/settings/analytics.html:23
+#: mediadrop/templates/admin/settings/master.html:45
+msgid "Analytics"
+msgstr "Analytics"
+
+#: mediadrop/templates/admin/settings/api.html:16
+#: mediadrop/templates/admin/settings/api.html:26
+#: mediadrop/templates/admin/settings/master.html:57
+msgid "Data API"
+msgstr "Podatkovni API"
+
+#: mediadrop/templates/admin/settings/api.html:19
+msgid "Generate"
+msgstr "Zgeneriraj"
+
+#: mediadrop/templates/admin/settings/appearance.html:17
+#: mediadrop/templates/admin/settings/appearance.html:38
+#: mediadrop/templates/admin/settings/master.html:48
+msgid "Appearance"
+msgstr "Izgled"
+
+#: mediadrop/templates/admin/settings/appearance.html:26
+msgid "Confirm Reset"
+msgstr "Potrdi ponastavitev"
+
+#: mediadrop/templates/admin/settings/appearance.html:27
+msgid "Are you sure you want to reset your settings to the default?"
+msgstr ""
+"Ali ste prepričani, da želite ponastaviti svoje nastavitve na privzete "
+"nastavitve?"
+
+#: mediadrop/templates/admin/settings/master.html:60
+msgid "Notifications"
+msgstr "Obvestila"
+
+#: mediadrop/templates/admin/settings/master.html:66
+#: mediadrop/templates/admin/settings/popularity.html:16
+#: mediadrop/templates/admin/settings/popularity.html:22
+msgid "Popularity"
+msgstr "Popularnost"
+
+#: mediadrop/templates/admin/settings/master.html:69
+#: mediadrop/templates/admin/settings/sitemaps.html:17
+#: mediadrop/templates/admin/settings/sitemaps.html:23
+msgid "RSS and Sitemaps"
+msgstr "RSS in zemljevidi strani"
+
+#: mediadrop/templates/admin/settings/master.html:72
+#: mediadrop/templates/admin/storage/index.html:16
+#: mediadrop/templates/admin/storage/index.html:112
+msgid "Storage Engines"
+msgstr "Pomnilniški pogoni:"
+
+#: mediadrop/templates/admin/settings/master.html:83
+msgid "Plugins"
+msgstr "Dodatki"
+
+#: mediadrop/templates/admin/settings/notifications.html:16
+#: mediadrop/templates/admin/settings/notifications.html:22
+msgid "Notification Emails"
+msgstr "Obvestila po e-pošti"
+
+#: mediadrop/templates/admin/storage/edit.html:23
+msgid "New Storage Engine"
+msgstr "Nov pomnilniški pogon:"
+
+#: mediadrop/templates/admin/storage/index.html:25
+msgid "WARNING:"
+msgstr "OPOZORILO:"
+
+#: mediadrop/templates/admin/storage/index.html:26
+#, python-format
+msgid "Deleting this Storage Engine (%(name)s) will:"
+msgstr "Izbrisanje tega pomnilniškega pogna (%(name)s) bo:"
+
+#: mediadrop/templates/admin/storage/index.html:27
+#, python-format
+msgid ""
+"Permanently delete all of the %(num)s media files stored by this Storage "
+"Engine."
+msgstr ""
+"Izbriši za vedno vse %(num)s medijske datoteke shranjene na tem "
+"pomnilniškem pogonu."
+
+#: mediadrop/templates/admin/storage/index.html:28
+msgid "Permanently erase its settings."
+msgstr "Trajno izbriši vse nastavitve."
+
+#: mediadrop/templates/admin/storage/index.html:29
+msgid ""
+"An alternative to deleting is disabling. Disabling a Storage Engine will "
+"simply prevent its use for files added from now on."
+msgstr ""
+"Druga možnost brisanju je onemogočenje. Onemogočenje pomnilniškega pogona"
+" bo preprosto preprečilo njegovo uporabo za datoteke dodane od zdaj "
+"naprej."
+
+#: mediadrop/templates/admin/storage/index.html:92
+msgid "Disable"
+msgstr "Onemogoči"
+
+#: mediadrop/templates/admin/storage/index.html:113
+#: mediadrop/templates/admin/storage/index.html:153
+msgid "Add New Engine"
+msgstr "Dodaj nov pogon:"
+
+#: mediadrop/templates/admin/storage/index.html:121
+msgid "Disk Usage"
+msgstr "Poraba diskovja"
+
+#: mediadrop/templates/admin/storage/index.html:155
+msgid "Please select what type of storage engine you would like to add:"
+msgstr "Prosimo, izberite kakšen tip pomnilniškega pogona bi radi dodali:"
+
+#: mediadrop/templates/admin/tags/index.html:50
+#: mediadrop/templates/admin/tags/index.html:72
+msgid "Add Tag"
+msgstr "Dodaj oznako"
+
+#: mediadrop/templates/admin/tags/index.html:76
+msgid "Edit Tag"
+msgstr "Uredi oznako"
+
+#: mediadrop/templates/admin/tags/index.html:80
+msgid "Delete Tag"
+msgstr "Izbriši oznako"
+
+#: mediadrop/templates/admin/users/edit.html:37
+msgid "New User"
+msgstr "Nov uporabnik"
+
+#: mediadrop/templates/admin/users/index.html:29
+msgid "Are you sure you want to delete this user?"
+msgstr "Ste prepričani, da želiš izbrisati tega uporabnika?"
+
+#: mediadrop/templates/admin/users/index.html:39
+msgid "Add User"
+msgstr "Dodaj uporabnika"
+
+#: mediadrop/templates/admin/users/index.html:46
+msgid "Email"
+msgstr "E-pošta"
+
+#: mediadrop/templates/admin/users/index.html:47
+msgid "Group"
+msgstr "Skupina"
+
+#: mediadrop/templates/categories/index.html:28
+#: mediadrop/templates/media/explore.html:102
+msgid "More new media"
+msgstr ""
+
+#: mediadrop/templates/categories/index.html:28
+#: mediadrop/templates/categories/index.html:33
+#: mediadrop/templates/media/explore.html:87
+#: mediadrop/templates/media/explore.html:102
+msgid "View More"
+msgstr "Poglej več"
+
+#: mediadrop/templates/categories/index.html:33
+#: mediadrop/templates/media/explore.html:87
+msgid "More popular media"
+msgstr ""
+
+#: mediadrop/templates/categories/index.html:35
+#: mediadrop/templates/categories/more.html:26
+msgid "There is no media in this category."
+msgstr "V tej kategoriji še ni posnetkov."
+
+#: mediadrop/templates/categories/layout.html:27
+msgid "Choose a Category:"
+msgstr "Izberi kategorijo:"
+
+#: mediadrop/templates/comments/_list.html:31
+#, python-format
+msgid "said on %(datetime)s…"
+msgstr "Napisano dne %(datetime)s…"
+
+#: mediadrop/templates/comments/_list.html:45
+msgid "No comments have been posted yet."
+msgstr "Ni še objavljenih komentarjev."
+
+#: mediadrop/templates/comments/_list.html:59
+msgid "Write a comment"
+msgstr "Dodaj komentar"
+
+#: mediadrop/templates/comments/_list.html:76
+msgid "Email Address (will never be published)"
+msgstr "E-pošta (nikoli ne bo objavljena)"
+
+#: mediadrop/templates/comments/_list.html:94
+msgid "Submit Comment"
+msgstr "Oddaj komentar"
+
+#: mediadrop/templates/media/explore.html:92
+#, python-format
+msgid ""
+"As soon as there are more than %(num)s published videos in the library, "
+"the most popular videos will be listed here."
+msgstr ""
+"Takoj, ko je v knjižnici objavljenih več kot %(num)s video posnetkov, "
+"bodo najbolj popularni video posnetki prikazani tukaj."
+
+#: mediadrop/templates/media/explore.html:93
+msgid "Why not add a few more?"
+msgstr "Zakaj jih ne bi dodal še nekaj?"
+
+#: mediadrop/templates/media/index.html:17
+#, python-format
+msgid "Search: \"%s\""
+msgstr "Išči: \"%s\""
+
+#: mediadrop/templates/media/index.html:25
+#, python-format
+msgid "Showing %(result_count)s results for '%(search_query)s'"
+msgstr "Prikazujem %(result_count)s zadetkov za '%(search_query)s'"
+
+#: mediadrop/templates/media/index.html:26
+#, python-format
+msgid "Showing %(result_count)s results tagged with '%(tag_name)s'"
+msgstr "Prikazujem %(result_count)s rezultatov označenih z '%(tag_name)s'"
+
+#: mediadrop/templates/media/index.html:27
+#, python-format
+msgid "All %(result_count)s Media"
+msgstr "Vseh %(result_count)s posnetkov"
+
+#: mediadrop/templates/media/tags.html:20
+msgid "All Tags"
+msgstr "Vse oznake"
+
+#: mediadrop/templates/media/view.html:54
+msgid "(unpublished)"
+msgstr "(neobjavljeno)"
+
+#: mediadrop/templates/media/view.html:55
+#, python-format
+msgid "by %(authorName)s"
+msgstr "%(authorName)s"
+
+#: mediadrop/templates/media/view.html:65
+#: mediadrop/templates/players/html5_or_flash.html:61
+msgid "Dislike"
+msgid_plural "Dislikes"
+msgstr[0] "Ni mi všeč"
+msgstr[1] "Ni nama všeč"
+msgstr[2] "Ni jim všeč"
+msgstr[3] "Ni jim všeč"
+
+#: mediadrop/templates/media/view.html:87
+msgid "Related Podcast"
+msgstr "Sorodni podcasti"
+
+#: mediadrop/templates/media/view.html:97
+msgid "Podcast Episodes"
+msgstr "Epizode podcastev"
+
+#: mediadrop/templates/media/view.html:100
+msgid "Episode"
+msgid_plural "Episodes"
+msgstr[0] "Epizda"
+msgstr[1] "Epizodi"
+msgstr[2] "Epizod"
+msgstr[3] "Epizod"
+
+#: mediadrop/templates/media/view.html:114
+msgid "Related Media"
+msgstr "Podobni posnetki"
+
+#: mediadrop/templates/media/view.html:122
+msgid "This is not listed under any categories."
+msgstr "To ni zapisano v nobeni kategoriji."
+
+#: mediadrop/templates/media/view.html:126
+msgid "See All Tags"
+msgstr "Prikaži vse oznake"
+
+#: mediadrop/templates/media/view.html:130
+msgid "This does not have any associated tags."
+msgstr "To nima nobenih povezanih značk."
+
+#: mediadrop/templates/players/html5_or_flash.html:70
+msgid "Pop out a new player window"
+msgstr "Odpri okno novega predvajalnika"
+
+#: mediadrop/templates/players/html5_or_flash.html:70
+msgid "Pop Out"
+msgstr "Odpri"
+
+#: mediadrop/templates/players/html5_or_flash.html:71
+msgid "Shrink"
+msgstr "Skrči"
+
+#: mediadrop/templates/players/html5_or_flash.html:71
+msgid "Expand"
+msgstr "Razširi"
+
+#: mediadrop/templates/players/html5_or_flash.html:73
+msgid "Share"
+msgstr "Deli z drugimi"
+
+#: mediadrop/templates/players/html5_or_flash.html:77
+msgid "Permalink:"
+msgstr "Povezava:"
+
+#: mediadrop/templates/players/html5_or_flash.html:80
+msgid "Share by email"
+msgstr "Pošlji po e-pošti"
+
+#: mediadrop/templates/players/html5_or_flash.html:80
+msgid "Share by Email"
+msgstr "Deli po e-pošti"
+
+#: mediadrop/templates/players/html5_or_flash.html:81
+msgid "Share on Facebook"
+msgstr "Posreduj na Facebook"
+
+#: mediadrop/templates/players/html5_or_flash.html:82
+msgid "Share on Twitter"
+msgstr "Posreduj na Twitter"
+
+#: mediadrop/templates/players/html5_or_flash.html:87
+msgid "Embed"
+msgstr "Vgradi"
+
+#: mediadrop/templates/players/html5_or_flash.html:91
+msgid "Embeddable Player HTML:"
+msgstr "HTML predvajalnik:"
+
+#: mediadrop/templates/players/html5_or_flash.html:97
+msgid "Download"
+msgstr "Prenos"
+
+#: mediadrop/templates/podcasts/index.html:23
+msgid "All Podcasts"
+msgstr "Vsi podcasti"
+
+#: mediadrop/templates/podcasts/index.html:34
+#: mediadrop/templates/podcasts/view.html:35
+msgid "Add to iTunes"
+msgstr "Dodaj v iTunes"
+
+#: mediadrop/templates/podcasts/index.html:35
+#: mediadrop/templates/podcasts/view.html:36
+msgid "Subscribe via RSS"
+msgstr "Naroči se na RSS"
+
+#: mediadrop/templates/podcasts/index.html:38
+msgid "Latest Episodes"
+msgstr "Zadnje epizode"
+
+#: mediadrop/templates/podcasts/index.html:45
+msgid "Browse all episodes"
+msgstr "Prebrskaj epizode"
+
+#: mediadrop/templates/podcasts/view.html:42
+#, python-format
+msgid "%(result_count)s Episodes"
+msgid_plural "All %(result_count)s Episodes"
+msgstr[0] "%(result_count)s posnetek"
+msgstr[1] "%(result_count)s posnetka"
+msgstr[2] "Vsi %(result_count)s posnetki"
+msgstr[3] "Vseh %(result_count)s posnetkov"
+
+#: mediadrop/templates/upload/failure.html:17
+#: mediadrop/templates/upload/success.html:17
+msgid "Upload Videos"
+msgstr "Naloži posnetek"
+
+#: mediadrop/templates/upload/failure.html:22
+msgid "Upload Error"
+msgstr "Napaka nalaganju"
+
+#: mediadrop/templates/upload/failure.html:26
+msgid ""
+"During your upload, something went wrong, but don't worry. The engineers "
+"and gnomes have been automagically notified and we're already on our way "
+"to resolving your issue."
+msgstr ""
+"Med nalaganjem tvoje datoteke je prišlo do napake, vendar brez skrbi. "
+"Naši strokovnjaki in palčki so prejeli obvestilo o napaki in so že na "
+"poti da jo odpravijo."
+
+#: mediadrop/templates/upload/failure.html:28
+msgid "Something you can check:"
+msgstr "Preveri še naslednje:"
+
+#: mediadrop/templates/upload/failure.html:30
+#, python-format
+msgid "Is the file under %(maxUploadSize)s Megabytes in size?"
+msgstr "Ali je datoteka manjša od %(maxUploadSize)s megabajtov?"
+
+#: mediadrop/templates/upload/failure.html:33
+msgid "Try Uploading Again"
+msgstr "Poskusi ponovno naložiti posnetek"
+
+#: mediadrop/templates/upload/form.html:52
+msgid "Choose a file to upload"
+msgstr "Izberi datoteko za naložiti"
+
+#: mediadrop/templates/upload/index.html:45
+msgid "Problems?"
+msgstr "Težave?"
+
+#: mediadrop/templates/upload/index.html:46
+msgid "If you have problems uploading or have some questions, please email us at"
+msgstr "Če imaš probleme z nalaganjem ali dodatna vprašanja za nas, nam piši na:"
+
+#: mediadrop/templates/upload/success.html:23
+msgid "Upload Successful"
+msgstr "Nalaganje uspešno."
+
+#: mediadrop/templates/upload/success.html:27
+msgid "Awesome, your upload was successful!"
+msgstr "Čestitam, tvoja datoteka je uspešno naložena!"
+
+#: mediadrop/templates/upload/success.html:28
+msgid ""
+"Your submission is awaiting review by a moderator and will be posted "
+"shortly."
+msgstr "Tvoj prispevek bo objavljen takoj, ko to odobri moderator."
+
+#: mediadrop/templates/upload/success.html:29
+msgid ""
+"You will be automatically redirected back to the [1:Media Library] in a "
+"few seconds. Hang tight."
+msgstr "Takoj te bomo preusmerili nazaj na [1:Arhiv posnetkov]. Drži se."
+
+#: mediadrop/validation/uri_validator.py:21
+msgid "That is not a valid URL."
+msgstr ""
+
+#~ msgid "© 2009-2013 MediaCore Inc. and contributors"
+#~ msgstr ""
+

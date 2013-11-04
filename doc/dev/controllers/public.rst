@@ -9,14 +9,14 @@ can easily revise it or even completely replace it, while still maintaining the
 benefits of MediaDrop's admin interface.
 
 A listing of the public-facing controller methods is below. See the
-`mediacore/config/routing.py` file for information on the URLs that point to
+`mediadrop/config/routing.py` file for information on the URLs that point to
 these methods.
 
 
 Browsing/Viewing Media
 ----------------------
 
-.. automodule:: mediacore.controllers.media
+.. automodule:: mediadrop.controllers.media
 
 .. autoclass:: MediaController
    :members:
@@ -26,7 +26,7 @@ Browsing/Viewing Media
 Browsing Podcasts
 -----------------
 
-.. automodule:: mediacore.controllers.podcasts
+.. automodule:: mediadrop.controllers.podcasts
 
 .. autoclass:: PodcastsController
    :members:
@@ -36,7 +36,7 @@ Browsing Podcasts
 Uploading Videos
 ----------------
 
-.. automodule:: mediacore.controllers.upload
+.. automodule:: mediadrop.controllers.upload
 
 .. autoclass:: UploadController
    :members:
@@ -46,7 +46,7 @@ Uploading Videos
 XML Sitemaps
 ------------
 
-.. automodule:: mediacore.controllers.sitemaps
+.. automodule:: mediadrop.controllers.sitemaps
 
 .. autoclass:: SitemapsController
    :members:
@@ -56,7 +56,7 @@ XML Sitemaps
 Error Messages
 --------------
 
-.. automodule:: mediacore.controllers.error
+.. automodule:: mediadrop.controllers.error
 
 .. autoclass:: ErrorController
    :members:

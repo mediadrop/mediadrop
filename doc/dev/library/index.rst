@@ -4,16 +4,16 @@
 Miscellaneous Libraries
 =======================
 
-.. Note to doc writers: Remember that some of the modules in mediacore.lib
+.. Note to doc writers: Remember that some of the modules in mediadrop.lib
 .. import methods and classes from other modules, so you don't need to
 .. explicitly include many of those other modules in the docs.
-.. (e.g. look at the imports in mediacore.lib.helpers and mediacore.lib.decorators)
+.. (e.g. look at the imports in mediadrop.lib.helpers and mediadrop.lib.decorators)
 
 
 Base Controller Classes
 -----------------------
 
-.. automodule:: mediacore.lib.base
+.. automodule:: mediadrop.lib.base
    :members:
    :show-inheritance:
 
@@ -21,7 +21,7 @@ Base Controller Classes
 Templating Helpers
 ------------------
 
-.. automodule:: mediacore.lib.templating
+.. automodule:: mediadrop.lib.templating
    :members:
    :show-inheritance:
    :undoc-members:
@@ -30,7 +30,7 @@ Templating Helpers
 Media Players
 -------------
 
-.. automodule:: mediacore.lib.players
+.. automodule:: mediadrop.lib.players
    :members:
    :show-inheritance:
    :undoc-members:
@@ -38,9 +38,9 @@ Media Players
 
 Decorators
 ----------
-.. includes important parts of mediacore.lib.paginate
+.. includes important parts of mediadrop.lib.paginate
 
-.. automodule:: mediacore.lib.decorators
+.. automodule:: mediadrop.lib.decorators
    :members:
    :show-inheritance:
    :undoc-members:
@@ -48,7 +48,7 @@ Decorators
 
 File Types
 ----------
-.. automodule:: mediacore.lib.filetypes
+.. automodule:: mediadrop.lib.filetypes
    :members:
    :show-inheritance:
    :undoc-members:
@@ -57,7 +57,7 @@ File Types
 Thumbnail Images
 ----------------
 
-.. automodule:: mediacore.lib.thumbnails
+.. automodule:: mediadrop.lib.thumbnails
    :members:
    :show-inheritance:
    :undoc-members:
@@ -65,7 +65,7 @@ Thumbnail Images
 Email Helpers
 -------------
 
-.. automodule:: mediacore.lib.email
+.. automodule:: mediadrop.lib.email
    :members:
    :show-inheritance:
    :undoc-members:
@@ -75,7 +75,7 @@ Email Helpers
 Miscellaneous/Display Helpers
 -----------------------------
 
-.. automodule:: mediacore.lib.helpers
+.. automodule:: mediadrop.lib.helpers
    :members:
    :show-inheritance:
    :undoc-members:

@@ -4,7 +4,7 @@
 Comments
 ========
 
-.. automodule:: mediacore.model.comments
+.. automodule:: mediadrop.model.comments
 
 Mapped Classes
 --------------

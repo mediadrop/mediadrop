@@ -1,0 +1,2558 @@
+# Czech translations for MediaDrop.
+# Copyright (C) 2013 ORGANIZATION
+# This file is distributed under the same license as the MediaDrop.
+#
+# Translators:
+# jui <appukonrad@gmail.com>, 2012-2013
+# charlesh <karel@silencio.cz>, 2011
+# kovacm <michal@logici.cz>, 2011
+# richensa <richensa@gmail.com>, 2011
+msgid ""
+msgstr ""
+"Project-Id-Version: MediaCore Video Platform\n"
+"Report-Msgid-Bugs-To: http://github.com/mediadrop/mediadrop-"
+"community/issues\n"
+"POT-Creation-Date: 2013-10-25 12:04+0200\n"
+"PO-Revision-Date: 2013-05-07 06:55+0000\n"
+"Last-Translator: jui <appukonrad@gmail.com>\n"
+"Language-Team: cs <LL@li.org>\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 0.9.6\n"
+
+#: mediadrop/websetup.py:153
+msgid ""
+"Upload your media using the form below. We'll review it and get back to "
+"you."
+msgstr ""
+"Nahrajte Vaše video pomocí níže uvedeného formuláře. Zhodnotíme ho a zase"
+" ho dostanete zpátky."
+
+#: mediadrop/controllers/categories.py:67
+#: mediadrop/templates/categories/more.html:19
+#, python-format
+msgid "Latest media in %s"
+msgstr "Nejnovější videa v %s "
+
+#: mediadrop/controllers/errors.py:55
+msgid "We're sorry but we weren't able to process this request."
+msgstr "Je nám líto, ale nebyli jsme schopni zpracovat tento požadavek."
+
+#: mediadrop/controllers/login.py:39
+msgid "Invalid username or password."
+msgstr "Neplatné uživatelské jméne, nebo heslo."
+
+#: mediadrop/controllers/media.py:89 mediadrop/controllers/media.py:149
+#: mediadrop/templates/media/index.html:18
+msgid "Latest RSS"
+msgstr "Nejnovější RSS"
+
+#: mediadrop/controllers/media.py:93
+#, fuzzy
+msgid "Featured RSS"
+msgstr "Doporučené"
+
+#: mediadrop/controllers/media.py:144
+msgid "Sitemap XML"
+msgstr "Sitemap XML"
+
+#: mediadrop/controllers/media.py:145
+msgid "Sitemap RSS"
+msgstr "Mapa stránek RSS"
+
+#: mediadrop/controllers/media.py:315
+msgid "Your comment has been rejected."
+msgstr "Váš komentář byl zamítnut."
+
+#: mediadrop/controllers/media.py:337
+msgid ""
+"Thank you for your comment! We will post it just as soon as a moderator "
+"approves it."
+msgstr ""
+"Děkujeme Vám za Váš komentář! Zveřejníme ho, hned jak ho moderátor "
+"schválí."
+
+#: mediadrop/controllers/admin/media.py:385
+#, python-format
+msgid "File \"%s\" does not exist."
+msgstr "Soubor \"%s\" neexistuje."
+
+#: mediadrop/controllers/admin/media.py:408
+msgid "No action to perform."
+msgstr "Nelze provést žádná akce."
+
+#: mediadrop/controllers/admin/media.py:558
+#: mediadrop/controllers/admin/podcasts.py:206
+msgid "Permission denied, cannot write file"
+msgstr "Nedostatečná oprávnění, soubor nelze zapsat"
+
+#: mediadrop/controllers/admin/media.py:560
+#, python-format
+msgid "Unsupported image type: %s"
+msgstr ""
+
+#: mediadrop/controllers/admin/media.py:563
+#: mediadrop/controllers/admin/podcasts.py:211
+msgid "Interlaced PNGs are not supported."
+msgstr "Prokládané PNG nejsou podporovány."
+
+#: mediadrop/controllers/admin/podcasts.py:91
+msgid "Save the podcast to get your feed URL"
+msgstr ""
+
+#: mediadrop/controllers/admin/podcasts.py:208
+#, python-format
+msgid "Unsupport image type: %s"
+msgstr "Nepodporovaný typ obrázku: %s"
+
+#: mediadrop/forms/__init__.py:212
+msgid "The portion of the email address before the @ is invalid"
+msgstr "Část e-mailové adresy před @ je neplatná"
+
+#: mediadrop/forms/__init__.py:213
+msgid "The portion of this email address after the @ is invalid"
+msgstr "Část e-mailové adresy za znakem @ je neplatná"
+
+#: mediadrop/forms/comments.py:15
+msgid "Please enter your name!"
+msgstr "Zadejte prosím své jméno!"
+
+#: mediadrop/forms/login.py:33 mediadrop/forms/admin/users.py:53
+#: mediadrop/forms/admin/storage/ftp.py:28
+msgid "Username"
+msgstr "Uživatelské jméno"
+
+#: mediadrop/forms/login.py:36 mediadrop/forms/admin/users.py:54
+#: mediadrop/forms/admin/storage/ftp.py:29
+msgid "Password"
+msgstr "Heslo"
+
+#: mediadrop/forms/login.py:38 mediadrop/templates/master.html:77
+msgid "Login"
+msgstr "Přihlásit se"
+
+#: mediadrop/forms/uploader.py:17
+msgid "At least give it a short description..."
+msgstr "Zadejte alespoň krátký popis ..."
+
+#: mediadrop/forms/uploader.py:21
+msgid "You've gotta have a name!"
+msgstr "Musíte vyplnit jméno!"
+
+#: mediadrop/forms/uploader.py:25
+msgid "You've gotta have a title!"
+msgstr "Musíte vyplnit název!"
+
+#: mediadrop/forms/uploader.py:43
+msgid "Your Name:"
+msgstr "Vaše jméno:"
+
+#: mediadrop/forms/uploader.py:44
+msgid "Your Email:"
+msgstr "Váš email:"
+
+#: mediadrop/forms/uploader.py:44
+msgid "(will never be published)"
+msgstr "(nebude nikdy zveřejněn)"
+
+#: mediadrop/forms/uploader.py:45
+msgid "Title:"
+msgstr "Název:"
+
+#: mediadrop/forms/uploader.py:46
+msgid "Description:"
+msgstr "Popis:"
+
+#: mediadrop/forms/uploader.py:47
+msgid "Add a YouTube, Vimeo or Amazon S3 link:"
+msgstr ""
+
+#: mediadrop/forms/uploader.py:48
+msgid "Oops! You forgot to enter a file."
+msgstr "Oops! Zapomněli jste přidat soubor."
+
+#: mediadrop/forms/uploader.py:48
+msgid "OR:"
+msgstr "NEBO:"
+
+#: mediadrop/forms/uploader.py:49
+msgid "Submit"
+msgstr "Odeslat"
+
+#: mediadrop/forms/admin/__init__.py:19
+msgid "SEARCH..."
+msgstr "VYHLEDÁVÁNÍ ..."
+
+#: mediadrop/forms/admin/__init__.py:40
+msgid "You forgot to select an image!"
+msgstr "Zapomněli jste vybrat obrázek!"
+
+#: mediadrop/forms/admin/categories.py:38 mediadrop/forms/admin/tags.py:39
+#: mediadrop/templates/admin/categories/index.html:62
+#: mediadrop/templates/admin/players/index.html:48
+#: mediadrop/templates/admin/storage/index.html:120
+#: mediadrop/templates/admin/tags/index.html:59
+#: mediadrop/templates/comments/_list.html:67
+msgid "Name"
+msgstr "Jméno"
+
+#: mediadrop/forms/admin/categories.py:39 mediadrop/forms/admin/media.py:148
+#: mediadrop/forms/admin/podcasts.py:103 mediadrop/forms/admin/tags.py:40
+#: mediadrop/templates/comments/_list.html:28
+msgid "Permalink"
+msgstr "Stálý odkaz"
+
+#: mediadrop/forms/admin/categories.py:40
+msgid "Parent Category"
+msgstr "Nadřazená kategorie"
+
+#: mediadrop/forms/admin/categories.py:41 mediadrop/forms/admin/comments.py:25
+#: mediadrop/forms/admin/tags.py:41
+#: mediadrop/templates/admin/categories/index.html:41
+#: mediadrop/templates/admin/categories/index.html:91
+#: mediadrop/templates/admin/comments/index.html:38
+#: mediadrop/templates/admin/comments/index.html:51
+#: mediadrop/templates/admin/groups/edit.html:28
+#: mediadrop/templates/admin/groups/index.html:31
+#: mediadrop/templates/admin/media/edit.html:80
+#: mediadrop/templates/admin/media/index.html:36
+#: mediadrop/templates/admin/players/index.html:28
+#: mediadrop/templates/admin/podcasts/edit.html:54
+#: mediadrop/templates/admin/settings/appearance.html:29
+#: mediadrop/templates/admin/storage/index.html:76
+#: mediadrop/templates/admin/tags/index.html:38
+#: mediadrop/templates/admin/tags/index.html:85
+#: mediadrop/templates/admin/users/edit.html:28
+#: mediadrop/templates/admin/users/index.html:28
+msgid "Cancel"
+msgstr "Zrušit"
+
+#: mediadrop/forms/admin/categories.py:42 mediadrop/forms/admin/comments.py:24
+#: mediadrop/forms/admin/groups.py:47 mediadrop/forms/admin/media.py:160
+#: mediadrop/forms/admin/players.py:45 mediadrop/forms/admin/podcasts.py:119
+#: mediadrop/forms/admin/settings.py:93 mediadrop/forms/admin/settings.py:115
+#: mediadrop/forms/admin/settings.py:149 mediadrop/forms/admin/settings.py:164
+#: mediadrop/forms/admin/settings.py:203 mediadrop/forms/admin/settings.py:237
+#: mediadrop/forms/admin/settings.py:271 mediadrop/forms/admin/settings.py:444
+#: mediadrop/forms/admin/settings.py:469 mediadrop/forms/admin/tags.py:42
+#: mediadrop/forms/admin/users.py:58
+#: mediadrop/forms/admin/storage/__init__.py:36
+msgid "Save"
+msgstr "Uložit"
+
+#: mediadrop/forms/admin/categories.py:60 mediadrop/forms/admin/groups.py:48
+#: mediadrop/forms/admin/media.py:161 mediadrop/forms/admin/podcasts.py:120
+#: mediadrop/forms/admin/tags.py:56 mediadrop/forms/admin/users.py:59
+#: mediadrop/templates/admin/categories/index.html:40
+#: mediadrop/templates/admin/categories/index.html:92
+#: mediadrop/templates/admin/comments/index.html:37
+#: mediadrop/templates/admin/comments/index.html:50
+#: mediadrop/templates/admin/comments/index.html:89
+#: mediadrop/templates/admin/groups/edit.html:27
+#: mediadrop/templates/admin/groups/index.html:30
+#: mediadrop/templates/admin/groups/index.html:59
+#: mediadrop/templates/admin/media/edit.html:79
+#: mediadrop/templates/admin/media/index.html:35
+#: mediadrop/templates/admin/media/index.html:86
+#: mediadrop/templates/admin/players/index.html:27
+#: mediadrop/templates/admin/players/index.html:78
+#: mediadrop/templates/admin/podcasts/edit.html:53
+#: mediadrop/templates/admin/storage/index.html:75
+#: mediadrop/templates/admin/storage/index.html:145
+#: mediadrop/templates/admin/tags/index.html:37
+#: mediadrop/templates/admin/tags/index.html:86
+#: mediadrop/templates/admin/users/edit.html:27
+#: mediadrop/templates/admin/users/index.html:27
+#: mediadrop/templates/admin/users/index.html:61
+msgid "Delete"
+msgstr "Odstranit"
+
+#: mediadrop/forms/admin/comments.py:23
+#: mediadrop/templates/admin/helpers.html:67
+#: mediadrop/templates/admin/comments/_comment-table.html:24
+#: mediadrop/templates/comments/_list.html:86
+#: mediadrop/templates/media/explore.html:75
+#: mediadrop/templates/media/view.html:67
+msgid "Comment"
+msgid_plural "Comments"
+msgstr[0] "Komentář"
+msgstr[1] "Komentářů"
+msgstr[2] "Komentáře"
+
+#: mediadrop/forms/admin/groups.py:28
+msgid "Group name already exists"
+msgstr ""
+
+#: mediadrop/forms/admin/groups.py:41 mediadrop/forms/admin/players.py:35
+#: mediadrop/forms/admin/users.py:42
+#: mediadrop/forms/admin/storage/__init__.py:26
+#: mediadrop/templates/admin/groups/index.html:47
+#: mediadrop/templates/admin/users/index.html:45
+msgid "Display Name"
+msgstr "Zobrazované jméno"
+
+#: mediadrop/forms/admin/groups.py:42
+msgid "Groupname"
+msgstr ""
+
+#: mediadrop/forms/admin/groups.py:43
+msgid "Group Permissions"
+msgstr ""
+
+#: mediadrop/forms/admin/media.py:33
+msgid "Bad duration formatting, use Hour:Min:Sec"
+msgstr "Špatný formát trvání, použijte hod:min:sek"
+
+#: mediadrop/forms/admin/media.py:61
+msgid "Value must be in the format wxh; e.g. 200x300"
+msgstr "Hodnota musí být ve formátu šířka x výška, např. 200x300"
+
+#: mediadrop/forms/admin/media.py:67
+msgid "Width must be a valid integer"
+msgstr "Šířka musí být platné číslo"
+
+#: mediadrop/forms/admin/media.py:71
+msgid "Height must be a valid integer"
+msgstr "Výška musí být platné číslo"
+
+#: mediadrop/forms/admin/media.py:110
+msgid "Select an encoded video or audio file on your computer"
+msgstr "Vyberte kódované video nebo audio soubor ve vašem počítači"
+
+#: mediadrop/forms/admin/media.py:110 mediadrop/templates/master.html:91
+#: mediadrop/templates/admin/settings/master.html:78
+#: mediadrop/templates/admin/settings/upload.html:16
+#: mediadrop/templates/admin/settings/upload.html:22
+msgid "Upload"
+msgstr "Nahrát"
+
+#: mediadrop/forms/admin/media.py:111
+msgid "Add URL"
+msgstr "Přidejte URL"
+
+#: mediadrop/forms/admin/media.py:112
+msgid "YouTube, Vimeo, Amazon S3 or any other link"
+msgstr ""
+
+#: mediadrop/forms/admin/media.py:133
+msgid "Delete file"
+msgstr "Odstranit soubor"
+
+#: mediadrop/forms/admin/media.py:147
+msgid "Include in the Podcast"
+msgstr "Zahrnout do Podcast"
+
+#: mediadrop/forms/admin/media.py:147
+msgid "Optional"
+msgstr "Volitelné"
+
+#: mediadrop/forms/admin/media.py:149 mediadrop/forms/admin/podcasts.py:104
+#: mediadrop/templates/admin/media/_media-table.html:26
+msgid "Title"
+msgstr "Název"
+
+#: mediadrop/forms/admin/media.py:150 mediadrop/forms/admin/podcasts.py:106
+msgid "Author Name"
+msgstr "Jméno autora"
+
+#: mediadrop/forms/admin/media.py:151 mediadrop/forms/admin/podcasts.py:107
+msgid "Author Email"
+msgstr "E-mail autora"
+
+#: mediadrop/forms/admin/media.py:152 mediadrop/forms/admin/podcasts.py:108
+msgid "Description"
+msgstr "Popis"
+
+#: mediadrop/forms/admin/media.py:153 mediadrop/templates/master.html:89
+#: mediadrop/templates/admin/categories/edit.html:16
+#: mediadrop/templates/admin/categories/index.html:17
+#: mediadrop/templates/admin/categories/index.html:51
+#: mediadrop/templates/admin/settings/master.html:51
+#: mediadrop/templates/categories/index.html:18
+#: mediadrop/templates/categories/layout.html:22
+#: mediadrop/templates/categories/more.html:17
+#: mediadrop/templates/media/explore.html:33
+#: mediadrop/templates/media/view.html:120
+msgid "Categories"
+msgstr "Kategorie"
+
+#: mediadrop/forms/admin/media.py:154
+#: mediadrop/templates/admin/media/_media-table.html:28
+#: mediadrop/templates/admin/settings/master.html:75
+#: mediadrop/templates/admin/tags/edit.html:16
+#: mediadrop/templates/admin/tags/index.html:17
+#: mediadrop/templates/admin/tags/index.html:48
+#: mediadrop/templates/media/tags.html:16
+#: mediadrop/templates/media/view.html:127
+msgid "Tags"
+msgstr "Štítky"
+
+#: mediadrop/forms/admin/media.py:154
+msgid "e.g.: puppies, great dane, adorable"
+msgstr "např.: štěňátka, německá doga, rozkošný"
+
+#: mediadrop/forms/admin/media.py:156
+msgid "Administrative Notes"
+msgstr "Organizační poznámky"
+
+#: mediadrop/forms/admin/players.py:31
+#: mediadrop/forms/admin/storage/__init__.py:22
+msgid "General Options:"
+msgstr "Všeobecné možnosti:"
+
+#: mediadrop/forms/admin/players.py:86
+msgid "Yes, use the Flash Player when the device supports it."
+msgstr "Ano, použij Flash Player, pokud ho zařízení podporuje."
+
+#: mediadrop/forms/admin/players.py:87
+msgid "No, use the HTML5 Player when the device supports it."
+msgstr "Ne, použij HTML5 Player, pokud ho přístroj podporuje."
+
+#: mediadrop/forms/admin/players.py:90
+msgid "Prefer the Flash Player when possible"
+msgstr "Upřednostnit Flash Player, pokud je to možné"
+
+#: mediadrop/forms/admin/players.py:109
+msgid "Script Tag"
+msgstr "Script Tag"
+
+#: mediadrop/forms/admin/players.py:110
+msgid "The unique script tag given for your site."
+msgstr "Vaší stránce byl dán unikátní script tag."
+
+#: mediadrop/forms/admin/players.py:129
+msgid "Player Options:"
+msgstr "Možnosti přehrávače:"
+
+#: mediadrop/forms/admin/players.py:133
+msgid "Use the deprecated AS2 player."
+msgstr "Pomocí zastaralého přehrávače AS2."
+
+#: mediadrop/forms/admin/players.py:134
+msgid "Use the AS3/HTML5 player."
+msgstr "Použít AS3/HTML5 přehrávač."
+
+#: mediadrop/forms/admin/players.py:137
+msgid "YouTube player version"
+msgstr "Verze YouTube přehravače"
+
+#: mediadrop/forms/admin/players.py:142
+msgid "Show video annotations by default."
+msgstr "Zobrazit poznámky k videu ve výchozím nastavení."
+
+#: mediadrop/forms/admin/players.py:143
+msgid "Hide video annotations by default."
+msgstr "Skrýt poznámky k videu ve výchozím nastavení."
+
+#: mediadrop/forms/admin/players.py:146
+msgid "Video annotations"
+msgstr "Poznámky k videu "
+
+#: mediadrop/forms/admin/players.py:149
+msgid "Disable the player keyboard controls."
+msgstr "Vypnout ovládání přehrávače klávesnicí."
+
+#: mediadrop/forms/admin/players.py:150
+msgid "Not supported by HTML5 player."
+msgstr "Nepodporováno HTML5 přehrávačem."
+
+#: mediadrop/forms/admin/players.py:151
+msgid "Autoplay the video when the player loads."
+msgstr ""
+
+#: mediadrop/forms/admin/players.py:152
+msgid "Do not show YouTube logo in the player controls"
+msgstr ""
+
+#: mediadrop/forms/admin/players.py:153
+msgid "Not supported by AS2 player."
+msgstr "Nepodporováno AS2 přehrávačem."
+
+#: mediadrop/forms/admin/players.py:154
+msgid "Display fullscreen button."
+msgstr ""
+
+#: mediadrop/forms/admin/players.py:155
+msgid "Enable high-def quality by default."
+msgstr "Povolit kvalitu vysokého rozlišení jako výchozí nastavení."
+
+#: mediadrop/forms/admin/players.py:156
+msgid ""
+"Applies only for the AS2 player, the AS3 player will choose the most "
+"appropriate version of the video version (e.g. considering the user's "
+"bandwidth)"
+msgstr ""
+
+#: mediadrop/forms/admin/players.py:157
+msgid "Display related videos after playback of the initial video ends."
+msgstr ""
+
+#: mediadrop/forms/admin/players.py:158
+msgid ""
+"Show the search box when the video is minimized. The related videos "
+"option must be enabled for this to work."
+msgstr ""
+
+#: mediadrop/forms/admin/players.py:159
+msgid "AS2 player only"
+msgstr "Pouze AS2 přehrávač"
+
+#: mediadrop/forms/admin/players.py:160
+msgid ""
+"Display information like the video title and uploader before the video "
+"starts playing."
+msgstr ""
+
+#: mediadrop/forms/admin/players.py:161
+msgid "Enable window-less mode (wmode)"
+msgstr ""
+
+#: mediadrop/forms/admin/players.py:162
+msgid ""
+"wmode allows HTML/CSS elements to be placed over the actual Flash video "
+"but requires more CPU power."
+msgstr ""
+
+#: mediadrop/forms/admin/players.py:165
+msgid "Always show player controls."
+msgstr "Vždy zobrazit ovládací prvky přehrávače."
+
+#: mediadrop/forms/admin/players.py:166
+msgid "Autohide all player controls after a video starts playing."
+msgstr ""
+"Automaticky skrýt všechny ovládací prvky přehrávače po spuštění "
+"přehrávání."
+
+#: mediadrop/forms/admin/players.py:167
+msgid "Autohide only the progress bar after a video starts playing."
+msgstr "Automaticky skrýt jen ukazatel průběhu po spuštění přehrávání.."
+
+#: mediadrop/forms/admin/players.py:170
+msgid "Player control hiding"
+msgstr ""
+
+#: mediadrop/forms/admin/podcasts.py:29
+msgid "Parental Advisory"
+msgstr "Rodičovská kontrola"
+
+#: mediadrop/forms/admin/podcasts.py:30
+#: mediadrop/templates/admin/podcasts/_podcast-table.html:46
+msgid "Clean"
+msgstr "Vyčistit"
+
+#: mediadrop/forms/admin/podcasts.py:105
+msgid "Subtitle"
+msgstr "Titulky"
+
+#: mediadrop/forms/admin/podcasts.py:109
+msgid "Podcast Details:"
+msgstr "Podrobnosti podcastu:"
+
+#: mediadrop/forms/admin/podcasts.py:110
+msgid "Explicit?"
+msgstr "Jednoznačné?"
+
+#: mediadrop/forms/admin/podcasts.py:111
+msgid "Category"
+msgstr "Kategorie"
+
+#: mediadrop/forms/admin/podcasts.py:112
+msgid "Copyright"
+msgstr "Copyright"
+
+#: mediadrop/forms/admin/podcasts.py:114
+msgid "Advanced Options:"
+msgstr "Pokročilé možnosti:"
+
+#: mediadrop/forms/admin/podcasts.py:115
+msgid "Your Feed URL"
+msgstr "Vaše URL RSS "
+
+#: mediadrop/forms/admin/podcasts.py:116
+msgid "iTunes URL"
+msgstr "iTunes URL"
+
+#: mediadrop/forms/admin/podcasts.py:117
+msgid "Feedburner URL"
+msgstr "FeedBurner URL"
+
+#: mediadrop/forms/admin/settings.py:25
+msgid "Built-in comments"
+msgstr "Vestavěné komentáře"
+
+#: mediadrop/forms/admin/settings.py:26
+msgid "Facebook comments (requires a Facebook application ID)"
+msgstr "Facebook komentáře (vyžaduje aplikaci Facebook ID)"
+
+#: mediadrop/forms/admin/settings.py:27
+msgid "Disable comments"
+msgstr "Zakázat komentáře"
+
+#: mediadrop/forms/admin/settings.py:32
+msgid "Prepend"
+msgstr "Předřadit"
+
+#: mediadrop/forms/admin/settings.py:33
+msgid "Append"
+msgstr "Připojit"
+
+#: mediadrop/forms/admin/settings.py:36
+msgid "Plain <textarea> fields (0kB)"
+msgstr "<html> Prostý <textarea> pole (0KB) &lt;/ html&gt;"
+
+#: mediadrop/forms/admin/settings.py:37
+msgid "Enable TinyMCE for <textarea> fields accepting XHTML (281kB)"
+msgstr ""
+"<html> Povolit TinyMCE pro <textarea> oblasti přijímající XHTML (281kB) "
+"&lt;/ html&gt;"
+
+#: mediadrop/forms/admin/settings.py:41
+msgid "Brown"
+msgstr "Hnědá"
+
+#: mediadrop/forms/admin/settings.py:42
+msgid "Blue"
+msgstr "Modrá"
+
+#: mediadrop/forms/admin/settings.py:43
+msgid "Green"
+msgstr "Zelená"
+
+#: mediadrop/forms/admin/settings.py:44
+msgid "Tan"
+msgstr "Bronzová"
+
+#: mediadrop/forms/admin/settings.py:45
+msgid "White"
+msgstr "Bílá"
+
+#: mediadrop/forms/admin/settings.py:46
+msgid "Purple"
+msgstr "Nachová"
+
+#: mediadrop/forms/admin/settings.py:47
+msgid "Black"
+msgstr "Černá"
+
+#: mediadrop/forms/admin/settings.py:73
+msgid "Yes"
+msgstr "Ano"
+
+#: mediadrop/forms/admin/settings.py:73
+msgid "No"
+msgstr "Ne"
+
+#: mediadrop/forms/admin/settings.py:87
+msgid "Email Notifications:"
+msgstr "Upozornění e-mailem:"
+
+#: mediadrop/forms/admin/settings.py:88
+msgid "Media Uploaded"
+msgstr "Videa nahrána"
+
+#: mediadrop/forms/admin/settings.py:89
+msgid "Comment Posted"
+msgstr "Komentář zveřejněn"
+
+#: mediadrop/forms/admin/settings.py:90
+msgid "Support Requested"
+msgstr "Požadována podpora"
+
+#: mediadrop/forms/admin/settings.py:91
+msgid "Send Emails From"
+msgstr "Poslat e-maily z"
+
+#: mediadrop/forms/admin/settings.py:109
+msgid "Popularity Algorithm Variables:"
+msgstr "Proměnné algoritmu popularity:"
+
+#: mediadrop/forms/admin/settings.py:111
+msgid "Decay Exponent"
+msgstr "Decay Exponent"
+
+#: mediadrop/forms/admin/settings.py:112
+msgid "Decay Lifetime"
+msgstr "Životnost Decay"
+
+#: mediadrop/forms/admin/settings.py:145
+msgid "Max. allowed upload file size in megabytes"
+msgstr "Max. povolená velikost souboru k nahrání v megabytech"
+
+#: mediadrop/forms/admin/settings.py:146
+msgid "Legal Wording:"
+msgstr "Právní znění:"
+
+#: mediadrop/forms/admin/settings.py:147
+msgid "User Uploads"
+msgstr "Nahraná videa uživatele"
+
+#: mediadrop/forms/admin/settings.py:161
+msgid "Google Analytics Details:"
+msgstr "Podrobnosti Google Analytics:"
+
+#: mediadrop/forms/admin/settings.py:162
+msgid "Tracking Code"
+msgstr "Kód"
+
+#: mediadrop/forms/admin/settings.py:182
+msgid "Site Maps"
+msgstr "Mapy stránek"
+
+#: mediadrop/forms/admin/settings.py:186
+msgid "RSS Feeds"
+msgstr "RSS"
+
+#: mediadrop/forms/admin/settings.py:193
+msgid "RSS Feed Defaults:"
+msgstr ""
+
+#: mediadrop/forms/admin/settings.py:196
+msgid "number of items"
+msgstr "počet položek"
+
+#: mediadrop/forms/admin/settings.py:197
+msgid ""
+"The number of items in the feed can be overriden per request if you add "
+"\"?limit=X\" to the feed URL. If the \"limit\" parameter is absent, the "
+"default above is used."
+msgstr ""
+
+#: mediadrop/forms/admin/settings.py:215
+msgid "General Settings:"
+msgstr "Všeobecná nastavení:"
+
+#: mediadrop/forms/admin/settings.py:217
+msgid "Site Name"
+msgstr "Název webu"
+
+#: mediadrop/forms/admin/settings.py:219
+msgid "Display Site Name"
+msgstr "Zobrazení názvu webu"
+
+#: mediadrop/forms/admin/settings.py:223
+msgid "Default Language"
+msgstr "Výchozí jazyk"
+
+#: mediadrop/forms/admin/settings.py:227
+msgid "Featured Category"
+msgstr "Vybrané kategorie"
+
+#: mediadrop/forms/admin/settings.py:232
+msgid "Rich Text Editing"
+msgstr "RTF Editace"
+
+#: mediadrop/forms/admin/settings.py:250
+msgid "Comment Engine"
+msgstr ""
+
+#: mediadrop/forms/admin/settings.py:254
+msgid "Built-in Comments:"
+msgstr "Vestavěné komentáře:"
+
+#: mediadrop/forms/admin/settings.py:257
+msgid "Moderation"
+msgstr "Moderování"
+
+#: mediadrop/forms/admin/settings.py:258
+msgid "Require comments to be approved by an admin"
+msgstr "Vyžadovat schválení komentáře administrátorem"
+
+#: mediadrop/forms/admin/settings.py:261
+msgid "Akismet Key"
+msgstr "Akismet klíč"
+
+#: mediadrop/forms/admin/settings.py:262
+msgid "Akismet URL"
+msgstr "Akismet URL"
+
+#: mediadrop/forms/admin/settings.py:263
+msgid "Filtered Words"
+msgstr "Filtrovaná slova"
+
+#: mediadrop/forms/admin/settings.py:265
+msgid "Enter words to be filtered separated by a comma."
+msgstr "Slova, která mají být filtrována, oddělujte čárkou."
+
+#: mediadrop/forms/admin/settings.py:267
+msgid "Facebook Comments:"
+msgstr "Facebook komentáře:"
+
+#: mediadrop/forms/admin/settings.py:268
+msgid "Application ID"
+msgstr "ID palikace"
+
+#: mediadrop/forms/admin/settings.py:269
+msgid "See: https://developers.facebook.com/apps"
+msgstr "Podívejte se na : https://developers.facebook.com/apps"
+
+#: mediadrop/forms/admin/settings.py:283
+msgid "Require a key to access the API"
+msgstr "Vyžadovat klíč pro přístup k API"
+
+#: mediadrop/forms/admin/settings.py:284
+msgid "API Key:"
+msgstr "API klíč:"
+
+#: mediadrop/forms/admin/settings.py:285
+msgid "Access Key"
+msgstr "Přístupový klíč"
+
+#: mediadrop/forms/admin/settings.py:287
+msgid "API Settings:"
+msgstr "Nastavení API:"
+
+#: mediadrop/forms/admin/settings.py:288
+msgid "Max media results"
+msgstr "Výsledky Max media "
+
+#: mediadrop/forms/admin/settings.py:289
+msgid "Max tree depth"
+msgstr "Max. hloubka stromu"
+
+#: mediadrop/forms/admin/settings.py:303
+#: mediadrop/templates/admin/settings/general.html:17
+#: mediadrop/templates/admin/settings/general.html:23
+#: mediadrop/templates/admin/settings/master.html:39
+msgid "General"
+msgstr "Všeobecné"
+
+#: mediadrop/forms/admin/settings.py:306
+msgid "Logo"
+msgstr "Logo"
+
+#: mediadrop/forms/admin/settings.py:308
+msgid "Upload Logo"
+msgstr "Nahrát logo"
+
+#: mediadrop/forms/admin/settings.py:313
+msgid "Background Image"
+msgstr "Obrázek na pozadí"
+
+#: mediadrop/forms/admin/settings.py:315
+msgid "Upload Background"
+msgstr "Nahrát pozadí"
+
+#: mediadrop/forms/admin/settings.py:321
+msgid "Background color"
+msgstr "Barva pozadí"
+
+#: mediadrop/forms/admin/settings.py:324
+msgid "Link color"
+msgstr "Barva odkazu"
+
+#: mediadrop/forms/admin/settings.py:327
+msgid "Visited Link color"
+msgstr "Barva navštíveného odkazu"
+
+#: mediadrop/forms/admin/settings.py:331
+msgid "Text color"
+msgstr "Barva textu"
+
+#: mediadrop/forms/admin/settings.py:333
+msgid "Heading color"
+msgstr "Barva nadpisu"
+
+#: mediadrop/forms/admin/settings.py:336
+msgid "Color Scheme"
+msgstr "Barevné schéma"
+
+#: mediadrop/forms/admin/settings.py:340
+msgid "Options"
+msgstr "Možnosti"
+
+#: mediadrop/forms/admin/settings.py:345
+msgid "Enable Cooliris on the Explore Page"
+msgstr "Povolit Cooliris na stránce Prozkoumat"
+
+#: mediadrop/forms/admin/settings.py:346
+msgid ""
+"Cooliris support is deprecated and will be removed in the next major "
+"version of MediaDrop unless someone is interested in maintaining it."
+msgstr ""
+
+#: mediadrop/forms/admin/settings.py:352
+msgid "Display login link for all users"
+msgstr ""
+
+#: mediadrop/forms/admin/settings.py:355
+msgid "Enable Featured Items on the Explore Page"
+msgstr "Povolit Doporučené položky na stránce Prozkoumat"
+
+#: mediadrop/forms/admin/settings.py:359
+msgid "Enable Podcast Tab"
+msgstr "Povolit Podcast založku"
+
+#: mediadrop/forms/admin/settings.py:363
+msgid "Enable User Uploads"
+msgstr "Povolit nahrávání uživatelů"
+
+#: mediadrop/forms/admin/settings.py:367
+msgid "Enable widescreen media player by default"
+msgstr "Povolit širokoúhlý multimediální přehrávač ve výchozím nastavení"
+
+#: mediadrop/forms/admin/settings.py:371
+msgid "Display Logo"
+msgstr "Zobrazit logo"
+
+#: mediadrop/forms/admin/settings.py:375
+msgid "Display Background Image"
+msgstr "Zobrazit obrázek na pozadí"
+
+#: mediadrop/forms/admin/settings.py:379
+msgid "Display MediaDrop Footer"
+msgstr "Zobrazit MediaDrop zápatí"
+
+#: mediadrop/forms/admin/settings.py:383
+msgid "Display MediaDrop Credits in Footer"
+msgstr ""
+
+#: mediadrop/forms/admin/settings.py:389
+msgid "Player Menu Options"
+msgstr ""
+
+#: mediadrop/forms/admin/settings.py:394
+msgid "Enable Download button on player menu bar."
+msgstr "Povolit v menu přehrávače tlačítko Stáhnout."
+
+#: mediadrop/forms/admin/settings.py:398
+msgid "Enable Share button on player menu bar."
+msgstr "Povolit v menu přehrávače tlačítko Sdílet."
+
+#: mediadrop/forms/admin/settings.py:402
+msgid "Enable Embed button on player menu bar."
+msgstr ""
+
+#: mediadrop/forms/admin/settings.py:406
+msgid "Enable Widescreen toggle button on player menu bar."
+msgstr ""
+
+#: mediadrop/forms/admin/settings.py:410
+msgid "Enable Popout button on player menu bar."
+msgstr ""
+
+#: mediadrop/forms/admin/settings.py:414
+msgid "Enable Like button on player menu bar."
+msgstr ""
+
+#: mediadrop/forms/admin/settings.py:418
+msgid "Enable Dislike button on player menu bar."
+msgstr ""
+
+#: mediadrop/forms/admin/settings.py:423
+msgid "Advanced"
+msgstr "Pokročilý"
+
+#: mediadrop/forms/admin/settings.py:427
+msgid "Custom CSS"
+msgstr "Uživatelský CSS"
+
+#: mediadrop/forms/admin/settings.py:430
+msgid "Custom Header HTML"
+msgstr "Uživatelské záhlaví HTML"
+
+#: mediadrop/forms/admin/settings.py:433
+msgid "Custom Footer HTML"
+msgstr "Uživatelské zápatí HTML"
+
+#: mediadrop/forms/admin/settings.py:436
+msgid "Custom <head> Tags"
+msgstr ""
+
+#: mediadrop/forms/admin/settings.py:437
+msgid ""
+"These HTML tags are inserted into the HTML <head> section. Bad input can "
+"cause ugly rendering of your site. You can always restore your page by "
+"the box above."
+msgstr ""
+
+#: mediadrop/forms/admin/settings.py:445
+#: mediadrop/templates/admin/settings/appearance.html:28
+msgid "Reset to Defaults"
+msgstr "Obnovit výchozí"
+
+#: mediadrop/forms/admin/settings.py:462
+msgid "Banner HTML"
+msgstr "Banner HTML"
+
+#: mediadrop/forms/admin/settings.py:465
+msgid "Sidebar HTML"
+msgstr "Sidebar HTML"
+
+#: mediadrop/forms/admin/users.py:28
+msgid "User name already exists"
+msgstr "Uživatelské jméno již existuje"
+
+#: mediadrop/forms/admin/users.py:43
+msgid "Email Address"
+msgstr "Emailová adresa"
+
+#: mediadrop/forms/admin/users.py:44
+msgid "Login Details:"
+msgstr "Přihlašovací údaje"
+
+#: mediadrop/forms/admin/users.py:48
+msgid "Passwords do not match"
+msgstr "Hesla se neshodují"
+
+#: mediadrop/forms/admin/users.py:51 mediadrop/templates/admin/master.html:61
+#: mediadrop/templates/admin/groups/index.html:17
+#: mediadrop/templates/admin/groups/index.html:41
+msgid "Groups"
+msgstr "Skupiny"
+
+#: mediadrop/forms/admin/users.py:55
+msgid "Confirm password"
+msgstr "Potvrdit heslo"
+
+#: mediadrop/forms/admin/storage/ftp.py:25
+msgid "FTP Server Details:"
+msgstr "Podrobnosti o FTP serveru:"
+
+#: mediadrop/forms/admin/storage/ftp.py:27
+msgid "Server Hostname"
+msgstr "Jméno hostitelského serveru"
+
+#: mediadrop/forms/admin/storage/ftp.py:30
+msgid "Subdirectory on server to upload to"
+msgstr "Podadresáře na serveru nahrát na"
+
+#: mediadrop/forms/admin/storage/ftp.py:31
+msgid ""
+"How many times should MediaDrop try to verify the FTP upload before "
+"declaring it a failure?"
+msgstr ""
+"Kolikrát by se měl MediaDrop pokusit ověřit FTP upload před tím než "
+"ohlásí selhání?"
+
+#: mediadrop/forms/admin/storage/ftp.py:32
+msgid "HTTP URL to access remotely stored files"
+msgstr "HTTP URL pro přístup k uloženým souborům na dálku"
+
+#: mediadrop/forms/admin/storage/ftp.py:33
+msgid "RTMP Server URL to stream remotely stored files (Optional)"
+msgstr "RTMP Server URL ke spouštění vzdáleně uložených souborů (Volitelné)"
+
+#: mediadrop/forms/admin/storage/localfiles.py:19
+msgid "Options specific to Local File Storage:"
+msgstr "Volby specifické pro místní úložiště souborů:"
+
+#: mediadrop/forms/admin/storage/localfiles.py:22
+msgid "Path to store files under"
+msgstr "Cesta k ukládání souborů v rámci"
+
+#: mediadrop/forms/admin/storage/localfiles.py:23
+msgid "Defaults to the \"data_dir\" from your INI file."
+msgstr "Výchozí \"data_dir\" ze souboru INI."
+
+#: mediadrop/forms/admin/storage/localfiles.py:26
+msgid "RTMP Server URL"
+msgstr "URL serveru RTMP"
+
+#: mediadrop/forms/admin/storage/localfiles.py:27
+msgid ""
+"Files must be accessible under the same name as they are stored with "
+"locally."
+msgstr "Soubory musí být přístupné pod stejným názvem jako jsou uloženy lokálně."
+
+#: mediadrop/forms/admin/storage/remoteurls.py:24
+msgid "Add another URL"
+msgstr "Přidat další URL"
+
+#: mediadrop/forms/admin/storage/remoteurls.py:53
+msgid "RTMP server URLs must begin with rtmp://"
+msgstr "URL serveru RTMP musí začínat rtmp: / /"
+
+#: mediadrop/forms/admin/storage/remoteurls.py:61
+msgid "RTMP Servers:"
+msgstr "RTMP servery:"
+
+#: mediadrop/lib/email.py:108
+#, python-format
+msgid "New %(type)s: %(title)s"
+msgstr ""
+
+#: mediadrop/lib/email.py:109
+#, python-format
+msgid ""
+"A new %(type)s file has been uploaded!\n"
+"\n"
+"Title: %(title)s\n"
+"\n"
+"Author: %(author_name)s (%(author_email)s)\n"
+"\n"
+"Admin URL: %(edit_url)s\n"
+"\n"
+"Description: %(clean_description)s\n"
+msgstr ""
+
+#: mediadrop/lib/email.py:144
+#, python-format
+msgid "New Comment: %(comment_subject)s"
+msgstr "Nový komentář: %(comment_subject)s"
+
+#: mediadrop/lib/email.py:145
+#, python-format
+msgid ""
+"A new comment has been posted!\n"
+"\n"
+"Author: %(author_name)s\n"
+"Post: %(post_url)s\n"
+"\n"
+"Body: %(comment_body)s\n"
+msgstr ""
+"Nový komentář byl odeslán!\n"
+"\n"
+"Autor: %(author_name)s\n"
+"Příspěvek: %(post_url)s\n"
+"\n"
+"Tělo: %(comment_body)s\n"
+
+#: mediadrop/lib/email.py:184
+#, python-format
+msgid "New Support Request: %(email)s"
+msgstr "Nový požadavek na podporu: %(email)s"
+
+#: mediadrop/lib/email.py:185
+#, python-format
+msgid ""
+"A user has asked for support\n"
+"\n"
+"Email: %(email)s\n"
+"\n"
+"URL: %(url)s\n"
+"\n"
+"Description: %(description)s\n"
+"\n"
+"GET_VARS:\n"
+"%(get_vars)s\n"
+"\n"
+"\n"
+"POST_VARS:\n"
+"%(post_vars)s\n"
+msgstr ""
+"Užavatel se dotázal podpory\n"
+"\n"
+"Email: %(email)s\n"
+"\n"
+"URL: %(url)s\n"
+"\n"
+"Popis: %(description)s\n"
+"\n"
+"GET_VARS:\n"
+"%(get_vars)s\n"
+"\n"
+"\n"
+"POST_VARS:\n"
+"%(post_vars)s\n"
+
+#: mediadrop/lib/filetypes.py:27
+msgid "Video"
+msgstr "Video"
+
+#: mediadrop/lib/filetypes.py:28
+msgid "Audio"
+msgstr "Audio"
+
+#: mediadrop/lib/filetypes.py:29
+msgid "Audio Description"
+msgstr "Audio popis"
+
+#: mediadrop/lib/filetypes.py:30
+msgid "Captions"
+msgstr "Titulky"
+
+#: mediadrop/lib/helpers.py:385
+msgid "Help"
+msgstr "Nápověda"
+
+#: mediadrop/lib/players.py:285
+msgid "Flowplayer"
+msgstr "Flowplayer"
+
+#: mediadrop/lib/players.py:416 mediadrop/lib/storage/vimeo.py:27
+msgid "Vimeo"
+msgstr "Vimeo"
+
+#: mediadrop/lib/players.py:452 mediadrop/lib/storage/dailymotion.py:28
+msgid "Daily Motion"
+msgstr "Daily Motion"
+
+#: mediadrop/lib/players.py:499 mediadrop/lib/storage/youtube.py:28
+msgid "YouTube"
+msgstr "YouTube"
+
+#: mediadrop/lib/players.py:577 mediadrop/lib/storage/googlevideo.py:26
+msgid "Google Video"
+msgstr "Google Video"
+
+#: mediadrop/lib/players.py:599 mediadrop/lib/storage/bliptv.py:26
+msgid "BlipTV"
+msgstr "BlipTV"
+
+#: mediadrop/lib/players.py:686
+msgid "Plain HTML5 Player"
+msgstr "HTML5 Player"
+
+#: mediadrop/lib/players.py:701
+msgid "HTML5 + Flowplayer Fallback"
+msgstr "HTML5 + Flowplayer Fallback"
+
+#: mediadrop/lib/players.py:758
+msgid "JWPlayer"
+msgstr "JWPlayer"
+
+#: mediadrop/lib/players.py:904
+msgid "Sublime Video Player"
+msgstr "Sublime Video Player"
+
+#: mediadrop/lib/players.py:954
+msgid "iTunes Player"
+msgstr "iTunes Player"
+
+#: mediadrop/lib/storage/api.py:352
+msgid "Unusable file or URL provided."
+msgstr "Nepoužitelný soubor nebo URL."
+
+#: mediadrop/lib/storage/bliptv.py:61
+msgid "Invalid BlipTV URL. This video does not exist."
+msgstr "Neplatné URL BlipTV. Toto video neexistuje."
+
+#: mediadrop/lib/storage/dailymotion.py:62
+msgid "This DailyMotion video does not allow embedding."
+msgstr ""
+
+#: mediadrop/lib/storage/ftp.py:43
+msgid "FTP Storage"
+msgstr "FTP úložiště"
+
+#: mediadrop/lib/storage/ftp.py:98
+#, python-format
+msgid "Could not upload the file from your FTP server: %s"
+msgstr "Nepodařilo se nahrát soubor z Vašeho FTP serveru:%s"
+
+#: mediadrop/lib/storage/ftp.py:192
+msgid "The file transferred to your FTP server is corrupted. Please try again."
+msgstr "Soubor převeden na server FTP je poškozený. Zkuste to prosím znovu."
+
+#: mediadrop/lib/storage/ftp.py:197
+#, python-format
+msgid "Could not download the file from your FTP server: %s"
+msgstr "Nelze stáhnout soubor z vašeho FTP serveru: %s"
+
+#: mediadrop/lib/storage/localfiles.py:26
+msgid "Local File Storage"
+msgstr "Místní úložiště souborů"
+
+#: mediadrop/lib/storage/remoteurls.py:28
+msgid "Remote URLs"
+msgstr "Vzdálené URL"
+
+#: mediadrop/lib/storage/remoteurls.py:73
+msgid ""
+"This RTMP server has not been configured. Add it by going to Settings > "
+"Storage Engines > Remote URLs."
+msgstr ""
+"Tento RTMP server není nakonfigurován.  Přidáte pomocí přechodu do "
+"Nastavení > Storage Engine > vzdálené URL."
+
+#: mediadrop/lib/storage/youtube.py:62
+msgid "This video is private and cannot be embedded."
+msgstr "Toto video je soukromé a nelze ho vložit."
+
+#: mediadrop/lib/storage/youtube.py:65
+msgid "Invalid YouTube URL. This video does not exist."
+msgstr "Neplatné URL YouTube. Toto video neexistuje."
+
+#: mediadrop/lib/storage/youtube.py:66
+#, python-format
+msgid "YouTube Error: %s"
+msgstr "Chyba YouTube: %s"
+
+#: mediadrop/model/players.py:102
+#, python-format
+msgid "%s (broken)"
+msgstr "%s (rozbité)"
+
+#: mediadrop/templates/error.html:17
+#, python-format
+msgid "A %(code)s Error has Occurred"
+msgstr "Objevila se chyba %(code)s"
+
+#: mediadrop/templates/error.html:22
+msgid "Whoopsadaisy!"
+msgstr "Vzmuž se! "
+
+#: mediadrop/templates/error.html:25
+msgid "We can't find this page. The page may have been moved or removed."
+msgstr "Nemůžeme najít tuto stránku. Stránka mohla být přesunuta nebo odstraněna."
+
+#: mediadrop/templates/error.html:26
+msgid "If you typed the address in, check the spelling."
+msgstr "Pokud jste zadali adresu, zkontrolujte svůj pravopis."
+
+#: mediadrop/templates/error.html:31
+msgid "You have a few options:"
+msgstr "Máte několik možností:"
+
+#: mediadrop/templates/error.html:33
+msgid "Return to the [1:homepage]."
+msgstr "Návrat k [1: homepage]."
+
+#: mediadrop/templates/error.html:34
+msgid "Return to the [1:media page]."
+msgstr "Návrat k [1: media stránku]."
+
+#: mediadrop/templates/error.html:35
+msgid "Fill out an error report below."
+msgstr "Vyplňte chybové hlášení níže."
+
+#: mediadrop/templates/error.html:41
+msgid "Email: (so we can contact you if we find it!)"
+msgstr "E-mail: (abychom Vás mohli kontaktovat)"
+
+#: mediadrop/templates/error.html:45
+msgid "What were you looking for when you got the error?"
+msgstr "Co jste hledali, když se objevila chyba?"
+
+#: mediadrop/templates/error.html:49
+msgid "Submit Error Report"
+msgstr "Předložit zprávu o chybách"
+
+#: mediadrop/templates/helpers.html:33
+#: mediadrop/templates/media/explore.html:76
+#: mediadrop/templates/media/view.html:64
+#: mediadrop/templates/players/html5_or_flash.html:47
+#: mediadrop/templates/players/html5_or_flash.html:49
+msgid "Like"
+msgid_plural "Likes"
+msgstr[0] "Líbí"
+msgstr[1] "Líbí"
+msgstr[2] "Líbí"
+
+#: mediadrop/templates/helpers.html:34
+#: mediadrop/templates/admin/media/update-status-form.html:22
+#: mediadrop/templates/admin/podcasts/edit.html:97
+#: mediadrop/templates/media/explore.html:77
+#: mediadrop/templates/media/view.html:62
+msgid "View"
+msgid_plural "Views"
+msgstr[0] "Zobrazení"
+msgstr[1] "Zobrazení"
+msgstr[2] "Zobrazení"
+
+#: mediadrop/templates/helpers.html:54
+msgid "Page:"
+msgstr "Stránka:"
+
+#: mediadrop/templates/helpers.html:74
+msgid "Show:"
+msgstr "Zobrazení:"
+
+#: mediadrop/templates/helpers.html:76
+#: mediadrop/templates/categories/index.html:26
+#: mediadrop/templates/categories/more.html:24
+#: mediadrop/templates/media/explore.html:32
+#: mediadrop/templates/media/explore.html:100
+msgid "Latest"
+msgstr "Poslední"
+
+#: mediadrop/templates/helpers.html:77
+#: mediadrop/templates/categories/index.html:31
+#: mediadrop/templates/categories/more.html:24
+#: mediadrop/templates/media/explore.html:84
+msgid "Most Popular"
+msgstr "Nejoblíbenější"
+
+#: mediadrop/templates/helpers.html:78
+#: mediadrop/templates/media/explore.html:31
+#: mediadrop/templates/media/explore.html:68
+msgid "Featured"
+msgstr "Doporučené"
+
+#: mediadrop/templates/helpers.html:80
+msgid "Page"
+msgstr "Stránka"
+
+#: mediadrop/templates/helpers.html:80
+msgid "of"
+msgstr "z"
+
+#: mediadrop/templates/helpers.html:86
+#, python-format
+msgid "The %(fieldName)s field accepts some HTML formatting: %(formattingList)s"
+msgstr ""
+
+#: mediadrop/templates/layout.html:33
+msgid "Feeds:"
+msgstr "RSS kanál:"
+
+#: mediadrop/templates/layout.html:39
+msgid "[1:MediaDrop] [2:video platform]"
+msgstr "[1: MediaDrop] [2: video platforma]"
+
+#: mediadrop/templates/login.html:16
+msgid "Log in to"
+msgstr "Přihlásit se do"
+
+#: mediadrop/templates/login.html:40
+msgid "Log in"
+msgstr "Přihlásit se"
+
+#: mediadrop/templates/master.html:70
+msgid "Admin"
+msgstr "Admin"
+
+#: mediadrop/templates/master.html:72 mediadrop/templates/admin/master.html:52
+msgid "Logout"
+msgstr "Odhlásit se"
+
+#: mediadrop/templates/master.html:86
+msgid "Explore"
+msgstr "Prozkoumat"
+
+#: mediadrop/templates/master.html:87 mediadrop/templates/media/index.html:17
+msgid "Media Library"
+msgstr "Knihovna médií"
+
+#: mediadrop/templates/master.html:88 mediadrop/templates/admin/master.html:58
+#: mediadrop/templates/admin/podcasts/index.html:17
+#: mediadrop/templates/admin/podcasts/index.html:24
+msgid "Podcasts"
+msgstr "Podcasty"
+
+#: mediadrop/templates/master.html:94
+msgid "Search"
+msgstr "Hledej"
+
+#: mediadrop/templates/admin/helpers.html:59
+msgid "Moderate comments"
+msgstr "Moderovat komentáře"
+
+#: mediadrop/templates/admin/helpers.html:61
+msgid "Moderate"
+msgstr "Moderovat "
+
+#: mediadrop/templates/admin/helpers.html:62
+#: mediadrop/templates/admin/master.html:59
+#: mediadrop/templates/admin/comments/index.html:20
+#: mediadrop/templates/admin/media/_media-table.html:27
+#: mediadrop/templates/admin/settings/comments.html:16
+#: mediadrop/templates/admin/settings/comments.html:22
+#: mediadrop/templates/admin/settings/master.html:54
+#: mediadrop/templates/comments/_list.html:42
+msgid "Comments"
+msgstr "Komentáře"
+
+#: mediadrop/templates/admin/helpers.html:74
+#: mediadrop/templates/admin/media/_media-table.html:50
+#: mediadrop/templates/admin/media/index.html:117
+#: mediadrop/templates/admin/media/update-status-form.html:88
+msgid "Published"
+msgstr "Zveřejněno"
+
+#: mediadrop/templates/admin/helpers.html:78
+#: mediadrop/templates/admin/media/_media-table.html:47
+#: mediadrop/templates/admin/media/index.html:108
+msgid "Unreviewed"
+msgstr "Nehodnoceno"
+
+#: mediadrop/templates/admin/helpers.html:82
+#: mediadrop/templates/admin/comments/_comment-table.html:39
+msgid "Trash"
+msgstr "Odpad"
+
+#: mediadrop/templates/admin/index.html:17
+#: mediadrop/templates/admin/master.html:50
+msgid "Dashboard"
+msgstr "Řídící panel"
+
+#: mediadrop/templates/admin/index.html:47
+msgid "Awaiting Review"
+msgstr "Čeká na hodnocení"
+
+#: mediadrop/templates/admin/index.html:52
+msgid "Awaiting Encoding"
+msgstr "Čeká na kódování"
+
+#: mediadrop/templates/admin/index.html:57
+msgid "Awaiting Publishing"
+msgstr "Čeká na zveřejnění"
+
+#: mediadrop/templates/admin/index.html:64
+msgid "Get Started"
+msgstr "Začínáme"
+
+#: mediadrop/templates/admin/index.html:66
+#: mediadrop/templates/admin/media/edit.html:16
+#: mediadrop/templates/admin/media/edit.html:161
+#: mediadrop/templates/admin/media/index.html:77
+msgid "Add New Media"
+msgstr "Přidat nové video"
+
+#: mediadrop/templates/admin/index.html:73
+msgid "Recently Published"
+msgstr "Nedávno zveřejněno"
+
+#: mediadrop/templates/admin/master.html:26
+#: mediadrop/templates/admin/master.html:47
+#: mediadrop/templates/admin/master.html:68
+msgid "MediaDrop"
+msgstr "MediaDrop"
+
+#: mediadrop/templates/admin/master.html:51
+msgid "View Site"
+msgstr "Koukni na stránku"
+
+#: mediadrop/templates/admin/master.html:57
+#: mediadrop/templates/admin/categories/index.html:63
+#: mediadrop/templates/admin/media/index.html:18
+#: mediadrop/templates/admin/tags/index.html:60
+msgid "Media"
+msgstr "Videa"
+
+#: mediadrop/templates/admin/master.html:60
+#: mediadrop/templates/admin/users/index.html:17
+#: mediadrop/templates/admin/users/index.html:38
+msgid "Users"
+msgstr "Uživatelé"
+
+#: mediadrop/templates/admin/master.html:62
+#: mediadrop/templates/admin/settings/master.html:36
+msgid "Settings"
+msgstr "Nastavení"
+
+#: mediadrop/templates/admin/master.html:69
+#, fuzzy
+msgid "© 2009-2013 MediaDrop contributors"
+msgstr "© 2009-2013 MediaCore Inc. a přispěvatelé"
+
+#: mediadrop/templates/admin/categories/index.html:38
+#: mediadrop/templates/admin/comments/index.html:36
+#: mediadrop/templates/admin/comments/index.html:48
+#: mediadrop/templates/admin/groups/edit.html:25
+#: mediadrop/templates/admin/groups/index.html:29
+#: mediadrop/templates/admin/media/edit.html:77
+#: mediadrop/templates/admin/media/index.html:33
+#: mediadrop/templates/admin/players/index.html:25
+#: mediadrop/templates/admin/podcasts/edit.html:51
+#: mediadrop/templates/admin/storage/index.html:74
+#: mediadrop/templates/admin/tags/index.html:35
+#: mediadrop/templates/admin/users/edit.html:25
+#: mediadrop/templates/admin/users/index.html:26
+msgid "Confirm Delete"
+msgstr "Potvrdit smazání"
+
+#: mediadrop/templates/admin/categories/index.html:39
+#: mediadrop/templates/admin/comments/index.html:49
+#: mediadrop/templates/admin/media/index.html:34
+#: mediadrop/templates/admin/tags/index.html:36
+#, python-format
+msgid "Are you sure you want to delete these %(num)s items?"
+msgstr "Jste si jisti, že chcete odstranit tyto %(num)s  položky?"
+
+#: mediadrop/templates/admin/categories/index.html:53
+#: mediadrop/templates/admin/categories/index.html:78
+msgid "Add Category"
+msgstr "Přidat kategorii"
+
+#: mediadrop/templates/admin/categories/index.html:54
+#: mediadrop/templates/admin/tags/index.html:51
+msgid "Bulk Delete"
+msgstr "Hromadné smazání"
+
+#: mediadrop/templates/admin/categories/index.html:82
+msgid "Edit Category"
+msgstr "Upravit kategorii"
+
+#: mediadrop/templates/admin/categories/index.html:86
+msgid "Delete Category"
+msgstr "Smazat kategorii"
+
+#: mediadrop/templates/admin/categories/index.html:89
+msgid "Are you sure you want to delete this category [1:and ALL of its children]?"
+msgstr ""
+"Jste si jisti, že chcete smazat tuto kategorii [1: a všechno s ní "
+"související]?"
+
+#: mediadrop/templates/admin/categories/row-form.html:33
+#: mediadrop/templates/admin/comments/_comment-table.html:58
+#: mediadrop/templates/admin/groups/index.html:59
+#: mediadrop/templates/admin/media/edit.html:16
+#: mediadrop/templates/admin/media/edit.html:134
+#: mediadrop/templates/admin/players/index.html:78
+#: mediadrop/templates/admin/podcasts/_podcast-table.html:25
+#: mediadrop/templates/admin/podcasts/edit.html:44
+#: mediadrop/templates/admin/storage/index.html:145
+#: mediadrop/templates/admin/tags/row-form.html:24
+#: mediadrop/templates/admin/users/index.html:61
+#: mediadrop/templates/media/view.html:50
+#: mediadrop/templates/podcasts/view.html:31
+msgid "Edit"
+msgstr "Upravit"
+
+#: mediadrop/templates/admin/comments/_comment-table.html:22
+#: mediadrop/templates/admin/media/_media-table.html:25
+#: mediadrop/templates/admin/players/index.html:47
+#: mediadrop/templates/admin/storage/index.html:119
+msgid "Status"
+msgstr "Stav"
+
+#: mediadrop/templates/admin/comments/_comment-table.html:23
+#: mediadrop/templates/admin/media/_media-table.html:29
+msgid "Author"
+msgstr "Autor"
+
+#: mediadrop/templates/admin/comments/_comment-table.html:25
+msgid "In Response to"
+msgstr "Odpověď na"
+
+#: mediadrop/templates/admin/comments/_comment-table.html:30
+#: mediadrop/templates/admin/groups/index.html:53
+#: mediadrop/templates/admin/media/_media-table.html:36
+#: mediadrop/templates/admin/players/index.html:55
+#: mediadrop/templates/admin/podcasts/_podcast-table.html:20
+#: mediadrop/templates/admin/storage/index.html:128
+#: mediadrop/templates/admin/users/index.html:53
+msgid "None Found"
+msgstr "Nenalezeno"
+
+#: mediadrop/templates/admin/comments/_comment-table.html:37
+msgid "This comment has already been approved for publishing"
+msgstr "Tento komentář byl právě schválen ke zveřejnění."
+
+#: mediadrop/templates/admin/comments/_comment-table.html:38
+msgid "Approve this comment for publishing"
+msgstr "Schválit tento komentář ke zveřejnění"
+
+#: mediadrop/templates/admin/comments/_comment-table.html:38
+msgid "Approve"
+msgstr "Schválit"
+
+#: mediadrop/templates/admin/comments/_comment-table.html:39
+msgid "Delete this comment"
+msgstr "Smazat tento komentář"
+
+#: mediadrop/templates/admin/comments/_comment-table.html:49
+msgid "Submitted on"
+msgstr "Odesláno na"
+
+#: mediadrop/templates/admin/comments/_comment-table.html:56
+msgid "Go to the admin page for this item"
+msgstr "Kvůli této záležitosti jdi na stránku administrátora"
+
+#: mediadrop/templates/admin/comments/index.html:21
+#, python-format
+msgid "Comments for %(media_filter_title)s"
+msgstr "Komentáře k %(media_filter_title)s"
+
+#: mediadrop/templates/admin/comments/index.html:21
+msgid "Comments for"
+msgstr "Komentáře k "
+
+#: mediadrop/templates/admin/comments/index.html:33
+msgid "Edit Text"
+msgstr "Upravit text"
+
+#: mediadrop/templates/admin/comments/index.html:34
+msgid "Cancel Edit"
+msgstr "Zrušit upravování"
+
+#: mediadrop/templates/admin/comments/index.html:39
+#, python-format
+msgid "Are you sure you want to delete %(name)s's comment?"
+msgstr "Jste si jisti, že chcete smazat %(name)s  komentář?"
+
+#: mediadrop/templates/admin/comments/index.html:78
+#, python-format
+msgid "Comments that match '%(search)s'"
+msgstr "Komentáře, které odpovídají ' %(search)s '"
+
+#: mediadrop/templates/admin/comments/index.html:79
+msgid "All Comments"
+msgstr "Všechny komentáře"
+
+#: mediadrop/templates/admin/comments/index.html:80
+#, python-format
+msgid "Comments for %(search)s"
+msgstr "Komentáře k %(search)s"
+
+#: mediadrop/templates/admin/comments/index.html:88
+#: mediadrop/templates/admin/media/index.html:85
+msgid "Publish"
+msgstr "Zveřejnit"
+
+#: mediadrop/templates/admin/comments/index.html:95
+#: mediadrop/templates/admin/media/index.html:92
+msgid "Bulk Actions"
+msgstr "Hromadné akce"
+
+#: mediadrop/templates/admin/groups/edit.html:26
+#: mediadrop/templates/admin/media/edit.html:78
+#: mediadrop/templates/admin/players/index.html:26
+#: mediadrop/templates/admin/podcasts/edit.html:52
+#: mediadrop/templates/admin/storage/index.html:30
+#: mediadrop/templates/admin/tags/index.html:83
+#: mediadrop/templates/admin/users/edit.html:26
+msgid "Are you sure you want to delete this?"
+msgstr "Jste si jisti, že chcete toto hodnocení smazat?"
+
+#: mediadrop/templates/admin/groups/edit.html:37
+msgid "New Group"
+msgstr "Nová skupina"
+
+#: mediadrop/templates/admin/groups/index.html:32
+msgid "Are you sure you want to delete this group?"
+msgstr "Jste si jisti, že chcete smazat tuto skupinu?"
+
+#: mediadrop/templates/admin/groups/index.html:42
+msgid "Add Group"
+msgstr "Přidat skupinu"
+
+#: mediadrop/templates/admin/media/_media-table.html:22
+msgid "Publish Date"
+msgstr "Datum zveřejnění"
+
+#: mediadrop/templates/admin/media/_media-table.html:23
+msgid "Upload Date"
+msgstr "Nahrát datum"
+
+#: mediadrop/templates/admin/media/_media-table.html:24
+#: mediadrop/templates/admin/media/update-status-form.html:33
+msgid "Publish Status"
+msgstr "Zveřejni stav"
+
+#: mediadrop/templates/admin/media/_media-table.html:27
+msgid "Number of Comments"
+msgstr "Počet komentářů"
+
+#: mediadrop/templates/admin/media/_media-table.html:48
+#: mediadrop/templates/admin/media/index.html:111
+msgid "Unencoded"
+msgstr "Nezakódováno"
+
+#: mediadrop/templates/admin/media/_media-table.html:49
+msgid "Draft"
+msgstr "Návrh"
+
+#: mediadrop/templates/admin/media/_media-table.html:51
+msgid "Publishing..."
+msgstr "Zveřejňuji..."
+
+#: mediadrop/templates/admin/media/edit.html:62
+#: mediadrop/templates/admin/podcasts/edit.html:31
+msgid "Saving the file failed. Please try again"
+msgstr "Uložení souboru se nezdařilo. Prosím, zkuste to znovu."
+
+#: mediadrop/templates/admin/media/edit.html:63
+#: mediadrop/templates/admin/podcasts/edit.html:32
+#, python-format
+msgid "Security error occured (%(text)s)"
+msgstr "Objevila se bezpečnostní chyba ( %(text)s )"
+
+#: mediadrop/templates/admin/media/edit.html:64
+#: mediadrop/templates/admin/podcasts/edit.html:33
+#, python-format
+msgid "Error caused a send or load operation to fail (%(text)s)"
+msgstr "Chyba způsobila, že se nepodařilo odeslat nebo nahrát ( %(text)s )"
+
+#: mediadrop/templates/admin/media/edit.html:67
+#: mediadrop/templates/admin/podcasts/edit.html:36
+msgid "File has already been added, duplicates are not allowed"
+msgstr "Soubor již byl přidán, duplikáty nejsou povoleny."
+
+#: mediadrop/templates/admin/media/edit.html:68
+#: mediadrop/templates/admin/podcasts/edit.html:37
+#, python-format
+msgid "File is too small, the minimal file size is %(size)s"
+msgstr "Soubor je příliš malý, minimální velikost souboru je %(size)s."
+
+#: mediadrop/templates/admin/media/edit.html:69
+#: mediadrop/templates/admin/podcasts/edit.html:38
+#, python-format
+msgid "File is too large, the maximum file size is %(size)s"
+msgstr "Soubor je příliš velký, maximální velikost souboru je %(size)s."
+
+#: mediadrop/templates/admin/media/edit.html:70
+#: mediadrop/templates/admin/podcasts/edit.html:39
+#, python-format
+msgid "File could not be added, amount of %(num)s files exceeded"
+msgstr "Soubor nemohl být přidán, počet %(num)s  souborů byl překročen"
+
+#: mediadrop/templates/admin/media/edit.html:71
+#: mediadrop/templates/admin/podcasts/edit.html:40
+#, python-format
+msgid "File is too big, overall filesize of %(size)s exceeded"
+msgstr "Soubor je příliš velký, celková velikost souboru %(size)s byla překročena."
+
+#: mediadrop/templates/admin/media/edit.html:93
+#: mediadrop/templates/admin/podcasts/edit.html:63
+msgid "Upload image"
+msgstr "Nahrát obrázek"
+
+#: mediadrop/templates/admin/media/edit.html:102
+msgid "Are you sure you want to delete this file?"
+msgstr "Jste si jisti, že chcete smazat tento soubor?"
+
+#: mediadrop/templates/admin/media/edit.html:107
+msgid "Upload a file"
+msgstr "Nahrát soubor"
+
+#: mediadrop/templates/admin/media/edit.html:114
+msgid "Failed to add this file. Please try again."
+msgstr "Nepodařilo se přidat tento soubor. Zkuste to prosím znovu."
+
+#: mediadrop/templates/admin/media/edit.html:115
+msgid "Failed to save your change. Please try again."
+msgstr "Nepodařilo se uložit změny. Zkuste to prosím znovu."
+
+#: mediadrop/templates/admin/media/edit.html:116
+msgid "Uploading"
+msgstr "Nahrávání"
+
+#: mediadrop/templates/admin/media/edit.html:117
+msgid "Queued"
+msgstr "Ve frontě"
+
+#: mediadrop/templates/admin/media/edit.html:118
+msgid "Error"
+msgstr "Chyba"
+
+#: mediadrop/templates/admin/media/edit.html:130
+msgid "A connection problem occurred, try again."
+msgstr "Vyskytl se problém se spojením, zkuste to znovu."
+
+#: mediadrop/templates/admin/media/edit.html:131
+msgid "An error has occurred, try again."
+msgstr "Došlo k chybě, zkuste to znovu."
+
+#: mediadrop/templates/admin/media/edit.html:134
+#: mediadrop/templates/admin/media/edit.html:219
+#: mediadrop/templates/admin/podcasts/edit.html:44
+msgid "Hide"
+msgstr "Skrýt"
+
+#: mediadrop/templates/admin/media/edit.html:135
+msgid "Saving"
+msgstr "Ukládání"
+
+#: mediadrop/templates/admin/media/edit.html:136
+msgid "Saved!"
+msgstr "Uloženo!"
+
+#: mediadrop/templates/admin/media/edit.html:137
+msgid "Saving failed. Please try again."
+msgstr "Uložení se nezdařilo. Zkuste to prosím znovu."
+
+#: mediadrop/templates/admin/media/edit.html:138
+msgid "Please correct the highlighted errors and save again."
+msgstr "Opravte prosím označené chyby a uložte znovu."
+
+#: mediadrop/templates/admin/media/edit.html:160
+#: mediadrop/templates/admin/podcasts/edit.html:87
+msgid "Uploaded:"
+msgstr "Nahráno:"
+
+#: mediadrop/templates/admin/media/edit.html:171
+#: mediadrop/templates/admin/storage/index.html:122
+msgid "Files"
+msgstr "Soubory"
+
+#: mediadrop/templates/admin/media/edit.html:172
+msgid "Add & Manage"
+msgstr "Přidat & Správa"
+
+#: mediadrop/templates/admin/media/edit.html:175
+#: mediadrop/templates/admin/media/file-edit-form.html:15
+msgid "View this file"
+msgstr "Zobrazit tento soubor"
+
+#: mediadrop/templates/admin/media/edit.html:189
+#: mediadrop/templates/admin/podcasts/edit.html:102
+msgid "Thumbnail"
+msgstr "Náhled"
+
+#: mediadrop/templates/admin/media/edit.html:192
+#: mediadrop/templates/admin/podcasts/_podcast-table.html:32
+#: mediadrop/templates/admin/podcasts/edit.html:106
+msgid "Thumb"
+msgstr "Palec"
+
+#: mediadrop/templates/admin/media/edit.html:216
+msgid "Manage Files"
+msgstr "Správa souborů"
+
+#: mediadrop/templates/admin/media/edit.html:225
+msgid "File"
+msgstr "Soubor"
+
+#: mediadrop/templates/admin/media/edit.html:226
+msgid "Size"
+msgstr "Velikost"
+
+#: mediadrop/templates/admin/media/edit.html:227
+msgid "Duration"
+msgstr "Doba trvání"
+
+#: mediadrop/templates/admin/media/edit.html:228
+msgid "Bitrate"
+msgstr "Bitrate"
+
+#: mediadrop/templates/admin/media/edit.html:229
+msgid "Dimensions"
+msgstr "Rozměry"
+
+#: mediadrop/templates/admin/media/edit.html:230
+msgid "Type"
+msgstr "Typ"
+
+#: mediadrop/templates/admin/media/file-add-form.html:17
+msgid "OR"
+msgstr "NEBO"
+
+#: mediadrop/templates/admin/media/file-form.html:17
+msgid "or"
+msgstr "nebo"
+
+#: mediadrop/templates/admin/media/index.html:66
+#, python-format
+msgid "Media that matches '%(search)s'"
+msgstr "Video, která odpovídá ' %(search)s '"
+
+#: mediadrop/templates/admin/media/index.html:67
+#, python-format
+msgid "%(podcastTitle)s Episodes"
+msgstr ""
+
+#: mediadrop/templates/admin/media/index.html:68
+#, python-format
+msgid "Media in '%(categoryName)s'"
+msgstr ""
+
+#: mediadrop/templates/admin/media/index.html:69
+#, python-format
+msgid "Media tagged '%(tagName)s'"
+msgstr "Video označené ' %(tagName)s '"
+
+#: mediadrop/templates/admin/media/index.html:70
+msgid "Unreviewed Media"
+msgstr "Nehodnocené video"
+
+#: mediadrop/templates/admin/media/index.html:71
+msgid "Unencoded Media"
+msgstr "Nekódované video"
+
+#: mediadrop/templates/admin/media/index.html:72
+msgid "Draft Media"
+msgstr "Návrh videa"
+
+#: mediadrop/templates/admin/media/index.html:73
+msgid "Published Media"
+msgstr "Zveřejněné video"
+
+#: mediadrop/templates/admin/media/index.html:74
+#: mediadrop/templates/admin/media/index.html:105
+msgid "All Media"
+msgstr "Všechna videa"
+
+#: mediadrop/templates/admin/media/index.html:84
+msgid "Review"
+msgstr "Hodnocení"
+
+#: mediadrop/templates/admin/media/index.html:114
+msgid "Drafts"
+msgstr "Návrhy"
+
+#: mediadrop/templates/admin/media/index.html:124
+msgid "Filters"
+msgstr "Filtry"
+
+#: mediadrop/templates/admin/media/update-status-form.html:20
+msgid "View this media where it is published"
+msgstr "Zobrazit toto video z místa, kde je zveřejněno"
+
+#: mediadrop/templates/admin/media/update-status-form.html:25
+msgid "View this media where it will be published"
+msgstr "Zobrazit toto video z místa, kde bude zveřejněno"
+
+#: mediadrop/templates/admin/media/update-status-form.html:25
+msgid "Preview"
+msgstr "Ukázka"
+
+#: mediadrop/templates/admin/media/update-status-form.html:42
+msgid "You must add a file and save before review can begin."
+msgstr "Předtím než začnete hodnotit, přidejte soubor a vše uložte."
+
+#: mediadrop/templates/admin/media/update-status-form.html:46
+msgid "Review Pending"
+msgstr "Hodnocení nevyřešeno"
+
+#: mediadrop/templates/admin/media/update-status-form.html:47
+#: mediadrop/templates/admin/media/update-status-form.html:73
+#: mediadrop/templates/admin/media/update-status-form.html:86
+msgid "Encoding Complete"
+msgstr "Kódování kompletní"
+
+#: mediadrop/templates/admin/media/update-status-form.html:47
+#: mediadrop/templates/admin/media/update-status-form.html:63
+msgid "Encoding Pending"
+msgstr "Kódování nevyřešeno"
+
+#: mediadrop/templates/admin/media/update-status-form.html:48
+#: mediadrop/templates/admin/media/update-status-form.html:64
+#: mediadrop/templates/admin/media/update-status-form.html:74
+#: mediadrop/templates/admin/media/update-status-form.html:87
+msgid "Click to change the publish date"
+msgstr "Klikněte pro změnu datumu zveřejnění"
+
+#: mediadrop/templates/admin/media/update-status-form.html:48
+#: mediadrop/templates/admin/media/update-status-form.html:64
+#: mediadrop/templates/admin/media/update-status-form.html:74
+#: mediadrop/templates/admin/media/update-status-form.html:88
+msgid "Publishing"
+msgstr "Zveřejňování"
+
+#: mediadrop/templates/admin/media/update-status-form.html:49
+#: mediadrop/templates/admin/media/update-status-form.html:65
+#: mediadrop/templates/admin/media/update-status-form.html:75
+#: mediadrop/templates/admin/media/update-status-form.html:89
+msgid "Pending"
+msgstr "Nevyřešeno"
+
+#: mediadrop/templates/admin/media/update-status-form.html:55
+#: mediadrop/templates/admin/media/update-status-form.html:62
+#: mediadrop/templates/admin/media/update-status-form.html:72
+#: mediadrop/templates/admin/media/update-status-form.html:85
+msgid "Review Complete"
+msgstr "Hodnocení dokončeno"
+
+#: mediadrop/templates/admin/media/update-status-form.html:57
+msgid "Review can only be completed after a file is added."
+msgstr "Hodnocení může být dokončeno pouze po přidání souboru."
+
+#: mediadrop/templates/admin/media/update-status-form.html:68
+msgid "Encoding will be complete when an acceptable file is added."
+msgstr "Kódování bude dokončeno po přidání vhodného souboru."
+
+#: mediadrop/templates/admin/media/update-status-form.html:80
+msgid "Publish Now"
+msgstr "Zveřejnit nyní"
+
+#: mediadrop/templates/admin/media/update-status-form.html:94
+msgid "Click to change the expiration date"
+msgstr "Klikněte pro změnu datumu konce platnosti"
+
+#: mediadrop/templates/admin/media/update-status-form.html:94
+msgid "Expires"
+msgstr "Konec platnosti"
+
+#: mediadrop/templates/admin/media/update-status-form.html:95
+msgid "never"
+msgstr "nikdy"
+
+#: mediadrop/templates/admin/players/index.html:16
+#: mediadrop/templates/admin/players/index.html:40
+#: mediadrop/templates/admin/settings/master.html:63
+msgid "Players"
+msgstr "Přehrávače"
+
+#: mediadrop/templates/admin/players/index.html:26
+msgid "By deleting this player you will lose all settings related to it."
+msgstr "Odstraněním těchto přehrávačů ztratíte všechna nastavení s tím spojená."
+
+#: mediadrop/templates/admin/players/index.html:49
+msgid "Priority"
+msgstr "Přednostní"
+
+#: mediadrop/templates/admin/players/index.html:71
+msgid "Up"
+msgstr "Nahoru"
+
+#: mediadrop/templates/admin/players/index.html:72
+msgid "Down"
+msgstr "Dolů"
+
+#: mediadrop/templates/admin/podcasts/_podcast-table.html:39
+msgid "Category:"
+msgstr "Kategorie:"
+
+#: mediadrop/templates/admin/podcasts/_podcast-table.html:41
+msgid "Author:"
+msgstr "Autor:"
+
+#: mediadrop/templates/admin/podcasts/_podcast-table.html:45
+msgid "Explicit"
+msgstr "Jednoznačný"
+
+#: mediadrop/templates/admin/podcasts/_podcast-table.html:51
+msgid "Add episode"
+msgstr "Přidat epizodu"
+
+#: mediadrop/templates/admin/podcasts/_podcast-table.html:53
+#, python-format
+msgid "View First Episode %(num)s"
+msgid_plural "View All %(num)s Episodes"
+msgstr[0] "Zobrazit první epizodu %(num)s  "
+msgstr[1] "Zobrazit pár epizod %(num)s"
+msgstr[2] "Zobrazit všechny %(num)s  epizody"
+
+#: mediadrop/templates/admin/podcasts/edit.html:16
+msgid "Edit Podcast"
+msgstr "Upravit Podcast"
+
+#: mediadrop/templates/admin/podcasts/edit.html:16
+#: mediadrop/templates/admin/podcasts/edit.html:88
+msgid "New Podcast"
+msgstr "Nový Podcast"
+
+#: mediadrop/templates/admin/podcasts/edit.html:97
+msgid "View this podcast where it is published"
+msgstr "Zobrazit tento podcast na místě, kde je zveřejněn"
+
+#: mediadrop/templates/admin/podcasts/feed_fieldset.html:39
+msgid "Get an iTunes URL"
+msgstr "Získejte iTunes URL"
+
+#: mediadrop/templates/admin/podcasts/feed_fieldset.html:40
+msgid "Get a Feedburner URL"
+msgstr "Získejte Feedburner URL"
+
+#: mediadrop/templates/admin/podcasts/index.html:25
+msgid "Add Podcast"
+msgstr "Přidat Podcast"
+
+#: mediadrop/templates/admin/settings/advertising.html:17
+#: mediadrop/templates/admin/settings/advertising.html:23
+#: mediadrop/templates/admin/settings/master.html:42
+msgid "Advertising"
+msgstr "Reklama"
+
+#: mediadrop/templates/admin/settings/analytics.html:17
+#: mediadrop/templates/admin/settings/analytics.html:23
+#: mediadrop/templates/admin/settings/master.html:45
+msgid "Analytics"
+msgstr "Analytika"
+
+#: mediadrop/templates/admin/settings/api.html:16
+#: mediadrop/templates/admin/settings/api.html:26
+#: mediadrop/templates/admin/settings/master.html:57
+msgid "Data API"
+msgstr "Data API"
+
+#: mediadrop/templates/admin/settings/api.html:19
+msgid "Generate"
+msgstr "Generovat"
+
+#: mediadrop/templates/admin/settings/appearance.html:17
+#: mediadrop/templates/admin/settings/appearance.html:38
+#: mediadrop/templates/admin/settings/master.html:48
+msgid "Appearance"
+msgstr "Vzhled"
+
+#: mediadrop/templates/admin/settings/appearance.html:26
+msgid "Confirm Reset"
+msgstr "Potvrdit Reset"
+
+#: mediadrop/templates/admin/settings/appearance.html:27
+msgid "Are you sure you want to reset your settings to the default?"
+msgstr "Jste si jisti, že chcete obnovit nastavení na výchozí hodnoty?"
+
+#: mediadrop/templates/admin/settings/master.html:60
+msgid "Notifications"
+msgstr "Upozornění"
+
+#: mediadrop/templates/admin/settings/master.html:66
+#: mediadrop/templates/admin/settings/popularity.html:16
+#: mediadrop/templates/admin/settings/popularity.html:22
+msgid "Popularity"
+msgstr "Popularita"
+
+#: mediadrop/templates/admin/settings/master.html:69
+#: mediadrop/templates/admin/settings/sitemaps.html:17
+#: mediadrop/templates/admin/settings/sitemaps.html:23
+msgid "RSS and Sitemaps"
+msgstr "RSS a Sitemaps"
+
+#: mediadrop/templates/admin/settings/master.html:72
+#: mediadrop/templates/admin/storage/index.html:16
+#: mediadrop/templates/admin/storage/index.html:112
+msgid "Storage Engines"
+msgstr "Storage Engines"
+
+#: mediadrop/templates/admin/settings/master.html:83
+msgid "Plugins"
+msgstr "Pluginy"
+
+#: mediadrop/templates/admin/settings/notifications.html:16
+#: mediadrop/templates/admin/settings/notifications.html:22
+msgid "Notification Emails"
+msgstr "Ohlášení e-mailem"
+
+#: mediadrop/templates/admin/storage/edit.html:23
+msgid "New Storage Engine"
+msgstr "Nový Storage Engine"
+
+#: mediadrop/templates/admin/storage/index.html:25
+msgid "WARNING:"
+msgstr "VAROVÁNÍ:"
+
+#: mediadrop/templates/admin/storage/index.html:26
+#, python-format
+msgid "Deleting this Storage Engine (%(name)s) will:"
+msgstr "Odstranění tohoto Storage Engine ( %(name)s ) způsobí:"
+
+#: mediadrop/templates/admin/storage/index.html:27
+#, python-format
+msgid ""
+"Permanently delete all of the %(num)s media files stored by this Storage "
+"Engine."
+msgstr ""
+"Trvale odstranit všechny %(num)s  mediální soubory uložené v tomto "
+"Storage Engine."
+
+#: mediadrop/templates/admin/storage/index.html:28
+msgid "Permanently erase its settings."
+msgstr "Trvale vymazat jeho nastavení."
+
+#: mediadrop/templates/admin/storage/index.html:29
+msgid ""
+"An alternative to deleting is disabling. Disabling a Storage Engine will "
+"simply prevent its use for files added from now on."
+msgstr ""
+"Alternativou k odstranění je vyřazení. Vyřazení Storage Engine jednoduše "
+"zabrání jeho využití pro soubory přidané od nynějška."
+
+#: mediadrop/templates/admin/storage/index.html:92
+msgid "Disable"
+msgstr "Zakázat"
+
+#: mediadrop/templates/admin/storage/index.html:113
+#: mediadrop/templates/admin/storage/index.html:153
+msgid "Add New Engine"
+msgstr "Přidat New Engine"
+
+#: mediadrop/templates/admin/storage/index.html:121
+msgid "Disk Usage"
+msgstr "Využití disku"
+
+#: mediadrop/templates/admin/storage/index.html:155
+msgid "Please select what type of storage engine you would like to add:"
+msgstr "Prosím zvolte, jaký typ Storage Engine byste chtěli přidat:"
+
+#: mediadrop/templates/admin/tags/index.html:50
+#: mediadrop/templates/admin/tags/index.html:72
+msgid "Add Tag"
+msgstr "Přidat tag"
+
+#: mediadrop/templates/admin/tags/index.html:76
+msgid "Edit Tag"
+msgstr "Upravit tag"
+
+#: mediadrop/templates/admin/tags/index.html:80
+msgid "Delete Tag"
+msgstr "Smazat tag"
+
+#: mediadrop/templates/admin/users/edit.html:37
+msgid "New User"
+msgstr "Nový uživatel"
+
+#: mediadrop/templates/admin/users/index.html:29
+msgid "Are you sure you want to delete this user?"
+msgstr "Jste si jisti, že chcete smazat tohoto uživatele?"
+
+#: mediadrop/templates/admin/users/index.html:39
+msgid "Add User"
+msgstr "Přidat uživatele"
+
+#: mediadrop/templates/admin/users/index.html:46
+msgid "Email"
+msgstr "E-mail"
+
+#: mediadrop/templates/admin/users/index.html:47
+msgid "Group"
+msgstr "Skupina"
+
+#: mediadrop/templates/categories/index.html:28
+#: mediadrop/templates/media/explore.html:102
+msgid "More new media"
+msgstr ""
+
+#: mediadrop/templates/categories/index.html:28
+#: mediadrop/templates/categories/index.html:33
+#: mediadrop/templates/media/explore.html:87
+#: mediadrop/templates/media/explore.html:102
+msgid "View More"
+msgstr "Zobrazit více"
+
+#: mediadrop/templates/categories/index.html:33
+#: mediadrop/templates/media/explore.html:87
+msgid "More popular media"
+msgstr ""
+
+#: mediadrop/templates/categories/index.html:35
+#: mediadrop/templates/categories/more.html:26
+msgid "There is no media in this category."
+msgstr "V této kategorii není žádné video."
+
+#: mediadrop/templates/categories/layout.html:27
+msgid "Choose a Category:"
+msgstr "Vyberte kategorii:"
+
+#: mediadrop/templates/comments/_list.html:31
+#, python-format
+msgid "said on %(datetime)s…"
+msgstr ""
+
+#: mediadrop/templates/comments/_list.html:45
+msgid "No comments have been posted yet."
+msgstr "Ještě nebyly přidány žádné komentáře."
+
+#: mediadrop/templates/comments/_list.html:59
+msgid "Write a comment"
+msgstr "Napsat komentář"
+
+#: mediadrop/templates/comments/_list.html:76
+msgid "Email Address (will never be published)"
+msgstr "E-mailová adresa (nebude nikdy zveřejněna)"
+
+#: mediadrop/templates/comments/_list.html:94
+msgid "Submit Comment"
+msgstr "Odeslat komentář"
+
+#: mediadrop/templates/media/explore.html:92
+#, python-format
+msgid ""
+"As soon as there are more than %(num)s published videos in the library, "
+"the most popular videos will be listed here."
+msgstr ""
+"Jakmile bude v knihovně zveřejněno více než %(num)s  videí, "
+"nejoblíbenější videa budou uvedena zde."
+
+#: mediadrop/templates/media/explore.html:93
+msgid "Why not add a few more?"
+msgstr "Proč nepřidat ještě pár?"
+
+#: mediadrop/templates/media/index.html:17
+#, python-format
+msgid "Search: \"%s\""
+msgstr ""
+
+#: mediadrop/templates/media/index.html:25
+#, python-format
+msgid "Showing %(result_count)s results for '%(search_query)s'"
+msgstr ""
+
+#: mediadrop/templates/media/index.html:26
+#, python-format
+msgid "Showing %(result_count)s results tagged with '%(tag_name)s'"
+msgstr "Ukázat %(result_count)s výsledky oštítkované '%(tag_name)s'"
+
+#: mediadrop/templates/media/index.html:27
+#, python-format
+msgid "All %(result_count)s Media"
+msgstr "Všechny %(result_count)s Média"
+
+#: mediadrop/templates/media/tags.html:20
+msgid "All Tags"
+msgstr "Všechny tagy"
+
+#: mediadrop/templates/media/view.html:54
+msgid "(unpublished)"
+msgstr "(nezveřejněné)"
+
+#: mediadrop/templates/media/view.html:55
+#, python-format
+msgid "by %(authorName)s"
+msgstr "od %(authorName)s"
+
+#: mediadrop/templates/media/view.html:65
+#: mediadrop/templates/players/html5_or_flash.html:61
+msgid "Dislike"
+msgid_plural "Dislikes"
+msgstr[0] "Neoblíbený"
+msgstr[1] "Neoblíbených"
+msgstr[2] "Neoblíbené"
+
+#: mediadrop/templates/media/view.html:87
+msgid "Related Podcast"
+msgstr "Související Podcast"
+
+#: mediadrop/templates/media/view.html:97
+msgid "Podcast Episodes"
+msgstr "Podcast Epizody"
+
+#: mediadrop/templates/media/view.html:100
+msgid "Episode"
+msgid_plural "Episodes"
+msgstr[0] "Epizoda"
+msgstr[1] "Epizody"
+msgstr[2] "Epizody"
+
+#: mediadrop/templates/media/view.html:114
+msgid "Related Media"
+msgstr "Související videa"
+
+#: mediadrop/templates/media/view.html:122
+msgid "This is not listed under any categories."
+msgstr "Toto není uvedeno v žádné kategorii."
+
+#: mediadrop/templates/media/view.html:126
+msgid "See All Tags"
+msgstr "Zobrazit všechny tagy"
+
+#: mediadrop/templates/media/view.html:130
+msgid "This does not have any associated tags."
+msgstr "Toto nemá žádné související tagy."
+
+#: mediadrop/templates/players/html5_or_flash.html:70
+msgid "Pop out a new player window"
+msgstr "Zobrazit nové okno přehrávače"
+
+#: mediadrop/templates/players/html5_or_flash.html:70
+msgid "Pop Out"
+msgstr "Zobrazit"
+
+#: mediadrop/templates/players/html5_or_flash.html:71
+msgid "Shrink"
+msgstr "Shodit"
+
+#: mediadrop/templates/players/html5_or_flash.html:71
+msgid "Expand"
+msgstr "Rozšířit"
+
+#: mediadrop/templates/players/html5_or_flash.html:73
+msgid "Share"
+msgstr "Sdílet"
+
+#: mediadrop/templates/players/html5_or_flash.html:77
+msgid "Permalink:"
+msgstr "Trvalý odkaz:"
+
+#: mediadrop/templates/players/html5_or_flash.html:80
+msgid "Share by email"
+msgstr "Sdílet e-mailem"
+
+#: mediadrop/templates/players/html5_or_flash.html:80
+msgid "Share by Email"
+msgstr "Sdílet E-mailem"
+
+#: mediadrop/templates/players/html5_or_flash.html:81
+msgid "Share on Facebook"
+msgstr "Sdílet na Facebooku"
+
+#: mediadrop/templates/players/html5_or_flash.html:82
+msgid "Share on Twitter"
+msgstr "Sdílet na Twitteru"
+
+#: mediadrop/templates/players/html5_or_flash.html:87
+msgid "Embed"
+msgstr "Vložit"
+
+#: mediadrop/templates/players/html5_or_flash.html:91
+msgid "Embeddable Player HTML:"
+msgstr "Přehrávač ke vložení HTML:"
+
+#: mediadrop/templates/players/html5_or_flash.html:97
+msgid "Download"
+msgstr "Stáhnout"
+
+#: mediadrop/templates/podcasts/index.html:23
+msgid "All Podcasts"
+msgstr "Všechny podcasty"
+
+#: mediadrop/templates/podcasts/index.html:34
+#: mediadrop/templates/podcasts/view.html:35
+msgid "Add to iTunes"
+msgstr "Přidat do iTunes"
+
+#: mediadrop/templates/podcasts/index.html:35
+#: mediadrop/templates/podcasts/view.html:36
+msgid "Subscribe via RSS"
+msgstr "Odebírat přes RSS"
+
+#: mediadrop/templates/podcasts/index.html:38
+msgid "Latest Episodes"
+msgstr "Poslední epizody"
+
+#: mediadrop/templates/podcasts/index.html:45
+msgid "Browse all episodes"
+msgstr "Prohlížet všechny epizody"
+
+#: mediadrop/templates/podcasts/view.html:42
+#, python-format
+msgid "%(result_count)s Episodes"
+msgid_plural "All %(result_count)s Episodes"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: mediadrop/templates/upload/failure.html:17
+#: mediadrop/templates/upload/success.html:17
+msgid "Upload Videos"
+msgstr "Nahrát videa"
+
+#: mediadrop/templates/upload/failure.html:22
+msgid "Upload Error"
+msgstr "Chyba při nahrávání"
+
+#: mediadrop/templates/upload/failure.html:26
+msgid ""
+"During your upload, something went wrong, but don't worry. The engineers "
+"and gnomes have been automagically notified and we're already on our way "
+"to resolving your issue."
+msgstr ""
+"Během nahrávání se něco pokazilo, ale nebojte se. Inženýři a skřítci byli"
+" automaticky uvědoměni a jsme již na cestě k řešení problému."
+
+#: mediadrop/templates/upload/failure.html:28
+msgid "Something you can check:"
+msgstr "Něco, co můžete ještě zkouknout:"
+
+#: mediadrop/templates/upload/failure.html:30
+#, python-format
+msgid "Is the file under %(maxUploadSize)s Megabytes in size?"
+msgstr "Má soubor v %(maxUploadSize)s  megabytů?"
+
+#: mediadrop/templates/upload/failure.html:33
+msgid "Try Uploading Again"
+msgstr "Zkuste nahrávání znovu"
+
+#: mediadrop/templates/upload/form.html:52
+msgid "Choose a file to upload"
+msgstr "Vyberte soubor k nahrání"
+
+#: mediadrop/templates/upload/index.html:45
+msgid "Problems?"
+msgstr "Problémy?"
+
+#: mediadrop/templates/upload/index.html:46
+msgid "If you have problems uploading or have some questions, please email us at"
+msgstr "Máte-li problémy při nahrávání nebo máte nějaké dotazy, napište nám na"
+
+#: mediadrop/templates/upload/success.html:23
+msgid "Upload Successful"
+msgstr "Nahrávání bylo úspěšné"
+
+#: mediadrop/templates/upload/success.html:27
+msgid "Awesome, your upload was successful!"
+msgstr "Úžasné, Vaše nahrávání bylo úspěšné!"
+
+#: mediadrop/templates/upload/success.html:28
+msgid ""
+"Your submission is awaiting review by a moderator and will be posted "
+"shortly."
+msgstr "Váš příspěvek čeká na kontrolu moderátorem a bude zveřejněn v brzké době."
+
+#: mediadrop/templates/upload/success.html:29
+msgid ""
+"You will be automatically redirected back to the [1:Media Library] in a "
+"few seconds. Hang tight."
+msgstr ""
+"Budete automaticky přesměrováni zpět do [1: Knihovna médií] během "
+"několika vteřin. Vydržte."
+
+#: mediadrop/validation/uri_validator.py:21
+msgid "That is not a valid URL."
+msgstr "Toto není platná URL."
+

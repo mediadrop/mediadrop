@@ -3,8 +3,8 @@
 # DESCRIPTION
 # Strips colour profile information, and performs optimal data compression on
 # all PNG images in the directories:
-#     mediacore/public/images
-#     mediacore/public/admin/images
+#     mediadrop/public/images
+#     mediadrop/public/admin/images
 #
 # DEPENDENCIES
 # This script depends on the common unix utilities:
@@ -14,7 +14,7 @@
 #                   http://pmt.sourceforge.net/pngcrush/
 
 pushd `dirname $0` > /dev/null
-	pushd ../mediacore/public > /dev/null
+	pushd ../mediadrop/public > /dev/null
 		for x in `find images admin/images -iname "*.png"`;
 		do
 			pngcrush -brute -rem gAMA -rem cHRM -rem iCCP -rem sRGB "$x" "$x.crsh";

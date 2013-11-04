@@ -1,6 +1,6 @@
 #!/usr/bin/env python2.5
 # -*- coding: utf-8 -*-
-from mediacore.lib.cli_commands import LoadAppCommand, load_app
+from mediadrop.lib.cli_commands import LoadAppCommand, load_app
 
 _script_name = "Batch Script Template"
 _script_description = """Use this script as a model for creating new batch scripts for MediaDrop."""

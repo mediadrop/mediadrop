@@ -7,7 +7,7 @@ Categorization
 Tags
 ----
 
-.. automodule:: mediacore.model.tags
+.. automodule:: mediadrop.model.tags
 
 .. autoclass:: Tag
    :members:
@@ -20,7 +20,7 @@ Tags
 Categories
 ----------
 
-.. automodule:: mediacore.model.categories
+.. automodule:: mediadrop.model.categories
 
 .. autoclass:: Category
    :members:

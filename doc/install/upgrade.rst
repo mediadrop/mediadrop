@@ -159,10 +159,10 @@ If you already had MediaDrop deployed using mod_wsgi (:ref:`install_apache-wsgi`
 or mod_fastcgi (:ref:`install_apache-fastcgi`), you'll want to re-deploy using
 the new installation. In particular, take note of changes to the deployment
 configurations (e.g. Apache configuration), changed deployment scripts 
-(e.g. `mediacore.wsgi`, `mediacore.fcgi`) and required file permissions.
+(e.g. `mediadrop.wsgi`, `mediadrop.fcgi`) and required file permissions.
 
 If you didn't separate source code and data in your previous version of 
-MediaDrop, you will need to adapt also the paths in your `mediacore.wsgi`
+MediaDrop, you will need to adapt also the paths in your `mediadrop.wsgi`
 script (if you are using mod_wsgi).
 
 If you recreated a new virtualenv in step 1 you also have to re-install any

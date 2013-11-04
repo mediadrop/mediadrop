@@ -25,8 +25,8 @@ Template Variables
 Controllers define which templates are rendered and what variables to pass into
 it. To find out what variables are passed, look up the returns of the
 controller action in question.  If you're editing the template
-``mediacore.templates.media.view`` look up the
-:attr:`mediacore.controllers.media.MediaController.view` action. In nearly all
+``mediadrop.templates.media.view`` look up the
+:attr:`mediadrop.controllers.media.MediaController.view` action. In nearly all
 instances the naming matches one-to-one.
 
 

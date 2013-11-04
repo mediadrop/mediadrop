@@ -1,0 +1,26 @@
+<!--!
+This file is a part of MediaDrop (http://www.mediadrop.net),
+Copyright 2009-2013 MediaDrop contributors
+For the exact contribution history, see the git revision log.
+The source code contained in this file is licensed under the GPLv3 or
+(at your option) any later version.
+See LICENSE.txt in the main project directory, for more information.
+-->
+<!--! XXX: The DOM created below is mimicked in .../mediadrop/public/admin/scripts/media.js::FileManager::_createQueueRow -->
+<tr xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:py="http://genshi.edgewall.org/"
+    id="file-${file.id}"
+	class="${file.type}">
+	<td headers="thf-name">
+		<a class="file-name" href="${h.best_link_uri(file)}"
+		   title="View this file">
+		   ${h.wrap_long_words(file.display_name)}
+		</a>
+	</td>
+	<td headers="thf-size">${h.pretty_file_size(file.size)}</td>
+	<td headers="thf-duration" py:with="field = children['duration']"><div py:content="field.display(value_for(field) or file.media.duration, **args_for(field))" /></td>
+	<td headers="thf-bitrate" py:with="field = children['bitrate']"><div py:content="field.display(value_for(field) or file.bitrate, **args_for(field))" /></td>
+	<td headers="thf-dimensions" py:with="field = children['width_height']"><div py:content="field.display(value_for(field) or (file.width, file.height), **args_for(field))" /></td>
+	<td headers="thf-type" py:with="field = children['file_type']" py:content="field.display(value_for(field) or file.type, **args_for(field))" />
+	<td headers="thf-delete" py:with="field = children['delete']" py:content="field.display(value_for(field), **args_for(field))" />
+</tr>

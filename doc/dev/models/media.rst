@@ -4,7 +4,7 @@
 Media
 =====
 
-.. automodule:: mediacore.model.media
+.. automodule:: mediadrop.model.media
 
 Mapped Classes
 --------------

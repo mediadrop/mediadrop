@@ -6,7 +6,7 @@ Plugins API
 
 As of version 0.9.0, MediaDrop defines methods for hooking into events
 and for creating extra functionality. A simple plugin might add a new
-:class:`mediacore.lib.StorageEngine`. A more complex one might define a new set
+:class:`mediadrop.lib.StorageEngine`. A more complex one might define a new set
 of models or a new controller and use the Events system and extra templates to
 extend the existing actions of MediaDrop to add completely new functionality.
 

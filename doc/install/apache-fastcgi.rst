@@ -30,13 +30,13 @@ stage you already have three, and the remaining ones are very easy to set up.
 ``.htaccess``
    tells Apache which requests to send to our FastCGI script
 
-``mediacore.fcgi``
+``mediadrop.fcgi``
    the FastCGI script, uses flup to run MediaDrop
 
 ``flup``
    provides a WSGI interface for MediaDrop to get data from Apache
 
-``mediacore``
+``mediadrop``
    the reason we're here!
 
 Instructions
@@ -68,8 +68,8 @@ First, install the ``flup`` Python package:
    easy_install flup
 
 Second, create a directory named ``my_media`` inside your website's document
-root. Copy ``.htaccess`` and ``mediacore.fcgi`` from 
-``/path/to/mediacore_install/deployment-scripts/mod_fastcgi`` into the new 
+root. Copy ``.htaccess`` and ``mediadrop.fcgi`` from 
+``/path/to/mediadrop_install/deployment-scripts/mod_fastcgi`` into the new 
 ``my_media`` directory.
 
 .. sourcecode:: bash
@@ -79,8 +79,8 @@ root. Copy ``.htaccess`` and ``mediacore.fcgi`` from
    mkdir my_media
 
    # Copy the deployment files
-   cp /path/to/mediacore_install/deployment-scripts/mod_fastcgi/mediacore.fcgi ./my_media/
-   cp /path/to/mediacore_install/deployment-scripts/mod_fastcgi/.htaccess ./my_media/
+   cp /path/to/mediadrop_install/deployment-scripts/mod_fastcgi/mediadrop.fcgi ./my_media/
+   cp /path/to/mediadrop_install/deployment-scripts/mod_fastcgi/.htaccess ./my_media/
 
 Third, create symbolic links (symlinks) to the ``public`` and the ``data``
 directory from your MediaDrop installation:
@@ -88,12 +88,12 @@ directory from your MediaDrop installation:
 .. sourcecode:: bash
 
    # Create a symlink to the public directory
-   ln -sf /path/to/mediacore_install/mediacore/public ./my_media/public
+   ln -sf /path/to/mediadrop_install/mediadrop/public ./my_media/public
 
    # Create a symlink to the data directory
    ln -sf /path/to/data ./my_media/data
 
-Fourth, you'll need to edit the paths in ``my_media/mediacore.fcgi`` to point
+Fourth, you'll need to edit the paths in ``my_media/mediadrop.fcgi`` to point
 to your own MediaDrop installation and virtual environment. The **four (4)**
 lines you need to edit are at the top of the file, and look like this:
 
@@ -118,7 +118,7 @@ Testing the Installation
 ------------------------
 
 If you don't see MediaDrop running on ``http://site.example/my_media`` you 
-can run ``./my_media/mediacore.fcgi`` on the command line. If you see a lot 
+can run ``./my_media/mediadrop.fcgi`` on the command line. If you see a lot 
 of HTML output, the installation itself is good but there is a problem with your
 Apache configuration or permission setup. A Python traceback means that 
 MediaDrop itself is not correctly installed but the problem should be easy

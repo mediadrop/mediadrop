@@ -1,0 +1,2595 @@
+# Italian translations for MediaDrop.
+# Copyright (C) 2013 ORGANIZATION
+# This file is distributed under the same license as the MediaDrop.
+#
+# Translators:
+# algobyte <algobyte@hotmail.com>, 2011-2012
+# Jan-Erik Finlander <jefinlander@gmail.com>, 2011
+# Marco Mariani <birbag@gmail.com>, 2012
+# Valerio Minetti <valerio.minetti@gmail.com>, 2013
+msgid ""
+msgstr ""
+"Project-Id-Version: MediaCore Video Platform\n"
+"Report-Msgid-Bugs-To: http://github.com/mediadrop/mediadrop-"
+"community/issues\n"
+"POT-Creation-Date: 2013-10-25 12:04+0200\n"
+"PO-Revision-Date: 2013-05-17 12:33+0000\n"
+"Last-Translator: Valerio Minetti <valerio.minetti@gmail.com>\n"
+"Language-Team: it <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 0.9.6\n"
+
+#: mediadrop/websetup.py:153
+msgid ""
+"Upload your media using the form below. We'll review it and get back to "
+"you."
+msgstr ""
+"Carica il tuo video usando il modulo sottostante. Lo controlleremo e ti "
+"sarà rispedito."
+
+#: mediadrop/controllers/categories.py:67
+#: mediadrop/templates/categories/more.html:19
+#, python-format
+msgid "Latest media in %s"
+msgstr "Ultimi media in %s"
+
+#: mediadrop/controllers/errors.py:55
+msgid "We're sorry but we weren't able to process this request."
+msgstr "Siamo spiacenti ma non è stato possibile processare la richiesta."
+
+#: mediadrop/controllers/login.py:39
+msgid "Invalid username or password."
+msgstr "Utente o Password errati"
+
+#: mediadrop/controllers/media.py:89 mediadrop/controllers/media.py:149
+#: mediadrop/templates/media/index.html:18
+msgid "Latest RSS"
+msgstr "Ultime RSS"
+
+#: mediadrop/controllers/media.py:93
+#, fuzzy
+msgid "Featured RSS"
+msgstr "In primo piano"
+
+#: mediadrop/controllers/media.py:144
+msgid "Sitemap XML"
+msgstr "Mappa del sito XML"
+
+#: mediadrop/controllers/media.py:145
+msgid "Sitemap RSS"
+msgstr "Mappa del sito RSS"
+
+#: mediadrop/controllers/media.py:315
+msgid "Your comment has been rejected."
+msgstr "Il tuo commento è stato rifiutato."
+
+#: mediadrop/controllers/media.py:337
+msgid ""
+"Thank you for your comment! We will post it just as soon as a moderator "
+"approves it."
+msgstr ""
+"Grazie per il tuo commento! Lo pubblicheremo appena un moderatore lo avrà"
+" approvato."
+
+#: mediadrop/controllers/admin/media.py:385
+#, python-format
+msgid "File \"%s\" does not exist."
+msgstr "Il file \"%s\" non esiste."
+
+#: mediadrop/controllers/admin/media.py:408
+msgid "No action to perform."
+msgstr "Nessuna azione da intraprendere."
+
+#: mediadrop/controllers/admin/media.py:558
+#: mediadrop/controllers/admin/podcasts.py:206
+msgid "Permission denied, cannot write file"
+msgstr "Permesso negato, non posso scrivere il file"
+
+#: mediadrop/controllers/admin/media.py:560
+#, python-format
+msgid "Unsupported image type: %s"
+msgstr "Tipo di immagine non supportato: %s"
+
+#: mediadrop/controllers/admin/media.py:563
+#: mediadrop/controllers/admin/podcasts.py:211
+msgid "Interlaced PNGs are not supported."
+msgstr "I PNG interlacciati non sono supportati."
+
+#: mediadrop/controllers/admin/podcasts.py:91
+msgid "Save the podcast to get your feed URL"
+msgstr "Salva il podcast per ottenere l'URL del feed"
+
+#: mediadrop/controllers/admin/podcasts.py:208
+#, python-format
+msgid "Unsupport image type: %s"
+msgstr "Tipo di immagine non supportato: %s"
+
+#: mediadrop/forms/__init__.py:212
+msgid "The portion of the email address before the @ is invalid"
+msgstr "La parte dell'indirizzo email prima della @ non è valida"
+
+#: mediadrop/forms/__init__.py:213
+msgid "The portion of this email address after the @ is invalid"
+msgstr "La parte dell'indirizzo email dopo la @ non è valida"
+
+#: mediadrop/forms/comments.py:15
+msgid "Please enter your name!"
+msgstr "Per favore inserisci il tuo nome!"
+
+#: mediadrop/forms/login.py:33 mediadrop/forms/admin/users.py:53
+#: mediadrop/forms/admin/storage/ftp.py:28
+msgid "Username"
+msgstr "Nome utente"
+
+#: mediadrop/forms/login.py:36 mediadrop/forms/admin/users.py:54
+#: mediadrop/forms/admin/storage/ftp.py:29
+msgid "Password"
+msgstr "Password"
+
+#: mediadrop/forms/login.py:38 mediadrop/templates/master.html:77
+msgid "Login"
+msgstr "Login"
+
+#: mediadrop/forms/uploader.py:17
+msgid "At least give it a short description..."
+msgstr "Aggiungere almeno una breve descrizione..."
+
+#: mediadrop/forms/uploader.py:21
+msgid "You've gotta have a name!"
+msgstr "Devi avere un nome!"
+
+#: mediadrop/forms/uploader.py:25
+msgid "You've gotta have a title!"
+msgstr "Devi avere un titolo!"
+
+#: mediadrop/forms/uploader.py:43
+msgid "Your Name:"
+msgstr "Il tuo nome:"
+
+#: mediadrop/forms/uploader.py:44
+msgid "Your Email:"
+msgstr "Il tuo email:"
+
+#: mediadrop/forms/uploader.py:44
+msgid "(will never be published)"
+msgstr "(non sarà mai pubblicato)"
+
+#: mediadrop/forms/uploader.py:45
+msgid "Title:"
+msgstr "Titolo:"
+
+#: mediadrop/forms/uploader.py:46
+msgid "Description:"
+msgstr "Descrizione:"
+
+#: mediadrop/forms/uploader.py:47
+msgid "Add a YouTube, Vimeo or Amazon S3 link:"
+msgstr "Inserisci un link YouTube, Vimeo o Amazon S3: "
+
+#: mediadrop/forms/uploader.py:48
+msgid "Oops! You forgot to enter a file."
+msgstr "Oops! Hai dimenticato di inserire un file."
+
+#: mediadrop/forms/uploader.py:48
+msgid "OR:"
+msgstr "O:"
+
+#: mediadrop/forms/uploader.py:49
+msgid "Submit"
+msgstr "Invia"
+
+#: mediadrop/forms/admin/__init__.py:19
+msgid "SEARCH..."
+msgstr "CERCA..."
+
+#: mediadrop/forms/admin/__init__.py:40
+msgid "You forgot to select an image!"
+msgstr "Hai dimenticato di selezionare un'immagine!"
+
+#: mediadrop/forms/admin/categories.py:38 mediadrop/forms/admin/tags.py:39
+#: mediadrop/templates/admin/categories/index.html:62
+#: mediadrop/templates/admin/players/index.html:48
+#: mediadrop/templates/admin/storage/index.html:120
+#: mediadrop/templates/admin/tags/index.html:59
+#: mediadrop/templates/comments/_list.html:67
+msgid "Name"
+msgstr "Nome"
+
+#: mediadrop/forms/admin/categories.py:39 mediadrop/forms/admin/media.py:148
+#: mediadrop/forms/admin/podcasts.py:103 mediadrop/forms/admin/tags.py:40
+#: mediadrop/templates/comments/_list.html:28
+msgid "Permalink"
+msgstr "Link permanente"
+
+#: mediadrop/forms/admin/categories.py:40
+msgid "Parent Category"
+msgstr "Categoria Superiore"
+
+#: mediadrop/forms/admin/categories.py:41 mediadrop/forms/admin/comments.py:25
+#: mediadrop/forms/admin/tags.py:41
+#: mediadrop/templates/admin/categories/index.html:41
+#: mediadrop/templates/admin/categories/index.html:91
+#: mediadrop/templates/admin/comments/index.html:38
+#: mediadrop/templates/admin/comments/index.html:51
+#: mediadrop/templates/admin/groups/edit.html:28
+#: mediadrop/templates/admin/groups/index.html:31
+#: mediadrop/templates/admin/media/edit.html:80
+#: mediadrop/templates/admin/media/index.html:36
+#: mediadrop/templates/admin/players/index.html:28
+#: mediadrop/templates/admin/podcasts/edit.html:54
+#: mediadrop/templates/admin/settings/appearance.html:29
+#: mediadrop/templates/admin/storage/index.html:76
+#: mediadrop/templates/admin/tags/index.html:38
+#: mediadrop/templates/admin/tags/index.html:85
+#: mediadrop/templates/admin/users/edit.html:28
+#: mediadrop/templates/admin/users/index.html:28
+msgid "Cancel"
+msgstr "Annulla"
+
+#: mediadrop/forms/admin/categories.py:42 mediadrop/forms/admin/comments.py:24
+#: mediadrop/forms/admin/groups.py:47 mediadrop/forms/admin/media.py:160
+#: mediadrop/forms/admin/players.py:45 mediadrop/forms/admin/podcasts.py:119
+#: mediadrop/forms/admin/settings.py:93 mediadrop/forms/admin/settings.py:115
+#: mediadrop/forms/admin/settings.py:149 mediadrop/forms/admin/settings.py:164
+#: mediadrop/forms/admin/settings.py:203 mediadrop/forms/admin/settings.py:237
+#: mediadrop/forms/admin/settings.py:271 mediadrop/forms/admin/settings.py:444
+#: mediadrop/forms/admin/settings.py:469 mediadrop/forms/admin/tags.py:42
+#: mediadrop/forms/admin/users.py:58
+#: mediadrop/forms/admin/storage/__init__.py:36
+msgid "Save"
+msgstr "Salva"
+
+#: mediadrop/forms/admin/categories.py:60 mediadrop/forms/admin/groups.py:48
+#: mediadrop/forms/admin/media.py:161 mediadrop/forms/admin/podcasts.py:120
+#: mediadrop/forms/admin/tags.py:56 mediadrop/forms/admin/users.py:59
+#: mediadrop/templates/admin/categories/index.html:40
+#: mediadrop/templates/admin/categories/index.html:92
+#: mediadrop/templates/admin/comments/index.html:37
+#: mediadrop/templates/admin/comments/index.html:50
+#: mediadrop/templates/admin/comments/index.html:89
+#: mediadrop/templates/admin/groups/edit.html:27
+#: mediadrop/templates/admin/groups/index.html:30
+#: mediadrop/templates/admin/groups/index.html:59
+#: mediadrop/templates/admin/media/edit.html:79
+#: mediadrop/templates/admin/media/index.html:35
+#: mediadrop/templates/admin/media/index.html:86
+#: mediadrop/templates/admin/players/index.html:27
+#: mediadrop/templates/admin/players/index.html:78
+#: mediadrop/templates/admin/podcasts/edit.html:53
+#: mediadrop/templates/admin/storage/index.html:75
+#: mediadrop/templates/admin/storage/index.html:145
+#: mediadrop/templates/admin/tags/index.html:37
+#: mediadrop/templates/admin/tags/index.html:86
+#: mediadrop/templates/admin/users/edit.html:27
+#: mediadrop/templates/admin/users/index.html:27
+#: mediadrop/templates/admin/users/index.html:61
+msgid "Delete"
+msgstr "Cancella"
+
+#: mediadrop/forms/admin/comments.py:23
+#: mediadrop/templates/admin/helpers.html:67
+#: mediadrop/templates/admin/comments/_comment-table.html:24
+#: mediadrop/templates/comments/_list.html:86
+#: mediadrop/templates/media/explore.html:75
+#: mediadrop/templates/media/view.html:67
+msgid "Comment"
+msgid_plural "Comments"
+msgstr[0] "Commento"
+msgstr[1] "Commenti"
+
+#: mediadrop/forms/admin/groups.py:28
+msgid "Group name already exists"
+msgstr "Il nome del gruppo esiste già"
+
+#: mediadrop/forms/admin/groups.py:41 mediadrop/forms/admin/players.py:35
+#: mediadrop/forms/admin/users.py:42
+#: mediadrop/forms/admin/storage/__init__.py:26
+#: mediadrop/templates/admin/groups/index.html:47
+#: mediadrop/templates/admin/users/index.html:45
+msgid "Display Name"
+msgstr "Visualizza Nome"
+
+#: mediadrop/forms/admin/groups.py:42
+msgid "Groupname"
+msgstr "Nome del gruppo"
+
+#: mediadrop/forms/admin/groups.py:43
+msgid "Group Permissions"
+msgstr "Permessi del gruppo"
+
+#: mediadrop/forms/admin/media.py:33
+msgid "Bad duration formatting, use Hour:Min:Sec"
+msgstr "Formato durata sbagliato, usa ore:minuti:secondi"
+
+#: mediadrop/forms/admin/media.py:61
+msgid "Value must be in the format wxh; e.g. 200x300"
+msgstr "Il valore deve essere nel formato lxa; es. 200x300"
+
+#: mediadrop/forms/admin/media.py:67
+msgid "Width must be a valid integer"
+msgstr "La larghezza deve essere un numero intero valido"
+
+#: mediadrop/forms/admin/media.py:71
+msgid "Height must be a valid integer"
+msgstr "L'altezza deve essere un numero intero valido"
+
+#: mediadrop/forms/admin/media.py:110
+msgid "Select an encoded video or audio file on your computer"
+msgstr "Selezionare un file video o audio codificato sul tuo computer"
+
+#: mediadrop/forms/admin/media.py:110 mediadrop/templates/master.html:91
+#: mediadrop/templates/admin/settings/master.html:78
+#: mediadrop/templates/admin/settings/upload.html:16
+#: mediadrop/templates/admin/settings/upload.html:22
+msgid "Upload"
+msgstr "Carica"
+
+#: mediadrop/forms/admin/media.py:111
+msgid "Add URL"
+msgstr "Aggiungi URL"
+
+#: mediadrop/forms/admin/media.py:112
+msgid "YouTube, Vimeo, Amazon S3 or any other link"
+msgstr "YouTube, Vimeo, Amazon S3 o qualunque altro link"
+
+#: mediadrop/forms/admin/media.py:133
+msgid "Delete file"
+msgstr "Cancella file"
+
+#: mediadrop/forms/admin/media.py:147
+msgid "Include in the Podcast"
+msgstr "Includi nel Podcast"
+
+#: mediadrop/forms/admin/media.py:147
+msgid "Optional"
+msgstr "Opzionale"
+
+#: mediadrop/forms/admin/media.py:149 mediadrop/forms/admin/podcasts.py:104
+#: mediadrop/templates/admin/media/_media-table.html:26
+msgid "Title"
+msgstr "Titolo"
+
+#: mediadrop/forms/admin/media.py:150 mediadrop/forms/admin/podcasts.py:106
+msgid "Author Name"
+msgstr "Nome Autore"
+
+#: mediadrop/forms/admin/media.py:151 mediadrop/forms/admin/podcasts.py:107
+msgid "Author Email"
+msgstr "Email Autore"
+
+#: mediadrop/forms/admin/media.py:152 mediadrop/forms/admin/podcasts.py:108
+msgid "Description"
+msgstr "Descrizione"
+
+#: mediadrop/forms/admin/media.py:153 mediadrop/templates/master.html:89
+#: mediadrop/templates/admin/categories/edit.html:16
+#: mediadrop/templates/admin/categories/index.html:17
+#: mediadrop/templates/admin/categories/index.html:51
+#: mediadrop/templates/admin/settings/master.html:51
+#: mediadrop/templates/categories/index.html:18
+#: mediadrop/templates/categories/layout.html:22
+#: mediadrop/templates/categories/more.html:17
+#: mediadrop/templates/media/explore.html:33
+#: mediadrop/templates/media/view.html:120
+msgid "Categories"
+msgstr "Categorie"
+
+#: mediadrop/forms/admin/media.py:154
+#: mediadrop/templates/admin/media/_media-table.html:28
+#: mediadrop/templates/admin/settings/master.html:75
+#: mediadrop/templates/admin/tags/edit.html:16
+#: mediadrop/templates/admin/tags/index.html:17
+#: mediadrop/templates/admin/tags/index.html:48
+#: mediadrop/templates/media/tags.html:16
+#: mediadrop/templates/media/view.html:127
+msgid "Tags"
+msgstr "Tags"
+
+#: mediadrop/forms/admin/media.py:154
+msgid "e.g.: puppies, great dane, adorable"
+msgstr "ad esempio: cuccioli, alano, adorabile"
+
+#: mediadrop/forms/admin/media.py:156
+msgid "Administrative Notes"
+msgstr "Note amministrative"
+
+#: mediadrop/forms/admin/players.py:31
+#: mediadrop/forms/admin/storage/__init__.py:22
+msgid "General Options:"
+msgstr "Opzioni generali:"
+
+#: mediadrop/forms/admin/players.py:86
+msgid "Yes, use the Flash Player when the device supports it."
+msgstr "Sì, usa il Visualizzatore flash quando il dispositivo lo supporta."
+
+#: mediadrop/forms/admin/players.py:87
+msgid "No, use the HTML5 Player when the device supports it."
+msgstr "No, utilizza il Visualizzatore HTML5 quando il dispositivo lo supporta."
+
+#: mediadrop/forms/admin/players.py:90
+msgid "Prefer the Flash Player when possible"
+msgstr "Preferisci il Visualizzatore flash quando possibile"
+
+#: mediadrop/forms/admin/players.py:109
+msgid "Script Tag"
+msgstr "Script Tag"
+
+#: mediadrop/forms/admin/players.py:110
+msgid "The unique script tag given for your site."
+msgstr "Il tag script univoco dato per il tuo sito."
+
+#: mediadrop/forms/admin/players.py:129
+msgid "Player Options:"
+msgstr "Opzioni del visualizzatore:"
+
+#: mediadrop/forms/admin/players.py:133
+msgid "Use the deprecated AS2 player."
+msgstr "Usa il player AS2 (deprecato)"
+
+#: mediadrop/forms/admin/players.py:134
+msgid "Use the AS3/HTML5 player."
+msgstr "Usa il player AS3/HTML5."
+
+#: mediadrop/forms/admin/players.py:137
+msgid "YouTube player version"
+msgstr "Versione del player YouTube"
+
+#: mediadrop/forms/admin/players.py:142
+msgid "Show video annotations by default."
+msgstr "Mostra le annotazioni del video per default."
+
+#: mediadrop/forms/admin/players.py:143
+msgid "Hide video annotations by default."
+msgstr "Nascondi le annotazioni del video per default."
+
+#: mediadrop/forms/admin/players.py:146
+msgid "Video annotations"
+msgstr "Annotazioni del video"
+
+#: mediadrop/forms/admin/players.py:149
+msgid "Disable the player keyboard controls."
+msgstr "Disabilita i controlli da tastiera del visualizzatore."
+
+#: mediadrop/forms/admin/players.py:150
+msgid "Not supported by HTML5 player."
+msgstr "Non supportato dal player HTML5."
+
+#: mediadrop/forms/admin/players.py:151
+msgid "Autoplay the video when the player loads."
+msgstr "Riproduzione automatica del video al caricamento del player."
+
+#: mediadrop/forms/admin/players.py:152
+msgid "Do not show YouTube logo in the player controls"
+msgstr "Non mostrare il logo YouTube nei controlli del player"
+
+#: mediadrop/forms/admin/players.py:153
+msgid "Not supported by AS2 player."
+msgstr "Non supportato dal player AS2."
+
+#: mediadrop/forms/admin/players.py:154
+msgid "Display fullscreen button."
+msgstr "Mostra il bottone per la visualizzazione fullscreen."
+
+#: mediadrop/forms/admin/players.py:155
+msgid "Enable high-def quality by default."
+msgstr "Abilita per default la qualità ad alta definizione"
+
+#: mediadrop/forms/admin/players.py:156
+msgid ""
+"Applies only for the AS2 player, the AS3 player will choose the most "
+"appropriate version of the video version (e.g. considering the user's "
+"bandwidth)"
+msgstr ""
+"Applicabile solo per il player AS2, il player AS3 sceglierà la "
+"versionepiù appropriata del video (es. considerando la banda dell'utente)"
+
+#: mediadrop/forms/admin/players.py:157
+msgid "Display related videos after playback of the initial video ends."
+msgstr ""
+"Mostra i video correlati dopo la fine della riproduzione del video "
+"iniziale."
+
+#: mediadrop/forms/admin/players.py:158
+msgid ""
+"Show the search box when the video is minimized. The related videos "
+"option must be enabled for this to work."
+msgstr ""
+"Mostra la casella di ricerca quando il video è ridotto al minimo. Perché "
+"questa funzioni, deve essere attiva anche l'opzione 'video correlati'."
+
+#: mediadrop/forms/admin/players.py:159
+msgid "AS2 player only"
+msgstr "Solo player AS2"
+
+#: mediadrop/forms/admin/players.py:160
+msgid ""
+"Display information like the video title and uploader before the video "
+"starts playing."
+msgstr ""
+"Mostra informazioni come il titolo e l'autore prima che il video inizi la"
+" riproduzione."
+
+#: mediadrop/forms/admin/players.py:161
+msgid "Enable window-less mode (wmode)"
+msgstr "Abilita modalità senza finestra (wmode)"
+
+#: mediadrop/forms/admin/players.py:162
+msgid ""
+"wmode allows HTML/CSS elements to be placed over the actual Flash video "
+"but requires more CPU power."
+msgstr ""
+"wmode permette il posizionamento di elementi HTML/CSS sopra il video "
+"Flash ma richiede più potenza di CPU"
+
+#: mediadrop/forms/admin/players.py:165
+msgid "Always show player controls."
+msgstr "Mostra sempre i controlli del player."
+
+#: mediadrop/forms/admin/players.py:166
+msgid "Autohide all player controls after a video starts playing."
+msgstr "Nascondi tutti i controlli quando parte il video."
+
+#: mediadrop/forms/admin/players.py:167
+msgid "Autohide only the progress bar after a video starts playing."
+msgstr "Nascondi solo la progress bar quando parte il video."
+
+#: mediadrop/forms/admin/players.py:170
+msgid "Player control hiding"
+msgstr "Visibilità controlli del player"
+
+#: mediadrop/forms/admin/podcasts.py:29
+msgid "Parental Advisory"
+msgstr "Controllo parentale"
+
+#: mediadrop/forms/admin/podcasts.py:30
+#: mediadrop/templates/admin/podcasts/_podcast-table.html:46
+msgid "Clean"
+msgstr "Pulisci"
+
+#: mediadrop/forms/admin/podcasts.py:105
+msgid "Subtitle"
+msgstr "Sottotitolo"
+
+#: mediadrop/forms/admin/podcasts.py:109
+msgid "Podcast Details:"
+msgstr "Dettagli Podcast:"
+
+#: mediadrop/forms/admin/podcasts.py:110
+msgid "Explicit?"
+msgstr "Esplicito?"
+
+#: mediadrop/forms/admin/podcasts.py:111
+msgid "Category"
+msgstr "Categoria"
+
+#: mediadrop/forms/admin/podcasts.py:112
+msgid "Copyright"
+msgstr "Copyright"
+
+#: mediadrop/forms/admin/podcasts.py:114
+msgid "Advanced Options:"
+msgstr "Opzioni avanzate"
+
+#: mediadrop/forms/admin/podcasts.py:115
+msgid "Your Feed URL"
+msgstr "Tuo feed URL"
+
+#: mediadrop/forms/admin/podcasts.py:116
+msgid "iTunes URL"
+msgstr "iTunes URL"
+
+#: mediadrop/forms/admin/podcasts.py:117
+msgid "Feedburner URL"
+msgstr "Feedburner URL"
+
+#: mediadrop/forms/admin/settings.py:25
+msgid "Built-in comments"
+msgstr "Commenti integrati"
+
+#: mediadrop/forms/admin/settings.py:26
+msgid "Facebook comments (requires a Facebook application ID)"
+msgstr "Commenti Facebook (richiede un Facebook application ID)"
+
+#: mediadrop/forms/admin/settings.py:27
+msgid "Disable comments"
+msgstr "Disattiva commenti"
+
+#: mediadrop/forms/admin/settings.py:32
+msgid "Prepend"
+msgstr "Anteponi"
+
+#: mediadrop/forms/admin/settings.py:33
+msgid "Append"
+msgstr "Attacca"
+
+#: mediadrop/forms/admin/settings.py:36
+msgid "Plain <textarea> fields (0kB)"
+msgstr "Semplice campo <textarea> (0kb) "
+
+#: mediadrop/forms/admin/settings.py:37
+msgid "Enable TinyMCE for <textarea> fields accepting XHTML (281kB)"
+msgstr "Abilita TinyMCE per il campo <textarea> per accettare XHTML (281KB) "
+
+#: mediadrop/forms/admin/settings.py:41
+msgid "Brown"
+msgstr "Marrone"
+
+#: mediadrop/forms/admin/settings.py:42
+msgid "Blue"
+msgstr "Blu"
+
+#: mediadrop/forms/admin/settings.py:43
+msgid "Green"
+msgstr "Verde"
+
+#: mediadrop/forms/admin/settings.py:44
+msgid "Tan"
+msgstr "Marrone chiaro"
+
+#: mediadrop/forms/admin/settings.py:45
+msgid "White"
+msgstr "Bianco"
+
+#: mediadrop/forms/admin/settings.py:46
+msgid "Purple"
+msgstr "Viola"
+
+#: mediadrop/forms/admin/settings.py:47
+msgid "Black"
+msgstr "Nero"
+
+#: mediadrop/forms/admin/settings.py:73
+msgid "Yes"
+msgstr "Si"
+
+#: mediadrop/forms/admin/settings.py:73
+msgid "No"
+msgstr "No"
+
+#: mediadrop/forms/admin/settings.py:87
+msgid "Email Notifications:"
+msgstr "Notifiche Email:"
+
+#: mediadrop/forms/admin/settings.py:88
+msgid "Media Uploaded"
+msgstr "Media caricato"
+
+#: mediadrop/forms/admin/settings.py:89
+msgid "Comment Posted"
+msgstr "Commento inserito"
+
+#: mediadrop/forms/admin/settings.py:90
+msgid "Support Requested"
+msgstr "Richiesta supporto"
+
+#: mediadrop/forms/admin/settings.py:91
+msgid "Send Emails From"
+msgstr "Spedisci mail da"
+
+#: mediadrop/forms/admin/settings.py:109
+msgid "Popularity Algorithm Variables:"
+msgstr "Variabili dell'algoritmo di popolarità:"
+
+#: mediadrop/forms/admin/settings.py:111
+msgid "Decay Exponent"
+msgstr "Esponente di degrado"
+
+#: mediadrop/forms/admin/settings.py:112
+msgid "Decay Lifetime"
+msgstr "Durata del "
+
+#: mediadrop/forms/admin/settings.py:145
+msgid "Max. allowed upload file size in megabytes"
+msgstr "Dimensioni massima del file da caricare in megabyte"
+
+#: mediadrop/forms/admin/settings.py:146
+msgid "Legal Wording:"
+msgstr "Aspetti legali:"
+
+#: mediadrop/forms/admin/settings.py:147
+msgid "User Uploads"
+msgstr "Caricamenti degli utenti"
+
+#: mediadrop/forms/admin/settings.py:161
+msgid "Google Analytics Details:"
+msgstr "Dettagli Google Analytics:"
+
+#: mediadrop/forms/admin/settings.py:162
+msgid "Tracking Code"
+msgstr "Codice di Tracciamento"
+
+#: mediadrop/forms/admin/settings.py:182
+msgid "Site Maps"
+msgstr "Mappe del sito"
+
+#: mediadrop/forms/admin/settings.py:186
+msgid "RSS Feeds"
+msgstr "Feed RSS"
+
+#: mediadrop/forms/admin/settings.py:193
+msgid "RSS Feed Defaults:"
+msgstr "Defaults dei feed RSS:"
+
+#: mediadrop/forms/admin/settings.py:196
+msgid "number of items"
+msgstr "numero degli oggetti"
+
+#: mediadrop/forms/admin/settings.py:197
+msgid ""
+"The number of items in the feed can be overriden per request if you add "
+"\"?limit=X\" to the feed URL. If the \"limit\" parameter is absent, the "
+"default above is used."
+msgstr ""
+"Il numero di elementi nel feed può essere cambiato in ogni richiesta "
+"aggiungendo \"?limit=X\"  all'URL del feed. Se il parametro \"limit\" è "
+"assente, il valore di default sopra indicato verrà utilizzato."
+
+#: mediadrop/forms/admin/settings.py:215
+msgid "General Settings:"
+msgstr "Impostazioni generali:"
+
+#: mediadrop/forms/admin/settings.py:217
+msgid "Site Name"
+msgstr "Nome del sito"
+
+#: mediadrop/forms/admin/settings.py:219
+msgid "Display Site Name"
+msgstr "Mostra il nome del sito"
+
+#: mediadrop/forms/admin/settings.py:223
+msgid "Default Language"
+msgstr "Linguaggio di default"
+
+#: mediadrop/forms/admin/settings.py:227
+msgid "Featured Category"
+msgstr "Categoria Principale"
+
+#: mediadrop/forms/admin/settings.py:232
+msgid "Rich Text Editing"
+msgstr "Modifica di testo avanzato"
+
+#: mediadrop/forms/admin/settings.py:250
+msgid "Comment Engine"
+msgstr "Gestore commenti"
+
+#: mediadrop/forms/admin/settings.py:254
+msgid "Built-in Comments:"
+msgstr "Commenti integrati:"
+
+#: mediadrop/forms/admin/settings.py:257
+msgid "Moderation"
+msgstr "Moderazione"
+
+#: mediadrop/forms/admin/settings.py:258
+msgid "Require comments to be approved by an admin"
+msgstr "Commenti che richiedono l'approvazione di un amministratore"
+
+#: mediadrop/forms/admin/settings.py:261
+msgid "Akismet Key"
+msgstr "Chiave Akismet"
+
+#: mediadrop/forms/admin/settings.py:262
+msgid "Akismet URL"
+msgstr "Akismet URL"
+
+#: mediadrop/forms/admin/settings.py:263
+msgid "Filtered Words"
+msgstr "Parole filtrate"
+
+#: mediadrop/forms/admin/settings.py:265
+msgid "Enter words to be filtered separated by a comma."
+msgstr "Inserisci le parole da filtrare separati da una virgola."
+
+#: mediadrop/forms/admin/settings.py:267
+msgid "Facebook Comments:"
+msgstr "Commenti Facebook:"
+
+#: mediadrop/forms/admin/settings.py:268
+msgid "Application ID"
+msgstr "ID Aplicazione"
+
+#: mediadrop/forms/admin/settings.py:269
+msgid "See: https://developers.facebook.com/apps"
+msgstr "Vedi: https://developers.facebook.com/apps"
+
+#: mediadrop/forms/admin/settings.py:283
+msgid "Require a key to access the API"
+msgstr "Richiede una chiave per accedere alle API"
+
+#: mediadrop/forms/admin/settings.py:284
+msgid "API Key:"
+msgstr "Chiave API:"
+
+#: mediadrop/forms/admin/settings.py:285
+msgid "Access Key"
+msgstr "Chiave di accesso"
+
+#: mediadrop/forms/admin/settings.py:287
+msgid "API Settings:"
+msgstr "Impostazioni API:"
+
+#: mediadrop/forms/admin/settings.py:288
+msgid "Max media results"
+msgstr "Max media risultati"
+
+#: mediadrop/forms/admin/settings.py:289
+msgid "Max tree depth"
+msgstr "Max profondità dell'albero"
+
+#: mediadrop/forms/admin/settings.py:303
+#: mediadrop/templates/admin/settings/general.html:17
+#: mediadrop/templates/admin/settings/general.html:23
+#: mediadrop/templates/admin/settings/master.html:39
+msgid "General"
+msgstr "Generale"
+
+#: mediadrop/forms/admin/settings.py:306
+msgid "Logo"
+msgstr "Logo"
+
+#: mediadrop/forms/admin/settings.py:308
+msgid "Upload Logo"
+msgstr "Carica il logo"
+
+#: mediadrop/forms/admin/settings.py:313
+msgid "Background Image"
+msgstr "Immagine di sfondo"
+
+#: mediadrop/forms/admin/settings.py:315
+msgid "Upload Background"
+msgstr "Carica sfondo"
+
+#: mediadrop/forms/admin/settings.py:321
+msgid "Background color"
+msgstr "Colore di sfondo"
+
+#: mediadrop/forms/admin/settings.py:324
+msgid "Link color"
+msgstr "Colore del link"
+
+#: mediadrop/forms/admin/settings.py:327
+msgid "Visited Link color"
+msgstr "Colore dei link visitati"
+
+#: mediadrop/forms/admin/settings.py:331
+msgid "Text color"
+msgstr "Colore del testo"
+
+#: mediadrop/forms/admin/settings.py:333
+msgid "Heading color"
+msgstr "Colore intestazione"
+
+#: mediadrop/forms/admin/settings.py:336
+msgid "Color Scheme"
+msgstr "Schema colore"
+
+#: mediadrop/forms/admin/settings.py:340
+msgid "Options"
+msgstr "Opzioni"
+
+#: mediadrop/forms/admin/settings.py:345
+msgid "Enable Cooliris on the Explore Page"
+msgstr "Abilita Cooliris sulla pagina di Esplora"
+
+#: mediadrop/forms/admin/settings.py:346
+msgid ""
+"Cooliris support is deprecated and will be removed in the next major "
+"version of MediaDrop unless someone is interested in maintaining it."
+msgstr ""
+"Il supporto per Cooliris è deprecato e sarà rimosso nella prossima "
+"versione major di MediaDrop a meno che qualcuno non sia interessato a "
+"mantenerlo."
+
+#: mediadrop/forms/admin/settings.py:352
+msgid "Display login link for all users"
+msgstr "Mostra il link di login per tutti gli utenti"
+
+#: mediadrop/forms/admin/settings.py:355
+msgid "Enable Featured Items on the Explore Page"
+msgstr "Abilita gli elementi principali nella pagina Esplora"
+
+#: mediadrop/forms/admin/settings.py:359
+msgid "Enable Podcast Tab"
+msgstr "Abilita Tabella Podcast"
+
+#: mediadrop/forms/admin/settings.py:363
+msgid "Enable User Uploads"
+msgstr "Abilita caricamenti utente"
+
+#: mediadrop/forms/admin/settings.py:367
+msgid "Enable widescreen media player by default"
+msgstr "Abilita il visualizzatore widescreen di default"
+
+#: mediadrop/forms/admin/settings.py:371
+msgid "Display Logo"
+msgstr "Mostra logo"
+
+#: mediadrop/forms/admin/settings.py:375
+msgid "Display Background Image"
+msgstr "Immagine si sfondo"
+
+#: mediadrop/forms/admin/settings.py:379
+msgid "Display MediaDrop Footer"
+msgstr "Mostra piè di pagina di MediaDrop"
+
+#: mediadrop/forms/admin/settings.py:383
+msgid "Display MediaDrop Credits in Footer"
+msgstr "Mostra collegamento a MediaDrop in piè di pagina"
+
+#: mediadrop/forms/admin/settings.py:389
+msgid "Player Menu Options"
+msgstr "Opzioni del menu del visualizzatore"
+
+#: mediadrop/forms/admin/settings.py:394
+msgid "Enable Download button on player menu bar."
+msgstr "Attiva bottone Scarica."
+
+#: mediadrop/forms/admin/settings.py:398
+msgid "Enable Share button on player menu bar."
+msgstr "Attiva bottone Condividi."
+
+#: mediadrop/forms/admin/settings.py:402
+msgid "Enable Embed button on player menu bar."
+msgstr "Attiva bottone Incorpora."
+
+#: mediadrop/forms/admin/settings.py:406
+msgid "Enable Widescreen toggle button on player menu bar."
+msgstr "Attiva bottone widescreen."
+
+#: mediadrop/forms/admin/settings.py:410
+msgid "Enable Popout button on player menu bar."
+msgstr "Attiva bottone Popout."
+
+#: mediadrop/forms/admin/settings.py:414
+msgid "Enable Like button on player menu bar."
+msgstr "Attiva bottone 'Mi piace'."
+
+#: mediadrop/forms/admin/settings.py:418
+msgid "Enable Dislike button on player menu bar."
+msgstr "Attiva bottone 'Non mi piace'."
+
+#: mediadrop/forms/admin/settings.py:423
+msgid "Advanced"
+msgstr "Avanzate"
+
+#: mediadrop/forms/admin/settings.py:427
+msgid "Custom CSS"
+msgstr "CSS personalizzato"
+
+#: mediadrop/forms/admin/settings.py:430
+msgid "Custom Header HTML"
+msgstr "Intestazione HTML personalizzata"
+
+#: mediadrop/forms/admin/settings.py:433
+msgid "Custom Footer HTML"
+msgstr "Piè di pagina HTML personalizzato"
+
+#: mediadrop/forms/admin/settings.py:436
+msgid "Custom <head> Tags"
+msgstr "Tag <head> personalizzati"
+
+#: mediadrop/forms/admin/settings.py:437
+msgid ""
+"These HTML tags are inserted into the HTML <head> section. Bad input can "
+"cause ugly rendering of your site. You can always restore your page by "
+"the box above."
+msgstr ""
+"Questi tag HTML sono inseriti nella sezione HTML <head>. Un valore errato"
+" può causare una cattiva visualizzazione del tuo sito. Puoi sempre "
+"ripristinare la pagina cancellando questo valore."
+
+#: mediadrop/forms/admin/settings.py:445
+#: mediadrop/templates/admin/settings/appearance.html:28
+msgid "Reset to Defaults"
+msgstr "Impostazioni di default"
+
+#: mediadrop/forms/admin/settings.py:462
+msgid "Banner HTML"
+msgstr "Banner HTML"
+
+#: mediadrop/forms/admin/settings.py:465
+msgid "Sidebar HTML"
+msgstr "Sidebar HTML"
+
+#: mediadrop/forms/admin/users.py:28
+msgid "User name already exists"
+msgstr "Nome utente esistente"
+
+#: mediadrop/forms/admin/users.py:43
+msgid "Email Address"
+msgstr "Indirizzo email"
+
+#: mediadrop/forms/admin/users.py:44
+msgid "Login Details:"
+msgstr "Dettagli login:"
+
+#: mediadrop/forms/admin/users.py:48
+msgid "Passwords do not match"
+msgstr "La password non corrisponde"
+
+#: mediadrop/forms/admin/users.py:51 mediadrop/templates/admin/master.html:61
+#: mediadrop/templates/admin/groups/index.html:17
+#: mediadrop/templates/admin/groups/index.html:41
+msgid "Groups"
+msgstr "Gruppi"
+
+#: mediadrop/forms/admin/users.py:55
+msgid "Confirm password"
+msgstr "Conferma password"
+
+#: mediadrop/forms/admin/storage/ftp.py:25
+msgid "FTP Server Details:"
+msgstr "Dettagli FTP Server"
+
+#: mediadrop/forms/admin/storage/ftp.py:27
+msgid "Server Hostname"
+msgstr "Nome host server"
+
+#: mediadrop/forms/admin/storage/ftp.py:30
+msgid "Subdirectory on server to upload to"
+msgstr "Sottodirectory sul server dove caricare "
+
+#: mediadrop/forms/admin/storage/ftp.py:31
+msgid ""
+"How many times should MediaDrop try to verify the FTP upload before "
+"declaring it a failure?"
+msgstr ""
+"Quante volte MediaDrop deve cercare di verificare l'upload FTP prima di "
+"rinunciare?"
+
+#: mediadrop/forms/admin/storage/ftp.py:32
+msgid "HTTP URL to access remotely stored files"
+msgstr "URL HTTP per accedere ai file archiviati in remoto"
+
+#: mediadrop/forms/admin/storage/ftp.py:33
+msgid "RTMP Server URL to stream remotely stored files (Optional)"
+msgstr ""
+"URL del server RTMP  per lo streaming dei file archiviati in remoto "
+"(opzionale)"
+
+#: mediadrop/forms/admin/storage/localfiles.py:19
+msgid "Options specific to Local File Storage:"
+msgstr "Opzioni specifiche per l'archiviazione dei file locali:"
+
+#: mediadrop/forms/admin/storage/localfiles.py:22
+msgid "Path to store files under"
+msgstr "Percorso per memorizzare il file"
+
+#: mediadrop/forms/admin/storage/localfiles.py:23
+msgid "Defaults to the \"data_dir\" from your INI file."
+msgstr "Il valore predefinito è il \"data_dir\" dal file INI."
+
+#: mediadrop/forms/admin/storage/localfiles.py:26
+msgid "RTMP Server URL"
+msgstr "URL del server RTMP"
+
+#: mediadrop/forms/admin/storage/localfiles.py:27
+msgid ""
+"Files must be accessible under the same name as they are stored with "
+"locally."
+msgstr ""
+"I file devono essere accessibili con lo stesso nome quando sono "
+"memorizzati localmente."
+
+#: mediadrop/forms/admin/storage/remoteurls.py:24
+msgid "Add another URL"
+msgstr "Aggiungi un altro URL"
+
+#: mediadrop/forms/admin/storage/remoteurls.py:53
+msgid "RTMP server URLs must begin with rtmp://"
+msgstr "RTMP server URL deve iniziare con rtmp://"
+
+#: mediadrop/forms/admin/storage/remoteurls.py:61
+msgid "RTMP Servers:"
+msgstr "RTMP Server:"
+
+#: mediadrop/lib/email.py:108
+#, python-format
+msgid "New %(type)s: %(title)s"
+msgstr "Nuovo %(type)s : %(title)s "
+
+#: mediadrop/lib/email.py:109
+#, python-format
+msgid ""
+"A new %(type)s file has been uploaded!\n"
+"\n"
+"Title: %(title)s\n"
+"\n"
+"Author: %(author_name)s (%(author_email)s)\n"
+"\n"
+"Admin URL: %(edit_url)s\n"
+"\n"
+"Description: %(clean_description)s\n"
+msgstr ""
+"Un nuovo %(type)s file è stato caricato!\n"
+"\n"
+"Titolo: %(title)s\n"
+"\n"
+"Autore: %(author_name)s  (%(author_email)s)\n"
+"\n"
+"URL Amministrazione: %(edit_url)s\n"
+"\n"
+"Descrizione: %(clean_description)s\n"
+
+#: mediadrop/lib/email.py:144
+#, python-format
+msgid "New Comment: %(comment_subject)s"
+msgstr "Nuovo commento: %(comment_subject)s "
+
+#: mediadrop/lib/email.py:145
+#, python-format
+msgid ""
+"A new comment has been posted!\n"
+"\n"
+"Author: %(author_name)s\n"
+"Post: %(post_url)s\n"
+"\n"
+"Body: %(comment_body)s\n"
+msgstr ""
+"Un nuovo commento è stato inviato!\n"
+"\n"
+"Autore: %(author_name)s\n"
+"Post: %(post_url)s\n"
+"\n"
+"Corpo: %(comment_body)s\n"
+
+#: mediadrop/lib/email.py:184
+#, python-format
+msgid "New Support Request: %(email)s"
+msgstr "Richiesta di nuovo supporto: %(email)s "
+
+#: mediadrop/lib/email.py:185
+#, python-format
+msgid ""
+"A user has asked for support\n"
+"\n"
+"Email: %(email)s\n"
+"\n"
+"URL: %(url)s\n"
+"\n"
+"Description: %(description)s\n"
+"\n"
+"GET_VARS:\n"
+"%(get_vars)s\n"
+"\n"
+"\n"
+"POST_VARS:\n"
+"%(post_vars)s\n"
+msgstr ""
+"Un utente ha chiesto supporto\n"
+"\n"
+"E-mail: %(email)s\n"
+"\n"
+"URL: %(url)s\n"
+"\n"
+"Descrizione: %(description)s\n"
+"\n"
+"GET_VARS:\n"
+"%(get_vars)s\n"
+"\n"
+"\n"
+"POST_VARS:\n"
+"%(post_vars)s\n"
+
+#: mediadrop/lib/filetypes.py:27
+msgid "Video"
+msgstr "Video"
+
+#: mediadrop/lib/filetypes.py:28
+msgid "Audio"
+msgstr "Audio"
+
+#: mediadrop/lib/filetypes.py:29
+msgid "Audio Description"
+msgstr "Descrizione audio"
+
+#: mediadrop/lib/filetypes.py:30
+msgid "Captions"
+msgstr "Didascalia"
+
+#: mediadrop/lib/helpers.py:385
+msgid "Help"
+msgstr "Aiuto"
+
+#: mediadrop/lib/players.py:285
+msgid "Flowplayer"
+msgstr "Flowplayer"
+
+#: mediadrop/lib/players.py:416 mediadrop/lib/storage/vimeo.py:27
+msgid "Vimeo"
+msgstr "Vimeo"
+
+#: mediadrop/lib/players.py:452 mediadrop/lib/storage/dailymotion.py:28
+msgid "Daily Motion"
+msgstr "Daily Motion"
+
+#: mediadrop/lib/players.py:499 mediadrop/lib/storage/youtube.py:28
+msgid "YouTube"
+msgstr "YouTube"
+
+#: mediadrop/lib/players.py:577 mediadrop/lib/storage/googlevideo.py:26
+msgid "Google Video"
+msgstr "Google Video"
+
+#: mediadrop/lib/players.py:599 mediadrop/lib/storage/bliptv.py:26
+msgid "BlipTV"
+msgstr "BlipTV"
+
+#: mediadrop/lib/players.py:686
+msgid "Plain HTML5 Player"
+msgstr "Visualizzatore HTML5 semplice"
+
+#: mediadrop/lib/players.py:701
+msgid "HTML5 + Flowplayer Fallback"
+msgstr "HTML5 + Protezione dati Flowplayer"
+
+#: mediadrop/lib/players.py:758
+msgid "JWPlayer"
+msgstr "JWPlayer"
+
+#: mediadrop/lib/players.py:904
+msgid "Sublime Video Player"
+msgstr "Sublime Video Player"
+
+#: mediadrop/lib/players.py:954
+msgid "iTunes Player"
+msgstr "iTunes Player"
+
+#: mediadrop/lib/storage/api.py:352
+msgid "Unusable file or URL provided."
+msgstr "File o URL inutilizzabile."
+
+#: mediadrop/lib/storage/bliptv.py:61
+msgid "Invalid BlipTV URL. This video does not exist."
+msgstr "URL di BlipTV non valido. Il video non esiste."
+
+#: mediadrop/lib/storage/dailymotion.py:62
+msgid "This DailyMotion video does not allow embedding."
+msgstr "Questo video DailyMotion non consente l'incorporazione."
+
+#: mediadrop/lib/storage/ftp.py:43
+msgid "FTP Storage"
+msgstr "Archiviazione FTP"
+
+#: mediadrop/lib/storage/ftp.py:98
+#, python-format
+msgid "Could not upload the file from your FTP server: %s"
+msgstr "Impossibile caricare il file dal server FTP:%s"
+
+#: mediadrop/lib/storage/ftp.py:192
+msgid "The file transferred to your FTP server is corrupted. Please try again."
+msgstr "Il file trasferito sul server FTP è corrotto. Prova di nuovo."
+
+#: mediadrop/lib/storage/ftp.py:197
+#, python-format
+msgid "Could not download the file from your FTP server: %s"
+msgstr "Impossibile scaricare il file dal server FTP:%s"
+
+#: mediadrop/lib/storage/localfiles.py:26
+msgid "Local File Storage"
+msgstr "Archivio per i file locali"
+
+#: mediadrop/lib/storage/remoteurls.py:28
+msgid "Remote URLs"
+msgstr "URL remoti"
+
+#: mediadrop/lib/storage/remoteurls.py:73
+msgid ""
+"This RTMP server has not been configured. Add it by going to Settings > "
+"Storage Engines > Remote URLs."
+msgstr ""
+"Questo server RTMP non è stato configurato. Aggiungilo andando in "
+"Impostazioni > Motore di Archiviazione -> URL remoti."
+
+#: mediadrop/lib/storage/youtube.py:62
+msgid "This video is private and cannot be embedded."
+msgstr "Questo video è privato e non può essere incorporato."
+
+#: mediadrop/lib/storage/youtube.py:65
+msgid "Invalid YouTube URL. This video does not exist."
+msgstr "URL di YouTube non valido. Il video non esiste."
+
+#: mediadrop/lib/storage/youtube.py:66
+#, python-format
+msgid "YouTube Error: %s"
+msgstr "Errore YouTube: %s"
+
+#: mediadrop/model/players.py:102
+#, python-format
+msgid "%s (broken)"
+msgstr "%s (danneggiato)"
+
+#: mediadrop/templates/error.html:17
+#, python-format
+msgid "A %(code)s Error has Occurred"
+msgstr "Si è verificato l'errore %(code)s  "
+
+#: mediadrop/templates/error.html:22
+msgid "Whoopsadaisy!"
+msgstr "Mamma mia!"
+
+#: mediadrop/templates/error.html:25
+msgid "We can't find this page. The page may have been moved or removed."
+msgstr ""
+"Non riusciamo a trovare questa pagina. La pagina potrebbe essere stata "
+"spostata o rimossa."
+
+#: mediadrop/templates/error.html:26
+msgid "If you typed the address in, check the spelling."
+msgstr "Se hai digitato un indirizzo, controlla l'ortografia."
+
+#: mediadrop/templates/error.html:31
+msgid "You have a few options:"
+msgstr "Hai alcune opzioni:"
+
+#: mediadrop/templates/error.html:33
+msgid "Return to the [1:homepage]."
+msgstr "Ritorna alla [1:homepage]."
+
+#: mediadrop/templates/error.html:34
+msgid "Return to the [1:media page]."
+msgstr "Ritorna alla [1:media page]."
+
+#: mediadrop/templates/error.html:35
+msgid "Fill out an error report below."
+msgstr "Compila un report di errore qui sotto."
+
+#: mediadrop/templates/error.html:41
+msgid "Email: (so we can contact you if we find it!)"
+msgstr "E-mail: (in modo che possiamo contattarti se la troviamo!)"
+
+#: mediadrop/templates/error.html:45
+msgid "What were you looking for when you got the error?"
+msgstr "Cosa stavi cercando quando hai ottenuto l'errore?"
+
+#: mediadrop/templates/error.html:49
+msgid "Submit Error Report"
+msgstr "Invia un rapporto di errore"
+
+#: mediadrop/templates/helpers.html:33
+#: mediadrop/templates/media/explore.html:76
+#: mediadrop/templates/media/view.html:64
+#: mediadrop/templates/players/html5_or_flash.html:47
+#: mediadrop/templates/players/html5_or_flash.html:49
+msgid "Like"
+msgid_plural "Likes"
+msgstr[0] "Piace"
+msgstr[1] "Piace"
+
+#: mediadrop/templates/helpers.html:34
+#: mediadrop/templates/admin/media/update-status-form.html:22
+#: mediadrop/templates/admin/podcasts/edit.html:97
+#: mediadrop/templates/media/explore.html:77
+#: mediadrop/templates/media/view.html:62
+msgid "View"
+msgid_plural "Views"
+msgstr[0] "Vista"
+msgstr[1] "Viste"
+
+#: mediadrop/templates/helpers.html:54
+msgid "Page:"
+msgstr "Pagina"
+
+#: mediadrop/templates/helpers.html:74
+msgid "Show:"
+msgstr "Mostra:"
+
+#: mediadrop/templates/helpers.html:76
+#: mediadrop/templates/categories/index.html:26
+#: mediadrop/templates/categories/more.html:24
+#: mediadrop/templates/media/explore.html:32
+#: mediadrop/templates/media/explore.html:100
+msgid "Latest"
+msgstr "Ultime"
+
+#: mediadrop/templates/helpers.html:77
+#: mediadrop/templates/categories/index.html:31
+#: mediadrop/templates/categories/more.html:24
+#: mediadrop/templates/media/explore.html:84
+msgid "Most Popular"
+msgstr "I più popolari"
+
+#: mediadrop/templates/helpers.html:78
+#: mediadrop/templates/media/explore.html:31
+#: mediadrop/templates/media/explore.html:68
+msgid "Featured"
+msgstr "In primo piano"
+
+#: mediadrop/templates/helpers.html:80
+msgid "Page"
+msgstr "Pagina"
+
+#: mediadrop/templates/helpers.html:80
+msgid "of"
+msgstr "di"
+
+#: mediadrop/templates/helpers.html:86
+#, python-format
+msgid "The %(fieldName)s field accepts some HTML formatting: %(formattingList)s"
+msgstr ""
+"Il campo %(fieldName)s  accetta alcune formattazioni HTML: "
+"%(formattingList)s "
+
+#: mediadrop/templates/layout.html:33
+msgid "Feeds:"
+msgstr "Feeds:"
+
+#: mediadrop/templates/layout.html:39
+msgid "[1:MediaDrop] [2:video platform]"
+msgstr "[1:MediaDrop] [2:video piattaforma]"
+
+#: mediadrop/templates/login.html:16
+msgid "Log in to"
+msgstr "Collegati a"
+
+#: mediadrop/templates/login.html:40
+msgid "Log in"
+msgstr "Collegati"
+
+#: mediadrop/templates/master.html:70
+msgid "Admin"
+msgstr "Admin"
+
+#: mediadrop/templates/master.html:72 mediadrop/templates/admin/master.html:52
+msgid "Logout"
+msgstr "Esci"
+
+#: mediadrop/templates/master.html:86
+msgid "Explore"
+msgstr "Esplora"
+
+#: mediadrop/templates/master.html:87 mediadrop/templates/media/index.html:17
+msgid "Media Library"
+msgstr "Biblioteca di Media "
+
+#: mediadrop/templates/master.html:88 mediadrop/templates/admin/master.html:58
+#: mediadrop/templates/admin/podcasts/index.html:17
+#: mediadrop/templates/admin/podcasts/index.html:24
+msgid "Podcasts"
+msgstr "Podcast"
+
+#: mediadrop/templates/master.html:94
+msgid "Search"
+msgstr "Cerca"
+
+#: mediadrop/templates/admin/helpers.html:59
+msgid "Moderate comments"
+msgstr "Modera commenti"
+
+#: mediadrop/templates/admin/helpers.html:61
+msgid "Moderate"
+msgstr "Moderata"
+
+#: mediadrop/templates/admin/helpers.html:62
+#: mediadrop/templates/admin/master.html:59
+#: mediadrop/templates/admin/comments/index.html:20
+#: mediadrop/templates/admin/media/_media-table.html:27
+#: mediadrop/templates/admin/settings/comments.html:16
+#: mediadrop/templates/admin/settings/comments.html:22
+#: mediadrop/templates/admin/settings/master.html:54
+#: mediadrop/templates/comments/_list.html:42
+msgid "Comments"
+msgstr "Commenti"
+
+#: mediadrop/templates/admin/helpers.html:74
+#: mediadrop/templates/admin/media/_media-table.html:50
+#: mediadrop/templates/admin/media/index.html:117
+#: mediadrop/templates/admin/media/update-status-form.html:88
+msgid "Published"
+msgstr "Edizione"
+
+#: mediadrop/templates/admin/helpers.html:78
+#: mediadrop/templates/admin/media/_media-table.html:47
+#: mediadrop/templates/admin/media/index.html:108
+msgid "Unreviewed"
+msgstr "Recensiti"
+
+#: mediadrop/templates/admin/helpers.html:82
+#: mediadrop/templates/admin/comments/_comment-table.html:39
+msgid "Trash"
+msgstr "Cestino"
+
+#: mediadrop/templates/admin/index.html:17
+#: mediadrop/templates/admin/master.html:50
+msgid "Dashboard"
+msgstr "Cruscotto"
+
+#: mediadrop/templates/admin/index.html:47
+msgid "Awaiting Review"
+msgstr "In attesa di revisione"
+
+#: mediadrop/templates/admin/index.html:52
+msgid "Awaiting Encoding"
+msgstr "In attesa di codifica"
+
+#: mediadrop/templates/admin/index.html:57
+msgid "Awaiting Publishing"
+msgstr "In attesa di pubblicazione"
+
+#: mediadrop/templates/admin/index.html:64
+msgid "Get Started"
+msgstr "Per Iniziare"
+
+#: mediadrop/templates/admin/index.html:66
+#: mediadrop/templates/admin/media/edit.html:16
+#: mediadrop/templates/admin/media/edit.html:161
+#: mediadrop/templates/admin/media/index.html:77
+msgid "Add New Media"
+msgstr "Aggiungi un nuovo Media"
+
+#: mediadrop/templates/admin/index.html:73
+msgid "Recently Published"
+msgstr "Pubblicato recentemente"
+
+#: mediadrop/templates/admin/master.html:26
+#: mediadrop/templates/admin/master.html:47
+#: mediadrop/templates/admin/master.html:68
+msgid "MediaDrop"
+msgstr "MediaDrop"
+
+#: mediadrop/templates/admin/master.html:51
+msgid "View Site"
+msgstr "Visualizza sito"
+
+#: mediadrop/templates/admin/master.html:57
+#: mediadrop/templates/admin/categories/index.html:63
+#: mediadrop/templates/admin/media/index.html:18
+#: mediadrop/templates/admin/tags/index.html:60
+msgid "Media"
+msgstr "Media"
+
+#: mediadrop/templates/admin/master.html:60
+#: mediadrop/templates/admin/users/index.html:17
+#: mediadrop/templates/admin/users/index.html:38
+msgid "Users"
+msgstr "Utenti"
+
+#: mediadrop/templates/admin/master.html:62
+#: mediadrop/templates/admin/settings/master.html:36
+msgid "Settings"
+msgstr "Impostazioni"
+
+#: mediadrop/templates/admin/master.html:69
+#, fuzzy
+msgid "© 2009-2013 MediaDrop contributors"
+msgstr "© 2009-2013 MediaCore Inc. e contributori"
+
+#: mediadrop/templates/admin/categories/index.html:38
+#: mediadrop/templates/admin/comments/index.html:36
+#: mediadrop/templates/admin/comments/index.html:48
+#: mediadrop/templates/admin/groups/edit.html:25
+#: mediadrop/templates/admin/groups/index.html:29
+#: mediadrop/templates/admin/media/edit.html:77
+#: mediadrop/templates/admin/media/index.html:33
+#: mediadrop/templates/admin/players/index.html:25
+#: mediadrop/templates/admin/podcasts/edit.html:51
+#: mediadrop/templates/admin/storage/index.html:74
+#: mediadrop/templates/admin/tags/index.html:35
+#: mediadrop/templates/admin/users/edit.html:25
+#: mediadrop/templates/admin/users/index.html:26
+msgid "Confirm Delete"
+msgstr "Conferma cancellazione"
+
+#: mediadrop/templates/admin/categories/index.html:39
+#: mediadrop/templates/admin/comments/index.html:49
+#: mediadrop/templates/admin/media/index.html:34
+#: mediadrop/templates/admin/tags/index.html:36
+#, python-format
+msgid "Are you sure you want to delete these %(num)s items?"
+msgstr "Sei sicuro di voler cancellare questi %(num)s elementi?"
+
+#: mediadrop/templates/admin/categories/index.html:53
+#: mediadrop/templates/admin/categories/index.html:78
+msgid "Add Category"
+msgstr "Aggiungi Categoria"
+
+#: mediadrop/templates/admin/categories/index.html:54
+#: mediadrop/templates/admin/tags/index.html:51
+msgid "Bulk Delete"
+msgstr "Cancellazione in blocco"
+
+#: mediadrop/templates/admin/categories/index.html:82
+msgid "Edit Category"
+msgstr "Modifica Categoria"
+
+#: mediadrop/templates/admin/categories/index.html:86
+msgid "Delete Category"
+msgstr "Cancella Categoria"
+
+#: mediadrop/templates/admin/categories/index.html:89
+msgid "Are you sure you want to delete this category [1:and ALL of its children]?"
+msgstr ""
+"Sei sicuro di voler cancellare questa categoria [1:and TUTTI i suoi "
+"figli]?"
+
+#: mediadrop/templates/admin/categories/row-form.html:33
+#: mediadrop/templates/admin/comments/_comment-table.html:58
+#: mediadrop/templates/admin/groups/index.html:59
+#: mediadrop/templates/admin/media/edit.html:16
+#: mediadrop/templates/admin/media/edit.html:134
+#: mediadrop/templates/admin/players/index.html:78
+#: mediadrop/templates/admin/podcasts/_podcast-table.html:25
+#: mediadrop/templates/admin/podcasts/edit.html:44
+#: mediadrop/templates/admin/storage/index.html:145
+#: mediadrop/templates/admin/tags/row-form.html:24
+#: mediadrop/templates/admin/users/index.html:61
+#: mediadrop/templates/media/view.html:50
+#: mediadrop/templates/podcasts/view.html:31
+msgid "Edit"
+msgstr "Modifica"
+
+#: mediadrop/templates/admin/comments/_comment-table.html:22
+#: mediadrop/templates/admin/media/_media-table.html:25
+#: mediadrop/templates/admin/players/index.html:47
+#: mediadrop/templates/admin/storage/index.html:119
+msgid "Status"
+msgstr "Stato"
+
+#: mediadrop/templates/admin/comments/_comment-table.html:23
+#: mediadrop/templates/admin/media/_media-table.html:29
+msgid "Author"
+msgstr "Autore"
+
+#: mediadrop/templates/admin/comments/_comment-table.html:25
+msgid "In Response to"
+msgstr "In risposta a"
+
+#: mediadrop/templates/admin/comments/_comment-table.html:30
+#: mediadrop/templates/admin/groups/index.html:53
+#: mediadrop/templates/admin/media/_media-table.html:36
+#: mediadrop/templates/admin/players/index.html:55
+#: mediadrop/templates/admin/podcasts/_podcast-table.html:20
+#: mediadrop/templates/admin/storage/index.html:128
+#: mediadrop/templates/admin/users/index.html:53
+msgid "None Found"
+msgstr "Non è stato trovato nulla"
+
+#: mediadrop/templates/admin/comments/_comment-table.html:37
+msgid "This comment has already been approved for publishing"
+msgstr "Questo commento è già stato approvato per la pubblicazione"
+
+#: mediadrop/templates/admin/comments/_comment-table.html:38
+msgid "Approve this comment for publishing"
+msgstr "Approva questo commento per la pubblicazione"
+
+#: mediadrop/templates/admin/comments/_comment-table.html:38
+msgid "Approve"
+msgstr "Approva"
+
+#: mediadrop/templates/admin/comments/_comment-table.html:39
+msgid "Delete this comment"
+msgstr "Cancella questo commento"
+
+#: mediadrop/templates/admin/comments/_comment-table.html:49
+msgid "Submitted on"
+msgstr "Inviato su"
+
+#: mediadrop/templates/admin/comments/_comment-table.html:56
+msgid "Go to the admin page for this item"
+msgstr "Vai alla pagina di amministrazione per questo elemeno"
+
+#: mediadrop/templates/admin/comments/index.html:21
+#, python-format
+msgid "Comments for %(media_filter_title)s"
+msgstr "Commenti per %(media_filter_title)s "
+
+#: mediadrop/templates/admin/comments/index.html:21
+msgid "Comments for"
+msgstr "Commenti per"
+
+#: mediadrop/templates/admin/comments/index.html:33
+msgid "Edit Text"
+msgstr "Modifica testo"
+
+#: mediadrop/templates/admin/comments/index.html:34
+msgid "Cancel Edit"
+msgstr "Annulla la modifica"
+
+#: mediadrop/templates/admin/comments/index.html:39
+#, python-format
+msgid "Are you sure you want to delete %(name)s's comment?"
+msgstr "Sei sicuro di voler cancellare il commento di %(name)s?"
+
+#: mediadrop/templates/admin/comments/index.html:78
+#, python-format
+msgid "Comments that match '%(search)s'"
+msgstr "I commenti che corrispondono a '%(search)s'"
+
+#: mediadrop/templates/admin/comments/index.html:79
+msgid "All Comments"
+msgstr "Tutti i commenti"
+
+#: mediadrop/templates/admin/comments/index.html:80
+#, python-format
+msgid "Comments for %(search)s"
+msgstr "Commenti per %(search)s "
+
+#: mediadrop/templates/admin/comments/index.html:88
+#: mediadrop/templates/admin/media/index.html:85
+msgid "Publish"
+msgstr "Pubblica"
+
+#: mediadrop/templates/admin/comments/index.html:95
+#: mediadrop/templates/admin/media/index.html:92
+msgid "Bulk Actions"
+msgstr "Azioni in blocco"
+
+#: mediadrop/templates/admin/groups/edit.html:26
+#: mediadrop/templates/admin/media/edit.html:78
+#: mediadrop/templates/admin/players/index.html:26
+#: mediadrop/templates/admin/podcasts/edit.html:52
+#: mediadrop/templates/admin/storage/index.html:30
+#: mediadrop/templates/admin/tags/index.html:83
+#: mediadrop/templates/admin/users/edit.html:26
+msgid "Are you sure you want to delete this?"
+msgstr "Sei sicuro di volerlo cancellare?"
+
+#: mediadrop/templates/admin/groups/edit.html:37
+msgid "New Group"
+msgstr "Nuovo gruppo"
+
+#: mediadrop/templates/admin/groups/index.html:32
+msgid "Are you sure you want to delete this group?"
+msgstr "Sei sicuro di voler cancellare questo gruppo?"
+
+#: mediadrop/templates/admin/groups/index.html:42
+msgid "Add Group"
+msgstr "Aggiungi Gruppo"
+
+#: mediadrop/templates/admin/media/_media-table.html:22
+msgid "Publish Date"
+msgstr "Data pubblicazione"
+
+#: mediadrop/templates/admin/media/_media-table.html:23
+msgid "Upload Date"
+msgstr "Data caricamento"
+
+#: mediadrop/templates/admin/media/_media-table.html:24
+#: mediadrop/templates/admin/media/update-status-form.html:33
+msgid "Publish Status"
+msgstr "Stato di pubblicazione"
+
+#: mediadrop/templates/admin/media/_media-table.html:27
+msgid "Number of Comments"
+msgstr "Numero di commenti"
+
+#: mediadrop/templates/admin/media/_media-table.html:48
+#: mediadrop/templates/admin/media/index.html:111
+msgid "Unencoded"
+msgstr "Non codificato"
+
+#: mediadrop/templates/admin/media/_media-table.html:49
+msgid "Draft"
+msgstr "Bozza"
+
+#: mediadrop/templates/admin/media/_media-table.html:51
+msgid "Publishing..."
+msgstr "Sto pubblicando..."
+
+#: mediadrop/templates/admin/media/edit.html:62
+#: mediadrop/templates/admin/podcasts/edit.html:31
+msgid "Saving the file failed. Please try again"
+msgstr "Salvataggio del file fallito. Per favore riprova."
+
+#: mediadrop/templates/admin/media/edit.html:63
+#: mediadrop/templates/admin/podcasts/edit.html:32
+#, python-format
+msgid "Security error occured (%(text)s)"
+msgstr "Errore di protezione (%(text)s)"
+
+#: mediadrop/templates/admin/media/edit.html:64
+#: mediadrop/templates/admin/podcasts/edit.html:33
+#, python-format
+msgid "Error caused a send or load operation to fail (%(text)s)"
+msgstr ""
+"Un errore ha causato il fallimento dell'operazione di invio o di "
+"caricamento (%(text)s)"
+
+#: mediadrop/templates/admin/media/edit.html:67
+#: mediadrop/templates/admin/podcasts/edit.html:36
+msgid "File has already been added, duplicates are not allowed"
+msgstr "Il file è già stato aggiunto, i duplicati non sono consentiti"
+
+#: mediadrop/templates/admin/media/edit.html:68
+#: mediadrop/templates/admin/podcasts/edit.html:37
+#, python-format
+msgid "File is too small, the minimal file size is %(size)s"
+msgstr "Il file è troppo piccolo, la dimensione minima del file è %(size)s "
+
+#: mediadrop/templates/admin/media/edit.html:69
+#: mediadrop/templates/admin/podcasts/edit.html:38
+#, python-format
+msgid "File is too large, the maximum file size is %(size)s"
+msgstr "Il file è troppo grande, la dimensione massima del file è %(size)s "
+
+#: mediadrop/templates/admin/media/edit.html:70
+#: mediadrop/templates/admin/podcasts/edit.html:39
+#, python-format
+msgid "File could not be added, amount of %(num)s files exceeded"
+msgstr "Il file non può essere aggiunto, quantità di %(num)s file superato"
+
+#: mediadrop/templates/admin/media/edit.html:71
+#: mediadrop/templates/admin/podcasts/edit.html:40
+#, python-format
+msgid "File is too big, overall filesize of %(size)s exceeded"
+msgstr "Il file è troppo grande, dimensione complessiva %(size)s superata"
+
+#: mediadrop/templates/admin/media/edit.html:93
+#: mediadrop/templates/admin/podcasts/edit.html:63
+msgid "Upload image"
+msgstr "Carica immagine"
+
+#: mediadrop/templates/admin/media/edit.html:102
+msgid "Are you sure you want to delete this file?"
+msgstr "Sei sicuro di voler cancellare questo file?"
+
+#: mediadrop/templates/admin/media/edit.html:107
+msgid "Upload a file"
+msgstr "Carica un file"
+
+#: mediadrop/templates/admin/media/edit.html:114
+msgid "Failed to add this file. Please try again."
+msgstr "Problemi a caricare il file. Per favore riprova."
+
+#: mediadrop/templates/admin/media/edit.html:115
+msgid "Failed to save your change. Please try again."
+msgstr "Non è stato possibile salvare la modifica. Per favore riprova."
+
+#: mediadrop/templates/admin/media/edit.html:116
+msgid "Uploading"
+msgstr "Sto caricando"
+
+#: mediadrop/templates/admin/media/edit.html:117
+msgid "Queued"
+msgstr "In coda"
+
+#: mediadrop/templates/admin/media/edit.html:118
+msgid "Error"
+msgstr "Errore"
+
+#: mediadrop/templates/admin/media/edit.html:130
+msgid "A connection problem occurred, try again."
+msgstr "Si è verificato un  problema di connessione, prova ancora."
+
+#: mediadrop/templates/admin/media/edit.html:131
+msgid "An error has occurred, try again."
+msgstr "Si è verificato un errore, prova ancora."
+
+#: mediadrop/templates/admin/media/edit.html:134
+#: mediadrop/templates/admin/media/edit.html:219
+#: mediadrop/templates/admin/podcasts/edit.html:44
+msgid "Hide"
+msgstr "Nascondi"
+
+#: mediadrop/templates/admin/media/edit.html:135
+msgid "Saving"
+msgstr "Sto salvando"
+
+#: mediadrop/templates/admin/media/edit.html:136
+msgid "Saved!"
+msgstr "Salvato!"
+
+#: mediadrop/templates/admin/media/edit.html:137
+msgid "Saving failed. Please try again."
+msgstr "Salvataggio fallito. Prova ancora per favore."
+
+#: mediadrop/templates/admin/media/edit.html:138
+msgid "Please correct the highlighted errors and save again."
+msgstr "Per favore correggi gli errori evidenziati e salva nuovamente."
+
+#: mediadrop/templates/admin/media/edit.html:160
+#: mediadrop/templates/admin/podcasts/edit.html:87
+msgid "Uploaded:"
+msgstr "Caricati:"
+
+#: mediadrop/templates/admin/media/edit.html:171
+#: mediadrop/templates/admin/storage/index.html:122
+msgid "Files"
+msgstr "File"
+
+#: mediadrop/templates/admin/media/edit.html:172
+msgid "Add & Manage"
+msgstr "Aggiungi e gestisci"
+
+#: mediadrop/templates/admin/media/edit.html:175
+#: mediadrop/templates/admin/media/file-edit-form.html:15
+msgid "View this file"
+msgstr "Visualizza questo file"
+
+#: mediadrop/templates/admin/media/edit.html:189
+#: mediadrop/templates/admin/podcasts/edit.html:102
+msgid "Thumbnail"
+msgstr "Miniatura"
+
+#: mediadrop/templates/admin/media/edit.html:192
+#: mediadrop/templates/admin/podcasts/_podcast-table.html:32
+#: mediadrop/templates/admin/podcasts/edit.html:106
+msgid "Thumb"
+msgstr "Miniatura"
+
+#: mediadrop/templates/admin/media/edit.html:216
+msgid "Manage Files"
+msgstr "Gestisci file"
+
+#: mediadrop/templates/admin/media/edit.html:225
+msgid "File"
+msgstr "File"
+
+#: mediadrop/templates/admin/media/edit.html:226
+msgid "Size"
+msgstr "Grandezza"
+
+#: mediadrop/templates/admin/media/edit.html:227
+msgid "Duration"
+msgstr "Durata"
+
+#: mediadrop/templates/admin/media/edit.html:228
+msgid "Bitrate"
+msgstr "Bitrate"
+
+#: mediadrop/templates/admin/media/edit.html:229
+msgid "Dimensions"
+msgstr "Dimensioni"
+
+#: mediadrop/templates/admin/media/edit.html:230
+msgid "Type"
+msgstr "Tipo"
+
+#: mediadrop/templates/admin/media/file-add-form.html:17
+msgid "OR"
+msgstr "OPPURE"
+
+#: mediadrop/templates/admin/media/file-form.html:17
+msgid "or"
+msgstr "oppure"
+
+#: mediadrop/templates/admin/media/index.html:66
+#, python-format
+msgid "Media that matches '%(search)s'"
+msgstr "Media che corrisponde a '%(search)s'"
+
+#: mediadrop/templates/admin/media/index.html:67
+#, python-format
+msgid "%(podcastTitle)s Episodes"
+msgstr "Episodi %(podcastTitle)s "
+
+#: mediadrop/templates/admin/media/index.html:68
+#, python-format
+msgid "Media in '%(categoryName)s'"
+msgstr "Media in '%(categoryName)s'"
+
+#: mediadrop/templates/admin/media/index.html:69
+#, python-format
+msgid "Media tagged '%(tagName)s'"
+msgstr "Media taggati '%(tagName)s'"
+
+#: mediadrop/templates/admin/media/index.html:70
+msgid "Unreviewed Media"
+msgstr "Media non Recensito"
+
+#: mediadrop/templates/admin/media/index.html:71
+msgid "Unencoded Media"
+msgstr "Media non codificato"
+
+#: mediadrop/templates/admin/media/index.html:72
+msgid "Draft Media"
+msgstr "Bozza del Media"
+
+#: mediadrop/templates/admin/media/index.html:73
+msgid "Published Media"
+msgstr "Media Pubblicato"
+
+#: mediadrop/templates/admin/media/index.html:74
+#: mediadrop/templates/admin/media/index.html:105
+msgid "All Media"
+msgstr "Tutti i Media"
+
+#: mediadrop/templates/admin/media/index.html:84
+msgid "Review"
+msgstr "Recensione"
+
+#: mediadrop/templates/admin/media/index.html:114
+msgid "Drafts"
+msgstr "Bozze"
+
+#: mediadrop/templates/admin/media/index.html:124
+msgid "Filters"
+msgstr "Filtri"
+
+#: mediadrop/templates/admin/media/update-status-form.html:20
+msgid "View this media where it is published"
+msgstr "Visualizza questa media dove è pubblicato"
+
+#: mediadrop/templates/admin/media/update-status-form.html:25
+msgid "View this media where it will be published"
+msgstr "Visualizza questo media, dove sarà pubblicato"
+
+#: mediadrop/templates/admin/media/update-status-form.html:25
+msgid "Preview"
+msgstr "Anteprima"
+
+#: mediadrop/templates/admin/media/update-status-form.html:42
+msgid "You must add a file and save before review can begin."
+msgstr ""
+"È necessario aggiungere un file e salvarlo prima che la revisione possa "
+"iniziare."
+
+#: mediadrop/templates/admin/media/update-status-form.html:46
+msgid "Review Pending"
+msgstr "In attesa di revisione"
+
+#: mediadrop/templates/admin/media/update-status-form.html:47
+#: mediadrop/templates/admin/media/update-status-form.html:73
+#: mediadrop/templates/admin/media/update-status-form.html:86
+msgid "Encoding Complete"
+msgstr "Codifica completata"
+
+#: mediadrop/templates/admin/media/update-status-form.html:47
+#: mediadrop/templates/admin/media/update-status-form.html:63
+msgid "Encoding Pending"
+msgstr "In attesa di codifica"
+
+#: mediadrop/templates/admin/media/update-status-form.html:48
+#: mediadrop/templates/admin/media/update-status-form.html:64
+#: mediadrop/templates/admin/media/update-status-form.html:74
+#: mediadrop/templates/admin/media/update-status-form.html:87
+msgid "Click to change the publish date"
+msgstr "Premi per cambiare la data di pubblicazione"
+
+#: mediadrop/templates/admin/media/update-status-form.html:48
+#: mediadrop/templates/admin/media/update-status-form.html:64
+#: mediadrop/templates/admin/media/update-status-form.html:74
+#: mediadrop/templates/admin/media/update-status-form.html:88
+msgid "Publishing"
+msgstr "In pubblicazione"
+
+#: mediadrop/templates/admin/media/update-status-form.html:49
+#: mediadrop/templates/admin/media/update-status-form.html:65
+#: mediadrop/templates/admin/media/update-status-form.html:75
+#: mediadrop/templates/admin/media/update-status-form.html:89
+msgid "Pending"
+msgstr "In attesa"
+
+#: mediadrop/templates/admin/media/update-status-form.html:55
+#: mediadrop/templates/admin/media/update-status-form.html:62
+#: mediadrop/templates/admin/media/update-status-form.html:72
+#: mediadrop/templates/admin/media/update-status-form.html:85
+msgid "Review Complete"
+msgstr "Recensione completa"
+
+#: mediadrop/templates/admin/media/update-status-form.html:57
+msgid "Review can only be completed after a file is added."
+msgstr "La recensione può essere completata solo dopo che un file viene aggiunto."
+
+#: mediadrop/templates/admin/media/update-status-form.html:68
+msgid "Encoding will be complete when an acceptable file is added."
+msgstr "La codifica sarà completa quando uno dei file consentiti verrà aggiunto."
+
+#: mediadrop/templates/admin/media/update-status-form.html:80
+msgid "Publish Now"
+msgstr "Pubblica ora"
+
+#: mediadrop/templates/admin/media/update-status-form.html:94
+msgid "Click to change the expiration date"
+msgstr "Premi per cambiare la data di scadenza"
+
+#: mediadrop/templates/admin/media/update-status-form.html:94
+msgid "Expires"
+msgstr "Scaduto"
+
+#: mediadrop/templates/admin/media/update-status-form.html:95
+msgid "never"
+msgstr "mai"
+
+#: mediadrop/templates/admin/players/index.html:16
+#: mediadrop/templates/admin/players/index.html:40
+#: mediadrop/templates/admin/settings/master.html:63
+msgid "Players"
+msgstr "Visualizzatori"
+
+#: mediadrop/templates/admin/players/index.html:26
+msgid "By deleting this player you will lose all settings related to it."
+msgstr ""
+"Con l'eliminazione di questo visualizzatore si perderanno tutte le "
+"impostazioni relative ad esso."
+
+#: mediadrop/templates/admin/players/index.html:49
+msgid "Priority"
+msgstr "Priorità"
+
+#: mediadrop/templates/admin/players/index.html:71
+msgid "Up"
+msgstr "Su"
+
+#: mediadrop/templates/admin/players/index.html:72
+msgid "Down"
+msgstr "Giù"
+
+#: mediadrop/templates/admin/podcasts/_podcast-table.html:39
+msgid "Category:"
+msgstr "Categoria"
+
+#: mediadrop/templates/admin/podcasts/_podcast-table.html:41
+msgid "Author:"
+msgstr "Autore"
+
+#: mediadrop/templates/admin/podcasts/_podcast-table.html:45
+msgid "Explicit"
+msgstr "Esplicito"
+
+#: mediadrop/templates/admin/podcasts/_podcast-table.html:51
+msgid "Add episode"
+msgstr "Aggiungi episodio"
+
+#: mediadrop/templates/admin/podcasts/_podcast-table.html:53
+#, python-format
+msgid "View First Episode %(num)s"
+msgid_plural "View All %(num)s Episodes"
+msgstr[0] "Vedi il primo episodio"
+msgstr[1] "Vedi tutti gli episodi (%(num)s)"
+
+#: mediadrop/templates/admin/podcasts/edit.html:16
+msgid "Edit Podcast"
+msgstr "Modifica Podcast"
+
+#: mediadrop/templates/admin/podcasts/edit.html:16
+#: mediadrop/templates/admin/podcasts/edit.html:88
+msgid "New Podcast"
+msgstr "Nuovo Podcast"
+
+#: mediadrop/templates/admin/podcasts/edit.html:97
+msgid "View this podcast where it is published"
+msgstr "Visualizza questo podcast dove è stato pubblicato"
+
+#: mediadrop/templates/admin/podcasts/feed_fieldset.html:39
+msgid "Get an iTunes URL"
+msgstr "Prendi un URL iTunes"
+
+#: mediadrop/templates/admin/podcasts/feed_fieldset.html:40
+msgid "Get a Feedburner URL"
+msgstr "Prendi un URL Feedburner"
+
+#: mediadrop/templates/admin/podcasts/index.html:25
+msgid "Add Podcast"
+msgstr "Aggiungi Podcast"
+
+#: mediadrop/templates/admin/settings/advertising.html:17
+#: mediadrop/templates/admin/settings/advertising.html:23
+#: mediadrop/templates/admin/settings/master.html:42
+msgid "Advertising"
+msgstr "Pubblicità"
+
+#: mediadrop/templates/admin/settings/analytics.html:17
+#: mediadrop/templates/admin/settings/analytics.html:23
+#: mediadrop/templates/admin/settings/master.html:45
+msgid "Analytics"
+msgstr "Analytics"
+
+#: mediadrop/templates/admin/settings/api.html:16
+#: mediadrop/templates/admin/settings/api.html:26
+#: mediadrop/templates/admin/settings/master.html:57
+msgid "Data API"
+msgstr "API dati"
+
+#: mediadrop/templates/admin/settings/api.html:19
+msgid "Generate"
+msgstr "Genera"
+
+#: mediadrop/templates/admin/settings/appearance.html:17
+#: mediadrop/templates/admin/settings/appearance.html:38
+#: mediadrop/templates/admin/settings/master.html:48
+msgid "Appearance"
+msgstr "Aspetto"
+
+#: mediadrop/templates/admin/settings/appearance.html:26
+msgid "Confirm Reset"
+msgstr "Conferma reset"
+
+#: mediadrop/templates/admin/settings/appearance.html:27
+msgid "Are you sure you want to reset your settings to the default?"
+msgstr "Sei sicuro di voler riportare le impostazioni al default?"
+
+#: mediadrop/templates/admin/settings/master.html:60
+msgid "Notifications"
+msgstr "Notifiche"
+
+#: mediadrop/templates/admin/settings/master.html:66
+#: mediadrop/templates/admin/settings/popularity.html:16
+#: mediadrop/templates/admin/settings/popularity.html:22
+msgid "Popularity"
+msgstr "Popolarità"
+
+#: mediadrop/templates/admin/settings/master.html:69
+#: mediadrop/templates/admin/settings/sitemaps.html:17
+#: mediadrop/templates/admin/settings/sitemaps.html:23
+msgid "RSS and Sitemaps"
+msgstr "RSS e Mappa del sito"
+
+#: mediadrop/templates/admin/settings/master.html:72
+#: mediadrop/templates/admin/storage/index.html:16
+#: mediadrop/templates/admin/storage/index.html:112
+msgid "Storage Engines"
+msgstr "Motore di Archiviazione"
+
+#: mediadrop/templates/admin/settings/master.html:83
+msgid "Plugins"
+msgstr "Plugin"
+
+#: mediadrop/templates/admin/settings/notifications.html:16
+#: mediadrop/templates/admin/settings/notifications.html:22
+msgid "Notification Emails"
+msgstr "Email di notifica"
+
+#: mediadrop/templates/admin/storage/edit.html:23
+msgid "New Storage Engine"
+msgstr "Nuovo Motore di Archiviazione"
+
+#: mediadrop/templates/admin/storage/index.html:25
+msgid "WARNING:"
+msgstr "Attenzione:"
+
+#: mediadrop/templates/admin/storage/index.html:26
+#, python-format
+msgid "Deleting this Storage Engine (%(name)s) will:"
+msgstr "L'eliminazione di questo archivatore (%(name)s) farà:"
+
+#: mediadrop/templates/admin/storage/index.html:27
+#, python-format
+msgid ""
+"Permanently delete all of the %(num)s media files stored by this Storage "
+"Engine."
+msgstr ""
+"Eliminare definitivamente tutti i %(num)s  file multimediali archiviati "
+"da questo archivatore."
+
+#: mediadrop/templates/admin/storage/index.html:28
+msgid "Permanently erase its settings."
+msgstr "Cancellare in modo permanente le impostazioni."
+
+#: mediadrop/templates/admin/storage/index.html:29
+msgid ""
+"An alternative to deleting is disabling. Disabling a Storage Engine will "
+"simply prevent its use for files added from now on."
+msgstr ""
+"Un'alternativa alla cancellazione è la disabilitazione. La disattivazione"
+" di un archivatore ne impedirà semplicemente l'utilizzo per i file "
+"aggiunti da ora in poi."
+
+#: mediadrop/templates/admin/storage/index.html:92
+msgid "Disable"
+msgstr "Disabilita"
+
+#: mediadrop/templates/admin/storage/index.html:113
+#: mediadrop/templates/admin/storage/index.html:153
+msgid "Add New Engine"
+msgstr "Aggiungi nuovo archivatore"
+
+#: mediadrop/templates/admin/storage/index.html:121
+msgid "Disk Usage"
+msgstr "Utilizzo Disco"
+
+#: mediadrop/templates/admin/storage/index.html:155
+msgid "Please select what type of storage engine you would like to add:"
+msgstr "Si prega di selezionare il tipo di archivatore che si desidera aggiungere:"
+
+#: mediadrop/templates/admin/tags/index.html:50
+#: mediadrop/templates/admin/tags/index.html:72
+msgid "Add Tag"
+msgstr "Aggiungi Tag"
+
+#: mediadrop/templates/admin/tags/index.html:76
+msgid "Edit Tag"
+msgstr "Modifica Tag"
+
+#: mediadrop/templates/admin/tags/index.html:80
+msgid "Delete Tag"
+msgstr "Cancella Tag"
+
+#: mediadrop/templates/admin/users/edit.html:37
+msgid "New User"
+msgstr "Nuovo utente"
+
+#: mediadrop/templates/admin/users/index.html:29
+msgid "Are you sure you want to delete this user?"
+msgstr "Sei sicuro di voler cancellare questo utente?"
+
+#: mediadrop/templates/admin/users/index.html:39
+msgid "Add User"
+msgstr "Aggiungi utente"
+
+#: mediadrop/templates/admin/users/index.html:46
+msgid "Email"
+msgstr "Email"
+
+#: mediadrop/templates/admin/users/index.html:47
+msgid "Group"
+msgstr "Gruppo"
+
+#: mediadrop/templates/categories/index.html:28
+#: mediadrop/templates/media/explore.html:102
+msgid "More new media"
+msgstr "Altri nuovi media"
+
+#: mediadrop/templates/categories/index.html:28
+#: mediadrop/templates/categories/index.html:33
+#: mediadrop/templates/media/explore.html:87
+#: mediadrop/templates/media/explore.html:102
+msgid "View More"
+msgstr "Visualizza altri"
+
+#: mediadrop/templates/categories/index.html:33
+#: mediadrop/templates/media/explore.html:87
+msgid "More popular media"
+msgstr "Media più popolari"
+
+#: mediadrop/templates/categories/index.html:35
+#: mediadrop/templates/categories/more.html:26
+msgid "There is no media in this category."
+msgstr "Non ci sono media in questa categoria."
+
+#: mediadrop/templates/categories/layout.html:27
+msgid "Choose a Category:"
+msgstr "Scegli una categoria:"
+
+#: mediadrop/templates/comments/_list.html:31
+#, python-format
+msgid "said on %(datetime)s…"
+msgstr "ha detto il %(datetime)s  ..."
+
+#: mediadrop/templates/comments/_list.html:45
+msgid "No comments have been posted yet."
+msgstr "Nessun commento"
+
+#: mediadrop/templates/comments/_list.html:59
+msgid "Write a comment"
+msgstr "Scrivi un commento"
+
+#: mediadrop/templates/comments/_list.html:76
+msgid "Email Address (will never be published)"
+msgstr "Indirizzo e-mail (non sarà mai pubblicato)"
+
+#: mediadrop/templates/comments/_list.html:94
+msgid "Submit Comment"
+msgstr "Invia un commento"
+
+#: mediadrop/templates/media/explore.html:92
+#, python-format
+msgid ""
+"As soon as there are more than %(num)s published videos in the library, "
+"the most popular videos will be listed here."
+msgstr ""
+"Non appena ci sono più di %(num)s video pubblicati in biblioteca, i video"
+" più popolari saranno elencati qui."
+
+#: mediadrop/templates/media/explore.html:93
+msgid "Why not add a few more?"
+msgstr "Perché non aggiungerne altri?"
+
+#: mediadrop/templates/media/index.html:17
+#, python-format
+msgid "Search: \"%s\""
+msgstr "Cerca: \"%s\""
+
+#: mediadrop/templates/media/index.html:25
+#, python-format
+msgid "Showing %(result_count)s results for '%(search_query)s'"
+msgstr "Mostrati i %(result_count)s  risultati per '%(search_query)s'"
+
+#: mediadrop/templates/media/index.html:26
+#, python-format
+msgid "Showing %(result_count)s results tagged with '%(tag_name)s'"
+msgstr "Mostrati %(result_count)s risultati  taggati con '%(tag_name)s'"
+
+#: mediadrop/templates/media/index.html:27
+#, python-format
+msgid "All %(result_count)s Media"
+msgstr "Tutti i %(result_count)s  Media"
+
+#: mediadrop/templates/media/tags.html:20
+msgid "All Tags"
+msgstr "Tutti i Tag"
+
+#: mediadrop/templates/media/view.html:54
+msgid "(unpublished)"
+msgstr "(non pubblicato)"
+
+#: mediadrop/templates/media/view.html:55
+#, python-format
+msgid "by %(authorName)s"
+msgstr "da %(authorName)s "
+
+#: mediadrop/templates/media/view.html:65
+#: mediadrop/templates/players/html5_or_flash.html:61
+msgid "Dislike"
+msgid_plural "Dislikes"
+msgstr[0] "non piace"
+msgstr[1] "non piacciono"
+
+#: mediadrop/templates/media/view.html:87
+msgid "Related Podcast"
+msgstr "Podcast associati"
+
+#: mediadrop/templates/media/view.html:97
+msgid "Podcast Episodes"
+msgstr "Episodi Podcast"
+
+#: mediadrop/templates/media/view.html:100
+msgid "Episode"
+msgid_plural "Episodes"
+msgstr[0] "Episodio"
+msgstr[1] "Episodi"
+
+#: mediadrop/templates/media/view.html:114
+msgid "Related Media"
+msgstr "Media associati"
+
+#: mediadrop/templates/media/view.html:122
+msgid "This is not listed under any categories."
+msgstr "Non è elencato in nessuna categoria"
+
+#: mediadrop/templates/media/view.html:126
+msgid "See All Tags"
+msgstr "Vedi tutti i Tag"
+
+#: mediadrop/templates/media/view.html:130
+msgid "This does not have any associated tags."
+msgstr "Questo non ha alcun tag associato."
+
+#: mediadrop/templates/players/html5_or_flash.html:70
+msgid "Pop out a new player window"
+msgstr "Apri una nuova finestra di visualizzazione"
+
+#: mediadrop/templates/players/html5_or_flash.html:70
+msgid "Pop Out"
+msgstr "Pop Out"
+
+#: mediadrop/templates/players/html5_or_flash.html:71
+msgid "Shrink"
+msgstr "Riduci"
+
+#: mediadrop/templates/players/html5_or_flash.html:71
+msgid "Expand"
+msgstr "Espandi"
+
+#: mediadrop/templates/players/html5_or_flash.html:73
+msgid "Share"
+msgstr "Condividi"
+
+#: mediadrop/templates/players/html5_or_flash.html:77
+msgid "Permalink:"
+msgstr "Permalink:"
+
+#: mediadrop/templates/players/html5_or_flash.html:80
+msgid "Share by email"
+msgstr "Condividi via email"
+
+#: mediadrop/templates/players/html5_or_flash.html:80
+msgid "Share by Email"
+msgstr "Condividi via email"
+
+#: mediadrop/templates/players/html5_or_flash.html:81
+msgid "Share on Facebook"
+msgstr "Condividi su Facebook"
+
+#: mediadrop/templates/players/html5_or_flash.html:82
+msgid "Share on Twitter"
+msgstr "Condividi con Twitter"
+
+#: mediadrop/templates/players/html5_or_flash.html:87
+msgid "Embed"
+msgstr "Incorpora"
+
+#: mediadrop/templates/players/html5_or_flash.html:91
+msgid "Embeddable Player HTML:"
+msgstr "Visualizzatore HTML integrabile:"
+
+#: mediadrop/templates/players/html5_or_flash.html:97
+msgid "Download"
+msgstr "Scarica"
+
+#: mediadrop/templates/podcasts/index.html:23
+msgid "All Podcasts"
+msgstr "Tutti i podcast"
+
+#: mediadrop/templates/podcasts/index.html:34
+#: mediadrop/templates/podcasts/view.html:35
+msgid "Add to iTunes"
+msgstr "Aggiungi ad iTunes"
+
+#: mediadrop/templates/podcasts/index.html:35
+#: mediadrop/templates/podcasts/view.html:36
+msgid "Subscribe via RSS"
+msgstr "Sottoscrivi via RSS"
+
+#: mediadrop/templates/podcasts/index.html:38
+msgid "Latest Episodes"
+msgstr "Ultimi episodi"
+
+#: mediadrop/templates/podcasts/index.html:45
+msgid "Browse all episodes"
+msgstr "Naviga tutti gli episodi"
+
+#: mediadrop/templates/podcasts/view.html:42
+#, python-format
+msgid "%(result_count)s Episodes"
+msgid_plural "All %(result_count)s Episodes"
+msgstr[0] "Tutti i %(result_count)s  Episodi"
+msgstr[1] "%(result_count)s  Episodi"
+
+#: mediadrop/templates/upload/failure.html:17
+#: mediadrop/templates/upload/success.html:17
+msgid "Upload Videos"
+msgstr "Carica video"
+
+#: mediadrop/templates/upload/failure.html:22
+msgid "Upload Error"
+msgstr "Errore di caricamento"
+
+#: mediadrop/templates/upload/failure.html:26
+msgid ""
+"During your upload, something went wrong, but don't worry. The engineers "
+"and gnomes have been automagically notified and we're already on our way "
+"to resolving your issue."
+msgstr ""
+"Durante il caricamento, qualcosa è andato storto, ma non preoccuparti. "
+"Gli ingegneri e gli gnomi sono stati avvisati automagicamente e siamo già"
+" sulla buona strada per risolvere il problema."
+
+#: mediadrop/templates/upload/failure.html:28
+msgid "Something you can check:"
+msgstr "Qualcosa che puoi  controllare:"
+
+#: mediadrop/templates/upload/failure.html:30
+#, python-format
+msgid "Is the file under %(maxUploadSize)s Megabytes in size?"
+msgstr "Il file è al di sotto di %(maxUploadSize)s Megabytes?"
+
+#: mediadrop/templates/upload/failure.html:33
+msgid "Try Uploading Again"
+msgstr "Prova a caricare nuovamente"
+
+#: mediadrop/templates/upload/form.html:52
+msgid "Choose a file to upload"
+msgstr "Scegli un file da caricare"
+
+#: mediadrop/templates/upload/index.html:45
+msgid "Problems?"
+msgstr "Problemi?"
+
+#: mediadrop/templates/upload/index.html:46
+msgid "If you have problems uploading or have some questions, please email us at"
+msgstr ""
+"Se hai problemi nel caricare o hai qualche domanda, per favore manda una "
+"email a"
+
+#: mediadrop/templates/upload/success.html:23
+msgid "Upload Successful"
+msgstr "Caricamento riuscito"
+
+#: mediadrop/templates/upload/success.html:27
+msgid "Awesome, your upload was successful!"
+msgstr "Ottimo, caricamento avvenuto con successo!"
+
+#: mediadrop/templates/upload/success.html:28
+msgid ""
+"Your submission is awaiting review by a moderator and will be posted "
+"shortly."
+msgstr ""
+"Il tuo invio è in attesa di revisione da un moderatore e verrà pubblicato"
+" a breve."
+
+#: mediadrop/templates/upload/success.html:29
+msgid ""
+"You will be automatically redirected back to the [1:Media Library] in a "
+"few seconds. Hang tight."
+msgstr ""
+"Sarai automaticamente reindirizzato alla [1:Media Library] in pochi "
+"secondi. Attendere prego."
+
+#: mediadrop/validation/uri_validator.py:21
+msgid "That is not a valid URL."
+msgstr "Questa non è un' URL valida."
+

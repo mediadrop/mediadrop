@@ -1,0 +1,114 @@
+<!--!
+This file is a part of MediaDrop (http://www.mediadrop.net),
+Copyright 2009-2013 MediaDrop contributors
+For the exact contribution history, see the git revision log.
+The source code contained in this file is licensed under the GPLv3 or
+(at your option) any later version.
+See LICENSE.txt in the main project directory, for more information.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:i18n="http://genshi.edgewall.org/i18n"
+      xmlns:py="http://genshi.edgewall.org/"
+      xmlns:xi="http://www.w3.org/2001/XInclude"
+      i18n:domain="mediadrop"
+      py:strip="">
+
+<xi:include href="./helpers.html" />
+<xi:include py:for="tmpl in g.plugin_mgr.match_templates('master.html')" href="${tmpl}" />
+<xi:include py:for="tmpl in value_of('plugin_templates', ())" href="${tmpl}" />
+
+<head py:match="head">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="language" content="${translator.locale.territory and '%s-%s' % (translator.locale.language, translator.locale.territory.lower()) or translator.locale.language}" />
+	<link href="${h.url_for('/styles/base.css')}" media="screen" rel="stylesheet" type="text/css" />
+	${Markup(h.response.stylesheets.render())}
+	<link href="${h.url_for('/appearance/appearance.css')}" media="screen" rel="stylesheet" type="text/css" />
+	<py:choose test="bool(h.request.params.get('debug', False))">
+		<py:when test="True">
+			<script type="text/javascript" src="${h.url_for('/scripts/goog/base.js')}"></script>
+			<script type="text/javascript" src="${h.url_for('/scripts/mcore/deps.js')}"></script>
+			<script type="text/javascript" src="${h.url_for('/scripts/mcore/base.js')}"></script>
+		</py:when>
+		<script py:otherwise="" type="text/javascript" src="${h.url_for('/scripts/mcore-compiled.js')}"></script>
+	</py:choose>
+	${Markup(h.response.scripts.render())}
+	<py:if test="settings['appearance_custom_head_tags']">
+		${Markup(settings['appearance_custom_head_tags'])}
+	</py:if>
+	
+	<py:for each="url, title in response.feed_links">
+		<link type="application/rss+xml" rel="alternate" href="${url}" title="${title}" />
+	</py:for>
+	<meta py:replace="select('*')"/>
+	<script py:if="settings.get('google_analytics_uacct', None)" type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', '${settings['google_analytics_uacct']}']);
+		_gaq.push(['_trackPageview']);
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+</head>
+
+<body py:match="body" py:attrs="h.append_class_attr(attrs, 'mcore-body')" py:with="
+	attrs = h.attrs_to_dict(select('@*'));
+	body_class = attrs.get('class', '').split(' ');
+	advertising_banner_html = settings['advertising_banner_html'];
+">
+
+    <div class="mcore-login-box clearfix" py:if="settings.get('appearance_display_login')">
+        <div class="mcore-login-bar">
+            <py:choose>
+                <py:when test="request.perm.user and (request.perm.user.user_name != u'anonymous')">
+                    <span>
+                        ${request.perm.user.display_name} | 
+                        <span py:if="h.has_permission('admin') or h.has_permission('edit')">
+                            <a href="${h.url_for('/admin')}">Admin</a> | 
+                        </span>
+                        <a href="${h.url_for('/logout')}">Logout</a>
+                    </span>
+                </py:when>
+                <py:otherwise>
+                    <span>
+                        <a href="${h.url_for('/login', came_from=h.current_url())}">Login</a>
+                    </span>
+                </py:otherwise>
+            </py:choose>
+        </div>
+    </div>
+
+	<div id="nav-box" class="mcore-nav-box">
+		<ul py:if="not c.nav_hide_main" class="mcore-nav">
+			<li class="mcore-nav-left"><a class="${'nav-explore-on' in body_class and 'active' or None} mcore-nav-link" href="${h.url_for(controller='/media', action='explore')}"><span>Explore</span><em /></a></li>
+			<li><a class="${'nav-media-on' in body_class and 'active' or None} mcore-nav-link" href="${h.url_for(controller='/media')}"><span>Media Library</span><em /></a></li>
+			<li><a py:if="settings['appearance_enable_podcast_tab']" class="${'nav-podcasts-on' in body_class and 'active' or None} mcore-nav-link" href="${h.url_for(controller='/podcasts')}"><span>Podcasts</span><em /></a></li>
+			<li class="mcore-nav-right"><a class="${'nav-categories-on' in body_class and 'active' or None} mcore-nav-link" href="${h.url_for(controller='/categories')}"><span>Categories</span><em /></a></li>
+			<li py:if="settings['appearance_enable_user_uploads'] and request.perm.contains_permission('upload')" 
+			    class="mcore-nav-left mcore-nav-right f-rgt"><a class="${'nav-upload-on' in body_class and 'active' or None} mcore-nav-link" href="${h.url_for(controller='/upload')}"><span>Upload</span><em /></a></li>
+		</ul>
+		<form id="nav-search" method="get" action="${h.url_for(controller='/media', action='index')}">
+			<div><label for="nav-search-input"></label><input type="text" class="mcore-nav-search" id="nav-search-input" name="q" value="${h.request.params.get('q')}" alt="Search" /><input type="submit" class="nav-search-btn clickable mcore-nav-search-btn" value="Search" /></div>
+		</form>
+	</div>
+	<div py:if="advertising_banner_html" id="mcore-ad-banner" class="mediadrop-content" py:content="Markup(advertising_banner_html)" />
+	<div class="mcore-warnings mcore-alerts" py:if="response.warnings">
+		<div py:for="warning in response.warnings" class="mcore-warning">${warning}</div>
+	</div>
+	<div py:replace="select('*|text()|comment()')" />
+	<script type="text/javascript">
+		mcore.initPage();
+	</script>
+	<py:if test="h.response.facebook">${Markup(h.response.facebook.init_code())}</py:if>
+</body>
+
+<!--! Optionally wrap the core MediaDrop output in a layout -->
+<xi:include py:if="c.layout_template" href="${c.layout_template}.html" />
+
+<!--! Optionally wrap that in yet another template -->
+<xi:include py:if="c.external_template" href="${c.external_template}.html" />
+
+</html>

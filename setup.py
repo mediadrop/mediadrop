@@ -6,7 +6,7 @@ except ImportError:
     from setuptools import setup, find_packages
 
 import sys
-from mediacore import __version__ as VERSION
+from mediadrop import __version__ as VERSION
 
 # setuptools' dependency resolution is often too simplistic. If we install
 # MediaDrop into an existing virtualenv we often face the problem that
@@ -44,7 +44,7 @@ install_requires = setup_requires + [
     'tw.forms == 0.9.9',
     'MySQL-python >= 1.2.2',
     'BeautifulSoup == 3.0.7a',
-        # We monkeypatch this version of BeautifulSoup in mediacore.__init__
+        # We monkeypatch this version of BeautifulSoup in mediadrop.__init__
         # Patch pending: https://bugs.launchpad.net/beautifulsoup/+bug/397997
     'Pillow',
     'akismet == 0.2.0',
@@ -84,7 +84,7 @@ try:
 except ImportError:
     is_babel_available = False
 if is_babel_available:
-    extra_arguments_for_setup['message_extractors'] = {'mediacore': extractors}
+    extra_arguments_for_setup['message_extractors'] = {'mediadrop': extractors}
 
 setup(
     name='MediaDrop',
@@ -114,16 +114,16 @@ setup(
         'Pylons',
     ],
 
-    test_suite='mediacore.lib.test.suite',
+    test_suite='mediadrop.lib.test.suite',
 
     packages=find_packages(exclude=['ez_setup']),
     include_package_data=True,
-    package_data={'mediacore': ['i18n/*/LC_MESSAGES/*.mo']},
+    package_data={'mediadrop': ['i18n/*/LC_MESSAGES/*.mo']},
     zip_safe=False,
 
     entry_points="""
     [paste.app_factory]
-    main = mediacore.config.middleware:make_app
+    main = mediadrop.config.middleware:make_app
 
     [paste.app_install]
     main = pylons.util:PylonsInstaller

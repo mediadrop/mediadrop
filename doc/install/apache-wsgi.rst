@@ -31,10 +31,10 @@ stage you already have three, and the remaining ones are very easy to set up.
 ``httpd.conf``
    Your apache configuration; tells mod_wsgi how to run your app
 
-``mediacore.wsgi``
+``mediadrop.wsgi``
    The script that runs MediaDrop as a WSGI application
 
-``mediacore``
+``mediadrop``
    The reason we're here!
 
 Instructions
@@ -53,7 +53,7 @@ references to ``/my_media`` entirely.
 will use aliases in the Apache config to make sure that requests to
 ``http://site.example/my_media/`` are passed to MediaDrop.
 
-First, copy the ``mediacore.wsgi`` file from ``/path/to/mediadrop_install/deployment-scripts/mod_wsgi/mediacore.wsgi``
+First, copy the ``mediadrop.wsgi`` file from ``/path/to/mediadrop_install/deployment-scripts/mod_wsgi/mediadrop.wsgi``
 to the directory where your ``deployment.ini`` is. Then edit the paths in the
 wsgi file to point to your own MediaDrop installation and virtual environment. The
 **two** lines you need to edit are at the top of the file, and look like
@@ -112,9 +112,9 @@ updated and will read and re-load it.
 
 .. sourcecode:: bash
 
-   # Navigate to the directory where your modified mediacore.wsgi is
+   # Navigate to the directory where your modified mediadrop.wsgi is
    cd /path/to/...
    
    # Force a refresh of the MediaDrop code
-   touch mediacore.wsgi
+   touch mediadrop.wsgi
 

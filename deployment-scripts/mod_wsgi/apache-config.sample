@@ -16,20 +16,20 @@ WSGIDaemonProcess mcore \
 
 WSGIProcessGroup mcore
 
-# Intercept all requests to /my_media/* and pass them to mediacore.wsgi
-WSGIScriptAlias /my_media /path/to/mediacore.wsgi
+# Intercept all requests to /my_media/* and pass them to mediadrop.wsgi
+WSGIScriptAlias /my_media /path/to/mediadrop.wsgi
 
 # Create an exception for media and podcast image from your data directory
 AliasMatch /my_media/images/(media|podcasts)(.*) /path/to/data/images/$1$2
 
-# Create an exception for all static mediacore content
-AliasMatch /my_media/(admin/)?(images|scripts|styles)(.*) /path/to/mediacore_install/mediacore/public/$1$2$3
+# Create an exception for all static MediaDrop content
+AliasMatch /my_media/(admin/)?(images|scripts|styles)(.*) /path/to/mediadrop_install/mediadrop/public/$1$2$3
 
 # Create an exception for your custom appearance css and images
 Alias /my_media/appearance /path/to/data/appearance
 
 # Make all the static content accessible
-<Directory /path/to/mediacore_install/mediacore/public/*>
+<Directory /path/to/mediadrop_install/mediadrop/public/*>
     Order allow,deny
     Allow from all
     Options -Indexes

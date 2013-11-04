@@ -1,0 +1,36 @@
+<!--!
+This file is a part of MediaDrop (http://www.mediadrop.net),
+Copyright 2009-2013 MediaDrop contributors
+For the exact contribution history, see the git revision log.
+The source code contained in this file is licensed under the GPLv3 or
+(at your option) any later version.
+See LICENSE.txt in the main project directory, for more information.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      xmlns:i18n="http://genshi.edgewall.org/i18n"
+      xmlns:xi="http://www.w3.org/2001/XInclude">
+<xi:include href="../master.html" />
+<head>
+	<title>Upload Videos</title>
+	<link href="${h.url_for('/styles/upload.css')}" media="screen" rel="stylesheet" type="text/css" />
+	<meta http-equiv="refresh" content="12;url=${h.url_for('/')}" />
+</head>
+<body class="nav-upload-on">
+	<div class="mediadrop-content">
+		<h2 class="uppercase">Upload Successful</h2>
+		<div id="upload-wording" class="feat-box">
+			<div class="feat-top" />
+			<div class="feat-content">
+				<p>Awesome, your upload was successful!</p>
+				<p>Your submission is awaiting review by a moderator and will be posted shortly.</p>
+				<p i18n:msg="link">You will be automatically redirected back to the <a href="${h.url_for('/')}">Media Library</a> in a few seconds. Hang tight.</p>
+			</div>
+			<div class="feat-bottom" />
+		</div>
+	</div>
+<!--!		<div class="upload-success" />-->
+</body>
+</html>

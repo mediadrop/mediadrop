@@ -2,7 +2,7 @@
 Sphinx autodoc extension that reads @expose decorator in controllers
 
 """
-import mediacore
+import mediadrop
 
 def setup(app):
     app.connect('autodoc-process-docstring', add_expose_info)

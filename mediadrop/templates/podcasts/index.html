@@ -1,0 +1,52 @@
+<!--!
+This file is a part of MediaDrop (http://www.mediadrop.net),
+Copyright 2009-2013 MediaDrop contributors
+For the exact contribution history, see the git revision log.
+The source code contained in this file is licensed under the GPLv3 or
+(at your option) any later version.
+See LICENSE.txt in the main project directory, for more information.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      xmlns:xi="http://www.w3.org/2001/XInclude">
+<xi:include href="../master.html" />
+<head>
+	<title>${h.page_title(default='Podcasts', podcast=c.podcast or 'all')}</title>
+	<meta name="keywords" content="${h.meta_keywords(podcast=c.podcast or 'all')}" />
+	<meta name="description" content="${h.meta_description(podcast=c.podcast or 'all')}" />
+	<link href="${h.url_for('/styles/podcasts.css')}" media="screen" rel="stylesheet" type="text/css" />
+</head>
+<body class="nav-podcasts-on">
+	<div class="mediadrop-content podcasts-list">
+		<h2 class="uppercase mcore-heading">All Podcasts</h2>
+		<div py:for="podcast in podcasts" class="podcast-box feat-box">
+			<div class="feat-top"><div class="feat-vr" /></div>
+			<div class="feat-content">
+				<div class="feat-vr clearfix">
+					<a href="${h.url_for(action='view', slug=podcast.slug)}" class="thumb-wrap"><img src="${h.thumb_url(podcast, 'm')}" width="160" height="160" alt="${podcast.title}" /></a>
+					<div class="podcast-info">
+						<h3><a href="${h.url_for(action='view', slug=podcast.slug)}" class="underline-hover">${podcast.title}</a></h3>
+						<p py:if="podcast.description" py:replace="Markup(podcast.description)" />
+					</div>
+					<div class="podcast-meta">
+						<a py:if="podcast.itunes_url" class="meta meta-itunes underline-hover" href="${podcast.itunes_url or h.url_for(action='feed', slug=podcast.slug)}">Add to iTunes</a>
+						<a class="meta meta-rss underline-hover" href="${h.url_for(action='feed', slug=podcast.slug)}">Subscribe via RSS</a>
+					</div>
+					<div class="podcast-episodes">
+						<h4>Latest Episodes</h4>
+						<ol>
+							<li py:for="media in podcast_episodes[podcast]" class="meta-${media.type}">
+								<a class="underline-hover" href="${h.url_for(controller='/media', action='view', slug=media.slug, podcast_slug=podcast.slug)}">${media.title}</a>
+							</li>
+						</ol>
+					</div>
+					<a class="meta meta-go underline-hover" href="${h.url_for(action='view', slug=podcast.slug)}">Browse all episodes</a>
+				</div>
+			</div>
+			<div class="feat-bottom"><div class="feat-vr" /></div>
+		</div>
+	</div>
+</body>
+</html>

@@ -47,7 +47,7 @@ MediaDrop with this setup.
 ``deployment.ini``
    The MediaDrop deployment file for your production server.
 
-``mediacore``
+``mediadrop``
    the reason we're here!
 
 Instructions
@@ -61,7 +61,7 @@ to your own domain at ``http://site.example`` and that your MediaDrop
 installation is configured like this:
 
 ``MediaDrop Virtual Environment > /path/to/venv``
-``MediaDrop Source Code > /path/to/mediacore_install``
+``MediaDrop Source Code > /path/to/mediadrop_install``
 
 uWSGI Configuration
 -------------------
@@ -75,7 +75,7 @@ more detail below:
 .. sourcecode:: ini
 
     [uwsgi]
-    socket = /tmp/uwsgi-mediacore.sock
+    socket = /tmp/uwsgi-mediadrop.soc
     master = true
     processes = 5
     home = /path/to/venv
@@ -157,7 +157,7 @@ configuration and will probably suit most use cases:
         # See the NGINX docs on Location  regex matching for more details:
         # http://wiki.nginx.org/HttpCoreModule#location
 
-        root /path/to/mediacore_install/mediacore/public;
+        root /path/to/mediadrop_install/mediadrop/public;
 
         # And now we define the rest of our static locations below
         location ~* ^/(appearance)/ {
@@ -199,7 +199,7 @@ configuration and will probably suit most use cases:
         # Note: Make sure that you pass in SCRIPT_NAME = '' otherwise uWSGI
         # will raise a keyError when loading MediaDrop.
         location / {
-                uwsgi_pass      unix:///tmp/uwsgi-mediacore.sock;
+                uwsgi_pass      unix:///tmp/uwsgi-mediadrop.soc;
                 include         uwsgi_params;
                 uwsgi_param     SCRIPT_NAME '';
         }

@@ -1,6 +1,6 @@
 closure-library/closure/bin/build/closurebuilder.py \
 --namespace=mcore \
---root=mediacore/public/scripts/mcore/ \
+--root=mediadrop/public/scripts/mcore/ \
 --root=closure-library/ \
 --output_mode=compiled \
 -c batch-scripts/closure/compiler/compiler.jar \
@@ -11,8 +11,8 @@ closure-library/closure/bin/build/closurebuilder.py \
 --compiler_flags="--jscomp_warning=checkTypes" \
 --compiler_flags="--jscomp_warning=accessControls" \
 --compiler_flags="--jscomp_warning=missingProperties" \
---compiler_flags="--externs=mediacore/public/scripts/mcore/externs.js" \
-> mediacore/public/scripts/mcore-compiled.js
+--compiler_flags="--externs=mediadrop/public/scripts/mcore/externs.js" \
+> mediadrop/public/scripts/mcore-compiled.js
 #--compiler_flags="--jscomp_error=checkTypes" \
 #--compiler_flags="--formatting=PRETTY_PRINT" \
 #--compiler_flags="--formatting=PRINT_INPUT_DELIMITER" \

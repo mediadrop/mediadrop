@@ -7,13 +7,13 @@ Model Helpers
 Fetching Records
 ================
 
-.. autofunction:: mediacore.model.fetch_row
+.. autofunction:: mediadrop.model.fetch_row
 
 Slugs
 =====
 
-.. autofunction:: mediacore.model.slugify
+.. autofunction:: mediadrop.model.slugify
 
-.. autofunction:: mediacore.model.get_available_slug
+.. autofunction:: mediadrop.model.get_available_slug
 
 
