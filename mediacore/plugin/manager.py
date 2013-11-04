@@ -27,7 +27,7 @@ class PluginManager(object):
     Plugin Loading and Management
 
     This class is responsible for loading plugins that define an entry point
-    within the group 'mediacore.plugin'. It introspects the plugin module to
+    within the group 'mediadrop.plugin'. It introspects the plugin module to
     find any templates, public static files, or controllers it may provide.
     Names and paths are based on the name of the entry point, and should be
     unique.
@@ -45,17 +45,28 @@ class PluginManager(object):
 
         # all plugins are enabled by default (for compatibility with MediaCore < 0.10)
         enabled_plugins = re.split('\s*,\s*', config.get('plugins', '*'))
-        mediadrop_epoints = self._discover_plugins('mediacore.plugin')
+        mediadrop_epoints = self._discover_plugins('mediadrop.plugin')
         self.plugins = self._initialize_enabled_plugins(mediadrop_epoints, enabled_plugins)
+
+        # compat with MediaCore < 0.11
+        mediacore_epoints = self._discover_plugins('mediacore.plugin')
+        legacy_plugins = self._initialize_enabled_plugins(mediacore_epoints,
+            enabled_plugins, plugins_to_skip=self.plugins.keys())
+        self.plugins.update(legacy_plugins)
+        if legacy_plugins:
+            legacy_ids = ', '.join(legacy_plugins.keys())
+            log.info('Loaded legacy MediaCore CE plugin(s): %s' % legacy_ids)
 
     def _discover_plugins(self, entry_point_name):
         for epoint in iter_entry_points(entry_point_name):
             yield epoint
 
-    def _initialize_enabled_plugins(self, entry_points, enabled_plugins):
+    def _initialize_enabled_plugins(self, entry_points, enabled_plugins, plugins_to_skip=()):
         plugins = dict()
         for epoint in entry_points:
             plugin_id = epoint.name
+            if plugin_id in plugins_to_skip:
+                continue
             if (plugin_id not in enabled_plugins) and ('*' not in enabled_plugins):
                 log.debug('Skipping plugin %s: not enabled' % plugin_id)
                 continue
