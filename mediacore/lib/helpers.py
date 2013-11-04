@@ -101,7 +101,7 @@ __all__ = [
     'gravatar_from_email',
     'is_admin',
     'js',
-    'mediacore_version',
+    'mediadrop_version',
     'pick_any_media_file',
     'pick_podcast_media_file',
     'pretty_file_size',
@@ -126,7 +126,7 @@ def js(source):
         return url_for(js_sources_debug[source])
     return url_for(js_sources[source])
 
-def mediacore_version():
+def mediadrop_version():
     import mediacore
     return mediacore.__version__
 
