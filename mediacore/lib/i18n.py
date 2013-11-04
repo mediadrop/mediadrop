@@ -19,7 +19,7 @@ from pylons import config, request, translator
 from pylons.i18n.translation import lazify
 
 
-__all__ = ['_', 'N_', 'format_date', 'format_datetime', 'format_number', 
+__all__ = ['_', 'N_', 'format_date', 'format_datetime', 'format_decimal',
     'format_time']
 
 log = logging.getLogger(__name__)
