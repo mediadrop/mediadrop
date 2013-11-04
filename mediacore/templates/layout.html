@@ -44,23 +44,23 @@ See LICENSE.txt in the main project directory, for more information.
 
 	
     <script type="text/javascript">
-        window.mediacore = window.mediacore || {};
-        mediacore.ie6update = mediacore.ie6update || {};
-        mediacore.ie6update.scripts = "${h.url_for('/scripts/third-party/ie6update')}";
-        mediacore.ie6update.images = "${h.url_for('/images/third-party/ie6update/')}";
+        window.mediadrop = window.mediadrop || {};
+        mediadrop.ie6update = mediadrop.ie6update || {};
+        mediadrop.ie6update.scripts = "${h.url_for('/scripts/third-party/ie6update')}";
+        mediadrop.ie6update.images = "${h.url_for('/images/third-party/ie6update/')}";
     </script>
 	<!--[if IE 6]>
 		<script type="text/javascript">
 			// Load jQuery if not already loaded
 			if (typeof jQuery == 'undefined') {
-				document.write('<script type="text/javascript" src="'+mediacore.ie6update.scripts+'/jquery-1.7.2.min.js"></'+'script>');
+				document.write('<script type="text/javascript" src="'+mediadrop.ie6update.scripts+'/jquery-1.7.2.min.js"></'+'script>');
 				var __noconflict = true;
 			}
 			var IE6UPDATE_OPTIONS = {
-			    icons_path: mediacore.ie6update.images,
+			    icons_path: mediadrop.ie6update.images,
 			    message: 'Your version of Internet Explorer is not supported by this site. Click here to update... '
 		    };
-			document.write('<script type="text/javascript" src="'+mediacore.ie6update.scripts+'/ie6update.js"></'+'script>');
+			document.write('<script type="text/javascript" src="'+mediadrop.ie6update.scripts+'/ie6update.js"></'+'script>');
 		</script>
 	<![endif]-->
 </body>
