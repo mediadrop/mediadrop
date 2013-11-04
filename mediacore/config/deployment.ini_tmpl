@@ -68,6 +68,7 @@ sa_auth.cookie_secret = ${app_instance_secret}
 #   default - uses environ['wsgi.file_wrapper'] if it's provided by the server,
 #             otherwise a pure-python file iterator returns the file in chunks
 file_serve_method = default
+# nginx_serve_path = __mediacore_serve__
 
 # Enable automatic gzip compresson for all html/css/js/json responses.
 # Keep this enabled unless you're serving MediaDrop via Apache and you

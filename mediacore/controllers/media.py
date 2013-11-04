@@ -394,11 +394,15 @@ class MediaController(BaseController):
         elif method == 'nginx_redirect':
             # Requires NGINX server configuration:
             # NGINX must have a location block configured that matches
-            # the __mediacore_serve__ path below. It should also be
-            # configured as an "internal" location to prevent people from
-            # surfing directly to it.
+            # the /__mediacore_serve__ path below (the value configured by
+            # setting  "nginx_serve_path" option in the configuration). It
+            # should also be configured as an "internal" location to prevent
+            # people from surfing directly to it.
             # For more information see: http://wiki.nginx.org/XSendfile
-            redirect_filename = '/__mediacore_serve__/%s' % os.path.basename(file_path)
+            serve_path = config.get('nginx_serve_path', '__mediacore_serve__')
+            if not serve_path.startswith('/'):
+                serve_path = '/' + serve_path
+            redirect_filename = '%s/%s' % (serve_path, os.path.basename(file_path))
             response.headers['X-Accel-Redirect'] = redirect_filename
 
 
