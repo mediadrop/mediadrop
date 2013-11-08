@@ -1,4 +1,4 @@
-# Translations template for MediaCore.
+# Translations template for MediaDrop.
 # Copyright (C) 2013 ORGANIZATION
 # This file is distributed under the same license as the MediaDrop project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: MediaCore 0.11dev\n"
+"Project-Id-Version: MediaDrop 0.11dev\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-10-25 12:04+0200\n"
+"POT-Creation-Date: 2013-11-08 15:15+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"

@@ -1,6 +1,6 @@
 # Spanish (Mexico) translations for MediaDrop.
 # Copyright (C) 2013 ORGANIZATION
-# This file is distributed under the same license as the MediaDrop.
+# This file is distributed under the same license as the MediaDrop Project.
 #
 # Translators:
 # alberto cortez <alberto.acm@gmail.com>, 2011.
@@ -8,10 +8,10 @@
 # Jan-Erik Finlander <jefinlander@gmail.com>, 2011.
 msgid ""
 msgstr ""
-"Project-Id-Version: MediaCore Video Platform\n"
+"Project-Id-Version: MediaDrop 0.11dev\n"
 "Report-Msgid-Bugs-To: http://github.com/mediadrop/mediadrop-"
 "community/issues\n"
-"POT-Creation-Date: 2013-10-25 12:04+0200\n"
+"POT-Creation-Date: 2013-11-08 15:15+0100\n"
 "PO-Revision-Date: 2013-03-24 08:14+0000\n"
 "Last-Translator: Felipe B <febb@piensa.com>\n"
 "Language-Team: es_MX <LL@li.org>\n"
@@ -2585,7 +2585,4 @@ msgstr "Seras automáticamente redirigido a [1:Media Library] en unos segundos."
 #: mediadrop/validation/uri_validator.py:21
 msgid "That is not a valid URL."
 msgstr ""
-
-#~ msgid "© 2009-2013 MediaCore Inc. and contributors"
-#~ msgstr ""
 

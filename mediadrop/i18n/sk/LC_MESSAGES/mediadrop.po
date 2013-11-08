@@ -1,6 +1,6 @@
 # Slovak translations for MediaDrop.
 # Copyright (C) 2013 ORGANIZATION
-# This file is distributed under the same license as the MediaDrop.
+# This file is distributed under the same license as the MediaDrop Project.
 #
 # Translators:
 # <jarjav@gmail.com>, 2013.
@@ -8,10 +8,10 @@
 # <vladoportos@gmail.com>, 2011.
 msgid ""
 msgstr ""
-"Project-Id-Version: MediaCore Video Platform\n"
+"Project-Id-Version: MediaDrop 0.11dev\n"
 "Report-Msgid-Bugs-To: http://github.com/mediadrop/mediadrop-"
 "community/issues\n"
-"POT-Creation-Date: 2013-10-25 12:04+0200\n"
+"POT-Creation-Date: 2013-11-08 15:15+0100\n"
 "PO-Revision-Date: 2013-04-05 19:29+0000\n"
 "Last-Translator: jarjav <jarjav@gmail.com>\n"
 "Language-Team: sk <LL@li.org>\n"
