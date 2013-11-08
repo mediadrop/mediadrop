@@ -1,7 +1,7 @@
 [main]
 host = https://www.transifex.com
 
-[mediadrop.mediadrop-ce-091p]
+[mediadrop.mediadrop]
 file_filter = mediadrop/i18n/<lang>/LC_MESSAGES/mediadrop.po
 source_lang = en
 source_file = mediadrop/i18n/mediadrop.pot
