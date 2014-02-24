@@ -62,7 +62,7 @@ appearance_settings = [
     (u'appearance_show_dislike', u'True'),
 ]
 
-
+did_run_setup = False
 def setup_app(command, conf, vars):
     """Called by ``paster setup-app``.
 
@@ -92,6 +92,17 @@ def setup_app(command, conf, vars):
          script yourself.
 
     """
+    # paster just scans the source code for a "websetup.py". Due to our
+    # compatibility module for the old "mediacore" namespace it actually finds
+    # two modules (mediadrop.websetup and mediacore.websetup) even though both
+    # actually point to the same source code.
+    # Because of that "paster setup-app" actually runs "setup_app()" twice
+    # which causes some bad stuff to happen (e.g. duplicate metadata
+    # initialization. Until we get rid of the compat package we should make
+    # sure the following code is only run once.
+    global did_run_setup
+    if did_run_setup:
+        return
     config = load_environment(conf.global_conf, conf.local_conf)
     plugin_manager = config['pylons.app_globals'].plugin_mgr
     mediadrop_migrator = MediaDropMigrator.from_config(conf, log=log)
@@ -137,6 +148,7 @@ def setup_app(command, conf, vars):
     settings = DBSession.query(Setting.key, Setting.value)
     generate_appearance_css(settings, cache_dir=conf['cache_dir'])
 
+    did_run_setup = True
     log.info('Successfully setup')
 
 def random_string(length):
