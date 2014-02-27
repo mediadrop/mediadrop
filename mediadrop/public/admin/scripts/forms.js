@@ -35,8 +35,10 @@ Element.Properties.formValues = {
 		new Hash(values).each(function(value, name){
 			var el = this.getElementById(prefix + name);
 			if (!el) el = this.elements[name];
-			if (!el || $type(el) == 'collection') Log.log('No ' + name + ' element to set the response value to', value);
-			el.set('fieldValue', value);
+			if (!el || $type(el) == 'collection')
+				Log.log('No ' + name + ' element to set the response value to', value);
+			else
+				el.set('fieldValue', value);
 		}, this);
 	},
 
