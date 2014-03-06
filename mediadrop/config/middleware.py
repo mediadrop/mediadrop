@@ -290,11 +290,17 @@ def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
     # Configure the Pylons environment
     config = load_environment(global_conf, app_conf)
     alembic_migrations = MediaDropMigrator.from_config(config, log=log)
-    if alembic_migrations.is_db_scheme_current():
-        events.Environment.database_ready()
-    else:
+    db_is_current = True
+    if not alembic_migrations.is_db_scheme_current():
         log.warn('Running with an outdated database scheme. Please upgrade your database.')
+        db_is_current = False
     plugin_mgr = config['pylons.app_globals'].plugin_mgr
+    db_current_for_plugins = plugin_mgr.is_db_scheme_current_for_all_plugins()
+    if db_is_current and not db_current_for_plugins:
+        log.warn(db_current_for_plugins.message)
+        db_is_current = False
+    if db_is_current:
+        events.Environment.database_ready()
 
     # The Pylons WSGI app
     app = PylonsApp(config=config)

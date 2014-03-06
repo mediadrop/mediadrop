@@ -15,6 +15,7 @@ from pylons.wsgiapp import PylonsApp
 from routes.util import controller_scan
 
 from mediadrop.plugin.plugin import MediaDropPlugin
+from mediadrop.lib.result import Result
 
 
 __all__ = ['PluginManager']
@@ -164,6 +165,12 @@ class PluginManager(object):
             if plugin.contains_migrations():
                 migrator = migrator_class.from_config(plugin, self.config, log=log)
                 yield migrator
+
+    def is_db_scheme_current_for_all_plugins(self):
+        for migrator in self.migrators():
+            if migrator.db_needs_upgrade():
+                return Result(False, message='Database should be updated for plugin %r.' % migrator.plugin_name)
+        return True
 
     def controller_classes(self):
         """Return a dict of controller classes that plugins have defined.
