@@ -45,10 +45,11 @@ def prefix_table_name(conf, table_name):
 
 
 class AlembicMigrator(object):
-    def __init__(self, context=None, log=None, plugin_name=None):
+    def __init__(self, context=None, log=None, plugin_name=None, default_data_callable=None):
         self.context = context
         self.log = log or logging.getLogger(__name__)
         self.plugin_name = plugin_name
+        self.default_data_callable = default_data_callable
     
     @classmethod
     def init_environment_context(cls, conf):
@@ -99,6 +100,18 @@ class AlembicMigrator(object):
         target = 'MediaDrop'
         if self.plugin_name:
             target = self.plugin_name + ' plugin'
+        
+        if self.current_revision() is None:
+            if self.alembic_table_exists() and (self.head_revision() is None):
+                # The plugin has no migrations but db_defaults: adding default
+                # data should only happen once.
+                # alembic will create the migration table after the first run
+                # but as we don't have any migrations "self.head_revision()"
+                # is still None.
+                return
+            self.log.info('Initializing database for %s.' % target)
+            self.init_db()
+            return
         self.log.info('Running any new migrations for %s, if there are any' % target)
         self.context.configure(connection=metadata.bind.connect(), transactional_ddl=True)
         with self.context:
@@ -177,9 +190,14 @@ class PluginDBMigrator(AlembicMigrator):
             'sqlalchemy.url': conf['sqlalchemy.url'],
         }
         context = cls.init_environment_context(config)
-        return PluginDBMigrator(context=context, plugin_name=plugin.name, **kwargs)
+        return PluginDBMigrator(context=context, plugin_name=plugin.name,
+            default_data_callable=plugin.add_db_defaults, **kwargs)
     
-    def init_db(self):
-        # stub for now, later on we could have a simplified method to initialize
-        # a new database
-        self.migrate_db()
+    # LATER: this code goes into the main AlembicMigrator once the MediaDrop
+    # initialiation code is moved from websetup.py to db_defaults.py
+    def init_db(self, revision='head'):
+        if self.default_data_callable:
+            self.default_data_callable()
+            self.stamp(revision)
+        else:
+            self.migrate_db()

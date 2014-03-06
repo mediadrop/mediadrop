@@ -45,6 +45,7 @@ class MediaDropPlugin(object):
         # import trouble with mediadrop.plugin (events)
         from mediadrop.migrations import PluginDBMigrator
         self.migrator_class = PluginDBMigrator
+        self.add_db_defaults = self._db_default_callable()
 
     def _package_name(self):
         pkg_provider = pkg_resources.get_provider(self.modname)
@@ -100,6 +101,15 @@ class MediaDropPlugin(object):
     def contains_migrations(self):
         return (resource_exists(self.package_name, 'migrations') and 
             not resource_exists(self.package_name+'.migrations', 'alembic.ini'))
+
+    def _db_default_callable(self):
+        if not resource_exists(self.package_name, 'db_defaults.py'):
+            return None
+        defaults_module = import_module(self.package_name+'.db_defaults')
+        add_default_data = getattr(defaults_module, 'add_default_data', None)
+        if add_default_data is None:
+            log.warn('DB defaults setup for plugin %r lacks_"add_default_data()" callable.')
+        return add_default_data
 
 def _controller_class_from_module(module, name):
     c = getattr(module, '__controller__', None)
