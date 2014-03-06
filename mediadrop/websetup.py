@@ -125,11 +125,11 @@ def setup_app(command, conf, vars):
         for migrator in plugin_manager.migrators():
             migrator.init_db()
         events.Environment.database_initialized()
-    elif not mediadrop_migrator.migrate_table_exists():
-        log.error('No migration table found, probably your MediaDrop install '
-            'is too old (< 0.9?). Please upgrade to MediaCore CE 0.9 first.')
-        raise AssertionError('no migration table found')
     elif not mediadrop_migrator.alembic_table_exists():
+        if not mediadrop_migrator.migrate_table_exists():
+            log.error('No migration table found, probably your MediaDrop install '
+                'is too old (< 0.9?). Please upgrade to MediaCore CE 0.9 first.')
+            raise AssertionError('no migration table found')
         alembic_revision = mediadrop_migrator.map_migrate_version()
         mediadrop_migrator.stamp(alembic_revision)
     if run_migrations:
