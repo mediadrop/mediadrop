@@ -149,18 +149,27 @@ class AbstractPlayer(AbstractClass):
         prefs = PlayerPrefs()
         prefs.name = cls.name
         prefs.enabled = enable_player
-        # didn't get direct SQL expression to work with SQLAlchemy
-        # player_table = sql.func.max(player_table.c.priority)
-        query = sql.select([sql.func.max(players_table.c.priority)])
-        max_priority = DBSession.execute(query).first()[0]
-        if max_priority is None:
-            max_priority = -1
-        prefs.priority = max_priority + 1
+        
+        # MySQL does not allow referencing the same table in a subquery
+        # (i.e. insert, max): http://stackoverflow.com/a/14302701/138526
+        # Therefore we need to alias the table in max
+        current_max_query = sql.select([sql.func.max(players_table.alias().c.priority)])
+        # sql.func.coalesce == "set default value if func.max does "
+        # In case there are no players in the database the current max is NULL. With
+        # coalesce we can set a default value.
+        new_priority_query = sql.func.coalesce(
+            current_max_query.as_scalar()+1,
+            1
+        )
+        prefs.priority = new_priority_query
+        
         prefs.created_on = datetime.now()
         prefs.modified_on = datetime.now()
         prefs.data = cls.default_data
         DBSession.add(prefs)
         DBSession.commit()
+
+
 
 ###############################################################################
 
