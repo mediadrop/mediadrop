@@ -69,13 +69,18 @@ class AlembicMigrator(object):
         table_name = prefix_table_name(conf, table_name=version_table)
         return EnvironmentContext(alembic_cfg, script, fn=upgrade, version_table=table_name)
     
+    def db_needs_upgrade(self):
+        return (self.head_revision() != self.current_revision())
+    
     def is_db_scheme_current(self):
+        return (not self.db_needs_upgrade())
+    
+    def current_revision(self):
         if not self.alembic_table_exists():
-            return False
+            return None
         self.context.configure(connection=metadata.bind.connect(), transactional_ddl=True)
         migration_context = self.context.get_context()
-        db_needs_upgrade = self.head_revision() != migration_context.get_current_revision()
-        return not db_needs_upgrade
+        return migration_context.get_current_revision()
     
     def head_revision(self):
         return self.context.get_head_revision()
