@@ -4,8 +4,10 @@
 # The source code contained in this file is licensed under the GPLv3 or
 # (at your option) any later version.
 # See LICENSE.txt in the main project directory, for more information.
-
 """Paster Command Subclasses for use in utilities."""
+
+
+from __future__ import absolute_import
 
 import os
 import sys
@@ -17,6 +19,7 @@ from paste.deploy import loadapp, appconfig
 from paste.script.command import Command, BadCommand
 
 import pylons
+from .cli import init_mediadrop
 
 __all__ = [
     'LoadAppCommand',
@@ -68,44 +71,7 @@ class LoadAppCommand(Command):
         else:
             config_file = self.args[0]
 
-        config_name = 'config:%s' % config_file
-        here_dir = os.getcwd()
-
-        if not self.options.quiet:
-            # Configure logging from the config file
-            self.logging_file_config(config_file)
-        
-        # XXX: Note, initializing CONFIG here is Legacy support. pylons.config
-        # will automatically be initialized and restored via the registry
-        # restorer along with the other StackedObjectProxys
-        # Load app config into paste.deploy to simulate request config
-        # Setup the Paste CONFIG object, adding app_conf/global_conf for legacy
-        # code
-        conf = appconfig(config_name, relative_to=here_dir)
-        conf.update(dict(app_conf=conf.local_conf,
-                         global_conf=conf.global_conf))
-        paste.deploy.config.CONFIG.push_thread_config(conf)
-
-        # Load locals and populate with objects for use in shell
-        sys.path.insert(0, here_dir)
-
-        # Load the wsgi app first so that everything is initialized right
-        wsgiapp = loadapp(config_name, relative_to=here_dir)
-        test_app = paste.fixture.TestApp(wsgiapp)
-
-        # Query the test app to setup the environment
-        tresponse = test_app.get('/_test_vars')
-        request_id = int(tresponse.body)
-
-        # Disable restoration during test_app requests
-        test_app.pre_request_hook = lambda self: \
-            paste.registry.restorer.restoration_end()
-        test_app.post_request_hook = lambda self: \
-            paste.registry.restorer.restoration_begin(request_id)
-
-        # Restore the state of the Pylons special objects
-        # (StackedObjectProxies)
-        paste.registry.restorer.restoration_begin(request_id)
+        init_mediadrop(config_file, here_dir=os.getcwd(), disable_logging=self.options.quiet)
 
     def parse_args(self, args):
         self.options, self.args = self.parser.parse_args(args)
