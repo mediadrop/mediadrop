@@ -208,7 +208,7 @@ class DBSanityCheckingMiddleware(object):
                 u'If you see this error regularly and you use MySQL please check ' + \
                 u'your "sqlalchemy.pool_recycle" setting (usually it is too high).'
             log.warning(msg)
-            # The pool will try to connect again up to three times before 
+            # The pool will try to connect again up to three times before
             # raising an exception itself.
             raise DisconnectionError()
         cursor.close()
@@ -217,6 +217,9 @@ class DBSanityCheckingMiddleware(object):
         if self.is_alive_check_enabled:
             self.check_for_live_db_connection(dbapi_connection)
         if self.is_leak_check_enabled:
+#             if len(self.connections) > 0:
+#                 import traceback
+#                 traceback.print_stack(limit=15)
             self.connections[id(dbapi_connection)] = True
     
     def on_connection_checkin(self, dbapi_connection, connection_record):
