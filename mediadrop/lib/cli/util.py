@@ -21,6 +21,8 @@ __all__ = ['init_mediadrop']
 
 
 def init_mediadrop(config_filename, here_dir=None, disable_logging=False):
+    if not os.path.exists(config_filename):
+        raise IOError('Config file %r does not exist.' % config_filename)
     if here_dir is None:
         here_dir = os.getcwd()
     if not disable_logging:
