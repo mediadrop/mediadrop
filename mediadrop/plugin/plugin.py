@@ -40,7 +40,7 @@ class MediaDropPlugin(object):
         self.templates_path = templates_path or self._default_templates_path()
         self.public_path = public_path or self._default_public_path()
         self.controllers = controllers or self._default_controllers()
-        self.locale_dirs = self._default_locale_dirs()
+        self.locale_dirs = locale_dirs or self._default_locale_dirs()
         # migrations.util imports model and that causes all kind of recursive
         # import trouble with mediadrop.plugin (events)
         from mediadrop.migrations import PluginDBMigrator
