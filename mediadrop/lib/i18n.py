@@ -24,7 +24,7 @@ __all__ = ['_', 'N_', 'format_date', 'format_datetime', 'format_decimal',
 
 log = logging.getLogger(__name__)
 
-MEDIACORE = 'mediadrop'
+MEDIADROP = 'mediadrop'
 """The primary MediaDrop domain name."""
 
 class LanguageError(Exception):
@@ -66,7 +66,7 @@ class Translator(object):
         self._domains = {}
 
         # Fetch the 'mediadrop' domain immediately & cache a direct ref for perf
-        self._mediadrop = self._load_domain(MEDIACORE)
+        self._mediadrop = self._load_domain(MEDIADROP)
 
     def install_pylons_global(self):
         """Replace the current pylons.translator SOP with this instance.
@@ -128,7 +128,7 @@ class Translator(object):
             return u''
         if domain is None and isinstance(msgid, _TranslateableUnicode):
             domain = msgid.domain
-        if domain is None or domain == MEDIACORE:
+        if domain is None or domain == MEDIADROP:
             t = self._mediadrop
         else:
             try:
@@ -152,7 +152,7 @@ class Translator(object):
         :returns: The translated string, or the original msgid if no
             translation was found.
         """
-        if domain is None or domain == MEDIACORE:
+        if domain is None or domain == MEDIADROP:
             t = self._mediadrop
         else:
             try:
