@@ -14,9 +14,11 @@ from babel.core import Locale
 from babel.dates import (format_date as _format_date,
     format_datetime as _format_datetime, format_time as _format_time)
 from babel.numbers import format_decimal as _format_decimal
+from babel.support import Translations
 from babel.util import LOCALTZ
 from pylons import config, request, translator
 from pylons.i18n.translation import lazify
+from mediadrop.lib.listify import tuplify
 
 
 __all__ = ['_', 'N_', 'format_date', 'format_datetime', 'format_decimal',
@@ -96,22 +98,33 @@ class Translator(object):
         :raises LanguageError: If no translations could be found for this
             domain in this locale and the fallback is off.
         """
-        localedir = self._locale_dirs.get(domain, None)
-        if localedir:
-            try:
-                t = gettext_translation(domain, localedir, self._languages,
-                                        fallback=fallback)
-            except IOError:
-                # This only occurs when fallback is false.
-                msg = 'No %r translations found for %r at %r.' % \
-                    (domain, self._languages, localedir)
-                raise LanguageError(msg)
+        locale_dirs = self._locale_dirs.get(domain, None)
+        if locale_dirs:
+            if isinstance(locale_dirs, basestring):
+                locale_dirs = (locale_dirs, )
+            translation_list = self._load_translations(domain, locale_dirs, fallback)
+            if (not fallback) and len(translation_list) == 0:
+                msg = 'No %r translations found for %r in %r.'
+                raise LanguageError(msg % (domain, self._languages, locale_dirs))
+            translations = Translations(domain=domain)
+            for translation in translation_list:
+                translations.merge(translation)
         elif fallback:
-            t = NullTranslations()
+            translations = NullTranslations()
         else:
             raise DomainError('No localedir specified for domain %r' % domain)
-        self._domains[domain] = t
-        return t
+        self._domains[domain] = translations
+        return translations
+
+    @tuplify
+    def _load_translations(self, domain, locale_dirs, fallback):
+        for locale_dir in locale_dirs:
+            try:
+                yield gettext_translation(domain, locale_dir, self._languages, fallback=fallback)
+            except IOError:
+                # This only occurs when fallback is false and no translation was
+                # found in <locale_dir>.
+                pass
 
     def gettext(self, msgid, domain=None):
         """Translate the given msgid in this translator's locale.

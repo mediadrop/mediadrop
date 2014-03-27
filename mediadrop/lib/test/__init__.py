@@ -22,7 +22,7 @@ def suite():
         permission_system_test, query_result_proxy_test, static_query_test)
     from mediadrop.lib.tests import (css_delivery_test, current_url_test,
         helpers_test, js_delivery_test, observable_test, request_mixin_test,
-        url_for_test, xhtml_normalization_test)
+        translator_test, url_for_test, xhtml_normalization_test)
     from mediadrop.lib.storage.tests import youtube_storage_test
     from mediadrop.model.tests import (category_example_test, group_example_test, 
         media_example_test, media_status_test, media_test, user_example_test)
@@ -60,6 +60,7 @@ def suite():
     suite.addTest(uri_validator_test.suite())
     suite.addTest(url_for_test.suite())
     suite.addTest(user_example_test.suite())
+    suite.addTest(translator_test.suite())
     suite.addTest(youtube_storage_test.suite())
     suite.addTest(xhtml_normalization_test.suite())
     return suite

@@ -36,6 +36,8 @@ def load_environment(global_conf, app_conf):
 
     # Initialize config with the basic options
     config.init_app(global_conf, app_conf, package='mediadrop', paths=paths)
+    env_dir = os.path.normpath(os.path.join(config['media_dir'], '..'))
+    config.setdefault('env_dir', env_dir)
 
     # Initialize the plugin manager to load all active plugins
     plugin_mgr = PluginManager(config)
@@ -53,10 +55,11 @@ def load_environment(global_conf, app_conf):
     # Setup cache object as early as possible
     pylons.cache._push_object(config['pylons.app_globals'].cache)
 
+    i18n_env_dir = os.path.join(config['env_dir'], 'i18n')
     config['locale_dirs'] = plugin_mgr.locale_dirs()
     config['locale_dirs'].update({
-        'mediadrop': os.path.join(root, 'i18n'),
-        'FormEncode': get_formencode_localedir(),
+        'mediadrop': (os.path.join(root, 'i18n'), i18n_env_dir),
+        'FormEncode': (get_formencode_localedir(), i18n_env_dir),
     })
 
     def enable_i18n_for_template(template):

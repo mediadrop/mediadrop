@@ -33,7 +33,8 @@ install_requires = setup_requires + [
     # alembic.config.Config class) but MediaDrop is only tested with 0.5+
     'alembic >= 0.4',
     'Genshi >= 0.6', # i18n improvements in Genshi
-    'Babel >= 0.9.6',
+    # custom translations per instance (missing Translations._catalog attribute)
+    'Babel >= 1.0',
     'Routes == 1.12.3',
     'repoze.who == 1.0.18',
     'repoze.who-friendlyform',

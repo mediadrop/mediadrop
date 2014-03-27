@@ -101,9 +101,11 @@ class PluginManager(object):
             path to the locale dir where messages can be loaded.
         """
         locale_dirs = {}
+        i18n_env_dir = os.path.join(self.config['env_dir'], 'i18n')
         for plugin in self.plugins.itervalues():
             if plugin.locale_dirs:
-                locale_dirs.update(plugin.locale_dirs)
+                for domain, plugin_i18n_dir in plugin.locale_dirs.items():
+                    locale_dirs[domain] = (plugin_i18n_dir, i18n_env_dir)
         return locale_dirs
 
     def template_loaders(self):
