@@ -30,7 +30,7 @@ See LICENSE.txt in the main project directory, for more information.
 <div id="body" py:match="div[@id='body']">
 	<div class="lft-column33" py:with="
 		current_url = h.url_for();
-		plugin_links = sorted(g.events.plugin_settings_links(), key=lambda (text, link): text.lower());
+		plugin_links = sorted(g.events.plugin_settings_links(), key=lambda (text, link): unicode(text).lower());
 	">
 		<div class="box">
 			<h1 class="box-head">Settings</h1>
