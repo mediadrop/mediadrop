@@ -27,7 +27,8 @@ from mediadrop.lib.i18n import _
 from mediadrop.lib.storage import add_new_media_file
 from mediadrop.lib.templating import render
 from mediadrop.lib.thumbnails import thumb_path, thumb_paths, create_thumbs_for, create_default_thumbs_for, has_thumbs, has_default_thumbs, delete_thumbs
-from mediadrop.model import Author, Category, Media, Podcast, Tag, fetch_row, get_available_slug
+from mediadrop.model import (Author, Category, Media, Podcast, Tag, fetch_row,
+    get_available_slug, slugify)
 from mediadrop.model.meta import DBSession
 from mediadrop.plugin import events
 
@@ -220,7 +221,7 @@ class MediaController(BaseController):
             redirect(action='index', id=None)
 
         if not slug:
-            slug = title
+            slug = slugify(title)
         elif slug.startswith('_stub_'):
             slug = slug[len('_stub_'):]
         if slug != media.slug:
