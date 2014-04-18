@@ -43,8 +43,18 @@ def init_mediadrop(config_filename, here_dir=None, disable_logging=False):
     # Load locals and populate with objects for use in shell
     sys.path.insert(0, here_dir)
 
+    # WebOb 1.2+ does not support unicode_errors/decode_param_names anymore for
+    # the Request() class so we need to override Pylons' defaults to prevent
+    # DeprecationWarnings (only shown in Python 2.6 by default).
+    webob_request_options = {
+        'charset': 'utf-8',
+        'errors': None,
+        'decode_param_names': None,
+        'language': 'en-us',
+    }
+    global_conf = {'pylons.request_options': webob_request_options}
     # Load the wsgi app first so that everything is initialized right
-    wsgiapp = loadapp(config_name, relative_to=here_dir)
+    wsgiapp = loadapp(config_name, relative_to=here_dir, global_conf=global_conf)
     test_app = TestApp(wsgiapp)
 
     # Query the test app to setup the environment
