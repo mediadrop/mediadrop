@@ -34,7 +34,7 @@ from mediadrop import monkeypatch_method
 from mediadrop.config.environment import load_environment
 from mediadrop.lib.auth import add_auth
 from mediadrop.migrations.util import MediaDropMigrator
-from mediadrop.model import DBSession
+from mediadrop.model import metadata, DBSession
 from mediadrop.plugin import events
 
 log = logging.getLogger(__name__)
@@ -154,11 +154,19 @@ class DBSanityCheckingMiddleware(object):
         self._thread_local = threading.local()
         self.is_leak_check_enabled = check_for_leaked_connections
         self.is_alive_check_enabled = enable_pessimistic_disconnect_handling
+        self.pool_listeners = {}
+        pool = self._pool()
         if self.is_leak_check_enabled or self.is_alive_check_enabled:
-            sqlalchemy.event.listen(Pool, 'checkout', self.on_connection_checkout)
+            sqlalchemy.event.listen(pool, 'checkout', self.on_connection_checkout)
+            self.pool_listeners['checkout'] = self.on_connection_checkout
         if self.is_leak_check_enabled:
-            sqlalchemy.event.listen(Pool, 'checkin', self.on_connection_checkin)
+            sqlalchemy.event.listen(pool, 'checkin', self.on_connection_checkin)
+            self.pool_listeners['checkin'] = self.on_connection_checkin
     
+    def _pool(self):
+        engine = metadata.bind
+        return engine.pool
+
     def __call__(self, environ, start_response):
         try:
             return self.app(environ, start_response)
@@ -170,6 +178,11 @@ class DBSanityCheckingMiddleware(object):
                 log.error(msg)
                 self.connections.clear()
     
+    def tear_down(self):
+        pool = self._pool()
+        for target, fn in self.pool_listeners.items():
+            sqlalchemy.event.remove(pool, target, fn)
+
     @property
     def connections(self):
         if not hasattr(self._thread_local, 'connections'):
