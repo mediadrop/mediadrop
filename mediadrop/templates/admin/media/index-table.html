@@ -15,5 +15,11 @@ See LICENSE.txt in the main project directory, for more information.
                include_pagination = value_of('include_pagination', True);
                pager_link_args=value_of('pager_link_args', {})">
 <xi:include href="./_media-table.html" />
-${media_table(media, fields=['bulk', 'status', 'publish_on', 'type', 'title', 'author', 'comment_count'], id=id, include_thead=include_thead, include_pagination=include_pagination, pager_link_args=pager_link_args)}
+<py:with vars="
+	comments_enabled = (settings['comments_engine'] == 'builtin');
+	comments_fields = ['comment_count'] if (comments_enabled) else [];
+	fields=['bulk', 'status', 'publish_on', 'type', 'title', 'author'] + comments_fields;
+">
+	${media_table(media, fields=fields, id=id, include_thead=include_thead, include_pagination=include_pagination, pager_link_args=pager_link_args)}
+</py:with>
 </html>

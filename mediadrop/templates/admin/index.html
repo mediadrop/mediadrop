@@ -67,7 +67,8 @@ See LICENSE.txt in the main project directory, for more information.
 			</div>
 		</div>
 
-		<div class="box" py:replace="comment_stats_box(h.url_for(controller='/admin/comments'), query=comments)" />
+		<div class="box" py:if="settings['comments_engine'] == 'builtin'"
+			py:replace="comment_stats_box(h.url_for(controller='/admin/comments'), query=comments)" />
 
 		<div class="box">
 			<h1 class="box-head">Recently Published</h1>

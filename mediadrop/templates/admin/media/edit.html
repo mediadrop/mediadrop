@@ -205,7 +205,7 @@ See LICENSE.txt in the main project directory, for more information.
 			</div>
 		</div>
 
-		<div class="box" py:if="media.id"
+		<div class="box" py:if="media.id and (settings['comments_engine'] == 'builtin')"
 		     py:replace="comment_stats_box(h.url_for(controller='/admin/comments', media_filter=media.id), query=media.comments)" />
 
 	</div>
