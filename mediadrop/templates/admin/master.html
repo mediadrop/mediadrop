@@ -38,6 +38,11 @@ See LICENSE.txt in the main project directory, for more information.
 	${Markup(h.response.stylesheets.render())}
 	<link href="${h.url_for('/images/favicon.ico')}" rel="shortcut icon" />
 	<meta py:replace="select('*')"/>
+	<script type="text/javascript">
+		window.mediadrop = window.mediadrop || {};
+		mediadrop.settings = mediadrop.settings || {};
+		mediadrop.settings.podcasts_enabled = ${'true' if settings['appearance_enable_podcast_tab'] else 'false'};
+	</script>
 </head>
 
 <body py:match="body" py:with="attrs = h.attrs_to_dict(select('@*')); body_class = attrs.get('class', '').split(' ')" py:attrs="attrs">
