@@ -1,5 +1,5 @@
 # This file is a part of MediaDrop (http://www.mediadrop.net),
-# Copyright 2009-2013 MediaDrop contributors
+# Copyright 2009-2014 MediaDrop contributors
 # For the exact contribution history, see the git revision log.
 
 __all__ = ['JSONType']

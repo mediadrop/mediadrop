@@ -1541,8 +1541,8 @@ msgstr "Ayarlar"
 
 #: mediadrop/templates/admin/master.html:69
 #, fuzzy
-msgid "© 2009-2013 MediaDrop contributors"
-msgstr "© 2009-2013 MediaDrop Katkıda bulunanlar"
+msgid "© 2009-2014 MediaDrop contributors"
+msgstr "© 2009-2014 MediaDrop Katkıda bulunanlar"
 
 #: mediadrop/templates/admin/categories/index.html:38
 #: mediadrop/templates/admin/comments/index.html:36

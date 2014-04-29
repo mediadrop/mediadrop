@@ -1,6 +1,6 @@
 /**
  * This file is a part of MediaDrop (http://www.mediadrop.net),
- * Copyright 2009-2013 MediaDrop contributors
+ * Copyright 2009-2014 MediaDrop contributors
  * For the exact contribution history, see the git revision log.
  * The source code contained in this file is licensed under an MIT style license.
  * See LICENSE.txt in the main project directory, for more information.

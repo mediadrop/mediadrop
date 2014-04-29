@@ -1489,7 +1489,7 @@ msgid "Settings"
 msgstr ""
 
 #: mediadrop/templates/admin/master.html:69
-msgid "© 2009-2013 MediaDrop contributors"
+msgid "© 2009-2014 MediaDrop contributors"
 msgstr ""
 
 #: mediadrop/templates/admin/categories/index.html:38
