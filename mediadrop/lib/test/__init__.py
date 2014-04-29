@@ -7,6 +7,7 @@
 # (at your option) any later version.
 # See LICENSE.txt in the main project directory, for more information.
 
+import sys
 
 from mediadrop.lib.test.controller_testcase import *
 from mediadrop.lib.test.db_testcase import DBTestCase
@@ -35,36 +36,10 @@ def suite():
     # do not export 'unittest' via '*' import from this module
     import unittest
     suite = unittest.TestSuite()
-    suite.addTest(abstract_class_registration_test.suite())
-    suite.addTest(category_example_test.suite())
-    suite.addTest(css_delivery_test.suite())
-    suite.addTest(current_url_test.suite())
-    suite.addTest(events_test.suite())
-    suite.addTest(filtering_restricted_items_test.suite())
-    suite.addTest(group_based_permissions_policy_test.suite())
-    suite.addTest(group_example_test.suite())
-    suite.addTest(helpers_test.suite())
-    suite.addTest(human_readable_size_test.suite())
-    suite.addTest(limit_feed_items_validator_test.suite())
-    suite.addTest(login_test.suite())
-    suite.addTest(media_example_test.suite())
-    suite.addTest(media_status_test.suite())
-    suite.addTest(media_test.suite())
-    suite.addTest(mediadrop_permission_system_test.suite())
-    suite.addTest(permission_system_test.suite())
-    suite.addTest(observes_test.suite())
-    suite.addTest(js_delivery_test.suite())
-    suite.addTest(observable_test.suite())
-    suite.addTest(query_result_proxy_test.suite())
-    suite.addTest(request_mixin_test.suite())
-    suite.addTest(static_query_test.suite())
-    suite.addTest(upload_test.suite())
-    suite.addTest(uri_validator_test.suite())
-    suite.addTest(url_for_test.suite())
-    suite.addTest(user_example_test.suite())
-    suite.addTest(translator_test.suite())
-    suite.addTest(youtube_storage_test.suite())
-    suite.addTest(xhtml_normalization_test.suite())
+    for name, symbol in locals().items():
+        if name.endswith('_test'):
+            tests = getattr(symbol, 'suite')()
+            suite.addTest(tests)
     return suite
 
 if __name__ == '__main__':

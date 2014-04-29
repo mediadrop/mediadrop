@@ -7,7 +7,8 @@
 
 from mediadrop.lib.auth.api import UserPermissions
 from mediadrop.lib.auth.group_based_policy import GroupBasedPermissionsPolicy
-from mediadrop.lib.auth.permission_system import MediaDropPermissionSystem
+from mediadrop.lib.auth.permission_system import (MediaDropPermissionSystem,
+    PermissionPolicies)
 from mediadrop.lib.test.pythonic_testcase import *
 from mediadrop.lib.test.db_testcase import DBTestCase
 from mediadrop.model import DBSession, Media, Permission, User
@@ -16,7 +17,7 @@ from mediadrop.model import DBSession, Media, Permission, User
 class GroupBasedPermissionsPolicyTest(DBTestCase):
     def setUp(self):
         super(GroupBasedPermissionsPolicyTest, self).setUp()
-        
+        PermissionPolicies.register(GroupBasedPermissionsPolicy)
         self.policy = GroupBasedPermissionsPolicy()
     
     def test_applies_to_all_permissions_in_db(self):
