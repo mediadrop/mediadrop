@@ -75,7 +75,7 @@ a:hover {
 * html .clearfix { height: 1% }
 *:first-child+html .clearfix { display: inline-block }
 
-/* MediaCore default layout */
+/* MediaDrop default layout */
 #mcore-site-title,
 #mcore-logo {
 	width: 920px;

@@ -199,7 +199,7 @@ var BoxForm = new Class({
 		     * at least the users is notified about the error right next to the
 		     * 'save' button (as opposed to an endless spinner and a usually 
 		     * invisible JS exception).
-		     * Also this situation should not appear in stock MediaCore but only
+		     * Also this situation should not appear in stock MediaDrop but only
 		     * with optional plugins.
 		     */
 		    if (window.console !== undefined)
