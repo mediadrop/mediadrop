@@ -15,6 +15,7 @@ goog.require('goog.dom.ViewportSizeMonitor');
 goog.require('goog.dom.classes');
 goog.require('goog.events');
 goog.require('goog.net.cookies');
+goog.require('goog.math.Size');
 goog.require('goog.ui.Component');
 goog.require('goog.Uri');
 goog.require('mcore.players.ColumnViewResizer');
@@ -41,11 +42,13 @@ mcore.players.Controller = function(player, opt_domHelper) {
    * @type {goog.ui.Component}
    * @private
    */
-  this.player_ = player;
+  this.player_ = player || new mcore.players.NullPlayer();
   
-  mcore.players.Controller.mapCompiledMethodNamesToUncompiled(player);
-  var domHelper = player.getDomHelper();
-  domHelper.getElement = domHelper.getElement || domHelper["getElement"];
+  mcore.players.Controller.mapCompiledMethodNamesToUncompiled(this.player_);
+  var domHelper = this.player_.getDomHelper();
+  if (domHelper) {
+    domHelper.getElement = domHelper.getElement || domHelper["getElement"];
+  }
 };
 goog.inherits(mcore.players.Controller, goog.ui.Component);
 
@@ -522,6 +525,38 @@ mcore.players.Controller.pageLoaded = function() {
   mcore.players.Controller.decorateQueue_ = [];
   mcore.players.Controller.pageLoaded_ = true;
 }
+
+
+/**
+ * Null Player.
+ * Will be instantiated by the PlayerController if no player
+ * was provided. Implements the player interface, but does nothing.
+ *
+ * Note, this is not exported for now as it is only for private use by this
+ * file's class.
+ *
+ * @constructor
+ * @extends {goog.ui.Component}
+ */
+mcore.players.NullPlayer = function() {};
+goog.inherits(mcore.players.NullPlayer, goog.ui.Component);
+
+
+/**
+ * Do nothing.
+ * @return {mcore.players.NullPlayer} The player instance for chaining.
+ */
+mcore.players.NullPlayer.prototype.setSize = function() { return this; };
+
+
+/**
+ * Do nothing.
+ * @return {!goog.math.Size} Returns zero Size.
+ */
+mcore.players.NullPlayer.prototype.getSize = function() {
+  return new goog.math.Size(0, 0);
+};
+
 
 goog.exportSymbol('mcore.initPlayerController', mcore.players.Controller.init);
 goog.exportSymbol('mcore.PlayerController', mcore.players.Controller);
