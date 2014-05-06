@@ -631,6 +631,8 @@ def _autocommit_commit(req):
 
 def _autocommit_rollback(req):
     from mediadrop.model.meta import DBSession
+    if not DBSession.is_active:
+        return
     DBSession.rollback()
     _autocommit_fire_callbacks(req, req.rollback_callbacks)
 
