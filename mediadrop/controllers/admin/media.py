@@ -217,7 +217,6 @@ class MediaController(BaseController):
 
         if delete:
             self._delete_media(media)
-            DBSession.commit()
             redirect(action='index', id=None)
 
         if not slug:
