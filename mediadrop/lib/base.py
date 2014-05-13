@@ -22,7 +22,7 @@ from tw.forms.fields import ContainerMixin as _ContainerMixin
 from mediadrop.lib import helpers
 from mediadrop.lib.auth import ControllerProtector, has_permission, Predicate
 from mediadrop.lib.css_delivery import StyleSheets
-from mediadrop.lib.i18n import Translator
+from mediadrop.lib.i18n import setup_global_translator
 from mediadrop.lib.js_delivery import Scripts
 from mediadrop.model import DBSession, Setting
 
@@ -75,7 +75,7 @@ class BareBonesController(WSGIController):
         NOTE: If this method is wrapped in an ActionProtector, all methods of
               the class will be protected it. See :meth:`__init__`.
         """
-        self.setup_translator()
+        setup_global_translator()
         response.scripts = Scripts()
         response.stylesheets = StyleSheets()
         response.feed_links = []
@@ -89,19 +89,6 @@ class BareBonesController(WSGIController):
         # an HTTPNotFound exception.
         if not getattr(action_method, 'exposed', False):
             abort(status_code=404)
-
-    def setup_translator(self):
-        # Load the primary translator on first request and reactivate it for
-        # each subsequent request until the primary language is changed.
-        app_globs = app_globals._current_obj()
-        lang = app_globs.settings['primary_language'] or 'en'
-        if app_globs.primary_language == lang and app_globs.primary_translator:
-            translator = app_globs.primary_translator
-        else:
-            translator = Translator(lang, config['locale_dirs'])
-            app_globs.primary_translator = translator
-            app_globs.primary_language = lang
-        translator.install_pylons_global()
 
 class BaseController(BareBonesController):
     """

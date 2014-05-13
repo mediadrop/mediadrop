@@ -16,9 +16,10 @@ from paste.fixture import TestApp
 from paste.deploy import appconfig, loadapp
 from paste.script.util import logging_config
 
+from mediadrop.lib.i18n import setup_global_translator
+
 
 __all__ = ['init_mediadrop']
-
 
 def init_mediadrop(config_filename, here_dir=None, disable_logging=False):
     if not os.path.exists(config_filename):
@@ -67,4 +68,6 @@ def init_mediadrop(config_filename, here_dir=None, disable_logging=False):
 
     # Restore the state of the Pylons special objects (StackedObjectProxies)
     paste.registry.restorer.restoration_begin(request_id)
+    setup_global_translator()
+
 

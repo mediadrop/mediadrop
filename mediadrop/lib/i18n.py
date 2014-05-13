@@ -16,8 +16,9 @@ from babel.dates import (format_date as _format_date,
 from babel.numbers import format_decimal as _format_decimal
 from babel.support import Translations
 from babel.util import LOCALTZ
-from pylons import config, request, translator
+from pylons import app_globals, config, request, translator
 from pylons.i18n.translation import lazify
+
 from mediadrop.lib.listify import tuplify
 
 
@@ -336,3 +337,17 @@ def get_available_locales():
         mo_path = os.path.join(i18n_dir, name, 'LC_MESSAGES/mediadrop.mo')
         if os.path.exists(mo_path):
             yield name
+
+def setup_global_translator(default_language='en'):
+    """Load the primary translator during the first call of this function and
+    reactivate it for each subsequent call until the primary language is
+    changed."""
+    app_globs = app_globals._current_obj()
+    lang = app_globs.settings['primary_language'] or default_language
+    if app_globs.primary_language == lang and app_globs.primary_translator:
+        translator = app_globs.primary_translator
+    else:
+        translator = Translator(lang, config['locale_dirs'])
+        app_globs.primary_translator = translator
+        app_globs.primary_language = lang
+    translator.install_pylons_global()
