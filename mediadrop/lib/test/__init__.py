@@ -23,7 +23,7 @@ def suite():
         permission_system_test, query_result_proxy_test, static_query_test)
     from mediadrop.lib.tests import (css_delivery_test, current_url_test,
         helpers_test, human_readable_size_test, js_delivery_test,
-        observable_test, request_mixin_test,
+        observable_test, players_test, request_mixin_test,
         translator_test, url_for_test, xhtml_normalization_test)
     from mediadrop.lib.storage.tests import youtube_storage_test
     from mediadrop.model.tests import (category_example_test, group_example_test, 

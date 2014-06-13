@@ -193,10 +193,14 @@ class FileSupportMixin(object):
         :returns: Boolean result for each of the given URIs.
 
         """
-        return tuple(uri.file.container in cls.supported_containers
-                     and uri.scheme in cls.supported_schemes
-                     and uri.file.type in cls.supported_types
-                     for uri in uris)
+        playable = []
+        for uri in uris:
+            is_type_ok = (uri.file.type in cls.supported_types)
+            is_scheme_ok = (uri.scheme in cls.supported_schemes)
+            is_container_ok = (not uri.file.container) or (uri.file.container in cls.supported_containers)
+            is_playable = is_type_ok and is_scheme_ok and is_container_ok
+            playable.append(is_playable)
+        return tuple(playable)
 
 class FlashRenderMixin(object):
     """
