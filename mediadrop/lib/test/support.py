@@ -94,12 +94,14 @@ def build_http_body(data, force_multipart=False):
     fields = []
     files = []
     for key, value in data:
+        if value is None:
+            continue
         if hasattr(value, 'read') and (hasattr(value, 'name') or hasattr(value, 'filename')):
             files.append((key, value))
         else:
             fields.append((key, value))
     if (not force_multipart) and len(files) == 0:
-        return WWW_FORM_URLENCODED, urllib.urlencode(data)
+        return WWW_FORM_URLENCODED, urllib.urlencode(fields)
     
     return encode_multipart_formdata(fields, files)
 # -----------------------------------------------------------------------------
