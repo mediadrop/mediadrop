@@ -9,6 +9,7 @@ import logging
 import os
 import random
 import string
+import sys
 
 import pylons
 
@@ -146,6 +147,17 @@ def setup_app(command, conf, vars):
 
     log.info('Generating appearance.css from your current settings')
     settings = DBSession.query(Setting.key, Setting.value)
+    if settings.count() == 0:
+        error_msg = (
+            u"Unable to find any settings in the database. This may happen if a previous\n"
+            u"setup did not complete successfully.\n"
+            u"Please inspect your database contents. If you don't have any valuable data in\n"
+            u"that db you can try to remove all tables and run the setup process again.\n"
+            u"BE CAREFUL: REMOVING ALL TABLES MIGHT CAUSE DATA LOSS!\n"
+        )
+        sys.stderr.write(error_msg)
+        log.error(error_msg.replace('\n', u' '))
+        sys.exit(99)
     generate_appearance_css(settings, cache_dir=conf['cache_dir'])
 
     did_run_setup = True
