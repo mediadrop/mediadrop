@@ -1,11 +1,14 @@
-try:
-    from setuptools import setup, find_packages
-except ImportError:
-    from ez_setup import use_setuptools
-    use_setuptools()
-    from setuptools import setup, find_packages
+#!/usr/bin/env python
+# encoding: utf-8
 
 import sys
+
+from setuptools import setup, find_packages
+
+if sys.version_info < (2, 6):
+    print 'MediaDrop requires Python 2.6 or 2.7.'
+    sys.exit(1)
+
 from mediadrop import __version__ as VERSION
 
 # setuptools' dependency resolution is often too simplistic. If we install
@@ -62,9 +65,6 @@ if sys.version_info < (2, 7):
     # see https://github.com/mediadrop/mediadrop/pull/44#issuecomment-573242
     install_requires.append('importlib')
 
-if sys.version_info < (2, 6):
-    print 'MediaDrop requires Python 2.6 or 2.7.'
-    sys.exit(1)
 
 extra_arguments_for_setup = {}
 
