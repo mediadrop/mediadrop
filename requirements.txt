@@ -1,3 +1,4 @@
+--index-url=http://static.mediadrop.net/dependencies/dev/
 ddt
 formencode >= 1.2.4 # (version required by Pylons 1.0)
 Pylons >= 1.0
