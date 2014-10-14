@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
+import re
 import sys
 
 from setuptools import setup, find_packages
@@ -20,51 +21,23 @@ from mediadrop import __version__ as VERSION
 setup_requires = [
     'PasteScript >= 1.7.4.2', # paster_plugins=
 ]
-install_requires = setup_requires + [
-    'ddt',
-    'formencode >= 1.2.4', # (version required by Pylons 1.0)
-    'Pylons >= 1.0',
-    # WebOb 1.2.x raises an error if we use "request.str_params" (as we did in
-    # MediaDrop 0.10/WebOb 1.0.7) but the non-deprecated attribute was only
-    # added in WebOb 1.1 so we need that as baseline.
-    'WebOb >= 1.1',
-    'WebHelpers == 1.0',
-    # 0.7: event listener infrastructure, alembic 0.5 requires at least 0.7.3
-    # we need to change our class_mappers for 0.8 support
-    'SQLAlchemy >= 0.7.3, < 0.8',
-    # theoretically every alembic since 0.4 should work (which added the 
-    # alembic.config.Config class) but MediaDrop is only tested with 0.5+
-    'alembic >= 0.4',
-    'Genshi >= 0.6', # i18n improvements in Genshi
-    # custom translations per instance (missing Translations._catalog attribute)
-    'Babel >= 1.0',
-    'Routes == 1.12.3',
-    'repoze.who == 1.0.18',
-    'repoze.who-friendlyform',
-    'repoze.who.plugins.sa',
-    'Paste >= 1.7.5.1', # (version required by Pylons 1.0)
-    'PasteDeploy >= 1.5',  # (version required by Pylons 1.0)
-    'ToscaWidgets >= 0.9.12', # 0.9.9 is not compatible with Pylons 1.0
-    'tw.forms == 0.9.9',
-    'MySQL-python >= 1.2.2',
-    'BeautifulSoup == 3.0.7a',
-        # We monkeypatch this version of BeautifulSoup in mediadrop.__init__
-        # Patch pending: https://bugs.launchpad.net/beautifulsoup/+bug/397997
-    'Pillow',
-    'akismet == 0.2.0',
-    'gdata > 2, < 2.1',
-    'unidecode',
-    'decorator >= 3.3.2', # (version required by Pylons 1.0)
-    'simplejson >= 2.2.1', # (version required by Pylons 1.0)
-]
 
+def requires_from_file(filename):
+    requirements = []
+    with open(filename, 'r') as requirements_fp:
+        for line in requirements_fp.readlines():
+            match = re.search('^\s*([a-zA-Z][^#]+?)(\s*#.+)?\n$', line)
+            if match:
+                requirements.append(match.group(1))
+    return requirements
+
+install_requires = setup_requires + requires_from_file('requirements.txt')
 if sys.version_info < (2, 7):
     # importlib is included in Python 2.7
     # however we can't do try/import/except because this might generate eggs
     # with missing requires which can not be used in other environments
     # see https://github.com/mediadrop/mediadrop/pull/44#issuecomment-573242
-    install_requires.append('importlib')
-
+    install_requires.extend(requires_from_file('requirements.py26.txt'))
 
 extra_arguments_for_setup = {}
 

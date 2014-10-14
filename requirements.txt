@@ -21,6 +21,7 @@ repoze.who == 1.0.18
 repoze.who-friendlyform
 repoze.who.plugins.sa
 Paste >= 1.7.5.1 # (version required by Pylons 1.0)
+PasteScript >= 1.7.4.2 # paster_plugins=
 PasteDeploy >= 1.5 # (version required by Pylons 1.0)
 ToscaWidgets >= 0.9.12 # 0.9.9 is not compatible with Pylons 1.0
 tw.forms == 0.9.9
