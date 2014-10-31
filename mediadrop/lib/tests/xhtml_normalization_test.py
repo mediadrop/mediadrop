@@ -7,6 +7,7 @@
 # See LICENSE.txt in the main project directory, for more information.
 
 from mediadrop.lib.helpers import clean_xhtml, line_break_xhtml
+from mediadrop.lib.xhtml import cleaner_settings
 from mediadrop.lib.test.pythonic_testcase import *
 
 
@@ -47,6 +48,14 @@ class XHTMLNormalizationTest(PythonicTestCase):
         original = 'http://example.com'
         cleaned = clean_xhtml(original)
         assert_equals(cleaned, '<a href="http://example.com" rel="nofollow">http://example.com</a>')
+
+    def test_adds_target_blank_to_links(self):
+        original = '<a href="http://example.com">link</a>'
+        from copy import deepcopy
+        settings = deepcopy(cleaner_settings)
+        settings['filters'].append('add_target_blank')
+        cleaned = clean_xhtml(original, _cleaner_settings=settings)
+        assert_equals(cleaned, '<a href="http://example.com" rel="nofollow" target="_blank">link</a>')
 
 import unittest
 def suite():

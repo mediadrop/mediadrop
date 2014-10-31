@@ -34,7 +34,7 @@ block_tags = 'p br pre blockquote div h1 h2 h3 h4 h5 h6 hr ul ol li form table t
 block_spaces = re.compile("\s*(</{0,1}(" + "|".join(block_tags) + ")>)\s*", re.M)
 block_close = re.compile("(</(" + "|".join(block_tags) + ")>)", re.M)
 valid_tags = dict.fromkeys('p i em strong b u a br pre abbr ol ul li sub sup ins del blockquote cite'.split())
-valid_attrs = dict.fromkeys('href rel title'.split())
+valid_attrs = dict.fromkeys('href rel title target'.split())
 elem_map = {'b': 'strong', 'i': 'em'}
 truncate_filters = ['strip_empty_tags']
 cleaner_filters = [
@@ -53,6 +53,13 @@ cleaner_settings = dict(
     elem_map = elem_map,
     filters = cleaner_filters
 )
+
+
+class MediaDropCleaner(Cleaner):
+    def add_target_blank(self):
+        for a in self.root.findAll(name='a'):
+            a['target'] = '_blank'
+
 
 def clean_xhtml(string, p_wrap=True, _cleaner_settings=None):
     """Convert the given plain text or HTML into valid XHTML.
@@ -87,7 +94,7 @@ def clean_xhtml(string, p_wrap=True, _cleaner_settings=None):
     string = blank_line.sub(u"<br/>", string)
 
     # initialize and run the cleaner
-    string = Cleaner(string, **_cleaner_settings)()
+    string = MediaDropCleaner(string, **_cleaner_settings)()
     # FIXME: It's possible that the rename_tags operation creates
     # some invalid nesting. e.g.
     # >>> c = Cleaner("", "rename_tags", elem_map={'h2': 'p'})
@@ -95,7 +102,7 @@ def clean_xhtml(string, p_wrap=True, _cleaner_settings=None):
     # u'<p><p>head</p></p>'
     # This is undesirable, so here we... just re-parse the markup.
     # But this ... could be pretty slow.
-    cleaner = Cleaner(string, **_cleaner_settings)
+    cleaner = MediaDropCleaner(string, **_cleaner_settings)
     string = cleaner()
 
     # Wrap in a <p> tag when no tags are used, and there are no blank
@@ -142,11 +149,11 @@ def truncate_xhtml(string, size, _strip_xhtml=False, _decode_entities=False):
                 string = encode_entities(string)
         else:
             if _decode_entities:
-                string = Cleaner(string,
+                string = MediaDropCleaner(string,
                                  *truncate_filters, **cleaner_settings)()
             else:
                 # re-encode the entities, if we have to.
-                string = Cleaner(string, 'encode_xml_specials',
+                string = MediaDropCleaner(string, 'encode_xml_specials',
                                  *truncate_filters, **cleaner_settings)()
 
     return string.strip()
