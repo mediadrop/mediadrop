@@ -33,6 +33,20 @@ class XHTMLNormalizationTest(PythonicTestCase):
         assert_equals('<p>first line</p>\n<p>second line</p>', display_text)
         assert_equals(expected_html, clean_xhtml(display_text))
 
+    def test_adds_nofollow_attribute_to_links(self):
+        original = '<a href="http://example.com">link</a>'
+        cleaned = clean_xhtml(original)
+        assert_equals(cleaned, '<a href="http://example.com" rel="nofollow">link</a>')
+
+    def _test_removes_follow_attribute_from_links(self):
+        original = '<a href="http://example.com" rel="follow">link</a>'
+        cleaned = clean_xhtml(original)
+        assert_equals(cleaned, '<a href="http://example.com" rel="nofollow">link</a>')
+
+    def test_makes_automatic_links_nofollow(self):
+        original = 'http://example.com'
+        cleaned = clean_xhtml(original)
+        assert_equals(cleaned, '<a href="http://example.com" rel="nofollow">http://example.com</a>')
 
 import unittest
 def suite():
