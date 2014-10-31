@@ -116,9 +116,9 @@ See LICENSE.txt in the main project directory, for more information.
 		</div>
 
 		<div id="category-context" class="contextbox">
-			<a py:def="cat_link(cat)" href="${h.url_for(controller='/categories', slug=cat.slug)}" class="underline-hover">${cat.name}</a>
+			<span py:def="cat_link(cat, is_last)" data-category="${cat.slug}"><a href="${h.url_for(controller='/categories', slug=cat.slug)}" class="underline-hover">${cat.name}</a><py:if test="not is_last">, </py:if></span>
 			<h3 class="uppercase">Categories</h3>
-			<p py:if="media.categories">${cat_link(media.categories[0])}<py:for each="cat in media.categories[1:]">, ${cat_link(cat)}</py:for></p>
+			<p py:if="media.categories"><py:for each="cat in media.categories">${cat_link(cat, cat is media.categories[-1])}</py:for></p>
 			<p py:if="not media.categories" class="contextbox-none">This is not listed under any categories.</p>
 		</div>
 
