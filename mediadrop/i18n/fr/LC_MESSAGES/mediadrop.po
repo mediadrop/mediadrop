@@ -42,12 +42,12 @@ msgstr "Nous sommes désolés, nous n’avons pas pu répondre à cette requête
 
 #: mediadrop/controllers/login.py:39
 msgid "Invalid username or password."
-msgstr "Nom d'utilisateur et mot de passe invalide."
+msgstr "Nom d'utilisateur et/ou mot de passe invalide."
 
 #: mediadrop/controllers/media.py:89 mediadrop/controllers/media.py:149
 #: mediadrop/templates/media/index.html:18
 msgid "Latest RSS"
-msgstr "RSS des plus récents"
+msgstr "Flux RSS des plus récents"
 
 #: mediadrop/controllers/media.py:93
 #, fuzzy
@@ -56,11 +56,11 @@ msgstr "À l’affiche"
 
 #: mediadrop/controllers/media.py:144
 msgid "Sitemap XML"
-msgstr "Sitemap XML"
+msgstr "Plan du site XML"
 
 #: mediadrop/controllers/media.py:145
 msgid "Sitemap RSS"
-msgstr "Sitemap RSS"
+msgstr "Plan du site RSS"
 
 #: mediadrop/controllers/media.py:315
 msgid "Your comment has been rejected."
@@ -202,11 +202,11 @@ msgstr "Nom "
 #: mediadrop/forms/admin/podcasts.py:103 mediadrop/forms/admin/tags.py:40
 #: mediadrop/templates/comments/_list.html:28
 msgid "Permalink"
-msgstr "Permalien "
+msgstr "Lien permanent"
 
 #: mediadrop/forms/admin/categories.py:40
 msgid "Parent Category"
-msgstr "Catégorie parente "
+msgstr "Catégorie mère"
 
 #: mediadrop/forms/admin/categories.py:41 mediadrop/forms/admin/comments.py:25
 #: mediadrop/forms/admin/tags.py:41
@@ -290,7 +290,7 @@ msgstr "Le nom du groupe existe déja"
 #: mediadrop/templates/admin/groups/index.html:47
 #: mediadrop/templates/admin/users/index.html:45
 msgid "Display Name"
-msgstr "Nom affiché "
+msgstr "Nom affiché"
 
 #: mediadrop/forms/admin/groups.py:42
 msgid "Groupname"
@@ -302,7 +302,7 @@ msgstr "Permissions du groupe"
 
 #: mediadrop/forms/admin/media.py:33
 msgid "Bad duration formatting, use Hour:Min:Sec"
-msgstr "Mauvais format de durée : utilisez Heure:Min:Sec"
+msgstr "Mauvais format pour la durée durée : utilisez Heure:Min:Sec"
 
 #: mediadrop/forms/admin/media.py:61
 msgid "Value must be in the format wxh; e.g. 200x300"
@@ -483,10 +483,13 @@ msgid ""
 "appropriate version of the video version (e.g. considering the user's "
 "bandwidth)"
 msgstr ""
+"Ne s'applique que sur le lecteur AS2, le lecteur AS3 va choisir la version "
+"de la vidéo la plus appropriée (e.g. en prenant en comptant la bande "
+"passante de l'utilisateur"
 
 #: mediadrop/forms/admin/players.py:157
 msgid "Display related videos after playback of the initial video ends."
-msgstr ""
+msgstr "Affiche les vidéos liées à la fin de la lecture de la vidéo initiale."
 
 #: mediadrop/forms/admin/players.py:158
 msgid ""
@@ -510,13 +513,15 @@ msgstr ""
 
 #: mediadrop/forms/admin/players.py:161
 msgid "Enable window-less mode (wmode)"
-msgstr ""
+msgstr "Activer le mode sans-fenêtre (wmode)"
 
 #: mediadrop/forms/admin/players.py:162
 msgid ""
 "wmode allows HTML/CSS elements to be placed over the actual Flash video "
 "but requires more CPU power."
 msgstr ""
+"wsmode permet aux éléments HTML/CSS d'être placés par dessus la "
+"vidéo Flash courante mais requiert plus de puissance processeur."
 
 #: mediadrop/forms/admin/players.py:165
 msgid "Always show player controls."
@@ -721,6 +726,9 @@ msgid ""
 "\"?limit=X\" to the feed URL. If the \"limit\" parameter is absent, the "
 "default above is used."
 msgstr ""
+"Le nombre d'éléments dans le flux peut être surchargé par une requête si "
+"vous ajoutez \"?limit=X\" à l'URL du flux. Si le paramètre \"limit\" est "
+"abstent, la valeur par défaut ci-dessus est utilisée."
 
 #: mediadrop/forms/admin/settings.py:215
 msgid "General Settings:"
@@ -874,6 +882,9 @@ msgid ""
 "Cooliris support is deprecated and will be removed in the next major "
 "version of MediaDrop unless someone is interested in maintaining it."
 msgstr ""
+"Le support de Cooliris est dépassé et va être supprimé lors de la "
+"prochaine version majeure de MediaDrop sauf si quelqu'un est intéressé "
+"pour le maintenir."
 
 #: mediadrop/forms/admin/settings.py:352
 msgid "Display login link for all users"
@@ -935,7 +946,7 @@ msgstr ""
 
 #: mediadrop/forms/admin/settings.py:410
 msgid "Enable Popout button on player menu bar."
-msgstr ""
+msgstr "Activer le bouton \"Fenêtre détaché\" de la barre de menu du lecteur."
 
 #: mediadrop/forms/admin/settings.py:414
 msgid "Enable Like button on player menu bar."
