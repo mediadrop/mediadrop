@@ -20,10 +20,10 @@ WSGIProcessGroup mcore
 WSGIScriptAlias /my_media /path/to/mediadrop.wsgi
 
 # Create an exception for media and podcast image from your data directory
-AliasMatch /my_media/images/(media|podcasts)(.*) /path/to/data/images/$1$2
+AliasMatch ^/my_media/images/(media|podcasts)(.*) /path/to/data/images/$1$2
 
 # Create an exception for all static MediaDrop content
-AliasMatch /my_media/(admin/)?(images|scripts|styles)(.*) /path/to/mediadrop_install/mediadrop/public/$1$2$3
+AliasMatch ^/my_media/(admin/)?(images|scripts|styles)(.*) /path/to/mediadrop_install/mediadrop/public/$1$2$3
 
 # Create an exception for your custom appearance css and images
 Alias /my_media/appearance /path/to/data/appearance
