@@ -105,7 +105,7 @@ or the configuration files to web users in case of a configuration error.
 
 After step 3 you should have a directory which contains the folders ``data``,
 ``MediaDrop-0.11.0`` (or whatever you named the directory with the MediaDrop
-source code), and ``venv`` as well as the ``production.ini`` file.
+source code), and ``venv`` as well as the ``deployment.ini`` file.
 
 
 .. _install_setup_virtualenv:
@@ -224,7 +224,7 @@ Step 4: Load Initial Data
 
 First we need to set up the directory which contains all the file content. Copy
 the ``data`` folder from your MediaDrop source code next to the 
-``production.ini`` file.
+``deployment.ini`` file.
 
 .. sourcecode:: bash
 
