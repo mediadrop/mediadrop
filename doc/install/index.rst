@@ -174,9 +174,9 @@ b. **For developers and power users** we recommend using the source code
       git clone git://github.com/mediadrop/mediadrop.git mediadrop-git
       cd mediadrop-git
       
-      # now you have the latest development version. For a production deployment
-      # you should switch to a release version, e.g.
-      git checkout v0.10.2
+      # now you have the latest development version. If you like to access the
+      # code for a specific release, please checkout the matching git tag, e.g.:
+      # git checkout v0.10.2
 
       # Install!
       python setup.py develop
