@@ -13,6 +13,7 @@ from mediadrop.lib.base import BaseController
 from mediadrop.lib.helpers import redirect, url_for
 from mediadrop.lib.i18n import _
 from mediadrop.lib.decorators import expose, observable
+from mediadrop.lib.routing_helpers import dispatch_info_for_url
 from mediadrop.plugin import events
 
 import logging
@@ -81,7 +82,13 @@ class LoginController(BaseController):
             self._increase_number_of_failed_logins()
             return self.login(came_from=came_from)
         if came_from:
-            redirect(came_from)
+            url_mapper = request.environ['routes.url'].mapper
+            target = dispatch_info_for_url(came_from, url_mapper)
+            if (target is not None) and getattr(target.action, '_request_method', None) not in ('GET', None):
+                log.debug('no redirect to %r because target url does not allow GET requests' % came_from)
+                came_from = None
+            if came_from:
+                redirect(came_from)
         # It is important to return absolute URLs (if app mounted in subdirectory)
         if request.perm.contains_permission(u'edit') or request.perm.contains_permission(u'admin'):
             redirect(url_for('/admin', qualified=True))

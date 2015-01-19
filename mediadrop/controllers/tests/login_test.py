@@ -6,6 +6,8 @@
 # (at your option) any later version.
 # See LICENSE.txt in the main project directory, for more information.
 
+import urllib
+
 from pylons import config
 
 from mediadrop.controllers.login import LoginController
@@ -46,6 +48,16 @@ class LoginControllerTest(ControllerTestCase):
         
         response = self.call_post_login(user, request=request)
         assert_equals('http://server.example:80/my_media/', response.location)
+    
+    def test_ignores_redirect_url_if_target_action_does_not_allow_get_requests(self):
+        admin = self._create_user_with_admin_permission_only()
+        user_save_url = 'http://server.example:80/admin/users/%d/save' % admin.id
+        came_from = urllib.quote_plus(user_save_url)
+        request = self.init_fake_request(server_name='server.example',
+            request_uri='/login/post_login?came_from='+came_from)
+        response = self.call_post_login(admin, request=request)
+        assert_equals('http://server.example:80/admin', response.location,
+            message='should just ignore came_from for post-only targets.')
     
     # - helpers ---------------------------------------------------------------
     

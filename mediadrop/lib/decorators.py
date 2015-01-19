@@ -159,6 +159,8 @@ def expose(template='string', request_method=None, permission=None):
     def wrap(f):
         wrapped_f = _expose_wrapper(f, template, request_method, permission)
         _copy_func_attrs(f, wrapped_f)
+        if request_method:
+            f._request_method = request_method
         return wrapped_f
     return wrap
 
