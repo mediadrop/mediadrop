@@ -8,6 +8,7 @@
 
 import urllib
 
+from ddt import ddt as DataDrivenTestCase, data
 from pylons import config
 
 from mediadrop.controllers.login import LoginController
@@ -17,6 +18,7 @@ from mediadrop.lib.test.pythonic_testcase import *
 from mediadrop.model import DBSession, Group, User, Permission
 
 
+@DataDrivenTestCase
 class LoginControllerTest(ControllerTestCase):
     def test_non_editors_are_redirect_to_home_page_after_login(self):
         user = User.example()
@@ -59,6 +61,39 @@ class LoginControllerTest(ControllerTestCase):
         assert_equals('http://server.example:80/admin', response.location,
             message='should just ignore came_from for post-only targets.')
     
+    def test_prevent_parameter_base_redirection(self):
+        user = User.example()
+
+        came_from = urllib.quote_plus('http://evil.site/malware/')
+        request = self.init_fake_request(server_name='server.example',
+            request_uri='/login/post_login?came_from='+came_from)
+        response = self.call_post_login(user, request=request)
+        assert_equals('http://server.example:80/', response.location,
+            message='should only redirect to urls on the same domain')
+    
+    @data('http://server.example', 'http://server.example:80',
+          'http://server.example/media' 'http://server.example:80/media',
+          'http://server.example/cms/', 'http://server.example:80/cms',
+          'https://server.example/', 'https://server.example:443/',
+          'https://server.example/external/', 'https://server.example:443/external/',
+          'http://server.example:8080',
+          )
+    def test_can_redirect_to_domains_on_same_domain_after_login(self, came_from):
+        user = User.example()
+        quoted_came_from = urllib.quote_plus(came_from)
+        request = self.init_fake_request(server_name='server.example',
+            request_uri='/login/post_login?came_from='+quoted_came_from)
+        response = self.call_post_login(user, request=request)
+        assert_equals(came_from, response.location)
+    
+    def test_handles_bad_came_from_parameter_gracefully(self):
+        user = User.example()
+        quoted_came_from = urllib.quote_plus('invalid junk')
+        request = self.init_fake_request(server_name='server.example',
+            request_uri='/login/post_login?came_from='+quoted_came_from)
+        response = self.call_post_login(user, request=request)
+        assert_equals('http://server.example:80/', response.location)
+
     # - helpers ---------------------------------------------------------------
     
     def call_post_login(self, user, request=None):

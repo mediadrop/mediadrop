@@ -13,7 +13,7 @@ from mediadrop.lib.base import BaseController
 from mediadrop.lib.helpers import redirect, url_for
 from mediadrop.lib.i18n import _
 from mediadrop.lib.decorators import expose, observable
-from mediadrop.lib.routing_helpers import dispatch_info_for_url
+from mediadrop.lib.routing_helpers import dispatch_info_for_url, is_url_for_mediadrop_domain
 from mediadrop.plugin import events
 
 import logging
@@ -84,7 +84,10 @@ class LoginController(BaseController):
         if came_from:
             url_mapper = request.environ['routes.url'].mapper
             target = dispatch_info_for_url(came_from, url_mapper)
-            if (target is not None) and getattr(target.action, '_request_method', None) not in ('GET', None):
+            if not is_url_for_mediadrop_domain(came_from):
+                log.debug('no redirect to %r because target url does match our hostname (prevents parameter base redirection attacks)' % came_from)
+                came_from = None
+            elif (target is not None) and getattr(target.action, '_request_method', None) not in ('GET', None):
                 log.debug('no redirect to %r because target url does not allow GET requests' % came_from)
                 came_from = None
             if came_from:

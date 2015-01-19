@@ -13,6 +13,7 @@ import urlparse
 from pylons.wsgiapp import PylonsApp
 
 from .attribute_dict import AttrDict
+from .helpers import url_for
 
 
 __all__ = ['dispatch_info_for_url']
@@ -36,3 +37,11 @@ def dispatch_info_for_url(url, url_mapper):
         action_name=action_name,
     )
 
+def is_url_for_mediadrop_domain(url):
+    """Return True if the host name part of the URL matches the host name of
+    this MediaDrop instance. Disregards protocols (e.g. http/https), ports and
+    paths."""
+    root_url = url_for('/', qualified=True)
+    instance_hostname = urlparse.urlparse(root_url).hostname
+    url_hostname = urlparse.urlparse(url).hostname
+    return (instance_hostname == url_hostname)
