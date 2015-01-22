@@ -15,7 +15,7 @@ from pylons import translator
 from pylons.configuration import PylonsConfig
 from sqlalchemy import engine_from_config
 
-import mediadrop.lib.app_globals as app_globals
+from mediadrop.lib.app_globals import Globals
 import mediadrop.lib.helpers
 
 from mediadrop.config.routing import create_mapper, add_routes
@@ -47,7 +47,7 @@ def load_environment(global_conf, app_conf):
     add_routes(mapper)
     events.Environment.after_route_setup(mapper)
     config['routes.map'] = mapper
-    globals_ = app_globals.Globals(config)
+    globals_ = Globals(config)
     globals_.plugin_mgr = plugin_mgr
     globals_.events = events
     config['pylons.app_globals'] = globals_
