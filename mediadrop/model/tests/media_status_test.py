@@ -14,8 +14,6 @@ from mediadrop.lib.players import AbstractFlashPlayer, FlowPlayer
 from mediadrop.lib.storage.api import add_new_media_file
 from mediadrop.lib.test.db_testcase import DBTestCase
 from mediadrop.lib.test.pythonic_testcase import *
-from mediadrop.plugin import events
-from mediadrop.plugin.events import observes
 
 #import logging
 #logging.basicConfig(level=logging.DEBUG)
