@@ -47,13 +47,14 @@ def load_environment(global_conf, app_conf):
     add_routes(mapper)
     events.Environment.after_route_setup(mapper)
     config['routes.map'] = mapper
-    config['pylons.app_globals'] = app_globals.Globals(config)
-    config['pylons.app_globals'].plugin_mgr = plugin_mgr
-    config['pylons.app_globals'].events = events
+    globals_ = app_globals.Globals(config)
+    globals_.plugin_mgr = plugin_mgr
+    globals_.events = events
+    config['pylons.app_globals'] = globals_
     config['pylons.h'] = mediadrop.lib.helpers
 
     # Setup cache object as early as possible
-    pylons.cache._push_object(config['pylons.app_globals'].cache)
+    pylons.cache._push_object(globals_.cache)
 
     i18n_env_dir = os.path.join(config['env_dir'], 'i18n')
     config['locale_dirs'] = plugin_mgr.locale_dirs()
@@ -67,7 +68,7 @@ def load_environment(global_conf, app_conf):
         translations.setup(template)
 
     # Create the Genshi TemplateLoader
-    config['pylons.app_globals'].genshi_loader = TemplateLoader(
+    globals_.genshi_loader = TemplateLoader(
         search_path=paths['templates'] + plugin_mgr.template_loaders(),
         auto_reload=True,
         max_cache_size=100,
