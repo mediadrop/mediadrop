@@ -16,7 +16,8 @@ from babel.dates import (format_date as _format_date,
 from babel.numbers import format_decimal as _format_decimal
 from babel.support import Translations
 from babel.util import LOCALTZ
-from pylons import app_globals, config, request, translator
+import pylons
+from pylons import app_globals, config, translator
 from pylons.i18n.translation import lazify
 
 from mediadrop.lib.listify import tuplify
@@ -71,14 +72,14 @@ class Translator(object):
         # Fetch the 'mediadrop' domain immediately & cache a direct ref for perf
         self._mediadrop = self._load_domain(MEDIADROP)
 
-    def install_pylons_global(self):
+    def install_pylons_global(self, registry=None):
         """Replace the current pylons.translator SOP with this instance.
 
         This is specific to the current request.
         """
-        environ = request.environ
-        environ['pylons.pylons'].translator = self
-        environ['paste.registry'].replace(translator, self)
+        pylons.translator = self
+        if registry:
+            registry.replace(translator, self)
 
     def _load_domain(self, domain, fallback=True):
         """Load the given domain from one of the pre-configured locale dirs.
@@ -338,7 +339,7 @@ def get_available_locales():
         if os.path.exists(mo_path):
             yield name
 
-def setup_global_translator(default_language='en'):
+def setup_global_translator(default_language='en', registry=None):
     """Load the primary translator during the first call of this function and
     reactivate it for each subsequent call until the primary language is
     changed."""
@@ -350,4 +351,4 @@ def setup_global_translator(default_language='en'):
         translator = Translator(lang, config['locale_dirs'])
         app_globs.primary_translator = translator
         app_globs.primary_language = lang
-    translator.install_pylons_global()
+    translator.install_pylons_global(registry=registry)

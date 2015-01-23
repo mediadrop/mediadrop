@@ -9,7 +9,7 @@
 import pylons
 
 from mediadrop.lib.auth.permission_system import MediaDropPermissionSystem
-from mediadrop.lib.test.support import fake_request
+from mediadrop.lib.test.support import fake_request, remove_globals
 
 
 __all__ = ['RequestMixin']
@@ -35,12 +35,5 @@ class RequestMixin(object):
         pylons.request.perm = perm
     
     def remove_globals(self):
-        for global_ in (pylons.request, pylons.response, pylons.session, 
-                        pylons.tmpl_context, pylons.translator, pylons.url,):
-            try:
-                if hasattr(global_, '_pop_object'):
-                    global_._pop_object()
-            except AssertionError:
-                # AssertionError: No object has been registered for this thread
-                pass
+        remove_globals()
 

@@ -9,6 +9,18 @@
 from beaker.cache import CacheManager
 from beaker.util import parse_cache_config_options
 
+
+__all__ = ['is_object_registered', 'Globals']
+
+def is_object_registered(symbol):
+    """Return True if the specified 'symbol' (e.g. pylons.url) contains an
+    active value."""
+    if not hasattr(symbol, '_object_stack'):
+        # for unknown reasons pylons.translator is sometimes just the "pure"
+        # Translator object (no proxied via StackObjectProxy)
+        return False
+    return (len(symbol._object_stack()) > 0)
+
 class Globals(object):
     """Globals acts as a container for objects available throughout the
     life of the application

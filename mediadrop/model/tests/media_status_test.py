@@ -14,6 +14,7 @@ from mediadrop.lib.players import AbstractFlashPlayer, FlowPlayer
 from mediadrop.lib.storage.api import add_new_media_file
 from mediadrop.lib.test.db_testcase import DBTestCase
 from mediadrop.lib.test.pythonic_testcase import *
+from mediadrop.lib.i18n import setup_global_translator
 
 #import logging
 #logging.basicConfig(level=logging.DEBUG)
@@ -29,6 +30,11 @@ class MediaStatusUpdatesTypeTest(DBTestCase):
         # prevent warning about missing handlers for logger 
         # "mediadrop.model.players" ("fetch_enabled_players()")
         self.init_flowplayer()
+        # required because "media.update_status()" will query
+        # "registered_media_types()" which in turn calls "register_default_types()"
+        # and then we need a translator (e.g. "_('Video')").
+        paste_registry = self.pylons_config['paste.registry']
+        setup_global_translator(registry=paste_registry)
         self.media = Media.example()
     
     def init_flowplayer(self):
@@ -85,7 +91,6 @@ class MediaStatusUpdatesTypeTest(DBTestCase):
         self.add_external_file(media, 'mp3')
         media.update_status()
         assert_equals(VIDEO, media.type, message='did not detect mixed video/audio media as VIDEO type')
-        
 
 
 import unittest

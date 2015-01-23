@@ -14,7 +14,7 @@ import pylons
 from pylons.configuration import config
 
 from mediadrop.lib.test.pythonic_testcase import *
-from mediadrop.lib.test.support import setup_environment_and_database
+from mediadrop.lib.test.support import remove_globals, setup_environment_and_database
 from mediadrop.model.meta import DBSession, metadata
 from mediadrop.websetup import add_default_data
 
@@ -53,14 +53,7 @@ class DBTestCase(PythonicTestCase):
         DBSession.close_all()
     
     def _tear_down_pylons(self):
-        pylons.cache._pop_object()
-        try:
-            pylons.app_globals.settings_cache.clear()
-            pylons.app_globals._pop_object()
-        except TypeError:
-            # The test might have not set up any app_globals
-            # No object (name: app_globals) has been registered for this thread
-            pass
+        remove_globals()
         config.pop_process_config()
         DBSession.registry.clear()
 
