@@ -7,7 +7,7 @@
 
 import re
 
-from repoze.who.classifiers import default_challenge_decider, default_request_classifier
+from repoze.who.classifiers import default_request_classifier
 from repoze.who.middleware import PluggableAuthenticationMiddleware
 from repoze.who.plugins.auth_tkt import AuthTktCookiePlugin
 from repoze.who.plugins.friendlyform import FriendlyFormPlugin
@@ -80,6 +80,13 @@ class MediaDropLoginForm(FriendlyFormPlugin):
         return credentials
 
 
+def mediadrop_challenge_decider(environ, status, headers):
+    is_xhr = environ.get('HTTP_X_REQUESTED_WITH', '') == 'XMLHttpRequest'
+    if is_xhr:
+        return False
+    return status.startswith('401 ')
+
+
 def who_args(config):
     auth_by_username = MediaDropAuthenticatorPlugin.by_attribute('user_name')
     
@@ -103,7 +110,7 @@ def who_args(config):
         'authenticators': [
             ('auth_by_username', auth_by_username)
         ],
-        'challenge_decider': default_challenge_decider,
+        'challenge_decider': mediadrop_challenge_decider,
         'challengers': [('form', form)],
         'classifier': classifier_for_flash_uploads,
         'identifiers': [('main_identifier', form), ('cookie', cookie)],
@@ -143,9 +150,10 @@ def classifier_for_flash_uploads(environ):
     TODO: Currently overwrites the HTTP_COOKIE, should ideally append.
     """
     classification = default_request_classifier(environ)
-    if classification == 'browser' \
-    and environ['REQUEST_METHOD'] == 'POST' \
-    and 'Flash' in environ.get('HTTP_USER_AGENT', ''):
+    if classification != 'browser':
+        return classification
+    user_agent = environ.get('HTTP_USER_AGENT', '')
+    if environ['REQUEST_METHOD'] == 'POST' and ('Flash' in user_agent):
         session_key = environ['repoze.who.plugins']['cookie'].cookie_name
         # Construct a temporary request object since this is called before
         # pylons.request is populated. Re-instantiation later comes cheap.
