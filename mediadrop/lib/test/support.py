@@ -13,6 +13,7 @@ import urllib
 from beaker.session import SessionObject
 from formencode.api import get_localedir as get_formencode_localedir
 from paste.registry import Registry, StackedObjectProxy
+from paste.script.util import secret
 import pkg_resources
 import pylons
 from pylons.controllers.util import Request, Response
@@ -41,6 +42,7 @@ __all__ = [
 def setup_environment_and_database(env_dir=None, enabled_plugins=''):
     global_config = {}
     env_dir = env_dir or '/invalid'
+    app_instance_secret = secret.secret_string()
     app_config = {
         'plugins': enabled_plugins,
         'sqlalchemy.url': 'sqlite://',
@@ -48,6 +50,8 @@ def setup_environment_and_database(env_dir=None, enabled_plugins=''):
         'external_template': 'false',
         'image_dir': os.path.join(env_dir, 'images'),
         'media_dir': os.path.join(env_dir, 'media'),
+        'beaker.session.secret': app_instance_secret,
+        'sa_auth.cookie_secret': app_instance_secret,
     }
     pylons_config = load_environment(global_config, app_config)
     metadata.create_all(bind=DBSession.bind, checkfirst=True)
