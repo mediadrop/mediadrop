@@ -11,7 +11,6 @@ import os
 from formencode.api import get_localedir as get_formencode_localedir
 from genshi.filters.i18n import Translator
 import pylons
-from pylons import translator
 from pylons.configuration import PylonsConfig
 from sqlalchemy import engine_from_config
 
@@ -64,7 +63,7 @@ def load_environment(global_conf, app_conf):
     })
 
     def enable_i18n_for_template(template):
-        translations = Translator(translator)
+        translations = Translator(pylons.translator)
         translations.setup(template)
 
     # Create the Genshi TemplateLoader

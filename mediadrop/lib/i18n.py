@@ -17,7 +17,6 @@ from babel.numbers import format_decimal as _format_decimal
 from babel.support import Translations
 from babel.util import LOCALTZ
 import pylons
-from pylons import app_globals, config, translator
 from pylons.i18n.translation import lazify
 
 from mediadrop.lib.listify import tuplify
@@ -79,7 +78,7 @@ class Translator(object):
         """
         pylons.translator = self
         if registry:
-            registry.replace(translator, self)
+            registry.replace(pylons.translator, self)
 
     def _load_domain(self, domain, fallback=True):
         """Load the given domain from one of the pre-configured locale dirs.
@@ -206,9 +205,9 @@ def gettext(msgid, domain=None):
     :returns: The translated string, or the original msgid if no
         translation was found.
     """
-    translator_obj = translator._current_obj()
+    translator_obj = pylons.translator._current_obj()
     if not isinstance(translator_obj, Translator):
-        if config['debug']:
+        if pylons.config['debug']:
             log.warn('_, ugettext, or gettext called with msgid "%s" before '\
                      'pylons.translator has been replaced with our custom '\
                      'version.' % msgid)
@@ -233,7 +232,7 @@ def ngettext(singular, plural, n, domain=None):
     :rtype: ``unicode``
     :returns: The pluralized translation.
     """
-    return translator.ngettext(singular, plural, n, domain)
+    return pylons.translator.ngettext(singular, plural, n, domain)
 
 class _TranslateableUnicode(unicode):
     """A special string that remembers what domain it belongs to.
@@ -284,7 +283,7 @@ def format_date(date=None, format='medium'):
                    date/time pattern
     :rtype: `unicode`
     """
-    return _format_date(date, format, translator.locale)
+    return _format_date(date, format, pylons.translator.locale)
 
 def format_datetime(datetime=None, format='medium', tzinfo=None):
     """Return a date formatted according to the given pattern.
@@ -300,7 +299,7 @@ def format_datetime(datetime=None, format='medium', tzinfo=None):
     """
     if datetime and (datetime.tzinfo is None):
         datetime = datetime.replace(tzinfo=LOCALTZ)
-    return _format_datetime(datetime, format, tzinfo, translator.locale)
+    return _format_datetime(datetime, format, tzinfo, pylons.translator.locale)
 
 def format_decimal(number):
     """Return a formatted number (using the correct decimal mark).
@@ -310,7 +309,7 @@ def format_decimal(number):
     :param number: the ``int``, ``float`` or ``decimal`` object
     :rtype: `unicode`
     """
-    return _format_decimal(number, locale=translator.locale)
+    return _format_decimal(number, locale=pylons.translator.locale)
 
 def format_time(time=None, format='medium', tzinfo=None):
     """Return a time formatted according to the given pattern.
@@ -326,14 +325,14 @@ def format_time(time=None, format='medium', tzinfo=None):
     """
     if time and (time.tzinfo is None):
         time = time.replace(tzinfo=LOCALTZ)
-    return _format_time(time, format, tzinfo, translator.locale)
+    return _format_time(time, format, tzinfo, pylons.translator.locale)
 
 def get_available_locales():
     """Yield all the locale names for which we have translations.
 
     Considers only the 'mediadrop' domain, not plugins.
     """
-    i18n_dir = os.path.join(config['pylons.paths']['root'], 'i18n')
+    i18n_dir = os.path.join(pylons.config['pylons.paths']['root'], 'i18n')
     for name in os.listdir(i18n_dir):
         mo_path = os.path.join(i18n_dir, name, 'LC_MESSAGES/mediadrop.mo')
         if os.path.exists(mo_path):
@@ -343,12 +342,12 @@ def setup_global_translator(default_language='en', registry=None):
     """Load the primary translator during the first call of this function and
     reactivate it for each subsequent call until the primary language is
     changed."""
-    app_globs = app_globals._current_obj()
+    app_globs = pylons.app_globals._current_obj()
     lang = app_globs.settings['primary_language'] or default_language
     if app_globs.primary_language == lang and app_globs.primary_translator:
         translator = app_globs.primary_translator
     else:
-        translator = Translator(lang, config['locale_dirs'])
+        translator = Translator(lang, pylons.config['locale_dirs'])
         app_globs.primary_translator = translator
         app_globs.primary_language = lang
     translator.install_pylons_global(registry=registry)
