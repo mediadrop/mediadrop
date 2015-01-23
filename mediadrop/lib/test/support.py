@@ -11,7 +11,9 @@ import os
 import urllib
 
 from beaker.session import SessionObject
+from formencode.api import get_localedir as get_formencode_localedir
 from paste.registry import Registry, StackedObjectProxy
+import pkg_resources
 import pylons
 from pylons.controllers.util import Request, Response
 from pylons.util import AttribSafeContextObj, ContextObj
@@ -26,6 +28,7 @@ from mediadrop.config.middleware import create_tw_engine_manager
 from mediadrop.lib.paginate import Bunch
 from mediadrop.lib.i18n import Translator
 from mediadrop.model.meta import DBSession, metadata
+from mediadrop.plugin import PluginManager
 
 
 __all__ = [
@@ -123,8 +126,7 @@ def create_wsgi_environ(url, request_method, request_body=None):
 
 def setup_translator(language='en', registry=None, locale_dirs=None):
     if not locale_dirs:
-        mediadrop_i18n_path = os.path.join(os.path.dirname(mediadrop.__file__), 'i18n')
-        locale_dirs = {'mediadrop': mediadrop_i18n_path}
+        locale_dirs = get_locale_dirs(pylons.config)
     translator = Translator(language, locale_dirs=locale_dirs)
     
     # not sure why but sometimes pylons.translator is not a StackedObjectProxy
@@ -134,6 +136,16 @@ def setup_translator(language='en', registry=None, locale_dirs=None):
     if registry is None:
         registry = pylons.request.environ['paste.registry']
     registry.replace(pylons.translator, translator)
+
+def get_locale_dirs(config=None):
+    if config is None:
+        config = pylons.config
+    locale_map = {
+        'mediadrop': pkg_resources.resource_filename('mediadrop', 'i18n'),
+        'FormEncode': get_formencode_localedir(),
+    }
+    locale_map.update(PluginManager(config).locale_dirs())
+    return locale_map
 
 def fake_request(pylons_config, server_name='mediadrop.example', language='en',
                  method='GET', request_uri='/', post_vars=None):
