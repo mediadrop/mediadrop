@@ -18,8 +18,12 @@ from mediadrop.lib.test.support import *
 
 def suite():
     from mediadrop.controllers.tests import login_test, upload_test
-    from mediadrop.lib.auth.tests import (filtering_restricted_items_test, 
-        group_based_permissions_policy_test, mediadrop_permission_system_test,
+    from mediadrop.lib.auth.tests import (
+        cookieplugin_test,
+        filtering_restricted_items_test,
+        group_based_permissions_policy_test,
+        loginform_test,
+        mediadrop_permission_system_test,
         permission_system_test, query_result_proxy_test, static_query_test)
     from mediadrop.lib.tests import (css_delivery_test, current_url_test,
         helpers_test, human_readable_size_test, js_delivery_test,

@@ -21,7 +21,10 @@ from mediadrop.lib.auth.permission_system import MediaDropPermissionSystem
 
 
 
-__all__ = ['add_auth', 'classifier_for_flash_uploads']
+__all__ = ['add_auth', 'classifier_for_flash_uploads', 'session_validity']
+
+days_as_seconds = lambda days: days * 24*60*60
+session_validity = days_as_seconds(30) # session expires after 30 days
 
 class MediaDropAuthenticatorPlugin(SQLAlchemyAuthenticatorPlugin):
     def authenticate(self, environ, identity):
@@ -59,11 +62,28 @@ class MediaDropCookiePlugin(AuthTktCookiePlugin):
             return False
         return True
 
+    # IIdentifier
+    def identify(self, environ):
+        identity = super(MediaDropCookiePlugin, self).identify(environ)
+        if identity and self.timeout:
+            identity['max_age'] = self.timeout
+        return identity
+
+
+class MediaDropLoginForm(FriendlyFormPlugin):
+    def identify(self, environ):
+        credentials = super(MediaDropLoginForm, self).identify(environ)
+        if credentials is None:
+            return None
+        if credentials:
+            credentials['max_age'] = session_validity
+        return credentials
+
 
 def who_args(config):
     auth_by_username = MediaDropAuthenticatorPlugin.by_attribute('user_name')
     
-    form = FriendlyFormPlugin(
+    form = MediaDropLoginForm(
         login_form_url,
         login_handler_url,
         post_login_url,
@@ -73,11 +93,10 @@ def who_args(config):
         charset='utf-8',
     )
     cookie_secret = config['sa_auth.cookie_secret']
-    seconds_30_days = 30*24*60*60 # session expires after 30 days
-    cookie = MediaDropCookiePlugin(cookie_secret, 
+    cookie = MediaDropCookiePlugin(cookie_secret,
         cookie_name='authtkt', 
-        timeout=seconds_30_days, # session expires after 30 days
-        reissue_time=seconds_30_days/2, # reissue cookie after 15 days
+        timeout=session_validity, # session expires after 30 days
+        reissue_time=session_validity/2, # reissue cookie after 15 days
     )
     
     who_args = {
