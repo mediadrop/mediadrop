@@ -75,7 +75,8 @@ class BareBonesController(WSGIController):
         NOTE: If this method is wrapped in an ActionProtector, all methods of
               the class will be protected it. See :meth:`__init__`.
         """
-        setup_global_translator()
+        registry = request.environ['paste.registry']
+        setup_global_translator(registry=registry)
         response.scripts = Scripts()
         response.stylesheets = StyleSheets()
         response.feed_links = []

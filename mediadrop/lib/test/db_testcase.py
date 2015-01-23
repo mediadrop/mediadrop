@@ -33,6 +33,10 @@ class DBTestCase(PythonicTestCase):
         
         config.push_process_config(self.pylons_config)
     
+    @property
+    def paste_registry(self):
+        return self.pylons_config['paste.registry']
+    
     def _create_environment_folders(self):
         j = lambda *args: os.path.join(*args)
         

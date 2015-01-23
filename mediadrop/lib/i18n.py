@@ -19,6 +19,7 @@ from babel.util import LOCALTZ
 import pylons
 from pylons.i18n.translation import lazify
 
+from mediadrop.lib.app_globals import is_object_registered
 from mediadrop.lib.listify import tuplify
 
 
@@ -70,15 +71,6 @@ class Translator(object):
 
         # Fetch the 'mediadrop' domain immediately & cache a direct ref for perf
         self._mediadrop = self._load_domain(MEDIADROP)
-
-    def install_pylons_global(self, registry=None):
-        """Replace the current pylons.translator SOP with this instance.
-
-        This is specific to the current request.
-        """
-        pylons.translator = self
-        if registry:
-            registry.replace(pylons.translator, self)
 
     def _load_domain(self, domain, fallback=True):
         """Load the given domain from one of the pre-configured locale dirs.
@@ -350,4 +342,11 @@ def setup_global_translator(default_language='en', registry=None):
         translator = Translator(lang, pylons.config['locale_dirs'])
         app_globs.primary_translator = translator
         app_globs.primary_language = lang
-    translator.install_pylons_global(registry=registry)
+
+    # no need to replace the translator if it uses the same domain anyway
+    if is_object_registered(pylons.translator):
+        pylons_translator = pylons.translator._current_obj()
+        uses_same_locale = (getattr(pylons_translator, 'locale', None) == translator.locale)
+        if uses_same_locale:
+            return
+    registry.register(pylons.translator, translator)

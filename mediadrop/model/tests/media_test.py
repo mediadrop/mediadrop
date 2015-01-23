@@ -7,6 +7,7 @@
 
 from mediadrop.model import DBSession, Media
 from mediadrop.lib.filetypes import VIDEO
+from mediadrop.lib.i18n import setup_global_translator
 from mediadrop.lib.players import AbstractFlashPlayer, FlowPlayer
 from mediadrop.lib.storage.api import add_new_media_file
 from mediadrop.lib.test.db_testcase import DBTestCase
@@ -18,6 +19,7 @@ from mediadrop.plugin.events import observes
 class MediaTest(DBTestCase):
     def setUp(self):
         super(MediaTest, self).setUp()
+        setup_global_translator(registry=self.paste_registry)
         self.init_flowplayer()
         self.media = Media.example()
         self.encoding_event = self.create_spy_on_event(events.Media.encoding_done)

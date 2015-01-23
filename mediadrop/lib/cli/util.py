@@ -39,6 +39,6 @@ def init_mediadrop(config_filename, here_dir=None, disable_logging=False):
     register_instance(paste_registry, 'app_globals', app_globals)
     register_instance(paste_registry, 'config', pylons_config)
     fake_request(pylons_config, registry=paste_registry)
-    setup_global_translator()
+    setup_global_translator(registry=paste_registry)
 
 
