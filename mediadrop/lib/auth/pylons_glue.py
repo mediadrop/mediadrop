@@ -11,12 +11,28 @@ from decorator import decorator
 from pylons import request
 from pylons.controllers.util import abort
 
-__all__ = ['ControllerProtector', 'FunctionProtector', 'has_permission', 
-    'Predicate']
+__all__ = [
+    'ControllerProtector',
+    'FunctionProtector',
+    'has_permission',
+    'is_logged_in',
+    'require_auth',
+    'Predicate',
+]
+
+
+
+def require_auth(predicate):
+    return FunctionProtector(predicate)
 
 
 class Predicate(object):
-    def has_required_permission(self, environ):
+    def perm(self, request):
+        # potentially wrapping the BaseController which sets up request.perm,
+        # therefore we have to get the perm object from the environ
+        return request.environ.get('mediadrop.perm')
+    
+    def has_required_permission(self, request):
         raise NotImplementedError()
 
 
@@ -25,10 +41,20 @@ class has_permission(Predicate):
         self.permission_name = permission_name
     
     def has_required_permission(self, request):
-        environ = request.environ
-        # potentially wrapping the BaseController which sets up request.perm,
-        # therefore we have to get the perm object from the environ
-        return environ['mediadrop.perm'].contains_permission(self.permission_name)
+        perm = self.perm(request)
+        if perm is None:
+            return False
+        return perm.contains_permission(self.permission_name)
+
+
+class is_logged_in(Predicate):
+    def has_required_permission(self, request):
+        perm = self.perm(request)
+        if perm is None:
+            return False
+        who_identity = request.environ.get('repoze.who.identity', {})
+        id_authenticated_user = who_identity.get('repoze.who.userid')
+        return (id_authenticated_user is not None)
 
 
 class FunctionProtector(object):

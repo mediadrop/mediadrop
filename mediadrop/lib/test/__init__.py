@@ -22,6 +22,7 @@ def suite():
         cookieplugin_test,
         filtering_restricted_items_test,
         group_based_permissions_policy_test,
+        is_logged_in_decorator_test,
         loginform_test,
         mediadrop_permission_system_test,
         permission_system_test, query_result_proxy_test, static_query_test)
