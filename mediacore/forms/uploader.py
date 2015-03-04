@@ -37,7 +37,7 @@ class UploadForm(ListForm):
     show_children_errors = False
     params = ['async_action']
     
-    events = events.UploadForm
+    event = events.UploadForm
     
     class fields(WidgetsList):
         name = TextField(validator=validators['name'], label_text=N_('Your Name:'), maxlength=50)
