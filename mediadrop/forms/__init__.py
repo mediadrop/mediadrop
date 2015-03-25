@@ -13,9 +13,10 @@ from tw import forms
 from tw.api import JSLink, JSSource
 from tw.forms import FileField, TextArea as tw_TA, TextField as tw_TF
 from tw.forms.validators import Email
+from bleach import clean
 
 from mediadrop.lib.i18n import N_, _
-from mediadrop.lib.xhtml import clean_xhtml, decode_entities, line_break_xhtml
+from mediadrop.lib.xhtml import clean_xhtml, line_break_xhtml
 from mediadrop.lib.templating import tmpl_globals
 from mediadrop.lib.util import url_for
 from mediadrop.plugin import events
@@ -34,14 +35,14 @@ def leniant_schema():
 class LeniantValidationMixin(object):
     validator = None
     event = None
-    
+
     def post_init(self, *args, **kwargs):
         # we need to ensure that each form instance gets its own Schema instance
         # so it is safe for plugins to change class-level variables (e.g.
         # adding chained validators)
         if not self.validator:
             self.validator = leniant_schema()
-        
+
         if getattr(self, 'event', None):
             self.event(self)
 
@@ -85,7 +86,7 @@ class SubmitButton(forms.SubmitButton):
     submit buttons will simply be C{None}.
     """
     # if_missing/if_empty=None is important so the button text is displayed
-    # correctly in case the form is displayed with errors (in which case the 
+    # correctly in case the form is displayed with errors (in which case the
     # request parameters contain an empty ('') value for submit button and
     # ToscaWidgets will only use the default text if the value is None).
     validator = forms.validators.UnicodeString(if_missing=None, if_empty=None)
@@ -128,7 +129,7 @@ class ListFieldSet(LeniantValidationMixin, forms.ListFieldSet):
 class XHTMLEntityValidator(FancyValidator):
     def _to_python(self, value, state=None):
         """Convert XHTML entities to unicode."""
-        return decode_entities(value)
+        return clean(value)
 
 class XHTMLValidator(FancyValidator):
     def _to_python(self, value, state=None):

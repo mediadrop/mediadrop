@@ -10,10 +10,10 @@ Our own XHTML sanitation helpers
 """
 import re
 
-from BeautifulSoup import BeautifulSoup
 from webhelpers import text
+from bleach import clean
 
-from mediadrop.lib.xhtml.htmlsanitizer import (Cleaner,
+from mediadrop.lib.xhtml.htmlsanitizer import (
     entities_to_unicode as decode_entities,
     encode_xhtml_entities as encode_entities)
 
@@ -33,8 +33,12 @@ blank_line = re.compile("\s*\n\s*\n\s*", re.M)
 block_tags = 'p br pre blockquote div h1 h2 h3 h4 h5 h6 hr ul ol li form table tr td tbody thead'.split()
 block_spaces = re.compile("\s*(</{0,1}(" + "|".join(block_tags) + ")>)\s*", re.M)
 block_close = re.compile("(</(" + "|".join(block_tags) + ")>)", re.M)
-valid_tags = dict.fromkeys('p i em strong b u a br pre abbr ol ul li sub sup ins del blockquote cite'.split())
-valid_attrs = dict.fromkeys('href rel title target'.split())
+valid_tags = 'p i em strong b u a br pre abbr ol ul li sub sup ins del blockquote cite'.split() + block_tags
+valid_attrs = {
+    '*': ['class', 'style'],
+    'img': ['src alt'],
+    'a': dict.fromkeys('href rel title target'.split()),
+    }
 elem_map = {'b': 'strong', 'i': 'em'}
 truncate_filters = ['strip_empty_tags']
 cleaner_filters = [
@@ -47,18 +51,9 @@ for t in block_tags:
     if t not in valid_tags:
         elem_map[t] = 'p'
 cleaner_settings = dict(
-    convert_entities = BeautifulSoup.ALL_ENTITIES,
-    valid_tags = valid_tags,
-    valid_attrs = valid_attrs,
-    elem_map = elem_map,
-    filters = cleaner_filters
+    tags = valid_tags,
+    attributes = valid_attrs,
 )
-
-
-class MediaDropCleaner(Cleaner):
-    def add_target_blank(self):
-        for a in self.root.findAll(name='a'):
-            a['target'] = '_blank'
 
 
 def clean_xhtml(string, p_wrap=True, _cleaner_settings=None):
@@ -94,25 +89,14 @@ def clean_xhtml(string, p_wrap=True, _cleaner_settings=None):
     string = blank_line.sub(u"<br/>", string)
 
     # initialize and run the cleaner
-    string = MediaDropCleaner(string, **_cleaner_settings)()
-    # FIXME: It's possible that the rename_tags operation creates
-    # some invalid nesting. e.g.
-    # >>> c = Cleaner("", "rename_tags", elem_map={'h2': 'p'})
-    # >>> c('<p><h2>head</h2></p>')
-    # u'<p><p>head</p></p>'
-    # This is undesirable, so here we... just re-parse the markup.
-    # But this ... could be pretty slow.
-    cleaner = MediaDropCleaner(string, **_cleaner_settings)
-    string = cleaner()
+    string = clean(string, **_cleaner_settings)
 
     # Wrap in a <p> tag when no tags are used, and there are no blank
     # lines to trigger automatic <p> creation
     # FIXME: This should trigger any time we don't have a wrapping block tag
     # FIXME: This doesn't wrap orphaned text when it follows a <p> tag, for ex
-    if p_wrap \
-        and len(cleaner.root.contents) == 1 \
-        and isinstance(cleaner.root.contents[0], basestring):
-        string = u"<p>%s</p>" % string.strip()
+    if p_wrap:
+        string = u"<p>%s</p>" % string
 
     # strip all whitespace from immediately before/after block-level elements
     string = block_spaces.sub(u"\\1", string)
@@ -148,13 +132,7 @@ def truncate_xhtml(string, size, _strip_xhtml=False, _decode_entities=False):
                 # re-encode the entities, if we have to.
                 string = encode_entities(string)
         else:
-            if _decode_entities:
-                string = MediaDropCleaner(string,
-                                 *truncate_filters, **cleaner_settings)()
-            else:
-                # re-encode the entities, if we have to.
-                string = MediaDropCleaner(string, 'encode_xml_specials',
-                                 *truncate_filters, **cleaner_settings)()
+            string = clean(string, **cleaner_settings)
 
     return string.strip()
 
@@ -187,12 +165,7 @@ def strip_xhtml(string, _decode_entities=False):
     if not string:
         return u''
 
-    string = ''.join(BeautifulSoup(string).findAll(text=True))
-
-    if _decode_entities:
-        string = decode_entities(string)
-
-    return string
+    return clean(string)
 
 def line_break_xhtml(string):
     """Add a linebreak after block-level tags are closed.
