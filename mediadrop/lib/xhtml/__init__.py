@@ -11,7 +11,9 @@ Our own XHTML sanitation helpers
 import re
 
 from webhelpers import text
-from bleach import clean
+from bleach import clean, linkify, DEFAULT_CALLBACKS
+from bleach.callbacks import target_blank
+from copy import copy
 
 from mediadrop.lib.xhtml.htmlsanitizer import (
     entities_to_unicode as decode_entities,
@@ -37,7 +39,7 @@ valid_tags = 'p i em strong b u a br pre abbr ol ul li sub sup ins del blockquot
 valid_attrs = {
     '*': ['class', 'style'],
     'img': ['src alt'],
-    'a': dict.fromkeys('href rel title target'.split()),
+    'a': 'href rel title target'.split(),
     }
 elem_map = {'b': 'strong', 'i': 'em'}
 truncate_filters = ['strip_empty_tags']
@@ -77,6 +79,10 @@ def clean_xhtml(string, p_wrap=True, _cleaner_settings=None):
 
     if _cleaner_settings is None:
         _cleaner_settings = cleaner_settings
+    callbacks = copy(DEFAULT_CALLBACKS)
+    add_target_blank = _cleaner_settings.pop('add_target_blank', False)
+    if add_target_blank:
+        callbacks.append(target_blank)
 
     # remove carriage return chars; FIXME: is this necessary?
     string = string.replace(u"\r", u"")
@@ -90,6 +96,8 @@ def clean_xhtml(string, p_wrap=True, _cleaner_settings=None):
 
     # initialize and run the cleaner
     string = clean(string, **_cleaner_settings)
+    # Convert links and add nofolllow and target
+    string = linkify(string, callbacks=callbacks)
 
     # Wrap in a <p> tag when no tags are used, and there are no blank
     # lines to trigger automatic <p> creation
