@@ -5,6 +5,9 @@
 # (at your option) any later version.
 # See LICENSE.txt in the main project directory, for more information.
 
+from decorator import decorator
+from paste.util.converters import asbool
+from pylons import request
 from sqlalchemy import sql
 
 class APIException(Exception):
@@ -40,3 +43,13 @@ def get_order_by(order, columns):
         order = getattr(order_attr, order_dir)()
 
     return order
+
+@decorator
+def require_api_key_if_necessary(func, *args, **kwargs):
+    api_key = kwargs.get('api_key')
+    
+    if asbool(request.settings['api_secret_key_required']) \
+        and api_key != request.settings['api_secret_key']:
+        return dict(error='Authentication Error')
+    
+    return func(*args, **kwargs)

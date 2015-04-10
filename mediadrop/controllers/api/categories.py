@@ -12,7 +12,7 @@ from paste.util.converters import asbool
 from pylons import app_globals, request
 from sqlalchemy import orm
 
-from mediadrop.controllers.api import APIException, get_order_by
+from mediadrop.controllers.api import APIException, get_order_by, require_api_key_if_necessary
 from mediadrop.lib import helpers
 from mediadrop.lib.base import BaseController
 from mediadrop.lib.compat import any
@@ -37,7 +37,8 @@ class CategoriesController(BaseController):
     """
 
     @expose('json')
-    def index(self, order=None, offset=0, limit=10, api_key=None, **kwargs):
+    @require_api_key_if_necessary
+    def index(self, order=None, offset=0, limit=10, **kwargs):
         """Query for a flat list of categories.
 
         :param id: An :attr:`id <mediadrop.model.media.Category.id>` for lookup
@@ -86,10 +87,6 @@ class CategoriesController(BaseController):
                 of the number of matched items and the requested limit.
 
         """
-        if asbool(request.settings['api_secret_key_required']) \
-            and api_key != request.settings['api_secret_key']:
-            return dict(error='Authentication Error')
-
         if any(key in kwargs for key in ('id', 'slug', 'name')):
             kwargs['offset'] = offset
             kwargs['limit'] = limit
@@ -99,7 +96,8 @@ class CategoriesController(BaseController):
         return self._index_query(order, offset, limit, tree=False)
 
     @expose('json')
-    def tree(self, depth=10, api_key=None, **kwargs):
+    @require_api_key_if_necessary
+    def tree(self, depth=10, **kwargs):
         """Query for an expanded tree of categories.
 
         :param id: A :attr:`mediadrop.model.media.Category.id` to lookup the parent node
@@ -132,9 +130,6 @@ class CategoriesController(BaseController):
                 within the hierarchy.
 
         """
-        if asbool(request.settings['api_secret_key_required']) \
-            and api_key != request.settings['api_secret_key']:
-            return dict(error='Authentication Error')
         if any(key in kwargs for key in ('id', 'slug', 'name')):
             kwargs['depth'] = depth
             kwargs['tree'] = True
