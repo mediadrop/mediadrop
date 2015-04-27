@@ -14,7 +14,7 @@ components of Closure Tools:
 .. glossary::
 
    Closure Library
-      "The `Closure Library <http://code.google.com/p/closure-library/>`_ is a
+      "The `Closure Library <https://github.com/google/closure-library>`_ is a
       broad, well-tested, modular, and cross-browser JavaScript library. You
       can pull just what you need from a large set of reusable UI widgets and
       controls, and from lower-level utilities for DOM manipulation, server
@@ -22,7 +22,7 @@ components of Closure Tools:
       editing, and more."
 
    Closure Compiler
-      "The `Closure Compiler <http://code.google.com/p/closure-library/>`_ is
+      "The `Closure Compiler <https://github.com/google/closure-compiler>`_ is
       a tool for making JavaScript download and run faster. It is a true
       compiler for JavaScript. Instead of compiling from a source language
       to machine code, it compiles from JavaScript to better JavaScript. It
@@ -34,16 +34,16 @@ components of Closure Tools:
 Getting Closure Tools
 ---------------------
 
-First off, you'll need to get Closure Library.  Checkout the official SVN
+First off, you'll need to get Closure Library.  Checkout the official Git
 repository into your root MediaDrop directory:
 
 .. sourcecode:: bash
 
     $ cd MediaDrop
-    $ svn checkout http://closure-library.googlecode.com/svn/trunk/ closure-library
+    $ git clone https://github.com/google/closure-library
 
 Next, you'll need to `download the latest version of Closure Compiler
-<http://closure-compiler.googlecode.com/files/compiler-latest.tar.gz>`_ and
+<http://dl.google.com/closure-compiler/compiler-latest.tar.gz>`_ and
 extract it into place:
 
 .. sourcecode:: bash
