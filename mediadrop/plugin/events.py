@@ -233,6 +233,7 @@ class Admin(object):
         analytics_save = Event(['**kwargs'])
         appearance_save = Event(['**kwargs'])
         comments_save = Event(['**kwargs'])
+        googleapi_save = Event(['**kwargs'])
         general_save = Event(['**kwargs'])
         notifications_save = Event(['**kwargs'])
         popularity_save = Event(['**kwargs'])

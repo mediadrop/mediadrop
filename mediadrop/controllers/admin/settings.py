@@ -13,7 +13,7 @@ from babel.core import Locale
 from pylons import config, request, tmpl_context as c
 
 from mediadrop.forms.admin.settings import (AdvertisingForm, AppearanceForm,
-    APIForm, AnalyticsForm, CommentsForm, GeneralForm,
+    APIForm, AnalyticsForm, CommentsForm, GeneralForm, GoogleAPIForm,
     NotificationsForm, PopularityForm, SiteMapsForm, UploadForm)
 from mediadrop.lib.base import BaseSettingsController
 from mediadrop.lib.decorators import autocommit, expose, observable, validate
@@ -32,6 +32,9 @@ notifications_form = NotificationsForm(
 
 comments_form = CommentsForm(
     action=url_for(controller='/admin/settings', action='comments_save'))
+
+googleapi_form = GoogleAPIForm(
+    action=url_for(controller='/admin/settings', action='googleapi_save'))
 
 api_form = APIForm(
     action=url_for(controller='/admin/settings', action='save_api'))
@@ -101,6 +104,18 @@ class SettingsController(BaseSettingsController):
                 comment.body = filter_vulgarity(comment.body)
 
         redirect(action='comments')
+
+    @expose('admin/settings/googleapi.html')
+    def googleapi(self, **kwargs):
+        return self._display(googleapi_form, values=kwargs)
+
+    @expose(request_method='POST')
+    @validate(googleapi_form, error_handler=googleapi)
+    @autocommit
+    @observable(events.Admin.SettingsController.googleapi_save)
+    def googleapi_save(self, **kwargs):
+        """Save :class:`~mediadrop.forms.admin.settings.GoogleAPIForm`."""
+        return self._save(googleapi_form, 'googleapi', values=kwargs)
 
     @expose('admin/settings/api.html')
     def api(self, **kwargs):

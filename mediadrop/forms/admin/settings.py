@@ -271,6 +271,20 @@ class CommentsForm(ListForm):
         SubmitButton('save', default=N_('Save'), css_classes=['btn', 'btn-save', 'blue', 'f-rgt']),
     ]
 
+class GoogleAPIForm(ListForm):
+    template = 'admin/box-form.html'
+    id = 'settings-form'
+    css_class = 'form'
+    submit_text = None
+
+    event = events.Admin.Settings.CommentsForm
+
+    fields = [
+        TextField('google_apikey', label_text=N_('Google API key'),
+            help_text=N_('See https://console.developers.google.com/')),
+        SubmitButton('save', default=N_('Save'), css_classes=['btn', 'btn-save', 'blue', 'f-rgt']),
+    ]
+
 class APIForm(ListForm):
     template = 'admin/box-form.html'
     id = 'settings-form'

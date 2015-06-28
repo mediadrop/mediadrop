@@ -53,6 +53,9 @@ See LICENSE.txt in the main project directory, for more information.
 				<li py:with="link = h.url_for(controller='/admin/settings', action='comments')">
 					<a href="${link}" class="${current_url.startswith(link) and 'selected' or None}">Comments</a>
 				</li>
+				<li py:with="link = h.url_for(controller='/admin/settings', action='googleapi')">
+					<a href="${link}" class="${current_url.startswith(link) and 'selected' or None}">Google API</a>
+				</li>
 				<li py:with="link = h.url_for(controller='/admin/settings', action='api')">
 					<a href="${link}" class="${current_url.startswith(link) and 'selected' or None}">Data API</a>
 				</li>
