@@ -122,7 +122,7 @@ class SettingsController(BaseSettingsController):
         return self._display(api_form, values=kwargs)
 
     @expose(request_method='POST')
-    @validate(api_form, error_handler=comments)
+    @validate(api_form, error_handler=api)
     @autocommit
     @observable(events.Admin.SettingsController.save_api)
     def save_api(self, **kwargs):
