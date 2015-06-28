@@ -6,4 +6,5 @@
 # See LICENSE.txt in the main project directory, for more information.
 
 from mediadrop.lib.services.facebook import *
+from mediadrop.lib.services.youtube import *
 

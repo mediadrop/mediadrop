@@ -1,4 +1,5 @@
 --index-url=http://static.mediadrop.net/dependencies/dev/
+iso8601
 ddt
 formencode >= 1.2.4 # (version required by Pylons 1.0)
 Pylons >= 1.0
@@ -31,7 +32,7 @@ BeautifulSoup == 3.0.7a
 # Patch pending: https://bugs.launchpad.net/beautifulsoup/+bug/397997
 Pillow
 akismet == 0.2.0
-gdata > 2, < 2.1
+google-api-python-client
 unidecode
 decorator >= 3.3.2 # (version required by Pylons 1.0)
 simplejson >= 2.2.1 # (version required by Pylons 1.0)

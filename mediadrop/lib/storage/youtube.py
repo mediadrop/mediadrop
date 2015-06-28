@@ -7,18 +7,15 @@
 
 import re
 
-from operator import attrgetter
 from urllib import urlencode
 
-import gdata.service
-import gdata.youtube
-import gdata.youtube.service
-
-from mediadrop.lib.compat import max
-from mediadrop.lib.filetypes import VIDEO
-from mediadrop.lib.i18n import N_, _
+from mediadrop.lib.i18n import _, N_
+from mediadrop.lib.services import build_youtube_client
 from mediadrop.lib.storage.api import EmbedStorageEngine, UserStorageError
 from mediadrop.lib.uri import StorageURI
+
+
+__all__ = ['YoutubeStorage']
 
 class YoutubeStorage(EmbedStorageEngine):
 
@@ -48,53 +45,18 @@ class YoutubeStorage(EmbedStorageEngine):
         :returns: Any extracted metadata.
 
         """
-        id = kwargs['id']
-
-        yt_service = gdata.youtube.service.YouTubeService()
-        yt_service.ssl = False
-
-        try:
-            entry = yt_service.GetYouTubeVideoEntry(video_id=id)
-        except gdata.service.RequestError, request_error:
-            e = request_error.args[0]
-            if e['status'] == 403 and e['body'] == 'Private video':
-                raise UserStorageError(
-                    _('This video is private and cannot be embedded.'))
-            elif e['status'] == 400 and e['body'] == 'Invalid id':
-                raise UserStorageError(
-                    _('Invalid YouTube URL. This video does not exist.'))
-            raise UserStorageError(_('YouTube Error: %s') % e['body'])
-
-        try:
-            thumb = max(entry.media.thumbnail, key=attrgetter('width')).url
-        except (AttributeError, ValueError, TypeError):
-            # At least one video has been found to return no thumbnails.
-            # Try adding this later http://www.youtube.com/watch?v=AQTYoRpCXwg
-            thumb = None
-
-        # Some videos at some times do not return a complete response, and these
-        # attributes are missing. We can just ignore this.
-        try:
-            description = unicode(entry.media.description.text, 'utf-8') or None
-        except (AttributeError, ValueError, TypeError, UnicodeDecodeError):
-            description = None
-        try:
-            title = unicode(entry.media.title.text, 'utf-8')
-        except (AttributeError, ValueError, TypeError, UnicodeDecodeError):
-            title = None
-        try:
-            duration = int(entry.media.duration.seconds)
-        except (AttributeError, ValueError, TypeError):
-            duration = None
-
-        return {
-            'unique_id': id,
-            'duration': duration,
-            'display_name': title,
-            'description': description,
-            'thumbnail_url': thumb,
-            'type': VIDEO,
-        }
+        video_id = kwargs['id']
+        youtube = build_youtube_client()
+        if youtube is None:
+            msg = _('No API key configured for YouTube (use Google\'s developer console to create one)')
+            raise UserStorageError(msg)
+        yt_result = youtube.fetch_video_details(video_id)
+        if not yt_result:
+            raise UserStorageError(yt_result.message)
+        video_info = yt_result.meta_info.copy()
+        video_info['thumbnail_url'] = yt_result.meta_info['thumbnail']['url']
+        del video_info['thumbnail']
+        return video_info
 
     def get_uris(self, media_file):
         """Return a list of URIs from which the stored file can be accessed.

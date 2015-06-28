@@ -208,6 +208,7 @@ def add_default_data():
         (u'advertising_sidebar_html', u''),
         (u'comments_engine', u'builtin'),
         (u'facebook_appid', u''),
+        (u'youtube_apikey', u''),
     ]
     settings.extend(appearance_settings)
 

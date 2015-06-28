@@ -30,6 +30,7 @@ def suite():
         helpers_test, human_readable_size_test, js_delivery_test,
         observable_test, players_test, request_mixin_test,
         translator_test, url_for_test, xhtml_normalization_test)
+    from mediadrop.lib.services.tests import youtube_client_test
     from mediadrop.lib.storage.tests import youtube_storage_test
     from mediadrop.model.tests import (category_example_test, group_example_test, 
         media_example_test, media_status_test, media_test, user_example_test)
