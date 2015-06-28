@@ -1,18 +1,22 @@
 # -*- coding: UTF-8 -*-
 # Copyright 2013 Felix Friedrich, Felix Schwarz
+# Copyright 2015 Felix Schwarz
 # The source code in this file is licensed under the MIT license.
 
 
-__all__ = ['Result', 'ValidationResult']
+__all__ = ['Result']
 
 class Result(object):
-    def __init__(self, value, message=None):
+    def __init__(self, value, **data):
         self.value = value
-        self.message = message
+        self.data = data
 
     def __repr__(self):
         klassname = self.__class__.__name__
-        return '%s(%r, message=%r)' % (klassname, self.value, self.message)
+        extra_data = [repr(self.value)]
+        for key, value in sorted(self.data.items()):
+            extra_data.append('%s=%r' % (key, value))
+        return '%s(%s)' % (klassname, ', '.join(extra_data))
 
     def __eq__(self, other):
         if isinstance(other, self.value.__class__):
@@ -24,16 +28,25 @@ class Result(object):
     def __ne__(self, other):
         return not self.__eq__(other)
 
-    def __nonzero__(self):
+    def __bool__(self):
         return self.value
+    # Python 2 compatibility
+    __nonzero__ = __bool__
 
+    def __getattr__(self, key):
+        if key in self.data:
+            return self.data[key]
+        elif key.startswith('set_'):
+            attr_name = key[4:]
+            if attr_name in self.data:
+                return self.__build_setter(attr_name)
+        klassname = self.__class__.__name__
+        msg = '%r object has no attribute %r' % (klassname, key)
+        raise AttributeError(msg)
 
-class ValidationResult(Result):
-    def __init__(self, value, validated_document=None, errors=None):
-        self.value = value
-        self.validated_document = validated_document
-        self.errors = errors
-
-    def __repr__(self):
-        return 'ValidationResult(%r, validated_document=%r, errors=%r)' % (self.value, self.validated_document, self.errors)
+    def __build_setter(self, attr_name):
+        def setter(value):
+            self.data[attr_name] = value
+        setter.__name__ = 'set_'+attr_name
+        return setter
 
