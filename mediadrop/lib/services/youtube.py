@@ -97,9 +97,10 @@ class YouTubeClient(object):
             # LATER: log raw error content
             error_details = json.loads(response_content)['error']['errors'][0]
             reason = error_details['reason']
+            youtube_reason = reason
             if 'message' in error_details:
-                reason += ' / ' + error_details['message']
-            message = _('unknown YouTube error: %(reason)s') % dict(reason=reason)
+                youtube_reason += ' / ' + error_details['message']
+            message = _('unknown YouTube error: %(reason)s') % dict(reason=youtube_reason)
             if reason == 'keyInvalid':
                 message = _('Invalid API key. Please check your Google API key in settings.')
             elif reason == 'accessNotConfigured':

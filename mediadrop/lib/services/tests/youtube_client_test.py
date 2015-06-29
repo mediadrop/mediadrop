@@ -87,7 +87,7 @@ class YoutubeClientTest(DBTestCase):
         )
         result = youtube_client.fetch_video_details(video_id)
         assert_false(result)
-        assert_contains('bar', result.message)
+        assert_contains('Invalid API key', result.message)
 
     def test_can_handle_api_key_without_youtube_access(self):
         video_id = 'AQTYoRpCXwg'
