@@ -1,10 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# This file is a part of MediaDrop, Copyright 2009-2013 MediaDrop contributors
-# The source code contained in this file is licensed under the GPL.
+# This file is a part of MediaDrop (http://www.mediadrop.net),
+# Copyright 2009-2014 MediaDrop contributors
+# For the exact contribution history, see the git revision log.
+# The source code contained in this file is licensed under the GPLv3 or
+# (at your option) any later version.
 # See LICENSE.txt in the main project directory, for more information.
-#
-# Copyright (c) 2012 Felix Schwarz (www.schwarz.eu)
 
 from mediadrop.lib.cli_commands import LoadAppCommand, load_app
 
