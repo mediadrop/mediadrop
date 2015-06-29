@@ -24,7 +24,7 @@ from mediadrop.lib.decorators import (autocommit, expose, expose_xhr,
     observable, paginate, validate, validate_xhr)
 from mediadrop.lib.helpers import redirect, url_for
 from mediadrop.lib.i18n import _
-from mediadrop.lib.storage import add_new_media_file
+from mediadrop.lib.storage import add_new_media_file, UserStorageError
 from mediadrop.lib.templating import render
 from mediadrop.lib.thumbnails import thumb_path, thumb_paths, create_thumbs_for, create_default_thumbs_for, has_thumbs, has_default_thumbs, delete_thumbs
 from mediadrop.model import (Author, Category, Media, Podcast, Tag, fetch_row,
@@ -304,7 +304,10 @@ class MediaController(BaseController):
         else:
             media = fetch_row(Media, id)
 
-        media_file = add_new_media_file(media, file, url)
+        try:
+            media_file = add_new_media_file(media, file, url)
+        except UserStorageError as e:
+            return dict(success=False, message=e.message)
         if media.slug.startswith('_stub_'):
             media.title = media_file.display_name
             media.slug = get_available_slug(Media, '_stub_' + media.title)
