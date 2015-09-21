@@ -71,22 +71,6 @@ try:
         )
         return sup(environ, start_response)
 
-    # Monkey Patch Beautiful Soup
-    from BeautifulSoup import NavigableString
-    @monkeypatch_method(NavigableString)
-    def __eq__(self, other):
-        """Monkey-patch inserted method.
-
-        This patch is a temporary solution to the problem described here:
-            http://bugs.launchpad.net/beautifulsoup/+bug/397997
-        """
-        if other is None:
-            return False
-        elif isinstance(other, NavigableString):
-            return other is self
-        else:
-            return unicode(self) == unicode(other)
-
     # Disable the webob.request.AdhocAttrMixin.
     # We want to be able to set and get attributes very quickly, and they
     # do not need to be persisted between new request instances.

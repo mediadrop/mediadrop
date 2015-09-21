@@ -27,8 +27,6 @@ PasteDeploy >= 1.5 # (version required by Pylons 1.0)
 ToscaWidgets >= 0.9.12 # 0.9.9 is not compatible with Pylons 1.0
 tw.forms == 0.9.9
 MySQL-python >= 1.2.2
-# We monkeypatch this version of BeautifulSoup in mediadrop.__init__
-# Patch pending: https://bugs.launchpad.net/beautifulsoup/+bug/397997
 Pillow
 akismet == 0.2.0
 google-api-python-client
