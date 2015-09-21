@@ -16,8 +16,8 @@ from sqlalchemy.sql.expression import bindparam, ClauseList, ColumnElement
 from sqlalchemy.types import FLOAT
 from sqlalchemy.ext.compiler import compiles
 from unidecode import unidecode
+from bleach import clean
 
-from mediadrop.lib.xhtml.htmlsanitizer import entities_to_unicode
 from mediadrop.model.meta import DBSession, metadata
 
 # maximum length of slug strings for all objects.
@@ -113,7 +113,7 @@ def slugify(string):
     """
     string = unicode(string).lower()
     # Replace xhtml entities
-    string = entities_to_unicode(string)
+    string = clean(string)
     # Transliterate to ASCII, as best as possible:
     string = unidecode(string)
     # String may now contain '[?]' triplets to describe unknown characters.

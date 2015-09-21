@@ -11,7 +11,7 @@ WebHelpers == 1.0
 # 0.7: event listener infrastructure, alembic 0.5 requires at least 0.7.3
 # we need to change our class_mappers for 0.8 support
 SQLAlchemy >= 0.7.3, < 0.8
-# theoretically every alembic since 0.4 should work (which added the 
+# theoretically every alembic since 0.4 should work (which added the
 # alembic.config.Config class) but MediaDrop is only tested with 0.5+
 alembic >= 0.4
 Genshi >= 0.6 # i18n improvements in Genshi
@@ -27,7 +27,6 @@ PasteDeploy >= 1.5 # (version required by Pylons 1.0)
 ToscaWidgets >= 0.9.12 # 0.9.9 is not compatible with Pylons 1.0
 tw.forms == 0.9.9
 MySQL-python >= 1.2.2
-BeautifulSoup == 3.0.7a
 # We monkeypatch this version of BeautifulSoup in mediadrop.__init__
 # Patch pending: https://bugs.launchpad.net/beautifulsoup/+bug/397997
 Pillow
@@ -37,3 +36,5 @@ unidecode
 decorator >= 3.3.2 # (version required by Pylons 1.0)
 simplejson >= 2.2.1 # (version required by Pylons 1.0)
 aniso8601==1.0.0
+bleach >= 1.4.1
+
