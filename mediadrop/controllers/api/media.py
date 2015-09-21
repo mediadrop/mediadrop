@@ -12,7 +12,7 @@ from paste.util.converters import asbool
 from pylons import app_globals, config, request, response, session, tmpl_context
 from sqlalchemy import orm, sql
 
-from mediadrop.controllers.api import APIException, get_order_by
+from mediadrop.controllers.api import APIException, get_order_by, require_api_key_if_necessary
 from mediadrop.lib import helpers
 from mediadrop.lib.base import BaseController
 from mediadrop.lib.decorators import expose, expose_xhr, observable, paginate, validate
@@ -47,11 +47,12 @@ class MediaController(BaseController):
     """
 
     @expose('json')
+    @require_api_key_if_necessary
     @observable(events.API.MediaController.index)
     def index(self, type=None, podcast=None, tag=None, category=None, search=None,
               max_age=None, min_age=None, order=None, offset=0, limit=10,
               published_after=None, published_before=None, featured=False,
-              id=None, slug=None, include_embed=False, api_key=None, format="json", **kwargs):
+              id=None, slug=None, include_embed=False, format="json", **kwargs):
         """Query for a list of media.
 
         :param type:
@@ -155,10 +156,6 @@ class MediaController(BaseController):
 
         """
 
-        if asbool(request.settings['api_secret_key_required']) \
-            and api_key != request.settings['api_secret_key']:
-            return dict(error=AUTHERROR)
-
         if format not in ("json", "mrss"):
             return dict(error= INVALIDFORMATERROR % format)
 
@@ -236,8 +233,9 @@ class MediaController(BaseController):
 
 
     @expose('json')
+    @require_api_key_if_necessary
     @observable(events.API.MediaController.get)
-    def get(self, id=None, slug=None, api_key=None, format="json", **kwargs):
+    def get(self, id=None, slug=None, format="json", **kwargs):
         """Expose info on a specific media item by ID or slug.
 
         :param id: An :attr:`id <mediadrop.model.media.Media.id>` for lookup
@@ -255,10 +253,6 @@ class MediaController(BaseController):
             method.
 
         """
-        if asbool(request.settings['api_secret_key_required']) \
-            and api_key != request.settings['api_secret_key']:
-            return dict(error=AUTHERROR)
-
         if format not in ("json", "mrss"):
             return dict(error= INVALIDFORMATERROR % format)
 
@@ -394,7 +388,8 @@ class MediaController(BaseController):
 
 
     @expose('json')
-    def files(self, id=None, slug=None, api_key=None, **kwargs):
+    @require_api_key_if_necessary
+    def files(self, id=None, slug=None, **kwargs):
         """List all files related to specific media.
 
         :param id: A :attr:`mediadrop.model.media.Media.id` for lookup
@@ -414,10 +409,6 @@ class MediaController(BaseController):
                 method.
 
         """
-        if asbool(request.settings['api_secret_key_required']) \
-            and api_key != request.settings['api_secret_key']:
-            return dict(error='Authentication Error')
-
         query = Media.query.published()
 
         if id:
