@@ -12,7 +12,10 @@ from mediadrop.lib.test.pythonic_testcase import *
 
 
 class XHTMLNormalizationTest(PythonicTestCase):
-
+    def test_can_replace_linebreaks_with_br_tags(self):
+        htmlified_text = clean_xhtml('first\nline\n\nsecond line')
+        assert_equals('<p>first\nline<br>second line</p>', htmlified_text)
+        assert_equals(htmlified_text, clean_xhtml(htmlified_text))
     def test_text_do_not_change_after_a_clean_xhtml_and_line_break_xhtml_cycle(self):
         """Mimics the input -> clean -> display -> input... cycle of the
         XHTMLTextArea widget.
@@ -20,6 +23,11 @@ class XHTMLNormalizationTest(PythonicTestCase):
         expected_html = '<p>first line<br>second line</p>'
         htmlified_text = clean_xhtml('first line\n\nsecond line')
         assert_equals(expected_html, htmlified_text)
+
+        # Ensure that re-cleaning the XHTML provides the same result.
+        display_text = line_break_xhtml(htmlified_text)
+        assert_equals('<p>first line<br>second line</p>', display_text)
+        assert_equals(expected_html, clean_xhtml(display_text))
 
     def test_adds_nofollow_attribute_to_links(self):
         original = '<a href="http://example.com">link</a>'
