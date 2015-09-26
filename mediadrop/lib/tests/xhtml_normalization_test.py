@@ -9,6 +9,7 @@
 from mediadrop.lib.helpers import clean_xhtml, line_break_xhtml
 from mediadrop.lib.xhtml import cleaner_settings
 from mediadrop.lib.test.pythonic_testcase import *
+from mediacore.lib.xhtml.htmlsanitizer import entities_to_unicode
 
 
 class XHTMLNormalizationTest(PythonicTestCase):
@@ -58,6 +59,11 @@ class XHTMLNormalizationTest(PythonicTestCase):
         settings['add_target_blank'] = True
         cleaned = clean_xhtml(original, _cleaner_settings=settings)
         assert_equals(cleaned, '<p><a href="http://example.com" rel="nofollow" target="_blank">link</a></p>')
+
+    def test_entities_to_unicode(self):
+        testtext = 'Playing Toccata &amp; Fugue &lt;script&gt;evil&#047;script&lt;&#047;script&gt;'
+        testtextunicode = entities_to_unicode(testtext)
+        assert_equals(testtextunicode, 'Playing Toccata & Fugue evil/script')
 
 import unittest
 def suite():

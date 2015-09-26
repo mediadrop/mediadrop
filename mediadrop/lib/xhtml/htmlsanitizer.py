@@ -20,6 +20,7 @@ Håkan W - https://launchpad.net/~hwaara-gmail
 import re
 import sys
 import copy
+import HTMLParser
 from bleach import clean
 
 from mediadrop.lib.compat import any
@@ -101,14 +102,15 @@ URL_RE = re.compile(url_regex, re.IGNORECASE)
 def entities_to_unicode(text):
     """Converts HTML entities to unicode.  For example '&amp;' becomes '&'.
 
-    Further, unrecognized entities will have their leading ampersand escaped
-    and trailing semicolon (if it exists) stripped. Examples:
-
-    Inputs "...&bob;...", "...&bob&...", "...&bob;", and "...&bob" will give
-    outputs "...&amp;bob...", "...&amp;bob&...", "...&amp;bob", and "...",
-    respectively.
+    This further gets sanitized by bleach to make sure resulting text doesn't
+    form injectable xhtml of its own, such as having &lt;script&gt;, etc.
+    This is done by round-tripping twice through the HTMLParser.unescape().
+    The first pass will unescape everything.  Then clean() will remove and
+    strip evil xhtml tags, but clean() re-escapes the good tags, like &amp;.
+    So a second call to unescape() produces clean unicode text without any
+    hidden markup.
     """
-    return clean(text)
+    return HTMLParser.HTMLParser().unescape(clean(HTMLParser.HTMLParser().unescape(text), strip=True))
 
 def encode_xhtml_entities(text):
     """Escapes only those entities that are required for XHTML compliance"""
