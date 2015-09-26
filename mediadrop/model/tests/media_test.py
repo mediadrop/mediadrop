@@ -68,7 +68,6 @@ class MediaTest(DBTestCase):
         assert_not_equals(expected_plaintext, self.media.description_plain)
 
         self.media.description = u'<p>foo bar <b>baz</b></p>'
-        self.skipTest('test for #217 - currently failing')
         assert_equals(expected_plaintext, self.media.description_plain)
 
 
