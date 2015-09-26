@@ -111,7 +111,10 @@ def entities_to_unicode(text):
     So a second call to unescape() produces clean unicode text without any
     hidden markup.
     """
-    return HTMLParser.HTMLParser().unescape(clean(HTMLParser.HTMLParser().unescape(text), strip=True))
+    html_parser = HTMLParser.HTMLParser()
+    insecure_text = html_parser.unescape(text)
+    escaped_html = clean(insecure_text, strip=True)
+    return html_parser.unescape(escaped_html)
 
 def encode_xhtml_entities(text):
     """Escapes only those entities that are required for XHTML compliance"""
