@@ -8,8 +8,8 @@
 
 from mediadrop.lib.helpers import clean_xhtml, line_break_xhtml
 from mediadrop.lib.xhtml import cleaner_settings
+from mediadrop.lib.xhtml.htmlsanitizer import entities_to_unicode
 from mediadrop.lib.test.pythonic_testcase import *
-from mediacore.lib.xhtml.htmlsanitizer import entities_to_unicode
 
 
 class XHTMLNormalizationTest(PythonicTestCase):

@@ -8,12 +8,12 @@
 Our own XHTML sanitation helpers
 
 """
+from copy import copy
 import re
 
-from webhelpers import text
 from bleach import clean, linkify, DEFAULT_CALLBACKS
 from bleach.callbacks import target_blank
-from copy import copy
+from webhelpers import text
 
 from mediadrop.lib.xhtml.htmlsanitizer import (
     entities_to_unicode as decode_entities,
