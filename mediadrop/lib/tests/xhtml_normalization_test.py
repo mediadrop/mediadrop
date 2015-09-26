@@ -16,6 +16,13 @@ class XHTMLNormalizationTest(PythonicTestCase):
         htmlified_text = clean_xhtml('first\nline\n\nsecond line')
         assert_equals('<p>first\nline<br>second line</p>', htmlified_text)
         assert_equals(htmlified_text, clean_xhtml(htmlified_text))
+
+    def test_trailing_newlines_are_removed_in_output(self):
+        expected_html = '<p>first</p>'
+        assert_equals(expected_html, clean_xhtml('first\n'))
+        self.skipTest('broken by bleach')
+        assert_equals(expected_html, clean_xhtml('first\n\n'))
+
     def test_text_do_not_change_after_a_clean_xhtml_and_line_break_xhtml_cycle(self):
         """Mimics the input -> clean -> display -> input... cycle of the
         XHTMLTextArea widget.
