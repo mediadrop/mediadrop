@@ -63,6 +63,14 @@ class MediaTest(DBTestCase):
         self.media.update_status()
         second_encoding_event.assert_was_not_called()
 
+    def test_can_generate_plain_text_description_automatically(self):
+        expected_plaintext = u'foo bar baz'
+        assert_not_equals(expected_plaintext, self.media.description_plain)
+
+        self.media.description = u'<p>foo bar <b>baz</b></p>'
+        self.skipTest('test for #217 - currently failing')
+        assert_equals(expected_plaintext, self.media.description_plain)
+
 
 import unittest
 def suite():
