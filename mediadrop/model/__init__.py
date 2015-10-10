@@ -120,9 +120,9 @@ def slugify(string):
     # These will be stripped out by the following regexes.
     string = _whitespace.sub(u'-', string)
     string = _non_alpha.sub(u'', string)
-    string = _extra_dashes.sub(u'-', string).strip('-')
-
-    return string[:SLUG_LENGTH]
+    string = _extra_dashes.sub(u'-', string)
+    string = string[:SLUG_LENGTH]
+    return string.strip('-')
 
 def get_available_slug(mapped_class, string, ignore=None, slug_attr='slug', slug_length=SLUG_LENGTH):
     """Return a unique slug based on the provided string.
