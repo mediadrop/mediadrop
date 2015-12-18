@@ -43,13 +43,13 @@ repository into your root MediaDrop directory:
     $ git clone https://github.com/google/closure-library
 
 Next, you'll need to `download the latest version of Closure Compiler
-<http://dl.google.com/closure-compiler/compiler-latest.tar.gz>`_ and
+<https://dl.google.com/closure-compiler/compiler-latest.tar.gz>`_ and
 extract it into place:
 
 .. sourcecode:: bash
 
     cd batch-scripts/closure/compiler
-    wget http://closure-compiler.googlecode.com/files/compiler-latest.tar.gz
+    wget https://dl.google.com/closure-compiler/compiler-latest.tar.gz
     tar -xzvf compiler-latest.tar.gz
 
 .. note::
@@ -83,7 +83,7 @@ Compiling your code can sometimes introduce bugs that aren't present in
 uncompiled code.  This is because the compiler imposes certain restrictions on
 your Javascript.  You should familiarize yourself with `the optimizations
 the compiler makes
-<http://code.google.com/closure/compiler/docs/api-tutorial3.html>`_
+<https://developers.google.com/closure/compiler/docs/api-tutorial3>`_
 and their ramifications.
 
 
@@ -163,12 +163,12 @@ source files, strips out dead code and optimizes everything that remains.
 
 MediaDrop makes use of the most advanced optimizations offered by the compiler,
 which imposes some `restrictions that you should be aware of
-<http://code.google.com/closure/compiler/docs/api-tutorial3.html#dangers>`_.
+<https://developers.google.com/closure/compiler/docs/api-tutorial3#dangers>`_.
 If compiling your code introduces a bug, review the compiler documentation.
 
 MediaDrop makes use of all the strict type checking offered by the compiler.
 You should enter complete `JSDoc type annotations
-<http://code.google.com/closure/compiler/docs/js-for-compiler.html>`_ as much
+<https://developers.google.com/closure/compiler/docs/js-for-compiler>`_ as much
 as possible, to improve the utility of these checks.  This has already proven
 useful and will no doubt become even more useful as our codebase increases in
 size.
@@ -176,7 +176,7 @@ size.
 Our build script is configured to complain as loudly as possible about a great
 number of things.  Please do not ignore these warnings.  Learn about `the
 problems they indicate
-<http://code.google.com/closure/compiler/docs/error-ref.html>`_ and fix them.
+<https://developers.google.com/closure/compiler/docs/error-ref>`_ and fix them.
 
 Run the compiler by invoking this shell script:
 
@@ -206,7 +206,7 @@ with the component architecture
 <http://code.google.com/p/closure-library/wiki/IntroToComponents>`_.
 
 We follow the `Google Javascript Style Guide
-<http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml>`_. The
+<https://google.github.io/styleguide/javascriptguide.xml>`_. The
 key points are:
 
  * Two spaces instead of tabs.
@@ -214,20 +214,19 @@ key points are:
  * If an expression wraps to two lines, the second line should be indented
    twice (for a total of 4 spaces).  This includes long argument lists but
    excludes function bodies as well as multi-line object and array literals.
-   `More info <http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml?showone=Code_formatting#Code_formatting>`_.
  * Built-in prototypes should never be modified.  This was the reason for our
    move from the Mootools framework; it's convenient at times, but it causes
    all kinds of interoperability problems with other libraries.
 
 You can optionally use the `Closure Linter
-<http://code.google.com/closure/utilities/>`_ for finding style and convention
+<https://developers.google.com/closure/utilities/>`_ for finding style and convention
 errors and fixing them:
 
 .. sourcecode:: bash
 
     # Install the python scripts into your MediaDrop virtualenv
     $ source mediadrop_env/bin/activate
-    $ easy_install http://closure-linter.googlecode.com/files/closure_linter-latest.tar.gz
+    $ easy_install closure-linter
 
     # Lint one file:
     $ gjslint --strict mcore/fx.js
