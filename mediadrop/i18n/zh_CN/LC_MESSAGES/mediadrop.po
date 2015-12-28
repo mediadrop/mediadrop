@@ -14,31 +14,32 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://github.com/mediadrop/mediadrop-"
 "community/issues\n"
 "POT-Creation-Date: 2018-04-10 15:21+0200\n"
-"PO-Revision-Date: 2013-06-11 08:27+0000\n"
+"PO-Revision-Date: 2015-12-28 10:02+0800\n"
 "Last-Translator: kdumporg <acheng@kdump.cn>\n"
-"Language-Team: Chinese (China) "
-"(http://www.transifex.com/projects/p/mediadrop/language/zh_CN/)\n"
-"Plural-Forms: nplurals=1; plural=0\n"
+"Language-Team: Chinese (China) (http://www.transifex.com/projects/p/mediadrop/"
+"language/zh_CN/)\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 1.3\n"
+"Language: zh_CN\n"
+"X-Generator: Poedit 1.8.6\n"
 
 #: mediadrop/websetup.py:177
 msgid ""
-"Upload your media using the form below. We'll review it and get back to "
-"you."
-msgstr "使用下面的表格上传您的媒体。我们将审核一下然后再联系你。"
+"Upload your media using the form below. We'll review it and get back to you."
+msgstr "使用下面的表单上传你的媒体文件。我们将在审核后联系你。"
 
 #: mediadrop/controllers/categories.py:67
 #: mediadrop/templates/categories/more.html:19
 #, python-format
 msgid "Latest media in %s"
-msgstr "%s中最新的媒体"
+msgstr "%s中最新的媒体文件"
 
 #: mediadrop/controllers/errors.py:55
 msgid "We're sorry but we weren't able to process this request."
-msgstr "很抱歉，我们无法处理此请求。"
+msgstr "抱歉，我们无法处理该请求。"
 
 #: mediadrop/controllers/login.py:40
 msgid "Invalid username or password."
@@ -64,13 +65,13 @@ msgstr "网站的RSS"
 
 #: mediadrop/controllers/media.py:322
 msgid "Your comment has been rejected."
-msgstr "您的评论已被拒绝。"
+msgstr "你的评论已被拒绝。"
 
 #: mediadrop/controllers/media.py:344
 msgid ""
 "Thank you for your comment! We will post it just as soon as a moderator "
 "approves it."
-msgstr "感谢您发表评论！版主批准后我们将第一时间发布。"
+msgstr "感谢你的评论！版主批准后我们将马上发布。"
 
 #: mediadrop/controllers/admin/media.py:388
 #, python-format
@@ -94,11 +95,11 @@ msgstr "不支持的图像类型: %s"
 #: mediadrop/controllers/admin/media.py:566
 #: mediadrop/controllers/admin/podcasts.py:211
 msgid "Interlaced PNGs are not supported."
-msgstr "不支持隔行扫描的PNG格式"
+msgstr "不支持隔行扫描的PNG格式。"
 
 #: mediadrop/controllers/admin/podcasts.py:91
 msgid "Save the podcast to get your feed URL"
-msgstr "保存后可获得博客feed URL"
+msgstr "保存播客后可获得源地址"
 
 #: mediadrop/controllers/admin/podcasts.py:208
 #, python-format
@@ -137,11 +138,11 @@ msgstr "至少给它一个简短的描述..."
 
 #: mediadrop/forms/uploader.py:21
 msgid "You've gotta have a name!"
-msgstr "必须输入一个名字！"
+msgstr "必须输入名字！"
 
 #: mediadrop/forms/uploader.py:25
 msgid "You've gotta have a title!"
-msgstr "必须有一个标题！"
+msgstr "必须输入标题！"
 
 #: mediadrop/forms/uploader.py:43
 msgid "Your Name:"
@@ -161,15 +162,15 @@ msgstr "标题："
 
 #: mediadrop/forms/uploader.py:46
 msgid "Description:"
-msgstr "说明："
+msgstr "描述："
 
 #: mediadrop/forms/uploader.py:47
 msgid "Add a YouTube, Vimeo or Amazon S3 link:"
-msgstr "添加一个YouTube，Vimeo或Amazon S3链接："
+msgstr "添加 YouTube，Vimeo 或 Amazon S3 的链接："
 
 #: mediadrop/forms/uploader.py:48
 msgid "Oops! You forgot to enter a file."
-msgstr "哎呀！你忘了输入文件。"
+msgstr "糟糕！你忘了输入文件。"
 
 #: mediadrop/forms/uploader.py:48
 msgid "OR:"
@@ -200,7 +201,7 @@ msgstr "名称"
 #: mediadrop/forms/admin/podcasts.py:103 mediadrop/forms/admin/tags.py:40
 #: mediadrop/templates/comments/_list.html:28
 msgid "Permalink"
-msgstr "简洁链接"
+msgstr "固定链接"
 
 #: mediadrop/forms/admin/categories.py:40
 msgid "Parent Category"
@@ -267,8 +268,7 @@ msgstr "保存"
 msgid "Delete"
 msgstr "删除"
 
-#: mediadrop/forms/admin/comments.py:23
-#: mediadrop/templates/admin/helpers.html:67
+#: mediadrop/forms/admin/comments.py:23 mediadrop/templates/admin/helpers.html:67
 #: mediadrop/templates/admin/comments/_comment-table.html:24
 #: mediadrop/templates/comments/_list.html:86
 #: mediadrop/templates/media/explore.html:75
@@ -286,8 +286,7 @@ msgid "Group name already exists"
 msgstr "组名称已存在"
 
 #: mediadrop/forms/admin/groups.py:41 mediadrop/forms/admin/players.py:35
-#: mediadrop/forms/admin/users.py:42
-#: mediadrop/forms/admin/storage/__init__.py:26
+#: mediadrop/forms/admin/users.py:42 mediadrop/forms/admin/storage/__init__.py:26
 #: mediadrop/templates/admin/groups/index.html:47
 #: mediadrop/templates/admin/users/index.html:45
 msgid "Display Name"
@@ -384,8 +383,7 @@ msgstr "分类"
 #: mediadrop/templates/admin/tags/edit.html:16
 #: mediadrop/templates/admin/tags/index.html:17
 #: mediadrop/templates/admin/tags/index.html:48
-#: mediadrop/templates/media/tags.html:16
-#: mediadrop/templates/media/view.html:127
+#: mediadrop/templates/media/tags.html:16 mediadrop/templates/media/view.html:127
 msgid "Tags"
 msgstr "标签"
 
@@ -481,8 +479,7 @@ msgstr "默认启用高清。"
 #: mediadrop/forms/admin/players.py:156
 msgid ""
 "Applies only for the AS2 player, the AS3 player will choose the most "
-"appropriate version of the video version (e.g. considering the user's "
-"bandwidth)"
+"appropriate version of the video version (e.g. considering the user's bandwidth)"
 msgstr "只适用于AS2播放器。AS3播放器会选择视频的最适合版本（如根据用户的带宽）"
 
 #: mediadrop/forms/admin/players.py:157
@@ -491,8 +488,8 @@ msgstr "视频结束后显示相关视频"
 
 #: mediadrop/forms/admin/players.py:158
 msgid ""
-"Show the search box when the video is minimized. The related videos "
-"option must be enabled for this to work."
+"Show the search box when the video is minimized. The related videos option must "
+"be enabled for this to work."
 msgstr "当视频最小化时显示搜索表单。要使用此功能，必须先启用相关视频选项。"
 
 #: mediadrop/forms/admin/players.py:159
@@ -501,8 +498,8 @@ msgstr "只用于AS2播放器"
 
 #: mediadrop/forms/admin/players.py:160
 msgid ""
-"Display information like the video title and uploader before the video "
-"starts playing."
+"Display information like the video title and uploader before the video starts "
+"playing."
 msgstr "视频开始播放前显示标题和上传者等信息"
 
 #: mediadrop/forms/admin/players.py:161
@@ -511,8 +508,8 @@ msgstr "启用无窗口模式(wmode)"
 
 #: mediadrop/forms/admin/players.py:162
 msgid ""
-"wmode allows HTML/CSS elements to be placed over the actual Flash video "
-"but requires more CPU power."
+"wmode allows HTML/CSS elements to be placed over the actual Flash video but "
+"requires more CPU power."
 msgstr "wmode允许HTML/CSS元素置于实际的Flash视频之上但会消耗更多CPU资源。"
 
 #: mediadrop/forms/admin/players.py:165
@@ -638,7 +635,7 @@ msgstr "是"
 
 #: mediadrop/forms/admin/settings.py:73
 msgid "No"
-msgstr "无"
+msgstr "否"
 
 #: mediadrop/forms/admin/settings.py:87
 msgid "Email Notifications:"
@@ -710,10 +707,12 @@ msgstr "条目数量"
 
 #: mediadrop/forms/admin/settings.py:197
 msgid ""
-"The number of items in the feed can be overriden per request if you add "
-"\"?limit=X\" to the feed URL. If the \"limit\" parameter is absent, the "
-"default above is used."
-msgstr "通过在feed链接中添加\"?limit=X\"，条目数量可在每个请求中更改。如果这个limit参数不存在，则使用上面的默认值。"
+"The number of items in the feed can be overriden per request if you add \"?"
+"limit=X\" to the feed URL. If the \"limit\" parameter is absent, the default "
+"above is used."
+msgstr ""
+"通过在feed链接中添加\"?limit=X\"，条目数量可在每个请求中更改。如果这个limit参数"
+"不存在，则使用上面的默认值。"
 
 #: mediadrop/forms/admin/settings.py:215
 msgid "General Settings:"
@@ -876,8 +875,8 @@ msgstr "探索页面上启用Cooliris"
 
 #: mediadrop/forms/admin/settings.py:360
 msgid ""
-"Cooliris support is deprecated and will be removed in the next major "
-"version of MediaDrop unless someone is interested in maintaining it."
+"Cooliris support is deprecated and will be removed in the next major version of "
+"MediaDrop unless someone is interested in maintaining it."
 msgstr "Cooliris支持已废止并在下个MediaDrop社区版中删除，除非有人愿意继续维护它。"
 
 #: mediadrop/forms/admin/settings.py:366
@@ -970,10 +969,11 @@ msgstr "自定义<head>标签"
 
 #: mediadrop/forms/admin/settings.py:451
 msgid ""
-"These HTML tags are inserted into the HTML <head> section. Bad input can "
-"cause ugly rendering of your site. You can always restore your page by "
-"the box above."
-msgstr "这些HTML标签将会被插入到HTML的<head>部分。如果标签有问题的话会导致页面显示错乱。上面的勾选框可以将页面恢复至默认状态。"
+"These HTML tags are inserted into the HTML <head> section. Bad input can cause "
+"ugly rendering of your site. You can always restore your page by the box above."
+msgstr ""
+"这些HTML标签将会被插入到HTML的<head>部分。如果标签有问题的话会导致页面显示错乱。"
+"上面的勾选框可以将页面恢复至默认状态。"
 
 #: mediadrop/forms/admin/settings.py:459
 #: mediadrop/templates/admin/settings/appearance.html:28
@@ -1028,8 +1028,8 @@ msgstr "服务器上的子目录名称"
 
 #: mediadrop/forms/admin/storage/ftp.py:31
 msgid ""
-"How many times should MediaDrop try to verify the FTP upload before "
-"declaring it a failure?"
+"How many times should MediaDrop try to verify the FTP upload before declaring "
+"it a failure?"
 msgstr "FTP上传失败检验次数"
 
 #: mediadrop/forms/admin/storage/ftp.py:32
@@ -1058,8 +1058,7 @@ msgstr "RTMP服务器网址"
 
 #: mediadrop/forms/admin/storage/localfiles.py:27
 msgid ""
-"Files must be accessible under the same name as they are stored with "
-"locally."
+"Files must be accessible under the same name as they are stored with locally."
 msgstr "本地存储文件必须使用相同名访问。"
 
 #: mediadrop/forms/admin/storage/remoteurls.py:24
@@ -1251,8 +1250,8 @@ msgstr "远程网址"
 
 #: mediadrop/lib/storage/remoteurls.py:73
 msgid ""
-"This RTMP server has not been configured. Add it by going to Settings > "
-"Storage Engines > Remote URLs."
+"This RTMP server has not been configured. Add it by going to Settings > Storage "
+"Engines > Remote URLs."
 msgstr "此RTMP服务器尚未配置。你可以通过 配置>存储引擎>远程URL来添加。"
 
 #: mediadrop/lib/storage/vimeo.py:27 mediadrop/players/vimeo.py:30
@@ -1325,7 +1324,7 @@ msgstr "检查地址的拼写。"
 
 #: mediadrop/templates/error.html:31
 msgid "You have a few options:"
-msgstr "您有几种选择："
+msgstr "你有几种选择："
 
 #: mediadrop/templates/error.html:33
 msgid "Return to the [1:homepage]."
@@ -1351,8 +1350,7 @@ msgstr "发生此错误时你在找什么？"
 msgid "Submit Error Report"
 msgstr "提交错误报告"
 
-#: mediadrop/templates/helpers.html:33
-#: mediadrop/templates/media/explore.html:76
+#: mediadrop/templates/helpers.html:33 mediadrop/templates/media/explore.html:76
 #: mediadrop/templates/media/view.html:64
 #: mediadrop/templates/players/html5_or_flash.html:47
 #: mediadrop/templates/players/html5_or_flash.html:49
@@ -1371,9 +1369,9 @@ msgstr[0] ""
 msgid "View"
 msgid_plural "Views"
 msgstr[0] ""
-"one: 点击\n"
+"one: 观看\n"
 "\n"
-"other: 点击"
+"other: 观看"
 
 #: mediadrop/templates/helpers.html:54
 msgid "Page:"
@@ -1398,8 +1396,7 @@ msgstr "最新"
 msgid "Most Popular"
 msgstr "最受欢迎"
 
-#: mediadrop/templates/helpers.html:78
-#: mediadrop/templates/media/explore.html:31
+#: mediadrop/templates/helpers.html:78 mediadrop/templates/media/explore.html:31
 #: mediadrop/templates/media/explore.html:68
 msgid "Featured"
 msgstr "精选"
@@ -2017,7 +2014,7 @@ msgstr "预览"
 
 #: mediadrop/templates/admin/media/update-status-form.html:42
 msgid "You must add a file and save before review can begin."
-msgstr "您必须添加一个文件并保存，然后才能开始审查。"
+msgstr "你必须添加一个文件并保存，然后才能开始审查。"
 
 #: mediadrop/templates/admin/media/update-status-form.html:46
 msgid "Review Pending"
@@ -2118,7 +2115,7 @@ msgstr "作者："
 
 #: mediadrop/templates/admin/podcasts/_podcast-table.html:45
 msgid "Explicit"
-msgstr "不适当"
+msgstr "明确的"
 
 #: mediadrop/templates/admin/podcasts/_podcast-table.html:51
 msgid "Add episode"
@@ -2245,8 +2242,7 @@ msgstr "删除该存储引擎 (%(name)s) 将："
 #: mediadrop/templates/admin/storage/index.html:27
 #, python-format
 msgid ""
-"Permanently delete all of the %(num)s media files stored by this Storage "
-"Engine."
+"Permanently delete all of the %(num)s media files stored by this Storage Engine."
 msgstr "永久删除此引擎中 %(num)s 个媒体文件。"
 
 #: mediadrop/templates/admin/storage/index.html:28
@@ -2255,8 +2251,8 @@ msgstr "永久删除其设置。"
 
 #: mediadrop/templates/admin/storage/index.html:29
 msgid ""
-"An alternative to deleting is disabling. Disabling a Storage Engine will "
-"simply prevent its use for files added from now on."
+"An alternative to deleting is disabling. Disabling a Storage Engine will simply "
+"prevent its use for files added from now on."
 msgstr "一种替代方法是禁用。禁用某一存储引擎后新加的文件将不会再存放于此引擎中"
 
 #: mediadrop/templates/admin/storage/index.html:92
@@ -2359,8 +2355,8 @@ msgstr "提交评论"
 #: mediadrop/templates/media/explore.html:92
 #, python-format
 msgid ""
-"As soon as there are more than %(num)s published videos in the library, "
-"the most popular videos will be listed here."
+"As soon as there are more than %(num)s published videos in the library, the "
+"most popular videos will be listed here."
 msgstr "只要有超过 %(num)s 公布的在库中的影片，最受欢迎的影片将在这里列出。"
 
 #: mediadrop/templates/media/explore.html:93
@@ -2534,10 +2530,12 @@ msgstr "上传错误"
 
 #: mediadrop/templates/upload/failure.html:26
 msgid ""
-"During your upload, something went wrong, but don't worry. The engineers "
-"and gnomes have been automagically notified and we're already on our way "
-"to resolving your issue."
-msgstr "在上传过程中出现了错误，但不要担心。工程师和gnome已自动获得通知，我们正在解决您的问题。"
+"During your upload, something went wrong, but don't worry. The engineers and "
+"gnomes have been automagically notified and we're already on our way to "
+"resolving your issue."
+msgstr ""
+"在上传过程中出现了错误，但不要担心。工程师和gnome已自动获得通知，我们正在解决您"
+"的问题。"
 
 #: mediadrop/templates/upload/failure.html:28
 msgid "Something you can check:"
@@ -2574,23 +2572,16 @@ msgstr "真棒，你上传成功了！"
 
 #: mediadrop/templates/upload/success.html:28
 msgid ""
-"Your submission is awaiting review by a moderator and will be posted "
-"shortly."
-msgstr "您的提交，正在等待版主审核，并将于短期内发布。"
+"Your submission is awaiting review by a moderator and will be posted shortly."
+msgstr "你的提交正在等待版主审核，并将随后发布。"
 
 #: mediadrop/templates/upload/success.html:29
 msgid ""
-"You will be automatically redirected back to the [1:Media Library] in a "
-"few seconds. Hang tight."
-msgstr "您将在几秒钟内自动重定向回[1:媒体库]。稍安毋躁。"
+"You will be automatically redirected back to the [1:Media Library] in a few "
+"seconds. Hang tight."
+msgstr "你将在几秒钟内被自动重定向回[1:媒体库]。稍安毋躁。"
 
 #: mediadrop/validation/uri_validator.py:21
 msgid "That is not a valid URL."
-msgstr "此URL无效。"
-
-#~ msgid "Invalid YouTube URL. This video does not exist."
-#~ msgstr "无效的YouTube链接。此视频不存在。"
-
-#~ msgid "YouTube Error: %s"
-#~ msgstr "YouTube错误：%s"
+msgstr "此地址无效。"
 
