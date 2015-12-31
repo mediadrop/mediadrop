@@ -8,11 +8,11 @@
  **/
 
 .menu-groups-on #group-table #h-display_name {
-    width: 40%;
+	width: 40%;
 }
 
 .menu-groups-on #group-table #h-btns {
-    width: auto;
+	width: auto;
 }
 
 #group-form #display_name_container,
@@ -21,5 +21,3 @@
 	float: left;
 	width: 50%;
 }
-
-

@@ -22,8 +22,8 @@
 }
 
 #settings-form .details_fieldset label+.fieldhelp {
-    margin-top: 0px;
-    margin-left: 125px;
+	margin-top: 0px;
+	margin-left: 125px;
 }
 
 /* Emails and Wording Config Forms */
@@ -54,26 +54,26 @@
 
 /* Appearance Tab Settings */
 #settings-form .checkbox-left {
-    width: auto;
-    margin: 7px 10px;
+	width: auto;
+	margin: 7px 10px;
 }
 
 #settings-form .label_text_right {
-    width: 472px;
+	width: 472px;
 }
 
 #general .textfield {
-    width: 250px;
+	width: 250px;
 }
 
 #general .singleselectfield {
-    width: 260px;
+	width: 260px;
 }
 
 #general .image-preview {
-    vertical-align: middle;
-    width: 24px;
-    height: 24px;
+	vertical-align: middle;
+	width: 24px;
+	height: 24px;
 }
 
 /* Vulgarity Filter */
@@ -114,8 +114,8 @@
 }
 
 #settings-form #youtube_auto_publish {
-    /* Chrome 16 centers the checkbox otherwise, Firefox 9 works fine even without this */
-    width: 20px;
+	/* Chrome 16 centers the checkbox otherwise, Firefox 9 works fine even without this */
+	width: 20px;
 }
 
 #settings-form #youtube_categories_container {
@@ -136,7 +136,7 @@
 }
 
 #settings-form #youtube_tags_container .fieldhelp {
-    margin: 0;
+	margin: 0;
 }
 
 #settings-form #youtube_tags {

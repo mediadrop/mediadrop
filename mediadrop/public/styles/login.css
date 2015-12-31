@@ -8,97 +8,97 @@
  **/
 
 .mcore-login {
-    padding-top: 100px;
+	padding-top: 100px;
 }
 
 .mcore-login .logo-container {
-    margin-bottom: 20px;
+	margin-bottom: 20px;
 }
 
 .mcore-login #mcore-logo {
-    background-position: center center;
+	background-position: center center;
 }
 
 .mcore-login #mcore-site-title {
-    text-align: center;
-    font-size: 35px;
+	text-align: center;
+	font-size: 35px;
 }
 
 .mcore-login #mcore-site-title a {
-    text-decoration: none;
+	text-decoration: none;
 }
 
 #login-page .form-error {
-    color: red;
-    font-weight: bold;
-    font-size: 15px;
-    text-align: center;
-    
-    background-color: #ffd3d3;
-    padding: 4px;
-    margin-bottom: 10px; 
+	color: red;
+	font-weight: bold;
+	font-size: 15px;
+	text-align: center;
+	
+	background-color: #ffd3d3;
+	padding: 4px;
+	margin-bottom: 10px; 
 }
 
 #login-page input.has_error {
-    background-color: #ffd3d3;
+	background-color: #ffd3d3;
 }
 
 #login-page {
-    width: 387px;
-    margin: 0px auto 0px;
+	width: 387px;
+	margin: 0px auto 0px;
 }
 
 #login-page .box {
-    border-radius: 5px;
-    border: 1px solid #B4BAC3;
-    /* display background of parent element outside of rounded corners */
-    overflow: hidden;
+	border-radius: 5px;
+	border: 1px solid #B4BAC3;
+	/* display background of parent element outside of rounded corners */
+	overflow: hidden;
 }
 
 #login-page .box > form {
-    background-color: white;
-    color: #3C4D5A;
-    width: 100%;
+	background-color: white;
+	color: #3C4D5A;
+	width: 100%;
 }
 
 #login-page .box-content {
-    padding-left: 10px;
-    padding-right: 10px;
-    padding-top: 20px;
-    padding-bottom: 20px;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-top: 20px;
+	padding-bottom: 20px;
 }
 
 #login-page #password_container {
-    margin-top: 5px;
+	margin-top: 5px;
 }
 
 #login-page input {
-    width: 350px;
+	width: 350px;
 }
 
 #login-page #forgot_password {
-    line-height: 2.5em;
+	line-height: 2.5em;
 }
 
 #login-page label {
-    font-weight: bold;
+	font-weight: bold;
 }
 
 #login-page .box-head, #login-page .box-foot {
-    color: #3C4D5A;
-    overflow: hidden;
-    margin-bottom: 0px;
-    background-color: #E0E4EA;
+	color: #3C4D5A;
+	overflow: hidden;
+	margin-bottom: 0px;
+	background-color: #E0E4EA;
 }
 
 #login-page .box-head {
-    padding: 10px;
+	padding: 10px;
 }
 
 #login-page .box-foot {
-    padding: 10px;
-    padding-bottom: 5px;
-    padding-top: 5px;
+	padding: 10px;
+	padding-bottom: 5px;
+	padding-top: 5px;
 }
 
 

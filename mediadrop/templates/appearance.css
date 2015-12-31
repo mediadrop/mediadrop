@@ -38,7 +38,7 @@ a.mcore-heading:visited {
 
 {% if appearance_display_logo and appearance_logo %}\
 .mcore-login-box {
-    margin-top: -5px;
+	margin-top: -5px;
 }
 {% end %}
 
@@ -76,7 +76,7 @@ a.mcore-nav-link:visited,
 }
 .mcore-nav-left .mcore-nav-link,
 .mcore-nav-right .mcore-nav-link > em {
-    background-image: url('../images/ui-kit/${navbar_color}/nav-btn-edge-outer.png');
+	background-image: url('../images/ui-kit/${navbar_color}/nav-btn-edge-outer.png');
 }
 .mcore-playerbar .mcore-nav-left .mcore-nav-link,
 .mcore-playerbar .mcore-nav-right .mcore-nav-link > em {

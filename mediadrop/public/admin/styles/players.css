@@ -22,12 +22,12 @@
 }
 
 .playerform .field_list > li > .container-list-label {
-    /* same as ".form .form_label label" from forms.css */
-    color: #3C4D5A;
-    font-size: 108%;
-    font-weight: bold;
+	/* same as ".form .form_label label" from forms.css */
+	color: #3C4D5A;
+	font-size: 108%;
+	font-weight: bold;
 
-    float: none;
+	float: none;
 }
 
 .playerform .options .fieldhelp,
@@ -36,7 +36,7 @@
 	float: right;
 }
 .playerform .options ul {
-    clear: both;
+	clear: both;
 }
 
 .playerform .options input  {

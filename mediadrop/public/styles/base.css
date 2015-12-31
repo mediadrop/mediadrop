@@ -131,29 +131,29 @@ a:hover {
 
 /* Login bar */
 .mcore-login-box {
-    width: 920px;       /* same as .mediadrop-content */
-    position: relative;
-    
-    /* don't reserve any space, we use relative/absolute positioning with negative margins anyway */
-    height: 0px;
-    
-    /* ensure that 'login' link is visible if there is no head html/site
-     * title - setting will be overriden by appearance.css if logo should be
-     * displayed */
-    margin-top: 20px;
-    
-    margin-bottom: 5px;
-    margin-left: auto;
-    margin-right: auto;
+	width: 920px;       /* same as .mediadrop-content */
+	position: relative;
+	
+	/* don't reserve any space, we use relative/absolute positioning with negative margins anyway */
+	height: 0px;
+	
+	/* ensure that 'login' link is visible if there is no head html/site
+	 * title - setting will be overriden by appearance.css if logo should be
+	 * displayed */
+	margin-top: 20px;
+	
+	margin-bottom: 5px;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 .mcore-login-bar {
-    /* get the login bar completely out of the flow so it never messes up with the navbar */
-    position: absolute;
-    top: -15px;
-    right: 0px;
-    
-    float: right;
+	/* get the login bar completely out of the flow so it never messes up with the navbar */
+	position: absolute;
+	top: -15px;
+	right: 0px;
+	
+	float: right;
 }
 
 /* Sectional Nav */
@@ -623,7 +623,7 @@ a:focus .grid-title {
 	margin-right: -10px;
 }
 .mcore-nav-link > .mcore-btn-fb-like > *{
-    padding-top: 3px;
+	padding-top: 3px;
 }
 .mcore-btn-like {
 	padding-left: 18px;
@@ -1023,15 +1023,15 @@ textarea {
 }
 
 .mcore-btn-img {
-    border: none;
-    height: 26px;
+	border: none;
+	height: 26px;
 }
 
 .mcore-nav-link form {
-    float: left;
+	float: left;
 }
 .mcore-cursor-pointer {
-    cursor: pointer;
+	cursor: pointer;
 }
 
 .mcore-alerts {

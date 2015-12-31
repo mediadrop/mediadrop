@@ -47,8 +47,8 @@
 	text-decoration: underline;
 }
 .status-list.media-expiry {
-    border-top: 1px solid #B3C4D0;
-    margin: 10px 5px 3px;
+	border-top: 1px solid #B3C4D0;
+	margin: 10px 5px 3px;
 }
 /* need two selectors to overwrite ".status-list li" above */
 .status-list .status-list-expiry {
