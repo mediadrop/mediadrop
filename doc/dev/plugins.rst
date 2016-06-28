@@ -25,9 +25,9 @@ and insights.
 Thanks Felix!
 
 
-====================
-Ecoding Installation
-====================
+=====================
+Encoding Installation
+=====================
 
 Pre Requisites: Please make sure you have installed the Encoding plugin and
 created a cloud on `pandastream.com <http://pandastream.com/>`_ with
