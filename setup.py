@@ -73,7 +73,7 @@ setup(
         'Framework :: TurboGears :: Applications',
         'Programming Language :: Python',
         'Programming Language :: JavaScript',
-        'Topic :: Internet :: WWW/HTTP :: Site Management'
+        'Topic :: Internet :: WWW/HTTP :: Site Management',
         'Topic :: Internet :: WWW/HTTP :: WSGI :: Application',
         'Topic :: Multimedia :: Sound/Audio',
         'Intended Audience :: Developers',
