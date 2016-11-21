@@ -71,14 +71,14 @@ before creating the new virtualenv).
 Step 2: Install the new MediaDrop Files
 ------------------------------------------
 
-`Download the latest official release of MediaDrop <http://mediadrop.net/download>`_ 
+`Download the latest official release of MediaDrop <http://mediadrop.video/download>`_ 
 from our site, then unpack it beside your current MediaDrop installation.
 
 .. sourcecode:: bash
 
    # Download the latest distribution beside the current installation
    cd /path/to/mediadrop-old/..
-   wget http://static.mediadrop.net/releases/mediadrop-new.tar.gz
+   wget http://static.mediadrop.video/releases/mediadrop-new.tar.gz
 
    # Unpack the downloaded distribution
    tar xzvf mediadrop-new.tar.gz

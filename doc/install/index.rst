@@ -146,7 +146,7 @@ Step 2: Install MediaDrop
 
 There are two main ways to get MediaDrop:
 
-a. You can `download the latest official release of MediaDrop <http://mediadrop.net/download>`_ from our site.
+a. You can `download the latest official release of MediaDrop <http://mediadrop.video/download>`_ from our site.
 
    Once you've downloaded MediaDrop, it's time to unpack it and install.
 
@@ -276,7 +276,7 @@ admin**. (Remember to `change your password
 
 If this produces errors then MediaDrop or one of its dependencies is not
 setup correctly. Please feel free to ask questions and submit solutions
-via our `community forums <http://mediadrop.net/community/>`_.
+via our `community forums <http://mediadrop.video/community/>`_.
 
 If this is your development machine, you're good to go.
 

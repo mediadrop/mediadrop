@@ -1,4 +1,4 @@
-# This file is a part of MediaDrop (http://www.mediadrop.net),
+# This file is a part of MediaDrop (http://www.mediadrop.video),
 # Copyright 2009-2015 MediaDrop contributors
 # For the exact contribution history, see the git revision log.
 # The source code contained in this file is licensed under the GPLv3 or
@@ -454,25 +454,25 @@ class MediaController(BaseController):
                     scheme (unicode)
                         The
                         :attr:`scheme <mediadrop.lib.uri.StorageUri.scheme>`
-                        (e.g. 'http' in the URI 'http://mediadrop.net/docs/',
-                        'rtmp' in the URI 'rtmp://mediadrop.net/docs/', or
+                        (e.g. 'http' in the URI 'http://mediadrop.video/docs/',
+                        'rtmp' in the URI 'rtmp://mediadrop.video/docs/', or
                         'file' in the URI 'file:///some/local/file.mp4')
                     server (unicode)
                         The
                         :attr:`server name <mediadrop.lib.uri.StorageUri.server_uri>`
-                        (e.g. 'mediadrop.net' in the URI
-                        'http://mediadrop.net/docs')
+                        (e.g. 'mediadrop.video' in the URI
+                        'http://mediadrop.video/docs')
                     file (unicode)
                         The
                         :attr:`file path <mediadrop.lib.uri.StorageUri.file_uri>`
                         part of the URI.  (e.g. 'docs' in the URI
-                        'http://mediadrop.net/docs')
+                        'http://mediadrop.video/docs')
                     uri (unicode)
                         The full URI string (minus scheme) built from the
                         server_uri and file_uri.
                         See :attr:`mediadrop.lib.uri.StorageUri.__str__`.
-                        (e.g. 'mediadrop.net/docs' in the URI
-                        'http://mediadrop.net/docs')
+                        (e.g. 'mediadrop.video/docs' in the URI
+                        'http://mediadrop.video/docs')
 
         """
         uris = []

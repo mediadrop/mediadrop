@@ -13,7 +13,7 @@ them!
 Please post issues to our `issue tracker on Github
 <https://github.com/mediadrop/mediadrop/issues>`_.
 
-You can always post to our `community forums <http://mediadrop.net/community/>`_ if you aren't sure if its a bug or
+You can always post to our `community forums <http://mediadrop.video/community/>`_ if you aren't sure if its a bug or
 not.
 
 

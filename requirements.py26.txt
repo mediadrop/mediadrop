@@ -1,2 +1,2 @@
---index-url=http://static.mediadrop.net/dependencies/dev/
+--index-url=http://static.mediadrop.video/dependencies/dev/
 importlib

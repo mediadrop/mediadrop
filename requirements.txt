@@ -1,4 +1,4 @@
---index-url=http://static.mediadrop.net/dependencies/dev/
+--index-url=http://static.mediadrop.video/dependencies/dev/
 iso8601
 ddt
 formencode >= 1.2.4 # (version required by Pylons 1.0)

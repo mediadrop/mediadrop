@@ -65,8 +65,8 @@ setup(
     version=VERSION,
     description='A audio, video and podcast publication platform.',
     author='MediaDrop contributors.',
-    author_email='info@mediadrop.net',
-    url='http://mediadrop.net',
+    author_email='info@mediadrop.video',
+    url='http://mediadrop.video',
     classifiers=[
         'Development Status :: 4 - Beta',
         'License :: OSI Approved :: GNU General Public License (GPL)',

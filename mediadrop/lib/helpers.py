@@ -1,4 +1,4 @@
-# This file is a part of MediaDrop (http://www.mediadrop.net),
+# This file is a part of MediaDrop (http://www.mediadrop.video),
 # Copyright 2009-2015 MediaDrop contributors
 # For the exact contribution history, see the git revision log.
 # The source code contained in this file is licensed under the GPLv3 or
@@ -384,7 +384,7 @@ def doc_link(page=None, anchor='', text=N_('Help'), **kwargs):
     XXX: Target attribute is not XHTML compliant.
     """
     attrs = {
-        'href': 'http://mediadrop.net/docs/user/%s.html#%s' % (page, anchor),
+        'href': 'http://mediadrop.video/docs/user/%s.html#%s' % (page, anchor),
         'target': '_blank',
     }
     if kwargs:

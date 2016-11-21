@@ -1,4 +1,4 @@
-# This file is a part of MediaDrop (http://www.mediadrop.net),
+# This file is a part of MediaDrop (http://www.mediadrop.video),
 # Copyright 2009-2015 MediaDrop contributors
 # For the exact contribution history, see the git revision log.
 # The source code contained in this file is licensed under the GPLv3 or
@@ -13,8 +13,8 @@ __version__ = '0.11dev'
 __status__ = 'Beta'
 __copyright__ = 'Copyright 2009-2014, MediaDrop contributors'
 __license__ = 'GPLv3'
-__email__ = 'info@mediadrop.net'
-__maintainer__ = 'http://mediadrop.net'
+__email__ = 'info@mediadrop.video'
+__maintainer__ = 'http://mediadrop.video'
 __all__ = ['__version__', 'debug', 'ipython']
 
 USER_AGENT = 'MediaDrop/%s' % __version__

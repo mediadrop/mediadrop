@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# This file is a part of MediaDrop (http://www.mediadrop.net),
+# This file is a part of MediaDrop (http://www.mediadrop.video),
 # Copyright 2009-2015 MediaDrop contributors
 # For the exact contribution history, see the git revision log.
 # The source code in this file is dual licensed under the MIT license or

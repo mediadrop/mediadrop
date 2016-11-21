@@ -1,4 +1,4 @@
-# This file is a part of MediaDrop (http://www.mediadrop.net),
+# This file is a part of MediaDrop (http://www.mediadrop.video),
 # Copyright 2009-2015 MediaDrop contributors
 # For the exact contribution history, see the git revision log.
 # The source code contained in this file is licensed under the GPLv3 or
@@ -1092,7 +1092,7 @@ def embed_iframe(media, width=400, height=225, frameborder=0, **kwargs):
                   frameborder=frameborder, **kwargs)
     # some software is known not to work with self-closing iframe tags 
     # ('<iframe ... />'). Several WordPress instances are affected as well as
-    # TWiki http://mediadrop.net/community/topic/embed-iframe-closing-tag
+    # TWiki http://mediadrop.video/community/topic/embed-iframe-closing-tag
     tag.append('')
     return tag
 

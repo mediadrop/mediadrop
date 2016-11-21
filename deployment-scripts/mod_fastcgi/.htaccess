@@ -1,5 +1,5 @@
 # .htaccess file for installation of MediaDrop with Apache/FastCGI
-# See installation instructions at http://mediadrop.net/docs/install/apache-fastcgi.html
+# See installation instructions at http://mediadrop.video/docs/install/apache-fastcgi.html
 
 <IfModule mod_fcgid.c>
     AddHandler fcgid-script .fcgi
