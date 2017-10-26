@@ -140,12 +140,12 @@ class MediaController(BaseController):
                 featured = viewable_media(popular).first()
 
         nr_latest_items = 8
-        latest = viewable_media(latest.exclude(featured))[:nr_latest_items]
         if is_featured_item_enabled:
             nr_popular_items = max(nr_latest_items - 3, 0)
         else:
             nr_popular_items = nr_latest_items
-        popular = viewable_media(popular.exclude(featured, latest))[:nr_popular_items]
+        popular = viewable_media(popular.exclude(featured))[:nr_popular_items]
+        latest = viewable_media(latest.exclude(featured, popular))[:nr_latest_items]
         if request.settings['sitemaps_display'] == 'True':
             response.feed_links.extend([
                 (url_for(controller='/sitemaps', action='google'), _(u'Sitemap XML')),
