@@ -131,11 +131,13 @@ class MediaController(BaseController):
         popular = media.order_by(Media.popularity_points.desc())
 
         featured = None
-        featured_cat = helpers.get_featured_category()
-        if featured_cat:
-            featured = viewable_media(latest.in_category(featured_cat)).first()
-        if not featured:
-            featured = viewable_media(popular).first()
+        is_featured_item_enabled = request.settings['appearance_enable_featured_items'] or request.settings['appearance_enable_cooliris']
+        if is_featured_item_enabled:
+            featured_cat = helpers.get_featured_category()
+            if featured_cat:
+                featured = viewable_media(latest.in_category(featured_cat)).first()
+            if not featured:
+                featured = viewable_media(popular).first()
 
         latest = viewable_media(latest.exclude(featured))[:8]
         popular = viewable_media(popular.exclude(featured, latest))[:5]
