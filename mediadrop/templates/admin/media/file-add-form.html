@@ -22,4 +22,5 @@ See LICENSE.txt in the main project directory, for more information.
 	<py:for each="field in fields" py:with="error = error_for(field)">
 		<div py:if="error and field.show_error" class="field_error" py:content="error" />
 	</py:for>
+	<div style="color: #8b8b8b">Please note that uploading of files larger than 4 GB is not supported.</div>
 </form>
