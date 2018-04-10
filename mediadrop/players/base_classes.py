@@ -59,7 +59,7 @@ class AbstractPlayer(AbstractClass):
     """
 
     @abstractmethod
-    def can_play(cls, uris):
+    def can_play(self, uris):
         """Test all the given URIs to see if they can be played by this player.
 
         This is a class method, not an instance or static method.
