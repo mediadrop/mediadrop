@@ -1,6 +1,11 @@
 --index-url=https://static.mediadrop.video/dependencies/dev/
 iso8601
 formencode >= 1.2.4 # (version required by Pylons 1.0)
+# mysqlclient is a fork for MySQL-python which contains updated code
+# so you can build it with modern versions of MySQL/MariaDB. However
+# the package is not compatible with Python 2.6.
+# If you are using Python 2.6 please replace "mysqlclient" with "MySQL-python".
+mysqlclient
 Pylons >= 1.0
 # WebOb 1.2.x raises an error if we use "request.str_params" (as we did in
 # MediaDrop 0.10/WebOb 1.0.7) but the non-deprecated attribute was only
@@ -25,7 +30,6 @@ PasteScript >= 1.7.4.2 # paster_plugins=
 PasteDeploy >= 1.5 # (version required by Pylons 1.0)
 ToscaWidgets >= 0.9.12 # 0.9.9 is not compatible with Pylons 1.0
 tw.forms == 0.9.9
-MySQL-python >= 1.2.2
 Pillow
 akismet == 0.2.0
 google-api-python-client
