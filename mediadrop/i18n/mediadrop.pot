@@ -1877,6 +1877,10 @@ msgstr ""
 msgid "OR"
 msgstr ""
 
+#: mediadrop/templates/admin/media/file-add-form.html:25
+msgid "Please note that uploading of files larger than 4 GB is not supported."
+msgstr ""
+
 #: mediadrop/templates/admin/media/file-form.html:17
 msgid "or"
 msgstr ""
