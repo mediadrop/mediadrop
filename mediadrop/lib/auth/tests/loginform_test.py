@@ -6,11 +6,12 @@
 # the GPLv3 or (at your option) any later version.
 # See LICENSE.txt in the main project directory, for more information.
 
+from pythonic_testcase import *
+
 from mediadrop.config.routing import login_form_url, login_handler_url, \
     logout_handler_url, post_login_url, post_logout_url
 from mediadrop.lib.auth.middleware import MediaDropLoginForm
 from mediadrop.lib.test import create_wsgi_environ
-from mediadrop.lib.test.pythonic_testcase import *
 
 
 class MediaDropLoginFormTest(PythonicTestCase):

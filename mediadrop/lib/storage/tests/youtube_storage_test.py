@@ -6,8 +6,9 @@
 # (at your option) any later version.
 # See LICENSE.txt in the main project directory, for more information.
 
+from pythonic_testcase import *
+
 from mediadrop.lib.storage.youtube import YoutubeStorage
-from mediadrop.lib.test.pythonic_testcase import *
 
 
 class YoutubeStorageTest(PythonicTestCase):

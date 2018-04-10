@@ -6,9 +6,10 @@
 # the GPLv3 or (at your option) any later version.
 # See LICENSE.txt in the main project directory, for more information.
 
+from pythonic_testcase import *
+
 from mediadrop.lib.auth.middleware import MediaDropCookiePlugin
 from mediadrop.lib.test import create_wsgi_environ
-from mediadrop.lib.test.pythonic_testcase import *
 
 
 class MediaDropCookiePluginTest(PythonicTestCase):

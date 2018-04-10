@@ -11,9 +11,9 @@ import shutil
 
 from babel.messages import Catalog
 from babel.messages.mofile import write_mo
+from pythonic_testcase import *
 
 from mediadrop.lib.test import DBTestCase
-from mediadrop.lib.test.pythonic_testcase import *
 from mediadrop.lib.i18n import Translator
 
 

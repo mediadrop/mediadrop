@@ -10,11 +10,11 @@ import urllib
 
 from ddt import ddt as DataDrivenTestCase, data
 from pylons import config
+from pythonic_testcase import *
 
 from mediadrop.controllers.login import LoginController
 from mediadrop.lib.auth.permission_system import MediaDropPermissionSystem
 from mediadrop.lib.test import ControllerTestCase
-from mediadrop.lib.test.pythonic_testcase import *
 from mediadrop.model import DBSession, Group, User, Permission
 
 

@@ -8,8 +8,9 @@
 
 import re
 
+from pythonic_testcase import *
+
 from mediadrop.lib.js_delivery import InlineJS, Script, Scripts
-from mediadrop.lib.test.pythonic_testcase import *
 
 
 class ScriptTest(PythonicTestCase):

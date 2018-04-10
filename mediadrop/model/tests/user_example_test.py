@@ -7,9 +7,10 @@
 
 from datetime import datetime, timedelta
 
+from pythonic_testcase import *
+
 from mediadrop.model import User
 from mediadrop.lib.test.db_testcase import DBTestCase
-from mediadrop.lib.test.pythonic_testcase import *
 
 
 class UserExampleTest(DBTestCase):

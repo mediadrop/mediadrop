@@ -10,8 +10,9 @@ from __future__ import absolute_import
 
 from decimal import Decimal
 
+from pythonic_testcase import *
+
 from ..filesize import format_filesize, human_readable_size
-from mediadrop.lib.test.pythonic_testcase import *
 
 
 class HumanReadableSizeTestCase(PythonicTestCase):

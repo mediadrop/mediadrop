@@ -5,8 +5,9 @@
 # (at your option) any later version.
 # See LICENSE.txt in the main project directory, for more information.
 
+from pythonic_testcase import *
+
 from mediadrop.lib.test.db_testcase import DBTestCase
-from mediadrop.lib.test.pythonic_testcase import *
 from mediadrop.model import Category
 
 

@@ -5,12 +5,13 @@
 # (at your option) any later version.
 # See LICENSE.txt in the main project directory, for more information.
 
+from pythonic_testcase import *
+
 from mediadrop.model import DBSession, Media
 from mediadrop.lib.filetypes import VIDEO
 from mediadrop.lib.i18n import setup_global_translator
 from mediadrop.lib.storage.api import add_new_media_file
 from mediadrop.lib.test.db_testcase import DBTestCase
-from mediadrop.lib.test.pythonic_testcase import *
 from mediadrop.players import AbstractFlashPlayer, FlowPlayer
 from mediadrop.plugin import events
 from mediadrop.plugin.events import observes

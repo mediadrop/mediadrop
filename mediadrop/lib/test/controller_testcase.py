@@ -9,11 +9,11 @@
 from routes.util import URLGenerator
 import pylons
 from pylons.controllers.util import Response
+from pythonic_testcase import *
 from webob.exc import HTTPFound
 
 from mediadrop.lib.test.request_mixin import RequestMixin
 from mediadrop.lib.test.db_testcase import DBTestCase
-from mediadrop.lib.test.pythonic_testcase import *
 
 
 __all__ = ['ControllerTestCase']

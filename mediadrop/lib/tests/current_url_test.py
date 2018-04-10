@@ -8,11 +8,11 @@
 import re
 
 from pylons.controllers.util import Request
+from pythonic_testcase import *
 from routes.util import URLGenerator
 
 from mediadrop.config.routing import add_routes, create_mapper
 from mediadrop.lib.test.db_testcase import DBTestCase
-from mediadrop.lib.test.pythonic_testcase import *
 from mediadrop.lib.test.request_mixin import RequestMixin
 from mediadrop.lib.test.support import create_wsgi_environ
 from mediadrop.lib.util import current_url

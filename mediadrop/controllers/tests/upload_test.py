@@ -9,10 +9,10 @@
 from StringIO import StringIO
 
 import simplejson
+from pythonic_testcase import *
 
 from mediadrop.lib.attribute_dict import AttrDict
 from mediadrop.lib.test import ControllerTestCase
-from mediadrop.lib.test.pythonic_testcase import *
 from mediadrop.model import fetch_row, Media
 from mediadrop.players import AbstractFlashPlayer, FlowPlayer
 

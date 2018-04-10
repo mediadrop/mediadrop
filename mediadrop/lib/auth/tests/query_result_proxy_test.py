@@ -6,13 +6,13 @@
 # the GPLv3 or (at your option) any later version.
 # See LICENSE.txt in the main project directory, for more information.
 
+from pythonic_testcase import *
 from sqlalchemy import Column, Integer, String
 from sqlalchemy import asc, create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
 from mediadrop.lib.auth.query_result_proxy import QueryResultProxy
-from mediadrop.lib.test.pythonic_testcase import *
 
 
 Base = declarative_base()

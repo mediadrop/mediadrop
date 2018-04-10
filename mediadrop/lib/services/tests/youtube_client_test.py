@@ -8,13 +8,13 @@
 
 from apiclient.errors import HttpError
 import simplejson as json
+from pythonic_testcase import *
 
 from mediadrop.lib.attribute_dict import AttrDict
 from mediadrop.lib.filetypes import VIDEO
 from mediadrop.lib.i18n import setup_global_translator
 from mediadrop.lib.services.youtube import YouTubeClient
 from mediadrop.lib.test import DBTestCase
-from mediadrop.lib.test.pythonic_testcase import *
 
 
 class YoutubeClientTest(DBTestCase):

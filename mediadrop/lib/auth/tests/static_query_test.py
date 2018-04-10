@@ -6,8 +6,9 @@
 # the GPLv3 or (at your option) any later version.
 # See LICENSE.txt in the main project directory, for more information.
 
+from pythonic_testcase import *
+
 from mediadrop.lib.auth.query_result_proxy import StaticQuery
-from mediadrop.lib.test.pythonic_testcase import *
 
 
 class StaticQueryTest(PythonicTestCase):

@@ -9,9 +9,10 @@
 
 import sys
 
+from pythonic_testcase import *
+
 from mediadrop.lib.test.controller_testcase import *
 from mediadrop.lib.test.db_testcase import DBTestCase
-from mediadrop.lib.test.pythonic_testcase import *
 from mediadrop.lib.test.request_mixin import *
 from mediadrop.lib.test.support import *
 

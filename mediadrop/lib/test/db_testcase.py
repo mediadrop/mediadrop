@@ -12,8 +12,8 @@ import tempfile
 
 import pylons
 from pylons.configuration import config
+from pythonic_testcase import *
 
-from mediadrop.lib.test.pythonic_testcase import *
 from mediadrop.lib.test.support import remove_globals, setup_environment_and_database
 from mediadrop.model.meta import DBSession, metadata
 from mediadrop.websetup import add_default_data

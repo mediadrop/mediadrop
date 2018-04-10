@@ -5,9 +5,10 @@
 # (at your option) any later version.
 # See LICENSE.txt in the main project directory, for more information.
 
+from pythonic_testcase import *
+
 from mediadrop.lib.auth.pylons_glue import is_logged_in
 from mediadrop.lib.test import DBTestCase, RequestMixin
-from mediadrop.lib.test.pythonic_testcase import *
 from mediadrop.model import User
 
 class IsLoggedInDecoratorTest(DBTestCase, RequestMixin):

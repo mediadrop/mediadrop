@@ -10,10 +10,11 @@ import cgi
 from cStringIO import StringIO
 import re
 
+from pythonic_testcase import *
+
 from mediadrop.lib.attribute_dict import AttrDict
 from mediadrop.lib.helpers import has_permission
 from mediadrop.lib.test.db_testcase import DBTestCase
-from mediadrop.lib.test.pythonic_testcase import *
 from mediadrop.lib.test import build_http_body, RequestMixin
 from mediadrop.model import DBSession, User
 
