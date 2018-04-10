@@ -21,9 +21,8 @@ from tw.forms.fields import ContainerMixin as _ContainerMixin
 
 from mediadrop.lib import helpers
 from mediadrop.lib.auth import ControllerProtector, has_permission, Predicate
-from mediadrop.lib.css_delivery import StyleSheets
+from .resource_delivery import Scripts, Stylesheets
 from mediadrop.lib.i18n import setup_global_translator
-from mediadrop.lib.js_delivery import Scripts
 from mediadrop.model import DBSession, Setting
 
 __all__ = [
@@ -78,7 +77,7 @@ class BareBonesController(WSGIController):
         registry = request.environ['paste.registry']
         setup_global_translator(registry=registry)
         response.scripts = Scripts()
-        response.stylesheets = StyleSheets()
+        response.stylesheets = Stylesheets()
         response.feed_links = []
         response.facebook = None
         response.warnings = []

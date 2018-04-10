@@ -5,9 +5,10 @@
 # (at your option) any later version.
 # See LICENSE.txt in the main project directory, for more information.
 
-__all__ = ['Facebook']
+from mediadrop.lib.resource_delivery import InlineJS, Script, Scripts
 
-from mediadrop.lib.js_delivery import InlineJS, Script, Scripts
+
+__all__ = ['Facebook']
 
 class FacebookSDKScript(InlineJS):
     def __init__(self, app_id, extra_code=None):
