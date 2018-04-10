@@ -1,2 +1,4 @@
 --index-url=https://static.mediadrop.video/dependencies/dev/
 importlib
+# Pillow 4.0 dropped support for Python 2.6
+Pillow < 4.0
