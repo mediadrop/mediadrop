@@ -5,7 +5,7 @@ formencode >= 1.2.4 # (version required by Pylons 1.0)
 # so you can build it with modern versions of MySQL/MariaDB. However
 # the package is not compatible with Python 2.6.
 # If you are using Python 2.6 please replace "mysqlclient" with "MySQL-python".
-mysqlclient
+mysqlclient ; python_version > '2.6'
 Pylons >= 1.0
 # WebOb 1.2.x raises an error if we use "request.str_params" (as we did in
 # MediaDrop 0.10/WebOb 1.0.7) but the non-deprecated attribute was only
