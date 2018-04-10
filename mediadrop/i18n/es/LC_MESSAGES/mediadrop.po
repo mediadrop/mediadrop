@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: MediaDrop 0.11dev\n"
 "Report-Msgid-Bugs-To: http://github.com/mediadrop/mediadrop-"
 "community/issues\n"
-"POT-Creation-Date: 2013-11-08 15:15+0100\n"
+"POT-Creation-Date: 2018-04-10 15:21+0200\n"
 "PO-Revision-Date: 2013-03-24 08:14+0000\n"
 "Last-Translator: Jan-Erik Finlander <janerik.finlander@gmail.com>\n"
 "Language-Team: es <LL@li.org>\n"
@@ -19,9 +19,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 0.9.6\n"
+"Generated-By: Babel 1.3\n"
 
-#: mediadrop/websetup.py:153
+#: mediadrop/websetup.py:177
 msgid ""
 "Upload your media using the form below. We'll review it and get back to "
 "you."
@@ -39,11 +39,11 @@ msgstr "Ultimo material en%s"
 msgid "We're sorry but we weren't able to process this request."
 msgstr "Lamentablemente no fue posible procesar su solicitud."
 
-#: mediadrop/controllers/login.py:39
+#: mediadrop/controllers/login.py:40
 msgid "Invalid username or password."
 msgstr ""
 
-#: mediadrop/controllers/media.py:89 mediadrop/controllers/media.py:149
+#: mediadrop/controllers/media.py:89 mediadrop/controllers/media.py:156
 #: mediadrop/templates/media/index.html:18
 msgid "Latest RSS"
 msgstr "Última RSS"
@@ -53,19 +53,19 @@ msgstr "Última RSS"
 msgid "Featured RSS"
 msgstr "Destacados"
 
-#: mediadrop/controllers/media.py:144
+#: mediadrop/controllers/media.py:151
 msgid "Sitemap XML"
 msgstr "Mapa XML del sitio "
 
-#: mediadrop/controllers/media.py:145
+#: mediadrop/controllers/media.py:152
 msgid "Sitemap RSS"
 msgstr "Mapa RSS del sitio "
 
-#: mediadrop/controllers/media.py:315
+#: mediadrop/controllers/media.py:322
 msgid "Your comment has been rejected."
 msgstr "Su comentario fue rechazado."
 
-#: mediadrop/controllers/media.py:337
+#: mediadrop/controllers/media.py:344
 msgid ""
 "Thank you for your comment! We will post it just as soon as a moderator "
 "approves it."
@@ -73,26 +73,26 @@ msgstr ""
 "Gracias por su comentario! Lo publicaremos tan pronto  un moderador lo "
 "apruebe."
 
-#: mediadrop/controllers/admin/media.py:385
+#: mediadrop/controllers/admin/media.py:388
 #, python-format
 msgid "File \"%s\" does not exist."
 msgstr "El archivo \"%s\" no existe."
 
-#: mediadrop/controllers/admin/media.py:408
+#: mediadrop/controllers/admin/media.py:411
 msgid "No action to perform."
 msgstr "No hay acciones que ejecutar."
 
-#: mediadrop/controllers/admin/media.py:558
+#: mediadrop/controllers/admin/media.py:561
 #: mediadrop/controllers/admin/podcasts.py:206
 msgid "Permission denied, cannot write file"
 msgstr "No se puede escribir al achivo "
 
-#: mediadrop/controllers/admin/media.py:560
+#: mediadrop/controllers/admin/media.py:563
 #, python-format
 msgid "Unsupported image type: %s"
 msgstr ""
 
-#: mediadrop/controllers/admin/media.py:563
+#: mediadrop/controllers/admin/media.py:566
 #: mediadrop/controllers/admin/podcasts.py:211
 msgid "Interlaced PNGs are not supported."
 msgstr "No se soportan los PNG entrelazados"
@@ -236,9 +236,9 @@ msgstr "Cancelar"
 #: mediadrop/forms/admin/settings.py:93 mediadrop/forms/admin/settings.py:115
 #: mediadrop/forms/admin/settings.py:149 mediadrop/forms/admin/settings.py:164
 #: mediadrop/forms/admin/settings.py:203 mediadrop/forms/admin/settings.py:237
-#: mediadrop/forms/admin/settings.py:271 mediadrop/forms/admin/settings.py:444
-#: mediadrop/forms/admin/settings.py:469 mediadrop/forms/admin/tags.py:42
-#: mediadrop/forms/admin/users.py:58
+#: mediadrop/forms/admin/settings.py:271 mediadrop/forms/admin/settings.py:285
+#: mediadrop/forms/admin/settings.py:458 mediadrop/forms/admin/settings.py:483
+#: mediadrop/forms/admin/tags.py:42 mediadrop/forms/admin/users.py:58
 #: mediadrop/forms/admin/storage/__init__.py:36
 msgid "Save"
 msgstr "Guardar"
@@ -322,7 +322,7 @@ msgid "Select an encoded video or audio file on your computer"
 msgstr "Seleccione una codificación de vídeo o archivo de audio"
 
 #: mediadrop/forms/admin/media.py:110 mediadrop/templates/master.html:91
-#: mediadrop/templates/admin/settings/master.html:78
+#: mediadrop/templates/admin/settings/master.html:81
 #: mediadrop/templates/admin/settings/upload.html:16
 #: mediadrop/templates/admin/settings/upload.html:22
 msgid "Upload"
@@ -380,7 +380,7 @@ msgstr "Categorías"
 
 #: mediadrop/forms/admin/media.py:154
 #: mediadrop/templates/admin/media/_media-table.html:28
-#: mediadrop/templates/admin/settings/master.html:75
+#: mediadrop/templates/admin/settings/master.html:78
 #: mediadrop/templates/admin/tags/edit.html:16
 #: mediadrop/templates/admin/tags/index.html:17
 #: mediadrop/templates/admin/tags/index.html:48
@@ -790,179 +790,190 @@ msgid "See: https://developers.facebook.com/apps"
 msgstr ""
 
 #: mediadrop/forms/admin/settings.py:283
+#: mediadrop/templates/admin/settings/googleapi.html:16
+#: mediadrop/templates/admin/settings/googleapi.html:22
+#, fuzzy
+msgid "Google API key"
+msgstr "Google Video"
+
+#: mediadrop/forms/admin/settings.py:284
+msgid "See https://console.developers.google.com/"
+msgstr ""
+
+#: mediadrop/forms/admin/settings.py:297
 msgid "Require a key to access the API"
 msgstr "Se requiere la clave de acceso a la API"
 
-#: mediadrop/forms/admin/settings.py:284
+#: mediadrop/forms/admin/settings.py:298
 msgid "API Key:"
 msgstr "Clave de la API:"
 
-#: mediadrop/forms/admin/settings.py:285
+#: mediadrop/forms/admin/settings.py:299
 msgid "Access Key"
 msgstr "Clave de acceso"
 
-#: mediadrop/forms/admin/settings.py:287
+#: mediadrop/forms/admin/settings.py:301
 msgid "API Settings:"
 msgstr "Configuración de la API:"
 
-#: mediadrop/forms/admin/settings.py:288
+#: mediadrop/forms/admin/settings.py:302
 msgid "Max media results"
 msgstr "Máximo resultado de videos"
 
-#: mediadrop/forms/admin/settings.py:289
+#: mediadrop/forms/admin/settings.py:303
 msgid "Max tree depth"
 msgstr "Profundidad máxima del directorio"
 
-#: mediadrop/forms/admin/settings.py:303
+#: mediadrop/forms/admin/settings.py:317
 #: mediadrop/templates/admin/settings/general.html:17
 #: mediadrop/templates/admin/settings/general.html:23
 #: mediadrop/templates/admin/settings/master.html:39
 msgid "General"
 msgstr "General"
 
-#: mediadrop/forms/admin/settings.py:306
+#: mediadrop/forms/admin/settings.py:320
 msgid "Logo"
 msgstr "Logotipo"
 
-#: mediadrop/forms/admin/settings.py:308
+#: mediadrop/forms/admin/settings.py:322
 msgid "Upload Logo"
 msgstr "Cargar Logotipo"
 
-#: mediadrop/forms/admin/settings.py:313
+#: mediadrop/forms/admin/settings.py:327
 msgid "Background Image"
 msgstr "Imagen de fondo"
 
-#: mediadrop/forms/admin/settings.py:315
+#: mediadrop/forms/admin/settings.py:329
 msgid "Upload Background"
 msgstr "Subir fondo"
 
-#: mediadrop/forms/admin/settings.py:321
+#: mediadrop/forms/admin/settings.py:335
 msgid "Background color"
 msgstr "Color de fondo"
 
-#: mediadrop/forms/admin/settings.py:324
+#: mediadrop/forms/admin/settings.py:338
 msgid "Link color"
 msgstr "Color del enlace"
 
-#: mediadrop/forms/admin/settings.py:327
+#: mediadrop/forms/admin/settings.py:341
 msgid "Visited Link color"
 msgstr "Color de enlace visitado"
 
-#: mediadrop/forms/admin/settings.py:331
+#: mediadrop/forms/admin/settings.py:345
 msgid "Text color"
 msgstr "Color del texto"
 
-#: mediadrop/forms/admin/settings.py:333
+#: mediadrop/forms/admin/settings.py:347
 msgid "Heading color"
 msgstr "Color del encabezado"
 
-#: mediadrop/forms/admin/settings.py:336
+#: mediadrop/forms/admin/settings.py:350
 msgid "Color Scheme"
 msgstr "Combinación de colores"
 
-#: mediadrop/forms/admin/settings.py:340
+#: mediadrop/forms/admin/settings.py:354
 msgid "Options"
 msgstr "Opciones"
 
-#: mediadrop/forms/admin/settings.py:345
+#: mediadrop/forms/admin/settings.py:359
 msgid "Enable Cooliris on the Explore Page"
 msgstr "Activar Cooliris en la página de exploración"
 
-#: mediadrop/forms/admin/settings.py:346
+#: mediadrop/forms/admin/settings.py:360
 msgid ""
 "Cooliris support is deprecated and will be removed in the next major "
 "version of MediaDrop unless someone is interested in maintaining it."
 msgstr ""
 
-#: mediadrop/forms/admin/settings.py:352
+#: mediadrop/forms/admin/settings.py:366
 msgid "Display login link for all users"
 msgstr ""
 
-#: mediadrop/forms/admin/settings.py:355
+#: mediadrop/forms/admin/settings.py:369
 msgid "Enable Featured Items on the Explore Page"
 msgstr "Activar elementos destacados en la página de exploración"
 
-#: mediadrop/forms/admin/settings.py:359
+#: mediadrop/forms/admin/settings.py:373
 msgid "Enable Podcast Tab"
 msgstr "Activar viñeta Podcast"
 
-#: mediadrop/forms/admin/settings.py:363
+#: mediadrop/forms/admin/settings.py:377
 msgid "Enable User Uploads"
 msgstr "Activar cargas del usuario"
 
-#: mediadrop/forms/admin/settings.py:367
+#: mediadrop/forms/admin/settings.py:381
 msgid "Enable widescreen media player by default"
 msgstr "Activar reproductor multimedia de pantalla ancha de forma predeterminada"
 
-#: mediadrop/forms/admin/settings.py:371
+#: mediadrop/forms/admin/settings.py:385
 msgid "Display Logo"
 msgstr "Mostrar logotipo"
 
-#: mediadrop/forms/admin/settings.py:375
+#: mediadrop/forms/admin/settings.py:389
 msgid "Display Background Image"
 msgstr "Mostrar la imagen de fondo"
 
-#: mediadrop/forms/admin/settings.py:379
+#: mediadrop/forms/admin/settings.py:393
 msgid "Display MediaDrop Footer"
 msgstr "Mostrar el pie de página de MediaDrop"
 
-#: mediadrop/forms/admin/settings.py:383
+#: mediadrop/forms/admin/settings.py:397
 msgid "Display MediaDrop Credits in Footer"
 msgstr "Mostrar los créditos de MediaDrop en el pie de página"
 
-#: mediadrop/forms/admin/settings.py:389
+#: mediadrop/forms/admin/settings.py:403
 msgid "Player Menu Options"
 msgstr "Opciones del menú del reproductor"
 
-#: mediadrop/forms/admin/settings.py:394
+#: mediadrop/forms/admin/settings.py:408
 msgid "Enable Download button on player menu bar."
 msgstr "Habilitar un botón de descarga en la barra de menú del reproductor."
 
-#: mediadrop/forms/admin/settings.py:398
+#: mediadrop/forms/admin/settings.py:412
 msgid "Enable Share button on player menu bar."
 msgstr "Habilitar un botón de compartir en la barra de menú del reproductor."
 
-#: mediadrop/forms/admin/settings.py:402
+#: mediadrop/forms/admin/settings.py:416
 msgid "Enable Embed button on player menu bar."
 msgstr "Habilitar un botón de insertar en la barra de menú del reproductor."
 
-#: mediadrop/forms/admin/settings.py:406
+#: mediadrop/forms/admin/settings.py:420
 msgid "Enable Widescreen toggle button on player menu bar."
 msgstr "Habilitar un botón de agrandar en la barra de menú del reproductor."
 
-#: mediadrop/forms/admin/settings.py:410
+#: mediadrop/forms/admin/settings.py:424
 msgid "Enable Popout button on player menu bar."
 msgstr "Habilitar un botón de \"popout\" en la barra de menú del reproductor."
 
-#: mediadrop/forms/admin/settings.py:414
+#: mediadrop/forms/admin/settings.py:428
 msgid "Enable Like button on player menu bar."
 msgstr "Habilitar un botón de \"Me gusta\" en la barra de menú del reproductor."
 
-#: mediadrop/forms/admin/settings.py:418
+#: mediadrop/forms/admin/settings.py:432
 msgid "Enable Dislike button on player menu bar."
 msgstr "Habilitar un botón de \"No me gusta\" en la barra de menú del reproductor."
 
-#: mediadrop/forms/admin/settings.py:423
+#: mediadrop/forms/admin/settings.py:437
 msgid "Advanced"
 msgstr "Avanzado"
 
-#: mediadrop/forms/admin/settings.py:427
+#: mediadrop/forms/admin/settings.py:441
 msgid "Custom CSS"
 msgstr "CSS personalizado"
 
-#: mediadrop/forms/admin/settings.py:430
+#: mediadrop/forms/admin/settings.py:444
 msgid "Custom Header HTML"
 msgstr "Código HTML de encabezado"
 
-#: mediadrop/forms/admin/settings.py:433
+#: mediadrop/forms/admin/settings.py:447
 msgid "Custom Footer HTML"
 msgstr "HTML pie de página personalizada"
 
-#: mediadrop/forms/admin/settings.py:436
+#: mediadrop/forms/admin/settings.py:450
 msgid "Custom <head> Tags"
 msgstr "Etiquetas <head> propias"
 
-#: mediadrop/forms/admin/settings.py:437
+#: mediadrop/forms/admin/settings.py:451
 msgid ""
 "These HTML tags are inserted into the HTML <head> section. Bad input can "
 "cause ugly rendering of your site. You can always restore your page by "
@@ -972,16 +983,16 @@ msgstr ""
 "incorrecta podrá causar un renderizado no atractivo de su sitio. Siempre "
 "podrá restaurar su página mediante la caja superior."
 
-#: mediadrop/forms/admin/settings.py:445
+#: mediadrop/forms/admin/settings.py:459
 #: mediadrop/templates/admin/settings/appearance.html:28
 msgid "Reset to Defaults"
 msgstr "Restablecer los valores predeterminados"
 
-#: mediadrop/forms/admin/settings.py:462
+#: mediadrop/forms/admin/settings.py:476
 msgid "Banner HTML"
 msgstr "Banner HTML"
 
-#: mediadrop/forms/admin/settings.py:465
+#: mediadrop/forms/admin/settings.py:479
 msgid "Sidebar HTML"
 msgstr "Barra lateral HTML"
 
@@ -1001,7 +1012,7 @@ msgstr "Detalles de ingreso:"
 msgid "Passwords do not match"
 msgstr "Las claves no coinciden"
 
-#: mediadrop/forms/admin/users.py:51 mediadrop/templates/admin/master.html:61
+#: mediadrop/forms/admin/users.py:51 mediadrop/templates/admin/master.html:66
 #: mediadrop/templates/admin/groups/index.html:17
 #: mediadrop/templates/admin/groups/index.html:41
 msgid "Groups"
@@ -1167,61 +1178,41 @@ msgstr "Descripción del audio"
 msgid "Captions"
 msgstr "Leyendas"
 
-#: mediadrop/lib/helpers.py:385
+#: mediadrop/lib/helpers.py:381
 msgid "Help"
 msgstr "Ayuda"
 
-#: mediadrop/lib/players.py:285
-msgid "Flowplayer"
-msgstr "Flowplayer"
+#: mediadrop/lib/services/youtube.py:46
+#, fuzzy
+msgid ""
+"Invalid YouTube URL. This video does not exist or is private and can not "
+"be embedded."
+msgstr "Este vídeo es privado y no puede ser insertado."
 
-#: mediadrop/lib/players.py:416 mediadrop/lib/storage/vimeo.py:27
-msgid "Vimeo"
-msgstr "Vimeo"
+#: mediadrop/lib/services/youtube.py:103
+#, python-format
+msgid "unknown YouTube error: %(reason)s"
+msgstr ""
 
-#: mediadrop/lib/players.py:452 mediadrop/lib/storage/dailymotion.py:28
-msgid "Daily Motion"
-msgstr "Daily Motion"
-
-#: mediadrop/lib/players.py:499 mediadrop/lib/storage/youtube.py:28
-msgid "YouTube"
-msgstr "YouTube"
-
-#: mediadrop/lib/players.py:577 mediadrop/lib/storage/googlevideo.py:26
-msgid "Google Video"
-msgstr "Google Video"
-
-#: mediadrop/lib/players.py:599 mediadrop/lib/storage/bliptv.py:26
-msgid "BlipTV"
-msgstr "BlipTV"
-
-#: mediadrop/lib/players.py:686
-msgid "Plain HTML5 Player"
-msgstr "HTML5 Player simple"
-
-#: mediadrop/lib/players.py:701
-msgid "HTML5 + Flowplayer Fallback"
-msgstr "HTML5 + Flowplayer de reserva "
-
-#: mediadrop/lib/players.py:758
-msgid "JWPlayer"
-msgstr "JWPlayer"
-
-#: mediadrop/lib/players.py:904
-msgid "Sublime Video Player"
-msgstr "Sublime Video Player"
-
-#: mediadrop/lib/players.py:954
-msgid "iTunes Player"
-msgstr "Reproductor iTunes"
+#: mediadrop/lib/services/youtube.py:105
+msgid "Invalid API key. Please check your Google API key in settings."
+msgstr ""
 
 #: mediadrop/lib/storage/api.py:352
 msgid "Unusable file or URL provided."
 msgstr "Archivo o URL inusable."
 
+#: mediadrop/lib/storage/bliptv.py:26 mediadrop/players/blib_tv.py:26
+msgid "BlipTV"
+msgstr "BlipTV"
+
 #: mediadrop/lib/storage/bliptv.py:61
 msgid "Invalid BlipTV URL. This video does not exist."
 msgstr "URL de BlipTV inválida. Este vídeo no existe."
+
+#: mediadrop/lib/storage/dailymotion.py:28 mediadrop/players/dailymotion.py:32
+msgid "Daily Motion"
+msgstr "Daily Motion"
 
 #: mediadrop/lib/storage/dailymotion.py:62
 msgid "This DailyMotion video does not allow embedding."
@@ -1247,6 +1238,10 @@ msgstr ""
 msgid "Could not download the file from your FTP server: %s"
 msgstr "No se pudo descargar el archivo de su servidor FTP:%s"
 
+#: mediadrop/lib/storage/googlevideo.py:26 mediadrop/players/google_video.py:26
+msgid "Google Video"
+msgstr "Google Video"
+
 #: mediadrop/lib/storage/localfiles.py:26
 msgid "Local File Storage"
 msgstr "Almacenamiento de archivos locales"
@@ -1263,23 +1258,56 @@ msgstr ""
 "El servidor RTMP no ha sido configurado. Añádalo yendo a Configuración > "
 "Almacenaje > Motores > URLs remotas"
 
-#: mediadrop/lib/storage/youtube.py:62
-msgid "This video is private and cannot be embedded."
-msgstr "Este vídeo es privado y no puede ser insertado."
+#: mediadrop/lib/storage/vimeo.py:27 mediadrop/players/vimeo.py:30
+msgid "Vimeo"
+msgstr "Vimeo"
 
-#: mediadrop/lib/storage/youtube.py:65
-msgid "Invalid YouTube URL. This video does not exist."
-msgstr "URL de Youtube inválida. Este vídeo no existe."
+#: mediadrop/lib/storage/youtube.py:25 mediadrop/players/youtube.py:31
+msgid "YouTube"
+msgstr "YouTube"
 
-#: mediadrop/lib/storage/youtube.py:66
-#, python-format
-msgid "YouTube Error: %s"
+#: mediadrop/lib/storage/youtube.py:51
+msgid ""
+"No API key configured for YouTube (use Google's developer console to "
+"create one)"
+msgstr ""
+
+#: mediadrop/lib/tests/translator_test.py:32
+msgid "foo"
+msgstr ""
+
+#: mediadrop/lib/tests/translator_test.py:54
+msgid "something"
 msgstr ""
 
 #: mediadrop/model/players.py:102
 #, python-format
 msgid "%s (broken)"
 msgstr ""
+
+#: mediadrop/players/flowplayer.py:32
+msgid "Flowplayer"
+msgstr "Flowplayer"
+
+#: mediadrop/players/flowplayer.py:86
+msgid "HTML5 + Flowplayer Fallback"
+msgstr "HTML5 + Flowplayer de reserva "
+
+#: mediadrop/players/html5.py:26
+msgid "Plain HTML5 Player"
+msgstr "HTML5 Player simple"
+
+#: mediadrop/players/itunes.py:22
+msgid "iTunes Player"
+msgstr "Reproductor iTunes"
+
+#: mediadrop/players/jwplayer.py:31
+msgid "JWPlayer"
+msgstr "JWPlayer"
+
+#: mediadrop/players/sublime.py:26
+msgid "Sublime Video Player"
+msgstr "Sublime Video Player"
 
 #: mediadrop/templates/error.html:17
 #, python-format
@@ -1408,7 +1436,7 @@ msgstr ""
 msgid "Admin"
 msgstr ""
 
-#: mediadrop/templates/master.html:72 mediadrop/templates/admin/master.html:52
+#: mediadrop/templates/master.html:72 mediadrop/templates/admin/master.html:57
 msgid "Logout"
 msgstr "Desconectarse"
 
@@ -1420,7 +1448,7 @@ msgstr "Explorar"
 msgid "Media Library"
 msgstr "Biblioteca multimedia"
 
-#: mediadrop/templates/master.html:88 mediadrop/templates/admin/master.html:58
+#: mediadrop/templates/master.html:88 mediadrop/templates/admin/master.html:63
 #: mediadrop/templates/admin/podcasts/index.html:17
 #: mediadrop/templates/admin/podcasts/index.html:24
 msgid "Podcasts"
@@ -1439,7 +1467,7 @@ msgid "Moderate"
 msgstr "Moderar"
 
 #: mediadrop/templates/admin/helpers.html:62
-#: mediadrop/templates/admin/master.html:59
+#: mediadrop/templates/admin/master.html:64
 #: mediadrop/templates/admin/comments/index.html:20
 #: mediadrop/templates/admin/media/_media-table.html:27
 #: mediadrop/templates/admin/settings/comments.html:16
@@ -1468,7 +1496,7 @@ msgid "Trash"
 msgstr "Papelera"
 
 #: mediadrop/templates/admin/index.html:17
-#: mediadrop/templates/admin/master.html:50
+#: mediadrop/templates/admin/master.html:55
 msgid "Dashboard"
 msgstr "Tablero de instrumentos"
 
@@ -1495,40 +1523,40 @@ msgstr "Empezar"
 msgid "Add New Media"
 msgstr "Añadir nuevos videos"
 
-#: mediadrop/templates/admin/index.html:73
+#: mediadrop/templates/admin/index.html:74
 msgid "Recently Published"
 msgstr "Publicado recientemente"
 
 #: mediadrop/templates/admin/master.html:26
-#: mediadrop/templates/admin/master.html:47
-#: mediadrop/templates/admin/master.html:68
+#: mediadrop/templates/admin/master.html:52
+#: mediadrop/templates/admin/master.html:73
 msgid "MediaDrop"
 msgstr "MediaDrop"
 
-#: mediadrop/templates/admin/master.html:51
+#: mediadrop/templates/admin/master.html:56
 msgid "View Site"
 msgstr "Ver sitio"
 
-#: mediadrop/templates/admin/master.html:57
+#: mediadrop/templates/admin/master.html:62
 #: mediadrop/templates/admin/categories/index.html:63
 #: mediadrop/templates/admin/media/index.html:18
 #: mediadrop/templates/admin/tags/index.html:60
 msgid "Media"
 msgstr "Multimedia"
 
-#: mediadrop/templates/admin/master.html:60
+#: mediadrop/templates/admin/master.html:65
 #: mediadrop/templates/admin/users/index.html:17
 #: mediadrop/templates/admin/users/index.html:38
 msgid "Users"
 msgstr "Usuarios"
 
-#: mediadrop/templates/admin/master.html:62
+#: mediadrop/templates/admin/master.html:67
 #: mediadrop/templates/admin/settings/master.html:36
 msgid "Settings"
 msgstr "Configuración"
 
-#: mediadrop/templates/admin/master.html:69
-msgid "© 2009-2014 MediaDrop contributors"
+#: mediadrop/templates/admin/master.html:74
+msgid "© 2009-2018 MediaDrop contributors"
 msgstr ""
 
 #: mediadrop/templates/admin/categories/index.html:38
@@ -1914,6 +1942,10 @@ msgstr "Tipo"
 msgid "OR"
 msgstr "O"
 
+#: mediadrop/templates/admin/media/file-add-form.html:25
+msgid "Please note that uploading of files larger than 4 GB is not supported."
+msgstr ""
+
 #: mediadrop/templates/admin/media/file-form.html:17
 msgid "or"
 msgstr "o"
@@ -2056,7 +2088,7 @@ msgstr ""
 
 #: mediadrop/templates/admin/players/index.html:16
 #: mediadrop/templates/admin/players/index.html:40
-#: mediadrop/templates/admin/settings/master.html:63
+#: mediadrop/templates/admin/settings/master.html:66
 msgid "Players"
 msgstr "Reproductores"
 
@@ -2138,7 +2170,7 @@ msgstr "Estadísticas"
 
 #: mediadrop/templates/admin/settings/api.html:16
 #: mediadrop/templates/admin/settings/api.html:26
-#: mediadrop/templates/admin/settings/master.html:57
+#: mediadrop/templates/admin/settings/master.html:60
 msgid "Data API"
 msgstr "API de datos"
 
@@ -2162,29 +2194,34 @@ msgstr ""
 "¿Estás seguro de que desea restablecer la configuración al valor "
 "predeterminado?"
 
-#: mediadrop/templates/admin/settings/master.html:60
+#: mediadrop/templates/admin/settings/master.html:57
+#, fuzzy
+msgid "Google API"
+msgstr "Google Video"
+
+#: mediadrop/templates/admin/settings/master.html:63
 msgid "Notifications"
 msgstr "Notificaciones"
 
-#: mediadrop/templates/admin/settings/master.html:66
+#: mediadrop/templates/admin/settings/master.html:69
 #: mediadrop/templates/admin/settings/popularity.html:16
 #: mediadrop/templates/admin/settings/popularity.html:22
 msgid "Popularity"
 msgstr "Popularidad"
 
-#: mediadrop/templates/admin/settings/master.html:69
+#: mediadrop/templates/admin/settings/master.html:72
 #: mediadrop/templates/admin/settings/sitemaps.html:17
 #: mediadrop/templates/admin/settings/sitemaps.html:23
 msgid "RSS and Sitemaps"
 msgstr "RSS y mapas de sitio"
 
-#: mediadrop/templates/admin/settings/master.html:72
+#: mediadrop/templates/admin/settings/master.html:75
 #: mediadrop/templates/admin/storage/index.html:16
 #: mediadrop/templates/admin/storage/index.html:112
 msgid "Storage Engines"
 msgstr "Almacenadores"
 
-#: mediadrop/templates/admin/settings/master.html:83
+#: mediadrop/templates/admin/settings/master.html:86
 msgid "Plugins"
 msgstr "Extensiones"
 
@@ -2559,4 +2596,13 @@ msgstr ""
 #: mediadrop/validation/uri_validator.py:21
 msgid "That is not a valid URL."
 msgstr ""
+
+#~ msgid "Invalid YouTube URL. This video does not exist."
+#~ msgstr "URL de Youtube inválida. Este vídeo no existe."
+
+#~ msgid "YouTube Error: %s"
+#~ msgstr ""
+
+#~ msgid "© 2009-2014 MediaDrop contributors"
+#~ msgstr ""
 

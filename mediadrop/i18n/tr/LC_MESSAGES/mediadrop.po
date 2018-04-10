@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: MediaDrop 0.11dev\n"
 "Report-Msgid-Bugs-To: http://github.com/mediadrop/mediadrop-"
 "community/issues\n"
-"POT-Creation-Date: 2013-11-08 15:15+0100\n"
+"POT-Creation-Date: 2018-04-10 15:21+0200\n"
 "PO-Revision-Date: 2013-05-06 23:32+0000\n"
 "Last-Translator: Caner Başaran <basaran.caner@gmail.com>\n"
 "Language-Team: tr <LL@li.org>\n"
@@ -20,9 +20,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 0.9.6\n"
+"Generated-By: Babel 1.3\n"
 
-#: mediadrop/websetup.py:153
+#: mediadrop/websetup.py:177
 msgid ""
 "Upload your media using the form below. We'll review it and get back to "
 "you."
@@ -40,11 +40,11 @@ msgstr "%s teki son dosya"
 msgid "We're sorry but we weren't able to process this request."
 msgstr "Üzgünüz, fakat bu işlemi gerçekleştiremedik."
 
-#: mediadrop/controllers/login.py:39
+#: mediadrop/controllers/login.py:40
 msgid "Invalid username or password."
 msgstr "Geçersiz kullanıcı adı ya da parola."
 
-#: mediadrop/controllers/media.py:89 mediadrop/controllers/media.py:149
+#: mediadrop/controllers/media.py:89 mediadrop/controllers/media.py:156
 #: mediadrop/templates/media/index.html:18
 msgid "Latest RSS"
 msgstr "Son Beslemeler"
@@ -54,19 +54,19 @@ msgstr "Son Beslemeler"
 msgid "Featured RSS"
 msgstr "Seçilmiş"
 
-#: mediadrop/controllers/media.py:144
+#: mediadrop/controllers/media.py:151
 msgid "Sitemap XML"
 msgstr "Siteharitası XML"
 
-#: mediadrop/controllers/media.py:145
+#: mediadrop/controllers/media.py:152
 msgid "Sitemap RSS"
 msgstr "Siteharitası RSS"
 
-#: mediadrop/controllers/media.py:315
+#: mediadrop/controllers/media.py:322
 msgid "Your comment has been rejected."
 msgstr "Yorumunuz reddedildi."
 
-#: mediadrop/controllers/media.py:337
+#: mediadrop/controllers/media.py:344
 msgid ""
 "Thank you for your comment! We will post it just as soon as a moderator "
 "approves it."
@@ -74,26 +74,26 @@ msgstr ""
 "Yorumunuz için teşekkür ederiz. Moderator tarafından onaylandıktan sonra "
 "yayınlanacaktır."
 
-#: mediadrop/controllers/admin/media.py:385
+#: mediadrop/controllers/admin/media.py:388
 #, python-format
 msgid "File \"%s\" does not exist."
 msgstr "\"%s\" isimli dosya bulunamadı."
 
-#: mediadrop/controllers/admin/media.py:408
+#: mediadrop/controllers/admin/media.py:411
 msgid "No action to perform."
 msgstr "Gerçekleştirilecek eylem yok. "
 
-#: mediadrop/controllers/admin/media.py:558
+#: mediadrop/controllers/admin/media.py:561
 #: mediadrop/controllers/admin/podcasts.py:206
 msgid "Permission denied, cannot write file"
 msgstr "İzin verilmedi, kaydedilmiyor."
 
-#: mediadrop/controllers/admin/media.py:560
+#: mediadrop/controllers/admin/media.py:563
 #, python-format
 msgid "Unsupported image type: %s"
 msgstr "Desteklenmeyen resim tipi: %s"
 
-#: mediadrop/controllers/admin/media.py:563
+#: mediadrop/controllers/admin/media.py:566
 #: mediadrop/controllers/admin/podcasts.py:211
 msgid "Interlaced PNGs are not supported."
 msgstr "Taramalı PNG dosyaları desteklenmiyor."
@@ -235,9 +235,9 @@ msgstr "İptal"
 #: mediadrop/forms/admin/settings.py:93 mediadrop/forms/admin/settings.py:115
 #: mediadrop/forms/admin/settings.py:149 mediadrop/forms/admin/settings.py:164
 #: mediadrop/forms/admin/settings.py:203 mediadrop/forms/admin/settings.py:237
-#: mediadrop/forms/admin/settings.py:271 mediadrop/forms/admin/settings.py:444
-#: mediadrop/forms/admin/settings.py:469 mediadrop/forms/admin/tags.py:42
-#: mediadrop/forms/admin/users.py:58
+#: mediadrop/forms/admin/settings.py:271 mediadrop/forms/admin/settings.py:285
+#: mediadrop/forms/admin/settings.py:458 mediadrop/forms/admin/settings.py:483
+#: mediadrop/forms/admin/tags.py:42 mediadrop/forms/admin/users.py:58
 #: mediadrop/forms/admin/storage/__init__.py:36
 msgid "Save"
 msgstr "Kaydet"
@@ -321,7 +321,7 @@ msgid "Select an encoded video or audio file on your computer"
 msgstr "Bilgisayarınızda bir kodlanmış video ya da ses dosyası seçin"
 
 #: mediadrop/forms/admin/media.py:110 mediadrop/templates/master.html:91
-#: mediadrop/templates/admin/settings/master.html:78
+#: mediadrop/templates/admin/settings/master.html:81
 #: mediadrop/templates/admin/settings/upload.html:16
 #: mediadrop/templates/admin/settings/upload.html:22
 msgid "Upload"
@@ -379,7 +379,7 @@ msgstr "Kategoriler"
 
 #: mediadrop/forms/admin/media.py:154
 #: mediadrop/templates/admin/media/_media-table.html:28
-#: mediadrop/templates/admin/settings/master.html:75
+#: mediadrop/templates/admin/settings/master.html:78
 #: mediadrop/templates/admin/tags/edit.html:16
 #: mediadrop/templates/admin/tags/index.html:17
 #: mediadrop/templates/admin/tags/index.html:48
@@ -792,85 +792,97 @@ msgid "See: https://developers.facebook.com/apps"
 msgstr "Bkz: https://developers.facebook.com/apps"
 
 #: mediadrop/forms/admin/settings.py:283
+#: mediadrop/templates/admin/settings/googleapi.html:16
+#: mediadrop/templates/admin/settings/googleapi.html:22
+#, fuzzy
+msgid "Google API key"
+msgstr "Google Video"
+
+#: mediadrop/forms/admin/settings.py:284
+#, fuzzy
+msgid "See https://console.developers.google.com/"
+msgstr "Bkz: https://developers.facebook.com/apps"
+
+#: mediadrop/forms/admin/settings.py:297
 msgid "Require a key to access the API"
 msgstr "API'ya ulaşmak için anahtar gerekiyor. "
 
-#: mediadrop/forms/admin/settings.py:284
+#: mediadrop/forms/admin/settings.py:298
 msgid "API Key:"
 msgstr "API Anahtarı:"
 
-#: mediadrop/forms/admin/settings.py:285
+#: mediadrop/forms/admin/settings.py:299
 msgid "Access Key"
 msgstr "Erişim Anahtarı"
 
-#: mediadrop/forms/admin/settings.py:287
+#: mediadrop/forms/admin/settings.py:301
 msgid "API Settings:"
 msgstr "API Ayarları:"
 
-#: mediadrop/forms/admin/settings.py:288
+#: mediadrop/forms/admin/settings.py:302
 msgid "Max media results"
 msgstr "Max medya sonuçları"
 
-#: mediadrop/forms/admin/settings.py:289
+#: mediadrop/forms/admin/settings.py:303
 msgid "Max tree depth"
 msgstr "Max ağaç derinliği"
 
-#: mediadrop/forms/admin/settings.py:303
+#: mediadrop/forms/admin/settings.py:317
 #: mediadrop/templates/admin/settings/general.html:17
 #: mediadrop/templates/admin/settings/general.html:23
 #: mediadrop/templates/admin/settings/master.html:39
 msgid "General"
 msgstr "Genel"
 
-#: mediadrop/forms/admin/settings.py:306
+#: mediadrop/forms/admin/settings.py:320
 msgid "Logo"
 msgstr "Logo"
 
-#: mediadrop/forms/admin/settings.py:308
+#: mediadrop/forms/admin/settings.py:322
 msgid "Upload Logo"
 msgstr "Logo yükle"
 
-#: mediadrop/forms/admin/settings.py:313
+#: mediadrop/forms/admin/settings.py:327
 msgid "Background Image"
 msgstr "Arka plan resmi"
 
-#: mediadrop/forms/admin/settings.py:315
+#: mediadrop/forms/admin/settings.py:329
 msgid "Upload Background"
 msgstr "Arka plan yükle"
 
-#: mediadrop/forms/admin/settings.py:321
+#: mediadrop/forms/admin/settings.py:335
 msgid "Background color"
 msgstr "Arka plan rengi"
 
-#: mediadrop/forms/admin/settings.py:324
+#: mediadrop/forms/admin/settings.py:338
 msgid "Link color"
 msgstr "Bağlantı rengi"
 
-#: mediadrop/forms/admin/settings.py:327
+#: mediadrop/forms/admin/settings.py:341
 msgid "Visited Link color"
 msgstr "Ziyaret Bağlantı rengi"
 
-#: mediadrop/forms/admin/settings.py:331
+#: mediadrop/forms/admin/settings.py:345
 msgid "Text color"
 msgstr "Metin rengi"
 
-#: mediadrop/forms/admin/settings.py:333
+#: mediadrop/forms/admin/settings.py:347
 msgid "Heading color"
 msgstr "Başlık rengi"
 
-#: mediadrop/forms/admin/settings.py:336
+#: mediadrop/forms/admin/settings.py:350
 msgid "Color Scheme"
 msgstr "Renk Şeması"
 
-#: mediadrop/forms/admin/settings.py:340
+#: mediadrop/forms/admin/settings.py:354
 msgid "Options"
 msgstr "Seçenekler"
 
-#: mediadrop/forms/admin/settings.py:345
+#: mediadrop/forms/admin/settings.py:359
 msgid "Enable Cooliris on the Explore Page"
 msgstr "Araştır sayfasında Cooliris'i etkinleştir."
 
-#: mediadrop/forms/admin/settings.py:346
+#: mediadrop/forms/admin/settings.py:360
 msgid ""
 "Cooliris support is deprecated and will be removed in the next major "
 "version of MediaDrop unless someone is interested in maintaining it."
@@ -878,95 +890,95 @@ msgstr ""
 "Cooliris desteği kullanım dışı ve birisi bakımı ile ilgilenmez ise bir "
 "sonraki ana sürümde kaldırılacak."
 
-#: mediadrop/forms/admin/settings.py:352
+#: mediadrop/forms/admin/settings.py:366
 msgid "Display login link for all users"
 msgstr "Tüm kullanıcılar için giriş bağlantısı göster"
 
-#: mediadrop/forms/admin/settings.py:355
+#: mediadrop/forms/admin/settings.py:369
 msgid "Enable Featured Items on the Explore Page"
 msgstr "Araştır sayfasında Vitrin ürünlerini göster"
 
-#: mediadrop/forms/admin/settings.py:359
+#: mediadrop/forms/admin/settings.py:373
 msgid "Enable Podcast Tab"
 msgstr "Podcast sekmesini etkinleştir. "
 
-#: mediadrop/forms/admin/settings.py:363
+#: mediadrop/forms/admin/settings.py:377
 msgid "Enable User Uploads"
 msgstr "Kullanıcı yüklemelerini etkinleştir"
 
-#: mediadrop/forms/admin/settings.py:367
+#: mediadrop/forms/admin/settings.py:381
 msgid "Enable widescreen media player by default"
 msgstr "Varsayılan olarak geniş medya oynatıcıyı etkinleştir."
 
-#: mediadrop/forms/admin/settings.py:371
+#: mediadrop/forms/admin/settings.py:385
 msgid "Display Logo"
 msgstr "Logoyu göster"
 
-#: mediadrop/forms/admin/settings.py:375
+#: mediadrop/forms/admin/settings.py:389
 msgid "Display Background Image"
 msgstr "Arka Plan resmini göster"
 
-#: mediadrop/forms/admin/settings.py:379
+#: mediadrop/forms/admin/settings.py:393
 msgid "Display MediaDrop Footer"
 msgstr "MediaDrop Sayfa Altbilgisi Göster"
 
-#: mediadrop/forms/admin/settings.py:383
+#: mediadrop/forms/admin/settings.py:397
 msgid "Display MediaDrop Credits in Footer"
 msgstr "MediaDrop Sayfa Altbilgisinde Tanıtma Yazısı Göster"
 
-#: mediadrop/forms/admin/settings.py:389
+#: mediadrop/forms/admin/settings.py:403
 msgid "Player Menu Options"
 msgstr "Oynatıcı Menü Seçenekleri"
 
-#: mediadrop/forms/admin/settings.py:394
+#: mediadrop/forms/admin/settings.py:408
 msgid "Enable Download button on player menu bar."
 msgstr "Oynatıcı menü çubuğunda İndir düğmesini etkinleştir."
 
-#: mediadrop/forms/admin/settings.py:398
+#: mediadrop/forms/admin/settings.py:412
 msgid "Enable Share button on player menu bar."
 msgstr "Oynatıcı menü çubuğunda Paylaş düğmesini etkinleştir."
 
-#: mediadrop/forms/admin/settings.py:402
+#: mediadrop/forms/admin/settings.py:416
 msgid "Enable Embed button on player menu bar."
 msgstr "Oynatıcı menü çubuğunda Sitene Ekle düğmesini etkinleştir."
 
-#: mediadrop/forms/admin/settings.py:406
+#: mediadrop/forms/admin/settings.py:420
 msgid "Enable Widescreen toggle button on player menu bar."
 msgstr "Oynatıcı menü çubuğunda GenişEkrana Çevir düğmesini etkinleştir."
 
-#: mediadrop/forms/admin/settings.py:410
+#: mediadrop/forms/admin/settings.py:424
 msgid "Enable Popout button on player menu bar."
 msgstr "Oynatıcı menü çubuğunda Popout düğmesini etkinleştir."
 
-#: mediadrop/forms/admin/settings.py:414
+#: mediadrop/forms/admin/settings.py:428
 msgid "Enable Like button on player menu bar."
 msgstr "Oynatıcı menü çubuğunda Beğen düğmesini etkinleştir."
 
-#: mediadrop/forms/admin/settings.py:418
+#: mediadrop/forms/admin/settings.py:432
 msgid "Enable Dislike button on player menu bar."
 msgstr "Oynatıcı menü çubuğunda Beğenilmeme düğmesini etkinleştir."
 
-#: mediadrop/forms/admin/settings.py:423
+#: mediadrop/forms/admin/settings.py:437
 msgid "Advanced"
 msgstr "Gelişmiş"
 
-#: mediadrop/forms/admin/settings.py:427
+#: mediadrop/forms/admin/settings.py:441
 msgid "Custom CSS"
 msgstr "Özel CSS"
 
-#: mediadrop/forms/admin/settings.py:430
+#: mediadrop/forms/admin/settings.py:444
 msgid "Custom Header HTML"
 msgstr "Özel Üstbilgi HTML"
 
-#: mediadrop/forms/admin/settings.py:433
+#: mediadrop/forms/admin/settings.py:447
 msgid "Custom Footer HTML"
 msgstr "Özel Altbilgi HTML"
 
-#: mediadrop/forms/admin/settings.py:436
+#: mediadrop/forms/admin/settings.py:450
 msgid "Custom <head> Tags"
 msgstr "Özel <head> Etiketler"
 
-#: mediadrop/forms/admin/settings.py:437
+#: mediadrop/forms/admin/settings.py:451
 msgid ""
 "These HTML tags are inserted into the HTML <head> section. Bad input can "
 "cause ugly rendering of your site. You can always restore your page by "
@@ -976,16 +988,16 @@ msgstr ""
 "sitenizin kötü görünmesine neden olabilir. Her zaman yukarıdaki kutuyla "
 "sayfanızı geri yükleyebilirsiniz."
 
-#: mediadrop/forms/admin/settings.py:445
+#: mediadrop/forms/admin/settings.py:459
 #: mediadrop/templates/admin/settings/appearance.html:28
 msgid "Reset to Defaults"
 msgstr "Başlangıç ayarlarına geri dön. "
 
-#: mediadrop/forms/admin/settings.py:462
+#: mediadrop/forms/admin/settings.py:476
 msgid "Banner HTML"
 msgstr "Banner HTML"
 
-#: mediadrop/forms/admin/settings.py:465
+#: mediadrop/forms/admin/settings.py:479
 msgid "Sidebar HTML"
 msgstr "Kenar Çubuğu HTML"
 
@@ -1005,7 +1017,7 @@ msgstr "Giriş Detayları:"
 msgid "Passwords do not match"
 msgstr "Parolalar eşleşmiyor"
 
-#: mediadrop/forms/admin/users.py:51 mediadrop/templates/admin/master.html:61
+#: mediadrop/forms/admin/users.py:51 mediadrop/templates/admin/master.html:66
 #: mediadrop/templates/admin/groups/index.html:17
 #: mediadrop/templates/admin/groups/index.html:41
 msgid "Groups"
@@ -1179,61 +1191,41 @@ msgstr "Ses Açıklaması"
 msgid "Captions"
 msgstr "Altyazılar"
 
-#: mediadrop/lib/helpers.py:385
+#: mediadrop/lib/helpers.py:381
 msgid "Help"
 msgstr "Yardım"
 
-#: mediadrop/lib/players.py:285
-msgid "Flowplayer"
-msgstr "Flowplayer"
+#: mediadrop/lib/services/youtube.py:46
+#, fuzzy
+msgid ""
+"Invalid YouTube URL. This video does not exist or is private and can not "
+"be embedded."
+msgstr "Bu video özel ve bu nedenle gömülemez."
 
-#: mediadrop/lib/players.py:416 mediadrop/lib/storage/vimeo.py:27
-msgid "Vimeo"
-msgstr "Vimeo"
+#: mediadrop/lib/services/youtube.py:103
+#, python-format
+msgid "unknown YouTube error: %(reason)s"
+msgstr ""
 
-#: mediadrop/lib/players.py:452 mediadrop/lib/storage/dailymotion.py:28
-msgid "Daily Motion"
-msgstr "Daily Motion"
-
-#: mediadrop/lib/players.py:499 mediadrop/lib/storage/youtube.py:28
-msgid "YouTube"
-msgstr "YouTube"
-
-#: mediadrop/lib/players.py:577 mediadrop/lib/storage/googlevideo.py:26
-msgid "Google Video"
-msgstr "Google Video"
-
-#: mediadrop/lib/players.py:599 mediadrop/lib/storage/bliptv.py:26
-msgid "BlipTV"
-msgstr "BlipTV"
-
-#: mediadrop/lib/players.py:686
-msgid "Plain HTML5 Player"
-msgstr "HTML5 Player"
-
-#: mediadrop/lib/players.py:701
-msgid "HTML5 + Flowplayer Fallback"
-msgstr "HTML5 + flowplayer Fallback"
-
-#: mediadrop/lib/players.py:758
-msgid "JWPlayer"
-msgstr "JWPlayer"
-
-#: mediadrop/lib/players.py:904
-msgid "Sublime Video Player"
-msgstr "Sublime Video Oynatıcı"
-
-#: mediadrop/lib/players.py:954
-msgid "iTunes Player"
-msgstr "iTunes Player"
+#: mediadrop/lib/services/youtube.py:105
+msgid "Invalid API key. Please check your Google API key in settings."
+msgstr ""
 
 #: mediadrop/lib/storage/api.py:352
 msgid "Unusable file or URL provided."
 msgstr "Kullanışsız dosya veya adres verildi."
 
+#: mediadrop/lib/storage/bliptv.py:26 mediadrop/players/blib_tv.py:26
+msgid "BlipTV"
+msgstr "BlipTV"
+
 #: mediadrop/lib/storage/bliptv.py:61
 msgid "Invalid BlipTV URL. This video does not exist."
 msgstr "Geçersiz BlipTV bağlantısı. Bu video mevcut değil."
+
+#: mediadrop/lib/storage/dailymotion.py:28 mediadrop/players/dailymotion.py:32
+msgid "Daily Motion"
+msgstr "Daily Motion"
 
 #: mediadrop/lib/storage/dailymotion.py:62
 msgid "This DailyMotion video does not allow embedding."
@@ -1257,6 +1249,10 @@ msgstr "FTP sunucunuza yüklemeye çalıştığınız dosya bozuk. Lütfen tekra
 msgid "Could not download the file from your FTP server: %s"
 msgstr "FTP sunucusundan dosya indirilemiyor: %s"
 
+#: mediadrop/lib/storage/googlevideo.py:26 mediadrop/players/google_video.py:26
+msgid "Google Video"
+msgstr "Google Video"
+
 #: mediadrop/lib/storage/localfiles.py:26
 msgid "Local File Storage"
 msgstr "Yerel Dosya Depolama"
@@ -1273,23 +1269,56 @@ msgstr ""
 "Bu RTMP sunucusu yapılandırılmamış. Ayarlar > Depolama Motorları > "
 "Uzaktan URL'lere giderek ekleyin."
 
-#: mediadrop/lib/storage/youtube.py:62
-msgid "This video is private and cannot be embedded."
-msgstr "Bu video özel ve bu nedenle gömülemez."
+#: mediadrop/lib/storage/vimeo.py:27 mediadrop/players/vimeo.py:30
+msgid "Vimeo"
+msgstr "Vimeo"
 
-#: mediadrop/lib/storage/youtube.py:65
-msgid "Invalid YouTube URL. This video does not exist."
-msgstr "Geçersiz YouTube bağlantısı. Bu video mevcut değil."
+#: mediadrop/lib/storage/youtube.py:25 mediadrop/players/youtube.py:31
+msgid "YouTube"
+msgstr "YouTube"
 
-#: mediadrop/lib/storage/youtube.py:66
-#, python-format
-msgid "YouTube Error: %s"
-msgstr "YouTube Hata: %s"
+#: mediadrop/lib/storage/youtube.py:51
+msgid ""
+"No API key configured for YouTube (use Google's developer console to "
+"create one)"
+msgstr ""
+
+#: mediadrop/lib/tests/translator_test.py:32
+msgid "foo"
+msgstr ""
+
+#: mediadrop/lib/tests/translator_test.py:54
+msgid "something"
+msgstr ""
 
 #: mediadrop/model/players.py:102
 #, python-format
 msgid "%s (broken)"
 msgstr "%s (bozuk)"
+
+#: mediadrop/players/flowplayer.py:32
+msgid "Flowplayer"
+msgstr "Flowplayer"
+
+#: mediadrop/players/flowplayer.py:86
+msgid "HTML5 + Flowplayer Fallback"
+msgstr "HTML5 + flowplayer Fallback"
+
+#: mediadrop/players/html5.py:26
+msgid "Plain HTML5 Player"
+msgstr "HTML5 Player"
+
+#: mediadrop/players/itunes.py:22
+msgid "iTunes Player"
+msgstr "iTunes Player"
+
+#: mediadrop/players/jwplayer.py:31
+msgid "JWPlayer"
+msgstr "JWPlayer"
+
+#: mediadrop/players/sublime.py:26
+msgid "Sublime Video Player"
+msgstr "Sublime Video Oynatıcı"
 
 #: mediadrop/templates/error.html:17
 #, python-format
@@ -1420,7 +1449,7 @@ msgstr "Giriş"
 msgid "Admin"
 msgstr "Yönetici"
 
-#: mediadrop/templates/master.html:72 mediadrop/templates/admin/master.html:52
+#: mediadrop/templates/master.html:72 mediadrop/templates/admin/master.html:57
 msgid "Logout"
 msgstr "Oturumu kapat"
 
@@ -1432,7 +1461,7 @@ msgstr "Keşfet"
 msgid "Media Library"
 msgstr "Ortam Kitaplığı"
 
-#: mediadrop/templates/master.html:88 mediadrop/templates/admin/master.html:58
+#: mediadrop/templates/master.html:88 mediadrop/templates/admin/master.html:63
 #: mediadrop/templates/admin/podcasts/index.html:17
 #: mediadrop/templates/admin/podcasts/index.html:24
 msgid "Podcasts"
@@ -1451,7 +1480,7 @@ msgid "Moderate"
 msgstr "Yönet"
 
 #: mediadrop/templates/admin/helpers.html:62
-#: mediadrop/templates/admin/master.html:59
+#: mediadrop/templates/admin/master.html:64
 #: mediadrop/templates/admin/comments/index.html:20
 #: mediadrop/templates/admin/media/_media-table.html:27
 #: mediadrop/templates/admin/settings/comments.html:16
@@ -1480,7 +1509,7 @@ msgid "Trash"
 msgstr "Çöp"
 
 #: mediadrop/templates/admin/index.html:17
-#: mediadrop/templates/admin/master.html:50
+#: mediadrop/templates/admin/master.html:55
 msgid "Dashboard"
 msgstr "Gösterge paneli"
 
@@ -1507,41 +1536,41 @@ msgstr "Başla"
 msgid "Add New Media"
 msgstr "Yeni Medya ekle"
 
-#: mediadrop/templates/admin/index.html:73
+#: mediadrop/templates/admin/index.html:74
 msgid "Recently Published"
 msgstr "Son zamanlarda yayınlanan"
 
 #: mediadrop/templates/admin/master.html:26
-#: mediadrop/templates/admin/master.html:47
-#: mediadrop/templates/admin/master.html:68
+#: mediadrop/templates/admin/master.html:52
+#: mediadrop/templates/admin/master.html:73
 msgid "MediaDrop"
 msgstr "MediaDrop"
 
-#: mediadrop/templates/admin/master.html:51
+#: mediadrop/templates/admin/master.html:56
 msgid "View Site"
 msgstr "Site'yı görüntüle"
 
-#: mediadrop/templates/admin/master.html:57
+#: mediadrop/templates/admin/master.html:62
 #: mediadrop/templates/admin/categories/index.html:63
 #: mediadrop/templates/admin/media/index.html:18
 #: mediadrop/templates/admin/tags/index.html:60
 msgid "Media"
 msgstr "Medya"
 
-#: mediadrop/templates/admin/master.html:60
+#: mediadrop/templates/admin/master.html:65
 #: mediadrop/templates/admin/users/index.html:17
 #: mediadrop/templates/admin/users/index.html:38
 msgid "Users"
 msgstr "Kullanıcılar"
 
-#: mediadrop/templates/admin/master.html:62
+#: mediadrop/templates/admin/master.html:67
 #: mediadrop/templates/admin/settings/master.html:36
 msgid "Settings"
 msgstr "Ayarlar"
 
-#: mediadrop/templates/admin/master.html:69
+#: mediadrop/templates/admin/master.html:74
 #, fuzzy
-msgid "© 2009-2014 MediaDrop contributors"
+msgid "© 2009-2018 MediaDrop contributors"
 msgstr "© 2009-2014 MediaDrop Katkıda bulunanlar"
 
 #: mediadrop/templates/admin/categories/index.html:38
@@ -1925,6 +1954,10 @@ msgstr "Tür"
 msgid "OR"
 msgstr "VEYA"
 
+#: mediadrop/templates/admin/media/file-add-form.html:25
+msgid "Please note that uploading of files larger than 4 GB is not supported."
+msgstr ""
+
 #: mediadrop/templates/admin/media/file-form.html:17
 msgid "or"
 msgstr "veya"
@@ -2067,7 +2100,7 @@ msgstr "hiçbir zaman"
 
 #: mediadrop/templates/admin/players/index.html:16
 #: mediadrop/templates/admin/players/index.html:40
-#: mediadrop/templates/admin/settings/master.html:63
+#: mediadrop/templates/admin/settings/master.html:66
 msgid "Players"
 msgstr "Oynatıcılar"
 
@@ -2149,7 +2182,7 @@ msgstr "Analizler"
 
 #: mediadrop/templates/admin/settings/api.html:16
 #: mediadrop/templates/admin/settings/api.html:26
-#: mediadrop/templates/admin/settings/master.html:57
+#: mediadrop/templates/admin/settings/master.html:60
 msgid "Data API"
 msgstr "Veri API'si"
 
@@ -2171,29 +2204,34 @@ msgstr "Sıfırlamayı onayla"
 msgid "Are you sure you want to reset your settings to the default?"
 msgstr "Varsayılan ayarlarını sıfırlamak istediğinizden emin misiniz?"
 
-#: mediadrop/templates/admin/settings/master.html:60
+#: mediadrop/templates/admin/settings/master.html:57
+#, fuzzy
+msgid "Google API"
+msgstr "Google Video"
+
+#: mediadrop/templates/admin/settings/master.html:63
 msgid "Notifications"
 msgstr "Bildirimler"
 
-#: mediadrop/templates/admin/settings/master.html:66
+#: mediadrop/templates/admin/settings/master.html:69
 #: mediadrop/templates/admin/settings/popularity.html:16
 #: mediadrop/templates/admin/settings/popularity.html:22
 msgid "Popularity"
 msgstr "Popülarite"
 
-#: mediadrop/templates/admin/settings/master.html:69
+#: mediadrop/templates/admin/settings/master.html:72
 #: mediadrop/templates/admin/settings/sitemaps.html:17
 #: mediadrop/templates/admin/settings/sitemaps.html:23
 msgid "RSS and Sitemaps"
 msgstr "RSS ve Site Haritaları"
 
-#: mediadrop/templates/admin/settings/master.html:72
+#: mediadrop/templates/admin/settings/master.html:75
 #: mediadrop/templates/admin/storage/index.html:16
 #: mediadrop/templates/admin/storage/index.html:112
 msgid "Storage Engines"
 msgstr "Depolama Motorları"
 
-#: mediadrop/templates/admin/settings/master.html:83
+#: mediadrop/templates/admin/settings/master.html:86
 msgid "Plugins"
 msgstr "Eklentiler"
 
@@ -2566,4 +2604,10 @@ msgstr "Birazdan otomatik olarak [1:Medya Kütüphanesi]'ne yönleneceksiniz."
 #: mediadrop/validation/uri_validator.py:21
 msgid "That is not a valid URL."
 msgstr "Bu geçerli bir URL bağlantı değil."
+
+#~ msgid "Invalid YouTube URL. This video does not exist."
+#~ msgstr "Geçersiz YouTube bağlantısı. Bu video mevcut değil."
+
+#~ msgid "YouTube Error: %s"
+#~ msgstr "YouTube Hata: %s"
 

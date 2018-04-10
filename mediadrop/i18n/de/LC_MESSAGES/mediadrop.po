@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: MediaDrop 0.11dev\n"
 "Report-Msgid-Bugs-To: http://github.com/mediadrop/mediadrop-"
 "community/issues\n"
-"POT-Creation-Date: 2018-04-10 13:23+0200\n"
+"POT-Creation-Date: 2018-04-10 15:21+0200\n"
 "PO-Revision-Date: 2013-05-02 20:44+0200\n"
 "Last-Translator: fschwarz <felix.schwarz@oss.schwarz.eu>\n"
 "Language-Team: de <LL@li.org>\n"
@@ -1204,50 +1204,6 @@ msgstr "Überschriften"
 msgid "Help"
 msgstr "Hilfe"
 
-#: mediadrop/lib/players.py:298
-msgid "Flowplayer"
-msgstr "Flowplayer"
-
-#: mediadrop/lib/players.py:429 mediadrop/lib/storage/vimeo.py:27
-msgid "Vimeo"
-msgstr "Vimeo"
-
-#: mediadrop/lib/players.py:465 mediadrop/lib/storage/dailymotion.py:28
-msgid "Daily Motion"
-msgstr "Daily Motion"
-
-#: mediadrop/lib/players.py:512 mediadrop/lib/storage/youtube.py:25
-msgid "YouTube"
-msgstr "YouTube"
-
-#: mediadrop/lib/players.py:590 mediadrop/lib/storage/googlevideo.py:26
-msgid "Google Video"
-msgstr "Google Video"
-
-#: mediadrop/lib/players.py:612 mediadrop/lib/storage/bliptv.py:26
-msgid "BlipTV"
-msgstr "BlipTV"
-
-#: mediadrop/lib/players.py:699
-msgid "Plain HTML5 Player"
-msgstr "Einfacher HTML5-Player"
-
-#: mediadrop/lib/players.py:714
-msgid "HTML5 + Flowplayer Fallback"
-msgstr "HTML5 + Flowplayer Fallback"
-
-#: mediadrop/lib/players.py:771
-msgid "JWPlayer"
-msgstr "JWPlayer"
-
-#: mediadrop/lib/players.py:917
-msgid "Sublime Video Player"
-msgstr "Sublime Video-Player"
-
-#: mediadrop/lib/players.py:967
-msgid "iTunes Player"
-msgstr "iTunes-Player"
-
 #: mediadrop/lib/services/youtube.py:46
 msgid ""
 "Invalid YouTube URL. This video does not exist or is private and can not "
@@ -1269,9 +1225,17 @@ msgstr ""
 msgid "Unusable file or URL provided."
 msgstr "Nicht verwendbare Datei oder URL angegeben."
 
+#: mediadrop/lib/storage/bliptv.py:26 mediadrop/players/blib_tv.py:26
+msgid "BlipTV"
+msgstr "BlipTV"
+
 #: mediadrop/lib/storage/bliptv.py:61
 msgid "Invalid BlipTV URL. This video does not exist."
 msgstr "Ungültige BlipTV-URL. Dieses Video existiert nicht."
+
+#: mediadrop/lib/storage/dailymotion.py:28 mediadrop/players/dailymotion.py:32
+msgid "Daily Motion"
+msgstr "Daily Motion"
 
 #: mediadrop/lib/storage/dailymotion.py:62
 msgid "This DailyMotion video does not allow embedding."
@@ -1297,6 +1261,10 @@ msgstr ""
 msgid "Could not download the file from your FTP server: %s"
 msgstr "Konnte die Datei nicht vom FTP-Server herunterladen: %s"
 
+#: mediadrop/lib/storage/googlevideo.py:26 mediadrop/players/google_video.py:26
+msgid "Google Video"
+msgstr "Google Video"
+
 #: mediadrop/lib/storage/localfiles.py:26
 msgid "Local File Storage"
 msgstr "Lokale Dateiablage"
@@ -1313,6 +1281,14 @@ msgstr ""
 "Dieser RTMP-Server wurde noch nicht konfiguriert. Die nötigen "
 "Einstellungen können Sie unter Einstellungen > Speicher-Einheit > Externe"
 " URLs vornehmen."
+
+#: mediadrop/lib/storage/vimeo.py:27 mediadrop/players/vimeo.py:30
+msgid "Vimeo"
+msgstr "Vimeo"
+
+#: mediadrop/lib/storage/youtube.py:25 mediadrop/players/youtube.py:31
+msgid "YouTube"
+msgstr "YouTube"
 
 #: mediadrop/lib/storage/youtube.py:51
 msgid ""
@@ -1332,6 +1308,30 @@ msgstr ""
 #, python-format
 msgid "%s (broken)"
 msgstr "%s (broken)"
+
+#: mediadrop/players/flowplayer.py:32
+msgid "Flowplayer"
+msgstr "Flowplayer"
+
+#: mediadrop/players/flowplayer.py:86
+msgid "HTML5 + Flowplayer Fallback"
+msgstr "HTML5 + Flowplayer Fallback"
+
+#: mediadrop/players/html5.py:26
+msgid "Plain HTML5 Player"
+msgstr "Einfacher HTML5-Player"
+
+#: mediadrop/players/itunes.py:22
+msgid "iTunes Player"
+msgstr "iTunes-Player"
+
+#: mediadrop/players/jwplayer.py:31
+msgid "JWPlayer"
+msgstr "JWPlayer"
+
+#: mediadrop/players/sublime.py:26
+msgid "Sublime Video Player"
+msgstr "Sublime Video-Player"
 
 #: mediadrop/templates/error.html:17
 #, python-format
