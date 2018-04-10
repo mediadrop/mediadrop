@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# This file is a part of MediaDrop (http://www.mediadrop.video),
-# Copyright 2009-2015 MediaDrop contributors
+# This file is a part of MediaDrop (https://www.mediadrop.video),
+# Copyright 2009-2018 MediaDrop contributors
 # For the exact contribution history, see the git revision log.
 # The source code contained in this file is licensed under the GPLv3 or
 # (at your option) any later version.
