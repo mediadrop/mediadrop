@@ -8,10 +8,10 @@
 from mediadrop.model import DBSession, Media
 from mediadrop.lib.filetypes import VIDEO
 from mediadrop.lib.i18n import setup_global_translator
-from mediadrop.lib.players import AbstractFlashPlayer, FlowPlayer
 from mediadrop.lib.storage.api import add_new_media_file
 from mediadrop.lib.test.db_testcase import DBTestCase
 from mediadrop.lib.test.pythonic_testcase import *
+from mediadrop.players import AbstractFlashPlayer, FlowPlayer
 from mediadrop.plugin import events
 from mediadrop.plugin.events import observes
 

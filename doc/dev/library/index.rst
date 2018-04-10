@@ -30,7 +30,7 @@ Templating Helpers
 Media Players
 -------------
 
-.. automodule:: mediadrop.lib.players
+.. automodule:: mediadrop.players
    :members:
    :show-inheritance:
    :undoc-members:

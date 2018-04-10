@@ -7,10 +7,10 @@
 # See LICENSE.txt in the main project directory, for more information.
 
 from mediadrop.lib.filetypes import VIDEO
-from mediadrop.lib.players import FileSupportMixin, RTMP
 from mediadrop.lib.test.pythonic_testcase import *
 from mediadrop.lib.uri import StorageURI
 from mediadrop.model import MediaFile
+from mediadrop.players import FileSupportMixin, RTMP
 
 
 class FileSupportMixinTest(PythonicTestCase):

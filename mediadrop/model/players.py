@@ -22,9 +22,9 @@ from sqlalchemy.types import Boolean, DateTime, Integer, Unicode
 
 from mediadrop.lib.decorators import memoize
 from mediadrop.lib.i18n import _
-from mediadrop.lib.players import AbstractPlayer
 from mediadrop.model.meta import DBSession, metadata
 from mediadrop.model.util import JSONType
+from mediadrop.players import AbstractPlayer
 
 log = logging.getLogger(__name__)
 

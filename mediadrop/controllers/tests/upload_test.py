@@ -11,10 +11,10 @@ from StringIO import StringIO
 import simplejson
 
 from mediadrop.lib.attribute_dict import AttrDict
-from mediadrop.lib.players import AbstractFlashPlayer, FlowPlayer
 from mediadrop.lib.test import ControllerTestCase
 from mediadrop.lib.test.pythonic_testcase import *
 from mediadrop.model import fetch_row, Media
+from mediadrop.players import AbstractFlashPlayer, FlowPlayer
 
 
 class UploadControllerTest(ControllerTestCase):

@@ -14,10 +14,10 @@ import simplejson
 from mediadrop.forms.admin import players as player_forms
 from mediadrop.lib.i18n import N_
 from mediadrop.lib.filetypes import AUDIO
-from .base_classes import AbstractFlashPlayer, AbstractHTML5Player, HTTP
-from .html5 import *
 from mediadrop.lib.thumbnails import thumb_url
 from mediadrop.lib.util import url_for
+from .base_classes import AbstractFlashPlayer, AbstractHTML5Player, HTTP
+from .html5 import *
 
 
 __all__ = ['FlowPlayer']

@@ -16,7 +16,7 @@ To this end, we have designed the playback system around a well-defined API.
 All of MediaDrop's default players implement this API.
 
 
-.. automodule:: mediadrop.lib.players
+.. automodule:: mediadrop.players
 
 Summary
 -------
@@ -24,10 +24,10 @@ Summary
 Players have 3 parts.
 
 1. A Python class that implements the
-   :class:`mediadrop.lib.players.AbstractPlayer` abstract class,
+   :class:`mediadrop.players.AbstractPlayer` abstract class,
 2. A Genshi template (all players use the same template,
    :file:`mediadrop/templates/players/html5_or_flash.html`;
-   its use is defined in :func:`mediadrop.lib.players.media_player`),
+   its use is defined in :func:`mediadrop.players.media_player`),
 3. A JavaScript manager class, written using Google's :ref:`closure <dev_closure>`
    library, that inherits from :obj:`goog.ui.Component` and is responsible for
    handling player interactions (resizes, clicks, etc.).
@@ -36,13 +36,13 @@ When a :class:`Media <mediadrop.model.media.Media>` object is selected to be
 rendered, a list of :class:`StorageURIs <mediadrop.lib.uri.StorageURI>`
 is generated from that object's
 :attr:`MediaFiles <mediadrop.model.media.Media.files>`. Each enabled
-:class:`Player <mediadrop.lib.players.AbstractPlayer>` is then
+:class:`Player <mediadrop.players.AbstractPlayer>` is then
 asked, in order, if it can use any of the available StorageURIs. The first
 Player that can play one of the StorageURIs is rendered. This logic is
-contained in :func:`mediadrop.lib.players.media_player`.
+contained in :func:`mediadrop.players.media_player`.
 
 Players can optionally define a dict of editable properties in their
-:attr:`default_data <mediadrop.lib.players.AbstractPlayer.default_data>`
+:attr:`default_data <mediadrop.players.AbstractPlayer.default_data>`
 dict if they also provide a subclass of
 :class:`mediadrop.forms.admin.players.PlayerPrefsForm` whose
 :meth:`display <mediadrop.forms.admin.players.PlayerPrefsForm.display>` and
@@ -50,7 +50,7 @@ dict if they also provide a subclass of
 methods can map the form values to and from the data dict. Players that
 do this will have links, in MediaDrop's admin backend, to a page where an admin
 can use the rendered form to edit the Player instance. An example of a player
-that has this feature is :class:`mediadrop.lib.players.YoutubeFlashPlayer`.
+that has this feature is :class:`mediadrop.players.YoutubeFlashPlayer`.
 
 
 Implementation - Python
@@ -60,7 +60,7 @@ Any new player class will need to be imported and registered like so:
 
 .. sourcecode:: python
 
-   from mediadrop.lib.players import AbstractPlayer
+   from mediadrop.players import AbstractPlayer
 
    class MyPlayer(AbstractPlayer):
        """
@@ -69,7 +69,7 @@ Any new player class will need to be imported and registered like so:
 
    AbstractPlayer.register(MyPlayer)
 
-See the players in :file:`mediadrop/lib/players.py` for examples.
+See the players in `mediadrop/players/` for examples.
 
 
 Implementation - JavaScript

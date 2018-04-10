@@ -13,10 +13,10 @@ import simplejson
 
 from mediadrop.lib.i18n import N_
 from mediadrop.lib.filetypes import AUDIO, VIDEO, AUDIO_DESC, CAPTIONS
-from .base_classes import *
 from mediadrop.lib.thumbnails import thumb_url
 from mediadrop.lib.uri import pick_uris
 from mediadrop.lib.util import url_for
+from .base_classes import *
 
 
 __all__ = ['JWPlayer']

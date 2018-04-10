@@ -33,7 +33,6 @@ from sqlalchemy.types import Boolean, DateTime, Integer, Unicode, UnicodeText
 from mediadrop.lib.auth import Resource
 from mediadrop.lib.compat import any
 from mediadrop.lib.filetypes import AUDIO, AUDIO_DESC, VIDEO, guess_mimetype
-from mediadrop.lib.players import pick_any_media_file, pick_podcast_media_file
 from mediadrop.lib.util import calculate_popularity
 from mediadrop.lib.xhtml import line_break_xhtml, strip_xhtml
 from mediadrop.model import (get_available_slug, SLUG_LENGTH, 
@@ -43,6 +42,7 @@ from mediadrop.model.authors import Author
 from mediadrop.model.categories import Category, CategoryList
 from mediadrop.model.comments import Comment, CommentQuery, comments
 from mediadrop.model.tags import Tag, TagList, extract_tags, fetch_and_create_tags
+from mediadrop.players import pick_any_media_file, pick_podcast_media_file
 from mediadrop.plugin import events
 
 

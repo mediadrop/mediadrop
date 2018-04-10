@@ -31,8 +31,6 @@ from mediadrop.lib.compat import any, md5
 from mediadrop.lib.filesize import format_filesize
 from mediadrop.lib.i18n import (N_, _, format_date, format_datetime, 
     format_decimal, format_time)
-from mediadrop.lib.players import (embed_player, embed_iframe, media_player,
-    pick_any_media_file, pick_podcast_media_file)
 from mediadrop.lib.thumbnails import thumb, thumb_url
 from mediadrop.lib.uri import (best_link_uri, download_uri, file_path,
     pick_uri, pick_uris, web_uri)
@@ -41,6 +39,8 @@ from mediadrop.lib.util import (current_url, delete_files, merge_dicts,
 from mediadrop.lib.xhtml import (clean_xhtml, decode_entities, encode_entities,
     excerpt_xhtml, line_break_xhtml, list_acceptable_xhtml, strip_xhtml,
     truncate_xhtml)
+from mediadrop.players import (embed_player, embed_iframe, media_player,
+    pick_any_media_file, pick_podcast_media_file)
 from mediadrop.plugin.events import (meta_description, meta_keywords,
     meta_robots_noindex, observes, page_title)
 

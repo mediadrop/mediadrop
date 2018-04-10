@@ -14,9 +14,9 @@ from mediadrop.lib.auth import has_permission
 from mediadrop.lib.base import BaseController
 from mediadrop.lib.decorators import autocommit, expose, observable, validate
 from mediadrop.lib.helpers import redirect, url_for
-from mediadrop.lib.players import update_enabled_players
 from mediadrop.model import (DBSession, PlayerPrefs, fetch_row,
     cleanup_players_table)
+from mediadrop.players import update_enabled_players
 from mediadrop.plugin import events
 
 log = logging.getLogger(__name__)

@@ -10,11 +10,11 @@ from ddt import ddt as DataDrivenTestCase, data
 from mediadrop.model import DBSession, Media
 from mediadrop.lib.filetypes import (guess_media_type_map, AUDIO, AUDIO_DESC, 
     CAPTIONS, VIDEO)
-from mediadrop.lib.players import AbstractFlashPlayer, FlowPlayer
 from mediadrop.lib.storage.api import add_new_media_file
 from mediadrop.lib.test.db_testcase import DBTestCase
 from mediadrop.lib.test.pythonic_testcase import *
 from mediadrop.lib.i18n import setup_global_translator
+from mediadrop.players import AbstractFlashPlayer, FlowPlayer
 
 #import logging
 #logging.basicConfig(level=logging.DEBUG)
