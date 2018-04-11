@@ -17,7 +17,9 @@ WebHelpers == 1.0
 SQLAlchemy >= 0.7.3, < 0.8
 # theoretically every alembic since 0.4 should work (which added the
 # alembic.config.Config class) but MediaDrop is only tested with 0.5+
-alembic >= 0.4
+# A user reported that alembic > 0.6.7 is does not work (#239) so for now
+# the max version is 0.6.7.
+alembic >= 0.4, <= 0.6.7
 Genshi >= 0.6 # i18n improvements in Genshi
 # custom translations per instance (missing Translations._catalog attribute)
 Babel >= 1.0
