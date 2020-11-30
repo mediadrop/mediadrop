@@ -72,15 +72,6 @@ var UploaderBase = new Class({
 		return new Element('span', this.options.uploadBtn).grab(new Element('span', {text: this.options.uploadBtnText}));
 	},
 
-	reposition: function(coords) {
-		// fix a logic bug when target is null
-		coords = coords || (this.target && this.target.offsetHeight
-			? this.target.getCoordinates(this.box.getOffsetParent())
-			: {top: window.getScrollTop(), left: 0, width: 1, height: 1});
-		this.box.setStyles(coords);
-		this.fireEvent('reposition', [coords, this.box, this.target]);
-	}
-
 });
 
 var Uploader = new Class({

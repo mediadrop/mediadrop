@@ -602,7 +602,7 @@ var FileManager = new Class({
 	},
 
 	onFileUploadProgress: function(file){
-		if (file.ui.progress) file.ui.progress.set('text', file.progress.percentLoaded + '%');
+		if (file.ui.progress) file.ui.progress.set('text', file.$progress.percentLoaded + '%');
 	},
 
 	onFileUploadComplete: function(file){
@@ -703,6 +703,9 @@ var FileList = new Class({
 	},
 
 	onUploadProgress: function(file){
+		if (!this.fxProgress) {
+			this.fxProgress = new Fx.ProgressBar(this.ui.progress.getElement('img'), this.options.fxProgressBar);
+		}
 		this.fxProgress.set(file.base.percentLoaded);
 	},
 
